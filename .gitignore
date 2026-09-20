@@ -7,6 +7,11 @@
 
 # testing
 /coverage
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+__pycache__/
+*.py[cod]
 
 # next.js
 /.next/
@@ -27,6 +32,17 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+
+# local agent execution state
+/.superpowers/
+
+# local model weights and generated/private data
+*.gguf
+*.safetensors
+/models/
+/uploads/
+/data/private/
+/artifacts/ocr/
 
 # vercel
 .vercel
