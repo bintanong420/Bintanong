@@ -1,7 +1,7 @@
 ---
 artifact: phase-plan
 phase: 0
-status: in_progress
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: null
 ---
@@ -36,12 +36,12 @@ Build a reproducible Docker-first foundation that proves local Supabase/pgvector
 - [x] **Task 1: Durable phase continuity** — create and test the phase-state validator, project handoff skill, index, plan, checkpoint, and artifact contract.
 - [x] **Task 2: Current compatibility matrix** — resolve current stable versions from official sources and record selected/rejected combinations.
 - [x] **Task 3: Repository and container scaffold** — add pinned manifests, Dockerfiles, Compose profiles, environment/ignore files, and shared-network bootstrap.
-- [ ] **Task 4: API, Janus, and Supabase probe** — implement liveness/readiness, Janus query, pgvector migration, and database compatibility checks.
-- [ ] **Task 5: SEA-LION embedding service** — verify model manifests and expose health/encode interfaces with 1,024-dimensional finite vectors.
-- [ ] **Task 6: Docling tools** — parse a committed synthetic PDF and expose deterministic ingestion/evaluation command help.
-- [ ] **Task 7: Bintu llama.cpp compatibility** — verify GGUF integrity, structured JSON generation, CPU baseline, queue/timeout behavior, and RTX 3050 partial offload.
-- [ ] **Task 8: Next.js health surface** — implement the same-origin health proxy and ready/degraded status page.
-- [ ] **Task 9: Integrated verification and handoff** — run the complete exit gate, record measurements and exact pins, write the final handoff, supersede the checkpoint, and update the index.
+- [x] **Task 4: API, Janus, and Supabase probe** — implement liveness/readiness, Janus query, pgvector migration, and database compatibility checks.
+- [x] **Task 5: SEA-LION embedding service** — verify model manifests and expose health/encode interfaces with 1,024-dimensional finite vectors.
+- [x] **Task 6: Docling tools** — parse a committed synthetic PDF and expose deterministic ingestion/evaluation command help.
+- [x] **Task 7: Bintu llama.cpp compatibility** — verify GGUF integrity, structured JSON generation, CPU baseline, queue/timeout behavior, and RTX 3050 partial offload.
+- [x] **Task 8: Next.js health surface** — implement the same-origin health proxy and ready/degraded status page.
+- [x] **Task 9: Integrated verification and handoff** — run the complete exit gate, record measurements and exact pins, write the final handoff, supersede the checkpoint, and update the index.
 
 ## Public and Internal Interfaces
 

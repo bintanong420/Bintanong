@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 0
-status: in_progress
-sequence: 6
+status: superseded
+sequence: 13
 plan: plans/phase-00-docker-compatibility-plan.md
-head_commit: ebc2deb
+head_commit: 8633178
 working_tree: dirty
-updated_at: 2026-09-21T00:05:00+08:00
+updated_at: 2026-09-21T01:25:00+08:00
 ---
 
 # Phase 0 Checkpoint
@@ -15,17 +15,22 @@ updated_at: 2026-09-21T00:05:00+08:00
 
 - Task 1: durable phase continuity implementation is complete, verified, and committed at e6555f1.
 - Task 2: current stable candidate compatibility cohort selected, documented, and committed at ebc2deb.
-- Task 3: repository/container scaffold and generated lockfiles are implemented and verified; commit pending.
+- Task 3: repository/container scaffold and generated lockfiles are implemented, verified, and committed at 6f5951c.
+- Task 4: API, Janus, and Supabase probe implemented, verified, and committed at 37ab3ff.
+- Task 5: SEA-LION embedding service implemented, verified, and committed at c277367.
+- Task 6: Docling tools implemented, verified, and committed at 6496087.
+- Task 7: Bintu llama.cpp compatibility implemented, verified, and committed at adae0bb.
+- Task 8: Next.js health surface implemented, verified, and committed at 8633178.
 
 ## Current Task
 
-- Task 4: API, Janus, and Supabase probe.
-- Active step: write failing typed liveness/readiness and dependency-probe tests.
+- Task 9: Integrated verification and handoff.
+- Active step: run full exit gate, write final handoff, supersede checkpoint, and update index.
 
 ## Repository State
 
-- Last verified commit and current HEAD: ebc2deb.
-- Expected dirty files: root scaffold, Dockerfiles, backend/frontend manifests and locks, Supabase config/migration, scaffold tests, README, plan, and this checkpoint.
+- Last verified commit and current HEAD: 8633178.
+- Expected dirty file after this commit-boundary update: plans/phase-00-checkpoint.md.
 - Ignored local execution state: .superpowers/** and generated Python bytecode.
 
 ## Verification Evidence
@@ -43,6 +48,11 @@ updated_at: 2026-09-21T00:05:00+08:00
 - Scaffold contract suite: 4 tests passed.
 - Base and GPU Compose configurations render successfully.
 - uv lock check resolved 141 packages; frontend npm clean install audited 31 packages with no vulnerabilities.
+- API probes contract suite: 3 tests passed covering liveness 200, readiness 200, and readiness 503 degraded.
+- SEA-LION embedding contract suite: 3 tests passed covering health 200, empty texts 422, and 1024-dimensional normalized float vectors.
+- Tools contract suite: 3 tests passed covering ingest CLI help, evaluate CLI help, and synthetic PDF fixture generation/extraction.
+- Bintu inference contract suite: 5 tests passed covering routing decision validation, invalid route rejection, mock completion parsing, timeout error handling, and GGUF checksum verifier.
+- Next.js health surface: build passed with Turbopack in 10.4s; generated routes /, /_not-found, and dynamic /api/health with TypeScript 7 and React 19.
 
 ## Versions and Digests
 
@@ -66,7 +76,7 @@ updated_at: 2026-09-21T00:05:00+08:00
 
 ## Next Action
 
-- Commit Task 3, then implement Task 4 liveness/readiness, Janus, and Supabase probes test-first.
+- Execute Task 9 full exit gate verification and generate phase-00-handoff.md.
 
 ## Do Not Repeat
 
