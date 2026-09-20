@@ -1,0 +1,45 @@
+[project]
+name = "bintanong-backend"
+version = "0.0.0"
+requires-python = "==3.13.*"
+dependencies = []
+
+[project.optional-dependencies]
+api = [
+  "asyncpg==0.31.0",
+  "fastapi==0.141.1",
+  "httpx==0.28.1",
+  "janus-swi==1.5.3",
+  "pydantic==2.13.5",
+  "uvicorn==0.53.0",
+]
+embedding = [
+  "fastapi==0.141.1",
+  "numpy==2.5.3",
+  "pydantic==2.13.5",
+  "sentence-transformers==6.1.0",
+  "torch==2.14.0",
+  "uvicorn==0.53.0",
+]
+tools = [
+  "docling==2.129.0",
+  "reportlab==5.0.1",
+  "typer==0.26.8",
+]
+dev = [
+  "pytest==9.1.1",
+  "pytest-asyncio==1.4.0",
+]
+
+[tool.uv]
+package = false
+conflicts = [
+  [
+    { extra = "api" },
+    { extra = "embedding" },
+  ],
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["../tests"]

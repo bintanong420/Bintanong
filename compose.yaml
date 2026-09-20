@@ -1,0 +1,117 @@
+name: bintanong
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    environment:
+      API_INTERNAL_URL: ${API_INTERNAL_URL:-http://api:8000}
+    ports:
+      - 127.0.0.1:3000:3000
+    depends_on:
+      api:
+        condition: service_healthy
+    networks: [bintanong-local]
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      SUPABASE_DB_URL: ${SUPABASE_DB_URL:-postgresql://postgres:postgres@supabase_db_bintanong:5432/postgres}
+      EMBEDDING_URL: ${EMBEDDING_URL:-http://embedding:8001}
+      BINTU_URL: ${BINTU_URL:-http://bintu:8080}
+      BINTU_REQUEST_TIMEOUT_SECONDS: ${BINTU_REQUEST_TIMEOUT_SECONDS:-120}
+      BINTU_QUEUE_LIMIT: ${BINTU_QUEUE_LIMIT:-2}
+    ports:
+      - 127.0.0.1:8000:8000
+    depends_on:
+      embedding:
+        condition: service_healthy
+      bintu:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/live', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    networks: [bintanong-local]
+
+  embedding:
+    build:
+      context: .
+      dockerfile: docker/embedding.Dockerfile
+    environment:
+      MODELS_ROOT: /models
+      EMBEDDING_MODEL_RELATIVE_PATH: ${EMBEDDING_MODEL_RELATIVE_PATH:-SEA-LION-E5-Embedding-600M}
+      EMBEDDING_WEIGHTS_SHA256: ${EMBEDDING_WEIGHTS_SHA256:-DF5B1C55623EEB5EF09CE3F3C50E24E2DB433D7D1BBCCCF76D2F01BA212DF5F1}
+    volumes:
+      - ${MODELS_DIR:?Set MODELS_DIR}:/models:ro
+    ports:
+      - 127.0.0.1:8001:8001
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+    networks: [bintanong-local]
+
+  bintu:
+    image: ghcr.io/ggml-org/llama.cpp:server-v0.4.1
+    command:
+      - --model
+      - /models/${BINTU_MODEL_RELATIVE_PATH:-GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --ctx-size
+      - ${BINTU_CONTEXT_SIZE:-2048}
+      - --n-predict
+      - ${BINTU_MAX_TOKENS:-128}
+      - --parallel
+      - "1"
+      - --n-gpu-layers
+      - "0"
+      - --metrics
+      - --no-webui
+    volumes:
+      - ${MODELS_DIR:?Set MODELS_DIR}:/models:ro
+    ports:
+      - 127.0.0.1:8080:8080
+    healthcheck:
+      test: [CMD, /app/llama-server, --version]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 120s
+    networks: [bintanong-local]
+
+  ingest:
+    profiles: [tools]
+    build:
+      context: .
+      dockerfile: docker/ingest.Dockerfile
+    command: [python, -m, bintanong_tools.ingest, --help]
+    environment:
+      MODELS_ROOT: /models
+    volumes:
+      - ${MODELS_DIR:?Set MODELS_DIR}:/models:ro
+      - ./tests/fixtures:/workspace/tests/fixtures:ro
+      - ./artifacts:/workspace/artifacts
+    networks: [bintanong-local]
+
+  evaluate:
+    profiles: [tools]
+    build:
+      context: .
+      dockerfile: docker/ingest.Dockerfile
+    command: [python, -m, bintanong_tools.evaluate, --help]
+    networks: [bintanong-local]
+
+networks:
+  bintanong-local:
+    external: true
+    name: bintanong-local
