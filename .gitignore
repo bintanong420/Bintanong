@@ -16,7 +16,7 @@ __pycache__/
 *.py[cod]
 
 # next.js
-/.next/
+**/.next/
 /out/
 
 # production
