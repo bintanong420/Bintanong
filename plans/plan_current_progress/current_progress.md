@@ -2,6 +2,13 @@
 
 This is the cross-agent handoff for the approved, review-only prospectus workstream. It is not a formal numbered phase checkpoint or evidence of institutional source approval. Verify it against Git and fresh tests before acting.
 
+## Task 0 verified update
+
+- Task 0 source snapshot and provisional hash boundary are implemented from base `e31a8815eec6baaea1ccf1b51853c79b12406b15`. The ignored local 39 PDFs have 39 unique SHA-256 hashes matching all 39 unique hashes among 44 external original PDF paths. The hash/locator inventory is `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump/provisional-source-inventory.csv` and remains outside Git.
+- `ProvisionalSource` verifies exact PDF bytes and always starts with `source_verification="pending"`. Issuer, campus/college/program scope, document version, and institutional approval remain unknown; neither a filename nor extractor audit supplies them. Phase 1 indexing and active release remain separate.
+- The focused test passed. The relevant available test group passed (13 tests). The repository-wide suite could not collect two API tests because `fastapi` is absent from the current `backend/.venv`.
+- Pre-existing `.gitignore` and extractor edits and the untracked handoff were preserved. Task 0 report: `.superpowers/sdd/2026-09-26-prospectus-phase2-implementation-draft/task-0-report.md`.
+
 ## Repository state observed
 
 - Branch `dev`, HEAD `8e382bddf17330c10da118e86f42016fd71dadb8`.
