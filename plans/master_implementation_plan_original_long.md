@@ -141,7 +141,7 @@ Each phase produces a reviewable artifact and an exit gate. Complete one bounded
 | ----- | ------------------------------------- | ---------- | --------------------------------------------------------------------- |
 | 0     | Docker and compatibility              | Sources    | Reproducible project skeleton and component smoke checks.             |
 | 1     | Source governance and contracts       | 0          | Source manifest, data contracts, and evaluation protocol draft.       |
-| 2     | Data ingestion and chunking           | 1          | Reviewed, traceable text/chunk artifacts.                             |
+| 2     | Data ingestion and chunking           | 1 for release; preparation can run beside 1 | Reviewed, traceable text/chunk artifacts.             |
 | 3     | Embedding generation                  | 2          | Validated embedding artifacts independent of database writes.         |
 | 4     | Supabase vector/relational storage    | 1, 3       | Migrations, ingestion loader, and release-aware storage.              |
 | 5     | Retrieval                             | 4          | Tested cosine top-k retriever with citations and abstention handling. |
@@ -154,7 +154,7 @@ Each phase produces a reviewable artifact and an exit gate. Complete one bounded
 | 12    | System and thesis evaluation          | 5–11       | Reproducible benchmark results, safeguards evidence, SUS/UAT results. |
 | 13    | Deployment and maintenance            | 12         | Verified deployment, rollback, and authorized update procedures.      |
 
-The web shell and evaluation harness start earlier in Phases 0–1. Phases 11–12 complete their end-to-end behavior. Source acquisition may continue while infrastructure is built; a missing official policy blocks the corresponding answer capability, not unrelated infrastructure work.
+The web shell and evaluation harness start earlier in Phases 0–1. Phases 11–12 complete their end-to-end behavior. Source acquisition may continue while infrastructure is built; a missing official policy blocks the corresponding answer capability, not unrelated infrastructure work. Prospectus PDF conversion, candidate JSON/Prolog generation, discrepancy review, and local correction tooling may proceed while Phase 1 indexes sources. Their outputs remain review candidates until the applicable original document and version are verified and linked to the Phase 1 contracts. This parallel preparation does not by itself advance the formal phase ledger.
 
 ## 5. Phase 0 — Docker immediately and compatibility first
 
@@ -282,6 +282,7 @@ Student facts carry an origin such as `user_statement` or `private_upload`, an e
 5. Clean repeated headers/footers and extraction noise without rewriting policy meaning.
 6. Preserve course-code punctuation, negation, numbers, dates, exceptions, units, and table row/column associations.
 7. Review low-quality pages and all fields that will become executable rules.
+   For prospectuses, use a local researcher GUI that shows the original PDF page, reconstructed table cells/geometry, and extracted JSON together. Record accepted, corrected, or unresolved field decisions with reviewer, reason, source cell/page, and PDF hash. Preserve raw extraction and decision history; derive corrected candidates separately.
 8. Chunk by sections, policy clauses, procedures, and coherent table units.
 9. Export versioned chunk artifacts and an ingestion report.
 
@@ -301,9 +302,9 @@ Do not paraphrase institutional text during canonical ingestion. A summary may b
 
 The thesis names a 10-document OCR check but leaves its accuracy unresolved. Reproduce a documented check over 10 representative scanned documents, transcribe reference text manually, and report character error rate plus errors in critical fields such as course codes and numbers. A high average OCR score must not conceal a wrong prerequisite or grade value. [T, p. 58]
 
-**Deliverables:** original institutional documents, Docling exports, source-span records, chunk artifacts, extraction settings, and an OCR/chunk-review report.
+**Deliverables:** original institutional documents, Docling exports, source-span records, chunk artifacts, extraction settings, an OCR/chunk-review report, and for prospectuses a local correction GUI, decision ledger, and corrected candidate JSON. A 39-distinct-PDF prospectus reference set supports corpus accuracy claims; a two-PDF pilot can establish the review workflow sooner.
 
-**Exit gate:** each sampled chunk resolves to the correct page/section, tables retain meaning, and no unreviewed critical extraction error reaches rule authoring. This phase succeeds without calling an embedding model or writing vectors.
+**Exit gate:** each sampled chunk resolves to the correct page/section, tables retain meaning, and no unreviewed or unresolved critical extraction error reaches rule authoring. Human correction does not establish issuing-office or curriculum-version approval. This phase succeeds without calling an embedding model or writing vectors.
 
 ## 8. Phase 3 — Embedding generation
 
@@ -655,7 +656,7 @@ Session IDs submitted by the browser are not sufficient authorization on their o
 | `GET /sources/{source_id}`              | Return an authorized institutional citation locator/excerpt for the applicable release. |
 | `GET /health/live`, `GET /health/ready` | Distinguish process health from required dependency readiness.                          |
 
-Use researcher-controlled CLI jobs for institutional ingestion and release activation initially. An administrative dashboard is not required to complete the thesis pipeline.
+Use researcher-controlled CLI jobs for institutional ingestion and release activation initially. The Phase 2 local prospectus correction GUI is a required preparation tool, separate from a hosted administrative dashboard. A hosted reviewer interface requires authenticated reviewer identities, authorization, and controlled access to original PDFs; it is not required to complete the thesis pipeline.
 
 ### 16.2 Student-facing behavior
 

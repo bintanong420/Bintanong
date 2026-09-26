@@ -11,6 +11,12 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Latest final handoff: `plans/phase-00-handoff.md`
 - Next permitted phase: `1`
 
+## Parallel prospectus workstream
+
+- Approved review-only prospectus workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`
+- Current cross-agent progress: `plans/plan_current_progress/current_progress.md`
+- The user authorized JSONification, candidate Prolog work, and human review/correction in parallel with Phase 1 indexing. This workstream does not advance the formal phase ledger or authorize an active institutional release.
+
 ## Phase Ledger
 
 | Phase | Name | Status | Plan | Checkpoint | Handoff |
