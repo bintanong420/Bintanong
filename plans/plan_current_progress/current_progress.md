@@ -1,41 +1,42 @@
-# Current prospectus workstream progress — 26 September 2026
+# Current prospectus workstream progress — 29 September 2026
 
-This is the cross-agent handoff for the approved, review-only prospectus workstream. It is not a formal numbered phase checkpoint or evidence of institutional source approval. Verify it against Git and fresh tests before acting.
+This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
-## Task 0 verified update
+## Completed work
 
-- Task 0 source snapshot and provisional hash boundary are implemented from base `e31a8815eec6baaea1ccf1b51853c79b12406b15`. The ignored local 39 PDFs have 39 unique SHA-256 hashes matching all 39 unique hashes among 44 external original PDF paths. The hash/locator inventory is `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump/provisional-source-inventory.csv` and remains outside Git.
-- `ProvisionalSource` verifies exact PDF bytes and always starts with `source_verification="pending"`. Issuer, campus/college/program scope, document version, and institutional approval remain unknown; neither a filename nor extractor audit supplies them. Phase 1 indexing and active release remain separate.
-- The focused test passed. The relevant available test group passed (13 tests). The repository-wide suite could not collect two API tests because `fastapi` is absent from the current `backend/.venv`.
-- Pre-existing `.gitignore` and extractor edits and the untracked handoff were preserved. Task 0 report: `.superpowers/sdd/2026-09-26-prospectus-phase2-implementation-draft/task-0-report.md`.
+- Planning commit `e31a881` approved parallel prospectus preparation and the local human correction GUI. Phase 1 source approval still gates active institutional use.
+- Task 0 commit `702a38f` added and tested `ProvisionalSource(pdf_sha256, source_locator)`, with source verification fixed pending. It verifies original PDF bytes and rejects hash mismatch. Local copied PDFs match the external corpus's 39 distinct hashes / 44 paths; the ignored inventory is under `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump/provisional-source-inventory.csv`.
+- Task 0 review passed; recorded supplemental suite: 19 tests passed using `uv run --project backend --extra tools --extra dev --with fastapi==0.141.1 python -m pytest -q tests`. Full Windows `api` extra could not build `janus-swi` without MSVC. That is prior Task 0 evidence, not a Task 1 rerun.
+- Task 1 completed fresh BSCS and Architecture original-PDF conversions and an initial comparison of all 132 scheduled rows. Both complete one-page originals were visually inspected. Independent source transcription and candidate comparison produced 1,320 field decisions. Eight additional BSCS option rows were checked separately.
+- Task 1 created a 92-entry field discrepancy/spot-check ledger, plus a fresh 39-hash/44-path review index. Initial checks include Values Education, both Psychology tracks, Civil Engineering, BSBA Marketing, Midwifery, old ComSci and source-total conflicts. Other Engineering PDFs are indexed/rendered but not field-reviewed.
 
-## Repository state observed
+## Current evidence and limits
 
-- Branch `dev`, HEAD `8e382bddf17330c10da118e86f42016fd71dadb8`.
-- `phase_state.py inspect --repo .` reports a valid ledger, Phase 0 complete, no active phase or plan, and Phase 1 as the next permitted phase. `plans/INDEX.md` remains the phase authority.
-- Working tree was already dirty before this planning work: `backend/bintanong_tools/bintanong_jsonifer_prolog/bintanong_prospectus_jsonifier.py` is modified, and `plans/CODEX_HANDOFF_prospectus_extractor_phase2_2026-09-26.md` is untracked. Preserve both. The parser's text matched the dataset workspace extractor line for line at inspection time; file SHA-256 values differed because the files use different line endings.
-- During this review, `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/` appeared with 39 PDF files and a `json_output/` directory; `.gitignore` also became modified. None was created by this planning pass. The PDFs' 39 SHA-256 hashes exactly match the 39 distinct hashes among the 44 original dataset PDFs. Permission to store institutional PDFs in Git is still unverified; preserve these concurrent changes and do not commit the PDFs by default.
-- `backend/bintanong_tools/ingest.py` offers generic `parse`, not a prospectus command or review/release workflow. The Compose `ingest` service runs help by default and has no institutional PDF input mount.
+- Task 1 report: `.superpowers/sdd/2026-09-26-prospectus-phase2-implementation-draft/task-1-report.md` (ignored local review workspace).
+- All detailed source-derived review artifacts remain outside Git: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\docling_jsonified_output\task1_baseline_2026-09-29`.
+- Authoritative conversion source: original PDFs under the external `PalSU Undergraduate Prospectus Website Dump`. Generated JSON is diagnostic output, never the expected source reading.
+- Fresh self-test: 80/80. Runtime Python 3.13.5, Docling 2.129.0, docling-parse 7.20.0. Repo/dataset parser text still matches after normalizing line endings.
+- Fresh BSCS: 55 courses, 159 units, audit WARN, strict exit 0. Fresh Architecture: 77 courses, 230 units, audit ERROR, strict exit 1. Both audit states are extractor-only.
+- All 132 scheduled codes and course units match visible source rows. Missing scheduled codes: 0/132 source rows; false scheduled codes: 0/132 emitted rows. Course identities being present does not make their fields correct.
+- Nine critical field groups per row: 1,112 matches, 73 mismatches, 3 source-unresolved / 1,188 comparisons under documented whitespace/hyphen/terminal-period normalization. Physical page is measured separately. No corpus accuracy percentage is claimed.
+- BSCS truncates one standing requirement and spills its last word into the next course's prerequisite. Architecture has 33 wrong titles, 13 wrong raw prerequisite fields, 11 wrong resolved prerequisite fields, and 3 unresolved source references. Explicit elective labels are not correctly reflected in `is_elective` for 12 pilot rows.
+- Architecture's printed second-year second-term 23 and grand 231 conflict with visible row sums 22 and 230. Extracted individual course units agree with the source; do not change units to force its checksum.
+- All discrepancy records have PDF hash/page/cell locators. Corrected cell ownership and geometry still require independent review, especially where Docling merged or misplaced text. The 37 other unique PDFs lack complete field review. This is an agent-reviewed initial baseline, not a human-approved gold set.
+- The old v5 batch manifest was freshly read: 44 paths, 1 OK, 6 WARN, 37 audit failures, 0 exceptions. Its 7/44 audit-pass count is not field accuracy. The non-pilot spot checks compare original PDF views against this older v5 output and are labeled as not freshly converted.
 
-## Evidence available, with limits
+## Repository state
 
-- Dataset workspace: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump`. The original PDFs under `PalSU Undergraduate Prospectus Website Dump/` are the extraction source; generated JSON is diagnostic output.
-- The latest dataset manifest, `docling_jsonified_output/v5_final_cross_college_2026-09-26/batch_manifest.json`, was present and reports 44 PDF paths, 37 audit failures, 6 warnings, 1 OK, and 0 processing exceptions. The handoff reports 39 distinct PDF hashes and 2,075 extracted course records. These counts are not course-field accuracy measurements.
-- The dataset handoff reports 39/39 focused/inventory tests and 80/80 extractor self-checks. Those results were produced in the dataset workspace; no fresh Bintanong integration test or human PDF-checked reference set has been recorded here.
-- Known PDF-backed defects include merged Values Education `Ed 12`/`FS 2` and Psychology `Psych 9`/`Psych 10` rows, contaminated titles/prerequisites, and missing term assignments in other programs. Seven extractor-audit passes are still candidates, without human content review or issuing-office/version approval.
-- The existing Phase 2 plan covers the prospectus track and requires source-linked extraction, safe reruns, provenance, and a callable backend. The later handoff adds the 44-path corpus results, a 39-unique-PDF reference set, and a Bintanong manual flagger/release gate proposal. The master plan makes Phase 1 source contracts a dependency of Phase 2.
+- Task 1 implementation base: `dev`, HEAD `702a38f`. The next documentation commit updates this note; identify that commit from Git rather than treating the earlier planning HEAD `8e382bd` as current.
+- Pre-existing dirty files remain untouched: `.gitignore`, `backend/bintanong_tools/bintanong_jsonifer_prolog/bintanong_prospectus_jsonifier.py`, and untracked `plans/CODEX_HANDOFF_prospectus_extractor_phase2_2026-09-26.md`.
+- Parser SHA-256 at review: `b50ece65539252cc4c7b519dac8506497dd40ec0f3b9220c0575bab6f745c835`; its pre-existing diff is 41 insertions / 3 deletions. HEAD alone does not identify this parser snapshot.
+- No Task 1 parser edits, institution PDF staging, production release companions, active RAG/Prolog activation, database writes, or formal phase advancement occurred. Local legacy full candidate JSON retains parser-embedded candidate Prolog/RAG fields; these have no approval status.
+- `phase_state.py inspect` reports a valid ledger, no active numbered phase, Phase 0 complete, Phase 1 next permitted. `plans/INDEX.md` remains authoritative.
 
-## Planning status
+## Next action
 
-- Approved workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`. The user clarified that incomplete Phase 1 indexing must not block prospectus preparation already underway in parallel.
-- The user clarified that human post-processing is required in a GUI. The draft now requires synchronized source PDF, reconstructed table layout, and extracted JSON views with traceable corrections. It reconciles the two-PDF pilot with later review of all 39 distinct PDFs.
-- The master plan now records parallel prospectus preparation, a local researcher correction GUI in Phase 2, decision/corrected-candidate artifacts, and a separate gate for hosted reviewer access and active institutional release.
-- No product implementation, source approval, database ingestion, or active RAG/Prolog release was performed in this planning pass.
-- The executable scope is prospectus JSONification, candidate Prolog generation, PDF-backed validation, and local human correction. Provisional source records use original PDF hashes while Phase 1 indexing catches up; pending issuer/version verification cannot be promoted as active knowledge.
-- Planning checks: `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py validate --repo .` reported `State: valid`, no active phase/plan, and Phase 1 next; `git diff --check` found no whitespace errors. No product tests were run because only planning files were changed by this pass.
+1. Review the Task 1 report and local source-backed discrepancy ledger. Independently confirm corrected cell ownership before marking a source reference human-approved.
+2. Begin Task 2 with one focused failing regression per demonstrated topology failure. Include the newly demonstrated BSCS standing spill and Architecture row spill alongside the Values Education/Psychology merged rows. Keep ambiguous source references explicitly unresolved.
+3. After each shared parser change, run the self-test and original-PDF 44-path regression, compare repaired/newly broken fields, and preserve all source aliases. Complete the 39-PDF reference before any general accuracy claim.
+4. Continue the approved adapter, review GUI and provenance tasks in plan order. Pending Phase 1 indexing does not block local review preparation; active institutional release still requires source/version and rule approval.
 
-## Next agent action
-
-1. Read `plans/INDEX.md`, the new draft plan when present, the three source documents named above, and the user's answers to open questions.
-2. Re-run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`, inspect Git status/diff, and preserve the pre-existing dirty files.
-3. Continue the approved prospectus workstream from its first unchecked task while Phase 1 indexing proceeds separately. Do not interpret this progress note, a provisional hash record, or any extractor audit status as institutional authorization.
+Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use generated JSON as the conversion source. No numbered Phase 2 exit or Phase 3 advancement is implied.
