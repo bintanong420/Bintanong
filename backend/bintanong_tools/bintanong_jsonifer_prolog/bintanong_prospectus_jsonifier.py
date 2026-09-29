@@ -2554,6 +2554,32 @@ def _assemble_section_candidates(
             if looks_course or starts_split_course:
                 existing = pending.get(group.index)
                 if (
+                    existing is not None and existing.row_end == row
+                    and existing.prerequisites and is_standing_rule(existing.prerequisites.value)
+                    and not existing.prerequisites.value.endswith((".", ":", ";"))
+                    and prereq and re.fullmatch(r"[a-z]{4,}", prereq.value)
+                    and code and title and units
+                ):
+                    source_ids = list(dict.fromkeys(
+                        existing.prerequisites.evidence_cell_ids
+                        + code.evidence_cell_ids + title.evidence_cell_ids
+                        + units.evidence_cell_ids + prereq.evidence_cell_ids
+                    ))
+                    source_cells = [cell for cell in table.cells if cell.cell_id in source_ids]
+                    result.anomalies.append({
+                        "id": f"t{table.table_index}-r{row}-g{group.index}-prereq-spill",
+                        "type": "ambiguous_adjacent_prerequisite_fragment",
+                        "table_index": table.table_index,
+                        "row": row,
+                        "page": next((cell.bbox.page for cell in source_cells
+                                      if cell.bbox and cell.bbox.page), None),
+                        "reason": ("a lowercase prerequisite fragment beside a new course may "
+                                   "continue the preceding standing rule; ownership unresolved"),
+                        "source_cell_ids": source_ids,
+                        "source_cells": [cell.as_evidence_dict() for cell in source_cells],
+                    })
+                    fields["prerequisites"] = prereq = None
+                if (
                     existing is not None and existing.row_end == row and existing.prerequisites
                     and re.fullmatch(r"(?:[1-5](?:ST|ND|RD|TH)|FIRST|SECOND|THIRD|FOURTH|FIFTH) YEAR",
                                      existing.prerequisites.value, re.IGNORECASE)

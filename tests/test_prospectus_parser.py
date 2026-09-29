@@ -181,6 +181,54 @@ MERGED_ROWS = [[(124,
 
 
 class MergedCourseRowsTests(unittest.TestCase):
+    def test_bscs_standing_fragment_does_not_become_next_course_prerequisite(self):
+        # Original new BSCS PDF, page 1: Docling assigns the final word of
+        # CS Elect 4/L's standing to the following GE-STS grid row.
+        grid = [[""] * 8 for _ in range(32)]
+        grid[0] = ["Course Code", "Course Title", "Units", "Prerequisites",
+                   "Course Code", "Course Title", "Units", "Prerequisites"]
+        grid[1][0] = "THIRD YEAR"
+        grid[2][0], grid[2][4] = "FIRST SEMESTER", "SECOND SEMESTER"
+        evidence = parser.evidence_from_grids([grid])
+        evidence.tables[0].cells = [
+            replace(cell, col_end=8) if cell.row_start == 1
+            else replace(cell, col_end=cell.col_start + 4) if cell.row_start == 2
+            else cell for cell in evidence.tables[0].cells
+        ]
+        raw = (
+            (177, 30, 4, "CS Elect 4/L", 314.79, 540.96, 346.23, 551.28),
+            (178, 30, 5, "CS Elective 4 22", 357.47, 540.89, 411.13, 551.03),
+            (179, 30, 6, "2/1", 494.19, 541.02, 506.77, 551.50),
+            (180, 30, 7, "70% of the total units of the past", 520.96, 540.83, 547.42, 551.15),
+            (181, 31, 7, "semesters", 514.92, 555.86, 553.04, 566.79),
+            (185, 31, 4, "GE-STS", 318.62, 556.68, 343.20, 566.87),
+            (186, 31, 5, "Science, Technology and Society", 351.27, 556.48, 468.42, 566.92),
+            (187, 31, 6, "23 3", 471.55, 556.82, 505.29, 567.34),
+        )
+        source = [{"text": text, "row_span": 1, "col_span": 1,
+                   "start_row_offset_idx": row, "end_row_offset_idx": row + 1,
+                   "start_col_offset_idx": col, "end_col_offset_idx": col + 1,
+                   "bbox": {"l": left, "t": top, "r": right, "b": bottom,
+                            "coord_origin": "TOPLEFT"}}
+                  for _, row, col, text, left, top, right, bottom in raw]
+        normalized = parser.docling_to_normalized_table(
+            {"table_cells": source}, 0, {"prov": [{"page_no": 1}]})
+        evidence.tables[0].cells.extend(
+            replace(cell, cell_id=f"t0-c{item[0]}")
+            for item, cell in zip(raw, normalized.cells)
+        )
+        result = parser.parse_curriculum_evidence(evidence)
+        courses = {course["course_code"]: course for course in result.courses}
+        self.assertIn("GE-STS", courses, (list(courses), result.sections, result.anomalies))
+        self.assertNotIn("semesters", courses["GE-STS"]["prerequisites_raw"].lower())
+        issues = [item for item in result.anomalies
+                  if item["type"] == "ambiguous_adjacent_prerequisite_fragment"]
+        self.assertEqual(len(issues), 1)
+        self.assertEqual(issues[0]["page"], 1)
+        self.assertIn("t0-c181", issues[0]["source_cell_ids"])
+        self.assertTrue(all(cell["bbox"] for cell in issues[0]["source_cells"]))
+        self.assertEqual(parser.build_audit(result.courses, result, {}, [])["status"], "error")
+
     def test_merged_source_rows_are_blocked_with_complete_evidence(self):
         for raw_cells in MERGED_ROWS:
             with self.subTest(code=raw_cells[0][1]["text"]):
