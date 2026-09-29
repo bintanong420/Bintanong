@@ -1570,7 +1570,10 @@ class CourseCandidate:
         if current is None:
             setattr(self, field_name, candidate)
         else:
-            current.append(candidate.value, candidate.evidence_cell_ids)
+            separator = "" if field_name == "code" and current.value.endswith("-") else " "
+            if not separator:
+                current.value = re.sub(r"\s+-$", "-", current.value)
+            current.append(candidate.value, candidate.evidence_cell_ids, separator)
             if "adjacent_row_continuation" not in current.confidence_flags:
                 current.confidence_flags.append("adjacent_row_continuation")
         for cell_id in candidate.evidence_cell_ids:
@@ -1608,7 +1611,7 @@ class SemanticRepairProvider(Protocol):
 
 MULTIPART_CODE = re.compile(
     r"^(?:"
-    r"[A-Za-z]{1,8}(?:[\s-]+[A-Z]{1,6})?[\s-]*\d{1,4}[A-Za-z]*(?:/[A-Za-z0-9]+)?"
+    r"[A-Za-z]{1,8}(?:[\s-]+[A-Z]{1,6})?[\s-]*\d{1,4}[A-Za-z]*(?:/[A-Za-z0-9]+(?:\s+\d{1,2})?)?"
     r"|[A-Za-z]{1,8}\s+Elect(?:ive)?\s+\d{1,2}(?:/L)?"
     r"|GE\s*[-:]\s*[A-Za-z]{2,8}"
     r")$",
@@ -1632,6 +1635,21 @@ def is_probable_course_code(text: str) -> bool:
     if len(words) >= 2 and words[0].istitle() and words[1].islower():
         return False
     return True
+
+
+def _two_course_codes_in_cell(text: str) -> tuple[str, str] | None:
+    def strong_code(value: str) -> bool:
+        elective = re.fullmatch(r"[A-Za-z]{2,8}\s+Elect(?:ive)?s?", value, re.IGNORECASE)
+        return bool(elective or (is_probable_course_code(value) and (
+            re.search(r"\d", value) or re.fullmatch(r"GE\s*-\s*[A-Z]{2,8}", value)
+        )))
+
+    words = clean_str(text).split()
+    for boundary in range(1, len(words)):
+        first, second = " ".join(words[:boundary]), " ".join(words[boundary:])
+        if strong_code(first) and strong_code(second) and re.match(r"[A-Za-z]{2,}", second):
+            return first, second
+    return None
 
 
 def _cell_for_column(table: NormalizedTable, row: int, col: int) -> NormalizedCell | None:
@@ -1874,6 +1892,12 @@ def _semester_mapping_at_row(
             continue
         code = _field_at(table, row, group.code_idx)
         title = _field_at(table, row, group.title_idx)
+        if title and is_banner_text(title.value):
+            labels = match_semester_labels(title.value)
+            if len(labels) == 1:
+                mapping[group.index] = labels[0][1]
+                evidence.append(title.evidence_cell_ids[0])
+                continue
         if code and title and re.match(r"^FIRST\b", code.value, re.IGNORECASE) and re.match(
             r"^SEMESTER\b", title.value, re.IGNORECASE
         ):
@@ -2038,7 +2062,7 @@ def build_curriculum_sections(
                 events.append((semester_row, row_end, year_mapping.copy(), semester_evidence))
 
         if not events:
-            if last_mapping:
+            if last_mapping and "Summer" not in last_mapping.values():
                 # Inherit mapping from the previous section
                 start = year_search_start if year_token.row_end == year_token.row_start else year_search_start + 1
                 events.append((year_search_start, start, last_mapping.copy(), []))
@@ -2122,6 +2146,9 @@ def _row_field_candidates(
                 remainder = re.sub(r"^YEAR\b\s*", "", field.value, count=1, flags=re.IGNORECASE)
                 fields[name] = (FieldCandidate(remainder, field.evidence_cell_ids,
                                                ["split_year_banner"]) if remainder else None)
+    code = fields["code"]
+    if code:
+        code.value = re.sub(r"\s*/\s*", "/", code.value)
     code, title = fields["code"], fields["title"]
     if not code and title and fields["units"] and is_unit_like_token(fields["units"].value):
         fused = re.match(
@@ -2351,6 +2378,12 @@ def _assemble_section_candidates(
 ) -> list[CourseCandidate]:
     candidates: list[CourseCandidate] = []
     pending: dict[int, CourseCandidate] = {}
+    blocked_cells = {
+        cell_id for anomaly in result.anomalies
+        if anomaly.get("type") == "multiple_course_codes_in_cell"
+        and anomaly.get("table_index") == table.table_index
+        for cell_id in anomaly["source_cell_ids"]
+    }
     grid = project_table_to_grid(table)
 
     def flush(group_index: int) -> None:
@@ -2378,6 +2411,11 @@ def _assemble_section_candidates(
                 result.policy_notes.append(note)
 
         for group in groups:
+            if any(cell.cell_id in blocked_cells
+                   for cell in _cells_in_group_row(table, row, group)):
+                # Flattened cell text cannot establish separate title/prerequisite ownership.
+                flush(group.index)
+                continue
             if any(
                 extract_grand_total(cell.text) is not None
                 and cell.col_start <= group.code_idx < cell.col_end
@@ -2408,7 +2446,9 @@ def _assemble_section_candidates(
             suffix_and_code = re.fullmatch(r"([A-Z]{2,3})\s+(.+)", fields["code"].value) if fields["code"] else None
             if (
                 previous and previous.row_end == row and previous.code
-                and previous.code.value.endswith(":") and suffix_and_code
+                and (previous.code.value.endswith(":")
+                     or re.fullmatch(r"[A-Z]{2,8}\s*-", previous.code.value))
+                and suffix_and_code
                 and suffix_and_code.group(2).isupper()
                 and is_probable_course_code(suffix_and_code.group(2))
             ):
@@ -3027,6 +3067,31 @@ def parse_curriculum_evidence(
             )
         tokens = tokenize_table(table, groups)
         all_tokens.extend(tokens)
+        for cell in table.cells:
+            group = next((group for group in groups
+                          if cell.col_start == group.code_idx
+                          and cell.col_end == group.code_idx + 1), None)
+            if group is None:
+                continue
+            codes = _two_course_codes_in_cell(cell.text)
+            if codes:
+                row_cells = {
+                    source.cell_id: source
+                    for source_row in range(cell.row_start, cell.row_end)
+                    for source in _cells_in_group_row(table, source_row, group)
+                }
+                result.anomalies.append({
+                    "id": f"{cell.cell_id}-multiple-codes",
+                    "type": "multiple_course_codes_in_cell",
+                    "table_index": table.table_index,
+                    "row": cell.row_start,
+                    "page": cell.bbox.page if cell.bbox else None,
+                    "reason": (f"one source cell contains course codes {codes[0]} and {codes[1]}; "
+                               "separate field ownership is unresolved; row withheld"),
+                    "candidate_codes": list(codes),
+                    "source_cell_ids": list(row_cells),
+                    "source_cells": [source.as_evidence_dict() for source in row_cells.values()],
+                })
         sections, anomalies = build_curriculum_sections(evidence, table, groups, tokens)
         result.anomalies.extend(anomalies)
         result.sections.extend(section.as_dict() for section in sections)

@@ -40,3 +40,10 @@ This is the recoverable handoff for the approved review-only prospectus workstre
 4. Continue the approved adapter, review GUI and provenance tasks in plan order. Pending Phase 1 indexing does not block local review preparation; active institutional release still requires source/version and rule approval.
 
 Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use generated JSON as the conversion source. No numbered Phase 2 exit or Phase 3 advancement is implied.
+
+## Parallel prospectus Task 2 recovery (29 September 2026)
+
+- The full source-backed report is `plans/prospectus_extractor_recovery_2026-09-29.md`. New parser guards withhold fused multi-course cells and preserve page/cell evidence; original-PDF checked slash-code repairs cover old ComSci, Hospitality, and Tourism. A process-isolated command checkpoints each PDF so one Docling child crash cannot erase later results.
+- Final regression used 44 original PDF paths (39 distinct hashes), with 44 detailed and 44 compact review JSON files. Processing errors: 0. Extractor audit: 1 OK, 6 WARN, 37 ERROR; strict run exit 1. These are candidate outputs, not approved curricula. Forty-five merged-code issues in 14 paths have PDF review evidence. No Prolog or RAG companions were generated in this run.
+- Verification: Bintanong tests 25 passed and 13 subtests passed (5 dependency warnings); extractor self-test 80/80. The supported isolated command passed a separate two-original-PDF smoke run; the 44-path result came from an external equivalent runner. Full row-field reference remains only two PDFs, so no corpus accuracy claim is justified.
+- Remaining critical parser defects include the new BSCS standing spill into GE-STS and Social Work `World` spill into SW 13. Architecture has many wrong titles/prerequisites. Task 2 remains partial, review-only. The formal phase ledger is unchanged; Phase 1 source approval and later human curriculum/rule review still gate active use.
