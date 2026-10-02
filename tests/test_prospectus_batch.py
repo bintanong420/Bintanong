@@ -84,6 +84,32 @@ class IsolatedBatchTests(unittest.TestCase):
             child.assert_not_called()
             self.assertEqual(checkpoint.read_text(), "existing run")
 
+    def test_parser_hash_covers_every_package_module(self):
+        with tempfile.TemporaryDirectory() as directory:
+            package = Path(directory)
+            (package / "a.py").write_text("A = 1\n", encoding="utf-8")
+            (package / "b.py").write_text("B = 1\n", encoding="utf-8")
+            before = prospectus_batch.package_sha256(package)
+            self.assertEqual(before, prospectus_batch.package_sha256(package))
+            (package / "b.py").write_text("B = 2\n", encoding="utf-8")
+            self.assertNotEqual(before, prospectus_batch.package_sha256(package))
+
+    def test_child_runs_the_package_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "pdfs"
+            source.mkdir()
+            (source / "a.pdf").write_bytes(b"%PDF-test")
+            commands = []
+
+            def fake_child(command, **_kwargs):
+                commands.append(command)
+                return SimpleNamespace(returncode=1)
+
+            with patch.object(prospectus_batch.subprocess, "run", side_effect=fake_child):
+                prospectus_batch.run_isolated(source, Path(directory) / "out", None)
+            self.assertEqual(Path(commands[0][1]).name, "prospectus_extractor")
+            self.assertTrue((Path(commands[0][1]) / "__main__.py").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

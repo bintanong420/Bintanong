@@ -10,7 +10,18 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
-from .bintanong_jsonifer_prolog import bintanong_prospectus_jsonifier as extractor
+from . import prospectus_extractor as extractor
+
+PACKAGE_DIR = Path(extractor.__file__).resolve().parent
+
+
+def package_sha256(package: Path = PACKAGE_DIR) -> str:
+    """One hash over every module, so any parser change changes the recorded hash."""
+    digest = hashlib.sha256()
+    for path in sorted(package.glob("*.py")):
+        digest.update(path.name.encode())
+        digest.update(path.read_bytes().replace(b"\r\n", b"\n"))
+    return digest.hexdigest()
 
 
 def run_isolated(
@@ -32,7 +43,7 @@ def run_isolated(
     for number, item in enumerate(items, 1):
         item.json_path.parent.mkdir(parents=True, exist_ok=True)
         log_path = output_root / f"run-{number:02d}.log"
-        command = [sys.executable, str(Path(extractor.__file__).resolve()), "-i", str(item.source_pdf),
+        command = [sys.executable, str(PACKAGE_DIR), "-i", str(item.source_pdf),
                    "-o", str(item.json_path), "--force", "--device", device, "--strict"]
         if semantic_doc is not None:
             command.extend(["--semantic-doc", str(semantic_doc.resolve())])
@@ -73,7 +84,7 @@ def run_isolated(
             "processing_error": sum(r["status"] == "processing_error" for r in records),
         }
         manifest = {"schema_version": "isolated-original-pdf-run-v1",
-                    "parser_sha256": hashlib.sha256(Path(extractor.__file__).read_bytes()).hexdigest(),
+                    "parser_sha256": package_sha256(),
                     "semantic_doc": str(semantic_doc.resolve()) if semantic_doc else None,
                     "summary": summary, "records": records}
         checkpoint = manifest_path.with_suffix(".tmp")
