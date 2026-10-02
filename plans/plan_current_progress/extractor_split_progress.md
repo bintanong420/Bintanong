@@ -4,14 +4,14 @@ Resume point for `plans/2026-10-03-prospectus-extractor-package-split.md`. Fresh
 
 - Branch: `refactor/prospectus-extractor-package`, created from `dev` at `7591264`.
 - Monolith SHA-256 at base: `8ea75006a4c588902738c3a31096d44aa453a2fdfdeffae8750bf681eae3164d`.
-- Recorded baseline (29 September, not rerun yet on this branch): 26 tests and 13 subtests passed; self-test 80/80.
+- Baseline observed 2026-10-03 on this branch: 26 tests and 13 subtests passed (plus the 2 new failing gate tests); self-test 80/80; monolith hash matches.
 - Pre-existing dirty files to leave alone: `.gitignore`, untracked `plans/CODEX_HANDOFF_prospectus_extractor_phase2_2026-09-26.md`.
 
 ## Phase A
 
 | Task | State | Commit | Observed result |
 | --- | --- | --- | --- |
-| 1. Baseline and failing 1:1 test | not started | | |
+| 1. Baseline and failing 1:1 test | done | see git log | Baseline matched (26 passed/13 subtests, 80/80, SHA ok). New test: 2 failed (186 names missing, extra empty; KeyError ensure_docling_env), none skipped. |
 | 2. Golden-output check | not started | | |
 | 3. Splitter and generated package | not started | | |
 | 4. Entry points, shim, relaunch change | not started | | |
@@ -26,3 +26,4 @@ B markup twin → C status separation → D cache and publication → E RAG prov
 ## Log
 
 - 2026-10-03: plan written and branch created. No code changed yet. Next step: Task 1, step 1.
+- 2026-10-03: Task 1 done. Baseline confirmed (26 passed + 13 subtests, 80/80, SHA ok). New gate test: 2 failed, none skipped.
