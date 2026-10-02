@@ -39,6 +39,11 @@ Moving the file forces exactly two differences. Both are listed for review and n
 1. **`ensure_docling_env()` re-launch command.** The monolith re-executes `Path(__file__)`, which after the move would be `docling_env.py`, not the CLI. New body re-runs the original command line: `subprocess.call([str(venv_py), *sys.orig_argv[1:]], env=env)`. Same intent, works for script, `-m`, and directory invocation on every OS.
 2. **`find_default_output_root()` location.** Its text is unchanged, but `Path(__file__).parent` now resolves to `prospectus_extractor/docling_jsonified_output` instead of `bintanong_jsonifer_prolog/docling_jsonified_output`. It is only the fallback when `-o` is omitted. A `.gitignore` line is added for it in Task 6.
 
+Review of Tasks 1–5 (3 October) found two more location effects of the same kind. Neither changes any code text, and both are accepted and recorded rather than patched:
+
+3. **`_venv_python()` lookup.** It looks for `.docling-venv` next to its own file, so it now looks in `prospectus_extractor/` instead of `bintanong_jsonifer_prolog/`. No `.docling-venv` exists in this checkout; the supported environment is `uv run`. Anyone relying on a sibling `.docling-venv` must move it into `prospectus_extractor/`.
+4. **Help text program name.** `argparse` derives the program name from how the tool was started, so `--help` shows `__main__.py` or `prospectus_extractor` when started through the package. The shim still shows `bintanong_prospectus_jsonifier.py`.
+
 `DATA_ROOT` (`Path(__file__).resolve().parent.parent`) resolves to `backend/bintanong_tools` before and after, so the default source and semantic-map paths are unchanged.
 
 ## Alignment check against earlier plans
