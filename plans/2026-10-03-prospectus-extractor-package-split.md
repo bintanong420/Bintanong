@@ -28,7 +28,7 @@
 | Q6 | The markup output must mirror how a PalSU prospectus looks on the page (Phase B). |
 | Q7 | Isolated branch. |
 
-Execution: implementer and reviewer subagents use the `sonnet` model (Sonnet 5; there is no "Sonnet 5.5" model ID). An independent Codex review (`codex exec`, CLI 0.157.0 is installed) runs at each gate marked **Codex gate**. If Codex is rate-limited or errors, record that in the progress file and continue; do not block.
+Execution: subagents are the project agents `.claude/agents/extractor-implementer.md` (`model: sonnet`, `effort: medium`) and `.claude/agents/extractor-reviewer.md` (`model: sonnet`, `effort: high`, read-only). A probe on 3 October confirmed the `sonnet` alias resolves to Sonnet 5.5 (`claude-sonnet-5-5`). If those agent types are not listed in a session, restart it, or fall back to `general-purpose` with `model: sonnet`, which inherits the session effort (`effortLevel: high` in user settings). An independent Codex review (`codex exec`, CLI 0.157.0 is installed) runs at each gate marked **Codex gate**. If Codex is rate-limited or errors, record that in the progress file and continue; do not block.
 
 ## What "1:1" means here, and the two forced exceptions
 
