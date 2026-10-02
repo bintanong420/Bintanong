@@ -53,3 +53,24 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - A source-backed guard now withholds one-word standing continuations from the following course and raises a blocking anomaly with PDF cells. The original new BSCS PDF changed from WARN to ERROR; GE-STS no longer carries `semesters`, while CS Elect 4/L still needs its complete standing reconstructed by review.
 - The supported isolated command completed all 44 original paths: 39 distinct hashes, 0 processing errors, 1 OK, 5 WARN, 38 ERROR, exit 1 due to audits. Only BSCS changed audit status. Candidate fields changed in new BSCS, Social Work, and Civil Engineering; visual checks of the original latter two PDFs confirm blank next-course prerequisites. The earlier 45 fused-course flags remain, plus 3 standing-fragment flags.
 - Verification: full suite 26 passed and 13 subtests passed; extractor self-test 80/80. No corpus accuracy claim, institutional approval, or active RAG/Prolog release follows.
+
+
+## Extractor package split (3 October 2026)
+
+- Branch efactor/prospectus-extractor-package, from dev at 7591264. Not merged and not pushed. Commits (git log --oneline dev..HEAD):
+  - 24b800f docs: plan the prospectus extractor package split
+  - c5b0d04 chore: add extractor subagent definitions with model and effort
+  - b5235de test: add failing 1:1 gate for prospectus extractor split
+  - 83d5996 test: add golden-output check for extractor split
+  - dcd94ff refactor: generate prospectus_extractor package from the monolith
+  - f5bbca4 refactor: route the jsonifier entry points through prospectus_extractor
+  - 4c450e9 fix: hash and launch the extractor package in the isolated batch
+  - c7ff0c4 docs: record two more location effects found in review
+  - 2dffe3d test: run the extractor self-test under pytest
+  - 38af9fd docs: record the extractor package split and its equivalence evidence
+- The 6,320-line extractor is now the package ackend/bintanong_tools/prospectus_extractor/; the old file path is a compatibility shim.
+- Tests: full suite 36 passed, 13 subtests passed, 0 failed; extractor self-test 80/80 from four entry points.
+- Golden result on 44 cached Docling JSON inputs: 44/44 identical to the old file apart from run-to-run timestamps. Cached JSON was used, so PDFs were not re-converted through Docling.
+- parser_sha256 in the isolated batch manifest is now a hash over every .py file in the package (line endings normalised). It is not comparable with the single-file hash 8ea75006... in earlier manifests.
+- Decision record: docs/decisions/prospectus-extractor-package.md. The scaffolding scripts were removed; recover them from Git at 2dffe3d.
+- Next: user decides on merge, then Phase B (markup twin that looks like the printed prospectus). Outputs remain review candidates; nothing here approves a curriculum, RAG, or Prolog release.
