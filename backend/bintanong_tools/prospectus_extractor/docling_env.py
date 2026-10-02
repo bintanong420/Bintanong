@@ -51,7 +51,7 @@ def ensure_docling_env() -> None:
     env = os.environ.copy()
     env["_PALSU_RELAUNCHED"] = "1"
     print(f"[*] Docling not available here; re-launching via {venv_py}", flush=True)
-    sys.exit(subprocess.call([str(venv_py), str(Path(__file__).resolve())] + sys.argv[1:], env=env))
+    sys.exit(subprocess.call([str(venv_py), *sys.orig_argv[1:]], env=env))
 
 
 _DOCLING_CACHE: dict[str, Any] = {}

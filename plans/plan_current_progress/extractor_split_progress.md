@@ -14,7 +14,7 @@ Resume point for `plans/2026-10-03-prospectus-extractor-package-split.md`. Fresh
 | 1. Baseline and failing 1:1 test | done | see git log | Baseline matched (26 passed/13 subtests, 80/80, SHA ok). New test: 2 failed (186 names missing, extra empty; KeyError ensure_docling_env), none skipped. |
 | 2. Golden-output check | done | see git log | Smoke (1 file, BSA-for-student-new-version): `1/1 FAIL exit old=0 new=1`, files old=[candidate.json, candidate_review.csv] new=[]. A and B hold the same two files. Noise A vs B = 1 path (`generated_at`). |
 | 3. Splitter and generated package | done | see git log | Splitter ran clean (26 modules, no SystemExit, no MOVES change, splitter text identical to plan). Gate test: 1 passed (every definition moved unchanged), 1 failed (test_deviations_are_real, intended red for Task 4). Import-all printed ok. Full suite: 27 passed, 1 failed, 13 subtests passed. |
-| 4. Entry points, shim, relaunch change | not started | | |
+| 4. Entry points, shim, relaunch change | done | see git log | Red before implementation: 4 failed (module, package directory, re-export, relaunch), 1 passed (legacy shim), as predicted. After: full suite 33 passed, 13 subtests passed, 0 failed. 80/80 (exit 0) from -m module, package directory, shim path, and backend-as-root (`--directory backend`). Golden check --limit 3: `3/3 identical` (noise=1 each). Plan text worked unchanged. |
 | 5. Isolated batch uses the package | not started | | |
 | 6. Golden proof, decision record, Codex gate | not started | | |
 | 7. Remove scaffolding, hand off | not started | | |
@@ -29,3 +29,4 @@ B markup twin → C status separation → D cache and publication → E RAG prov
 - 2026-10-03: Task 1 done. Baseline confirmed (26 passed + 13 subtests, 80/80, SHA ok). New gate test: 2 failed, none skipped.
 - 2026-10-03: Task 2 done. Run-to-run noise in old code: 1 JSON path in candidate.json, ('generated_at',); candidate_review.csv identical. Note the script prints noise=0 while the package is absent, because it only counts files present in C; measured A vs B by hand. Real noise count appears once the package exists.
 - 2026-10-03: Task 3 done. Splitter copied verbatim from the plan, no changes. Three harmless false-hit imports (`from .common import track` under `if RICH_AVAILABLE` in courses, prolog, rag: a loop variable named `track` shares the spelling of Rich's `track`); no cycle, left as generated.
+- 2026-10-03: Task 4 done. Only generated-module edit: last line of ensure_docling_env. Shim and __main__.py worked as written in the plan, no fixes needed.
