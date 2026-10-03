@@ -393,3 +393,90 @@ def test_unknown_page_height_falls_back_deterministically():
     assert "reading_order: approximate (page 1: page size unknown)" in first.splitlines()[0]
     known = render_prospectus_markup(real_evidence([table], texts, {1: (612.0, 936.0)}), OK)
     assert "reading_order" not in known
+
+
+from backend.bintanong_tools.prospectus_extractor import batch, cli, pipeline  # noqa: E402
+
+
+def _fake_run(tmp_path, monkeypatch, status="error", **flags):
+    source = tmp_path / "x_docling.json"
+    source.write_text("{}", encoding="utf-8")
+    document = evidence(
+        [banner_table()], [text_item(0, "section_header", "PROPOSED PROGRAM OF STUDY")]
+    )
+    monkeypatch.setattr(pipeline, "load_document", lambda *args, **kwargs: (document, None))
+    monkeypatch.setattr(pipeline, "build_payload", lambda *args, **kwargs: {"audit": {"status": status}})
+    target = tmp_path / "out" / "x_prospectus.json"
+    pipeline.process_prospectus(source, target, quiet=True, **flags)
+    return target
+
+
+def test_export_md_writes_the_twin_beside_the_json_even_when_the_audit_failed(tmp_path, monkeypatch):
+    target = _fake_run(tmp_path, monkeypatch, status="error", export_md=True)
+    twin = target.with_name("x_prospectus.md")
+    text = twin.read_text(encoding="utf-8")
+    assert text.splitlines()[0].startswith("<!-- extraction_audit: error | REVIEW REQUIRED |")
+    assert "PROPOSED PROGRAM OF STUDY" in text and "\r" not in text
+
+
+def test_md_is_not_written_by_default_and_a_stale_one_is_removed(tmp_path, monkeypatch):
+    stale = tmp_path / "out" / "x_prospectus.md"
+    stale.parent.mkdir()
+    stale.write_text("old", encoding="utf-8")
+    _fake_run(tmp_path, monkeypatch, status="ok")
+    assert not stale.exists()
+
+
+def _cli_flags(monkeypatch, tmp_path, *argv):
+    seen: dict = {}
+    monkeypatch.setattr(cli, "process_prospectus", lambda *a, **k: seen.update(k) or {"audit": {"status": "ok"}})
+    source = tmp_path / "x_docling.json"
+    source.write_text("{}", encoding="utf-8")
+    assert cli.main(["-i", str(source), *argv]) == 0
+    return seen
+
+
+def test_cli_export_md_flag_and_export_all(monkeypatch, tmp_path):
+    assert _cli_flags(monkeypatch, tmp_path)["export_md"] is False
+    only = _cli_flags(monkeypatch, tmp_path, "--export-md")
+    assert only["export_md"] is True and only["export_csv"] is False
+    everything = _cli_flags(monkeypatch, tmp_path, "--export-all")
+    assert everything["export_md"] and everything["export_csv"] and everything["export_pl"]
+
+
+def test_cli_batch_receives_write_md(monkeypatch, tmp_path):
+    seen = {}
+
+    def fake_batch(config):
+        seen["write_md"] = config.write_md
+        return {"succeeded": 1, "audit_failed": 0, "skipped": 0, "failed": 0, "manifest_path": None}
+
+    monkeypatch.setattr(cli, "run_batch", fake_batch)
+    assert cli.main(["-i", str(tmp_path), "--batch", "--export-md"]) == 0
+    assert seen["write_md"] is True
+    assert cli.main(["-i", str(tmp_path), "--batch"]) == 0
+    assert seen["write_md"] is False
+
+
+def test_batch_defaults_to_writing_md_and_passes_it_on(monkeypatch, tmp_path):
+    assert batch.BatchConfig().write_md is True
+    source = tmp_path / "in"
+    source.mkdir()
+    (source / "a.pdf").write_bytes(b"%PDF-test")
+    seen = []
+    result = {
+        "audit": {
+            "status": "ok", "total_courses": 0, "computed_total_units": 0,
+            "declared_total_units": None, "years_detected": [], "errors": [], "warnings": [],
+        },
+        "metadata": {},
+    }
+    monkeypatch.setattr(batch, "ensure_docling_env", lambda: None)
+    monkeypatch.setattr(batch, "get_shared_converter", lambda **kwargs: None)
+    monkeypatch.setattr(batch, "process_prospectus", lambda *a, **k: seen.append(k) or result)
+    config = batch.BatchConfig(input_root=source, output_root=tmp_path / "out", write_manifest=False)
+    batch.run_batch(config)
+    assert seen[0]["export_md"] is True
+    config.write_md = False
+    batch.run_batch(config)
+    assert seen[1]["export_md"] is False

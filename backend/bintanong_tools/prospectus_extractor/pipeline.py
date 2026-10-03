@@ -18,6 +18,7 @@ from .audit import build_audit
 from .views import build_curriculum_by_term, build_unlocks_map, make_prerequisite_edges, write_review_csv
 from .prolog import generate_prolog_knowledge
 from .rag import build_hierarchical_rag_chunks, build_semantic_rag_chunks
+from .markup import render_prospectus_markup
 from .paths import DEFAULT_SEMANTIC_DOC, SOURCE_PDF_ROOT, find_default_output_root
 from .loader import load_document
 
@@ -183,6 +184,7 @@ def process_prospectus(
     converter: Any = None,
     repair_provider: SemanticRepairProvider | None = None,
     quiet: bool = False,
+    export_md: bool = False,
 ) -> dict[str, Any]:
     """Full pipeline for one prospectus: convert, parse, audit, write."""
     input_path = Path(input_path).resolve()
@@ -209,6 +211,7 @@ def process_prospectus(
         final_path.with_name(f"{base}_prospectus.pl"),
         final_path.with_name(f"{base}_rag.jsonl"),
         final_path.with_name(f"{base}_review.csv"),
+        final_path.with_name(f"{base}_prospectus.md"),
     ):
         stale.unlink(missing_ok=True)
     raw_cache_path = final_path.parent / f"{stem}_docling.json" if input_path.suffix.lower() == ".pdf" else None
@@ -235,6 +238,12 @@ def process_prospectus(
         )
         if not quiet:
             print(f"[+] Curriculum essentials -> {essentials_path}")
+
+    if export_md:  # written for every audit status: the reviewer needs it most when the audit failed
+        md_path = final_path.with_name(f"{base}_prospectus.md")
+        md_path.write_text(render_prospectus_markup(document, payload), encoding="utf-8", newline="\n")
+        if not quiet:
+            print(f"[+] Prospectus markup -> {md_path}")
 
     if payload["audit"]["status"] == "error":
         if not quiet:

@@ -41,6 +41,7 @@ class BatchConfig:
     write_csv: bool = True
     write_pl: bool = True
     write_jsonl: bool = True
+    write_md: bool = True
     write_manifest: bool = True
     skip_existing: bool = False
     force_reconvert: bool = False
@@ -205,6 +206,7 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                 export_pl=config.write_pl,
                 export_jsonl=config.write_jsonl,
                 export_csv=config.write_csv,
+                export_md=config.write_md,
                 device=config.device,
                 semantic_doc_path=config.semantic_doc,
                 converter=converter,
