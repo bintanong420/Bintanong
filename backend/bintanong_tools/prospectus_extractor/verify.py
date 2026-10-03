@@ -17,7 +17,9 @@ from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
+from .course_checks import PdfPage, check_course_pdf
 from .fixes import propose_fixes
+from .placement import attach, unclaimed_items
 from .prerequisites import is_standing_rule
 from .text import SEMESTER_ORDER, YEAR_ORDER, clean_str, has_banner_text, norm_key, term_index
 
@@ -111,6 +113,27 @@ def _term_of(course: Mapping[str, Any]) -> int:
     return course.get("term_index") or term_index(course.get("year_level") or "", course.get("semester") or "")
 
 
+def _regions(sections: Sequence[Section], courses: Sequence[Mapping[str, Any]], layout, evidence_ids) -> dict:
+    """sid -> page -> [left, top, right, bottom]. Horizontal extent from the course's own cells
+    (so the two semesters of one year do not overlap); the top includes the section banner."""
+    out: dict[str, dict[int, list[float]]] = {}
+    for section in sections:
+        for row in section.rows:
+            if row.course is None:
+                continue
+            course = courses[row.course]
+            own = [c for cells in own_role_cells(course, layout, evidence_ids).values() for c in cells if c.get("bbox")]
+            allb = [c["bbox"] for c in (course.get("provenance") or {}).get("source_cells") or [] if c.get("bbox")]
+            page = (course.get("provenance") or {}).get("page")
+            if not own or page is None:
+                continue
+            left, right = min(c["bbox"][0] for c in own), max(c["bbox"][2] for c in own)
+            top, bottom = min(b[1] for b in allb), max(b[3] for b in allb)
+            box = out.setdefault(section.sid, {}).setdefault(page, [left, top, right, bottom])
+            box[:] = [min(box[0], left), min(box[1], top), max(box[2], right), max(box[3], bottom)]
+    return out
+
+
 def _course_flags(index, course, ctx) -> tuple[list[Flag], list]:
     flags: list[Flag] = []
     roles = own_role_cells(course, ctx["layout"], ctx["evidence_ids"])
@@ -138,7 +161,17 @@ def _course_flags(index, course, ctx) -> tuple[list[Flag], list]:
             there = ctx["positions"].get(prereq)
             if there is not None and there >= here:
                 flags.append(Flag("prereq_order", WARN, f"prerequisite {prereq} is in the same or a later term", "prerequisites_raw"))
-    fixes = propose_fixes(course, roles, known_codes=ctx["codes"])
+    page = ctx["pages"].get((course.get("provenance") or {}).get("page")) if ctx["pages"] else None
+    title_missing = False
+    if page is not None:
+        got = {r["check"]: r["status"] for r in check_course_pdf(course, page.text, page.chars, page.height, ctx["layout"])}
+        if got.get("B_code") == "fail":
+            flags.append(Flag("code_not_in_pdf", WARN, "code not found in the PDF text", "course_code"))
+        if got.get("B_title") == "fail":
+            title_missing = True
+            flags.append(Flag("title_not_in_pdf", WARN, "title not found in the PDF text", "course_title"))
+    fixes = propose_fixes(course, roles, title_not_in_pdf=title_missing, page_text=page.text if page else None,
+                          known_codes=ctx["codes"])
     return flags, fixes
 
 
@@ -147,25 +180,27 @@ def _health(section: Section) -> str:
     return "broken" if ERROR in severities else "review" if WARN in severities else "clean"
 
 
-def _overall(sections: Sequence[Section]) -> str:
-    """clean | warnings_only | mixed | broken. Broken: most sections broken, or fewer than two term sections."""
+def _overall(sections: Sequence[Section], course_count: int) -> str:
+    """clean | warnings_only | mixed | broken. Broken: most sections broken, fewer than two term
+    sections, or printed codes no course claimed numbering a quarter of the courses (three at least)."""
     terms = [s for s in sections if s.sid not in (NO_TERM, UNPLACED)]
     broken = sum(s.health == "broken" for s in sections)
-    if len(terms) < 2 or broken * 2 > len(sections):
+    unclaimed = sum(r.item is not None for s in sections for r in s.rows)
+    if len(terms) < 2 or broken * 2 > len(sections) or (unclaimed >= 3 and unclaimed * 4 >= course_count):
         return "broken"
     if all(s.health == "clean" for s in sections):
         return "clean"
     return "mixed" if broken else "warnings_only"
 
 
-def verify_candidate(payload: Mapping[str, Any]) -> Verification:
+def verify_candidate(payload: Mapping[str, Any], pdf_pages: Mapping[int, PdfPage] | None = None) -> Verification:
     courses = payload.get("courses") or []
     audit = payload.get("audit") or {}
     layout = audit.get("table_layout") or []
     evidence_ids = {i for s in audit.get("curriculum_sections") or [] for i in s.get("evidence_cells") or []}
     code_count = Counter(norm_key(c.get("course_code") or "") for c in courses)
     ctx = {
-        "courses": courses, "layout": layout, "evidence_ids": evidence_ids,
+        "courses": courses, "layout": layout, "evidence_ids": evidence_ids, "pages": pdf_pages or {},
         "code_count": code_count, "codes": [c.get("course_code") or "" for c in courses],
         "positions": {c.get("course_code"): _term_of(c) for c in courses
                       if code_count[norm_key(c.get("course_code") or "")] == 1 and c.get("year_level") and c.get("semester")},
@@ -190,7 +225,18 @@ def verify_candidate(payload: Mapping[str, Any]) -> Verification:
             section.flags.append(Flag("unit_total", ERROR, "a printed total exists for this term but no courses were extracted"))
         elif section.declared is not None and section.declared != section.computed:
             section.flags.append(Flag("unit_total", ERROR, f"printed total {section.declared}, extracted {section.computed} ({section.computed - section.declared:+d})"))
-    sections += [s for s in (loose_section,) if s.rows]
+    regions = _regions(sections, courses, layout, evidence_ids)
+    unplaced = Section(UNPLACED, None, None)
+    by_sid = {s.sid: s for s in sections}
+    for item in unclaimed_items(audit, courses, pdf_pages):
+        section = by_sid.get(attach(item, regions)) or unplaced
+        row = Row(f"{section.sid}-U{sum(r.item is not None for r in section.rows) + 1}", item=item)
+        if item["source"] == "anomaly":
+            row.flags.append(Flag("audit_anomaly", ERROR, f'{item["type"]}: {item["snippet"]} (page {item["page"]})'))
+        else:
+            row.flags.append(Flag("unclaimed_code", ERROR, f'printed code "{item["code"]}" was not claimed by any course ({item["source"]}, page {item["page"]})'))
+        section.rows.append(row)
+    sections += [s for s in (loose_section, unplaced) if s.rows]
     for section in sections:
         section.health = _health(section)
-    return Verification(sections, False, _overall(sections))
+    return Verification(sections, bool(pdf_pages), _overall(sections, len(courses)))
