@@ -82,6 +82,8 @@ Commit trailer for every commit in this plan: `Co-Authored-By: Claude Opus 5.5 <
 
 **Files:** read only, plus an append to the progress file.
 
+**Phase B2 note (check before Task 5):** Phase B2 (`plans/2026-10-04-prospectus-phase-b2-section-fixer.md`) adds `ledger.content_review_state(payload, entries, pdf_sha256)` returning `{"state": "pending" | "partially_reviewed" | "reviewed", ...}`; if it has merged, the `content_review` field in Task 5 reads it when a ledger is passed and stays the constant `"pending"` when none is.
+
 - [ ] **Step 1: Branch and baseline**
 
 ```
