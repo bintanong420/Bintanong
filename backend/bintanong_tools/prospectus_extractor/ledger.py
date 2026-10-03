@@ -13,6 +13,7 @@ appends the same lines.
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 from collections import defaultdict
@@ -20,13 +21,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, format_term
+from .courses import finalize_courses
+from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, format_term, parse_term
+from .text import term_index
+from .verify import verify_candidate
+from .views import build_curriculum_by_term, build_unlocks_map, make_prerequisite_edges
 
 LEDGER_VERSION = "prospectus-decision-ledger-v1"
+CORRECTED_VERSION = "prospectus-corrected-candidate-v1"
 ACCEPTED, CORRECTED, UNRESOLVED = "accepted", "corrected", "unresolved"
 DISPOSITIONS = (ACCEPTED, CORRECTED, UNRESOLVED)
 FIELD_ROW, FIELD_UNCLAIMED = "row", "unclaimed"
 COURSE_FIELDS = (FIELD_CODE, FIELD_TITLE, FIELD_TERM)
+STALE_SECTIONS = ["audit", "elective_tracks", "prolog", "quality_report", "rag"]  # not rebuilt from corrections
 
 
 class LedgerError(ValueError):
@@ -185,3 +192,77 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
         state = "partially_reviewed"
     return {"state": state, "courses": len(courses), "decided": decided, "unresolved": unresolved,
             "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable)}
+
+
+def _current(course: Mapping[str, Any], field: str) -> str:
+    return course_snapshot(course)[field]
+
+
+def _apply(course: dict[str, Any], field: str, value: str) -> bool:
+    if field == FIELD_CODE:
+        course["course_code"] = value
+    elif field == FIELD_TITLE:
+        course["course_title"] = value
+    else:
+        term = parse_term(value)
+        if term is None:
+            return False
+        course["year_level"], course["semester"] = term
+        course["term_index"] = term_index(*term)
+    return True
+
+
+def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]], pdf_sha256: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    """(corrected candidate, report). Deterministic: the same payload and ledger give the same bytes.
+
+    Applies the latest `corrected` entry per course field when the PDF matches, exactly one course
+    carries the locator's cell ids, and the course still holds the entry's old value. Everything
+    else lands in report["skipped"] with a reason. Derived views are rebuilt; the sections named in
+    review.derived_sections_stale are not re-derived and must not be read as the corrected state."""
+    entries = list(entries)
+    applicable, inapplicable = split_applicable(entries, pdf_sha256)
+    skipped = [{"entry_id": e["entry_id"], "reason": "pdf_sha256_mismatch"} for e in inapplicable]
+    courses = copy.deepcopy(list(payload.get("courses") or []))
+    by_key: dict[tuple, list[int]] = defaultdict(list)
+    for index, course in enumerate(courses):
+        by_key[locator_key(course_locator(course))].append(index)
+    applied: list[str] = []
+    for (key, field), entry in sorted(latest_by_field(applicable).items(), key=lambda kv: (str(kv[0][0]), kv[0][1])):
+        if key[0] != "course" or entry["disposition"] != CORRECTED or entry["field"] == FIELD_ROW:
+            continue
+        where = by_key.get(key, [])
+        if len(where) != 1:
+            skipped.append({"entry_id": entry["entry_id"], "reason": "course_not_found" if not where else "ambiguous_course"})
+            continue
+        course = courses[where[0]]
+        if _current(course, field) != entry["old_value"]:
+            skipped.append({"entry_id": entry["entry_id"], "reason": "old_value_changed"})
+        elif not _apply(course, field, entry["new_value"]):
+            skipped.append({"entry_id": entry["entry_id"], "reason": "unreadable_new_value"})
+        else:
+            applied.append(entry["entry_id"])
+    for course in courses:
+        course["code"], course["title"] = course.get("course_code"), course.get("course_title")
+    final, _index, duplicates = finalize_courses(courses)
+    corrected = {k: copy.deepcopy(v) for k, v in payload.items()}
+    corrected.update({
+        "courses": final,
+        "curriculum_by_term": build_curriculum_by_term(final),
+        "prerequisite_edges": make_prerequisite_edges(final),
+        "unlocks": build_unlocks_map(final),
+    })
+    state = content_review_state(payload, entries, pdf_sha256)
+    corrected["review"] = {
+        "schema": CORRECTED_VERSION, "pdf_sha256": pdf_sha256, "content_review": state,
+        "applied_entry_ids": sorted(applied), "skipped": sorted(skipped, key=lambda s: (s["reason"], s["entry_id"])),
+        "duplicate_course_codes": [d["course_code"] for d in duplicates],
+        "verification_counts": verify_candidate(corrected).counts(),
+        "derived_sections_stale": STALE_SECTIONS,
+        "note": "A corrected candidate is a review artifact. It is not an approved curriculum.",
+    }
+    return corrected, {"applied": len(applied), "skipped": skipped, "content_review": state}
+
+
+def write_corrected(path: Path, corrected: Mapping[str, Any]) -> None:
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    Path(path).write_text(json.dumps(corrected, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
