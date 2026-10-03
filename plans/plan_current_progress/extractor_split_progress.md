@@ -67,3 +67,10 @@ Plan: plans/2026-10-03-prospectus-phase-b-markup-twin.md. Decisions D1-D7 in the
 - Known limitations (Phase B, not fixed): (i) a table whose cells span two pages is rendered whole at its first page's position, because splitting it would break the HTML table; Docling normally splits page-crossing tables. (ii) batch --skip-existing checks only JSON + essentials, so a missing _prospectus.md is not regenerated; owned by Phase D (note added to plans/2026-10-03-prospectus-phase-d-safe-cache.md). Not a defect: the status line's `pdf_sha256: not recorded` is the agreed cross-phase rule.
 - 2026-10-04 Task 6 done (human visual check, 3-4 October 2026, all 39 distinct prospectuses, E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\markup_twin_visual_check_2026-10-03\all\ with INDEX.md). Verdict: first-year rows render fine; the year/semester banner rows are broken, with banner text overflowing into course names or misaligned. Diagnosis agreed with the user: the renderer is faithful (it renders Docling's raw cells, not the JSON); the defect is in Docling's table structure, which merges banner text into neighbouring cells (Architecture cell "FIRST YEAR FIRST SEMESTER SECOND SEMESTER" attached to AD-1/L; BSCS t0-c9 "FIRST SEMESTER Discrete Structures 1 1"), and the parser inherits it. Not every degree is equally affected. Follow-up: Phase B2 (year/semester verifier and fixer with a human decision ledger), then a parser banner-split repair.
 - 2026-10-04 Task 7 done: decision record docs/decisions/prospectus-markup-twin.md. Codex step skipped because the review already ran (fixes a24efe2, e15cbe8, 42a5d2b). Phase B complete. Next: Phase B2.
+
+## Phase B2: year/semester verifier and fixer (branch feat/prospectus-phase-b2-section-fixer)
+
+Plan: plans/2026-10-04-prospectus-phase-b2-section-fixer.md. Decisions D1-D9 in the plan assumed as recommended unless noted here (user accepted all provisionally; D1 sheet format may still change before Task 8). Base `$B2_BASE`: 58d4bb681fed946128e4b86aa19e49a60f030f3e. Baseline: 93 passed + 13 subtests, self-test 80/80.
+
+| Task | Status | Commit | Evidence |
+| --- | --- | --- | --- |
