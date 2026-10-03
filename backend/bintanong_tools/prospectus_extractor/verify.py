@@ -17,6 +17,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
+from .fixes import propose_fixes
 from .prerequisites import is_standing_rule
 from .text import SEMESTER_ORDER, YEAR_ORDER, clean_str, has_banner_text, norm_key, term_index
 
@@ -110,7 +111,7 @@ def _term_of(course: Mapping[str, Any]) -> int:
     return course.get("term_index") or term_index(course.get("year_level") or "", course.get("semester") or "")
 
 
-def _course_flags(index, course, ctx) -> list[Flag]:
+def _course_flags(index, course, ctx) -> tuple[list[Flag], list]:
     flags: list[Flag] = []
     roles = own_role_cells(course, ctx["layout"], ctx["evidence_ids"])
     for name in ("course_code", "course_title", "prerequisites_raw"):
@@ -137,7 +138,8 @@ def _course_flags(index, course, ctx) -> list[Flag]:
             there = ctx["positions"].get(prereq)
             if there is not None and there >= here:
                 flags.append(Flag("prereq_order", WARN, f"prerequisite {prereq} is in the same or a later term", "prerequisites_raw"))
-    return flags
+    fixes = propose_fixes(course, roles, known_codes=ctx["codes"])
+    return flags, fixes
 
 
 def _health(section: Section) -> str:
@@ -179,7 +181,8 @@ def verify_candidate(payload: Mapping[str, Any]) -> Verification:
     for index, course in enumerate(courses):
         section = by_term.get((course.get("year_level"), course.get("semester"))) or loose_section
         row = Row(f"{section.sid}-{len(section.rows) + 1:02d}", course=index)
-        row.flags = _course_flags(index, course, ctx)
+        row.flags, fixes = _course_flags(index, course, ctx)
+        row.fixes = [(chr(ord("a") + i), fix) for i, fix in enumerate(fixes)]
         section.rows.append(row)
         section.computed += course.get("total_units") or 0
     for section in sections:

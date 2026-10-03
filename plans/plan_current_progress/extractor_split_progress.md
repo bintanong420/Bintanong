@@ -75,4 +75,5 @@ Plan: plans/2026-10-04-prospectus-phase-b2-section-fixer.md. Decisions D1-D9 in 
 | Task | Status | Commit | Evidence |
 | --- | --- | --- | --- |
 | 2. Move course checks | done | 4ff5043 | red: collection error; after move 1 failed 12 passed; green 13 passed; audit smoke identical; full suite 95 + 13 subtests; full 44-run audit (course_audit_2026-10-04_task2) summary byte-identical to 2026-10-03b, JSONL 21040 rows same order, only change is the new occurrence key on the 470 C rows |
-| 3. Banner helpers, fixtures, verifier core | done | PENDING | red: ImportError has_banner_text; green 17 passed; full suite 112 + 13 subtests, self-test 80/80. Test proves CC 1/L, CS 2, CC 3/L are not flagged though banner cell t0-c9 is in their provenance (own_role_cells) |
+| 3. Banner helpers, fixtures, verifier core | done | 8ef487b | red: ImportError has_banner_text; green 17 passed; full suite 112 + 13 subtests, self-test 80/80. Test proves CC 1/L, CS 2, CC 3/L are not flagged though banner cell t0-c9 is in their provenance (own_role_cells) |
+| 4. Fix proposals | done | PENDING | red: ModuleNotFoundError fixes; 1 failed 19 passed before the verifier edit; green 20 (37 with verify); full suite 132 + 13 subtests |
