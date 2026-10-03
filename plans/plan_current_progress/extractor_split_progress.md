@@ -37,3 +37,21 @@ B markup twin → C status separation → D cache and publication → E RAG prov
 - 2026-10-03: Reviews: Sonnet 5.5 found the .docling-venv lookup effect (item 3); Codex CLI 0.157.0, read-only, found that patching a name on the shim no longer affects the package (item 5) and nothing else. Both are recorded in the decision record.
 - 2026-10-03: The .gitignore line for prospectus_extractor/docling_jsonified_output/ is in the working tree but uncommitted, waiting for the owner.
 - 2026-10-03: Phase A complete; not merged, not pushed; next: user decides on merge, then write the Phase B plan.
+
+## Phase B: markup twin (branch feature/prospectus-markup-twin)
+
+Plan: plans/2026-10-03-prospectus-phase-b-markup-twin.md. Decisions D1-D7 in the plan assumed as recommended unless noted here. Cross-phase rules in plans/2026-10-03-prospectus-extractor-package-split.md override the plan: the markup shows pdf_sha256 only when a caller passes it, scripts/prospectus_course_compare.py is committed, every commit leaves the suite green.
+
+| Task | Status | Commit | Evidence |
+| --- | --- | --- | --- |
+| 1. Start check, branch, delete Phase A gate | done | see git log | baseline 36 passed + 13 subtests, 80/80; 34 passed after deleting the gate |
+| 2. Table renderer | pending | | |
+| 3. Header, text blocks, reading order, page breaks | pending | | |
+| 4. Pipeline, CLI, batch, TUI wiring | pending | | |
+| 5. Course-field regression on 44 inputs | pending | | |
+| 6. Visual check against the PDFs | pending | | |
+| 7. Decision record, Codex gate | pending | | |
+
+### Phase B log
+
+- 2026-10-03: Task 1 done. Branch created from dev at 69ca855 (plan said 8d26f18; later docs commits only). Line references re-read: unchanged except pipeline.py essentials_path.write_text( now starts at line 233 (plan: block ends 237); loader.py export_to_markdown at 201; tui.py config row 89, ask 196, single_file 265-275.
