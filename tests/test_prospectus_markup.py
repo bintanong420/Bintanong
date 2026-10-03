@@ -181,3 +181,113 @@ def test_every_cell_id_appears_exactly_once_for_the_cs_fixture():
     assert len(ids) == len(set(ids))
     assert re.search(r'<th data-cell="t0-c\d+" colspan="8">FIRST YEAR</th>', html)
     assert any("FIRST SEMESTER" in row and "SECOND SEMESTER" in row for row in rows_of(html))
+
+
+def first_line(markup: str) -> str:
+    return markup.splitlines()[0]
+
+
+def test_error_and_warn_audits_are_flagged_review_required_on_line_one():
+    for status in ("error", "warn"):
+        line = first_line(render_prospectus_markup(evidence([banner_table()]), {"audit": {"status": status}}))
+        assert line == f"<!-- extraction_audit: {status} | REVIEW REQUIRED | pdf_sha256: not recorded -->"
+
+
+def test_missing_audit_is_treated_as_review_required():
+    line = first_line(render_prospectus_markup(evidence([banner_table()]), {}))
+    assert line == "<!-- extraction_audit: unknown | REVIEW REQUIRED | pdf_sha256: not recorded -->"
+
+
+def test_ok_audit_is_still_only_a_pending_candidate_and_shows_a_given_hash():
+    digest = "ab" * 32
+    line = first_line(render_prospectus_markup(evidence([banner_table()]), OK, pdf_sha256=digest))
+    assert line == f"<!-- extraction_audit: ok | content_review: pending | pdf_sha256: {digest} -->"
+    assert "REVIEW REQUIRED" not in line
+
+
+def test_status_comment_cannot_be_broken_out_of():
+    line = first_line(render_prospectus_markup(evidence([]), {"audit": {"status": "x --> <b>"}}))
+    assert line.count("-->") == 1 and line.endswith("-->") and "<b>" not in line
+
+
+@pytest.mark.parametrize("origin", ["BL", "TL"])
+def test_blocks_follow_the_page_top_to_bottom_in_either_coordinate_frame(origin):
+    table = make_table(
+        2,
+        2,
+        [
+            make_cell(0, 0, 1, 0, 1, "CS 1", top=700, origin=origin),
+            make_cell(1, 1, 2, 0, 1, "CS 2", top=690, origin=origin),
+        ],
+    )
+    texts = [  # deliberately scrambled
+        text_item(3, "footnote", "CS Elect 4/La. Mathematical Methods", top=120, origin=origin),
+        text_item(0, "section_header", "PROPOSED PROGRAM OF STUDY", top=800, origin=origin),
+        text_item(4, "page_footer", "50", top=50, origin=origin),
+        text_item(1, "text", "Effective SY 2025-2026", top=790, origin=origin),
+    ]
+    html = render_prospectus_markup(evidence([table], texts), OK)
+    order = [
+        html.index("PROPOSED PROGRAM OF STUDY"),
+        html.index("Effective SY 2025-2026"),
+        html.index("<table"),
+        html.index("CS Elect 4/La."),
+        html.index(">50<"),
+    ]
+    assert order == sorted(order)
+    assert '<h2 data-item="text-0" data-label="section_header" data-page="1">PROPOSED PROGRAM OF STUDY</h2>' in html
+    assert '<p data-item="text-3" data-label="footnote" data-page="1"><small>CS Elect 4/La. Mathematical Methods</small></p>' in html
+
+
+def test_items_on_one_printed_line_read_left_to_right_despite_tiny_height_differences():
+    right = text_item(0, "footnote", "RIGHT column", top=200.0, left=262.0)
+    left = text_item(1, "footnote", "LEFT column", top=199.4, left=57.0)  # 0.6 pt lower, listed second
+    html = render_prospectus_markup(evidence([], [right, left]), OK)
+    assert html.index("LEFT column") < html.index("RIGHT column")
+
+
+def test_each_text_item_appears_once_and_is_escaped():
+    texts = [text_item(0, "text", "Name of Student: ____ & ID <No.>")]
+    html = render_prospectus_markup(evidence([], texts), OK)
+    assert html.count('data-item="text-0"') == 1
+    assert "Name of Student: ____ &amp; ID &lt;No.&gt;" in html
+
+
+def test_page_change_inserts_one_marker_and_the_first_page_gets_none():
+    page2 = make_table(1, 1, [make_cell(0, 0, 1, 0, 1, "A", page=2)], table=0)
+    page3 = make_table(1, 1, [make_cell(0, 0, 1, 0, 1, "B", page=3, table=1)], table=1)
+    header = text_item(0, "section_header", "TITLE", page=2, top=800)
+    html = render_prospectus_markup(evidence([page3, page2], [header]), OK)
+    assert html.count("<!-- page 3 -->\n<hr>") == 1
+    assert "<!-- page 2 -->" not in html
+    assert html.index('data-table="0"') < html.index("<!-- page 3 -->") < html.index('data-table="1"')
+
+
+def test_items_without_a_position_keep_input_order_texts_then_tables():
+    document = fixture_document(cs_fixture_grid(), [("section_header", "PROGRAM OF STUDY"), ("text", "Effective SY")])
+    html = render_prospectus_markup(document, OK)
+    assert html.index("PROGRAM OF STUDY") < html.index("Effective SY") < html.index("<table")
+
+
+def test_output_is_deterministic_and_independent_of_input_order():
+    table = banner_table()
+    texts = [text_item(0, "section_header", "TITLE", top=800), text_item(1, "footnote", "NOTE", top=100)]
+    first = render_prospectus_markup(evidence([table], texts), ERROR)
+    again = render_prospectus_markup(evidence([banner_table()], list(texts)), ERROR)
+    shuffled = make_table(table.num_rows, table.num_cols, reversed(table.cells))
+    reordered = render_prospectus_markup(evidence([shuffled], list(reversed(texts))), ERROR)
+    assert first == again == reordered
+    assert first.endswith("\n") and "\r" not in first
+
+
+def test_non_ok_audit_gets_a_visible_warning_and_ok_does_not_claim_approval():
+    flagged = render_prospectus_markup(evidence([banner_table()]), ERROR)
+    assert "> **REVIEW REQUIRED**" in flagged
+    calm = render_prospectus_markup(evidence([banner_table()]), OK)
+    assert "REVIEW REQUIRED" not in calm
+    assert "not an approved curriculum" in calm
+
+
+def test_line_breaks_in_text_blocks_become_br():
+    html = render_prospectus_markup(evidence([], [text_item(0, "text", "a\n\nb")]), OK)
+    assert ">a<br><br>b</p>" in html

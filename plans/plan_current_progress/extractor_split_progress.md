@@ -46,7 +46,7 @@ Plan: plans/2026-10-03-prospectus-phase-b-markup-twin.md. Decisions D1-D7 in the
 | --- | --- | --- | --- |
 | 1. Start check, branch, delete Phase A gate | done | see git log | baseline 36 passed + 13 subtests, 80/80; 34 passed after deleting the gate |
 | 2. Table renderer | done | see git log | red: collection error ModuleNotFoundError markup; green: 8 passed; full suite 42 passed + 13 subtests |
-| 3. Header, text blocks, reading order, page breaks | pending | | |
+| 3. Header, text blocks, reading order, page breaks | done | see git log | red: 11 failed, 10 passed (plan expected 12 failed: the determinism test already passes on the tables-only renderer); green: 22 passed; prospectus + other collectable tests 50 passed + 13 subtests (2 files uncollectable: no fastapi in this env); self-test 80/80. KNOWN DEFECT (real data): table cells are TOPLEFT frame, text items BOTTOMLEFT, so _y_down values are not comparable across the two and every text on a page sorts before every table (footnotes land above the table). Needs page height or a frame-normalising step; not fixed here. |
 | 4. Pipeline, CLI, batch, TUI wiring | pending | | |
 | 5. Course-field regression on 44 inputs | pending | | |
 | 6. Visual check against the PDFs | pending | | |
@@ -56,3 +56,5 @@ Plan: plans/2026-10-03-prospectus-phase-b-markup-twin.md. Decisions D1-D7 in the
 
 - 2026-10-03: Task 1 done. Branch created from dev at 69ca855 (plan said 8d26f18; later docs commits only). Line references re-read: unchanged except pipeline.py essentials_path.write_text( now starts at line 233 (plan: block ends 237); loader.py export_to_markdown at 201; tui.py config row 89, ask 196, single_file 265-275.
 - 2026-10-03: Task 2 done. Test and markup code taken verbatim from the plan; no deviations.
+- 2026-10-03: Review fix commit 6a214e2: gap-assertion made falsifiable, line breaks in cell text rendered as <br>. Task 3 uses the same rule for text blocks (_esc_block).
+- 2026-10-03: Task 3 done; plan code verbatim except _render_text uses _esc_block. Real-data check on BS CS 2025-2026 and BSA: 16/16 and 5/5 text items rendered, header text before first table, but mixed coordinate frames break text/table order (see Task 3 row).

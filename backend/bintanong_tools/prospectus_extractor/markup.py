@@ -12,6 +12,10 @@ from .text import match_semester_labels, match_year_label
 
 MARKUP_VERSION = "palsu-prospectus-markup-v1"
 
+LINE_TOLERANCE = 3.0  # points: text whose tops differ by less than this shares a printed line
+_HEADING_TAG = {"title": "h1", "section_header": "h2"}
+_SMALL_LABELS = {"footnote", "page_footer", "page_header"}
+
 
 def _esc(value: Any) -> str:
     return escape(str(value), quote=True)
@@ -94,7 +98,128 @@ def _render_table(table: NormalizedTable) -> str:
     return "\n".join(lines)
 
 
+def _y_down(top: float, bottom: float) -> float:
+    """Distance down the page. The evidence keeps Docling's native frame without its
+    coord_origin label: BOTTOMLEFT has top >= bottom (y grows upward), TOPLEFT the reverse."""
+    return -top if top >= bottom else top
+
+
+def _text_position(item: Mapping[str, Any]) -> tuple[int, float, float] | None:
+    bbox = item.get("bbox")
+    if item.get("page") is None or not bbox:
+        return None
+    left, top, _right, bottom = bbox
+    return (int(item["page"]), _y_down(top, bottom), float(left))
+
+
+def _table_position(table: NormalizedTable) -> tuple[int, float, float] | None:
+    spots = [
+        (int(c.bbox.page), _y_down(c.bbox.top, c.bbox.bottom), float(c.bbox.left))
+        for c in table.cells
+        if c.bbox is not None and c.bbox.is_complete() and c.bbox.page is not None
+    ]
+    return min(spots) if spots else None
+
+
+def _reading_order(evidence: ProspectusEvidence) -> list[tuple[str, Any]]:
+    """Text items and tables in page order. Entries are ("text", item) or ("table", table)."""
+    placed: list[tuple[tuple[int, float, float], str, Any]] = []
+    loose_texts: list[tuple[str, Any]] = []
+    loose_tables: list[tuple[str, Any]] = []
+    for item in evidence.text_items:
+        position = _text_position(item)
+        if position is None:
+            loose_texts.append(("text", item))
+        else:
+            placed.append((position, "text", item))
+    for table in evidence.tables:
+        position = _table_position(table)
+        if position is None:
+            loose_tables.append(("table", table))
+        else:
+            placed.append((position, "table", table))
+
+    def ident(entry) -> str:
+        _position, kind, obj = entry
+        return f"{obj.table_index:08d}" if kind == "table" else str(obj.get("item_id", ""))
+
+    placed.sort(key=lambda entry: (entry[0], entry[1], ident(entry)))
+    ordered: list[tuple[str, Any]] = []
+    line: list[tuple[tuple[int, float, float], str, Any]] = []
+
+    def flush() -> None:
+        for _position, kind, obj in sorted(line, key=lambda e: (e[0][2], ident(e))):
+            ordered.append((kind, obj))
+        line.clear()
+
+    for entry in placed:
+        position, kind, obj = entry
+        if kind != "text":
+            flush()
+            ordered.append((kind, obj))
+            continue
+        if line and (position[0] != line[0][0][0] or position[1] - line[0][0][1] > LINE_TOLERANCE):
+            flush()
+        line.append(entry)
+    flush()
+    return ordered + loose_texts + loose_tables
+
+
+def _render_text(item: Mapping[str, Any]) -> str:
+    label = str(item.get("label", "text"))
+    tag = _HEADING_TAG.get(label, "p")
+    body = _esc_block(item.get("text", ""))
+    if label in _SMALL_LABELS:
+        body = f"<small>{body}</small>"
+    page = item.get("page")
+    return (
+        f'<{tag} data-item="{_esc(item.get("item_id", ""))}" data-label="{_esc(label)}"'
+        f"{_page_attr(page)}>{body}</{tag}>"
+    )
+
+
+def _comment_text(value: Any) -> str:
+    """Text safe inside an HTML comment: no markup, and no `--`."""
+    return _esc(value).replace("--", "- -")
+
+
+def _block_page(kind: str, obj: Any) -> int | None:
+    return _table_page(obj) if kind == "table" else obj.get("page")
+
+
 def render_prospectus_markup(
     evidence: ProspectusEvidence, payload: Mapping[str, Any], *, pdf_sha256: str | None = None
 ) -> str:
-    return "\n\n".join(_render_table(table) for table in evidence.tables) + "\n"
+    """Markdown with HTML tables that mirrors the printed prospectus.
+
+    Source text only, HTML-escaped. Extraction status and (when known) the PDF hash are on
+    line 1. Nothing here is corrected, merged or inferred: grid positions with no Docling cell
+    become `<td data-gap>`, and cells that collide are listed after their table.
+    """
+    status = str(((payload or {}).get("audit") or {}).get("status", "unknown"))
+    flagged = status != "ok"
+    verdict = "REVIEW REQUIRED" if flagged else "content_review: pending"
+    digest = pdf_sha256 or "not recorded"
+    notice = (
+        "> **REVIEW REQUIRED** (extraction audit: " + _esc(status) + "). "
+        if flagged
+        else "> "
+    ) + (
+        "Reconstruction of the Docling evidence for comparison with the PDF page. "
+        "Candidate for review, not an approved curriculum."
+    )
+    parts = [
+        f"<!-- extraction_audit: {_comment_text(status)} | {verdict} | pdf_sha256: {_comment_text(digest)} -->\n"
+        f"<!-- markup: {MARKUP_VERSION} -->",
+        notice,
+    ]
+    current_page: int | None = None
+    for kind, obj in _reading_order(evidence):
+        page = _block_page(kind, obj)
+        block = _render_table(obj) if kind == "table" else _render_text(obj)
+        if page is not None:
+            if current_page is not None and page != current_page:
+                block = f"<!-- page {page} -->\n<hr>\n\n{block}"
+            current_page = page
+        parts.append(block)
+    return "\n\n".join(parts) + "\n"
