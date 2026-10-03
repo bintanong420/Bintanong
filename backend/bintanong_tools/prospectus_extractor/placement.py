@@ -20,22 +20,49 @@ BELOW_TOLERANCE = 30.0  # points under a section's last row where a missed cours
 COVERED_ANOMALIES = {"unclaimed_course_candidate", "course_without_verified_semester"}
 
 
-def locate_in_page(page: PdfPage, code: str) -> list[float] | None:
-    """[left, top, right, bottom] (top-left frame) of `code` in the PDF characters, only when the
-    page holds exactly one such string; several (CS 1 inside CS 10) cannot be placed safely."""
-    if not page.chars or not page.height:
-        return None
-    kept = [i for i, c in enumerate(page.chars) if c[0] and not c[0].isspace() and c[0] not in _PDF_DASHES]
+MAX_GAP_GLYPHS = 2.0  # a printed code's glyphs touch; more than two glyph widths between two of them is a cell boundary
+
+
+def _occurrences(page: PdfPage, code: str) -> list[list[tuple]]:
+    """Every run of PDF characters that reads as `code` (spaces and dashes ignored), as glyph boxes
+    (ch, left, bottom, right, top). Whether the glyphs touch is `_touching`'s question."""
+    kept = [i for i, c in enumerate(page.chars or []) if c[0] and not c[0].isspace() and c[0] not in _PDF_DASHES]
     flat = "".join(page.chars[i][0].casefold() for i in kept)
     key = loose(code).casefold()
-    if not key or flat.count(key) != 1:
+    found, at = [], flat.find(key) if key else -1
+    while at >= 0:
+        found.append([page.chars[kept[j]] for j in range(at, at + len(key))])
+        at = flat.find(key, at + 1)
+    return found
+
+
+def _touching(boxes: Sequence[tuple]) -> bool:
+    """No two consecutive glyphs further apart than MAX_GAP_GLYPHS median glyph widths. "Law" at the end
+    of a title cell and a "3" in the units cell read as `Law 3` in the text layer but are not a code."""
+    widths = sorted(b[3] - b[1] for b in boxes)
+    limit = MAX_GAP_GLYPHS * widths[len(widths) // 2]
+    return all(nxt[1] - prev[3] <= limit for prev, nxt in zip(boxes, boxes[1:]))
+
+
+def is_split_across_cells(page: PdfPage, code: str) -> bool:
+    """True when the page text layer holds `code` only as glyphs that do not touch."""
+    runs = _occurrences(page, code)
+    return bool(runs) and not any(_touching(r) for r in runs)
+
+
+def locate_in_page(page: PdfPage, code: str) -> list[float] | None:
+    """[left, top, right, bottom] (top-left frame) of `code` in the PDF characters, only when the
+    page holds exactly one such string made of touching glyphs; several (CS 1 inside CS 10) cannot
+    be placed safely."""
+    if not page.chars or not page.height:
         return None
-    at = flat.index(key)
-    boxes = [page.chars[kept[j]] for j in range(at, at + len(key))]
+    runs = [r for r in _occurrences(page, code) if _touching(r)]
+    if len(runs) != 1:
+        return None
+    boxes = runs[0]
     # chars are (ch, left, bottom, right, top) with y up from the page bottom
     return [min(b[1] for b in boxes), page.height - max(b[4] for b in boxes),
             max(b[3] for b in boxes), page.height - min(b[2] for b in boxes)]
-
 
 def attach(item: Mapping[str, Any], regions: Mapping[str, Mapping[int, Sequence[float]]]) -> str | None:
     """The one section whose region holds the item, else None. Inside a region wins outright;
@@ -79,7 +106,7 @@ def unclaimed_items(audit: Mapping[str, Any], courses: Sequence[Mapping[str, Any
         })
     for page_no, page in sorted((pages or {}).items()):
         for row in check_pdf_missed(courses, audit, page.text, None, page_no):
-            if row["status"] == "silent":  # the audit's own list is already above
+            if row["status"] == "silent" and not is_split_across_cells(page, row["json"]):  # the audit's own list is already above
                 items.append({"source": "pdf", "code": row["json"], "page": page_no,
                               "bbox": locate_in_page(page, row["json"]), "cell_ids": [], "table_index": None,
                               "snippet": row["pdf"]})

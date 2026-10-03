@@ -112,3 +112,46 @@ def test_item5_summer_and_mid_year_sections_sort_the_same_under_any_hash_seed():
                               capture_output=True, text=True, check=True)
         out.add(done.stdout.strip().splitlines()[-1])
     assert len(out) == 1, out
+
+
+# --- commit B, item 6: a PDF title ends before the totals column
+
+# Real text layer of run 39 (BSEd Filipino) page 1; no PDF is stored.
+FILIPINO_TEXT = (
+    "SUMMER GE-STS Science, Technology and Society 3 GE-Elect: ES Environmental Science 3 Total 6 "
+    "SECOND YEAR Fil 5 Panitikan ng Rehiyon 3 Fil 10 Sanaysay at Talumpati 3"
+)
+TQM_TEXT = "BA 2002 TQM Total Quality Management 3 BAC 5 P2207 Marketing Management 3"
+
+
+def test_item6_a_title_read_from_the_pdf_stops_before_total_and_the_units_before_it():
+    from backend.bintanong_tools.prospectus_extractor.fixes import title_from_pdf
+    codes = ["GE-STS", "ES", "Fil 5", "Fil 10"]
+    assert title_from_pdf("ES", "6", "", FILIPINO_TEXT, codes) == "Environmental Science"
+
+
+def test_item6_a_real_title_that_starts_with_total_is_kept_whole():
+    from backend.bintanong_tools.prospectus_extractor.fixes import title_from_pdf
+    assert title_from_pdf("TQM", "3", "TQM", TQM_TEXT, ["BA 2002", "TQM", "BAC 5", "P2207"]) == "Total Quality Management"
+
+
+# --- commit B, item 7: a printed code is one run of touching glyphs
+
+def make_page(*words, glyph=5.0, space=3.0, height=800.0):
+    """PdfPage from (text, left) words on one line; every glyph is `glyph` wide."""
+    from backend.bintanong_tools.prospectus_extractor.course_checks import PdfPage
+    chars = []
+    for text, left in words:
+        for i, ch in enumerate(text):
+            chars.append((ch, left + i * glyph, 700.0, left + (i + 1) * glyph, 710.0))
+    return PdfPage(" ".join(w for w, _ in words), chars, height)
+
+
+def test_item7_a_code_whose_glyphs_sit_in_different_cells_has_no_location_and_no_row():
+    from backend.bintanong_tools.prospectus_extractor.placement import locate_in_page, unclaimed_items
+    touching = make_page(("Mktg", 100.0), ("2001", 128.0))          # one space apart: a real code
+    split = make_page(("Business", 100.0), ("Law", 145.0), ("3", 265.0))   # "3" is the units cell, 100 pt away
+    assert locate_in_page(touching, "Mktg 2001") == [100.0, 90.0, 148.0, 100.0]
+    assert locate_in_page(split, "Law 3") is None
+    assert [i["code"] for i in unclaimed_items({}, [], {1: touching})] == ["Mktg 2001"]
+    assert unclaimed_items({}, [], {1: split}) == []

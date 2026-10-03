@@ -105,6 +105,16 @@ def _move_fix(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mappi
     return []
 
 
+def _before_totals(text: str) -> str:
+    """`text` without a trailing "Total" (the totals column) and the units figure printed just before
+    it. A title that merely starts with or contains "Total" ("Total Quality Management") is kept."""
+    value = text.strip()
+    cut = re.sub(r"\s+Total$", "", value, flags=re.IGNORECASE)
+    if cut == value:
+        return value
+    return re.sub(r"\s+(?:\d{1,2}|\d/\d)$", "", cut)
+
+
 def title_from_pdf(code: str, units_raw: str, current: str, page_text: str, other_codes: Sequence[str]) -> str | None:
     """The title printed between `code` and the printed units, when the PDF text holds exactly one
     row that fits: `code`, words, then the units as a whole token, before the next known code.
@@ -120,7 +130,7 @@ def title_from_pdf(code: str, units_raw: str, current: str, page_text: str, othe
         window = text[m.end():].lstrip()
         stop = cut.search(window) if cut else None
         window = window[: stop.start()] if stop else window
-        fits = [window[: u.start()].strip() for u in re.finditer(rf"(?<=\s){re.escape(units)}(?=\s|$)", window)]
+        fits = [_before_totals(window[: u.start()]) for u in re.finditer(rf"(?<=\s){re.escape(units)}(?=\s|$)", window)]
         fits = [t for t in fits if len(re.findall(r"[A-Za-z]", t)) >= 2 and not BANNER_PHRASE.search(t)]
         if len(fits) > 1:
             return None
