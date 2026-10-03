@@ -15,14 +15,20 @@ import hashlib
 import json
 import re
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any, Mapping, Sequence
 
-from .fixes import Fix
+from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, Fix, format_term, parse_term
+from .ledger import (ACCEPTED, CORRECTED, FIELD_ROW, FIELD_UNCLAIMED, UNRESOLVED, course_locator, course_snapshot,
+                     make_entry, unclaimed_locator)
 from .verify import Row, Section, Verification
 
 SHEET_VERSION = "prospectus-review-sheet-v1"
 COLUMNS = ["id", "code", "title", "units", "prereq", "flags", "proposal", "decision", "new code", "new title", "new term"]
 FIXED = COLUMNS[:7]
+FIX_KINDS = {"strip_banner", "move_term", "title_from_pdf"}
+EDIT_FIELDS = {"new code": FIELD_CODE, "new title": FIELD_TITLE, "new term": FIELD_TERM}
+VERBS = {"ok", "fix", "edit", "unresolved"}
 
 
 def esc(text: Any) -> str:
@@ -207,3 +213,125 @@ def check_against(parsed: ParsedSheet, expected: ParsedSheet) -> list[str]:
                     errors.append(f"{rid}: column {column!r} was changed ({have.rows[rid][column]!r}, expected {row[column]!r}){at(have.row_lines.get(rid))}; "
                                   "use the new code / new title / new term columns to correct a value")
     return errors
+
+
+def parse_decision(cell: str) -> tuple[str | None, list[str], str, str | None]:
+    """(verb, proposal letters, reason, error) for one decision cell; verb None when blank."""
+    text = cell.strip()
+    if not text:
+        return None, [], "", None
+    head, _colon, reason = text.partition(":")
+    tokens = [t for t in re.split(r"[\s,]+", head.strip().lower()) if t]
+    verb, letters = tokens[0], tokens[1:]
+    if verb not in VERBS:
+        return None, [], "", f"unknown decision {tokens[0]!r}; use ok, fix, edit or unresolved"
+    if letters and (verb != "fix" or any(not re.fullmatch(r"[a-z]", t) for t in letters)):
+        return None, [], "", "only `fix` takes proposal letters, one letter each (fix a b)"
+    return verb, letters, reason.strip(), None
+
+
+def build_entries(
+    parsed: ParsedSheet, payload: Mapping[str, Any], verification: Verification, *, reviewer: str, pdf_sha256: str,
+    now: datetime | None = None,
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """(entries, errors). Any error means no entries at all: a sheet is applied whole or not at all."""
+    entries: list[dict[str, Any]] = []
+    errors: list[str] = []
+    for section in verification.sections:
+        ps = parsed.sections[section.sid]
+        confirm = ps.edits.get("confirm", "no").lower()
+        classes = [c.strip() for c in ps.edits.get("accept", "").split(",") if c.strip()]
+        section_reason = ps.edits.get("reason", "")
+        if confirm not in ("yes", "no", ""):
+            errors.append(f"{section.sid}: confirm must be yes or no, not {confirm!r}{at(ps.lines.get('confirm'))}")
+        for name in classes:
+            if name not in FIX_KINDS | {"unclaimed"}:
+                errors.append(f"{section.sid}: accept lists unknown class {name!r}{at(ps.lines.get('accept'))}")
+        if classes and not section_reason:
+            errors.append(f"{section.sid}: accept needs a reason: line{at(ps.lines.get('reason') or ps.lines.get('accept'))}")
+        for row in section.rows:
+            cells = ps.rows[row.rid]
+            where = at(ps.row_lines.get(row.rid))
+            verb, letters, reason, problem = parse_decision(cells["decision"])
+            edits = {name: cells[col] for col, name in EDIT_FIELDS.items() if cells[col]}
+            if problem:
+                errors.append(f"{row.rid}: {problem}{where}")
+                continue
+            via = "sheet"
+            if verb is None:
+                if edits:
+                    errors.append(f"{row.rid}: a new value needs a decision (edit or fix){where}")
+                    continue
+                picked = [(l, f) for l, f in row.fixes if f.kind in classes]
+                if picked:
+                    verb, letters, reason, via = "fix", [l for l, _f in picked], section_reason, "section_accept"
+                elif row.item is not None and "unclaimed" in classes:
+                    verb, reason, via = "ok", section_reason, "section_accept"
+                elif confirm == "yes" and row.worst() is None:
+                    verb, reason, via = "ok", section_reason or "section confirmed as extracted", "section_confirm"
+                elif confirm == "yes":
+                    errors.append(f"{row.rid}: flagged but undecided in a confirmed section; decide it or leave confirm: no{where}")
+                    continue
+                else:
+                    continue
+            err = _row_entries(entries, row, section, payload, verb, letters, reason, edits, via, reviewer, pdf_sha256, now)
+            errors += [f"{row.rid}: {e}{where}" for e in err]
+    return ([] if errors else entries), errors
+
+
+def _row_entries(entries, row, section, payload, verb, letters, reason, edits, via, reviewer, pdf_sha256, now) -> list[str]:
+    def entry(locator, field_name, disposition, old, new, why, fix=None, rejected=()):
+        return make_entry(reviewer=reviewer, reason=why, pdf_sha256=pdf_sha256, locator=locator, field=field_name,
+                          disposition=disposition, old_value=old, new_value=new, section=section.title, fix_id=fix,
+                          rejected_fixes=rejected, via=via, now=now)
+
+    if row.course is None:  # an unclaimed printed code or an audit anomaly
+        if verb not in ("ok", "unresolved"):
+            return [f"a printed code can only be `ok` or `unresolved`, not {verb}"]
+        if not reason:
+            return [f"{verb} on a printed code needs a reason after the colon"]
+        disposition = ACCEPTED if verb == "ok" else UNRESOLVED
+        entries.append(entry(unclaimed_locator(row.item), FIELD_UNCLAIMED, disposition, row.item.get("code"), row.item.get("code"), reason))
+        return []
+    course = payload["courses"][row.course]
+    locator, snapshot = course_locator(course), course_snapshot(course)
+    if verb in ("ok", "unresolved") and edits:
+        return [f"{verb} cannot carry new values"]
+    if verb == "unresolved":
+        if not reason:
+            return ["unresolved needs a reason after the colon"]
+        entries.append(entry(locator, FIELD_ROW, UNRESOLVED, snapshot, None, reason))
+        return []
+    if verb == "ok":
+        entries.append(entry(locator, FIELD_ROW, ACCEPTED, snapshot, snapshot, reason or "accepted as extracted"))
+        return []
+    fixes = dict(row.fixes)
+    chosen = [fixes[l] for l in letters if l in fixes] if letters else ([f for _l, f in row.fixes] if verb == "fix" else [])
+    if letters and len(chosen) != len(letters):
+        return [f"no proposal {', '.join(l for l in letters if l not in fixes)} on this row"]
+    if verb == "fix" and not chosen:
+        return ["fix: this row has no proposals"]
+    if verb == "edit" and not edits:
+        return ["edit: fill at least one of new code, new title, new term"]
+    changes: dict[str, tuple[str, str, str | None]] = {f.field: (f.old, f.new, f.fix_id) for f in chosen}
+    for name, value in edits.items():
+        if name in changes:
+            return [f"{name} is both proposed and edited"]
+        if name == FIELD_TERM:
+            parsed = parse_term(value, course.get("year_level"))
+            if parsed is None:
+                return [f"new term {value!r} is not a year and one semester, for example '2nd Year / 1st Semester'"]
+            value = format_term(*parsed)
+        if value == snapshot[name]:
+            return [f"{name}: the new value equals the current one"]
+        changes[name] = (snapshot[name], value, None)
+    if edits and not reason:
+        return ["edit needs a reason after the colon"]
+    rejected = [f.fix_id for l, f in row.fixes if letters and l not in letters]
+    entries.append(entry(locator, FIELD_ROW, ACCEPTED, snapshot, snapshot, "other fields accepted as extracted", rejected=rejected))
+    for name in (FIELD_CODE, FIELD_TITLE, FIELD_TERM):
+        if name in changes:
+            old, new, fix_id = changes[name]
+            entries.append(entry(locator, name, CORRECTED, old, new, reason or f"accepted proposal {fix_id.split(':')[0]}",
+                                 fix=fix_id, rejected=rejected))
+    return []
