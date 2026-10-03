@@ -291,3 +291,100 @@ def test_non_ok_audit_gets_a_visible_warning_and_ok_does_not_claim_approval():
 def test_line_breaks_in_text_blocks_become_br():
     html = render_prospectus_markup(evidence([], [text_item(0, "text", "a\n\nb")]), OK)
     assert ">a<br><br>b</p>" in html
+
+
+def real_cell(index, text, *, top, page=1, table=0, row=0):
+    """A table cell as Docling records it: TOPLEFT origin, top < bottom."""
+    bbox = SourceBBox(page, 50.0, top, 150.0, top + 12.0, origin="TOPLEFT")
+    return NormalizedCell(f"t{table}-c{index}", table, text, text, row, row + 1, 0, 1, bbox)
+
+
+def real_text(index, label, text, *, top, page=1):
+    """A text item as Docling records it: BOTTOMLEFT origin, top > bottom."""
+    return {
+        "item_id": f"text-{index}",
+        "label": label,
+        "text": text,
+        "page": page,
+        "bbox": [46.0, top, 278.0, top - 11.0],
+        "origin": "BOTTOMLEFT",
+    }
+
+
+def real_evidence(tables, texts, sizes):
+    return ProspectusEvidence(tables=list(tables), text_items=list(texts), source_kind="test", page_sizes=sizes)
+
+
+def test_mixed_frames_on_one_page_read_header_table_footnote():
+    table = make_table(1, 1, [real_cell(0, "CS 101", top=157.0)])  # TOPLEFT, near the top
+    texts = [
+        real_text(2, "footnote", "CS Elect 4/La. footnote", top=120.0),  # BOTTOMLEFT, near the bottom
+        real_text(1, "section_header", "PROPOSED PROGRAM OF STUDY", top=861.0),  # BOTTOMLEFT, near the top
+    ]
+    html = render_prospectus_markup(real_evidence([table], texts, {1: (612.0, 936.0)}), OK)
+    order = [html.index("PROPOSED PROGRAM OF STUDY"), html.index("<table"), html.index("CS Elect 4/La.")]
+    assert order == sorted(order)
+
+
+def test_each_page_uses_its_own_height_and_pages_stay_in_order():
+    p1_table = make_table(1, 1, [real_cell(0, "P1 row", top=157.0, page=1)], table=0)
+    p2_table = make_table(1, 1, [real_cell(0, "P2 row", top=150.0, page=2, table=1)], table=1)
+    texts = [
+        real_text(0, "section_header", "P1 HEADER", top=861.0, page=1),
+        real_text(1, "footnote", "P1 FOOTNOTE", top=120.0, page=1),
+        # 500-point page: top=400 is 100 down, above the table at 150 (936 would put it at 536).
+        real_text(2, "section_header", "P2 HEADER", top=400.0, page=2),
+        real_text(3, "footnote", "P2 FOOTNOTE", top=40.0, page=2),
+    ]
+    html = render_prospectus_markup(
+        real_evidence([p2_table, p1_table], texts, {1: (612.0, 936.0), 2: (612.0, 500.0)}), OK
+    )
+    order = [html.index(s) for s in ("P1 HEADER", "P1 row", "P1 FOOTNOTE", "P2 HEADER", "P2 row", "P2 FOOTNOTE")]
+    assert order == sorted(order)
+
+
+def test_loader_carries_origin_and_page_size_from_raw_docling_json():
+    from backend.bintanong_tools.prospectus_extractor.loader import evidence_adapter
+
+    raw = {
+        "pages": {"1": {"size": {"width": 612.0, "height": 936.0}}},
+        "texts": [
+            {
+                "label": "footnote",
+                "text": "FOOT",
+                "prov": [{"page_no": 1, "bbox": {"l": 46, "t": 120, "r": 278, "b": 109, "coord_origin": "BOTTOMLEFT"}}],
+            }
+        ],
+        "tables": [
+            {
+                "prov": [{"page_no": 1}],
+                "data": {
+                    "num_rows": 1,
+                    "num_cols": 1,
+                    "table_cells": [
+                        {
+                            "text": "A",
+                            "bbox": {"l": 50, "t": 157, "r": 150, "b": 169, "coord_origin": "TOPLEFT"},
+                            "start_row_offset_idx": 0,
+                            "end_row_offset_idx": 1,
+                            "start_col_offset_idx": 0,
+                            "end_col_offset_idx": 1,
+                        }
+                    ],
+                },
+            }
+        ],
+    }
+    ev = evidence_adapter(raw)
+    assert ev.page_sizes == {1: (612.0, 936.0)}
+    assert ev.text_items[0]["origin"] == "BOTTOMLEFT"
+    assert ev.tables[0].cells[0].bbox.origin == "TOPLEFT"
+
+
+def test_unknown_page_height_falls_back_deterministically():
+    table = make_table(1, 1, [real_cell(0, "CS 101", top=157.0)])
+    texts = [real_text(1, "section_header", "HEADER", top=861.0), real_text(2, "footnote", "FOOT", top=120.0)]
+    first = render_prospectus_markup(real_evidence([table], texts, {}), OK)
+    again = render_prospectus_markup(real_evidence([table], list(reversed(texts)), {}), OK)
+    assert first == again
+    assert all(s in first for s in ("HEADER", "<table", "FOOT"))

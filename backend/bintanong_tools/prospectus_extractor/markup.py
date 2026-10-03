@@ -98,23 +98,39 @@ def _render_table(table: NormalizedTable) -> str:
     return "\n".join(lines)
 
 
-def _y_down(top: float, bottom: float) -> float:
-    """Distance down the page. The evidence keeps Docling's native frame without its
-    coord_origin label: BOTTOMLEFT has top >= bottom (y grows upward), TOPLEFT the reverse."""
+def _y_down(top: float, bottom: float, origin: str | None, page_height: float | None) -> float:
+    """Distance down the page in one top-down frame. Docling text boxes are BOTTOMLEFT
+    (y up) and table cells TOPLEFT (y down), so BOTTOMLEFT tops become height - top.
+    Fallback when origin or page height is unknown: the item's own frame is guessed from
+    top >= bottom (BOTTOMLEFT, y = -top) vs top < bottom (TOPLEFT, y = top), as before."""
+    if origin == "TOPLEFT":
+        return top
+    if origin == "BOTTOMLEFT" and page_height is not None:
+        return page_height - top
     return -top if top >= bottom else top
 
 
-def _text_position(item: Mapping[str, Any]) -> tuple[int, float, float] | None:
+def _page_height(evidence: ProspectusEvidence, page: int) -> float | None:
+    size = evidence.page_sizes.get(page)
+    return size[1] if size else None
+
+
+def _text_position(item: Mapping[str, Any], evidence: ProspectusEvidence) -> tuple[int, float, float] | None:
     bbox = item.get("bbox")
     if item.get("page") is None or not bbox:
         return None
     left, top, _right, bottom = bbox
-    return (int(item["page"]), _y_down(top, bottom), float(left))
+    page = int(item["page"])
+    return (page, _y_down(top, bottom, item.get("origin"), _page_height(evidence, page)), float(left))
 
 
-def _table_position(table: NormalizedTable) -> tuple[int, float, float] | None:
+def _table_position(table: NormalizedTable, evidence: ProspectusEvidence) -> tuple[int, float, float] | None:
     spots = [
-        (int(c.bbox.page), _y_down(c.bbox.top, c.bbox.bottom), float(c.bbox.left))
+        (
+            int(c.bbox.page),
+            _y_down(c.bbox.top, c.bbox.bottom, c.bbox.origin, _page_height(evidence, int(c.bbox.page))),
+            float(c.bbox.left),
+        )
         for c in table.cells
         if c.bbox is not None and c.bbox.is_complete() and c.bbox.page is not None
     ]
@@ -127,13 +143,13 @@ def _reading_order(evidence: ProspectusEvidence) -> list[tuple[str, Any]]:
     loose_texts: list[tuple[str, Any]] = []
     loose_tables: list[tuple[str, Any]] = []
     for item in evidence.text_items:
-        position = _text_position(item)
+        position = _text_position(item, evidence)
         if position is None:
             loose_texts.append(("text", item))
         else:
             placed.append((position, "text", item))
     for table in evidence.tables:
-        position = _table_position(table)
+        position = _table_position(table, evidence)
         if position is None:
             loose_tables.append(("table", table))
         else:
