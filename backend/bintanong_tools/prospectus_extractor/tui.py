@@ -86,7 +86,7 @@ class ProspectusTUI:
             ("Recursive", str(cfg.recursive)),
             ("Preserve structure", str(cfg.preserve_structure)),
             ("Export mode", cfg.export_mode),
-            ("Write CSV / PL / JSONL", f"{cfg.write_csv} / {cfg.write_pl} / {cfg.write_jsonl}"),
+            ("Write CSV / PL / JSONL / MD", f"{cfg.write_csv} / {cfg.write_pl} / {cfg.write_jsonl} / {cfg.write_md}"),
             ("Skip existing", str(cfg.skip_existing)),
             ("Semantic map", str(cfg.semantic_doc) if cfg.semantic_doc else "(none)"),
             ("Files in last scan", str(len(self.last_scan))),
@@ -196,6 +196,7 @@ class ProspectusTUI:
         cfg.write_csv = ask_yes_no("Write review CSV?", cfg.write_csv)
         cfg.write_pl = ask_yes_no("Write Prolog knowledge base?", cfg.write_pl)
         cfg.write_jsonl = ask_yes_no("Write RAG JSONL?", cfg.write_jsonl)
+        cfg.write_md = ask_yes_no("Write prospectus-style Markdown?", cfg.write_md)
         cfg.write_manifest = ask_yes_no("Write batch manifest?", cfg.write_manifest)
         cfg.skip_existing = ask_yes_no("Skip files whose output already exists?", cfg.skip_existing)
         self.pause("Settings updated.")
@@ -273,6 +274,7 @@ class ProspectusTUI:
                 export_pl=self.config.write_pl,
                 export_jsonl=self.config.write_jsonl,
                 export_csv=self.config.write_csv,
+                export_md=self.config.write_md,
                 device=self.config.device,
                 semantic_doc_path=self.config.semantic_doc,
             )

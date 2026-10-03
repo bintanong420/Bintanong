@@ -49,6 +49,7 @@ def _source_bbox(value: Any, default_page: int | None = None) -> SourceBBox | No
                     float(bbox[top_key]),
                     float(bbox[right_key]),
                     float(bbox[bottom_key]),
+                    str(bbox["coord_origin"]) if bbox.get("coord_origin") else None,
                 )
             except (TypeError, ValueError):
                 return None
@@ -192,10 +193,20 @@ def evidence_adapter(
                 "item_id": f"text-{index}",
                 "label": str(item.get("label", "text")),
                 "text": value,
+                "raw_text": str(item.get("text", "") or ""),
                 "page": bbox.page if bbox else None,
                 "bbox": bbox.as_list() if bbox else None,
+                "origin": bbox.origin if bbox else None,
             }
         )
+
+    page_sizes: dict[int, tuple[float, float]] = {}
+    for key, page in (raw_dict.get("pages") or {}).items():
+        size = page.get("size") if isinstance(page, Mapping) else None
+        try:
+            page_sizes[int(key)] = (float(size["width"]), float(size["height"]))
+        except (TypeError, ValueError, KeyError):
+            continue
 
     try:
         markdown = docling_document.export_to_markdown() if docling_document is not None else ""
@@ -222,6 +233,7 @@ def evidence_adapter(
         source_kind=source_kind,
         table_year_hints=table_year_hints,
         table_year_hint_sources=_table_year_hint_sources(raw_dict),
+        page_sizes=page_sizes,
     )
 
 

@@ -74,3 +74,10 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - parser_sha256 in the isolated batch manifest is now a hash over every .py file in the package (line endings normalised). It is not comparable with the single-file hash 8ea75006... in earlier manifests.
 - Decision record: docs/decisions/prospectus-extractor-package.md. The scaffolding scripts were removed; recover them from Git at 2dffe3d.
 - Next: user decides on merge, then Phase B (markup twin that looks like the printed prospectus). Outputs remain review candidates; nothing here approves a curriculum, RAG, or Prolog release.
+
+## Prospectus markup twin, Phase B closed (4 October 2026)
+
+- Branch feature/prospectus-markup-twin: the pipeline now writes <name>_prospectus.md, an HTML-table rendering of the Docling evidence with cell IDs, spans, gaps and original text (--export-md). Course fields unchanged: 44/44 identical to base 69ca855. Suite 93 passed, 13 subtests. Merged into dev locally, not pushed.
+- The course audit (44 paths, 39 PDFs, 2031 courses) is committed as scripts/prospectus_course_audit.py, the planned OCR scorer; scripts/prospectus_course_compare.py is the old-versus-new comparer.
+- Human visual check (3-4 October): first-year rows fine, year/semester banner rows broken because Docling merges banner text into neighbouring cells; the twin is faithful and the parser inherits the defect.
+- Decision record: docs/decisions/prospectus-markup-twin.md. Next: Phase B2 (year/semester verifier and fixer with a human decision ledger), then a parser banner-split repair.
