@@ -77,6 +77,53 @@ BANNER_WORDS = {
 }
 
 
+_ORDINAL = r"(?:FIRST|SECOND|THIRD|FOURTH|FIFTH|1ST|2ND|3RD|4TH|5TH)"
+_BANNER_UNIT = rf"(?:{_ORDINAL}\s+YEAR|{_ORDINAL}\s+SEM(?:ESTER)?|SEMESTER|SUMMER|MID[\s-]?YEAR)"
+
+
+# Exact, upper-case printed banner phrases ("FIRST YEAR", "SECOND SEMESTER", "SUMMER", ...).
+# Upper case only, so a real title such as "First Aid" or "Summer Internship" never matches.
+BANNER_PHRASE = re.compile(rf"\b{_BANNER_UNIT}\b")
+
+
+_LEADING_BANNER = re.compile(rf"^(?:(?:{_BANNER_UNIT}|{_ORDINAL})\b\s*)+")
+
+
+_TRAILING_BANNER = re.compile(rf"\s+{_BANNER_UNIT}\s*$")
+
+
+_LEADING_ORDINAL_WORD = re.compile(rf"^{_ORDINAL}\s+(?=[A-Z][a-z])")
+
+
+def has_banner_text(text: str) -> bool:
+    """True when `text` carries a printed banner phrase, or starts with an upper-case ordinal
+    word glued to a capitalised word ("FIRST Ethics", the tail of a wrapped "FIRST SEMESTER")."""
+    value = clean_str(text)
+    return bool(BANNER_PHRASE.search(value) or _LEADING_ORDINAL_WORD.match(value))
+
+
+def leading_banner(text: str) -> tuple[str, str]:
+    """Split `text` into (banner, rest): the run of banner phrases at its start and what follows.
+    ("", text) when it does not start with one. rest is "" when the whole text is banner."""
+    value = clean_str(text)
+    match = _LEADING_BANNER.match(value)
+    if not match:
+        return "", value
+    return match.group().strip(), clean_str(value[match.end():])
+
+
+def trailing_banner(text: str) -> tuple[str, str]:
+    """Split `text` into (rest, banner): banner phrases at its end. (text, "") when none."""
+    value = clean_str(text)
+    banner = ""
+    while True:
+        match = _TRAILING_BANNER.search(value)
+        if not match:
+            return value, banner
+        banner = clean_str(f"{match.group().strip()} {banner}")
+        value = value[: match.start()]
+
+
 def match_year_label(text: str) -> str | None:
     """Return a year label found in `text`, ignoring 'Nth Year Standing' prerequisites."""
     upper = clean_str(text).upper()
