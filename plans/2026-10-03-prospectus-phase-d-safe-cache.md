@@ -134,6 +134,8 @@ Confirm Phase B and C are merged (`git log --oneline dev` shows them). If `tests
 
 Read `loader.py`, `pipeline.py`, `batch.py`, `cli.py`, `docling_env.py`, `common.py`, `backend/bintanong_tools/prospectus_batch.py`. For each of these, confirm the lines quoted under "What the real code does today" still say what the plan says. Record the new numbers in the progress file.
 
+Note from the Phase B review: the skip check must include the Phase B `_prospectus.md` when write_md is on (batch `--skip-existing` today checks only JSON + essentials, so a missing .md is never regenerated).
+
 Adapt to Phase B and C before writing code:
 - Phase B added a markup companion (`<base>_prospectus.md`, flag `--export-md`). Wherever this plan lists companions (`OutputNames` in Task 5, `_stage_outputs` in Task 6, `wanted` in `skip_check` in Task 7, the order list in the Task 6 ordering test), add it **before** the main JSON in the publish order, and add the CLI flag's value to `BatchConfig` only if Phase B already did.
 - Phase C may have added or renamed companions or payload keys (for example the `audit` shape). The stub payload in `tests/conftest.py` (Task 4) must keep the keys that `process_prospectus` reads after Phase C: `payload["audit"]["status"]`, `payload["prolog"]["clauses"]`, `payload["rag"]["semantic_chunks"]`, `payload["rag"]["hierarchical_chunks"]`, `payload["courses"]`. Adjust the stub if a key moved.
