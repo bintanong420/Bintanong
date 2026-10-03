@@ -383,16 +383,26 @@ def test_loader_carries_origin_and_page_size_from_raw_docling_json():
 
 def test_unknown_page_height_falls_back_deterministically():
     table = make_table(1, 1, [real_cell(0, "CS 101", top=157.0)])
-    texts = [real_text(1, "section_header", "HEADER", top=861.0), real_text(2, "footnote", "FOOT", top=120.0)]
+    # TOPLEFT text far below the table: the old frame guess put it after the table (top 700 > 157).
+    low = {"item_id": "text-3", "label": "footnote", "text": "LOW", "page": 1,
+           "bbox": [46.0, 700.0, 278.0, 711.0], "origin": "TOPLEFT"}
+    texts = [real_text(1, "section_header", "HEADER", top=861.0), real_text(2, "footnote", "FOOT", top=120.0), low]
     first = render_prospectus_markup(real_evidence([table], texts, {}), OK)
     again = render_prospectus_markup(real_evidence([table], list(reversed(texts)), {}), OK)
     assert first == again
     assert all(s in first for s in ("HEADER", "<table", "FOOT"))
     # mixed origins and no page height: texts then tables, and the status line says so
-    assert first.index("FOOT") < first.index("<table")
+    assert max(first.index(s) for s in ("HEADER", "FOOT", "LOW")) < first.index("<table")
     assert "reading_order: approximate (page 1: page size unknown)" in first.splitlines()[0]
     known = render_prospectus_markup(real_evidence([table], texts, {1: (612.0, 936.0)}), OK)
     assert "reading_order" not in known
+
+
+def test_single_origin_without_page_height_is_not_flagged_approximate():
+    texts = [real_text(1, "section_header", "HEADER", top=861.0), real_text(2, "footnote", "FOOT", top=120.0)]
+    html = render_prospectus_markup(real_evidence([], texts, {}), OK)
+    assert "reading_order" not in html.splitlines()[0]
+    assert html.index("HEADER") < html.index("FOOT")
 
 
 from backend.bintanong_tools.prospectus_extractor import batch, cli, pipeline  # noqa: E402
