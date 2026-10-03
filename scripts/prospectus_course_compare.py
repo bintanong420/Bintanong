@@ -18,11 +18,14 @@ Exit code 0 only when every input matches.
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -36,14 +39,25 @@ COURSE_FIELDS = (
 AUDIT_FIELDS = ("status", "errors", "total_courses", "computed_total_units", "years_detected")
 
 
-def ensure_worktree(ref: str, path: Path) -> Path:
-    """Create (or reuse) a detached worktree of REF at PATH."""
+def _git(repo: Path, *args: str) -> str:
+    return subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
+
+
+def ensure_worktree(ref: str, path: Path, repo: Path = REPO) -> Path:
+    """Create (or reuse) a detached worktree of REF at PATH; a reused one must be at REF."""
+    path = path.resolve()
     if not path.exists():
-        subprocess.run(["git", "worktree", "add", "--detach", str(path), ref], cwd=REPO, check=True)
+        subprocess.run(["git", "worktree", "add", "--detach", str(path), ref], cwd=repo, check=True)
+        return path
+    wanted, have = _git(repo, "rev-parse", f"{ref}^{{commit}}"), _git(path, "rev-parse", "HEAD")
+    if wanted != have:
+        sys.exit(f"worktree {path} is at {have[:12]}, not {ref} ({wanted[:12]}); remove it or pick another --worktree")
     return path
 
 
 def run_one(tree: Path, source: Path, target: Path, semantic_doc: Path | None) -> int:
+    tree, source, target = tree.resolve(), source.resolve(), target.resolve()  # the child runs in another cwd
+    semantic_doc = semantic_doc.resolve() if semantic_doc else None
     target.mkdir(parents=True, exist_ok=True)
     (target / "source.txt").write_text(str(source), encoding="utf-8")
     extra = ["--semantic-doc", str(semantic_doc)] if semantic_doc else ["--no-semantic-doc"]
@@ -90,7 +104,16 @@ def compare_payloads(old: dict, new: dict) -> list[str]:
     return issues
 
 
-def markup_problems(folder: Path, payload: dict) -> list[str]:
+def evidence_cell_ids(source: Path) -> list[str]:
+    """Cell ids the extractor (this checkout) derives from the cached Docling JSON."""
+    sys.path.insert(0, str(REPO))
+    from backend.bintanong_tools.prospectus_extractor.loader import evidence_adapter
+
+    evidence = evidence_adapter(json.loads(source.read_text(encoding="utf-8")))
+    return [cell.cell_id for table in evidence.tables for cell in table.cells]
+
+
+def markup_problems(folder: Path, payload: dict, expected_ids: list[str] | None = None) -> list[str]:
     twin = folder / "candidate_prospectus.md"
     if not twin.exists() or twin.stat().st_size == 0:
         return ["missing or empty candidate_prospectus.md"]
@@ -99,10 +122,15 @@ def markup_problems(folder: Path, payload: dict) -> list[str]:
     problems = []
     if not text.splitlines()[0].startswith(f"<!-- extraction_audit: {status} |"):
         problems.append(f"line 1 does not announce audit status {status!r}")
-    cells = text.count('data-cell="') + text.count('data-unplaced-cell="')
+    found = Counter(html.unescape(i) for i in re.findall(r'data-(?:unplaced-)?cell="([^"]*)"', text))
     expected = payload["evidence"]["canonical_cell_count"]
-    if cells != expected:
-        problems.append(f"markup has {cells} cell elements, evidence has {expected}")
+    if sum(found.values()) != expected:
+        problems.append(f"markup has {sum(found.values())} cell elements, evidence has {expected}")
+    if expected_ids is not None:
+        want = Counter(expected_ids)
+        missing, extra = sorted((want - found).elements()), sorted((found - want).elements())
+        if missing or extra:
+            problems.append(f"markup cell ids differ from evidence: missing {missing[:5]}, extra/duplicate {extra[:5]}")
     return problems
 
 
@@ -127,14 +155,19 @@ def compare_runs(old_dir: Path, new_dir: Path, check_markup: bool) -> int:
                 issues.append(f"exit code differs: {_read(old / 'exit.txt')} != {_read(new / 'exit.txt')}")
             before = old / "candidate.json"
             after = new / "candidate.json"
-            if before.exists() != after.exists():
+            if _read(old / "exit.txt").strip() not in ("", "0") and _read(new / "exit.txt").strip() not in ("", "0"):
+                issues.append(f"both runs failed (exit {_read(old / 'exit.txt')}, {_read(new / 'exit.txt')})")
+            if not before.exists() and not after.exists():
+                issues.append("neither run wrote candidate.json")
+            elif before.exists() != after.exists():
                 issues.append("candidate.json exists in only one run")
-            elif before.exists():
+            else:
                 old_payload = json.loads(before.read_text(encoding="utf-8"))
                 new_payload = json.loads(after.read_text(encoding="utf-8"))
                 issues += compare_payloads(old_payload, new_payload)
                 if check_markup:
-                    issues += markup_problems(new, new_payload)
+                    ids = evidence_cell_ids(Path(_read(new / "source.txt")))
+                    issues += markup_problems(new, new_payload, ids)
                     twin = new / "candidate_prospectus.md"
                     if twin.exists():
                         text = twin.read_text(encoding="utf-8")
@@ -163,6 +196,8 @@ def main(argv: list[str] | None = None) -> int:
     cli.add_argument("--no-markup-check", action="store_true")
     args = cli.parse_args(argv)
 
+    args.golden, args.work = args.golden.resolve(), args.work.resolve()
+    args.semantic_doc = args.semantic_doc.resolve() if args.semantic_doc else None
     sources = sorted(args.golden.rglob("*_docling.json"))[: args.limit]
     if not sources:
         sys.exit(f"no *_docling.json under {args.golden}")
