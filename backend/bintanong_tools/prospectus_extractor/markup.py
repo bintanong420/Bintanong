@@ -137,19 +137,39 @@ def _table_position(table: NormalizedTable, evidence: ProspectusEvidence) -> tup
     return min(spots) if spots else None
 
 
+def _unknown_height_pages(evidence: ProspectusEvidence) -> list[int]:
+    """Pages whose y-frames cannot be reconciled: no page height and more than one origin."""
+    origins: dict[int, set[Any]] = {}
+    for item in evidence.text_items:
+        if item.get("page") is not None and item.get("bbox"):
+            origins.setdefault(int(item["page"]), set()).add(item.get("origin"))
+    for table in evidence.tables:
+        for c in table.cells:
+            if c.bbox is not None and c.bbox.is_complete() and c.bbox.page is not None:
+                origins.setdefault(int(c.bbox.page), set()).add(c.bbox.origin)
+    return sorted(p for p, o in origins.items() if len(o) > 1 and _page_height(evidence, p) is None)
+
+
 def _reading_order(evidence: ProspectusEvidence) -> list[tuple[str, Any]]:
-    """Text items and tables in page order. Entries are ("text", item) or ("table", table)."""
+    """Text items and tables in page order. Entries are ("text", item) or ("table", table).
+    A page in _unknown_height_pages is not positioned: its texts (by item id) come before its
+    tables (by index), the same texts-then-tables rule as items with no position."""
+    approximate = set(_unknown_height_pages(evidence))
     placed: list[tuple[tuple[int, float, float], str, Any]] = []
     loose_texts: list[tuple[str, Any]] = []
     loose_tables: list[tuple[str, Any]] = []
     for item in evidence.text_items:
         position = _text_position(item, evidence)
+        if position is not None and position[0] in approximate:
+            position = (position[0], 0.0, 0.0)
         if position is None:
             loose_texts.append(("text", item))
         else:
             placed.append((position, "text", item))
     for table in evidence.tables:
         position = _table_position(table, evidence)
+        if position is not None and position[0] in approximate:
+            position = (position[0], 1.0, 0.0)
         if position is None:
             loose_tables.append(("table", table))
         else:
@@ -213,6 +233,12 @@ def render_prospectus_markup(
     become `<td data-gap>`, and cells that collide are listed after their table.
     """
     status = str(((payload or {}).get("audit") or {}).get("status", "unknown"))
+    approx = _unknown_height_pages(evidence)
+    order_note = (
+        " | reading_order: approximate (" + "; ".join(f"page {p}: page size unknown" for p in approx) + ")"
+        if approx
+        else ""
+    )
     flagged = status != "ok"
     verdict = "REVIEW REQUIRED" if flagged else "content_review: pending"
     digest = pdf_sha256 or "not recorded"
@@ -225,7 +251,7 @@ def render_prospectus_markup(
         "Candidate for review, not an approved curriculum."
     )
     parts = [
-        f"<!-- extraction_audit: {_comment_text(status)} | {verdict} | pdf_sha256: {_comment_text(digest)} -->\n"
+        f"<!-- extraction_audit: {_comment_text(status)} | {verdict} | pdf_sha256: {_comment_text(digest)}{order_note} -->\n"
         f"<!-- markup: {MARKUP_VERSION} -->",
         notice,
     ]

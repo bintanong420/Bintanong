@@ -388,3 +388,8 @@ def test_unknown_page_height_falls_back_deterministically():
     again = render_prospectus_markup(real_evidence([table], list(reversed(texts)), {}), OK)
     assert first == again
     assert all(s in first for s in ("HEADER", "<table", "FOOT"))
+    # mixed origins and no page height: texts then tables, and the status line says so
+    assert first.index("FOOT") < first.index("<table")
+    assert "reading_order: approximate (page 1: page size unknown)" in first.splitlines()[0]
+    known = render_prospectus_markup(real_evidence([table], texts, {1: (612.0, 936.0)}), OK)
+    assert "reading_order" not in known
