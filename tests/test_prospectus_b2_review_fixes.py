@@ -155,3 +155,106 @@ def test_item7_a_code_whose_glyphs_sit_in_different_cells_has_no_location_and_no
     assert locate_in_page(split, "Law 3") is None
     assert [i["code"] for i in unclaimed_items({}, [], {1: touching})] == ["Mktg 2001"]
     assert unclaimed_items({}, [], {1: split}) == []
+
+
+# --- commit C: the ledger stays readable, undecidable entries are refused or skipped
+
+import json
+from datetime import datetime, timezone
+
+from backend.bintanong_tools.prospectus_extractor.ledger import (
+    LedgerError, append_entries, content_review_state, course_locator, course_snapshot, make_entry, materialise,
+    read_entries, write_corrected,
+)
+
+OTHER = "b" * 64
+NOW = datetime(2026, 10, 4, 9, 30, tzinfo=timezone.utc)
+LINE_BREAKS = "\u2028\u2029\u0085"
+
+
+def led_entry(course, field="row", disposition="accepted", old=None, new=None, pdf=HASH, reason="r", reviewer="Nestor"):
+    snapshot = course_snapshot(course)
+    return make_entry(
+        reviewer=reviewer, reason=reason, pdf_sha256=pdf, locator=course_locator(course), field=field,
+        disposition=disposition, old_value=snapshot if old is None and field == "row" else old,
+        new_value=snapshot if new is None and field == "row" else new, section="s", now=NOW)
+
+
+def test_item8_unicode_line_separators_in_a_value_do_not_split_a_ledger_line(tmp_path):
+    course = fx.bscs()["courses"][0]
+    path = tmp_path / "ledger.jsonl"
+    title = f"Discrete{LINE_BREAKS}Structures"
+    group = [led_entry(course, "course_title", "corrected", course["course_title"], title,
+                       reason=f"seen{LINE_BREAKS}in PDF", reviewer=f"Ne{LINE_BREAKS}stor")]
+    append_entries(path, group)
+    assert read_entries(path) == group
+    assert LINE_BREAKS[0] in path.read_text(encoding="utf-8")        # still written readable, not \u2028 escapes
+
+
+def test_item8_a_ledger_saved_with_a_bom_and_crlf_still_reads(tmp_path):
+    course = fx.bscs()["courses"][0]
+    one = led_entry(course)
+    path = tmp_path / "ledger.jsonl"
+    path.write_bytes(b"\xef\xbb\xbf" + (json.dumps(one, ensure_ascii=False, sort_keys=True) + "\r\n").encode("utf-8") * 2)
+    assert read_entries(path) == [one, one]
+    assert append_entries(path, [led_entry(course, "row", "unresolved", new=None, reason="x")]) == (1, 0)
+
+
+def hand_append(path, entry, **changes):
+    entry = {**entry, **changes}
+    entry = {k: v for k, v in entry.items() if v is not ...}
+    with path.open("a", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(entry, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def test_item9_make_entry_refuses_a_field_materialise_cannot_apply():
+    course = fx.bscs()["courses"][0]
+    base = dict(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), disposition="corrected",
+                old_value="x", new_value="y", section="s")
+    for field in ("units", "prerequisites", "semester", "bogus"):
+        with pytest.raises(LedgerError, match="field"):
+            make_entry(**base, field=field)
+    for field, value in (("course_code", ""), ("course_title", "   "), ("course_title", None), ("course_code", 5),
+                         ("term", "somewhere"), ("row", "y"), ("unclaimed", "y")):
+        with pytest.raises(LedgerError):
+            make_entry(**{**base, "new_value": value}, field=field)
+    make_entry(**{**base, "new_value": "2nd Year / 1st Semester"}, field="term")     # still accepted
+
+
+def test_item9_entries_that_cannot_be_decided_are_skipped_with_a_reason_not_a_crash(tmp_path):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    good = led_entry(course, "course_title", "corrected", course["course_title"], "Discrete Structures One")
+    path = tmp_path / "ledger.jsonl"
+    hand_append(path, good, field="units")
+    hand_append(path, good, locator=...)
+    hand_append(path, good, pdf_sha256=...)
+    hand_append(path, good, field="course_code", new_value="")
+    hand_append(path, good)
+    entries = read_entries(path)
+    corrected, report = materialise(payload, entries, HASH)
+    reasons = sorted(s["reason"].split(":")[0] for s in report["skipped"])
+    assert reasons == ["invalid_entry"] * 4 and report["applied"] == 1
+    assert corrected["courses"][0]["course_title"] == "Discrete Structures One"
+    state = content_review_state(payload, entries, HASH)
+    assert state["invalid_entries"] == 4 and state["decided"] == 0
+    assert append_entries(path, [led_entry(payload["courses"][1])]) == (1, 0)    # appending is not blocked either
+
+
+def test_item10_the_same_decision_on_a_new_pdf_is_not_a_duplicate(tmp_path):
+    course = fx.bscs()["courses"][0]
+    path = tmp_path / "ledger.jsonl"
+    assert append_entries(path, [led_entry(course)]) == (1, 0)
+    assert append_entries(path, [led_entry(course, pdf=OTHER)]) == (1, 0)
+    assert append_entries(path, [led_entry(course, pdf=OTHER)]) == (0, 1)
+    # reviewer and reason stay out of the signature: the same accept by a second reviewer is a duplicate
+    assert append_entries(path, [led_entry(course, pdf=OTHER, reviewer="Other", reason="again")]) == (0, 1)
+
+
+def test_write_corrected_refuses_to_overwrite_the_raw_candidate(tmp_path):
+    raw = tmp_path / "candidate.json"
+    raw.write_text("{}\n", encoding="utf-8")
+    with pytest.raises(LedgerError, match="raw candidate"):
+        write_corrected(tmp_path / "sub" / ".." / "candidate.json", {"x": 1}, raw_candidate=raw)
+    assert raw.read_text(encoding="utf-8") == "{}\n"
+    write_corrected(tmp_path / "corrected.json", {"x": 1}, raw_candidate=raw)

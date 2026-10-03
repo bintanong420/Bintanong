@@ -33,6 +33,7 @@ ACCEPTED, CORRECTED, UNRESOLVED = "accepted", "corrected", "unresolved"
 DISPOSITIONS = (ACCEPTED, CORRECTED, UNRESOLVED)
 FIELD_ROW, FIELD_UNCLAIMED = "row", "unclaimed"
 COURSE_FIELDS = (FIELD_CODE, FIELD_TITLE, FIELD_TERM)
+ENTRY_FIELDS = (*COURSE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
 STALE_SECTIONS = ["audit", "elective_tracks", "prolog", "quality_report", "rag"]  # not rebuilt from corrections
 
 
@@ -72,6 +73,43 @@ def locator_key(locator: Mapping[str, Any]) -> tuple:
     return ("course", tuple(locator.get("cell_ids") or ()))
 
 
+def correction_problem(field: Any, new_value: Any) -> str | None:
+    """Why `new_value` cannot be applied to `field`, or None. Shared by writing and reading an entry."""
+    if field in (FIELD_CODE, FIELD_TITLE):
+        return None if isinstance(new_value, str) and new_value.strip() else f"a corrected {field} needs a non-empty text"
+    if field == FIELD_TERM:
+        ok = isinstance(new_value, str) and parse_term(new_value) is not None
+        return None if ok else f"a corrected term must read as a year and one semester, not {new_value!r}"
+    return f"only {', '.join(COURSE_FIELDS)} can be corrected, not {field!r}"
+
+
+def entry_problem(entry: Mapping[str, Any]) -> str | None:
+    """Why a ledger line cannot be decided on, or None. Such a line stays in the file (append-only)
+    and is reported, never applied, never a crash."""
+    if entry.get("field") not in ENTRY_FIELDS:
+        return f"unknown field {entry.get('field')!r}"
+    locator = entry.get("locator")
+    if not isinstance(locator, dict) or locator.get("kind") not in ("course", "unclaimed"):
+        return "missing or unreadable locator"
+    if not isinstance(entry.get("pdf_sha256"), str) or not entry["pdf_sha256"]:
+        return "missing pdf_sha256"
+    if entry["disposition"] == CORRECTED:
+        return correction_problem(entry["field"], entry.get("new_value"))
+    return None
+
+
+def split_valid(entries: Iterable[Mapping[str, Any]]) -> tuple[list, list]:
+    """(decidable entries, [(entry, problem)] for the rest)."""
+    ok, bad = [], []
+    for entry in entries:
+        problem = entry_problem(entry)
+        if problem:
+            bad.append((entry, problem))
+        else:
+            ok.append(entry)
+    return ok, bad
+
+
 def make_entry(
     *, reviewer: str, reason: str, pdf_sha256: str, locator: Mapping[str, Any], field: str, disposition: str,
     old_value: Any, new_value: Any, section: str, fix_id: str | None = None, rejected_fixes: Sequence[str] = (),
@@ -81,6 +119,10 @@ def make_entry(
         raise LedgerError(f"unknown disposition {disposition!r}")
     if not reviewer.strip() or not pdf_sha256:
         raise LedgerError("an entry needs a reviewer and a pdf_sha256")
+    if field not in ENTRY_FIELDS:
+        raise LedgerError(f"unknown field {field!r}; use one of {', '.join(ENTRY_FIELDS)}")
+    if disposition == CORRECTED and (problem := correction_problem(field, new_value)):
+        raise LedgerError(problem)
     entry = {
         "ledger_version": LEDGER_VERSION,
         "recorded_at": (now or datetime.now(timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -98,21 +140,26 @@ def read_entries(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
     entries = []
-    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+    # Split on "\n" only: str.splitlines() also breaks at U+2028, U+2029 and U+0085, which json.dumps
+    # (ensure_ascii=False) writes raw inside a value. utf-8-sig tolerates an editor's BOM.
+    for number, line in enumerate(path.read_bytes().decode("utf-8-sig").split("\n"), 1):
+        line = line.removesuffix("\r")
         if not line.strip():
             continue
         try:
             entry = json.loads(line)
         except json.JSONDecodeError as exc:
             raise LedgerError(f"{path} line {number} is not JSON: {exc}") from exc
-        if entry.get("ledger_version") != LEDGER_VERSION or entry.get("disposition") not in DISPOSITIONS:
+        if not isinstance(entry, dict) or entry.get("ledger_version") != LEDGER_VERSION or entry.get("disposition") not in DISPOSITIONS:
             raise LedgerError(f"{path} line {number} is not a {LEDGER_VERSION} entry")
         entries.append(entry)
     return entries
 
 
 def _signature(entry: Mapping[str, Any]) -> tuple:
-    return (entry["field"], entry["disposition"], json.dumps(entry["old_value"], sort_keys=True), json.dumps(entry["new_value"], sort_keys=True))
+    """What makes a decision a repeat. The PDF is part of it (the same decision on another PDF is a new
+    decision); reviewer, time and reason are not (an identical accept by a second reviewer is a repeat)."""
+    return (entry["pdf_sha256"], entry["field"], entry["disposition"], json.dumps(entry["old_value"], sort_keys=True), json.dumps(entry["new_value"], sort_keys=True))
 
 
 def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[int, int]:
@@ -120,7 +167,7 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[in
     that equals the tail of what the ledger already holds for it is skipped, so applying the same
     sheet twice writes nothing the second time. Existing lines are never rewritten."""
     path = Path(path)
-    existing = read_entries(path)  # raises on a damaged ledger before anything is appended
+    existing, _undecidable = split_valid(read_entries(path))  # raises on a damaged ledger before anything is appended
     held: dict[tuple, list] = defaultdict(list)
     for entry in existing:
         held[locator_key(entry["locator"])].append(_signature(entry))
@@ -169,6 +216,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     reviewed means a human decided every course (accepted or corrected) and every printed code or
     anomaly the audit listed, with nothing left unresolved. It does not mean the content is right
     and it is not an approval of the curriculum."""
+    entries, invalid = split_valid(entries)
     applicable, inapplicable = split_applicable(entries, pdf_sha256)
     latest = latest_by_field(applicable)
     courses = payload.get("courses") or []
@@ -191,7 +239,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     else:
         state = "partially_reviewed"
     return {"state": state, "courses": len(courses), "decided": decided, "unresolved": unresolved,
-            "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable)}
+            "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable), "invalid_entries": len(invalid)}
 
 
 def _current(course: Mapping[str, Any], field: str) -> str:
@@ -220,8 +268,10 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     else lands in report["skipped"] with a reason. Derived views are rebuilt; the sections named in
     review.derived_sections_stale are not re-derived and must not be read as the corrected state."""
     entries = list(entries)
-    applicable, inapplicable = split_applicable(entries, pdf_sha256)
+    decidable, invalid = split_valid(entries)
+    applicable, inapplicable = split_applicable(decidable, pdf_sha256)
     skipped = [{"entry_id": e["entry_id"], "reason": "pdf_sha256_mismatch"} for e in inapplicable]
+    skipped += [{"entry_id": e.get("entry_id"), "reason": f"invalid_entry: {problem}"} for e, problem in invalid]
     courses = copy.deepcopy(list(payload.get("courses") or []))
     by_key: dict[tuple, list[int]] = defaultdict(list)
     for index, course in enumerate(courses):
@@ -254,7 +304,7 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     state = content_review_state(payload, entries, pdf_sha256)
     corrected["review"] = {
         "schema": CORRECTED_VERSION, "pdf_sha256": pdf_sha256, "content_review": state,
-        "applied_entry_ids": sorted(applied), "skipped": sorted(skipped, key=lambda s: (s["reason"], s["entry_id"])),
+        "applied_entry_ids": sorted(applied), "skipped": sorted(skipped, key=lambda s: (s["reason"], str(s["entry_id"]))),
         "duplicate_course_codes": [d["course_code"] for d in duplicates],
         "verification_counts": verify_candidate(corrected).counts(),
         "derived_sections_stale": STALE_SECTIONS,
@@ -263,6 +313,9 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     return corrected, {"applied": len(applied), "skipped": skipped, "content_review": state}
 
 
-def write_corrected(path: Path, corrected: Mapping[str, Any]) -> None:
+def write_corrected(path: Path, corrected: Mapping[str, Any], *, raw_candidate: Path | None = None) -> None:
+    """Write the corrected candidate. Never onto `raw_candidate`: the extraction is immutable."""
+    if raw_candidate is not None and Path(path).resolve() == Path(raw_candidate).resolve():
+        raise LedgerError(f"{path} is the raw candidate; the extraction is never overwritten")
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(corrected, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
