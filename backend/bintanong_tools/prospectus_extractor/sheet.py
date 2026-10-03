@@ -1,0 +1,209 @@
+"""Review sheet: one editable Markdown file per prospectus, and the step that turns it into ledger entries.
+
+Layout: a header, then one block per section in printed order (health line, printed and extracted
+units, `confirm`, `accept`, `reason`, and a table with one row per course). The reviewer edits only
+the `decision`, `new code`, `new title` and `new term` columns and the `confirm`, `accept` and
+`reason` lines. `apply` regenerates the expected sheet from the candidate and refuses a sheet whose
+fixed text differs, so a stale or hand-edited sheet cannot write decisions.
+
+decision cell:  ok | fix | fix a b | edit | unresolved   optionally followed by `: reason`
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from dataclasses import dataclass, field
+from typing import Any, Mapping, Sequence
+
+from .fixes import Fix
+from .verify import Row, Section, Verification
+
+SHEET_VERSION = "prospectus-review-sheet-v1"
+COLUMNS = ["id", "code", "title", "units", "prereq", "flags", "proposal", "decision", "new code", "new title", "new term"]
+FIXED = COLUMNS[:7]
+
+
+def esc(text: Any) -> str:
+    """One table cell: backslash and pipe escaped, line breaks flattened."""
+    return " ".join(str(text if text is not None else "").split()).replace("\\", "\\\\").replace("|", "\\|")
+
+
+def split_cells(line: str) -> list[str]:
+    """Cells of one `| a | b |` line, honouring \\| and \\\\."""
+    cells, cur, i, body = [], [], 0, line.strip()
+    body = body[1:] if body.startswith("|") else body
+    while i < len(body):
+        ch = body[i]
+        if ch == "\\" and i + 1 < len(body) and body[i + 1] in "\\|":
+            cur.append(body[i + 1])
+            i += 2
+            continue
+        if ch == "|":
+            cells.append("".join(cur).strip())
+            cur = []
+        else:
+            cur.append(ch)
+        i += 1
+    if "".join(cur).strip():
+        cells.append("".join(cur).strip())
+    return cells
+
+
+def candidate_sha256(payload: Mapping[str, Any]) -> str:
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def _flags_text(flags: Sequence[Any]) -> str:
+    return "; ".join(f"{f.severity.upper()} {f.kind}: {f.message}" for f in flags)
+
+
+def _proposal_text(fixes: Sequence[tuple[str, Fix]]) -> str:
+    return "; ".join(f'{letter}) {fix.kind} {fix.field}: "{fix.old}" -> "{fix.new}"' for letter, fix in fixes)
+
+
+def _row_cells(row: Row, payload: Mapping[str, Any]) -> list[str]:
+    if row.course is None:
+        item = row.item or {}
+        return [row.rid, item.get("code", ""), "", "", "", _flags_text(row.flags), ""]
+    course = payload["courses"][row.course]
+    return [row.rid, course.get("course_code"), course.get("course_title"), (course.get("units") or {}).get("raw"),
+            course.get("prerequisites_raw"), _flags_text(row.flags), _proposal_text(row.fixes)]
+
+
+def _units_line(section: Section) -> str:
+    return f"printed {section.declared if section.declared is not None else '-'}, extracted {section.computed}"
+
+
+def render_sheet(payload: Mapping[str, Any], verification: Verification, identity: Mapping[str, Any]) -> str:
+    counts = {h: sum(s.health == h for s in verification.sections) for h in ("clean", "review", "broken")}
+    lines = [
+        f"# Review sheet: {payload.get('program') or 'unnamed program'}", "",
+        f"<!-- {SHEET_VERSION} -->",
+        f"- pdf_sha256: {identity['pdf_sha256']}",
+        f"- candidate_sha256: {identity['candidate_sha256']}",
+        f"- pdf_text_checked: {'yes' if verification.pdf_checked else 'no'}",
+        f"- prospectus health: {verification.health} ({counts['clean']} clean, {counts['review']} review, {counts['broken']} broken)",
+        "",
+        "Edit only the `decision`, `new code`, `new title` and `new term` columns and the `confirm`, `accept` and `reason` lines.",
+        "decision: `ok` (as extracted) | `fix` (all proposals) | `fix a b` (named proposals) | `edit` (use the new columns) | `unresolved`;",
+        "add `: reason` after it. `edit`, `unresolved` and `ok` on a printed code need a reason. `confirm: yes` accepts every unflagged row",
+        "in the section; flagged rows still need their own decision. `accept: strip_banner, title_from_pdf, move_term, unclaimed` accepts",
+        "that class of proposal for every undecided row of the section (give `reason:`). A blank decision writes nothing.",
+        "A clean section here is clean on the checks that ran" + ("." if verification.pdf_checked else "; the PDF text was NOT checked."),
+        "",
+    ]
+    for section in verification.sections:
+        lines += [f"## {section.sid} - {section.title}", f"health: {section.health}", f"units: {_units_line(section)}",
+                  f"flags: {_flags_text(section.flags)}".rstrip(), "confirm: no", "accept:", "reason:", "",
+                  "| " + " | ".join(COLUMNS) + " |", "|" + "---|" * len(COLUMNS)]
+        for row in section.rows:
+            cells = [esc(c) for c in _row_cells(row, payload)] + [""] * (len(COLUMNS) - len(FIXED))
+            lines.append("| " + " | ".join(cells) + " |")
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+@dataclass
+class ParsedSection:
+    fixed: dict[str, str] = field(default_factory=dict)      # title, health, units, flags
+    edits: dict[str, str] = field(default_factory=dict)      # confirm, accept, reason
+    rows: dict[str, dict[str, str]] = field(default_factory=dict)
+    lines: dict[str, int] = field(default_factory=dict)      # line number of each fixed/edit line and of the heading
+    row_lines: dict[str, int] = field(default_factory=dict)  # line number of each row
+
+
+@dataclass
+class ParsedSheet:
+    meta: dict[str, str] = field(default_factory=dict)
+    meta_lines: dict[str, int] = field(default_factory=dict)
+    sections: dict[str, ParsedSection] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+
+
+def at(number: int | None) -> str:
+    """` (line 12)` for a message, empty when the line is unknown."""
+    return f" (line {number})" if number else ""
+
+
+def parse_sheet(text: str) -> ParsedSheet:
+    """Parse a sheet as an editor may have saved it: any line ending, a UTF-8 BOM, spaces around lines and cells."""
+    sheet, section, sid = ParsedSheet(), None, None
+    text = text.lstrip("\ufeff")
+    if f"<!-- {SHEET_VERSION} -->" not in text:
+        sheet.errors.append(f"not a {SHEET_VERSION} file")
+    for number, raw in enumerate(text.splitlines(), 1):
+        line = raw.strip()
+        if m := re.match(r"^## (S[0-9]+|SN|SU)\b", line):
+            sid = m.group(1)
+            if sid in sheet.sections:
+                sheet.errors.append(f"line {number}: section {sid} appears twice (first on line {sheet.sections[sid].lines['title']})")
+                section = ParsedSection()  # keep reading, but into a scratch section
+                continue
+            section = sheet.sections[sid] = ParsedSection()
+            section.fixed["title"] = line
+            section.lines["title"] = number
+        elif section is None:
+            if m := re.match(r"^- (pdf_sha256|candidate_sha256|pdf_text_checked|prospectus health):\s*(.*)$", line):
+                sheet.meta[m.group(1)] = m.group(2).strip()
+                sheet.meta_lines[m.group(1)] = number
+            elif line.startswith("|"):
+                sheet.errors.append(f"line {number}: a table row before the first section heading")
+        elif m := re.match(r"^(health|units|flags):\s*(.*)$", line):
+            section.fixed[m.group(1)] = m.group(2).strip()
+            section.lines[m.group(1)] = number
+        elif m := re.match(r"^(confirm|accept|reason):\s*(.*)$", line):
+            section.edits[m.group(1)] = m.group(2).strip()
+            section.lines[m.group(1)] = number
+        elif line.startswith("|") and not re.match(r"^\|[\s\-|:]+$", line):
+            cells = split_cells(line)
+            if cells and cells[0] == "id":
+                continue
+            if len(cells) != len(COLUMNS):
+                sheet.errors.append(f"line {number}: expected {len(COLUMNS)} columns, found {len(cells)}")
+                continue
+            if cells[0] in section.rows:
+                sheet.errors.append(f"line {number}: row {cells[0]} appears twice (first on line {section.row_lines[cells[0]]})")
+                continue
+            section.rows[cells[0]] = dict(zip(COLUMNS, cells))
+            section.row_lines[cells[0]] = number
+    return sheet
+
+
+def check_against(parsed: ParsedSheet, expected: ParsedSheet) -> list[str]:
+    """Differences in everything the reviewer must not edit; every message names the line it found the problem on."""
+    errors = list(parsed.errors)
+    for key in ("pdf_sha256", "candidate_sha256", "pdf_text_checked", "prospectus health"):
+        if parsed.meta.get(key) != expected.meta.get(key):
+            errors.append(f"header {key} is {parsed.meta.get(key)!r}, expected {expected.meta.get(key)!r}{at(parsed.meta_lines.get(key))}; "
+                          "this sheet was made from a different candidate or PDF: regenerate it")
+    for sid in expected.sections.keys() - parsed.sections.keys():
+        errors.append(f"section {sid} is missing from the sheet")
+    for sid in parsed.sections.keys() - expected.sections.keys():
+        errors.append(f"section {sid} is not in the candidate{at(parsed.sections[sid].lines.get('title'))}")
+    owner = {rid: sid for sid, sec in expected.sections.items() for rid in sec.rows}
+    present = {rid: sid for sid, sec in parsed.sections.items() for rid in sec.rows}
+    for sid, want in expected.sections.items():
+        have = parsed.sections.get(sid)
+        if have is None:
+            continue
+        for key, value in want.fixed.items():
+            if have.fixed.get(key) != value:
+                errors.append(f"{sid}: {key} line was changed ({have.fixed.get(key)!r}, expected {value!r}){at(have.lines.get(key) or have.lines.get('title'))}")
+        for rid in sorted(want.rows.keys() - have.rows.keys()):
+            if present.get(rid) is None:
+                errors.append(f"{rid}: row is missing")
+        for rid in sorted(have.rows.keys() - want.rows.keys()):
+            where = at(have.row_lines.get(rid))
+            if rid in owner:
+                errors.append(f"{rid}: row belongs in section {owner[rid]} but is in section {sid}{where}; "
+                              "put it back, rows cannot move between sections")
+            else:
+                errors.append(f"{rid}: row is not in the candidate{where}")
+        for rid, row in want.rows.items():
+            for column in FIXED:
+                if rid in have.rows and have.rows[rid][column] != row[column]:
+                    errors.append(f"{rid}: column {column!r} was changed ({have.rows[rid][column]!r}, expected {row[column]!r}){at(have.row_lines.get(rid))}; "
+                                  "use the new code / new title / new term columns to correct a value")
+    return errors
