@@ -522,3 +522,38 @@ def test_loader_keeps_original_text_beside_the_cleaned_text_for_cells_and_items(
     assert ev.text_items[0]["text"] == "A B C-D E" and ev.text_items[0]["raw_text"] == SOURCE
     cell = ev.tables[0].cells[0]
     assert cell.text == "A B C-D E" and cell.raw_text == SOURCE
+
+# --- cells never vanish; spans are never silently shortened; nothing unescaped ---
+
+
+def test_cell_starting_outside_the_grid_is_listed_not_dropped():
+    cells = [
+        make_cell(0, 0, 1, 0, 1, "OK"),
+        make_cell(1, -1, 0, 0, 1, "NEG ROW"),
+        make_cell(2, 0, 1, -2, -1, "NEG COL"),
+        make_cell(3, 5, 6, 0, 1, "BELOW"),
+        make_cell(4, 0, 1, 7, 8, "RIGHT"),
+    ]
+    html = render_prospectus_markup(evidence([make_table(2, 2, cells)]), OK)
+    ids = re.findall(r'data-(?:unplaced-)?cell="([^"]+)"', html)
+    assert sorted(ids) == ["t0-c0", "t0-c1", "t0-c2", "t0-c3", "t0-c4"]
+    for n in (1, 2, 3, 4):
+        assert f'data-unplaced-cell="t0-c{n}"' in html
+
+
+def test_span_beyond_the_grid_is_clamped_visibly_with_the_declared_spans():
+    table = make_table(2, 3, [make_cell(0, 0, 4, 0, 5, "WIDE")])
+    html = render_prospectus_markup(evidence([table]), OK)
+    assert 'colspan="3" rowspan="2" data-span-clamped="4,5"' in html
+    fine = render_prospectus_markup(evidence([make_table(1, 3, [make_cell(0, 0, 1, 0, 3, "F")])]), OK)
+    assert "data-span-clamped" not in fine
+
+
+def test_page_values_are_escaped_in_attributes_and_comments():
+    bad = '1" onmouseover="x'
+    a = dict(text_item(0, "text", "A"), page=bad, bbox=None)
+    b = dict(text_item(1, "text", "B"), page="2 --> <b>", bbox=None)
+    html = render_prospectus_markup(evidence([], [a, b]), OK)
+    assert 'onmouseover="x' not in html and "<b>" not in html
+    comment = re.search(r"<!-- page (.*?) -->\n<hr>", html).group(1)
+    assert "-->" not in comment and "<" not in comment and "--" not in comment

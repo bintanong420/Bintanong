@@ -45,7 +45,8 @@ def _layout_cells(table: NormalizedTable):
             for row in range(cell.row_start, min(cell.row_end, table.num_rows))
             for col in range(cell.col_start, min(cell.col_end, table.num_cols))
         }
-        if not spots or spots & occupied:
+        inside = 0 <= cell.row_start < table.num_rows and 0 <= cell.col_start < table.num_cols
+        if not inside or not spots or spots & occupied:
             unplaced.append(cell)
         else:
             occupied |= spots
@@ -61,7 +62,7 @@ def _is_header_cell(cell: NormalizedCell, header_rows: set[int]) -> bool:
 
 
 def _page_attr(page: int | None) -> str:
-    return f' data-page="{page}"' if page is not None else ""
+    return f' data-page="{_esc(page)}"' if page is not None else ""
 
 
 def _render_cell(cell: NormalizedCell, table: NormalizedTable, header_rows: set[int]) -> str:
@@ -70,6 +71,8 @@ def _render_cell(cell: NormalizedCell, table: NormalizedTable, header_rows: set[
     cols = min(cell.col_end, table.num_cols) - cell.col_start
     rows = min(cell.row_end, table.num_rows) - cell.row_start
     spans = (f' colspan="{cols}"' if cols > 1 else "") + (f' rowspan="{rows}"' if rows > 1 else "")
+    if (cell.col_end - cell.col_start, cell.row_end - cell.row_start) != (cols, rows):
+        spans += f' data-span-clamped="{cell.row_end - cell.row_start},{cell.col_end - cell.col_start}"'
     return f'<{tag} data-cell="{_esc(cell.cell_id)}"{_page_attr(page)}{spans}>{_esc_block(cell.raw_text)}</{tag}>'
 
 
@@ -261,7 +264,7 @@ def render_prospectus_markup(
         block = _render_table(obj) if kind == "table" else _render_text(obj)
         if page is not None:
             if current_page is not None and page != current_page:
-                block = f"<!-- page {page} -->\n<hr>\n\n{block}"
+                block = f"<!-- page {_comment_text(page)} -->\n<hr>\n\n{block}"
             current_page = page
         parts.append(block)
     return "\n\n".join(parts) + "\n"
