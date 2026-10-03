@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from html import unescape
 
 import pytest
 
@@ -125,7 +126,19 @@ def test_empty_grid_positions_become_gap_cells_and_columns_line_up():
     html = render_prospectus_markup(evidence([table]), OK)
     assert html.count("<td data-gap></td>") == 2  # (0,1) and (1,2)
     assert [row_width(row) for row in rows_of(html)] == [3, 3]
-    assert "data-gap" not in "".join(re.findall(r"<td data-cell[^>]*>", html))
+    tags = re.findall(r"<td\b[^>]*>", html)
+    assert tags and not any("data-cell" in tag and "data-gap" in tag for tag in tags)
+
+
+def test_line_breaks_in_cell_text_become_br_and_never_split_the_table_block():
+    original = "a\n\nb\nc & <d>"
+    table = make_table(1, 2, [make_cell(0, 0, 1, 0, 1, original), make_cell(1, 0, 1, 1, 2, "next")])
+    html = render_prospectus_markup(evidence([table]), OK)
+    block = html[html.index("<table") : html.index("</table>")]
+    assert "\n\n" not in block
+    cell = re.search(r'<td data-cell="t0-c0"[^>]*>(.*?)</td>', block, re.S).group(1)
+    assert "\n" not in cell and "<br>" in cell
+    assert unescape(cell.replace("<br>", "\n")) == original
 
 
 def test_rowspan_hides_the_covered_position_but_gaps_still_line_up():

@@ -17,6 +17,11 @@ def _esc(value: Any) -> str:
     return escape(str(value), quote=True)
 
 
+def _esc_block(value: Any) -> str:
+    """Escape, then turn line breaks into <br>: a blank line would end a Markdown HTML block."""
+    return _esc(value).replace("\r\n", "\n").replace("\r", "\n").replace("\n", "<br>")
+
+
 def _table_page(table: NormalizedTable) -> int | None:
     pages = [c.bbox.page for c in table.cells if c.bbox is not None and c.bbox.page is not None]
     return min(pages) if pages else None
@@ -61,7 +66,7 @@ def _render_cell(cell: NormalizedCell, table: NormalizedTable, header_rows: set[
     cols = min(cell.col_end, table.num_cols) - cell.col_start
     rows = min(cell.row_end, table.num_rows) - cell.row_start
     spans = (f' colspan="{cols}"' if cols > 1 else "") + (f' rowspan="{rows}"' if rows > 1 else "")
-    return f'<{tag} data-cell="{_esc(cell.cell_id)}"{_page_attr(page)}{spans}>{_esc(cell.text)}</{tag}>'
+    return f'<{tag} data-cell="{_esc(cell.cell_id)}"{_page_attr(page)}{spans}>{_esc_block(cell.text)}</{tag}>'
 
 
 def _render_table(table: NormalizedTable) -> str:
@@ -85,7 +90,7 @@ def _render_table(table: NormalizedTable) -> str:
     lines.append("</table>")
     for cell in unplaced:
         page = cell.bbox.page if cell.bbox is not None else None
-        lines.append(f'<p data-unplaced-cell="{_esc(cell.cell_id)}"{_page_attr(page)}>{_esc(cell.text)}</p>')
+        lines.append(f'<p data-unplaced-cell="{_esc(cell.cell_id)}"{_page_attr(page)}>{_esc_block(cell.text)}</p>')
     return "\n".join(lines)
 
 
