@@ -70,7 +70,7 @@ def _render_cell(cell: NormalizedCell, table: NormalizedTable, header_rows: set[
     cols = min(cell.col_end, table.num_cols) - cell.col_start
     rows = min(cell.row_end, table.num_rows) - cell.row_start
     spans = (f' colspan="{cols}"' if cols > 1 else "") + (f' rowspan="{rows}"' if rows > 1 else "")
-    return f'<{tag} data-cell="{_esc(cell.cell_id)}"{_page_attr(page)}{spans}>{_esc_block(cell.text)}</{tag}>'
+    return f'<{tag} data-cell="{_esc(cell.cell_id)}"{_page_attr(page)}{spans}>{_esc_block(cell.raw_text)}</{tag}>'
 
 
 def _render_table(table: NormalizedTable) -> str:
@@ -94,7 +94,7 @@ def _render_table(table: NormalizedTable) -> str:
     lines.append("</table>")
     for cell in unplaced:
         page = cell.bbox.page if cell.bbox is not None else None
-        lines.append(f'<p data-unplaced-cell="{_esc(cell.cell_id)}"{_page_attr(page)}>{_esc_block(cell.text)}</p>')
+        lines.append(f'<p data-unplaced-cell="{_esc(cell.cell_id)}"{_page_attr(page)}>{_esc_block(cell.raw_text)}</p>')
     return "\n".join(lines)
 
 
@@ -204,7 +204,7 @@ def _reading_order(evidence: ProspectusEvidence) -> list[tuple[str, Any]]:
 def _render_text(item: Mapping[str, Any]) -> str:
     label = str(item.get("label", "text"))
     tag = _HEADING_TAG.get(label, "p")
-    body = _esc_block(item.get("text", ""))
+    body = _esc_block(item["raw_text"] if "raw_text" in item else item.get("text", ""))
     if label in _SMALL_LABELS:
         body = f"<small>{body}</small>"
     page = item.get("page")

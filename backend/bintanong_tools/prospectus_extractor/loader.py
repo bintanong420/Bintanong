@@ -193,6 +193,7 @@ def evidence_adapter(
                 "item_id": f"text-{index}",
                 "label": str(item.get("label", "text")),
                 "text": value,
+                "raw_text": str(item.get("text", "") or ""),
                 "page": bbox.page if bbox else None,
                 "bbox": bbox.as_list() if bbox else None,
                 "origin": bbox.origin if bbox else None,

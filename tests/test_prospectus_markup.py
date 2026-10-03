@@ -490,3 +490,35 @@ def test_batch_defaults_to_writing_md_and_passes_it_on(monkeypatch, tmp_path):
     config.write_md = False
     batch.run_batch(config)
     assert seen[1]["export_md"] is False
+
+
+# --- source fidelity: the twin shows Docling's own strings, not the parser's cleaned text ---
+
+SOURCE = "A  B\nC\u2013D\u00a0E"
+
+
+def test_cell_shows_the_original_docling_string_not_the_cleaned_one():
+    cell = NormalizedCell("t0-c0", 0, SOURCE, "A B C-D E", 0, 1, 0, 1, SourceBBox(1, 0.0, 700.0, 10.0, 690.0))
+    html = render_prospectus_markup(evidence([make_table(1, 1, [cell])]), OK)
+    assert ">A  B<br>C\u2013D\u00a0E</td>" in html
+
+
+def test_text_item_shows_the_original_docling_string():
+    item = dict(text_item(0, "text", "A B C-D E"), raw_text=SOURCE)
+    html = render_prospectus_markup(evidence([], [item]), OK)
+    assert ">A  B<br>C\u2013D\u00a0E</p>" in html
+
+
+def test_loader_keeps_original_text_beside_the_cleaned_text_for_cells_and_items():
+    from backend.bintanong_tools.prospectus_extractor.loader import evidence_adapter
+
+    raw = {
+        "texts": [{"label": "text", "text": SOURCE, "prov": [{"page_no": 1, "bbox": {"l": 1, "t": 9, "r": 2, "b": 8}}]}],
+        "tables": [{"prov": [{"page_no": 1}], "data": {"num_rows": 1, "num_cols": 1, "table_cells": [
+            {"text": SOURCE, "start_row_offset_idx": 0, "end_row_offset_idx": 1,
+             "start_col_offset_idx": 0, "end_col_offset_idx": 1}]}}],
+    }
+    ev = evidence_adapter(raw)
+    assert ev.text_items[0]["text"] == "A B C-D E" and ev.text_items[0]["raw_text"] == SOURCE
+    cell = ev.tables[0].cells[0]
+    assert cell.text == "A B C-D E" and cell.raw_text == SOURCE
