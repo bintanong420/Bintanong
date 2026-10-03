@@ -11,10 +11,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Any, Mapping, Sequence
+from typing import Any, Collection, Mapping, Sequence
 
 from .course_checks import pdf_clean
-from .text import BANNER_PHRASE, clean_str, leading_banner, match_semester_labels, match_year_label, trailing_banner
+from .text import BANNER_PHRASE, BANNER_WORDS, clean_str, leading_banner, match_semester_labels, match_year_label, trailing_banner
 
 FIELD_CODE, FIELD_TITLE, FIELD_TERM = "course_code", "course_title", "term"
 
@@ -56,16 +56,30 @@ def strip_banner(text: str) -> str | None:
     return rest
 
 
+def banner_words(text: str) -> frozenset[str]:
+    """The banner words ("FIRST", "SEM", "YEAR", ...) printed in `text`, upper case, full stops dropped."""
+    return frozenset(w for w in (t.strip(".,:") for t in clean_str(text).upper().split()) if w in BANNER_WORDS)
+
+
+def banner_confirmed(value: str, context: Collection[str]) -> bool:
+    """True when every banner phrase `value` carries (at its start, its end or inside) is made of words
+    the table itself prints in a section-banner or context cell. A title that merely looks like a banner
+    ("SUMMER INTERNSHIP" in a table with no SUMMER banner) is not confirmed."""
+    lead, rest = leading_banner(value)
+    found = banner_words(lead) | banner_words(trailing_banner(rest)[1]) | banner_words(" ".join(BANNER_PHRASE.findall(clean_str(value).upper())))
+    return bool(found) and found <= set(context)
+
+
 def _fix_id(kind: str, field: str, cell_ids: Sequence[str]) -> str:
     return f"{kind}:{field}@{cell_ids[0] if cell_ids else 'none'}"
 
 
-def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]]) -> list[Fix]:
+def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]], banners: Collection[str]) -> list[Fix]:
     out = []
     for field, role, name in ((FIELD_CODE, "code", "code"), (FIELD_TITLE, "title", "title")):
         value = clean_str(course.get(field))
         cells = [c["cell_id"] for c in role_cells.get(role, [])]
-        stripped = strip_banner(value) if BANNER_PHRASE.search(value) else None
+        stripped = strip_banner(value) if BANNER_PHRASE.search(value) and banner_confirmed(value, banners) else None
         if stripped:
             out.append(Fix("strip_banner", field, value, stripped, f"banner text removed from the {name}",
                            _fix_id("strip_banner", field, cells)))
@@ -123,8 +137,11 @@ def propose_fixes(
     title_not_in_pdf: bool = False,
     page_text: str | None = None,
     known_codes: Sequence[str] = (),
+    banners: Collection[str] = (),
 ) -> list[Fix]:
-    fixes = _strip_fixes(course, role_cells) + _move_fix(course, role_cells)
+    """`banners`: the banner words the course's table prints in its section-banner cells. A strip is
+    proposed only for banner text made of those words; without them it is flag-only."""
+    fixes = _strip_fixes(course, role_cells, banners) + _move_fix(course, role_cells)
     if title_not_in_pdf and page_text and not any(f.field == FIELD_TITLE for f in fixes):
         new = title_from_pdf(clean_str(course.get("course_code")), (course.get("units") or {}).get("raw") or "",
                              course.get("course_title") or "", page_text, known_codes)

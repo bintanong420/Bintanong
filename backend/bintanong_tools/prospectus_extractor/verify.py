@@ -7,7 +7,7 @@ year x semester sections in printed order. Nothing here changes a value. A secti
   broken   at least one `error` flag (banner text in a field, printed total mismatch, a course in
            two terms or none, a printed code no course claimed)
 Flag kinds: banner_leak, unit_total, code_not_in_pdf, title_not_in_pdf, duplicate_course, no_term,
-prereq_order, unclaimed_code, audit_anomaly (and `banner_in_cell`, info only).
+prereq_order, unclaimed_code, audit_anomaly, term_mismatch (warn: the course's own cell opens with a banner for\nanother term; a move_term proposal exists) (and `banner_in_cell`, info only). banner_leak is an error when\nthe banner words are printed in a banner cell of the course's table, a warn when they are not (a title such\nas "SUMMER INTERNSHIP" that only looks like a banner).
 """
 
 from __future__ import annotations
@@ -18,10 +18,10 @@ from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
 from .course_checks import PdfPage, check_course_pdf
-from .fixes import propose_fixes
+from .fixes import banner_confirmed, banner_words, propose_fixes
 from .placement import attach, unclaimed_items
 from .prerequisites import is_standing_rule
-from .text import SEMESTER_ORDER, YEAR_ORDER, clean_str, has_banner_text, norm_key, term_index
+from .text import SEMESTER_ORDER, YEAR_ORDER, clean_str, has_banner_text, is_banner_text, norm_key, term_index
 
 ERROR, WARN, INFO = "error", "warn", "info"
 NO_TERM, UNPLACED = "SN", "SU"
@@ -134,15 +134,29 @@ def _regions(sections: Sequence[Section], courses: Sequence[Mapping[str, Any]], 
     return out
 
 
+def _banner_words_by_table(courses, evidence_ids) -> dict[Any, frozenset[str]]:
+    """table_index -> banner words printed in that table's section-banner and context cells (the
+    extractor's evidence cells, and any cell made only of banner words)."""
+    out: dict[Any, set[str]] = {}
+    for course in courses:
+        for cell in (course.get("provenance") or {}).get("source_cells") or []:
+            if cell.get("cell_id") in evidence_ids or is_banner_text(cell.get("text") or ""):
+                out.setdefault(cell.get("table_index"), set()).update(banner_words(cell.get("text") or ""))
+    return {table: frozenset(words) for table, words in out.items()}
+
+
 def _course_flags(index, course, ctx) -> tuple[list[Flag], list]:
     flags: list[Flag] = []
     roles = own_role_cells(course, ctx["layout"], ctx["evidence_ids"])
+    table = (course.get("_source") or {}).get("table_index")
     for name in ("course_code", "course_title", "prerequisites_raw"):
         value = clean_str(course.get(name))
         if not value or (name == "prerequisites_raw" and is_standing_rule(value)):
             continue
         if has_banner_text(value):
-            flags.append(Flag("banner_leak", ERROR, f'{name} holds banner text: "{value}"', name))
+            seen = banner_confirmed(value, ctx["banners"].get(table, ()))
+            flags.append(Flag("banner_leak", ERROR if seen else WARN,
+                              f'{name} holds banner text: "{value}"' + ("" if seen else " (not a banner this table prints)"), name))
     for role, name in (("code", "course_code"), ("title", "course_title")):
         for cell in roles[role]:
             if has_banner_text(cell.get("text") or "") and not has_banner_text(course.get(name) or ""):
@@ -171,7 +185,10 @@ def _course_flags(index, course, ctx) -> tuple[list[Flag], list]:
             title_missing = True
             flags.append(Flag("title_not_in_pdf", WARN, "title not found in the PDF text", "course_title"))
     fixes = propose_fixes(course, roles, title_not_in_pdf=title_missing, page_text=page.text if page else None,
-                          known_codes=ctx["codes"])
+                          known_codes=ctx["codes"], banners=ctx["banners"].get(table, ()))
+    for fix in fixes:
+        if fix.kind == "move_term":
+            flags.append(Flag("term_mismatch", WARN, f"{fix.note}, but the course is placed in {fix.old}", "term"))
     return flags, fixes
 
 
@@ -201,6 +218,7 @@ def verify_candidate(payload: Mapping[str, Any], pdf_pages: Mapping[int, PdfPage
     code_count = Counter(norm_key(c.get("course_code") or "") for c in courses)
     ctx = {
         "courses": courses, "layout": layout, "evidence_ids": evidence_ids, "pages": pdf_pages or {},
+        "banners": _banner_words_by_table(courses, evidence_ids),
         "code_count": code_count, "codes": [c.get("course_code") or "" for c in courses],
         "positions": {c.get("course_code"): _term_of(c) for c in courses
                       if code_count[norm_key(c.get("course_code") or "")] == 1 and c.get("year_level") and c.get("semester")},
@@ -210,7 +228,7 @@ def verify_candidate(payload: Mapping[str, Any], pdf_pages: Mapping[int, PdfPage
     empty = [(y, s) for e in audit.get("errors") or [] if (m := EMPTY_DECLARED.search(e)) for y, s in [m.groups()]]
     keys |= {t for t in empty if t[0] in YEAR_ORDER and t[1] in SEMESTER_ORDER}
     sections = [Section(f"S{n}", y, s, declared=declared.get((y, s)))
-                for n, (y, s) in enumerate(sorted(keys, key=lambda t: term_index(*t)), 1)]
+                for n, (y, s) in enumerate(sorted(keys, key=lambda t: (term_index(*t), *t)), 1)]
     by_term = {(s.year, s.semester): s for s in sections}
     loose_section = Section(NO_TERM, None, None)
     for index, course in enumerate(courses):

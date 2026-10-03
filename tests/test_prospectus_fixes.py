@@ -41,7 +41,7 @@ def test_a_leading_banner_in_the_title_gets_a_strip_proposal_keyed_to_its_cell()
     payload = fx.bscs()
     course = payload["courses"][0]
     course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
-    fixes = propose_fixes(course, roles(course, payload))
+    fixes = propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"})
     assert [(f.kind, f.field, f.old, f.new, f.fix_id) for f in fixes] == [
         ("strip_banner", "course_title", "FIRST SEMESTER Discrete Structures 1", "Discrete Structures 1",
          "strip_banner:course_title@t0-c9")]
@@ -51,7 +51,7 @@ def test_a_leading_banner_in_the_code_gets_a_strip_proposal():
     payload = fx.bscs()
     course = payload["courses"][0]
     course["course_code"] = "FIRST SEMESTER CS 1"
-    fixes = propose_fixes(course, roles(course, payload))
+    fixes = propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"})
     assert [(f.field, f.new) for f in fixes] == [("course_code", "CS 1")]
 
 

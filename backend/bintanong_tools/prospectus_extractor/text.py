@@ -78,15 +78,17 @@ BANNER_WORDS = {
 
 
 _ORDINAL = r"(?:FIRST|SECOND|THIRD|FOURTH|FIFTH|1ST|2ND|3RD|4TH|5TH)"
-_BANNER_UNIT = rf"(?:{_ORDINAL}\s+YEAR|{_ORDINAL}\s+SEM(?:ESTER)?|SEMESTER|SUMMER|MID[\s-]?YEAR)"
+_BANNER_UNIT = rf"(?:{_ORDINAL}\s+YEAR|{_ORDINAL}\s+(?:SEMESTER|SEM\.?)|SEMESTER|SUMMER|MID[\s-]?YEAR)"
 
 
 # Exact, upper-case printed banner phrases ("FIRST YEAR", "SECOND SEMESTER", "SUMMER", ...).
 # Upper case only, so a real title such as "First Aid" or "Summer Internship" never matches.
-BANNER_PHRASE = re.compile(rf"\b{_BANNER_UNIT}\b")
+BANNER_PHRASE = re.compile(rf"\b{_BANNER_UNIT}(?!\w)")
 
 
-_LEADING_BANNER = re.compile(rf"^(?:(?:{_BANNER_UNIT}|{_ORDINAL})\b\s*)+")
+# A bare ordinal is only a wrapped banner tail when a capitalised word follows ("FIRST Ethics") or
+# nothing does; "FIRST AID" in an all-caps title keeps its FIRST.
+_LEADING_BANNER = re.compile(rf"^(?:(?:{_BANNER_UNIT}(?!\w)|{_ORDINAL}\b(?=\s+[A-Z][a-z]|\s*$))\s*)+")
 
 
 _TRAILING_BANNER = re.compile(rf"\s+{_BANNER_UNIT}\s*$")
