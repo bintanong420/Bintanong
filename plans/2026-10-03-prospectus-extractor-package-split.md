@@ -911,6 +911,15 @@ git commit -m "docs: record the extractor package split and its equivalence evid
 
 Each phase gets its own detailed plan (same format as Phase A, written with superpowers:writing-plans) on its own branch from the merged Phase A, because each depends on details that only exist after the phase before it. What is fixed now is the order, the files, the tests that must fail first, and the gate.
 
+Detailed plans (written 3 October 2026, decisions pending user confirmation): `plans/2026-10-03-prospectus-phase-b-markup-twin.md`, `…-phase-c-status-separation.md`, `…-phase-d-safe-cache.md`, `…-phase-e-rag-provenance.md`, `…-phase-f-tools-cli.md`. They were drafted in parallel, so these cross-phase rules override anything in them that conflicts:
+
+1. **One PDF hash, one owner.** Phase D computes the source PDF SHA-256 (`identity.file_sha256`) and records it in `run_identity`. Phase B's markup shows `pdf_sha256` when a caller passes it and `not recorded` otherwise; Phase C checks a declared hash only through `ProvisionalSource.verify_pdf`; Phase E reads the hash from Phase D's `run_identity` and must not add a second hashing path in `process_prospectus`.
+2. **One course comparer.** Phase B creates `scripts/prospectus_course_compare.py` and commits it. Phases C–F extend that file (Phase C adds its status-field comparison to it instead of a separate `prospectus_status_compare.py`) and Phase F's final task deletes it.
+3. **One `tests/conftest.py`.** Phase D creates it; Phase F adds its fixtures to the existing file and must not overwrite it.
+4. **Schema versions run in order:** B none, C `v3.1`, D `v3.2`, E `v3.3`, F none. Each phase's start check confirms the current value before bumping.
+5. **Line endings:** from Phase D on, all text outputs are written with `newline="\n"`; Phase E and F rely on that rather than repeating it.
+6. **Every commit leaves the full suite green.** No commented-out assertions and no failing tests committed between tasks.
+
 When Phase B begins, delete `tests/test_prospectus_split_equivalence.py` in its first commit: from then on the package is allowed to differ from the monolith.
 
 ### Phase B — Markup twin that looks like the printed prospectus (Q6)
