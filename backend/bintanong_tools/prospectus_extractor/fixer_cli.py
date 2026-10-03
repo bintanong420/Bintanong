@@ -215,16 +215,16 @@ def cmd_triage(args) -> int:
         if record and args.pdf_root:
             path, ok = resolve_pdf(record, args.pdf_root)
             pages = load_pdf_pages(path) if path is not None and ok else None
-        rows.append((folder.name, (payload, verify_candidate(payload, pages)), ""))
+        rows.append((folder.name, (payload, verify_candidate(payload, pages), Path(record["source"]).name if record else "-"), ""))
     shown = [r for r in rows if r[1] is not None]
     shown.sort(key=lambda r: (HEALTH_ORDER[r[1][1].health], r[0]))
     lines = ["# Review triage", "",
              f"{len(shown)} distinct PDFs, healthiest first. Confirm clean sections in bulk; spend review time on broken ones.", "",
-             "| n | program | audit | health | PDF text | sections clean / review / broken | error and warn flags |", "|---|---|---|---|---|---|---|"]
-    for name, (payload, v), _note in shown:
+             "| n | program | PDF | audit | health | PDF text | sections clean / review / broken | error and warn flags |", "|---|---|---|---|---|---|---|---|"]
+    for name, (payload, v, pdf_name), _note in shown:
         tally = [sum(s.health == h for s in v.sections) for h in ("clean", "review", "broken")]
         flags = ", ".join(f"{k} {n}" for k, n in v.counts().items()) or "-"
-        lines.append(f"| {name} | {(payload.get('program') or '').replace('|', '/')} | {payload['audit']['status']} | {v.health} | "
+        lines.append(f"| {name} | {(payload.get('program') or '').replace('|', '/')} | {pdf_name.replace('|', '/')} | {payload['audit']['status']} | {v.health} | "
                      f"{'checked' if v.pdf_checked else 'not checked'} | {tally[0]} / {tally[1]} / {tally[2]} | {flags} |")
     dupes = [f"{n} ({note})" for n, pair, note in rows if pair is None]
     if dupes:

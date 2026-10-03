@@ -171,7 +171,7 @@ def test_triage_lists_the_healthiest_first_and_collapses_a_repeated_pdf(tmp_path
     lines = out.read_text(encoding="utf-8").splitlines()
     table = [l for l in lines if l.startswith("| 0")]
     assert [l.split("|")[1].strip() for l in table] == ["02", "01"]          # clean BS CS before the broken one
-    assert "| clean |" in table[0] and "| broken |" in table[1] and "unclaimed_code 3" in table[1]
+    assert "| p2.pdf |" in table[0] and "| p1.pdf |" in table[1]   # the reviewer needs the file name, not only a run number`n    assert "| clean |" in table[0] and "| broken |" in table[1] and "unclaimed_code 3" in table[1]
     assert "Skipped duplicates: 03 (same PDF as 02)" in lines[-1]
 
 
