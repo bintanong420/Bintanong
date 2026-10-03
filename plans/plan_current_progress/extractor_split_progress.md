@@ -74,4 +74,4 @@ Plan: plans/2026-10-04-prospectus-phase-b2-section-fixer.md. Decisions D1-D9 in 
 
 | Task | Status | Commit | Evidence |
 | --- | --- | --- | --- |
-| 2. Move course checks | done | COMMIT | red: collection error; after move 1 failed 12 passed; green 13 passed; audit smoke identical; full suite 95 + 13 subtests; full 44-run audit (course_audit_2026-10-04_task2) summary byte-identical to 2026-10-03b, JSONL 21040 rows same order, only change is the new occurrence key on the 470 C rows |
+| 2. Move course checks | done | 4ff5043 | red: collection error; after move 1 failed 12 passed; green 13 passed; audit smoke identical; full suite 95 + 13 subtests; full 44-run audit (course_audit_2026-10-04_task2) summary byte-identical to 2026-10-03b, JSONL 21040 rows same order, only change is the new occurrence key on the 470 C rows |
