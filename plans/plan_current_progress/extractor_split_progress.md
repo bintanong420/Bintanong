@@ -107,3 +107,17 @@ Plan: plans/2026-10-04-prospectus-phase-b2-section-fixer.md. Decisions D1-D9 in 
 Plan: plans/2026-10-03-prospectus-phase-c-status-separation.md. Decisions D1-D8 taken as recommended. Base `$BASE_REF`: 6846da4 (tip of feat/prospectus-phase-b2-section-fixer; B2 unmerged). Deviations from the plan: (1) base is 6846da4 not dev, so `ledger.content_review_state` exists and feeds `content_review` when a ledger and a source hash are passed; with no ledger it stays `pending`. (2) The Phase A gate test is already gone (Test-Path False). (3) audit.py:76 term sort gets a deterministic secondary key. (4) Schema v3.1 as planned. (5) Task 7 uses `scripts/prospectus_course_compare.py --base-ref 6846da4` instead of a new status comparer (cross-phase rule 2).
 Baseline: 271 passed + 13 subtests with tests/test_api_probes.py and tests/test_embedding_service.py ignored (no fastapi in this venv; 277 counts those); self-test 80/80. D3 probe printed `error blocked 0` (premise holds).
 Anchors: pipeline.py build_payload line 26, blocked Prolog 60-70, payload literal 74, build_essentials 130, process_prospectus 175; as the plan said except +/- a few lines.
+
+| Task | Status | Commit | Evidence |
+| --- | --- | --- | --- |
+| 1. Start check | done | 1418b3d | baseline 271 passed + 13 subtests (2 fastapi files ignored), 80/80; D3 probe `error blocked 0` |
+| 2. Prerequisite states | done | c7e7cc5 | red: ImportError EXECUTABLE_PREREQUISITE_STATES; green 15; mutation (`if False` for NULL_TOKENS) fails the 2 stated_none cases; suite 286 |
+| 3. Prolog rule_complete | done | 9139dd4 | red: 8 failed; green 23; mutation (drop rule_complete from eligible/2) fails the swipl test; swipl present; suite 294, 80/80 |
+| 4. Metadata observations | done | b6bedf3 | red: KeyError observations (2 failed); green 25; suite 296 |
+| 5. Authority block, source, essentials, v3.1 | done | e7242a2 | red: 15 failed (TypeError approved_scope/source/review_entries, KeyError authority, schema v3.0); green 40; mutations (drop content_review_pending, drop hash check) each fail one test; suite 311. Added beyond plan: `review_entries=` feeds `content_review` through `ledger.content_review_state` (needs `source` for the hash; entries for another PDF do not count) with 3 tests and a `content_review_incomplete` blocker |
+| audit.py tie order | done | 810f2ca | red: both `Summer`/`Mid-Year` orders seen across 16 PYTHONHASHSEED subprocess runs; green after key `(term_index, year, semester)` (years also `(order, year)`); suite 312 |
+| 6. Docs | done | 216bcb7 | audit.py comment, `__init__` docstring, docs/decisions/prospectus-status-separation.md |
+| 7. 44-input regression | done | see git log | comparer `--base-ref 6846da4`: 44/44 identical; field diff matches the plan table exactly (prolog.clauses 6, schema_version 44, 8 added keys x 44, prerequisite_state 2031 + 2031); 38 blocked; outputs under dump\scratch\phase_c_2026-10-04\ |
+| 8. Review gates | not run | | Reviewer agent and Codex gate not run in this session; open |
+
+Deviations: no new `prospectus_status_compare.py` (the existing comparer plus a scratch field diff were used, per cross-phase rule 2); `sections.py` and `scripts/prospectus_course_compare.py` untouched. Known limits as in the decision record. Suite at the end: 312 passed + 13 subtests (2 fastapi-dependent files not collectable here), self-test 80/80. Next: Phase D (it must keep the `prolog.clauses` comparer allowance in mind).

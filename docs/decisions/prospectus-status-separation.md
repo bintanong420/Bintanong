@@ -59,4 +59,15 @@ Blank cells cannot be told from missing ones. `unreadable` in a payload whose au
 
 ## Regression result
 
-Filled in by the Task 7 commit.
+Run on 4 October 2026 over the 44 cached Docling JSON files (`task2b_standing_isolated_2026-09-29`), old side `6846da4` against this branch, with `scripts/prospectus_course_compare.py --base-ref 6846da4 --jobs 4` (semantic map `palsu_main_undergrad_program_college_meaning.md`). That comparer checks course fields, audit counts and exit codes, and the markup cell ids: `44/44 identical`. A second field-level diff over every payload key (a scratch script, not committed) gave exactly the expected table; nothing else changed, removed or moved, and the old and new `terms_detected` are equal:
+
+```
+changed      6  prolog.clauses            (the 6 non-error audits: 1 ok, 5 warn)
+changed     44  schema_version
+added       44  authority, content_review, extraction_audit, source_verification, metadata.observations,
+                prolog.relations.prerequisite_states, prolog.relations.rule_complete
+added     2031  courses.[].prerequisite_state
+added     2031  curriculum_by_term.*.*.[].prerequisite_state
+```
+
+38 payloads still have `prolog.status = blocked`. Audit and label mix: 38 `error`/`REVIEW_REQUIRED`, 5 `warn`/`VERIFIED`, 1 `ok`/`VERIFIED`; all 44 have `content_review` and `source_verification` of `pending` and `eligibility_executable` false. Prerequisite states over 2031 courses: blank_unreviewed 1005, resolved 696, unresolved_reference 253, standing_condition 58, unreadable 14, alternative_or_exception 3, stated_none 2.
