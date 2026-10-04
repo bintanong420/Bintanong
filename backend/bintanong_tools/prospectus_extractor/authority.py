@@ -24,6 +24,11 @@ VERIFIED_SOURCE = "verified"
 IDENTITY_FIELDS = ("campus", "college_code", "program_name", "effective_school_year")
 
 
+def _same(value: Any) -> str:
+    """Comparison form: surrounding whitespace and letter case do not matter, on either side."""
+    return clean_str(value).strip().casefold()
+
+
 def _has_evidence(observation: Mapping[str, Any] | None) -> bool:
     """An observation the extractor read from the document or path, not one it assumed."""
     observation = observation or {}
@@ -46,14 +51,19 @@ def check_identity(
     mismatched: list[str] = []
     unverified: list[str] = []
     for name, wanted in approved_scope.items():
-        wanted_text = clean_str(wanted)
+        wanted_text = _same(wanted)
+        observation = observations.get(name)
+        top = _same(metadata.get(name))
         if name not in IDENTITY_FIELDS or not wanted_text:
             unverified.append(name)
-        elif not clean_str(metadata.get(name)):
+        elif observation and "value" in observation and _same(observation["value"]) != top:
+            # The reported value and its own observation disagree, so neither can confirm anything.
+            (mismatched if _has_evidence(observation) else unverified).append(name)
+        elif not top:
             unverified.append(name)  # nothing was observed to compare with
-        elif wanted_text.casefold() != clean_str(metadata.get(name)).casefold():
+        elif wanted_text != top:
             mismatched.append(name)
-        elif not _has_evidence(observations.get(name)):
+        elif not _has_evidence(observation):
             unverified.append(name)
     state = "mismatch" if mismatched else "unverified" if unverified else "consistent"
     return {

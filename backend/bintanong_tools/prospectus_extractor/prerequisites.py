@@ -287,7 +287,7 @@ def unconsumed_prerequisite_text(course: dict) -> str:
         rest = fragment
         for code in sorted(codes, key=len, reverse=True):
             rest = _code_pattern(code).sub(" ", rest)
-        rest = re.sub(r"[\s.,;:]+", " ", rest).strip()
+        rest = re.sub(r"[\s,]+", " ", rest).strip()  # a period or colon is unclear wording, so it stays
         if rest:
             left.append(rest)
     return " ".join(left)
@@ -312,7 +312,11 @@ def is_stated_none(raw: str) -> bool:
     if DASHES_ONLY.match(text):
         return True
     phrase = re.sub(r"n\s*[/.]\s*a\b\.?", "na", text.lower().replace("(s)", "s"))
-    return " ".join(re.sub(r"[^a-z0-9]+", " ", phrase).split()) in NONE_PHRASES
+    phrase = phrase.strip(" \t\r\n.\u2010\u2011\u2012\u2013\u2014\u2015\u2212-")  # only a trailing period and dashes
+    phrase = re.sub(r"(?<=[a-z])-(?=[a-z])", " ", phrase)  # pre-requisite
+    if re.search(r"[^a-z0-9\s]", phrase):  # a question mark, bracket, colon, ...: not a plain statement
+        return False
+    return " ".join(phrase.split()) in NONE_PHRASES
 
 def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = frozenset()) -> str:
     """Worst-case state of one finalized course; the order below is the precedence."""

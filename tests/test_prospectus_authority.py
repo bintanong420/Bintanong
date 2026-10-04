@@ -684,13 +684,14 @@ def test_header_comments_cannot_be_broken_out_of_by_a_newline_in_metadata():
 NONE_FORMS = [
     "None", "NONE.", "none required", "None Required", "no prerequisite", "no prerequisites", "No prerequisite(s)",
     "No pre-requisite", "NO PRE-REQUISITES", "N/A", "n/a", "N/A.", "n.a.", "NA", "-", "--", "\u2014", "\u2013",
-    "nil", "Nil.", "  none  ", "(none)", "- none -", "None;", "[N/A]", "none\n",
+    "nil", "Nil.", "  none  ", "- none -", "none\n",
 ]
 
 NOT_NONE_FORMS = [
     "None, but CS 1 recommended", "none of CS 1", "CS 1", "none CS 1", "no CS 1", "no prerequisite except CS 1",
     "N/A for transferees", "none required for freshmen", "no", "required", "prerequisite", "None unless approved",
     "nil CS", "none 3 units", "-CS 1", "x",
+    "no prerequisite?", "none?", "N/A?", "none!", "none (maybe)", "(none)", "[N/A]", "None;", "none*", "none ???", "N/A:",
 ]
 
 
@@ -815,3 +816,74 @@ def test_full_gates_with_an_unrelated_empty_scope_do_not_authorize():
         approved_scope={"program_name": "P"}, pdf_hash_check="matched", content_review={"state": "reviewed"},
     )
     assert good["authority"]["eligibility_executable"] is True
+
+
+# Codex re-gate: question marks and other punctuation are content, identity checks the evidenced value,
+# and only , ; and & newline between codes mean AND.
+def swipl_eligible(tmp_path, payload, code, passed="[]"):
+    kb = tmp_path / "kb2.pl"
+    kb.write_text("\n".join(payload["prolog"]["clauses"]) + "\n", encoding="utf-8", newline="\n")
+    driver = tmp_path / "driver2.pl"
+    driver.write_text(
+        f":- consult({pl_atom(kb.as_posix())}).\n"
+        f"main :- ( eligible({pl_atom(code)}, {passed}) -> write(yes) ; write(no) ).\n"
+        ":- initialization(main, main).\n",
+        encoding="utf-8", newline="\n",
+    )
+    done = subprocess.run(["swipl", "-q", str(driver)], capture_output=True, text=True, encoding="utf-8")
+    assert done.returncode == 0, done.stderr
+    return done.stdout.strip() == "yes"
+
+
+@pytest.mark.parametrize("cell", ["no prerequisite?", "none?", "N/A?", "none (maybe)", "none ???"])
+def test_a_question_mark_or_other_punctuation_is_never_a_stated_none(cell, tmp_path):
+    assert classify_prerequisite_state(course(cell)) != "stated_none"
+    assert classify_prerequisite_state(course(cell, unresolved=[cell])) != "stated_none"
+    payload = payload_for([CONTROL, one_case(cell)])
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] != "stated_none"
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+    if shutil.which("swipl"):
+        assert not swipl_eligible(tmp_path, payload, "CC 1")
+        assert "CC 1" not in swipl_next_eligible(tmp_path, payload, "[]")
+
+
+@pytest.mark.parametrize("raw", ["None.", "NONE.", "N/A.", "n.a.", "- none -", "No prerequisite(s)", "no pre-requisite"])
+def test_a_trailing_period_dashes_and_the_listed_forms_still_match(raw):
+    assert classify_prerequisite_state(course(raw)) == "stated_none"
+
+
+def test_identity_compares_the_approved_value_with_the_evidenced_observation_value():
+    from backend.bintanong_tools.prospectus_extractor.authority import check_identity
+
+    def meta(top, value, evidence="Q"):
+        return {"program_name": top, "observations": {"program_name": {
+            "value": value, "basis": "document_heading", "evidence": evidence, "status": "candidate"}}}
+
+    assert check_identity(meta("P", "Q"), {"program_name": "P"})["state"] == "mismatch"
+    assert check_identity(meta("P", "Q"), {"program_name": "Q"})["state"] == "mismatch"
+    assert check_identity(meta("P", "Q", evidence=None), {"program_name": "P"})["state"] == "unverified"
+    assert check_identity(meta("P", "P", evidence="P"), {"program_name": "P"})["state"] == "consistent"
+    # Deliberate leniency: case and surrounding whitespace do not matter, on either side.
+    assert check_identity(meta(" P ", "p", evidence="P"), {"program_name": "  P "})["state"] == "consistent"
+
+
+UNCLEAR_SEPARATORS = ["CS 1: CS 2", "CS 1. CS 2", "CS 1.", "CS 1: ", "CS 1 .. CS 2"]
+
+
+@pytest.mark.parametrize("cell", UNCLEAR_SEPARATORS)
+def test_a_colon_or_period_between_codes_is_unclear_not_an_and(cell, tmp_path):
+    codes = ["CS 1", "CS 2"] if "CS 2" in cell else ["CS 1"]
+    assert classify_prerequisite_state(course(cell, codes)) == "unreadable"
+    payload = payload_for([CONTROL, one_case(cell)])
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] != "resolved"
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+    if shutil.which("swipl"):
+        assert not swipl_eligible(tmp_path, payload, "CC 1", "['CS 1','CS 2']")
+        assert "CC 1" not in swipl_next_eligible(tmp_path, payload, "['CS 1','CS 2']")
+
+
+@pytest.mark.parametrize("cell", ["CS 1, CS 2", "CS 1; CS 2", "CS 1 and CS 2", "CS 1 & CS 2", "CS 1\nCS 2"])
+def test_comma_semicolon_and_ampersand_newline_between_codes_are_and(cell):
+    assert classify_prerequisite_state(course(cell, ["CS 1", "CS 2"])) == "resolved"
