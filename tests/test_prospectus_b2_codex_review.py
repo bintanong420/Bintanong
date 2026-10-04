@@ -538,3 +538,13 @@ def test_g6_decisions_for_absent_courses_are_orphans_and_an_empty_candidate_is_n
     assert content_review_state(empty, [], HASH)["state"] != "reviewed"
     corrected, report = materialise(empty, [row], HASH)
     assert report["applied"] == 0 and report["skipped"][0]["reason"] == "course_not_found"
+
+
+def test_g4_a_band_ends_at_any_code_shaped_token_known_or_not():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    page = "FIRST SEMESTER CS 1 Other OTHER 2 Discrete Structures 1 3"
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"]) == []
+    own = "FIRST SEMESTER CS 1 Discrete Structures 1 3 OTHER 2 Something 3"
+    assert [f.new for f in propose_fixes(course, roles(course, payload), page_text=own, banners=BANNERS, known_codes=["CS 1"])] == ["Discrete Structures 1"]

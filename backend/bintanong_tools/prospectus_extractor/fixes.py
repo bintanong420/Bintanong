@@ -88,10 +88,15 @@ def printed_without_banner(remainder: str, texts: Iterable[str]) -> bool:
     return False
 
 
+# A course code, known or not, ends a row band: "CS 1", "OTHER 2", "ENTRE 15", "GE-MMW". Upper-case prefixes only,
+# so a title such as "Calculus 1" is not mistaken for the next row.
+ANY_CODE = re.compile(r"(?<!\S)(?:[A-Z]{1,8}[\s\-]?\d{1,4}[A-Za-z]?(?:/[A-Z])?|GE[\s\-][A-Za-z]{2,6})(?=\s|$)")
+
+
 def row_bands(page_text: str, anchor: str, units_raw: str, other_codes: Sequence[str]) -> list[str]:
     """This course's own stretch of the PDF text, one per place `anchor` (its code, or the code being
-    proposed) is printed: from the anchor to the next known code, and no further than the first whole-token
-    `units_raw` after it (the end of the row). Text of other rows is never part of a band."""
+    proposed) is printed: from the anchor to the next code (known, or any course-code-shaped token), and no
+    further than the first whole-token `units_raw` after it (the end of the row). Text of other rows is never part of a band."""
     text = pdf_clean(page_text)
     cuts = sorted({clean_str(c) for c in other_codes if clean_str(c) and clean_str(c) != anchor}, key=len, reverse=True)
     cut = re.compile(r"(?<!\S)(?:" + "|".join(re.escape(c) for c in cuts) + r")(?=\s|$)") if cuts else None
@@ -101,8 +106,8 @@ def row_bands(page_text: str, anchor: str, units_raw: str, other_codes: Sequence
         window = text[m.end():]
         stop = cut.search(window) if cut else None
         window = window[: stop.start()] if stop else window
-        end = re.search(rf"(?<=\s){re.escape(units)}(?=\s|$)", window) if units else None
-        bands.append(window[: end.start()] if end else window)
+        ends = [m for m in (re.search(rf"(?<=\s){re.escape(units)}(?=\s|$)", window) if units else None, ANY_CODE.search(window)) if m]
+        bands.append(window[: min(m.start() for m in ends)] if ends else window)
     return bands
 
 
