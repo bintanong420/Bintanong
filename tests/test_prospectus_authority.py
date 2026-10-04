@@ -514,3 +514,40 @@ def test_only_an_exact_matched_hash_check_counts(bad):
     )
     assert result["authority"]["eligibility_executable"] is False
     assert "pdf_hash_not_checked" in result["authority"]["blocked_by"]
+
+
+# Review finding C: the positive direction. Every gate satisfied at once must say so.
+def test_eligibility_is_executable_only_when_every_gate_is_satisfied():
+    from types import SimpleNamespace
+
+    source = SimpleNamespace(pdf_sha256=SOURCE_HASH, source_locator="local/x.pdf", source_verification="verified")
+    rows = [_cs_row(("CS 1", "Discrete Structures", "3", "none"), ("CS 2", "Discrete Structures 2", "3", "CS 1"))]
+    draft = payload_for(rows, source=source)
+    program = draft["metadata"]["program_name"]
+    assert program and draft["metadata"]["observations"]["program_name"]["basis"] != "extractor_default"
+    assert [c["prerequisite_state"] for c in draft["courses"]] == ["stated_none", "resolved"]
+
+    payload = payload_for(
+        rows, source=source, pdf_hash_check="matched", approved_scope={"program_name": program},
+        review_entries=ledger_row_entries(draft),
+    )
+    assert payload["extraction_audit"] != "error"
+    assert payload["content_review"] == "reviewed"
+    assert payload["authority"]["identity_check"]["state"] == "consistent"
+    assert payload["authority"]["blocked_by"] == []
+    assert payload["authority"]["eligibility_executable"] is True
+
+    # Each gate, removed alone, blocks again.
+    for change in (
+        {"pdf_hash_check": "not_checked"},
+        {"approved_scope": None},
+        {"approved_scope": {"program_name": "Something Else"}},
+        {"review_entries": ledger_row_entries(draft, 1)},
+        {"review_entries": None},
+        {"source": SimpleNamespace(pdf_sha256=SOURCE_HASH, source_locator="x", source_verification="pending")},
+    ):
+        kwargs = {
+            "source": source, "pdf_hash_check": "matched", "approved_scope": {"program_name": program},
+            "review_entries": ledger_row_entries(draft),
+        } | change
+        assert payload_for(rows, **kwargs)["authority"]["eligibility_executable"] is False, change
