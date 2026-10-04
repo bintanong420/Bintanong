@@ -675,3 +675,42 @@ def test_header_comments_cannot_be_broken_out_of_by_a_newline_in_metadata():
     )
     assert all("\n" not in line and "\r" not in line for line in knowledge["clauses"][:12])
     assert not any(line.startswith(("evil", "bad", "b.pdf")) for line in knowledge["clauses"])
+
+
+# User decision on D2: stated_none stays executable; "none" is printed inconsistently, so words are matched.
+NONE_FORMS = [
+    "None", "NONE.", "none required", "None Required", "no prerequisite", "no prerequisites", "No prerequisite(s)",
+    "No pre-requisite", "NO PRE-REQUISITES", "N/A", "n/a", "N/A.", "n.a.", "NA", "-", "--", "\u2014", "\u2013",
+    "nil", "Nil.", "  none  ", "(none)", "- none -", "None;", "[N/A]", "none\n",
+]
+
+NOT_NONE_FORMS = [
+    "None, but CS 1 recommended", "none of CS 1", "CS 1", "none CS 1", "no CS 1", "no prerequisite except CS 1",
+    "N/A for transferees", "none required for freshmen", "no", "required", "prerequisite", "None unless approved",
+    "nil CS", "none 3 units", "-CS 1", "x",
+]
+
+
+@pytest.mark.parametrize("raw", NONE_FORMS, ids=[repr(r) for r in NONE_FORMS])
+def test_printed_none_in_its_many_forms_is_stated_none(raw):
+    assert classify_prerequisite_state(course(raw)) == "stated_none"
+    # The parser may file the phrase as an unresolved token; that must not change the answer.
+    assert classify_prerequisite_state(course(raw, unresolved=[raw.strip()])) == "stated_none"
+
+
+@pytest.mark.parametrize("raw", NOT_NONE_FORMS, ids=[repr(r) for r in NOT_NONE_FORMS])
+def test_the_word_fallback_never_fires_when_other_content_is_present(raw):
+    assert classify_prerequisite_state(course(raw)) != "stated_none"
+    assert classify_prerequisite_state(course(raw, ["CS 1"])) != "stated_none"
+
+
+def test_printed_none_cells_end_to_end_become_stated_none_and_complete():
+    payload = payload_for([
+        _cs_row(("CS 1", "A", "3", "none required"), ("CS 2", "B", "3", "N/A")),
+        _cs_row(("CS 3", "C", "3", "No pre-requisite"), ("CS 4", "D", "3", "None, but CS 1 recommended")),
+    ])
+    states = {c["course_code"]: c["prerequisite_state"] for c in payload["courses"]}
+    assert states["CS 1"] == states["CS 2"] == states["CS 3"] == "stated_none"
+    assert states["CS 4"] != "stated_none"
+    assert {"CS 1", "CS 2", "CS 3"} <= set(payload["prolog"]["relations"]["rule_complete"])
+    assert "CS 4" not in payload["prolog"]["relations"]["rule_complete"]
