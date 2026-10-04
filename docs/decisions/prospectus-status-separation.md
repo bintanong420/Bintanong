@@ -65,6 +65,8 @@ The classifier now accounts for all of `prerequisites_raw`: after the resolved c
 - **`or` inside a code.** The alternative wording check ignores text that belongs to a resolved code, so `OR 1` stays `resolved`.
 - **Prolog quoting.** Non-test Prolog atoms already go through `pl_atom`. The header comment lines now collapse whitespace so a newline in metadata cannot end the comment; the SWI-Prolog test quotes its path with `pl_atom` and runs from a directory whose name has apostrophes.
 
+- **Decision D2 confirmed (user, 4 October 2026): `stated_none` stays executable.** Because prospectuses print "none" inconsistently, `stated_none` is detected by the exact forms first, then by word matching: a cell whose only words are none, nil, n/a (any punctuation) or "no" with a prerequisite word, optionally with required or requirement(s), or only dashes (including en and em dashes). Any other word, course code or number disqualifies it, so "None, but CS 1 recommended" is not `stated_none`. On the 44 cached inputs no course changes state (the printed nones were already the exact forms).
+
 ## Known limits
 
 Blank cells cannot be told from missing ones. `unreadable` in a payload whose audit is not `error` only comes from "text present, nothing recognised". The review CSV does not show `prerequisite_state`. The batch manifest does not carry the three states.
