@@ -213,3 +213,63 @@ def resolve_prerequisites(raw: str, index: CodeIndex, current_course_code: str =
             elif token not in out.unresolved:
                 out.unresolved.append(token)
     return out
+
+
+# One state per course, describing how completely the extractor understood its
+# prerequisite cell. The parser keeps no record of whether an empty cell was
+# printed blank, missing, or unreadable (sections._field_at returns None for all
+# three), so "reviewed_empty" is reserved for a human review decision and is
+# never emitted here.
+PREREQUISITE_STATES = (
+    "resolved",
+    "stated_none",
+    "reviewed_empty",
+    "blank_unreviewed",
+    "standing_condition",
+    "unresolved_reference",
+    "alternative_or_exception",
+    "unreadable",
+)
+
+# Only these may satisfy eligible/2. Everything else is excluded from executable rules.
+EXECUTABLE_PREREQUISITE_STATES = frozenset({"resolved", "stated_none", "reviewed_empty"})
+
+# Audit anomaly types that name a prerequisite cell the parser could not assign.
+PREREQUISITE_AMBIGUITY_TYPES = frozenset({"ambiguous_adjacent_prerequisite_fragment"})
+
+ALTERNATIVE_OR_EXCEPTION = re.compile(
+    r"\b(?:or|either|except(?:ion|ing)?|unless|equivalent|provided|if)\b", re.IGNORECASE
+)
+
+
+def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = frozenset()) -> str:
+    """Worst-case state of one finalized course; the order below is the precedence."""
+    raw = clean_str(course.get("prerequisites_raw"))
+    cells = set((course.get("provenance") or {}).get("source_cell_ids") or ())
+    if cells & ambiguous_cell_ids:
+        return "unreadable"
+    if ALTERNATIVE_OR_EXCEPTION.search(raw):
+        return "alternative_or_exception"
+    if course.get("prerequisites_unresolved"):
+        return "unresolved_reference"
+    if course.get("standing_requirements"):
+        return "standing_condition"
+    if not raw:
+        return "blank_unreviewed"
+    if raw.lower() in NULL_TOKENS:
+        return "stated_none"
+    if not course.get("prerequisites"):
+        return "unreadable"  # text was printed but nothing in it was recognised
+    return "resolved"
+
+
+def annotate_prerequisite_states(courses, anomalies=()) -> None:
+    """Set course['prerequisite_state'] on every course, in place."""
+    ambiguous = frozenset(
+        cell_id
+        for anomaly in anomalies
+        if anomaly.get("type") in PREREQUISITE_AMBIGUITY_TYPES
+        for cell_id in anomaly.get("source_cell_ids", ())
+    )
+    for item in courses:
+        item["prerequisite_state"] = classify_prerequisite_state(item, ambiguous)
