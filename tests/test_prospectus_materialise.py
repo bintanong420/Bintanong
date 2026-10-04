@@ -2,7 +2,7 @@ import copy
 import json
 from datetime import datetime, timezone
 
-from backend.bintanong_tools.prospectus_extractor.ledger import (
+from backend.bintanong_tools.prospectus_extractor.ledger import (entry_id_of, 
     CORRECTED, course_locator, course_snapshot, make_entry, materialise, write_corrected,
 )
 
@@ -63,6 +63,7 @@ def test_a_correction_is_skipped_when_the_value_it_was_made_against_has_changed_
     toa = payload["courses"][1]
     stale = corrected_title(toa, "Theory of Architecture1")
     stale["old_value"] = "something the extractor no longer produces"
+    stale["entry_id"] = entry_id_of(stale)      # an honestly written entry, not a forged one
     gone = copy.deepcopy(toa)
     gone["provenance"]["source_cell_ids"] = ["t9-c1"]
     lost = corrected_title(gone, "Nowhere")

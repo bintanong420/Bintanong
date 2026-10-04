@@ -476,3 +476,65 @@ def test_o1_old_ledgers_still_read_and_apply_unchanged(tmp_path):
     path = tmp_path / "ledger.jsonl"
     write_lines(path, good_entry(payload["courses"][0]))
     assert materialise(payload, read_entries(path), HASH)[1]["applied"] == 1
+
+
+# --- Codex final gate on B2: seven confirmed defects
+
+from backend.bintanong_tools.prospectus_extractor.ledger import correction_problem
+
+
+def test_g1_a_forged_new_value_with_the_old_entry_id_is_invalid_and_not_applied(tmp_path):
+    payload = fx.bscs()
+    forged = good_entry(payload["courses"][0], new_value="FORGED TITLE")
+    assert "entry_id" in entry_problem(forged)
+    corrected, report = materialise(payload, [forged], HASH)
+    assert report["applied"] == 0 and corrected["courses"][0]["course_title"] != "FORGED TITLE"
+    assert entry_problem(good_entry(payload["courses"][0])) is None            # an honest entry (the old id scheme) still reads
+
+
+def test_g2_the_stale_check_never_equates_bool_with_number():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    lab = course["lab_units"]
+    assert lab == 0 and course["lab_units"] is not False
+    fix = field_entry(course, "lab_units", 4)
+    masking = field_entry(course, "lab_units", 5, disposition="accepted", old_value=False)   # False == 0 in Python
+    corrected, report = materialise(payload, [fix, masking], HASH)
+    assert report["applied"] == 1 and corrected["courses"][0]["lab_units"] == 4
+    assert content_review_state(payload, [masking], HASH)["stale_entries"] == 1
+    same = field_entry(course, "lab_units", 4, disposition="accepted", old_value=float(lab))     # 0.0 and 0 are the same number
+    assert content_review_state(payload, [same], HASH)["stale_entries"] == 0
+
+
+@pytest.mark.parametrize("bad", [4.5, 4.0, 100, 10**1000, -1, True])
+def test_g3_g7_units_are_whole_numbers_up_to_99_and_a_huge_int_is_invalid_not_a_crash(bad):
+    assert correction_problem("total_units", bad)               # no OverflowError, no ValueError later
+    course = fx.bscs()["courses"][0]
+    forged = {**field_entry(course, "total_units", 4), "new_value": bad}
+    assert entry_problem(forged)
+    assert materialise(fx.bscs(), [forged], HASH)[1]["applied"] == 0
+    assert correction_problem("total_units", 0) is None and correction_problem("total_units", 99) is None
+
+
+@pytest.mark.parametrize("field", ["prerequisites_raw", "total_units", "lab_units", "lecture_units"])
+def test_g5_an_unresolved_decision_on_any_correctable_field_keeps_the_state_partial(field):
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    row = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                     old_value=course_snapshot(course), new_value=None, section="s", now=NOW)
+    held = field_entry(course, field, None, disposition="unresolved", old_value=course.get(field))
+    state = content_review_state(payload, [row, held], HASH)
+    assert state["state"] == "partially_reviewed" and state["unresolved"] == 1
+
+
+def test_g6_decisions_for_absent_courses_are_orphans_and_an_empty_candidate_is_never_reviewed():
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    row = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                     old_value=course_snapshot(course), new_value=None, section="s", now=NOW)
+    empty = {**payload, "courses": []}
+    state = content_review_state(empty, [row], HASH)
+    assert state["state"] != "reviewed" and state["orphan_entries"] == 1 and state["decided"] == 0
+    assert content_review_state(empty, [], HASH)["state"] != "reviewed"
+    corrected, report = materialise(empty, [row], HASH)
+    assert report["applied"] == 0 and report["skipped"][0]["reason"] == "course_not_found"
