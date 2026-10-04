@@ -281,3 +281,37 @@ def test_item11_appending_after_a_last_line_without_a_newline_keeps_one_entry_pe
     assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
     text = path.read_text(encoding="utf-8")
     assert "}{" not in text and len(text.splitlines()) == 2 and len(read_entries(path)) == 2
+
+
+# --- re-review round 2: incomplete entries, missing reason, non-UTF-8 bytes
+
+@pytest.mark.parametrize("missing", ["entry_id", "old_value", "reason"])
+def test_r2_item2_3_an_entry_missing_entry_id_old_value_or_reason_is_invalid_not_a_crash(tmp_path, missing):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0], **{missing: ...}))
+    entries = read_entries(path)
+    assert entry_problem(entries[0]) and missing in entry_problem(entries[0])
+    _c, report = materialise(payload, entries, "b" * 64)          # another PDF: used to KeyError on entry_id
+    assert report["applied"] == 0 and report["skipped"][0]["reason"].startswith("invalid_entry")
+    assert materialise(payload, entries, HASH)[1]["applied"] == 0
+    assert content_review_state(payload, entries, HASH)["invalid_entries"] == 1
+
+
+def test_r2_item3_a_blank_reason_is_invalid_and_make_entry_refuses_it():
+    payload = fx.bscs()
+    assert entry_problem(good_entry(payload["courses"][0], reason="  "))
+    with pytest.raises(Exception, match="reason"):
+        make_entry(reviewer="N", reason=" ", pdf_sha256=HASH, locator=course_locator(payload["courses"][0]), field="row",
+                   disposition="accepted", old_value={}, new_value={}, section="s")
+
+
+def test_r2_item4_non_utf8_bytes_become_unreadable_lines_with_their_number(tmp_path):
+    payload = fx.bscs()
+    good = json.dumps(good_entry(payload["courses"][0]), sort_keys=True).encode("utf-8")
+    path = tmp_path / "ledger.jsonl"
+    path.write_bytes(b"\xef\xbb\xbf" + good + b"\r\n\xff\xfe bad\n" + good.replace(b"Discrete", b"Discr\xe9te") + b"\n" + good + b"\n")
+    entries = read_entries(path)                         # no UnicodeDecodeError, BOM and CRLF tolerated
+    bad = [e["_unreadable"] for e in entries if "_unreadable" in e]
+    assert len(entries) == 4 and bad[0].startswith("line 2") and len(bad) == 2 and bad[1].startswith("line 3")
+    assert materialise(payload, entries, HASH)[1]["applied"] == 1

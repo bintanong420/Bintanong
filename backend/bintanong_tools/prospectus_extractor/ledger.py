@@ -111,9 +111,11 @@ def entry_problem(entry: Mapping[str, Any]) -> str | None:
         return f"unknown field {entry.get('field')!r}"
     if problem := locator_problem(entry.get("locator")):
         return problem
-    for name in ("reviewer", "recorded_at", "pdf_sha256"):
+    for name in ("entry_id", "reviewer", "recorded_at", "reason", "pdf_sha256"):
         if not _text(entry.get(name)):
             return f"missing {name}"
+    if "old_value" not in entry:
+        return "missing old_value"
     if entry.get("disposition") not in DISPOSITIONS:
         return f"unknown disposition {entry.get('disposition')!r}"
     if entry["disposition"] == CORRECTED:
@@ -140,8 +142,8 @@ def make_entry(
 ) -> dict[str, Any]:
     if disposition not in DISPOSITIONS:
         raise LedgerError(f"unknown disposition {disposition!r}")
-    if not reviewer.strip() or not pdf_sha256:
-        raise LedgerError("an entry needs a reviewer and a pdf_sha256")
+    if not reviewer.strip() or not pdf_sha256 or not reason.strip():
+        raise LedgerError("an entry needs a reviewer, a reason and a pdf_sha256")
     if field not in ENTRY_FIELDS:
         raise LedgerError(f"unknown field {field!r}; use one of {', '.join(ENTRY_FIELDS)}")
     if disposition == CORRECTED and (problem := correction_problem(field, new_value)):
@@ -166,13 +168,17 @@ def read_entries(path: Path) -> list[dict[str, Any]]:
         return []
     entries = []
     # Split on "\n" only: str.splitlines() also breaks at U+2028, U+2029 and U+0085, which json.dumps
-    # (ensure_ascii=False) writes raw inside a value. utf-8-sig tolerates an editor's BOM.
-    for number, line in enumerate(path.read_bytes().decode("utf-8-sig").split("\n"), 1):
-        line = line.removesuffix("\r")
-        if not line.strip():
+    # (ensure_ascii=False) writes raw inside a value. Bytes are split first and decoded per line, so a
+    # non-UTF-8 line is one reported line, not a fatal error; an editor's BOM is dropped.
+    for number, raw in enumerate(path.read_bytes().removeprefix(b"\xef\xbb\xbf").split(b"\n"), 1):
+        raw = raw.removesuffix(b"\r")
+        if not raw.strip():
             continue
         try:
-            entry = json.loads(line)
+            entry = json.loads(raw.decode("utf-8"))
+        except UnicodeDecodeError as exc:
+            entries.append({"_unreadable": f"line {number} is not UTF-8: {exc}"})
+            continue
         except json.JSONDecodeError as exc:
             entries.append({"_unreadable": f"line {number} is not JSON: {exc}"})
             continue
