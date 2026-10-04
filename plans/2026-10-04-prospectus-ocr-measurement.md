@@ -65,9 +65,9 @@ scripts/ocr_bench.py                          simulate | ocr | score
 | 1 Photo simulator | built, tested |
 | 2 Scorer and Q11 verdict | built, tested |
 | 3 CLI driver and OCR stub | built, tested |
-| 4a Install GPU and CPU dependencies | approved 2026-10-04 on the condition that setup is code in the repository; see "Setup from a clean clone" and the Task 4a results |
-| 4b Engine adapters and the six-config run | not started; needs 4a |
-| 4c Throughput measurement, CPU versus GPU | not started; needs 4b |
+| 4a Install GPU and CPU dependencies | done in a throwaway venv, setup committed; **GPU path works but is slower than CPU** (results below), needs the user's decision |
+| 4b Engine adapters and the six-config run | bare-engine adapters built and run on one page for all six configs; the Docling payload conversion is not done |
+| 4c Throughput measurement, CPU versus GPU | first figures taken on 3 pages (ad hoc script); the `bench` subcommand is not built |
 | 5 Confidence matching | not started |
 | 6 Review-row adapter and question-style review model | not started; needs the B2 ledger extension (O1) |
 | 7 Edition-matching measurement | not started |
@@ -301,17 +301,45 @@ Files that carry this setup: `backend/pyproject.toml` (extras `ocr-gpu` and `ocr
 
 ---
 
-## Task 4a: Install GPU and CPU dependencies (GATED on the user's go-ahead)
+## Task 4a: Install GPU and CPU dependencies (done 2026-10-04, in a throwaway venv)
 
-**Files:** `backend/pyproject.toml`, `backend/uv.lock`, an OCR Dockerfile and Compose entry, a decision record. Nothing else.
+Approved by the user on 2026-10-04, on the condition that the setup lives in the repository. Verified in a throwaway environment (`UV_PROJECT_ENVIRONMENT` under `%TEMP%`); the main backend venv was not touched.
 
-- [ ] Gate: the user says go. Until then nothing in this task is run.
-- [ ] In a throwaway worktree and venv: record the driver version (`nvidia-smi`), pick the CUDA, cuDNN, `onnxruntime-gpu` and torch versions per "Dependencies, CUDA and install steps", add the extras, indexes, sources and conflicts, regenerate `uv.lock`.
-- [ ] Check: `uv lock` resolves for Windows, Linux and macOS; the macOS resolve contains no CUDA wheel; the CPU extra resolves without `onnxruntime-gpu`.
-- [ ] Check on the RTX 4060: `torch.cuda.is_available()` is true, the ONNX Runtime provider list contains the CUDA provider, a one-page RapidOCR run reports the CUDA provider as the one used.
-- [ ] Install Tesseract per OS and fetch the pinned `fil` and `eng` models; record their SHA-256 values in the decision record.
-- [ ] Docker: build the GPU image, run `nvidia-smi` and the provider check inside it; build the CPU image.
-- [ ] Only then merge the dependency change, as its own commit, and run the full test suite.
+**Versions chosen, and why.** `nvidia-smi`: driver 616.86, CUDA UMD 13.4, RTX 4060 Laptop GPU, 8188 MiB. `onnxruntime-gpu` 1.30.0 (latest, has cp313 Windows and Linux wheels) targets CUDA 13.0 (its `cuda` and `cudnn` extras name `nvidia-*~=13.0` wheels and `nvidia-cudnn-cu13~=9.0`). PyTorch publishes `torch 2.14.0+cu130` and `torchvision 0.29.0+cu130` for cp313 on Windows and Linux, so one CUDA major (13.0) serves both libraries and the driver (13.4) covers it. The CUDA runtime, cuBLAS, cuFFT, cuRAND, NVRTC and cuDNN 9.24 come as pip wheels, so no system CUDA toolkit is needed. `onnxruntime` 1.30.0 is the CPU extra.
+
+**What is committed.** `backend/pyproject.toml` (extras `ocr-gpu`, `ocr-cpu`, declared conflicting; index `pytorch-cu130`; `[tool.uv.sources]` for torch and torchvision gated on the `ocr-gpu` extra and Windows or Linux), `backend/uv.lock` (additions only: onnxruntime, onnxruntime-gpu, flatbuffers, protobuf, and the `+cu130` torch and torchvision; no existing pin moved), `scripts/fetch_tessdata.py` with `tests/test_ocr_fetch_tessdata.py`.
+
+**Checks (throwaway venv, Python 3.13.5).**
+- `uv lock` resolves with no existing pin changed. (Not yet verified: a lock check on a Linux or macOS machine; the lock was produced universally.)
+- `uv sync --locked --extra tools --extra dev --extra ocr-gpu` succeeded. The first attempt failed on a download timeout of the 385 MiB `nvidia-cublas` wheel at uv's default 30 s; the retry with `UV_HTTP_TIMEOUT=300` succeeded. Slow connections should set it.
+- `torch 2.14.0+cu130`, `torch.version.cuda` 13.0, `torch.cuda.is_available()` True, device "NVIDIA GeForce RTX 4060 Laptop GPU".
+- `onnxruntime 1.30.0` providers: TensorrtExecutionProvider, CUDAExecutionProvider, CPUExecutionProvider.
+- Tesseract 5.5.3.20260724 installed with `winget install -e --id tesseract-ocr.tesseract` (the first attempt was cancelled by an installer prompt; the second succeeded). It is not on PATH in an already-open shell; `engines.find_tesseract` also looks in `C:\Program Files\Tesseract-OCR`.
+- `fetch_tessdata.py` downloaded both models and the hashes matched. `tesseract --list-langs` with `TESSDATA_PREFIX` set to that folder lists `eng` and `fil`.
+- All six configs ran on one real page (the BSA architecture prospectus page, `flat_good`) through `scripts/ocr_bench.py ocr`.
+
+**Findings that change the setup.**
+1. `onnxruntime.preload_dlls()` must run before the first CUDA session. A system CUDA 13.3 is on this machine's PATH and the system has no cuDNN; without the preload ONNX Runtime mixed libraries and failed. The adapter calls it.
+2. With RapidOCR's default cuDNN algorithm search (`EXHAUSTIVE`), and also with `HEURISTIC`, `use_tf32=0`, `prefer_nhwc=0` and a reduced workspace, the PP-OCRv6 recognizer fails on its first batch with `CUDNN_STATUS_EXECUTION_FAILED_CUDART` (ReduceMean node). Only `cudnn_conv_algo_search: DEFAULT` ran, repeatably (each option tried in its own process, twice). The adapter sets it. Docling's own RapidOCR integration does not set it, so Docling's OCR on this GPU would fail with the library default until Task 4b passes this option through.
+3. Tesseract's `tsv` config name is not found when `TESSDATA_PREFIX` points at a models-only folder; Tesseract then silently prints plain text. The adapter uses `-c tessedit_create_tsv=1` and now raises if the output is not TSV (the first run had silently produced empty pages).
+
+**First throughput figures** (3 real pages, 1275 x 1951 px simulated photos, one process, warm = second pass; ad hoc script, not committed):
+
+| Config | Device | First page | Warm s/page | Warm pages/s |
+|---|---|---|---|---|
+| tesseract-eng | CPU | | 5.47 | 0.183 |
+| tesseract-fil | CPU | | 4.53 | 0.221 |
+| tesseract-eng+fil | CPU | | 8.43 | 0.119 |
+| rapidocr-en | CPU | 7.85 s | 7.05 | 0.142 |
+| rapidocr-latin | CPU | 6.9 s | 8.38 | 0.119 |
+| rapidocr-iso:fil | CPU | 7.4 s | 11.0 | 0.091 |
+| rapidocr-en | GPU | 16.2 s | 18.06 | 0.055 |
+| rapidocr-latin | GPU | 15.0 s | 17.84 | 0.056 |
+| rapidocr-iso:fil | GPU | 18.0 s | 18.91 | 0.053 |
+
+On this page, with the only setting that runs (`DEFAULT`), the GPU is about 2.5 times slower than the CPU for RapidOCR. Peak GPU memory was about 1.8 to 1.9 GB (system-wide reading, 0.4 GB of it was already in use). Likely cause, not yet confirmed: a page has about 390 text crops of different widths, and the cuDNN convolution plans are rebuilt for each new shape. Next steps for Task 4c, not done: batch crops to a few fixed widths, try the torch backend of RapidOCR on CUDA, try the TensorRT provider, and measure Docling's layout and table models on CUDA, where the GPU is more likely to win. Until then the GPU is not worth enabling for the RapidOCR configs.
+
+**Quality sanity check (not the bake-off).** On the same page RapidOCR returned 376 to 394 text lines at mean confidence about 99 and found `AD-1/L`; Tesseract returned about 790 words at mean confidence 70 to 76 and did not contain `AD-1/L` as one token.
 
 ## Task 4b: Engine adapters and the six-config run (needs 4a)
 
