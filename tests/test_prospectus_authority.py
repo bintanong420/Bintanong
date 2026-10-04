@@ -386,3 +386,45 @@ def test_ledger_without_a_source_hash_cannot_be_applied():
     base = payload_for([CONTROL])
     payload = payload_for([CONTROL], review_entries=ledger_row_entries(base))
     assert payload["content_review"] == "pending"
+
+
+TIE_SCRIPT = """
+import copy, json
+from pathlib import Path
+from backend.bintanong_tools.prospectus_extractor.audit import build_audit
+from backend.bintanong_tools.prospectus_extractor.parse import parse_curriculum_evidence
+from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
+from backend.bintanong_tools.prospectus_extractor.selftest import (
+    CS_HEADER, _cs_row, _cs_semester_row, _merged, fixture_document,
+)
+
+rows = [
+    _cs_row(("CS 1", "A", "3", ""), ("CS 2", "B", "3", "")),
+    _cs_row(("CS 3", "C", "3", ""), ("CS 4", "D", "3", "")),
+]
+grid = [CS_HEADER, _merged("FIRST YEAR", 8), _cs_semester_row(), *rows]
+document = fixture_document(grid, [("title", "BACHELOR OF SCIENCE IN COMPUTER SCIENCE PROGRAM")])
+payload = build_payload(document, Path("local/x.pdf"), semantic_doc_path=None)
+courses = copy.deepcopy(payload["courses"])
+for course, semester in zip(courses, ("Summer", "Mid-Year", "Summer", "Mid-Year")):
+    course["year_level"], course["semester"] = "1st Year", semester
+audit = build_audit(courses, parse_curriculum_evidence(document), payload["metadata"], [], [])
+print(json.dumps(audit["terms_detected"]))
+"""
+
+
+def test_terms_with_the_same_index_are_listed_in_a_fixed_order():
+    import os
+    import sys
+
+    repo = Path(__file__).resolve().parents[1]
+    seen = set()
+    for seed in range(16):
+        env = dict(os.environ, PYTHONHASHSEED=str(seed), PYTHONPATH=str(repo))
+        done = subprocess.run(
+            [sys.executable, "-c", TIE_SCRIPT], capture_output=True, text=True, encoding="utf-8", cwd=repo, env=env,
+        )
+        assert done.returncode == 0, done.stderr[-1500:]
+        seen.add(done.stdout.strip())
+    # Summer and Mid-Year share an index; the tie breaks on year then semester text.
+    assert seen == {'["1st Year Mid-Year", "1st Year Summer"]'}

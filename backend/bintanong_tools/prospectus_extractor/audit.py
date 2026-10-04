@@ -65,7 +65,7 @@ def build_audit(
 
     years = sorted(
         {c.get("year_level") for c in courses if c.get("year_level")},
-        key=lambda y: YEAR_ORDER.get(y, 99),
+        key=lambda y: (YEAR_ORDER.get(y, 99), y),
     )
     terms = sorted(
         {
@@ -73,7 +73,8 @@ def build_audit(
             for c in courses
             if c.get("year_level") and c.get("semester")
         },
-        key=lambda t: term_index(t[0] or "", t[1] or ""),
+        # The text keys break ties (Summer and Mid-Year share an index) so the order never depends on set order.
+        key=lambda t: (term_index(t[0] or "", t[1] or ""), t[0] or "", t[1] or ""),
     )
     years_present = {c.get("year_level") for c in courses}
 
