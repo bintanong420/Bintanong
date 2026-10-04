@@ -271,7 +271,11 @@ def unconsumed_prerequisite_text(course: dict) -> str:
     codes = list(course.get("prerequisites") or [])
     known = {norm_key(code) for code in codes}
     left: list[str] = []
-    for fragment in split_prereq_fragments(clean_str(course.get("prerequisites_raw"))):
+    # Split like split_prereq_fragments but keep none-words: next to a code they contradict the rule.
+    text = clean_str(course.get("prerequisites_raw"))
+    for fragment in (clean_str(part) for part in re.split(r"[;,&]|\band\b|\n", text, flags=re.IGNORECASE)):
+        if not fragment:
+            continue
         if is_standing_rule(fragment):
             continue
         span = CODE_RANGE.match(fragment)
@@ -289,28 +293,26 @@ def unconsumed_prerequisite_text(course: dict) -> str:
     return " ".join(left)
 
 
-# Words that may appear in a cell that only says there is no prerequisite; any other word disqualifies it.
-NONE_KEY_WORDS = frozenset({"none", "nil", "na"})
-NONE_FILLER_WORDS = frozenset(
-    {"no", "required", "requirement", "requirements", "prerequisite", "prerequisites", "prereq", "prereqs",
-     "requisite", "requisites", "pre"}
+# Whole normalised phrases (lower case, punctuation removed, "n/a" as "na", "(s)" as "s") that say there is
+# no prerequisite. A cell must equal one of them; a bag of words is not enough ("None; prerequisite required").
+NONE_PHRASES = frozenset(
+    {"none", "nil", "na", "none required", "no prerequisite", "no prerequisites", "no pre requisite",
+     "no pre requisites", "no prerequisite required", "no prerequisites required", "no pre requisite required",
+     "no pre requisites required", "no prereq", "no prereqs"}
 )
 DASHES_ONLY = re.compile(r"^[\s\-\u2010-\u2015\u2212_.]*[\-\u2010-\u2015\u2212][\s\-\u2010-\u2015\u2212_.]*$")
 
 
 def is_stated_none(raw: str) -> bool:
-    """True when the cell only says there is no prerequisite. The exact forms in NULL_TOKENS come
-    first; then a word match that never fires when any other word, code or number is present."""
+    """True when the whole cell is one listed phrase that says there is no prerequisite: the exact
+    forms in NULL_TOKENS first, then the normalised phrase list. Anything extra means False."""
     text = clean_str(raw)
     if text.lower() in NULL_TOKENS:
         return bool(text)
     if DASHES_ONLY.match(text):
         return True
-    words = re.sub(r"[^a-z0-9]+", " ", re.sub(r"n\s*[/.]\s*a\b\.?", "na", text.lower().replace("(s)", "s"))).split()
-    if not words or not set(words) <= NONE_KEY_WORDS | NONE_FILLER_WORDS:
-        return False
-    return bool(set(words) & NONE_KEY_WORDS) or ("no" in words and bool(set(words) & NONE_FILLER_WORDS - {"no"}))
-
+    phrase = re.sub(r"n\s*[/.]\s*a\b\.?", "na", text.lower().replace("(s)", "s"))
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", phrase).split()) in NONE_PHRASES
 
 def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = frozenset()) -> str:
     """Worst-case state of one finalized course; the order below is the precedence."""
@@ -320,8 +322,15 @@ def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = fr
         return "unreadable"
     if not raw:
         return "blank_unreviewed"
-    if is_stated_none(raw) and not course.get("prerequisites") and not course.get("standing_requirements"):
-        return "stated_none"  # even when the parser filed the phrase itself as an unresolved token
+    unresolved = course.get("prerequisites_unresolved") or []
+    if (
+        is_stated_none(raw)
+        and not course.get("prerequisites")
+        and not course.get("standing_requirements")
+        # the parser may file the phrase itself as an unresolved token, but nothing else
+        and (not unresolved or (len(unresolved) == 1 and is_stated_none(unresolved[0])))
+    ):
+        return "stated_none"
     wording = raw
     for code in sorted(course.get("prerequisites") or [], key=len, reverse=True):
         wording = _code_pattern(code).sub(" ", wording)  # "OR 1" is a code, not the word "or"

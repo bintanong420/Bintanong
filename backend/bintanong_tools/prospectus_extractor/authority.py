@@ -20,24 +20,41 @@ from .text import clean_str
 VERIFIED_SOURCE = "verified"
 
 
+# The metadata fields that can identify a prospectus. Anything else in an approved scope is unknown.
+IDENTITY_FIELDS = ("campus", "college_code", "program_name", "effective_school_year")
+
+
+def _has_evidence(observation: Mapping[str, Any] | None) -> bool:
+    """An observation the extractor read from the document or path, not one it assumed."""
+    observation = observation or {}
+    return bool(observation.get("basis")) and observation.get("basis") != "extractor_default" and bool(
+        observation.get("evidence")
+    )
+
+
 def check_identity(
     metadata: Mapping[str, Any], approved_scope: Mapping[str, str] | None
 ) -> dict[str, Any]:
-    """Compare observed metadata with an approved identity, when one was supplied."""
+    """Compare observed metadata with an approved identity, when one was supplied.
+
+    consistent needs every approved field to be a known identity field with a non-empty value, backed
+    by an observation with evidence, and equal. A difference is a mismatch. Unknown keys, empty values,
+    assumed or unevidenced observations, and an empty scope never confirm an identity."""
     if not approved_scope:
         return {"state": "pending", "approved_scope": None, "mismatched_fields": [], "unverified_fields": []}
-    mismatched = [
-        name
-        for name, wanted in approved_scope.items()
-        if clean_str(wanted).casefold() != clean_str(metadata.get(name)).casefold()
-    ]
-    # A value the extractor only assumed (basis extractor_default) cannot confirm an identity.
     observations = metadata.get("observations") or {}
-    unverified = [
-        name
-        for name in approved_scope
-        if name not in mismatched and (observations.get(name) or {}).get("basis") == "extractor_default"
-    ]
+    mismatched: list[str] = []
+    unverified: list[str] = []
+    for name, wanted in approved_scope.items():
+        wanted_text = clean_str(wanted)
+        if name not in IDENTITY_FIELDS or not wanted_text:
+            unverified.append(name)
+        elif not clean_str(metadata.get(name)):
+            unverified.append(name)  # nothing was observed to compare with
+        elif wanted_text.casefold() != clean_str(metadata.get(name)).casefold():
+            mismatched.append(name)
+        elif not _has_evidence(observations.get(name)):
+            unverified.append(name)
     state = "mismatch" if mismatched else "unverified" if unverified else "consistent"
     return {
         "state": state,
@@ -45,7 +62,6 @@ def check_identity(
         "mismatched_fields": mismatched,
         "unverified_fields": unverified,
     }
-
 
 def build_authority(
     *,

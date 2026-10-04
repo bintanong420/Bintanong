@@ -487,13 +487,16 @@ def test_plainly_resolved_cells_stay_resolved(raw, prereqs):
 
 
 # Review finding B: only the exact verified literals count.
+META_P = {"program_name": "P", "observations": {"program_name": {"value": "P", "basis": "document_heading", "evidence": "BACHELOR OF P", "status": "candidate"}}}
+
+
 def authority_for(**kwargs):
     from types import SimpleNamespace
     from backend.bintanong_tools.prospectus_extractor.authority import build_authority
 
     source = kwargs.pop("source", SimpleNamespace(pdf_sha256="0" * 64, source_locator="x.pdf", source_verification="verified"))
     return build_authority(
-        audit_status="ok", metadata={"program_name": "P"}, courses=[{"prerequisite_state": "resolved"}],
+        audit_status="ok", metadata=META_P, courses=[{"prerequisite_state": "resolved"}],
         source=source, approved_scope={"program_name": "P"}, pdf_hash_check="matched", **kwargs,
     )
 
@@ -515,7 +518,7 @@ def test_only_an_exact_matched_hash_check_counts(bad):
 
     source = SimpleNamespace(pdf_sha256="0" * 64, source_locator="x.pdf", source_verification="verified")
     result = build_authority(
-        audit_status="ok", metadata={"program_name": "P"}, courses=[{"prerequisite_state": "resolved"}],
+        audit_status="ok", metadata=META_P, courses=[{"prerequisite_state": "resolved"}],
         source=source, approved_scope={"program_name": "P"}, pdf_hash_check=bad,
         content_review={"state": "reviewed"},
     )
@@ -714,3 +717,101 @@ def test_printed_none_cells_end_to_end_become_stated_none_and_complete():
     assert states["CS 4"] != "stated_none"
     assert {"CS 1", "CS 2", "CS 3"} <= set(payload["prolog"]["relations"]["rule_complete"])
     assert "CS 4" not in payload["prolog"]["relations"]["rule_complete"]
+
+
+# Codex final gate 1 and 2: contradictory text and "none" matched as a bag of words.
+def swipl_next_eligible(tmp_path, payload, passed):
+    kb = tmp_path / "kb.pl"
+    kb.write_text("\n".join(payload["prolog"]["clauses"]) + "\n", encoding="utf-8", newline="\n")
+    driver = tmp_path / "driver.pl"
+    driver.write_text(
+        f":- consult({pl_atom(kb.as_posix())}).\n"
+        f"main :- findall(C, next_eligible({passed}, C), L), format(\"~q~n\", [L]).\n"
+        ":- initialization(main, main).\n",
+        encoding="utf-8", newline="\n",
+    )
+    done = subprocess.run(["swipl", "-q", str(driver)], capture_output=True, text=True, encoding="utf-8")
+    assert done.returncode == 0, done.stderr
+    return done.stdout.strip()
+
+
+CONTRADICTORY_CELLS = ["CS 1, none", "CS 1 and no prerequisite", "CS 1; N/A", "CS 1, nil", "none, CS 1", "CS 1, -"]
+
+
+@pytest.mark.parametrize("cell", CONTRADICTORY_CELLS)
+def test_a_none_word_next_to_a_code_is_not_a_complete_rule(cell, tmp_path):
+    assert classify_prerequisite_state(course(cell, ["CS 1"])) in ("unreadable", "alternative_or_exception")
+    payload = payload_for([CONTROL, one_case(cell)])
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] != "resolved"
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+    assert "rule_complete('CC 1')." not in payload["prolog"]["clauses"]
+    if shutil.which("swipl"):
+        offered = swipl_next_eligible(tmp_path, payload, "['CS 1']")
+        assert "CC 1" not in offered and "CS 2" in offered  # the control rule is still offered
+
+
+EXTRA_NOT_NONE = [
+    "None; prerequisite required", "none required? see CS 1", "no, CS 1", "N/A - CS 2", "none none",
+    "prerequisite required none", "no prerequisite recommended", "none (CS 1)",
+]
+
+
+@pytest.mark.parametrize("raw", EXTRA_NOT_NONE)
+def test_none_is_matched_as_a_whole_phrase_not_a_bag_of_words(raw, tmp_path):
+    assert classify_prerequisite_state(course(raw)) != "stated_none"
+    assert classify_prerequisite_state(course(raw, unresolved=["prerequisite required"])) != "stated_none"
+    payload = payload_for([CONTROL, one_case(raw)])
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] != "stated_none"
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+    if shutil.which("swipl"):
+        assert "CC 1" not in swipl_next_eligible(tmp_path, payload, "[]")
+
+
+@pytest.mark.parametrize("raw", ["no prerequisite required", "No pre-requisites required", "None required."])
+def test_listed_none_phrases_with_required_are_stated_none(raw):
+    assert classify_prerequisite_state(course(raw)) == "stated_none"
+
+
+def test_the_none_fallback_never_overrides_other_unresolved_text():
+    assert classify_prerequisite_state(course("none", unresolved=["prerequisite required"])) != "stated_none"
+    assert classify_prerequisite_state(course("none", unresolved=["none", "x"])) != "stated_none"
+    assert classify_prerequisite_state(course("none", unresolved=["none"])) == "stated_none"
+
+
+# Codex final gate 3: an approved scope needs a known, non-empty, evidenced field.
+def test_identity_needs_a_known_non_empty_evidenced_field():
+    from backend.bintanong_tools.prospectus_extractor.authority import check_identity
+
+    meta = META_P
+    assert check_identity(meta, {"program_name": "P"})["state"] == "consistent"
+    for scope in ({"bogus": ""}, {"bogus": "x"}, {"program_name": ""}, {"program_name": "P", "bogus": "x"},
+                  {"program_name": "P", "college_code": "CS"}):
+        result = check_identity(meta, scope)
+        assert result["state"] == "unverified", scope
+        assert result["unverified_fields"]
+    assert check_identity(meta, {"program_name": "Q"})["state"] == "mismatch"
+    # A value without evidence (no observation, or no basis) cannot confirm anything.
+    assert check_identity({"program_name": "P"}, {"program_name": "P"})["state"] == "unverified"
+    no_basis = {"program_name": "P", "observations": {"program_name": {"value": "P", "basis": None, "evidence": None}}}
+    assert check_identity(no_basis, {"program_name": "P"})["state"] == "unverified"
+
+
+def test_full_gates_with_an_unrelated_empty_scope_do_not_authorize():
+    from types import SimpleNamespace
+    from backend.bintanong_tools.prospectus_extractor.authority import build_authority
+
+    source = SimpleNamespace(pdf_sha256="0" * 64, source_locator="x.pdf", source_verification="verified")
+    for scope in ({"bogus": ""}, {}, None, {"program_name": ""}):
+        result = build_authority(
+            audit_status="ok", metadata=META_P, courses=[{"prerequisite_state": "resolved"}], source=source,
+            approved_scope=scope, pdf_hash_check="matched", content_review={"state": "reviewed"},
+        )
+        assert result["authority"]["eligibility_executable"] is False, scope
+        assert result["authority"]["blocked_by"], scope
+    good = build_authority(
+        audit_status="ok", metadata=META_P, courses=[{"prerequisite_state": "resolved"}], source=source,
+        approved_scope={"program_name": "P"}, pdf_hash_check="matched", content_review={"state": "reviewed"},
+    )
+    assert good["authority"]["eligibility_executable"] is True
