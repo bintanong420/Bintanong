@@ -67,6 +67,8 @@ The classifier now accounts for all of `prerequisites_raw`: after the resolved c
 
 - **Decision D2 confirmed (user, 4 October 2026): `stated_none` stays executable.** Because prospectuses print "none" inconsistently, `stated_none` is detected by the exact forms first, then by word matching: a cell whose only words are none, nil, n/a (any punctuation) or "no" with a prerequisite word, optionally with required or requirement(s), or only dashes (including en and em dashes). Any other word, course code or number disqualifies it, so "None, but CS 1 recommended" is not `stated_none`. On the 44 cached inputs no course changes state (the printed nones were already the exact forms).
 
+- **Final gate fixes (4 October 2026).** A none-word next to a code ("CS 1, none", "CS 1 and no prerequisite") is now unconsumed text, so the state is `unreadable`, never `resolved`; `stated_none` matches only whole normalised phrases from an allow-list (none, nil, n/a, no prerequisite(s), no pre-requisite(s), none required, no prerequisite required, dashes), not a bag of words, and never overrides other unresolved text. An approved scope confirms identity only when every key is a known identity field with a non-empty value, equal to an observation that has evidence; unknown keys, empty values, nothing observed, or an assumed value give `unverified`. On the 44 cached inputs no course changes state. `promotion_status` stays `VERIFIED` by decision.
+
 ## Known limits
 
 Blank cells cannot be told from missing ones. `unreadable` in a payload whose audit is not `error` only comes from "text present, nothing recognised". The review CSV does not show `prerequisite_state`. The batch manifest does not carry the three states.
