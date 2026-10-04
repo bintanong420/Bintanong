@@ -6,12 +6,18 @@ produce executable eligibility.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import shutil
 import subprocess
 from pathlib import Path
 
 import pytest
 
+from backend.bintanong_tools.prospectus import ProvisionalSource
+from backend.bintanong_tools.prospectus_extractor import pipeline
+from backend.bintanong_tools.prospectus_extractor.common import SCHEMA_VERSION
+from backend.bintanong_tools.prospectus_extractor.ledger import course_locator, make_entry
 from backend.bintanong_tools.prospectus_extractor.metadata import resolve_metadata
 from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
 from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
@@ -223,3 +229,160 @@ def test_unknown_metadata_has_no_basis_and_the_same_warnings_as_before():
     for name in ("college_code", "program_name", "effective_school_year"):
         assert seen[name] == {"value": None, "basis": None, "evidence": None, "status": "candidate"}
     assert seen["campus"]["basis"] == "extractor_default"  # still an assumption, now labelled as one
+
+
+def test_mismatched_scope_with_an_approved_identity_blocks_eligibility():
+    payload = payload_for([CONTROL], approved_scope={"campus": "Elsewhere Campus"})
+    assert payload["audit"]["promotion_status"] == "VERIFIED"
+    identity = payload["authority"]["identity_check"]
+    assert identity["state"] == "mismatch"
+    assert identity["mismatched_fields"] == ["campus"]
+    assert "identity_mismatch" in payload["authority"]["blocked_by"]
+    assert payload["authority"]["eligibility_executable"] is False
+    # The parser's campus is still reported, but only as a labelled observation.
+    assert payload["campus"] == "Tiniguiban - Main"
+    assert payload["metadata"]["observations"]["campus"]["basis"] == "extractor_default"
+
+
+def test_pending_identity_is_a_state_not_an_audit_error():
+    with_scope = payload_for([CONTROL], approved_scope={"campus": "Tiniguiban - Main"})
+    pending = payload_for([CONTROL])
+    assert pending["authority"]["identity_check"] == {
+        "state": "pending", "approved_scope": None, "mismatched_fields": [],
+    }
+    assert "identity_pending" in pending["authority"]["blocked_by"]
+    assert pending["audit"]["errors"] == [] and pending["audit"]["errors"] == with_scope["audit"]["errors"]
+    assert pending["audit"]["warnings"] == with_scope["audit"]["warnings"]
+    assert pending["authority"]["eligibility_executable"] is False
+
+
+def test_a_consistent_identity_alone_still_does_not_authorize():
+    payload = payload_for([CONTROL], approved_scope={"campus": "Tiniguiban - Main"})
+    assert payload["authority"]["identity_check"]["state"] == "consistent"
+    assert "identity_pending" not in payload["authority"]["blocked_by"]
+    assert "content_review_pending" in payload["authority"]["blocked_by"]
+    assert payload["authority"]["eligibility_executable"] is False
+
+
+@pytest.mark.parametrize("cell", ["Units", "CS 9", "Dean consent", "CS 1 or CS 2", "CS 1 except transferees"])
+def test_authority_block_blocks_eligibility_when_a_rule_is_incomplete(cell):
+    payload = payload_for([CONTROL, one_case(cell)])
+    assert payload["audit"]["promotion_status"] == "VERIFIED"
+    assert payload["authority"]["eligibility_executable"] is False
+    assert "prerequisite_rules_incomplete" in payload["authority"]["blocked_by"]
+    assert payload["authority"]["courses_with_incomplete_prerequisite_rule"] >= 2
+
+
+def test_three_states_are_separate_fields_and_promotion_status_is_unchanged():
+    payload = payload_for([CONTROL])
+    assert payload["schema_version"] == SCHEMA_VERSION == "palsu-prospectus-v3.1"
+    assert payload["extraction_audit"] == payload["audit"]["status"] == "warn"
+    assert payload["content_review"] == "pending"
+    assert payload["source_verification"] == "pending"
+    assert payload["audit"]["promotion_status"] == "VERIFIED"           # kept for compatibility
+    assert payload["quality_report"]["promotion_status"] == "VERIFIED"
+    assert "not approval" in payload["authority"]["note"]
+    assert payload["authority"]["source_record"] is None
+
+
+def test_source_record_is_carried_but_not_trusted_without_a_hash_check():
+    source = ProvisionalSource("0" * 64, "local/x.pdf")
+    payload = payload_for([CONTROL], source=source)
+    assert payload["source_verification"] == "pending"
+    assert payload["authority"]["source_record"] == {
+        "pdf_sha256": "0" * 64, "source_locator": "local/x.pdf", "pdf_hash_check": "not_checked",
+    }
+    assert "pdf_hash_not_checked" in payload["authority"]["blocked_by"]
+    assert payload["authority"]["eligibility_executable"] is False
+
+
+def test_hash_mismatch_raises_before_any_output_is_touched(tmp_path):
+    pdf = tmp_path / "prospectus.pdf"
+    pdf.write_bytes(b"%PDF-1.4\nchanged bytes")
+    out = tmp_path / "x_prospectus.json"
+    out.write_text("previous accepted output", encoding="utf-8")
+    source = ProvisionalSource(hashlib.sha256(b"%PDF-1.4\noriginal").hexdigest(), "local/prospectus.pdf")
+    with pytest.raises(ValueError, match="hash mismatch"):
+        pipeline.process_prospectus(pdf, output_path=out, semantic_doc_path=None, quiet=True, source=source)
+    assert out.read_text(encoding="utf-8") == "previous accepted output"
+    assert not (tmp_path / "x_essentials.json").exists()
+
+
+def test_matching_hash_is_recorded_and_still_does_not_authorize(tmp_path, monkeypatch):
+    pdf = tmp_path / "prospectus.pdf"
+    pdf.write_bytes(b"%PDF-1.4\noriginal")
+    source = ProvisionalSource(hashlib.sha256(b"%PDF-1.4\noriginal").hexdigest(), "local/prospectus.pdf")
+    grid = [CS_HEADER, _merged("FIRST YEAR", 8), _cs_semester_row(), CONTROL]
+    document = fixture_document(grid, [("title", "BACHELOR OF SCIENCE IN COMPUTER SCIENCE PROGRAM")])
+    monkeypatch.setattr(pipeline, "load_document", lambda *args, **kwargs: (document, None))
+    out = tmp_path / "x_prospectus.json"
+
+    payload = pipeline.process_prospectus(pdf, output_path=out, semantic_doc_path=None, quiet=True, source=source)
+
+    assert payload["authority"]["source_record"]["pdf_hash_check"] == "matched"
+    assert "pdf_hash_not_checked" not in payload["authority"]["blocked_by"]
+    assert payload["authority"]["eligibility_executable"] is False
+    essentials = json.loads((tmp_path / "x_essentials.json").read_text(encoding="utf-8"))
+    assert essentials["schema_version"] == "palsu-prospectus-essentials-v2"
+    assert essentials["extraction_status"] == "VERIFIED"                # legacy field still present
+    assert essentials["extraction_audit"] == "warn"
+    assert essentials["content_review"] == "pending"
+    assert essentials["source_verification"] == "pending"
+    assert essentials["eligibility_executable"] is False
+    assert all("prerequisite_state" in item for item in essentials["courses"])
+    assert essentials["campus"] == "Tiniguiban - Main"                  # compact shape unchanged
+
+
+# content_review comes from the Phase B2 decision ledger when one is passed with a source hash.
+SOURCE_HASH = "0" * 64
+
+
+def ledger_row_entries(payload, count=None):
+    courses = payload["courses"][:count]
+    return [
+        make_entry(
+            reviewer="reviewer-a", reason="matches the printed row", pdf_sha256=SOURCE_HASH,
+            locator=course_locator(course), field="row", disposition="accepted",
+            old_value=None, new_value=None, section="FIRST YEAR / 1st Semester",
+        )
+        for course in courses
+    ]
+
+
+def test_content_review_reads_the_ledger_and_never_authorizes_alone():
+    source = ProvisionalSource(SOURCE_HASH, "local/x.pdf")
+    base = payload_for([CONTROL], source=source)
+    assert base["content_review"] == "pending"                     # no ledger passed
+
+    empty = payload_for([CONTROL], source=source, review_entries=[])
+    assert empty["content_review"] == "pending"
+
+    partial = payload_for([CONTROL], source=source, review_entries=ledger_row_entries(base, 1))
+    assert partial["content_review"] == "partially_reviewed"
+    assert "content_review_incomplete" in partial["authority"]["blocked_by"]
+    assert "content_review_pending" not in partial["authority"]["blocked_by"]
+
+    full = payload_for([CONTROL], source=source, review_entries=ledger_row_entries(base))
+    assert full["content_review"] == "reviewed"
+    assert full["authority"]["content_review_detail"]["decided"] == 2
+    assert "content_review_pending" not in full["authority"]["blocked_by"]
+    assert "content_review_incomplete" not in full["authority"]["blocked_by"]
+    # Reviewed content is still not a verified source, a checked hash, or a complete rule.
+    assert full["audit"]["promotion_status"] == "VERIFIED"
+    assert full["authority"]["eligibility_executable"] is False
+    assert "source_verification_pending" in full["authority"]["blocked_by"]
+
+
+def test_ledger_entries_for_another_pdf_do_not_count_as_review():
+    source = ProvisionalSource("1" * 64, "local/x.pdf")
+    base = payload_for([CONTROL], source=source)
+    other_pdf = ledger_row_entries(base)  # recorded against SOURCE_HASH, not the source's hash
+    payload = payload_for([CONTROL], source=source, review_entries=other_pdf)
+    assert payload["content_review"] == "pending"
+    assert payload["authority"]["content_review_detail"]["inapplicable_entries"] == 2
+
+
+def test_ledger_without_a_source_hash_cannot_be_applied():
+    base = payload_for([CONTROL])
+    payload = payload_for([CONTROL], review_entries=ledger_row_entries(base))
+    assert payload["content_review"] == "pending"

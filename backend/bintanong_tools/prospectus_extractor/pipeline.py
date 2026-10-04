@@ -5,9 +5,11 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from typing import Iterable
 from typing import Mapping
 import json
 
+from .authority import build_authority
 from .common import SCHEMA_VERSION
 from .evidence import LoadedDocument
 from .sections import SemanticRepairProvider
@@ -16,6 +18,7 @@ from .courses import finalize_courses, link_elective_tracks, parse_elective_trac
 from .prerequisites import annotate_prerequisite_states
 from .metadata import parse_semantic_markdown, resolve_metadata
 from .audit import build_audit
+from .ledger import content_review_state
 from .views import build_curriculum_by_term, build_unlocks_map, make_prerequisite_edges, write_review_csv
 from .prolog import generate_prolog_knowledge
 from .rag import build_hierarchical_rag_chunks, build_semantic_rag_chunks
@@ -30,8 +33,13 @@ def build_payload(
     semantic_doc_path: Path | None = DEFAULT_SEMANTIC_DOC,
     raw_json_path: Path | None = None,
     repair_provider: SemanticRepairProvider | None = None,
+    *,
+    source: Any = None,
+    approved_scope: Mapping[str, str] | None = None,
+    pdf_hash_check: str = "not_checked",
+    review_entries: Iterable[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Evidence -> audited payload. Production artifacts require a passing audit."""
+    """Evidence -> audited payload. Production artifacts require a passing audit; no state here is approval."""
     semantic_map = parse_semantic_markdown(Path(semantic_doc_path)) if semantic_doc_path else {}
     metadata, metadata_warnings = resolve_metadata(
         Path(input_path), doc_text=document.markdown, semantic_map=semantic_map
@@ -51,6 +59,18 @@ def build_payload(
 
     audit = build_audit(courses, parse, metadata, duplicates, metadata_warnings)
     term_units = audit["term_unit_audit"]
+
+    # A decision ledger only counts when it names the same PDF the source record declares.
+    review = None
+    if review_entries is not None and source is not None:
+        review = content_review_state(
+            {"courses": courses, "audit": audit}, review_entries, source.pdf_sha256
+        )
+    authority = build_authority(
+        audit_status=audit["status"], metadata=metadata, courses=courses,
+        source=source, approved_scope=approved_scope, pdf_hash_check=pdf_hash_check,
+        content_review=review,
+    )
 
     verified = audit["status"] != "error"
     if verified:
@@ -108,6 +128,7 @@ def build_payload(
         "prolog": prolog,
         "rag": {"semantic_chunks": semantic_chunks, "hierarchical_chunks": hierarchical_chunks},
         "audit": audit,
+        **authority,
         "quality_report": {
             "status": audit["status"],
             "promotion_status": audit["promotion_status"],
@@ -142,9 +163,13 @@ def build_essentials(payload: Mapping[str, Any]) -> dict[str, Any]:
         source_pdf = source_path.name
 
     return {
-        "schema_version": "palsu-prospectus-essentials-v1",
+        "schema_version": "palsu-prospectus-essentials-v2",
         "source_pdf": source_pdf,
         "extraction_status": payload["audit"]["promotion_status"],
+        "extraction_audit": payload["extraction_audit"],
+        "content_review": payload["content_review"],
+        "source_verification": payload["source_verification"],
+        "eligibility_executable": payload["authority"]["eligibility_executable"],
         "audit_errors": payload["audit"]["errors"],
         "audit_warnings": payload["audit"]["warnings"],
         "program": payload["program"],
@@ -165,6 +190,7 @@ def build_essentials(payload: Mapping[str, Any]) -> dict[str, Any]:
                 "prerequisites_raw": course["prerequisites_raw"],
                 "prerequisites_unresolved": course["prerequisites_unresolved"],
                 "standing_requirements": course["standing_requirements"],
+                "prerequisite_state": course["prerequisite_state"],
                 "category": course["category"],
                 "is_elective": course["is_elective"],
                 "elective_group": course["elective_group"],
@@ -189,6 +215,10 @@ def process_prospectus(
     repair_provider: SemanticRepairProvider | None = None,
     quiet: bool = False,
     export_md: bool = False,
+    *,
+    source: Any = None,
+    approved_scope: Mapping[str, str] | None = None,
+    review_entries: Iterable[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Full pipeline for one prospectus: convert, parse, audit, write."""
     input_path = Path(input_path).resolve()
@@ -207,6 +237,10 @@ def process_prospectus(
         final_path = input_path.parent / f"{stem}_prospectus.json"
     if final_path.suffix.lower() != ".json" or final_path.resolve() == input_path:
         raise ValueError("Output must be a JSON file distinct from the source")
+    pdf_hash_check = "not_checked"
+    if source is not None and input_path.suffix.lower() == ".pdf":
+        source.verify_pdf(input_path)  # raises ValueError on a hash mismatch, before any output is touched
+        pdf_hash_check = "matched"
     base = final_path.stem.replace("_prospectus", "")
     essentials_path = final_path.with_name(f"{base}_essentials.json")
     for stale in (
@@ -229,6 +263,10 @@ def process_prospectus(
         semantic_doc_path,
         raw_json_path,
         repair_provider=repair_provider,
+        source=source,
+        approved_scope=approved_scope,
+        pdf_hash_check=pdf_hash_check,
+        review_entries=review_entries,
     )
 
     final_path.parent.mkdir(parents=True, exist_ok=True)
