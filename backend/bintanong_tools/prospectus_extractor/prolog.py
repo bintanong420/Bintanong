@@ -20,6 +20,11 @@ def pl_atom(value: Any) -> str:
     return "'" + text.replace("\\", "\\\\").replace("'", "''") + "'"
 
 
+def pl_comment(value: Any) -> str:
+    """One line of comment text: a newline in metadata must not end the comment and start a clause."""
+    return " ".join(str(value).split())
+
+
 PROLOG_RULES = """
 % --------------------------------------------------------------------------
 % Query helpers
@@ -75,9 +80,9 @@ def generate_prolog_knowledge(
     add = clauses.append
 
     add("% ===========================================================================")
-    add(f"% PalSU prospectus knowledge base: {metadata.get('degree') or metadata.get('program_name')}")
-    add(f"% Curriculum SY: {metadata.get('effective_school_year')}")
-    add(f"% Source: {metadata.get('source_file')}")
+    add(f"% PalSU prospectus knowledge base: {pl_comment(metadata.get('degree') or metadata.get('program_name'))}")
+    add(f"% Curriculum SY: {pl_comment(metadata.get('effective_school_year'))}")
+    add(f"% Source: {pl_comment(metadata.get('source_file'))}")
     add(f"% Generated: {datetime.now().isoformat(timespec='seconds')} by {SCHEMA_VERSION}")
     add("% STATUS: review candidate. rule_complete/1 lists courses whose prerequisite cell the")
     add("% extractor fully understood; eligible/2 needs it. Nothing here is approved for active use.")

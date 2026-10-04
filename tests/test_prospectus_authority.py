@@ -20,7 +20,7 @@ from backend.bintanong_tools.prospectus_extractor.common import SCHEMA_VERSION
 from backend.bintanong_tools.prospectus_extractor.ledger import course_locator, make_entry
 from backend.bintanong_tools.prospectus_extractor.metadata import resolve_metadata
 from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
-from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
+from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge, pl_atom
 from backend.bintanong_tools.prospectus_extractor.selftest import (
     CS_HEADER, _cs_row, _cs_semester_row, _merged, fixture_document,
 )
@@ -149,6 +149,8 @@ def test_courses_without_a_state_are_never_complete():
 
 @pytest.mark.skipif(shutil.which("swipl") is None, reason="SWI-Prolog is not installed")
 def test_next_eligible_only_offers_courses_with_complete_rules(tmp_path):
+    tmp_path = tmp_path / "o'brien's kb"  # an apostrophe in the path must not break the Prolog atom
+    tmp_path.mkdir()
     payload = payload_for([
         CONTROL,
         _cs_row(("CC 1", "Intro to Computing", "3", "CS 1 or CS 2"), ("CC 2", "Other", "3", "CS 1")),
@@ -160,7 +162,7 @@ def test_next_eligible_only_offers_courses_with_complete_rules(tmp_path):
     def next_eligible(passed):
         driver = tmp_path / "driver.pl"
         driver.write_text(
-            f":- consult('{kb.as_posix()}').\n"
+            f":- consult({pl_atom(kb.as_posix())}).\n"
             f"main :- findall(C, next_eligible({passed}, C), L), format(\"~q~n\", [L]).\n"
             ":- initialization(main, main).\n",
             encoding="utf-8", newline="\n",
@@ -661,3 +663,15 @@ def test_rag_renders_the_prerequisite_line_from_the_state():
 )
 def test_or_inside_a_resolved_code_is_not_an_alternative(raw, prereqs, state):
     assert classify_prerequisite_state(course(raw, prereqs)) == state
+
+
+def test_pl_atom_escapes_quotes_and_backslashes():
+    assert pl_atom(r"a\b'c") == r"'a\\b''c'"
+
+
+def test_header_comments_cannot_be_broken_out_of_by_a_newline_in_metadata():
+    knowledge = generate_prolog_knowledge(
+        {"degree": "BS X\nevil(1).", "effective_school_year": "2025\r\nbad.", "source_file": "a\nb.pdf"}, [], [], []
+    )
+    assert all("\n" not in line and "\r" not in line for line in knowledge["clauses"][:12])
+    assert not any(line.startswith(("evil", "bad", "b.pdf")) for line in knowledge["clauses"])
