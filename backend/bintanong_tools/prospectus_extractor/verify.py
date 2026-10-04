@@ -252,7 +252,10 @@ def verify_candidate(payload: Mapping[str, Any], pdf_pages: Mapping[int, PdfPage
         if item["source"] == "anomaly":
             row.flags.append(Flag("audit_anomaly", ERROR, f'{item["type"]}: {item["snippet"]} (page {item["page"]})'))
         else:
-            row.flags.append(Flag("unclaimed_code", ERROR, f'printed code "{item["code"]}" was not claimed by any course ({item["source"]}, page {item["page"]})'))
+            wrapped = item.get("confidence") == "review"   # no column evidence: a wrapped code is for a human to judge
+            row.flags.append(Flag("unclaimed_code", WARN if wrapped else ERROR,
+                                  f'printed code "{item["code"]}" was not claimed by any course ({item["source"]}, page {item["page"]}'
+                                  + ("; wrapped over two lines, low confidence)" if wrapped else ")")))
         section.rows.append(row)
     sections += [s for s in (loose_section, unplaced) if s.rows]
     for section in sections:

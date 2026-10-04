@@ -315,3 +315,50 @@ def test_r2_item4_non_utf8_bytes_become_unreadable_lines_with_their_number(tmp_p
     bad = [e["_unreadable"] for e in entries if "_unreadable" in e]
     assert len(entries) == 4 and bad[0].startswith("line 2") and len(bad) == 2 and bad[1].startswith("line 3")
     assert materialise(payload, entries, HASH)[1]["applied"] == 1
+
+
+def test_r2_item1_a_remainder_printed_in_another_row_does_not_authorise_the_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][1]
+    course["course_code"], course["course_title"], course["units"] = "CS 1", "FIRST SEMESTER PRACTICUM", {"raw": "3"}
+    set_cell_text(payload, "t0-c18", "FIRST SEMESTER PRACTICUM")
+    page = "CS 1 FIRST SEMESTER PRACTICUM 3 OTHER 1 PRACTICUM 3"
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS) == []
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1", "OTHER 1"]) == []
+
+
+def test_r2_item1_the_remainder_printed_in_this_rows_own_band_still_authorises_the_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    page = "CC 1/L Introduction 2/1 FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 FIRST SEMESTER Other 3"
+    fixes = propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CC 1/L", "CC 2"])
+    assert [f.new for f in fixes] == ["Discrete Structures 1"]
+    elsewhere = "CS 1 FIRST SEMESTER Other title 3 CC 2 Discrete Structures 1 3"   # same words, another row
+    assert propose_fixes(course, roles(course, payload), page_text=elsewhere, banners=BANNERS, known_codes=["CC 2"]) == []
+
+
+def _page(*lines, height=800.0):
+    """PdfPage from lines of (text, left, bottom): 5-pt glyphs, 10 pt tall."""
+    chars = [(ch, left + i * 5, bottom, left + i * 5 + 5, bottom + 10) for text, left, bottom in lines for i, ch in enumerate(text)]
+    return PdfPage(" ".join(t for t, _l, _b in lines), chars, height)
+
+
+def test_r2_item5_a_wrapped_code_in_one_code_region_is_a_review_item_not_dropped():
+    from backend.bintanong_tools.prospectus_extractor.placement import unclaimed_items
+    page = _page(("Mktg", 400.0, 700.0), ("2001", 423.0, 686.0))          # adjacent lines, 3 pt apart
+    items = unclaimed_items({}, [], {1: page})
+    assert [(i["code"], i["confidence"]) for i in items] == [("Mktg 2001", "review")]
+    far = _page(("Law", 145.0, 700.0), ("3", 265.0, 686.0))                # the "3" is 100 pt away: the units column
+    assert unclaimed_items({}, [], {1: far}) == []
+    apart = _page(("Mktg", 400.0, 700.0), ("2001", 423.0, 600.0))          # lines 100 pt apart are not a wrap
+    assert unclaimed_items({}, [], {1: apart}) == []
+    split_word = _page(("Mk", 400.0, 700.0), ("tg", 412.0, 686.0), ("2001", 440.0, 672.0))   # three lines
+    assert unclaimed_items({}, [], {1: split_word}) == []
+
+
+def test_r2_item5_a_wrapped_code_is_a_warn_not_an_error_in_the_verifier():
+    payload = copy.deepcopy(fx.bscs())
+    v = verify_candidate(payload, {1: _page(("Zzzz", 400.0, 700.0), ("9999", 423.0, 686.0))})
+    flags = [f for s in v.sections for r in s.rows if r.item for f in r.flags]
+    assert [f.kind for f in flags] == ["unclaimed_code"] and flags[0].severity == "warn" and "wrapped" in flags[0].message
