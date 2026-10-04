@@ -12,6 +12,7 @@ from pathlib import Path
 
 import pytest
 
+from backend.bintanong_tools.prospectus_extractor.metadata import resolve_metadata
 from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
 from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
 from backend.bintanong_tools.prospectus_extractor.selftest import (
@@ -178,3 +179,47 @@ def test_blocked_audit_drops_candidate_prolog_and_rag():
     }
     assert payload["rag"] == {"semantic_chunks": [], "hierarchical_chunks": []}
     assert "blocked_candidates" not in payload
+
+
+SEMANTIC_MAP = {
+    "CS": {
+        "name": "College of Sciences",
+        "programs": [
+            {"program_name": "Bachelor of Science in Computer Science", "degree": "BS Computer Science"}
+        ],
+    }
+}
+
+
+def test_metadata_keeps_its_values_and_adds_observations_with_evidence():
+    metadata, _warnings = resolve_metadata(
+        Path("Tiniguiban - Main/CS/bscs.pdf"),
+        doc_text="BACHELOR OF SCIENCE IN COMPUTER SCIENCE Effective SY 2025-2026",
+        semantic_map=SEMANTIC_MAP,
+    )
+    assert metadata["campus"] == "Tiniguiban - Main"          # unchanged value
+    assert metadata["college_code"] == "CS"
+    assert metadata["program_name"] == "Bachelor of Science in Computer Science"
+    assert metadata["effective_school_year"] == "2025-2026"
+
+    seen = metadata["observations"]
+    assert seen["campus"] == {
+        "value": "Tiniguiban - Main", "basis": "extractor_default", "evidence": None, "status": "candidate",
+    }
+    assert seen["college_code"] == {
+        "value": "CS", "basis": "path_segment", "evidence": "CS", "status": "candidate",
+    }
+    assert seen["program_name"]["basis"] == "semantic_map_match"
+    assert seen["program_name"]["evidence"] == "Bachelor of Science in Computer Science"
+    assert seen["effective_school_year"]["basis"] == "path_or_document_head"
+    assert seen["effective_school_year"]["evidence"] == "Effective SY 2025-2026"
+    assert all(item["status"] == "candidate" for item in seen.values())
+
+
+def test_unknown_metadata_has_no_basis_and_the_same_warnings_as_before():
+    metadata, warnings = resolve_metadata(Path("unknown/x.pdf"), doc_text="", semantic_map={})
+    assert len(warnings) == 3
+    seen = metadata["observations"]
+    for name in ("college_code", "program_name", "effective_school_year"):
+        assert seen[name] == {"value": None, "basis": None, "evidence": None, "status": "candidate"}
+    assert seen["campus"]["basis"] == "extractor_default"  # still an assumption, now labelled as one
