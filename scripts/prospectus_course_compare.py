@@ -182,6 +182,70 @@ def compare_runs(old_dir: Path, new_dir: Path, check_markup: bool) -> int:
     if check_markup:
         print(f"markup: {gaps} files with data-gap, {unplaced} with data-unplaced-cell, largest {largest} bytes")
     return 1 if failures else 0
+# --- Phase C: opt-in status-field report (--status-report). Self-contained so later phases can merge cleanly. ---
+
+
+def _key_diff(old, new, path=()):
+    """Yield (kind, path) for every added, removed or changed key; equal-length lists are compared by item."""
+    if isinstance(old, dict) and isinstance(new, dict):
+        for key in sorted(old.keys() | new.keys()):
+            if key not in new:
+                yield "removed", path + (key,)
+            elif key not in old:
+                yield "added", path + (key,)
+            else:
+                yield from _key_diff(old[key], new[key], path + (key,))
+    elif isinstance(old, list) and isinstance(new, list) and len(old) == len(new):
+        for index, (a, b) in enumerate(zip(old, new)):
+            yield from _key_diff(a, b, path + (index,))
+    elif old != new:
+        yield "changed", path
+
+
+def _key_name(path) -> str:
+    parts = ["[]" if isinstance(part, int) else str(part) for part in path]
+    if parts[0] == "curriculum_by_term" and len(parts) >= 3:
+        parts[1] = parts[2] = "*"
+    if parts[0] == "unlocks" and len(parts) >= 2:
+        parts[1] = "*"
+    return ".".join(parts)
+
+
+def _without_noise(payload: dict) -> dict:
+    payload = {k: v for k, v in payload.items() if k != "generated_at"}
+    clauses = (payload.get("prolog") or {}).get("clauses")
+    if clauses:
+        payload["prolog"] = {**payload["prolog"], "clauses": [c for c in clauses if not c.startswith("% Generated:")]}
+    return payload
+
+
+def payload_key_changes(old: dict, new: dict) -> Counter:
+    """Counter of (kind, normalised key path) for one payload pair, ignoring run-to-run timestamps."""
+    return Counter((kind, _key_name(path)) for kind, path in _key_diff(_without_noise(old), _without_noise(new)))
+
+
+def status_report(old_dir: Path, new_dir: Path) -> dict:
+    """Added, changed and removed payload keys over every pair of run folders, plus new-side prerequisite states."""
+    changes: Counter = Counter()
+    states: Counter = Counter()
+    pairs = 0
+    for old in sorted(p for p in old_dir.iterdir() if p.is_dir()):
+        before, after = old / "candidate.json", new_dir / old.name / "candidate.json"
+        if not (before.exists() and after.exists()):
+            continue
+        old_payload = json.loads(before.read_text(encoding="utf-8"))
+        new_payload = json.loads(after.read_text(encoding="utf-8"))
+        pairs += 1
+        changes += payload_key_changes(old_payload, new_payload)
+        states.update(c.get("prerequisite_state", "absent") for c in new_payload.get("courses", []))
+    return {"pairs": pairs, "changes": changes, "states": dict(states)}
+
+
+def print_status_report(report: dict) -> None:
+    print(f"status report over {report['pairs']} payload pairs")
+    for (kind, name), number in sorted(report["changes"].items()):
+        print(f"  {kind:8} {number:>6}  {name}")
+    print(f"  prerequisite states (new side): {report['states']}")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -194,6 +258,7 @@ def main(argv: list[str] | None = None) -> int:
     cli.add_argument("--limit", type=int, help="first N inputs only")
     cli.add_argument("--jobs", type=int, default=2, help="parallel extractions per side")
     cli.add_argument("--no-markup-check", action="store_true")
+    cli.add_argument("--status-report", action="store_true", help="also list added/changed/removed payload keys and prerequisite-state counts")
     args = cli.parse_args(argv)
 
     args.golden, args.work = args.golden.resolve(), args.work.resolve()
@@ -211,7 +276,10 @@ def main(argv: list[str] | None = None) -> int:
         ]
         for side in sides:
             side.result()
-    return compare_runs(args.work / "old", args.work / "new", not args.no_markup_check)
+    status = compare_runs(args.work / "old", args.work / "new", not args.no_markup_check)
+    if args.status_report:
+        print_status_report(status_report(args.work / "old", args.work / "new"))
+    return status
 
 
 if __name__ == "__main__":

@@ -119,3 +119,52 @@ def test_run_one_launches_with_absolute_paths(tmp_path, monkeypatch):
     for flag in ("-i", "-o", "--semantic-doc"):
         assert Path(cmd[cmd.index(flag) + 1]).is_absolute()
     assert Path(seen["cwd"]).is_absolute()
+
+
+# --- Phase C: opt-in status-field report (--status-report) ---
+
+
+def _status_payload(states):
+    return {
+        "schema_version": "v3.0",
+        "courses": [{"course_code": f"C {i}", "prerequisite_state": s} for i, s in enumerate(states)],
+        "curriculum_by_term": {"1st Year": {"1st Semester": [{"course_code": "C 0"}]}},
+        "prolog": {"clauses": ["% Generated: now", "a."], "relations": {}},
+        "generated_at": "t",
+    }
+
+
+def test_status_report_lists_added_changed_and_removed_keys_and_collapses_indexes():
+    old = _status_payload([])
+    old["courses"] = [{"course_code": "C 0"}, {"course_code": "C 1"}]
+    old["gone"] = 1
+    new = _status_payload(["resolved", "blank_unreviewed"])
+    new["schema_version"] = "v3.1"
+    new["authority"] = {"x": 1}
+    new["curriculum_by_term"]["1st Year"]["1st Semester"][0]["prerequisite_state"] = "resolved"
+    new["prolog"]["clauses"] = ["% Generated: later", "a.", "b."]
+    new["generated_at"] = "later"
+    assert compare.payload_key_changes(old, new) == {
+        ("added", "authority"): 1,
+        ("added", "courses.[].prerequisite_state"): 2,
+        ("added", "curriculum_by_term.*.*.[].prerequisite_state"): 1,
+        ("changed", "prolog.clauses"): 1,
+        ("changed", "schema_version"): 1,
+        ("removed", "gone"): 1,
+    }
+
+
+def test_status_report_counts_prerequisite_states_over_the_run_folders(tmp_path):
+    import json
+
+    for side, states in (("old", []), ("new", ["resolved", "resolved", "unreadable"])):
+        folder = tmp_path / side / "01"
+        folder.mkdir(parents=True)
+        body = _status_payload(states)
+        if side == "old":
+            body["extra"] = 1
+        (folder / "candidate.json").write_text(json.dumps(body), encoding="utf-8")
+    report = compare.status_report(tmp_path / "old", tmp_path / "new")
+    assert report["states"] == {"resolved": 2, "unreadable": 1}
+    assert report["pairs"] == 1
+    assert report["changes"][("removed", "extra")] == 1
