@@ -645,3 +645,19 @@ def test_rag_renders_the_prerequisite_line_from_the_state():
     term = "".join(c["text"] for c in payload["rag"]["semantic_chunks"] if c["chunk_type"] == "term_schedule")
     assert "**CS 1**: Discrete Structures (3 units; prerequisites: not recorded in the prospectus (unreviewed))" in term
     assert "**CS 2**: Discrete Structures 2 (3 units; prerequisites: None)" in term
+
+
+# Codex item 7: "OR" inside a resolved course code is not the word "or".
+@pytest.mark.parametrize(
+    ("raw", "prereqs", "state"),
+    [
+        ("OR 1", ["OR 1"], "resolved"),
+        ("OR 1, CS 1", ["OR 1", "CS 1"], "resolved"),
+        ("CS 1, IF 2", ["CS 1", "IF 2"], "resolved"),
+        ("OR 1 or CS 1", ["OR 1", "CS 1"], "alternative_or_exception"),
+        ("CS 1 or OR 1", ["CS 1", "OR 1"], "alternative_or_exception"),
+        ("or", [], "alternative_or_exception"),
+    ],
+)
+def test_or_inside_a_resolved_code_is_not_an_alternative(raw, prereqs, state):
+    assert classify_prerequisite_state(course(raw, prereqs)) == state

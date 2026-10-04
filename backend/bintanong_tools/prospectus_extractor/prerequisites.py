@@ -295,7 +295,10 @@ def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = fr
     cells = set((course.get("provenance") or {}).get("source_cell_ids") or ())
     if cells & ambiguous_cell_ids:
         return "unreadable"
-    if ALTERNATIVE_OR_EXCEPTION.search(raw):
+    wording = raw
+    for code in sorted(course.get("prerequisites") or [], key=len, reverse=True):
+        wording = _code_pattern(code).sub(" ", wording)  # "OR 1" is a code, not the word "or"
+    if ALTERNATIVE_OR_EXCEPTION.search(wording):
         return "alternative_or_exception"
     if course.get("prerequisites_unresolved"):
         return "unresolved_reference"
