@@ -38,7 +38,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from .course_checks import load_pdf_pages, manifest_index, resolve_pdf, sha256
-from .ledger import LedgerError, append_entries, content_review_state, materialise, read_entries, write_corrected
+from .ledger import LedgerError, append_entries, content_review_state, materialise, read_entries, split_valid, write_corrected
 from .sheet import build_entries, candidate_sha256, check_against, parse_sheet, render_sheet
 from .verify import verify_candidate
 
@@ -63,7 +63,9 @@ def resolve_reviewer(flag: str | None) -> str:
 
 
 def assert_outside_git(path: Path) -> None:
-    """Refuse to write institutional data into a tracked place in this repository."""
+    """Refuse to write institutional data into a tracked place in this repository. Pass the file that
+    will be written: it is resolved (a symlink counts as its target) and a tracked file is never
+    git-ignored, so a force-added file inside an ignored folder is refused too."""
     path = Path(path).resolve()
     try:
         path.relative_to(REPO)
@@ -88,16 +90,24 @@ def resolve_identity(
 ) -> dict[str, Any]:
     """The PDF this candidate came from: {"pdf_sha256", "pdf_path" or None, "how"}. The sheet needs
     the hash; the PDF text layer (for the title and code checks) only when the file is at hand."""
+    recorded = ((payload.get("run_identity") or {}).get("file_sha256"))  # written by a later phase
+
+    def same_as_recorded(digest: str, what: str) -> None:
+        if recorded and recorded != digest:
+            raise FixerError(f"{what} {digest} differs from the PDF hash the candidate recorded ({recorded}); "
+                             "this candidate was not made from that PDF")
+
     if pdf is not None:
         if not Path(pdf).is_file():
             raise FixerError(f"PDF not found: {pdf}")
         digest = sha256(Path(pdf))
         if pdf_sha256 and pdf_sha256 != digest:
             raise FixerError("--pdf-sha256 does not match the --pdf file")
+        same_as_recorded(digest, "the --pdf file hash")
         return {"pdf_sha256": digest, "pdf_path": Path(pdf), "how": "pdf file"}
     if pdf_sha256:
+        same_as_recorded(pdf_sha256, "--pdf-sha256")
         return {"pdf_sha256": pdf_sha256, "pdf_path": None, "how": "declared hash"}
-    recorded = ((payload.get("run_identity") or {}).get("file_sha256"))  # written by a later phase
     if recorded:
         return {"pdf_sha256": recorded, "pdf_path": None, "how": "run_identity"}
     source = Path(str(payload.get("source_path") or ""))
@@ -130,8 +140,8 @@ def _prepare(args) -> tuple[dict, dict, Any]:
 def cmd_sheet(args) -> int:
     payload, identity, pages = _prepare(args)
     folder = args.review_dir or default_review_dir(args.candidate)
-    assert_outside_git(folder)
     target = folder / "review_sheet.md"
+    assert_outside_git(target)
     if target.exists() and not args.force:
         raise FixerError(f"{target} exists; it may hold unapplied decisions. Move it or pass --force")
     verification = verify_candidate(payload, pages)
@@ -149,7 +159,7 @@ def cmd_apply(args) -> int:
     folder = args.review_dir or default_review_dir(args.candidate)
     sheet_path = args.sheet or folder / "review_sheet.md"
     ledger_path = args.ledger or folder / "decision_ledger.jsonl"
-    assert_outside_git(ledger_path.parent)
+    assert_outside_git(ledger_path)
     verification = verify_candidate(payload, pages)
     expected_identity = {**identity, "candidate_sha256": candidate_sha256(payload)}
     try:
@@ -181,7 +191,7 @@ def cmd_materialise(args) -> int:
     entries = read_entries(args.ledger or folder / "decision_ledger.jsonl")
     corrected, report = materialise(payload, entries, identity["pdf_sha256"])
     out = args.out or folder / "corrected_candidate.json"
-    assert_outside_git(out.parent)
+    assert_outside_git(out)
     write_corrected(out, corrected, raw_candidate=args.candidate)
     state = report["content_review"]
     print(f"{out}: {report['applied']} corrections applied, {len(report['skipped'])} entries skipped; content_review={state['state']}")
@@ -194,8 +204,10 @@ def cmd_status(args) -> int:
     payload = _load(args.candidate)
     identity = resolve_identity(payload, pdf=args.pdf, pdf_sha256=args.pdf_sha256, golden=args.golden, pdf_root=args.pdf_root)
     folder = args.review_dir or default_review_dir(args.candidate)
-    state = content_review_state(payload, read_entries(args.ledger or folder / "decision_ledger.jsonl"), identity["pdf_sha256"])
-    print(json.dumps(state, indent=2))
+    entries = read_entries(args.ledger or folder / "decision_ledger.jsonl")
+    for entry, problem in split_valid(entries)[1]:
+        print(f"skipped ledger entry {entry.get('entry_id') or ''}: {problem}", file=sys.stderr)
+    print(json.dumps(content_review_state(payload, entries, identity["pdf_sha256"]), indent=2))
     return 0
 
 
@@ -230,7 +242,7 @@ def cmd_triage(args) -> int:
     if dupes:
         lines += ["", "Skipped duplicates: " + ", ".join(dupes)]
     out = Path(args.out)
-    assert_outside_git(out.parent)
+    assert_outside_git(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print(f"{out}: {len(shown)} prospectuses")

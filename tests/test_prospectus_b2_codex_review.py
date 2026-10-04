@@ -129,3 +129,155 @@ def test_item5_a_decision_that_is_only_a_reason_is_a_validation_error_not_a_cras
     text = edit_row(rendered(payload, v), "S1-01", decision=": because")
     entries, errors = build_entries(parse_sheet(text), payload, v, reviewer="N", pdf_sha256=HASH)
     assert entries == [] and any("S1-01" in e and "(line " in e for e in errors)
+
+
+# --- commit 3: ledger and CLI refuse unattributed, malformed or mismatched input
+
+from backend.bintanong_tools.prospectus_extractor import fixer_cli
+from backend.bintanong_tools.prospectus_extractor.fixer_cli import (
+    FixerError, assert_outside_git, default_review_dir, fixer_main, resolve_identity,
+)
+from backend.bintanong_tools.prospectus_extractor.ledger import (
+    append_entries, content_review_state, course_locator, course_snapshot, entry_problem, make_entry, materialise,
+    read_entries,
+)
+
+NOW = datetime(2026, 10, 4, 9, 30, tzinfo=timezone.utc)
+
+
+def good_entry(course, **changes):
+    snapshot = course_snapshot(course)
+    entry = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="course_title",
+                       disposition="corrected", old_value=snapshot["course_title"], new_value="Discrete Structures One",
+                       section="s", now=NOW)
+    return {k: v for k, v in {**entry, **changes}.items() if v is not ...}
+
+
+def write_lines(path, *items):
+    path.write_text("".join((i if isinstance(i, str) else json.dumps(i, sort_keys=True)) + "\n" for i in items), encoding="utf-8")
+
+
+def test_item6_a_non_json_line_is_skipped_and_reported_with_its_line_number(tmp_path):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    good = good_entry(course)
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good, "{broken", {"not": "an entry"}, good)
+    entries = read_entries(path)                       # no LedgerError
+    corrected, report = materialise(payload, entries, HASH)
+    reasons = sorted(s["reason"] for s in report["skipped"])
+    assert len(reasons) == 2 and "line 2" in reasons[0] + reasons[1] and "line 3" in reasons[0] + reasons[1]
+    assert report["applied"] == 1 and content_review_state(payload, entries, HASH)["invalid_entries"] == 2
+    assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
+
+
+def test_item6_status_reports_the_bad_line_and_still_exits_0(tmp_path, capsys):
+    payload = fx.bscs()
+    candidate = tmp_path / "x_prospectus.json"
+    candidate.write_text(json.dumps(payload), encoding="utf-8")
+    ledger = default_review_dir(candidate) / "decision_ledger.jsonl"
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text("{broken\n", encoding="utf-8")
+    assert fixer_main(["status", "--candidate", str(candidate), "--pdf-sha256", HASH]) == 0
+    assert "line 1" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("cell_ids", [[["bad"]], "t0-c1", [1], {"a": 1}])
+def test_item7_a_locator_with_the_wrong_shape_is_invalid_not_a_crash(tmp_path, cell_ids):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    bad = good_entry(course, locator={"kind": "course", "cell_ids": cell_ids})
+    assert entry_problem(bad)
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, bad)
+    entries = read_entries(path)
+    _corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0 and report["skipped"][0]["reason"].startswith("invalid_entry")
+    assert content_review_state(payload, entries, HASH)["invalid_entries"] == 1
+    assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
+
+
+@pytest.mark.parametrize("missing", ["reviewer", "recorded_at", "disposition", "pdf_sha256"])
+def test_item8_an_entry_without_reviewer_time_disposition_or_pdf_is_never_applied(tmp_path, missing):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0], **{missing: ...}))
+    _corrected, report = materialise(payload, read_entries(path), HASH)
+    assert report["applied"] == 0 and len(report["skipped"]) == 1
+    assert good_entry(payload["courses"][0], reviewer="  ") and entry_problem(good_entry(payload["courses"][0], reviewer="  "))
+
+
+def test_item8_the_untouched_entry_is_still_applied(tmp_path):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0]))
+    assert materialise(payload, read_entries(path), HASH)[1]["applied"] == 1
+
+
+def test_item9_a_declared_hash_that_differs_from_the_candidates_recorded_one_is_refused(capsys, tmp_path):
+    payload = {**fx.bscs(), "run_identity": {"file_sha256": HASH}}
+    with pytest.raises(FixerError, match="recorded"):
+        resolve_identity(payload, pdf_sha256="b" * 64)
+    assert resolve_identity(payload, pdf_sha256=HASH)["pdf_sha256"] == HASH
+    assert resolve_identity(payload)["pdf_sha256"] == HASH
+    candidate = tmp_path / "x_prospectus.json"
+    candidate.write_text(json.dumps(payload), encoding="utf-8")
+    assert fixer_main(["sheet", "--candidate", str(candidate), "--pdf-sha256", "b" * 64]) == 2
+    assert "recorded" in capsys.readouterr().err
+    pdf = tmp_path / "a.pdf"
+    pdf.write_bytes(b"%PDF fake")
+    with pytest.raises(FixerError, match="recorded"):
+        resolve_identity(payload, pdf=pdf)
+
+
+def _git(repo, *args):
+    subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+
+
+@pytest.fixture
+def temp_repo(tmp_path, monkeypatch):
+    repo = (tmp_path / "repo").resolve()
+    repo.mkdir()
+    _git(repo, "init", "-q")
+    (repo / ".gitignore").write_text("review/\n", encoding="utf-8")
+    (repo / "review").mkdir()
+    (repo / "review" / "corrected_candidate.json").write_text("{}\n", encoding="utf-8")
+    _git(repo, "add", "-f", "review/corrected_candidate.json")
+    monkeypatch.setattr(fixer_cli, "REPO", repo)
+    return repo
+
+
+def test_item10_a_tracked_file_inside_an_ignored_folder_is_not_overwritten(temp_repo, tmp_path):
+    assert_outside_git(temp_repo / "review" / "new_file.json")                 # a new file there is fine
+    with pytest.raises(FixerError, match="not git-ignored"):
+        assert_outside_git(temp_repo / "review" / "corrected_candidate.json")  # the tracked file itself
+    candidate = tmp_path / "c" / "x_prospectus.json"
+    candidate.parent.mkdir()
+    candidate.write_text(json.dumps(fx.bscs()), encoding="utf-8")
+    out = temp_repo / "review" / "corrected_candidate.json"
+    assert fixer_main(["materialise", "--candidate", str(candidate), "--pdf-sha256", HASH, "--out", str(out)]) == 2
+    assert out.read_text(encoding="utf-8") == "{}\n"
+
+
+def test_item10_an_output_name_that_is_a_symlink_to_a_tracked_file_is_refused(temp_repo, tmp_path):
+    link = tmp_path / "outside" / "corrected.json"
+    link.parent.mkdir()
+    try:
+        link.symlink_to(temp_repo / "review" / "corrected_candidate.json")
+    except OSError:
+        pytest.skip("symlinks need privileges on this machine")
+    candidate = tmp_path / "c" / "x_prospectus.json"
+    candidate.parent.mkdir()
+    candidate.write_text(json.dumps(fx.bscs()), encoding="utf-8")
+    tracked = temp_repo / "review" / "corrected_candidate.json"
+    assert fixer_main(["materialise", "--candidate", str(candidate), "--pdf-sha256", HASH, "--out", str(link)]) == 2
+    assert tracked.read_text(encoding="utf-8") == "{}\n"
+
+
+def test_item11_appending_after_a_last_line_without_a_newline_keeps_one_entry_per_line(tmp_path):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    path.write_text(json.dumps(good_entry(payload["courses"][0]), sort_keys=True), encoding="utf-8", newline="")  # no "\n"
+    assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
+    text = path.read_text(encoding="utf-8")
+    assert "}{" not in text and len(text.splitlines()) == 2 and len(read_entries(path)) == 2

@@ -180,14 +180,14 @@ def test_the_module_entry_point_is_a_thin_wrapper():
     assert prospectus_fixer.main is fixer_cli.fixer_main
 
 
-def test_a_damaged_ledger_is_reported_without_a_traceback(tmp_path, capsys):
+def test_a_damaged_ledger_line_is_reported_by_number_and_never_fatal(tmp_path, capsys):
     candidate = write_candidate(tmp_path, fx.bscs())
     run("sheet", "--candidate", candidate, "--pdf-sha256", HASH)
     ledger = default_review_dir(candidate) / "decision_ledger.jsonl"
     ledger.write_text("{broken\n", encoding="utf-8")
     capsys.readouterr()
-    assert run("status", "--candidate", candidate, "--pdf-sha256", HASH) == 2
-    assert "not JSON" in capsys.readouterr().err
+    assert run("status", "--candidate", candidate, "--pdf-sha256", HASH) == 0
+    assert "line 1 is not JSON" in capsys.readouterr().err
 
 
 def test_the_legacy_shim_still_exposes_the_extractors_own_main_and_text_constants():

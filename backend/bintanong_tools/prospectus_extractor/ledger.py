@@ -83,16 +83,39 @@ def correction_problem(field: Any, new_value: Any) -> str | None:
     return f"only {', '.join(COURSE_FIELDS)} can be corrected, not {field!r}"
 
 
+def _text(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def locator_problem(locator: Any) -> str | None:
+    """Why `locator` is not the shape course_locator / unclaimed_locator write, or None."""
+    if not isinstance(locator, dict) or locator.get("kind") not in ("course", "unclaimed"):
+        return "missing or unreadable locator"
+    cells = locator.get("cell_ids", [])
+    if not isinstance(cells, list) or not all(isinstance(c, str) for c in cells):
+        return "locator cell_ids must be a list of text"
+    for name in ("table_index", "page"):
+        if not isinstance(locator.get(name), (int, type(None))) or isinstance(locator.get(name), bool):
+            return f"locator {name} must be a whole number or empty"
+    if not isinstance(locator.get("code_at_review"), (str, type(None))):
+        return "locator code_at_review must be text or empty"
+    return None
+
+
 def entry_problem(entry: Mapping[str, Any]) -> str | None:
     """Why a ledger line cannot be decided on, or None. Such a line stays in the file (append-only)
     and is reported, never applied, never a crash."""
+    if "_unreadable" in entry:
+        return str(entry["_unreadable"])
     if entry.get("field") not in ENTRY_FIELDS:
         return f"unknown field {entry.get('field')!r}"
-    locator = entry.get("locator")
-    if not isinstance(locator, dict) or locator.get("kind") not in ("course", "unclaimed"):
-        return "missing or unreadable locator"
-    if not isinstance(entry.get("pdf_sha256"), str) or not entry["pdf_sha256"]:
-        return "missing pdf_sha256"
+    if problem := locator_problem(entry.get("locator")):
+        return problem
+    for name in ("reviewer", "recorded_at", "pdf_sha256"):
+        if not _text(entry.get(name)):
+            return f"missing {name}"
+    if entry.get("disposition") not in DISPOSITIONS:
+        return f"unknown disposition {entry.get('disposition')!r}"
     if entry["disposition"] == CORRECTED:
         return correction_problem(entry["field"], entry.get("new_value"))
     return None
@@ -136,6 +159,8 @@ def make_entry(
 
 
 def read_entries(path: Path) -> list[dict[str, Any]]:
+    """Every line of the ledger, in order. A line that cannot be read comes back as a placeholder
+    {"_unreadable": "line N ..."} that `entry_problem` reports: the ledger stays readable forever."""
     path = Path(path)
     if not path.exists():
         return []
@@ -149,9 +174,11 @@ def read_entries(path: Path) -> list[dict[str, Any]]:
         try:
             entry = json.loads(line)
         except json.JSONDecodeError as exc:
-            raise LedgerError(f"{path} line {number} is not JSON: {exc}") from exc
-        if not isinstance(entry, dict) or entry.get("ledger_version") != LEDGER_VERSION or entry.get("disposition") not in DISPOSITIONS:
-            raise LedgerError(f"{path} line {number} is not a {LEDGER_VERSION} entry")
+            entries.append({"_unreadable": f"line {number} is not JSON: {exc}"})
+            continue
+        if not isinstance(entry, dict) or entry.get("ledger_version") != LEDGER_VERSION:
+            entries.append({"_unreadable": f"line {number} is not a {LEDGER_VERSION} entry"})
+            continue
         entries.append(entry)
     return entries
 
@@ -167,7 +194,7 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[in
     that equals the tail of what the ledger already holds for it is skipped, so applying the same
     sheet twice writes nothing the second time. Existing lines are never rewritten."""
     path = Path(path)
-    existing, _undecidable = split_valid(read_entries(path))  # raises on a damaged ledger before anything is appended
+    existing, _undecidable = split_valid(read_entries(path))  # unreadable lines are skipped, never fatal
     held: dict[tuple, list] = defaultdict(list)
     for entry in existing:
         held[locator_key(entry["locator"])].append(_signature(entry))
@@ -181,6 +208,10 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[in
             fresh += group
     if fresh:
         path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("ab+") as probe:  # a hand-edited last line may lack its newline: never glue two entries together
+            probe.seek(0, 2)
+            if probe.tell() and (probe.seek(-1, 2), probe.read(1))[1] != b"\n":
+                probe.write(b"\n")
         with path.open("a", encoding="utf-8", newline="\n") as handle:
             for entry in fresh:
                 handle.write(json.dumps(entry, ensure_ascii=False, sort_keys=True) + "\n")

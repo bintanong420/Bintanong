@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 import pytest
 
 from backend.bintanong_tools.prospectus_extractor.ledger import (
-    LedgerError, append_entries, content_review_state, course_locator, course_snapshot, latest_by_field,
+    LedgerError, append_entries, entry_problem, content_review_state, course_locator, course_snapshot, latest_by_field,
     make_entry, read_entries, split_applicable, unclaimed_locator,
 )
 
@@ -67,14 +67,13 @@ def test_the_ledger_is_append_only_and_applying_the_same_group_twice_writes_noth
     assert len(read_entries(path)) == 3
 
 
-def test_a_damaged_ledger_stops_the_append(tmp_path):
+def test_a_damaged_ledger_is_read_line_by_line_and_the_bad_lines_are_reported(tmp_path):
     path = tmp_path / "decision_ledger.jsonl"
-    path.write_text('{"not": "an entry"}\n', encoding="utf-8")
-    with pytest.raises(LedgerError, match="line 1"):
-        append_entries(path, [entry(fx.bscs()["courses"][0])])
-    path.write_text("{broken\n", encoding="utf-8")
-    with pytest.raises(LedgerError, match="not JSON"):
-        read_entries(path)
+    path.write_text('{"not": "an entry"}\n{broken\n', encoding="utf-8")
+    entries = read_entries(path)                      # never fatal
+    assert [bool(entry_problem(e)) for e in entries] == [True, True]
+    assert "line 1" in entry_problem(entries[0]) and "not JSON" in entry_problem(entries[1])
+    assert append_entries(path, [entry(fx.bscs()["courses"][0])]) == (1, 0)
 
 
 def test_entries_for_another_pdf_are_inapplicable():
