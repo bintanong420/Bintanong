@@ -9,6 +9,10 @@ against another PDF, another course or another old value are reported, never app
 Conforms to master plan 7.1 step 7 and draft Task 5: reviewer, time, reason, PDF hash, course and
 field locator, original value, correction or disposition, linked cells. A later GUI reads and
 appends the same lines.
+
+`entry_id` is a hash of the entry's own contents. It is tamper-evident only in the sense of catching an accidental
+or careless edit of a line; it is not a signature and does not stop a deliberate forger, who can recompute it.
+That is acceptable for a local, single-user ledger and must not be presented as more.
 """
 
 from __future__ import annotations
@@ -91,28 +95,37 @@ def correction_problem(field: Any, new_value: Any) -> str | None:
         return None if isinstance(new_value, str) and new_value.strip() else f"a corrected {field} needs a non-empty text"
     if field == FIELD_TERM:
         ok = isinstance(new_value, str) and parse_term(new_value) is not None
-        return None if ok else f"a corrected term must read as a year and one semester, not {new_value!r}"
+        return None if ok else f"a corrected term must read as a year and one semester, not {_short(new_value)}"
     if field in UNIT_FIELDS:
         # parse_units reads at most two digits and the extractor derives every unit as a whole number (verify formats
         # the totals with `+d`); no real prospectus in the cache prints a fraction of a unit. 99 is that parser's ceiling.
         ok = type(new_value) is int and 0 <= new_value <= MAX_UNITS
         return None if ok else f"a corrected {field} must be a whole number from 0 to {MAX_UNITS}, not {_short(new_value)}"
     if field == FIELD_PREREQ:
-        return None if isinstance(new_value, str) else f"a corrected {field} must be text (empty for none), not {new_value!r}"
-    return f"only {', '.join(CORRECTABLE_FIELDS)} can be corrected, not {field!r}"
+        return None if isinstance(new_value, str) else f"a corrected {field} must be text (empty for none), not {_short(new_value)}"
+    return f"only {', '.join(CORRECTABLE_FIELDS)} can be corrected, not {_short(field)}"
 
 
 def _short(value: Any) -> str:
-    text = repr(value)
-    return text if len(text) <= 40 else text[:37] + "..."
+    """A value described for a message without formatting it whole: a ledger line can hold a huge int (str() of
+    one raises ValueError past 4300 digits) or a megabyte string."""
+    if isinstance(value, (bool, type(None))):
+        return repr(value)
+    if isinstance(value, int):
+        return repr(value) if value.bit_length() <= 64 else f"an int of {value.bit_length()} bits"
+    if isinstance(value, float):
+        return f"float {value!r}"
+    if isinstance(value, str):
+        return repr(value) if len(value) <= 40 else repr(value[:37]) + f"... ({len(value)} characters)"
+    return f"a {type(value).__name__}"
 
 
 def same_value(a: Any, b: Any) -> bool:
-    """Equality that keeps types apart: a bool is never a number, an int and a float compare by value."""
+    """Equality that keeps types apart: a bool is never a number and an int is never a float."""
     if isinstance(a, bool) or isinstance(b, bool):
         return isinstance(a, bool) and isinstance(b, bool) and a == b
-    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
-        return a == b
+    if isinstance(a, (int, float)) or isinstance(b, (int, float)):
+        return type(a) is type(b) and a == b          # 0 and 0.0 are different stored values
     if isinstance(a, dict) and isinstance(b, dict):
         return a.keys() == b.keys() and all(same_value(a[k], b[k]) for k in a)
     if isinstance(a, (list, tuple)) and isinstance(b, (list, tuple)):
@@ -145,7 +158,7 @@ def entry_problem(entry: Mapping[str, Any]) -> str | None:
     if "_unreadable" in entry:
         return str(entry["_unreadable"])
     if entry.get("field") not in ENTRY_FIELDS:
-        return f"unknown field {entry.get('field')!r}"
+        return f"unknown field {_short(entry.get('field'))}"
     if problem := locator_problem(entry.get("locator")):
         return problem
     for name in ("entry_id", "reviewer", "recorded_at", "reason", "pdf_sha256"):
@@ -154,7 +167,7 @@ def entry_problem(entry: Mapping[str, Any]) -> str | None:
     if "old_value" not in entry:
         return "missing old_value"
     if entry.get("disposition") not in DISPOSITIONS:
-        return f"unknown disposition {entry.get('disposition')!r}"
+        return f"unknown disposition {_short(entry.get('disposition'))}"
     if entry["disposition"] == CORRECTED and (problem := correction_problem(entry["field"], entry.get("new_value"))):
         return problem
     if entry["entry_id"] != entry_id_of(entry):

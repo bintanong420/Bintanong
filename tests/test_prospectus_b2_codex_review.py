@@ -480,7 +480,7 @@ def test_o1_old_ledgers_still_read_and_apply_unchanged(tmp_path):
 
 # --- Codex final gate on B2: seven confirmed defects
 
-from backend.bintanong_tools.prospectus_extractor.ledger import correction_problem
+from backend.bintanong_tools.prospectus_extractor.ledger import correction_problem, entry_id_of
 
 
 def test_g1_a_forged_new_value_with_the_old_entry_id_is_invalid_and_not_applied(tmp_path):
@@ -502,7 +502,7 @@ def test_g2_the_stale_check_never_equates_bool_with_number():
     corrected, report = materialise(payload, [fix, masking], HASH)
     assert report["applied"] == 1 and corrected["courses"][0]["lab_units"] == 4
     assert content_review_state(payload, [masking], HASH)["stale_entries"] == 1
-    same = field_entry(course, "lab_units", 4, disposition="accepted", old_value=float(lab))     # 0.0 and 0 are the same number
+    same = field_entry(course, "lab_units", 4, disposition="accepted", old_value=lab)
     assert content_review_state(payload, [same], HASH)["stale_entries"] == 0
 
 
@@ -548,3 +548,50 @@ def test_g4_a_band_ends_at_any_code_shaped_token_known_or_not():
     assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"]) == []
     own = "FIRST SEMESTER CS 1 Discrete Structures 1 3 OTHER 2 Something 3"
     assert [f.new for f in propose_fixes(course, roles(course, payload), page_text=own, banners=BANNERS, known_codes=["CS 1"])] == ["Discrete Structures 1"]
+
+
+# --- Codex re-gate on the final fixes
+
+def test_h1_an_int_and_a_float_are_never_the_same_stored_value():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    assert course["lab_units"] == 0 and type(course["lab_units"]) is int
+    fix = field_entry(course, "lab_units", 4)
+    float_old = {**field_entry(course, "lab_units", 5, disposition="accepted", old_value=0), "old_value": 0.0}
+    float_old["entry_id"] = entry_id_of(float_old)
+    corrected, report = materialise(payload, [fix, float_old], HASH)
+    assert content_review_state(payload, [float_old], HASH)["stale_entries"] == 1
+    assert report["applied"] == 1 and corrected["courses"][0]["lab_units"] == 4
+
+
+def test_h2_a_float_unit_entry_from_an_older_ledger_is_invalid_naming_the_float_and_never_a_crash(tmp_path):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    old_style = {**field_entry(course, "total_units", 4), "new_value": 4.5}
+    old_style["entry_id"] = entry_id_of(old_style)         # honest id, as the old make_entry wrote it
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, old_style)
+    entries = read_entries(path)
+    assert "float" in entry_problem(entries[0]) and "4.5" in entry_problem(entries[0])
+    corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0 and report["skipped"][0]["reason"].startswith("invalid_entry")
+
+
+@pytest.mark.parametrize("huge", [10**10000, "x" * 10**6, [1] * 5, {"a": 1}], ids=["bigint", "bigstr", "list", "dict"])
+def test_h3_an_unbounded_value_is_described_not_formatted(huge):
+    for field in ("total_units", "prerequisites_raw", "term", "course_title"):
+        problem = correction_problem(field, huge)
+        assert problem is None or len(problem) < 300          # no ValueError from int-to-str, no megabyte message
+
+
+def test_h4_a_title_that_itself_starts_with_a_code_shaped_prefix_keeps_its_band():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER PE 1 Rhythmic"
+    set_cell_text(payload, "t0-c9", "FIRST SEMESTER PE 1 Rhythmic")
+    course["units"] = {**course["units"], "raw": "3"}
+    page = "FIRST SEMESTER CS 1 PE 1 Rhythmic 3 OTHER 2 Something 3"
+    fixes = propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"])
+    assert [f.new for f in fixes] == ["PE 1 Rhythmic"]
+    cross = "FIRST SEMESTER CS 1 Other OTHER 2 PE 1 Rhythmic 3"      # the remainder belongs to the row after OTHER 2
+    assert propose_fixes(course, roles(course, payload), page_text=cross, banners=BANNERS, known_codes=["CS 1"]) == []
