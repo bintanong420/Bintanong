@@ -41,6 +41,14 @@ class LedgerError(ValueError):
     """The ledger file is not what an append-only ledger should be."""
 
 
+class LedgerLine(dict):
+    """An entry as read from the file, remembering which line it came from (equal to the plain dict)."""
+
+    def __init__(self, entry: Mapping[str, Any], line: int):
+        super().__init__(entry)
+        self.line = line
+
+
 def course_snapshot(course: Mapping[str, Any]) -> dict[str, str]:
     return {
         FIELD_CODE: course.get("course_code") or "",
@@ -185,7 +193,7 @@ def read_entries(path: Path) -> list[dict[str, Any]]:
         if not isinstance(entry, dict) or entry.get("ledger_version") != LEDGER_VERSION:
             entries.append({"_unreadable": f"line {number} is not a {LEDGER_VERSION} entry"})
             continue
-        entries.append(entry)
+        entries.append(LedgerLine(entry, line=number))
     return entries
 
 
@@ -225,6 +233,27 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[in
     return len(fresh), len(entries) - len(fresh)
 
 
+def split_stale(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]) -> tuple[list, list]:
+    """(current, stale). A decision counts only while the value it was made on is still what the candidate
+    holds: a `row` entry's old value is the course snapshot, a field entry's the field's value, an unclaimed
+    code's the printed code. An entry whose course or listed code is not in this candidate is not judged here."""
+    by_key: dict[tuple, list[Mapping[str, Any]]] = defaultdict(list)
+    for course in payload.get("courses") or []:
+        by_key[locator_key(course_locator(course))].append(course)
+    listed: dict[tuple, list[Any]] = defaultdict(list)
+    for item in (payload.get("audit") or {}).get("unclaimed_course_candidates") or []:
+        listed[locator_key(unclaimed_locator(item))].append(item.get("code"))
+    current, stale = [], []
+    for entry in entries:
+        key = locator_key(entry["locator"])
+        if key[0] == "unclaimed":
+            held = listed.get(key, [])
+        else:
+            held = [course_snapshot(c) if entry["field"] == FIELD_ROW else _current(c, entry["field"]) for c in by_key.get(key, [])]
+        (stale if held and entry["old_value"] not in held else current).append(entry)
+    return current, stale
+
+
 def split_applicable(entries: Iterable[Mapping[str, Any]], pdf_sha256: str) -> tuple[list, list]:
     """(applicable, inapplicable): entries recorded against another PDF are inapplicable."""
     ok, no = [], []
@@ -255,6 +284,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     and it is not an approval of the curriculum."""
     entries, invalid = split_valid(entries)
     applicable, inapplicable = split_applicable(entries, pdf_sha256)
+    applicable, stale = split_stale(payload, applicable)
     latest = latest_by_field(applicable)
     courses = payload.get("courses") or []
     decided = unresolved = 0
@@ -276,7 +306,8 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     else:
         state = "partially_reviewed"
     return {"state": state, "courses": len(courses), "decided": decided, "unresolved": unresolved,
-            "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable), "invalid_entries": len(invalid)}
+            "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable), "invalid_entries": len(invalid),
+            "stale_entries": len(stale), "stale_lines": [e.line for e in stale if hasattr(e, "line")]}
 
 
 def _current(course: Mapping[str, Any], field: str) -> str:
@@ -307,7 +338,9 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     entries = list(entries)
     decidable, invalid = split_valid(entries)
     applicable, inapplicable = split_applicable(decidable, pdf_sha256)
-    skipped = [{"entry_id": e["entry_id"], "reason": "pdf_sha256_mismatch"} for e in inapplicable]
+    applicable, stale = split_stale(payload, applicable)
+    skipped = [{"entry_id": e["entry_id"], "reason": "old_value_changed"} for e in stale]
+    skipped += [{"entry_id": e["entry_id"], "reason": "pdf_sha256_mismatch"} for e in inapplicable]
     skipped += [{"entry_id": e.get("entry_id"), "reason": f"invalid_entry: {problem}"} for e, problem in invalid]
     courses = copy.deepcopy(list(payload.get("courses") or []))
     by_key: dict[tuple, list[int]] = defaultdict(list)

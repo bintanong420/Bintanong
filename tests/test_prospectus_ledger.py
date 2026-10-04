@@ -100,7 +100,7 @@ def test_content_review_state_is_pending_partial_or_reviewed():
     payload = fx.bscs()
     assert content_review_state(payload, [], HASH) == {
         "state": "pending", "courses": 4, "decided": 0, "unresolved": 0, "unclaimed_undecided": 0, "inapplicable_entries": 0,
-        "invalid_entries": 0}
+        "invalid_entries": 0, "stale_entries": 0, "stale_lines": []}
     some = decided_all(payload)[:3]
     assert content_review_state(payload, some, HASH)["state"] == "partially_reviewed"
     assert content_review_state(payload, some, HASH)["decided"] == 3

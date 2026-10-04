@@ -362,3 +362,52 @@ def test_r2_item5_a_wrapped_code_is_a_warn_not_an_error_in_the_verifier():
     v = verify_candidate(payload, {1: _page(("Zzzz", 400.0, 700.0), ("9999", 423.0, 686.0))})
     flags = [f for s in v.sections for r in s.rows if r.item for f in r.flags]
     assert [f.kind for f in flags] == ["unclaimed_code"] and flags[0].severity == "warn" and "wrapped" in flags[0].message
+
+
+# --- Codex Phase C review item 5: a decision counts only while its old value still matches the row
+
+def one_course_payload():
+    payload = fx.bscs()
+    payload["courses"] = payload["courses"][:1]
+    payload.get("audit", {}).pop("unclaimed_course_candidates", None)
+    return payload
+
+
+def test_phase_c5_a_row_decision_with_another_old_value_does_not_make_the_candidate_reviewed(tmp_path):
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    stale = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                       old_value={"course_code": "WRONG"}, new_value=None, section="s", now=NOW)
+    state = content_review_state(payload, [stale], HASH)
+    assert state["state"] != "reviewed" and state["decided"] == 0 and state["stale_entries"] == 1
+    fresh = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                       old_value=course_snapshot(course), new_value=None, section="s", now=NOW)
+    assert content_review_state(payload, [fresh], HASH)["state"] == "reviewed"
+    assert content_review_state(payload, [fresh], HASH)["stale_entries"] == 0
+
+
+def test_phase_c5_stale_entries_are_reported_with_their_line_number_and_never_raise(tmp_path):
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    stale = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                       old_value={"course_code": "WRONG"}, new_value=None, section="s", now=NOW)
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, "{broken", stale)
+    entries = read_entries(path)
+    state = content_review_state(payload, entries, HASH)
+    assert state["stale_lines"] == [2] and state["invalid_entries"] == 1
+    corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0 and any(s["reason"] == "old_value_changed" for s in report["skipped"])
+
+
+def test_phase_c5_a_stale_accept_does_not_mask_a_valid_correction_and_a_stale_correction_is_never_applied():
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    good = good_entry(course)                                              # corrected title, old value matches
+    stale_accept = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="course_title",
+                              disposition="accepted", old_value="not the title", new_value="not the title", section="s", now=NOW)
+    corrected, report = materialise(payload, [good, stale_accept], HASH)
+    assert report["applied"] == 1 and corrected["courses"][0]["course_title"] == "Discrete Structures One"
+    stale_fix = good_entry(course, old_value="something else")
+    corrected, report = materialise(payload, [stale_fix], HASH)
+    assert report["applied"] == 0 and corrected["courses"][0]["course_title"] == course["course_title"]
