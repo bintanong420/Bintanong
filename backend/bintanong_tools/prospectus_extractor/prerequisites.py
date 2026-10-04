@@ -234,6 +234,9 @@ PREREQUISITE_STATES = (
 # Only these may satisfy eligible/2. Everything else is excluded from executable rules.
 EXECUTABLE_PREREQUISITE_STATES = frozenset({"resolved", "stated_none", "reviewed_empty"})
 
+# The states in which the prospectus (or a reviewer) says the rule is empty.
+EMPTY_RULE_STATES = frozenset({"stated_none", "reviewed_empty"})
+
 # Audit anomaly types that name a prerequisite cell the parser could not assign.
 PREREQUISITE_AMBIGUITY_TYPES = frozenset({"ambiguous_adjacent_prerequisite_fragment"})
 

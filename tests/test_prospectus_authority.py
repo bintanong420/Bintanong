@@ -615,3 +615,33 @@ def test_inspect_labels_the_audit_and_shows_review_and_source_next_to_it(tmp_pat
     assert "Content review:" in text and "PENDING" in text.upper()
     assert "Source verification:" in text
     assert "Status:" not in text.replace("Extraction audit:", "")
+
+
+# Codex item 3: a blank cell must not reach advising text as "None".
+def course_chunk(payload, code):
+    return next(c for c in payload["rag"]["semantic_chunks"] if c.get("course_code") == code)
+
+
+def test_rag_renders_the_prerequisite_line_from_the_state():
+    payload = payload_for([
+        _cs_row(("CS 1", "Discrete Structures", "3", ""), ("CS 2", "Discrete Structures 2", "3", "none")),
+        _cs_row(("CS 3", "Third", "3", "CS 1"), ("CS 4", "Fourth", "3", "Dean consent")),
+        _cs_row(("CS 5", "Fifth", "3", "CS 1 or CS 2"), ("CS 6", "Sixth", "3", "CS 9")),
+    ])
+    line = lambda code: next(  # noqa: E731
+        row for row in course_chunk(payload, code)["text"].splitlines() if row.startswith("- **Prerequisites**")
+    )
+    assert line("CS 1") == "- **Prerequisites**: not recorded in the prospectus (unreviewed)"
+    assert line("CS 2") == "- **Prerequisites**: None"
+    assert line("CS 3") == "- **Prerequisites**: CS 1"
+    assert "Dean consent" in line("CS 4") and "not fully understood" in line("CS 4")
+    assert "CS 1 or CS 2" in line("CS 5") and "not fully understood" in line("CS 5")
+    assert "CS 9" in line("CS 6") and "not fully understood" in line("CS 6")
+    for code, state in (("CS 1", "blank_unreviewed"), ("CS 2", "stated_none"), ("CS 3", "resolved"),
+                        ("CS 4", "standing_condition"), ("CS 5", "alternative_or_exception"),
+                        ("CS 6", "unresolved_reference")):
+        assert course_chunk(payload, code)["prerequisite_state"] == state
+    # The term schedule says the same thing, in short.
+    term = "".join(c["text"] for c in payload["rag"]["semantic_chunks"] if c["chunk_type"] == "term_schedule")
+    assert "**CS 1**: Discrete Structures (3 units; prerequisites: not recorded in the prospectus (unreviewed))" in term
+    assert "**CS 2**: Discrete Structures 2 (3 units; prerequisites: None)" in term
