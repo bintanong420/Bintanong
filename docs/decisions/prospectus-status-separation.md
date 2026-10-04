@@ -61,6 +61,10 @@ The classifier now accounts for all of `prerequisites_raw`: after the resolved c
 
 - **Audit success no longer reads as verification.** `prolog.status` is `extracted` (was `verified`; still `blocked` for an `error` audit). The compact essentials file's `extraction_status` is `EXTRACTED`, `EXTRACTED_WITH_WARNINGS` or `REVIEW_REQUIRED` (was the `promotion_status` label `VERIFIED`). The TUI inspect view prints "Extraction audit", "Content review" and "Source verification" together. A repository-wide search found no consumer of the old values outside the extractor package and its tests. `audit.promotion_status` and `quality_report.promotion_status` keep `VERIFIED`/`REVIEW_REQUIRED` as the documented legacy label. The schema version stays `palsu-prospectus-v3.1`.
 
+- **RAG prerequisite wording.** The prerequisite line of a course chunk and of a term-schedule entry comes from `prerequisite_state`: `None` only for `stated_none` and `reviewed_empty`, "not recorded in the prospectus (unreviewed)" for `blank_unreviewed`, the codes for `resolved`, and for every other state the codes plus the printed text and "rule not fully understood: <state>". Each course chunk carries `prerequisite_state`. On the 44 cached inputs only the 6 non-error payloads have RAG: 304 course chunks gain the key and 201 chunk texts change. This is an intended text change that Phase E builds on.
+- **`or` inside a code.** The alternative wording check ignores text that belongs to a resolved code, so `OR 1` stays `resolved`.
+- **Prolog quoting.** Non-test Prolog atoms already go through `pl_atom`. The header comment lines now collapse whitespace so a newline in metadata cannot end the comment; the SWI-Prolog test quotes its path with `pl_atom` and runs from a directory whose name has apostrophes.
+
 ## Known limits
 
 Blank cells cannot be told from missing ones. `unreadable` in a payload whose audit is not `error` only comes from "text present, nothing recognised". The review CSV does not show `prerequisite_state`. The batch manifest does not carry the three states.

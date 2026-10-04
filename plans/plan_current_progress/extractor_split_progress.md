@@ -133,3 +133,14 @@ Deviations: no new `prospectus_status_compare.py` (the existing comparer plus a 
 | D. status report in the shared comparer | 7870c66 | red: AttributeError (2 failed); green 12 in test_prospectus_course_compare.py; additive block before main, flag --status-report; the scratch status_diff.py is no longer used |
 
 Real data (44 inputs, comparer `--base-ref 6846da4 --status-report`): 44/44 identical, same key table as before (prolog.clauses 6, schema_version 44, 8 added keys x 44, prerequisite_state 2031 + 2031). Prerequisite states: blank_unreviewed 1005, resolved 689 (was 696), unresolved_reference 253, standing_condition 59 (58), unreadable 20 (14), alternative_or_exception 3, stated_none 2. The seven courses that left resolved are listed in the decision record. Suite 352 passed + 13 subtests (2 fastapi files not collectable here), self-test 80/80.
+
+### Phase C Codex review fixes (4 October 2026, items 2, 3, 7, 8)
+
+| Item | Commit | Red / green |
+| --- | --- | --- |
+| 2. audit success reads as verification | c1ba0e7 | no consumer of the old values outside the extractor package and its tests (repo-wide search); red: 3 failed (prolog.status, essentials_extraction_status, TUI labels); green: prolog `extracted`, essentials `EXTRACTED` / `EXTRACTED_WITH_WARNINGS` / `REVIEW_REQUIRED`, TUI "Extraction audit / Content review / Source verification"; audit.promotion_status kept as the documented legacy label |
+| 3. RAG blank read as None | b4ff4d9 | red: blank cell rendered None; green: prerequisite line from state, `prerequisite_state` in course chunk metadata; mutation (always None) fails |
+| 7. `OR 1` read as the word or | 11e4d76 | red: 3 failed (`OR 1`, `OR 1, CS 1`, `CS 1, IF 2`); green; real alternatives still caught |
+| 8. apostrophe in the Prolog test path | 02c63d5 | red: swipl test failed with an apostrophe directory; green with pl_atom; non-test atoms already used pl_atom; header comments collapsed to one line (red: newline broke out of the comment) |
+
+Real data (44 inputs, comparer `--status-report`): 44/44 identical (no course value changed). New diffs against the earlier run: prolog.status changed 6, rag.semantic_chunks.[].prerequisite_state added 304, rag.semantic_chunks.[].text changed 201 (all in the 6 non-error payloads). Prerequisite states unchanged from the last run (resolved 689 etc.). Suite 363 passed + 13 subtests, self-test 80/80. Item 5 (B2 ledger) left to the B2 branch.
