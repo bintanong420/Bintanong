@@ -37,11 +37,19 @@ def _occurrences(page: PdfPage, code: str) -> list[list[tuple]]:
 
 
 def _touching(boxes: Sequence[tuple]) -> bool:
-    """No two consecutive glyphs further apart than MAX_GAP_GLYPHS median glyph widths. "Law" at the end
+    """No two consecutive glyphs further apart than MAX_GAP_GLYPHS median glyph widths, and all on one text
+    line (a negative gap after a line wrap is not touching). "Law" at the end
     of a title cell and a "3" in the units cell read as `Law 3` in the text layer but are not a code."""
     widths = sorted(b[3] - b[1] for b in boxes)
     limit = MAX_GAP_GLYPHS * widths[len(widths) // 2]
-    return all(nxt[1] - prev[3] <= limit for prev, nxt in zip(boxes, boxes[1:]))
+    return all(nxt[1] - prev[3] <= limit and _same_line(prev, nxt) for prev, nxt in zip(boxes, boxes[1:]))
+
+
+def _same_line(a: tuple, b: tuple) -> bool:
+    """Two glyph boxes (ch, left, bottom, right, top) share a text line when they overlap vertically by
+    more than half of the shorter one; the end of one wrapped line and the start of the next do not."""
+    overlap = min(a[4], b[4]) - max(a[2], b[2])
+    return overlap > 0.5 * min(a[4] - a[2], b[4] - b[2])
 
 
 def is_split_across_cells(page: PdfPage, code: str) -> bool:

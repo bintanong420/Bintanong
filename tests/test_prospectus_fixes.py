@@ -1,5 +1,6 @@
 import pytest
 
+from backend.bintanong_tools.prospectus_extractor.course_checks import PdfPage
 from backend.bintanong_tools.prospectus_extractor.fixes import (
     format_term, parse_term, propose_fixes, strip_banner, title_from_pdf,
 )
@@ -31,6 +32,10 @@ def test_term_text_round_trip():
     assert parse_term("1st Semester") is None
 
 
+# A strip needs the remainder printed without the banner next to it; here the PDF row does that.
+PAGE = "FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 1/L Introduction to Computing 2/1"
+
+
 def roles(course, payload):
     audit = payload["audit"]
     ids = {i for s in audit["curriculum_sections"] for i in s["evidence_cells"]}
@@ -41,7 +46,7 @@ def test_a_leading_banner_in_the_title_gets_a_strip_proposal_keyed_to_its_cell()
     payload = fx.bscs()
     course = payload["courses"][0]
     course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
-    fixes = propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"})
+    fixes = propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"}, page_text=PAGE)
     assert [(f.kind, f.field, f.old, f.new, f.fix_id) for f in fixes] == [
         ("strip_banner", "course_title", "FIRST SEMESTER Discrete Structures 1", "Discrete Structures 1",
          "strip_banner:course_title@t0-c9")]
@@ -108,7 +113,7 @@ def test_the_verifier_numbers_the_proposals_of_each_row():
     payload = fx.bscs()
     payload["courses"][0]["course_title"] = "FIRST SEMESTER Discrete Structures 1"
     payload["courses"][1]["course_code"] = "FIRST YEAR CC 1/L"
-    v = verify_candidate(payload)
+    v = verify_candidate(payload, {1: PdfPage(PAGE, None, None)})
     rows = by_code(payload, v)
     assert [(l, f.kind, f.new) for l, f in rows["CS 1"].fixes] == [("a", "strip_banner", "Discrete Structures 1")]
     assert [(l, f.field, f.new) for l, f in rows["FIRST YEAR CC 1/L"].fixes] == [("a", "course_code", "CC 1/L")]

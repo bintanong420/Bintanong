@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Any, Collection, Mapping, Sequence
+from typing import Any, Collection, Iterable, Mapping, Sequence
 
 from .course_checks import pdf_clean
 from .text import BANNER_PHRASE, BANNER_WORDS, clean_str, leading_banner, match_semester_labels, match_year_label, trailing_banner
@@ -74,13 +74,30 @@ def _fix_id(kind: str, field: str, cell_ids: Sequence[str]) -> str:
     return f"{kind}:{field}@{cell_ids[0] if cell_ids else 'none'}"
 
 
-def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]], banners: Collection[str]) -> list[Fix]:
+def printed_without_banner(remainder: str, texts: Iterable[str]) -> bool:
+    """True when `remainder` occurs in one of `texts` with no banner phrase right before or after it.
+    The remainder of a strip must be printed in the document on its own (a clean cell, the PDF row),
+    not only inside the very banner-bearing text being stripped: "FIRST SEMESTER PRACTICUM" printed
+    once, as one string, never proves that "PRACTICUM" is the title."""
+    pattern = re.compile(rf"(?<!\w){re.escape(remainder)}(?!\w)")
+    for text in texts:
+        value = clean_str(text)
+        for m in pattern.finditer(value):
+            if not trailing_banner(value[: m.start()])[1] and not leading_banner(value[m.end():])[0]:
+                return True
+    return False
+
+
+def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]], banners: Collection[str],
+                 page_text: str | None = None) -> list[Fix]:
     out = []
+    evidence = [c.get("text") or "" for c in (course.get("provenance") or {}).get("source_cells") or []]
+    evidence += [pdf_clean(page_text)] if page_text else []
     for field, role, name in ((FIELD_CODE, "code", "code"), (FIELD_TITLE, "title", "title")):
         value = clean_str(course.get(field))
         cells = [c["cell_id"] for c in role_cells.get(role, [])]
         stripped = strip_banner(value) if BANNER_PHRASE.search(value) and banner_confirmed(value, banners) else None
-        if stripped:
+        if stripped and printed_without_banner(stripped, evidence):
             out.append(Fix("strip_banner", field, value, stripped, f"banner text removed from the {name}",
                            _fix_id("strip_banner", field, cells)))
     return out
@@ -150,8 +167,9 @@ def propose_fixes(
     banners: Collection[str] = (),
 ) -> list[Fix]:
     """`banners`: the banner words the course's table prints in its section-banner cells. A strip is
-    proposed only for banner text made of those words; without them it is flag-only."""
-    fixes = _strip_fixes(course, role_cells, banners) + _move_fix(course, role_cells)
+    proposed only for banner text made of those words, and only when the remainder is printed
+    elsewhere without a banner next to it (another source cell or the PDF row); else it is flag-only."""
+    fixes = _strip_fixes(course, role_cells, banners, page_text) + _move_fix(course, role_cells)
     if title_not_in_pdf and page_text and not any(f.field == FIELD_TITLE for f in fixes):
         new = title_from_pdf(clean_str(course.get("course_code")), (course.get("units") or {}).get("raw") or "",
                              course.get("course_title") or "", page_text, known_codes)
