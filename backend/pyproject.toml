@@ -26,6 +26,17 @@ tools = [
   "reportlab==5.0.1",
   "typer==0.26.8",
 ]
+# OCR bake-off (plans/2026-10-04-prospectus-ocr-measurement.md). Pick ONE of the two: onnxruntime and
+# onnxruntime-gpu own the same Python module and cannot coexist. macOS has no CUDA: use ocr-cpu there.
+# Setup: scripts/fetch_tessdata.py plus the Tesseract program (see the plan, "Setup from a clean clone").
+ocr-gpu = [
+  "onnxruntime-gpu[cuda,cudnn]==1.30.0; sys_platform == 'win32' or sys_platform == 'linux'",
+  "torch==2.14.0",
+  "torchvision==0.29.0",
+]
+ocr-cpu = [
+  "onnxruntime==1.30.0",
+]
 dev = [
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
@@ -38,7 +49,22 @@ conflicts = [
     { extra = "api" },
     { extra = "embedding" },
   ],
+  [
+    { extra = "ocr-gpu" },
+    { extra = "ocr-cpu" },
+  ],
 ]
+
+# CUDA 13.0 wheels (driver 616.86 reports CUDA 13.4; onnxruntime-gpu 1.30.0 targets CUDA 13.0).
+# Used only for the ocr-gpu extra on Windows and Linux; macOS and every other extra keep PyPI wheels.
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu130", extra = "ocr-gpu", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu130", extra = "ocr-gpu", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

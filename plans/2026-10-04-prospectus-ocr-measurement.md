@@ -65,7 +65,7 @@ scripts/ocr_bench.py                          simulate | ocr | score
 | 1 Photo simulator | built, tested |
 | 2 Scorer and Q11 verdict | built, tested |
 | 3 CLI driver and OCR stub | built, tested |
-| 4a Install GPU and CPU dependencies | **gated: needs the user's go-ahead** |
+| 4a Install GPU and CPU dependencies | approved 2026-10-04 on the condition that setup is code in the repository; see "Setup from a clean clone" and the Task 4a results |
 | 4b Engine adapters and the six-config run | not started; needs 4a |
 | 4c Throughput measurement, CPU versus GPU | not started; needs 4b |
 | 5 Confidence matching | not started |
@@ -165,6 +165,7 @@ OCR-derived data stays labelled `ocr` and is reviewed only by the uploading user
 
 - A decision by the uploading user changes what **that user** sees for **that upload**. Nothing else.
 - No OCR-derived value, decision or ledger line is written into, indexed into, embedded into, or promoted into the institutional knowledge base (the master plan's `documents`, `chunks`, `chunk_embeddings`, `policy_rules`, `knowledge_releases`), and no code path, flag or staff action does so. There is no staff promotion path.
+- **Session only (decided 2026-10-04).** A user's OCR review decisions live in the anonymous session and vanish when it ends (explicit deletion, idle expiry, failure cleanup, service restart). They are never written to a file that outlives the session, to the database, to logs, traces or backups, and there is no account, profile or identifier to attach them to. This matches the master plan: no persistent identity (15.2), deletion after extraction (15.1 steps 8 and 9), no persisted identifiers in OCR artifacts (15.3). The B2 ledger *format* is reused, but in the session it is an in-memory (or session tmpfs) list of the same lines; the on-disk ledger file is only for the researcher's own bake-off runs and the maintainer tool.
 - The institutional prospectus data stays reviewed only through the existing researcher workflow on born-digital PDFs (master plan 7.1 step 7).
 - A test in the later integration plan must assert that the OCR flow has no import of, and no write to, the institutional storage modules.
 
@@ -187,7 +188,7 @@ Each question shows the OCR value as the default, never the reference value as a
 
 **Mapping to the B2 decision log.** Each answer is one `ledger.make_entry` call:
 
-- `reviewer` is the uploading user's session identity (see the master-plan gaps: identity is undecided there); `reason` is the question id plus any note; `via` is `"questions"`; `section` is the year x semester section id; `fix_id` is empty (no proposal) or the id of the proposal shown.
+- `reviewer` is the opaque anonymous session id (no account exists; it dies with the session); `reason` is the question id plus any note; `via` is `"questions"`; `section` is the year x semester section id; `fix_id` is empty (no proposal) or the id of the proposal shown.
 - `pdf_sha256` is the hash of the photo file, so a re-shot photo cannot inherit decisions; `locator` is `course_locator` of the OCR candidate course (or `unclaimed_locator` for a row the photo lacks); `old_value` is the OCR value; `new_value` is the typed value for Other.
 - Yes gives disposition `accepted`; Other gives `corrected` with the typed value (validated by `ledger.correction_problem`, so an invalid typed term or an empty title is refused and the question is asked again); No gives `unresolved`, or `corrected` if the user then supplies the value in the follow-up.
 - Field names: `course_code`, `course_title`, `term`, `row`, `unclaimed`, plus the units and prerequisite fields the O1 extension adds on the B2 branch. Until that lands, Task 6 cannot map the units and prerequisite questions and does not start.
@@ -249,6 +250,22 @@ Do not use `tgl`. The apt package's own `fil` may be the tessdata_fast variant; 
 ### Files that change at install time (a separate approved step)
 
 `backend/pyproject.toml` (extras, uv indexes, sources, conflicts), `backend/uv.lock`, the OCR Dockerfile and Compose GPU entry, and the decision record. Do it first in a throwaway environment (a separate worktree and venv) so the working venv, which the whole test suite uses, is never left half-converted.
+
+## Setup from a clean clone
+
+Everything needed is in the repository on this branch; nothing depends on this machine's state.
+
+1. **Python environment.** From the repository root, pick ONE extra (they conflict by design):
+   - NVIDIA GPU, Windows or Linux: `uv sync --project backend --extra tools --extra dev --extra ocr-gpu` (CUDA 13.0 torch wheels from the `pytorch-cu130` index, `onnxruntime-gpu[cuda,cudnn]`, the CUDA and cuDNN runtime libraries as pip wheels, so no system CUDA toolkit is needed; only an NVIDIA driver that supports CUDA 13).
+   - CPU only, or macOS: `uv sync --project backend --extra tools --extra dev --extra ocr-cpu`.
+   To try it without touching the working venv, set `UV_PROJECT_ENVIRONMENT` to a throwaway folder first.
+2. **Tesseract program.** Windows `winget install -e --id tesseract-ocr.tesseract`; Debian/Ubuntu `apt-get install tesseract-ocr`; macOS `brew install tesseract`.
+3. **Pinned models.** `python scripts/fetch_tessdata.py` downloads `fil.traineddata` and `eng.traineddata` from tessdata_best at commit `e2aad9b983032bb1beff9133104a67cdbb87ca4d` (tag 4.1.0), verifies SHA-256, and prints the folder to use as `TESSDATA_PREFIX`. Default folder is outside the repository (`%LOCALAPPDATA%\bintanong\tessdata`, `~/Library/Application Support/bintanong/tessdata`, `~/.local/share/bintanong/tessdata`); `--dest` overrides it, `--check` only verifies.
+   - `fil` SHA-256 `04a7d20dcd2e1869375cbf47b59d8ed4ceea98c7f01706269eced3945b763647`
+   - `eng` SHA-256 `8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba`
+4. **Check.** `tesseract --list-langs` (with `TESSDATA_PREFIX` set) must list `fil` and `eng`; `python scripts/ocr_bench.py ocr --list` shows which of the six configs can run.
+
+Files that carry this setup: `backend/pyproject.toml` (extras `ocr-gpu` and `ocr-cpu`, declared conflicting; the `pytorch-cu130` index; `[tool.uv.sources]` routing `torch` and `torchvision` to it only for `ocr-gpu` on Windows and Linux), `backend/uv.lock`, `scripts/fetch_tessdata.py` with `tests/test_ocr_fetch_tessdata.py`.
 
 ---
 
@@ -371,8 +388,8 @@ The user's instruction: "remember you need to wire up all of the pipeline later 
 | Engine install, CUDA, Docker GPU image | 5.1 `docker/ingest.Dockerfile`, 5.3 GPU override, "OCR on CPU initially", 8 GB VRAM warning; 18.1 backend host | Phase 0 (environment), Phase 13 (host) |
 | OCR conversion of a photo into the extractor payload (convert, Docling OCR options, textline confidence) | 7.1 steps 2 to 4 (Docling with a pinned OCR backend, "record the actual backend and settings") for the private path | Phase 10 step 4 (isolated Docling conversion job); settings from Phase 2 |
 | Upload intake (size and page limits, media types, transient workspace, deletion) | 15.1 steps 1 to 4 and 8 to 9; 16.1 `POST /uploads`, `DELETE /uploads/{id}` | Phase 10; API in Phase 11 |
-| Edition matching against the 39 reference prospectuses | None. See gaps. | Proposed: Phase 10, using Phase 2 artifacts |
-| User review questions and the decision log | 15.1 step 6 ("ask the user to confirm ambiguous course codes, values, or consequential extracted facts"); 6.2 student facts with `private_upload` origin and an extraction/confirmation state; 16.2 clarification replies | Phase 10 (logic), Phase 11 (UI) |
+| Edition matching against the 39 reference prospectuses | **Added to Phase 10 as a deliverable (decided 2026-10-04):** matcher, match threshold, a no-match path to review, and the "photo differs in N places, awaiting your review" note. It reads the 39 reviewed editions from institutional storage (read-only) and the session's OCR output. | Phase 10, using Phase 2 and Phase 4 artifacts |
+| User review questions and the decision log (session only) | 15.1 step 6 ("ask the user to confirm ambiguous course codes, values, or consequential extracted facts"); 6.2 student facts with `private_upload` origin and an extraction/confirmation state; 16.2 clarification replies | Phase 10 (logic), Phase 11 (UI) |
 | Reviewed OCR facts feeding answers | 11.3 "student facts as request-local arguments"; 8 and 9 evidence bundle with "scoped student facts" and "conditional" labelling | Phases 6, 8, 9 |
 | Institutional reviewed prospectus data shown to the student for a matched edition | 4 and 9.1 `programs`, `curriculum_versions`, `courses`; 18.3 releases | Phase 4 (storage), Phase 13 (release) |
 | B2 ledger and sheet (maintainer tool); decision-log extension for units and prerequisites | 7.1 step 7 (local reviewer GUI and ledger), 16.1 (hosted reviewer UI not required) | Phase 2 (B2 branch) |
@@ -382,10 +399,10 @@ The user's instruction: "remember you need to wire up all of the pipeline later 
 
 ### What the master plan lacks (gaps found)
 
-1. **No edition matching.** Nothing in the master plan identifies which known prospectus a user's photo is. Phase 10 only extracts "facts/context needed for the question". Needs a new Phase 10 deliverable: matcher, threshold, no-match path, and the "photo differs in N places" note.
+1. **No edition matching** (resolved 2026-10-04: added to Phase 10 as a deliverable, see the mapping table). The master plan text itself still has to be amended: section 15 needs the matcher, threshold, no-match path and the "photo differs in N places" note.
 2. **No user-facing review flow with persistence of decisions.** 15.1 step 6 has one line on confirming ambiguous values. There is no question-style flow, no decision log per user, and no endpoint for questions and answers in 16.1. Needs `GET` and `POST` review endpoints (or an extension of `/chat` clarification replies) and a typed `ReviewQuestion` and `ReviewAnswer` in 6.2.
-3. **Decision-log lifetime and identity conflict.** The user wants decisions kept for that user (Q12). The master plan has no persistent identity or profile ("avoid persistent identity/profile infrastructure"), a 30-minute idle session (15.1) and deletion of upload bytes after extraction. The ledger keys decisions on the photo's hash and a reviewer name. Open: how long a user's decisions live, where they are stored (never in institutional tables), and under what identity. This needs a user decision before Phase 10.
-4. **Privacy of the decision log.** 15.3 says OCR artifacts and traces must not persist grades or identifiers. A ledger of a user's corrections is user data; the master plan has no rule for it.
+3. **Decision-log lifetime and identity** (resolved 2026-10-04: session only). A user's decisions live in the anonymous session and vanish with it, which fits the master plan's no-persistent-identity rule, 30-minute idle session and deletion after extraction. Consequence to state in the master plan: a user who returns after expiry re-uploads and re-answers; nothing is remembered. The ledger keys entries on the photo hash and an anonymous session id instead of a reviewer name.
+4. **Privacy of the decision log.** Session-only storage satisfies 15.3, but the master plan should say so explicitly: the correction log is session data, excluded from logs, traces, telemetry, evaluation exports and backups.
 5. **The hard rule has no test.** 15.3 checks isolation between sessions and from retrieval but not "OCR data is never written to institutional storage". Needs an explicit Phase 10 gate case.
 6. **Docling version.** The master plan pins Docling 2.93.0 (section 2); the repository runs 2.129.0. The plan, Phase 0 pins and Phase D identity must agree.
 7. **GPU.** Master plan 5.3 says run embeddings and OCR on CPU initially and measure VRAM contention. The user now wants CUDA for OCR and for Docling's models. The master plan has no VRAM budget across Bintu-1, embeddings and OCR on one 8 GB card, no scheduling rule for bulk ingestion versus chat, and its `ingest.Dockerfile` has no GPU or CUDA version. Phase 0 and Phase 13 need the Task 4a and 4c results.
@@ -396,12 +413,11 @@ The user's instruction: "remember you need to wire up all of the pipeline later 
 
 ## Decisions closed and what remains open
 
-All of Q8 to Q16 and O1 to O3 are closed (table at the top). Remaining items needing the user, none blocking Tasks 1 to 3:
+All of Q8 to Q16, O1 to O3, and the three follow-up answers (session-only decisions, edition matching in Phase 10, setup kept in the repository, Task 4a approved) are closed. Remaining items needing the user, none blocking Tasks 1 to 3:
 
-- Go-ahead to install (Task 4a), including which CUDA version once the driver version is read.
 - The user's real photos (Task 8, real half).
-- Master-plan gap 3: how long a user's decisions live, where, and under what identity.
-- Master-plan gap 1: whether edition matching is added to Phase 10 as a new deliverable.
+- Amending the master plan text for gaps 1, 3, 4 and the others in the list above (this plan records them; it does not edit the master plan).
+- Switching the main backend venv to an OCR extra (a later step for the user; Task 4a verified in a throwaway venv only).
 
 ## Smoke results (Tasks 1 to 3)
 
