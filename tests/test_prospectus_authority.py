@@ -428,3 +428,52 @@ def test_terms_with_the_same_index_are_listed_in_a_fixed_order():
         seen.add(done.stdout.strip())
     # Summer and Mid-Year share an index; the tie breaks on year then semester text.
     assert seen == {'["1st Year Mid-Year", "1st Year Summer"]'}
+
+
+# Review finding A: text the parser dropped silently must not leave a rule "resolved".
+DROPPED_TEXT_CASES = [
+    ("CS 1 with a grade of 85", "standing_condition"),
+    ("CS 1, 18 units", "standing_condition"),
+    ("CS 1 min grade 2.0", "standing_condition"),
+    ("CS 1 Hours", "unreadable"),
+    ("CS 1 Page 2", "unreadable"),
+    ("CS 1 Note", "unreadable"),
+    ("CS 1, Semester", "unreadable"),
+    ("CS 1 | CS 2", "alternative_or_exception"),
+    ("CS 1 / CS 2", "alternative_or_exception"),
+]
+
+
+@pytest.mark.parametrize(("cell", "state"), DROPPED_TEXT_CASES, ids=[c[0] for c in DROPPED_TEXT_CASES])
+def test_text_the_parser_dropped_keeps_the_rule_out_of_eligible(cell, state):
+    payload = payload_for([CONTROL, one_case(cell)])
+    assert payload["audit"]["status"] != "error"
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] == state, by_code["CC 1"]["prerequisites_raw"]
+    assert "rule_complete('CC 1')." not in payload["prolog"]["clauses"]
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+
+
+def test_every_dropped_text_form_is_resolved_for_the_classifier_alone():
+    # Same cells, as the parser reports them: the codes resolved and the leftover word vanished.
+    for cell, state in DROPPED_TEXT_CASES:
+        codes = ["CS 1", "CS 2"] if ("|" in cell or "/" in cell) else ["CS 1"]
+        assert classify_prerequisite_state(course(cell, codes)) == state, cell
+
+
+@pytest.mark.parametrize(
+    ("raw", "prereqs"),
+    [
+        ("CS 1", ["CS 1"]),
+        ("CS1", ["CS 1"]),
+        ("cs 1, CS 2", ["CS 1", "CS 2"]),
+        ("CS 1 and CS 2", ["CS 1", "CS 2"]),
+        ("CS 1; CS 2 & CS 3", ["CS 1", "CS 2", "CS 3"]),
+        ("CC 1/L", ["CC 1/L"]),
+        ("BT-2", ["BT-2/L"]),
+        ("MATH 19-20", ["Math 19", "Math 20"]),
+        ("CS 1\nCS 2", ["CS 1", "CS 2"]),
+    ],
+)
+def test_plainly_resolved_cells_stay_resolved(raw, prereqs):
+    assert classify_prerequisite_state(course(raw, prereqs)) == "resolved"

@@ -242,6 +242,44 @@ ALTERNATIVE_OR_EXCEPTION = re.compile(
 )
 
 
+# A leftover that states a units or grade condition (it needs a number: "18 units", "grade of 85").
+CONDITION_LEFTOVER = re.compile(r"\b(?:units?|grades?)\b", re.IGNORECASE)
+
+
+def _code_pattern(code: str) -> re.Pattern[str]:
+    """Matches a resolved code as printed: spacing, hyphens and a lab marker may differ."""
+    runs = re.findall(r"[A-Za-z0-9]+", code)
+    lab = bool(len(runs) > 1 and runs[-1].upper() == "L")
+    body = r"[\s\-\./]*".join(re.escape(run) for run in (runs[:-1] if lab else runs))
+    if lab:
+        body += r"(?:[\s\-\./]*L)?"
+    return re.compile(rf"(?<![A-Za-z0-9]){body}(?![A-Za-z0-9])", re.IGNORECASE)
+
+
+def unconsumed_prerequisite_text(course: dict) -> str:
+    """What is left of prerequisites_raw after the resolved codes, recognised standing conditions
+    and separators are taken out. Anything left was dropped or never understood."""
+    codes = list(course.get("prerequisites") or [])
+    known = {norm_key(code) for code in codes}
+    left: list[str] = []
+    for fragment in split_prereq_fragments(clean_str(course.get("prerequisites_raw"))):
+        if is_standing_rule(fragment):
+            continue
+        span = CODE_RANGE.match(fragment)
+        if span:
+            first, last = int(span.group(2)), int(span.group(3))
+            prefix = span.group(1).strip()
+            if first <= last and all(norm_key(f"{prefix} {n}") in known for n in range(first, last + 1)):
+                continue
+        rest = fragment
+        for code in sorted(codes, key=len, reverse=True):
+            rest = _code_pattern(code).sub(" ", rest)
+        rest = re.sub(r"[\s.,;:]+", " ", rest).strip()
+        if rest:
+            left.append(rest)
+    return " ".join(left)
+
+
 def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = frozenset()) -> str:
     """Worst-case state of one finalized course; the order below is the precedence."""
     raw = clean_str(course.get("prerequisites_raw"))
@@ -260,7 +298,14 @@ def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = fr
         return "stated_none"
     if not course.get("prerequisites"):
         return "unreadable"  # text was printed but nothing in it was recognised
-    return "resolved"
+    leftover = unconsumed_prerequisite_text(course)
+    if not leftover:
+        return "resolved"
+    if re.search(r"[|/]", leftover):
+        return "alternative_or_exception"  # codes joined by | or /, which would run as AND
+    if CONDITION_LEFTOVER.search(leftover) and re.search(r"\d", leftover):
+        return "standing_condition"  # a units or grade condition the parser dropped
+    return "unreadable"  # printed text no resolved code, standing rule or separator accounts for
 
 
 def annotate_prerequisite_states(courses, anomalies=()) -> None:
