@@ -13,6 +13,7 @@ from .evidence import LoadedDocument
 from .sections import SemanticRepairProvider
 from .parse import parse_curriculum_evidence
 from .courses import finalize_courses, link_elective_tracks, parse_elective_tracks
+from .prerequisites import annotate_prerequisite_states
 from .metadata import parse_semantic_markdown, resolve_metadata
 from .audit import build_audit
 from .views import build_curriculum_by_term, build_unlocks_map, make_prerequisite_edges, write_review_csv
@@ -46,6 +47,7 @@ def build_payload(
         raw_course["provenance"] = provenance
     courses, _index, duplicates = finalize_courses(parse.courses)
     tracks = link_elective_tracks(courses, parse_elective_tracks(document.text_items))
+    annotate_prerequisite_states(courses, parse.anomalies)
 
     audit = build_audit(courses, parse, metadata, duplicates, metadata_warnings)
     term_units = audit["term_unit_audit"]
@@ -66,6 +68,8 @@ def build_payload(
                 "prerequisites": [],
                 "standing_requirements": [],
                 "elective_tracks": [],
+                "prerequisite_states": [],
+                "rule_complete": [],
             },
         }
         semantic_chunks = []
