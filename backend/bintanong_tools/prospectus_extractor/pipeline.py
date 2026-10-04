@@ -83,7 +83,7 @@ def build_payload(
     verified = audit["status"] != "error"
     if verified:
         prolog = generate_prolog_knowledge(metadata, courses, tracks, term_units)
-        prolog["status"] = "verified"
+        prolog["status"] = "extracted"  # the audit found no error; not a verification
         semantic_chunks = build_semantic_rag_chunks(metadata, courses, tracks, term_units)
         hierarchical_chunks = build_hierarchical_rag_chunks(document, Path(input_path).name)
     else:
@@ -160,6 +160,11 @@ def build_payload(
     return payload
 
 
+def essentials_extraction_status(audit_status: str) -> str:
+    """Name the extractor's own result; none of these values means reviewed, verified or approved."""
+    return {"ok": "EXTRACTED", "warn": "EXTRACTED_WITH_WARNINGS"}.get(audit_status, "REVIEW_REQUIRED")
+
+
 def build_essentials(payload: Mapping[str, Any]) -> dict[str, Any]:
     """Project an audited extraction into portable curriculum facts."""
     source_path = Path(payload["source_path"]).resolve()
@@ -173,7 +178,7 @@ def build_essentials(payload: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "schema_version": "palsu-prospectus-essentials-v2",
         "source_pdf": source_pdf,
-        "extraction_status": payload["audit"]["promotion_status"],
+        "extraction_status": essentials_extraction_status(payload["extraction_audit"]),
         "extraction_audit": payload["extraction_audit"],
         "content_review": payload["content_review"],
         "source_verification": payload["source_verification"],

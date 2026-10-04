@@ -57,6 +57,10 @@ When the audit is `error`, `build_payload` already replaced Prolog with an empty
 
 The classifier now accounts for all of `prerequisites_raw`: after the resolved codes (spacing, a leading zero and a lab marker may differ), recognised standing rules and separators are removed, any leftover text makes the state non-executable (a units or grade condition with a number is `standing_condition`, `|` or `/` between codes is `alternative_or_exception`, anything else `unreadable`). Extracted course values are unchanged. `source_verification` must be exactly `verified` and `pdf_hash_check` exactly `matched`; anything else blocks (`source_not_verified`, `pdf_hash_not_checked`). A positive test shows `eligibility_executable` is true when every gate is satisfied. An approved field whose observation basis is `extractor_default` gives identity `unverified` (blocker `identity_unverified`), never `consistent`. A ledger passed without a source is recorded in `content_review_detail` as ignored. The status-field report is now `--status-report` on `scripts/prospectus_course_compare.py`.
 
+## Codex review fixes (4 October 2026)
+
+- **Audit success no longer reads as verification.** `prolog.status` is `extracted` (was `verified`; still `blocked` for an `error` audit). The compact essentials file's `extraction_status` is `EXTRACTED`, `EXTRACTED_WITH_WARNINGS` or `REVIEW_REQUIRED` (was the `promotion_status` label `VERIFIED`). The TUI inspect view prints "Extraction audit", "Content review" and "Source verification" together. A repository-wide search found no consumer of the old values outside the extractor package and its tests. `audit.promotion_status` and `quality_report.promotion_status` keep `VERIFIED`/`REVIEW_REQUIRED` as the documented legacy label. The schema version stays `palsu-prospectus-v3.1`.
+
 ## Known limits
 
 Blank cells cannot be told from missing ones. `unreadable` in a payload whose audit is not `error` only comes from "text present, nothing recognised". The review CSV does not show `prerequisite_state`. The batch manifest does not carry the three states.

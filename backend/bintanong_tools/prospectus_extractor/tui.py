@@ -312,7 +312,9 @@ class ProspectusTUI:
         print_line(f"\nProgram: {data.get('program')}  ({data.get('degree')})")
         print_line(f"College: {data.get('college')} - {data.get('college_name')}")
         print_line(f"SY:      {data.get('metadata', {}).get('effective_school_year')}")
-        print_line(f"Status:  {audit.get('status', 'unknown').upper()}")
+        print_line(f"Extraction audit:    {audit.get('status', 'unknown').upper()} (the extractor's own checks, not approval)")
+        print_line(f"Content review:      {str(data.get('content_review', 'pending')).upper()}")
+        print_line(f"Source verification: {str(data.get('source_verification', 'pending')).upper()}")
         print_line(f"Courses: {audit.get('total_courses')}  Units: {audit.get('computed_total_units')}")
         print_line(f"Years:   {audit.get('years_detected')}")
         for term in audit.get("term_unit_audit", []):

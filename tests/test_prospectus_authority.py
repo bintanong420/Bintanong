@@ -325,7 +325,7 @@ def test_matching_hash_is_recorded_and_still_does_not_authorize(tmp_path, monkey
     assert payload["authority"]["eligibility_executable"] is False
     essentials = json.loads((tmp_path / "x_essentials.json").read_text(encoding="utf-8"))
     assert essentials["schema_version"] == "palsu-prospectus-essentials-v2"
-    assert essentials["extraction_status"] == "VERIFIED"                # legacy field still present
+    assert essentials["extraction_status"] == "EXTRACTED_WITH_WARNINGS"  # an audit result, never "verified"
     assert essentials["extraction_audit"] == "warn"
     assert essentials["content_review"] == "pending"
     assert essentials["source_verification"] == "pending"
@@ -584,3 +584,34 @@ def test_a_ledger_passed_without_a_source_is_reported_as_ignored():
     assert payload["authority"]["content_review_detail"] == {
         "state": "pending", "ignored": "no source hash to apply the ledger against", "entries": 2,
     }
+
+
+# Codex item 2: an audit result must not read as approval anywhere a person or tool looks.
+def test_prolog_and_essentials_status_name_the_extraction_not_a_verification():
+    ok = payload_for([_cs_row(("CS 1", "A", "3", ""))])
+    warn = payload_for([CONTROL])
+    assert ok["prolog"]["status"] == warn["prolog"]["status"] == "extracted"
+    assert pipeline.essentials_extraction_status("ok") == "EXTRACTED"
+    assert pipeline.essentials_extraction_status("warn") == "EXTRACTED_WITH_WARNINGS"
+    assert pipeline.essentials_extraction_status("error") == "REVIEW_REQUIRED"
+    blocked = payload_for([CONTROL, _cs_row(("CS 1", "Duplicate code", "3", ""))])
+    assert blocked["prolog"]["status"] == "blocked"
+
+
+def test_inspect_labels_the_audit_and_shows_review_and_source_next_to_it(tmp_path, monkeypatch):
+    from backend.bintanong_tools.prospectus_extractor import tui
+
+    payload = payload_for([CONTROL])
+    target = tmp_path / "x_prospectus.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    lines = []
+    monkeypatch.setattr(tui, "ask_text", lambda *a, **k: str(target))
+    monkeypatch.setattr(tui, "print_line", lambda message="": lines.append(message))
+    app = tui.ProspectusTUI()
+    monkeypatch.setattr(app, "pause", lambda *a, **k: None)
+    app.inspect()
+    text = "\n".join(lines)
+    assert "Extraction audit:" in text and "WARN" in text
+    assert "Content review:" in text and "PENDING" in text.upper()
+    assert "Source verification:" in text
+    assert "Status:" not in text.replace("Extraction audit:", "")
