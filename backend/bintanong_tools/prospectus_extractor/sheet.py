@@ -160,6 +160,9 @@ def parse_sheet(text: str) -> ParsedSheet:
             section.fixed[m.group(1)] = m.group(2).strip()
             section.lines[m.group(1)] = number
         elif m := re.match(r"^(confirm|accept|reason):\s*(.*)$", line):
+            if m.group(1) in section.lines:
+                sheet.errors.append(f"line {number}: {m.group(1)}: appears twice in section {sid} (first on line {section.lines[m.group(1)]})")
+                continue
             section.edits[m.group(1)] = m.group(2).strip()
             section.lines[m.group(1)] = number
         elif line.startswith("|") and not re.match(r"^\|[\s\-|:]+$", line):
@@ -222,6 +225,8 @@ def parse_decision(cell: str) -> tuple[str | None, list[str], str, str | None]:
         return None, [], "", None
     head, _colon, reason = text.partition(":")
     tokens = [t for t in re.split(r"[\s,]+", head.strip().lower()) if t]
+    if not tokens:
+        return None, [], "", "a decision needs a verb before the colon: ok, fix, edit or unresolved"
     verb, letters = tokens[0], tokens[1:]
     if verb not in VERBS:
         return None, [], "", f"unknown decision {tokens[0]!r}; use ok, fix, edit or unresolved"
@@ -247,6 +252,10 @@ def build_entries(
         for name in classes:
             if name not in FIX_KINDS | {"unclaimed"}:
                 errors.append(f"{section.sid}: accept lists unknown class {name!r}{at(ps.lines.get('accept'))}")
+        blocking = [f for f in section.flags if f.severity != "info"]
+        if confirm == "yes" and blocking:
+            errors.append(f"{section.sid}: confirm: yes cannot cover a section flagged {", ".join(sorted({f.kind for f in blocking}))}; "
+                          f"resolve it or leave confirm: no{at(ps.lines.get('confirm'))}")
         if classes and not section_reason:
             errors.append(f"{section.sid}: accept needs a reason: line{at(ps.lines.get('reason') or ps.lines.get('accept'))}")
         for row in section.rows:

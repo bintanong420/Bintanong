@@ -84,3 +84,48 @@ def test_item12_glyphs_on_different_lines_are_not_one_code():
     page = make_two_line_page()
     assert locate_in_page(page, "Mktg 2001") is None
     assert is_split_across_cells(page, "Mktg 2001")
+
+
+# --- commit 2: sheet controls and bulk confirm respect section flags
+
+from backend.bintanong_tools.prospectus_extractor.sheet import (
+    build_entries, candidate_sha256, check_against, parse_decision, parse_sheet, render_sheet,
+)
+from sheet_helpers import edit_row, set_line
+
+
+def rendered(payload, v):
+    return render_sheet(payload, v, {"pdf_sha256": HASH, "candidate_sha256": candidate_sha256(payload)})
+
+
+def test_item3_confirm_yes_on_a_section_with_a_section_level_flag_is_refused_naming_the_flag():
+    payload = copy.deepcopy(fx.bscs())
+    payload["audit"]["term_unit_audit"][0]["declared_units"] = 99        # S1: printed 99, extracted 5
+    v = verify_candidate(payload)
+    assert [r.worst() for r in v.sections[0].rows] == [None, None] and v.sections[0].flags
+    text = set_line(rendered(payload, v), "S1", "confirm", "yes")
+    entries, errors = build_entries(parse_sheet(text), payload, v, reviewer="N", pdf_sha256=HASH)
+    assert entries == []
+    assert any("S1" in e and "unit_total" in e and "(line " in e for e in errors), errors
+
+
+@pytest.mark.parametrize("key", ["confirm", "accept", "reason"])
+def test_item4_a_repeated_control_line_in_one_section_is_rejected_with_its_line_number(key):
+    payload = copy.deepcopy(fx.bscs())
+    v = verify_candidate(payload)
+    base = rendered(payload, v)
+    lines = base.splitlines()
+    at_line = next(i for i, l in enumerate(lines) if l.startswith(f"{key}:"))
+    lines.insert(at_line + 1, f"{key}: no")
+    text = "\n".join(lines) + "\n"
+    errors = check_against(parse_sheet(text), parse_sheet(base))
+    assert any(f"line {at_line + 2}" in e and key in e and "twice" in e for e in errors), errors
+
+
+def test_item5_a_decision_that_is_only_a_reason_is_a_validation_error_not_a_crash():
+    assert parse_decision(": because")[3] is not None
+    payload = copy.deepcopy(fx.bscs())
+    v = verify_candidate(payload)
+    text = edit_row(rendered(payload, v), "S1-01", decision=": because")
+    entries, errors = build_entries(parse_sheet(text), payload, v, reviewer="N", pdf_sha256=HASH)
+    assert entries == [] and any("S1-01" in e and "(line " in e for e in errors)
