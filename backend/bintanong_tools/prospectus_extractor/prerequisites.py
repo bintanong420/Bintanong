@@ -249,10 +249,16 @@ CONDITION_LEFTOVER = re.compile(r"\b(?:units?|grades?)\b", re.IGNORECASE)
 def _code_pattern(code: str) -> re.Pattern[str]:
     """Matches a resolved code as printed: spacing, hyphens and a lab marker may differ."""
     runs = re.findall(r"[A-Za-z0-9]+", code)
-    lab = bool(len(runs) > 1 and runs[-1].upper() == "L")
-    body = r"[\s\-\./]*".join(re.escape(run) for run in (runs[:-1] if lab else runs))
-    if lab:
-        body += r"(?:[\s\-\./]*L)?"
+    if len(runs) > 1 and runs[-1].upper() == "L":
+        runs = runs[:-1]
+    # Any separator (or none) between characters, an optional leading zero before a number,
+    # and an optional lab marker: "PATH Fit 1", "Res 01/L" and "Bio 108/L" all read as their codes.
+    text = "".join(runs)
+    chars = [
+        ("0*" if char.isdigit() and (i == 0 or not text[i - 1].isdigit()) else "") + re.escape(char)
+        for i, char in enumerate(text)
+    ]
+    body = r"[\s\-\./]*".join(chars) + r"(?:[\s\-\./]*L)?"
     return re.compile(rf"(?<![A-Za-z0-9]){body}(?![A-Za-z0-9])", re.IGNORECASE)
 
 

@@ -474,6 +474,10 @@ def test_every_dropped_text_form_is_resolved_for_the_classifier_alone():
         ("BT-2", ["BT-2/L"]),
         ("MATH 19-20", ["Math 19", "Math 20"]),
         ("CS 1\nCS 2", ["CS 1", "CS 2"]),
+        # Printed variants of a resolved code seen in the 44 cached runs (spacing, leading zero, lab marker).
+        ("PATH Fit 1", ["PATHFit 1"]),
+        ("Res 01/L", ["Res 1"]),
+        ("Bio 108/L", ["Bio 108"]),
     ],
 )
 def test_plainly_resolved_cells_stay_resolved(raw, prereqs):
