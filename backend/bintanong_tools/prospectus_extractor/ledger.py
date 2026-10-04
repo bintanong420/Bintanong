@@ -16,6 +16,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import math
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -33,7 +34,10 @@ ACCEPTED, CORRECTED, UNRESOLVED = "accepted", "corrected", "unresolved"
 DISPOSITIONS = (ACCEPTED, CORRECTED, UNRESOLVED)
 FIELD_ROW, FIELD_UNCLAIMED = "row", "unclaimed"
 COURSE_FIELDS = (FIELD_CODE, FIELD_TITLE, FIELD_TERM)
-ENTRY_FIELDS = (*COURSE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
+UNIT_FIELDS = ("lecture_units", "lab_units", "total_units")   # the candidate's flat unit fields
+FIELD_PREREQ = "prerequisites_raw"
+CORRECTABLE_FIELDS = (*COURSE_FIELDS, *UNIT_FIELDS, FIELD_PREREQ)   # review state still asks only for COURSE_FIELDS
+ENTRY_FIELDS = (*CORRECTABLE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
 STALE_SECTIONS = ["audit", "elective_tracks", "prolog", "quality_report", "rag"]  # not rebuilt from corrections
 
 
@@ -88,7 +92,12 @@ def correction_problem(field: Any, new_value: Any) -> str | None:
     if field == FIELD_TERM:
         ok = isinstance(new_value, str) and parse_term(new_value) is not None
         return None if ok else f"a corrected term must read as a year and one semester, not {new_value!r}"
-    return f"only {', '.join(COURSE_FIELDS)} can be corrected, not {field!r}"
+    if field in UNIT_FIELDS:
+        ok = isinstance(new_value, (int, float)) and not isinstance(new_value, bool) and math.isfinite(new_value) and new_value >= 0
+        return None if ok else f"a corrected {field} must be a number that is not negative, not {new_value!r}"
+    if field == FIELD_PREREQ:
+        return None if isinstance(new_value, str) else f"a corrected {field} must be text (empty for none), not {new_value!r}"
+    return f"only {', '.join(CORRECTABLE_FIELDS)} can be corrected, not {field!r}"
 
 
 def _text(value: Any) -> bool:
@@ -310,8 +319,8 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
             "stale_entries": len(stale), "stale_lines": [e.line for e in stale if hasattr(e, "line")]}
 
 
-def _current(course: Mapping[str, Any], field: str) -> str:
-    return course_snapshot(course)[field]
+def _current(course: Mapping[str, Any], field: str) -> Any:
+    return course.get(field) if field in (*UNIT_FIELDS, FIELD_PREREQ) else course_snapshot(course)[field]
 
 
 def _apply(course: dict[str, Any], field: str, value: str) -> bool:
@@ -319,6 +328,11 @@ def _apply(course: dict[str, Any], field: str, value: str) -> bool:
         course["course_code"] = value
     elif field == FIELD_TITLE:
         course["course_title"] = value
+    elif field in UNIT_FIELDS:   # finalize_courses rebuilds the flat unit fields from the units dict
+        course["units"] = {**(course.get("units") or {}), field.removesuffix("_units"): value}
+        course[field] = value
+    elif field == FIELD_PREREQ:  # finalize_courses re-resolves prerequisites, unresolved and standing rules from it
+        course[field] = value
     else:
         term = parse_term(value)
         if term is None:

@@ -411,3 +411,68 @@ def test_phase_c5_a_stale_accept_does_not_mask_a_valid_correction_and_a_stale_co
     stale_fix = good_entry(course, old_value="something else")
     corrected, report = materialise(payload, [stale_fix], HASH)
     assert report["applied"] == 0 and corrected["courses"][0]["course_title"] == course["course_title"]
+
+
+# --- decision O1: the ledger can correct units and prerequisites
+
+UNIT_FIELDS = ("lecture_units", "lab_units", "total_units")
+
+
+def field_entry(course, field, new_value, **extra):
+    old = course.get(field) if field != "course_title" else course["course_title"]
+    kw = dict(reviewer="N", reason="read from the PDF", pdf_sha256=HASH, locator=course_locator(course), field=field,
+              disposition="corrected", old_value=old, new_value=new_value, section="s", now=NOW)
+    return make_entry(**{**kw, **extra})
+
+
+@pytest.mark.parametrize("field", UNIT_FIELDS)
+def test_o1_a_unit_correction_is_applied_and_every_unit_view_follows(field):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    entry = field_entry(course, field, 4)
+    assert entry_problem(entry) is None
+    corrected, report = materialise(payload, [entry], HASH)
+    assert report["applied"] == 1
+    out = corrected["courses"][0]
+    assert out[field] == 4 and out["units"][field.removesuffix("_units")] == 4
+    assert course[field] != 4 and payload["courses"][0][field] == course[field]       # the extraction is untouched
+
+
+@pytest.mark.parametrize("field,bad", [("total_units", -1), ("lab_units", "2"), ("lecture_units", True), ("total_units", float("nan")),
+                                       ("total_units", None), ("prerequisites_raw", 5), ("prerequisites_raw", None)])
+def test_o1_wrong_types_are_refused_when_writing_and_invalid_when_reading(field, bad):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    with pytest.raises(Exception):
+        field_entry(course, field, bad)
+    forged = {**field_entry(course, field, 3 if field != "prerequisites_raw" else "CS 1"), "new_value": bad}
+    assert entry_problem(forged)
+    assert materialise(payload, [forged], HASH)[1]["applied"] == 0
+
+
+def test_o1_a_prerequisites_correction_rederives_the_resolved_lists():
+    payload = fx.bscs()
+    course = payload["courses"][1]                     # CC 1/L
+    entry = field_entry(course, "prerequisites_raw", "CS 1, Ghost 99")
+    corrected, report = materialise(payload, [entry], HASH)
+    out = corrected["courses"][1]
+    assert report["applied"] == 1 and out["prerequisites_raw"] == "CS 1, Ghost 99"
+    assert out["prerequisites"] == ["CS 1"] and out["prerequisites_unresolved"] == ["Ghost 99"]
+    assert any("Ghost 99" in str(e) for e in corrected["prerequisite_edges"])     # the derived edges follow too
+
+
+def test_o1_a_unit_or_prerequisite_correction_on_a_changed_row_is_skipped_and_stale():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    for field, new in (("total_units", 9), ("prerequisites_raw", "CC 1/L")):
+        stale = field_entry(course, field, new, old_value="not what the row holds")
+        corrected, report = materialise(payload, [stale], HASH)
+        assert report["applied"] == 0 and report["skipped"][0]["reason"] == "old_value_changed"
+        assert content_review_state(payload, [stale], HASH)["stale_entries"] == 1
+
+
+def test_o1_old_ledgers_still_read_and_apply_unchanged(tmp_path):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0]))
+    assert materialise(payload, read_entries(path), HASH)[1]["applied"] == 1
