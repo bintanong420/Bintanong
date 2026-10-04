@@ -16,6 +16,10 @@ from .prerequisites import EXECUTABLE_PREREQUISITE_STATES
 from .text import clean_str
 
 
+# The only value that counts as a verified source; a source record that says anything else blocks.
+VERIFIED_SOURCE = "verified"
+
+
 def check_identity(
     metadata: Mapping[str, Any], approved_scope: Mapping[str, str] | None
 ) -> dict[str, Any]:
@@ -53,6 +57,8 @@ def build_authority(
     """
     identity = check_identity(metadata, approved_scope)
     verification = getattr(source, "source_verification", "pending")
+    if not isinstance(verification, str):
+        verification = "unknown"
     review_state = content_review["state"] if content_review else "pending"
     record = None
     if source is not None:
@@ -71,6 +77,8 @@ def build_authority(
         blocked.append("content_review_incomplete")
     if verification == "pending":
         blocked.append("source_verification_pending")
+    elif verification != VERIFIED_SOURCE:
+        blocked.append("source_not_verified")
     if pdf_hash_check != "matched":
         blocked.append("pdf_hash_not_checked")
     if identity["state"] == "pending":

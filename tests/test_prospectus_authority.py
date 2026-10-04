@@ -477,3 +477,40 @@ def test_every_dropped_text_form_is_resolved_for_the_classifier_alone():
 )
 def test_plainly_resolved_cells_stay_resolved(raw, prereqs):
     assert classify_prerequisite_state(course(raw, prereqs)) == "resolved"
+
+
+# Review finding B: only the exact verified literals count.
+def authority_for(**kwargs):
+    from types import SimpleNamespace
+    from backend.bintanong_tools.prospectus_extractor.authority import build_authority
+
+    source = kwargs.pop("source", SimpleNamespace(pdf_sha256="0" * 64, source_locator="x.pdf", source_verification="verified"))
+    return build_authority(
+        audit_status="ok", metadata={"program_name": "P"}, courses=[{"prerequisite_state": "resolved"}],
+        source=source, approved_scope={"program_name": "P"}, pdf_hash_check="matched", **kwargs,
+    )
+
+
+@pytest.mark.parametrize("bad", ["rejected", "failed", "", None, "Verified", "pending"])
+def test_only_the_exact_verified_literal_counts_as_source_verification(bad):
+    from types import SimpleNamespace
+
+    source = SimpleNamespace(pdf_sha256="0" * 64, source_locator="x.pdf", source_verification=bad)
+    result = authority_for(source=source, content_review={"state": "reviewed"})
+    assert result["authority"]["eligibility_executable"] is False
+    assert {"source_verification_pending", "source_not_verified"} & set(result["authority"]["blocked_by"])
+
+
+@pytest.mark.parametrize("bad", ["rejected", "failed", "", None, "Matched", "not_checked"])
+def test_only_an_exact_matched_hash_check_counts(bad):
+    from types import SimpleNamespace
+    from backend.bintanong_tools.prospectus_extractor.authority import build_authority
+
+    source = SimpleNamespace(pdf_sha256="0" * 64, source_locator="x.pdf", source_verification="verified")
+    result = build_authority(
+        audit_status="ok", metadata={"program_name": "P"}, courses=[{"prerequisite_state": "resolved"}],
+        source=source, approved_scope={"program_name": "P"}, pdf_hash_check=bad,
+        content_review={"state": "reviewed"},
+    )
+    assert result["authority"]["eligibility_executable"] is False
+    assert "pdf_hash_not_checked" in result["authority"]["blocked_by"]
