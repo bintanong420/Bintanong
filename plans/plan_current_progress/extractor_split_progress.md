@@ -101,3 +101,9 @@ Plan: plans/2026-10-04-prospectus-phase-b2-section-fixer.md. Decisions D1-D9 in 
 - Still planned after B2: Phases C, D, E, F (plans committed in plans/2026-10-03-prospectus-phase-*.md; cross-phase rules in the package-split plan).
 - Known leftover: audit.py:76 sorts terms by term_index alone (Summer/Mid-Year tie order can vary); fix in Phase C.
 - To resume: read this file, `git log --oneline dev..HEAD`, rerun the suite (`uv run --project backend --extra tools --extra dev --with fastapi==0.141.1 python -m pytest -q tests`) before trusting any number here.
+
+## Phase C: status separation (branch feat/prospectus-phase-c-status-separation)
+
+Plan: plans/2026-10-03-prospectus-phase-c-status-separation.md. Decisions D1-D8 taken as recommended. Base `$BASE_REF`: 6846da4 (tip of feat/prospectus-phase-b2-section-fixer; B2 unmerged). Deviations from the plan: (1) base is 6846da4 not dev, so `ledger.content_review_state` exists and feeds `content_review` when a ledger and a source hash are passed; with no ledger it stays `pending`. (2) The Phase A gate test is already gone (Test-Path False). (3) audit.py:76 term sort gets a deterministic secondary key. (4) Schema v3.1 as planned. (5) Task 7 uses `scripts/prospectus_course_compare.py --base-ref 6846da4` instead of a new status comparer (cross-phase rule 2).
+Baseline: 271 passed + 13 subtests with tests/test_api_probes.py and tests/test_embedding_service.py ignored (no fastapi in this venv; 277 counts those); self-test 80/80. D3 probe printed `error blocked 0` (premise holds).
+Anchors: pipeline.py build_payload line 26, blocked Prolog 60-70, payload literal 74, build_essentials 130, process_prospectus 175; as the plan said except +/- a few lines.
