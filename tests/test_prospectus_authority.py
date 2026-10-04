@@ -248,7 +248,7 @@ def test_pending_identity_is_a_state_not_an_audit_error():
     with_scope = payload_for([CONTROL], approved_scope={"campus": "Tiniguiban - Main"})
     pending = payload_for([CONTROL])
     assert pending["authority"]["identity_check"] == {
-        "state": "pending", "approved_scope": None, "mismatched_fields": [],
+        "state": "pending", "approved_scope": None, "mismatched_fields": [], "unverified_fields": [],
     }
     assert "identity_pending" in pending["authority"]["blocked_by"]
     assert pending["audit"]["errors"] == [] and pending["audit"]["errors"] == with_scope["audit"]["errors"]
@@ -257,7 +257,8 @@ def test_pending_identity_is_a_state_not_an_audit_error():
 
 
 def test_a_consistent_identity_alone_still_does_not_authorize():
-    payload = payload_for([CONTROL], approved_scope={"campus": "Tiniguiban - Main"})
+    program = payload_for([CONTROL])["metadata"]["program_name"]
+    payload = payload_for([CONTROL], approved_scope={"program_name": program})
     assert payload["authority"]["identity_check"]["state"] == "consistent"
     assert "identity_pending" not in payload["authority"]["blocked_by"]
     assert "content_review_pending" in payload["authority"]["blocked_by"]
@@ -551,3 +552,31 @@ def test_eligibility_is_executable_only_when_every_gate_is_satisfied():
             "review_entries": ledger_row_entries(draft),
         } | change
         assert payload_for(rows, **kwargs)["authority"]["eligibility_executable"] is False, change
+
+
+# Review suspicions: an assumed value cannot confirm an identity, and a ledger is never dropped silently.
+def test_an_assumed_campus_cannot_make_the_identity_consistent():
+    payload = payload_for([CONTROL], approved_scope={"campus": "Tiniguiban - Main"})
+    identity = payload["authority"]["identity_check"]
+    assert payload["metadata"]["observations"]["campus"]["basis"] == "extractor_default"
+    assert identity["state"] == "unverified"
+    assert identity["unverified_fields"] == ["campus"]
+    assert identity["mismatched_fields"] == []
+    assert "identity_unverified" in payload["authority"]["blocked_by"]
+    assert payload["authority"]["eligibility_executable"] is False
+
+
+def test_a_mismatch_outranks_an_unverified_field():
+    payload = payload_for([CONTROL], approved_scope={"campus": "Tiniguiban - Main", "program_name": "Nope"})
+    assert payload["authority"]["identity_check"]["state"] == "mismatch"
+    assert "identity_mismatch" in payload["authority"]["blocked_by"]
+
+
+def test_a_ledger_passed_without_a_source_is_reported_as_ignored():
+    base = payload_for([CONTROL])
+    entries = iter(ledger_row_entries(base))  # a generator must not be lost either
+    payload = payload_for([CONTROL], review_entries=entries)
+    assert payload["content_review"] == "pending"
+    assert payload["authority"]["content_review_detail"] == {
+        "state": "pending", "ignored": "no source hash to apply the ledger against", "entries": 2,
+    }

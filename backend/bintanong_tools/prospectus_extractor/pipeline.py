@@ -62,10 +62,18 @@ def build_payload(
 
     # A decision ledger only counts when it names the same PDF the source record declares.
     review = None
-    if review_entries is not None and source is not None:
-        review = content_review_state(
-            {"courses": courses, "audit": audit}, review_entries, source.pdf_sha256
-        )
+    if review_entries is not None:
+        review_entries = list(review_entries)
+        if source is not None:
+            review = content_review_state(
+                {"courses": courses, "audit": audit}, review_entries, source.pdf_sha256
+            )
+        else:  # say so instead of dropping the ledger silently
+            review = {
+                "state": "pending",
+                "ignored": "no source hash to apply the ledger against",
+                "entries": len(review_entries),
+            }
     authority = build_authority(
         audit_status=audit["status"], metadata=metadata, courses=courses,
         source=source, approved_scope=approved_scope, pdf_hash_check=pdf_hash_check,

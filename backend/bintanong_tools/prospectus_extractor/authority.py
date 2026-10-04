@@ -25,16 +25,25 @@ def check_identity(
 ) -> dict[str, Any]:
     """Compare observed metadata with an approved identity, when one was supplied."""
     if not approved_scope:
-        return {"state": "pending", "approved_scope": None, "mismatched_fields": []}
+        return {"state": "pending", "approved_scope": None, "mismatched_fields": [], "unverified_fields": []}
     mismatched = [
         name
         for name, wanted in approved_scope.items()
         if clean_str(wanted).casefold() != clean_str(metadata.get(name)).casefold()
     ]
+    # A value the extractor only assumed (basis extractor_default) cannot confirm an identity.
+    observations = metadata.get("observations") or {}
+    unverified = [
+        name
+        for name in approved_scope
+        if name not in mismatched and (observations.get(name) or {}).get("basis") == "extractor_default"
+    ]
+    state = "mismatch" if mismatched else "unverified" if unverified else "consistent"
     return {
-        "state": "mismatch" if mismatched else "consistent",
+        "state": state,
         "approved_scope": dict(approved_scope),
         "mismatched_fields": mismatched,
+        "unverified_fields": unverified,
     }
 
 
@@ -85,6 +94,8 @@ def build_authority(
         blocked.append("identity_pending")
     elif identity["state"] == "mismatch":
         blocked.append("identity_mismatch")
+    elif identity["state"] == "unverified":
+        blocked.append("identity_unverified")
     incomplete = [
         item for item in courses if item.get("prerequisite_state") not in EXECUTABLE_PREREQUISITE_STATES
     ]
