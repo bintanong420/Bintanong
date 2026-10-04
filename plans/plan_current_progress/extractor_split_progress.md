@@ -121,3 +121,15 @@ Anchors: pipeline.py build_payload line 26, blocked Prolog 60-70, payload litera
 | 8. Review gates | not run | | Reviewer agent and Codex gate not run in this session; open |
 
 Deviations: no new `prospectus_status_compare.py` (the existing comparer plus a scratch field diff were used, per cross-phase rule 2); `sections.py` and `scripts/prospectus_course_compare.py` untouched. Known limits as in the decision record. Suite at the end: 312 passed + 13 subtests (2 fastapi-dependent files not collectable here), self-test 80/80. Next: Phase D (it must keep the `prolog.clauses` comparer allowance in mind).
+
+### Phase C review fixes (4 October 2026)
+
+| Finding | Commit | Red / green |
+| --- | --- | --- |
+| A. incomplete rule reachable (dropped text read as resolved) | 630ae53, 2972f27 | red: 10 failed (9 synthetic cells end to end plus a classifier-only test; ENTRE 15 `ENTRE 14 units: 159` also moved on real data); green after unconsumed_prerequisite_text; mutation (leftover forced empty) fails the same 10; the second commit widens code matching (spacing, leading zero, lab marker) after the first real-data run wrongly demoted 11 courses (red: 3 failed) |
+| B. only exact `verified` source counts | 3a256fe | red: 5 failed (rejected, failed, empty, None, Verified); hash-check cases already blocked (7 passed) and are now locked by tests |
+| C. positive eligibility test | 4cd3db5 | passes at once by design; mutation: constant False fails 1, constant True fails 24 |
+| suspicions: assumed campus, ledger without source | 088b8a8 | red: 2 failed; green |
+| D. status report in the shared comparer | 7870c66 | red: AttributeError (2 failed); green 12 in test_prospectus_course_compare.py; additive block before main, flag --status-report; the scratch status_diff.py is no longer used |
+
+Real data (44 inputs, comparer `--base-ref 6846da4 --status-report`): 44/44 identical, same key table as before (prolog.clauses 6, schema_version 44, 8 added keys x 44, prerequisite_state 2031 + 2031). Prerequisite states: blank_unreviewed 1005, resolved 689 (was 696), unresolved_reference 253, standing_condition 59 (58), unreadable 20 (14), alternative_or_exception 3, stated_none 2. The seven courses that left resolved are listed in the decision record. Suite 352 passed + 13 subtests (2 fastapi files not collectable here), self-test 80/80.

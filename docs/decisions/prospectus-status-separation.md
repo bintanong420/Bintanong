@@ -53,6 +53,10 @@ When the audit is `error`, `build_payload` already replaced Prolog with an empty
 
 `audit.py` listed detected terms and years from a set sorted by index alone, so Summer and Mid-Year (same index) could swap with the hash seed. The sort now breaks ties on the year and semester text.
 
+## Review fixes (4 October 2026)
+
+The classifier now accounts for all of `prerequisites_raw`: after the resolved codes (spacing, a leading zero and a lab marker may differ), recognised standing rules and separators are removed, any leftover text makes the state non-executable (a units or grade condition with a number is `standing_condition`, `|` or `/` between codes is `alternative_or_exception`, anything else `unreadable`). Extracted course values are unchanged. `source_verification` must be exactly `verified` and `pdf_hash_check` exactly `matched`; anything else blocks (`source_not_verified`, `pdf_hash_not_checked`). A positive test shows `eligibility_executable` is true when every gate is satisfied. An approved field whose observation basis is `extractor_default` gives identity `unverified` (blocker `identity_unverified`), never `consistent`. A ledger passed without a source is recorded in `content_review_detail` as ignored. The status-field report is now `--status-report` on `scripts/prospectus_course_compare.py`.
+
 ## Known limits
 
 Blank cells cannot be told from missing ones. `unreadable` in a payload whose audit is not `error` only comes from "text present, nothing recognised". The review CSV does not show `prerequisite_state`. The batch manifest does not carry the three states.
@@ -70,4 +74,4 @@ added     2031  courses.[].prerequisite_state
 added     2031  curriculum_by_term.*.*.[].prerequisite_state
 ```
 
-38 payloads still have `prolog.status = blocked`. Audit and label mix: 38 `error`/`REVIEW_REQUIRED`, 5 `warn`/`VERIFIED`, 1 `ok`/`VERIFIED`; all 44 have `content_review` and `source_verification` of `pending` and `eligibility_executable` false. Prerequisite states over 2031 courses: blank_unreviewed 1005, resolved 696, unresolved_reference 253, standing_condition 58, unreadable 14, alternative_or_exception 3, stated_none 2.
+38 payloads still have `prolog.status = blocked`. Audit and label mix: 38 `error`/`REVIEW_REQUIRED`, 5 `warn`/`VERIFIED`, 1 `ok`/`VERIFIED`; all 44 have `content_review` and `source_verification` of `pending` and `eligibility_executable` false. Prerequisite states over 2031 courses (after the review fixes below): blank_unreviewed 1005, resolved 689, unresolved_reference 253, standing_condition 59, unreadable 20, alternative_or_exception 3, stated_none 2. The first run of this phase had resolved 696, standing_condition 58, unreadable 14: seven courses moved out of resolved because the parser had silently dropped text from their cell (ENTRE 15 "ENTRE 14 units: 159", CLJ 5 "3rd year CLJ 4", TPS 1 and 2 "THC-Mktg & GE Elect: ...", NCM 15-113 "GE- Elect: ES", BES 7 "GE-Elect: EM", AMR 2 "GE: MMW").
