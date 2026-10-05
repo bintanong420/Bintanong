@@ -22,7 +22,7 @@ embedding = [
   "uvicorn==0.53.0",
 ]
 tools = [
-  "docling==2.129.0",
+  "docling==2.133.0",
   "reportlab==5.0.1",
   "typer==0.26.8",
 ]

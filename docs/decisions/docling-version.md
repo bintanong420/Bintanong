@@ -1,6 +1,6 @@
 # Decision: Docling version policy
 
-Date: 2026-10-04. Status: policy decided by the user; the pin has not been moved.
+Date: 2026-10-04. Status: policy decided by the user; **the pin was moved to `docling==2.133.0` on 2026-10-04 after the gate passed** (see "Current pin").
 
 ## Policy
 
@@ -15,25 +15,32 @@ An upgrade is a deliberate change to `backend/pyproject.toml` and `backend/uv.lo
 
 The user decides when the pin moves; an agent only reports the gate results.
 
-## Current pin and the latest release (checked 2026-10-04 on PyPI)
+## Current pin
 
-| Package | Pinned and locked | Latest on PyPI |
+`backend/pyproject.toml`: `docling==2.133.0` (uploaded 2026-10-03). Locked by `uv lock`, which moved only these packages:
+
+| Package | Before | Now |
 |---|---|---|
-| docling | 2.129.0 | 2.133.0 (uploaded 2026-10-03) |
+| docling | 2.129.0 | 2.133.0 |
+| docling-slim | 2.129.0 | 2.133.0 |
 | docling-core | 2.97.1 | 2.99.0 |
-| docling-parse | 7.20.0 | 7.22.1 |
-| docling-ibm-models | 4.0.3 | 4.0.3 |
+| docling-parse | 7.20.0 | 7.22.2 (newer than the 7.22.1 seen when the gate was run; the lock picked the latest allowed) |
+| docling-ibm-models | 4.0.3 | 4.0.3 (unchanged) |
 
-## Gate results for 2.133.0 (not applied)
+No other package version changed; one duplicate `torch 2.14.0` lock entry (the macOS source variant) was merged away. If this branch's `uv.lock` conflicts at merge time, re-run `uv lock` after merging.
 
-Environment: a throwaway venv built from a copy of `backend/pyproject.toml` with `docling==2.133.0` and a fresh `uv lock`; the repository pin was not changed. The 2.129.0 side is the repository's existing environment.
+Re-check after the move, in a fresh throwaway venv synced from the new lock (`uv sync --locked --extra tools --extra dev --extra ocr-gpu`): the 44-input comparer is 44/44 identical with markup invariants intact, and the full suite passes (326 passed, 13 subtests).
+
+## Gate results for 2.133.0
+
+Environment: a throwaway venv built from a copy of `backend/pyproject.toml` with `docling==2.133.0` and a fresh `uv lock`. The 2.129.0 side is the repository's earlier environment. (At that time PyPI showed docling-parse 7.22.1 and docling-core 2.99.0.)
 
 - Cached-input gate under 2.129.0: 44/44 identical. Under 2.133.0: 44/44 identical, markup invariants hold in both (44 files with `data-gap`, 9 with `data-unplaced-cell`, largest 25543 bytes).
 - Cross-version diff of the 44 candidates: 0 inputs differ.
 - Re-conversion from the PDFs on CPU with both versions (BSA architecture, ABComm, BSEd-Math twice, BS Accountancy): course counts 77, 50, 50, 50, 32 on both sides; no differing course fields; Docling table cell counts, rows and columns identical for every table. The audit status is `error` on both sides for all five, as it already was.
 - Docling conversion times on CPU were within a few seconds of each other between versions (41 to 63 s per PDF).
 
-Recommendation to the user: the gate passes for 2.133.0. Moving the pin is a one-line change plus a lock update; it has not been done.
+The user's standing policy ("track the latest Docling, gated") then applied: the pin was moved to 2.133.0.
 
 ## Notes
 
