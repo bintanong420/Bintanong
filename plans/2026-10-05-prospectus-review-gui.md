@@ -50,6 +50,7 @@ The rest of the plan assumes the recommendation in each row. Steps that would ch
 | D10 | Where the twin and the JSON pane come from, and what happens when something is missing. | (a) Candidate (required), PDF (required for the image and the PDF checks; `--pdf` or via `fixer_cli.resolve_identity`), raw Docling JSON (optional, `--docling-json`, default the path recorded in `provenance.raw_docling_json`) for the twin. Missing PDF: the page pane says so, questions still work from the hash. Missing Docling JSON: the twin pane shows the course's own source cells (id, row, column, text) from the candidate instead and says "markup twin unavailable". (b) Refuse to start without all three. | **(a).** The candidate stores cell text and boxes but **not** the box origin or page sizes, and the twin needs the raw Docling evidence (`loader.load_from_raw_json`, then `markup.render_prospectus_markup`). The recorded path is an absolute path from the machine that ran the extraction (BSBA-HRM's points into `E:\...\docling_jsonified_output\...`), so it may not exist on another computer. A tool that refuses to open is worse than one that degrades visibly. The `pdf_sha256` is the one thing that must be known; the existing `resolve_identity` already insists on it. Changes Tasks 6 and 9. |
 | D11 | Bulk "confirm section". | (a) Offered only for a section with no flags above `info`, the same rule as the sheet (`build_entries` rejects `confirm: yes` on a section with a blocking flag): one question, "Are all N courses in *1st Year - 1st Semester* correct as extracted?", options Yes and No only (Other has nothing to type, so it is shown disabled with the reason; an optional note becomes the entry reason, default "section confirmed as extracted"). Yes writes one `row` `accepted` entry per course, `via` = `gui_section_confirm`. (b) Allow bulk on flagged sections after a warning. | **(a).** It is the rule the owner already tested. The server re-checks it on every answer (not only when building the question), so a stale browser tab cannot confirm a section that has since become flagged. Changes Tasks 3 and 4. |
 | D12 | Where the GUI package lives. | (a) A new sibling package `backend/bintanong_tools/prospectus_review_gui/` with a `__main__`, plus a thin `backend/bintanong_tools/prospectus_review.py` entry like `prospectus_fixer.py`. (b) Modules inside `prospectus_extractor/`. | **(a).** Fact from B2: the legacy shim re-exports every public name of every module in the extractor package, last module wins, so a new module there that defines `main` or `create_app` silently replaces another. The GUI also imports FastAPI, which the extractor package must not need. It imports the extractor modules; the extractor never imports it. Changes the file structure. |
+| D13 | How a second writer on the same ledger is stopped (confirmed by the user: add a lock). | (a) An OS-level advisory lock on a sidecar file <ledger>.lock, taken with msvcrt.locking on Windows and cntl.flock elsewhere (stdlib only), held for the whole GUI session and, for ixer_cli apply, for the duration of the append; the holder writes who it is (tool, reviewer, pid, start time) after byte 0 of the file, and a refused writer reads that text for its error message. (b) An atomic os.open(O_CREAT|O_EXCL) lock file with stale-lock detection. (c) No lock. | **(a).** The OS drops the lock when the process dies, including a crash or a killed terminal, so there is no stale-lock case to get wrong; (b) needs a policy for a lock left by a crash (pid reuse, clocks, a deleted-while-held file) that cannot be made right with stdlib alone on both families. The lock covers byte 0 only and the holder text starts at byte 1, because on Windows a locked byte range cannot be read by another process; the message is read from byte 1 on. It is advisory: it stops the tools in this repository, not an editor. A lock on a network share is not guaranteed on every OS; the guard refuses nothing there and the decision record says so. Because it is a ledger property it lives in ledger.py, so the sheet CLI gets it too. The in-process 	hreading.Lock of Task 7 stays (two threads of one process share one OS lock). Changes Task 2A, 7, 9 and the sheet CLI. |
 
 ## What the code and the data say (read 5 October 2026)
 
@@ -80,6 +81,8 @@ New package code is under `backend/bintanong_tools/prospectus_review_gui/`. A mo
 | `prospectus_review_gui/static/index.html`, `review.css`, `review.js` | Create (Task 8) | The page, three panes, keyboard map. |
 | `prospectus_review_gui/cli.py`, `__main__.py` | Create (Task 9) | Arguments, startup guards, uvicorn on loopback, optional browser open. |
 | `backend/bintanong_tools/prospectus_review.py` | Create (Task 9) | Thin `python -m` entry. |
+| `prospectus_extractor/ledger.py` | Modify (Task 2A) | `LedgerLock` (context manager), `LedgerBusy`, `lock_path_for`; `append_entries` takes the lock itself unless the caller already holds one. |
+| `prospectus_extractor/fixer_cli.py` | Modify (Task 2A) | `apply` reports a busy ledger with the holder named, exit code 2. |
 | `prospectus_extractor/ledger.py` | Modify (Task 10, only after Phase C) | `materialise` stamps `reviewed_empty` for an accepted blank prerequisite. |
 | `backend/pyproject.toml` | Modify (Task 1 or 9) | The `review` extra (D2). |
 | `tests/test_review_gui_*.py` | Create | One focused file per task (names below). |
@@ -88,7 +91,7 @@ New package code is under `backend/bintanong_tools/prospectus_review_gui/`. A mo
 | `docs/decisions/prospectus-review-gui.md` | Create (Task 13) | Decision record. |
 | `plans/plan_current_progress/extractor_split_progress.md` | Modify | New "Review GUI" section, updated after each task. |
 
-Unchanged on purpose: `ledger.py` (except Task 10), `verify.py`, `fixes.py`, `markup.py`, `placement.py`, `loader.py`, `pipeline.py`, `selftest.py` (still 80/80). The GUI adds no extractor behavior.
+Unchanged on purpose: `ledger.py` (except Task 2A, the write lock, and Task 10), `verify.py`, `fixes.py`, `markup.py`, `placement.py`, `loader.py`, `pipeline.py`, `selftest.py` (still 80/80). The GUI adds no extractor behavior.
 
 ## Commands used throughout
 
@@ -150,6 +153,36 @@ Why first: every later task depends on this function. The sheet is the fallback 
 - [ ] **Step 4: Run to verify green**, then the whole suite: nothing that passed before may fail; the sheet golden is unchanged byte for byte.
 - [ ] **Step 5: Commit.** `refactor: share one decision builder between the review sheet and the GUI`, staging the two source files and the test files by explicit path.
 - [ ] **Step 6: Progress entry**, committed by path.
+
+---
+
+### Task 2A: Ledger write lock (cross-process, stdlib only)
+
+**Files:**
+- Modify: `backend/bintanong_tools/prospectus_extractor/ledger.py` (`LedgerLock`, `LedgerBusy`, `lock_path_for`, `append_entries`)
+- Modify: `backend/bintanong_tools/prospectus_extractor/fixer_cli.py` (`cmd_apply` catches `LedgerBusy`)
+- Test: `tests/test_prospectus_ledger_lock.py` (new), existing `tests/test_prospectus_ledger.py` and `tests/test_prospectus_fixer_cli.py` (must stay green)
+
+This task is numbered 2A so the later task numbers keep matching the cross-references in this plan. It is confirmed by the user and follows D13. It comes before the GUI session (Task 7) because the session takes the lock.
+
+Behavior. `lock_path_for(ledger_path)` is the ledger path plus `.lock`. `LedgerLock(ledger_path, who)` is a context manager: it creates the lock file next to the ledger (the folder is created if needed), takes a non-blocking exclusive lock on byte 0 (`msvcrt.locking` with `LK_NBLCK` on Windows, `fcntl.flock` with `LOCK_EX|LOCK_NB` elsewhere, chosen by `sys.platform` at call time), writes the holder text (tool name, reviewer, pid, UTC start time, one line) from byte 1, and releases on exit. If the lock is taken it raises `LedgerBusy` whose message is `the decision ledger <name> is in use by <holder text>; close that tool or wait`, the holder text read from byte 1 of the lock file (`unknown holder` if unreadable). `append_entries` takes a `LedgerLock` for the duration of the append when the caller has not passed one (so `fixer_cli apply` is protected without changes to its logic); a session passes its own long-held lock. The lock file is never inside Git: it sits beside the ledger, which `assert_outside_git` already guards, and it holds no decision data.
+
+- [ ] **Step 1: Write the failing tests** in `tests/test_prospectus_ledger_lock.py`:
+  - `test_lock_is_created_next_to_the_ledger_and_released_on_exit` (after the `with` block a second `LedgerLock` on the same path succeeds).
+  - `test_second_lock_in_another_process_raises_ledger_busy_naming_the_holder` (spawn a child with `subprocess` that takes the lock and waits on stdin; the parent's attempt raises `LedgerBusy` and the message contains the child's tool name and pid; works on every OS because it uses real processes, not threads).
+  - `test_lock_is_released_when_the_holder_process_is_killed` (kill the child with `Popen.kill`; the parent then acquires the lock at once: no stale-lock state exists).
+  - `test_append_entries_refuses_while_another_process_holds_the_lock_and_writes_nothing` (ledger bytes unchanged after the refusal).
+  - `test_append_entries_works_when_the_caller_holds_the_lock_itself` (no self-deadlock; one lock file, one holder).
+  - `test_two_threads_of_one_process_are_serialised_by_the_session_lock_not_the_os_lock` (documents why the in-process `threading.Lock` of Task 7 stays).
+  - `test_busy_message_when_the_holder_text_is_unreadable_says_unknown_holder`.
+  - `test_lock_file_holds_no_decision_data` (only the holder line).
+  - `test_apply_exits_2_with_the_in_use_message_when_ledger_is_locked` (`fixer_cli apply` against a locked ledger: exit 2, message names the holder, nothing written; the same sheet applies cleanly after release).
+  - `test_lock_path_for_handles_spaces_and_unicode_in_the_path`.
+  - `test_platform_branch_is_chosen_at_call_time` (monkeypatch `sys.platform` to `win32` and `linux` with fake `msvcrt` and `fcntl` modules injected into `sys.modules` and assert each branch calls its own primitive, so the branch not native to the test machine is still exercised).
+- [ ] **Step 2: Run to verify red** (`LedgerLock` missing).
+- [ ] **Step 3: Implement the minimum.** Stdlib only. Do not hold the lock across a read-only command (`status`, `materialise`).
+- [ ] **Step 4: Run to verify green**, then the whole suite: the existing ledger and fixer tests are unchanged.
+- [ ] **Step 5: Commit** `feat: lock the decision ledger so a second writer gets a clear in-use error`; progress entry.
 
 ---
 
@@ -267,12 +300,12 @@ Behavior: `load_evidence(docling_json_path)` uses `loader.load_from_raw_json`; r
 - Create: `backend/bintanong_tools/prospectus_review_gui/session.py`, `app.py`
 - Test: `tests/test_review_gui_session.py`, `tests/test_review_gui_api.py`
 
-Behavior. `ReviewSession` is built by `open_session(candidate, identity, reviewer, review_dir, pdf_path=None, docling_json=None)`: loads the candidate (`fixer_cli.load_candidate`), runs `verify_candidate` with the PDF text when the PDF is at hand, calls `assert_outside_git` on the ledger path, computes the candidate hash (`sheet.candidate_sha256`), and holds one `threading.Lock` around every append (single process; a second GUI on the same ledger is not supported, see "Known limits"). Methods: `queue(mode)`, `question(qid)`, `answer(qid, answer, now=None)`, `state()` (`content_review_state` plus the three states and the stale/foreign/invalid counts), `materialise()`. After every answer the verification is **not** recomputed (the candidate is immutable); decided-ness is recomputed from the ledger.
+Behavior. `ReviewSession` is built by `open_session(candidate, identity, reviewer, review_dir, pdf_path=None, docling_json=None)`: loads the candidate (`fixer_cli.load_candidate`), runs `verify_candidate` with the PDF text when the PDF is at hand, calls `assert_outside_git` on the ledger path, computes the candidate hash (`sheet.candidate_sha256`), takes the Task 2A `LedgerLock` on the ledger for the whole session (refusing to start with `LedgerBusy` if another GUI or `fixer_cli apply` holds it), and also holds one `threading.Lock` around every append (threads of this process). Methods: `queue(mode)`, `question(qid)`, `answer(qid, answer, now=None)`, `state()` (`content_review_state` plus the three states and the stale/foreign/invalid counts), `materialise()`. After every answer the verification is **not** recomputed (the candidate is immutable); decided-ness is recomputed from the ledger.
 
 Routes (all JSON unless noted): `GET /` (the page; embeds the token in a `<meta>`), `GET /static/{file}`, `GET /api/state`, `GET /api/queue?mode=attention|print`, `GET /api/question/{qid}` (question, course JSON, boxes, twin cell ids, warnings), `GET /api/page/{n}.png?scale=` (PNG), `GET /api/twin` (HTML fragment, cached), `POST /api/answer`, `POST /api/materialise`. Every response carries the CSP and `Cache-Control: no-store` (except the page PNG: `private, max-age=300`, since the PDF is immutable for the session). Middleware order: Host check, then (POST only) Origin and token check.
 
 - [ ] **Step 1: Write the failing tests** (`fastapi.testclient.TestClient`, tmp directories outside the repository so the guard accepts them):
-  - Session: `test_open_session_refuses_a_ledger_inside_the_repository` (`FixerError` from the shared guard; no file created), `test_open_session_accepts_a_review_dir_outside_git`, `test_session_reads_existing_ledger_and_marks_decided`, `test_answer_appends_one_line_and_never_rewrites_earlier_lines` (file bytes before are a prefix of the bytes after), `test_second_answer_for_same_course_is_a_new_line_and_wins`, `test_answer_with_error_writes_nothing`, `test_concurrent_answers_are_serialised` (16 threads each answering a different course; ledger has 16 valid lines, no interleaved line, `read_entries` yields no `_unreadable`), `test_state_counts_foreign_stale_and_invalid_entries` (a ledger seeded with an entry for another PDF hash, one with a changed old value and one corrupt line).
+  - Lock: `test_open_session_takes_the_ledger_lock_and_releases_it_on_close`, `test_second_session_on_the_same_ledger_is_refused_with_ledger_busy`, `test_fixer_apply_is_refused_while_a_session_is_open`.`n  - Session: `test_open_session_refuses_a_ledger_inside_the_repository` (`FixerError` from the shared guard; no file created), `test_open_session_accepts_a_review_dir_outside_git`, `test_session_reads_existing_ledger_and_marks_decided`, `test_answer_appends_one_line_and_never_rewrites_earlier_lines` (file bytes before are a prefix of the bytes after), `test_second_answer_for_same_course_is_a_new_line_and_wins`, `test_answer_with_error_writes_nothing`, `test_concurrent_answers_are_serialised` (16 threads each answering a different course; ledger has 16 valid lines, no interleaved line, `read_entries` yields no `_unreadable`), `test_state_counts_foreign_stale_and_invalid_entries` (a ledger seeded with an entry for another PDF hash, one with a changed old value and one corrupt line).
   - API security: `test_foreign_host_header_is_refused_403`, `test_localhost_and_127_0_0_1_hosts_are_accepted`, `test_post_without_token_is_403`, `test_post_with_wrong_token_is_403`, `test_post_with_foreign_origin_is_403`, `test_get_requests_need_no_token_but_do_need_a_good_host`, `test_csp_and_no_store_headers_on_every_response`, `test_token_differs_between_two_app_instances`.
   - API behavior: `test_api_answer_returns_updated_state_and_next_question`, `test_api_question_unknown_qid_is_404`, `test_api_page_png_scale_is_bounded_422`, `test_api_page_without_pdf_is_404_with_message`, `test_api_question_includes_boxes_and_warnings`, `test_api_error_messages_never_include_a_server_path` (a missing PDF names the file name, not its directory).
   - Safety: `test_raw_candidate_bytes_and_pdf_bytes_unchanged_after_a_session` (hash before and after a full run of answers and a materialise), `test_only_the_ledger_and_the_corrected_candidate_are_written` (directory listing of the candidate folder, the PDF folder and the review dir before and after: the only new files are `decision_ledger.jsonl` and, after materialise, `corrected_candidate.json`), `test_materialise_never_targets_the_raw_candidate` (`write_corrected(raw_candidate=...)` is passed), `test_materialise_runs_the_outside_git_guard`.
@@ -322,20 +355,20 @@ Behavior. Arguments: `--candidate` (required), `--pdf`, `--pdf-sha256`, `--golde
   - `test_unsafe_review_dir_exits_2_and_creates_nothing` (a path under the repository that is not git-ignored).
   - `test_identity_mismatch_exits_2` (`--pdf` whose hash differs from the candidate's recorded hash; message from `resolve_identity`).
   - `test_server_binds_loopback_only` (start the server on port 0 in a thread; the bound socket address is `127.0.0.1`; a connection to the machine's non-loopback address, when one exists, is refused; skipped with a stated reason when the machine has no other address).
-  - `test_port_in_use_exits_2`.
+  - `test_port_in_use_exits_2`.`n  - `test_ledger_in_use_exits_2_with_the_holder_named` (a second GUI start against a locked ledger).
   - `test_browser_opened_unless_no_open` (monkeypatch `webbrowser.open`; called once with the `http://127.0.0.1:<port>/` URL, never called with `--no-open`).
   - `test_console_output_is_safe_for_non_utf8_windows_consoles` (non-ASCII titles in the status line; stdout `reconfigure(errors="replace")` like `fixer_main`).
   - `test_paths_with_spaces_and_unicode_work_end_to_end` (candidate, PDF and review dir all under a folder named `Prospectus tèst folder`).
   - `test_no_posix_only_calls` (a source scan of the package for `os.fork`, `signal.SIGKILL`, `fcntl`, `os.getuid`, hard-coded `/` joins of paths, so a Windows-only or POSIX-only dependency fails the test on any OS).
 - [ ] **Step 2 to 5: red, minimum, green, full suite.**
-- [ ] **Step 6: Cross-platform note.** The suite runs on this Windows machine. State in the progress entry that Linux and macOS were **not** run, and which tests exist to catch the usual differences (path separators, console encoding, newline in the ledger: entries are written by `append_entries` with `newline="\n"`). If a Linux or macOS machine or CI runner becomes available, run the full suite there before the user's trial.
+- [ ] **Step 6: Cross-platform note.** The suite runs on this Windows machine only. State in the progress entry that Linux and macOS were **not** run, and which tests exist to catch the usual differences (path separators, console encoding, newline in the ledger: entries are written by `append_entries` with `newline="\n"`, and the platform branch of the ledger lock is exercised with injected `msvcrt`/`fcntl` modules). The claim is "portable code", never "tested on Linux and macOS". The user confirmed a CI matrix (ubuntu, macos, windows) will be added when the Docker/CI work lands; that matrix must run this whole suite, including the cross-process lock tests, and until it exists the known-limits section says so.
 - [ ] **Step 7: Commit** `feat: add the review GUI command line (loopback only, same identity and folder guards as the fixer)`; progress entry.
 
 ---
 
 ### Task 10: Phase C hooks: the three states, prerequisite questions, `reviewed_empty`
 
-**Depends on Phase C being merged.** If Task 1 found it is not, stop here and report; Tasks 1 to 9 stand alone.
+**Confirmed by the user (5 October 2026):** the reviewer answers "Yes, no prerequisite" on a blank cell; that writes an `accepted` `prerequisites_raw` entry and `materialise` stamps `reviewed_empty`; the small `ledger.py` edit happens after Phase C merges.`n`n**Depends on Phase C being merged.** If Task 1 found it is not, stop here and report; Tasks 1 to 9 stand alone.
 
 **Files:**
 - Modify: `prospectus_review_gui/questions.py` (kind `prerequisite`), `session.py` (live `content_review`), `static/review.js` (state badges)
@@ -422,16 +455,16 @@ These are requirements, each with a test in Task 8 or a step in Task 11, not asp
 
 - **B2 (hard dependency).** The GUI is built on `verify.py`, `fixes.py`, `ledger.py`, `sheet.py` and `fixer_cli.py` as they stand at the B2 merge. If a B2 review fix changes a signature used here, Task 1 step 3 records it and the plan's names follow the code. B2's maintainer sheet stays: Task 2 proves its output is unchanged, and Task 4 proves GUI entries are identical in shape to sheet entries.
 - **Phase C (hard dependency for Task 10 only).** Tasks 1 to 9 and 11 do not need C's new fields; they work on a v3.0 candidate. Task 10 needs C's `prerequisite_state`, its `reviewed_empty` reservation and its three payload states, and extends `materialise` (B2 code) once C is in `dev`. If C lands after this plan's other tasks, Task 10 is the only one that waits.
-- **Phase D to F.** None required. Phase D's safe-cache and Phase F's container/CLI work do not touch the GUI. If Phase E adds source locators for RAG, the GUI does not need them. If Phase F's container image is meant to run the GUI, that is a new decision (it would need a published port and a different bind address and is **out of scope** by D8).
+- **Ledger lock (Task 2A).** A change to B2's `ledger.py` and `fixer_cli.py` that benefits the sheet CLI too. It needs only B2 and can land before Phase C.`n- **Phase D to F.** None required. Phase D's safe-cache and Phase F's container/CLI work do not touch the GUI. If Phase E adds source locators for RAG, the GUI does not need them. If Phase F's container image is meant to run the GUI, that is a new decision (it would need a published port and a different bind address and is **out of scope** by D8).
 - **Master plan.** Satisfies §7.1 step 7 (local researcher GUI; PDF page, reconstructed cells and extracted JSON together; accepted, corrected or unresolved decisions with reviewer, reason, source cell and page, PDF hash; raw extraction preserved; corrected candidate derived separately), §7.3 (deliverable: a local correction GUI, decision ledger and corrected candidate JSON), §4 last paragraph (local correction tooling in parallel with Phase 1; outputs remain candidates), §15 (kept separate from private-file review: no shared storage or code), §16.1 (required preparation tool, not a hosted dashboard) and §20 (no new top-level module is created in `backend/app/`; this lives with the tools).
 
 ## Known limits (state them in the decision record, do not hide them)
 
-1. **One GUI per ledger.** A process lock serialises appends in one process; two GUIs (or a GUI and `fixer_cli apply`) on the same ledger at the same moment can interleave writes. `append_entries` repairs a missing final newline but is not a cross-process lock. Reviewers should not run two at once. A lock file is a candidate follow-up if the trial shows it happens.
+1. **The ledger lock is advisory and local.** Task 2A stops a second GUI or `fixer_cli apply` on the same ledger with a clear "in use by ..." error, and the OS releases it on a crash. It does not stop a text editor, and a ledger on a network share may not honour OS locks on every system (D13).
 2. **The reviewer name is whatever `--reviewer` or `git config user.name` says.** No authentication. The `entry_id` hash catches accidental edits, not forgery (the ledger module says so too).
 3. **No highlight on rotated pages or when sizes disagree** (by design, D9). If many real pages are rotated, a follow-up adds rotation handling with a test PDF.
 4. **PDF-text-only printed codes** (found by the PDF text layer, not by Docling) can be decided but do not gate `reviewed` (B2 D5).
-5. **Linux and macOS are covered by portable code and tests, not yet by a run** (Task 9 step 6).
+5. **Linux and macOS: the code is written to be portable; it has not been tested there.** The suite has only run on Windows. A CI matrix (ubuntu, macos, windows) is to be added when the Docker/CI work lands (confirmed by the user); until then no one should write "tested on Linux/macOS" about this tool (Task 9 step 6).
 6. **The twin needs the raw Docling JSON.** Without it the middle pane is the cell list, which still names the cells but does not show the table.
 
 ## Hand-off
@@ -446,7 +479,7 @@ These are requirements, each with a test in Task 8 or a step in Task 11, not asp
 - This is institutional prospectus review. It is not the student OCR photo review (§15), which is session-only and never touches the institutional knowledge base.
 - Read `docs/decisions/prospectus-review-gui.md` and the "Review GUI" section of `plans/plan_current_progress/extractor_split_progress.md` before changing anything.
 
-**Open items after this plan:** the lock-file question (limit 1); rotation handling if real pages need it; whether a later "add a missing course" action is wanted (B2 D8); running the suite on Linux and macOS; whether the hosted reviewer interface of §16.1 is ever needed (it would be a new plan with authentication).
+**Open items after this plan:** the CI matrix (limit 5); rotation handling if real pages need it; whether a later "add a missing course" action is wanted (B2 D8); whether the hosted reviewer interface of §16.1 is ever needed (it would be a new plan with authentication).
 
 ## Self-review
 
