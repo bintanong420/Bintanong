@@ -612,3 +612,24 @@ def test_i1_pdf_evidence_must_sit_directly_after_this_rows_code():
     assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1")] == ["Discrete Structures 1"]          # end of the text
     assert ask("FIRST SEMESTER CS 1 Discrete Structures 1 extra words 3") == []                                      # not followed by the units
     assert ask("FIRST SEMESTER CS 1 Discrete Structures 12 3") == []                                                 # whole tokens only
+
+
+def test_j1_anchored_evidence_needs_the_anchor_printed_once_on_the_page():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    ask = lambda page: propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"])
+    assert ask("CS 1 Actual Title 3 CS 1 Discrete Structures 1 3") == []         # the code twice: another row's span is no evidence
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Other 3")] == ["Discrete Structures 1"]
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete\u00a0Structures 1\n3")] == ["Discrete Structures 1"]   # unicode spaces and line breaks are fine
+
+    # a code strip: the title is the anchor and must be printed once
+    code_payload = copy.deepcopy(fx.bscs())
+    code_course = code_payload["courses"][0]
+    code_course["course_code"] = "FIRST SEMESTER CS 1"
+    set_cell_text(code_payload, "t0-c11", "FIRST SEMESTER CS 1")
+    set_cell_text(code_payload, "t0-c9", code_course["course_title"])
+    ask_code = lambda page: propose_fixes(code_course, roles(code_course, code_payload), page_text=page, banners=BANNERS)
+    title = code_course["course_title"]
+    assert [f.new for f in ask_code(f"FIRST SEMESTER CS 1 {title} 3")] == ["CS 1"]
+    assert ask_code(f"FIRST SEMESTER CS 1 {title} 3 CS 1 {title} 3") == []
