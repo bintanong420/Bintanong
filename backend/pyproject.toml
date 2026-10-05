@@ -36,6 +36,8 @@ ocr-gpu = [
 ]
 ocr-cpu = [
   "onnxruntime==1.30.0",
+  "torch==2.14.0",
+  "torchvision==0.29.0",
 ]
 dev = [
   "pytest==9.1.1",
@@ -62,10 +64,24 @@ name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
+# CPU wheels for ocr-cpu on Linux: PyPI's Linux torch drags in the whole CUDA stack (several GB), which a
+# CPU image does not need. Windows and macOS PyPI wheels are already CPU-only.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
 [tool.uv.sources]
-torch = [{ index = "pytorch-cu130", extra = "ocr-gpu", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
-torchvision = [{ index = "pytorch-cu130", extra = "ocr-gpu", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+torch = [
+  { index = "pytorch-cu130", extra = "ocr-gpu", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+  { index = "pytorch-cpu", extra = "ocr-cpu", marker = "sys_platform == 'linux'" },
+]
+torchvision = [
+  { index = "pytorch-cu130", extra = "ocr-gpu", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+  { index = "pytorch-cpu", extra = "ocr-cpu", marker = "sys_platform == 'linux'" },
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["../tests"]
+markers = ["gpu: needs a CUDA device and the ocr-gpu extra (skipped when none is found)"]

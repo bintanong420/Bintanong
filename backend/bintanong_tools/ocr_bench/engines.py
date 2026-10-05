@@ -147,10 +147,15 @@ def wanted_device() -> str:
 def _rapidocr_engine(config: OcrConfig, use_cuda: bool):
     """(callable image path -> result, providers the sessions actually use). Language resolution is
     Docling's own (`iso:fil` becomes PP-OCRv6 `tl`), so this measures what Docling would run."""
+    if use_cuda:
+        try:
+            import torch  # noqa: F401  # first, so onnxruntime shares torch's own CUDA/cuDNN libraries (see the plan, GPU and Docker)
+        except ImportError:
+            pass
     import onnxruntime
 
     if use_cuda and hasattr(onnxruntime, "preload_dlls"):
-        onnxruntime.preload_dlls()  # load the pip-wheel CUDA and cuDNN libraries before any session (a system CUDA on PATH can otherwise win)
+        onnxruntime.preload_dlls()  # no-op after torch; otherwise loads the pip-wheel CUDA and cuDNN libraries before any session
     from docling.models.stages.ocr.rapid_ocr_model import _resolve_rapidocr
     from rapidocr import ModelType, OCRVersion, RapidOCR
 
@@ -161,12 +166,18 @@ def _rapidocr_engine(config: OcrConfig, use_cuda: bool):
         "Rec.ocr_version": spec.ppocr_version, "Rec.lang_type": spec.rapidocr_code, "Rec.model_type": size,
         "Det.use_cuda": use_cuda, "Cls.use_cuda": use_cuda, "Rec.use_cuda": use_cuda,
         "EngineConfig.onnxruntime.use_cuda": use_cuda,
-        # On the RTX 4060 with onnxruntime-gpu 1.30.0 / cuDNN 9.24 the PP-OCRv6 recognizer fails on its first
-        # batch (CUDNN_STATUS_EXECUTION_FAILED_CUDART) with RapidOCR's default EXHAUSTIVE search and also with
-        # HEURISTIC; only DEFAULT ran, repeatably (see the plan, Task 4a results).
-        "EngineConfig.onnxruntime.cuda_ep_cfg.cudnn_conv_algo_search": "DEFAULT",
+        # RapidOCR's default EXHAUSTIVE re-searches whenever a recognizer crop changes shape, which is nearly
+        # every call (docling issue 4167); HEURISTIC does no search and was as fast as anything tried.
+        "EngineConfig.onnxruntime.cuda_ep_cfg.cudnn_conv_algo_search": "HEURISTIC",
     })
     providers = list(engine.text_rec.session.session.get_providers())
+    if use_cuda and "CUDAExecutionProvider" in providers:
+        # Measured on the RTX 4060 / onnxruntime-gpu 1.30.0 / cuDNN 9.24: when the first recognizer call is a batch
+        # of 6, cuDNN's ReduceMean fails (CUDNN_STATUS_EXECUTION_FAILED_CUDART); a one-crop call first makes every
+        # later shape work. Cause not found; the warm-up is the workaround (see the plan, GPU and Docker).
+        import numpy as np
+
+        engine.text_rec.session(np.zeros((1, 3, 48, 160), dtype=np.float32))
     return engine, providers
 
 

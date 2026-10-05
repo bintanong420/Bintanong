@@ -65,9 +65,9 @@ scripts/ocr_bench.py                          simulate | ocr | score
 | 1 Photo simulator | built, tested |
 | 2 Scorer and Q11 verdict | built, tested |
 | 3 CLI driver and OCR stub | built, tested |
-| 4a Install GPU and CPU dependencies | done in a throwaway venv, setup committed; **GPU path works but is slower than CPU** (results below), needs the user's decision |
+| 4a Install GPU and CPU dependencies | done and committed; CPU is the default, the GPU path works and is faster (see "GPU and Docker") |
 | 4b Engine adapters and the six-config run | bare-engine adapters built and run on one page for all six configs; the Docling payload conversion is not done |
-| 4c Throughput measurement, CPU versus GPU | first figures taken on 3 pages (ad hoc script); the `bench` subcommand is not built |
+| 4c Throughput measurement, CPU versus GPU | figures taken on 3 pages (ad hoc script, in "GPU and Docker"); the `bench` subcommand is not built |
 | 5 Confidence matching | not started |
 | 6 Review-row adapter and question-style review model | not started; needs the B2 ledger extension (O1) |
 | 7 Edition-matching measurement | not started |
@@ -269,6 +269,110 @@ Files that carry this setup: `backend/pyproject.toml` (extras `ocr-gpu` and `ocr
 
 ---
 
+## GPU and Docker
+
+The user's decision (2026-10-04): CPU is the default and stays the default (master plan 5.3: OCR on CPU initially); a working GPU path is kept, especially in Docker, because Docker is part of CI/CD. This section is what was found and measured; the committed pieces are `docker/ocr.Dockerfile`, the `ocr-cpu`/`ocr-gpu` extras, the `gpu` marker (registered in `backend/pyproject.toml`) and `tests/test_ocr_gpu_smoke.py`, which skips itself without a CUDA device (no `tests/conftest.py`: Phase D owns the single conftest and can absorb this skip).
+
+### Measured on this machine (RTX 4060 Laptop, 8 GB; driver 616.86; onnxruntime-gpu 1.30.0, cuDNN 9.24, CUDA 13.0 wheels)
+
+Three real pages, one process, warm pass. The numbers earlier in this plan for the GPU (18 s per page) were taken with a setting that was avoidable; these replace them.
+
+| Config | CPU s/page | GPU s/page | GPU speed-up |
+|---|---|---|---|
+| rapidocr-en | 7.05 | 3.2 | 2.2x |
+| rapidocr-latin | 8.38 | 1.94 | 4.3x |
+| rapidocr-iso:fil | 11.0 | 3.15 | 3.5x |
+
+Peak GPU memory about 1.9 GB (system-wide reading, 0.4 GB of it already in use). Recognized text on the GPU was identical to the CPU text on the BSA page for all three configs (394, 376 and 394 lines, 0 differing lines). On a synthetic 40-line page the GPU and CPU text agreed except for one character on one unreadable line (hence the 98% line-similarity tolerance in the GPU smoke test).
+
+Where the time goes (rapidocr-en, one page): CPU detection 1.4 to 2.0 s, classification 0.8 s, recognition 4.6 to 6.1 s; GPU detection 0.3 to 0.5 s, classification 0.5 to 0.8 s, recognition 2.7 to 3.1 s.
+
+**Docling layout and table models on CUDA versus CPU** (`--device cuda` against `--device cpu`, whole extractor process including model load, 3 PDFs, one page each; torch 2.14.0+cu130):
+
+| PDF | CPU | CUDA |
+|---|---|---|
+| BSA architecture | 98.2 s | 29.8 s |
+| ABComm | 46.8 s | 29.8 s |
+| ABComm (2) | 46.8 s | 31.2 s |
+
+Course fields were identical between CPU and CUDA for all three (77, 50 and 50 courses, `compare_payloads` reports no difference). That is evidence for Phase D decision D2 (device stays out of the cache identity), on three pages; it is not a proof. Docling's own docs say table batching does not use the GPU yet and that larger `layout_batch_size` and `ocr_batch_size` help on GPU (not tried here).
+
+### The cuDNN failure, the slowness, and what fixed them
+
+1. **Slowness is a known RapidOCR default.** RapidOCR sets `cudnn_conv_algo_search` to `EXHAUSTIVE`, which searches again whenever an input shape changes. The recognizer gets one differently shaped crop batch nearly every call, so the search never pays off. Docling issue 4167 measured 4.4 times slower than CPU on an L4 and shows `DEFAULT` giving 1.6 times faster; PR 4168 to pin it is open and not merged, so Docling 2.129.0 and 2.133.0 are unpatched. Sources: https://github.com/docling-project/docling/issues/4167 and https://github.com/docling-project/docling/pull/4168. ONNX Runtime's documentation for the CUDA provider lists `EXHAUSTIVE` as the default and gives the three options (https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html).
+2. **`HEURISTIC` is the setting used here**, not `DEFAULT`: `DEFAULT` runs but picks a slow convolution algorithm (a 6x640 batch took 240 ms against 14 ms with `HEURISTIC` once the failure below was avoided, and CPU takes 124 ms). An earlier run in this plan reported 18 s per page because it used `DEFAULT`.
+3. **The `CUDNN_STATUS_EXECUTION_FAILED_CUDART` failure** (a `ReduceMean` node of the PP-OCRv6 recognizer, `cudnnReduceTensor`) depends on the call order, not on the algorithm setting. It happened when the first call into a fresh recognizer session was a batch of 6 crops, under every algorithm setting except `DEFAULT`, and did not happen when a single-crop call (1x3x48x160) came first, for any later shape. A one-crop warm-up in `_rapidocr_engine` fixes it. I did not find the cause: no ONNX Runtime issue matched this exact message (the closest are generic cuDNN failures, e.g. https://github.com/microsoft/onnxruntime/issues/21825 and https://forums.developer.nvidia.com/t/reducesum-error/341556). Candidates not yet separated: a lazily loaded cuDNN runtime-compiled kernel (the pip wheels pair NVRTC 13.0.88 with nvJitLink 13.4.92), or a cuDNN 9.24 reduction bug. If a later onnxruntime-gpu or cuDNN wheel changes this, `tests/test_ocr_gpu_smoke.py` is the check, and the warm-up can then be removed.
+4. **Tried and not needed.**
+   - *Bucketed recognizer widths* (rounding each batch's width up to 160 or 320 px, which cut the distinct input shapes from 37 to 7 and 4): no change (17.9 and 17.8 s against 18.1 s per page) with `DEFAULT`, so shape count was not the bottleneck once the search was off; not adopted.
+   - *IO binding*: output copy was not the cost (237 ms without copy against 252 ms with copy for a 36 MB output); not adopted.
+   - *TensorRT provider*: it is listed by the wheel but needs TensorRT's own libraries, which the pip wheels do not include, and ONNX Runtime's TensorRT page documents engine caching and explicit dynamic-shape profiles (`trt_engine_cache_enable`, `trt_profile_*_shapes`) with a version table that, on the copy read, stops at CUDA 12 (https://onnxruntime.ai/docs/execution-providers/TensorRT-ExecutionProvider.html). Not tried: the CUDA provider already beats the CPU and TensorRT adds an install and a cache to maintain.
+   - *RapidOCR torch backend*: not tried for the same reason.
+5. **DLL source.** The adapter imports torch before onnxruntime so both use the same CUDA and cuDNN libraries, then calls `onnxruntime.preload_dlls()` (a no-op after torch). ONNX Runtime documents `pip install onnxruntime-gpu[cuda,cudnn]` and that `preload_dlls()` searches PyTorch's folders first, then the NVIDIA site-packages. The torch-first import was not shown to be necessary once the warm-up exists; it is kept because it avoids loading two copies of the CUDA libraries in one process.
+
+### Versions and requirements (from the vendors)
+
+- ONNX Runtime 1.30.x GPU wheels on PyPI are built for CUDA 13.0 and cuDNN 9.x; a CUDA 13.0 build needs CUDA 13.0 or newer, and cuDNN 8 and 9 builds are not interchangeable (ONNX Runtime CUDA provider page above). `onnxruntime-gpu` 1.30.0 declares optional `cuda` and `cudnn` extras that pull `nvidia-*` wheels for CUDA 13.
+- uv: per-platform and per-extra wheel indexes for torch, with conflicting extras, are documented at https://docs.astral.sh/uv/guides/integration/pytorch/. The repository uses the documented pattern: `pytorch-cu130` for `ocr-gpu` on Windows and Linux, `pytorch-cpu` for `ocr-cpu` on Linux only (PyPI's Linux torch drags in the CUDA stack, which made the CPU image huge in principle; Windows and macOS PyPI wheels are already CPU), explicit indexes, extras declared in `[tool.uv] conflicts`.
+- Docling: `AcceleratorOptions(device=...)` or the `DOCLING_DEVICE` and `DOCLING_NUM_THREADS` environment variables; OCR on GPU through `docling[onnxruntime]` with `RapidOcrOptions(backend="onnxruntime")` (https://docling-project.github.io/docling/usage/gpu/ and https://docling-project.github.io/docling/reference/pipeline_options/). The repository's `--device` option already passes the device.
+
+### Docker
+
+**Base image: slim Python is enough.** `python:3.13.15-slim-bookworm` plus the `ocr-gpu` extra works because torch's `+cu130` wheel and the `nvidia-*` wheels carry the CUDA, cuBLAS and cuDNN runtime. An `nvidia/cuda:13.0.x-cudnn-runtime-ubuntu24.04` image exists (Docker Hub: https://hub.docker.com/r/nvidia/cuda/tags) and is the fallback if a system-library issue appears, at a larger size; it was not needed. What the host must supply is the driver: the NVIDIA Container Toolkit injects `libcuda` at run time, and `NVIDIA_DRIVER_CAPABILITIES=compute,utility` is set in the image.
+
+**Host setup.**
+- Linux: NVIDIA driver, then the NVIDIA Container Toolkit configured as a Docker runtime, then `docker run --gpus all` or the Compose device reservation below.
+- Windows with Docker Desktop (WSL 2 backend): install only the Windows NVIDIA driver; CUDA appears inside WSL 2 as a stub `libcuda`, and no Linux driver may be installed in WSL (NVIDIA: https://docs.nvidia.com/cuda/wsl-user-guide/index.html). That guide names R495 or later for CUDA on WSL 2, Windows 11 (Windows 10 needs the Insider channel), a WSL kernel of at least 4.19.121 with 5.10.16.3 or later recommended, the Container Toolkit minimum v2.6.0 with libnvidia-container 1.5.1, and says only `--gpus all` is supported on multi-GPU systems. This machine's driver (616.86, CUDA UMD 13.4) is far above R495 and above the CUDA 13.0 the wheels need. The `docker info` of this machine's Docker Desktop (29.4.3, later auto-updated to 29.8.1) lists an `nvidia` runtime.
+- macOS: Docker has no GPU access; use the CPU image. On macOS outside Docker, use `ocr-cpu`.
+- `wsl2` memory is capped at 8 GB in this machine's `.wslconfig`; one OCR container used under 2 GB of GPU memory, and the build is the heavy step.
+
+**Images, built and run here.**
+- CPU image: `docker build -f docker/ocr.Dockerfile -t bintanong-ocr:cpu .` built in 1221 s on this connection (the first attempt, 424 s in, failed when Docker Desktop restarted and its daemon dropped; the retry succeeded), 2.71 GB. In the container: Tesseract 5.3.0 (Debian bookworm's package) lists `fil` and `eng` from the hash-verified `/opt/tessdata`; torch 2.14.0+cpu; onnxruntime providers `CPUExecutionProvider` (plus Azure); `ocr --config tesseract-fil` and `ocr --config rapidocr-iso:fil` on the BSA page ran in 31 s in total, and the RapidOCR text was identical to the host CPU run (0 of 394 lines differ).
+- GPU image: `docker build -f docker/ocr.Dockerfile --build-arg OCR_EXTRA=ocr-gpu --build-arg OCR_DEVICE=cuda -t bintanong-ocr:gpu .` -- built on the second attempt (the first stalled for more than 30 minutes downloading the 403 MB nvidia-cublas and 528 MB nvidia-cudnn-cu13 wheels inside the build and was stopped; the retry reused the cached layers and finished in 467 s), 10.8 GB. Run with `docker run --rm --gpus all`: `nvidia-smi` inside shows the RTX 4060 Laptop and driver 616.86; torch 2.14.0+cu130 reports CUDA available; onnxruntime lists `CUDAExecutionProvider`; `ocr --config rapidocr-iso:fil` ran on CUDA in 4.27 s for the BSA page and its text is identical to the host CPU run (0 of 394 lines differ). `rapidocr-latin` in the same container failed with `DownloadFileException` because RapidOCR downloads its models from ModelScope at first use and that download failed on this connection; neither image bakes the RapidOCR models in. **Open item, not done:** pre-fetch the models of the six configs in a `RUN` step (or mount a models folder) so an image runs offline and builds reproducibly in CI. Not tested in a container: a Linux host with the Container Toolkit (the Docker Desktop WSL 2 runtime was used).
+
+**Compose override** (kept in the plan; the repository's existing `compose.gpu.yaml` is the master plan's GPU override and currently holds only the `bintu` service, so this would be added to it as an `ocr` service when the master plan's ingest container is built):
+
+```yaml
+# compose.yaml (CPU, the default)
+  ocr:
+    build:
+      context: .
+      dockerfile: docker/ocr.Dockerfile
+    environment:
+      OCR_BENCH_DEVICE: cpu
+    volumes:
+      - ${OCR_INPUT_DIR:?Set OCR_INPUT_DIR}:/in:ro
+      - ${OCR_OUTPUT_DIR:?Set OCR_OUTPUT_DIR}:/out
+
+# compose.gpu.yaml (override: docker compose -f compose.yaml -f compose.gpu.yaml up ocr)
+  ocr:
+    build:
+      args:
+        OCR_EXTRA: ocr-gpu
+        OCR_DEVICE: cuda
+    environment:
+      OCR_BENCH_DEVICE: cuda
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+```
+
+**Image size and the CPU and GPU split.** One Dockerfile, one build argument (`OCR_EXTRA`), two tags. The CPU image installs CPU torch from the PyTorch CPU index on Linux, so it carries none of the CUDA stack (2.71 GB, most of it Docling's own dependencies). The GPU image adds the CUDA 13.0 torch wheel and the `nvidia-*` wheels. The master plan's planned `docker/ingest.Dockerfile` (`uv sync --extra tools`, no OCR extra, no Tesseract, torch from PyPI, which on Linux pulls the CUDA stack) is not changed by this plan; when ingest and OCR merge into one image, this Dockerfile is the pattern (`--extra tools --extra ${OCR_EXTRA}`).
+
+### CI
+
+No workflow exists in the repository yet (`.github` is empty). Design, to be written when the repository's CI is set up:
+
+- **Every push (hosted runner, no GPU):** build `docker/ocr.Dockerfile` with the default CPU target; run, inside or beside it, `tesseract --list-langs` (must show `fil` and `eng`) and `python scripts/ocr_bench.py ocr --list`; on the runner run the test suite with `uv sync --locked --extra tools --extra dev --extra ocr-cpu` and `pytest -m "not gpu"` (the `gpu` tests skip themselves when `CUDAExecutionProvider` or `torch.cuda` is missing, so even a plain `pytest` is safe on a CPU runner). Use `UV_HTTP_TIMEOUT=300`. Cache the uv cache and Docker layers; the CPU build is about 2.7 GB and the cold build took 20 minutes here, mostly downloads.
+- **GPU image:** build it on a schedule or on changes to `docker/ocr.Dockerfile`, `backend/pyproject.toml` or `backend/uv.lock` (building needs no GPU); run its smoke only on a GPU runner: GitHub's hosted GPU runners are larger runners with one Tesla T4 for Team and Enterprise plans (https://docs.github.com/en/actions/reference/runners/larger-runners), or a self-hosted runner with the NVIDIA Container Toolkit. The smoke is `docker run --gpus all bintanong-ocr:gpu python -m pytest -m gpu tests/test_ocr_gpu_smoke.py` after adding `pytest` to the image or running the tests from a mounted checkout; until a GPU runner exists, the GPU image is built and not run, and that must be stated in the job summary.
+- **uv lock in Docker:** the extras `ocr-cpu` and `ocr-gpu` are in one `uv.lock` (declared conflicting, so uv never resolves both together); the image chooses one with `uv sync --locked --no-dev --extra tools --extra ${OCR_EXTRA}`. `--locked` fails the build if `pyproject.toml` and `uv.lock` disagree, which is the check CI needs. The lock is universal across Windows, Linux and macOS; it was produced on Windows and the Linux image build installed from it successfully.
+- **GPU test marker:** `pytest.mark.gpu`, registered in `backend/pyproject.toml`; the test module carries a `skipif` that skips unless `onnxruntime` lists `CUDAExecutionProvider` and `torch.cuda.is_available()` is true. Run them with `pytest -m gpu`.
+
 ## Task 1: Photo simulator (built)
 
 **Files:**
@@ -318,26 +422,10 @@ Approved by the user on 2026-10-04, on the condition that the setup lives in the
 - `fetch_tessdata.py` downloaded both models and the hashes matched. `tesseract --list-langs` with `TESSDATA_PREFIX` set to that folder lists `eng` and `fil`.
 - All six configs ran on one real page (the BSA architecture prospectus page, `flat_good`) through `scripts/ocr_bench.py ocr`.
 
-**Findings that change the setup.**
-1. `onnxruntime.preload_dlls()` must run before the first CUDA session. A system CUDA 13.3 is on this machine's PATH and the system has no cuDNN; without the preload ONNX Runtime mixed libraries and failed. The adapter calls it.
-2. With RapidOCR's default cuDNN algorithm search (`EXHAUSTIVE`), and also with `HEURISTIC`, `use_tf32=0`, `prefer_nhwc=0` and a reduced workspace, the PP-OCRv6 recognizer fails on its first batch with `CUDNN_STATUS_EXECUTION_FAILED_CUDART` (ReduceMean node). Only `cudnn_conv_algo_search: DEFAULT` ran, repeatably (each option tried in its own process, twice). The adapter sets it. Docling's own RapidOCR integration does not set it, so Docling's OCR on this GPU would fail with the library default until Task 4b passes this option through.
+**Findings that change the setup** (the first version of this section reported the GPU as slower than the CPU; that was wrong and is superseded by "GPU and Docker" below, which has the cause and the corrected numbers).
+1. `onnxruntime.preload_dlls()` or importing torch first is needed before the first CUDA session, because a system CUDA 13.3 is on this machine's PATH and there is no system cuDNN.
+2. The PP-OCRv6 recognizer failed on its first batch with `CUDNN_STATUS_EXECUTION_FAILED_CUDART`; a one-crop warm-up call before real work fixes it (see below).
 3. Tesseract's `tsv` config name is not found when `TESSDATA_PREFIX` points at a models-only folder; Tesseract then silently prints plain text. The adapter uses `-c tessedit_create_tsv=1` and now raises if the output is not TSV (the first run had silently produced empty pages).
-
-**First throughput figures** (3 real pages, 1275 x 1951 px simulated photos, one process, warm = second pass; ad hoc script, not committed):
-
-| Config | Device | First page | Warm s/page | Warm pages/s |
-|---|---|---|---|---|
-| tesseract-eng | CPU | | 5.47 | 0.183 |
-| tesseract-fil | CPU | | 4.53 | 0.221 |
-| tesseract-eng+fil | CPU | | 8.43 | 0.119 |
-| rapidocr-en | CPU | 7.85 s | 7.05 | 0.142 |
-| rapidocr-latin | CPU | 6.9 s | 8.38 | 0.119 |
-| rapidocr-iso:fil | CPU | 7.4 s | 11.0 | 0.091 |
-| rapidocr-en | GPU | 16.2 s | 18.06 | 0.055 |
-| rapidocr-latin | GPU | 15.0 s | 17.84 | 0.056 |
-| rapidocr-iso:fil | GPU | 18.0 s | 18.91 | 0.053 |
-
-On this page, with the only setting that runs (`DEFAULT`), the GPU is about 2.5 times slower than the CPU for RapidOCR. Peak GPU memory was about 1.8 to 1.9 GB (system-wide reading, 0.4 GB of it was already in use). Likely cause, not yet confirmed: a page has about 390 text crops of different widths, and the cuDNN convolution plans are rebuilt for each new shape. Next steps for Task 4c, not done: batch crops to a few fixed widths, try the torch backend of RapidOCR on CUDA, try the TensorRT provider, and measure Docling's layout and table models on CUDA, where the GPU is more likely to win. Until then the GPU is not worth enabling for the RapidOCR configs.
 
 **Quality sanity check (not the bake-off).** On the same page RapidOCR returned 376 to 394 text lines at mean confidence about 99 and found `AD-1/L`; Tesseract returned about 790 words at mean confidence 70 to 76 and did not contain `AD-1/L` as one token.
 
@@ -432,7 +520,7 @@ The user's instruction: "remember you need to wire up all of the pipeline later 
 3. **Decision-log lifetime and identity** (resolved 2026-10-04: session only). A user's decisions live in the anonymous session and vanish with it, which fits the master plan's no-persistent-identity rule, 30-minute idle session and deletion after extraction. Consequence to state in the master plan: a user who returns after expiry re-uploads and re-answers; nothing is remembered. The ledger keys entries on the photo hash and an anonymous session id instead of a reviewer name.
 4. **Privacy of the decision log.** Session-only storage satisfies 15.3, but the master plan should say so explicitly: the correction log is session data, excluded from logs, traces, telemetry, evaluation exports and backups.
 5. **The hard rule has no test.** 15.3 checks isolation between sessions and from retrieval but not "OCR data is never written to institutional storage". Needs an explicit Phase 10 gate case.
-6. **Docling version.** The master plan pins Docling 2.93.0 (section 2); the repository runs 2.129.0. The plan, Phase 0 pins and Phase D identity must agree.
+6. **Docling version** (resolved 2026-10-04: track the latest; see docs/decisions/docling-version.md). The master plan pins Docling 2.93.0 (section 2), which was the latest when the thesis was written; the repository pins 2.129.0 and the latest is 2.133.0, which passes the 44-input gate. The master plan table should say latest, gated instead of a number.
 7. **GPU.** Master plan 5.3 says run embeddings and OCR on CPU initially and measure VRAM contention. The user now wants CUDA for OCR and for Docling's models. The master plan has no VRAM budget across Bintu-1, embeddings and OCR on one 8 GB card, no scheduling rule for bulk ingestion versus chat, and its `ingest.Dockerfile` has no GPU or CUDA version. Phase 0 and Phase 13 need the Task 4a and 4c results.
 8. **OCR accuracy claim.** Master plan 1.3 treats the manuscript's accuracy as unverified, and 7.3 asks for a 10-document check on scanned institutional documents. This plan measures 43 prospectus pages, a different corpus and goal; 7.3's 10 scanned documents (handbook, charter) are not covered and remain a Phase 2 task.
 9. **Image input in the intake rules.** 15.1 accepts JPEG and PNG but sets no resolution, orientation, perspective or quality gate. The simulated conditions suggest a "photo too blurry or dark, please retake" check; it is not specified anywhere.
