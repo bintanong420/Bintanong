@@ -93,7 +93,7 @@ def printed_without_banner(remainder: str, texts: Iterable[str]) -> bool:
 ANY_CODE = re.compile(r"(?<!\S)(?:[A-Z]{1,8}[\s\-]?\d{1,4}[A-Za-z]?(?:/[A-Z])?|GE[\s\-][A-Za-z]{2,6})(?=\s|$)")
 
 
-def row_bands(page_text: str, anchor: str, units_raw: str, other_codes: Sequence[str], remainder: str = "") -> list[str]:
+def row_bands(page_text: str, anchor: str, units_raw: str, other_codes: Sequence[str]) -> list[str]:
     """This course's own stretch of the PDF text, one per place `anchor` (its code, or the code being
     proposed) is printed: from the anchor to the next code (known, or any course-code-shaped token), and no
     further than the first whole-token `units_raw` after it (the end of the row). Text of other rows is never part of a band."""
@@ -106,10 +106,7 @@ def row_bands(page_text: str, anchor: str, units_raw: str, other_codes: Sequence
         window = text[m.end():]
         stop = cut.search(window) if cut else None
         window = window[: stop.start()] if stop else window
-        own = [(r.start(), r.end()) for r in re.finditer(re.escape(remainder), window)] if remainder else []
-        # a code-shaped token ends the band unless it starts inside this course's own remaining title ("PE 1 Rhythmic")
-        stray = next((c for c in ANY_CODE.finditer(window) if not any(a <= c.start() < b for a, b in own)), None)
-        ends = [m for m in (re.search(rf"(?<=\s){re.escape(units)}(?=\s|$)", window) if units else None, stray) if m]
+        ends = [m for m in (re.search(rf"(?<=\s){re.escape(units)}(?=\s|$)", window) if units else None, ANY_CODE.search(window)) if m]
         bands.append(window[: min(m.start() for m in ends)] if ends else window)
     return bands
 
@@ -123,10 +120,12 @@ def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Ma
         value = clean_str(course.get(field))
         cells = [c["cell_id"] for c in role_cells.get(role, [])]
         stripped = strip_banner(value) if BANNER_PHRASE.search(value) and banner_confirmed(value, banners) else None
+        if stripped and field == FIELD_TITLE and ANY_CODE.match(stripped):
+            stripped = None   # "PE 1 Rhythmic": this course's title or the next row's code? Without layout, flag only.
         evidence = [t for t in own if clean_str(t) != value]       # this course's other cells, not the banner cell
         if stripped and page_text:
             anchor = stripped if field == FIELD_CODE else clean_str(course.get(FIELD_CODE))
-            evidence += row_bands(page_text, anchor, units, known_codes, stripped)
+            evidence += row_bands(page_text, anchor, units, known_codes)
         if stripped and printed_without_banner(stripped, evidence):
             out.append(Fix("strip_banner", field, value, stripped, f"banner text removed from the {name}",
                            _fix_id("strip_banner", field, cells)))

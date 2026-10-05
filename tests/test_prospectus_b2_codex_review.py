@@ -584,14 +584,18 @@ def test_h3_an_unbounded_value_is_described_not_formatted(huge):
         assert problem is None or len(problem) < 300          # no ValueError from int-to-str, no megabyte message
 
 
-def test_h4_a_title_that_itself_starts_with_a_code_shaped_prefix_keeps_its_band():
+def test_h4_a_remainder_that_starts_with_a_code_shaped_token_is_never_proposed():
+    # "PE 1 Rhythmic" might be this course's own title or the next row's code and title. Without layout the two
+    # cannot be told apart, so the strict choice wins: no proposal, the row stays flagged for a human.
     payload = copy.deepcopy(fx.bscs())
     course = payload["courses"][0]
     course["course_title"] = "FIRST SEMESTER PE 1 Rhythmic"
     set_cell_text(payload, "t0-c9", "FIRST SEMESTER PE 1 Rhythmic")
     course["units"] = {**course["units"], "raw": "3"}
     page = "FIRST SEMESTER CS 1 PE 1 Rhythmic 3 OTHER 2 Something 3"
-    fixes = propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"])
-    assert [f.new for f in fixes] == ["PE 1 Rhythmic"]
-    cross = "FIRST SEMESTER CS 1 Other OTHER 2 PE 1 Rhythmic 3"      # the remainder belongs to the row after OTHER 2
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"]) == []
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1", "PE 1"]) == []
+    next_row = "FIRST SEMESTER CS 1 Other PE 1 Rhythmic 3"           # the words belong to the row after, whose code is unknown
+    assert propose_fixes(course, roles(course, payload), page_text=next_row, banners=BANNERS, known_codes=["CS 1"]) == []
+    cross = "FIRST SEMESTER CS 1 Other OTHER 2 PE 1 Rhythmic 3"
     assert propose_fixes(course, roles(course, payload), page_text=cross, banners=BANNERS, known_codes=["CS 1"]) == []
