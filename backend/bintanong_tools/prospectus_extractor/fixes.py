@@ -93,26 +93,25 @@ def printed_without_banner(remainder: str, texts: Iterable[str]) -> bool:
 ANY_CODE = re.compile(r"(?<!\S)(?:[A-Z]{1,8}[\s\-]?\d{1,4}[A-Za-z]?(?:/[A-Z])?|GE[\s\-][A-Za-z]{2,6})(?=\s|$)")
 
 
-def row_bands(page_text: str, anchor: str, units_raw: str, other_codes: Sequence[str]) -> list[str]:
-    """This course's own stretch of the PDF text, one per place `anchor` (its code, or the code being
-    proposed) is printed: from the anchor to the next code (known, or any course-code-shaped token), and no
-    further than the first whole-token `units_raw` after it (the end of the row). Text of other rows is never part of a band."""
-    text = pdf_clean(page_text)
-    cuts = sorted({clean_str(c) for c in other_codes if clean_str(c) and clean_str(c) != anchor}, key=len, reverse=True)
-    cut = re.compile(r"(?<!\S)(?:" + "|".join(re.escape(c) for c in cuts) + r")(?=\s|$)") if cuts else None
-    units = clean_str(units_raw)
-    bands = []
-    for m in re.finditer(rf"(?<!\S){re.escape(anchor)}(?=\s|$)", text):
-        window = text[m.end():]
-        stop = cut.search(window) if cut else None
-        window = window[: stop.start()] if stop else window
-        ends = [m for m in (re.search(rf"(?<=\s){re.escape(units)}(?=\s|$)", window) if units else None, ANY_CODE.search(window)) if m]
-        bands.append(window[: min(m.start() for m in ends)] if ends else window)
-    return bands
+def anchored_in_pdf(page_text: str, head: str, tail: str, units_raw: str) -> bool:
+    """True when the PDF text holds the whole tokens `head`, `tail` side by side and then this row's units token
+    (or the end of the text): "<this code> <remainder> <units>". Nothing may sit between the two, not a word,
+    not an unknown code, so words of another row can never serve as this row's evidence."""
+    tokens, first, second = pdf_clean(page_text).split(), clean_str(head).split(), clean_str(tail).split()
+    units = clean_str(units_raw).split()
+    if not tokens or not first or not second:
+        return False
+    run = first + second
+    for at in range(len(tokens) - len(run) + 1):
+        if tokens[at:at + len(run)] == run:
+            after = tokens[at + len(run):]
+            if not after or (units and after[:len(units)] == units):
+                return True
+    return False
 
 
 def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]], banners: Collection[str],
-                 page_text: str | None = None, known_codes: Sequence[str] = ()) -> list[Fix]:
+                 page_text: str | None = None) -> list[Fix]:
     out = []
     own = [c.get("text") or "" for c in (course.get("provenance") or {}).get("source_cells") or []]
     units = (course.get("units") or {}).get("raw") or ""
@@ -123,10 +122,10 @@ def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Ma
         if stripped and field == FIELD_TITLE and ANY_CODE.match(stripped):
             stripped = None   # "PE 1 Rhythmic": this course's title or the next row's code? Without layout, flag only.
         evidence = [t for t in own if clean_str(t) != value]       # this course's other cells, not the banner cell
-        if stripped and page_text:
-            anchor = stripped if field == FIELD_CODE else clean_str(course.get(FIELD_CODE))
-            evidence += row_bands(page_text, anchor, units, known_codes)
-        if stripped and printed_without_banner(stripped, evidence):
+        anchored = bool(stripped and page_text) and (
+            anchored_in_pdf(page_text, clean_str(course.get(FIELD_CODE)), stripped, units) if field == FIELD_TITLE
+            else anchored_in_pdf(page_text, stripped, clean_str(course.get(FIELD_TITLE)), units))
+        if stripped and (anchored or printed_without_banner(stripped, evidence)):
             out.append(Fix("strip_banner", field, value, stripped, f"banner text removed from the {name}",
                            _fix_id("strip_banner", field, cells)))
     return out
@@ -198,7 +197,7 @@ def propose_fixes(
     """`banners`: the banner words the course's table prints in its section-banner cells. A strip is
     proposed only for banner text made of those words, and only when the remainder is printed
     elsewhere without a banner next to it (another cell of this course or this course's own PDF row); else it is flag-only."""
-    fixes = _strip_fixes(course, role_cells, banners, page_text, known_codes) + _move_fix(course, role_cells)
+    fixes = _strip_fixes(course, role_cells, banners, page_text) + _move_fix(course, role_cells)
     if title_not_in_pdf and page_text and not any(f.field == FIELD_TITLE for f in fixes):
         new = title_from_pdf(clean_str(course.get("course_code")), (course.get("units") or {}).get("raw") or "",
                              course.get("course_title") or "", page_text, known_codes)

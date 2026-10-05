@@ -599,3 +599,16 @@ def test_h4_a_remainder_that_starts_with_a_code_shaped_token_is_never_proposed()
     assert propose_fixes(course, roles(course, payload), page_text=next_row, banners=BANNERS, known_codes=["CS 1"]) == []
     cross = "FIRST SEMESTER CS 1 Other OTHER 2 PE 1 Rhythmic 3"
     assert propose_fixes(course, roles(course, payload), page_text=cross, banners=BANNERS, known_codes=["CS 1"]) == []
+
+
+def test_i1_pdf_evidence_must_sit_directly_after_this_rows_code():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    ask = lambda page: propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"])
+    for between in ("Other LONGPREFIX 2", "Other OTHER 2", "Other foo 2", "Other 12", "other", "x"):
+        assert ask(f"FIRST SEMESTER CS 1 {between} Discrete Structures 1 3") == [], between     # anything between: no evidence
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Other 3")] == ["Discrete Structures 1"]
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1")] == ["Discrete Structures 1"]          # end of the text
+    assert ask("FIRST SEMESTER CS 1 Discrete Structures 1 extra words 3") == []                                      # not followed by the units
+    assert ask("FIRST SEMESTER CS 1 Discrete Structures 12 3") == []                                                 # whole tokens only
