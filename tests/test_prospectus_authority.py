@@ -17,7 +17,7 @@ import pytest
 from backend.bintanong_tools.prospectus import ProvisionalSource
 from backend.bintanong_tools.prospectus_extractor import pipeline
 from backend.bintanong_tools.prospectus_extractor.common import SCHEMA_VERSION
-from backend.bintanong_tools.prospectus_extractor.ledger import course_locator, make_entry
+from backend.bintanong_tools.prospectus_extractor.ledger import course_locator, course_snapshot, make_entry
 from backend.bintanong_tools.prospectus_extractor.metadata import resolve_metadata
 from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
 from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge, pl_atom
@@ -346,7 +346,7 @@ def ledger_row_entries(payload, count=None):
         make_entry(
             reviewer="reviewer-a", reason="matches the printed row", pdf_sha256=SOURCE_HASH,
             locator=course_locator(course), field="row", disposition="accepted",
-            old_value=None, new_value=None, section="FIRST YEAR / 1st Semester",
+            old_value=course_snapshot(course), new_value=None, section="FIRST YEAR / 1st Semester",
         )
         for course in courses
     ]
@@ -952,3 +952,23 @@ def test_a_period_inside_or_next_to_a_code_is_content(cell, tmp_path):
 def test_the_tolerant_matching_still_reads_spacing_zeros_hyphens_and_lab_markers(cell):
     codes = {"CS 1/L": ["CS 1/L"], "BT-2": ["BT-2/L"], "Res 01/L": ["Res 1"], "PATH Fit 1": ["PATHFit 1"]}
     assert classify_prerequisite_state(course(cell, codes.get(cell, ["CS 1"]))) == "resolved"
+
+
+def test_b2_stale_ledger_shape_reaches_authority_and_blocks_review():
+    # B2 keys on the old value: a decision made on another value is stale, never reviewed.
+    source = ProvisionalSource(SOURCE_HASH, "local/x.pdf")
+    base = payload_for([CONTROL], source=source)
+    stale = [
+        make_entry(
+            reviewer="reviewer-a", reason="made on an older value", pdf_sha256=SOURCE_HASH,
+            locator=course_locator(c), field="row", disposition="accepted",
+            old_value={**course_snapshot(c), "course_title": "Not the printed title"}, new_value=None,
+            section="FIRST YEAR / 1st Semester",
+        )
+        for c in base["courses"]
+    ]
+    result = payload_for([CONTROL], source=source, review_entries=stale)
+    assert result["content_review"] != "reviewed"
+    detail = result["authority"]["content_review_detail"]
+    assert {"stale_entries", "orphan_entries", "stale_lines"} <= set(detail)
+    assert detail["stale_entries"] == len(stale)
