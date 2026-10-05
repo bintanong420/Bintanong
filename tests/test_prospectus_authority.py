@@ -868,12 +868,12 @@ def test_identity_compares_the_approved_value_with_the_evidenced_observation_val
     assert check_identity(meta(" P ", "p", evidence="P"), {"program_name": "  P "})["state"] == "consistent"
 
 
-UNCLEAR_SEPARATORS = ["CS 1: CS 2", "CS 1. CS 2", "CS 1.", "CS 1: ", "CS 1 .. CS 2"]
+UNCLEAR_SEPARATORS = ["CS 1: CS 2", "CS 1. CS 2", "CS 1: ", "CS 1 .. CS 2", "CS 1.. CS 2", "CS 1, CS 2..", "CS 1, CS 2...", "...CS 1"]
 
 
 @pytest.mark.parametrize("cell", UNCLEAR_SEPARATORS)
 def test_a_colon_or_period_between_codes_is_unclear_not_an_and(cell, tmp_path):
-    codes = ["CS 1", "CS 2"] if "CS 2" in cell else ["CS 1"]
+    codes = ["CS 1", "CS 2"] if "CS 2" in cell else ["CS 1"]  # the parser resolves the codes either way
     assert classify_prerequisite_state(course(cell, codes)) == "unreadable"
     payload = payload_for([CONTROL, one_case(cell)])
     by_code = {c["course_code"]: c for c in payload["courses"]}
@@ -887,3 +887,49 @@ def test_a_colon_or_period_between_codes_is_unclear_not_an_and(cell, tmp_path):
 @pytest.mark.parametrize("cell", ["CS 1, CS 2", "CS 1; CS 2", "CS 1 and CS 2", "CS 1 & CS 2", "CS 1\nCS 2"])
 def test_comma_semicolon_and_ampersand_newline_between_codes_are_and(cell):
     assert classify_prerequisite_state(course(cell, ["CS 1", "CS 2"])) == "resolved"
+
+
+# Codex round 3: one final period is ignored; any other period is content. Identity folds only ASCII case.
+@pytest.mark.parametrize("cell", ["none...", "...none", "none..", "N/A..", "no prerequisite...", ". none", "none. ."])
+def test_periods_other_than_one_final_one_make_a_none_cell_content(cell, tmp_path):
+    assert classify_prerequisite_state(course(cell)) != "stated_none"
+    payload = payload_for([CONTROL, one_case(cell)])
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+    if shutil.which("swipl"):
+        assert not swipl_eligible(tmp_path, payload, "CC 1")
+        assert "CC 1" not in swipl_next_eligible(tmp_path, payload, "[]")
+
+
+@pytest.mark.parametrize("cell", ["none.", "None. ", "N/A.", "n.a.", "no prerequisite.", "- none -."])
+def test_one_final_period_is_ignored_for_none(cell):
+    assert classify_prerequisite_state(course(cell)) == "stated_none"
+
+
+@pytest.mark.parametrize("cell", ["CS 1, CS 2.", "CS 1; CS 2.", "CS 1 and CS 2.", "CS 1.", "CS 1, CS 2. "])
+def test_a_code_list_with_a_sentence_ending_period_stays_resolved(cell, tmp_path):
+    assert classify_prerequisite_state(course(cell, ["CS 1", "CS 2"] if "CS 2" in cell else ["CS 1"])) == "resolved"
+    payload = payload_for([CONTROL, one_case(cell)])
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] == "resolved", by_code["CC 1"]["prerequisites_raw"]
+    if shutil.which("swipl"):
+        assert swipl_eligible(tmp_path, payload, "CC 1", "['CS 1','CS 2']")
+
+
+def test_identity_folds_only_ascii_case_and_compares_other_text_exactly():
+    from backend.bintanong_tools.prospectus_extractor.authority import check_identity
+
+    def meta(value):
+        return {"program_name": value, "observations": {"program_name": {
+            "value": value, "basis": "document_heading", "evidence": value, "status": "candidate"}}}
+
+    def state(observed, approved):
+        return check_identity(meta(observed), {"program_name": approved})["state"]
+
+    assert state("CS", "cs") == "consistent"
+    assert state("Computer  Science", " computer science ") == "consistent"      # whitespace is collapsed
+    assert state("SS", "\u00df") == "mismatch"                                    # ss versus sharp s
+    assert state("\u00df", "SS") == "mismatch"
+    assert state("\u0130stanbul", "istanbul") == "mismatch"                       # Turkish dotted capital I
+    assert state("I", "\u0131") == "mismatch"
+    assert state("Caf\u00e9", "Cafe\u0301") == "consistent"                       # NFC: same text, two encodings
+    assert state("Caf\u00e9", "CAF\u00c9") == "mismatch"                          # non-ASCII is exact

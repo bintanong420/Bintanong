@@ -272,7 +272,7 @@ def unconsumed_prerequisite_text(course: dict) -> str:
     known = {norm_key(code) for code in codes}
     left: list[str] = []
     # Split like split_prereq_fragments but keep none-words: next to a code they contradict the rule.
-    text = clean_str(course.get("prerequisites_raw"))
+    text = without_final_period(clean_str(course.get("prerequisites_raw")))
     for fragment in (clean_str(part) for part in re.split(r"[;,&]|\band\b|\n", text, flags=re.IGNORECASE)):
         if not fragment:
             continue
@@ -300,7 +300,13 @@ NONE_PHRASES = frozenset(
      "no pre requisites", "no prerequisite required", "no prerequisites required", "no pre requisite required",
      "no pre requisites required", "no prereq", "no prereqs"}
 )
-DASHES_ONLY = re.compile(r"^[\s\-\u2010-\u2015\u2212_.]*[\-\u2010-\u2015\u2212][\s\-\u2010-\u2015\u2212_.]*$")
+DASHES_ONLY = re.compile(r"^\s*[\-\u2010-\u2015\u2212][\-\u2010-\u2015\u2212\s]*\.?\s*$")
+
+
+def without_final_period(text: str) -> str:
+    """Trim the cell and drop at most one period at its very end. Any other period is content."""
+    text = text.strip()
+    return text[:-1].rstrip() if text.endswith(".") else text
 
 
 def is_stated_none(raw: str) -> bool:
@@ -311,8 +317,9 @@ def is_stated_none(raw: str) -> bool:
         return bool(text)
     if DASHES_ONLY.match(text):
         return True
-    phrase = re.sub(r"n\s*[/.]\s*a\b\.?", "na", text.lower().replace("(s)", "s"))
-    phrase = phrase.strip(" \t\r\n.\u2010\u2011\u2012\u2013\u2014\u2015\u2212-")  # only a trailing period and dashes
+    phrase = re.sub(r"n\s*[/.]\s*a\b", "na", text.lower().replace("(s)", "s"))
+    phrase = phrase.strip(" \t\r\n\u2010\u2011\u2012\u2013\u2014\u2015\u2212-")  # dashes around the phrase
+    phrase = without_final_period(phrase).strip(" \t\r\n\u2010\u2011\u2012\u2013\u2014\u2015\u2212-")
     phrase = re.sub(r"(?<=[a-z])-(?=[a-z])", " ", phrase)  # pre-requisite
     if re.search(r"[^a-z0-9\s]", phrase):  # a question mark, bracket, colon, ...: not a plain statement
         return False

@@ -8,6 +8,7 @@ payload the extractor produces today.
 
 from __future__ import annotations
 
+import unicodedata
 from typing import Any
 from typing import Mapping
 from typing import Sequence
@@ -24,10 +25,15 @@ VERIFIED_SOURCE = "verified"
 IDENTITY_FIELDS = ("campus", "college_code", "program_name", "effective_school_year")
 
 
-def _same(value: Any) -> str:
-    """Comparison form: surrounding whitespace and letter case do not matter, on either side."""
-    return clean_str(value).strip().casefold()
+def _norm(value: Any) -> str:
+    """Strip, NFC-normalise and collapse internal whitespace. Letter case is left alone."""
+    return " ".join(unicodedata.normalize("NFC", clean_str(value)).split())
 
+
+def _equal(a: str, b: str) -> bool:
+    """Case-insensitive only when both values are pure ASCII; any other text must match exactly,
+    so full Unicode folds (ss and sharp s, Turkish dotted I) never count as the same."""
+    return a.lower() == b.lower() if a.isascii() and b.isascii() else a == b
 
 def _has_evidence(observation: Mapping[str, Any] | None) -> bool:
     """An observation the extractor read from the document or path, not one it assumed."""
@@ -51,17 +57,17 @@ def check_identity(
     mismatched: list[str] = []
     unverified: list[str] = []
     for name, wanted in approved_scope.items():
-        wanted_text = _same(wanted)
+        wanted_text = _norm(wanted)
         observation = observations.get(name)
-        top = _same(metadata.get(name))
+        top = _norm(metadata.get(name))
         if name not in IDENTITY_FIELDS or not wanted_text:
             unverified.append(name)
-        elif observation and "value" in observation and _same(observation["value"]) != top:
+        elif observation and "value" in observation and not _equal(_norm(observation["value"]), top):
             # The reported value and its own observation disagree, so neither can confirm anything.
             (mismatched if _has_evidence(observation) else unverified).append(name)
         elif not top:
             unverified.append(name)  # nothing was observed to compare with
-        elif wanted_text != top:
+        elif not _equal(wanted_text, top):
             mismatched.append(name)
         elif not _has_evidence(observation):
             unverified.append(name)
