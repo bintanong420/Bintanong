@@ -20,6 +20,7 @@ BELOW_TOLERANCE = 30.0  # points under a section's last row where a missed cours
 COVERED_ANOMALIES = {"unclaimed_course_candidate", "course_without_verified_semester"}
 
 
+WRAP_REACH_POINTS = 30.0  # a wrapped code's two lines sit in one code column: no more than this between their extents
 MAX_GAP_GLYPHS = 2.0  # a printed code's glyphs touch; more than two glyph widths between two of them is a cell boundary
 
 
@@ -52,6 +53,37 @@ def _same_line(a: tuple, b: tuple) -> bool:
     return overlap > 0.5 * min(a[4] - a[2], b[4] - b[2])
 
 
+def _wrapped(boxes: Sequence[tuple]) -> bool:
+    """A code printed as two segments on adjacent text lines ("Mktg" / "2001" in one code cell that wrapped):
+    each segment is internally contiguous, the second line starts within one line height below the first,
+    and the segments' horizontal extents are at most WRAP_REACH_POINTS apart, so both sit in one code
+    column. A numeric tail 100 pt away (the units column) or three lines are not a wrap."""
+    cut = next((i for i, (a, b) in enumerate(zip(boxes, boxes[1:]), 1) if not _same_line(a, b)), None)
+    if cut is None:
+        return False
+    first, second = boxes[:cut], boxes[cut:]
+    if any(not _same_line(a, b) for a, b in zip(second, second[1:])) or not (_touching(first) and _touching(second)):
+        return False
+    height = max(b[4] - b[2] for b in boxes)
+    vertical_gap = min(b[2] for b in first) - max(b[4] for b in second)
+    reach = max(min(b[1] for b in second) - max(b[3] for b in first), min(b[1] for b in first) - max(b[3] for b in second))
+    return -height <= vertical_gap <= height and reach <= WRAP_REACH_POINTS
+
+
+def wrapped_location(page: PdfPage, code: str) -> list[float] | None:
+    """Box of the one wrapped occurrence of `code` when the page holds exactly one and no touching one."""
+    runs = _occurrences(page, code)
+    wrapped = [r for r in runs if _wrapped(r)]
+    if len(wrapped) != 1 or any(_touching(r) for r in runs) or not page.height:
+        return None
+    return _box(wrapped[0], page.height)
+
+
+def is_wrapped(page: PdfPage, code: str) -> bool:
+    runs = _occurrences(page, code)
+    return not any(_touching(r) for r in runs) and any(_wrapped(r) for r in runs)
+
+
 def is_split_across_cells(page: PdfPage, code: str) -> bool:
     """True when the page text layer holds `code` only as glyphs that do not touch."""
     runs = _occurrences(page, code)
@@ -67,10 +99,14 @@ def locate_in_page(page: PdfPage, code: str) -> list[float] | None:
     runs = [r for r in _occurrences(page, code) if _touching(r)]
     if len(runs) != 1:
         return None
-    boxes = runs[0]
+    return _box(runs[0], page.height)
+
+
+def _box(boxes: Sequence[tuple], height: float) -> list[float]:
     # chars are (ch, left, bottom, right, top) with y up from the page bottom
-    return [min(b[1] for b in boxes), page.height - max(b[4] for b in boxes),
-            max(b[3] for b in boxes), page.height - min(b[2] for b in boxes)]
+    return [min(b[1] for b in boxes), height - max(b[4] for b in boxes),
+            max(b[3] for b in boxes), height - min(b[2] for b in boxes)]
+
 
 def attach(item: Mapping[str, Any], regions: Mapping[str, Mapping[int, Sequence[float]]]) -> str | None:
     """The one section whose region holds the item, else None. Inside a region wins outright;
@@ -114,8 +150,13 @@ def unclaimed_items(audit: Mapping[str, Any], courses: Sequence[Mapping[str, Any
         })
     for page_no, page in sorted((pages or {}).items()):
         for row in check_pdf_missed(courses, audit, page.text, None, page_no):
-            if row["status"] == "silent" and not is_split_across_cells(page, row["json"]):  # the audit's own list is already above
-                items.append({"source": "pdf", "code": row["json"], "page": page_no,
-                              "bbox": locate_in_page(page, row["json"]), "cell_ids": [], "table_index": None,
-                              "snippet": row["pdf"]})
+            if row["status"] != "silent":
+                continue  # the audit's own list is already above
+            wrapped = is_wrapped(page, row["json"])
+            if is_split_across_cells(page, row["json"]) and not wrapped:
+                continue  # glyphs in different cells (a title word and the units digit): not a code
+            items.append({"source": "pdf", "code": row["json"], "page": page_no,
+                          "bbox": wrapped_location(page, row["json"]) if wrapped else locate_in_page(page, row["json"]),
+                          "cell_ids": [], "table_index": None, "snippet": row["pdf"],
+                          "confidence": "review" if wrapped else "high"})
     return items

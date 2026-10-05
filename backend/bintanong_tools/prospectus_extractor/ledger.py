@@ -9,6 +9,10 @@ against another PDF, another course or another old value are reported, never app
 Conforms to master plan 7.1 step 7 and draft Task 5: reviewer, time, reason, PDF hash, course and
 field locator, original value, correction or disposition, linked cells. A later GUI reads and
 appends the same lines.
+
+`entry_id` is a hash of the entry's own contents. It is tamper-evident only in the sense of catching an accidental
+or careless edit of a line; it is not a signature and does not stop a deliberate forger, who can recompute it.
+That is acceptable for a local, single-user ledger and must not be presented as more.
 """
 
 from __future__ import annotations
@@ -33,12 +37,24 @@ ACCEPTED, CORRECTED, UNRESOLVED = "accepted", "corrected", "unresolved"
 DISPOSITIONS = (ACCEPTED, CORRECTED, UNRESOLVED)
 FIELD_ROW, FIELD_UNCLAIMED = "row", "unclaimed"
 COURSE_FIELDS = (FIELD_CODE, FIELD_TITLE, FIELD_TERM)
-ENTRY_FIELDS = (*COURSE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
+MAX_UNITS = 99
+UNIT_FIELDS = ("lecture_units", "lab_units", "total_units")   # the candidate's flat unit fields
+FIELD_PREREQ = "prerequisites_raw"
+CORRECTABLE_FIELDS = (*COURSE_FIELDS, *UNIT_FIELDS, FIELD_PREREQ)   # review state still asks only for COURSE_FIELDS
+ENTRY_FIELDS = (*CORRECTABLE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
 STALE_SECTIONS = ["audit", "elective_tracks", "prolog", "quality_report", "rag"]  # not rebuilt from corrections
 
 
 class LedgerError(ValueError):
     """The ledger file is not what an append-only ledger should be."""
+
+
+class LedgerLine(dict):
+    """An entry as read from the file, remembering which line it came from (equal to the plain dict)."""
+
+    def __init__(self, entry: Mapping[str, Any], line: int):
+        super().__init__(entry)
+        self.line = line
 
 
 def course_snapshot(course: Mapping[str, Any]) -> dict[str, str]:
@@ -79,8 +95,42 @@ def correction_problem(field: Any, new_value: Any) -> str | None:
         return None if isinstance(new_value, str) and new_value.strip() else f"a corrected {field} needs a non-empty text"
     if field == FIELD_TERM:
         ok = isinstance(new_value, str) and parse_term(new_value) is not None
-        return None if ok else f"a corrected term must read as a year and one semester, not {new_value!r}"
-    return f"only {', '.join(COURSE_FIELDS)} can be corrected, not {field!r}"
+        return None if ok else f"a corrected term must read as a year and one semester, not {_short(new_value)}"
+    if field in UNIT_FIELDS:
+        # parse_units reads at most two digits and the extractor derives every unit as a whole number (verify formats
+        # the totals with `+d`); no real prospectus in the cache prints a fraction of a unit. 99 is that parser's ceiling.
+        ok = type(new_value) is int and 0 <= new_value <= MAX_UNITS
+        return None if ok else f"a corrected {field} must be a whole number from 0 to {MAX_UNITS}, not {_short(new_value)}"
+    if field == FIELD_PREREQ:
+        return None if isinstance(new_value, str) else f"a corrected {field} must be text (empty for none), not {_short(new_value)}"
+    return f"only {', '.join(CORRECTABLE_FIELDS)} can be corrected, not {_short(field)}"
+
+
+def _short(value: Any) -> str:
+    """A value described for a message without formatting it whole: a ledger line can hold a huge int (str() of
+    one raises ValueError past 4300 digits) or a megabyte string."""
+    if isinstance(value, (bool, type(None))):
+        return repr(value)
+    if isinstance(value, int):
+        return repr(value) if value.bit_length() <= 64 else f"an int of {value.bit_length()} bits"
+    if isinstance(value, float):
+        return f"float {value!r}"
+    if isinstance(value, str):
+        return repr(value) if len(value) <= 40 else repr(value[:37]) + f"... ({len(value)} characters)"
+    return f"a {type(value).__name__}"
+
+
+def same_value(a: Any, b: Any) -> bool:
+    """Equality that keeps types apart: a bool is never a number and an int is never a float."""
+    if isinstance(a, bool) or isinstance(b, bool):
+        return isinstance(a, bool) and isinstance(b, bool) and a == b
+    if isinstance(a, (int, float)) or isinstance(b, (int, float)):
+        return type(a) is type(b) and a == b          # 0 and 0.0 are different stored values
+    if isinstance(a, dict) and isinstance(b, dict):
+        return a.keys() == b.keys() and all(same_value(a[k], b[k]) for k in a)
+    if isinstance(a, (list, tuple)) and isinstance(b, (list, tuple)):
+        return len(a) == len(b) and all(same_value(x, y) for x, y in zip(a, b))
+    return type(a) is type(b) and a == b
 
 
 def _text(value: Any) -> bool:
@@ -108,16 +158,20 @@ def entry_problem(entry: Mapping[str, Any]) -> str | None:
     if "_unreadable" in entry:
         return str(entry["_unreadable"])
     if entry.get("field") not in ENTRY_FIELDS:
-        return f"unknown field {entry.get('field')!r}"
+        return f"unknown field {_short(entry.get('field'))}"
     if problem := locator_problem(entry.get("locator")):
         return problem
-    for name in ("reviewer", "recorded_at", "pdf_sha256"):
+    for name in ("entry_id", "reviewer", "recorded_at", "reason", "pdf_sha256"):
         if not _text(entry.get(name)):
             return f"missing {name}"
+    if "old_value" not in entry:
+        return "missing old_value"
     if entry.get("disposition") not in DISPOSITIONS:
-        return f"unknown disposition {entry.get('disposition')!r}"
-    if entry["disposition"] == CORRECTED:
-        return correction_problem(entry["field"], entry.get("new_value"))
+        return f"unknown disposition {_short(entry.get('disposition'))}"
+    if entry["disposition"] == CORRECTED and (problem := correction_problem(entry["field"], entry.get("new_value"))):
+        return problem
+    if entry["entry_id"] != entry_id_of(entry):
+        return "entry_id does not match the entry's contents (edited after it was written?)"
     return None
 
 
@@ -133,6 +187,15 @@ def split_valid(entries: Iterable[Mapping[str, Any]]) -> tuple[list, list]:
     return ok, bad
 
 
+def entry_id_of(entry: Mapping[str, Any]) -> str:
+    """The id make_entry has always given: a hash of every other field of the entry."""
+    body = {k: v for k, v in entry.items() if k != "entry_id"}
+    try:
+        return hashlib.sha256(json.dumps(body, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+    except (TypeError, ValueError):
+        return ""
+
+
 def make_entry(
     *, reviewer: str, reason: str, pdf_sha256: str, locator: Mapping[str, Any], field: str, disposition: str,
     old_value: Any, new_value: Any, section: str, fix_id: str | None = None, rejected_fixes: Sequence[str] = (),
@@ -140,8 +203,8 @@ def make_entry(
 ) -> dict[str, Any]:
     if disposition not in DISPOSITIONS:
         raise LedgerError(f"unknown disposition {disposition!r}")
-    if not reviewer.strip() or not pdf_sha256:
-        raise LedgerError("an entry needs a reviewer and a pdf_sha256")
+    if not reviewer.strip() or not pdf_sha256 or not reason.strip():
+        raise LedgerError("an entry needs a reviewer, a reason and a pdf_sha256")
     if field not in ENTRY_FIELDS:
         raise LedgerError(f"unknown field {field!r}; use one of {', '.join(ENTRY_FIELDS)}")
     if disposition == CORRECTED and (problem := correction_problem(field, new_value)):
@@ -154,7 +217,7 @@ def make_entry(
         "old_value": old_value, "new_value": new_value, "section": section,
         "fix_id": fix_id, "rejected_fixes": list(rejected_fixes), "via": via,
     }
-    entry["entry_id"] = hashlib.sha256(json.dumps(entry, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+    entry["entry_id"] = entry_id_of(entry)
     return entry
 
 
@@ -166,20 +229,24 @@ def read_entries(path: Path) -> list[dict[str, Any]]:
         return []
     entries = []
     # Split on "\n" only: str.splitlines() also breaks at U+2028, U+2029 and U+0085, which json.dumps
-    # (ensure_ascii=False) writes raw inside a value. utf-8-sig tolerates an editor's BOM.
-    for number, line in enumerate(path.read_bytes().decode("utf-8-sig").split("\n"), 1):
-        line = line.removesuffix("\r")
-        if not line.strip():
+    # (ensure_ascii=False) writes raw inside a value. Bytes are split first and decoded per line, so a
+    # non-UTF-8 line is one reported line, not a fatal error; an editor's BOM is dropped.
+    for number, raw in enumerate(path.read_bytes().removeprefix(b"\xef\xbb\xbf").split(b"\n"), 1):
+        raw = raw.removesuffix(b"\r")
+        if not raw.strip():
             continue
         try:
-            entry = json.loads(line)
+            entry = json.loads(raw.decode("utf-8"))
+        except UnicodeDecodeError as exc:
+            entries.append({"_unreadable": f"line {number} is not UTF-8: {exc}"})
+            continue
         except json.JSONDecodeError as exc:
             entries.append({"_unreadable": f"line {number} is not JSON: {exc}"})
             continue
         if not isinstance(entry, dict) or entry.get("ledger_version") != LEDGER_VERSION:
             entries.append({"_unreadable": f"line {number} is not a {LEDGER_VERSION} entry"})
             continue
-        entries.append(entry)
+        entries.append(LedgerLine(entry, line=number))
     return entries
 
 
@@ -219,6 +286,30 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[in
     return len(fresh), len(entries) - len(fresh)
 
 
+def split_stale(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]) -> tuple[list, list, list]:
+    """(current, stale, orphan). An orphan names a course that is not in this candidate. A decision counts only while the value it was made on is still what the candidate
+    holds: a `row` entry's old value is the course snapshot, a field entry's the field's value, an unclaimed
+    code's the printed code. An unclaimed code that the audit does not list is not judged here."""
+    by_key: dict[tuple, list[Mapping[str, Any]]] = defaultdict(list)
+    for course in payload.get("courses") or []:
+        by_key[locator_key(course_locator(course))].append(course)
+    listed: dict[tuple, list[Any]] = defaultdict(list)
+    for item in (payload.get("audit") or {}).get("unclaimed_course_candidates") or []:
+        listed[locator_key(unclaimed_locator(item))].append(item.get("code"))
+    current, stale, orphan = [], [], []
+    for entry in entries:
+        key = locator_key(entry["locator"])
+        if key[0] == "unclaimed":
+            held = listed.get(key, [])
+        else:
+            held = [course_snapshot(c) if entry["field"] == FIELD_ROW else _current(c, entry["field"]) for c in by_key.get(key, [])]
+            if not held:
+                orphan.append(entry)
+                continue
+        (stale if held and not any(same_value(entry["old_value"], h) for h in held) else current).append(entry)
+    return current, stale, orphan
+
+
 def split_applicable(entries: Iterable[Mapping[str, Any]], pdf_sha256: str) -> tuple[list, list]:
     """(applicable, inapplicable): entries recorded against another PDF are inapplicable."""
     ok, no = [], []
@@ -249,6 +340,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     and it is not an approval of the curriculum."""
     entries, invalid = split_valid(entries)
     applicable, inapplicable = split_applicable(entries, pdf_sha256)
+    applicable, stale, orphan = split_stale(payload, applicable)
     latest = latest_by_field(applicable)
     courses = payload.get("courses") or []
     decided = unresolved = 0
@@ -257,7 +349,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
         chosen = [latest.get((key, name)) for name in COURSE_FIELDS]
         if all(chosen) and all(e["disposition"] != UNRESOLVED for e in chosen):
             decided += 1
-        if any(e and e["disposition"] == UNRESOLVED for e in chosen):
+        if any(e and e["disposition"] == UNRESOLVED for e in (latest.get((key, n)) for n in CORRECTABLE_FIELDS)):
             unresolved += 1
     audit = payload.get("audit") or {}
     listed = {locator_key(unclaimed_locator(u)) for u in audit.get("unclaimed_course_candidates") or []}
@@ -265,16 +357,17 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     unresolved += sum(1 for (key, name), e in latest.items() if name == FIELD_UNCLAIMED and e["disposition"] == UNRESOLVED)
     if not applicable:
         state = "pending"
-    elif decided == len(courses) and undecided == 0 and unresolved == 0:
+    elif courses and decided == len(courses) and undecided == 0 and unresolved == 0:
         state = "reviewed"
     else:
         state = "partially_reviewed"
     return {"state": state, "courses": len(courses), "decided": decided, "unresolved": unresolved,
-            "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable), "invalid_entries": len(invalid)}
+            "unclaimed_undecided": undecided, "inapplicable_entries": len(inapplicable), "invalid_entries": len(invalid),
+            "stale_entries": len(stale), "orphan_entries": len(orphan), "stale_lines": [e.line for e in stale if hasattr(e, "line")]}
 
 
-def _current(course: Mapping[str, Any], field: str) -> str:
-    return course_snapshot(course)[field]
+def _current(course: Mapping[str, Any], field: str) -> Any:
+    return course.get(field) if field in (*UNIT_FIELDS, FIELD_PREREQ) else course_snapshot(course)[field]
 
 
 def _apply(course: dict[str, Any], field: str, value: str) -> bool:
@@ -282,6 +375,11 @@ def _apply(course: dict[str, Any], field: str, value: str) -> bool:
         course["course_code"] = value
     elif field == FIELD_TITLE:
         course["course_title"] = value
+    elif field in UNIT_FIELDS:   # finalize_courses rebuilds the flat unit fields from the units dict
+        course["units"] = {**(course.get("units") or {}), field.removesuffix("_units"): value}
+        course[field] = value
+    elif field == FIELD_PREREQ:  # finalize_courses re-resolves prerequisites, unresolved and standing rules from it
+        course[field] = value
     else:
         term = parse_term(value)
         if term is None:
@@ -301,7 +399,10 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     entries = list(entries)
     decidable, invalid = split_valid(entries)
     applicable, inapplicable = split_applicable(decidable, pdf_sha256)
-    skipped = [{"entry_id": e["entry_id"], "reason": "pdf_sha256_mismatch"} for e in inapplicable]
+    applicable, stale, orphan = split_stale(payload, applicable)
+    skipped = [{"entry_id": e["entry_id"], "reason": "old_value_changed"} for e in stale]
+    skipped += [{"entry_id": e["entry_id"], "reason": "course_not_found"} for e in orphan]
+    skipped += [{"entry_id": e["entry_id"], "reason": "pdf_sha256_mismatch"} for e in inapplicable]
     skipped += [{"entry_id": e.get("entry_id"), "reason": f"invalid_entry: {problem}"} for e, problem in invalid]
     courses = copy.deepcopy(list(payload.get("courses") or []))
     by_key: dict[tuple, list[int]] = defaultdict(list)
@@ -316,7 +417,7 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
             skipped.append({"entry_id": entry["entry_id"], "reason": "course_not_found" if not where else "ambiguous_course"})
             continue
         course = courses[where[0]]
-        if _current(course, field) != entry["old_value"]:
+        if not same_value(_current(course, field), entry["old_value"]):
             skipped.append({"entry_id": entry["entry_id"], "reason": "old_value_changed"})
         elif not _apply(course, field, entry["new_value"]):
             skipped.append({"entry_id": entry["entry_id"], "reason": "unreadable_new_value"})
