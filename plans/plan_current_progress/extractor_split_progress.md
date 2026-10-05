@@ -112,3 +112,34 @@ Plan: plans/2026-10-04-prospectus-phase-b2-section-fixer.md. Decisions D1-D9 in 
 - Still planned after B2: Phases C, D, E, F (plans committed in plans/2026-10-03-prospectus-phase-*.md; cross-phase rules in the package-split plan).
 - Known leftover: audit.py:76 sorts terms by term_index alone (Summer/Mid-Year tie order can vary); fix in Phase C.
 - To resume: read this file, `git log --oneline dev..HEAD`, rerun the suite (`uv run --project backend --extra tools --extra dev --with fastapi==0.141.1 python -m pytest -q tests`) before trusting any number here.
+
+
+## Prospectus review GUI
+
+Branch `feat/prospectus-review-gui` in worktree `Bintanong-wt\gui`, base `31a0d39` (B2 tip `d7860f4` plus the GUI plan). Plan: `plans/2026-10-05-prospectus-review-gui.md`. Phase C is NOT merged in this base (no `PREREQUISITE_STATES`, `annotate_prerequisite_states`, `prerequisite_state`, `extraction_audit` or `authority` anywhere in the extractor package); Task 10 stays blocked until C lands.
+
+### Start check (Task 1)
+
+- Python: main venv `python.exe -m pytest -q tests --ignore=tests/test_api_probes.py --ignore=tests/test_embedding_service.py` from the worktree root: 320 passed + 13 subtests. Self-test 80/80. The package is not installed in the venv; a probe test confirmed `backend.bintanong_tools...` imports from the worktree path.
+- Runtime pieces: `pypdfium2` 5.13.0 and Pillow 12.3.0 import. `fastapi`, `uvicorn` and `httpx` are NOT in the main venv (per instruction nothing was installed there). Tasks 1-4 are pure Python. `uv.lock` exists at `backend/uv.lock`; the `review` extra (D2) is not added yet, to be added with `uv lock` when the web tasks need it (Task 7, stop-and-report point).
+- Interface names, all as the plan says: `sheet._row_entries` (line 291, one caller in `build_entries`), `EDIT_FIELDS` (3 columns), `ledger.make_entry/append_entries/content_review_state/materialise/write_corrected/correction_problem/split_valid/split_applicable/split_stale/latest_by_field`, `ledger.CORRECTABLE_FIELDS = (code, title, term, lecture_units, lab_units, total_units, prerequisites_raw)`, `verify.verify_candidate/own_role_cells/Row/Section/Flag`, `fixer_cli.resolve_identity/resolve_reviewer/assert_outside_git/default_review_dir/_load`, `markup.render_prospectus_markup`, `loader.load_from_raw_json`.
+- Deviation from the plan text: `raw_docling_json` is per course (`courses[i].provenance.raw_docling_json`), not a candidate-level `provenance` key (the candidate has no top-level `provenance`). Same for the page/bbox/source_cells, which are per course.
+- Recorded Docling JSON paths: all four exist on this machine (the `E:\...\docling_jsonified_output\task2b_standing_isolated_2026-09-29\...` files), so the twin can be shown for all four.
+- SHA-256 of the trial inputs (Task 11 re-checks):
+
+| File | SHA-256 |
+| --- | --- |
+| 01_Architecture PDF | 72dad4a0384f82228d63c8926e4ae8a1eb14a33497c9952e0f60782083e82666 |
+| 01_Architecture JSON | f7990d20f968c7bf87918993e0eb1df728387d0a267957543e84d26ab5019a7a |
+| 13_BSE-Innovation-and-Tech PDF | bb565585a24422c40e32b6da98b8389cc45b8be7f6538d5d4040821fb5d150c3 |
+| 13_BSE-Innovation-and-Tech JSON | e7a336452e3ef056cb6bfc9ae2ceff632f9141a3ed412cb322251857a13ee64e |
+| 16_BSBA-HRM PDF | 10d415d041e9b35e6b264789c78b9868ab1059fea1fbfecb290eaf0a9c92ae16 |
+| 16_BSBA-HRM JSON | c973b0515a19a58b6769d0e22e14f93cfa72a305ce6862f4128c33a707da9490 |
+| 33_BSCS PDF | 600cb36b362cff598d84c66a11598b07593c0e74e78a62658b3c61c89f5d5664 |
+| 33_BSCS JSON | c090eab2d9b5b8f0ddf2f1a48ef80407b0474f6a8f4ce53cafad47402e2c914f |
+
+### Task table
+
+| Task | Status | Commit | Evidence |
+| --- | --- | --- | --- |
+| 1. Start check | done | see git log | baseline 320 + 13 subtests, self-test 80/80, imports as above |
