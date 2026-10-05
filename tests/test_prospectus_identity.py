@@ -132,3 +132,46 @@ def test_fixer_reads_the_pdf_hash_phase_d_records():
     assert found["pdf_sha256"] == "e" * 64 and found["how"] == "run_identity"
     with pytest.raises(Exception, match="differs from the PDF hash the candidate recorded"):
         resolve_identity(payload, pdf_sha256="f" * 64)
+
+
+from types import SimpleNamespace
+
+from backend.bintanong_tools.prospectus_extractor import docling_env
+
+
+def test_pipeline_options_follow_conversion_settings(monkeypatch):
+    class Mode:
+        ACCURATE = "accurate-enum"
+        FAST = "fast-enum"
+
+    class Device:
+        CPU = "cpu-enum"
+        CUDA = "cuda-enum"
+
+    class Options:
+        def __init__(self):
+            self.table_structure_options = SimpleNamespace(mode=None, do_cell_matching=None)
+
+    fake = {
+        "PdfPipelineOptions": Options,
+        "AcceleratorDevice": Device,
+        "AcceleratorOptions": lambda device: SimpleNamespace(device=device),
+        "TableFormerMode": Mode,
+    }
+    monkeypatch.setattr(docling_env, "load_docling", lambda: fake)
+    monkeypatch.setattr(
+        docling_env, "check_cuda_environment",
+        lambda: {"cuda_available": False, "status_message": "no gpu", "cuda_device_name": None},
+    )
+    monkeypatch.setenv("PALSU_DOCLING_CELL_MATCHING", "off")
+
+    options = docling_env.get_pipeline_options("cpu")
+    assert options.do_ocr is False
+    assert options.force_backend_text is True
+    assert options.do_table_structure is True
+    assert options.table_structure_options.mode == "accurate-enum"
+    assert options.table_structure_options.do_cell_matching is False
+    assert options.accelerator_options.device == "cpu-enum"
+
+    ocr = docling_env.get_pipeline_options("cpu", settings=identity.conversion_settings(do_ocr=True))
+    assert ocr.do_ocr is True
