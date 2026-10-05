@@ -633,3 +633,23 @@ def test_j1_anchored_evidence_needs_the_anchor_printed_once_on_the_page():
     title = code_course["course_title"]
     assert [f.new for f in ask_code(f"FIRST SEMESTER CS 1 {title} 3")] == ["CS 1"]
     assert ask_code(f"FIRST SEMESTER CS 1 {title} 3 CS 1 {title} 3") == []
+
+
+def test_k1_anchored_evidence_needs_both_sides_printed_once():
+    payload = copy.deepcopy(fx.bscs())
+    code_course = payload["courses"][0]
+    code_course["course_code"] = "FIRST SEMESTER CS 1"
+    set_cell_text(payload, "t0-c11", "FIRST SEMESTER CS 1")
+    set_cell_text(payload, "t0-c9", code_course["course_title"])
+    title = code_course["course_title"]
+    ask = lambda page: propose_fixes(code_course, roles(code_course, payload), page_text=page, banners=BANNERS)
+    assert ask(f"CS 1 Actual Course 3 CS 1 {title} 3") == []                     # the proposed code twice, the title once
+    assert ask(f"FIRST SEMESTER CS 1 {title} 3 CS 1 {title} 3") == []
+    assert [f.new for f in ask(f"FIRST SEMESTER CS 1 {title} 3")] == ["CS 1"]
+    # title strip: the remainder twice (the code once) is no evidence either
+    t_payload = copy.deepcopy(fx.bscs())
+    t_course = t_payload["courses"][0]
+    t_course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    ask_t = lambda page: propose_fixes(t_course, roles(t_course, t_payload), page_text=page, banners=BANNERS)
+    assert ask_t("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Discrete Structures 1 3") == []
+    assert [f.new for f in ask_t("FIRST SEMESTER CS 1 Discrete Structures 1 3")] == ["Discrete Structures 1"]

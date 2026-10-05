@@ -97,18 +97,18 @@ def _count(tokens: Sequence[str], run: Sequence[str]) -> int:
     return sum(tokens[at:at + len(run)] == list(run) for at in range(len(tokens) - len(run) + 1))
 
 
-def anchored_in_pdf(page_text: str, head: str, tail: str, units_raw: str, once: str = "head") -> bool:
+def anchored_in_pdf(page_text: str, head: str, tail: str, units_raw: str) -> bool:
     """True when the PDF text holds the whole tokens `head`, `tail` side by side and then this row's units token
     (or the end of the text): "<this code> <remainder> <units>". Nothing may sit between the two, not a word,
     not an unknown code, so words of another row can never serve as this row's evidence. The page text has no row
-    locality, so the anchor (`once`: "head" or "tail") must be printed exactly once on the page; a repeated code
-    or title leaves only this course's own source cells to authorise a strip."""
+    locality, so both sides (the anchor and the proposed remainder) must each be printed exactly once on the
+    page; if either repeats there is no PDF evidence and only this course's own source cells can authorise."""
     tokens, first, second = pdf_clean(page_text).split(), clean_str(head).split(), clean_str(tail).split()
     units = clean_str(units_raw).split()
     if not tokens or not first or not second:
         return False
     run = first + second
-    if _count(tokens, first if once == "head" else second) != 1:
+    if _count(tokens, first) != 1 or _count(tokens, second) != 1:
         return False
     for at in range(len(tokens) - len(run) + 1):
         if tokens[at:at + len(run)] == run:
@@ -132,7 +132,7 @@ def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Ma
         evidence = [t for t in own if clean_str(t) != value]       # this course's other cells, not the banner cell
         anchored = bool(stripped and page_text) and (
             anchored_in_pdf(page_text, clean_str(course.get(FIELD_CODE)), stripped, units) if field == FIELD_TITLE
-            else anchored_in_pdf(page_text, stripped, clean_str(course.get(FIELD_TITLE)), units, once="tail"))
+            else anchored_in_pdf(page_text, stripped, clean_str(course.get(FIELD_TITLE)), units))
         if stripped and (anchored or printed_without_banner(stripped, evidence)):
             out.append(Fix("strip_banner", field, value, stripped, f"banner text removed from the {name}",
                            _fix_id("strip_banner", field, cells)))
