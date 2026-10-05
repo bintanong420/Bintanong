@@ -130,6 +130,9 @@ def _load(candidate: Path) -> dict[str, Any]:
         raise FixerError(f"cannot read candidate {candidate}: {exc}") from exc
 
 
+load_candidate = _load   # public name for the review GUI
+
+
 def _prepare(args) -> tuple[dict, dict, Any]:
     payload = _load(args.candidate)
     identity = resolve_identity(payload, pdf=args.pdf, pdf_sha256=args.pdf_sha256, golden=args.golden, pdf_root=args.pdf_root)

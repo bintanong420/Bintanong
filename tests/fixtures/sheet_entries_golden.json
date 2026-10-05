@@ -1,0 +1,1211 @@
+[
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "498938c3ba98aa3e",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "ok"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "a6506449c9092ef6",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "checked against the PDF",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "ok with reason"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "unresolved",
+    "entry_id": "2a63597602556a58",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c11",
+      "t0-c12",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CS 1",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": null,
+    "old_value": {
+     "course_code": "CS 1",
+     "course_title": "Discrete Structures 1",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "cannot read the scan",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "unresolved"
+ },
+ {
+  "entries": [],
+  "errors": [
+   "S1-01: unresolved needs a reason after the colon (line 26)"
+  ],
+  "name": "unresolved without reason"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "41e3bc9ec6e0c209",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "e77405c986d18c31",
+    "field": "course_code",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "CC 1/X",
+    "old_value": "CC 1/L",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "PDF shows another code",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "edit code"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "41e3bc9ec6e0c209",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "ccc13858708fe200",
+    "field": "course_title",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Intro to Computing",
+    "old_value": "Introduction to Computing",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "typo",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "edit title"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "41e3bc9ec6e0c209",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "8a4e2ac8793cabc4",
+    "field": "term",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "2nd Year / 1st Semester",
+    "old_value": "1st Year / 1st Semester",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "wrong term",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "edit term"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "41e3bc9ec6e0c209",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "8a4e2ac8793cabc4",
+    "field": "term",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "2nd Year / 1st Semester",
+    "old_value": "1st Year / 1st Semester",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "wrong term",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "edit term loosely typed"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "41e3bc9ec6e0c209",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "d9e5d8c795e6ad59",
+    "field": "course_code",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "ZZ 9",
+    "old_value": "CC 1/L",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "all wrong",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "10f00a025fd0ec4e",
+    "field": "course_title",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Z",
+    "old_value": "Introduction to Computing",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "all wrong",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "039cc3caa13fc5cb",
+    "field": "term",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "3rd Year / 2nd Semester",
+    "old_value": "1st Year / 1st Semester",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "all wrong",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "edit all three"
+ },
+ {
+  "entries": [],
+  "errors": [
+   "S1-02: course_code: the new value equals the current one (line 27)"
+  ],
+  "name": "edit unchanged"
+ },
+ {
+  "entries": [],
+  "errors": [
+   "S1-02: new term 'someday' is not a year and one semester, for example '2nd Year / 1st Semester' (line 27)"
+  ],
+  "name": "edit bad term"
+ },
+ {
+  "entries": [],
+  "errors": [
+   "S1-02: edit needs a reason after the colon (line 27)"
+  ],
+  "name": "edit without reason"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "bd48356c7354e9e9",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c11",
+      "t0-c12",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CS 1",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CS 1",
+     "course_title": "Discrete Structures 1",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CS 1",
+     "course_title": "Discrete Structures 1",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "section confirmed as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "section_confirm"
+   },
+   {
+    "disposition": "accepted",
+    "entry_id": "f89d4ad3a8ed758c",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c17",
+      "t0-c18",
+      "t0-c19",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "CC 1/L",
+     "course_title": "Introduction to Computing",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "section confirmed as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "section_confirm"
+   }
+  ],
+  "errors": [],
+  "name": "confirm section"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "0ce53c10c1833e07",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c13",
+      "t0-c14",
+      "t0-c15",
+      "t0-c16",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CS 2",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CS 2",
+     "course_title": "Discrete Structures 2",
+     "term": "1st Year / 2nd Semester"
+    },
+    "old_value": {
+     "course_code": "CS 2",
+     "course_title": "Discrete Structures 2",
+     "term": "1st Year / 2nd Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "read against the PDF",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 2nd Semester",
+    "via": "section_confirm"
+   },
+   {
+    "disposition": "accepted",
+    "entry_id": "eb45df3003e5f189",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c20",
+      "t0-c21",
+      "t0-c22",
+      "t0-c23",
+      "t0-c8",
+      "t0-c9"
+     ],
+     "code_at_review": "CC 3/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "CC 3/L",
+     "course_title": "Computer Programming 2",
+     "term": "1st Year / 2nd Semester"
+    },
+    "old_value": {
+     "course_code": "CC 3/L",
+     "course_title": "Computer Programming 2",
+     "term": "1st Year / 2nd Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "read against the PDF",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 2nd Semester",
+    "via": "section_confirm"
+   }
+  ],
+  "errors": [],
+  "name": "confirm section with reason"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "47a2832225e156be",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c22",
+      "t0-c26",
+      "t0-c27"
+     ],
+     "code_at_review": "TOA-1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "TOA-1/L",
+     "course_title": "1 Theory of Architecture1",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "TOA-1/L",
+     "course_title": "1 Theory of Architecture1",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "60d1f24c992dd43d",
+    "field": "course_title",
+    "fix_id": "title_from_pdf:course_title@t0-c22",
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c22",
+      "t0-c26",
+      "t0-c27"
+     ],
+     "code_at_review": "TOA-1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Theory of Architecture1",
+    "old_value": "1 Theory of Architecture1",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "accepted proposal title_from_pdf",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "fix all proposals"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "3ff8009fc4e7f8fe",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c35",
+      "t0-c41",
+      "t0-c42"
+     ],
+     "code_at_review": "GE-PC",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "GE-PC",
+     "course_title": "Techniques 1 Purposive Communication",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "GE-PC",
+     "course_title": "Techniques 1 Purposive Communication",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "10c6d08b03469512",
+    "field": "course_title",
+    "fix_id": "title_from_pdf:course_title@t0-c35",
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c35",
+      "t0-c41",
+      "t0-c42"
+     ],
+     "code_at_review": "GE-PC",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Purposive Communication",
+    "old_value": "Techniques 1 Purposive Communication",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "matches the PDF",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "fix letter with reason"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "4f02d22a0e0e5129",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c11",
+      "t0-c12",
+      "t0-c13"
+     ],
+     "code_at_review": "AD-1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "AD-1/L",
+     "course_title": "Architectural Design 1-Introduction to Design",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "AD-1/L",
+     "course_title": "Architectural Design 1-Introduction to Design",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "16f612ad6dbd233b",
+    "field": "course_title",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c11",
+      "t0-c12",
+      "t0-c13"
+     ],
+     "code_at_review": "AD-1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Fixed",
+    "old_value": "Architectural Design 1-Introduction to Design",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "typo",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "accepted",
+    "entry_id": "47a2832225e156be",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c22",
+      "t0-c26",
+      "t0-c27"
+     ],
+     "code_at_review": "TOA-1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "TOA-1/L",
+     "course_title": "1 Theory of Architecture1",
+     "term": "1st Year / 1st Semester"
+    },
+    "old_value": {
+     "course_code": "TOA-1/L",
+     "course_title": "1 Theory of Architecture1",
+     "term": "1st Year / 1st Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "60d1f24c992dd43d",
+    "field": "course_title",
+    "fix_id": "title_from_pdf:course_title@t0-c22",
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c22",
+      "t0-c26",
+      "t0-c27"
+     ],
+     "code_at_review": "TOA-1/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Theory of Architecture1",
+    "old_value": "1 Theory of Architecture1",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "accepted proposal title_from_pdf",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 1st Semester",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "fix and edit another row"
+ },
+ {
+  "entries": [],
+  "errors": [
+   "S1-02: course_title is both proposed and edited (line 27)"
+  ],
+  "name": "fix and edit the same field"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "4075865a25d9d15c",
+    "field": "unclaimed",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [],
+     "code_at_review": "GR-2/L",
+     "kind": "unclaimed",
+     "page": 1,
+     "table_index": null
+    },
+    "new_value": "GR-2/L",
+    "old_value": "GR-2/L",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "footnote code",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "Unplaced printed codes",
+    "via": "sheet"
+   },
+   {
+    "disposition": "unresolved",
+    "entry_id": "b85cf9e8f5ee66bc",
+    "field": "unclaimed",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [],
+     "code_at_review": "GR-1/L",
+     "kind": "unclaimed",
+     "page": 1,
+     "table_index": null
+    },
+    "new_value": "GR-1/L",
+    "old_value": "GR-1/L",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "unclear",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "Unplaced printed codes",
+    "via": "sheet"
+   }
+  ],
+  "errors": [],
+  "name": "unclaimed ok and unresolved"
+ },
+ {
+  "entries": [],
+  "errors": [
+   "SU-U1: a printed code can only be `ok` or `unresolved`, not fix (line 55)"
+  ],
+  "name": "unclaimed fix refused"
+ },
+ {
+  "entries": [
+   {
+    "disposition": "accepted",
+    "entry_id": "482b324177ab234f",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c30",
+      "t0-c37",
+      "t0-c39",
+      "t0-c40"
+     ],
+     "code_at_review": "VT-2/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "VT-2/L",
+     "course_title": "Graphics 2 Architectural Visual Communications 4-Visual",
+     "term": "1st Year / 2nd Semester"
+    },
+    "old_value": {
+     "course_code": "VT-2/L",
+     "course_title": "Graphics 2 Architectural Visual Communications 4-Visual",
+     "term": "1st Year / 2nd Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 2nd Semester",
+    "via": "section_accept"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "e069cf3d7e7b4bad",
+    "field": "course_title",
+    "fix_id": "title_from_pdf:course_title@t0-c30",
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c30",
+      "t0-c37",
+      "t0-c39",
+      "t0-c40"
+     ],
+     "code_at_review": "VT-2/L",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Architectural Visual Communications 4-Visual Techniques 2",
+    "old_value": "Graphics 2 Architectural Visual Communications 4-Visual",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "PDF agrees",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 2nd Semester",
+    "via": "section_accept"
+   },
+   {
+    "disposition": "accepted",
+    "entry_id": "fe5917342bb163c0",
+    "field": "row",
+    "fix_id": null,
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c38",
+      "t0-c43",
+      "t0-c44",
+      "t0-c45"
+     ],
+     "code_at_review": "TOA-2",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": {
+     "course_code": "TOA-2",
+     "course_title": "Techniques 2 Theory of Architecture 2",
+     "term": "1st Year / 2nd Semester"
+    },
+    "old_value": {
+     "course_code": "TOA-2",
+     "course_title": "Techniques 2 Theory of Architecture 2",
+     "term": "1st Year / 2nd Semester"
+    },
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "other fields accepted as extracted",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 2nd Semester",
+    "via": "section_accept"
+   },
+   {
+    "disposition": "corrected",
+    "entry_id": "e49c426b45c149b0",
+    "field": "course_title",
+    "fix_id": "title_from_pdf:course_title@t0-c38",
+    "ledger_version": "prospectus-decision-ledger-v1",
+    "locator": {
+     "cell_ids": [
+      "t0-c10",
+      "t0-c38",
+      "t0-c43",
+      "t0-c44",
+      "t0-c45"
+     ],
+     "code_at_review": "TOA-2",
+     "kind": "course",
+     "page": 1,
+     "table_index": 0
+    },
+    "new_value": "Theory of Architecture 2",
+    "old_value": "Techniques 2 Theory of Architecture 2",
+    "pdf_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "PDF agrees",
+    "recorded_at": "2026-10-04T09:30:00Z",
+    "rejected_fixes": [],
+    "reviewer": "Nestor",
+    "section": "1st Year - 2nd Semester",
+    "via": "section_accept"
+   }
+  ],
+  "errors": [],
+  "name": "section accept class"
+ }
+]

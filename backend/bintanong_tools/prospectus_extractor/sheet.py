@@ -19,8 +19,8 @@ from datetime import datetime
 from typing import Any, Mapping, Sequence
 
 from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, Fix, format_term, parse_term
-from .ledger import (ACCEPTED, CORRECTED, FIELD_ROW, FIELD_UNCLAIMED, UNRESOLVED, course_locator, course_snapshot,
-                     make_entry, unclaimed_locator)
+from .ledger import (ACCEPTED, CORRECTABLE_FIELDS, CORRECTED, FIELD_ROW, FIELD_UNCLAIMED, UNRESOLVED, correction_problem,
+                     course_locator, course_snapshot, make_entry, unclaimed_locator)
 from .verify import Row, Section, Verification
 
 SHEET_VERSION = "prospectus-review-sheet-v1"
@@ -283,12 +283,17 @@ def build_entries(
                     continue
                 else:
                     continue
-            err = _row_entries(entries, row, section, payload, verb, letters, reason, edits, via, reviewer, pdf_sha256, now)
+            err = row_entries(entries, row, section, payload, verb, letters, reason, edits, via, reviewer, pdf_sha256, now)
             errors += [f"{row.rid}: {e}{where}" for e in err]
     return ([] if errors else entries), errors
 
 
-def _row_entries(entries, row, section, payload, verb, letters, reason, edits, via, reviewer, pdf_sha256, now) -> list[str]:
+def row_entries(entries, row, section, payload, verb, letters, reason, edits, via, reviewer, pdf_sha256, now) -> list[str]:
+    """Append the ledger entries for one decision on one row; return error messages (none appended on error).
+
+    Shared by the review sheet and the review GUI. `edits` maps a field name to a typed value: text for code, title,
+    term and prerequisites_raw, a whole number for the unit fields. The sheet only ever passes code, title and term.
+    """
     def entry(locator, field_name, disposition, old, new, why, fix=None, rejected=()):
         return make_entry(reviewer=reviewer, reason=why, pdf_sha256=pdf_sha256, locator=locator, field=field_name,
                           disposition=disposition, old_value=old, new_value=new, section=section.title, fix_id=fix,
@@ -331,14 +336,17 @@ def _row_entries(entries, row, section, payload, verb, letters, reason, edits, v
             if parsed is None:
                 return [f"new term {value!r} is not a year and one semester, for example '2nd Year / 1st Semester'"]
             value = format_term(*parsed)
-        if value == snapshot[name]:
+        elif problem := correction_problem(name, value):  # also refuses a field the ledger cannot correct
+            return [problem]
+        current = snapshot[name] if name in snapshot else course.get(name)
+        if value == current:
             return [f"{name}: the new value equals the current one"]
-        changes[name] = (snapshot[name], value, None)
+        changes[name] = (current, value, None)
     if edits and not reason:
         return ["edit needs a reason after the colon"]
     rejected = [f.fix_id for l, f in row.fixes if letters and l not in letters]
     entries.append(entry(locator, FIELD_ROW, ACCEPTED, snapshot, snapshot, "other fields accepted as extracted", rejected=rejected))
-    for name in (FIELD_CODE, FIELD_TITLE, FIELD_TERM):
+    for name in CORRECTABLE_FIELDS:
         if name in changes:
             old, new, fix_id = changes[name]
             entries.append(entry(locator, name, CORRECTED, old, new, reason or f"accepted proposal {fix_id.split(':')[0]}",
