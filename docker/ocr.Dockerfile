@@ -18,9 +18,12 @@ COPY backend/pyproject.toml backend/uv.lock /workspace/backend/
 RUN --mount=type=cache,target=/root/.cache/uv \
     cd /workspace/backend && UV_HTTP_TIMEOUT=300 uv sync --locked --no-dev --extra tools --extra ${OCR_EXTRA}
 COPY backend /workspace/backend
-COPY scripts/ocr_bench.py scripts/fetch_tessdata.py /workspace/scripts/
+COPY scripts/ocr_bench.py scripts/fetch_tessdata.py scripts/fetch_rapidocr_models.py /workspace/scripts/
 # the pinned fil and eng models, hash-checked at build time, same files as on every other OS
 RUN /workspace/backend/.venv/bin/python /workspace/scripts/fetch_tessdata.py --dest /opt/tessdata
+# the RapidOCR models of the three RapidOCR configs (RapidOCR checks each against the SHA-256 in its own
+# default_models.yaml); the hashes of what was fetched are kept in /opt/rapidocr-models.json. The image then runs offline.
+RUN /workspace/backend/.venv/bin/python /workspace/scripts/fetch_rapidocr_models.py --manifest /opt/rapidocr-models.json
 ENV PATH=/workspace/backend/.venv/bin:$PATH \
     TESSDATA_PREFIX=/opt/tessdata \
     OCR_BENCH_DEVICE=${OCR_DEVICE} \

@@ -34,7 +34,7 @@ The user answered every question on 2026-10-04. Where the answer differs from th
 
 ## Established facts this plan relies on
 
-- Docling 2.129.0. RapidOCR is the only OCR engine installed and it cannot run yet: `onnxruntime` is missing and its torch backend needs a model download.
+- Docling 2.133.0 (pin moved from 2.129.0 on 2026-10-04 after the gate, see docs/decisions/docling-version.md). RapidOCR is the only OCR engine installed and it cannot run yet: `onnxruntime` is missing and its torch backend needs a model download.
 - RapidOCR handles one language per run. Docling maps `iso:fil` to RapidOCR PP-OCRv6 `tl`, and to Tesseract `fil`.
 - Tesseract is not installed. `fil` exists in tessdata_best and tessdata_fast; `tgl` exists only in legacy.
 - Table cells carry no OCR confidence. Only the textline cells do (Task 5).
@@ -327,7 +327,7 @@ Course fields were identical between CPU and CUDA for all three (77, 50 and 50 c
 
 **Images, built and run here.**
 - CPU image: `docker build -f docker/ocr.Dockerfile -t bintanong-ocr:cpu .` built in 1221 s on this connection (the first attempt, 424 s in, failed when Docker Desktop restarted and its daemon dropped; the retry succeeded), 2.71 GB. In the container: Tesseract 5.3.0 (Debian bookworm's package) lists `fil` and `eng` from the hash-verified `/opt/tessdata`; torch 2.14.0+cpu; onnxruntime providers `CPUExecutionProvider` (plus Azure); `ocr --config tesseract-fil` and `ocr --config rapidocr-iso:fil` on the BSA page ran in 31 s in total, and the RapidOCR text was identical to the host CPU run (0 of 394 lines differ).
-- GPU image: `docker build -f docker/ocr.Dockerfile --build-arg OCR_EXTRA=ocr-gpu --build-arg OCR_DEVICE=cuda -t bintanong-ocr:gpu .` -- built on the second attempt (the first stalled for more than 30 minutes downloading the 403 MB nvidia-cublas and 528 MB nvidia-cudnn-cu13 wheels inside the build and was stopped; the retry reused the cached layers and finished in 467 s), 10.8 GB. Run with `docker run --rm --gpus all`: `nvidia-smi` inside shows the RTX 4060 Laptop and driver 616.86; torch 2.14.0+cu130 reports CUDA available; onnxruntime lists `CUDAExecutionProvider`; `ocr --config rapidocr-iso:fil` ran on CUDA in 4.27 s for the BSA page and its text is identical to the host CPU run (0 of 394 lines differ). `rapidocr-latin` in the same container failed with `DownloadFileException` because RapidOCR downloads its models from ModelScope at first use and that download failed on this connection; neither image bakes the RapidOCR models in. **Open item, not done:** pre-fetch the models of the six configs in a `RUN` step (or mount a models folder) so an image runs offline and builds reproducibly in CI. Not tested in a container: a Linux host with the Container Toolkit (the Docker Desktop WSL 2 runtime was used).
+- GPU image: `docker build -f docker/ocr.Dockerfile --build-arg OCR_EXTRA=ocr-gpu --build-arg OCR_DEVICE=cuda -t bintanong-ocr:gpu .` -- built on the second attempt (the first stalled for more than 30 minutes downloading the 403 MB nvidia-cublas and 528 MB nvidia-cudnn-cu13 wheels inside the build and was stopped; the retry reused the cached layers and finished in 467 s), 10.8 GB. Run with `docker run --rm --gpus all`: `nvidia-smi` inside shows the RTX 4060 Laptop and driver 616.86; torch 2.14.0+cu130 reports CUDA available; onnxruntime lists `CUDAExecutionProvider`; `ocr --config rapidocr-iso:fil` ran on CUDA in 4.27 s for the BSA page and its text is identical to the host CPU run (0 of 394 lines differ). That first GPU image did not contain the RapidOCR models (they were fetched from ModelScope at first use and one fetch failed), so the models are now baked in; see "RapidOCR models baked into both images" below.
 
 **Compose override** (kept in the plan; the repository's existing `compose.gpu.yaml` is the master plan's GPU override and currently holds only the `bintu` service, so this would be added to it as an `ocr` service when the master plan's ingest container is built):
 
@@ -362,7 +362,33 @@ Course fields were identical between CPU and CUDA for all three (77, 50 and 50 c
               capabilities: [gpu]
 ```
 
-**Image size and the CPU and GPU split.** One Dockerfile, one build argument (`OCR_EXTRA`), two tags. The CPU image installs CPU torch from the PyTorch CPU index on Linux, so it carries none of the CUDA stack (2.71 GB, most of it Docling's own dependencies). The GPU image adds the CUDA 13.0 torch wheel and the `nvidia-*` wheels. The master plan's planned `docker/ingest.Dockerfile` (`uv sync --extra tools`, no OCR extra, no Tesseract, torch from PyPI, which on Linux pulls the CUDA stack) is not changed by this plan; when ingest and OCR merge into one image, this Dockerfile is the pattern (`--extra tools --extra ${OCR_EXTRA}`).
+**Image size and the CPU and GPU split.** One Dockerfile, one build argument (`OCR_EXTRA`), two tags. The CPU image installs CPU torch from the PyTorch CPU index on Linux, so it carries none of the CUDA stack (2.71 GB at that point, 3.98 GB after the RapidOCR models and Docling 2.133.0 were added, most of it Docling's own dependencies). The GPU image adds the CUDA 13.0 torch wheel and the `nvidia-*` wheels. The master plan's planned `docker/ingest.Dockerfile` (`uv sync --extra tools`, no OCR extra, no Tesseract, torch from PyPI, which on Linux pulls the CUDA stack) is not changed by this plan; when ingest and OCR merge into one image, this Dockerfile is the pattern (`--extra tools --extra ${OCR_EXTRA}`).
+
+### RapidOCR models baked into both images
+
+`scripts/fetch_rapidocr_models.py` (with `tests/test_ocr_fetch_rapidocr_models.py`) builds each of the three RapidOCR configs once on CPU, which makes RapidOCR download every model it needs, and writes the SHA-256 of each file to `/opt/rapidocr-models.json` in the image. RapidOCR itself checks each download against the SHA-256 listed in its `default_models.yaml` (it logs "File exists and is valid" and redownloads on a mismatch), and all five fetched hashes below are present in that file, so the fetch is hash-verified. The Dockerfile runs it as a `RUN` step after the Tesseract models.
+
+| File | SHA-256 |
+|---|---|
+| `PP-OCRv6_det_small.onnx` | `090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f` |
+| `PP-OCRv6_rec_small.onnx` | `6f327246b50388f3c176ae304bd95767ea6dc0c9ae92153ef8cbe210b3c14884` |
+| `ch_PP-OCRv5_det_mobile.onnx` | `4d97c44a20d30a81aad087d6a396b08f786c4635742afc391f6621f5c6ae78ae` |
+| `ch_ppocr_mobile_v2.0_cls_mobile.onnx` | `e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c` |
+| `latin_PP-OCRv5_rec_mobile.onnx` | `b20bd37c168a570f583afbc8cd7925603890efbcdc000a59e22c269d160b5f5a` |
+
+Five files serve the three configs: `en` and `iso:fil` share the PP-OCRv6 detector and recognizer (the language difference is the recognizer's key set inside the file), `latin` uses the PP-OCRv5 Latin recognizer, and all three use the PP-OCRv5 detector and the classifier where they apply. These are the versions of RapidOCR 3.9.2 (models under `.../RapidOCR/resolve/v3.9.2/...`); a RapidOCR upgrade changes them and this table must be refreshed.
+
+**Offline proof** (Docling 2.133.0 lock, images rebuilt): `docker run --rm --gpus all --network none bintanong-ocr:gpu python scripts/ocr_bench.py ocr --config <config> ...` for all three RapidOCR configs on the BSA page. Exit 0 for all; provider `CUDAExecutionProvider`; RapidOCR time 2.81 s (`en`), 1.97 s (`latin`), 2.90 s (`iso:fil`); container wall time 11.9, 7.8 and 8.3 s including start and model load; text identical to the host CPU run (394, 376 and 394 lines, 0 differing). The CPU image with `--network none`: exit 0 for all three, wall 15.3, 12.4 and 13.8 s. Image sizes after baking the models and moving to Docling 2.133.0: CPU 3.98 GB (builds in 769 s), GPU 12.1 GB (builds in 380 s with a warm layer cache).
+
+### Known limits of this GPU and Docker work
+
+- **Not tested: a Linux host with the NVIDIA Container Toolkit.** Everything above ran on Windows with Docker Desktop's WSL 2 backend and its `nvidia` runtime. The Compose device reservation, `--gpus all` and `NVIDIA_DRIVER_CAPABILITIES` are the documented Linux mechanism and are expected to behave the same, but that was not exercised; the first Linux CI GPU run is the test.
+- Not tested: macOS (no GPU in Docker; native `ocr-cpu` only), Linux without a GPU outside Docker, and any GPU other than the RTX 4060 Laptop with driver 616.86.
+- The GPU smoke test and the CUDA warm-up were validated on one GPU and one onnxruntime-gpu and cuDNN version; the cause of the first-batch cuDNN failure is not known.
+- The GPU image is built but its test suite is not run in CI until a GPU runner exists.
+- TensorRT, RapidOCR's torch backend and Docling batch-size tuning were not tried.
+- The images carry no `pytest`; the in-container checks were `ocr --list`, `tesseract --list-langs` and OCR runs.
+- Timings are three pages (one for the container runs) on a machine that was also running other work; they are indicative, not a benchmark.
 
 ### CI
 
