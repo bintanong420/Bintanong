@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-from importlib.metadata import version as package_version
 from pathlib import Path
 from typing import Any
 from typing import Mapping
 from typing import Sequence
+import hashlib
 import json
-import os
 
 from .docling_env import _docling_importable, ensure_docling_env, get_shared_converter, load_docling
+from .identity import IDENTITY_VERSION, conversion_identity, conversion_settings, file_sha256
 from .text import clean_str, match_semester_labels, match_year_label
 from .grid import extract_table_year_contexts
 from .layout import detect_column_groups, is_header_row
@@ -295,18 +295,41 @@ def _conversion_errors(result: Any) -> list[str]:
     return [clean_str(e) for e in (getattr(result, "errors", None) or []) if clean_str(e)]
 
 
-def _docling_runtime_fingerprint() -> dict[str, Any]:
-    return {
-        "profile": "palsu-born-digital-v3",
-        "docling": package_version("docling"),
-        "docling_core": package_version("docling-core"),
-        "docling_parse": package_version("docling-parse"),
-        "cell_matching": os.environ.get("PALSU_DOCLING_CELL_MATCHING", "true").strip().lower(),
-    }
-
-
 def _cache_meta_path(raw_json_path: Path) -> Path:
     return raw_json_path.with_name(raw_json_path.stem + ".meta.json")
+
+
+def _write_bytes_atomic(path: Path, data: bytes) -> None:
+    """Write beside the target, then replace: a reader never sees half a file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + ".tmp")
+    temp.write_bytes(data)
+    temp.replace(path)
+
+
+def cache_reuse_check(
+    raw_json_path: Path, meta_path: Path, expected_identity: str
+) -> tuple[bool, str]:
+    """May this cached raw Docling JSON stand in for a fresh conversion? Returns (yes, reason)."""
+    if not raw_json_path.exists():
+        return False, "no cached Docling JSON"
+    if not meta_path.exists():
+        return False, "cached Docling JSON has no identity record"
+    try:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False, "identity record is unreadable"
+    if (
+        not isinstance(meta, dict)
+        or meta.get("identity_version") != IDENTITY_VERSION
+        or "conversion_identity" not in meta
+    ):
+        return False, "identity record is from an older version"
+    if meta["conversion_identity"] != expected_identity:
+        return False, "PDF bytes or conversion settings changed"
+    if meta.get("raw_json_sha256") != file_sha256(raw_json_path):
+        return False, "cached JSON does not match its identity record"
+    return True, "identity matches"
 
 
 def load_document(
@@ -315,7 +338,14 @@ def load_document(
     force_reconvert: bool = True,
     converter: Any = None,
     raw_json_path: Path | None = None,
+    stage_dir: Path | None = None,
 ) -> tuple[LoadedDocument, Path | None]:
+    """Load a PDF (convert or reuse an identity-matched cache) or a raw Docling JSON.
+
+    A Docling JSON given as the input is a review input: nothing verifies which PDF
+    or settings produced it. When `stage_dir` is given, a fresh conversion is written
+    there and the returned path is where it will be published; the caller publishes it.
+    """
     input_path = Path(input_path).resolve()
     if not input_path.exists():
         raise FileNotFoundError(f"Input file not found: {input_path}")
@@ -323,7 +353,7 @@ def load_document(
     suffix = input_path.suffix.lower()
     if suffix == ".json":
         data = json.loads(input_path.read_text(encoding="utf-8"))
-        print(f"[*] Loading Docling JSON: {input_path.name}")
+        print(f"[*] Loading Docling JSON: {input_path.name} (review input; source PDF not verified)")
         return load_from_raw_json(data), input_path
 
     if suffix != ".pdf":
@@ -334,22 +364,18 @@ def load_document(
 
     raw_json_path = Path(raw_json_path).resolve() if raw_json_path else input_path.parent / f"{input_path.stem}_docling.json"
     meta_path = _cache_meta_path(raw_json_path)
-    fingerprint = _docling_runtime_fingerprint()
+    settings = conversion_settings()
+    pdf_hash = file_sha256(input_path)
+    expected = conversion_identity(pdf_hash, settings)
 
-    cache_valid = False
-    if raw_json_path.exists() and meta_path.exists() and not force_reconvert:
-        try:
-            cache_valid = json.loads(meta_path.read_text(encoding="utf-8")) == fingerprint
-        except Exception:
-            cache_valid = False
-
-    if raw_json_path.exists() and cache_valid and not force_reconvert:
-        print(f"[*] Reusing compatible raw Docling JSON: {raw_json_path.name}")
-        data = json.loads(raw_json_path.read_text(encoding="utf-8"))
-        return load_from_raw_json(data), raw_json_path
-
-    if raw_json_path.exists() and not force_reconvert:
-        print("[*] Existing raw Docling JSON is stale/unversioned; reconverting automatically.")
+    if not force_reconvert:
+        reusable, reason = cache_reuse_check(raw_json_path, meta_path, expected)
+        if reusable:
+            print(f"[*] Reusing raw Docling JSON with matching identity: {raw_json_path.name}")
+            data = json.loads(raw_json_path.read_text(encoding="utf-8"))
+            return load_from_raw_json(data), raw_json_path
+        if raw_json_path.exists():
+            print(f"[*] Ignoring cached Docling JSON ({reason}); reconverting.")
 
     print(f"[*] Converting with Docling ({device.upper()}): {input_path.name}")
     active = converter or get_shared_converter(device=device, backend="docling_parse")
@@ -377,16 +403,24 @@ def load_document(
 
     doc = result.document
     raw = doc.export_to_dict() if hasattr(doc, "export_to_dict") else doc.model_dump(mode="json")
-    raw_json_path.parent.mkdir(parents=True, exist_ok=True)
-    raw_json_path.write_text(json.dumps(raw, indent=2, ensure_ascii=False), encoding="utf-8")
-    meta_path.write_text(json.dumps(fingerprint, indent=2), encoding="utf-8")
-    print(f"[+] Raw Docling JSON -> {raw_json_path.name}")
+    raw_bytes = json.dumps(raw, indent=2, ensure_ascii=False).encode("utf-8")
+    meta = {
+        "identity_version": IDENTITY_VERSION,
+        "pdf_sha256": pdf_hash,
+        "conversion_settings": settings,
+        "conversion_identity": expected,
+        "raw_json_sha256": hashlib.sha256(raw_bytes).hexdigest(),
+    }
+    write_dir = Path(stage_dir) if stage_dir else raw_json_path.parent
+    # raw JSON first, meta second: a crash between them leaves a pair that fails the sha check.
+    _write_bytes_atomic(write_dir / raw_json_path.name, raw_bytes)
+    _write_bytes_atomic(write_dir / meta_path.name, json.dumps(meta, indent=2).encode("utf-8"))
+    print(f"[+] Raw Docling JSON -> {write_dir / raw_json_path.name}")
 
     rehydrated = load_docling()["DoclingDocument"].model_validate(raw)
     return _load_from_rehydrated_docling_document(
         rehydrated, "docling-document", raw
     ), raw_json_path
-
 
 def dump_grid(document: LoadedDocument) -> str:
     """Human-readable dump of every reconstructed table row - the debugging tool v1 lacked."""
