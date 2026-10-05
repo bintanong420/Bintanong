@@ -20,6 +20,8 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
+import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -256,11 +258,93 @@ def _signature(entry: Mapping[str, Any]) -> tuple:
     return (entry["pdf_sha256"], entry["field"], entry["disposition"], json.dumps(entry["old_value"], sort_keys=True), json.dumps(entry["new_value"], sort_keys=True))
 
 
-def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[int, int]:
+class LedgerBusy(LedgerError):
+    """Another process holds the write lock on this ledger."""
+
+
+def lock_path_for(ledger_path: Path) -> Path:
+    ledger_path = Path(ledger_path)
+    return ledger_path.with_name(ledger_path.name + ".lock")
+
+
+class LedgerLock:
+    """Advisory write lock on `<ledger>.lock`, held by an open file handle until `release`.
+
+    Byte 0 is the locked byte (msvcrt.locking on Windows, fcntl.flock elsewhere; the branch is chosen when the lock
+    is taken). The holder's one-line description starts at byte 1, because on Windows a locked byte range cannot be
+    read by another process. The OS drops the lock when its process dies, so there is no stale lock to detect.
+    Advisory: it stops the tools of this repository, not an editor, and a network share may not honour it. The file
+    holds no decision data and is left in place on release (deleting it would race a second writer).
+    """
+
+    def __init__(self, ledger_path: Path, who: str):
+        self.ledger_path = Path(ledger_path)
+        self.path = lock_path_for(self.ledger_path)
+        self.who = who
+        self._fd: int | None = None
+
+    def _os_lock(self, fd: int, take: bool) -> None:
+        os.lseek(fd, 0, os.SEEK_SET)
+        if sys.platform == "win32":
+            import msvcrt
+            msvcrt.locking(fd, msvcrt.LK_NBLCK if take else msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(fd, (fcntl.LOCK_EX | fcntl.LOCK_NB) if take else fcntl.LOCK_UN)
+
+    def _holder(self) -> str:
+        try:
+            with self.path.open("rb") as raw:
+                raw.seek(1)
+                text = raw.read(512).decode("utf-8", "replace").strip()
+        except OSError:
+            return "unknown holder"
+        return text or "unknown holder"
+
+    def __enter__(self) -> "LedgerLock":
+        if self._fd is not None:
+            raise LedgerError(f"this lock on {self.ledger_path.name} is already held")
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        fd = os.open(self.path, os.O_RDWR | os.O_CREAT | getattr(os, "O_BINARY", 0))
+        try:
+            self._os_lock(fd, True)
+        except OSError:
+            os.close(fd)
+            raise LedgerBusy(f"the decision ledger {self.ledger_path.name} is in use by {self._holder()}; close that tool or wait") from None
+        started = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        holder = " ".join(f"{self.who}, pid {os.getpid()}, since {started}".split()).encode("utf-8")
+        os.lseek(fd, 0, os.SEEK_SET)
+        os.write(fd, b"\n" + holder + b"\n")
+        os.ftruncate(fd, 2 + len(holder))
+        self._fd = fd
+        return self
+
+    def release(self) -> None:
+        if self._fd is None:
+            return
+        fd, self._fd = self._fd, None
+        try:
+            self._os_lock(fd, False)
+        finally:
+            os.close(fd)
+
+    def __exit__(self, *exc) -> None:
+        self.release()
+
+
+def append_entries(path: Path, entries: Sequence[Mapping[str, Any]], lock: LedgerLock | None = None) -> tuple[int, int]:
     """Append only; returns (written, skipped). A group of entries for one course or printed code
     that equals the tail of what the ledger already holds for it is skipped, so applying the same
-    sheet twice writes nothing the second time. Existing lines are never rewritten."""
+    sheet twice writes nothing the second time. Existing lines are never rewritten.
+
+    The ledger's write lock is held for the whole call: pass the `lock` a session already holds, or none to take
+    one (LedgerBusy, with nothing written, when another process holds it)."""
     path = Path(path)
+    if lock is None:
+        with LedgerLock(path, "append_entries") as held:
+            return append_entries(path, entries, held)
+    if lock.path != lock_path_for(path):
+        raise LedgerError(f"the lock is for another ledger ({lock.ledger_path.name}), not {path.name}")
     existing, _undecidable = split_valid(read_entries(path))  # unreadable lines are skipped, never fatal
     held: dict[tuple, list] = defaultdict(list)
     for entry in existing:

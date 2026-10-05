@@ -38,7 +38,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from .course_checks import load_pdf_pages, manifest_index, resolve_pdf, sha256
-from .ledger import LedgerError, append_entries, content_review_state, materialise, read_entries, split_valid, write_corrected
+from .ledger import (LedgerBusy, LedgerError, LedgerLock, append_entries, content_review_state, materialise, read_entries,
+                     split_valid, write_corrected)
 from .sheet import build_entries, candidate_sha256, check_against, parse_sheet, render_sheet
 from .verify import verify_candidate
 
@@ -182,7 +183,12 @@ def cmd_apply(args) -> int:
     if args.dry_run:
         print(f"dry run: {len(entries)} entries would be recorded in {ledger_path}")
         return 0
-    written, skipped = append_entries(ledger_path, entries)
+    try:
+        with LedgerLock(ledger_path, f"prospectus_fixer apply (reviewer {reviewer})") as lock:
+            written, skipped = append_entries(ledger_path, entries, lock)
+    except LedgerBusy as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     print(f"{written} entries written, {skipped} already in {ledger_path}")
     return 0
 
