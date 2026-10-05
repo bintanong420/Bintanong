@@ -254,14 +254,14 @@ def _code_pattern(code: str) -> re.Pattern[str]:
     runs = re.findall(r"[A-Za-z0-9]+", code)
     if len(runs) > 1 and runs[-1].upper() == "L":
         runs = runs[:-1]
-    # Any separator (or none) between characters, an optional leading zero before a number,
+    # Any separator but a period (or none) between characters, an optional leading zero before a number,
     # and an optional lab marker: "PATH Fit 1", "Res 01/L" and "Bio 108/L" all read as their codes.
     text = "".join(runs)
     chars = [
         ("0*" if char.isdigit() and (i == 0 or not text[i - 1].isdigit()) else "") + re.escape(char)
         for i, char in enumerate(text)
     ]
-    body = r"[\s\-\./]*".join(chars) + r"(?:[\s\-\./]*L)?"
+    body = r"[\s\-/]*".join(chars) + r"(?:[\s\-/]*L)?"
     return re.compile(rf"(?<![A-Za-z0-9]){body}(?![A-Za-z0-9])", re.IGNORECASE)
 
 

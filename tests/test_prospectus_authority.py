@@ -933,3 +933,22 @@ def test_identity_folds_only_ascii_case_and_compares_other_text_exactly():
     assert state("I", "\u0131") == "mismatch"
     assert state("Caf\u00e9", "Cafe\u0301") == "consistent"                       # NFC: same text, two encodings
     assert state("Caf\u00e9", "CAF\u00c9") == "mismatch"                          # non-ASCII is exact
+
+
+# Codex round 4: the tolerant code matcher never consumes a period.
+@pytest.mark.parametrize("cell", ["C.S 1.", "C.S 1", "CS. 1", "CS 1.L", "CS 1. L", "C.S. 1", "CS 1./L"])
+def test_a_period_inside_or_next_to_a_code_is_content(cell, tmp_path):
+    assert classify_prerequisite_state(course(cell, ["CS 1"])) in ("unreadable", "alternative_or_exception")
+    payload = payload_for([CONTROL, one_case(cell)])
+    by_code = {c["course_code"]: c for c in payload["courses"]}
+    assert by_code["CC 1"]["prerequisite_state"] != "resolved", by_code["CC 1"]["prerequisites_raw"]
+    assert "CC 1" not in payload["prolog"]["relations"]["rule_complete"]
+    if shutil.which("swipl"):
+        assert not swipl_eligible(tmp_path, payload, "CC 1", "['CS 1','CS 2']")
+        assert "CC 1" not in swipl_next_eligible(tmp_path, payload, "['CS 1','CS 2']")
+
+
+@pytest.mark.parametrize("cell", ["CS 1", "CS1", "CS 1/L", "CS 1 L", "BT-2", "Res 01/L", "PATH Fit 1", "CS 1."])
+def test_the_tolerant_matching_still_reads_spacing_zeros_hyphens_and_lab_markers(cell):
+    codes = {"CS 1/L": ["CS 1/L"], "BT-2": ["BT-2/L"], "Res 01/L": ["Res 1"], "PATH Fit 1": ["PATHFit 1"]}
+    assert classify_prerequisite_state(course(cell, codes.get(cell, ["CS 1"]))) == "resolved"
