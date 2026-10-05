@@ -215,7 +215,7 @@ def test_item8_the_untouched_entry_is_still_applied(tmp_path):
 
 
 def test_item9_a_declared_hash_that_differs_from_the_candidates_recorded_one_is_refused(capsys, tmp_path):
-    payload = {**fx.bscs(), "run_identity": {"file_sha256": HASH}}
+    payload = {**fx.bscs(), "run_identity": {"pdf_sha256": HASH}}
     with pytest.raises(FixerError, match="recorded"):
         resolve_identity(payload, pdf_sha256="b" * 64)
     assert resolve_identity(payload, pdf_sha256=HASH)["pdf_sha256"] == HASH

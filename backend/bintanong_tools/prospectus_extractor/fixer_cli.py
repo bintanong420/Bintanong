@@ -90,7 +90,7 @@ def resolve_identity(
 ) -> dict[str, Any]:
     """The PDF this candidate came from: {"pdf_sha256", "pdf_path" or None, "how"}. The sheet needs
     the hash; the PDF text layer (for the title and code checks) only when the file is at hand."""
-    recorded = ((payload.get("run_identity") or {}).get("file_sha256"))  # written by a later phase
+    recorded = ((payload.get("run_identity") or {}).get("pdf_sha256"))  # written by Phase D (identity.run_identity)
 
     def same_as_recorded(digest: str, what: str) -> None:
         if recorded and recorded != digest:

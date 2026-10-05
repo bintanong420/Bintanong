@@ -18,7 +18,6 @@ Reuse for OCR output: pass pdf_pages = {page_no: PdfPage(text, chars, height)} f
 
 from __future__ import annotations
 
-import hashlib
 import html
 import json
 import re
@@ -28,6 +27,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from .grid import is_probable_course_code
+from .identity import file_sha256 as sha256  # the one PDF hash owner
 
 DASHES = "-\u2010\u2011\u2012\u2013\u2014\u2212\ufffe\u00ad"
 
@@ -394,8 +394,6 @@ def audit_file(payload, md_text, pdf_pages=None) -> dict:
     }
 
 
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def manifest_index(golden: Path) -> dict:

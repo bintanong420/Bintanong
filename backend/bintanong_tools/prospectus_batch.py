@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import subprocess
 import sys
@@ -11,17 +10,7 @@ from pathlib import Path
 from typing import Sequence
 
 from . import prospectus_extractor as extractor
-
-PACKAGE_DIR = Path(extractor.__file__).resolve().parent
-
-
-def package_sha256(package: Path = PACKAGE_DIR) -> str:
-    """One hash over every module, so any parser change changes the recorded hash."""
-    digest = hashlib.sha256()
-    for path in sorted(package.glob("*.py")):
-        digest.update(path.name.encode())
-        digest.update(path.read_bytes().replace(b"\r\n", b"\n"))
-    return digest.hexdigest()
+from .prospectus_extractor.identity import PACKAGE_DIR, file_sha256, package_sha256
 
 
 def run_isolated(
@@ -56,7 +45,7 @@ def run_isolated(
                 launch_error = f"{type(exc).__name__}: {exc}"
         record = {
             "source": str(item.source_pdf),
-            "pdf_sha256": hashlib.sha256(item.source_pdf.read_bytes()).hexdigest(),
+            "pdf_sha256": file_sha256(item.source_pdf),
             "json_path": str(item.json_path),
             "log": str(log_path),
             "strict_exit_code": exit_code,
