@@ -1027,3 +1027,12 @@ M  tests/test_prospectus_publication.py
 ```
 - Running processes: none owned by implementer at this completed test boundary. Next: Root pins final code, runs broad suite/selftest/corpus/browser/Lighthouse gates, stages explicit resolved foundation paths and feature hunks, commits only after gates and reviews; do not treat index conflict labels as remaining file markers.
 - Do not repeat: publication push/PR, original corpus copy/hash gate, completed GUI Tasks 1-11; no commits/staging/push/dev movement by implementer. Pending: root full gates/browser/Lighthouse/reviews; human Task 12; Task 13 closeout; institutional approval.
+
+## GUI technical fixes and reviewed foundation merge — 2026-10-07T06:00:05.6536110+08:00
+
+- Owner /root; local branch feat/review-gui-fixes-20261007; foundation merge1068ef4 joins cf8b11c and reviewed publication3227ac8, preserving both plans/progress/test histories. Localdev5c34fd7 untouched; no GUI push.
+- Authentic F1 red2failed→green61; F2 red2failed1passed→green42; F3 red30failed1passed→green74; follow-up queueerror red1failed1passed→finalfocused175passed. Full commands/logs are external scratch publish_resume_2026-10-07/gui-fixes/report.md.
+- Root fresh systempy3.13 comprehensive1415passed1skipped13subtests8warnings; self80/80; comparer44/44 vs5c34fd7 with onlypackage_sha256/run_key changes; PhaseC counts1005blank/689resolved/253unresolved/59standing/20unreadable/2none/3alternative unchanged. B2mixed21/warnings3/broken19/clean1,title_from_pdf67,strip_banner0,unclaimed_code316,banner_leak3. Trial01/16/33 zeroerrors,19filesunchanged.
+- Fresh scratch BSBA-HRM candidate49courses,23blankprerequisitequestions; localserver started with originalPDF scratchcopy and ready markup twin, then ownedserver stopped. CUA inventory apps=[]/browsers=[], IAB unavailable; keyboard/browser pass NOT RUN. Installed Lighthouse command/package absent; audit NOT RUN. These are not passed gates; humantrial and Task13closeout pending.
+- Three fixes: section PDF shown without invented boxes; prerequisite twin focuses prerequisite cell; sharedAPI visibly preserves lost-response saves as unknown without autoretry. D11 ambiguity and existing bulk/prerequisiteNo semantics retained. No sourceapproval or institutionalactivation.
+- Separate independent Spec/Standards reviews still required before E integration. Next: reviewcf8b11c..GUIfeaturetip, resolve confirmedfindings, then E fromlocaldev mergedwithreviewedGUIcandidate. Do not repeatpublication/sourcecopy/completedTasks1–11.

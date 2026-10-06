@@ -24,7 +24,7 @@ from ..prospectus_extractor.sheet import candidate_sha256
 from ..prospectus_extractor.verify import own_role_cells, verify_candidate
 from .answers import Answer, answer_to_entries
 from .geometry import boxes_for_question
-from .questions import COURSE, PREREQ_SUFFIX, PREREQUISITE, UNCLAIMED, Question, build_questions, order_queue
+from .questions import COURSE, PREREQ_SUFFIX, PREREQUISITE, SECTION_CONFIRM, UNCLAIMED, Question, build_questions, order_queue
 from .render import PageError, PageRenderer, cells_fallback, course_json, evidence_mismatch, load_evidence, twin_fragment
 
 LEDGER_NAME = "decision_ledger.jsonl"
@@ -128,7 +128,7 @@ class ReviewSession:
         course = self.payload["courses"][row.course] if q.kind in (COURSE, PREREQUISITE) and row is not None else None
         roles = own_role_cells(course, self._layout, self._evidence_ids) if course is not None else {}
         boxes: dict[str, Any] = {}
-        if self._renderer is not None and q.kind in (COURSE, UNCLAIMED, PREREQUISITE):
+        if self._renderer is not None and q.kind in (COURSE, UNCLAIMED, PREREQUISITE, SECTION_CONFIRM):
             for page in q.pages:
                 if 1 <= page <= self._renderer.page_count:
                     docling = (self.evidence.page_sizes.get(page) if self.evidence is not None else None)

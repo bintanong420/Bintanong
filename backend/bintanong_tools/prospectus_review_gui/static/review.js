@@ -29,10 +29,23 @@ async function api(path, body) {
   const options = body === undefined ? {} : {
     method: "POST", headers: { "Content-Type": "application/json", "X-Review-Token": TOKEN }, body: JSON.stringify(body),
   };
-  const response = await fetch(path, options);
-  let data = null;
-  try { data = await response.json(); } catch (error) { data = null; }
-  return { ok: response.ok, status: response.status, data };
+  try {
+    const response = await fetch(path, options);
+    const data = await response.json();
+    const required = path === "/api/answer" ? ["written", "state", "next"]
+      : path === "/api/materialise" ? ["file", "applied", "skipped"]
+      : path === "/api/state" ? ["progress", "content_review", "source_verification", "review_states", "prerequisites"]
+      : path.startsWith("/api/queue") ? ["queue", "all"]
+      : path.startsWith("/api/question/") ? ["question", "pdf", "boxes", "cells", "twin_cell_ids"] : ["html"];
+    if (!data || typeof data !== "object" || Array.isArray(data)
+        || (response.ok && required.some(key => !(key in data) || (data[key] === null && key !== "next" && key !== "html")))
+        || (body !== undefined && response.status >= 500)) throw new Error("unusable response");
+    return { ok: response.ok, status: response.status, data };
+  } catch (error) {
+    return { ok: false, status: 0, data: null, error: body === undefined
+      ? "The requested data could not be loaded. Check the connection and reload when the server is available."
+      : "Save status unknown. The server may have completed this request. Check the connection and inspect the ledger or corrected file before submitting again." };
+  }
 }
 
 function say(text) { $("status").textContent = text; }
@@ -59,16 +72,19 @@ function renderState(state) {
 
 async function loadState() {
   const response = await api("/api/state");
-  if (response.ok) renderState(response.data);
+  if (!response.ok) { say(response.error || "The review state could not be loaded. Check the server."); return false; }
+  renderState(response.data);
+  return true;
 }
 
 async function loadQueue() {
   const response = await api(`/api/queue?mode=${mode}`);
-  if (!response.ok) { say("The question list could not be loaded."); return; }
+  if (!response.ok) { say(response.error || "The question list could not be loaded. Check the server."); return false; }
   queue = response.data.queue;
   all = response.data.all;
   renderQueue();
   renderSections();
+  return true;
 }
 
 function questionButton(item, extra) {
@@ -108,7 +124,7 @@ function renderSections() {
 
 async function show(qid) {
   const response = await api(`/api/question/${encodeURIComponent(qid)}`);
-  if (!response.ok) { say(response.data && response.data.error ? response.data.error : "That question could not be loaded."); return; }
+  if (!response.ok) { say(response.error || (response.data && response.data.error) || "That question could not be loaded. Check the server."); return; }
   current = qid;
   view = response.data;
   renderQuestion();
@@ -176,7 +192,9 @@ function renderPdf() {
   const page = pages[0];
   const found = view.boxes[page];
   const what = view.question.kind === "unclaimed" ? `the printed code ${view.question.reference.code}` : `the cells of ${view.question.reference.code}`;
-  img.alt = `Page ${page} of ${view.pdf.name}, with ${what} outlined`;
+  const detail = view.question.kind === "section_confirm" ? `for review of ${view.question.section.title}`
+    : found.boxes.length ? `with ${what} outlined` : `showing ${what}`;
+  img.alt = `Page ${page} of ${view.pdf.name}, ${detail}`;
   img.src = `/api/page/${page}.png?scale=${zoomed ? 3 : 1.5}`;
   img.hidden = false;
   $("pdf-note").textContent = found.warning || (pages.length > 1 ? `Also on page ${pages.slice(1).join(", ")}.` : "");
@@ -203,14 +221,15 @@ function renderTwin() {
     return;
   }
   for (const cell of twinBox.querySelectorAll(".cell-own, .cell-asked")) cell.classList.remove("cell-own", "cell-asked");
-  const asked = (view.cells.find((c) => c.role === "code") || {}).cell_id;
+  const askedRole = view.question.kind === "prerequisite" ? "prereq" : "code";
+  const asked = (view.cells.find((c) => c.role === askedRole) || {}).cell_id;
   let first = null;
   for (const id of view.twin_cell_ids) {
     const cell = twinBox.querySelector(`[data-cell="${CSS.escape(id)}"]`);
     if (!cell) continue;
     cell.classList.add("cell-own");
     if (id === asked) { cell.classList.add("cell-asked"); first = cell; }
-    first = first || cell;
+    if (view.question.kind !== "prerequisite") first = first || cell;
   }
   if (first) first.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reducedMotion ? "auto" : "smooth" });
 }
@@ -278,6 +297,7 @@ async function submit(event) {
   const section = view.question.kind === "section_confirm";
   const response = await api("/api/answer", { qid: current, choice, edits, proposals: [], reason: section ? "" : text, note: section ? text : "", mode });
   if (!response.ok) {
+    if (response.error) { $("answer-error").textContent = response.error; return; }
     const errors = response.data ? (response.data.errors || [response.data.error]) : ["The answer was not saved."];
     $("answer-error").textContent = `Not saved: ${errors.join("; ")}`;
     $("reason").setAttribute("aria-invalid", "true");
@@ -286,7 +306,7 @@ async function submit(event) {
   }
   say(`Saved ${current}: ${response.data.written} new ledger line(s).`);
   renderState(response.data.state);
-  await loadQueue();
+  if (!await loadQueue()) return;
   if (response.data.next) await show(response.data.next);
   else say("Saved. Every question has an answer; write the corrected candidate when you are ready.");
   $("question").focus();
@@ -309,14 +329,13 @@ function toggleZoom() {
 async function toggleMode() {
   mode = mode === "attention" ? "print" : "attention";
   $("mode").setAttribute("aria-pressed", String(mode === "print"));
-  await loadQueue();
-  say(mode === "print" ? "Questions in printed order." : "Questions that need attention first.");
+  if (await loadQueue()) say(mode === "print" ? "Questions in printed order." : "Questions that need attention first.");
 }
 
 async function writeCorrected() {
   const response = await api("/api/materialise", {});
   say(response.ok ? `${response.data.file} written: ${response.data.applied} corrections applied, ${response.data.skipped} entries skipped.`
-    : (response.data && response.data.error) || "The corrected candidate was not written.");
+    : response.error || (response.data && response.data.error) || "The corrected candidate was not written.");
 }
 
 const ACTIONS = {
@@ -355,13 +374,14 @@ async function start() {
   $("filter").addEventListener("input", renderQueue);
   document.addEventListener("keydown", onKey);
   const response = await api("/api/twin");
-  twin = response.ok ? response.data : { html: null, reason: "markup twin unavailable" };
+  twin = response.ok ? response.data : { html: null, reason: response.error || "The markup twin could not be loaded. Check the server." };
+  if (!response.ok) { $("twin-note").textContent = twin.reason; say(twin.reason); }
   if (twin.html !== null) { twinBox.innerHTML = twin.html; $("twin-note").textContent = ""; }
-  await loadState();
-  await loadQueue();
+  if (!await loadState()) return;
+  if (!await loadQueue()) return;
   const first = queue[0] || all[0];
   if (first) await show(first.qid);
-  else say("This candidate has no questions.");
+  else if (response.ok) say("This candidate has no questions.");
 }
 
 start();

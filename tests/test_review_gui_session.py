@@ -281,6 +281,20 @@ def test_question_view_has_course_json_boxes_and_cells(tmp_path):
         assert view["pdf"] == {"available": True, "name": "x.pdf", "pages": 1}
 
 
+def test_section_confirmation_shows_valid_pdf_pages_without_inventing_boxes(tmp_path):
+    from backend.bintanong_tools.prospectus_review_gui.render import PageRenderer
+
+    ws = rf.workspace(tmp_path)
+    with start(ws) as session:
+        # Attach the real synthetic renderer after verification: its unrelated text must not flag this clean section.
+        session._renderer = PageRenderer(rf.SYNTHETIC_PDF)
+        view = session.question_view("S1:confirm")
+        assert view["question"]["pages"] == [1]
+        assert view["pdf"]["available"] is True
+        assert view["boxes"] == {"1": {"boxes": [], "warning": None}}
+        assert view["course"] is None and view["cells"] == []
+
+
 def test_session_without_pdf_or_twin_says_so(tmp_path):
     ws = rf.workspace(tmp_path)
     with start(ws) as session:
