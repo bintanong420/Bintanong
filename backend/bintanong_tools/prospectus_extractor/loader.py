@@ -347,14 +347,17 @@ def _write_bytes_atomic(path: Path, data: bytes) -> None:
 
 
 def load_reusable_cache(
-    raw_json_path: Path, meta_path: Path, expected_identity: str
+    raw_json_path: Path, meta_path: Path, pdf_sha256: str, settings: Mapping[str, Any]
 ) -> tuple[LoadedDocument | None, str]:
     """The cached raw Docling JSON as a document when it may stand in for a fresh
     conversion, else (None, reason). Any doubt is a miss, never an error.
 
-    The JSON is read once; the digest is checked on those bytes and those same bytes
-    are parsed, so a writer replacing the file meanwhile cannot slip other content in.
+    The record's `pdf_sha256` and `conversion_settings` must each equal the current ones
+    and its `conversion_identity` must be the identity of exactly those. The JSON is read
+    once; the digest is checked on those bytes and those same bytes are parsed, so a
+    writer replacing the file meanwhile cannot slip other content in.
     """
+    expected_identity = conversion_identity(pdf_sha256, settings)
     try:
         meta = json.loads(Path(meta_path).read_bytes().decode("utf-8"))
     except FileNotFoundError:
@@ -369,6 +372,10 @@ def load_reusable_cache(
         return None, "identity record is from an older version"
     if meta["conversion_identity"] != expected_identity:
         return None, "PDF bytes or conversion settings changed"
+    if meta.get("pdf_sha256") != pdf_sha256:
+        return None, "identity record names other PDF bytes"
+    if meta.get("conversion_settings") != dict(settings):
+        return None, "identity record names other conversion settings"
     try:
         raw_bytes = Path(raw_json_path).read_bytes()
     except FileNotFoundError:
@@ -423,7 +430,7 @@ def load_document(
     expected = conversion_identity(pdf_hash, settings)
 
     if not force_reconvert:
-        cached, reason = load_reusable_cache(raw_json_path, meta_path, expected)
+        cached, reason = load_reusable_cache(raw_json_path, meta_path, pdf_hash, settings)
         if cached is not None:
             print(f"[*] Reusing raw Docling JSON with matching identity: {raw_json_path.name}")
             return cached, raw_json_path

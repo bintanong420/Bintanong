@@ -32,7 +32,9 @@ def test_same_path_with_changed_bytes_reconverts(tmp_path, pdf_factory, converte
 
 
 @pytest.mark.parametrize(
-    "damage", ["wrong_identity", "old_format", "raw_tampered", "meta_missing", "meta_garbage"]
+    "damage",
+    ["wrong_identity", "old_format", "raw_tampered", "meta_missing", "meta_garbage",
+     "pdf_sha256_edited", "settings_edited", "pdf_sha256_missing", "settings_missing"],
 )
 def test_cache_with_mismatching_identity_is_ignored(
     damage, tmp_path, pdf_factory, converter, process
@@ -55,6 +57,18 @@ def test_cache_with_mismatching_identity_is_ignored(
         raw_path.write_text(raw_path.read_text(encoding="utf-8") + " ", encoding="utf-8")
     elif damage == "meta_missing":
         meta_path.unlink()
+    elif damage in ("pdf_sha256_edited", "settings_edited", "pdf_sha256_missing", "settings_missing"):
+        # D-4: the record's own PDF hash and settings must agree with the identity it claims
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        if damage == "pdf_sha256_edited":
+            meta["pdf_sha256"] = "0" * 64
+        elif damage == "settings_edited":
+            meta["conversion_settings"]["cell_matching"] = False
+        elif damage == "pdf_sha256_missing":
+            del meta["pdf_sha256"]
+        else:
+            del meta["conversion_settings"]
+        meta_path.write_text(json.dumps(meta), encoding="utf-8")
     else:
         meta_path.write_text("{not json", encoding="utf-8")
     process(pdf, out, converter, force_reconvert=False)
