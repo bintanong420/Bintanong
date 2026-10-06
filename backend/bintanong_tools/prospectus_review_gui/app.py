@@ -109,6 +109,10 @@ def create_app(session: ReviewSession, token: str, port: int | None = None) -> F
     def page() -> HTMLResponse:
         return HTMLResponse((STATIC / "index.html").read_text(encoding="utf-8").replace(TOKEN_PLACEHOLDER, token))
 
+    @app.get("/favicon.ico")
+    def favicon() -> Response:
+        return Response(status_code=204)   # no icon; answering stops the browser logging a 404 on every load
+
     @app.get("/static/{name}")
     def static(name: str) -> Response:
         path = STATIC / name
