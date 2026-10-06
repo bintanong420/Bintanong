@@ -132,6 +132,7 @@ def test_scan_ignores_the_failed_diagnostics_folder(tmp_path):
     (root / "failed" / "a").mkdir(parents=True)
     (root / "keep_docling.json").write_text("{}", encoding="utf-8")
     (root / "failed" / "a" / "a_docling.json").write_text("{}", encoding="utf-8")
+    (root / "failed" / "a" / "failure.json").write_text("{}", encoding="utf-8")
     found = batch.scan_inputs(root, patterns=["*.json"])
     assert [p.name for p in found] == ["keep_docling.json"]
 
@@ -211,3 +212,84 @@ def test_old_v1_manifest_refuses_skip(env):
     assert record["status"] == "ok"
     assert record["skip_check"] == "no publish manifest"
     assert env.state.builds == 2
+
+
+@pytest.mark.parametrize("ancestor", ["failed", "FAILED", ".venv", "node_modules"])
+def test_scan_keeps_inputs_below_ignored_looking_absolute_ancestors(tmp_path, ancestor):
+    root = tmp_path / ancestor / "inputs"
+    root.mkdir(parents=True)
+    pdf = root / "failed.pdf"
+    pdf.write_bytes(b"%PDF-input")
+    assert batch.scan_inputs(root) == [pdf]
+    assert batch.scan_pdfs(root) == [pdf]
+
+
+@pytest.mark.parametrize("recursive", [False, True])
+def test_scan_keeps_failed_inputs_and_honors_requested_patterns(tmp_path, recursive):
+    root = tmp_path / "inputs"
+    legitimate = root / "courses" / "failed"
+    legitimate.mkdir(parents=True)
+    for relative in ["failed.pdf", "keep_docling.json", "courses/failed/course.pdf",
+                     "courses/failed/course_docling.json"]:
+        (root / relative).write_bytes(b"input")
+    # A filename that matches an ignored directory name is still a requested input.
+    (root / ".git").write_bytes(b"input")
+    assert [p.relative_to(root).as_posix() for p in batch.scan_inputs(root, recursive)] == (
+        ["courses/failed/course.pdf", "failed.pdf"] if recursive else ["failed.pdf"]
+    )
+    assert [p.relative_to(root).as_posix() for p in batch.scan_inputs(
+        root, recursive, patterns=["*.json", ".git", "*.json"]
+    )] == ([".git", "courses/failed/course_docling.json", "keep_docling.json"]
+          if recursive else [".git", "keep_docling.json"])
+
+
+@pytest.mark.parametrize("failed_name", ["failed", "FAILED"])
+def test_scan_excludes_only_marked_failure_runs_and_their_descendants(tmp_path, failed_name):
+    root = tmp_path / "inputs"
+    diagnostic = root / "results" / failed_name / "diagnosed"
+    sibling = diagnostic.parent / "legitimate"
+    (diagnostic / "nested").mkdir(parents=True)
+    sibling.mkdir()
+    (diagnostic / "failure.json").write_text("{}", encoding="utf-8")
+    for folder in [diagnostic, diagnostic / "nested", sibling]:
+        (folder / "course.pdf").write_bytes(b"%PDF-input")
+        (folder / "course_docling.json").write_text("{}", encoding="utf-8")
+    (diagnostic.parent / "direct.pdf").write_bytes(b"%PDF-input")
+    (diagnostic.parent / "direct_docling.json").write_text("{}", encoding="utf-8")
+    assert batch.scan_inputs(root) == [diagnostic.parent / "direct.pdf", sibling / "course.pdf"]
+    assert batch.scan_inputs(root, patterns=["*.json"]) == [
+        diagnostic.parent / "direct_docling.json", sibling / "course_docling.json"]
+    assert batch.scan_inputs(root, recursive=False, patterns=["*.pdf", "*.json"]) == []
+
+
+@pytest.mark.parametrize("ignored", ["palsu_jsonified_output", "docling_jsonified_output",
+                                      ".venv", ".docling-venv", "__pycache__", ".git", "node_modules"])
+def test_scan_still_ignores_standard_root_relative_directories(tmp_path, ignored):
+    root = tmp_path / "inputs"
+    (root / "courses" / ignored / "nested").mkdir(parents=True)
+    keep = root / "keep.pdf"
+    keep.write_bytes(b"%PDF-input")
+    (root / "courses" / ignored / "nested" / "drop.pdf").write_bytes(b"%PDF-input")
+    assert batch.scan_inputs(root) == [keep]
+
+
+@pytest.mark.parametrize("selected", ["failed", "failed/diagnosed", "archive"])
+def test_scan_honors_diagnostic_markers_within_the_selected_root(tmp_path, selected):
+    output = tmp_path / "output"
+    diagnostic = output / "failed" / "diagnosed"
+    sibling = output / "failed" / "legitimate"
+    archive = output / "archive"
+    for folder in [diagnostic / "nested", sibling, archive / "nested"]:
+        folder.mkdir(parents=True)
+        (folder / "course.pdf").write_bytes(b"%PDF-input")
+        (folder / "course_docling.json").write_text("{}", encoding="utf-8")
+    (diagnostic / "failure.json").write_text("{}", encoding="utf-8")
+    (archive / "failure.json").write_text("{}", encoding="utf-8")
+    # Above-root markers must not classify the selected legitimate tree as diagnostics.
+    (output / "failure.json").write_text("{}", encoding="utf-8")
+    root = output / selected
+    expected = [sibling / "course.pdf", sibling / "course_docling.json"] if selected == "failed" else []
+    assert batch.scan_inputs(root, patterns=["*.pdf", "*.json"]) == sorted(expected)
+    assert batch.scan_inputs(sibling, patterns=["*.pdf", "*.json"]) == [
+        sibling / "course.pdf", sibling / "course_docling.json"]
+    assert batch.scan_inputs(root, recursive=False, patterns=["*.pdf", "*.json"]) == []

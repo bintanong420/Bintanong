@@ -68,7 +68,6 @@ class BatchItem:
 IGNORED_DIR_PARTS = {
     "palsu_jsonified_output", "docling_jsonified_output", ".venv", ".docling-venv",
     "__pycache__", ".git", "node_modules",
-    "failed",  # publish.write_failure diagnostics hold copies of *_docling.json; never inputs
 }
 
 
@@ -87,7 +86,12 @@ def scan_inputs(
         for path in iterator:
             if not path.is_file():
                 continue
-            if any(part.lower() in IGNORED_DIR_PARTS for part in path.parts):
+            relative = path.relative_to(root)
+            if any(part.lower() in IGNORED_DIR_PARTS for part in relative.parts[:-1]):
+                continue
+            # A marker identifies this run subtree, even when selected as the root.
+            if any((root / directory / "failure.json").is_file()
+                   for directory in (relative.parent, *relative.parent.parents)):
                 continue
             if path.name.endswith("_docling.json") and pattern == "*.json":
                 pass  # explicitly requested
