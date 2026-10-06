@@ -662,13 +662,79 @@ def test_l1_a_shared_banner_cell_never_lends_another_rows_words_as_strip_evidenc
     course = payload["courses"][2]                                       # CS 2
     course["course_title"] = "FIRST SEMESTER Structures 1"
     set_cell_text(payload, "t0-c14", course["course_title"])
-    strips = lambda c, p: [f.new for f in propose_fixes(c, roles(c, p), banners=BANNERS) if f.kind == "strip_banner"]
     assert strips(course, payload) == []          # (its own t0-c14 banner still proposes a move_term; that is not evidence)
     # this course's own clean cell still authorises a strip
     clean = copy.deepcopy(fx.bscs())
     own = clean["courses"][2]
     own["course_title"] = "FIRST SEMESTER Discrete Structures 2 2"
     assert strips(own, clean) == ["Discrete Structures 2 2"]
+    assert [f.new for _l, f in by_code(clean, verify_candidate(clean))["CS 2"].fixes] == ["Discrete Structures 2 2"]
     # an own row cell that carries any banner phrase never counts, even when the phrase is not next to the words
     set_cell_text(clean, "t0-c14", "Discrete Structures 2 2 for FIRST YEAR")
     assert strips(own, clean) == []
+
+
+# --- review of f0e0a3d: a strip evidence cell must belong to this row alone and equal the remainder
+
+def strips(course, payload):
+    from backend.bintanong_tools.prospectus_extractor.fixes import shared_cell_ids
+    fixes = propose_fixes(course, roles(course, payload), banners=BANNERS, shared_cells=shared_cell_ids(payload["courses"]))
+    return [f.new for f in fixes if f.kind == "strip_banner"]
+
+
+def still_leaks(payload, code):
+    row = by_code(payload, verify_candidate(payload))[code]
+    return all(f.kind != "strip_banner" for _l, f in row.fixes), [f.kind for f in row.flags]
+
+
+def assert_dropped_and_flagged(course, payload):
+    assert strips(course, payload) == []
+    no_strip, kinds = still_leaks(payload, course["course_code"])
+    assert no_strip and "banner_leak" in kinds, kinds
+
+
+def test_m_c1_a_cell_another_course_also_owns_is_never_evidence():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # CS 2, row 3
+    course["course_title"] = "FIRST SEMESTER Computer Programming 2"
+    cc3 = next(c for c in payload["courses"][3]["provenance"]["source_cells"] if c["cell_id"] == "t0-c21")
+    course["provenance"]["source_cells"].append({**cc3, "row_start": 3, "row_end": 4})   # CC 3/L's title cell, on CS 2's row
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_c2_a_cell_merged_across_rows_is_never_evidence():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]                                       # CS 1, row 3
+    course["course_code"] = "FIRST SEMESTER CS 1"
+    next(c for c in course["provenance"]["source_cells"] if c["cell_id"] == "t0-c11")["row_end"] = 5
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_c3_a_prerequisite_cell_never_authorises_a_code_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # CS 2: prerequisite cell t0-c16 "CS 1"
+    course["course_code"] = "FIRST SEMESTER CS 1"
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_s1_evidence_must_equal_the_whole_remainder():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # its title cell says "Discrete Structures 2 2"
+    course["course_title"] = "FIRST SEMESTER Structures 2"
+    assert_dropped_and_flagged(course, payload)
+
+
+@pytest.mark.parametrize("remainder", ["First Semester Seminar", "FIRSTSEMESTER Seminar", "FIRST TERM Seminar"])
+def test_m_s2_an_evidence_cell_with_banner_wording_in_any_case_or_form_never_counts(remainder):
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]
+    course["course_title"] = f"FIRST SEMESTER {remainder}"
+    set_cell_text(payload, "t0-c14", remainder)
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_s3_a_units_cell_never_authorises_a_title_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]                                       # CS 1: units cell t0-c12 "3"
+    course["course_title"] = "FIRST SEMESTER 3"
+    assert_dropped_and_flagged(course, payload)
