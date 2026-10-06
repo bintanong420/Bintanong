@@ -1,7 +1,8 @@
 """What the review GUI asks, in which order, and what is already decided.
 
 One question per course row, per printed code no course claimed, and per section that has no flag above `info`
-(one bulk "are all N courses correct" question), plus one prerequisite question per course whose Phase C\nprerequisite state says the cell was not fully understood (always after every other question). Questions are data: nothing is pre-selected, and the
+(one bulk "are all N courses correct" question), plus one prerequisite question per course whose Phase C
+prerequisite state says the cell was not fully understood (always after every other question). Questions are data: nothing is pre-selected, and the
 fixer's proposals are hints. Decided-ness comes from the ledger only, through the same filters the content-review
 state uses (decidable line, this PDF, value still as reviewed), and a later line wins.
 
@@ -219,7 +220,7 @@ def _worst_rank(q: Question) -> int:
 def order_queue(questions: Iterable[Question], mode: str = "attention") -> list[Question]:
     """The questions still to answer. `attention`: broken sections first, then review, then clean; inside a section
     the section's bulk question, then flagged rows (errors before warnings), then clean rows; printed order breaks
-    every tie. `print`: printed order. In both, prerequisite questions come last, in printed order. A decided question is not in the queue (it stays in `build_questions`)."""
+    every tie. `print`: printed order. In both, prerequisite questions come last; in `print` mode in printed order, in `attention` mode in the section-health order above (their section's health, then printed order). A decided question is not in the queue (it stays in `build_questions`)."""
     if mode not in MODES:
         raise ValueError(f"mode must be one of {', '.join(MODES)}, not {mode!r}")
     questions = list(questions)
