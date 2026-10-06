@@ -348,3 +348,56 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Ruling: failure.json within candidate parent directories through selected root marks the diagnostic subtree, including direct selection of failed/run; markers above root ignored. A user folder carrying that marker is intentionally diagnostic until removed. No payload parsing, new dependency, configuration or filesystem abstraction.
 - RED11failed/8passed/19deselected; focused GREEN48passed/no warnings; real TUI scan smokePASS; main full928passed/13subtests/3upstream warnings. External task-d-discovery-report.md and red/green/TUI/full logs in approved scratch. Existing controller F1 review checkpoints preserved.
 - Complete GUI-review suite and standalone final-gate selftest NOT RUN for this task, deferred to Phase D final gates; no prior count reused as current evidence. F2 independent spec/quality review pending. F4/F5/S1/S2/S4 and final Phase D gates/Task10 remain; no Phase D completion claim.
+
+### Codex recovery checkpoint 2026-10-06T21:52:12+08:00
+- Task: D F2 discovery; step: Committeddf5eec4; red/green/main full/TUI verified; separate parent reviews pending; owner: /root/d_discovery.
+- HEAD: df5eec4bdf0d3b9f46addfce7911b00a705ec126; state: clean.
+- Evidence: task-d-discovery-report.md; task-d-discovery-red.log; task-d-discovery-green.log; task-d-discovery-tui.log; task-d-discovery-full.log.
+- Next: Parent review committed597e8c0289b8c090edf494248a9bd3fedad6aeb4..df5eec4; preserve new sole dirty progress checkpoint for next focused commit..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T21:53:04+08:00
+- Task: D F2 discovery; step: Committeddf5eec4; red11failed focused48passed full928+13; spec review active; owner: /root/d_discovery_spec.
+- HEAD: df5eec4bdf0d3b9f46addfce7911b00a705ec126; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-discovery-report.md; task-d-discovery-review-package.md; task-d-discovery-full.log928passed/3warnings/+13.
+- Next: Read F2 spec verdict then independent quality review; next F4 LF task, followed S1 S2 S4 F5 and finalDgates.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T21:55:50+08:00
+- Task: D F2 discovery review repair; step: SPEC found pattern traversal root escape atdf5eec4; final CHANGES_REQUIRED report being written; owner: /root/d_discovery_spec.
+- HEAD: df5eec4bdf0d3b9f46addfce7911b00a705ec126; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: Pending task-d-discovery-spec-review.md; external tiny traversal probe discovered ../*.pdf reads above-root failure.json.
+- Next: Read concrete spec finding/probe; original d_discovery reproduces failing regression and fixes shared scan_inputs boundary; re-review before quality.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T21:59:03+08:00
+- Task: D F2 discovery repair1; step: Reproduced traversal probe; RED18failed/6passed/38deselected; production unchanged; owner: /root/d_discovery.
+- HEAD: df5eec4bdf0d3b9f46addfce7911b00a705ec126; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-discovery-spec-review.md; task-d-discovery-repair-reproduction.log; task-d-discovery-repair-red.log.
+- Next: Add minimal pathlib pattern rejection, focused green plus repaired targeted probe, then main full baseline..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T21:59:56+08:00
+- Task: D F2 discovery repair1; step: Focused GREEN72passed/no warnings; traversal repair probePASS; before main full gate; owner: /root/d_discovery.
+- HEAD: df5eec4bdf0d3b9f46addfce7911b00a705ec126; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-discovery-repair-red.log; task-d-discovery-repair-green.log; task-d-discovery-repair-probe.log.
+- Next: Run main full suite with two approved ignores/external basetemp; inspect result before repair report/commit..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:02:01+08:00
+- Task: D F2 discovery repair1; step: Full GREEN952passed/13subtests/3warnings; focused72passed/probePASS; before explicit repair commit; owner: /root/d_discovery.
+- HEAD: df5eec4bdf0d3b9f46addfce7911b00a705ec126; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-discovery-report.md; task-d-discovery-repair-reproduction.log; task-d-discovery-repair-red.log; task-d-discovery-repair-green.log; task-d-discovery-repair-probe.log; task-d-discovery-repair-full.log.
+- Next: Append result/progress; stage only batch.py, test_prospectus_batch_skip.py and preserved progress; commit with required trailer; postcommit checkpoint/report exact tip..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D F2 specification repair round1 (2026-10-06)
+- Reproduced Important review finding: configured ../*.pdf yielded root/../course.pdf and above-root failure.json changed discovery. Original reviewer probe preserved; reproduction logged externally.
+- Ruling: root-relative glob patterns cannot have any parent component or anchor. A single PureWindowsPath lexical guard recognizes slash/backslash parent, rooted, drive-relative/absolute and UNC patterns and raises explicit ValueError before glob; valid descendant globs preserved, no symlink resolution/policy change or filesystem abstraction.
+- Repair RED18failed/6passed/38deselected; focused GREEN72passed/no warnings; repaired recursive/nonrecursive probePASS with/without above-root marker; main full952passed/13subtests/3upstream warnings. Exact commands/evidence appended task-d-discovery-report.md; repair reproduction/red/green/probe/full logs external.
+- Existing controller/implementer progress checkpoints preserved. Complete GUI-review suite and standalone final selftest NOT RUN for scanner repair, final Phase D gates remain. Parent same-seat specification re-review before separate quality review; F4/F5/S1/S2/S4/Task10 remain, no Phase D completion claim.

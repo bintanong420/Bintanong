@@ -293,3 +293,29 @@ def test_scan_honors_diagnostic_markers_within_the_selected_root(tmp_path, selec
     assert batch.scan_inputs(sibling, patterns=["*.pdf", "*.json"]) == [
         sibling / "course.pdf", sibling / "course_docling.json"]
     assert batch.scan_inputs(root, recursive=False, patterns=["*.pdf", "*.json"]) == []
+
+
+@pytest.mark.parametrize("recursive", [False, True])
+@pytest.mark.parametrize("pattern", ["../*.pdf", "nested/../../*.pdf", r"..\*.pdf",
+                                      r"nested\..\..\*.pdf", "/outside/*.pdf",
+                                      r"\outside\*.pdf", "C:*.pdf", "C:/outside/*.pdf",
+                                      r"\\server\share\*.pdf"])
+def test_scan_rejects_patterns_that_can_leave_the_selected_root(tmp_path, recursive, pattern):
+    root = tmp_path / "inputs"
+    (root / "nested").mkdir(parents=True)
+    (tmp_path / "course.pdf").write_bytes(b"%PDF-outside")
+    for above_root_marker in [False, True]:
+        if above_root_marker:
+            (tmp_path / "failure.json").write_text("{}", encoding="utf-8")
+        with pytest.raises(ValueError, match="Input pattern must stay within input root"):
+            batch.scan_inputs(root, recursive=recursive, patterns=[pattern])
+
+
+@pytest.mark.parametrize("recursive", [False, True])
+@pytest.mark.parametrize("pattern", ["nested/*.pdf", "n*/*.pdf", "**/*.pdf"])
+def test_scan_preserves_valid_relative_globs(tmp_path, recursive, pattern):
+    root = tmp_path / "inputs"
+    (root / "nested").mkdir(parents=True)
+    keep = root / "nested" / "course.pdf"
+    keep.write_bytes(b"%PDF-input")
+    assert batch.scan_inputs(root, recursive=recursive, patterns=[pattern]) == [keep]

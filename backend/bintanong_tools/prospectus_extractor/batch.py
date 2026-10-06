@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from dataclasses import field
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 from typing import Iterable
 from typing import Sequence
@@ -82,6 +82,9 @@ def scan_inputs(
 
     found: list[Path] = []
     for pattern in patterns or ["*.pdf"]:
+        pattern_path = PureWindowsPath(pattern)
+        if pattern_path.anchor or ".." in pattern_path.parts:
+            raise ValueError(f"Input pattern must stay within input root: {pattern!r}")
         iterator = root.rglob(pattern) if recursive else root.glob(pattern)
         for path in iterator:
             if not path.is_file():
