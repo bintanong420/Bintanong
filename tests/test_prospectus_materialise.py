@@ -228,3 +228,43 @@ def test_eligibility_stays_blocked_until_the_blank_is_reviewed():
     done = materialise(copy.deepcopy(payload), [corrected_title(cs1, "Discrete Structures One"), prereq_entry(cs1, "accepted")], HASH)[0]
     assert state_of(done, "CS 1") == "reviewed_empty"
     assert "prerequisite_rules_incomplete" not in blocked(done["courses"])
+
+
+# --- an accepted prerequisite entry that is not stamped is reported, never dropped (M2, M4a)
+
+def test_an_accepted_prerequisite_that_is_not_stamped_is_reported_as_skipped():
+    payload = fx.bscs()
+    payload["audit"]["structural_anomalies"] = [
+        {"type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c11"]}]
+    stated(payload)
+    cs1 = payload["courses"][0]
+    accepted = prereq_entry(cs1, "accepted")
+    out, report = materialise(copy.deepcopy(payload), [accepted], HASH)
+    assert state_of(out, "CS 1") == "unreadable" and report["applied"] == 0
+    assert report["skipped"] == [{"entry_id": accepted["entry_id"], "reason": "prerequisite_not_stamped: ambiguous cell"}]
+    assert out["review"]["skipped"] == report["skipped"]
+
+
+def test_two_courses_sharing_a_locator_are_never_stamped_and_the_entry_is_reported():
+    payload = fx.bscs()
+    twin = copy.deepcopy(payload["courses"][0])
+    payload["courses"].append(twin)
+    stated(payload)
+    cs1 = payload["courses"][0]
+    assert course_locator(cs1) == course_locator(twin)
+    accepted = prereq_entry(cs1, "accepted")
+    out, report = materialise(copy.deepcopy(payload), [accepted], HASH)
+    assert "reviewed_empty" not in {c["prerequisite_state"] for c in out["courses"]}
+    assert report["skipped"] == [{"entry_id": accepted["entry_id"], "reason": "prerequisite_not_stamped: duplicate course locator"}]
+
+
+def test_an_accepted_prerequisite_on_a_cell_that_is_not_blank_and_not_understood_is_reported():
+    payload = fx.bscs()
+    payload["courses"][3]["prerequisites_raw"] = "ZZ 999"
+    stated(payload)
+    course = payload["courses"][3]
+    assert course["prerequisite_state"] == "unresolved_reference"
+    accepted = prereq_entry(course, "accepted", old=None)
+    out, report = materialise(copy.deepcopy(payload), [accepted], HASH)
+    assert state_of(out, course["course_code"]) == "unresolved_reference"
+    assert report["skipped"] == [{"entry_id": accepted["entry_id"], "reason": "prerequisite_not_stamped: cell is not blank"}]

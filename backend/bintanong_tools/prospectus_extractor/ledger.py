@@ -535,12 +535,22 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     # a blank cell (latest applicable prerequisites_raw entry is `accepted`, on a course that is still blank).
     annotate_prerequisite_states(final, (payload.get("audit") or {}).get("structural_anomalies") or [])
     decided = latest_by_field(applicable)
+    not_stamped: dict[str, str] = {}   # accepted prerequisite entries this step declined to stamp: reported, never dropped
     for course in final:
         key = locator_key(course_locator(course))
         accepted = decided.get((key, FIELD_PREREQ))
-        if (accepted and accepted["disposition"] == ACCEPTED and len(by_key.get(key, [])) == 1
-                and not clean_str(course.get("prerequisites_raw")) and course["prerequisite_state"] == "blank_unreviewed"):
+        if not (accepted and accepted["disposition"] == ACCEPTED):
+            continue
+        blank, state = not clean_str(course.get("prerequisites_raw")), course["prerequisite_state"]
+        if len(by_key.get(key, [])) != 1:
+            not_stamped.setdefault(accepted["entry_id"], "duplicate course locator")
+        elif blank and state == "blank_unreviewed":
             course["prerequisite_state"] = "reviewed_empty"
+        elif blank and state == "unreadable":
+            not_stamped.setdefault(accepted["entry_id"], "ambiguous cell")
+        elif not blank and state in ("unreadable", "unresolved_reference", "alternative_or_exception"):
+            not_stamped.setdefault(accepted["entry_id"], "cell is not blank")
+    skipped += [{"entry_id": i, "reason": f"prerequisite_not_stamped: {why}"} for i, why in not_stamped.items()]
     corrected = {k: copy.deepcopy(v) for k, v in payload.items()}
     corrected.update({
         "courses": final,
