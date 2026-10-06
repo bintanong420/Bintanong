@@ -346,29 +346,44 @@ def _write_bytes_atomic(path: Path, data: bytes) -> None:
         raise
 
 
-def cache_reuse_check(
+def load_reusable_cache(
     raw_json_path: Path, meta_path: Path, expected_identity: str
-) -> tuple[bool, str]:
-    """May this cached raw Docling JSON stand in for a fresh conversion? Returns (yes, reason)."""
-    if not raw_json_path.exists():
-        return False, "no cached Docling JSON"
-    if not meta_path.exists():
-        return False, "cached Docling JSON has no identity record"
+) -> tuple[LoadedDocument | None, str]:
+    """The cached raw Docling JSON as a document when it may stand in for a fresh
+    conversion, else (None, reason). Any doubt is a miss, never an error.
+
+    The JSON is read once; the digest is checked on those bytes and those same bytes
+    are parsed, so a writer replacing the file meanwhile cannot slip other content in.
+    """
     try:
-        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        meta = json.loads(Path(meta_path).read_bytes().decode("utf-8"))
+    except FileNotFoundError:
+        return None, "cached Docling JSON has no identity record"
     except (OSError, ValueError):
-        return False, "identity record is unreadable"
+        return None, "identity record is unreadable"
     if (
         not isinstance(meta, dict)
         or meta.get("identity_version") != IDENTITY_VERSION
         or "conversion_identity" not in meta
     ):
-        return False, "identity record is from an older version"
+        return None, "identity record is from an older version"
     if meta["conversion_identity"] != expected_identity:
-        return False, "PDF bytes or conversion settings changed"
-    if meta.get("raw_json_sha256") != file_sha256(raw_json_path):
-        return False, "cached JSON does not match its identity record"
-    return True, "identity matches"
+        return None, "PDF bytes or conversion settings changed"
+    try:
+        raw_bytes = Path(raw_json_path).read_bytes()
+    except FileNotFoundError:
+        return None, "no cached Docling JSON"
+    except OSError:
+        return None, "cached Docling JSON is unreadable"
+    if meta.get("raw_json_sha256") != hashlib.sha256(raw_bytes).hexdigest():
+        return None, "cached JSON does not match its identity record"
+    try:
+        data = json.loads(raw_bytes.decode("utf-8"))
+        if not isinstance(data, dict):
+            return None, "cached Docling JSON is not a document"
+        return load_from_raw_json(data), "identity matches"
+    except ValueError as exc:  # bad UTF-8, bad JSON, or a dict Docling rejects
+        return None, f"cached Docling JSON is corrupt ({type(exc).__name__})"
 
 
 def load_document(
@@ -408,11 +423,10 @@ def load_document(
     expected = conversion_identity(pdf_hash, settings)
 
     if not force_reconvert:
-        reusable, reason = cache_reuse_check(raw_json_path, meta_path, expected)
-        if reusable:
+        cached, reason = load_reusable_cache(raw_json_path, meta_path, expected)
+        if cached is not None:
             print(f"[*] Reusing raw Docling JSON with matching identity: {raw_json_path.name}")
-            data = json.loads(raw_json_path.read_text(encoding="utf-8"))
-            return load_from_raw_json(data), raw_json_path
+            return cached, raw_json_path
         if raw_json_path.exists():
             print(f"[*] Ignoring cached Docling JSON ({reason}); reconverting.")
 

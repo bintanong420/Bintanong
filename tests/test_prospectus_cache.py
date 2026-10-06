@@ -230,3 +230,77 @@ def test_a_target_that_stays_locked_raises_a_clean_error_and_leaves_no_temp(tmp_
         loader._write_bytes_atomic(target, b"new")
     assert target.read_bytes() == b"old"
     assert sorted(path.name for path in tmp_path.iterdir()) == ["a_docling.json"]
+
+
+# --- D-3: the bytes whose digest was checked are the bytes that are parsed.
+
+
+def _load(pdf, raw_path, active_converter):
+    document, _path = loader.load_document(
+        pdf, force_reconvert=False, converter=active_converter, raw_json_path=raw_path)
+    return document
+
+
+def test_a_cache_swapped_after_it_was_checked_is_not_loaded(tmp_path, monkeypatch, pdf_factory, converter):
+    pdf = pdf_factory(tmp_path / "in")
+    raw_path = (tmp_path / "out" / "a_docling.json").resolve()
+    _load(pdf, raw_path, converter)
+    other = json.dumps({"texts": [], "tables": [], "marker": "%PDF-other"}).encode("utf-8")
+    real_open = Path.open
+    reads = []
+
+    def open_(self, *args, **kwargs):
+        if Path(self).resolve() == raw_path:
+            reads.append(args)
+            if len(reads) == 2:  # a concurrent writer replaces the JSON between two reads
+                with open(raw_path, "wb") as stream:
+                    stream.write(other)
+        return real_open(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "open", open_)
+    document = _load(pdf, raw_path, converter)
+    assert document.docling_document.raw["marker"] == "%PDF-one"
+
+
+@pytest.mark.parametrize("body", [b"{not json", b"\xff\xfe broken", b"[1, 2]"])
+def test_a_corrupt_cache_whose_digest_matches_reconverts(body, tmp_path, pdf_factory, converter, process):
+    import hashlib
+
+    pdf = pdf_factory(tmp_path / "in")
+    out = tmp_path / "out"
+    process(pdf, out, converter, force_reconvert=False)
+    raw_path = out / "a_docling.json"
+    meta_path = out / "a_docling.meta.json"
+    raw_path.write_bytes(body)
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    meta["raw_json_sha256"] = hashlib.sha256(body).hexdigest()
+    meta_path.write_text(json.dumps(meta), encoding="utf-8")
+    process(pdf, out, converter, force_reconvert=False)
+    assert len(converter.calls) == 2
+    assert json.loads(raw_path.read_text(encoding="utf-8"))["marker"] == "%PDF-one"
+
+
+def test_a_cache_docling_rejects_reconverts(tmp_path, monkeypatch, pdf_factory, converter, process):
+    import hashlib
+
+    from conftest import FakeDoc
+
+    class StrictDoc(FakeDoc):
+        @classmethod
+        def model_validate(cls, raw):
+            if "marker" not in raw:
+                raise ValueError("not a DoclingDocument")
+            return cls(raw)
+
+    monkeypatch.setattr(loader, "load_docling", lambda: {"DoclingDocument": StrictDoc})
+    pdf = pdf_factory(tmp_path / "in")
+    out = tmp_path / "out"
+    process(pdf, out, converter, force_reconvert=False)
+    body = b'{"tables": []}'
+    (out / "a_docling.json").write_bytes(body)
+    meta_path = out / "a_docling.meta.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    meta["raw_json_sha256"] = hashlib.sha256(body).hexdigest()
+    meta_path.write_text(json.dumps(meta), encoding="utf-8")
+    process(pdf, out, converter, force_reconvert=False)
+    assert len(converter.calls) == 2
