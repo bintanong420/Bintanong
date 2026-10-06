@@ -653,3 +653,22 @@ def test_k1_anchored_evidence_needs_both_sides_printed_once():
     ask_t = lambda page: propose_fixes(t_course, roles(t_course, t_payload), page_text=page, banners=BANNERS)
     assert ask_t("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Discrete Structures 1 3") == []
     assert [f.new for f in ask_t("FIRST SEMESTER CS 1 Discrete Structures 1 3")] == ["Discrete Structures 1"]
+
+
+def test_l1_a_shared_banner_cell_never_lends_another_rows_words_as_strip_evidence():
+    # t0-c9 ("FIRST SEMESTER Discrete Structures 1 1") is CS 1's title cell and the section banner; it rides along in
+    # CS 2's provenance. "Structures 1" inside it is CS 1's text, never evidence for CS 2's title.
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # CS 2
+    course["course_title"] = "FIRST SEMESTER Structures 1"
+    set_cell_text(payload, "t0-c14", course["course_title"])
+    strips = lambda c, p: [f.new for f in propose_fixes(c, roles(c, p), banners=BANNERS) if f.kind == "strip_banner"]
+    assert strips(course, payload) == []          # (its own t0-c14 banner still proposes a move_term; that is not evidence)
+    # this course's own clean cell still authorises a strip
+    clean = copy.deepcopy(fx.bscs())
+    own = clean["courses"][2]
+    own["course_title"] = "FIRST SEMESTER Discrete Structures 2 2"
+    assert strips(own, clean) == ["Discrete Structures 2 2"]
+    # an own row cell that carries any banner phrase never counts, even when the phrase is not next to the words
+    set_cell_text(clean, "t0-c14", "Discrete Structures 2 2 for FIRST YEAR")
+    assert strips(own, clean) == []

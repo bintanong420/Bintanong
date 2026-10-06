@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from typing import Any, Collection, Iterable, Mapping, Sequence
 
 from .course_checks import pdf_clean
-from .text import BANNER_PHRASE, BANNER_WORDS, clean_str, leading_banner, match_semester_labels, match_year_label, trailing_banner
+from .text import BANNER_PHRASE, BANNER_WORDS, clean_str, has_banner_text, leading_banner, match_semester_labels, match_year_label, trailing_banner
 
 FIELD_CODE, FIELD_TITLE, FIELD_TERM = "course_code", "course_title", "term"
 
@@ -121,7 +121,9 @@ def anchored_in_pdf(page_text: str, head: str, tail: str, units_raw: str) -> boo
 def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]], banners: Collection[str],
                  page_text: str | None = None) -> list[Fix]:
     out = []
-    own = [c.get("text") or "" for c in (course.get("provenance") or {}).get("source_cells") or []]
+    # Only this course's own row cells (the verifier's role cells) that carry no banner phrase: a shared
+    # section-banner cell rides along in every course's provenance and holds another row's words.
+    own = [t for cells in role_cells.values() for c in cells if not has_banner_text(t := c.get("text") or "")]
     units = (course.get("units") or {}).get("raw") or ""
     for field, role, name in ((FIELD_CODE, "code", "code"), (FIELD_TITLE, "title", "title")):
         value = clean_str(course.get(field))
@@ -129,7 +131,7 @@ def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Ma
         stripped = strip_banner(value) if BANNER_PHRASE.search(value) and banner_confirmed(value, banners) else None
         if stripped and field == FIELD_TITLE and ANY_CODE.match(stripped):
             stripped = None   # "PE 1 Rhythmic": this course's title or the next row's code? Without layout, flag only.
-        evidence = [t for t in own if clean_str(t) != value]       # this course's other cells, not the banner cell
+        evidence = [t for t in own if clean_str(t) != value]       # this course's other clean cells
         anchored = bool(stripped and page_text) and (
             anchored_in_pdf(page_text, clean_str(course.get(FIELD_CODE)), stripped, units) if field == FIELD_TITLE
             else anchored_in_pdf(page_text, stripped, clean_str(course.get(FIELD_TITLE)), units))
