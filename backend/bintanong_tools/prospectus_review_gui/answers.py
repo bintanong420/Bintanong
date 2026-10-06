@@ -26,6 +26,7 @@ from ..prospectus_extractor.ledger import (
     ACCEPTED, CORRECTED, FIELD_PREREQ, UNIT_FIELDS, UNRESOLVED, correction_problem, course_locator, locator_key, make_entry,
 )
 from ..prospectus_extractor.sheet import row_entries
+from ..prospectus_extractor.text import clean_str
 from ..prospectus_extractor.verify import INFO, Verification
 from .questions import PREREQUISITE, SECTION_CONFIRM, UNCLAIMED, Question, confirmable, decision_index, has_decision
 
@@ -182,7 +183,7 @@ def _prerequisite(question, answer, payload, reviewer, pdf_sha256, via, now):
         if answer.edits:
             return [], ["Yes cannot carry new values; use Other"]
         disposition, new = ACCEPTED, old
-        reason = reason or ("accepted as extracted: no prerequisite" if not (old or "").strip() else "accepted as extracted")
+        reason = reason or ("accepted as extracted: no prerequisite" if not clean_str(old) else "accepted as extracted")
     elif answer.choice == "no":
         if answer.edits:
             return [], ["No cannot carry new values; use Other"]
@@ -193,7 +194,7 @@ def _prerequisite(question, answer, payload, reviewer, pdf_sha256, via, now):
         if set(answer.edits) != {FIELD_PREREQ}:
             return [], ["Other on a prerequisite needs the prerequisites as printed (empty for none) and nothing else"]
         new, problem = parse_typed_value(FIELD_PREREQ, answer.edits[FIELD_PREREQ])
-        if problem is None and WHOLE_NUMBER.fullmatch(new):
+        if problem is None and new.isdecimal():   # any script's digits, not only ASCII
             problem = f"a prerequisite cannot be the bare number {new}; type the course codes, or leave it empty for none"
         if problem:
             return [], [problem]

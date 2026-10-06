@@ -17,6 +17,7 @@ from ..prospectus_extractor.ledger import (
     ACCEPTED, CORRECTABLE_FIELDS, CORRECTED, COURSE_FIELDS, FIELD_PREREQ, FIELD_UNCLAIMED, UNRESOLVED, course_locator,
     latest_by_field, locator_key, split_applicable, split_stale, split_valid, unclaimed_locator,
 )
+from ..prospectus_extractor.text import clean_str
 from ..prospectus_extractor.verify import ERROR, INFO, WARN, Row, Section, Verification
 
 COURSE, UNCLAIMED, SECTION_CONFIRM, PREREQUISITE = "course", "unclaimed", "section_confirm", "prerequisite"
@@ -96,7 +97,7 @@ def _course_question(row: Row, section: Section, course: Mapping[str, Any]) -> Q
 def _prerequisite_question(row: Row, section: Section, course: Mapping[str, Any]) -> Question:
     title, code = course.get("course_title") or "", course.get("course_code") or ""
     raw = course.get("prerequisites_raw") or ""
-    if raw.strip():
+    if clean_str(raw):
         prompt = f'Is the prerequisite "{raw}" of "{title}" ({code}) correct?'
     else:
         prompt = f'Is it right that "{title}" ({code}) has no prerequisite?'

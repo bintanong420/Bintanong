@@ -254,3 +254,33 @@ def test_a_prerequisite_no_holds_back_review_but_yes_and_other_do_not(env):
     assert session.answer(qs["GE-ET"].qid, Answer("no", reason="cannot tell"), now=rf.NOW)["errors"] == []
     assert session.state()["content_review"]["state"] == "partially_reviewed"
     assert session.state()["content_review"]["unresolved"] == 1
+
+
+def test_soft_hyphen_cell_is_blank_and_zero_width_space_cell_is_not_as_the_extractor_reads_them(tmp_path):
+    from backend.bintanong_tools.prospectus_extractor.text import clean_str
+    assert clean_str("\u00ad") == "" and clean_str("\u200b") != ""
+    for raw, blank in (("\u00ad", True), ("\u200b", False)):
+        payload = with_states()
+        payload["courses"][0]["prerequisites_raw"] = raw
+        ws = rf.workspace(tmp_path, payload, folder=f"w{int(blank)}")
+        with open_session(ws.candidate, ws.identity, "Nestor", ws.review) as session:
+            q = prereq_questions(session)["CS 1"]
+            assert q.prompt.startswith("Is it right that") is blank, repr(raw)
+            assert session.answer(q.qid, Answer("yes"), now=rf.NOW)["errors"] == []
+            reason = read_entries(ws.ledger)[0]["reason"]
+            assert (reason == "accepted as extracted: no prerequisite") is blank, repr(raw)
+
+
+@pytest.mark.parametrize("typed", ["\uff13", "\u0663", "0", " 42 ", "\uff14\uff12"])
+def test_a_bare_number_is_refused_as_prerequisite_text_in_any_script(env, typed):
+    _ws, session, *_ = env
+    q = prereq_questions(session)["CS 1"]
+    result = session.answer(q.qid, Answer("other", edits={FIELD_PREREQ: typed}, reason="read on the PDF"), now=rf.NOW)
+    assert result["written"] == 0 and "bare number" in result["errors"][0], typed
+
+
+@pytest.mark.parametrize("typed", ["CS 101", "none"])
+def test_real_prerequisite_text_is_still_accepted(env, typed):
+    _ws, session, *_ = env
+    q = prereq_questions(session)["CS 1"]
+    assert session.answer(q.qid, Answer("other", edits={FIELD_PREREQ: typed}, reason="read on the PDF"), now=rf.NOW)["errors"] == []
