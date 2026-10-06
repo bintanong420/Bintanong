@@ -772,3 +772,55 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Evidence: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\gate-*.log/json, fix-*.log, review-spec.md, checkpoint.json/events.jsonl. Root direct PowerShell ran broad gates. Standards reviewer active; scoped Spec recheck pending. Publication push/PR NOT YET DONE. Institutional copying NOT YET DONE; source preflight78paths59PDF17JPG2PPTX, longest destination220. Source approval null/pending.
 - Newly supplied external redocling_handbook.py read only and recorded in handbook-script-inspection.md. Existing CPU text-only helper has no OCR/table processing/source binding and unique-token overlap is not an accuracy gate; future Phase2 plan must preserve original page offsets and use isolated scratch output.
 - Next: resolve confirmed Standards findings, independent scoped Spec recheck, outgoing diff/attribution check, then push publication branch and create PR to GitHub dev. No automatic merge/dev movement, no institutional approval. GUI/E/F/OCR remain local; formal Phase1 preparation only.
+### Standards fixes F1 RED (2026-10-07T05:19:14.5594843+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M tests/test_prospectus_ledger.py.
+- Result: 3 failed, 2 passed, 10 deselected; exit 1; wrong reviewed status for undecided/wrong-PDF/stale anomaly. Command: py -3.13 -m pytest tests/test_prospectus_ledger.py -k persisted_anomalies -q -p no:cacheprovider --basetemp <scratch>/f1-red-temp (PYTHONDONTWRITEBYTECODE=1; f1-red.log).
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: Reuse placement.unclaimed_items in both ledger completion and staleness checks; then focused green. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+
+### Standards fixes F1 GREEN (2026-10-07T05:19:58.4364815+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M backend/bintanong_tools/prospectus_extractor/ledger.py;  M plans/plan_current_progress/extractor_split_progress.md;  M tests/test_prospectus_ledger.py.
+- Result: 141 passed; exit 0; ledger, sheet, B2 regression files. Command: py -3.13 -m pytest tests/test_prospectus_ledger.py tests/test_prospectus_b2_codex_review.py tests/test_prospectus_b2_review_fixes.py tests/test_prospectus_sheet.py -q -p no:cacheprovider --basetemp <scratch>/f1-green-temp (PYTHONDONTWRITEBYTECODE=1; f1-green.log).
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: F2 write authority regressions before production changes. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+
+### Standards fixes F2 RED (2026-10-07T05:20:20.7830196+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M backend/bintanong_tools/prospectus_extractor/ledger.py;  M plans/plan_current_progress/extractor_split_progress.md;  M tests/test_prospectus_ledger.py;  M tests/test_prospectus_materialise.py.
+- Result: 5 failed, 9 deselected; exit 1; executable inherited authority, zero incomplete count, pending top-level review. Command: py -3.13 -m pytest tests/test_prospectus_materialise.py -k "stale_authority or top_level_review_status" -q -p no:cacheprovider --basetemp <scratch>/f2-red-temp (PYTHONDONTWRITEBYTECODE=1; f2-red.log).
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: Recompute via authority.build_authority, preserve source gates, explicitly block stale derived sections. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+
+### Standards fixes F2 GREEN (2026-10-07T05:21:21.6656947+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M backend/bintanong_tools/prospectus_extractor/ledger.py;  M plans/plan_current_progress/extractor_split_progress.md;  M tests/test_prospectus_ledger.py;  M tests/test_prospectus_materialise.py.
+- Result: 351 passed; exit 0; authority, materialise, ledger and B2 regression files. Command: py -3.13 -m pytest tests/test_prospectus_materialise.py tests/test_prospectus_authority.py tests/test_prospectus_ledger.py tests/test_prospectus_b2_codex_review.py tests/test_prospectus_b2_review_fixes.py -q -p no:cacheprovider --basetemp <scratch>/f2-green-temp (PYTHONDONTWRITEBYTECODE=1; f2-green.log).
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: F3 write immutable semantic-map identity/publication regressions before production changes. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+
+### Standards fixes F3 RED (2026-10-07T05:22:03.5026300+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M backend/bintanong_tools/prospectus_extractor/ledger.py;  M plans/plan_current_progress/extractor_split_progress.md;  M tests/test_prospectus_input_snapshot.py;  M tests/test_prospectus_ledger.py;  M tests/test_prospectus_materialise.py.
+- Result: 4 failed, 2 passed, 11 deselected; exit 1; map edits/deletion/appearance publish and transient edit mislabels metadata under original digest. Command: py -3.13 -m pytest tests/test_prospectus_input_snapshot.py -k semantic -q -p no:cacheprovider --basetemp <scratch>/f3-red-temp (PYTHONDONTWRITEBYTECODE=1; f3-red.log).
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: Capture semantic bytes via InputSnapshot, parse captured text with metadata owner, pass same capture to run_identity, check map bytes/presence before publication. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+
+### Standards fixes F3 GREEN (2026-10-07T05:23:04.2020195+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M backend/bintanong_tools/prospectus_extractor/identity.py;  M backend/bintanong_tools/prospectus_extractor/ledger.py;  M backend/bintanong_tools/prospectus_extractor/metadata.py;  M backend/bintanong_tools/prospectus_extractor/pipeline.py;  M plans/plan_current_progress/extractor_split_progress.md;  M tests/test_prospectus_input_snapshot.py;  M tests/test_prospectus_ledger.py;  M tests/test_prospectus_materialise.py.
+- Result: 212 passed; exit 0; captured input, identity, cache, skip and publication files. Earlier green selection error: nonexistent historical test_prospectus_runs.py, exit 4, no tests; preserved f3-green-selection-error.log. Command: py -3.13 -m pytest tests/test_prospectus_input_snapshot.py tests/test_prospectus_identity.py tests/test_prospectus_cache.py tests/test_prospectus_batch_skip.py tests/test_prospectus_publish.py -q -p no:cacheprovider --basetemp <scratch>/f3-green-temp (PYTHONDONTWRITEBYTECODE=1; f3-green.log).
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: Self-review diff and update two existing decision notes; report uncommitted batch to root for broad gates/review/commits. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+### Standards fixes IMPLEMENTER HANDOFF (2026-10-07T05:24:24.2172574+08:00)
+- HEAD: 407813c1fad100bceb662a129d2c64321791bc8f; dirty paths:  M backend/bintanong_tools/prospectus_extractor/identity.py;  M backend/bintanong_tools/prospectus_extractor/ledger.py;  M backend/bintanong_tools/prospectus_extractor/metadata.py;  M backend/bintanong_tools/prospectus_extractor/pipeline.py;  M docs/decisions/prospectus-cache-and-publication.md;  M docs/decisions/prospectus-status-separation.md;  M plans/plan_current_progress/extractor_split_progress.md;  M tests/test_prospectus_input_snapshot.py;  M tests/test_prospectus_ledger.py;  M tests/test_prospectus_materialise.py.
+- Result: Exactly three fixes implemented; F1 red3failed2passed -> green141passed; F2 red5failed -> green351passed; F3 red4failed2passed -> green212passed. No broad gates or commits run by implementer. git diff --check passes. Command: See external report.md and f1/f2/f3-red/green.log for exact commands and actual results; all pytest invocations py -3.13, PYTHONDONTWRITEBYTECODE=1, -p no:cacheprovider, basetemp under standards-fixes.
+- Scratch: E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\standards-fixes; running processes: none at boundary.
+- Next: Root pins current dirty code; run fresh full gates and independent scoped specification/standards reviews; only root commits explicit logical paths after gates. Implementer will make no further edits. Root broad gates and logical commits pending; human trial/approval/real-photo gates pending.
+
+### Publication final gates and independent rechecks (2026-10-07T05:31:50.9357905+08:00)
+- Code54f31f9: all five confirmed Spec/Standards findings fixed, with genuine red evidence retained. Review-completeness/authority commitad931c4 and captured-semantic-map commit54f31f9 followed root fullgate. Fresh owner-authorized system py -3.13 fullsuite1013passed13subtests5warnings, self80/80; actual Janus1.5.2/SWI10.1.6 arithmetic/project bridge probes passed. Existing environments untouched; system versions recorded externally.
+- Final comparer44/44course-fieldidentical vs5c34fd7, onlypackage_sha256/run_key changed44each; PhaseCcounts1005/689/253/59/20/2/3 unchanged. FinalB2counts21/3/19/1health, title67/strip0/unclaimed316/banner3. Finaltrial01/16/33errors0 and19trialoriginalhashesunchanged. Temporary ready comparer baseline removed cleanly. gitdiffcheckpassed; outgoing attribution count0; GUI61d251d/OCRf9e0dbc are not ancestors and their implementation paths/rawinstitutional files absent from outgoingdiff.
+- IndependentSpecrecheckAPPROVED/NONE:20externalassertions; independentStandardsrecheckAPPROVED/NONE:16scopedtests+11adjacentassertions. Reportsreview-spec-recheck.md/review-standards-recheck.md attach to frozen reviewedcode; documentary commits do not change it. Evidence E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\publish_resume_2026-10-07\gate-ready-*.log/json and review reports. Root directPowerShell ran every broad gate.
+- Ready to push publish/prospectus-a-d-20261007 and create GitHub PR targetingdev; no automaticmerge/force/historyrewrite/localdevmovement. GUI/OCR implementation remains local; only their historical plans are included. B2humanTasks12-14, GUItrial/finalcloseout, sourceauthorization and realphotogatesremainpending. Nothing here is institutional approval.
