@@ -10,11 +10,12 @@ Anything that would need invented text (a title, a prerequisite) gets no proposa
 from __future__ import annotations
 
 import re
+from collections import Counter
 from dataclasses import dataclass
 from typing import Any, Collection, Iterable, Mapping, Sequence
 
 from .course_checks import pdf_clean
-from .text import BANNER_PHRASE, BANNER_WORDS, clean_str, leading_banner, match_semester_labels, match_year_label, trailing_banner
+from .text import BANNER_PHRASE, BANNER_WORDS, clean_str, has_banner_text, leading_banner, match_semester_labels, match_year_label, trailing_banner
 
 FIELD_CODE, FIELD_TITLE, FIELD_TERM = "course_code", "course_title", "term"
 
@@ -74,18 +75,22 @@ def _fix_id(kind: str, field: str, cell_ids: Sequence[str]) -> str:
     return f"{kind}:{field}@{cell_ids[0] if cell_ids else 'none'}"
 
 
-def printed_without_banner(remainder: str, texts: Iterable[str]) -> bool:
-    """True when `remainder` occurs in one of `texts` with no banner phrase right before or after it.
-    The remainder of a strip must be printed in the document on its own (a clean cell, the PDF row),
-    not only inside the very banner-bearing text being stripped: "FIRST SEMESTER PRACTICUM" printed
-    once, as one string, never proves that "PRACTICUM" is the title."""
-    pattern = re.compile(rf"(?<!\w){re.escape(remainder)}(?!\w)")
-    for text in texts:
-        value = clean_str(text)
-        for m in pattern.finditer(value):
-            if not trailing_banner(value[: m.start()])[1] and not leading_banner(value[m.end():])[0]:
-                return True
-    return False
+# Banner wording in an evidence cell, any case, glued or spaced, TERM forms too: "First Semester",
+# "FIRSTSEMESTER", "FIRST TERM". Stricter than has_banner_text, whose upper-case rule the verifier flags rely on.
+_EVIDENCE_BANNER = re.compile(r"(?:FIRST|SECOND|THIRD|FOURTH|FIFTH|1ST|2ND|3RD|4TH|5TH)\s*(?:YEAR|SEM|TERM)"
+                              r"|(?<![A-Z])(?:SEMESTER|SUMMER|MID[\s-]?YEAR)(?![A-Z])")
+
+
+def _evidence_cells(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]],
+                    shared_cells: Collection[str] | None) -> set[str]:
+    """Clean texts of the cells that may authorise a strip: this course's code or title cells, spanning exactly
+    its own row, owned by no other course, with no banner wording. Unknown ownership (None) means none."""
+    row = (course.get("_source") or {}).get("row_index")
+    if shared_cells is None or row is None:
+        return set()
+    return {clean_str(c.get("text")) for role in ("code", "title") for c in role_cells.get(role, [])
+            if c.get("row_start") == row and c.get("row_end") == row + 1 and c.get("cell_id") not in shared_cells
+            and not has_banner_text(c.get("text") or "") and not _EVIDENCE_BANNER.search(clean_str(c.get("text")).upper())}
 
 
 # A course code, known or not, ends a row band: "CS 1", "OTHER 2", "ENTRE 15", "GE-MMW". Upper-case prefixes only,
@@ -118,10 +123,16 @@ def anchored_in_pdf(page_text: str, head: str, tail: str, units_raw: str) -> boo
     return False
 
 
+def shared_cell_ids(courses: Iterable[Mapping[str, Any]]) -> frozenset[str]:
+    """Cell ids that sit in the provenance of more than one course."""
+    seen = Counter(i for c in courses for i in {s.get("cell_id") for s in (c.get("provenance") or {}).get("source_cells") or []})
+    return frozenset(i for i, n in seen.items() if i is not None and n > 1)
+
+
 def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]], banners: Collection[str],
-                 page_text: str | None = None) -> list[Fix]:
+                 page_text: str | None = None, shared_cells: Collection[str] | None = None) -> list[Fix]:
     out = []
-    own = [c.get("text") or "" for c in (course.get("provenance") or {}).get("source_cells") or []]
+    evidence = _evidence_cells(course, role_cells, shared_cells)
     units = (course.get("units") or {}).get("raw") or ""
     for field, role, name in ((FIELD_CODE, "code", "code"), (FIELD_TITLE, "title", "title")):
         value = clean_str(course.get(field))
@@ -129,11 +140,10 @@ def _strip_fixes(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Ma
         stripped = strip_banner(value) if BANNER_PHRASE.search(value) and banner_confirmed(value, banners) else None
         if stripped and field == FIELD_TITLE and ANY_CODE.match(stripped):
             stripped = None   # "PE 1 Rhythmic": this course's title or the next row's code? Without layout, flag only.
-        evidence = [t for t in own if clean_str(t) != value]       # this course's other cells, not the banner cell
         anchored = bool(stripped and page_text) and (
             anchored_in_pdf(page_text, clean_str(course.get(FIELD_CODE)), stripped, units) if field == FIELD_TITLE
             else anchored_in_pdf(page_text, stripped, clean_str(course.get(FIELD_TITLE)), units))
-        if stripped and (anchored or printed_without_banner(stripped, evidence)):
+        if stripped and (anchored or stripped in evidence):
             out.append(Fix("strip_banner", field, value, stripped, f"banner text removed from the {name}",
                            _fix_id("strip_banner", field, cells)))
     return out
@@ -201,11 +211,13 @@ def propose_fixes(
     page_text: str | None = None,
     known_codes: Sequence[str] = (),
     banners: Collection[str] = (),
+    shared_cells: Collection[str] | None = None,
 ) -> list[Fix]:
     """`banners`: the banner words the course's table prints in its section-banner cells. A strip is
-    proposed only for banner text made of those words, and only when the remainder is printed
-    elsewhere without a banner next to it (another cell of this course or this course's own PDF row); else it is flag-only."""
-    fixes = _strip_fixes(course, role_cells, banners, page_text) + _move_fix(course, role_cells)
+    proposed only for banner text made of those words, and only when the remainder is printed on its own:
+    exactly as one of this course's own code/title cells (see `_evidence_cells`), or anchored in its PDF row;
+    else it is flag-only. `shared_cells`: `shared_cell_ids(candidate courses)`; None means no cell is evidence."""
+    fixes = _strip_fixes(course, role_cells, banners, page_text, shared_cells) + _move_fix(course, role_cells)
     if title_not_in_pdf and page_text and not any(f.field == FIELD_TITLE for f in fixes):
         new = title_from_pdf(clean_str(course.get("course_code")), (course.get("units") or {}).get("raw") or "",
                              course.get("course_title") or "", page_text, known_codes)

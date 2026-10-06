@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
 from .course_checks import PdfPage, check_course_pdf
-from .fixes import banner_confirmed, banner_words, propose_fixes
+from .fixes import banner_confirmed, banner_words, propose_fixes, shared_cell_ids
 from .placement import attach, unclaimed_items
 from .prerequisites import is_standing_rule
 from .text import SEMESTER_ORDER, YEAR_ORDER, clean_str, has_banner_text, is_banner_text, norm_key, term_index
@@ -185,7 +185,7 @@ def _course_flags(index, course, ctx) -> tuple[list[Flag], list]:
             title_missing = True
             flags.append(Flag("title_not_in_pdf", WARN, "title not found in the PDF text", "course_title"))
     fixes = propose_fixes(course, roles, title_not_in_pdf=title_missing, page_text=page.text if page else None,
-                          known_codes=ctx["codes"], banners=ctx["banners"].get(table, ()))
+                          known_codes=ctx["codes"], banners=ctx["banners"].get(table, ()), shared_cells=ctx["shared_cells"])
     for fix in fixes:
         if fix.kind == "move_term":
             flags.append(Flag("term_mismatch", WARN, f"{fix.note}, but the course is placed in {fix.old}", "term"))
@@ -218,7 +218,7 @@ def verify_candidate(payload: Mapping[str, Any], pdf_pages: Mapping[int, PdfPage
     code_count = Counter(norm_key(c.get("course_code") or "") for c in courses)
     ctx = {
         "courses": courses, "layout": layout, "evidence_ids": evidence_ids, "pages": pdf_pages or {},
-        "banners": _banner_words_by_table(courses, evidence_ids),
+        "banners": _banner_words_by_table(courses, evidence_ids), "shared_cells": shared_cell_ids(courses),
         "code_count": code_count, "codes": [c.get("course_code") or "" for c in courses],
         "positions": {c.get("course_code"): _term_of(c) for c in courses
                       if code_count[norm_key(c.get("course_code") or "")] == 1 and c.get("year_level") and c.get("semester")},
