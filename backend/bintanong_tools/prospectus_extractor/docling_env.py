@@ -6,6 +6,7 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as package_version
 from pathlib import Path
 from typing import Any
+import json
 import os
 import re
 import subprocess
@@ -212,16 +213,22 @@ def get_pipeline_options(device: str = "auto", settings: Any = None) -> Any:
     return options
 
 
-_SHARED_CONVERTERS: dict[tuple[str, str], Any] = {}
+_SHARED_CONVERTERS: dict[tuple[str, str, str], Any] = {}
 
 
-def get_shared_converter(device: str = "auto", backend: str = "docling_parse") -> Any:
+def get_shared_converter(
+    device: str = "auto", backend: str = "docling_parse", settings: Any = None
+) -> Any:
+    """One converter per (device, backend, full conversion settings): a settings change
+    never reuses a converter whose pipeline options were built under other settings."""
     dl = load_docling()
     dev = (device or "auto").strip().lower()
     backend_key = (backend or "docling_parse").strip().lower()
-    key = (dev, backend_key)
+    used = dict(settings) if settings is not None else conversion_settings()
+    settings_key = json.dumps(used, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    key = (dev, backend_key, settings_key)
     if key not in _SHARED_CONVERTERS:
-        opts = get_pipeline_options(device=dev)
+        opts = get_pipeline_options(device=dev, settings=used)
         backend_cls = (
             dl["PyPdfiumDocumentBackend"]
             if backend_key == "pypdfium2"

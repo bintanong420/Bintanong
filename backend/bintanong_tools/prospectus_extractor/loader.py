@@ -378,7 +378,8 @@ def load_document(
             print(f"[*] Ignoring cached Docling JSON ({reason}); reconverting.")
 
     print(f"[*] Converting with Docling ({device.upper()}): {input_path.name}")
-    active = converter or get_shared_converter(device=device, backend="docling_parse")
+    active = converter or get_shared_converter(
+        device=device, backend="docling_parse", settings=settings)
     result = active.convert(str(input_path))
 
     if _conversion_has_bad_alloc(result):
@@ -386,7 +387,8 @@ def load_document(
             "[!] Native Docling PDF backend hit std::bad_alloc; retrying through "
             "Docling's PyPdfium backend (NOT PyMuPDF)."
         )
-        result = get_shared_converter(device=device, backend="pypdfium2").convert(str(input_path))
+        result = get_shared_converter(
+            device=device, backend="pypdfium2", settings=settings).convert(str(input_path))
 
     if _conversion_has_bad_alloc(result):
         raise MemoryError(

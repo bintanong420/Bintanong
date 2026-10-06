@@ -97,3 +97,74 @@ def test_cache_record_names_the_pdf_and_the_json_it_guards(tmp_path, pdf_factory
     assert meta["raw_json_sha256"] == identity.file_sha256(out / "a_docling.json")
     assert meta["conversion_identity"] == identity.conversion_identity(
         meta["pdf_sha256"], meta["conversion_settings"])
+
+
+# --- D-1: a shared converter is keyed by every conversion setting, not only device and backend.
+
+from types import SimpleNamespace
+
+from backend.bintanong_tools.prospectus_extractor import docling_env
+
+
+@pytest.fixture
+def fake_converter_factory(monkeypatch):
+    """docling_env with fake Docling classes: a 'converter' records the settings its options came from."""
+    fake = {
+        "DocumentConverter": lambda format_options: SimpleNamespace(format_options=format_options),
+        "PdfFormatOption": lambda pipeline_options, backend: SimpleNamespace(
+            pipeline_options=pipeline_options, backend=backend),
+        "InputFormat": SimpleNamespace(PDF="pdf"),
+        "PyPdfiumDocumentBackend": "pypdfium",
+        "DoclingParseV4DocumentBackend": "docling-parse",
+    }
+    monkeypatch.setattr(docling_env, "load_docling", lambda: fake)
+    monkeypatch.setattr(docling_env, "_SHARED_CONVERTERS", {})
+    monkeypatch.setattr(
+        docling_env, "get_pipeline_options",
+        lambda device="auto", settings=None: SimpleNamespace(
+            settings=dict(settings if settings is not None else identity.conversion_settings())),
+    )
+
+    def built_with(converter):
+        return converter.format_options["pdf"].pipeline_options.settings
+
+    return built_with
+
+
+def test_shared_converter_is_rebuilt_when_a_setting_changes(monkeypatch, fake_converter_factory):
+    built_with = fake_converter_factory
+    monkeypatch.setenv("PALSU_DOCLING_CELL_MATCHING", "true")
+    first = docling_env.get_shared_converter("cpu")
+    monkeypatch.setenv("PALSU_DOCLING_CELL_MATCHING", "false")
+    second = docling_env.get_shared_converter("cpu")
+    assert second is not first
+    assert built_with(first)["cell_matching"] is True
+    assert built_with(second)["cell_matching"] is False
+    assert docling_env.get_shared_converter("cpu") is second
+
+
+def test_shared_converter_honours_explicit_settings(fake_converter_factory):
+    built_with = fake_converter_factory
+    plain = docling_env.get_shared_converter("cpu")
+    ocr_settings = identity.conversion_settings(do_ocr=True, ocr_languages=["en"])
+    ocr = docling_env.get_shared_converter("cpu", settings=ocr_settings)
+    assert ocr is not plain
+    assert built_with(ocr) == ocr_settings
+    assert docling_env.get_shared_converter("cpu", settings=dict(ocr_settings)) is ocr
+
+
+def test_loader_asks_for_a_converter_built_with_the_settings_it_records(
+    tmp_path, monkeypatch, pdf_factory, converter, process
+):
+    requests = []
+
+    def shared(**kwargs):
+        requests.append(kwargs)
+        return converter
+
+    monkeypatch.setattr(loader, "get_shared_converter", shared)
+    pdf = pdf_factory(tmp_path / "in")
+    out = tmp_path / "out"
+    process(pdf, out, None, force_reconvert=False)
+    meta = json.loads((out / "a_docling.meta.json").read_text(encoding="utf-8"))
+    assert requests and requests[0].get("settings") == meta["conversion_settings"]
