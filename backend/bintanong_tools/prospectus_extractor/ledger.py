@@ -30,7 +30,8 @@ from typing import Any, Iterable, Mapping, Sequence
 
 from .courses import finalize_courses
 from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, format_term, parse_term
-from .text import term_index
+from .prerequisites import annotate_prerequisite_states
+from .text import clean_str, term_index
 from .verify import verify_candidate
 from .views import build_curriculum_by_term, build_unlocks_map, make_prerequisite_edges
 
@@ -530,6 +531,16 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     for course in courses:
         course["code"], course["title"] = course.get("course_code"), course.get("course_title")
     final, _index, duplicates = finalize_courses(courses)
+    # Re-run Phase C's classification on the corrected text. `reviewed_empty` is written only here: a person accepted
+    # a blank cell (latest applicable prerequisites_raw entry is `accepted`, on a course that is still blank).
+    annotate_prerequisite_states(final, (payload.get("audit") or {}).get("structural_anomalies") or [])
+    decided = latest_by_field(applicable)
+    for course in final:
+        key = locator_key(course_locator(course))
+        accepted = decided.get((key, FIELD_PREREQ))
+        if (accepted and accepted["disposition"] == ACCEPTED and len(by_key.get(key, [])) == 1
+                and not clean_str(course.get("prerequisites_raw")) and course["prerequisite_state"] == "blank_unreviewed"):
+            course["prerequisite_state"] = "reviewed_empty"
     corrected = {k: copy.deepcopy(v) for k, v in payload.items()}
     corrected.update({
         "courses": final,
