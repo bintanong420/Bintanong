@@ -2,7 +2,7 @@ import copy
 import json
 from datetime import datetime, timezone
 
-from backend.bintanong_tools.prospectus_extractor.ledger import (entry_id_of, 
+from backend.bintanong_tools.prospectus_extractor.ledger import (entry_id_of,
     CORRECTED, course_locator, course_snapshot, make_entry, materialise, write_corrected,
 )
 
