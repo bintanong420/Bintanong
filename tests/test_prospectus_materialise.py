@@ -2,6 +2,8 @@ import copy
 import json
 from datetime import datetime, timezone
 
+import pytest
+
 from backend.bintanong_tools.prospectus_extractor.ledger import (entry_id_of,
     CORRECTED, course_locator, course_snapshot, make_entry, materialise, write_corrected,
 )
@@ -142,3 +144,47 @@ def test_materialise_keeps_source_prerequisite_ambiguity_unreadable():
     corrected, _ = materialise(payload, [decision], HASH)
     result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
     assert result["prerequisite_state"] == "unreadable"
+
+
+@pytest.mark.parametrize("verification", ["verified", "pending"])
+@pytest.mark.parametrize("correction,incomplete", [(None, 0), ("CS 1, Ghost 99", 1)])
+def test_materialised_review_artifacts_recompute_gates_and_block_stale_authority(verification, correction, incomplete):
+    from types import SimpleNamespace
+    import test_prospectus_authority as af
+
+    source = SimpleNamespace(pdf_sha256=af.SOURCE_HASH, source_locator="local/x.pdf", source_verification=verification)
+    rows = [af._cs_row(("CS 1", "Discrete Structures", "3", "none"),
+                      ("CS 2", "Discrete Structures 2", "3", "CS 1"))]
+    draft = af.payload_for(rows, source=source)
+    payload = af.payload_for(rows, source=source, pdf_hash_check="matched",
+                             approved_scope={"program_name": draft["metadata"]["program_name"]},
+                             review_entries=af.ledger_row_entries(draft))
+    original = copy.deepcopy(payload)
+    assert payload["authority"]["eligibility_executable"] is (verification == "verified")
+    decisions = af.ledger_row_entries(payload)
+    if correction is not None:
+        course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+        decisions.append(entry(course, "prerequisites_raw", "corrected", "CS 1", correction, pdf=af.SOURCE_HASH))
+    corrected, report = materialise(payload, decisions, af.SOURCE_HASH)
+    assert report["applied"] == incomplete
+    assert corrected["authority"]["eligibility_executable"] is False
+    assert corrected["authority"]["courses_with_incomplete_prerequisite_rule"] == incomplete
+    assert ("prerequisite_rules_incomplete" in corrected["authority"]["blocked_by"]) is bool(incomplete)
+    assert "derived_sections_stale" in corrected["authority"]["blocked_by"]
+    assert "authority" in corrected["review"]["derived_sections_stale"]
+    assert corrected["source_verification"] == verification
+    assert ("source_verification_pending" in corrected["authority"]["blocked_by"]) is (verification == "pending")
+    assert corrected["content_review"] == corrected["review"]["content_review"]["state"] == "reviewed"
+    assert corrected["authority"]["content_review_detail"] == corrected["review"]["content_review"]
+    assert payload == original
+
+
+def test_materialising_new_ledger_evidence_refreshes_top_level_review_status():
+    import test_prospectus_authority as af
+
+    payload = af.payload_for([af.CONTROL])
+    assert payload["content_review"] == "pending"
+    corrected, _ = materialise(payload, af.ledger_row_entries(payload), af.SOURCE_HASH)
+    assert corrected["content_review"] == "reviewed"
+    assert corrected["source_verification"] == "pending"
+    assert corrected["authority"]["eligibility_executable"] is False

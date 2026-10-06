@@ -23,9 +23,12 @@ import json
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, Iterable, Mapping, Sequence
 
+from .authority import build_authority
 from .courses import finalize_courses
+from .placement import unclaimed_items
 from .prerequisites import annotate_prerequisite_states
 from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, format_term, parse_term
 from .text import term_index
@@ -43,7 +46,7 @@ UNIT_FIELDS = ("lecture_units", "lab_units", "total_units")   # the candidate's 
 FIELD_PREREQ = "prerequisites_raw"
 CORRECTABLE_FIELDS = (*COURSE_FIELDS, *UNIT_FIELDS, FIELD_PREREQ)   # review state still asks only for COURSE_FIELDS
 ENTRY_FIELDS = (*CORRECTABLE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
-STALE_SECTIONS = ["audit", "elective_tracks", "prolog", "quality_report", "rag"]  # not rebuilt from corrections
+STALE_SECTIONS = ["audit", "extraction_audit", "authority", "elective_tracks", "prolog", "quality_report", "rag"]
 
 
 class LedgerError(ValueError):
@@ -295,7 +298,7 @@ def split_stale(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     for course in payload.get("courses") or []:
         by_key[locator_key(course_locator(course))].append(course)
     listed: dict[tuple, list[Any]] = defaultdict(list)
-    for item in (payload.get("audit") or {}).get("unclaimed_course_candidates") or []:
+    for item in unclaimed_items(payload.get("audit") or {}, payload.get("courses") or [], None):
         listed[locator_key(unclaimed_locator(item))].append(item.get("code"))
     current, stale, orphan = [], [], []
     for entry in entries:
@@ -353,7 +356,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
         if any(e and e["disposition"] == UNRESOLVED for e in (latest.get((key, n)) for n in CORRECTABLE_FIELDS)):
             unresolved += 1
     audit = payload.get("audit") or {}
-    listed = {locator_key(unclaimed_locator(u)) for u in audit.get("unclaimed_course_candidates") or []}
+    listed = {locator_key(unclaimed_locator(u)) for u in unclaimed_items(audit, courses, None)}
     undecided = sum(1 for key in listed if (key, FIELD_UNCLAIMED) not in latest)
     unresolved += sum(1 for (key, name), e in latest.items() if name == FIELD_UNCLAIMED and e["disposition"] == UNRESOLVED)
     if not applicable:
@@ -436,6 +439,22 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
         "unlocks": build_unlocks_map(final),
     })
     state = content_review_state(payload, entries, pdf_sha256)
+    inherited = payload.get("authority") or {}
+    record = inherited.get("source_record")
+    source = SimpleNamespace(
+        pdf_sha256=record.get("pdf_sha256"), source_locator=record.get("source_locator"),
+        source_verification=payload.get("source_verification", "pending"),
+    ) if record else None
+    corrected.update(build_authority(
+        audit_status=payload.get("extraction_audit", (payload.get("audit") or {}).get("status", "error")),
+        metadata=corrected.get("metadata") or {}, courses=final, source=source,
+        approved_scope=(inherited.get("identity_check") or {}).get("approved_scope"),
+        pdf_hash_check=record.get("pdf_hash_check", "not_checked") if record and record.get("pdf_sha256") == pdf_sha256 else "not_checked",
+        content_review=state,
+    ))
+    # Materialisation rebuilds course views, not the inherited audit, Prolog or RAG.
+    corrected["authority"]["eligibility_executable"] = False
+    corrected["authority"]["blocked_by"].append("derived_sections_stale")
     corrected["review"] = {
         "schema": CORRECTED_VERSION, "pdf_sha256": pdf_sha256, "content_review": state,
         "applied_entry_ids": sorted(applied), "skipped": sorted(skipped, key=lambda s: (s["reason"], str(s["entry_id"]))),
