@@ -6,10 +6,12 @@ import codecs
 import csv
 import io
 import json
+from pathlib import Path
+import re
 
 import pytest
 
-from backend.bintanong_tools.prospectus_extractor import publish, views
+from backend.bintanong_tools.prospectus_extractor import batch, loader, paths, publish, views
 
 IDENTITY = {"run_key": "a" * 64, "input_kind": "docling-json",
             "input_sha256": "b" * 64, "pdf_sha256": None,
@@ -193,12 +195,90 @@ def test_write_failure_keeps_staged_files_and_clears_the_previous_diagnostics(tm
 
 def test_stale_staging_directories_are_removed_for_the_same_base_only(tmp_path):
     out = tmp_path / "out"
-    (out / ".a.staging-dead").mkdir(parents=True)
-    (out / ".b.staging-live").mkdir()
+    prefix = ".s-ca978112ca1bbdcafac231b39a23dc4d-"  # SHA256 of UTF-8 "a", first 128 bits
+    stale = out / (prefix + "deadbeef")
+    stale.mkdir(parents=True)
+    (stale / "partial.json").write_bytes(b"partial")
+    neighbors = [out / ".s-ca978112ffffffffffffffffffffffff-12345678",
+                 out / ".s-3e23e8160039594a33894f6564e1b1348-12345678",
+                 out / "unrelated"]
+    for neighbor in neighbors:
+        neighbor.mkdir()
+        (neighbor / "keep.txt").write_bytes(b"keep")
+    matching_file = out / (prefix + "87654321")
+    matching_file.write_bytes(b"keep file")
     stage = publish.new_staging_dir(out, "a")
-    assert not (out / ".a.staging-dead").exists()
-    assert (out / ".b.staging-live").exists()
-    assert stage.parent == out and stage.name.startswith(".a.staging-") and stage.is_dir()
+    assert not stale.exists()
+    assert all((neighbor / "keep.txt").read_bytes() == b"keep" for neighbor in neighbors)
+    assert matching_file.read_bytes() == b"keep file"
+    assert stage.parent == out and stage.is_dir()
+    assert re.fullmatch(re.escape(prefix) + "[0-9a-f]{8}", stage.name)
+    second = publish.new_staging_dir(out, "a")
+    assert second != stage and second.is_dir() and not stage.exists()
+
+
+def test_default_output_root_is_home_relative_without_creating_it(tmp_path, monkeypatch):
+    home = tmp_path / "absent-home"
+    monkeypatch.setattr(Path, "home", classmethod(lambda cls: home))
+    assert paths.find_default_output_root() == home / "Bintanong" / "output"
+    assert batch.BatchConfig().output_root == home / "Bintanong" / "output"
+    explicit = tmp_path / "explicit-output"
+    assert batch.BatchConfig(output_root=explicit).output_root == explicit
+    assert not home.exists() and not explicit.exists()
+
+
+def test_compact_staging_uses_the_utf8_stem_digest(tmp_path):
+    stage = publish.new_staging_dir(tmp_path, "ñ prospectus")
+    assert re.fullmatch(r"\.s-47ceaa5e781a5b7de3677827a86b6d52-[0-9a-f]{8}", stage.name)
+
+
+@pytest.mark.parametrize("relative,expected_base", [
+    ("Tiniguiban - Main/CS/Computer Science/New Curriculum (2025-2026)/"
+     "1_BS Computer Science_for BOR approval _rev02_v7_6 August 2025.pdf",
+     "1_BS Computer Science_for BOR approval _rev02_v7_6 August 2025"),
+    ("Citizens Charter/BS Computer Science_for BOR approval _rev02_v7_6 August 2025 (2).pdf",
+     "BS Computer Science_for BOR approval _rev02_v7_6 August 2025 _2_"),
+])
+def test_actual_long_paths_fit_with_generated_stage_and_atomic_temp_names(
+    tmp_path_factory, monkeypatch, relative, expected_base,
+):
+    # Project only: actual files stay in pytest's external scratch, never in the home output root.
+    tmp_path = tmp_path_factory.mktemp("paths")
+    relative = Path(relative)
+    item = batch.build_batch_items([tmp_path / "inputs" / relative], batch.BatchConfig(
+        input_root=tmp_path / "inputs", output_root=paths.find_default_output_root(),
+    ))[0]
+    names = publish.output_names(item.json_path)
+    stage = publish.new_staging_dir(tmp_path / "out", names.base)
+    assert len(str(names.final)) < 260
+    assert len(str(names.final.parent / stage.name / names.final.name)) < 260
+    temp_names = []
+    real_replace = loader.replace_file
+
+    def replace(source, target):
+        temp_names.append(source.name)
+        real_replace(source, target)
+
+    monkeypatch.setattr(loader, "replace_file", replace)
+    raw = stage / f"{relative.stem}_docling.json"
+    meta = loader._cache_meta_path(raw)
+    loader._write_bytes_atomic(meta, b"cache bytes")
+    assert meta.read_bytes() == b"cache bytes" and len(temp_names) == 1
+    artifacts = [names.final, names.essentials, names.prolog, names.rag, names.csv,
+                 names.markup, names.manifest, names.final.parent / raw.name,
+                 names.final.parent / meta.name]
+    projected_stage = names.final.parent / stage.name
+    projected = {
+        "final": artifacts,
+        "stage": [projected_stage / artifact.name for artifact in artifacts],
+        "temp": [projected_stage / temp_names[0]],
+        "failed": [names.failed_dir / artifact.name for artifact in artifacts]
+                  + [names.failed_dir / "failure.json"],
+    }
+    assert names.final.name == f"{expected_base}_prospectus.json"
+    assert names.failed_dir == names.final.parent / "failed" / expected_base
+    for kind, candidates in projected.items():
+        assert max(len(str(path)) for path in candidates) < 260, (kind, candidates)
 
 
 def test_markup_twin_is_published_before_the_main_json_and_removed_when_stale(tmp_path):

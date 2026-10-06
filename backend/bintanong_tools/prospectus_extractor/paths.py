@@ -34,4 +34,4 @@ def find_default_input_root() -> Path:
 
 
 def find_default_output_root() -> Path:
-    return (Path(__file__).resolve().parent / "docling_jsonified_output").resolve()
+    return Path.home() / "Bintanong" / "output"

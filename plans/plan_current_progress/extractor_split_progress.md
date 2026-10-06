@@ -493,3 +493,79 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Root superseded QUOTE_ALL hypothesis: main and GUI-review Python3.13.5 both already quote bareCR under LF/QUOTE_MINIMAL; backend requires ==3.13.*. Native quoting retained; runtime probe/log external, no unsupported-runtime workaround or new dependency.
 - Fresh focused GREEN361passed/no warnings; main full956passed/13subtests/3upstream warnings with two approved API/embedding excludes. task-d-lf-report.md and exact original/resume logs outside Git in approved scratch; previous progress checkpoints preserved.
 - GUI-review comprehensive suite and standalone final D selftest NOT RUN for F4, deferred final gates. Parent independent specification then quality review pending; S1/S2/S4/F5/final D gates/Task10 and downstream queue remain. Phase D not complete.
+
+### Codex recovery checkpoint 2026-10-06T22:42:47+08:00
+- Task: D F4 LF artifacts; step: Committed 52da4aaca7d734e83054b1ecd39221ac09302a3b; focused361/full956+13 verified; parent specification then quality review pending; owner: /root/d_lf_resume.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: clean.
+- Evidence: task-d-lf-report.md; task-d-lf-red.log; task-d-lf-green.log; task-d-lf-cr-red.log; task-d-lf-runtime-probe.log; task-d-lf-resumed-focused.log; task-d-lf-resumed-full.log.
+- Next: Parent review 4a0cdb794a337b9cc91846d16585478c3bb5fde0..52da4aaca7d734e83054b1ecd39221ac09302a3b; preserve sole dirty postcommit progress checkpoint.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:45:53+08:00
+- Task: D F4 LF artifacts review; step: 52da4aa SPEC APPROVED/NONE; separate qualityseat active; owner: /root/d_lf_quality.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-lf-spec-review.md APPROVED/NONE; focused361 full956+13; task-d-paths-brief.md ready.
+- Next: Qualityverdict then S1 compactpaths task on52da4aa; use latest32digitstemkey/defaultroot ruling.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:51:46+08:00
+- Task: D S1 compact Windows paths; step: Tests written; production unchanged; ready RED; owner: /root/d_paths.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_cache.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-paths-brief.md; latest final32digest ruling; s1-path-projection.json.
+- Next: Run S1 RED selectors in publish/cache tests with external basetemp; inspect expected failures before production edits.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:52:51+08:00
+- Task: D S1 compact Windows paths; step: Authentic RED8failed1passed88deselected; production unchanged; owner: /root/d_paths.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_cache.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-paths-red-final.log; task-d-paths-red.log.
+- Next: Implement home/Bintanong/output, shared32digest stage prefix and mkstemp .t-; rerun exact RED selector GREEN.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:53:22+08:00
+- Task: D S1 compact Windows paths; step: GREEN9passed88deselected; minimal3productionfiles changed; owner: /root/d_paths.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: M backend/bintanong_tools/prospectus_extractor/loader.py
+ M backend/bintanong_tools/prospectus_extractor/paths.py
+ M backend/bintanong_tools/prospectus_extractor/publish.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_cache.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-paths-red-final.log; task-d-paths-green.log.
+- Next: Run focused path/cache/publication/batch suites; actual generated-name all44 corpus path projection; then main full excluded baseline.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:55:00+08:00
+- Task: D S1 compact Windows paths; step: Focused386passed/no warnings; before main full approved excludes; owner: /root/d_paths.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: M backend/bintanong_tools/prospectus_extractor/loader.py
+ M backend/bintanong_tools/prospectus_extractor/paths.py
+ M backend/bintanong_tools/prospectus_extractor/publish.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_cache.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-paths-focused.log386passed; task-d-paths-red-final.log; task-d-paths-green.log; task-d-paths-actual-projection.json.
+- Next: Run main Python -m pytest -q tests --ignore=tests/test_api_probes.py --ignore=tests/test_embedding_service.py -p no:cacheprovider --basetemp external/s1-full-temp, log task-d-paths-full.log; inspect exit/counts before commit.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:56:47+08:00
+- Task: D S1 compact Windows paths; step: Fresh full961passed13subtests3upstreamwarnings; all44projection251max; precommit; owner: /root/d_paths.
+- HEAD: 52da4aaca7d734e83054b1ecd39221ac09302a3b; state: M backend/bintanong_tools/prospectus_extractor/loader.py
+ M backend/bintanong_tools/prospectus_extractor/paths.py
+ M backend/bintanong_tools/prospectus_extractor/publish.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_cache.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-paths-red-final.log8failed1passed; task-d-paths-green.log9passed; task-d-paths-focused.log386passed; task-d-paths-full.log961passed13subtests3warnings; task-d-paths-actual-projection.json.
+- Next: Finish S1 report/progress and normalize edited text LF; stage exact paths.py publish.py loader.py test_prospectus_publish.py test_prospectus_cache.py extractor_split_progress.md; commit with required Claude trailer.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D S1 compact Windows paths (2026-10-06)
+- Portable default is Path.home() / 'Bintanong' / 'output', replacing the package-local docling_jsonified_output default. Existing artifacts stay in their old location; old consumers must pass explicit --output (JSON path for one file, root for batch). No previous outputs moved/deleted and no home artifacts generated during verification. Existing final/cache filenames, batch sanitization, explicit overrides and failed/<base>/ layout remain unchanged.
+- Stage .s-<32hex UTF8 stem SHA256 prefix>-<8 UUID hex> reuses shared identity.bytes_sha256 through one private prefix helper for generation/cleanup. Cleanup targets the full128bit stem prefix, preserving other stems, unrelated folders and matching regular files. Earlier8digit proposal superseded: cost24 extra path characters, actual stage name44. One writer per output stem retained; no arbitrary-neighbor cleanup or new framework.
+- Atomic cache writer keeps unique tempfile.mkstemp and replacement/failure semantics, shortening only prefix to .t- with .tmp suffix (actual name15). Regression checks cover interleaved writes, locked replacement retry/cleanup and interrupted write cleanup while preserving old bytes.
+- Authentic TDD RED8failed1passed88deselected before production; GREEN9passed88deselected. Fresh focused386passed/no warnings; main full961passed/13subtests/3 existing upstream warnings, with approved API/embedding exclusions. Exact commands/logs in external task-d-paths-report.md and task-d-paths-{red-final,green,focused,full}.log.
+- Read-only original44 corpus projection used actual output directories and generated stage/temp names: root35, final181/stage226/temp161/failed251 versus old final/cache268. Exact maxima paths in external task-d-paths-actual-projection.json. Longest real Tiniguiban CS relative input and separate Citizens Charter BOR proposal (2) boundary covered; no proposal opened/converted. Current corpus fits at most8 extra root characters below260; arbitrary longer home/explicit roots require caller-selected shorter --output, never silent artifact renaming.
+- GUI comprehensive suite, standalone selftest80, semantic44 comparer and trials NOT RUN for S1, deferred parent final D gates. Independent specification then quality reviews pending. S2/S4/F5/final D gates/Task10 and downstream queue remain; Phase D not complete. Existing F4 postcommit/review progress preserved.

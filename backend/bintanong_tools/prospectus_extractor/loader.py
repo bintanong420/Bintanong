@@ -309,7 +309,7 @@ def _write_bytes_atomic(path: Path, data: bytes) -> None:
     fails (publish.ReplaceFailed after retries), the temp is removed."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    handle, temp_name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
+    handle, temp_name = tempfile.mkstemp(dir=path.parent, prefix=".t-", suffix=".tmp")
     temp = Path(temp_name)
     try:
         with os.fdopen(handle, "wb") as stream:

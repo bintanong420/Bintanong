@@ -57,9 +57,13 @@ def write_text_lf(path: Path, text: str) -> None:
     Path(path).write_bytes(text.encode("utf-8"))
 
 
+def _staging_prefix(base: str) -> str:
+    return f".s-{bytes_sha256(base.encode('utf-8'))[:32]}-"
+
+
 def remove_stale_staging(parent: Path, base: str) -> None:
     """Delete staging directories a killed run left behind. One writer per output stem."""
-    prefix = f".{base}.staging-"
+    prefix = _staging_prefix(base)
     if not Path(parent).is_dir():
         return
     for entry in Path(parent).iterdir():
@@ -71,7 +75,7 @@ def new_staging_dir(parent: Path, base: str) -> Path:
     """A fresh directory beside the target, so every replace stays on one filesystem."""
     parent = Path(parent)
     remove_stale_staging(parent, base)
-    stage = parent / f".{base}.staging-{uuid.uuid4().hex[:8]}"
+    stage = parent / f"{_staging_prefix(base)}{uuid.uuid4().hex[:8]}"
     stage.mkdir(parents=True)
     return stage
 

@@ -207,6 +207,8 @@ def test_interleaved_writers_to_one_target_do_not_share_a_temp_file(tmp_path, mo
     assert target.read_bytes() == b"A"
     assert len(sources) == 2 and sources[0] != sources[1]
     assert all(source.parent == target.parent for source in sources)
+    assert all(source.name.startswith(".t-") and source.name.endswith(".tmp")
+               and len(source.name) == 15 for source in sources)
     assert sorted(path.name for path in target.parent.iterdir()) == ["a_docling.json"]
 
 
@@ -235,8 +237,10 @@ def test_a_target_that_stays_locked_raises_a_clean_error_and_leaves_no_temp(tmp_
 
     target = tmp_path / "a_docling.json"
     target.write_bytes(b"old")
+    sources = []
 
     def replace(src, dst):
+        sources.append(Path(src))
         raise PermissionError(13, "The process cannot access the file", str(dst))
 
     monkeypatch.setattr(os, "replace", replace)
@@ -245,6 +249,46 @@ def test_a_target_that_stays_locked_raises_a_clean_error_and_leaves_no_temp(tmp_
         loader._write_bytes_atomic(target, b"new")
     assert target.read_bytes() == b"old"
     assert sorted(path.name for path in tmp_path.iterdir()) == ["a_docling.json"]
+    assert len(set(sources)) == 1 and len(sources) == 5
+    assert sources[0].name.startswith(".t-") and len(sources[0].name) == 15
+
+
+def test_atomic_write_failure_preserves_old_bytes_and_removes_short_temp(tmp_path, monkeypatch):
+    target = tmp_path / "a_docling.json"
+    target.write_bytes(b"old")
+    sources = []
+    real_fdopen = os.fdopen
+
+    def fail_write(handle, mode):
+        stream = real_fdopen(handle, mode)
+
+        class InterruptedWrite:
+            def __enter__(self):
+                return self
+
+            def write(self, data):
+                stream.write(data[:1])
+                raise OSError("interrupted write")
+
+            def __exit__(self, *args):
+                stream.close()
+
+        return InterruptedWrite()
+
+    real_mkstemp = loader.tempfile.mkstemp
+
+    def mkstemp(**kwargs):
+        handle, name = real_mkstemp(**kwargs)
+        sources.append(Path(name))
+        return handle, name
+
+    monkeypatch.setattr(os, "fdopen", fail_write)
+    monkeypatch.setattr(loader.tempfile, "mkstemp", mkstemp)
+    with pytest.raises(OSError, match="interrupted write"):
+        loader._write_bytes_atomic(target, b"new")
+    assert target.read_bytes() == b"old"
+    assert list(tmp_path.iterdir()) == [target]
+    assert sources[0].name.startswith(".t-") and len(sources[0].name) == 15
 
 
 # --- D-3: the bytes whose digest was checked are the bytes that are parsed.
