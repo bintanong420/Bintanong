@@ -100,7 +100,7 @@ def test_yes_on_blank_prerequisite_writes_accepted_prerequisites_raw_entry(env):
     assert (line["field"], line["disposition"], line["old_value"], line["new_value"]) == (FIELD_PREREQ, "accepted", "", "")
     assert line["via"] == "gui" and line["reason"] and line["locator"]["code_at_review"] == "CS 1"
     assert prereq_questions(session)["CS 1"].decided
-    assert session.state()["content_review"]["state"] == "pending"   # a prerequisite answer is not a course decision
+    assert session.state()["content_review"]["state"] == "partially_reviewed"   # content_review_state is unchanged: any current decision leaves `pending`, but `reviewed` never waits for one
 
 
 def test_other_on_prerequisite_accepts_text_and_empty_text_but_not_a_number(env):
@@ -147,7 +147,7 @@ def test_no_on_prerequisite_writes_unresolved_and_the_question_stays_open(env):
     again = prereq_questions(session)["GE-ET"]
     assert not again.decided and again.decision["disposition"] == "unresolved"
     assert any(x.qid == again.qid for x in order_queue(session.questions()))
-    assert session.state()["content_review"]["unresolved"] == 0   # it never holds back `reviewed`
+    assert session.state()["content_review"]["unresolved"] == 1   # B2 rule, unchanged: an unresolved decision on any field keeps the state partial
 
 
 def test_a_prerequisite_answer_never_changes_a_course_question_or_a_section_yes(env):
@@ -221,3 +221,15 @@ def test_page_and_script_carry_the_approval_line_and_the_three_state_words():
     assert "A reviewed prospectus is not an approved curriculum" in page and 'id="approval"' in page
     assert "state.review_states" in script and "state.approval_line" in script
     assert 'kind === "prerequisite"' in script   # an empty prerequisite is sent: it is the answer "none"
+
+def test_prerequisite_yes_and_other_never_hold_back_reviewed(env):
+    _ws, session, *_ = env
+    for q in session.queue("print"):
+        if q.kind not in (PREREQUISITE, "section_confirm"):
+            assert session.answer(q.qid, Answer("yes", reason="checked"))["errors"] == []
+    qs = prereq_questions(session)
+    assert session.answer(qs["CS 1"].qid, Answer("yes"), now=rf.NOW)["errors"] == []
+    assert session.answer(qs["CC 3/L"].qid, Answer("other", edits={FIELD_PREREQ: "CC 2/L, CS 1"}, reason="read from the PDF"), now=rf.NOW)["errors"] == []
+    state = session.state()
+    assert state["content_review"]["state"] == "reviewed"
+    assert state["prerequisites"] == {"questions": 3, "decided": 2, "unclassified_courses": 0}
