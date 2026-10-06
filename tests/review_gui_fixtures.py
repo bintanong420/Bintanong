@@ -7,7 +7,11 @@ quote and a non-ASCII letter.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from datetime import datetime, timezone
+from pathlib import Path
+from types import SimpleNamespace
 
 from backend.bintanong_tools.prospectus_extractor.sheet import row_entries
 from backend.bintanong_tools.prospectus_extractor.verify import verify_candidate
@@ -46,6 +50,37 @@ def row_of(verification, rid):
             if row.rid == rid:
                 return section, row
     raise AssertionError(rid)
+
+
+SYNTHETIC_PDF = Path(__file__).parent / "fixtures" / "synthetic_academic_guide.pdf"
+
+
+def workspace(tmp_path, payload=None, *, pdf=False, folder="work"):
+    """A candidate file, an optional PDF and a review folder under tmp_path (outside the repository).
+    identity is what fixer_cli.resolve_identity returns."""
+    payload = payload if payload is not None else mixed()
+    root = tmp_path / folder
+    candidate = root / "cand" / "x_prospectus.json"
+    candidate.parent.mkdir(parents=True)
+    candidate.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    pdf_path = None
+    identity = {"pdf_sha256": HASH, "pdf_path": None, "how": "declared hash"}
+    if pdf:
+        pdf_path = root / "pdf" / "x.pdf"
+        pdf_path.parent.mkdir()
+        pdf_path.write_bytes(SYNTHETIC_PDF.read_bytes())
+        identity = {"pdf_sha256": hashlib.sha256(pdf_path.read_bytes()).hexdigest(), "pdf_path": pdf_path, "how": "pdf file"}
+    return SimpleNamespace(payload=payload, candidate=candidate, pdf=pdf_path, identity=identity, review=root / "review",
+                           ledger=root / "review" / "decision_ledger.jsonl", root=root)
+
+
+def many(n):
+    """n clean courses in one term, each with its own code, title and unit cells."""
+    courses = [fx.course(f"X {i}", f"Course number {i}", "3", fx.T11, 3 + i, 0, [
+        fx.cell(f"t0-a{i}", f"X {i}", 3 + i, 0, 1, [60.0, 200.0 + 10 * i, 90.0, 208.0 + 10 * i]),
+        fx.cell(f"t0-b{i}", f"Course number {i}", 3 + i, 1, 2, [100.0, 200.0 + 10 * i, 200.0, 208.0 + 10 * i]),
+        fx.cell(f"t0-u{i}", "3", 3 + i, 2, 3, [246.0, 200.0 + 10 * i, 260.0, 208.0 + 10 * i])]) for i in range(n)]
+    return fx.payload(courses, layout=fx.BSCS_LAYOUT, declared={fx.T11: 3 * n})
 
 
 def decision(payload, verification, rid, verb="ok", *, reason="", edits=None, letters=(), pdf_sha256=HASH, via="gui"):
