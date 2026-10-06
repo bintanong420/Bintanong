@@ -93,7 +93,7 @@ def _confirm(question, answer, section, ledger_entries, payload, reviewer, pdf_s
     errors: list[str] = []
     for row in open_rows:
         errors += row_entries(entries, row, section, payload, "ok", [], reason, {}, via, reviewer, pdf_sha256, now)
-    return entries, errors
+    return ([], errors) if errors else (entries, [])   # all or nothing: one course's error drops the whole section
 
 
 def _printed_code(answer, row, section, payload, reviewer, pdf_sha256, via, now):
@@ -155,6 +155,8 @@ def answer_to_entries(
     needs `ledger_entries` (the ledger as it stands), so what is already decided is checked at answer time."""
     if answer.choice not in CHOICES:
         return [], [f"the answer must be yes, no or other, not {answer.choice!r}"]
+    if not isinstance(reviewer, str) or not reviewer.strip():   # make_entry would raise on it
+        return [], ["a reviewer name is needed"]
     section, row = _find(question, verification)
     if section is None or (row is None and question.kind != SECTION_CONFIRM):
         return [], [f"unknown question {question.qid}"]

@@ -279,6 +279,29 @@ def test_answer_never_mutates_candidate():
     assert payload == before
 
 
+@pytest.mark.parametrize("reviewer", ["", "   ", None])
+def test_blank_reviewer_is_an_answer_error_not_a_crash(reviewer):
+    payload, v, questions = setup()
+    for qid, answer in (("S1-02", Answer("yes")), ("S1:confirm", Answer("yes")), ("SU-U1", Answer("yes", reason="r"))):
+        result = answer_to_entries(questions[qid], answer, payload=payload, verification=v, reviewer=reviewer,
+                                   pdf_sha256=HASH, now=NOW, ledger_entries=[])
+        assert result == ([], ["a reviewer name is needed"])
+
+
+def test_a_section_answer_with_one_failing_course_returns_errors_and_no_entries(monkeypatch):
+    import backend.bintanong_tools.prospectus_review_gui.answers as answers
+    real = answers.row_entries
+    calls = []
+
+    def second_course_fails(entries, row, *args):
+        calls.append(row.rid)
+        return real(entries, row, *args) if len(calls) == 1 else ["this course cannot be confirmed"]
+
+    monkeypatch.setattr(answers, "row_entries", second_course_fails)
+    assert ask(setup(), "S1:confirm", "yes") == ([], ["this course cannot be confirmed"])
+    assert calls == ["S1-01", "S1-02"]
+
+
 def test_unknown_question_is_refused():
     payload, v, questions = setup()
     q = copy.copy(questions["S1-02"])
