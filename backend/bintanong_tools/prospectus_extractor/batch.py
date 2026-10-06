@@ -20,7 +20,7 @@ if RICH_AVAILABLE:
 from .identity import InputSnapshot, package_sha256, run_identity
 from .paths import DEFAULT_SEMANTIC_DOC, find_default_input_root, find_default_output_root
 from .pipeline import process_prospectus
-from .publish import output_names, read_manifest, verify_published
+from .publish import output_names, read_manifest, verify_published, write_text_lf
 
 
 def safe_stem(path: Path) -> str:
@@ -162,7 +162,7 @@ def write_manifest(records: Sequence[dict[str, Any]], output_root: Path) -> Path
         },
         "records": records,
     }
-    target.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    write_text_lf(target, json.dumps(payload, indent=2, ensure_ascii=False))
     return target
 
 

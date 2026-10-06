@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import codecs
+import csv
+import io
 import json
 
 import pytest
 
-from backend.bintanong_tools.prospectus_extractor import publish
+from backend.bintanong_tools.prospectus_extractor import publish, views
 
 IDENTITY = {"run_key": "a" * 64, "input_kind": "docling-json",
             "input_sha256": "b" * 64, "pdf_sha256": None,
@@ -19,6 +22,45 @@ def stage_files(stage, contents: dict[str, str]):
         if name.endswith("_prospectus.json"):
             text = json.dumps({"run_identity": IDENTITY, "marker": text})
         publish.write_text_lf(stage / name, text)
+
+
+@pytest.mark.parametrize("title", [
+    "Sining, kultura – ñ",
+    "Sining, kultura\r\nWikang Filipino – ñ",
+    "Sining\rWikang Filipino – ñ",
+])
+def test_review_csv_uses_lf_records_and_preserves_bom_columns_and_field_data(tmp_path, title):
+    path = tmp_path / "out" / "a_review.csv"
+    views.write_review_csv([{
+        "year_level": "FIRST YEAR", "semester": "FIRST SEMESTER", "course_code": "FIL 1",
+        "course_title": title, "total_units": 3, "lecture_units": 3, "lab_units": 0,
+        "prerequisites": ["GE 1", "GE 2"], "prerequisites_unresolved": ["ñ"],
+        "standing_requirements": ["First year", "Approved"], "category": "GE",
+        "elective_group": "Wika", "prerequisites_raw": "GE 1, GE 2", "title_raw": "Wikang ñ",
+        "footnote_marker": "*", "_source": {"table_index": 0, "row_index": 1, "column_group": 2},
+        "provenance": {"source_cell_ids": ["c1", "c2"], "page": 0, "bbox": [1, 2, 3, 4],
+                       "resolution_method": "reviewed", "repair_id": "r1"},
+    }], path)
+
+    raw = path.read_bytes()
+    assert raw.startswith(codecs.BOM_UTF8)
+    assert title.encode("utf-8") in raw
+    record_bytes = raw.replace(title.encode("utf-8"), b"")
+    assert b"\r" not in record_bytes
+    assert record_bytes.count(b"\n") == 2
+    assert raw.endswith(b"\n")
+    reader = csv.DictReader(io.StringIO(raw.decode("utf-8-sig"), newline=""))
+    expected = {
+        "year_level": "FIRST YEAR", "semester": "FIRST SEMESTER", "course_code": "FIL 1",
+        "course_title": title, "units_total": "3", "units_lecture": "3", "units_lab": "0",
+        "prerequisites_resolved": "GE 1, GE 2", "prerequisites_unresolved": "ñ",
+        "standing_requirements": "First year | Approved", "category": "GE", "elective_group": "Wika",
+        "prerequisites_raw": "GE 1, GE 2", "title_raw": "Wikang ñ", "footnote_marker": "*",
+        "table_index": "0", "row_index": "1", "column_group": "2", "source_cell_ids": "c1 | c2",
+        "page": "0", "bbox": "[1, 2, 3, 4]", "resolution_method": "reviewed", "repair_id": "r1",
+    }
+    assert reader.fieldnames == list(expected)
+    assert list(reader) == [expected]
 
 
 def test_output_names_match_the_historical_companion_names(tmp_path):

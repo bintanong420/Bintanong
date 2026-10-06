@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import datetime
+import json
 from types import SimpleNamespace
 
 import pytest
@@ -183,6 +185,27 @@ def test_batch_manifest_schema_names_the_new_record_shape():
     from backend.bintanong_tools.prospectus_extractor import common
 
     assert common.MANIFEST_SCHEMA_VERSION == "palsu-prospectus-batch-manifest-v3.1"
+
+
+def test_batch_manifest_writes_utf8_lf_without_changing_content(tmp_path):
+    records = [{"status": status, "program": "Sining at kultura – ñ"}
+               for status in ("ok", "warn", "audit_error", "skipped", "error")]
+    before = datetime.now().replace(microsecond=0)
+
+    path = batch.write_manifest(records, tmp_path / "out")
+
+    raw = path.read_bytes()
+    assert b"\n" in raw and b"\r" not in raw
+    assert "Sining at kultura – ñ".encode("utf-8") in raw
+    payload = json.loads(raw)
+    assert path == tmp_path / "out" / "batch_manifest.json"
+    assert set(payload) == {"schema_version", "generated_at", "summary", "records"}
+    assert payload["schema_version"] == "palsu-prospectus-batch-manifest-v3.1"
+    assert before <= datetime.fromisoformat(payload["generated_at"]) <= datetime.now()
+    assert payload["summary"] == {
+        "total": 5, "ok": 1, "warn": 1, "audit_failed": 1, "skipped": 1, "failed": 1,
+    }
+    assert payload["records"] == records
 
 
 @pytest.mark.parametrize("name", ["a_docling.json", "a_docling.meta.json"])

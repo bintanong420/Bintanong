@@ -401,3 +401,95 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Ruling: root-relative glob patterns cannot have any parent component or anchor. A single PureWindowsPath lexical guard recognizes slash/backslash parent, rooted, drive-relative/absolute and UNC patterns and raises explicit ValueError before glob; valid descendant globs preserved, no symlink resolution/policy change or filesystem abstraction.
 - Repair RED18failed/6passed/38deselected; focused GREEN72passed/no warnings; repaired recursive/nonrecursive probePASS with/without above-root marker; main full952passed/13subtests/3upstream warnings. Exact commands/evidence appended task-d-discovery-report.md; repair reproduction/red/green/probe/full logs external.
 - Existing controller/implementer progress checkpoints preserved. Complete GUI-review suite and standalone final selftest NOT RUN for scanner repair, final Phase D gates remain. Parent same-seat specification re-review before separate quality review; F4/F5/S1/S2/S4/Task10 remain, no Phase D completion claim.
+
+### Codex recovery checkpoint 2026-10-06T22:02:21+08:00
+- Task: D F2 discovery repair1; step: Committed4a0cdb7; repair RED/GREEN/probe/main full verified; specification re-review pending; owner: /root/d_discovery.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: clean.
+- Evidence: task-d-discovery-report.md; task-d-discovery-repair-red.log; task-d-discovery-repair-green.log; task-d-discovery-repair-probe.log; task-d-discovery-repair-full.log.
+- Next: Parent specification re-review immutable baseline597e8c0..4a0cdb7 with repair delta df5eec4..4a0cdb7; preserve sole dirty postcommit progress checkpoint..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:03:12+08:00
+- Task: D F2 repaired discovery; step: Committed4a0cdb7; repairred18failed focused72passed full952+13; spec re-review active; owner: /root/d_discovery_spec.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-discovery-report.md repairsection; task-d-discovery-final-review-package.md; task-d-discovery-repair-full.log952+13/3warnings.
+- Next: Read spec re-review verdict, then separate quality review597e8c0..4a0cdb7; next F4 LF task.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:05:10+08:00
+- Task: D F2 repaired discovery; step: 4a0cdb7 SPEC APPROVED; independent quality review active; owner: /root/d_discovery_quality.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-discovery-spec-rereview.md APPROVED, independent4-caseprobe passed; report/full952+13.
+- Next: Resolve quality findings or dispatch F4 LF task on4a0cdb7; remainingS1/S2/S4/F5 and finalDgates.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:12:13+08:00
+- Task: D F4 LF artifacts; step: RED verified3failed/126deselected; production unchanged; owner: /root/d_lf.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-lf-brief.md; task-d-lf-red.log.
+- Next: Reuse existing publish.write_text_lf for batch JSON and set DictWriter lineterminator LF; run exact regressions GREEN then focused suites..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:12:44+08:00
+- Task: D F4 LF artifacts; step: GREEN3passed/126deselected/no warnings; before focused suites; owner: /root/d_lf.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/views.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-lf-red.log; task-d-lf-green.log.
+- Next: Run focused batch/publish/publication writer suites, inspect results, then main full excluded baseline..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:35:39+08:00
+- Task: D F4 LF artifacts resumed; step: Initial LF RED3 verified from prior logs; new bare-CR regression GREEN3 on main Python3.13.5; QUOTE_ALL hypothesis disproved; owner: /root/d_lf_resume.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/views.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-lf-red.log; task-d-lf-cr-red.log.
+- Next: Verify current GUI-review stdlib quoting; retain minimal quoting if safe; focused and main full suite.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:37:23+08:00
+- Task: D F4 LF artifacts resumed; step: Focused GREEN361 passed, no warnings; minimal quoting safe on both current Python3.13.5 runtimes; owner: /root/d_lf_resume.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/views.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-lf-red.log; task-d-lf-cr-red.log; task-d-lf-runtime-probe.log; task-d-lf-resumed-focused.log.
+- Next: Run main full suite with two approved ignores; inspect results, report and explicit commit.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:37:49+08:00
+- Task: D F4 LF artifacts resumed; step: Focused GREEN361 passed; main full currently running; QUOTE_ALL hypothesis superseded; owner: /root/d_lf_resume.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/views.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-lf-resumed-focused.log; task-d-lf-runtime-probe.log.
+- Next: Poll exec session95634; read task-d-lf-resumed-full.log then report/commit if green.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:42:19+08:00
+- Task: D F4 LF artifacts resumed; step: Fresh focused361 passed and full956 passed/13 subtests/3 upstream warnings; verified before explicit commit; owner: /root/d_lf_resume.
+- HEAD: 4a0cdb794a337b9cc91846d16585478c3bb5fde0; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/views.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-lf-red.log; task-d-lf-green.log; task-d-lf-cr-red.log; task-d-lf-runtime-probe.log; task-d-lf-resumed-focused.log; task-d-lf-resumed-full.log.
+- Next: Save concise report and F4 progress; explicitly stage five authorized paths; commit with required Claude trailer.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D F4 LF artifacts (2026-10-06)
+- Batch manifest reuses publish.write_text_lf; review CSV uses stdlib LF record separators with existing UTF8-sig BOM, native minimal quoting, all23 columns and exact values. No output/schema/name changes.
+- Preserved interrupted worker authentic LF RED3failed/126deselected and GREEN3passed/126deselected. Added bare-CR round-trip parameter without comma; its attempted RED actually passed3cases, explicitly characterization rather than failing evidence.
+- Root superseded QUOTE_ALL hypothesis: main and GUI-review Python3.13.5 both already quote bareCR under LF/QUOTE_MINIMAL; backend requires ==3.13.*. Native quoting retained; runtime probe/log external, no unsupported-runtime workaround or new dependency.
+- Fresh focused GREEN361passed/no warnings; main full956passed/13subtests/3upstream warnings with two approved API/embedding excludes. task-d-lf-report.md and exact original/resume logs outside Git in approved scratch; previous progress checkpoints preserved.
+- GUI-review comprehensive suite and standalone final D selftest NOT RUN for F4, deferred final gates. Parent independent specification then quality review pending; S1/S2/S4/F5/final D gates/Task10 and downstream queue remain. Phase D not complete.
