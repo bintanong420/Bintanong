@@ -18,8 +18,10 @@ from .common import MANIFEST_SCHEMA_VERSION, RICH_AVAILABLE, console
 if RICH_AVAILABLE:
     from .common import track
 from .docling_env import ensure_docling_env, get_shared_converter
+from .identity import package_sha256, run_identity
 from .paths import DEFAULT_SEMANTIC_DOC, find_default_input_root, find_default_output_root
 from .pipeline import process_prospectus
+from .publish import output_names, read_manifest, verify_published
 
 
 def safe_stem(path: Path) -> str:
@@ -67,6 +69,7 @@ class BatchItem:
 IGNORED_DIR_PARTS = {
     "palsu_jsonified_output", "docling_jsonified_output", ".venv", ".docling-venv",
     "__pycache__", ".git", "node_modules",
+    "failed",  # publish.write_failure diagnostics hold copies of *_docling.json; never inputs
 }
 
 
@@ -157,46 +160,86 @@ def write_manifest(records: Sequence[dict[str, Any]], output_root: Path) -> Path
     return target
 
 
+def skip_check(item: BatchItem, config: BatchConfig, package_hash: str) -> tuple[bool, str]:
+    """May this item be skipped? Returns (skip, reason). Never skips a failed audit."""
+    if not config.skip_existing:
+        return False, "skip-existing not requested"
+    if config.force_reconvert:
+        return False, "--force given"
+    names = output_names(item.json_path)
+    manifest = read_manifest(names.manifest)
+    if manifest is None:
+        return False, "no publish manifest"
+    status = manifest.get("audit_status")
+    if status not in ("ok", "warn"):
+        return False, f"previous audit status was {status}"
+    expected = run_identity(item.source_pdf, config.semantic_doc, package_hash=package_hash)
+    if manifest["run_key"] != expected["run_key"]:
+        return False, "input, settings, parser or schema changed"
+    intact, why = verify_published(names.final.parent, manifest)
+    if not intact:
+        return False, why
+    wanted = [names.final.name]
+    if item.source_pdf.suffix.lower() == ".pdf":
+        wanted.append(names.essentials.name)
+    if config.write_csv:
+        wanted.append(names.csv.name)
+    if config.write_pl:
+        wanted.append(names.prolog.name)
+    if config.write_jsonl:
+        wanted.append(names.rag.name)
+    if config.write_md:
+        wanted.append(names.markup.name)
+    missing = [name for name in wanted if name not in manifest["files"]]
+    if missing:
+        return False, f"requested outputs not in last run: {missing}"
+    return True, "identical run identity"
+
+
 def run_batch(config: BatchConfig) -> dict[str, Any]:
     """Extract every prospectus under config.input_root, then write a manifest."""
     sources = scan_inputs(config.input_root, config.recursive, config.include_patterns)
     items = build_batch_items(sources, config)
     records: list[dict[str, Any]] = []
 
+    package_hash = package_sha256()
+    decisions: list[tuple[bool, str]] = []
+    for item in items:
+        try:
+            decisions.append(skip_check(item, config, package_hash))
+        except Exception as exc:  # an unreadable PDF is reported by the run itself
+            decisions.append((False, f"identity check failed: {type(exc).__name__}: {exc}"))
+
     converter = None
-    if any(item.source_pdf.suffix.lower() == ".pdf" for item in items):
-        needs_conversion = any(
-            not config.skip_existing or config.force_reconvert or not item.json_path.exists()
-            or not item.json_path.with_name(
-                f"{item.json_path.stem.replace('_prospectus', '')}_essentials.json"
-            ).exists()
-            for item in items if item.source_pdf.suffix.lower() == ".pdf"
-        )
-        if needs_conversion:
-            try:
-                ensure_docling_env()
-                converter = get_shared_converter(device=config.device)
-            except Exception as exc:
-                print(f"[!] Could not pre-warm Docling: {exc}")
+    needs_conversion = any(
+        not skipped
+        for item, (skipped, _why) in zip(items, decisions)
+        if item.source_pdf.suffix.lower() == ".pdf"
+    )
+    if needs_conversion:
+        try:
+            ensure_docling_env()
+            converter = get_shared_converter(device=config.device)
+        except Exception as exc:
+            print(f"[!] Could not pre-warm Docling: {exc}")
 
-    iterable: Iterable[BatchItem] = items
+    work: Iterable[tuple[BatchItem, tuple[bool, str]]] = list(zip(items, decisions))
     if RICH_AVAILABLE and console and items:
-        iterable = track(items, description="Extracting prospectuses...")
+        work = track(work, description="Extracting prospectuses...")
 
-    for item in iterable:
-        essentials_path = item.json_path.with_name(
-            f"{item.json_path.stem.replace('_prospectus', '')}_essentials.json"
-        )
+    for item, (skip, why) in work:
+        names = output_names(item.json_path)
+        essentials_path = names.essentials
         record: dict[str, Any] = {
             "source": str(item.source_pdf),
             "json_path": str(item.json_path),
             "csv_path": str(item.csv_path),
             "status": "pending",
+            "skip_check": why,
         }
         try:
-            if (config.skip_existing and not config.force_reconvert and item.json_path.exists()
-                    and (item.source_pdf.suffix.lower() != ".pdf" or essentials_path.exists())):
-                record.update({"status": "skipped", "reason": "output already exists"})
+            if skip:
+                record.update({"status": "skipped", "reason": f"unchanged: {why}"})
                 records.append(record)
                 continue
 
@@ -210,7 +253,7 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                 device=config.device,
                 semantic_doc_path=config.semantic_doc,
                 converter=converter,
-                force_reconvert=True,
+                force_reconvert=config.force_reconvert,
                 quiet=True,
             )
             audit = payload["audit"]
@@ -229,6 +272,7 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                     "warning_count": len(audit["warnings"]),
                     "essentials_path": str(essentials_path)
                     if item.source_pdf.suffix.lower() == ".pdf" else None,
+                    "publish_manifest": str(names.manifest),
                 }
             )
         except Exception as exc:
@@ -238,6 +282,7 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                     "error_type": type(exc).__name__,
                     "error_message": str(exc),
                     "traceback": traceback.format_exc(limit=5),
+                    "failed_dir": str(names.failed_dir),
                 }
             )
         records.append(record)

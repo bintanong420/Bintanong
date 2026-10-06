@@ -97,7 +97,8 @@ def pipeline_state(monkeypatch):
             "rag": {"semantic_chunks": [{"id": state.builds}], "hierarchical_chunks": []},
             "audit": {
                 "status": state.status, "promotion_status": "x", "errors": [], "warnings": [],
-                "total_courses": 0, "computed_total_units": 0, "years_detected": [],
+                "total_courses": 0, "computed_total_units": 0, "declared_total_units": 0,
+                "years_detected": [],
             },
         }
 

@@ -8,7 +8,7 @@ from typing import Any
 SCHEMA_VERSION = "palsu-prospectus-v3.2"
 
 
-MANIFEST_SCHEMA_VERSION = "palsu-prospectus-batch-manifest-v3.0"
+MANIFEST_SCHEMA_VERSION = "palsu-prospectus-batch-manifest-v3.1"
 
 
 try:  # optional pretty terminal output
