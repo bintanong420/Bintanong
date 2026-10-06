@@ -178,6 +178,11 @@ def skip_check(
     manifest = read_manifest(names.manifest)
     if manifest is None:
         return False, "no publish manifest"
+    reusable = manifest["run_identity"].get("skip_reusable")
+    if reusable is False:
+        return False, "previous run used supplied context"
+    if reusable is not True:
+        return False, "previous run skip eligibility is unknown"
     status = manifest.get("audit_status")
     if status not in ("ok", "warn"):
         return False, f"previous audit status was {status}"

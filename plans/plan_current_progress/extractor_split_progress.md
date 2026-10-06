@@ -569,3 +569,74 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Authentic TDD RED8failed1passed88deselected before production; GREEN9passed88deselected. Fresh focused386passed/no warnings; main full961passed/13subtests/3 existing upstream warnings, with approved API/embedding exclusions. Exact commands/logs in external task-d-paths-report.md and task-d-paths-{red-final,green,focused,full}.log.
 - Read-only original44 corpus projection used actual output directories and generated stage/temp names: root35, final181/stage226/temp161/failed251 versus old final/cache268. Exact maxima paths in external task-d-paths-actual-projection.json. Longest real Tiniguiban CS relative input and separate Citizens Charter BOR proposal (2) boundary covered; no proposal opened/converted. Current corpus fits at most8 extra root characters below260; arbitrary longer home/explicit roots require caller-selected shorter --output, never silent artifact renaming.
 - GUI comprehensive suite, standalone selftest80, semantic44 comparer and trials NOT RUN for S1, deferred parent final D gates. Independent specification then quality reviews pending. S2/S4/F5/final D gates/Task10 and downstream queue remain; Phase D not complete. Existing F4 postcommit/review progress preserved.
+
+### Codex recovery checkpoint 2026-10-06T22:57:41+08:00
+- Task: D S1 compact Windows paths; step: Committed4320327; targeted9 focused386 full961+13 verified; parent reviews pending; owner: /root/d_paths.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: clean.
+- Evidence: task-d-paths-report.md; task-d-paths-red-final.log; task-d-paths-green.log; task-d-paths-focused.log; task-d-paths-full.log; task-d-paths-projection.log; task-d-paths-actual-projection.json.
+- Next: Parent fresh specification review 52da4aaca7d734e83054b1ecd39221ac09302a3b..4320327, then independent quality review; preserve sole dirty postcommit progress checkpoint.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T22:58:38+08:00
+- Task: D S1 Windows paths review; step: Committed 4320327; red 8 failures, focused 386 and full 961 +13 passed; specification review active; owner: /root/d_paths_spec.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-paths-report.md; task-d-paths-review-package.md; task-d-paths-actual-projection.json; main full 961 +13 subtests/3 warnings.
+- Next: Read S1 specification verdict, then independent quality review; dispatch S2/S4 task after approval.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:01:13+08:00
+- Task: D S1 Windows paths review; step: 4320327 specification APPROVED/NONE; separate quality review active; owner: /root/d_paths_quality.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-paths-spec-review.md APPROVED/NONE; report focused386/full961+13; task-d-paths-actual-projection.json.
+- Next: Read quality verdict; after approval dispatch task-d-skip-tui-brief.md on 4320327, then F5/final D gates.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:08:08+08:00
+- Task: D S2 context skip; step: Authentic RED18failed62deselected; eligible flag absent and context/malformed runs incorrectly skipped; owner: /root/d_skip_tui.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s2-red.log.
+- Next: Implement presence-only skip_reusable in pipeline and fail-closed skip_check; run identical focused green command.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:09:38+08:00
+- Task: D S2 context skip; step: Corrected authentic RED18failed62deselected with successful real payload/publication before expected skip failures; owner: /root/d_skip_tui.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s2-red-final.log.
+- Next: Add minimal skip_reusable presence flag and exact-boolean skip guard; rerun focused green selector context_publication or skip_eligibility or repeat_run.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:10:53+08:00
+- Task: D S2 context skip; step: Validated RED18failed62deselected; all9 context publications complete/nonerror, old skip returned True; owner: /root/d_skip_tui.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s2-validated-red.log.
+- Next: Reapply minimal flag/guard, run validated focused GREEN then batch/identity/publish/publication/cache/authority suites.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:12:32+08:00
+- Task: D S2 context skip; step: Validated green18/focused636passed; before main full approved excludes; owner: /root/d_skip_tui.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/pipeline.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s2-validated-red.log; task-d-s2-validated-green.log; task-d-s2-focused.log.
+- Next: Run main Python -m pytest -q tests --ignore=tests/test_api_probes.py --ignore=tests/test_embedding_service.py -p no:cacheprovider --basetemp external/s2-full-temp; inspect result and commit S2 only.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D S2 context-sensitive skip (2026-10-06)
+- Pipeline persists run_identity.skip_reusable=False for any supplied source/approved_scope/review_entries/repair_provider via is None presence checks, including empty mappings/lists/generators and falsey typed source/provider. Normal contextless runs persist True. Publisher retains identical bound main/manifest identity and captured PDF/cache hashes; run key and schema unchanged, no provider serialization or extra ledger consumption. Flag grants no source/review/eligibility authority.
+- Batch requires literal True for skip; False reason previous run used supplied context, missing/nonboolean reason previous run skip eligibility is unknown. All existing audit/identity/v2 publication/cache/completeness checks remain. Exact unchanged and force skip reasons replace ineffective assertion. Old outputs without known eligibility are reparsed once rather than trusted.
+- Validated RED18failed62deselected; GREEN18passed62deselected; focused636passed/no warnings; main full978passed13subtests3existing upstream warnings with only approved API/embedding ignores. Logs and exact commands in external task-d-skip-tui-report.md and task-d-s2-{validated-red,validated-green,focused,full}.log. Earlier fixture mistakes preserved in initial/intermediate logs and explicitly superseded: wrong evidence adapter caused audit error, then unmatched requested companions caused incomplete-output refusal. Validated red used complete nonerror published sets returning True under old skip.
+- S2 self-review found no remaining production concern; independent specification then quality review pending. S4/F5/final D gates/Task10 remain. GUI comprehensive/selftest/original44 corpus/trials NOT RUN here; all downstream/human gates pending, Phase D incomplete. Existing S1 review and checkpoint progress preserved.
+
+### Codex recovery checkpoint 2026-10-06T23:14:29+08:00
+- Task: D S2 context skip; step: Fresh focused636/full978+13/3existingwarnings; S2 precommit; owner: /root/d_skip_tui.
+- HEAD: 4320327bb68ec0973dd79ee7716ab5d893fe00a8; state: M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/pipeline.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-skip-tui-report.md; task-d-s2-validated-red.log; task-d-s2-validated-green.log; task-d-s2-focused.log; task-d-s2-full.log.
+- Next: Stage exact batch.py pipeline.py test_prospectus_batch_skip.py extractor_split_progress.md; commit S2 with Claude trailer; then S4 red.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.

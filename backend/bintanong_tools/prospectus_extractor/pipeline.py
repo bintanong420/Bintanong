@@ -346,6 +346,9 @@ def process_prospectus(
                     (stage / name).write_bytes(data)
         payload["run_identity"] = {
             **run_id, "cache": loaded.cache_status, "cache_files": cache_hashes,
+            "skip_reusable": all(value is None for value in (
+                source, approved_scope, review_entries, repair_provider,
+            )),
         }
         if run_id["review_input_only"]:
             payload["run_identity"]["review_note"] = REVIEW_INPUT_NOTE

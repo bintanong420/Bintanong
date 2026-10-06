@@ -8,8 +8,12 @@ from types import SimpleNamespace
 
 import pytest
 
-from backend.bintanong_tools.prospectus_extractor import batch, loader, pipeline
+from backend.bintanong_tools.prospectus import ProvisionalSource
+from backend.bintanong_tools.prospectus_extractor import batch, identity, loader, pipeline, publish
 from backend.bintanong_tools.prospectus_extractor.batch import BatchConfig, run_batch
+from backend.bintanong_tools.prospectus_extractor.selftest import (
+    CS_HEADER, _cs_row, _cs_semester_row, _merged, fixture_document,
+)
 
 pytestmark = pytest.mark.usefixtures("fake_docling")
 
@@ -45,7 +49,9 @@ def test_repeat_run_of_unchanged_input_skips_and_leaves_identical_files(env):
     record = only(env.run())
 
     assert record["status"] == "skipped"
-    assert "identical run identity" in record["reason"] or "unchanged" in record["reason"]
+    assert record["reason"] == "unchanged: identical run identity"
+    assert record["skip_check"] == "identical run identity"
+    assert json.loads((env.out / "a_publish.json").read_bytes())["run_identity"]["skip_reusable"] is True
     assert env.snapshot(env.out) == before
     assert {p.name: p.stat().st_mtime_ns for p in env.out.iterdir() if p.is_file()
             and p.name != "batch_manifest.json"} == mtimes
@@ -112,7 +118,104 @@ def test_force_overrides_skip_existing_and_reconverts(env):
     env.run()
     record = only(env.run(force_reconvert=True))
     assert record["status"] == "ok"
+    assert record["skip_check"] == "--force given"
     assert len(env.converter.calls) == 2
+
+
+class FalseySource(ProvisionalSource):
+    def __bool__(self):
+        return False
+
+
+class FalseyProvider:
+    def __bool__(self):
+        return False
+
+    def __call__(self, packet):
+        return {"ambiguous": True}
+
+    def __str__(self):
+        raise AssertionError("provider must not be serialized")
+
+
+@pytest.mark.parametrize("context", [
+    "source", "falsey_source", "scope", "empty_scope", "empty_entries",
+    "empty_generator", "generator", "provider", "falsey_provider",
+])
+def test_context_publication_cannot_be_reused_by_later_contextless_batch(
+    tmp_path, monkeypatch, pdf_factory, converter, context,
+):
+    pdf = pdf_factory(tmp_path / "in")
+    out = tmp_path / "out"
+    document = fixture_document(
+        [CS_HEADER, _merged("FIRST YEAR", 8), _cs_semester_row(),
+         _cs_row(("CS 1", "Discrete Structures", "3", ""),
+                 ("CS 2", "Discrete Structures 2", "3", "CS 1"))],
+        [("title", "BACHELOR OF SCIENCE IN COMPUTER SCIENCE PROGRAM")],
+    )
+    monkeypatch.setattr(loader, "evidence_adapter", lambda *args: document)
+    monkeypatch.setattr(loader, "get_shared_converter", lambda *a, **k: converter)
+    contexts = {
+        "source": {"source": ProvisionalSource(identity.file_sha256(pdf), "local/a.pdf")},
+        "falsey_source": {"source": FalseySource(identity.file_sha256(pdf), "local/a.pdf")},
+        "scope": {"approved_scope": {"program_name": "Computer Science"}},
+        "empty_scope": {"approved_scope": {}},
+        "empty_entries": {"review_entries": []},
+        "empty_generator": {"review_entries": (entry for entry in [])},
+        "generator": {"review_entries": (entry for entry in [{}])},
+        "provider": {"repair_provider": lambda packet: {"ambiguous": True}},
+        "falsey_provider": {"repair_provider": FalseyProvider()},
+    }
+    payload = pipeline.process_prospectus(
+        pdf, output_path=out / "a_prospectus.json", semantic_doc_path=None,
+        converter=converter, quiet=True, **contexts[context],
+    )
+    assert payload["audit"]["status"] in ("ok", "warn")
+    assert payload["content_review"] == "pending"
+    assert payload["source_verification"] == "pending"
+    assert payload["authority"]["eligibility_executable"] is False
+    if context == "generator":
+        assert payload["authority"]["content_review_detail"]["entries"] == 1
+    manifest = publish.read_manifest(out / "a_publish.json")
+    assert publish.verify_published(out, manifest) == (True, "all files match")
+    config = BatchConfig(input_root=pdf.parent, output_root=out, semantic_doc=None,
+                         skip_existing=True, write_csv=False, write_pl=False,
+                         write_jsonl=False, write_md=False)
+    item = batch.build_batch_items([pdf], config)[0]
+    assert batch.skip_check(item, config, identity.package_sha256()) == (
+        False, "previous run used supplied context",
+    )
+    assert payload["run_identity"]["skip_reusable"] is False
+    assert manifest["run_identity"]["skip_reusable"] is False
+    assert payload["run_identity"]["run_key"] == identity.run_identity(pdf, None)["run_key"]
+    record = only(run_batch(config))
+    assert record["status"] in ("ok", "warn")
+    assert record["skip_check"] == "previous run used supplied context"
+    assert len(converter.calls) == 1  # reparsing may still reuse the verified conversion cache
+    assert only(run_batch(config))["status"] == "skipped"
+
+
+@pytest.mark.parametrize("value", ["missing", None, 0, 1, "true", "false", [], {}])
+def test_missing_or_nonboolean_skip_eligibility_fails_closed(env, value):
+    env.run()
+    path = env.out / "a_publish.json"
+    manifest = json.loads(path.read_bytes())
+    run_id = manifest["run_identity"]
+    if value == "missing":
+        run_id.pop("skip_reusable", None)
+    else:
+        run_id["skip_reusable"] = value
+    main_path = env.out / "a_prospectus.json"
+    payload = json.loads(main_path.read_bytes())
+    payload["run_identity"] = run_id
+    main_path.write_bytes(json.dumps(payload).encode("utf-8"))
+    manifest["files"][main_path.name] = identity.file_sha256(main_path)
+    path.write_bytes(json.dumps(manifest).encode("utf-8"))
+    assert publish.verify_published(env.out, manifest) == (True, "all files match")
+    record = only(env.run())
+    assert record["status"] == "ok"
+    assert record["skip_check"] == "previous run skip eligibility is unknown"
+    assert env.state.builds == 2
 
 
 def test_error_record_points_at_the_diagnostics_and_keeps_earlier_files(env):
