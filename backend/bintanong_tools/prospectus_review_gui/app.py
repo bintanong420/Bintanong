@@ -8,6 +8,7 @@ strict Content-Security-Policy; the page has no inline script or style and loads
 
 from __future__ import annotations
 
+import json
 import math
 import secrets
 import sys
@@ -20,7 +21,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, Response
 
 from ..prospectus_extractor.fixer_cli import FixerError
 from ..prospectus_extractor.ledger import LedgerError
-from .answers import Answer
+from .answers import Answer, text_problem
 from .questions import MODES
 from .render import PageError
 from .session import ReviewSession
@@ -31,6 +32,7 @@ CSP = ("default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' 
        "frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
 LOOPBACK = ("127.0.0.1", "localhost")
 TOKEN_PLACEHOLDER = "__REVIEW_TOKEN__"
+MAX_BODY = 64 * 1024   # bytes; a real answer is a few hundred
 PAGE_STATUS = {"missing_pdf": 404, "bad_pdf": 404, "bad_page": 404, "bad_scale": 422}
 
 
@@ -70,6 +72,8 @@ def _answer_from(body: Any) -> tuple[str | None, Answer | None, list[str]]:
     errors = []
     if not isinstance(qid, str) or not qid:
         errors.append("qid must be text")
+    elif problem := text_problem(qid, "qid"):
+        errors.append(problem)
     if not isinstance(choice, str):
         errors.append("choice must be yes, no or other")
     if not isinstance(edits, dict) or not all(isinstance(k, str) for k in edits):
@@ -160,8 +164,16 @@ def create_app(session: ReviewSession, token: str, port: int | None = None) -> F
 
     @app.post("/api/answer")
     async def answer(request: Request):
+        raw, size = [], 0
+        if request.headers.get("content-length", "0").isdigit() and int(request.headers["content-length"]) > MAX_BODY:
+            return JSONResponse({"errors": [f"the answer is larger than {MAX_BODY // 1024} KB"]}, status_code=413)
+        async for chunk in request.stream():   # also caps a chunked body that sent no length
+            size += len(chunk)
+            if size > MAX_BODY:
+                return JSONResponse({"errors": [f"the answer is larger than {MAX_BODY // 1024} KB"]}, status_code=413)
+            raw.append(chunk)
         try:
-            body = await request.json()
+            body = json.loads(b"".join(raw))
         except ValueError:
             return JSONResponse({"errors": ["the answer is not JSON"]}, status_code=422)
         qid, parsed, errors = _answer_from(body)

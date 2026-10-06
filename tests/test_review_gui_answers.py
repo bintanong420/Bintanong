@@ -308,3 +308,34 @@ def test_unknown_question_is_refused():
     q.qid = "S9-99"
     entries, errors = answer_to_entries(q, Answer(choice="yes"), payload=payload, verification=v, reviewer="N", pdf_sha256=HASH)
     assert entries == [] and errors == ["unknown question S9-99"]
+
+
+# --- C2 / S5 / S6: text that cannot be stored is refused before anything is written
+
+
+@pytest.mark.parametrize("bad", ["Bad \ud800 title", "Nul \x00 title", "Line\nbreak", "Tab\tbed", "Cr\rhere", "Bell \x07"])
+def test_typed_text_with_surrogates_or_control_characters_is_refused(bad):
+    env = setup()
+    for name in ("course_title", "course_code", "prerequisites"):
+        entries, errors = ask(env, "S1-02", "other", edits={name: bad}, reason="r")
+        assert entries == [] and errors and ("control" in errors[0] or "cannot be stored" in errors[0]), (name, bad)
+
+
+@pytest.mark.parametrize("bad", ["why \ud800", "why \x00", "two\nlines"])
+def test_reason_and_note_with_bad_characters_are_refused(bad):
+    env = setup()
+    for kw in ({}, {"edits": {"course_title": "Fine"}}):
+        choice = "other" if kw else "yes"
+        entries, errors = ask(env, "S1-02", choice, reason=bad, **kw)
+        assert entries == [] and errors
+    entries, errors = ask(env, "S1-01", "yes", note=bad)   # the section question's note becomes the reason
+    assert entries == [] and errors
+
+
+def test_overlong_reason_or_note_is_refused():
+    env = setup()
+    ok = ask(env, "S1-02", "yes", reason="x" * 2000)
+    assert ok[1] == [] and ok[0]
+    entries, errors = ask(env, "S1-02", "yes", reason="x" * 2001)
+    assert entries == [] and errors and "2000" in errors[0]
+    assert ask(env, "S1-02", "other", edits={"course_title": "Fine"}, reason="x" * 2001)[1]

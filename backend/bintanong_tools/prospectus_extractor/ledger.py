@@ -377,14 +377,15 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]], lock: Ledge
         if tail != [_signature(e) for e in group]:
             fresh += group
     if fresh:
+        # every line is made before the file is touched: an entry that cannot be encoded writes nothing at all
+        lines = [json.dumps(entry, ensure_ascii=False, sort_keys=True).encode("utf-8") + b"\n" for entry in fresh]
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("ab+") as probe:  # a hand-edited last line may lack its newline: never glue two entries together
             probe.seek(0, 2)
             if probe.tell() and (probe.seek(-1, 2), probe.read(1))[1] != b"\n":
                 probe.write(b"\n")
-        with path.open("a", encoding="utf-8", newline="\n") as handle:
-            for entry in fresh:
-                handle.write(json.dumps(entry, ensure_ascii=False, sort_keys=True) + "\n")
+        with path.open("ab") as handle:
+            handle.write(b"".join(lines))
             handle.flush()
     return len(fresh), len(entries) - len(fresh)
 

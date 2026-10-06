@@ -16,6 +16,7 @@ Mapping (decision D4):
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Iterable, Mapping, Sequence
@@ -29,6 +30,7 @@ from .questions import SECTION_CONFIRM, UNCLAIMED, Question, confirmable, decisi
 CHOICES = ("yes", "no", "other")
 WHOLE_NUMBER = re.compile(r"[0-9]{1,6}")   # ASCII digits only: "+3", "3.5", "1e2", "-1" and other scripts' digits do not match
 SECTION_CONFIRM_REASON = "section confirmed as extracted"
+MAX_REASON = 2000   # characters, for a reason and a section note
 
 
 @dataclass
@@ -38,6 +40,20 @@ class Answer:
     proposals: Sequence[str] = ()                 # proposal letters the reviewer chose
     reason: str = ""
     note: str = ""                                # an optional note on a section question (becomes the reason)
+
+
+def text_problem(text: Any, what: str) -> str | None:
+    """Why typed text cannot be stored, or None: a lone surrogate cannot be written as UTF-8, and a control character
+    (NUL, a newline, a tab) has no place in a code, a title or a reason (reasons are one line)."""
+    if not isinstance(text, str):
+        return None   # the type checks elsewhere name it
+    try:
+        text.encode("utf-8")
+    except UnicodeEncodeError:
+        return f"{what} contains a character that cannot be stored (a lone surrogate); retype it"
+    if any(unicodedata.category(ch) == "Cc" for ch in text):
+        return f"{what} contains a control character (a newline, tab or NUL); remove it"
+    return None
 
 
 def parse_typed_value(field_name: str, text: Any, default_year: str | None = None) -> tuple[Any, str | None]:
@@ -157,6 +173,14 @@ def answer_to_entries(
         return [], [f"the answer must be yes, no or other, not {answer.choice!r}"]
     if not isinstance(reviewer, str) or not reviewer.strip():   # make_entry would raise on it
         return [], ["a reviewer name is needed"]
+    for what, text in ("the reason", answer.reason), ("the note", answer.note):
+        if isinstance(text, str) and len(text) > MAX_REASON:
+            return [], [f"{what} is {len(text)} characters; the limit is {MAX_REASON}"]
+        if problem := text_problem(text, what):
+            return [], [problem]
+    for name, text in answer.edits.items():
+        if problem := text_problem(text, f"the typed {name}"):
+            return [], [problem]
     section, row = _find(question, verification)
     if section is None or (row is None and question.kind != SECTION_CONFIRM):
         return [], [f"unknown question {question.qid}"]

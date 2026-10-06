@@ -210,3 +210,31 @@ def test_static_files_are_served_and_others_are_not(env):
     for bad in ("/static/../session.py", "/static/..%2fsession.py", "/static/..%2f..%2fsession.py", "/static/nope.js",
                 "/static/%2e%2e/app.py"):
         assert client.get(bad).status_code == 404, bad
+
+
+# --- C2 / S5 / S6: a bad answer is a 422 and nothing is written; a huge body is a 413
+
+
+def test_surrogate_nul_and_newline_in_a_title_are_422_and_write_nothing(env):
+    ws, _s, client, token = env
+    for bad in ("Bad \ud800 title", "Nul \x00 title", "Line\nbreak"):
+        response = post(client, token, "/api/answer", {"qid": "S1-02", "choice": "other", "edits": {"course_title": bad}, "reason": "r"})
+        assert response.status_code == 422 and response.json()["errors"], repr(bad)
+    response = post(client, token, "/api/answer", {"qid": "S1-02", "choice": "yes", "reason": "two\nlines"})
+    assert response.status_code == 422
+    response = post(client, token, "/api/answer", {"qid": "S1-0\ud800", "choice": "yes"})
+    assert response.status_code in (404, 422)
+    assert not ws.ledger.exists() or read_entries(ws.ledger) == []
+
+
+def test_overlong_reason_is_422_and_oversized_body_is_413(env):
+    ws, _s, client, token = env
+    response = post(client, token, "/api/answer", {"qid": "S1-02", "choice": "yes", "reason": "x" * 2001})
+    assert response.status_code == 422 and "2000" in response.json()["errors"][0]
+    big = {"qid": "S1-02", "choice": "yes", "reason": "x", "edits": {"course_title": "y" * 70000}}
+    assert post(client, token, "/api/answer", big).status_code == 413
+    # a body that understates its length (or is chunked) is cut off while it is read, not after
+    liar = client.post("/api/answer", content=b"x" * 70000, headers={"X-Review-Token": token, "Content-Type": "application/json", "Content-Length": "10"})
+    assert liar.status_code == 413
+    assert not ws.ledger.exists() or read_entries(ws.ledger) == []
+    assert post(client, token, "/api/answer", {"qid": "S1-02", "choice": "yes", "reason": "x" * 2000}).status_code == 200
