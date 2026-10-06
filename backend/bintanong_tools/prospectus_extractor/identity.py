@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as package_version
 from pathlib import Path
@@ -18,13 +19,37 @@ CONVERSION_PROFILE = "palsu-born-digital-v3"
 _TRUE_VALUES = {"1", "true", "yes", "on"}
 
 
+def bytes_sha256(data: bytes) -> str:
+    """Shared owner of byte digests for input and cache identities."""
+    return hashlib.sha256(data).hexdigest()
+
+
 def file_sha256(path: Path) -> str:
-    """The one place a PDF or cache file is hashed (fixer, batch record, cache and publish all call it)."""
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for block in iter(lambda: handle.read(1 << 20), b""):
-            digest.update(block)
-    return digest.hexdigest()
+    return bytes_sha256(Path(path).read_bytes())
+
+
+@dataclass(frozen=True, init=False)
+class InputSnapshot:
+    """Capture a path's immutable bytes and digest together; never accept a declared digest."""
+
+    path: Path
+    data: bytes
+    sha256: str
+
+    def __init__(self, path: Path):
+        path = Path(path).resolve()
+        data = path.read_bytes()
+        object.__setattr__(self, "path", path)
+        object.__setattr__(self, "data", data)
+        object.__setattr__(self, "sha256", bytes_sha256(data))
+
+    def require_path(self, path: Path) -> None:
+        if Path(path).resolve() != self.path:
+            raise ValueError(f"Snapshot path does not match input: {path}")
+
+    def verify_unchanged(self) -> None:
+        if self.path.read_bytes() != self.data:
+            raise ValueError(f"Input bytes changed since capture: {self.path}")
 
 
 def package_sha256(package: Path = PACKAGE_DIR) -> str:
@@ -86,6 +111,7 @@ def run_identity(
     schema_version: str | None = None,
     package_hash: str | None = None,
     settings: Mapping[str, Any] | None = None,
+    snapshot: InputSnapshot | None = None,
 ) -> dict[str, Any]:
     """What one output set is made from. `run_key` is what --skip-existing compares."""
     input_path = Path(input_path)
@@ -96,7 +122,9 @@ def run_identity(
         kind = "docling-json"
     else:
         raise ValueError(f"Unsupported input type: {input_path.suffix}")
-    input_hash = file_sha256(input_path)
+    captured = snapshot if snapshot is not None else InputSnapshot(input_path)
+    captured.require_path(input_path)
+    input_hash = captured.sha256
     conversion_id = None
     used_settings = None
     if kind == "pdf":

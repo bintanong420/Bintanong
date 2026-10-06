@@ -17,8 +17,7 @@ from .common import MANIFEST_SCHEMA_VERSION, RICH_AVAILABLE, console
 
 if RICH_AVAILABLE:
     from .common import track
-from .docling_env import ensure_docling_env, get_shared_converter
-from .identity import package_sha256, run_identity
+from .identity import InputSnapshot, package_sha256, run_identity
 from .paths import DEFAULT_SEMANTIC_DOC, find_default_input_root, find_default_output_root
 from .pipeline import process_prospectus
 from .publish import output_names, read_manifest, verify_published
@@ -160,7 +159,9 @@ def write_manifest(records: Sequence[dict[str, Any]], output_root: Path) -> Path
     return target
 
 
-def skip_check(item: BatchItem, config: BatchConfig, package_hash: str) -> tuple[bool, str]:
+def skip_check(
+    item: BatchItem, config: BatchConfig, package_hash: str, *, snapshot: InputSnapshot | None = None,
+) -> tuple[bool, str]:
     """May this item be skipped? Returns (skip, reason). Never skips a failed audit."""
     if not config.skip_existing:
         return False, "skip-existing not requested"
@@ -173,7 +174,7 @@ def skip_check(item: BatchItem, config: BatchConfig, package_hash: str) -> tuple
     status = manifest.get("audit_status")
     if status not in ("ok", "warn"):
         return False, f"previous audit status was {status}"
-    expected = run_identity(item.source_pdf, config.semantic_doc, package_hash=package_hash)
+    expected = run_identity(item.source_pdf, config.semantic_doc, package_hash=package_hash, snapshot=snapshot)
     if manifest["run_key"] != expected["run_key"]:
         return False, "input, settings, parser or schema changed"
     intact, why = verify_published(names.final.parent, manifest)
@@ -203,31 +204,12 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
 
     package_hash = package_sha256()
-    decisions: list[tuple[bool, str]] = []
-    for item in items:
-        try:
-            decisions.append(skip_check(item, config, package_hash))
-        except Exception as exc:  # an unreadable PDF is reported by the run itself
-            decisions.append((False, f"identity check failed: {type(exc).__name__}: {exc}"))
-
-    converter = None
-    needs_conversion = any(
-        not skipped
-        for item, (skipped, _why) in zip(items, decisions)
-        if item.source_pdf.suffix.lower() == ".pdf"
-    )
-    if needs_conversion:
-        try:
-            ensure_docling_env()
-            converter = get_shared_converter(device=config.device)
-        except Exception as exc:
-            print(f"[!] Could not pre-warm Docling: {exc}")
-
-    work: Iterable[tuple[BatchItem, tuple[bool, str]]] = list(zip(items, decisions))
+    # The loader requests its shared converter lazily, after attempting cache reuse.
+    work: Iterable[BatchItem] = items
     if RICH_AVAILABLE and console and items:
         work = track(work, description="Extracting prospectuses...")
 
-    for item, (skip, why) in work:
+    for item in work:
         names = output_names(item.json_path)
         essentials_path = names.essentials
         record: dict[str, Any] = {
@@ -235,12 +217,19 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
             "json_path": str(item.json_path),
             "csv_path": str(item.csv_path),
             "status": "pending",
-            "skip_check": why,
+            "skip_check": "identity check pending",
         }
         try:
+            captured = InputSnapshot(item.source_pdf)
+            try:
+                skip, why = skip_check(item, config, package_hash, snapshot=captured)
+            except Exception as exc:
+                skip, why = False, f"identity check failed: {type(exc).__name__}: {exc}"
+            record["skip_check"] = why
             if skip:
                 record.update({"status": "skipped", "reason": f"unchanged: {why}"})
                 records.append(record)
+                captured = None
                 continue
 
             payload = process_prospectus(
@@ -252,9 +241,9 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                 export_md=config.write_md,
                 device=config.device,
                 semantic_doc_path=config.semantic_doc,
-                converter=converter,
                 force_reconvert=config.force_reconvert,
                 quiet=True,
+                _snapshot=captured,
             )
             audit = payload["audit"]
             record.update(
@@ -286,6 +275,8 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                 }
             )
         records.append(record)
+        # Release this item's bytes before capturing the next item.
+        captured = None
 
     manifest_path = write_manifest(records, config.output_root) if config.write_manifest else None
     summary = {

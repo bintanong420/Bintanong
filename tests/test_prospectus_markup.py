@@ -414,7 +414,9 @@ def _fake_run(tmp_path, monkeypatch, status="error", **flags):
     document = evidence(
         [banner_table()], [text_item(0, "section_header", "PROPOSED PROGRAM OF STUDY")]
     )
-    monkeypatch.setattr(pipeline, "load_document", lambda *args, **kwargs: (document, None))
+    from backend.bintanong_tools.prospectus_extractor.loader import DocumentLoadResult
+    monkeypatch.setattr(pipeline, "load_document_result",
+                        lambda *args, **kwargs: DocumentLoadResult(document, None, "not-applicable"))
     monkeypatch.setattr(pipeline, "build_payload", lambda *args, **kwargs: {"audit": {"status": status}})
     target = tmp_path / "out" / "x_prospectus.json"
     pipeline.process_prospectus(source, target, quiet=True, **flags)
@@ -481,8 +483,6 @@ def test_batch_defaults_to_writing_md_and_passes_it_on(monkeypatch, tmp_path):
         },
         "metadata": {},
     }
-    monkeypatch.setattr(batch, "ensure_docling_env", lambda: None)
-    monkeypatch.setattr(batch, "get_shared_converter", lambda **kwargs: None)
     monkeypatch.setattr(batch, "process_prospectus", lambda *a, **k: seen.append(k) or result)
     config = batch.BatchConfig(input_root=source, output_root=tmp_path / "out", write_manifest=False)
     batch.run_batch(config)

@@ -17,5 +17,8 @@ class ProvisionalSource:
 
     def verify_pdf(self, pdf_path: Path) -> None:
         actual_hash = identity.file_sha256(pdf_path)  # the one PDF-hash owner
+        self.verify_digest(actual_hash)
+
+    def verify_digest(self, actual_hash: str) -> None:
         if actual_hash != self.pdf_sha256:
-            raise ValueError(f"PDF hash mismatch for {pdf_path}")
+            raise ValueError(f"PDF hash mismatch for {self.source_locator}")

@@ -39,10 +39,10 @@ class FakeConverter:
         self.calls: list[str] = []
 
     def convert(self, path):
-        self.calls.append(str(path))
+        self.calls.append(path.name if hasattr(path, "stream") else str(path))
         if self.fail:
             raise RuntimeError("converter exploded")
-        marker = Path(path).read_bytes().decode("latin-1")
+        marker = (path.stream.read() if hasattr(path, "stream") else Path(path).read_bytes()).decode("latin-1")
         return SimpleNamespace(errors=[], document=FakeDoc({**RAW_BASE, "marker": marker}))
 
 

@@ -250,3 +250,34 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
   - Run B (unchanged): `0 extracted, 0 failed audit, 1 skipped, 0 errored.` skip_check `identical run identity`. SHA-256 of all 9 files: no differences.
   - Run C (PDF replaced by `%PDF-1.4 not really a pdf`): `0 extracted, 0 failed audit, 0 skipped, 1 errored.` exit 1; skip_check `input, settings, parser or schema changed`. All 9 earlier files: no differences. No `.target.staging-*` left. `failed\target\failure.json` has error_type `ConversionError` ("docling-parse could not load document ...") and a traceback. Nothing else was staged, because conversion failed before writing.
   - Run D (original PDF restored): `0 extracted, 0 failed audit, 1 skipped, 0 errored.` No differences. `failed\target\` is still present: diagnostics are cleared by the next successful processing, not by a skip (for the Task 10 decision record).
+
+### Codex recovery checkpoint 2026-10-06T20:57:53+08:00
+- Task: Phase D resume; step: preflight complete; starting snapshot/hash task; owner: Codex controller.
+- HEAD: 641523d212839084da03d966ffbfca66c7e83e42; state: clean.
+- Evidence: Prior planning baseline:630 passed,13 subtests; HEAD641523d unchanged; GUI13 focused passed.
+- Next: Dispatch Phase D F3/F6 immutable input identity implementer; preserve GUI untracked work.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D F3/F6 immutable input identity (2026-10-06)
+- Base: 641523d. One frozen InputSnapshot(path) captures immutable PDF/JSON bytes and a shared bytes_sha256 digest; path linkage checked. Source verification, run identity, skip check and loader reuse the capture. Batch retains one item at a time; loader initializes its shared converter after cache miss.
+- Docling conversion receives DocumentStream(BytesIO(captured bytes)) with the original filename; backend fallback gets a fresh stream. Current original bytes are compared before pipeline publication and standalone cache writes; same-size/restored-mtime changes refuse publication and retain earlier files. No schema bump or CLI-declared input digest.
+- Internal loader.load_document_result returns DocumentLoadResult(document, raw_json_path, cache_status, raw_json_bytes, raw_json_sha256, meta_bytes, meta_sha256). Reused cache bytes are the exact verified/parsed reads; converted bytes are the exact staging serialization. F1 should bind these digests without reopening cache paths. Public load_document and load_reusable_cache retain tuple contracts.
+- Red evidence:8 failing snapshot tests; standalone cache race1failed/1passed; lost skip-check-error fallback1failed then restored to preserve existing processing behavior. Final focused335 passed; fallback follow-up26 passed. Final main full suite641 passed +13 subtests/3 upstream warnings; GUI-venv comprehensive647 passed +13 subtests/5 upstream warnings; shim80/80. Full suites repeated only after the additional fallback fix. No venv sync.
+- Evidence: dump/scratch/codex_resume_2026-10-06/task-d-identity-report.md and task-d-identity-{red,standalone-red,green,skip-error-red,skip-error-green,final-fullsuite,final-comprehensive,selftest}.log. Independent reviews and remaining D/corpus gates not run by this implementer; next: controller independent F3/F6 review then F1 publication/cache binding.
+
+### Codex recovery checkpoint 2026-10-06T21:10:39+08:00
+- Task: D F3/F6; step: final verified: baseline641 comprehensive647 subtests13 shim80/80; ready to commit; owner: d_identity implementer.
+- HEAD: 641523d212839084da03d966ffbfca66c7e83e42; state: M backend/bintanong_tools/prospectus.py
+ M backend/bintanong_tools/prospectus_extractor/batch.py
+ M backend/bintanong_tools/prospectus_extractor/identity.py
+ M backend/bintanong_tools/prospectus_extractor/loader.py
+ M backend/bintanong_tools/prospectus_extractor/pipeline.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/conftest.py
+ M tests/test_prospectus_authority.py
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_markup.py
+?? tests/test_prospectus_input_snapshot.py.
+- Evidence: task-d-identity-report.md; task-d-identity-final-fullsuite.log; task-d-identity-final-comprehensive.log; task-d-identity-selftest.log.
+- Next: Stage only explicit F3/F6 implementation tests and progress files; commit with required final coauthor trailer.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.

@@ -25,8 +25,8 @@ from .prolog import generate_prolog_knowledge
 from .rag import build_hierarchical_rag_chunks, build_semantic_rag_chunks
 from .markup import render_prospectus_markup
 from .paths import DEFAULT_SEMANTIC_DOC, SOURCE_PDF_ROOT, find_default_output_root
-from .identity import run_identity
-from .loader import _cache_meta_path, load_document
+from .identity import InputSnapshot, run_identity
+from .loader import _cache_meta_path, load_document_result
 from .publish import (
     clear_failure, new_staging_dir, output_names, publish_staged, write_failure, write_text_lf,
 )
@@ -276,6 +276,7 @@ def process_prospectus(
     source: Any = None,
     approved_scope: Mapping[str, str] | None = None,
     review_entries: Iterable[Mapping[str, Any]] | None = None,
+    _snapshot: InputSnapshot | None = None,
 ) -> dict[str, Any]:
     """Full pipeline for one prospectus: convert, parse, audit, then publish.
 
@@ -299,8 +300,10 @@ def process_prospectus(
     if final_path.suffix.lower() != ".json" or final_path.resolve() == input_path:
         raise ValueError("Output must be a JSON file distinct from the source")
     pdf_hash_check = "not_checked"
+    captured = _snapshot if _snapshot is not None else InputSnapshot(input_path)
+    captured.require_path(input_path)
     if source is not None and input_path.suffix.lower() == ".pdf":
-        source.verify_pdf(input_path)  # raises ValueError on a hash mismatch, before any output is touched
+        source.verify_digest(captured.sha256)  # before any output is touched
         pdf_hash_check = "matched"
 
     names = output_names(final_path)
@@ -310,11 +313,12 @@ def process_prospectus(
     stage = new_staging_dir(final_path.parent, names.base)
     run_id: dict[str, Any] | None = None
     try:
-        run_id = run_identity(input_path, semantic_doc_path)
-        document, raw_json_path = load_document(
+        run_id = run_identity(input_path, semantic_doc_path, snapshot=captured)
+        loaded = load_document_result(
             input_path, device=device, force_reconvert=force_reconvert,
-            converter=converter, raw_json_path=raw_cache_path, stage_dir=stage,
+            converter=converter, raw_json_path=raw_cache_path, stage_dir=stage, snapshot=captured,
         )
+        document, raw_json_path = loaded.document, loaded.raw_json_path
         payload = build_payload(
             document,
             input_path,
@@ -343,6 +347,7 @@ def process_prospectus(
         outputs = _stage_outputs(
             stage, names, document, payload, is_pdf, export_pl, export_jsonl, export_csv, export_md,
         )
+        captured.verify_unchanged()
         publish_staged(stage, names, outputs, cache_files, payload["run_identity"], payload["audit"]["status"])
         clear_failure(names)
     except Exception as exc:

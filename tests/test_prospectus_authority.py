@@ -317,7 +317,9 @@ def test_matching_hash_is_recorded_and_still_does_not_authorize(tmp_path, monkey
     source = ProvisionalSource(hashlib.sha256(b"%PDF-1.4\noriginal").hexdigest(), "local/prospectus.pdf")
     grid = [CS_HEADER, _merged("FIRST YEAR", 8), _cs_semester_row(), CONTROL]
     document = fixture_document(grid, [("title", "BACHELOR OF SCIENCE IN COMPUTER SCIENCE PROGRAM")])
-    monkeypatch.setattr(pipeline, "load_document", lambda *args, **kwargs: (document, None))
+    from backend.bintanong_tools.prospectus_extractor.loader import DocumentLoadResult
+    monkeypatch.setattr(pipeline, "load_document_result",
+                        lambda *args, **kwargs: DocumentLoadResult(document, None, "converted"))
     out = tmp_path / "x_prospectus.json"
 
     payload = pipeline.process_prospectus(pdf, output_path=out, semantic_doc_path=None, quiet=True, source=source)

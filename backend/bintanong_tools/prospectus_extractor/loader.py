@@ -2,17 +2,18 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import Any
 from typing import Mapping
 from typing import Sequence
-import hashlib
 import json
 import os
 import tempfile
 
 from .docling_env import _docling_importable, ensure_docling_env, get_shared_converter, load_docling
-from .identity import IDENTITY_VERSION, conversion_identity, conversion_settings, file_sha256
+from .identity import IDENTITY_VERSION, InputSnapshot, bytes_sha256, conversion_identity, conversion_settings
 from .publish import ReplaceFailed, replace_file
 from .text import clean_str, match_semester_labels, match_year_label
 from .grid import extract_table_year_contexts
@@ -319,9 +320,20 @@ def _write_bytes_atomic(path: Path, data: bytes) -> None:
         raise
 
 
-def load_reusable_cache(
+@dataclass(frozen=True)
+class DocumentLoadResult:
+    document: LoadedDocument
+    raw_json_path: Path | None
+    cache_status: str
+    raw_json_bytes: bytes | None = None
+    raw_json_sha256: str | None = None
+    meta_bytes: bytes | None = None
+    meta_sha256: str | None = None
+
+
+def _load_reusable_cache_result(
     raw_json_path: Path, meta_path: Path, pdf_sha256: str, settings: Mapping[str, Any]
-) -> tuple[LoadedDocument | None, str]:
+) -> tuple[DocumentLoadResult | None, str]:
     """The cached raw Docling JSON as a document when it may stand in for a fresh
     conversion, else (None, reason). Any doubt is a miss, never an error.
 
@@ -332,7 +344,8 @@ def load_reusable_cache(
     """
     expected_identity = conversion_identity(pdf_sha256, settings)
     try:
-        meta = json.loads(Path(meta_path).read_bytes().decode("utf-8"))
+        meta_bytes = Path(meta_path).read_bytes()
+        meta = json.loads(meta_bytes.decode("utf-8"))
     except FileNotFoundError:
         return None, "cached Docling JSON has no identity record"
     except (OSError, ValueError):
@@ -355,25 +368,38 @@ def load_reusable_cache(
         return None, "no cached Docling JSON"
     except OSError:
         return None, "cached Docling JSON is unreadable"
-    if meta.get("raw_json_sha256") != hashlib.sha256(raw_bytes).hexdigest():
+    raw_hash = bytes_sha256(raw_bytes)
+    if meta.get("raw_json_sha256") != raw_hash:
         return None, "cached JSON does not match its identity record"
     try:
         data = json.loads(raw_bytes.decode("utf-8"))
         if not isinstance(data, dict):
             return None, "cached Docling JSON is not a document"
-        return load_from_raw_json(data), "identity matches"
+        return DocumentLoadResult(
+            load_from_raw_json(data), raw_json_path, "reused", raw_bytes, raw_hash,
+            meta_bytes, bytes_sha256(meta_bytes),
+        ), "identity matches"
     except ValueError as exc:  # bad UTF-8, bad JSON, or a dict Docling rejects
         return None, f"cached Docling JSON is corrupt ({type(exc).__name__})"
 
 
-def load_document(
+def load_reusable_cache(
+    raw_json_path: Path, meta_path: Path, pdf_sha256: str, settings: Mapping[str, Any]
+) -> tuple[LoadedDocument | None, str]:
+    result, reason = _load_reusable_cache_result(raw_json_path, meta_path, pdf_sha256, settings)
+    return (result.document if result is not None else None), reason
+
+
+def load_document_result(
     input_path: Path,
     device: str = "auto",
     force_reconvert: bool = True,
     converter: Any = None,
     raw_json_path: Path | None = None,
     stage_dir: Path | None = None,
-) -> tuple[LoadedDocument, Path | None]:
+    *,
+    snapshot: InputSnapshot | None = None,
+) -> DocumentLoadResult:
     """Load a PDF (convert or reuse an identity-matched cache) or a raw Docling JSON.
 
     A Docling JSON given as the input is a review input: nothing verifies which PDF
@@ -383,12 +409,14 @@ def load_document(
     input_path = Path(input_path).resolve()
     if not input_path.exists():
         raise FileNotFoundError(f"Input file not found: {input_path}")
+    captured = snapshot if snapshot is not None else InputSnapshot(input_path)
+    captured.require_path(input_path)
 
     suffix = input_path.suffix.lower()
     if suffix == ".json":
-        data = json.loads(input_path.read_text(encoding="utf-8"))
+        data = json.loads(captured.data.decode("utf-8"))
         print(f"[*] Loading Docling JSON: {input_path.name} (review input; source PDF not verified)")
-        return load_from_raw_json(data), input_path
+        return DocumentLoadResult(load_from_raw_json(data), input_path, "not-applicable")
 
     if suffix != ".pdf":
         raise ValueError(f"Unsupported input type: {input_path.suffix}")
@@ -399,21 +427,23 @@ def load_document(
     raw_json_path = Path(raw_json_path).resolve() if raw_json_path else input_path.parent / f"{input_path.stem}_docling.json"
     meta_path = _cache_meta_path(raw_json_path)
     settings = conversion_settings()
-    pdf_hash = file_sha256(input_path)
+    pdf_hash = captured.sha256
     expected = conversion_identity(pdf_hash, settings)
 
     if not force_reconvert:
-        cached, reason = load_reusable_cache(raw_json_path, meta_path, pdf_hash, settings)
+        cached, reason = _load_reusable_cache_result(raw_json_path, meta_path, pdf_hash, settings)
         if cached is not None:
             print(f"[*] Reusing raw Docling JSON with matching identity: {raw_json_path.name}")
-            return cached, raw_json_path
+            return cached
         if raw_json_path.exists():
             print(f"[*] Ignoring cached Docling JSON ({reason}); reconverting.")
 
     print(f"[*] Converting with Docling ({device.upper()}): {input_path.name}")
     active = converter or get_shared_converter(
         device=device, backend="docling_parse", settings=settings)
-    result = active.convert(str(input_path))
+    from docling.datamodel.base_models import DocumentStream
+
+    result = active.convert(DocumentStream(name=input_path.name, stream=BytesIO(captured.data)))
 
     if _conversion_has_bad_alloc(result):
         print(
@@ -421,7 +451,8 @@ def load_document(
             "Docling's PyPdfium backend (NOT PyMuPDF)."
         )
         result = get_shared_converter(
-            device=device, backend="pypdfium2", settings=settings).convert(str(input_path))
+            device=device, backend="pypdfium2", settings=settings).convert(
+                DocumentStream(name=input_path.name, stream=BytesIO(captured.data)))
 
     if _conversion_has_bad_alloc(result):
         raise MemoryError(
@@ -444,18 +475,38 @@ def load_document(
         "pdf_sha256": pdf_hash,
         "conversion_settings": settings,
         "conversion_identity": expected,
-        "raw_json_sha256": hashlib.sha256(raw_bytes).hexdigest(),
+        "raw_json_sha256": bytes_sha256(raw_bytes),
     }
     write_dir = Path(stage_dir) if stage_dir else raw_json_path.parent
+    if stage_dir is None:
+        captured.verify_unchanged()
     # raw JSON first, meta second: a crash between them leaves a pair that fails the sha check.
     _write_bytes_atomic(write_dir / raw_json_path.name, raw_bytes)
-    _write_bytes_atomic(write_dir / meta_path.name, json.dumps(meta, indent=2).encode("utf-8"))
+    meta_bytes = json.dumps(meta, indent=2).encode("utf-8")
+    _write_bytes_atomic(write_dir / meta_path.name, meta_bytes)
     print(f"[+] Raw Docling JSON -> {write_dir / raw_json_path.name}")
 
     rehydrated = load_docling()["DoclingDocument"].model_validate(raw)
-    return _load_from_rehydrated_docling_document(
-        rehydrated, "docling-document", raw
-    ), raw_json_path
+    return DocumentLoadResult(
+        _load_from_rehydrated_docling_document(rehydrated, "docling-document", raw),
+        raw_json_path, "converted", raw_bytes, meta["raw_json_sha256"],
+        meta_bytes, bytes_sha256(meta_bytes),
+    )
+
+
+def load_document(
+    input_path: Path,
+    device: str = "auto",
+    force_reconvert: bool = True,
+    converter: Any = None,
+    raw_json_path: Path | None = None,
+    stage_dir: Path | None = None,
+) -> tuple[LoadedDocument, Path | None]:
+    """Compatibility wrapper for callers that unpack (document, raw JSON path)."""
+    result = load_document_result(
+        input_path, device, force_reconvert, converter, raw_json_path, stage_dir,
+    )
+    return result.document, result.raw_json_path
 
 def dump_grid(document: LoadedDocument) -> str:
     """Human-readable dump of every reconstructed table row - the debugging tool v1 lacked."""
