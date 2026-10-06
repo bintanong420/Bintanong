@@ -92,8 +92,9 @@ def test_born_digital_cache_is_never_reused_for_an_ocr_run(
     pdf = pdf_factory(tmp_path / "in")
     out = tmp_path / "out"
     process(pdf, out, converter, force_reconvert=False)
-    monkeypatch.setattr(loader, "conversion_settings",
-                        lambda: identity.conversion_settings(do_ocr=True, ocr_languages=["en", "fil"]))
+    ocr_settings = identity.conversion_settings(do_ocr=True, ocr_languages=["en", "fil"])
+    monkeypatch.setattr(loader, "conversion_settings", lambda: ocr_settings)
+    monkeypatch.setattr(identity, "conversion_settings", lambda: ocr_settings)
     process(pdf, out, converter, force_reconvert=False)
     assert len(converter.calls) == 2
     meta = json.loads((out / "a_docling.meta.json").read_text(encoding="utf-8"))

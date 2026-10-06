@@ -8,12 +8,16 @@ import pytest
 
 from backend.bintanong_tools.prospectus_extractor import publish
 
-IDENTITY = {"run_key": "k" * 64}
+IDENTITY = {"run_key": "a" * 64, "input_kind": "docling-json",
+            "input_sha256": "b" * 64, "pdf_sha256": None,
+            "conversion_identity": None, "conversion_settings": None, "cache_files": {}}
 
 
 def stage_files(stage, contents: dict[str, str]):
     stage.mkdir(parents=True, exist_ok=True)
     for name, text in contents.items():
+        if name.endswith("_prospectus.json"):
+            text = json.dumps({"run_identity": IDENTITY, "marker": text})
         publish.write_text_lf(stage / name, text)
 
 
@@ -44,7 +48,7 @@ def test_publish_replaces_existing_files_and_writes_the_manifest_last(tmp_path, 
     publish.publish_staged(stage, names, ["a_review.csv", "a_prospectus.json"], [], IDENTITY, "ok")
 
     assert order == ["a_review.csv", "a_prospectus.json", "a_publish.json"]
-    assert names.final.read_text(encoding="utf-8") == "new main"
+    assert json.loads(names.final.read_bytes())["marker"] == "new main"
     manifest = publish.read_manifest(names.manifest)
     assert manifest["run_key"] == IDENTITY["run_key"]
     assert manifest["audit_status"] == "ok"
@@ -193,6 +197,137 @@ def test_a_publish_target_that_stays_locked_keeps_the_staged_file_for_diagnostic
     monkeypatch.setattr(time, "sleep", lambda _seconds: None)
     with pytest.raises(publish.ReplaceFailed, match="a_prospectus.json"):
         publish.publish_staged(stage, names, ["a_prospectus.json"], [], IDENTITY, "ok")
-    assert (stage / "a_prospectus.json").read_text(encoding="utf-8") == "new main"
+    assert json.loads((stage / "a_prospectus.json").read_bytes())["marker"] == "new main"
     assert names.final.read_text(encoding="utf-8") == "old main"
     assert not names.manifest.exists()
+
+
+
+def valid_manifest():
+    return {"schema": publish.PUBLISH_SCHEMA, "run_key": IDENTITY["run_key"],
+            "run_identity": dict(IDENTITY), "main_file": "a_prospectus.json",
+            "files": {"a_prospectus.json": "d" * 64}, "cache_files": {}}
+
+
+BAD_NAMES = ["", ".", "..", "../victim", "..\\victim", "nested/file", "nested\\file",
+             "C:/victim", "C:relative", "\\\\server\\share", "a:stream", "a.", "a ", "a\x00b"]
+
+
+@pytest.mark.parametrize("name", BAD_NAMES)
+def test_manifest_rejects_unsafe_leaf_names(tmp_path, name):
+    manifest = valid_manifest()
+    manifest["files"] = {name: "d" * 64}
+    manifest["main_file"] = name
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    assert publish.read_manifest(path) is None
+    assert publish.verify_published(tmp_path, manifest)[0] is False
+
+
+@pytest.mark.parametrize("field,value", [
+    ("schema", "palsu-prospectus-publish-v1"), ("files", {}), ("files", []), ("files", None),
+    ("files", {"a_prospectus.json": None}), ("files", {"a_prospectus.json": "D" * 64}),
+    ("files", {"a_prospectus.json": "g" * 64}), ("files", {"a_prospectus.json": 3}),
+    ("run_key", "k" * 64), ("run_key", None), ("main_file", "absent.json"),
+    ("main_file", None), ("cache_files", []), ("cache_files", None),
+    ("cache_files", {"a_docling.json": "e" * 64}), ("run_identity", None),
+    ("run_identity", []), ("run_identity", {"run_key": "b" * 64}),
+])
+def test_manifest_rejects_invalid_shape(tmp_path, field, value):
+    manifest = valid_manifest()
+    manifest[field] = value
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    assert publish.read_manifest(path) is None
+    assert publish.verify_published(tmp_path, manifest)[0] is False
+
+
+@pytest.mark.parametrize("root", [None, [], 1, "manifest"])
+def test_manifest_root_fails_closed(tmp_path, root):
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(root), encoding="utf-8")
+    assert publish.read_manifest(path) is None
+    assert publish.verify_published(tmp_path, root)[0] is False
+
+
+@pytest.mark.parametrize("field", ["input_kind", "cache_files", "run_key"])
+def test_missing_identity_fields_fail_closed(tmp_path, field):
+    manifest = valid_manifest()
+    manifest["run_identity"].pop(field)
+    assert publish.verify_published(tmp_path, manifest)[0] is False
+
+
+@pytest.mark.parametrize("content", [b"\xff", b"{", b"[]", b"null", b"{}"])
+def test_main_must_parse_and_bind_manifest_identity(tmp_path, content):
+    import hashlib
+    manifest = valid_manifest()
+    (tmp_path / "a_prospectus.json").write_bytes(content)
+    manifest["files"]["a_prospectus.json"] = hashlib.sha256(content).hexdigest()
+    assert publish.verify_published(tmp_path, manifest)[0] is False
+
+
+def test_unreadable_file_fails_closed(tmp_path, monkeypatch):
+    from pathlib import Path
+    manifest = valid_manifest()
+    (tmp_path / "a_prospectus.json").write_bytes(b"{}")
+    real = Path.read_bytes
+    def denied(path):
+        if path.name == "a_prospectus.json":
+            raise PermissionError("locked")
+        return real(path)
+    monkeypatch.setattr(Path, "read_bytes", denied)
+    assert publish.verify_published(tmp_path, manifest)[0] is False
+
+
+def test_resolved_leaf_cannot_escape_directory(tmp_path, monkeypatch):
+    from pathlib import Path
+    manifest = valid_manifest()
+    real = Path.resolve
+    def escape(path, *args, **kwargs):
+        if path.name == "a_prospectus.json":
+            return tmp_path.parent / "victim.json"
+        return real(path, *args, **kwargs)
+    monkeypatch.setattr(Path, "resolve", escape)
+    assert publish.verify_published(tmp_path, manifest)[0] is False
+
+
+def test_stale_cleanup_keeps_arbitrary_previous_entries_and_cache(tmp_path):
+    import hashlib
+    out = tmp_path / "out"
+    names = publish.output_names(out / "a_prospectus.json")
+    out.mkdir()
+    keep = ["a_docling.json", "a_docling.meta.json", "neighbor.txt"]
+    for name in [*keep, "a_prospectus.pl"]:
+        (out / name).write_bytes(b"keep")
+    previous = valid_manifest()
+    previous["files"].update({name: hashlib.sha256(b"keep").hexdigest() for name in keep})
+    names.manifest.write_text(json.dumps(previous), encoding="utf-8")
+    stage = out / ".stage"
+    stage_files(stage, {"a_prospectus.json": "new"})
+    publish.publish_staged(stage, names, ["a_prospectus.json"], [], IDENTITY, "ok")
+    assert all((out / name).read_bytes() == b"keep" for name in keep)
+    assert not names.prolog.exists()
+
+
+@pytest.mark.parametrize("outputs,caches", [
+    (["a_prospectus.json", "a_prospectus.json"], []),
+    (["../victim", "a_prospectus.json"], []),
+    (["a_publish.json", "a_prospectus.json"], []),
+    (["a_prospectus.json"], ["a_prospectus.json"]),
+])
+def test_invalid_publish_names_refuse_before_any_replace(tmp_path, monkeypatch, outputs, caches):
+    names = publish.output_names(tmp_path / "out" / "a_prospectus.json")
+    stage = tmp_path / "stage"
+    stage_files(stage, {"a_prospectus.json": "new"})
+    def must_not_replace(*args, **kwargs):
+        pytest.fail("invalid publication attempted a replace")
+    monkeypatch.setattr(publish, "replace_file", must_not_replace)
+    with pytest.raises(ValueError):
+        publish.publish_staged(stage, names, outputs, caches, IDENTITY, "ok")
+
+
+
+def test_invalid_utf8_manifest_is_rejected(tmp_path):
+    path = tmp_path / "manifest.json"
+    path.write_bytes(b"\xff")
+    assert publish.read_manifest(path) is None

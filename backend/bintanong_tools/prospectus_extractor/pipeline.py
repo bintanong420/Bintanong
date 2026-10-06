@@ -332,14 +332,20 @@ def process_prospectus(
         )
 
         cache_files: list[str] = []
+        cache_hashes: dict[str, str] = {}
         if raw_cache_path is not None:
-            cache_files = [
-                name for name in (raw_cache_path.name, _cache_meta_path(raw_cache_path).name)
-                if (stage / name).exists()
-            ]
+            if (loaded.cache_status not in ("converted", "reused")
+                    or not isinstance(loaded.raw_json_bytes, bytes)
+                    or not isinstance(loaded.meta_bytes, bytes)
+                    or loaded.raw_json_sha256 is None or loaded.meta_sha256 is None):
+                raise ValueError("PDF load result has no complete captured cache pair")
+            cache_files = [raw_cache_path.name, _cache_meta_path(raw_cache_path).name]
+            cache_hashes = dict(zip(cache_files, (loaded.raw_json_sha256, loaded.meta_sha256)))
+            if loaded.cache_status == "reused":
+                for name, data in zip(cache_files, (loaded.raw_json_bytes, loaded.meta_bytes)):
+                    (stage / name).write_bytes(data)
         payload["run_identity"] = {
-            **run_id,
-            "cache": ("converted" if cache_files else "reused") if is_pdf else "not-applicable",
+            **run_id, "cache": loaded.cache_status, "cache_files": cache_hashes,
         }
         if run_id["review_input_only"]:
             payload["run_identity"]["review_note"] = REVIEW_INPUT_NOTE
@@ -348,7 +354,10 @@ def process_prospectus(
             stage, names, document, payload, is_pdf, export_pl, export_jsonl, export_csv, export_md,
         )
         captured.verify_unchanged()
-        publish_staged(stage, names, outputs, cache_files, payload["run_identity"], payload["audit"]["status"])
+        publish_staged(
+            stage, names, outputs, cache_files, payload["run_identity"], payload["audit"]["status"],
+            cache_hashes=cache_hashes,
+        )
         clear_failure(names)
     except Exception as exc:
         write_failure(names, exc, input_path, run_id, stage)

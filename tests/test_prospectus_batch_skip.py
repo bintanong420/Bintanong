@@ -182,3 +182,32 @@ def test_batch_manifest_schema_names_the_new_record_shape():
     from backend.bintanong_tools.prospectus_extractor import common
 
     assert common.MANIFEST_SCHEMA_VERSION == "palsu-prospectus-batch-manifest-v3.1"
+
+
+@pytest.mark.parametrize("name", ["a_docling.json", "a_docling.meta.json"])
+@pytest.mark.parametrize("deleted", [False, True])
+def test_changed_or_missing_cache_refuses_skip(env, name, deleted):
+    env.run()
+    path = env.out / name
+    if deleted:
+        path.unlink()
+    else:
+        path.write_bytes(b"{}")
+    record = only(env.run())
+    assert record["status"] == "ok"
+    assert record["skip_check"] == (f"{name} is missing" if deleted
+                                     else f"{name} changed since it was published")
+    assert len(env.converter.calls) == 2
+
+
+def test_old_v1_manifest_refuses_skip(env):
+    import json
+    env.run()
+    path = env.out / "a_publish.json"
+    old = json.loads(path.read_bytes())
+    old["schema"] = "palsu-prospectus-publish-v1"
+    path.write_text(json.dumps(old), encoding="utf-8")
+    record = only(env.run())
+    assert record["status"] == "ok"
+    assert record["skip_check"] == "no publish manifest"
+    assert env.state.builds == 2

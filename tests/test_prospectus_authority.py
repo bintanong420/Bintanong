@@ -317,9 +317,26 @@ def test_matching_hash_is_recorded_and_still_does_not_authorize(tmp_path, monkey
     source = ProvisionalSource(hashlib.sha256(b"%PDF-1.4\noriginal").hexdigest(), "local/prospectus.pdf")
     grid = [CS_HEADER, _merged("FIRST YEAR", 8), _cs_semester_row(), CONTROL]
     document = fixture_document(grid, [("title", "BACHELOR OF SCIENCE IN COMPUTER SCIENCE PROGRAM")])
-    from backend.bintanong_tools.prospectus_extractor.loader import DocumentLoadResult
-    monkeypatch.setattr(pipeline, "load_document_result",
-                        lambda *args, **kwargs: DocumentLoadResult(document, None, "converted"))
+    from backend.bintanong_tools.prospectus_extractor import identity
+    from backend.bintanong_tools.prospectus_extractor.loader import DocumentLoadResult, _cache_meta_path
+
+    def load_fixture(*args, **kwargs):
+        raw_path = kwargs["raw_json_path"]
+        raw = json.dumps({"texts": document.text_items, "tables": [{"data": {"grid": grid}}]}).encode()
+        raw_hash = hashlib.sha256(raw).hexdigest()
+        settings = identity.conversion_settings()
+        meta = json.dumps({
+            "identity_version": 1, "pdf_sha256": source.pdf_sha256,
+            "conversion_settings": settings,
+            "conversion_identity": identity.conversion_identity(source.pdf_sha256, settings),
+            "raw_json_sha256": raw_hash,
+        }).encode()
+        (kwargs["stage_dir"] / raw_path.name).write_bytes(raw)
+        (kwargs["stage_dir"] / _cache_meta_path(raw_path).name).write_bytes(meta)
+        return DocumentLoadResult(document, raw_path, "converted", raw, raw_hash,
+                                  meta, hashlib.sha256(meta).hexdigest())
+
+    monkeypatch.setattr(pipeline, "load_document_result", load_fixture)
     out = tmp_path / "x_prospectus.json"
 
     payload = pipeline.process_prospectus(pdf, output_path=out, semantic_doc_path=None, quiet=True, source=source)

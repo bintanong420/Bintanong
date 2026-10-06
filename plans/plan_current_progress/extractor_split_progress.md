@@ -281,3 +281,24 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Evidence: task-d-identity-report.md; task-d-identity-final-fullsuite.log; task-d-identity-final-comprehensive.log; task-d-identity-selftest.log.
 - Next: Stage only explicit F3/F6 implementation tests and progress files; commit with required final coauthor trailer.
 - Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D F1 publication consistency (2026-10-06)
+- Baseline53e3c00; publish-v2 now binds main_file, separate output/cache digests and the exact loader snapshot pair inside payload/manifest run_identity. Converted and reused pairs are staged; reused still records cache=reused.
+- Approved order deviation: companions -> main JSON -> raw cache JSON/meta -> manifest. File-by-file publication remains non-atomic; mixed generations fail verification, while unchanged early replacements may leave the prior coherent set valid. Stale cleanup uses only known companion names.
+- Original focused RED214failed/72passed; focused GREEN310passed; supplementary baseline reconstruction38failed/5passed explicitly labelled reconstruction. Two obsolete doubles fixed after initial broad2failures: authority missing snapshot fields; OCR settings changed only at loader boundary. Corrected focused557passed; validation64passed.
+- Final MAIN baseline suite910passed/13subtests/3warnings; GUI comprehensive916passed/13subtests/5warnings; selftest80/80. External evidence/report task-d-publish-report.md in approved scratch root. Public six publish arguments retained with keyword-only cache_hashes; payload remainsv3.2. Default paths and staging/temp names unchanged for S1.
+- Independent spec/quality review and remaining D queue/phase gates remain controller-owned; no maincheckout edits, sync, push, merge or worktree removal.
+
+### Codex recovery checkpoint 2026-10-06T21:36:13+08:00
+- Task: Phase D F1 publication; step: all gates GREEN; report written; before explicit commit; owner: d_publish.
+- HEAD: 53e3c000958eae9cf4e12e197a6e54b7cc7b2e84; state: M backend/bintanong_tools/prospectus_extractor/pipeline.py
+ M backend/bintanong_tools/prospectus_extractor/publish.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_authority.py
+ M tests/test_prospectus_batch_skip.py
+ M tests/test_prospectus_cache.py
+ M tests/test_prospectus_publication.py
+ M tests/test_prospectus_publish.py.
+- Evidence: task-d-publish-report.md; task-d-publish-final-fullsuite.log; task-d-publish-final-comprehensive.log; task-d-publish-selftest.log.
+- Next: Explicitly stage two production files, five test files and progress; commit with required trailer; parent independently reviews baseline53e3c00..tip..
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.

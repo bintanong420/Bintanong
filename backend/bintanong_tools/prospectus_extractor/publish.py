@@ -8,14 +8,15 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 import json
 import os
+import re
 import shutil
 import time
 import traceback
 import uuid
 
-from .identity import file_sha256
+from .identity import IDENTITY_VERSION, bytes_sha256, conversion_identity, file_sha256
 
-PUBLISH_SCHEMA = "palsu-prospectus-publish-v1"
+PUBLISH_SCHEMA = "palsu-prospectus-publish-v2"
 FAILED_DIR_NAME = "failed"
 
 
@@ -99,30 +100,109 @@ def replace_file(source: Path, target: Path, attempts: int = 5, delay: float = 0
             time.sleep(delay * (attempt + 1))
 
 
+def _leaf_name(value: Any) -> bool:
+    return (
+        isinstance(value, str) and bool(value) and value not in (".", "..")
+        and not any(char in value for char in "/\\:\x00")
+        and not value.endswith((".", " "))
+    )
+
+
+def _sha256(value: Any) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+
+def _manifest_error(manifest: Any) -> str | None:
+    """Validate the manifest before trusting any path or digest it declares."""
+    if not isinstance(manifest, Mapping) or manifest.get("schema") != PUBLISH_SCHEMA:
+        return "unsupported publish manifest"
+    files, caches = manifest.get("files"), manifest.get("cache_files")
+    if not isinstance(files, Mapping) or not files or not isinstance(caches, Mapping):
+        return "invalid publish file maps"
+    all_names = [*files, *caches]
+    if any(not _leaf_name(name) for name in all_names):
+        return "invalid publish file name"
+    if len({name.casefold() for name in all_names}) != len(all_names):
+        return "duplicate publish file name"
+    if any(not _sha256(digest) for digest in [*files.values(), *caches.values()]):
+        return "invalid publish digest"
+    main = manifest.get("main_file")
+    if not _leaf_name(main) or main not in files:
+        return "missing main file binding"
+    identity = manifest.get("run_identity")
+    if (not isinstance(identity, Mapping) or not _sha256(manifest.get("run_key"))
+            or identity.get("run_key") != manifest["run_key"]):
+        return "invalid run identity"
+    if identity.get("cache_files") != caches or not _sha256(identity.get("input_sha256")):
+        return "invalid cache or input identity binding"
+    if identity.get("input_kind") == "pdf":
+        raw_names = [name for name in caches if name.endswith("_docling.json")]
+        if (len(raw_names) != 1 or len(caches) != 2
+                or raw_names[0][:-5] + ".meta.json" not in caches):
+            return "missing PDF cache pair binding"
+        settings = identity.get("conversion_settings")
+        if (identity.get("identity_version") != IDENTITY_VERSION
+                or identity.get("pdf_sha256") != identity["input_sha256"]
+                or not isinstance(settings, Mapping)
+                or identity.get("conversion_identity") != conversion_identity(
+                    identity["input_sha256"], settings)):
+            return "invalid PDF conversion identity"
+    elif identity.get("input_kind") == "docling-json":
+        if (caches or identity.get("pdf_sha256") is not None
+                or identity.get("conversion_settings") is not None
+                or identity.get("conversion_identity") is not None):
+            return "invalid review input cache binding"
+    else:
+        return "unsupported input kind"
+    return None
+
+
 def read_manifest(path: Path) -> dict[str, Any] | None:
     try:
-        data = json.loads(Path(path).read_text(encoding="utf-8"))
-    except (OSError, ValueError):
+        data = json.loads(Path(path).read_bytes().decode("utf-8"))
+        return data if _manifest_error(data) is None else None
+    except (OSError, ValueError, TypeError):
         return None
-    if (
-        not isinstance(data, dict)
-        or data.get("schema") != PUBLISH_SCHEMA
-        or not isinstance(data.get("files"), dict)
-        or not isinstance(data.get("run_key"), str)
-    ):
-        return None
-    return data
 
 
 def verify_published(directory: Path, manifest: Mapping[str, Any]) -> tuple[bool, str]:
-    """Does every file the manifest lists still hash to the value recorded when it was published?"""
-    for name, digest in manifest["files"].items():
-        target = Path(directory) / name
-        if not target.is_file():
-            return False, f"{name} is missing"
-        if file_sha256(target) != digest:
-            return False, f"{name} changed since it was published"
-    return True, "all files match"
+    """Check one bytes snapshot per file, including main/cache identity cross-bindings."""
+    try:
+        error = _manifest_error(manifest)
+        if error:
+            return False, error
+        directory = Path(directory).resolve()
+        snapshots = {}
+        for name, digest in {**manifest["files"], **manifest["cache_files"]}.items():
+            target = directory / name
+            if target.resolve().parent != directory:
+                return False, f"{name} resolves outside the output directory"
+            if not target.is_file():
+                return False, f"{name} is missing"
+            data = target.read_bytes()
+            if bytes_sha256(data) != digest:
+                return False, f"{name} changed since it was published"
+            snapshots[name] = data
+        main = json.loads(snapshots[manifest["main_file"]].decode("utf-8"))
+        identity = manifest["run_identity"]
+        if not isinstance(main, Mapping) or main.get("run_identity") != identity:
+            return False, "main run identity does not match the manifest"
+        if identity["input_kind"] == "pdf":
+            raw_name = next(name for name in manifest["cache_files"] if name.endswith("_docling.json"))
+            meta = json.loads(snapshots[raw_name[:-5] + ".meta.json"].decode("utf-8"))
+            raw = json.loads(snapshots[raw_name].decode("utf-8"))
+            if not isinstance(raw, Mapping):
+                return False, "cached JSON is not a document"
+            if (not isinstance(meta, Mapping)
+                    or meta.get("identity_version") != identity["identity_version"]
+                    or meta.get("pdf_sha256") != identity["pdf_sha256"]
+                    or meta.get("conversion_identity") != identity["conversion_identity"]
+                    or meta.get("conversion_settings") != identity["conversion_settings"]
+                    or meta.get("raw_json_sha256") != manifest["cache_files"][raw_name]):
+                return False, "cache metadata does not match the main run identity"
+        return True, "all files match"
+    except (OSError, ValueError, TypeError) as exc:
+        return False, f"published set is unreadable ({type(exc).__name__})"
 
 
 def publish_staged(
@@ -132,48 +212,48 @@ def publish_staged(
     cache_files: Sequence[str],
     run_identity: Mapping[str, Any],
     audit_status: str,
+    *,
+    cache_hashes: Mapping[str, str] | None = None,
 ) -> Path:
-    """Move a finished stage into place, one file at a time.
+    """Publish companions, main JSON, captured cache pair, then the v2 manifest.
 
-    `outputs` are file names inside `stage` in publish order; the main JSON must be last.
-    `cache_files` (raw Docling JSON and its meta) are published first and are not part of
-    the manifest: they have their own identity record. The manifest is published very last.
-    A crash part-way leaves an old manifest whose hashes no longer match: verify_published
-    reports the set incomplete, so nothing trusts it.
+    File replacements are not an atomic set. Manifest-last verification detects mixed
+    generations; byte-identical early replacements may leave the old set coherent.
     """
     stage = Path(stage)
     if not outputs or outputs[-1] != names.final.name:
         raise ValueError("the main JSON must be the last staged output")
-    target_dir = names.final.parent
-    target_dir.mkdir(parents=True, exist_ok=True)
-
-    previous = read_manifest(names.manifest)
-    previous_files = set(previous["files"]) if previous else set()
-
+    all_names = [*outputs, *cache_files, names.manifest.name]
+    if (any(not _leaf_name(name) for name in all_names)
+            or len({name.casefold() for name in all_names}) != len(all_names)):
+        raise ValueError("invalid or duplicate staged file names")
+    hashes = dict(cache_hashes) if cache_hashes is not None else {}
+    if set(cache_files) != set(hashes):
+        raise ValueError("staged cache files must match the captured cache hashes")
     manifest = {
         "schema": PUBLISH_SCHEMA,
-        "run_key": run_identity["run_key"],
+        "run_key": run_identity.get("run_key"),
         "audit_status": audit_status,
         "published_at": datetime.now().isoformat(timespec="seconds"),
         "run_identity": dict(run_identity),
+        "main_file": names.final.name,
         "files": {name: file_sha256(stage / name) for name in outputs},
+        "cache_files": hashes,
     }
+    valid, why = verify_published(stage, manifest)
+    if not valid:
+        raise ValueError(f"Invalid staged publication: {why}")
     write_text_lf(stage / names.manifest.name, json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
-
-    for name in [*cache_files, *outputs, names.manifest.name]:
+    target_dir = names.final.parent
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for name in [*outputs, *cache_files, names.manifest.name]:
         replace_file(stage / name, target_dir / name)
 
-    # Stale: whatever the previous manifest listed, plus every known companion of this base
-    # (an output set written before publish manifests existed has none), that this run did
-    # not produce. The cache files and the manifest itself are never stale companions.
     companions = {path.name for path in (names.essentials, names.prolog, names.rag, names.csv, names.markup)}
-    keep = {*outputs, *cache_files, names.manifest.name}
-    for stale in sorted((previous_files | companions) - keep):
-        if Path(stale).name != stale:  # a tampered manifest must not reach outside this folder
-            continue
+    for stale in sorted(companions - set(outputs)):
         try:
             (target_dir / stale).unlink(missing_ok=True)
-        except OSError as exc:  # not in the new manifest, so it cannot pass for current output
+        except OSError as exc:
             print(f"[!] Could not remove stale companion {target_dir / stale}: {exc}")
     return names.manifest
 
