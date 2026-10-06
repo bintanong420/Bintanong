@@ -12,6 +12,7 @@ pytest.importorskip("httpx")
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from backend.bintanong_tools.prospectus_extractor import ledger  # noqa: E402
 from backend.bintanong_tools.prospectus_extractor.ledger import FIELD_PREREQ, content_review_state, read_entries  # noqa: E402
 from backend.bintanong_tools.prospectus_extractor.sheet import build_entries, candidate_sha256, parse_sheet, render_sheet  # noqa: E402
 from backend.bintanong_tools.prospectus_extractor.verify import verify_candidate  # noqa: E402
@@ -22,6 +23,7 @@ import fixer_fixtures as fx  # noqa: E402
 import review_gui_fixtures as rf  # noqa: E402
 from sheet_helpers import edit_row, set_line  # noqa: E402
 from test_review_gui_prerequisites import with_states  # noqa: E402
+from test_review_gui_sheet_equivalence import comparable  # noqa: E402
 
 PORT = 8765
 SMOKE = Path(__file__).resolve().parents[1] / "scripts" / "prospectus_review_gui_smoke.py"
@@ -70,8 +72,11 @@ def test_full_session_synthetic(tmp_path):
         assert answer(client, token, "S3-01:prereq", "no", reason="cannot tell")["written"] == 1
         state = client.get("/api/state").json()
         assert state["content_review"]["state"] == "partially_reviewed"
-        assert state["content_review"]["unresolved"] == 1 and state["content_review"]["unclaimed_undecided"] == 0
-        assert state["approval_line"] and "approved" not in state["content_review"]["state"]
+        assert state["content_review"]["unresolved"] == 1 and state["content_review"]["unclaimed_undecided"] == 0   # one course, counted once
+        assert state["approval_line"] == "A reviewed prospectus is not an approved curriculum"
+        assert state["content_review"]["state"] == "partially_reviewed"
+        unresolved = sorted((e["locator"]["code_at_review"], e["field"]) for e in read_entries(ws.ledger) if e["disposition"] == "unresolved")
+        assert unresolved == [("GE-ET", "prerequisites_raw"), ("GE-ET", "row")]   # the course No and the prerequisite No, both on the same course
         done = post(client, token, "/api/materialise", {})
         assert done.status_code == 200 and done.json()["content_review"]["state"] == "partially_reviewed"
     finally:
@@ -125,7 +130,7 @@ def test_resume_after_candidate_rerun_marks_old_entries_stale(tmp_path):
         session.close()
 
 
-def test_gui_and_sheet_ledgers_agree_on_content_review_state(tmp_path):
+def test_gui_and_sheet_ledgers_agree_entry_for_entry_and_materialise_equal(tmp_path):
     payload = fx.bscs()
     ws = rf.workspace(tmp_path, payload)
     v = verify_candidate(payload, None)
@@ -144,9 +149,18 @@ def test_gui_and_sheet_ledgers_agree_on_content_review_state(tmp_path):
         from_gui = client.get("/api/state").json()["content_review"]
     finally:
         session.close()
+    gui = read_entries(ws.ledger)
     assert from_gui == from_sheet and from_sheet["state"] == "partially_reviewed"
-    assert content_review_state(payload, read_entries(ws.ledger), rf.HASH) == from_sheet
+    assert content_review_state(payload, gui, rf.HASH) == from_sheet
 
+    def core(entries):   # everything but how and when it was made
+        return sorted(({k: v_ for k, v_ in e.items() if k not in ("via", "entry_id", "recorded_at")} for e in entries),
+                      key=lambda e: json.dumps(e, sort_keys=True))
+    assert core(gui) == core(sheet)
+    assert {e["via"] for e in gui} == {"gui", "gui_section_confirm"} and {e["via"] for e in sheet} == {"sheet", "section_confirm"}
+    corrected_gui, corrected_sheet = (ledger.materialise(payload, entries, rf.HASH)[0] for entries in (gui, sheet))
+    assert comparable(corrected_gui) == comparable(corrected_sheet)
+    assert "Discrete Structures Two" in [c["course_title"] for c in corrected_gui["courses"]]
 
 def test_smoke_script_drives_a_synthetic_prospectus_and_prints_counts(tmp_path):
     spec = importlib.util.spec_from_file_location("review_gui_smoke", SMOKE)
