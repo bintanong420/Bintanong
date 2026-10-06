@@ -2,6 +2,7 @@ import copy
 import hashlib
 import json
 import threading
+import time
 from pathlib import Path
 
 import pytest
@@ -155,6 +156,22 @@ def test_concurrent_answers_are_serialised(tmp_path):
         qids = [q.qid for q in session.queue("print") if q.kind == "course"]
         assert len(qids) == 16
         errors = []
+        # The check-then-write inside answer() must not overlap: watch the one ledger read it starts with and count how
+        # many threads are inside it at once (a short sleep makes any overlap certain).
+        gate, state, read_ledger = threading.Lock(), {"now": 0, "peak": 0}, session._entries
+
+        def watched_entries():
+            with gate:
+                state["now"] += 1
+                state["peak"] = max(state["peak"], state["now"])
+            time.sleep(0.02)
+            try:
+                return read_ledger()
+            finally:
+                with gate:
+                    state["now"] -= 1
+
+        session._entries = watched_entries
 
         def work(qid):
             try:
@@ -165,7 +182,8 @@ def test_concurrent_answers_are_serialised(tmp_path):
         threads = [threading.Thread(target=work, args=(qid,)) for qid in qids]
         [t.start() for t in threads]
         [t.join() for t in threads]
-    assert errors == []
+        session._entries = read_ledger
+    assert errors == [] and state["peak"] == 1
     entries = read_entries(ws.ledger)
     valid, invalid = split_valid(entries)
     assert len(valid) == 16 and invalid == [] and not [e for e in entries if "_unreadable" in e]
