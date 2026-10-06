@@ -11,6 +11,7 @@ import pytest
 
 from backend.bintanong_tools import prospectus
 from backend.bintanong_tools.prospectus_extractor import batch, identity, loader, pipeline
+from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload as real_build_payload
 from conftest import FakeDoc, RAW_BASE
 
 pytestmark = pytest.mark.usefixtures("fake_docling", "pipeline_state")
@@ -221,3 +222,85 @@ def test_batch_processes_a_captured_item_when_skip_check_is_unreadable(
     result = batch.run_batch(config)
     assert result["succeeded"] == 1
     assert result["records"][0]["skip_check"] == "identity check failed: OSError: manifest temporarily unreadable"
+
+
+SCIENCE_MAP = b"# College of Science (CS)\n- Bachelor of Science in Computer Science (BS CS)\n"
+FINANCE_MAP = SCIENCE_MAP.replace(b"Science (CS)", b"Finance (CS)")
+
+
+@pytest.mark.parametrize("mutation", ["same_size_restored_mtime", "deleted", "appeared"])
+def test_semantic_map_changes_during_loading_preserve_prior_publication(tmp_path, monkeypatch, snapshot, mutation):
+    source = tmp_path / "CS" / "review.json"
+    source.parent.mkdir()
+    source.write_bytes(json.dumps(RAW_BASE).encode())
+    semantic = tmp_path / "map.md"
+    if mutation != "appeared":
+        semantic.write_bytes(SCIENCE_MAP)
+    out = tmp_path / "out" / "review_prospectus.json"
+    monkeypatch.setattr(pipeline, "build_payload", real_build_payload)
+    pipeline.process_prospectus(source, out, semantic_doc_path=semantic, quiet=True)
+    before = snapshot(out.parent)
+    real_load = pipeline.load_document_result
+
+    def mutate(*args, **kwargs):
+        loaded = real_load(*args, **kwargs)
+        if mutation == "deleted":
+            semantic.unlink()
+        elif mutation == "appeared":
+            semantic.write_bytes(SCIENCE_MAP)
+        else:
+            original_stat = semantic.stat()
+            semantic.write_bytes(FINANCE_MAP)
+            os.utime(semantic, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
+            assert semantic.stat().st_size == original_stat.st_size
+        return loaded
+
+    monkeypatch.setattr(pipeline, "load_document_result", mutate)
+    with pytest.raises((ValueError, FileNotFoundError)):
+        pipeline.process_prospectus(source, out, semantic_doc_path=semantic, quiet=True)
+    assert snapshot(out.parent) == before
+    assert (out.parent / "failed" / "review" / "failure.json").is_file()
+
+
+def test_transient_semantic_edit_cannot_change_metadata_under_original_identity(tmp_path, monkeypatch):
+    source = tmp_path / "CS" / "review.json"
+    source.parent.mkdir()
+    source.write_bytes(json.dumps(RAW_BASE).encode())
+    semantic = tmp_path / "map.md"
+    semantic.write_bytes(SCIENCE_MAP)
+    real_load = pipeline.load_document_result
+
+    def mutate(*args, **kwargs):
+        loaded = real_load(*args, **kwargs)
+        semantic.write_bytes(FINANCE_MAP)
+        return loaded
+
+    def restore_after_parse(*args, **kwargs):
+        payload = real_build_payload(*args, **kwargs)
+        semantic.write_bytes(SCIENCE_MAP)
+        return payload
+
+    monkeypatch.setattr(pipeline, "load_document_result", mutate)
+    monkeypatch.setattr(pipeline, "build_payload", restore_after_parse)
+    out = tmp_path / "out" / "review_prospectus.json"
+    payload = pipeline.process_prospectus(source, out, semantic_doc_path=semantic, quiet=True)
+    assert payload["college_name"] == "College of Science"
+    assert payload["run_identity"]["semantic_sha256"] == hashlib.sha256(SCIENCE_MAP).hexdigest()
+
+
+@pytest.mark.parametrize("present", [False, True])
+def test_unchanged_optional_semantic_map_preserves_loader_and_identity_contract(tmp_path, monkeypatch, present):
+    source = tmp_path / "CS" / "review.json"
+    source.parent.mkdir()
+    source.write_bytes(json.dumps(RAW_BASE).encode())
+    semantic = tmp_path / "map.md"
+    if present:
+        semantic.write_bytes(SCIENCE_MAP)
+    monkeypatch.setattr(pipeline, "build_payload", real_build_payload)
+    out = tmp_path / "out" / "review_prospectus.json"
+    payload = pipeline.process_prospectus(source, out, semantic_doc_path=semantic, quiet=True)
+    expected_digest = hashlib.sha256(SCIENCE_MAP).hexdigest() if present else None
+    assert payload["run_identity"]["semantic_sha256"] == expected_digest
+    assert identity.run_identity(source, semantic)["semantic_sha256"] == expected_digest
+    assert payload["college_name"] == ("College of Science" if present else None)
+    assert len(loader.load_document(source)) == 2

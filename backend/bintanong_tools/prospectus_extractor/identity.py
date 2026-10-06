@@ -112,6 +112,7 @@ def run_identity(
     package_hash: str | None = None,
     settings: Mapping[str, Any] | None = None,
     snapshot: InputSnapshot | None = None,
+    semantic_snapshot: InputSnapshot | None = None,
 ) -> dict[str, Any]:
     """What one output set is made from. `run_key` is what --skip-existing compares."""
     input_path = Path(input_path)
@@ -130,9 +131,11 @@ def run_identity(
     if kind == "pdf":
         used_settings = dict(settings) if settings is not None else conversion_settings()
         conversion_id = conversion_identity(input_hash, used_settings)
-    semantic_hash = (
-        file_sha256(Path(semantic_doc)) if semantic_doc and Path(semantic_doc).is_file() else None
-    )
+    if semantic_snapshot is not None:
+        semantic_snapshot.require_path(semantic_doc)
+    elif semantic_doc and Path(semantic_doc).is_file():
+        semantic_snapshot = InputSnapshot(semantic_doc)
+    semantic_hash = semantic_snapshot.sha256 if semantic_snapshot is not None else None
     core = {
         "input_kind": kind,
         "input_sha256": input_hash,

@@ -48,9 +48,11 @@ def build_payload(
     approved_scope: Mapping[str, str] | None = None,
     pdf_hash_check: str = "not_checked",
     review_entries: Iterable[Mapping[str, Any]] | None = None,
+    semantic_map: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Evidence -> audited payload. Production artifacts require a passing audit; no state here is approval."""
-    semantic_map = parse_semantic_markdown(Path(semantic_doc_path)) if semantic_doc_path else {}
+    if semantic_map is None:
+        semantic_map = parse_semantic_markdown(Path(semantic_doc_path)) if semantic_doc_path else {}
     metadata, metadata_warnings = resolve_metadata(
         Path(input_path), doc_text=document.markdown, semantic_map=semantic_map
     )
@@ -315,7 +317,15 @@ def process_prospectus(
     stage = new_staging_dir(final_path.parent, names.base)
     run_id: dict[str, Any] | None = None
     try:
-        run_id = run_identity(input_path, semantic_doc_path, snapshot=captured)
+        semantic_path = Path(semantic_doc_path).resolve() if semantic_doc_path else None
+        semantic_capture = InputSnapshot(semantic_path) if semantic_path and semantic_path.exists() else None
+        semantic_map = parse_semantic_markdown(
+            semantic_path, text=semantic_capture.data.decode("utf-8", errors="replace"),
+        ) if semantic_capture is not None else {}
+        run_id = run_identity(
+            input_path, semantic_path if semantic_capture is not None else None,
+            snapshot=captured, semantic_snapshot=semantic_capture,
+        )
         loaded = load_document_result(
             input_path, device=device, force_reconvert=force_reconvert,
             converter=converter, raw_json_path=raw_cache_path, stage_dir=stage, snapshot=captured,
@@ -331,6 +341,7 @@ def process_prospectus(
             approved_scope=approved_scope,
             pdf_hash_check=pdf_hash_check,
             review_entries=review_entries,
+            semantic_map=semantic_map,
         )
 
         cache_files: list[str] = []
@@ -359,6 +370,10 @@ def process_prospectus(
             stage, names, document, payload, is_pdf, export_pl, export_jsonl, export_csv, export_md,
         )
         captured.verify_unchanged()
+        if semantic_capture is not None:
+            semantic_capture.verify_unchanged()
+        elif semantic_path and semantic_path.exists():
+            raise ValueError(f"Semantic map appeared since capture: {semantic_path}")
         publish_staged(
             stage, names, outputs, cache_files, payload["run_identity"], payload["audit"]["status"],
             cache_hashes=cache_hashes,

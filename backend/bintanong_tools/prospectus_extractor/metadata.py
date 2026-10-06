@@ -39,14 +39,16 @@ def derive_degree_code(program_name: str) -> str | None:
     return f"{prefix} {tail}".strip() if tail else prefix
 
 
-def parse_semantic_markdown(path: Path) -> dict[str, dict[str, Any]]:
+def parse_semantic_markdown(path: Path, *, text: str | None = None) -> dict[str, dict[str, Any]]:
     """Parse the college/program reference markdown into {code: {name, programs}}."""
     colleges: dict[str, dict[str, Any]] = {}
-    if not path or not Path(path).exists():
-        return colleges
+    if text is None:
+        if not path or not Path(path).exists():
+            return colleges
+        text = Path(path).read_text(encoding="utf-8", errors="replace")
 
     current_code = ""
-    for line in Path(path).read_text(encoding="utf-8", errors="replace").splitlines():
+    for line in text.splitlines():
         line = line.strip()
         if not line:
             continue
