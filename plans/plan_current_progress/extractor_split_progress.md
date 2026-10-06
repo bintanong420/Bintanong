@@ -221,7 +221,7 @@ Each fix is test-first in its own commit. Tests run with `--basetemp` outside th
 Finished from the half-done untracked files an earlier agent left. The code and the 9 plan tests matched the plan. Kept: `OutputNames.markup` (`<base>_prospectus.md`, the Phase B markup twin, a publish companion) and its test (published before the main JSON, removed as stale when a later run does not write it). Red, redone: with `publish.py` moved aside, `ImportError: cannot import name 'publish'`. Two tests were added and went red against the half-done file: `loader.replace_file is not publish.replace_file`, and `publish has no attribute 'ReplaceFailed'`. Change: one retrying replace. `publish.replace_file` (`os.replace`, 5 attempts with a growing delay on `PermissionError`, then `ReplaceFailed(OSError)` naming both paths) is the owner, and the D-2 cache writer imports it. On the final failure it leaves the source in place, so a failed publication can copy the staged file into `failed/<base>/`; the cache writer removes its own temp. Green: test_prospectus_publish.py 12 passed (9 plan + markup + 2). Suite 592 passed + 13 subtests, self-test 80/80. Why the manifest goes last: a file-by-file publish cannot be atomic, so a hash manifest written after every file is the one thing that makes a half-published mix detectable (the old manifest no longer matches the new files).
 
 ### Phase D Task 6: process_prospectus stages and publishes
-Red (11 failed, 2 passed, tests/test_prospectus_publication.py): `a_publish.json` was missing from the snapshot; a failed run changed the earlier files (the unlink-first loop); `KeyError: 'run_identity'`; `'palsu-prospectus-v3.1' == 'palsu-prospectus-v3.2'`; no `publish.replace_file` calls; CRLF in `a_prospectus.json`. The two guards that passed: output equal to the source is refused, and companions without a manifest are removed (the old unlink loop did that too). Green: 15 publication tests; publication + cache + publish + identity 61 passed.
+Corrected historical evidence (6 October 2026 pickup): Task 6 contains 14 publication tests, not the previously recorded 15. The authentic original red runtime log is unavailable. An external reconstruction of pre-fix parent `29eb83200b593f24caa9179a28c0795c30621b5a`, overlaid with `f802c764533bdf67267089bcc109416da5941ca9` publication tests/conftest, observed 12 failed, 2 passed. This is reconstructed evidence, not original chronological test-first proof; it supersedes the inconsistent 11-failed/2-passed wording. Historical symptoms were missing `a_publish.json`, changed earlier files (unlink-first), missing `run_identity`, schema v3.1, absent `publish.replace_file` calls and CRLF output. The passing guards refused an output equal to source and removed companions without a manifest. Corrected publication-test count: 14. Historical publication + cache + publish + identity total 61 remains unchanged because the reconstruction does not establish that total. Script/log: external `scratch/codex_resume_2026-10-06/reconstruct_task6.py` and `task6-red-reconstruction.log`.
 - Removed: the unlink-first loop (old pipeline.py:257-267) and the direct `write_text` calls. `process_prospectus` verifies the source hash first (Phase C; nothing is touched on a mismatch). It then creates a staging directory `.<base>.staging-<8 hex>` beside the target, converts into it (`load_document(stage_dir=)`), builds the payload, stages every companion through `_stage_outputs`, and calls `publish_staged`. Order: cache JSON, cache meta, essentials, `.pl`, `_rag.jsonl`, `_review.csv`, `_prospectus.md`, main JSON, `_publish.json`. On any exception, `write_failure` copies the stage to `failed/<base>/`, the stage is removed, and the exception propagates. D3: an `error` audit publishes. D4: `force_reconvert` defaults to False (the CLI and batch still pass True until Task 7). D6: nothing is published on failure.
 - Markup twin: `_prospectus.md` is staged for every audit status when `export_md` is set, published just before the main JSON, and listed in the manifest.
 - Deviation, stale companions: besides the files the previous manifest lists, `publish_staged` also removes every known companion of the base (essentials, `.pl`, `_rag.jsonl`, `_review.csv`, `_prospectus.md`) that this run did not produce. Without that, a set written before Phase D, which has no manifest, would keep a stale `.pl` or `.md` after an audit-error run (`test_md_is_not_written_by_default_and_a_stale_one_is_removed` requires the removal). Cache files and the manifest are never removed. An unlink failure prints a warning.
@@ -686,4 +686,66 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
  M tests/test_prospectus_batch_skip.py.
 - Evidence: task-d-skip-tui-report.md; task-d-s4-red.log; task-d-s4-green.log; task-d-s4-focused.log; task-d-s4-full.log.
 - Next: Stage exact tui.py test_prospectus_batch_skip.py progress; commit S4 with Claude trailer; record exact range/tips/Git state and return parent for spec then quality reviews.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:20:48+08:00
+- Task: D S2/S4 implementation-only batch; step: Committed10c2d8b and c40a38c; S2 full978+13, S4 full984+13/3warnings; separate reviews next; owner: /root/d_skip_tui.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: clean.
+- Evidence: task-d-skip-tui-report.md; task-d-s2-validated-red.log; task-d-s2-validated-green.log; task-d-s2-focused.log; task-d-s2-full.log; task-d-s4-red.log; task-d-s4-green.log; task-d-s4-focused.log; task-d-s4-full.log.
+- Next: Parent fresh read-only specification review exact range4320327bb68ec0973dd79ee7716ab5d893fe00a8..c40a38c9f633dd085766ca11f81f0dd3890810cc then independent quality review; preserve sole dirty postcommit progress checkpoint.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:21:08+08:00
+- Task: D S2/S4 independent review; step: Implementation c40a38c verified 680 focused and 984 main plus13subtests; specification review next; owner: /root.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-skip-tui-report.md; task-d-s4-full.log; task-d-skip-tui-review-package.md.
+- Next: Specification review 4320327..c40a38c then separate quality review.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:25:13+08:00
+- Task: D S2/S4 independent reviews; step: Specification APPROVED NONE; independent S2 18 and S4 6 plus prompt probe passed; owner: /root.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-skip-tui-spec-review.md; task-d-skip-tui-report.md.
+- Next: Separate quality review of 4320327..c40a38c then final D gates.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:28:38+08:00
+- Task: D final verification and F5/Task10 documentation; step: S2/S4 specification and quality APPROVED NONE at c40a38c; final gate writer next; owner: /root.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-skip-tui-spec-review.md; task-d-skip-tui-quality-review.md; task-d-final-gates-rulings.md.
+- Next: Run final comprehensive/self-test/corpus/real-PDF gates, correct F5 and commit Task10 draft with whole-range reviews pending.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:30:51+08:00
+- Task: Phase D F5 Tasks 8-10; step: preflight verified c40a38c; begin final gates; owner: /root/d_final_gates.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: M plans/plan_current_progress/extractor_split_progress.md.
+- Evidence: task-d-final-gates-rulings.md; task-d-final-gates-brief.md; task-d-s4-full.log unchanged tip main 984 passed.
+- Next: Resume final-gates agent; run fresh comprehensive GUI env, selftest and comparer against 641523d; see task-d-final-gates-rulings.md.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:36:31+08:00
+- Task: Phase D F5 Tasks 8-10; step: comprehensive990+13, comparer44/44, focused394, real gates passed, originals101unchanged; owner: /root/d_final_gates.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: M plans/plan_current_progress/extractor_split_progress.md
+?? docs/decisions/prospectus-cache-and-publication.md.
+- Evidence: task-d-final-comprehensive.log; task-d-final-compare.log; task-d-final-focused.log; task-d-final-real.log; task-d-final-originals-after.json.
+- Next: Run task-d-final-corpus-gates.py with MAINPY from phase-d root; no real/comparer relaunch; then finalize three docs and exact-path commit, parent whole-range reviews pending.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D F5 and Tasks 8-10 final implementation/documentary gates (2026-10-06T23:37:16+08:00)
+- Base `641523d212839084da03d966ffbfca66c7e83e42`; reviewed unchanged production tip `c40a38c9f633dd085766ca11f81f0dd3890810cc`; branch `feat/prospectus-phase-d-safe-cache`. S2/S4 independent spec/quality APPROVED NONE; whole-range `641523d..final-documentary-tip` specification and quality PENDING. Phase D not fully complete.
+- Fresh GUI-review comprehensive: 990 passed, 13 subtests, 5 upstream warnings, exit 0; fresh focused: 394 passed, exit 0, includes 180 full before/after replacement interruptions; fresh MAINPY self-test: 80/80, exit 0. Reused unchanged-tip main gate `task-d-s4-full.log`: 984 passed, 13 subtests, 3 upstream warnings, with two approved API/embedding ignores; no gratuitous rerun, installs or main-venv synchronization.
+- Existing comparer `--base-ref 641523d --jobs 6 --status-report` with original semantic map and explicit retained `Bintanong-wt/d-baseline-641523d`: 44/44 identical, exit 0. Direct C states 1005/689/253/59/20/3/2 in blank_unreviewed/resolved/unresolved_reference/standing_condition/unreadable/alternative_or_exception/stated_none order. Regression equivalence, not extraction accuracy. B2 health 21/3/19/1 mixed/warnings_only/broken/clean; title_from_pdf 67, strip_banner 0, unclaimed_code 316, banner_leak 3. Trial 01/16/33 `check_against`: 0 errors each; helpers imported through WT-root runpy context.
+- Fresh real BSE-Franchising-and-Trading PDF copy `scratch/dg`: A: 1 extracted (WARN)/0 failed audit/0 skipped/0 errored, exit 0; B: 0/0/1/0, exit 0, identical run identity; C: 0/0/0/1, exit 1, ConversionError+traceback preserves 9 earlier outputs/cache files, no stage residue; D: 0/0/1/0, exit 0, retains diagnostics; E force: 1/0/0/0, exit 0, clears diagnostics. Real cached parse then equal-size/restored-mtime scratch mutation refused with `Input bytes changed since capture`, preserving prior set; restore+successful reused-cache publish clears diagnostics. Originals/cached inputs/map/trial files: 101 hashes unchanged around real and helper workflows; comparer began read-only before this snapshot, no before-comparer timing claim.
+- Fresh path-only default-root actual stage/temp projection reproduced 44 paths/maxima final 181/stage 226/temp 161/failed 251 under 35-character `~/Bintanong/output`; no home writes, arbitrary explicit-root guarantee or longest-filename real conversion claim. Original historical error pilots preserved, not freshly rerun.
+- F5 original Task 6 count corrected 15 to 14; authentic original red unavailable; reconstruction parent `29eb83200b593f24caa9179a28c0795c30621b5a` + `f802c764533bdf67267089bcc109416da5941ca9` tests/conftest observed 12 failed, 2 passed, explicitly not original chronology. Frozen test collection confirms 14; historical combined 61 retained without inferred correction. Evidence `reconstruct_task6.py`/`task6-red-reconstruction.log`.
+- Decision docs/decisions/prospectus-cache-and-publication.md covers all approved deviations and actual gates; current_progress.md updated. Historical plans and existing review/checkpoint history preserved. Evidence task-d-final-gates-report.md and task-d-final-{comprehensive,compare,corpus,focused,selftest,real,path-projection} logs + .exit markers external codex_resume_2026-10-06. No production changes.
+- Next: controller whole-range specification then independent quality review `641523d..documentary-tip`. GUI→E→F→OCR/formal/human gates pending, queue remains active; no push, dev merge, worktree removal or main dirty-file edit.
+
+### Codex recovery checkpoint 2026-10-06T23:42:26+08:00
+- Task: Phase D F5 Tasks 8-10; step: all fresh final runtime gates passed; three docpaths ready, whole-range reviews pending; owner: /root/d_final_gates.
+- HEAD: c40a38c9f633dd085766ca11f81f0dd3890810cc; state: M plans/plan_current_progress/current_progress.md
+ M plans/plan_current_progress/extractor_split_progress.md
+?? docs/decisions/prospectus-cache-and-publication.md.
+- Evidence: task-d-final-gates-report.md; task-d-final-comprehensive.log; task-d-final-selftest.log; task-d-final-focused.log; task-d-final-compare.log; task-d-final-corpus.log; task-d-final-real.log; task-d-final-path-projection.log.
+- Next: git add docs/decisions/prospectus-cache-and-publication.md plans/plan_current_progress/extractor_split_progress.md plans/plan_current_progress/current_progress.md; verify cached paths; commit with Claude trailer; postcommit checkpoint then parent separate whole-range reviews641523d..tip.
 - Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
