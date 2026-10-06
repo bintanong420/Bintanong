@@ -191,7 +191,7 @@ def test_markup_twin_is_published_just_before_the_main_json(
 ):
     from backend.bintanong_tools.prospectus_extractor import pipeline
 
-    monkeypatch.setattr(pipeline, "render_prospectus_markup", lambda document, payload: "twin\n")
+    monkeypatch.setattr(pipeline, "render_prospectus_markup", lambda document, payload, *, pdf_sha256=None: "twin\n")
     order = []
     real = publish.replace_file
     monkeypatch.setattr(publish, "replace_file",
@@ -347,7 +347,7 @@ def test_interruptions_only_verify_a_coherent_generation(tmp_path, monkeypatch, 
                                                          snapshot, step, after, stable, change):
     from backend.bintanong_tools.prospectus_extractor import pipeline
     monkeypatch.setattr(pipeline, "render_prospectus_markup",
-                        lambda document, payload: "twin " + str(payload["nonce"]))
+                        lambda document, payload, *, pdf_sha256=None: "twin " + str(payload["nonce"]))
     if change.endswith("identical-raw"):
         from conftest import FakeDoc
         from types import SimpleNamespace
