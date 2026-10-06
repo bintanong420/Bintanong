@@ -18,6 +18,7 @@ That is acceptable for a local, single-user ledger and must not be presented as 
 from __future__ import annotations
 
 import copy
+import errno
 import hashlib
 import json
 import os
@@ -262,6 +263,12 @@ class LedgerBusy(LedgerError):
     """Another process holds the write lock on this ledger."""
 
 
+# What a refused non-blocking lock raises: fcntl.flock gives EAGAIN/EWOULDBLOCK (EACCES on some systems), msvcrt.locking
+# EACCES (EDEADLK after its retries), or ERROR_LOCK_VIOLATION. Anything else (ENOLCK on a share, EBADF...) is not "busy".
+BUSY_ERRNOS = {errno.EACCES, errno.EAGAIN, errno.EWOULDBLOCK, errno.EDEADLK}
+ERROR_LOCK_VIOLATION = 33
+
+
 def lock_path_for(ledger_path: Path) -> Path:
     ledger_path = Path(ledger_path)
     return ledger_path.with_name(ledger_path.name + ".lock")
@@ -308,14 +315,24 @@ class LedgerLock:
         fd = os.open(self.path, os.O_RDWR | os.O_CREAT | getattr(os, "O_BINARY", 0))
         try:
             self._os_lock(fd, True)
-        except OSError:
+        except OSError as exc:
             os.close(fd)
-            raise LedgerBusy(f"the decision ledger {self.ledger_path.name} is in use by {self._holder()}; close that tool or wait") from None
-        started = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        holder = " ".join(f"{self.who}, pid {os.getpid()}, since {started}".split()).encode("utf-8")
-        os.lseek(fd, 0, os.SEEK_SET)
-        os.write(fd, b"\n" + holder + b"\n")
-        os.ftruncate(fd, 2 + len(holder))
+            if exc.errno in BUSY_ERRNOS or getattr(exc, "winerror", None) == ERROR_LOCK_VIOLATION:
+                raise LedgerBusy(f"the decision ledger {self.ledger_path.name} is in use by {self._holder()}; close that tool or wait") from None
+            raise LedgerError(f"the lock file {self.path.name} cannot be locked (errno {exc.errno}: {exc.strerror or exc})") from exc
+        try:
+            started = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            holder = " ".join(f"{self.who}, pid {os.getpid()}, since {started}".split()).encode("utf-8")
+            os.lseek(fd, 0, os.SEEK_SET)
+            os.write(fd, b"\n" + holder + b"\n")
+            os.ftruncate(fd, 2 + len(holder))
+        except BaseException:
+            try:
+                self._os_lock(fd, False)
+            except OSError:
+                pass   # closing the handle below drops the lock as well
+            os.close(fd)
+            raise
         self._fd = fd
         return self
 
@@ -343,7 +360,9 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]], lock: Ledge
     if lock is None:
         with LedgerLock(path, "append_entries") as held:
             return append_entries(path, entries, held)
-    if lock.path != lock_path_for(path):
+    if lock._fd is None:
+        raise LedgerError(f"the lock on {lock.ledger_path.name} is not held; enter it (with LedgerLock(...) as lock) before passing it")
+    if lock.path.resolve() != lock_path_for(path).resolve():
         raise LedgerError(f"the lock is for another ledger ({lock.ledger_path.name}), not {path.name}")
     existing, _undecidable = split_valid(read_entries(path))  # unreadable lines are skipped, never fatal
     held: dict[tuple, list] = defaultdict(list)

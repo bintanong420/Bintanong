@@ -1,8 +1,10 @@
+import errno
 import os
 import signal
 import subprocess
 import sys
 import threading
+import time
 import types
 from datetime import datetime, timezone
 from pathlib import Path
@@ -121,29 +123,79 @@ def test_append_entries_refuses_a_lock_for_another_ledger(tmp_path):
     assert not (tmp_path / "b.jsonl").exists()
 
 
-def test_two_threads_of_one_process_are_serialised_by_the_session_lock_not_the_os_lock(tmp_path):
+def test_two_threads_of_one_process_are_serialised_by_the_session_lock_not_the_os_lock(tmp_path, monkeypatch):
     path = tmp_path / "decision_ledger.jsonl"
     # The OS lock belongs to one open handle: a second lock object in the same process is refused, so the OS lock
     # cannot order two threads that each take their own; a session holds one lock and adds a threading.Lock.
+    # Every thread appends the SAME decision and the ledger read is slowed down, so without the guard several threads
+    # read the ledger before any writes and each writes the line (the duplicate check is read-then-write).
+    slow_read = ledger.read_entries
+
+    def read_slowly(p):
+        found = slow_read(p)
+        time.sleep(0.05)
+        return found
+
+    monkeypatch.setattr(ledger, "read_entries", read_slowly)
     with LedgerLock(path, "session") as lock:
         with pytest.raises(LedgerBusy):
             LedgerLock(path, "second thread's own lock").__enter__()
         guard = threading.Lock()
-        errors = []
+        results, errors = [], []
 
-        def work(n):
+        def work():
             try:
                 with guard:
-                    append_entries(path, [entry(f"CS {n}")], lock=lock)
+                    results.append(append_entries(path, [entry("CS 1")], lock=lock))
             except Exception as exc:  # pragma: no cover - failure path
                 errors.append(exc)
 
-        threads = [threading.Thread(target=work, args=(n,)) for n in range(12)]
+        threads = [threading.Thread(target=work) for _ in range(6)]
         [t.start() for t in threads]
         [t.join() for t in threads]
     assert errors == []
-    valid, invalid = split_valid(read_entries(path))
-    assert len(valid) == 12 and invalid == []
+    assert sorted(results) == [(0, 1)] * 5 + [(1, 0)]
+    valid, invalid = split_valid(slow_read(path))
+    assert len(valid) == 1 and invalid == []
+
+
+def test_append_entries_refuses_a_lock_that_was_never_entered(tmp_path):
+    path = tmp_path / "decision_ledger.jsonl"
+    proc = holder_process(path, "the real holder")
+    try:
+        with pytest.raises(LedgerError, match="is not held") as caught:
+            append_entries(path, [entry()], lock=LedgerLock(path, "never entered"))
+        assert type(caught.value) is LedgerError
+        assert not path.exists()
+    finally:
+        release(proc)
+
+
+def test_append_entries_accepts_a_relative_lock_path_for_the_same_ledger(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    with LedgerLock(Path("decision_ledger.jsonl"), "relative") as lock:
+        assert append_entries(tmp_path / "decision_ledger.jsonl", [entry()], lock=lock) == (1, 0)
+
+
+def test_a_failed_holder_write_releases_the_lock_and_closes_the_handle(tmp_path, monkeypatch):
+    path = tmp_path / "decision_ledger.jsonl"
+    real_write = os.write
+
+    def disk_full(fd, data):
+        raise OSError(errno.ENOSPC, "No space left on device")
+
+    opened = spy_on_open(monkeypatch)
+    monkeypatch.setattr(os, "write", disk_full)
+    try:
+        with pytest.raises(OSError) as caught:
+            LedgerLock(path, "full disk").__enter__()
+    finally:
+        monkeypatch.setattr(os, "write", real_write)   # os.write is process-wide: restore it at once
+    assert caught.value.errno == errno.ENOSPC
+    assert len(opened) == 1
+    assert_closed(opened[0])
+    with LedgerLock(path, "after the failure"):   # and the lock is free again in this same process
+        pass
 
 
 def test_busy_message_when_the_holder_text_is_unreadable_says_unknown_holder(tmp_path):
@@ -210,15 +262,15 @@ def test_lock_path_for_handles_spaces_and_unicode_in_the_path(tmp_path):
 
 
 class FakeOS:
-    def __init__(self, fail=False):
-        self.calls, self.fail = [], fail
+    def __init__(self, fail=None):
+        self.calls, self.fail = [], fail   # fail: the OSError a take raises, or None
 
 
 def fake_msvcrt(state):
     def locking(fd, mode, nbytes):
         state.calls.append(("msvcrt.locking", mode, nbytes))
         if state.fail and mode == 2:
-            raise OSError("locked")
+            raise state.fail
     return types.SimpleNamespace(LK_NBLCK=2, LK_UNLCK=0, locking=locking)
 
 
@@ -226,8 +278,36 @@ def fake_fcntl(state):
     def flock(fd, op):
         state.calls.append(("fcntl.flock", op))
         if state.fail and op & 4:
-            raise BlockingIOError("locked")
+            raise state.fail
     return types.SimpleNamespace(LOCK_EX=2, LOCK_NB=4, LOCK_UN=8, flock=flock)
+
+
+def lock_violation():
+    exc = OSError(0, "The process cannot access the file because another process has locked a portion of the file")
+    exc.winerror = 33   # ERROR_LOCK_VIOLATION
+    return exc
+
+
+BUSY = {"win32": [PermissionError(errno.EACCES, "Permission denied"), OSError(errno.EDEADLK, "Resource deadlock avoided"),
+                  lock_violation()],
+        "linux": [BlockingIOError(errno.EAGAIN, "Resource temporarily unavailable"), PermissionError(errno.EACCES, "denied")]}
+
+
+def spy_on_open(monkeypatch):
+    opened, real_open = [], os.open
+
+    def spy(*args, **kwargs):
+        opened.append(real_open(*args, **kwargs))
+        return opened[-1]
+
+    monkeypatch.setattr(os, "open", spy)
+    return opened
+
+
+def assert_closed(fd):
+    with pytest.raises(OSError) as caught:
+        os.fstat(fd)
+    assert caught.value.errno == errno.EBADF
 
 
 def test_platform_branch_is_chosen_at_call_time(tmp_path, monkeypatch):
@@ -247,13 +327,32 @@ def test_platform_branch_is_chosen_at_call_time(tmp_path, monkeypatch):
     assert state.calls == [("fcntl.flock", 2 | 4), ("fcntl.flock", 8)]
 
 
-@pytest.mark.parametrize("platform", ["win32", "linux"])
-def test_each_branch_turns_a_refused_lock_into_ledger_busy(tmp_path, monkeypatch, platform):
-    state = FakeOS(fail=True)
+@pytest.mark.parametrize("platform,error", [(p, e) for p, errors in BUSY.items() for e in errors])
+def test_each_branch_turns_a_refused_lock_into_ledger_busy(tmp_path, monkeypatch, platform, error):
+    state = FakeOS(fail=error)
     monkeypatch.setitem(sys.modules, "msvcrt", fake_msvcrt(state))
     monkeypatch.setitem(sys.modules, "fcntl", fake_fcntl(state))
     monkeypatch.setattr(sys, "platform", platform)
+    opened = spy_on_open(monkeypatch)
     lock = LedgerLock(tmp_path / "x.jsonl", "busy")
     with pytest.raises(LedgerBusy, match="in use by"):
         lock.__enter__()
-    assert len(state.calls) == 1  # nothing to unlock; no handle left open
+    assert len(state.calls) == 1  # nothing to unlock
+    assert len(opened) == 1
+    assert_closed(opened[0])      # no handle left open
+
+
+@pytest.mark.parametrize("platform", ["win32", "linux"])
+def test_a_lock_error_that_is_not_busy_says_the_file_cannot_be_locked(tmp_path, monkeypatch, platform):
+    state = FakeOS(fail=OSError(errno.ENOLCK, "No locks available"))
+    monkeypatch.setitem(sys.modules, "msvcrt", fake_msvcrt(state))
+    monkeypatch.setitem(sys.modules, "fcntl", fake_fcntl(state))
+    monkeypatch.setattr(sys, "platform", platform)
+    opened = spy_on_open(monkeypatch)
+    with pytest.raises(LedgerError) as caught:
+        LedgerLock(tmp_path / "x.jsonl", "nfs").__enter__()
+    assert not isinstance(caught.value, LedgerBusy)
+    message = str(caught.value)
+    assert "x.jsonl.lock cannot be locked" in message and f"errno {errno.ENOLCK}" in message
+    assert str(tmp_path) not in message
+    assert_closed(opened[0])
