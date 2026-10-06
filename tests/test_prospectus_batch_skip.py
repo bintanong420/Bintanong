@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import pytest
 
 from backend.bintanong_tools.prospectus import ProvisionalSource
-from backend.bintanong_tools.prospectus_extractor import batch, identity, loader, pipeline, publish
+from backend.bintanong_tools.prospectus_extractor import batch, identity, loader, pipeline, publish, tui
 from backend.bintanong_tools.prospectus_extractor.batch import BatchConfig, run_batch
 from backend.bintanong_tools.prospectus_extractor.selftest import (
     CS_HEADER, _cs_row, _cs_semester_row, _merged, fixture_document,
@@ -282,6 +282,77 @@ def test_single_file_cli_reconverts_only_with_force(monkeypatch, tmp_path):
     assert cli.main(["-i", str(pdf)]) == 0
     assert cli.main(["-i", str(pdf), "--force"]) == 0
     assert [call["force_reconvert"] for call in seen] == [False, True]
+
+
+@pytest.mark.parametrize("force", [False, True])
+def test_tui_configuration_changes_and_displays_force_setting(monkeypatch, capsys, force):
+    app = tui.ProspectusTUI()
+    app.config.force_reconvert = not force
+    monkeypatch.setattr(tui, "RICH_AVAILABLE", False)
+    monkeypatch.setattr(tui, "ask_text", lambda prompt, default="": default)
+    monkeypatch.setattr(tui, "ask_yes_no", lambda prompt, default=True:
+                        force if prompt.startswith("Force reconversion") else default)
+    monkeypatch.setattr(app, "pause", lambda *args: None)
+
+    app.configure()
+
+    assert app.config.force_reconvert is force
+    app.show_config()
+    assert f"Force reconversion: {force}" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("force", [False, True])
+def test_tui_single_file_passes_force_to_actual_pipeline(env, monkeypatch, force):
+    env.run()
+    app = tui.ProspectusTUI()
+    app.config.force_reconvert = force
+    app.config.device = "cpu"
+    app.config.semantic_doc = None
+    app.config.write_pl = False
+    app.config.write_jsonl = False
+    calls, payloads, messages = [], [], []
+
+    def process(path, **kwargs):
+        calls.append((path, kwargs))
+        payload = pipeline.process_prospectus(
+            path, output_path=env.out / "a_prospectus.json", quiet=True, **kwargs,
+        )
+        payloads.append(payload)
+        return payload
+
+    monkeypatch.setattr(app, "_pick_file", lambda: env.pdf)
+    monkeypatch.setattr(app, "pause", lambda message="": messages.append(message))
+    monkeypatch.setattr(tui, "process_prospectus", process)
+
+    app.single_file()
+
+    assert calls == [(env.pdf, {
+        "export_pl": False, "export_jsonl": False, "export_csv": True, "export_md": True,
+        "device": "cpu", "semantic_doc_path": None, "force_reconvert": force,
+    })]
+    assert messages == ["Extracted 0 courses (OK)."]
+    assert payloads[0]["run_identity"]["cache"] == ("converted" if force else "reused")
+    assert len(env.converter.calls) == (2 if force else 1)
+    assert env.state.builds == 2
+
+
+@pytest.mark.parametrize("force", [False, True])
+def test_tui_batch_force_takes_precedence_over_skip(env, monkeypatch, force):
+    env.run()
+    app = tui.ProspectusTUI()
+    app.config = BatchConfig(input_root=env.pdf.parent, output_root=env.out, semantic_doc=None,
+                             skip_existing=True, force_reconvert=force)
+    app.last_scan = [env.pdf]
+    monkeypatch.setattr(tui, "ask_yes_no", lambda *args, **kwargs: True)
+    monkeypatch.setattr(app, "pause", lambda *args: None)
+
+    app.run_batch_interactive()
+
+    record = json.loads((env.out / "batch_manifest.json").read_bytes())["records"][0]
+    assert record["status"] == ("ok" if force else "skipped")
+    assert record["skip_check"] == ("--force given" if force else "identical run identity")
+    assert len(env.converter.calls) == (2 if force else 1)
+    assert env.state.builds == (2 if force else 1)
 
 
 def test_batch_manifest_schema_names_the_new_record_shape():

@@ -640,3 +640,50 @@ Real Docling on CPU, venv Python from the worktree root: `-i <in> --batch -o <ou
 - Evidence: task-d-skip-tui-report.md; task-d-s2-validated-red.log; task-d-s2-validated-green.log; task-d-s2-focused.log; task-d-s2-full.log.
 - Next: Stage exact batch.py pipeline.py test_prospectus_batch_skip.py extractor_split_progress.md; commit S2 with Claude trailer; then S4 red.
 - Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:15:19+08:00
+- Task: D S4 TUI force; step: S2 committed10c2d8b green18/focused636/full978+13; S4 tests next; owner: /root/d_skip_tui.
+- HEAD: 10c2d8b5ac30313c7d5c7d2831fb7c8670cd146a; state: clean.
+- Evidence: task-d-skip-tui-report.md; task-d-s2-full.log.
+- Next: Add behavioral TUI config/display, actual single process True/False, and real batch skip-force precedence tests; capture S4 RED before changing tui.py.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:15:58+08:00
+- Task: D S4 TUI force; step: S2 implementation-only committed10c2d8b; S4 RED4failed2passed80deselected; owner: /root/d_skip_tui.
+- HEAD: 10c2d8b5ac30313c7d5c7d2831fb7c8670cd146a; state: M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s4-red.log; task-d-skip-tui-report.md.
+- Next: Modify tui.py only: display force, accurate identity/completeness nonerror skip prompt, configure existing force flag, pass actual single-file force kwarg; run S4 GREEN.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:16:30+08:00
+- Task: D S4 TUI force; step: RED4failed2passed; GREEN6passed80deselected; before focused TUI and shared suite; owner: /root/d_skip_tui.
+- HEAD: 10c2d8b5ac30313c7d5c7d2831fb7c8670cd146a; state: M backend/bintanong_tools/prospectus_extractor/tui.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s4-red.log; task-d-s4-green.log; task-d-skip-tui-report.md.
+- Next: Run batchskip/identity/publish/publication/cache/authority/markup focused suite; then approved main full before S4 commit.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Codex recovery checkpoint 2026-10-06T23:18:00+08:00
+- Task: D S4 TUI force; step: Fresh focused680passed/no warnings; before main full; owner: /root/d_skip_tui.
+- HEAD: 10c2d8b5ac30313c7d5c7d2831fb7c8670cd146a; state: M backend/bintanong_tools/prospectus_extractor/tui.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-s4-red.log; task-d-s4-green.log; task-d-s4-focused.log.
+- Next: Run main Python -m pytest -q tests --ignore=tests/test_api_probes.py --ignore=tests/test_embedding_service.py -p no:cacheprovider --basetemp external/s4-full-temp, log task-d-s4-full.log; inspect counts/warnings then commit S4.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.
+
+### Phase D S4 TUI skip wording and force configuration (2026-10-06)
+- Existing BatchConfig.force_reconvert now shown and configured via ask_yes_no with current default. Prompt explains force overrides skip-existing and cached conversion; skip prompt restricts reuse to identity-verified complete outputs with a non-error audit. Single-file TUI now passes the actual force_reconvert kwarg; interactive batch already used the same config. No new conversion implementation or config owner.
+- Authentic RED4failed2passed80deselected before production; GREEN6passed80deselected. Both True/False configuration transitions/display tested; actual single-file pipeline sees exact kwargs and converted/reused cache status, converter/build counts; actual interactive batch has force-over-skip precedence with exact reason. Focused680passed/no warnings; fresh main full984passed13subtests3existing upstream deprecations, only two approved API/embedding ignores. Exact commands/results in external task-d-skip-tui-report.md and task-d-s4-{red,green,focused,full}.log.
+- S2 implementation-only commit10c2d8b precedes S4; parent separate specification then quality review pending. Self-review no unresolved implementation concerns. F5/final D gates/Task10 and all downstream/human gates pending. GUI comprehensive/selftest/original44 corpus/trials NOT RUN for this batch; Phase D incomplete.
+
+### Codex recovery checkpoint 2026-10-06T23:20:17+08:00
+- Task: D S4 TUI force; step: Fresh focused680/full984+13/3existingwarnings; S4 precommit; owner: /root/d_skip_tui.
+- HEAD: 10c2d8b5ac30313c7d5c7d2831fb7c8670cd146a; state: M backend/bintanong_tools/prospectus_extractor/tui.py
+ M plans/plan_current_progress/extractor_split_progress.md
+ M tests/test_prospectus_batch_skip.py.
+- Evidence: task-d-skip-tui-report.md; task-d-s4-red.log; task-d-s4-green.log; task-d-s4-focused.log; task-d-s4-full.log.
+- Next: Stage exact tui.py test_prospectus_batch_skip.py progress; commit S4 with Claude trailer; record exact range/tips/Git state and return parent for spec then quality reviews.
+- Recovery: `E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump\scratch\codex_resume_2026-10-06\CLAUDE_TAKEOVER.md`.

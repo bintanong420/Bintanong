@@ -88,6 +88,7 @@ class ProspectusTUI:
             ("Export mode", cfg.export_mode),
             ("Write CSV / PL / JSONL / MD", f"{cfg.write_csv} / {cfg.write_pl} / {cfg.write_jsonl} / {cfg.write_md}"),
             ("Skip existing", str(cfg.skip_existing)),
+            ("Force reconversion", str(cfg.force_reconvert)),
             ("Semantic map", str(cfg.semantic_doc) if cfg.semantic_doc else "(none)"),
             ("Files in last scan", str(len(self.last_scan))),
         ]
@@ -198,7 +199,12 @@ class ProspectusTUI:
         cfg.write_jsonl = ask_yes_no("Write RAG JSONL?", cfg.write_jsonl)
         cfg.write_md = ask_yes_no("Write prospectus-style Markdown?", cfg.write_md)
         cfg.write_manifest = ask_yes_no("Write batch manifest?", cfg.write_manifest)
-        cfg.skip_existing = ask_yes_no("Skip files whose output already exists?", cfg.skip_existing)
+        cfg.skip_existing = ask_yes_no(
+            "Skip only identity-verified, complete outputs with a non-error audit?", cfg.skip_existing,
+        )
+        cfg.force_reconvert = ask_yes_no(
+            "Force reconversion (overrides skip-existing and cached conversion)?", cfg.force_reconvert,
+        )
         self.pause("Settings updated.")
 
     def preview(self) -> None:
@@ -277,6 +283,7 @@ class ProspectusTUI:
                 export_md=self.config.write_md,
                 device=self.config.device,
                 semantic_doc_path=self.config.semantic_doc,
+                force_reconvert=self.config.force_reconvert,
             )
             self.pause(
                 f"Extracted {payload['audit']['total_courses']} courses "
