@@ -80,7 +80,7 @@ def gui_entries(payload, v, answers, force_via=True):
     for qid, answer, sheet_via in answers:
         kwargs = {"via": sheet_via} if force_via else {}
         entries, errors = answer_to_entries(questions[qid], answer, payload=payload, verification=v, reviewer="Nestor",
-                                            pdf_sha256=HASH, now=NOW, **kwargs)
+                                            pdf_sha256=HASH, now=NOW, ledger_entries=[], **kwargs)
         assert errors == [], errors
         out += entries
     return out

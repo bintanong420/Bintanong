@@ -44,7 +44,10 @@ class Question:
 
     @property
     def decided(self) -> bool:
-        """Accepted or corrected. An `unresolved` decision is shown but the question stays in the queue."""
+        """Accepted or corrected. An `unresolved` decision is shown but the question stays in the queue. A section
+        question is decided once every course in it has a decision of any kind: it never overrides one (D11)."""
+        if self.kind == SECTION_CONFIRM:
+            return bool(self.decision)
         return bool(self.decision) and self.decision["disposition"] in (ACCEPTED, CORRECTED)
 
     def to_dict(self) -> dict[str, Any]:
@@ -125,6 +128,13 @@ def decision_index(payload: Mapping[str, Any], entries: Iterable[Mapping[str, An
     return latest_by_field(current)
 
 
+def has_decision(course: Mapping[str, Any], latest: Mapping[tuple, Mapping[str, Any]]) -> bool:
+    """Any current ledger line on any field of this course, whatever its disposition. A section Yes skips such a
+    course (D11): it never overrides a decision, not even part of one."""
+    key = locator_key(course_locator(course))
+    return any((key, name) in latest for name in CORRECTABLE_FIELDS)
+
+
 def current_decision(question: Question, latest: Mapping[tuple, Mapping[str, Any]]) -> dict[str, Any] | None:
     """The decision on a course or printed-code question, or None (undecided, or only part decided)."""
     if question.locator is None:
@@ -161,9 +171,10 @@ def build_questions(payload: Mapping[str, Any], verification: Verification, entr
         if confirmable(section):
             bulk = _confirm_question(section, courses)
             by_id = {q.qid: q for q in rows}
-            if all(by_id[m].decided for m in bulk.members):
-                bulk.decision = {"disposition": ACCEPTED if all(by_id[m].decision["disposition"] == ACCEPTED for m in bulk.members)
-                                 else CORRECTED, "count": len(bulk.members)}
+            if all(has_decision(courses[r.course], latest) for r in section.rows if r.course is not None):
+                kinds = {(by_id[m].decision or {}).get("disposition") for m in bulk.members}
+                bulk.decision = {"disposition": ACCEPTED if kinds == {ACCEPTED} else CORRECTED if kinds <= {ACCEPTED, CORRECTED}
+                                 else UNRESOLVED, "count": len(bulk.members)}
             out.append(bulk)
         out += rows
     for position, q in enumerate(out):

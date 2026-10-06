@@ -9,7 +9,8 @@ Mapping (decision D4):
   course        Yes    -> ok          Other -> edit (or fix, for proposal letters and for a typed value equal to a proposal)
                 No     -> unresolved when nothing is typed, else the same as Other
   printed code  Yes    -> ok          No    -> unresolved (a reason for both; Other is refused)
-  section       Yes    -> one ok per course, via gui_section_confirm; No writes nothing; Other is refused
+  section       Yes    -> one ok per course that has no decision yet, via gui_section_confirm (D11: never overrides
+                          a decision); No writes nothing; Other is refused
 """
 
 from __future__ import annotations
@@ -17,13 +18,13 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Mapping, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
 from ..prospectus_extractor.fixes import FIELD_TERM, format_term, parse_term
 from ..prospectus_extractor.ledger import UNIT_FIELDS, correction_problem
 from ..prospectus_extractor.sheet import row_entries
 from ..prospectus_extractor.verify import INFO, Verification
-from .questions import SECTION_CONFIRM, UNCLAIMED, Question, confirmable
+from .questions import SECTION_CONFIRM, UNCLAIMED, Question, confirmable, decision_index, has_decision
 
 CHOICES = ("yes", "no", "other")
 WHOLE_NUMBER = re.compile(r"[0-9]{1,6}")   # ASCII digits only: "+3", "3.5", "1e2", "-1" and other scripts' digits do not match
@@ -69,7 +70,7 @@ def _find(question: Question, verification: Verification):
     return None, None
 
 
-def _confirm(question, answer, section, payload, reviewer, pdf_sha256, via, now):
+def _confirm(question, answer, section, ledger_entries, payload, reviewer, pdf_sha256, via, now):
     if answer.choice == "other":
         return [], ["a section question can only be answered Yes or No"]
     if answer.choice == "no":
@@ -79,13 +80,19 @@ def _confirm(question, answer, section, payload, reviewer, pdf_sha256, via, now)
         if not kinds:
             return [], ["this section has no courses to confirm"]
         return [], [f"a whole-section Yes cannot cover a section flagged {', '.join(kinds)}; answer its rows one by one"]
+    if ledger_entries is None:
+        return [], ["a section answer needs the ledger's current entries"]
+    latest = decision_index(payload, ledger_entries, pdf_sha256)
+    # D11: a section Yes never overrides a course that already has a decision (of any kind, even part of one)
+    open_rows = [r for r in section.rows if r.course is not None and not has_decision(payload["courses"][r.course], latest)]
+    if not open_rows:
+        return [], ["every course in this section already has a decision; change a course by answering its own question"]
     via = "gui_section_confirm" if via == "gui" else via
     reason = answer.note.strip() or SECTION_CONFIRM_REASON
     entries: list[dict[str, Any]] = []
     errors: list[str] = []
-    for row in section.rows:
-        if row.course is not None:
-            errors += row_entries(entries, row, section, payload, "ok", [], reason, {}, via, reviewer, pdf_sha256, now)
+    for row in open_rows:
+        errors += row_entries(entries, row, section, payload, "ok", [], reason, {}, via, reviewer, pdf_sha256, now)
     return entries, errors
 
 
@@ -142,9 +149,10 @@ def _course(answer, row, section, payload, reviewer, pdf_sha256, via, now):
 
 def answer_to_entries(
     question: Question, answer: Answer, *, payload: Mapping[str, Any], verification: Verification, reviewer: str,
-    pdf_sha256: str, via: str = "gui", now: datetime | None = None,
+    pdf_sha256: str, via: str = "gui", now: datetime | None = None, ledger_entries: Iterable[Mapping[str, Any]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
-    """(entries, errors). Errors mean no entries. The question must be one of this verification's."""
+    """(entries, errors). Errors mean no entries. The question must be one of this verification's. A section answer
+    needs `ledger_entries` (the ledger as it stands), so what is already decided is checked at answer time."""
     if answer.choice not in CHOICES:
         return [], [f"the answer must be yes, no or other, not {answer.choice!r}"]
     section, row = _find(question, verification)
@@ -152,7 +160,7 @@ def answer_to_entries(
         return [], [f"unknown question {question.qid}"]
     args = (payload, reviewer, pdf_sha256, via, now)
     if question.kind == SECTION_CONFIRM:
-        return _confirm(question, answer, section, *args)
+        return _confirm(question, answer, section, ledger_entries, *args)
     if question.kind == UNCLAIMED or row.course is None:
         return _printed_code(answer, row, section, *args)
     return _course(answer, row, section, *args)

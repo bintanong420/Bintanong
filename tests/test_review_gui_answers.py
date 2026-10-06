@@ -4,11 +4,11 @@ import pytest
 
 from backend.bintanong_tools.prospectus_extractor.course_checks import PdfPage
 from backend.bintanong_tools.prospectus_extractor.ledger import (
-    correction_problem, course_locator, entry_problem, locator_key,
+    append_entries, correction_problem, course_locator, entry_problem, locator_key, materialise, read_entries,
 )
 from backend.bintanong_tools.prospectus_extractor.verify import Flag, verify_candidate
 from backend.bintanong_tools.prospectus_review_gui.answers import Answer, answer_to_entries, parse_typed_value
-from backend.bintanong_tools.prospectus_review_gui.questions import build_questions
+from backend.bintanong_tools.prospectus_review_gui.questions import build_questions, order_queue
 
 import fixer_fixtures as fx
 import review_gui_fixtures as rf
@@ -22,10 +22,10 @@ def setup(payload=None, pages=None):
     return payload, v, {q.qid: q for q in build_questions(payload, v, [], HASH)}
 
 
-def ask(env, qid, choice, *, via="gui", **kw):
+def ask(env, qid, choice, *, via="gui", ledger_entries=(), **kw):
     payload, v, questions = env
     return answer_to_entries(questions[qid], Answer(choice=choice, **kw), payload=payload, verification=v,
-                             reviewer="Nestor", pdf_sha256=HASH, via=via, now=NOW)
+                             reviewer="Nestor", pdf_sha256=HASH, via=via, now=NOW, ledger_entries=list(ledger_entries))
 
 
 def arch():
@@ -200,6 +200,44 @@ def test_section_confirm_writes_one_entry_per_course_with_gui_section_confirm():
     assert [locator_key(e["locator"]) for e in entries] == [locator_key(course_locator(c)) for c in env[0]["courses"][:2]]
     noted = ask(env, "S1:confirm", "yes", note="all read against the PDF")[0]
     assert {e["reason"] for e in noted} == {"all read against the PDF"}
+
+
+def test_section_confirm_never_overrides_an_earlier_correction(tmp_path):
+    payload, v, _questions = setup()
+    path = tmp_path / "decision_ledger.jsonl"
+
+    def fresh(qid, choice, **kw):   # the questions as the ledger now stands, as a session builds them
+        env = (payload, v, {q.qid: q for q in build_questions(payload, v, read_entries(path), HASH)})
+        return ask(env, qid, choice, ledger_entries=read_entries(path), **kw)
+
+    entries, errors = fresh("S1-02", "other", edits={"course_title": "Intro to Computing"}, reason="PDF prints it shorter")
+    assert errors == [] and append_entries(path, entries) == (2, 0)
+    entries, errors = fresh("S1:confirm", "yes")
+    assert errors == []
+    assert [locator_key(e["locator"]) for e in entries] == [locator_key(course_locator(payload["courses"][0]))]   # S1-01 only
+    append_entries(path, entries)
+    corrected, report = materialise(payload, read_entries(path), HASH)
+    assert report["applied"] == 1
+    assert "Intro to Computing" in [c["course_title"] for c in corrected["courses"]]
+    assert "Introduction to Computing" not in [c["course_title"] for c in corrected["courses"]]
+
+
+def test_section_confirm_with_every_course_already_decided_leaves_the_queue_and_writes_nothing():
+    payload = rf.mixed()
+    v = rf.verified(payload)
+    ledger_entries = rf.decision(payload, v, "S1-01") + rf.decision(payload, v, "S1-02", "unresolved", reason="unclear")
+    questions = build_questions(payload, v, ledger_entries, HASH)
+    assert "S1:confirm" not in [q.qid for q in order_queue(questions)]
+    env = (payload, v, {q.qid: q for q in questions})
+    assert ask(env, "S1:confirm", "yes", ledger_entries=ledger_entries) == \
+        ([], ["every course in this section already has a decision; change a course by answering its own question"])
+
+
+def test_section_confirm_needs_the_ledger():
+    payload, v, questions = setup()
+    entries, errors = answer_to_entries(questions["S1:confirm"], Answer("yes"), payload=payload, verification=v, reviewer="N",
+                                        pdf_sha256=HASH)
+    assert entries == [] and errors == ["a section answer needs the ledger's current entries"]
 
 
 def test_section_confirm_no_writes_nothing_and_other_is_refused():
