@@ -3,13 +3,15 @@ import json
 from html import unescape
 from html.parser import HTMLParser
 
+import pytest
+
 from backend.bintanong_tools.prospectus_extractor.evidence import (
     NormalizedCell, NormalizedTable, ProspectusEvidence, SourceBBox,
 )
 from backend.bintanong_tools.prospectus_extractor.markup import render_prospectus_markup
 from backend.bintanong_tools.prospectus_extractor.verify import own_role_cells
 from backend.bintanong_tools.prospectus_review_gui.render import (
-    MAX_JSON_CELLS, cells_fallback, course_json, load_evidence, twin_fragment,
+    MAX_JSON_CELLS, cells_fallback, course_json, evidence_mismatch, load_evidence, twin_fragment,
 )
 
 import fixer_fixtures as fx
@@ -172,3 +174,49 @@ def test_twin_page_numbers_match_pdf_pages():
         opening = fragment[fragment.rindex("<", 0, start):fragment.index(">", start)]
         assert f'data-page="{course["provenance"]["page"]}"' in opening, course["course_code"]
     assert ("td", "data-page", "2") in found.attrs   # GE-ET is on page 2
+
+
+# --- S1: a Docling JSON from another prospectus is refused, not drawn
+
+
+def _other_prospectus():
+    other = rf.many(4)   # same cell ids (t0-a0 ...) as nothing here, and other texts
+    return other
+
+
+def test_evidence_that_holds_the_candidates_cells_matches():
+    payload = rf.mixed()
+    assert evidence_mismatch(evidence_of(payload), payload, "x_docling.json") is None
+
+
+def test_evidence_with_missing_or_different_cells_is_refused_by_name():
+    payload = rf.mixed()
+    foreign = evidence_of(_other_prospectus())
+    message = evidence_mismatch(foreign, payload, "x_docling.json")
+    assert message and "x_docling.json" in message and "another prospectus" in message and "private" not in message
+    # the same cell ids with other text (what two real prospectuses share: t0-c12 is a cell in both)
+    altered = copy.deepcopy(payload)
+    altered["courses"][0]["provenance"]["source_cells"][0]["text"] = "Something else"
+    assert evidence_mismatch(evidence_of(altered), payload, "x_docling.json")
+    # the candidate's own provenance wins over a payload with no source cells at all
+    bare = copy.deepcopy(payload)
+    for course in bare["courses"]:
+        course["provenance"]["source_cells"] = []
+    assert evidence_mismatch(evidence_of(payload), bare, "x_docling.json") is None
+
+
+def test_real_docling_json_of_another_programme_is_refused():
+    from pathlib import Path
+    dump = Path(r"E:\Hawksprey\Documents\PalSU Stuff\Bintanong dataset dump")
+    candidate = dump / "review_trial_2026-10-04" / "16_BSBA-HRM" / "BSBA-HRM-for-student-new-version_prospectus.json"
+    wrong = dump / "docling_jsonified_output" / "task1_baseline_2026-09-29" / "bscs" / "1_BS Computer Science_for BOR approval _rev02_v7_6 August 2025_docling.json"
+    if not (candidate.is_file() and wrong.is_file()):
+        pytest.skip("the local dataset dump is not on this machine")
+    payload = json.loads(candidate.read_text(encoding="utf-8"))
+    right_json = Path(payload["courses"][0]["provenance"]["raw_docling_json"])
+    evidence, reason = load_evidence(wrong)
+    assert evidence is not None and reason is None   # it reads fine; only the cross-check can tell
+    assert evidence_mismatch(evidence, payload, wrong.name)
+    if right_json.is_file():
+        right, _ = load_evidence(right_json)
+        assert evidence_mismatch(right, payload, right_json.name) is None

@@ -49,6 +49,7 @@ function renderState(state) {
     `content review: ${review.state} (not an approval)`,
     `source verification: ${source.health}, PDF text ${source.pdf_checked ? "checked" : "not checked"}`,
   ];
+  if (state.docling && state.docling.warning) badges.push("Docling JSON: " + state.docling.warning);
   if (review.stale_entries || review.inapplicable_entries || review.invalid_entries) {
     badges.push(`ledger: ${review.stale_entries} stale, ${review.inapplicable_entries} for another PDF, ${review.invalid_entries} unreadable`);
   }

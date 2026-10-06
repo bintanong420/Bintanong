@@ -25,7 +25,7 @@ from ..prospectus_extractor.verify import own_role_cells, verify_candidate
 from .answers import Answer, answer_to_entries
 from .geometry import boxes_for_question
 from .questions import COURSE, UNCLAIMED, Question, build_questions, order_queue
-from .render import PageError, PageRenderer, cells_fallback, course_json, load_evidence, twin_fragment
+from .render import PageError, PageRenderer, cells_fallback, course_json, evidence_mismatch, load_evidence, twin_fragment
 
 LEDGER_NAME = "decision_ledger.jsonl"
 CORRECTED_NAME = "corrected_candidate.json"
@@ -74,6 +74,10 @@ class ReviewSession:
         self.verification = verify_candidate(self.payload, pages)
         if self.docling_json is not None:
             self.evidence, self.evidence_problem = load_evidence(self.docling_json)
+            if self.evidence is not None:
+                self.evidence_problem = evidence_mismatch(self.evidence, self.payload, self.docling_json.name)
+                if self.evidence_problem:   # wrong document: draw nothing rather than highlights on the wrong table
+                    self.evidence = None
         else:
             self.evidence_problem = "no Docling JSON is known for this candidate"
         self._lock = LedgerLock(self.ledger_path, f"prospectus review GUI (reviewer {self.reviewer})").__enter__()
@@ -197,6 +201,7 @@ class ReviewSession:
             "source_verification": {"health": self.verification.health, "pdf_checked": self.verification.pdf_checked},
             "progress": {"decided": sum(q.decided for q in questions), "questions": len(questions)},
             "pdf": self.pdf_info(),
+            "docling": {"ok": self.evidence is not None, "warning": self.evidence_problem if self.docling_json is not None and self.evidence is None else None},
             "note": NOTE,
         }
 

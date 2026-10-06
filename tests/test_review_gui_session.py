@@ -289,3 +289,21 @@ def test_session_without_pdf_or_twin_says_so(tmp_path):
         assert session.question_view("S1:confirm")["course"] is None
         twin = session.twin()
         assert twin["html"] is None and "markup twin unavailable" in twin["reason"]
+
+
+def test_a_mismatched_docling_json_is_flagged_in_the_state_and_the_twin_is_withheld(tmp_path, monkeypatch):
+    from backend.bintanong_tools.prospectus_review_gui import session as session_module
+    import test_review_gui_panes as panes
+
+    ws = rf.workspace(tmp_path)
+    foreign = panes.evidence_of(rf.many(4))
+    monkeypatch.setattr(session_module, "load_evidence", lambda path: (foreign, None))
+    with start(ws, docling_json=tmp_path / "other_docling.json") as session:
+        state, twin = session.state(), session.twin()
+        assert session.evidence is None
+    assert state["docling"]["ok"] is False and "other_docling.json" in state["docling"]["warning"]
+    assert twin["html"] is None and "another prospectus" in twin["reason"]
+    good = panes.evidence_of(ws.payload)
+    monkeypatch.setattr(session_module, "load_evidence", lambda path: (good, None))
+    with start(ws, docling_json=tmp_path / "x_docling.json") as session:
+        assert session.state()["docling"] == {"ok": True, "warning": None} and session.twin()["html"]

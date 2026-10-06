@@ -45,6 +45,24 @@ def load_evidence(docling_json: Path) -> tuple[ProspectusEvidence | None, str | 
         return None, f"the Docling JSON {name} cannot be read ({type(exc).__name__})"
 
 
+def evidence_mismatch(evidence: ProspectusEvidence, payload: Mapping[str, Any], name: str) -> str | None:
+    """None when every source cell the candidate recorded is in the evidence with the same text; else a warning. Cell
+    ids alone prove nothing (t0-c12 exists in every prospectus), so the text is compared too. Drawing highlights from
+    another document's cells would put them on the wrong table, so the caller drops the evidence on a warning."""
+    cells = evidence.all_cells()
+    total = bad = 0
+    for course in payload.get("courses") or []:
+        for recorded in (course.get("provenance") or {}).get("source_cells") or []:
+            total += 1
+            found = cells.get(recorded.get("cell_id"))
+            if found is None or " ".join((found.text or "").split()) != " ".join(str(recorded.get("text") or "").split()):
+                bad += 1
+    if not bad:
+        return None
+    return (f"the Docling JSON {name} does not match this candidate ({bad} of {total} source cells are missing or differ); "
+            "it is probably from another prospectus, so the twin and the page highlights are withheld")
+
+
 def twin_fragment(evidence: ProspectusEvidence, payload: Mapping[str, Any], pdf_sha256: str | None) -> str:
     """The markup twin without its `> ` notice line (the GUI header states the audit status itself). Nothing else is
     changed; the renderer escapes every source text, so no other line can start with `> `."""
