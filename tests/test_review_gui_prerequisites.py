@@ -284,3 +284,16 @@ def test_real_prerequisite_text_is_still_accepted(env, typed):
     _ws, session, *_ = env
     q = prereq_questions(session)["CS 1"]
     assert session.answer(q.qid, Answer("other", edits={FIELD_PREREQ: typed}, reason="read on the PDF"), now=rf.NOW)["errors"] == []
+
+
+def test_progress_counts_only_course_field_questions_and_prerequisites_count_separately(env):
+    _ws, session, *_ = env
+    state = session.state()
+    asked = [q for q in session.questions() if q.kind == PREREQUISITE]
+    course_side = [q for q in session.questions() if q.kind != PREREQUISITE]
+    assert len(asked) == 3 and state["prerequisites"]["questions"] == 3
+    assert state["progress"] == {"decided": 0, "questions": len(course_side)}
+    assert session.answer(prereq_questions(session)["CS 1"].qid, Answer("yes"), now=rf.NOW)["errors"] == []
+    state = session.state()
+    assert state["progress"] == {"decided": 0, "questions": len(course_side)}   # a prerequisite answer is not course progress
+    assert state["prerequisites"]["decided"] == 1
