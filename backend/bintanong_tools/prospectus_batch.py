@@ -11,6 +11,7 @@ from typing import Sequence
 
 from . import prospectus_extractor as extractor
 from .prospectus_extractor.identity import PACKAGE_DIR, file_sha256, package_sha256
+from .prospectus_extractor.publish import write_text_lf
 
 
 def run_isolated(
@@ -45,7 +46,7 @@ def run_isolated(
                 launch_error = f"{type(exc).__name__}: {exc}"
         record = {
             "source": str(item.source_pdf),
-            "pdf_sha256": file_sha256(item.source_pdf),
+            "pdf_sha256": file_sha256(item.source_pdf),  # second read, after the child; the run is Docling-bound
             "json_path": str(item.json_path),
             "log": str(log_path),
             "strict_exit_code": exit_code,
@@ -77,7 +78,7 @@ def run_isolated(
                     "semantic_doc": str(semantic_doc.resolve()) if semantic_doc else None,
                     "summary": summary, "records": records}
         checkpoint = manifest_path.with_suffix(".tmp")
-        checkpoint.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+        write_text_lf(checkpoint, json.dumps(manifest, indent=2, ensure_ascii=False))
         checkpoint.replace(manifest_path)
         print(f"{number}/{len(items)} exit={exit_code} status={record['status']} "
               f"{item.source_pdf.name}", flush=True)
