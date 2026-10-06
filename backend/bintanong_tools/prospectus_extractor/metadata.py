@@ -82,23 +82,31 @@ def resolve_metadata(
 
     college_code = None
     college_name = None
+    college_basis = college_evidence = None
     for part in Path(source_path).parts:
         if part in semantic_map:
             college_code, college_name = part, semantic_map[part]["name"]
+            college_basis, college_evidence = "path_segment", part
             break
     if not college_code:
         for code, info in semantic_map.items():
             if re.search(rf"(?<![A-Za-z]){re.escape(code)}(?![A-Za-z])", path_str):
                 college_code, college_name = code, info["name"]
+                college_basis, college_evidence = "path_pattern", code
                 break
 
     program_name = None
     degree = None
+    program_basis = program_evidence = None
     for code, info in semantic_map.items():
         for program in info["programs"]:
             name, abbrev = program["program_name"], program["degree"]
             if name.lower() in haystack.lower() or (len(abbrev) > 4 and abbrev.lower() in haystack.lower()):
                 program_name, degree = name, abbrev
+                program_basis = "semantic_map_match"
+                program_evidence = name if name.lower() in haystack.lower() else abbrev
+                if not college_code:
+                    college_basis, college_evidence = "semantic_map_program_match", name
                 college_code = college_code or code
                 college_name = college_name or info["name"]
                 break
@@ -115,6 +123,7 @@ def resolve_metadata(
             )[0]
             program_name = titlecase_program(raw)
             degree = derive_degree_code(program_name)
+            program_basis, program_evidence = "document_heading", clean_str(match.group(1))
     if not program_name:
         warnings.append("Program name could not be determined from the document or path.")
     if not college_code:
@@ -126,12 +135,21 @@ def resolve_metadata(
         flags=re.IGNORECASE,
     )
     school_year = sy_match.group(1).replace(" ", "") if sy_match else None
+    sy_evidence = clean_str(sy_match.group(0)) if sy_match else None
     if not school_year:
         warnings.append("Effective school year not found; left null rather than guessed.")
 
     def find(pattern: str) -> str | None:
         match = re.search(pattern, head, flags=re.IGNORECASE)
         return clean_str(match.group(1)) if match else None
+
+    def observed(value, basis, evidence):
+        return {
+            "value": value,
+            "basis": basis if value else None,
+            "evidence": evidence if value else None,
+            "status": "candidate",
+        }
 
     metadata = {
         "campus": "Tiniguiban - Main",
@@ -148,5 +166,12 @@ def resolve_metadata(
         "implementation_note": find(r"(Proposed Date of Implementation:[^\n]{0,80})"),
         "source_file": Path(source_path).name,
         "source_path": str(Path(source_path).resolve()),
+        # A later phase may add source_kind (for example "ocr") and per-cell confidence here.
+        "observations": {
+            "campus": observed("Tiniguiban - Main", "extractor_default", None),
+            "college_code": observed(college_code, college_basis, college_evidence),
+            "program_name": observed(program_name, program_basis, program_evidence),
+            "effective_school_year": observed(school_year, "path_or_document_head", sy_evidence),
+        },
     }
     return metadata, warnings

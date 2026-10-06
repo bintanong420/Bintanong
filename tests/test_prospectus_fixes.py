@@ -56,8 +56,11 @@ def test_a_leading_banner_in_the_code_gets_a_strip_proposal():
     payload = fx.bscs()
     course = payload["courses"][0]
     course["course_code"] = "FIRST SEMESTER CS 1"
-    fixes = propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"})
+    from backend.bintanong_tools.prospectus_extractor.fixes import shared_cell_ids
+    fixes = propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"}, shared_cells=shared_cell_ids(payload["courses"]))
     assert [(f.field, f.new) for f in fixes] == [("course_code", "CS 1")]
+    # without knowing which cells other courses own, no source cell can authorise it
+    assert propose_fixes(course, roles(course, payload), banners={"FIRST", "SEMESTER"}) == []
 
 
 def test_a_banner_that_names_another_semester_proposes_a_move_but_one_that_names_both_does_not():

@@ -33,5 +33,13 @@ def find_default_input_root() -> Path:
     return SOURCE_PDF_ROOT.resolve()
 
 
+# The longest real artifact adds 216 characters to the root; Windows paths must stay under 260.
+MAX_DEFAULT_ROOT_CHARS = 40
+
+
 def find_default_output_root() -> Path:
-    return (Path(__file__).resolve().parent / "docling_jsonified_output").resolve()
+    """~/Bintanong/output, or <drive>/Bintanong/output when the home path would make paths too long."""
+    root = Path.home() / "Bintanong" / "output"
+    if len(str(root)) <= MAX_DEFAULT_ROOT_CHARS:
+        return root
+    return Path(root.anchor) / "Bintanong" / "output"

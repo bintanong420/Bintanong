@@ -8,6 +8,12 @@ Run it with any of::
     python -m bintanong_tools.prospectus_extractor --self-test
     python path/to/prospectus_extractor -i prospectus.pdf -o out.json --export-csv --strict
     python -m backend.bintanong_tools.prospectus_batch -i PDF_FOLDER -o NEW_RUN_FOLDER
+
+Status fields: ``extraction_audit`` (ok, warn or error) is the extractor's own check.
+``content_review`` is ``pending`` unless a decision ledger for the same PDF says otherwise. ``source_verification`` comes
+from the source record and is ``pending`` unless a human verified the source. The legacy
+``promotion_status`` is not approval; ``authority.eligibility_executable`` is false for
+everything the extractor produces.
 """
 
 from .batch import BatchConfig, build_batch_items, run_batch, scan_inputs

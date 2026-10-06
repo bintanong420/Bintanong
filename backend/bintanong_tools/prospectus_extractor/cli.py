@@ -40,8 +40,16 @@ def build_cli() -> argparse.ArgumentParser:
     parser.add_argument("--export-all", action="store_true", help="Write .pl, .jsonl, .csv and .md companions")
     parser.add_argument("--batch", action="store_true", help="Treat the input as a folder")
     parser.add_argument("--pattern", action="append", default=None, help="Glob for batch mode (repeatable)")
-    parser.add_argument("--skip-existing", action="store_true", help="Batch: skip files already extracted")
-    parser.add_argument("--force", action="store_true", help="Process PDFs even with --skip-existing")
+    parser.add_argument(
+        "--skip-existing", action="store_true",
+        help="Batch: skip a PDF only when its last run has the same PDF bytes, conversion "
+             "settings, parser and schema, passed its audit, and still matches its publish manifest",
+    )
+    parser.add_argument(
+        "--force", action="store_true",
+        help="Process everything even with --skip-existing, and reconvert PDFs instead of "
+             "reusing a cached Docling JSON",
+    )
     parser.add_argument("--strict", action="store_true", help="Exit non-zero when the audit reports an error")
     parser.add_argument(
         "--semantic-doc",
@@ -125,7 +133,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         export_md=export_md,
         device=args.device,
         semantic_doc_path=semantic_doc,
-        force_reconvert=True,
+        force_reconvert=args.force,
     )
     if args.strict and payload["audit"]["status"] == "error":
         return 1

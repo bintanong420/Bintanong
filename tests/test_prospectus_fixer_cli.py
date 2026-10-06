@@ -65,7 +65,7 @@ def test_pdf_identity_comes_from_the_file_then_the_hash_then_a_manifest(tmp_path
     with pytest.raises(FixerError, match="does not match"):
         resolve_identity(payload, pdf=pdf, pdf_sha256="0" * 64)
     assert resolve_identity(payload, pdf_sha256=HASH)["pdf_path"] is None
-    assert resolve_identity({"run_identity": {"file_sha256": HASH}})["how"] == "run_identity"
+    assert resolve_identity({"run_identity": {"pdf_sha256": HASH}})["how"] == "run_identity"
     golden = tmp_path / "golden"
     golden.mkdir()
     (golden / "isolated_manifest.json").write_text(json.dumps({"records": [
