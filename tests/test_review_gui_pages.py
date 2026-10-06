@@ -1,6 +1,7 @@
 import math
 import os
 import struct
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -26,17 +27,24 @@ def test_png_is_a_png_with_scaled_dimensions():
 
 
 def test_render_is_cached_and_writes_no_file(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
-    before_cwd = sorted(os.listdir(tmp_path))
-    tmp_before = sorted(os.listdir(Path(os.environ.get("TEMP", tmp_path))))[:2000]
-    with PageRenderer(SYNTHETIC) as renderer:
+    # Only the places this code could write are watched: the working directory, a private temp directory (so other
+    # processes writing to the real %TEMP% cannot fail the test) and the PDF's own folder.
+    work, temp, pdf_dir = tmp_path / "cwd", tmp_path / "temp", tmp_path / "pdf"
+    for folder in (work, temp, pdf_dir):
+        folder.mkdir()
+    pdf = pdf_dir / SYNTHETIC.name
+    pdf.write_bytes(SYNTHETIC.read_bytes())
+    monkeypatch.chdir(work)
+    for name in ("TEMP", "TMP", "TMPDIR"):
+        monkeypatch.setenv(name, str(temp))
+    monkeypatch.setattr(tempfile, "tempdir", str(temp))
+    with PageRenderer(pdf) as renderer:
         first = renderer.png(1, 1.5)
         count = renderer.render_count
         assert renderer.png(1, 1.5) == first and renderer.render_count == count   # served from memory
         renderer.png(1, 2.0)
         assert renderer.render_count == count + 1
-    assert sorted(os.listdir(tmp_path)) == before_cwd
-    assert sorted(os.listdir(Path(os.environ.get("TEMP", tmp_path))))[:2000] == tmp_before
+    assert os.listdir(work) == [] and os.listdir(temp) == [] and os.listdir(pdf_dir) == [SYNTHETIC.name]
 
 
 def test_cache_keeps_only_the_last_eight_renders():
