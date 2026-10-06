@@ -1,14 +1,80 @@
-"""Page images for the review GUI. Everything is rendered into memory; nothing is written to disk."""
+"""What the review GUI's three panes show: the PDF page image, the markup twin and the course JSON.
+
+Everything is built in memory; nothing is written to disk.
+"""
 
 from __future__ import annotations
 
+import copy
 import io
+import json
 import math
 from collections import OrderedDict
+from dataclasses import asdict
 from pathlib import Path
+from typing import Any, Mapping, Sequence
+
+from ..prospectus_extractor.evidence import ProspectusEvidence
+from ..prospectus_extractor.loader import load_from_raw_json
+from ..prospectus_extractor.markup import render_prospectus_markup
 
 DEFAULT_SCALE, MAX_SCALE = 1.5, 3
 CACHE_SIZE = 8
+MAX_JSON_CELLS = 100   # source cells returned per course; a real course has about ten
+ROLES = ("code", "title", "unit", "prereq")
+
+
+def load_evidence(docling_json: Path) -> tuple[ProspectusEvidence | None, str | None]:
+    """(evidence, None), or (None, reason) when the Docling JSON is missing or cannot be read. Never raises: the twin
+    is then replaced by the cell fallback. The reason names the file, not its folder."""
+    name = Path(docling_json).name
+    try:
+        data = json.loads(Path(docling_json).read_bytes())
+    except FileNotFoundError:
+        return None, f"the Docling JSON {name} was not found"
+    except (OSError, ValueError) as exc:   # ValueError covers JSON and UTF-8 decoding errors
+        return None, f"the Docling JSON {name} cannot be read ({type(exc).__name__})"
+    if not isinstance(data, dict):
+        return None, f"the Docling JSON {name} cannot be read (not a JSON object)"
+    try:
+        return load_from_raw_json(data), None
+    except Exception as exc:  # a Docling validation error, or any shape the adapter does not expect
+        return None, f"the Docling JSON {name} cannot be read ({type(exc).__name__})"
+
+
+def twin_fragment(evidence: ProspectusEvidence, payload: Mapping[str, Any], pdf_sha256: str | None) -> str:
+    """The markup twin without its `> ` notice line (the GUI header states the audit status itself). Nothing else is
+    changed; the renderer escapes every source text, so no other line can start with `> `."""
+    markup = render_prospectus_markup(evidence, payload, pdf_sha256=pdf_sha256)
+    return "\n".join(line for line in markup.split("\n") if not line.startswith("> "))
+
+
+def _own_ids(role_cells: Mapping[str, Sequence[Mapping[str, Any]]]) -> dict[Any, str]:
+    return {cell.get("cell_id"): role for role in ROLES for cell in (role_cells or {}).get(role) or []}
+
+
+def cells_fallback(course: Mapping[str, Any], role_cells: Mapping[str, Sequence[Mapping[str, Any]]]) -> list[dict[str, Any]]:
+    """The course's own cells (`role_cells` is verify.own_role_cells) as {cell_id, role, row, col, text}, in grid order:
+    what the twin pane shows when there is no Docling evidence. Banner cells are not the course's own and are left out."""
+    own = _own_ids(role_cells)
+    rows = [{"cell_id": c.get("cell_id"), "role": own[c.get("cell_id")], "row": c.get("row_start"), "col": c.get("col_start"),
+             "text": c.get("text")} for c in (course.get("provenance") or {}).get("source_cells") or [] if c.get("cell_id") in own]
+    return sorted(rows, key=lambda r: (r["row"] if isinstance(r["row"], int) else -1, r["col"] if isinstance(r["col"], int) else -1))
+
+
+def course_json(course: Mapping[str, Any], row: Any, role_cells: Mapping[str, Sequence[Mapping[str, Any]]] | None = None) -> dict[str, Any]:
+    """{"course": a copy of the course as the extractor wrote it, "flags": the verifier's flags (beside it, never inside),
+    "truncated": how many source cells were left out}. Past MAX_JSON_CELLS source cells only the first ones and the
+    course's own role cells are kept, so one request cannot return megabytes."""
+    out = copy.deepcopy(dict(course))
+    cells = (out.get("provenance") or {}).get("source_cells")
+    truncated = 0
+    if isinstance(cells, list) and len(cells) > MAX_JSON_CELLS:
+        own = _own_ids(role_cells or {})
+        kept = [c for i, c in enumerate(cells) if i < MAX_JSON_CELLS or (isinstance(c, Mapping) and c.get("cell_id") in own)]
+        truncated = len(cells) - len(kept)
+        out["provenance"]["source_cells"] = kept
+    return {"course": out, "flags": [asdict(f) for f in getattr(row, "flags", None) or []], "truncated": truncated}
 
 
 class PageError(ValueError):
