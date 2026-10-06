@@ -139,3 +139,14 @@ def test_ledger_lines_are_lf_utf8_with_sorted_keys_on_every_platform(tmp_path):
     expected = "".join(json.dumps(e, ensure_ascii=False, sort_keys=True) + "\n" for e in group).encode("utf-8")
     assert path.read_bytes() == expected and b"\r" not in expected
     assert "Ni\u00f1o".encode("utf-8") in expected
+
+
+def test_an_unencodable_entry_writes_nothing_not_even_the_entries_before_it(tmp_path):
+    course = fx.bscs()["courses"][0]
+    path = tmp_path / "review" / "decision_ledger.jsonl"
+    assert append_entries(path, [entry(course)]) == (1, 0)
+    before = path.read_bytes()
+    group = [entry(course, reason="fine"), corrected_title(course, "Bad \ud800 title")]
+    with pytest.raises(UnicodeEncodeError):
+        append_entries(path, group)
+    assert path.read_bytes() == before
