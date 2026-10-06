@@ -89,7 +89,7 @@ def test_unsafe_review_dir_exits_2_and_creates_nothing(tmp_path, capsys, no_serv
 
 def test_identity_mismatch_exits_2(tmp_path, capsys, no_server):
     payload = rf.mixed()
-    payload["run_identity"] = {"file_sha256": "f" * 64}
+    payload["run_identity"] = {"pdf_sha256": "f" * 64}
     ws = rf.workspace(tmp_path, payload, pdf=True)
     assert cli.review_main(args(ws, "--no-open")) == 2
     assert "differs from the PDF hash the candidate recorded" in capsys.readouterr().err
