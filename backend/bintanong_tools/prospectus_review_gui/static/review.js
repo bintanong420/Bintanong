@@ -44,11 +44,12 @@ function renderState(state) {
   $("progress").textContent = `decided ${state.progress.decided} of ${state.progress.questions}`;
   const review = state.content_review;
   const source = state.source_verification;
-  const badges = [
-    `extraction audit: ${state.extraction_audit}`,
-    `content review: ${review.state} (not an approval)`,
-    `source verification: ${source.health}, PDF text ${source.pdf_checked ? "checked" : "not checked"}`,
-  ];
+  // each state is its own word, written out; none of them is an approval and the page says so beside them
+  const badges = state.review_states.map((s) => `${s.name}: ${s.word} (${s.meaning})`);
+  badges.push(`PDF text check: ${source.health}, ${source.pdf_checked ? "PDF text checked" : "PDF text not checked"}`);
+  if (state.prerequisites.questions) badges.push(`prerequisite questions: ${state.prerequisites.decided} of ${state.prerequisites.questions} decided (they never hold back content review)`);
+  if (state.prerequisites.unclassified_courses) badges.push(`${state.prerequisites.unclassified_courses} courses have no prerequisite state (a candidate from before Phase C): no prerequisite question for them`);
+  $("approval").textContent = state.approval_line;
   if (state.docling && state.docling.warning) badges.push("Docling JSON: " + state.docling.warning);
   if (review.stale_entries || review.inapplicable_entries || review.invalid_entries) {
     badges.push(`ledger: ${review.stale_entries} stale, ${review.inapplicable_entries} for another PDF, ${review.invalid_entries} unreadable`);
@@ -270,7 +271,8 @@ async function submit(event) {
   if (!choice) { $("answer-error").textContent = "Choose Yes, No or Other first."; return; }
   const edits = {};
   if (choice === "other") {
-    for (const input of $("other-fields").querySelectorAll("input")) if (input.value.trim()) edits[input.name] = input.value;
+    // an empty prerequisite is a real answer ("none"), so a prerequisite question sends it; elsewhere an empty box means "unchanged"
+    for (const input of $("other-fields").querySelectorAll("input")) if (input.value.trim() || view.question.kind === "prerequisite") edits[input.name] = input.value;
   }
   const text = $("reason").value;
   const section = view.question.kind === "section_confirm";

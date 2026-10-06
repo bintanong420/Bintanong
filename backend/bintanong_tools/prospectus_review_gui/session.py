@@ -24,12 +24,13 @@ from ..prospectus_extractor.sheet import candidate_sha256
 from ..prospectus_extractor.verify import own_role_cells, verify_candidate
 from .answers import Answer, answer_to_entries
 from .geometry import boxes_for_question
-from .questions import COURSE, UNCLAIMED, Question, build_questions, order_queue
+from .questions import COURSE, PREREQ_SUFFIX, PREREQUISITE, UNCLAIMED, Question, build_questions, order_queue
 from .render import PageError, PageRenderer, cells_fallback, course_json, evidence_mismatch, load_evidence, twin_fragment
 
 LEDGER_NAME = "decision_ledger.jsonl"
 CORRECTED_NAME = "corrected_candidate.json"
 NOTE = "A decision here means a person looked and decided. It is not an approval of the curriculum."
+APPROVAL_LINE = "A reviewed prospectus is not an approved curriculum"
 
 
 class ReviewSession:
@@ -123,11 +124,11 @@ class ReviewSession:
     def question_view(self, qid: str) -> dict[str, Any]:
         """Everything one question's three panes need."""
         q = self.question(qid)
-        row = self._row(qid)
-        course = self.payload["courses"][row.course] if q.kind == COURSE and row is not None else None
+        row = self._row(qid.removesuffix(PREREQ_SUFFIX) if q.kind == PREREQUISITE else qid)
+        course = self.payload["courses"][row.course] if q.kind in (COURSE, PREREQUISITE) and row is not None else None
         roles = own_role_cells(course, self._layout, self._evidence_ids) if course is not None else {}
         boxes: dict[str, Any] = {}
-        if self._renderer is not None and q.kind in (COURSE, UNCLAIMED):
+        if self._renderer is not None and q.kind in (COURSE, UNCLAIMED, PREREQUISITE):
             for page in q.pages:
                 if 1 <= page <= self._renderer.page_count:
                     docling = (self.evidence.page_sizes.get(page) if self.evidence is not None else None)
@@ -193,13 +194,29 @@ class ReviewSession:
     def state(self) -> dict[str, Any]:
         entries = self._entries()
         questions = self.questions(entries)
+        review = content_review_state(self.payload, entries, self.pdf_sha256)
+        asked = [q for q in questions if q.kind == PREREQUISITE]
+        audit = (self.payload.get("audit") or {}).get("status", "unknown")
         return {
             "program": self.payload.get("program") or "",
             "reviewer": self.reviewer,
-            "extraction_audit": (self.payload.get("audit") or {}).get("status", "unknown"),
-            "content_review": content_review_state(self.payload, entries, self.pdf_sha256),
+            "extraction_audit": audit,
+            "content_review": review,
+            # The three states Phase C keeps apart, each with its own word. The content-review word is live from the
+            # ledger; the payload's own `content_review` is what the extractor wrote and is never shown here. Source
+            # verification is the source record's word (the GUI never sets it); the PDF-text check is shown beside it.
+            "review_states": [
+                {"name": "extraction audit", "word": audit, "meaning": "the extractor's check of its own work"},
+                {"name": "content review", "word": review["state"], "meaning": "whether a person decided every course row"},
+                {"name": "source verification", "word": str(self.payload.get("source_verification") or "pending"),
+                 "meaning": "whether a person verified the source document"},
+            ],
+            "approval_line": APPROVAL_LINE,
+            "prerequisites": {"questions": len(asked), "decided": sum(q.decided for q in asked),
+                              "unclassified_courses": sum(1 for c in self.payload.get("courses") or [] if not c.get("prerequisite_state"))},
             "source_verification": {"health": self.verification.health, "pdf_checked": self.verification.pdf_checked},
-            "progress": {"decided": sum(q.decided for q in questions), "questions": len(questions)},
+            "progress": {"decided": sum(q.decided for q in questions if q.kind != PREREQUISITE),
+                         "questions": sum(q.kind != PREREQUISITE for q in questions)},
             "pdf": self.pdf_info(),
             "docling": {"ok": self.evidence is not None, "warning": self.evidence_problem if self.docling_json is not None and self.evidence is None else None},
             "note": NOTE,
