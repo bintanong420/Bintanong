@@ -10,6 +10,7 @@ from .common import RICH_AVAILABLE, SCHEMA_VERSION
 
 if RICH_AVAILABLE:
     from .common import track
+from .prerequisites import EXECUTABLE_PREREQUISITE_STATES
 from .text import clean_str
 
 
@@ -17,6 +18,11 @@ def pl_atom(value: Any) -> str:
     """Quote a Prolog atom, doubling single quotes per ISO rules."""
     text = clean_str(value)
     return "'" + text.replace("\\", "\\\\").replace("'", "''") + "'"
+
+
+def pl_comment(value: Any) -> str:
+    """One line of comment text: a newline in metadata must not end the comment and start a clause."""
+    return " ".join(str(value).split())
 
 
 PROLOG_RULES = """
@@ -30,8 +36,10 @@ prereq_closure(Course, Prereq) :-
     prerequisite(Course, Middle),
     prereq_closure(Middle, Prereq).
 
-% eligible(+Course, +PassedCodes): every prerequisite has been passed.
+% eligible(+Course, +PassedCodes): the prerequisite rule is complete and every
+% prerequisite has been passed. A course without rule_complete/1 never qualifies.
 eligible(Course, Passed) :-
+    rule_complete(Course),
     course(Course, _, _, _, _, _, _, _),
     \\+ ( prerequisite(Course, Prereq), \\+ memberchk(Prereq, Passed) ).
 
@@ -72,10 +80,12 @@ def generate_prolog_knowledge(
     add = clauses.append
 
     add("% ===========================================================================")
-    add(f"% PalSU prospectus knowledge base: {metadata.get('degree') or metadata.get('program_name')}")
-    add(f"% Curriculum SY: {metadata.get('effective_school_year')}")
-    add(f"% Source: {metadata.get('source_file')}")
+    add(f"% PalSU prospectus knowledge base: {pl_comment(metadata.get('degree') or metadata.get('program_name'))}")
+    add(f"% Curriculum SY: {pl_comment(metadata.get('effective_school_year'))}")
+    add(f"% Source: {pl_comment(metadata.get('source_file'))}")
     add(f"% Generated: {datetime.now().isoformat(timespec='seconds')} by {SCHEMA_VERSION}")
+    add("% STATUS: review candidate. rule_complete/1 lists courses whose prerequisite cell the")
+    add("% extractor fully understood; eligible/2 needs it. Nothing here is approved for active use.")
     add("% ===========================================================================")
     add("")
     add(":- discontiguous course/8.")
@@ -84,6 +94,8 @@ def generate_prolog_knowledge(
     add(":- discontiguous elective_option/3.")
     add(":- discontiguous elective_slot/2.")
     add(":- discontiguous term_units/3.")
+    add(":- discontiguous prerequisite_state/2.")
+    add(":- dynamic rule_complete/1.")
     add("")
 
     total_units = sum(c.get("total_units") or 0 for c in courses)
@@ -152,6 +164,21 @@ def generate_prolog_knowledge(
             relational_rules.append({"course": course["course_code"], "rule": rule})
 
     add("")
+    add("% prerequisite_state(Course, State): how fully the extractor understood the prerequisite cell.")
+    relational_states: list[dict[str, str]] = []
+    complete: list[str] = []
+    for course in courses:
+        state = course.get("prerequisite_state", "unclassified")
+        add(f"prerequisite_state({pl_atom(course['course_code'])}, {pl_atom(state)}).")
+        relational_states.append({"course": course["course_code"], "state": state})
+        if state in EXECUTABLE_PREREQUISITE_STATES:
+            complete.append(course["course_code"])
+    add("")
+    add("% rule_complete(Course): the prerequisite rule is fully understood; eligible/2 requires it.")
+    for code in complete:
+        add(f"rule_complete({pl_atom(code)}).")
+
+    add("")
     add("% elective_option(Group, OptionCode, OptionTitle).")
     for track in elective_tracks:
         for option in track["options"]:
@@ -185,5 +212,7 @@ def generate_prolog_knowledge(
             "prerequisites": relational_prereqs,
             "standing_requirements": relational_rules,
             "elective_tracks": list(elective_tracks),
+            "prerequisite_states": relational_states,
+            "rule_complete": complete,
         },
     }

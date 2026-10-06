@@ -65,7 +65,7 @@ def build_audit(
 
     years = sorted(
         {c.get("year_level") for c in courses if c.get("year_level")},
-        key=lambda y: YEAR_ORDER.get(y, 99),
+        key=lambda y: (YEAR_ORDER.get(y, 99), y),
     )
     terms = sorted(
         {
@@ -73,7 +73,8 @@ def build_audit(
             for c in courses
             if c.get("year_level") and c.get("semester")
         },
-        key=lambda t: term_index(t[0] or "", t[1] or ""),
+        # The text keys break ties (Summer and Mid-Year share an index) so the order never depends on set order.
+        key=lambda t: (term_index(t[0] or "", t[1] or ""), t[0] or "", t[1] or ""),
     )
     years_present = {c.get("year_level") for c in courses}
 
@@ -271,6 +272,9 @@ def build_audit(
     status = "error" if errors else ("warn" if warnings else "ok")
     return {
         "status": status,
+        # Legacy label kept for existing readers. It means only that the extractor's own checks found
+        # no error. It is NOT approval of the curriculum, the source, or any eligibility result.
+        # Read extraction_audit, content_review and source_verification on the payload instead.
         "promotion_status": "REVIEW_REQUIRED" if errors else "VERIFIED",
         "errors": errors,
         "warnings": warnings,

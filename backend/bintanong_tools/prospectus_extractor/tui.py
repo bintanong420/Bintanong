@@ -88,6 +88,7 @@ class ProspectusTUI:
             ("Export mode", cfg.export_mode),
             ("Write CSV / PL / JSONL / MD", f"{cfg.write_csv} / {cfg.write_pl} / {cfg.write_jsonl} / {cfg.write_md}"),
             ("Skip existing", str(cfg.skip_existing)),
+            ("Force reconversion", str(cfg.force_reconvert)),
             ("Semantic map", str(cfg.semantic_doc) if cfg.semantic_doc else "(none)"),
             ("Files in last scan", str(len(self.last_scan))),
         ]
@@ -198,7 +199,12 @@ class ProspectusTUI:
         cfg.write_jsonl = ask_yes_no("Write RAG JSONL?", cfg.write_jsonl)
         cfg.write_md = ask_yes_no("Write prospectus-style Markdown?", cfg.write_md)
         cfg.write_manifest = ask_yes_no("Write batch manifest?", cfg.write_manifest)
-        cfg.skip_existing = ask_yes_no("Skip files whose output already exists?", cfg.skip_existing)
+        cfg.skip_existing = ask_yes_no(
+            "Skip only identity-verified, complete outputs with a non-error audit?", cfg.skip_existing,
+        )
+        cfg.force_reconvert = ask_yes_no(
+            "Force reconversion (overrides skip-existing and cached conversion)?", cfg.force_reconvert,
+        )
         self.pause("Settings updated.")
 
     def preview(self) -> None:
@@ -277,6 +283,7 @@ class ProspectusTUI:
                 export_md=self.config.write_md,
                 device=self.config.device,
                 semantic_doc_path=self.config.semantic_doc,
+                force_reconvert=self.config.force_reconvert,
             )
             self.pause(
                 f"Extracted {payload['audit']['total_courses']} courses "
@@ -312,7 +319,9 @@ class ProspectusTUI:
         print_line(f"\nProgram: {data.get('program')}  ({data.get('degree')})")
         print_line(f"College: {data.get('college')} - {data.get('college_name')}")
         print_line(f"SY:      {data.get('metadata', {}).get('effective_school_year')}")
-        print_line(f"Status:  {audit.get('status', 'unknown').upper()}")
+        print_line(f"Extraction audit:    {audit.get('status', 'unknown').upper()} (the extractor's own checks, not approval)")
+        print_line(f"Content review:      {str(data.get('content_review', 'pending')).upper()}")
+        print_line(f"Source verification: {str(data.get('source_verification', 'pending')).upper()}")
         print_line(f"Courses: {audit.get('total_courses')}  Units: {audit.get('computed_total_units')}")
         print_line(f"Years:   {audit.get('years_detected')}")
         for term in audit.get("term_unit_audit", []):

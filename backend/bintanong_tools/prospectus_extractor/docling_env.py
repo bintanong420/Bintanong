@@ -6,10 +6,13 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as package_version
 from pathlib import Path
 from typing import Any
+import json
 import os
 import re
 import subprocess
 import sys
+
+from .identity import conversion_settings
 
 
 class DoclingUnavailable(RuntimeError):
@@ -177,8 +180,9 @@ def check_cuda_environment() -> dict[str, Any]:
     return info
 
 
-def get_pipeline_options(device: str = "auto") -> Any:
+def get_pipeline_options(device: str = "auto", settings: Any = None) -> Any:
     dl = load_docling()
+    settings = settings if settings is not None else conversion_settings()
     options = dl["PdfPipelineOptions"]()
     env = check_cuda_environment()
     want = (device or "auto").strip().lower()
@@ -194,13 +198,14 @@ def get_pipeline_options(device: str = "auto") -> Any:
         print("[*] Acceleration: CPU. " + env["status_message"])
 
     options.accelerator_options = dl["AcceleratorOptions"](device=chosen)
-    options.do_ocr = False
-    options.force_backend_text = True
-    options.do_table_structure = True
-    options.table_structure_options.mode = dl["TableFormerMode"].ACCURATE
-
-    raw = os.environ.get("PALSU_DOCLING_CELL_MATCHING", "true").strip().lower()
-    options.table_structure_options.do_cell_matching = raw in {"1", "true", "yes", "on"}
+    options.do_ocr = settings["do_ocr"]
+    options.force_backend_text = settings["force_backend_text"]
+    options.do_table_structure = settings["do_table_structure"]
+    options.table_structure_options.mode = (
+        dl["TableFormerMode"].ACCURATE if settings["table_mode"] == "accurate"
+        else dl["TableFormerMode"].FAST
+    )
+    options.table_structure_options.do_cell_matching = settings["cell_matching"]
 
     for attr in ("generate_page_images", "generate_picture_images"):
         if hasattr(options, attr):
@@ -208,16 +213,22 @@ def get_pipeline_options(device: str = "auto") -> Any:
     return options
 
 
-_SHARED_CONVERTERS: dict[tuple[str, str], Any] = {}
+_SHARED_CONVERTERS: dict[tuple[str, str, str], Any] = {}
 
 
-def get_shared_converter(device: str = "auto", backend: str = "docling_parse") -> Any:
+def get_shared_converter(
+    device: str = "auto", backend: str = "docling_parse", settings: Any = None
+) -> Any:
+    """One converter per (device, backend, full conversion settings): a settings change
+    never reuses a converter whose pipeline options were built under other settings."""
     dl = load_docling()
     dev = (device or "auto").strip().lower()
     backend_key = (backend or "docling_parse").strip().lower()
-    key = (dev, backend_key)
+    used = dict(settings) if settings is not None else conversion_settings()
+    settings_key = json.dumps(used, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    key = (dev, backend_key, settings_key)
     if key not in _SHARED_CONVERTERS:
-        opts = get_pipeline_options(device=dev)
+        opts = get_pipeline_options(device=dev, settings=used)
         backend_cls = (
             dl["PyPdfiumDocumentBackend"]
             if backend_key == "pypdfium2"

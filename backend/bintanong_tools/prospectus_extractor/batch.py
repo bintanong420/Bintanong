@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from dataclasses import field
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 from typing import Iterable
 from typing import Sequence
@@ -17,9 +17,10 @@ from .common import MANIFEST_SCHEMA_VERSION, RICH_AVAILABLE, console
 
 if RICH_AVAILABLE:
     from .common import track
-from .docling_env import ensure_docling_env, get_shared_converter
+from .identity import InputSnapshot, package_sha256, run_identity
 from .paths import DEFAULT_SEMANTIC_DOC, find_default_input_root, find_default_output_root
 from .pipeline import process_prospectus
+from .publish import output_names, read_manifest, verify_published, write_text_lf
 
 
 def safe_stem(path: Path) -> str:
@@ -81,11 +82,19 @@ def scan_inputs(
 
     found: list[Path] = []
     for pattern in patterns or ["*.pdf"]:
+        pattern_path = PureWindowsPath(pattern)
+        if pattern_path.anchor or ".." in pattern_path.parts:
+            raise ValueError(f"Input pattern must stay within input root: {pattern!r}")
         iterator = root.rglob(pattern) if recursive else root.glob(pattern)
         for path in iterator:
             if not path.is_file():
                 continue
-            if any(part.lower() in IGNORED_DIR_PARTS for part in path.parts):
+            relative = path.relative_to(root)
+            if any(part.lower() in IGNORED_DIR_PARTS for part in relative.parts[:-1]):
+                continue
+            # A marker identifies this run subtree, even when selected as the root.
+            if any((root / directory / "failure.json").is_file()
+                   for directory in (relative.parent, *relative.parent.parents)):
                 continue
             if path.name.endswith("_docling.json") and pattern == "*.json":
                 pass  # explicitly requested
@@ -153,8 +162,51 @@ def write_manifest(records: Sequence[dict[str, Any]], output_root: Path) -> Path
         },
         "records": records,
     }
-    target.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    write_text_lf(target, json.dumps(payload, indent=2, ensure_ascii=False))
     return target
+
+
+def skip_check(
+    item: BatchItem, config: BatchConfig, package_hash: str, *, snapshot: InputSnapshot | None = None,
+) -> tuple[bool, str]:
+    """May this item be skipped? Returns (skip, reason). Never skips a failed audit."""
+    if not config.skip_existing:
+        return False, "skip-existing not requested"
+    if config.force_reconvert:
+        return False, "--force given"
+    names = output_names(item.json_path)
+    manifest = read_manifest(names.manifest)
+    if manifest is None:
+        return False, "no publish manifest"
+    reusable = manifest["run_identity"].get("skip_reusable")
+    if reusable is False:
+        return False, "previous run used supplied context"
+    if reusable is not True:
+        return False, "previous run skip eligibility is unknown"
+    status = manifest.get("audit_status")
+    if status not in ("ok", "warn"):
+        return False, f"previous audit status was {status}"
+    expected = run_identity(item.source_pdf, config.semantic_doc, package_hash=package_hash, snapshot=snapshot)
+    if manifest["run_key"] != expected["run_key"]:
+        return False, "input, settings, parser or schema changed"
+    intact, why = verify_published(names.final.parent, manifest)
+    if not intact:
+        return False, why
+    wanted = [names.final.name]
+    if item.source_pdf.suffix.lower() == ".pdf":
+        wanted.append(names.essentials.name)
+    if config.write_csv:
+        wanted.append(names.csv.name)
+    if config.write_pl:
+        wanted.append(names.prolog.name)
+    if config.write_jsonl:
+        wanted.append(names.rag.name)
+    if config.write_md:
+        wanted.append(names.markup.name)
+    missing = [name for name in wanted if name not in manifest["files"]]
+    if missing:
+        return False, f"requested outputs not in last run: {missing}"
+    return True, "identical run identity"
 
 
 def run_batch(config: BatchConfig) -> dict[str, Any]:
@@ -163,41 +215,33 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
     items = build_batch_items(sources, config)
     records: list[dict[str, Any]] = []
 
-    converter = None
-    if any(item.source_pdf.suffix.lower() == ".pdf" for item in items):
-        needs_conversion = any(
-            not config.skip_existing or config.force_reconvert or not item.json_path.exists()
-            or not item.json_path.with_name(
-                f"{item.json_path.stem.replace('_prospectus', '')}_essentials.json"
-            ).exists()
-            for item in items if item.source_pdf.suffix.lower() == ".pdf"
-        )
-        if needs_conversion:
-            try:
-                ensure_docling_env()
-                converter = get_shared_converter(device=config.device)
-            except Exception as exc:
-                print(f"[!] Could not pre-warm Docling: {exc}")
-
-    iterable: Iterable[BatchItem] = items
+    package_hash = package_sha256()
+    # The loader requests its shared converter lazily, after attempting cache reuse.
+    work: Iterable[BatchItem] = items
     if RICH_AVAILABLE and console and items:
-        iterable = track(items, description="Extracting prospectuses...")
+        work = track(work, description="Extracting prospectuses...")
 
-    for item in iterable:
-        essentials_path = item.json_path.with_name(
-            f"{item.json_path.stem.replace('_prospectus', '')}_essentials.json"
-        )
+    for item in work:
+        names = output_names(item.json_path)
+        essentials_path = names.essentials
         record: dict[str, Any] = {
             "source": str(item.source_pdf),
             "json_path": str(item.json_path),
             "csv_path": str(item.csv_path),
             "status": "pending",
+            "skip_check": "identity check pending",
         }
         try:
-            if (config.skip_existing and not config.force_reconvert and item.json_path.exists()
-                    and (item.source_pdf.suffix.lower() != ".pdf" or essentials_path.exists())):
-                record.update({"status": "skipped", "reason": "output already exists"})
+            captured = InputSnapshot(item.source_pdf)
+            try:
+                skip, why = skip_check(item, config, package_hash, snapshot=captured)
+            except Exception as exc:
+                skip, why = False, f"identity check failed: {type(exc).__name__}: {exc}"
+            record["skip_check"] = why
+            if skip:
+                record.update({"status": "skipped", "reason": f"unchanged: {why}"})
                 records.append(record)
+                captured = None
                 continue
 
             payload = process_prospectus(
@@ -209,9 +253,9 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                 export_md=config.write_md,
                 device=config.device,
                 semantic_doc_path=config.semantic_doc,
-                converter=converter,
-                force_reconvert=True,
+                force_reconvert=config.force_reconvert,
                 quiet=True,
+                _snapshot=captured,
             )
             audit = payload["audit"]
             record.update(
@@ -229,6 +273,7 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                     "warning_count": len(audit["warnings"]),
                     "essentials_path": str(essentials_path)
                     if item.source_pdf.suffix.lower() == ".pdf" else None,
+                    "publish_manifest": str(names.manifest),
                 }
             )
         except Exception as exc:
@@ -238,9 +283,12 @@ def run_batch(config: BatchConfig) -> dict[str, Any]:
                     "error_type": type(exc).__name__,
                     "error_message": str(exc),
                     "traceback": traceback.format_exc(limit=5),
+                    "failed_dir": str(names.failed_dir),
                 }
             )
         records.append(record)
+        # Release this item's bytes before capturing the next item.
+        captured = None
 
     manifest_path = write_manifest(records, config.output_root) if config.write_manifest else None
     summary = {

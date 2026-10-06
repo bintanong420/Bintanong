@@ -6,6 +6,7 @@ from typing import Any
 from typing import Sequence
 
 from .common import RICH_AVAILABLE
+from .prerequisites import EMPTY_RULE_STATES
 
 if RICH_AVAILABLE:
     from .common import track
@@ -14,6 +15,33 @@ from .text import clean_str
 from .evidence import LoadedDocument
 from .courses import _iter_text_pairs
 from .views import build_unlocks_map
+
+
+NOT_RECORDED = "not recorded in the prospectus (unreviewed)"
+
+
+def prerequisite_phrase(course: dict[str, Any], brief: bool = False) -> str:
+    """The prerequisite line, worded from prerequisite_state so a blank cell is never "None"."""
+    state = course.get("prerequisite_state")
+    prereqs = course.get("prerequisites", [])
+    codes = ", ".join(prereqs)
+    if state in EMPTY_RULE_STATES:
+        return "None"
+    if state == "blank_unreviewed" or (state is None and not prereqs):
+        return NOT_RECORDED
+    if state == "resolved":
+        return codes
+    # Any other state: the rule is not fully understood, so say what was printed and that it is incomplete.
+    raw = clean_str(course.get("prerequisites_raw"))
+    note = f"rule not fully understood: {state or 'unclassified'}"
+    if brief:
+        return f"{codes or 'unresolved'} ({note})"
+    text = codes or "no resolved course"
+    if course.get("prerequisites_unresolved"):
+        text += f" (unverified in this document: {', '.join(course['prerequisites_unresolved'])})"
+    if course.get("standing_requirements"):
+        text += f" (Policy: {'; '.join(course['standing_requirements'])})"
+    return text + f' (printed as "{raw}"; {note})'
 
 
 def build_semantic_rag_chunks(
@@ -56,14 +84,7 @@ def build_semantic_rag_chunks(
 
     for course in courses:
         code = course["course_code"]
-        prereqs = course.get("prerequisites", [])
-        unresolved = course.get("prerequisites_unresolved", [])
-        standing = course.get("standing_requirements", [])
-        prereq_text = ", ".join(prereqs) if prereqs else "None"
-        if unresolved:
-            prereq_text += f" (unverified in this document: {', '.join(unresolved)})"
-        if standing:
-            prereq_text += f" (Policy: {'; '.join(standing)})"
+        prereq_text = prerequisite_phrase(course)
         opened = unlocks.get(code, [])
         units = course.get("units", {})
         body = [
@@ -83,6 +104,7 @@ def build_semantic_rag_chunks(
                 "chunk_type": "course",
                 "course_code": code,
                 "course_title": course["course_title"],
+                "prerequisite_state": course.get("prerequisite_state"),
                 "year_level": course["year_level"],
                 "semester": course["semester"],
                 "college": metadata.get("college_code"),
@@ -98,7 +120,7 @@ def build_semantic_rag_chunks(
         lines = [
             f"  - **{c['course_code']}**: {c['course_title']} "
             f"({c.get('total_units')} units; prerequisites: "
-            f"{', '.join(c.get('prerequisites', [])) or 'None'})"
+            f"{prerequisite_phrase(c, brief=True)})"
             for c in term_courses
         ]
         declared = term.get("declared_units")

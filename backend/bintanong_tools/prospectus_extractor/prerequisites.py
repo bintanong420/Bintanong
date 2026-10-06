@@ -213,3 +213,163 @@ def resolve_prerequisites(raw: str, index: CodeIndex, current_course_code: str =
             elif token not in out.unresolved:
                 out.unresolved.append(token)
     return out
+
+
+# One state per course, describing how completely the extractor understood its
+# prerequisite cell. The parser keeps no record of whether an empty cell was
+# printed blank, missing, or unreadable (sections._field_at returns None for all
+# three), so "reviewed_empty" is reserved for a human review decision and is
+# never emitted here.
+PREREQUISITE_STATES = (
+    "resolved",
+    "stated_none",
+    "reviewed_empty",
+    "blank_unreviewed",
+    "standing_condition",
+    "unresolved_reference",
+    "alternative_or_exception",
+    "unreadable",
+)
+
+# Only these may satisfy eligible/2. Everything else is excluded from executable rules.
+EXECUTABLE_PREREQUISITE_STATES = frozenset({"resolved", "stated_none", "reviewed_empty"})
+
+# The states in which the prospectus (or a reviewer) says the rule is empty.
+EMPTY_RULE_STATES = frozenset({"stated_none", "reviewed_empty"})
+
+# Audit anomaly types that name a prerequisite cell the parser could not assign.
+PREREQUISITE_AMBIGUITY_TYPES = frozenset({"ambiguous_adjacent_prerequisite_fragment"})
+
+ALTERNATIVE_OR_EXCEPTION = re.compile(
+    r"\b(?:or|either|except(?:ion|ing)?|unless|equivalent|provided|if)\b", re.IGNORECASE
+)
+
+
+# A leftover that states a units or grade condition (it needs a number: "18 units", "grade of 85").
+CONDITION_LEFTOVER = re.compile(r"\b(?:units?|grades?)\b", re.IGNORECASE)
+
+
+def _code_pattern(code: str) -> re.Pattern[str]:
+    """Matches a resolved code as printed: spacing, hyphens and a lab marker may differ."""
+    runs = re.findall(r"[A-Za-z0-9]+", code)
+    if len(runs) > 1 and runs[-1].upper() == "L":
+        runs = runs[:-1]
+    # Any separator but a period (or none) between characters, an optional leading zero before a number,
+    # and an optional lab marker: "PATH Fit 1", "Res 01/L" and "Bio 108/L" all read as their codes.
+    text = "".join(runs)
+    chars = [
+        ("0*" if char.isdigit() and (i == 0 or not text[i - 1].isdigit()) else "") + re.escape(char)
+        for i, char in enumerate(text)
+    ]
+    body = r"[\s\-/]*".join(chars) + r"(?:[\s\-/]*L)?"
+    return re.compile(rf"(?<![A-Za-z0-9]){body}(?![A-Za-z0-9])", re.IGNORECASE)
+
+
+def unconsumed_prerequisite_text(course: dict) -> str:
+    """What is left of prerequisites_raw after the resolved codes, recognised standing conditions
+    and separators are taken out. Anything left was dropped or never understood."""
+    codes = list(course.get("prerequisites") or [])
+    known = {norm_key(code) for code in codes}
+    left: list[str] = []
+    # Split like split_prereq_fragments but keep none-words: next to a code they contradict the rule.
+    text = without_final_period(clean_str(course.get("prerequisites_raw")))
+    for fragment in (clean_str(part) for part in re.split(r"[;,&]|\band\b|\n", text, flags=re.IGNORECASE)):
+        if not fragment:
+            continue
+        if is_standing_rule(fragment):
+            continue
+        span = CODE_RANGE.match(fragment)
+        if span:
+            first, last = int(span.group(2)), int(span.group(3))
+            prefix = span.group(1).strip()
+            if first <= last and all(norm_key(f"{prefix} {n}") in known for n in range(first, last + 1)):
+                continue
+        rest = fragment
+        for code in sorted(codes, key=len, reverse=True):
+            rest = _code_pattern(code).sub(" ", rest)
+        rest = re.sub(r"[\s,]+", " ", rest).strip()  # a period or colon is unclear wording, so it stays
+        if rest:
+            left.append(rest)
+    return " ".join(left)
+
+
+# Whole normalised phrases (lower case, punctuation removed, "n/a" as "na", "(s)" as "s") that say there is
+# no prerequisite. A cell must equal one of them; a bag of words is not enough ("None; prerequisite required").
+NONE_PHRASES = frozenset(
+    {"none", "nil", "na", "none required", "no prerequisite", "no prerequisites", "no pre requisite",
+     "no pre requisites", "no prerequisite required", "no prerequisites required", "no pre requisite required",
+     "no pre requisites required", "no prereq", "no prereqs"}
+)
+DASHES_ONLY = re.compile(r"^\s*[\-\u2010-\u2015\u2212][\-\u2010-\u2015\u2212\s]*\.?\s*$")
+
+
+def without_final_period(text: str) -> str:
+    """Trim the cell and drop at most one period at its very end. Any other period is content."""
+    text = text.strip()
+    return text[:-1].rstrip() if text.endswith(".") else text
+
+
+def is_stated_none(raw: str) -> bool:
+    """True when the whole cell is one listed phrase that says there is no prerequisite: the exact
+    forms in NULL_TOKENS first, then the normalised phrase list. Anything extra means False."""
+    text = clean_str(raw)
+    if text.lower() in NULL_TOKENS:
+        return bool(text)
+    if DASHES_ONLY.match(text):
+        return True
+    phrase = re.sub(r"n\s*[/.]\s*a\b", "na", text.lower().replace("(s)", "s"))
+    phrase = phrase.strip(" \t\r\n\u2010\u2011\u2012\u2013\u2014\u2015\u2212-")  # dashes around the phrase
+    phrase = without_final_period(phrase).strip(" \t\r\n\u2010\u2011\u2012\u2013\u2014\u2015\u2212-")
+    phrase = re.sub(r"(?<=[a-z])-(?=[a-z])", " ", phrase)  # pre-requisite
+    if re.search(r"[^a-z0-9\s]", phrase):  # a question mark, bracket, colon, ...: not a plain statement
+        return False
+    return " ".join(phrase.split()) in NONE_PHRASES
+
+def classify_prerequisite_state(course: dict, ambiguous_cell_ids: frozenset = frozenset()) -> str:
+    """Worst-case state of one finalized course; the order below is the precedence."""
+    raw = clean_str(course.get("prerequisites_raw"))
+    cells = set((course.get("provenance") or {}).get("source_cell_ids") or ())
+    if cells & ambiguous_cell_ids:
+        return "unreadable"
+    if not raw:
+        return "blank_unreviewed"
+    unresolved = course.get("prerequisites_unresolved") or []
+    if (
+        is_stated_none(raw)
+        and not course.get("prerequisites")
+        and not course.get("standing_requirements")
+        # the parser may file the phrase itself as an unresolved token, but nothing else
+        and (not unresolved or (len(unresolved) == 1 and is_stated_none(unresolved[0])))
+    ):
+        return "stated_none"
+    wording = raw
+    for code in sorted(course.get("prerequisites") or [], key=len, reverse=True):
+        wording = _code_pattern(code).sub(" ", wording)  # "OR 1" is a code, not the word "or"
+    if ALTERNATIVE_OR_EXCEPTION.search(wording):
+        return "alternative_or_exception"
+    if course.get("prerequisites_unresolved"):
+        return "unresolved_reference"
+    if course.get("standing_requirements"):
+        return "standing_condition"
+    if not course.get("prerequisites"):
+        return "unreadable"  # text was printed but nothing in it was recognised
+    leftover = unconsumed_prerequisite_text(course)
+    if not leftover:
+        return "resolved"
+    if re.search(r"[|/]", leftover):
+        return "alternative_or_exception"  # codes joined by | or /, which would run as AND
+    if CONDITION_LEFTOVER.search(leftover) and re.search(r"\d", leftover):
+        return "standing_condition"  # a units or grade condition the parser dropped
+    return "unreadable"  # printed text no resolved code, standing rule or separator accounts for
+
+
+def annotate_prerequisite_states(courses, anomalies=()) -> None:
+    """Set course['prerequisite_state'] on every course, in place."""
+    ambiguous = frozenset(
+        cell_id
+        for anomaly in anomalies
+        if anomaly.get("type") in PREREQUISITE_AMBIGUITY_TYPES
+        for cell_id in anomaly.get("source_cell_ids", ())
+    )
+    for item in courses:
+        item["prerequisite_state"] = classify_prerequisite_state(item, ambiguous)
