@@ -3,7 +3,6 @@
 // twin, and posting answers. Every rule about what is valid or what comes next is the server's.
 
 const TOKEN = document.querySelector('meta[name="review-token"]').content;
-const PROPOSAL_KEYS = "123456789";
 const FIELD_LABELS = {
   course_code: "Course code", course_title: "Course title", term: "Year and semester", lecture_units: "Lecture units",
   lab_units: "Lab units", total_units: "Total units", prerequisites_raw: "Prerequisites as printed",
@@ -317,33 +316,29 @@ async function writeCorrected() {
     : (response.data && response.data.error) || "The corrected candidate was not written.");
 }
 
-const KEYS = {
-  "y": () => choose("yes"),
-  "n": () => choose("no"),
-  "o": () => choose("other"),
-  "Enter": () => $("answer-form").requestSubmit(),
-  "Escape": () => closeOther(),
-  "j": () => move(1),
-  "k": () => move(-1),
-  "ArrowDown": () => move(1),
-  "ArrowUp": () => move(-1),
-  "z": () => toggleZoom(),
-  "p": () => toggleMode(),
-  "/": () => $("filter").focus(),
-  "?": () => $("key-help").focus(),
+const ACTIONS = {
+  "yes": () => choose("yes"),
+  "no": () => choose("no"),
+  "other": () => choose("other"),
+  "submit": () => $("answer-form").requestSubmit(),
+  "close-other": () => closeOther(),
+  "next": () => move(1),
+  "previous": () => move(-1),
+  "zoom": () => toggleZoom(),
+  "mode": () => toggleMode(),
+  "filter": () => $("filter").focus(),
+  "help": () => $("key-help").focus(),
 };
 
 function onKey(event) {
-  if (event.ctrlKey || event.metaKey || event.altKey) return;
+  if (event.metaKey || event.altKey) return;
   const target = event.target instanceof Element ? event.target : document.body;
-  const typing = target.matches("textarea, select, input:not([type=radio]):not([type=checkbox])");
-  if (typing && event.key !== "Escape") return;
-  if (event.key === "Enter" && target.matches("button, a, summary")) return;   // let the focused control act
-  if (PROPOSAL_KEYS.includes(event.key) && event.key.length === 1) { event.preventDefault(); useProposal(Number(event.key) - 1); return; }
-  const handler = KEYS[event.key];
-  if (!handler) return;
+  // keyAction (keys.js) decides which key means what, and leaves a focused field's or radio's own keys alone
+  const action = keyAction({ key: event.key, ctrl: event.ctrlKey, tag: target.tagName.toLowerCase(), type: target.type || "" });
+  if (!action) return;
   event.preventDefault();
-  handler();
+  if (action.startsWith("proposal:")) useProposal(Number(action.slice(9)));
+  else ACTIONS[action]();
 }
 
 async function start() {

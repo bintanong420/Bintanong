@@ -56,8 +56,8 @@ def js():
     return (STATIC / "review.js").read_text(encoding="utf-8")
 
 
-def test_static_folder_has_the_three_files():
-    assert sorted(p.name for p in STATIC.iterdir()) == ["index.html", "review.css", "review.js"]
+def test_static_folder_has_the_four_files():
+    assert sorted(p.name for p in STATIC.iterdir()) == ["index.html", "keys.js", "review.css", "review.js"]
 
 
 def test_no_external_url_in_any_static_asset():
@@ -191,11 +191,11 @@ def test_css_colours_meet_contrast():
 
 
 def test_key_help_lists_every_bound_key(page):
-    source = js()
-    keymap = re.search(r"const KEYS = \{(.*?)\n\};", source, re.S).group(1)
+    source = (STATIC / "keys.js").read_text(encoding="utf-8")
+    keymap = re.search(r"const KEY_ACTIONS = \{(.*?)\n\};", source, re.S).group(1)
     bound = set(re.findall(r'^\s*"([^"]+)":', keymap, re.M))
-    if re.search(r'const PROPOSAL_KEYS = "123456789"', source):
-        bound.add("1-9")
+    assert '"123456789".includes(press.key)' in source   # the proposal keys
+    bound.add("1-9")
     help_box = page.find(id="key-help")[0]
     helped = {e["text"].strip() for e in page.elements if e["tag"] == "kbd" and help_box in e["ancestors"]}
     assert bound and bound == helped
