@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import hashlib
+from pathlib import Path
 
 import pytest
 
@@ -122,6 +123,25 @@ def test_pdf_hash_has_one_owner(tmp_path):
     assert identity.file_sha256(pdf) == expected
     assert course_checks.sha256 is identity.file_sha256
     assert fixer_cli.sha256 is identity.file_sha256
+
+
+def test_provisional_source_hashes_through_the_one_owner(tmp_path, monkeypatch):
+    from backend.bintanong_tools import prospectus
+
+    pdf = tmp_path / "a.pdf"
+    pdf.write_bytes(b"%PDF-one")
+    source = prospectus.ProvisionalSource("c" * 64, "local/a.pdf")
+    seen = []
+
+    def owner(path):
+        seen.append(Path(path))
+        return "c" * 64
+
+    monkeypatch.setattr(identity, "file_sha256", owner)
+    source.verify_pdf(pdf)  # passes only because the owner's digest is the one compared
+    assert seen == [pdf]
+    module_source = Path(prospectus.__file__).read_text(encoding="utf-8")
+    assert "hashlib" not in module_source
 
 
 def test_fixer_reads_the_pdf_hash_phase_d_records():

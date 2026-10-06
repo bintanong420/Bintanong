@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-import hashlib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
+
+from .prospectus_extractor import identity
 
 
 @dataclass(frozen=True)
@@ -15,7 +16,6 @@ class ProvisionalSource:
     source_verification: Literal["pending"] = field(default="pending", init=False)
 
     def verify_pdf(self, pdf_path: Path) -> None:
-        with pdf_path.open("rb") as pdf:
-            actual_hash = hashlib.file_digest(pdf, "sha256").hexdigest()
+        actual_hash = identity.file_sha256(pdf_path)  # the one PDF-hash owner
         if actual_hash != self.pdf_sha256:
             raise ValueError(f"PDF hash mismatch for {pdf_path}")
