@@ -278,7 +278,7 @@ def test_authority_block_blocks_eligibility_when_a_rule_is_incomplete(cell):
 
 def test_three_states_are_separate_fields_and_promotion_status_is_unchanged():
     payload = payload_for([CONTROL])
-    assert payload["schema_version"] == SCHEMA_VERSION == "palsu-prospectus-v3.1"
+    assert payload["schema_version"] == SCHEMA_VERSION == "palsu-prospectus-v3.2"  # Phase D added run_identity
     assert payload["extraction_audit"] == payload["audit"]["status"] == "warn"
     assert payload["content_review"] == "pending"
     assert payload["source_verification"] == "pending"

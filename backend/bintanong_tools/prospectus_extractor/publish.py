@@ -163,13 +163,18 @@ def publish_staged(
     for name in [*cache_files, *outputs, names.manifest.name]:
         replace_file(stage / name, target_dir / name)
 
-    for stale in previous_files - set(outputs):
+    # Stale: whatever the previous manifest listed, plus every known companion of this base
+    # (an output set written before publish manifests existed has none), that this run did
+    # not produce. The cache files and the manifest itself are never stale companions.
+    companions = {path.name for path in (names.essentials, names.prolog, names.rag, names.csv, names.markup)}
+    keep = {*outputs, *cache_files, names.manifest.name}
+    for stale in sorted((previous_files | companions) - keep):
         if Path(stale).name != stale:  # a tampered manifest must not reach outside this folder
             continue
         try:
             (target_dir / stale).unlink(missing_ok=True)
-        except OSError:
-            pass  # no longer listed in the manifest, so it cannot pass for current output
+        except OSError as exc:  # not in the new manifest, so it cannot pass for current output
+            print(f"[!] Could not remove stale companion {target_dir / stale}: {exc}")
     return names.manifest
 
 

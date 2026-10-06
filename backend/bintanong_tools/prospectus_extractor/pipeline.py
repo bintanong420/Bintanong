@@ -8,6 +8,7 @@ from typing import Any
 from typing import Iterable
 from typing import Mapping
 import json
+import shutil
 
 from .authority import build_authority
 from .common import SCHEMA_VERSION
@@ -24,7 +25,16 @@ from .prolog import generate_prolog_knowledge
 from .rag import build_hierarchical_rag_chunks, build_semantic_rag_chunks
 from .markup import render_prospectus_markup
 from .paths import DEFAULT_SEMANTIC_DOC, SOURCE_PDF_ROOT, find_default_output_root
-from .loader import load_document
+from .identity import run_identity
+from .loader import _cache_meta_path, load_document
+from .publish import (
+    clear_failure, new_staging_dir, output_names, publish_staged, write_failure, write_text_lf,
+)
+
+REVIEW_INPUT_NOTE = (
+    "Docling JSON given without its source PDF: the PDF hash and conversion settings are "
+    "not verified, so this output is a review input only."
+)
 
 
 def build_payload(
@@ -215,6 +225,40 @@ def build_essentials(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _stage_outputs(
+    stage: Path, names: Any, document: LoadedDocument, payload: dict[str, Any], is_pdf: bool,
+    export_pl: bool, export_jsonl: bool, export_csv: bool, export_md: bool,
+) -> list[str]:
+    """Write every companion into `stage`; returns file names in publish order, main JSON last."""
+    produced: list[str] = []
+    if is_pdf:
+        write_text_lf(
+            stage / names.essentials.name,
+            json.dumps(build_essentials(payload), indent=2, ensure_ascii=False),
+        )
+        produced.append(names.essentials.name)
+    if payload["audit"]["status"] != "error":
+        if export_pl:
+            write_text_lf(stage / names.prolog.name, "\n".join(payload["prolog"]["clauses"]) + "\n")
+            produced.append(names.prolog.name)
+        if export_jsonl:
+            chunks = payload["rag"]["semantic_chunks"] + payload["rag"]["hierarchical_chunks"]
+            write_text_lf(
+                stage / names.rag.name,
+                "".join(json.dumps(chunk, ensure_ascii=False) + "\n" for chunk in chunks),
+            )
+            produced.append(names.rag.name)
+    if export_csv:
+        write_review_csv(payload["courses"], stage / names.csv.name)
+        produced.append(names.csv.name)
+    if export_md:  # written for every audit status: the reviewer needs it most when the audit failed
+        write_text_lf(stage / names.markup.name, render_prospectus_markup(document, payload))
+        produced.append(names.markup.name)
+    write_text_lf(stage / names.final.name, json.dumps(payload, indent=2, ensure_ascii=False))
+    produced.append(names.final.name)
+    return produced
+
+
 def process_prospectus(
     input_path: Path,
     output_path: Path | None = None,
@@ -223,7 +267,7 @@ def process_prospectus(
     export_csv: bool = False,
     device: str = "auto",
     semantic_doc_path: Path | None = DEFAULT_SEMANTIC_DOC,
-    force_reconvert: bool = True,
+    force_reconvert: bool = False,
     converter: Any = None,
     repair_provider: SemanticRepairProvider | None = None,
     quiet: bool = False,
@@ -233,7 +277,11 @@ def process_prospectus(
     approved_scope: Mapping[str, str] | None = None,
     review_entries: Iterable[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Full pipeline for one prospectus: convert, parse, audit, write."""
+    """Full pipeline for one prospectus: convert, parse, audit, then publish.
+
+    Nothing already published is touched until conversion and audit have finished. On any
+    exception the staged files go to <output dir>/failed/<base>/ and the exception propagates.
+    """
     input_path = Path(input_path).resolve()
     stem = input_path.stem
     if stem.endswith("_docling"):
@@ -254,75 +302,62 @@ def process_prospectus(
     if source is not None and input_path.suffix.lower() == ".pdf":
         source.verify_pdf(input_path)  # raises ValueError on a hash mismatch, before any output is touched
         pdf_hash_check = "matched"
-    base = final_path.stem.replace("_prospectus", "")
-    essentials_path = final_path.with_name(f"{base}_essentials.json")
-    for stale in (
-        final_path,
-        essentials_path,
-        final_path.with_name(f"{base}_prospectus.pl"),
-        final_path.with_name(f"{base}_rag.jsonl"),
-        final_path.with_name(f"{base}_review.csv"),
-        final_path.with_name(f"{base}_prospectus.md"),
-    ):
-        stale.unlink(missing_ok=True)
-    raw_cache_path = final_path.parent / f"{stem}_docling.json" if input_path.suffix.lower() == ".pdf" else None
-    document, raw_json_path = load_document(
-        input_path, device=device, force_reconvert=force_reconvert,
-        converter=converter, raw_json_path=raw_cache_path,
-    )
-    payload = build_payload(
-        document,
-        input_path,
-        semantic_doc_path,
-        raw_json_path,
-        repair_provider=repair_provider,
-        source=source,
-        approved_scope=approved_scope,
-        pdf_hash_check=pdf_hash_check,
-        review_entries=review_entries,
-    )
 
+    names = output_names(final_path)
+    is_pdf = input_path.suffix.lower() == ".pdf"
+    raw_cache_path = final_path.parent / f"{stem}_docling.json" if is_pdf else None
     final_path.parent.mkdir(parents=True, exist_ok=True)
-    final_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-    if not quiet:
-        print(f"[+] Prospectus JSON -> {final_path}")
-
-    if input_path.suffix.lower() == ".pdf":
-        essentials_path.write_text(
-            json.dumps(build_essentials(payload), indent=2, ensure_ascii=False), encoding="utf-8"
+    stage = new_staging_dir(final_path.parent, names.base)
+    run_id: dict[str, Any] | None = None
+    try:
+        run_id = run_identity(input_path, semantic_doc_path)
+        document, raw_json_path = load_document(
+            input_path, device=device, force_reconvert=force_reconvert,
+            converter=converter, raw_json_path=raw_cache_path, stage_dir=stage,
         )
-        if not quiet:
-            print(f"[+] Curriculum essentials -> {essentials_path}")
+        payload = build_payload(
+            document,
+            input_path,
+            semantic_doc_path,
+            raw_json_path,
+            repair_provider=repair_provider,
+            source=source,
+            approved_scope=approved_scope,
+            pdf_hash_check=pdf_hash_check,
+            review_entries=review_entries,
+        )
 
-    if export_md:  # written for every audit status: the reviewer needs it most when the audit failed
-        md_path = final_path.with_name(f"{base}_prospectus.md")
-        md_path.write_text(render_prospectus_markup(document, payload), encoding="utf-8", newline="\n")
-        if not quiet:
-            print(f"[+] Prospectus markup -> {md_path}")
+        cache_files: list[str] = []
+        if raw_cache_path is not None:
+            cache_files = [
+                name for name in (raw_cache_path.name, _cache_meta_path(raw_cache_path).name)
+                if (stage / name).exists()
+            ]
+        payload["run_identity"] = {
+            **run_id,
+            "cache": ("converted" if cache_files else "reused") if is_pdf else "not-applicable",
+        }
+        if run_id["review_input_only"]:
+            payload["run_identity"]["review_note"] = REVIEW_INPUT_NOTE
 
-    if payload["audit"]["status"] == "error":
-        if not quiet:
-            print(f"[!] Audit failed with ERROR status. Blocking downstream exports (.pl, _rag.jsonl).")
-    else:
-        if export_pl:
-            pl_path = final_path.with_name(f"{base}_prospectus.pl")
-            pl_path.write_text("\n".join(payload["prolog"]["clauses"]) + "\n", encoding="utf-8")
-            if not quiet:
-                print(f"[+] Prolog knowledge base -> {pl_path}")
-        if export_jsonl:
-            jsonl_path = final_path.with_name(f"{base}_rag.jsonl")
-            with jsonl_path.open("w", encoding="utf-8") as handle:
-                for chunk in payload["rag"]["semantic_chunks"] + payload["rag"]["hierarchical_chunks"]:
-                    handle.write(json.dumps(chunk, ensure_ascii=False) + "\n")
-            if not quiet:
-                print(f"[+] RAG corpus -> {jsonl_path}")
-    if export_csv:
-        csv_path = final_path.with_name(f"{base}_review.csv")
-        write_review_csv(payload["courses"], csv_path)
-        if not quiet:
-            print(f"[+] Review CSV -> {csv_path}")
+        outputs = _stage_outputs(
+            stage, names, document, payload, is_pdf, export_pl, export_jsonl, export_csv, export_md,
+        )
+        publish_staged(stage, names, outputs, cache_files, payload["run_identity"], payload["audit"]["status"])
+        clear_failure(names)
+    except Exception as exc:
+        write_failure(names, exc, input_path, run_id, stage)
+        raise
+    finally:
+        shutil.rmtree(stage, ignore_errors=True)
 
     if not quiet:
+        for name in outputs:
+            print(f"[+] {name} -> {final_path.parent}")
+        if payload["run_identity"]["review_input_only"]:
+            print(f"[!] {REVIEW_INPUT_NOTE}")
+        if payload["audit"]["status"] == "error":
+            print("[!] Audit failed with ERROR status. Blocking downstream exports (.pl, _rag.jsonl).")
         print_audit_summary(payload)
     return payload
 
