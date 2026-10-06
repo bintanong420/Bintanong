@@ -22,7 +22,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | Phase | Name | Status | Plan | Checkpoint | Handoff |
 | ---: | --- | --- | --- | --- | --- |
 | 0 | Docker and compatibility foundation | complete | `phase-00-docker-compatibility-plan.md` | `phase-00-checkpoint.md` | `phase-00-handoff.md` |
-| 1 | Source governance and contracts | ready | not created | none | none |
+| 1 | Source governance and contracts | ready | `phase-01-source-governance-contracts-plan.md` | none | none |
 
 ## Resume Order
 
@@ -31,3 +31,10 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 3. Inspect Git status, recent commits, and referenced verification results.
 4. Reconcile repository evidence before continuing the checkpoint's next action.
 
+
+## Prepared documents (not phase completion)
+
+- Ready Phase 1 plan: [source governance and contracts](phase-01-source-governance-contracts-plan.md). Active phase remains none.
+- Remaining Phase 2: [document ingestion preparation](phase-02-document-ingestion-preparation.md). Depends on a complete Phase 1 handoff.
+- [Prospectus and whole-Phase-2 workstream status](phase2-workstream-status.md) distinguishes completed A–D, unfinished implementation and human/authority gates.
+- [Evaluation protocol](../evaluation/README.md) describes development/final grouping and review rubrics; final verified cases are pending.
