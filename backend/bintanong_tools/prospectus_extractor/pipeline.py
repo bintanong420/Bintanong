@@ -252,7 +252,9 @@ def _stage_outputs(
         write_review_csv(payload["courses"], stage / names.csv.name)
         produced.append(names.csv.name)
     if export_md:  # written for every audit status: the reviewer needs it most when the audit failed
-        write_text_lf(stage / names.markup.name, render_prospectus_markup(document, payload))
+        write_text_lf(stage / names.markup.name, render_prospectus_markup(
+            document, payload, pdf_sha256=payload["run_identity"]["pdf_sha256"],
+        ))
         produced.append(names.markup.name)
     write_text_lf(stage / names.final.name, json.dumps(payload, indent=2, ensure_ascii=False))
     produced.append(names.final.name)
