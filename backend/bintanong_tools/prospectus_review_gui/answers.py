@@ -22,10 +22,12 @@ from datetime import datetime
 from typing import Any, Iterable, Mapping, Sequence
 
 from ..prospectus_extractor.fixes import FIELD_TERM, format_term, parse_term
-from ..prospectus_extractor.ledger import UNIT_FIELDS, correction_problem
+from ..prospectus_extractor.ledger import (
+    ACCEPTED, CORRECTED, FIELD_PREREQ, UNIT_FIELDS, UNRESOLVED, correction_problem, course_locator, locator_key, make_entry,
+)
 from ..prospectus_extractor.sheet import row_entries
 from ..prospectus_extractor.verify import INFO, Verification
-from .questions import SECTION_CONFIRM, UNCLAIMED, Question, confirmable, decision_index, has_decision
+from .questions import PREREQUISITE, SECTION_CONFIRM, UNCLAIMED, Question, confirmable, decision_index, has_decision
 
 CHOICES = ("yes", "no", "other")
 WHOLE_NUMBER = re.compile(r"[0-9]{1,6}")   # ASCII digits only: "+3", "3.5", "1e2", "-1" and other scripts' digits do not match
@@ -163,6 +165,49 @@ def _course(answer, row, section, payload, reviewer, pdf_sha256, via, now):
     return entries, errors
 
 
+def _prerequisite(question, answer, payload, reviewer, pdf_sha256, via, now):
+    """One answer about one course's prerequisite cell: a single `prerequisites_raw` entry, nothing about the course
+    fields. Built with `make_entry` (the sheet writes no prerequisite entries); the old value is the candidate's own
+    value, so an answer given against a different value is refused here and stale in the ledger."""
+    key = locator_key(question.locator)
+    found = [c for c in payload.get("courses") or [] if locator_key(course_locator(c)) == key]
+    if len(found) != 1:
+        return [], [f"unknown question {question.qid}"]
+    course = found[0]
+    old = course.get(FIELD_PREREQ)
+    if answer.proposals:
+        return [], ["a prerequisite question takes no proposals"]
+    reason = answer.reason.strip()
+    if answer.choice == "yes":
+        if answer.edits:
+            return [], ["Yes cannot carry new values; use Other"]
+        disposition, new = ACCEPTED, old
+        reason = reason or ("accepted as extracted: no prerequisite" if not (old or "").strip() else "accepted as extracted")
+    elif answer.choice == "no":
+        if answer.edits:
+            return [], ["No cannot carry new values; use Other"]
+        if not reason:
+            return [], ["No needs a reason"]
+        disposition, new = UNRESOLVED, None
+    else:
+        if set(answer.edits) != {FIELD_PREREQ}:
+            return [], ["Other on a prerequisite needs the prerequisites as printed (empty for none) and nothing else"]
+        new, problem = parse_typed_value(FIELD_PREREQ, answer.edits[FIELD_PREREQ])
+        if problem is None and WHOLE_NUMBER.fullmatch(new):
+            problem = f"a prerequisite cannot be the bare number {new}; type the course codes, or leave it empty for none"
+        if problem:
+            return [], [problem]
+        if new == (old or "").strip():
+            return [], ["the new prerequisite equals the current one; answer Yes instead"]
+        if not reason:
+            return [], ["a correction needs a reason"]
+        disposition = CORRECTED
+    entry = make_entry(reviewer=reviewer, reason=reason, pdf_sha256=pdf_sha256, locator=course_locator(course),
+                       field=FIELD_PREREQ, disposition=disposition, old_value=old, new_value=new,
+                       section=question.section["title"], via=via, now=now)
+    return [entry], []
+
+
 def answer_to_entries(
     question: Question, answer: Answer, *, payload: Mapping[str, Any], verification: Verification, reviewer: str,
     pdf_sha256: str, via: str = "gui", now: datetime | None = None, ledger_entries: Iterable[Mapping[str, Any]] | None = None,
@@ -183,6 +228,8 @@ def answer_to_entries(
             return [], [f"the typed {name} is {len(text)} characters; the limit is {MAX_REASON}"]
         if problem := text_problem(text, f"the typed {name}"):
             return [], [problem]
+    if question.kind == PREREQUISITE:
+        return _prerequisite(question, answer, payload, reviewer, pdf_sha256, via, now)
     section, row = _find(question, verification)
     if section is None or (row is None and question.kind != SECTION_CONFIRM):
         return [], [f"unknown question {question.qid}"]

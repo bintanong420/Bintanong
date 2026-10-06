@@ -446,6 +446,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
     entries, invalid = split_valid(entries)
     applicable, inapplicable = split_applicable(entries, pdf_sha256)
     applicable, stale, orphan = split_stale(payload, applicable)
+    applicable = [e for e in applicable if e["field"] != FIELD_PREREQ]   # a prerequisite decision is not a course decision
     latest = latest_by_field(applicable)
     courses = payload.get("courses") or []
     decided = unresolved = 0

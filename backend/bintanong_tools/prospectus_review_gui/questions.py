@@ -1,7 +1,7 @@
 """What the review GUI asks, in which order, and what is already decided.
 
 One question per course row, per printed code no course claimed, and per section that has no flag above `info`
-(one bulk "are all N courses correct" question). Questions are data: nothing is pre-selected, and the
+(one bulk "are all N courses correct" question), plus one prerequisite question per course whose Phase C\nprerequisite state says the cell was not fully understood (always after every other question). Questions are data: nothing is pre-selected, and the
 fixer's proposals are hints. Decided-ness comes from the ledger only, through the same filters the content-review
 state uses (decidable line, this PDF, value still as reviewed), and a later line wins.
 
@@ -14,12 +14,19 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Iterable, Mapping, Sequence
 
 from ..prospectus_extractor.ledger import (
-    ACCEPTED, CORRECTABLE_FIELDS, CORRECTED, COURSE_FIELDS, FIELD_UNCLAIMED, UNRESOLVED, course_locator, latest_by_field,
-    locator_key, split_applicable, split_stale, split_valid, unclaimed_locator,
+    ACCEPTED, CORRECTABLE_FIELDS, CORRECTED, COURSE_FIELDS, FIELD_PREREQ, FIELD_UNCLAIMED, UNRESOLVED, course_locator,
+    latest_by_field, locator_key, split_applicable, split_stale, split_valid, unclaimed_locator,
 )
 from ..prospectus_extractor.verify import ERROR, INFO, WARN, Row, Section, Verification
 
-COURSE, UNCLAIMED, SECTION_CONFIRM = "course", "unclaimed", "section_confirm"
+COURSE, UNCLAIMED, SECTION_CONFIRM, PREREQUISITE = "course", "unclaimed", "section_confirm", "prerequisite"
+# Phase C states in which the extractor did not fully understand the prerequisite cell. Any other state (resolved,
+# standing_condition, stated_none, reviewed_empty) gets no question. A course with no state at all (a candidate made
+# before Phase C) gets none either and is counted in the session state, never silently dropped.
+PREREQUISITE_ASKED = frozenset({"blank_unreviewed", "unreadable", "unresolved_reference", "alternative_or_exception"})
+# The fields that decide a course question: a prerequisite decision is its own question and never part of this one.
+COURSE_QUESTION_FIELDS = tuple(f for f in CORRECTABLE_FIELDS if f != FIELD_PREREQ)
+PREREQ_SUFFIX = ":prereq"
 HEALTH_RANK = {"broken": 0, "review": 1, "clean": 2}
 SEVERITY_RANK = {ERROR: 0, WARN: 1}
 MODES = ("attention", "print")
@@ -28,7 +35,7 @@ MODES = ("attention", "print")
 @dataclass
 class Question:
     qid: str                       # the row id (S1-02, S1-U1) or "<sid>:confirm"
-    kind: str                      # course | unclaimed | section_confirm
+    kind: str                      # course | unclaimed | section_confirm | prerequisite
     section: dict[str, str]        # sid, title, health
     prompt: str
     reference: dict[str, Any]      # the values shown to the reviewer
@@ -86,6 +93,20 @@ def _course_question(row: Row, section: Section, course: Mapping[str, Any]) -> Q
         editable_fields=list(CORRECTABLE_FIELDS), other_allowed=True, locator=course_locator(course), pages=_pages(course))
 
 
+def _prerequisite_question(row: Row, section: Section, course: Mapping[str, Any]) -> Question:
+    title, code = course.get("course_title") or "", course.get("course_code") or ""
+    raw = course.get("prerequisites_raw") or ""
+    if raw.strip():
+        prompt = f'Is the prerequisite "{raw}" of "{title}" ({code}) correct?'
+    else:
+        prompt = f'Is it right that "{title}" ({code}) has no prerequisite?'
+    return Question(
+        qid=f"{row.rid}{PREREQ_SUFFIX}", kind=PREREQUISITE, section=_section_info(section), prompt=prompt,
+        reference={"code": code, "title": title, "prerequisites_raw": raw, "prerequisite_state": course.get("prerequisite_state")},
+        flags=[], proposals=[], editable_fields=[FIELD_PREREQ], other_allowed=True, locator=course_locator(course),
+        pages=_pages(course))
+
+
 def _unclaimed_question(row: Row, section: Section) -> Question:
     item = row.item or {}
     page = item.get("page")
@@ -132,7 +153,7 @@ def has_decision(course: Mapping[str, Any], latest: Mapping[tuple, Mapping[str, 
     """Any current ledger line on any field of this course, whatever its disposition. A section Yes skips such a
     course (D11): it never overrides a decision, not even part of one."""
     key = locator_key(course_locator(course))
-    return any((key, name) in latest for name in CORRECTABLE_FIELDS)
+    return any((key, name) in latest for name in COURSE_QUESTION_FIELDS)
 
 
 def current_decision(question: Question, latest: Mapping[tuple, Mapping[str, Any]]) -> dict[str, Any] | None:
@@ -142,8 +163,10 @@ def current_decision(question: Question, latest: Mapping[tuple, Mapping[str, Any
     key = locator_key(question.locator)
     if question.kind == UNCLAIMED:
         chosen = [e for e in [latest.get((key, FIELD_UNCLAIMED))] if e]
+    elif question.kind == PREREQUISITE:
+        chosen = [e for e in [latest.get((key, FIELD_PREREQ))] if e]
     else:
-        chosen = [e for e in (latest.get((key, name)) for name in CORRECTABLE_FIELDS) if e]
+        chosen = [e for e in (latest.get((key, name)) for name in COURSE_QUESTION_FIELDS) if e]
         if not chosen:
             return None
         if not all(latest.get((key, name)) for name in COURSE_FIELDS) and not any(e["disposition"] == UNRESOLVED for e in chosen):
@@ -162,12 +185,17 @@ def build_questions(payload: Mapping[str, Any], verification: Verification, entr
     courses = payload.get("courses") or []
     latest = decision_index(payload, entries, pdf_sha256)
     out: list[Question] = []
+    tail: list[Question] = []   # prerequisite questions: after every course-field question, so the 1,000-odd blank cells of a corpus never bury them
     for section in verification.sections:
         rows = []
         for row in section.rows:
             q = _unclaimed_question(row, section) if row.course is None else _course_question(row, section, courses[row.course])
             q.decision = current_decision(q, latest)
             rows.append(q)
+            if row.course is not None and courses[row.course].get("prerequisite_state") in PREREQUISITE_ASKED:
+                p = _prerequisite_question(row, section, courses[row.course])
+                p.decision = current_decision(p, latest)
+                tail.append(p)
         if confirmable(section):
             bulk = _confirm_question(section, courses)
             by_id = {q.qid: q for q in rows}
@@ -177,6 +205,7 @@ def build_questions(payload: Mapping[str, Any], verification: Verification, entr
                                  else UNRESOLVED, "count": len(bulk.members)}
             out.append(bulk)
         out += rows
+    out += tail
     for position, q in enumerate(out):
         q.position = position
     return out
@@ -189,7 +218,7 @@ def _worst_rank(q: Question) -> int:
 def order_queue(questions: Iterable[Question], mode: str = "attention") -> list[Question]:
     """The questions still to answer. `attention`: broken sections first, then review, then clean; inside a section
     the section's bulk question, then flagged rows (errors before warnings), then clean rows; printed order breaks
-    every tie. `print`: printed order. A decided question is not in the queue (it stays in `build_questions`)."""
+    every tie. `print`: printed order. In both, prerequisite questions come last, in printed order. A decided question is not in the queue (it stays in `build_questions`)."""
     if mode not in MODES:
         raise ValueError(f"mode must be one of {', '.join(MODES)}, not {mode!r}")
     questions = list(questions)
@@ -199,5 +228,5 @@ def order_queue(questions: Iterable[Question], mode: str = "attention") -> list[
     first: dict[str, int] = {}
     for q in questions:
         first.setdefault(q.section["sid"], q.position)
-    return sorted(open_, key=lambda q: (HEALTH_RANK[q.section["health"]], first[q.section["sid"]], q.kind != SECTION_CONFIRM,
-                                        _worst_rank(q), q.position))
+    return sorted(open_, key=lambda q: (q.kind == PREREQUISITE, HEALTH_RANK[q.section["health"]], first[q.section["sid"]],
+                                        q.kind != SECTION_CONFIRM, _worst_rank(q), q.position))
