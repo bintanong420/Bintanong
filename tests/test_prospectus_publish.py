@@ -453,3 +453,22 @@ def test_invalid_utf8_manifest_is_rejected(tmp_path):
     path = tmp_path / "manifest.json"
     path.write_bytes(b"\xff")
     assert publish.read_manifest(path) is None
+
+
+def test_a_failed_copy_still_leaves_a_recognisable_diagnostics_folder(tmp_path, monkeypatch):
+    out = tmp_path / "out"
+    names = publish.output_names(out / "a_prospectus.json")
+    stage = tmp_path / "stage"
+    stage_files(stage, {"a_docling.json": "x", "a_docling.meta.json": "y"})
+    real, calls = publish.shutil.copy2, []
+
+    def flaky(src, dst, *a, **k):
+        calls.append(src)
+        if len(calls) == 2:
+            raise OSError("disk full")
+        return real(src, dst, *a, **k)
+
+    monkeypatch.setattr(publish.shutil, "copy2", flaky)
+    assert publish.write_failure(names, ValueError("boom"), tmp_path / "a.pdf", None, stage) is None
+    assert (names.failed_dir / "failure.json").is_file()
+    assert batch.scan_inputs(out, patterns=["*.json"]) == []

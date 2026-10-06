@@ -276,10 +276,6 @@ def write_failure(
         for old in directory.iterdir():
             if old.is_file():
                 old.unlink()
-        if stage is not None and Path(stage).is_dir():
-            for staged in Path(stage).iterdir():
-                if staged.is_file():
-                    shutil.copy2(staged, directory / staged.name)
         record = {
             "error_type": type(error).__name__,
             "error_message": str(error),
@@ -288,7 +284,12 @@ def write_failure(
             "run_identity": dict(run_identity) if run_identity else None,
             "failed_at": datetime.now().isoformat(timespec="seconds"),
         }
+        # Marker first: a copy that fails midway must still leave a recognisable diagnostics folder.
         write_text_lf(directory / "failure.json", json.dumps(record, indent=2, ensure_ascii=False) + "\n")
+        if stage is not None and Path(stage).is_dir():
+            for staged in Path(stage).iterdir():
+                if staged.is_file():
+                    shutil.copy2(staged, directory / staged.name)
         return directory
     except OSError as exc:
         print(f"[!] Could not write failure diagnostics to {directory}: {exc}")
