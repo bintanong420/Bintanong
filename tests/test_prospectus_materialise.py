@@ -102,3 +102,43 @@ def test_the_raw_candidate_file_is_byte_identical_after_materialising(tmp_path):
     write_corrected(tmp_path / "corrected.json", corrected)
     assert raw.read_bytes() == before
     assert json.loads(raw.read_text(encoding="utf-8")) == payload
+
+def test_prerequisite_correction_reclassifies_rule_completeness():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
+    payload = fx.bscs()
+    annotate_prerequisite_states(payload["courses"])
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+    decision = entry(course, "prerequisites_raw", "corrected", "CS 1", "CS 1, Ghost 99")
+    corrected, report = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert report["applied"] == 1
+    assert result["prerequisites_unresolved"] == ["Ghost 99"]
+    assert result["prerequisite_state"] == "unresolved_reference"
+    assert "CS 2" not in generate_prolog_knowledge({}, corrected["courses"], [], [])["relations"]["rule_complete"]
+    assert course["prerequisite_state"] == "resolved"
+
+
+def test_code_correction_reclassifies_other_courses_prerequisites():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    payload = fx.bscs()
+    annotate_prerequisite_states(payload["courses"])
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 1")
+    decision = entry(course, "course_code", "corrected", "CS 1", "CS 99")
+    corrected, report = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert report["applied"] == 1
+    assert result["prerequisite_state"] == "unresolved_reference"
+
+
+def test_materialise_keeps_source_prerequisite_ambiguity_unreadable():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    payload = fx.bscs()
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+    anomalies = [{"type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c16"]}]
+    payload["audit"]["structural_anomalies"] = anomalies
+    annotate_prerequisite_states(payload["courses"], anomalies)
+    decision = corrected_title(course, "Discrete Structures II")
+    corrected, _ = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert result["prerequisite_state"] == "unreadable"

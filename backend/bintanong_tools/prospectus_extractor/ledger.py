@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from .courses import finalize_courses
+from .prerequisites import annotate_prerequisite_states
 from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, format_term, parse_term
 from .text import term_index
 from .verify import verify_candidate
@@ -426,6 +427,7 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     for course in courses:
         course["code"], course["title"] = course.get("course_code"), course.get("course_title")
     final, _index, duplicates = finalize_courses(courses)
+    annotate_prerequisite_states(final, (payload.get("audit") or {}).get("structural_anomalies") or ())
     corrected = {k: copy.deepcopy(v) for k, v in payload.items()}
     corrected.update({
         "courses": final,
