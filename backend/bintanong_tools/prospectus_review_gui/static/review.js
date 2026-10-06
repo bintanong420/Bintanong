@@ -274,7 +274,7 @@ async function submit(event) {
   }
   const text = $("reason").value;
   const section = view.question.kind === "section_confirm";
-  const response = await api("/api/answer", { qid: current, choice, edits, proposals: [], reason: section ? "" : text, note: section ? text : "" });
+  const response = await api("/api/answer", { qid: current, choice, edits, proposals: [], reason: section ? "" : text, note: section ? text : "", mode });
   if (!response.ok) {
     const errors = response.data ? (response.data.errors || [response.data.error]) : ["The answer was not saved."];
     $("answer-error").textContent = `Not saved: ${errors.join("; ")}`;

@@ -179,14 +179,16 @@ def create_app(session: ReviewSession, token: str, port: int | None = None) -> F
         qid, parsed, errors = _answer_from(body)
         if errors:
             return JSONResponse({"errors": errors}, status_code=422)
+        mode = body.get("mode", "attention")
+        if mode not in MODES:
+            return JSONResponse({"errors": [f"mode must be one of {', '.join(MODES)}"]}, status_code=422)
         try:
             result = await _in_thread(session.answer, qid, parsed)
         except KeyError:
             return JSONResponse({"errors": [f"no question {qid}"]}, status_code=404)
         if result["errors"]:
             return JSONResponse(result, status_code=422)
-        queue = session.queue()
-        return {**result, "state": session.state(), "next": queue[0].qid if queue else None}
+        return {**result, "state": session.state(), "next": _next_after(session.queue(mode), qid)}
 
     @app.post("/api/materialise")
     def materialise():
@@ -197,6 +199,14 @@ def create_app(session: ReviewSession, token: str, port: int | None = None) -> F
             return _error(500, "the corrected candidate could not be written; see the terminal")
 
     return app
+
+
+def _next_after(queue, qid: str) -> str | None:
+    """The question after qid in the reviewer's queue, wrapping round; never qid itself (a No stays open)."""
+    ids = [q.qid for q in queue]
+    start = ids.index(qid) + 1 if qid in ids else 0
+    rest = [i for i in ids[start:] + ids[:start] if i != qid]
+    return rest[0] if rest else None
 
 
 async def _in_thread(func, *args):

@@ -116,7 +116,7 @@ def test_api_answer_returns_updated_state_and_next_question(env):
     body = response.json()
     assert body["written"] == 1 and body["errors"] == []
     assert body["state"]["content_review"]["state"] == "partially_reviewed"
-    assert body["next"] == client.get("/api/queue").json()["queue"][0]["qid"]
+    assert body["next"] not in (None, first)   # a No stays open, but it is not the next question (see the C3 tests)
     assert len(read_entries(ws.ledger)) == 1
 
 
@@ -238,3 +238,39 @@ def test_overlong_reason_is_422_and_oversized_body_is_413(env):
     assert liar.status_code == 413
     assert not ws.ledger.exists() or read_entries(ws.ledger) == []
     assert post(client, token, "/api/answer", {"qid": "S1-02", "choice": "yes", "reason": "x" * 2000}).status_code == 200
+
+
+# --- C3: `next` is the question after the answered one in the reviewer's mode, never the answered one
+
+
+def _queue_ids(client, mode):
+    return [q["qid"] for q in client.get(f"/api/queue?mode={mode}").json()["queue"]]
+
+
+@pytest.mark.parametrize("mode", ["attention", "print"])
+def test_next_after_a_no_is_the_following_question_in_that_mode(env, mode):
+    _ws, _s, client, token = env
+    before = _queue_ids(client, mode)
+    assert len(before) >= 3
+    body = {"qid": before[0], "choice": "no", "reason": "cannot tell", "mode": mode}
+    if before[0].endswith(":confirm"):
+        body = {"qid": before[0], "choice": "no", "mode": mode}   # a section No writes nothing and stays open
+    result = post(client, token, "/api/answer", body).json()
+    assert result["next"] == before[1], (mode, before[:3])
+    last = {**body, "qid": before[-1]}
+    if before[-1].endswith(":confirm"):
+        last.pop("reason", None)
+    else:
+        last["reason"] = "cannot tell"
+    wrapped = post(client, token, "/api/answer", last).json()
+    assert wrapped["next"] not in (None, before[-1])
+
+
+def test_next_is_none_when_the_answered_question_is_the_only_one_left(env):
+    _ws, _s, client, token = env
+    for qid in _queue_ids(client, "print")[:-1]:
+        post(client, token, "/api/answer", {"qid": qid, "choice": "yes", "reason": "ok"})
+    left = _queue_ids(client, "print")
+    assert len(left) == 1
+    result = post(client, token, "/api/answer", {"qid": left[0], "choice": "no", "reason": "cannot tell"}).json()
+    assert result["next"] is None
