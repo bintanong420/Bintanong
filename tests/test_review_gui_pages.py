@@ -96,3 +96,36 @@ def test_pdf_with_spaces_and_unicode_in_its_path_opens(tmp_path):
     path.write_bytes(SYNTHETIC.read_bytes())
     with PageRenderer(path) as renderer:
         assert png_size(renderer.png(1))[0] > 100
+
+
+HAMMER = r"""
+import sys, threading
+from pathlib import Path
+from backend.bintanong_tools.prospectus_review_gui.render import PageRenderer
+
+errors = []
+with PageRenderer(Path(sys.argv[1])) as renderer:
+    def work(k):
+        try:
+            for i in range(60):
+                renderer.size(1); renderer.rotation(1)
+                renderer.png(1, 0.2 + ((k * 61 + i * 7) % 28) / 10)
+        except Exception as exc:
+            errors.append(repr(exc))
+    threads = [threading.Thread(target=work, args=(k,)) for k in range(12)]
+    [t.start() for t in threads]
+    [t.join() for t in threads]
+print("errors", errors)
+sys.exit(1 if errors else 0)
+"""
+
+
+def test_concurrent_mixed_calls_do_not_crash_pdfium():
+    # pdfium is not thread-safe: unserialised size/rotation/png calls from the server's worker threads corrupted the
+    # heap (exit 0xC0000374). Run in a child process so a crash is a clean failure, not a dead test run.
+    import subprocess
+    import sys
+
+    repo = Path(__file__).resolve().parent.parent
+    done = subprocess.run([sys.executable, "-c", HAMMER, str(SYNTHETIC)], cwd=repo, capture_output=True, text=True, timeout=300)
+    assert done.returncode == 0, (done.returncode, done.stdout[-500:], done.stderr[-500:])
