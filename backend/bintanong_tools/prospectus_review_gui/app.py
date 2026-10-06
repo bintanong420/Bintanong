@@ -82,6 +82,11 @@ def _answer_from(body: Any) -> tuple[str | None, Answer | None, list[str]]:
         errors.append("proposals must be a list of letters")
     if not isinstance(reason, str) or not isinstance(note, str):
         errors.append("reason and note must be text")
+    if not errors:   # client text that later error messages echo must be storable
+        for text in [*edits, *proposals]:
+            if problem := text_problem(text, "a field name or proposal letter"):
+                errors.append(problem)
+                break
     if errors:
         return None, None, errors
     return qid, Answer(choice=choice, edits=edits, proposals=proposals, reason=reason, note=note), []
@@ -165,7 +170,8 @@ def create_app(session: ReviewSession, token: str, port: int | None = None) -> F
     @app.post("/api/answer")
     async def answer(request: Request):
         raw, size = [], 0
-        if request.headers.get("content-length", "0").isdigit() and int(request.headers["content-length"]) > MAX_BODY:
+        cl = request.headers.get("content-length")
+        if cl and cl.isascii() and cl.isdigit() and int(cl) > MAX_BODY:
             return JSONResponse({"errors": [f"the answer is larger than {MAX_BODY // 1024} KB"]}, status_code=413)
         async for chunk in request.stream():   # also caps a chunked body that sent no length
             size += len(chunk)
@@ -174,7 +180,7 @@ def create_app(session: ReviewSession, token: str, port: int | None = None) -> F
             raw.append(chunk)
         try:
             body = json.loads(b"".join(raw))
-        except ValueError:
+        except (ValueError, RecursionError):
             return JSONResponse({"errors": ["the answer is not JSON"]}, status_code=422)
         qid, parsed, errors = _answer_from(body)
         if errors:

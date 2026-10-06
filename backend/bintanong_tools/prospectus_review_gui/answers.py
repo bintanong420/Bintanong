@@ -179,6 +179,8 @@ def answer_to_entries(
         if problem := text_problem(text, what):
             return [], [problem]
     for name, text in answer.edits.items():
+        if isinstance(text, str) and len(text) > MAX_REASON:
+            return [], [f"the typed {name} is {len(text)} characters; the limit is {MAX_REASON}"]
         if problem := text_problem(text, f"the typed {name}"):
             return [], [problem]
     section, row = _find(question, verification)

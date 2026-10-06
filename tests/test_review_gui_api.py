@@ -240,6 +240,40 @@ def test_overlong_reason_is_422_and_oversized_body_is_413(env):
     assert post(client, token, "/api/answer", {"qid": "S1-02", "choice": "yes", "reason": "x" * 2000}).status_code == 200
 
 
+def _chunks(data, size=1000):
+    for i in range(0, len(data), size):
+        yield data[i:i + size]
+
+
+def test_chunked_body_without_content_length_is_processed_or_413(env):   # D1
+    ws, _s, client, token = env
+    headers = {"X-Review-Token": token, "Content-Type": "application/json"}
+    small = json.dumps({"qid": "S1-02", "choice": "yes", "reason": "x"}).encode()
+    assert client.post("/api/answer", content=_chunks(small, 10), headers=headers).status_code == 200
+    big = json.dumps({"qid": "S1-02", "choice": "yes", "reason": "x", "edits": {"course_title": "y" * 70000}}).encode()
+    assert client.post("/api/answer", content=_chunks(big), headers=headers).status_code == 413
+
+
+def test_lone_surrogates_and_deep_nesting_are_4xx_and_write_nothing(env):   # D2
+    ws, _s, client, token = env
+    base = {"qid": "S1-02", "choice": "other", "reason": "x"}
+    for body in ({**base, "proposals": ["\ud800"]}, {**base, "edits": {"\ud800": "x\ud800"}}):
+        assert post(client, token, "/api/answer", body).status_code == 422, body
+    deep = client.post("/api/answer", content=b"[" * 40000, headers={"X-Review-Token": token, "Content-Type": "application/json"})
+    assert deep.status_code == 422
+    assert not ws.ledger.exists() or read_entries(ws.ledger) == []
+
+
+def test_edit_values_are_capped_but_long_titles_and_filipino_text_pass(env):   # D3
+    ws, _s, client, token = env
+    over = post(client, token, "/api/answer", {"qid": "S1-02", "choice": "other", "reason": "r", "edits": {"course_title": "y" * 50000}})
+    assert over.status_code == 422 and "2000" in over.json()["errors"][0]
+    assert not ws.ledger.exists() or read_entries(ws.ledger) == []
+    for title in ("Ñ " * 100, "Pagtuturo ng Filipino – Wika/Kultura & Ñandú"):
+        ok = post(client, token, "/api/answer", {"qid": "S1-02", "choice": "other", "reason": "r", "edits": {"course_title": title}})
+        assert ok.status_code == 200, (title, ok.text)
+
+
 # --- C3: `next` is the question after the answered one in the reviewer's mode, never the answered one
 
 
