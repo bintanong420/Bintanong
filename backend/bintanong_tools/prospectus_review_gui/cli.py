@@ -103,14 +103,19 @@ def review_main(argv: Sequence[str] | None = None) -> int:
         except OSError:
             print(f"error: port {args.port} is in use on {LOOPBACK}; pass another --port, or 0 for any free port", file=sys.stderr)
             return 2
-        port = sock.getsockname()[1]
-        url = f"http://{LOOPBACK}:{port}/"
-        state = session.state()
-        print(f"Reviewing {state['program'] or args.candidate.name} as {reviewer}")
-        print(f"  ledger: {session.ledger_path}")
-        print(f"  twin:   {session.twin()['reason'] or 'markup twin ready'}")
-        print(f"  open {url}   (Ctrl+C to stop)", flush=True)
-        app = create_app(session, new_token(), port=port)
+        try:
+            port = sock.getsockname()[1]
+            url = f"http://{LOOPBACK}:{port}/"
+            state = session.state()
+            print(f"Reviewing {state['program'] or args.candidate.name} as {reviewer}")
+            print(f"  ledger: {session.ledger_path}")
+            print(f"  twin:   {session.twin()['reason'] or 'markup twin ready'}")
+            print(f"  open {url}   (Ctrl+C to stop)", flush=True)
+            app = create_app(session, new_token(), port=port)
+        except Exception as exc:   # a startup failure after the bind: release the port, no traceback
+            sock.close()
+            print(f"error: the review tool could not start ({type(exc).__name__}: {exc})", file=sys.stderr)
+            return 2
         if not args.no_open:
             webbrowser.open(url)
         run_server(app, sock)

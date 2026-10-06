@@ -276,3 +276,46 @@ def test_package_main_module_runs(tmp_path):
     result = subprocess.run([sys.executable, "-m", "backend.bintanong_tools.prospectus_review_gui", "--help"], cwd=ROOT,
                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
     assert result.returncode == 0 and "--candidate" in result.stdout
+
+
+def test_cli_wires_the_bound_port_into_the_host_and_origin_checks(tmp_path, no_server):
+    # S3: create_app(..., port=port) is what makes a Host or Origin with another port a 403; it must survive in the CLI.
+    from fastapi.testclient import TestClient
+
+    ws = rf.workspace(tmp_path)
+    assert cli.review_main(args(ws, "--no-open")) == 0
+    app, (_host, port) = no_server[0]
+    client = TestClient(app)
+    token = app.state.token
+    assert client.get("/api/state", headers={"host": f"127.0.0.1:{port}"}).status_code == 200
+    assert client.get("/api/state", headers={"host": f"127.0.0.1:{port + 1}"}).status_code == 403
+    body = json.dumps({"qid": "S3-01", "choice": "yes"})
+    sent = {"host": f"127.0.0.1:{port}", "X-Review-Token": token, "Content-Type": "application/json"}
+    assert client.post("/api/answer", content=body, headers={**sent, "Origin": f"http://127.0.0.1:{port + 1}"}).status_code == 403
+    assert client.post("/api/answer", content=body, headers={**sent, "Origin": f"http://127.0.0.1:{port}"}).status_code != 403
+
+
+@pytest.mark.parametrize("broken", ["twin", "state", "create_app"])
+def test_a_failure_after_the_bind_closes_the_socket_and_exits_2(tmp_path, no_server, monkeypatch, capsys, broken):
+    # S7: no traceback, a message, exit 2, and the port is free again.
+    from backend.bintanong_tools.prospectus_review_gui import app as app_module
+    from backend.bintanong_tools.prospectus_review_gui.session import ReviewSession
+
+    def boom(*a, **k):
+        raise RuntimeError("the twin exploded")
+
+    if broken == "create_app":
+        monkeypatch.setattr(app_module, "create_app", boom)
+    else:
+        monkeypatch.setattr(ReviewSession, broken, boom)
+    probe = socket.socket()
+    probe.bind(("127.0.0.1", 0))
+    port = probe.getsockname()[1]
+    probe.close()
+    ws = rf.workspace(tmp_path)
+    assert cli.review_main(args(ws, "--no-open", port=str(port))) == 2
+    err = capsys.readouterr().err
+    assert "the twin exploded" in err and "Traceback" not in err and no_server == []
+    cli.bind_loopback(port).close()   # the port was released
+    with LedgerLock(ws.ledger, "after"):   # and so was the ledger lock (LedgerBusy if it were still held)
+        pass
