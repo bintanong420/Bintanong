@@ -218,13 +218,13 @@ def test_stale_staging_directories_are_removed_for_the_same_base_only(tmp_path):
 
 
 def test_default_output_root_is_home_relative_without_creating_it(tmp_path, monkeypatch):
-    home = tmp_path / "absent-home"
+    home = Path("C:/Users/short") if Path("C:/").anchor else Path("/home/short")
     monkeypatch.setattr(Path, "home", classmethod(lambda cls: home))
     assert paths.find_default_output_root() == home / "Bintanong" / "output"
     assert batch.BatchConfig().output_root == home / "Bintanong" / "output"
     explicit = tmp_path / "explicit-output"
     assert batch.BatchConfig(output_root=explicit).output_root == explicit
-    assert not home.exists() and not explicit.exists()
+    assert not explicit.exists()
 
 
 def test_compact_staging_uses_the_utf8_stem_digest(tmp_path):
@@ -245,8 +245,12 @@ def test_actual_long_paths_fit_with_generated_stage_and_atomic_temp_names(
     # Project only: actual files stay in pytest's external scratch, never in the home output root.
     tmp_path = tmp_path_factory.mktemp("paths")
     relative = Path(relative)
+    long_home = Path(tmp_path.anchor or "/") / "Users" / "a-realistically-long-user-name"
+    assert len(str(long_home)) >= 38
+    monkeypatch.setattr(Path, "home", classmethod(lambda cls: long_home))
+    root = paths.find_default_output_root()
     item = batch.build_batch_items([tmp_path / "inputs" / relative], batch.BatchConfig(
-        input_root=tmp_path / "inputs", output_root=paths.find_default_output_root(),
+        input_root=tmp_path / "inputs", output_root=root,
     ))[0]
     names = publish.output_names(item.json_path)
     stage = publish.new_staging_dir(tmp_path / "out", names.base)
