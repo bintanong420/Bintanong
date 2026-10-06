@@ -181,6 +181,7 @@ function renderQuestion() {
 
 function renderPdf() {
   const img = $("page-image");
+  img.onerror = null;
   const pages = Object.keys(view.boxes);
   if (!view.pdf.available || !pages.length) {
     img.hidden = true;
@@ -195,6 +196,11 @@ function renderPdf() {
   const detail = view.question.kind === "section_confirm" ? `for review of ${view.question.section.title}`
     : found.boxes.length ? `with ${what} outlined` : `showing ${what}`;
   img.alt = `Page ${page} of ${view.pdf.name}, ${detail}`;
+  img.onerror = () => {
+    img.hidden = true;
+    $("overlays").replaceChildren();
+    $("pdf-note").textContent = `PDF page ${page} could not be loaded. Check the connection, then use Zoom to load the page again.`;
+  };
   img.src = `/api/page/${page}.png?scale=${zoomed ? 3 : 1.5}`;
   img.hidden = false;
   $("pdf-note").textContent = found.warning || (pages.length > 1 ? `Also on page ${pages.slice(1).join(", ")}.` : "");

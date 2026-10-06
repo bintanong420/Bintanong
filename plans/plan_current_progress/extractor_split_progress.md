@@ -1036,3 +1036,10 @@ M  tests/test_prospectus_publication.py
 - Fresh scratch BSBA-HRM candidate49courses,23blankprerequisitequestions; localserver started with originalPDF scratchcopy and ready markup twin, then ownedserver stopped. CUA inventory apps=[]/browsers=[], IAB unavailable; keyboard/browser pass NOT RUN. Installed Lighthouse command/package absent; audit NOT RUN. These are not passed gates; humantrial and Task13closeout pending.
 - Three fixes: section PDF shown without invented boxes; prerequisite twin focuses prerequisite cell; sharedAPI visibly preserves lost-response saves as unknown without autoretry. D11 ambiguity and existing bulk/prerequisiteNo semantics retained. No sourceapproval or institutionalactivation.
 - Separate independent Spec/Standards reviews still required before E integration. Next: reviewcf8b11c..GUIfeaturetip, resolve confirmedfindings, then E fromlocaldev mergedwithreviewedGUIcandidate. Do not repeatpublication/sourcecopy/completedTasks1–11.
+
+### GUI Spec fix round1: PDF image failure — 2026-10-07T06:12:17.7283034+08:00
+
+- Speccf8..8caa1eb:232focusedpassed; oneconfirmedP2 atreview.js image-source assignment, actualNode imageerrorreproducer failed. ImagePNG requests bypassJSONapi and previously hadnovisibleerror.
+- Authentic verifiedred4failed2passed49deselected, beforeproductionchanges; corrected missingDOM classList.toggle testharnessboundary ininitialred and retainedbothlogs. Minimum nativeonerror hidesfailedimage/clearsboxes; pdf-note ownlivepolite message preserves answer andglobal save-statusunknown; manualZoomrecovery/noautoretry; handlerclearedforunavailable/no-pageviews.
+- Implementerfocused120passed. Rootfreshfull1421passed1skipped13subtests8warnings, freshself80/80. Extractorcodeunchanged since44/44corpus,B2/Ccounts andtrialzeroerrors19hashes inpriorrootbatch. Browser/keyboard/Lighthouse remainNOTRUN forreportedavailability; humantrial/closeoutpending.
+- Evidenceexternal publish_resume_2026-10-07/gui-fixes/image-error/{red-verified.log,green.log,report.md}, root-image-full.json, root-image-selftest.log. NextscopedSpecrecheck thenindependentStandards; do notpublishGUI ormovedev.

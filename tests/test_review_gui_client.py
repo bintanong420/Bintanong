@@ -19,7 +19,8 @@ function node(id) {
   const classes = new Set();
   return { id, textContent: '', value: '', hidden: false, children: [], attrs: {}, style: {},
     classList: { add: (...names) => names.forEach(n => classes.add(n)),
-                 remove: (...names) => names.forEach(n => classes.delete(n)), contains: n => classes.has(n) },
+                 remove: (...names) => names.forEach(n => classes.delete(n)), contains: n => classes.has(n),
+                 toggle: n => classes.has(n) ? (classes.delete(n), false) : (classes.add(n), true) },
     replaceChildren(...children) { this.children = children; },
     append(...children) { this.children.push(...children); },
     setAttribute(name, value) { this.attrs[name] = value; },
@@ -195,3 +196,71 @@ def test_saved_answer_keeps_a_followup_queue_failure_visible(queue_fails):
         assert "could not" in got["status"].lower() and "check" in got["status"].lower()
     else:
         assert "Saved" in got["status"] and "Every question has an answer" in got["status"]
+
+
+@pytest.mark.parametrize("kind", ["course", "section_confirm"])
+def test_pdf_image_failure_is_visible_without_losing_answers_or_save_uncertainty(kind):
+    got = client_run(r"""
+      current = 'S1-01'; radios[2].checked = true;
+      document.getElementById('reason').value = 'Checked the source';
+      document.getElementById('edit-course_title').value = 'Reviewer title';
+      const uncertainty = 'Save status unknown. The server may have completed this request.';
+      document.getElementById('status').textContent = uncertainty;
+      document.getElementById('answer-error').textContent = uncertainty;
+      view = { question: { kind: KIND, section: { title: 'First Year' }, reference: { code: 'X 1' } },
+        pdf: { available: true, name: 'synthetic.pdf' }, boxes: { '1': { warning: null,
+          boxes: [{ strong: true, fractions: { left: .1, top: .2, width: .1, height: .1 } }] } } };
+      const img = document.getElementById('page-image');
+      let requests = 0, source = '';
+      Object.defineProperty(img, 'src', { set(value) { requests++; source = value; }, get() { return source; } });
+      renderPdf();
+      if (typeof img.onerror === 'function') img.onerror({ target: img });
+      console.log(JSON.stringify({ hidden: img.hidden, overlays: nodes.overlays.children.length,
+        note: nodes['pdf-note'].textContent, requests, current, choice: chosen(),
+        title: nodes['edit-course_title'].value, reason: nodes.reason.value,
+        status: nodes.status.textContent, error: nodes['answer-error'].textContent }));
+    """.replace("KIND", json.dumps(kind)))
+    assert got["hidden"] is True and got["overlays"] == 0
+    assert "page 1" in got["note"].lower() and "could not" in got["note"].lower()
+    assert "check" in got["note"].lower() and "zoom" in got["note"].lower()
+    assert got["requests"] == 1
+    assert {key: got[key] for key in ("current", "choice", "title", "reason")} == {
+        "current": "S1-01", "choice": "other", "title": "Reviewer title", "reason": "Checked the source",
+    }
+    assert got["status"] == got["error"] == "Save status unknown. The server may have completed this request."
+
+
+def test_pdf_image_can_recover_only_on_a_manual_render():
+    got = client_run(r"""
+      view = { question: { kind: 'course', reference: { code: 'X 1' } },
+        pdf: { available: true, name: 'synthetic.pdf' }, boxes: { '1': { warning: null,
+          boxes: [{ strong: true, fractions: { left: .1, top: .2, width: .1, height: .1 } }] } } };
+      const img = document.getElementById('page-image');
+      let requests = 0;
+      Object.defineProperty(img, 'src', { set() { requests++; } });
+      renderPdf();
+      if (typeof img.onerror === 'function') img.onerror({ target: img });
+      const failed = { hidden: img.hidden, overlays: nodes.overlays.children.length, requests };
+      toggleZoom(); // explicit user recovery action; renderPdf installs a fresh source and handler
+      console.log(JSON.stringify({ failed, recovered: { hidden: img.hidden,
+        overlays: nodes.overlays.children.length, note: nodes['pdf-note'].textContent, requests } }));
+    """)
+    assert got["failed"] == {"hidden": True, "overlays": 0, "requests": 1}
+    assert got["recovered"] == {"hidden": False, "overlays": 1, "note": "", "requests": 2}
+
+
+@pytest.mark.parametrize("available", [False, True])
+def test_pdf_error_handler_is_detached_for_an_unavailable_or_empty_view(available):
+    got = client_run(r"""
+      view = { question: { kind: 'section_confirm', section: { title: 'First Year' }, reference: {} },
+        pdf: { available: true, name: 'synthetic.pdf' }, boxes: { '1': { boxes: [], warning: null } } };
+      const img = document.getElementById('page-image');
+      renderPdf();
+      view = { pdf: { available: AVAILABLE, reason: 'No PDF was supplied' }, boxes: {} };
+      renderPdf();
+      if (typeof img.onerror === 'function') img.onerror({ target: img });
+      console.log(JSON.stringify({ hidden: img.hidden, overlays: nodes.overlays.children.length,
+        note: nodes['pdf-note'].textContent, handlerActive: typeof img.onerror === 'function' }));
+    """.replace("AVAILABLE", json.dumps(available)))
+    assert got == {"hidden": True, "overlays": 0, "handlerActive": False,
+                   "note": "This question has no page to show." if available else "No PDF was supplied"}

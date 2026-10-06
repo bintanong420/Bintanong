@@ -136,6 +136,10 @@ def test_live_region_exists_for_status_and_errors(page):
     assert "aria-invalid" in js()
 
 
+def test_pdf_load_messages_have_a_separate_live_region(page):
+    assert page.find(id="pdf-note", aria_live="polite")
+
+
 def test_images_and_overlays_have_text_alternatives(page):
     image = page.find("img", id="page-image")
     assert image and "alt" in image[0]["attrs"]
