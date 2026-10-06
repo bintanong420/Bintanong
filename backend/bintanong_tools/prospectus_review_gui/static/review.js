@@ -47,7 +47,7 @@ function renderState(state) {
   // each state is its own word, written out; none of them is an approval and the page says so beside them
   const badges = state.review_states.map((s) => `${s.name}: ${s.word} (${s.meaning})`);
   badges.push(`PDF text check: ${source.health}, ${source.pdf_checked ? "PDF text checked" : "PDF text not checked"}`);
-  if (state.prerequisites.questions) badges.push(`prerequisite questions: ${state.prerequisites.decided} of ${state.prerequisites.questions} decided (they never hold back content review)`);
+  if (state.prerequisites.questions) badges.push(`prerequisite questions: ${state.prerequisites.decided} of ${state.prerequisites.questions} decided (Yes and Other never hold back content review; a No does)`);
   if (state.prerequisites.unclassified_courses) badges.push(`${state.prerequisites.unclassified_courses} courses have no prerequisite state (a candidate from before Phase C): no prerequisite question for them`);
   $("approval").textContent = state.approval_line;
   if (state.docling && state.docling.warning) badges.push("Docling JSON: " + state.docling.warning);

@@ -233,3 +233,24 @@ def test_prerequisite_yes_and_other_never_hold_back_reviewed(env):
     state = session.state()
     assert state["content_review"]["state"] == "reviewed"
     assert state["prerequisites"] == {"questions": 3, "decided": 2, "unclassified_courses": 0}
+
+def test_badge_text_does_not_claim_prerequisites_never_hold_back_review():
+    from backend.bintanong_tools.prospectus_review_gui.app import STATIC
+    for name in ("review.js", "index.html"):
+        text = (STATIC / name).read_text(encoding="utf-8")
+        assert "never hold back" not in text.replace("Yes and Other never hold back content review; a No does", ""), name
+    script = (STATIC / "review.js").read_text(encoding="utf-8")
+    assert "Yes and Other never hold back content review; a No does" in script
+
+
+def test_a_prerequisite_no_holds_back_review_but_yes_and_other_do_not(env):
+    _ws, session, *_ = env
+    for q in session.queue("print"):
+        if q.kind not in (PREREQUISITE, "section_confirm"):
+            assert session.answer(q.qid, Answer("yes", reason="checked"))["errors"] == []
+    qs = prereq_questions(session)
+    assert session.answer(qs["CS 1"].qid, Answer("yes"), now=rf.NOW)["errors"] == []
+    assert session.state()["content_review"]["state"] == "reviewed"
+    assert session.answer(qs["GE-ET"].qid, Answer("no", reason="cannot tell"), now=rf.NOW)["errors"] == []
+    assert session.state()["content_review"]["state"] == "partially_reviewed"
+    assert session.state()["content_review"]["unresolved"] == 1
