@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -168,3 +169,64 @@ def test_loader_asks_for_a_converter_built_with_the_settings_it_records(
     process(pdf, out, None, force_reconvert=False)
     meta = json.loads((out / "a_docling.meta.json").read_text(encoding="utf-8"))
     assert requests and requests[0].get("settings") == meta["conversion_settings"]
+
+
+# --- D-2: every write has its own temp file beside the target; a locked target is retried, then refused cleanly.
+
+import os
+
+
+def test_interleaved_writers_to_one_target_do_not_share_a_temp_file(tmp_path, monkeypatch):
+    target = tmp_path / "cache" / "a_docling.json"
+    real_replace = os.replace
+    sources = []
+
+    def replace(src, dst):
+        sources.append(Path(src))
+        if len(sources) == 1:  # writer A paused between its write and its replace; writer B runs fully
+            loader._write_bytes_atomic(target, b"B")
+        return real_replace(src, dst)
+
+    monkeypatch.setattr(os, "replace", replace)
+    loader._write_bytes_atomic(target, b"A")
+    assert target.read_bytes() == b"A"
+    assert len(sources) == 2 and sources[0] != sources[1]
+    assert all(source.parent == target.parent for source in sources)
+    assert sorted(path.name for path in target.parent.iterdir()) == ["a_docling.json"]
+
+
+def test_a_briefly_locked_target_is_retried(tmp_path, monkeypatch):
+    import time
+
+    target = tmp_path / "a_docling.json"
+    real_replace = os.replace
+    failures = []
+
+    def replace(src, dst):
+        if len(failures) < 2:
+            failures.append(dst)
+            raise PermissionError(13, "The process cannot access the file", str(dst))
+        return real_replace(src, dst)
+
+    monkeypatch.setattr(os, "replace", replace)
+    monkeypatch.setattr(time, "sleep", lambda _seconds: None)
+    loader._write_bytes_atomic(target, b"new")
+    assert target.read_bytes() == b"new"
+    assert len(failures) == 2
+
+
+def test_a_target_that_stays_locked_raises_a_clean_error_and_leaves_no_temp(tmp_path, monkeypatch):
+    import time
+
+    target = tmp_path / "a_docling.json"
+    target.write_bytes(b"old")
+
+    def replace(src, dst):
+        raise PermissionError(13, "The process cannot access the file", str(dst))
+
+    monkeypatch.setattr(os, "replace", replace)
+    monkeypatch.setattr(time, "sleep", lambda _seconds: None)
+    with pytest.raises(loader.ReplaceFailed, match="could not replace .*a_docling.json"):
+        loader._write_bytes_atomic(target, b"new")
+    assert target.read_bytes() == b"old"
+    assert sorted(path.name for path in tmp_path.iterdir()) == ["a_docling.json"]

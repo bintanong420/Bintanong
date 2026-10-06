@@ -8,6 +8,9 @@ from typing import Mapping
 from typing import Sequence
 import hashlib
 import json
+import os
+import tempfile
+import time
 
 from .docling_env import _docling_importable, ensure_docling_env, get_shared_converter, load_docling
 from .identity import IDENTITY_VERSION, conversion_identity, conversion_settings, file_sha256
@@ -299,12 +302,48 @@ def _cache_meta_path(raw_json_path: Path) -> Path:
     return raw_json_path.with_name(raw_json_path.stem + ".meta.json")
 
 
+class ReplaceFailed(OSError):
+    """A finished file could not be moved over its target (on Windows: the target stayed locked)."""
+
+
+REPLACE_ATTEMPTS = 5
+REPLACE_DELAY_SECONDS = 0.2
+
+
+def replace_file(source: Path, target: Path) -> None:
+    """os.replace with a short retry: Windows scanners and indexers briefly lock fresh files.
+
+    After the last attempt the source is removed and ReplaceFailed names both paths;
+    the target keeps whatever it held before.
+    """
+    for attempt in range(REPLACE_ATTEMPTS):
+        try:
+            os.replace(source, target)
+            return
+        except PermissionError as exc:
+            if attempt == REPLACE_ATTEMPTS - 1:
+                Path(source).unlink(missing_ok=True)
+                raise ReplaceFailed(
+                    f"could not replace {target} with {source} after {REPLACE_ATTEMPTS} "
+                    f"attempts (the target stayed locked): {exc}"
+                ) from exc
+            time.sleep(REPLACE_DELAY_SECONDS * (attempt + 1))
+
+
 def _write_bytes_atomic(path: Path, data: bytes) -> None:
-    """Write beside the target, then replace: a reader never sees half a file."""
+    """Write a temp file of this call's own beside the target, then replace: a reader
+    never sees half a file and two writers never share a temp file."""
+    path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temp = path.with_name(path.name + ".tmp")
-    temp.write_bytes(data)
-    temp.replace(path)
+    handle, temp_name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
+    temp = Path(temp_name)
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(data)
+        replace_file(temp, path)
+    except BaseException:
+        temp.unlink(missing_ok=True)
+        raise
 
 
 def cache_reuse_check(
