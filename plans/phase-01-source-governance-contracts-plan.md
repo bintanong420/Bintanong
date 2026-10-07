@@ -1,15 +1,14 @@
 ---
 artifact: phase-plan
 phase: 1
-status: ready
-preparation_only: true
+status: in_progress
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-00-handoff.md
 ---
 
 # Phase 1 — Source governance, shared contracts and experiment design
 
-Preparation only. The formal ledger has no active phase; Phase 0 is complete and Phase 1 is permitted. This ready plan does not complete Phase 1, authorize Phase 2 advancement, verify any institution document or activate any curriculum. Existing runtime behavior remains unchanged during preparation.
+Formally started on 2026-10-08 (owner authorization recorded in `plans/phase-01-checkpoint.md`), on the local branch `feat/phase-01-source-governance-contracts` only. The prospectus extractor/review workstream stays parallel and does not advance this ledger; preparation documents are not completion. Nothing here completes Phase 1, authorizes Phase 2 advancement, verifies any institution document or activates any curriculum. Existing runtime behavior remains unchanged unless a task says otherwise.
 
 ## Goal and authoritative context
 
@@ -91,7 +90,7 @@ Adversarial tests cover fabricated verification/approval, incompatible editions,
 
 ## Exit gate
 
-The ten contracts and governance vocabulary are documented/validated, institutional/private boundaries enforced, evaluation groups/splits/rubrics established, and one document/chunk/rule/case traces to exact source spans with honestly recorded verification state. Independent review and actual tests must pass. Missing authorized source coverage is documented rather than fabricated. Only then may a complete Phase 1 handoff authorize Phase 2. This plan remains ready until formally started; no Phase 1 completion/handoff is created by this preparation.
+The ten contracts and governance vocabulary are documented/validated, institutional/private boundaries enforced, evaluation groups/splits/rubrics established, and one document/chunk/rule/case traces to exact source spans with honestly recorded verification state. Independent review and actual tests must pass. Missing authorized source coverage is documented rather than fabricated. Only then may a complete Phase 1 handoff authorize Phase 2. This plan is in progress; no Phase 1 completion/handoff exists.
 
 ## Known discrepancy
 
