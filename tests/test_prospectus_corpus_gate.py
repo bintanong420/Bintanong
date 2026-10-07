@@ -128,6 +128,13 @@ def test_layout_rejections_are_listed_and_table_losses_counted(corpus):
                                              "refs": ["#/tables/0"], "token_count": 900}
     assert report["other_rejected_by_type"] == {"term_schedule:no_accepted_courses": 1}
 
+def test_an_over_cap_text_chunk_is_not_counted_as_a_lost_table(tmp_path):
+    lost = {"chunk_type": "hierarchical_layout", "label": "docling_hierarchical:1", "reason": "over_token_cap",
+            "token_count": 900, "source_cell_ids": [], "source_item_ids": [], "source_refs": ["#/texts/1"]}
+    _write(tmp_path, 1, "f", _payload("ok", [_course("A 1", "Art", "Art")], accepted=["A 1"], rejected=[lost]))
+    layout = compare.corpus_gate(tmp_path)["layout"]
+    assert layout == {"rejected_by_reason": {"over_token_cap": 1}, "emitting_files_with_table_over_cap": 0}
+
 
 def test_chunk_statistics_and_cap_check(corpus):
     stats = compare.corpus_gate(corpus)["chunk_statistics"]
