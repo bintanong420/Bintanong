@@ -59,6 +59,19 @@ class Record(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
 
+    @classmethod
+    def parse(cls, data: Any):
+        """Parse JSON text or a JSON-compatible mapping with strict types."""
+        if isinstance(data, (str, bytes)):
+            return cls.model_validate_json(data)
+        if isinstance(data, Mapping):
+            try:
+                text = json.dumps(data, allow_nan=False)
+            except (TypeError, ValueError) as exc:
+                raise ContractError(f"not JSON-compatible: {exc}") from exc
+            return cls.model_validate_json(text)
+        raise ContractError(f"cannot parse {type(data).__name__} as {cls.__name__}")
+
 
 class Contract(Record):
     """Base: extra forbidden, frozen, strict, and an exact schema_version."""
@@ -73,18 +86,6 @@ class Contract(Record):
             raise ValueError(f"unknown schema_version {value!r}; this contract is {cls.SCHEMA_VERSION}")
         return value
 
-    @classmethod
-    def parse(cls, data: Any):
-        """Parse JSON text or a JSON-compatible mapping with strict types."""
-        if isinstance(data, (str, bytes)):
-            return cls.model_validate_json(data)
-        if isinstance(data, Mapping):
-            try:
-                text = json.dumps(data, allow_nan=False)
-            except (TypeError, ValueError) as exc:
-                raise ContractError(f"not JSON-compatible: {exc}") from exc
-            return cls.model_validate_json(text)
-        raise ContractError(f"cannot parse {type(data).__name__} as {cls.__name__}")
 
 
 def canonical_json(model: BaseModel) -> str:
@@ -126,8 +127,9 @@ def foreign_ids(data: Any, namespace: str) -> list[str]:
     return [s for s in _strings(data) if any(re.fullmatch(re.escape(p) + r"[a-z0-9-]+", s) for p in foreign)]
 
 
-def reject_foreign_ids(model: BaseModel, namespace: str) -> None:
-    found = foreign_ids(model.model_dump(mode="json"), namespace)
+def reject_foreign_ids(model: Any, namespace: str) -> None:
+    data = model.model_dump(mode="json") if isinstance(model, BaseModel) else model
+    found = foreign_ids(data, namespace)
     if found:
         raise ValueError(f"id(s) {sorted(set(found))} belong to another namespace than {namespace}")
 
