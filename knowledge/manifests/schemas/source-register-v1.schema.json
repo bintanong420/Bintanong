@@ -1,0 +1,372 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bintanong-source-register-v1",
+  "title": "SourceDocumentVersion register record",
+  "description": "One acquired byte identity. Acquisition, verification, approval and content review are separate fields. Approval id stays null without authorized evidence. Cross-field rules live in governance-vocabulary.json transitions and docs/decisions/phase-01-source-governance.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "namespace",
+    "synthetic",
+    "document_id",
+    "version_id",
+    "edition_id",
+    "filename",
+    "byte_sha256",
+    "acquisition_locators",
+    "document_category",
+    "issuer",
+    "campus",
+    "college",
+    "program",
+    "cohort",
+    "printed_revision",
+    "effective_from",
+    "effective_to",
+    "supersession",
+    "acquisition_state",
+    "verification_state",
+    "approval_state",
+    "content_review_state",
+    "approval_id",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "bintanong-source-register-v1"
+    },
+    "namespace": {
+      "const": "institutional"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "document_id": {
+      "type": "string",
+      "pattern": "^doc-[a-z0-9-]+$"
+    },
+    "version_id": {
+      "type": "string",
+      "pattern": "^ver-[a-z0-9-]+$"
+    },
+    "edition_id": {
+      "type": "string",
+      "pattern": "^edition-[a-z0-9-]+$"
+    },
+    "filename": {
+      "type": "string",
+      "minLength": 1
+    },
+    "byte_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "acquisition_locators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "document_category": {
+      "enum": [
+        "source_document",
+        "curriculum_proposal_candidate"
+      ]
+    },
+    "issuer": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "campus": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "college": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "program": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "cohort": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "printed_revision": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "effective_from": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "effective_to": {
+      "$ref": "#/$defs/scope_field"
+    },
+    "supersession": {
+      "$ref": "#/$defs/supersession"
+    },
+    "acquisition_state": {
+      "$ref": "#/$defs/acquisition_state"
+    },
+    "verification_state": {
+      "$ref": "#/$defs/verification_state"
+    },
+    "approval_state": {
+      "$ref": "#/$defs/approval_state"
+    },
+    "content_review_state": {
+      "$ref": "#/$defs/content_review_state"
+    },
+    "approval_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    }
+  },
+  "$defs": {
+    "scope_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "state",
+        "evidence_ref",
+        "basis"
+      ],
+      "properties": {
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "pending",
+            "observed",
+            "verified",
+            "not_stated"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "basis": {
+          "enum": [
+            "printed_text",
+            "issuing_office_statement",
+            "reviewer_reading",
+            null
+          ]
+        }
+      }
+    },
+    "supersession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relation",
+        "target_version_id",
+        "state",
+        "evidence_ref",
+        "basis"
+      ],
+      "properties": {
+        "relation": {
+          "enum": [
+            "none",
+            "supersedes",
+            "superseded_by"
+          ]
+        },
+        "target_version_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "pending",
+            "observed",
+            "verified",
+            "not_stated"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "basis": {
+          "enum": [
+            "printed_text",
+            "issuing_office_statement",
+            "reviewer_reading",
+            null
+          ]
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "kind",
+        "recorded_by",
+        "recorded_at"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "byte_hash_check",
+            "printed_text_span",
+            "reviewer_absence_check",
+            "issuing_office_confirmation",
+            "approval_request",
+            "issuing_office_authorization",
+            "issuing_office_rejection",
+            "issuing_office_revocation",
+            "content_review_record",
+            "conflict_referral",
+            "issuing_office_resolution",
+            "user_confirmation",
+            "extraction_audit",
+            "extractor_status_label",
+            "filename_observation",
+            "local_possession_note"
+          ]
+        },
+        "recorded_by": {
+          "enum": [
+            "researcher",
+            "reviewer",
+            "issuing_office",
+            "system",
+            "user"
+          ]
+        },
+        "recorded_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"
+        },
+        "authorization_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "acquisition_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "evidence_ref"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "pending",
+            "observed",
+            "verified",
+            "mismatch"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "verification_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "evidence_ref"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "pending",
+            "observed",
+            "verified",
+            "rejected"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "approval_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "evidence_ref"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "not_requested",
+            "requested",
+            "approved",
+            "rejected",
+            "revoked"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "content_review_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "evidence_ref"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "pending",
+            "partially_reviewed",
+            "reviewed"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

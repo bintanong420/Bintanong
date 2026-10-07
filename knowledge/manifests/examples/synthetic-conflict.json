@@ -1,0 +1,29 @@
+{
+  "schema_version": "bintanong-source-conflict-v1",
+  "namespace": "institutional",
+  "synthetic": true,
+  "conflict_id": "conflict-synth-0001",
+  "claims": [
+    {
+      "version_id": "ver-synth-handbook-1",
+      "span_ref": "synthetic-span/hb1/p3/s2",
+      "claim_text": "Fictional rule: a fictional form is due in 5 days."
+    },
+    {
+      "version_id": "ver-synth-handbook-2",
+      "span_ref": "synthetic-span/hb2/p4/s1",
+      "claim_text": "Fictional rule: a fictional form is due in 10 days."
+    }
+  ],
+  "affected_scope": {
+    "capability": "enrollment_procedure_answers",
+    "campus": null,
+    "college": null,
+    "program": null,
+    "cohort": null
+  },
+  "resolution_state": "unresolved",
+  "resolution_evidence_ref": null,
+  "resolution_basis": null,
+  "evidence": []
+}

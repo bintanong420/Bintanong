@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bintanong-source-conflict-v1",
+  "title": "Source conflict record",
+  "description": "Incompatible claims, source versions and spans, affected scope, resolution state and authorized resolution evidence. An unresolved conflict blocks only affected_scope.capability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "namespace",
+    "synthetic",
+    "conflict_id",
+    "claims",
+    "affected_scope",
+    "resolution_state",
+    "resolution_evidence_ref",
+    "resolution_basis",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "bintanong-source-conflict-v1"
+    },
+    "namespace": {
+      "const": "institutional"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "conflict_id": {
+      "type": "string",
+      "pattern": "^conflict-[a-z0-9-]+$"
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version_id",
+          "span_ref",
+          "claim_text"
+        ],
+        "properties": {
+          "version_id": {
+            "type": "string",
+            "pattern": "^ver-[a-z0-9-]+$"
+          },
+          "span_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "affected_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability",
+        "campus",
+        "college",
+        "program",
+        "cohort"
+      ],
+      "properties": {
+        "capability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "campus": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "college": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "program": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cohort": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "resolution_state": {
+      "enum": [
+        "unresolved",
+        "referred_to_source_owner",
+        "resolved"
+      ]
+    },
+    "resolution_evidence_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "resolution_basis": {
+      "enum": [
+        "supersession_evidenced",
+        "scope_distinction_evidenced",
+        "source_owner_ruling",
+        null
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "kind",
+        "recorded_by",
+        "recorded_at"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "byte_hash_check",
+            "printed_text_span",
+            "reviewer_absence_check",
+            "issuing_office_confirmation",
+            "approval_request",
+            "issuing_office_authorization",
+            "issuing_office_rejection",
+            "issuing_office_revocation",
+            "content_review_record",
+            "conflict_referral",
+            "issuing_office_resolution",
+            "user_confirmation",
+            "extraction_audit",
+            "extractor_status_label",
+            "filename_observation",
+            "local_possession_note"
+          ]
+        },
+        "recorded_by": {
+          "enum": [
+            "researcher",
+            "reviewer",
+            "issuing_office",
+            "system",
+            "user"
+          ]
+        },
+        "recorded_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"
+        },
+        "authorization_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
