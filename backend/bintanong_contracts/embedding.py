@@ -17,7 +17,7 @@ from .base import Contract, ContractError
 from .governance import SHA256
 from .source import Chunk, TokenCount
 
-_FLOATING_REFS = {"main", "master", "latest", "head"}
+FLOATING_REFS = {"main", "master", "latest", "head"}
 _Finite = Annotated[float, Field(allow_inf_nan=False)]
 
 
@@ -38,7 +38,7 @@ class EmbeddingRecord(Contract):
     @model_validator(mode="after")
     def _rules(self):
         errs = []
-        if self.model_revision.lower() in _FLOATING_REFS:
+        if self.model_revision.lower() in FLOATING_REFS:
             errs.append("model_revision must be a pinned revision, not a floating reference")
         if len(self.vector) != self.dimension:
             errs.append(f"vector has {len(self.vector)} values, dimension says {self.dimension}")
