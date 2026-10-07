@@ -10,6 +10,7 @@ from typing import Any, Mapping, Sequence
 import hashlib
 import json
 import os
+import re
 
 from .common import SCHEMA_VERSION
 
@@ -22,6 +23,11 @@ _TRUE_VALUES = {"1", "true", "yes", "on"}
 def bytes_sha256(data: bytes) -> str:
     """Shared owner of byte digests for input and cache identities."""
     return hashlib.sha256(data).hexdigest()
+
+
+def is_sha256(value: Any) -> bool:
+    """A lowercase SHA-256 hex digest; the one shape check for stored and supplied digests."""
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
 def file_sha256(path: Path) -> str:

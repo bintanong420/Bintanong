@@ -36,6 +36,7 @@ NO_ACCEPTED_COURSES = "no_accepted_courses"
 NO_SOURCE_TEXT_ITEMS = "no_source_text_items"
 OPTION_NOT_IN_SOURCE = "option_not_in_source_text"
 NO_SOURCE_SPANS = "no_source_spans"
+LAYOUT_CHUNKER_FAILED = "layout_chunker_failed"
 
 
 def _unique(values) -> list:
@@ -59,10 +60,11 @@ def _claimed_item_ids(options: Sequence[dict[str, Any]]) -> list[str]:
 
 def _rejection(chunk_type: str, label: str, reason: str, *, course_code: str | None = None,
                year_level: str | None = None, semester: str | None = None,
-               cell_ids: Sequence[str] = (), item_ids: Sequence[str] = (), **extra: Any) -> dict[str, Any]:
+               cell_ids: Sequence[str] = (), item_ids: Sequence[str] = (),
+               refs: Sequence[str] = (), **extra: Any) -> dict[str, Any]:
     return {"chunk_type": chunk_type, "label": label, "reason": reason, "course_code": course_code,
             "year_level": year_level, "semester": semester, "source_cell_ids": list(cell_ids),
-            "source_item_ids": list(item_ids), **extra}
+            "source_item_ids": list(item_ids), "source_refs": list(refs), **extra}
 
 
 def prerequisite_phrase(course: dict[str, Any], brief: bool = False) -> str:
@@ -122,7 +124,7 @@ def _course_source(course: dict[str, Any], document: LoadedDocument | None,
     canonical_course = {**course, "provenance": {**provenance, "source_cells": cells}}
     src = course.get("_source")
     row = src.get("row_index") if isinstance(src, dict) else None
-    if not isinstance(row, int):
+    if not isinstance(row, int) or isinstance(row, bool):
         return NO_VALID_SOURCE_CELLS, []
     roles = own_role_cells(canonical_course, layout, set(evidence_ids))
     roles = {role: [c for c in group if c["table_index"] == src.get("table_index")
@@ -362,44 +364,61 @@ def build_semantic_rag_chunks(
 
 
 LAYOUT_LABELS = {"hierarchical_layout": "docling_hierarchical", "hierarchical_layout_fallback": "layout_fallback"}
+PRINTED_TEXT = "printed_text"
+TABLE_SERIALIZATION = "docling_table_serialization"
 
 
 def _layout_chunk(chunk_type: str, index: int, fields: dict[str, Any], text: str,
                   spans: list[dict[str, Any]], *, source_text: str | None, pdf_sha256: str | None,
-                  source: str, rejected: list[dict[str, Any]]) -> dict[str, Any] | None:
+                  source: str, rejected: list[dict[str, Any]], seen: set[str]) -> dict[str, Any] | None:
     """One layout chunk, or None after recording why it is not a candidate."""
     label = f"{LAYOUT_LABELS[chunk_type]}:{index}"
-    where = {"item_ids": _item_ids(spans) + [s["locator"]["ref"] for s in spans if "ref" in s["locator"]]}
+    where = {"item_ids": _item_ids(spans), "refs": _unique(s["locator"]["ref"] for s in spans if "ref" in s["locator"])}
     tokens = estimate_tokens(text)
     if not fits_cap(tokens):
         rejected.append(_rejection(chunk_type, label, OVER_TOKEN_CAP, token_count=tokens, **where))
     elif not spans:
         rejected.append(_rejection(chunk_type, label, NO_SOURCE_SPANS, **where))
     else:
-        return assemble_chunk(chunk_type, {"chunk_index": index, **fields}, text, spans,
-                              pdf_sha256=pdf_sha256, source=source, source_text=source_text)
+        chunk = assemble_chunk(chunk_type, {"chunk_index": index, **fields}, text, spans,
+                               pdf_sha256=pdf_sha256, source=source, source_text=source_text)
+        if chunk["chunk_id"] in seen:
+            rejected.append(_rejection(chunk_type, label, DUPLICATE_CHUNK_ID, **where))
+            return None
+        seen.add(chunk["chunk_id"])
+        return chunk
     return None
 
 
 def _docling_layout_chunks(doc: Any, source_name: str, kind: str, pdf_sha256: str | None,
                            rejected: list[dict[str, Any]]) -> list[dict[str, Any]] | None:
-    """Docling's own chunks; None when it produced no text at all (the caller then falls back)."""
-    chunks, produced = [], False
+    """Docling's own chunks; None when it produced no text at all (the caller then falls back).
+
+    `source_text` is Docling's text unchanged. A table chunk is Docling's serialization of cells, not
+    printed text, so it is marked and carries no `source_text`; its cells stay behind its refs."""
+    chunks, produced, seen = [], False, set()
     for index, chunk in enumerate(load_docling()["HierarchicalChunker"]().chunk(doc)):
-        text = clean_str(getattr(chunk, "text", ""))
-        if not text:
+        raw = getattr(chunk, "text", "")
+        text = clean_str(raw)
+        if not text:  # a blank Docling item has nothing to cite; skipping it is deliberate and documented
             continue
         produced = True
         meta = getattr(chunk, "meta", None)
         meta_dict = meta.model_dump(mode="json") if hasattr(meta, "model_dump") else {}
+        items = [item for item in meta_dict.get("doc_items") or [] if item.get("self_ref")]
         spans = [make_span(pdf_sha256, prov.get("page_no"), {"kind": "docling_ref", "ref": item["self_ref"]},
                            None, None, kind)
-                 for item in meta_dict.get("doc_items") or [] if item.get("self_ref")
-                 for prov in item.get("prov") or [{}]]
+                 for item in items for prov in item.get("prov") or [{}]]
+        table = any(str(item["self_ref"]).startswith("#/tables/") for item in items)
         built = _layout_chunk(
             "hierarchical_layout", index,
-            {"section_path": list(meta_dict.get("headings") or []), "metadata": meta_dict}, text, spans, source_text=text, pdf_sha256=pdf_sha256, source=source_name, rejected=rejected)
+            {"section_path": list(meta_dict.get("headings") or []), "metadata": meta_dict,
+             "text_kind": TABLE_SERIALIZATION if table else PRINTED_TEXT},
+            text, spans, source_text=raw, pdf_sha256=pdf_sha256, source=source_name, rejected=rejected,
+            seen=seen)
         if built:
+            if table:
+                built["source_text"] = None
             chunks.append(built)
     return chunks if produced else None
 
@@ -410,29 +429,34 @@ def build_hierarchical_rag_chunks(document: LoadedDocument, source_name: str, *,
     """Docling's own layout chunks when available, otherwise a labelled text fallback.
 
     Layout chunks over the review cap are rejected, not split: they are Docling's own units and the
-    curriculum facts are covered by the course and term chunks. Every rejection is appended to `rejected`.
+    curriculum facts are covered by the course and term chunks. Every rejection is appended to `rejected`;
+    a Docling failure is recorded with its exception class before the text fallback is used.
     """
     kind = document.source_kind
     if document.docling_doc is not None:
         local: list[dict[str, Any]] = []
         try:
             found = _docling_layout_chunks(document.docling_doc, source_name, kind, pdf_sha256, local)
-        except Exception:
+        except Exception as error:
             found = None
+            rejected.append(_rejection(
+                "hierarchical_layout", "docling_chunker", LAYOUT_CHUNKER_FAILED,
+                error=type(error).__name__.encode("ascii", "replace").decode("ascii")))
         if found is not None:
             rejected.extend(local)
             return found
 
-    chunks = []
+    chunks, seen = [], set()
     for index, item in enumerate(document.text_items):
         item_id = item.get("item_id") if isinstance(item, dict) else None
         for label, text in _iter_text_pairs([item]):
             if not text:
                 continue
             built = _layout_chunk(
-                "hierarchical_layout_fallback", index, {"section_path": [], "metadata": {"label": label}}, text,
+                "hierarchical_layout_fallback", index,
+                {"section_path": [], "metadata": {"label": label}, "text_kind": PRINTED_TEXT}, text,
                 spans_from_text_items([item], [item_id], pdf_sha256, kind) if item_id else [],
-                source_text=None, pdf_sha256=pdf_sha256, source=source_name, rejected=rejected)
+                source_text=None, pdf_sha256=pdf_sha256, source=source_name, rejected=rejected, seen=seen)
             if built:
                 chunks.append(built)
     return chunks

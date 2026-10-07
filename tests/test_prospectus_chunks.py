@@ -582,7 +582,7 @@ def test_rejected_course_record_names_code_term_reason_and_claimed_source_ids():
     assert course_record == {
         "chunk_type": "course", "label": "CS 101", "reason": "title_not_in_source_text",
         "course_code": "CS 101", "year_level": "1st Year", "semester": "1st Semester",
-        "source_cell_ids": c["provenance"]["source_cell_ids"], "source_item_ids": []}
+        "source_cell_ids": c["provenance"]["source_cell_ids"], "source_item_ids": [], "source_refs": []}
     term_record = next(r for r in rejected if r["chunk_type"] == "term_schedule")
     assert term_record["reason"] == "no_accepted_courses"
     assert (term_record["year_level"], term_record["semester"]) == ("1st Year", "1st Semester")
@@ -759,7 +759,7 @@ def test_blank_claim_does_not_match_a_blank_printed_cell(field, reason):
     assert of_type(chunks, "course") == [] and rejected[0]["reason"] == reason
 
 
-@pytest.mark.parametrize("row_index", [None, "1", 1.0])
+@pytest.mark.parametrize("row_index", [None, "1", 1.0, True, False])
 def test_non_integer_or_missing_source_row_is_rejected(row_index):
     c = course()
     c["_source"]["row_index"] = row_index
@@ -819,8 +819,8 @@ def test_fallback_layout_chunks_are_hash_bound_and_capped():
     assert chunks[0]["source_spans"][0]["locator"] == {"kind": "text_item", "item_ids": ["text-0"]}
     again = rag.build_hierarchical_rag_chunks(document, "t.pdf", pdf_sha256=PDF_B, rejected=[])
     assert again[0]["chunk_id"] != chunks[0]["chunk_id"] and "id" not in chunks[0]
-    assert [(r["label"], r["reason"], r["source_item_ids"]) for r in rejected] == [
-        ("layout_fallback:1", "over_token_cap", ["text-1"])]
+    assert [(r["label"], r["reason"], r["source_item_ids"], r["source_refs"]) for r in rejected] == [
+        ("layout_fallback:1", "over_token_cap", ["text-1"], [])]
 
 
 def test_docling_layout_chunks_carry_their_pages(monkeypatch):
@@ -1045,3 +1045,127 @@ def test_chunk_ids_follow_the_pdf_bytes_not_its_name_or_folder(
     other_edition, _ = _run_to(tmp_path / "three", pdf_factory, converter, process, body=b"%PDF-1.4 edition two")
     assert ids(one) == ids(renamed)
     assert not set(ids(one)) & set(ids(other_edition))
+
+
+# ---- Phase E fix batch 3: literal source_text, rejection records, boundaries ----
+
+def _meta(*refs):
+    items = [{"self_ref": r, "prov": [{"page_no": 1}]} for r in refs]
+    return SimpleNamespace(model_dump=lambda mode="json": {"headings": [], "doc_items": items})
+
+
+def _layout(monkeypatch, *chunks, items=()):
+    _docling(monkeypatch, *chunks)
+    rejected = []
+    built = rag.build_hierarchical_rag_chunks(
+        _layout_document(items, docling_document=object()), "t.pdf", pdf_sha256=PDF_A, rejected=rejected)
+    return built, rejected
+
+
+def test_docling_source_text_is_the_literal_printed_text_while_text_is_cleaned(monkeypatch):
+    printed = "Effective SY 2018\u20132019\u00b9  Total\xa0units"
+    [chunk], rejected = _layout(monkeypatch, SimpleNamespace(text=printed, meta=_meta("#/texts/0")))
+    assert chunk["source_text"] == printed and chunk["text"] != printed
+    assert chunk["text_kind"] == "printed_text" and rejected == []
+
+
+def test_docling_table_chunk_is_marked_as_a_serialization_with_no_literal_source_text(monkeypatch):
+    [chunk], _ = _layout(monkeypatch, SimpleNamespace(text="CS 101, Intro = 3", meta=_meta("#/tables/0")))
+    assert chunk["source_text"] is None and chunk["text_kind"] == "docling_table_serialization"
+    assert chunk["text"] == "CS 101, Intro = 3" and chunk["source_spans"][0]["locator"]["ref"] == "#/tables/0"
+
+
+def test_docling_item_with_provenance_but_no_ref_is_rejected_not_given_a_null_ref(monkeypatch):
+    meta = SimpleNamespace(model_dump=lambda mode="json": {"headings": [], "doc_items": [{"prov": [{"page_no": 1}]}]})
+    built, rejected = _layout(monkeypatch, SimpleNamespace(text="Orphan", meta=meta))
+    assert built == [] and [r["reason"] for r in rejected] == ["no_source_spans"]
+
+
+@pytest.mark.parametrize("docling", [True, False])
+def test_layout_review_cap_boundary_is_480_estimated_tokens(monkeypatch, docling):
+    results = {}
+    for size in (1440, 1441):  # one long word: estimate = ceil(chars / 3) = 480 and 481
+        text = "a" * size
+        assert chunking.estimate_tokens(text) == size // 3 + (size % 3 > 0)
+        if docling:
+            results[size] = _layout(monkeypatch, SimpleNamespace(text=text, meta=_meta("#/texts/0")))
+        else:
+            items = [{"item_id": "t", "label": "text", "text": text, "page": 1}]
+            rejected = []
+            results[size] = (rag.build_hierarchical_rag_chunks(
+                _layout_document(items), "t.pdf", pdf_sha256=PDF_A, rejected=rejected), rejected)
+    assert len(results[1440][0]) == 1 and results[1440][1] == []
+    assert results[1441][0] == [] and [r["reason"] for r in results[1441][1]] == ["over_token_cap"]
+
+
+def test_fallback_source_text_is_the_literal_item_text(monkeypatch):
+    printed = "Total\xa0units  2018\u20132019\u00b9"
+    document = _layout_document([{"item_id": "t", "label": "text", "text": printed, "page": 1}])
+    [chunk] = rag.build_hierarchical_rag_chunks(document, "t.pdf", pdf_sha256=PDF_A, rejected=[])
+    assert chunk["source_text"] == printed and chunk["text"] != printed and chunk["text_kind"] == "printed_text"
+
+
+def test_blank_docling_chunks_are_skipped_and_the_rest_still_chunk(monkeypatch):
+    built, rejected = _layout(monkeypatch, SimpleNamespace(text=" \xa0 ", meta=_meta("#/texts/0")),
+                              SimpleNamespace(text="Kept", meta=_meta("#/texts/1")))
+    assert [c["text"] for c in built] == ["Kept"] and built[0]["chunk_index"] == 1 and rejected == []
+
+
+def test_layout_rejection_keeps_text_item_ids_and_docling_refs_apart(monkeypatch):
+    built, rejected = _layout(monkeypatch, SimpleNamespace(text="word " * 700, meta=_meta("#/texts/4", "#/tables/0")))
+    [record] = rejected
+    assert built == [] and record["source_refs"] == ["#/texts/4", "#/tables/0"] and record["source_item_ids"] == []
+
+
+def test_a_docling_chunker_that_fails_midway_is_recorded_and_the_text_path_is_used(monkeypatch):
+    def chunk(_doc):
+        yield SimpleNamespace(text="Partial", meta=_meta("#/texts/0"))
+        raise RuntimeError("boom \u00f1")
+    monkeypatch.setattr(rag, "load_docling", lambda: {"HierarchicalChunker": lambda: SimpleNamespace(chunk=chunk)})
+    rejected = []
+    built = rag.build_hierarchical_rag_chunks(
+        _layout_document([{"item_id": "t", "label": "text", "text": "Plain", "page": 1}], docling_document=object()),
+        "t.pdf", pdf_sha256=PDF_A, rejected=rejected)
+    assert [c["chunk_type"] for c in built] == ["hierarchical_layout_fallback"]
+    [record] = rejected
+    assert record["reason"] == "layout_chunker_failed" and record["error"] == "RuntimeError"
+    assert record["chunk_type"] == "hierarchical_layout" and "boom" not in str(record)
+
+
+def test_duplicate_layout_chunks_are_recorded_as_rejections(monkeypatch):
+    same = SimpleNamespace(text="Same", meta=_meta("#/texts/0"))
+    built, rejected = _layout(monkeypatch, same, same)
+    assert len(built) == 1 and [r["reason"] for r in rejected] == ["duplicate_chunk_id"]
+    twin = {"item_id": "t", "label": "text", "text": "Same", "page": 1}
+    rejected = []
+    built = rag.build_hierarchical_rag_chunks(
+        _layout_document([twin, twin]), "t.pdf", pdf_sha256=PDF_A, rejected=rejected)
+    assert len(built) == 1 and [r["reason"] for r in rejected] == ["duplicate_chunk_id"]
+
+
+def test_payload_reports_a_rejected_layout_chunk_and_counts_it():
+    text_items = [*CS_TEXT_ITEMS, ("text", "word " * 700)]
+    payload = pipeline.build_payload(fixture_document(cs_fixture_grid(), text_items), Path("cs.pdf"),
+                                     semantic_doc_path=None, pdf_sha256=PDF_A)
+    layout = [r for r in payload["rag"]["rejected_chunks"] if r["chunk_type"] == "hierarchical_layout_fallback"]
+    assert [r["reason"] for r in layout] == ["over_token_cap"]
+    assert payload["quality_report"]["total_rejected_chunks"] == len(payload["rag"]["rejected_chunks"])
+
+
+def test_rag_jsonl_carries_literal_utf8_and_lf_only(tmp_path):
+    names = SimpleNamespace(rag=SimpleNamespace(name="x_rag.jsonl"), final=SimpleNamespace(name="x.json"))
+    payload = {"audit": {"status": "ok"}, "rag": {
+        "semantic_chunks": [{"chunk_id": "a", "text": "Pe\u00f1a \u2013 a\u00f1o"}], "hierarchical_chunks": []}}
+    pipeline._stage_outputs(tmp_path, names, None, payload, False, False, True, False, False)
+    raw = (tmp_path / "x_rag.jsonl").read_bytes()
+    assert "Pe\u00f1a \u2013 a\u00f1o".encode("utf-8") in raw and b"\\u" not in raw
+    assert b"\r" not in raw and raw.endswith(b"\n")
+
+
+def test_jsonl_is_identical_across_folders_but_not_across_renames_of_the_same_bytes(
+        tmp_path, cs_pipeline, pdf_factory, converter, process):
+    one, _ = _run_to(tmp_path / "one", pdf_factory, converter, process, name="a.pdf")
+    moved, _ = _run_to(tmp_path / "two", pdf_factory, converter, process, name="a.pdf")
+    renamed, _ = _run_to(tmp_path / "three", pdf_factory, converter, process, name="elsewhere.pdf")
+    assert one == moved
+    assert one != renamed and one.replace(b"a.pdf", b"elsewhere.pdf") == renamed

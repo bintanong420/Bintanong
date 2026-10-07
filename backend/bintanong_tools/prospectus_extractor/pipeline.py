@@ -8,7 +8,6 @@ from typing import Any
 from typing import Iterable
 from typing import Mapping
 import json
-import re
 import shutil
 
 from .authority import build_authority
@@ -27,7 +26,7 @@ from .prolog import generate_prolog_knowledge
 from .rag import build_hierarchical_rag_chunks, build_semantic_rag_chunks
 from .markup import render_prospectus_markup
 from .paths import DEFAULT_SEMANTIC_DOC, SOURCE_PDF_ROOT, find_default_output_root
-from .identity import InputSnapshot, run_identity
+from .identity import InputSnapshot, is_sha256, run_identity
 from .loader import _cache_meta_path, load_document_result
 from .publish import (
     clear_failure, new_staging_dir, output_names, publish_staged, write_failure, write_text_lf,
@@ -46,7 +45,7 @@ def _checked_pdf_sha256(pdf_sha256: str | None, source: Any) -> str | None:
     """
     if pdf_sha256 is None:
         return None
-    if not isinstance(pdf_sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", pdf_sha256):
+    if not is_sha256(pdf_sha256):
         raise ValueError("pdf_sha256 must be a lowercase SHA-256 hex digest")
     if source is not None and source.pdf_sha256 != pdf_sha256:
         raise ValueError("pdf_sha256 contradicts the declared source hash")
