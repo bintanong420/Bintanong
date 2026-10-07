@@ -169,3 +169,75 @@ def test_rendered_report_and_file_are_deterministic_lf_and_leave_inputs_alone(co
     assert "BLOCKED AUDIT (1)" in text and "blocked_docling.json" in text
     assert "rejected 6 of 9 (66.7%)" in text
     assert json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))["inputs"] == 4
+
+
+def test_cap_boundary_480_is_not_over_and_481_is(tmp_path):
+    edge = {"chunk_type": "term_schedule", "token_count": 480, "source_anchored": False}
+    _write(tmp_path, 1, "f", _payload("ok", [_course("A 1", "Art", "Art")], accepted=["A 1"], semantic_extra=[edge]))
+    assert compare.corpus_gate(tmp_path)["chunk_statistics"]["over_cap_course_or_term"] == 0
+
+
+def test_an_anchored_chunk_is_counted_as_anchored(tmp_path):
+    anchored = {"chunk_type": "term_schedule", "token_count": 100, "source_anchored": True}
+    _write(tmp_path, 1, "f", _payload("ok", [_course("A 1", "Art", "Art")], accepted=["A 1"], semantic_extra=[anchored]))
+    assert compare.corpus_gate(tmp_path)["chunk_statistics"]["anchored"] == {"false": 1, "true": 1}
+
+
+def test_median_of_an_even_count_is_the_true_median(tmp_path):
+    chunks = [{"chunk_type": "enrolment_policy", "token_count": n, "source_anchored": False} for n in (100, 163)]
+    _write(tmp_path, 1, "f", _payload("ok", [_course("A 1", "Art", "Art")], accepted=["A 1"], semantic_extra=chunks))
+    stats = compare.corpus_gate(tmp_path)["chunk_statistics"]["by_type"]["enrolment_policy"]
+    assert stats == {"count": 2, "min": 100, "median": 131.5, "max": 163}
+
+
+def test_blocked_inputs_report_their_computed_rejection_count(tmp_path):
+    payload = _payload("error", courses=[_course("BL 1", "B", "B")], rejected=[_reject("BL 1", "title_not_in_source_text")])
+    _write(tmp_path, 1, "blocked", payload)
+    report = compare.corpus_gate(tmp_path)
+    assert report["blocked"][0]["rejections"] == 1
+    assert "rejections=1" in compare.render_corpus_gate(report)
+
+
+def test_report_order_is_sorted_and_deterministic(tmp_path):
+    def rejected_file(number, name, codes, reasons):
+        courses = [_course(code, "Bar", "Foo") for code in codes]
+        rej = [_reject(code, "title_not_in_source_text") for code in codes]
+        rej += [_reject(codes[0], reason) for reason in reasons]
+        _write(tmp_path, number, name, _payload("warn", courses, rejected=rej))
+
+    rejected_file(1, "zeta", ["Z 2", "Z 1"], ["prerequisite_not_in_source_text", "code_not_in_source_text"])
+    rejected_file(2, "alpha", ["A 2", "A 1"], [])
+    report = compare.corpus_gate(tmp_path)
+    assert [f["input"] for f in report["files"]] == ["zeta_docling.json", "alpha_docling.json"]  # folder order
+    assert [(d["input"], d["course_code"]) for d in report["title_details"]] == [
+        ("alpha_docling.json", "A 1"), ("alpha_docling.json", "A 2"),
+        ("zeta_docling.json", "Z 1"), ("zeta_docling.json", "Z 2")]
+    first = report["files"][0]["rejected_by_reason"]
+    assert list(first) == sorted(first) and len(first) == 3
+    assert list(report["totals"]["rejected_by_reason"]) == sorted(report["totals"]["rejected_by_reason"])
+    out = tmp_path.parent / (tmp_path.name + "_out") / "gate.txt"
+    compare.write_corpus_report(tmp_path, out)
+
+    def sorted_keys(pairs):
+        keys = [k for k, _ in pairs]
+        assert keys == sorted(keys), keys
+        return dict(pairs)
+
+    json.loads(out.with_suffix(".json").read_text(encoding="utf-8"), object_pairs_hook=sorted_keys)
+
+
+def test_marker_vocabulary_reuses_the_extractor_banner_words_and_names_its_extras():
+    from backend.bintanong_tools.prospectus_extractor.text import BANNER_WORDS as extractor_words
+    assert compare.BANNER_WORDS == {w.lower() for w in extractor_words}
+    assert compare.EXTRA_MARKER_WORDS and not compare.EXTRA_MARKER_WORDS & compare.BANNER_WORDS
+    assert {"total", "units"} <= compare.EXTRA_MARKER_WORDS
+
+
+def test_corpus_report_inside_the_repository_is_refused_before_any_run(tmp_path):
+    inside = compare.REPO / "zz_corpus_gate_should_not_exist.txt"
+    with pytest.raises(SystemExit) as refused:
+        compare.main(["--golden", str(tmp_path), "--work", str(tmp_path / "w"), "--corpus-report", str(inside)])
+    assert "inside the repository" in str(refused.value) and not inside.exists()
+    with pytest.raises(SystemExit) as outside:  # outside the repository passes the guard, then finds no inputs
+        compare.main(["--golden", str(tmp_path), "--work", str(tmp_path / "w"), "--corpus-report", str(tmp_path / "g.txt")])
+    assert "no *_docling.json" in str(outside.value)

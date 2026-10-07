@@ -22,6 +22,7 @@ import html
 import json
 import os
 import re
+import statistics
 import subprocess
 import sys
 import tempfile
@@ -252,14 +253,22 @@ def print_status_report(report: dict) -> None:
 
 TITLE_REASON = "title_not_in_source_text"
 CAP_REVIEW_TOKENS = 480  # 512 less the 32-token reserve; estimate-v1 review metadata, not a tokenizer count
-BANNER_WORDS = {"total", "totals", "subtotal", "grand", "first", "second", "third", "fourth", "fifth", "year",
-                "yr", "semester", "sem", "summer", "midyear", "term", "units", "unit"}
+sys.path.insert(0, str(REPO))
+from backend.bintanong_tools.prospectus_extractor.text import BANNER_WORDS as _EXTRACTOR_BANNER_WORDS  # noqa: E402
+
+# The extractor's own year/semester banner vocabulary (lower-cased), not a second copy.
+BANNER_WORDS = {w.lower() for w in _EXTRACTOR_BANNER_WORDS}
+# Broader than the extractor on purpose: this report also names a rejected title's extra token when it is a
+# total/units column word or an abbreviation that the section parser does not treat as a banner.
+EXTRA_MARKER_WORDS = {"total", "totals", "subtotal", "grand", "yr", "units", "unit"}
 ORDINAL = re.compile(r"\d+(st|nd|rd|th)")
 
 
 def _is_marker_token(token: str) -> bool:
+    """A banner word, a total/units word, an ordinal, or a token with no letters (a footnote or row digit)."""
     word = token.strip(".,:;()[]").lower()
-    return not any(ch.isalpha() for ch in word) or word in BANNER_WORDS or bool(ORDINAL.fullmatch(word))
+    return (not any(ch.isalpha() for ch in word) or word in BANNER_WORDS or word in EXTRA_MARKER_WORDS
+            or bool(ORDINAL.fullmatch(word)))
 
 
 def classify_title(claimed: str, printed: str) -> tuple[str, str]:
@@ -276,7 +285,7 @@ def classify_title(claimed: str, printed: str) -> tuple[str, str]:
 
 def _median_stats(values: list[int]) -> dict:
     values = sorted(values)
-    return {"count": len(values), "min": values[0], "median": values[len(values) // 2], "max": values[-1]}
+    return {"count": len(values), "min": values[0], "median": statistics.median(values), "max": values[-1]}
 
 
 def corpus_gate(run_dir: Path) -> dict:
@@ -300,6 +309,7 @@ def corpus_gate(run_dir: Path) -> dict:
         audit, rag = payload["audit"], payload["rag"]
         if audit["status"] == "error":
             blocked.append({"input": name, "errors": len(audit.get("errors") or []),
+                            "rejections": len(rag["rejected_chunks"]),
                             "chunks": len(rag["semantic_chunks"]) + len(rag["hierarchical_chunks"])})
             continue
         courses = payload["courses"]
@@ -362,7 +372,7 @@ def render_corpus_gate(report: dict) -> str:
     out.append(f"CORPUS GATE: {report['inputs']} inputs; {len(report['blocked'])} blocked audit, "
                f"{t['emitting_files']} not blocked, {len(report['failed_runs'])} failed runs")
     out.append(f"\nBLOCKED AUDIT ({len(report['blocked'])}): no chunks, no rejections (reported apart)")
-    out += [f"  {b['input']}  errors={b['errors']} chunks={b['chunks']}" for b in report["blocked"]]
+    out += [f"  {b['input']}  errors={b['errors']} chunks={b['chunks']} rejections={b['rejections']}" for b in report["blocked"]]
     out.append(f"\nFAILED RUNS ({len(report['failed_runs'])})")
     out += [f"  {f['input']}  exit={f['exit']}" for f in report["failed_runs"]]
     out.append("\nPER FILE (not blocked): accepted / rejected / courses")
@@ -413,6 +423,13 @@ def main(argv: list[str] | None = None) -> int:
     cli.add_argument("--corpus-report", type=Path, help="also write the corpus gate report (text and .json) of the new side here")
     args = cli.parse_args(argv)
 
+    if args.corpus_report:  # refuse before any run: the report is derived from institution data
+        from backend.bintanong_tools.prospectus_extractor.fixer_cli import FixerError, assert_outside_git
+        try:
+            for target in (args.corpus_report, args.corpus_report.with_suffix(".json")):
+                assert_outside_git(target)
+        except FixerError as error:
+            sys.exit(str(error))
     args.golden, args.work = args.golden.resolve(), args.work.resolve()
     args.semantic_doc = args.semantic_doc.resolve() if args.semantic_doc else None
     sources = sorted(args.golden.rglob("*_docling.json"))[: args.limit]
