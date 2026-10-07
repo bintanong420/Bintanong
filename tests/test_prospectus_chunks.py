@@ -887,3 +887,161 @@ def test_assemble_chunk_keeps_an_explicit_source_text():
     chunk = chunking.assemble_chunk("hierarchical_layout", {}, "Layout text", [span(text=None)],
                                     pdf_sha256=PDF_A, source="t.pdf", source_text="Layout text")
     assert chunk["source_text"] == "Layout text" == chunk["text"]
+
+
+# ---- Task 6: captured identity, schema v3.3, canonical LF JSONL ----
+
+import hashlib
+import json
+import re
+
+from backend.bintanong_tools.prospectus import ProvisionalSource
+from backend.bintanong_tools.prospectus_extractor import identity, loader, pipeline, publish
+from backend.bintanong_tools.prospectus_extractor.common import SCHEMA_VERSION
+from backend.bintanong_tools.prospectus_extractor.selftest import (
+    CS_TEXT_ITEMS, cs_fixture_grid, fixture_document)
+
+PDF_BYTES = b"%PDF-1.4 edition one"
+
+
+def _cs_document():
+    return fixture_document(cs_fixture_grid(), CS_TEXT_ITEMS)
+
+
+def _cs_payload(pdf, **kwargs):
+    return pipeline.build_payload(_cs_document(), Path("cs.pdf"), semantic_doc_path=None, pdf_sha256=pdf, **kwargs)
+
+
+def _semantic_ids(payload):
+    return [c["chunk_id"] for c in payload["rag"]["semantic_chunks"]]
+
+
+@pytest.fixture
+def cs_pipeline(monkeypatch, fake_docling):
+    """The real pipeline, hash capture and publication; only the parsed document is the CS fixture."""
+    real = pipeline.build_payload
+    monkeypatch.setattr(pipeline, "build_payload", lambda _document, *a, **k: real(_cs_document(), *a, **k))
+
+
+def test_schema_version_is_3_3():
+    assert SCHEMA_VERSION == "palsu-prospectus-v3.3"
+    assert _cs_payload(PDF_A)["schema_version"] == "palsu-prospectus-v3.3"
+
+
+def test_same_edition_gives_same_ids_whatever_the_time(monkeypatch):
+    class Clock:
+        stamp = "2026-01-01T00:00:00"
+
+        @classmethod
+        def now(cls):
+            return SimpleNamespace(isoformat=lambda timespec=None: cls.stamp)
+
+    monkeypatch.setattr(pipeline, "datetime", Clock)
+    first = _cs_payload(PDF_A)
+    Clock.stamp = "2031-12-31T23:59:59"
+    second = _cs_payload(PDF_A)
+    assert first["generated_at"] != second["generated_at"]
+    assert _semantic_ids(first) and _semantic_ids(first) == _semantic_ids(second)
+    assert len(set(_semantic_ids(first))) == len(_semantic_ids(first))
+
+
+def test_another_edition_shares_no_chunk_id():
+    assert not set(_semantic_ids(_cs_payload(PDF_A))) & set(_semantic_ids(_cs_payload(PDF_B)))
+
+
+def test_payload_rag_block_reports_chunker_identity_and_budget_method():
+    payload = _cs_payload(PDF_A)
+    block = payload["rag"]
+    assert payload["pdf_sha256"] == PDF_A
+    assert block["chunker_version"] == chunking.CHUNKER_VERSION
+    assert block["token_count_method"] == chunking.TOKEN_COUNT_METHOD == "estimate-v1"
+    # The fixture prints a stray trailing digit in many title cells; the parser strips it, so those courses are
+    # rejected as candidates (see the progress record). Every rejection is reported, none is lost.
+    assert payload["quality_report"]["total_rejected_chunks"] == len(block["rejected_chunks"]) > 0
+    assert {r["reason"] for r in block["rejected_chunks"]} == {"title_not_in_source_text"}
+    for chunk in block["semantic_chunks"] + block["hierarchical_chunks"]:
+        assert chunk["pdf_sha256"] == PDF_A and chunk["source_anchored"] and chunk["content_review"] == "pending"
+        assert chunking.fits_cap(chunk["token_count"])
+    assert block["hierarchical_chunks"]
+    for chunk in of_type(block["semantic_chunks"], "course"):
+        assert chunk["cell_ids"] and chunk["source_spans"] and chunk["source_text"]
+    for chunk in of_type(block["semantic_chunks"], "elective_pool"):
+        assert any(s["locator"]["kind"] == "text_item" for s in chunk["source_spans"])
+
+
+@pytest.mark.parametrize("bad", ["not-a-hash", "A" * 64, "a" * 63, "", 5])
+def test_malformed_pdf_hash_is_refused_not_guessed(bad):
+    with pytest.raises(ValueError, match="pdf_sha256"):
+        _cs_payload(bad)
+
+
+def test_pdf_hash_that_contradicts_the_declared_source_is_refused():
+    with pytest.raises(ValueError, match="pdf_sha256"):
+        _cs_payload(PDF_B, source=ProvisionalSource(PDF_A, "local/cs.pdf"))
+    payload = _cs_payload(PDF_A, source=ProvisionalSource(PDF_A, "local/cs.pdf"))
+    assert {c["pdf_sha256"] for c in payload["rag"]["semantic_chunks"]} == {PDF_A}
+
+
+def test_no_hash_means_unanchored_chunks_even_with_a_declared_source():
+    payload = _cs_payload(None, source=ProvisionalSource(PDF_A, "local/cs.pdf"))
+    assert payload["pdf_sha256"] is None
+    chunks = payload["rag"]["semantic_chunks"] + payload["rag"]["hierarchical_chunks"]
+    assert chunks and {c["source_anchored"] for c in chunks} == {False} and {c["pdf_sha256"] for c in chunks} == {None}
+
+
+def test_process_takes_the_pdf_hash_from_the_captured_run_identity_and_hashes_the_pdf_once(
+        tmp_path, monkeypatch, cs_pipeline, pdf_factory, converter, process):
+    hashed = []
+    for module in (identity, loader, publish):
+        real = module.bytes_sha256
+        monkeypatch.setattr(module, "bytes_sha256", lambda data, real=real: (hashed.append(data), real(data))[1])
+    monkeypatch.setattr(hashlib, "file_digest", lambda *a, **k: pytest.fail("the PDF was re-hashed from its file"))
+    pdf = pdf_factory(tmp_path / "in", body=PDF_BYTES)
+    payload = process(pdf, tmp_path / "out", converter)
+    expected = hashlib.sha256(PDF_BYTES).hexdigest()
+    assert hashed.count(PDF_BYTES) == 1
+    assert payload["run_identity"]["pdf_sha256"] == payload["pdf_sha256"] == expected
+    chunks = payload["rag"]["semantic_chunks"] + payload["rag"]["hierarchical_chunks"]
+    assert chunks and {c["pdf_sha256"] for c in chunks} == {expected} and all(c["source_anchored"] for c in chunks)
+
+
+def test_process_of_a_docling_json_without_its_pdf_is_unanchored(tmp_path, cs_pipeline):
+    source = tmp_path / "a_docling.json"
+    source.write_text(json.dumps({"texts": [], "tables": []}), encoding="utf-8")
+    payload = pipeline.process_prospectus(source, tmp_path / "out" / "a_prospectus.json", export_jsonl=True,
+                                          semantic_doc_path=None, quiet=True)
+    assert payload["pdf_sha256"] is None and payload["run_identity"]["pdf_sha256"] is None
+    rows = [json.loads(line) for line in (tmp_path / "out" / "a_rag.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert rows and {r["source_anchored"] for r in rows} == {False}
+
+
+def _run_to(folder, pdf_factory, converter, process, name="a.pdf", body=PDF_BYTES):
+    pdf = pdf_factory(folder / "in", name=name, body=body)
+    process(pdf, folder / "out", converter)
+    return (folder / "out" / "a_rag.jsonl").read_bytes(), pdf
+
+
+def test_rag_jsonl_is_lf_canonical_and_byte_identical_across_runs(
+        tmp_path, cs_pipeline, pdf_factory, converter, process):
+    first, pdf = _run_to(tmp_path / "one", pdf_factory, converter, process)
+    second, _ = _run_to(tmp_path / "two", pdf_factory, converter, process)
+    assert first == second and first.endswith(b"\n") and b"\r" not in first
+    lines = first.decode("utf-8").splitlines()
+    assert len(lines) > 5
+    for line in lines:
+        row = json.loads(line)
+        assert line == json.dumps(row, ensure_ascii=False, sort_keys=True)
+    text = first.decode("utf-8")
+    for leak in (str(pdf.parent), str(tmp_path), "tmp_path", "pytest-of"):
+        assert leak not in text
+    assert not re.search(r"20\d\d-\d\d-\d\dT\d\d:\d\d", text)
+
+
+def test_chunk_ids_follow_the_pdf_bytes_not_its_name_or_folder(
+        tmp_path, cs_pipeline, pdf_factory, converter, process):
+    ids = lambda raw: [json.loads(l)["chunk_id"] for l in raw.decode("utf-8").splitlines()]
+    one, _ = _run_to(tmp_path / "one", pdf_factory, converter, process, name="a.pdf")
+    renamed, _ = _run_to(tmp_path / "two", pdf_factory, converter, process, name="elsewhere.pdf")
+    other_edition, _ = _run_to(tmp_path / "three", pdf_factory, converter, process, body=b"%PDF-1.4 edition two")
+    assert ids(one) == ids(renamed)
+    assert not set(ids(one)) & set(ids(other_edition))
