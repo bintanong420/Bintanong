@@ -1,0 +1,740 @@
+"""Regression tests for the Codex read-only review of Phase B2 (12 confirmed defects)."""
+
+import copy
+import json
+import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pytest
+
+from backend.bintanong_tools.prospectus_extractor.course_checks import PdfPage
+from backend.bintanong_tools.prospectus_extractor.fixes import propose_fixes
+from backend.bintanong_tools.prospectus_extractor.verify import own_role_cells, verify_candidate
+
+import fixer_fixtures as fx
+from fixer_fixtures import by_code
+
+HASH = "a" * 64
+
+
+def set_cell_text(payload, cell_id, text):
+    for course in payload["courses"]:
+        for c in course["provenance"]["source_cells"]:
+            if c["cell_id"] == cell_id:
+                c["text"] = text
+
+
+def roles(course, payload):
+    audit = payload["audit"]
+    ids = {i for s in audit["curriculum_sections"] for i in s["evidence_cells"]}
+    return own_role_cells(course, audit["table_layout"], ids)
+
+
+BANNERS = {"FIRST", "SEMESTER", "YEAR"}
+
+
+# --- commit 1: proposals come from the source and never strip a title word
+
+def test_item1_a_title_that_is_only_banner_plus_one_word_in_its_own_cell_is_not_stripped():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][1]
+    course["course_title"] = "FIRST SEMESTER PRACTICUM"
+    set_cell_text(payload, "t0-c18", "FIRST SEMESTER PRACTICUM")
+    pdf = "CC 1/L FIRST SEMESTER PRACTICUM 2/1"
+    assert propose_fixes(course, roles(course, payload), page_text=pdf, banners=BANNERS) == []
+    row = by_code(payload, verify_candidate(payload))["CC 1/L"]
+    assert row.fixes == [] and row.worst() is not None       # still flagged, section not clean
+
+
+def test_item1_a_strip_is_proposed_when_the_pdf_prints_the_remainder_without_the_banner():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]       # CS 1: only its title cell t0-c9 carries the banner
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    page = "FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 1/L Introduction to Computing 2/1"
+    fixes = propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS)
+    assert [f.new for f in fixes] == ["Discrete Structures 1"]
+    assert propose_fixes(course, roles(course, payload), banners=BANNERS) == []   # nothing to confirm it with
+
+
+def test_item2_a_remainder_that_is_in_no_source_cell_or_pdf_text_is_not_proposed():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][1]
+    course["course_title"] = "FIRST SEMESTER Galactic Mechanics"      # its cell says "Introduction to Computing"
+    page = "CC 1/L Introduction to Computing 2/1"
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS) == []
+    assert by_code(payload, verify_candidate(payload))["CC 1/L"].fixes == []
+
+
+# --- item 12: glyphs of one printed code sit on one text line
+
+def make_two_line_page():
+    # "Mktg" at the end of a wrapped line, "2001" at the start of the next one: horizontally adjacent
+    # (the second word starts 3 pt after the first ends) but on different lines.
+    chars = []
+    for i, ch in enumerate("Mktg"):
+        chars.append((ch, 400.0 + i * 5, 700.0, 405.0 + i * 5, 710.0))
+    for i, ch in enumerate("2001"):
+        chars.append((ch, 423.0 + i * 5, 686.0, 428.0 + i * 5, 696.0))
+    return PdfPage("Mktg 2001", chars, 800.0)
+
+
+def test_item12_glyphs_on_different_lines_are_not_one_code():
+    from backend.bintanong_tools.prospectus_extractor.placement import is_split_across_cells, locate_in_page
+    page = make_two_line_page()
+    assert locate_in_page(page, "Mktg 2001") is None
+    assert is_split_across_cells(page, "Mktg 2001")
+
+
+# --- commit 2: sheet controls and bulk confirm respect section flags
+
+from backend.bintanong_tools.prospectus_extractor.sheet import (
+    build_entries, candidate_sha256, check_against, parse_decision, parse_sheet, render_sheet,
+)
+from sheet_helpers import edit_row, set_line
+
+
+def rendered(payload, v):
+    return render_sheet(payload, v, {"pdf_sha256": HASH, "candidate_sha256": candidate_sha256(payload)})
+
+
+def test_item3_confirm_yes_on_a_section_with_a_section_level_flag_is_refused_naming_the_flag():
+    payload = copy.deepcopy(fx.bscs())
+    payload["audit"]["term_unit_audit"][0]["declared_units"] = 99        # S1: printed 99, extracted 5
+    v = verify_candidate(payload)
+    assert [r.worst() for r in v.sections[0].rows] == [None, None] and v.sections[0].flags
+    text = set_line(rendered(payload, v), "S1", "confirm", "yes")
+    entries, errors = build_entries(parse_sheet(text), payload, v, reviewer="N", pdf_sha256=HASH)
+    assert entries == []
+    assert any("S1" in e and "unit_total" in e and "(line " in e for e in errors), errors
+
+
+@pytest.mark.parametrize("key", ["confirm", "accept", "reason"])
+def test_item4_a_repeated_control_line_in_one_section_is_rejected_with_its_line_number(key):
+    payload = copy.deepcopy(fx.bscs())
+    v = verify_candidate(payload)
+    base = rendered(payload, v)
+    lines = base.splitlines()
+    at_line = next(i for i, l in enumerate(lines) if l.startswith(f"{key}:"))
+    lines.insert(at_line + 1, f"{key}: no")
+    text = "\n".join(lines) + "\n"
+    errors = check_against(parse_sheet(text), parse_sheet(base))
+    assert any(f"line {at_line + 2}" in e and key in e and "twice" in e for e in errors), errors
+
+
+def test_item5_a_decision_that_is_only_a_reason_is_a_validation_error_not_a_crash():
+    assert parse_decision(": because")[3] is not None
+    payload = copy.deepcopy(fx.bscs())
+    v = verify_candidate(payload)
+    text = edit_row(rendered(payload, v), "S1-01", decision=": because")
+    entries, errors = build_entries(parse_sheet(text), payload, v, reviewer="N", pdf_sha256=HASH)
+    assert entries == [] and any("S1-01" in e and "(line " in e for e in errors)
+
+
+# --- commit 3: ledger and CLI refuse unattributed, malformed or mismatched input
+
+from backend.bintanong_tools.prospectus_extractor import fixer_cli
+from backend.bintanong_tools.prospectus_extractor.fixer_cli import (
+    FixerError, assert_outside_git, default_review_dir, fixer_main, resolve_identity,
+)
+from backend.bintanong_tools.prospectus_extractor.ledger import (
+    append_entries, content_review_state, course_locator, course_snapshot, entry_problem, make_entry, materialise,
+    read_entries,
+)
+
+NOW = datetime(2026, 10, 4, 9, 30, tzinfo=timezone.utc)
+
+
+def good_entry(course, **changes):
+    snapshot = course_snapshot(course)
+    entry = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="course_title",
+                       disposition="corrected", old_value=snapshot["course_title"], new_value="Discrete Structures One",
+                       section="s", now=NOW)
+    return {k: v for k, v in {**entry, **changes}.items() if v is not ...}
+
+
+def write_lines(path, *items):
+    path.write_text("".join((i if isinstance(i, str) else json.dumps(i, sort_keys=True)) + "\n" for i in items), encoding="utf-8")
+
+
+def test_item6_a_non_json_line_is_skipped_and_reported_with_its_line_number(tmp_path):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    good = good_entry(course)
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good, "{broken", {"not": "an entry"}, good)
+    entries = read_entries(path)                       # no LedgerError
+    corrected, report = materialise(payload, entries, HASH)
+    reasons = sorted(s["reason"] for s in report["skipped"])
+    assert len(reasons) == 2 and "line 2" in reasons[0] + reasons[1] and "line 3" in reasons[0] + reasons[1]
+    assert report["applied"] == 1 and content_review_state(payload, entries, HASH)["invalid_entries"] == 2
+    assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
+
+
+def test_item6_status_reports_the_bad_line_and_still_exits_0(tmp_path, capsys):
+    payload = fx.bscs()
+    candidate = tmp_path / "x_prospectus.json"
+    candidate.write_text(json.dumps(payload), encoding="utf-8")
+    ledger = default_review_dir(candidate) / "decision_ledger.jsonl"
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text("{broken\n", encoding="utf-8")
+    assert fixer_main(["status", "--candidate", str(candidate), "--pdf-sha256", HASH]) == 0
+    assert "line 1" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("cell_ids", [[["bad"]], "t0-c1", [1], {"a": 1}])
+def test_item7_a_locator_with_the_wrong_shape_is_invalid_not_a_crash(tmp_path, cell_ids):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    bad = good_entry(course, locator={"kind": "course", "cell_ids": cell_ids})
+    assert entry_problem(bad)
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, bad)
+    entries = read_entries(path)
+    _corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0 and report["skipped"][0]["reason"].startswith("invalid_entry")
+    assert content_review_state(payload, entries, HASH)["invalid_entries"] == 1
+    assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
+
+
+@pytest.mark.parametrize("missing", ["reviewer", "recorded_at", "disposition", "pdf_sha256"])
+def test_item8_an_entry_without_reviewer_time_disposition_or_pdf_is_never_applied(tmp_path, missing):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0], **{missing: ...}))
+    _corrected, report = materialise(payload, read_entries(path), HASH)
+    assert report["applied"] == 0 and len(report["skipped"]) == 1
+    assert good_entry(payload["courses"][0], reviewer="  ") and entry_problem(good_entry(payload["courses"][0], reviewer="  "))
+
+
+def test_item8_the_untouched_entry_is_still_applied(tmp_path):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0]))
+    assert materialise(payload, read_entries(path), HASH)[1]["applied"] == 1
+
+
+def test_item9_a_declared_hash_that_differs_from_the_candidates_recorded_one_is_refused(capsys, tmp_path):
+    payload = {**fx.bscs(), "run_identity": {"pdf_sha256": HASH}}
+    with pytest.raises(FixerError, match="recorded"):
+        resolve_identity(payload, pdf_sha256="b" * 64)
+    assert resolve_identity(payload, pdf_sha256=HASH)["pdf_sha256"] == HASH
+    assert resolve_identity(payload)["pdf_sha256"] == HASH
+    candidate = tmp_path / "x_prospectus.json"
+    candidate.write_text(json.dumps(payload), encoding="utf-8")
+    assert fixer_main(["sheet", "--candidate", str(candidate), "--pdf-sha256", "b" * 64]) == 2
+    assert "recorded" in capsys.readouterr().err
+    pdf = tmp_path / "a.pdf"
+    pdf.write_bytes(b"%PDF fake")
+    with pytest.raises(FixerError, match="recorded"):
+        resolve_identity(payload, pdf=pdf)
+
+
+def _git(repo, *args):
+    subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+
+
+@pytest.fixture
+def temp_repo(tmp_path, monkeypatch):
+    repo = (tmp_path / "repo").resolve()
+    repo.mkdir()
+    _git(repo, "init", "-q")
+    (repo / ".gitignore").write_text("review/\n", encoding="utf-8")
+    (repo / "review").mkdir()
+    (repo / "review" / "corrected_candidate.json").write_text("{}\n", encoding="utf-8")
+    _git(repo, "add", "-f", "review/corrected_candidate.json")
+    monkeypatch.setattr(fixer_cli, "REPO", repo)
+    return repo
+
+
+def test_item10_a_tracked_file_inside_an_ignored_folder_is_not_overwritten(temp_repo, tmp_path):
+    assert_outside_git(temp_repo / "review" / "new_file.json")                 # a new file there is fine
+    with pytest.raises(FixerError, match="not git-ignored"):
+        assert_outside_git(temp_repo / "review" / "corrected_candidate.json")  # the tracked file itself
+    candidate = tmp_path / "c" / "x_prospectus.json"
+    candidate.parent.mkdir()
+    candidate.write_text(json.dumps(fx.bscs()), encoding="utf-8")
+    out = temp_repo / "review" / "corrected_candidate.json"
+    assert fixer_main(["materialise", "--candidate", str(candidate), "--pdf-sha256", HASH, "--out", str(out)]) == 2
+    assert out.read_text(encoding="utf-8") == "{}\n"
+
+
+def test_item10_an_output_name_that_is_a_symlink_to_a_tracked_file_is_refused(temp_repo, tmp_path):
+    link = tmp_path / "outside" / "corrected.json"
+    link.parent.mkdir()
+    try:
+        link.symlink_to(temp_repo / "review" / "corrected_candidate.json")
+    except OSError:
+        pytest.skip("symlinks need privileges on this machine")
+    candidate = tmp_path / "c" / "x_prospectus.json"
+    candidate.parent.mkdir()
+    candidate.write_text(json.dumps(fx.bscs()), encoding="utf-8")
+    tracked = temp_repo / "review" / "corrected_candidate.json"
+    assert fixer_main(["materialise", "--candidate", str(candidate), "--pdf-sha256", HASH, "--out", str(link)]) == 2
+    assert tracked.read_text(encoding="utf-8") == "{}\n"
+
+
+def test_item11_appending_after_a_last_line_without_a_newline_keeps_one_entry_per_line(tmp_path):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    path.write_text(json.dumps(good_entry(payload["courses"][0]), sort_keys=True), encoding="utf-8", newline="")  # no "\n"
+    assert append_entries(path, [good_entry(payload["courses"][1])]) == (1, 0)
+    text = path.read_text(encoding="utf-8")
+    assert "}{" not in text and len(text.splitlines()) == 2 and len(read_entries(path)) == 2
+
+
+# --- re-review round 2: incomplete entries, missing reason, non-UTF-8 bytes
+
+@pytest.mark.parametrize("missing", ["entry_id", "old_value", "reason"])
+def test_r2_item2_3_an_entry_missing_entry_id_old_value_or_reason_is_invalid_not_a_crash(tmp_path, missing):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0], **{missing: ...}))
+    entries = read_entries(path)
+    assert entry_problem(entries[0]) and missing in entry_problem(entries[0])
+    _c, report = materialise(payload, entries, "b" * 64)          # another PDF: used to KeyError on entry_id
+    assert report["applied"] == 0 and report["skipped"][0]["reason"].startswith("invalid_entry")
+    assert materialise(payload, entries, HASH)[1]["applied"] == 0
+    assert content_review_state(payload, entries, HASH)["invalid_entries"] == 1
+
+
+def test_r2_item3_a_blank_reason_is_invalid_and_make_entry_refuses_it():
+    payload = fx.bscs()
+    assert entry_problem(good_entry(payload["courses"][0], reason="  "))
+    with pytest.raises(Exception, match="reason"):
+        make_entry(reviewer="N", reason=" ", pdf_sha256=HASH, locator=course_locator(payload["courses"][0]), field="row",
+                   disposition="accepted", old_value={}, new_value={}, section="s")
+
+
+def test_r2_item4_non_utf8_bytes_become_unreadable_lines_with_their_number(tmp_path):
+    payload = fx.bscs()
+    good = json.dumps(good_entry(payload["courses"][0]), sort_keys=True).encode("utf-8")
+    path = tmp_path / "ledger.jsonl"
+    path.write_bytes(b"\xef\xbb\xbf" + good + b"\r\n\xff\xfe bad\n" + good.replace(b"Discrete", b"Discr\xe9te") + b"\n" + good + b"\n")
+    entries = read_entries(path)                         # no UnicodeDecodeError, BOM and CRLF tolerated
+    bad = [e["_unreadable"] for e in entries if "_unreadable" in e]
+    assert len(entries) == 4 and bad[0].startswith("line 2") and len(bad) == 2 and bad[1].startswith("line 3")
+    assert materialise(payload, entries, HASH)[1]["applied"] == 1
+
+
+def test_r2_item1_a_remainder_printed_in_another_row_does_not_authorise_the_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][1]
+    course["course_code"], course["course_title"], course["units"] = "CS 1", "FIRST SEMESTER PRACTICUM", {"raw": "3"}
+    set_cell_text(payload, "t0-c18", "FIRST SEMESTER PRACTICUM")
+    page = "CS 1 FIRST SEMESTER PRACTICUM 3 OTHER 1 PRACTICUM 3"
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS) == []
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1", "OTHER 1"]) == []
+
+
+def test_r2_item1_the_remainder_printed_in_this_rows_own_band_still_authorises_the_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    page = "CC 1/L Introduction 2/1 FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 FIRST SEMESTER Other 3"
+    fixes = propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CC 1/L", "CC 2"])
+    assert [f.new for f in fixes] == ["Discrete Structures 1"]
+    elsewhere = "CS 1 FIRST SEMESTER Other title 3 CC 2 Discrete Structures 1 3"   # same words, another row
+    assert propose_fixes(course, roles(course, payload), page_text=elsewhere, banners=BANNERS, known_codes=["CC 2"]) == []
+
+
+def _page(*lines, height=800.0):
+    """PdfPage from lines of (text, left, bottom): 5-pt glyphs, 10 pt tall."""
+    chars = [(ch, left + i * 5, bottom, left + i * 5 + 5, bottom + 10) for text, left, bottom in lines for i, ch in enumerate(text)]
+    return PdfPage(" ".join(t for t, _l, _b in lines), chars, height)
+
+
+def test_r2_item5_a_wrapped_code_in_one_code_region_is_a_review_item_not_dropped():
+    from backend.bintanong_tools.prospectus_extractor.placement import unclaimed_items
+    page = _page(("Mktg", 400.0, 700.0), ("2001", 423.0, 686.0))          # adjacent lines, 3 pt apart
+    items = unclaimed_items({}, [], {1: page})
+    assert [(i["code"], i["confidence"]) for i in items] == [("Mktg 2001", "review")]
+    far = _page(("Law", 145.0, 700.0), ("3", 265.0, 686.0))                # the "3" is 100 pt away: the units column
+    assert unclaimed_items({}, [], {1: far}) == []
+    apart = _page(("Mktg", 400.0, 700.0), ("2001", 423.0, 600.0))          # lines 100 pt apart are not a wrap
+    assert unclaimed_items({}, [], {1: apart}) == []
+    split_word = _page(("Mk", 400.0, 700.0), ("tg", 412.0, 686.0), ("2001", 440.0, 672.0))   # three lines
+    assert unclaimed_items({}, [], {1: split_word}) == []
+
+
+def test_r2_item5_a_wrapped_code_is_a_warn_not_an_error_in_the_verifier():
+    payload = copy.deepcopy(fx.bscs())
+    v = verify_candidate(payload, {1: _page(("Zzzz", 400.0, 700.0), ("9999", 423.0, 686.0))})
+    flags = [f for s in v.sections for r in s.rows if r.item for f in r.flags]
+    assert [f.kind for f in flags] == ["unclaimed_code"] and flags[0].severity == "warn" and "wrapped" in flags[0].message
+
+
+# --- Codex Phase C review item 5: a decision counts only while its old value still matches the row
+
+def one_course_payload():
+    payload = fx.bscs()
+    payload["courses"] = payload["courses"][:1]
+    payload.get("audit", {}).pop("unclaimed_course_candidates", None)
+    return payload
+
+
+def test_phase_c5_a_row_decision_with_another_old_value_does_not_make_the_candidate_reviewed(tmp_path):
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    stale = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                       old_value={"course_code": "WRONG"}, new_value=None, section="s", now=NOW)
+    state = content_review_state(payload, [stale], HASH)
+    assert state["state"] != "reviewed" and state["decided"] == 0 and state["stale_entries"] == 1
+    fresh = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                       old_value=course_snapshot(course), new_value=None, section="s", now=NOW)
+    assert content_review_state(payload, [fresh], HASH)["state"] == "reviewed"
+    assert content_review_state(payload, [fresh], HASH)["stale_entries"] == 0
+
+
+def test_phase_c5_stale_entries_are_reported_with_their_line_number_and_never_raise(tmp_path):
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    stale = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                       old_value={"course_code": "WRONG"}, new_value=None, section="s", now=NOW)
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, "{broken", stale)
+    entries = read_entries(path)
+    state = content_review_state(payload, entries, HASH)
+    assert state["stale_lines"] == [2] and state["invalid_entries"] == 1
+    corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0 and any(s["reason"] == "old_value_changed" for s in report["skipped"])
+
+
+def test_phase_c5_a_stale_accept_does_not_mask_a_valid_correction_and_a_stale_correction_is_never_applied():
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    good = good_entry(course)                                              # corrected title, old value matches
+    stale_accept = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="course_title",
+                              disposition="accepted", old_value="not the title", new_value="not the title", section="s", now=NOW)
+    corrected, report = materialise(payload, [good, stale_accept], HASH)
+    assert report["applied"] == 1 and corrected["courses"][0]["course_title"] == "Discrete Structures One"
+    stale_fix = good_entry(course, old_value="something else")
+    corrected, report = materialise(payload, [stale_fix], HASH)
+    assert report["applied"] == 0 and corrected["courses"][0]["course_title"] == course["course_title"]
+
+
+# --- decision O1: the ledger can correct units and prerequisites
+
+UNIT_FIELDS = ("lecture_units", "lab_units", "total_units")
+
+
+def field_entry(course, field, new_value, **extra):
+    old = course.get(field) if field != "course_title" else course["course_title"]
+    kw = dict(reviewer="N", reason="read from the PDF", pdf_sha256=HASH, locator=course_locator(course), field=field,
+              disposition="corrected", old_value=old, new_value=new_value, section="s", now=NOW)
+    return make_entry(**{**kw, **extra})
+
+
+@pytest.mark.parametrize("field", UNIT_FIELDS)
+def test_o1_a_unit_correction_is_applied_and_every_unit_view_follows(field):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    entry = field_entry(course, field, 4)
+    assert entry_problem(entry) is None
+    corrected, report = materialise(payload, [entry], HASH)
+    assert report["applied"] == 1
+    out = corrected["courses"][0]
+    assert out[field] == 4 and out["units"][field.removesuffix("_units")] == 4
+    assert course[field] != 4 and payload["courses"][0][field] == course[field]       # the extraction is untouched
+
+
+@pytest.mark.parametrize("field,bad", [("total_units", -1), ("lab_units", "2"), ("lecture_units", True), ("total_units", float("nan")),
+                                       ("total_units", None), ("prerequisites_raw", 5), ("prerequisites_raw", None)])
+def test_o1_wrong_types_are_refused_when_writing_and_invalid_when_reading(field, bad):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    with pytest.raises(Exception):
+        field_entry(course, field, bad)
+    forged = {**field_entry(course, field, 3 if field != "prerequisites_raw" else "CS 1"), "new_value": bad}
+    assert entry_problem(forged)
+    assert materialise(payload, [forged], HASH)[1]["applied"] == 0
+
+
+def test_o1_a_prerequisites_correction_rederives_the_resolved_lists():
+    payload = fx.bscs()
+    course = payload["courses"][1]                     # CC 1/L
+    entry = field_entry(course, "prerequisites_raw", "CS 1, Ghost 99")
+    corrected, report = materialise(payload, [entry], HASH)
+    out = corrected["courses"][1]
+    assert report["applied"] == 1 and out["prerequisites_raw"] == "CS 1, Ghost 99"
+    assert out["prerequisites"] == ["CS 1"] and out["prerequisites_unresolved"] == ["Ghost 99"]
+    assert any("Ghost 99" in str(e) for e in corrected["prerequisite_edges"])     # the derived edges follow too
+
+
+def test_o1_a_unit_or_prerequisite_correction_on_a_changed_row_is_skipped_and_stale():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    for field, new in (("total_units", 9), ("prerequisites_raw", "CC 1/L")):
+        stale = field_entry(course, field, new, old_value="not what the row holds")
+        corrected, report = materialise(payload, [stale], HASH)
+        assert report["applied"] == 0 and report["skipped"][0]["reason"] == "old_value_changed"
+        assert content_review_state(payload, [stale], HASH)["stale_entries"] == 1
+
+
+def test_o1_old_ledgers_still_read_and_apply_unchanged(tmp_path):
+    payload = fx.bscs()
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, good_entry(payload["courses"][0]))
+    assert materialise(payload, read_entries(path), HASH)[1]["applied"] == 1
+
+
+# --- Codex final gate on B2: seven confirmed defects
+
+from backend.bintanong_tools.prospectus_extractor.ledger import correction_problem, entry_id_of
+
+
+def test_g1_a_forged_new_value_with_the_old_entry_id_is_invalid_and_not_applied(tmp_path):
+    payload = fx.bscs()
+    forged = good_entry(payload["courses"][0], new_value="FORGED TITLE")
+    assert "entry_id" in entry_problem(forged)
+    corrected, report = materialise(payload, [forged], HASH)
+    assert report["applied"] == 0 and corrected["courses"][0]["course_title"] != "FORGED TITLE"
+    assert entry_problem(good_entry(payload["courses"][0])) is None            # an honest entry (the old id scheme) still reads
+
+
+def test_g2_the_stale_check_never_equates_bool_with_number():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    lab = course["lab_units"]
+    assert lab == 0 and course["lab_units"] is not False
+    fix = field_entry(course, "lab_units", 4)
+    masking = field_entry(course, "lab_units", 5, disposition="accepted", old_value=False)   # False == 0 in Python
+    corrected, report = materialise(payload, [fix, masking], HASH)
+    assert report["applied"] == 1 and corrected["courses"][0]["lab_units"] == 4
+    assert content_review_state(payload, [masking], HASH)["stale_entries"] == 1
+    same = field_entry(course, "lab_units", 4, disposition="accepted", old_value=lab)
+    assert content_review_state(payload, [same], HASH)["stale_entries"] == 0
+
+
+@pytest.mark.parametrize("bad", [4.5, 4.0, 100, 10**1000, -1, True])
+def test_g3_g7_units_are_whole_numbers_up_to_99_and_a_huge_int_is_invalid_not_a_crash(bad):
+    assert correction_problem("total_units", bad)               # no OverflowError, no ValueError later
+    course = fx.bscs()["courses"][0]
+    forged = {**field_entry(course, "total_units", 4), "new_value": bad}
+    assert entry_problem(forged)
+    assert materialise(fx.bscs(), [forged], HASH)[1]["applied"] == 0
+    assert correction_problem("total_units", 0) is None and correction_problem("total_units", 99) is None
+
+
+@pytest.mark.parametrize("field", ["prerequisites_raw", "total_units", "lab_units", "lecture_units"])
+def test_g5_an_unresolved_decision_on_any_correctable_field_keeps_the_state_partial(field):
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    row = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                     old_value=course_snapshot(course), new_value=None, section="s", now=NOW)
+    held = field_entry(course, field, None, disposition="unresolved", old_value=course.get(field))
+    state = content_review_state(payload, [row, held], HASH)
+    assert state["state"] == "partially_reviewed" and state["unresolved"] == 1
+
+
+def test_g6_decisions_for_absent_courses_are_orphans_and_an_empty_candidate_is_never_reviewed():
+    payload = one_course_payload()
+    course = payload["courses"][0]
+    row = make_entry(reviewer="N", reason="r", pdf_sha256=HASH, locator=course_locator(course), field="row", disposition="accepted",
+                     old_value=course_snapshot(course), new_value=None, section="s", now=NOW)
+    empty = {**payload, "courses": []}
+    state = content_review_state(empty, [row], HASH)
+    assert state["state"] != "reviewed" and state["orphan_entries"] == 1 and state["decided"] == 0
+    assert content_review_state(empty, [], HASH)["state"] != "reviewed"
+    corrected, report = materialise(empty, [row], HASH)
+    assert report["applied"] == 0 and report["skipped"][0]["reason"] == "course_not_found"
+
+
+def test_g4_a_band_ends_at_any_code_shaped_token_known_or_not():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    page = "FIRST SEMESTER CS 1 Other OTHER 2 Discrete Structures 1 3"
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"]) == []
+    own = "FIRST SEMESTER CS 1 Discrete Structures 1 3 OTHER 2 Something 3"
+    assert [f.new for f in propose_fixes(course, roles(course, payload), page_text=own, banners=BANNERS, known_codes=["CS 1"])] == ["Discrete Structures 1"]
+
+
+# --- Codex re-gate on the final fixes
+
+def test_h1_an_int_and_a_float_are_never_the_same_stored_value():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    assert course["lab_units"] == 0 and type(course["lab_units"]) is int
+    fix = field_entry(course, "lab_units", 4)
+    float_old = {**field_entry(course, "lab_units", 5, disposition="accepted", old_value=0), "old_value": 0.0}
+    float_old["entry_id"] = entry_id_of(float_old)
+    corrected, report = materialise(payload, [fix, float_old], HASH)
+    assert content_review_state(payload, [float_old], HASH)["stale_entries"] == 1
+    assert report["applied"] == 1 and corrected["courses"][0]["lab_units"] == 4
+
+
+def test_h2_a_float_unit_entry_from_an_older_ledger_is_invalid_naming_the_float_and_never_a_crash(tmp_path):
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    old_style = {**field_entry(course, "total_units", 4), "new_value": 4.5}
+    old_style["entry_id"] = entry_id_of(old_style)         # honest id, as the old make_entry wrote it
+    path = tmp_path / "ledger.jsonl"
+    write_lines(path, old_style)
+    entries = read_entries(path)
+    assert "float" in entry_problem(entries[0]) and "4.5" in entry_problem(entries[0])
+    corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0 and report["skipped"][0]["reason"].startswith("invalid_entry")
+
+
+@pytest.mark.parametrize("huge", [10**10000, "x" * 10**6, [1] * 5, {"a": 1}], ids=["bigint", "bigstr", "list", "dict"])
+def test_h3_an_unbounded_value_is_described_not_formatted(huge):
+    for field in ("total_units", "prerequisites_raw", "term", "course_title"):
+        problem = correction_problem(field, huge)
+        assert problem is None or len(problem) < 300          # no ValueError from int-to-str, no megabyte message
+
+
+def test_h4_a_remainder_that_starts_with_a_code_shaped_token_is_never_proposed():
+    # "PE 1 Rhythmic" might be this course's own title or the next row's code and title. Without layout the two
+    # cannot be told apart, so the strict choice wins: no proposal, the row stays flagged for a human.
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER PE 1 Rhythmic"
+    set_cell_text(payload, "t0-c9", "FIRST SEMESTER PE 1 Rhythmic")
+    course["units"] = {**course["units"], "raw": "3"}
+    page = "FIRST SEMESTER CS 1 PE 1 Rhythmic 3 OTHER 2 Something 3"
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"]) == []
+    assert propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1", "PE 1"]) == []
+    next_row = "FIRST SEMESTER CS 1 Other PE 1 Rhythmic 3"           # the words belong to the row after, whose code is unknown
+    assert propose_fixes(course, roles(course, payload), page_text=next_row, banners=BANNERS, known_codes=["CS 1"]) == []
+    cross = "FIRST SEMESTER CS 1 Other OTHER 2 PE 1 Rhythmic 3"
+    assert propose_fixes(course, roles(course, payload), page_text=cross, banners=BANNERS, known_codes=["CS 1"]) == []
+
+
+def test_i1_pdf_evidence_must_sit_directly_after_this_rows_code():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    ask = lambda page: propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"])
+    for between in ("Other LONGPREFIX 2", "Other OTHER 2", "Other foo 2", "Other 12", "other", "x"):
+        assert ask(f"FIRST SEMESTER CS 1 {between} Discrete Structures 1 3") == [], between     # anything between: no evidence
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Other 3")] == ["Discrete Structures 1"]
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1")] == ["Discrete Structures 1"]          # end of the text
+    assert ask("FIRST SEMESTER CS 1 Discrete Structures 1 extra words 3") == []                                      # not followed by the units
+    assert ask("FIRST SEMESTER CS 1 Discrete Structures 12 3") == []                                                 # whole tokens only
+
+
+def test_j1_anchored_evidence_needs_the_anchor_printed_once_on_the_page():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]
+    course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    ask = lambda page: propose_fixes(course, roles(course, payload), page_text=page, banners=BANNERS, known_codes=["CS 1"])
+    assert ask("CS 1 Actual Title 3 CS 1 Discrete Structures 1 3") == []         # the code twice: another row's span is no evidence
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Other 3")] == ["Discrete Structures 1"]
+    assert [f.new for f in ask("FIRST SEMESTER CS 1 Discrete\u00a0Structures 1\n3")] == ["Discrete Structures 1"]   # unicode spaces and line breaks are fine
+
+    # a code strip: the title is the anchor and must be printed once
+    code_payload = copy.deepcopy(fx.bscs())
+    code_course = code_payload["courses"][0]
+    code_course["course_code"] = "FIRST SEMESTER CS 1"
+    set_cell_text(code_payload, "t0-c11", "FIRST SEMESTER CS 1")
+    set_cell_text(code_payload, "t0-c9", code_course["course_title"])
+    ask_code = lambda page: propose_fixes(code_course, roles(code_course, code_payload), page_text=page, banners=BANNERS)
+    title = code_course["course_title"]
+    assert [f.new for f in ask_code(f"FIRST SEMESTER CS 1 {title} 3")] == ["CS 1"]
+    assert ask_code(f"FIRST SEMESTER CS 1 {title} 3 CS 1 {title} 3") == []
+
+
+def test_k1_anchored_evidence_needs_both_sides_printed_once():
+    payload = copy.deepcopy(fx.bscs())
+    code_course = payload["courses"][0]
+    code_course["course_code"] = "FIRST SEMESTER CS 1"
+    set_cell_text(payload, "t0-c11", "FIRST SEMESTER CS 1")
+    set_cell_text(payload, "t0-c9", code_course["course_title"])
+    title = code_course["course_title"]
+    ask = lambda page: propose_fixes(code_course, roles(code_course, payload), page_text=page, banners=BANNERS)
+    assert ask(f"CS 1 Actual Course 3 CS 1 {title} 3") == []                     # the proposed code twice, the title once
+    assert ask(f"FIRST SEMESTER CS 1 {title} 3 CS 1 {title} 3") == []
+    assert [f.new for f in ask(f"FIRST SEMESTER CS 1 {title} 3")] == ["CS 1"]
+    # title strip: the remainder twice (the code once) is no evidence either
+    t_payload = copy.deepcopy(fx.bscs())
+    t_course = t_payload["courses"][0]
+    t_course["course_title"] = "FIRST SEMESTER Discrete Structures 1"
+    ask_t = lambda page: propose_fixes(t_course, roles(t_course, t_payload), page_text=page, banners=BANNERS)
+    assert ask_t("FIRST SEMESTER CS 1 Discrete Structures 1 3 CC 2 Discrete Structures 1 3") == []
+    assert [f.new for f in ask_t("FIRST SEMESTER CS 1 Discrete Structures 1 3")] == ["Discrete Structures 1"]
+
+
+def test_l1_a_shared_banner_cell_never_lends_another_rows_words_as_strip_evidence():
+    # t0-c9 ("FIRST SEMESTER Discrete Structures 1 1") is CS 1's title cell and the section banner; it rides along in
+    # CS 2's provenance. "Structures 1" inside it is CS 1's text, never evidence for CS 2's title.
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # CS 2
+    course["course_title"] = "FIRST SEMESTER Structures 1"
+    set_cell_text(payload, "t0-c14", course["course_title"])
+    assert strips(course, payload) == []          # (its own t0-c14 banner still proposes a move_term; that is not evidence)
+    # this course's own clean cell still authorises a strip
+    clean = copy.deepcopy(fx.bscs())
+    own = clean["courses"][2]
+    own["course_title"] = "FIRST SEMESTER Discrete Structures 2 2"
+    assert strips(own, clean) == ["Discrete Structures 2 2"]
+    assert [f.new for _l, f in by_code(clean, verify_candidate(clean))["CS 2"].fixes] == ["Discrete Structures 2 2"]
+    # an own row cell that carries any banner phrase never counts, even when the phrase is not next to the words
+    set_cell_text(clean, "t0-c14", "Discrete Structures 2 2 for FIRST YEAR")
+    assert strips(own, clean) == []
+
+
+# --- review of f0e0a3d: a strip evidence cell must belong to this row alone and equal the remainder
+
+def strips(course, payload):
+    from backend.bintanong_tools.prospectus_extractor.fixes import shared_cell_ids
+    fixes = propose_fixes(course, roles(course, payload), banners=BANNERS, shared_cells=shared_cell_ids(payload["courses"]))
+    return [f.new for f in fixes if f.kind == "strip_banner"]
+
+
+def still_leaks(payload, code):
+    row = by_code(payload, verify_candidate(payload))[code]
+    return all(f.kind != "strip_banner" for _l, f in row.fixes), [f.kind for f in row.flags]
+
+
+def assert_dropped_and_flagged(course, payload):
+    assert strips(course, payload) == []
+    no_strip, kinds = still_leaks(payload, course["course_code"])
+    assert no_strip and "banner_leak" in kinds, kinds
+
+
+def test_m_c1_a_cell_another_course_also_owns_is_never_evidence():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # CS 2, row 3
+    course["course_title"] = "FIRST SEMESTER Computer Programming 2"
+    cc3 = next(c for c in payload["courses"][3]["provenance"]["source_cells"] if c["cell_id"] == "t0-c21")
+    course["provenance"]["source_cells"].append({**cc3, "row_start": 3, "row_end": 4})   # CC 3/L's title cell, on CS 2's row
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_c2_a_cell_merged_across_rows_is_never_evidence():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]                                       # CS 1, row 3
+    course["course_code"] = "FIRST SEMESTER CS 1"
+    next(c for c in course["provenance"]["source_cells"] if c["cell_id"] == "t0-c11")["row_end"] = 5
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_c3_a_prerequisite_cell_never_authorises_a_code_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # CS 2: prerequisite cell t0-c16 "CS 1"
+    course["course_code"] = "FIRST SEMESTER CS 1"
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_s1_evidence_must_equal_the_whole_remainder():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]                                       # its title cell says "Discrete Structures 2 2"
+    course["course_title"] = "FIRST SEMESTER Structures 2"
+    assert_dropped_and_flagged(course, payload)
+
+
+@pytest.mark.parametrize("remainder", ["First Semester Seminar", "FIRSTSEMESTER Seminar", "FIRST TERM Seminar"])
+def test_m_s2_an_evidence_cell_with_banner_wording_in_any_case_or_form_never_counts(remainder):
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][2]
+    course["course_title"] = f"FIRST SEMESTER {remainder}"
+    set_cell_text(payload, "t0-c14", remainder)
+    assert_dropped_and_flagged(course, payload)
+
+
+def test_m_s3_a_units_cell_never_authorises_a_title_strip():
+    payload = copy.deepcopy(fx.bscs())
+    course = payload["courses"][0]                                       # CS 1: units cell t0-c12 "3"
+    course["course_title"] = "FIRST SEMESTER 3"
+    assert_dropped_and_flagged(course, payload)

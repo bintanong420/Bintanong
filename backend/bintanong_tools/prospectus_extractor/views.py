@@ -46,7 +46,7 @@ def write_review_csv(courses: Sequence[dict[str, Any]], output_path: Path) -> No
     ]
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", newline="", encoding="utf-8-sig") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for course in courses:
             source = course.get("_source", {})

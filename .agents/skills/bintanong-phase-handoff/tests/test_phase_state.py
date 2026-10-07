@@ -192,6 +192,127 @@ class PhaseStateTests(unittest.TestCase):
         self.assertFalse(payload["can_advance"])
         self.assertTrue(any("blocked" in reason.lower() for reason in payload["advance_reasons"]))
 
+    def prepared_plan(self, *, phase: int = 1, status: str = "ready", flag: object = True) -> None:
+        write_artifact(
+            self.repo / "plans" / "phase-00-plan.md",
+            {"artifact": "phase-plan", "phase": 0, "status": "complete"},
+        )
+        self.checkpoint(status="superseded")
+        self.handoff("complete")
+        write_artifact(
+            self.repo / "plans" / f"phase-{phase:02d}-plan.md",
+            {
+                "artifact": "phase-plan",
+                "phase": phase,
+                "status": status,
+                "preparation_only": flag,
+                "previous_handoff": "plans/phase-00-handoff.md",
+            },
+        )
+
+    def test_prepared_plan_preserves_completed_phase_gate_without_becoming_active(self) -> None:
+        self.prepared_plan()
+        result = run("can-advance", cwd=self.repo)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        payload = json.loads(result.stdout)
+        self.assertIsNone(payload["active_phase"])
+        self.assertIsNone(payload["active_plan"])
+        self.assertIsNone(payload["active_checkpoint"])
+        self.assertEqual(payload["latest_handoff"], "plans/phase-00-handoff.md")
+        self.assertEqual(payload["next_phase"], 1)
+
+    def test_prepared_plan_cannot_replace_previous_complete_handoff(self) -> None:
+        self.prepared_plan()
+        (self.repo / "plans" / "phase-00-handoff.md").unlink()
+        result = run("can-advance", cwd=self.repo)
+        self.assertNotEqual(result.returncode, 0)
+        payload = json.loads(result.stdout)
+        self.assertFalse(payload["can_advance"])
+        self.assertIsNone(payload["next_phase"])
+        self.assertIn("phase 0 has no complete handoff", payload["advance_reasons"])
+
+    def test_prepared_phase_handoff_cannot_authorize_phase_two(self) -> None:
+        self.prepared_plan()
+        write_artifact(
+            self.repo / "plans" / "phase-01-handoff.md",
+            {"artifact": "phase-handoff", "phase": 1, "status": "complete", "next_phase": 2},
+        )
+        payload = json.loads(run("can-advance", cwd=self.repo).stdout)
+        self.assertEqual(payload["next_phase"], 1)
+        self.assertEqual(payload["latest_handoff"], "plans/phase-00-handoff.md")
+
+    def test_prepared_plans_still_validate_duplicates_and_sequence(self) -> None:
+        self.prepared_plan(phase=2)
+        write_artifact(
+            self.repo / "plans" / "phase-02-other.md",
+            {"artifact": "phase-plan", "phase": 2, "status": "ready", "preparation_only": True},
+        )
+        payload = json.loads(run("validate", cwd=self.repo).stdout)
+        self.assertFalse(payload["valid"])
+        self.assertIn("duplicate phase-plan artifacts for phase 2", payload["errors"])
+        self.assertIn("phase plan sequence has gaps: [0, 2]", payload["errors"])
+
+    def test_validate_rejects_invalid_preparation_metadata(self) -> None:
+        for status, flag in (("in_progress", True), ("complete", True), ("blocked", True), ("ready", 1), ("ready", None), ("ready", '"true"')):
+            with self.subTest(status=status, flag=flag):
+                self.prepared_plan(status=status, flag=flag)
+                result = run("validate", cwd=self.repo)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("preparation_only", result.stdout)
+
+    def test_preparation_metadata_is_only_valid_on_phase_plans(self) -> None:
+        write_artifact(
+            self.repo / "plans" / "phase-00-handoff.md",
+            {"artifact": "phase-handoff", "phase": 0, "status": "complete", "preparation_only": True},
+        )
+        result = run("validate", cwd=self.repo)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("preparation_only", result.stdout)
+
+    def test_ordinary_ready_plan_remains_active(self) -> None:
+        for metadata in ({}, {"preparation_only": False}):
+            with self.subTest(metadata=metadata):
+                write_artifact(
+                    self.repo / "plans" / "phase-00-plan.md",
+                    {"artifact": "phase-plan", "phase": 0, "status": "ready", **metadata},
+                )
+                payload = json.loads(run("inspect", cwd=self.repo).stdout)
+                self.assertTrue(payload["valid"])
+                self.assertEqual(payload["active_phase"], 0)
+
+    def test_started_phase_preserves_superseded_previous_checkpoint(self) -> None:
+        self.prepared_plan()
+        write_artifact(
+            self.repo / "plans" / "phase-01-plan.md",
+            {"artifact": "phase-plan", "phase": 1, "status": "in_progress"},
+        )
+        result = run("validate", cwd=self.repo)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["active_phase"], 1)
+        self.assertFalse(payload["can_advance"])
+        self.assertIsNone(payload["next_phase"])
+        write_artifact(
+            self.repo / "plans" / "phase-01-handoff.md",
+            {"artifact": "phase-handoff", "phase": 1, "status": "complete", "next_phase": 2},
+        )
+        payload = json.loads(run("can-advance", cwd=self.repo).stdout)
+        self.assertTrue(payload["can_advance"])
+        self.assertEqual(payload["next_phase"], 2)
+
+    def test_started_phase_rejects_unfinished_previous_checkpoint(self) -> None:
+        self.prepared_plan()
+        write_artifact(
+            self.repo / "plans" / "phase-01-plan.md",
+            {"artifact": "phase-plan", "phase": 1, "status": "in_progress"},
+        )
+        for status in ("in_progress", "paused", "blocked"):
+            with self.subTest(status=status):
+                self.checkpoint(status=status)
+                result = run("validate", cwd=self.repo)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("checkpoint phase 0 does not match active plan phase 1", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

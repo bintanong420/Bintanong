@@ -16,6 +16,10 @@ previous_handoff: null
 
 Allowed statuses: `ready`, `in_progress`, `complete`, `blocked`.
 
+Optional frontmatter: `preparation_only: true` is a boolean flag permitted only on a `ready` phase plan. Omitted or `false` preserves ordinary ready-plan behavior. A preparation-only plan remains in duplicate and phase-sequence validation, but does not become active or replace the current phase for handoff/advancement checks. For example, a complete Phase 0 handoff plus a prepared Phase 1 plan reports no active phase, the Phase 0 handoff, and next permitted phase 1; preparation cannot authorize Phase 2.
+
+When implementation starts, remove `preparation_only` (or set it to `false`), change the plan to `in_progress`, create its checkpoint, and update the index's active pointers. Preserve previous superseded checkpoints in the ledger; unfinished checkpoints from another phase still invalidate the active-phase state. Phase 2 remains gated on a complete Phase 1 handoff.
+
 The body defines the goal, global constraints, review focus, task checklist, interfaces, verification, and exit gate. Preserve a plan after creation; implementation discoveries go into its checkpoint, decision records, and final handoff.
 
 ## Checkpoint

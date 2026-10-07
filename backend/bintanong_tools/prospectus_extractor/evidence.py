@@ -19,6 +19,7 @@ class SourceBBox:
     top: float | None
     right: float | None
     bottom: float | None
+    origin: str | None = None  # Docling coord_origin: "TOPLEFT" or "BOTTOMLEFT"; None when unrecorded
 
     def is_complete(self) -> bool:
         return None not in (self.left, self.top, self.right, self.bottom)
@@ -109,6 +110,7 @@ class ProspectusEvidence:
     source_kind: str = ""
     table_year_hints: dict[int, str] = field(default_factory=dict)
     table_year_hint_sources: dict[int, str] = field(default_factory=dict)
+    page_sizes: dict[int, tuple[float, float]] = field(default_factory=dict)  # page -> (width, height)
 
     @property
     def docling_doc(self) -> Any:  # compatibility for the layout chunker

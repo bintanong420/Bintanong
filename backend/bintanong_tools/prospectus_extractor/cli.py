@@ -22,7 +22,7 @@ def build_cli() -> argparse.ArgumentParser:
         epilog=(
             "Examples:\n"
             "  %(prog)s --self-test\n"
-            "  %(prog)s -i prospectus.pdf --export-pl --export-csv --export-jsonl\n"
+            "  %(prog)s -i prospectus.pdf --export-pl --export-csv --export-jsonl --export-md\n"
             "  %(prog)s -i prospectus_docling.json --dump-grid\n"
             "  %(prog)s -i \"D:/dump/Tiniguiban - Main\" --batch --strict\n"
         ),
@@ -36,11 +36,20 @@ def build_cli() -> argparse.ArgumentParser:
     parser.add_argument("--export-pl", action="store_true", help="Also write the Prolog knowledge base")
     parser.add_argument("--export-jsonl", action="store_true", help="Also write the RAG JSONL corpus")
     parser.add_argument("--export-csv", action="store_true", help="Also write the review CSV")
-    parser.add_argument("--export-all", action="store_true", help="Write .pl, .jsonl and .csv companions")
+    parser.add_argument("--export-md", action="store_true", help="Also write the prospectus-style Markdown view")
+    parser.add_argument("--export-all", action="store_true", help="Write .pl, .jsonl, .csv and .md companions")
     parser.add_argument("--batch", action="store_true", help="Treat the input as a folder")
     parser.add_argument("--pattern", action="append", default=None, help="Glob for batch mode (repeatable)")
-    parser.add_argument("--skip-existing", action="store_true", help="Batch: skip files already extracted")
-    parser.add_argument("--force", action="store_true", help="Process PDFs even with --skip-existing")
+    parser.add_argument(
+        "--skip-existing", action="store_true",
+        help="Batch: skip a PDF only when its last run has the same PDF bytes, conversion "
+             "settings, parser and schema, passed its audit, and still matches its publish manifest",
+    )
+    parser.add_argument(
+        "--force", action="store_true",
+        help="Process everything even with --skip-existing, and reconvert PDFs instead of "
+             "reusing a cached Docling JSON",
+    )
     parser.add_argument("--strict", action="store_true", help="Exit non-zero when the audit reports an error")
     parser.add_argument(
         "--semantic-doc",
@@ -71,6 +80,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     export_pl = args.export_pl or args.export_all
     export_jsonl = args.export_jsonl or args.export_all
     export_csv = args.export_csv or args.export_all
+    export_md = args.export_md or args.export_all
 
     input_path: Path = args.input or DEFAULT_TARGET_PDF
 
@@ -95,6 +105,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             write_pl=export_pl,
             write_jsonl=export_jsonl,
             write_csv=export_csv,
+            write_md=export_md,
             skip_existing=args.skip_existing,
             force_reconvert=args.force,
             device=args.device,
@@ -119,9 +130,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         export_pl=export_pl,
         export_jsonl=export_jsonl,
         export_csv=export_csv,
+        export_md=export_md,
         device=args.device,
         semantic_doc_path=semantic_doc,
-        force_reconvert=True,
+        force_reconvert=args.force,
     )
     if args.strict and payload["audit"]["status"] == "error":
         return 1

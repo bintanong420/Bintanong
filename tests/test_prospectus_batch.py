@@ -43,6 +43,17 @@ class IsolatedBatchTests(unittest.TestCase):
             self.assertEqual(manifest["records"][1]["status"], "processing_error")
             self.assertTrue((output / "isolated_manifest.json").is_file())
 
+    def test_isolated_manifest_is_written_with_lf_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "pdfs"
+            output = Path(directory) / "output"
+            source.mkdir()
+            (source / "a.pdf").write_bytes(b"%PDF-test")
+            with patch.object(prospectus_batch.subprocess, "run", side_effect=OSError("no launch")):
+                prospectus_batch.run_isolated(source, output, None)
+            raw = (output / "isolated_manifest.json").read_bytes()
+            self.assertNotIn(b"\r", raw)
+            self.assertIn(b"\n", raw)
     def test_child_launch_error_does_not_stop_later_pdf(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "pdfs"

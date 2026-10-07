@@ -28,6 +28,10 @@ class Artifact:
     def status(self) -> str:
         return str(self.metadata.get("status", ""))
 
+    @property
+    def preparation_only(self) -> bool:
+        return self.metadata.get("preparation_only") is True
+
 
 def scalar(value: str) -> Any:
     value = value.strip()
@@ -93,6 +97,11 @@ def inspect(repo: Path) -> dict[str, Any]:
             if not metadata or metadata.get("artifact") not in by_kind:
                 continue
             kind = str(metadata["artifact"])
+            if "preparation_only" in metadata:
+                if kind != "phase-plan" or not isinstance(metadata["preparation_only"], bool):
+                    errors.append(f"{relative(path, repo)} preparation_only must be a boolean on a phase plan")
+                elif metadata["preparation_only"] and metadata.get("status") != "ready":
+                    errors.append(f"{relative(path, repo)} preparation_only: true requires status: ready")
             if "phase" not in metadata:
                 errors.append(f"{relative(path, repo)} is missing phase metadata")
                 continue
@@ -125,7 +134,9 @@ def inspect(repo: Path) -> dict[str, Any]:
     active_plans = [
         artifacts[0]
         for artifacts in by_kind["phase-plan"].values()
-        if len(artifacts) == 1 and artifacts[0].status in ACTIVE_PLAN_STATUSES
+        if len(artifacts) == 1
+        and artifacts[0].status in ACTIVE_PLAN_STATUSES
+        and not artifacts[0].preparation_only
     ]
     if len(active_plans) > 1:
         errors.append("multiple active phase plans")
@@ -136,8 +147,8 @@ def inspect(repo: Path) -> dict[str, Any]:
         checkpoints = by_kind["phase-checkpoint"].get(active_plan.phase, [])
         if len(checkpoints) == 1:
             active_checkpoint = checkpoints[0]
-        for phase in by_kind["phase-checkpoint"]:
-            if phase != active_plan.phase:
+        for phase, checkpoints in by_kind["phase-checkpoint"].items():
+            if phase != active_plan.phase and any(item.status != "superseded" for item in checkpoints):
                 errors.append(
                     f"checkpoint phase {phase} does not match active plan phase {active_plan.phase}"
                 )
@@ -164,7 +175,12 @@ def inspect(repo: Path) -> dict[str, Any]:
         if recorded_tree == "clean" and dirty:
             warnings.append("checkpoint records a clean working tree but the working tree is dirty")
 
-    latest_phase = max(phase_numbers) if phase_numbers else None
+    current_phases = [
+        phase
+        for phase, artifacts in by_kind["phase-plan"].items()
+        if any(not item.preparation_only for item in artifacts)
+    ]
+    latest_phase = max(current_phases) if current_phases else None
     latest_handoff: Artifact | None = None
     if latest_phase is not None:
         handoffs = by_kind["phase-handoff"].get(latest_phase, [])

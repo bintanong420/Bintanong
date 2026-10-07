@@ -2,15 +2,19 @@
 
 from __future__ import annotations
 
-from importlib.metadata import version as package_version
+from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import Any
 from typing import Mapping
 from typing import Sequence
 import json
 import os
+import tempfile
 
 from .docling_env import _docling_importable, ensure_docling_env, get_shared_converter, load_docling
+from .identity import IDENTITY_VERSION, InputSnapshot, bytes_sha256, conversion_identity, conversion_settings
+from .publish import ReplaceFailed, replace_file
 from .text import clean_str, match_semester_labels, match_year_label
 from .grid import extract_table_year_contexts
 from .layout import detect_column_groups, is_header_row
@@ -49,6 +53,7 @@ def _source_bbox(value: Any, default_page: int | None = None) -> SourceBBox | No
                     float(bbox[top_key]),
                     float(bbox[right_key]),
                     float(bbox[bottom_key]),
+                    str(bbox["coord_origin"]) if bbox.get("coord_origin") else None,
                 )
             except (TypeError, ValueError):
                 return None
@@ -192,10 +197,20 @@ def evidence_adapter(
                 "item_id": f"text-{index}",
                 "label": str(item.get("label", "text")),
                 "text": value,
+                "raw_text": str(item.get("text", "") or ""),
                 "page": bbox.page if bbox else None,
                 "bbox": bbox.as_list() if bbox else None,
+                "origin": bbox.origin if bbox else None,
             }
         )
+
+    page_sizes: dict[int, tuple[float, float]] = {}
+    for key, page in (raw_dict.get("pages") or {}).items():
+        size = page.get("size") if isinstance(page, Mapping) else None
+        try:
+            page_sizes[int(key)] = (float(size["width"]), float(size["height"]))
+        except (TypeError, ValueError, KeyError):
+            continue
 
     try:
         markdown = docling_document.export_to_markdown() if docling_document is not None else ""
@@ -222,6 +237,7 @@ def evidence_adapter(
         source_kind=source_kind,
         table_year_hints=table_year_hints,
         table_year_hint_sources=_table_year_hint_sources(raw_dict),
+        page_sizes=page_sizes,
     )
 
 
@@ -283,36 +299,124 @@ def _conversion_errors(result: Any) -> list[str]:
     return [clean_str(e) for e in (getattr(result, "errors", None) or []) if clean_str(e)]
 
 
-def _docling_runtime_fingerprint() -> dict[str, Any]:
-    return {
-        "profile": "palsu-born-digital-v3",
-        "docling": package_version("docling"),
-        "docling_core": package_version("docling-core"),
-        "docling_parse": package_version("docling-parse"),
-        "cell_matching": os.environ.get("PALSU_DOCLING_CELL_MATCHING", "true").strip().lower(),
-    }
-
-
 def _cache_meta_path(raw_json_path: Path) -> Path:
     return raw_json_path.with_name(raw_json_path.stem + ".meta.json")
 
 
-def load_document(
+def _write_bytes_atomic(path: Path, data: bytes) -> None:
+    """Write a temp file of this call's own beside the target, then replace: a reader
+    never sees half a file and two writers never share a temp file. If the replace
+    fails (publish.ReplaceFailed after retries), the temp is removed."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle, temp_name = tempfile.mkstemp(dir=path.parent, prefix=".t-", suffix=".tmp")
+    temp = Path(temp_name)
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(data)
+        replace_file(temp, path)
+    except BaseException:
+        temp.unlink(missing_ok=True)
+        raise
+
+
+@dataclass(frozen=True)
+class DocumentLoadResult:
+    document: LoadedDocument
+    raw_json_path: Path | None
+    cache_status: str
+    raw_json_bytes: bytes | None = None
+    raw_json_sha256: str | None = None
+    meta_bytes: bytes | None = None
+    meta_sha256: str | None = None
+
+
+def _load_reusable_cache_result(
+    raw_json_path: Path, meta_path: Path, pdf_sha256: str, settings: Mapping[str, Any]
+) -> tuple[DocumentLoadResult | None, str]:
+    """The cached raw Docling JSON as a document when it may stand in for a fresh
+    conversion, else (None, reason). Any doubt is a miss, never an error.
+
+    The record's `pdf_sha256` and `conversion_settings` must each equal the current ones
+    and its `conversion_identity` must be the identity of exactly those. The JSON is read
+    once; the digest is checked on those bytes and those same bytes are parsed, so a
+    writer replacing the file meanwhile cannot slip other content in.
+    """
+    expected_identity = conversion_identity(pdf_sha256, settings)
+    try:
+        meta_bytes = Path(meta_path).read_bytes()
+        meta = json.loads(meta_bytes.decode("utf-8"))
+    except FileNotFoundError:
+        return None, "cached Docling JSON has no identity record"
+    except (OSError, ValueError):
+        return None, "identity record is unreadable"
+    if (
+        not isinstance(meta, dict)
+        or meta.get("identity_version") != IDENTITY_VERSION
+        or "conversion_identity" not in meta
+    ):
+        return None, "identity record is from an older version"
+    if meta["conversion_identity"] != expected_identity:
+        return None, "PDF bytes or conversion settings changed"
+    if meta.get("pdf_sha256") != pdf_sha256:
+        return None, "identity record names other PDF bytes"
+    if meta.get("conversion_settings") != dict(settings):
+        return None, "identity record names other conversion settings"
+    try:
+        raw_bytes = Path(raw_json_path).read_bytes()
+    except FileNotFoundError:
+        return None, "no cached Docling JSON"
+    except OSError:
+        return None, "cached Docling JSON is unreadable"
+    raw_hash = bytes_sha256(raw_bytes)
+    if meta.get("raw_json_sha256") != raw_hash:
+        return None, "cached JSON does not match its identity record"
+    try:
+        data = json.loads(raw_bytes.decode("utf-8"))
+        if not isinstance(data, dict):
+            return None, "cached Docling JSON is not a document"
+        return DocumentLoadResult(
+            load_from_raw_json(data), raw_json_path, "reused", raw_bytes, raw_hash,
+            meta_bytes, bytes_sha256(meta_bytes),
+        ), "identity matches"
+    except ValueError as exc:  # bad UTF-8, bad JSON, or a dict Docling rejects
+        return None, f"cached Docling JSON is corrupt ({type(exc).__name__})"
+
+
+def load_reusable_cache(
+    raw_json_path: Path, meta_path: Path, pdf_sha256: str, settings: Mapping[str, Any]
+) -> tuple[LoadedDocument | None, str]:
+    result, reason = _load_reusable_cache_result(raw_json_path, meta_path, pdf_sha256, settings)
+    return (result.document if result is not None else None), reason
+
+
+def load_document_result(
     input_path: Path,
     device: str = "auto",
     force_reconvert: bool = True,
     converter: Any = None,
     raw_json_path: Path | None = None,
-) -> tuple[LoadedDocument, Path | None]:
+    stage_dir: Path | None = None,
+    *,
+    snapshot: InputSnapshot | None = None,
+) -> DocumentLoadResult:
+    """Load a PDF (convert or reuse an identity-matched cache) or a raw Docling JSON.
+
+    A Docling JSON given as the input is a review input: nothing verifies which PDF
+    or settings produced it. When `stage_dir` is given, a fresh conversion is written
+    there and the returned path is where it will be published; the caller publishes it.
+    """
     input_path = Path(input_path).resolve()
     if not input_path.exists():
         raise FileNotFoundError(f"Input file not found: {input_path}")
+    captured = snapshot if snapshot is not None else InputSnapshot(input_path)
+    captured.require_path(input_path)
 
     suffix = input_path.suffix.lower()
     if suffix == ".json":
-        data = json.loads(input_path.read_text(encoding="utf-8"))
-        print(f"[*] Loading Docling JSON: {input_path.name}")
-        return load_from_raw_json(data), input_path
+        data = json.loads(captured.data.decode("utf-8"))
+        print(f"[*] Loading Docling JSON: {input_path.name} (review input; source PDF not verified)")
+        return DocumentLoadResult(load_from_raw_json(data), input_path, "not-applicable")
 
     if suffix != ".pdf":
         raise ValueError(f"Unsupported input type: {input_path.suffix}")
@@ -322,33 +426,33 @@ def load_document(
 
     raw_json_path = Path(raw_json_path).resolve() if raw_json_path else input_path.parent / f"{input_path.stem}_docling.json"
     meta_path = _cache_meta_path(raw_json_path)
-    fingerprint = _docling_runtime_fingerprint()
+    settings = conversion_settings()
+    pdf_hash = captured.sha256
+    expected = conversion_identity(pdf_hash, settings)
 
-    cache_valid = False
-    if raw_json_path.exists() and meta_path.exists() and not force_reconvert:
-        try:
-            cache_valid = json.loads(meta_path.read_text(encoding="utf-8")) == fingerprint
-        except Exception:
-            cache_valid = False
-
-    if raw_json_path.exists() and cache_valid and not force_reconvert:
-        print(f"[*] Reusing compatible raw Docling JSON: {raw_json_path.name}")
-        data = json.loads(raw_json_path.read_text(encoding="utf-8"))
-        return load_from_raw_json(data), raw_json_path
-
-    if raw_json_path.exists() and not force_reconvert:
-        print("[*] Existing raw Docling JSON is stale/unversioned; reconverting automatically.")
+    if not force_reconvert:
+        cached, reason = _load_reusable_cache_result(raw_json_path, meta_path, pdf_hash, settings)
+        if cached is not None:
+            print(f"[*] Reusing raw Docling JSON with matching identity: {raw_json_path.name}")
+            return cached
+        if raw_json_path.exists():
+            print(f"[*] Ignoring cached Docling JSON ({reason}); reconverting.")
 
     print(f"[*] Converting with Docling ({device.upper()}): {input_path.name}")
-    active = converter or get_shared_converter(device=device, backend="docling_parse")
-    result = active.convert(str(input_path))
+    active = converter or get_shared_converter(
+        device=device, backend="docling_parse", settings=settings)
+    from docling.datamodel.base_models import DocumentStream
+
+    result = active.convert(DocumentStream(name=input_path.name, stream=BytesIO(captured.data)))
 
     if _conversion_has_bad_alloc(result):
         print(
             "[!] Native Docling PDF backend hit std::bad_alloc; retrying through "
             "Docling's PyPdfium backend (NOT PyMuPDF)."
         )
-        result = get_shared_converter(device=device, backend="pypdfium2").convert(str(input_path))
+        result = get_shared_converter(
+            device=device, backend="pypdfium2", settings=settings).convert(
+                DocumentStream(name=input_path.name, stream=BytesIO(captured.data)))
 
     if _conversion_has_bad_alloc(result):
         raise MemoryError(
@@ -365,16 +469,44 @@ def load_document(
 
     doc = result.document
     raw = doc.export_to_dict() if hasattr(doc, "export_to_dict") else doc.model_dump(mode="json")
-    raw_json_path.parent.mkdir(parents=True, exist_ok=True)
-    raw_json_path.write_text(json.dumps(raw, indent=2, ensure_ascii=False), encoding="utf-8")
-    meta_path.write_text(json.dumps(fingerprint, indent=2), encoding="utf-8")
-    print(f"[+] Raw Docling JSON -> {raw_json_path.name}")
+    raw_bytes = json.dumps(raw, indent=2, ensure_ascii=False).encode("utf-8")
+    meta = {
+        "identity_version": IDENTITY_VERSION,
+        "pdf_sha256": pdf_hash,
+        "conversion_settings": settings,
+        "conversion_identity": expected,
+        "raw_json_sha256": bytes_sha256(raw_bytes),
+    }
+    write_dir = Path(stage_dir) if stage_dir else raw_json_path.parent
+    if stage_dir is None:
+        captured.verify_unchanged()
+    # raw JSON first, meta second: a crash between them leaves a pair that fails the sha check.
+    _write_bytes_atomic(write_dir / raw_json_path.name, raw_bytes)
+    meta_bytes = json.dumps(meta, indent=2).encode("utf-8")
+    _write_bytes_atomic(write_dir / meta_path.name, meta_bytes)
+    print(f"[+] Raw Docling JSON -> {write_dir / raw_json_path.name}")
 
     rehydrated = load_docling()["DoclingDocument"].model_validate(raw)
-    return _load_from_rehydrated_docling_document(
-        rehydrated, "docling-document", raw
-    ), raw_json_path
+    return DocumentLoadResult(
+        _load_from_rehydrated_docling_document(rehydrated, "docling-document", raw),
+        raw_json_path, "converted", raw_bytes, meta["raw_json_sha256"],
+        meta_bytes, bytes_sha256(meta_bytes),
+    )
 
+
+def load_document(
+    input_path: Path,
+    device: str = "auto",
+    force_reconvert: bool = True,
+    converter: Any = None,
+    raw_json_path: Path | None = None,
+    stage_dir: Path | None = None,
+) -> tuple[LoadedDocument, Path | None]:
+    """Compatibility wrapper for callers that unpack (document, raw JSON path)."""
+    result = load_document_result(
+        input_path, device, force_reconvert, converter, raw_json_path, stage_dir,
+    )
+    return result.document, result.raw_json_path
 
 def dump_grid(document: LoadedDocument) -> str:
     """Human-readable dump of every reconstructed table row - the debugging tool v1 lacked."""

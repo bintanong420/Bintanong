@@ -1,0 +1,190 @@
+import copy
+import json
+from datetime import datetime, timezone
+
+import pytest
+
+from backend.bintanong_tools.prospectus_extractor.ledger import (entry_id_of,
+    CORRECTED, course_locator, course_snapshot, make_entry, materialise, write_corrected,
+)
+
+import fixer_fixtures as fx
+
+HASH = "a" * 64
+OTHER = "b" * 64
+NOW = datetime(2026, 10, 4, 9, 30, tzinfo=timezone.utc)
+
+def entry(course, field="row", disposition="accepted", old=None, new=None, pdf=HASH, reason="r", **extra):
+    snapshot = course_snapshot(course)
+    return make_entry(
+        reviewer="Nestor", reason=reason, pdf_sha256=pdf, locator=course_locator(course), field=field,
+        disposition=disposition, old_value=snapshot if old is None and field == "row" else old,
+        new_value=snapshot if new is None and field == "row" else new, section="1st Year - 1st Semester",
+        now=NOW, **extra)
+
+
+def corrected_title(course, new, pdf=HASH):
+    return entry(course, "course_title", "corrected", course["course_title"], new, pdf=pdf, fix_id="title_from_pdf:course_title@x")
+
+
+def test_entries_for_another_pdf_are_reported_not_applied():
+    payload = fx.bscs()
+    course = payload["courses"][0]
+    theirs = corrected_title(course, "Theirs", pdf=OTHER)
+    corrected, report = materialise(payload, [theirs], HASH)
+    assert corrected["courses"][0]["course_title"] == "Discrete Structures 1"
+    assert report["skipped"] == [{"entry_id": theirs["entry_id"], "reason": "pdf_sha256_mismatch"}]
+    assert corrected["review"]["content_review"]["inapplicable_entries"] == 1
+
+
+def test_materialise_applies_corrections_rebuilds_views_and_leaves_the_input_alone():
+    payload = fx.architecture()
+    original = copy.deepcopy(payload)
+    gepc, toa = payload["courses"][3], payload["courses"][1]
+    move = payload["courses"][4]   # AD-2/L: 1st Year 2nd Semester
+    entries = [
+        entry(gepc), corrected_title(gepc, "Purposive Communication"),
+        entry(toa), corrected_title(toa, "Theory of Architecture1"),
+        entry(move), entry(move, "term", "corrected", "1st Year / 2nd Semester", "1st Year / 1st Semester"),
+    ]
+    corrected, report = materialise(payload, entries, HASH)
+    assert payload == original                                          # never edited in place
+    by_code = {c["course_code"]: c for c in corrected["courses"]}
+    assert by_code["GE-PC"]["course_title"] == "Purposive Communication" and by_code["GE-PC"]["title"] == "Purposive Communication"
+    assert by_code["AD-2/L"]["semester"] == "1st Semester" and by_code["AD-2/L"]["term_index"] == 11
+    assert [c["course_code"] for c in corrected["curriculum_by_term"]["1st Year"]["1st Semester"]][-1] == "AD-2/L"
+    assert corrected["review"]["applied_entry_ids"] == sorted(e["entry_id"] for e in entries if e["disposition"] == CORRECTED)
+    assert report["applied"] == 3 and report["skipped"] == []
+    assert set(corrected["review"]["derived_sections_stale"]) >= {"audit", "prolog", "rag"}
+    assert corrected["review"]["verification_counts"] == {"prereq_order": 1, "unit_total": 2}  # the move is a bad one: the verifier says so
+    assert corrected["review"]["content_review"]["state"] == "partially_reviewed"
+
+
+def test_a_correction_is_skipped_when_the_value_it_was_made_against_has_changed_or_the_course_is_gone():
+    payload = fx.architecture()
+    toa = payload["courses"][1]
+    stale = corrected_title(toa, "Theory of Architecture1")
+    stale["old_value"] = "something the extractor no longer produces"
+    stale["entry_id"] = entry_id_of(stale)      # an honestly written entry, not a forged one
+    gone = copy.deepcopy(toa)
+    gone["provenance"]["source_cell_ids"] = ["t9-c1"]
+    lost = corrected_title(gone, "Nowhere")
+    corrected, report = materialise(payload, [entry(toa), stale, entry(gone), lost], HASH)
+    assert {s["reason"] for s in report["skipped"]} == {"old_value_changed", "course_not_found"}
+    assert corrected["courses"][1]["course_title"] == toa["course_title"]
+
+
+def test_a_later_row_accept_reverts_an_earlier_correction():
+    payload = fx.architecture()
+    toa = payload["courses"][1]
+    entries = [entry(toa), corrected_title(toa, "Theory of Architecture1"), entry(toa, reason="reverted")]
+    corrected, report = materialise(payload, entries, HASH)
+    assert report["applied"] == 0
+    assert {c["course_code"]: c["course_title"] for c in corrected["courses"]}["TOA-1/L"] == toa["course_title"]
+
+
+def test_the_corrected_candidate_is_byte_identical_for_the_same_inputs(tmp_path):
+    payload = fx.architecture()
+    toa = payload["courses"][1]
+    entries = [entry(toa), corrected_title(toa, "Theory of Architecture1")]
+    one, two = tmp_path / "one.json", tmp_path / "two.json"
+    write_corrected(one, materialise(payload, entries, HASH)[0])
+    write_corrected(two, materialise(copy.deepcopy(payload), list(entries), HASH)[0])
+    assert one.read_bytes() == two.read_bytes() and b"\r\n" not in one.read_bytes()
+
+
+def test_the_raw_candidate_file_is_byte_identical_after_materialising(tmp_path):
+    payload = fx.architecture()
+    toa = payload["courses"][1]
+    raw = tmp_path / "candidate.json"
+    write_corrected(raw, payload)                  # stands in for the extractor's file
+    before = raw.read_bytes()
+    loaded = json.loads(raw.read_text(encoding="utf-8"))
+    corrected, _ = materialise(loaded, [entry(toa), corrected_title(toa, "Theory of Architecture1")], HASH)
+    write_corrected(tmp_path / "corrected.json", corrected)
+    assert raw.read_bytes() == before
+    assert json.loads(raw.read_text(encoding="utf-8")) == payload
+
+def test_prerequisite_correction_reclassifies_rule_completeness():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
+    payload = fx.bscs()
+    annotate_prerequisite_states(payload["courses"])
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+    decision = entry(course, "prerequisites_raw", "corrected", "CS 1", "CS 1, Ghost 99")
+    corrected, report = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert report["applied"] == 1
+    assert result["prerequisites_unresolved"] == ["Ghost 99"]
+    assert result["prerequisite_state"] == "unresolved_reference"
+    assert "CS 2" not in generate_prolog_knowledge({}, corrected["courses"], [], [])["relations"]["rule_complete"]
+    assert course["prerequisite_state"] == "resolved"
+
+
+def test_code_correction_reclassifies_other_courses_prerequisites():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    payload = fx.bscs()
+    annotate_prerequisite_states(payload["courses"])
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 1")
+    decision = entry(course, "course_code", "corrected", "CS 1", "CS 99")
+    corrected, report = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert report["applied"] == 1
+    assert result["prerequisite_state"] == "unresolved_reference"
+
+
+def test_materialise_keeps_source_prerequisite_ambiguity_unreadable():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    payload = fx.bscs()
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+    anomalies = [{"type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c16"]}]
+    payload["audit"]["structural_anomalies"] = anomalies
+    annotate_prerequisite_states(payload["courses"], anomalies)
+    decision = corrected_title(course, "Discrete Structures II")
+    corrected, _ = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert result["prerequisite_state"] == "unreadable"
+
+
+@pytest.mark.parametrize("verification", ["verified", "pending"])
+@pytest.mark.parametrize("correction,incomplete", [(None, 0), ("CS 1, Ghost 99", 1)])
+def test_materialised_review_artifacts_recompute_gates_and_block_stale_authority(verification, correction, incomplete):
+    from types import SimpleNamespace
+    import test_prospectus_authority as af
+
+    source = SimpleNamespace(pdf_sha256=af.SOURCE_HASH, source_locator="local/x.pdf", source_verification=verification)
+    rows = [af._cs_row(("CS 1", "Discrete Structures", "3", "none"),
+                      ("CS 2", "Discrete Structures 2", "3", "CS 1"))]
+    draft = af.payload_for(rows, source=source)
+    payload = af.payload_for(rows, source=source, pdf_hash_check="matched",
+                             approved_scope={"program_name": draft["metadata"]["program_name"]},
+                             review_entries=af.ledger_row_entries(draft))
+    original = copy.deepcopy(payload)
+    assert payload["authority"]["eligibility_executable"] is (verification == "verified")
+    decisions = af.ledger_row_entries(payload)
+    if correction is not None:
+        course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+        decisions.append(entry(course, "prerequisites_raw", "corrected", "CS 1", correction, pdf=af.SOURCE_HASH))
+    corrected, report = materialise(payload, decisions, af.SOURCE_HASH)
+    assert report["applied"] == incomplete
+    assert corrected["authority"]["eligibility_executable"] is False
+    assert corrected["authority"]["courses_with_incomplete_prerequisite_rule"] == incomplete
+    assert ("prerequisite_rules_incomplete" in corrected["authority"]["blocked_by"]) is bool(incomplete)
+    assert "derived_sections_stale" in corrected["authority"]["blocked_by"]
+    assert "authority" in corrected["review"]["derived_sections_stale"]
+    assert corrected["source_verification"] == verification
+    assert ("source_verification_pending" in corrected["authority"]["blocked_by"]) is (verification == "pending")
+    assert corrected["content_review"] == corrected["review"]["content_review"]["state"] == "reviewed"
+    assert corrected["authority"]["content_review_detail"] == corrected["review"]["content_review"]
+    assert payload == original
+
+
+def test_materialising_new_ledger_evidence_refreshes_top_level_review_status():
+    import test_prospectus_authority as af
+
+    payload = af.payload_for([af.CONTROL])
+    assert payload["content_review"] == "pending"
+    corrected, _ = materialise(payload, af.ledger_row_entries(payload), af.SOURCE_HASH)
+    assert corrected["content_review"] == "reviewed"
+    assert corrected["source_verification"] == "pending"
+    assert corrected["authority"]["eligibility_executable"] is False
