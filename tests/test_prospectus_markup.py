@@ -557,3 +557,18 @@ def test_page_values_are_escaped_in_attributes_and_comments():
     assert 'onmouseover="x' not in html and "<b>" not in html
     comment = re.search(r"<!-- page (.*?) -->\n<hr>", html).group(1)
     assert "-->" not in comment and "<" not in comment and "--" not in comment
+
+@pytest.mark.parametrize("digest", ["a" * 64, None])
+def test_staged_markup_uses_only_the_captured_pdf_identity(tmp_path, digest):
+    from backend.bintanong_tools.prospectus_extractor.publish import output_names
+    stage = tmp_path / "stage"
+    stage.mkdir()
+    names = output_names(tmp_path / "candidate.json")
+    payload = {"audit": {"status": "error"}, "run_identity": {
+        "pdf_sha256": digest, "input_sha256": "b" * 64,
+    }}
+    pipeline._stage_outputs(stage, names, evidence([]), payload,
+                            False, False, False, False, True)
+    first = (stage / names.markup.name).read_text(encoding="utf-8").splitlines()[0]
+    assert f"pdf_sha256: {digest or 'not recorded'}" in first
+    assert "b" * 64 not in first

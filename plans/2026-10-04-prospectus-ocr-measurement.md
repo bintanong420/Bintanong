@@ -1,6 +1,10 @@
 # Prospectus OCR Measurement Implementation Plan
 
+> **Publication scope (2026-10-07): plan only.** OCR implementation is excluded from this publication branch. The historical status and dependency snippets below describe their original baseline; current engine setup exists only in local worktrees. Accuracy must use fixed, PDF-backed reviewed references, never a newly generated candidate as its own answer key. Real-photo assessment and production integration remain pending. Fresh external environments are authorized; existing environments remain untouched. No attribution trailers are permitted.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task, with superpowers:test-driven-development inside each task. Steps use checkbox (`- [ ]`) syntax for tracking. Tasks 1 to 3 are already built (see "Status"); Tasks 4 to 9 are not started. Task 4a (installing GPU/CPU dependencies) is gated on the user's go-ahead, and the real-photo half of Task 8 waits for the user to take the photos.
+
+> **Local integration context (2026-10-07):** The historical publication-scope header above describes the published A–D branch. This local GUI integration preserves the complete OCR plan and its pending measurement/photo gates; the GUI technical batch adds no OCR implementation or measurements.
 
 **Goal:** Find out, with numbers, whether any of six OCR configurations can read a photographed PalSU prospectus well enough to be called "supported" (Q11), before any OCR is wired into the pipeline. The born-digital extractor output (JSON plus markup twin) is the answer key. Disagreements become review rows in the Phase B2 format, so a human decides; OCR never promotes itself.
 

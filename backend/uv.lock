@@ -175,6 +175,11 @@ ocr-gpu = [
     { name = "torchvision", version = "0.29.0", source = { registry = "https://pypi.org/simple" }, marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra != 'extra-17-bintanong-backend-embedding' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform != 'linux' and sys_platform != 'win32' and extra != 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'linux' and extra != 'extra-17-bintanong-backend-embedding' and extra == 'extra-17-bintanong-backend-ocr-cpu' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'linux' and extra != 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-ocr-cpu' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'win32' and extra != 'extra-17-bintanong-backend-embedding' and extra == 'extra-17-bintanong-backend-ocr-cpu' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'win32' and extra != 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-ocr-cpu' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (extra == 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-embedding')" },
     { name = "torchvision", version = "0.29.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "(sys_platform == 'linux' and extra != 'extra-17-bintanong-backend-embedding' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'linux' and extra != 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'win32' and extra != 'extra-17-bintanong-backend-embedding' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (sys_platform == 'win32' and extra != 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (extra == 'extra-17-bintanong-backend-ocr-cpu' and extra == 'extra-17-bintanong-backend-ocr-gpu') or (extra == 'extra-17-bintanong-backend-api' and extra == 'extra-17-bintanong-backend-embedding')" },
 ]
+review = [
+    { name = "fastapi" },
+    { name = "httpx" },
+    { name = "uvicorn" },
+]
 tools = [
     { name = "docling" },
     { name = "reportlab" },
@@ -187,7 +192,9 @@ requires-dist = [
     { name = "docling", marker = "extra == 'tools'", specifier = "==2.133.0" },
     { name = "fastapi", marker = "extra == 'api'", specifier = "==0.141.1" },
     { name = "fastapi", marker = "extra == 'embedding'", specifier = "==0.141.1" },
+    { name = "fastapi", marker = "extra == 'review'", specifier = "==0.141.1" },
     { name = "httpx", marker = "extra == 'api'", specifier = "==0.28.1" },
+    { name = "httpx", marker = "extra == 'review'", specifier = "==0.28.1" },
     { name = "janus-swi", marker = "extra == 'api'", specifier = "==1.5.3" },
     { name = "numpy", marker = "extra == 'embedding'", specifier = "==2.5.3" },
     { name = "onnxruntime", marker = "extra == 'ocr-cpu'", specifier = "==1.30.0" },
@@ -210,8 +217,9 @@ requires-dist = [
     { name = "typer", marker = "extra == 'tools'", specifier = "==0.26.8" },
     { name = "uvicorn", marker = "extra == 'api'", specifier = "==0.53.0" },
     { name = "uvicorn", marker = "extra == 'embedding'", specifier = "==0.53.0" },
+    { name = "uvicorn", marker = "extra == 'review'", specifier = "==0.53.0" },
 ]
-provides-extras = ["api", "embedding", "tools", "ocr-gpu", "ocr-cpu", "dev"]
+provides-extras = ["api", "embedding", "review", "tools", "ocr-gpu", "ocr-cpu", "dev"]
 
 [[package]]
 name = "certifi"

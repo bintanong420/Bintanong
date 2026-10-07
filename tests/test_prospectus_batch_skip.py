@@ -25,7 +25,7 @@ def env(tmp_path, monkeypatch, pdf_factory, converter, pipeline_state, snapshot)
     pdf = pdf_factory(source)
     monkeypatch.setattr(loader, "get_shared_converter", lambda *a, **k: converter)
     # BatchConfig.write_md defaults to True; the stub payload is not renderable as markup.
-    monkeypatch.setattr(pipeline, "render_prospectus_markup", lambda document, payload: "twin\n")
+    monkeypatch.setattr(pipeline, "render_prospectus_markup", lambda document, payload, *, pdf_sha256=None: "twin\n")
 
     def run(**overrides):
         config = BatchConfig(input_root=source, output_root=out, semantic_doc=None,

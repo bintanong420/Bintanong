@@ -2,6 +2,8 @@ import copy
 import json
 from datetime import datetime, timezone
 
+import pytest
+
 from backend.bintanong_tools.prospectus_extractor.ledger import (entry_id_of,
     CORRECTED, course_locator, course_snapshot, make_entry, materialise, write_corrected,
 )
@@ -102,3 +104,287 @@ def test_the_raw_candidate_file_is_byte_identical_after_materialising(tmp_path):
     write_corrected(tmp_path / "corrected.json", corrected)
     assert raw.read_bytes() == before
     assert json.loads(raw.read_text(encoding="utf-8")) == payload
+
+
+# --- Task 10: reviewed_empty is written here and nowhere else
+
+from pathlib import Path
+
+from backend.bintanong_tools.prospectus_extractor.authority import build_authority
+from backend.bintanong_tools.prospectus_extractor.courses import finalize_courses
+from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+
+PKG = Path(__file__).resolve().parent.parent / "backend" / "bintanong_tools" / "prospectus_extractor"
+
+
+def stated(payload):
+    payload['courses'] = finalize_courses(payload['courses'])[0]   # as the pipeline does, so the states are the extractor's own
+    annotate_prerequisite_states(payload["courses"], (payload.get("audit") or {}).get("structural_anomalies") or [])
+    return payload
+
+
+def prereq_entry(course, disposition, new=None, pdf=HASH, old=""):
+    old = course["prerequisites_raw"] if old is None else old
+    new = old if disposition == "accepted" else new
+    return entry(course, "prerequisites_raw", disposition, old, new, pdf=pdf)
+
+
+def state_of(corrected, code):
+    return {c["course_code"]: c["prerequisite_state"] for c in corrected["courses"]}[code]
+
+
+def test_materialise_stamps_reviewed_empty_only_for_an_accepted_blank():
+    payload = stated(fx.bscs())
+    cs1, cc1, cs2 = payload["courses"][0], payload["courses"][1], payload["courses"][2]
+    assert (cs1["prerequisite_state"], cc1["prerequisite_state"], cs2["prerequisite_state"]) == ("blank_unreviewed", "blank_unreviewed", "resolved")
+    base = state_of(materialise(copy.deepcopy(payload), [], HASH)[0], "CS 1")
+    assert base == "blank_unreviewed"
+    # accepted on a blank: stamped
+    assert state_of(materialise(copy.deepcopy(payload), [prereq_entry(cs1, "accepted")], HASH)[0], "CS 1") == "reviewed_empty"
+    # accepted on a cell that is not blank: stays what the extractor said
+    assert state_of(materialise(copy.deepcopy(payload), [prereq_entry(cs2, "accepted", old=None)], HASH)[0], "CS 2") == "resolved"
+    # unresolved: not stamped
+    assert state_of(materialise(copy.deepcopy(payload), [prereq_entry(cs1, "unresolved", old="")], HASH)[0], "CS 1") == "blank_unreviewed"
+    # corrected to text: re-classified from the new text, never reviewed_empty
+    out = materialise(copy.deepcopy(payload), [prereq_entry(cc1, "corrected", "CS 1")], HASH)[0]
+    assert state_of(out, "CC 1/L") == "resolved"
+    # corrected to empty text: the cell is still blank and the human did not accept it as such
+    out = materialise(copy.deepcopy(payload), [prereq_entry(cs2, "corrected", "", old=None)], HASH)[0]
+    assert state_of(out, "CS 2") == "blank_unreviewed"
+    # stale (the value it was made on is gone) and another PDF: not stamped, reported
+    stale = prereq_entry(cs1, "accepted", old="CC 9")
+    other = prereq_entry(cs1, "accepted", pdf=OTHER)
+    out, report = materialise(copy.deepcopy(payload), [stale, other], HASH)
+    assert state_of(out, "CS 1") == "blank_unreviewed"
+    assert {s["reason"] for s in report["skipped"]} == {"old_value_changed", "pdf_sha256_mismatch"}
+
+
+def test_a_later_unresolved_or_correction_overrides_an_earlier_accepted_blank():
+    payload = stated(fx.bscs())
+    cs1 = payload["courses"][0]
+    ledger = [prereq_entry(cs1, "accepted"), prereq_entry(cs1, "unresolved", old="")]
+    assert state_of(materialise(copy.deepcopy(payload), ledger, HASH)[0], "CS 1") == "blank_unreviewed"
+
+
+def test_an_unreadable_ambiguous_cell_is_never_stamped_reviewed_empty():
+    payload = fx.bscs()
+    payload["audit"]["structural_anomalies"] = [
+        {"type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c11"]}]
+    stated(payload)
+    cs1 = payload["courses"][0]
+    assert cs1["prerequisite_state"] == "unreadable"
+    assert state_of(materialise(copy.deepcopy(payload), [prereq_entry(cs1, "accepted")], HASH)[0], "CS 1") == "unreadable"
+
+
+def test_a_prerequisite_entry_for_a_course_that_is_not_there_is_an_orphan_and_stamps_nothing():
+    payload = stated(fx.bscs())
+    gone = copy.deepcopy(payload["courses"][0])
+    gone["provenance"]["source_cell_ids"] = ["t9-c1"]
+    ghost = prereq_entry(gone, "accepted")
+    out, report = materialise(copy.deepcopy(payload), [ghost], HASH)
+    assert report["skipped"] == [{"entry_id": ghost["entry_id"], "reason": "course_not_found"}]
+    assert "reviewed_empty" not in {c["prerequisite_state"] for c in out["courses"]}
+
+
+def test_materialise_rerun_is_deterministic_with_prerequisite_entries(tmp_path):
+    payload = stated(fx.bscs())
+    cs1, cc1 = payload["courses"][0], payload["courses"][1]
+    ledger = [prereq_entry(cs1, "accepted"), prereq_entry(cc1, "corrected", "CS 1")]
+    one, two = tmp_path / "one.json", tmp_path / "two.json"
+    write_corrected(one, materialise(copy.deepcopy(payload), list(ledger), HASH)[0])
+    write_corrected(two, materialise(copy.deepcopy(payload), list(reversed(ledger)), HASH)[0])
+    assert one.read_bytes() == two.read_bytes()
+
+
+def test_materialise_does_not_change_the_extractors_own_states():
+    payload = stated(fx.bscs())
+    before = [c["prerequisite_state"] for c in payload["courses"]]
+    out, _ = materialise(copy.deepcopy(payload), [], HASH)
+    assert [c["prerequisite_state"] for c in payload["courses"]] == before
+    assert sorted(c["prerequisite_state"] for c in out["courses"]) == sorted(before)
+
+
+def test_extractor_never_emits_reviewed_empty():
+    payload = stated(fx.bscs())
+    assert "reviewed_empty" not in {c["prerequisite_state"] for c in payload["courses"]}
+    writers = sorted(p.name for p in PKG.glob("*.py") if '"reviewed_empty"' in p.read_text(encoding="utf-8") and p.name != "selftest.py")
+    assert writers == ["ledger.py", "prerequisites.py"]   # prerequisites.py only lists the vocabulary; ledger.py is the one writer
+    assert 'reviewed_empty' not in (PKG / "prerequisites.py").read_text(encoding="utf-8").split("def classify_prerequisite_state")[1]
+
+
+def test_eligibility_stays_blocked_until_the_blank_is_reviewed():
+    payload = fx.bscs()
+    payload["courses"][1]["prerequisites_raw"] = "None"        # every other rule is understood, so the one blank is the only open prerequisite
+    payload["courses"][3]["prerequisites_raw"] = "CS 1"
+    stated(payload)
+    assert [c["prerequisite_state"] for c in payload["courses"]] == ["blank_unreviewed", "stated_none", "resolved", "resolved"]
+    cs1 = payload["courses"][0]
+    metadata = {}
+    review = {"state": "reviewed"}
+
+    def blocked(courses):
+        return build_authority(audit_status="ok", metadata=metadata, courses=courses, content_review=review)["authority"]["blocked_by"]
+
+    open_ = materialise(copy.deepcopy(payload), [corrected_title(cs1, "Discrete Structures One")], HASH)[0]
+    assert "prerequisite_rules_incomplete" in blocked(open_["courses"])
+    done = materialise(copy.deepcopy(payload), [corrected_title(cs1, "Discrete Structures One"), prereq_entry(cs1, "accepted")], HASH)[0]
+    assert state_of(done, "CS 1") == "reviewed_empty"
+    assert "prerequisite_rules_incomplete" not in blocked(done["courses"])
+
+
+# --- an accepted prerequisite entry that is not stamped is reported, never dropped (M2, M4a)
+
+def test_an_accepted_prerequisite_that_is_not_stamped_is_reported_as_skipped():
+    payload = fx.bscs()
+    payload["audit"]["structural_anomalies"] = [
+        {"type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c11"]}]
+    stated(payload)
+    cs1 = payload["courses"][0]
+    accepted = prereq_entry(cs1, "accepted")
+    out, report = materialise(copy.deepcopy(payload), [accepted], HASH)
+    assert state_of(out, "CS 1") == "unreadable" and report["applied"] == 0
+    assert report["skipped"] == [{"entry_id": accepted["entry_id"], "reason": "prerequisite_not_stamped: ambiguous cell"}]
+    assert out["review"]["skipped"] == report["skipped"]
+
+
+def test_two_courses_sharing_a_locator_are_never_stamped_and_the_entry_is_reported():
+    payload = fx.bscs()
+    twin = copy.deepcopy(payload["courses"][0])
+    payload["courses"].append(twin)
+    stated(payload)
+    cs1 = payload["courses"][0]
+    assert course_locator(cs1) == course_locator(twin)
+    accepted = prereq_entry(cs1, "accepted")
+    out, report = materialise(copy.deepcopy(payload), [accepted], HASH)
+    assert "reviewed_empty" not in {c["prerequisite_state"] for c in out["courses"]}
+    assert report["skipped"] == [{"entry_id": accepted["entry_id"], "reason": "prerequisite_not_stamped: duplicate course locator"}]
+
+
+def test_an_accepted_prerequisite_on_a_cell_that_is_not_blank_and_not_understood_is_reported():
+    payload = fx.bscs()
+    payload["courses"][3]["prerequisites_raw"] = "ZZ 999"
+    stated(payload)
+    course = payload["courses"][3]
+    assert course["prerequisite_state"] == "unresolved_reference"
+    accepted = prereq_entry(course, "accepted", old=None)
+    out, report = materialise(copy.deepcopy(payload), [accepted], HASH)
+    assert state_of(out, course["course_code"]) == "unresolved_reference"
+    assert report["skipped"] == [{"entry_id": accepted["entry_id"], "reason": "prerequisite_not_stamped: cell is not blank"}]
+
+def test_prerequisite_correction_reclassifies_rule_completeness():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
+    payload = fx.bscs()
+    annotate_prerequisite_states(payload["courses"])
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+    decision = entry(course, "prerequisites_raw", "corrected", "CS 1", "CS 1, Ghost 99")
+    corrected, report = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert report["applied"] == 1
+    assert result["prerequisites_unresolved"] == ["Ghost 99"]
+    assert result["prerequisite_state"] == "unresolved_reference"
+    assert "CS 2" not in generate_prolog_knowledge({}, corrected["courses"], [], [])["relations"]["rule_complete"]
+    assert course["prerequisite_state"] == "resolved"
+
+
+def test_code_correction_reclassifies_other_courses_prerequisites():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    payload = fx.bscs()
+    annotate_prerequisite_states(payload["courses"])
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 1")
+    decision = entry(course, "course_code", "corrected", "CS 1", "CS 99")
+    corrected, report = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert report["applied"] == 1
+    assert result["prerequisite_state"] == "unresolved_reference"
+
+
+def test_materialise_keeps_source_prerequisite_ambiguity_unreadable():
+    from backend.bintanong_tools.prospectus_extractor.prerequisites import annotate_prerequisite_states
+    payload = fx.bscs()
+    course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+    anomalies = [{"type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c16"]}]
+    payload["audit"]["structural_anomalies"] = anomalies
+    annotate_prerequisite_states(payload["courses"], anomalies)
+    decision = corrected_title(course, "Discrete Structures II")
+    corrected, _ = materialise(payload, [decision], HASH)
+    result = next(c for c in corrected["courses"] if c["course_code"] == "CS 2")
+    assert result["prerequisite_state"] == "unreadable"
+
+
+@pytest.mark.parametrize("verification", ["verified", "pending"])
+@pytest.mark.parametrize("correction,incomplete", [(None, 0), ("CS 1, Ghost 99", 1)])
+def test_materialised_review_artifacts_recompute_gates_and_block_stale_authority(verification, correction, incomplete):
+    from types import SimpleNamespace
+    import test_prospectus_authority as af
+
+    source = SimpleNamespace(pdf_sha256=af.SOURCE_HASH, source_locator="local/x.pdf", source_verification=verification)
+    rows = [af._cs_row(("CS 1", "Discrete Structures", "3", "none"),
+                      ("CS 2", "Discrete Structures 2", "3", "CS 1"))]
+    draft = af.payload_for(rows, source=source)
+    payload = af.payload_for(rows, source=source, pdf_hash_check="matched",
+                             approved_scope={"program_name": draft["metadata"]["program_name"]},
+                             review_entries=af.ledger_row_entries(draft))
+    original = copy.deepcopy(payload)
+    assert payload["authority"]["eligibility_executable"] is (verification == "verified")
+    decisions = af.ledger_row_entries(payload)
+    if correction is not None:
+        course = next(c for c in payload["courses"] if c["course_code"] == "CS 2")
+        decisions.append(entry(course, "prerequisites_raw", "corrected", "CS 1", correction, pdf=af.SOURCE_HASH))
+    corrected, report = materialise(payload, decisions, af.SOURCE_HASH)
+    assert report["applied"] == incomplete
+    assert corrected["authority"]["eligibility_executable"] is False
+    assert corrected["authority"]["courses_with_incomplete_prerequisite_rule"] == incomplete
+    assert ("prerequisite_rules_incomplete" in corrected["authority"]["blocked_by"]) is bool(incomplete)
+    assert "derived_sections_stale" in corrected["authority"]["blocked_by"]
+    assert "authority" in corrected["review"]["derived_sections_stale"]
+    assert corrected["source_verification"] == verification
+    assert ("source_verification_pending" in corrected["authority"]["blocked_by"]) is (verification == "pending")
+    assert corrected["content_review"] == corrected["review"]["content_review"]["state"] == "reviewed"
+    assert corrected["authority"]["content_review_detail"] == corrected["review"]["content_review"]
+    assert payload == original
+
+
+def test_materialising_new_ledger_evidence_refreshes_top_level_review_status():
+    import test_prospectus_authority as af
+
+    payload = af.payload_for([af.CONTROL])
+    assert payload["content_review"] == "pending"
+    corrected, _ = materialise(payload, af.ledger_row_entries(payload), af.SOURCE_HASH)
+    assert corrected["content_review"] == "reviewed"
+    assert corrected["source_verification"] == "pending"
+    assert corrected["authority"]["eligibility_executable"] is False
+
+
+@pytest.mark.parametrize("verification", ["verified", "pending"])
+@pytest.mark.parametrize("decision", ["accepted", "unresolved", "foreign", "stale", "ambiguous"])
+def test_reviewed_blank_is_counted_before_materialised_authority_is_rebuilt(verification, decision):
+    from types import SimpleNamespace
+    import test_prospectus_authority as af
+
+    source = SimpleNamespace(pdf_sha256=af.SOURCE_HASH, source_locator="local/x.pdf", source_verification=verification)
+    payload = af.payload_for([af.CONTROL], source=source, pdf_hash_check="matched")
+    original = copy.deepcopy(payload)
+    blank = next(c for c in payload["courses"] if c["course_code"] == "CS 1")
+    decisions = af.ledger_row_entries(payload)
+    if decision == "ambiguous":
+        payload["audit"]["structural_anomalies"] = [{
+            "type": "ambiguous_adjacent_prerequisite_fragment",
+            "source_cell_ids": blank["provenance"]["source_cell_ids"],
+        }]
+        original = copy.deepcopy(payload)
+    decisions.append(entry(blank, "prerequisites_raw", "unresolved" if decision == "unresolved" else "accepted",
+                           "obsolete" if decision == "stale" else "", "",
+                           pdf=OTHER if decision == "foreign" else af.SOURCE_HASH))
+    corrected, _ = materialise(payload, decisions, af.SOURCE_HASH)
+    # Both fixture courses share the printed row's provenance, so its ambiguity applies to both.
+    incomplete = 0 if decision == "accepted" else 2 if decision == "ambiguous" else 1
+    assert state_of(corrected, "CS 1") == ("reviewed_empty" if not incomplete else
+                                            "unreadable" if decision == "ambiguous" else "blank_unreviewed")
+    assert corrected["authority"]["courses_with_incomplete_prerequisite_rule"] == incomplete
+    assert ("prerequisite_rules_incomplete" in corrected["authority"]["blocked_by"]) is bool(incomplete)
+    assert corrected["authority"]["eligibility_executable"] is False
+    assert "derived_sections_stale" in corrected["authority"]["blocked_by"]
+    assert corrected["source_verification"] == verification
+    assert corrected["content_review"] == ("partially_reviewed" if decision in ("unresolved", "ambiguous") else "reviewed")
+    assert payload == original

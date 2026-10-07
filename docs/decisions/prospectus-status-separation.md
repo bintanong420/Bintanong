@@ -18,6 +18,10 @@ The `authority` block holds the source record (`pdf_sha256`, `source_locator`, `
 
 `content_review` reads the Phase B2 ledger only when `review_entries` and a `source` (for its `pdf_sha256`) are both passed to `build_payload` or `process_prospectus`. Entries recorded against a different PDF hash do not count. `reviewed` removes only the content-review blocker. It still means a person decided every row, not that the content is right.
 
+Publication standards correction, 7 October 2026: review completion and stale-entry checking enumerate persisted printed codes and structural anomalies through the same `placement.unclaimed_items` owner as the sheet and verifier. Every such obligation needs a current, hash-bound decision; undecided and unresolved obligations block `reviewed`. PDF-only discoveries retain their existing ledger semantics.
+
+`materialise` refreshes top-level `content_review` and authority review detail from the ledger, and recomputes source, identity and prerequisite blockers through `build_authority`. It preserves source verification without granting approval. Every materialised review artifact remains non-executable, including a no-change reviewed candidate: inherited audit, extraction status, Prolog and RAG remain explicitly stale, and `authority.blocked_by` includes `derived_sections_stale`.
+
 ## Source and identity
 
 `source=` and `approved_scope=` are keyword-only and optional on `build_payload` and `process_prospectus`, so existing callers are unchanged. The source is duck-typed (`pdf_sha256`, `source_locator`, `source_verification`, `verify_pdf`) because the package must keep running when started by path and cannot import the tools adapter. For a PDF input `process_prospectus` calls `source.verify_pdf` before any output is touched. A hash mismatch raises `ValueError`, so nothing is deleted or overwritten. For a cached Docling JSON input no hash can be checked and `pdf_hash_check` stays `not_checked`.

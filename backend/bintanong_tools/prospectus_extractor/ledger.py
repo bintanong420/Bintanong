@@ -18,16 +18,23 @@ That is acceptable for a local, single-user ledger and must not be presented as 
 from __future__ import annotations
 
 import copy
+import errno
 import hashlib
 import json
+import os
+import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, Iterable, Mapping, Sequence
 
+from .authority import build_authority
 from .courses import finalize_courses
+from .placement import unclaimed_items
+from .prerequisites import annotate_prerequisite_states
 from .fixes import FIELD_CODE, FIELD_TERM, FIELD_TITLE, format_term, parse_term
-from .text import term_index
+from .text import clean_str, term_index
 from .verify import verify_candidate
 from .views import build_curriculum_by_term, build_unlocks_map, make_prerequisite_edges
 
@@ -42,7 +49,7 @@ UNIT_FIELDS = ("lecture_units", "lab_units", "total_units")   # the candidate's 
 FIELD_PREREQ = "prerequisites_raw"
 CORRECTABLE_FIELDS = (*COURSE_FIELDS, *UNIT_FIELDS, FIELD_PREREQ)   # review state still asks only for COURSE_FIELDS
 ENTRY_FIELDS = (*CORRECTABLE_FIELDS, FIELD_ROW, FIELD_UNCLAIMED)
-STALE_SECTIONS = ["audit", "elective_tracks", "prolog", "quality_report", "rag"]  # not rebuilt from corrections
+STALE_SECTIONS = ["audit", "extraction_audit", "authority", "elective_tracks", "prolog", "quality_report", "rag"]
 
 
 class LedgerError(ValueError):
@@ -256,11 +263,111 @@ def _signature(entry: Mapping[str, Any]) -> tuple:
     return (entry["pdf_sha256"], entry["field"], entry["disposition"], json.dumps(entry["old_value"], sort_keys=True), json.dumps(entry["new_value"], sort_keys=True))
 
 
-def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[int, int]:
+class LedgerBusy(LedgerError):
+    """Another process holds the write lock on this ledger."""
+
+
+# What a refused non-blocking lock raises: fcntl.flock gives EAGAIN/EWOULDBLOCK (EACCES on some systems), msvcrt.locking
+# EACCES (EDEADLK after its retries), or ERROR_LOCK_VIOLATION. Anything else (ENOLCK on a share, EBADF...) is not "busy".
+BUSY_ERRNOS = {errno.EACCES, errno.EAGAIN, errno.EWOULDBLOCK, errno.EDEADLK}
+ERROR_LOCK_VIOLATION = 33
+
+
+def lock_path_for(ledger_path: Path) -> Path:
+    ledger_path = Path(ledger_path)
+    return ledger_path.with_name(ledger_path.name + ".lock")
+
+
+class LedgerLock:
+    """Advisory write lock on `<ledger>.lock`, held by an open file handle until `release`.
+
+    Byte 0 is the locked byte (msvcrt.locking on Windows, fcntl.flock elsewhere; the branch is chosen when the lock
+    is taken). The holder's one-line description starts at byte 1, because on Windows a locked byte range cannot be
+    read by another process. The OS drops the lock when its process dies, so there is no stale lock to detect.
+    Advisory: it stops the tools of this repository, not an editor, and a network share may not honour it. The file
+    holds no decision data and is left in place on release (deleting it would race a second writer).
+    """
+
+    def __init__(self, ledger_path: Path, who: str):
+        self.ledger_path = Path(ledger_path)
+        self.path = lock_path_for(self.ledger_path)
+        self.who = who
+        self._fd: int | None = None
+
+    def _os_lock(self, fd: int, take: bool) -> None:
+        os.lseek(fd, 0, os.SEEK_SET)
+        if sys.platform == "win32":
+            import msvcrt
+            msvcrt.locking(fd, msvcrt.LK_NBLCK if take else msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(fd, (fcntl.LOCK_EX | fcntl.LOCK_NB) if take else fcntl.LOCK_UN)
+
+    def _holder(self) -> str:
+        try:
+            with self.path.open("rb") as raw:
+                raw.seek(1)
+                text = raw.read(512).decode("utf-8", "replace").strip()
+        except OSError:
+            return "unknown holder"
+        return text or "unknown holder"
+
+    def __enter__(self) -> "LedgerLock":
+        if self._fd is not None:
+            raise LedgerError(f"this lock on {self.ledger_path.name} is already held")
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        fd = os.open(self.path, os.O_RDWR | os.O_CREAT | getattr(os, "O_BINARY", 0))
+        try:
+            self._os_lock(fd, True)
+        except OSError as exc:
+            os.close(fd)
+            if exc.errno in BUSY_ERRNOS or getattr(exc, "winerror", None) == ERROR_LOCK_VIOLATION:
+                raise LedgerBusy(f"the decision ledger {self.ledger_path.name} is in use by {self._holder()}; close that tool or wait") from None
+            raise LedgerError(f"the lock file {self.path.name} cannot be locked (errno {exc.errno}: {exc.strerror or exc})") from exc
+        try:
+            started = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            holder = " ".join(f"{self.who}, pid {os.getpid()}, since {started}".split()).encode("utf-8")
+            os.lseek(fd, 0, os.SEEK_SET)
+            os.write(fd, b"\n" + holder + b"\n")
+            os.ftruncate(fd, 2 + len(holder))
+        except BaseException:
+            try:
+                self._os_lock(fd, False)
+            except OSError:
+                pass   # closing the handle below drops the lock as well
+            os.close(fd)
+            raise
+        self._fd = fd
+        return self
+
+    def release(self) -> None:
+        if self._fd is None:
+            return
+        fd, self._fd = self._fd, None
+        try:
+            self._os_lock(fd, False)
+        finally:
+            os.close(fd)
+
+    def __exit__(self, *exc) -> None:
+        self.release()
+
+
+def append_entries(path: Path, entries: Sequence[Mapping[str, Any]], lock: LedgerLock | None = None) -> tuple[int, int]:
     """Append only; returns (written, skipped). A group of entries for one course or printed code
     that equals the tail of what the ledger already holds for it is skipped, so applying the same
-    sheet twice writes nothing the second time. Existing lines are never rewritten."""
+    sheet twice writes nothing the second time. Existing lines are never rewritten.
+
+    The ledger's write lock is held for the whole call: pass the `lock` a session already holds, or none to take
+    one (LedgerBusy, with nothing written, when another process holds it)."""
     path = Path(path)
+    if lock is None:
+        with LedgerLock(path, "append_entries") as held:
+            return append_entries(path, entries, held)
+    if lock._fd is None:
+        raise LedgerError(f"the lock on {lock.ledger_path.name} is not held; enter it (with LedgerLock(...) as lock) before passing it")
+    if lock.path.resolve() != lock_path_for(path).resolve():
+        raise LedgerError(f"the lock is for another ledger ({lock.ledger_path.name}), not {path.name}")
     existing, _undecidable = split_valid(read_entries(path))  # unreadable lines are skipped, never fatal
     held: dict[tuple, list] = defaultdict(list)
     for entry in existing:
@@ -274,14 +381,15 @@ def append_entries(path: Path, entries: Sequence[Mapping[str, Any]]) -> tuple[in
         if tail != [_signature(e) for e in group]:
             fresh += group
     if fresh:
+        # every line is made before the file is touched: an entry that cannot be encoded writes nothing at all
+        lines = [json.dumps(entry, ensure_ascii=False, sort_keys=True).encode("utf-8") + b"\n" for entry in fresh]
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("ab+") as probe:  # a hand-edited last line may lack its newline: never glue two entries together
             probe.seek(0, 2)
             if probe.tell() and (probe.seek(-1, 2), probe.read(1))[1] != b"\n":
                 probe.write(b"\n")
-        with path.open("a", encoding="utf-8", newline="\n") as handle:
-            for entry in fresh:
-                handle.write(json.dumps(entry, ensure_ascii=False, sort_keys=True) + "\n")
+        with path.open("ab") as handle:
+            handle.write(b"".join(lines))
             handle.flush()
     return len(fresh), len(entries) - len(fresh)
 
@@ -294,7 +402,7 @@ def split_stale(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     for course in payload.get("courses") or []:
         by_key[locator_key(course_locator(course))].append(course)
     listed: dict[tuple, list[Any]] = defaultdict(list)
-    for item in (payload.get("audit") or {}).get("unclaimed_course_candidates") or []:
+    for item in unclaimed_items(payload.get("audit") or {}, payload.get("courses") or [], None):
         listed[locator_key(unclaimed_locator(item))].append(item.get("code"))
     current, stale, orphan = [], [], []
     for entry in entries:
@@ -352,7 +460,7 @@ def content_review_state(payload: Mapping[str, Any], entries: Iterable[Mapping[s
         if any(e and e["disposition"] == UNRESOLVED for e in (latest.get((key, n)) for n in CORRECTABLE_FIELDS)):
             unresolved += 1
     audit = payload.get("audit") or {}
-    listed = {locator_key(unclaimed_locator(u)) for u in audit.get("unclaimed_course_candidates") or []}
+    listed = {locator_key(unclaimed_locator(u)) for u in unclaimed_items(audit, courses, None)}
     undecided = sum(1 for key in listed if (key, FIELD_UNCLAIMED) not in latest)
     unresolved += sum(1 for (key, name), e in latest.items() if name == FIELD_UNCLAIMED and e["disposition"] == UNRESOLVED)
     if not applicable:
@@ -426,6 +534,26 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
     for course in courses:
         course["code"], course["title"] = course.get("course_code"), course.get("course_title")
     final, _index, duplicates = finalize_courses(courses)
+    # Re-run Phase C's classification on the corrected text. `reviewed_empty` is written only here: a person accepted
+    # a blank cell (latest applicable prerequisites_raw entry is `accepted`, on a course that is still blank).
+    annotate_prerequisite_states(final, (payload.get("audit") or {}).get("structural_anomalies") or [])
+    decided = latest_by_field(applicable)
+    not_stamped: dict[str, str] = {}   # accepted prerequisite entries this step declined to stamp: reported, never dropped
+    for course in final:
+        key = locator_key(course_locator(course))
+        accepted = decided.get((key, FIELD_PREREQ))
+        if not (accepted and accepted["disposition"] == ACCEPTED):
+            continue
+        blank, state = not clean_str(course.get("prerequisites_raw")), course["prerequisite_state"]
+        if len(by_key.get(key, [])) != 1:
+            not_stamped.setdefault(accepted["entry_id"], "duplicate course locator")
+        elif blank and state == "blank_unreviewed":
+            course["prerequisite_state"] = "reviewed_empty"
+        elif blank and state == "unreadable":
+            not_stamped.setdefault(accepted["entry_id"], "ambiguous cell")
+        elif not blank and state in ("unreadable", "unresolved_reference", "alternative_or_exception"):
+            not_stamped.setdefault(accepted["entry_id"], "cell is not blank")
+    skipped += [{"entry_id": i, "reason": f"prerequisite_not_stamped: {why}"} for i, why in not_stamped.items()]
     corrected = {k: copy.deepcopy(v) for k, v in payload.items()}
     corrected.update({
         "courses": final,
@@ -434,6 +562,22 @@ def materialise(payload: Mapping[str, Any], entries: Iterable[Mapping[str, Any]]
         "unlocks": build_unlocks_map(final),
     })
     state = content_review_state(payload, entries, pdf_sha256)
+    inherited = payload.get("authority") or {}
+    record = inherited.get("source_record")
+    source = SimpleNamespace(
+        pdf_sha256=record.get("pdf_sha256"), source_locator=record.get("source_locator"),
+        source_verification=payload.get("source_verification", "pending"),
+    ) if record else None
+    corrected.update(build_authority(
+        audit_status=payload.get("extraction_audit", (payload.get("audit") or {}).get("status", "error")),
+        metadata=corrected.get("metadata") or {}, courses=final, source=source,
+        approved_scope=(inherited.get("identity_check") or {}).get("approved_scope"),
+        pdf_hash_check=record.get("pdf_hash_check", "not_checked") if record and record.get("pdf_sha256") == pdf_sha256 else "not_checked",
+        content_review=state,
+    ))
+    # Materialisation rebuilds course views, not the inherited audit, Prolog or RAG.
+    corrected["authority"]["eligibility_executable"] = False
+    corrected["authority"]["blocked_by"].append("derived_sections_stale")
     corrected["review"] = {
         "schema": CORRECTED_VERSION, "pdf_sha256": pdf_sha256, "content_review": state,
         "applied_entry_ids": sorted(applied), "skipped": sorted(skipped, key=lambda s: (s["reason"], str(s["entry_id"]))),

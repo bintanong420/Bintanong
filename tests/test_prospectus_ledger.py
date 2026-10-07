@@ -139,3 +139,46 @@ def test_ledger_lines_are_lf_utf8_with_sorted_keys_on_every_platform(tmp_path):
     expected = "".join(json.dumps(e, ensure_ascii=False, sort_keys=True) + "\n" for e in group).encode("utf-8")
     assert path.read_bytes() == expected and b"\r" not in expected
     assert "Ni\u00f1o".encode("utf-8") in expected
+
+
+def test_an_unencodable_entry_writes_nothing_not_even_the_entries_before_it(tmp_path):
+    course = fx.bscs()["courses"][0]
+    path = tmp_path / "review" / "decision_ledger.jsonl"
+    assert append_entries(path, [entry(course)]) == (1, 0)
+    before = path.read_bytes()
+    group = [entry(course, reason="fine"), corrected_title(course, "Bad \ud800 title")]
+    with pytest.raises(UnicodeEncodeError):
+        append_entries(path, group)
+    assert path.read_bytes() == before
+
+@pytest.mark.parametrize("decision,want,stale", [
+    ("undecided", "partially_reviewed", 0),
+    ("accepted", "reviewed", 0),
+    ("unresolved", "partially_reviewed", 0),
+    ("another_pdf", "partially_reviewed", 0),
+    ("stale", "partially_reviewed", 1),
+])
+def test_persisted_anomalies_require_a_current_hash_bound_decision(decision, want, stale):
+    from backend.bintanong_tools.prospectus_extractor.placement import unclaimed_items
+    from backend.bintanong_tools.prospectus_extractor.verify import verify_candidate
+
+    payload = fx.bscs()
+    payload["audit"]["structural_anomalies"] = [{
+        "type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t9-c1"],
+        "page": 1, "reason": "unassigned printed prerequisite fragment", "source_cells": [],
+    }]
+    assert verify_candidate(payload).counts() == {"audit_anomaly": 1}
+    item, = unclaimed_items(payload["audit"], payload["courses"], None)
+    rows = decided_all(payload)
+    if decision != "undecided":
+        rows.append(make_entry(
+            reviewer="N", reason="checked printed fragment", pdf_sha256=OTHER if decision == "another_pdf" else HASH,
+            locator=unclaimed_locator(item), field="unclaimed",
+            disposition="unresolved" if decision == "unresolved" else "accepted",
+            old_value="different fragment" if decision == "stale" else item["code"],
+            new_value=item["code"], section="s",
+        ))
+    state = content_review_state(payload, rows, HASH)
+    assert state["state"] == want
+    assert state["stale_entries"] == stale
+    assert state["unclaimed_undecided"] == (0 if decision in ("accepted", "unresolved") else 1)
