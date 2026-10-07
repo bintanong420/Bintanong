@@ -93,12 +93,14 @@ def build_payload(
     )
 
     verified = audit["status"] != "error"
+    rejected_chunks: list[dict[str, Any]] = []
     if verified:
         prolog = generate_prolog_knowledge(metadata, courses, tracks, term_units)
         prolog["status"] = "extracted"  # the audit found no error; not a verification
         semantic_chunks = build_semantic_rag_chunks(
             metadata, courses, tracks, term_units, document=document, layout=audit["table_layout"],
             evidence_ids=[i for s in audit["curriculum_sections"] for i in s.get("evidence_cells") or []],
+            rejected=rejected_chunks,
         )
         hierarchical_chunks = build_hierarchical_rag_chunks(document, Path(input_path).name)
     else:
@@ -149,7 +151,11 @@ def build_payload(
             "rejected": parse.invalid_repairs,
         },
         "prolog": prolog,
-        "rag": {"semantic_chunks": semantic_chunks, "hierarchical_chunks": hierarchical_chunks},
+        "rag": {
+            "semantic_chunks": semantic_chunks,
+            "hierarchical_chunks": hierarchical_chunks,
+            "rejected_chunks": rejected_chunks,
+        },
         "audit": audit,
         **authority,
         "quality_report": {
@@ -166,6 +172,7 @@ def build_payload(
             "total_elective_tracks": len(tracks),
             "total_semantic_chunks": len(semantic_chunks),
             "total_hierarchical_chunks": len(hierarchical_chunks),
+            "total_rejected_chunks": len(rejected_chunks),
             "unresolved_prerequisites": len(audit["unresolved_prerequisites"]),
             "errors": audit["errors"],
             "warnings": audit["warnings"],

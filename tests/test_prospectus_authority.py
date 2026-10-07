@@ -185,7 +185,7 @@ def test_blocked_audit_drops_candidate_prolog_and_rag():
         "courses": [], "prerequisites": [], "standing_requirements": [], "elective_tracks": [],
         "prerequisite_states": [], "rule_complete": [],
     }
-    assert payload["rag"] == {"semantic_chunks": [], "hierarchical_chunks": []}
+    assert payload["rag"] == {"semantic_chunks": [], "hierarchical_chunks": [], "rejected_chunks": []}
     assert "blocked_candidates" not in payload
 
 

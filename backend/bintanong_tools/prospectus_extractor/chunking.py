@@ -12,6 +12,8 @@ CHUNKER_VERSION = "palsu-chunker-v1"
 TOKEN_HARD_CAP = 512
 TOKEN_RESERVE = 32
 TOKEN_SPLIT_AT = 400
+# Room kept free in each split part for the repeated " (part N of M)" header label.
+PART_LABEL_ROOM = 32
 TOKEN_COUNT_METHOD = "estimate-v1"
 
 
@@ -82,9 +84,8 @@ def spans_from_text_items(items: Sequence[Any], item_ids: Sequence[str | None], 
             if (item := by_id.get(item_id)) is not None]
 
 
-def locator_key(spans: Sequence[Mapping[str, Any]], fallback: str = "") -> str:
-    return json.dumps(sorted(json.dumps([s.get("page"), s["locator"]], sort_keys=True)
-                             for s in spans)) if spans else fallback
+def locator_key(spans: Sequence[Mapping[str, Any]]) -> str:
+    return json.dumps(sorted(json.dumps([s.get("page"), s["locator"]], sort_keys=True) for s in spans))
 
 
 def make_chunk_id(pdf_sha256: str | None, locator: str, digest: str) -> str:
@@ -106,13 +107,13 @@ def pack_items(header: str, items: Sequence[tuple[str, Any]], limit: int = TOKEN
 
 
 def assemble_chunk(chunk_type: str, fields: Mapping[str, Any], text: str,
-                   spans: Sequence[Mapping[str, Any]], *, pdf_sha256: str | None, source: str,
-                   source_text: str | None = None, locator_fallback: str = "") -> dict[str, Any]:
+                   spans: Sequence[Mapping[str, Any]], *, pdf_sha256: str | None, source: str) -> dict[str, Any]:
     spans = list(spans)
-    if source_text is None:
-        source_text = "\n".join(s["text"] for s in spans if s.get("text"))
+    if not spans:
+        raise ValueError("A chunk needs at least one source span")
+    source_text = "\n".join(s["text"] for s in spans if s.get("text"))
     digest = content_hash(source_text, text)
-    return {**fields, "chunk_id": make_chunk_id(pdf_sha256, locator_key(spans, locator_fallback), digest),
+    return {**fields, "chunk_id": make_chunk_id(pdf_sha256, locator_key(spans), digest),
             "chunk_type": chunk_type, "chunker_version": CHUNKER_VERSION, "content_review": "pending",
             "pdf_sha256": pdf_sha256, "source_anchored": bool(pdf_sha256), "text": text,
             "source_text": source_text, "source_spans": spans,

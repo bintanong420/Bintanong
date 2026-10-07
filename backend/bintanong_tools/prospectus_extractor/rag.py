@@ -14,14 +14,54 @@ from .docling_env import load_docling
 from .text import clean_str
 from .evidence import LoadedDocument
 from .courses import _iter_text_pairs, parse_elective_tracks
-from .chunking import (TOKEN_SPLIT_AT, assemble_chunk, canonical_text, fits_cap, pack_items,
-                       spans_from_cells, spans_from_text_items)
+from .chunking import (PART_LABEL_ROOM, TOKEN_SPLIT_AT, assemble_chunk, canonical_text, fits_cap,
+                       pack_items, spans_from_cells, spans_from_text_items)
 from .course_checks import loose
 from .verify import own_role_cells
 from .units import parse_units
 
 
 NOT_RECORDED = "not recorded in the prospectus (unreviewed)"
+
+# Rejection reasons; the payload reports them under rag.rejected_chunks.
+NO_VALID_SOURCE_CELLS = "no_valid_source_cells"
+CODE_NOT_IN_SOURCE = "code_not_in_source_text"
+TITLE_NOT_IN_SOURCE = "title_not_in_source_text"
+PREREQUISITE_NOT_IN_SOURCE = "prerequisite_not_in_source_text"
+UNITS_NOT_IN_SOURCE = "units_not_in_source_text"
+UNITS_NOT_DERIVABLE = "units_not_derivable_from_source"
+OVER_TOKEN_CAP = "over_token_cap"
+DUPLICATE_CHUNK_ID = "duplicate_chunk_id"
+NO_ACCEPTED_COURSES = "no_accepted_courses"
+NO_SOURCE_TEXT_ITEMS = "no_source_text_items"
+OPTION_NOT_IN_SOURCE = "option_not_in_source_text"
+
+
+def _unique(values) -> list:
+    return list(dict.fromkeys(values))
+
+
+def _claimed_cell_ids(course: dict[str, Any]) -> list[str]:
+    """The cell ids a course claims, for the rejection record; malformed claims report as empty."""
+    provenance = course.get("provenance")
+    ids = provenance.get("source_cell_ids") if isinstance(provenance, dict) else None
+    return [i for i in ids if isinstance(i, str)] if isinstance(ids, (list, tuple)) else []
+
+
+def _item_ids(spans: Sequence[dict[str, Any]]) -> list[str]:
+    return _unique(i for s in spans for i in s["locator"].get("item_ids", []))
+
+
+def _claimed_item_ids(options: Sequence[dict[str, Any]]) -> list[str]:
+    return _unique(o["source_item_id"] for o in options if isinstance(o.get("source_item_id"), str))
+
+
+def _rejection(chunk_type: str, label: str, reason: str, *, course_code: str | None = None,
+               year_level: str | None = None, semester: str | None = None,
+               cell_ids: Sequence[str] = (), item_ids: Sequence[str] = (), **extra: Any) -> dict[str, Any]:
+    return {"chunk_type": chunk_type, "label": label, "reason": reason, "course_code": course_code,
+            "year_level": year_level, "semester": semester, "source_cell_ids": list(cell_ids),
+            "source_item_ids": list(item_ids), **extra}
 
 
 def prerequisite_phrase(course: dict[str, Any], brief: bool = False) -> str:
@@ -52,47 +92,50 @@ def _course_source(course: dict[str, Any], document: LoadedDocument | None,
                    layout: Sequence[dict[str, Any]], evidence_ids: Sequence[str]
                    ) -> tuple[str | None, list[dict[str, Any]]]:
     """Resolve locators against canonical cells, then verify each asserted printed field."""
-    provenance = course.get("provenance") or {}
+    provenance = course.get("provenance")
+    if not isinstance(provenance, dict):
+        return NO_VALID_SOURCE_CELLS, []
     ids, stored = provenance.get("source_cell_ids") or [], provenance.get("source_cells") or []
     if not document or not provenance.get("valid") or not ids or not stored:
-        return "no_valid_source_cells", []
+        return NO_VALID_SOURCE_CELLS, []
     if not isinstance(ids, (list, tuple)) or any(not isinstance(i, str) or not i for i in ids):
-        return "no_valid_source_cells", []
-    if any(not isinstance(c, dict) or not isinstance(c.get("cell_id"), str) for c in stored):
-        return "no_valid_source_cells", []
+        return NO_VALID_SOURCE_CELLS, []
+    if not isinstance(stored, (list, tuple)) or any(
+            not isinstance(c, dict) or not isinstance(c.get("cell_id"), str) for c in stored):
+        return NO_VALID_SOURCE_CELLS, []
     if len(ids) != len(set(ids)) or set(ids) != {c["cell_id"] for c in stored} or len(stored) != len(ids):
-        return "no_valid_source_cells", []
+        return NO_VALID_SOURCE_CELLS, []
     canonical = document.all_cells()
     cells = []
     for c in stored:
         actual = canonical.get(c["cell_id"])
         if actual is None:
-            return "no_valid_source_cells", []
+            return NO_VALID_SOURCE_CELLS, []
         source = actual.as_evidence_dict()
         if any(c.get(k) != source[k] for k in ("table_index", "row_start", "row_end", "col_start", "col_end")):
-            return "no_valid_source_cells", []
+            return NO_VALID_SOURCE_CELLS, []
         if canonical_text(c.get("text", "")) != canonical_text(source["text"]):
-            return "no_valid_source_cells", []
+            return NO_VALID_SOURCE_CELLS, []
         source["bbox_origin"] = actual.bbox.origin if actual.bbox else None
         cells.append(source)
     canonical_course = {**course, "provenance": {**provenance, "source_cells": cells}}
-    roles = own_role_cells(canonical_course, layout, set(evidence_ids))
-    src = course.get("_source") or {}
-    row = src.get("row_index")
+    src = course.get("_source")
+    row = src.get("row_index") if isinstance(src, dict) else None
     if not isinstance(row, int):
-        return "no_valid_source_cells", []
+        return NO_VALID_SOURCE_CELLS, []
+    roles = own_role_cells(canonical_course, layout, set(evidence_ids))
     roles = {role: [c for c in group if c["table_index"] == src.get("table_index")
                    and c["row_start"] <= row < c["row_end"]]
              for role, group in roles.items()}
     if not roles["code"] or not roles["title"]:
-        return "no_valid_source_cells", []
+        return NO_VALID_SOURCE_CELLS, []
     printed = {role: canonical_text(" ".join(c["text"] for c in sorted(
         group, key=lambda c: (c["row_start"], c["col_start"], c["cell_id"]))))
         for role, group in roles.items()}
     for role, value, reason in (
-        ("code", course.get("course_code"), "code_not_in_source_text"),
-        ("title", course.get("course_title"), "title_not_in_source_text"),
-        ("prereq", course.get("prerequisites_raw"), "prerequisite_not_in_source_text"),
+        ("code", course.get("course_code"), CODE_NOT_IN_SOURCE),
+        ("title", course.get("course_title"), TITLE_NOT_IN_SOURCE),
+        ("prereq", course.get("prerequisites_raw"), PREREQUISITE_NOT_IN_SOURCE),
     ):
         claimed = canonical_text(value or "")
         if role in {"code", "title"} and not claimed:
@@ -105,10 +148,10 @@ def _course_source(course: dict[str, Any], document: LoadedDocument | None,
     raw = units.get("raw") or ""
     numeric = any(units.get(k) is not None for k in ("lecture", "lab", "total"))
     if (raw or numeric) and (not raw or canonical_text(raw) != printed["unit"]):
-        return "units_not_in_source_text", []
+        return UNITS_NOT_IN_SOURCE, []
     parsed = parse_units(printed["unit"])
     if any(units.get(k) != parsed[k] for k in ("lecture", "lab", "total")) or course.get("total_units") != parsed["total"]:
-        return "units_not_derivable_from_source", []
+        return UNITS_NOT_DERIVABLE, []
     return None, cells
 
 
@@ -122,24 +165,27 @@ def build_semantic_rag_chunks(
     document: LoadedDocument | None = None,
     layout: Sequence[dict[str, Any]] = (),
     evidence_ids: Sequence[str] = (),
-    rejected: list[dict[str, Any]] | None = None,
+    rejected: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
-    """Advising-shaped chunks: one per course, per term, per elective pool, plus an overview."""
+    """Advising-shaped chunks: one per course, per term, per elective pool, plus an overview.
+
+    Every rejection is appended to `rejected`; the caller must report it, so it is required."""
     all_courses = list(courses)
     chunks: list[dict[str, Any]] = []
     degree = metadata.get("degree") or metadata.get("program_name") or "the program"
     college = metadata.get("college_name") or "PalSU"
     school_year = metadata.get("effective_school_year") or "n/a"
     source = metadata.get("source_file", "")
-    rejected = rejected if rejected is not None else []
-    accepted, course_chunks, omitted = [], [], []
+    accepted, course_chunks, omitted_ids = [], [], set()
     source_kind = document.source_kind if document else ""
     for course in courses:
         reason, cells = _course_source(course, document, layout, evidence_ids)
         code = course["course_code"]
+        where = {"course_code": code, "year_level": course.get("year_level"), "semester": course.get("semester"),
+                 "cell_ids": _claimed_cell_ids(course)}
         if reason:
-            rejected.append({"chunk_type": "course", "label": code, "reason": reason})
-            omitted.append(code)
+            rejected.append(_rejection("course", code, reason, **where))
+            omitted_ids.add(id(course))
             continue
         units = course.get("units") or {}
         body = [
@@ -165,12 +211,16 @@ def build_semantic_rag_chunks(
             provenance.get("resolution_method") or "deterministic", provenance.get("repair_id")),
             pdf_sha256=pdf_sha256, source=source)
         if not fits_cap(chunk["token_count"]):
-            rejected.append({"chunk_type": "course", "label": code, "reason": "over_token_cap", "token_count": chunk["token_count"]})
-            omitted.append(code)
+            rejected.append(_rejection("course", code, OVER_TOKEN_CAP, **where, token_count=chunk["token_count"]))
+            omitted_ids.add(id(course))
             continue
-        if chunk["chunk_id"] not in {c["chunk_id"] for c in course_chunks}:
-            accepted.append(course)
-            course_chunks.append(chunk)
+        if chunk["chunk_id"] in {c["chunk_id"] for c in course_chunks}:
+            # An identical course already stands for this one, so nothing is omitted from the summaries.
+            rejected.append(_rejection("course", code, DUPLICATE_CHUNK_ID, **where))
+            continue
+        accepted.append(course)
+        course_chunks.append(chunk)
+    omitted = [c["course_code"] for c in all_courses if id(c) in omitted_ids]
     courses = accepted
     chunks.extend(course_chunks)
     by_course = {id(c): ch for c, ch in zip(courses, course_chunks)}
@@ -189,22 +239,24 @@ def build_semantic_rag_chunks(
                     spans.append(span)
         return spans
 
-    def refuse(kind, label, reason):
-        rejected.append({"chunk_type": kind, "label": label, "reason": reason})
+    def refuse(kind, label, reason, **where):
+        rejected.append(_rejection(kind, label, reason, **where))
 
     def emit(kind, label, fields, text, spans):
         chunk = assemble_chunk(kind, {**common, **fields}, text, spans,
                                pdf_sha256=pdf_sha256, source=source)
-        if fits_cap(chunk["token_count"]):
-            if chunk["chunk_id"] not in {c["chunk_id"] for c in chunks}:
-                chunks.append(chunk)
+        where = {"year_level": fields.get("year_level"), "semester": fields.get("semester"),
+                 "cell_ids": chunk["cell_ids"], "item_ids": _item_ids(spans)}
+        if not fits_cap(chunk["token_count"]):
+            refuse(kind, label, OVER_TOKEN_CAP, token_count=chunk["token_count"], **where)
+        elif chunk["chunk_id"] in {c["chunk_id"] for c in chunks}:
+            refuse(kind, label, DUPLICATE_CHUNK_ID, **where)
         else:
-            rejected.append({"chunk_type": kind, "label": label, "reason": "over_token_cap",
-                             "token_count": chunk["token_count"]})
+            chunks.append(chunk)
 
     def emit_parts(kind, label, header, items, fields, sources):
-        # Allow room for the repeated part label; the final rendered estimate is checked again.
-        parts = pack_items(header(""), items, limit=TOKEN_SPLIT_AT - 32)
+        # Leave room for the repeated part label; the final rendered estimate is checked again.
+        parts = pack_items(header(""), items, limit=TOKEN_SPLIT_AT - PART_LABEL_ROOM)
         for number, (lines, members) in enumerate(parts, 1):
             suffix = f" (part {number} of {len(parts)})" if len(parts) > 1 else ""
             emit(kind, label, {**fields, "part_index": number, "part_count": len(parts)},
@@ -223,16 +275,18 @@ def build_semantic_rag_chunks(
              "derived_fields": ["total_units", "course_count", "terms"], "omitted_course_codes": omitted},
              "\n".join(overview) + "\n", spans_of(courses))
     else:
-        refuse("program_overview", "program", "no_accepted_courses")
+        refuse("program_overview", "program", NO_ACCEPTED_COURSES,
+               cell_ids=_unique(i for c in all_courses for i in _claimed_cell_ids(c)))
 
     for term in term_units:
         year, semester = term["year_level"], term["semester"]
         in_term = [c for c in all_courses if (c["year_level"], c["semester"]) == (year, semester)]
         members = [c for c in courses if (c["year_level"], c["semester"]) == (year, semester)]
-        omitted_term = [c["course_code"] for c in in_term if c["course_code"] in omitted]
+        omitted_term = [c["course_code"] for c in in_term if id(c) in omitted_ids]
         label = f"{year} {semester}"
         if not members:
-            refuse("term_schedule", label, "no_accepted_courses")
+            refuse("term_schedule", label, NO_ACCEPTED_COURSES, year_level=year, semester=semester,
+                   cell_ids=_unique(i for c in in_term for i in _claimed_cell_ids(c)))
             continue
         total = sum(c.get("total_units") or 0 for c in members)
 
@@ -263,11 +317,13 @@ def build_semantic_rag_chunks(
             if not printed or not supported:
                 omitted_options.append(option["course_code"])
                 refuse("elective_option", option["course_code"],
-                       "no_source_text_items" if item is None else "option_not_in_source_text")
+                       NO_SOURCE_TEXT_ITEMS if item is None else OPTION_NOT_IN_SOURCE,
+                       course_code=option["course_code"], item_ids=_claimed_item_ids([option]))
             else:
                 options.append(option)
         if not options:
-            refuse("elective_pool", track["group"], "no_source_text_items")
+            refuse("elective_pool", track["group"], NO_SOURCE_TEXT_ITEMS,
+                   item_ids=_claimed_item_ids(track.get("options") or []))
             continue
         slots = track.get("curriculum_slots") or []
         slot_courses = [by_code[code] for code in slots if code in by_code]
@@ -300,7 +356,7 @@ def build_semantic_rag_chunks(
         emit_parts("enrolment_policy", "program", policy_header, items,
                    {"section_path": [degree, "Enrolment policies"], "derived_fields": ["standing_requirements"],
                     "omitted_course_codes": [c["course_code"] for c in all_courses
-                                             if c.get("standing_requirements") and c["course_code"] in omitted]}, spans_of)
+                                             if c.get("standing_requirements") and id(c) in omitted_ids]}, spans_of)
     return chunks
 
 

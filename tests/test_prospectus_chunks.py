@@ -519,7 +519,7 @@ def test_complete_own_field_required_for_course_admission(damage, reason):
         c["provenance"]["source_cell_ids"].append(foreign["cell_id"])
     chunks, rejected = build([c], doc=doc)
     assert of_type(chunks, "course") == []
-    assert rejected[0] == {"chunk_type": "course", "label": c["course_code"], "reason": reason}
+    assert (rejected[0]["chunk_type"], rejected[0]["label"], rejected[0]["reason"]) == ("course", c["course_code"], reason)
     assert of_type(chunks, "term_schedule") == [] and of_type(chunks, "program_overview") == []
 
 
@@ -553,7 +553,7 @@ def test_blank_claim_cannot_erase_complete_printed_own_field(field, reason):
         c.update(prerequisites=[], prerequisite_state="blank_unreviewed")
     chunks, rejected = build([c], doc=doc)
     assert of_type(chunks, "course") == []
-    assert rejected[0] == {"chunk_type": "course", "label": c["course_code"], "reason": reason}
+    assert (rejected[0]["chunk_type"], rejected[0]["label"], rejected[0]["reason"]) == ("course", c["course_code"], reason)
 
 
 @pytest.mark.parametrize("missing_cell", [False, True])
@@ -568,3 +568,226 @@ def test_genuinely_blank_or_missing_own_prerequisite_remains_unreviewed(missing_
     [chunk] = of_type(chunks, "course")
     assert "- **Prerequisites**: not recorded in the prospectus (unreviewed)" in chunk["text"]
     assert chunk["prerequisite_state"] == "blank_unreviewed"
+
+
+# ---- rejection reporting (Standards F1 and the follow-up suspicions) ----
+
+def test_rejected_course_record_names_code_term_reason_and_claimed_source_ids():
+    c = course(prereq="CS 100")
+    doc = document_for([c])
+    c["course_title"] = "Invented"
+    chunks, rejected = build([c], doc=doc)
+    course_record = next(r for r in rejected if r["chunk_type"] == "course")
+    assert course_record == {
+        "chunk_type": "course", "label": "CS 101", "reason": "title_not_in_source_text",
+        "course_code": "CS 101", "year_level": "1st Year", "semester": "1st Semester",
+        "source_cell_ids": c["provenance"]["source_cell_ids"], "source_item_ids": []}
+    term_record = next(r for r in rejected if r["chunk_type"] == "term_schedule")
+    assert term_record["reason"] == "no_accepted_courses"
+    assert (term_record["year_level"], term_record["semester"]) == ("1st Year", "1st Semester")
+    assert term_record["source_cell_ids"] == c["provenance"]["source_cell_ids"]
+    overview = next(r for r in rejected if r["chunk_type"] == "program_overview")
+    assert overview["source_cell_ids"] == c["provenance"]["source_cell_ids"]
+
+
+def test_rejected_elective_option_record_names_its_text_item():
+    items = [option_item(), option_item("text-8", "CS Elect 4/Lb", "Data Mining")]
+    tracks = parse_elective_tracks(items)
+    tracks[0]["options"][1]["course_title"] = "Invented"
+    c = course()
+    _chunks, rejected = build([c], tracks=tracks, doc=document_for([c], items))
+    [record] = [r for r in rejected if r["chunk_type"] == "elective_option"]
+    assert record["course_code"] == "CS Elect 4/Lb" and record["reason"] == "option_not_in_source_text"
+    assert record["source_item_ids"] == ["text-8"] and record["source_cell_ids"] == []
+
+
+def test_over_cap_rejection_keeps_its_token_count_and_record_shape():
+    _chunks, rejected = build([course(), course("CS 999", title="word " * 600, row=2)])
+    [record] = [r for r in rejected if r["reason"] == "over_token_cap"]
+    assert record["course_code"] == "CS 999" and record["token_count"] > 480
+    assert record["source_cell_ids"] and set(record) >= {"year_level", "semester", "source_item_ids"}
+
+
+def test_same_code_twin_does_not_flag_the_accepted_course_as_omitted():
+    good, bad = course(), course(row=2)
+    doc = document_for([good, bad])
+    bad["course_title"] = "Invented"
+    chunks, rejected = build([good, bad], doc=doc)
+    [term] = of_type(chunks, "term_schedule")
+    assert [c["course_code"] for c in of_type(chunks, "course")] == ["CS 101"]
+    assert "**CS 101**" in term["text"] and term["omitted_course_codes"] == ["CS 101"]
+    assert len([r for r in rejected if r["chunk_type"] == "course"]) == 1
+
+
+def test_duplicate_course_chunk_is_recorded_as_a_rejection_not_dropped_silently():
+    _chunks, rejected = build([course(), course()])
+    [record] = [r for r in rejected if r["chunk_type"] == "course"]
+    assert record["reason"] == "duplicate_chunk_id" and record["course_code"] == "CS 101"
+
+
+def test_duplicate_summary_chunk_is_recorded_as_a_rejection():
+    items = [option_item()]
+    tracks = parse_elective_tracks(items) * 2
+    c = course()
+    chunks, rejected = build([c], tracks=tracks, doc=document_for([c], items))
+    assert len(of_type(chunks, "elective_pool")) == 1
+    assert [r["reason"] for r in rejected if r["chunk_type"] == "elective_pool"] == ["duplicate_chunk_id"]
+
+
+@pytest.mark.parametrize("key,value", [("source_cells", 5), ("source_cells", "ab"), ("source_cells", {"a": 1}),
+                                       ("source_cell_ids", 5)])
+def test_non_list_source_fields_reject_instead_of_raising(key, value):
+    c = course()
+    doc = document_for([c])
+    c["provenance"][key] = value
+    chunks, rejected = build([c], doc=doc)
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "no_valid_source_cells"
+
+
+def test_non_mapping_provenance_rejects_instead_of_raising():
+    c = course()
+    doc = document_for([c])
+    c["provenance"] = "not a mapping"
+    chunks, rejected = build([c], doc=doc)
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "no_valid_source_cells"
+    assert rejected[0]["source_cell_ids"] == []
+
+
+def _synthetic_payload(title="FIRST Second", **kwargs):
+    from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
+    from backend.bintanong_tools.prospectus_extractor.selftest import CS_HEADER, _cs_row, _cs_semester_row, _merged, fixture_document
+    doc = fixture_document([CS_HEADER, _merged("FIRST YEAR", 8), _cs_semester_row(),
+        _cs_row(("CS 1", "First", "3", ""), ("CS 2", title, "3", "CS 1"))], [])
+    return build_payload(doc, Path("test.pdf"), semantic_doc_path=None, **kwargs)
+
+
+def test_payload_reports_every_rejected_course_and_term_with_reason():
+    payload = _synthetic_payload()
+    assert payload["audit"]["status"] != "error"
+    rejected = payload["rag"]["rejected_chunks"]
+    assert [(r["chunk_type"], r["label"], r["reason"]) for r in rejected] == [
+        ("course", "CS 2", "title_not_in_source_text"),
+        ("term_schedule", "1st Year 2nd Semester", "no_accepted_courses")]
+    assert rejected[0]["source_cell_ids"] and rejected[1]["source_cell_ids"] == rejected[0]["source_cell_ids"]
+    assert payload["quality_report"]["total_rejected_chunks"] == 2
+    assert [c["course_code"] for c in of_type(payload["rag"]["semantic_chunks"], "course")] == ["CS 1"]
+
+
+def test_payload_with_nothing_rejected_reports_an_empty_list():
+    payload = _synthetic_payload(title="Second")
+    assert payload["rag"]["rejected_chunks"] == [] and payload["quality_report"]["total_rejected_chunks"] == 0
+
+
+def test_blocked_audit_reports_no_chunks_and_no_rejections():
+    from backend.bintanong_tools.prospectus_extractor.pipeline import build_payload
+    from backend.bintanong_tools.prospectus_extractor.selftest import BSA_TEXT_ITEMS, bsa_fixture_grid, fixture_document
+    payload = build_payload(fixture_document(bsa_fixture_grid(), BSA_TEXT_ITEMS), Path("bsa.pdf"), semantic_doc_path=None)
+    assert payload["audit"]["status"] == "error"
+    assert payload["rag"]["semantic_chunks"] == [] and payload["rag"]["rejected_chunks"] == []
+
+
+# ---- pinned behaviour found unguarded by the Standards mutation review (F2) ----
+
+def test_chunk_identity_known_answers():
+    assert chunking.make_chunk_id(PDF_A, "café locator", "déjà") == \
+        "e6d473bc982677898739c6afc83261f1f56ecd614045b2889ec70782b8f9f7d4"
+    assert chunking.make_chunk_id(None, "loc", "dig") == \
+        "92bfbb0c2b6f80ec64869925a3c4057b59ac18a3f0f33663bfc83e51d3396149"
+    assert chunking.content_hash("Café  x", "y") == \
+        "7f1cddca2a35d088bd30feb3568eccbc9eac4706bded7960261723407531ee4b"
+
+
+def test_review_budget_constants_and_method_name_are_pinned():
+    assert (chunking.TOKEN_COUNT_METHOD, chunking.TOKEN_HARD_CAP, chunking.TOKEN_RESERVE,
+            chunking.TOKEN_SPLIT_AT, chunking.PART_LABEL_ROOM) == ("estimate-v1", 512, 32, 400, 32)
+    chunk = chunking.assemble_chunk("course", {}, "Summary", [span()], pdf_sha256=PDF_A, source="t.pdf")
+    assert chunk["token_count_method"] == "estimate-v1" and chunk["chunker_version"] == "palsu-chunker-v1"
+
+
+def test_assemble_chunk_refuses_an_empty_span_set():
+    with pytest.raises(ValueError):
+        chunking.assemble_chunk("course", {}, "Summary", [], pdf_sha256=PDF_A, source="t.pdf")
+
+
+def test_summary_split_leaves_room_for_the_part_label():
+    many = [course(f"CS {n}", title="Advanced Topic " + "word " * 12, row=n - 100) for n in range(100, 140)]
+    parts = of_type(build(many)[0], "term_schedule")
+    assert len(parts) == 8
+    assert max(p["token_count"] for p in parts) <= chunking.TOKEN_SPLIT_AT - chunking.PART_LABEL_ROOM
+
+
+def test_summary_over_the_review_cap_is_rejected_with_its_token_count():
+    items = [option_item(title="word " * 600)]
+    c = course()
+    chunks, rejected = build([c], tracks=parse_elective_tracks(items), doc=document_for([c], items))
+    assert of_type(chunks, "elective_pool") == []
+    [record] = [r for r in rejected if r["chunk_type"] == "elective_pool"]
+    assert record["reason"] == "over_token_cap" and record["token_count"] > 480
+    assert record["source_item_ids"] == ["text-7"]
+
+
+@pytest.mark.parametrize("damage", ["total_units", "units_total", "units_lecture", "units_lab"])
+def test_each_numeric_unit_must_match_the_printed_unit_field(damage):
+    c = course(unit_raw="3/2")
+    doc = document_for([c])
+    if damage == "total_units": c["total_units"] = 99
+    if damage == "units_total": c["units"]["total"] = 99
+    if damage == "units_lecture": c["units"]["lecture"] = 1
+    if damage == "units_lab": c["units"]["lab"] = 1
+    chunks, rejected = build([c], doc=doc)
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "units_not_derivable_from_source"
+
+
+@pytest.mark.parametrize("field,printed,claim,reason", [
+    ("course_title", "Data Base", "Database", "title_not_in_source_text"),
+    ("prerequisites_raw", "CS 100", "CS100", "prerequisite_not_in_source_text"),
+])
+def test_only_the_code_may_match_loosely(field, printed, claim, reason):
+    c = course(title=printed if field == "course_title" else "Intro", prereq=printed if field == "prerequisites_raw" else "")
+    doc = document_for([c])
+    c[field] = claim
+    chunks, rejected = build([c], doc=doc)
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == reason
+
+
+@pytest.mark.parametrize("field,reason", [("course_code", "code_not_in_source_text"),
+                                          ("course_title", "title_not_in_source_text")])
+def test_blank_claim_does_not_match_a_blank_printed_cell(field, reason):
+    c = course(code="" if field == "course_code" else "CS 101", title="" if field == "course_title" else "Intro")
+    chunks, rejected = build([c])
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == reason
+
+
+@pytest.mark.parametrize("row_index", [None, "1", 1.0])
+def test_non_integer_or_missing_source_row_is_rejected(row_index):
+    c = course()
+    c["_source"]["row_index"] = row_index
+    chunks, rejected = build([c])
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "no_valid_source_cells"
+    del c["_source"]["row_index"]
+    chunks, rejected = build([c])
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "no_valid_source_cells"
+
+
+def test_a_cell_from_another_table_is_not_own_evidence():
+    c = course(prereq="CS 100")
+    foreign = cell("t1-r1-c3", "CS 100", row=1, col=3, table=1)
+    p = c["provenance"]
+    p["source_cells"][-1] = foreign
+    p["source_cell_ids"][-1] = foreign["cell_id"]
+    chunks, rejected = build([c])
+    assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "prerequisite_not_in_source_text"
+
+
+@pytest.mark.parametrize("claim,accepted", [("Intro to CS", True), ("to CS Intro", False)])
+def test_multi_cell_field_text_is_read_in_row_then_column_then_id_order(claim, accepted):
+    c = course(title="Intro to CS")
+    later, earlier = cell("t0-r1-cb", "to CS", row=1, col=1), cell("t0-r1-ca", "Intro", row=0, col=1)
+    earlier["row_end"] = 3
+    p = c["provenance"]
+    p["source_cells"][1:2] = [later, earlier]  # provenance order is the reverse of reading order
+    p["source_cell_ids"][1:2] = ["t0-r1-cb", "t0-r1-ca"]
+    c["course_title"] = claim
+    chunks, rejected = build([c])
+    assert bool(of_type(chunks, "course")) is accepted
+    assert accepted or rejected[0]["reason"] == "title_not_in_source_text"
