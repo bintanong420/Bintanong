@@ -107,11 +107,14 @@ def pack_items(header: str, items: Sequence[tuple[str, Any]], limit: int = TOKEN
 
 
 def assemble_chunk(chunk_type: str, fields: Mapping[str, Any], text: str,
-                   spans: Sequence[Mapping[str, Any]], *, pdf_sha256: str | None, source: str) -> dict[str, Any]:
+                   spans: Sequence[Mapping[str, Any]], *, pdf_sha256: str | None, source: str,
+                   source_text: str | None = None) -> dict[str, Any]:
+    """`source_text` defaults to the spans' printed text; a layout chunk is itself printed text and passes it."""
     spans = list(spans)
     if not spans:
         raise ValueError("A chunk needs at least one source span")
-    source_text = "\n".join(s["text"] for s in spans if s.get("text"))
+    if source_text is None:
+        source_text = "\n".join(s["text"] for s in spans if s.get("text"))
     digest = content_hash(source_text, text)
     return {**fields, "chunk_id": make_chunk_id(pdf_sha256, locator_key(spans), digest),
             "chunk_type": chunk_type, "chunker_version": CHUNKER_VERSION, "content_review": "pending",

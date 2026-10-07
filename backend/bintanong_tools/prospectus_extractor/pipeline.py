@@ -102,7 +102,8 @@ def build_payload(
             evidence_ids=[i for s in audit["curriculum_sections"] for i in s.get("evidence_cells") or []],
             rejected=rejected_chunks,
         )
-        hierarchical_chunks = build_hierarchical_rag_chunks(document, Path(input_path).name)
+        hierarchical_chunks = build_hierarchical_rag_chunks(
+            document, Path(input_path).name, rejected=rejected_chunks)
     else:
         prolog = {
             "status": "blocked",

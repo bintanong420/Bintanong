@@ -14,8 +14,8 @@ from .docling_env import load_docling
 from .text import clean_str
 from .evidence import LoadedDocument
 from .courses import _iter_text_pairs, parse_elective_tracks
-from .chunking import (PART_LABEL_ROOM, TOKEN_SPLIT_AT, assemble_chunk, canonical_text, fits_cap,
-                       pack_items, spans_from_cells, spans_from_text_items)
+from .chunking import (PART_LABEL_ROOM, TOKEN_SPLIT_AT, assemble_chunk, canonical_text, estimate_tokens,
+                       fits_cap, make_span, pack_items, spans_from_cells, spans_from_text_items)
 from .course_checks import loose
 from .verify import own_role_cells
 from .units import parse_units
@@ -35,6 +35,7 @@ DUPLICATE_CHUNK_ID = "duplicate_chunk_id"
 NO_ACCEPTED_COURSES = "no_accepted_courses"
 NO_SOURCE_TEXT_ITEMS = "no_source_text_items"
 OPTION_NOT_IN_SOURCE = "option_not_in_source_text"
+NO_SOURCE_SPANS = "no_source_spans"
 
 
 def _unique(values) -> list:
@@ -360,42 +361,78 @@ def build_semantic_rag_chunks(
     return chunks
 
 
-def build_hierarchical_rag_chunks(document: LoadedDocument, source_name: str) -> list[dict[str, Any]]:
-    """Docling's own layout chunks when available, otherwise a labelled text fallback."""
-    doc = document.docling_doc
-    if doc is not None:
-        try:
-            dl = load_docling()
-            chunker = dl["HierarchicalChunker"]()
-            chunks: list[dict[str, Any]] = []
-            for index, chunk in enumerate(chunker.chunk(doc)):
-                text = clean_str(getattr(chunk, "text", ""))
-                if not text:
-                    continue
-                meta = getattr(chunk, "meta", None)
-                chunks.append(
-                    {
-                        "id": f"docling_hierarchical::{index}",
-                        "chunk_index": index,
-                        "chunk_type": "hierarchical_layout",
-                        "text": text,
-                        "source": source_name,
-                        "metadata": meta.model_dump(mode="json") if hasattr(meta, "model_dump") else {},
-                    }
-                )
-            if chunks:
-                return chunks
-        except Exception:
-            pass
+LAYOUT_LABELS = {"hierarchical_layout": "docling_hierarchical", "hierarchical_layout_fallback": "layout_fallback"}
 
-    return [
-        {
-            "id": f"layout_fallback::{index}",
-            "chunk_index": index,
-            "chunk_type": "hierarchical_layout_fallback",
-            "text": text,
-            "source": source_name,
-            "metadata": {"label": label},
-        }
-        for index, (label, text) in enumerate(_iter_text_pairs(document.text_items))
-    ]
+
+def _layout_chunk(chunk_type: str, index: int, fields: dict[str, Any], text: str,
+                  spans: list[dict[str, Any]], *, source_text: str | None, pdf_sha256: str | None,
+                  source: str, rejected: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """One layout chunk, or None after recording why it is not a candidate."""
+    label = f"{LAYOUT_LABELS[chunk_type]}:{index}"
+    where = {"item_ids": _item_ids(spans) + [s["locator"]["ref"] for s in spans if "ref" in s["locator"]]}
+    tokens = estimate_tokens(text)
+    if not fits_cap(tokens):
+        rejected.append(_rejection(chunk_type, label, OVER_TOKEN_CAP, token_count=tokens, **where))
+    elif not spans:
+        rejected.append(_rejection(chunk_type, label, NO_SOURCE_SPANS, **where))
+    else:
+        return assemble_chunk(chunk_type, {"chunk_index": index, **fields}, text, spans,
+                              pdf_sha256=pdf_sha256, source=source, source_text=source_text)
+    return None
+
+
+def _docling_layout_chunks(doc: Any, source_name: str, kind: str, pdf_sha256: str | None,
+                           rejected: list[dict[str, Any]]) -> list[dict[str, Any]] | None:
+    """Docling's own chunks; None when it produced no text at all (the caller then falls back)."""
+    chunks, produced = [], False
+    for index, chunk in enumerate(load_docling()["HierarchicalChunker"]().chunk(doc)):
+        text = clean_str(getattr(chunk, "text", ""))
+        if not text:
+            continue
+        produced = True
+        meta = getattr(chunk, "meta", None)
+        meta_dict = meta.model_dump(mode="json") if hasattr(meta, "model_dump") else {}
+        spans = [make_span(pdf_sha256, prov.get("page_no"), {"kind": "docling_ref", "ref": item["self_ref"]},
+                           None, None, kind)
+                 for item in meta_dict.get("doc_items") or [] if item.get("self_ref")
+                 for prov in item.get("prov") or [{}]]
+        built = _layout_chunk(
+            "hierarchical_layout", index,
+            {"section_path": list(meta_dict.get("headings") or []), "metadata": meta_dict}, text, spans, source_text=text, pdf_sha256=pdf_sha256, source=source_name, rejected=rejected)
+        if built:
+            chunks.append(built)
+    return chunks if produced else None
+
+
+def build_hierarchical_rag_chunks(document: LoadedDocument, source_name: str, *,
+                                  pdf_sha256: str | None = None,
+                                  rejected: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Docling's own layout chunks when available, otherwise a labelled text fallback.
+
+    Layout chunks over the review cap are rejected, not split: they are Docling's own units and the
+    curriculum facts are covered by the course and term chunks. Every rejection is appended to `rejected`.
+    """
+    kind = document.source_kind
+    if document.docling_doc is not None:
+        local: list[dict[str, Any]] = []
+        try:
+            found = _docling_layout_chunks(document.docling_doc, source_name, kind, pdf_sha256, local)
+        except Exception:
+            found = None
+        if found is not None:
+            rejected.extend(local)
+            return found
+
+    chunks = []
+    for index, item in enumerate(document.text_items):
+        item_id = item.get("item_id") if isinstance(item, dict) else None
+        for label, text in _iter_text_pairs([item]):
+            if not text:
+                continue
+            built = _layout_chunk(
+                "hierarchical_layout_fallback", index, {"section_path": [], "metadata": {"label": label}}, text,
+                spans_from_text_items([item], [item_id], pdf_sha256, kind) if item_id else [],
+                source_text=None, pdf_sha256=pdf_sha256, source=source_name, rejected=rejected)
+            if built:
+                chunks.append(built)
+    return chunks

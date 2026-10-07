@@ -6,6 +6,7 @@ import pytest
 from copy import deepcopy
 from dataclasses import replace
 from pathlib import Path
+from types import SimpleNamespace
 
 from backend.bintanong_tools.prospectus_extractor import chunking
 from backend.bintanong_tools.prospectus_extractor import rag
@@ -791,3 +792,98 @@ def test_multi_cell_field_text_is_read_in_row_then_column_then_id_order(claim, a
     chunks, rejected = build([c])
     assert bool(of_type(chunks, "course")) is accepted
     assert accepted or rejected[0]["reason"] == "title_not_in_source_text"
+
+
+# ---- Task 5: layout chunks get IDs, pages and a token check ----
+
+def _layout_document(text_items=(), docling_document=None):
+    return ProspectusEvidence(
+        text_items=list(text_items), docling_document=docling_document, source_kind="docling-json")
+
+
+def _docling(monkeypatch, *chunks):
+    fake = SimpleNamespace(chunk=lambda doc: list(chunks))
+    monkeypatch.setattr(rag, "load_docling", lambda: {"HierarchicalChunker": lambda: fake})
+
+
+def test_fallback_layout_chunks_are_hash_bound_and_capped():
+    document = _layout_document([
+        {"item_id": "text-0", "label": "title", "text": "BS TEST CURRICULUM", "page": 1, "bbox": None},
+        {"item_id": "text-1", "label": "text", "text": "word " * 700, "page": 1, "bbox": None},
+    ])
+    rejected = []
+    chunks = rag.build_hierarchical_rag_chunks(document, "t.pdf", pdf_sha256=PDF_A, rejected=rejected)
+    assert [c["chunk_type"] for c in chunks] == ["hierarchical_layout_fallback"]
+    assert chunks[0]["pdf_sha256"] == PDF_A and chunks[0]["content_review"] == "pending"
+    assert chunks[0]["source_text"] == "BS TEST CURRICULUM" and chunks[0]["pages"] == [1]
+    assert chunks[0]["source_spans"][0]["locator"] == {"kind": "text_item", "item_ids": ["text-0"]}
+    again = rag.build_hierarchical_rag_chunks(document, "t.pdf", pdf_sha256=PDF_B, rejected=[])
+    assert again[0]["chunk_id"] != chunks[0]["chunk_id"] and "id" not in chunks[0]
+    assert [(r["label"], r["reason"], r["source_item_ids"]) for r in rejected] == [
+        ("layout_fallback:1", "over_token_cap", ["text-1"])]
+
+
+def test_docling_layout_chunks_carry_their_pages(monkeypatch):
+    meta = SimpleNamespace(model_dump=lambda mode="json": {
+        "headings": ["FIRST YEAR"],
+        "doc_items": [{"self_ref": "#/texts/2", "prov": [{"page_no": 2}]}],
+    })
+    _docling(monkeypatch, SimpleNamespace(text="Effective SY 2018-2019", meta=meta))
+    chunks = rag.build_hierarchical_rag_chunks(
+        _layout_document(docling_document=object()), "t.pdf", pdf_sha256=PDF_A, rejected=[])
+    assert [c["chunk_type"] for c in chunks] == ["hierarchical_layout"]
+    assert chunks[0]["pages"] == [2] and chunks[0]["section_path"] == ["FIRST YEAR"]
+    assert chunks[0]["source_spans"][0]["locator"] == {"kind": "docling_ref", "ref": "#/texts/2"}
+    assert chunks[0]["source_text"] == "Effective SY 2018-2019" == chunks[0]["text"]
+    assert chunks[0]["pdf_sha256"] == PDF_A and chunks[0]["token_count_method"] == "estimate-v1"
+
+
+def test_all_oversized_docling_chunks_do_not_fall_back_to_the_text_path(monkeypatch):
+    _docling(monkeypatch, SimpleNamespace(text="word " * 700, meta=None))
+    rejected = []
+    chunks = rag.build_hierarchical_rag_chunks(
+        _layout_document([{"item_id": "t", "label": "text", "text": "kept?", "page": 1, "bbox": None}],
+                         docling_document=object()),
+        "t.pdf", pdf_sha256=PDF_A, rejected=rejected)
+    assert chunks == [] and [r["reason"] for r in rejected] == ["over_token_cap"]
+    assert rejected[0]["chunk_type"] == "hierarchical_layout" and rejected[0]["token_count"] > 480
+
+
+def test_docling_chunk_without_source_refs_is_rejected_not_invented(monkeypatch):
+    meta = SimpleNamespace(model_dump=lambda mode="json": {"headings": [], "doc_items": []})
+    _docling(monkeypatch, SimpleNamespace(text="No provenance", meta=meta),
+             SimpleNamespace(text="Located", meta=SimpleNamespace(model_dump=lambda mode="json": {
+                 "headings": [], "doc_items": [{"self_ref": "#/texts/0", "prov": []}]})))
+    rejected = []
+    chunks = rag.build_hierarchical_rag_chunks(
+        _layout_document(docling_document=object()), "t.pdf", pdf_sha256=PDF_A, rejected=rejected)
+    assert [c["text"] for c in chunks] == ["Located"]
+    assert chunks[0]["pages"] == [] and chunks[0]["source_spans"][0]["page"] is None
+    assert [(r["label"], r["reason"]) for r in rejected] == [("docling_hierarchical:0", "no_source_spans")]
+
+
+def test_fallback_text_without_an_item_id_is_rejected_and_blank_text_is_skipped():
+    document = _layout_document([
+        ("text", "legacy tuple item"), {"item_id": "text-1", "label": "text", "text": "   ", "page": 1},
+        {"item_id": "text-2", "label": "text", "text": "Located", "page": None, "bbox": None}])
+    rejected = []
+    chunks = rag.build_hierarchical_rag_chunks(document, "t.pdf", pdf_sha256=None, rejected=rejected)
+    assert [c["text"] for c in chunks] == ["Located"] and chunks[0]["source_anchored"] is False
+    assert chunks[0]["chunk_index"] == 2
+    assert [(r["label"], r["reason"]) for r in rejected] == [("layout_fallback:0", "no_source_spans")]
+
+
+def test_docling_failure_falls_back_to_the_labelled_text_path(monkeypatch):
+    def boom():
+        raise RuntimeError("no docling")
+    monkeypatch.setattr(rag, "load_docling", boom)
+    document = _layout_document([{"item_id": "text-0", "label": "text", "text": "Plain", "page": 1}],
+                                docling_document=object())
+    chunks = rag.build_hierarchical_rag_chunks(document, "t.pdf", pdf_sha256=PDF_A, rejected=[])
+    assert [c["chunk_type"] for c in chunks] == ["hierarchical_layout_fallback"]
+
+
+def test_assemble_chunk_keeps_an_explicit_source_text():
+    chunk = chunking.assemble_chunk("hierarchical_layout", {}, "Layout text", [span(text=None)],
+                                    pdf_sha256=PDF_A, source="t.pdf", source_text="Layout text")
+    assert chunk["source_text"] == "Layout text" == chunk["text"]
