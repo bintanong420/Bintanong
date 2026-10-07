@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 from typing import Sequence
-import re
 
 from .common import RICH_AVAILABLE
 from .prerequisites import EMPTY_RULE_STATES
@@ -79,30 +78,35 @@ def _course_source(course: dict[str, Any], document: LoadedDocument | None,
     canonical_course = {**course, "provenance": {**provenance, "source_cells": cells}}
     roles = own_role_cells(canonical_course, layout, set(evidence_ids))
     src = course.get("_source") or {}
-    roles = {role: [c for c in group if c["table_index"] == src.get("table_index")]
-             for role, group in roles.items()}
     row = src.get("row_index")
-    if not isinstance(row, int) or not any(c["row_start"] <= row < c["row_end"] for c in roles["code"]):
+    if not isinstance(row, int):
         return "no_valid_source_cells", []
+    roles = {role: [c for c in group if c["table_index"] == src.get("table_index")
+                   and c["row_start"] <= row < c["row_end"]]
+             for role, group in roles.items()}
     if not roles["code"] or not roles["title"]:
         return "no_valid_source_cells", []
+    printed = {role: canonical_text(" ".join(c["text"] for c in sorted(
+        group, key=lambda c: (c["row_start"], c["col_start"], c["cell_id"]))))
+        for role, group in roles.items()}
     for role, value, reason in (
         ("code", course.get("course_code"), "code_not_in_source_text"),
         ("title", course.get("course_title"), "title_not_in_source_text"),
         ("prereq", course.get("prerequisites_raw"), "prerequisite_not_in_source_text"),
     ):
-        if value and not any(re.search(r"(?<!\w)" + re.escape(canonical_text(value)) + r"(?!\w)",
-                                       canonical_text(c["text"])) for c in roles[role]):
+        claimed = canonical_text(value or "")
+        if role in {"code", "title"} and not claimed:
+            return reason, []
+        if claimed != printed[role]:
             # Code spelling can be canonicalised by the existing parser; mark it as derived below.
-            if role != "code" or not any(loose(value).lower() == loose(c["text"]).lower() for c in roles[role]):
+            if role != "code" or loose(value).lower() != loose(printed[role]).lower():
                 return reason, []
     units = course.get("units") or {}
     raw = units.get("raw") or ""
     numeric = any(units.get(k) is not None for k in ("lecture", "lab", "total"))
-    if (raw or numeric) and (not raw or not any(re.search(r"(?<!\w)" + re.escape(canonical_text(raw)) + r"(?!\w)",
-                                                        canonical_text(c["text"])) for c in roles["unit"])):
+    if (raw or numeric) and (not raw or canonical_text(raw) != printed["unit"]):
         return "units_not_in_source_text", []
-    parsed = parse_units(raw)
+    parsed = parse_units(printed["unit"])
     if any(units.get(k) != parsed[k] for k in ("lecture", "lab", "total")) or course.get("total_units") != parsed["total"]:
         return "units_not_derivable_from_source", []
     return None, cells

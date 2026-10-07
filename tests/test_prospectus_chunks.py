@@ -491,3 +491,80 @@ def test_malformed_source_id_lists_are_rejected_without_crashing(ids):
     c["provenance"]["source_cell_ids"] = ids
     chunks, rejected = build([c])
     assert of_type(chunks, "course") == [] and rejected[0]["reason"] == "no_valid_source_cells"
+
+
+@pytest.mark.parametrize("damage,reason", [
+    ("code_suffix", "code_not_in_source_text"),
+    ("title_subphrase", "title_not_in_source_text"),
+    ("prerequisite_subphrase", "prerequisite_not_in_source_text"),
+    ("unit_fraction_prefix", "units_not_in_source_text"),
+    ("other_course_row", "prerequisite_not_in_source_text"),
+])
+def test_complete_own_field_required_for_course_admission(damage, reason):
+    c = course("CS 101/L" if damage == "code_suffix" else "CS 101",
+               title="Introduction to Computer Science" if damage == "title_subphrase" else "Intro",
+               prereq="CS 100 and MATH 1" if damage == "prerequisite_subphrase" else "CS 100",
+               unit_raw="3/2" if damage == "unit_fraction_prefix" else "3")
+    other = course("CS 777", prereq="CS 100", row=7)
+    doc = document_for([c, other])
+    if damage == "code_suffix": c["course_code"] = "CS 101"
+    if damage == "title_subphrase": c["course_title"] = "Computer Science"
+    if damage == "prerequisite_subphrase": c["prerequisites_raw"] = "CS 100"
+    if damage == "unit_fraction_prefix": c["units"], c["total_units"] = parse_units("3"), 3
+    if damage == "other_course_row":
+        own = c["provenance"]["source_cells"].pop()
+        c["provenance"]["source_cell_ids"].remove(own["cell_id"])
+        foreign = other["provenance"]["source_cells"][-1]
+        c["provenance"]["source_cells"].append(foreign)
+        c["provenance"]["source_cell_ids"].append(foreign["cell_id"])
+    chunks, rejected = build([c], doc=doc)
+    assert of_type(chunks, "course") == []
+    assert rejected[0] == {"chunk_type": "course", "label": c["course_code"], "reason": reason}
+    assert of_type(chunks, "term_schedule") == [] and of_type(chunks, "program_overview") == []
+
+
+@pytest.mark.parametrize("control", ["complete_fields", "normalized_code", "canonical_spanning_cells"])
+def test_complete_own_field_and_existing_normalization_controls_remain_accepted(control):
+    c = course("CS 101/L", title="Introduction to Computer Science", prereq="CS 100 and MATH 1", unit_raw="3/2")
+    if control == "canonical_spanning_cells":
+        for s in c["provenance"]["source_cells"]:
+            s.update(row_start=0, row_end=3)
+    doc = document_for([c])
+    if control == "normalized_code": c["course_code"] = "CS101/L"
+    chunks, rejected = build([c], doc=doc)
+    assert rejected == []
+    [chunk] = of_type(chunks, "course")
+    assert "Introduction to Computer Science" in chunk["text"]
+    assert "5 total (lecture 3, laboratory 2)" in chunk["text"]
+    assert "CS 100 and MATH 1" in chunk["source_text"]
+    assert set(chunk["cell_ids"]) == set(c["provenance"]["source_cell_ids"])
+
+
+@pytest.mark.parametrize("field,reason", [
+    ("prerequisites_raw", "prerequisite_not_in_source_text"),
+    ("course_code", "code_not_in_source_text"),
+    ("course_title", "title_not_in_source_text"),
+])
+def test_blank_claim_cannot_erase_complete_printed_own_field(field, reason):
+    c = course(prereq="CS 100")
+    doc = document_for([c])
+    c[field] = ""
+    if field == "prerequisites_raw":
+        c.update(prerequisites=[], prerequisite_state="blank_unreviewed")
+    chunks, rejected = build([c], doc=doc)
+    assert of_type(chunks, "course") == []
+    assert rejected[0] == {"chunk_type": "course", "label": c["course_code"], "reason": reason}
+
+
+@pytest.mark.parametrize("missing_cell", [False, True])
+def test_genuinely_blank_or_missing_own_prerequisite_remains_unreviewed(missing_cell):
+    c = course()
+    if not missing_cell:
+        blank = cell("t0-r1-c3", "", row=1, col=3)
+        c["provenance"]["source_cells"].append(blank)
+        c["provenance"]["source_cell_ids"].append(blank["cell_id"])
+    chunks, rejected = build([c])
+    assert rejected == []
+    [chunk] = of_type(chunks, "course")
+    assert "- **Prerequisites**: not recorded in the prospectus (unreviewed)" in chunk["text"]
+    assert chunk["prerequisite_state"] == "blank_unreviewed"
