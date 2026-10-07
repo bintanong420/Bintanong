@@ -126,28 +126,30 @@ def parse_elective_tracks(text_items: Sequence[Any]) -> list[dict[str, Any]]:
     or reordered section header can no longer scramble the pools (v1 relied on
     header ordering and auto-created groups mid-stream).
     """
-    grouped: dict[str, list[dict[str, str]]] = {}
+    grouped: dict[str, list[dict[str, Any]]] = {}
     order: list[str] = []
 
-    for _label, text in _iter_text_pairs(text_items):
-        line = clean_str(text)
-        if not line:
-            continue
-        for candidate in re.split(r"(?<=[a-z\)])\s{2,}", line):
-            match = ELECTIVE_OPTION.match(clean_str(candidate))
-            if not match:
+    for item in text_items:
+        item_id = item.get("item_id") if isinstance(item, Mapping) else None
+        for _label, text in _iter_text_pairs([item]):
+            line = clean_str(text)
+            if not line:
                 continue
-            option_code = clean_str(match.group(1))
-            number = match.group(2)
-            title = clean_str(match.group(3))
-            prefix_match = re.match(r"^([A-Za-z]+)", option_code)
-            prefix = prefix_match.group(1).upper() if prefix_match else "CS"
-            group_name = f"{prefix} Elective {number}"
-            if group_name not in grouped:
-                grouped[group_name] = []
-                order.append(group_name)
-            if not any(o["course_code"] == option_code for o in grouped[group_name]):
-                grouped[group_name].append({"course_code": option_code, "course_title": title})
+            for candidate in re.split(r"(?<=[a-z\)])\s{2,}", line):
+                match = ELECTIVE_OPTION.match(clean_str(candidate))
+                if not match:
+                    continue
+                option_code = clean_str(match.group(1))
+                number = match.group(2)
+                title = clean_str(match.group(3))
+                prefix_match = re.match(r"^([A-Za-z]+)", option_code)
+                prefix = prefix_match.group(1).upper() if prefix_match else "CS"
+                group_name = f"{prefix} Elective {number}"
+                if group_name not in grouped:
+                    grouped[group_name] = []
+                    order.append(group_name)
+                if not any(o["course_code"] == option_code for o in grouped[group_name]):
+                    grouped[group_name].append({"course_code": option_code, "course_title": title, "source_item_id": item_id})
 
     return [
         {

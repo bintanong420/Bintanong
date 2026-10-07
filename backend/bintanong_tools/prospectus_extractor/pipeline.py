@@ -96,7 +96,10 @@ def build_payload(
     if verified:
         prolog = generate_prolog_knowledge(metadata, courses, tracks, term_units)
         prolog["status"] = "extracted"  # the audit found no error; not a verification
-        semantic_chunks = build_semantic_rag_chunks(metadata, courses, tracks, term_units)
+        semantic_chunks = build_semantic_rag_chunks(
+            metadata, courses, tracks, term_units, document=document, layout=audit["table_layout"],
+            evidence_ids=[i for s in audit["curriculum_sections"] for i in s.get("evidence_cells") or []],
+        )
         hierarchical_chunks = build_hierarchical_rag_chunks(document, Path(input_path).name)
     else:
         prolog = {

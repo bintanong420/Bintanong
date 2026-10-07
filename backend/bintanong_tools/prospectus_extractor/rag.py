@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 from typing import Sequence
+import re
 
 from .common import RICH_AVAILABLE
 from .prerequisites import EMPTY_RULE_STATES
@@ -13,8 +14,12 @@ if RICH_AVAILABLE:
 from .docling_env import load_docling
 from .text import clean_str
 from .evidence import LoadedDocument
-from .courses import _iter_text_pairs
-from .views import build_unlocks_map
+from .courses import _iter_text_pairs, parse_elective_tracks
+from .chunking import (TOKEN_SPLIT_AT, assemble_chunk, canonical_text, fits_cap, pack_items,
+                       spans_from_cells, spans_from_text_items)
+from .course_checks import loose
+from .verify import own_role_cells
+from .units import parse_units
 
 
 NOT_RECORDED = "not recorded in the prospectus (unreviewed)"
@@ -44,152 +49,254 @@ def prerequisite_phrase(course: dict[str, Any], brief: bool = False) -> str:
     return text + f' (printed as "{raw}"; {note})'
 
 
+def _course_source(course: dict[str, Any], document: LoadedDocument | None,
+                   layout: Sequence[dict[str, Any]], evidence_ids: Sequence[str]
+                   ) -> tuple[str | None, list[dict[str, Any]]]:
+    """Resolve locators against canonical cells, then verify each asserted printed field."""
+    provenance = course.get("provenance") or {}
+    ids, stored = provenance.get("source_cell_ids") or [], provenance.get("source_cells") or []
+    if not document or not provenance.get("valid") or not ids or not stored:
+        return "no_valid_source_cells", []
+    if not isinstance(ids, (list, tuple)) or any(not isinstance(i, str) or not i for i in ids):
+        return "no_valid_source_cells", []
+    if any(not isinstance(c, dict) or not isinstance(c.get("cell_id"), str) for c in stored):
+        return "no_valid_source_cells", []
+    if len(ids) != len(set(ids)) or set(ids) != {c["cell_id"] for c in stored} or len(stored) != len(ids):
+        return "no_valid_source_cells", []
+    canonical = document.all_cells()
+    cells = []
+    for c in stored:
+        actual = canonical.get(c["cell_id"])
+        if actual is None:
+            return "no_valid_source_cells", []
+        source = actual.as_evidence_dict()
+        if any(c.get(k) != source[k] for k in ("table_index", "row_start", "row_end", "col_start", "col_end")):
+            return "no_valid_source_cells", []
+        if canonical_text(c.get("text", "")) != canonical_text(source["text"]):
+            return "no_valid_source_cells", []
+        source["bbox_origin"] = actual.bbox.origin if actual.bbox else None
+        cells.append(source)
+    canonical_course = {**course, "provenance": {**provenance, "source_cells": cells}}
+    roles = own_role_cells(canonical_course, layout, set(evidence_ids))
+    src = course.get("_source") or {}
+    roles = {role: [c for c in group if c["table_index"] == src.get("table_index")]
+             for role, group in roles.items()}
+    row = src.get("row_index")
+    if not isinstance(row, int) or not any(c["row_start"] <= row < c["row_end"] for c in roles["code"]):
+        return "no_valid_source_cells", []
+    if not roles["code"] or not roles["title"]:
+        return "no_valid_source_cells", []
+    for role, value, reason in (
+        ("code", course.get("course_code"), "code_not_in_source_text"),
+        ("title", course.get("course_title"), "title_not_in_source_text"),
+        ("prereq", course.get("prerequisites_raw"), "prerequisite_not_in_source_text"),
+    ):
+        if value and not any(re.search(r"(?<!\w)" + re.escape(canonical_text(value)) + r"(?!\w)",
+                                       canonical_text(c["text"])) for c in roles[role]):
+            # Code spelling can be canonicalised by the existing parser; mark it as derived below.
+            if role != "code" or not any(loose(value).lower() == loose(c["text"]).lower() for c in roles[role]):
+                return reason, []
+    units = course.get("units") or {}
+    raw = units.get("raw") or ""
+    numeric = any(units.get(k) is not None for k in ("lecture", "lab", "total"))
+    if (raw or numeric) and (not raw or not any(re.search(r"(?<!\w)" + re.escape(canonical_text(raw)) + r"(?!\w)",
+                                                        canonical_text(c["text"])) for c in roles["unit"])):
+        return "units_not_in_source_text", []
+    parsed = parse_units(raw)
+    if any(units.get(k) != parsed[k] for k in ("lecture", "lab", "total")) or course.get("total_units") != parsed["total"]:
+        return "units_not_derivable_from_source", []
+    return None, cells
+
+
 def build_semantic_rag_chunks(
     metadata: dict[str, Any],
     courses: Sequence[dict[str, Any]],
     elective_tracks: Sequence[dict[str, Any]],
     term_units: Sequence[dict[str, Any]],
+    *,
+    pdf_sha256: str | None = None,
+    document: LoadedDocument | None = None,
+    layout: Sequence[dict[str, Any]] = (),
+    evidence_ids: Sequence[str] = (),
+    rejected: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Advising-shaped chunks: one per course, per term, per elective pool, plus an overview."""
+    all_courses = list(courses)
     chunks: list[dict[str, Any]] = []
     degree = metadata.get("degree") or metadata.get("program_name") or "the program"
     college = metadata.get("college_name") or "PalSU"
     school_year = metadata.get("effective_school_year") or "n/a"
     source = metadata.get("source_file", "")
-    unlocks = build_unlocks_map(courses)
-
-    total_units = sum(c.get("total_units") or 0 for c in courses)
-    overview = [
-        f"### Program Overview: {metadata.get('program_name') or degree}",
-        f"- **Degree**: {degree}",
-        f"- **College**: {college} ({metadata.get('college_code') or 'n/a'}), {metadata.get('campus')}",
-        f"- **Effective School Year**: {school_year}",
-        f"- **Total Units**: {total_units} across {len(courses)} courses",
-        "- **Terms**: " + ", ".join(
-            "{0} {1}".format(t["year_level"], t["semester"]) for t in term_units
-        ),
-    ]
-    if metadata.get("bor_resolution"):
-        overview.append(f"- **BOR Resolution**: {metadata['bor_resolution']} {metadata.get('bor_date') or ''}".rstrip())
-    chunks.append(
-        {
-            "id": "program::overview",
-            "chunk_type": "program_overview",
-            "college": metadata.get("college_code"),
-            "program": degree,
-            "text": "\n".join(overview) + "\n",
-            "source": source,
-        }
-    )
-
+    rejected = rejected if rejected is not None else []
+    accepted, course_chunks, omitted = [], [], []
+    source_kind = document.source_kind if document else ""
     for course in courses:
+        reason, cells = _course_source(course, document, layout, evidence_ids)
         code = course["course_code"]
-        prereq_text = prerequisite_phrase(course)
-        opened = unlocks.get(code, [])
-        units = course.get("units", {})
+        if reason:
+            rejected.append({"chunk_type": "course", "label": code, "reason": reason})
+            omitted.append(code)
+            continue
+        units = course.get("units") or {}
         body = [
             f"### Course: {code} - {course['course_title']}",
             f"- **Program**: {degree} ({college}, SY {school_year})",
             f"- **When taken**: {course['year_level']}, {course['semester']}",
-            f"- **Units**: {units.get('total') or 'n/a'} total "
-            f"(lecture {units.get('lecture') or 0}, laboratory {units.get('lab') or 0})",
-            f"- **Prerequisites**: {prereq_text}",
-            f"- **Unlocks**: {', '.join(opened) if opened else 'No downstream course depends on it'}",
-            f"- **Classification**: {course.get('category')}"
-            + (f" / elective pool {course['elective_group']}" if course.get("elective_group") else ""),
+            f"- **Units**: {units.get('total') if units.get('total') is not None else 'n/a'} total "
+            f"(lecture {units.get('lecture') if units.get('lecture') is not None else 'n/a'}, "
+            f"laboratory {units.get('lab') if units.get('lab') is not None else 'n/a'})",
+            f"- **Prerequisites**: {prerequisite_phrase(course)}",
+            f"- **Classification**: {course.get('category')}",
         ]
-        chunks.append(
-            {
-                "id": f"{code}::course",
-                "chunk_type": "course",
-                "course_code": code,
-                "course_title": course["course_title"],
-                "prerequisite_state": course.get("prerequisite_state"),
-                "year_level": course["year_level"],
-                "semester": course["semester"],
-                "college": metadata.get("college_code"),
-                "program": degree,
-                "text": "\n".join(body) + "\n",
-                "source": source,
-            }
-        )
+        provenance = course.get("provenance") or {}
+        chunk = assemble_chunk("course", {
+            "course_code": code, "course_title": course["course_title"],
+            "prerequisite_state": course.get("prerequisite_state"),
+            "year_level": course["year_level"], "semester": course["semester"],
+            "college": metadata.get("college_code"), "program": degree,
+            "section_path": [degree, course["year_level"], course["semester"]],
+            "derived_fields": ["course_code", "year_level", "semester", "units", "prerequisites", "unlocks", "category"],
+            "unsourced_fields": ["program", "college", "effective_school_year"],
+        }, "\n".join(body) + "\n", spans_from_cells(cells, pdf_sha256, source_kind,
+            provenance.get("resolution_method") or "deterministic", provenance.get("repair_id")),
+            pdf_sha256=pdf_sha256, source=source)
+        if not fits_cap(chunk["token_count"]):
+            rejected.append({"chunk_type": "course", "label": code, "reason": "over_token_cap", "token_count": chunk["token_count"]})
+            omitted.append(code)
+            continue
+        if chunk["chunk_id"] not in {c["chunk_id"] for c in course_chunks}:
+            accepted.append(course)
+            course_chunks.append(chunk)
+    courses = accepted
+    chunks.extend(course_chunks)
+    by_course = {id(c): ch for c, ch in zip(courses, course_chunks)}
+    by_code = {c["course_code"]: c for c in courses}
+    common = {"college": metadata.get("college_code"), "program": degree,
+              "unsourced_fields": ["program", "college", "effective_school_year"]}
+
+    def spans_of(members):
+        # Retain each contributor's extraction method/repair and native coordinate origin.
+        spans, seen = [], set()
+        for c in members:
+            for span in by_course[id(c)]["source_spans"]:
+                key = str(span)
+                if key not in seen:
+                    seen.add(key)
+                    spans.append(span)
+        return spans
+
+    def refuse(kind, label, reason):
+        rejected.append({"chunk_type": kind, "label": label, "reason": reason})
+
+    def emit(kind, label, fields, text, spans):
+        chunk = assemble_chunk(kind, {**common, **fields}, text, spans,
+                               pdf_sha256=pdf_sha256, source=source)
+        if fits_cap(chunk["token_count"]):
+            if chunk["chunk_id"] not in {c["chunk_id"] for c in chunks}:
+                chunks.append(chunk)
+        else:
+            rejected.append({"chunk_type": kind, "label": label, "reason": "over_token_cap",
+                             "token_count": chunk["token_count"]})
+
+    def emit_parts(kind, label, header, items, fields, sources):
+        # Allow room for the repeated part label; the final rendered estimate is checked again.
+        parts = pack_items(header(""), items, limit=TOKEN_SPLIT_AT - 32)
+        for number, (lines, members) in enumerate(parts, 1):
+            suffix = f" (part {number} of {len(parts)})" if len(parts) > 1 else ""
+            emit(kind, label, {**fields, "part_index": number, "part_count": len(parts)},
+                 header(suffix) + "\n" + "\n".join(lines) + "\n", sources(members))
+
+    if courses:
+        total = sum(c.get("total_units") or 0 for c in courses)
+        overview = [f"### Program Overview: {metadata.get('program_name') or degree}",
+                    f"- **Degree**: {degree}",
+                    f"- **College**: {college} ({metadata.get('college_code') or 'n/a'}), {metadata.get('campus')}",
+                    f"- **Effective School Year**: {school_year}",
+                    f"- **Total Units**: {total} across {len(courses)} courses",
+                    "- **Terms**: " + ", ".join(dict.fromkeys(
+                        f"{c['year_level']} {c['semester']}" for c in courses))]
+        emit("program_overview", "program", {"section_path": [degree],
+             "derived_fields": ["total_units", "course_count", "terms"], "omitted_course_codes": omitted},
+             "\n".join(overview) + "\n", spans_of(courses))
+    else:
+        refuse("program_overview", "program", "no_accepted_courses")
 
     for term in term_units:
         year, semester = term["year_level"], term["semester"]
-        term_courses = [c for c in courses if (c["year_level"], c["semester"]) == (year, semester)]
-        lines = [
-            f"  - **{c['course_code']}**: {c['course_title']} "
-            f"({c.get('total_units')} units; prerequisites: "
-            f"{prerequisite_phrase(c, brief=True)})"
-            for c in term_courses
-        ]
-        declared = term.get("declared_units")
-        checksum = (
-            f"- **Printed total in prospectus**: {declared}\n" if declared is not None else ""
-        )
-        chunks.append(
-            {
-                "id": f"{year}_{semester}::term".replace(" ", "_"),
-                "chunk_type": "term_schedule",
-                "year_level": year,
-                "semester": semester,
-                "college": metadata.get("college_code"),
-                "program": degree,
-                "text": (
-                    f"### Term Schedule: {degree} - {year}, {semester}\n"
-                    f"- **College**: {college}\n"
-                    f"- **Effective School Year**: {school_year}\n"
-                    f"- **Courses**: {len(term_courses)}\n"
-                    f"- **Total units this term**: {term['computed_units']}\n"
-                    f"{checksum}"
-                    "- **Course list**:\n" + "\n".join(lines) + "\n"
-                ),
-                "source": source,
-            }
-        )
+        in_term = [c for c in all_courses if (c["year_level"], c["semester"]) == (year, semester)]
+        members = [c for c in courses if (c["year_level"], c["semester"]) == (year, semester)]
+        omitted_term = [c["course_code"] for c in in_term if c["course_code"] in omitted]
+        label = f"{year} {semester}"
+        if not members:
+            refuse("term_schedule", label, "no_accepted_courses")
+            continue
+        total = sum(c.get("total_units") or 0 for c in members)
 
+        def header(suffix, year=year, semester=semester, count=len(members), total=total):
+            return (f"### Term Schedule: {degree} - {year}, {semester}{suffix}\n"
+                    f"- **College**: {college}\n- **Effective School Year**: {school_year}\n"
+                    f"- **Courses**: {count}\n- **Total units this term**: {total}\n- **Course list**:")
+
+        items = [(f"  - **{c['course_code']}**: {c['course_title']} "
+                  f"({c.get('total_units')} units; prerequisites: {prerequisite_phrase(c, brief=True)})", c)
+                 for c in members]
+        emit_parts("term_schedule", label, header, items,
+                   {"year_level": year, "semester": semester, "section_path": [degree, year, semester],
+                    "derived_fields": ["total_units", "course_count", "year_level", "semester", "prerequisites"],
+                    "omitted_course_codes": omitted_term}, spans_of)
+
+    text_items = document.text_items if document else []
+    by_item = {i.get("item_id"): i for i in text_items if isinstance(i, dict)}
     for track in elective_tracks:
-        options = [f"  - **{o['course_code']}**: {o['course_title']}" for o in track["options"]]
+        options, omitted_options = [], []
+        for option in track.get("options") or []:
+            item = by_item.get(option.get("source_item_id"))
+            printed = canonical_text(item.get("text", "")) if item else ""
+            # Reuse the elective parser rather than guessing an option from unrelated words.
+            parsed = parse_elective_tracks([item]) if item else []
+            supported = any(o["course_code"] == option["course_code"] and o["course_title"] == option["course_title"]
+                            for pool in parsed for o in pool["options"])
+            if not printed or not supported:
+                omitted_options.append(option["course_code"])
+                refuse("elective_option", option["course_code"],
+                       "no_source_text_items" if item is None else "option_not_in_source_text")
+            else:
+                options.append(option)
+        if not options:
+            refuse("elective_pool", track["group"], "no_source_text_items")
+            continue
         slots = track.get("curriculum_slots") or []
-        chunks.append(
-            {
-                "id": f"{track['group']}::elective".replace(" ", "_"),
-                "chunk_type": "elective_pool",
-                "elective_group": track["group"],
-                "college": metadata.get("college_code"),
-                "program": degree,
-                "text": (
-                    f"### Elective Pool: {track['group']} ({degree})\n"
-                    f"- **Taken as**: {', '.join(slots) if slots else 'see curriculum'}\n"
-                    f"- **Choose one of**:\n" + "\n".join(options) + "\n"
-                ),
-                "source": source,
-            }
-        )
+        slot_courses = [by_code[code] for code in slots if code in by_code]
+        accepted_slots = [c["course_code"] for c in slot_courses]
+        omitted_slots = [code for code in slots if code not in by_code]
+
+        def pool_header(suffix, group=track["group"], slots=accepted_slots):
+            return (f"### Elective Pool: {group} ({degree}){suffix}\n"
+                    f"- **Taken as**: {', '.join(slots) if slots else 'no verified curriculum slot'}\n"
+                    "- **Choose one of**:")
+
+        def option_spans(members, slot_courses=slot_courses):
+            return spans_from_text_items(text_items, [o.get("source_item_id") for o in members],
+                                         pdf_sha256, source_kind) + spans_of(slot_courses)
+
+        items = [(f"  - **{o['course_code']}**: {o['course_title']}", o) for o in options]
+        emit_parts("elective_pool", track["group"], pool_header, items,
+                   {"elective_group": track["group"], "section_path": [degree, track["group"]],
+                    "derived_fields": ["elective_group", "curriculum_slots"],
+                    "omitted_course_codes": omitted_slots, "omitted_option_codes": omitted_options}, option_spans)
 
     policy_courses = [c for c in courses if c.get("standing_requirements")]
     if policy_courses:
-        lines = [
-            f"  - **{c['course_code']}** ({c['year_level']}, {c['semester']}): "
-            f"{'; '.join(c['standing_requirements'])}"
-            for c in policy_courses
-        ]
-        chunks.append(
-            {
-                "id": "program::policies",
-                "chunk_type": "enrolment_policy",
-                "college": metadata.get("college_code"),
-                "program": degree,
-                "text": (
-                    f"### Enrolment Policies and Standing Requirements ({degree})\n"
-                    "Some courses are gated by academic standing rather than by a specific course:\n"
-                    + "\n".join(lines)
-                    + "\n"
-                ),
-                "source": source,
-            }
-        )
+        def policy_header(suffix):
+            return (f"### Enrolment Policies and Standing Requirements ({degree}){suffix}\n"
+                    "Extracted standing conditions requiring review:")
 
+        items = [(f"  - **{c['course_code']}** ({c['year_level']}, {c['semester']}): "
+                  f"{'; '.join(c['standing_requirements'])}", c) for c in policy_courses]
+        emit_parts("enrolment_policy", "program", policy_header, items,
+                   {"section_path": [degree, "Enrolment policies"], "derived_fields": ["standing_requirements"],
+                    "omitted_course_codes": [c["course_code"] for c in all_courses
+                                             if c.get("standing_requirements") and c["course_code"] in omitted]}, spans_of)
     return chunks
 
 
