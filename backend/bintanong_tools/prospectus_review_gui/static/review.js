@@ -30,7 +30,8 @@ const text = (value) => typeof value === "string";
 const count = (value) => Number.isSafeInteger(value) && value >= 0;
 const listOf = (value, valid) => Array.isArray(value) && value.every(valid);
 const sectionShape = (s) => record(s) && text(s.sid) && text(s.title) && text(s.health);
-const flagShape = (f) => record(f) && text(f.severity) && text(f.message);
+const flagShape = (f) => record(f) && text(f.severity) && text(f.message)
+  && (f.field === undefined || f.field === null || text(f.field));
 const errorShape = (d) => (d.error === undefined || text(d.error))
   && (d.errors === undefined || listOf(d.errors, text)) && (text(d.error) || Array.isArray(d.errors));
 
@@ -47,8 +48,10 @@ function stateShape(s) {
 function questionShape(v) {
   const q = v.question;
   return record(q) && text(q.qid) && ["course", "unclaimed", "section_confirm", "prerequisite"].includes(q.kind)
-    && sectionShape(q.section) && text(q.prompt) && record(q.reference) && listOf(q.flags, flagShape)
-    && listOf(q.proposals, p => record(p) && text(p.letter) && text(p.field))
+    && sectionShape(q.section) && text(q.prompt) && record(q.reference)
+    && Object.entries(q.reference).every(([name, value]) => name === "courses" || value === null || text(value) || Number.isFinite(value))
+    && listOf(q.flags, flagShape)
+    && listOf(q.proposals, p => record(p) && text(p.letter) && text(p.field) && text(p.old) && text(p.new) && text(p.note))
     && listOf(q.editable_fields, text) && typeof q.other_allowed === "boolean"
     && (q.decision === null || (record(q.decision) && text(q.decision.disposition)))
     && record(v.pdf) && typeof v.pdf.available === "boolean" && (v.pdf.available ? text(v.pdf.name) : text(v.pdf.reason))

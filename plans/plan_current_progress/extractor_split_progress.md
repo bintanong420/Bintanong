@@ -1059,3 +1059,18 @@ M  tests/test_prospectus_publication.py
 
 ### Root gate boundary 2026-10-07T18:25:16.7121634+08:00
 - Frozen malformed-response guard batch: full system py -3.13 tests green; exact observed summary in external gate-gui-shape-comprehensive.json. Self-test80/80, gate-gui-shape-selftest.json. Focused146pass; genuine success-shape controls16 accepted; red54fail2pass and malformed-error red12fail9pass preserved. No extractor source/course behavior changed by this client-only patch. Independent scoped Spec and Standards rechecks next; browser/Lighthouse/human trial remain pending.
+
+### GUI shape review scoped round1 RED — 2026-10-07T18:32:53.1962586+08:00
+
+- Cleanbase6d8e81e; actualNode client directnested render consumers:14failed6passed119deselected in1.90s exit1 before production edits. Repro referencecode/title/prerequisite/unit, proposalold/new/note, questionflagfield through course-null fallback and courseflagfield. Six supportedprimitive/proposalcopy controls pass.
+- Evidence external publish_resume_2026-10-07/gui-fixes/shape-error/round1/{red.log,report.md,checkpoint.json}; next minimal existingvalidator extension, focusedgreen and actualserver-shape control. Root owns broadgates/commit/review; no source/ledger or human-gate changes.
+
+### GUI shape review scoped round1 HANDOFF CODE FROZEN — 2026-10-07T18:34:49.4153963+08:00
+
+- Existing sharedvalidators now check printedreference primitive values, proposalold/new/note strings and optionalflagfield across course and fallbackquestion flags. MalformedGET stops before current/view replacement or answer reset; no retry/semantic/source/ledger change.
+- Authentic RED14failed6passed119deselected in1.90s exit1; focusedclient/API GREEN166passed in17.67s exit0; actualsyntheticserver16shapes accepted and realclient startup/question/save/materialise consumed, finalexit0. Initialserverprobe acceptedallshapes but scratchcleanup WinError32; failurelog retained, unchangedprobe rerun passes. gitdiffcheck0; no staging/commit/push/dependencies/agents/ownerwrites.
+- Frozenfiles review.js, clienttests, GUIdecisionrecord, thisledger. Evidence/atomiccheckpoint external publish_resume_2026-10-07/gui-fixes/shape-error/round1/{report.md,checkpoint.json,red.log,green.log,server-shapes.log}. Root next broadgates/commit/scopedSpecandStandardsrechecks. HumanTask12/13 and institutionalapproval remain pending.
+
+### GUI nested-value root/review boundary 2026-10-07T18:38:28.8977804+08:00
+- Root direct PowerShell py -3.13 full: 1518 passed, 1 skipped, 8 warnings, 13 subtests passed in 149.98s (0:02:29). Self-test80/80; exact commands/output retained externally gate-gui-shape-r1-comprehensive.json and gate-gui-shape-r1-selftest.json. No extractor changes.
+- Independent scoped Spec recheck APPROVED/NONE:166focusedpassed,16actualserver response shapes consumed, original three reproducers preserve current/view/choice/reason before visible GET failure. Reviewed production blob 5e3862ed483384f5a5ac93f204aaf2499093f93e; commit will preserve this exact blob. Standards recheck next; GUI human trial, browser/Lighthouse and Task13closeout pending.

@@ -245,7 +245,7 @@ QUESTION = {
     "qid": "S2-01", "kind": "course", "section": {"sid": "S2", "title": "Second Year", "health": "clean"},
     "prompt": "Is this course correct?", "reference": {"code": "X 1", "title": "Synthetic", "prerequisites_raw": ""},
     "flags": [{"severity": "warn", "kind": "test", "message": "Check source", "field": "course_title"}],
-    "proposals": [{"letter": "a", "kind": "test", "field": "course_title", "old": "Synthetic", "new": "Correction", "note": None, "fix_id": "a"}],
+    "proposals": [{"letter": "a", "kind": "test", "field": "course_title", "old": "Synthetic", "new": "Correction", "note": "", "fix_id": "a"}],
     "editable_fields": ["course_title"], "other_allowed": True, "locator": {}, "pages": [1],
     "decision": None, "position": 0, "members": [], "decided": False,
 }
@@ -273,6 +273,65 @@ def altered_response(path, location, value):
         parent = parent[key]
     parent[location[-1]] = value
     return body
+
+
+@pytest.mark.parametrize("location,value,fallback", [
+    (("question", "reference", "code"), {"toString": None}, False),
+    (("question", "reference", "title"), {"toString": None}, False),
+    (("question", "reference", "prerequisites_raw"), [{"toString": None}], False),
+    (("question", "reference", "lecture_units"), {}, False),
+    (("question", "reference", "lecture_units"), True, False),
+    (("question", "reference", "lecture_units"), float("inf"), False),
+    (("question", "proposals", 0, "old"), {"toString": None}, False),
+    (("question", "proposals", 0, "new"), {"toString": None}, False),
+    (("question", "proposals", 0, "note"), {"toString": None}, False),
+    (("question", "proposals", 0, "old"), None, False),
+    (("question", "proposals", 0, "new"), 3, False),
+    (("question", "proposals", 0, "note"), None, False),
+    (("question", "flags", 0, "field"), {"toString": None}, True),
+    (("course", "flags", 0, "field"), {"toString": None}, False),
+])
+def test_invalid_nested_render_values_fail_before_replacing_the_question_or_clearing_inputs(location, value, fallback):
+    body = altered_response("/api/question/S2-01", location, value)
+    if fallback:
+        body["course"] = None  # renderJson consumes question.flags when there is no course
+    got = client_run(r"""
+      let calls = 0;
+      fetch = async () => { calls++; return { ok: true, status: 200, json: async () => (BODY) }; };
+      current = 'keep'; view = { question: { kind: 'course' } }; const before = view;
+      radios[2].checked = true;
+      document.getElementById('reason').value = 'Keep reason';
+      document.getElementById('edit-course_title').value = 'Keep correction';
+      let thrown = null;
+      try { await show('S2-01'); } catch (error) { thrown = String(error); }
+      console.log(JSON.stringify({ calls, thrown, current, sameView: view === before, choice: chosen(),
+        reason: nodes.reason.value, correction: nodes['edit-course_title'].value,
+        status: nodes.status ? nodes.status.textContent : '' }));
+    """.replace("BODY", json.dumps(body)))
+    assert got["thrown"] is None
+    assert "could not" in got["status"].lower() and "check" in got["status"].lower()
+    assert {key: got[key] for key in ("calls", "current", "sameView", "choice", "reason", "correction")} == {
+        "calls": 1, "current": "keep", "sameView": True, "choice": "other", "reason": "Keep reason", "correction": "Keep correction",
+    }
+
+
+@pytest.mark.parametrize("value,printed", [("Printed source", "Printed source"), ("", "(blank)"), (None, "(blank)"),
+                                         (0, "0"), (3.5, "3.5"), (-1, "-1")])
+def test_supported_reference_primitives_and_optional_flag_fields_still_render(value, printed):
+    body = copy.deepcopy(QUESTION_VIEW)
+    body["course"]["flags"] = copy.deepcopy(body["course"]["flags"])
+    body["question"]["reference"]["printed_value"] = value
+    body["question"]["reference"]["courses"] = [{"toString": None}]  # section member details are not text-rendered
+    body["question"]["flags"][0]["field"] = None
+    body["course"]["flags"][0].pop("field")
+    got = client_run(r"""
+      fetch = async () => ({ ok: true, status: 200, json: async () => (BODY) });
+      await show('S2-01');
+      useProposal(0);
+      console.log(JSON.stringify({ current, printed: nodes.reference.children.at(-1).textContent,
+        correction: nodes['edit-course_title'].value, choice: chosen(), flags: nodes['json-flags'].children.length }));
+    """.replace("BODY", json.dumps(body)))
+    assert got == {"current": "S2-01", "printed": printed, "correction": "Correction", "choice": "other", "flags": 1}
 
 
 # Each case catches acceptance of a value that a real downstream consumer cannot use or would misreport.
