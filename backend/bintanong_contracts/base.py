@@ -54,10 +54,15 @@ def _member(values: tuple[str, ...], label: str):
     return Annotated[str, AfterValidator(check)]
 
 
-class Contract(BaseModel):
-    """Base: extra forbidden, frozen, strict, and an exact schema_version."""
+class Record(BaseModel):
+    """A nested value: extra forbidden, frozen, strict. Top-level contracts add a schema version."""
 
     model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
+
+
+class Contract(Record):
+    """Base: extra forbidden, frozen, strict, and an exact schema_version."""
+
     SCHEMA_VERSION: ClassVar[str]
     schema_version: str
 
@@ -127,6 +132,6 @@ def reject_foreign_ids(model: BaseModel, namespace: str) -> None:
         raise ValueError(f"id(s) {sorted(set(found))} belong to another namespace than {namespace}")
 
 
-__all__ = ["VOCAB", "VOCAB_PATH", "Contract", "ContractError", "ValidationError", "canonical_json",
+__all__ = ["VOCAB", "VOCAB_PATH", "Contract", "ContractError", "Record", "ValidationError", "canonical_json",
            "foreign_ids", "load_vocabulary", "namespace_of", "reject_foreign_ids", "require_namespace",
            "State", "Role", "EvidenceKind", "Outcome"]
