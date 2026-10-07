@@ -1142,3 +1142,24 @@ RED: the new and changed tests were run against an archive of 732d342 source wit
 Mutation checks (scratch copy of the fixed tree, one mutant at a time, each caught by its test): S1 `rejected=[]` in the hierarchical call (1 fail); S2 drop the `self_ref` filter (1); S3 `tokens > 512` instead of `fits_cap` (2); S4 fallback `source_text=text` (1); S5 remove the blank skip (1); S6 `ensure_ascii=True` (1); S7 drop refs from rejection (1); D1 `source_text=text` (1); D2 return nothing on failure (1); D3 disable the duplicate check (1); D4 drop the bool check (1 fail, True case).
 
 Gates: baseline on a 732d342 archive 1642 passed, 1 skipped, 13 subtests, self-test 80/80. After the fixes: 1657 passed, 1 skipped, 13 subtests (+15 tests), self-test 80/80. 44-input comparer (base 1236c99 in a worktree outside the repository, removed afterwards, `--status-report --jobs 6`): 44/44 identical, exit 0; payload key changes only the expected ones (pdf_sha256, rag.*, quality_report totals, schema_version, run identity).
+
+### Phase E batch 4 (Tasks 7 and 8: corpus gate, anchored pilots, hand-off)
+
+Environment: system `py -3.13`, `-p no:cacheprovider`, every output outside the repository, dataset inputs read-only (golden folder and PDF originals hashed before and after, unchanged). Baseline re-verified first: full suite 1657 passed, 1 skipped, 13 subtests; self-test 80/80.
+
+Task 7 (corpus gate), test first: red 9 failed (no `corpus_gate` in the comparer), then green. `scripts/prospectus_course_compare.py --corpus-report` writes a deterministic LF text and `.json` report from the new side of a comparer run (read-only). `rag.printed_own_fields` was extracted from `_course_source` unchanged in behaviour so the report reuses the owner of the printed-field proof. 10 tests on synthetic fixtures; mutation checks in a scratch copy killed 7 of 7 mutants (blocked counted as emitting, claim-longer check removed, banner vocabulary accepting anything, percentage from accepted, table filter accepting any ref, unaccounted ignored, cap threshold). The table-filter mutant first survived; a test for an over-cap text chunk now kills it.
+
+44-input comparer (base `1236c99` in a worktree outside the repository, removed afterwards, `--status-report --corpus-report --jobs 6`, golden `task2b_standing_isolated_2026-09-29`, tree at `e0edb18`): 44 of 44 identical, markup check passed. Corpus numbers:
+- (a) 38 of 44 inputs have a blocked audit (`error`) and emit nothing; 6 are not blocked.
+- (e) over the 6: 304 courses, 279 accepted, 25 rejected (8.2%), 0 unaccounted. This reproduces the independent review.
+- (b) by file accepted/rejected/courses: ABPhilStud 46/2/48; BSE-Agribusiness 48/5/53; BSE-Franchising 51/2/53; BSBA-HRM 47/2/49; BS-Bio 39/9/48; IT 48/5/53. By reason: `title_not_in_source_text` 17, `code_not_in_source_text` 4, `no_valid_source_cells` 2, `prerequisite_not_in_source_text` 2.
+- (c) 17 title rejections: 16 printed text equals the claim plus a banner token (`FIRST`, `FIRST SEMESTER`, `SECOND SEMESTER`), 1 claim longer than its cell (IT 21 "Practicum (486 hours)" continues in the next cell), 0 other.
+- (d) the Docling table chunk is rejected `over_token_cap` (3,154 to 3,977 estimated tokens) in 6 of 6 not-blocked files. Other rejections: 3 terms `no_accepted_courses`.
+- Chunks: 279 course (78 to 138 tokens, median 94), 49 term (up to 358), 36 layout, 6 overview, 2 policy; 0 course or term chunk above 480; all 372 unanchored (Docling JSON inputs).
+- The plan's pass criterion (0 `prerequisite_not_in_source_text` or `no_valid_source_cells` on real inputs) is not met: 2 and 2. Per the plan they are listed and not loosened (BS-Bio Thesis 1 and Practicum prerequisites, BSE-Franchising ENTRE 15, IT 22). Code rejections: a printed code with a `Total` or a footnote digit around it and a row merge.
+
+Task 8: anchored pilots through the real pipeline with the PDF (copies; originals unchanged). BSBA-HRM: 61 chunks, all resolved against Docling cells and the PDF page and headings. Information Technology (added; not named in the brief): 62 chunks, all resolved. BS Computer Science 2025-2026: audit `error`, no chunks (blocked, not forced). The pilot gate script is a scratch tool (not in Git); a tampered hash, page, section and cell reference are each reported not resolved. The semester banner cell that rides along with each course is Docling-composite text (not one literal printed run), and Docling cell boxes can under-cover multi-line text, so box checks are an overlap check on a widened box.
+
+Final gates: full suite 1667 passed, 1 skipped, 13 subtests passed (+10 tests over the baseline); self-test 80/80. Local `dev` stays at 5c34fd7; nothing pushed or merged.
+
+Exact tokenizer count: NOT RUN (the model tokenizer is not available offline; nothing downloaded). Owner decisions and Phase F inputs are in `docs/decisions/prospectus-phase-e-handoff.md`.
