@@ -25,6 +25,53 @@ function el(tag, text, className) {
   return node;
 }
 
+const record = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
+const text = (value) => typeof value === "string";
+const count = (value) => Number.isSafeInteger(value) && value >= 0;
+const listOf = (value, valid) => Array.isArray(value) && value.every(valid);
+const sectionShape = (s) => record(s) && text(s.sid) && text(s.title) && text(s.health);
+const flagShape = (f) => record(f) && text(f.severity) && text(f.message);
+const errorShape = (d) => (d.error === undefined || text(d.error))
+  && (d.errors === undefined || listOf(d.errors, text)) && (text(d.error) || Array.isArray(d.errors));
+
+function stateShape(s) {
+  return record(s) && text(s.program) && text(s.reviewer) && text(s.approval_line)
+    && record(s.progress) && count(s.progress.decided) && count(s.progress.questions)
+    && record(s.content_review) && ["stale_entries", "inapplicable_entries", "invalid_entries"].every(key => count(s.content_review[key]))
+    && record(s.source_verification) && text(s.source_verification.health) && typeof s.source_verification.pdf_checked === "boolean"
+    && listOf(s.review_states, v => record(v) && text(v.name) && text(v.word) && text(v.meaning))
+    && record(s.prerequisites) && ["questions", "decided", "unclassified_courses"].every(key => count(s.prerequisites[key]))
+    && (s.docling === undefined || (record(s.docling) && (s.docling.warning === null || text(s.docling.warning))));
+}
+
+function questionShape(v) {
+  const q = v.question;
+  return record(q) && text(q.qid) && ["course", "unclaimed", "section_confirm", "prerequisite"].includes(q.kind)
+    && sectionShape(q.section) && text(q.prompt) && record(q.reference) && listOf(q.flags, flagShape)
+    && listOf(q.proposals, p => record(p) && text(p.letter) && text(p.field))
+    && listOf(q.editable_fields, text) && typeof q.other_allowed === "boolean"
+    && (q.decision === null || (record(q.decision) && text(q.decision.disposition)))
+    && record(v.pdf) && typeof v.pdf.available === "boolean" && (v.pdf.available ? text(v.pdf.name) : text(v.pdf.reason))
+    && record(v.boxes) && Object.values(v.boxes).every(page => record(page) && (page.warning === null || text(page.warning))
+      && listOf(page.boxes, box => record(box) && typeof box.strong === "boolean" && record(box.fractions)
+        && ["left", "top", "width", "height"].every(key => Number.isFinite(box.fractions[key]) && box.fractions[key] >= 0 && box.fractions[key] <= 1)))
+    && listOf(v.cells, c => record(c) && text(c.cell_id) && text(c.role)
+      && (c.row === null || Number.isInteger(c.row)) && (c.col === null || Number.isInteger(c.col)) && (c.text === null || text(c.text)))
+    && listOf(v.twin_cell_ids, text)
+    && (v.course === null || (record(v.course) && record(v.course.course) && listOf(v.course.flags, flagShape) && count(v.course.truncated)));
+}
+
+function responseShape(path, data) {
+  if (!record(data)) return false;
+  if (path === "/api/answer") return count(data.written) && stateShape(data.state) && (data.next === null || text(data.next));
+  if (path === "/api/materialise") return text(data.file) && count(data.applied) && count(data.skipped);
+  if (path === "/api/state") return stateShape(data);
+  if (path.startsWith("/api/queue")) return listOf(data.queue, q => record(q) && text(q.qid) && text(q.prompt))
+    && listOf(data.all, q => record(q) && text(q.qid) && text(q.prompt) && sectionShape(q.section) && typeof q.decided === "boolean");
+  if (path.startsWith("/api/question/")) return questionShape(data);
+  return text(data.html) || (data.html === null && text(data.reason));
+}
+
 async function api(path, body) {
   const options = body === undefined ? {} : {
     method: "POST", headers: { "Content-Type": "application/json", "X-Review-Token": TOKEN }, body: JSON.stringify(body),
@@ -32,13 +79,7 @@ async function api(path, body) {
   try {
     const response = await fetch(path, options);
     const data = await response.json();
-    const required = path === "/api/answer" ? ["written", "state", "next"]
-      : path === "/api/materialise" ? ["file", "applied", "skipped"]
-      : path === "/api/state" ? ["progress", "content_review", "source_verification", "review_states", "prerequisites"]
-      : path.startsWith("/api/queue") ? ["queue", "all"]
-      : path.startsWith("/api/question/") ? ["question", "pdf", "boxes", "cells", "twin_cell_ids"] : ["html"];
-    if (!data || typeof data !== "object" || Array.isArray(data)
-        || (response.ok && required.some(key => !(key in data) || (data[key] === null && key !== "next" && key !== "html")))
+    if (!record(data) || !(response.ok ? responseShape(path, data) : errorShape(data))
         || (body !== undefined && response.status >= 500)) throw new Error("unusable response");
     return { ok: response.ok, status: response.status, data };
   } catch (error) {

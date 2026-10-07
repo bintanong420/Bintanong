@@ -1043,3 +1043,19 @@ M  tests/test_prospectus_publication.py
 - Authentic verifiedred4failed2passed49deselected, beforeproductionchanges; corrected missingDOM classList.toggle testharnessboundary ininitialred and retainedbothlogs. Minimum nativeonerror hidesfailedimage/clearsboxes; pdf-note ownlivepolite message preserves answer andglobal save-statusunknown; manualZoomrecovery/noautoretry; handlerclearedforunavailable/no-pageviews.
 - Implementerfocused120passed. Rootfreshfull1421passed1skipped13subtests8warnings, freshself80/80. Extractorcodeunchanged since44/44corpus,B2/Ccounts andtrialzeroerrors19hashes inpriorrootbatch. Browser/keyboard/Lighthouse remainNOTRUN forreportedavailability; humantrial/closeoutpending.
 - Evidenceexternal publish_resume_2026-10-07/gui-fixes/image-error/{red-verified.log,green.log,report.md}, root-image-full.json, root-image-selftest.log. NextscopedSpecrecheck thenindependentStandards; do notpublishGUI ormovedev.
+
+### GUI Standards P2 response-shape RED — 2026-10-07T18:15:34.0873505+08:00
+
+- Base41fe3c3; branch feat/review-gui-fixes-20261007; production unchanged. Actual client NodeVM:54failed2passed42deselected exit1 before production edits. Complete successful/fallback consumer fixtures pass; present-invalid nested bodies fail visibly in the tests as expected.
+- Evidence external publish_resume_2026-10-07/gui-fixes/shape-error/{red.log,report.md,checkpoint.json}; next sharedAPI shape validation, focusedgreen, root broadgates/review/commit. No source approval, autoretry or semantics change.
+
+- 2026-10-07T18:20:23.1877828+08:00 adjacent shared-boundary400 bad-error envelopes: authentic verifiedred12failed9passed98deselected exit1 before error guard; initial arrow-fixture mistake corrected and retained externally. Successful-shape client/APIgreen125passed exit0. Next malformed-error guard and actual server-shape consumption; root owns broadgates/commit.
+
+### GUI Standards P2 response-shape HANDOFF CODE FROZEN — 2026-10-07T18:22:12.4392448+08:00
+
+- SharedAPI native predicates validate consumer-required success values across answer/materialise/state/queue/question/twin, plus malformed error envelopes. UnknownPOST and visibleGET recovery preserve entered answers/currentview, with no autoretry. Valid4xx errors stay definite Not saved; existing source/prerequisite/bulk semantics preserved.
+- Authentic red54failed2passed42deselected exit1; malformed-error verifiedred12failed9passed98deselected exit1 (initial fixture error retained and corrected). Final client/APIgreen146passed in8.44s exit0. External actual-serverprobe16shapes accepted, loadedquestion/save/materialise consumed without exceptions exit0. gitdiffcheck passed; no staging/commit/push/dependencies or owner-checkout edits.
+- Frozenfiles: review.js; tests/test_review_gui_client.py; docs/decisions/prospectus-review-gui.md; this progress ledger. Exact commands/logs/atomic checkpoint: external publish_resume_2026-10-07/gui-fixes/shape-error/report.md and checkpoint.json. Root next: broadgates, commit, independent scopedSpec/Standards rechecks. HumanTask12/13 closeout remains pending; no institutional approval.
+
+### Root gate boundary 2026-10-07T18:25:16.7121634+08:00
+- Frozen malformed-response guard batch: full system py -3.13 tests green; exact observed summary in external gate-gui-shape-comprehensive.json. Self-test80/80, gate-gui-shape-selftest.json. Focused146pass; genuine success-shape controls16 accepted; red54fail2pass and malformed-error red12fail9pass preserved. No extractor source/course behavior changed by this client-only patch. Independent scoped Spec and Standards rechecks next; browser/Lighthouse/human trial remain pending.
