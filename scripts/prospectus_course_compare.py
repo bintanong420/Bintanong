@@ -248,6 +248,157 @@ def print_status_report(report: dict) -> None:
     print(f"  prerequisite states (new side): {report['states']}")
 
 
+# --- Phase E: corpus gate report (--corpus-report). Read-only over a finished run folder. ---
+
+TITLE_REASON = "title_not_in_source_text"
+CAP_REVIEW_TOKENS = 480  # 512 less the 32-token reserve; estimate-v1 review metadata, not a tokenizer count
+BANNER_WORDS = {"total", "totals", "subtotal", "grand", "first", "second", "third", "fourth", "fifth", "year",
+                "yr", "semester", "sem", "summer", "midyear", "term", "units", "unit"}
+ORDINAL = re.compile(r"\d+(st|nd|rd|th)")
+
+
+def _is_marker_token(token: str) -> bool:
+    word = token.strip(".,:;()[]").lower()
+    return not any(ch.isalpha() for ch in word) or word in BANNER_WORDS or bool(ORDINAL.fullmatch(word))
+
+
+def classify_title(claimed: str, printed: str) -> tuple[str, str]:
+    """(group, extra): how a rejected claimed title differs from the printed own-title cells."""
+    if printed and claimed in printed:
+        extra = " ".join((printed.replace(claimed, " ", 1)).split())
+        if extra and all(_is_marker_token(t) for t in extra.split()):
+            return "printed_equals_claim_plus_token", extra
+        return "other", extra
+    if printed and printed in claimed:
+        return "claim_longer_than_cell", " ".join(claimed.replace(printed, " ", 1).split())
+    return "other", ""
+
+
+def _median_stats(values: list[int]) -> dict:
+    values = sorted(values)
+    return {"count": len(values), "min": values[0], "median": values[len(values) // 2], "max": values[-1]}
+
+
+def corpus_gate(run_dir: Path) -> dict:
+    """Source-gate statistics over RUN_DIR/NN/candidate.json. Nothing is written or changed."""
+    sys.path.insert(0, str(REPO))
+    from backend.bintanong_tools.prospectus_extractor.chunking import canonical_text
+    from backend.bintanong_tools.prospectus_extractor.rag import printed_own_fields
+
+    folders = sorted(p for p in run_dir.iterdir() if p.is_dir())
+    blocked, failed, files, details = [], [], [], []
+    totals, reasons, other_rejected = Counter(), Counter(), Counter()
+    layout_reasons, groups, kinds, anchored = Counter(), Counter(), {}, Counter()
+    table_files, with_chunks, over_cap = 0, 0, 0
+    for folder in folders:
+        name = Path(_read(folder / "source.txt")).name or folder.name
+        candidate = folder / "candidate.json"
+        if _read(folder / "exit.txt").strip() not in ("", "0") or not candidate.exists():
+            failed.append({"input": name, "exit": _read(folder / "exit.txt").strip() or "missing"})
+            continue
+        payload = json.loads(candidate.read_text(encoding="utf-8"))
+        audit, rag = payload["audit"], payload["rag"]
+        if audit["status"] == "error":
+            blocked.append({"input": name, "errors": len(audit.get("errors") or []),
+                            "chunks": len(rag["semantic_chunks"]) + len(rag["hierarchical_chunks"])})
+            continue
+        courses = payload["courses"]
+        chunks = rag["semantic_chunks"] + rag["hierarchical_chunks"]
+        with_chunks += bool(chunks)
+        for chunk in chunks:
+            kinds.setdefault(chunk["chunk_type"], []).append(chunk["token_count"])
+            anchored[str(bool(chunk["source_anchored"])).lower()] += 1
+            over_cap += chunk["chunk_type"] in ("course", "term_schedule") and chunk["token_count"] > CAP_REVIEW_TOKENS
+        accepted = sum(c["chunk_type"] == "course" for c in rag["semantic_chunks"])
+        by_reason, layout = Counter(), []
+        evidence = [i for s in audit["curriculum_sections"] for i in s.get("evidence_cells") or []]
+        for r in rag["rejected_chunks"]:
+            if r["chunk_type"] == "course":
+                by_reason[r["reason"]] += 1
+                if r["reason"] == TITLE_REASON:
+                    match = [c for c in courses if (c["course_code"], c["year_level"], c["semester"]) ==
+                             (r["course_code"], r["year_level"], r["semester"])]
+                    match = [c for c in match if (c["provenance"] or {}).get("source_cell_ids") == r["source_cell_ids"]] or match
+                    claimed = canonical_text(match[0]["course_title"]) if match else ""
+                    _, printed = printed_own_fields(match[0], audit["table_layout"], evidence) if match else (None, {})
+                    printed = printed.get("title", "")
+                    group, extra = classify_title(claimed, printed)
+                    groups[group] += 1
+                    details.append({"input": name, "course_code": r["course_code"], "claimed": claimed,
+                                    "printed": printed, "group": group, "extra": extra})
+            elif r["chunk_type"].startswith("hierarchical"):
+                layout_reasons[r["reason"]] += 1
+                layout.append({"label": r["label"], "reason": r["reason"], "refs": r["source_refs"],
+                               "token_count": r.get("token_count")})
+            else:
+                other_rejected[f"{r['chunk_type']}:{r['reason']}"] += 1
+        table_files += any(x["reason"] == "over_token_cap" and any(ref.startswith("#/tables/") for ref in x["refs"])
+                           for x in layout)
+        rejected = sum(by_reason.values())
+        files.append({"input": name, "audit_status": audit["status"], "courses": len(courses),
+                      "accepted": accepted, "rejected": rejected, "rejected_by_reason": dict(sorted(by_reason.items())),
+                      "unaccounted": len(courses) - accepted - rejected, "layout_rejections": layout})
+        totals.update(courses=len(courses), accepted=accepted, rejected=rejected,
+                      unaccounted=len(courses) - accepted - rejected)
+        reasons.update(by_reason)
+    pct = f"{100 * totals['rejected'] / totals['courses']:.1f}" if totals["courses"] else "0.0"
+    return {
+        "inputs": len(folders), "blocked": blocked, "failed_runs": failed, "files": files,
+        "totals": {"emitting_files": len(files), "courses": totals["courses"], "accepted": totals["accepted"],
+                   "rejected": totals["rejected"], "rejected_pct": pct, "unaccounted": totals["unaccounted"],
+                   "rejected_by_reason": dict(sorted(reasons.items()))},
+        "title_groups": dict(sorted(groups.items())),
+        "title_details": sorted(details, key=lambda d: (d["input"], d["course_code"], d["claimed"])),
+        "layout": {"rejected_by_reason": dict(sorted(layout_reasons.items())), "emitting_files_with_table_over_cap": table_files},
+        "other_rejected_by_type": dict(sorted(other_rejected.items())),
+        "chunk_statistics": {"inputs_with_chunks": with_chunks, "anchored": {"false": anchored["false"], "true": anchored["true"]},
+                             "by_type": {k: _median_stats(v) for k, v in sorted(kinds.items())},
+                             "over_cap_course_or_term": over_cap},
+    }
+
+
+def render_corpus_gate(report: dict) -> str:
+    t, out = report["totals"], []
+    out.append(f"CORPUS GATE: {report['inputs']} inputs; {len(report['blocked'])} blocked audit, "
+               f"{t['emitting_files']} not blocked, {len(report['failed_runs'])} failed runs")
+    out.append(f"\nBLOCKED AUDIT ({len(report['blocked'])}): no chunks, no rejections (reported apart)")
+    out += [f"  {b['input']}  errors={b['errors']} chunks={b['chunks']}" for b in report["blocked"]]
+    out.append(f"\nFAILED RUNS ({len(report['failed_runs'])})")
+    out += [f"  {f['input']}  exit={f['exit']}" for f in report["failed_runs"]]
+    out.append("\nPER FILE (not blocked): accepted / rejected / courses")
+    for f in report["files"]:
+        why = ", ".join(f"{k}={v}" for k, v in f["rejected_by_reason"].items()) or "none"
+        out.append(f"  {f['input']}  [{f['audit_status']}]  {f['accepted']} / {f['rejected']} / {f['courses']}"
+                   f"  unaccounted={f['unaccounted']}  rejected by reason: {why}")
+    out.append(f"\nTOTALS over {t['emitting_files']} not-blocked files: courses {t['courses']}, accepted {t['accepted']}, "
+               f"rejected {t['rejected']} of {t['courses']} ({t['rejected_pct']}%), unaccounted {t['unaccounted']}")
+    out += [f"  {k}: {v}" for k, v in t["rejected_by_reason"].items()]
+    out.append(f"\nTITLE REJECTIONS BY GROUP: {report['title_groups']}")
+    out += [f"  [{d['group']}] {d['input']} {d['course_code']}: claimed={d['claimed']!r} printed={d['printed']!r} extra={d['extra']!r}"
+            for d in report["title_details"]]
+    out.append(f"\nLAYOUT REJECTIONS: {report['layout']['rejected_by_reason']}; "
+               f"not-blocked files that lost a table chunk as over_token_cap: {report['layout']['emitting_files_with_table_over_cap']} "
+               f"of {t['emitting_files']}")
+    for f in report["files"]:
+        out += [f"  {f['input']}  {x['label']}  {x['reason']}  tokens={x['token_count']}  refs={x['refs']}"
+                for x in f["layout_rejections"]]
+    out.append(f"\nOTHER REJECTIONS (terms, overview, electives): {report['other_rejected_by_type']}")
+    s = report["chunk_statistics"]
+    out.append(f"\nCHUNKS: inputs with chunks {s['inputs_with_chunks']}; anchored {s['anchored']}; "
+               f"course/term chunks over {CAP_REVIEW_TOKENS} estimated tokens: {s['over_cap_course_or_term']}")
+    out += [f"  {k}: {v}" for k, v in s["by_type"].items()]
+    return "\n".join(out) + "\n"
+
+
+def write_corpus_report(run_dir: Path, out: Path) -> dict:
+    """Write OUT (text) and OUT with a .json suffix, both LF and sorted, from RUN_DIR; returns the report."""
+    report = corpus_gate(run_dir)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(render_corpus_gate(report).encode("utf-8"))
+    out.with_suffix(".json").write_bytes((json.dumps(report, indent=2, sort_keys=True) + "\n").encode("utf-8"))
+    return report
+
+
 def main(argv: list[str] | None = None) -> int:
     cli = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     cli.add_argument("--golden", type=Path, required=True, help="folder searched for *_docling.json")
@@ -259,6 +410,7 @@ def main(argv: list[str] | None = None) -> int:
     cli.add_argument("--jobs", type=int, default=2, help="parallel extractions per side")
     cli.add_argument("--no-markup-check", action="store_true")
     cli.add_argument("--status-report", action="store_true", help="also list added/changed/removed payload keys and prerequisite-state counts")
+    cli.add_argument("--corpus-report", type=Path, help="also write the corpus gate report (text and .json) of the new side here")
     args = cli.parse_args(argv)
 
     args.golden, args.work = args.golden.resolve(), args.work.resolve()
@@ -279,6 +431,8 @@ def main(argv: list[str] | None = None) -> int:
     status = compare_runs(args.work / "old", args.work / "new", not args.no_markup_check)
     if args.status_report:
         print_status_report(status_report(args.work / "old", args.work / "new"))
+    if args.corpus_report:
+        write_corpus_report(args.work / "new", args.corpus_report)
     return status
 
 

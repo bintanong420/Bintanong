@@ -91,6 +91,25 @@ def prerequisite_phrase(course: dict[str, Any], brief: bool = False) -> str:
     return text + f' (printed as "{raw}"; {note})'
 
 
+def printed_own_fields(course: dict[str, Any], layout: Sequence[dict[str, Any]], evidence_ids: Sequence[str]
+                       ) -> tuple[dict[str, list] | None, dict[str, str]]:
+    """The course's own role cells on its own source row, and the printed text of each role.
+
+    Returns (None, {}) when the row index is missing or malformed. Shared with the corpus report."""
+    src = course.get("_source")
+    row = src.get("row_index") if isinstance(src, dict) else None
+    if not isinstance(row, int) or isinstance(row, bool):
+        return None, {}
+    roles = own_role_cells(course, layout, set(evidence_ids))
+    roles = {role: [c for c in group if c["table_index"] == src.get("table_index")
+                   and c["row_start"] <= row < c["row_end"]]
+             for role, group in roles.items()}
+    printed = {role: canonical_text(" ".join(c["text"] for c in sorted(
+        group, key=lambda c: (c["row_start"], c["col_start"], c["cell_id"]))))
+        for role, group in roles.items()}
+    return roles, printed
+
+
 def _course_source(course: dict[str, Any], document: LoadedDocument | None,
                    layout: Sequence[dict[str, Any]], evidence_ids: Sequence[str]
                    ) -> tuple[str | None, list[dict[str, Any]]]:
@@ -122,19 +141,9 @@ def _course_source(course: dict[str, Any], document: LoadedDocument | None,
         source["bbox_origin"] = actual.bbox.origin if actual.bbox else None
         cells.append(source)
     canonical_course = {**course, "provenance": {**provenance, "source_cells": cells}}
-    src = course.get("_source")
-    row = src.get("row_index") if isinstance(src, dict) else None
-    if not isinstance(row, int) or isinstance(row, bool):
+    roles, printed = printed_own_fields(canonical_course, layout, evidence_ids)
+    if roles is None or not roles["code"] or not roles["title"]:
         return NO_VALID_SOURCE_CELLS, []
-    roles = own_role_cells(canonical_course, layout, set(evidence_ids))
-    roles = {role: [c for c in group if c["table_index"] == src.get("table_index")
-                   and c["row_start"] <= row < c["row_end"]]
-             for role, group in roles.items()}
-    if not roles["code"] or not roles["title"]:
-        return NO_VALID_SOURCE_CELLS, []
-    printed = {role: canonical_text(" ".join(c["text"] for c in sorted(
-        group, key=lambda c: (c["row_start"], c["col_start"], c["cell_id"]))))
-        for role, group in roles.items()}
     for role, value, reason in (
         ("code", course.get("course_code"), CODE_NOT_IN_SOURCE),
         ("title", course.get("course_title"), TITLE_NOT_IN_SOURCE),
