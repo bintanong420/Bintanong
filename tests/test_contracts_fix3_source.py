@@ -28,7 +28,7 @@ def test_no_key_the_extractor_emits_is_privileged(key):
     "is_approved", "isApproved", "IS-APPROVED", "promotionstatus", "promotion_status", "Promotion Status", "promoted",
     "promoted_by", "reviewed", "is_reviewed", "reviewedBy", "fully reviewed", "verified", "is_verified", "verified_by",
     "verification_state", "source_verification", "approval_date", "approver", "unapproved", "authorized_by", "is_authorized",
-    "appr​oved", "approv%65d", "ａpproved", "pro­moted", "verіfied",
+    "appr\u200boved", "approv%65d", "\uff41pproved", "pro\u00admoted", "ver\u0456fied",
 ])
 def test_a_key_that_claims_status_is_found_by_its_stem(key):
     assert source.privileged_key_paths({key: True}) == [f"/{key}"]

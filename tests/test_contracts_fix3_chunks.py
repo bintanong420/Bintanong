@@ -76,7 +76,7 @@ def test_a_table_serialization_whose_raw_text_is_already_clean_maps():
     assert chunk_adapter.adapt_chunk(table_chunk("Total 3 units of Fit 1")).chunk.source_text is None
 
 
-@pytest.mark.parametrize("raw", ["Total 3 – units", "units­ of Fit", "Area m²", "A — B"])
+@pytest.mark.parametrize("raw", ["Total 3 \u2013 units", "units\u00ad of Fit", "Area m\u00b2", "A \u2014 B"])
 def test_a_table_serialization_whose_raw_text_clean_str_changed_is_rejected_loudly(raw):
     # The extractor hashed the raw text and dropped it, so the contract cannot recompute the hash. The chunk is
     # rejected, not trusted. This cannot be told from tampering, so the reason stays content_hash_mismatch.

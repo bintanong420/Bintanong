@@ -219,10 +219,10 @@ def folded(text: str) -> str:
 # A small closed map, not a full confusables table: it exists so a Cyrillic or Greek look-alike cannot hide a
 # prefix. Owner-reviewable default.
 _CONFUSABLES = {ord(k): v for k, v in {
-    "а": "a", "с": "c", "е": "e", "о": "o", "р": "p", "ѕ": "s", "і": "i",
-    "ԁ": "d", "х": "x", "ѵ": "v", "т": "t", "г": "r", "п": "n",
-    "α": "a", "ε": "e", "ο": "o", "ρ": "p", "ι": "i", "ν": "v", "τ": "t",
-    "χ": "x", "η": "n", "ς": "s", "ı": "i", "ɑ": "a", "ƒ": "f"}.items()}
+    "\u0430": "a", "\u0441": "c", "\u0435": "e", "\u043e": "o", "\u0440": "p", "\u0455": "s", "\u0456": "i",
+    "\u0501": "d", "\u0445": "x", "\u0475": "v", "\u0442": "t", "\u0433": "r", "\u043f": "n",
+    "\u03b1": "a", "\u03b5": "e", "\u03bf": "o", "\u03c1": "p", "\u03b9": "i", "\u03bd": "v", "\u03c4": "t",
+    "\u03c7": "x", "\u03b7": "n", "\u0131": "i", "\u0251": "a", "\u0192": "f"}.items()}
 
 
 def scan_form(text: str) -> str:

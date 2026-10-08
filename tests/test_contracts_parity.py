@@ -225,7 +225,7 @@ def set_corpus():
         next(e for e in r["evidence"] if e["kind"] == "issuing_office_authorization").update(authorization_ref="auth-synth-0002")))]
     for label, recs, _expected in f3.HAND_SET_VERDICTS:
         out[f"hand:{label}"] = recs
-    for ref_b in ("AUTH-SYNTH-0001", "auth-synth-0001​", "auth‑synth-0001", "auth-synth-0002"):
+    for ref_b in ("AUTH-SYNTH-0001", "auth-synth-0001\u200b", "auth\u2011synth-0001", "auth-synth-0002"):
         out[f"authref:{ref_b!r}"] = f3._twin_with(ref_b)
     same_file = tl.register()
     same_file[1]["edition_id"] = same_file[0]["edition_id"]

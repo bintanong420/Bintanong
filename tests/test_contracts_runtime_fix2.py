@@ -126,7 +126,7 @@ def value(v):
     return {"name": "course", "value": v, "fact_ref": None}
 
 
-@pytest.mark.parametrize("v", [" CS 101", "CS 101 ", "CS  101", "a\x00b", "a\tb", "a\x1fb", "a‮b", "a\nb", ""])
+@pytest.mark.parametrize("v", [" CS 101", "CS 101 ", "CS  101", "a\x00b", "a\tb", "a\x1fb", "a\u202eb", "a\nb", ""])
 def test_a_bound_value_refuses_padding_control_characters_and_empty_text(v):
     with pytest.raises(ValidationError, match='printable text|padding|at least 1 character'):
         runtime.BoundInput.parse(value(v))

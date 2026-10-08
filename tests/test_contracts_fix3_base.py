@@ -77,3 +77,33 @@ def test_known_false_positives_are_pinned_not_hidden():
     assert base.foreign_ids({"v": "BS-Fact-1"}, PRIVATE) == ["fact-1"]
     assert base.foreign_ids({"v": "doc-to-doc review"}, SESSION) == ["doc-to-doc"]
     assert base.foreign_ids({"v": "Conflict-free-zone"}, SESSION) == ["conflict-free-zone"]
+
+
+# the closed look-alike map, written out by hand so that a removed or changed entry is noticed
+CONFUSABLES = {
+    "\u0430": "a", "\u0441": "c", "\u0435": "e", "\u043e": "o", "\u0440": "p", "\u0455": "s", "\u0456": "i",
+    "\u0501": "d", "\u0445": "x", "\u0475": "v", "\u0442": "t", "\u0433": "r", "\u043f": "n",
+    "\u03b1": "a", "\u03b5": "e", "\u03bf": "o", "\u03c1": "p", "\u03b9": "i", "\u03bd": "v", "\u03c4": "t",
+    "\u03c7": "x", "\u03b7": "n", "\u0131": "i", "\u0251": "a", "\u0192": "f"}
+
+
+def test_the_look_alike_map_is_exactly_the_reviewed_one():
+    assert {chr(k): v for k, v in base._CONFUSABLES.items()} == CONFUSABLES
+    assert set(CONFUSABLES.values()) == set("acepsidxvtrnfo")
+
+
+@pytest.mark.parametrize("char,letter", list(CONFUSABLES.items()))
+def test_each_look_alike_reads_as_its_latin_letter(char, letter):
+    assert base.scan_form(char) == letter
+
+
+def test_scan_form_decodes_up_to_three_layers_and_no_more():
+    assert base.scan_form("%2566") == "f"                    # %25 -> % -> %66 -> f
+    assert base.scan_form("%252566") == "f"
+    assert base.scan_form("%25252566") == "%66"             # a fourth layer is left alone
+    assert base.scan_form("100%") == "100%"
+
+
+def test_every_look_alike_survives_folding_so_it_can_fire():
+    # the map is applied after NFKC and casefold; a key those would change (final sigma) could never match
+    assert all(base.folded(chr(k)) == chr(k) for k in base._CONFUSABLES)
