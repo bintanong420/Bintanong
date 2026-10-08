@@ -128,14 +128,15 @@ def test_no_private_identity_and_every_scope_is_fictional_or_null_with_reason():
 
 
 def test_traceability_example_is_labelled_synthetic_and_binds_a_dev_case():
+    from evaluation.traceability import SCHEMA_VERSION, check_trace
+
     ex = json.loads((EVAL / "examples" / "traceability-synthetic.json").read_text(encoding="utf-8"))
-    assert ex["schema_version"] == "bintanong-evaluation-traceability-example-v1"
-    assert ex["synthetic"] is True and "Task 4" in ex["note"] and "not verified" in ex["note"].lower()
-    case = next(c for c in CASES if c["case_id"] == ex["case_id"])
+    assert ex["schema_version"] == SCHEMA_VERSION
+    assert ex["relation"] == "synthetic_exercise_only"
+    case = next(c for c in CASES if c["case_id"] == ex["binding"]["case_id"])
     assert case["status"] == "synthetic"
-    chain = [s["kind"] for s in ex["chain"]]
-    assert chain == ["source_span", "chunk", "rule", "case"]
-    assert ex["chain"][-1]["id"] == case["case_id"]
+    assert ex["case"] == case
+    assert check_trace(ex) is None
     assert ex["verification_state"] == "synthetic_only"
     assert "verified" not in {v for v in ex.values() if isinstance(v, str)}
     assert not re.search(r"[A-Za-z]:[\\/]", json.dumps(ex))
