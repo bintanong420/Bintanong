@@ -44,17 +44,18 @@ def chunk_dict(**over):
     return d
 
 
-def bad(cls, payload):
-    with pytest.raises((ValidationError, base.ContractError)):
+def bad(cls, payload, match):
+    """The payload must be rejected, and for the stated reason."""
+    with pytest.raises((ValidationError, base.ContractError), match=match):
         cls.parse(payload)
 
 
-def badspan(**over):
-    bad(source.SourceSpan, span_dict(**over))
+def badspan(match, **over):
+    bad(source.SourceSpan, span_dict(**over), match)
 
 
-def badchunk(**over):
-    bad(source.Chunk, chunk_dict(**over))
+def badchunk(match, **over):
+    bad(source.Chunk, chunk_dict(**over), match)
 
 
 # ---------------------------------------------------------------- SourceSpan
@@ -71,25 +72,25 @@ def test_geometry_needs_origin_and_page_size_together():
     for drop in ("bbox_origin", "page_size"):
         o = dict(ok)
         o[drop] = None
-        badspan(**o)
+        badspan("needs its origin, the page size", **o)
 
 
-@pytest.mark.parametrize("over", [
-    dict(bbox=[1, 2, 30, 40], bbox_origin="CENTER", page_size=[612, 792]),
-    dict(bbox=[1, 2, 700, 40], bbox_origin="TOPLEFT", page_size=[612, 792]),         # right edge off the page
-    dict(bbox=[1, 2, 30, 900], bbox_origin="TOPLEFT", page_size=[612, 792]),         # bottom edge off the page
-    dict(bbox=[-1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, 792]),
-    dict(bbox=[30, 2, 1, 40], bbox_origin="TOPLEFT", page_size=[612, 792]),          # inverted x
-    dict(bbox=[1, 40, 30, 2], bbox_origin="TOPLEFT", page_size=[612, 792]),          # inverted y for TOPLEFT
-    dict(bbox=[1, 2, 30, 40], bbox_origin="BOTTOMLEFT", page_size=[612, 792]),       # BOTTOMLEFT needs top > bottom
-    dict(bbox=[1, 2, 30], bbox_origin="TOPLEFT", page_size=[612, 792]),
-    dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[0, 792]),
-    dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, -1]),
-    dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, 792], page=None),
-    dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, 792], byte_sha256=None),
+@pytest.mark.parametrize("over,match", [
+    (dict(bbox=[1, 2, 30, 40], bbox_origin="CENTER", page_size=[612, 792]), "bbox_origin"),
+    (dict(bbox=[1, 2, 700, 40], bbox_origin="TOPLEFT", page_size=[612, 792]), "outside the page"),         # right edge off the page
+    (dict(bbox=[1, 2, 30, 900], bbox_origin="TOPLEFT", page_size=[612, 792]), "outside the page"),         # bottom edge off the page
+    (dict(bbox=[-1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, 792]), "outside the page"),
+    (dict(bbox=[30, 2, 1, 40], bbox_origin="TOPLEFT", page_size=[612, 792]), "x range is empty or inverted"),          # inverted x
+    (dict(bbox=[1, 40, 30, 2], bbox_origin="TOPLEFT", page_size=[612, 792]), "y range is empty or inverted"),          # inverted y for TOPLEFT
+    (dict(bbox=[1, 2, 30, 40], bbox_origin="BOTTOMLEFT", page_size=[612, 792]), "y range is empty or inverted"),       # BOTTOMLEFT needs top > bottom
+    (dict(bbox=[1, 2, 30], bbox_origin="TOPLEFT", page_size=[612, 792]), "bbox"),
+    (dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[0, 792]), "page_size must be positive"),
+    (dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, -1]), "page_size must be positive"),
+    (dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, 792], page=None), "needs its origin"),
+    (dict(bbox=[1, 2, 30, 40], bbox_origin="TOPLEFT", page_size=[612, 792], byte_sha256=None), "needs its origin"),
 ])
-def test_invalid_span_geometry_is_rejected(over):
-    badspan(**over)
+def test_invalid_span_geometry_is_rejected(over, match):
+    badspan(match, **over)
 
 
 def test_bottomleft_geometry_is_accepted_when_top_is_above_bottom():
@@ -103,24 +104,24 @@ def test_nan_and_infinity_are_not_geometry():
             source.SourceSpan.parse(json.dumps(span_dict(bbox=[1, 2, 3, 4])).replace("[1, 2, 3, 4]", f"[1, 2, 3, {v}]"))
 
 
-@pytest.mark.parametrize("over", [
-    dict(page=0), dict(page=-1), dict(page=True), dict(page="1"),
-    dict(byte_sha256="XYZ"), dict(byte_sha256="A" * 64),
-    dict(version_id="doc-x"), dict(version_id="fact-1"),
-    dict(extraction={"source_kind": "", "resolution_method": "deterministic", "repair_id": None, "ocr_confidence": None}),
-    dict(extraction={"source_kind": "x", "resolution_method": "deterministic", "repair_id": None, "ocr_confidence": 1.5}),
-    dict(printed_page_label=""),
-    dict(unknown=1), dict(verified=True),
-    dict(locator={"kind": "table_cells", "table_index": None, "cell_ids": ["a"], "item_ids": [], "ref": None}),
-    dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": [], "item_ids": [], "ref": None}),
-    dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["a", "a"], "item_ids": [], "ref": None}),
-    dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["a"], "item_ids": ["b"], "ref": None}),
-    dict(locator={"kind": "text_item", "table_index": None, "cell_ids": [], "item_ids": [], "ref": None}),
-    dict(locator={"kind": "docling_ref", "table_index": None, "cell_ids": [], "item_ids": [], "ref": None}),
-    dict(locator={"kind": "slide", "table_index": None, "cell_ids": [], "item_ids": ["x"], "ref": None}),
+@pytest.mark.parametrize("over,match", [
+    (dict(page=0), "page"), (dict(page=-1), "page"), (dict(page=True), "page"), (dict(page="1"), "page"),
+    (dict(byte_sha256="XYZ"), "byte_sha256"), (dict(byte_sha256="A" * 64), "byte_sha256"),
+    (dict(version_id="doc-x"), "version_id"), (dict(version_id="fact-1"), "version_id"),
+    (dict(extraction={"source_kind": "", "resolution_method": "deterministic", "repair_id": None, "ocr_confidence": None}), "source_kind"),
+    (dict(extraction={"source_kind": "x", "resolution_method": "deterministic", "repair_id": None, "ocr_confidence": 1.5}), "ocr_confidence"),
+    (dict(printed_page_label=""), "printed_page_label"),
+    (dict(unknown=1), "unknown"), (dict(verified=True), "verified"),
+    (dict(locator={"kind": "table_cells", "table_index": None, "cell_ids": ["a"], "item_ids": [], "ref": None}), "do not fit kind"),
+    (dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": [], "item_ids": [], "ref": None}), "do not fit kind"),
+    (dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["a", "a"], "item_ids": [], "ref": None}), "duplicate ids"),
+    (dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["a"], "item_ids": ["b"], "ref": None}), "do not fit kind"),
+    (dict(locator={"kind": "text_item", "table_index": None, "cell_ids": [], "item_ids": [], "ref": None}), "do not fit kind"),
+    (dict(locator={"kind": "docling_ref", "table_index": None, "cell_ids": [], "item_ids": [], "ref": None}), "do not fit kind"),
+    (dict(locator={"kind": "slide", "table_index": None, "cell_ids": [], "item_ids": ["x"], "ref": None}), "kind"),
 ])
-def test_incomplete_or_malformed_anchored_span_is_rejected(over):
-    badspan(**over)
+def test_incomplete_or_malformed_anchored_span_is_rejected(over, match):
+    badspan(match, **over)
 
 
 @pytest.mark.parametrize("over", [dict(page=None), dict(text=""), dict(text="  "), dict(text=None)])
@@ -142,7 +143,7 @@ def test_printed_label_is_kept_only_when_given():
 def test_unanchored_span_is_representable_but_never_complete():
     s = source.SourceSpan.parse(span_dict(byte_sha256=None, page=None, text=None))
     assert not s.is_complete and not s.anchored
-    badspan(byte_sha256=None, version_id="ver-x")  # no bytes, no version claim
+    badspan("no byte digest cannot claim a source version", byte_sha256=None, version_id="ver-x")  # no bytes, no version claim
 
 
 def test_span_binding_detects_a_mutated_source_digest():
@@ -191,17 +192,17 @@ def test_chunk_roundtrips_and_separates_printed_from_explanatory_text():
 
 
 def test_anchored_chunk_needs_a_complete_span():
-    badchunk(spans=[])
-    badchunk(spans=[span_dict(text=None)])
-    badchunk(spans=[span_dict(page=None)])
-    badchunk(source_text="")
+    badchunk("at least one source span", spans=[])
+    badchunk("carries no printed text", spans=[span_dict(text=None)])
+    badchunk("no physical page", spans=[span_dict(page=None)])
+    badchunk("printed source_text", source_text="")
 
 
 def test_anchor_flag_and_digest_must_agree():
-    badchunk(byte_sha256=None)                        # anchored without bytes
-    badchunk(anchored=False)                          # bytes without the flag
-    badchunk(spans=[span_dict(byte_sha256=SHA_B)])    # span from other bytes
-    badchunk(spans=[span_dict(byte_sha256=None, page=None)])  # unanchored span in an anchored chunk
+    badchunk("anchored must be true exactly when", byte_sha256=None)                        # anchored without bytes
+    badchunk("anchored must be true exactly when", anchored=False)                          # bytes without the flag
+    badchunk("digest differs from the chunk digest", spans=[span_dict(byte_sha256=SHA_B)])    # span from other bytes
+    badchunk("digest differs from the chunk digest", spans=[span_dict(byte_sha256=None, page=None)])  # unanchored span in an anchored chunk
 
 
 def test_unanchored_chunk_cannot_assert_a_verified_source():
@@ -209,15 +210,16 @@ def test_unanchored_chunk_cannot_assert_a_verified_source():
     assert source.Chunk.parse(chunk_dict(**un)).anchored is False
     assert source.Chunk.parse(chunk_dict(byte_sha256=None, anchored=False, spans=[])).spans == ()
     for state in ("observed", "verified", "rejected"):
-        badchunk(**un, source_verification=state)
-    badchunk(**un, version_id="ver-synth-handbook-2")
-    badchunk(**un, edition_id="edition-synth-handbook-2")
+        badchunk("cannot assert a source verification state", **un, source_verification=state)
+    badchunk("cannot name a source version", **un, version_id="ver-synth-handbook-2")
+    badchunk("cannot name a source version", **un, edition_id="edition-synth-handbook-2")
 
 
 def test_verified_claim_needs_a_bound_version():
     binding = {"verification_evidence_ref": "ev-b3", "content_review_evidence_ref": None}
-    badchunk(source_verification="verified", register_binding=binding)
-    badchunk(source_verification="verified", version_id="ver-synth-handbook-2", register_binding=binding)  # no edition
+    badchunk("needs a bound version", source_verification="verified", register_binding=binding)
+    badchunk("needs a bound version", source_verification="verified", version_id="ver-synth-handbook-2",
+             register_binding=binding)  # no edition
     source.Chunk.parse(chunk_dict(source_verification="verified", version_id="ver-synth-handbook-2",
                                   edition_id="edition-synth-handbook-2", document_id="doc-synth-handbook",
                                   register_binding=binding))
@@ -239,20 +241,25 @@ def test_identical_spans_are_rejected_and_distinct_ones_are_not():
     assert len(source.Chunk.parse(chunk_dict(**two(span_dict(), ok))).spans) == 2
 
 
-@pytest.mark.parametrize("over", [
-    dict(content_hash="0" * 64), dict(content_hash="short"), dict(text="Other summary"), dict(source_text="Other"),
-    dict(chunk_id="not-hex"), dict(chunk_id="C" * 64), dict(chunk_type=""), dict(chunker_version=""),
-    dict(content_review="approved"), dict(content_review="verified"), dict(source_verification="approved"),
-    dict(token_count=tc(exact=True)), dict(token_count=tc(method="")),
-    dict(edition_id="ver-x"), dict(document_id="edition-x"), dict(version_id="fact-1"),
-    dict(unknown_field=1), dict(approved=True), dict(approval_id="auth-1"), dict(promotion_status="VERIFIED"),
-    dict(section_path="a/b"), dict(scope=[""]),
-    dict(type_fields={"approved": True}), dict(type_fields={"verified": "yes"}), dict(type_fields={"promotion_status": "VERIFIED"}),
-    dict(type_fields={"approval_id": "x"}), dict(type_fields={"source_verification": "verified"}),
-    dict(source_label="C:\\Users\\x\\a.pdf"), dict(source_label="/home/u/a.pdf"),
+@pytest.mark.parametrize("over,match", [
+    (dict(content_hash="0" * 64), "content_hash does not match"), (dict(content_hash="short"), "content_hash"),
+    (dict(text="Other summary"), "content_hash does not match"), (dict(source_text="Other"), "content_hash does not match|differs"),
+    (dict(chunk_id="not-hex"), "chunk_id"), (dict(chunk_id="C" * 64), "chunk_id"), (dict(chunk_type=""), "chunk_type"),
+    (dict(chunker_version=""), "chunker_version"),
+    (dict(content_review="approved"), "not a content_review_state"), (dict(content_review="verified"), "not a content_review_state"),
+    (dict(source_verification="approved"), "not a verification_state"),
+    (dict(token_count=tc(exact=True)), "estimate cannot claim an exact count"), (dict(token_count=tc(method="")), "method"),
+    (dict(edition_id="ver-x"), "edition_id"), (dict(document_id="edition-x"), "document_id"), (dict(version_id="fact-1"), "version_id"),
+    (dict(unknown_field=1), "unknown_field"), (dict(approved=True), "approved"), (dict(approval_id="auth-1"), "approval_id"),
+    (dict(promotion_status="VERIFIED"), "promotion_status"),
+    (dict(section_path="a/b"), "section_path"), (dict(scope=[""]), "scope"),
+    (dict(type_fields={"approved": True}), "privileged"), (dict(type_fields={"verified": "yes"}), "privileged"),
+    (dict(type_fields={"promotion_status": "VERIFIED"}), "privileged"),
+    (dict(type_fields={"approval_id": "x"}), "privileged"), (dict(type_fields={"source_verification": "verified"}), "privileged"),
+    (dict(source_label="C:\\Users\\x\\a.pdf"), "source_label"), (dict(source_label="/home/u/a.pdf"), "source_label"),
 ])
-def test_malformed_or_stale_chunk_is_rejected(over):
-    badchunk(**over)
+def test_malformed_or_stale_chunk_is_rejected(over, match):
+    badchunk(match, **over)
 
 
 def test_chunk_is_immutable():
@@ -338,28 +345,28 @@ def test_only_an_exact_count_can_claim_prefix_and_special_token_coverage():
 
 def test_page_size_must_be_positive_even_without_a_box():
     for size in ([0, 792], [612, 0], [-1, 5]):
-        badspan(page_size=size)
+        badspan("page_size must be positive", page_size=size)
     assert source.SourceSpan.parse(span_dict(page_size=[612, 792])).bbox is None
 
 
 def test_anchor_flag_alone_is_checked():
-    badchunk(anchored=False, spans=[])                       # bytes present, flag false
-    badchunk(byte_sha256=None, anchored=True, spans=[])      # flag true, no bytes
+    badchunk("anchored must be true exactly when", anchored=False, spans=[])                       # bytes present, flag false
+    badchunk("anchored must be true exactly when", byte_sha256=None, anchored=True, spans=[])      # flag true, no bytes
 
 
 def test_anchored_chunk_needs_non_blank_printed_text_even_with_a_matching_hash():
-    badchunk(source_text="", content_hash=digest("", "Summary"))
-    badchunk(source_text="  ", content_hash=digest("  ", "Summary"))
+    badchunk("printed source_text", source_text="", content_hash=digest("", "Summary"))
+    badchunk("printed source_text", source_text="  ", content_hash=digest("  ", "Summary"))
 
 
 def test_unanchored_chunk_cannot_hold_an_anchored_span():
-    badchunk(byte_sha256=None, anchored=False, spans=[span_dict()])
+    badchunk("cannot hold anchored spans", byte_sha256=None, anchored=False, spans=[span_dict()])
 
 
 def test_a_span_cannot_name_another_version_than_its_chunk():
     s = span_dict()
     s["version_id"] = "ver-synth-handbook-1"
-    badchunk(version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",
+    badchunk("different source version than the chunk", version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",
              document_id="doc-synth-handbook", source_verification="observed", spans=[s])
     s["version_id"] = "ver-synth-handbook-2"
     source.Chunk.parse(chunk_dict(version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",

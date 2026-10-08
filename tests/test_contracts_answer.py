@@ -64,13 +64,14 @@ def bundle(route="Hybrid", outcome="eligible", claims=("decision_eligible", "pol
     return d
 
 
-def bad(cls, payload):
-    with pytest.raises((ValidationError, base.ContractError)):
+def bad(cls, payload, match):
+    """The payload must be rejected, and for the stated reason."""
+    with pytest.raises((ValidationError, base.ContractError), match=match):
         cls.parse(payload)
 
 
-def bbad(**kw):
-    bad(answer.EvidenceBundle, bundle(**kw))
+def bbad(match, **kw):
+    bad(answer.EvidenceBundle, bundle(**kw), match)
 
 
 # ---------------------------------------------------------------- EvidenceBundle
@@ -82,18 +83,18 @@ def test_valid_bundles_roundtrip():
         assert answer.EvidenceBundle.parse(base.canonical_json(m)) == m
 
 
-@pytest.mark.parametrize("kw", [
-    dict(route="RAG", sym=True),                         # RAG carries no symbolic result
-    dict(route="Symbolic", sym=False),
-    dict(route="Hybrid", sym=False),                     # partial Hybrid: symbolic half missing
-    dict(route="Hybrid", retrieval=False),               # partial Hybrid: retrieval half missing
-    dict(route="Direct"), dict(route=None),
-    dict(knowledge_release_id="release-synth-2"),        # stale release against the retrieval
-    dict(request_id="fact-synth-1"), dict(request_id=""),
-    dict(unknown=1), dict(approved=True),
+@pytest.mark.parametrize("kw,match", [
+    (dict(route="RAG", sym=True), "RAG bundle needs retrieval and carries no symbolic result"),                         # RAG carries no symbolic result
+    (dict(route="Symbolic", sym=False), "needs a symbolic result"),
+    (dict(route="Hybrid", sym=False), "needs both retrieval and a symbolic result"),                     # partial Hybrid: symbolic half missing
+    (dict(route="Hybrid", retrieval=False), "needs both retrieval and a symbolic result"),               # partial Hybrid: retrieval half missing
+    (dict(route="Direct"), "not a route"), (dict(route=None), "route"),
+    (dict(knowledge_release_id="release-synth-2"), "different knowledge release"),        # stale release against the retrieval
+    (dict(request_id="fact-synth-1"), "request_id"), (dict(request_id=""), "request_id"),
+    (dict(unknown=1), "unknown"), (dict(approved=True), "approved"),
 ])
-def test_route_and_content_must_agree(kw):
-    bbad(**kw)
+def test_route_and_content_must_agree(kw, match):
+    bbad(match, **kw)
 
 
 @pytest.mark.parametrize("outcome,claims,ok", [
@@ -125,16 +126,16 @@ def test_permitted_claims_follow_the_symbolic_outcome(outcome, claims, ok):
     if ok:
         build()
     else:
-        with pytest.raises((ValidationError, base.ContractError)):
+        with pytest.raises((ValidationError, base.ContractError), match="not permitted for a|duplicate claims"):
             build()
 
 
 def test_rag_claims_need_retrieved_passages():
     answer.EvidenceBundle.parse(bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",)))
     empty = fx.retrieval([], coverage="none")
-    bbad(route="RAG", sym=False, facts=(), claims=("policy_passage",), retrieval=None)
+    bbad("needs retrieval", route="RAG", sym=False, facts=(), claims=("policy_passage",), retrieval=None)
     bad(answer.EvidenceBundle, bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",), retrieval=None)
-        | {"retrieval": empty})
+        | {"retrieval": empty}, "policy_passage needs retrieved passages")
     answer.EvidenceBundle.parse(bundle(route="RAG", sym=False, facts=(), claims=("abstention",))
                                 | {"retrieval": empty})
 
@@ -142,40 +143,40 @@ def test_rag_claims_need_retrieved_passages():
 def test_private_facts_back_a_decision_only_when_the_student_confirmed_them():
     answer.EvidenceBundle.parse(bundle(facts=("user_confirmed",)))
     for state in ("unconfirmed", "user_rejected"):
-        bbad(facts=(state,))
+        bbad("unconfirmed fact|the student rejected", facts=(state,))
     # a rejected fact poisons even an unknown outcome that uses it as an input
-    bbad(outcome="unknown", claims=("unknown_explanation",), facts=("user_rejected",))
+    bbad("the student rejected", outcome="unknown", claims=("unknown_explanation",), facts=("user_rejected",))
     # an unconfirmed fact may be present while the system only abstains or explains unknown
     answer.EvidenceBundle.parse(bundle(outcome="unknown", claims=("unknown_explanation",), facts=("unconfirmed",)))
 
 
 def test_symbolic_inputs_must_cite_a_session_fact_that_is_in_the_bundle():
-    bbad(facts=())
-    bbad(facts=("user_confirmed",), sym=True, **{"symbolic": symbolic(fact_ref="fact-other-0002")})
+    bbad("that is not in the bundle", facts=())
+    bbad("that is not in the bundle", facts=("user_confirmed",), sym=True, **{"symbolic": symbolic(fact_ref="fact-other-0002")})
 
 
 def test_duplicate_session_fact_ids_are_rejected():
     b = bundle()
     b["session_facts"].append(copy.deepcopy(b["session_facts"][0]))
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "duplicate session fact ids")
 
 
 def test_private_ids_never_appear_in_institutional_parts():
     b = bundle()
     b["symbolic"]["decision"]["evidence_refs"] = ["fact-synth-0001"]         # a private fact cited as a rule source
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "another namespace")
     b = bundle()
     b["symbolic"]["rule_ids"] = ["sess-synth-1"]
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "another namespace")
 
 
 def test_a_session_fact_is_not_a_conflict_or_a_source_and_cannot_be_promoted():
     b = bundle()
     b["conflicts"] = [fact()]                      # a private fact where an institutional conflict belongs
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "conflicts")
     b = bundle()
     b["retrieval"]["items"][0]["chunk"]["source_label"] = "fact-synth-0001"   # copied into an institutional chunk
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "another namespace")
 
 
 def test_an_unresolved_conflict_blocks_a_decision_in_its_capability_only():
@@ -183,19 +184,19 @@ def test_an_unresolved_conflict_blocks_a_decision_in_its_capability_only():
     other = conflict("grade_computation")
     answer.EvidenceBundle.parse(bundle(conflicts=[other]))                      # unrelated capability stays open
     answer.EvidenceBundle.parse(bundle(conflicts=[conflict("enrollment_eligibility", resolved=True)]))
-    bbad(conflicts=[blocking])                                                  # eligible despite the conflict
+    bbad("blocks capability", conflicts=[blocking])                                                  # eligible despite the conflict
     ok = bundle(outcome="unknown", claims=("unknown_explanation",), conflicts=[blocking])
     ok["symbolic"]["decision"].update(unresolved_conflicts=["conflict-synth-0001"], rule_coverage="partial")
     answer.EvidenceBundle.parse(ok)
     stray = bundle(outcome="unknown", claims=("unknown_explanation",))
     stray["symbolic"]["decision"].update(unresolved_conflicts=["conflict-synth-0099"])
-    bad(answer.EvidenceBundle, stray)                                           # cites a conflict not in the bundle
+    bad(answer.EvidenceBundle, stray, "that is not in the bundle")                                           # cites a conflict not in the bundle
 
 
 def test_a_synthetic_decision_establishes_no_claim():
     b = bundle()
     b["symbolic"]["decision"]["synthetic"] = True
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "establishes no claim")
     b = bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=("abstention",))
     b["symbolic"]["decision"]["synthetic"] = True
     answer.EvidenceBundle.parse(b)
@@ -216,8 +217,8 @@ def envelope(**over):
     return d
 
 
-def ebad(**over):
-    bad(answer.AnswerEnvelope, envelope(**over))
+def ebad(match, **over):
+    bad(answer.AnswerEnvelope, envelope(**over), match)
 
 
 def test_envelope_roundtrips():
@@ -247,40 +248,41 @@ def test_status_follows_the_decision_outcome_and_error_never_becomes_a_verdict(s
     if ok:
         answer.AnswerEnvelope.parse(e)
     else:
-        bad(answer.AnswerEnvelope, e)
+        bad(answer.AnswerEnvelope, e, "cannot carry a")
 
 
-@pytest.mark.parametrize("over", [
-    dict(status="approved"), dict(status="denied"), dict(status="eligible"),
-    dict(language="de"), dict(text=""), dict(request_id="fact-1"), dict(route="Direct"),
-    dict(validation={"passed": False, "checks": [], "failures": ["x"]}),            # answered but validation failed
-    dict(validation={"passed": True, "checks": [], "failures": ["x"]}),             # passed with failures
-    dict(validation={"passed": False, "checks": [], "failures": []}),               # failed with no reason
-    dict(route=None),                                                                # answered needs a route
-    dict(citations=[]),                                                              # RAG answer needs a citation
-    dict(decision=decision("eligible")),                                             # RAG answer carries no decision
-    dict(citations=[{**cite(), "chunk_id": "nothex"}]),
-    dict(citations=[{**cite(), "version_id": "fact-synth-0001"}]),
-    dict(citations=[{**cite(), "locator_ref": "fact-synth-0001"}]),
-    dict(citations=[{**cite(), "page": 0}]),
-    dict(citations=[cite(), cite()]),                                                # duplicate citation
-    dict(unknown=1), dict(approval_id="x"),
+@pytest.mark.parametrize("over,match", [
+    (dict(status="approved"), "status"), (dict(status="denied"), "status"), (dict(status="eligible"), "status"),
+    (dict(language="de"), "language"), (dict(text=""), "text"), (dict(request_id="fact-1"), "request_id"),
+    (dict(route="Direct"), "not a route"),
+    (dict(validation={"passed": False, "checks": [], "failures": ["x"]}), "needs a passed validation"),            # answered but validation failed
+    (dict(validation={"passed": True, "checks": ["c1"], "failures": ["x"]}), "exactly when"),             # passed with failures
+    (dict(validation={"passed": False, "checks": [], "failures": []}), "exactly when"),               # failed with no reason
+    (dict(route=None), "needs a route"),                                                                # answered needs a route
+    (dict(citations=[]), "at least one citation"),                                                              # RAG answer needs a citation
+    (dict(decision=decision("eligible")), "structured decision needs a Symbolic or Hybrid route"),                                             # RAG answer carries no decision
+    (dict(citations=[{**cite(), "chunk_id": "nothex"}]), "chunk_id"),
+    (dict(citations=[{**cite(), "version_id": "fact-synth-0001"}]), "version_id"),
+    (dict(citations=[{**cite(), "locator_ref": "fact-synth-0001"}]), "private id"),
+    (dict(citations=[{**cite(), "page": 0}]), "page"),
+    (dict(citations=[cite(), cite()]), "duplicate citation"),                                                # duplicate citation
+    (dict(unknown=1), "unknown"), (dict(approval_id="x"), "approval_id"),
 ])
-def test_malformed_or_contradictory_envelopes_are_rejected(over):
-    ebad(**over)
+def test_malformed_or_contradictory_envelopes_are_rejected(over, match):
+    ebad(match, **over)
 
 
 def test_hybrid_answer_needs_its_symbolic_decision_not_just_passages():
-    ebad(route="Hybrid", decision=None)                                        # RAG-style passages alone
+    ebad("needs its symbolic decision", route="Hybrid", decision=None)                                        # RAG-style passages alone
     answer.AnswerEnvelope.parse(envelope(route="Hybrid", decision=decision("eligible")))
-    ebad(route="Hybrid", decision=decision("error"))                           # passages cannot rescue a failed half
-    ebad(route="Symbolic", decision=None, citations=[])
+    ebad("cannot carry a", route="Hybrid", decision=decision("error"))                           # passages cannot rescue a failed half
+    ebad("needs its symbolic decision", route="Symbolic", decision=None, citations=[])
 
 
 def test_abstention_and_clarification_may_not_assert_a_decision_verdict():
     answer.AnswerEnvelope.parse(envelope(status="clarification_needed", route="Symbolic", decision=decision("unknown"),
                                          citations=[], validation={"passed": True, "checks": ["c1"], "failures": []}))
-    ebad(status="error", route="RAG", citations=[cite()])                       # an error cites nothing
+    ebad("an error cites nothing", status="error", route="RAG", citations=[cite()])                       # an error cites nothing
 
 
 # ---------------------------------------------------------------- envelope vs bundle
@@ -313,33 +315,33 @@ def test_an_answer_needs_permitting_claims():
 
 # ---------------------------------------------------------------- mutation-driven additions
 def test_symbolic_route_needs_a_symbolic_result_whatever_the_claims():
-    bbad(route="Symbolic", sym=False, retrieval=False, facts=(), claims=())
-    bbad(route="Symbolic", sym=False, facts=(), claims=())
+    bbad("needs a symbolic result", route="Symbolic", sym=False, retrieval=False, facts=(), claims=())
+    bbad("needs a symbolic result", route="Symbolic", sym=False, facts=(), claims=())
 
 
 def test_without_a_symbolic_result_no_decision_claim_and_no_mixed_abstention():
-    bbad(route="RAG", sym=False, facts=(), claims=("decision_eligible",))
-    bbad(route="RAG", sym=False, facts=(), claims=("bogus",))
-    bbad(route="RAG", sym=False, facts=(), claims=("policy_passage", "abstention"))
+    bbad("only policy_passage and abstention", route="RAG", sym=False, facts=(), claims=("decision_eligible",))
+    bbad("only policy_passage and abstention", route="RAG", sym=False, facts=(), claims=("bogus",))
+    bbad("abstention cannot be combined", route="RAG", sym=False, facts=(), claims=("policy_passage", "abstention"))
 
 
 def test_an_unknown_outcome_in_a_blocked_capability_must_list_the_blocking_conflict():
     blocking = conflict("enrollment_eligibility")
     b = bundle(outcome="unknown", claims=("unknown_explanation",), conflicts=[blocking])
     b["symbolic"]["decision"].update(rule_coverage="partial")     # does not list conflict-synth-0001
-    bad(answer.EvidenceBundle, b)
+    bad(answer.EvidenceBundle, b, "must list the blocking conflict")
 
 
 def test_a_decision_needs_a_symbolic_or_hybrid_route():
-    ebad(status="clarification_needed", route=None, decision=decision("unknown"), citations=[])
-    ebad(status="answered", route="RAG", decision=decision("eligible"))
+    ebad("needs a Symbolic or Hybrid route", status="clarification_needed", route=None, decision=decision("unknown"), citations=[])
+    ebad("needs a Symbolic or Hybrid route", status="answered", route="RAG", decision=decision("eligible"))
 
 
 def test_an_error_envelope_cites_nothing_and_never_passes_validation():
     err = dict(status="error", route="Symbolic", decision=decision("error"))
     answer.AnswerEnvelope.parse(envelope(**err, citations=[], validation={"passed": False, "checks": [], "failures": ["x"]}))
-    ebad(**err, citations=[cite()], validation={"passed": False, "checks": [], "failures": ["x"]})
-    ebad(**err, citations=[], validation={"passed": True, "checks": ["c1"], "failures": []})
+    ebad("an error cites nothing", **err, citations=[cite()], validation={"passed": False, "checks": [], "failures": ["x"]})
+    ebad("cannot carry a passed validation", **err, citations=[], validation={"passed": True, "checks": ["c1"], "failures": []})
 
 
 def _hybrid_pair(**env_over):

@@ -25,8 +25,9 @@ def rec(**over):
     return d
 
 
-def bad(**over):
-    with pytest.raises((ValidationError, base.ContractError)):
+def bad(match, **over):
+    """The record must be rejected, and for the stated reason."""
+    with pytest.raises((ValidationError, base.ContractError), match=match):
         embedding.EmbeddingRecord.parse(rec(**over))
 
 
@@ -37,24 +38,25 @@ def test_valid_record_roundtrips_canonically():
     assert isinstance(r.vector, tuple)
 
 
-@pytest.mark.parametrize("over", [
-    dict(vector=[0.5, 0.5, 0.5]),                       # length != dimension
-    dict(vector=[0.5, 0.5, 0.5, 0.5, 0.5]),
-    dict(dimension=0), dict(dimension=-4), dict(dimension=True),
-    dict(vector=[1.0, 1.0, 1.0, 1.0]),                  # claims l2 but norm is 2
-    dict(vector=[0.0, 0.0, 0.0, 0.0]),
-    dict(vector=[0.5, 0.5, 0.5, "x"]),
-    dict(normalization="unit"), dict(normalization=None),
-    dict(chunk_id="nothex"), dict(chunk_content_hash="short"),
-    dict(model_id=""), dict(model_revision=""),
-    dict(model_revision="main"), dict(model_revision="latest"), dict(model_revision="HEAD"),
-    dict(tokenizer_fingerprint=""), dict(tokenizer_fingerprint="Z" * 64),
-    dict(preprocessing_fingerprint=None), dict(prompt_fingerprint="abc"),
-    dict(unknown=1), dict(verified=True),
-    dict(schema_version="bintanong-embedding-record-v2"),
+@pytest.mark.parametrize("over,match", [
+    (dict(vector=[0.5, 0.5, 0.5]), "vector has 3 values"),                       # length != dimension
+    (dict(vector=[0.5, 0.5, 0.5, 0.5, 0.5]), "vector has 5 values"),
+    (dict(dimension=0), "dimension"), (dict(dimension=-4), "dimension"), (dict(dimension=True), "dimension"),
+    (dict(vector=[1.0, 1.0, 1.0, 1.0]), "declared l2-normalized"),                  # claims l2 but norm is 2
+    (dict(vector=[0.0, 0.0, 0.0, 0.0]), "declared l2-normalized"),
+    (dict(vector=[0.5, 0.5, 0.5, "x"]), "vector"),
+    (dict(normalization="unit"), "normalization"), (dict(normalization=None), "normalization"),
+    (dict(chunk_id="nothex"), "chunk_id"), (dict(chunk_content_hash="short"), "chunk_content_hash"),
+    (dict(model_id=""), "model_id"), (dict(model_revision=""), "model_revision"),
+    (dict(model_revision="main"), "pinned revision"), (dict(model_revision="latest"), "pinned revision"),
+    (dict(model_revision="HEAD"), "pinned revision"),
+    (dict(tokenizer_fingerprint=""), "tokenizer_fingerprint"), (dict(tokenizer_fingerprint="Z" * 64), "tokenizer_fingerprint"),
+    (dict(preprocessing_fingerprint=None), "preprocessing_fingerprint"), (dict(prompt_fingerprint="abc"), "prompt_fingerprint"),
+    (dict(unknown=1), "unknown"), (dict(verified=True), "verified"),
+    (dict(schema_version="bintanong-embedding-record-v2"), "unknown schema_version"),
 ])
-def test_malformed_embedding_record_is_rejected(over):
-    bad(**over)
+def test_malformed_embedding_record_is_rejected(over, match):
+    bad(match, **over)
 
 
 def test_non_finite_vector_values_are_rejected():
@@ -77,7 +79,7 @@ def test_unnormalized_vectors_are_allowed_only_when_declared_none():
 ])
 def test_embedding_record_cannot_claim_exact_counting_from_an_estimate(count):
     base_count = rec()["token_count"]
-    bad(token_count={**base_count, **count})
+    bad("token_count|estimate|exact", token_count={**base_count, **count})
 
 
 def test_embedding_record_must_match_the_chunk_it_embeds():
@@ -113,12 +115,12 @@ def _chunk():
 
 # ---------------------------------------------------------------- mutation-driven additions
 def test_vector_length_is_checked_independently_of_the_norm():
-    bad(dimension=3, vector=[0.5, 0.5, 0.5, 0.5])        # four unit-norm values, dimension says three
-    bad(dimension=5, vector=[0.5, 0.5, 0.5, 0.5])
+    bad("vector has 4 values, dimension says 3", dimension=3, vector=[0.5, 0.5, 0.5, 0.5])        # four unit-norm values, dimension says three
+    bad("vector has 4 values, dimension says 5", dimension=5, vector=[0.5, 0.5, 0.5, 0.5])
 
 
 def test_a_zero_vector_is_not_an_embedding_even_when_unnormalized():
-    bad(normalization="none", vector=[0.0, 0.0, 0.0, 0.0])
+    bad("zero vector", normalization="none", vector=[0.0, 0.0, 0.0, 0.0])
 
 
 def test_an_embedding_for_another_chunk_is_named_even_when_the_hash_matches():

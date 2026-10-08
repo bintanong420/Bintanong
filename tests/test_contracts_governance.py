@@ -54,8 +54,9 @@ def approved_record():
     return r
 
 
-def bad(rec):
-    with pytest.raises((ValidationError, base.ContractError)):
+def bad(rec, match):
+    """The record must be rejected, and for the stated reason."""
+    with pytest.raises((ValidationError, base.ContractError), match=match):
         gov.SourceDocumentVersion.parse(rec)
 
 
@@ -86,44 +87,44 @@ def test_fully_evidenced_synthetic_record_passes_the_guards():
 
 
 # ---------------------------------------------------------------- malformed input
-@pytest.mark.parametrize("fn", [
-    lambda r: r.pop("byte_sha256"),
-    lambda r: r.update(byte_sha256="XYZ"),
-    lambda r: r.update(byte_sha256="A" * 64),
-    lambda r: r.update(unknown="x"),
-    lambda r: r.update(schema_version="bintanong-source-register-v2"),
-    lambda r: r.update(namespace="private_session"),
-    lambda r: r.update(document_id="ver-x"),
-    lambda r: r.update(version_id="doc-x"),
-    lambda r: r.update(edition_id="edition-UPPER"),
-    lambda r: r.update(filename=""),
-    lambda r: r.update(acquisition_locators=[]),
-    lambda r: r.update(document_category="approved_source"),
-    lambda r: r.update(synthetic="yes"),
-    lambda r: r.update(approved=True),
-    lambda r: r.update(promotion_status="VERIFIED"),
-    lambda r: r["acquisition_state"].update(state="approved"),
-    lambda r: r["evidence"][0].update(recorded_at="yesterday"),
+@pytest.mark.parametrize("fn,match", [
+    (lambda r: r.pop("byte_sha256"), "byte_sha256"),
+    (lambda r: r.update(byte_sha256="XYZ"), "byte_sha256"),
+    (lambda r: r.update(byte_sha256="A" * 64), "byte_sha256"),
+    (lambda r: r.update(unknown="x"), "unknown"),
+    (lambda r: r.update(schema_version="bintanong-source-register-v2"), "unknown schema_version"),
+    (lambda r: r.update(namespace="private_session"), "namespace"),
+    (lambda r: r.update(document_id="ver-x"), "document_id"),
+    (lambda r: r.update(version_id="doc-x"), "version_id"),
+    (lambda r: r.update(edition_id="edition-UPPER"), "edition_id"),
+    (lambda r: r.update(filename=""), "filename"),
+    (lambda r: r.update(acquisition_locators=[]), "acquisition_locators"),
+    (lambda r: r.update(document_category="approved_source"), "document_category"),
+    (lambda r: r.update(synthetic="yes"), "synthetic"),
+    (lambda r: r.update(approved=True), "approved"),
+    (lambda r: r.update(promotion_status="VERIFIED"), "promotion_status"),
+    (lambda r: r["acquisition_state"].update(state="approved"), "not a acquisition_state"),
+    (lambda r: r["evidence"][0].update(recorded_at="yesterday"), "recorded_at"),
 ])
-def test_malformed_register_input_is_rejected(fn):
-    bad(mut(register()[1], fn))
+def test_malformed_register_input_is_rejected(fn, match):
+    bad(mut(register()[1], fn), match)
 
 
 # ---------------------------------------------------------------- forbidden status promotion
 def test_approval_id_without_authorized_evidence_is_rejected():
-    bad(mut(register()[0], lambda r: r.update(approval_id="auth-1")))
+    bad(mut(register()[0], lambda r: r.update(approval_id="auth-1")), "approval_id supplied without authorized approval evidence")
 
 
 def test_approved_state_without_authorization_ref_is_rejected():
-    bad(mut(approved_record(), lambda r: r["evidence"][-2].pop("authorization_ref")))
+    bad(mut(approved_record(), lambda r: r["evidence"][-2].pop("authorization_ref")), "cannot authorize approved|authorization_ref required")
 
 
 def test_approved_by_wrong_role_is_rejected():
-    bad(mut(approved_record(), lambda r: r["evidence"][-2].update(recorded_by="researcher")))
+    bad(mut(approved_record(), lambda r: r["evidence"][-2].update(recorded_by="researcher")), "cannot authorize approved")
 
 
 def test_approval_id_must_equal_the_authorization_ref():
-    bad(mut(approved_record(), lambda r: r.update(approval_id="auth-other")))
+    bad(mut(approved_record(), lambda r: r.update(approval_id="auth-other")), "approval_id must equal")
 
 
 @pytest.mark.parametrize("kind", ["extraction_audit", "extractor_status_label", "filename_observation",
@@ -133,15 +134,16 @@ def test_non_authorizing_evidence_cannot_move_any_state(kind):
     def promote(r):
         r["evidence"].append(ev("ev-x", kind, "system"))
         r["acquisition_state"] = {"state": "verified", "evidence_ref": "ev-x"}
-    bad(mut(register()[0], promote))
+    bad(mut(register()[0], promote), "cannot authorize verified")
 
 
 def test_verified_with_no_evidence_reference_is_rejected():
-    bad(mut(register()[1], lambda r: r["verification_state"].update(state="verified", evidence_ref=None)))
+    bad(mut(register()[1], lambda r: r["verification_state"].update(state="verified", evidence_ref=None)),
+        "without an evidence reference")
 
 
 def test_initial_state_must_not_cite_evidence():
-    bad(mut(register()[0], lambda r: r["verification_state"].update(evidence_ref="ev-a1")))
+    bad(mut(register()[0], lambda r: r["verification_state"].update(evidence_ref="ev-a1")), "initial state")
 
 
 def test_pending_to_verified_skips_a_step():
@@ -149,50 +151,51 @@ def test_pending_to_verified_skips_a_step():
     def skip(r):
         r["evidence"].append(ev("ev-y", "byte_hash_check", "reviewer"))
         r["verification_state"] = {"state": "verified", "evidence_ref": "ev-y"}
-    bad(mut(register()[1], skip))
+    bad(mut(register()[1], skip), "cannot authorize verified")
 
 
 def test_verification_without_matching_acquired_bytes_is_rejected():
     def f(r):
         r["acquisition_state"] = {"state": "mismatch", "evidence_ref": "ev-b2"}
-    bad(mut(register()[1], f))
+    bad(mut(register()[1], f), "not acquired and matching")
 
 
 def test_content_review_never_substitutes_for_approval():
     def f(r):
         r["evidence"].append(ev("ev-cr", "content_review_record", "reviewer"))
         r["approval_state"] = {"state": "approved", "evidence_ref": "ev-cr"}
-    bad(mut(approved_record(), f))
+    bad(mut(approved_record(), f), "cannot authorize approved")
 
 
 def test_approval_needs_every_guard():
-    for fn in (
-        lambda r: r["acquisition_state"].update(state="observed", evidence_ref="ev-b1"),
-        lambda r: r["issuer"].update(state="observed", evidence_ref="ev-b3", basis="printed_text"),
-        lambda r: r["campus"].update(state="pending", evidence_ref=None),
-        lambda r: r.update(document_category="curriculum_proposal_candidate"),
+    for fn, match in (
+        (lambda r: r["acquisition_state"].update(state="observed", evidence_ref="ev-b1"), "verified acquisition and verified scope"),
+        (lambda r: r["issuer"].update(state="observed", evidence_ref="ev-b3", basis="printed_text"), "issuer and scope/effectivity"),
+        (lambda r: r["campus"].update(state="pending", evidence_ref=None), "issuer and scope/effectivity"),
+        (lambda r: r.update(document_category="curriculum_proposal_candidate"), "proposal candidate cannot be approved"),
     ):
-        bad(mut(approved_record(), fn))
+        bad(mut(approved_record(), fn), match)
 
 
 def test_proposal_candidate_can_never_be_approved():
-    bad(mut(approved_record(), lambda r: r.update(document_category="curriculum_proposal_candidate")))
+    bad(mut(approved_record(), lambda r: r.update(document_category="curriculum_proposal_candidate")),
+        "proposal candidate cannot be approved")
 
 
 def test_scope_cannot_be_inferred_from_filename_or_possession():
     for basis in ("filename_date", "college_vs_university_wording", "local_possession"):
         bad(mut(register()[1], lambda r: r["campus"].update(
-            value="Main", state="observed", evidence_ref="ev-b3", basis=basis)))
+            value="Main", state="observed", evidence_ref="ev-b3", basis=basis)), "basis")
 
 
 def test_pending_scope_field_carries_no_value():
-    bad(mut(register()[0], lambda r: r["campus"].update(value="Main")))
-    bad(mut(register()[0], lambda r: r["campus"].update(basis="printed_text")))
+    bad(mut(register()[0], lambda r: r["campus"].update(value="Main")), "campus: pending must carry no value")
+    bad(mut(register()[0], lambda r: r["campus"].update(basis="printed_text")), "campus: pending must carry no basis")
 
 
 def test_observed_scope_field_needs_value_and_basis():
-    bad(mut(register()[1], lambda r: r["issuer"].update(basis=None)))
-    bad(mut(register()[1], lambda r: r["issuer"].update(value=None)))
+    bad(mut(register()[1], lambda r: r["issuer"].update(basis=None)), "issuer: observed needs a value and an allowed basis")
+    bad(mut(register()[1], lambda r: r["issuer"].update(value=None)), "issuer: observed needs a value and an allowed basis")
 
 
 # ---------------------------------------------------------------- supersession
@@ -205,32 +208,35 @@ def test_supersession_rules():
     ok = mut(register()[1], sup(relation="supersedes", target_version_id="ver-synth-handbook-1",
                                 state="observed", evidence_ref="ev-s", basis="printed_text"))
     gov.SourceDocumentVersion.parse(ok)
-    for kw in (dict(relation="supersedes", target_version_id=None, state="observed", evidence_ref="ev-s", basis="printed_text"),
-               dict(relation="supersedes", target_version_id="ver-synth-handbook-2", state="observed", evidence_ref="ev-s", basis="printed_text"),
-               dict(relation="supersedes", target_version_id="ver-synth-handbook-1", state="pending"),
-               dict(relation="none", target_version_id="ver-synth-handbook-1"),
-               dict(relation="replaces")):
-        bad(mut(register()[1], sup(**kw)))
+    for kw, match in (
+            (dict(relation="supersedes", target_version_id=None, state="observed", evidence_ref="ev-s", basis="printed_text"),
+             "needs a target"),
+            (dict(relation="supersedes", target_version_id="ver-synth-handbook-2", state="observed", evidence_ref="ev-s",
+                  basis="printed_text"), "cannot supersede itself"),
+            (dict(relation="supersedes", target_version_id="ver-synth-handbook-1", state="pending"), "needs a target"),
+            (dict(relation="none", target_version_id="ver-synth-handbook-1"), "must not name a target"),
+            (dict(relation="replaces"), "relation")):
+        bad(mut(register()[1], sup(**kw)), match)
 
 
 # ---------------------------------------------------------------- namespaces and local paths
 def test_private_ids_are_rejected_inside_an_institutional_record():
-    bad(mut(register()[1], lambda r: r["acquisition_locators"].append("fact-synth-0001")))
-    bad(mut(register()[1], lambda r: r["evidence"][0].update(evidence_id="sess-1")))
+    bad(mut(register()[1], lambda r: r["acquisition_locators"].append("fact-synth-0001")), "another namespace")
+    bad(mut(register()[1], lambda r: r["evidence"][0].update(evidence_id="sess-1")), "another namespace")
 
 
 @pytest.mark.parametrize("locator", ["C:\\Users\\x\\a.pdf", "c:/users/x/a.pdf", "/home/u/a.pdf", "\\\\srv\\share\\a.pdf"])
 def test_local_paths_are_not_acquisition_locators(locator):
-    bad(mut(register()[1], lambda r: r["acquisition_locators"].append(locator)))
-    bad(mut(register()[1], lambda r: r.update(filename=locator)))
+    bad(mut(register()[1], lambda r: r["acquisition_locators"].append(locator)), "locator")
+    bad(mut(register()[1], lambda r: r.update(filename=locator)), "plain file name")
 
 
 def test_duplicate_evidence_ids_are_rejected():
-    bad(mut(register()[1], lambda r: r["evidence"].append(copy.deepcopy(r["evidence"][0]))))
+    bad(mut(register()[1], lambda r: r["evidence"].append(copy.deepcopy(r["evidence"][0]))), "duplicate evidence id")
 
 
 def test_duplicate_locators_are_rejected():
-    bad(mut(register()[1], lambda r: r["acquisition_locators"].append(r["acquisition_locators"][0])))
+    bad(mut(register()[1], lambda r: r["acquisition_locators"].append(r["acquisition_locators"][0])), "duplicate acquisition locators")
 
 
 # ---------------------------------------------------------------- register set
@@ -267,8 +273,8 @@ def test_duplicate_version_ids_and_dangling_supersession_target_are_rejected():
 
 
 # ---------------------------------------------------------------- conflict
-def cbad(rec, versions=None):
-    with pytest.raises((ValidationError, base.ContractError)):
+def cbad(rec, match, versions=None):
+    with pytest.raises((ValidationError, base.ContractError), match=match):
         c = gov.SourceConflict.parse(rec)
         if versions is not None:
             gov.check_conflict_versions(c, versions)
@@ -276,8 +282,8 @@ def cbad(rec, versions=None):
 
 def test_conflict_needs_two_distinct_claims():
     c = load("synthetic-conflict.json")
-    cbad(mut(c, lambda r: r["claims"].__setitem__(1, copy.deepcopy(r["claims"][0]))))
-    cbad(mut(c, lambda r: r["claims"].pop()))
+    cbad(mut(c, lambda r: r["claims"].__setitem__(1, copy.deepcopy(r["claims"][0]))), "two distinct claims")
+    cbad(mut(c, lambda r: r["claims"].pop()), "claims")
 
 
 def test_resolved_needs_issuing_office_evidence_and_a_basis():
@@ -289,16 +295,16 @@ def test_resolved_needs_issuing_office_evidence_and_a_basis():
             r.update(resolution_state="resolved", resolution_evidence_ref="ev-r", resolution_basis=basis)
         return f
     gov.SourceConflict.parse(mut(c, resolve()))
-    cbad(mut(c, resolve(basis=None)))
-    cbad(mut(c, resolve(basis="newest_filename")))
-    cbad(mut(c, resolve(by="reviewer")))
-    cbad(mut(c, resolve(kind="extraction_audit")))
-    cbad(mut(c, lambda r: r.update(resolution_basis="source_owner_ruling")))  # basis without resolution
+    cbad(mut(c, resolve(basis=None)), "resolution basis is required")
+    cbad(mut(c, resolve(basis="newest_filename")), "resolution_basis")
+    cbad(mut(c, resolve(by="reviewer")), "cannot authorize resolved")
+    cbad(mut(c, resolve(kind="extraction_audit")), "cannot authorize resolved")
+    cbad(mut(c, lambda r: r.update(resolution_basis="source_owner_ruling")), "resolution basis is required")  # basis without resolution
 
 
 def test_conflict_cites_only_registered_versions():
     c = load("synthetic-conflict.json")
-    cbad(c, versions={"ver-synth-handbook-1"})
+    cbad(c, "unknown version", versions={"ver-synth-handbook-1"})
 
 
 def test_resolving_one_conflict_unblocks_only_its_capability():
@@ -316,12 +322,12 @@ def test_resolving_one_conflict_unblocks_only_its_capability():
 
 def test_conflict_rejects_private_ids():
     c = load("synthetic-conflict.json")
-    cbad(mut(c, lambda r: r["claims"][0].update(span_ref="fact-synth-0001")))
+    cbad(mut(c, lambda r: r["claims"][0].update(span_ref="fact-synth-0001")), "another namespace")
 
 
 # ---------------------------------------------------------------- session fact
-def fbad(rec):
-    with pytest.raises((ValidationError, base.ContractError)):
+def fbad(rec, match):
+    with pytest.raises((ValidationError, base.ContractError), match=match):
         gov.SessionFact.parse(rec)
 
 
@@ -334,33 +340,34 @@ def test_session_fact_confirmation_only_by_the_user_with_evidence():
             r.update(confirmation_state=state, confirmation_evidence_ref="ev-u")
         return g
     gov.SessionFact.parse(mut(f, confirm()))
-    fbad(mut(f, confirm(by="issuing_office")))
-    fbad(mut(f, confirm(by="reviewer")))
-    fbad(mut(f, confirm(kind="issuing_office_confirmation")))
-    fbad(mut(f, lambda r: r.update(confirmation_state="user_confirmed")))  # no evidence
+    fbad(mut(f, confirm(by="issuing_office")), "cannot authorize user_confirmed")
+    fbad(mut(f, confirm(by="reviewer")), "cannot authorize user_confirmed")
+    fbad(mut(f, confirm(kind="issuing_office_confirmation")), "cannot authorize user_confirmed")
+    fbad(mut(f, lambda r: r.update(confirmation_state="user_confirmed")), "without an evidence reference")  # no evidence
 
 
 @pytest.mark.parametrize("field", ["approval_id", "verified", "ledger_entry", "source_id", "version_id", "promoted"])
 def test_session_fact_cannot_carry_institutional_or_ledger_fields(field):
-    fbad(mut(load("synthetic-session-fact.json"), lambda r: r.update({field: "x"})))
+    fbad(mut(load("synthetic-session-fact.json"), lambda r: r.update({field: "x"})), field)
 
 
 def test_session_fact_is_session_only_and_in_the_private_namespace():
     f = load("synthetic-session-fact.json")
-    fbad(mut(f, lambda r: r.update(lifecycle="register")))
-    fbad(mut(f, lambda r: r.update(namespace="institutional")))
-    fbad(mut(f, lambda r: r.update(fact_id="ver-synth-1")))
-    fbad(mut(f, lambda r: r.update(session_id="doc-synth")))
-    fbad(mut(f, lambda r: r.update(origin="staff_ledger")))
-    fbad(mut(f, lambda r: r["fact"].update(value="edition-synth-1")))  # an institutional id inside a private fact
+    fbad(mut(f, lambda r: r.update(lifecycle="register")), "lifecycle")
+    fbad(mut(f, lambda r: r.update(namespace="institutional")), "namespace")
+    fbad(mut(f, lambda r: r.update(fact_id="ver-synth-1")), "fact_id")
+    fbad(mut(f, lambda r: r.update(session_id="doc-synth")), "session_id")
+    fbad(mut(f, lambda r: r.update(origin="staff_ledger")), "origin")
+    fbad(mut(f, lambda r: r["fact"].update(value="edition-synth-1")), "another namespace")  # an institutional id inside a private fact
 
 
 # ---------------------------------------------------------------- mutation-driven additions
 def test_authorization_ref_must_match_the_evidence_kind_even_when_uncited():
-    bad(mut(register()[1], lambda r: r["evidence"][0].update(authorization_ref="auth-x")))
-    bad(mut(register()[1], lambda r: r["evidence"].append(ev("ev-q", "issuing_office_authorization", "issuing_office"))))
+    bad(mut(register()[1], lambda r: r["evidence"][0].update(authorization_ref="auth-x")), "authorization_ref not allowed")
+    bad(mut(register()[1], lambda r: r["evidence"].append(ev("ev-q", "issuing_office_authorization", "issuing_office"))),
+        "authorization_ref required")
     bad(mut(register()[1], lambda r: r["evidence"].append(
-        ev("ev-q", "issuing_office_confirmation", "issuing_office", authorization_ref="auth-x"))))
+        ev("ev-q", "issuing_office_confirmation", "issuing_office", authorization_ref="auth-x"))), "authorization_ref not allowed")
 
 
 def test_transition_rows_demand_the_authorization_ref_exactly_where_the_table_says():
@@ -384,4 +391,4 @@ def test_a_state_without_an_evidence_reference_says_so():
 def test_approval_needs_the_issuer_verified_not_merely_not_stated():
     def f(r):
         r["issuer"].update(value=None, state="not_stated", evidence_ref="ev-b7", basis=None)
-    bad(mut(approved_record(), f))
+    bad(mut(approved_record(), f), "issuer and scope/effectivity")
