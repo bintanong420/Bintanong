@@ -57,7 +57,7 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 
 ## Extractor package split (3 October 2026)
 
-- Branch efactor/prospectus-extractor-package, from dev at 7591264. Not merged and not pushed. Commits (git log --oneline dev..HEAD):
+- Branch refactor/prospectus-extractor-package, from dev at 7591264. Not merged and not pushed. Commits (git log --oneline dev..HEAD):
   - 24b800f docs: plan the prospectus extractor package split
   - c5b0d04 chore: add extractor subagent definitions with model and effort
   - b5235de test: add failing 1:1 gate for prospectus extractor split
@@ -68,7 +68,7 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
   - c7ff0c4 docs: record two more location effects found in review
   - 2dffe3d test: run the extractor self-test under pytest
   - 38af9fd docs: record the extractor package split and its equivalence evidence
-- The 6,320-line extractor is now the package ackend/bintanong_tools/prospectus_extractor/; the old file path is a compatibility shim.
+- The 6,320-line extractor is now the package backend/bintanong_tools/prospectus_extractor/; the old file path is a compatibility shim.
 - Tests: full suite 36 passed, 13 subtests passed, 0 failed; extractor self-test 80/80 from four entry points.
 - Golden result on 44 cached Docling JSON inputs: 44/44 identical to the old file apart from run-to-run timestamps. Cached JSON was used, so PDFs were not re-converted through Docling.
 - parser_sha256 in the isolated batch manifest is now a hash over every .py file in the package (line endings normalised). It is not comparable with the single-file hash 8ea75006... in earlier manifests.
