@@ -84,4 +84,3 @@ def test_a_table_serialization_whose_raw_text_clean_str_changed_is_rejected_loud
     with pytest.raises(chunk_adapter.ChunkMappingError, match='content_hash_mismatch') as info:
         chunk_adapter.adapt_chunk(table_chunk(raw))
     assert info.value.reason == "content_hash_mismatch"
-
