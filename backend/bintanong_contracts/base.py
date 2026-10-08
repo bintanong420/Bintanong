@@ -83,6 +83,17 @@ class Record(BaseModel):
             return cls.model_validate_json(text)
         raise ContractError(f"cannot parse {type(data).__name__} as {cls.__name__}")
 
+    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = False):
+        """pydantic's copy with an update skips validation, so a validated record could be edited into an
+        invalid one. Here an update is validated again as a whole. (Deliberate in-process bypasses such as
+        `model_construct`, `object.__setattr__` and `dict.__setitem__` on a frozen mapping remain out of scope.)"""
+        copied = super().model_copy(deep=deep)
+        if not update:
+            return copied
+        data = {name: getattr(copied, name) for name in type(self).model_fields}
+        data.update(update)
+        return type(self).model_validate(data)
+
 
 class Contract(Record):
     """Base: extra forbidden, frozen, strict, and an exact schema_version."""
@@ -120,7 +131,8 @@ PINNED_REVISION = re.compile(r"[0-9a-f]{40}|[0-9a-f]{64}")
 
 
 def is_pinned_revision(text: str) -> bool:
-    return PINNED_REVISION.fullmatch(text) is not None
+    """A full lowercase hex commit or digest that is not all zeros (an all-zero value is a placeholder)."""
+    return PINNED_REVISION.fullmatch(text) is not None and set(text) != {"0"}
 
 
 def is_plain_filename(text: str) -> bool:

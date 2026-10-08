@@ -18,7 +18,7 @@ from typing import Annotated, Any, Literal
 from pydantic import AfterValidator, Field, model_validator
 
 from .base import (Contract, ContractError, Record, State, is_pinned_revision, is_plain_filename,
-                   reject_foreign_ids)
+                   reject_foreign_ids, scan_form)
 from .governance import ID_DOC, ID_EDITION, ID_VER, SHA256, SourceDocumentVersion
 
 _Finite = Annotated[float, Field(allow_inf_nan=False)]
@@ -28,11 +28,21 @@ _Name = Annotated[str, Field(min_length=1)]
 PRIVILEGED_KEYS = frozenset({
     "approved", "approval", "approval_id", "verified", "verification", "source_verification",
     "promotion_status", "status", "institutional_approval", "authorized", "extractor_status", "review_status"})
+# Stems of words that claim a status ("is_approved", "promotionstatus", "reviewed_by", "verified_by",
+# "authorized"). A key containing one, after invisible characters, punctuation, case and look-alike letters
+# are removed, is privileged too. A short closed list, owner-reviewable; none of the keys the extractor
+# emits ("course_code", "derived_fields", "content_review", ...) contains a stem.
+PRIVILEGED_STEMS = ("approv", "verif", "promot", "reviewed", "authoriz")
 _TOKENIZER_METHOD = re.compile(r"tokenizer:(?P<id>[^@\s]+)@(?P<revision>[^@\s]+)")
 
 
 def normalized_key(key: Any) -> str:
     return re.sub(r"[\s\-]+", "_", str(key).strip().casefold())
+
+
+def is_privileged_key(key: Any) -> bool:
+    squashed = re.sub(r"[^a-z0-9]", "", scan_form(str(key)))
+    return normalized_key(key) in PRIVILEGED_KEYS or any(stem in squashed for stem in PRIVILEGED_STEMS)
 
 
 def privileged_key_paths(node: Any, path: str = "") -> list[str]:
@@ -41,7 +51,7 @@ def privileged_key_paths(node: Any, path: str = "") -> list[str]:
     if isinstance(node, Mapping):
         for key, value in node.items():
             here = f"{path}/{key}"
-            if normalized_key(key) in PRIVILEGED_KEYS:
+            if is_privileged_key(key):
                 found.append(here)
             found += privileged_key_paths(value, here)
     elif isinstance(node, (list, tuple)):
