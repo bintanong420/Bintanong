@@ -2,30 +2,37 @@
 
 States, roles, evidence kinds and the transition table come from governance-vocabulary.json.
 Acquisition, verification, approval and content review are four separate fields. A state other than
-the initial one must cite evidence inside the record whose kind and recorder match a transition row.
+the initial one must cite evidence inside the record whose kind and recorder match a transition row,
+and that row's `from` state must itself have been entered by earlier evidence of the same record.
 Extraction audits, extractor labels, filenames and possession never authorize anything.
 """
 
 from __future__ import annotations
 
+import calendar
 import re
 from collections.abc import Sequence
+from datetime import date
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
 
-from .base import (VOCAB, Contract, ContractError, EvidenceKind, Record, Role, State,
-                   reject_foreign_ids)
+from .base import (TIMESTAMP, VOCAB, Contract, ContractError, EvidenceKind, Record, Role, State, id_pattern,
+                   is_logical_locator, is_plain_filename, parse_timestamp, reject_foreign_ids)
 
-ID_DOC = r"^doc-[a-z0-9-]+$"
-ID_VER = r"^ver-[a-z0-9-]+$"
-ID_EDITION = r"^edition-[a-z0-9-]+$"
+ID_DOC = id_pattern("doc-")
+ID_VER = id_pattern("ver-")
+ID_EDITION = id_pattern("edition-")
+ID_CONFLICT = id_pattern("conflict-")
+ID_FACT = id_pattern("fact-")
+ID_SESSION = id_pattern("sess-")
 SHA256 = r"^[0-9a-f]{64}$"
-TIMESTAMP = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$"
-_LOCAL_PATH = re.compile(r"^([A-Za-z]:[\\/]|[\\/])")
+_TOKEN = r"^\S+$"          # approval ids and authorization references: no blank, no padding, no inner space
+_TRIMMED = r"^\S(?:.*\S)?$"
 
 Basis = Annotated[str, Field(pattern="^(" + "|".join(VOCAB["field_bases"]["allowed"]) + ")$")]
 STATE_FIELDS = ("acquisition_state", "verification_state", "approval_state", "content_review_state")
+OBSERVED = ("observed", "verified")
 
 
 # --------------------------------------------------------------------------------------------
@@ -41,21 +48,44 @@ class Evidence(Record):
     kind: EvidenceKind()
     recorded_by: Role()
     recorded_at: str = Field(pattern=TIMESTAMP)
-    authorization_ref: str | None = None
+    authorization_ref: str | None = Field(default=None, pattern=_TOKEN)
+
+    @model_validator(mode="after")
+    def _real_time(self):
+        if parse_timestamp(self.recorded_at) is None:
+            raise ValueError(f"evidence {self.evidence_id}: {self.recorded_at!r} is not a real timestamp")
+        return self
+
+
+def _row_accepts(row: dict, ev: Evidence) -> bool:
+    return (ev.kind == row["evidence_kind"] and ev.recorded_by in row["recorded_by"]
+            and bool(ev.authorization_ref) == bool(row.get("needs_authorization_ref")))
 
 
 def evidence_authorizes(field: str, to_state: str, ev: Evidence, frm: str | None = None) -> bool:
     """True if `ev` can authorize entering `to_state` of `field` under a row of the table."""
-    for row in _rows(field, to_state, frm):
-        if ev.kind != row["evidence_kind"] or ev.recorded_by not in row["recorded_by"]:
+    return any(_row_accepts(row, ev) for row in _rows(field, to_state, frm))
+
+
+def entered_in_order(field: str, state: str, evidence: Sequence[Evidence], i: int) -> bool:
+    """The `from` column on a record: evidence[i] enters `state` under a row whose `from` is the initial
+    state, or a state that EARLIER evidence of the same record (earlier in the list and not dated later)
+    entered in turn. Evidence is not bound to a field, so this proves the order of the evidence kinds, not
+    who wrote what for which field."""
+    for row in _rows(field, state):
+        if not _row_accepts(row, evidence[i]):
             continue
-        if bool(ev.authorization_ref) != bool(row.get("needs_authorization_ref")):
-            continue
-        return True
+        if row["from"] == VOCAB["initial_states"][field]:
+            return True
+        now = parse_timestamp(evidence[i].recorded_at)
+        for j in range(i):
+            before = parse_timestamp(evidence[j].recorded_at)
+            if now and before and before <= now and entered_in_order(field, row["from"], evidence, j):
+                return True
     return False
 
 
-def _check_state(errs: list[str], evs: dict[str, Evidence], label: str, vocab_field: str,
+def _check_state(errs: list[str], evidence: Sequence[Evidence], label: str, vocab_field: str,
                  state: str, ref: str | None) -> None:
     if state == VOCAB["initial_states"][vocab_field]:
         if ref is not None:
@@ -64,11 +94,15 @@ def _check_state(errs: list[str], evs: dict[str, Evidence], label: str, vocab_fi
     if ref is None:
         errs.append(f"{label}: {state} without an evidence reference")
         return
-    ev = evs.get(ref)
-    if ev is None:
+    position = next((i for i, e in enumerate(evidence) if e.evidence_id == ref), None)
+    if position is None:
         errs.append(f"{label}: evidence {ref!r} not in the record")
-    elif not evidence_authorizes(vocab_field, state, ev):
+        return
+    ev = evidence[position]
+    if not evidence_authorizes(vocab_field, state, ev):
         errs.append(f"{label}: evidence {ref!r} ({ev.kind} by {ev.recorded_by}) cannot authorize {state}")
+    elif not entered_in_order(vocab_field, state, evidence, position):
+        errs.append(f"{label}: {state} has no earlier evidence that entered the state it comes from")
 
 
 def _index_evidence(errs: list[str], evidence: Sequence[Evidence]) -> dict[str, Evidence]:
@@ -122,6 +156,24 @@ class ContentReviewState(Record):
     evidence_ref: str | None
 
 
+_PARTIAL_DATE = re.compile(r"([0-9]{4})(?:-([0-9]{2})(?:-([0-9]{2}))?)?")
+
+
+def _date_span(text: str | None) -> tuple[date, date] | None:
+    """Earliest and latest day a (possibly partial ISO) date can mean, or None for any other format. The
+    printed date format is an open owner decision, so only ISO dates are ever compared."""
+    m = _PARTIAL_DATE.fullmatch(text or "")
+    if not m:
+        return None
+    year, month, day = int(m.group(1)), m.group(2), m.group(3)
+    try:
+        first = date(year, int(month or 1), int(day or 1))
+        last = date(year, int(month or 12), int(day) if day else calendar.monthrange(year, int(month or 12))[1])
+    except ValueError:
+        return None
+    return first, last
+
+
 class SourceDocumentVersion(Contract):
     """One acquired byte identity. Approval id stays null without authorized evidence."""
 
@@ -148,7 +200,7 @@ class SourceDocumentVersion(Contract):
     verification_state: VerificationState
     approval_state: ApprovalState
     content_review_state: ContentReviewState
-    approval_id: str | None
+    approval_id: str | None = Field(pattern=_TOKEN)
     evidence: tuple[Evidence, ...]
 
     @model_validator(mode="after")
@@ -158,45 +210,73 @@ class SourceDocumentVersion(Contract):
             reject_foreign_ids(self, "institutional")
         except ValueError as exc:
             errs.append(str(exc))
-        for text in (self.filename, *self.acquisition_locators):
-            if _LOCAL_PATH.match(text):
-                errs.append(f"{text!r} looks like a local path; registers carry fictional or logical locators only")
+        if not is_plain_filename(self.filename):
+            errs.append(f"filename {self.filename!r} is not a plain file name (no path, drive, scheme or control character)")
+        for loc in self.acquisition_locators:
+            if not is_logical_locator(loc):
+                errs.append(f"locator {loc!r} is a local path, file URL or padded text; "
+                            "registers carry logical locators or https URLs only")
         if len(set(self.acquisition_locators)) != len(self.acquisition_locators):
             errs.append("duplicate acquisition locators in one version")
         evs = _index_evidence(errs, self.evidence)
         for name in STATE_FIELDS:
             ref = getattr(self, name)
-            _check_state(errs, evs, name, name, ref.state, ref.evidence_ref)
+            _check_state(errs, self.evidence, name, name, ref.state, ref.evidence_ref)
         for name in VOCAB["scope_fields"] + ["supersession"]:
             f = getattr(self, name)
-            _check_state(errs, evs, name, "scope_field", f.state, f.evidence_ref)
+            _check_state(errs, self.evidence, name, "scope_field", f.state, f.evidence_ref)
             if f.state in ("pending", "not_stated") and f.basis is not None:
                 errs.append(f"{name}: {f.state} must carry no basis (nothing is inferred)")
             if name != "supersession":
                 if f.state in ("pending", "not_stated") and f.value is not None:
                     errs.append(f"{name}: {f.state} must carry no value (nothing is inferred)")
-                if f.state in ("observed", "verified") and (f.value is None or f.basis is None):
+                if f.state in OBSERVED and (f.value is None or f.basis is None):
                     errs.append(f"{name}: {f.state} needs a value and an allowed basis")
-            elif f.state in ("observed", "verified") and f.basis is None:
+            elif f.state in OBSERVED and f.basis is None:
                 errs.append("supersession: observed or verified needs an allowed basis")
-        s = self.supersession
-        if s.relation != "none":
-            if s.target_version_id is None or s.state == "pending":
-                errs.append("supersession: a relation needs a target and an evidenced state")
-            if s.target_version_id == self.version_id:
-                errs.append("supersession: a version cannot supersede itself")
-        elif s.target_version_id is not None:
-            errs.append("supersession: relation none must not name a target")
-        if self.verification_state.state in ("observed", "verified") and \
-                self.acquisition_state.state not in ("observed", "verified"):
+        errs += self._supersession_errors()
+        errs += self._effectivity_errors()
+        if self.verification_state.state in OBSERVED and self.acquisition_state.state not in OBSERVED:
             errs.append("verification recorded against bytes that are not acquired and matching")
-        appr = self.approval_state
+        errs += self._approval_errors(evs)
+        if errs:
+            raise ValueError("; ".join(errs))
+        return self
+
+    def _supersession_errors(self) -> list[str]:
+        s, errs = self.supersession, []
+        if s.relation == "none":
+            if s.target_version_id is not None:
+                errs.append("supersession: relation none must not name a target")
+            if s.state in OBSERVED:
+                errs.append("supersession: relation none cannot be observed or verified")
+            return errs
+        if s.target_version_id is None or s.state not in OBSERVED:
+            errs.append("supersession: a relation needs a target and an observed or verified state")
+        if s.target_version_id == self.version_id:
+            errs.append("supersession: a version cannot supersede itself")
+        return errs
+
+    def _effectivity_errors(self) -> list[str]:
+        frm, to = self.effective_from, self.effective_to
+        if frm.state in OBSERVED and to.state in OBSERVED:
+            a, b = _date_span(frm.value), _date_span(to.value)
+            if a and b and b[1] < a[0]:
+                return ["effective_to is before effective_from"]
+        return []
+
+    def _approval_errors(self, evs: dict[str, Evidence]) -> list[str]:
+        errs, appr = [], self.approval_state
         if appr.state in ("approved", "revoked"):
             ev = evs.get(appr.evidence_ref)
             if not self.approval_id or ev is None or ev.authorization_ref != self.approval_id:
                 errs.append("approval_id must equal the authorization_ref of the cited authorized evidence")
         elif self.approval_id is not None:
             errs.append("approval_id supplied without authorized approval evidence")
+        if appr.state == "revoked" and not any(
+                e.kind == "issuing_office_authorization" and e.authorization_ref == self.approval_id
+                for e in self.evidence):
+            errs.append("revocation must cite the authorization_ref of the approval it revokes")
         if appr.state == "approved":
             if self.acquisition_state.state != "verified" or self.verification_state.state != "verified":
                 errs.append("approval needs verified acquisition and verified scope")
@@ -205,29 +285,91 @@ class SourceDocumentVersion(Contract):
                 errs.append("approval needs issuer and scope/effectivity fields verified or explicitly not stated")
             if self.document_category in VOCAB["proposal_categories"]:
                 errs.append("a proposal candidate cannot be approved as a source")
-        if errs:
-            raise ValueError("; ".join(errs))
-        return self
+            granted = parse_timestamp(evs[appr.evidence_ref].recorded_at) if appr.evidence_ref in evs else None
+            for name in ("acquisition_state", "verification_state"):
+                basis = evs.get(getattr(self, name).evidence_ref)
+                basis_at = parse_timestamp(basis.recorded_at) if basis else None
+                if granted and basis_at and granted < basis_at:
+                    errs.append(f"approval: the authorization is dated before the {name} evidence it relies on")
+        return errs
+
+
+def _supersession_cycle(edges: set[tuple[str, str]]) -> list[str] | None:
+    graph: dict[str, set[str]] = {}
+    for newer, older in edges:
+        graph.setdefault(newer, set()).add(older)
+    done: set[str] = set()
+    active: list[str] = []
+
+    def visit(node: str):
+        if node in active:
+            return active[active.index(node):] + [node]
+        if node in done:
+            return None
+        active.append(node)
+        for nxt in sorted(graph.get(node, ())):
+            found = visit(nxt)
+            if found:
+                return found
+        active.pop()
+        done.add(node)
+        return None
+    for start in sorted(graph):
+        found = visit(start)
+        if found:
+            return found
+    return None
 
 
 def check_register(records: Sequence[SourceDocumentVersion]) -> None:
     """Cross-record rules. Raises ContractError naming every problem."""
+    if not records:
+        raise ContractError("empty register: nothing was recorded, so nothing can be checked")
     errs: list[str] = []
     ids = [r.version_id for r in records]
     errs += [f"duplicate version_id {v}" for v in sorted(set(ids)) if ids.count(v) > 1]
     by_hash: dict[str, list[str]] = {}
     by_edition: dict[str, set[str]] = {}
+    by_ref: dict[str, set[str]] = {}
     for r in records:
         by_hash.setdefault(r.byte_sha256, []).append(r.version_id)
         by_edition.setdefault(r.edition_id, set()).add(r.byte_sha256)
+        for e in r.evidence:
+            if e.authorization_ref:
+                by_ref.setdefault(e.authorization_ref, set()).add(r.version_id)
     errs += [f"same bytes recorded as separate versions {v}; merge locators"
              for v in by_hash.values() if len(v) > 1]
     errs += [f"edition {e} spans different bytes (same filename is not same edition)"
              for e, h in by_edition.items() if len(h) > 1]
+    errs += [f"authorization ref {ref} is shared by versions {sorted(v)}; one authorization names one version"
+             for ref, v in by_ref.items() if len(v) > 1]
+    by_version = {r.version_id: r for r in records}
+    edges: set[tuple[str, str]] = set()
     for r in records:
-        target = r.supersession.target_version_id
-        if target is not None and target not in ids:
+        s = r.supersession
+        target = s.target_version_id
+        if target is None:
+            continue
+        other = by_version.get(target)
+        if other is None:
             errs.append(f"{r.version_id}: supersession target {target} is not in the register")
+            continue
+        if other.document_category != r.document_category:
+            errs.append(f"{r.version_id}: supersession category mismatch, {r.document_category} and "
+                        f"{other.document_category}")
+        if other.document_id != r.document_id:
+            errs.append(f"{r.version_id}: supersession crosses different documents "
+                        f"{r.document_id} and {other.document_id}")
+        if other.supersession.relation == "none":
+            errs.append(f"{r.version_id}: supersession target {target} does not record the reciprocal relation")
+        edges.add((r.version_id, target) if s.relation == "supersedes" else (target, r.version_id))
+    successors: dict[str, set[str]] = {}
+    for newer, older in edges:
+        successors.setdefault(older, set()).add(newer)
+    errs += [f"{older} has two successors {sorted(n)}" for older, n in successors.items() if len(n) > 1]
+    cycle = _supersession_cycle(edges)
+    if cycle:
+        errs.append("supersession cycle: " + " -> ".join(cycle))
     if errs:
         raise ContractError("; ".join(errs))
 
@@ -242,7 +384,7 @@ class Claim(Record):
 
 
 class AffectedScope(Record):
-    capability: str = Field(min_length=1)
+    capability: str = Field(pattern=_TRIMMED)
     campus: str | None
     college: str | None
     program: str | None
@@ -253,7 +395,7 @@ class SourceConflict(Contract):
     SCHEMA_VERSION = "bintanong-source-conflict-v1"
     namespace: Literal["institutional"]
     synthetic: bool
-    conflict_id: str = Field(pattern=r"^conflict-[a-z0-9-]+$")
+    conflict_id: str = Field(pattern=ID_CONFLICT)
     claims: tuple[Claim, ...] = Field(min_length=2)
     affected_scope: AffectedScope
     resolution_state: State("conflict_resolution_state")
@@ -268,10 +410,10 @@ class SourceConflict(Contract):
             reject_foreign_ids(self, "institutional")
         except ValueError as exc:
             errs.append(str(exc))
-        evs = _index_evidence(errs, self.evidence)
+        _index_evidence(errs, self.evidence)
         if len({(c.version_id, c.span_ref) for c in self.claims}) < 2:
             errs.append("a conflict needs two distinct claims")
-        _check_state(errs, evs, "resolution", "conflict_resolution_state",
+        _check_state(errs, self.evidence, "resolution", "conflict_resolution_state",
                      self.resolution_state, self.resolution_evidence_ref)
         if (self.resolution_state == "resolved") != (self.resolution_basis is not None):
             errs.append("a resolution basis is required exactly when the conflict is resolved")
@@ -303,8 +445,8 @@ class SessionFact(Contract):
     SCHEMA_VERSION = "bintanong-session-fact-v1"
     namespace: Literal["private_session"]
     synthetic: bool
-    fact_id: str = Field(pattern=r"^fact-[a-z0-9-]+$")
-    session_id: str = Field(pattern=r"^sess-[a-z0-9-]+$")
+    fact_id: str = Field(pattern=ID_FACT)
+    session_id: str = Field(pattern=ID_SESSION)
     origin: Annotated[str, Field(pattern="^(" + "|".join(VOCAB["session_origins"]) + ")$")]
     confirmation_state: State("session_confirmation_state")
     confirmation_evidence_ref: str | None
@@ -319,8 +461,8 @@ class SessionFact(Contract):
             reject_foreign_ids(self, "private_session")
         except ValueError as exc:
             errs.append(str(exc))
-        evs = _index_evidence(errs, self.evidence)
-        _check_state(errs, evs, "confirmation", "session_confirmation_state",
+        _index_evidence(errs, self.evidence)
+        _check_state(errs, self.evidence, "confirmation", "session_confirmation_state",
                      self.confirmation_state, self.confirmation_evidence_ref)
         if errs:
             raise ValueError("; ".join(errs))

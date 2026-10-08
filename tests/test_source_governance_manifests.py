@@ -135,9 +135,30 @@ def evidence_authorizes(voc, field, to_state, ev, frm=None):
     return any(_row_accepts(row, ev) for row in transition_rows(voc, field, to_state, frm))
 
 
+TIMESTAMP_YEARS = (2000, 2100)  # default, owner-reviewable; the package uses the same bound
+
+
 def _ts(ev):
     try:
-        return datetime.fromisoformat(ev["recorded_at"])
+        moment = datetime.fromisoformat(ev["recorded_at"])
+    except ValueError:
+        return None
+    if moment.tzinfo is None or not TIMESTAMP_YEARS[0] <= moment.year <= TIMESTAMP_YEARS[1]:
+        return None
+    return moment
+
+
+def _date_span(text):
+    """Earliest and latest day a possibly partial ISO date can mean; None for any other format."""
+    m = re.fullmatch(r"([0-9]{4})(?:-([0-9]{2})(?:-([0-9]{2}))?)?", text or "")
+    if not m:
+        return None
+    import calendar
+    from datetime import date
+    year, month, day = int(m.group(1)), m.group(2), m.group(3)
+    try:
+        return (date(year, int(month or 1), int(day or 1)),
+                date(year, int(month or 12), int(day) if day else calendar.monthrange(year, int(month or 12))[1]))
     except ValueError:
         return None
 
@@ -279,6 +300,11 @@ def register_errors(rec, voc):
     if rec["verification_state"]["state"] in ("observed", "verified") and \
             rec["acquisition_state"]["state"] not in ("observed", "verified"):
         errs.append("verification recorded against bytes that are not acquired and matching")
+    frm_, to_ = rec["effective_from"], rec["effective_to"]
+    if frm_["state"] in OBSERVED and to_["state"] in OBSERVED:
+        a, b = _date_span(frm_["value"]), _date_span(to_["value"])
+        if a and b and b[1] < a[0]:
+            errs.append("effective_to is before effective_from")
     appr, aid = rec["approval_state"], rec["approval_id"]
     if appr["state"] in ("approved", "revoked"):
         ev_ = by_id.get(appr["evidence_ref"])
@@ -297,6 +323,12 @@ def register_errors(rec, voc):
             errs.append("approval needs issuer and scope/effectivity fields verified or explicitly not stated")
         if rec["document_category"] in voc["proposal_categories"]:
             errs.append("a proposal candidate cannot be approved as a source")
+        granted = _ts(by_id[appr["evidence_ref"]]) if appr["evidence_ref"] in by_id else None
+        for name in ("acquisition_state", "verification_state"):
+            basis = by_id.get(rec[name]["evidence_ref"])
+            basis_at = _ts(basis) if basis else None
+            if granted and basis_at and granted < basis_at:
+                errs.append(f"approval: the authorization is dated before the {name} evidence it relies on")
     return errs
 
 
@@ -358,6 +390,8 @@ def register_set_errors(recs, voc):
         if other["document_category"] != r["document_category"]:
             errs.append(f"{r['version_id']}: supersession category mismatch, {r['document_category']} and "
                         f"{other['document_category']}")
+        if other["document_id"] != r["document_id"]:
+            errs.append(f"{r['version_id']}: supersession crosses different documents")
         if other["supersession"]["relation"] == "none":
             errs.append(f"{r['version_id']}: supersession target {tgt} does not record the reciprocal relation")
         edges.add((r["version_id"], tgt) if s["relation"] == "supersedes" else (tgt, r["version_id"]))
@@ -1087,7 +1121,8 @@ def test_acquisition_locators_accept_urls_and_shelf_references(good):
 
 
 @pytest.mark.parametrize("stamp", ["9999-99-99T99:99:99Z", "2026-02-30T00:00:00Z", "2026-13-01T00:00:00Z",
-                                   "2026-01-01T24:00:00Z", "2026-01-01T00:60:00Z", "2026-01-01T00:00:61Z"])
+                                   "2026-01-01T24:00:00Z", "2026-01-01T00:60:00Z", "2026-01-01T00:00:61Z",
+                                   "9999-12-31T23:59:59Z", "2026-01-01T00:00:00+99:99"])
 def test_impossible_timestamps_are_rejected_in_every_record_type(stamp):
     voc = vocabulary()
     assert register_errors(mutated(register()[1], lambda r: _forge_ts(r, stamp)), voc)
@@ -1483,3 +1518,34 @@ def test_an_impossible_timestamp_in_the_chain_is_an_error_not_a_crash():
             e for e in r["evidence"] if e["evidence_id"] == t).update(recorded_at="9999-99-99T99:99:99Z"))
         errs = register_errors(rec, voc)
         assert any("not a real timestamp" in e for e in errs) and any("earlier evidence" in e for e in errs), target
+
+
+# ---------------------------------- fix pass 2: rules the package gained, mirrored here ----------
+def test_effective_to_before_effective_from_is_rejected_for_iso_dates_only():
+    def dates(frm, to):
+        return mutated(register()[1], lambda r: (
+            r["evidence"].append(ev("ev-d", "printed_text_span", "researcher")),
+            r["effective_from"].update(value=frm, state="observed", evidence_ref="ev-d", basis="printed_text"),
+            r["effective_to"].update(value=to, state="observed", evidence_ref="ev-d", basis="printed_text")))
+    voc = vocabulary()
+    for good in (("2023-08-01", "2024-05-31"), ("2023", "2023-12"), ("soon", "later")):
+        assert register_errors(dates(*good), voc) == [], good
+    for reversed_ in (("2024-05-31", "2023-08-01"), ("2024", "2023-12")):
+        assert any("effective_to is before" in e for e in register_errors(dates(*reversed_), voc)), reversed_
+
+
+def test_supersession_across_different_documents_is_rejected():
+    regs = _pair()
+    regs[1]["document_id"] = "doc-synth-other"
+    assert any("different documents" in e for e in register_set_errors(regs, vocabulary()))
+
+
+def test_an_authorization_dated_before_the_evidence_it_relies_on_is_rejected():
+    rec = mutated(approved_record(), lambda r: next(
+        e for e in r["evidence"] if e["evidence_id"] == "ev-b4").update(recorded_at="2026-01-05T00:00:00+00:00"))
+    assert any("dated before" in e for e in register_errors(rec, vocabulary()))
+
+
+def test_a_timestamp_outside_the_plausible_years_is_not_real():
+    assert _ts({"recorded_at": "9999-12-31T23:59:59Z"}) is None
+    assert _ts({"recorded_at": "2026-01-01T00:00:00Z"}) is not None

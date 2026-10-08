@@ -58,6 +58,16 @@
     "private_session": {"id_prefixes": ["sess-", "fact-"], "lifecycles": ["session_only"]}
   },
   "session_origins": ["user_statement", "private_upload"],
+  "runtime": {
+    "routes": ["RAG", "Hybrid", "Symbolic"],
+    "controls": ["clarify", "greeting", "unsupported_scope", "evidence_unavailable"],
+    "controls_note": "Route and control names are the closed sets of the routing contract. The control names are a proposal-derived default; legacy Direct is refused, not mapped (owner decision)."
+  },
+  "query_markers": {
+    "note": "OWNER-reviewable default word lists (the language set is an owner decision). A negation or time qualifier found in the original query must survive normalization and normalization may not add one. Contractions ending in n't count as 'not'. A leading apostrophe is ignored ('di is di).",
+    "negations": ["not", "no", "never", "none", "neither", "nor", "without", "cannot", "hindi", "wala", "walang", "di", "ayaw", "wag", "huwag", "hwag"],
+    "time_qualifiers": ["last semester", "next semester", "this semester", "last sem", "next sem", "this sem", "last term", "next term", "this term", "last year", "next year", "this year", "noong", "sa susunod", "sa nakaraan", "kahapon", "bukas", "ngayon", "mamaya", "kanina"]
+  },
   "decision": {
     "rule_coverage": ["verified", "partial", "absent"],
     "prerequisite_rule_states": ["resolved", "stated_none", "reviewed_empty", "blank_unreviewed", "standing_condition", "unresolved_reference", "alternative_or_exception", "unreadable"],
