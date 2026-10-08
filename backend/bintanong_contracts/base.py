@@ -113,6 +113,15 @@ TIMESTAMP = r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]+)?(
 TIMESTAMP_YEARS = (2000, 2100)
 
 
+# A pinned model or tokenizer revision is a full lowercase commit (40 hex) or digest (64 hex). Tags,
+# branches, aliases and short hashes move or collide, so none of them is pinned. Owner-reviewable default.
+PINNED_REVISION = re.compile(r"[0-9a-f]{40}|[0-9a-f]{64}")
+
+
+def is_pinned_revision(text: str) -> bool:
+    return PINNED_REVISION.fullmatch(text) is not None
+
+
 def is_plain_filename(text: str) -> bool:
     return FILENAME_RE.fullmatch(text) is not None
 
@@ -214,4 +223,4 @@ def reject_foreign_ids(model: Any, namespace: str) -> None:
 __all__ = ["VOCAB", "VOCAB_PATH", "Contract", "ContractError", "Record", "ValidationError", "canonical_json",
            "foreign_ids", "load_vocabulary", "namespace_of", "reject_foreign_ids", "require_namespace",
            "State", "Role", "EvidenceKind", "Outcome", "Route", "Control", "id_pattern", "id_tokens", "folded",
-           "is_plain_filename", "is_logical_locator", "parse_timestamp", "TIMESTAMP"]
+           "is_plain_filename", "is_logical_locator", "is_pinned_revision", "parse_timestamp", "TIMESTAMP"]

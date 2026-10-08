@@ -29,7 +29,7 @@ def symbolic(outcome="eligible", capability="enrollment_eligibility", fact_ref="
     return {"schema_version": "bintanong-symbolic-result-v1", "decision": d, "capability": capability,
             "inputs": [{"name": "course", "value": "FICTIONAL-101", "fact_ref": fact_ref}],
             "rule_ids": ["rule-synth-1"] if has_rules else [],
-            "rule_bundle_version": "bundle-synth-1" if has_rules else None}
+            "rule_bundle_version": "bundle-synth-1" if has_rules else None, **fx.decided_extras(outcome)}
 
 
 def fact(state="user_confirmed", fact_id="fact-synth-0001"):
@@ -222,7 +222,7 @@ def ebad(**over):
 
 def test_envelope_roundtrips():
     for e in (envelope(),
-              envelope(route="Symbolic", decision=decision("eligible"), citations=[]),
+              envelope(route="Symbolic", decision=decision("eligible")),
               envelope(status="abstained", route=None, citations=[], decision=None),
               envelope(status="error", route="Symbolic", decision=decision("error"), citations=[],
                        validation={"passed": False, "checks": [], "failures": ["engine timeout"]})):
@@ -242,8 +242,8 @@ def test_envelope_roundtrips():
 ])
 def test_status_follows_the_decision_outcome_and_error_never_becomes_a_verdict(status, outcome, ok):
     passed = status == "answered"
-    e = envelope(status=status, route="Symbolic", decision=decision(outcome), citations=[],
-                 validation={"passed": passed, "checks": [], "failures": [] if passed else ["x"]})
+    e = envelope(status=status, route="Symbolic", decision=decision(outcome), citations=[cite()] if passed else [],
+                 validation={"passed": passed, "checks": ["c1"] if passed else [], "failures": [] if passed else ["x"]})
     if ok:
         answer.AnswerEnvelope.parse(e)
     else:
@@ -279,7 +279,7 @@ def test_hybrid_answer_needs_its_symbolic_decision_not_just_passages():
 
 def test_abstention_and_clarification_may_not_assert_a_decision_verdict():
     answer.AnswerEnvelope.parse(envelope(status="clarification_needed", route="Symbolic", decision=decision("unknown"),
-                                         citations=[], validation={"passed": True, "checks": [], "failures": []}))
+                                         citations=[], validation={"passed": True, "checks": ["c1"], "failures": []}))
     ebad(status="error", route="RAG", citations=[cite()])                       # an error cites nothing
 
 
@@ -290,7 +290,7 @@ def test_envelope_must_match_its_evidence_bundle():
     answer.check_envelope_against_bundle(e, b)
     cases = [
         envelope(route="Hybrid", decision=decision("eligible"), request_id="req-other"),
-        envelope(route="Symbolic", decision=decision("eligible"), citations=[]),
+        envelope(route="Symbolic", decision=decision("eligible")),
         envelope(route="Hybrid", decision=decision("ineligible", evidence_refs=["x"])),
         envelope(route="Hybrid", decision=decision("eligible"), citations=[cite(7)]),      # not retrieved
         envelope(route="Hybrid", decision=decision("eligible"), citations=[{**cite(), "byte_sha256": "9" * 64}]),
@@ -302,7 +302,7 @@ def test_envelope_must_match_its_evidence_bundle():
 
 def test_an_answer_needs_permitting_claims():
     no_claims = answer.EvidenceBundle.parse(bundle(claims=()))
-    e = answer.AnswerEnvelope.parse(envelope(route="Hybrid", decision=decision("eligible"), citations=[]))
+    e = answer.AnswerEnvelope.parse(envelope(route="Hybrid", decision=decision("eligible")))
     with pytest.raises(base.ContractError, match="permitted"):
         answer.check_envelope_against_bundle(e, no_claims)
     only_decision = answer.EvidenceBundle.parse(bundle(claims=("decision_eligible",)))
@@ -339,7 +339,7 @@ def test_an_error_envelope_cites_nothing_and_never_passes_validation():
     err = dict(status="error", route="Symbolic", decision=decision("error"))
     answer.AnswerEnvelope.parse(envelope(**err, citations=[], validation={"passed": False, "checks": [], "failures": ["x"]}))
     ebad(**err, citations=[cite()], validation={"passed": False, "checks": [], "failures": ["x"]})
-    ebad(**err, citations=[], validation={"passed": True, "checks": [], "failures": []})
+    ebad(**err, citations=[], validation={"passed": True, "checks": ["c1"], "failures": []})
 
 
 def _hybrid_pair(**env_over):
@@ -368,7 +368,7 @@ def test_each_envelope_bundle_mismatch_is_named():
 def test_abstention_needs_a_claim_that_allows_it():
     b = answer.EvidenceBundle.parse(bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=("abstention",)))
     ok = answer.AnswerEnvelope.parse(envelope(status="abstained", route="Symbolic", decision=decision("unsupported"),
-                                              citations=[], validation={"passed": True, "checks": [], "failures": []}))
+                                              citations=[], validation={"passed": True, "checks": ["c1"], "failures": []}))
     answer.check_envelope_against_bundle(ok, b)
     none = answer.EvidenceBundle.parse(bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=()))
     with pytest.raises(base.ContractError, match="do not allow status"):

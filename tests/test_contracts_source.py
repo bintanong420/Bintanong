@@ -175,7 +175,7 @@ def test_estimates_never_claim_exactness():
                  dict(includes_prefix_and_special_tokens=True), dict(count=-1), dict(method="")):
         with pytest.raises(ValidationError):
             source.TokenCount.model_validate(tc(**over))
-    ok = source.TokenCount.model_validate(tc(method="tokenizer:synthetic@r1", exact=True,
+    ok = source.TokenCount.model_validate(tc(method="tokenizer:synthetic@" + "a" * 40, exact=True,
                                                includes_prefix_and_special_tokens=True))
     assert ok.exact
     with pytest.raises(ValidationError):
@@ -215,20 +215,28 @@ def test_unanchored_chunk_cannot_assert_a_verified_source():
 
 
 def test_verified_claim_needs_a_bound_version():
-    badchunk(source_verification="verified")
-    badchunk(source_verification="verified", version_id="ver-synth-handbook-2")  # no edition
+    binding = {"verification_evidence_ref": "ev-b3", "content_review_evidence_ref": None}
+    badchunk(source_verification="verified", register_binding=binding)
+    badchunk(source_verification="verified", version_id="ver-synth-handbook-2", register_binding=binding)  # no edition
     source.Chunk.parse(chunk_dict(source_verification="verified", version_id="ver-synth-handbook-2",
-                                  edition_id="edition-synth-handbook-2", document_id="doc-synth-handbook"))
+                                  edition_id="edition-synth-handbook-2", document_id="doc-synth-handbook",
+                                  register_binding=binding))
 
 
-def test_duplicate_source_locations_are_rejected():
-    badchunk(spans=[span_dict(), span_dict()])
-    other = span_dict(locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["t0-c1", "t0-c2"],
-                               "item_ids": [], "ref": None})
-    badchunk(spans=[span_dict(), other])  # shares t0-c1
-    ok = span_dict(page=2, locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["t0-c9"],
-                                    "item_ids": [], "ref": None})
-    assert len(source.Chunk.parse(chunk_dict(spans=[span_dict(), ok])).spans) == 2
+def test_identical_spans_are_rejected_and_distinct_ones_are_not():
+    def two(first, second):
+        text = f"{first['text']} {second['text']}"
+        return dict(spans=[first, second], source_text=text, content_hash=digest(text, "Summary"))
+    with pytest.raises(ValidationError, match="identical"):
+        source.Chunk.parse(chunk_dict(**two(span_dict(), span_dict())))
+    shares = span_dict(text="Other", locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["t0-c1", "t0-c2"],
+                                              "item_ids": [], "ref": None})
+    assert len(source.Chunk.parse(chunk_dict(**two(span_dict(), shares))).spans) == 2  # shares t0-c1, text differs
+    other_page = span_dict(page=2)
+    assert len(source.Chunk.parse(chunk_dict(**two(span_dict(), other_page))).spans) == 2
+    ok = span_dict(page=2, text="Next", locator={"kind": "table_cells", "table_index": 0, "cell_ids": ["t0-c9"],
+                                                "item_ids": [], "ref": None})
+    assert len(source.Chunk.parse(chunk_dict(**two(span_dict(), ok))).spans) == 2
 
 
 @pytest.mark.parametrize("over", [
@@ -262,8 +270,11 @@ def test_content_hash_matches_the_extractor_algorithm_and_is_whitespace_normalis
 
 
 # ---------------------------------------------------------------- binding to a register version
+BIND = {"verification_evidence_ref": "ev-b3", "content_review_evidence_ref": None}
+
+
 def bound(**over):
-    over = {"source_verification": "observed", **over}
+    over = {"source_verification": "observed", "register_binding": dict(BIND), **over}
     return source.Chunk.parse(chunk_dict(
         version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",
         document_id="doc-synth-handbook", **over))
@@ -273,7 +284,7 @@ def test_binding_succeeds_only_for_the_same_bytes_and_ids():
     reg = _register(SHA_A)
     source.check_chunk_binding(bound(), reg)
     ids = dict(version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2", document_id="doc-synth-handbook",
-               source_verification="observed")
+               source_verification="observed", register_binding=dict(BIND))
     for mutate in (dict(byte_sha256=SHA_B, spans=[span_dict(byte_sha256=SHA_B)]),
                    dict(version_id="ver-synth-handbook-1"),
                    dict(edition_id="edition-synth-handbook-1"),
@@ -284,10 +295,11 @@ def test_binding_succeeds_only_for_the_same_bytes_and_ids():
 def test_binding_rejects_a_verification_claim_that_differs_from_the_register():
     reg = _register(SHA_A)  # register says verification observed
     claim = source.Chunk.parse(chunk_dict(version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",
-                                          document_id="doc-synth-handbook", source_verification="verified"))
+                                          document_id="doc-synth-handbook", source_verification="verified",
+                                          register_binding=dict(BIND)))
     with pytest.raises(base.ContractError, match="verification"):
         source.check_chunk_binding(claim, reg)
-    stale = bound(source_verification="pending")
+    stale = bound(source_verification="pending", register_binding=None)
     with pytest.raises(base.ContractError, match="stale|verification"):
         source.check_chunk_binding(stale, reg)
 
@@ -301,7 +313,7 @@ def test_binding_rejects_mismatched_acquisition():
     d["printed_revision"].update(value=None, state="pending", evidence_ref=None, basis=None)
     mism = gov.SourceDocumentVersion.parse(d)
     with pytest.raises(base.ContractError, match="acquisition"):
-        source.check_chunk_binding(bound(source_verification="pending"), mism)
+        source.check_chunk_binding(bound(source_verification="pending", register_binding=None), mism)
 
 
 def test_bind_chunk_produces_a_bound_copy_and_never_a_verified_claim_beyond_the_register():

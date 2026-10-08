@@ -54,13 +54,14 @@ def bound_chunk(reg=None):
     return source.bind_chunk(extractor_chunk(), reg), reg
 
 
-def retrieval_for(chunk, release="release-synth-1"):
+def retrieval_for(chunk, release="release-synth-1", reg=None):
+    reg = reg or register_for(PDF_SHA)
     return runtime.RetrievalResult.parse({
         "schema_version": "bintanong-retrieval-result-v1", "knowledge_release_id": release,
         "items": [{"rank": 1, "score": 0.9, "knowledge_release_id": release, "chunk": chunk.model_dump(mode="json")}],
-        "coverage_status": "sufficient",
+        "versions": [reg.model_dump(mode="json")], "coverage_status": "sufficient",
         "config": {"top_k": 3, "score_metric": "cosine", "min_score": None,
-                   "embedding_model_id": "synthetic-model", "embedding_model_revision": "r1" + "0" * 38}})
+                   "embedding_model_id": "synthetic-model", "embedding_model_revision": fx.REVISION}})
 
 
 def test_the_whole_chain_accepts_honest_synthetic_parts_and_claims_nothing_official():
@@ -147,7 +148,7 @@ def test_duplicate_source_locations_are_rejected_at_every_layer():
     assert info.value.reason == "duplicate_source_location"
     data = extractor_chunk().model_dump(mode="json")
     data["spans"].append(copy.deepcopy(data["spans"][0]))
-    with raises(match="duplicate"):
+    with raises(match="identical"):
         source.Chunk.parse(data)
 
 
@@ -226,7 +227,7 @@ def test_a_control_outcome_is_never_dispatched_and_never_carries_a_citation():
         answer.AnswerEnvelope.parse({
             "schema_version": "bintanong-answer-envelope-v1", "request_id": "req-1", "status": "answered",
             "language": "en", "text": "Hi", "route": None, "decision": None, "citations": [],
-            "validation": {"passed": True, "checks": [], "failures": []}})
+            "validation": {"passed": True, "checks": ["c1"], "failures": []}})
 
 
 def test_error_and_unsupported_outcomes_never_surface_as_a_verdict():
@@ -236,7 +237,7 @@ def test_error_and_unsupported_outcomes_never_surface_as_a_verdict():
             answer.AnswerEnvelope.parse({
                 "schema_version": "bintanong-answer-envelope-v1", "request_id": "req-1", "status": status,
                 "language": "en", "text": "x", "route": "Symbolic", "decision": fixture_decision(outcome),
-                "citations": [], "validation": {"passed": status == "answered", "checks": [],
+                "citations": [], "validation": {"passed": status == "answered", "checks": ["c1"] if status == "answered" else [], "checks": [],
                                                  "failures": [] if status == "answered" else ["x"]}})
 
 
@@ -245,10 +246,10 @@ def test_stale_derived_state_is_detected():
     chunk, _ = bound_chunk()
     rec = embedding.EmbeddingRecord.parse({
         "schema_version": "bintanong-embedding-record-v1", "chunk_id": chunk.chunk_id,
-        "chunk_content_hash": chunk.content_hash, "model_id": "m", "model_revision": "r1" + "0" * 38,
+        "chunk_content_hash": chunk.content_hash, "model_id": "m", "model_revision": fx.REVISION,
         "tokenizer_fingerprint": "1" * 64, "preprocessing_fingerprint": "2" * 64, "prompt_fingerprint": "3" * 64,
         "dimension": 2, "normalization": "l2", "vector": [0.6, 0.8],
-        "token_count": {"count": 9, "method": "tokenizer:m@r1", "exact": True,
+        "token_count": {"count": 9, "method": f"tokenizer:m@{fx.REVISION}", "exact": True,
                         "includes_prefix_and_special_tokens": True}})
     embedding.check_embedding_matches_chunk(rec, chunk)
     changed = source.Chunk.parse({**chunk.model_dump(mode="json"), "text": "Edited explanation.",
@@ -276,7 +277,8 @@ def test_unsupported_rules_stay_unsupported():
         symbolic.EMPTY_REGISTRY.goal(req)
     result = symbolic.SymbolicResult.parse({
         "schema_version": "bintanong-symbolic-result-v1", "decision": fixture_decision("eligible"),
-        "capability": "x", "inputs": [], "rule_ids": ["rule-1"], "rule_bundle_version": "b1"})
+        "capability": "x", "inputs": [], "rule_ids": ["rule-1"], "rule_bundle_version": "b1",
+        **fx.decided_extras("eligible")})
     with raises(match="registry"):
         symbolic.EMPTY_REGISTRY.check_result(result)
 
@@ -297,7 +299,7 @@ def test_partial_hybrid_results_are_refused_not_completed_from_passages():
         answer.AnswerEnvelope.parse({
             "schema_version": "bintanong-answer-envelope-v1", "request_id": "req-1", "status": "answered",
             "language": "en", "text": "From the handbook...", "route": "Hybrid",
-            "decision": fixture_decision("error"), "citations": [], "validation": {"passed": True, "checks": [], "failures": []}})
+            "decision": fixture_decision("error"), "citations": [], "validation": {"passed": True, "checks": ["c1"], "failures": []}})
 
 
 # ---------------------------------------------------------------- fixtures for the scenarios above
@@ -311,7 +313,8 @@ def fixture_symbolic(outcome):
     return {"schema_version": "bintanong-symbolic-result-v1", "decision": fixture_decision(outcome),
             "capability": "enrollment_eligibility",
             "inputs": [{"name": "course", "value": "FICTIONAL-101", "fact_ref": "fact-synth-0001"}],
-            "rule_ids": ["rule-1"] if has_rules else [], "rule_bundle_version": "b1" if has_rules else None}
+            "rule_ids": ["rule-1"] if has_rules else [], "rule_bundle_version": "b1" if has_rules else None,
+            **fx.decided_extras(outcome)}
 
 
 def fixture_fact(state):

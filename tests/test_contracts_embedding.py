@@ -11,14 +11,15 @@ from pydantic import ValidationError
 from backend.bintanong_contracts import base, embedding, source
 
 H = "d" * 64
+REVISION = "0123456789abcdef" * 2 + "01234567"
 
 
 def rec(**over):
     d = {"schema_version": "bintanong-embedding-record-v1", "chunk_id": "c" * 64, "chunk_content_hash": H,
-         "model_id": "synthetic-model", "model_revision": "r1" + "0" * 38, "tokenizer_fingerprint": "1" * 64,
+         "model_id": "synthetic-model", "model_revision": REVISION, "tokenizer_fingerprint": "1" * 64,
          "preprocessing_fingerprint": "2" * 64, "prompt_fingerprint": "3" * 64, "dimension": 4,
          "normalization": "l2", "vector": [0.5, 0.5, 0.5, 0.5],
-         "token_count": {"count": 12, "method": "tokenizer:synthetic-model@r1", "exact": True,
+         "token_count": {"count": 12, "method": f"tokenizer:synthetic-model@{REVISION}", "exact": True,
                          "includes_prefix_and_special_tokens": True}}
     d.update(over)
     return d

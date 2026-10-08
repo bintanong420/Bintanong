@@ -11,6 +11,7 @@ from pydantic import ValidationError
 
 from backend.bintanong_contracts import base, runtime, symbolic
 from backend.bintanong_tools.prospectus_extractor import prerequisites
+import contracts_fixtures as fx
 
 ROOT = Path(__file__).resolve().parents[1]
 DECISIONS = json.loads((ROOT / "knowledge/manifests/examples/synthetic-decisions.json").read_text(encoding="utf-8"))
@@ -123,6 +124,7 @@ def _result(decision, **over):
     d = {"schema_version": "bintanong-symbolic-result-v1", "decision": decision, "capability": "enrollment_eligibility",
          "inputs": [{"name": "course", "value": "FICTIONAL-101", "fact_ref": "fact-synth-0001"}],
          "rule_ids": ["rule-synth-1"], "rule_bundle_version": "bundle-synth-1"}
+    d.update(fx.decided_extras(decision["outcome"]))
     if decision["outcome"] in ("unsupported", "error"):
         d.update(rule_ids=[], rule_bundle_version=None)
     d.update(over)

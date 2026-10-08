@@ -18,13 +18,12 @@ from typing import Any
 
 from pydantic import ValidationError
 
-from .base import VOCAB, ContractError
-from .source import PRIVILEGED_KEYS, Chunk, SourceSpan, compute_content_hash
+from .base import VOCAB, ContractError, is_plain_filename
+from .source import Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, privileged_key_paths
 
 CHUNKER_VERSION = "palsu-chunker-v1"
 ESTIMATE_METHOD = "estimate-v1"
 _SHA = re.compile(r"^[0-9a-f]{64}$")
-_LOCAL_PATH = re.compile(r"^([A-Za-z]:[\\/]|[\\/])")
 
 REQUIRED = ("chunk_id", "chunk_type", "chunker_version", "content_review", "pdf_sha256", "source_anchored",
             "text", "source_text", "source_spans", "pages", "table_indexes", "cell_ids", "content_hash",
@@ -76,9 +75,9 @@ def adapt_chunk(raw: Any, *, page_sizes: Mapping[tuple[str, int], tuple[float, f
     for key in REQUIRED:
         if key not in raw:
             raise ChunkMappingError(f"missing_key:{key}")
-    for key in raw:
-        if str(key).lower() in PRIVILEGED_KEYS:
-            raise ChunkMappingError(f"privileged_field:{key}")
+    privileged = privileged_key_paths({k: v for k, v in raw.items() if k != "source_spans"})
+    if privileged:
+        raise ChunkMappingError(f"privileged_field:{privileged[0].lstrip('/')}")
     if raw["chunker_version"] != CHUNKER_VERSION:
         raise ChunkMappingError("unsupported_chunker_version", str(raw["chunker_version"]))
     if raw["token_count_method"] != ESTIMATE_METHOD:
@@ -88,8 +87,10 @@ def adapt_chunk(raw: Any, *, page_sizes: Mapping[tuple[str, int], tuple[float, f
         raise ChunkMappingError("invalid_pdf_sha256")
     if raw["source_anchored"] is not (sha is not None):
         raise ChunkMappingError("anchor_flag_mismatch")
-    if not isinstance(raw["source"], str) or _LOCAL_PATH.match(raw["source"]):
+    if not isinstance(raw["source"], str) or not is_plain_filename(raw["source"]):
         raise ChunkMappingError("local_path_in_source")
+    if raw["source_text"] is not None and not isinstance(raw["source_text"], str):
+        raise ChunkMappingError("invalid_source_text")
     if raw["content_review"] not in VOCAB["states"]["content_review_state"]:
         raise ChunkMappingError("invalid_content_review", str(raw["content_review"]))
     raw_spans = raw["source_spans"]
@@ -97,15 +98,17 @@ def adapt_chunk(raw: Any, *, page_sizes: Mapping[tuple[str, int], tuple[float, f
         raise ChunkMappingError("no_source_spans")
 
     gaps: list[Gap] = []
-    spans = [_map_span(i, s, sha, page_sizes or {}, on_missing_page_size, gaps) for i, s in enumerate(raw_spans)]
+    has_text = raw["source_text"] is not None
+    spans = [_map_span(i, s, sha, page_sizes or {}, on_missing_page_size, gaps, has_text)
+             for i, s in enumerate(raw_spans)]
+    # Only an identical span (same page, locator and text) is a duplicate. Distinct spans may share a cell,
+    # as the extractor's term schedules share header cells. A strict default the owner may overrule.
     seen: set = set()
     for s in spans:
-        loc = s.locator
-        for item in [("cell", loc.table_index, i) for i in loc.cell_ids] + [("item", i) for i in loc.item_ids] \
-                + ([("ref", loc.ref)] if loc.ref else []):
-            if (s.page, item) in seen:
-                raise ChunkMappingError("duplicate_source_location", f"{s.page} {item}")
-            seen.add((s.page, item))
+        identity = (s.page, s.locator.model_dump_json(), s.text)
+        if identity in seen:
+            raise ChunkMappingError("duplicate_source_location", f"identical span on page {s.page}")
+        seen.add(identity)
 
     if compute_content_hash(raw["source_text"], raw["text"]) != raw["content_hash"]:
         raise ChunkMappingError("content_hash_mismatch")
@@ -119,6 +122,9 @@ def adapt_chunk(raw: Any, *, page_sizes: Mapping[tuple[str, int], tuple[float, f
     for key, value in derived.items():
         if raw[key] != value:
             raise ChunkMappingError(f"derived_field_mismatch:{key}")
+
+    if has_text and canonical_text(raw["source_text"]) != joined_span_text(spans):
+        raise ChunkMappingError("source_text_differs_from_spans")
 
     section = raw.get("section_path", [])
     if not isinstance(section, list) or not all(isinstance(p, str) and p for p in section):
@@ -146,7 +152,8 @@ def adapt_chunk(raw: Any, *, page_sizes: Mapping[tuple[str, int], tuple[float, f
     return AdaptedChunk(chunk, tuple(gaps))
 
 
-def _map_span(index: int, raw: Any, chunk_sha: str | None, page_sizes, mode: str, gaps: list[Gap]) -> SourceSpan:
+def _map_span(index: int, raw: Any, chunk_sha: str | None, page_sizes, mode: str, gaps: list[Gap],
+              source_text_present: bool = True) -> SourceSpan:
     if not isinstance(raw, Mapping):
         raise ChunkMappingError("invalid_span", f"span {index} is not a mapping")
     for key in raw:
@@ -161,8 +168,12 @@ def _map_span(index: int, raw: Any, chunk_sha: str | None, page_sizes, mode: str
     if chunk_sha is not None:
         if page is None:
             raise ChunkMappingError("span_missing_page")
-        if not (isinstance(raw["text"], str) and raw["text"].strip()):
+        # A span without printed text is allowed only in a chunk that itself asserts no source_text
+        # (a layout fallback chunk); otherwise the printed text it claims has nothing behind it.
+        if source_text_present and not (isinstance(raw["text"], str) and raw["text"].strip()):
             raise ChunkMappingError("span_missing_text")
+        if not source_text_present and raw["text"] is not None:
+            raise ChunkMappingError("span_text_without_source_text")
     label = raw["printed_page_label"]
     if label is not None and not (isinstance(label, str) and label):
         raise ChunkMappingError("invalid_span:printed_page_label")

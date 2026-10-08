@@ -13,8 +13,10 @@ from typing import Annotated
 
 from pydantic import Field, model_validator
 
-from .base import VOCAB, Contract, ContractError, Outcome, reject_foreign_ids
-from .runtime import BoundInput, PredicateRequest
+from .base import VOCAB, Contract, ContractError, Outcome, Record, reject_foreign_ids
+from .governance import ID_EDITION
+from .runtime import IDENT, BoundInput, PredicateRequest
+from .source import SourceSpan
 
 _D = VOCAB["decision"]
 _Coverage = Annotated[str, Field(pattern="^(" + "|".join(_D["rule_coverage"]) + ")$")]
@@ -28,7 +30,9 @@ class DecisionOutcome(Contract):
     SCHEMA_VERSION = "bintanong-decision-v1"
     synthetic: bool
     outcome: Outcome()
-    predicate: _Text
+    # A registered predicate name only: lower-case identifier, so no Prolog syntax (":-", ".", brackets,
+    # spaces) can ride in it. Whether the name is registered is the capability registry's question.
+    predicate: str = Field(pattern=IDENT, max_length=64)
     predicate_supported: bool
     rule_coverage: _Coverage
     prerequisite_rule_state: _PrereqState | None
@@ -68,6 +72,20 @@ class DecisionOutcome(Contract):
         return self
 
 
+class DecisionScope(Record):
+    """What a decision is about: the knowledge release and the source editions its rules come from."""
+
+    knowledge_release_id: str = Field(pattern=r"^release-[a-z0-9-]+$")
+    edition_ids: tuple[Annotated[str, Field(pattern=ID_EDITION)], ...] = Field(min_length=1)
+    scope_ids: tuple[_Text, ...] = ()
+
+    @model_validator(mode="after")
+    def _unique(self):
+        if len(set(self.edition_ids)) != len(self.edition_ids):
+            raise ValueError("duplicate edition ids in one scope")
+        return self
+
+
 class SymbolicResult(Contract):
     SCHEMA_VERSION = "bintanong-symbolic-result-v1"
     decision: DecisionOutcome
@@ -75,13 +93,20 @@ class SymbolicResult(Contract):
     inputs: tuple[BoundInput, ...]
     rule_ids: tuple[Annotated[str, Field(min_length=1)], ...]
     rule_bundle_version: str | None = Field(min_length=1)
+    # Required for eligible and ineligible; an unsupported or error result has no scope or rule spans to give.
+    scope: DecisionScope | None = None
+    rule_spans: tuple[SourceSpan, ...] = ()
 
     @model_validator(mode="after")
     def _rules(self):
         errs = []
         try:
-            reject_foreign_ids({"rule_ids": self.rule_ids, "capability": self.capability,
-                                "rule_bundle_version": self.rule_bundle_version}, "institutional")
+            reject_foreign_ids({"decision": self.decision.model_dump(mode="json"), "rule_ids": self.rule_ids,
+                                "capability": self.capability, "rule_bundle_version": self.rule_bundle_version,
+                                "scope": self.scope.model_dump(mode="json") if self.scope else None,
+                                "rule_spans": [s.model_dump(mode="json") for s in self.rule_spans],
+                                "inputs": [{"name": i.name, "value": i.value} for i in self.inputs]},
+                               "institutional")
         except ValueError as exc:
             errs.append(str(exc))
         names = [i.name for i in self.inputs]
@@ -94,6 +119,16 @@ class SymbolicResult(Contract):
             errs.append(f"{outcome} needs the rule ids and the rule bundle version it was derived from")
         if outcome == "unsupported" and (self.rule_ids or self.rule_bundle_version):
             errs.append("an unsupported predicate cannot cite rules")
+        if outcome in ("eligible", "ineligible"):
+            if self.scope is None:
+                errs.append(f"{outcome} needs its scope (knowledge release and source editions)")
+            if not self.rule_spans:
+                errs.append(f"{outcome} needs the rule source spans it was derived from")
+        if outcome in ("unsupported", "error") and self.rule_spans:
+            errs.append(f"{outcome} cannot cite rule source spans")
+        for i, s in enumerate(self.rule_spans):
+            if not s.is_complete or s.version_id is None:
+                errs.append(f"rule span {i} must be anchored, name its source version and carry printed text")
         if errs:
             raise ValueError("; ".join(errs))
         return self

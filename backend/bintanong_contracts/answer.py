@@ -13,7 +13,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
 
-from .base import Contract, ContractError, Record, foreign_ids
+from .base import Contract, ContractError, Record, Route, foreign_ids
 from .governance import SHA256, ID_VER, SessionFact, SourceConflict
 from .runtime import RetrievalResult
 from .symbolic import DecisionOutcome, SymbolicResult
@@ -34,7 +34,7 @@ _Text = Annotated[str, Field(min_length=1)]
 class EvidenceBundle(Contract):
     SCHEMA_VERSION = "bintanong-evidence-bundle-v1"
     request_id: str = Field(pattern=REQUEST_ID)
-    route: Literal["RAG", "Hybrid", "Symbolic"]
+    route: Route()
     knowledge_release_id: str = Field(pattern=r"^release-[a-z0-9-]+$")
     retrieval: RetrievalResult | None
     symbolic: SymbolicResult | None
@@ -59,6 +59,8 @@ class EvidenceBundle(Contract):
         facts = {f.fact_id: f for f in self.session_facts}
         if len(facts) != len(self.session_facts):
             errs.append("duplicate session fact ids")
+        if len({f.session_id for f in self.session_facts}) > 1:
+            errs.append("session facts from more than one session in one bundle")
 
         if sym is not None:
             errs += self._symbolic_rules(sym, facts)
@@ -71,9 +73,7 @@ class EvidenceBundle(Contract):
 
         institutional = {"retrieval": ret.model_dump(mode="json") if ret else None,
                          "conflicts": [c.model_dump(mode="json") for c in self.conflicts],
-                         "symbolic": None if sym is None else {
-                             "decision": sym.decision.model_dump(mode="json"), "rule_ids": list(sym.rule_ids),
-                             "capability": sym.capability, "rule_bundle_version": sym.rule_bundle_version}}
+                         "symbolic": None if sym is None else _without_fact_refs(sym)}
         leaked = foreign_ids(institutional, "institutional")
         if leaked:
             errs.append(f"private id(s) {sorted(set(leaked))} appear in institutional evidence")
@@ -90,6 +90,10 @@ class EvidenceBundle(Contract):
             errs.append(f"claims {sorted(extra)} are not permitted for a {outcome} symbolic outcome")
         if d.synthetic and claims - {"abstention", "error_report"}:
             errs.append("a synthetic decision establishes no claim")
+        if outcome in ("eligible", "ineligible"):
+            if not sym.inputs:
+                errs.append(f"a {outcome} decision rests on no input; it needs the confirmed facts it was derived from")
+            errs += [f"a {outcome} decision input {i.name} cites no session fact" for i in sym.inputs if i.fact_ref is None]
         for i in sym.inputs:
             if i.fact_ref is None:
                 continue
@@ -123,6 +127,14 @@ class Citation(Record):
     locator_ref: _Text
 
 
+def _without_fact_refs(sym: SymbolicResult) -> dict:
+    """The institutional part of a symbolic result: an input may cite a private fact, nothing else may."""
+    data = sym.model_dump(mode="json")
+    for i in data["inputs"]:
+        i.pop("fact_ref")
+    return data
+
+
 class ValidationResult(Record):
     passed: bool
     checks: tuple[_Text, ...]
@@ -132,6 +144,8 @@ class ValidationResult(Record):
     def _consistent(self):
         if self.passed == bool(self.failures):
             raise ValueError("validation passed exactly when it lists no failure")
+        if self.passed and not self.checks:
+            raise ValueError("a passed validation names at least one check that ran")
         return self
 
 
@@ -151,7 +165,7 @@ class AnswerEnvelope(Contract):
     status: Literal["answered", "abstained", "clarification_needed", "error"]
     language: Literal["en", "tl", "taglish"]
     text: _Text
-    route: Literal["RAG", "Hybrid", "Symbolic"] | None
+    route: Route() | None
     decision: DecisionOutcome | None
     citations: tuple[Citation, ...]
     validation: ValidationResult
@@ -174,16 +188,17 @@ class AnswerEnvelope(Contract):
                 errs.append("an answer needs a route")
             if self.route in ("Symbolic", "Hybrid") and d is None:
                 errs.append(f"a {self.route} answer needs its symbolic decision; passages alone cannot stand in")
-            if self.route == "RAG" and not self.citations:
-                errs.append("a RAG answer needs at least one citation")
+            if not self.citations:
+                errs.append(f"a {self.route} answer needs at least one citation")
         if self.status == "error":
             if self.citations:
                 errs.append("an error cites nothing")
             if self.validation.passed:
                 errs.append("an error cannot carry a passed validation")
-        leaked = foreign_ids([c.model_dump(mode="json") for c in self.citations], "institutional")
+        leaked = foreign_ids({"text": self.text, "citations": [c.model_dump(mode="json") for c in self.citations],
+                              "decision": d.model_dump(mode="json") if d else None}, "institutional")
         if leaked:
-            errs.append(f"private id(s) {sorted(set(leaked))} appear in citations")
+            errs.append(f"private id(s) {sorted(set(leaked))} appear in the answer text, citations or decision")
         if errs:
             raise ValueError("; ".join(errs))
         return self
@@ -208,7 +223,8 @@ def check_envelope_against_bundle(envelope: AnswerEnvelope, bundle: EvidenceBund
         if chunk is None:
             errs.append(f"citation {cite.chunk_id[:8]} was not retrieved")
             continue
-        ids = {i for s in chunk.spans for i in (*s.locator.cell_ids, *s.locator.item_ids, s.locator.ref or "")}
+        ids = {i for s in chunk.spans for i in (*s.locator.cell_ids, *s.locator.item_ids, s.locator.ref or "",
+                                                  "/".join(s.locator.section_path))}
         if (cite.byte_sha256, cite.version_id) != (chunk.byte_sha256, chunk.version_id):
             errs.append(f"citation {cite.chunk_id[:8]} names other bytes or version than the chunk")
         elif cite.page not in {s.page for s in chunk.spans} or cite.locator_ref not in ids:
