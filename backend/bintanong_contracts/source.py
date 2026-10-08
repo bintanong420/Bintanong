@@ -230,8 +230,10 @@ def joined_span_text(spans) -> str:
 
 
 def span_identity(span: SourceSpan) -> tuple:
-    """Two spans with the same identity are the same span written twice. Distinct spans may share a cell."""
-    return (span.byte_sha256, span.page, span.locator.model_dump_json(), span.text)
+    """Two spans with the same identity are the same span written twice. Distinct spans may share a cell.
+    The text is compared with whitespace normalised, so a trailing space does not make a copy a different span."""
+    return (span.byte_sha256, span.page, span.locator.model_dump_json(),
+            None if span.text is None else canonical_text(span.text))
 
 
 class RegisterBinding(Record):

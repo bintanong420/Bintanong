@@ -5,6 +5,11 @@ token-count methods, recomputes them to catch stale or altered chunks, and raise
 with a stable `reason` for anything it cannot map. The extractor does not record the page size next
 to a bounding box; this adapter will not invent one. Pass `page_sizes` or choose
 on_missing_page_size="omit_and_report" to drop the box with a reported gap.
+
+Known extractor-side limit: for a table-serialization chunk the extractor hashed the raw text and then dropped
+it, so when cleaning changed the text (soft hyphen, dash variants, superscripts) the hash cannot be recomputed
+and the chunk is rejected as content_hash_mismatch. That cannot be told from tampering, so the reason is not
+weakened or renamed; keeping the raw text (or a second hash) in the chunk is an owner decision.
 """
 
 from __future__ import annotations
@@ -19,7 +24,8 @@ from typing import Any
 from pydantic import ValidationError
 
 from .base import VOCAB, ContractError, is_plain_filename
-from .source import Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, privileged_key_paths
+from .source import (Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, privileged_key_paths,
+                     span_identity)
 
 CHUNKER_VERSION = "palsu-chunker-v1"
 ESTIMATE_METHOD = "estimate-v1"
@@ -105,7 +111,7 @@ def adapt_chunk(raw: Any, *, page_sizes: Mapping[tuple[str, int], tuple[float, f
     # as the extractor's term schedules share header cells. A strict default the owner may overrule.
     seen: set = set()
     for s in spans:
-        identity = (s.page, s.locator.model_dump_json(), s.text)
+        identity = span_identity(s)
         if identity in seen:
             raise ChunkMappingError("duplicate_source_location", f"identical span on page {s.page}")
         seen.add(identity)
