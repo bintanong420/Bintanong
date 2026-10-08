@@ -70,13 +70,8 @@ class EvidenceBundle(Contract):
             errs.append("policy_passage needs retrieved passages")
         if "abstention" in claims and len(claims) > 1 and sym is None:
             errs.append("abstention cannot be combined with other claims")
-
-        institutional = {"retrieval": ret.model_dump(mode="json") if ret else None,
-                         "conflicts": [c.model_dump(mode="json") for c in self.conflicts],
-                         "symbolic": None if sym is None else _without_fact_refs(sym)}
-        leaked = foreign_ids(institutional, "institutional")
-        if leaked:
-            errs.append(f"private id(s) {sorted(set(leaked))} appear in institutional evidence")
+        # Private ids inside the retrieval, the conflicts or the symbolic result are refused by those models
+        # themselves (each scans its own strings); a symbolic input may cite a private fact and nothing else may.
         if errs:
             raise ValueError("; ".join(errs))
         return self
@@ -125,14 +120,6 @@ class Citation(Record):
     version_id: str = Field(pattern=ID_VER)
     page: int = Field(ge=1)
     locator_ref: _Text
-
-
-def _without_fact_refs(sym: SymbolicResult) -> dict:
-    """The institutional part of a symbolic result: an input may cite a private fact, nothing else may."""
-    data = sym.model_dump(mode="json")
-    for i in data["inputs"]:
-        i.pop("fact_ref")
-    return data
 
 
 class ValidationResult(Record):

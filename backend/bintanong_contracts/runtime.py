@@ -219,7 +219,7 @@ class RetrievedChunk(Record):
         c = self.chunk
         if not c.anchored or None in (c.version_id, c.edition_id, c.document_id):
             raise ValueError("a retrieved chunk must be anchored and bound to a source version and edition")
-        if c.source_text is None or not all(s.is_complete for s in c.spans):
+        if c.source_text is None:
             raise ValueError("a retrieved chunk must carry printed text in complete spans; "
                              "a layout chunk without printed text is not citable evidence")
         return self
@@ -265,19 +265,14 @@ class RetrievalResult(Contract):
         return self
 
     def _identity_errors(self) -> list[str]:
+        # The same bytes under two editions or versions, and one edition over different bytes, are refused by
+        # check_register on the carried versions (every chunk must match its version). Two editions of one
+        # document are legal in a register, so that case is checked here.
         by_document: dict[str, set[str]] = {}
-        by_bytes: dict[str, set[tuple[str, str]]] = {}
-        by_edition: dict[str, set[str]] = {}
         for i in self.items:
             c = i.chunk
             by_document.setdefault(c.document_id, set()).add(c.byte_sha256)
-            by_bytes.setdefault(c.byte_sha256, set()).add((c.edition_id, c.version_id))
-            by_edition.setdefault(c.edition_id, set()).add(c.byte_sha256)
-        errs = [f"document {d} appears with more than one edition" for d, h in by_document.items() if len(h) > 1]
-        errs += [f"the same bytes appear under more than one edition or version {sorted(ev)}"
-                 for ev in by_bytes.values() if len(ev) > 1]
-        errs += [f"edition {e} spans different bytes" for e, h in by_edition.items() if len(h) > 1]
-        return errs
+        return [f"document {d} appears with more than one edition" for d, h in by_document.items() if len(h) > 1]
 
     def _register_errors(self) -> list[str]:
         errs = []

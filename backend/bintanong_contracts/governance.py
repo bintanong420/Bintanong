@@ -258,11 +258,10 @@ class SourceDocumentVersion(Contract):
         return errs
 
     def _effectivity_errors(self) -> list[str]:
-        frm, to = self.effective_from, self.effective_to
-        if frm.state in OBSERVED and to.state in OBSERVED:
-            a, b = _date_span(frm.value), _date_span(to.value)
-            if a and b and b[1] < a[0]:
-                return ["effective_to is before effective_from"]
+        # A pending or not-stated field carries no value (checked above), so only observed dates are compared.
+        a, b = _date_span(self.effective_from.value), _date_span(self.effective_to.value)
+        if a and b and b[1] < a[0]:
+            return ["effective_to is before effective_from"]
         return []
 
     def _approval_errors(self, evs: dict[str, Evidence]) -> list[str]:
