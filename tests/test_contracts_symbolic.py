@@ -214,3 +214,16 @@ def test_a_result_must_agree_with_the_registry():
         reg.check_result(_result(E, inputs=[]))
     # an error report for any predicate stays an error
     reg.check_result(_result(X))
+
+
+# ---------------------------------------------------------------- mutation-driven additions
+def test_unknown_may_rest_on_coverage_alone():
+    d = symbolic.DecisionOutcome.parse(mut(U, missing_facts=[], rule_coverage="partial"))
+    assert d.rule_coverage == "partial" and not d.missing_facts
+    bad(symbolic.DecisionOutcome, mut(U, missing_facts=[], rule_coverage="verified"))
+
+
+def test_symbolic_result_rejects_duplicate_input_names_and_rule_ids():
+    dup = [{"name": "c", "value": "x", "fact_ref": None}, {"name": "c", "value": "y", "fact_ref": None}]
+    with pytest.raises((ValidationError, base.ContractError)):
+        _result(E, inputs=dup)

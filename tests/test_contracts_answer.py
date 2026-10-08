@@ -196,7 +196,7 @@ def test_a_synthetic_decision_establishes_no_claim():
     b = bundle()
     b["symbolic"]["decision"]["synthetic"] = True
     bad(answer.EvidenceBundle, b)
-    b = bundle(outcome="unsupported", claims=("abstention",))
+    b = bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=("abstention",))
     b["symbolic"]["decision"]["synthetic"] = True
     answer.EvidenceBundle.parse(b)
 
@@ -309,3 +309,67 @@ def test_an_answer_needs_permitting_claims():
     with_citation = answer.AnswerEnvelope.parse(envelope(route="Hybrid", decision=decision("eligible")))
     with pytest.raises(base.ContractError, match="permitted"):
         answer.check_envelope_against_bundle(with_citation, only_decision)
+
+
+# ---------------------------------------------------------------- mutation-driven additions
+def test_symbolic_route_needs_a_symbolic_result_whatever_the_claims():
+    bbad(route="Symbolic", sym=False, retrieval=False, facts=(), claims=())
+    bbad(route="Symbolic", sym=False, facts=(), claims=())
+
+
+def test_without_a_symbolic_result_no_decision_claim_and_no_mixed_abstention():
+    bbad(route="RAG", sym=False, facts=(), claims=("decision_eligible",))
+    bbad(route="RAG", sym=False, facts=(), claims=("bogus",))
+    bbad(route="RAG", sym=False, facts=(), claims=("policy_passage", "abstention"))
+
+
+def test_an_unknown_outcome_in_a_blocked_capability_must_list_the_blocking_conflict():
+    blocking = conflict("enrollment_eligibility")
+    b = bundle(outcome="unknown", claims=("unknown_explanation",), conflicts=[blocking])
+    b["symbolic"]["decision"].update(rule_coverage="partial")     # does not list conflict-synth-0001
+    bad(answer.EvidenceBundle, b)
+
+
+def test_a_decision_needs_a_symbolic_or_hybrid_route():
+    ebad(status="clarification_needed", route=None, decision=decision("unknown"), citations=[])
+    ebad(status="answered", route="RAG", decision=decision("eligible"))
+
+
+def test_an_error_envelope_cites_nothing_and_never_passes_validation():
+    err = dict(status="error", route="Symbolic", decision=decision("error"))
+    answer.AnswerEnvelope.parse(envelope(**err, citations=[], validation={"passed": False, "checks": [], "failures": ["x"]}))
+    ebad(**err, citations=[cite()], validation={"passed": False, "checks": [], "failures": ["x"]})
+    ebad(**err, citations=[], validation={"passed": True, "checks": [], "failures": []})
+
+
+def _hybrid_pair(**env_over):
+    b = answer.EvidenceBundle.parse(bundle())
+    e = answer.AnswerEnvelope.parse(envelope(route="Hybrid", decision=decision("eligible"), citations=[cite()], **env_over))
+    return e, b
+
+
+def test_each_envelope_bundle_mismatch_is_named():
+    cases = [
+        (dict(request_id="req-other"), "request id"),
+        (dict(route="Symbolic"), "route"),
+        (dict(decision=decision("eligible", evidence_refs=["other-span"])), "decision differs"),
+        (dict(citations=[cite(7)]), "was not retrieved"),
+        (dict(citations=[{**cite(), "byte_sha256": "9" * 64}]), "other bytes or version"),
+        (dict(citations=[{**cite(), "page": 2}]), "page or locator"),
+        (dict(citations=[{**cite(), "locator_ref": "t0-c9"}]), "page or locator"),
+    ]
+    for over, text in cases:
+        e, b = _hybrid_pair()
+        e = answer.AnswerEnvelope.parse({**json.loads(base.canonical_json(e)), **json.loads(json.dumps(over))})
+        with pytest.raises(base.ContractError, match=text):
+            answer.check_envelope_against_bundle(e, b)
+
+
+def test_abstention_needs_a_claim_that_allows_it():
+    b = answer.EvidenceBundle.parse(bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=("abstention",)))
+    ok = answer.AnswerEnvelope.parse(envelope(status="abstained", route="Symbolic", decision=decision("unsupported"),
+                                              citations=[], validation={"passed": True, "checks": [], "failures": []}))
+    answer.check_envelope_against_bundle(ok, b)
+    none = answer.EvidenceBundle.parse(bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=()))
+    with pytest.raises(base.ContractError, match="do not allow status"):
+        answer.check_envelope_against_bundle(ok, none)

@@ -108,3 +108,20 @@ def _chunk():
         "token_count": {"count": 3, "method": "estimate-v1", "exact": False,
                         "includes_prefix_and_special_tokens": False},
         "source_label": "x", "type_fields": {}})
+
+
+# ---------------------------------------------------------------- mutation-driven additions
+def test_vector_length_is_checked_independently_of_the_norm():
+    bad(dimension=3, vector=[0.5, 0.5, 0.5, 0.5])        # four unit-norm values, dimension says three
+    bad(dimension=5, vector=[0.5, 0.5, 0.5, 0.5])
+
+
+def test_a_zero_vector_is_not_an_embedding_even_when_unnormalized():
+    bad(normalization="none", vector=[0.0, 0.0, 0.0, 0.0])
+
+
+def test_an_embedding_for_another_chunk_is_named_even_when_the_hash_matches():
+    chunk = _chunk()
+    other = embedding.EmbeddingRecord.parse(rec(chunk_id="a" * 64, chunk_content_hash=chunk.content_hash))
+    with pytest.raises(base.ContractError, match="another chunk"):
+        embedding.check_embedding_matches_chunk(other, chunk)

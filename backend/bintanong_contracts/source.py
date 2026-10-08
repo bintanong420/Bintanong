@@ -204,6 +204,8 @@ class Chunk(Contract):
                     errs.append(f"span {i} digest differs from the chunk digest")
             if not self.source_text.strip():
                 errs.append("an anchored chunk needs printed source_text")
+            if any(s.version_id not in (None, self.version_id) for s in self.spans):
+                errs.append("a span names a different source version than the chunk")
             seen = [loc for s in self.spans for loc in _locations(s)]
             if len(set(seen)) != len(seen):
                 errs.append("duplicate source location across spans")
@@ -236,25 +238,14 @@ def check_chunk_binding(chunk: Chunk, version: SourceDocumentVersion) -> None:
     if chunk.source_verification != version.verification_state.state:
         errs.append(f"stale or inflated verification claim {chunk.source_verification!r}; "
                     f"register says {version.verification_state.state!r}")
-    errs += [f"span {i}: {e}" for i, s in enumerate(chunk.spans) for e in _span_errors(s, version)]
     if errs:
         raise ContractError("; ".join(errs))
-
-
-def _span_errors(span: SourceSpan, version: SourceDocumentVersion) -> list[str]:
-    try:
-        check_span_binding(span, version)
-    except ContractError as exc:
-        return [str(exc)]
-    return []
 
 
 def bind_chunk(chunk: Chunk, version: SourceDocumentVersion) -> Chunk:
     """A copy of `chunk` bound to `version`. The verification state is copied from the register, never raised."""
     if not chunk.anchored:
         raise ContractError("an unanchored chunk cannot be bound to a source version")
-    if chunk.byte_sha256 != version.byte_sha256:
-        raise ContractError("chunk digest does not match the registered bytes (source mutated or other edition)")
     data = chunk.model_dump(mode="json")
     data.update(version_id=version.version_id, edition_id=version.edition_id, document_id=version.document_id,
                 source_verification=version.verification_state.state)

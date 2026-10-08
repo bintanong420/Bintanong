@@ -263,3 +263,15 @@ def test_empty_result_must_say_so():
     ok = runtime.RetrievalResult.parse(fx.retrieval([], coverage="none"))
     assert ok.items == ()
     bad(runtime.RetrievalResult, fx.retrieval([], coverage="partial"))
+
+
+# ---------------------------------------------------------------- mutation-driven additions
+def test_a_route_with_missing_facts_must_become_a_clarification():
+    bad(runtime.RoutingDecision, routing(route="RAG", required_facts=["x"], missing_facts=["x"]))
+    bad(runtime.RoutingDecision, routing(route="Symbolic", predicate_request=predicate(),
+                                         required_facts=["x"], missing_facts=["x"]))
+
+
+def test_a_duplicate_chunk_is_rejected_even_with_valid_ranks_and_scores():
+    dup = fx.item(1, 2, 0.5)
+    bad(runtime.RetrievalResult, fx.retrieval([fx.item(1, 1, 0.9), dup]))

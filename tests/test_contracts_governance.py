@@ -353,3 +353,35 @@ def test_session_fact_is_session_only_and_in_the_private_namespace():
     fbad(mut(f, lambda r: r.update(session_id="doc-synth")))
     fbad(mut(f, lambda r: r.update(origin="staff_ledger")))
     fbad(mut(f, lambda r: r["fact"].update(value="edition-synth-1")))  # an institutional id inside a private fact
+
+
+# ---------------------------------------------------------------- mutation-driven additions
+def test_authorization_ref_must_match_the_evidence_kind_even_when_uncited():
+    bad(mut(register()[1], lambda r: r["evidence"][0].update(authorization_ref="auth-x")))
+    bad(mut(register()[1], lambda r: r["evidence"].append(ev("ev-q", "issuing_office_authorization", "issuing_office"))))
+    bad(mut(register()[1], lambda r: r["evidence"].append(
+        ev("ev-q", "issuing_office_confirmation", "issuing_office", authorization_ref="auth-x"))))
+
+
+def test_transition_rows_demand_the_authorization_ref_exactly_where_the_table_says():
+    def e(kind, by, **kw):
+        return gov.Evidence.model_validate(ev("ev-t", kind, by, **kw))
+    assert gov.evidence_authorizes("approval_state", "approved", e("issuing_office_authorization", "issuing_office", authorization_ref="a"))
+    assert not gov.evidence_authorizes("approval_state", "approved", e("issuing_office_authorization", "issuing_office"))
+    assert not gov.evidence_authorizes("approval_state", "approved", e("issuing_office_authorization", "researcher", authorization_ref="a"))
+    assert gov.evidence_authorizes("verification_state", "verified", e("issuing_office_confirmation", "issuing_office"))
+    assert not gov.evidence_authorizes("verification_state", "verified",
+                                       e("issuing_office_confirmation", "issuing_office", authorization_ref="a"))
+    assert not gov.evidence_authorizes("verification_state", "verified", e("extraction_audit", "issuing_office"))
+
+
+def test_a_state_without_an_evidence_reference_says_so():
+    with pytest.raises(ValidationError, match="without an evidence reference"):
+        gov.SourceDocumentVersion.parse(mut(
+            register()[1], lambda r: r["verification_state"].update(state="verified", evidence_ref=None)))
+
+
+def test_approval_needs_the_issuer_verified_not_merely_not_stated():
+    def f(r):
+        r["issuer"].update(value=None, state="not_stated", evidence_ref="ev-b7", basis=None)
+    bad(mut(approved_record(), f))

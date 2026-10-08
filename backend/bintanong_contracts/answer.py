@@ -20,8 +20,7 @@ from .symbolic import DecisionOutcome, SymbolicResult
 
 REQUEST_ID = r"^req-[a-z0-9-]+$"
 # Claim names. Each decision claim must match the symbolic outcome; none is an enrollment approval.
-CLAIMS = ("policy_passage", "decision_eligible", "decision_ineligible", "unknown_explanation",
-          "abstention", "error_report")
+# A name outside these sets is refused by the checks below (with a symbolic result: the outcome set).
 _ALLOWED_BY_OUTCOME = {
     "eligible": {"decision_eligible", "policy_passage"},
     "ineligible": {"decision_ineligible", "policy_passage"},
@@ -55,9 +54,6 @@ class EvidenceBundle(Contract):
             errs.append("a Hybrid bundle needs both retrieval and a symbolic result; a partial bundle is refused")
         if ret is not None and ret.knowledge_release_id != self.knowledge_release_id:
             errs.append("retrieval comes from a different knowledge release (stale or mixed)")
-        bad = [c for c in claims if c not in CLAIMS]
-        if bad:
-            errs.append(f"unknown claim(s) {bad}")
         if len(set(claims)) != len(claims):
             errs.append("duplicate claims")
         facts = {f.fact_id: f for f in self.session_facts}
@@ -92,8 +88,6 @@ class EvidenceBundle(Contract):
         extra = claims - _ALLOWED_BY_OUTCOME[outcome]
         if extra:
             errs.append(f"claims {sorted(extra)} are not permitted for a {outcome} symbolic outcome")
-        if outcome == "error" and len(claims) > 1:
-            errs.append("an error outcome permits only an error report")
         if d.synthetic and claims - {"abstention", "error_report"}:
             errs.append("a synthetic decision establishes no claim")
         for i in sym.inputs:
@@ -170,8 +164,6 @@ class AnswerEnvelope(Contract):
             errs.append(f"status {self.status!r} cannot carry a {d.outcome!r} decision")
         if d is not None and self.route not in ("Symbolic", "Hybrid"):
             errs.append("a structured decision needs a Symbolic or Hybrid route")
-        if self.route == "RAG" and d is not None:
-            errs.append("a RAG answer carries no structured decision")
         keys = [(c.chunk_id, c.locator_ref) for c in self.citations]
         if len(set(keys)) != len(keys):
             errs.append("duplicate citation")
@@ -206,8 +198,6 @@ def check_envelope_against_bundle(envelope: AnswerEnvelope, bundle: EvidenceBund
     sym = bundle.symbolic
     if envelope.decision is not None and (sym is None or envelope.decision != sym.decision):
         errs.append("decision differs from the bundle's symbolic decision")
-    if envelope.status == "answered" and sym is not None and envelope.decision is None:
-        errs.append("an answer must carry the bundle's symbolic decision")
     claims = set(bundle.permitted_claims)
     retrieved = {}
     for item in (bundle.retrieval.items if bundle.retrieval else ()):

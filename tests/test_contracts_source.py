@@ -316,3 +316,46 @@ def test_bind_chunk_produces_a_bound_copy_and_never_a_verified_claim_beyond_the_
         source.bind_chunk(source.Chunk.parse(chunk_dict(byte_sha256=SHA_B, spans=[span_dict(byte_sha256=SHA_B)])), reg)
     with pytest.raises(base.ContractError, match="unanchored"):
         source.bind_chunk(source.Chunk.parse(chunk_dict(byte_sha256=None, anchored=False, spans=[])), reg)
+
+
+# ---------------------------------------------------------------- mutation-driven additions
+def test_only_an_exact_count_can_claim_prefix_and_special_token_coverage():
+    with pytest.raises(ValidationError, match="only an exact count"):
+        source.TokenCount.model_validate(tc(method="unspecified", exact=False, includes_prefix_and_special_tokens=True))
+
+
+def test_page_size_must_be_positive_even_without_a_box():
+    for size in ([0, 792], [612, 0], [-1, 5]):
+        badspan(page_size=size)
+    assert source.SourceSpan.parse(span_dict(page_size=[612, 792])).bbox is None
+
+
+def test_anchor_flag_alone_is_checked():
+    badchunk(anchored=False, spans=[])                       # bytes present, flag false
+    badchunk(byte_sha256=None, anchored=True, spans=[])      # flag true, no bytes
+
+
+def test_anchored_chunk_needs_non_blank_printed_text_even_with_a_matching_hash():
+    badchunk(source_text="", content_hash=digest("", "Summary"))
+    badchunk(source_text="  ", content_hash=digest("  ", "Summary"))
+
+
+def test_unanchored_chunk_cannot_hold_an_anchored_span():
+    badchunk(byte_sha256=None, anchored=False, spans=[span_dict()])
+
+
+def test_a_span_cannot_name_another_version_than_its_chunk():
+    s = span_dict()
+    s["version_id"] = "ver-synth-handbook-1"
+    badchunk(version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",
+             document_id="doc-synth-handbook", source_verification="observed", spans=[s])
+    s["version_id"] = "ver-synth-handbook-2"
+    source.Chunk.parse(chunk_dict(version_id="ver-synth-handbook-2", edition_id="edition-synth-handbook-2",
+                                  document_id="doc-synth-handbook", source_verification="observed", spans=[s]))
+
+
+def test_chunk_digest_mismatch_is_named_at_the_chunk_level():
+    reg = _register(SHA_A)
+    other = bound(byte_sha256=SHA_B, spans=[span_dict(byte_sha256=SHA_B)])
+    with pytest.raises(base.ContractError, match="chunk digest"):
+        source.check_chunk_binding(other, reg)
