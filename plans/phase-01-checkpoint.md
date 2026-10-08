@@ -1,15 +1,17 @@
 ---
 artifact: phase-checkpoint
 phase: 1
-status: in_progress
-sequence: 7
+status: superseded
+sequence: 8
 plan: plans/phase-01-source-governance-contracts-plan.md
-head_commit: b8b5014
+head_commit: ee02fd14b4622c38fd432177d5357736dfc77006
 working_tree: dirty
-updated_at: 2026-10-08T20:52:21+08:00
+updated_at: 2026-10-08T21:23:39+08:00
 ---
 
 # Phase 1 Checkpoint
+
+Superseded by [the Phase 1 final handoff](phase-01-handoff.md). Earlier task entries record their historical verification state; the handoff carries the final exit gate and unresolved source/benchmark limitations.
 
 ## Completed Tasks
 
@@ -28,7 +30,7 @@ updated_at: 2026-10-08T20:52:21+08:00
 
 ## Current Task
 
-- Awaiting Task 6 independent review, honest exit-gate statement and final handoff. Phase 1 is not complete.
+- None active. Tasks 4 and 6 are complete at the documented software boundary. Both independent review axes found only Medium issues; all four confirmed inputs were repaired and regression-protected. Missing source-backed final coverage remains NOT MET.
 
 ## Repository State
 
@@ -67,7 +69,7 @@ updated_at: 2026-10-08T20:52:21+08:00
 - 2026-10-08: the owner explicitly instructed to continue with "the subphases of Phase 2 and Phase 1 prep and exec". This is the owner's go to FORMALLY START Phase 1 on this local branch only. It does not complete Phase 1, does not advance Phase 2, does not activate any institutional source, and does not authorize a merge or push.
 - Plan status uses the contract value `in_progress` (the artifact contract has no `active` status); `preparation_only` was removed as the contract requires.
 - The prospectus extractor/review/OCR workstream is parallel and does not advance this ledger. Extraction audit success, EXTRACTED, VERIFIED and content review are never institutional approval.
-- Open owner decisions: the Direct routing meaning (legacy Direct is refused by the adapter and is not a contract route), the list in docs/decisions/phase-01-contracts.md (now 21 items, including the strict defaults chosen in fix pass 2 for the owner to overrule: identical-spans-only, pinned-revision format, l2 tolerance, the year window, claim and control vocabularies, the negation and time-qualifier word lists, one chunker version per result, answered decisions needing citations, the vocabulary path resolved at import time) and the earlier list in docs/decisions/phase-01-source-governance.md. None was decided here.
+- Open owner decisions: the Direct routing meaning (legacy Direct is refused by the adapter and is not a contract route), the list in docs/decisions/phase-01-contracts.md (now 29 items, including the strict defaults chosen in fix pass 2 for the owner to overrule: identical-spans-only, pinned-revision format, l2 tolerance, the year window, claim and control vocabularies, the negation and time-qualifier word lists, one chunker version per result, answered decisions needing citations, the vocabulary path resolved at import time) and the earlier list in docs/decisions/phase-01-source-governance.md. None was decided here.
 
 ## Known Failures or Blockers
 
@@ -76,11 +78,11 @@ updated_at: 2026-10-08T20:52:21+08:00
 - The extractor does not record page size next to bounding boxes, so extractor chunks with boxes are rejected by the chunk adapter unless page sizes are supplied or the boxes are dropped with a reported gap.
 - Three of 61 real BSBA-HRM chunks do not map (layout chunks whose Docling text is asserted as source text while their spans carry none).
 - The 50 verified Taglish final cases do not exist and cannot until source-backed independent review and owner-authorized sources exist (coverage NOT MET, stated honestly by the validator).
-- The three Mediums of the Task 3 re-check were fixed in fix pass 3, which has had no further independent review (by design: no High remained). Task 6 must include a narrow check of that pass.
+- Task 6 independently inspected fix pass 3 with no new finding there. Spec found three evaluation Mediums and Standards one citation Medium; those were repaired with tests first. No High was reported, so no further independent re-check was run under the owner's rule.
 
 ## Next Action
 
-- Task 6: independent review (Spec and Standards) of governance, contracts and privacy including a narrow check of fix pass 3; state the exit gate honestly (missing authorized source coverage documented, not fabricated); write plans/phase-01-handoff.md per the artifact contract; run `phase_state.py validate` then `can-advance`. Only a complete handoff permits Phase 2.
+- Stop for the owner's explicit go before creating any Phase 2 plan. Read the complete handoff, then run the direct validate/can-advance gates. Candidate ingestion and read-only inspection do not approve sources; final source-backed evaluation and authority evidence remain pending.
 
 ## Do Not Repeat
 
