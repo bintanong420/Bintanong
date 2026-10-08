@@ -45,7 +45,7 @@ updated_at: 2026-10-10T12:00:00+08:00
 
 ## Decisions
 
-- 2026-10-08: the owner explicitly instructed Claude to continue with "the subphases of Phase 2 and Phase 1 prep and exec". This is the owner's go to FORMALLY START Phase 1 on this local branch only. It does not complete Phase 1, does not advance Phase 2, does not activate any institutional source, and does not authorize a merge or push.
+- 2026-10-08: the owner explicitly instructed to continue with "the subphases of Phase 2 and Phase 1 prep and exec". This is the owner's go to FORMALLY START Phase 1 on this local branch only. It does not complete Phase 1, does not advance Phase 2, does not activate any institutional source, and does not authorize a merge or push.
 - Plan status uses the contract value `in_progress` (the artifact contract has no `active` status); `preparation_only` was removed as the contract requires.
 - The prospectus extractor/review/OCR workstream is parallel and does not advance this ledger. Extraction audit success, EXTRACTED, VERIFIED and content review are never institutional approval.
 - Open owner decisions: the Direct routing meaning (legacy Direct is refused by the adapter and is not a contract route), the Task 3 list in docs/decisions/phase-01-contracts.md (page-size source, geometry tolerance, unconfirmed student facts, predicate request producer and registry authorization, conflict capability mapping, multi-edition comparison, intent taxonomy, exact token count convention, release ids, dependency declaration) and the earlier list in docs/decisions/phase-01-source-governance.md. None was decided here.
