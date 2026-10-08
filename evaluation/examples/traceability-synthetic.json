@@ -1,0 +1,29 @@
+{
+  "case_id": "syn-prereq-missing-en",
+  "chain": [
+    {
+      "detail": "Fictional printed sentence: COURSE-B requires a posted passing grade in COURSE-A. (synthetic page 1, locator sec-synth-1)",
+      "id": "span-synth-0001",
+      "kind": "source_span"
+    },
+    {
+      "detail": "Fictional chunk that quotes the sentence above; no real digest.",
+      "id": "chunk-synth-0001",
+      "kind": "chunk"
+    },
+    {
+      "detail": "Fictional rule draft: prerequisite COURSE-A passing grade posted.",
+      "id": "rule-synth-0001",
+      "kind": "rule"
+    },
+    {
+      "detail": "Development case whose gold outcome is unknown because the COURSE-A grade is missing.",
+      "id": "syn-prereq-missing-en",
+      "kind": "case"
+    }
+  ],
+  "note": "SYNTHETIC worked example of the source -> chunk -> rule -> case chain with fictional identifiers. It is not verified policy and binds no real source. The real binding belongs to Task 4.",
+  "schema_version": "bintanong-evaluation-traceability-example-v1",
+  "synthetic": true,
+  "verification_state": "synthetic_only"
+}

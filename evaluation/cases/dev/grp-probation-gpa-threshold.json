@@ -1,0 +1,104 @@
+[
+  {
+    "acceptable_claims": [
+      "Under the synthetic rule, a GPA of 1.9 is below the 2.0 minimum, so the good-standing requirement is not met."
+    ],
+    "adversarial_kinds": [],
+    "case_id": "syn-standing-gpa-en",
+    "category": "academic_standing",
+    "expected_control": null,
+    "expected_outcome": "ineligible",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-probation-gpa-threshold",
+    "language": "en",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "My GPA is 1.9 and the minimum for good standing is 2.0. Do I meet the requirement?",
+    "required_facts": [
+      "student GPA",
+      "minimum GPA rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: good standing requires a GPA of at least 2.0."
+  },
+  {
+    "acceptable_claims": [
+      "Ayon sa synthetic na patakaran, mas mababa ang 1.9 kaysa sa 2.0, kaya hindi natutugunan ang good standing."
+    ],
+    "adversarial_kinds": [],
+    "case_id": "syn-standing-gpa-tl",
+    "category": "academic_standing",
+    "expected_control": null,
+    "expected_outcome": "ineligible",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-probation-gpa-threshold",
+    "language": "tl",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "Ang GPA ko ay 1.9 at 2.0 ang pinakamababa para sa good standing. Sapat ba ito sa kailangan?",
+    "required_facts": [
+      "student GPA",
+      "minimum GPA rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: good standing requires a GPA of at least 2.0."
+  },
+  {
+    "acceptable_claims": [
+      "Ayon sa synthetic rule, mababa ang 1.9 sa 2.0 na minimum, kaya hindi ka pasok sa good standing."
+    ],
+    "adversarial_kinds": [],
+    "case_id": "syn-standing-gpa-tgl",
+    "category": "academic_standing",
+    "expected_control": null,
+    "expected_outcome": "ineligible",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-probation-gpa-threshold",
+    "language": "taglish",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "1.9 lang ang GPA ko pero 2.0 ang minimum sa good standing, qualified pa ba ako?",
+    "required_facts": [
+      "student GPA",
+      "minimum GPA rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: good standing requires a GPA of at least 2.0."
+  }
+]

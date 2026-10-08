@@ -1,0 +1,116 @@
+[
+  {
+    "acceptable_claims": [
+      "The COURSE-A result is not available, so eligibility for COURSE-B is unknown."
+    ],
+    "adversarial_kinds": [
+      "missing_facts"
+    ],
+    "case_id": "syn-prereq-missing-en",
+    "category": "prerequisites",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-missing-prereq-grade",
+    "language": "en",
+    "missing_facts": [
+      "confirmed COURSE-A result"
+    ],
+    "must_abstain": true,
+    "query": "Can Maria Fictional enroll in COURSE-B if her COURSE-A grade has not been posted yet?",
+    "required_facts": [
+      "COURSE-A grade",
+      "COURSE-B prerequisite rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: COURSE-B requires a posted passing grade in COURSE-A."
+  },
+  {
+    "acceptable_claims": [
+      "Wala pang resulta sa COURSE-A, kaya hindi pa matiyak kung maaari siyang kumuha ng COURSE-B."
+    ],
+    "adversarial_kinds": [
+      "missing_facts"
+    ],
+    "case_id": "syn-prereq-missing-tl",
+    "category": "prerequisites",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-missing-prereq-grade",
+    "language": "tl",
+    "missing_facts": [
+      "confirmed COURSE-A result"
+    ],
+    "must_abstain": true,
+    "query": "Maaari bang kumuha ng COURSE-B si Maria Fictional kung hindi pa nailalabas ang grado niya sa COURSE-A?",
+    "required_facts": [
+      "COURSE-A grade",
+      "COURSE-B prerequisite rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: COURSE-B requires a posted passing grade in COURSE-A."
+  },
+  {
+    "acceptable_claims": [
+      "Wala pang resulta ng COURSE-A, kaya hindi pa malinaw kung eligible ka sa COURSE-B."
+    ],
+    "adversarial_kinds": [
+      "missing_facts"
+    ],
+    "case_id": "syn-prereq-missing-tgl",
+    "category": "prerequisites",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-missing-prereq-grade",
+    "language": "taglish",
+    "missing_facts": [
+      "confirmed COURSE-A result"
+    ],
+    "must_abstain": true,
+    "query": "Pwede ba akong mag-enroll sa COURSE-B kung wala pang posted na grade ko sa COURSE-A?",
+    "required_facts": [
+      "COURSE-A grade",
+      "COURSE-B prerequisite rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: COURSE-B requires a posted passing grade in COURSE-A."
+  }
+]
