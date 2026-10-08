@@ -1,6 +1,6 @@
 # Phase 1 Task 2: source governance vocabulary and state transitions
 
-Status: draft vocabulary. It approves no source, no edition and no curriculum. Every example is synthetic with fictional locators. Python validators for these records are Phase 1 Task 3 (`backend/bintanong_contracts/`); the checks in `tests/test_source_governance_manifests.py` are test-local and exist so the data below can be verified now.
+Status: draft vocabulary. It approves no source, no edition and no curriculum. Every example is synthetic with fictional locators. Python validators for these records are Phase 1 Task 3 (`backend/bintanong_contracts/`); the checks in `tests/test_source_governance_manifests.py` are test-local and exist so the data below can be verified now. The package now exists; see `docs/decisions/phase-01-contracts.md`.
 
 Machine-readable files (all under `knowledge/manifests/`):
 
