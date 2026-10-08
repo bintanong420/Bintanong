@@ -305,3 +305,64 @@ def test_case_digest_is_content_hash():
     c = dev_case(1)
     assert pr.case_digest(c) == hashlib.sha256(pr.canonical_json(c).encode("utf-8")).hexdigest()
     assert json.loads(pr.canonical_json(c)) == c
+
+
+# ---------------------------------------------------------------- Task 6 SPEC regressions
+@pytest.mark.parametrize("field", ["query", "acceptable_claims"])
+@pytest.mark.parametrize("normalised", [False, True])
+def test_final_text_embedded_in_long_context_is_leakage(field, normalised):
+    c = final_case(1)
+    text = c[field] if field == "query" else c[field][0]
+    if normalised:
+        text = text.upper().replace(" ", "\u00a0\n").replace(".", "!")
+    example = " ".join(f"context{i}" for i in range(100)) + "\nFinal material: " + text
+    assert pr.similarity(text, example) < pr.NEAR_DUPLICATE_THRESHOLD
+    assert pr.prompt_example_findings([c], [example])[0]["code"] == "final_text_in_prompt_example"
+
+
+@pytest.mark.parametrize("query,example", [("car", "scar"), ("car", "cart"),
+                                          ("alpha beta", "beta alpha")])
+def test_literal_leakage_needs_whole_words_in_order(query, example):
+    c = final_case(1, acceptable_claims=[])
+    c["query"] = query
+    long_example = " ".join(f"context{i}" for i in range(100)) + " " + example
+    assert pr.prompt_example_findings([c], [long_example]) == []
+
+
+@pytest.mark.parametrize("wrong,extra_spans,registry", [
+    ("ver-unregistered-wrong-1", [], fx.REGISTRY),
+    ("ver-registered-other-1", [], {**fx.REGISTRY, "ver-registered-other-1": fx.SHA_A}),
+    (fx.VERSION_A, [fx.span(version_id="ver-registered-other-1", byte_sha256=fx.SHA_B)],
+     {**fx.REGISTRY, "ver-registered-other-1": fx.SHA_B}),
+])
+def test_declared_verified_version_must_resolve_to_all_gold_spans(wrong, extra_spans, registry):
+    c = final_case(1)
+    c["scope"]["version_id"] = wrong
+    c["gold_spans"] += extra_spans
+    report = pr.validate_case_set([c], registry=registry)
+    assert "unregistered_source" in codes(report)
+    assert report["integrity_ok"] is False
+    assert pr.coverage([c], registry)["verified_final_total"] == 0
+    with pytest.raises(ValueError, match="source-resolved"):
+        pr.make_freeze([c], registry=registry)
+
+
+def test_repeated_case_ids_cannot_create_independent_coverage_or_a_freeze():
+    originals = [final_case(n + 1, group=group_for("final", f"grp-c{n}"), category=cat)
+                 for n, cat in enumerate(CATEGORIES)]
+    repeated = [case for case in originals for _ in range(10)]
+    assert len({c["case_id"] for c in repeated}) == 5
+    cov = pr.coverage(repeated, registry=fx.REGISTRY)
+    assert cov["met"] is False and cov["verified_final_total"] == 0
+    assert pr.coverage_claim_findings(repeated, {"met": True}, registry=fx.REGISTRY)
+    assert "duplicate_case_id" in codes(validate(repeated, registry=fx.REGISTRY))
+    with pytest.raises(ValueError, match="duplicate"):
+        pr.make_freeze(repeated, registry=fx.REGISTRY)
+
+
+def test_freeze_refuses_duplicate_ids_even_outside_final_and_coverage_excludes_conflicting_or_invalid_copies():
+    with pytest.raises(ValueError, match="duplicate"):
+        pr.make_freeze([final_case(1), dev_case(2), dev_case(2)], registry=fx.REGISTRY)
+    for duplicate in (final_case(1, language="en"), {"case_id": final_case(1)["case_id"]}):
+        cases = [final_case(1), duplicate, final_case(2)]
+        assert pr.coverage(cases, registry=fx.REGISTRY)["verified_final_total"] == 1

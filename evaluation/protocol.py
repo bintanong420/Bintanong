@@ -62,8 +62,12 @@ def derive_split(group_id: str, salt: str = SPLIT_SALT, final_percent: int = FIN
     return "final" if bucket < final_percent else "dev"
 
 
+def _token_text(text: str) -> str:
+    return " ".join(re.findall(r"[^\W_]+", unicodedata.normalize("NFKC", text).casefold()))
+
+
 def tokens(text: str) -> frozenset[str]:
-    return frozenset(re.findall(r"[^\W_]+", unicodedata.normalize("NFKC", text).casefold()))
+    return frozenset(_token_text(text).split())
 
 
 def similarity(a: str, b: str) -> float:
@@ -92,20 +96,31 @@ def load_cases(directory: Path) -> list[dict]:
 # per-case problems: schema findings and source resolution
 # --------------------------------------------------------------------------------------------
 def _case_problems(cases, registry) -> tuple[list[dict], set[int]]:
-    """Findings for malformed cases and unresolved gold spans, plus indexes of the cases that are clean."""
+    """Malformed/duplicate cases and unresolved spans/applicability, plus clean case indexes."""
     out, clean = [], set()
+    ids: dict[str, int] = {}
+    for c in cases:
+        cid = c.get("case_id") if isinstance(c, dict) else None
+        if isinstance(cid, str):
+            ids[cid] = ids.get(cid, 0) + 1
+    out += [_finding("duplicate_case_id", cid, f"case_id used {n} times") for cid, n in sorted(ids.items()) if n > 1]
     for i, c in enumerate(cases):
         subject = c.get("case_id", f"#{i}") if isinstance(c, dict) else f"#{i}"
         problems = case_findings(c)
         for p in problems:
             out.append(_finding("case_invalid", str(subject), p))
         if not problems and c["status"] == "verified":
+            declared = c["scope"]["version_id"]
+            if declared is not None and {s["version_id"] for s in c["gold_spans"]} != {declared}:
+                out.append(_finding("unregistered_source", c["case_id"],
+                                    "declared scope version must resolve and match all supporting gold versions"))
+                problems = ["unresolved applicability"]
             for s in c["gold_spans"]:
                 if (registry or {}).get(s["version_id"]) != s["byte_sha256"]:
                     out.append(_finding("unregistered_source", c["case_id"],
                                         f"gold span {s['version_id']} does not resolve to a registered source version"))
                     problems = ["unresolved span"]
-        if not problems:
+        if not problems and ids.get(subject, 0) == 1:
             clean.add(i)
     return out, clean
 
@@ -120,6 +135,8 @@ def freeze_digest(freeze: dict) -> str:
 def make_freeze(cases, *, registry=None, salt: str = SPLIT_SALT) -> dict:
     """Seal the final set. Refuses an empty set, an unverified or unresolved final case."""
     problems, clean = _case_problems(cases, registry)
+    if any(p["code"] == "duplicate_case_id" for p in problems):
+        raise ValueError("duplicate case ids cannot be frozen")
     final = [(i, c) for i, c in enumerate(cases) if isinstance(c, dict) and c.get("split") == "final"]
     if not final:
         raise ValueError("nothing to freeze: no final-split case")
@@ -177,7 +194,10 @@ def prompt_example_findings(cases, examples, threshold: float = NEAR_DUPLICATE_T
             continue
         texts = [c.get("query", "")] + [t for t in c.get("acceptable_claims", []) if isinstance(t, str)]
         for text in texts:
-            if any(isinstance(e, str) and text and similarity(text, e) >= threshold for e in examples):
+            normal = _token_text(text)
+            if any(isinstance(e, str) and text and (
+                    (normal and f" {normal} " in f" {_token_text(e)} ") or similarity(text, e) >= threshold)
+                   for e in examples):
                 out.append(_finding("final_text_in_prompt_example", str(c.get("case_id")),
                                     "final-case text appears in a prompt example"))
                 break
@@ -185,7 +205,7 @@ def prompt_example_findings(cases, examples, threshold: float = NEAR_DUPLICATE_T
 
 
 def coverage(cases, registry=None) -> dict:
-    """Counts of valid, source-resolved, verified final cases against the targets."""
+    """Counts of valid, unique-id, source-resolved, verified final cases against the targets."""
     _, clean = _case_problems(cases, registry)
     ok = [c for i, c in enumerate(cases) if i in clean and c["status"] == "verified" and c["split"] == "final"]
     taglish = [c for c in ok if c["language"] == "taglish"]
@@ -219,12 +239,6 @@ def validate_case_set(cases, *, registry=None, freeze=None, prompt_examples=(), 
                       final_percent: int = FINAL_PERCENT) -> dict:
     cases = list(cases)
     findings, clean = _case_problems(cases, registry)
-    ids: dict[str, int] = {}
-    for c in cases:
-        cid = c.get("case_id") if isinstance(c, dict) else None
-        if isinstance(cid, str):
-            ids[cid] = ids.get(cid, 0) + 1
-    findings += [_finding("duplicate_case_id", cid, f"case_id used {n} times") for cid, n in sorted(ids.items()) if n > 1]
 
     valid = [c for c in cases if _structurally_valid(c)]
     splits_of: dict[str, set[str]] = {}
