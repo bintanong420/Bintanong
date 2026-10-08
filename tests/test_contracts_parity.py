@@ -14,6 +14,7 @@ import pytest
 from pydantic import ValidationError
 
 from backend.bintanong_contracts import base, governance as gov, symbolic
+import test_contracts_fix3_governance as f3
 import test_source_governance_manifests as tl
 
 VOC = tl.vocabulary()
@@ -152,6 +153,19 @@ def register_corpus():
             r["evidence"].append(tl.ev("ev-d", "printed_text_span", "researcher")),
             r["effective_from"].update(value=d[0], state="observed", evidence_ref="ev-d", basis="printed_text"),
             r["effective_to"].update(value=d[1], state="observed", evidence_ref="ev-d", basis="printed_text")))
+    for label, rec, _expected in f3.HAND_VERDICTS:
+        out[f"hand:{label}"] = rec
+    for name, fn in f3.REVOKED_GUARDS.items():
+        out[f"revoked:{name}"] = tl.mutated(tl._revoked(), fn)
+    for builder in (tl.approved_record, tl._revoked):
+        for fn in (f3._late_issuer, f3._late_absence, f3._late_basis):
+            out[f"late:{builder.__name__}:{fn.__name__}"] = tl.mutated(builder(), fn)
+    out["bare_revoked_proposal"] = f3.bare_revoked("curriculum_proposal_candidate")
+    for a, b in (("2025-02-30", None), ("2024-02-29", None), ("2023-13", None), ("2023-1-01", None), ("soon", None),
+                 ("2023-01-01", "2023-02-30"), ("0000-01-01", None)):
+        out[f"impossible_date:{a}:{b}"] = f3._dates(a) if b is None else f3._dates(a, b)
+    out["chain_observation_dated_later"] = f3._observed_before_confirmation("2026-01-01T00:00:01+00:00")
+    out["chain_observation_same_instant"] = f3._observed_before_confirmation("2026-01-01T00:00:00+00:00")
     out["authorization_before_scope_verification"] = tl.mutated(
         tl.approved_record(), lambda r: next(e for e in r["evidence"] if e["evidence_id"] == "ev-b4").update(
             recorded_at="2026-01-05T00:00:00+00:00"))
@@ -209,6 +223,10 @@ def set_corpus():
     out["distinct_authorization_refs"] = [a, tl.mutated(b, lambda r: (
         r.__setitem__("approval_id", "auth-synth-0002"),
         next(e for e in r["evidence"] if e["kind"] == "issuing_office_authorization").update(authorization_ref="auth-synth-0002")))]
+    for label, recs, _expected in f3.HAND_SET_VERDICTS:
+        out[f"hand:{label}"] = recs
+    for ref_b in ("AUTH-SYNTH-0001", "auth-synth-0001​", "auth‑synth-0001", "auth-synth-0002"):
+        out[f"authref:{ref_b!r}"] = f3._twin_with(ref_b)
     same_file = tl.register()
     same_file[1]["edition_id"] = same_file[0]["edition_id"]
     out["same_edition_other_bytes"] = same_file

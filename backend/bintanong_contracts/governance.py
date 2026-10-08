@@ -17,8 +17,8 @@ from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
 
-from .base import (TIMESTAMP, VOCAB, Contract, ContractError, EvidenceKind, Record, Role, State, id_pattern,
-                   is_logical_locator, is_plain_filename, parse_timestamp, reject_foreign_ids)
+from .base import (TIMESTAMP, VOCAB, Contract, ContractError, EvidenceKind, Record, Role, State, folded, id_pattern,
+                   is_logical_locator, is_plain_filename, parse_timestamp, reject_foreign_ids, strip_format)
 
 ID_DOC = id_pattern("doc-")
 ID_VER = id_pattern("ver-")
@@ -259,10 +259,15 @@ class SourceDocumentVersion(Contract):
 
     def _effectivity_errors(self) -> list[str]:
         # A pending or not-stated field carries no value (checked above), so only observed dates are compared.
+        errs = []
+        for name in ("effective_from", "effective_to"):
+            value = getattr(self, name).value
+            if _PARTIAL_DATE.fullmatch(value or "") and _date_span(value) is None:
+                errs.append(f"{name}: {value!r} is not a calendar date")
         a, b = _date_span(self.effective_from.value), _date_span(self.effective_to.value)
         if a and b and b[1] < a[0]:
-            return ["effective_to is before effective_from"]
-        return []
+            errs.append("effective_to is before effective_from")
+        return errs
 
     def _approval_errors(self, evs: dict[str, Evidence]) -> list[str]:
         errs, appr = [], self.approval_state
@@ -276,20 +281,33 @@ class SourceDocumentVersion(Contract):
                 e.kind == "issuing_office_authorization" and e.authorization_ref == self.approval_id
                 for e in self.evidence):
             errs.append("revocation must cite the authorization_ref of the approval it revokes")
-        if appr.state == "approved":
+        if appr.state in ("approved", "revoked"):
+            # A revoked record was approved first, so every guard of approval holds for it too.
+            label = appr.state
             if self.acquisition_state.state != "verified" or self.verification_state.state != "verified":
-                errs.append("approval needs verified acquisition and verified scope")
+                errs.append(f"{label}: approval needs verified acquisition and verified scope")
             if self.issuer.state != "verified" or any(
                     getattr(self, f).state not in ("verified", "not_stated") for f in VOCAB["scope_fields"]):
-                errs.append("approval needs issuer and scope/effectivity fields verified or explicitly not stated")
+                errs.append(f"{label}: approval needs issuer and scope/effectivity fields verified or explicitly not stated")
             if self.document_category in VOCAB["proposal_categories"]:
-                errs.append("a proposal candidate cannot be approved as a source")
-            granted = parse_timestamp(evs[appr.evidence_ref].recorded_at) if appr.evidence_ref in evs else None
-            for name in ("acquisition_state", "verification_state"):
-                basis = evs.get(getattr(self, name).evidence_ref)
-                basis_at = parse_timestamp(basis.recorded_at) if basis else None
-                if granted and basis_at and granted < basis_at:
-                    errs.append(f"approval: the authorization is dated before the {name} evidence it relies on")
+                errs.append(f"{label}: a proposal candidate cannot be approved as a source")
+            errs += self._authorization_date_errors(evs)
+        return errs
+
+    def _authorization_date_errors(self, evs: dict[str, Evidence]) -> list[str]:
+        """The authorization must not be dated before any evidence the approved or revoked state relies on:
+        acquisition, verification, and the issuer and every scope field (including a 'not stated' check)."""
+        granted_at = [parse_timestamp(e.recorded_at) for e in self.evidence
+                      if e.kind == "issuing_office_authorization" and e.authorization_ref == self.approval_id]
+        granted = min((t for t in granted_at if t), default=None)
+        relied = {name: getattr(self, name).evidence_ref for name in ("acquisition_state", "verification_state")}
+        relied.update({name: getattr(self, name).evidence_ref for name in VOCAB["scope_fields"]})
+        errs = []
+        for name, ref in relied.items():
+            basis = evs.get(ref)
+            basis_at = parse_timestamp(basis.recorded_at) if basis else None
+            if granted and basis_at and granted < basis_at:
+                errs.append(f"approval: the authorization is dated before the {name} evidence it relies on")
         return errs
 
 
@@ -335,7 +353,7 @@ def check_register(records: Sequence[SourceDocumentVersion]) -> None:
         by_edition.setdefault(r.edition_id, set()).add(r.byte_sha256)
         for e in r.evidence:
             if e.authorization_ref:
-                by_ref.setdefault(e.authorization_ref, set()).add(r.version_id)
+                by_ref.setdefault(folded(strip_format(e.authorization_ref)), set()).add(r.version_id)
     errs += [f"same bytes recorded as separate versions {v}; merge locators"
              for v in by_hash.values() if len(v) > 1]
     errs += [f"edition {e} spans different bytes (same filename is not same edition)"

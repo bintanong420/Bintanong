@@ -190,6 +190,12 @@ def _strings(node: Any):
 _DASHES = dict.fromkeys(map(ord, "‐‑‒–—―−﹘﹣－"), "-")
 
 
+def strip_format(text: str) -> str:
+    """Remove Unicode format characters (category Cf: zero-width space and joiner, soft hyphen, BOM, bidi marks),
+    which print as nothing and so make two different strings read as the same text."""
+    return "".join(ch for ch in text if unicodedata.category(ch) != "Cf")
+
+
 def folded(text: str) -> str:
     """NFKC, dash variants to '-', casefold: what a person reads as the same id. Surrounding whitespace
     never hides a token because tokens are searched anywhere in the string."""

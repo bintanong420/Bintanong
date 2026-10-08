@@ -8,6 +8,7 @@ example is synthetic and uses fictional locators.
 
 from __future__ import annotations
 
+import calendar
 import copy
 import json
 import re
@@ -163,6 +164,26 @@ def _date_span(text):
         return None
 
 
+def _is_calendar_date(text):
+    """False only for text shaped like an ISO date (YYYY, YYYY-MM or YYYY-MM-DD) that is not a real day or
+    month. Any other text is not an ISO date and is not judged here."""
+    m = re.fullmatch(r"(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?", text or "", re.ASCII)
+    if not m:
+        return True
+    year, month, day = (int(g) if g else None for g in m.groups())
+    if year < 1 or (month is not None and not 1 <= month <= 12):
+        return False
+    if day is None:
+        return True
+    days = [31, 29 if calendar.isleap(year) else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1]
+    return 1 <= day <= days
+
+
+def ref_key(ref):
+    """An authorization reference as a person reads it: no invisible format characters, NFKC, one dash, no case."""
+    return folded("".join(c for c in ref if unicodedata.category(c) != "Cf"))
+
+
 def entered_in_order(voc, field, state, evs, i):
     """The `from` column on a record: evs[i] enters `state` under a row whose `from` is the initial state
     or a state that EARLIER evidence of the same record (earlier in the list and not later in time) entered
@@ -301,6 +322,9 @@ def register_errors(rec, voc):
             rec["acquisition_state"]["state"] not in ("observed", "verified"):
         errs.append("verification recorded against bytes that are not acquired and matching")
     frm_, to_ = rec["effective_from"], rec["effective_to"]
+    for label, field in (("effective_from", frm_), ("effective_to", to_)):
+        if not _is_calendar_date(field["value"]):
+            errs.append(f"{label}: {field['value']!r} is not a calendar date")
     if frm_["state"] in OBSERVED and to_["state"] in OBSERVED:
         a, b = _date_span(frm_["value"]), _date_span(to_["value"])
         if a and b and b[1] < a[0]:
@@ -315,7 +339,8 @@ def register_errors(rec, voc):
     if appr["state"] == "revoked" and not any(
             e["kind"] == "issuing_office_authorization" and e.get("authorization_ref") == aid for e in evs):
         errs.append("revocation must cite the authorization_ref of the approval it revokes")
-    if appr["state"] == "approved":
+    if appr["state"] in ("approved", "revoked"):
+        # revoked was approved first: every guard of approval holds for it too
         if rec["acquisition_state"]["state"] != "verified" or rec["verification_state"]["state"] != "verified":
             errs.append("approval needs verified acquisition and verified scope")
         if rec["issuer"]["state"] != "verified" or any(
@@ -323,8 +348,10 @@ def register_errors(rec, voc):
             errs.append("approval needs issuer and scope/effectivity fields verified or explicitly not stated")
         if rec["document_category"] in voc["proposal_categories"]:
             errs.append("a proposal candidate cannot be approved as a source")
-        granted = _ts(by_id[appr["evidence_ref"]]) if appr["evidence_ref"] in by_id else None
-        for name in ("acquisition_state", "verification_state"):
+        grants = [_ts(e) for e in evs if e["kind"] == "issuing_office_authorization" and e.get("authorization_ref") == aid]
+        granted = min((g for g in grants if g), default=None)
+        relied = ["acquisition_state", "verification_state"] + list(voc["scope_fields"])
+        for name in relied:
             basis = by_id.get(rec[name]["evidence_ref"])
             basis_at = _ts(basis) if basis else None
             if granted and basis_at and granted < basis_at:
@@ -372,7 +399,7 @@ def register_set_errors(recs, voc):
         by_edition.setdefault(r["edition_id"], set()).add(r["byte_sha256"])
         for e in r["evidence"]:
             if e.get("authorization_ref"):
-                by_ref.setdefault(e["authorization_ref"], set()).add(r["version_id"])
+                by_ref.setdefault(ref_key(e["authorization_ref"]), set()).add(r["version_id"])
     errs += [f"same bytes recorded as separate versions {v}; merge locators" for v in by_hash.values() if len(v) > 1]
     errs += [f"edition {e} spans different bytes (same filename is not same edition)"
              for e, h in by_edition.items() if len(h) > 1]

@@ -80,6 +80,16 @@ def test_a_bound_value_still_refuses_control_padding_empty_and_over_long(v):
         runtime.BoundInput.parse(value(v))
 
 
+@pytest.mark.parametrize("v", [None, 5, b"abc", ["a"]])
+def test_the_renderer_quotes_text_only(v):
+    with pytest.raises(ContractError, match="cannot quote a"):
+        runtime.prolog_quote(v)
+
+
+def test_the_value_cap_is_the_documented_default():
+    assert runtime.BOUND_VALUE_MAX == 128
+
+
 def test_the_longest_allowed_value_parses_and_renders():
     v = "x" * runtime.BOUND_VALUE_MAX
     assert runtime.BoundInput.parse(value(v)).value == v
