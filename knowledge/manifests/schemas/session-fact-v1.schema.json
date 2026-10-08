@@ -30,11 +30,11 @@
     },
     "fact_id": {
       "type": "string",
-      "pattern": "^fact-[a-z0-9-]+$"
+      "pattern": "^fact-[a-z0-9-]+$(?!\\n)"
     },
     "session_id": {
       "type": "string",
-      "pattern": "^sess-[a-z0-9-]+$"
+      "pattern": "^sess-[a-z0-9-]+$(?!\\n)"
     },
     "origin": {
       "enum": [
@@ -128,13 +128,14 @@
         },
         "recorded_at": {
           "type": "string",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$(?!\\n)"
         },
         "authorization_ref": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "pattern": "^\\S+$(?!\\n)"
         }
       }
     }

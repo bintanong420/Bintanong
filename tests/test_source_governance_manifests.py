@@ -11,6 +11,8 @@ from __future__ import annotations
 import copy
 import json
 import re
+import unicodedata
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -123,14 +125,37 @@ def transition_rows(voc, field, to_state, frm=None):
             if t["field"] == field and t["to"] == to_state and (frm is None or t["from"] == frm)]
 
 
+def _row_accepts(row, ev):
+    return (ev["kind"] == row["evidence_kind"] and ev["recorded_by"] in row["recorded_by"]
+            and bool(ev.get("authorization_ref")) == bool(row.get("needs_authorization_ref")))
+
+
 def evidence_authorizes(voc, field, to_state, ev, frm=None):
     """True if `ev` can authorize entering `to_state` of `field` under some row of the table."""
-    for row in transition_rows(voc, field, to_state, frm):
-        if ev["kind"] != row["evidence_kind"] or ev["recorded_by"] not in row["recorded_by"]:
+    return any(_row_accepts(row, ev) for row in transition_rows(voc, field, to_state, frm))
+
+
+def _ts(ev):
+    try:
+        return datetime.fromisoformat(ev["recorded_at"])
+    except ValueError:
+        return None
+
+
+def entered_in_order(voc, field, state, evs, i):
+    """The `from` column on a record: evs[i] enters `state` under a row whose `from` is the initial state
+    or a state that EARLIER evidence of the same record (earlier in the list and not later in time) entered
+    in turn. Evidence is not bound to a field, so this proves the order of the kinds, not who wrote what."""
+    for row in transition_rows(voc, field, state):
+        if not _row_accepts(row, evs[i]):
             continue
-        if bool(ev.get("authorization_ref")) != bool(row.get("needs_authorization_ref")):
-            continue
-        return True
+        if row["from"] == voc["initial_states"][field]:
+            return True
+        now = _ts(evs[i])
+        for j in range(i):
+            before = _ts(evs[j])
+            if now and before and before <= now and entered_in_order(voc, field, row["from"], evs, j):
+                return True
     return False
 
 
@@ -152,19 +177,51 @@ def _strings(node):
             yield from _strings(v)
 
 
+_DASHES = dict.fromkeys(map(ord, "\u2010\u2011\u2012\u2013\u2014\u2015\u2212\ufe58\ufe63\uff0d"), "-")
+
+
+def folded(s):
+    """NFKC, dash variants to '-', casefold: what a person would read as the same id. No strip is needed,
+    because tokens are searched anywhere in the string, so surrounding whitespace never hides one."""
+    return unicodedata.normalize("NFKC", s).translate(_DASHES).casefold()
+
+
+def id_tokens(text, prefixes):
+    """Id-like tokens starting with one of `prefixes` anywhere in `text`. A token is the prefix plus one or
+    more hyphen-joined segments that either has a second segment or a digit, so ordinary prose such as
+    'fact-checking' or 'edition-specific' is not an id. It must not continue a longer word ('xfact-1')."""
+    pattern = r"(?<![a-z0-9])(" + "|".join(re.escape(p) for p in prefixes) + r")([a-z0-9]+(?:-[a-z0-9]+)*)"
+    return [m.group(0) for m in re.finditer(pattern, folded(text)) if "-" in m.group(2) or re.search(r"\d", m.group(2))]
+
+
 def namespace_errors(rec, voc):
     ns = rec.get("namespace")
     if ns not in voc["namespaces"]:
         return [f"unknown namespace {ns!r}"]
     foreign = [p for other, spec in voc["namespaces"].items() if other != ns for p in spec["id_prefixes"]]
-    return [f"id {s!r} belongs to another namespace than {ns}" for s in _strings(rec)
-            if any(re.fullmatch(re.escape(p) + r"[a-z0-9-]+", s) for p in foreign)]
-
+    return [f"id {tok!r} in {s!r} belongs to another namespace than {ns}"
+            for s in _strings(rec) for tok in id_tokens(s, foreign)]
 
 # --------------------------------------------------------------------------------------------
 # Register record and set
 # --------------------------------------------------------------------------------------------
 STATE_FIELDS = ("acquisition_state", "verification_state", "approval_state", "content_review_state")
+OBSERVED = ("observed", "verified")
+
+
+def evidence_errors(voc, evidence):
+    """Per-record evidence rules: unique ids, real timestamps, authorization_ref only where a row needs one."""
+    errs, seen = [], set()
+    for ev_ in evidence:
+        if ev_["evidence_id"] in seen:
+            errs.append(f"duplicate evidence id {ev_['evidence_id']}")
+        seen.add(ev_["evidence_id"])
+        if _ts(ev_) is None:
+            errs.append(f"evidence {ev_['evidence_id']}: {ev_['recorded_at']!r} is not a real timestamp")
+        needs = any(t["evidence_kind"] == ev_["kind"] and t.get("needs_authorization_ref") for t in voc["transitions"])
+        if needs != bool(ev_.get("authorization_ref")):
+            errs.append(f"evidence {ev_['evidence_id']}: authorization_ref {'required' if needs else 'not allowed'}")
+    return errs
 
 
 def _check_state(errs, voc, evidence, label, vocab_field, state, ref):
@@ -175,11 +232,15 @@ def _check_state(errs, voc, evidence, label, vocab_field, state, ref):
     if ref is None:
         errs.append(f"{label}: {state} without an evidence reference")
         return
-    ev = evidence.get(ref)
-    if ev is None:
+    position = next((i for i, e in enumerate(evidence) if e["evidence_id"] == ref), None)
+    if position is None:
         errs.append(f"{label}: evidence {ref!r} not in the record")
-    elif not evidence_authorizes(voc, vocab_field, state, ev):
-        errs.append(f"{label}: evidence {ref!r} ({ev['kind']} by {ev['recorded_by']}) cannot authorize {state}")
+        return
+    ev_ = evidence[position]
+    if not evidence_authorizes(voc, vocab_field, state, ev_):
+        errs.append(f"{label}: evidence {ref!r} ({ev_['kind']} by {ev_['recorded_by']}) cannot authorize {state}")
+    elif not entered_in_order(voc, vocab_field, state, evidence, position):
+        errs.append(f"{label}: {state} has no earlier evidence that entered the state it comes from")
 
 
 def register_errors(rec, voc):
@@ -187,43 +248,47 @@ def register_errors(rec, voc):
     if errs:
         return errs
     errs += namespace_errors(rec, voc)
-    evs = {}
-    for ev in rec["evidence"]:
-        if ev["evidence_id"] in evs:
-            errs.append(f"duplicate evidence id {ev['evidence_id']}")
-        evs[ev["evidence_id"]] = ev
-        needs = any(t["evidence_kind"] == ev["kind"] and t.get("needs_authorization_ref") for t in voc["transitions"])
-        if needs != bool(ev.get("authorization_ref")):
-            errs.append(f"evidence {ev['evidence_id']}: authorization_ref {'required' if needs else 'not allowed'}")
+    evs = rec["evidence"]
+    errs += evidence_errors(voc, evs)
+    by_id = {e["evidence_id"]: e for e in evs}
     for name in STATE_FIELDS:
         _check_state(errs, voc, evs, name, name, rec[name]["state"], rec[name]["evidence_ref"])
     for name in voc["scope_fields"] + ["supersession"]:
         f = rec[name]
         _check_state(errs, voc, evs, name, "scope_field", f["state"], f["evidence_ref"])
-        has_value = f["value"] is not None if name != "supersession" else rec[name]["relation"] != "none"
         if name != "supersession":
             if f["state"] in ("pending", "not_stated") and (f["value"] is not None or f["basis"] is not None):
                 errs.append(f"{name}: {f['state']} must carry no value and no basis (nothing is inferred)")
-            if f["state"] in ("observed", "verified") and (not has_value or f["basis"] is None):
+            if f["state"] in OBSERVED and (f["value"] is None or f["basis"] is None):
                 errs.append(f"{name}: {f['state']} needs a value and an allowed basis")
-        else:
-            if f["relation"] != "none":
-                if f["target_version_id"] is None or f["state"] == "pending":
-                    errs.append("supersession: a relation needs a target and an evidenced state")
-                if f["target_version_id"] == rec["version_id"]:
-                    errs.append("supersession: a version cannot supersede itself")
-            elif f["target_version_id"] is not None:
+            continue
+        if f["state"] in ("pending", "not_stated") and f["basis"] is not None:
+            errs.append(f"supersession: {f['state']} must carry no value and no basis (nothing is inferred)")
+        if f["state"] in OBSERVED and f["basis"] is None:
+            errs.append(f"supersession: {f['state']} needs a value and an allowed basis")
+        if f["relation"] == "none":
+            if f["target_version_id"] is not None:
                 errs.append("supersession: relation none must not name a target")
+            if f["state"] in OBSERVED:
+                errs.append("supersession: relation none cannot be observed or verified")
+        else:
+            if f["target_version_id"] is None or f["state"] not in OBSERVED:
+                errs.append("supersession: a relation needs a target and an observed or verified state")
+            if f["target_version_id"] == rec["version_id"]:
+                errs.append("supersession: a version cannot supersede itself")
     if rec["verification_state"]["state"] in ("observed", "verified") and \
             rec["acquisition_state"]["state"] not in ("observed", "verified"):
         errs.append("verification recorded against bytes that are not acquired and matching")
     appr, aid = rec["approval_state"], rec["approval_id"]
     if appr["state"] in ("approved", "revoked"):
-        ev = evs.get(appr["evidence_ref"])
-        if not aid or ev is None or ev.get("authorization_ref") != aid:
+        ev_ = by_id.get(appr["evidence_ref"])
+        if not aid or ev_ is None or ev_.get("authorization_ref") != aid:
             errs.append("approval_id must equal the authorization_ref of the cited authorized evidence")
     elif aid is not None:
         errs.append("approval_id supplied without authorized approval evidence")
+    if appr["state"] == "revoked" and not any(
+            e["kind"] == "issuing_office_authorization" and e.get("authorization_ref") == aid for e in evs):
+        errs.append("revocation must cite the authorization_ref of the approval it revokes")
     if appr["state"] == "approved":
         if rec["acquisition_state"]["state"] != "verified" or rec["verification_state"]["state"] != "verified":
             errs.append("approval needs verified acquisition and verified scope")
@@ -235,23 +300,74 @@ def register_errors(rec, voc):
     return errs
 
 
+def _supersession_cycle(edges):
+    graph = {}
+    for newer, older in edges:
+        graph.setdefault(newer, set()).add(older)
+    done, active = set(), []
+
+    def visit(node):
+        if node in active:
+            return active[active.index(node):] + [node]
+        if node in done:
+            return None
+        active.append(node)
+        for nxt in sorted(graph.get(node, ())):
+            found = visit(nxt)
+            if found:
+                return found
+        active.pop()
+        done.add(node)
+        return None
+    for start in sorted(graph):
+        found = visit(start)
+        if found:
+            return found
+    return None
+
+
 def register_set_errors(recs, voc):
+    if not recs:
+        return ["empty register: nothing was recorded, so nothing can be checked"]
     errs = []
     for r in recs:
         errs += [f"{r.get('version_id')}: {e}" for e in register_errors(r, voc)]
     ids = [r["version_id"] for r in recs]
     errs += [f"duplicate version_id {v}" for v in set(ids) if ids.count(v) > 1]
-    by_hash, by_edition = {}, {}
+    by_hash, by_edition, by_ref = {}, {}, {}
     for r in recs:
         by_hash.setdefault(r["byte_sha256"], []).append(r["version_id"])
         by_edition.setdefault(r["edition_id"], set()).add(r["byte_sha256"])
+        for e in r["evidence"]:
+            if e.get("authorization_ref"):
+                by_ref.setdefault(e["authorization_ref"], set()).add(r["version_id"])
     errs += [f"same bytes recorded as separate versions {v}; merge locators" for v in by_hash.values() if len(v) > 1]
     errs += [f"edition {e} spans different bytes (same filename is not same edition)"
              for e, h in by_edition.items() if len(h) > 1]
+    errs += [f"authorization ref {ref} is shared by versions {sorted(v)}; one authorization names one version"
+             for ref, v in by_ref.items() if len(v) > 1]
+    by_version, edges = {r["version_id"]: r for r in recs}, set()
     for r in recs:
-        tgt = r["supersession"]["target_version_id"]
-        if tgt is not None and tgt not in ids:
+        s, tgt = r["supersession"], r["supersession"]["target_version_id"]
+        if tgt is None:
+            continue
+        if tgt not in by_version:
             errs.append(f"{r['version_id']}: supersession target {tgt} is not in the register")
+            continue
+        other = by_version[tgt]
+        if other["document_category"] != r["document_category"]:
+            errs.append(f"{r['version_id']}: supersession category mismatch, {r['document_category']} and "
+                        f"{other['document_category']}")
+        if other["supersession"]["relation"] == "none":
+            errs.append(f"{r['version_id']}: supersession target {tgt} does not record the reciprocal relation")
+        edges.add((r["version_id"], tgt) if s["relation"] == "supersedes" else (tgt, r["version_id"]))
+    successors = {}
+    for newer, older in edges:
+        successors.setdefault(older, set()).add(newer)
+    errs += [f"{older} has two successors {sorted(n)}" for older, n in successors.items() if len(n) > 1]
+    cycle = _supersession_cycle(edges)
+    if cycle:
+        errs.append("supersession cycle: " + " -> ".join(cycle))
     return errs
 
 
@@ -263,17 +379,16 @@ def conflict_errors(rec, voc, version_ids=None):
     if errs:
         return errs
     errs += namespace_errors(rec, voc)
-    evs = {e["evidence_id"]: e for e in rec["evidence"]}
+    errs += evidence_errors(voc, rec["evidence"])
     if len({(c["version_id"], c["span_ref"]) for c in rec["claims"]}) < 2:
         errs.append("a conflict needs two distinct claims")
     state, ref, basis = rec["resolution_state"], rec["resolution_evidence_ref"], rec["resolution_basis"]
-    _check_state(errs, voc, evs, "resolution", "conflict_resolution_state", state, ref)
+    _check_state(errs, voc, rec["evidence"], "resolution", "conflict_resolution_state", state, ref)
     if (state == "resolved") != (basis is not None):
         errs.append("a resolution basis is required exactly when the conflict is resolved")
     if version_ids is not None:
         errs += [f"claim cites unknown version {c['version_id']}" for c in rec["claims"] if c["version_id"] not in version_ids]
     return errs
-
 
 def blocked_capabilities(conflicts):
     return {c["affected_scope"]["capability"] for c in conflicts if c["resolution_state"] != "resolved"}
@@ -284,8 +399,8 @@ def session_fact_errors(rec, voc):
     if errs:
         return errs
     errs += namespace_errors(rec, voc)
-    evs = {e["evidence_id"]: e for e in rec["evidence"]}
-    _check_state(errs, voc, evs, "confirmation", "session_confirmation_state",
+    errs += evidence_errors(voc, rec["evidence"])
+    _check_state(errs, voc, rec["evidence"], "confirmation", "session_confirmation_state",
                  rec["confirmation_state"], rec["confirmation_evidence_ref"])
     return errs
 
@@ -448,7 +563,7 @@ def test_transition_table_decides(field, frm, to, kind, by, auth, ok):
 
 
 # ============================================================================================
-# Existing and new synthetic examples
+# Synthetic examples (all new in this branch)
 # ============================================================================================
 def test_every_manifest_json_is_synthetic_and_has_no_local_path():
     local = re.compile(r"[A-Za-z]:[\\/]|\\\\|/Users/|/home/|file://|\.\./")
@@ -464,7 +579,7 @@ def test_every_manifest_json_is_synthetic_and_has_no_local_path():
             assert re.fullmatch(r"synthetic-locator-[a-z0-9-]+/\d+", loc), loc
 
 
-def test_existing_and_new_examples_validate():
+def test_examples_validate():
     voc = vocabulary()
     regs = register()
     assert register_set_errors(regs, voc) == []
@@ -797,3 +912,574 @@ def test_verified_zero_prerequisites_differs_from_blank():
     # a blank rule cannot ground "unknown" away either: it is itself a reason for unknown
     blank_unknown = mutated(DECISION["unknown"], lambda r: (r.update(rule_coverage="verified", prerequisite_rule_state="blank_unreviewed"), r["missing_facts"].clear()))
     assert decision_errors(blank_unknown, voc) == []
+
+
+# ============================================================================================
+# Fix pass 1 (review of ec0eac7..2b6c503). These tests were written red first.
+# ============================================================================================
+def _all_schemas():
+    return {n: schema(n) for n in ("source-register-v1", "source-conflict-v1", "session-fact-v1", "decision-v1")}
+
+
+def _walk(node, path="$"):
+    """Yield (path, node) for every dict inside a schema document."""
+    if isinstance(node, dict):
+        yield path, node
+        for k, v in node.items():
+            yield from _walk(v, f"{path}.{k}")
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            yield from _walk(v, f"{path}[{i}]")
+
+
+def _forge_ts(rec, ts):
+    rec["evidence"][0]["recorded_at"] = ts
+
+
+# ---------------------------------- pinned transition table ---------------------------------
+# (id, field, from, to, evidence kind, recorded_by, needs authorization_ref). Changing the table
+# means changing this list on purpose.
+PINNED_TRANSITIONS = [
+    ("F1", "scope_field", "pending", "observed", "printed_text_span", ("researcher", "reviewer"), False),
+    ("F2", "scope_field", "observed", "verified", "issuing_office_confirmation", ("issuing_office",), False),
+    ("F3", "scope_field", "pending", "not_stated", "reviewer_absence_check", ("reviewer",), False),
+    ("A1", "acquisition_state", "pending", "observed", "byte_hash_check", ("researcher", "reviewer", "system"), False),
+    ("A2", "acquisition_state", "observed", "verified", "byte_hash_check", ("reviewer", "system"), False),
+    ("A3", "acquisition_state", "observed", "mismatch", "byte_hash_check", ("reviewer", "system"), False),
+    ("A4", "acquisition_state", "verified", "mismatch", "byte_hash_check", ("reviewer", "system"), False),
+    ("V1", "verification_state", "pending", "observed", "printed_text_span", ("researcher", "reviewer"), False),
+    ("V2", "verification_state", "observed", "verified", "issuing_office_confirmation", ("issuing_office",), False),
+    ("V3", "verification_state", "observed", "rejected", "issuing_office_rejection", ("issuing_office",), False),
+    ("V4", "verification_state", "verified", "rejected", "issuing_office_rejection", ("issuing_office",), False),
+    ("P1", "approval_state", "not_requested", "requested", "approval_request", ("researcher", "reviewer"), False),
+    ("P2", "approval_state", "requested", "approved", "issuing_office_authorization", ("issuing_office",), True),
+    ("P3", "approval_state", "requested", "rejected", "issuing_office_rejection", ("issuing_office",), False),
+    ("P4", "approval_state", "approved", "revoked", "issuing_office_revocation", ("issuing_office",), True),
+    ("C1", "content_review_state", "pending", "partially_reviewed", "content_review_record", ("reviewer",), False),
+    ("C2", "content_review_state", "partially_reviewed", "reviewed", "content_review_record", ("reviewer",), False),
+    ("C3", "content_review_state", "pending", "reviewed", "content_review_record", ("reviewer",), False),
+    ("R1", "conflict_resolution_state", "unresolved", "referred_to_source_owner", "conflict_referral", ("researcher", "reviewer"), False),
+    ("R2", "conflict_resolution_state", "unresolved", "resolved", "issuing_office_resolution", ("issuing_office",), False),
+    ("R3", "conflict_resolution_state", "referred_to_source_owner", "resolved", "issuing_office_resolution", ("issuing_office",), False),
+    ("S1", "session_confirmation_state", "unconfirmed", "user_confirmed", "user_confirmation", ("user",), False),
+    ("S2", "session_confirmation_state", "unconfirmed", "user_rejected", "user_confirmation", ("user",), False),
+]
+TERMINAL = {
+    "scope_field": {"verified", "not_stated"},
+    "acquisition_state": {"mismatch"},
+    "verification_state": {"rejected"},
+    "approval_state": {"rejected", "revoked"},
+    "content_review_state": {"reviewed"},
+    "conflict_resolution_state": {"resolved"},
+    "session_confirmation_state": {"user_confirmed", "user_rejected"},
+}
+
+
+def test_the_transition_table_is_pinned_row_for_row():
+    rows = [(t["id"], t["field"], t["from"], t["to"], t["evidence_kind"], tuple(t["recorded_by"]),
+             bool(t.get("needs_authorization_ref"))) for t in vocabulary()["transitions"]]
+    assert rows == PINNED_TRANSITIONS
+    assert all(set(t) <= {"id", "field", "from", "to", "evidence_kind", "recorded_by",
+                          "needs_authorization_ref", "guards"} for t in vocabulary()["transitions"])
+
+
+@pytest.mark.parametrize("row", PINNED_TRANSITIONS, ids=lambda r: r[0])
+def test_every_row_accepts_exactly_its_roles_and_its_reference_rule(row):
+    rid, field, frm, to, kind, roles, needs_ref = row
+    voc = vocabulary()
+    for role in voc["roles"]:
+        for ref in (None, "auth-x"):
+            e = ev("ev-x", kind, role, **({"authorization_ref": ref} if ref else {}))
+            expected = role in roles and bool(ref) == needs_ref
+            assert transition_allowed(voc, field, frm, to, e) is expected, (rid, role, ref)
+
+
+def test_terminal_states_have_no_outgoing_transition_rows():
+    voc = vocabulary()
+    for field, states in voc["states"].items():
+        outgoing = {t["from"] for t in voc["transitions"] if t["field"] == field}
+        assert set(states) - outgoing == TERMINAL[field], field
+
+
+# ---------------------------------- checker and schema strictness ---------------------------
+def test_checker_raises_on_an_unsupported_keyword_and_on_additional_properties_true():
+    with pytest.raises(AssertionError, match="unsupported schema keyword"):
+        schema_errors(1, {"minimum": 5})
+    with pytest.raises(AssertionError, match="unsupported schema keyword"):
+        schema_errors("x", {"format": "date"})
+    with pytest.raises(AssertionError):
+        schema_errors({}, {"additionalProperties": True})
+
+
+def test_every_schema_object_forbids_extra_keys_and_requires_every_property():
+    for name, sch in _all_schemas().items():
+        for path, node in _walk(sch):
+            if "properties" not in node or path.endswith(".properties"):
+                continue
+            assert node.get("additionalProperties") is False, (name, path)
+            optional = {"authorization_ref"} if path.endswith(".evidence") or ".evidence" in path else set()
+            assert set(node["required"]) == set(node["properties"]) - optional, (name, path)
+
+
+@pytest.mark.parametrize("name,example", [
+    ("source-register-v1", lambda: register()[1]), ("source-conflict-v1", conflict),
+    ("session-fact-v1", session_fact), ("decision-v1", lambda: decisions()[0])])
+def test_deleting_any_top_level_key_is_rejected(name, example):
+    for key in example():
+        assert schema_errors(mutated(example(), _del(key)), schema(name)), (name, key)
+
+
+def test_every_schema_pattern_rejects_a_trailing_newline():
+    checked = 0
+    for name, sch in _all_schemas().items():
+        for path, node in _walk(sch):
+            if isinstance(node.get("pattern"), str):
+                checked += 1
+                assert node["pattern"].endswith("$(?!\\n)"), (name, path, node["pattern"])
+    assert checked >= 15
+
+
+ID_FIELDS = [("document_id", "doc-synth-handbook"), ("version_id", "ver-synth-x"), ("edition_id", "edition-synth-x"),
+             ("byte_sha256", "a" * 64)]
+
+
+@pytest.mark.parametrize("field,good", ID_FIELDS)
+def test_register_ids_and_hash_reject_newline_case_and_wrong_prefix(field, good):
+    assert register_errors(mutated(register()[1], _set((field,), good)), vocabulary()) == [] or field != "byte_sha256"
+    for bad in (good + "\n", good.upper(), " " + good, good + " ", good[:-1] + "_", "x" + good, ""):
+        assert schema_errors(mutated(register()[1], _set((field,), bad)), schema("source-register-v1")), (field, bad)
+    assert schema_errors(mutated(register()[1], _set(("document_id",), "ver-synth-handbook")), schema("source-register-v1"))
+    assert schema_errors(mutated(register()[1], _set(("document_id",), "doc-")), schema("source-register-v1"))
+
+
+def test_conflict_session_and_timestamp_patterns_reject_a_trailing_newline():
+    assert schema_errors(mutated(conflict(), _set(("conflict_id",), "conflict-synth-0001\n")), schema("source-conflict-v1"))
+    assert schema_errors(mutated(conflict(), lambda r: r["claims"][0].update(version_id="ver-synth-x\n")), schema("source-conflict-v1"))
+    assert schema_errors(mutated(session_fact(), _set(("fact_id",), "fact-synth-0001\n")), schema("session-fact-v1"))
+    assert schema_errors(mutated(session_fact(), _set(("session_id",), "sess-synth-0001\n")), schema("session-fact-v1"))
+    assert schema_errors(mutated(register()[1], _set(("evidence", 0, "recorded_at"), "2026-01-01T00:00:00Z\n")),
+                         schema("source-register-v1"))
+
+
+@pytest.mark.parametrize("bad", ["C:\\Users\\x\\a.pdf", "C:/Users/x/a.pdf", "dir\\a.pdf", "/abs/a.pdf", "file:///a.pdf",
+                                 "\\\\host\\share\\a.pdf", "a/b.pdf", "x:y.pdf", "..", ".", "a\tb.pdf", "a\nb.pdf", ""])
+def test_filename_rejects_paths_urls_and_control_characters(bad):
+    assert schema_errors(mutated(register()[1], _set(("filename",), bad)), schema("source-register-v1")), bad
+
+
+@pytest.mark.parametrize("good", ["synthetic-handbook.pdf", "Student Handbook (2023) v2.pdf", "a.b.c.pptx"])
+def test_filename_accepts_plain_names(good):
+    assert schema_errors(mutated(register()[1], _set(("filename",), good)), schema("source-register-v1")) == []
+
+
+@pytest.mark.parametrize("bad", ["C:\\Users\\x\\a.pdf", "C:/Users/x/a.pdf", "d:\\a", "\\\\host\\share", "/home/x/a.pdf",
+                                 "/Users/x/a.pdf", "file:///a.pdf", "../a.pdf", "synthetic-locator-x/../y", "~/a.pdf",
+                                 "a\\b", " leading", "", "x\ny"])
+def test_acquisition_locators_reject_local_paths(bad):
+    rec = mutated(register()[1], _set(("acquisition_locators",), ["synthetic-locator-alpha/2", bad]))
+    assert schema_errors(rec, schema("source-register-v1")), bad
+
+
+@pytest.mark.parametrize("good", ["https://example.invalid/handbook.pdf", "synthetic-locator-alpha/2", "registrar-shelf-3/box-2"])
+def test_acquisition_locators_accept_urls_and_shelf_references(good):
+    rec = mutated(register()[1], _set(("acquisition_locators",), [good]))
+    assert schema_errors(rec, schema("source-register-v1")) == []
+
+
+@pytest.mark.parametrize("stamp", ["9999-99-99T99:99:99Z", "2026-02-30T00:00:00Z", "2026-13-01T00:00:00Z",
+                                   "2026-01-01T24:00:00Z", "2026-01-01T00:60:00Z", "2026-01-01T00:00:61Z"])
+def test_impossible_timestamps_are_rejected_in_every_record_type(stamp):
+    voc = vocabulary()
+    assert register_errors(mutated(register()[1], lambda r: _forge_ts(r, stamp)), voc)
+    c = mutated(conflict(), lambda r: r["evidence"].append(ev("ev-c9", "conflict_referral", "researcher", recorded_at=stamp)))
+    assert conflict_errors(c, voc)
+    s = mutated(session_fact(), lambda r: r["evidence"].append(ev("ev-s9", "user_confirmation", "user", recorded_at=stamp)))
+    assert session_fact_errors(s, voc)
+
+
+def test_duplicate_evidence_ids_are_rejected_in_every_record_type():
+    voc = vocabulary()
+    assert any("duplicate evidence id" in e for e in register_errors(
+        mutated(register()[1], lambda r: r["evidence"].append(copy.deepcopy(r["evidence"][0]))), voc))
+    dup = lambda r: r["evidence"].extend([ev("ev-d", "conflict_referral", "researcher"), ev("ev-d", "conflict_referral", "reviewer")])
+    assert any("duplicate evidence id" in e for e in conflict_errors(mutated(conflict(), dup), voc))
+    dups = lambda r: r["evidence"].extend([ev("ev-d", "user_confirmation", "user"), ev("ev-d", "user_confirmation", "user")])
+    assert any("duplicate evidence id" in e for e in session_fact_errors(mutated(session_fact(), dups), voc))
+
+
+def test_supersession_relation_none_must_not_name_a_target():
+    rec = mutated(register()[1], lambda r: r["supersession"].update(target_version_id="ver-synth-handbook-1"))
+    assert any("relation none must not name a target" in e for e in register_errors(rec, vocabulary()))
+
+
+def test_blank_or_padded_authorization_ids_are_rejected():
+    voc = vocabulary()
+    for bad in (" ", "", "auth x", " auth-synth-0001", "auth-synth-0001 ", "auth-synth-0001\n"):
+        rec = mutated(approved_record(), lambda r, b=bad: (
+            r.__setitem__("approval_id", b), r["evidence"][5].update(authorization_ref=b)))
+        assert register_errors(rec, voc), repr(bad)
+
+
+@pytest.mark.parametrize("cap", [" enrollment_procedure_answers", "enrollment_procedure_answers ",
+                                 "enrollment_procedure_answers\n", " ", ""])
+def test_capability_with_whitespace_or_blank_is_rejected(cap):
+    rec = mutated(conflict(), lambda r: r["affected_scope"].update(capability=cap))
+    assert conflict_errors(rec, vocabulary())
+
+
+def test_an_empty_register_is_rejected():
+    assert any("empty register" in e for e in register_set_errors([], vocabulary()))
+
+
+# ---------------------------------- namespace scan ------------------------------------------
+PRIVATE_IN_INSTITUTIONAL = ["fact-0001", "sess-7", "fact-synth-0001 ", " fact-synth-0001", "FACT-synth-0001", "fact-synth-0001\n",
+                            "\uff46act-synth-0001", "fact\u2011synth-0001", "fact-synth-0001/x", "sess-synth-0001#a",
+                            "see fact-synth-0001.", "(sess-synth-0001)", "x/FACT\u2010SYNTH-1"]
+INSTITUTIONAL_IN_SESSION = ["ver-1", "doc-synth-handbook\n", "ver-synth-0001 ", "DOC-synth-x", " edition-synth-1", "conflict-synth-0001\t",
+                            "ｖer-synth-0001", "ver\u2011synth-0001", "doc-synth-handbook/x", "ver-synth-0001#a"]
+LEGITIMATE_PROSE = ["Fact-checking Office of Records", "over-the-counter version-controlled copies", "edition-specific wording",
+                    "conflict-resolution procedure", "Doc-ument handling", "a fact", "xfact-synth-0001", "verification", "sess"]
+
+
+@pytest.mark.parametrize("value", PRIVATE_IN_INSTITUTIONAL)
+def test_private_id_variants_inside_institutional_records_are_found(value):
+    voc = vocabulary()
+    rec = mutated(register()[1], lambda r: r["issuer"].update(value=value))
+    assert any("another namespace" in e for e in register_errors(rec, voc)), repr(value)
+    con = mutated(conflict(), lambda r: r["claims"][0].update(claim_text=value))
+    assert any("another namespace" in e for e in conflict_errors(con, voc)), repr(value)
+
+
+@pytest.mark.parametrize("value", INSTITUTIONAL_IN_SESSION)
+def test_institutional_id_variants_inside_session_facts_are_found(value):
+    rec = mutated(session_fact(), lambda r: r["fact"].update(value=value))
+    assert any("another namespace" in e for e in session_fact_errors(rec, vocabulary())), repr(value)
+    rec = mutated(session_fact(), lambda r: r["fact"].update(key=value))
+    assert any("another namespace" in e for e in session_fact_errors(rec, vocabulary())), repr(value)
+
+
+@pytest.mark.parametrize("value", LEGITIMATE_PROSE)
+def test_the_namespace_scan_does_not_flag_ordinary_prose(value):
+    voc = vocabulary()
+    assert not any("another namespace" in e for e in register_errors(
+        mutated(register()[1], lambda r: r["issuer"].update(value=value)), voc)), value
+    assert not any("another namespace" in e for e in session_fact_errors(
+        mutated(session_fact(), lambda r: r["fact"].update(value=value)), voc)), value
+
+
+def test_the_namespace_scan_does_not_flag_any_existing_example():
+    voc = vocabulary()
+    for rec in register() + [conflict(), session_fact(), approved_record()]:
+        assert namespace_errors(rec, voc) == [], rec.get("version_id") or rec.get("conflict_id") or rec.get("fact_id")
+
+
+# ---------------------------------- evidence chain (the `from` column) ----------------------
+def _chain_errors(rec):
+    return [e for e in register_errors(rec, vocabulary()) if "earlier evidence" in e]
+
+
+def test_approved_without_an_earlier_request_is_rejected():
+    rec = mutated(approved_record(), lambda r: r.__setitem__(
+        "evidence", [e for e in r["evidence"] if e["evidence_id"] != "ev-b5"]))
+    assert _chain_errors(rec)
+    assert _chain_errors(approved_record()) == []
+
+
+def test_request_recorded_after_the_authorization_is_rejected():
+    def reorder(r):
+        evs = {e["evidence_id"]: e for e in r["evidence"]}
+        r["evidence"] = [e for e in r["evidence"] if e["evidence_id"] not in ("ev-b5", "ev-b6")] + [evs["ev-b6"], evs["ev-b5"]]
+    assert _chain_errors(mutated(approved_record(), reorder))
+
+
+def test_authorization_dated_before_its_request_is_rejected():
+    rec = mutated(approved_record(), lambda r: next(
+        e for e in r["evidence"] if e["evidence_id"] == "ev-b6").update(recorded_at="2025-12-31T23:59:59+00:00"))
+    assert _chain_errors(rec)
+    later = mutated(approved_record(), lambda r: next(
+        e for e in r["evidence"] if e["evidence_id"] == "ev-b6").update(recorded_at="2026-01-02T00:00:00+00:00"))
+    assert register_errors(later, vocabulary()) == []
+
+
+def _revoked(**changes):
+    def fn(r):
+        r["evidence"].append(ev("ev-b8", "issuing_office_revocation", "issuing_office",
+                                authorization_ref=changes.get("ref", "auth-synth-0001"), recorded_at="2026-01-03T00:00:00+00:00"))
+        r["approval_state"] = {"state": "revoked", "evidence_ref": "ev-b8"}
+        r["approval_id"] = changes.get("ref", "auth-synth-0001")
+    return mutated(approved_record(), fn)
+
+
+def test_revoked_needs_the_approval_chain_and_an_authorization_ref():
+    voc = vocabulary()
+    assert register_errors(_revoked(), voc) == []
+    no_approval = mutated(_revoked(), lambda r: r.__setitem__(
+        "evidence", [e for e in r["evidence"] if e["kind"] != "issuing_office_authorization"]))
+    assert _chain_errors(no_approval)
+    pending_to_revoked = mutated(register()[1], lambda r: (
+        r["evidence"].append(ev("ev-x", "issuing_office_revocation", "issuing_office", authorization_ref="auth-synth-0001")),
+        r["approval_state"].update(state="revoked", evidence_ref="ev-x"),
+        r.__setitem__("approval_id", "auth-synth-0001")))
+    assert _chain_errors(pending_to_revoked)
+    no_ref = mutated(_revoked(), lambda r: r["evidence"][-1].pop("authorization_ref"))
+    assert register_errors(no_ref, voc)
+
+
+def test_rejected_needs_an_earlier_request():
+    voc = vocabulary()
+    without = mutated(register()[1], lambda r: (
+        r["evidence"].append(ev("ev-x", "issuing_office_rejection", "issuing_office")),
+        r["approval_state"].update(state="rejected", evidence_ref="ev-x")))
+    assert _chain_errors(without)
+    with_request = mutated(register()[1], lambda r: (
+        r["evidence"].extend([ev("ev-q", "approval_request", "researcher"), ev("ev-x", "issuing_office_rejection", "issuing_office")]),
+        r["approval_state"].update(state="rejected", evidence_ref="ev-x")))
+    assert register_errors(with_request, voc) == []
+
+
+def test_verified_states_need_the_earlier_observed_evidence():
+    voc = vocabulary()
+    only_confirmation = mutated(register()[0], lambda r: (
+        r["evidence"].append(ev("ev-v", "issuing_office_confirmation", "issuing_office")),
+        r["verification_state"].update(state="verified", evidence_ref="ev-v")))
+    assert _chain_errors(only_confirmation)
+    only_system_hash = mutated(register()[0], lambda r: (
+        r.__setitem__("evidence", [ev("ev-s", "byte_hash_check", "system")]),
+        r["acquisition_state"].update(state="verified", evidence_ref="ev-s")))
+    assert _chain_errors(only_system_hash)
+    mismatch_from_nothing = mutated(register()[0], lambda r: (
+        r.__setitem__("evidence", [ev("ev-s", "byte_hash_check", "system")]),
+        r["acquisition_state"].update(state="mismatch", evidence_ref="ev-s")))
+    assert _chain_errors(mismatch_from_nothing)
+    scope_verified = mutated(register()[0], lambda r: (
+        r["evidence"].append(ev("ev-o", "issuing_office_confirmation", "issuing_office")),
+        r["issuer"].update(value="X", state="verified", evidence_ref="ev-o", basis="issuing_office_statement")))
+    assert _chain_errors(scope_verified)
+    assert [e for e in register_errors(register()[1], voc)] == []
+
+
+# ---------------------------------- supersession --------------------------------------------
+def _pair(newer_relation="supersedes"):
+    """regs[1] supersedes regs[0] and regs[0] records the inverse, each with printed evidence."""
+    regs = register()
+    for r in regs[:2]:
+        r["evidence"].append(ev("ev-sup", "printed_text_span", "researcher"))
+    inverse = {"supersedes": "superseded_by", "superseded_by": "supersedes"}
+    a, b = regs[1], regs[0]
+    a["supersession"] = {"relation": newer_relation, "target_version_id": b["version_id"], "state": "observed",
+                         "evidence_ref": "ev-sup", "basis": "printed_text"}
+    b["supersession"] = {"relation": inverse[newer_relation], "target_version_id": a["version_id"], "state": "observed",
+                         "evidence_ref": "ev-sup", "basis": "printed_text"}
+    return regs
+
+
+def _sup(rec, relation, target, state="observed", basis="printed_text"):
+    rec["supersession"] = {"relation": relation, "target_version_id": target, "state": state,
+                           "evidence_ref": "ev-sup", "basis": basis}
+
+
+def test_a_reciprocal_supersession_pair_is_accepted():
+    voc = vocabulary()
+    assert register_set_errors(_pair(), voc) == []
+    assert register_set_errors(_pair("superseded_by"), voc) == []
+
+
+def _chain3():
+    regs = register()
+    for r in regs:
+        r["evidence"].append(ev("ev-sup", "printed_text_span", "researcher"))
+    return regs  # [0]=ver-synth-handbook-1, [1]=ver-synth-handbook-2, [2]=ver-synth-proposal-1
+
+
+def test_non_reciprocal_supersession_is_rejected():
+    regs = _pair()
+    regs[0]["supersession"] = copy.deepcopy(register()[0]["supersession"])
+    assert any("reciprocal" in e for e in register_set_errors(regs, vocabulary()))
+
+
+def test_a_two_cycle_is_rejected():
+    regs = _pair()
+    _sup(regs[0], "supersedes", regs[1]["version_id"])
+    errs = register_set_errors(regs, vocabulary())
+    assert any("cycle" in e for e in errs)
+
+
+def test_a_longer_cycle_is_rejected_and_a_chain_is_not():
+    voc = vocabulary()
+    regs = _chain3()
+    twin = copy.deepcopy(regs[1])
+    twin.update(version_id="ver-synth-handbook-3", edition_id="edition-synth-handbook-3", byte_sha256="b" * 64)
+    regs.append(twin)
+    h1, h2, h3 = regs[0], regs[1], regs[3]
+    _sup(h3, "supersedes", h2["version_id"]); _sup(h2, "supersedes", h1["version_id"])
+    h1["supersession"] = copy.deepcopy(register()[0]["supersession"])
+    regs[2]["supersession"] = copy.deepcopy(register()[2]["supersession"])
+    assert [e for e in register_set_errors(regs, voc) if "cycle" in e] == []  # a chain: no cycle
+    _sup(h1, "supersedes", h3["version_id"])
+    assert any("cycle" in e for e in register_set_errors(regs, voc))
+
+
+def test_two_different_successors_of_one_version_are_rejected():
+    regs = _chain3()
+    twin = copy.deepcopy(regs[1])
+    twin.update(version_id="ver-synth-handbook-3", edition_id="edition-synth-handbook-3", byte_sha256="b" * 64)
+    regs.append(twin)
+    _sup(regs[1], "supersedes", regs[0]["version_id"]); _sup(regs[3], "supersedes", regs[0]["version_id"])
+    _sup(regs[0], "superseded_by", regs[1]["version_id"])
+    assert any("successor" in e for e in register_set_errors(regs, vocabulary()))
+
+
+def test_source_document_and_proposal_candidate_cannot_supersede_each_other():
+    voc = vocabulary()
+    for newer, older in ((1, 2), (2, 1)):
+        regs = _chain3()
+        _sup(regs[newer], "supersedes", regs[older]["version_id"])
+        _sup(regs[older], "superseded_by", regs[newer]["version_id"])
+        assert any("category" in e for e in register_set_errors(regs, voc)), (newer, older)
+
+
+SUPERSESSION_RECORD_BAD = {
+    "supersedes_but_not_stated": (lambda r: r["supersession"].update(
+        relation="supersedes", target_version_id="ver-synth-handbook-1", state="not_stated", evidence_ref="ev-b7", basis=None),
+        "needs a target and an observed or verified state"),
+    "none_but_observed": (lambda r: r["supersession"].update(
+        relation="none", target_version_id=None, state="observed", evidence_ref="ev-b3", basis="printed_text"),
+        "relation none cannot be observed or verified"),
+    "none_but_verified": (lambda r: (r["evidence"].append(ev("ev-b8", "issuing_office_confirmation", "issuing_office")),
+                                     r["supersession"].update(relation="none", target_version_id=None, state="verified",
+                                                              evidence_ref="ev-b8", basis="issuing_office_statement")),
+        "relation none cannot be observed or verified"),
+    "observed_without_basis": (lambda r: r["supersession"].update(
+        relation="supersedes", target_version_id="ver-synth-handbook-1", state="observed", evidence_ref="ev-b3", basis=None),
+        "needs a value and an allowed basis"),
+    "pending_with_basis": (lambda r: r["supersession"].update(basis="printed_text"),
+                           "pending must carry no value and no basis"),
+    "not_stated_with_target": (lambda r: r["supersession"].update(
+        relation="none", target_version_id="ver-synth-handbook-1", state="not_stated", evidence_ref="ev-b7"),
+        "relation none must not name a target"),
+}
+
+
+@pytest.mark.parametrize("name", SUPERSESSION_RECORD_BAD)
+def test_weak_supersession_records_are_rejected(name):
+    fn, message = SUPERSESSION_RECORD_BAD[name]
+
+    def build(r):
+        r["evidence"].append(ev("ev-b7", "reviewer_absence_check", "reviewer"))
+        fn(r)
+    assert any(message in e for e in register_errors(mutated(register()[1], build), vocabulary())), name
+
+def test_relation_none_with_not_stated_is_a_legitimate_reviewed_absence():
+    rec = mutated(register()[1], lambda r: (
+        r["evidence"].append(ev("ev-b7", "reviewer_absence_check", "reviewer")),
+        r["supersession"].update(state="not_stated", evidence_ref="ev-b7")))
+    assert register_errors(rec, vocabulary()) == []
+
+
+# ---------------------------------- authorization references --------------------------------
+def _twin_approved():
+    a = approved_record()
+    b = copy.deepcopy(a)
+    b.update(version_id="ver-synth-handbook-3", edition_id="edition-synth-handbook-3", byte_sha256="c" * 64)
+    return a, b
+
+
+def test_the_same_authorization_ref_on_two_versions_is_rejected():
+    voc = vocabulary()
+    a, b = _twin_approved()
+    assert any("authorization ref" in e for e in register_set_errors([a, b], voc))
+    other = mutated(b, lambda r: (r.__setitem__("approval_id", "auth-synth-0002"),
+                                  next(e for e in r["evidence"] if e["kind"] == "issuing_office_authorization").update(
+                                      authorization_ref="auth-synth-0002")))
+    assert not any("authorization ref" in e for e in register_set_errors([a, other], voc))
+
+
+def test_a_revocation_must_cite_the_approvals_authorization_ref():
+    voc = vocabulary()
+    other = _revoked(ref="auth-synth-0099")
+    assert any("revocation" in e for e in register_errors(other, voc))
+    assert register_errors(_revoked(), voc) == []
+
+# ---------------------------------- second round: survivors of the first mutation run ---------
+def test_authorizing_and_non_authorizing_evidence_kinds_are_pinned():
+    kinds = vocabulary()["evidence_kinds"]
+    assert set(kinds["non_authorizing"]) == {"extraction_audit", "extractor_status_label", "filename_observation",
+                                             "local_possession_note"}
+    assert set(kinds["authorizing"]) == {t[4] for t in PINNED_TRANSITIONS}
+
+
+def test_the_approval_guards_are_pinned():
+    voc = vocabulary()
+    p2 = next(t for t in voc["transitions"] if t["id"] == "P2")
+    assert p2["guards"] == ["acquisition_state=verified", "verification_state=verified", "issuer=verified",
+                            "scope_fields=verified_or_not_stated", "category_not_proposal"]
+    assert [t["id"] for t in voc["transitions"] if "guards" in t] == ["P2"]
+
+
+CONSTS = [("source-register-v1", "namespace", "private_session"),
+          ("source-register-v1", "schema_version", "bintanong-source-register-v2"),
+          ("source-conflict-v1", "namespace", "private_session"), ("source-conflict-v1", "schema_version", "x"),
+          ("session-fact-v1", "namespace", "institutional"), ("session-fact-v1", "schema_version", "x"),
+          ("session-fact-v1", "lifecycle", "persistent"), ("decision-v1", "schema_version", "x")]
+EXAMPLE_OF = {"source-register-v1": lambda: register()[1], "source-conflict-v1": conflict,
+              "session-fact-v1": session_fact, "decision-v1": lambda: decisions()[0]}
+
+
+@pytest.mark.parametrize("name,key,bad", CONSTS)
+def test_schema_constants_reject_other_values_at_schema_level(name, key, bad):
+    assert schema_errors(EXAMPLE_OF[name](), schema(name)) == []
+    assert schema_errors(mutated(EXAMPLE_OF[name](), _set((key,), bad)), schema(name)), (name, key)
+
+
+def test_a_conflict_with_one_claim_fails_the_schema_itself():
+    assert schema_errors(mutated(conflict(), lambda r: r["claims"].pop()), schema("source-conflict-v1"))
+
+
+def test_timestamps_and_authorization_refs_are_pattern_checked_in_every_schema():
+    cases = {"source-register-v1": lambda: register()[1], "source-conflict-v1": conflict, "session-fact-v1": session_fact}
+    for name, example in cases.items():
+        for bad_ts in ("yesterday", "2026-01-01", "2026-01-01 00:00:00Z"):
+            rec = mutated(example(), lambda r, b=bad_ts: r["evidence"].append(
+                ev("ev-z", "byte_hash_check", "system", recorded_at=b)))
+            assert schema_errors(rec, schema(name)), (name, bad_ts)
+        for bad_ref in (" ", "", "auth x", "auth-1\n"):
+            rec = mutated(example(), lambda r, b=bad_ref: r["evidence"].append(
+                ev("ev-z", "byte_hash_check", "system", authorization_ref=b)))
+            assert schema_errors(rec, schema(name)), (name, bad_ref)
+    for bad_id in (" ", "", "auth x", "auth-1\n", " auth-1"):
+        assert schema_errors(mutated(approved_record(), _set(("approval_id",), bad_id)),
+                             schema("source-register-v1")), bad_id
+    assert schema_errors(approved_record(), schema("source-register-v1")) == []
+
+
+def test_checker_keywords_behave_on_small_schemas():
+    assert schema_errors("abc", {"pattern": "b"}) == []  # search, not match
+    assert schema_errors("xyz", {"pattern": "b"})
+    assert schema_errors("", {"minLength": 1}) and schema_errors("a", {"minLength": 1}) == []
+    assert schema_errors([], {"minItems": 1}) and schema_errors([1], {"minItems": 1}) == []
+    assert schema_errors(1, {"type": "string"}) and schema_errors(True, {"type": "integer"})
+    assert schema_errors("x", {"enum": ["a"]}) and schema_errors("x", {"const": "y"})
+    assert schema_errors({}, {"required": ["a"]})
+    assert schema_errors({"b": 1}, {"properties": {}, "additionalProperties": False})
+    assert schema_errors(1, {"$ref": "#/$defs/s", "$defs": {"s": {"type": "string"}}})
+
+
+@pytest.mark.parametrize("kind,by,ref,message", [
+    ("extraction_audit", "system", "auth-x", "authorization_ref not allowed"),
+    ("approval_request", "researcher", "auth-x", "authorization_ref not allowed"),
+    ("issuing_office_authorization", "issuing_office", None, "authorization_ref required"),
+    ("issuing_office_revocation", "issuing_office", None, "authorization_ref required"),
+])
+def test_authorization_ref_presence_is_checked_on_unreferenced_evidence_too(kind, by, ref, message):
+    rec = mutated(register()[1], lambda r: r["evidence"].append(
+        ev("ev-z", kind, by, **({"authorization_ref": ref} if ref else {}))))
+    assert any(message in e for e in register_errors(rec, vocabulary()))
+
+
+def test_an_impossible_timestamp_in_the_chain_is_an_error_not_a_crash():
+    voc = vocabulary()
+    for target in ("ev-b5", "ev-b6"):
+        rec = mutated(approved_record(), lambda r, t=target: next(
+            e for e in r["evidence"] if e["evidence_id"] == t).update(recorded_at="9999-99-99T99:99:99Z"))
+        errs = register_errors(rec, voc)
+        assert any("not a real timestamp" in e for e in errs) and any("earlier evidence" in e for e in errs), target
