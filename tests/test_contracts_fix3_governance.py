@@ -104,16 +104,48 @@ def _late_absence(r):
     r["campus"]["evidence_ref"] = "ev-late"
 
 
+def _late_verification(r):
+    r["evidence"].append(tl.ev("ev-late", "issuing_office_confirmation", "issuing_office", recorded_at=LATE))
+    r["verification_state"]["evidence_ref"] = "ev-late"
+
+
+def _late_acquisition(r):
+    r["evidence"].append(tl.ev("ev-late", "byte_hash_check", "system", recorded_at=LATE))
+    r["acquisition_state"]["evidence_ref"] = "ev-late"
+
+
 def _late_basis(r):
     r["evidence"].append(tl.ev("ev-late", "printed_text_span", "researcher", recorded_at=LATE))
     r["printed_revision"].update(state="observed", evidence_ref="ev-late", basis="printed_text")
 
 
-@pytest.mark.parametrize("fn", [_late_issuer, _late_absence])
+@pytest.mark.parametrize("fn", [_late_issuer, _late_absence, _late_verification, _late_acquisition])
 @pytest.mark.parametrize("builder", [tl.approved_record, tl._revoked])
 def test_evidence_dated_after_the_authorization_is_rejected_for_every_relied_field(builder, fn):
     rec = tl.mutated(builder(), fn)
     both_reject(rec, "dated before")
+
+
+def _reissued(r):
+    # a second authorization with the same ref, dated after the evidence the scope rests on
+    r["evidence"][next(i for i, e in enumerate(r["evidence"]) if e["evidence_id"] == "ev-b7")]["recorded_at"] = "2026-01-02T00:00:00+00:00"
+    r["evidence"].append(tl.ev("ev-b9", "issuing_office_authorization", "issuing_office", recorded_at="2026-02-01T00:00:00+00:00",
+                               authorization_ref="auth-synth-0001"))
+
+
+def _other_authorization(r):
+    r["evidence"].append(tl.ev("ev-b9", "issuing_office_authorization", "issuing_office", recorded_at="2025-12-01T00:00:00+00:00",
+                               authorization_ref="auth-synth-0099"))
+
+
+@pytest.mark.parametrize("builder", [tl.approved_record, tl._revoked])
+def test_the_earliest_authorization_with_the_ref_is_the_one_that_counts(builder):
+    both_reject(tl.mutated(builder(), _reissued), "dated before")
+
+
+@pytest.mark.parametrize("builder", [tl.approved_record, tl._revoked])
+def test_an_authorization_with_another_ref_is_not_the_grant(builder):
+    both_accept(tl.mutated(builder(), _other_authorization))
 
 
 def test_a_not_yet_verified_field_cannot_hide_behind_a_late_observation():
@@ -163,8 +195,8 @@ def _twin_with(ref_b):
     return [a, b]
 
 
-@pytest.mark.parametrize("ref_b", ["AUTH-SYNTH-0001", "Auth-Synth-0001", "auth-synth-0001​", "auth-synth­-0001",
-                                   "auth‑synth-0001", "﻿auth-synth-0001"])
+@pytest.mark.parametrize("ref_b", ["AUTH-SYNTH-0001", "Auth-Synth-0001", "auth-synth-0001\u200b", "auth-synth\u00ad-0001",
+                                   "auth\u2011synth-0001", "\ufeffauth-synth-0001"])
 def test_one_authorization_written_two_ways_is_still_one_authorization(ref_b):
     recs = _twin_with(ref_b)
     assert tl.register_set_errors(recs, VOC), ref_b

@@ -18,7 +18,7 @@ from backend.bintanong_contracts.base import ContractError
 
 SHAPES = ["HBO", "TQM", "P2101", "P2108", "E2101", "E2104", "Practicum", "GE- Elect: EM", "GE-Elect: PES",
           "CS 101", "GE-ET", "ITEC 101", "FICTIONAL-101", "CS101", "X", "Y1", "_foo", "A_B", "is", "mod", "-", "..",
-          "a'b", "a\\b", ":- foo", "x), halt(", "a;b", "50% (lab)", "Ñandú 1"]
+          "a'b", "a\\b", ":- foo", "x), halt(", "a;b", "50% (lab)", "\u00d1and\u00fa 1"]
 
 
 def value(v):
@@ -58,7 +58,7 @@ def test_quoting_is_exact_for_the_dangerous_values():
 
 def test_quoting_round_trips_over_random_printable_text():
     rng = random.Random(20261007)
-    alphabet = string.printable[:-5] + "'\\'\\éΩ"
+    alphabet = string.printable[:-5] + "'\\'\\\u00e9\u03a9"
     for _ in range(500):
         v = "".join(rng.choice(alphabet) for _ in range(rng.randint(1, 20))).strip()
         if not v or "  " in v:
@@ -66,7 +66,7 @@ def test_quoting_round_trips_over_random_printable_text():
         assert unquote(runtime.prolog_quote(v)) == v
 
 
-@pytest.mark.parametrize("v", ["a\x00b", "a\nb", "a\rb", "a\tb", "a\x1fb", "a\x7fb", "a\x85b", "a\u202eb", "a\u200bb", "a\u00adb",
+@pytest.mark.parametrize("v", ["a\x00b", "a\nb", "a\rb", "a\tb", "a\x1fb", "a\x7fb", "a\x85b", "a\u202eb", "a\u200bb", "a\u00adb", "a\ue000b", "a\u0378b",
                                "a\u00a0b", "a\u2028b", "a\ud800b", ""])
 def test_the_renderer_refuses_control_and_format_characters(v):
     with pytest.raises(ContractError, match="control|format|empty|printable"):

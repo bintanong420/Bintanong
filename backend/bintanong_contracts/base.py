@@ -13,6 +13,7 @@ from collections.abc import Mapping
 from datetime import datetime
 from pathlib import Path
 from typing import Annotated, Any, ClassVar
+from urllib.parse import unquote
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, ValidationError, field_validator
 
@@ -202,14 +203,38 @@ def folded(text: str) -> str:
     return unicodedata.normalize("NFKC", text).translate(_DASHES).casefold()
 
 
+# Letters from other scripts that print like the Latin letters of the id prefixes (a c e o p s i d f t v r n x).
+# A small closed map, not a full confusables table: it exists so a Cyrillic or Greek look-alike cannot hide a
+# prefix. Owner-reviewable default.
+_CONFUSABLES = {ord(k): v for k, v in {
+    "а": "a", "с": "c", "е": "e", "о": "o", "р": "p", "ѕ": "s", "і": "i",
+    "ԁ": "d", "х": "x", "ѵ": "v", "т": "t", "г": "r", "п": "n",
+    "α": "a", "ε": "e", "ο": "o", "ρ": "p", "ι": "i", "ν": "v", "τ": "t",
+    "χ": "x", "η": "n", "ς": "s", "ı": "i", "ɑ": "a", "ƒ": "f"}.items()}
+
+
+def scan_form(text: str) -> str:
+    """What a person reads in `text` for the namespace scan: percent escapes decoded (up to three layers),
+    invisible format characters removed, then NFKC, one dash, no case, and look-alike letters of other scripts
+    read as the Latin letter."""
+    for _ in range(3):
+        decoded = unquote(text)
+        if decoded == text:
+            break
+        text = decoded
+    return folded(strip_format(text)).translate(_CONFUSABLES)
+
+
 def id_tokens(text: str, prefixes: list[str]) -> list[str]:
     """Id-like tokens starting with one of `prefixes` anywhere in `text`. A token is the prefix plus
     hyphen-joined segments that has a second segment or a digit, so prose such as 'fact-checking' or
     'edition-specific' is not an id. It must not continue a longer word ('xfact-1').
-    Known limit: a one-word id without a digit ('doc-handbook') inside free text is not found by this scan;
-    structured id fields are still checked by pattern."""
+    Known limits: a one-word id without a digit ('doc-handbook') inside free text is not found by this scan,
+    and an institutional file name or hyphenated phrase that reads like an id ('Fact-Sheet-2024.pdf',
+    'BS-Fact-1', 'doc-to-doc', 'Conflict-free-zone') is flagged; both are owner decisions in the decision
+    record. Structured id fields are still checked by pattern."""
     pattern = r"(?<![a-z0-9])(" + "|".join(re.escape(p) for p in prefixes) + r")([a-z0-9]+(?:-[a-z0-9]+)*)"
-    return [m.group(0) for m in re.finditer(pattern, folded(text))
+    return [m.group(0) for m in re.finditer(pattern, scan_form(text))
             if "-" in m.group(2) or re.search(r"[0-9]", m.group(2))]
 
 
