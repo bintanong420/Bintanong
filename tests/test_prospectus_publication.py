@@ -11,7 +11,7 @@ from backend.bintanong_tools.prospectus_extractor import common, publish
 
 pytestmark = pytest.mark.usefixtures("fake_docling")
 
-EXPECTED_SCHEMA = "palsu-prospectus-v3.2"  # Phase C's value plus one minor; see "SCHEMA_VERSION change"
+EXPECTED_SCHEMA = "palsu-prospectus-v3.3"  # Phase E: pdf_sha256, source-linked chunks, rejected_chunks
 
 
 def leftovers(folder):

@@ -185,7 +185,9 @@ def test_blocked_audit_drops_candidate_prolog_and_rag():
         "courses": [], "prerequisites": [], "standing_requirements": [], "elective_tracks": [],
         "prerequisite_states": [], "rule_complete": [],
     }
-    assert payload["rag"] == {"semantic_chunks": [], "hierarchical_chunks": []}
+    assert payload["rag"] == {
+        "chunker_version": "palsu-chunker-v1", "token_count_method": "estimate-v1",
+        "semantic_chunks": [], "hierarchical_chunks": [], "rejected_chunks": []}
     assert "blocked_candidates" not in payload
 
 
@@ -278,7 +280,7 @@ def test_authority_block_blocks_eligibility_when_a_rule_is_incomplete(cell):
 
 def test_three_states_are_separate_fields_and_promotion_status_is_unchanged():
     payload = payload_for([CONTROL])
-    assert payload["schema_version"] == SCHEMA_VERSION == "palsu-prospectus-v3.2"  # Phase D added run_identity
+    assert payload["schema_version"] == SCHEMA_VERSION == "palsu-prospectus-v3.3"  # Phase E: pdf_sha256 and source-linked chunks
     assert payload["extraction_audit"] == payload["audit"]["status"] == "warn"
     assert payload["content_review"] == "pending"
     assert payload["source_verification"] == "pending"

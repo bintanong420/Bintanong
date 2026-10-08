@@ -4,6 +4,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task, with superpowers:test-driven-development inside each task. Steps use checkbox (`- [ ]`) syntax for tracking. Tasks 1 to 3 are already built (see "Status"); Tasks 4 to 9 are not started. Task 4a (installing GPU/CPU dependencies) is gated on the user's go-ahead, and the real-photo half of Task 8 waits for the user to take the photos.
 
+> **Local integration context (2026-10-07):** The historical publication-scope header above describes the published A–D branch. This local GUI integration preserves the complete OCR plan and its pending measurement/photo gates; the GUI technical batch adds no OCR implementation or measurements.
+
 **Goal:** Find out, with numbers, whether any of six OCR configurations can read a photographed PalSU prospectus well enough to be called "supported" (Q11), before any OCR is wired into the pipeline. The born-digital extractor output (JSON plus markup twin) is the answer key. Disagreements become review rows in the Phase B2 format, so a human decides; OCR never promotes itself.
 
 **Architecture:** A sibling package `backend/bintanong_tools/ocr_bench/` (simulator, scorer, engine grid) plus one driver `scripts/ocr_bench.py`. The scorer reuses `course_checks` (`normalise`, `loose`, the audit-flag reader). No extractor module changes. This is a standalone bake-off: pipeline integration of OCR comes after Phase D, as its own plan, and only if this one finds a configuration that passes.

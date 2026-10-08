@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="review-token" content="__REVIEW_TOKEN__">
+<title>Prospectus review</title>
+<link rel="stylesheet" href="/static/review.css">
+<script src="/static/keys.js" defer></script>
+<script src="/static/review.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#question">Skip to the question</a>
+<header>
+  <h1 id="program">Prospectus review</h1>
+  <p>Reviewer: <span id="reviewer">-</span> · <span id="progress">loading</span></p>
+  <ul id="states" class="badges" aria-label="Review states"></ul>
+  <p class="note">A decision here means a person looked and decided. It is not an approval of the curriculum.</p>
+  <p class="note" id="approval">A reviewed prospectus is not an approved curriculum</p>
+  <button type="button" id="mode" aria-pressed="false">Print order <kbd>p</kbd></button>
+  <button type="button" id="materialise">Write corrected candidate</button>
+</header>
+<div class="layout">
+  <nav aria-label="Questions">
+    <h2>Queue</h2>
+    <label for="filter">Filter questions <kbd>/</kbd></label>
+    <input id="filter" type="search" autocomplete="off">
+    <ol id="queue" class="queue"></ol>
+    <h2>Sections</h2>
+    <div id="sections"></div>
+  </nav>
+  <main id="main">
+    <section id="question" tabindex="-1" aria-labelledby="prompt">
+      <p id="where" class="muted"></p>
+      <h2 id="prompt">Loading the first question</h2>
+      <ul id="flags" class="flags"></ul>
+      <dl id="reference" class="reference"></dl>
+      <div id="proposals" class="proposals"></div>
+      <form id="answer-form" novalidate>
+        <fieldset>
+          <legend>Your answer</legend>
+          <label><input type="radio" name="choice" value="yes"> Yes <kbd>y</kbd></label>
+          <label><input type="radio" name="choice" value="no"> No <kbd>n</kbd></label>
+          <label><input type="radio" name="choice" value="other"> Other <kbd>o</kbd></label>
+          <p id="other-why" class="muted" hidden></p>
+        </fieldset>
+        <div id="other-fields" class="other-fields" hidden></div>
+        <label for="reason" id="reason-label">Reason</label>
+        <textarea id="reason" rows="2" aria-describedby="answer-error"></textarea>
+        <p id="answer-error" class="error" role="alert"></p>
+        <div class="actions">
+          <button type="submit" id="save">Save answer <kbd>Enter</kbd></button>
+          <button type="button" id="prev">Previous <kbd>k</kbd></button>
+          <button type="button" id="next">Next <kbd>j</kbd></button>
+        </div>
+      </form>
+    </section>
+    <div class="panes">
+      <section class="pane" aria-labelledby="pdf-heading">
+        <h2 id="pdf-heading">PDF page</h2>
+        <button type="button" id="zoom" aria-pressed="false">Zoom <kbd>z</kbd></button>
+        <p id="pdf-note" class="muted" aria-live="polite"></p>
+        <div class="page-wrap" id="page-wrap">
+          <img id="page-image" alt="" hidden>
+          <div id="overlays" aria-hidden="true"></div>
+        </div>
+      </section>
+      <section class="pane" aria-labelledby="twin-heading">
+        <h2 id="twin-heading">Markup twin</h2>
+        <p id="twin-note" class="muted"></p>
+        <div id="twin" class="twin"></div>
+      </section>
+      <section class="pane" aria-labelledby="json-heading">
+        <h2 id="json-heading">Extracted JSON</h2>
+        <ul id="json-flags" class="flags"></ul>
+        <pre id="json" class="json"></pre>
+      </section>
+    </div>
+  </main>
+</div>
+<footer>
+  <p id="status" aria-live="polite"></p>
+  <section id="key-help" tabindex="-1" aria-labelledby="keys-heading">
+    <h2 id="keys-heading">Keys</h2>
+    <ul class="keys">
+      <li><kbd>y</kbd> Yes</li>
+      <li><kbd>n</kbd> No</li>
+      <li><kbd>o</kbd> Other</li>
+      <li><kbd>Enter</kbd> save the answer</li>
+      <li><kbd>Escape</kbd> close the Other form</li>
+      <li><kbd>j</kbd> next question</li>
+      <li><kbd>k</kbd> previous question</li>
+      <li><kbd>ArrowDown</kbd> next question</li>
+      <li><kbd>ArrowUp</kbd> previous question</li>
+      <li><kbd>1-9</kbd> use proposal a to i</li>
+      <li><kbd>z</kbd> zoom the PDF page</li>
+      <li><kbd>p</kbd> switch attention or print order</li>
+      <li><kbd>/</kbd> filter the queue</li>
+      <li><kbd>?</kbd> go to this key list</li>
+    </ul>
+    <p class="muted">Single keys do nothing while you type in a field.</p>
+  </section>
+</footer>
+</body>
+</html>

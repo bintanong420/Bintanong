@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 
-SCHEMA_VERSION = "palsu-prospectus-v3.2"
+SCHEMA_VERSION = "palsu-prospectus-v3.3"
 
 
 MANIFEST_SCHEMA_VERSION = "palsu-prospectus-batch-manifest-v3.1"

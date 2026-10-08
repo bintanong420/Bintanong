@@ -8,13 +8,12 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 import json
 import os
-import re
 import shutil
 import time
 import traceback
 import uuid
 
-from .identity import IDENTITY_VERSION, bytes_sha256, conversion_identity, file_sha256
+from .identity import IDENTITY_VERSION, bytes_sha256, conversion_identity, file_sha256, is_sha256
 
 PUBLISH_SCHEMA = "palsu-prospectus-publish-v2"
 FAILED_DIR_NAME = "failed"
@@ -112,10 +111,6 @@ def _leaf_name(value: Any) -> bool:
     )
 
 
-def _sha256(value: Any) -> bool:
-    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
-
-
 def _manifest_error(manifest: Any) -> str | None:
     """Validate the manifest before trusting any path or digest it declares."""
     if not isinstance(manifest, Mapping) or manifest.get("schema") != PUBLISH_SCHEMA:
@@ -128,16 +123,16 @@ def _manifest_error(manifest: Any) -> str | None:
         return "invalid publish file name"
     if len({name.casefold() for name in all_names}) != len(all_names):
         return "duplicate publish file name"
-    if any(not _sha256(digest) for digest in [*files.values(), *caches.values()]):
+    if any(not is_sha256(digest) for digest in [*files.values(), *caches.values()]):
         return "invalid publish digest"
     main = manifest.get("main_file")
     if not _leaf_name(main) or main not in files:
         return "missing main file binding"
     identity = manifest.get("run_identity")
-    if (not isinstance(identity, Mapping) or not _sha256(manifest.get("run_key"))
+    if (not isinstance(identity, Mapping) or not is_sha256(manifest.get("run_key"))
             or identity.get("run_key") != manifest["run_key"]):
         return "invalid run identity"
-    if identity.get("cache_files") != caches or not _sha256(identity.get("input_sha256")):
+    if identity.get("cache_files") != caches or not is_sha256(identity.get("input_sha256")):
         return "invalid cache or input identity binding"
     if identity.get("input_kind") == "pdf":
         raw_names = [name for name in caches if name.endswith("_docling.json")]

@@ -11,6 +11,7 @@ import json
 import shutil
 
 from .authority import build_authority
+from .chunking import CHUNKER_VERSION, TOKEN_COUNT_METHOD
 from .common import SCHEMA_VERSION
 from .evidence import LoadedDocument
 from .sections import SemanticRepairProvider
@@ -25,7 +26,7 @@ from .prolog import generate_prolog_knowledge
 from .rag import build_hierarchical_rag_chunks, build_semantic_rag_chunks
 from .markup import render_prospectus_markup
 from .paths import DEFAULT_SEMANTIC_DOC, SOURCE_PDF_ROOT, find_default_output_root
-from .identity import InputSnapshot, run_identity
+from .identity import InputSnapshot, is_sha256, run_identity
 from .loader import _cache_meta_path, load_document_result
 from .publish import (
     clear_failure, new_staging_dir, output_names, publish_staged, write_failure, write_text_lf,
@@ -35,6 +36,20 @@ REVIEW_INPUT_NOTE = (
     "Docling JSON given without its source PDF: the PDF hash and conversion settings are "
     "not verified, so this output is a review input only."
 )
+
+
+def _checked_pdf_sha256(pdf_sha256: str | None, source: Any) -> str | None:
+    """The hash of the PDF captured for this run, or None when there was no PDF.
+
+    It is never computed here; a malformed value, or one that contradicts the declared source, is refused.
+    """
+    if pdf_sha256 is None:
+        return None
+    if not is_sha256(pdf_sha256):
+        raise ValueError("pdf_sha256 must be a lowercase SHA-256 hex digest")
+    if source is not None and source.pdf_sha256 != pdf_sha256:
+        raise ValueError("pdf_sha256 contradicts the declared source hash")
+    return pdf_sha256
 
 
 def build_payload(
@@ -49,8 +64,13 @@ def build_payload(
     pdf_hash_check: str = "not_checked",
     review_entries: Iterable[Mapping[str, Any]] | None = None,
     semantic_map: dict[str, dict[str, Any]] | None = None,
+    pdf_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Evidence -> audited payload. Production artifacts require a passing audit; no state here is approval."""
+    """Evidence -> audited payload. Production artifacts require a passing audit; no state here is approval.
+
+    `pdf_sha256` is the PDF hash captured for the run (run_identity); without it every chunk is unanchored.
+    """
+    pdf_sha256 = _checked_pdf_sha256(pdf_sha256, source)
     if semantic_map is None:
         semantic_map = parse_semantic_markdown(Path(semantic_doc_path)) if semantic_doc_path else {}
     metadata, metadata_warnings = resolve_metadata(
@@ -93,11 +113,17 @@ def build_payload(
     )
 
     verified = audit["status"] != "error"
+    rejected_chunks: list[dict[str, Any]] = []
     if verified:
         prolog = generate_prolog_knowledge(metadata, courses, tracks, term_units)
         prolog["status"] = "extracted"  # the audit found no error; not a verification
-        semantic_chunks = build_semantic_rag_chunks(metadata, courses, tracks, term_units)
-        hierarchical_chunks = build_hierarchical_rag_chunks(document, Path(input_path).name)
+        semantic_chunks = build_semantic_rag_chunks(
+            metadata, courses, tracks, term_units, pdf_sha256=pdf_sha256, document=document, layout=audit["table_layout"],
+            evidence_ids=[i for s in audit["curriculum_sections"] for i in s.get("evidence_cells") or []],
+            rejected=rejected_chunks,
+        )
+        hierarchical_chunks = build_hierarchical_rag_chunks(
+            document, Path(input_path).name, pdf_sha256=pdf_sha256, rejected=rejected_chunks)
     else:
         prolog = {
             "status": "blocked",
@@ -125,6 +151,7 @@ def build_payload(
         "campus": metadata.get("campus"),
         "source_file": Path(input_path).name,
         "source_path": str(Path(input_path).resolve()),
+        "pdf_sha256": pdf_sha256,
         "metadata": metadata,
         "courses": courses,
         "curriculum_by_term": build_curriculum_by_term(courses),
@@ -146,7 +173,13 @@ def build_payload(
             "rejected": parse.invalid_repairs,
         },
         "prolog": prolog,
-        "rag": {"semantic_chunks": semantic_chunks, "hierarchical_chunks": hierarchical_chunks},
+        "rag": {
+            "chunker_version": CHUNKER_VERSION,
+            "token_count_method": TOKEN_COUNT_METHOD,
+            "semantic_chunks": semantic_chunks,
+            "hierarchical_chunks": hierarchical_chunks,
+            "rejected_chunks": rejected_chunks,
+        },
         "audit": audit,
         **authority,
         "quality_report": {
@@ -163,6 +196,7 @@ def build_payload(
             "total_elective_tracks": len(tracks),
             "total_semantic_chunks": len(semantic_chunks),
             "total_hierarchical_chunks": len(hierarchical_chunks),
+            "total_rejected_chunks": len(rejected_chunks),
             "unresolved_prerequisites": len(audit["unresolved_prerequisites"]),
             "errors": audit["errors"],
             "warnings": audit["warnings"],
@@ -247,7 +281,7 @@ def _stage_outputs(
             chunks = payload["rag"]["semantic_chunks"] + payload["rag"]["hierarchical_chunks"]
             write_text_lf(
                 stage / names.rag.name,
-                "".join(json.dumps(chunk, ensure_ascii=False) + "\n" for chunk in chunks),
+                "".join(json.dumps(chunk, ensure_ascii=False, sort_keys=True) + "\n" for chunk in chunks),
             )
             produced.append(names.rag.name)
     if export_csv:
@@ -337,6 +371,7 @@ def process_prospectus(
             semantic_doc_path,
             raw_json_path,
             repair_provider=repair_provider,
+            pdf_sha256=run_id["pdf_sha256"],
             source=source,
             approved_scope=approved_scope,
             pdf_hash_check=pdf_hash_check,
