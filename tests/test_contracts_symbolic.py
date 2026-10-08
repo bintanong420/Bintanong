@@ -156,7 +156,7 @@ def test_unsupported_predicate_cannot_invent_rules():
 
 
 @pytest.mark.parametrize("over", [
-    dict(capability=""), dict(inputs=[{"name": "c", "value": "x); halt(", "fact_ref": None}]),
+    dict(capability=""), dict(inputs=[{"name": "c", "value": "x);\nhalt(", "fact_ref": None}]),
     dict(inputs=[{"name": "c", "value": "x", "fact_ref": "ver-synth-1"}]),
     dict(goal="can_enroll(x)."), dict(prolog="can_enroll(x)."), dict(query_string="x"),
     dict(rule_ids=["fact-synth-1"]), dict(schema_version="bintanong-symbolic-result-v2"),

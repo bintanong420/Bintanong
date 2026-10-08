@@ -126,12 +126,17 @@ def value(v):
     return {"name": "course", "value": v, "fact_ref": None}
 
 
-@pytest.mark.parametrize("v", ["X", "Course", "_", "_foo", "Y1", "CS101", "MATH101", "A_B", "is", "IS", "mod", "rem", "div", "xor",
-                               "-", "/", "--", "..", ".5", " CS 101", "CS 101 ", "CS  101", "a\x00b", "a\tb", "a\x1fb", "a‮b",
-                               "x), halt(", "x :- true", "a;b", "a'b", "a\nb", ""])
-def test_a_bound_value_cannot_read_as_prolog(v):
+@pytest.mark.parametrize("v", [" CS 101", "CS 101 ", "CS  101", "a\x00b", "a\tb", "a\x1fb", "a‮b", "a\nb", ""])
+def test_a_bound_value_refuses_padding_control_characters_and_empty_text(v):
     with pytest.raises(ValidationError):
         runtime.BoundInput.parse(value(v))
+
+
+@pytest.mark.parametrize("v", ["X", "Course", "_", "_foo", "Y1", "CS101", "MATH101", "A_B", "is", "IS", "mod", "rem", "div", "xor",
+                               "-", "/", "--", "..", ".5", "x), halt(", "x :- true", "a;b", "a'b"])
+def test_a_bound_value_is_data_so_prolog_looking_text_is_accepted_and_must_be_quoted(v):
+    assert runtime.BoundInput.parse(value(v)).value == v
+    assert runtime.prolog_quote(v).startswith("'") and runtime.prolog_quote(v).endswith("'")
 
 
 @pytest.mark.parametrize("v", ["CS 101", "ITEC 101", "FICTIONAL-101", "1.75", "2018-2019", "cs101", "cs 101", "Intro to Computing",

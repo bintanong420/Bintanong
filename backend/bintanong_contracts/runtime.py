@@ -3,13 +3,15 @@
 A routing decision has either a route (RAG, Hybrid or Symbolic) or a control outcome, never both and
 never neither, and is validated before dispatch. There is no "Direct" route here; the legacy value is
 handled only by routing_adapter, which refuses it until the owner decides what it means. A symbolic
-goal is a registered predicate name with bound inputs, never generated Prolog text. A retrieval result
+goal is a registered predicate name with bound inputs, never generated Prolog text. A bound input is data;
+rendering must quote it (see `prolog_quote`), because the value itself may be any printable text. A retrieval result
 carries the register versions its chunks cite and checks every chunk against its version.
 """
 
 from __future__ import annotations
 
 import re
+import unicodedata
 from typing import Annotated, Literal
 
 from pydantic import AfterValidator, Field, model_validator
@@ -22,25 +24,45 @@ from .source import Chunk, check_chunk_binding
 _Finite = Annotated[float, Field(allow_inf_nan=False)]
 _Name = Annotated[str, Field(min_length=1)]
 IDENT = r"^[a-z][a-z0-9_]*$"
-# Bound values: letters, digits, space, underscore, slash, hyphen, and one decimal part ("1.75"). No quotes,
-# parentheses, commas, semicolons, colons or other full stops. On top of this shape, `_bound_value` refuses
-# what could still read as Prolog: a single token that is a Prolog variable (capital or underscore first,
-# then letters, digits or underscores), a bare operator, text with no letter or digit, and padded text.
-BOUND_VALUE = r"^[A-Za-z0-9 _/-]+(\.[0-9]+)?$"
-_PROLOG_VARIABLE = re.compile(r"[A-Z_][A-Za-z0-9_]*")
-_PROLOG_WORD_OPERATORS = frozenset({"is", "mod", "rem", "div", "xor", "rdiv"})
+# A bound value is DATA: any printable text of at most BOUND_VALUE_MAX characters, so real course codes
+# such as "HBO", "P2101" or "GE- Elect: EM" are values, not syntax. Nothing is generated or executed here;
+# rendering must quote: the fixed renderer turns a value into Prolog only through `prolog_quote`, which
+# always emits one single-quoted atom. Refused: empty text, padding or repeated spaces, control characters
+# (including NUL and newlines), Unicode format, separator and unassigned characters, and over-long text.
+# The cap is an owner-reviewable default.
+BOUND_VALUE_MAX = 128
+_REFUSED_CATEGORIES = frozenset({"Cc", "Cf", "Cs", "Co", "Cn", "Zl", "Zp"})
+
+
+def _unprintable(value: str) -> str | None:
+    """Why `value` is not printable data, or None. A space is the only separator character allowed."""
+    if not value:
+        return "empty"
+    for ch in value:
+        cat = unicodedata.category(ch)
+        if cat in _REFUSED_CATEGORIES or (cat == "Zs" and ch != " "):
+            return f"control, format or separator character U+{ord(ch):04X}"
+    return None
 
 
 def _bound_value(value: str) -> str:
+    why = _unprintable(value)
+    if why:
+        raise ValueError(f"a bound value must be printable text: {why}")
     if value != value.strip() or "  " in value:
         raise ValueError("a bound value carries no padding or repeated spaces")
-    if not re.search(r"[A-Za-z0-9]", value):
-        raise ValueError("a bound value needs a letter or a digit (a bare operator or symbol is not a value)")
-    if _PROLOG_VARIABLE.fullmatch(value):
-        raise ValueError(f"{value!r} has the shape of a Prolog variable and would match anything if rendered bare")
-    if value.casefold() in _PROLOG_WORD_OPERATORS:
-        raise ValueError(f"{value!r} is a Prolog operator, not a value")
     return value
+
+
+def prolog_quote(value: str) -> str:
+    """The one way a bound value may become Prolog text: a single-quoted atom, backslash and quote escaped.
+    Refuses empty text and control or format characters. No Prolog is generated or run anywhere else."""
+    if not isinstance(value, str):
+        raise ContractError(f"cannot quote a {type(value).__name__}")
+    why = _unprintable(value)
+    if why:
+        raise ContractError(f"cannot quote the value as a Prolog atom: {why} (printable text only)")
+    return "'" + value.replace("\\", "\\\\").replace("'", "\\'") + "'"
 
 
 # --------------------------------------------------------------------------------------------
@@ -48,7 +70,7 @@ def _bound_value(value: str) -> str:
 # --------------------------------------------------------------------------------------------
 class BoundInput(Record):
     name: str = Field(pattern=IDENT)
-    value: Annotated[str, Field(pattern=BOUND_VALUE, max_length=64), AfterValidator(_bound_value)]
+    value: Annotated[str, Field(min_length=1, max_length=BOUND_VALUE_MAX), AfterValidator(_bound_value)]
     fact_ref: str | None = Field(pattern=ID_FACT)
 
 
