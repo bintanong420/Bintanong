@@ -212,7 +212,8 @@ def _strings(node):
     if isinstance(node, str):
         yield node
     elif isinstance(node, dict):
-        for v in node.values():
+        for k, v in node.items():
+            yield from _strings(k)
             yield from _strings(v)
     elif isinstance(node, list):
         for v in node:

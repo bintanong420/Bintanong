@@ -65,7 +65,7 @@
   },
   "query_markers": {
     "note": "OWNER-reviewable default word lists (the language set is an owner decision). A negation or time qualifier found in the original query must survive normalization and normalization may not add one. Contractions ending in n't count as 'not'. A leading apostrophe is ignored ('di is di).",
-    "negations": ["not", "no", "never", "none", "neither", "nor", "without", "cannot", "hindi", "wala", "walang", "di", "ayaw", "wag", "huwag", "hwag"],
+    "negations": ["not", "no", "never", "none", "nothing", "nobody", "neither", "nor", "without", "cannot", "hindi", "wala", "walang", "di", "ayaw", "wag", "huwag", "hwag"],
     "time_qualifiers": ["last semester", "next semester", "this semester", "last sem", "next sem", "this sem", "last term", "next term", "this term", "last year", "next year", "this year", "noong", "sa susunod", "sa nakaraan", "kahapon", "bukas", "ngayon", "mamaya", "kanina"]
   },
   "decision": {
