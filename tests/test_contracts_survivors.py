@@ -41,7 +41,7 @@ def test_scope_fields_origins_and_runtime_lists_are_pinned():
 def test_the_id_patterns_are_derived_from_the_vocabulary_prefixes():
     assert gov.ID_DOC == base.id_pattern("doc-") and gov.ID_CONFLICT == base.id_pattern("conflict-")
     assert gov.ID_FACT == base.id_pattern("fact-") and gov.ID_SESSION == base.id_pattern("sess-")
-    with pytest.raises(KeyError):
+    with pytest.raises(KeyError, match="chunk\\-' is not an id prefix in the governance vocabulary"):
         base.id_pattern("chunk-")
 
 
@@ -56,7 +56,7 @@ def test_the_session_origins_of_the_vocabulary_are_exactly_what_a_session_fact_a
     for origin in VOC["session_origins"]:
         gov.SessionFact.parse({**f, "origin": origin})
     for origin in ("staff_entry", "official_record", ""):
-        with pytest.raises(ValidationError):
+        with pytest.raises(ValidationError, match="String should match pattern '\\^\\(user_statement\\|private_upload"):
             gov.SessionFact.parse({**f, "origin": origin})
 
 
@@ -70,9 +70,9 @@ def test_routes_and_controls_of_the_vocabulary_are_exactly_what_a_routing_decisi
     for control in VOC["runtime"]["controls"]:
         runtime.RoutingDecision.parse(decision(control=control))
     for bad in ("Direct", "rag", "", "chat"):
-        with pytest.raises(ValidationError):
+        with pytest.raises(ValidationError, match='is not a route in the governance vocabulary'):
             runtime.RoutingDecision.parse(decision(route=bad))
-        with pytest.raises(ValidationError):
+        with pytest.raises(ValidationError, match='is not a control outcome in the governance vocabulary'):
             runtime.RoutingDecision.parse(decision(control=bad))
     assert not hasattr(runtime, "ROUTES") and not hasattr(runtime, "CONTROLS")
 

@@ -75,9 +75,9 @@ def test_model_copy_with_an_update_is_validated_again():
     chunk = fx.chunk()
     with pytest.raises(ValidationError, match="content_hash"):
         chunk.model_copy(update={"text": "silently changed"})
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match="Value error, 'approved' is not a verification_state in the g"):
         chunk.model_copy(update={"source_verification": "approved"})
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='Extra inputs are not permitted'):
         chunk.model_copy(update={"unknown_field": 1})
 
 
@@ -91,5 +91,5 @@ def test_a_valid_update_is_applied():
     span = fx.span(fx.SHA["1"], text="t")
     moved = source.SourceSpan.parse(span).model_copy(update={"page": 3})
     assert moved.page == 3
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='Input should be greater than or equal to 1'):
         source.SourceSpan.parse(span).model_copy(update={"page": 0})

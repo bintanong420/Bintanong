@@ -76,7 +76,7 @@ def test_the_renderer_refuses_control_and_format_characters(v):
 @pytest.mark.parametrize("v", ["a\x00b", "a\nb", "a\rb", "a\tb", "a\x1fb", "a\x7fb", "a\u202eb", "a\u200bb", "a\u00a0b", "",
                                " CS 101", "CS 101 ", "CS  101", "x" * (runtime.BOUND_VALUE_MAX + 1)])
 def test_a_bound_value_still_refuses_control_padding_empty_and_over_long(v):
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='printable text|padding|at least 1 character|at most'):
         runtime.BoundInput.parse(value(v))
 
 
@@ -100,7 +100,7 @@ def test_the_predicate_name_rule_is_unchanged():
     for name in ("can_enroll", "a", "p2_check"):
         runtime.PredicateRequest.parse({"predicate": name, "inputs": []})
     for name in ("Can", "a b", "a-b", "a(", "_a", "1a", "a:-b", "a.", ""):
-        with pytest.raises(ValidationError):
+        with pytest.raises(ValidationError, match="String should match pattern '\\^\\[a\\-z\\]\\[a\\-z0\\-9_\\]\\*\\$"):
             runtime.PredicateRequest.parse({"predicate": name, "inputs": []})
 
 

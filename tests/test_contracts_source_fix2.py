@@ -41,7 +41,7 @@ def test_an_exact_count_names_its_tokenizer_and_a_pinned_revision(method):
     f"tokenizer:m@{SHA40.upper()}", f"tokenizer:m@{SHA40[:-1]}", f"tokenizer:m@{SHA40} ", "tokenizer:m", "tokenizer:",
     f"tokenizer: m@{SHA40}", f"tokenizer:m @{SHA40}", "unspecified", "estimate-v1"])
 def test_an_exact_count_with_an_unpinned_or_malformed_method_is_rejected(method):
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='Value error, an e'):
         source.TokenCount.model_validate(tc(method=method))
 
 
@@ -66,7 +66,7 @@ def rec(**over):
                                       "main", "master", "latest", "head", "HEAD", "r1" + "0" * 38, SHA40.upper(), SHA40[:-1],
                                       SHA40 + "0", ""])
 def test_a_model_revision_must_be_a_full_lowercase_commit_or_digest(revision):
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='pinned|at least 1 character'):
         embedding.EmbeddingRecord.parse(rec(model_revision=revision))
 
 
@@ -229,13 +229,13 @@ def test_privileged_type_field_keys_are_found_at_any_depth(fields):
 
 def test_type_fields_cannot_be_mutated_after_validation():
     c = source.Chunk.parse(chunk_dict(type_fields={"course_code": "CS 101", "nested": {"k": [1, 2]}}))
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match='this mapping is immutable'):
         c.type_fields["approved"] = True
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match='this mapping is immutable'):
         c.type_fields.update(verified=True)
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match='this mapping is immutable'):
         del c.type_fields["course_code"]
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match='this mapping is immutable'):
         c.type_fields["nested"]["k2"] = 1
     assert isinstance(c.type_fields["nested"]["k"], tuple)
     assert source.Chunk.parse(base.canonical_json(c)) == c

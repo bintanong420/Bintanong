@@ -143,7 +143,7 @@ def test_same_filename_different_bytes_is_a_different_edition():
 def test_duplicate_source_locations_are_rejected_at_every_layer():
     raw = copy.deepcopy(next(c for c in ex.semantic() if c["chunk_type"] == "course"))
     raw["source_spans"].append(copy.deepcopy(raw["source_spans"][0]))
-    with pytest.raises(chunk_adapter.ChunkMappingError) as info:
+    with pytest.raises(chunk_adapter.ChunkMappingError, match='duplicate_source_location: identical span on page 1') as info:
         chunk_adapter.adapt_chunk(raw, page_sizes=ex.PAGE)
     assert info.value.reason == "duplicate_source_location"
     data = extractor_chunk().model_dump(mode="json")
@@ -273,7 +273,7 @@ def test_stale_derived_state_is_detected():
 def test_unsupported_rules_stay_unsupported():
     req = runtime.PredicateRequest.parse({"predicate": "can_enroll_fictional", "inputs": [
         {"name": "course", "value": "FICTIONAL-101", "fact_ref": None}]})
-    with pytest.raises(symbolic.UnsupportedRequest):
+    with pytest.raises(symbolic.UnsupportedRequest, match="predicate 'can_enroll_fictional' is not in the capability re"):
         symbolic.EMPTY_REGISTRY.goal(req)
     result = symbolic.SymbolicResult.parse({
         "schema_version": "bintanong-symbolic-result-v1", "decision": fixture_decision("eligible"),

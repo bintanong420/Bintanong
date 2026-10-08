@@ -100,7 +100,7 @@ def test_bottomleft_geometry_is_accepted_when_top_is_above_bottom():
 
 def test_nan_and_infinity_are_not_geometry():
     for v in ("NaN", "Infinity"):
-        with pytest.raises((ValidationError, base.ContractError, ValueError)):
+        with pytest.raises((ValidationError, base.ContractError, ValueError), match='Input should be a finite number'):
             source.SourceSpan.parse(json.dumps(span_dict(bbox=[1, 2, 3, 4])).replace("[1, 2, 3, 4]", f"[1, 2, 3, {v}]"))
 
 
@@ -174,12 +174,12 @@ def test_estimates_never_claim_exactness():
     assert source.TokenCount.model_validate(tc()).exact is False
     for over in (dict(exact=True), dict(method="estimate-v2", exact=True),
                  dict(includes_prefix_and_special_tokens=True), dict(count=-1), dict(method="")):
-        with pytest.raises(ValidationError):
+        with pytest.raises(ValidationError, match='estimate|exact|greater than or equal|prefix/special|tokenizer|at least 1 character'):
             source.TokenCount.model_validate(tc(**over))
     ok = source.TokenCount.model_validate(tc(method="tokenizer:synthetic@" + "a" * 40, exact=True,
                                                includes_prefix_and_special_tokens=True))
     assert ok.exact
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match="Value error, an exact count must name its tokenizer as 'toke"):
         source.TokenCount.model_validate(tc(method="unspecified", exact=True))
 
 
@@ -264,7 +264,7 @@ def test_malformed_or_stale_chunk_is_rejected(over, match):
 
 def test_chunk_is_immutable():
     c = source.Chunk.parse(chunk_dict())
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='Instance is frozen'):
         c.text = "x"
     assert isinstance(c.spans, tuple)
 
@@ -296,7 +296,7 @@ def test_binding_succeeds_only_for_the_same_bytes_and_ids():
                    dict(version_id="ver-synth-handbook-1"),
                    dict(edition_id="edition-synth-handbook-1"),
                    dict(document_id="doc-other")):
-        with pytest.raises(base.ContractError):
+        with pytest.raises(base.ContractError, match='register|digest|!='):
             source.check_chunk_binding(source.Chunk.parse(chunk_dict(**{**ids, **mutate})), reg)
 
 def test_binding_rejects_a_verification_claim_that_differs_from_the_register():

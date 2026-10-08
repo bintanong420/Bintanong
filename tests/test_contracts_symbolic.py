@@ -146,12 +146,12 @@ def test_symbolic_result_roundtrips():
 ])
 def test_eligible_and_ineligible_need_rule_ids_and_a_bundle_version(over):
     for decision in (E, I):
-        with pytest.raises((ValidationError, base.ContractError)):
+        with pytest.raises((ValidationError, base.ContractError), match='rule|derived|duplicate|cannot cite'):
             _result(decision, **over)
 
 
 def test_unsupported_predicate_cannot_invent_rules():
-    with pytest.raises((ValidationError, base.ContractError)):
+    with pytest.raises((ValidationError, base.ContractError), match='Value error, an unsupported predicate cannot cite rules'):
         _result(S, rule_ids=["rule-synth-1"], rule_bundle_version="bundle-synth-1")
 
 
@@ -180,7 +180,7 @@ def req(**kw):
 
 def test_the_default_registry_is_empty_so_everything_is_unsupported():
     assert symbolic.EMPTY_REGISTRY.supports("can_enroll_fictional") is False
-    with pytest.raises(symbolic.UnsupportedRequest):
+    with pytest.raises(symbolic.UnsupportedRequest, match="predicate 'can_enroll_fictional' is not in the capability re"):
         symbolic.EMPTY_REGISTRY.goal(req())
 
 
@@ -198,7 +198,7 @@ def test_a_registered_goal_binds_inputs_in_registered_order():
     {"predicate": "can_enroll_fictional", "inputs": [{"name": "other", "value": "x", "fact_ref": None}]},
 ])
 def test_goals_outside_the_registry_or_with_wrong_inputs_are_unsupported(request_):
-    with pytest.raises(symbolic.UnsupportedRequest):
+    with pytest.raises(symbolic.UnsupportedRequest, match='not in the capability registry|do not match the registered'):
         registry().goal(runtime.PredicateRequest.parse(request_))
 
 
@@ -232,5 +232,5 @@ def test_unknown_may_rest_on_coverage_alone():
 
 def test_symbolic_result_rejects_duplicate_input_names_and_rule_ids():
     dup = [{"name": "c", "value": "x", "fact_ref": None}, {"name": "c", "value": "y", "fact_ref": None}]
-    with pytest.raises((ValidationError, base.ContractError)):
+    with pytest.raises((ValidationError, base.ContractError), match='Value error, duplicate input names'):
         _result(E, inputs=dup)

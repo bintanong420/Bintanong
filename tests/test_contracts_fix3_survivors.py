@@ -60,7 +60,7 @@ def test_an_id_needs_a_body_after_its_prefix(prefix):
 
 def test_a_register_refuses_an_id_with_no_body():
     rec = tl.mutated(tl.register()[1], lambda r: r.__setitem__("document_id", "doc-"))
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match="String should match pattern '\\^doc\\\\\\-\\[a\\-z0\\-9\\-\\]\\+\\$"):
         gov.SourceDocumentVersion.parse(rec)
 
 

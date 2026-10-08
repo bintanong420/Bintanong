@@ -299,7 +299,7 @@ def test_envelope_must_match_its_evidence_bundle():
         envelope(route="Hybrid", decision=decision("eligible"), citations=[{**cite(), "byte_sha256": "9" * 64}]),
     ]
     for c in cases:
-        with pytest.raises(base.ContractError):
+        with pytest.raises(base.ContractError, match='differs|not permitted|do not include|was not retrieved|names other|names a page'):
             answer.check_envelope_against_bundle(answer.AnswerEnvelope.parse(c), b)
 
 

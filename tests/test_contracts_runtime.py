@@ -154,7 +154,7 @@ def test_legacy_object_with_attributes_is_accepted_duck_typed():
 
 
 def test_legacy_direct_is_refused_and_names_the_open_owner_decision():
-    with pytest.raises(routing_adapter.LegacyRoutingError) as info:
+    with pytest.raises(routing_adapter.LegacyRoutingError, match="legacy route 'Direct' is not accepted: its meaning is an unr") as info:
         routing_adapter.from_legacy_routing({"route": "Direct", "confidence": 0.9, "reason": "hi"})
     assert info.value.reason == "legacy_direct_unresolved_owner_decision"
     assert "owner" in str(info.value).lower() and "Direct" in str(info.value)
@@ -164,7 +164,7 @@ def test_legacy_direct_is_refused_and_names_the_open_owner_decision():
 
 def test_legacy_symbolic_and_hybrid_need_a_typed_predicate_from_another_component():
     for route in ("Symbolic", "Hybrid"):
-        with pytest.raises(routing_adapter.LegacyRoutingError) as info:
+        with pytest.raises(routing_adapter.LegacyRoutingError, match='legacy_route_needs_predicate_request: the legacy shape has n') as info:
             routing_adapter.from_legacy_routing({"route": route, "confidence": 0.9, "reason": "r"})
         assert info.value.reason == "legacy_route_needs_predicate_request"
         got = routing_adapter.from_legacy_routing({"route": route, "confidence": 0.9, "reason": "r"},
@@ -173,7 +173,7 @@ def test_legacy_symbolic_and_hybrid_need_a_typed_predicate_from_another_componen
 
 
 def test_legacy_rag_with_a_predicate_is_refused():
-    with pytest.raises(routing_adapter.LegacyRoutingError):
+    with pytest.raises(routing_adapter.LegacyRoutingError, match='legacy_invalid'):
         routing_adapter.from_legacy_routing({"route": "RAG", "confidence": 0.9, "reason": "r"},
                                             predicate_request=predicate())
 

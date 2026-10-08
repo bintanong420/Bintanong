@@ -323,9 +323,9 @@ def test_the_same_authorization_ref_on_two_versions_is_rejected():
 @pytest.mark.parametrize("value", [" ", "", "auth x", " auth-synth-0001", "auth-synth-0001 ", "auth-synth-0001\n", "auth\tx"])
 def test_blank_or_padded_approval_id_and_authorization_ref_are_rejected(value):
     rec = mut(approved_record(), lambda r: (r.__setitem__("approval_id", value), by_id(r, "ev-b6").update(authorization_ref=value)))
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match="String should match pattern"):
         ok(rec)
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match="String should match pattern"):
         ok(mut(approved_record(), lambda r: r.__setitem__("approval_id", value)))
 
 

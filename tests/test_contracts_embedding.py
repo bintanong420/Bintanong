@@ -62,7 +62,7 @@ def test_malformed_embedding_record_is_rejected(over, match):
 def test_non_finite_vector_values_are_rejected():
     for value in ("NaN", "Infinity", "-Infinity"):
         text = json.dumps(rec()).replace("[0.5, 0.5, 0.5, 0.5]", f"[0.5, 0.5, 0.5, {value}]")
-        with pytest.raises((ValidationError, ValueError)):
+        with pytest.raises((ValidationError, ValueError), match='Input should be a finite number'):
             embedding.EmbeddingRecord.parse(text)
 
 

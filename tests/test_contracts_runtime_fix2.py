@@ -87,7 +87,7 @@ def test_the_marker_lists_come_from_the_vocabulary_and_are_marked_owner_reviewab
 @pytest.mark.parametrize("ref", ["fact-synth-0001", "sess-1", "ver-synth-1 ", " ver-synth-1", "ver-synth-1\n", "VER-synth-1",
                                  "ver-", "doc-", "ver-synth-1/x", "plain", ""])
 def test_an_entity_may_cite_only_a_whole_institutional_id(ref):
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='Value error, an entity may cite only an institutional source'):
         runtime.ResolvedEntity.parse({"kind": "course", "value": "X", "source_ref": ref})
 
 
@@ -128,7 +128,7 @@ def value(v):
 
 @pytest.mark.parametrize("v", [" CS 101", "CS 101 ", "CS  101", "a\x00b", "a\tb", "a\x1fb", "a‮b", "a\nb", ""])
 def test_a_bound_value_refuses_padding_control_characters_and_empty_text(v):
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError, match='printable text|padding|at least 1 character'):
         runtime.BoundInput.parse(value(v))
 
 

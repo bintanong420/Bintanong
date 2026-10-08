@@ -57,7 +57,7 @@ def test_the_adapter_applies_the_same_identity():
         [chunking.make_span("ab" * 32, 1, {"kind": "table_cells", "table_index": 0, "cell_ids": ["t0-c1"]}, "Total units.", None, "docling-json"),
          chunking.make_span("ab" * 32, 1, {"kind": "table_cells", "table_index": 0, "cell_ids": ["t0-c1"]}, "Total units. ", None, "docling-json")],
         pdf_sha256="ab" * 32, source="x.pdf", source_text="Total units. Total units.")
-    with pytest.raises(chunk_adapter.ChunkMappingError) as info:
+    with pytest.raises(chunk_adapter.ChunkMappingError, match='duplicate_source_location: identical span on page 1') as info:
         chunk_adapter.adapt_chunk(raw)
     assert info.value.reason == "duplicate_source_location"
 
@@ -81,7 +81,7 @@ def test_a_table_serialization_whose_raw_text_clean_str_changed_is_rejected_loud
     # The extractor hashed the raw text and dropped it, so the contract cannot recompute the hash. The chunk is
     # rejected, not trusted. This cannot be told from tampering, so the reason stays content_hash_mismatch.
     assert clean_str(raw) != raw
-    with pytest.raises(chunk_adapter.ChunkMappingError) as info:
+    with pytest.raises(chunk_adapter.ChunkMappingError, match='content_hash_mismatch') as info:
         chunk_adapter.adapt_chunk(table_chunk(raw))
     assert info.value.reason == "content_hash_mismatch"
 
