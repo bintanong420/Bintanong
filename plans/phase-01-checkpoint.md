@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 1
 status: in_progress
-sequence: 6
+sequence: 7
 plan: plans/phase-01-source-governance-contracts-plan.md
-head_commit: 8d7308e
-working_tree: clean
-updated_at: 2026-10-08T18:41:33+08:00
+head_commit: b8b5014
+working_tree: dirty
+updated_at: 2026-10-08T20:52:21+08:00
 ---
 
 # Phase 1 Checkpoint
@@ -24,15 +24,17 @@ updated_at: 2026-10-08T18:41:33+08:00
 - Independent re-check of Task 3 (archive of 28ef15f): the earlier High (the unenforced transition `from` state) is CLOSED. It found no new High and three Mediums (M1 bound values refused 18 of 49 real BSBA-HRM course codes; M2 a revoked record skipped the approval guards; M3 decision scope and rule spans were not tied to the bundle or register) plus Lows.
 - Task 3 fix pass 3 (answers the re-check; NOT re-reviewed again by design, because no High remains): 03a7c61 a bound value is data and a fixed renderer quotes it (all 49 BSBA-HRM and 53 IT real codes parse and render); 659ce71 a revocation meets every approval guard and the authorization date covers all relied evidence; 77e5307 a decided result's scope and rule spans must come from a carried register version; d2723b9 namespace scan reads past invisible characters, percent escapes and look-alike letters; fa7493f privileged stems, all-zero revisions, model_copy validates; 853560b span identity ignores whitespace-only differences; e98c63c the six surviving mutants killed and nothing/nobody added to the negation list; f6c0663 reasons asserted in pytest.raises; 58e71c9 look-alike map clean-up; ffab528 and 8d7308e decision record (89 targeted mutants, 88 killed, 1 equivalent).
 
+- Task 4 implemented and freshly verified in b8b5014: executable pending-source document/chunk/synthetic rule/case binding, synthetic committed example, external real BSBA-HRM cached-extraction content check and docs/decisions/phase-01-traceability.md. Task 6 independent review and the Phase 1 exit gate remain outstanding.
+
 ## Current Task
 
-- None active. The owner stopped all agents on 2026-10-08 to hand over to Codex. Remaining Phase 1 work: Task 4, then Task 6 (independent review of governance/contracts/privacy, honest exit-gate statement, final handoff).
+- Awaiting Task 6 independent review, honest exit-gate statement and final handoff. Phase 1 is not complete.
 
 ## Repository State
 
 - Branch `feat/phase-01-source-governance-contracts` in worktree `Bintanong-wt/phase-1`, based on reviewed Phase E tip ec0eac7.
 - Local `dev` is untouched (5c34fd7). Nothing pushed or merged.
-- Working tree clean at 8d7308e before this checkpoint update. Prospectus extractor changes in the owner checkout are untouched.
+- Working tree clean at b8b5014 before this checkpoint update; plans/phase-01-checkpoint.md is the only changed file for this checkpoint commit. The owner checkout's exact nine status entries were unchanged before and after the Task 4 commit; its prospectus extractor changes are untouched.
 - No runtime behaviour of bintanong_api, bintanong_embedding or bintanong_tools changed, and nothing under those packages, backend/pyproject.toml or uv.lock was edited. The contracts package is new code; its adapters read the extractor chunk shape and the legacy routing shape and edit neither.
 
 ## Verification Evidence
@@ -49,9 +51,14 @@ updated_at: 2026-10-08T18:41:33+08:00
 - After fix pass 3, verified by the orchestrator at ffab528 on system Python 3.13 with `-p no:cacheprovider` and a basetemp outside the repository: `py -3.13 -m pytest -q tests` = 3927 passed, 1 skipped, 13 subtests passed; prospectus jsonifier self-test 80/80; `git diff --check` clean; 0 attribution trailers over ec0eac7..HEAD; zero diff under backend/bintanong_api, bintanong_embedding, bintanong_tools, backend/pyproject.toml and uv.lock; phase_state.py validate valid and can-advance refusing.
 - Adapter on real extractor output: the extractor's own builders on a cached Docling JSON of the BSBA-HRM prospectus (fictional digest, no PDF read) gave 61 chunks; with the real page sizes from that JSON (612 by 936) 48 mapped before this pass and 58 map now; the other 3 are layout chunks with printed source text but textless spans (`span_missing_text`).
 - phase_state.py validate: State valid, active phase 1, working tree clean (head_commit warning for the commits since this checkpoint). can-advance: refuses, phase 1 has no complete handoff.
+- Task 4 fresh baseline at e844cad: 3927 passed, 1 skipped, 8 warnings and 13 subtests; self-test 80/80. Final broad run after Task 4: 3978 passed, 1 skipped, 8 warnings and 13 subtests in 136.81s, exit 0; self-test 80/80. Root ran these directly on system Python 3.13 with cacheprovider disabled and external basetemp. Final trace/example/docs-hygiene focused run: 118 passed, exit 0. Protected packages, backend/pyproject.toml, backend/uv.lock and uv.lock have zero diff; no runtime routing behavior changed.
+- Task 4 TDD: missing-checker collection error (exit 2); obsolete descriptive-example assertion failed once (exit 1); exact JSON-number binding regression and valid-rule-edit regression each failed two cases before their fixes (exit 1). Final trace/example focused run after survivor strengthening: 62 passed, exit 0 (51 new trace checks plus 11 existing example checks).
+- Task 4 critical-guard mutations on scratch copies only: first 24 mutants, 16 killed and 8 survived; two redundant span checks removed and survivor checks added. The final full 23-mutant pass after adding the rule draft digest killed 22 and left one span guard masked by that digest. Existing span tests now recompute the edited draft digest; the targeted rerun kills the survivor with four failed tests, exit 1. All 23 critical mutants are killed. Full and targeted reports/logs remain outside Git.
+- Task 4 real and synthetic trace CLIs both validate, exit 0. The real trace uses the original PDF byte digest and unchanged cache/copy digests; its one chunk's own cached cells, physical page/table locator, text join and supplied page size were checked. Original PDF content and cache-to-PDF conversion identity were not verified. The recorded maintainer content check is per chunk/cached extraction only; register content_review, source verification and applicability remain pending, approval_id null. Scratch builder bypassed candidate Prolog generation once; actual generation/execution calls zero. Real trace, cells, paths, hashes and reproduction script remain external.
 
 ## Versions and Digests
 
+- Task 4 actual installed builder/test environment: system Python 3.13.12, Pydantic 2.13.4, Docling 2.129.0, docling-core 2.97.1, pytest 9.0.3. No install or sync. Executable trace schema: bintanong-evaluation-traceability-v1. Full rule draft and case digests use SHA-256 of canonical JSON; real source/cache digests remain outside Git.
 - Pydantic 2.13.4 is importable under `py -3.13`; `pydantic==2.13.5` is declared directly in the `api` and `embedding` extras of backend/pyproject.toml only. uv.lock shows `docling` (tools extra) reaching pydantic through docling-core, so the dependency is undeclared-direct under tools plus dev and low impact today. No dependency, pyproject or lock file was changed. See owner decision 11 in docs/decisions/phase-01-contracts.md.
 - Contract schema versions: bintanong-source-register-v1, -source-conflict-v1, -session-fact-v1, -decision-v1, -source-span-v1, -chunk-v1, -embedding-record-v1, -normalized-query-v1, -routing-decision-v1, -retrieval-result-v1, -symbolic-result-v1, -evidence-bundle-v1, -answer-envelope-v1. Additive in pass 2: SourceSpan `original_page`/`page_offset`, locator kind `section`, Chunk `register_binding`, RetrievalResult `versions`, SymbolicResult `scope`/`rule_spans`; the vocabulary file gained `runtime` and `query_markers`.
 
@@ -64,6 +71,7 @@ updated_at: 2026-10-08T18:41:33+08:00
 
 ## Known Failures or Blockers
 
+- Task 4's legacy Docling cache metadata carries versions/settings without a PDF/cache byte identity, so associating its extracted cells with the hashed original PDF remains pending. Its printed passage does not substantiate the fictional COURSE-A/B rule; the bound case remains synthetic with empty gold spans/rules and zero verified-final coverage.
 - No authorized institutional source evidence exists; approval ids stay null. The Direct routing discrepancy is unresolved (owner decision needed on contract meaning).
 - The extractor does not record page size next to bounding boxes, so extractor chunks with boxes are rejected by the chunk adapter unless page sizes are supplied or the boxes are dropped with a reported gap.
 - Three of 61 real BSBA-HRM chunks do not map (layout chunks whose Docling text is asserted as source text while their spans carry none).
@@ -72,9 +80,8 @@ updated_at: 2026-10-08T18:41:33+08:00
 
 ## Next Action
 
-- Task 4: bind one source version and span to one reviewed chunk, one rule draft and one evaluation case with traceability checks. Prefer ONE real prospectus chunk (BSBA-HRM, from the extractor's own builders on the cached Docling JSON, fictional or real digest as available, state left pending) plus a synthetic rule draft and the evaluation example already at evaluation/examples/traceability-synthetic.json; everything stays synthetic or pending until authorized source coverage exists. Reuse the contracts (bind_chunk, check_chunk_binding, SymbolicResult, CapabilityRegistry, prolog_quote); do not change runtime routing behaviour until the owner decides the Direct meaning.
 - Task 6: independent review (Spec and Standards) of governance, contracts and privacy including a narrow check of fix pass 3; state the exit gate honestly (missing authorized source coverage documented, not fabricated); write plans/phase-01-handoff.md per the artifact contract; run `phase_state.py validate` then `can-advance`. Only a complete handoff permits Phase 2.
 
 ## Do Not Repeat
 
-- Do not redo the formal start, Tasks 1 to 3, Task 5 or fix passes 1 to 3 unless repository evidence invalidates them. Do not recreate knowledge/manifests/ files or backend/bintanong_contracts/; extend them.
+- Do not redo the formal start, Tasks 1 to 5 or fix passes 1 to 3 unless repository evidence invalidates them. Do not recreate knowledge/manifests/ files or backend/bintanong_contracts/; extend them.
