@@ -320,3 +320,46 @@ def test_run_record_canonical_bytes_are_stable():
     a = rb.run_record_json(rb.RunRecord.parse(record()))
     b = rb.run_record_json(rb.RunRecord.parse(json.dumps(record(), sort_keys=True)))
     assert a == b and a.endswith("\n") and "\r" not in a
+
+
+# ------------------------------------------------------------ Task 6 STANDARDS citation regressions
+@pytest.mark.parametrize("gold_page,bad_page", [(1, True), (3, 3.0)])
+def test_boolean_or_float_citation_page_cannot_receive_a_perfect_score(gold_page, bad_page):
+    case = elig_case(gold_spans=[fx.span(page=gold_page)])
+    ref = {k: case["gold_spans"][0][k] for k in rb.SPAN_REF_KEYS}
+    ref["page"] = bad_page
+    with pytest.raises(rb.RubricError, match="page"):
+        rb.score_case(case, elig_out(cited_spans=[ref]))
+
+
+@pytest.mark.parametrize("key,bad", [
+    *[("byte_sha256", v) for v in ("", "A" * 64, "a" * 63, "g" * 64, None, 1, True, [], {})],
+    *[("version_id", v) for v in ("", "ver-", "version-1", "ver-UPPER-1", None, 1, True, [], {})],
+    *[("page", v) for v in (False, 1.0, 0, -1, "3", "", None, [], {})],
+    *[("locator_ref", v) for v in ("", " \t\n", None, True, 3, [], {})],
+])
+def test_every_citation_primitive_is_validated_before_set_comparison(key, bad):
+    ref = elig_out()["cited_spans"][0]
+    ref[key] = bad
+    with pytest.raises(rb.RubricError, match=key):
+        rb.score_case(elig_case(), elig_out(cited_spans=[ref]))
+
+
+@pytest.mark.parametrize("bad", [None, "citation", 1, [], {}, {"page": 1, 1: "bad key"}])
+def test_non_object_or_partial_citations_raise_rubric_error(bad):
+    with pytest.raises(rb.RubricError, match="span"):
+        rb.score_case(elig_case(), elig_out(cited_spans=[bad]))
+
+
+def test_four_field_citations_and_five_field_gold_spans_remain_distinct():
+    case = elig_case()
+    valid = elig_out()
+    assert len(case["gold_spans"][0]) == 5 and len(valid["cited_spans"][0]) == 4
+    assert rb.score_case(case, valid)["total"] == 1.0
+    with pytest.raises(rb.RubricError, match="span"):
+        rb.score_case(case, elig_out(cited_spans=[fx.span()]))
+    with pytest.raises(rb.RubricError, match="case"):
+        rb.score_case(elig_case(gold_spans=valid["cited_spans"]), valid)
+    with pytest.raises(rb.RubricError, match="page"):
+        rb.score_case(case, elig_out(cited_spans=[valid["cited_spans"][0],
+                                                 {**valid["cited_spans"][0], "page": True}]))

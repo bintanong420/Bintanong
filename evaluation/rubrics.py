@@ -16,7 +16,7 @@ from pydantic import Field, field_validator
 
 from backend.bintanong_contracts.base import Contract, Record, canonical_json, is_pinned_revision
 
-from .case import LANGUAGES, OUTCOMES, ROUTES, CONTROLS, case_findings
+from .case import LANGUAGES, OUTCOMES, ROUTES, CONTROLS, SPAN_REF_KEYS, case_findings, span_reference_findings
 
 NEVER_APPROVAL_OR_DENIAL = ("unknown", "unsupported", "error")
 STANCES = ("approve", "deny", "abstain", "clarify", "info")
@@ -25,7 +25,6 @@ FLAGS = ("false_approval", "false_denial", "false_abstention", "error_as_policy"
          "unexpected_outcome", "stance_outcome_mismatch", "language_mismatch")
 CRITICAL_FLAGS = ("false_approval", "false_denial", "error_as_policy", "unsupported_claim")
 OUTPUT_KEYS = ("route", "control", "outcome", "stance", "language", "claims", "cited_spans", "operational_error")
-SPAN_REF_KEYS = ("byte_sha256", "version_id", "page", "locator_ref")
 
 RUBRICS = {
     "route": {
@@ -87,8 +86,12 @@ def _check_output(o) -> None:
     if not isinstance(o["operational_error"], bool):
         raise RubricError("output operational_error must be a boolean")
     spans = o["cited_spans"]
-    if not (isinstance(spans, list) and all(isinstance(s, dict) and set(s) == set(SPAN_REF_KEYS) for s in spans)):
-        raise RubricError(f"each cited span has exactly the keys {list(SPAN_REF_KEYS)}")
+    if not isinstance(spans, list):
+        raise RubricError("cited_spans must be a list")
+    for span in spans:
+        problems = span_reference_findings(span)
+        if problems:
+            raise RubricError(f"cited span is malformed: {problems[0]}")
 
 
 def _ref(span) -> tuple:

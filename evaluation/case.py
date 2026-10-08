@@ -30,6 +30,7 @@ CASE_KEYS = ("schema_version", "case_id", "group_id", "category", "language", "q
              "acceptable_claims", "must_abstain", "split", "status", "review")
 SCOPE_KEYS = ("institution", "edition", "version_id")
 SPAN_KEYS = ("byte_sha256", "version_id", "page", "locator_ref", "text_sha256")
+SPAN_REF_KEYS = SPAN_KEYS[:-1]
 REVIEW_KEYS = ("author", "reviewer", "evidence_ref", "review_version")
 
 CASE_ID = re.compile(r"[a-z0-9][a-z0-9-]{2,63}")
@@ -58,7 +59,7 @@ def _exact_keys(obj, keys, label, out):
         out.append(f"{label} must be an object")
         return False
     if set(obj) != set(keys):
-        out.append(f"{label} keys must be exactly {sorted(keys)}; got {sorted(obj)}")
+        out.append(f"{label} keys must be exactly {sorted(keys)}; got {sorted(obj, key=str)}")
         return False
     return True
 
@@ -164,19 +165,28 @@ def _check_route(c, kinds, out):
         out.append("operational_failure needs outcome error or control evidence_unavailable")
 
 
+def span_reference_findings(span) -> list[str]:
+    """Validate the four locator fields shared by gold spans and output citations."""
+    out: list[str] = []
+    if not _exact_keys(span, SPAN_REF_KEYS, "span reference", out):
+        return out
+    if not (isinstance(span["byte_sha256"], str) and SHA256.fullmatch(span["byte_sha256"])):
+        out.append("span reference byte_sha256 must be 64 lowercase hex")
+    if not (isinstance(span["version_id"], str) and VERSION_ID.fullmatch(span["version_id"])):
+        out.append("span reference version_id must be ver-...")
+    if not (isinstance(span["page"], int) and not isinstance(span["page"], bool) and span["page"] >= 1):
+        out.append("span reference page must be an integer >= 1")
+    if not _str(span["locator_ref"]):
+        out.append("span reference locator_ref must be a non-blank string")
+    return out
+
+
 def _check_span(span, out):
     if not _exact_keys(span, SPAN_KEYS, "gold span", out):
         return
-    if not (isinstance(span["byte_sha256"], str) and SHA256.fullmatch(span["byte_sha256"])):
-        out.append("gold span byte_sha256 must be 64 lowercase hex")
+    out.extend(span_reference_findings({key: span[key] for key in SPAN_REF_KEYS}))
     if not (isinstance(span["text_sha256"], str) and SHA256.fullmatch(span["text_sha256"])):
         out.append("gold span text_sha256 must be 64 lowercase hex (the passage itself stays outside Git)")
-    if not (isinstance(span["version_id"], str) and VERSION_ID.fullmatch(span["version_id"])):
-        out.append("gold span version_id must be ver-...")
-    if not (isinstance(span["page"], int) and not isinstance(span["page"], bool) and span["page"] >= 1):
-        out.append("gold span page must be an integer >= 1")
-    if not _str(span["locator_ref"]):
-        out.append("gold span locator_ref must be a non-blank string")
 
 
 def _check_status(c, out):
