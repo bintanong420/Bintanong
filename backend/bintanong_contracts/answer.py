@@ -14,7 +14,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from .base import Contract, ContractError, Record, Route, foreign_ids
-from .governance import SHA256, ID_VER, SessionFact, SourceConflict
+from .governance import SHA256, ID_VER, SessionFact, SourceConflict, SourceDocumentVersion, check_register
 from .runtime import RetrievalResult
 from .symbolic import DecisionOutcome, SymbolicResult
 
@@ -37,6 +37,9 @@ class EvidenceBundle(Contract):
     route: Route()
     knowledge_release_id: str = Field(pattern=r"^release-[a-z0-9-]+$")
     retrieval: RetrievalResult | None
+    # The register versions a symbolic result's scope and rule spans come from, beyond those the retrieval
+    # already carries. A Symbolic bundle has no retrieval, so this is where it carries its provenance.
+    versions: tuple[SourceDocumentVersion, ...] = ()
     symbolic: SymbolicResult | None
     session_facts: tuple[SessionFact, ...]
     conflicts: tuple[SourceConflict, ...]
@@ -62,8 +65,11 @@ class EvidenceBundle(Contract):
         if len({f.session_id for f in self.session_facts}) > 1:
             errs.append("session facts from more than one session in one bundle")
 
+        carried, carry_errs = self._carried_versions()
+        errs += carry_errs
         if sym is not None:
             errs += self._symbolic_rules(sym, facts)
+            errs += self._provenance_errors(sym, carried)
         elif set(claims) - {"policy_passage", "abstention"}:
             errs.append("without a symbolic result only policy_passage and abstention may be claimed")
         if "policy_passage" in claims and (ret is None or not ret.items):
@@ -75,6 +81,51 @@ class EvidenceBundle(Contract):
         if errs:
             raise ValueError("; ".join(errs))
         return self
+
+    def _carried_versions(self) -> tuple[dict[str, SourceDocumentVersion], list[str]]:
+        """The register versions the bundle carries (the retrieval's and its own), by version id."""
+        carried: dict[str, SourceDocumentVersion] = {}
+        errs: list[str] = []
+        for v in (*(self.retrieval.versions if self.retrieval else ()), *self.versions):
+            if v.version_id in carried and carried[v.version_id] != v:
+                errs.append(f"version {v.version_id} is carried twice with different content")
+            carried[v.version_id] = v
+        if self.versions and not errs:
+            try:
+                check_register(list(carried.values()))
+            except ContractError as exc:
+                errs.append(f"the carried versions are not a consistent register: {exc}")
+        return carried, errs
+
+    def _provenance_errors(self, sym: SymbolicResult, carried: dict[str, SourceDocumentVersion]) -> list[str]:
+        """A result's scope and rule spans are claims about the register, so they are checked against the
+        versions the bundle carries. Without any carried version they cannot be checked, and a decision
+        that vouches for its own provenance is refused, unless it is a synthetic decision (which
+        establishes no claim at all)."""
+        scope, errs = sym.scope, []
+        if scope is None and not sym.rule_spans:
+            return errs
+        if scope is not None and scope.knowledge_release_id != self.knowledge_release_id:
+            errs.append(f"the decision scope names knowledge release {scope.knowledge_release_id}, "
+                        f"the bundle {self.knowledge_release_id}")
+        if not carried:
+            if not sym.decision.synthetic:
+                errs.append("the decision scope and rule spans cannot be checked: the bundle carries no register versions")
+            return errs
+        editions = {v.edition_id for v in carried.values()}
+        scope_editions = set(scope.edition_ids) if scope is not None else set()
+        if scope is not None:
+            errs += [f"scope edition {e} is not in any version the bundle carries"
+                     for e in scope.edition_ids if e not in editions]
+        for i, s in enumerate(sym.rule_spans):
+            version = carried.get(s.version_id)
+            if version is None:
+                errs.append(f"rule span {i} cites version {s.version_id} that the bundle does not carry")
+            elif s.byte_sha256 != version.byte_sha256:
+                errs.append(f"rule span {i} digest differs from the bytes of version {s.version_id}")
+            elif scope is not None and version.edition_id not in scope_editions:
+                errs.append(f"rule span {i} comes from edition {version.edition_id}, outside the decision scope")
+        return errs
 
     def _symbolic_rules(self, sym: SymbolicResult, facts: dict[str, SessionFact]) -> list[str]:
         errs = []

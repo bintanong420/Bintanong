@@ -140,7 +140,7 @@ def _dates(a, b="__none__"):
     return tl.mutated(tl.register()[1], fn)
 
 
-@pytest.mark.parametrize("a", ["2025-02-30", "2023-02-29", "2023-13", "2023-00", "2023-04-31", "2023-06-00", "0000-01-01"]) 
+@pytest.mark.parametrize("a", ["2025-02-30", "2023-02-29", "2023-13", "2023-00", "2023-04-31", "2023-06-00", "0000-01-01"])
 def test_an_impossible_iso_date_is_rejected_even_when_nothing_is_compared(a):
     both_reject(_dates(a), "calendar")
 

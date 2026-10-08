@@ -78,7 +78,8 @@ def bbad(match, **kw):
 def test_valid_bundles_roundtrip():
     for b in (bundle(),
               bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",)),
-              bundle(route="Symbolic", retrieval=False, claims=("decision_eligible",))):
+              bundle(route="Symbolic", retrieval=False, claims=("decision_eligible",),
+                     versions=fx.versions_for([fx.item()]))):
         m = answer.EvidenceBundle.parse(b)
         assert answer.EvidenceBundle.parse(base.canonical_json(m)) == m
 
