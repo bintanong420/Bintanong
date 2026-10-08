@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 1
 status: in_progress
-sequence: 3
+sequence: 4
 plan: plans/phase-01-source-governance-contracts-plan.md
-head_commit: d4ccbaa
+head_commit: f33cc7c
 working_tree: clean
 updated_at: 2026-10-10T12:00:00+08:00
 ---
@@ -16,6 +16,7 @@ updated_at: 2026-10-10T12:00:00+08:00
 - Formal start: f7b7752 (plan in_progress, checkpoint, index pointers).
 - Task 1 (consumer inventory, Direct routing discrepancy, no runtime change): 664beb5, docs/decisions/phase-01-consumer-inventory.md. Line citations re-verified against the tree on 2026-10-08.
 - Task 2 (governance vocabulary, transition table, four schemas, synthetic examples, guard tests, decision doc): c7e298f.
+- Review fix pass 1 on Tasks 2 and 3 (governance checks): d110d5d control characters repaired in two older plans plus tests/test_docs_hygiene.py; f03e6dd wording; 0092b20 governance schemas and test-local checker hardened (evidence order enforces the transition table's `from` column on records, supersession, authorization refs, local paths, real timestamps, namespace scan); f33cc7c decision record. Package-level findings in backend/bintanong_contracts/ are not fixed yet and are the next pass.
 - Task 3 (shared contracts in backend/bintanong_contracts/, tests first): b580064 base and versioning; bf1f485 SourceDocumentVersion, SourceConflict, SessionFact; 464dc3e SourceSpan, Chunk and the read-only extractor chunk adapter; 501212c EmbeddingRecord; f5b0cb2 NormalizedQuery, RoutingDecision, RetrievalResult and the legacy routing adapter; 17aab66 DecisionOutcome, SymbolicResult, capability registry, EvidenceBundle, AnswerEnvelope; 983c9d9 adversarial, determinism and schema-compatibility tests; 6ef3f64 mutation-driven tests; d4ccbaa decision record docs/decisions/phase-01-contracts.md. Verified, not completed: Phase 1 as a whole is NOT complete (Tasks 4 to 6, independent review and the final handoff remain).
 
 ## Current Task
@@ -26,15 +27,17 @@ updated_at: 2026-10-10T12:00:00+08:00
 
 - Branch `feat/phase-01-source-governance-contracts` in worktree `Bintanong-wt/phase-1`, based on reviewed Phase E tip ec0eac7.
 - Local `dev` is untouched (5c34fd7). Nothing pushed or merged.
-- Working tree clean at d4ccbaa before this checkpoint update. Prospectus extractor changes in the owner checkout are untouched.
+- Working tree clean at f33cc7c before this checkpoint update. Prospectus extractor changes in the owner checkout are untouched.
 - No runtime behaviour of bintanong_api, bintanong_embedding or bintanong_tools changed. The contracts package is new code; its adapters read the extractor chunk shape and the legacy routing shape and edit neither.
 
 ## Verification Evidence
 
 - Baseline before Task 3 on system Python 3.13.12: full suite 1805 passed, 1 skipped, 13 subtests; prospectus jsonifier self-test 80/80.
 - After Task 3: `py -3.13 -m pytest -q tests` = 2325 passed, 1 skipped, 13 subtests passed (1805 + 520 new in tests/test_contracts_*.py). Self-test 80/80.
+- After fix pass 1: `py -3.13 -m pytest -q tests` = 2536 passed, 1 skipped, 13 subtests passed (2325 + 157 new governance tests + 54 in tests/test_docs_hygiene.py). Self-test 80/80. Skill tests 19 passed, 11 subtests.
 - Red first for each contract group (collection failed with the module missing), then green.
-- Mutation checks in a scratch copy: first run 192 guard mutations, 160 killed, 32 survived; six survivors were redundant guards and were deleted, the others got new tests; re-run 188 mutations, 188 killed, 0 survived.
+- Fix pass 1 mutation check on the governance schemas, vocabulary and test-local checker (scratch copies): 168 mutations; first run 151 killed, 16 survived, 1 not applicable; after the added tests 167 killed, 0 survived; 1 mutant retired with the redundant guard it targeted. Governance test file: 288 tests (was 131); tests/test_docs_hygiene.py: 54.
+- Mutation checks for the contracts package in a scratch copy (Task 3, not re-run in the fix pass): first run 192 guard mutations, 160 killed, 32 survived; six survivors were redundant guards and were deleted, the others got new tests; re-run 188 mutations, 188 killed, 0 survived.
 - Adapter: every semantic chunk the extractor's own builders produce on a synthetic candidate (course, program overview, term schedule, plus a layout fallback chunk, anchored and unanchored) maps with ids and hashes preserved; the missing page size for bounding boxes is reported as a named gap, not invented.
 - phase_state.py validate: State valid, active phase 1, working tree clean (head_commit warning for the commits since the previous checkpoint). can-advance: refuses, phase 1 has no complete handoff.
 
