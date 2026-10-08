@@ -118,7 +118,7 @@ def test_carried_versions_must_agree_with_the_retrievals():
     twin = copy.deepcopy(payload["retrieval"]["versions"][0])
     twin["edition_id"] = "edition-synth-handbook-9"
     payload["versions"] = [twin]
-    reject(payload, "differs|twice|edition")
+    reject(payload, "carried twice with different content")
 
 
 def test_carried_versions_are_checked_as_a_register():
