@@ -1,0 +1,312 @@
+{
+  "binding": {
+    "case_digest": "65497a7d509996571ec59f620293f4434bd5f67eb8286ed3787c63f90031299c",
+    "case_id": "syn-prereq-missing-en",
+    "chunk_content_hash": "34a67544da41dee01906c3f87ae548162a068e9a7a6c53a0d522cccf535ab688",
+    "chunk_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "rule_bundle_version": "bundle-synth-trace-1",
+    "rule_draft_digest": "260cc476dc386b6e176f062ea22a7b181339fd4b0c78dfe85c5fbd9e6f62de1e",
+    "rule_id": "rule-synth-trace-1",
+    "source_spans": [
+      {
+        "bbox": null,
+        "bbox_origin": null,
+        "byte_sha256": "e46d0f9da809b52a2931b4cdfc9a96822103d6cdedb611f3b9ff5ac4535d6d1a",
+        "extraction": {
+          "ocr_confidence": null,
+          "repair_id": null,
+          "resolution_method": "synthetic_fixture",
+          "source_kind": "synthetic"
+        },
+        "locator": {
+          "cell_ids": [],
+          "item_ids": [
+            "synth-text-1"
+          ],
+          "kind": "text_item",
+          "ref": null,
+          "section_path": [],
+          "table_index": null
+        },
+        "original_page": null,
+        "page": 1,
+        "page_offset": null,
+        "page_size": null,
+        "printed_page_label": null,
+        "schema_version": "bintanong-source-span-v1",
+        "text": "Fictional printed sentence, used only to test provenance.",
+        "version_id": "ver-synth-handbook-1"
+      }
+    ]
+  },
+  "case": {
+    "acceptable_claims": [
+      "The COURSE-A result is not available, so eligibility for COURSE-B is unknown."
+    ],
+    "adversarial_kinds": [
+      "missing_facts"
+    ],
+    "case_id": "syn-prereq-missing-en",
+    "category": "prerequisites",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-missing-prereq-grade",
+    "language": "en",
+    "missing_facts": [
+      "confirmed COURSE-A result"
+    ],
+    "must_abstain": true,
+    "query": "Can Maria Fictional enroll in COURSE-B if her COURSE-A grade has not been posted yet?",
+    "required_facts": [
+      "COURSE-A grade",
+      "COURSE-B prerequisite rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: COURSE-B requires a posted passing grade in COURSE-A."
+  },
+  "chunk": {
+    "anchored": true,
+    "byte_sha256": "e46d0f9da809b52a2931b4cdfc9a96822103d6cdedb611f3b9ff5ac4535d6d1a",
+    "chunk_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "chunk_type": "text",
+    "chunker_version": "palsu-chunker-v1",
+    "content_hash": "34a67544da41dee01906c3f87ae548162a068e9a7a6c53a0d522cccf535ab688",
+    "content_review": "pending",
+    "document_id": "doc-synth-handbook",
+    "edition_id": "edition-synth-handbook-1",
+    "register_binding": {
+      "content_review_evidence_ref": null,
+      "verification_evidence_ref": null
+    },
+    "schema_version": "bintanong-chunk-v1",
+    "scope": [],
+    "section_path": [],
+    "source_label": "synthetic-handbook.pdf",
+    "source_text": "Fictional printed sentence, used only to test provenance.",
+    "source_verification": "pending",
+    "spans": [
+      {
+        "bbox": null,
+        "bbox_origin": null,
+        "byte_sha256": "e46d0f9da809b52a2931b4cdfc9a96822103d6cdedb611f3b9ff5ac4535d6d1a",
+        "extraction": {
+          "ocr_confidence": null,
+          "repair_id": null,
+          "resolution_method": "synthetic_fixture",
+          "source_kind": "synthetic"
+        },
+        "locator": {
+          "cell_ids": [],
+          "item_ids": [
+            "synth-text-1"
+          ],
+          "kind": "text_item",
+          "ref": null,
+          "section_path": [],
+          "table_index": null
+        },
+        "original_page": null,
+        "page": 1,
+        "page_offset": null,
+        "page_size": null,
+        "printed_page_label": null,
+        "schema_version": "bintanong-source-span-v1",
+        "text": "Fictional printed sentence, used only to test provenance.",
+        "version_id": "ver-synth-handbook-1"
+      }
+    ],
+    "text": "Fictional printed sentence, used only to test provenance.",
+    "token_count": {
+      "count": 10,
+      "exact": false,
+      "includes_prefix_and_special_tokens": false,
+      "method": "estimate-v1"
+    },
+    "type_fields": {},
+    "version_id": "ver-synth-handbook-1"
+  },
+  "content_check": {
+    "chunk_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "content_hash": "34a67544da41dee01906c3f87ae548162a068e9a7a6c53a0d522cccf535ab688",
+    "evidence_ref": "synthetic-content-check/1",
+    "state": "checked_against_cached_extraction"
+  },
+  "document": {
+    "acquisition_locators": [
+      "synthetic-locator-alpha/1",
+      "synthetic-locator-beta/1"
+    ],
+    "acquisition_state": {
+      "evidence_ref": "ev-a1",
+      "state": "observed"
+    },
+    "approval_id": null,
+    "approval_state": {
+      "evidence_ref": null,
+      "state": "not_requested"
+    },
+    "byte_sha256": "e46d0f9da809b52a2931b4cdfc9a96822103d6cdedb611f3b9ff5ac4535d6d1a",
+    "campus": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "cohort": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "college": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "content_review_state": {
+      "evidence_ref": null,
+      "state": "pending"
+    },
+    "document_category": "source_document",
+    "document_id": "doc-synth-handbook",
+    "edition_id": "edition-synth-handbook-1",
+    "effective_from": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "effective_to": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "evidence": [
+      {
+        "evidence_id": "ev-a1",
+        "kind": "byte_hash_check",
+        "recorded_at": "2026-01-01T00:00:00+00:00",
+        "recorded_by": "researcher"
+      }
+    ],
+    "filename": "synthetic-handbook.pdf",
+    "issuer": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "namespace": "institutional",
+    "printed_revision": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "program": {
+      "basis": null,
+      "evidence_ref": null,
+      "state": "pending",
+      "value": null
+    },
+    "schema_version": "bintanong-source-register-v1",
+    "supersession": {
+      "basis": null,
+      "evidence_ref": null,
+      "relation": "none",
+      "state": "pending",
+      "target_version_id": null
+    },
+    "synthetic": true,
+    "verification_state": {
+      "evidence_ref": null,
+      "state": "pending"
+    },
+    "version_id": "ver-synth-handbook-1"
+  },
+  "relation": "synthetic_exercise_only",
+  "rule_draft": {
+    "capability": "synthetic_traceability",
+    "decision": {
+      "error_code": null,
+      "evidence_refs": [],
+      "missing_facts": [
+        "confirmed COURSE-A result"
+      ],
+      "outcome": "unknown",
+      "predicate": "synthetic_prerequisite",
+      "predicate_supported": true,
+      "prerequisite_rule_state": "blank_unreviewed",
+      "rule_coverage": "absent",
+      "satisfied_conditions": [],
+      "schema_version": "bintanong-decision-v1",
+      "synthetic": true,
+      "unknown_conditions": [
+        "Synthetic rule: COURSE-B requires a posted passing grade in COURSE-A."
+      ],
+      "unresolved_conflicts": [],
+      "violated_conditions": []
+    },
+    "inputs": [
+      {
+        "fact_ref": null,
+        "name": "course",
+        "value": "COURSE-B"
+      }
+    ],
+    "rule_bundle_version": "bundle-synth-trace-1",
+    "rule_ids": [
+      "rule-synth-trace-1"
+    ],
+    "rule_spans": [
+      {
+        "bbox": null,
+        "bbox_origin": null,
+        "byte_sha256": "e46d0f9da809b52a2931b4cdfc9a96822103d6cdedb611f3b9ff5ac4535d6d1a",
+        "extraction": {
+          "ocr_confidence": null,
+          "repair_id": null,
+          "resolution_method": "synthetic_fixture",
+          "source_kind": "synthetic"
+        },
+        "locator": {
+          "cell_ids": [],
+          "item_ids": [
+            "synth-text-1"
+          ],
+          "kind": "text_item",
+          "ref": null,
+          "section_path": [],
+          "table_index": null
+        },
+        "original_page": null,
+        "page": 1,
+        "page_offset": null,
+        "page_size": null,
+        "printed_page_label": null,
+        "schema_version": "bintanong-source-span-v1",
+        "text": "Fictional printed sentence, used only to test provenance.",
+        "version_id": "ver-synth-handbook-1"
+      }
+    ],
+    "schema_version": "bintanong-symbolic-result-v1",
+    "scope": null
+  },
+  "schema_version": "bintanong-evaluation-traceability-v1",
+  "verification_state": "synthetic_only"
+}

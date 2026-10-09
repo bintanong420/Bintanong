@@ -1,0 +1,107 @@
+[
+  {
+    "acceptable_claims": [
+      "Under the synthetic rule, a student without a clearance form cannot enroll until it is submitted."
+    ],
+    "adversarial_kinds": [
+      "negation"
+    ],
+    "case_id": "syn-enrol-clearance-en",
+    "category": "enrollment",
+    "expected_control": null,
+    "expected_outcome": null,
+    "expected_route": "RAG",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-no-clearance-enrol",
+    "language": "en",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "Can I still enroll if I do not have a clearance form?",
+    "required_facts": [
+      "clearance form status"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: enrollment requires a signed clearance form; a student without one cannot enroll until it is submitted."
+  },
+  {
+    "acceptable_claims": [
+      "Ayon sa synthetic na patakaran, hindi makakapag-enroll ang walang clearance form hangga't hindi ito naisusumite."
+    ],
+    "adversarial_kinds": [
+      "negation"
+    ],
+    "case_id": "syn-enrol-clearance-tl",
+    "category": "enrollment",
+    "expected_control": null,
+    "expected_outcome": null,
+    "expected_route": "RAG",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-no-clearance-enrol",
+    "language": "tl",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "Maaari pa rin ba akong mag-enroll kung wala akong clearance form?",
+    "required_facts": [
+      "clearance form status"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: enrollment requires a signed clearance form; a student without one cannot enroll until it is submitted."
+  },
+  {
+    "acceptable_claims": [
+      "Ayon sa synthetic rule, hindi pwedeng mag-enroll ang walang clearance form hangga't hindi pa ito na-submit."
+    ],
+    "adversarial_kinds": [
+      "negation"
+    ],
+    "case_id": "syn-enrol-clearance-tgl",
+    "category": "enrollment",
+    "expected_control": null,
+    "expected_outcome": null,
+    "expected_route": "RAG",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-no-clearance-enrol",
+    "language": "taglish",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "Hindi pa ako nakakakuha ng clearance form, pwede pa ba akong mag-enroll?",
+    "required_facts": [
+      "clearance form status"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: enrollment requires a signed clearance form; a student without one cannot enroll until it is submitted."
+  }
+]

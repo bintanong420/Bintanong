@@ -5,11 +5,11 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: none (Phase 0 complete)
-- Active plan: none
-- Active checkpoint: `plans/phase-00-checkpoint.md` (superseded)
-- Latest final handoff: `plans/phase-00-handoff.md`
-- Next permitted phase: `1`
+- Active phase: none (Phase 1 software exit complete; source authorization and final benchmark pending)
+- Active plan: none; Phase 1 plan metadata is complete
+- Active checkpoint: none; Phase 0 and Phase 1 checkpoints are superseded
+- Latest final handoff: `plans/phase-01-handoff.md`
+- Next permitted phase: `2` (eligibility only); the prepared plan is `phase-02-document-ingestion-plan.md`, and implementation needs the owner's review and a formal start
 
 ## Parallel prospectus workstream
 
@@ -22,7 +22,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | Phase | Name | Status | Plan | Checkpoint | Handoff |
 | ---: | --- | --- | --- | --- | --- |
 | 0 | Docker and compatibility foundation | complete | `phase-00-docker-compatibility-plan.md` | `phase-00-checkpoint.md` | `phase-00-handoff.md` |
-| 1 | Source governance and contracts | ready | `phase-01-source-governance-contracts-plan.md` | none | none |
+| 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
+| 2 | Document ingestion | ready (preparation only) | `phase-02-document-ingestion-plan.md` | none | none |
 
 ## Resume Order
 
@@ -34,7 +35,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Prepared documents (not phase completion)
 
-- Ready Phase 1 plan: [source governance and contracts](phase-01-source-governance-contracts-plan.md). Active phase remains none.
-- Remaining Phase 2: [document ingestion preparation](phase-02-document-ingestion-preparation.md). Depends on a complete Phase 1 handoff.
+- Phase 1 plan: [source governance and contracts](phase-01-source-governance-contracts-plan.md), formally started and software exit completed 2026-10-08; see the final handoff for pending source/benchmark gates.
+- Phase 2 plan: [document ingestion plan](phase-02-document-ingestion-plan.md).
+- Remaining Phase 2 background: [document ingestion preparation](phase-02-document-ingestion-preparation.md). Depends on a complete Phase 1 handoff.
 - [Prospectus and whole-Phase-2 workstream status](phase2-workstream-status.md) distinguishes completed A–D, unfinished implementation and human/authority gates.
 - [Evaluation protocol](../evaluation/README.md) describes development/final grouping and review rubrics; final verified cases are pending.

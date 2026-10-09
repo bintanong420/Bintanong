@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bintanong-decision-v1",
+  "title": "Symbolic decision outcome (vocabulary only)",
+  "description": "Closed five-outcome vocabulary with per-outcome constraints from governance-vocabulary.json. Not the SymbolicResult runtime contract (Phase 1 Task 3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic",
+    "outcome",
+    "predicate",
+    "predicate_supported",
+    "rule_coverage",
+    "prerequisite_rule_state",
+    "satisfied_conditions",
+    "violated_conditions",
+    "unknown_conditions",
+    "missing_facts",
+    "evidence_refs",
+    "unresolved_conflicts",
+    "error_code"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "bintanong-decision-v1"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "outcome": {
+      "enum": [
+        "eligible",
+        "ineligible",
+        "unknown",
+        "unsupported",
+        "error"
+      ]
+    },
+    "predicate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "predicate_supported": {
+      "type": "boolean"
+    },
+    "rule_coverage": {
+      "enum": [
+        "verified",
+        "partial",
+        "absent"
+      ]
+    },
+    "prerequisite_rule_state": {
+      "enum": [
+        "resolved",
+        "stated_none",
+        "reviewed_empty",
+        "blank_unreviewed",
+        "standing_condition",
+        "unresolved_reference",
+        "alternative_or_exception",
+        "unreadable",
+        null
+      ]
+    },
+    "satisfied_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "violated_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unknown_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "missing_facts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unresolved_conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "error_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

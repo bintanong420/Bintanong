@@ -1,0 +1,149 @@
+{
+  "vocabulary_version": "bintanong-governance-vocabulary-v1",
+  "status": "draft vocabulary and transition table; approves no source, curriculum or edition",
+  "roles": ["researcher", "reviewer", "issuing_office", "system", "user"],
+  "roles_note": "A role is a declared label on an evidence record, not an authenticated identity. Authenticating roles is a later-phase ledger concern.",
+  "states": {
+    "scope_field": ["pending", "observed", "verified", "not_stated"],
+    "acquisition_state": ["pending", "observed", "verified", "mismatch"],
+    "verification_state": ["pending", "observed", "verified", "rejected"],
+    "approval_state": ["not_requested", "requested", "approved", "rejected", "revoked"],
+    "content_review_state": ["pending", "partially_reviewed", "reviewed"],
+    "conflict_resolution_state": ["unresolved", "referred_to_source_owner", "resolved"],
+    "session_confirmation_state": ["unconfirmed", "user_confirmed", "user_rejected"]
+  },
+  "initial_states": {
+    "scope_field": "pending",
+    "acquisition_state": "pending",
+    "verification_state": "pending",
+    "approval_state": "not_requested",
+    "content_review_state": "pending",
+    "conflict_resolution_state": "unresolved",
+    "session_confirmation_state": "unconfirmed"
+  },
+  "document_categories": ["source_document", "curriculum_proposal_candidate"],
+  "proposal_categories": ["curriculum_proposal_candidate"],
+  "scope_fields": ["issuer", "campus", "college", "program", "cohort", "printed_revision", "effective_from", "effective_to"],
+  "supersession_relations": ["none", "supersedes", "superseded_by"],
+  "field_bases": {
+    "allowed": ["printed_text", "issuing_office_statement", "reviewer_reading"],
+    "forbidden_inference": ["filename_date", "college_vs_university_wording", "local_possession"]
+  },
+  "conflict_resolution_bases": ["supersession_evidenced", "scope_distinction_evidenced", "source_owner_ruling"],
+  "evidence_kinds": {
+    "authorizing": [
+      "byte_hash_check",
+      "printed_text_span",
+      "reviewer_absence_check",
+      "issuing_office_confirmation",
+      "approval_request",
+      "issuing_office_authorization",
+      "issuing_office_rejection",
+      "issuing_office_revocation",
+      "content_review_record",
+      "conflict_referral",
+      "issuing_office_resolution",
+      "user_confirmation"
+    ],
+    "non_authorizing": [
+      "extraction_audit",
+      "extractor_status_label",
+      "filename_observation",
+      "local_possession_note"
+    ],
+    "non_authorizing_note": "These may be listed as context but never authorize a transition. An extraction audit, an EXTRACTED or VERIFIED extractor label, a filename or possession of a file is never source approval or verification."
+  },
+  "namespaces": {
+    "institutional": {"id_prefixes": ["doc-", "ver-", "edition-", "conflict-"], "lifecycles": ["register"]},
+    "private_session": {"id_prefixes": ["sess-", "fact-"], "lifecycles": ["session_only"]}
+  },
+  "session_origins": ["user_statement", "private_upload"],
+  "runtime": {
+    "routes": ["RAG", "Hybrid", "Symbolic"],
+    "controls": ["clarify", "greeting", "unsupported_scope", "evidence_unavailable"],
+    "controls_note": "Route and control names are the closed sets of the routing contract. The control names are a proposal-derived default; legacy Direct is refused, not mapped (owner decision)."
+  },
+  "query_markers": {
+    "note": "OWNER-reviewable default word lists (the language set is an owner decision). A negation or time qualifier found in the original query must survive normalization and normalization may not add one. Contractions ending in n't count as 'not'. A leading apostrophe is ignored ('di is di).",
+    "negations": ["not", "no", "never", "none", "nothing", "nobody", "neither", "nor", "without", "cannot", "hindi", "wala", "walang", "di", "ayaw", "wag", "huwag", "hwag"],
+    "time_qualifiers": ["last semester", "next semester", "this semester", "last sem", "next sem", "this sem", "last term", "next term", "this term", "last year", "next year", "this year", "noong", "sa susunod", "sa nakaraan", "kahapon", "bukas", "ngayon", "mamaya", "kanina"]
+  },
+  "decision": {
+    "rule_coverage": ["verified", "partial", "absent"],
+    "prerequisite_rule_states": ["resolved", "stated_none", "reviewed_empty", "blank_unreviewed", "standing_condition", "unresolved_reference", "alternative_or_exception", "unreadable"],
+    "executable_prerequisite_rule_states": ["resolved", "stated_none", "reviewed_empty"],
+    "outcomes": {
+      "eligible": {
+        "predicate_supported": true,
+        "rule_coverage": ["verified"],
+        "prerequisite_rule_state": "executable_or_null",
+        "nonempty": ["satisfied_conditions", "evidence_refs"],
+        "empty": ["violated_conditions", "unknown_conditions", "missing_facts", "unresolved_conflicts"],
+        "error_code": "null",
+        "needs_unknown_reason": false
+      },
+      "ineligible": {
+        "predicate_supported": true,
+        "rule_coverage": ["verified", "partial"],
+        "prerequisite_rule_state": "executable_or_null",
+        "nonempty": ["violated_conditions", "evidence_refs"],
+        "empty": ["unresolved_conflicts"],
+        "error_code": "null",
+        "needs_unknown_reason": false
+      },
+      "unknown": {
+        "predicate_supported": true,
+        "rule_coverage": ["verified", "partial", "absent"],
+        "prerequisite_rule_state": "any",
+        "nonempty": [],
+        "empty": ["violated_conditions"],
+        "error_code": "null",
+        "needs_unknown_reason": true
+      },
+      "unsupported": {
+        "predicate_supported": false,
+        "rule_coverage": ["absent"],
+        "prerequisite_rule_state": "any",
+        "nonempty": [],
+        "empty": ["satisfied_conditions", "violated_conditions", "unknown_conditions", "missing_facts", "evidence_refs", "unresolved_conflicts"],
+        "error_code": "null",
+        "needs_unknown_reason": false
+      },
+      "error": {
+        "predicate_supported": "any",
+        "rule_coverage": ["verified", "partial", "absent"],
+        "prerequisite_rule_state": "any",
+        "nonempty": [],
+        "empty": ["satisfied_conditions", "violated_conditions", "unknown_conditions", "evidence_refs"],
+        "error_code": "required",
+        "needs_unknown_reason": false
+      }
+    }
+  },
+  "transitions": [
+    {"id": "F1", "field": "scope_field", "from": "pending", "to": "observed", "evidence_kind": "printed_text_span", "recorded_by": ["researcher", "reviewer"]},
+    {"id": "F2", "field": "scope_field", "from": "observed", "to": "verified", "evidence_kind": "issuing_office_confirmation", "recorded_by": ["issuing_office"]},
+    {"id": "F3", "field": "scope_field", "from": "pending", "to": "not_stated", "evidence_kind": "reviewer_absence_check", "recorded_by": ["reviewer"]},
+    {"id": "A1", "field": "acquisition_state", "from": "pending", "to": "observed", "evidence_kind": "byte_hash_check", "recorded_by": ["researcher", "reviewer", "system"]},
+    {"id": "A2", "field": "acquisition_state", "from": "observed", "to": "verified", "evidence_kind": "byte_hash_check", "recorded_by": ["reviewer", "system"]},
+    {"id": "A3", "field": "acquisition_state", "from": "observed", "to": "mismatch", "evidence_kind": "byte_hash_check", "recorded_by": ["reviewer", "system"]},
+    {"id": "A4", "field": "acquisition_state", "from": "verified", "to": "mismatch", "evidence_kind": "byte_hash_check", "recorded_by": ["reviewer", "system"]},
+    {"id": "V1", "field": "verification_state", "from": "pending", "to": "observed", "evidence_kind": "printed_text_span", "recorded_by": ["researcher", "reviewer"]},
+    {"id": "V2", "field": "verification_state", "from": "observed", "to": "verified", "evidence_kind": "issuing_office_confirmation", "recorded_by": ["issuing_office"]},
+    {"id": "V3", "field": "verification_state", "from": "observed", "to": "rejected", "evidence_kind": "issuing_office_rejection", "recorded_by": ["issuing_office"]},
+    {"id": "V4", "field": "verification_state", "from": "verified", "to": "rejected", "evidence_kind": "issuing_office_rejection", "recorded_by": ["issuing_office"]},
+    {"id": "P1", "field": "approval_state", "from": "not_requested", "to": "requested", "evidence_kind": "approval_request", "recorded_by": ["researcher", "reviewer"]},
+    {"id": "P2", "field": "approval_state", "from": "requested", "to": "approved", "evidence_kind": "issuing_office_authorization", "recorded_by": ["issuing_office"], "needs_authorization_ref": true,
+     "guards": ["acquisition_state=verified", "verification_state=verified", "issuer=verified", "scope_fields=verified_or_not_stated", "category_not_proposal"]},
+    {"id": "P3", "field": "approval_state", "from": "requested", "to": "rejected", "evidence_kind": "issuing_office_rejection", "recorded_by": ["issuing_office"]},
+    {"id": "P4", "field": "approval_state", "from": "approved", "to": "revoked", "evidence_kind": "issuing_office_revocation", "recorded_by": ["issuing_office"], "needs_authorization_ref": true},
+    {"id": "C1", "field": "content_review_state", "from": "pending", "to": "partially_reviewed", "evidence_kind": "content_review_record", "recorded_by": ["reviewer"]},
+    {"id": "C2", "field": "content_review_state", "from": "partially_reviewed", "to": "reviewed", "evidence_kind": "content_review_record", "recorded_by": ["reviewer"]},
+    {"id": "C3", "field": "content_review_state", "from": "pending", "to": "reviewed", "evidence_kind": "content_review_record", "recorded_by": ["reviewer"]},
+    {"id": "R1", "field": "conflict_resolution_state", "from": "unresolved", "to": "referred_to_source_owner", "evidence_kind": "conflict_referral", "recorded_by": ["researcher", "reviewer"]},
+    {"id": "R2", "field": "conflict_resolution_state", "from": "unresolved", "to": "resolved", "evidence_kind": "issuing_office_resolution", "recorded_by": ["issuing_office"]},
+    {"id": "R3", "field": "conflict_resolution_state", "from": "referred_to_source_owner", "to": "resolved", "evidence_kind": "issuing_office_resolution", "recorded_by": ["issuing_office"]},
+    {"id": "S1", "field": "session_confirmation_state", "from": "unconfirmed", "to": "user_confirmed", "evidence_kind": "user_confirmation", "recorded_by": ["user"]},
+    {"id": "S2", "field": "session_confirmation_state", "from": "unconfirmed", "to": "user_rejected", "evidence_kind": "user_confirmation", "recorded_by": ["user"]}
+  ]
+}
