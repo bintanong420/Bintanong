@@ -405,3 +405,47 @@ def test_injected_docling_versions_must_match_installed_packages(prospectus_inpu
     with pytest.raises(ValueError, match="versions"):
         runner()(snap, [version], input_root=root, out=tmp_path / "bundle", converter=converter)
     assert converter.calls == []
+
+
+@pytest.mark.parametrize("drift", ["before", "during", None])
+def test_default_cached_converter_settings_checked_before_and_after_conversion(
+        prospectus_input, tmp_path, monkeypatch, drift):
+    from docling.datamodel.base_models import InputFormat
+    from backend.bintanong_tools.prospectus_extractor import docling_env, loader
+    from backend.bintanong_tools.prospectus_extractor.identity import conversion_settings
+    from backend.bintanong_tools.document_ingest.bundle import load_candidate_bundle
+    monkeypatch.setattr(docling_env, "_SHARED_CONVERTERS", {})
+    monkeypatch.setattr(docling_env, "check_cuda_environment", lambda: {
+        "cuda_available": False, "status_message": "synthetic CPU check"})
+    declared = conversion_settings()
+    active = docling_env.get_shared_converter(device="auto", backend=declared["backend"], settings=declared)
+    options = active.format_to_options[InputFormat.PDF].pipeline_options
+    assert options.do_ocr is False
+    root, snap, version = prospectus_input
+    stub = synthetic_converter(monkeypatch, snap)
+    def convert(stream):
+        result = stub.convert(stream)
+        if drift == "during":
+            options.do_ocr = True
+        return result
+    monkeypatch.setattr(active, "convert", convert)
+    if drift == "before":
+        options.do_ocr = True
+    out = tmp_path / "default-bundle"
+    if drift is not None:
+        out.mkdir()
+        writes = []
+        original_write = loader._write_bytes_atomic
+        def count_write(path, data):
+            writes.append(path)
+            return original_write(path, data)
+        monkeypatch.setattr(loader, "_write_bytes_atomic", count_write)
+        with pytest.raises(ValueError, match="settings"):
+            runner()(snap, [version], input_root=root, out=out)
+        assert writes == [] and list(out.iterdir()) == []
+        assert stub.calls == ([] if drift == "before" else ["synthetic.pdf"])
+    else:
+        report = runner()(snap, [version], input_root=root, out=out)
+        assert report["conversion_settings"] == declared and stub.calls == ["synthetic.pdf"]
+        assert load_candidate_bundle(out)["report"] == report
+    assert snap.path.read_bytes() == snap.data and list(root.iterdir()) == [snap.path]

@@ -136,16 +136,17 @@ class _StrictConverter:
         status = getattr(status, "value", status)
         if errors or (status is not None and status != "success"):
             raise RuntimeError("conversion errors or non-success status; partial prospectus refused")
-        if self.attested and _converter_settings(self.active) != self.settings:
+        if _converter_settings(self.active, None if self.attested else self.settings) != self.settings:
             raise ValueError("conversion settings changed during conversion")
         self.snapshot.verify_unchanged()
         self.status = status
         return result
 
 
-def _converter_settings(converter):
-    """Injected converters attest their actual profile; absent/malformed attestation refuses."""
-    settings = getattr(converter, "conversion_settings", None)
+def _converter_settings(converter, settings=None):
+    """Check factory settings against actual options, or an injected converter's attestation."""
+    from_factory = settings is not None
+    settings = settings if from_factory else getattr(converter, "conversion_settings", None)
     if not isinstance(settings, Mapping):
         raise ValueError("injected converter must attest its actual conversion_settings")
     settings = json.loads(json.dumps(dict(settings), allow_nan=False))
@@ -156,6 +157,8 @@ def _converter_settings(converter):
         raise ValueError("conversion settings need an actual backend, profile and versions")
     # A real Docling converter exposes the backend class and pipeline options we can verify.
     options = getattr(converter, "format_to_options", None)
+    if from_factory and options is None:
+        raise ValueError("default converter actual settings cannot be verified")
     if options is not None:
         from docling.datamodel.base_models import InputFormat
         option = options.get(InputFormat.PDF)
@@ -245,6 +248,8 @@ def run_prospectus_ingestion(snapshot: InputSnapshot, register, *, input_root: P
     loader.load_docling()
     active = converter if converter is not None else loader.get_shared_converter(
         device="auto", backend=settings["backend"], settings=settings)
+    if converter is None:
+        _converter_settings(active, settings)
     strict = _StrictConverter(active, settings, snapshot, attested=converter is not None)
     import pypdfium2 as pdfium
     page_sizes = {}
