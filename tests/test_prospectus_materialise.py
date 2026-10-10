@@ -207,7 +207,9 @@ def test_materialise_does_not_change_the_extractors_own_states():
 def test_extractor_never_emits_reviewed_empty():
     payload = stated(fx.bscs())
     assert "reviewed_empty" not in {c["prerequisite_state"] for c in payload["courses"]}
-    writers = sorted(p.name for p in PKG.glob("*.py") if '"reviewed_empty"' in p.read_text(encoding="utf-8") and p.name != "selftest.py")
+    # The pure rule compiler consumes recorded decisions without writing extractor courses.
+    consumers = {"selftest.py", "rule_candidates.py"}
+    writers = sorted(p.name for p in PKG.glob("*.py") if '"reviewed_empty"' in p.read_text(encoding="utf-8") and p.name not in consumers)
     assert writers == ["ledger.py", "prerequisites.py"]   # prerequisites.py only lists the vocabulary; ledger.py is the one writer
     assert 'reviewed_empty' not in (PKG / "prerequisites.py").read_text(encoding="utf-8").split("def classify_prerequisite_state")[1]
 

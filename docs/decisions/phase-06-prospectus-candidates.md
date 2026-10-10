@@ -1,0 +1,11 @@
+# Inactive prospectus rule candidates
+
+The additive `build_rule_candidates` boundary accepts structured extraction, a reparsed governed source version and explicit course-field spans. It returns JSON review records only. Existing extractor, contracts, CLI, publication and runtime behavior remain unchanged. Source register states are inherited; every candidate denies activation and has no approval ID.
+
+The compiler reuses source/register validation, prerequisite resolution/classification, cycle detection and Prolog atom quoting. It formats only individually supported course/prerequisite facts, avoiding the historical generator's missing-number defaults, directives, query helpers and completeness markers. Existing generated Prolog is ignored. Unknown source-supported references and unsupported semantics remain blockers. Program, term-total and elective inputs have no field-evidence mapping at this boundary and remain blocked review records.
+
+Blank review evidence uses `{version_id, entries}` with existing ledger entries, not a second editable review store. `entry_problem`, `split_applicable`, `latest_by_field` and `course_locator` preserve recorded reviewer/field/hash decisions. An accepted blank applies only to the exact version, byte digest, unique full course locator and current old value. Foreign, stale, malformed or unresolved decisions leave the blank blocked. A blank needs no invented printed span text; the artifact retains applicable ledger references. These local records do not establish institutional approval.
+
+The existing materialise test's literal vocabulary scan initially failed because the compiler mentions `reviewed_empty`. Its narrow compatibility change excludes this pure consumer from the writer scan. Runtime extractor never-emits assertions, classifier checks, ledger applicability tests and compiler input-immutability checks remain in place.
+
+Stable candidate hashes exclude producer timestamps and local source-file paths; records sort deterministically while prerequisite semantic order and exact raw wording remain intact. This draft still requires fresh independent specification and standards review. Original-corpus accuracy, office/domain review, release compilation, activation and execution are deferred.
