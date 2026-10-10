@@ -90,8 +90,12 @@ def _reading_order(raw: Mapping[str, Any], count: int) -> list[int]:
     active: set[str] = set()
 
     def walk(node: Mapping[str, Any]) -> None:
+        if not isinstance(node, Mapping) or not isinstance(node.get("children", []), list):
+            raise ValueError("invalid raw reading-order node")
         for child in node.get("children", []):
-            ref = child.get("cref")
+            ref = child.get("cref", child.get("$ref")) if isinstance(child, Mapping) else None
+            if isinstance(child, Mapping) and "cref" in child and "$ref" in child and child["cref"] != child["$ref"]:
+                raise ValueError("conflicting raw reading-order reference")
             if not isinstance(ref, str):
                 raise ValueError("invalid raw reading-order reference")
             if ref.startswith("#/texts/"):
@@ -100,10 +104,15 @@ def _reading_order(raw: Mapping[str, Any], count: int) -> list[int]:
                     raise ValueError("duplicate or invalid text reading-order reference")
                 order.append(index)
             elif ref.startswith("#/groups/"):
+                if not re.fullmatch(r"#/groups/(0|[1-9]\d*)", ref):
+                    raise ValueError("invalid raw reading-order group")
                 if ref in active:
                     raise ValueError("cyclic raw reading-order group")
                 active.add(ref)
-                walk(raw["groups"][int(ref.rsplit("/", 1)[1])])
+                try:
+                    walk(raw["groups"][int(ref.rsplit("/", 1)[1])])
+                except (KeyError, IndexError, TypeError) as exc:
+                    raise ValueError("unresolved raw reading-order group") from exc
                 active.remove(ref)
     walk(raw["body"])
     if "furniture" in raw:

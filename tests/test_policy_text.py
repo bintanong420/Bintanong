@@ -105,6 +105,30 @@ def test_body_reading_order_drives_headings(bound):
     assert result.units[1].heading_path == ("First",)
 
 
+def test_native_dollar_refs_nested_groups_keep_raw_structure(bound):
+    _, _, version = bound
+    raw = raw_document([item("clause"), item("Native", label="section_header")], pages=1)
+    raw["groups"] = [{"children": [{"$ref": "#/groups/1"}]},
+                     {"children": [{"$ref": "#/texts/1"}, {"$ref": "#/texts/0"}]}]
+    raw["body"] = {"children": [{"$ref": "#/groups/0"}]}
+    before = copy.deepcopy(raw)
+    result = policy_text.read_policy_items(raw, version)
+    assert [u.item_id for u in result.units] == ["text-1", "text-0"]
+    assert result.units[1].heading_path == ("Native",)
+    assert raw == before
+
+
+@pytest.mark.parametrize("reference", [{"cref": "#/texts/0", "$ref": "#/texts/1"},
+                                      {"$ref": "#/groups/-1"}])
+def test_conflicting_or_negative_native_refs_refused(bound, reference):
+    _, _, version = bound
+    raw = raw_document([item("clause")], pages=1)
+    raw["groups"] = [{"children": [{"cref": "#/texts/0"}]}]
+    raw["body"] = {"children": [reference]}
+    with pytest.raises(ValueError):
+        policy_text.read_policy_items(raw, version)
+
+
 @pytest.mark.parametrize("damage", ["missing", "outside", "inverted", "origin", "size"])
 def test_unlocatable_or_bad_geometry_explicitly_rejected(bound, damage):
     _, _, version = bound
