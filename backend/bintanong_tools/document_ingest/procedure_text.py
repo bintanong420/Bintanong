@@ -19,7 +19,7 @@ from .inspection import InspectionRefused, check_out
 from .policy_text import PolicyCandidates, read_policy_items
 from .register import load_pending_register, version_for_snapshot
 
-CLASSIFICATIONS = {"procedure_candidate", "charter_candidate", "form", "curriculum_proposal_candidate"}
+CLASSIFICATIONS = {"policy_candidate", "procedure_candidate", "charter_candidate", "form", "curriculum_proposal_candidate"}
 
 
 def _json(value: Any) -> str:
@@ -250,7 +250,8 @@ def read_procedure_items(raw: Mapping[str, Any], version: SourceDocumentVersion,
                              "unresolved_table_span_coverage" if source_format == "pdf" else "pending_locator_contract")
                              for i, table in enumerate(tables))
     result = ProcedureCandidates(version, classification, source_format, len(texts), len(tables), pdf,
-             _fields(pdf.units if pdf is not None else slides, texts), tuple(slides), table_candidates, order,
+             () if classification == "policy_candidate" else _fields(pdf.units if pdf is not None else slides, texts),
+             tuple(slides), table_candidates, order,
              "raw_body" if "body" in raw else "raw_arrays_no_interleaving_evidence",
              _json(geometry) if source_format == "pptx" else None,
              _json({k: raw[k] for k in ("body", "groups", "furniture") if k in raw}))
