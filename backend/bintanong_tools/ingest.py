@@ -48,10 +48,13 @@ def parse_document(file_path: Path | str) -> Dict[str, Any]:
     snapshot = InputSnapshot(path)
     converter = _converter()
     try:
-        doc = converter.convert(str(path)).document
+        result = converter.convert(str(path))
+        doc = result.document
     except Exception as exc:
         raise ConversionFailed(f"Docling could not convert {path.name}: {exc}") from exc
     snapshot.verify_unchanged()
+    if getattr(result, "errors", None) or getattr(result, "status", "success") != "success":
+        raise ConversionFailed(f"Docling reported an incomplete or failed conversion for {path.name}")
 
     num_pages = len(getattr(doc, "pages", None) or [])
     text = doc.export_to_markdown()

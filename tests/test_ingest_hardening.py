@@ -92,6 +92,62 @@ def test_converter_error_is_named(tmp_path):
             ingest.parse_document(_pdf(tmp_path))
 
 
+@pytest.mark.parametrize("status,has_errors", [
+    ("PARTIAL_SUCCESS", True), ("PARTIAL_SUCCESS", False),
+    ("FAILURE", False), ("SKIPPED", False), ("PENDING", False),
+    ("STARTED", False), ("SUCCESS", True), ("unknown", False), (None, False),
+])
+def test_reported_conversion_failure_refused_before_export(tmp_path, status, has_errors):
+    models = pytest.importorskip("docling.datamodel.base_models")
+    conversion = StubConverter().convert(None)
+    conversion.status = getattr(models.ConversionStatus, status) if status and status.isupper() else status
+    conversion.errors = [models.ErrorItem(
+        component_type=models.DoclingComponentType.DOCUMENT_BACKEND,
+        module_name="synthetic_backend", error_message="private page 2 error", page_no=2,
+    )] if has_errors else []
+    conversion.document.export_to_markdown = lambda: pytest.fail("failed conversion must not export")
+    converter = SimpleNamespace(convert=lambda source: conversion)
+    with mock.patch.object(ingest, "_converter", return_value=converter):
+        with pytest.raises(ingest.ConversionFailed) as exc:
+            ingest.parse_document(_pdf(tmp_path))
+    assert "private page 2 error" not in str(exc.value)
+
+
+@pytest.mark.parametrize("output_kind", ["stdout", "new", "existing"])
+def test_reported_conversion_partial_cli_refuses_without_publication(tmp_path, output_kind):
+    from typer.testing import CliRunner
+
+    models = pytest.importorskip("docling.datamodel.base_models")
+    source = _pdf(tmp_path)
+    conversion = StubConverter(pages=2, text="Only page one survived.").convert(None)
+    conversion.status = models.ConversionStatus.PARTIAL_SUCCESS
+    conversion.errors = [models.ErrorItem(
+        component_type=models.DoclingComponentType.DOCUMENT_BACKEND,
+        module_name="synthetic_backend", error_message="private page 2 error", page_no=2,
+    )]
+    output = tmp_path / "parsed.json"
+    args = [str(source)]
+    if output_kind != "stdout":
+        args += ["-o", str(output)]
+    if output_kind == "existing":
+        output.write_bytes(b"previous output")
+    converter = SimpleNamespace(convert=lambda source: conversion)
+    with mock.patch.object(ingest, "_converter", return_value=converter):
+        result = CliRunner().invoke(ingest.app, args)
+    assert result.exit_code == 1, result.output
+    assert result.stdout == ""
+    assert "ConversionFailed" in result.stderr
+    assert "private page 2 error" not in result.stderr
+    assert source.read_bytes() == PDF_BYTES
+    if output_kind == "existing":
+        assert output.read_bytes() == b"previous output"
+    else:
+        assert not output.exists()
+    assert sorted(p.name for p in tmp_path.iterdir()) == (
+        ["a.pdf", "parsed.json"] if output_kind == "existing" else ["a.pdf"]
+    )
+
+
 def test_zero_pages_refused(tmp_path):
     with _stub(pages=0):
         with pytest.raises(ingest.EmptyDocument):

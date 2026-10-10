@@ -10,6 +10,7 @@ Status: draft on branch `draft/phase-02-code`. Owner decision 2 (harden or retir
 - PDF only, suffix check case-insensitive. Refusals, one named class each: `FileNotFoundError` (missing path), `UnsupportedDocument` (directory or non-PDF suffix), `DoclingUnavailable` (Docling missing, from `docling_env`), `ConversionFailed` (Docling error, e.g. garbage bytes), `EmptyDocument` (zero pages or empty text).
 - Converter is `docling_env.get_shared_converter()` with `identity.conversion_settings()` (OCR off), imported lazily so `--help` works without Docling; relative imports only.
 - Result adds `sha256` and `conversion_identity`; `metadata.source` is the plain file name. `InputSnapshot.verify_unchanged` runs after conversion.
+- A retained conversion result is checked before Markdown export: reported errors or an explicit status other than `success` raise `ConversionFailed`, including partial conversions with surviving text/pages. Status-absent legacy converter doubles remain supported; an explicit unknown or null status is refused. Refusal messages omit raw Docling error details. The CLI emits no JSON and preserves any existing output on refusal.
 - CLI: conversion output goes to stderr (`docling_env` prints to stdout; `prospectus_extractor` is not edited), so stdout is JSON only. Refusals print `ClassName: message` on stderr and exit 1. The "Output saved to" message with `-o` moved from stdout to stderr.
 
 ## Callers and tests
