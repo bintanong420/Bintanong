@@ -32,3 +32,104 @@ extractor change or runtime integration. Synthetic focused tests exercise bindin
 refusal, rejection accounting and input immutability at the new boundary. Its
 check-before-write coverage does not recheck historical M1 or change the historical
 52/52 claim; that review debt and other F/session debts remain separate.
+
+Task 2 adds `run_prospectus_ingestion(snapshot, register, *, input_root, out, converter=None)`
+and `load_candidate_bundle(path)`. The new wrapper preserves the protected extractor
+and generic policy/procedure APIs. It preflights the pending register, snapshot digest
+and new/empty external output before conversion. It passes the captured snapshot and
+explicit staging/raw paths into the existing loader, then calls the actual curriculum
+parser/audit through `build_payload` with `semantic_doc_path=None`, `semantic_map={}`
+and a hash-matched `ProvisionalSource`. Ambient semantic files are never read.
+
+The strict converter seam rejects any conversion errors and every explicit status
+other than `success` before raw export, including partial results with surviving text.
+A missing status remains `null` in metadata; it is never invented as success. Errors
+also stop the loader's automatic backend retry so the recorded backend cannot silently
+change. The default path uses the existing converter factory with its explicit current
+settings. An injected converter must expose a JSON `conversion_settings` mapping with
+nonempty `backend`, `profile` and string-valued `versions`. This is the caller's
+attestation of the injected implementation's actual configuration, not independent
+proof about arbitrary Python code. For converters exposing Docling `format_to_options`,
+the known PDF backend class and OCR/table/text pipeline options must agree; unknown
+backends or missing options refuse. Enabled OCR also requires declared languages to
+match the actual `ocr_options.lang`; this checks an existing converter configuration,
+without adding an OCR pipeline or certification. Declared `docling`, `docling-core`
+and `docling-parse` versions must match `installed_versions()` for those converters.
+Settings are checked again after conversion.
+Metadata records this distinction as `settings_basis` and preserves the actual status.
+The wrapper replaces the protected loader's generic settings metadata with the actual
+seam settings and corresponding conversion identity; the protected loader is unchanged.
+
+Page sizes come from `pypdfium2.PdfDocument(snapshot.data)`. Every page and document
+handle is closed. Hash-checked metadata retains `pdf_page_sizes`, an object mapping
+physical page numbers such as `"1"` to `[width, height]` in PDF points. This capture
+remains available when a failed audit suppresses all chunks. Raw Docling page sizes,
+when supplied, must agree within 0.01 points; neither the binder nor downstream field
+support substitutes converter geometry for this PDF capture.
+
+The published domain payload retains courses, row-level provenance, structured audit,
+unresolved prerequisites and both legacy candidate chunk groups. It omits the entire
+legacy `prolog` view, including consult-ready helper code. Its diagnostic
+`quality_report.production_artifacts_emitted` is explicitly false. No `.pl` is written.
+The report accounts for each candidate as emitted or rejected by the binder and
+retains every extractor rejection separately. A curriculum audit error creates a
+complete diagnostic candidate with `extraction_blocked=true`, `audit_status=error`,
+an explicit review blocker and no ready chunks. Technical completion never implies
+review eligibility, source/content approval or executable eligibility rules.
+
+The exact artifact sets are:
+
+| Location | Policy/procedure and existing classifications | Prospectus |
+| --- | --- | --- |
+| Root | `source_register.json`, `chunks.json`, `ingestion_report.json`, `manifest.json` | Same |
+| `conversion/` | `raw_docling.json`, `raw_docling.meta.json`, `procedure_candidates.json`, `manifest.json` | `raw_docling.json`, `raw_docling.meta.json`, `prospectus_candidates.json`, `manifest.json` |
+
+The root manifest hashes every artifact except itself, including the nested manifest;
+the nested manifest hashes exactly its three conversion artifacts. Prospectus root
+manifests add `document_kind=prospectus_candidate`, and both manifests name the same
+source digest/version. Prospectus nested completion also names the conversion identity.
+Atomic writers publish the root completion last, checking unchanged original bytes
+before every publication. Interrupted folders cannot be consumed or silently reused;
+retry requires a new/empty external output.
+
+`load_candidate_bundle` reads and hashes the same bytes it parses, rejects duplicate
+JSON object keys before dictionary collapse, requires both completion flags, exact
+artifact sets and regular contained files, and refuses symlinks, extra files/directories,
+escaping paths, unknown kinds and source/settings/raw mismatches. It reparses pending
+institutional register records and every chunk/span, checking exact version membership
+and claims against the register. Policy/procedure candidates, chunks and reports are
+rebuilt from their captured raw bytes; manifests without `document_kind` use that
+existing schema and must match the report's classification. Prospectus chunks and
+accounting are rebound from the checked domain payload, while authority is independently
+checked against the pending source. This validates handoff integrity and accounting;
+it does not independently certify extraction accuracy or authenticate a malicious
+producer that can replace all artifacts and hashes.
+
+The checked result contains `document_kind`, `candidate_only=true`,
+`review_eligible=false`, reparsed `source_register` and `chunks`, and the parsed `report`.
+For prospectuses it also exposes `domain_payload` and `conversion`, whose `raw_docling`
+and `metadata` entries are the hash-checked conversion inputs. Task 3 must map exact
+field ownership against those raw normalized cells and the captured `pdf_page_sizes`;
+whole chunks are not individual field evidence. The current register preparation stays
+pending-only; this consumer never promotes a source or approves a rule.
+
+The existing CLI adds only `--classification prospectus_candidate`; all earlier
+classifications and flags retain their dispatch. It derives its success summary from
+`load_candidate_bundle`, and converter initialization is unnecessary for `--help`.
+Exact tokenizer accounting and the 512-token limit remain Phase 3 work; current
+`estimate-v1` values are explicitly estimates.
+
+The stable combined synthetic CLI/library smoke is:
+
+```powershell
+py -3.13 -B -m pytest tests/test_candidate_bundle.py::test_combined_synthetic_cli_library_smoke -q -p no:cacheprovider --basetemp <new-external-directory>
+```
+
+It uses synthetic PDF bytes and a synthetic converter while running the actual
+curriculum parser/audit, policy reader, publication, consumer and both CLI routes.
+Focused tests also exercise invalid identity before any writer/converter call, partial
+status before raw export, altered settings/raw artifacts, cross-version spans, duplicate
+manifest keys, interrupted publication, audit blockers and unchanged originals. Original
+corpus validation, office/domain review, OCR certification, private lifecycle, embeddings,
+rule compilation and runtime execution remain separate work; historical M1 is not
+independently rechecked by these new-boundary tests.

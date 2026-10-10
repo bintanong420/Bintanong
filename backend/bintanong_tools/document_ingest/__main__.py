@@ -16,17 +16,23 @@ def main(argv=None) -> int:
     parser.add_argument("--root", type=Path, required=True, help="Explicit input root")
     parser.add_argument("--out", type=Path, required=True, help="New/empty external output folder")
     parser.add_argument("--locator", required=True, help="Logical acquisition locator, never a local path")
-    parser.add_argument("--classification", required=True, choices=sorted(CLASSIFICATIONS))
+    parser.add_argument("--classification", required=True, choices=sorted(CLASSIFICATIONS | {"prospectus_candidate"}))
     args = parser.parse_args(argv)
     from ..prospectus_extractor.identity import InputSnapshot
     from .pipeline import run_ingestion
     from .register import pending_version
+    from .bundle import load_candidate_bundle
     try:
         snapshot = InputSnapshot(args.path)
         version = pending_version(snapshot, args.locator)
         with contextlib.redirect_stdout(sys.stderr):
-            report = run_ingestion(snapshot, [version], input_root=args.root, out=args.out,
-                                   classification=args.classification)
+            if args.classification == "prospectus_candidate":
+                from .prospectus import run_prospectus_ingestion
+                run_prospectus_ingestion(snapshot, [version], input_root=args.root, out=args.out)
+            else:
+                run_ingestion(snapshot, [version], input_root=args.root, out=args.out,
+                              classification=args.classification)
+            report = load_candidate_bundle(args.out)["report"]
     except (ValueError, OSError, RuntimeError, ImportError) as exc:
         print(f"Ingestion incomplete: {exc}", file=sys.stderr)
         return 1
