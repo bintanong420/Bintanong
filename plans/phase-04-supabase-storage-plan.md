@@ -1,15 +1,14 @@
 ---
 artifact: phase-plan
 phase: 4
-status: ready
-preparation_only: true
+status: in_progress
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-03-handoff.md
 ---
 
 # Phase 4 — Supabase Vector and Relational Storage Plan
 
-Base commit `b3796e7`. Prepared plan awaiting owner review and formal start authorization.
+Formally active implementation plan.
 Nothing here constitutes institutional policy approval or active production release.
 Anything not run is marked NOT RUN.
 

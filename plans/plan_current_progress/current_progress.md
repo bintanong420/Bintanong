@@ -113,3 +113,12 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - Merge resolution: retained `plans/plan_current_progress/current_progress.md`; accepted the remote MCP configuration and workflow updates. The legacy `extractor_split_progress.md` remains deleted as in `origin/dev`.
 - Verification for this merge: `phase_state.py inspect` and `validate --repo .` both report a valid ledger with Phase 4 eligible; `git diff --cached --check` passed; `.mcp.json` parses as valid JSON; no unmerged paths remain. No tests were run for this documentation and branch integration task.
 - Next action: review the prepared Phase 4 storage plan and formally start Phase 4 only after owner review. Do not repeat the completed Phase 3 implementation solely because the former progress directory was removed.
+
+## Phase 4 initialization and task kickoff (12 October 2026)
+
+- Owner direction: Checkout custom handoff skill, continue from previous agent, utilize appropriate skills, commit frequently in verified increments, and utilize Supabase and GitHub MCP for Phase 4.
+- Formally initialized Phase 4 in `plans/phase-04-supabase-storage-plan.md` (`status: in_progress`), created `plans/phase-04-checkpoint.md` (sequence 1), and updated `plans/INDEX.md`.
+- Infrastructure verification: verified local Supabase instance (PostgreSQL 17.6 + pgvector 0.8.2 on ports 54322/54321), inspected GitHub MCP (`github-mcp-server`) with repository branch list.
+- Verification: `phase_state.py inspect` reports valid ledger with Phase 4 active; 19 phase state tests passing (exit 0); 10 embedding suite unit tests passing (exit 0).
+- Next action: Design and apply Task 1/2 Supabase SQL migration for relational knowledge tables and pgvector embeddings.
+

@@ -5,11 +5,11 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: none (Phase 3 embedding generation complete)
-- Active plan: none; Phase 3 plan metadata is complete
-- Active checkpoint: none; Phase 0, 1, and 3 checkpoints are superseded
+- Active phase: `4` (Supabase vector and relational storage)
+- Active plan: `plans/phase-04-supabase-storage-plan.md`
+- Active checkpoint: `plans/phase-04-checkpoint.md`
 - Latest final handoff: `plans/phase-03-handoff.md`
-- Next permitted phase: `4` (eligibility only); the prepared plan is `phase-04-supabase-storage-plan.md`, and implementation needs the owner's review and a formal start
+- Next permitted phase: none (Phase 4 in progress)
 
 ## Parallel prospectus workstream
 
@@ -25,7 +25,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
 | 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
 | 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
-| 4 | Supabase vector and relational storage | ready (preparation only) | `phase-04-supabase-storage-plan.md` | none | none |
+| 4 | Supabase vector and relational storage | in_progress | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` | none |
 
 ## Resume Order
 
