@@ -263,3 +263,65 @@ def test_bridge_has_no_publication_network_or_runtime(prospectus_input, tmp_path
     monkeypatch.setitem(sys.modules, "janus", SimpleNamespace(consult=forbidden, query=forbidden))
     monkeypatch.setitem(sys.modules, "janus_swi", sys.modules["janus"])
     assert prepare(out)["records"]
+
+
+def test_changed_nonblank_source_cannot_be_reviewed_empty(prospectus_input, tmp_path, monkeypatch):
+    """T3-S1: current-value ledger consistency cannot erase untouched printed CS102."""
+    from backend.bintanong_tools.prospectus_extractor.ledger import course_locator, make_entry
+    raw = synthetic_prospectus()
+    raw["tables"][0]["data"]["table_cells"][9]["text"] = "CS102"
+    out = publish(prospectus_input, tmp_path, monkeypatch, raw)
+    payload = load_candidate_bundle(out)["domain_payload"]
+    _, snap, version = prospectus_input
+    entry = make_entry(pdf_sha256=snap.sha256, locator=course_locator(payload["courses"][0]),
+        field="prerequisites_raw", old_value="", new_value=None, disposition="accepted",
+        reviewer="reviewer", reason="Accepted blank candidate", section="test")
+    def change(data):
+        data["courses"][0].update(prerequisites_raw="", prerequisites=[], prerequisites_unresolved=[],
+                                  standing_requirements=[], prerequisite_state="reviewed_empty")
+        data["review_evidence"] = {"version_id": version.version_id, "entries": [entry]}
+    rehash(out, "conversion/prospectus_candidates.json", change)
+    # The exact reviewed_empty variant must reach the bridge; blank_unreviewed does not.
+    assert load_candidate_bundle(out)["domain_payload"]["courses"][0]["prerequisite_state"] == "reviewed_empty"
+    try:
+        result = record(prepare(out), "prerequisites", "CS101")
+    except ValueError:
+        return
+    assert result["blockers"], "Printed CS102 prerequisite was erased into unblocked reviewed_empty"
+    assert "review_view" not in result
+
+
+@pytest.mark.parametrize("damage", ["missing", "ambiguous", "repair", "unlocatable", "other_course"])
+def test_unsupported_blank_keeps_unrelated_valid_review(prospectus_input, tmp_path, monkeypatch, damage):
+    from backend.bintanong_tools.prospectus_extractor.ledger import course_locator, make_entry
+    raw = synthetic_prospectus()
+    cells = raw["tables"][0]["data"]["table_cells"]
+    cells[9]["text"] = cells[13]["text"] = ""
+    if damage == "ambiguous": cells.append(copy.deepcopy(cells[9]))
+    if damage == "unlocatable": cells[9].pop("bbox")
+    if damage == "other_course": cells.remove(cells[9])
+    out = publish(prospectus_input, tmp_path, monkeypatch, raw)
+    payload = load_candidate_bundle(out)["domain_payload"]
+    _, snap, version = prospectus_input
+    entries = [make_entry(pdf_sha256=snap.sha256, locator=course_locator(c), field="prerequisites_raw",
+        old_value="", new_value=None, disposition="accepted", reviewer="reviewer",
+        reason="Read original blank cell", section="test") for c in payload["courses"]]
+    def change(data):
+        first = data["courses"][0]
+        if damage == "missing":
+            first["provenance"]["source_cell_ids"].remove("t0-c7")
+            first["provenance"]["source_cells"] = [c for c in first["provenance"]["source_cells"]
+                                                      if c["cell_id"] != "t0-c7"]
+            entries[0]["locator"] = course_locator(first)
+            from backend.bintanong_tools.prospectus_extractor.ledger import entry_id_of
+            entries[0]["entry_id"] = entry_id_of(entries[0])
+        if damage == "repair":
+            first["provenance"].update(resolution_method="semantic_repair", repair_id="repair-1")
+        data["review_evidence"] = {"version_id": version.version_id, "entries": entries}
+    rehash(out, "conversion/prospectus_candidates.json", change)
+    result = prepare(out)
+    unsupported = record(result, "prerequisites", "CS101")
+    assert unsupported["blockers"] and "review_view" not in unsupported
+    supported = record(result, "prerequisites", "CS102")
+    assert supported["prerequisite_state"] == "reviewed_empty" and supported["blockers"] == []
+    assert supported["review_evidence_refs"] == [entries[1]["entry_id"]]

@@ -9,12 +9,13 @@ from typing import Any
 from ...bintanong_contracts.source import SourceSpan, canonical_text, check_span_binding
 from ..prospectus_extractor.evidence import project_table_to_grid
 from ..prospectus_extractor.layout import detect_column_groups
-from ..prospectus_extractor.ledger import same_value
+from ..prospectus_extractor.ledger import course_locator, same_value
 from ..prospectus_extractor.loader import evidence_adapter
 from ..prospectus_extractor.parse import parse_curriculum_evidence
-from ..prospectus_extractor.rule_candidates import build_rule_candidates
+from ..prospectus_extractor.rule_candidates import _review_decisions, build_rule_candidates
 from ..prospectus_extractor.sections import (
-    _assemble_section_candidates, _candidate_to_raw_course, build_curriculum_sections, tokenize_table,
+    FieldCandidate, _assemble_section_candidates, _candidate_to_raw_course, build_curriculum_sections,
+    tokenize_table,
 )
 from .bundle import load_candidate_bundle
 from .prospectus import _captured_page_sizes
@@ -103,7 +104,7 @@ def _course_owner(course, owners, cells):
     return owner, set(ids) & set(supplied_ids)
 
 
-def _field_spans(field, owner, allowed, cells, tables, source, sizes):
+def _field_spans(field, owner, allowed, cells, tables, source, sizes, *, allow_blank=False):
     if field is None or not field.evidence_cell_ids or not set(field.evidence_cell_ids) <= allowed:
         return []
     spans = []
@@ -117,7 +118,8 @@ def _field_spans(field, owner, allowed, cells, tables, source, sizes):
                for other in tables[cell.table_index].cells):
             return []
         box = cell.bbox
-        if box is None or box.page is None or not box.is_complete() or box.origin is None or not cell.raw_text.strip():
+        if (box is None or box.page is None or not box.is_complete() or box.origin is None
+                or (not cell.raw_text.strip() and not allow_blank)):
             return []
         if (source.byte_sha256, box.page) not in sizes:
             raise ValueError("field page is outside captured PDF geometry")
@@ -136,6 +138,27 @@ def _field_spans(field, owner, allowed, cells, tables, source, sizes):
     return spans
 
 
+def _blank_review_locator(course, owner, allowed, cells, tables, source, sizes):
+    if (owner.prerequisites is not None or set(owner.source_cell_ids) != allowed
+            or canonical_text(course.get("prerequisites_raw")) != ""):
+        return None
+    table = tables[owner.table_index]
+    groups, _ = detect_column_groups(project_table_to_grid(table))
+    group = next(g for g in groups if g.index == owner.group_index)
+    if group.prereq_idx is None:
+        return None
+    owned = [c for c in table.cells if any(c.overlaps(row, group.prereq_idx)
+                                          for row in range(owner.row_start, owner.row_end))]
+    if len(owned) != 1 or owned[0].raw_text.strip():
+        return None
+    field = FieldCandidate("", [owned[0].cell_id])
+    # Validate blank-cell geometry for the review binding; never supply blank spans to the compiler.
+    if _field_spans(field, owner, allowed | set(field.evidence_cell_ids), cells, tables,
+                    source, sizes, allow_blank=True):
+        return course_locator(course)
+    return None
+
+
 def prepare_rule_candidates(bundle_path: Path) -> dict[str, Any]:
     """Read a checked institutional prospectus; return review JSON without publication."""
     checked = load_candidate_bundle(bundle_path)
@@ -149,12 +172,16 @@ def prepare_rule_candidates(bundle_path: Path) -> dict[str, Any]:
     owners, cells = _owners(evidence), evidence.all_cells()
     tables = {t.table_index: t for t in evidence.tables}
     support = {}
+    blank_locators = []
     for course in payload["courses"]:
         _source_claims(course, source)
         owner, allowed = _course_owner(course, owners, cells)
         fields = support.setdefault(course["course_code"], {})
         if owner is None:
             continue
+        blank = _blank_review_locator(course, owner, allowed, cells, tables, source, sizes)
+        if blank is not None:
+            blank_locators.append(blank)
         for name, field in (("course_code", owner.code), ("course_title", owner.title),
                             ("units.total", owner.units), ("prerequisites_raw", owner.prerequisites),
                             ("year_level", owner.year_level), ("semester", owner.semester)):
@@ -165,4 +192,13 @@ def prepare_rule_candidates(bundle_path: Path) -> dict[str, Any]:
             spans = _field_spans(field, owner, allowed, cells, tables, source, sizes)
             if spans:
                 fields[name] = spans
-    return build_rule_candidates(payload, source, support, review_evidence=payload.get("review_evidence"))
+    review = payload.get("review_evidence")
+    decisions = _review_decisions(review, source)
+    if review is not None:
+        bound_blank_ids = {e["entry_id"] for e in decisions.values()
+                           if e["field"] == "prerequisites_raw" and e["disposition"] == "accepted"
+                           and e["locator"] in blank_locators}
+        review = {**review, "entries": [e for e in review["entries"]
+                  if e.get("field") != "prerequisites_raw" or e.get("disposition") != "accepted"
+                  or e.get("entry_id") in bound_blank_ids]}
+    return build_rule_candidates(payload, source, support, review_evidence=review)

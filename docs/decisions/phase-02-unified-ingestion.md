@@ -178,8 +178,17 @@ substitute for them: a blank prerequisite stays `blank_unreviewed`. If a checked
 already contains the existing compiler's `{version_id, entries}` `review_evidence`
 wrapper, the compiler checks the existing ledger's version, PDF hash, field, course
 locator, current old value and entry integrity. Applicable accepted-blank decisions
-retain their `review_evidence_refs`; foreign, stale or malformed records cannot clear
-the blocker. This bridge does not materialize corrections or create new review truth.
+retain their `review_evidence_refs` only after the bridge binds the decision to the
+regenerated exact owner: the entire row provenance must be retained, and its actual
+layout/row must contain one genuinely blank, locatable prerequisite cell. The existing
+span validator checks that cell's geometry/source binding, without supplying a blank
+span as printed rule support. A candidate edited to blank cannot erase an untouched
+printed prerequisite through an accepted ledger entry. Missing, ambiguous, unlocatable
+or semantically repaired ownership stays blocked. The bridge reuses the compiler's
+ledger validation before filtering accepted-blank entries individually, so unsupported
+blanks do not discard unrelated valid review references. Foreign, stale or malformed
+records cannot clear the blocker. This bridge does not materialize corrections or
+create new review truth.
 Other correction decisions and original conversion text remain in their captured
 review inputs; this compiler's existing return format records accepted-blank references.
 Neither the manifest hashes nor the local ledger authenticate a malicious producer
