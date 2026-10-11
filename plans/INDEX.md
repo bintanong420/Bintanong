@@ -14,7 +14,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Parallel prospectus workstream
 
 - Approved review-only prospectus workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`
-- Current cross-agent progress: `plans/plan_current_progress/current_progress.md`
+- Current ingestion plans and delivery: [repository documentation index](ingestion/README.md) and [current status](ingestion/CURRENT_STATUS.md)
+- Historical cross-agent progress: `plans/plan_current_progress/current_progress.md` (read its dated sections alongside the current ingestion status)
 - The user authorized JSONification, candidate Prolog work, and human review/correction in parallel with Phase 1 indexing. This workstream does not advance the formal phase ledger or authorize an active institutional release.
 
 ## Phase Ledger

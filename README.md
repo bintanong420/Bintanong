@@ -23,3 +23,7 @@ docker compose --profile tools run --rm evaluate --help
 The default services are `web`, `api`, `bintu`, and `embedding`. Supabase and application containers share the external `bintanong-local` network, whose default published-port binding is restricted to loopback.
 
 See `plans/INDEX.md` for durable phase state and `docs/decisions/phase-00-compatibility.md` for execution-time version decisions.
+
+## Development plans and ingestion progress
+
+Start with [ingestion plans and delivery](plans/ingestion/README.md) for the unified pipeline, Phase 6 candidate compiler, private lifecycle design and current limits. Plans, decisions and progress are maintained in this repository; raw/generated execution artifacts stay outside Git. The formal phase ledger remains [plans/INDEX.md](plans/INDEX.md).

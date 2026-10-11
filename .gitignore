@@ -57,3 +57,5 @@ next-env.d.ts
 
 # local Bintanong PDF files and their .jsonified outputs
 /backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump/
+# Bulk local scratch copy; curated planning documents live in plans/ingestion/
+/plans/progress_plans/
