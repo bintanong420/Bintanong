@@ -14,6 +14,8 @@ The compiler accepts the actual producer's pending identity, metadata-observatio
 
 Supporting span collections and locator ID sets are unordered evidence and are canonicalized; prerequisite lists and raw source text retain their semantic order. An independently located span repeating the same complete field can corroborate that field. No missing numeric field is supplied by a fallback.
 
+Ledger entries are hash-validated in their original form before a copied locator's cell IDs are sorted for matching and semantic hashing. The returned review references retain the original entry IDs, and the caller's ledger entries remain unchanged.
+
 `content_digest` is a semantic digest, not a byte-integrity checksum of the returned JSON. Candidate IDs and this digest include source identity, supported values, spans, scope, blockers and applicable decision semantics (reviewer, reason, byte hash, exact locator, field, disposition and old/new value). Actual ledger entry IDs remain in `review_evidence_refs` for lookup. Their timestamp-derived hashes are replaced by those decision semantics only during hashing, excluding recording time and display section paths while retaining meaningful decision changes. Hash the serialized artifact separately if byte-level integrity of the reference IDs is needed. No second review ledger is created.
 
 Synthetic interoperability exercises the actual prospectus producer, checked candidate-bundle loader and pure compiler with the unchanged pending payload. Field evidence is intentionally absent in that case, so every output remains blocked. This demonstrates interface compatibility and does not implement the later field-evidence bridge or establish original-PDF extraction accuracy.

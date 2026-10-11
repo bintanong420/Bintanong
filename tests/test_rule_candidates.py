@@ -383,6 +383,29 @@ def test_review_timestamp_and_local_path_do_not_change_candidate_semantic_hashes
     assert record(second, "prerequisites")["review_evidence_refs"] == [entry["entry_id"]]
 
 
+def test_accepted_blank_locator_id_order_is_not_semantic():
+    from backend.bintanong_tools.prospectus_extractor.ledger import entry_id_of, entry_problem
+    payload, source, fields = fixture("")
+    payload["courses"][1]["provenance"]["source_cell_ids"] = ["t0-c2", "t0-c3"]
+    evidence = accepted_blank(payload, source)
+    original_inputs = copy.deepcopy((payload, fields, evidence))
+    first = compile_candidates(payload, source, fields, review_evidence=evidence)
+    assert (payload, fields, evidence) == original_inputs
+    changed = copy.deepcopy(evidence)
+    changed["entries"][0]["locator"]["cell_ids"].reverse()
+    changed["entries"][0]["entry_id"] = entry_id_of(changed["entries"][0])
+    assert entry_problem(changed["entries"][0]) is None
+    before = copy.deepcopy((payload, fields, changed))
+    second = compile_candidates(payload, source, fields, review_evidence=changed)
+    assert (payload, fields, changed) == before
+    one, two = record(first, "prerequisites"), record(second, "prerequisites")
+    assert one["prerequisite_state"] == two["prerequisite_state"] == "reviewed_empty"
+    assert one["review_view"] == two["review_view"] == {"clauses": [], "relations": []}
+    assert one["review_evidence_refs"] == [evidence["entries"][0]["entry_id"]]
+    assert two["review_evidence_refs"] == [changed["entries"][0]["entry_id"]]
+    assert one["id"] == two["id"] and first["content_digest"] == second["content_digest"]
+
+
 def test_actual_all_of_order_and_lab_course_codes_are_preserved():
     payload, source, fields = fixture()
     lab = copy.deepcopy(payload["courses"][0])

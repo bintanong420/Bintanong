@@ -140,7 +140,9 @@ def _review_decisions(evidence: Mapping | None, source: SourceDocumentVersion) -
         _mapping(entry, "review entry")
         _claims(entry, source, ("review_evidence", "entries"))
         if entry_problem(entry) is None:
-            valid.append(copy.deepcopy(dict(entry)))
+            normalized = copy.deepcopy(dict(entry))
+            normalized["locator"]["cell_ids"] = sorted(normalized["locator"].get("cell_ids", []))
+            valid.append(normalized)
     if evidence["version_id"] != source.version_id:
         return {}
     applicable, _ = split_applicable(valid, source.byte_sha256)
