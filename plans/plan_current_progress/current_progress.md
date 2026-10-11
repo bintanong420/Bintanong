@@ -129,4 +129,20 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - Verification: Executed `npx supabase db reset` cleanly applying all migrations to local PostgreSQL 17.6; verified 19 tables and vector column type via `npx supabase db query`; ran `npx supabase db advisors` with 0 security/performance issues found.
 - Next action: Implement `backend/bintanong_storage/loader.py` and `backend/bintanong_storage/release.py` for idempotent loading and atomic release lifecycle.
 
+## Phase 4 Completion and Handoff to Phase 5 (12 October 2026)
+
+- Completed Task 3: Built `BatchKnowledgeLoader` in `backend/bintanong_storage/loader.py` supporting idempotent imports of manifest metadata, candidate chunks, source spans, and `vector(1024)` embeddings.
+- Completed Task 4: Built `ReleaseManager` in `backend/bintanong_storage/release.py` managing immutable release memberships, draft-to-active promotions, and dynamic rollbacks.
+- Completed Task 5 & Vector Retrieval: Built `KnowledgeRetriever` in `backend/bintanong_storage/retrieval.py` supporting exact cosine distance `<=>` search via `match_chunks`.
+- Added administrative CLI in `backend/bintanong_storage/cli.py` (`status`, `load`, `activate`, `rollback`).
+- Verification evidence:
+  - 8 storage unit and integration tests passing (`test_storage_client.py`, `test_storage_loader_idempotency.py`, `test_storage_release_isolation.py`, `test_storage_vector_retrieval.py`).
+  - 10 embedding tests passing across `backend.bintanong_embedding`.
+  - 19 phase state tests passing in `test_phase_state.py`.
+  - Supabase database advisors: 0 security or performance issues.
+- Exit gate satisfied: Idempotency (0 duplicates on repeat load), Release Isolation (draft/superseded chunks inaccessible to runtime role), Permission Enforcement (runtime anon cannot write or invoke admin RPCs), and Advisor clean audit.
+- Created `plans/phase-04-handoff.md`, marked `plans/phase-04-checkpoint.md` superseded, and prepared `plans/phase-05-retrieval-plan.md` (`status: ready`, `preparation_only: true`).
+- Next action: Owner review of Phase 4 deliverables and formal start authorization for Phase 5 (Retrieval).
+
+
 
