@@ -9,7 +9,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Active plan: none; Phase 3 plan metadata is complete
 - Active checkpoint: none; Phase 0, 1, and 3 checkpoints are superseded
 - Latest final handoff: `plans/phase-03-handoff.md`
-- Next permitted phase: `4` (eligibility only); Phase 4 handles database schema and vector persistence
+- Next permitted phase: `4` (eligibility only); the prepared plan is `phase-04-supabase-storage-plan.md`, and implementation needs the owner's review and a formal start
 
 ## Parallel prospectus workstream
 
@@ -25,6 +25,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
 | 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
 | 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
+| 4 | Supabase vector and relational storage | ready (preparation only) | `phase-04-supabase-storage-plan.md` | none | none |
 
 ## Resume Order
 
@@ -38,6 +39,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 - Phase 1 plan: [source governance and contracts](phase-01-source-governance-contracts-plan.md), formally started and software exit completed 2026-10-08; see the final handoff for pending source/benchmark gates.
 - Phase 2 plan: [document ingestion plan](phase-02-document-ingestion-plan.md).
+- Phase 4 plan: [Supabase vector and relational storage plan](phase-04-supabase-storage-plan.md).
 - Remaining Phase 2 background: [document ingestion preparation](phase-02-document-ingestion-preparation.md). Depends on a complete Phase 1 handoff.
 - [Prospectus and whole-Phase-2 workstream status](phase2-workstream-status.md) distinguishes completed A–D, unfinished implementation and human/authority gates.
 - [Evaluation protocol](../evaluation/README.md) describes development/final grouping and review rubrics; final verified cases are pending.
