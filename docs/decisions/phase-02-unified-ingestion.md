@@ -133,3 +133,75 @@ manifest keys, interrupted publication, audit blockers and unchanged originals. 
 corpus validation, office/domain review, OCR certification, private lifecycle, embeddings,
 rule compilation and runtime execution remain separate work; historical M1 is not
 independently rechecked by these new-boundary tests.
+
+Task 3 adds the library entry point
+`backend.bintanong_tools.document_ingest.prospectus_rules.prepare_rule_candidates(bundle_path)`.
+It first calls `load_candidate_bundle`, requires `prospectus_candidate`, and selects
+the exact registered version named by the checked report. It passes the unchanged
+checked domain payload, that source, field spans and any existing `review_evidence`
+wrapper to the pure `build_rule_candidates` compiler. The return value is the existing
+compiler artifact in memory. The bridge writes no files, consults no Prolog, invokes
+no network/runtime and never approves or activates a rule.
+
+The bridge uses `evidence_adapter` on the hash-checked raw conversion, and reuses
+`parse_curriculum_evidence`, `detect_column_groups`, `tokenize_table`,
+`build_curriculum_sections`, `_assemble_section_candidates` and
+`_candidate_to_raw_course` to recover the `FieldCandidate` ownership dropped by the
+parser's return projection. This is evidence mapping around the current extractor,
+not another curriculum parser. A unique table/row/column-group owner must agree with
+the supplied row provenance. Each supplied cell record must exactly match the raw
+normalized cell, and its IDs must belong to that owner; a legitimate cell from another
+row cannot support this course. Malformed locators, duplicate/foreign IDs, changed
+cell text/geometry/page and foreign source identity claims refuse preparation.
+
+Only IDs present in both the row's retained IDs and its exact cell records can support
+a field. Missing ownership or cell records, ambiguous owners/overlapping cells,
+unlocatable fields and semantic/deterministic repairs remain unsupported. Fields never
+borrow the row union or a chunk span. Each usable span names one actual owned cell,
+retains its `raw_text`, physical page and native `SourceBBox.origin`, and uses
+`pdf_page_sizes` from the hash-checked captured-PDF metadata. A page outside that capture
+refuses; missing geometry/origin stays blocked. The compiler compares the retained
+printed wording with the candidate field, so a changed title cannot borrow another
+course's matching title or turn repaired wording into direct support.
+
+A plain unit cell supports only `units.total`; the extractor's default lecture/lab
+split is not separately printed evidence. A fractional/composite unit cell stays
+unmatched unless the existing compiler can match its complete wording. Year/semester
+support is supplied only when the owned source cells print the exact candidate field;
+normalized/derived labels remain blocked. Category and term index have no direct field
+ownership here. Program, elective and term summary records retain the compiler's
+unsupported-evidence blockers. Pending source states, `activation_allowed=false`,
+`approval_id=null`, raw prerequisite wording and unresolved references are preserved.
+
+The normal producer does not emit ledger entries. Review counts or statuses never
+substitute for them: a blank prerequisite stays `blank_unreviewed`. If a checked payload
+already contains the existing compiler's `{version_id, entries}` `review_evidence`
+wrapper, the compiler checks the existing ledger's version, PDF hash, field, course
+locator, current old value and entry integrity. Applicable accepted-blank decisions
+retain their `review_evidence_refs`; foreign, stale or malformed records cannot clear
+the blocker. This bridge does not materialize corrections or create new review truth.
+Other correction decisions and original conversion text remain in their captured
+review inputs; this compiler's existing return format records accepted-blank references.
+Neither the manifest hashes nor the local ledger authenticate a malicious producer
+that can replace all bytes and recompute hashes.
+
+From the candidate worktree, this stable library command reads an external complete
+bundle and prints inactive JSON review data; replace the bundle path with the selected
+external candidate directory:
+
+```powershell
+$env:PYTHONPATH = (Get-Location).Path
+$env:PYTHONDONTWRITEBYTECODE = '1'
+py -3.13 -B -c "import json; from pathlib import Path; from backend.bintanong_tools.document_ingest.prospectus_rules import prepare_rule_candidates; print(json.dumps(prepare_rule_candidates(Path(r'E:/external/prospectus-candidate-bundle')), ensure_ascii=False, indent=2))"
+```
+
+The combined synthetic acceptance case is
+`tests/test_prospectus_rule_handoff.py::test_combined_synthetic_conversion_bundle_bridge_compiler`.
+It runs snapshot/converter, real curriculum parser/audit, producer, checked loader,
+field bridge and pure compiler, checking exact cell/page/version support, inactive
+states, the `XX999` blocker, deterministic output and unchanged source/bundle bytes.
+Focused regressions cover hash damage, deliberately rehashed forged ownership,
+missing/ambiguous support, native BOTTOMLEFT coordinates, repairs, blank review evidence,
+policy/private misuse and absence of publication/network/runtime. This closes the
+field handoff interface; original-corpus accuracy, office/domain review, OCR/private
+lifecycle, runtime/release verification and historical M1/F/session debts remain separate.
