@@ -1,14 +1,16 @@
 ---
 artifact: phase-handoff
 phase: 4
-status: complete
+status: blocked
 plan: plans/phase-04-supabase-storage-plan.md
 final_commit: 4244870
-next_phase: 5
+recovery_condition: Correct F1-F5 in plans/phase-04-security-review-2026-10-12.md and pass the full Phase 04 exit gate under both runtime roles before advancing.
 completed_at: 2026-10-12T02:35:00+08:00
 ---
 
 # Phase 4 Final Handoff: Supabase Vector and Relational Storage
+
+**Corrective audit, 12 October 2026: BLOCKED.** [Independent verification](phase-04-security-review-2026-10-12.md) invalidated the read-only privilege, authorized-release and immutable-publication assertions below. They are preserved as the original completion narrative, not current verified guarantees. Phase 05 remains preparation only. `final_commit` and `completed_at` record the original handoff baseline; the audit baseline is `8f53b72`.
 
 Nothing here constitutes institutional policy approval or active production release.
 

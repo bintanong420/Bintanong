@@ -1,5 +1,7 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Current numbered-phase status, 12 October 2026:** Phase 04 security verification reopened the exit gate; its handoff is blocked during repair and Phase 05 remains preparation only. The latest dated entry below and `plans/INDEX.md` override earlier Phase 04 completion claims. Prospectus history is preserved.
+
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
 ## Completed work
@@ -144,5 +146,36 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - Created `plans/phase-04-handoff.md`, marked `plans/phase-04-checkpoint.md` superseded, and prepared `plans/phase-05-retrieval-plan.md` (`status: ready`, `preparation_only: true`).
 - Next action: Owner review of Phase 4 deliverables and formal start authorization for Phase 5 (Retrieval).
 
+## Independent Phase 04 security verification (12 October 2026)
+
+Repair authorized by the owner after this review. Execution plan: [Phase 04 security repair](../2026-10-12-phase04-security-repair.md). Work starts from `7c0ed85` in the existing worktree using disposable-database verification and additive migrations; advancement remains gated.
+
+Repair Task 1: CLI-generated additive privilege migration and explicit local exposure setting implemented. The original defaults/grants caused 4 failing role subtests; after repair, `python -m unittest tests.test_storage_security -v` passed both tests, including effective mutation privileges and future table/sequence defaults. SQL fixtures/evidence remain external, and disposable databases were removed. No shared/hosted migration applied yet. Next: Task 2 approval/release visibility and publication invariants.
+
+- Owner requested review of the Supabase RLS/access controls and Phase 04-to-05 handoff. Review baseline: clean `feat/p04-supabase-rls` at `8f53b72`.
+- [Review](../phase-04-security-review-2026-10-12.md) and [decision](../../docs/decisions/phase-04-security-review.md) record four P1 findings: runtime TRUNCATE grants on all 19 tables (local/hosted; local also retains DML grants), draft curriculum children/out-of-release rules visible, activation accepts incomplete/unapproved releases, and published membership/content can change in place. P2: hosted schema has no migration history and its ACL changes are absent from the committed migration.
+- Hosted Supabase MCP inspection confirmed 19 RLS-enabled tables, matching policy predicates, SECURITY INVOKER RPCs, vector 0.8.2 and zero security/performance lints. Advisors did not catch these application authorization defects. Hosted knowledge and active-pointer counts were zero.
+- Fresh local SQL probes used actual `anon`, `authenticated` and `service_role` in rolled-back synthetic transactions. Both runtime roles reproduced the defects. Basic draft/current/superseded chunk isolation, sequential activation/rollback, vector visibility and admin RPC denial passed. Runtime INSERT denied; UPDATE/DELETE affected zero rows despite existing grants.
+- Local anon HTTP reads succeeded; administrative RPC calls returned 401 / SQLSTATE 42501. Post-probe audit chunk/document/release and active-pointer counts returned zero, matching baseline. Raw evidence outside Git: `C:/Coding-projects/bintanong_workspace/audit-evidence/p04-20261012/`.
+- Existing storage suites NOT RUN: shared-pointer deletion/fixed fixture IDs make them unsafe against arbitrary configured endpoints; system Python 3.13.7 lacks pytest. No installs or dependency changes. No hosted writes or implementation/migration changes.
+- Ruling: Phase 04 plan reopened, checkpoint and handoff blocked, ledger corrected. Historical completion narrative retained. Phase 05 remains preparation only; fresh verification outranks the prior completion checkboxes.
+- Next action: repair F1 through an additive least-privilege migration with isolated effective-ACL verification, then F2–F4, reconcile F5, and run the complete Phase 04 exit gate under both runtime roles before restoring advancement eligibility.
 
 
+
+
+## Phase 04 security repair Task 2 verified (12 October 2026)
+
+- Task 1 privilege commit: `c48f404`. New additive migration enforces active/approved-parent visibility, complete publication checks and immutable published evidence. Loader and release creation now use atomic administrative RPCs.
+- Replaced legacy shared-pointer tests with disposable PostgreSQL fixtures and HTTP MockTransport checks. Full gate: 25 tests passed in 57.574s, including actual runtime roles, reimport identity preservation, failed-batch rollback, cosine ranking and concurrent publication/writer isolation.
+- Independent review identified two additional P2 gaps in dictionary content/location validation and corpus identity. Both fixed; re-review pending. Standalone manifest loading now requires an explicit set ID; ordinary Phase 03 artifact loading derives identity from the configuration and full sorted embedding corpus.
+- Hosted baseline verified against a fresh historical-only database: 146 columns, 67 constraints, 37 indexes, 19 policies/RLS flags and three functions match (line endings normalized). Original ACL drift documented. CLI recorded the three missing historical migrations without replay; institutional tables and pointer remain empty.
+- Next: finalize independent review, commit Task 2, apply only the two additive migrations to local/hosted targets, inspect resulting roles/advisors/history and complete the handoff only when all gates pass. Phase 05 remains preparation only.
+
+Task 2 final gate: 30 storage tests passed in 69.867s. Final review corrections include effective-source-text consistency, ordered source-span agreement, valid textless-table support, nullable-identity conflict rejection and stale-snapshot isolation rejection. All reviewer findings addressed; 12 embedding tests and 19 phase ledger tests passed. No disposable test databases remain. Next action: apply the two dry-run-selected additive migrations locally and hosted, verify live state, then close the security gate if earned.
+
+## Phase 04 hosted correction deployed (12 October 2026)
+
+- `6e762a5` commits the policy/publication/import repairs. Both local and hosted databases now have migrations 10001/10002 applied and matching history. Live roles: 17 institutional SELECT grants each; zero mutation grants or admin RPC execution, RLS enabled on all 19 tables. All knowledge tables and active pointer remain empty.
+- Fresh advisors at INFO expose six missing foreign-key indexes and intentional policy-free operational tables, with no WARN/ERROR. Follow-through migration 10003 adds covering indexes and explicit restrictive runtime denials. The new policy regression failed before the migration; all 11 security tests pass afterward. Expected unused-index INFO notices on empty databases remain nonblocking.
+- Next action: commit/apply 10003, compare final catalogs and function ACL/defaults, run the complete isolated suite, and record the earned Phase 04 closure. Phase 05 remains preparation only; no institutional release was activated.
