@@ -135,6 +135,25 @@ def _field_spans(field, owner, allowed, cells, tables, source, sizes, *, allow_b
         })
         check_span_binding(span, source)
         spans.append(span)
+    if len(spans) > 1:
+        if len({(s.page, s.bbox_origin, tuple(s.page_size)) for s in spans}) != 1:
+            return []
+        ordered = sorted(spans, key=lambda s: (cells[s.locator.cell_ids[0]].row_start,
+                                               cells[s.locator.cell_ids[0]].col_start))
+        text = " ".join(s.text for s in ordered)
+        if canonical_text(field.value) != canonical_text(text):
+            return []
+        complete = ordered[0].model_dump(mode="json")
+        complete["text"] = text
+        complete["locator"]["cell_ids"] = [s.locator.cell_ids[0] for s in ordered]
+        boxes = [s.bbox for s in ordered]
+        top, bottom = (min, max) if complete["bbox_origin"] == "TOPLEFT" else (max, min)
+        complete["bbox"] = [min(b[0] for b in boxes), top(b[1] for b in boxes),
+                            max(b[2] for b in boxes), bottom(b[3] for b in boxes)]
+        # Only the complete owned field can support a value; partial cells remain in its raw text.
+        span = SourceSpan.parse(complete)
+        check_span_binding(span, source)
+        return [span]
     return spans
 
 
@@ -185,11 +204,11 @@ def prepare_rule_candidates(bundle_path: Path) -> dict[str, Any]:
         for name, field in (("course_code", owner.code), ("course_title", owner.title),
                             ("units.total", owner.units), ("prerequisites_raw", owner.prerequisites),
                             ("year_level", owner.year_level), ("semester", owner.semester)):
-            if name in {"year_level", "semester"} and (field is None or
-                    canonical_text(course.get(name)) != canonical_text(" ".join(cells[i].raw_text for i in field.evidence_cell_ids))):
-                continue
             # A plain unit cell prints the total; lecture/lab defaults are not independent source facts.
             spans = _field_spans(field, owner, allowed, cells, tables, source, sizes)
+            if name in {"year_level", "semester"} and canonical_text(course.get(name)) != canonical_text(
+                    " ".join(span.text for span in spans)):
+                continue
             if spans:
                 fields[name] = spans
     review = payload.get("review_evidence")

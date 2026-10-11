@@ -157,12 +157,23 @@ cell text/geometry/page and foreign source identity claims refuse preparation.
 Only IDs present in both the row's retained IDs and its exact cell records can support
 a field. Missing ownership or cell records, ambiguous owners/overlapping cells,
 unlocatable fields and semantic/deterministic repairs remain unsupported. Fields never
-borrow the row union or a chunk span. Each usable span names one actual owned cell,
+borrow the row union or a chunk span. A single-cell span names that actual owned cell,
 retains its `raw_text`, physical page and native `SourceBBox.origin`, and uses
 `pdf_page_sizes` from the hash-checked captured-PDF metadata. A page outside that capture
 refuses; missing geometry/origin stays blocked. The compiler compares the retained
 printed wording with the candidate field, so a changed title cannot borrow another
 course's matching title or turn repaired wording into direct support.
+
+For a continued field, the bridge first validates every owned cell separately, then
+supplies one complete field span. Its text joins the original raw fragments in table
+row/column order, independently of cell-ID order, and must correspond to the regenerated
+`FieldCandidate.value`. Its locator retains every exact owned cell ID; its bbox is the
+envelope of those validated boxes on the same physical page and native origin. Cells
+from different fields are never combined. A shortened title or prerequisite cannot
+match an individual continuation fragment: the compiler receives only the complete
+wording, which remains visible even on a blocked record. Missing cells/geometry,
+different pages/origins or disagreement with the regenerated field leave support
+blocked, with original fragments retained in the captured conversion review inputs.
 
 A plain unit cell supports only `units.total`; the extractor's default lecture/lab
 split is not separately printed evidence. A fractional/composite unit cell stays
@@ -209,7 +220,8 @@ The combined synthetic acceptance case is
 It runs snapshot/converter, real curriculum parser/audit, producer, checked loader,
 field bridge and pure compiler, checking exact cell/page/version support, inactive
 states, the `XX999` blocker, deterministic output and unchanged source/bundle bytes.
-Focused regressions cover hash damage, deliberately rehashed forged ownership,
+Focused regressions cover complete and shortened continuations, preserved alternatives,
+hash damage, deliberately rehashed forged ownership,
 missing/ambiguous support, native BOTTOMLEFT coordinates, repairs, blank review evidence,
 policy/private misuse and absence of publication/network/runtime. This closes the
 field handoff interface; original-corpus accuracy, office/domain review, OCR/private

@@ -51,6 +51,80 @@ def rehash(out, name, change):
     (out / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
 
 
+def continued_raw(column, text):
+    raw = synthetic_prospectus()
+    cells = raw["tables"][0]["data"]["table_cells"]
+    for cell in cells:
+        if cell["start_row_offset_idx"] >= 4:
+            cell["start_row_offset_idx"] += 1
+            cell["end_row_offset_idx"] += 1
+            cell["bbox"]["t"] += 20
+            cell["bbox"]["b"] += 20
+    continuation = copy.deepcopy(cells[7 if column == 1 else 9])
+    continuation.update(text=text, start_row_offset_idx=4, end_row_offset_idx=5,
+                        start_col_offset_idx=column, end_col_offset_idx=column + 1)
+    continuation["bbox"].update(t=280, b=295)
+    cells.append(continuation)
+    raw["tables"][0]["data"]["num_rows"] = 6
+    return raw
+
+
+def test_partial_multicell_title_must_remain_unmatched(prospectus_input, tmp_path, monkeypatch):
+    out = publish(prospectus_input, tmp_path, monkeypatch, continued_raw(1, "with Advanced Topics"))
+    assert load_candidate_bundle(out)["domain_payload"]["courses"][0]["course_title"] == (
+        "Introduction to Computing with Advanced Topics")
+    rehash(out, "conversion/prospectus_candidates.json",
+           lambda data: data["courses"][0].update(course_title="Introduction to Computing"))
+    assert load_candidate_bundle(out)["domain_payload"]["courses"][0]["course_title"] == "Introduction to Computing"
+    result = record(prepare(out), "course", "CS101")
+    assert "missing_or_unmatched_field_evidence:course_title" in result["blockers"]
+    assert "review_view" not in result
+    assert "with Advanced Topics" in " ".join(result["raw_text"]["course_title"])
+
+
+def test_partial_multicell_prerequisite_must_remain_blocked(prospectus_input, tmp_path, monkeypatch):
+    from backend.bintanong_tools.prospectus_extractor.authority import build_authority
+    from backend.bintanong_tools.prospectus import ProvisionalSource
+    raw = continued_raw(3, "or equivalent")
+    raw["tables"][0]["data"]["table_cells"][9]["text"] = "CS102"
+    out = publish(prospectus_input, tmp_path, monkeypatch, raw)
+    assert load_candidate_bundle(out)["domain_payload"]["courses"][0]["prerequisites_raw"] == "CS102 or equivalent"
+    _, snap, version = prospectus_input
+    def change(data):
+        data["courses"][0].update(prerequisites_raw="CS102", prerequisites=["CS102"],
+            prerequisites_unresolved=[], standing_requirements=[], prerequisite_state="resolved")
+        data.update(build_authority(audit_status=data["audit"]["status"], metadata=data["metadata"],
+            courses=data["courses"], source=ProvisionalSource(snap.sha256, version.acquisition_locators[0]),
+            pdf_hash_check="matched"))
+    rehash(out, "conversion/prospectus_candidates.json", change)
+    assert load_candidate_bundle(out)["domain_payload"]["courses"][0]["prerequisites_raw"] == "CS102"
+    result = record(prepare(out), "prerequisites", "CS101")
+    assert "missing_or_unmatched_field_evidence:prerequisites_raw" in result["blockers"]
+    assert "review_view" not in result
+    assert "or equivalent" in " ".join(span["text"] for span in result["spans"])
+
+
+@pytest.mark.parametrize("column,first,tail,field,kind,blocker", [
+    (1, "Introduction to Computing", "with Advanced Topics", "course_title", "course", None),
+    (3, "CS102", "and CS102", "prerequisites_raw", "prerequisites", None),
+    (3, "CS102", "or equivalent", "prerequisites_raw", "prerequisites", "alternative_or_exception"),
+])
+def test_complete_multicell_field_preserves_physical_wording(
+        prospectus_input, tmp_path, monkeypatch, column, first, tail, field, kind, blocker):
+    raw = continued_raw(column, tail)
+    raw["tables"][0]["data"]["table_cells"][7 if column == 1 else 9]["text"] = first
+    out = publish(prospectus_input, tmp_path, monkeypatch, raw)
+    result = record(prepare(out), kind, "CS101")
+    assert "missing_or_unmatched_field_evidence:" + field not in result["blockers"]
+    relevant = [s for s in result["spans"] if first in s["text"]]
+    assert len(relevant) == 1 and relevant[0]["text"] == first + " " + tail
+    assert set(relevant[0]["locator"]["cell_ids"]) == {"t0-c7" if column == 1 else "t0-c9", "t0-c14"}
+    assert relevant[0]["bbox"] == ([130.0, 260.0, 240.0, 295.0] if column == 1 else [370.0, 260.0, 480.0, 295.0])
+    if kind == "prerequisites":
+        assert result["blockers"] == ([blocker] if blocker else [])
+        assert ("review_view" in result) is (blocker is None)
+
+
 def test_combined_synthetic_conversion_bundle_bridge_compiler(prospectus_input, tmp_path, monkeypatch):
     out = publish(prospectus_input, tmp_path, monkeypatch)
     _, snap, version = prospectus_input
