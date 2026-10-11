@@ -5,18 +5,17 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: none (Phase 1 software exit complete; source authorization and final benchmark pending)
-- Active plan: none; Phase 1 plan metadata is complete
-- Active checkpoint: none; Phase 0 and Phase 1 checkpoints are superseded
-- Latest final handoff: `plans/phase-01-handoff.md`
-- Next permitted phase: `2` (eligibility only); the prepared plan is `phase-02-document-ingestion-plan.md`, and implementation needs the owner's review and a formal start
+- Active phase: `3` (Embedding generation)
+- Active plan: `plans/phase-03-embedding-generation-plan.md`
+- Active checkpoint: `plans/phase-03-checkpoint.md`
+- Latest final handoff: `plans/phase-02-handoff.md`
+- Next permitted phase: `3` (in progress)
 
 ## Parallel prospectus workstream
 
 - Approved review-only prospectus workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`
 - Current ingestion plans and delivery: [repository documentation index](ingestion/README.md) and [current status](ingestion/CURRENT_STATUS.md)
-- Historical cross-agent progress: `plans/plan_current_progress/current_progress.md` (read its dated sections alongside the current ingestion status)
-- The user authorized JSONification, candidate Prolog work, and human review/correction in parallel with Phase 1 indexing. This workstream does not advance the formal phase ledger or authorize an active institutional release.
+- Candidate ingestion pipelines and rule preparations delivered in dev branch. Ingestion outputs remain candidate text and review bundles.
 
 ## Phase Ledger
 
@@ -24,7 +23,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | ---: | --- | --- | --- | --- | --- |
 | 0 | Docker and compatibility foundation | complete | `phase-00-docker-compatibility-plan.md` | `phase-00-checkpoint.md` | `phase-00-handoff.md` |
 | 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
-| 2 | Document ingestion | ready (preparation only) | `phase-02-document-ingestion-plan.md` | none | none |
+| 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
+| 3 | Embedding generation | in_progress | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` | none |
 
 ## Resume Order
 
