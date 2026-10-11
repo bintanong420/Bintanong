@@ -1,15 +1,14 @@
 ---
 artifact: phase-plan
 phase: 4
-status: ready
-preparation_only: true
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-03-handoff.md
 ---
 
 # Phase 4 — Supabase Vector and Relational Storage Plan
 
-Base commit `b3796e7`. Prepared plan awaiting owner review and formal start authorization.
+Formally active implementation plan.
 Nothing here constitutes institutional policy approval or active production release.
 Anything not run is marked NOT RUN.
 
@@ -33,12 +32,12 @@ Persist the reviewed corpus and candidate structured knowledge into Supabase Pos
 
 ## Task Checklist
 
-- [ ] Task 1: Logical schema & migration design (`documents`, `document_versions`, `source_spans`, `chunks`, `embedding_sets`, `chunk_embeddings`, `knowledge_releases`, `active_release`).
-- [ ] Task 2: Supabase SQL migration files and local database application with `pgvector 0.8.2`.
-- [ ] Task 3: Idempotent batch loader importing Phase 3 artifacts (`embeddings.jsonl` and manifest) into Supabase with duplicate detection.
-- [ ] Task 4: Atomic release publication, activation, and rollback mechanisms.
-- [ ] Task 5: Role-based access control (RLS), runtime read-only policy verification, and security advisor audits via Supabase MCP.
-- [ ] Task 6: Phase 4 exit gate verification, idempotency tests, and handoff documentation.
+- [x] Task 1: Logical schema & migration design (`documents`, `document_versions`, `source_spans`, `chunks`, `embedding_sets`, `chunk_embeddings`, `knowledge_releases`, `active_release`).
+- [x] Task 2: Supabase SQL migration files and local database application with `pgvector 0.8.2`.
+- [x] Task 3: Idempotent batch loader importing Phase 3 artifacts (`embeddings.jsonl` and manifest) into Supabase with duplicate detection.
+- [x] Task 4: Atomic release publication, activation, and rollback mechanisms.
+- [x] Task 5: Role-based access control (RLS), runtime read-only policy verification, and security advisor audits via Supabase MCP.
+- [x] Task 6: Phase 4 exit gate verification, idempotency tests, and handoff documentation.
 
 ## Proposed Relational Schema
 
