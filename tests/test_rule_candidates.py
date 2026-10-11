@@ -13,6 +13,7 @@ from backend.bintanong_tools.prospectus_extractor.prerequisites import (
 )
 from backend.bintanong_tools.prospectus_extractor.prolog import generate_prolog_knowledge
 from contracts_fixtures import span
+from test_prospectus_ingestion import prospectus_input, synthetic_converter
 
 
 def compile_candidates(*args, **kwargs):
@@ -227,3 +228,263 @@ def test_quoting_keeps_injection_as_data_and_compiler_has_no_side_effects(monkey
     assert all(not c.startswith(":-") and "rule_complete(" not in c and "eligible(" not in c
                for r in result["records"] for c in ([r["review_view"]["clause"]]
                    if "clause" in r.get("review_view", {}) else r.get("review_view", {}).get("clauses", [])))
+
+
+@pytest.mark.parametrize("location,bad", [
+    ("payload", None), ("courses", {}), ("course", None), ("run_identity", []), ("units", []),
+    ("field_spans", []), ("field_course", []), ("field_sequence", {}), ("span", None),
+    ("review", []), ("review_entries", {}), ("review_entry", None), ("audit", []),
+    ("anomalies", {}), ("anomaly", []), ("anomaly_cells", "cell"), ("anomaly_cells", [[]]),
+    ("provenance_cells", "cell"), ("provenance_cells", [[]]), ("metadata", []),
+    ("elective_tracks", {}), ("term_units", {}), ("authority", []),
+])
+def test_malformed_boundary_containers_refuse(location, bad):
+    payload, source, fields = fixture()
+    evidence = None
+    if location == "payload": payload = bad
+    elif location == "course": payload["courses"][0] = bad
+    elif location == "units": payload["courses"][0]["units"] = bad
+    elif location == "field_spans": fields = bad
+    elif location == "field_course": fields["CS 1"] = bad
+    elif location == "field_sequence": fields["CS 1"]["course_code"] = bad
+    elif location == "span": fields["CS 1"]["course_code"] = [bad]
+    elif location == "review": evidence = bad
+    elif location in {"review_entries", "review_entry"}:
+        evidence = {"version_id": source.version_id, "entries": bad if location == "review_entries" else [bad]}
+    elif location == "anomalies": payload["audit"]["structural_anomalies"] = bad
+    elif location == "anomaly": payload["audit"]["structural_anomalies"] = [bad]
+    elif location == "anomaly_cells":
+        payload["audit"]["structural_anomalies"] = [{
+            "type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": bad}]
+    elif location == "provenance_cells": payload["courses"][0]["provenance"]["source_cell_ids"] = bad
+    else: payload[location] = bad
+    before = copy.deepcopy((payload, fields, evidence))
+    with pytest.raises(ValueError): compile_candidates(payload, source, fields, review_evidence=evidence)
+    assert (payload, fields, evidence) == before
+
+
+@pytest.mark.parametrize("field,value", [
+    ("year_level", True), ("year_level", 1), ("year_level", []), ("semester", {}), ("semester", 1),
+    ("term_index", True), ("term_index", -1), ("term_index", 0), ("term_index", 1.5),
+    ("term_index", float("inf")), ("term_index", float("nan")), ("term_index", "1"),
+    ("prerequisites", "CS 1"), ("prerequisites", [True]), ("prerequisites", [{"code": "CS 1"}]),
+    ("prerequisites", ["CS 1", "CS 1"]), ("prerequisites_unresolved", None),
+    ("prerequisites_unresolved", ["forged"]), ("standing_requirements", ["forged"]),
+    ("prerequisite_state", []), ("prerequisites_raw", None),
+])
+def test_malformed_course_scalars_and_forged_references_refuse(field, value):
+    payload, source, fields = fixture()
+    payload["courses"][1][field] = value
+    with pytest.raises(ValueError): compile_candidates(payload, source, fields)
+
+
+@pytest.mark.parametrize("fault", ["source_namespace", "source_privilege", "run_version", "run_edition",
+    "top_digest", "authority_digest", "normalized_activation", "nested_review_activation", "malformed_code"])
+def test_forged_source_or_activation_claims_refuse(fault):
+    payload, source, fields = fixture()
+    evidence = None
+    if fault in {"source_namespace", "source_privilege"}:
+        source = source.model_dump(mode="json")
+        if fault == "source_namespace": source["namespace"] = "private_session"
+        else: source["approval_id"] = "forged"
+    elif fault in {"run_version", "run_edition"}:
+        payload["run_identity"]["version_id" if fault == "run_version" else "edition_id"] = "foreign"
+    elif fault == "top_digest": payload["pdf_sha256"] = "b" * 64
+    elif fault == "authority_digest": payload["authority"]["source_record"] = {"pdf_sha256": "b" * 64}
+    elif fault == "normalized_activation": payload["authority"]["Activation-Allowed"] = True
+    elif fault == "nested_review_activation":
+        evidence = accepted_blank(fixture("")[0], source)
+        evidence["entries"][0]["activation_allowed"] = True
+    else:
+        code = "CS 2\n:- halt."
+        payload["courses"][1]["course_code"] = code
+        fields[code] = fields.pop("CS 2")
+        fields[code]["course_code"][0]["text"] = code
+    with pytest.raises(ValueError): compile_candidates(payload, source, fields, review_evidence=evidence)
+
+
+def test_real_pending_producer_checked_bundle_reaches_pure_compiler(prospectus_input, tmp_path, monkeypatch):
+    from backend.bintanong_tools.document_ingest.prospectus import run_prospectus_ingestion
+    from backend.bintanong_tools.document_ingest.bundle import load_candidate_bundle
+    root, snapshot, version = prospectus_input
+    out = tmp_path / "bundle"
+    run_prospectus_ingestion(snapshot, [version], input_root=root, out=out,
+                            converter=synthetic_converter(monkeypatch, snapshot))
+    checked = load_candidate_bundle(out)
+    payload = checked["domain_payload"]
+    original = copy.deepcopy(payload)
+    result = compile_candidates(payload, checked["source_register"][0], {})
+    assert payload == original
+    assert result["source"]["byte_sha256"] == snapshot.sha256
+    assert result["source"]["content_review_state"]["state"] == "pending"
+    assert result["source"]["approval_state"]["state"] == "not_requested"
+    unknown = record(result, "prerequisites", "CS102")
+    assert unknown["raw_text"] == "XX999" and "unresolved_reference" in unknown["blockers"]
+    assert all(r["blockers"] and "review_view" not in r and not r["activation_allowed"]
+               and r["approval_id"] is None for r in result["records"])
+
+
+def test_genuine_ambiguous_blank_cannot_be_promoted_by_accepted_review():
+    payload, source, fields = fixture("")
+    payload["audit"]["structural_anomalies"] = [{
+        "type": "ambiguous_adjacent_prerequisite_fragment", "source_cell_ids": ["t0-c2"]}]
+    payload["courses"][1]["prerequisite_state"] = "unreadable"
+    result = compile_candidates(payload, source, fields, review_evidence=accepted_blank(payload, source))
+    item = record(result, "prerequisites")
+    assert item["prerequisite_state"] == "unreadable" and "unreadable" in item["blockers"]
+    assert "review_view" not in item and item["review_evidence_refs"] == []
+
+
+@pytest.mark.parametrize("fault", ["digest", "field", "locator", "later_unresolved"])
+def test_blank_review_must_match_exact_current_field_source_and_latest_decision(fault):
+    from backend.bintanong_tools.prospectus_extractor.ledger import entry_id_of
+    payload, source, fields = fixture("")
+    evidence = accepted_blank(payload, source)
+    entry = evidence["entries"][0]
+    if fault == "digest": entry["pdf_sha256"] = "b" * 64
+    elif fault == "field": entry["field"] = "course_title"
+    elif fault == "locator": entry["locator"]["page"] = 2
+    else:
+        entry = copy.deepcopy(entry)
+        entry["disposition"] = "unresolved"
+        evidence["entries"].append(entry)
+    entry["entry_id"] = entry_id_of(entry)
+    item = record(compile_candidates(payload, source, fields, review_evidence=evidence), "prerequisites")
+    assert item["prerequisite_state"] == "blank_unreviewed" and "review_view" not in item
+
+
+def test_unordered_field_support_and_locator_ids_are_stable():
+    payload, source, fields = fixture()
+    support = fields["CS 2"]["course_title"][0]
+    support["locator"]["cell_ids"] = ["t0-c9", "t0-c8"]
+    other = copy.deepcopy(support)
+    other["page"] = 2
+    fields["CS 2"]["course_title"].append(other)
+    first = compile_candidates(payload, source, fields)
+    fields["CS 2"]["course_title"].reverse()
+    for item in fields["CS 2"]["course_title"]: item["locator"]["cell_ids"].reverse()
+    second = compile_candidates(payload, source, fields)
+    assert first == second
+    assert not record(first, "course")["blockers"]
+
+
+def test_review_timestamp_and_local_path_do_not_change_candidate_semantic_hashes():
+    from backend.bintanong_tools.prospectus_extractor.ledger import entry_id_of
+    payload, source, fields = fixture("")
+    evidence = accepted_blank(payload, source)
+    first = compile_candidates(payload, source, fields, review_evidence=evidence)
+    entry = evidence["entries"][0]
+    entry["recorded_at"] = "2099-01-01T00:00:00Z"
+    entry["section"] = "C:/elsewhere/source.pdf"
+    entry["entry_id"] = entry_id_of(entry)
+    second = compile_candidates(payload, source, fields, review_evidence=evidence)
+    assert [r["id"] for r in first["records"]] == [r["id"] for r in second["records"]]
+    assert first["content_digest"] == second["content_digest"]
+    assert record(second, "prerequisites")["review_evidence_refs"] == [entry["entry_id"]]
+
+
+def test_actual_all_of_order_and_lab_course_codes_are_preserved():
+    payload, source, fields = fixture()
+    lab = copy.deepcopy(payload["courses"][0])
+    lab["course_code"] = "CC 1/L"
+    lab["provenance"]["source_cell_ids"] = ["t0-lab"]
+    payload["courses"].append(lab)
+    fields[lab["course_code"]] = copy.deepcopy(fields["CS 1"])
+    fields[lab["course_code"]]["course_code"][0]["text"] = lab["course_code"]
+    course = payload["courses"][1]
+    course.update(prerequisites_raw="CC 1/L, CS 1", prerequisites=["CC 1/L", "CS 1"])
+    fields["CS 2"]["prerequisites_raw"][0]["text"] = course["prerequisites_raw"]
+    result = compile_candidates(payload, source, fields)
+    item = record(result, "prerequisites")
+    assert item["value"]["all_of"] == ["CC 1/L", "CS 1"]
+    assert item["review_view"]["clauses"] == ["prerequisite('CS 2', 'CC 1/L').", "prerequisite('CS 2', 'CS 1')."]
+
+
+def test_printed_self_edge_cannot_hide_in_filtered_extractor_references():
+    payload, source, fields = fixture("CS 2")
+    payload["courses"][1].update(prerequisites=[], prerequisite_state="unreadable")
+    with pytest.raises(ValueError): compile_candidates(payload, source, fields)
+
+
+@pytest.mark.parametrize("fault", ["term_bool", "term_negative", "term_nonfinite", "term_year",
+    "elective_options", "elective_option", "elective_number", "program_type",
+    "nested_identity", "nested_content_review", "camel_activation", "completeness"])
+def test_blocked_records_do_not_excuse_malformed_data_or_privileged_claims(fault):
+    payload, source, fields = fixture()
+    if fault.startswith("term_"):
+        term = {"year_level": "1st Year", "semester": "1st Semester", "computed_units": 6}
+        if fault == "term_bool": term["computed_units"] = True
+        elif fault == "term_negative": term["computed_units"] = -1
+        elif fault == "term_nonfinite": term["computed_units"] = float("nan")
+        else: term["year_level"] = []
+        payload["term_units"] = [term]
+    elif fault.startswith("elective_"):
+        track = {"group": "CS Elective 1", "options": []}
+        if fault == "elective_options": track["options"] = {}
+        elif fault == "elective_option": track["options"] = [None]
+        else: track["elective_number"] = True
+        payload["elective_tracks"] = [track]
+    elif fault == "program_type": payload["metadata"] = {"program_name": []}
+    elif fault == "nested_identity": payload["authority"]["identity_check"] = {"state": "consistent", "approved_scope": None}
+    elif fault == "nested_content_review": payload["authority"]["content_review_detail"] = {"state": "reviewed"}
+    elif fault == "camel_activation": payload["activationAllowed"] = True
+    else: payload["complete"] = True
+    with pytest.raises(ValueError): compile_candidates(payload, source, fields)
+
+
+def test_semantic_review_change_changes_identity_without_changing_source_states():
+    from backend.bintanong_tools.prospectus_extractor.ledger import entry_id_of
+    payload, source, fields = fixture("")
+    evidence = accepted_blank(payload, source)
+    first = compile_candidates(payload, source, fields, review_evidence=evidence)
+    entry = evidence["entries"][0]
+    entry["reason"] = "An independent source-cell recheck"
+    entry["entry_id"] = entry_id_of(entry)
+    second = compile_candidates(payload, source, fields, review_evidence=evidence)
+    assert record(first, "prerequisites")["id"] != record(second, "prerequisites")["id"]
+    assert first["content_digest"] != second["content_digest"]
+    assert first["source"] == second["source"]
+
+
+def test_unknown_source_supported_reference_and_cyclic_dependencies_never_get_completeness_views():
+    payload, source, fields = fixture("XX999")
+    output = compile_candidates(payload, source, fields)
+    item = record(output, "prerequisites")
+    assert item["value"] == {"all_of": [], "unresolved": ["XX999"], "standing": []}
+    assert item["spans"][0]["version_id"] == source.version_id
+    assert "review_view" not in item and "unresolved_reference" in item["blockers"]
+
+
+def test_compiler_cannot_reach_inprocess_prolog_or_indirect_writers(monkeypatch):
+    import os
+    import sys
+    from types import SimpleNamespace
+    payload, source, fields = fixture()
+    def forbidden(*args, **kwargs): raise AssertionError("Prolog and publication forbidden")
+    monkeypatch.setitem(sys.modules, "janus", SimpleNamespace(consult=forbidden, query=forbidden, query_once=forbidden))
+    monkeypatch.setitem(sys.modules, "janus_swi", sys.modules["janus"])
+    monkeypatch.setattr(os, "system", forbidden)
+    monkeypatch.setattr(Path, "open", forbidden)
+    result = compile_candidates(payload, source, fields)
+    assert all(not r["activation_allowed"] and r["approval_id"] is None for r in result["records"])
+
+
+def test_root_program_values_are_retained_as_unsupported_review_data():
+    payload, source, fields = fixture()
+    payload.update(program="A pending program", degree="BS", campus="A pending campus")
+    result = compile_candidates(payload, source, fields)
+    item = record(result, "program", None)
+    assert item["value"]["payload_fields"] == {
+        "program": "A pending program", "degree": "BS", "campus": "A pending campus"}
+    assert item["blockers"] == ["unsupported_field_evidence"] and "review_view" not in item
+
+
+@pytest.mark.parametrize("number,printed", [(0, "0." + "0" * 400 + "1"),
+    (0.1, "0.100000000000000000000000000001")])
+def test_numeric_field_support_cannot_round_a_different_printed_number(number, printed):
+    payload, source, fields = fixture()
+    payload["courses"][1]["units"]["total"] = number
+    fields["CS 2"]["units.total"][0]["text"] = printed
+    item = record(compile_candidates(payload, source, fields), "course")
+    assert "missing_or_unmatched_field_evidence:units.total" in item["blockers"]
+    assert "review_view" not in item
