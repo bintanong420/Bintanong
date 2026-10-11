@@ -148,6 +148,10 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 
 ## Independent Phase 04 security verification (12 October 2026)
 
+Repair authorized by the owner after this review. Execution plan: [Phase 04 security repair](../2026-10-12-phase04-security-repair.md). Work starts from `7c0ed85` in the existing worktree using disposable-database verification and additive migrations; advancement remains gated.
+
+Repair Task 1: CLI-generated additive privilege migration and explicit local exposure setting implemented. The original defaults/grants caused 4 failing role subtests; after repair, `python -m unittest tests.test_storage_security -v` passed both tests, including effective mutation privileges and future table/sequence defaults. SQL fixtures/evidence remain external, and disposable databases were removed. No shared/hosted migration applied yet. Next: Task 2 approval/release visibility and publication invariants.
+
 - Owner requested review of the Supabase RLS/access controls and Phase 04-to-05 handoff. Review baseline: clean `feat/p04-supabase-rls` at `8f53b72`.
 - [Review](../phase-04-security-review-2026-10-12.md) and [decision](../../docs/decisions/phase-04-security-review.md) record four P1 findings: runtime TRUNCATE grants on all 19 tables (local/hosted; local also retains DML grants), draft curriculum children/out-of-release rules visible, activation accepts incomplete/unapproved releases, and published membership/content can change in place. P2: hosted schema has no migration history and its ACL changes are absent from the committed migration.
 - Hosted Supabase MCP inspection confirmed 19 RLS-enabled tables, matching policy predicates, SECURITY INVOKER RPCs, vector 0.8.2 and zero security/performance lints. Advisors did not catch these application authorization defects. Hosted knowledge and active-pointer counts were zero.

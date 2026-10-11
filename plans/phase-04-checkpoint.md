@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 4
-status: blocked
-sequence: 4
+status: in_progress
+sequence: 5
 plan: plans/phase-04-supabase-storage-plan.md
-head_commit: 8f53b72
-working_tree: clean
-updated_at: 2026-10-12T02:54:00+08:00
+head_commit: 7c0ed85
+working_tree: dirty
+updated_at: 2026-10-12T03:02:00+08:00
 ---
 
 # Phase 4 Checkpoint — security gate reopened
@@ -47,7 +47,7 @@ The [independent security review](phase-04-security-review-2026-10-12.md) invali
 
 ## Current Task
 
-Security review is delivered. Remediation remains pending; no Phase 05 implementation has started.
+Owner authorized the repair. Task 1 privilege repair passes isolated verification. Continue [the recovery plan](2026-10-12-phase04-security-repair.md) with Task 2 policy/publication regressions. Phase 05 has not started.
 
 ## Repository State
 
@@ -55,6 +55,7 @@ Security review is delivered. Remediation remains pending; no Phase 05 implement
 - `head_commit` identifies the audited implementation baseline. The following documentation-only audit commit is discoverable through Git; a docs-only HEAD mismatch does not mean database/code verification was repeated at a new implementation revision.
 - Documentation changes: `plans/INDEX.md`, this checkpoint, the Phase 04 plan/handoff, current progress, `plans/phase-04-security-review-2026-10-12.md`, and `docs/decisions/phase-04-security-review.md`.
 - Implementation, migrations and dependency files unchanged. Raw probes/catalog outputs remain outside Git.
+- Repair start: reconciled HEAD to the audit commit `7c0ed85`; dirty changes are this checkpoint, the recovery plan, new CLI-generated additive migrations, tests and progress/decision updates as each task starts. No owner changes were present.
 
 ## Verification Evidence
 
@@ -86,6 +87,8 @@ Security review is delivered. Remediation remains pending; no Phase 05 implement
 Implement and verify an additive least-privilege migration for F1 in an isolated database; then repair the F2 access matrix, F3 activation validation and F4 publication invariants, reconcile F5, and run the full exit gate under both runtime roles. Restore a complete handoff only after reading every result.
 
 ## Do Not Repeat
+
+- Repair Task 1: original migration regression failed in 4 role subtests; additive privilege migration now passes both tests. Command: `python -m unittest tests.test_storage_security -v` under Python 3.13.7. Each run created/dropped only its disposable database; raw evidence is under `audit-evidence/p04-repair-20261012/` outside the worktree. Shared/hosted databases are not yet migrated. The new explicit local auto-exposure setting takes effect on a future normal stack start; no restart was needed for SQL verification.
 
 - Do not reinstall dependencies or rerun the existing destructive storage suite against a shared/configured hosted database.
 - Do not replay hosted CREATE POLICY migrations blindly, reset existing state, activate candidate institutional sources or begin Phase 05 from the historical completion claim.

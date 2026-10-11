@@ -7,7 +7,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Master plan: `plans/master_implementation_plan_original_long.md`
 - Active phase: `4` (security exit gate reopened by independent verification)
 - Active plan: `plans/phase-04-supabase-storage-plan.md`
-- Active checkpoint: `plans/phase-04-checkpoint.md` (blocked pending remediation)
+- Active checkpoint: `plans/phase-04-checkpoint.md` (repair in progress)
 - Latest final handoff: `plans/phase-04-handoff.md` (blocked; original completion narrative preserved)
 - Next permitted phase: none until Phase 4 recovery passes; `phase-05-retrieval-plan.md` remains preparation only
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
