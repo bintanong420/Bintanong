@@ -1,12 +1,14 @@
 ---
 artifact: phase-plan
 phase: 4
-status: complete
+status: in_progress
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-03-handoff.md
 ---
 
 # Phase 4 — Supabase Vector and Relational Storage Plan
+
+Reopened for security verification on 12 October 2026. The original task checklist below records delivered work; Tasks 5/6 and the publication invariants require recovery under [the independent review](phase-04-security-review-2026-10-12.md). The current checkpoint and blocked handoff govern advancement.
 
 Formally active implementation plan.
 Nothing here constitutes institutional policy approval or active production release.

@@ -1,5 +1,7 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Current numbered-phase status, 12 October 2026:** Phase 04 security verification reopened the exit gate; its handoff/checkpoint are blocked and Phase 05 remains preparation only. The latest dated entry below and `plans/INDEX.md` override earlier Phase 04 completion claims. Prospectus history is preserved.
+
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
 ## Completed work
@@ -143,6 +145,17 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - Exit gate satisfied: Idempotency (0 duplicates on repeat load), Release Isolation (draft/superseded chunks inaccessible to runtime role), Permission Enforcement (runtime anon cannot write or invoke admin RPCs), and Advisor clean audit.
 - Created `plans/phase-04-handoff.md`, marked `plans/phase-04-checkpoint.md` superseded, and prepared `plans/phase-05-retrieval-plan.md` (`status: ready`, `preparation_only: true`).
 - Next action: Owner review of Phase 4 deliverables and formal start authorization for Phase 5 (Retrieval).
+
+## Independent Phase 04 security verification (12 October 2026)
+
+- Owner requested review of the Supabase RLS/access controls and Phase 04-to-05 handoff. Review baseline: clean `feat/p04-supabase-rls` at `8f53b72`.
+- [Review](../phase-04-security-review-2026-10-12.md) and [decision](../../docs/decisions/phase-04-security-review.md) record four P1 findings: runtime TRUNCATE grants on all 19 tables (local/hosted; local also retains DML grants), draft curriculum children/out-of-release rules visible, activation accepts incomplete/unapproved releases, and published membership/content can change in place. P2: hosted schema has no migration history and its ACL changes are absent from the committed migration.
+- Hosted Supabase MCP inspection confirmed 19 RLS-enabled tables, matching policy predicates, SECURITY INVOKER RPCs, vector 0.8.2 and zero security/performance lints. Advisors did not catch these application authorization defects. Hosted knowledge and active-pointer counts were zero.
+- Fresh local SQL probes used actual `anon`, `authenticated` and `service_role` in rolled-back synthetic transactions. Both runtime roles reproduced the defects. Basic draft/current/superseded chunk isolation, sequential activation/rollback, vector visibility and admin RPC denial passed. Runtime INSERT denied; UPDATE/DELETE affected zero rows despite existing grants.
+- Local anon HTTP reads succeeded; administrative RPC calls returned 401 / SQLSTATE 42501. Post-probe audit chunk/document/release and active-pointer counts returned zero, matching baseline. Raw evidence outside Git: `C:/Coding-projects/bintanong_workspace/audit-evidence/p04-20261012/`.
+- Existing storage suites NOT RUN: shared-pointer deletion/fixed fixture IDs make them unsafe against arbitrary configured endpoints; system Python 3.13.7 lacks pytest. No installs or dependency changes. No hosted writes or implementation/migration changes.
+- Ruling: Phase 04 plan reopened, checkpoint and handoff blocked, ledger corrected. Historical completion narrative retained. Phase 05 remains preparation only; fresh verification outranks the prior completion checkboxes.
+- Next action: repair F1 through an additive least-privilege migration with isolated effective-ACL verification, then F2–F4, reconcile F5, and run the complete Phase 04 exit gate under both runtime roles before restoring advancement eligibility.
 
 
 
