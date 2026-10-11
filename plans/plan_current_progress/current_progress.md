@@ -173,3 +173,9 @@ Repair Task 1: CLI-generated additive privilege migration and explicit local exp
 - Next: finalize independent review, commit Task 2, apply only the two additive migrations to local/hosted targets, inspect resulting roles/advisors/history and complete the handoff only when all gates pass. Phase 05 remains preparation only.
 
 Task 2 final gate: 30 storage tests passed in 69.867s. Final review corrections include effective-source-text consistency, ordered source-span agreement, valid textless-table support, nullable-identity conflict rejection and stale-snapshot isolation rejection. All reviewer findings addressed; 12 embedding tests and 19 phase ledger tests passed. No disposable test databases remain. Next action: apply the two dry-run-selected additive migrations locally and hosted, verify live state, then close the security gate if earned.
+
+## Phase 04 hosted correction deployed (12 October 2026)
+
+- `6e762a5` commits the policy/publication/import repairs. Both local and hosted databases now have migrations 10001/10002 applied and matching history. Live roles: 17 institutional SELECT grants each; zero mutation grants or admin RPC execution, RLS enabled on all 19 tables. All knowledge tables and active pointer remain empty.
+- Fresh advisors at INFO expose six missing foreign-key indexes and intentional policy-free operational tables, with no WARN/ERROR. Follow-through migration 10003 adds covering indexes and explicit restrictive runtime denials. The new policy regression failed before the migration; all 11 security tests pass afterward. Expected unused-index INFO notices on empty databases remain nonblocking.
+- Next action: commit/apply 10003, compare final catalogs and function ACL/defaults, run the complete isolated suite, and record the earned Phase 04 closure. Phase 05 remains preparation only; no institutional release was activated.

@@ -27,6 +27,17 @@ class TestStorageSecurity(unittest.TestCase):
                 """)
                 self.assertEqual(grants, [], "runtime role retains destructive grants")
 
+    def test_operational_tables_have_explicit_restrictive_denials(self):
+        policies = self.db.json("""
+            select coalesce(json_agg(c.relname order by c.relname),'[]')
+            from pg_policy p join pg_class c on c.oid=p.polrelid
+            where c.relname in ('ingestion_runs','evaluation_runs')
+                and p.polname='p4_operational_runtime_deny' and not p.polpermissive
+                and pg_get_expr(p.polqual,p.polrelid)='false'
+                and pg_get_expr(p.polwithcheck,p.polrelid)='false';
+        """)
+        self.assertEqual(policies, ['evaluation_runs', 'ingestion_runs'])
+
     def test_administrative_and_private_functions_have_no_runtime_execute(self):
         for role in ("anon", "authenticated"):
             with self.subTest(role=role):

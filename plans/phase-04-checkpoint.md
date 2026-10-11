@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 4
 status: in_progress
-sequence: 8
+sequence: 9
 plan: plans/phase-04-supabase-storage-plan.md
-head_commit: c48f404
+head_commit: 6e762a5
 working_tree: dirty
-updated_at: 2026-10-12T03:25:06+08:00
+updated_at: 2026-10-12T03:27:00+08:00
 ---
 
 # Phase 4 Checkpoint — security gate reopened
@@ -115,3 +115,10 @@ Finish independent re-review, commit the passing Task 2 increment, dry-run/apply
 ### Task 2 final gate
 
 All 30 storage tests passed in 69.867s after the final nullable-identity and fixture-isolation corrections. Independent review identified no other actionable findings; all reported P2 items are corrected. No disposable test databases remain. Record the following verified code commit from Git, then apply the two reviewed additive migrations. Raw complete final output: external `p04-repair-20261012/final-storage-tests.out`.
+
+## Task 3 deployment and advisor follow-through
+
+- Task 2 commit: `6e762a5`; 30 tests passed. CLI `db push --skip-vault` applied 10001/10002 to local and hosted targets, with no seeds/roles/vault updates or reset.
+- Live local/hosted checks: both runtime roles have 17 SELECT grants, zero writes/admin RPC execution/public CREATE/private USAGE; all 19 tables use RLS, all application functions are INVOKER, vector 0.8.2, institutional tables and active pointer remain empty. Migration history exactly matches all five files.
+- Advisor results at INFO level: no WARN/ERROR; six pre-existing uncovered foreign keys, two deliberate admin-only tables without policies, and unused indexes on empty tables. New additive 10003 covers the six foreign keys and adds restrictive runtime-deny policies for operational tables without grants. New policy regression observed RED (one failure), then all 11 security tests passed after correction.
+- The CLI-generated 10003 empty scaffold was replaced by the next numeric version, preserving previously applied history. Pending: commit/apply 10003, verify catalog parity and advisors, then the final full suite and handoff. Unused-index INFO notices are expected on empty corpora; do not remove required indexes to suppress them.
