@@ -1,0 +1,7 @@
+# Root full gate — final F scratch candidate
+
+Coordinator verified adapter/pipeline imports from f_native_error_fix/candidate, then ran the entire tests directory directly with systempy3.13, no pytestcache/bytecode, external bt_root_full and explicit --rootdir/--confcutdir matching that candidate. Actual4149passed1skip8installedwarnings13subtests in182.31s exit0. Logs root_import.log/root_import.exit.txt/root_full.log/root_full.exit.txt. Baseline4133 + M01boundary1 + firstfolderregressions12 + nativeOSErrorregressions3 =4149.
+
+All352 manifest-listed candidate files unchanged by full gate. Derived bytecode remains only with external test evidence. NEW clean draft_review_archives/f_final copied all352bound files and matches f_final_hashes.json. F_FINAL_COMBINED_PATCH.diff differs from original pinned dd699958505996358864383ff9c184cb98aec985 at exactly prospectus.py, test_prospectus_folder.py and the new test_prospectus_adapter_digest_boundary.py. No repository changes, refs/staging/dependencies/owner writes.
+
+Latest independent FSpec is FAIL on preceding f_fixed archive; original malformed manifest finding addressed, then native OSError representation found. That case now has3RED/3GREEN and full4149pass, but has NOT been independently rechecked: single owner-authorized Medium recheck consumed. FStandards NOT RUN because no SpecPASS. No self-review verdict. Unknown unrelated diagnostic paths/realnewadapterDocling/Docker/finaldocs/othermutants NOT RUN.52/52UNPROVED. No institutional approval.

@@ -1,0 +1,11 @@
+# Phase E first-batch Spec fix, round 1
+
+Baseline clean committed3c545630e30f2e388f52880c8c54656d2825d097 in phase-e. Same implementer resumes only these confirmed findings, then freezes for root gates and scoped recheck.
+
+Read review-spec.md and run spec-repro.py against the baseline. Preserve logs. Add failing regressions before changing source proof: own code CS101/L cannot substantiate CS101; whole title Introduction to Computer Science cannot substantiate Computer Science; prerequisite CS100 and MATH1 cannot substantiate raw CS100; unit3/2 cannot substantiate raw3 with parsed total3; a non-own prerequisite row7 cannot substantiate the row0 course regardless of evidence_ids.
+
+Ruling: complete own-field equality under explicitly allowed existing normalization, rather than substring/token-boundary containment. Preserve code spelling normalization only when the complete code-cell value is equivalent under existing loose normalization. Title/prerequisite/unit raw assertions need complete canonical printed values. Selected field cells must contain the actual _source row, including genuine spanning cells; do not infer ownership merely because a cell is not listed as section evidence. If a transformed/wrapped field lacks an explicit parser-backed source explanation, reject with a reason rather than guessing. Preserve existing parser/audit/Phase C behavior; change only candidate chunk admission. Retain rejected course omission from aggregates and unknown-source metadata.
+
+Reuse _course_source and existing field-role owners; no parallel validation framework or broad verifier rewrite. Include valid full-field and normalized-code controls; canonical spanning-cell control if relevant. Existing Phase C regression stays meaningful. Do not weaken tests or invent source truth to preserve chunk counts.
+
+PowerShell/system py -3.13, PYTHONDONTWRITEBYTECODE1, -p no:cacheprovider, external --basetemp under this round1 parent (create first). Root owns comprehensive/self/commits. No installs/agents/staging/commit/push/main writes/dev movement. Record every authentic red/green boundary atomically in external round1 checkpoint/report and worktree progress/decision record. Keep schema/layout/PDF identity/JSONL deferrals intact. Freeze promptly after focused green; no Task5.

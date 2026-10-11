@@ -1,0 +1,7 @@
+# Coordinator root broad gate — P2 fixed candidate
+
+Root import assertions bind ingest and inspection to p2_spec_fixes/candidate; root_import.log/exit0. Root full tests4095passed1skip9installeddependencywarnings13subtests116.20s exit0; root_full.log/root_full.exit.txt. Baseline4080 +15newregressioncases =4095. Systempy3.13, PYTHONDONTWRITEBYTECODE1, offline HuggingFace settings, candidatePYTHONPATH; no pytestcache, explicit --rootdir/--confcutdir candidate, external bt_root_full, absolute candidate/tests path. RequiredinitialworktreeSet-Location thencandidatePush-Location.
+
+All348manifest-listed source files unchanged by fullgate. NEW clean draft_review_archives/p2_fixed copies all348boundfiles and exactly matches p2_fixed_hashes.json; derived bytecode remains with external full-test evidence only. Exactlyfourchangedfiles vs pinned original ef0cdbff9dca3af7a9f80fdd3036a701c61c2a3c: ingest.py/inspection.py/test_ingest_hardening.py/test_document_inspection.py; completepatch p2_spec_fixes/changes.patch. No source worktree/owner/ref/staging/dependency changes.
+
+InitialSpec FAIL remains retained. One confirmedHigh-fix Spec recheck is permitted after this root gate; separate Standards only after SpecPASS. No self-review/phaseadoption/formalPhase2/Tasks3–7/institutional approval. Originalprivatecorpus/Docker/API/LinuxMac/unknownexternaldirectoryswaps NOT RUN.

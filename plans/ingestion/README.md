@@ -36,3 +36,7 @@ The September/October handoffs in `plans/` remain historical snapshots: [Septemb
 ## Bulk scratch copies
 
 `plans/progress_plans/` is a local bulk-copy destination, not a curated documentation source. It is ignored because a whole scratch tree can contain original PDFs, generated JSON/Prolog, model or parser caches, test archives and private artifacts. Do not stage that directory or use `git add .`/`git add -A` to publish plans. Select reviewed text documents explicitly.
+
+## Full scratch documentation audit
+
+The initial import above selected 13 documents. The [full scratch audit](documentation-audit-2026-10-11/README.md) now maps the remaining development records: 202 distinct missing Markdown documents and 31 rendered state snapshots are preserved in the [historical index](history/scratch-2026-10-11/README.md). Existing current files and published Git-history versions are mapped instead of duplicated. Exclusions and coverage limits are explicit in the audit.

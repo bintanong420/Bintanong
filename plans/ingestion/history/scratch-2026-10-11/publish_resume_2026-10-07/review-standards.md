@@ -1,0 +1,17 @@
+# Independent Standards/quality review — publication A–D
+
+Reviewed `git diff 36d89b412ba8144f8a98a8fef85899c103ebadc0...HEAD`, including the six pending files now committed; observed final clean HEAD `407813c1fad100bceb662a129d2c64321791bc8f`. Standards: supplied AGENTS engineering rules (data integrity, explicit status, recovery), extractor-reviewer quality rules, package-split cross-phase rules, and B/B2/C/D decision records. GUI/OCR implementation excluded; unfinished plans and human B2 Tasks 12–14 remain pending.
+
+## Confirmed defects
+
+- **P2 — Undecided structural anomalies do not block `reviewed`.** `backend/bintanong_tools/prospectus_extractor/ledger.py:356` counts only `audit.unclaimed_course_candidates`; the sheet also shows structural anomalies. Concrete input: `fixer_fixtures.bscs()`, add `audit.structural_anomalies=[{"type":"ambiguous_adjacent_prerequisite_fragment","source_cell_ids":["t9-c1"],"page":1,"reason":"unassigned printed prerequisite fragment","source_cells":[]}]`, then make honest accepted row entries for all four courses, none for the anomaly. Observed `content_review_state(...).state="reviewed"`, `unclaimed_undecided=0`, while `verify_candidate(...).counts()=={"audit_anomaly":1}`. Violates ledger's documented completion rule and AGENTS status/data-integrity requirements. Count all persisted review obligations consistently with the sheet.
+
+- **P2 — Materialisation preserves an apparently current executable authority after an incomplete correction.** `ledger.py:431` copies authority unchanged; `ledger.py:46` omits authority and top-level review status from `derived_sections_stale`. Reproducer: existing `test_eligibility_is_executable_only_when_every_gate_is_satisfied` setup; honest corrected `prerequisites_raw` entry for CS 2, old `CS 1`, new `CS 1, Ghost 99`; call `materialise`. Observed one correction, `unresolved_reference`, yet `authority.eligibility_executable=True`, `blocked_by=[]`, incomplete-rule count 0. The verified source is the existing test double; no institutional approval is inferred. Explicitly invalidate/recompute corrected authority and mark inherited status stale. Violates Phase C's gate invariant and AGENTS explicit-state requirements.
+
+- **P2 — Semantic-map edits during conversion can produce a falsely matching run identity.** `pipeline.py:318` hashes the map before loading; `pipeline.py:53` reopens it afterward; `pipeline.py:361` checks only source bytes. Reproducer: JSON source under `CS/`; map initially `# College of Science (CS)`, changed by the loader hook to `# College of Engineering (CS)` before real `build_payload`, same BSCS program line. Output names Engineering but records Science's digest. Observed manifest verification true; restoring Science makes `skip_check` return `(True, 'identical run identity')`. Capture/hash the same semantic bytes used for metadata or reject changed semantic input before publication. Violates recorded run-identity/data-integrity contract.
+
+## Evidence
+
+Executed three narrow external-venv Python probes, exit 0; semantic artifacts only under external `standards-semantic-repro`. No broad gate independently rerun. Root reports 997 passed/13 subtests, focused 433, comparer 44/44, self-test 80/80. Previously reported markup/prerequisite-state fixes inspected and resolved. Other confirmed defects: NONE; unconfirmed suspicions: NONE. No style-only or tooling-enforced findings.
+
+**CHANGES NEEDED — three P2 findings above.**
