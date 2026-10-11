@@ -1,15 +1,17 @@
 ---
 artifact: phase-checkpoint
 phase: 3
-status: in_progress
-sequence: 4
+status: superseded
+sequence: 5
 plan: plans/phase-03-embedding-generation-plan.md
-head_commit: f5eabd4
+head_commit: 2df3012
 working_tree: clean
-updated_at: 2026-10-12T01:56:00+08:00
+updated_at: 2026-10-12T02:00:00+08:00
 ---
 
-# Phase 3 Checkpoint 4: MCP Tooling Integration & Incremental Commits
+# Phase 3 Checkpoint (Superseded)
+
+Superseded by [the Phase 3 final handoff](phase-03-handoff.md). All Phase 3 deliverables and exit gates are complete.
 
 ## Completed Tasks
 

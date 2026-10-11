@@ -5,11 +5,11 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: `3` (Embedding generation)
-- Active plan: `plans/phase-03-embedding-generation-plan.md`
-- Active checkpoint: `plans/phase-03-checkpoint.md`
-- Latest final handoff: `plans/phase-02-handoff.md`
-- Next permitted phase: `3` (in progress)
+- Active phase: none (Phase 3 embedding generation complete)
+- Active plan: none; Phase 3 plan metadata is complete
+- Active checkpoint: none; Phase 0, 1, and 3 checkpoints are superseded
+- Latest final handoff: `plans/phase-03-handoff.md`
+- Next permitted phase: `4` (eligibility only); Phase 4 handles database schema and vector persistence
 
 ## Parallel prospectus workstream
 
@@ -24,7 +24,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | 0 | Docker and compatibility foundation | complete | `phase-00-docker-compatibility-plan.md` | `phase-00-checkpoint.md` | `phase-00-handoff.md` |
 | 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
 | 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
-| 3 | Embedding generation | in_progress | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` | none |
+| 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
 
 ## Resume Order
 
