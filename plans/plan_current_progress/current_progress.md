@@ -122,3 +122,11 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - Verification: `phase_state.py inspect` reports valid ledger with Phase 4 active; 19 phase state tests passing (exit 0); 10 embedding suite unit tests passing (exit 0).
 - Next action: Design and apply Task 1/2 Supabase SQL migration for relational knowledge tables and pgvector embeddings.
 
+## Phase 4 Schema and RLS migrations applied (12 October 2026)
+
+- Completed Task 1 & Task 2: Authored `supabase/migrations/20261012000000_phase4_knowledge_schema.sql` defining 19 relational and pgvector tables with foreign keys, check constraints, and `vector(1024)` embeddings.
+- Completed Task 5 (Schema & Security): Authored `supabase/migrations/20261012010000_phase4_rls_policies.sql` enabling RLS on all public tables, restricting runtime roles (`anon`, `authenticated`) to SELECT only, enforcing strict active-release chunk isolation, and adding RPC functions (`match_chunks`, `activate_knowledge_release`, `rollback_knowledge_release`) with explicit `search_path` and privilege restrictions.
+- Verification: Executed `npx supabase db reset` cleanly applying all migrations to local PostgreSQL 17.6; verified 19 tables and vector column type via `npx supabase db query`; ran `npx supabase db advisors` with 0 security/performance issues found.
+- Next action: Implement `backend/bintanong_storage/loader.py` and `backend/bintanong_storage/release.py` for idempotent loading and atomic release lifecycle.
+
+

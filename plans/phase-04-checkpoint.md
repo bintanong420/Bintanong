@@ -2,42 +2,42 @@
 artifact: phase-checkpoint
 phase: 4
 status: active
-sequence: 1
+sequence: 2
 plan: plans/phase-04-supabase-storage-plan.md
-head_commit: 03adccc
+head_commit: 3b33c3f
 working_tree: clean
-updated_at: 2026-10-12T02:21:00+08:00
+updated_at: 2026-10-12T02:25:00+08:00
 ---
 
-# Phase 4 Checkpoint 1: Initialization
+# Phase 4 Checkpoint 2: Schema and RLS Migrations Applied
 
-Phase 4 formally initialized following owner instruction and verified readiness.
+Schema and access policy migrations authored, applied to local Supabase database, and verified against security advisors.
 
 ## Completed Tasks
 
-- Reconciled ledger and verified Phase 3 completion (`phase_state.py can-advance` exit 0).
-- Confirmed GitHub MCP (`github-mcp-server`) and inspected remote branches.
-- Confirmed Supabase environment: local Supabase CLI v2.117.0 with PostgreSQL 17.6 + pgvector 0.8.2 running on ports 54322/54321; remote project `Project_Bintanong` (`jyrudbiuajahsucsorco`) ACTIVE_HEALTHY.
-- Baseline test verification: 19 phase state tests passing (exit 0), 10 embedding suite unit tests passing (exit 0).
+- Initialized Phase 4 plan, ledger index, and checkpoint (committed in `3b33c3f`).
+- Task 1: Designed complete relational and pgvector schema covering 19 tables in `public` with foreign keys, check constraints, `vector(1024)` embeddings, and singleton active release pointer.
+- Task 2: Authored migration `20261012000000_phase4_knowledge_schema.sql` and applied locally with `npx supabase db reset`. Verified all 19 tables created.
+- Task 5 (Schema & Security): Authored migration `20261012010000_phase4_rls_policies.sql` enabling RLS on all tables, configuring strict release-isolation SELECT policies, revoking mutation from runtime roles (`anon`, `authenticated`), and adding RPC functions (`match_chunks`, `activate_knowledge_release`, `rollback_knowledge_release`) with `search_path` protections.
+- Verified Supabase Security & Performance Advisors via `npx supabase db advisors`: 0 issues found.
 
 ## Current Task
 
-- Task 1: Logical schema & migration design for Supabase PostgreSQL tables (`documents`, `document_versions`, `source_spans`, `chunks`, `embedding_sets`, `chunk_embeddings`, `programs`, `curriculum_versions`, `courses`, `course_aliases`, `policy_rules`, `rule_source_spans`, `knowledge_releases`, release-membership tables, `active_release`, `ingestion_runs`, `evaluation_runs`).
+- Task 3: Idempotent batch loader importing Phase 3 artifacts (`embeddings.jsonl` and manifest) into Supabase with duplicate detection.
 
 ## Repository State
 
-- Head commit: `03adccc`.
-- Working tree: clean before Phase 4 initialization.
+- Head commit: `3b33c3f`.
+- Working tree: clean before next commit.
 - Branch: `feat/p04-supabase-rls`.
 
 ## Verification Evidence
 
+- `npx supabase migration up` / `db reset`: All migrations applied successfully.
+- `npx supabase db advisors`: Zero issues reported.
+- `npx supabase db query`: Verified 19 tables created and `chunk_embeddings.embedding` has type `vector(1024)`.
 - `phase_state.py inspect`: Valid state, Phase 4 active.
-- `test_phase_state.py`: 19 tests passed (exit 0).
-- `test_embedding_adapter.py`, `test_embedding_batch.py`, `test_embedding_service.py`: 10 tests passed (exit 0).
-- GitHub MCP `list_branches`: repository `bintanong420/Bintanong` inspected.
-- Local Supabase: `npx supabase status` confirmed DB URL `postgresql://postgres:postgres@127.0.0.1:54322/postgres`.
 
 ## Next Action
 
-- Implement and apply migration `20261012000000_phase4_knowledge_schema.sql` on local Supabase instance.
+- Implement `backend/bintanong_storage/loader.py` and `backend/bintanong_storage/release.py` for idempotent loading and atomic release lifecycle.
