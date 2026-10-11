@@ -32,12 +32,12 @@ Persist the reviewed corpus and candidate structured knowledge into Supabase Pos
 
 ## Task Checklist
 
-- [ ] Task 1: Logical schema & migration design (`documents`, `document_versions`, `source_spans`, `chunks`, `embedding_sets`, `chunk_embeddings`, `knowledge_releases`, `active_release`).
-- [ ] Task 2: Supabase SQL migration files and local database application with `pgvector 0.8.2`.
-- [ ] Task 3: Idempotent batch loader importing Phase 3 artifacts (`embeddings.jsonl` and manifest) into Supabase with duplicate detection.
-- [ ] Task 4: Atomic release publication, activation, and rollback mechanisms.
-- [ ] Task 5: Role-based access control (RLS), runtime read-only policy verification, and security advisor audits via Supabase MCP.
-- [ ] Task 6: Phase 4 exit gate verification, idempotency tests, and handoff documentation.
+- [x] Task 1: Logical schema & migration design (`documents`, `document_versions`, `source_spans`, `chunks`, `embedding_sets`, `chunk_embeddings`, `knowledge_releases`, `active_release`).
+- [x] Task 2: Supabase SQL migration files and local database application with `pgvector 0.8.2`.
+- [x] Task 3: Idempotent batch loader importing Phase 3 artifacts (`embeddings.jsonl` and manifest) into Supabase with duplicate detection.
+- [x] Task 4: Atomic release publication, activation, and rollback mechanisms.
+- [x] Task 5: Role-based access control (RLS), runtime read-only policy verification, and security advisor audits via Supabase MCP.
+- [x] Task 6: Phase 4 exit gate verification, idempotency tests, and handoff documentation.
 
 ## Proposed Relational Schema
 
