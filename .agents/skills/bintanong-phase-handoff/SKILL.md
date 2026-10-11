@@ -19,6 +19,8 @@ Keep phase progress recoverable without treating notes as proof. Repository stat
 
 Update the active `plans/phase-NN-checkpoint.md` after each verified task or commit, after a material ruling, and before a pause, approval wait, long operation, or expected context rollover. Record completed tasks and commits, active step, Git state, concise verification evidence, decisions, failures, next action, and work not to repeat.
 
+Commit verified code and documentation increments frequently ("commit early and often"); do not allow completed tasks to sit uncommitted across phase steps. Naturally leverage MCP tools (GitHub MCP for PR/branch/commit coordination and Supabase MCP for database inspection, advisor checks, and migration monitoring) as primary workflow enablers.
+
 A checkpoint is recoverable state, never completion evidence.
 
 ## Complete or Advance
@@ -35,6 +37,11 @@ If the exit gate cannot pass, keep the same phase active or write a blocked hand
 
 Read [references/artifact-contract.md](references/artifact-contract.md) whenever creating or changing a plan, checkpoint, handoff, or index. Treat master-plan dependency versions as historical: each phase resolves current stable compatible versions from official sources and records what it pins.
 
+## Model and Asset Storage
+
+- Persistent model weights and LLM/embedding checkpoints reside strictly at `C:\Coding-projects\MODELS` (`MODELS_DIR=C:/Coding-projects/MODELS`), containing `SEA-LION-E5-Embedding-600M` and `GEMMA_4_E4B` (`gemma-4-E4B-it-UD-Q4_K_XL.gguf`).
+- All sessions and services must resolve models from this location. Never re-download or duplicate model weights inside Git repositories or worktrees.
+
 ## Common Mistakes
 
 | Mistake | Required response |
@@ -44,4 +51,5 @@ Read [references/artifact-contract.md](references/artifact-contract.md) whenever
 | Dirty tree after context loss | Inspect and preserve it; never reset it away. |
 | Phase looks finished but lacks a handoff | It remains active. |
 | Handoff is blocked | Do not increment the phase. |
+| Downloading models or placing binaries in repo | Point to `C:\Coding-projects\MODELS` via `MODELS_DIR`. |
 

@@ -79,6 +79,10 @@ A complete handoff contains exit-gate evidence, commits, selected versions and d
 
 `plans/INDEX.md` names the immutable master, active phase, active plan, active checkpoint, latest final handoff, and next permitted phase. Its ledger links every created plan/checkpoint/handoff. It never uses modification time as state.
 
+## Environment and Model Locations
+
+- Pre-trained models and weights reside at `C:\Coding-projects\MODELS` (`MODELS_DIR=C:/Coding-projects/MODELS`), containing `SEA-LION-E5-Embedding-600M` and `GEMMA_4_E4B`. Checkpoints and handoffs must resolve model paths from this directory and record their exact SHA-256 digests. Never store model weights inside Git.
+
 ## Evidence precedence
 
 When artifacts disagree, use this order:

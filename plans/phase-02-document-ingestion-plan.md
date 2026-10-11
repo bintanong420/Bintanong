@@ -1,8 +1,7 @@
 ---
 artifact: phase-plan
 phase: 2
-status: ready
-preparation_only: true
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-01-handoff.md
 ---

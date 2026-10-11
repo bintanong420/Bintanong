@@ -103,3 +103,13 @@ Do not repeat Task 0 or discard the pre-existing dirty parser. Do not use genera
 - Verification: system Python 3.13.7; handoff `inspect` and `validate --repo .` report valid state; `git diff --check` passed before this log entry. The skill-creator `quick_validate.py` command could not execute because system Python lacks `yaml` (PyYAML). No dependency installation occurred. These checks do not verify Phase 2 completion.
 - Next action: reconcile the delivered Phase 2 work and its remaining evidence with the owner's completion statement, recover the formal Phase 2 handoff through the existing handoff workflow, then prepare Phase 3 against master-plan section 8. Reuse delivered ingestion work rather than repeating it solely because its handoff is absent. Keep this file current.
 - Do not repeat: reminder creation or broad ingestion-history review; do not replace the original master plan, discard existing ingestion documents, or infer institutional activation from candidate delivery.
+
+## Merge of updated dev (12 October 2026)
+
+- Merged the fetched `origin/dev` work through `4a33320` into local `dev`; preserved local handoff-reminder work in commit `ad1e13b` before merging.
+- Kept this current progress log despite the remote branch removing the progress directory while formalizing the Phase 2 handoff. The dated entries above remain historical records; phase status is governed by `plans/INDEX.md` and the final handoffs.
+- Integrated the Phase 2 final handoff and Phase 3 embedding-generation plan, checkpoint, and final handoff. The repository ledger now records Phase 2 and Phase 3 complete, Phase 4 prepared, and no active numbered phase. Phase 4 requires owner review and a formal start.
+- Integrated the SEA-LION E5 embedding adapter and resumable batch pipeline with their tests, plus MCP configuration and updated agent/handoff workflow instructions. The configured `.mcp.json` uses environment variable references for credentials.
+- Merge resolution: retained `plans/plan_current_progress/current_progress.md`; accepted the remote MCP configuration and workflow updates. The legacy `extractor_split_progress.md` remains deleted as in `origin/dev`.
+- Verification for this merge: `phase_state.py inspect` and `validate --repo .` both report a valid ledger with Phase 4 eligible; `git diff --cached --check` passed; `.mcp.json` parses as valid JSON; no unmerged paths remain. No tests were run for this documentation and branch integration task.
+- Next action: review the prepared Phase 4 storage plan and formally start Phase 4 only after owner review. Do not repeat the completed Phase 3 implementation solely because the former progress directory was removed.
