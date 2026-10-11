@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 4
 status: in_progress
-sequence: 5
+sequence: 8
 plan: plans/phase-04-supabase-storage-plan.md
-head_commit: 7c0ed85
+head_commit: c48f404
 working_tree: dirty
-updated_at: 2026-10-12T03:02:00+08:00
+updated_at: 2026-10-12T03:25:06+08:00
 ---
 
 # Phase 4 Checkpoint — security gate reopened
@@ -47,7 +47,7 @@ The [independent security review](phase-04-security-review-2026-10-12.md) invali
 
 ## Current Task
 
-Owner authorized the repair. Task 1 privilege repair passes isolated verification. Continue [the recovery plan](2026-10-12-phase04-security-repair.md) with Task 2 policy/publication regressions. Phase 05 has not started.
+Tasks 1 and 2 of [the recovery plan](2026-10-12-phase04-security-repair.md) pass isolated verification. Continue Task 3 deployment reconciliation and final review. Phase 05 has not started.
 
 ## Repository State
 
@@ -80,11 +80,11 @@ Owner authorized the repair. Task 1 privilege repair passes isolated verificatio
 ## Known Failures or Blockers
 
 - F1–F4 violate privilege, approval/release and publication invariants; F5 prevents a reproducible hosted migration account.
-- No fix has been applied. Phase 05 prerequisites and full Phase 04 exit-gate validation remain pending.
+- Historical audit defects are repaired in committed/additive candidate code; shared/hosted application and final review remain pending. Do not infer Phase 04 completion yet.
 
 ## Next Action
 
-Implement and verify an additive least-privilege migration for F1 in an isolated database; then repair the F2 access matrix, F3 activation validation and F4 publication invariants, reconcile F5, and run the full exit gate under both runtime roles. Restore a complete handoff only after reading every result.
+Finish independent re-review, commit the passing Task 2 increment, dry-run/apply only the two additive migrations locally and hosted, inspect roles/advisors/catalog/history, and run the final storage/phase gates. Restore a complete handoff only after reading every result.
 
 ## Do Not Repeat
 
@@ -93,3 +93,25 @@ Implement and verify an additive least-privilege migration for F1 in an isolated
 - Do not reinstall dependencies or rerun the existing destructive storage suite against a shared/configured hosted database.
 - Do not replay hosted CREATE POLICY migrations blindly, reset existing state, activate candidate institutional sources or begin Phase 05 from the historical completion claim.
 - Do not regenerate models/embeddings or duplicate weights to review database security.
+
+## Repair Task 2 verified (12 October 2026)
+
+- F2: acyclic active-release/approved-parent SELECT predicates hide draft courses/aliases and unbound rules/spans. Operational tables have no runtime access.
+- F3: expected membership counts, approved/verified/reviewed documents, source/version/hash/location bindings, complete normalized embeddings and authorized rule provenance are validated before publication.
+- F4: statement/row publication locks and immutable published data/configuration/membership guards cover superseded/revoked history; atomic admin RPCs load chunk/span/artifact batches and create releases. Exact reimports preserve span UUIDs.
+- Original lifecycle/policy regressions: 29 failing cases before fixes. First full gate: 22 tests passed. Independent review found two P2 import gaps; fixed content/hash/locator checks and automatic set identities bound to the full corpus/vector content. Re-run: 25 tests passed in 57.574s under Python 3.13.7, including an observed concurrent advisory-lock wait and post-publication mutation denial.
+- Command: `python -m unittest discover -s tests -p 'test_storage_*.py' -v`. Docker-backed disposable PostgreSQL databases only; no shared pointer cleanup. Raw outputs/artifacts remain under external `audit-evidence/p04-repair-20261012/`.
+- Hosted baseline exactly matches historical migration schema: 146 columns, 67 constraints, 37 indexes, 19 policies/RLS flags and 3 functions after CRLF/LF normalization. Prior ACL drift remains recorded. Hosted documents/chunks/embeddings/releases/pointer all zero.
+- CLI project-ref connectivity works. `migration repair ... --status applied --project-ref jyrudbiuajahsucsorco` recorded the three verified historical versions without replaying SQL; no institutional data or pointer changed. Final additive migrations are not yet applied.
+- Current dirty paths: new release-security migration; production loader/release; isolated test helper and all storage tests (including new concurrency test); recovery plan/checkpoint/progress/decision updates. Existing original migrations preserved.
+
+### Final-review follow-through
+
+- A residual missing-source-text default and nullable SQL inequality were corrected after re-review. Ordered spans now make SQL publication check exact normalized printed-source agreement. Nullable source text supports the existing textless table contract; retrieval falls back to serialized table text.
+- Publication/mutation RPCs and triggers reject REPEATABLE READ/SERIALIZABLE snapshots, since the publication lock alone cannot refresh their old transaction snapshots. READ COMMITTED is the supported PostgREST/admin write isolation.
+- Unicode/whitespace SQL hash parity and runtime/private function ACL tests pass. An isolation-test fixture cleanup left orphan draft chunks in its own disposable database and caused 16 later fixture conflicts; fixed by giving that test its own disposable database. Targeted verification: all 10 security tests and the nullable-identity regression pass (11 tests, 18.243s). Whole suite re-run pending. No shared data were affected.
+- Embedding tests: 12 passed (0.152s; existing Starlette/httpx deprecation warning). Phase ledger tests: 19 passed (17.533s). Both local and hosted dry runs select only migrations 10001/10002. No additive deployment yet.
+
+### Task 2 final gate
+
+All 30 storage tests passed in 69.867s after the final nullable-identity and fixture-isolation corrections. Independent review identified no other actionable findings; all reported P2 items are corrected. No disposable test databases remain. Record the following verified code commit from Git, then apply the two reviewed additive migrations. Raw complete final output: external `p04-repair-20261012/final-storage-tests.out`.

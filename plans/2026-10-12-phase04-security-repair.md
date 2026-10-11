@@ -38,16 +38,16 @@ Files: `supabase/migrations/20261012010001_phase4_runtime_privileges.sql`, `test
 
 Files: `supabase/migrations/20261012010002_phase4_release_security.sql`, `backend/bintanong_storage/loader.py`, `release.py`, and storage tests.
 
-- [ ] Regress draft child/rule visibility, invalid activation, mutable published records, failed span replacement, idempotency and concurrent publication. Observe the demonstrated failures before implementing.
-- [ ] Add active/approved-parent policies, expected-count validation, atomic admin loading/creation RPCs and publication/mutation locks/guards.
-- [ ] Route Python operations through the new RPCs; validate artifacts before importing. Repair unsafe legacy fixture setup/cleanup and use synthetic approved fixtures only in isolated databases.
-- [ ] Verify all storage tests under both runtime roles plus exact retrieval, rollback and zero-duplicate reimport. Commit the verified increment.
+- [x] Regress draft child/rule visibility, invalid activation, mutable published records, failed span replacement, idempotency and concurrent publication. Observe the demonstrated failures before implementing.
+- [x] Add active/approved-parent policies, expected-count validation, atomic admin loading/creation RPCs and publication/mutation locks/guards.
+- [x] Route Python operations through the new RPCs; validate artifacts before importing. Repair unsafe legacy fixture setup/cleanup and use synthetic approved fixtures only in isolated databases.
+- [x] Verify all storage tests under both runtime roles plus exact retrieval, rollback and zero-duplicate reimport. Commit the verified increment.
 
 ## Task 3 — deployment and exit gate (F5)
 
 Files: repository decisions/progress/checkpoint/handoff, plus a migration baseline verification/repair command if CLI connectivity requires a documented alternative.
 
-- [ ] Compare hosted/local schema and functions to the historical migration baseline. Record the original ACL drift, verify no active data, and repair history accurately.
+- [x] Compare hosted/local schema and functions to the historical migration baseline. Record the original ACL drift, verify no active data, and repair history accurately.
 - [ ] Apply additive migrations locally and hosted without resetting databases; inspect effective ACLs, schema/functions/history and both advisors.
 - [ ] Request independent whole-change review, address important findings, run the complete isolated storage gate and phase ledger checks.
 - [ ] Preserve the original audit and historical completion claims. Add exact new commits/versions/digests/evidence and unresolved limits. Only mark Phase 04 complete if every required gate passes; keep Phase 05 preparation only.

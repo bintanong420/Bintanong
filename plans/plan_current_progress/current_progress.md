@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase 04 security verification reopened the exit gate; its handoff/checkpoint are blocked and Phase 05 remains preparation only. The latest dated entry below and `plans/INDEX.md` override earlier Phase 04 completion claims. Prospectus history is preserved.
+**Current numbered-phase status, 12 October 2026:** Phase 04 security verification reopened the exit gate; its handoff is blocked during repair and Phase 05 remains preparation only. The latest dated entry below and `plans/INDEX.md` override earlier Phase 04 completion claims. Prospectus history is preserved.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -163,3 +163,13 @@ Repair Task 1: CLI-generated additive privilege migration and explicit local exp
 
 
 
+
+## Phase 04 security repair Task 2 verified (12 October 2026)
+
+- Task 1 privilege commit: `c48f404`. New additive migration enforces active/approved-parent visibility, complete publication checks and immutable published evidence. Loader and release creation now use atomic administrative RPCs.
+- Replaced legacy shared-pointer tests with disposable PostgreSQL fixtures and HTTP MockTransport checks. Full gate: 25 tests passed in 57.574s, including actual runtime roles, reimport identity preservation, failed-batch rollback, cosine ranking and concurrent publication/writer isolation.
+- Independent review identified two additional P2 gaps in dictionary content/location validation and corpus identity. Both fixed; re-review pending. Standalone manifest loading now requires an explicit set ID; ordinary Phase 03 artifact loading derives identity from the configuration and full sorted embedding corpus.
+- Hosted baseline verified against a fresh historical-only database: 146 columns, 67 constraints, 37 indexes, 19 policies/RLS flags and three functions match (line endings normalized). Original ACL drift documented. CLI recorded the three missing historical migrations without replay; institutional tables and pointer remain empty.
+- Next: finalize independent review, commit Task 2, apply only the two additive migrations to local/hosted targets, inspect resulting roles/advisors/history and complete the handoff only when all gates pass. Phase 05 remains preparation only.
+
+Task 2 final gate: 30 storage tests passed in 69.867s. Final review corrections include effective-source-text consistency, ordered source-span agreement, valid textless-table support, nullable-identity conflict rejection and stale-snapshot isolation rejection. All reviewer findings addressed; 12 embedding tests and 19 phase ledger tests passed. No disposable test databases remain. Next action: apply the two dry-run-selected additive migrations locally and hosted, verify live state, then close the security gate if earned.

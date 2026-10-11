@@ -10,17 +10,22 @@ import subprocess
 import tempfile
 import uuid
 
+from backend.bintanong_storage.client import PermissionDeniedError, StorageError
+from backend.bintanong_contracts.source import compute_content_hash
+
 REPO = Path(__file__).resolve().parents[1]
 
 
 class StorageDatabase:
-    def __init__(self):
+    def __init__(self, migration_max=None):
         self.container = os.environ.get("BINTANONG_STORAGE_TEST_CONTAINER", "supabase_db_Bintanong")
         self.name = "bintanong_storage_test_" + uuid.uuid4().hex
         self.evidence = Path(os.environ.get("BINTANONG_STORAGE_EVIDENCE_DIR", tempfile.gettempdir())) / self.name
         self.evidence.mkdir(parents=True, exist_ok=True)
         self.sequence = 0
-        self._command("postgres", f'create database "{self.name}";')
+        created = self._command("postgres", f'create database "{self.name}";')
+        if created.returncode:
+            raise AssertionError(created.stderr)
         try:
             self.execute("""
                 create schema extensions;
@@ -33,7 +38,8 @@ class StorageDatabase:
                     grant execute on functions to anon, authenticated, service_role;
             """)
             for migration in sorted((REPO / "supabase/migrations").glob("*.sql")):
-                self.execute(migration.read_text(encoding="utf-8"))
+                if migration_max is None or migration.name.split('_', 1)[0] <= migration_max:
+                    self.execute(migration.read_text(encoding="utf-8"))
         except BaseException:
             self.close()
             raise
@@ -45,7 +51,7 @@ class StorageDatabase:
         result = subprocess.run(
             ["docker", "exec", "-i", self.container, "psql", "-U", "postgres", "-d", database,
              "-X", "-A", "-t", "-q", "-v", "ON_ERROR_STOP=1"],
-            input=sql, text=True, capture_output=True, timeout=60,
+            input=sql, text=True, encoding="utf-8", capture_output=True, timeout=60,
         )
         prefix.with_suffix(".out").write_text(result.stdout + result.stderr, encoding="utf-8")
         return result
@@ -61,12 +67,72 @@ class StorageDatabase:
         return json.loads(lines[-1])
 
     def close(self):
-        # Only the unique database created by this object may be removed.
         if not re.fullmatch(r"bintanong_storage_test_[0-9a-f]{32}", self.name):
             raise RuntimeError("refusing to drop an unrecognized database")
         result = self._command("postgres", f'drop database if exists "{self.name}" with (force);')
         if result.returncode:
             raise AssertionError(result.stderr)
+
+
+def sql_literal(value):
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return str(value)
+    return "'" + str(value).replace("'", "''") + "'"
+
+
+class DatabaseStorageClient:
+    """Exercise the production loader/release methods against real role SQL.
+
+    HTTP request construction has separate MockTransport tests; this adapter
+    does not connect the shared PostgREST instance to a test database.
+    """
+
+    def __init__(self, db):
+        self.db = db
+
+    def rpc(self, function_name, params=None, role="runtime"):
+        if not re.fullmatch(r"[a-z_]+", function_name):
+            raise ValueError("invalid test function")
+        arguments = []
+        for key, value in (params or {}).items():
+            if not re.fullmatch(r"[a-z_]+", key):
+                raise ValueError("invalid test parameter")
+            if key in ("p_chunk_ids", "p_document_version_ids", "p_rule_ids"):
+                literal = "array[" + ",".join(sql_literal(x) for x in value) + "]::text[]"
+            elif key == "query_embedding":
+                literal = sql_literal(json.dumps(value)) + "::extensions.vector"
+            elif isinstance(value, (dict, list)):
+                literal = sql_literal(json.dumps(value)) + "::jsonb"
+            else:
+                literal = sql_literal(value)
+            arguments.append(f"{key}=>{literal}")
+        selected_role = "service_role" if role == "admin" else "anon"
+        expression = f"public.{function_name}({','.join(arguments)})"
+        if function_name == "match_chunks":
+            query = f"select coalesce(jsonb_agg(to_jsonb(r)),'[]') from {expression} r;"
+        else:
+            query = f"select coalesce(to_jsonb({expression}),'null');"
+        try:
+            return self.db.json(f"begin; set local role {selected_role}; {query} commit;")
+        except AssertionError as exc:
+            error = PermissionDeniedError if "permission denied" in str(exc) else StorageError
+            raise error(str(exc)) from exc
+
+    def select(self, table, columns="*", filters=None, role="runtime"):
+        if not re.fullmatch(r"[a-z_]+", table) or columns != "*":
+            raise ValueError("unsupported test select")
+        predicates = []
+        for key, expression in (filters or {}).items():
+            if not re.fullmatch(r"[a-z_]+", key) or not expression.startswith("eq."):
+                raise ValueError("unsupported test filter")
+            predicates.append(f"{key}={sql_literal(expression[3:])}")
+        where = "where " + " and ".join(predicates) if predicates else ""
+        selected_role = "service_role" if role == "admin" else "anon"
+        return self.db.json(f"begin; set local role {selected_role}; select coalesce(jsonb_agg(to_jsonb(t)),'[]') from public.{table} t {where}; commit;")
 
 
 FIXTURE = """
@@ -118,3 +184,5 @@ do $$ begin
  end if;
 end $$;
 """
+FIXTURE = FIXTURE.replace("repeat('c',64)", "'" + compute_content_hash("Test one", "Test one") + "'")
+FIXTURE = FIXTURE.replace("repeat('d',64)", "'" + compute_content_hash("Test two", "Test two") + "'")

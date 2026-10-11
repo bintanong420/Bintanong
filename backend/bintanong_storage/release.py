@@ -40,26 +40,19 @@ class ReleaseManager:
         rule_ids: Sequence[str] = (),
     ) -> KnowledgeRelease:
         """Create a draft knowledge release binding versions, chunks, and embeddings."""
-        release_record = {
-            "release_id": release_id,
-            "release_version": release_version,
-            "description": description,
-            "embedding_set_id": embedding_set_id,
-            "status": "draft",
-        }
-        self.client.insert("knowledge_releases", release_record, role="admin")
-
-        if document_version_ids:
-            doc_rows = [{"release_id": release_id, "version_id": vid} for vid in document_version_ids]
-            self.client.insert("release_document_versions", doc_rows, role="admin")
-
-        if chunk_ids:
-            chunk_rows = [{"release_id": release_id, "chunk_id": cid} for cid in chunk_ids]
-            self.client.insert("release_chunks", chunk_rows, role="admin")
-
-        if rule_ids:
-            rule_rows = [{"release_id": release_id, "rule_id": rid} for rid in rule_ids]
-            self.client.insert("release_rules", rule_rows, role="admin")
+        self.client.rpc(
+            "create_knowledge_release",
+            params={
+                "p_release_id": release_id,
+                "p_release_version": release_version,
+                "p_description": description,
+                "p_embedding_set_id": embedding_set_id,
+                "p_chunk_ids": list(chunk_ids),
+                "p_document_version_ids": list(document_version_ids),
+                "p_rule_ids": list(rule_ids),
+            },
+            role="admin",
+        )
 
         return KnowledgeRelease(
             release_id=release_id,
@@ -100,5 +93,5 @@ class ReleaseManager:
         return rel_rows[0] if rel_rows else None
 
     def list_releases(self, role: str = "admin") -> List[Dict[str, Any]]:
-        """List releases (admin sees draft, active, superseded; runtime sees active/superseded)."""
+        """List releases (admin sees all; runtime sees only the active release)."""
         return self.client.select("knowledge_releases", columns="*", role=role)

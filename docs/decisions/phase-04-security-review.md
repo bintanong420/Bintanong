@@ -9,3 +9,11 @@ Evidence and recovery requirements are in [the review](../../plans/phase-04-secu
 Ruling: the prior complete Phase 04 handoff no longer establishes the exit gate. Retain its original evidence as historical, mark the current handoff blocked, reopen the Phase 04 checkpoint, and keep Phase 05 preparation only. Authentication without release/approval predicates does not fix the shared corpus access model. No new institutional approval or activation follows from verification.
 
 Remediation should use additive migrations and an explicit access matrix, validate publication before switching releases, preserve published content, and reconcile hosted migration history. An isolated full exit-gate rerun under both `anon` and `authenticated` is required before completion is restored. This review changes documentation only; it does not change database state or implementation.
+
+## Authorized remediation, 12 October 2026
+
+The owner instructed continued fixes. Repair plan: [Phase 04 security repair](../../plans/2026-10-12-phase04-security-repair.md). The additive implementation now passes 25 isolated storage tests. Administrative RPCs remain INVOKER, all runtime reads are acyclic and tied to the active approved release, and published data is frozen under a common publication lock. Operational run tables are admin only.
+
+Independent review added content-hash/location validation and corpus-bound default embedding identities. Missing/unknown contract schema versions cannot silently bypass a declared contract; administrative DB-row dictionaries undergo explicit content/source checks. Normal Phase 03 artifacts derive set identity from the full corpus, so changed corpora can use the same pinned encoder configuration without mutating an old release. A manifest-only operation needs an explicit set identity.
+
+Hosted historical objects match a fresh baseline exactly apart from function line endings and the previously recorded ACL drift. CLI history repair records those existing objects without replaying CREATE POLICY or altering institutional data. Deployment and final gate remain pending; the initial reopening ruling is retained as history.

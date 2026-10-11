@@ -1,21 +1,21 @@
-"""Idempotent Batch Loader for Phase 3 Embedding Artifacts and Knowledge Chunks.
-
-Implements Master Plan Section 9.2:
-- Idempotent loader importing Phase 3 artifacts (embeddings.jsonl, embedding_manifest.json) into Supabase.
-- Validates vector dimensions, configuration fingerprints, content hashes, and chunk references.
-- Guarantees 0 duplicate rows when executed multiple times.
-"""
+"""Validated candidate imports through transactional administrative RPCs."""
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass
+import hashlib
+import json
+import math
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
+import re
+from typing import Any, Dict, Optional, Sequence
 
 from backend.bintanong_contracts.embedding import EmbeddingRecord
-from backend.bintanong_contracts.source import Chunk
+from backend.bintanong_contracts.source import Chunk, SpanLocator, canonical_text, compute_content_hash
 from .client import SupabaseStorageClient
+
+CONFIG_FIELDS = ("model_id", "model_revision", "dimension", "normalization",
+                 "prompt_fingerprint", "preprocessing_fingerprint", "tokenizer_fingerprint")
 
 
 @dataclass(frozen=True)
@@ -32,168 +32,140 @@ class BatchKnowledgeLoader:
     def __init__(self, client: Optional[SupabaseStorageClient] = None) -> None:
         self.client = client or SupabaseStorageClient()
 
-    def load_embedding_manifest(self, manifest_data: Dict[str, Any]) -> str:
-        """Upsert embedding set record from manifest metadata."""
-        # Use configuration fingerprint or prompt fingerprint as set id
-        set_id = manifest_data.get("embedding_set_id") or manifest_data.get("prompt_fingerprint")
+    @staticmethod
+    def _manifest_record(data: Dict[str, Any], embeddings=None) -> dict:
+        config = {key: data[key] for key in CONFIG_FIELDS}
+        if config["dimension"] != 1024 or config["normalization"] != "l2":
+            raise ValueError("Storage requires 1024-dimensional l2 embeddings")
+        if not config["model_id"] or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", config["model_revision"]):
+            raise ValueError("Manifest must identify a model and pinned revision")
+        for key in ("prompt_fingerprint", "preprocessing_fingerprint", "tokenizer_fingerprint"):
+            if not re.fullmatch(r"[0-9a-f]{64}", config[key]) or set(config[key]) == {"0"}:
+                raise ValueError(f"Invalid {key}")
+        set_id = data.get("embedding_set_id")
         if not set_id:
-            raise ValueError("Manifest must contain prompt_fingerprint or embedding_set_id")
-
-        record = {
+            if embeddings is None:
+                raise ValueError("An explicit embedding_set_id or the full embedding artifact is required")
+            # Sorting binds identities to the complete corpus and vector content,
+            # while allowing an identical artifact to arrive in a different order.
+            corpus = sorted((row["chunk_id"], row["chunk_content_hash"], row["vector"], row.get("token_count", {}))
+                            for row in embeddings)
+            set_id = hashlib.sha256(json.dumps({"configuration": config, "corpus": corpus},
+                sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+        return {
             "embedding_set_id": set_id,
-            "schema_version": manifest_data.get("schema_version", "bintanong-embedding-manifest-v1"),
-            "model_id": manifest_data["model_id"],
-            "model_revision": manifest_data["model_revision"],
-            "dimension": int(manifest_data["dimension"]),
-            "normalization": manifest_data["normalization"],
-            "prompt_fingerprint": manifest_data["prompt_fingerprint"],
-            "preprocessing_fingerprint": manifest_data["preprocessing_fingerprint"],
-            "tokenizer_fingerprint": manifest_data["tokenizer_fingerprint"],
-            "total_chunks": int(manifest_data.get("total_embedded_records", 0)),
+            "schema_version": data.get("schema_version", "bintanong-embedding-manifest-v1"),
+            **config,
+            "total_chunks": int(data.get("total_embedded_records", 0)),
         }
 
-        self.client.upsert("embedding_sets", record, on_conflict="embedding_set_id", role="admin")
-        return set_id
+    def load_embedding_manifest(self, manifest_data: Dict[str, Any]) -> str:
+        return self.client.rpc("load_embedding_set", {"p_record": self._manifest_record(manifest_data)}, role="admin")
 
-    def load_chunks(
-        self,
-        chunks: Sequence[Chunk | Dict[str, Any]],
-        document_id: Optional[str] = None,
-        version_id: Optional[str] = None,
-    ) -> int:
-        """Upsert candidate chunks and their source spans into Supabase."""
-        chunk_records: List[Dict[str, Any]] = []
-        span_records: List[Dict[str, Any]] = []
-
+    @staticmethod
+    def _chunk_records(chunks: Sequence[Chunk | Dict[str, Any]], document_id=None, version_id=None):
+        records, spans = [], []
         for item in chunks:
-            if isinstance(item, Chunk):
-                c_dict = item.model_dump(mode="json")
-            else:
-                c_dict = item
-
-            chunk_id = c_dict["chunk_id"]
-            chunk_records.append({
-                "chunk_id": chunk_id,
-                "chunk_type": c_dict.get("chunk_type", "policy"),
-                "chunker_version": c_dict.get("chunker_version", "palsu-chunker-v1"),
-                "document_id": c_dict.get("document_id") or document_id,
-                "version_id": c_dict.get("version_id") or version_id,
-                "edition_id": c_dict.get("edition_id"),
-                "byte_sha256": c_dict.get("byte_sha256", "0" * 64),
-                "anchored": bool(c_dict.get("anchored", True)),
-                "source_verification": c_dict.get("source_verification", "pending"),
-                "content_review": c_dict.get("content_review", "pending"),
-                "text": c_dict["text"],
-                "source_text": c_dict.get("source_text", c_dict["text"]),
-                "section_path": c_dict.get("section_path", []),
-                "scope": c_dict.get("scope", []),
-                "content_hash": c_dict["content_hash"],
-                "token_count": c_dict.get("token_count", {}),
-                "source_label": c_dict.get("source_label", ""),
-                "type_fields": c_dict.get("type_fields", {}),
+            data = item.model_dump(mode="json") if isinstance(item, Chunk) else dict(item)
+            if "schema_version" in data:
+                data = Chunk.parse(data).model_dump(mode="json")
+            # Administrative DB-row dictionaries remain supported for unchanged
+            # reimports, with the same content and source-location checks.
+            source_text = data.get("source_text", data["text"])
+            if data["content_hash"] != compute_content_hash(source_text, data["text"]):
+                raise ValueError("Chunk content_hash does not match its content")
+            raw_spans = data.get("spans", [])
+            if data.get("anchored", True) and not raw_spans:
+                raise ValueError("An anchored chunk requires source spans")
+            for span in raw_spans:
+                SpanLocator.parse({"table_index": None, "cell_ids": [], "item_ids": [], "ref": None,
+                                   "section_path": [], **span.get("locator", {})})
+                if isinstance(span.get("page"), bool) or not isinstance(span.get("page"), int) or span["page"] < 1:
+                    raise ValueError("Source span requires a positive physical page")
+                if span.get("byte_sha256", data.get("byte_sha256")) != data.get("byte_sha256"):
+                    raise ValueError("Span digest differs from chunk")
+                if source_text is not None and (not span.get("text") or not span["text"].strip()):
+                    raise ValueError("Source span requires printed text")
+                if source_text is None and span.get("text") is not None:
+                    raise ValueError("A serialized table without source_text must have textless located spans")
+            if source_text is not None and canonical_text(source_text) != canonical_text(" ".join(s["text"] for s in raw_spans)):
+                raise ValueError("Chunk source_text differs from span text")
+            cid = data["chunk_id"]
+            if not re.fullmatch(r"[0-9a-f]{64}", cid):
+                raise ValueError("Invalid chunk identity")
+            records.append({
+                "chunk_id": cid, "chunk_type": data.get("chunk_type", "policy"),
+                "chunker_version": data.get("chunker_version", "palsu-chunker-v1"),
+                "document_id": data.get("document_id") or document_id,
+                "version_id": data.get("version_id") or version_id,
+                "edition_id": data.get("edition_id"),
+                "byte_sha256": data.get("byte_sha256"), "anchored": data.get("anchored", True),
+                "source_verification": data.get("source_verification", "pending"),
+                "content_review": data.get("content_review", "pending"), "text": data["text"],
+                "source_text": source_text,
+                "section_path": data.get("section_path", []), "scope": data.get("scope", []),
+                "content_hash": data["content_hash"], "token_count": data.get("token_count", {}),
+                "source_label": data.get("source_label", ""), "type_fields": data.get("type_fields", {}),
             })
-
-            # Extract source spans if present
-            spans = c_dict.get("spans", [])
-            for span in spans:
-                span_records.append({
-                    "chunk_id": chunk_id,
-                    "byte_sha256": span.get("byte_sha256", c_dict.get("byte_sha256", "0" * 64)),
-                    "version_id": span.get("version_id") or version_id,
-                    "page": span.get("page"),
-                    "printed_page_label": span.get("printed_page_label"),
-                    "locator": span.get("locator", {}),
-                    "text": span["text"],
-                    "bbox": span.get("bbox"),
-                    "bbox_origin": span.get("bbox_origin"),
-                    "page_size": span.get("page_size"),
+            for span_order, span in enumerate(raw_spans):
+                spans.append({
+                    "chunk_id": cid, "span_order": span_order, "byte_sha256": span.get("byte_sha256") or data.get("byte_sha256"),
+                    "version_id": span.get("version_id") or data.get("version_id") or version_id,
+                    "page": span.get("page"), "printed_page_label": span.get("printed_page_label"),
+                    "locator": span.get("locator", {}), "text": span["text"], "bbox": span.get("bbox"),
+                    "bbox_origin": span.get("bbox_origin"), "page_size": span.get("page_size"),
                     "extraction": span.get("extraction", {}),
                 })
+        return records, spans
 
-        if chunk_records:
-            self.client.upsert("chunks", chunk_records, on_conflict="chunk_id", role="admin")
+    def load_chunks(self, chunks: Sequence[Chunk | Dict[str, Any]], document_id=None, version_id=None) -> int:
+        records, spans = self._chunk_records(chunks, document_id, version_id)
+        return self.client.rpc("load_chunk_batch", {"p_chunks": records, "p_spans": spans}, role="admin")
 
-        if span_records:
-            # Delete old spans for these chunks to maintain idempotency
-            for c in chunk_records:
-                self.client.delete("source_spans", {"chunk_id": f"eq.{c['chunk_id']}"}, role="admin")
-            self.client.insert("source_spans", span_records, role="admin")
-
-        return len(chunk_records)
-
-    def load_embeddings(
-        self,
-        embeddings: Sequence[EmbeddingRecord | Dict[str, Any]],
-        embedding_set_id: str,
-    ) -> int:
-        """Upsert embedding vectors into chunk_embeddings with validation."""
-        emb_records: List[Dict[str, Any]] = []
-
+    @staticmethod
+    def _embedding_records(embeddings: Sequence[EmbeddingRecord | Dict[str, Any]], set_id: str,
+                           config: dict) -> list[dict]:
+        records = []
         for item in embeddings:
-            if isinstance(item, EmbeddingRecord):
-                rec_dict = item.model_dump(mode="json")
-            else:
-                rec_dict = item
-
-            # Vector serialization: format as list or vector literal
-            vec = rec_dict["vector"]
-            if len(vec) != 1024:
-                raise ValueError(f"Vector for chunk {rec_dict['chunk_id']} has dimension {len(vec)}, expected 1024")
-
-            emb_records.append({
-                "chunk_id": rec_dict["chunk_id"],
-                "embedding_set_id": embedding_set_id,
-                "chunk_content_hash": rec_dict["chunk_content_hash"],
-                "embedding": vec,
-                "token_count": rec_dict.get("token_count", {}),
+            data = item.model_dump(mode="json") if isinstance(item, EmbeddingRecord) else dict(item)
+            if "schema_version" in data:
+                data = EmbeddingRecord.parse(data).model_dump(mode="json")
+            for key in CONFIG_FIELDS:
+                if key in data and data[key] != config[key]:
+                    raise ValueError(f"Embedding {key} differs from manifest")
+            vector = data["vector"]
+            if len(vector) != 1024 or any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) for v in vector):
+                raise ValueError("Embedding must contain 1024 finite numbers")
+            if abs(math.sqrt(math.fsum(v * v for v in vector)) - 1) > 1e-6:
+                raise ValueError("Embedding must be l2-normalized")
+            records.append({
+                "chunk_id": data["chunk_id"], "embedding_set_id": set_id,
+                "chunk_content_hash": data["chunk_content_hash"], "embedding": list(vector),
+                "token_count": data.get("token_count", {}),
             })
+        return records
 
-        if emb_records:
-            self.client.upsert(
-                "chunk_embeddings",
-                emb_records,
-                on_conflict="chunk_id,embedding_set_id",
-                role="admin",
-            )
+    def load_embeddings(self, embeddings: Sequence[EmbeddingRecord | Dict[str, Any]], embedding_set_id: str) -> int:
+        sets = self.client.select("embedding_sets", filters={"embedding_set_id": f"eq.{embedding_set_id}"}, role="admin")
+        if not sets:
+            raise ValueError("Embedding set does not exist")
+        records = self._embedding_records(embeddings, embedding_set_id, sets[0])
+        return self.client.rpc("load_embedding_batch", {"p_records": records, "p_embedding_set_id": embedding_set_id}, role="admin")
 
-        return len(emb_records)
-
-    def load_artifacts(
-        self,
-        manifest_path: Path | str,
-        embeddings_path: Path | str,
-        chunks: Optional[Sequence[Chunk | Dict[str, Any]]] = None,
-    ) -> LoaderSummary:
-        """Load manifest and embeddings.jsonl files into Supabase."""
-        m_path = Path(manifest_path)
-        e_path = Path(embeddings_path)
-
-        with m_path.open("r", encoding="utf-8") as f:
-            manifest_data = json.load(f)
-
-        set_id = self.load_embedding_manifest(manifest_data)
-
-        # Load chunks if provided
-        chunks_loaded = 0
-        if chunks:
-            chunks_loaded = self.load_chunks(chunks)
-
-        # Load embeddings from JSONL
-        records: List[Dict[str, Any]] = []
-        with e_path.open("r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                records.append(json.loads(line))
-
-        embs_loaded = self.load_embeddings(records, embedding_set_id=set_id)
-
-        return LoaderSummary(
-            embedding_set_id=set_id,
-            total_chunks_loaded=chunks_loaded,
-            total_embeddings_loaded=embs_loaded,
-            total_spans_loaded=0,
-            total_documents_loaded=0,
-            duplicate_avoided_count=embs_loaded,
-        )
+    def load_artifacts(self, manifest_path: Path | str, embeddings_path: Path | str,
+                       chunks: Optional[Sequence[Chunk | Dict[str, Any]]] = None) -> LoaderSummary:
+        manifest_data = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+        embeddings = [json.loads(line) for line in Path(embeddings_path).read_text(encoding="utf-8").splitlines() if line.strip()]
+        manifest = self._manifest_record(manifest_data, embeddings)
+        if len(embeddings) != manifest["total_chunks"]:
+            raise ValueError("Manifest record count does not match embedding artifact")
+        if len({row["chunk_id"] for row in embeddings}) != len(embeddings):
+            raise ValueError("Duplicate embedding records in artifact")
+        records = self._embedding_records(embeddings, manifest["embedding_set_id"], manifest)
+        chunk_records, spans = self._chunk_records(chunks or [])
+        if chunks is not None and {row["chunk_id"] for row in chunk_records} != {row["chunk_id"] for row in records}:
+            raise ValueError("Chunk and embedding artifact identities differ")
+        summary = self.client.rpc("load_knowledge_batch", {
+            "p_embedding_set": manifest, "p_chunks": chunk_records, "p_spans": spans, "p_embeddings": records,
+        }, role="admin")
+        return LoaderSummary(**summary)
