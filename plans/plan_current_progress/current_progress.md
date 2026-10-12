@@ -293,3 +293,19 @@ Final documentary closureb3f2149 clean; phase-ledger19unittest checks pass11.657
 ## Phase05 account/session continuation — 12 October 2026
 
 Owner requests continuation from the previous account and explicit TDD/appropriate SKILL.md requirements in AGENTS. Read INDEX/readiness/master section10/checkpoint; clean baseline75457b2, activePhase05 and blocked handoff reconciled. Existing dependencies/assets/39conversions/336vectors must not be repeated. Next: diagnose saved extraction audits and geometry, reproduce a confirmed defect RED with synthetic tracked fixtures, implement minimal GREEN repair and regenerate affected candidates. Institutional review/approved runtime calibration remain separate exit gates.
+
+### Spanning-row TDD increment
+
+One rendered original confirms a single6-unit placement row; saved converter projects its core cells across three rows and prerequisite across two cells. Two synthetic failures reproduced; minimal cell-identity continuation correction now11tests/13subtestsGREEN0.87s. Distinct identical source rows preserved. Full suite/cached39-source regression and targeted regeneration/review next; current dirty files sections.py, new tests and phase/progress notes.
+
+### Corpus differential and correction
+
+Final comparison reuses39 verified saved conversions with original hashes/settings checked, changes only Financial Management (50→49courses,152→146units,error→warn); other38 unchanged. First comparison caught missing-title repetition, reproducedRED and correctedGREEN;50focusedtests/13subtests pass3.60s. Separate original-PDF regeneration now running, historical sealed candidates preserved. First fullsuite began before latest fix; finalcode needs a fresh fullsuite. Reviewer update pending. Decision record docs/decisions/prospectus-spanning-course-identity.md added.
+
+### Targeted regeneration / final verification running
+
+Verified new candidate Financial Management bundle49courses/146units/54chunks,56.823s; pending authority untouched, prior outputs preserved. Overall latest-source mix32auditerrors/7warnings/390candidate chunks; old336vector snapshot preserved and54new embeddings running. Three exam cases still have same-byte chunks. Final reviewer nofindings,151binding/chunk checks pass; fresh finalcode fullsuite running. New39-row extraction review queue remains pending. Next: inspect final encoder/fullsuite results, seal recovery evidence, update phase report/checkpoint/handoff and commit.
+
+### Finalcode verification / requested owner guidance
+
+Finalpytest4912pass/107subtests/6skip/6warnings371.98s,exit0; phaseledger19pass10.561s. New54realvectors verified71.438s and independently QAchecked; existing64sealed evidencefiles unchanged. Owner has not reviewed sources and requests guidance/workspacefolder. Created audit-evidence/phase-05-owner-review-20261012 with START-HERE,27editablecase decisions,10sourceauthority decisions,10hashmatchingPDFs/12pageimages and preserved examcopies. All labels remainpending; readerQA/documentclosure next. Verified parser/test/decision commit follows.

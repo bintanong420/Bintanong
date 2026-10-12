@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 29
+sequence: 33
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 75457b2
+head_commit: 670d948
 working_tree: dirty
-updated_at: 2026-10-12T19:03:27+08:00
+updated_at: 2026-10-12T19:25:47+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-All39 original candidate bundles now verified after two serialization retries.33audit errors/6warnings/336emitted chunks; originals unchanged.86c2720 repair has two RED/GREEN regressions and50focused tests; post-fix fullsuite4906pass/107subtests/6skip/6warnings571.49s. Actual mapping27/28regions,129spans and3chunk-linked regions; field ownership pending.336 real document vectors and27 query diagnostics verified with exact tokens/no truncation; only3cases have same-byte emitted chunks. Fresh independent review noP1/P2 and sampled vectors replay exactly. Authorized setup/download/execution work complete; formal exit remains blocked on extraction/source/field review and approved runtime retrieval/calibration. No shared activation.
+Resume of Phase05 at670d948: synthetic RED/GREEN cell-identity continuation repair now passes50focusedtests/13subtests. Final cached39-source differential changes only Financial Management; other38 course collections/audits unchanged, alloriginal hashes unchanged. One source targeted original-PDF regeneration running into a separate recovery directory; prior sealed outputs preserved. Fullsuite first run predates the missing-title edge-case correction and cannot alone verify finalcode; rerun required. Final independent review update pending. Source/applicability/field review and approved runtime calibration remain open.
 
 ## Repository State
 
@@ -49,7 +49,7 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Next Action
 
-Use saved original raw conversions/actual mapping to repair and independently review failed extraction and unresolved geometry. Regenerate affected candidates under current parser and confirm applicable source/field/answer labels with domain reviewers. Then run approved-release retrieval and development calibration, followed by reviewed shared Supabase migration workflow. Do not reinstall/redownload/repeat completed39-source conversion or336-vector diagnostics unnecessarily. Candidate bbox hits are not retrieval accuracy or approval; no activation or Phase06 inferred.
+Finish targeted Financial Management candidate regeneration and inspect its complete manifest/binding/audit evidence. Run the fullsuite against finalcode after the missing-title regression correction; obtain fresh reviewer result and commit the cohesive verified fix. Then continue saved-conversion extraction repairs and independent source/field/answer review before approved-release calibration and any reviewed shared migration. Do not repeat installed dependencies/assets, all39 original conversions or prior336-vector diagnostics.
 
 ## Do Not Repeat
 
@@ -158,3 +158,21 @@ Whole rerun405.12s:4902passed/107subtests/6skipped/2failed, both realDoclingtest
 ## Account/session continuation — 12 October 2026
 
 Owner requests continued Phase05 and explicit repository TDD/skill requirements. Clean Git baseline75457b2 reconciled; earlier head pointerb3f2149 described the preceding documentation commit. AGENTS now records RED/GREEN and appropriate skill use. Next: diagnose failed extraction from saved raw conversions, select a source-backed minimal regression, repair with synthetic tracked tests, then regenerate only affected candidates. Installed environment/assets and prior336-vector diagnostics remain complete. Remote GitHub MCP branch inspection confirms dev10bfd6f; Phase05 branch remains local. No publication or source approval.
+
+## Spanning source-row defect reproduced and focused GREEN
+
+Saved Financial Management conversion emits two6-unit rows sharing exact code/title/unit cellIDs but different prerequisite fragments; original page1 rendered/visually inspected confirms one6-unit placement row. Synthetic regressions observed RED for three projected courses and for accidental deduplication of distinct same-text cells. Minimal sections.py correction keys row continuation to core source cellIDs and absorbs newly encountered prerequisite evidence once. Focused11tests/13subtests pass0.87s. Initial provenance assertion incorrectly included the table header cell, corrected to course rows; this was a test-fixture error, not a product defect. Changed sections.py/new synthetic test module plus checkpoint/progress. Next: full-suite fresh verification, cached39-source before/after regression (no new conversions), targeted candidate regeneration and final independent review. All raw evidence under workspace/audit-evidence/p05-extraction-recovery-20261012. No authority/release changes.
+
+## Corpus differential correction
+
+First cached comparison exposed missing-title projections repeating after the initial repair. Added focused RED (3vs1), corrected missing/missing field comparison without fabricating data;50focusedtests/13subtests pass3.60s. Final same-input before/after comparison across39 hash-verified saved conversions changes only Financial Management,50→49courses/152→146units/error→warn; other38 unchanged. First exploratory helper had two import/key typos, corrected before executing evidence checks. All prior bundles preserved. New decision record explains source-cell identity; fullsuite/regeneration/review pending.
+
+## Targeted source regeneration verified
+
+Final cached39-source comparison: onechanged/38unchanged,32auditerrors/7warnings. Only repaired Financial Management original reconverted into separate recovery/repaired-ingestion/<digest>; verified nested manifests/source/register/binding,49courses/146units/54chunks/4binding rejections/5extractor rejections,56.823s. Original and historical sealed bundles unchanged. Fifty-four newdocument vectors running under existing strict offline encoder; original336vectors retained. Same-byte exam coverage remains3cases because repaired source is not one of the exam's ten selected originals. Independent final code reviewer no actionable findings,12focusedtests/13subtests and151binding/chunk regressions/13subtests pass. First fullsuite4910passed/107subtests/6skips/6warnings423.22s predates latesttest/fix; finalcode fullsuite currently running and its fresh result is required. Review queue has39pending rows under recovery/remaining-extraction-review.csv. Await existing independent reviewer decision-file path requested asynchronously; no institutional approval inferred.
+
+## Final verified code increment / owner review packet
+
+Finalcode fullsuite4912passed/107subtests/6skipped/6warnings371.98s,exit0. Phaseledger19unittest tests pass10.561s,exit0. New54document vectors verified71.438s,exacttokens78..337,1024normalized dimensions,no truncation/refusals; reviewer validates all54actualchunk/config/content bindings,maximum norm deviation1.11e-7. Prior64sealed files unchanged. Overall candidate mix390chunks/vectors,32error/7warnsources,still3examcases with samebyte chunks. OnlyFinancial Management corpusresult changes; exploratory Marine output archived separately after containment checks.
+
+Owner confirms review notyetperformed and requests a workspace folder plus guidance. Prepared audit-evidence/phase-05-owner-review-20261012/START-HERE.md,27-case editable decision sheet,10-source authority sheet,10byteidentical PDFcopies/12pageimages,question/key/candidateJSONcopies/source manifest. All decisions pending; originaldataset/packets unchanged. Packet reader QA pending. Next: commit verified parser/test/decision increment; finish owner guide QA and phase document closure. Then owner reviews printed answers/scopes and supplies authority evidence as available; remaining extraction work continues from saved conversions without inferring approvals.
