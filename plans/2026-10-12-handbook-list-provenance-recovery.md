@@ -42,3 +42,19 @@ institutional approval, runtime activation or Phase06 work is authorized here.
 
 - Resume: instructions/context/Git reviewed; root cause and exact1546-item
   relationship established. Source/evidence preservation verification next.
+- Preservation:45 original dataset entries and all63 handbook/70 Charter sealed
+  files unchanged. Diagnostic evidence lives in workspace
+  `audit-evidence/p05-list-provenance-recovery-20261012/`;11 original-bbox samples,
+  9 whitespace-exact,2 pending content/typography review. Exactly1546 handbook
+  interpretations change,0 Charter interpretations change.
+- TDD:3 original-list regression failures/6 guard passes0.79s. Minimal guarded
+  original-text selection implemented. Additional exception attachment regression
+  failed0.49s, then detection kept on marker-free text while cited text preserves
+  the original marker. Final120 policy/procedure/chunk tests pass17.70s.
+- Broader ingestion suite215passed/3skipped/1warning52.05s before exception fix.
+  Initial environment-only integration failure retained in `list-green.log`;
+  corrected offline workspace environment passes in `list-green-offline.log`.
+  First GREEN attempt named nonexistent pipeline/bundle modules and collected
+  no tests; actual repository paths were used afterward.
+- Next: full product verification, fresh saved-byte candidate replay, read-only
+  bounded review and updated source findings. Existing bundles stay immutable.

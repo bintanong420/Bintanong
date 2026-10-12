@@ -181,6 +181,22 @@ def _item_spans(item_id: str, text: str, provs: list[Mapping[str, Any]], raw_pag
                  for prov, (start, stop) in zip(provs, ranges))
 
 
+def _located_text(item: Mapping[str, Any]) -> str:
+    text, orig, marker = item["text"], item.get("orig"), item.get("marker")
+    provs = item.get("prov", [])
+    # Docling list postprocessing removes the marker from text while retaining
+    # provenance over orig. Preserve that exact original, without remapping spans.
+    if (item["label"] == "list_item" and isinstance(orig, str)
+            and isinstance(marker, str) and marker.strip()
+            and orig == marker + " " + text and len(provs) == 1
+            and isinstance(provs[0], Mapping)):
+        bounds = provs[0].get("charspan")
+        if (isinstance(bounds, (list, tuple)) and len(bounds) == 2
+                and all(type(n) is int for n in bounds) and tuple(bounds) == (0, len(orig))):
+            return orig
+    return text
+
+
 def read_policy_items(raw: Mapping[str, Any], version: SourceDocumentVersion, *,
                       printed_page_labels: Mapping[int, str] | None = None) -> PolicyCandidates:
     """Keep every raw item, all provenance, and raw punctuation. No heading depth is inferred."""
@@ -205,7 +221,7 @@ def read_policy_items(raw: Mapping[str, Any], version: SourceDocumentVersion, *,
         if (not isinstance(item, Mapping) or not isinstance(item.get("text"), str)
                 or not isinstance(item.get("label"), str) or not isinstance(item.get("prov", []), list)):
             raise ValueError("invalid raw text item")
-        text, provs = item["text"], item.get("prov", [])
+        text, provs = _located_text(item), item.get("prov", [])
         pages = []
         for prov in provs:
             if not isinstance(prov, Mapping):
@@ -233,7 +249,7 @@ def read_policy_items(raw: Mapping[str, Any], version: SourceDocumentVersion, *,
     units, omissions, heading_path = [], [], []
     previous_clause = None
     for index, item, pages, spans, rejection, normalized, marginal in records:
-        item_id, text, label = f"text-{index}", item["text"], item["label"]
+        item_id, text, label = f"text-{index}", _located_text(item), item["label"]
         provenance = json.dumps(item.get("prov", []), ensure_ascii=False, sort_keys=True, allow_nan=False)
         reason = ("empty_text_item" if not text.strip() else "repeated_header_footer"
                   if marginal and len(furniture_pages.get(normalized, ())) >= 3 else None)
@@ -243,7 +259,7 @@ def read_policy_items(raw: Mapping[str, Any], version: SourceDocumentVersion, *,
         if label == "section_header":
             heading_path.append(text)
             previous_clause = None
-        exception = previous_clause if re.match(r"\s*(except\b|unless\b|provided\b)", text, re.I) else None
+        exception = previous_clause if re.match(r"\s*(except\b|unless\b|provided\b)", item["text"], re.I) else None
         scope = text if label == "scope" or (label != "section_header" and heading_path
                     and heading_path[-1].strip().casefold() in {"scope", "coverage", "applicability"}) else None
         units.append(PolicyUnit(item_id, label, text, pages, provenance, tuple(heading_path), scope,

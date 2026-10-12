@@ -263,3 +263,22 @@ Synthetic regressions reproduced the omission before correction; actual source
 graph and retained conversion are reused for recovery. This does not establish
 image-body coverage, institutional applicability or authority. Evidence:
 `plans/phase-05-handbook-source-recovery.md`.
+
+### 2026-10-13: exact original list text and provenance
+
+The retained handbook conversion has1546 list items whose `text` lacks a marker
+but whose single provenance range exactly covers `orig`. Installed Docling
+list-marker postprocessing changes `text` and retains `orig`/provenance. Preserve
+the explicit original only when `orig == marker + " " + text` and a strictly
+integer range `[0, len(orig)]` covers it in one provenance entry. Keep malformed,
+partial, multiple or mismatched ranges under existing guards. Do not globally
+prefer `orig`, shift offsets or synthesize source locations.
+
+Source units and spans use that same original text; raw JSON stays immutable.
+Exception recognition continues on the marker-free text so preserving numbering
+cannot detach a qualifying exception. Synthetic RED/GREEN regressions cover both
+the located original and its parent-clause relationship. Old handbook bundles
+remain historical evidence; consumers rederive candidates, so regenerate into a
+new directory with this reader. Charter raw interpretations are unchanged.
+Source review/authority and grading geometry remain separate pending gates.
+Evidence: `plans/2026-10-12-handbook-list-provenance-recovery.md`.

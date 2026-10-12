@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 52
+sequence: 53
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 29b2e89
-working_tree: resume documentation increment; clean baseline verified at 29b2e89
-updated_at: 2026-10-12T23:36:23+08:00
+head_commit: 2b80d4d
+working_tree: verified reader/tests/decision documentation increment, explicit staging pending
+updated_at: 2026-10-13T00:13:06+08:00
 ---
 
 # Phase 05 checkpoint
@@ -16,6 +16,24 @@ updated_at: 2026-10-12T23:36:23+08:00
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+List provenance repair implemented under TDD:3 positive RED failures/6 guard
+passes0.79s; exact full original list ranges preserved without raw mutation.
+Additional exception-link regression RED0.49s then corrected marker-independent
+exception detection. Final policy/procedure/chunk suites120passed17.70s.
+Broader ingestion run215passed/3skipped/1warning52.05s before the exception
+increment. Initial broader run214passed/3skipped plus1 integration failure:
+missing workspace asset env in subprocess; rerun with recorded offline cache and
+DOCLING_ARTIFACTS_PATH passed. First GREEN command had2 nonexistent module paths,
+collected no tests, and was corrected to actual repository modules.
+
+Fresh45-entry dataset inventory and all63 handbook/70 Charter sealed files match.
+Exactly1546 handbook interpretations change;0 Charter changes.11 original-bbox
+diagnostics captured separately,9 whitespace-exact and2 retained review findings.
+Next: commit this focused increment; run full suite and saved-byte replay into
+new ignored p05-list-provenance-recovery-20261012, then check bundle and review.
+Original grading issues remain pending. Owner clarification refers to using
+GPT-6.1 Sol for agent work, not rerunning SEA-LION/Docling/GEMMA models.
 
 Resumed from clean Git HEAD `29b2e89`, reconciling the stale code-only checkpoint
 pointer. Read AGENTS, both handoff skills, INDEX, active plan/checkpoint, Phase04
