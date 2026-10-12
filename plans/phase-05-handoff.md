@@ -3,14 +3,16 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 66bce2a
-recovery_condition: Independently approve applicable source-backed development labels (prepared27-case nine-college candidate packet and archived12-case version available), map semantic row locators to production ingestion spans, run actual matching SEA-LION/runtime/source-citation gates in an authorized compatible environment, then pass master section10 before advancing.
-completed_at: 2026-10-12T17:44:17+08:00
+final_commit: 86c2720
+recovery_condition: Repair and review failed curriculum extraction and unresolved field geometry, independently approve applicable source-backed development labels, then pass approved-release matching retrieval/calibration and master section10; actual39-source ingestion/336realvectors alone do not authorize advancement.
+completed_at: 2026-10-12T18:33:08+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
 
 **Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
+
+Latest recovery: approved five Docling assets downloaded/verified;39 originals converted to validated pending bundles after two serialization retries.33audit errors/6warnings/336chunks. Actual mapping129spans near27/28regions, only3chunk-linked regions. Strict real model336document vectors/27query diagnostics verified; only3cases have same-byte emitted chunks. New minimal86c2720 term-index repair preserves unknown placement/full courses and audit gates, two RED/GREEN tests. Post-fix fullsuite4906passed/107subtests/6skip/6warnings571.49s; independent final review noP1/P2, sampled vector replays exact. Source/field/answer approval and actual authorized runtime retrieval remain open; no shared migration or corpus activation. Exact evidence/cohort limits/digests in [real execution report](phase-05-real-retrieval-readiness.md);64-file raw manifest189c5362314725494a80bb70372025f28da3daef13e397245832acbc8f51493f. Earlier entries below remain historical.
 
 ## Delivered behavior
 

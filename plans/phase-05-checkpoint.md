@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: in_progress
-sequence: 26
+status: blocked
+sequence: 27
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 86c2720
+head_commit: 1eeb21a
 working_tree: dirty
-updated_at: 2026-10-12T18:22:59+08:00
+updated_at: 2026-10-12T18:33:08+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,11 +17,11 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-First original-source pass finished39 attempts:37 bundles and2 serialization failures (Electrical Engineering/Marine Biology). Full pytest pre-repair4904passed/107subtests/6skips752.06s. Root cause independently captured: curriculum_by_term mixes None semester with Summer key. Two synthetic RED regressions now GREEN; minimal86c2720 excludes unplaced courses from derived term index while retaining unknown course fields/full courses/audit block.50 focused tests pass36.56s, reviewer2pass/noP1/P2. Electrical retry completes with one retained unplaced course and audit error/no chunks; Marine retry and post-repair full suite running. Final geometry mapper finds actual spans near27/28 regions, only3 regions link to emitted chunks; field ownership stays pending. Real candidate cosine experiment next, no calibrated/approved runtime claim.
+All39 original candidate bundles now verified after two serialization retries.33audit errors/6warnings/336emitted chunks; originals unchanged.86c2720 repair has two RED/GREEN regressions and50focused tests; post-fix fullsuite4906pass/107subtests/6skip/6warnings571.49s. Actual mapping27/28regions,129spans and3chunk-linked regions; field ownership pending.336 real document vectors and27 query diagnostics verified with exact tokens/no truncation; only3cases have same-byte emitted chunks. Fresh independent review noP1/P2 and sampled vectors replay exactly. Authorized setup/download/execution work complete; formal exit remains blocked on extraction/source/field review and approved runtime retrieval/calibration. No shared activation.
 
 ## Repository State
 
-Isolated worktree `p05`, branch `feat/p05-retrieval-logic`, base10bfd6f, verified implementation ddf9b83. Documentary closure follows this code commit; identify its final HEAD using Git. Expected clean tree after explicit documentation commit. No owner changes overwritten; no push/merge/deployment. Only Phase05 plan/checkpoint/handoff/report, INDEX and current progress change in closure.
+Isolated worktree p05, branch feat/p05-retrieval-logic, base10bfd6f. Verified latest production repair86c2720; current documentary baseline1eeb21a. Closure changes INDEX, checkpoint, handoff, retrieval plan, readiness report, dataset guide and current progress only. Following documentation commit is identified by Git rather than a self-referential SHA; expected clean after explicit staging. No owner changes overwritten, no push/merge/deployment or private artifacts staged.
 
 ## Verification Evidence
 
@@ -43,11 +43,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
-Owner-approved Docling assets are present and verified. Both previously blocked converter tests now pass (65.66s); original CAD PDF converted offline (61.042s). Hugging Face full-snapshot completeness required README/image files; using the documented DOCLING_ARTIFACTS_PATH with five verified hardlinked assets avoids additional downloads. No independently approved institutional labels/source applicability yet. Original-source candidate ingestion and full-suite rerun are running; actual source mappings/rankings are not yet verified.
+33failed extraction audits emit0chunks; only3/27exam cases have same-byte candidate chunks.27/28regions have candidate geometry, not reviewed field ownership; one region has no matching geometry. No independently approved institutional source/applicability/answer labels or approved-release runtime replay. Five historical failed-audit bundles retain pre-fix null-term projections and must be regenerated with later extraction repairs; they emit0chunks. Model assets, dependencies, real vector execution and full tests are verified, not current blockers.
 
 ## Next Action
 
-Complete Marine retry; preserve first-pass results and reconcile both successful retries. Verify all39 bundles/original hashes and rerun mapping, then encode only audit-emitted source chunks with strict SEA-LION/exact token guard and report actual offline candidate cosine observations. Missing gold chunks remain coverage failures, not unsupported labels; bbox overlap is not Precision/Recall. Read post-repair full suite and independent final review before documentary closure. Institutional source/answer/field approval and shared Supabase deployment remain separate; no activation or Phase06 inferred.
+Use saved original raw conversions/actual mapping to repair and independently review failed extraction and unresolved geometry. Regenerate affected candidates under current parser and confirm applicable source/field/answer labels with domain reviewers. Then run approved-release retrieval and development calibration, followed by reviewed shared Supabase migration workflow. Do not reinstall/redownload/repeat completed39-source conversion or336-vector diagnostics unnecessarily. Candidate bbox hits are not retrieval accuracy or approval; no activation or Phase06 inferred.
 
 ## Do Not Repeat
 

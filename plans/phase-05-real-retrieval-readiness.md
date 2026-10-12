@@ -1,6 +1,6 @@
 # Phase 05 real retrieval readiness — 12 October 2026
 
-Current status: owner-authorized dependencies are installed and real local SEA-LION execution is verified. Original-PDF character regions are resolved; production Docling mapping remains blocked on the specific additional assets proposed below. The initial preparation record is preserved alongside the execution updates. It does not approve institutional sources, publish candidate knowledge or advance Phase 05.
+Current status: approved dependencies/Docling assets are installed; all39 originals have validated candidate bundles,336 real document vectors and27 query diagnostics.33 audits fail; only3 exam cases have same-byte emitted chunks. Post-fix full suite4906passed/107subtests/6skips; independent review clear. Phase05 remains blocked on extraction/field/source approval and approved runtime retrieval. Historical preparation/proposals below are preserved; the latest execution section governs current status.
 
 ## Completed preparation
 
@@ -94,3 +94,37 @@ The current Hugging Face client requires a complete snapshot, including reposito
 Actual original CAD conversion now succeeds offline in61.042s. Both previously blocked integration tests pass:2passed,3upstream deprecation warnings,65.66s. Commands use the approved Python3.13 venv, HF_HUB_OFFLINE/TRANSFORMERS_OFFLINE=1, workspace DOCLING_ARTIFACTS_PATH/HF_HOME/DOCLING_CACHE_DIR/TEMP/TMP, and pytest -p no:cacheprovider --basetemp <readiness>/tmp/docling-local-artifacts-tests. Logs: offline-ingestion-local-artifacts.log and docling-local-artifacts-tests.log. The helper's historical extra_model_downloads_authorized:false refers to unlisted assets; the five-file approval is explicitly recorded here and in proposed-docling-assets.json.
 
 Existing run_prospectus_ingestion/load_candidate_bundle APIs now process all39 original PDFs into pending candidate bundles under readiness/original-ingestion/<source-sha256>, with source-byte snapshots, conversion settings, actual normalized cells and root manifests. Gold answers/questions are excluded from corpus construction. Structural audit errors remain extraction-blocked and emit no ready chunks; a successful conversion is distinct from a usable curriculum. Whole-suite rerun and actual mapping/ranking evidence are in progress, not claimed passing or complete. All pending source states remain unchanged; no shared Supabase application or institutional activation.
+
+## Final original-corpus execution and repair
+
+All39 original PDFs/43physical pages were attempted through the existing candidate API. First pass produced37 bundles and two serialization failures (Electrical Engineering/Marine Biology). Captured Electrical conversion showed curriculum_by_term/1st Year mixing None semester with Summer. Two synthetic RED tests reproduce the exact sorted-JSON TypeError;86c2720 omits unplaced courses from the derived term index while preserving full courses/unknown fields/audit gates.50 focused tests pass36.56s; reviewer independently2pass0.52s. Both original retries then succeed80.088s/58.995s, retaining one/six unplaced courses and audit error/0chunks.
+
+All39 final bundles pass nested manifests, settings, byte identities and binding recomputation; originals unchanged.33audit errors/6warnings,336emitted chunks,34binding rejections/34extractor rejections. All approvals/scopes remain pending, candidate corpus inactive. Conversion success is not curriculum accuracy.
+
+| College | Sources | Audit errors | Warnings | Emitted chunks |
+| --- | ---: | ---: | ---: | ---: |
+| CAD |1 |1 |0 |0 |
+| CAH |6 |5 |1 |55 |
+| CBA |9 |6 |3 |176 |
+| CCJE |1 |1 |0 |0 |
+| CHTM |3 |3 |0 |0 |
+| CNHS |2 |2 |0 |0 |
+| CoE |4 |4 |0 |0 |
+| CS |6 |4 |2 |105 |
+| CTE |7 |7 |0 |0 |
+
+The original process retained its loaded pre-fix term view. Five historical audit-blocked bundles retain old serialized null-term projections (Accountancy, Marketing Management, Hospitality Hotel/Resort, Tourism, Petroleum Engineering); all emit0chunks. original-ingestion-summary.json lists these differences. No claim that all39 were parsed under86c2720; preserve original outputs and regenerate when extraction is repaired. Both failed sources were retried under the fix; first-pass failures remain archived.
+
+## Actual source mapping and model diagnostics
+
+actual-docling-region-mapping.json records geometry near27/28 authored regions:129 validated SourceSpans,10chunk links across3regions,24audit-blocked regions,3requiring field review and1without matching geometry. Bbox overlap is not verified row/column ownership. Actual cell/item IDs and span objects are recorded; no database span IDs invented. Field ownership stays pending.
+
+Strict offline SEA-LION produced336 source-chunk EmbeddingRecords in244.835s: finite1024-dimensional/L2-normalized vectors, exact tokens within512,0refusals/truncations. Same pinned configuration as27 real queries. Gold questions/answers never construct the corpus. Candidate diagnostics rank by cosine similarity using byte-version filters and record k=3/5/8 geometric overlap; only3/27 cases have same-byte chunks. This is not Precision/Recall, sufficiency, threshold calibration, authorized runtime replay, unsupported-case success or institutional accuracy. No LLM answers generated.
+
+Independent final reviewer: noP1/P2. Rehashed39 originals/reloaded39 bundles/recomputed28mapping rows and129spans; checked336embedding contracts/content bindings/configs/norms/exact tokens, all saved rankings/citations, and replayed three documents from different versions with component-for-component identical vectors. Repair regressions independently pass.
+
+Post-fix command: approved venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider --basetemp <readiness>/tmp/full-pytest-term-view-fix tests, with workspace TEMP/TMP/HF_HOME/HF_HUB_CACHE/DOCLING_CACHE_DIR/DOCLING_ARTIFACTS_PATH and HF_HUB_OFFLINE/TRANSFORMERS_OFFLINE=1. **4906passed,107subtests,6skipped,6warnings,571.49s,exit0**. Skips include unavailable Windows symlink privileges; warnings are upstream deprecations. Separate pre-fix4904pass/107subtests/6skip run752.06s in full-pytest-docling-assets.log. No repository dependencies/locks changed.
+
+Raw evidence in readiness root: original-ingestion-summary/results/first-pass; both retry logs/results; actual-docling-region-mapping/review; real-candidate-document-embeddings.jsonl; real-candidate-cosine-report/observations; RED/GREEN and full-suite logs. real-run-artifact-manifest.json seals64 evidence files, SHA-256189c5362314725494a80bb70372025f28da3daef13e397245832acbc8f51493f. Existing dataset and both exam packets unchanged.
+
+Next: repair/review failed extraction and unresolved geometry, independently confirm source/field/applicability labels, then approved-release retrieval/calibration and reviewed shared Supabase migration application. Migration remains unapplied to shared/hosted databases. Phase05 Tasks4/6 remain open; no Phase06 advancement.
