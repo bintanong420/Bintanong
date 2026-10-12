@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 49
+sequence: 50
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 94f01b3
-working_tree: policy_text.py, procedure_text.py, test_procedure_text.py, checkpoint/progress, handbook record and ingestion decisions
-updated_at: 2026-10-12T22:35:00+08:00
+head_commit: 2b11c5d
+working_tree: checkpoint/current progress and source recovery/handoff documentation
+updated_at: 2026-10-12T22:46:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -28,12 +28,19 @@ Whole-source conversion completed922.075s then reader refused accounting; raw/me
 retained. Actualgraph5731texts/133tables/433pictures;83native texts under pictures
 were skipped.8synthetic regressions RED0.96s; minimal guarded picture-container
 traversal GREEN141passed/1skipped27.69s. Actualreader now accounts for5864refs.
-Replaying exact retained raw into fresh candidate output; no second PDFconversion.
+Exact retained raw replay validated261.365s;2726candidate chunks,2608covered text
+items/1556rejected/1567omitted;115emitted tables/18rejected. Raw/meta exact unchanged.
+Finalfullsuite4935passed/107subtests450.39s,6skips/6warnings.19ledger tests pass14.120s;
+read-only review no actionable issues,8tests pass0.74s.45dataset entries unchanged
+and priorCharter bundle/all70sealed files preserved.184sample spans:161strict,
+13typographic,1PDFcontrol-char,9geometry/content findings retained. Finish source
+handoff/docs; next bounded task is source-span/critical grading recovery, not Phase06.
 24original pages rendered; sparse native-text pages include images/dividers and
 blank bodies. Physical31–34requirements/waiver clauses and46/47/144/355grade
 contexts inspected. Original timing wording on47needs interpretation; preserve
 source conflict and distinguish undergraduate/graduate/laboratory/law sections.
-No candidate completion claimed yet; retained Docling dropped-cell findings pending.
+Bothpolicy candidate bundles checked; source/content authority remainpending.
+Retained Docling dropped-cell findings and1556unlocatable text items need recovery.
 
 ## Repository State
 
@@ -47,6 +54,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Final handbook code:4935pytest passed/107subtests,6skips/6warnings450.39s,exit0;
+19phaseledger tests14.120s. Focused141passed/1skipped27.69s after8RED0.96s. Review
+8passed0.74s/no actionable findings. Existing offline env/PythonUTF8mode retained.
+Actualbundle checked:394page records,2726chunks,complete5731text/133table accounting
+with refusals/omissions retained. Independent verifier matches45entry dataset and
+existingpending register; source hash unchanged. Charter still validates and all70
+sealed prior files unchanged. These are integrity/accounting checks, not accuracy.
 
 Current handbook preflight: approvedPython -B <handbook-evidence>/run_handbook.py
 preflight, exit0;394pages, original SHA256/pending version match and45unchanged
@@ -81,6 +96,13 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Handbook candidate content incomplete:1556text rejections (1546invalid char ranges,
+10uncovered character ranges);18table rejections;1567omissions (1565repeated header/
+footer,2empty text) and physical1image-only cover.184sample spans yielded9geometry/
+content discrepancies on46/355plus typography/control differences. Important grade
+table cell text/geometry mismatch remains pending alongside source timing/scope
+interpretation. No approval, embeddings or policy retrieval exit evidence yet.
+
 Current policy gates:3retained Charter table rejections and Docling dropped-cell
 warnings; source-owner printed time-total discrepancy; pending acquisition,
 issuer/applicability/effectivity and independent source/content review. Handbook
@@ -100,10 +122,12 @@ PYTHONUTF8=1/PYTHONIOENCODING=utf-8 and existing offline assets. If refused, pre
 raw diagnostics and diagnose before any synthetic RED/GREEN correction. Do not
 reconvert Charter, move originals, repeat setup or advance Phase06.
 
-Current exact recovery action supersedes initial run: finish existing retained-byte
-replay, validate new handbook-recovered-candidate output, perform source/accounting
-and sampled checks. Run full product suite on final code and read-only review of
-picture traversal; commit verified increments. No repeated expensive conversion.
+Current exact next action supersedes initial run/replay: use retained handbook raw
+and review queues to diagnose invalid character-span bounds with original-backed
+samples and synthetic RED/GREEN if a reader defect is proved. Independently review
+critical grading geometry on physical46/355. Keep correct spans/candidates separate
+from refusals; no scope/effectivity promotion. Do not reconvert either PDF for
+diagnosis, bypass guards, activate corpus, repeat setup or advance Phase06.
 
 ## Do Not Repeat
 

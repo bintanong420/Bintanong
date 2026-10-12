@@ -1,5 +1,10 @@
 # Phase05 Student Handbook source recovery
 
+**Latest verified state:** whole original394page conversion captured; recovered
+candidate bundle checked with2726chunks.1556text/18table rejections retained;
+1567item omissions and image-only cover recorded. Reader correction`2b11c5d`
+verified4935tests/107subtests,6skips/6warnings450.39s. No source activation.
+
 Owner authorized continuation after university Charter candidate recovery. Resumed
 clean `d58b830`; code `c061238` unchanged. This records candidate ingestion, not
 institutional approval or phase completion. Follow
@@ -78,3 +83,51 @@ child order without adding picture bytes to text or inventing OCR. Relevant suit
 existing pipeline in fresh`handbook-recovered-candidate/`. Original refused output
 and raw logs remain intact. No completion or source accuracy claim until checked
 bundle and original invariance/results are read. Full-suite/review still pending.
+
+## Verified candidate and remaining source findings
+
+Exact retained raw replay through source/settings/digest/schema guards and existing
+pipeline succeeded261.365s,exit0; no second PDF conversion. New bundle:
+`<handbook-evidence>/handbook-recovered-candidate/`. Original refused directory
+remains incomplete; do not consume it. Raw SHA256:
+`cb13e409011266fc8b42583691e5fced1581bf831d32723098c041d29dc85387`.
+Original source and existing pending register match; all45dataset entries unchanged.
+PriorCharter still validates with currentcode; all70sealed prior files unchanged.
+
+| Accounting | Result |
+| --- | ---: |
+| Physical pages |394|
+| Raw/covered/rejected/omitted text items |5731/2608/1556/1567|
+| Raw/emitted/rejected tables |133/115/18|
+| Candidate chunks |2726|
+| Page omissions |1(image-only physical1cover)|
+
+Text refusals:1546invalid character ranges and10uncovered ranges; these are
+retained with original provenance, not bypassed. Omissions:1565repeated header/
+footer items and2empty text. Table refusals:8ambiguous row order,3missing cells,
+6ambiguous/missing headers and1over token cap. Complete accounting is not complete
+policy content. Dropped-cell warnings remain pending source findings.
+
+Independent verifier checks complete bundle/manifests/bindings, source register,
+all394page records and unchanged originals.184sample source-bbox spans onphysical
+31/32/33/34/35/39/46/47/79/144/355/380:161whitespace/NFC matches,13typographic
+punctuation differences,1PDFcontrol-character/punctuation difference,9geometry/
+content discrepancies. Findings retained without rewriting source text. Notably,
+physical46grading table has mismatched/missing percentage/rating associations,
+and355grade text is split across overlapping boxes. These require independent
+critical-field review/correction. No OCR accuracy or whole-document score claimed.
+
+Final product verification: approvedPython`-B -m pytest tests -q -p no:cacheprovider
+--basetemp=<handbook-evidence>/pytest-final`, existing offline flags,8CPUthreads,
+PYTHONUTF8=1/PYTHONIOENCODING=utf-8:4935passed/107subtests,6skips/6warnings450.39s,
+exit0. Phaseledger19passed14.120s. Read-only review of94f01b3..2b11c5d: no actionable
+findings,8focused tests0.74s; additional duplicate/mixed-cycle/reference checks.
+Reviewer set aside image-body coverage, source accuracy/authority/applicability,
+retrieval/activation and unrelated changes; these remain separate pending gates.
+
+Next bounded recovery: inspect rejected native character ranges against originals
+and saved raw before any minimal synthetic RED/GREEN reader fix; independently
+review grading geometry on46/355. Reuse captured bytes; no new PDF conversion,
+setup/download, prospectus review, phase advancement or source promotion. Then
+prepare reviewed policy development answers and actual retrieval evidence only
+after source accuracy/applicability gates permit it.
