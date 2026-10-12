@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase05 active, actual policy-source retrieval evidence pending. Organization complete: university Charter2025/fourth edition117pages and handbook2021/394pages,2pending source records,42original bytes preserved/40prospectus paths unchanged. Context resume loop and datasetignore committed8f9e922. Next CLI starts plans/2026-10-12-phase05-next-cli-handoff.md; this CLI performs only final handoff/docs. Prospectus review/college Charters/organization sources deferred; no policy conversion, source activation orPhase06.
+**Current numbered-phase status, 12 October 2026:** Phase05 resumed from3d464be for bounded whole-university-Charter candidate ingestion. Organization and Context/ignore loop complete;45/45dataset entries freshly match previous hashes. Both real pending policy contracts validated,117/394pages confirmed. Existing offline environment/assets retained; checkpoint before117page Charter run. Owner confirms supplied editions latest available; no replacement search. Prospectus review/future college and organization sources deferred. No activation orPhase06. Current evidence: plans/phase-05-policy-source-recovery.md.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 

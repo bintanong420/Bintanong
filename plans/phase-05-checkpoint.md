@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 39
+sequence: 40
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 8f9e922
-working_tree: clean
-updated_at: 2026-10-12T21:06:11+08:00
+head_commit: 3d464be
+working_tree: checkpoint, current progress and policy recovery record documentation
+updated_at: 2026-10-12T21:18:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,23 +17,21 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Owner-authorized dataset organization completed: only the two loose policy PDFs
-moved, with all bytes preserved. Charter2025/4th edition117pages; handbook2021,
-394pages, approval2020 recorded separately. Forty prospectus-tree files and their
-relative paths unchanged. Requested2024..2027 and UnknownYear folders plus deferred
-college/organization areas exist. Two new pending source contracts minted with
-existing helpers; no ingestion or activation. Context resume-loop fresh-reader
-check passed. Finish repository dataset guide and next-CLI handoff; actual-policy
-source governance/ingestion is the next bounded continuation.
+Resumed bounded university Charter candidate ingestion. Fresh45entry inventory
+matches organization evidence; both pending contracts load against original
+bytes. Context thesis physical36/55/68 and routing PNG consulted; no architecture
+discrepancy. Original covers, contents and selected student-service pages inspected.
+Checkpoint before complete117page Charter conversion in existing offline environment.
+Handbook394pages follows separately. Supplied editions are latest available per
+owner; stop replacement searches. Acquisition/effectivity/approval remain pending.
 
 ## Repository State
 
-Isolatedp05,feat/p05-retrieval-logic. Latest instructions/protection/plan commit
-8f9e922. Current documentary closure changes INDEX,dataset guide,recovery plan,
-next-CLI handoff,checkpoint,current progress,Phase05 blocked handoff/retrievalplan
-and corpus scope note only. Dataset bytes are ignored; no product code or raw
-source files staged. A following documentation HEAD is discovered fromGit.
-No push/merge, model/download/install, database, runtime or activation work.
+Isolatedp05,feat/p05-retrieval-logic; clean resume baseline3d464be reconciled.
+Only bounded recovery documentation changes. Raw evidence in workspace
+audit-evidence/p05-policy-source-recovery-20261012. GitHub MCP confirms remote
+dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
+database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
@@ -59,14 +57,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Next Action
 
-This CLI's organization and handoff work is complete. The next CLI reads
-plans/2026-10-12-phase05-next-cli-handoff.md, Context, AGENTS/INDEX and this
-checkpoint, then verifies organized source hashes and the two pending policy
-contracts. Resume supplemental source governance and existing candidate ingestion
-only when the owner continues implementation. Work one complete document at a
-time with the existing offline environment and recoverable logs/checkpoints.
-Prospectus review and future college/organization sources remain deferred. Do not
-repeat dataset moves, model setup, historical vector runs or closed software phases.
+Run complete117page Charter through existing document_ingest with charter_candidate
+and existing pending logical locator into fresh external output. Inspect checked
+bundle, every manifest/report, retained rejections and original hashes; checkpoint
+exact results. Handbook394page conversion is separate. Preserve deferred prospectus
+review and future sources. Do not repeat setup or advance Phase06.
 
 ## Do Not Repeat
 
@@ -276,3 +271,19 @@ folders and empty deferredareas. Git tracked/stageddataset lists empty; future
 photos excluded. No remaining continuation-clarity findings. Checkpoint pointer
 reconciled to8f9e922 before finaldocumentary commit; following docHEAD found byGit.
 Finalvalidate/diffcheck passed. No producttests or ingestion rerun for these docs.
+
+## Policy recovery resume / pre-conversion checkpoint
+
+Fresh inventory matches45/45 organization entries including40prospectus-tree files;
+both contracts synthetic:false/pending/noapproval. PDFium confirms117/394pages,
+handbook page1 image-only. Covers confirm observed2025fourth and2021; BOR2020
+separate. Charter includes nonstudent services and handbook school/graduate/law
+sections: applicability remains section-specific and unverified. Physical/printed
+page offset changes within Charter (physical6 printed5; physical69 printed65),
+so do not infer a global printed-page offset. Context36/55/68 and routingPNG read;
+master6/7/10 and previousPhase04 closure consulted. Existing Docling native-text
+settings/OCRoff/accurate tables and local artifacts path verified from current
+code and Context7. Owner confirms supplied editions latest available; no further
+replacement search. Optional origin details remain pending. PDF inspection script
+first hit cp1252 stdout on a thesis bullet; UTF8 stdout corrected, rerun exit0.
+No product defect/code changes. Commit checkpoint before long whole-source run.
