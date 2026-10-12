@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 46
+sequence: 47
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c061238
-working_tree: clean after following handoff/documentation closure commit
-updated_at: 2026-10-12T22:03:00+08:00
+head_commit: d58b830
+working_tree: checkpoint/current progress and handbook recovery record documentation
+updated_at: 2026-10-12T22:10:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,15 +17,12 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Whole117page Charter candidate bundle now checked:427chunks,305/305text items,
-120/123tables emitted,3explicit table rejections. Durable source conversion528.029s;
-exact-byte replay through existing pipeline30.429s. Original45entry dataset unchanged.
-Actual graph confirms table-owned footnotes and nested text/group children; TDD
-reader corrections account for all428items. Review's twoP2findings reproduced and
-fixed; final fullsuite4926passed/107subtests362.06s,6skips/6warnings.192sample checks:175strict
-whitespace/NFC matches,17typographic apostrophe/dash differences retained. No
-institutional/content approval or OCR accuracy claim. Bounded Charter recovery
-complete atc061238; continuation handoff finalized. Handbook is next separate source.
+Owner authorized the next bounded task: whole394page Student Handbook candidate
+ingestion. Clean baseline d58b830; fresh snapshot matches original4c9a95bf...351c8
+and existing pending contract. All45dataset entries unchanged. Existing offline
+environment/assets retained; checkpoint before long conversion. Image-only cover
+is retained as a review gap, not silently OCRed. Charter427candidate chunks and
+3table rejections preserved; no activation, embeddings/rankings orPhase06.
 
 ## Repository State
 
@@ -39,6 +36,12 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Current handbook preflight: approvedPython -B <handbook-evidence>/run_handbook.py
+preflight, exit0;394pages, original SHA256/pending version match and45unchanged
+dataset entries. Context thesis36/55/68 and routingPNG consulted, master6/7/10
+reviewed; no scope discrepancy. Full product tests below are prior Charter-code
+verification, not a fresh handbook-run result. No product code change yet.
 
 Current policy task: candidate bundle/source invariance verified; focused hierarchy
 suite130passed/1skipped51.30s before final table/ref correction; final correction
@@ -78,12 +81,13 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Next bounded continuation follows plans/2026-10-12-phase05-policy-recovery-handoff.md:
-whole394page handbook policy_candidate ingestion in fresh external output, existing
-offline environment, checkpoint before run. Use PYTHONUTF8=1/PYTHONIOENCODING=utf-8.
-Reuse captured Charter bytes for further diagnostics; keep3table rejections and
-source-owner time-total discrepancy pending. No setup repeat, prospectus review
-orPhase06. Current bounded Charter task is complete; follow latest continuation.
+Run whole394page handbook through existing run_ingestion using policy_candidate
+and its existing pending contract into fresh handbook-candidate output. Capture
+status/stdout/stderr externally; validate completion with load_candidate_bundle,
+all page/item/table accounting, retained rejections and unchanged originals. Use
+PYTHONUTF8=1/PYTHONIOENCODING=utf-8 and existing offline assets. If refused, preserve
+raw diagnostics and diagnose before any synthetic RED/GREEN correction. Do not
+reconvert Charter, move originals, repeat setup or advance Phase06.
 
 ## Do Not Repeat
 
@@ -362,3 +366,17 @@ Final45entry original/metadata inventory unchanged;70task files sealed with
 manifestc3dc18e7693f392e357e6a1fe705b7cb5d9fb2e7ef844cfee2c1e1bd282bd779.
 Raw evidence ignored; known3table/source-time-total findings pending. Context/ignore
 instructions already delivered, no dataset moves or policy authority promotion.
+
+## Handbook continuation / pre-conversion checkpoint
+
+Owner explicitly says continue with handbook. Clean d58b830 reconciled; priorcode
+c061238 remains unchanged. Existing source file394pages matches
+4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8. Native-text profile
+freshly captured; firstpage image-only as previously observed. Existing pending
+record loaded, no authority/scope promotion.45entry inventory matches priorseal.
+New ignored evidence root workspace/audit-evidence/p05-handbook-source-recovery-20261012;
+run_handbook.py uses existing pipeline, approved Python/assets, same byte-bound
+contract, whole original and durable execution status. No new product code/tests,
+dependencies, model copy/download, database writes or prospectus review. Context
+thesis36/55/68/routingPNG consulted; institutional policy versus private/symbolic
+boundaries unchanged. Commit checkpoint before long single-source operation.
