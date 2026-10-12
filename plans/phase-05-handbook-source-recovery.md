@@ -131,3 +131,14 @@ review grading geometry on46/355. Reuse captured bytes; no new PDF conversion,
 setup/download, prospectus review, phase advancement or source promotion. Then
 prepare reviewed policy development answers and actual retrieval evidence only
 after source accuracy/applicability gates permit it.
+
+## Evidence closure and next-CLI pointer
+
+Verified increments:`7fe2f07`pre-run,`94f01b3`original inspection,`2b11c5d`TDD
+picture traversal,`69c0232`checked candidate results.63handbook task files sealed
+(pytest temporary trees excluded), manifest SHA256:
+`1701ba54daa27b078abcf172ba7174aacfa809ce26fcde32aa2f315c291dcaf1`.
+Raw files remain ignored; current plans and
+[latest continuation](2026-10-12-phase05-policy-candidates-handoff.md) are tracked.
+Both sources now have checked JSON/chunk candidates. FormalPhase05 remains blocked
+on source accuracy/approval and actual approved retrieval evidence.

@@ -62,11 +62,12 @@ placing the file under 2024 or its printed 2020 approval date.
 
 ## Task 3 — Supplemental Phase 1–2 real-policy work, next continuation
 
-University Charter candidate now verified:427chunks/3retained table rejections.
-Handbook processing and source/content approval remain pending. Follow
-[execution evidence](phase-05-policy-source-recovery.md) and
-[latest continuation](2026-10-12-phase05-policy-recovery-handoff.md); saved raw
-conversion can be reused for diagnosis. Task3remains partial.
+Both original policy candidate bundles now checked: Charter427chunks/3table refusals;
+handbook2726chunks/1556text+18table refusals. Follow [Charter evidence](phase-05-policy-source-recovery.md),
+[handbook evidence](phase-05-handbook-source-recovery.md) and
+[latest continuation](2026-10-12-phase05-policy-candidates-handoff.md). Saved raw
+supports source-span/critical-field recovery without repeated conversion. Task3
+remains partial: critical extraction repair/review and approved retrieval are pending.
 
 - [ ] Verify acquisition origin/URL, issuer, printed edition, applicability and
   supersession evidence for each actual source. Use existing source contracts;

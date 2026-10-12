@@ -165,3 +165,15 @@ plans/2026-10-12-phase05-policy-recovery-handoff.md for the next whole394page
 handbook task. Source authority/content/applicability and approved retrieval exit
 evidence remain pending; this blocked phase handoff stays blocked. Noactivation,
 policy embeddings/rankings orPhase06. Preserve deferred prospectus review.
+
+## Both policy JSON candidates / source-span recovery continuation
+
+Handbook394page original conversion and exact retained-byte recovery now checked:
+2726candidate chunks,1556text+18table rejections, image cover gap retained. TDD
+picture traversal2b11c5dverified4935tests/107subtests pass450.39s.45dataset entries
+unchanged; Charter427chunks/prior70sealed files preserved. Handbook63file evidence
+seal and exact findings in plans/phase-05-handbook-source-recovery.md. Resume
+plans/2026-10-12-phase05-policy-candidates-handoff.md for saved-raw character-span
+diagnosis and critical grading geometry. Earlier next-whole-handbook-run pointer is
+superseded. Source/content/applicability approval and actualpolicy retrieval remain
+pending; blocked phase status unchanged. No source activation orPhase06.

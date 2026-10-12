@@ -24,8 +24,8 @@ performed during this organization.
 
 | Category | Current source location relative to dataset parent | Status |
 | --- | --- | --- |
-| University Charter | `CitizenCharter/2025/University/PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf` | Visually observed2025/fourth edition,117pages; pending source governance/ingestion |
-| Student handbook | `StudentHandbook/2021/PSU Student Handbook.pdf` | Cover visibly2021,394pages; printed2020BOR approval kept separate; pending governance/ingestion |
+| University Charter | `CitizenCharter/2025/University/PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf` |2025/fourth edition,117pages;427candidate chunks/3table refusals; governance/content approval pending |
+| Student handbook | `StudentHandbook/2021/PSU Student Handbook.pdf` |2021,394pages,printed2020BOR approval separate;2726candidate chunks/1556text+18table refusals; governance/content approval pending |
 | Memoranda | `Memoranda/2024/` through `2027/`, plus `UnknownYear/` | No files supplied yet; original photos will be retained |
 | College-specific Charters | `Deferred/CollegeCitizenCharter/` | Future photographs/documents intentionally deferred |
 | Organization policies | `Deferred/OrganizationPolicies/` | Future sources intentionally deferred |
@@ -44,10 +44,17 @@ catalogs; no original file is tracked or staged.
 
 Current source-recovery plan:
 `plans/2026-10-12-policy-source-recovery-plan.md`; next-CLI context:
-`plans/2026-10-12-phase05-next-cli-handoff.md`. Before/after inventories, move
+`plans/2026-10-12-phase05-policy-candidates-handoff.md`. Before/after inventories, move
 journal, cover renders,511page text profile and two pending source contracts live
 at `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dataset-organization-20261012/`.
 Older readiness/extraction evidence is preserved.
+
+Checked policy bundles remain outside Git under workspace audit-evidence:
+`p05-policy-source-recovery-20261012/charter-recovered-candidate/` and
+`p05-handbook-source-recovery-20261012/handbook-recovered-candidate/`. Raw conversion,
+chunks, reports and retained refusals stay ignored; original dataset contains the
+preserved sources. Incomplete first-run candidate directories are diagnostic only.
+Do not rerun original conversion to resume source-span diagnosis.
 
 The main checkout is `C:/Coding-projects/bintanong_workspace/Bintanong`; Phase 05 code changes belong to its isolated `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05` worktree. `audit-evidence` is shared workspace storage outside both code checkout folders. An unrelated ancestor `.git` was observed earlier at `C:/Coding-projects`. Final fresh verification finds that marker absent and the evidence folders outside Git. No Git metadata was removed by this agent; the main checkout and p05 worktree remain intact.
 

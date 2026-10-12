@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 50
+sequence: 51
 plan: plans/phase-05-retrieval-plan.md
 head_commit: 2b11c5d
-working_tree: checkpoint/current progress and source recovery/handoff documentation
-updated_at: 2026-10-12T22:46:00+08:00
+working_tree: clean after following source delivery/handoff closure commit
+updated_at: 2026-10-12T22:52:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -33,8 +33,8 @@ items/1556rejected/1567omitted;115emitted tables/18rejected. Raw/meta exact unch
 Finalfullsuite4935passed/107subtests450.39s,6skips/6warnings.19ledger tests pass14.120s;
 read-only review no actionable issues,8tests pass0.74s.45dataset entries unchanged
 and priorCharter bundle/all70sealed files preserved.184sample spans:161strict,
-13typographic,1PDFcontrol-char,9geometry/content findings retained. Finish source
-handoff/docs; next bounded task is source-span/critical grading recovery, not Phase06.
+13typographic,1PDFcontrol-char,9geometry/content findings retained. Source delivery
+handoff finalized; next bounded task is source-span/critical grading recovery.
 24original pages rendered; sparse native-text pages include images/dividers and
 blank bodies. Physical31–34requirements/waiver clauses and46/47/144/355grade
 contexts inspected. Original timing wording on47needs interpretation; preserve
@@ -106,7 +106,7 @@ interpretation. No approval, embeddings or policy retrieval exit evidence yet.
 Current policy gates:3retained Charter table rejections and Docling dropped-cell
 warnings; source-owner printed time-total discrepancy; pending acquisition,
 issuer/applicability/effectivity and independent source/content review. Handbook
-conversion, actual policy embeddings and approved retrieval calibration not run.
+candidate conversion is complete; actual policy embeddings/calibration not run.
 Fullsuite UTF8mode rerun passed. Deferred prospectus findings below are historical
 context; they do not replace the current policy-source next action.
 
@@ -114,15 +114,7 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Run whole394page handbook through existing run_ingestion using policy_candidate
-and its existing pending contract into fresh handbook-candidate output. Capture
-status/stdout/stderr externally; validate completion with load_candidate_bundle,
-all page/item/table accounting, retained rejections and unchanged originals. Use
-PYTHONUTF8=1/PYTHONIOENCODING=utf-8 and existing offline assets. If refused, preserve
-raw diagnostics and diagnose before any synthetic RED/GREEN correction. Do not
-reconvert Charter, move originals, repeat setup or advance Phase06.
-
-Current exact next action supersedes initial run/replay: use retained handbook raw
+Follow plans/2026-10-12-phase05-policy-candidates-handoff.md. Use retained handbook raw
 and review queues to diagnose invalid character-span bounds with original-backed
 samples and synthetic RED/GREEN if a reader defect is proved. Independently review
 critical grading geometry on physical46/355. Keep correct spans/candidates separate
@@ -448,3 +440,17 @@ readers GREEN141passed/1skipped27.69s; actualreader5864refs succeeds. Existing
 order preserved and raw unchanged; no array-order fallback. Exact retained source-
 bound conversion now replaying through existing converter-injection/pipeline and
 checked consumer. Independent source-content/authority review remains pending.
+
+## Verified handbook delivery and final continuation
+
+Code2b11c5d verified4935tests/107subtests450.39s,6skips/6warnings,exit0;19ledger tests
+pass14.120s. Relevant141/1skip after8RED, read-only review no actionable findings.
+Recovered handbook2726chunks,1556text+18table refusals retained; all394page records
+and exactsource/register/raw/settings bind. Original45entry inventory unchanged;
+Charter/all70sealed files preserved and current loader accepts prior bundle.
+184sourcebbox checks and critical grade-table findings remain pending, not approved.
+63handbook evidence files sealed; manifest1701ba54daa27b078abcf172ba7174aacfa809ce26fcde32aa2f315c291dcaf1.
+Preflight7fe2f07, originalreview94f01b3, code2b11c5d and source-delivery69c0232commits
+recorded. Following docclosure HEAD found byGit. Latest continuation points to
+saved-raw character-span diagnosis and grading recovery; no repeated conversion,
+runtime activation, approved policy retrieval orPhase06.

@@ -1,5 +1,10 @@
 # Phase05 continuation after university Charter candidate recovery
 
+**Superseded next action:** the handbook candidate is now delivered. Resume using
+[both-policy/source-span recovery handoff](2026-10-12-phase05-policy-candidates-handoff.md)
+and current checkpoint. The handbook-run instructions below are historical; do
+not repeat conversion or setup merely to resume.
+
 Verified code:`c061238`(retention/hierarchy increment`ab4a6ec`, pre-run checkpoint
 `5940d93`). Final suite4926passed/107subtests,6skips/6warnings362.06s; ledger19pass.
 70file evidence manifest`c3dc18e7693f392e357e6a1fe705b7cb5d9fb2e7ef844cfee2c1e1bd282bd779`.
