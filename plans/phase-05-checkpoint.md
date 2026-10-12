@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 51
+sequence: 52
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 2b11c5d
-working_tree: clean after following source delivery/handoff closure commit
-updated_at: 2026-10-12T22:52:00+08:00
+head_commit: 29b2e89
+working_tree: resume documentation increment; clean baseline verified at 29b2e89
+updated_at: 2026-10-12T23:36:23+08:00
 ---
 
 # Phase 05 checkpoint
@@ -16,6 +16,23 @@ updated_at: 2026-10-12T22:52:00+08:00
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resumed from clean Git HEAD `29b2e89`, reconciling the stale code-only checkpoint
+pointer. Read AGENTS, both handoff skills, INDEX, active plan/checkpoint, Phase04
+corrective handoff and latest policy-candidates continuation. Context thesis
+physical pages36/55/68 and routing PNG consulted; master sections6/7/10 agree:
+institutional retrieval preparation precedes later executable reasoning, and
+private uploads remain separate. GitHub MCP still shows remote dev `10bfd6f`.
+
+Saved-raw diagnosis: all1546 invalid-range refusals are single-provenance list
+items with `orig == marker + " " + text` and exact `[0, len(orig)]` bounds.
+Installed Docling list-marker postprocessing strips `text` while retaining
+`orig` and provenance. Context7 queried; installed version source confirms the
+specific transformation. Next implement a guarded original-text selection under
+synthetic RED/GREEN; do not remap or invent ranges. Other10 gap refusals remain.
+Original grading pages46/355 visually rechecked: page46 has erroneous table-cell
+associations, page355 overlapping text boxes; scope/content approval still pending.
+No product changes yet; sealed evidence must be verified before replay.
 
 Owner authorized the next bounded task: whole394page Student Handbook candidate
 ingestion. Clean baseline d58b830; fresh snapshot matches original4c9a95bf...351c8
