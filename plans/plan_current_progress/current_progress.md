@@ -233,3 +233,7 @@ Ruling: retain plan status in_progress with blocked checkpoint/handoff; phase_st
 ## Phase05 owner resume: source-backed development practice exam
 
 Owner requests continued Phase05 TDD and a small dev practice exam with correct answers/correct source. Clean73934a3 recovered; stale checkpoint pointer repaired. Existing original BSCS prospectuses locally available despite historical E: drive absence. Both originals visually inspected via native Windows PDF rendering, no package installs. Chosen bounded12-question candidate exam includes en/tl/Taglish, direct rows, cross-edition differences, missing curriculum clarification and unsupported/wrong-program controls. Real gold institutional passages/answers and generated reports remain external; only reusable checker/grader, synthetic tests and plans committed. Formal approved-development/model gates unchanged. Next: focused RED tests, checker/grader GREEN, external packet/source hash validation and regressions.
+
+### Source-bound practice exam checker/grader verified
+
+12 TDD unittest tests pass after missing-module RED and focused citation primitive RED. Checker verifies original bytes and gold locator metadata; grader separates fixed-answer/control/source agreement, rejects wrong editions/citations and counts missing responses as failures. It does not approve sources, perform model inference or claim a replay as a benchmark. Both BSCS original PDF byte hashes and standing/practicum crops checked externally; no source changes. Next: readable question/key CLI and external real-source12-case packet.

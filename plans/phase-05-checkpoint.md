@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 8
+sequence: 9
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 73934a3
+head_commit: f7534c8
 working_tree: dirty
 updated_at: 2026-10-12T13:15:50+08:00
 ---
@@ -88,3 +88,7 @@ Ruling: retain plan status in_progress with blocked checkpoint/handoff; phase_st
 ## Owner-resumed practice exam
 
 Git clean73934a3; checkpoint prior implementation pointer repaired before new work. E: historical dataset drive unavailable. Original ignored BSCS2018-2019 and proposed2025-2026 PDFs exist in local dataset; both one-page originals rendered with native Windows.Data.Pdf (no install/download) and visually inspected. New sheet explicitly says proposed, so answers describe printed candidate source only. Source-derived exam/answers/passages/PNG/reports remain outside Git under audit-evidence/p05-dev-exam-20261012. Committed tests use invented synthetic evidence. No source/rule authorization, deployment or phase advancement.
+
+## Practice-exam Task1 verified
+
+TDD observed missing-module RED;12 checker/grader unittest tests now pass0.044s (actual timing in tool output governs). Additional primitive-citation RED reproduced two page bool/float false matches and an unhashable locator crash; exact citation primitives now fail grading instead. Checks cover original byte mutation/path escape, gold source/page/locator/excerpt hashes/bboxes, final-split/approval refusal, fixed-answer agreement, source/control axes, missing responses and both editions for comparisons. Actual original hashes: new600cb36b362cff598d84c66a11598b07593c0e74e78a62658b3c61c89f5d5664; oldc781052fc7242ba520410910f171379721e9bfd0c695b2f0094a3e3981641e4d. Native renders/crops visually checked; printed vs physical page recorded externally. Next: CLI/render TDD and external12-question packet/key.
