@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 47
+sequence: 48
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d58b830
+head_commit: 7fe2f07
 working_tree: checkpoint/current progress and handbook recovery record documentation
-updated_at: 2026-10-12T22:10:00+08:00
+updated_at: 2026-10-12T22:23:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -23,6 +23,13 @@ and existing pending contract. All45dataset entries unchanged. Existing offline
 environment/assets retained; checkpoint before long conversion. Image-only cover
 is retained as a review gap, not silently OCRed. Charter427candidate chunks and
 3table rejections preserved; no activation, embeddings/rankings orPhase06.
+
+Whole-source conversion active since22:16+08:00, durable status/logs external.
+24original pages rendered; sparse native-text pages include images/dividers and
+blank bodies. Physical31–34requirements/waiver clauses and46/47/144/355grade
+contexts inspected. Original timing wording on47needs interpretation; preserve
+source conflict and distinguish undergraduate/graduate/laboratory/law sections.
+No new product code or candidate completion yet.
 
 ## Repository State
 
@@ -380,3 +387,17 @@ contract, whole original and durable execution status. No new product code/tests
 dependencies, model copy/download, database writes or prospectus review. Context
 thesis36/55/68/routingPNG consulted; institutional policy versus private/symbolic
 boundaries unchanged. Commit checkpoint before long single-source operation.
+
+## Handbook original-page inspection during whole conversion
+
+Pre-run checkpoint7fe2f07committed. Whole394page pipeline currently running with
+existing pending identity, native-text/OCRoff settings and offlineassets. Rendered
+24original pages into new ignored evidence, sourcehashverified. Sparse original15
+is campusmap image;17organizationchart image;25illustrated BookIdivider;16heading
+withblankbody;80/119blankbody/furniture. No blanket OCR/contentcoverage inference.
+Physical31waiver requires qualifyingconditions;32/33distinct applicant lists;
+34cross-enrollment negative/9unit conditions;46undergraduate/lawtable versus144LES
+and355graduategrade contexts. Physical47contains succeeding-term/one-year timing
+wording and needs source-owner interpretation; no precedence inferred. All notes
+are agentreview, not approved answers or executable rules. Rawconversion not complete;
+continue waiting for final manifests/report before any ingestion-success claim.

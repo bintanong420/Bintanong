@@ -45,3 +45,16 @@ Whole-source run: **NOT RUN** at this pre-conversion checkpoint. Next command:
 approvedPython`-B -u <evidence>/run_handbook.py run`, separate external logs.
 Then check complete manifests, page/item/table accounting, raw retained rejections,
 source invariance and sampled critical original spans before committing results.
+
+## Whole run active and original inspection
+
+Pre-conversion checkpoint`7fe2f07`. Actual run began22:16:02+08:00with status/logs
+in new evidence root; no candidate completion yet.24original pages rendered and
+selected requirements/grade contexts visually inspected. Sparse-page samples
+include map/organization-chart images, illustrated divider and blank bodies; the
+presence of header text cannot establish body coverage. Physical31waiver conditions,
+32/33distinct admission checklists and34negative/numeric cross-enrollment clauses
+need preservation. Physical46/144/355have different grading contexts; no universal
+undergraduate rule inferred. Physical47has succeeding-term/one-year timing wording
+for source-owner interpretation. Notes remain ignored/agentreview/pending; no
+approved gold answers, content rewrite or rules. Preserve sealed Charter evidence.
