@@ -186,7 +186,7 @@ def _located_text(item: Mapping[str, Any]) -> str:
     provs = item.get("prov", [])
     # Docling list postprocessing removes the marker from text while retaining
     # provenance over orig. Preserve that exact original, without remapping spans.
-    if (item["label"] == "list_item" and isinstance(orig, str)
+    if (item["label"] == "list_item" and text.strip() and isinstance(orig, str)
             and isinstance(marker, str) and marker.strip()
             and orig == marker + " " + text and len(provs) == 1
             and isinstance(provs[0], Mapping)):

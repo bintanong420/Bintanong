@@ -282,3 +282,9 @@ remain historical evidence; consumers rederive candidates, so regenerate into a
 new directory with this reader. Charter raw interpretations are unchanged.
 Source review/authority and grading geometry remain separate pending gates.
 Evidence: `plans/2026-10-12-handbook-list-provenance-recovery.md`.
+
+Procedure label recognition also uses marker-free raw text, while field text keeps
+the original marker prefix on its first line. This preserves fees, office,
+requirements and processing-time candidates after original-list recovery.
+An empty marker-free body remains an omission; a list marker alone cannot create
+a policy clause. Both interactions have synthetic failing regressions before fixes.

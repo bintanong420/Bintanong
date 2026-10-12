@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 13 October 2026:** Guarded list-provenance reader fix and exception attachment verified RED/GREEN; final120focused tests pass17.70s. Broader ingestion215passed/3skipped52.05s before exception increment; initial missing asset-env failure resolved with existing offline workspace paths.45dataset originals and63handbook/70Charter sealed files unchanged. Next: commit focused repair, full suite and saved-raw replay into new candidate directory.10 incomplete ranges and critical grading review remain pending; Phase05 exit blocked. Recovery record: plans/2026-10-12-handbook-list-provenance-recovery.md. Owner asks GPT-6.1 Sol agent use, not model re-execution.
+**Current numbered-phase status, 13 October 2026:** Saved-byte candidate checked:4272handbook chunks,1546new original list items,10retained text/18table refusals.45originals/63handbook/70Charter sealed files and2726prior chunks unchanged. ba6752f full4947tests/107subtests pass463.12s; ledger19pass. ReviewerP2procedure-label regression and marker-only empty-content case fixed RED/GREEN;16correction tests pass0.69s. Next: commit correction, full final-code gate and final handoff.26grade rows have separate original-backed human-pending readings; grading/source approvals and Phase05 formal exit remain open.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 

@@ -90,6 +90,36 @@ def test_no_printed_fee_means_no_fee_candidate(bound):
     assert result.fields == ()
 
 
+@pytest.mark.parametrize("text,kind", [
+    ("Fees: 25 pesos", "fees"), ("Office: Registrar", "office"),
+    ("Requirements: valid ID", "requirements"), ("Processing time: 3 days", "processing_time")
+])
+def test_recovered_bullet_original_keeps_procedure_field_recognition(bound, text, kind):
+    _, capture = bound
+    _, version = capture()
+    bullet = item(text, label="list_item")
+    bullet.update(marker="•", enumerated=False, orig="• " + text)
+    bullet["prov"][0]["charspan"] = [0, len(bullet["orig"])]
+    raw = raw_document([bullet], pages=1)
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version)
+    assert [(field.kind, field.raw_text) for field in result.fields] == [(kind, "• " + text)]
+    assert result.pdf.units[0].spans[0].text == "• " + text
+    assert raw == before
+
+
+def test_recovered_bullet_multiline_fields_keep_original_line_text(bound):
+    _, capture = bound
+    _, version = capture()
+    bullet = item("Fees: 25 pesos\nOffice: Registrar", label="list_item")
+    bullet.update(marker="•", enumerated=False, orig="• Fees: 25 pesos\nOffice: Registrar")
+    bullet["prov"][0]["charspan"] = [0, len(bullet["orig"])]
+    result = module().read_procedure_items(raw_document([bullet], pages=1), version)
+    assert [(field.kind, field.raw_text) for field in result.fields] == [
+        ("fees", "• Fees: 25 pesos\n"), ("office", "Office: Registrar")
+    ]
+
+
 @pytest.mark.parametrize("source_format", ["pdf", "pptx"])
 def test_explicit_numbered_markers_kept_without_rewriting_text(bound, source_format):
     _, capture = bound

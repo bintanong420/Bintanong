@@ -180,7 +180,11 @@ def _fields(items: Sequence[Any], texts: list[Mapping[str, Any]]) -> tuple[Proce
         if raw.get("enumerated") is True and isinstance(marker, str) and marker.strip():
             fields.append(ProcedureField(item.item_id, "step", item.source_text, marker))
             continue
-        for line in item.source_text.splitlines(keepends=True):
+        # Recognize labels without the list marker; retain the original prefix
+        # in field text when the shared reader recovered that exact original.
+        prefix = (marker + " " if isinstance(marker, str)
+                  and item.source_text == marker + " " + raw["text"] else "")
+        for index, line in enumerate(raw["text"].splitlines(keepends=True)):
             match = re.match(printed, line, re.I)
             if re.match(r"\s*\d+[.)]\s+\S", line):
                 kind = "step"
@@ -190,7 +194,7 @@ def _fields(items: Sequence[Any], texts: list[Mapping[str, Any]]) -> tuple[Proce
                             " ".join(match[1].lower().split())]
             else:
                 continue
-            fields.append(ProcedureField(item.item_id, kind, line))
+            fields.append(ProcedureField(item.item_id, kind, prefix + line if index == 0 else line))
     return tuple(fields)
 
 

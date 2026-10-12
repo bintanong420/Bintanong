@@ -362,6 +362,16 @@ def test_original_list_marker_keeps_exception_attached_to_clause(bound):
     assert result.units[1].exception_to == "text-0"
 
 
+def test_original_list_marker_does_not_turn_empty_content_into_clause(bound):
+    _, _, version = bound
+    empty = item("", label="list_item")
+    empty.update(marker="•", orig="• ")
+    empty["prov"][0]["charspan"] = [0, 2]
+    result = policy_text.read_policy_items(raw_document([empty], pages=1), version)
+    assert result.units == ()
+    assert result.item_omissions[0].reason == "empty_text_item"
+
+
 def test_real_loader_with_stub_docling_uses_stage_and_never_relaunches(bound, tmp_path, monkeypatch):
     from backend.bintanong_tools.prospectus_extractor import docling_env
     root, snap, version = bound

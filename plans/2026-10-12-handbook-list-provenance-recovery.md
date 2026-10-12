@@ -58,3 +58,19 @@ institutional approval, runtime activation or Phase06 work is authorized here.
   no tests; actual repository paths were used afterward.
 - Next: full product verification, fresh saved-byte candidate replay, read-only
   bounded review and updated source findings. Existing bundles stay immutable.
+- Candidate replay `ba6752f`:4272chunks,4154covered/10rejected/1567omitted text,
+  115emitted/18rejected tables;401.998s. New bundle independently checked;2726old
+  chunks are identical and1546original list items are newly covered.45original
+  entries and63+70sealed files unchanged; Charter427chunks still validates.
+- Full `ba6752f` gate:4947pytest/107subtests pass463.12s,6skips/6warnings; phase
+  ledger19passes16.330s.26original grade rows checked with native character geometry.
+  Remaining10refusals have whitespace gaps; retain unchanged strict refusal.
+- Independent GPT-6.1 Sol review:120focused tests pass18.92s. OneP2 procedure-field
+  recognition regression reproduced5RED cases0.73s and fixed;156related tests/
+  1skip passed24.12s. Marker-only empty content also reproduced RED0.51s and
+  omitted under a nonempty-content guard.16final correction regressions pass0.69s.
+- Final: fixed procedure labels and marker-only phantom clauses; final full-code
+  gate still pending. Reviewer exclusions: source accuracy/grading, authority/
+  activation/retrieval and executor's full replay evidence require separate gates.
+  They remain explicitly pending or independently verified by the executor;
+  withholding these claims costs no authority promotion. No minor findings.

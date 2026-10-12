@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 53
+sequence: 55
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 2b80d4d
-working_tree: verified reader/tests/decision documentation increment, explicit staging pending
-updated_at: 2026-10-13T00:13:06+08:00
+head_commit: ba6752f
+working_tree: reviewer correction/tests and verification documentation pending explicit commit
+updated_at: 2026-10-13T00:57:25+08:00
 ---
 
 # Phase 05 checkpoint
@@ -16,6 +16,28 @@ updated_at: 2026-10-13T00:13:06+08:00
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Full ba6752f run passed4947tests/107subtests,6skips/6warnings463.12s; ledger19tests
+passed16.330s. Saved-byte replay succeeded401.998s:4272chunks,4154covered/10rejected/
+1567omitted text,115emitted/18rejected tables. Independent verifier confirms all
+2726previous chunks identical,1546exact original list items added,45originals and
+all63+70sealed files unchanged; Charter still loads427chunks. Remaining10span
+gaps are whitespace separators; retain strict refusal rather than invent bounds.
+
+GPT-6.1 Sol review found oneP2: preserved bullet prefixes hid procedure labels.
+5synthetic field regressions RED0.73s, correction keeps recognition marker-free
+and emitted field/citation text original; related156tests/1skip pass24.12s.
+Additional marker-only empty-content regression RED0.51s; guard preserves omission.
+Final16targeted corrections tests pass0.69s. Next commit fixes, full final-code
+suite and independent final bundle check. Prior full-run result predates these
+final corrections; no final-code broad pass claimed yet.
+
+Verified reader increment committed `ba6752f`. Full product suite and exact
+retained-byte candidate replay now running in external evidence; completion
+results pending. Read-only GPT-6.1 Sol reviewer checking the bounded code change.
+Independent original grading review26rows on physical46/355 verified native PDF
+text and character geometry, with separate candidate-only/human-pending ledger.
+No existing bundle edited; graduate/undergraduate readings kept distinct.
 
 List provenance repair implemented under TDD:3 positive RED failures/6 guard
 passes0.79s; exact full original list ranges preserved without raw mutation.
