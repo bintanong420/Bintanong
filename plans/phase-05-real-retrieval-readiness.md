@@ -1,6 +1,6 @@
 # Phase 05 real retrieval readiness — 12 October 2026
 
-Current status: approved dependencies/Docling assets are installed; all39 originals have validated candidate bundles,336 real document vectors and27 query diagnostics.33 audits fail; only3 exam cases have same-byte emitted chunks. Post-fix full suite4906passed/107subtests/6skips; independent review clear. Phase05 remains blocked on extraction/field/source approval and approved runtime retrieval. Historical preparation/proposals below are preserved; the latest execution section governs current status.
+Current status: the resumed TDD repair removes duplicate projections of one source course. A fresh Financial Management bundle has 49 courses, 146 units and 54 candidate chunks; the latest source mix has 32 audit errors, seven warnings and 390 chunks. The prior 336-vector/27-query diagnostics remain preserved; only three exam cases have same-byte chunks. Final-code whole-suite verification passes: 4912 tests and 107 subtests; all 54 new chunks have verified real embeddings. Owner review materials are ready in the workspace. Phase 05 remains blocked on extraction/field/source approval and approved runtime retrieval. Historical preparation/proposals below are preserved; the latest execution section governs current status.
 
 ## Completed preparation
 
@@ -128,3 +128,104 @@ Post-fix command: approved venv/Scripts/python.exe -B -m pytest -q -p no:cachepr
 Raw evidence in readiness root: original-ingestion-summary/results/first-pass; both retry logs/results; actual-docling-region-mapping/review; real-candidate-document-embeddings.jsonl; real-candidate-cosine-report/observations; RED/GREEN and full-suite logs. real-run-artifact-manifest.json seals64 evidence files, SHA-256189c5362314725494a80bb70372025f28da3daef13e397245832acbc8f51493f. Existing dataset and both exam packets unchanged.
 
 Next: repair/review failed extraction and unresolved geometry, independently confirm source/field/applicability labels, then approved-release retrieval/calibration and reviewed shared Supabase migration application. Migration remains unapplied to shared/hosted databases. Phase05 Tasks4/6 remain open; no Phase06 advancement.
+
+## Resumed TDD extraction recovery — 12 October 2026
+
+The owner requested continuation after an account change and explicit TDD/skill
+requirements in `AGENTS.md`, committed at `670d948`. Git was clean at the preceding
+`75457b2`; existing package/model/Docling setup and prior execution were retained.
+
+Saved Financial Management cells project one course across several grid rows,
+with separate prerequisite cells. The previous text comparison emitted two
+six-unit courses and also collapsed separate identical-text source rows. The
+original PDF's physical page 1 was rendered and visually checked: it contains one
+six-unit placement, with the full program total printed as 146. The parser now
+uses matching code/title/unit cell identities to continue that source row and
+preserves newly encountered prerequisite evidence once. Missing fields stay
+missing; different cell identities remain separate courses. See the
+[decision record](../docs/decisions/prospectus-spanning-course-identity.md).
+
+Five tracked synthetic regressions cover split/repeated prerequisites, separate
+same-text rows, and missing titles. Observed RED exposed duplicate projections,
+incorrect deduplication of separate cells, and a missing-title edge case found
+during the first corpus comparison. Focused final verification: 50 tests and 13
+subtests passed in 3.60s. Independent final review found no actionable issues;
+151 chunk/binding/parser checks and 13 subtests passed in 18.08s. The reviewer's
+initial six fixture errors were an absent external temporary parent, resolved by
+creating it; they were not product failures.
+
+The final comparison loads all 39 saved conversions with verified source hashes,
+conversion metadata and bundle manifests, then runs the previous and current
+parser on the same captured evidence. Only Financial Management changes: 50 to
+49 courses, 152 to 146 units, audit `error` to `warn`. The other 38 course
+collections and audit outcomes are unchanged. No original PDF, historical bundle
+or gold packet was changed. All 64 files in the previous sealed execution
+manifest were rehashed and remain unchanged.
+
+Only that repaired source was freshly reconverted, into a separate directory:
+
+```text
+C:/Coding-projects/bintanong_workspace/audit-evidence/p05-extraction-recovery-20261012/
+  repaired-ingestion/176cbbd07bcec16a9037b610636546c032fc66ac2aa24536e163632988625141/
+```
+
+The existing ingestion API and bundle loader verify nested manifests, source
+identity, pending register, span/chunk bindings and the complete report. The
+56.823s run emits 54 chunks from 58 candidates, with four binding rejections and
+five extractor rejections. Its audit remains `warn`; source verification,
+content/applicability review and authority remain pending. The raw prerequisite
+retains Docling's displaced ordinal fragment; merging cells does not correct or
+approve their text.
+
+Strict offline SEA-LION encodes those 54 new chunks in 71.438s, with exact token
+counts within 512, finite normalized 1024-dimensional vectors, matching pinned
+configuration and zero refusals/truncations. Existing weights remain in MODELS.
+The prior 336 document vectors and 27-query diagnostics were preserved rather
+than recomputed. The latest candidate mix has 390 chunks/vectors, 32 audit-error
+sources and seven warnings. This is an execution result, not retrieval accuracy
+or runtime-release evidence. The repaired source is outside the exam's ten
+selected originals, so same-byte exam coverage remains three of 27 cases.
+
+Final-code full-suite verification: **4912 passed, 107 subtests passed, six
+skipped, six warnings, 371.98s, exit 0**. Separate phase-ledger verification:
+19 unittest tests passed in 10.561s. Skips include unavailable Windows symlink
+privileges; warnings include existing GPU mark and upstream deprecations. The
+earlier 4910-pass/107-subtest run in 423.22s began before the fifth test and final
+correction and is historical. The final command uses the existing approved Python 3.13 venv,
+`-B -m pytest tests -q -p no:cacheprovider --basetemp <recovery>/full-pytest-final-temp`,
+the previously approved offline artifact environment, and workspace TEMP/TMP.
+Raw results are `full-pytest-final.log` and `full-pytest-final.exit`.
+
+The recovery directory contains RED/GREEN logs, both cached comparisons, the new
+bundle and embedding records, and `remaining-extraction-review.csv` with 39
+pending review rows. The earlier source/answer review sheet remains pending; the
+owner confirmed that this review has not been performed and requested guidance. No new dependency,
+model download, shared migration, release activation, LLM answer or score was
+created. Continue the remaining extraction/field/source review before approved
+retrieval calibration; Phase 05 stays active and Phase 06 remains disallowed.
+
+### Owner review materials and current recovery pointer
+
+Verified parser/test/decision commit: `280a287`; TDD repository instructions:
+`670d948`. Recovery artifact manifest seals 41 files; SHA-256
+`528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf`.
+Working-code SHA-256 for `sections.py`:
+`1f0cd8f20ceb3d34d106e65d3eecb07ca052fcb0294e38c3305305dddb494df4`.
+Pinned environment/model assets are unchanged from the earlier execution.
+
+[Start the owner review](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md>)
+and record decisions in [the editable question sheet](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/REVIEW-DECISIONS.md>).
+The folder also contains ten byte-identical source PDFs, twelve full-page images,
+questions, a reference key with local PDF links, and a separate source-authority
+sheet. All labels remain pending. Independent reader QA verifies all 27 cases,
+PDF hashes, image renders and 76 internal links; this is packaging QA, not the
+owner or institutional review. One packaging finding was corrected by localizing
+the reference-key links; the earlier answer key remains unchanged.
+
+Next: the owner reviews one college at a time, recording `accept`, `correct`, or
+`unclear` for printed answers and scope. Independently confirm source authority
+and applicability with supporting records when available. Remaining extraction
+repairs include the BSCS standing-fragment ownership and other failed audits;
+reuse saved conversions and retain ambiguous fields pending. Approved runtime
+retrieval/calibration remains NOT RUN, shared migration remains unapplied, and
+Phase 06 remains disallowed.

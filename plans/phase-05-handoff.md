@@ -3,16 +3,17 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 86c2720
+final_commit: 280a287
 recovery_condition: Repair and review failed curriculum extraction and unresolved field geometry, independently approve applicable source-backed development labels, then pass approved-release matching retrieval/calibration and master section10; actual39-source ingestion/336realvectors alone do not authorize advancement.
-completed_at: 2026-10-12T18:33:08+08:00
+completed_at: 2026-10-12T19:29:02+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
 
 **Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
 
-Latest recovery: approved five Docling assets downloaded/verified;39 originals converted to validated pending bundles after two serialization retries.33audit errors/6warnings/336chunks. Actual mapping129spans near27/28regions, only3chunk-linked regions. Strict real model336document vectors/27query diagnostics verified; only3cases have same-byte emitted chunks. New minimal86c2720 term-index repair preserves unknown placement/full courses and audit gates, two RED/GREEN tests. Post-fix fullsuite4906passed/107subtests/6skip/6warnings571.49s; independent final review noP1/P2, sampled vector replays exact. Source/field/answer approval and actual authorized runtime retrieval remain open; no shared migration or corpus activation. Exact evidence/cohort limits/digests in [real execution report](phase-05-real-retrieval-readiness.md);64-file raw manifest189c5362314725494a80bb70372025f28da3daef13e397245832acbc8f51493f. Earlier entries below remain historical.
+Latest recovery: Phase05 resumed TDD repair280a287 verified. Latest39-source mix32audit errors/7warnings/390chunks/vectors; onlyFinancial Management changes,38saved source results unchanged. Final4912tests/107subtests pass371.98s;19ledger tests pass. Source/field/answer/applicability review and approved runtime calibration remain pending. Owner review guide/27-case decision sheets/10original PDFs/12page images prepared under workspace; all decisions pending. No shared activation or Phase06. Exact source/model/evidence/ownerkit paths and fresh limits in [readiness report](phase-05-real-retrieval-readiness.md). Historical execution notes below preserved.
+
 
 ## Delivered behavior
 
@@ -119,3 +120,11 @@ Readiness preparation at plans/phase-05-real-retrieval-readiness.md records39 li
 Owner explicitly approved pinned packages; isolated workspace Python3.13 environment installed/pipcheckclean and allresolved versions recorded. No repo dependency/lock changes. Strict SEA-LION weights/tokenizer/prompt gates and actual27query + one original-text documentprobe execute offline with1024normalized dimensions/512context; no retrievalqualityclaim. PDFium39 originals/43pages/28 actualglyphregions bound to pendingSourceSpan contracts, productionDocling cells notinvented. Fullsuite first7failures diagnosed; verified66bce2a legacybootstrapping/publicTypertest/platformcapability corrections. Fresh rerun4902passed/107subtests/6skip/2fail405.12s; only realDoclingtests missingassets. No P1/P2 freshreview; exact evidence/logs/limits in readiness report.
 
 Immediate recovery replaces missingencoder-dependency blocker: five pinnedDocling layout/accuratetable files384.43MB proposed, notdownloaded orauthorized. Owner's direct all-task-artifacts-within-workspace instruction controls the proposed newDocling HFcache location; existingSEA/GEMMA assets remainMODELS unchanged. Obtain exact downloadauthorization/existingassetpath, run realconverter/cellmapping andtwofailedtests, then institution/domainreview and actualruntime retrieval. Defaultpolicyuncalibrated, sharedcorpusinactive, noPhase06. Do not askforpackagepermissionagain or reruncompleted setup.
+
+## Resumed TDD repair and guided owner review
+
+Phase05 resumed TDD repair280a287 verified. Latest39-source mix32audit errors/7warnings/390chunks/vectors; onlyFinancial Management changes,38saved source results unchanged. Final4912tests/107subtests pass371.98s;19ledger tests pass. Source/field/answer/applicability review and approved runtime calibration remain pending. Owner review guide/27-case decision sheets/10original PDFs/12page images prepared under workspace; all decisions pending. No shared activation or Phase06.
+
+Rawrecoveryevidence C:/Coding-projects/bintanong_workspace/audit-evidence/p05-extraction-recovery-20261012;41-file manifest528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf. Previous64sealed files unchanged. TargetedFinancial Management bundle54chunks/49courses/146units verifies56.823s;54newembeddings verify71.438s; prior336/27querydiagnostics unchanged. Full4912/107subtests passing with6skips/6warnings isexecutionverification, notinstitutionalaccuracy. Formalrecoverycondition unchanged.
+
+Ownerconfirmed no reviewyet. Start C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md; editable27case decisions/source-authority sheet,10originals/12images,alllabelspending. IndependentreaderQAclearafterlocalizingkeylinks. Next: ownerprintedanswer/scope decisions,independentauthority/applicability records,remainingextraction/fieldreview,thenapproved-runtime calibration. NoPhase06or sharedactivation.

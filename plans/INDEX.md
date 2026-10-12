@@ -13,7 +13,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Next permitted phase: `5` (active); Phase 06 requires a complete Phase 05 final handoff
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
 - Phase05 latest candidate delivery: [27-question balanced college practice exam](phase-05-practice-exam-report.md), code `317bf54`; nine colleges, three cases each; original12-case version preserved. Source/answer approval and real retrieval scoring pending.
-- Real retrieval status: [actual original-corpus/model execution](phase-05-real-retrieval-readiness.md);39 verified bundles,33audit errors/6warnings/336chunks,336real document vectors/27query diagnostics. Actual spans near27/28regions,3chunk-linked regions.4906tests/107subtests pass; independent final review clear. Only3exam cases have emitted chunks; source/field review and approved runtime scoring remain open.
+- Real retrieval status: [execution and resumed TDD recovery](phase-05-real-retrieval-readiness.md); latest39-source mix32errors/7warnings/390chunks and real document vectors. Code280a287,4912tests/107subtests pass; only3exam cases have same-byte chunks. Source/field/applicability review and approved runtime scoring remain open.
+- Owner review: [start-here guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md>),27editable case decisions,10original PDFs/12page images; owner confirms review has not occurred, all approvals pending.
 - Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
 
 ## Parallel prospectus workstream

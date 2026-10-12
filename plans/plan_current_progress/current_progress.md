@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase05 candidate retrieval/27-question nine-college exam delivered.39original bundles verified;33audit errors/6warnings/336chunks.336real document vectors/27query diagnostics and actual spans near27/28targets verified, but only3cases have emitted chunks. Minimal86c2720 missing-term serialization repair has RED/GREEN tests; final4906tests/107subtests pass, reviewer clear. Formal exit blocked on extraction/field/source review and approved runtime retrieval/calibration. Assets/environment authorized and complete; no shared migration/activation/Phase06. Active checkpoint/handoff govern recovery; history below preserved.
+**Current numbered-phase status, 12 October 2026:** Phase05 resumed TDD repair280a287 verified. Latest39-source mix32audit errors/7warnings/390chunks/vectors; onlyFinancial Management changes,38saved source results unchanged. Final4912tests/107subtests pass371.98s;19ledger tests pass. Source/field/answer/applicability review and approved runtime calibration remain pending. Owner review guide/27-case decision sheets/10original PDFs/12page images prepared under workspace; all decisions pending. No shared activation or Phase06.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -309,3 +309,7 @@ Verified new candidate Financial Management bundle49courses/146units/54chunks,56
 ### Finalcode verification / requested owner guidance
 
 Finalpytest4912pass/107subtests/6skip/6warnings371.98s,exit0; phaseledger19pass10.561s. New54realvectors verified71.438s and independently QAchecked; existing64sealed evidencefiles unchanged. Owner has not reviewed sources and requests guidance/workspacefolder. Created audit-evidence/phase-05-owner-review-20261012 with START-HERE,27editablecase decisions,10sourceauthority decisions,10hashmatchingPDFs/12pageimages and preserved examcopies. All labels remainpending; readerQA/documentclosure next. Verified parser/test/decision commit follows.
+
+### Resumed verified closure and owner review
+
+Instructions670d948;parser/test/decision280a287. Full4912tests/107subtests/6skip/6warningpass371.98s;phaseledger19pass10.561s. Current mix32errors/7warnings/390chunks/vectors,still3examcaseswithmatchingchunks. Ownerreviewkit at C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012 fullychecked27cases/10PDFs/12pageimages/76links; all labels pending. Ownerhasnotreviewedyet. Start START-HERE.md,edit REVIEW-DECISIONS.md andSOURCE-AUTHORITY.md; thenreconcile actualdecisions andcontinuefailed extraction/fieldreview beforeapprovedruntime calibration.41-file recoverymanifest528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf. Documentarycommitfollows; noPhase06/sharedchanges.

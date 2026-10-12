@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 33
+sequence: 34
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 670d948
+head_commit: 280a287
 working_tree: dirty
-updated_at: 2026-10-12T19:25:47+08:00
+updated_at: 2026-10-12T19:29:02+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,17 +17,15 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Resume of Phase05 at670d948: synthetic RED/GREEN cell-identity continuation repair now passes50focusedtests/13subtests. Final cached39-source differential changes only Financial Management; other38 course collections/audits unchanged, alloriginal hashes unchanged. One source targeted original-PDF regeneration running into a separate recovery directory; prior sealed outputs preserved. Fullsuite first run predates the missing-title edge-case correction and cannot alone verify finalcode; rerun required. Final independent review update pending. Source/applicability/field review and approved runtime calibration remain open.
+Phase05 resumed TDD repair280a287 verified. Latest39-source mix32audit errors/7warnings/390chunks/vectors; onlyFinancial Management changes,38saved source results unchanged. Final4912tests/107subtests pass371.98s;19ledger tests pass. Source/field/answer/applicability review and approved runtime calibration remain pending. Owner review guide/27-case decision sheets/10original PDFs/12page images prepared under workspace; all decisions pending. No shared activation or Phase06.
 
 ## Repository State
 
-Isolated worktree p05, branch feat/p05-retrieval-logic, base10bfd6f. Verified latest production repair86c2720; current documentary baseline1eeb21a. Closure changes INDEX, checkpoint, handoff, retrieval plan, readiness report, dataset guide and current progress only. Following documentation commit is identified by Git rather than a self-referential SHA; expected clean after explicit staging. No owner changes overwritten, no push/merge/deployment or private artifacts staged.
+Isolatedp05 onfeat/p05-retrieval-logic,base10bfd6f. Instructions670d948 and verified parser/test/decision280a287 committed. Current documentary closure modifies INDEX,checkpoint,handoff,readiness,retrievalplan,datasetguide andcurrentprogress only; following documentary HEAD is discovered fromGit. Expected clean after explicit staging. Private evidence and owner review kit stay under workspace/audit-evidence,untracked. No push/merge/shared migration/activation.
 
 ## Verification Evidence
 
-Latest closure: post-fix4906pytest checks/107subtests pass571.49s,6skips/6upstream warnings. Final phase-ledger19unittest tests pass11.657s,exit0; actual ledger valid,clean atb3f2149,Phase05 active/blocked and cannot advance. Only checkpoint/current progress change in this final verification note; following documentary SHA is obtained from Git.
-
-Final suites: retrieval29 passed24.814s; storage31 passed76.097s; embedding12 passed0.108s; phase-state19 passed9.579s; all exit0. Fresh reviewer: no remaining P1/P2. Hosted security baseline zero lints. Local shared releases/pointers/test databases zero. CLI help/empty runtime smoke verified. Ledger validate/can-advance run after blocked-handoff creation; Phase06 must remain disallowed. Full commands/raw evidence/limits in handoff.
+Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledgerunittest pass10.561s. Focused50/13subtests pass3.60s; independent151chunk/binding/parser checks/13subtests pass18.08s. Same-input39source cached differential changesonlyFinancial Management,originalhashesunchanged. Oneoriginal regeneration56.823s emits54chunks; strict54newembeddings71.438s,tokens78..337,normdeviation<=1.11e-7; independentartifactQAclear. Allprior64sealed filesunchanged; new41-file seal528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf. Ownerkit27cases/10PDFs/12images/76links verified,allreviewdecisionpending.
 
 ## Versions and Digests
 
@@ -45,11 +43,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
-33failed extraction audits emit0chunks; only3/27exam cases have same-byte candidate chunks.27/28regions have candidate geometry, not reviewed field ownership; one region has no matching geometry. No independently approved institutional source/applicability/answer labels or approved-release runtime replay. Five historical failed-audit bundles retain pre-fix null-term projections and must be regenerated with later extraction repairs; they emit0chunks. Model assets, dependencies, real vector execution and full tests are verified, not current blockers.
+32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
 
-Finish targeted Financial Management candidate regeneration and inspect its complete manifest/binding/audit evidence. Run the fullsuite against finalcode after the missing-title regression correction; obtain fresh reviewer result and commit the cohesive verified fix. Then continue saved-conversion extraction repairs and independent source/field/answer review before approved-release calibration and any reviewed shared migration. Do not repeat installed dependencies/assets, all39 original conversions or prior336-vector diagnostics.
+Owner starts C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md and records onecollege atatime inREVIEW-DECISIONS.md; sourceauthority/applicability evidence inSOURCE-AUTHORITY.md remainspending until established. Reconcile ownerdecisions against exactoriginalbytes andexisting27casekey,withoutautomaticapproval. Continue remainingextraction defects using savedconversions (including BSCSstandingfragment),independentfieldownership beforeaffectedcandidate regeneration. Approved runtime retrieval/calibration and reviewed sharedmigration followonly earnedsource/labelgates. Do not repeat setup,all39conversions,orprior336vectors.
 
 ## Do Not Repeat
 
@@ -176,3 +174,7 @@ Final cached39-source comparison: onechanged/38unchanged,32auditerrors/7warnings
 Finalcode fullsuite4912passed/107subtests/6skipped/6warnings371.98s,exit0. Phaseledger19unittest tests pass10.561s,exit0. New54document vectors verified71.438s,exacttokens78..337,1024normalized dimensions,no truncation/refusals; reviewer validates all54actualchunk/config/content bindings,maximum norm deviation1.11e-7. Prior64sealed files unchanged. Overall candidate mix390chunks/vectors,32error/7warnsources,still3examcases with samebyte chunks. OnlyFinancial Management corpusresult changes; exploratory Marine output archived separately after containment checks.
 
 Owner confirms review notyetperformed and requests a workspace folder plus guidance. Prepared audit-evidence/phase-05-owner-review-20261012/START-HERE.md,27-case editable decision sheet,10-source authority sheet,10byteidentical PDFcopies/12pageimages,question/key/candidateJSONcopies/source manifest. All decisions pending; originaldataset/packets unchanged. Packet reader QA pending. Next: commit verified parser/test/decision increment; finish owner guide QA and phase document closure. Then owner reviews printed answers/scopes and supplies authority evidence as available; remaining extraction work continues from saved conversions without inferring approvals.
+
+## Verified resumed recovery closure
+
+Code280a287 committed; allfinal verification and ownerkitQA above complete. Userasks guided review inworkspacefolder; concretekitdelivered, decisionspending. Following documentationcommit identifiedbyGit; head_commit isverifiedcode ratherthan selfreferentialdocumentSHA. Masterplan preserved,activePhase05 blockedhandoffretained, noPhase06.
