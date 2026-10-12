@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+**Phase 1–2 readiness correction (12 October 2026):** [progress-claims audit](2026-10-12-phase12-progress-claims-audit.md) disputes the historical Phase 2 complete label against unmet real-source exits. Candidate software delivery and later infrastructure status do not establish completed Handbook/Charter ingestion or human-review readiness. Historical handoff metadata is retained pending corrective reconciliation; a valid phase-state structure is not exit-gate proof.
+
 - Master plan: `plans/master_implementation_plan_original_long.md`
 - Active phase: none (Phase 04 corrective exit gate complete)
 - Active plan: none; Phase 05 remains preparation only
