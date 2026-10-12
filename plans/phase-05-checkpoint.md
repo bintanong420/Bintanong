@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 38
+sequence: 39
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 7082d59
-working_tree: dirty
-updated_at: 2026-10-12T20:57:57+08:00
+head_commit: 8f9e922
+working_tree: clean
+updated_at: 2026-10-12T21:06:11+08:00
 ---
 
 # Phase 05 checkpoint
@@ -28,7 +28,12 @@ source governance/ingestion is the next bounded continuation.
 
 ## Repository State
 
-Isolatedp05 onfeat/p05-retrieval-logic,base10bfd6f. Instructions670d948 and verified parser/test/decision280a287 committed. Current documentary closure modifies INDEX,checkpoint,handoff,readiness,retrievalplan,datasetguide andcurrentprogress only; following documentary HEAD is discovered fromGit. Expected clean after explicit staging. Private evidence and owner review kit stay under workspace/audit-evidence,untracked. No push/merge/shared migration/activation.
+Isolatedp05,feat/p05-retrieval-logic. Latest instructions/protection/plan commit
+8f9e922. Current documentary closure changes INDEX,dataset guide,recovery plan,
+next-CLI handoff,checkpoint,current progress,Phase05 blocked handoff/retrievalplan
+and corpus scope note only. Dataset bytes are ignored; no product code or raw
+source files staged. A following documentation HEAD is discovered fromGit.
+No push/merge, model/download/install, database, runtime or activation work.
 
 ## Verification Evidence
 
@@ -54,13 +59,14 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Next Action
 
-Finish plans/dataset-locations.md and the dated next-CLI recovery handoff, verify
-source hashes/Git exclusion/ledger and commit the documentation. The next CLI
-reads Context alongside AGENTS/INDEX/checkpoint/handoff, verifies the two new
-pending policy sources and acquisition metadata, then uses existing policy and
-Charter ingestion in bounded candidate runs. Prospectus review remains deferred
-for Phase06; future college Charters/organization policies remain held aside.
-Do not restart delivered Phase1-4 software or repeat model/environment setup.
+This CLI's organization and handoff work is complete. The next CLI reads
+plans/2026-10-12-phase05-next-cli-handoff.md, Context, AGENTS/INDEX and this
+checkpoint, then verifies organized source hashes and the two pending policy
+contracts. Resume supplemental source governance and existing candidate ingestion
+only when the owner continues implementation. Work one complete document at a
+time with the existing offline environment and recoverable logs/checkpoints.
+Prospectus review and future college/organization sources remain deferred. Do not
+repeat dataset moves, model setup, historical vector runs or closed software phases.
 
 ## Do Not Repeat
 
@@ -246,3 +252,27 @@ record current policy focus. External organization summary verifies42original
 files preserved, only2moves,40unchanged prospectus-tree files,2pending contracts,
 511policy pages. New plan records source support exists but whole-policy bundles
 remain unproved. No new product code/tests, installs, conversions or publication.
+
+## Organization and next-CLI handoff closure
+
+Only two supplied policy PDFs moved;42originals retain bytes,40prospectus-tree
+paths/hashes unchanged. All45current dataset files plus rootdataset probe ignored;
+no dataset files tracked. Covers identify Charter2025/fourth edition117pages and
+handbook2021/394pages with approval2020separate. Two pending contracts minted;
+no memoranda or deferred originals supplied, and actual policy conversion remains
+NOT RUN. Read-only text profile covers511pages: Charter has nozero-text pages
+(page69sparse), handbook physicalpage1imagecover has noPDFtext. No OCR accuracy
+claim. Updated Context loop passed a fresh reader; exact source/phase/environment
+state and paste-ready continuation prompt are in the dated next-CLI handoff.
+Owner status question clarified that this CLI is now finishing only handoff/docs;
+no further implementation or broad test run. Current verification is filehashes,
+Git exclusion and ledger checks; previous4912pass fullsuite remains historical.
+
+## Independent final handoff/filesystem QA
+
+Fresh reader verified all45after-inventory entries (42originals plus3localmetadata),
+all40unchanged prospectus paths,117/394PDFpage counts,2pending contracts,requested
+folders and empty deferredareas. Git tracked/stageddataset lists empty; future
+photos excluded. No remaining continuation-clarity findings. Checkpoint pointer
+reconciled to8f9e922 before finaldocumentary commit; following docHEAD found byGit.
+Finalvalidate/diffcheck passed. No producttests or ingestion rerun for these docs.

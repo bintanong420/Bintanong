@@ -81,3 +81,13 @@ Owner-approved27-case/nine-college set and isolated dependencies/five Docling as
 ## Resumed extraction increment and owner review
 
 VerifiedTDD code280a287 removes repeatedsource-row projections; latestcorpus32errors/7warnings/390chunks/vectors,other38source resultsunchanged. Full4912tests/107subtests pass371.98s; ownerreviewguide and27decision rows are ready at C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012. Ownerconfirms reviewnotperformed, allsource/answer/applicability labelsremainpending. Tasks4/6 stayopen. See readinessreport/checkpoint forverified commands,digests andspecific nextsteps.
+
+## Policy-source recovery after owner organization request
+
+The owner supplied Charter2025/fourth edition and handbook2021 and authorized
+filesystem organization, preserving prospectuses and deferring their review.
+Two pending byte-derived source records now exist. Actual-policy governance,
+conversion/span verification and reviewed development retrieval cases remainopen.
+Reuse Phase1/2 software and existing offline assets; do not repeat completed code
+or promote the prospectus-only diagnostics into a policy-retrieval benchmark.
+See plans/2026-10-12-policy-source-recovery-plan.md and the dated next-CLI handoff.

@@ -5,7 +5,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: `5` (blocked on extraction/field/source review and approved runtime retrieval; verified candidate execution delivered)
+- Active phase: `5` (actual handbook/Charter source governance, ingestion and approved policy-retrieval evidence pending; prospectus review deferred)
 - Active plan: `phase-05-retrieval-plan.md`
 - Active checkpoint: `phase-05-checkpoint.md`; Phase 04 checkpoint superseded
 - Latest handoff: `plans/phase-05-handoff.md` (blocked recovery handoff; does not authorize advancement)
@@ -15,7 +15,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Phase05 latest candidate delivery: [27-question balanced college practice exam](phase-05-practice-exam-report.md), code `317bf54`; nine colleges, three cases each; original12-case version preserved. Source/answer approval and real retrieval scoring pending.
 - Real retrieval status: [execution and resumed TDD recovery](phase-05-real-retrieval-readiness.md); latest39-source mix32errors/7warnings/390chunks and real document vectors. Code280a287,4912tests/107subtests pass; only3exam cases have same-byte chunks. Source/field/applicability review and approved runtime scoring remain open.
 - Deferred prospectus review (Phase 06 preparation): [start-here guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md>),27editable case decisions,10original PDFs/12page images; owner confirms review has not occurred, all approvals pending.
-- Corpus scope: [policy retrieval versus prospectus/Prolog preparation](phase-05-corpus-scope-clarification.md); handbook/Charter additions and later organization request pending. Current prospectus diagnostics do not evaluate those policy sources.
+- Corpus scope: [policy retrieval versus prospectus/Prolog preparation](phase-05-corpus-scope-clarification.md); handbook/Charter files supplied and organized; original-policy execution remains pending. Current prospectus diagnostics do not evaluate those policy sources.
+- Current policy sources are now organized: university Charter2025/fourth edition and handbook2021,511pages total; two pending source records, no conversion/activation. [Recovery plan](2026-10-12-policy-source-recovery-plan.md) and [next-CLI handoff](2026-10-12-phase05-next-cli-handoff.md) govern continuation. Memoranda and college/organization sources remain future/deferred.
 - Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
 
 ## Parallel prospectus workstream
@@ -39,6 +40,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 1. Run `.agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .` when available.
 2. Read the active checkpoint and plan.
+   Inspect `Context/` for relevant thesis pages and the supplied runtime routing diagram when starting/resuming a phase, including in another CLI/account or after rollover.
 3. Inspect Git status, recent commits, and referenced verification results.
 4. Reconcile repository evidence before continuing the checkpoint's next action.
 

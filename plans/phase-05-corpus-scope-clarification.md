@@ -69,3 +69,12 @@ Phase 05 now prioritizes handbook, Citizens' Charter and other policy retrieval,
 including reviewed development answers and citations for those sources.
 Deferral does not approve prospectus fields, score their cases as verified,
 remove evidence, complete Phase 05 or begin Phase 06.
+
+## Owner subsequently supplied and authorized organization
+
+On12October2026 the owner provided two PDFs and requested organization. Their
+byte-preserving moves are complete under the existing datasetparent: Charter2025
+and handbook2021. This instruction supersedes the earlier wait-for-organization
+note; no prospectuses moved. Deferred sources remain future inputs, and actual
+policy ingestion/approval/evaluation remainpending. See the dated recoveryplan
+and next-CLI handoff; do not resume the obsolete wait or prospectus-review task.

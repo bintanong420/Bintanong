@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase05 resumed TDD repair280a287 verified. Latest39-source mix32audit errors/7warnings/390chunks/vectors; onlyFinancial Management changes,38saved source results unchanged. Final4912tests/107subtests pass371.98s;19ledger tests pass. Source/field/answer/applicability review and approved runtime calibration remain pending. Owner review guide/27-case decision sheets/10original PDFs/12page images prepared under workspace; all decisions pending. No shared activation or Phase06.
+**Current numbered-phase status, 12 October 2026:** Phase05 active, actual policy-source retrieval evidence pending. Organization complete: university Charter2025/fourth edition117pages and handbook2021/394pages,2pending source records,42original bytes preserved/40prospectus paths unchanged. Context resume loop and datasetignore committed8f9e922. Next CLI starts plans/2026-10-12-phase05-next-cli-handoff.md; this CLI performs only final handoff/docs. Prospectus review/college Charters/organization sources deferred; no policy conversion, source activation orPhase06.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -365,3 +365,24 @@ pointer and accidental leading+markers corrected; finalhand-off update next.
 No productcode/test additions, conversions, model/download/dependency changes
 or source activation. Next: guide/nextCLI handoff, then fresh filesystem/ledger
 checks and explicit small commits.
+
+### Organization/handoff completion and owner status clarification
+
+Final file/Git check rehashes all45dataset files against afterinventory, confirms
+40prospectus paths unchanged and42original bytes preserved; all45files and root
+probe ignored, no tracked originals. Current CLI ends with documentation handoff;
+owner questioned scope, and status clarified completed organization/instructions
+came from prior request. No policy ingestion, embeddings orruntimechanges run.
+Dated next-CLI handoff contains currentpaths/hashes,printededition2021vsapproval2020,
+117/394page source limits,existingPhase1/2 support,missingactualbundles,offlineenv,
+deferredsources,test-count facts,and explicit continuation prompt. New source
+contracts/metadata remainpending. Final ledger/doc checks and documentationcommit
+follow; nextimplementation awaits ownercontinuation in nextCLI.
+
+### Final handoff ready for a clean-context CLI
+
+Independent file/readerQA passes:45currentfiles checked,42originalbytes preserved,
+40prospectuspaths unchanged,2pendingcontracts,117/394pages,folders/deferredscope
+and Git exclusion verified. Finalhandoff is plans/2026-10-12-phase05-next-cli-handoff.md.
+Owner asks a short appendable prompt; exact nextactions/boundaries already recorded.
+Finaldocumentarycommit follows validated ledger/diff; no additional implementation.

@@ -57,7 +57,7 @@ placing the file under 2024 or its printed 2020 approval date.
   observed cover metadata separately, keeping scope and authority pending.
 - [x] Write external before/after inventories, move journal and a verification
   summary; confirm no original PDF or image is tracked/staged.
-- [ ] Update dataset guide, checkpoint, current progress and the next-CLI handoff;
+- [x] Update dataset guide, checkpoint, current progress and the next-CLI handoff;
   run ledger/doc checks and commit the verified organization documentation.
 
 ## Task 3 — Supplemental Phase 1–2 real-policy work, next continuation
@@ -84,7 +84,7 @@ isolated dependencies and five Docling assets remain available; reuse them.
 
 ## Test-count concern
 
-Read-only collection reports 4,919 cases from 1,816 definitions in 124 modules.
+Read-only collection before the new documentation reports 4,919 cases from 1,816 definitions in 124 modules.
 Examples include 331 documentation character checks, 222 source-register parity
 variants and 180 publication-interruption variants. This is not a finding that
 the suite is necessary or redundant; a later targeted coverage/duplication audit
