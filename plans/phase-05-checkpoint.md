@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 28
+sequence: 29
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b3f2149
+head_commit: 75457b2
 working_tree: dirty
-updated_at: 2026-10-12T18:33:08+08:00
+updated_at: 2026-10-12T19:03:27+08:00
 ---
 
 # Phase 05 checkpoint
@@ -154,3 +154,7 @@ First wholepytest:7 failed/4898 passed/5 skipped/107 subtests447.84s. Exact fail
 ## Final installed-model increment / asset recovery
 
 Whole rerun405.12s:4902passed/107subtests/6skipped/2failed, both realDoclingtests missing offline assets. Exact test names/logs and first7fail diagnoses in readiness report. Current Python3.13 venv isinstalled and pipcheckclean; realmodel27queryvectors + one source-only documentprobe45.035s validated. No ranking observations or quality score generated. Independent reviewer all39hashes/43pages/28glyphregions and27vectors checked, no P1/P2; sourcebinding/aliascontrols intact. Metadataonly modelproposal5 pinnedfiles384,428,156bytes; downloadguard requiresowner approval, no modelsdownloaded. Owner all-new-work-inside-workspace instruction governs proposedDocling cache despite defaultskill modelpath; existingMODELS unchanged. Finaldocclosure follows66bce2a; clean expected afterexplicitstaging. Next: exact asset approval/existingpath, thenactualsourceingestion/mapping; no repeatinstall, fakeDoclingIDs, corpusactivation or Phase06.
+
+## Account/session continuation — 12 October 2026
+
+Owner requests continued Phase05 and explicit repository TDD/skill requirements. Clean Git baseline75457b2 reconciled; earlier head pointerb3f2149 described the preceding documentation commit. AGENTS now records RED/GREEN and appropriate skill use. Next: diagnose failed extraction from saved raw conversions, select a source-backed minimal regression, repair with synthetic tracked tests, then regenerate only affected candidates. Installed environment/assets and prior336-vector diagnostics remain complete. Remote GitHub MCP branch inspection confirms dev10bfd6f; Phase05 branch remains local. No publication or source approval.
