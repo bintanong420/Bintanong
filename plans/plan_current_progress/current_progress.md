@@ -237,3 +237,7 @@ Owner requests continued Phase05 TDD and a small dev practice exam with correct 
 ### Source-bound practice exam checker/grader verified
 
 12 TDD unittest tests pass after missing-module RED and focused citation primitive RED. Checker verifies original bytes and gold locator metadata; grader separates fixed-answer/control/source agreement, rejects wrong editions/citations and counts missing responses as failures. It does not approve sources, perform model inference or claim a replay as a benchmark. Both BSCS original PDF byte hashes and standing/practicum crops checked externally; no source changes. Next: readable question/key CLI and external real-source12-case packet.
+
+### Phase05 original-backed practice exam exported
+
+19 new TDD tests pass0.100s. External12-case/8-family exam, question sheet, source-bound answer key and validation report created at C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012. The initial Coding-projects audit directory was discovered inside another Git root; only our artifacts moved to a verified external path, originals preserved. Four en/four tl/four Taglish, nine answerable/one curriculum clarification/two insufficient-evidence controls. Byte hashes and visual row/bbox checks performed; independent approval/production cell mapping/real retrieval run remain pending. No fabricated observations or score, no LLM answer generation. Next: final fresh review and affected regressions.

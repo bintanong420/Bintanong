@@ -5,7 +5,9 @@ PDF text, certify authority or prove that an author's answer follows from a clau
 Grading uses a fixed answer key, not an LLM judge or a retrieval performance proxy.
 """
 from collections import Counter
+import argparse
 import hashlib
+import json
 import math
 from pathlib import Path
 import re
@@ -196,3 +198,81 @@ def grade_exam(exam, observations):
         by_category={v:summary([r for r in measured if r['category'] == v]) for v in sorted({r['category'] for r in measured})},
         institutional_gate_eligible=False, source_byte_validation='run validate_exam separately',
         measurement='fixed-key answer/control/source agreement; not semantic model quality')
+
+
+def render_exam(exam, source_root=None):
+    """Produce a question-only sheet and a separate source-bound answer key."""
+    sources = _structure(exam)
+    preamble = [f"# Development practice exam: {exam['exam_id']}", '',
+        'Candidate source-reading exercise. Independent answer/source review is pending.',
+        'This development set is separate from the final benchmark and does not approve institutional policy.', '']
+    questions = preamble + ['Write an answer and identify its source edition, physical page and row/column.', '']
+    key = preamble + ['## Sources', '']
+    for source in sources.values():
+        label = source['relative_path']
+        if source_root is not None:
+            path = (Path(source_root)/label).resolve().as_posix()
+            label = f"[{Path(label).name}](</{path}>)"
+        key += [f"- **{source['source_id']}**: {source['title']}",
+                f"  - Original: {label}", f"  - Version: `{source['version_id']}`",
+                f"  - Original SHA-256: `{source['byte_sha256']}`",
+                f"  - Authority note: {source['authority_note']}", '']
+    key += ['## Answer key', '',
+            'Excerpts are manual source transcriptions; table separators are added for readability.',
+            'Byte/locator checks do not replace independent content review.', '']
+    for number, case in enumerate(exam['cases'], 1):
+        title = f"### {number}. {case['question']}"
+        questions += [title, '', f"Language: {case['language']}; category: {case['category']}; case: `{case['case_id']}`.",
+                      '', 'Answer:', '', 'Source:', '']
+        key += [title, '', f"**Expected answer:** {case['expected_answer']}",
+                f"**Expected control:** `{case['expected_status']}`; group: `{case['group_id']}`.", '']
+        for gold in case['gold_evidence']:
+            key += [f"- Source **{gold['source_id']}**, version `{gold['version_id']}`, "
+                    f"physical page {gold['page']}, printed page {gold['printed_page_label']}; role: {gold['role']}.",
+                    f"- Locator: `{gold['locator_ref']}`; bbox in PDF points (top-left origin): `{gold['bbox']}`.",
+                    f"- Original SHA-256: `{gold['byte_sha256']}`.",
+                    '', '> ' + gold['excerpt'].replace('\n', '\n> '), '']
+        if case['expected_status'] == 'insufficient_evidence':
+            key += ['Background passages bound the examined source scope; they do not establish an absent rule.', '']
+    return '\n'.join(questions), '\n'.join(key)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description='Validate/export a source-bound development practice exam')
+    parser.add_argument('--exam', required=True, type=Path)
+    parser.add_argument('--source-root', required=True, type=Path)
+    parser.add_argument('--output-dir', required=True, type=Path)
+    parser.add_argument('--observations', type=Path, help='Actual externally recorded answers keyed by case_id')
+    args = parser.parse_args(argv)
+    exam = json.loads(args.exam.read_text(encoding='utf-8'))
+    validation = validate_exam(exam, args.source_root)
+    output = args.output_dir.resolve()
+    _require(not any((parent/'.git').exists() for parent in (output, *output.parents)),
+             'gold outputs must stay outside Git repositories/worktrees')
+    _require(args.observations is not None or not (output/'grading.json').exists(),
+             'grading.json already exists; use a fresh directory for an ungraded export')
+    protected = {args.exam.resolve()} | {
+        (args.source_root/s['relative_path']).resolve() for s in exam['sources']
+    }
+    if args.observations:
+        protected.add(args.observations.resolve())
+    names = ['questions.md', 'answer-key.md', 'validation.json']
+    if args.observations:
+        names.append('grading.json')
+    _require(not any((output/name).resolve() in protected for name in names), 'output would overwrite an input')
+    grade = None
+    if args.observations:
+        grade = grade_exam(exam, json.loads(args.observations.read_text(encoding='utf-8')))
+    questions, key = render_exam(exam, args.source_root)
+    output.mkdir(parents=True, exist_ok=True)
+    (output/'questions.md').write_text(questions, encoding='utf-8')
+    (output/'answer-key.md').write_text(key, encoding='utf-8')
+    (output/'validation.json').write_text(json.dumps(validation, indent=2, ensure_ascii=False), encoding='utf-8')
+    if grade is not None:
+        (output/'grading.json').write_text(json.dumps(grade, indent=2, ensure_ascii=False), encoding='utf-8')
+    print(json.dumps(dict(validation=validation, grading=grade, output_dir=str(output)), ensure_ascii=False))
+    return 0 if grade is None or grade['passed'] == grade['case_count'] else 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 9
+sequence: 10
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f7534c8
+head_commit: 4eedfb6
 working_tree: dirty
 updated_at: 2026-10-12T13:15:50+08:00
 ---
@@ -91,4 +91,8 @@ Git clean73934a3; checkpoint prior implementation pointer repaired before new wo
 
 ## Practice-exam Task1 verified
 
-TDD observed missing-module RED;12 checker/grader unittest tests now pass0.044s (actual timing in tool output governs). Additional primitive-citation RED reproduced two page bool/float false matches and an unhashable locator crash; exact citation primitives now fail grading instead. Checks cover original byte mutation/path escape, gold source/page/locator/excerpt hashes/bboxes, final-split/approval refusal, fixed-answer agreement, source/control axes, missing responses and both editions for comparisons. Actual original hashes: new600cb36b362cff598d84c66a11598b07593c0e74e78a62658b3c61c89f5d5664; oldc781052fc7242ba520410910f171379721e9bfd0c695b2f0094a3e3981641e4d. Native renders/crops visually checked; printed vs physical page recorded externally. Next: CLI/render TDD and external12-question packet/key.
+TDD observed missing-module RED;12 checker/grader unittest tests now pass0.028s. Additional primitive-citation RED reproduced two page bool/float false matches and an unhashable locator crash; exact citation primitives now fail grading instead. Checks cover original byte mutation/path escape, gold source/page/locator/excerpt hashes/bboxes, final-split/approval refusal, fixed-answer agreement, source/control axes, missing responses and both editions for comparisons. Actual original hashes: new600cb36b362cff598d84c66a11598b07593c0e74e78a62658b3c61c89f5d5664; oldc781052fc7242ba520410910f171379721e9bfd0c695b2f0094a3e3981641e4d. Native renders/crops visually checked; printed vs physical page recorded externally. Next: CLI/render TDD and external12-question packet/key.
+
+## Practice-exam Task2 verified
+
+CLI/render missing-function RED observed;19 checker/grader/CLI tests passed0.100s. Additional RED guards now enforce all Git-root/worktree boundaries and refuse stale grading files on ungraded export. The original audit-evidence destination sits under an unrelated C:/Coding-projects Git root discovered during the guard smoke; moved only our new exam artifacts after exact resolved source/destination checks to C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012. Original PDFs stayed untouched. Candidate12-case/8-family packet validated against two original byte hashes; four cases per en/tl/Taglish, nine answerable/one clarify/two insufficient, no institutional approval or retrieval observations. Physical page1 for both; proposed sheet printed50, older sheet printed1. Scope/core row boxes visually checked. Next: final code/source-boundary review and practice/retrieval/embedding/ledger regressions.
