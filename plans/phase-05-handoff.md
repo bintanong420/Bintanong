@@ -3,9 +3,9 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 2a497c4
-recovery_condition: Independently approve applicable source-backed development labels (prepared12-case candidate packet available), map semantic row locators to production ingestion spans, run actual matching SEA-LION/runtime/source-citation gates in an authorized compatible environment, then pass master section10 before advancing.
-completed_at: 2026-10-12T13:46:45+08:00
+final_commit: 317bf54
+recovery_condition: Independently approve applicable source-backed development labels (prepared27-case nine-college candidate packet and archived12-case version available), map semantic row locators to production ingestion spans, run actual matching SEA-LION/runtime/source-citation gates in an authorized compatible environment, then pass master section10 before advancing.
+completed_at: 2026-10-12T16:46:39+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
@@ -101,3 +101,9 @@ External packet/question/key/validation live at C:/Coding-projects/bintanong_wor
 Final43 new/retrieval unit checks pass0.241s, embedding12 pass0.159s, phase-state19 pass12.177s:74 relevant passing checks, including21 new TDD tests. Fresh review P2 hardlink source/Git overwrite reproduced RED and fixed; reviewer9 CLI tests pass0.179s, no remaining P1/P2. Actual packet byte/locator validation/export exit0, grading null; no fabricated observations or key-replay benchmark. New checker uses systemPython3.13.7 stdlib only. No package/lock/model change or real-model run. DB-inclusive retrieval rerun attempted and failed because Docker Linux-engine daemon/pipe is unavailable; historical29/31 DB-suite passes remain historical and cannot satisfy a fresh gate. No Docker startup, shared migration, candidate activation, push or merge.
 
 Next recovery action replaces the old missing-case-path request: review the already prepared external packet/source applicability or provide approved authoritative replacements, map its semantic row references to production ingestion spans and collect real matching encoder/runtime observations using an authorized compatible environment. Docker/model execution and source authorization retain existing boundaries. Approved calibration/formal exit still blocked; no Phase06. Do not repeat completed exam/code delivery.
+
+## Balanced27-case delivery governs current recovery
+
+Owner-approved three cases per nine colleges, en/tl/Taglish one each;26 dev groups,10 original byte-bound sources,25 answerable/one needs_scope/one insufficient_evidence. Both versions now live under C:/Coding-projects/bintanong_workspace/audit-evidence; all four original12-case artifact hashes unchanged. Original dataset preserved at the deep ignored root documented in plans/dataset-locations.md; future relocation remains pending. Code e1ea578/317bf54 verified, fresh reviewer no P1/P2.94 distinct relevant checks passed, including34 exam tests and the full29-test retrieval gate; current Docker was externally available and not started by this agent. See phase-05-practice-exam-report.md for commands, timings, source/artifact digests and review limits. Current evidence directories have no Git ancestor; prior Coding-projects marker observation is historical, no agent metadata deletion. Code remains in isolatedp05, main checkout preserved.
+
+Final recovery action: independently approve the candidate27-case answers/source applicability or supply authoritative replacements, map semantic row locators to actual ingestion span/cell IDs, execute matching real encoder/runtime retrieval in an authorized compatible environment, and collect genuine development observations for calibration. Software checks and source-reading review do not satisfy institutional approval or real-model measurements. No observations/score fabricated. Formal master section10 gate remains blocked, no Phase06.

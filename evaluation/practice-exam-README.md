@@ -53,10 +53,10 @@ Supply a separate external JSON object keyed by case ID:
 This example is invented; use IDs and source references from the actual external exam. Accepted control statuses are `answerable`, `needs_scope` and `insufficient_evidence`; these describe the practice-exam answer expectation, not runtime release/calibration status.
 
 ```powershell
-python -m evaluation.practice_exam --exam C:/path/outside/git/practice-exam.json --source-root C:/path/to/originals --output-dir C:/path/outside/git/observed-run --observations C:/path/outside/git/recorded-answers.json
+python -m evaluation.practice_exam --exam C:/Coding-projects/bintanong_workspace/audit-evidence/example/practice-exam.json --source-root C:/path/to/originals --output-dir C:/Coding-projects/bintanong_workspace/audit-evidence/example/observed-run --observations C:/Coding-projects/bintanong_workspace/audit-evidence/example/recorded-answers.json
 ```
 
-Answers are matched only against explicitly authored acceptable variants, with NFC/case/whitespace normalization. Numbers, negation and punctuation are retained; this is a deterministic fixed-key check, not semantic grading of unrestricted prose. Answer, control and source accuracy are reported independently and by language/category. Both cited editions are required for a comparison/clarification; optional background references cannot substitute for supporting sources. Missing responses fail. A correct answer with a wrong source/edition/page/row also fails. CLI exit2 means supplied observations have failures; exit0 without observations means source validation/export only.
+Answers are matched only against explicitly authored acceptable variants, with NFC/case/whitespace normalization. Numbers, negation and punctuation are retained; this is a deterministic fixed-key check, not semantic grading of unrestricted prose. Answer, control and source accuracy are reported independently and by language/category and declared college. Both cited editions are required for a comparison/clarification; optional background references cannot substitute for supporting sources. Missing responses fail. A correct answer with a wrong source/edition/page/row also fails. CLI exit2 means supplied observations have failures; exit0 without observations means source validation/export only.
 
 The tool never manufactures responses from its answer key. Key replay or mutation tests verify the checker only; they do not measure model quality. The current packet has no actual retrieval responses or grading score. Before measuring real Phase05 retrieval, independently review the answer/source labels, map semantic row locators to the production ingestion span/cell identities, and use actual matching SEA-LION/runtime retrieval observations. No corpus activation, shared database migration, API or LLM answer generation is included.
 
@@ -71,3 +71,5 @@ python -B -m unittest tests.test_practice_exam tests.test_practice_exam_cli test
 ```
 
 The balanced version is at `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/`, with `practice-exam.json` and `exam/questions.md`, `exam/answer-key.md`, `exam/validation.json`. It has25 answerable cases, one curriculum clarification and one wrong-program source control. All gold artifacts are ignored; both exam versions moved from AppData on the owner's instruction. No source PDFs were moved.
+
+Final verification:34 exam tests and94 distinct relevant checks passed, including the full29-test retrieval gate. Fresh review found no P1/P2 issues. Set TEMP/TMP to the workspace evidence/tmp directory when running checks for this work. The whole repository pytest suite was not run (pytest is unavailable); no installs were performed.

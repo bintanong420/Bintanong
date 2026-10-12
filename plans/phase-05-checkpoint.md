@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: in_progress
-sequence: 16
+status: blocked
+sequence: 17
 plan: plans/phase-05-retrieval-plan.md
-head_commit: e1ea578
+head_commit: 317bf54
 working_tree: dirty
-updated_at: 2026-10-12T16:24:15+08:00
+updated_at: 2026-10-12T16:46:39+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Requested development practice exam delivered and reviewed at2a497c4:12 original-backed candidate questions/key,21 new TDD tests and74 relevant passing unit/regression checks. Formal Phase05 exit remains blocked: independent source/answer approval, production span mapping and real matching model/runtime observations pending; Docker DB rerun unavailable.
+Balanced27-question college exam delivered and reviewed at317bf54: three cases per nine colleges, one per language per college,26 dev groups/10 original sources.34 exam tests and94 distinct relevant checks passed, including fresh29-test DB-inclusive retrieval. Both versions are untracked within workspace/audit-evidence; main checkout preserved. Formal exit blocked on independent institutional/source approval, ingestion mapping and actual matching model/runtime observations.
 
 ## Repository State
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Independently review the existing external12-case packet/source authority and map its semantic row locators to production ingestion spans. Identify a compatible existing Python3.13 encoder environment or obtain explicit dependency setup authorization; restore/use Docker only within its applicable execution authorization and rerun DB gates. Collect actual matching SEA-LION/runtime observations for development calibration. Do not rebuild the delivered exam or infer approval from validation.
+Independently approve the balanced27-case packet/source applicability or provide authoritative replacements, map semantic locators to production ingestion spans, and identify an existing compatible Python3.13 encoder environment or explicit dependency authorization. Collect actual matching SEA-LION/runtime development observations and calibration; current DB software gate passes. Do not rebuild either delivered exam or infer institutional approval from validation.
 
 ## Do Not Repeat
 
@@ -120,3 +120,7 @@ Observed missing college report/validation behavior RED; ten new synthetic-colle
 ## Owner workspace location correction
 
 Owner requires all task artifacts under C:/Coding-projects/bintanong_workspace; main checkout is Bintanong, our code checkout is worktrees/Bintanong/p05. Both new exam artifact directories moved from AppData into audit-evidence after resolved source/destination containment checks. Each task folder.gitignore hides all private files from the unrelated Coding-projects ancestor Git root; no parent Git metadata changed. Explicit --allow-ignored-output added after missing-argument RED, three new real-Git regressions GREEN;34 exam tests pass1.313s with TMP/TEMP also inside workspace. Default Git guard/input/hardlink protection retained. Fresh prior review clear; correction re-review pending. Full retrieval29 passed26.629s with externally available Docker (no startup), units53/embedding12/ledger19 pass. Next: final correction review, workspace-path verification, commit and report/handoff closure.
+
+## Final college delivery/recovery checkpoint
+
+Verified code317bf54; documentary closure follows with its HEAD discoverable in Git, avoiding a self-referential checkpoint SHA. Fresh reviewer clear. Final56 combined units/12 embeddings/19 ledger/29 full retrieval pass (94 distinct checks); latest full retrieval includes7 DB checks and runs from workspace-contained temp.27-case/26-group packet,10 originals, balanced nine colleges; question/key digests and all source hashes in report/manifest. Archived12-case four digests preserved. No grading.json in either set and no observations invented. Current evidence roots are outside Git: previously observed ancestor marker now absent, no agent removal. Source location guide/current progress/handoff updated, original dataset and main checkout unchanged, formal exit remains blocked. Expected clean tree after explicit documentary commit; do not repeat delivered work.
