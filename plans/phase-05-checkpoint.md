@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 36
+sequence: 38
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ed5dada
+head_commit: 7082d59
 working_tree: dirty
-updated_at: 2026-10-12T20:23:38+08:00
+updated_at: 2026-10-12T20:57:57+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,14 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Phase05 resumed TDD repair280a287 verified. Latest39-source mix32audit errors/7warnings/390chunks/vectors; onlyFinancial Management changes,38saved source results unchanged. Final4912tests/107subtests pass371.98s;19ledger tests pass. Source/field/answer/applicability review and approved runtime calibration remain pending. Owner review guide/27-case decision sheets/10original PDFs/12page images prepared under workspace; all decisions pending. No shared activation or Phase06.
+Owner-authorized dataset organization completed: only the two loose policy PDFs
+moved, with all bytes preserved. Charter2025/4th edition117pages; handbook2021,
+394pages, approval2020 recorded separately. Forty prospectus-tree files and their
+relative paths unchanged. Requested2024..2027 and UnknownYear folders plus deferred
+college/organization areas exist. Two new pending source contracts minted with
+existing helpers; no ingestion or activation. Context resume-loop fresh-reader
+check passed. Finish repository dataset guide and next-CLI handoff; actual-policy
+source governance/ingestion is the next bounded continuation.
 
 ## Repository State
 
@@ -47,16 +54,13 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Next Action
 
-Read plans/phase-05-corpus-scope-clarification.md before resuming. The owner
-intends to supply the handbook and Citizens' Charter and will request dataset
-organization later. Wait for that request before moving files; then inventory
-actual sources, versions and scope and prepare policy/procedure retrieval cases.
-The owner prospectus review is deferred to Phase 06 preparation. Its packet remains a curriculum development/review subset, with
-extraction/source approvals pending; it does not replace the core policy corpus
-or authorize Prolog execution. Phase 05's approved-case retrieval gate does not
-require repairing all 39 prospectuses. Reconcile any owner review decisions
-against exact original bytes, keep unsupported capabilities unavailable, and
-preserve candidate inactivity. Do not repeat completed setup or diagnostics.
+Finish plans/dataset-locations.md and the dated next-CLI recovery handoff, verify
+source hashes/Git exclusion/ledger and commit the documentation. The next CLI
+reads Context alongside AGENTS/INDEX/checkpoint/handoff, verifies the two new
+pending policy sources and acquisition metadata, then uses existing policy and
+Charter ingestion in bounded candidate runs. Prospectus review remains deferred
+for Phase06; future college Charters/organization policies remain held aside.
+Do not restart delivered Phase1-4 software or repeat model/environment setup.
 
 ## Do Not Repeat
 
@@ -212,3 +216,33 @@ Phase 05 now prioritizes handbook, Citizens' Charter and other policy retrieval,
 including reviewed development answers and citations for those sources.
 Deferral does not approve prospectus fields, score their cases as verified,
 remove evidence, complete Phase 05 or begin Phase 06.
+
+## Dataset organization start / current owner inputs
+
+Owner now authorizes categorization in the existing dataset parent, preserving
+prospectuses, edition-year folders2024..2027, deferred college Charter and
+organization policies, dataset Git exclusion, and Context in the resume loop.
+Baseline7082d59: owner supplied two untracked loose PDFs; no code changes.
+42-file external before inventory captured. Charter cover:2025/4th edition,
+117pages. Handbook cover visually2021,394pages, with printed2020BOR approval;
+folder year follows edition2021. Historical Phase1/2 notes already describe
+policy inputs and delivered ingestion; actual handbook/Charter bundles remained
+unproved. Supplemental source recovery needed, not wholesale phase restart.
+Current edits: AGENTS,both handoffskills,.gitignore,new dated recoveryplan,
+checkpoint/currentprogress. All dataset files now ignored. Context thesis pages
+36/55/68 and supplied runtime diagram were consulted in prior scope clarification.
+Next: verify instruction loop, create folders, move only two loose PDFs after
+containment checks, mint two pending identities, hash-verify preserved originals,
+and prepare concrete next-CLI handoff. No conversion/activation/new install.
+
+
+## Context-reader and organization verification
+
+Fresh reader followed both updated skills to thesis physical pages36/55/68 and
+visually inspected the routing diagram. Reader clarity findings: stale primary
+next-action pointer, accidental leading+markers and historical prospectus-heavy
+handoff wording. Primary pointers/markers corrected; final recovery handoff will
+record current policy focus. External organization summary verifies42original
+files preserved, only2moves,40unchanged prospectus-tree files,2pending contracts,
+511policy pages. New plan records source support exists but whole-policy bundles
+remain unproved. No new product code/tests, installs, conversions or publication.

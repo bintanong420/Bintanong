@@ -11,6 +11,7 @@ Keep phase progress recoverable without treating notes as proof. Repository stat
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
 2. Read `plans/INDEX.md`, the active checkpoint and plan, the previous final handoff, and only the relevant master-plan sections.
+   Also inspect `Context/` when starting/resuming a phase or after context rollover: read relevant pages of `bintanong_thesis_for_context.pdf` and view `bintanong_full_runtime_routing_architecture.png`. Record the context consulted and resolve discrepancies with the current task before implementation; repeat this in a new CLI/account without rereading the entire thesis unnecessarily.
 3. Compare checkpoint `head_commit` and working-tree claims with `git status --short`, recent commits, diffs, and named test results.
 4. Preserve dirty changes. Repair stale checkpoint metadata before new implementation work.
 5. Resume the checkpoint's exact next action. Do not repeat completed tasks unless repository evidence invalidates them.

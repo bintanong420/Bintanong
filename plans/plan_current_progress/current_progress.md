@@ -339,3 +339,29 @@ Phase 05 now prioritizes handbook, Citizens' Charter and other policy retrieval,
 including reviewed development answers and citations for those sources.
 Deferral does not approve prospectus fields, score their cases as verified,
 remove evidence, complete Phase 05 or begin Phase 06.
+
+## Dataset organization authorized — 12 October 2026
+
+Owner supplies handbook/Charter and requests category/year folders, prospectus
+preservation, deferred future college/organization sources, Gitignore protection,
+Context in the existing handoff loop and enough next-CLI context. Baseline7082d59;
+42source files inventory includes two loose policy PDFs. Visually confirmed
+Charter2025/4th edition117pages and handbook2021/394pages (approval2020separate).
+Dataset now ignored; Context routing added to AGENTS and existing handoffskills.
+Plan: plans/2026-10-12-policy-source-recovery-plan.md. Historical ingestion support
+exists; recover actual source governance/conversion instead of restarting code.
+Collection only4919cases/1816definitions/124modules; redundancy not assessed.
+Next: safe folders/two moves, pending source register, byte checks and handoff.
+
+
+### Verified directory organization and instruction reader check
+
+Moved only two policy PDFs into CitizenCharter/2025/University and
+StudentHandbook/2021. All42original file hashes retained,40prospectus-tree paths
+unchanged;2pending byte-derived source contracts minted,approvalnull. Created
+requested2024..2027/UnknownYear folders and deferredfuture areas. Fresh reader
+followed new Context loop and consulted actual thesis/diagram. Stale primary
+pointer and accidental leading+markers corrected; finalhand-off update next.
+No productcode/test additions, conversions, model/download/dependency changes
+or source activation. Next: guide/nextCLI handoff, then fresh filesystem/ledger
+checks and explicit small commits.
