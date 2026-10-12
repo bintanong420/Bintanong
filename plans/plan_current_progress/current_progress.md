@@ -205,3 +205,7 @@ Validated requests/settings and strict local query encoder added. Five unittest 
 ### Phase 05 Task 2 verified
 
 Four disposable PostgreSQL tests passed after missing-RPC RED. Additive CLI-generated retrieve_context migration binds active pin, fingerprints, exact filters, rankings, spans/versions and required-neighbor payloads in a STABLE invoker snapshot; historical RLS stays closed. Runtime EXECUTE granted only anon/authenticated. Shared/hosted application NOT RUN. Next: context budgeting/deduplication and explicit retrieval statuses; their missing-module RED tests were observed.
+
+### Phase 05 context and pipeline verified
+
+Ten new unittest tests pass after missing-module RED. Exact serialized-context budget, source-location overlap deduplication, whole required-neighbor groups, table-locator fallback and citation integrity implemented. Engine performs runtime-only preflight plus atomic configuration/pin recheck; explicit release_changed/configuration_mismatch/encoder_unavailable/insufficient_evidence/needs_scope/conflicting_sources/uncalibrated outcomes. Internal debug-v1 envelope preserves ambiguity; existing public runtime contracts remain unchanged. All committed evaluation cases are synthetic per evaluation/case.py; approved institutional gate remains unavailable. Next: debug CLI, synthetic k=3/5/8 calibration and full review.

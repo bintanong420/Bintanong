@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 3
+sequence: 4
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d125304
+head_commit: 14bf152
 working_tree: dirty
 updated_at: 2026-10-12T12:00:00+08:00
 ---
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Task 2 complete: atomic pinned invoker RPC. Tasks 3/4 context/pipeline tests now RED (missing modules).
+Tasks 3/4/5 core pipeline complete: exact context budgeting, span deduplication, atomic required-neighbor groups and structured retrieval statuses. Debug CLI and evaluation next.
 
 ## Repository State
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Implement context assembler and retrieval engine against the observed missing-module RED tests.
+Add debug CLI and development-only evaluation with failing tests, then run whole-phase verification/review.
 
 ## Do Not Repeat
 
@@ -60,3 +60,7 @@ Five query tests passed (0.007s, exit 0) after observed missing-module RED. Exte
 ## Task 2 verified increment
 
 CLI-generated migration 20261012013339_phase5_retrieval_snapshot.sql passed four real-database regressions after four missing-function RED failures. 4 tests, 4.854s, exit 0. Function is STABLE/SECURITY INVOKER, runtime-only EXECUTE; existing RLS unchanged. Exact scope/edition/entity filters and fingerprint guard tested. Stale/draft pins empty under anon/authenticated. Migration applied only inside disposable databases; shared/hosted deployment NOT RUN. Untracked context/engine tests are intentional next-task RED work.
+
+## Context/pipeline verified increment
+
+Ten context/engine tests pass (0.002s, exit 0) after missing-module RED. Results carry byte hash/version/edition/page/locator, context text/exact token count and settings/encoder fingerprints. Required neighbors are atomic; missing neighbors/invalid citations/budget gaps yield insufficient evidence. Unknown scope stays empty; competing curriculum tags ask for scope, editions expose conflicts. Default policy is explicitly uncalibrated and never claims sufficient coverage. No administrative credential branch. Legacy Phase 01 runtime contract is not changed: debug v1 is a separate internal envelope because it preserves conflicting editions and textless-table citations that legacy RetrievalResult rejects.
