@@ -99,11 +99,24 @@ def _reading_order(raw: Mapping[str, Any], count: int) -> list[int]:
             if not isinstance(ref, str):
                 raise ValueError("invalid raw reading-order reference")
             if ref.startswith("#/texts/"):
+                if not re.fullmatch(r"#/texts/(0|[1-9]\d*)", ref):
+                    raise ValueError("invalid text reading-order reference")
                 index = int(ref.rsplit("/", 1)[1])
                 if not 0 <= index < count or index in order:
                     raise ValueError("duplicate or invalid text reading-order reference")
                 order.append(index)
                 walk(raw["texts"][index])
+            elif ref.startswith("#/tables/"):
+                if not re.fullmatch(r"#/tables/(0|[1-9]\d*)", ref):
+                    raise ValueError("invalid table reading-order reference")
+                if ref in active:
+                    raise ValueError("cyclic raw reading-order table")
+                active.add(ref)
+                try:
+                    walk(raw["tables"][int(ref.rsplit("/", 1)[1])])
+                except (KeyError, IndexError, TypeError) as exc:
+                    raise ValueError("unresolved raw reading-order table") from exc
+                active.remove(ref)
             elif ref.startswith("#/groups/"):
                 if not re.fullmatch(r"#/groups/(0|[1-9]\d*)", ref):
                     raise ValueError("invalid raw reading-order group")

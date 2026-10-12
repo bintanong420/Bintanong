@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase05 policy-source recovery; whole117page Charter conversion ended in reading-order refusal(exit1,558.178s), no completed bundle. First raw conversion erased by temporary cleanup. TDD retention/hierarchy fixes verified130passed/1skipped51.30s after observed RED. Durable second conversion running for actual-source graph diagnosis/reuse; original-source repair not yet claimed.45dataset entries preserved; no setup/organization repeat, newer-copy search, prospectus review, activation orPhase06. See plans/phase-05-policy-source-recovery.md.
+**Current numbered-phase status, 12 October 2026:** Phase05 Charter candidate verified:117pages/427chunks/3retained table rejections;45dataset entries unchanged. TDD reader/review fixes GREEN; final fullsuite4926passed/107subtests362.06s,6skips/6warnings; ledger19tests pass. Initial4help-decoding failures resolved through PythonUTF8mode without test/product changes. Source review/authority/applicability pending; handbook394pages next bounded task. No setup/organization repeat, replacement search, prospectus review, activation orPhase06. Latest handoff: plans/2026-10-12-phase05-policy-recovery-handoff.md.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 

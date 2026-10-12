@@ -226,3 +226,27 @@ missing/ambiguous support, native BOTTOMLEFT coordinates, repairs, blank review 
 policy/private misuse and absence of publication/network/runtime. This closes the
 field handoff interface; original-corpus accuracy, office/domain review, OCR/private
 lifecycle, runtime/release verification and historical M1/F/session debts remain separate.
+
+## 2026-10-12: native policy children and refused-conversion diagnostics
+
+The original university Charter exposed a policy reader gap: Docling reading order
+can descend through text and table items as well as groups. The saved actual graph
+contained table-owned qualifying footnotes and nested text/group fragments. Follow
+those child references in their native order; retain duplicate/cycle refusal and
+require canonical text/table reference syntax. Do not append unvisited items from
+their array order or invent an order from page geometry. Synthetic RED/GREEN tests
+cover parent text children, table footnotes, malformed descendants and cycles.
+
+Candidate-reader refusal previously removed completed raw conversion during
+temporary cleanup. Retain raw JSON and its source/settings/digest metadata after
+the unchanged-source guard, before interpreting candidates. These diagnostic files
+have no completion manifest and cannot be consumed as a candidate bundle. Successful
+publication still writes completion last; source mutation still prevents publication.
+This lets recovery reuse verified conversion bytes without repeating expensive PDF
+processing, while preserving incomplete-bundle refusal.
+
+The recovered Charter bundle has complete item/table accounting but retains three
+table rejections and upstream dropped-cell warnings. Accounting is not content
+accuracy or authority. Source-owner time-total discrepancies, applicability and
+independent review remain pending; no policy activation or Phase06 follows from
+this correction. Execution and TDD evidence: `plans/phase-05-policy-source-recovery.md`.

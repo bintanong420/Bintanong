@@ -161,6 +161,43 @@ def test_text_descendant_cycles_and_duplicate_references_refused(bound, child_re
         module().read_procedure_items(raw, version)
 
 
+def test_pdf_table_children_preserve_qualifying_footnote(bound):
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([item("Only for returning students.", label="footnote")])
+    raw["tables"] = [{"label": "table", "children": [{"cref": "#/texts/0"}],
+                      "prov": [item("")["prov"][0]], "data": {"num_rows": 1, "num_cols": 1, "table_cells": []}}]
+    raw["body"] = {"children": [{"cref": "#/tables/0"}]}
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version)
+    assert result.reading_order == ("#/tables/0", "#/texts/0")
+    assert result.pdf.units[0].source_text == "Only for returning students."
+    assert result.pdf.units[0].spans[0].page == 1
+    assert raw == before
+
+
+def test_policy_text_descendant_ref_must_be_canonical(bound):
+    from backend.bintanong_tools.document_ingest.policy_text import read_policy_items
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([item("Parent"), item("Child")])
+    raw["texts"][0]["children"] = [{"cref": "#/texts/not-an-index/1"}]
+    raw["body"] = {"children": [{"cref": "#/texts/0"}]}
+    with pytest.raises(ValueError, match="reference"):
+        read_policy_items(raw, version)
+
+
+def test_policy_table_descendant_cycle_refused(bound):
+    from backend.bintanong_tools.document_ingest.policy_text import read_policy_items
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([])
+    raw["tables"] = [{"children": [{"cref": "#/tables/0"}]}]
+    raw["body"] = {"children": [{"cref": "#/tables/0"}]}
+    with pytest.raises(ValueError, match="cyclic"):
+        read_policy_items(raw, version)
+
+
 def test_table_raw_cells_headers_provenance_and_geometry_retained(bound):
     _, capture = bound
     _, version = capture()

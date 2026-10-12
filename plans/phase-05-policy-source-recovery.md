@@ -1,5 +1,12 @@
 # Phase05 actual policy-source recovery
 
+**Latest state:**117page Charter candidate verified with427chunks/3retained table
+rejections; handbook next. Final product verification: first full run4help-decoding
+failures/4921passes/107subtests,367.13s. UTF8mode resolves4help checks(4passed2.07s);
+fresh full rerun4926passed/107subtests,6skips/6warnings362.06s,exit0. Ledger19tests
+pass14.221s. Exact latest continuation:
+[policy recovery handoff](2026-10-12-phase05-policy-recovery-handoff.md).
+
 Continuation of the [recovery plan](2026-10-12-policy-source-recovery-plan.md),
 resumed from clean `3d464be` on12October2026. This is execution evidence, not
 source approval or phase completion. Dataset organization, Context resume loop
@@ -87,3 +94,68 @@ expensive conversion unless evidence shows capture invalid. No installation.
 Original sample review notes remain external and agent-reviewed, not approved.
 Pre-enrollment physical102–103/printed98–99has four5minute rows and printed total
 25minutes; retain source discrepancy for clarification. No inferred correction.
+
+## Actual-source recovery and review corrections
+
+Durable complete conversion528.029s produced raw SHA256
+`11cce11c35151aa4a03af24ea12d4d847729379dd90677b4ddec3c366997fe62`.
+Actual graph has305texts/123tables. Legacy walk misses27nested text/group fragments
+onphysical92and3table-owned footnotes onphysical10/20. Procedure traversal now
+accounts for428refs; policy traversal needed table children too.
+
+Independent read-only review of`5940d93..ab4a6ec` found twoP2issues: PDF policy
+reader skipped table-owned text, and malformed descendant text refs could resolve
+through tail-only integer parsing. Both reproduced before fixing: table-footnote
+1RED0.53s; malformed descendant1RED0.50s. Additional tablecycle1RED0.47s protects
+new recursion. Guarded table traversal/canonical refs GREEN5tests0.40s, and actual
+reader now succeeds with all428refs. Reviewer8focused regressions passed30.06s.
+Reviewer set aside original-source accuracy/dropped-cell correctness, authority,
+applicability, retrieval, activation and historical changes; these remain separate
+pending gates, not waived by review. Full product suite running on final code.
+
+Final verification supersedes that in-progress note: approvedPython`-B -m pytest
+tests -q -p no:cacheprovider --basetemp=<evidence>/pytest-final-utf8` with existing
+offline assets,8CPUthreads,PYTHONUTF8=1andPYTHONIOENCODING=utf-8:4926passed,
+107subtests,6skips,6warnings362.06s,exit0. Initial whole run4help-decoding failures
+were from outputUTF8versus parentcp1252; all4then passed in2.07s under UTF8mode,
+with no test/product changes. Phase-state unittest19passed14.221s,exit0.
+
+`recover_charter_candidate.py` validated source/settings/raw identity using the
+existing loader cache checks and Docling schema, replayed exact captured output
+through the existing converter-injection API, then checked raw/meta equality and
+`load_candidate_bundle`. This is actual original-source conversion replay, not
+fresh conversion or synthetic institutional text. Execution30.429s, exit0.
+Recovered bundle:`<evidence>/charter-recovered-candidate/`.
+
+| Accounting | Result |
+| --- | ---: |
+| Physical pages |117|
+| Raw/covered text items |305/305|
+| Rejected/omitted text items |0/0|
+| Raw/emitted/rejected tables |123/120/3|
+| Candidate chunks |427|
+| Page omissions |0|
+
+Three retained table rejections: table0/physical3ambiguous or missing headers;
+table10/physical12ambiguous raw row order; table94/physical92missing or blank cell
+text. Docling's dropped-cell warnings remain unresolved extraction findings.
+Accounting completeness does not establish complete policy content.
+
+`verify_charter.py` independently checked manifests/bindings, exact existing pending
+register, all45dataset entries unchanged and all117page records.192sample spans
+onphysical6/7/69/102/103/109/110were compared with original PDFium bbox text:
+175whitespace/NFC matches and17differences. Separate classification confirms all17
+are typographic apostrophe/dash substitutions; strict findings remain retained,
+candidate text untouched. This bounded agent check is not human approval, an OCR
+measurement or a whole-document accuracy estimate. All chunks have pending review
+and verification, empty scope and no source approval. No embeddings or retrieval
+scoring of these policy bytes, database publication, activation or Phase06.
+
+## Closure evidence
+
+Final45entry inventory unchanged.70task evidence files sealed, excluding pytest
+temporary trees; manifest SHA256:
+`c3dc18e7693f392e357e6a1fe705b7cb5d9fb2e7ef844cfee2c1e1bd282bd779`.
+Manifest and all raw outputs stay ignored under the evidence root. Current Context
+resume and dataset-ignore rules verified already present; no duplicate setup or
+organization. Phase05 exit remains blocked on actual approved policy retrieval.

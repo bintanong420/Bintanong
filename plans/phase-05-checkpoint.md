@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 42
+sequence: 45
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5940d93
-working_tree: procedure_text.py, policy_text.py, test_procedure_text.py and recovery documentation
-updated_at: 2026-10-12T21:37:00+08:00
+head_commit: ab4a6ec
+working_tree: policy_text.py, test_procedure_text.py, checkpoint/progress, recovery evidence/plan, INDEX and handoffs
+updated_at: 2026-10-12T22:01:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,24 +17,35 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Whole117page Charter CLI completed conversion but refused reading-order accounting
-(exit1,558.178s); no complete candidate bundle. Temporary cleanup erased first raw
-conversion. Focused synthetic PDF/PPTX RED demonstrates that diagnostic loss;
-retention fix GREEN126passed/1skipped79.97s. Documented nested-text hierarchy also
-reproduces same reading-order refusal (2RED,2.58s); minimal parent-child traversal
-now under focused regression verification. A second complete conversion is running
-through existing loader into durable external raw files for actual-source diagnosis
-and reuse. Preserve Docling dropped-cell findings; do not infer extraction accuracy.
+Whole117page Charter candidate bundle now checked:427chunks,305/305text items,
+120/123tables emitted,3explicit table rejections. Durable source conversion528.029s;
+exact-byte replay through existing pipeline30.429s. Original45entry dataset unchanged.
+Actual graph confirms table-owned footnotes and nested text/group children; TDD
+reader corrections account for all428items. Review's twoP2findings reproduced and
+fixed; final fullsuite4926passed/107subtests362.06s,6skips/6warnings.192sample checks:175strict
+whitespace/NFC matches,17typographic apostrophe/dash differences retained. No
+institutional/content approval or OCR accuracy claim. Bounded Charter recovery
+complete; commit verified code/docs and finalize continuation. Handbook next.
 
 ## Repository State
 
 Isolatedp05,feat/p05-retrieval-logic; clean resume baseline3d464be reconciled.
-Only bounded recovery documentation changes. Raw evidence in workspace
+Verified retention/hierarchy incrementab4a6ec; final table/reference correction
+and recovery documentation currently dirty. Raw evidence in workspace
 audit-evidence/p05-policy-source-recovery-20261012. GitHub MCP confirms remote
 dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Current policy task: candidate bundle/source invariance verified; focused hierarchy
+suite130passed/1skipped51.30s before final table/ref correction; final correction
+5targetedGREEN0.40s and actual428item sourcegraph succeeds. Whole final-code run:
+4failed/4921passed/107subtests/6skips367.13s. All4failures are help subprocess text
+decoding(cp1252 parent versus UTF8 child output), not reader failures. PYTHONUTF8=1
+resolves all4help checks(4passed2.07s), with no code/dependency change. Fresh full
+UTF8mode rerun4926passed/107subtests,6skips/6warnings362.06s,exit0. Phase ledger19tests
+pass14.221s. Prior source/prospectus verification below is historical.
 
 Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledgerunittest pass10.561s. Focused50/13subtests pass3.60s; independent151chunk/binding/parser checks/13subtests pass18.08s. Same-input39source cached differential changesonlyFinancial Management,originalhashesunchanged. Oneoriginal regeneration56.823s emits54chunks; strict54newembeddings71.438s,tokens78..337,normdeviation<=1.11e-7; independentartifactQAclear. Allprior64sealed filesunchanged; new41-file seal528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf. Ownerkit27cases/10PDFs/12images/76links verified,allreviewdecisionpending.
 
@@ -54,16 +65,23 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Current policy gates:3retained Charter table rejections and Docling dropped-cell
+warnings; source-owner printed time-total discrepancy; pending acquisition,
+issuer/applicability/effectivity and independent source/content review. Handbook
+conversion, actual policy embeddings and approved retrieval calibration not run.
+Fullsuite UTF8mode rerun passed. Deferred prospectus findings below are historical
+context; they do not replace the current policy-source next action.
+
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
 
-Read final focused GREEN result and commit verified retention/hierarchy changes;
-inspect durable whole-Charter raw capture, diagnose exact unreachable references,
-then reuse captured conversion bytes through existing candidate pipeline in a new
-output. Do not rerun expensive conversion after capturing it. Validate bundle,
-source/table accounting and original invariance; retain dropped-cell findings and
-sampled source-total discrepancy. Handbook separate; no setup/review/Phase06 repeat.
+Next bounded continuation follows plans/2026-10-12-phase05-policy-recovery-handoff.md:
+whole394page handbook policy_candidate ingestion in fresh external output, existing
+offline environment, checkpoint before run. Use PYTHONUTF8=1/PYTHONIOENCODING=utf-8.
+Reuse captured Charter bytes for further diagnostics; keep3table rejections and
+source-owner time-total discrepancy pending. No setup repeat, prospectus review
+orPhase06. Finish current verified code/docs commit and final ledger check first.
 
 ## Do Not Repeat
 
@@ -305,3 +323,40 @@ child traversal inprocedure reader and textchildren inpolicy reader now GREEN:
 130passed/1skipped51.30s, including duplicate/cycle refusal and source-mutation
 guards. Commit this verified increment; actual Charter graph still pending second
 capture, so no claim yet that synthetic repair resolves the original.
+
+## Actual Charter graph and candidate recovery verified
+
+Second complete conversion persisted raw11cce11c35151aa4a03af24ea12d4d847729379dd90677b4ddec3c366997fe62
+in528.029s. Legacy walk misses30texts:27nested text/group fragments physical92,
+3table-owned footnotes physical10/20. Newprocedure walk covers428refs but policy
+walk still skips tables. Reviewer independently flags thisP2 and malformed text
+descendant reference accepted by tail-only int parsing. Focused RED: tablefootnote
+1failed0.53s; malformed ref1failed0.50s; tablecycle1failed0.47s. Guarded policy
+table traversal and canonical textref parsing GREEN5tests0.40s; actualreader
+accounts for305texts/123tables/428refs. Review excluded source accuracy/authority,
+retrieval/activation and historical changes: those remain pending/separate gates.
+
+Exact verified raw/meta capture replayed through run_ingestion in30.429s; new
+charter-recovered-candidate validates with load_candidate_bundle. Report:427chunks,
+305covered texts,0rejected/omitted texts,120emitted tables,3rejectedtables;117pages,
+no pageomissions. Rejections retained:table0physical3ambiguous/missing headers,
+table10physical12ambiguous roworder,table94physical92blank celltext. First/capture
+Docling dropped-cell warnings retained, not discharged by accounting completeness.
+Independent verification matches45original/metadata entries and existingpending
+Charter contract; allscope/authority/content states pending.192sample spans across
+physical6/7/69/102/103/109/110:175whitespace/NFCexact,17typographic apostrophe/dash
+substitutions. Classified findings retained without changing candidate text; no
+whole-document accuracy assertion. Printed25minute total versus four5minute rows
+remains source-owner clarification. Final wholepytest inprogress; no pass claim yet.
+
+## Final policy-code verification and evidence seal
+
+Finalsuite4926passed/107subtests,6skips/6warnings362.06s,exit0, using approvedvenv,
+pytest tests -q -p no:cacheprovider, externalpytest-final-utf8basetemp, existing
+offline asset flags andPYTHONUTF8=1/PYTHONIOENCODING=utf-8. Initial4CLIhelp failures
+diagnosed as mismatched subprocess decoding;4focusedchecks pass2.07s and whole
+rerun succeeds without extra code/dependency changes. Phaseledger19pass14.221s.
+Final45entry original/metadata inventory unchanged;70task files sealed with
+manifestc3dc18e7693f392e357e6a1fe705b7cb5d9fb2e7ef844cfee2c1e1bd282bd779.
+Raw evidence ignored; known3table/source-time-total findings pending. Context/ignore
+instructions already delivered, no dataset moves or policy authority promotion.
