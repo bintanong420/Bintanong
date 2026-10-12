@@ -1,6 +1,8 @@
 # Phase 04 independent security review — 12 October 2026
 
-**Disposition: Phase 04's security exit gate fails. Phase 05 must remain preparation only.**
+**Historical disposition (audit baseline): Phase 04's security exit gate fails. Phase 05 must remain preparation only.**
+
+**Remediation completed at `c5beecd`.** Findings below remain the audit record; the [corrective handoff](phase-04-handoff.md) contains current deployment/exit-gate evidence.
 
 Review baseline: `8f53b72f45e7bd5c3c6ac35094bb08cca9eed14a`, branch `feat/p04-supabase-rls`, initially clean. Scope: committed Phase 04 schema/RLS migrations, storage clients/loader/release manager, existing verification fixtures, actual local Supabase and hosted `Project_Bintanong` (`jyrudbiuajahsucsorco`). Requirements: master plan sections 9.1–9.2, 10.1 and 18.2; Phase 04 plan and handoff.
 

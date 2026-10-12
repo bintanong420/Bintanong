@@ -48,12 +48,14 @@ Files: `supabase/migrations/20261012010002_phase4_release_security.sql`, `backen
 Files: repository decisions/progress/checkpoint/handoff, plus a migration baseline verification/repair command if CLI connectivity requires a documented alternative.
 
 - [x] Compare hosted/local schema and functions to the historical migration baseline. Record the original ACL drift, verify no active data, and repair history accurately.
-- [ ] Apply additive migrations locally and hosted without resetting databases; inspect effective ACLs, schema/functions/history and both advisors.
-- [ ] Request independent whole-change review, address important findings, run the complete isolated storage gate and phase ledger checks.
-- [ ] Preserve the original audit and historical completion claims. Add exact new commits/versions/digests/evidence and unresolved limits. Only mark Phase 04 complete if every required gate passes; keep Phase 05 preparation only.
+- [x] Apply additive migrations locally and hosted without resetting databases; inspect effective ACLs, schema/functions/history and both advisors.
+- [x] Request independent whole-change review, address important findings, run the complete isolated storage gate and phase ledger checks.
+- [x] Preserve the original audit and historical completion claims. Add exact new commits/versions/digests/evidence and unresolved limits. Only mark Phase 04 complete if every required gate passes; keep Phase 05 preparation only.
 
 Evidence lives under `C:/Coding-projects/bintanong_workspace/audit-evidence/p04-repair-20261012/`. Use standard-library unittest under system Python if pytest remains unavailable. Raw SQL outputs and synthetic temporary artifacts stay outside Git.
 
 ## Advisor follow-through
 
 After 10001/10002 deployment, INFO-level advisor checks identified six original uncovered foreign keys and the two deliberate policy-free operational tables (no WARN/ERROR). Additive `20261012010003_phase4_advisor_hardening.sql` covers these keys and installs restrictive runtime-deny policies. Zero WARN/ERROR is the meaningful health gate; unused-index INFO on the empty corpus is documented, not suppressed by dropping required indexes. The new policy regression was observed failing before implementation.
+
+Completion: commits `c48f404`, `6e762a5`, `c5beecd`; 31 storage tests passed; deployed catalogs/functions/triggers match; six versions recorded; runtime writes/admin EXECUTE zero; security clear, performance INFO only unused indexes. The [corrective handoff](phase-04-handoff.md) governs current status.

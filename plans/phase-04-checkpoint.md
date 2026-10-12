@@ -1,15 +1,17 @@
 ---
 artifact: phase-checkpoint
 phase: 4
-status: in_progress
-sequence: 9
+status: superseded
+sequence: 10
 plan: plans/phase-04-supabase-storage-plan.md
-head_commit: 6e762a5
+head_commit: c5beecd
 working_tree: dirty
-updated_at: 2026-10-12T03:27:00+08:00
+updated_at: 2026-10-12T03:31:31+08:00
 ---
 
-# Phase 4 Checkpoint — security gate reopened
+# Phase 4 Checkpoint — corrective closure
+
+**Current status: superseded by the complete corrective handoff.** Code/database verification passed at `c5beecd`. Recovery history below is preserved; final state appears at the end.
 
 The [independent security review](phase-04-security-review-2026-10-12.md) invalidates the original exit-gate ruling. The final handoff is now blocked; Phase 05 is preparation only. The original closure record follows for historical context, then the current recovery state.
 
@@ -122,3 +124,41 @@ All 30 storage tests passed in 69.867s after the final nullable-identity and fix
 - Live local/hosted checks: both runtime roles have 17 SELECT grants, zero writes/admin RPC execution/public CREATE/private USAGE; all 19 tables use RLS, all application functions are INVOKER, vector 0.8.2, institutional tables and active pointer remain empty. Migration history exactly matches all five files.
 - Advisor results at INFO level: no WARN/ERROR; six pre-existing uncovered foreign keys, two deliberate admin-only tables without policies, and unused indexes on empty tables. New additive 10003 covers the six foreign keys and adds restrictive runtime-deny policies for operational tables without grants. New policy regression observed RED (one failure), then all 11 security tests passed after correction.
 - The CLI-generated 10003 empty scaffold was replaced by the next numeric version, preserving previously applied history. Pending: commit/apply 10003, verify catalog parity and advisors, then the final full suite and handoff. Unused-index INFO notices are expected on empty corpora; do not remove required indexes to suppress them.
+
+## Final corrective checkpoint
+
+### Completed Tasks
+
+F1–F5 resolved and deployed. All three additive migrations applied locally/hosted; all six history entries match. Independent reviewer: no blockers at `c5beecd`. Storage: 31 passed (78.153s); embedding: 12 passed; ledger: 19 passed. Both live roles have zero mutation/admin-function privileges. Catalog digests match. Security advisors clear; performance only unused-index INFO (24 hosted/18 local). No disposable databases remain.
+
+### Current Task
+
+Finish corrective handoff and closure ledger checks. Phase 05 remains preparation only.
+
+### Repository State
+
+Verified code HEAD `c5beecd`, branch `feat/p04-supabase-rls`. Dirty documentation closure: INDEX, Phase 04 plan/checkpoint/handoff/review, recovery plan, progress, decision and Phase 05 prepared-baseline note. Code/migrations committed. `head_commit` identifies verified code; the subsequent closure commit changes documentation only.
+
+### Verification Evidence
+
+Full commands/digests/roles/catalog counts in final handoff. Final CLI dry runs: no pending migrations. Local HTTP reads/admin-RPC/operational denials pass; hosted actual-role SELECT checks succeed. Institutional tables/pointers remain empty. Raw outputs stay outside Git.
+
+### Versions and Digests
+
+Python 3.13.7, CLI 2.117.0, PostgreSQL 17.6/hosted 17.6.1.166, vector 0.8.2, httpx 0.28.1, pydantic 2.13.5. Migration/production-file SHA-256 values in handoff. External model root unchanged; model-file hashing/execution NOT RUN.
+
+### Decisions
+
+Real-role regressions and deployed parity establish current authorization/publication guarantees. Unused-index INFO is nonblocking on empty corpora; required indexes retained. Hosted managed-role defaults remain platform-owned; application objects/defaults use audited postgres ownership and explicit grants.
+
+### Known Failures or Blockers
+
+No blocker for Phase 04 implementation. Institutional approval/activation, actual-corpus/performance evaluation and request-pinned retrieval retain applicable later boundaries.
+
+### Next Action
+
+Closure `validate` and `can-advance` both passed: no active phase, complete Phase 04 handoff, Phase 05 eligible. Commit documentation closure and confirm clean Git state. Next substantive task: owner review/formal Phase 05 start from its prepared plan.
+
+### Do Not Repeat
+
+Do not replay historical migrations, reset databases, delete shared pointers or repeat verified repairs because older narratives say blocked. Preserve raw evidence outside Git.
