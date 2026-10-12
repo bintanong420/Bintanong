@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 1
+sequence: 2
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 10bfd6f
+head_commit: d86b3ad
 working_tree: dirty
 updated_at: 2026-10-12T12:00:00+08:00
 ---
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Task 1: validated requests and strict local query encoding.
+Task 1 complete: validated requests/settings and strict local query encoder. Task 2 starts next.
 
 ## Repository State
 
@@ -47,8 +47,12 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Write/run Task 1 failing tests, hash existing model assets externally, then implement strict request/encoder interfaces.
+Write/run Task 2 database regressions, then add the atomic pinned-runtime RPC migration.
 
 ## Do Not Repeat
 
 Do not redo Phase 04 corrective implementation, replay/reset shared databases, download model weights, activate candidate corpus or interpret synthetic labels as institutional approval.
+
+## Task 1 verified increment
+
+Five query tests passed (0.007s, exit 0) after observed missing-module RED. External asset inventory has ten files; actual model.safetensors SHA-256 is df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 (freshly hashed, matches previous pinned value). Tokenizer SHA-256 883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Inventory retained externally as embedding-assets.json. Changelog fetched and relevant Data API exposure/ownership notices reviewed; retained PG17.6/vector0.8.2 with explicit ACLs, no upgrade. Model execution NOT RUN. Changed files: new retrieval package/query/types, query tests and progress/checkpoint.

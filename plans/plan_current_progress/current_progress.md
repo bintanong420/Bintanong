@@ -197,3 +197,7 @@ Owner requested continuation into Phase 05. Baseline clean `10bfd6f`, isolated `
 Prepared plan activated and refined against master section 10. Decisions: retain model-specific Retrieval prompt confirmed in external model config; strict query wrapper prohibits legacy adapter mock/network fallback; atomic STABLE invoker RPC pins only currently authorized release and exposes stale pins explicitly. No RLS relaxation or institutional activation. Context7 docs fetched for invoker RPC/RLS and local SentenceTransformer loading.
 
 System Python 3.13.7 has no pytest/torch/sentence-transformers; use unittest and explicit test doubles, no installs. Approved institutional retrieval cases are not yet established and remain a formal completion prerequisite. Next: Task 1 failing tests, external asset hashes, strict query/request implementation.
+
+### Phase 05 Task 1 verified
+
+Validated requests/settings and strict local query encoder added. Five unittest tests passed after missing-module RED; rejects unverified/missing assets, invalid vectors and token overflow, preserves matching Retrieval prompt exactly once. Fresh external weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1; ten-file inventory in external p05 evidence directory. Real execution unavailable in system Python; no installation/download. Next: atomic active-release-pinned RPC with citation/scoped search database tests.
