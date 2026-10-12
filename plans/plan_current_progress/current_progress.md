@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase 04 security repair is complete at code baseline `c5beecd`; its corrective handoff governs current status. Phase 05 is eligible but remains preparation only. Prospectus history below is preserved.
+**Current numbered-phase status, 12 October 2026:** Phase 05 formally started by owner instruction from `10bfd6f`; `plans/phase-05-checkpoint.md` governs recovery. Phase 04 corrective closure remains complete. Prospectus history below is preserved.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -189,3 +189,11 @@ Task 2 final gate: 30 storage tests passed in 69.867s. Final review corrections 
 - Raw evidence outside Git in `audit-evidence/p04-repair-20261012/`. Handoff records exact versions/digests/commands/limits. Models not downloaded, executed or hashed.
 - Closure: Phase 04 plan complete, checkpoint superseded, handoff complete, INDEX next phase 5; Phase 05 prepared baseline updated without starting implementation. `validate` and `can-advance` both passed: no active phase, complete latest handoff, Phase 05 eligible. Documentation commit/clean-state check follow.
 - Next substantive action: review/formally start Phase 05, then matching query embeddings, authorized request-pinned scope/release access and labeled retrieval evaluation. Source approval/institutional activation retain existing boundaries. Do not repeat repaired security work from historical blocked narratives.
+
+## Phase 05 formal start — 12 October 2026
+
+Owner requested continuation into Phase 05. Baseline clean `10bfd6f`, isolated `p05` worktree/`feat/p05-retrieval-logic`. Prior ledger valid and can advance yes; GitHub MCP PR 6 confirms merged corrective handoff. Hosted read-only MCP: PostgreSQL 17.6/vector 0.8.2, no knowledge releases or active pointer.
+
+Prepared plan activated and refined against master section 10. Decisions: retain model-specific Retrieval prompt confirmed in external model config; strict query wrapper prohibits legacy adapter mock/network fallback; atomic STABLE invoker RPC pins only currently authorized release and exposes stale pins explicitly. No RLS relaxation or institutional activation. Context7 docs fetched for invoker RPC/RLS and local SentenceTransformer loading.
+
+System Python 3.13.7 has no pytest/torch/sentence-transformers; use unittest and explicit test doubles, no installs. Approved institutional retrieval cases are not yet established and remain a formal completion prerequisite. Next: Task 1 failing tests, external asset hashes, strict query/request implementation.

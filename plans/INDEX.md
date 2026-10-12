@@ -5,11 +5,11 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: none (Phase 04 corrective exit gate complete)
-- Active plan: none; Phase 05 remains preparation only
-- Active checkpoint: none; Phase 04 checkpoint superseded
+- Active phase: `5` (owner start 12 October 2026)
+- Active plan: `phase-05-retrieval-plan.md`
+- Active checkpoint: `phase-05-checkpoint.md`; Phase 04 checkpoint superseded
 - Latest final handoff: `plans/phase-04-handoff.md` (complete after remediation; history preserved)
-- Next permitted phase: `5`; `phase-05-retrieval-plan.md` remains preparation only until formal start
+- Next permitted phase: `5` (active); Phase 06 requires a complete Phase 05 final handoff
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
 
 ## Parallel prospectus workstream
@@ -27,7 +27,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
 | 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
 | 4 | Supabase vector and relational storage | complete after security remediation | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` (superseded) | `phase-04-handoff.md` (complete) |
-| 5 | Retrieval | ready (preparation only) | `phase-05-retrieval-plan.md` | none | none |
+| 5 | Retrieval | in progress | `phase-05-retrieval-plan.md` | `phase-05-checkpoint.md` | none |
 
 ## Resume Order
 
