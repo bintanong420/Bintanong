@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 48
+sequence: 49
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 7fe2f07
-working_tree: checkpoint/current progress and handbook recovery record documentation
-updated_at: 2026-10-12T22:23:00+08:00
+head_commit: 94f01b3
+working_tree: policy_text.py, procedure_text.py, test_procedure_text.py, checkpoint/progress, handbook record and ingestion decisions
+updated_at: 2026-10-12T22:35:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -24,12 +24,16 @@ environment/assets retained; checkpoint before long conversion. Image-only cover
 is retained as a review gap, not silently OCRed. Charter427candidate chunks and
 3table rejections preserved; no activation, embeddings/rankings orPhase06.
 
-Whole-source conversion active since22:16+08:00, durable status/logs external.
+Whole-source conversion completed922.075s then reader refused accounting; raw/meta
+retained. Actualgraph5731texts/133tables/433pictures;83native texts under pictures
+were skipped.8synthetic regressions RED0.96s; minimal guarded picture-container
+traversal GREEN141passed/1skipped27.69s. Actualreader now accounts for5864refs.
+Replaying exact retained raw into fresh candidate output; no second PDFconversion.
 24original pages rendered; sparse native-text pages include images/dividers and
 blank bodies. Physical31–34requirements/waiver clauses and46/47/144/355grade
 contexts inspected. Original timing wording on47needs interpretation; preserve
 source conflict and distinguish undergraduate/graduate/laboratory/law sections.
-No new product code or candidate completion yet.
+No candidate completion claimed yet; retained Docling dropped-cell findings pending.
 
 ## Repository State
 
@@ -95,6 +99,11 @@ all page/item/table accounting, retained rejections and unchanged originals. Use
 PYTHONUTF8=1/PYTHONIOENCODING=utf-8 and existing offline assets. If refused, preserve
 raw diagnostics and diagnose before any synthetic RED/GREEN correction. Do not
 reconvert Charter, move originals, repeat setup or advance Phase06.
+
+Current exact recovery action supersedes initial run: finish existing retained-byte
+replay, validate new handbook-recovered-candidate output, perform source/accounting
+and sampled checks. Run full product suite on final code and read-only review of
+picture traversal; commit verified increments. No repeated expensive conversion.
 
 ## Do Not Repeat
 
@@ -401,3 +410,17 @@ and355graduategrade contexts. Physical47contains succeeding-term/one-year timing
 wording and needs source-owner interpretation; no precedence inferred. All notes
 are agentreview, not approved answers or executable rules. Rawconversion not complete;
 continue waiting for final manifests/report before any ingestion-success claim.
+
+## Handbook refusal / native picture children corrected with TDD
+
+Original run922.075s,exit1,"raw reading order omits text or tables". Existing raw
+retention fix worked:7,533,900byte JSON and718byte source/settings metadata remain
+in incomplete handbook-candidate/conversion, no manifests. Actualgraph5731texts,
+133tables,433pictures; all83legacyunvisited texts have picture parents/children.
+Includes captions/headings/ordinary native text, not additional OCR.8focusedRED
+cases0.96s cover PDF/PPTX order plus public policy/procedure cycles/malformed/missing
+picture references. Minimal guarded group/picture container traversal in both
+readers GREEN141passed/1skipped27.69s; actualreader5864refs succeeds. Existing
+order preserved and raw unchanged; no array-order fallback. Exact retained source-
+bound conversion now replaying through existing converter-injection/pipeline and
+checked consumer. Independent source-content/authority review remains pending.

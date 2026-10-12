@@ -58,3 +58,23 @@ need preservation. Physical46/144/355have different grading contexts; no univers
 undergraduate rule inferred. Physical47has succeeding-term/one-year timing wording
 for source-owner interpretation. Notes remain ignored/agentreview/pending; no
 approved gold answers, content rewrite or rules. Preserve sealed Charter evidence.
+
+## Whole-source refusal and TDD recovery
+
+Conversion finished after922.075s, then reader refused`raw reading order omits text
+or tables`(exit1). Prior retention fix preserved raw7,533,900bytes and718byte
+metadata in incomplete`handbook-candidate/conversion/`; no completed bundle.
+Docling dropped-cell warnings retained. No new PDF conversion is needed.
+
+Actual graph5731texts/133tables/433pictures;83unvisited text items are children of
+picture nodes. Existing readers handled text/table/group children but skipped
+pictures, losing native captions/headings/text from accounting.8synthetic RED
+regressions0.96s reproduce PDF/PPTX omission and policy/procedure malformed,
+missing and cyclic picture refs. Guarded group/picture traversal preserves native
+child order without adding picture bytes to text or inventing OCR. Relevant suites
+141passed/1skipped27.69s, and actual reader succeeds with all5864text/table refs.
+
+`recover_handbook.py`now reuses exact verified raw/source/settings/schema through
+existing pipeline in fresh`handbook-recovered-candidate/`. Original refused output
+and raw logs remain intact. No completion or source accuracy claim until checked
+bundle and original invariance/results are read. Full-suite/review still pending.

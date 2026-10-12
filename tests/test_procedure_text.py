@@ -198,6 +198,42 @@ def test_policy_table_descendant_cycle_refused(bound):
         read_policy_items(raw, version)
 
 
+@pytest.mark.parametrize("source_format", ["pdf", "pptx"])
+def test_picture_children_keep_native_text_reading_order(bound, source_format):
+    _, capture = bound
+    _, version = capture("source." + source_format)
+    raw = raw_document([item("Following paragraph"), item("1. Keep the exception."),
+                        item("Figure caption", label="caption")])
+    raw["pictures"] = [{"children": [{"$ref": "#/texts/2"}, {"$ref": "#/texts/1"}]}]
+    raw["body"] = {"children": [{"$ref": "#/pictures/0"}, {"$ref": "#/texts/0"}]}
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version, source_format=source_format)
+    assert result.reading_order == ("#/texts/2", "#/texts/1", "#/texts/0")
+    assert [(f.kind, f.raw_text) for f in result.fields] == [("step", "1. Keep the exception.")]
+    assert raw == before
+
+
+@pytest.mark.parametrize("reader", ["policy", "procedure"])
+@pytest.mark.parametrize("damage", ["cycle", "malformed", "missing"])
+def test_picture_container_invalid_references_refused(bound, reader, damage):
+    from backend.bintanong_tools.document_ingest.policy_text import read_policy_items
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([])
+    raw["pictures"] = [{"children": []}]
+    ref = "#/pictures/0"
+    if damage == "cycle":
+        raw["pictures"][0]["children"] = [{"$ref": ref}]
+    elif damage == "malformed":
+        ref = "#/pictures/not-an-index/0"
+    else:
+        ref = "#/pictures/1"
+    raw["body"] = {"children": [{"$ref": ref}]}
+    read = read_policy_items if reader == "policy" else module().read_procedure_items
+    with pytest.raises(ValueError, match="reading-order"):
+        read(raw, version)
+
+
 def test_table_raw_cells_headers_provenance_and_geometry_retained(bound):
     _, capture = bound
     _, version = capture()

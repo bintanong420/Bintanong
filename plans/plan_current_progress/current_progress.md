@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Owner authorized handbook continuation. Resumed clean d58b830;394page original/pending contract and45unchanged dataset entries freshly verified. Checkpoint before whole-document policy_candidate run in existing offline environment. Charter427chunks/3rejections preserved; prior4926test pass historical, no new product code yet. Source authority/content/scope pending. No setup/organization repeat, replacement search, prospectus review, activation orPhase06. Current execution record: plans/phase-05-handbook-source-recovery.md.
+**Current numbered-phase status, 12 October 2026:** Handbook whole394page conversion finished922.075s, reader refused83native text items under picture nodes. Raw/meta retained; no repeated conversion.8syntheticRED regressions then minimal guarded picture traversal GREEN141passed/1skipped; actualreader5864refs succeeds. Exact retained-byte candidate replay running; fullsuite/review/validation pending. Original images/scope/timing findings retained; authority/content review pending. Charter427chunks/3rejections preserved. No setup/moves/replacement search, prospectus review, activation orPhase06. Current record: plans/phase-05-handbook-source-recovery.md.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 

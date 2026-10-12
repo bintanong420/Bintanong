@@ -250,3 +250,16 @@ table rejections and upstream dropped-cell warnings. Accounting is not content
 accuracy or authority. Source-owner time-total discrepancies, applicability and
 independent review remain pending; no policy activation or Phase06 follows from
 this correction. Execution and TDD evidence: `plans/phase-05-policy-source-recovery.md`.
+
+### 2026-10-12: handbook native text inside picture containers
+
+The complete handbook conversion exposed83native text items under picture nodes,
+including captions and headings. Picture containers participate in reading order
+even when image content itself is not OCRed. Traverse their children alongside
+groups in both policy/procedure readers, preserving native order and rejecting
+malformed, missing or cyclic container refs. Do not append unvisited arrays or
+invent image text. Existing incomplete-bundle refusal and source guards remain.
+Synthetic regressions reproduced the omission before correction; actual source
+graph and retained conversion are reused for recovery. This does not establish
+image-body coverage, institutional applicability or authority. Evidence:
+`plans/phase-05-handbook-source-recovery.md`.

@@ -117,16 +117,18 @@ def _reading_order(raw: Mapping[str, Any], count: int) -> list[int]:
                 except (KeyError, IndexError, TypeError) as exc:
                     raise ValueError("unresolved raw reading-order table") from exc
                 active.remove(ref)
-            elif ref.startswith("#/groups/"):
-                if not re.fullmatch(r"#/groups/(0|[1-9]\d*)", ref):
-                    raise ValueError("invalid raw reading-order group")
+            elif ref.startswith(("#/groups/", "#/pictures/")):
+                collection = ref.split("/")[1]
+                kind = "group" if collection == "groups" else "picture"
+                if not re.fullmatch(r"#/(groups|pictures)/(0|[1-9]\d*)", ref):
+                    raise ValueError(f"invalid raw reading-order {kind}")
                 if ref in active:
-                    raise ValueError("cyclic raw reading-order group")
+                    raise ValueError(f"cyclic raw reading-order {kind}")
                 active.add(ref)
                 try:
-                    walk(raw["groups"][int(ref.rsplit("/", 1)[1])])
+                    walk(raw[collection][int(ref.rsplit("/", 1)[1])])
                 except (KeyError, IndexError, TypeError) as exc:
-                    raise ValueError("unresolved raw reading-order group") from exc
+                    raise ValueError(f"unresolved raw reading-order {kind}") from exc
                 active.remove(ref)
     walk(raw["body"])
     if "furniture" in raw:
