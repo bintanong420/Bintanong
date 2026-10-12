@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 27
+sequence: 28
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 1eeb21a
+head_commit: b3f2149
 working_tree: dirty
 updated_at: 2026-10-12T18:33:08+08:00
 ---
@@ -24,6 +24,8 @@ All39 original candidate bundles now verified after two serialization retries.33
 Isolated worktree p05, branch feat/p05-retrieval-logic, base10bfd6f. Verified latest production repair86c2720; current documentary baseline1eeb21a. Closure changes INDEX, checkpoint, handoff, retrieval plan, readiness report, dataset guide and current progress only. Following documentation commit is identified by Git rather than a self-referential SHA; expected clean after explicit staging. No owner changes overwritten, no push/merge/deployment or private artifacts staged.
 
 ## Verification Evidence
+
+Latest closure: post-fix4906pytest checks/107subtests pass571.49s,6skips/6upstream warnings. Final phase-ledger19unittest tests pass11.657s,exit0; actual ledger valid,clean atb3f2149,Phase05 active/blocked and cannot advance. Only checkpoint/current progress change in this final verification note; following documentary SHA is obtained from Git.
 
 Final suites: retrieval29 passed24.814s; storage31 passed76.097s; embedding12 passed0.108s; phase-state19 passed9.579s; all exit0. Fresh reviewer: no remaining P1/P2. Hosted security baseline zero lints. Local shared releases/pointers/test databases zero. CLI help/empty runtime smoke verified. Ledger validate/can-advance run after blocked-handoff creation; Phase06 must remain disallowed. Full commands/raw evidence/limits in handoff.
 
