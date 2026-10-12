@@ -15,6 +15,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Phase05 latest candidate delivery: [27-question balanced college practice exam](phase-05-practice-exam-report.md), code `317bf54`; nine colleges, three cases each; original12-case version preserved. Source/answer approval and real retrieval scoring pending.
 - Real retrieval status: [execution and resumed TDD recovery](phase-05-real-retrieval-readiness.md); latest39-source mix32errors/7warnings/390chunks and real document vectors. Code280a287,4912tests/107subtests pass; only3exam cases have same-byte chunks. Source/field/applicability review and approved runtime scoring remain open.
 - Owner review: [start-here guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md>),27editable case decisions,10original PDFs/12page images; owner confirms review has not occurred, all approvals pending.
+- Corpus scope: [policy retrieval versus prospectus/Prolog preparation](phase-05-corpus-scope-clarification.md); handbook/Charter additions and later organization request pending. Current prospectus diagnostics do not evaluate those policy sources.
 - Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
 
 ## Parallel prospectus workstream

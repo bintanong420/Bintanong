@@ -313,3 +313,19 @@ Finalpytest4912pass/107subtests/6skip/6warnings371.98s,exit0; phaseledger19pass1
 ### Resumed verified closure and owner review
 
 Instructions670d948;parser/test/decision280a287. Full4912tests/107subtests/6skip/6warningpass371.98s;phaseledger19pass10.561s. Current mix32errors/7warnings/390chunks/vectors,still3examcaseswithmatchingchunks. Ownerreviewkit at C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012 fullychecked27cases/10PDFs/12pageimages/76links; all labels pending. Ownerhasnotreviewedyet. Start START-HERE.md,edit REVIEW-DECISIONS.md andSOURCE-AUTHORITY.md; thenreconcile actualdecisions andcontinuefailed extraction/fieldreview beforeapprovedruntime calibration.41-file recoverymanifest528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf. Documentarycommitfollows; noPhase06/sharedchanges.
+
+## Corpus scope clarification — 12 October 2026
+
+Owner asked why prospectuses were reviewed inPhase05 and reports handbook and
+Citizens' Charter missing, intending to add them and request organization later.
+Context thesis physical pages36/55/68 identifies handbook, Charter andUSG/CSG as
+core institutionalRAG sources and prospectuses among private supplemental inputs;
+master permits separately verified institutional curricula. Phase05 retrieval
+can retrieve source statements, while Phase06 authors/tests executable rules.
+Current27case prospectus exercise prepares reviewed evidence and tests a
+curriculum subset; it cannot validate handbook/Charter retrieval. Repairing all39
+prospectuses is not a prerequisite stated in mastersection10. Scope clarification:
+plans/phase-05-corpus-scope-clarification.md. No files moved or new inputs presumed
+received. Next: owner adds policy files and later requests organization; inventory
+actual files/versions/scope then prepare policy/procedure development cases.
+Prospectus review/source approvals remain pending and Phase05 remains active.

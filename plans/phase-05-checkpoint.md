@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 34
+sequence: 35
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 280a287
+head_commit: 5f6d096
 working_tree: dirty
-updated_at: 2026-10-12T19:29:02+08:00
+updated_at: 2026-10-12T20:19:54+08:00
 ---
 
 # Phase 05 checkpoint
@@ -47,7 +47,16 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Next Action
 
-Owner starts C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md and records onecollege atatime inREVIEW-DECISIONS.md; sourceauthority/applicability evidence inSOURCE-AUTHORITY.md remainspending until established. Reconcile ownerdecisions against exactoriginalbytes andexisting27casekey,withoutautomaticapproval. Continue remainingextraction defects using savedconversions (including BSCSstandingfragment),independentfieldownership beforeaffectedcandidate regeneration. Approved runtime retrieval/calibration and reviewed sharedmigration followonly earnedsource/labelgates. Do not repeat setup,all39conversions,orprior336vectors.
+Read plans/phase-05-corpus-scope-clarification.md before resuming. The owner
+intends to supply the handbook and Citizens' Charter and will request dataset
+organization later. Wait for that request before moving files; then inventory
+actual sources, versions and scope and prepare policy/procedure retrieval cases.
+The prospectus packet remains a curriculum development/review subset, with
+extraction/source approvals pending; it does not replace the core policy corpus
+or authorize Prolog execution. Phase 05's approved-case retrieval gate does not
+require repairing all 39 prospectuses. Reconcile any owner review decisions
+against exact original bytes, keep unsupported capabilities unavailable, and
+preserve candidate inactivity. Do not repeat completed setup or diagnostics.
 
 ## Do Not Repeat
 
@@ -178,3 +187,18 @@ Owner confirms review notyetperformed and requests a workspace folder plus guida
 ## Verified resumed recovery closure
 
 Code280a287 committed; allfinal verification and ownerkitQA above complete. Userasks guided review inworkspacefolder; concretekitdelivered, decisionspending. Following documentationcommit identifiedbyGit; head_commit isverifiedcode ratherthan selfreferentialdocumentSHA. Masterplan preserved,activePhase05 blockedhandoffretained, noPhase06.
+
+## Corpus scope clarification — 12 October 2026
+
+Owner questioned prospectus review during retrieval and reported missing
+handbook/Charter inputs, to be added before a later dataset-organization request.
+Read Context runtime diagram and thesis physical pages36/55/68, master sections
+3/6/7/10/11 and prospectus provenance record. Thesis core institutional RAG
+sources are handbook, Charter and USG/CSG policies; master additionally permits
+verified institutional curriculum sources. Prospectus extraction review supports
+source accuracy and later Phase06 rules, while current27cases are a retrieval
+subset rather than policy-corpus evaluation. No executable Prolog inPhase05.
+All39 repair is not mastersection10's exit gate; source-specific failures remain
+quarantined. Clarification recorded in plans/phase-05-corpus-scope-clarification.md.
+Clean baseline5f6d096 reconciled; only explanatory documents/progress changed.
+No new dataset inventory, move, ingestion, approval, code/test run or advancement.
