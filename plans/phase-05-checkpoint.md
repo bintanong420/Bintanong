@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: in_progress
-sequence: 12
+status: blocked
+sequence: 13
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 1fb9d1b
-working_tree: dirty
-updated_at: 2026-10-12T13:15:50+08:00
+head_commit: 2a497c4
+working_tree: clean
+updated_at: 2026-10-12T13:46:45+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Owner resumed Phase05 and requested a small development practice exam with correct answers/sources and TDD tests. Active task: source-bound candidate exam loader/grader and external original-backed answer key. Formal Phase05 exit remains blocked under the preserved handoff.
+Requested development practice exam delivered and reviewed at2a497c4:12 original-backed candidate questions/key,21 new TDD tests and74 relevant passing unit/regression checks. Formal Phase05 exit remains blocked: independent source/answer approval, production span mapping and real matching model/runtime observations pending; Docker DB rerun unavailable.
 
 ## Repository State
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Write/run focused failing practice-exam tests, implement strict source/answer/citation checks, build the external 12-question original-PDF-backed candidate exam, validate it and run regressions. Do not claim approved labels or real-model retrieval performance.
+Independently review the existing external12-case packet/source authority and map its semantic row locators to production ingestion spans. Identify a compatible existing Python3.13 encoder environment or obtain explicit dependency setup authorization; restore/use Docker only within its applicable execution authorization and rerun DB gates. Collect actual matching SEA-LION/runtime observations for development calibration. Do not rebuild the delivered exam or infer approval from validation.
 
 ## Do Not Repeat
 
@@ -104,3 +104,7 @@ Fresh new suite19 passed; full retrieval rerun attempted and failed solely becau
 ## Practice-exam review correction verified
 
 Fresh review visually confirmed original-backed answers, proposal/effective labels and source/page/bbox locations; found one P2 existing-output hardlink bypass. Both original-source overwrite and gold-into-Git cases reproduced RED on synthetic temp files. Preflight now refuses existing symlink/hardlink/non-regular output targets before any write;21 new tests pass0.234s and reviewer independently9 CLI tests pass0.179s, no remaining P1/P2. Original institutional files untouched. External wrong-program case now records requested BSIT with unknown edition, rather than using the BSCS background source as applicability; answer/key wording unchanged. Final non-DB regressions/readable exports rerun and results in external logs. Next: commit correction and record candidate practice-exam delivery/remaining Phase05 exit gates.
+
+## Practice-exam delivery/recovery checkpoint
+
+Verified code2a497c4, fresh source-boundary re-review clear.12 cases/8 groups, en/tl/Taglish4 each, nine answerable/one needs_scope/two insufficient_evidence. Artifacts outside all Git roots at C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012; packet04f7d3c5d5c793ef8a8aaf7c272690aa0757adb49ee775f30120977cdc55e096, question sheet752032c10141629794b34cbeb13f7d2f56722153f5fc624c927d1187b12ad7eb, key9c48a3ce898904399574d28e2a642d9c9ee77809325773a59c67130cb594159d. Both original byte hashes match pending inventory; originals preserved. Final43 combined units pass0.241s, embedding12 pass0.159s, ledger19 pass12.177s;74 relevant checks.21 new tests and reviewer9 CLI checks pass. DB-inclusive retrieval attempt failed infrastructure; no Docker startup/no fresh DB pass. Gold candidate labels/source authority remain pending; no grading observations/score fabricated. Documentary closure follows code commit; Git identifies actual HEAD, expected clean after explicit staging. See phase-05-practice-exam-report.md for exact commands/limits.

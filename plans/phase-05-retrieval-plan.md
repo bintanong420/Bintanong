@@ -69,3 +69,7 @@ Run all retrieval/storage/embedding unittest suites and phase-state tests; verif
 ## Candidate recovery checkpoint — 12 October 2026
 
 Software delivery and fresh review are verified at ddf9b83;91 relevant tests passed. Task4 has only synthetic development calibration; Task6 formal approved-case/model exit remains blocked. See phase-05-handoff.md for exact recovery conditions, versions/digests and evidence. Shared migration unapplied, default policy uncalibrated, no institutional release activation. The active Phase05 checkpoint is blocked and retained rather than superseded; plan remains in_progress so phase_state.py continues selecting Phase05 (blocked plans are not active in that inspector). Phase06 cannot begin.
+
+## Owner-resumed source-backed development exam
+
+The owner requested a small practice exam with correct answers/sources and TDD tests. [Practice-exam plan](2026-10-12-phase05-practice-exam-plan.md) implemented at2a497c4; [delivery/verification report](phase-05-practice-exam-report.md) identifies external12-case question/key/packet files, fresh source hashes,21 new TDD tests,74 relevant passing regressions and the Docker-unavailable DB rerun. The set remains candidate pending independent source/answer review and production span mapping; real-model retrieval observations are NOT RUN. Tasks4/6 formal gates remain open, no institutional activation or Phase06 advancement.

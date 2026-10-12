@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase05 software candidate verified at ddf9b83; formal exit blocked pending approved development sources/cases and real encoder/citation verification. Active phase-05-checkpoint.md and blocked phase-05-handoff.md govern recovery. Phase04 corrective closure remains complete; no Phase06 advancement. Prospectus history below is preserved.
+**Current numbered-phase status, 12 October 2026:** Phase05 development practice exam delivered at2a497c4 (12 source-backed candidate questions/key,21 new TDD tests,74 passing unit/regression checks). Formal exit still blocked on independent approval/production span mapping/real model-runtime observations; fresh DB rerun unavailable with Docker stopped. Active phase-05-checkpoint.md and blocked phase-05-handoff.md govern recovery. No Phase06 advancement. Prospectus history below is preserved.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -249,3 +249,9 @@ Owner requests continued Phase05 TDD and a small dev practice exam with correct 
 ### Practice-exam fresh review fixed
 
 Reviewer confirmed original-backed answer/source correctness and found one P2 linked output file bypass. Two synthetic hardlink RED regressions now GREEN; exporter refuses existing symlink/hardlink/non-file outputs before writes.21 new tests pass0.234s; reviewer9 CLI tests pass0.179s with no remaining P1/P2. Wrong-program question scope records explicit BSIT/unknown edition; BSCS source is only background. Correct source identity/answer key remain candidate, no human source approval or real observations. Final combined unit regressions and export validation rerun; commit/report/handoff updates next.
+
+## Phase05 source-backed development practice exam delivered
+
+Commits f7534c8/4eedfb6/1fb9d1b/2a497c4. External question sheet/key/packet/validation at C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012; repository report phase-05-practice-exam-report.md.12 questions,8 groups, four per en/tl/Taglish; originals visually read and hashes match existing pending CSV. Candidate proposal remains proposed, never approved.21 new TDD tests, final43 new/retrieval unit checks +12 embedding +19 ledger =74 passing; fresh review fixed one P2 hardlink bypass and now clear. DB-inclusive rerun attempted but Docker absent; no container start, no fresh DB pass or shared writes. No source-derived gold in Git, no fabricated observations/score, no model execution/dependency change.
+
+Next action: independently review existing packet/source applicability, map source row locators to production span/cell IDs, use an authorized compatible model/database environment and record real development observations. Formal Phase05 gate remains blocked; checkpoint retained, handoff updated, no Phase06. Do not repeat delivered exam or old Phase04/Phase05 code, activate candidates, or interpret source-byte validation as institutional approval.

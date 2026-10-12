@@ -3,9 +3,9 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: ddf9b83
-recovery_condition: Supply independently approved source-backed development cases and an existing compatible Python 3.13 model environment (or explicit owner authorization for dependency setup), run real matching SEA-LION retrieval and source-file citation verification, then pass the master section 10 exit gate before advancing.
-completed_at: 2026-10-12T09:54:31+08:00
+final_commit: 2a497c4
+recovery_condition: Independently approve applicable source-backed development labels (prepared12-case candidate packet available), map semantic row locators to production ingestion spans, run actual matching SEA-LION/runtime/source-citation gates in an authorized compatible environment, then pass master section10 before advancing.
+completed_at: 2026-10-12T13:46:45+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
@@ -91,3 +91,13 @@ The weights digest matches the previous pin and now has fresh file evidence. Ten
 4. When all master section 10 exit evidence exists, write an earned complete handoff, supersede the checkpoint, update INDEX, validate and can-advance. Until then Phase 05 stays active/blocked; do not create Phase 06 or infer approval from the synthetic software candidate.
 
 Do not repeat verified Phase 04 repairs or Phase 05 code delivery. Do not reset shared databases, install/download without owner authorization, move model weights into Git, relabel synthetic cases verified, activate candidate knowledge or change executable Prolog/API/Docker scope.
+
+## Owner-resumed practice exam — verified candidate at2a497c4
+
+This update governs new work after the preserved original delivery above. Owner requested continued Phase05 with a small practice exam and TDD tests. Commits f7534c8 planning,4eedfb6 checker/grader,1fb9d1b CLI/export,2a497c4 reviewed hardlink fix.12 candidate questions/8 scenario groups, four en/four tl/four Taglish, nine answerable/one curriculum clarification/two insufficient-evidence. Original-backed manual answers, source/version hashes, physical/printed pages and row boxes independently agent-checked; no institutional/human source approval claimed. The proposed2025-2026 sheet remains proposed.
+
+External packet/question/key/validation live at C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012. Initial audit-evidence destination discovered under an unrelated Git root; only new task artifacts moved after exact path validation. Original files and previous evidence unchanged. Correct original hashes: new600cb36b362cff598d84c66a11598b07593c0e74e78a62658b3c61c89f5d5664, oldc781052fc7242ba520410910f171379721e9bfd0c695b2f0094a3e3981641e4d; both match preserved pending inventory. Full artifact digests and source/coverage limitations in phase-05-practice-exam-report.md.
+
+Final43 new/retrieval unit checks pass0.241s, embedding12 pass0.159s, phase-state19 pass12.177s:74 relevant passing checks, including21 new TDD tests. Fresh review P2 hardlink source/Git overwrite reproduced RED and fixed; reviewer9 CLI tests pass0.179s, no remaining P1/P2. Actual packet byte/locator validation/export exit0, grading null; no fabricated observations or key-replay benchmark. New checker uses systemPython3.13.7 stdlib only. No package/lock/model change or real-model run. DB-inclusive retrieval rerun attempted and failed because Docker Linux-engine daemon/pipe is unavailable; historical29/31 DB-suite passes remain historical and cannot satisfy a fresh gate. No Docker startup, shared migration, candidate activation, push or merge.
+
+Next recovery action replaces the old missing-case-path request: review the already prepared external packet/source applicability or provide approved authoritative replacements, map its semantic row references to production ingestion spans and collect real matching encoder/runtime observations using an authorized compatible environment. Docker/model execution and source authorization retain existing boundaries. Approved calibration/formal exit still blocked; no Phase06. Do not repeat completed exam/code delivery.

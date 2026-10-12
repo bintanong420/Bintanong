@@ -27,3 +27,7 @@ Three P2 findings were reproduced and corrected: required-clause chains now use 
 ## Final verification
 
 At verified code ddf9b83: retrieval29 passed24.814s, storage31 passed76.097s, embedding12 passed0.108s (existing deprecation warning), ledger19 passed9.579s;91 relevant tests, all exit0. Fresh review clear after fixes. Local releases/active pointers/disposable databases zero; hosted security baseline zero lints. Shared migration remains unapplied. Formal Phase05 recovery is blocked under phase-05-handoff.md; approved sources/cases and real-model/source-file gates remain NOT RUN. Raw final logs and observed synthetic evaluation JSON are external, as recorded in handoff.
+
+## Source-backed practice exam continuation
+
+[Practice-exam report](phase-05-practice-exam-report.md) records the owner's next Phase05 request, implemented at2a497c4:12 original-backed candidate questions/answers/source locators,21 new TDD tests and74 passing non-DB unit/regression checks. Actual source-byte validation/export passed, while grading remains null and real model observations unrecorded. The fresh DB-inclusive rerun could not start because Docker was stopped; earlier database passes and synthetic ranking metrics above remain historical. The prepared packet advances review preparation without claiming approved source applicability/calibration or Phase06 advancement.
