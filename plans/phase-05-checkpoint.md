@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: in_progress
-sequence: 21
+status: blocked
+sequence: 23
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 6b14254
+head_commit: 66bce2a
 working_tree: dirty
-updated_at: 2026-10-12T17:23:59+08:00
+updated_at: 2026-10-12T17:44:17+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Balanced27-question college exam delivered and reviewed at317bf54: three cases per nine colleges, one per language per college,26 dev groups/10 original sources.34 exam tests and94 distinct relevant checks passed, including fresh29-test DB-inclusive retrieval. Both versions are untracked within workspace/audit-evidence; main checkout preserved. Formal exit blocked on independent institutional/source approval, ingestion mapping and actual matching model/runtime observations.
+Authorized package setup complete in workspace readiness/venv; strict local SEA-LION executes27 queries plus one original-text documentprobe.39 original PDFs/43 pages and28 cited PDF character regions verified. Current fullpytest4902passed/107subtests/6skipped/2failures; only two real converter tests need separately unapproved Docling assets. Production cell mapping, independent institutional review and actual retrieval evaluation remain pending. Fresh review no P1/P2; code66bce2a verified, no corpus/shared activation.
 
 ## Repository State
 
@@ -43,11 +43,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
-No approved labeled institutional retrieval cases yet established; formal exit depends on them. Real model execution unavailable in system Python without existing compatible environment; no installs allowed.
+Production Docling layout/table snapshots absent and not yet authorized for download; two integration tests fail in offline mode. No independently approved institutional labels/source applicability or actual production cell mapping yet. Real encoder dependencies/execution are now verified in the authorized isolated environment; do not treat prior missing-package notes as current.
 
 ## Next Action
 
-Independently approve the balanced27-case packet/source applicability or provide authoritative replacements, map semantic locators to production ingestion spans, and identify an existing compatible Python3.13 encoder environment or explicit dependency authorization. Collect actual matching SEA-LION/runtime development observations and calibration; current DB software gate passes. Do not rebuild either delivered exam or infer institutional approval from validation.
+Obtain explicit approval for the concrete five-file pinned Docling asset proposal (~384.43MB) into owner-directed workspace hf-cache, or use a supplied compatible local asset directory. Package authorization is already granted and installation complete; do not ask it again. Then rerun actual PDF conversion/production cell mapping and the two blocked integration tests, followed by independent institutional source/answer review and genuine runtime ranking/calibration evidence. No activation or Phase06 inferred.
 
 ## Do Not Repeat
 
@@ -140,3 +140,11 @@ Owner says yes/go ahead/allow following the exact reviewed pinned dependency pro
 ## Authorized environment and real encoder verified increment
 
 Prepared isolated package installation succeeds; pip check no broken requirements, full resolved environment recorded externally. Exact top pins retained, Python3.13.7. Newly executable targetedpytest gate67 passed/19 subtests17.02s (including previously unavailable register/input-snapshot suites). Real strictSEA-LION model loads offline and executes27 originalcase queries plus one source-only documentprefix in45.035s; querytokens50..75/document193/context512, all1024-D vectors normalized, prompt/weights/tokenizer hashes match. No retrieval rankings/scores claimed. IndependentPDFium extraction39 originals/43pages/noempty pages, allbytesunchanged;28 regions resolve to actualPDFcharacters and valid pending SourceSpan contracts, productionDocling IDs remainunmapped. ExistingDocling converter offline probe blocked on LocalEntryNotFoundError missingcached model snapshot; no extra model downloads authorized/attempted. Fullpytest stillrunning, one failure seen sofar; inspect finalsummary/rootcause before any passclaim. Next: complete fullsuite diagnosis and identify exact missingDocling assets, preserve no-activation/source-review gate.
+
+## Full installed-suite diagnosis and verified corrections
+
+First wholepytest:7 failed/4898 passed/5 skipped/107 subtests447.84s. Exact failures: test_ingest_hardening refusal_exits, alias_refused_before_conversion, alias_created_during_conversion (three obsolete external-click.Exit expectations; publictyper.Exit is correct for pinned0.26.8), writer_boundary_alias[symlink] (Win1314 platformfixture capability), real_cli_stdout_parses_as_json (missing Doclingassets); test_prospectus_entrypoints self_test[legacy shim] (top-level import makes deeprelative contractimport invalid); test_tools_contract syntheticPDFparse (missingDoclingassets). Legacy failure andthreeCLIexpectations reproducedRED. Two-line shimbootstrap fixes canonicalbackend package; assertions usepublicTyperExit, source-preservation checks unchanged; symlinkfixture preflights capability and skips unsupportedplatform. Focused47 passed/2 skipped/one asset-dependent deselection20.76s; coherent correction committed. Wholepytest rerun nowrunning with8 CPUthreads. Assetmetadata-only proposal identifies pinnedHeron3files171.66MB andTableFormeraccurate v2.3.0 twofiles212.77MB, total384.43MB; no assetdownloads. Next: final rerun/readiness/code review, record precise remaining model-asset/institutional prerequisites.
+
+## Final installed-model increment / asset recovery
+
+Whole rerun405.12s:4902passed/107subtests/6skipped/2failed, both realDoclingtests missing offline assets. Exact test names/logs and first7fail diagnoses in readiness report. Current Python3.13 venv isinstalled and pipcheckclean; realmodel27queryvectors + one source-only documentprobe45.035s validated. No ranking observations or quality score generated. Independent reviewer all39hashes/43pages/28glyphregions and27vectors checked, no P1/P2; sourcebinding/aliascontrols intact. Metadataonly modelproposal5 pinnedfiles384,428,156bytes; downloadguard requiresowner approval, no modelsdownloaded. Owner all-new-work-inside-workspace instruction governs proposedDocling cache despite defaultskill modelpath; existingMODELS unchanged. Finaldocclosure follows66bce2a; clean expected afterexplicitstaging. Next: exact asset approval/existingpath, thenactualsourceingestion/mapping; no repeatinstall, fakeDoclingIDs, corpusactivation or Phase06.

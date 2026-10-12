@@ -3,9 +3,9 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 317bf54
+final_commit: 66bce2a
 recovery_condition: Independently approve applicable source-backed development labels (prepared27-case nine-college candidate packet and archived12-case version available), map semantic row locators to production ingestion spans, run actual matching SEA-LION/runtime/source-citation gates in an authorized compatible environment, then pass master section10 before advancing.
-completed_at: 2026-10-12T16:46:39+08:00
+completed_at: 2026-10-12T17:44:17+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
@@ -111,3 +111,9 @@ Final recovery action: independently approve the candidate27-case answers/source
 ## Owner-resumed real retrieval readiness
 
 Readiness preparation at plans/phase-05-real-retrieval-readiness.md records39 live hash-bound pending register entries, ten authored exam-to-byte-derived identity translations,27-case independent reviewer sheet and28 unresolved cell mapping requests. All generated data inside workspace/audit-evidence/p05-real-retrieval-readiness-20261012; no product code or dependency declarations changed. Independent agent review no P1/P2, all source/register/mapping/review rows checked. Strict localencoder asset/prompt preflight fails missing sentence_transformers after hashes verify;34 exam tests pass0.840s, register/input-snapshot pytest modules unavailable with two explicit import failures. Read-only local/hosted DB counts allzero. Exact isolated workspace setup proposal prepared, no installation/model downloads performed. Owner explicit dependency authorization or existing compatible interpreter path is the immediate execution prerequisite; then actual source ingestion/mapping and model measurements, preserving independent institutional-source review gate. Never turn prepared aliases or blank mapping IDs into runtime observations.
+
+## Installed environment and real local encoder recovery update
+
+Owner explicitly approved pinned packages; isolated workspace Python3.13 environment installed/pipcheckclean and allresolved versions recorded. No repo dependency/lock changes. Strict SEA-LION weights/tokenizer/prompt gates and actual27query + one original-text documentprobe execute offline with1024normalized dimensions/512context; no retrievalqualityclaim. PDFium39 originals/43pages/28 actualglyphregions bound to pendingSourceSpan contracts, productionDocling cells notinvented. Fullsuite first7failures diagnosed; verified66bce2a legacybootstrapping/publicTypertest/platformcapability corrections. Fresh rerun4902passed/107subtests/6skip/2fail405.12s; only realDoclingtests missingassets. No P1/P2 freshreview; exact evidence/logs/limits in readiness report.
+
+Immediate recovery replaces missingencoder-dependency blocker: five pinnedDocling layout/accuratetable files384.43MB proposed, notdownloaded orauthorized. Owner's direct all-task-artifacts-within-workspace instruction controls the proposed newDocling HFcache location; existingSEA/GEMMA assets remainMODELS unchanged. Obtain exact downloadauthorization/existingassetpath, run realconverter/cellmapping andtwofailedtests, then institution/domainreview and actualruntime retrieval. Defaultpolicyuncalibrated, sharedcorpusinactive, noPhase06. Do not askforpackagepermissionagain or reruncompleted setup.

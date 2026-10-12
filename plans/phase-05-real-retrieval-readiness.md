@@ -1,6 +1,6 @@
 # Phase 05 real retrieval readiness — 12 October 2026
 
-The owner requested continuation from the prepared 27-question exam toward citation mapping and real retrieval measurements. This document records completed preparation and a concrete dependency setup proposal. It does not approve institutional sources, publish candidate knowledge or advance Phase 05.
+Current status: owner-authorized dependencies are installed and real local SEA-LION execution is verified. Original-PDF character regions are resolved; production Docling mapping remains blocked on the specific additional assets proposed below. The initial preparation record is preserved alongside the execution updates. It does not approve institutional sources, publish candidate knowledge or advance Phase 05.
 
 ## Completed preparation
 
@@ -53,3 +53,34 @@ The shared/hosted corpus remains inactive. Source approval, actual ingestion map
 Documentation consulted: [Sentence Transformers local loading](https://github.com/huggingface/sentence-transformers/blob/main/sentence_transformers/base/model.py), [PDFium text and coordinate API](https://pypdfium2.readthedocs.io/en/stable/python_api.html), and official [torch package metadata](https://pypi.org/pypi/torch/2.14.0/json), [Sentence Transformers metadata](https://pypi.org/pypi/sentence-transformers/6.1.0/json), [Docling metadata](https://pypi.org/pypi/docling/2.133.0/json). Context7 was used for the library documentation.
 
 Fresh independent agent review validated all39 live source hashes/pending contracts, ten translations,27 review rows and28 unresolved citation requests with no P1/P2 findings. Agent review does not supply institutional authority. Setup remains unexecuted pending explicit owner authorization.
+
+## Authorized execution update
+
+Owner explicitly approved the prepared package setup. Installation completed in the isolated workspace environment; pip check found no broken requirements, and the resolved versions are recorded in resolved-environment.txt. Original system Python and repository dependency/lock files are unchanged.67 targeted pytest checks plus19 subtests pass17.02s, including previously unavailable register/input-snapshot tests.
+
+Actual strictSEA-LION execution completed offline:27 real query embeddings and one original-source documentprefix smoke test,1024 normalized dimensions,512-token model limit; querytokens50..75 and document193. Weight/tokenizer/prompt checks passed. Runtime packages: torch2.14.0 (CPU), sentence-transformers6.1.0, transformers5.19.0, tokenizers0.23.3. This proves model compatibility/execution, not recovered policy evidence or retrieval quality. See real-encoder-report.json and real-query-embeddings.jsonl in the readiness folder.
+
+PDFium independently extracted all39 originals/43physical pages without empty pages or changed bytes.28 authored regions now resolve to actual PDF characters and valid pending SourceSpan contracts in original-region-inspection.json. These are PDF character inspection spans, not invented Docling table/cell identities; production ingestion mapping remains incomplete.
+
+The first full pytest run reported7 failures,4898 passes,5 skips and107 passing subtests in447.84s. Three tests used external click.Exit while the pinned public API is typer.Exit; one Windows fixture lacked symlink privilege; the legacy shim imported the extractor at a namespace depth incompatible with contract imports; two real converter tests need missing Docling model assets. Root causes were reproduced before changes. Commit66bce2a fixes the shim and test API/capability checks, preserving all source-protection assertions. Focused47 pass/2skip/oneassettestdeselected20.76s; the final whole-suite rerun is recorded separately when complete.
+
+## Remaining Docling assets — concrete proposal, not downloaded
+
+The existing converter fails closed in offline mode because its Heron layout model has no cached snapshot. Its configured accurate TableFormer also needs its checkpoint/config. Package installation did not include permission to download extra model assets. The metadata-only proposed-docling-assets.json and proposed-docling-download.py identify five files totaling384,428,156 bytes (384.43MB), stored only in this task's workspace hf-cache if approved. Existing SEA-LION/GEMMA weights stay in place under MODELS; no duplicate is proposed.
+
+| Required bundle | Pinned commit | Files / size |
+| --- | --- | --- |
+| docling-project/docling-layout-heron |8f39ad3c0b4c58e9c2d2c84a38465abf757272d8 |config.json,model.safetensors,preprocessor_config.json;171,662,708 bytes |
+| docling-project/docling-models, runtime v2.3.0 |fc0f2d45e2218ea24bce5045f58a389aed16dc23 |accurate/tableformer_accurate.safetensors and tm_config.json under model_artifacts/tableformer;212,765,448 bytes |
+
+Metadata includes official LFS SHA-256 for both safetensor files. The prepared helper limits downloads to those five pinned files, checks their sizes/hashes, and binds offline cache revision labels to the reviewed commits. No extra OCR/VLM/LLM model, dependency change, corpus activation or policy approval is included. Owner authorization for these model files, or an existing compatible local asset directory, is the next converter prerequisite. The independent source/domain reviewer sheet remains pending separately.
+
+## Final installed-environment gate and recovery
+
+After the reproduced fixes, the fresh full command `venv/Scripts/python.exe -B -m pytest tests -p no:cacheprovider --basetemp <workspace-readiness>/tmp/pytest-full-rerun -q` reports **4902 passed,107 subtests passed,6 skipped,2 failed** in405.12s. The two remaining failures are `tests/test_ingest_hardening.py::test_real_cli_stdout_parses_as_json` and `tests/test_tools_contract.py::ToolsContractTests::test_synthetic_pdf_fixture_exists_and_parses`, both stopped by the uncached Docling layout assets in enforced offline mode. They remain failures, not skips or a full passing-suite claim. Six skips include unsupported Windows symlink privileges. Full logs are `full-pytest.log` and `full-pytest-rerun.log`; no cache files are written into Git.
+
+Fresh independent review: no P1/P2 findings. Reviewer verified all39 hashes/43 extracted pages, all28 PDF character regions/bboxes and source bindings, every27-vector dimension/norm/configuration, source-only documentprobe and maintained CLI/input protections. Five entrypoint tests pass independently; hardening checks independently42pass/2skip/oneasset-dependent failure. Reviewer declined institutional-authority and retrieval-quality claims because neither is established here.
+
+Location ruling: the owner explicitly required all new task artifacts under `C:/Coding-projects/bintanong_workspace`. That higher-priority instruction overrides the handoff skill's default model-storage location for these **proposed new Docling assets** only. Existing SEA-LION/GEMMA weights remain in MODELS and are read in place. The additional download proposal names the workspace hf-cache explicitly; no model downloads are authorized yet. Set DOCLING_CACHE_DIR to the workspace docling-cache directory for future runs as well as HF_HOME/TEMP/TMP. Inspection confirms this converter's model snapshots use the Hugging Face cache, so the proposed pinned cache reference bindings match its offline lookup.
+
+Next action: obtain explicit approval for the five Docling files (or an existing compatible asset directory), then rerun conversion/source-cell mapping and both blocked integration tests. All package setup/model smoke work already authorized is complete. Keep source/domain review pending and preserve candidate inactivity; actual retrieval rankings/calibration still require the source-linked corpus and review evidence.
