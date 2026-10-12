@@ -13,6 +13,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Next permitted phase: `5` (active); Phase 06 requires a complete Phase 05 final handoff
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
 - Phase05 latest candidate delivery: [27-question balanced college practice exam](phase-05-practice-exam-report.md), code `317bf54`; nine colleges, three cases each; original12-case version preserved. Source/answer approval and real retrieval scoring pending.
+- Real retrieval preparation: [readiness and dependency proposal](phase-05-real-retrieval-readiness.md);39 pending identities/10 source translations/27-case reviewer sheet ready, actual cell mappings and encoder execution blocked on prerequisites.
 - Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
 
 ## Parallel prospectus workstream

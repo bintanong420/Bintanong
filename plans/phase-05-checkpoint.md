@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 17
+sequence: 19
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 317bf54
+head_commit: de54abc
 working_tree: dirty
-updated_at: 2026-10-12T16:46:39+08:00
+updated_at: 2026-10-12T17:05:43+08:00
 ---
 
 # Phase 05 checkpoint
@@ -124,3 +124,11 @@ Owner requires all task artifacts under C:/Coding-projects/bintanong_workspace; 
 ## Final college delivery/recovery checkpoint
 
 Verified code317bf54; documentary closure follows with its HEAD discoverable in Git, avoiding a self-referential checkpoint SHA. Fresh reviewer clear. Final56 combined units/12 embeddings/19 ledger/29 full retrieval pass (94 distinct checks); latest full retrieval includes7 DB checks and runs from workspace-contained temp.27-case/26-group packet,10 originals, balanced nine colleges; question/key digests and all source hashes in report/manifest. Archived12-case four digests preserved. No grading.json in either set and no observations invented. Current evidence roots are outside Git: previously observed ancestor marker now absent, no agent removal. Source location guide/current progress/handoff updated, original dataset and main checkout unchanged, formal exit remains blocked. Expected clean tree after explicit documentary commit; do not repeat delivered work.
+
+## Owner resumes source mapping and real execution readiness
+
+Owner says proceed with the pending citation/model gate work. This authorizes preparation/execution in existing compatible environments, not invented institutional approval or dependency installs forbidden by AGENTS. Clean baseline de54abc reconciled. System Python3.13.7 lacks torch, sentence-transformers, transformers, tokenizers, PDF extractors and pytest; no workspace python.exe/pyvenv.cfg found. Existing running Docker contains Supabase services only, no embedding service/image. Neither current nor main dataset has persisted JSON/cell conversions; artifacts folder empty.39-source provisional inventory stays pending. Next: mint byte-derived pending source register and exam-to-register translation, generate27-case independent review sheet/unresolved-cell mapping requests, prepare exact pinned isolated-env setup for owner authorization. All outputs/work temporaries inside workspace audit-evidence; existing weights read from MODELS without copying/downloads.
+
+## Source/model readiness preparation verified
+
+39 real-source pending register records minted/reparsed via existing contract after fresh original hashes match inventory; approval remains not_requested, scopes/verification/content review pending. Ten exam aliases translated to canonical byte-derived pending IDs.27-case independent source/answer review CSV ready;28 unique semantic locator requests explicitly unresolved, actual ingestion IDs empty. Strict QueryEncoder preflight verified10 localassets/prompt then refused absent sentence_transformers (1.794s); no vectors/observations. Local psql and hosted Supabase MCP read-only counts allzero versions/chunks/spans/embeddings/releases/pointers.34 exam tests pass0.840s. Two additional pytest module imports failed because pytest is absent, not counted passing; no test shim or installation. Fresh reviewer all39 hashes/10 mappings/27 reviewrows/28 requests checked, no P1/P2. Exact project-pinned workspace environment proposal/setup prepared but not executed. Current changes: INDEX, readiness document, checkpoint, handoff/progress. Artifact root workspace/audit-evidence/p05-real-retrieval-readiness-20261012; no source/corpus/database/product-code changes. Next action: obtain explicit owner installation authorization or existing compatible environment path, install/check within workspace if approved, then actual model/PDF ingestion gates; independent institutional review remains necessary.
