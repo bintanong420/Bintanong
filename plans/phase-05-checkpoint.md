@@ -1,10 +1,10 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: blocked
-sequence: 23
+status: in_progress
+sequence: 24
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 66bce2a
+head_commit: 645d14a
 working_tree: dirty
 updated_at: 2026-10-12T17:44:17+08:00
 ---
@@ -43,15 +43,19 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
-Production Docling layout/table snapshots absent and not yet authorized for download; two integration tests fail in offline mode. No independently approved institutional labels/source applicability or actual production cell mapping yet. Real encoder dependencies/execution are now verified in the authorized isolated environment; do not treat prior missing-package notes as current.
+Owner-approved Docling assets are present and verified. Both previously blocked converter tests now pass (65.66s); original CAD PDF converted offline (61.042s). Hugging Face full-snapshot completeness required README/image files; using the documented DOCLING_ARTIFACTS_PATH with five verified hardlinked assets avoids additional downloads. No independently approved institutional labels/source applicability yet. Original-source candidate ingestion and full-suite rerun are running; actual source mappings/rankings are not yet verified.
 
 ## Next Action
 
-Obtain explicit approval for the concrete five-file pinned Docling asset proposal (~384.43MB) into owner-directed workspace hf-cache, or use a supplied compatible local asset directory. Package authorization is already granted and installation complete; do not ask it again. Then rerun actual PDF conversion/production cell mapping and the two blocked integration tests, followed by independent institutional source/answer review and genuine runtime ranking/calibration evidence. No activation or Phase06 inferred.
+Owner explicitly approved the concrete five-file pinned Docling asset proposal (~384.43MB). Download completed and all files verified in workspace hf-cache. Rerun actual offline PDF conversion and the two previously blocked integration tests, then original-source ingestion/cell mapping and genuine candidate ranking evidence. Package/model authorization is already granted; do not ask it again. Institutional source/answer approval and shared Supabase deployment remain separate. No activation or Phase06 inferred.
 
 ## Do Not Repeat
 
 Do not redo Phase 04 corrective implementation, replay/reset shared databases, download model weights, activate candidate corpus or interpret synthetic labels as institutional approval.
+
+## Approved asset execution recovery
+
+Five approved files downloaded and verified:384428156 bytes, layout Heron commit8f39ad3c0b4c58e9c2d2c84a38465abf757272d8 and TableFormer commitfc0f2d45e2218ea24bce5045f58a389aed16dc23. Workspace hf-cache snapshots linked into workspace docling-artifacts, exposed through supported DOCLING_ARTIFACTS_PATH. Offline original CAD conversion succeeds; two integration tests GREEN,2passed65.66s. Existing MODELS untouched; no extra assets or repository dependencies changed. Existing run_prospectus_ingestion/load_candidate_bundle API now processing39 original immutable sources, gold questions/answers excluded from corpus construction. Full pytest rerun in parallel, both logs/results under workspace readiness root. Candidate audit errors will remain quarantined rather than bypassed for scoring.
 
 ## Task 1 verified increment
 

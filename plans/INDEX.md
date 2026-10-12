@@ -5,7 +5,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: `5` (blocked on approved development cases and real model/source verification; software candidate delivered)
+- Active phase: `5` (offline original-source ingestion in progress; institutional approval and formal retrieval exit remain open)
 - Active plan: `phase-05-retrieval-plan.md`
 - Active checkpoint: `phase-05-checkpoint.md`; Phase 04 checkpoint superseded
 - Latest handoff: `plans/phase-05-handoff.md` (blocked recovery handoff; does not authorize advancement)
@@ -13,7 +13,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Next permitted phase: `5` (active); Phase 06 requires a complete Phase 05 final handoff
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
 - Phase05 latest candidate delivery: [27-question balanced college practice exam](phase-05-practice-exam-report.md), code `317bf54`; nine colleges, three cases each; original12-case version preserved. Source/answer approval and real retrieval scoring pending.
-- Real retrieval status: [installed environment, actual encoder execution and remaining asset proposal](phase-05-real-retrieval-readiness.md);27 real query vectors,39 originals/43 pages and28 PDF character regions verified.4902 full-suite tests pass; two converter tests need Docling assets. Production cell mapping, institutional review and actual retrieval evaluation remain open.
+- Real retrieval status: [installed environment, actual encoder execution and approved asset recovery](phase-05-real-retrieval-readiness.md);27 real query vectors,39 originals/43 pages and28 PDF character regions verified. Five Docling assets approved/downloaded; both blocked converter tests now pass.39-source candidate ingestion and full-suite rerun running; institutional review and actual retrieval evaluation remain open.
 - Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
 
 ## Parallel prospectus workstream
