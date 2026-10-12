@@ -91,3 +91,13 @@ conversion/span verification and reviewed development retrieval cases remainopen
 Reuse Phase1/2 software and existing offline assets; do not repeat completed code
 or promote the prospectus-only diagnostics into a policy-retrieval benchmark.
 See plans/2026-10-12-policy-source-recovery-plan.md and the dated next-CLI handoff.
+
+## Current policy evidence recovery — 13 October 2026
+
+Both original policy candidates captured; saved-byte handbook recovery now has
+4272chunks after1546exact original-list provenance repairs. Final code d33340e
+passes4953tests/107subtests386.83s; source/evidence invariance checked.10text/
+18table refusals and critical grading/source-review gates remain; Charter427chunks
+unchanged.26original grade readings are separate human-pending correction
+proposals. Follow2026-10-13-phase05-list-recovery-handoff.md. Tasks4/6remain open
+until approved policy development retrieval/calibration exists; noPhase06.

@@ -3,25 +3,27 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 280a287
+final_commit: d33340e
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-12T21:03:34+08:00
+completed_at: 2026-10-13T01:13:40+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
 
 **Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
 
-Latest recovery: owner supplied the university Charter and handbook and authorized
-category/year organization. Only those two PDFs moved, all42original bytes
-preserved and40prospectus-tree paths unchanged. Covers identify Charter2025/fourth
-edition117pages and handbook2021/394pages; its printed2020approval date is separate.
-Two pending source records exist, with no actual policy conversion/embedding or
-approval yet. Context is required in the existing resume loop; prospectus review
-is deferred. The current next-CLI continuation is
-[the policy-source recovery handoff](2026-10-12-phase05-next-cli-handoff.md).
-Historical retrieval/extraction verification below remains valid for its measured
-candidate scope and is not handbook/Charter accuracy evidence.
+Latest recovery,13October: both original policy conversions captured. Handbook
+retained-byte replay has4272chunks after1546original-list repairs,10text/18table
+refusals; Charter427chunks/3table refusals unchanged. Final reader `d33340e`
+passes4953tests/107subtests386.83s,6skips/6warnings; ledger19pass12.669s. Independent
+verification confirms45original entries, all63+70prior sealed files and2726prior
+chunks unchanged.26original grading readings remain separate human-pending
+correction proposals. Source/content/applicability approval and actual policy
+retrieval/calibration remain pending; no activation orPhase06. Follow
+[current developer continuation](2026-10-13-phase05-list-recovery-handoff.md).
+Historical retrieval/extraction verification below remains valid only for its
+recorded candidate scope. Earlier final_commit280a287/completion timestamp
+2026-10-12T21:03:34+08:00 identified a prior blocked recovery, not phase completion.
 
 
 ## Delivered behavior

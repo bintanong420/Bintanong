@@ -2,20 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 55
+sequence: 56
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ba6752f
-working_tree: reviewer correction/tests and verification documentation pending explicit commit
-updated_at: 2026-10-13T00:57:25+08:00
+head_commit: d33340e
+working_tree: final documentation closure pending; verified product clean at d33340e
+updated_at: 2026-10-13T01:13:40+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
 
+Original-list recovery complete under TDD: `ba6752f`, reviewer corrections
+`d33340e`. Exact retained-byte handbook bundle checked4272chunks;1546items
+recovered without altering originals/raw/provenance. Final4953tests/107subtests
+pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
+
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Current continuation: `plans/2026-10-13-phase05-list-recovery-handoff.md`.
+Bounded reader recovery/review/verification finished at `d33340e`. Final full
+suite4953passed/107subtests,6skips/6warnings386.83s,exit0; ledger19pass12.669s.
+Final independent bundle verifier passes with all2726old chunks identical,
+1546new original list items,10old refusals unchanged,45originals unchanged,
+63handbook/70Charter sealed files unchanged and Charter427chunks validating.
+New36file evidence manifest c8e2aff5641018830acaaa36e473f7a22755b10357610b7b4147d018545dd26d.
+26original grade readings retained separately/human pending; no corrected grades,
+source approvals, embeddings/rankings, activation orPhase06. Earlier paragraphs
+below preserve the execution history; this paragraph and Next Action govern resume.
 
 Full ba6752f run passed4947tests/107subtests,6skips/6warnings463.12s; ledger19tests
 passed16.330s. Saved-byte replay succeeded401.998s:4272chunks,4154covered/10rejected/
@@ -101,6 +117,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Final product commit `d33340e` follows `ba6752f` and resume documentation `2b80d4d`.
+The following documentation closure commit is discoverable through Git; checkpoint
+head names verified code, avoiding self-reference. p05/feat/p05-retrieval-logic
+retained. Only explicit code/tests/decisions/plan paths staged; no source artifacts.
+
 Isolatedp05,feat/p05-retrieval-logic; clean resume baseline3d464be reconciled.
 Verified commits5940d93pre-run checkpoint,ab4a6ecretention/hierarchy andc061238final
 table/reference correction. Following handoff/documentation closure HEAD found
@@ -111,6 +132,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Final approvedPython `-B -m pytest tests -q -p no:cacheprovider
+--basetemp=<list-evidence>/pytest-final`:4953passed/107subtests386.83s,6skips/
+6warnings,exit0. SystemPython ledger unittest19passed12.669s,exit0. Final
+`<list-evidence>/verify.py` passes accounting/source/raw/register integrity,
+all prior chunks unchanged, original dataset/sealed-file invariance and current
+Charter validation. Actual replay401.998s; source PDF was not reconverted.
+Full commands/environment in latest continuation; logs remain ignored.
 
 Final handbook code:4935pytest passed/107subtests,6skips/6warnings450.39s,exit0;
 19phaseledger tests14.120s. Focused141passed/1skipped27.69s after8RED0.96s. Review
@@ -153,6 +182,13 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Current handbook10text range refusals/18table refusals,1567omissions and image-only
+cover remain. List-range1546refusals below are historical/resolved. Original grading
+readings26rows are separate correction proposals, not approved replacements.
+Critical row/column/box corrections, source acquisition/issuer/applicability/
+effectivity/content approval, approved development labels and actual policy
+retrieval/calibration remain pending. Candidate integrity cannot close these gates.
+
 Handbook candidate content incomplete:1556text rejections (1546invalid char ranges,
 10uncovered character ranges);18table rejections;1567omissions (1565repeated header/
 footer,2empty text) and physical1image-only cover.184sample spans yielded9geometry/
@@ -171,12 +207,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Follow plans/2026-10-12-phase05-policy-candidates-handoff.md. Use retained handbook raw
-and review queues to diagnose invalid character-span bounds with original-backed
-samples and synthetic RED/GREEN if a reader defect is proved. Independently review
-critical grading geometry on physical46/355. Keep correct spans/candidates separate
-from refusals; no scope/effectivity promotion. Do not reconvert either PDF for
-diagnosis, bypass guards, activate corpus, repeat setup or advance Phase06.
+Follow plans/2026-10-13-phase05-list-recovery-handoff.md and ignored review guide
+`audit-evidence/p05-list-provenance-recovery-20261012/START-HERE.md`. Establish
+reviewed correction/segmentation evidence for physical46/355critical grading and
+remaining18handbook/3Charter table refusals, preserving source-specific scopes.
+Keep10whitespace-gap text refusals until a reviewed source-range policy permits
+otherwise. Finish acquisition/issuer/applicability/effectivity/content review and
+approved policy development labels before actual retrieval/calibration. Do not
+repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
+resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
 

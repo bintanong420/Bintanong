@@ -1,9 +1,15 @@
 # Phase05 Student Handbook source recovery
 
-**Latest verified state:** whole original394page conversion captured; recovered
-candidate bundle checked with2726chunks.1556text/18table rejections retained;
-1567item omissions and image-only cover recorded. Reader correction`2b11c5d`
-verified4935tests/107subtests,6skips/6warnings450.39s. No source activation.
+**Latest verified state, 13 October:** exact retained conversion replay checked
+with4272chunks after1546original list items recovered.10text/18table refusals,
+1567item omissions and image-only cover remain. Final reader code`d33340e` passes
+4953tests/107subtests386.83s,6skips/6warnings. All2726prior chunks and45original
+entries/63handbook/70Charter sealed files unchanged.26grading rows independently
+read from original/native geometry as separate human-pending correction proposals.
+Resume [current continuation](2026-10-13-phase05-list-recovery-handoff.md);
+[bounded recovery](2026-10-12-handbook-list-provenance-recovery.md) has exact TDD
+and environment evidence. Earlier counts below are preserved execution history.
+No source activation or formal phase completion.
 
 Owner authorized continuation after university Charter candidate recovery. Resumed
 clean `d58b830`; code `c061238` unchanged. This records candidate ingestion, not

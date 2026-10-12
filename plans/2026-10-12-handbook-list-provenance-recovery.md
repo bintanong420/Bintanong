@@ -74,3 +74,9 @@ institutional approval, runtime activation or Phase06 work is authorized here.
   activation/retrieval and executor's full replay evidence require separate gates.
   They remain explicitly pending or independently verified by the executor;
   withholding these claims costs no authority promotion. No minor findings.
+- Completed final-code gate `d33340e`:4953passed/107subtests386.83s,6skips/6warnings;
+  ledger19passed12.669s. Independent final bundle/source verifier passed. New36file
+  evidence manifest c8e2aff5641018830acaaa36e473f7a22755b10357610b7b4147d018545dd26d.
+  Developer continuation: `2026-10-13-phase05-list-recovery-handoff.md`.
+  No phase advancement: critical grading corrections and source/content approval
+  remain open before approved policy retrieval/calibration.
