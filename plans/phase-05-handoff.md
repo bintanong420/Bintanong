@@ -155,3 +155,13 @@ offline environment, one source atatime. No new productcode, install, source
 activation or phaseadvancement was performed by organization. The detailed dated
 next-CLI handoff contains exact locations, hashes, versions, boundaries and the
 first candidate run. Prior prospectus review instructions are deferred history.
+
+## Latest university Charter recovery continuation
+
+Actual117page Charter candidate bundle checked:427chunks,305text items covered,
+120tables emitted/3rejected; exact saved conversion retained. TDD reader recovery
+and source findings are in plans/phase-05-policy-source-recovery.md. Follow
+plans/2026-10-12-phase05-policy-recovery-handoff.md for the next whole394page
+handbook task. Source authority/content/applicability and approved retrieval exit
+evidence remain pending; this blocked phase handoff stays blocked. Noactivation,
+policy embeddings/rankings orPhase06. Preserve deferred prospectus review.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 45
+sequence: 46
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ab4a6ec
-working_tree: policy_text.py, test_procedure_text.py, checkpoint/progress, recovery evidence/plan, INDEX and handoffs
-updated_at: 2026-10-12T22:01:00+08:00
+head_commit: c061238
+working_tree: clean after following handoff/documentation closure commit
+updated_at: 2026-10-12T22:03:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -25,13 +25,15 @@ reader corrections account for all428items. Review's twoP2findings reproduced an
 fixed; final fullsuite4926passed/107subtests362.06s,6skips/6warnings.192sample checks:175strict
 whitespace/NFC matches,17typographic apostrophe/dash differences retained. No
 institutional/content approval or OCR accuracy claim. Bounded Charter recovery
-complete; commit verified code/docs and finalize continuation. Handbook next.
+complete atc061238; continuation handoff finalized. Handbook is next separate source.
 
 ## Repository State
 
 Isolatedp05,feat/p05-retrieval-logic; clean resume baseline3d464be reconciled.
-Verified retention/hierarchy incrementab4a6ec; final table/reference correction
-and recovery documentation currently dirty. Raw evidence in workspace
+Verified commits5940d93pre-run checkpoint,ab4a6ecretention/hierarchy andc061238final
+table/reference correction. Following handoff/documentation closure HEAD found
+through Git, avoiding self-referential metadata. Only explicit task paths staged;
+clean tree after closure expected. Raw evidence in workspace
 audit-evidence/p05-policy-source-recovery-20261012. GitHub MCP confirms remote
 dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
@@ -81,7 +83,7 @@ whole394page handbook policy_candidate ingestion in fresh external output, exist
 offline environment, checkpoint before run. Use PYTHONUTF8=1/PYTHONIOENCODING=utf-8.
 Reuse captured Charter bytes for further diagnostics; keep3table rejections and
 source-owner time-total discrepancy pending. No setup repeat, prospectus review
-orPhase06. Finish current verified code/docs commit and final ledger check first.
+orPhase06. Current bounded Charter task is complete; follow latest continuation.
 
 ## Do Not Repeat
 

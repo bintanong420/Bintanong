@@ -153,6 +153,10 @@ scoring of these policy bytes, database publication, activation or Phase06.
 
 ## Closure evidence
 
+Verified increments:5940d93pre-conversion checkpoint;ab4a6ecretention/nested item
+traversal; c061238table footnotes/canonical descendant refs and implementation
+decision record. Following handoff closure commit is discoverable through Git.
+
 Final45entry inventory unchanged.70task evidence files sealed, excluding pytest
 temporary trees; manifest SHA256:
 `c3dc18e7693f392e357e6a1fe705b7cb5d9fb2e7ef844cfee2c1e1bd282bd779`.

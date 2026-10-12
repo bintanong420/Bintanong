@@ -1,5 +1,11 @@
 # Phase 05 next-CLI handoff — policy sources and dataset organization
 
+**Continuation update:** the university Charter candidate and TDD recovery are
+recorded in the [latest policy handoff](2026-10-12-phase05-policy-recovery-handoff.md).
+Use that note/current checkpoint for the next action: separate whole394page
+handbook ingestion. Organization-era execution status below is historical;
+do not repeat moves/setup or reconvert saved Charter output merely to resume.
+
 This is a developer continuation note, not a complete phase handoff. Phase 05
 remains active; Phase 06 has not started. Use Git and fresh checks over old notes.
 
