@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 25
+sequence: 26
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 1615aa1
+head_commit: 86c2720
 working_tree: dirty
-updated_at: 2026-10-12T18:07:25+08:00
+updated_at: 2026-10-12T18:22:59+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Authorized package setup and five-file Docling asset download complete. Both blocked converter tests now pass; original-source ingestion has15/39 completed candidate bundles, with audit failures withheld. Full-suite rerun still running; do not replace recorded historical failures with a passing full-suite claim until it completes. Actual27-query vectors verified; actual cell mappings and real-model candidate cosine diagnostics follow the completed ingestion. Fresh final reviewer independently checking assets/provenance. Source/field/institutional review and authorized runtime retrieval remain open; no shared activation.
+First original-source pass finished39 attempts:37 bundles and2 serialization failures (Electrical Engineering/Marine Biology). Full pytest pre-repair4904passed/107subtests/6skips752.06s. Root cause independently captured: curriculum_by_term mixes None semester with Summer key. Two synthetic RED regressions now GREEN; minimal86c2720 excludes unplaced courses from derived term index while retaining unknown course fields/full courses/audit block.50 focused tests pass36.56s, reviewer2pass/noP1/P2. Electrical retry completes with one retained unplaced course and audit error/no chunks; Marine retry and post-repair full suite running. Final geometry mapper finds actual spans near27/28 regions, only3 regions link to emitted chunks; field ownership stays pending. Real candidate cosine experiment next, no calibrated/approved runtime claim.
 
 ## Repository State
 
@@ -47,7 +47,7 @@ Owner-approved Docling assets are present and verified. Both previously blocked 
 
 ## Next Action
 
-Owner explicitly approved the concrete five-file pinned Docling asset proposal (~384.43MB). Download completed and all files verified in workspace hf-cache. Rerun actual offline PDF conversion and the two previously blocked integration tests, then original-source ingestion/cell mapping and genuine candidate ranking evidence. Package/model authorization is already granted; do not ask it again. Institutional source/answer approval and shared Supabase deployment remain separate. No activation or Phase06 inferred.
+Complete Marine retry; preserve first-pass results and reconcile both successful retries. Verify all39 bundles/original hashes and rerun mapping, then encode only audit-emitted source chunks with strict SEA-LION/exact token guard and report actual offline candidate cosine observations. Missing gold chunks remain coverage failures, not unsupported labels; bbox overlap is not Precision/Recall. Read post-repair full suite and independent final review before documentary closure. Institutional source/answer/field approval and shared Supabase deployment remain separate; no activation or Phase06 inferred.
 
 ## Do Not Repeat
 
