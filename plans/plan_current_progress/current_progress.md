@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase05 resumed from3d464be for bounded whole-university-Charter candidate ingestion. Organization and Context/ignore loop complete;45/45dataset entries freshly match previous hashes. Both real pending policy contracts validated,117/394pages confirmed. Existing offline environment/assets retained; checkpoint before117page Charter run. Owner confirms supplied editions latest available; no replacement search. Prospectus review/future college and organization sources deferred. No activation orPhase06. Current evidence: plans/phase-05-policy-source-recovery.md.
+**Current numbered-phase status, 12 October 2026:** Phase05 policy-source recovery; whole117page Charter conversion ended in reading-order refusal(exit1,558.178s), no completed bundle. First raw conversion erased by temporary cleanup. TDD retention/hierarchy fixes verified130passed/1skipped51.30s after observed RED. Durable second conversion running for actual-source graph diagnosis/reuse; original-source repair not yet claimed.45dataset entries preserved; no setup/organization repeat, newer-copy search, prospectus review, activation orPhase06. See plans/phase-05-policy-source-recovery.md.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 

@@ -103,6 +103,7 @@ def _reading_order(raw: Mapping[str, Any], count: int) -> list[int]:
                 if not 0 <= index < count or index in order:
                     raise ValueError("duplicate or invalid text reading-order reference")
                 order.append(index)
+                walk(raw["texts"][index])
             elif ref.startswith("#/groups/"):
                 if not re.fullmatch(r"#/groups/(0|[1-9]\d*)", ref):
                     raise ValueError("invalid raw reading-order group")

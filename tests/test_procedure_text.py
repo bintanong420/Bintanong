@@ -136,6 +136,31 @@ def test_native_nested_refs_and_original_structure_retained(bound, source_format
     assert raw == before
 
 
+@pytest.mark.parametrize("source_format", ["pdf", "pptx"])
+def test_text_children_follow_parent_in_native_reading_order(bound, source_format):
+    _, capture = bound
+    _, version = capture("source." + source_format)
+    raw = raw_document([item("Registration", label="section_header"), item("1. Submit ID.")])
+    raw["texts"][0]["children"] = [{"cref": "#/texts/1"}]
+    raw["body"] = {"children": [{"cref": "#/texts/0"}]}
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version, source_format=source_format)
+    assert result.reading_order == ("#/texts/0", "#/texts/1")
+    assert [(f.kind, f.raw_text) for f in result.fields] == [("step", "1. Submit ID.")]
+    assert raw == before
+
+
+@pytest.mark.parametrize("child_ref", ["#/texts/0", "#/texts/1"])
+def test_text_descendant_cycles_and_duplicate_references_refused(bound, child_ref):
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([item("Parent"), item("Child")])
+    raw["texts"][0]["children"] = [{"cref": child_ref}]
+    raw["body"] = {"children": [{"cref": "#/texts/0"}, {"cref": "#/texts/1"}]}
+    with pytest.raises(ValueError, match="duplicate"):
+        module().read_procedure_items(raw, version)
+
+
 def test_table_raw_cells_headers_provenance_and_geometry_retained(bound):
     _, capture = bound
     _, version = capture()
@@ -264,6 +289,30 @@ def test_source_mutation_prevents_completion(bound, tmp_path, monkeypatch, suffi
     with pytest.raises(ValueError, match="changed"):
         module().extract_procedure(snap, [version], input_root=root, out=out,
                                   converter=fake_converter(raw, snap, mutate=True))
+    assert not (out / "manifest.json").exists()
+    assert not (out / "procedure_candidates.json").exists()
+    assert not (out / "raw_docling.json").exists()
+    assert not (out / "raw_docling.meta.json").exists()
+
+
+@pytest.mark.parametrize("suffix", ["pdf", "pptx"])
+def test_reader_refusal_retains_byte_bound_raw_conversion(bound, tmp_path, monkeypatch, suffix):
+    root, capture = bound
+    snap, version = capture("source." + suffix)
+    raw = raw_document([item("Parent"), item("Unreferenced child")])
+    raw["body"] = {"children": [{"cref": "#/texts/0"}]}
+    monkeypatch.setattr(loader, "load_docling", lambda: {"DoclingDocument":
+                        SimpleNamespace(model_validate=lambda data: SimpleNamespace(export_to_markdown=lambda: ""))})
+    out = tmp_path / "refused"
+    with pytest.raises(ValueError, match="reading order"):
+        module().extract_procedure(snap, [version], input_root=root, out=out,
+                                  converter=fake_converter(raw, snap))
+    assert json.loads((out / "raw_docling.json").read_text(encoding="utf-8")) == raw
+    metadata = json.loads((out / "raw_docling.meta.json").read_text(encoding="utf-8"))
+    source_key = "pdf_sha256" if suffix == "pdf" else "source_sha256"
+    assert metadata[source_key] == snap.sha256
+    assert metadata["raw_json_sha256"] == bytes_sha256((out / "raw_docling.json").read_bytes())
+    assert snap.path.read_bytes() == snap.data
     assert not (out / "manifest.json").exists()
     assert not (out / "procedure_candidates.json").exists()
 

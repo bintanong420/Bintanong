@@ -148,6 +148,8 @@ def _reading_refs(raw: Mapping[str, Any], text_count: int, table_count: int) -> 
                 if ref not in expected or ref in refs:
                     raise ValueError("duplicate or invalid raw reading-order reference")
                 refs.append(ref)
+                collection, index = ref.removeprefix("#/").split("/")
+                walk(raw[collection][int(index)])
             elif ref.startswith("#/groups/"):
                 if not re.fullmatch(r"#/groups/(0|[1-9]\d*)", ref):
                     raise ValueError("invalid raw reading-order group")
@@ -306,13 +308,18 @@ def extract_procedure(snapshot: InputSnapshot,
                 "conversion_identity": identity, "raw_json_sha256": bytes_sha256(raw_bytes)}).encode("utf-8")
         if not isinstance(meta_bytes, bytes):
             raise ValueError("conversion identity metadata is absent")
+        # Retain diagnostic conversion bytes if candidate interpretation is refused.
+        # Without the completion manifest these files are never a consumable bundle.
+        snapshot.verify_unchanged()
+        for name, data in {"raw_docling.json": raw_bytes, "raw_docling.meta.json": meta_bytes}.items():
+            loader._write_bytes_atomic(out / name, data)
         result = read_procedure_items(json.loads(raw_bytes), version, source_format=source_format,
                     classification=classification, printed_page_labels=printed_page_labels)
         snapshot.verify_unchanged()
+        candidate_bytes = (_json(result.as_dict()) + "\n").encode("utf-8")
+        loader._write_bytes_atomic(out / "procedure_candidates.json", candidate_bytes)
         outputs = {"raw_docling.json": raw_bytes, "raw_docling.meta.json": meta_bytes,
-                   "procedure_candidates.json": (_json(result.as_dict()) + "\n").encode("utf-8")}
-        for name, data in outputs.items():
-            loader._write_bytes_atomic(out / name, data)
+                   "procedure_candidates.json": candidate_bytes}
         snapshot.verify_unchanged()
         manifest = {"complete": True, "source_sha256": snapshot.sha256, "version_id": version.version_id,
                     "source_unchanged": True, "files": {n: bytes_sha256(b) for n, b in outputs.items()}}

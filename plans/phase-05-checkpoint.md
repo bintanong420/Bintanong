@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 40
+sequence: 42
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3d464be
-working_tree: checkpoint, current progress and policy recovery record documentation
-updated_at: 2026-10-12T21:18:00+08:00
+head_commit: 5940d93
+working_tree: procedure_text.py, policy_text.py, test_procedure_text.py and recovery documentation
+updated_at: 2026-10-12T21:37:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,13 +17,14 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Resumed bounded university Charter candidate ingestion. Fresh45entry inventory
-matches organization evidence; both pending contracts load against original
-bytes. Context thesis physical36/55/68 and routing PNG consulted; no architecture
-discrepancy. Original covers, contents and selected student-service pages inspected.
-Checkpoint before complete117page Charter conversion in existing offline environment.
-Handbook394pages follows separately. Supplied editions are latest available per
-owner; stop replacement searches. Acquisition/effectivity/approval remain pending.
+Whole117page Charter CLI completed conversion but refused reading-order accounting
+(exit1,558.178s); no complete candidate bundle. Temporary cleanup erased first raw
+conversion. Focused synthetic PDF/PPTX RED demonstrates that diagnostic loss;
+retention fix GREEN126passed/1skipped79.97s. Documented nested-text hierarchy also
+reproduces same reading-order refusal (2RED,2.58s); minimal parent-child traversal
+now under focused regression verification. A second complete conversion is running
+through existing loader into durable external raw files for actual-source diagnosis
+and reuse. Preserve Docling dropped-cell findings; do not infer extraction accuracy.
 
 ## Repository State
 
@@ -57,11 +58,12 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Next Action
 
-Run complete117page Charter through existing document_ingest with charter_candidate
-and existing pending logical locator into fresh external output. Inspect checked
-bundle, every manifest/report, retained rejections and original hashes; checkpoint
-exact results. Handbook394page conversion is separate. Preserve deferred prospectus
-review and future sources. Do not repeat setup or advance Phase06.
+Read final focused GREEN result and commit verified retention/hierarchy changes;
+inspect durable whole-Charter raw capture, diagnose exact unreachable references,
+then reuse captured conversion bytes through existing candidate pipeline in a new
+output. Do not rerun expensive conversion after capturing it. Validate bundle,
+source/table accounting and original invariance; retain dropped-cell findings and
+sampled source-total discrepancy. Handbook separate; no setup/review/Phase06 repeat.
 
 ## Do Not Repeat
 
@@ -287,3 +289,19 @@ code and Context7. Owner confirms supplied editions latest available; no further
 replacement search. Optional origin details remain pending. PDF inspection script
 first hit cp1252 stdout on a thesis bullet; UTF8 stdout corrected, rerun exit0.
 No product defect/code changes. Commit checkpoint before long whole-source run.
+
+## Whole-Charter refusal / TDD recovery in progress
+
+CLI exit1 after558.178s: raw reading order omits text or tables. Docling warnings
+drop1/158,1/145 and67/67PDFcells from three table grids; logs retained externally,
+first rawstage erased by existing temporary cleanup. No root/nested manifest or
+candidate chunks. Diagnostic-retention regression PDF/PPTX2RED38.14s; smallest
+fix writes raw/meta only after unchanged-source guard, before candidate reader.
+Relevant procedure/bundle/policy suites126passed/1skipped79.97s. Source mutation
+still refuses raw publication; completion manifests remain success-only.
+Context7 documents children on text/table/picture items, not only groups; synthetic
+text-parent hierarchy2RED2.58s reproduces currentreader refusal. Minimal text/table
+child traversal inprocedure reader and textchildren inpolicy reader now GREEN:
+130passed/1skipped51.30s, including duplicate/cycle refusal and source-mutation
+guards. Commit this verified increment; actual Charter graph still pending second
+capture, so no claim yet that synthetic repair resolves the original.

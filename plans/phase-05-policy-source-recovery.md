@@ -54,5 +54,36 @@ Command: approved Python`-B <evidence>/inspect_sources.py`; exit0. Outputs:
 selected page renders and `source-inspection.log`. Gitcheck-ignore confirms nested
 dataset metadata exclusion; `git ls-files -- <dataset>` empty.
 
-Whole-source candidate execution: **NOT RUN** at this pre-conversion checkpoint.
-No product code changed; TDD applies if execution reveals a product defect.
+Pre-conversion checkpoint committed`5940d93`.
+
+## First complete-document run and recoverable failure
+
+Existing CLI ran the complete117page Charter with`--root <dataset parent>`,
+`--out <evidence>/charter-candidate`, original pending logical acquisition locator
+and`--classification charter_candidate`. Existing offline flags/cache/TEMP and
+8CPU threads retained. Execution21:19:11–21:28:29+08:00,558.178s, exit1:
+`raw reading order omits text or tables`. No completion bundle or candidate chunks.
+Docling reported dropped cells on three grids (1/158,1/145,67/67); these require
+source review regardless of reader success. Logs and execution JSON preserved.
+
+Existing temporary cleanup removed raw conversion on candidate-reader refusal.
+Synthetic PDF/PPTX retention regression2RED38.14s; smallest correction publishes
+raw/meta diagnostics after source invariance guard, before reader interpretation.
+Completion manifests remain absent on refusal; no candidate eligibility inferred.
+Relevant procedure/bundle/policy suites126passed/1skipped79.97s after correction.
+
+Docling documentation describes content-item children as part of reading order.
+Current readers only followed groups; a synthetic text-parent/child hierarchy
+reproduces the same refusal(2RED2.58s). Minimal traversal correction GREEN:
+130passed/1skipped51.30s across procedure/bundle/policy modules, including descendant
+cycles/duplicates and source-mutation guards. Actual Charter graph still needs
+inspection before claiming source repair. No full-suite pass claimed yet.
+
+Second whole-source conversion runs through existing`load_document_result` into
+`charter-raw-capture/` to preserve exact source-bound raw/meta bytes before any
+reader. After capture, reuse it for diagnostics and candidate recovery; no further
+expensive conversion unless evidence shows capture invalid. No installation.
+
+Original sample review notes remain external and agent-reviewed, not approved.
+Pre-enrollment physical102–103/printed98–99has four5minute rows and printed total
+25minutes; retain source discrepancy for clarification. No inferred correction.
