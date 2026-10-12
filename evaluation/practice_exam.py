@@ -11,6 +11,7 @@ import json
 import math
 from pathlib import Path
 import re
+import subprocess
 import unicodedata
 
 
@@ -290,13 +291,16 @@ def main(argv=None):
     parser.add_argument('--exam', required=True, type=Path)
     parser.add_argument('--source-root', required=True, type=Path)
     parser.add_argument('--output-dir', required=True, type=Path)
+    parser.add_argument('--allow-ignored-output', action='store_true',
+                        help='Explicitly permit private output ignored by every containing Git repository')
     parser.add_argument('--observations', type=Path, help='Actual externally recorded answers keyed by case_id')
     args = parser.parse_args(argv)
     exam = json.loads(args.exam.read_text(encoding='utf-8'))
     validation = validate_exam(exam, args.source_root)
     output = args.output_dir.resolve()
-    _require(not any((parent/'.git').exists() for parent in (output, *output.parents)),
-             'gold outputs must stay outside Git repositories/worktrees')
+    repositories = [parent for parent in (output, *output.parents) if (parent/'.git').exists()]
+    _require(not repositories or args.allow_ignored_output,
+             'gold outputs must stay outside Git repositories/worktrees unless explicitly allowed and ignored')
     _require(args.observations is not None or not (output/'grading.json').exists(),
              'grading.json already exists; use a fresh directory for an ungraded export')
     protected = {args.exam.resolve()} | {
@@ -307,6 +311,11 @@ def main(argv=None):
     names = ['questions.md', 'answer-key.md', 'validation.json']
     if args.observations:
         names.append('grading.json')
+    for repository in repositories:
+        for name in names:
+            ignored = subprocess.run(['git', '-C', str(repository), 'check-ignore', '--', str(output/name)],
+                                     capture_output=True, check=False)
+            _require(ignored.returncode == 0, 'private gold output must be ignored in every containing Git repository')
     _require(not any((output/name).resolve() in protected for name in names), 'output would overwrite an input')
     for name in names:
         target = output/name

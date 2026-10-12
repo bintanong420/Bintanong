@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 15
+sequence: 16
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 63b63b7
+head_commit: e1ea578
 working_tree: dirty
 updated_at: 2026-10-12T16:24:15+08:00
 ---
@@ -116,3 +116,7 @@ Owner explicitly selected27 questions balanced three per college after Superpowe
 ## College coverage verified increment
 
 Observed missing college report/validation behavior RED; ten new synthetic-college tests now pass alongside21 existing tests (31 total,0.182s, exit0). Optional declaration validates live PDF college inventory, equal counts/languages, case/source college identity and directory labels; backward compatibility and root relocation verified. Added plans/dataset-locations.md and AGENTS/INDEX routing rather than changing a generic skill. Changed evaluation checker/README, new college tests, guide and phase/progress pointers. Next: finish original-row readings and export separate27-case candidate packet/key; original12-case version preserved.
+
+## Owner workspace location correction
+
+Owner requires all task artifacts under C:/Coding-projects/bintanong_workspace; main checkout is Bintanong, our code checkout is worktrees/Bintanong/p05. Both new exam artifact directories moved from AppData into audit-evidence after resolved source/destination containment checks. Each task folder.gitignore hides all private files from the unrelated Coding-projects ancestor Git root; no parent Git metadata changed. Explicit --allow-ignored-output added after missing-argument RED, three new real-Git regressions GREEN;34 exam tests pass1.313s with TMP/TEMP also inside workspace. Default Git guard/input/hardlink protection retained. Fresh prior review clear; correction re-review pending. Full retrieval29 passed26.629s with externally available Docker (no startup), units53/embedding12/ledger19 pass. Next: final correction review, workspace-path verification, commit and report/handoff closure.

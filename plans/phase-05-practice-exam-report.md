@@ -4,14 +4,14 @@ The requested small development practice exam is delivered as a candidate questi
 
 ## Artifacts
 
-Persistent external root: `C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012`.
+Persistent external root: `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012`.
 
-- [Question sheet](</C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012/exam/questions.md>)
-- [Answer key and original-source links](</C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012/exam/answer-key.md>)
-- [Machine-readable candidate packet](</C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012/practice-exam.json>)
-- [Source validation result](</C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012/exam/validation.json>)
+- [Question sheet](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/exam/questions.md>)
+- [Answer key and original-source links](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/exam/answer-key.md>)
+- [Machine-readable candidate packet](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/practice-exam.json>)
+- [Source validation result](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/exam/validation.json>)
 
-Gold answers/passages, rendered originals, inspection crops, inventories and logs remain outside all Git roots. The first audit-evidence destination was found inside an unrelated `C:/Coding-projects/.git` root; only this task's newly created artifacts were moved to the named external root after exact source/destination path checks. Existing original PDFs and earlier evidence were preserved. No gold passages or actual-source answer key are committed.
+Gold answers/passages, rendered originals, inspection crops, inventories and logs now remain untracked in ignored workspace evidence folders on the owner's later location instruction; initial delivery used AppData to satisfy the earlier outside-Git rule. The first audit-evidence destination was found inside an unrelated `C:/Coding-projects/.git` root; only this task's newly created artifacts were moved to AppData after exact source/destination checks, then moved back into the owner-selected workspace. The root and links above identify the current location. Existing original PDFs and earlier evidence were preserved. No gold passages or actual-source answer key are committed.
 
 ## Coverage and sources
 

@@ -14,7 +14,9 @@ The original PDF corpus root passed to `evaluation.practice_exam --source-root` 
 C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump
 ```
 
-This deep codebase location is temporary; the owner intends to relocate it. No relocation was performed during the exam expansion. Existing ignored originals remain read-only. New originals, conversions, gold answers and raw evidence belong outside Git; do not force-add the existing dataset.
+This deep codebase location is temporary; the owner intends to relocate it. No relocation was performed during the exam expansion. Existing ignored originals remain read-only. New originals, conversions, gold answers and raw evidence must remain untracked within `C:/Coding-projects/bintanong_workspace`, following the owner's location correction; do not force-add the existing dataset.
+
+The main checkout is `C:/Coding-projects/bintanong_workspace/Bintanong`; Phase 05 code changes belong to its isolated `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05` worktree. `audit-evidence` is shared workspace storage outside both code checkout folders. An unrelated ancestor `.git` currently exists at `C:/Coding-projects`; it was observed, not removed or treated as the Bintanong repository.
 
 ## Observed corpus
 
@@ -40,15 +42,15 @@ Exam packets store paths relative to the corpus root, alongside exact original S
 
 ```powershell
 $datasetRoot = (Resolve-Path -LiteralPath 'backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump').Path
-python -B -m evaluation.practice_exam --exam C:/path/outside/git/practice-exam.json --source-root $datasetRoot --output-dir C:/path/outside/git/exam
+python -B -m evaluation.practice_exam --exam C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/practice-exam.json --source-root $datasetRoot --output-dir C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/exam --allow-ignored-output
 ```
 
-For the future move, choose an owner-approved location outside all Git roots, preserve the campus/college relative tree and original bytes, and pass that new root explicitly. Re-inventory the live PDFs, revalidate hashes/college coverage, and update this guide and the current checkpoint/progress log with the new location. Test coverage proves that a changed root with unchanged relative paths and bytes validates. A newly added college causes an all-college packet to fail validation until its declared coverage and cases are updated.
+For the future move, choose an owner-approved untracked location within `C:/Coding-projects/bintanong_workspace`, preserve the campus/college relative tree and original bytes, and pass that new root explicitly. Re-inventory the live PDFs, revalidate hashes/college coverage, and update this guide and the current checkpoint/progress log with the new location. Test coverage proves that a changed root with unchanged relative paths and bytes validates. A newly added college causes an all-college packet to fail validation until its declared coverage and cases are updated.
 
 ## External evaluation artifacts
 
-- Original 12-case BSCS version: `C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012/`.
-- Balanced 27-case version and source-reading images: `C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-college-expansion-20261012/`.
+- Original 12-case BSCS version: `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/`.
+- Balanced 27-case version and source-reading images: `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/`.
 - Each version has `practice-exam.json` and `exam/questions.md`, `exam/answer-key.md`, `exam/validation.json`.
 
-These locations are outside every Git root. `C:/Coding-projects` itself contains an unrelated Git root, so a sibling evidence directory there is not an acceptable destination. No real retrieval observations or institutional approval are established by exporting or validating an exam.
+Both versions were moved from their initial AppData location after the owner required all task artifacts within the workspace. Each task folder has a `.gitignore` containing `*`; actual `git check-ignore` confirms the private files are ignored by the unrelated ancestor repository. Default export still refuses Git roots. The explicit `--allow-ignored-output` option requires every output to be ignored by every containing Git repository, while preserving input/link protections. Never force-add these folders. No real retrieval observations or institutional approval are established by exporting or validating an exam.
