@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 2
+sequence: 3
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d86b3ad
+head_commit: d125304
 working_tree: dirty
 updated_at: 2026-10-12T12:00:00+08:00
 ---
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Task 1 complete: validated requests/settings and strict local query encoder. Task 2 starts next.
+Task 2 complete: atomic pinned invoker RPC. Tasks 3/4 context/pipeline tests now RED (missing modules).
 
 ## Repository State
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Write/run Task 2 database regressions, then add the atomic pinned-runtime RPC migration.
+Implement context assembler and retrieval engine against the observed missing-module RED tests.
 
 ## Do Not Repeat
 
@@ -56,3 +56,7 @@ Do not redo Phase 04 corrective implementation, replay/reset shared databases, d
 ## Task 1 verified increment
 
 Five query tests passed (0.007s, exit 0) after observed missing-module RED. External asset inventory has ten files; actual model.safetensors SHA-256 is df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 (freshly hashed, matches previous pinned value). Tokenizer SHA-256 883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Inventory retained externally as embedding-assets.json. Changelog fetched and relevant Data API exposure/ownership notices reviewed; retained PG17.6/vector0.8.2 with explicit ACLs, no upgrade. Model execution NOT RUN. Changed files: new retrieval package/query/types, query tests and progress/checkpoint.
+
+## Task 2 verified increment
+
+CLI-generated migration 20261012013339_phase5_retrieval_snapshot.sql passed four real-database regressions after four missing-function RED failures. 4 tests, 4.854s, exit 0. Function is STABLE/SECURITY INVOKER, runtime-only EXECUTE; existing RLS unchanged. Exact scope/edition/entity filters and fingerprint guard tested. Stale/draft pins empty under anon/authenticated. Migration applied only inside disposable databases; shared/hosted deployment NOT RUN. Untracked context/engine tests are intentional next-task RED work.

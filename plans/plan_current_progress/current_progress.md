@@ -201,3 +201,7 @@ System Python 3.13.7 has no pytest/torch/sentence-transformers; use unittest and
 ### Phase 05 Task 1 verified
 
 Validated requests/settings and strict local query encoder added. Five unittest tests passed after missing-module RED; rejects unverified/missing assets, invalid vectors and token overflow, preserves matching Retrieval prompt exactly once. Fresh external weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1; ten-file inventory in external p05 evidence directory. Real execution unavailable in system Python; no installation/download. Next: atomic active-release-pinned RPC with citation/scoped search database tests.
+
+### Phase 05 Task 2 verified
+
+Four disposable PostgreSQL tests passed after missing-RPC RED. Additive CLI-generated retrieve_context migration binds active pin, fingerprints, exact filters, rankings, spans/versions and required-neighbor payloads in a STABLE invoker snapshot; historical RLS stays closed. Runtime EXECUTE granted only anon/authenticated. Shared/hosted application NOT RUN. Next: context budgeting/deduplication and explicit retrieval statuses; their missing-module RED tests were observed.
