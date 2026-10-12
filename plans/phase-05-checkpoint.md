@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 4
+sequence: 5
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 14bf152
+head_commit: d3f93f8
 working_tree: dirty
 updated_at: 2026-10-12T12:00:00+08:00
 ---
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Tasks 3/4/5 core pipeline complete: exact context budgeting, span deduplication, atomic required-neighbor groups and structured retrieval statuses. Debug CLI and evaluation next.
+Task 5 debug CLI and Task 6 synthetic development evaluation delivered; final code review corrections/full regression remain.
 
 ## Repository State
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Add debug CLI and development-only evaluation with failing tests, then run whole-phase verification/review.
+Reproduce/fix reviewer neighbor ambiguity, transitive dependency and table-overlap findings, then rerun complete affected gates.
 
 ## Do Not Repeat
 
@@ -64,3 +64,9 @@ CLI-generated migration 20261012013339_phase5_retrieval_snapshot.sql passed four
 ## Context/pipeline verified increment
 
 Ten context/engine tests pass (0.002s, exit 0) after missing-module RED. Results carry byte hash/version/edition/page/locator, context text/exact token count and settings/encoder fingerprints. Required neighbors are atomic; missing neighbors/invalid citations/budget gaps yield insufficient evidence. Unknown scope stays empty; competing curriculum tags ask for scope, editions expose conflicts. Default policy is explicitly uncalibrated and never claims sufficient coverage. No administrative credential branch. Legacy Phase 01 runtime contract is not changed: debug v1 is a separate internal envelope because it preserves conflicting editions and textless-table citations that legacy RetrievalResult rejects.
+
+## Debug/evaluation verified increment
+
+CLI/metric tests: five passed after missing-module RED; CLI help and actual empty local release smoke verified (release_changed, no evidence/model loading). Full retrieval gate: 25 tests, 19.927s, exit 0; synthetic database evaluation: ten cases × k=3/5/8. At selected synthetic threshold0.9, mean P@k0.200/0.120/0.075, positive R@k1, unsupported detection1; manual vectors/fixture character counter, no real-model or institutional accuracy claims. Report/README/decision added.
+
+Full storage gate initially failed two role subtests because its old allowlist excludes every RPC except match_chunks. Exact-signature allowlist now includes retrieve_context; targeted security test passed1 (2.483s). Full storage rerun pending. Fresh reviewer found two confirmed P2 cases (neighbor curriculum ambiguity and partial-overlap textless table citations); investigation continues. Shared/hosted migration deployment NOT RUN.

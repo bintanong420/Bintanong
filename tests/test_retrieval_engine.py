@@ -17,6 +17,8 @@ class Encoder:
 
 
 class Client:
+    def close(self):
+        pass
     def __init__(self):
         self.config = configuration_identity(EmbeddingConfig())
         self.payload = dict(status='ok', release_id='release-test',embedding_config=self.config,
