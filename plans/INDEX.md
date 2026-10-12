@@ -5,11 +5,11 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: `4` (security exit gate reopened by independent verification)
-- Active plan: `plans/phase-04-supabase-storage-plan.md`
-- Active checkpoint: `plans/phase-04-checkpoint.md` (repair in progress)
-- Latest final handoff: `plans/phase-04-handoff.md` (blocked; original completion narrative preserved)
-- Next permitted phase: none until Phase 4 recovery passes; `phase-05-retrieval-plan.md` remains preparation only
+- Active phase: none (Phase 04 corrective exit gate complete)
+- Active plan: none; Phase 05 remains preparation only
+- Active checkpoint: none; Phase 04 checkpoint superseded
+- Latest final handoff: `plans/phase-04-handoff.md` (complete after remediation; history preserved)
+- Next permitted phase: `5`; `phase-05-retrieval-plan.md` remains preparation only until formal start
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
 
 ## Parallel prospectus workstream
@@ -26,7 +26,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
 | 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
 | 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
-| 4 | Supabase vector and relational storage | reopened; security gate blocked | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` (blocked) | `phase-04-handoff.md` (blocked) |
+| 4 | Supabase vector and relational storage | complete after security remediation | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` (superseded) | `phase-04-handoff.md` (complete) |
 | 5 | Retrieval | ready (preparation only) | `phase-05-retrieval-plan.md` | none | none |
 
 ## Resume Order

@@ -1,16 +1,16 @@
 ---
 artifact: phase-plan
 phase: 4
-status: in_progress
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-03-handoff.md
 ---
 
 # Phase 4 — Supabase Vector and Relational Storage Plan
 
-Reopened for security verification on 12 October 2026. The original task checklist below records delivered work; Tasks 5/6 and the publication invariants require recovery under [the independent review](phase-04-security-review-2026-10-12.md). The current checkpoint and blocked handoff govern advancement.
+Historical reopening on 12 October 2026: the original task checklist records delivered work; Tasks 5/6 and publication invariants required recovery under [the independent review](phase-04-security-review-2026-10-12.md). The complete corrective handoff now governs advancement.
 
-Formally active implementation plan.
+Implementation complete after corrective verification at `c5beecd`; see the current final handoff.
 Nothing here constitutes institutional policy approval or active production release.
 Anything not run is marked NOT RUN.
 
@@ -57,3 +57,7 @@ Persist the reviewed corpus and candidate structured knowledge into Supabase Pos
 - **Release Isolation**: Chunks and embeddings belonging to inactive or draft releases cannot be retrieved by runtime queries.
 - **Permission Enforcement**: The runtime read role cannot execute `INSERT`, `UPDATE`, or `DELETE` on institutional knowledge tables.
 - **Advisor & Schema Health**: Supabase security and performance advisors return clean audit results.
+
+## Corrective closure — 12 October 2026
+
+Recovery tasks complete. The current handoff records 31 isolated storage tests, both runtime roles, deployed parity, reconciled history and zero security/WARN/ERROR advisor findings. Expected unused-index INFO is documented. Original master/history preserved. Phase 05 remains preparation only, now eligible for formal start.

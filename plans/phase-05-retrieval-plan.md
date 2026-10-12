@@ -9,7 +9,7 @@ previous_handoff: plans/phase-04-handoff.md
 
 # Phase 5 — Retrieval Plan
 
-Base commit `4244870`. Prepared plan awaiting owner review and formal start authorization.
+Originally prepared at `4244870`; corrected storage baseline `c5beecd`. Prepared plan awaiting owner review/formal start. The complete Phase 04 corrective handoff governs eligibility.
 Nothing here constitutes institutional policy approval or active production release.
 Anything not run is marked NOT RUN.
 
@@ -30,6 +30,8 @@ Return relevant, authorized, source-linked context without depending on answer g
 - **Release Binding**: Queries must target the active release or a pinned validated release ID.
 - **Context Budget**: Respect bounded token budgets; do not overfill context.
 - **Privacy & Role Separation**: Retrieval runs strictly under runtime role (`anon`) with RLS enforcement.
+
+Corrected storage prerequisite: runtime RLS currently exposes only the active approved release. Superseded evidence is immutable for validated administrative rollback. Request-pinned access across publication requires an explicitly authorized Phase 05 interface; do not make history globally readable by relaxing RLS. Verify external model asset digests before model work; Phase 04 did not execute/hash weights.
 
 ## Task Checklist
 

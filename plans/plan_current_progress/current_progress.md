@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase 04 security verification reopened the exit gate; its handoff is blocked during repair and Phase 05 remains preparation only. The latest dated entry below and `plans/INDEX.md` override earlier Phase 04 completion claims. Prospectus history is preserved.
+**Current numbered-phase status, 12 October 2026:** Phase 04 security repair is complete at code baseline `c5beecd`; its corrective handoff governs current status. Phase 05 is eligible but remains preparation only. Prospectus history below is preserved.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -179,3 +179,13 @@ Task 2 final gate: 30 storage tests passed in 69.867s. Final review corrections 
 - `6e762a5` commits the policy/publication/import repairs. Both local and hosted databases now have migrations 10001/10002 applied and matching history. Live roles: 17 institutional SELECT grants each; zero mutation grants or admin RPC execution, RLS enabled on all 19 tables. All knowledge tables and active pointer remain empty.
 - Fresh advisors at INFO expose six missing foreign-key indexes and intentional policy-free operational tables, with no WARN/ERROR. Follow-through migration 10003 adds covering indexes and explicit restrictive runtime denials. The new policy regression failed before the migration; all 11 security tests pass afterward. Expected unused-index INFO notices on empty databases remain nonblocking.
 - Next action: commit/apply 10003, compare final catalogs and function ACL/defaults, run the complete isolated suite, and record the earned Phase 04 closure. Phase 05 remains preparation only; no institutional release was activated.
+
+## Phase 04 corrective closure — 12 October 2026
+
+- Committed privilege repair `c48f404`, publication/import repair `6e762a5`, advisor hardening `c5beecd`. Original migrations/master/history preserved.
+- All three additive migrations applied locally/hosted; verified missing historical entries recorded without replay. Final dry runs: no pending migrations. Both live roles: 17 institutional SELECT grants, zero writes/admin EXECUTE; 19 tables use RLS. Application objects/defaults use postgres ownership. Platform-managed supabase_admin defaults remain outside alteration authority; future managed-role/manual creation needs effective-ACL review.
+- Catalog parity: 150 columns, 71 constraints, 47 indexes, 19 policies/RLS flags, 8 public functions, 9 private functions, 34 triggers. Security advisors clear; performance only unused-index INFO (24 hosted/18 local); zero WARN/ERROR.
+- Verification: 31 storage tests passed (78.153s), 12 embedding tests (0.152s; existing deprecation warning), 19 ledger tests (17.533s). Actual SQL roles/RPCs, HTTP construction, local runtime denial smoke and hosted actual-role SELECT checks verified. Independent reviewer: no blockers. No disposable databases remain; institutional tables/active pointers still empty.
+- Raw evidence outside Git in `audit-evidence/p04-repair-20261012/`. Handoff records exact versions/digests/commands/limits. Models not downloaded, executed or hashed.
+- Closure: Phase 04 plan complete, checkpoint superseded, handoff complete, INDEX next phase 5; Phase 05 prepared baseline updated without starting implementation. `validate` and `can-advance` both passed: no active phase, complete latest handoff, Phase 05 eligible. Documentation commit/clean-state check follow.
+- Next substantive action: review/formally start Phase 05, then matching query embeddings, authorized request-pinned scope/release access and labeled retrieval evaluation. Source approval/institutional activation retain existing boundaries. Do not repeat repaired security work from historical blocked narratives.

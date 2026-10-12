@@ -17,3 +17,9 @@ The owner instructed continued fixes. Repair plan: [Phase 04 security repair](..
 Independent review added content-hash/location validation and corpus-bound default embedding identities. Missing/unknown contract schema versions cannot silently bypass a declared contract; administrative DB-row dictionaries undergo explicit content/source checks. Normal Phase 03 artifacts derive set identity from the full corpus, so changed corpora can use the same pinned encoder configuration without mutating an old release. A manifest-only operation needs an explicit set identity.
 
 Hosted historical objects match a fresh baseline exactly apart from function line endings and the previously recorded ACL drift. CLI history repair records those existing objects without replaying CREATE POLICY or altering institutional data. Deployment and final gate remain pending; the initial reopening ruling is retained as history.
+
+## Corrective closure ruling
+
+At `c5beecd` all audit/reviewer findings are corrected. Gate: 31 storage, 12 embedding and 19 ledger tests passed; deployed catalog/function/trigger digests match; six migration versions recorded; both runtime roles have zero mutation/admin-function privileges. Security advisors clear; performance INFO only expected unused indexes. This supersedes the reopening ruling for current status while preserving its evidence.
+
+Hosted platform-managed `supabase_admin` defaults are outside postgres alteration authority. Application objects/migrations use verified postgres ownership with closed defaults and explicit ACLs; managed-role/manual creation still needs fresh effective-privilege review. No institutional release/approval is inferred. Phase 05 is eligible but remains preparation only.
