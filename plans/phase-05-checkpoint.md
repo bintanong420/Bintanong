@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: blocked
-sequence: 7
+status: in_progress
+sequence: 8
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ddf9b83
-working_tree: clean
-updated_at: 2026-10-12T09:54:31+08:00
+head_commit: 73934a3
+working_tree: dirty
+updated_at: 2026-10-12T13:15:50+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Verified software candidate and synthetic evaluation delivered; Task4 approved calibration/Task6 formal exit blocked. Recover under phase-05-handoff.md, not Phase06.
+Owner resumed Phase05 and requested a small development practice exam with correct answers/sources and TDD tests. Active task: source-bound candidate exam loader/grader and external original-backed answer key. Formal Phase05 exit remains blocked under the preserved handoff.
 
 ## Repository State
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Obtain approved development-case/source paths and an existing compatible Python3.13 encoder environment (or explicit dependency-setup authorization). Run real matching SEA-LION/source-file citation gates and development-only calibration; apply reviewed additive migration/recheck ACL/RLS/advisors before shared runtime use. Then earn a complete handoff and can-advance. Do not redo candidate delivery.
+Write/run focused failing practice-exam tests, implement strict source/answer/citation checks, build the external 12-question original-PDF-backed candidate exam, validate it and run regressions. Do not claim approved labels or real-model retrieval performance.
 
 ## Do Not Repeat
 
@@ -84,3 +84,7 @@ Final retrieval suite:29 passed24.814s, exit0; includes real role SQL, recursive
 Full91 relevant tests and fresh review passed. Master section10 approved-development/source-citation/real-model gate cannot pass with synthetic fixtures or absent model dependencies. Phase05 active plan with blocked checkpoint/handoff, checkpoint retained, INDEX points to recovery. No Phase06 created. Shared migration deployment NOT RUN; default runtime policy remains uncalibrated. Models/candidate corpus inactive. Owner text question for case paths/environment remains pending; no answer or dependency authorization inferred.
 
 Ruling: retain plan status in_progress with blocked checkpoint/handoff; phase_state.py selects only ready/in_progress plans. This keeps Phase05 the active recovery phase and cannot authorize advancement.
+
+## Owner-resumed practice exam
+
+Git clean73934a3; checkpoint prior implementation pointer repaired before new work. E: historical dataset drive unavailable. Original ignored BSCS2018-2019 and proposed2025-2026 PDFs exist in local dataset; both one-page originals rendered with native Windows.Data.Pdf (no install/download) and visually inspected. New sheet explicitly says proposed, so answers describe printed candidate source only. Source-derived exam/answers/passages/PNG/reports remain outside Git under audit-evidence/p05-dev-exam-20261012. Committed tests use invented synthetic evidence. No source/rule authorization, deployment or phase advancement.
