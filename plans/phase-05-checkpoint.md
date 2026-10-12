@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 10
+sequence: 12
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 4eedfb6
+head_commit: 1fb9d1b
 working_tree: dirty
 updated_at: 2026-10-12T13:15:50+08:00
 ---
@@ -96,3 +96,11 @@ TDD observed missing-module RED;12 checker/grader unittest tests now pass0.028s.
 ## Practice-exam Task2 verified
 
 CLI/render missing-function RED observed;19 checker/grader/CLI tests passed0.100s. Additional RED guards now enforce all Git-root/worktree boundaries and refuse stale grading files on ungraded export. The original audit-evidence destination sits under an unrelated C:/Coding-projects Git root discovered during the guard smoke; moved only our new exam artifacts after exact resolved source/destination checks to C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012. Original PDFs stayed untouched. Candidate12-case/8-family packet validated against two original byte hashes; four cases per en/tl/Taglish, nine answerable/one clarify/two insufficient, no institutional approval or retrieval observations. Physical page1 for both; proposed sheet printed50, older sheet printed1. Scope/core row boxes visually checked. Next: final code/source-boundary review and practice/retrieval/embedding/ledger regressions.
+
+## Final practice-exam regression preflight
+
+Fresh new suite19 passed; full retrieval rerun attempted and failed solely because Docker Desktop Linux-engine pipe is absent (no daemon). Two DB fixture failures prevented the29-test suite from completing; no disposable DB created. Do not treat historical29-pass evidence as a fresh run. Unchanged DB/storage code does not justify Docker startup across its existing execution boundary. Practice-exam and22 non-DB retrieval unit checks, embedding and ledger regressions now running independently. Fresh reviewer inspecting code plus actual external PDF answer key, no edits/activation. Source/answer packet remains candidate with grading null; no actual retrieval observations fabricated.
+
+## Practice-exam review correction verified
+
+Fresh review visually confirmed original-backed answers, proposal/effective labels and source/page/bbox locations; found one P2 existing-output hardlink bypass. Both original-source overwrite and gold-into-Git cases reproduced RED on synthetic temp files. Preflight now refuses existing symlink/hardlink/non-regular output targets before any write;21 new tests pass0.234s and reviewer independently9 CLI tests pass0.179s, no remaining P1/P2. Original institutional files untouched. External wrong-program case now records requested BSIT with unknown edition, rather than using the BSCS background source as applicability; answer/key wording unchanged. Final non-DB regressions/readable exports rerun and results in external logs. Next: commit correction and record candidate practice-exam delivery/remaining Phase05 exit gates.

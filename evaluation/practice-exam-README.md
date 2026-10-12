@@ -29,7 +29,7 @@ The checker verifies actual PDF byte hashes, source-root path containment, physi
 
 Bounding boxes use PDF points with a top-left origin. Physical page numbers identify PDF pages; printed labels identify printed pagination and can differ. Excerpts are manual readings from original PDF renders; table separators are added. Hashing an excerpt detects mutation, but does not automatically prove that its text or answer is correct. Source page counts/sizes and semantic row/column locators are authored inspection metadata, not a fresh PDF-parser measurement by this checker.
 
-Outputs are refused inside any Git repository/worktree, and never overwrite an exam, observation or original-source input. An ungraded export refuses a destination containing an older `grading.json`; use a fresh output directory to avoid carrying forward a stale score.
+Outputs are refused inside any Git repository/worktree, and never overwrite an exam, observation or original-source input. Existing symlink/hardlink output files are refused before any writes. An ungraded export refuses a destination containing an older `grading.json`; use a fresh output directory to avoid carrying forward a stale score.
 
 ## Grade recorded responses
 

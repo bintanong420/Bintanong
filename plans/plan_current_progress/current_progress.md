@@ -241,3 +241,11 @@ Owner requests continued Phase05 TDD and a small dev practice exam with correct 
 ### Phase05 original-backed practice exam exported
 
 19 new TDD tests pass0.100s. External12-case/8-family exam, question sheet, source-bound answer key and validation report created at C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012. The initial Coding-projects audit directory was discovered inside another Git root; only our artifacts moved to a verified external path, originals preserved. Four en/four tl/four Taglish, nine answerable/one curriculum clarification/two insufficient-evidence controls. Byte hashes and visual row/bbox checks performed; independent approval/production cell mapping/real retrieval run remain pending. No fabricated observations or score, no LLM answer generation. Next: final fresh review and affected regressions.
+
+### Fresh practice-exam verification environment
+
+19 practice-exam TDD checks pass. Full retrieval rerun found Docker daemon unavailable (missing Linux-engine named pipe), so DB fixtures could not start; no data changes and no passing DB claim. Run22 non-DB retrieval units plus embedding/ledger regressions independently; no Docker startup or installs. Fresh code/source-answer reviewer running. Final answer-key observations remain absent and no model score claimed.
+
+### Practice-exam fresh review fixed
+
+Reviewer confirmed original-backed answer/source correctness and found one P2 linked output file bypass. Two synthetic hardlink RED regressions now GREEN; exporter refuses existing symlink/hardlink/non-file outputs before writes.21 new tests pass0.234s; reviewer9 CLI tests pass0.179s with no remaining P1/P2. Wrong-program question scope records explicit BSIT/unknown edition; BSCS source is only background. Correct source identity/answer key remain candidate, no human source approval or real observations. Final combined unit regressions and export validation rerun; commit/report/handoff updates next.

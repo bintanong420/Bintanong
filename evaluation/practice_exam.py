@@ -260,6 +260,11 @@ def main(argv=None):
     if args.observations:
         names.append('grading.json')
     _require(not any((output/name).resolve() in protected for name in names), 'output would overwrite an input')
+    for name in names:
+        target = output/name
+        _require(not target.is_symlink() and (not target.exists() or target.stat().st_nlink == 1),
+                 'output destination is linked; use a fresh unlinked file')
+        _require(not target.exists() or target.is_file(), 'output destination must be a regular file')
     grade = None
     if args.observations:
         grade = grade_exam(exam, json.loads(args.observations.read_text(encoding='utf-8')))

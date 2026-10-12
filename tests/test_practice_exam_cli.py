@@ -88,6 +88,30 @@ class PracticeExamCliTests(unittest.TestCase):
             main(['--exam',str(self.input),'--source-root',str(self.root),'--output-dir',str(out)])
         self.assertFalse((out/'validation.json').exists())
 
+    def test_output_hardlink_cannot_overwrite_original_source(self):
+        out=self.root/'linked-source-output'
+        out.mkdir()
+        original=(self.root/'fixture.pdf').read_bytes()
+        (out/'questions.md').hardlink_to(self.root/'fixture.pdf')
+        with self.assertRaisesRegex(ValueError,'linked'):
+            main(['--exam',str(self.input),'--source-root',str(self.root),'--output-dir',str(out)])
+        self.assertEqual((self.root/'fixture.pdf').read_bytes(),original)
+        self.assertFalse((out/'validation.json').exists())
+
+    def test_output_hardlink_cannot_write_gold_into_another_git_root(self):
+        out=self.root/'linked-git-output'
+        out.mkdir()
+        other=self.root/'separate-repository'
+        other.mkdir()
+        (other/'.git').mkdir()
+        protected=other/'protected.md'
+        protected.write_text('preserve owner content',encoding='utf-8')
+        (out/'answer-key.md').hardlink_to(protected)
+        with self.assertRaisesRegex(ValueError,'linked'):
+            main(['--exam',str(self.input),'--source-root',str(self.root),'--output-dir',str(out)])
+        self.assertEqual(protected.read_text(encoding='utf-8'),'preserve owner content')
+        self.assertFalse((out/'questions.md').exists())
+
 
 if __name__=='__main__':
     unittest.main()
