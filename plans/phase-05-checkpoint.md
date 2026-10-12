@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: blocked
-sequence: 13
+status: in_progress
+sequence: 15
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 2a497c4
-working_tree: clean
-updated_at: 2026-10-12T13:46:45+08:00
+head_commit: 63b63b7
+working_tree: dirty
+updated_at: 2026-10-12T16:24:15+08:00
 ---
 
 # Phase 05 checkpoint
@@ -108,3 +108,11 @@ Fresh review visually confirmed original-backed answers, proposal/effective labe
 ## Practice-exam delivery/recovery checkpoint
 
 Verified code2a497c4, fresh source-boundary re-review clear.12 cases/8 groups, en/tl/Taglish4 each, nine answerable/one needs_scope/two insufficient_evidence. Artifacts outside all Git roots at C:/Users/joel/AppData/Local/Bintanong/evaluation/p05-dev-exam-20261012; packet04f7d3c5d5c793ef8a8aaf7c272690aa0757adb49ee775f30120977cdc55e096, question sheet752032c10141629794b34cbeb13f7d2f56722153f5fc624c927d1187b12ad7eb, key9c48a3ce898904399574d28e2a642d9c9ee77809325773a59c67130cb594159d. Both original byte hashes match pending inventory; originals preserved. Final43 combined units pass0.241s, embedding12 pass0.159s, ledger19 pass12.177s;74 relevant checks.21 new tests and reviewer9 CLI checks pass. DB-inclusive retrieval attempt failed infrastructure; no Docker startup/no fresh DB pass. Gold candidate labels/source authority remain pending; no grading observations/score fabricated. Documentary closure follows code commit; Git identifies actual HEAD, expected clean after explicit staging. See phase-05-practice-exam-report.md for exact commands/limits.
+
+## Owner-approved Superpowers bounded college expansion
+
+Owner explicitly selected27 questions balanced three per college after Superpowers bounded-design review. Fresh inventory:39 PDF paths in nine college folders CAD/CAH/CBA/CCJE/CHTM/CNHS/CoE/CS/CTE, all currently under Tiniguiban - Main. Actual root is backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump, with owner relocation intended but not performed. Preserve earlier12-case external version, author a separate balanced27-case version from original PDF reading. Superpowers TDD applies to college coverage checks/reporting; one fresh final review. Dataset guide will be linked from AGENTS.md/INDEX so existing handoff routing finds it, avoiding a new skill or moving originals. Next: write failing coverage tests, implement verified college evidence mapping, document portable source-root usage, complete original-page review and external27-case validation.
+
+## College coverage verified increment
+
+Observed missing college report/validation behavior RED; ten new synthetic-college tests now pass alongside21 existing tests (31 total,0.182s, exit0). Optional declaration validates live PDF college inventory, equal counts/languages, case/source college identity and directory labels; backward compatibility and root relocation verified. Added plans/dataset-locations.md and AGENTS/INDEX routing rather than changing a generic skill. Changed evaluation checker/README, new college tests, guide and phase/progress pointers. Next: finish original-row readings and export separate27-case candidate packet/key; original12-case version preserved.

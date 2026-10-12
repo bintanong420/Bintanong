@@ -50,6 +50,18 @@ def _structure(exam):
     sources, cases = exam.get('sources'), exam.get('cases')
     _require(isinstance(sources, list) and sources and isinstance(cases, list) and cases,
              'nonempty source and case lists required')
+    coverage = exam.get('college_coverage')
+    if coverage is not None:
+        _require(isinstance(coverage, dict), 'college coverage must be an object')
+        colleges = coverage.get('required_colleges')
+        languages = coverage.get('required_languages')
+        _require(isinstance(colleges, list) and colleges and all(_text(c) for c in colleges)
+                 and len(set(colleges)) == len(colleges), 'college coverage requires unique colleges')
+        _require(type(coverage.get('cases_per_college')) is int and coverage['cases_per_college'] > 0,
+                 'college case count must be positive')
+        _require(isinstance(languages, list) and languages
+                 and all(l in ('en', 'tl', 'taglish') for l in languages)
+                 and len(set(languages)) == len(languages), 'college language coverage invalid')
     by_id, versions = {}, set()
     for source in sources:
         _require(isinstance(source, dict), 'source must be an object')
@@ -61,6 +73,10 @@ def _structure(exam):
         _require(_digest(source.get('byte_sha256')), 'source digest must be lowercase SHA-256')
         _require(_text(source.get('relative_path')) and _text(source.get('title')) and
                  _text(source.get('authority_note')), 'source path/title/authority note required')
+        if coverage is not None:
+            parts = Path(source['relative_path']).parts
+            _require(source.get('college') in colleges and len(parts) >= 3
+                     and parts[1] == source['college'], 'source college must match dataset directory')
         _require(type(source.get('page_count')) is int and source['page_count'] >= 1, 'source page_count invalid')
         size = source.get('page_size')
         _require(isinstance(size, list) and len(size) == 2 and all(
@@ -77,6 +93,8 @@ def _structure(exam):
         _require(_text(case.get('group_id')) and case['group_id'].startswith('grp-'), 'scenario group required')
         _require(case.get('language') in ('en', 'tl', 'taglish') and _text(case.get('category')),
                  'case language/category invalid')
+        if coverage is not None:
+            _require(case.get('college') in colleges, 'case college must be declared')
         _require(_text(case.get('question')) and _text(case.get('expected_answer')), 'question/answer required')
         answers = case.get('acceptable_answers')
         _require(isinstance(answers, list) and answers and all(_text(a) for a in answers)
@@ -88,6 +106,8 @@ def _structure(exam):
         for span in gold:
             _require(isinstance(span, dict) and span.get('source_id') in by_id, 'gold source must resolve')
             source = by_id[span['source_id']]
+            if coverage is not None:
+                _require(source['college'] == case['college'], 'gold source college must match case college')
             _require(span.get('version_id') == source['version_id'] and
                      span.get('byte_sha256') == source['byte_sha256'], 'gold source identity mismatch')
             page = span.get('page')
@@ -110,6 +130,13 @@ def _structure(exam):
                      'curriculum clarification requires contrasting source versions')
         if case['expected_status'] == 'insufficient_evidence':
             _require(all(s['role'] == 'background' for s in gold), 'unsupported case cannot claim supporting evidence')
+    if coverage is not None:
+        for college in colleges:
+            rows = [c for c in cases if c['college'] == college]
+            _require(len(rows) == coverage['cases_per_college'], 'college case count does not match coverage')
+            counts = Counter(c['language'] for c in rows)
+            _require(set(counts) == set(languages) and len(set(counts.values())) == 1,
+                     'college language coverage must be balanced')
     return by_id
 
 
@@ -118,6 +145,16 @@ def validate_exam(exam, source_root):
     sources = _structure(exam)
     root = Path(source_root).resolve(strict=True)
     _require(root.is_dir(), 'source_root must be an existing directory')
+    coverage = exam.get('college_coverage')
+    if coverage is not None:
+        discovered = set()
+        for path in root.rglob('*'):
+            if path.is_file() and path.suffix.lower() == '.pdf':
+                parts = path.relative_to(root).parts
+                _require(len(parts) >= 3, 'dataset PDF must have campus/college directories')
+                discovered.add(parts[1])
+        _require(discovered == set(coverage['required_colleges']),
+                 'college coverage must include every college in the live dataset')
     for source in sources.values():
         relative = Path(source['relative_path'])
         path = (root / relative).resolve()
@@ -133,6 +170,10 @@ def validate_exam(exam, source_root):
         group_count=len({c['group_id'] for c in exam['cases']}),
         by_language=dict(Counter(c['language'] for c in exam['cases'])),
         by_category=dict(Counter(c['category'] for c in exam['cases'])),
+        by_college={college: dict(case_count=sum(c.get('college') == college for c in exam['cases']),
+            by_language=dict(Counter(c['language'] for c in exam['cases'] if c.get('college') == college)))
+            for college in coverage['required_colleges']} if coverage is not None else {},
+        college_coverage_complete=coverage is not None,
         institutional_gate_eligible=False, original_pdf_bytes_verified=True,
         printed_content_and_answer_review='manual; independent review remains separate',
         actual_retrieval_run='not_performed_by_validation')
@@ -185,6 +226,7 @@ def grade_exam(exam, observations):
                 ('answer_key_mismatch', answer_ok), ('control_mismatch', control_ok), ('source_mismatch', source_ok)
             ) if not ok]
         measured.append(dict(case_id=case['case_id'], language=case['language'], category=case['category'],
+            college=case.get('college'),
             answer_correct=answer_ok, source_correct=source_ok, control_correct=control_ok,
             passed=not failures, failure_reasons=failures))
     def summary(rows):
@@ -196,6 +238,8 @@ def grade_exam(exam, observations):
         **summary(measured), cases=measured,
         by_language={v:summary([r for r in measured if r['language'] == v]) for v in sorted({r['language'] for r in measured})},
         by_category={v:summary([r for r in measured if r['category'] == v]) for v in sorted({r['category'] for r in measured})},
+        by_college={v:summary([r for r in measured if r['college'] == v])
+                    for v in exam['college_coverage']['required_colleges']} if exam.get('college_coverage') else {},
         institutional_gate_eligible=False, source_byte_validation='run validate_exam separately',
         measurement='fixed-key answer/control/source agreement; not semantic model quality')
 
@@ -217,6 +261,8 @@ def render_exam(exam, source_root=None):
                 f"  - Original: {label}", f"  - Version: `{source['version_id']}`",
                 f"  - Original SHA-256: `{source['byte_sha256']}`",
                 f"  - Authority note: {source['authority_note']}", '']
+        if source.get('college'):
+            key += [f"  - College: {source['college']}", '']
     key += ['## Answer key', '',
             'Excerpts are manual source transcriptions; table separators are added for readability.',
             'Byte/locator checks do not replace independent content review.', '']
@@ -224,6 +270,8 @@ def render_exam(exam, source_root=None):
         title = f"### {number}. {case['question']}"
         questions += [title, '', f"Language: {case['language']}; category: {case['category']}; case: `{case['case_id']}`.",
                       '', 'Answer:', '', 'Source:', '']
+        if case.get('college'):
+            questions += [f"college: {case['college']}", '']
         key += [title, '', f"**Expected answer:** {case['expected_answer']}",
                 f"**Expected control:** `{case['expected_status']}`; group: `{case['group_id']}`.", '']
         for gold in case['gold_evidence']:

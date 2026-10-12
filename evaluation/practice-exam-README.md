@@ -59,3 +59,13 @@ python -m evaluation.practice_exam --exam C:/path/outside/git/practice-exam.json
 Answers are matched only against explicitly authored acceptable variants, with NFC/case/whitespace normalization. Numbers, negation and punctuation are retained; this is a deterministic fixed-key check, not semantic grading of unrestricted prose. Answer, control and source accuracy are reported independently and by language/category. Both cited editions are required for a comparison/clarification; optional background references cannot substitute for supporting sources. Missing responses fail. A correct answer with a wrong source/edition/page/row also fails. CLI exit2 means supplied observations have failures; exit0 without observations means source validation/export only.
 
 The tool never manufactures responses from its answer key. Key replay or mutation tests verify the checker only; they do not measure model quality. The current packet has no actual retrieval responses or grading score. Before measuring real Phase05 retrieval, independently review the answer/source labels, map semantic row locators to the production ingestion span/cell identities, and use actual matching SEA-LION/runtime retrieval observations. No corpus activation, shared database migration, API or LLM answer generation is included.
+
+## Balanced college version
+
+The owner selected a separate 27-question version, three per college: CAD, CAH, CBA, CCJE, CHTM, CNHS, CoE, CS and CTE. Each college has one English, one Filipino and one Taglish question. The original 12-case version remains preserved. See [dataset locations and relocation](../plans/dataset-locations.md) for the current original corpus root and both external artifact directories.
+
+An optional `college_coverage` object declares `required_colleges`, positive `cases_per_college` and `required_languages`. Sources and cases carry `college`; source labels must match their campus/college relative paths, and a case's evidence must belong to its labeled college. The label denotes the evidence folder, not automatic applicability to the student. Validation compares the declaration against every live PDF college in `--source-root`, requires equal question counts and balanced declared languages, and reports `by_college`. Grading reports separate college summaries. Older packets without this declaration continue to validate and report an empty college summary.
+
+```powershell
+python -B -m unittest tests.test_practice_exam tests.test_practice_exam_cli tests.test_practice_exam_colleges
+```
