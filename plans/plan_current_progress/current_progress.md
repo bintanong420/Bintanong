@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase 04 security repair is complete at code baseline `c5beecd`; its corrective handoff governs current status. Phase 05 is eligible but remains preparation only. Prospectus history below is preserved.
+**Current numbered-phase status, 12 October 2026:** Phase 04 security repair is complete at code baseline `c5beecd`; its corrective handoff governs current status. Phase 05 is eligible but remains preparation only. The owner has started separate Phase 1–2 human verification preparation; see the latest entry below. Prospectus history is preserved.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -189,3 +189,19 @@ Task 2 final gate: 30 storage tests passed in 69.867s. Final review corrections 
 - Raw evidence outside Git in `audit-evidence/p04-repair-20261012/`. Handoff records exact versions/digests/commands/limits. Models not downloaded, executed or hashed.
 - Closure: Phase 04 plan complete, checkpoint superseded, handoff complete, INDEX next phase 5; Phase 05 prepared baseline updated without starting implementation. `validate` and `can-advance` both passed: no active phase, complete latest handoff, Phase 05 eligible. Documentation commit/clean-state check follow.
 - Next substantive action: review/formally start Phase 05, then matching query embeddings, authorized request-pinned scope/release access and labeled retrieval evaluation. Source approval/institutional activation retain existing boundaries. Do not repeat repaired security work from historical blocked narratives.
+
+## Phase 1–2 human verification started — 12 October 2026
+
+- Owner requested connected Phase 1–2 human verification using the external Citizens Charter and Student Handbook/Constitutions folders, repository copies and visible test results. Lawrence is independently verifying material for later phases; preserve his work and keep decisions separate.
+- Review plan: [human verification batch](../2026-10-12-phase12-human-verification.md). No numbered phase advancement or institutional activation is implied.
+- Copied 15 original PDF/PPTX paths (9 unique SHA-256 identities; 52,937,795 bytes) into ignored `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/handbook_citizen_charter/`. Every original/copy hash matched; legacy generated conversions/helpers were excluded from the original-source copy. Existing owner `.gitignore` edit preserved; local `.git/info/exclude` supplies the functional slash-form ignore rule.
+- Evidence root: `E:/Hawksprey/Documents/PalSU Stuff/Bintanong dataset dump/scratch/phase12_human_20261012_37f9e9e2/`; copy manifest saved there. Baseline `10bfd6f`, system Python 3.13.12 and installed Docling 2.129.0; no installs/dependency changes.
+- Next action: read-only inventory and focused governance/ingestion tests, followed by offline fresh candidate conversion and a blank human decision packet. Review decisions, authority and OCR accuracy remain pending.
+
+### Owner-led review clarification and initial results
+
+- Owner clarified that human verification means their own output review, with run instructions before the next choice, and requested a checklist for all supplied files. Created [run instructions and per-file checklist](../2026-10-12-phase12-human-review-checklist.md); separate [batch plan/results](../2026-10-12-phase12-human-verification.md). These supersede the automatic batch next action above.
+- Fresh automated gate: 2,589 passed, 0 failed, 3 upstream deprecation warnings in 138.82s; focused Phase 1 contracts/evaluation and Phase 2 ingestion/inspection/report/OCR gates, not the full repository suite. Inspection: all 15 paths healthy, 9 distinct hashes, zero inaccessible paths/page-accounting invariant violations.
+- Two unique Charter PPTX bundles completed and passed checked consumption, each with 52 text items/15 tables withheld and zero chunks. The 17-page Charter PDF failed `raw reading order omits text or tables`; no complete bundle. Election-code trial interrupted during shutdown. Remaining documents not converted. All batch processes stopped; no automated human verdicts.
+- Created nine pending source versions preserving 15 acquisition aliases, two readable external Markdown outputs and 45 pending human review CSV rows. All 15 source/copy SHA-256 pairs unchanged at final check. No installs, dependency changes, database writes, runtime service/GUI start, executable Prolog or institutional approval. Lawrence artifacts/decisions untouched.
+- Next action: owner follows the checklist and reports their first page/item verdict; then choose the next source or authorize a focused fix for the real Charter PDF reading-order refusal. Preserve pending authority and extraction gaps. No numbered phase starts or completes in this batch.
