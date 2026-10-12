@@ -65,3 +65,7 @@ For each task: write focused tests, observe expected RED, implement minimal chan
 ## Exit gate
 
 Run all retrieval/storage/embedding unittest suites and phase-state tests; verify migration in disposable databases and effective RPC ACL/RLS. Run development-only evaluation by language/category with every returned span resolving to its source/version/page/locator. Record exact versions and external model/file digests. Formal completion additionally requires approved labeled development cases recovering expected evidence and detecting unsupported cases without answer generation. If those cases are unavailable, retain Phase 05 active with a blocked handoff/recovery condition; do not create Phase 06.
+
+## Candidate recovery checkpoint — 12 October 2026
+
+Software delivery and fresh review are verified at ddf9b83;91 relevant tests passed. Task4 has only synthetic development calibration; Task6 formal approved-case/model exit remains blocked. See phase-05-handoff.md for exact recovery conditions, versions/digests and evidence. Shared migration unapplied, default policy uncalibrated, no institutional release activation. The active Phase05 checkpoint is blocked and retained rather than superseded; plan remains in_progress so phase_state.py continues selecting Phase05 (blocked plans are not active in that inspector). Phase06 cannot begin.

@@ -23,3 +23,7 @@ Remaining exit evidence: compatible local real-model execution with matching fin
 ## Fresh review corrections
 
 Three P2 findings were reproduced and corrected: required-clause chains now use recursive authorized same-version SQL closure; neighbors contribute to ambiguity/conflict detection; partially overlapping textless tables are withheld with an explicit gap rather than emitting whole-table text under a fresh-cell-only citation. Root13 targeted tests pass; fresh reviewer independently13 pass and reports no remaining P1/P2. Concurrent publication test confirms one consistent statement snapshot plus stale-pin rejection on a later request. One original10s test-future timeout is unreproduced; its raw result was correct, and the infrastructure allowance is now30s. Checkpoint UTF-8 encoding was repaired and ledger validation passed.
+
+## Final verification
+
+At verified code ddf9b83: retrieval29 passed24.814s, storage31 passed76.097s, embedding12 passed0.108s (existing deprecation warning), ledger19 passed9.579s;91 relevant tests, all exit0. Fresh review clear after fixes. Local releases/active pointers/disposable databases zero; hosted security baseline zero lints. Shared migration remains unapplied. Formal Phase05 recovery is blocked under phase-05-handoff.md; approved sources/cases and real-model/source-file gates remain NOT RUN. Raw final logs and observed synthetic evaluation JSON are external, as recorded in handoff.

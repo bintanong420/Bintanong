@@ -5,10 +5,11 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 ## Current State
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: `5` (owner start 12 October 2026)
+- Active phase: `5` (blocked on approved development cases and real model/source verification; software candidate delivered)
 - Active plan: `phase-05-retrieval-plan.md`
 - Active checkpoint: `phase-05-checkpoint.md`; Phase 04 checkpoint superseded
-- Latest final handoff: `plans/phase-04-handoff.md` (complete after remediation; history preserved)
+- Latest handoff: `plans/phase-05-handoff.md` (blocked recovery handoff; does not authorize advancement)
+- Previous complete final handoff: `plans/phase-04-handoff.md` (corrective closure preserved)
 - Next permitted phase: `5` (active); Phase 06 requires a complete Phase 05 final handoff
 - Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
 
@@ -27,7 +28,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 | 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
 | 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
 | 4 | Supabase vector and relational storage | complete after security remediation | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` (superseded) | `phase-04-handoff.md` (complete) |
-| 5 | Retrieval | in progress | `phase-05-retrieval-plan.md` | `phase-05-checkpoint.md` | none |
+| 5 | Retrieval | blocked formal exit; software candidate verified | `phase-05-retrieval-plan.md` | `phase-05-checkpoint.md` (active) | `phase-05-handoff.md` (blocked) |
 
 ## Resume Order
 

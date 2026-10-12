@@ -1,6 +1,6 @@
 # Current prospectus workstream progress — 29 September 2026
 
-**Current numbered-phase status, 12 October 2026:** Phase 05 formally started by owner instruction from `10bfd6f`; `plans/phase-05-checkpoint.md` governs recovery. Phase 04 corrective closure remains complete. Prospectus history below is preserved.
+**Current numbered-phase status, 12 October 2026:** Phase05 software candidate verified at ddf9b83; formal exit blocked pending approved development sources/cases and real encoder/citation verification. Active phase-05-checkpoint.md and blocked phase-05-handoff.md govern recovery. Phase04 corrective closure remains complete; no Phase06 advancement. Prospectus history below is preserved.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
 
@@ -219,3 +219,13 @@ Ten new unittest tests pass after missing-module RED. Exact serialized-context b
 Three P2 findings reproduced/fixed with RED/GREEN: transitive authorized neighbor closure, neighbor curriculum ambiguity, and unsupported fresh-cell attribution for partial textless-table overlaps. Root13 targeted tests pass; reviewer13 pass and no remaining P1/P2. Concurrent publication test passes and proves statement snapshot consistency; one original infrastructure timeout remains unreproduced. Checkpoint UTF-8 repaired after Windows default-encoding byte, ledger valid. Final broad suites underway. Hosted security advisor zero lints, read-only baseline only; shared migration remains unapplied. Asked owner for approved development-case/source paths and existing compatible Python3.13 environment while independent verification continues.
 
 Final retrieval gate:29 tests passed24.814s, exit0. All review fixes verified and committing as a cohesive correction increment. Full storage/embedding/ledger gate sequence continues; no deployment or institutional activation.
+
+## Phase05 verified candidate / blocked formal exit — 12 October 2026
+
+Committed d86b3ad/d125304/14bf152/d3f93f8/44a36d4/ddf9b83. Final91 relevant unittest tests passed (retrieval29, storage31, embedding12, ledger19), all exit0; fresh reviewer no remaining P1/P2. Three review regressions fixed, runtime-RPC exact allowlist updated, live statement-publication isolation proven. One infrastructure timeout unreproduced and checkpoint encoding corrected; final results/limits in handoff. External model weights/tokenizer/config hashes freshly recorded, no downloads or model execution. Hosted security read-only baseline zero lints; local shared releases/pointers/disposable databases zero.
+
+Phase05 checkpoint/handoff now blocked, plan retained in_progress on master section10 approved-development/model/source-file gate; checkpoint retained and INDEX updated. Synthetic manual-vector recall/unsupported measurements do not approve institution policy. Shared/local/hosted migration deployment NOT RUN. Candidate corpus/pointers inactive; default retrieval policy uncalibrated. Branch stays local with explicit verified commits; documentary closure follows.
+
+Exact next action: owner identifies approved source-backed development-case paths and an existing compatible Python3.13 encoder environment (or explicitly authorizes setup). Run real-model matching/source citation/development calibration gates, then reviewed migration workflow before shared runtime use and earned handoff/can-advance. Pending text question is not answered by elapsed time. Do not redo Phase04/Phase05 delivered software, install dependencies without authorization, reset shared data, or begin Phase06.
+
+Ruling: retain plan status in_progress with blocked checkpoint/handoff; phase_state.py selects only ready/in_progress plans. This keeps Phase05 the active recovery phase and cannot authorize advancement.

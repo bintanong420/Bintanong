@@ -1,0 +1,93 @@
+---
+artifact: phase-handoff
+phase: 5
+status: blocked
+plan: plans/phase-05-retrieval-plan.md
+final_commit: ddf9b83
+recovery_condition: Supply independently approved source-backed development cases and an existing compatible Python 3.13 model environment (or explicit owner authorization for dependency setup), run real matching SEA-LION retrieval and source-file citation verification, then pass the master section 10 exit gate before advancing.
+completed_at: 2026-10-12T09:54:31+08:00
+---
+
+# Phase 05 recovery handoff — retrieval candidate
+
+**Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
+
+## Delivered behavior
+
+Validated internal retrieval requests preserve unknown scope and pin a release. Strict local query encoding verifies existing external assets and matching SEA-LION Retrieval instruction, rejects overlong/invalid query vectors, and never uses the legacy adapter's mock/network fallback. Runtime-only preflight and the additive STABLE/SECURITY INVOKER `retrieve_context` RPC check the release and encoder configuration, exact scope/entity/edition filters, cosine ranking and source/version locators in one statement snapshot. A stale pin returns release_changed; historical RLS remains closed.
+
+Context assembly deduplicates printed span identities, respects the exact serialized context budget, includes authorized same-version transitive required-clause groups atomically and exposes missing clauses/citation/budget gaps. Partially overlapping textless table chunks are withheld when their text cannot be mapped to fresh cells. Curriculum ambiguity and competing editions include neighboring evidence and are preserved explicitly.
+
+The internal JSON debug CLI and development ranking/calibration evaluator are documented in [retrieval README](../backend/bintanong_retrieval/README.md). Existing public runtime contracts are preserved; debug-v1 can carry conflicts/table citations. Default policy remains uncalibrated. [Decision record](../docs/decisions/phase-05-retrieval.md), [report](phase-05-retrieval-report.md), checkpoint and current progress record scope and evidence limits.
+
+## Verified commits
+
+| Commit | Increment |
+| --- | --- |
+| `d86b3ad` | Formal Phase 05 plan/checkpoint/index start |
+| `d125304` | Request/settings validation and strict local query encoder |
+| `14bf152` | Atomic scoped/pinned invoker RPC and real-role regressions |
+| `d3f93f8` | Cited context assembly and explicit evidence-gap pipeline |
+| `44a36d4` | Debug CLI, synthetic development evaluator/report and exact RPC ACL-test allowlist |
+| `ddf9b83` | Three review corrections and live publication-snapshot regression |
+
+`final_commit` identifies verified implementation. The following documentation-only recovery commit is discoverable in Git; checkpoint `head_commit` deliberately identifies the verified code baseline rather than claiming a self-referential documentation SHA.
+
+## Fresh final gate commands and results
+
+| Command | Result |
+| --- | --- |
+| `python -m unittest discover -s tests -p 'test_retrieval_*.py' -v` | 29 passed, 24.814s, exit 0 |
+| `python -m unittest discover -s tests -p 'test_storage_*.py' -v` | 31 passed, 76.097s, exit 0 |
+| `python -m unittest discover -s tests -p 'test_embedding_*.py' -v` | 12 passed, 0.108s, exit 0; existing Starlette/httpx deprecation warning |
+| `python -m unittest discover -s .agents/skills/bintanong-phase-handoff/tests -p 'test_phase_state.py' -v` | 19 passed, 9.579s, exit 0 |
+| Fresh review correction regressions | Root 13 passed, 3.017s; reviewer independently 13 passed, 3.097s; no remaining P1/P2 |
+| Publication during a controlled retrieval statement | Root passed, 5.018s; reviewer passed, 5.092s; old snapshot consistent and fresh request release_changed |
+| `python -m backend.bintanong_retrieval --help`; `python -m evaluation.retrieval --help` | Both exit 0 |
+| Actual local runtime CLI against an unpublished pin | release_changed, empty evidence/context; no model loading |
+| Hosted Supabase MCP security advisors | Zero lints; read-only existing-deployment baseline, not a deployed Phase 05 claim |
+| Local PostgreSQL final counts | Zero knowledge releases, active pointers and disposable test databases |
+
+91 relevant automated tests passed. This is not a claim that the whole repository's pytest suite ran: system Python lacks pytest, no installation was authorized, and these modules use unittest. Storage fixtures create/drop only uniquely named disposable databases and preserve external worker/shared state.
+
+Raw results and generated JSON remain outside Git at `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-20261012/`: `retrieval-final.out`, `storage-final.out`, `embedding-final.out`, `phase-state-final.out`, `embedding-assets.json`, `candidate-code-digests.json`, and uniquely named disposable-database evidence directories. Final synthetic evaluation directory: `bintanong_storage_test_038666e935f04bac818a6000a537ee22`. Raw evidence/logs are not source approval.
+
+## Synthetic development measurement and failures
+
+Ten development cases, languages en/tl/taglish, four categories; discipline unmeasured. Manual unit vectors exercise database ranking and 30 complete engine calls, not SEA-LION semantic quality. Selected synthetic threshold 0.9; k=3/5/8 mean P@k 0.200/0.120/0.075, positive R@k 1.0 and unsupported detection 1.0. Full-k precision denominator is retained even with one gold chunk. Synthetic source references resolve within fixture database only, not original institutional PDFs. Fixture character counter tests budget mechanics; real tokenizer accuracy is not claimed. No threshold was installed as institutional calibration.
+
+Initial full storage gate exposed two failures in the old test allowlist because the new runtime RPC was categorized as administrative. It now permits only exact audited RPC signatures; final 31 pass. Review reproduced three P2 defects RED, corrected them GREEN and independently re-reviewed. The chain fixture initially had a manifest-count setup error, corrected before genuine missing-transitive-neighbor RED. A new concurrency test initially serialized a PostgreSQL boolean incorrectly and once exceeded a 10s future timeout; the raw timeout result was correct, cause unreproduced, allowance now 30s, subsequent root/reviewer/full-suite runs pass. No repeated pg_sleep or STABLE semantic defect inferred. Checkpoint Windows default-encoding byte was repaired to valid UTF-8; future document writes explicitly use UTF-8.
+
+## Versions and exact digests
+
+Execution: system Python 3.13.7; httpx 0.28.1; pydantic 2.13.5; existing Supabase CLI 2.117.0 (2.120.0 advertised, not installed); local/hosted PostgreSQL 17.6, vector 0.8.2; dimensions 1024, l2 tolerance 1e-6. No dependency/lock/image/model download or version change. Current Context7 Supabase RPC/RLS and SentenceTransformer local loading/prompt documentation fetched; Supabase changelog reviewed. Existing installation is retained under owner no-install/no-dependency-change rules; model libraries absent from system Python, so no new executable model-version compatibility is claimed.
+
+Freshly hashed external assets remain at `C:/Coding-projects/MODELS/SEA-LION-E5-Embedding-600M` (`MODELS_DIR=C:/Coding-projects/MODELS`). GEMMA_4_E4B is not used by retrieval; no LLM answer/model execution occurred.
+
+| Asset/file | SHA-256 |
+| --- | --- |
+| External `model.safetensors` | `df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1` |
+| External `tokenizer.json` | `883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085` |
+| External `config_sentence_transformers.json` | `c1a9ae734038a0d9c05df3284d16cc80200da5fced4e21812db8de3f1d7718fa` |
+| External `config.json` | `9c90699068c3a9a5b27c02beddcef434a3d15a932ded419d5ce0dc8f22696cd2` |
+| External `modules.json` | `27e3a229cecaf4d6ec90fb8e439d6bd2da7b2e22ff49a23e0b0a293a5f3e413c` |
+| External `sentence_bert_config.json` | `9e8f7a3ce4e41e26223ea64077e952095912526b1cb0fc2a81da5166545aea10` |
+| External `tokenizer_config.json` | `8f1bdcbab11e958e6d2546750b54cf189dd676cf4a6afc8232166f00d14dac93` |
+| External `special_tokens_map.json` | `66715ae6a0dd4aff4fe228bcaaccac6e52c83fd0ba80992c2be7d0e43b362307` |
+| External `1_Pooling/config.json` | `ebcf8bf3dd85a1399a7c72f8f2e22704286d97fae881b6446bc257fe5139335c` |
+| Retrieval migration working bytes | `14ee48fa69bd73286cf0ae20c117a10d14d9570bc2386be6606a679f0f4ef3ee` |
+| `query.py` working bytes | `3931a2cc31b00ca2f14b6c05400f1d10770d93477fee6dacb2e7804be1e6bb66` |
+| `context.py` working bytes | `349fa0cdb9646fc18d8518316f97cf1b4695ade5f1fdfb4d8e90c7479231c1c9` |
+| `engine.py` working bytes | `6b4b95b3b5ce9e00bcee531de2c3f0d38f286bb6e389a7fba869505e1853d236` |
+| Development fixture working bytes | `925dc2e2518802aa1df62da237bfb37772aa2efc3f63d9492afcbb2ca455467f` |
+
+The weights digest matches the previous pin and now has fresh file evidence. Ten-file model inventory includes README; full code inventory is external. Digests above describe measured working-file bytes (line endings may differ from Git blobs).
+
+## Recovery condition and next actions
+
+1. Owner supplies approved development-case/gold-source paths and identifies an existing compatible Python 3.13 environment, or explicitly authorizes dependency setup. The pending text question requests these locations; elapsed time is not approval. Existing committed evaluation cases remain synthetic.
+2. Verify real local encoder/tokenizer execution against the pinned stored configuration, run source-backed multilingual/category retrieval and unsupported/ambiguous/wrong-program/outdated-edition cases, resolve every citation against original-source bytes, and calibrate only development cases. Preserve final-split holdout.
+3. Before using the interface on shared/local/hosted runtime, apply the reviewed additive migration through the existing Supabase workflow and recheck effective RPC ACLs/RLS/advisors. **Shared/local/hosted migration deployment NOT RUN**; only disposable-database application was authorized by the verification design and performed. No active corpus/pointer exists on shared targets.
+4. When all master section 10 exit evidence exists, write an earned complete handoff, supersede the checkpoint, update INDEX, validate and can-advance. Until then Phase 05 stays active/blocked; do not create Phase 06 or infer approval from the synthetic software candidate.
+
+Do not repeat verified Phase 04 repairs or Phase 05 code delivery. Do not reset shared databases, install/download without owner authorization, move model weights into Git, relabel synthetic cases verified, activate candidate knowledge or change executable Prolog/API/Docker scope.

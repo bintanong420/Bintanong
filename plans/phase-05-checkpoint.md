@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: in_progress
-sequence: 6
+status: blocked
+sequence: 7
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 44a36d4
-working_tree: dirty
-updated_at: 2026-10-12T09:50:12+08:00
+head_commit: ddf9b83
+working_tree: clean
+updated_at: 2026-10-12T09:54:31+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,19 +17,19 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Task 5 debug CLI and Task 6 synthetic development evaluation delivered; final code review corrections/full regression remain.
+Verified software candidate and synthetic evaluation delivered; Task4 approved calibration/Task6 formal exit blocked. Recover under phase-05-handoff.md, not Phase06.
 
 ## Repository State
 
-Isolated worktree `p05`, branch `feat/p05-retrieval-logic`, baseline `10bfd6f`. Changes: Phase 05 plan/checkpoint, INDEX and current progress.
+Isolated worktree `p05`, branch `feat/p05-retrieval-logic`, base10bfd6f, verified implementation ddf9b83. Documentary closure follows this code commit; identify its final HEAD using Git. Expected clean tree after explicit documentation commit. No owner changes overwritten; no push/merge/deployment. Only Phase05 plan/checkpoint/handoff/report, INDEX and current progress change in closure.
 
 ## Verification Evidence
 
-`phase_state.py inspect --repo .`: valid prior phase closure, Phase 05 eligible. Context7 fetched Supabase invoker RPC/RLS and SentenceTransformer local loading/prompt documentation.
+Final suites: retrieval29 passed24.814s; storage31 passed76.097s; embedding12 passed0.108s; phase-state19 passed9.579s; all exit0. Fresh reviewer: no remaining P1/P2. Hosted security baseline zero lints. Local shared releases/pointers/test databases zero. CLI help/empty runtime smoke verified. Ledger validate/can-advance run after blocked-handoff creation; Phase06 must remain disallowed. Full commands/raw evidence/limits in handoff.
 
 ## Versions and Digests
 
-Python 3.13.7; existing PostgreSQL 17.6/vector 0.8.2. External model assets present under `C:/Coding-projects/MODELS`; actual hashing pending. System Python has httpx/pydantic but no pytest/torch/sentence-transformers. No installations authorized.
+Python 3.13.7; existing PostgreSQL 17.6/vector 0.8.2. External model assets freshly hashed under `C:/Coding-projects/MODELS`; weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1, tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085; complete inventory in handoff/external evidence. System Python has httpx/pydantic but no pytest/torch/sentence-transformers. No installations authorized.
 
 ## Decisions
 
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Read the full final retrieval/storage/embedding/ledger gate results, commit verified corrections, then record the formal approved-development/model-execution blockers.
+Obtain approved development-case/source paths and an existing compatible Python3.13 encoder environment (or explicit dependency-setup authorization). Run real matching SEA-LION/source-file citation gates and development-only calibration; apply reviewed additive migration/recheck ACL/RLS/advisors before shared runtime use. Then earn a complete handoff and can-advance. Do not redo candidate delivery.
 
 ## Do Not Repeat
 
@@ -78,3 +78,9 @@ All three P2 findings reproduced RED then fixed: recursive authorized same-versi
 Reviewer identified Windows-encoded checkpoint multiplication byte; converted that byte to ASCII and validated ledger UTF-8. Future scripted document edits use explicit UTF-8. Final broad suite running externally; results pending. Hosted security MCP baseline: zero lints, no hosted changes. Full policy/model exit remains gated.
 
 Final retrieval suite:29 passed24.814s, exit0; includes real role SQL, recursive neighbors and live statement-publication isolation. Full storage/embedding/ledger sequence still running. Correction commit follows; checkpoint will name that verified code commit in the recovery handoff.
+
+## Final recovery ruling
+
+Full91 relevant tests and fresh review passed. Master section10 approved-development/source-citation/real-model gate cannot pass with synthetic fixtures or absent model dependencies. Phase05 active plan with blocked checkpoint/handoff, checkpoint retained, INDEX points to recovery. No Phase06 created. Shared migration deployment NOT RUN; default runtime policy remains uncalibrated. Models/candidate corpus inactive. Owner text question for case paths/environment remains pending; no answer or dependency authorization inferred.
+
+Ruling: retain plan status in_progress with blocked checkpoint/handoff; phase_state.py selects only ready/in_progress plans. This keeps Phase05 the active recovery phase and cannot authorize advancement.
