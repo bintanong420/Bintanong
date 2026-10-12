@@ -194,9 +194,9 @@ def test_cli_stdout_is_json_only_when_conversion_prints(tmp_path, capsys):
 
 
 def test_cli_refusal_exits_nonzero_with_empty_stdout(tmp_path, capsys):
-    import click
+    import typer
 
-    with pytest.raises(click.exceptions.Exit) as exc:
+    with pytest.raises(typer.Exit) as exc:
         ingest.parse_cmd(_pdf(tmp_path, "a.txt"), None)
     assert exc.value.exit_code == 1
     out, err = capsys.readouterr()
@@ -285,11 +285,11 @@ def test_real_cli_same_output_refused_preserves_source(tmp_path):
 
 
 def test_cli_output_alias_refused_before_conversion(tmp_path, capsys):
-    import click
+    import typer
 
     source = _pdf(tmp_path)
     with mock.patch.object(ingest, "_converter", side_effect=AssertionError("conversion must not run")):
-        with pytest.raises(click.exceptions.Exit) as exc:
+        with pytest.raises(typer.Exit) as exc:
             ingest.parse_cmd(source, source)
     assert exc.value.exit_code == 1
     assert source.read_bytes() == PDF_BYTES
@@ -308,7 +308,7 @@ def test_cli_separate_output_preserves_source_and_writes_json(tmp_path, capsys):
 
 
 def test_cli_output_alias_created_during_conversion_refused(tmp_path, capsys):
-    import click
+    import typer
 
     source = _pdf(tmp_path)
     output = tmp_path / "parsed.json"
@@ -321,7 +321,7 @@ def test_cli_output_alias_created_during_conversion_refused(tmp_path, capsys):
 
     converter.convert = link_then_convert
     with mock.patch.object(ingest, "_converter", return_value=converter):
-        with pytest.raises(click.exceptions.Exit) as exc:
+        with pytest.raises(typer.Exit) as exc:
             ingest.parse_cmd(source, output)
     assert exc.value.exit_code == 1
     assert source.read_bytes() == PDF_BYTES
@@ -332,6 +332,13 @@ def test_cli_output_alias_created_during_conversion_refused(tmp_path, capsys):
 @pytest.mark.parametrize("alias", ["hardlink", "symlink"])
 def test_cli_writer_boundary_alias_preserves_source(tmp_path, monkeypatch, alias):
     source = _pdf(tmp_path)
+    if alias == "symlink":
+        capability = tmp_path / "symlink-capability"
+        try:
+            capability.symlink_to(source)
+        except (OSError, NotImplementedError) as exc:
+            pytest.skip(f"symlink unavailable: {exc}")
+        capability.unlink()
     output = tmp_path / "parsed.json"
     real = ingest._check_output_path
     checks = 0

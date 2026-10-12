@@ -17,8 +17,8 @@ from pathlib import Path
 if __package__:
     _package = importlib.import_module("..prospectus_extractor", __package__)
 else:  # started by path
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    _package = importlib.import_module("prospectus_extractor")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+    _package = importlib.import_module("backend.bintanong_tools.prospectus_extractor")
 
 for _info in pkgutil.iter_modules(_package.__path__):
     if _info.name != "__main__":
