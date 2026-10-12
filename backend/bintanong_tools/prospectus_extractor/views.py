@@ -11,8 +11,11 @@ import json
 
 
 def build_curriculum_by_term(courses: Sequence[dict[str, Any]]) -> dict[str, dict[str, list[dict[str, Any]]]]:
+    """Index placed courses; unknown placement remains in the full courses payload."""
     tree: dict[str, dict[str, list[dict[str, Any]]]] = {}
     for course in sorted(courses, key=lambda c: c.get("term_index", 99)):
+        if course["year_level"] is None or course["semester"] is None:
+            continue
         tree.setdefault(course["year_level"], {}).setdefault(course["semester"], []).append(course)
     return tree
 
