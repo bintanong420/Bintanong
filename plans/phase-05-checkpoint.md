@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: blocked
-sequence: 19
+status: in_progress
+sequence: 21
 plan: plans/phase-05-retrieval-plan.md
-head_commit: de54abc
+head_commit: 6b14254
 working_tree: dirty
-updated_at: 2026-10-12T17:05:43+08:00
+updated_at: 2026-10-12T17:23:59+08:00
 ---
 
 # Phase 05 checkpoint
@@ -132,3 +132,11 @@ Owner says proceed with the pending citation/model gate work. This authorizes pr
 ## Source/model readiness preparation verified
 
 39 real-source pending register records minted/reparsed via existing contract after fresh original hashes match inventory; approval remains not_requested, scopes/verification/content review pending. Ten exam aliases translated to canonical byte-derived pending IDs.27-case independent source/answer review CSV ready;28 unique semantic locator requests explicitly unresolved, actual ingestion IDs empty. Strict QueryEncoder preflight verified10 localassets/prompt then refused absent sentence_transformers (1.794s); no vectors/observations. Local psql and hosted Supabase MCP read-only counts allzero versions/chunks/spans/embeddings/releases/pointers.34 exam tests pass0.840s. Two additional pytest module imports failed because pytest is absent, not counted passing; no test shim or installation. Fresh reviewer all39 hashes/10 mappings/27 reviewrows/28 requests checked, no P1/P2. Exact project-pinned workspace environment proposal/setup prepared but not executed. Current changes: INDEX, readiness document, checkpoint, handoff/progress. Artifact root workspace/audit-evidence/p05-real-retrieval-readiness-20261012; no source/corpus/database/product-code changes. Next action: obtain explicit owner installation authorization or existing compatible environment path, install/check within workspace if approved, then actual model/PDF ingestion gates; independent institutional review remains necessary.
+
+## Owner explicitly approves prepared isolated dependencies
+
+Owner says yes/go ahead/allow following the exact reviewed pinned dependency proposal. Authorization covers the workspace Python3.13 environment, package downloads/install/checks, existing local SEA-LION model execution and original-PDF inspection. No repository dependency/lock edits, extra model downloads, shared publication or institutional authority inferred. Resuming prepared setup script; installer logs/cache/tmp/HF cache stay in readiness artifact folder. Next: pip check/version inventory, previously unavailable pytest checks, strict local model execution and offline original-source extraction/mapping. Do not request the same package authorization again.
+
+## Authorized environment and real encoder verified increment
+
+Prepared isolated package installation succeeds; pip check no broken requirements, full resolved environment recorded externally. Exact top pins retained, Python3.13.7. Newly executable targetedpytest gate67 passed/19 subtests17.02s (including previously unavailable register/input-snapshot suites). Real strictSEA-LION model loads offline and executes27 originalcase queries plus one source-only documentprefix in45.035s; querytokens50..75/document193/context512, all1024-D vectors normalized, prompt/weights/tokenizer hashes match. No retrieval rankings/scores claimed. IndependentPDFium extraction39 originals/43pages/noempty pages, allbytesunchanged;28 regions resolve to actualPDFcharacters and valid pending SourceSpan contracts, productionDocling IDs remainunmapped. ExistingDocling converter offline probe blocked on LocalEntryNotFoundError missingcached model snapshot; no extra model downloads authorized/attempted. Fullpytest stillrunning, one failure seen sofar; inspect finalsummary/rootcause before any passclaim. Next: complete fullsuite diagnosis and identify exact missingDocling assets, preserve no-activation/source-review gate.
