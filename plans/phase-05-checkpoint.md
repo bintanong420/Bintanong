@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 35
+sequence: 36
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5f6d096
+head_commit: ed5dada
 working_tree: dirty
-updated_at: 2026-10-12T20:19:54+08:00
+updated_at: 2026-10-12T20:23:38+08:00
 ---
 
 # Phase 05 checkpoint
@@ -51,7 +51,7 @@ Read plans/phase-05-corpus-scope-clarification.md before resuming. The owner
 intends to supply the handbook and Citizens' Charter and will request dataset
 organization later. Wait for that request before moving files; then inventory
 actual sources, versions and scope and prepare policy/procedure retrieval cases.
-The prospectus packet remains a curriculum development/review subset, with
+The owner prospectus review is deferred to Phase 06 preparation. Its packet remains a curriculum development/review subset, with
 extraction/source approvals pending; it does not replace the core policy corpus
 or authorize Prolog execution. Phase 05's approved-case retrieval gate does not
 require repairing all 39 prospectuses. Reconcile any owner review decisions
@@ -202,3 +202,13 @@ All39 repair is not mastersection10's exit gate; source-specific failures remain
 quarantined. Clarification recorded in plans/phase-05-corpus-scope-clarification.md.
 Clean baseline5f6d096 reconciled; only explanatory documents/progress changed.
 No new dataset inventory, move, ingestion, approval, code/test run or advancement.
+
+## Prospectus review deferred — 12 October 2026
+
+The owner can set aside the 27-case prospectus review for the current Phase 05.
+Keep the packet and extraction evidence for Phase 06 curriculum preparation;
+review applicable source facts before compiling or activating their Prolog rules.
+Phase 05 now prioritizes handbook, Citizens' Charter and other policy retrieval,
+including reviewed development answers and citations for those sources.
+Deferral does not approve prospectus fields, score their cases as verified,
+remove evidence, complete Phase 05 or begin Phase 06.

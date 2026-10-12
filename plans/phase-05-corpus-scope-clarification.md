@@ -59,3 +59,13 @@ review as curriculum preparation and any explicitly evaluated curriculum
 retrieval subset. Preserve the separate final benchmark and existing candidate
 inactivity boundaries. This note clarifies scope without changing the immutable
 master plan or earning phase advancement.
+
+## Prospectus review deferred — 12 October 2026
+
+The owner can set aside the 27-case prospectus review for the current Phase 05.
+Keep the packet and extraction evidence for Phase 06 curriculum preparation;
+review applicable source facts before compiling or activating their Prolog rules.
+Phase 05 now prioritizes handbook, Citizens' Charter and other policy retrieval,
+including reviewed development answers and citations for those sources.
+Deferral does not approve prospectus fields, score their cases as verified,
+remove evidence, complete Phase 05 or begin Phase 06.

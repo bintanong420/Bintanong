@@ -329,3 +329,13 @@ plans/phase-05-corpus-scope-clarification.md. No files moved or new inputs presu
 received. Next: owner adds policy files and later requests organization; inventory
 actual files/versions/scope then prepare policy/procedure development cases.
 Prospectus review/source approvals remain pending and Phase05 remains active.
+
+## Prospectus review deferred — 12 October 2026
+
+The owner can set aside the 27-case prospectus review for the current Phase 05.
+Keep the packet and extraction evidence for Phase 06 curriculum preparation;
+review applicable source facts before compiling or activating their Prolog rules.
+Phase 05 now prioritizes handbook, Citizens' Charter and other policy retrieval,
+including reviewed development answers and citations for those sources.
+Deferral does not approve prospectus fields, score their cases as verified,
+remove evidence, complete Phase 05 or begin Phase 06.
