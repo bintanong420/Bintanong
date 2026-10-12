@@ -57,6 +57,17 @@ class ContextTests(unittest.TestCase):
         self.assertIn('Course | Units',result['context'])
         self.assertEqual(result['evidence'][0]['citations'][0]['locator']['cell_ids'],['cell-1'])
 
+    def test_partial_textless_table_overlap_withheld_without_false_cell_binding(self):
+        a=evidence('a','ROW ONE',locator={'kind':'table_cell','cell_ids':['cell-1']})
+        a['spans'][0]['text']=''
+        b=evidence('b','ROW ONE\nROW TWO',locator={'kind':'table_cell','cell_ids':['cell-2']})
+        b['spans'][0]['text']=''
+        b['spans'].insert(0,copy.deepcopy(a['spans'][0]))
+        out=build_context([a,b],2000,len)
+        self.assertEqual(out['context'].count('ROW ONE'),1)
+        self.assertIn('partial_table_overlap:b',out['gaps'])
+        self.assertEqual([r['chunk_id'] for r in out['evidence']],['a'])
+
 
 if __name__ == '__main__':
     unittest.main()

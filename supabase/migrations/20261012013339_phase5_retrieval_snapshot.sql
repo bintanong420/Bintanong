@@ -63,7 +63,7 @@ begin
     select coalesce(array_agg(x),'{}') into v_hints from jsonb_array_elements_text(p_entity_hints) x;
     select coalesce(array_agg(x),'{}') into v_versions from jsonb_array_elements_text(p_version_ids) x;
 
-    with eligible as materialized (
+    with recursive eligible as materialized (
         select c.*, (1-(e.embedding <=> query_embedding))::double precision as similarity
         from public.release_chunks rc
         join public.chunks c on c.chunk_id=rc.chunk_id
@@ -76,6 +76,13 @@ begin
         where c.similarity >= p_min_similarity
           and (cardinality(v_hints)=0 or (c.type_fields->'entity_hints') ?| v_hints)
         order by c.similarity desc, c.chunk_id limit p_top_k
+    ), dependencies(root_id,chunk_id,version_id) as (
+        select c.chunk_id,c.chunk_id,c.version_id from ranked c
+        union
+        select d.root_id,n.chunk_id,d.version_id
+        from dependencies d join eligible parent on parent.chunk_id=d.chunk_id
+        join eligible n on n.version_id=d.version_id
+          and (parent.type_fields->'required_neighbor_chunk_ids') ? n.chunk_id
     ), payload as (
         select c.chunk_id, c.similarity, jsonb_build_object(
           'chunk', to_jsonb(c)-'similarity', 'similarity', c.similarity,
@@ -86,9 +93,9 @@ begin
         from eligible c join public.document_versions v on v.version_id=c.version_id
     )
     select coalesce(jsonb_agg(p.item || jsonb_build_object('neighbors',coalesce((
-       select jsonb_agg(n.item order by n.chunk_id) from payload n join eligible nc on nc.chunk_id=n.chunk_id
-       where n.chunk_id<>c.chunk_id and nc.version_id=c.version_id
-         and (c.type_fields->'required_neighbor_chunk_ids') ? n.chunk_id
+       select jsonb_agg(n.item order by n.chunk_id) from payload n
+       join dependencies d on d.chunk_id=n.chunk_id and d.root_id=c.chunk_id
+       where n.chunk_id<>c.chunk_id
     ),'[]'::jsonb)) order by c.similarity desc,c.chunk_id),'[]'::jsonb)
     into v_items from ranked c join payload p on p.chunk_id=c.chunk_id;
     return jsonb_build_object('status','ok','release_id',p_release_id,

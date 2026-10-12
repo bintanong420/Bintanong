@@ -55,9 +55,10 @@ class RetrievalEngine:
         response['coverage']='partial'
         # Examine all ranked evidence, including clauses omitted for budget. Ranking
         # cannot adjudicate competing source editions or curriculum applicability.
-        curricula={tag for row in candidates for tag in row['chunk'].get('scope',[]) if tag.startswith('curriculum:')}
+        all_clauses=[clause for row in candidates for clause in [row]+row.get('neighbors',[])]
+        curricula={tag for row in all_clauses for tag in row['chunk'].get('scope',[]) if tag.startswith('curriculum:')}
         by_document={}
-        for row in candidates:
+        for row in all_clauses:
             chunk=row['chunk']
             by_document.setdefault(chunk['document_id'],set()).add(chunk['byte_sha256'])
         if len(curricula)>1 and not any(s.startswith('curriculum:') for s in request.scope):

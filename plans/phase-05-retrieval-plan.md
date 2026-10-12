@@ -34,11 +34,11 @@ Corrected storage prerequisite: runtime RLS currently exposes only the active ap
 
 ## Task Checklist
 
-- [ ] Task 1: Retrieval request specification and query embedding pipeline (matching Retrieval instruction via `SeaLionEmbeddingAdapter`).
-- [ ] Task 2: Pinned release and scope-filtered vector similarity search via `match_chunks`.
-- [ ] Task 3: Context window budgeting, span deduplication, and adjacent section inclusion.
+- [x] Task 1: Retrieval request specification and query embedding pipeline (matching Retrieval instruction via `SeaLionEmbeddingAdapter`).
+- [x] Task 2: Pinned release and scope-filtered vector similarity search via `match_chunks`.
+- [x] Task 3: Context window budgeting, span deduplication, and adjacent section inclusion.
 - [ ] Task 4: Relevance and coverage threshold calibration (handling insufficient evidence).
-- [ ] Task 5: Structured retrieval response formatter with source locators, scores, and configuration fingerprints.
+- [x] Task 5: Structured retrieval response formatter with source locators, scores, and configuration fingerprints.
 - [ ] Task 6: Phase 5 evaluation, benchmark verification, and final handoff.
 
 ## Implementation interfaces and verification

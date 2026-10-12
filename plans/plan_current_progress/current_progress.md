@@ -213,3 +213,9 @@ Ten new unittest tests pass after missing-module RED. Exact serialized-context b
 ### Phase 05 debug/evaluation candidate delivered
 
 25 retrieval tests pass (19.927s). Synthetic development ten cases/three k values has full positive recall and unsupported detection; mean P@k0.200/0.120/0.075 with full-k denominator. These are manual-vector mechanics, not encoder quality or approved institutional evidence. Internal JSON CLI/help and empty local runtime release_changed smoke verified. Metric evaluator rejects final tuning; runtime policy remains uncalibrated. Whole storage suite found an obsolete runtime-RPC allowlist (two failures); exact signature update passes targeted security test. Fresh final reviewer is investigating neighbor/citation correctness. Next: reproduce/fix review findings and rerun full gates; formal phase completion still unavailable.
+
+### Phase 05 final review repairs
+
+Three P2 findings reproduced/fixed with RED/GREEN: transitive authorized neighbor closure, neighbor curriculum ambiguity, and unsupported fresh-cell attribution for partial textless-table overlaps. Root13 targeted tests pass; reviewer13 pass and no remaining P1/P2. Concurrent publication test passes and proves statement snapshot consistency; one original infrastructure timeout remains unreproduced. Checkpoint UTF-8 repaired after Windows default-encoding byte, ledger valid. Final broad suites underway. Hosted security advisor zero lints, read-only baseline only; shared migration remains unapplied. Asked owner for approved development-case/source paths and existing compatible Python3.13 environment while independent verification continues.
+
+Final retrieval gate:29 tests passed24.814s, exit0. All review fixes verified and committing as a cohesive correction increment. Full storage/embedding/ledger gate sequence continues; no deployment or institutional activation.

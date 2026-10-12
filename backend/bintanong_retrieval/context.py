@@ -77,6 +77,10 @@ def build_context(candidates, budget: int, count_tokens):
                     continue
                 text='\n'.join(s['text'] for s,c in fresh if s.get('text'))
                 if not text:
+                    if len(fresh)!=len(spans):
+                        # Empty table spans have no row-to-cell text mapping. A
+                        # full table fallback cannot be attributed to fresh cells.
+                        raise ValueError('partial_table_overlap')
                     text=chunk['source_text'] or chunk['text']
                 if not text.strip():
                     raise ValueError('empty evidence')
@@ -86,8 +90,9 @@ def build_context(candidates, budget: int, count_tokens):
                     section_path=chunk.get('section_path',[]),citations=[c for s,c in fresh],
                     selection='primary' if row is candidate else 'required_neighbor'))
                 trial_spans.update(_span_key(s) for s,c in fresh)
-        except (KeyError,ValueError,TypeError):
-            gaps.append(f'invalid_citation:{main_id}')
+        except (KeyError,ValueError,TypeError) as exc:
+            reason='partial_table_overlap' if str(exc)=='partial_table_overlap' else 'invalid_citation'
+            gaps.append(f'{reason}:{main_id}')
             continue
         context=_serialize(accepted+trial)
         tokens=count_tokens(context) if context else 0

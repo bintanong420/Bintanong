@@ -87,6 +87,16 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(out['status'],'encoder_unavailable')
         self.assertEqual(out['evidence'],[])
 
+    def test_required_neighbor_curriculum_ambiguity_is_not_hidden(self):
+        main=self.client.payload['items'][0]
+        neighbor=evidence('b','Exception',page=2)
+        main['chunk']['scope']=['curriculum:one']
+        neighbor['chunk']['scope']=['curriculum:two']
+        main['chunk']['type_fields']['required_neighbor_chunk_ids']=['b']
+        main['neighbors']=[neighbor]
+        out=self.engine.retrieve(self.request)
+        self.assertEqual(out['status'],'needs_scope')
+
 
 if __name__ == '__main__':
     unittest.main()

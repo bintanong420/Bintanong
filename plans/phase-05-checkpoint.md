@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 5
+sequence: 6
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d3f93f8
+head_commit: 44a36d4
 working_tree: dirty
-updated_at: 2026-10-12T12:00:00+08:00
+updated_at: 2026-10-12T09:50:12+08:00
 ---
 
 # Phase 05 checkpoint
@@ -47,7 +47,7 @@ No approved labeled institutional retrieval cases yet established; formal exit d
 
 ## Next Action
 
-Reproduce/fix reviewer neighbor ambiguity, transitive dependency and table-overlap findings, then rerun complete affected gates.
+Read the full final retrieval/storage/embedding/ledger gate results, commit verified corrections, then record the formal approved-development/model-execution blockers.
 
 ## Do Not Repeat
 
@@ -67,6 +67,14 @@ Ten context/engine tests pass (0.002s, exit 0) after missing-module RED. Results
 
 ## Debug/evaluation verified increment
 
-CLI/metric tests: five passed after missing-module RED; CLI help and actual empty local release smoke verified (release_changed, no evidence/model loading). Full retrieval gate: 25 tests, 19.927s, exit 0; synthetic database evaluation: ten cases × k=3/5/8. At selected synthetic threshold0.9, mean P@k0.200/0.120/0.075, positive R@k1, unsupported detection1; manual vectors/fixture character counter, no real-model or institutional accuracy claims. Report/README/decision added.
+CLI/metric tests: five passed after missing-module RED; CLI help and actual empty local release smoke verified (release_changed, no evidence/model loading). Full retrieval gate: 25 tests, 19.927s, exit 0; synthetic database evaluation: ten cases x k=3/5/8. At selected synthetic threshold0.9, mean P@k0.200/0.120/0.075, positive R@k1, unsupported detection1; manual vectors/fixture character counter, no real-model or institutional accuracy claims. Report/README/decision added.
 
 Full storage gate initially failed two role subtests because its old allowlist excludes every RPC except match_chunks. Exact-signature allowlist now includes retrieve_context; targeted security test passed1 (2.483s). Full storage rerun pending. Fresh reviewer found two confirmed P2 cases (neighbor curriculum ambiguity and partial-overlap textless table citations); investigation continues. Shared/hosted migration deployment NOT RUN.
+
+## Fresh review corrections verified
+
+All three P2 findings reproduced RED then fixed: recursive authorized same-version neighbor closure, ambiguity checks including neighbors, partial textless table overlap withheld as a whole group with explicit gap. Targeted13 tests passed3.017s; reviewer independently13 passed3.097s and no remaining P1/P2. Controlled publication test proves old statement snapshot plus fresh release_changed (root5.018s, reviewer5.092s). Initial test JSON boolean encoding was corrected; one10s future timeout was unreproduced and its evidence contained the correct snapshot. Allowance now30s for Docker scheduling; no STABLE semantic defect inferred.
+
+Reviewer identified Windows-encoded checkpoint multiplication byte; converted that byte to ASCII and validated ledger UTF-8. Future scripted document edits use explicit UTF-8. Final broad suite running externally; results pending. Hosted security MCP baseline: zero lints, no hosted changes. Full policy/model exit remains gated.
+
+Final retrieval suite:29 passed24.814s, exit0; includes real role SQL, recursive neighbors and live statement-publication isolation. Full storage/embedding/ledger sequence still running. Correction commit follows; checkpoint will name that verified code commit in the recovery handoff.
