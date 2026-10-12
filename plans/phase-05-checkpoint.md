@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: in_progress
-sequence: 24
+sequence: 25
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 645d14a
+head_commit: 1615aa1
 working_tree: dirty
-updated_at: 2026-10-12T17:44:17+08:00
+updated_at: 2026-10-12T18:07:25+08:00
 ---
 
 # Phase 05 checkpoint
@@ -17,7 +17,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Authorized package setup complete in workspace readiness/venv; strict local SEA-LION executes27 queries plus one original-text documentprobe.39 original PDFs/43 pages and28 cited PDF character regions verified. Current fullpytest4902passed/107subtests/6skipped/2failures; only two real converter tests need separately unapproved Docling assets. Production cell mapping, independent institutional review and actual retrieval evaluation remain pending. Fresh review no P1/P2; code66bce2a verified, no corpus/shared activation.
+Authorized package setup and five-file Docling asset download complete. Both blocked converter tests now pass; original-source ingestion has15/39 completed candidate bundles, with audit failures withheld. Full-suite rerun still running; do not replace recorded historical failures with a passing full-suite claim until it completes. Actual27-query vectors verified; actual cell mappings and real-model candidate cosine diagnostics follow the completed ingestion. Fresh final reviewer independently checking assets/provenance. Source/field/institutional review and authorized runtime retrieval remain open; no shared activation.
 
 ## Repository State
 
@@ -29,7 +29,7 @@ Final suites: retrieval29 passed24.814s; storage31 passed76.097s; embedding12 pa
 
 ## Versions and Digests
 
-Python 3.13.7; existing PostgreSQL 17.6/vector 0.8.2. External model assets freshly hashed under `C:/Coding-projects/MODELS`; weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1, tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085; complete inventory in handoff/external evidence. System Python has httpx/pydantic but no pytest/torch/sentence-transformers. No installations authorized.
+Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
 
