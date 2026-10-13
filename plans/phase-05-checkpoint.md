@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 96
+sequence: 97
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 79ef790
-working_tree: graduation image mapping plan, checkpoint and progress prepared for explicit plan commit
-updated_at: 2026-10-13T19:00:00+08:00
+head_commit: 49219aa
+working_tree: image correction binding, six synthetic regressions, decision record, checkpoint and progress prepared for explicit code commit
+updated_at: 2026-10-13T19:06:17+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,23 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Graduation correction binding implemented under TDD: five new tests reproduced
+the absent correction_rows interface; initial fixture lacked owner_statement and
+was repaired before expected RED. 19 tests GREEN0.111s. Actual source comparison
+then exposed the consolidation-only recorded_decision annotation. A focused
+annotation regression reproduced RED; require its corrected value separately and
+match every other original event key exactly. Final20 tests GREEN0.091s; relevant
+1,034 passed/one existing Windows symlink skip/66 subtests,22.37s. Actual27 fields/
+nine rows/one correction mapped; combined96 nonblank spans/nine native blanks,
+zero chunks/66 unknown applicability withheld; missing scalar requirements156to129.
+Independent original render/event/region/gap checks pass;622 prior files unchanged.
+Mapping8300f06cae39af097bc7a320391d1f023fc63d259ae643d32e813e3a7a0a656b;
+pending5098154f8d376cd91325d8922a459bc7f4e49837d7eb1b259b7212ddebeac834;
+fourteen-file sealbac386783e327210c469d9e8164943942d91eaa15e844568032d74ed9c6c3fd3.
+Private producer counter assertion was corrected to count reason prefixes; independent
+verifier explicitly preserves row9 accepted_visible_fragment as accepted plus gap.
+No completed output was overwritten. Next final independent review/report closure.
 
 Graduation mapping resumes clean `79ef790`; image-flowchart closure is committed.
 Plan: `plans/2026-10-13-reviewed-graduation-image-plan.md`. Original64 PNG and

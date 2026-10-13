@@ -68,12 +68,42 @@ def _span(row, name, text, region, page):
     return SourceSpan.parse(data).model_dump(mode="json")
 
 
-def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions, image_pages, read_page_image):
+def _correction_review(row, field, evidence, page, events, aliases):
+    event = events[field["review_event_sha256"]]
+    alias = aliases.get(row["reading_id"])
+    entries = event.get("reviewed_rows")
+    if (not isinstance(alias, str) or not alias or not isinstance(entries, list)
+            or event.get("source_sha256") != row["source_sha256"]
+            or type(event.get("physical_page")) is not int or event["physical_page"] != page["physical_page"]
+            or event.get("original_image_sha256") != page["image_sha256"]):
+        return None
+    matches = [r for r in entries if isinstance(r, dict) and r.get("row_id") == alias]
+    if len(matches) != 1 or not isinstance(matches[0].get("fields"), list):
+        return None
+    fields = [f for f in matches[0]["fields"] if isinstance(f, dict) and f.get("field") == field["name"]]
+    if len(fields) != 1:
+        return None
+    review = fields[0]
+    original_evidence = {k: v for k, v in evidence.items() if k != "recorded_decision"}
+    if (review.get("review_decision") != "corrected"
+            or review.get("original_proposal_text") != field["original_value"]
+            or evidence.get("proposed_reading") != field["original_value"]
+            or review.get("reviewed_text") != field["reviewed_value"]
+            or evidence.get("recorded_decision", "corrected") != "corrected"
+            or review.get("original_image_evidence") != original_evidence):
+        return None
+    return {"event_row_id": alias, "field_review": copy.deepcopy(review)}
+
+
+def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions, image_pages, read_page_image,
+                             correction_rows=None):
     """Map confirmed scalar fields using hash-matched, full-page, unrotated renders.
 
     image_pages keys are (source_sha256,physical_page). The injected trusted reader
     receives exact source bytes/page, returns image_bytes and actual render metadata.
     Original proposal/event scope remains the caller's reviewed mapping responsibility.
+    correction_rows maps reading IDs to trusted event row IDs; changed corrected
+    fields require an exact field review, preserving the original proposed text.
     """
     if not callable(read_page_image) or not isinstance(image_pages, Mapping):
         raise ValueError("original page reader and image descriptors required")
@@ -82,6 +112,10 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
     core = build_reviewed_policy_bundle(bundle["readings"], sources=sources, review_events=review_events)
     if any(_json(bundle.get(k)) != _json(v) for k, v in core.items()):
         raise ValueError("reviewed preparation differs from original evidence")
+    if correction_rows is None:
+        correction_rows = {}
+    if not isinstance(correction_rows, Mapping):
+        raise ValueError("correction row mapping required")
     versions = {v.version_id: v for v in load_pending_register(source_versions)}
     for row in core["readings"]:
         version = versions.get(row["version_id"])
@@ -135,11 +169,12 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
                 reject("structured_image_field_requires_mapping")
                 continue
             evidence = field["locator"].get("evidence")
+            corrected = field["decision"] == "corrected" and field["original_value"] != field["reviewed_value"]
             if not isinstance(evidence, dict) or "proposed_image_region" not in evidence:
                 reject("image_region_unavailable")
                 continue
             if (evidence.get("field") != name or field["locator"]["field"] != name
-                    or evidence.get("proposed_reading") != field["reviewed_value"]
+                    or (not corrected and evidence.get("proposed_reading") != field["reviewed_value"])
                     or evidence.get("region_origin") != "TOPLEFT_pixels"
                     or len(field["locator"]["physical_pages"]) != 1):
                 reject("invalid_image_field_evidence")
@@ -148,6 +183,12 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
             if error:
                 reject(error)
                 continue
+            correction = None
+            if corrected:
+                correction = _correction_review(row, field, evidence, page, core["review_events"], correction_rows)
+                if correction is None:
+                    reject("correction_review_mismatch")
+                    continue
             try:
                 span = _span(row, name, field["reviewed_value"], evidence["proposed_image_region"], page)
             except ValueError:
@@ -158,6 +199,8 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
                 "event_sha256": field["review_event_sha256"], "image_sha256": page["image_sha256"],
                 "original_evidence": copy.deepcopy(evidence), "pixel_region": copy.deepcopy(evidence["proposed_image_region"]),
                 "span": span})
+            if correction is not None:
+                mapped[-1]["correction_review"] = correction
     return {"schema_version": "bintanong-reviewed-image-spans-v1", "candidate_only": True,
         "activation_eligible": False, "source_governance_changed": False, "field_spans": anchors,
         "mapping_evidence": mapped, "withheld_fields": withheld,

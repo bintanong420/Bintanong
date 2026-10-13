@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Graduation mappings verified, 19:06 +08, 13 October 2026:** Plan49219aa;
+correction-event binding20 tests GREEN0.091s after absent-interface and original/
+recorded-decision annotation RED. Relevant1,034 passed/one existing skip/66 subtests
+(22.37s). Actual27 fields/nine rows/one corrected detail; combined96 spans/nine
+blanks. Missing scalar requirements156to129; zero chunks/66 unknown applicability,
+seven gap groups preserved. Original/event/region/gap verification passes;622 prior
+files unchanged. Fourteen-file seal
+`bac386783e327210c469d9e8164943942d91eaa15e844568032d74ed9c6c3fd3`.
+Next code commit, final independent review and curated delivery/handoff. Row6 clipped
+label and row9 cutoff retained; no END, canonical mutation or activation.
+
 **Graduation image mapping continuation, 19:00 +08, 13 October 2026:** Clean
 `79ef790`; previous delivery closed. Plan
 `plans/2026-10-13-reviewed-graduation-image-plan.md` maps27 fields with explicit

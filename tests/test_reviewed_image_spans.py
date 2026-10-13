@@ -47,11 +47,102 @@ class ImageFieldSpanTests(unittest.TestCase):
         self.calls.append((data,page))
         return copy.deepcopy(self.observed)
 
-    def map(self,bundle=None,reader=None):
+    def map(self,bundle=None,reader=None,**changes):
         from backend.bintanong_tools.document_ingest.reviewed_image_spans import map_reviewed_image_spans
         return map_reviewed_image_spans(self.prep() if bundle is None else bundle,sources=self.sources,
             review_events=self.events,source_versions=[self.version],image_pages=self.pages,
-            read_page_image=reader or self.reader)
+            read_page_image=reader or self.reader,**changes)
+
+    def correction_setup(self):
+        field=self.rows[0]['fields'][0]
+        field.update(decision='corrected',reviewed_value='Get the corrected form.')
+        event={'source_sha256':self.sha,'owner_statement':'The corrected synthetic field matches.',
+            'physical_page':2,'original_image_sha256':self.image_sha,
+            'reviewed_rows':[{'row_id':'row-1','fields':[{'field':'instruction',
+                'original_proposal_text':field['original_value'],'reviewed_text':field['reviewed_value'],
+                'review_decision':'corrected','original_image_evidence':copy.deepcopy(field['locator']['evidence'])}]}]}
+        return event
+
+    def set_correction_event(self,event):
+        data=json.dumps(event).encode()
+        digest=hashlib.sha256(data).hexdigest()
+        self.events={digest:data}
+        self.rows[0]['fields'][0]['review_event_sha256']=digest
+
+    def test_corrected_field_maps_only_with_exact_event_and_preserves_original(self):
+        event=self.correction_setup()
+        self.set_correction_event(event)
+        before=copy.deepcopy(self.rows)
+        result=self.map(correction_rows={'node-a':'row-1'})
+        span=result['field_spans']['node-a']['instruction'][0]
+        self.assertEqual(span['text'],'Get the corrected form.')
+        evidence=result['mapping_evidence'][0]
+        self.assertEqual(evidence['original_evidence']['proposed_reading'],'Get the form.')
+        self.assertEqual(evidence['correction_review']['event_row_id'],'row-1')
+        self.assertEqual(evidence['correction_review']['field_review'],event['reviewed_rows'][0]['fields'][0])
+        self.assertEqual(self.rows,before)
+        self.assertEqual(result['preparation']['readings'][0]['fields'][0]['original_value'],'Get the form.')
+
+    def test_correction_without_selected_event_row_stays_unmapped(self):
+        self.set_correction_event(self.correction_setup())
+        for aliases in (None,{}, {'node-a':'missing'}):
+            with self.subTest(aliases=aliases):
+                result=self.map(correction_rows=aliases)
+                self.assertFalse(result['field_spans'])
+                self.assertEqual(result['withheld_fields'][0]['reason'],'correction_review_mismatch')
+
+    def test_preparation_decision_annotation_does_not_replace_original_event_evidence(self):
+        event=self.correction_setup()
+        self.set_correction_event(event)
+        evidence=self.rows[0]['fields'][0]['locator']['evidence']
+        evidence['recorded_decision']='corrected'
+        result=self.map(correction_rows={'node-a':'row-1'})
+        self.assertEqual(result['field_spans']['node-a']['instruction'][0]['text'],'Get the corrected form.')
+        self.assertEqual(result['mapping_evidence'][0]['original_evidence']['recorded_decision'],'corrected')
+        evidence['recorded_decision']='accepted'
+        self.assertFalse(self.map(correction_rows={'node-a':'row-1'})['field_spans'])
+        evidence['recorded_decision']='corrected'
+        evidence['unreviewed_change']='other'
+        self.assertFalse(self.map(correction_rows={'node-a':'row-1'})['field_spans'])
+
+    def test_corrected_review_source_page_image_original_text_and_region_must_match(self):
+        original=self.correction_setup()
+        mutations=[('physical_page',3),('original_image_sha256','c'*64),
+            ('field','other'),('review_decision','accepted'),('original_proposal_text','other'),
+            ('reviewed_text','other'),('original_image_evidence',{})]
+        for key,value in mutations:
+            with self.subTest(key=key):
+                event=copy.deepcopy(original)
+                target=event if key in {'physical_page','original_image_sha256'} else event['reviewed_rows'][0]['fields'][0]
+                target[key]=value
+                self.set_correction_event(event)
+                result=self.map(correction_rows={'node-a':'row-1'})
+                self.assertFalse(result['field_spans'])
+                self.assertEqual(result['withheld_fields'][0]['reason'],'correction_review_mismatch')
+
+    def test_ambiguous_corrected_event_rows_or_fields_are_withheld(self):
+        original=self.correction_setup()
+        for duplicate in ('rows','fields'):
+            event=copy.deepcopy(original)
+            target=event['reviewed_rows'] if duplicate=='rows' else event['reviewed_rows'][0]['fields']
+            target.append(copy.deepcopy(target[0]))
+            self.set_correction_event(event)
+            result=self.map(correction_rows={'node-a':'row-1'})
+            self.assertFalse(result['field_spans'])
+            self.assertEqual(result['withheld_fields'][0]['reason'],'correction_review_mismatch')
+
+    def test_mapping_corrected_visible_fragment_preserves_gap_and_chunk_withholding(self):
+        self.set_correction_event(self.correction_setup())
+        self.rows[0]['gaps']=[{'gap_id':'clipped','field_names':['instruction'],'issue':'source_cutoff',
+            'visible_text':'Get the corrected form.','affected_claims':['remaining steps'],
+            'locator':{'physical_pages':[2],'field':'instruction'}}]
+        prep=self.prep()
+        result=self.map(prep,correction_rows={'node-a':'row-1'})
+        self.assertEqual(result['preparation']['readings'][0]['gaps'],prep['readings'][0]['gaps'])
+        pending=build_reviewed_policy_chunks(prep,sources=self.sources,review_events=self.events,
+            source_versions=[self.version],field_spans=result['field_spans'])
+        self.assertEqual(pending['chunks'],[])
+        self.assertIn('source_gap_requires_context_support',pending['withheld'][0]['reasons'])
 
     def graph_setup(self):
         second=self.row('node-b')
