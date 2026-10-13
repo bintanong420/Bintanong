@@ -12,7 +12,7 @@ Verified baseline:
 - Local `dev` and live `origin/dev`: `b0ba6d496bf5df6656fc1d743469c2fdca262957`. Live remote refs checked with `git ls-remote`; GitHub MCP also read `frontend/package.json` on `dev`.
 - `dev` is an ancestor of `frontend`. The only branch difference before this analysis is an empty root `DESIGN.md`. `frontend/` and `backend/` have no differences from `dev`.
 - Formal Phase 05 is still blocked. Candidate software, merged branches and owner transcription confirmations do not establish an approved institutional release or a completed student runtime. This analysis does not start Phase 11 or advance the phase ledger.
-- Phase 05's checkpoint records a separate retrieval/source-review workstream. A different frontend branch HEAD is not, by itself, a reason to rewrite that phase's checkpoint. The owner's follow-up clarifies that this is preparation for the master plan's Phase 11 interface, not Phase 05 work or a formal Phase 11 start. The earlier checkpoint edit in `e3d1160` was unnecessary; reversal remains pending an explicit owner instruction. Do not edit `phase-05-checkpoint.md` without first clarifying the reason with the owner.
+- Phase 05's checkpoint records a separate retrieval/source-review workstream. A different frontend branch HEAD is not, by itself, a reason to rewrite that phase's checkpoint. The owner's follow-up clarifies that this is preparation for the master plan's Phase 11 interface, not Phase 05 work or a formal Phase 11 start. The earlier checkpoint edit in `e3d1160` was unnecessary and has been reversed on the owner's explicit instruction, restoring its exact pre-edit contents. Do not edit `phase-05-checkpoint.md` again without first clarifying the reason with the owner.
 
 ## 2. Evidence consulted and precedence
 

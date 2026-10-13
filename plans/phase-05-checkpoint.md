@@ -2,44 +2,14 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 82
+sequence: 81
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 59724f1
-working_tree: frontend analysis report, INDEX, current progress and this checkpoint updated for a documentation-only commit; following commit discoverable from Git
-updated_at: 2026-10-13T20:53:17+08:00
+head_commit: e9e2eab
+working_tree: five provenance and review-closure documentation paths updated; private clarification and Charter-cover packets sealed; following closure discoverable from Git
+updated_at: 2026-10-13T16:39:09+08:00
 ---
 
 # Phase 05 checkpoint
-
-## Supplemental frontend discovery — 13 October 2026
-
-Owner is preparing Figma UI designs and requests codebase/thesis/architecture/master
-analysis, with frontend following dev. Clean frontend baseline59724f1 is one commit
-above dev/origin-dev b0ba6d4; only difference was empty DESIGN.md. Fresh remote refs
-and GitHub MCP dev package read confirm baseline; frontend/backend trees match dev.
-This reconciles the old e9e2eab checkpoint pointer with merged review closure and
-the owner's frontend branch; it does not restart or advance Phase05.
-
-Context consulted: thesis physical13–15,17–20,55–56,59,65–66,68–79; scope17–18
-(printed16–17) and responsible-use66 visually rendered/inspected; full routingPNG
-viewed; master authority/contracts/retrieval/reasoning/routing/validation/private/UI
-sections, standing scope/source-gap/table-association rules, current formal handoffs
-and ingestion/private-lifecycle documentation. PNG/master processing order governs
-the older thesis generation-before-symbolic prose. No scope expansion.
-
-Report: plans/2026-10-13-frontend-figma-analysis.md. Current app is compatibility UI;
-API exposes health only. Shared contracts/retrieval/candidate ingestion exist, but
-student chat/upload/session/source endpoints and complete runtime are not delivered.
-Sixteen Figma frame/state groups cover sources, scoped decisions, clarification,
-gaps/conflicts, private fact review, deletion/expiry and operational failures.
-Public transport, enriched citations, reason codes and private lifecycle still need
-agreement/verification. No product, source, model, dependency or database changes.
-
-Fresh verification for this documentation increment: remote/local branch comparison,
-route/dependency/contract inventory, report local-link checks, git diff --check and
-phase_state inspect/validate (results recorded in current progress). No build,
-browser/model/database run or product test cycle. Existing Phase05 source-review
-next actions and blocked handoff remain governing; Figma preparation is supplemental.
 
 ## Completed Tasks
 

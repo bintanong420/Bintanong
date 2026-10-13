@@ -785,3 +785,22 @@ and git diff --check passes. Commit these two paths explicitly. No UI
 implementation or product tests.
 Next: retain the selected popup interaction for Figma; await the owner's explicit
 choice about restoring the earlier checkpoint edit. No phase advancement.
+
+### Owner-authorized checkpoint restoration — 13 October 2026
+
+The owner explicitly instructs reversing the Phase 05 checkpoint edit and
+reaffirms the Codex/Claude Code style clarification popup with options plus
+space to explain. Restored only plans/phase-05-checkpoint.md from e3d1160's
+parent after verifying no subsequent changes to that file. Sequence 81 and
+all original metadata/body are restored; no new frontend entry is retained
+in the checkpoint. Frontend analysis and popup requirements remain intact.
+
+Verification: git diff against e3d1160^ for the restored checkpoint is empty;
+its Git content hash is 4cb6a46741228ebfb64a286d9ea1d8e5d3524bbc, matching the
+pre-edit blob. Review the three documentation paths and whitespace before
+committing. No product code or tests changed. Phase 05 remains blocked and
+this UI preparation does not formally start Phase 11. Further checkpoint edits
+require prior clarification with the owner.
+
+Next: use the frontend brief for Figma, including F06's selectable clarification
+dialog and free-text explanation. Keep frontend progress separate from Phase 05.
