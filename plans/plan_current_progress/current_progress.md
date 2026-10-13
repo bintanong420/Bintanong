@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Pending-chunk continuation, 17:50 +08, 13 October 2026:** Clean0293b9fresumed;
+no interrupted changes found. Contextthesisphysical17–18/36/routingPNG and master10
+reconsulted; inspected pending registers, strict SourceSpan/Chunk contracts and
+retrieval atomic-neighbor seams. Plan
+`plans/2026-10-13-reviewed-policy-pending-chunks-plan.md`: separate pending adapter,
+explicit scalar field spans and original-byte/event/source binding, preserve field
+associations/blanks, withhold gaps/unknown scope/unmapped structured values and
+missing required context. Source gaps cannot enter context before propagation exists.
+Next focused synthetic RED; all66realapplicabilityunknown,zerochunks expected.
+No original/canonical/review overwrite, activation or formalphase advancement.
+
 **Inactive preparation delivered, 17:26 +08, 13 October 2026:**
 Code8c99a46/6279985and final independent mapping review complete, no blockers.
 Report `plans/2026-10-13-reviewed-policy-consolidation-report.md` identifies

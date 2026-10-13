@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 85
+sequence: 86
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 6279985
-working_tree: five preparation closure documentation paths updated; source-derived packet ignored and sealed; closure commit discoverable from Git
-updated_at: 2026-10-13T17:26:59+08:00
+head_commit: 0293b9f
+working_tree: pending-chunk adapter plan, checkpoint and current progress updated for continuation
+updated_at: 2026-10-13T17:50:01+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resume clean0293b9fafter interrupted user continuation; no partial modifications
+or running task artifacts found. Read Contextthesisphysical17–18/36 and routingPNG,
+master10and raw/pending contracts/retrieval seams. New bounded plan
+`plans/2026-10-13-reviewed-policy-pending-chunks-plan.md` specifies explicit scalar
+field spans, source/version/page/geometry matching, gap withholding, atomic required
+context and inactive pending-register binding. Structured/null field mapping stays
+unresolved, never flattened. All66actual applicabilityunknown; expectzerochunks.
+Next: synthetic adapter regressions RED before implementation. Prior sealed packet
+and selected page reviews remain complete; no repeat acquisition/conversion/setup.
 
 Bounded inactive preparation complete at8c99a46/6279985; final independent reviewer
 reports no blockers,17focusedtests pass and all saved field/event associations
