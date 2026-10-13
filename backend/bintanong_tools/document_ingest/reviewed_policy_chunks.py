@@ -136,6 +136,17 @@ def build_reviewed_policy_chunks(
             if not isinstance(supplied, (list, tuple)):
                 errors.append(f"invalid_field_spans:{name}")
                 continue
+            if include_source_limits and name=='segmentation' and any(f['name']=='body' for f in row['fields']):
+                try:
+                    partition=reviewed_body_partition(row)
+                    if supplied:raise ValueError('metadata has no source citation')
+                except (ValueError,KeyError,TypeError,IndexError):
+                    errors.append(f'invalid_field_spans:{name}')
+                    continue
+                associations.append({'name':name,'value':copy.deepcopy(value),'source_blank':False,
+                    'span_indexes':[],'event_sha256':field['review_event_sha256'],'field_kind':'body_partition',
+                    'raw_text':partition['raw_text'],'raw_item_ref':partition['raw_item_ref']})
+                continue
             if include_source_limits and name=='arrows' and identity in node_mappings:
                 try:
                     located=[SourceSpan.parse(s) for s in supplied]

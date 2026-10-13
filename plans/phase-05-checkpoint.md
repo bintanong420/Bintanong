@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 130
+sequence: 131
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f90095c
-working_tree: body-cover plan and checkpoint-progress resume records prepared
-updated_at: 2026-10-14T01:18:09+08:00
+head_commit: 73b1416
+working_tree: body codec-adapter-test paths and checkpoint-progress prepared
+updated_at: 2026-10-14T01:21:08+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Bodymetadata TDD: four focused tests RED4failures ->4GREEN0.062s; related60tests/
+91subtests pass1.24s. Full raw text/ref/segmentation preserved as explicit extraction
+metadata; source_text and spans remain programme-only. Consumer rechecks event,
+roles/ranges/text/bodypages/rawgeometry; stored/JSON/budget/default/unknown tests
+pass. Commit this verified task, then cover-label focused RED. No approval/activation.
 
 Owner says proceed. Cleanf90095c reconciles flowchart implementation and closure.
 Active bounded plan2026-10-14-reviewed-body-cover-context-plan.md handles four

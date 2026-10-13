@@ -1,5 +1,11 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Bodymetadata verified,14October2026:** Four focused tests RED4failures ->4GREEN
+0.062s; related60passed/91subtests1.24s. Opt-in context retains exact raw partition
+as extraction metadata while source_text/citations use programme body only; event,
+roles/ranges/pages/geometry and stored/JSON/budget/default/unknown guards pass.
+Commit verified task, then cover-label RED. Actual source replay/finalreview remain.
+
 **Body/cover context start,14October2026:** Owner says proceed; cleanf90095c resumes
 remaining four segmentation arrays and Chartercover labels. Plan2026-10-14-reviewed-
 body-cover-context-plan.md preserves reviewed fields/gaps/unknownscope and480cap,

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import copy
 import json
+import math
 import re
 
 from .source import Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, span_identity
@@ -61,7 +62,12 @@ def serialize_reviewed_fields(associations, limits, group=None):
     for f in associations:
         display={k:f[k] for k in ('name','value','source_blank')}
         if 'field_kind' in f:
-            display.update(field_kind=f['field_kind'],node_reading_ids=f.get('node_reading_ids'))
+            display['field_kind']=f['field_kind']
+            if f['field_kind']=='arrows':display['node_reading_ids']=f.get('node_reading_ids')
+            if f['field_kind']=='body_partition':
+                display.update(raw_text=f['raw_text'],raw_item_ref=f['raw_item_ref'],
+                    field_role='extraction_metadata',
+                    limitation='Page furniture is extraction metadata, not programme content or policy evidence.')
         if 'field_state' in f:
             display.update(field_state=f['field_state'],
                 limitation='Additional conditions are not separately recorded; their absence is not established.')
@@ -102,6 +108,48 @@ def validate_reviewed_arrows(field, spans):
     if (not any(e['to']=='END' for e in value) or spans[refs[-1]].text!='END'
             or len({spans[i].page for i in refs})!=1):
         raise ValueError('invalid reviewed arrow terminal/page')
+
+
+def validate_reviewed_body_partition(field, associations, spans):
+    """Bind complete extraction metadata to body-only original-image citations."""
+    bodies=[f for f in associations if f['name']=='body']
+    segments,raw,ref=(field.get(k) for k in ('value','raw_text','raw_item_ref'))
+    if (field['name']!='segmentation' or field['source_blank'] is not False
+            or field['span_indexes']!=[] or len(bodies)!=1
+            or not isinstance(segments,list) or not segments or not isinstance(raw,str)
+            or not isinstance(ref,str) or not re.fullmatch(r'#/texts/\d+',ref)):
+        raise ValueError('invalid body partition metadata')
+    body=bodies[0]
+    if (not isinstance(body['value'],str) or body['source_blank'] is not False
+            or body.get('field_kind') is not None or body['event_sha256']!=field['event_sha256']):
+        raise ValueError('unlinked body partition metadata')
+    last=0;programme=[]
+    for segment in segments:
+        if (not isinstance(segment,dict) or segment.get('kind') not in ('programme_name','page_furniture')
+                or not isinstance(segment.get('text'),str) or not segment['text'].strip()
+                or not isinstance(segment.get('raw_provenance'),dict)):
+            raise ValueError('invalid raw segment')
+        prov=segment['raw_provenance'];ranges=prov.get('charspan');box=prov.get('bbox')
+        if (type(prov.get('page_no')) is not int or prov['page_no']<1
+                or not isinstance(ranges,list) or len(ranges)!=2 or any(type(n) is not int for n in ranges)
+                or not last<=ranges[0]<ranges[1]<=len(raw) or raw[last:ranges[0]].strip()
+                or canonical_text(raw[ranges[0]:ranges[1]])!=canonical_text(segment['text'])
+                or not isinstance(box,dict) or box.get('coord_origin')!='BOTTOMLEFT'
+                or any(type(box.get(k)) not in (int,float) or not math.isfinite(box[k]) for k in ('l','b','r','t'))
+                or not 0<=box['l']<box['r'] or not 0<=box['b']<box['t']):
+            raise ValueError('raw partition text or geometry differs')
+        last=ranges[1]
+        if segment['kind']=='programme_name':programme.append(segment)
+    if (raw[last:].strip() or not programme or len(programme)!=len(body['span_indexes'])
+            or canonical_text(' '.join(s['text'] for s in programme))!=canonical_text(body['value'])):
+        raise ValueError('incomplete programme partition')
+    for segment,index in zip(programme,body['span_indexes']):
+        span=spans[index];prov=segment['raw_provenance'];box=prov['bbox'];height=span.page_size[1]
+        expected=[box['l'],height-box['t'],box['r'],height-box['b']]
+        if (span.page!=prov['page_no'] or span.bbox_origin!='TOPLEFT'
+                or canonical_text(span.text)!=canonical_text(segment['text'])
+                or any(not math.isclose(a,b,rel_tol=0,abs_tol=1e-6) for a,b in zip(span.bbox,expected))):
+            raise ValueError('programme citation differs from raw partition')
 
 
 def render_reviewed_policy_context(chunk, spans):
@@ -149,16 +197,20 @@ def render_reviewed_policy_context(chunk, spans):
             name, value, blank, refs = (field[k] for k in ('name','value','source_blank','span_indexes'))
             unrecorded=(value is None and isinstance(name,str) and name.endswith('/condition_note')
                 and field.get('field_state')=='not_recorded' and blank is False and refs==[])
-            structured=field.get('field_kind')=='arrows'
+            kind=field.get('field_kind')
+            structured=kind in ('arrows','body_partition')
             if (not isinstance(name,str) or not name or name in names or (not isinstance(value,str) and not unrecorded and not structured)
                     or ('field_state' in field and not unrecorded)
-                    or ('field_kind' in field and not structured) or ('node_reading_ids' in field and not structured)
+                    or ('field_kind' in field and not structured) or ('node_reading_ids' in field and kind!='arrows')
                     or type(blank) is not bool or not isinstance(refs,list)
                     or any(type(i) is not int or not 0 <= i < len(bound) for i in refs)
                     or not re.fullmatch(r'[0-9a-f]{64}',field['event_sha256'])):
                 raise ValueError('invalid reviewed context field association')
             names.add(name); indexes.extend(refs)
             if structured:
+                if kind=='body_partition':
+                    validate_reviewed_body_partition(field,associations,located)
+                    continue
                 if not isinstance(group,dict) or group.get('part_reading_id')!=fields.get('reading_id'):
                     raise ValueError('complete flowchart group required')
                 validate_reviewed_arrows(field,located)
