@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 98
+sequence: 99
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 422eaef
-working_tree: graduation report, plan delivery note, index, checkpoint and progress prepared for explicit documentation commit
-updated_at: 2026-10-13T19:10:49+08:00
+head_commit: 134019e
+working_tree: incoming-source notice, index, checkpoint and progress prepared for explicit documentation commit
+updated_at: 2026-10-13T19:18:34+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,20 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner reports incoming college-specific Charter photos and memoranda, potentially
+including vehicle-gatepass information; collection incomplete, complete-batch notice
+to follow. Recorded once in `plans/2026-10-13-incoming-college-charters-memoranda.md`.
+No new originals inspected or ingested; handbook/Charter absence and gatepass scope
+remain unverified. Recommend continuing Phase05 now, then processing the ready batch
+through existing Phase1 governance/Phase2 ingestion and new-content human review
+before final retrieval calibration for a corpus including those sources. This is
+dependency advice, not an immediate pause instruction or new phase authorization.
+Thesisphysical17–18 and master6/7/10/source/scope/gap contracts consulted; no scope
+expansion. Graduation closure134019e reconciles preceding checkpoint metadata.
+Current implementation next action remains disciplinary87/88/89 mapping.
+Notice-only verification: `git diff --check` passed; phase validation exit0 with
+existing blocked advancement. No implementation or tests added/run in this task.
 
 Graduation code committed `422eaef`; phase ledger19 passed10.753s. Actual mapping
 and14-file packet sealed; `plans/2026-10-13-reviewed-graduation-image-report.md`

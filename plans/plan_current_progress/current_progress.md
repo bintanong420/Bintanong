@@ -1,5 +1,19 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Incoming-source notice, 19:18 +08, 13 October2026:** Owner is collecting
+college-specific Citizens' Charter photos and memoranda, including possible vehicle
+gatepass information, and will signal when the full batch is ready. Recorded once:
+`plans/2026-10-13-incoming-college-charters-memoranda.md`. No files inspected/ingested;
+source counts, completeness, applicability and absence from existing sources unknown.
+Reuse Phase1 governance/Phase2 ingestion per new batch, with additional human review
+of new/affected extracted content; preserve completed reviews and formal phase ledger.
+Recommendation: continue current Phase05 now; process ready incoming sources before
+final retrieval calibration/evaluation for a corpus including them. No immediate
+pause/scope expansion/activation. Thesis17–18/master6/7/10/scope/gap evidence consulted.
+Clean134019e verified; next implementation remains disciplinary87/88/89 mapping.
+Notice-only diff check passed; phase validation exit0 (existing blocked handoff).
+No implementation/tests added or run; four documentation paths committed explicitly.
+
 **Graduation delivery closure, 19:10:49 +08, 13 October2026:** Code422eaef;
 final independent review found no actionable issues,20 tests passed0.178s and
 original correction/cutoff/regions matched. Fresh verifier622 prior hashes and all14
