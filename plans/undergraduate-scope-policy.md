@@ -22,6 +22,17 @@ merely because its responsible officer is a registrar, dean or staff member, and
 do not include an entire handbook/Charter because some of its content is relevant.
 General student/alumni wording requires undergraduate applicability review.
 
+Owner clarification,13October2026: supported student transactions include the
+vehicle-gatepass application process available to undergraduate students. The owner
+reports that students use this service and that staff also use it. Shared student/
+staff use does not exclude the undergraduate-facing procedure; select the relevant
+student clauses and retain shared requirements/actions needed for that procedure.
+Staff-only requirements or procedures remain outside the supported audience.
+This resolves the intended study scope for the student service. At intake, verify
+the memorandum's actual audience, requirements, authority and effectivity from
+the supplied originals. No gatepass document has been inspected or approved, and
+no specific fee, eligibility condition or procedure is inferred from this ruling.
+
 Preserve original titles/headings and complete source bytes for provenance.
 Separate a source's printed audience from the supported application audience.
 The physical46 handbook grading table has a shared undergraduate/School of Law

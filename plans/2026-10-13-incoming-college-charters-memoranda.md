@@ -38,10 +38,18 @@ sources; only new or affected content needs additional review. Content confirmat
 does not replace institutional source authority, applicability or effectivity checks.
 
 Apply undergraduate scope by each clause/service. College photographs may contain
-mixed audiences. Vehicle-gatepass content requires an explicit undergraduate
-academic-affairs scope/applicability review before inclusion; its subject or receipt
-alone cannot establish support. Unknown applicability stays unresolved. No missing
+mixed audiences. The owner's follow-up clarification includes the undergraduate
+vehicle-gatepass application process among supported student transactions: students
+use the service, and staff use does not exclude its student-facing procedure.
+Select student clauses and necessary shared requirements/actions; staff-only
+procedures remain excluded. This resolves intended study scope, while the actual
+memorandum's audience, authority, effectivity and extracted content still require
+intake verification. Unknown source applicability stays unresolved. No missing
 continuation, zero fee or automatic approval may be inferred from incomplete photos.
+
+This clarification supersedes the earlier open question about whether the student
+gatepass service fits the study. It does not establish the memo's contents or its
+absence from existing sources. See `plans/undergraduate-scope-policy.md`.
 
 ## Scheduling recommendation
 

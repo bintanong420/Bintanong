@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 100
+sequence: 101
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3100dc0
-working_tree: incoming-source scheduling confirmation, checkpoint and progress prepared for explicit documentation commit
-updated_at: 2026-10-13T19:22:57+08:00
+head_commit: ffd8a09
+working_tree: scope policy, incoming-source note, index, checkpoint and current progress prepared for explicit documentation commit
+updated_at: 2026-10-13T19:34:45+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,22 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner clarifies that undergraduate vehicle-gatepass applications fall within the
+study's student transactions. Students and staff may share the service; staff use
+does not exclude student-facing clauses or necessary shared actions/requirements.
+Staff-only procedures remain excluded. Scope policy/incoming-source note/index
+record this ruling; it supersedes the earlier open study-scope question below.
+Actual memorandum audience/authority/effectivity/content remain unverified, as do
+claims of absence from existing sources. No incoming originals inspected or
+ingested in this task. Collection-complete notice and intake instructions remain pending;
+Phase05 stays the priority. Implementation next action remains disciplinary87/88/89
+mapping, after the owner's missing-session context discussion is complete.
+Cleanffd8a09 verified before this five-file documentation change; previous checkpoint
+metadata reconciled. Thesisphysical17–18 reread; master1/10 and earlier routing PNG
+consulted. No architecture change. Documentation hygiene372 passed0.88s;
+git diff --check passed, phase validation exit0, can-advance exit1 (expected
+existing blocked handoff). No implementation, ingestion or source approval performed.
 
 Owner confirms Phase05 stays the current priority and asks the agent to notify them
 when to place the incoming batch in the dataset. Intake reminder recorded; exact
@@ -697,6 +713,11 @@ Bothpolicy candidate bundles checked; source/content authority remainpending.
 Retained Docling dropped-cell findings and1556unlocatable text items need recovery.
 
 ## Repository State
+
+Scope clarification starts from clean `ffd8a09`; five curated documentation paths
+only: undergraduate-scope-policy, incoming-source note, INDEX, checkpoint and
+current_progress. Closure commit is discoverable from Git. Source originals,
+private evidence, canonical data and code are unchanged.
 
 Nativecodeba8aae4/b9e614dverified afterplan5e8eab1; report/plan/index/checkpoint/
 currentprogress form separate fivepathclosure. OriginalPDFs/canonical/register/

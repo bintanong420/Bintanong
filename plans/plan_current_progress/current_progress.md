@@ -1,5 +1,20 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Student gatepass scope clarified, 19:34 +08, 13 October2026:** Owner includes
+undergraduate vehicle-gatepass applications within supported student transactions.
+Shared staff use does not exclude the student-facing process; staff-only procedures
+remain excluded. Recorded in undergraduate-scope-policy and the incoming-source
+note, with INDEX/checkpoint pointers updated. This supersedes the earlier open
+study-scope question; actual memo applicability/authority/effectivity/content and
+existing-source coverage remain unverified. No incoming files inspected or ingested.
+Collection remains incomplete; owner notice and agent's exact intake-folder
+instructions still pending. Phase05 stays the priority; next implementation is
+disciplinary87/88/89 mapping after the missing-session context discussion. Clean
+ffd8a09 verified; thesisphysical17–18 reread, master1/10 and earlier routing PNG
+consulted. Documentation hygiene372 passed0.88s; git diff --check passed, phase
+validation exit0, can-advance exit1 (expected existing blocked handoff). No
+implementation/source approval. Five documentation paths form a cohesive local commit.
+
 **Scheduling confirmed, 19:22 +08, 13 October2026:** Owner says continue Phase05
 now and asks to be told when to place the new college Charter/memorandum batch in
 the dataset folder. Reminder recorded in the incoming-source note; provide exact
