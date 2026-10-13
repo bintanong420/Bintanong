@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 97
+sequence: 98
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 49219aa
-working_tree: image correction binding, six synthetic regressions, decision record, checkpoint and progress prepared for explicit code commit
-updated_at: 2026-10-13T19:06:17+08:00
+head_commit: 422eaef
+working_tree: graduation report, plan delivery note, index, checkpoint and progress prepared for explicit documentation commit
+updated_at: 2026-10-13T19:10:49+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Graduation code committed `422eaef`; phase ledger19 passed10.753s. Actual mapping
+and14-file packet sealed; `plans/2026-10-13-reviewed-graduation-image-report.md`
+records coverage/digests/limits. Final independent review found no actionable issues;
+20 reviewer tests passed0.178s, original correction/cutoff/region checks and622 prior
+hashes matched. Final docs371 passed0.86s; diff/seal/current mapper/test digests pass.
+Phase validation exit0, can-advance exit1 (expected blocked handoff). Five-path
+documentation closure follows. Next bounded disciplinary
+mapping covers physical87/88/89, eleven rows/37 nonblank fields/18 explicit blanks;
+preserve native overhang/column ownership and the malformed weapon source gap.
 
 Graduation correction binding implemented under TDD: five new tests reproduced
 the absent correction_rows interface; initial fixture lacked owner_statement and
@@ -907,6 +917,19 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Resume `plans/2026-10-13-reviewed-graduation-image-report.md` and its14-file seal.
+Map the already confirmed disciplinary tables on handbook physical87/88/89,
+eleven rows/37 nonblank scalar fields/18 explicit blanks. Inspect original images
+and retained native glyph/column evidence; use exact native spans or explicit
+reviewed image regions with focused TDD. Keep all field/sanction associations,
+source-native overhang and malformed weapon wording/unresolved meaning. Blank
+cells remain explicit empty mappings, not no-penalty defaults. All66 applicability
+declarations and institutional authority/currentness remain unresolved; outputs
+stay inactive. Do not repeat completed page reviews, prior conversions or grading/
+flowchart mappings. Structured source-gap context/retrieval calibration remain open.
+
+Previous graduation next action retained for history:
 
 Resume `plans/2026-10-13-reviewed-image-flowchart-report.md` and its sealed packet.
 Map confirmed graduation physical64 fields from the original full-page image,

@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Graduation delivery closure, 19:10:49 +08, 13 October2026:** Code422eaef;
+final independent review found no actionable issues,20 tests passed0.178s and
+original correction/cutoff/regions matched. Fresh verifier622 prior hashes and all14
+sealed files/current code/test digests pass. Final docs371 passed0.86s, diff check
+passed; phase validation exit0, can-advance exit1 (expected blocked handoff).
+Five-path curated documentation commit closes this increment. Report
+`plans/2026-10-13-reviewed-graduation-image-report.md`; exact next action is confirmed
+disciplinary87/88/89 field/blank mapping, with column associations and source gaps.
+Combined96 spans/nine blanks, zero chunks/66 unknown applicability; no activation.
+
+**Graduation code committed, 19:10 +08, 13 October2026:** `422eaef` delivers exact
+corrected-field event binding; phase ledger19 passed10.753s. Report
+`plans/2026-10-13-reviewed-graduation-image-report.md` records the sealed27 field/
+nine-row output and96 combined spans, zero actual chunks/66 unknown applicability.
+Final independent review/docs/diff/phase/seal checks precede curated closure.
+Next confirmed disciplinary87/88/89 mappings: eleven rows/37 nonblank fields/
+18 explicit blanks; inspect native glyph/image evidence while preserving column
+associations, overhang and malformed weapon wording/source-gap meaning. No repeated
+owner page review, invented sanctions, canonical mutation or activation.
+
 **Graduation mappings verified, 19:06 +08, 13 October 2026:** Plan49219aa;
 correction-event binding20 tests GREEN0.091s after absent-interface and original/
 recorded-decision annotation RED. Relevant1,034 passed/one existing skip/66 subtests
