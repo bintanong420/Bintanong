@@ -87,6 +87,18 @@ class ReviewedDescriptiveContextTests(unittest.TestCase):
             span.update(chunk_id=row['chunk']['chunk_id'],span_order=i)
         self.assertEqual(build_context([row],100000,len)['context'],expected)
 
+    def test_out_of_float_range_metadata_geometry_fails_closed(self):
+        out=self.body();self.assertEqual(len(out['chunks']),1)
+        row=self.candidate(out['chunks'][0]);metadata=row['chunk']['type_fields']['field_associations'][1]
+        metadata['value'][1]['raw_provenance']['bbox']['r']=10**400
+        self.rewrite(row)
+        self.assertFalse(build_context([row],100000,len)['evidence'])
+
+    def test_out_of_float_range_cover_geometry_fails_closed(self):
+        self.cover_setup()
+        with self.assertRaises(ValueError):
+            self.cover_map(label_regions=[[0,0,10**400,20],*self.cover_regions[1:]])
+
     def cover_setup(self, *, eligible=True):
         self.labels=['SYNTHETIC UNIVERSITY','CITIZEN’S CHARTER','2026 (1st Edition)']
         event=json.dumps({'source_sha256':self.f.sha,'owner_statement':'Synthetic cover labels match.',

@@ -46,5 +46,5 @@ def map_reviewed_cover_labels(bundle, *, sources, review_events, source_versions
             'activation_eligible':False,'source_governance_changed':False,'original_reading':copy.deepcopy(row),
             'field_spans':{reading_id:{'cover_labels':spans}},'validated_page':page,
             'label_regions':copy.deepcopy(label_regions),'event_sha256':field['review_event_sha256']}
-    except (StopIteration,KeyError,TypeError,IndexError,ValueError) as exc:
+    except (StopIteration,KeyError,TypeError,IndexError,ValueError,OverflowError) as exc:
         raise ValueError('invalid reviewed cover binding') from exc

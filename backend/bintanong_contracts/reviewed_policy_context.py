@@ -256,5 +256,5 @@ def render_reviewed_policy_context(chunk, spans):
         if limits != regenerated or chunk['text'] != serialize_reviewed_fields(associations,limits,fields.get('service_group')):
             raise ValueError('reviewed context text or source limits differ')
         return chunk['text']
-    except (KeyError,TypeError,IndexError,ValueError) as exc:
+    except (KeyError,TypeError,IndexError,ValueError,OverflowError) as exc:
         raise ValueError('invalid reviewed context record') from exc
