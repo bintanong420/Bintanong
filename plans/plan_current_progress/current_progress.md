@@ -1,5 +1,19 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Owner grading confirmation11:36 +08,13October2026:** Owner states, "Yep all
+18 rows matches." Recorded all18undergraduate grading rows as accepted in the
+editable scoped sheet, reviewer `owner (chat confirmation)`; timestamp records
+receipt processing, not an owner-supplied review date. Audit evidence:
+`audit-evidence/p05-owner-grading-confirmation-20261013/confirmation.json`, SHA256
+`737a7a35244c6d40a63f09b188580acbb04e8e8eba9a43fbb0a3095068307886`.
+Before/after sheets retained. Verification:18accepted, original SHA matches,
+all nonreview columns/11sealed files/four other scoped sheets unchanged.
+Transcription only; authority, effectivity/applicability, correction and activation
+remain pending. Owner compares extracted values/wording to linked original pages;
+agent checks geometry/hashes. Next: use these source-bound decisions for bounded
+undergraduate grading correction preparation, then guide later table reviews.
+Do not ask owner to repeat the18row comparison or rerun sealed preparation.
+
 **Plain owner guide11:25 +08,13October2026:** User found bbox metadata confusing.
 Added `p05-undergraduate-policy-review-20261013/HOW-TO-REVIEW-GRADES.md` with
 18simple grade/percentage/description rows and the original image. All18rows,

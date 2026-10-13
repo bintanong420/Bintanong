@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 64
+sequence: 65
 plan: plans/phase-05-retrieval-plan.md
-head_commit: e8c9f61
-working_tree: plain owner-guide documentation closure after e8c9f61; inspect Git for current state; production unchanged
-updated_at: 2026-10-13T11:25:24+08:00
+head_commit: 18e5fcc
+working_tree: owner grading-confirmation documentation closure after 18e5fcc; inspect Git for current state; production unchanged
+updated_at: 2026-10-13T11:36:28+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner explicitly confirms all18undergraduate grading rows match. Scoped editable
+grading sheet now records18accepted with `owner (chat confirmation)`; no personal
+name or earlier review date invented. Timestamp11:36:28+08 is recording time.
+Source-bound event/before-after sheets:
+`audit-evidence/p05-owner-grading-confirmation-20261013/`; event SHA256
+737a7a35244c6d40a63f09b188580acbb04e8e8eba9a43fbb0a3095068307886.
+Fresh verification18accepted,11sealed files/four other sheets/nonreview columns
+unchanged; original PDF hash matches. Transcription confirmation does not approve
+authority/effectivity/applicability or activation; no correction applied.
+Earlier pending statements below are historical and superseded for these18rows.
 
 Plain grading review guide added after owner could not interpret bbox metadata:
 `p05-undergraduate-policy-review-20261013/HOW-TO-REVIEW-GRADES.md`.18simple
@@ -328,6 +339,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Use the18accepted source-bound undergraduate grading decisions for bounded
+correction preparation under TDD; retain separate applicability/source-authority
+gates. Later, walk owner through the six supplemental structures/30row proposals
+using copied values, wording, steps and penalty-column associations against the
+linked originals. Flag clipped/ambiguous source content rather than infer it.
+Do not repeat the18row review. Phase05 remains blocked; no activation orPhase06.
+
+Previous next action retained for history:
 
 Owner uses the plain HOW-TO-REVIEW-GRADES.md guide to compare18rows with the
 original page and replies in chat with matches/corrections/unresolved rows and

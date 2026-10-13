@@ -1,5 +1,28 @@
 # Phase 05 policy review preparation - 13 October 2026
 
+## Owner confirmation of undergraduate grading transcription
+
+Owner: "Yep all 18 rows matches. Just quick question im just going to be
+comparing pages right?" All18scoped grading rows now accepted from this actual
+chat response. Reviewer is `owner (chat confirmation)`; recorded_at
+2026-10-13T11:36:28+08:00 is processing time, not an asserted earlier review date.
+The owner compares extracted values and wording against the linked original page;
+geometry/hash verification remains the agent's responsibility.
+
+Evidence `audit-evidence/p05-owner-grading-confirmation-20261013/confirmation.json`
+SHA256 `737a7a35244c6d40a63f09b188580acbb04e8e8eba9a43fbb0a3095068307886`;
+before/after sheets retained. Fresh recording verification:18accepted, original
+PDF hash matches,11sealed files/four other scoped sheets unchanged, only four
+review columns changed. Historical sealed proposals and old mixed-scope sheets
+remain untouched. Earlier zero-decision statements describe preparation time.
+No institutional source authority, effectivity/applicability, applied correction
+or activation is approved by this transcription confirmation. Next: bounded
+grading correction preparation; supplemental table/source-governance reviews
+remain pending. Git baseline18e5fcc; documentation-only closure follows.
+`git diff --check` passes; `phase_state.py validate --repo .` reports valid,
+Phase05 blocked/cannot advance, with only the expected documentation changes.
+No product test rerun is claimed for this review-record/documentation update.
+
 ## Plain owner guide supersedes technical data-entry instructions
 
 Owner found the coordinate column confusing. Current review entry point:
