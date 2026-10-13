@@ -761,3 +761,27 @@ documentation-only change. Renders stay outside checkout in workspace/audit-evid
 Next: owner uses report F01–F16 for Figma wireframes; frontend/backend agree section8
 public contracts before connected implementation. Existing Phase05 source/retrieval
 recovery remains separate and must resume from its recorded next action.
+
+### Owner correction — clarification popup and phase checkpoint boundary
+
+The owner specifies a Codex/Claude Code style clarification popup: selectable
+options plus space to explain or provide an alternative answer. Updated the
+frontend brief's interaction description, feature row and F06 frame. An explicit
+submit is required; defaults/dismissal cannot supply missing facts.
+
+The owner also prohibits further changes to plans/phase-05-checkpoint.md unless
+the reason is first clarified. The master places student UI/API integration in
+Phase 11. This frontend discovery is preparation for that interface, not work on
+the active Phase 05 retrieval task or a formal Phase 11 start. Applying the generic
+active-phase checkpoint rule to the previous frontend analysis was too broad;
+its checkpoint edit in e3d1160 was unnecessary. Explained the handoff rule and
+recommended reversing only that edit. The owner's reply requests explanation,
+not restoration; no rollback or further checkpoint edit is authorized yet.
+
+Only the frontend brief and this progress record change in this follow-up.
+Verification: checkpoint Git content hash remains
+36e50c30a2812b224602be41e7a526488575d485 before/after; documentation diff reviewed
+and git diff --check passes. Commit these two paths explicitly. No UI
+implementation or product tests.
+Next: retain the selected popup interaction for Figma; await the owner's explicit
+choice about restoring the earlier checkpoint edit. No phase advancement.

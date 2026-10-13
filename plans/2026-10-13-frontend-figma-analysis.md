@@ -12,7 +12,7 @@ Verified baseline:
 - Local `dev` and live `origin/dev`: `b0ba6d496bf5df6656fc1d743469c2fdca262957`. Live remote refs checked with `git ls-remote`; GitHub MCP also read `frontend/package.json` on `dev`.
 - `dev` is an ancestor of `frontend`. The only branch difference before this analysis is an empty root `DESIGN.md`. `frontend/` and `backend/` have no differences from `dev`.
 - Formal Phase 05 is still blocked. Candidate software, merged branches and owner transcription confirmations do not establish an approved institutional release or a completed student runtime. This analysis does not start Phase 11 or advance the phase ledger.
-- The checkpoint's old `e9e2eab` pointer predates the review-closure/merge/frontend commits. Git establishes the branch baseline above; existing source-review next actions remain separate.
+- Phase 05's checkpoint records a separate retrieval/source-review workstream. A different frontend branch HEAD is not, by itself, a reason to rewrite that phase's checkpoint. The owner's follow-up clarifies that this is preparation for the master plan's Phase 11 interface, not Phase 05 work or a formal Phase 11 start. The earlier checkpoint edit in `e3d1160` was unnecessary; reversal remains pending an explicit owner instruction. Do not edit `phase-05-checkpoint.md` without first clarifying the reason with the owner.
 
 ## 2. Evidence consulted and precedence
 
@@ -86,7 +86,9 @@ The backend selects the route. Students ask in English, Filipino or Taglish. The
 
 ## 5. Recommended product shape
 
-Choose **one conversation workspace with contextual panels**. A citation opens source details; clarification and fact confirmation appear within the current task; temporary files/context have a manageable panel. This maps naturally to the shared answer contract and avoids duplicating behavior across academic modules.
+Choose **one conversation workspace with contextual panels**. A citation opens source details; clarification opens a dialog over the current workspace; fact confirmation remains part of the current task; temporary files/context have a manageable panel. This maps naturally to the shared answer contract and avoids duplicating behavior across academic modules.
+
+Owner-selected clarification interaction: use a Codex/Claude Code style popup with selectable options and a chance to explain. Present one focused question, concise relevant choices, and a free-text explanation field that can accompany a choice or supply an alternative answer. Use an explicit submit action; neither a preselected choice nor closing the popup counts as an answer. Include an unknown option when appropriate, preserve the current task when dismissed, and keep unresolved facts unresolved. Choices must come from supported context rather than invented curriculum options. The dialog needs keyboard navigation, labeled controls, focus management and a usable mobile layout. The exact visual styling remains the owner's Figma decision.
 
 Alternatives considered:
 
@@ -103,7 +105,7 @@ All rows below describe target design requirements or recommendations; they are 
 | --- | --- | --- |
 | Start and ask | Enter a multiline question; see supported scope/languages and a small set of relevant example questions | Future session/chat boundary; examples are prompts, not asserted PalSU rules |
 | Curriculum context | Supply or correct program/campus/curriculum edition/course when the question requires it; choose “I don't know” | Backend resolves canonical identities and ambiguity; never assume an edition from current year alone |
-| Clarification | Answer a specific missing-context question and continue the same task | `RoutingDecision.missing_facts`, normalized ambiguities and future chat continuation protocol |
+| Clarification | Answer a focused question in an options-based popup, add an explanation or alternative free-text answer, and continue the same task | `RoutingDecision.missing_facts`, normalized ambiguities and future chat continuation protocol; submit the selected option and explanation together without inferring an answer from dismissal |
 | Policy answers | Read grounded explanations about grade policies, standing, discipline and student-facing services | Only applicable, approved content; absence of a policy is an evidence limitation |
 | Prerequisite checks | See the supported check's result, assumptions and unmet/unknown conditions | Future approved capability/runtime; `DecisionOutcome` supplies semantics, not an enrollment authorization |
 | Documented procedures | Follow ordered student steps with linked agency sub-actions, time, responsible role/office, conditions and fee provenance when available | Preserve service-table associations and page continuations; blank fields remain unknown, not free/zero |
@@ -129,7 +131,7 @@ Create a desktop workspace and a narrow mobile version, then reuse components fo
 | F03 | Policy answer | Final explanation, sources, limitation/next-step area when applicable |
 | F04 | Supported check passes | “Conditions met for this check,” confirmed assumptions, satisfied conditions, sources; no “enrollment approved” |
 | F05 | Supported check fails | Proven unmet condition, source and documented next action; no invented alternative or exception |
-| F06 | Clarification | Missing program/edition/course/fact prompt, supplied context, answer controls and “I don't know” |
+| F06 | Clarification popup | Missing program/edition/course/fact prompt, selectable choices, explanation/alternative text field, explicit submit, unknown option where relevant, and dismissed/unanswered variant |
 | F07 | Insufficient evidence/source gap | What can be supported, what is unavailable, supported office referral if known; no fabricated process end |
 | F08 | Conflicting sources | Scope/edition issue and withheld conclusion; similarity does not choose the authoritative policy |
 | F09 | Out-of-scope/unsupported | Concise scope/capability explanation and a useful way to reformulate; distinct from a network failure |
