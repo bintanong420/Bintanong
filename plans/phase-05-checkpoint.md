@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 93
+sequence: 94
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 4bceb87
-working_tree: image-flowchart mapping plan, checkpoint and current progress updated for resume
-updated_at: 2026-10-13T18:33:04+08:00
+head_commit: 3bbbff0
+working_tree: new image-region mapper/graph binder, synthetic tests, decision record, checkpoint and progress ready for explicit commit
+updated_at: 2026-10-13T18:47:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Imagemapper/graphbinder implementedunderTDD:13absentmoduleRED/GREEN then missing
+cropobservationRED fixed by requiringexplicit readertransformmetadata,14GREEN0.069s.
+Final relevant1026tests/56subtests pass,1skip23.94s. Actual24fields/eightrows/four
+decisionedges/twoterminals mapped at validatedscale2; exact62/63renderhashes match.
+Combined69nonblankspans/ninenativeblankmappings; pending0chunks/66unknownscope
+withheld,180missingscalarspans down156. Independent savedsource/event/region/
+association checks pass;607earlierfiles unchanged. MappingSHA256
+9a44ce01691e8749fe6cc8bb9538ab07911b4ff4db510efbea2d8a2d44fe3e3e;
+graphs cabf2d7da959a777cb36f177e02d37959890c675763d33d710c5d30cd94584b9;
+pending4887c6032cc0170d43a5d806089b57dcb0bc1186df980f4ffdb376e1824f43f5.
+Originalreadings/authority/applicability/raw/register/canonical unchanged. Nextfinal
+independentcode/geometryreview, seal/report/index/checkpoint/progress closure.
 
 Resume clean4bceb87, precedingcodehead reconciled. Contextthesisphysical17–18/36/
 routingPNG/master10andscope/gap/association rules reconsulted; handbook62/63PNG

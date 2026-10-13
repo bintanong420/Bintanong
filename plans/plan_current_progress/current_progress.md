@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Image-flowchart mappings verified, 18:47 +08, 13 October 2026:**
+Plan3bbbff0retained; new scalarimage mapper/inactivegraph binder14testsGREEN0.069s
+after initial13RED/GREEN and explicitcroppresenceRED/GREEN. Relevant1026tests/
+56subtests pass,1skip23.94s. Actual24fields/eightrows/fourdecisionedges/twoterminals,
+both original62/63render hashesmatch. Combined69spans/nineblanks;0chunks/66unknown
+applicabilitywithheld. Scalarspanrequirements180to156,13structured/null/sevengaps
+unchanged.607earlierfiles unchanged; independent original/event/geometry/graph
+checkspass. Mapping9a44ce01691e8749fe6cc8bb9538ab07911b4ff4db510efbea2d8a2d44fe3e3e;
+graphscabf2d7da959a777cb36f177e02d37959890c675763d33d710c5d30cd94584b9;
+pending4887c6032cc0170d43a5d806089b57dcb0bc1186df980f4ffdb376e1824f43f5.
+Nextfinal independentcode/geometryreview, evidence seal and curatedhandoff.
+
 **Image-flowchart continuation, 18:33 +08, 13 October 2026:** Clean4bceb87resumed.
 Plan `plans/2026-10-13-reviewed-image-flowchart-plan.md`: source/render-checked
 pixel-to-PDFpoint field mappings and complete inactive directionalgraphs for
