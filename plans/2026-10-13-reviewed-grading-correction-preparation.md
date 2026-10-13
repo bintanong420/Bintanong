@@ -1,5 +1,42 @@
 # Reviewed undergraduate grading correction preparation
 
+## Completion-timing wording confirmed; applicable deadline unresolved
+
+Owner confirms all four handbook47time statements match and explicitly leaves
+the applicable deadline unresolved. Separate wording review accepted; editable
+interpretation issue becomes unresolved, not an approved policy interpretation.
+Keep original applicability field blank, no hierarchy or governing deadline
+inferred. Two other interpretation entries and five other decision sheets remain
+unchanged. Four selected manual-review groups remain: two interpretation checks
+and two source records; this is not an exhaustive corpus/release count.
+
+Ignored packet `audit-evidence/p05-owner-completion-timing-confirmation-20261013/`
+records the exact statement, before/after interpretation sheet, next complete
+service-row proposals and guide. Event SHA256
+`33a0ccfe16540322eea21cd2bc096c34a24e7e2b90a2e6f5afb7422bd451160e`,
+recorded2026-10-13T15:29:06+08:00.519prior sealed files and both original PDF hashes
+unchanged. Eight-file seal SHA256
+`68036a208fc9ca794f0d6f9853eb50d4a9eba061b73c4bb8e686cca2f7a9f92d`;
+independent readonly verifier passes actual saved decisions/seal/pending proposals.
+
+Next review: Citizens' Charter pre-enrollment service, physical102–103/printed98–99.
+Both original images inspected; fresh native original text verifies four complete
+client/action/fee/time/person/office readings. Each row prints5minutes; total
+prints25minutes, while arithmetic-only row sum is20minutes. Preserve all source
+values and record intended total unresolved; do not substitute20minutes or invent
+a fifth step. Step3agency action visibly stops at for; missing continuation stays
+an agent-observed source gap awaiting wording confirmation. Guide includes all
+four linked rows and total across both pages, avoiding continuation-only coverage.
+PSU Students heading is source audience context, not undergraduate applicability
+approval; header/checklist/authority/effectivity remain separate. All next readings
+pending, originals/raw/canonical candidates unchanged. No rules/runtime activation.
+
+Verification: approved Python3.13 venv `-B -m pytest tests/test_docs_hygiene.py
+-p no:cacheprovider` with external basetemp,356passed0.88s; readonly packet verifier,
+`git diff --check` and `phase_state.py validate --repo .` pass. Commit only these
+four documentation paths with the Conventional Commits skill; no product-suite
+rerun or push. Post-closure HEAD is discoverable from Git, avoiding self-reference.
+
 ## Programme body/furniture confirmation and clear extraction explanation
 
 Owner confirms all four programme names/body placement and separation from

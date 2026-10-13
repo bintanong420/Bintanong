@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 77
+sequence: 78
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 8674f32
-working_tree: review docs committed as 8674f32; seven skill and workflow documentation paths prepared; following closure commit discoverable from Git
-updated_at: 2026-10-13T15:15:00+08:00
+head_commit: 4221131
+working_tree: four timing-review documentation paths updated; private eight-file packet sealed; following review closure discoverable from Git
+updated_at: 2026-10-13T15:29:06+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner confirms four handbook47time statements and leaves applicable deadline
+unresolved. Separate transcription accepted; interpretation row unresolved, scope
+field/two other interpretation rows/five other sheets unchanged. Event
+33a0ccfe16540322eea21cd2bc096c34a24e7e2b90a2e6f5afb7422bd451160e;
+519prior sealed files/original PDFs unchanged, new eight-file seal
+68036a208fc9ca794f0d6f9853eb50d4a9eba061b73c4bb8e686cca2f7a9f92d.
+Independent readonly verification passes. Four selected review groups remain.
+Next Charter pre-enrollment guide PDF102–103/printed98–99 shows all four linked
+rows and printed25minute total; rows sum20minutes arithmetically, intended total
+unresolved. Step3agency action ends at for in original, continuation unavailable.
+Original images and fresh native source text checked; next owner readings pending.
+No canonical correction, institutional applicability/authority or runtime approval.
+Commit workflow completed4221131; following review closure uses conventional title.
+Scope/routing context from active-phase resume remains unchanged; no phase advance.
 
 Owner-requested simple Conventional Commits skill delivered in personal and
 repository locations; personal AGENTS/repository AGENTS/handoff reminder route to
@@ -406,6 +421,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Clean4221131resume baseline reconciled with completed skill workflow. Four review
+documentation paths now updated: report, index, checkpoint and progress. Private
+confirmation/sheets/proposals stay ignored. Following conventional documentation
+closure found through Git; no product/source/runtime/dependency changes or push.
+
 Review documentation committed8674f32; portable commit skill/routing/report/ledger
 form the separate following workflow closure. Explicit seven paths only; personal
 skill/global instructions live outside Git. Published p05e717474and local dev
@@ -442,6 +462,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Timing confirmation recorder checks519previous sealed files/five other sheets,
+original hashes, four handbook clauses and all24pre-enrollment row-field readings
+against fresh original native text. Independent readonly verifier confirms eight
+sealed files, accepted wording/unresolved deadline, unchanged other interpretation
+rows and four next pending rows. No fresh full product-suite claim. Final review
+documentation356passed0.88s, diff/phase checks pass before closure. Approved
+Python3.13 venv/cache disabled/external basetemp; explicit four-path staging.
 
 Commit workflow: expected baseline skill-presence failure; then three bundled
 quick_validate passes, independent verify_workflow.py copy/routing/history and
@@ -549,13 +577,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Commit skill/workflow and unpublished-history audit are complete. Resume
-handbook47completion-time wording in
-`audit-evidence/p05-owner-text-confirmation-20261013/NEXT-REVIEW-COMPLETION-TIMING.md`.
-Owner compares four printed statements, not arbitrates which deadline applies;
-keep applicability/interpretation unresolved absent supporting authority evidence.
-Programme names/separations are confirmed; do not request duplicate review.
-Five selected groups remain, not all corpus/release checks. No phase advancement.
+Owner compares complete pre-enrollment rows/total in
+`audit-evidence/p05-owner-completion-timing-confirmation-20261013/NEXT-REVIEW-PRE-ENROLLMENT.md`.
+Charter PDF102–103/printed98–99, four rows with fees/time/person/office associations.
+Confirm printed25minute total and step3agency cutoff at for; keep intended total
+and missing continuation unresolved. Do not rewrite as20minutes, invent a fifth
+step or complete the broken sentence. Header/checklist/source authority/current
+undergraduate applicability remain separate; no approval from a wording match.
+Four selected groups remain, not all corpus/release checks. Handbook47wording
+and programme body/separations confirmed; no duplicate review or phase advance.
 
 Previous programme-fragment next action retained for history:
 

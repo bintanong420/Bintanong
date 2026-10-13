@@ -1,5 +1,21 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Completion-time wording15:29 +08,13October2026:** Owner confirms four handbook47
+time statements; wording accepted, applicable deadline/relationship unresolved.
+Interpretation row now unresolved; original scope field/two other interpretation
+rows/five other sheets unchanged.519prior sealed files/original PDFs unchanged.
+Event33a0ccfe16540322eea21cd2bc096c34a24e7e2b90a2e6f5afb7422bd451160e;
+eight-file seal68036a208fc9ca794f0d6f9853eb50d4a9eba061b73c4bb8e686cca2f7a9f92d,
+independent readonly check passes. Four selected groups remain. Next guide
+`audit-evidence/p05-owner-completion-timing-confirmation-20261013/NEXT-REVIEW-PRE-ENROLLMENT.md`:
+Charter PDF102–103/printed98–99, four full linked rows and printed25minute total
+versus20minute arithmetic sum. Step3agency text stops at for in original; no
+continuation invented. Both original images/native text verified; next owner
+readings pending, source/applicability/authority/canonical/runtime approval absent.
+Resume clean4221131; conventional documentation commit follows; no push.
+Documentation356passed0.88s, readonly packet/diff/phase checks pass. Only four
+documentation paths staged; following closure ID from Git. No product-suite claim.
+
 **Commit workflow15:15 +08,13October2026:** Added simple Conventional Commits
 skill in repository `.agents/skills/conventional-commits/SKILL.md` and personal
 `C:/Users/joel/.codex/skills/conventional-commits/SKILL.md`; matching copies,
