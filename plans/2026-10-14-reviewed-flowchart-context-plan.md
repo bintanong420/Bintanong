@@ -42,21 +42,21 @@ Files: new document_ingest/reviewed_flowchart_context.py and synthetic
 tests/test_reviewed_flowchart_context.py; edit reviewed_policy_chunks.py,
 contracts/reviewed_policy_context.py and retrieval/context.py only as needed.
 
-- [ ] Write focused preparation/structured rendering/atomic context regressions.
-- [ ] Run `python -B -m unittest discover -s tests -p test_reviewed_flowchart_context.py -v`.
+- [x] Write focused preparation/structured rendering/atomic context regressions.
+- [x] Run `python -B -m unittest discover -s tests -p test_reviewed_flowchart_context.py -v`.
   Expected: RED for absent support; retain the log.
-- [ ] Reuse bind_reviewed_flowchart, copy full original rows and ordered dependencies.
+- [x] Reuse bind_reviewed_flowchart, copy full original rows and ordered dependencies.
   Bind arrows to label/END spans and exact node IDs; validate typed associations
   both during preparation and offline rendering.
-- [ ] Run focused tests and reviewed-policy/image/service/retrieval regressions.
+- [x] Run focused tests and reviewed-policy/image/service/retrieval regressions.
   Expected: GREEN; no default behavior regression.
-- [ ] Replay the current73-reading bundle using both saved graphs. Re-render
+- [x] Replay the current73-reading bundle using both saved graphs. Re-render
   original62/63 pages and verify source/image hashes, fields/events/unknown scope,
   gaps, cap refusals and every747 prior evidence file. Retain separate new outputs.
   Expected: zero activated chunks; only the two arrow mapping refusals resolve.
-- [ ] Commit verified code/tests with clear Conventional Commits; one fresh
+- [x] Commit verified code/tests with clear Conventional Commits; one fresh
   independent final review of the complete increment, then one TDD fix pass if needed.
-- [ ] Seal evidence, record report/decisions/progress/checkpoint, run phase ledger
+- [x] Seal evidence, record report/decisions/progress/checkpoint, run phase ledger
   validation and commit documentation. Expected: valid ledger, advancement blocked.
 
 ## Progress
@@ -65,3 +65,32 @@ contracts/reviewed_policy_context.py and retrieval/context.py only as needed.
 no scope/routing discrepancy. Prior service closure is documentary; implementation
 cf4a862 remains verified. No completed source work is repeated. Intake directories
 and guide created ignored; no incoming source inspected or processed.
+
+Cutoff recovery14October2026: initial code8b74030 committed; preserved endpoint
+identity fix and failing node-page regression resumed without overwriting prior
+evidence. Fresh9tests RED1page-binding failure0.145s ->9GREEN0.146s; related160/
+212subtests27.03s, ledger19/9.772s. Independent source/event/span/render/current
+adapter replay PASS,747prior hashes unchanged; current helper replays both saved
+preparations exactly. Recovery code5c9fffa committed; one fresh-context final
+review runs on6ae1616..5c9fffa before seal/report/closure.
+
+Final fresh-context review: no actionable findings;85tests/127subtests1.30s,
+115malformed context probes/21graph binding probes, exact helper/adapter/service
+replays and747earlier hashes verified.34files and five code digests sealed at
+audit-evidence/p05-flowchart-context-resume-20261014/evidence-manifest.json,
+SHA256b3cc84136dd525523b995348ec23b1f7ab334c5f5e527ecdc670c2acdbf299a4.
+[Report](2026-10-14-reviewed-flowchart-context-report.md) records gates and next work.
+
+Final rulings: retain the documented verified-caller boundary; byte/structural
+checks cannot authenticate coordinated forged annotations. Institutional meaning,
+authority/applicability/currentness, exact glyph geometry/full process coverage,
+exact encoder tokens and live RPC/RLS/embedding/answer/deployment/formalphaseexit
+remain separate unperformed gates. The inactive increment is valid within these
+limits; ignoring them risks unsupported policy or inappropriate activation.
+No deferred minor findings. Owner's later batch includes miscellaneous sources;
+organization waits for the actual later request after this cohesive recovery.
+
+Ruling: retain immutable prior packets and write recovery logs/seals into a separate
+workspace audit-evidence folder, overriding generic skill workspace deletion — the
+owner requires original evidence/history preservation; deleting it would break
+provenance. No branch integration or formalphase closure is requested or achieved.

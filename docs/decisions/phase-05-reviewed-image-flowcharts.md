@@ -78,3 +78,31 @@ Five page88 blanks have null raw cells.637 earlier hashes unchanged, zero chunks
 meaning remains unresolved. [Plan](../../plans/2026-10-13-reviewed-disciplinary-regions-plan.md)
 and [report](../../plans/2026-10-13-reviewed-disciplinary-regions-report.md) record
 TDD and independent review. No source approval or runtime activation.
+
+## Complete arrow/node context and cutoff recovery
+
+14 October2026, implementation8b74030/recovery5c9fffa: reuse the original-image
+graph binder and recorded review events. Structured arrows retain exact labels,
+label/END spans and node-to-reading IDs; copy complete node readings into one
+ordered mandatory group. Each displayed part carries its own matching
+part_reading_id; consumer requires every node citation on the single arrow page.
+Incomplete, substituted, malformed or over-budget groups withhold atomically.
+Regular service groups retain their existing wire representation; opt-in support
+and the480estimated-token cap remain. Unknown applicability is never promoted.
+
+Prior agent left endpoint-display changes and a failing node-page regression;
+recovery preserved them, reproduced RED1/9tests, made the smallest group-page fix,
+and observed GREEN9. Related160tests/212subtests pass27.03s; fresh independent
+review85/127subtests plus115context/21graph malformed probes finds no actionable
+issues. Current/helper/prior-service replays, original62/63renders and747earlier
+hashes match. Actual73unknown/0chunks/267fields/29blanks/sevengaps/232spans retained;
+two arrow mapping requirements resolve, five nonscalar/two overcap remain.
+
+Verified caller/layout annotations remain a trust boundary; structural/byte checks
+cannot authenticate coordinated false relabeling. Institutional meaning/authority/
+applicability/currentness, exact glyph geometry/whole-process coverage, exact model
+tokens and live RPC/RLS/embedding/answers/deployment/formalexit remain separate gates.
+Preserve evidence rather than deleting generic skill workspaces: loss would break
+provenance. No deferred findings or source/runtime activation.34files/fivecode
+digests sealed; [report](../../plans/2026-10-14-reviewed-flowchart-context-report.md)
+records exact manifest SHA/commands and the next bounded preparation work.

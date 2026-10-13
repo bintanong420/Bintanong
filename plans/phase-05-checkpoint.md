@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 125
+sequence: 129
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 6ae1616
-working_tree: five flowchart code-test paths and checkpoint-progress updates prepared
-updated_at: 2026-10-14T00:37:10+08:00
+head_commit: 5c9fffa
+working_tree: eight curated documentation paths prepared for flowchart recovery closure
+updated_at: 2026-10-14T01:00:59+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,49 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Flowchart recovery complete at code8b74030/5c9fffa: focused9RED1->9GREEN,
+related160passed/212subtests27.03s, ledger19pass9.772s. Fresh final reviewer finds
+no Critical/Important/Minor issues;85tests/127subtests1.30s,115contextmutations/
+21graphprobes and exact current/helper/oldservice replays verified.747earlier hashes
+and original62/63renders unchanged.34retainedfiles/fivecode digests sealed:
+b3cc84136dd525523b995348ec23b1f7ab334c5f5e527ecdc670c2acdbf299a4.
+Report2026-10-14-reviewed-flowchart-context-report.md records boundaries and
+next work; no further fix requested. Eight curated docs close recovery, following
+documentary commit SHA discoverable fromGit. Owner future-batch notice recorded;
+no incoming inspection or organization. FormalPhase05 remains blocked.
+
+Finaldocumentary checks391pass1.01s; diffcheck/all34sealhashes-sizes/fivecode
+digests/manifesthash match. Phasevalidationvalid/canadvanceblocked expected.
+Explicit eight-path documentation commit follows; no private artifacts staged.
+
+Recovery code committed5c9fffa after160relatedtests/212subtests pass. One planned
+fresh-context read-only reviewer is checking6ae1616..5c9fffa. All implementation
+paths are clean; only checkpoint/progress changes remain. Next review findings
+(if any) receive a focused TDD correction, then final evidence seal/report/ledger
+closure. Original evidence remains immutable; no new source or increment started.
+
+Recovery fix verified: focused9 tests RED1node-page failure (0.145s), then
+9GREEN0.146s. Complete flowchart groups now bind each displayed endpoint reading
+and require every node citation to remain on the arrow page. Related160tests/
+212subtests pass27.03s; ledger19pass9.772s. Current adapter replay and independent
+row/edge/event/span/source/order/scope/gap/dependency checks PASS;747prior hashes
+and original62/63render hashes unchanged. Actual73unknown/0chunks/267fields/
+29blanks/sevengaps/232spans remain. Commit four verified code-test paths, then the
+plan's fresh final review and seal/report. Existing RED-node-display log retained.
+
+Cutoff recovery, 14 October 2026: Git confirms initial flowchart implementation
+8b74030 committed after the recorded checkpoint. Four dirty paths preserve its
+endpoint-display correction and two regressions. Saved RED evidence proves the
+node-page regression remains failing: complete-group assembly checks versions and
+node identities but does not compare node citation pages with arrow citation pages.
+Resume that focused RED, make the smallest group-level correction, verify related
+regressions, commit, and perform the planned fresh-context final review/seal/closure.
+Thesis physical17–18/36 and runtime routing PNG freshly consulted; undergraduate,
+read-only, private-input and inactive-candidate boundaries agree. Master section10,
+active plan/blocked handoff/previous Phase04 closure and standing policies consulted.
+GitHub MCP read-only list_commits succeeded; remote default history is older than
+local phase work. No synchronization or incoming-source processing authorized here.
 
 Flowchart context verified: initial6 tests RED9missingmoduleerrors ->6GREEN0.096s; malformed-record regression RED7AttributeErrors ->7GREEN0.118s. Relevant135tests/210subtests pass1.80s; broader217tests/203subtests pass35.06s with2existing warnings. Ledger19pass9.478s. Actual73unknown/0chunks retain267fields/29blanks/sevengaps;2graphs/8nodes/4edges/2ENDspans add6citations (232total). Nonscalar7to5;two overcaprecords unchanged. Both original62/63renders match saved hashes/dimensions, prior747files unchanged and oldservicepending replay identical. No incoming processing. Next codecommit/fresh finalreview and independent verification/seal; current plan then closes.
 
@@ -1013,6 +1056,13 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified implementation HEAD5c9fffa; only eight documentary paths prepared:
+flowchartplan/report, existing flowchartdecision, INDEX/checkpoint/currentprogress,
+blockedhandoff continuation and incomingnotice. Originals, review events, packet
+outputs/scripts/logs and34fileseal remain ignored/external. Following documentation
+closure SHA is discoverable inGit; named implementation remains the verifiedcode.
+Branchfeat/p05-retrieval-logic and p05worktree retained; no push/merge/cleanup.
+
 Complete-service codeeffb6cc/cf4a862 committed; six curated closure paths:
 serviceplan/report, existing servicedecision, INDEX/checkpoint/currentprogress.
 Private artifacts/source/codeexecutionlogs and15fileseal remain ignored; no remote
@@ -1260,9 +1310,24 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Current flowchart recovery uses existing Python3.13.7/offline approved environment,
+no dependency/model changes or model execution. Five exact current code/test SHA256
+digests and sizes stored in recovery evidence-manifest.json;34retainedfiles sealed
+with manifestb3cc84136dd525523b995348ec23b1f7ab334c5f5e527ecdc670c2acdbf299a4.
+Originalhandbook4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8
+andCharter42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529
+freshly checked. Models remain externalC:/Coding-projects/MODELS; historical model
+digests below are not fresh model checks for this offline recovery.
+
 Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
+
+Owner14October2026 future-batch notice: college-specific Charters, memos and
+miscellaneous material will arrive later, with organization requested after the
+current Phase05 work. Finish this cohesive flowchart recovery first; no immediate
+intake/organization/ingestion authorized or file completeness presumed. Preserve
+existing staging and undergraduate/source-governance boundaries for the later task.
 
 Ruling: owner instruction to execute Phase 05 authorizes the existing written master/prepared design; refine task details inline without a redundant design-approval loop.
 
@@ -1273,6 +1338,12 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Latest actual derivative73readings retain unknown applicability/0chunks,267fields/
+29blanks/sevengaps/232spans. Five nonscalar requirements/two oversizedgap records
+remain withheld. Structural context delivery does not approve source authority,
+effectivity/applicability or institutional use; approved development cases and real
+policy retrieval/calibration/formalPhase05exit remain open. New batch comes later.
 
 Current selected transcription reviews complete with seven carried gap groups;
 old pending-table/critical-grading claims below are historical.66groups retain
@@ -1304,6 +1375,21 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current authoritative next action: after this eight-path documentary commit, resume
+remaining bounded reviewed body segmentation/structured Charter-cover preparation
+under a new repository plan and TDD; preserve two oversized gap records. Resolve
+source governance/undergraduate applicability/approved development evidence before
+real-policy calibration. Owner will later supply Charters/memos/miscellaneous data
+and separately request organization after currentPhase05 work. No immediate intake.
+The cutoff flowchart increment is complete; earlier commit/review instructions below
+are historical and must not be repeated. Formalphase advancement stays blocked.
+
+Cutoff recovery: finish the existing failing node-page regression, verify and
+commit the four preserved code-test changes plus the smallest page-binding fix;
+then final independent review, retained-evidence replay/seal and curated report.
+Do not restart conversions or begin another implementation increment in this
+recovery task. Incoming processing still waits for the owner's complete-batch notice.
 
 Current: commit the verified flowchart context increment, finish its independent checks/fresh review/seal and documentation closure. Incoming staging is available now.
 
@@ -1588,6 +1674,11 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not repeat completed flowchart preparation, current/helper/oldservice replays,
+original renders, final review or TDD fixes8b74030/5c9fffa. Preserve747prior files and
+34file recovery seal; do not overwrite old packets or rerun whole conversions.
+Do not process incoming sources from placement/notice alone or infer source approval.
 
 Do not redo Phase 04 corrective implementation, replay/reset shared databases, download model weights, activate candidate corpus or interpret synthetic labels as institutional approval.
 

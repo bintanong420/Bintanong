@@ -91,3 +91,15 @@ for the owner to confirm the complete batch. No incoming files inspected, regist
 converted or approved. Current implementation is the bounded flowchart-context plan;
 earlier disciplinary-next-action wording is historical. Final calibration intended
 to include these documents follows their extraction/review/governance work.
+
+## Owner scheduling clarification — 14 October 2026 recovery session
+
+The owner will later provide college-specific Citizens' Charters, memoranda and
+miscellaneous material, then request organization after the current Phase 05 work.
+Finish the current flowchart-context recovery/review/handoff first. This notice
+does not request immediate inspection, organization, ingestion or activation.
+Existing incoming staging remains available; no files or completeness presumed.
+Classify miscellaneous sources only after the actual batch and organization request
+arrive, using verified audience/content and preserving originals. New material does
+not expand undergraduate scope or establish source approval. Calibration intended
+to include the future batch still depends on its extraction/review/governance work.

@@ -10,6 +10,14 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest recovery14October2026: [flowchart context report](2026-10-14-reviewed-flowchart-context-report.md)
+closes the cutoff increment8b74030/5c9fffa after focused RED/GREEN,160relatedtests,
+fresh independent review and34file seal.73unknown/0chunks/sevengaps remain; this
+formal handoff is still blocked. Resume remaining bounded body/cover preparation
+and source-governance/development evidence, not repeated original conversions.
+Owner will later supply college-specific Charters/memos/miscellaneous material and
+request organization after currentPhase05 work; no immediate intake requested.
+
 **Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
 
 **13October owner scope ruling governs all recovery:** Apply AGENTS and

@@ -1,5 +1,48 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Flowchart cutoff recovery closed,14October2026:** Implementation8b74030 and
+fix5c9fffa carry complete structured arrow/node groups with displayed endpoint IDs
+and same-page citations. Focused9RED1->9GREEN;160relatedtests/212subtests27.03s;
+ledger19/9.772s. Fresh review no actionable findings;85tests/127subtests1.30s plus
+115context/21graph malformed probes. Current helper/adapter/oldservice replay and
+source/render checks match;747earlier hashes unchanged.34files/fivecode digests
+sealed:b3cc84136dd525523b995348ec23b1f7ab334c5f5e527ecdc670c2acdbf299a4.
+Actual73unknown/0chunks/267fields/29blanks/sevengaps/232spans; five nonscalar/two
+overcap remain. Report2026-10-14-reviewed-flowchart-context-report.md. Eight curated
+docs close recovery; documentary SHA follows inGit. Next bounded body/cover
+preparation, then sourcegovernance/approvedcases/realcalibration; formalPhase05
+blocked. Owner later batch/organization request recorded; no incoming processing.
+Preserve evidence/localbranch/worktree; no deferred findings or source activation.
+
+Finaldocumentary checks391pass1.01s; diffcheck/all34sealhashes-sizes/fivecode
+digests/manifesthash match. Phasevalidationvalid/canadvanceblocked expected.
+Explicit eight-path documentation commit follows; no private artifacts staged.
+
+**Owner future-batch notice,14October2026:** College-specific Citizens' Charters,
+memoranda and miscellaneous material will be supplied later; owner will request
+organization after current Phase05 work. Finish this flowchart recovery first.
+No immediate intake/organization/processing requested, no completeness presumed.
+Existing staging remains available; verify actual batch/audience/source governance
+when requested. Recorded in2026-10-13-incoming-college-charters-memoranda.md.
+
+**Recovered fix verified,14October2026:** Focused9tests RED1node-page failure
+0.145s ->9GREEN0.146s; displayed endpoint identities and all graph-node pages now
+checked atomically. Related160passed/212subtests27.03s; ledger19passed9.772s.
+Independent replay/source/render/event checks PASS and747earlier hashes unchanged;
+actual73unknown/0chunks/267fields/29blanks/sevengaps/232spans retained. Commit
+four code/test paths, then planned fresh final review/seal/report. No new source
+processing or phase advancement. Evidence: audit-evidence/p05-flowchart-context-resume-20261014.
+
+**Cutoff recovery,14October2026:** Read AGENTS and both handoff skills; Git proves
+initial flowchart code8b74030 is committed, with four preserved dirty code/test
+paths. Endpoint-display correction is present; saved node-page RED still fails
+because context grouping checks identities/versions without checking graph pages.
+Next: reproduce RED, fix page binding, GREEN and related checks, cohesive commit,
+fresh final review, independent replay/seal and report. Thesis17–18/36/routingPNG,
+master10 and source/scope/service policies freshly consulted; no discrepancy.
+GitHub MCP read-only history succeeds; no remote write. FormalPhase05 remains
+blocked; original conversions and incoming sources are not repeated/processed.
+
 **Flowchart context verification,14October2026:** Flowchart context verified: initial6 tests RED9missingmoduleerrors ->6GREEN0.096s; malformed-record regression RED7AttributeErrors ->7GREEN0.118s. Relevant135tests/210subtests pass1.80s; broader217tests/203subtests pass35.06s with2existing warnings. Ledger19pass9.478s. Actual73unknown/0chunks retain267fields/29blanks/sevengaps;2graphs/8nodes/4edges/2ENDspans add6citations (232total). Nonscalar7to5;two overcaprecords unchanged. Both original62/63renders match saved hashes/dimensions, prior747files unchanged and oldservicepending replay identical. No incoming processing. Next codecommit/fresh finalreview and independent verification/seal; current plan then closes.
 
 **Flowchart context resume / intake staging,14October2026:** Resumed from clean3fd1e1f. Current increment: plans/2026-10-14-reviewed-flowchart-context-plan.md; structured arrows with complete node context under TDD. Intake staging is now available at dataset/Incoming/2026-10-14 (CollegeCitizenCharter and Memoranda); owner complete-batch notice still pending. No incoming processing. Thesis physical17–18/36 and routingPNG freshly consulted, no discrepancy. Existing source/service results remain preserved. Formal exit blocked.
