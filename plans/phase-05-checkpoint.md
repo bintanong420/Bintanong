@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 106
+sequence: 107
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 4d06e59
-working_tree: image mapper, service binder, synthetic tests, bounded plan, checkpoint and progress prepared for implementation commit
-updated_at: 2026-10-13T20:24:34+08:00
+head_commit: ed87579
+working_tree: Charter report, decision, bounded plan, index, checkpoint and progress prepared for documentation closure
+updated_at: 2026-10-13T20:29:47+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Charter codeed87579 committed. Final independent reviewer no actionable findings;
+9service tests passed0.112s/39image tests0.216s, actual original11/12/54fields/
+2blanks/region/seven sub-actions/one parent fee/five null notes/fifth officepage12
+checked visually and independently;652priorfiles unchanged. Declined institutional
+approval/exact glyph/forged downstream input/generalized later step/history/runtime
+judgments remain separate gates or documented trusted/coarse-input limits; no
+deferred findings. Independent verifier rerun passes;15file seal recorded in report.
+Relevant1362passed/1skip/147subtests27.23s, phase ledger19passed10.370s. Six curated
+docs closure follows final docs377passed0.94s, diff/current-code-test-digest/all15-
+sealed-file checks pass. Phase validation exit0; can-advance exit1 (expected blocked
+handoff). Seal76a7974b781381a457f5690573b9d11549b62b6490d0e59c41572034daf6061e.
+Next four confirmed handbook body readings and four timing statements, preserving
+furniture separation and unresolved deadline. Incoming intake reminder unchanged.
+No source/runtime/structured pending-chunk approval or phase advancement.
 
 Charter region/service mapping verified under TDD. Six region tests reproduce
 absent keyword RED22subtesterrors; existing field-name guard incorrectly required
@@ -788,6 +803,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Cleaned87579 reconciles implementation metadata. Six curated Charter closure paths:
+report/decision/plan/INDEX/checkpoint/current progress. Private maps/originals/logs/
+15file seal remain ignored. Closure SHA discoverable from Git; no remote writes.
+
 Clean488f34e reconciles the implementation checkpoint; six curated documentation
 paths form closure: disciplinary report/plan, existing image decision, INDEX,
 checkpoint and current progress. Sealed private originals/outputs stay ignored.
@@ -1049,6 +1068,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current after Charter delivery: map the four confirmed handbook text bodies and
+four handbook47 timing statements from original native/image evidence, preserving
+body/furniture separation and unresolved applicable deadline. Then pre-enrollment
+102–103 with printed-total/arithmetic and source-cutoff gaps. Structured fee/null/
+graph context and source-gap propagation into chunks/runtime remain separate TDD
+work; source authority/applicability/calibration gates stay open. No repeat reviews
+or conversions. Intake reminder pending: exact destinations after complete-batch
+notice, before calibration including the new college Charter/memorandum sources.
 
 Current after disciplinary delivery: inspect retained confirmed Charter logical
 step1 across physical11–12 with seven agency sub-actions, shared fees and steps2–5/

@@ -55,16 +55,16 @@ tests/test_reviewed_service_steps.py.
 
 ## Task 2: Additive actual Charter evidence and handoff
 
-- [ ] New ignored packet p05-reviewed-charter-step-regions-20261013. Verify preceding
+- [x] New ignored packet p05-reviewed-charter-step-regions-20261013. Verify preceding
   disciplinary seal/637priorfiles+its14files+seal, actual workflow/events and fresh
   full-page11/12 renders. Independently checked original-layout field bindings.
-- [ ] Map31 first-step and23 later/total scalar fields/two blanks; merge with133
+- [x] Map31 first-step and23 later/total scalar fields/two blanks; merge with133
   prior spans/27blanks, expecting187spans/29blanks and missing requirements92to38.
   Bind one parent fee span separately; five null notes remain explicit. Preserve
   unknown applicability/seven gap groups and zero chunks.
-- [ ] Independent verifier without mapper imports checks source/render/event/region/
+- [x] Independent verifier without mapper imports checks source/render/event/region/
   complete associations/fee/nulls/previous hashes; seal additive evidence.
-- [ ] Final independent review, bounded report/decision/index/checkpoint/progress,
+- [x] Final independent review, bounded report/decision/index/checkpoint/progress,
   final docs/diff/phase checks and curated commit. No Phase06 or repeated owner review.
 
 ## Pre-flight rulings and next boundary
@@ -87,3 +87,10 @@ requires every value key to match. Focused annotation RED/GREEN; no generic valu
 relaxation. Mixed field evidence can share a page; use saved geometry when present,
 explicit supplemental bindings only where rectangles are absent. Null client
 instructions cannot bind complete steps; null notes remain unrecorded.
+
+Verified delivery: codeed87579;54scalar fields/two blanks/seven linked sub-actions/
+oneparentfee/fivenullnotes,187combinedspans/29blanks, zero chunks/66unknown
+applicability. Relevant1362tests/147subtests pass,oneexisting skip; ledger19pass.
+Final independent review9service+39image tests/no actionable findings;652earlier
+hashes match and15files sealed. Report/checkpoint/progress retain final docs and
+next exact action. No phase advancement or institutional/source/runtime approval.

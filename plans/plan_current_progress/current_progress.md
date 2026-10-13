@@ -1,5 +1,19 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Charter delivery closure,13October2026:** Codeed87579; independent reviewer
+no actionable findings;9service tests0.112s/39image tests0.216s and actual original
+11/12/all54fields/two blanks/seven associations/one fee/five null notes match.652
+earlierfiles unchanged,15evidencefiles sealed. Combined187spans/29blanks plusone
+separatefee span, zero chunks/66unknownapplicability/seven gaps; missing scalar38.
+Relevant1362passed/1skip/147subtests27.23s; ledger19passed10.370s. Report
+2026-10-13-reviewed-charter-step-regions-report.md. Next four handbook text bodies/
+four timing statements with furniture/deadline limits, then pre-enrollment source
+gaps. Final docs377passed0.94s; diff/current-four-code-test-digests/all15-sealed-file
+checks pass. Phase validation exit0/can-advance exit1 (expected blocked handoff).
+Seal76a7974b781381a457f5690573b9d11549b62b6490d0e59c41572034daf6061e.
+Six-path documentation closure follows; SHA discoverable from Git.
+Source/structured-runtime/phase gates and incoming-placement reminder remain open.
+
 **Charter mappings verified,13October2026:**54textfields/two blanks/sixreadings
 from original11/12; first step seven linked sub-actions/one parent fee/five null
 notes, fifth officepage12 linked to rolepage11.187combinedspans/29blanks; missing
