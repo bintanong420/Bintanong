@@ -50,20 +50,20 @@ Interfaces:
   ordered field parts and original gap field/locator/value-shape/hash declarations.
 - validate_record_group(members) reconstructs complete original gaps before rendering.
 
-- [ ] Focused synthetic RED: two/four ordered parts fit480, preserve original row,
+- [x] Focused synthetic RED: two/four ordered parts fit480, preserve original row,
   exact fields/spans and reconstructed gap; child-first context contains whole group.
-- [ ] Unknown/pending/excluded/default/missing binding/dependency, field/gap/source/
+- [x] Unknown/pending/excluded/default/missing binding/dependency, field/gap/source/
   event/manifest mutation, blanks, JSON/stored shape and exact budget regressions.
-- [ ] Smallest helper/codec/adapter/group validation implementation; GREEN and related
+- [x] Smallest helper/codec/adapter/group validation implementation; GREEN and related
   reviewed/retrieval suites; cohesive verified code commit.
-- [ ] Actual table row groups: Cause; all four penalty fields (including two blanks).
+- [x] Actual table row groups: Cause; all four penalty fields (including two blanks).
   Timing groups: one whole field per part. Do not repair malformed cause or pick a deadline.
-- [ ] New actual derivative from current73readings ->77parts/readings, retaining all
+- [x] New actual derivative from current73readings ->77parts/readings, retaining all
   267fields/29blanks/235spans and seven logical original gap groups. Multiple projected
   gap-bearing parts are counted separately; actual output remains unknown/0chunks.
-- [ ] Fresh original47/87 renders/source hashes, prior seals, default compatibility,
+- [x] Fresh original47/87 renders/source hashes, prior seals, default compatibility,
   independent exact field/gap/source/partition/current-adapter checks. No conversion.
-- [ ] One final independent review; TDD correction pass if needed. Seal/report/decisions/
+- [x] One final independent review; TDD correction pass if needed. Seal/report/decisions/
   progress/checkpoint/INDEX and ledger validation; formalPhase05 advancement blocked.
 
 ## Resume evidence and rulings
@@ -77,3 +77,28 @@ Ruling: compact only redundant limit display for manifest-bound groups; retain f
 stored/source originals and require whole-group gap reconstruction — prevents cap
 inflation while preserving limitation meaning. Omitting reconstruction could hide
 conflicting/partial evidence, so consumer validation is mandatory. No cap increase.
+
+## Verified delivery
+
+Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+
+[Report](2026-10-14-reviewed-record-partitions-report.md) records exact commands,
+review findings/rulings and original evidence. Documentary checks follow below.
+
+Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
+
+Final documentary checks:395 passed in0.97s,exit0 (`tests/test_docs_hygiene.py`,
+existing venv, `-B`, no cache, external `pytest-docs-final`). `git diff --check`
+passed. All34sealed file hashes/sizes, six current code digests and manifest hash
+match. Phase `validate` exit0; `can-advance` exit1 because the handoff remains
+blocked, as required. Seven curated paths only; documentary commit follows in Git.

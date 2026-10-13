@@ -1,5 +1,37 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Verified record-partition closure — 14October2026.**
+
+Final documentary checks:395 passed in0.97s,exit0 (`tests/test_docs_hygiene.py`,
+existing venv, `-B`, no cache, external `pytest-docs-final`). `git diff --check`
+passed. All34sealed file hashes/sizes, six current code digests and manifest hash
+match. Phase `validate` exit0; `can-advance` exit1 because the handoff remains
+blocked, as required. Seven curated paths only; documentary commit follows in Git.
+
+
+Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+
+Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
+Futurebatch/laterorganization request pending; no incomingprocessing.
+
+
+**Record finalreview corrections,14October2026:** TwoImportant projectedlocator/
+pagebinding findings; noCritical/Minor.9RED2failures/5errors0.195s->9GREEN0.175s;
+originalpagecoverage10RED1failure->10GREEN (exactlogduration). Explicitlocator/page
+validation andwholeoriginalgap sourcecoverage prevent crashes/contradictions.
+Newhelper restrictedgapbearing; ordinaryscalarroute handlesgapfree. Fullsuite next
+for onecorrectionpass, thencommit/seal/report; no secondreview/sourceapproval/intake.
+
 **Recordpartitions verified,14October2026:** 5RED11missingmoduleerrors->5GREEN0.114s
 afterfixturecorrections; duplicateidentity6RED1failure->6GREEN0.136s. Related175pass/
 246subtests39.83s. Actual77unknown/0chunks,267fields/29blanks/235spans, sevenoriginal

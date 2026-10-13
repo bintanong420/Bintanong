@@ -56,3 +56,37 @@ evidence/history and standalone limitations; new hashes do not authenticate a
 coordinated forgedcaller or grant institutional authority. No deferredminors.
 [Report](../../plans/2026-10-14-reviewed-body-cover-context-report.md) records complete
 fields/gaps/priorhashes, verification and remaining formalPhase05 gates.
+
+## Whole-field partitions and distributed original gap checks
+
+14October2026, codeae3db3b: partition only complete confirmed scalar fields from
+gapbearing originals, preserving the whole original row/spans/gaps in checked
+bindings. Mandatory part dependencies and a shared record_manifest declare field
+order and exact original gap hashes/fields/locators/value shapes. Reconstruct original
+gaps from all projected fragments before context admission; child-first ordering,
+missing/substituted members and wholebudget withholding remain atomic.
+
+Only manifest-bound record groups omit redundant visible_text/sourcehash/version/
+index data from displayed limit metadata, since complete fields and citations carry
+it. Full stored limits retain all visiblefragments/extra evidence/affected claims;
+original rows and gap hashes remain preserved. Regular scalar/service/arrow/body/
+cover representations and480cap unchanged. No word splitting or interpretation.
+
+Actual table9row3 Cause/penalty group and four timingfields derive73to77readings,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts,
+77unknown/0chunks. Both size refusals resolve;809priorhashes/original47/87renders
+match. Missing source condition and conflictingdeadlines stay unresolved.
+
+TwoImportant reviewfindings receive oneTDDcorrectionpass: validate projectedlocator
+shape/field/page subsets and full originalpage union; preparation verifies complete
+originalgap sourcepage coverage. Gapfree inputs reject from this new helper and use
+the originalscalarroute, avoiding unreviewed defaultgroup behavior. Focused10GREEN
+0.189s after observed failures; fullsuite and exactseal recorded in
+[report](../../plans/2026-10-14-reviewed-record-partitions-report.md). No deferredminors.
+Caller/source normalization/layout truth, coordinated forgery authentication,
+exactglyphs/policymeaning/precedence, actualgovernance/exacttokens/liveRPC/activation/
+formalPhase05exit remain separate gates; hashes do not grant sourceauthority.
+
+Correctionf70262a verified by full5150tests/358subtests/6skips/6warnings302.61s.
+34files/sixpost-correction code digests sealf3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+FormalPhase05 remainsblocked; actual77unknown/0chunks cannot establishapproval.

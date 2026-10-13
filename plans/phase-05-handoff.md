@@ -10,6 +10,23 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest14October2026: [record-partition report](2026-10-14-reviewed-record-partitions-report.md)
+Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+
+Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
+Incomingbatch/laterorganization request remains pending. Earlier bounded delivery
+next-action pointers below are historical; formalhandoff remainsblocked.
+
 Latest14October2026: [body/cover context report](2026-10-14-reviewed-body-cover-context-report.md)
 closes codes5eba651/2a9cc45/fix49e89c6. Full5138tests/341subtests pass, finalreview
 overflow corrected underTDD,26files sealed/782priorhashes preserved. Allfive

@@ -2,16 +2,28 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 137
+sequence: 139
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 97211bd
-working_tree: record helper-contract-codec-adapter-context-test paths and checkpoint-progress prepared
-updated_at: 2026-10-14T01:45:59+08:00
+head_commit: f70262a
+working_tree: seven curated record-partition closure documents; code and tests committed
+updated_at: 2026-10-14T02:16:22+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
 
 Original-list recovery complete under TDD: `ba6752f`, reviewer corrections
 `d33340e`. Exact retained-byte handbook bundle checked4272chunks;1546items
@@ -21,6 +33,31 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Authoritative closure: Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+
+Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
+Incomingcollege Charters/memos/miscellaneous batch and later organization request
+remain pending. Prior task-next pointers below are historical. No incomingprocessing.
+
+Finalreview2Important/noCriticalorMinor: malformedlocal gaplocatorAttributeError
+andoriginal/projectedpagecontradiction. Root9RED2failures/5errors0.195s ->9GREEN
+0.175s; original-gap sourcepagecoverage10RED1failure ->10GREEN0.189s.
+Checklocator dict/pages/field, originaldeclaredpage subset/union andproducerwholegap
+sourcecoverage. Ruling: restrictnewhelper to gapbearingrecords; gapfreeusesexisting
+scalarroute, avoiding unsupported defaultgroupmode. IndependentverifierPASS/809prior
+hashes unchanged. Nextfullpytest inexistingofflineenvironment forsinglecorrectionpass,
+then verifiedcommit/seal/report. No secondreview/sourcepromotion/newbatchprocessing.
 
 Recordpartitions verified: initial5tests RED11missingmoduleerrors ->5GREEN0.114s
 afterfixture fixes (requiredtable_index/validmutation/noJSONneighborcycles). Related
@@ -1127,7 +1164,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
-Currentverifiedcode49e89c6; eightcuratedclosure paths: bodycoverplan/report,
+HEADf70262a after ae3db3b/plan97211bd; code/tests committed. Seven curated
+closure documents only: boundedplan/report, source-limitdecision, INDEX, checkpoint,
+currentprogress and blockedhandoff. No source/private/generated artifacts staged.
+
+Historical body/cover closure at code49e89c6; eightcuratedclosure paths: bodycoverplan/report,
 existingtextpartition/source-limitdecisions, INDEX/checkpoint/currentprogress and
 blockedhandoffcontinuation. Code/test changes committed; originals/packets/logs/
 scripts/testtemporaries/26fileseal untracked. Following documentarySHA fromGit.
@@ -1239,6 +1280,24 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+
+Final documentary checks:395 passed in0.97s,exit0 (`tests/test_docs_hygiene.py`,
+existing venv, `-B`, no cache, external `pytest-docs-final`). `git diff --check`
+passed. All34sealed file hashes/sizes, six current code digests and manifest hash
+match. Phase `validate` exit0; `can-advance` exit1 because the handoff remains
+blocked, as required. Seven curated paths only; documentary commit follows in Git.
 
 Flowchart context verified: initial6 tests RED9missingmoduleerrors ->6GREEN0.096s; malformed-record regression RED7AttributeErrors ->7GREEN0.118s. Relevant135tests/210subtests pass1.80s; broader217tests/203subtests pass35.06s with2existing warnings. Ledger19pass9.478s. Actual73unknown/0chunks retain267fields/29blanks/sevengaps;2graphs/8nodes/4edges/2ENDspans add6citations (232total). Nonscalar7to5;two overcaprecords unchanged. Both original62/63renders match saved hashes/dimensions, prior747files unchanged and oldservicepending replay identical. No incoming processing. Next codecommit/fresh finalreview and independent verification/seal; current plan then closes.
 
@@ -1387,6 +1446,9 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Recordpacket34files/sixcode digests: f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+Existing Python3.13.7/offline assets/externalMODELS remain unchanged.
+
 Body/cover recovery: unchanged approvedPython3.13.7 environment/offlineDoclingassets;
 existing cache paths and8CPUthreads used for fullpytest. No installs/dependency/
 modelasset change. Fivecurrentcode/testdigests and26artifacthashes-sizes inmanifest
@@ -1423,7 +1485,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
-Current: zero descriptive nonscalar requirements, two oversizedgap records;
+Selected structural preparation refusals are resolved; all77actual readings remain
+unknown applicability/zerochunks. Sourceauthority/currentness/interpretation and
+approved realdevelopment retrieval/calibration gates remain. No fabricatedapproval.
+
+Historical state before record partitions: zero descriptive nonscalar requirements, two oversizedgap records;
 235source spans/267fields/29blanks/sevengaps/73unknown/0chunks. Body/furniture and
 coverlabel preparation is structural evidence, not currentofferings/effectivity/
 authority/undergraduateapplicability approval. Approveddevelopmentcases andactual
@@ -1466,7 +1532,9 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Authoritative nextaction: after this eightpath documentaryclosure, specify bounded
+Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
+
+Historical next-action entry before this delivery: after this eightpath documentaryclosure, specify bounded
 complete-field partition/grouping for handbook-table-9-row-3 and handbook-completion-
 timing within480estimatedtokens, preserving every condition/gap/sourcecitation and
 fullrequiredcontext. Do not invent policy meaning or precedence. Resolve actualsource
@@ -1772,6 +1840,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not repeat completed recordpartition code/tests/review/source renders/conversions.
+Preserve sealed34files and809priorhashes; no secondreview or invented source content,
+sourceactivation or incomingbatch processing. Source gaps remain unresolved.
 
 Do not repeat bodycovermapping/partitionchecks/current/defaultreplays/originalrenders/
 finalreview/TDDfix5eba651/2a9cc45/49e89c6. Preserve782priorhashes/26fileseal; fullsuite
