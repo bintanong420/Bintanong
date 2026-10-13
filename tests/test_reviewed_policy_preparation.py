@@ -162,6 +162,35 @@ class ReviewedPolicyPreparationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "gap"):
             self.build()
 
+    def test_multi_source_clarification_binds_each_named_source_without_rewriting_event(self):
+        event = json.dumps({"source_hashes": {"first": self.source, "second": "b" * 64},
+            "owner_statement": "These are reported origins; authority remains unknown."}).encode()
+        self.events = {digest(event): event}
+        self.reading["fields"][0].update(review_event_sha256=digest(event), decision="unresolved")
+        result = self.build()
+        self.assertEqual(result["review_events"][digest(event)], json.loads(event))
+        self.assertEqual(result["coverage"]["field_decisions"]["unresolved"], 1)
+        self.reading["source_sha256"] = "c" * 64
+        self.sources["c" * 64] = b"not that hash"
+        # Existing source integrity guards still apply before any event association.
+        with self.assertRaisesRegex(ValueError, "digest"):
+            self.build()
+
+    def test_event_numbers_must_remain_finite_after_json_decoding(self):
+        event = ('{"source_sha256":"'+self.source+'", "owner_statement":"Matches",'
+            ' "metadata":1e999}').encode()
+        self.events = {digest(event): event}
+        self.reading['fields'][0]['review_event_sha256'] = digest(event)
+        with self.assertRaisesRegex(ValueError, "finite"):
+            self.build()
+
+    def test_original_owner_correction_excerpts_are_usable_without_rewriting_event(self):
+        event = json.dumps({"source_sha256": self.source,
+            "owner_statement_excerpts": ["Restore complete step", "Link the roles"]}).encode()
+        self.events = {digest(event): event}
+        self.reading['fields'][0]['review_event_sha256'] = digest(event)
+        self.assertEqual(self.build()['review_events'][digest(event)], json.loads(event))
+
 
 if __name__ == "__main__":
     unittest.main()

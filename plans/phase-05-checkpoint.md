@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 83
+sequence: 84
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b39df01
-working_tree: new preparation builder, synthetic tests, decision record, checkpoint and progress ready for explicit commit
-updated_at: 2026-10-13T17:14:00+08:00
+head_commit: 8c99a46
+working_tree: review-event compatibility and finite-JSON correction, tests, decision record and logs ready for explicit commit
+updated_at: 2026-10-13T17:24:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,20 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Actual review events require named source_hashes and owner_statement_excerpts;
+both forms supported without rewriting bytes after focused RED/GREEN. Independent
+reviewP3numeric overflow1e999 reproduced RED, decoded event finiteness checked,
+GREEN17tests0.010s. Relevant ingestion/canonical/source/governance/docs regressions
+1193passed/1skip/12subtests55.80s. NoP1/P2from initial independent review; final
+actual mapping/re-review in progress. Private consolidation delivered66groups/
+267fields(258accepted/9corrected),29literal blanks,seven source-gap groups,
+15original events. All66applicabilityunknown,0selected;24source fields retain
+1accepted/2unresolved/21pending and3interpretationsunresolved. Independent saved
+field verifier passes267comparisons/45native grading fields/seven linked actions;
+567priorfiles/32normalizationinputs/originalPDFs/canonicalbundles unchanged.
+BundleSHA256821c70de6db16e161a3f2abf9039e6581f469eab918445907b7c6e3325e0e528.
+Next: final mapping review, seal evidence and write closure/handoff report.
 
 Separate pure reviewed-policy preparation builder implemented under synthetic
 TDD: initial fourteen cases fail on absent module, then fourteen pass in system

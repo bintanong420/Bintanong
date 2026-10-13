@@ -47,6 +47,18 @@ def _checked_bytes(artifacts: Mapping[str, bytes]) -> None:
             raise ValueError("artifact digest mismatch")
 
 
+def _event_sources(event: dict[str, Any]) -> set[str]:
+    if "source_sha256" in event:
+        _sha(event["source_sha256"])
+        return {event["source_sha256"]}
+    hashes = event.get("source_hashes")
+    if not isinstance(hashes, dict) or not hashes:
+        raise ValueError("review event source hashes absent")
+    for sha in hashes.values():
+        _sha(sha)
+    return set(hashes.values())
+
+
 def _event(data: bytes) -> dict[str, Any]:
     def unique(pairs):
         result = {}
@@ -65,8 +77,19 @@ def _event(data: bytes) -> dict[str, Any]:
         raise ValueError("invalid review event JSON") from exc
     if not isinstance(value, dict):
         raise ValueError("review event must be an object")
-    _sha(value.get("source_sha256"))
-    _text(value.get("owner_statement"), "review source/event owner statement")
+    try:
+        json.dumps(value, allow_nan=False)
+    except ValueError as exc:
+        raise ValueError("non-finite review event value") from exc
+    _event_sources(value)
+    if "owner_statement" in value:
+        _text(value["owner_statement"], "review source/event owner statement")
+    else:
+        excerpts = value.get("owner_statement_excerpts")
+        if not isinstance(excerpts, list) or not excerpts:
+            raise ValueError("missing review source/event owner statement")
+        for excerpt in excerpts:
+            _text(excerpt, "owner statement excerpt")
     return value
 
 
@@ -138,7 +161,7 @@ def build_reviewed_policy_bundle(
             if decision not in DECISIONS:
                 raise ValueError("invalid transcription decision")
             if decision != "pending" or event_ref is not None:
-                if event_ref not in events or events[event_ref]["source_sha256"] != sha:
+                if event_ref not in events or sha not in _event_sources(events[event_ref]):
                     raise ValueError("field review event missing or bound to another source")
             counts[decision] += 1
         gaps = row.get("gaps")

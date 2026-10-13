@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Actual-event compatibility and consolidation, 17:24 +08, 13 October 2026:**
+Core8c99a46retained; source_hashes/owner_statement_excerpts support and reviewer
+numeric-overflow fix verified RED/GREEN,17tests pass. Relevant suite1193passed/
+1skip/12subtests55.80s. New ignored bundle66groups/267fields/29blanks/7gapgroups/
+15events; all66applicabilityunknown,0selected. Independent saved-output check
+passes267event-bound field comparisons,45original native grading reads and seven
+linked Charter actions;567priorfiles/32inputs/bothPDFs/canonicalbundles unchanged.
+Bundle821c70de6db16e161a3f2abf9039e6581f469eab918445907b7c6e3325e0e528.
+Source sheet1accepted/2unresolved/21pending and three interpretations unresolved.
+Next: final independent mapping review, evidence seal and repository closure.
+
 **Preparation builder verified, 17:14 +08, 13 October 2026:** Tasks1/2 from the
 correction/selection specification implemented as a separate pure module and
 fourteen synthetic tests. RED: absent module; GREEN:14unittest pass. Approved

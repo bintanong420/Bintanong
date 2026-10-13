@@ -42,3 +42,11 @@ then all fourteen pass using system Python 3.13.7. Tests cover preserved inputs,
 corrections/blanks/refusals, stale hashes/wrong sources, partial field review,
 source cutoffs, excluded/unknown scope and complete service associations. Raw
 logs stay under workspace `audit-evidence/p05-reviewed-policy-consolidation-20261013/`.
+
+Actual-event compatibility adds explicit `source_hashes` and
+`owner_statement_excerpts` forms, preserving the original correction/clarification
+bytes. A reviewer reproduced JSON numeric overflow (`1e999` decodes to infinity);
+the focused regression fails before validating decoded event finiteness and
+passes afterward. Seventeen final unit tests pass; relevant ingestion, canonical,
+source, governance and documentation regressions: 1193 passed, one skipped,
+12 subtests, 55.80 seconds. Original readers/canonical contracts remain untouched.
