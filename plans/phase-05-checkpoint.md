@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 107
+sequence: 108
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ed87579
-working_tree: Charter report, decision, bounded plan, index, checkpoint and progress prepared for documentation closure
-updated_at: 2026-10-13T20:29:47+08:00
+head_commit: cafd728
+working_tree: text/timing plan, checkpoint and progress prepared for documentation commit
+updated_at: 2026-10-13T20:37:56+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Text/timing continuation authorized; cleancafd728 verified. Plan2026-10-13-
+reviewed-text-timing-regions-plan.md. Four body readings retain corrected raw
+provenance/segmentation; one body on24 inherited25 furniture in its old locator.
+Ruling: validate complete confirmed raw partition and derive body pages separately,
+preserving all furniture/raw evidence and original locator. Use original image
+regions for body/timing, no invented PDF glyph ranges or offering approval.
+Timing one-term/one-year interpretation remains a gap. Thesisphysical17–18/36/
+routing/master10/active plan/handoffs/scope/gap consulted, no discrepancy. Next
+focused partition/body-page RED. No incoming intake, source/runtime approval or
+phase advancement; placement reminder remains pending.
 
 Charter codeed87579 committed. Final independent reviewer no actionable findings;
 9service tests passed0.112s/39image tests0.216s, actual original11/12/54fields/

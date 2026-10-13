@@ -1,5 +1,12 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Text/timing continuation,13October2026:** Cleancafd728; bounded plan2026-10-13-
+reviewed-text-timing-regions-plan.md. Eight confirmed scalar readings; exact raw
+body/furniture partition derives bodypage24 separately from furniture25, retaining
+all raw locators/fragments. No native glyph ranges, current offering or completion-
+deadline inference. Context17–18/36/routing/master10 agree. Next synthetic RED;
+source/runtime/phase gates and incoming-intake reminder stay open.
+
 **Charter delivery closure,13October2026:** Codeed87579; independent reviewer
 no actionable findings;9service tests0.112s/39image tests0.216s and actual original
 11/12/all54fields/two blanks/seven associations/one fee/five null notes match.652
