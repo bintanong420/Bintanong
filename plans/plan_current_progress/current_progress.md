@@ -1,5 +1,12 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Graduation image mapping continuation, 19:00 +08, 13 October 2026:** Clean
+`79ef790`; previous delivery closed. Plan
+`plans/2026-10-13-reviewed-graduation-image-plan.md` maps27 fields with explicit
+row8 correction-event binding, retaining the unchanged original proposal and row6/
+row9 limitations. Original64 PNG/event inspected; next synthetic correction-binding
+RED. All scope/authority/runtime gates remain open; no repeated owner review.
+
 **Image-flowchart delivery, 18:55 +08, 13 October 2026:** Code `03d02c2`
 maps 24 confirmed scalar fields across eight rows and binds four selected decision
 edges/two END regions. Combined evidence has 69 nonblank spans/nine native blanks;

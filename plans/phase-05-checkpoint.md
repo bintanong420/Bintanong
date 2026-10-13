@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 95
+sequence: 96
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 03d02c2
-working_tree: image-flowchart report, plan delivery note, index, checkpoint and progress prepared for explicit documentation commit
-updated_at: 2026-10-13T18:55:14+08:00
+head_commit: 79ef790
+working_tree: graduation image mapping plan, checkpoint and progress prepared for explicit plan commit
+updated_at: 2026-10-13T19:00:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Graduation mapping resumes clean `79ef790`; image-flowchart closure is committed.
+Plan: `plans/2026-10-13-reviewed-graduation-image-plan.md`. Original64 PNG and
+actual reviewed_rows event confirm the diploma-cover correction, readable clipped
+row6 label and row9 cutoff. Ruling: use an optional trusted correction-row alias
+with exact event source/page/image/field/original/reviewed/region equality, because
+the earlier proposal intentionally preserves its omitted word. No proposal mutation
+or generic relaxation of field-text matching. Next focused correction-binding RED.
+Context17–18/36/routing/master10 and scope/gap/association policies agree.
 
 Image-flowchart delivery verified at `03d02c2`; final independent review found no
 actionable issues under the trusted render/layout contract. Reviewer ran 14 tests
