@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Provenance correction and Charter cover 16:39 +08, 13 October 2026:** Owner
+clarifies informal exchange, not a formal interview; staff mentioned minimal
+changes while researchers were being questioned. Earlier interview description
+superseded, sealed history preserved. Handbook origin: PalSU Student Government
+Facebook post; Charter origin: PalSU website. Exact URLs/dates/role unprovided.
+Origin question answered; no repeat request. Currentness/effectivity unresolved.
+Charter three cover labels now confirmed; source printed revision accepted.
+Source sheet 1accepted/2unresolved acquisition records/21pending fields, register
+unchanged. Clarification eventae3fbd0666c419382b47dd8f1da04d87ec0c4d9ceb652b1025a936be8bc5e014;
+cover event85141e6f68d6f85e95c846d89a60a44ffcdabb1c0d4b231deafdced912990c91.
+Two packets sealed10+7files; combined readonly check/source hashes pass,548/558
+prior sealed files respectively preserved. Selected page comparisons complete;
+three policy interpretation issues/source authority/applicability remain open.
+Next inactive correction/selection spec:
+`plans/2026-10-13-reviewed-policy-correction-selection-spec.md`. No duplicate
+page review, whole-corpus audit/source activation/Phase06 claim. Resume cleane9e2eab;
+five explicit documentation paths form following conventional closure, no push.
+Documentation357passed0.89s, combined readonly/diff/phase checks pass. No fresh
+product-suite or activation claim; closure ID discoverable through Git.
+
 **Handbook cover/interview context 16:26 +08, 13 October 2026:** Four cover
 readings accepted; effectivity/currentness remain unresolved. Owner reports staff
 interview claim of no BIG changes through current year. Qualifier/secondary report

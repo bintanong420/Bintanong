@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 80
+sequence: 81
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cd17fc2
-working_tree: four handbook cover and interview-context documentation paths updated; private ten-file packet sealed; following closure discoverable from Git
-updated_at: 2026-10-13T16:26:35+08:00
+head_commit: e9e2eab
+working_tree: five provenance and review-closure documentation paths updated; private clarification and Charter-cover packets sealed; following closure discoverable from Git
+updated_at: 2026-10-13T16:39:09+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,23 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner corrects staff interaction: informal exchange while researchers were being
+questioned; staff mentioned minimal changes. Formal-interview description
+superseded, historical evidence preserved. Handbook origin Student Government
+Facebook post, Charter origin PalSU website recorded as owner-reported. Missing
+exact URLs/dates/role left unknown, effectivity/currentness unresolved. Origin
+question answered; no repeat interview/provenance request needed.
+Owner then confirms all three Charter cover labels; printed-revision reading
+accepted, no issuer/source verification inferred. Selected page comparisons
+complete; source sheet1accepted/2unresolved acquisition records/21pending fields,
+raw register unchanged. Three policy interpretations/source gates remain open.
+Eventsae3fbd0666c419382b47dd8f1da04d87ec0c4d9ceb652b1025a936be8bc5e014/
+85141e6f68d6f85e95c846d89a60a44ffcdabb1c0d4b231deafdced912990c91;
+10+7file packets sealed,548/558prior files respectively unchanged. Combined
+readonly verification passes current sheets/history/both source hashes.
+Inactive correction/selection specification prepared in repository; no product
+change, exhaustive audit/source approval/runtime activation or phase advancement.
 
 Owner confirms four handbook cover readings and keeps effectivity/currentness
 unresolved. Also reports staff interview claim of no BIG changes through current
@@ -451,6 +468,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Cleane9e2eabbaseline reconciled. Five documentation paths updated: report/index/
+checkpoint/progress/new inactive correction-selection spec. Private clarification,
+two sheet histories and cover event stay ignored/sealed. Conventional closure ID
+from Git. Product/original/register/history unchanged; no rewrite/push/dependencies.
+
 Cleancd17fc2baseline reconciled. Four documentation paths updated: report/index/
 checkpoint/progress. Private accepted cover/interview report/decisions/guide stay
 ignored in new ten-file sealed packet. Conventional closure ID from Git; no
@@ -502,6 +524,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Clarification recorder checks548 prior sealed files/four other sheets/nonreview
+fields; cover recorder checks558 prior files/five other sheets/23unchanged rows.
+Combined readonly verifier checks10+7sealed files, corrected informal context,
+reported channels, three cover labels, actual current source/interpretation sheets,
+preserved historical interview record and both original PDF hashes. Final docs/
+diff/phase checks pass:357docs tests0.89s, approved Python3.13 venv/cache disabled/
+external basetemp. Five explicit documentation paths; no fresh product-suite claim.
 
 Cover recorder verifies538 prior sealed files/five other sheets/original hashes,
 source register24pending fields unchanged and fresh Charter cover native text.
@@ -632,15 +662,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Continue two source-record groups using
-`audit-evidence/p05-owner-handbook-cover-confirmation-20261013/NEXT-REVIEW-SOURCE-RECORDS.md`.
-Owner compares Charter PDF1cover PALAWAN STATE UNIVERSITY/CITIZEN'S CHARTER/
-2025(fourth edition); gives any known origins of the two PDFs and staff interview
-office-role/approximate date. Optional question pending; unavailable details stay
-unknown, not approval. Reuse confirmed handbook cover facts without duplicate
-review. Interview report remains qualified context; effectivity/currentness and
-all three interpretation issues unresolved. Source24fields unchanged/pending,
-undergraduate-only applicability retained, no activation or phase advancement.
+Execute bounded inactive correction/selection preparation from
+`plans/2026-10-13-reviewed-policy-correction-selection-spec.md`: consolidate actual
+accepted readings, raw locators, field associations, source-gap limits and audience
+selection requirements. Inspect existing contracts/readers before any behavior
+change; synthetic TDD required. Selected page comparisons/origin-channel question
+complete, do not request repeats. Staff context is informal/minimal changes, not
+formal interview. Keep missing metadata/effectivity/three policy meanings unresolved;
+source authority/applicability and actual policy retrieval/calibration gates open.
+No canonical overwrite, executable rules, activation or phase advancement.
 
 Previous programme-fragment next action retained for history:
 

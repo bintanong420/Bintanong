@@ -1,5 +1,55 @@
 # Reviewed undergraduate grading correction preparation
 
+## Source origins clarified; informal exchange corrected; Charter cover confirmed
+
+Owner clarifies that the staff comment occurred during an informal exchange:
+researchers were being questioned and staff mentioned minimal changes. It was
+not a formal interview. This supersedes the earlier interview description while
+preserving its sealed historical event. Staff office/role/date and exact affected
+clauses remain unprovided; effectivity/currentness stay unresolved.
+
+Reported acquisition origins are now recorded: handbook from the Palawan State
+University Student Government Facebook post; Charter from the PalSU website.
+Exact links/acquisition dates and independent source-office verification are not
+supplied. Two source acquisition decisions become unresolved with the reported
+channels retained; raw register values are unchanged. The provenance question is
+answered for origin channels; do not repeat it or request a formal interview that
+did not occur. Other missing details may remain unknown.
+
+During this work the owner also confirms all three Charter cover labels. Record
+PALAWAN STATE UNIVERSITY, CITIZEN'S CHARTER and 2025 (4th Edition) as accepted
+visible readings; the printed-revision decision is accepted. Branding confirmation
+is not independent issuing-office verification. Source sheet now has 1 accepted,
+2 unresolved acquisition records and 21 pending fields; register unchanged.
+Selected page comparisons are complete, not an exhaustive corpus/source audit.
+Three interpretation issues and source verification/applicability remain open.
+
+Clarification event SHA256
+`ae3fbd0666c419382b47dd8f1da04d87ec0c4d9ceb652b1025a936be8bc5e014`,
+recorded 2026-10-13T16:37:09+08:00; packet
+`audit-evidence/p05-owner-source-provenance-clarification-20261013/`, ten-file seal
+`c6cff5397737e90f6886678108daf8c5672e42f3fe79888fefad8387788c7a4e`.
+Cover event SHA256
+`85141e6f68d6f85e95c846d89a60a44ffcdabb1c0d4b231deafdced912990c91`,
+recorded 2026-10-13T16:39:09+08:00; packet
+`audit-evidence/p05-owner-charter-cover-confirmation-20261013/`, seven-file seal
+`a45a756c4c73a7c28bf9a3c8f5d1309455d438b6916ca5229a69abbdb9308348`.
+Clarification preserved 548 sealed files/four other sheets; cover preserved
+558 sealed files/five other sheets. Combined readonly check verifies both seals,
+sheet transition/current values, corrected context and both original PDF hashes.
+
+Next bounded preparation:
+`plans/2026-10-13-reviewed-policy-correction-selection-spec.md`. Consolidate
+accepted readings and known limits into an inactive undergraduate-only derivative
+specification, preserving source/canonical/history and approval boundaries.
+No code, dependencies, runtime activation, executable rules or phase advancement.
+
+Verification: approved Python3.13 venv `-B -m pytest tests/test_docs_hygiene.py
+-p no:cacheprovider` with external basetemp,357passed0.89s. Combined readonly
+packet/current-sheet/source-hash check, diff check and phase validation pass.
+Five explicit documentation paths only; conventional closure, no push or fresh
+product-suite run. Closure ID from Git avoids checkpoint self-reference.
+
 ## Handbook cover confirmed and staff interview context recorded
 
 Owner confirms the four cover readings: 2021 year label, 217th BOR Meeting,
