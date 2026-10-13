@@ -139,7 +139,7 @@ def map_reviewed_native_spans(
                     continue
                 try:
                     observation = read_native_range(sources[row["source_sha256"]], page, start, end)
-                except (OSError, ValueError, IndexError):
+                except (OSError, ValueError, IndexError, RuntimeError):
                     reject("native_reader_failure")
                     continue
                 try:

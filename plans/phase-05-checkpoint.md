@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 90
+sequence: 91
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5e8eab1
-working_tree: new native span mapper, synthetic tests, decision record, checkpoint and progress ready for explicit commit
-updated_at: 2026-10-13T18:15:00+08:00
+head_commit: ba8aae4
+working_tree: mapper reader-failure fix, regression, decision record, checkpoint and progress ready for commit; delivery report unstaged
+updated_at: 2026-10-13T18:20:44+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,18 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Independent native/saved mapping verification passes45fields/nineblanks/18rows,
+seven rawassociationerrors retained,595priorfiles unchanged. Elevenfilepacket
+seal37031433c67495c09d2d5ef2575c51cb779079777efce320c377f48d0fea98b9.
+Reviewer verified actualsaved/fresh equivalence; P2readerfailure identified:
+installedPdfiumErrorinheritsRuntimeError, excluded from initialcatch. Reproduced
+focusedRuntimeErrorRED and added nativefieldfailure handling;16focusedGREEN0.066s.
+Successful mappings/real outputs unchanged. Relevantfixrerun/finalreview pending;
+then finaldocs/report/index/checkpoint/progress. Coreba8aae4alreadycommitted.
+Finalfixrelevant1010passed/1skip/51subtests21.11s; revieweractualPdfiumfailure
+nowfieldfailure/noanchor,16focusedpass0.065s and no residualfindings. Verified
+fivepathcodefixincrement follows; report remains separate unstagedclosure work.
 
 Native mapper implementedunderTDD:14initial absentmoduleRED/GREEN; audienceguard
 negativeRED corrected excluded/unknownaudiencemapping,15finalGREEN0.070s.

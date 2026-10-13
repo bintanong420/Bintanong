@@ -183,6 +183,14 @@ class NativeFieldSpanTests(unittest.TestCase):
         self.assertEqual(result['field_spans'],{})
         self.assertIn('native_reader_failure',self.reasons(result))
 
+    def test_native_reader_runtime_error_is_a_field_failure(self):
+        def broken(*args):
+            # PDFium's library exception derives from RuntimeError; no PDF dependency in this fixture.
+            raise RuntimeError('native PDF data format failure')
+        result=self.build(reader=broken)
+        self.assertEqual(result['field_spans'],{})
+        self.assertEqual(self.reasons(result),['native_reader_failure'])
+
     def test_version_mismatch_is_rejected_before_original_read(self):
         self.row['version_id']='ver-other'
         with self.assertRaisesRegex(ValueError,'version'):

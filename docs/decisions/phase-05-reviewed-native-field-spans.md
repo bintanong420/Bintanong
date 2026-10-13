@@ -44,3 +44,13 @@ rows. The pending adapter still emits zero actual chunks; missing scalar mapping
 decrease225to180. Original corpus/raw/review/candidate/source states remain intact.
 Final relevant native/preparation/chunk/source/governance/docs suite:
 1008 passed, one existing Windows symlink skip, 51 subtests, 29.38s.
+
+Independent review reproduced a native-reader reliability gap: installed
+pypdfium2.PdfiumError derives from RuntimeError, which escaped the field failure
+handler. A focused synthetic RuntimeError regression fails before adding that
+exception category, then all16focusedtests pass0.066s. Reader data failures now
+produce native_reader_failure while retaining other mapped fields. Successful
+original-source mappings and the sealed actual output are unchanged.
+Final relevant suite1010passed/1skip/51subtests21.11s; independent reviewer
+reproduces actual PDFium data-format handling successfully and reports no residual
+findings,16focusedtests0.065s pass.

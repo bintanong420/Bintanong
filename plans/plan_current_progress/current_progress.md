@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Native reader-failure review correction, 18:20 +08, 13 October 2026:**
+Coreba8aae4verified. Independent saved/native checks45textboxes/nineblanks/seven
+rawassociation errors/595priorfiles pass; eleven-filepacketseal
+37031433c67495c09d2d5ef2575c51cb779079777efce320c377f48d0fea98b9.
+Reviewer confirms successfulactualmapping then reproduces P2nativePdfiumError
+escaping handler. InstalledMROisRuntimeError; focusedRED then explicitcatch yields
+16GREEN0.066s. No actualoutput/source/history change. Next relevantfixsuite/final
+review and five-path repositoryclosure; report remains unstaged duringcodefix.
+Fixsuite1010pass/1skip/51subtests21.11s; finalreview16pass0.065s, actualPDFiumerror
+withheld correctly/no residualfindings. Five-pathcodefixcommit then finaldocclosure.
+
 **Native mapper verified, 18:15 +08, 13 October 2026:**
 Plan5e8eab1retained; original-byte/native-range mapper and15synthetictestsGREEN
 0.070s after absentmoduleRED and negativeaudienceRED/GREEN. Actual18gradingrows
