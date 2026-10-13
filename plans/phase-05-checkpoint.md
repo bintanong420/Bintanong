@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 63
+sequence: 64
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 30f4557
-working_tree: supplemental source-reading documentation closure after 30f4557; inspect Git for current state; production unchanged
-updated_at: 2026-10-13T11:10:48+08:00
+head_commit: e8c9f61
+working_tree: plain owner-guide documentation closure after e8c9f61; inspect Git for current state; production unchanged
+updated_at: 2026-10-13T11:25:24+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Plain grading review guide added after owner could not interpret bbox metadata:
+`p05-undergraduate-policy-review-20261013/HOW-TO-REVIEW-GRADES.md`.18simple
+grade/percentage/description rows match the original-reading proposals;3links
+and11previous sealed scoped files check unchanged. No decision CSV edits or
+human decisions created. Owner can confirm/correct rows in chat; agent records
+only that actual response in the existing sheet. Coordinate column is optional
+provenance, specifically left/top/right/bottom with bottom-left origin here.
+Source and runtime remain unchanged; owner18row transcription is the next action.
 
 Escape interruption reconciled: only expected documentation closure is dirty;
 external preparation/verification finished and is not rerun.18grading decisions
@@ -319,6 +328,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Owner uses the plain HOW-TO-REVIEW-GRADES.md guide to compare18rows with the
+original page and replies in chat with matches/corrections/unresolved rows and
+reviewer/date. Record the actual response against the source-bound existing CSV;
+do not require owner geometry/hash interpretation or assume approval. The later
+supplemental table review and source authority/applicability gates remain pending.
+
+Earlier instructions below are retained for context:
 
 Current governing action: owner18row undergraduate grading review, then source-bound
 decision validation. Supplemental30table-reading rows are prepared separately for

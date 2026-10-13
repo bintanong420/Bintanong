@@ -1,5 +1,27 @@
 # Phase 05 policy review preparation - 13 October 2026
 
+## Plain owner guide supersedes technical data-entry instructions
+
+Owner found the coordinate column confusing. Current review entry point:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-undergraduate-policy-review-20261013/HOW-TO-REVIEW-GRADES.md`.
+It separates the18grade/percentage/description rows, embeds the original image,
+explains accepted/corrected/unresolved results and allows a plain chat response.
+The agent records an actual owner confirmation in the existing decision sheet;
+no human decision is inferred from a request for help. CSV editing is optional.
+
+The cited bbox belongs to row1. This CSV specifically stores left/top/right/bottom
+in bottom-left-origin PDF coordinates; the name describes the origin, not array
+order. Other geometry records carry their own explicit order. The owner does not
+need to inspect or edit any coordinate/hash/version field for this transcription
+review. Original/source/evidence metadata stays unchanged.
+
+Fresh guide check:18displayed rows exactly match original-reading proposals,
+all3links resolve and11previous scoped-packet sealed files remain unchanged.
+The decision CSV is unchanged; zero human decisions created. This guide was added
+beside the sealed packet without rewriting its original guides or evidence.
+Baseline `e8c9f61`; the following four-path documentation closure is discoverable
+through Git. No product/runtime or scope change and no source approval.
+
 ## Current scope correction supersedes the earlier queue
 
 Owner requests undergraduate-only handbook/Charter scope as a standing AGENTS

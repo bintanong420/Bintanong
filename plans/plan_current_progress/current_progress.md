@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Plain owner guide11:25 +08,13October2026:** User found bbox metadata confusing.
+Added `p05-undergraduate-policy-review-20261013/HOW-TO-REVIEW-GRADES.md` with
+18simple grade/percentage/description rows and the original image. All18rows,
+3links and11earlier sealed scoped files verify unchanged; no review decisions
+created/edited. User may reply in chat; agent records only actual confirmations.
+This CSV's bbox is left/top/right/bottom with bottom-left origin; owner does not
+need to inspect/edit coordinates. Next: user checks copied table values through
+the plain guide. No source approval, applied correction or runtime change.
+
 **Verified continuation11:04 +08,13October2026:** Six undergraduate procedure/
 discipline structures now have30pending reading proposals (17image-only flowchart
 rows,13native-table rows).51image regions contain no native body text;65native
