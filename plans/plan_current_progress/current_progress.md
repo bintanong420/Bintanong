@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Commit workflow15:15 +08,13October2026:** Added simple Conventional Commits
+skill in repository `.agents/skills/conventional-commits/SKILL.md` and personal
+`C:/Users/joel/.codex/skills/conventional-commits/SKILL.md`; matching copies,
+SHA25686cd6566bf4513bf446fff5b8af5ade342311b25477785dc89d897d5a29dfa8a.
+Personal/repository AGENTS and handoff reminder require it before every commit.
+Three bundled validators and independent copy/routing/published-history audit
+pass. Documentation356passed0.98s. Review-doc increment committed8674f32with
+clear conventional subject; following skill-workflow closure find through Git.
+Initial remote audit: no unpublished p05commits, sole dev ee629ae already
+conventional; no existing messages renamed or pushed history rewritten. No push,
+product/dependency/runtime changes. Resume prepared handbook47timing wording
+review; five selected groups remain, applicable deadline/source authority pending.
+
 **Review documentation checkpoint15:12 +08,13October2026:** Four programme
 decisions and eight-file seale99930d893de97fbacc88652d1f393126cfd435b6e1fe851fd9a39f9633a21ea
 verified. Documentation355passed0.91s, diff/phase validation pass. Context scope

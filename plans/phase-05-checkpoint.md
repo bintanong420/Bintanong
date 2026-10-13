@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 76
+sequence: 77
 plan: plans/phase-05-retrieval-plan.md
-head_commit: e717474
-working_tree: eight reviewed documentation paths ready for explicit commit; personal commit skill validated; repository routing next; HEAD e717474
-updated_at: 2026-10-13T15:12:00+08:00
+head_commit: 8674f32
+working_tree: review docs committed as 8674f32; seven skill and workflow documentation paths prepared; following closure commit discoverable from Git
+updated_at: 2026-10-13T15:15:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner-requested simple Conventional Commits skill delivered in personal and
+repository locations; personal AGENTS/repository AGENTS/handoff reminder route to
+it before every commit. Three bundled validators pass; independent copy/routing/
+history/application audit passes. Documentation356passed0.98s. New review-doc
+commit8674f32uses `docs(review): record confirmed undergraduate policy readings`.
+No existing unpublished p05history needed rewording; dev ee629ae already complies.
+No history rewrite/push or code/dependency change. Workflow closure commit follows
+this checkpoint; read Git for its final ID. Resume handbook47wording guide, five
+selected groups remain and timing interpretation unresolved. Earlier active-task
+notes below describe successive review snapshots, not current pending counts.
 
 Owner confirms four programme names/body placement and separation from footer/
 cover extras. Corrected explanation: extractor joined body content and furniture
@@ -395,6 +406,13 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Review documentation committed8674f32; portable commit skill/routing/report/ledger
+form the separate following workflow closure. Explicit seven paths only; personal
+skill/global instructions live outside Git. Published p05e717474and local dev
+ee629ae unchanged. No rewrite/push or product change. Checkpoint head names the
+verified preceding commit; post-closure warning is expected, final ID from Git.
+Repository-state entries below are historical snapshots.
+
 Scope-correction baseline `fcd7dfe`; eight explicit rule/policy/ledger/decision
 documents form the following verified closure commit. Current product remains
 `d33340e`; raw originals, conversions and all prior packet files are preserved.
@@ -424,6 +442,13 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Commit workflow: expected baseline skill-presence failure; then three bundled
+quick_validate passes, independent verify_workflow.py copy/routing/history and
+first real conventional commit checks pass. Documentation356passed0.98s, approved
+Python3.13 venv/cache disabled/external basetemp. Final diff/phase validation before
+workflow commit; no fresh product-suite claim. Details in
+`plans/2026-10-13-conventional-commit-workflow.md`.
 
 Current supplemental `verify.py`/`seal.py` pass six source identities/30pending
 rows,51manual-image regions with no native body text,65exact original native
@@ -524,9 +549,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Complete owner-requested Conventional Commits skill/workflow and remote-boundary
-audit before any authorized unpublished message rename; preserve review records.
-Then resume handbook47completion-time wording in
+Commit skill/workflow and unpublished-history audit are complete. Resume
+handbook47completion-time wording in
 `audit-evidence/p05-owner-text-confirmation-20261013/NEXT-REVIEW-COMPLETION-TIMING.md`.
 Owner compares four printed statements, not arbitrates which deadline applies;
 keep applicability/interpretation unresolved absent supporting authority evidence.

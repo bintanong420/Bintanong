@@ -60,6 +60,10 @@
 - `plans/progress_plans/` is an ignored bulk scratch-copy area. Curate text documents into `plans/` before explicit staging; never stage the bulk tree or use broad staging to publish documentation.
 - Preserve owner changes and external workers. Use explicit staging, no attribution, system Python 3.13, pytest without cache and external basetemp. No installs/downloads or dependency/lock changes without an applicable owner instruction.
 - Commit frequently in small, cohesive, verified units ("commit early and often"); avoid accumulating large uncommitted working-tree diffs across multi-step tasks.
+- Before creating, amending or rewording every commit, read and apply
+  `.agents/skills/conventional-commits/SKILL.md`. Use clear Conventional Commits
+  messages for code, tests, documentation, checkpoints and handoffs. Select the
+  type and summary from the actual staged change; preserve published history.
 - Use test-driven development for implementation, bug fixes and behavior changes: write a focused regression, observe its expected failure (RED), implement the smallest correction, then verify GREEN and relevant regressions before committing. Record commands and results in the active phase checkpoint and current progress; use synthetic fixtures in tracked tests and keep source-derived evidence ignored.
 - Read and apply appropriate available `SKILL.md` workflows when necessary, including test-driven-development for implementation, systematic-debugging for failures, and verification-before-completion before success claims. Continue the active phase from verified Git and handoff evidence after an account/session change; do not repeat completed setup or infer approval from candidate delivery.
 - Naturally utilize available MCP tools in the development and handoff workflows: GitHub MCP (`github-mcp-server`) for inspecting branches/commits/PRs and remote repository synchronization, and Supabase MCP (`supabase` alongside local CLI) for database health, schema inspection, advisor checks, and migration workflows.
