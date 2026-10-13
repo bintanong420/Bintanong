@@ -1,5 +1,19 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Native mapper verified, 18:15 +08, 13 October 2026:**
+Plan5e8eab1retained; original-byte/native-range mapper and15synthetictestsGREEN
+0.070s after absentmoduleRED and negativeaudienceRED/GREEN. Actual18gradingrows
+map45nonblankPDFfields/nineblankpercentages, original text/geometry checked.
+595earlierfiles unchanged. Native locator names actual PDF character ranges;
+no inventedDoclingcells/blankglyphs. Pending adapter still0chunks/66unknownscope
+withheld, remainingmissing scalar mappings180from225;13structured/null requirements
+andseven gapgroups unchanged. Mapping9621641ca6032f90b5d4fa40f38b767e37b7bb07961a0211c05939df35f063ef;
+result823eeb751960a6584ca1f581c54f84294244fa4c7438fea71ea106510dba5a01.
+Context7officialnativePDFbox/rangedocs fetched; installedpypdfium2reused. Next
+independent saved/native verification, finalreview, newseal and repository handoff.
+Relevant final1008tests/51subtests pass,1existingWindows symlinkskip29.38s.
+Fiveexplicit code/test/decision/checkpoint/progress paths form verifiedincrement.
+
 **Native-field continuation, 18:06 +08, 13 October 2026:** Clean a8d3421 resumed;
 checkpoint preceding-head reconciled. Plan
 `plans/2026-10-13-reviewed-native-field-spans-plan.md` targets45nonblank grading

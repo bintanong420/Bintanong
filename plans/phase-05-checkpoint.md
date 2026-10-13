@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 89
+sequence: 90
 plan: plans/phase-05-retrieval-plan.md
-head_commit: a8d3421
-working_tree: native-field span plan, checkpoint and current progress updated for continuation
-updated_at: 2026-10-13T18:06:24+08:00
+head_commit: 5e8eab1
+working_tree: new native span mapper, synthetic tests, decision record, checkpoint and progress ready for explicit commit
+updated_at: 2026-10-13T18:15:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,20 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Native mapper implementedunderTDD:14initial absentmoduleRED/GREEN; audienceguard
+negativeRED corrected excluded/unknownaudiencemapping,15finalGREEN0.070s.
+Finalrelevant1008pytestpass/1skip/51subtests29.38s, externalTEMP/basetemp/nocache.
+Actual45original native text/unionglyphboxes match retainedPDFevidence; nineblank
+percentages map empty lists,18undergraduate rows fullyanchored. SourceSpan native
+textitemIDs are explicit PDFcharacterranges, no fabricatedDoclingcells. Earlier
+595files unchanged; actualpendingresult0chunks/66unknownapplicabilitywithheld.
+Remainingmissing scalar mappings225to180,13structured/null requirements/seven
+sourcegapgroups unchanged. MappingSHA2569621641ca6032f90b5d4fa40f38b767e37b7bb07961a0211c05939df35f063ef;
+pendingresult823eeb751960a6584ca1f581c54f84294244fa4c7438fea71ea106510dba5a01.
+Context7officialpypdfiumdocs verify native PDF box/range conventions; installed
+5.14.0reused. Next independent native/saved-resultverification and final code review,
+evidence seal/report/handoff. Original/canonical/review/source states unchanged.
 
 Resume cleana8d3421and reconcile preceding-code checkpointhead. Next bounded plan
 `plans/2026-10-13-reviewed-native-field-spans-plan.md` maps existing native grading
