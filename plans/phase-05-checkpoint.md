@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 84
+sequence: 85
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 8c99a46
-working_tree: review-event compatibility and finite-JSON correction, tests, decision record and logs ready for explicit commit
-updated_at: 2026-10-13T17:24:00+08:00
+head_commit: 6279985
+working_tree: five preparation closure documentation paths updated; source-derived packet ignored and sealed; closure commit discoverable from Git
+updated_at: 2026-10-13T17:26:59+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,20 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Bounded inactive preparation complete at8c99a46/6279985; final independent reviewer
+reports no blockers,17focusedtests pass and all saved field/event associations
+match. Ten-file packet sealSHA256
+a8abcf10b9c76c49efe730a396b1bfe6515e88f56274a12e894033e5e5325f49;
+bundleSHA256821c70de6db16e161a3f2abf9039e6581f469eab918445907b7c6e3325e0e528.
+Delivery report `plans/2026-10-13-reviewed-policy-consolidation-report.md` records
+66groups/267fields/29blanks/7gapgroups/15events, allapplicabilityunknown/0selected,
+567priorfiles/32inputs unchanged; source register/canonical bundles unchanged.
+Relevant1193tests/12subtests pass,1skip55.80s; phase ledger19pass9.509s.
+Actual mapping trial failures corrected from preserved artifacts: different event
+proposal key, accepted_visible_fragment wording versus missing meaning, verifier's
+incorrect action3 assumption corrected to action5role11/office12. None altered
+original/history or completed bundle. Current formalPhase05remainsblocked.
 
 Actual review events require named source_hashes and owner_statement_excerpts;
 both forms supported without rewriting bytes after focused RED/GREEN. Independent
@@ -504,6 +518,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified code6279985retained after clean core8c99a46; final five-path docs closure
+contains report/spec/index/checkpoint/current progress only. Private originals,
+normalized bundle, scripts/logs/seal remain under ignored workspaceaudit-evidence.
+Following closure SHA discoverable from Git; no push, branch rewrite or dependencies.
+
 Cleane9e2eabbaseline reconciled. Five documentation paths updated: report/index/
 checkpoint/progress/new inactive correction-selection spec. Private clarification,
 two sheet histories and cover event stay ignored/sealed. Conventional closure ID
@@ -560,6 +579,17 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Current preparation:17focused unittestpass0.010s; relevantpytest1193pass/1skip/
+12subtests55.80s; phase ledger19pass9.509s. Independent267savedfield comparisons,
+45original native grading checks,29literalblanks/seven linked actions/gapgroups,
+567preservedfiles/32inputs match. Final reviewer independently checks saved mapping
+and serializable finite bundle with no blockers. Raw logs in
+`audit-evidence/p05-reviewed-policy-consolidation-20261013/`; exact commands/digests
+in delivery report. Final documentation/diff/phase checks recorded before closure.
+Final docs359passed0.92s; diff check, ten-file seal and567priorfile preservation
+pass. Phase validateexit0, can-advanceexit1expected blockedPhase05. Five explicit
+documentation paths form closure; no private staging, product-suite rerun or push.
 
 Clarification recorder checks548 prior sealed files/four other sheets/nonreview
 fields; cover recorder checks558 prior files/five other sheets/23unchanged rows.
@@ -673,6 +703,12 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Current selected transcription reviews complete with seven carried gap groups;
+old pending-table/critical-grading claims below are historical.66groups retain
+unknown institutional applicability;24source fields1accepted/2unresolved/21pending,
+three interpretations unresolved. Source authority/effectivity and reviewed actual
+policy-retrieval/calibration gates remain open; no formal phase advance/activation.
+
 Current handbook10text range refusals/18table refusals,1567omissions and image-only
 cover remain. List-range1546refusals below are historical/resolved. Original grading
 readings26rows are separate correction proposals, not approved replacements.
@@ -698,15 +734,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Execute bounded inactive correction/selection preparation from
-`plans/2026-10-13-reviewed-policy-correction-selection-spec.md`: consolidate actual
-accepted readings, raw locators, field associations, source-gap limits and audience
-selection requirements. Inspect existing contracts/readers before any behavior
-change; synthetic TDD required. Selected page comparisons/origin-channel question
-complete, do not request repeats. Staff context is informal/minimal changes, not
-formal interview. Keep missing metadata/effectivity/three policy meanings unresolved;
-source authority/applicability and actual policy retrieval/calibration gates open.
-No canonical overwrite, executable rules, activation or phase advancement.
+Resume from the sealed preparation/delivery report, not earlier pending snapshots.
+Inspect governed pending-chunk integration seams and specify exact source-locator,
+required-neighbor/gap metadata and unknown-scope withholding before further behavior
+changes under synthetic TDD. Keep actual source/applicability and approved policy
+retrieval/calibration gates open. Do not repeat selected comparisons/origin-channel
+questions, one-time normalization, original conversions or completed environment
+setup. Staff context is informal/minimal changes; missing metadata/effectivity and
+three policy meanings remain unresolved. No canonical overwrite, executable rules,
+activation or phase advancement authorized by this preparation.
 
 Previous programme-fragment next action retained for history:
 
