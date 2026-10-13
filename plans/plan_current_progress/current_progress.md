@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Recordpartitions verified,14October2026:** 5RED11missingmoduleerrors->5GREEN0.114s
+afterfixturecorrections; duplicateidentity6RED1failure->6GREEN0.136s. Related175pass/
+246subtests39.83s. Actual77unknown/0chunks,267fields/29blanks/235spans, sevenoriginal
+gapgroups/10projectedgapbearingparts; twoovercaprefusals resolve. Sixparts/twogroups
+preserve wholeoriginalrows/gap hashes, original47/87renders/809priorsealedhashes.
+Unaffecteddefaultwithholding matches; nextcodecommit/finalreview/independentchecks/
+seal/report/closure. No deadlineprecedence/conditionmeaning/sourcepromotion/newbatch.
+
 **Oversized-record start,14October2026:** Owner says continue; cleanf58e483 resumes
 handbooktable9row3/completiontiming. Plan2026-10-14-reviewed-record-partitions-plan.md
 keeps exactwholefields and fullstoredoriginalgaps, partitions mandatoryorderedparts

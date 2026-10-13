@@ -1,6 +1,7 @@
 """Assemble complete source clauses under the exact serialized context budget."""
 import json
 from ..bintanong_contracts.reviewed_policy_context import CONTEXT_CHUNKER_VERSION, render_reviewed_policy_context
+from ..bintanong_contracts.reviewed_record_groups import validate_record_group
 
 
 def _citation(span, chunk, version):
@@ -76,6 +77,7 @@ def build_context(candidates, budget: int, count_tokens):
                         or sorted(m['part_order'] for m in metas)!=list(range(count))
                         or len({r['chunk']['version_id'] for r in members})!=1):
                     raise ValueError('invalid reviewed context record')
+                if any('record_manifest' in meta for meta in metas):validate_record_group(members)
                 for row in members:
                     for field in row['chunk'].get('type_fields',{}).get('field_associations',[]):
                         if not isinstance(field,dict):

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 136
+sequence: 137
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f58e483
-working_tree: record-partition plan and checkpoint-progress resume records prepared
-updated_at: 2026-10-14T01:48:00+08:00
+head_commit: 97211bd
+working_tree: record helper-contract-codec-adapter-context-test paths and checkpoint-progress prepared
+updated_at: 2026-10-14T01:45:59+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Recordpartitions verified: initial5tests RED11missingmoduleerrors ->5GREEN0.114s
+afterfixture fixes (requiredtable_index/validmutation/noJSONneighborcycles). Related
+first173pass/onefixturefail; corrected run175passed/246subtests39.83s. Addedduplicate
+partidentity6RED1failure0.140s ->6GREEN0.136s. Actual derivative77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/10projectedgapbearingparts; both
+overcaprefusals resolved. Sixparts/twogroups retain wholeoriginalrows andgap hashes;
+original47/87renders and809prior sealedhashes unchanged. Unaffecteddefaultwithholding
+matches. Next cohesive codecommit/freshfinalreview/independentverification/seal.
 
 Owner says continue; cleanf58e483 reconciles bodycoverclosure. New boundedplan
 2026-10-14-reviewed-record-partitions-plan.md partitions twoovercaprecords using

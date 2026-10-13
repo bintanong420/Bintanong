@@ -10,6 +10,7 @@ import math
 import re
 
 from .source import Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, span_identity
+from .reviewed_record_groups import validate_record_manifest
 
 
 CONTEXT_FORMAT = 'reviewed-policy-fields-v1'
@@ -80,17 +81,22 @@ def serialize_reviewed_fields(associations, limits, group=None):
             display.update(field_state=f['field_state'],
                 limitation='Additional conditions are not separately recorded; their absence is not established.')
         fields.append(display)
-    payload={'fields':fields,'source_limits':limits}
+    record_group=isinstance(group,dict) and 'record_manifest' in group
+    displayed_limits=[{k:v for k,v in limit.items() if k not in
+        {'visible_text','source_sha256','version_id','span_indexes'}} for limit in limits] if record_group else limits
+    payload={'fields':fields,'source_limits':displayed_limits}
     if group is not None:
         if (not isinstance(group,dict) or set(group) not in (
                 {'logical_step_id','part_order','part_count'},
-                {'logical_step_id','part_order','part_count','part_reading_id'})
+                {'logical_step_id','part_order','part_count','part_reading_id'},
+                {'logical_step_id','part_order','part_count','part_reading_id','record_manifest'})
                 or not isinstance(group['logical_step_id'],str) or not group['logical_step_id']
                 or ('part_reading_id' in group and (not isinstance(group['part_reading_id'],str)
                     or not group['part_reading_id'].strip()))
                 or type(group['part_order']) is not int or type(group['part_count']) is not int
                 or not 0 <= group['part_order'] < group['part_count']):
             raise ValueError('invalid service context group')
+        if record_group:validate_record_manifest(group['record_manifest'],group['part_count'])
         payload['service_group']=group
     return _json(payload)
 

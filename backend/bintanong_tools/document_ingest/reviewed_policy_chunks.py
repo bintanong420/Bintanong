@@ -23,6 +23,7 @@ from .register import load_pending_register
 from .reviewed_policy import build_reviewed_policy_bundle
 from .reviewed_text_segments import reviewed_body_partition
 from .reviewed_flowchart_context import validate_reviewed_flowchart_binding
+from .reviewed_record_context import validate_reviewed_record_binding
 
 
 CHUNKER_VERSION = "palsu-reviewed-policy-chunker-v1"
@@ -63,6 +64,7 @@ def build_reviewed_policy_chunks(
     required_readings: Mapping[str, Sequence[str]] | None = None, token_cap: int = TOKEN_CAP,
     include_source_limits: bool = False,
     flowchart_bindings: Mapping[str, Any] | None = None,
+    record_bindings: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Recheck preparation evidence and produce pending chunks or explicit withholding.
 
@@ -116,6 +118,16 @@ def build_reviewed_policy_chunks(
         for part,refs in [(identity,list(node_mappings[identity].values())),
                 *[(i,[identity]) for i in node_mappings[identity].values()]]:
             required[part]=list(dict.fromkeys(required[part]+refs))
+    bindings={} if record_bindings is None else record_bindings
+    if not isinstance(bindings,Mapping):raise ValueError('record bindings required')
+    record_manifests={}
+    for identity,binding in bindings.items():
+        expected=validate_reviewed_record_binding(identity,binding,rows,anchors,sources=sources,review_events=review_events)
+        for row in expected['readings']:
+            part=row['reading_id'];record_manifests[part]=row['record_manifest']
+            required[part]=list(dict.fromkeys(required[part]+expected['required_readings'][part]))
+    if {i for i,r in rows.items() if 'record_manifest' in r}!=set(record_manifests):
+        raise ValueError('checked original record binding required')
     reasons, drafts = {}, {}
     for identity, row in rows.items():
         errors = []
@@ -227,6 +239,8 @@ def build_reviewed_policy_chunks(
                         'part_count':len(members)}
                     if row['original_reading_id'] in node_mappings:
                         group['part_reading_id']=identity
+                    if identity in record_manifests:
+                        group.update(part_reading_id=identity,record_manifest=copy.deepcopy(record_manifests[identity]))
                 text = serialize_reviewed_fields(associations,limits,group)
             except (ValueError,KeyError,TypeError,IndexError):
                 errors.append("source_gap_requires_context_support")
