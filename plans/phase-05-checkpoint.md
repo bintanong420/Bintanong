@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 99
+sequence: 100
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 134019e
-working_tree: incoming-source notice, index, checkpoint and progress prepared for explicit documentation commit
-updated_at: 2026-10-13T19:18:34+08:00
+head_commit: 3100dc0
+working_tree: incoming-source scheduling confirmation, checkpoint and progress prepared for explicit documentation commit
+updated_at: 2026-10-13T19:22:57+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,18 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner confirms Phase05 stays the current priority and asks the agent to notify them
+when to place the incoming batch in the dataset. Intake reminder recorded; exact
+destination/organization instructions will precede the batch intake and final
+retrieval calibration for a corpus including it. No files requested or ingested now.
+Clean3100dc0 reconciles the earlier documentation metadata. Disciplinary mapping
+inspection resumed: pages87/89 retain native diagnostic text plus source_region,
+page88 retains raw-cell TOPLEFT boxes; none supplies the grading mapper's complete
+native_character_span/page-size contract. Do not invent those ranges or mutate the
+sealed preparation. Next bounded mapping must explicitly handle the retained region
+formats/scale and literal blanks under TDD. Contextphysical17–18/36, routing PNG,
+master10 and active plan/handoff consulted; no scope/routing discrepancy.
 
 Owner reports incoming college-specific Charter photos and memoranda, potentially
 including vehicle-gatepass information; collection incomplete, complete-batch notice

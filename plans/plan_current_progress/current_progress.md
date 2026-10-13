@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Scheduling confirmed, 19:22 +08, 13 October2026:** Owner says continue Phase05
+now and asks to be told when to place the new college Charter/memorandum batch in
+the dataset folder. Reminder recorded in the incoming-source note; provide exact
+destinations and organization at intake, before final calibration for a corpus
+including that batch. Owner will notify when collection is complete; no files
+requested or processed now. Clean3100dc0 verified. Resumed disciplinary input
+inspection: pages87/89 use source_region/native diagnostics; page88 uses raw-cell
+TOPLEFT boxes, without the grading mapper's saved native-character-range contract.
+Next explicitly map those original region formats/scale and18 literal blanks under
+TDD; preserve column associations/source gaps and prior sealed preparation. Context
+17–18/36/routing/master10/active plan/handoff agree. No implementation/tests changed.
+
 **Incoming-source notice, 19:18 +08, 13 October2026:** Owner is collecting
 college-specific Citizens' Charter photos and memoranda, including possible vehicle
 gatepass information, and will signal when the full batch is ready. Recorded once:

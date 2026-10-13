@@ -45,6 +45,14 @@ continuation, zero fee or automatic approval may be inferred from incomplete pho
 
 ## Scheduling recommendation
 
+Owner follow-up confirms: continue Phase05 for now; the agent will tell the owner
+when to place the new batch into the dataset folder. Keep this reminder pending
+until the intake checkpoint, before final retrieval calibration/evaluation intended
+to include the batch. Give the exact destination folders and college/document/page
+organization then, using the dataset-location guide and actual collection metadata.
+The owner will separately notify us when collection is complete. No placement or
+incoming-source processing is requested yet.
+
 Continue the current Phase05 work while the collection is incomplete. On the owner's
 complete-batch notice, prepare and process the new source-governance/ingestion/review
 batch before final Phase05 retrieval calibration/evaluation for any release intended
