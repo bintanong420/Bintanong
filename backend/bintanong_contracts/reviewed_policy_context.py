@@ -60,6 +60,8 @@ def serialize_reviewed_fields(associations, limits, group=None):
     fields=[]
     for f in associations:
         display={k:f[k] for k in ('name','value','source_blank')}
+        if 'field_kind' in f:
+            display.update(field_kind=f['field_kind'],node_reading_ids=f.get('node_reading_ids'))
         if 'field_state' in f:
             display.update(field_state=f['field_state'],
                 limitation='Additional conditions are not separately recorded; their absence is not established.')
@@ -73,6 +75,29 @@ def serialize_reviewed_fields(associations, limits, group=None):
             raise ValueError('invalid service context group')
         payload['service_group']=group
     return _json(payload)
+
+
+def validate_reviewed_arrows(field, spans):
+    """Validate structural endpoint IDs against exact cited labels and END text."""
+    nodes,value,refs=(field.get(k) for k in ('node_reading_ids','value','span_indexes'))
+    if (field.get('field_kind')!='arrows' or field.get('name')!='arrows' or field.get('source_blank') is not False
+            or not isinstance(nodes,dict) or not nodes or 'END' in nodes
+            or any(not isinstance(k,str) or not k.strip() or not isinstance(v,str) or not v.strip() for k,v in nodes.items())
+            or len(set(nodes.values()))!=len(nodes) or not isinstance(value,list) or not value
+            or not isinstance(refs,list) or len(refs)!=len(value)+1
+            or any(type(i) is not int or not 0<=i<len(spans) for i in refs)):
+        raise ValueError('invalid reviewed arrow association')
+    seen=set()
+    for edge,index in zip(value,refs):
+        if (not isinstance(edge,dict) or set(edge)!= {'from','label','to'}
+                or any(not isinstance(v,str) or not v.strip() for v in edge.values())
+                or edge['from'] not in nodes or edge['to'] not in set(nodes)|{'END'}
+                or spans[index].text!=edge['label'] or tuple(edge[k] for k in ('from','label','to')) in seen):
+            raise ValueError('invalid reviewed arrow endpoint/label')
+        seen.add(tuple(edge[k] for k in ('from','label','to')))
+    if (not any(e['to']=='END' for e in value) or spans[refs[-1]].text!='END'
+            or len({spans[i].page for i in refs})!=1):
+        raise ValueError('invalid reviewed arrow terminal/page')
 
 
 def render_reviewed_policy_context(chunk, spans):
@@ -117,13 +142,20 @@ def render_reviewed_policy_context(chunk, spans):
             name, value, blank, refs = (field[k] for k in ('name','value','source_blank','span_indexes'))
             unrecorded=(value is None and isinstance(name,str) and name.endswith('/condition_note')
                 and field.get('field_state')=='not_recorded' and blank is False and refs==[])
-            if (not isinstance(name,str) or not name or name in names or (not isinstance(value,str) and not unrecorded)
+            structured=field.get('field_kind')=='arrows'
+            if (not isinstance(name,str) or not name or name in names or (not isinstance(value,str) and not unrecorded and not structured)
                     or ('field_state' in field and not unrecorded)
+                    or ('field_kind' in field and not structured) or ('node_reading_ids' in field and not structured)
                     or type(blank) is not bool or not isinstance(refs,list)
                     or any(type(i) is not int or not 0 <= i < len(bound) for i in refs)
                     or not re.fullmatch(r'[0-9a-f]{64}',field['event_sha256'])):
                 raise ValueError('invalid reviewed context field association')
             names.add(name); indexes.extend(refs)
+            if structured:
+                if fields.get('service_group') is None:
+                    raise ValueError('complete flowchart group required')
+                validate_reviewed_arrows(field,located)
+                continue
             if unrecorded:
                 continue
             if blank:

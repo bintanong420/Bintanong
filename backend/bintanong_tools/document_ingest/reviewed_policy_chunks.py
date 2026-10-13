@@ -22,6 +22,7 @@ from .policy_chunks import TOKEN_CAP
 from .register import load_pending_register
 from .reviewed_policy import build_reviewed_policy_bundle
 from .reviewed_text_segments import reviewed_body_partition
+from .reviewed_flowchart_context import validate_reviewed_flowchart_binding
 
 
 CHUNKER_VERSION = "palsu-reviewed-policy-chunker-v1"
@@ -61,6 +62,7 @@ def build_reviewed_policy_chunks(
     source_versions: Sequence[Any], field_spans: Mapping[str, Mapping[str, Sequence[Any]]] | None = None,
     required_readings: Mapping[str, Sequence[str]] | None = None, token_cap: int = TOKEN_CAP,
     include_source_limits: bool = False,
+    flowchart_bindings: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Recheck preparation evidence and produce pending chunks or explicit withholding.
 
@@ -102,6 +104,18 @@ def build_reviewed_policy_chunks(
                 or len(set(refs)) != len(refs)):
             raise ValueError("required readings must name distinct known readings")
         required[identity] = [r for r in refs if r != identity]
+    graphs={} if flowchart_bindings is None else flowchart_bindings
+    if not isinstance(graphs,Mapping) or any(i not in rows for i in graphs):
+        raise ValueError('flowchart binding has an unknown reading')
+    node_mappings={}
+    for identity,graph in graphs.items():
+        if not isinstance(graph,dict) or graph.get('arrow_reading_id')!=identity:
+            raise ValueError('flowchart binding identity differs')
+        node_mappings[identity]=validate_reviewed_flowchart_binding(graph,rows,anchors)
+        # Graph parts are mandatory even when the caller omits dependencies.
+        for part,refs in [(identity,list(node_mappings[identity].values())),
+                *[(i,[identity]) for i in node_mappings[identity].values()]]:
+            required[part]=list(dict.fromkeys(required[part]+refs))
     reasons, drafts = {}, {}
     for identity, row in rows.items():
         errors = []
@@ -121,6 +135,21 @@ def build_reviewed_policy_chunks(
             supplied = anchors.get(identity, {}).get(name, [])
             if not isinstance(supplied, (list, tuple)):
                 errors.append(f"invalid_field_spans:{name}")
+                continue
+            if include_source_limits and name=='arrows' and identity in node_mappings:
+                try:
+                    located=[SourceSpan.parse(s) for s in supplied]
+                    for span in located:
+                        check_span_binding(span,version)
+                        if not span.is_complete or span.bbox is None or span.page_size is None:
+                            raise ValueError('complete arrow geometry required')
+                except ValueError:
+                    errors.append(f'invalid_field_spans:{name}')
+                    continue
+                indexes=list(range(len(spans),len(spans)+len(located)));spans.extend(located)
+                associations.append({'name':name,'value':copy.deepcopy(value),'source_blank':False,
+                    'span_indexes':indexes,'event_sha256':field['review_event_sha256'],
+                    'field_kind':'arrows','node_reading_ids':copy.deepcopy(node_mappings[identity])})
                 continue
             if (include_source_limits and value is None and field['original_value'] is None
                     and name.endswith('/condition_note') and field['source_blank'] is False and not supplied):

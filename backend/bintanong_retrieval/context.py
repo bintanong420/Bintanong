@@ -76,6 +76,20 @@ def build_context(candidates, budget: int, count_tokens):
                         or sorted(m['part_order'] for m in metas)!=list(range(count))
                         or len({r['chunk']['version_id'] for r in members})!=1):
                     raise ValueError('invalid reviewed context record')
+                for row in members:
+                    for field in row['chunk'].get('type_fields',{}).get('field_associations',[]):
+                        if not isinstance(field,dict):
+                            raise ValueError('invalid reviewed context record')
+                        if field.get('field_kind')=='arrows':
+                            mapping=field.get('node_reading_ids')
+                            if not isinstance(mapping,dict) or any(not isinstance(v,str) for v in mapping.values()):
+                                raise ValueError('invalid reviewed context record')
+                            node_ids=list(mapping.values())
+                            other_ids=[r['chunk']['type_fields']['reading_id'] for r in members if r is not row]
+                            if (row['chunk']['type_fields']['service_group']['part_order']!=0
+                                    or len(set(other_ids))!=len(other_ids)
+                                    or len(node_ids)!=len(other_ids) or set(node_ids)!=set(other_ids)):
+                                raise ValueError('invalid reviewed context record')
                 ordered=iter(sorted(members,key=lambda r:r['chunk']['type_fields']['service_group']['part_order']))
                 member_ids={r['chunk']['chunk_id'] for r in members}
                 group=[next(ordered) if r['chunk']['chunk_id'] in member_ids else r for r in group]
