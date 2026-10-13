@@ -1,5 +1,45 @@
 # Reviewed undergraduate grading correction preparation
 
+## Handbook cover confirmed and staff interview context recorded
+
+Owner confirms the four cover readings: 2021 year label, 217th BOR Meeting,
+November 11, 2020 approval date, Resolution No. 104/series of 2020. Effectivity
+and currentness explicitly remain unresolved. The owner additionally reports
+interviewing a staff member who claimed there were no BIG changes from the
+handbook through the current year. Preserve that qualifier and attribution as
+owner-reported interview context. It does not identify minor changes, affected
+clauses, an effective date or supersession. Staff office/role, interview date and
+interview artifact are unspecified; do not fill them from the recording timestamp
+or treat the report as confirmation of every policy clause.
+
+Ignored packet `audit-evidence/p05-owner-handbook-cover-confirmation-20261013/`
+contains the actual owner statement, accepted cover derivative, separate interview
+report, before/after interpretation sheet and source-record guide/proposals.
+Event SHA256 `1aa69fcef0db90a0c3b2536952ba2428830d76384f1e6c27241b6239bb07420c`,
+recorded 2026-10-13T16:26:35+08:00.538 prior sealed files, both original PDF hashes
+and five other decision sheets unchanged. Ten-file seal SHA256
+`ad707aca4c63612cc6c38290324a44b18def355a55aa18e8f92aff5d1ec5dd5c`.
+Independent readonly check verifies the actual sheet/seal, accepted readings,
+preserved BIG-changes qualifier/unknown metadata and unresolved effectivity.
+Other interpretation rows and the original scope field remain unchanged.
+
+No selected interpretation-wording comparison remains pending; all three policy
+interpretation issues are unresolved. Two source-record groups/24 current source
+fields remain pending. Next guide reuses confirmed handbook facts without another
+cover review, asks any known PDF origins/interview office-role-date, and presents
+Charter PDF page 1 cover proposals: PALAWAN STATE UNIVERSITY, CITIZEN'S CHARTER,
+2025 (4th Edition). Original Charter cover visually inspected and fresh original
+native text checked. These cover readings remain owner-pending; source register
+is unchanged. Unknown provenance is acceptable and cannot be assumed approval.
+Optional asynchronous provenance question is pending; continue independent review
+preparation without inferring a reply. No source/canonical/runtime activation or
+phase advancement; the undergraduate scope and active-phase context are unchanged.
+
+Documentation verification: approved Python3.13 venv, `-B -m pytest
+tests/test_docs_hygiene.py -p no:cacheprovider` with external basetemp,
+356passed1.04s. Readonly packet verifier, diff check and phase validation pass.
+Explicit four-path conventional documentation commit; no push/product-suite rerun.
+
 ## Pre-enrollment readings confirmed; total and continuation unresolved
 
 Owner repeats the same confirmation twice; record one review event. All four

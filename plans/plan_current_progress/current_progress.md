@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Handbook cover/interview context 16:26 +08, 13 October 2026:** Four cover
+readings accepted; effectivity/currentness remain unresolved. Owner reports staff
+interview claim of no BIG changes through current year. Qualifier/secondary report
+preserved; staff office/role/date/artifact/affected clauses unknown. No inferred
+effective date, supersession or all-policy currentness. Interpretation row now
+unresolved; two other rows/scope field/five other sheets unchanged.538 prior sealed
+files/original PDFs unchanged. Event
+1aa69fcef0db90a0c3b2536952ba2428830d76384f1e6c27241b6239bb07420c;
+ten-file seal ad707aca4c63612cc6c38290324a44b18def355a55aa18e8f92aff5d1ec5dd5c,
+independent readonly check passes. Two selected source-record groups/24 fields
+pending; three interpretation issues unresolved, zero wording groups pending.
+Next `audit-evidence/p05-owner-handbook-cover-confirmation-20261013/NEXT-REVIEW-SOURCE-RECORDS.md`:
+reuse accepted handbook cover facts; compare Charter PDF1university/title/year
+2025/fourth edition and record any known PDF origins/interview role-office/date.
+Optional asynchronous provenance question pending; missing details stay unknown.
+Resume cleancd17fc2; four-path conventional doc closure follows, no push.
+Documentation356passed1.04s, readonly packet/diff/phase checks pass. No product-suite
+rerun; explicit four-path closure ID discoverable through Git.
+
 **Pre-enrollment confirmation 15:36 +08, 13 October 2026:** Duplicate owner reply
 recorded once. Four Charter rows and printed total accepted; visible step 3 cutoff
 at "for" confirmed. Printed 25 minutes preserved; arithmetic row sum 20 minutes,
