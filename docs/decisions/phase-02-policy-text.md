@@ -73,3 +73,17 @@ source heading can support verified undergraduate content without admitting Law.
 The earlier whole-source review queue is superseded. Unreviewed mixed scopes cannot
 reach embeddings, rules or publication by default. This is a scope ruling and
 review derivative, not a deployed source filter or source/content approval.
+
+### Original flowchart/native-grid review findings
+
+Current undergraduate handbook flowchart bodies physical62/63/64 contain no native
+text in the selected process/role/detail regions; captured tables6/7/8 have no
+cells. Preserve separate manual visual proposals and qualification branches;
+ordinary row sorting cannot manufacture missing cell text. The graduation figure
+has a visibly incomplete final instruction. Native disciplinary-table glyphs
+straddle gridlines; bounded text must not assign word fragments to neighboring
+penalties. Charter continuation reads require header and row ownership review.
+All bounded text remains diagnostic. Proposed visual readings,
+blanks and unresolved content stay separate from raw/canonical SourceSpans.
+No reader behavior changed. Evidence and review order:
+`plans/2026-10-13-undergraduate-table-source-readings.md`.

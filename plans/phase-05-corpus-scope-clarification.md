@@ -1,5 +1,12 @@
 # Phase 05 corpus and prospectus review clarification
 
+**Owner-confirmed emphasis,13October2026:** Reviewed undergraduate prospectus/
+curriculum facts primarily support Prolog preparation; handbook/Charter/USG/CSG
+primarily support cited pgvector retrieval. This is an emphasis, not an exclusive
+document-to-backend assignment. Curriculum text can support retrieval, and explicit
+reviewed policy conditions can support approved symbolic checks. Source-specific
+review, undergraduate scope and private-upload isolation still govern both paths.
+
 Recorded 12 October 2026 after the owner asked why prospectus review was being
 performed during retrieval and reported that the Citizens' Charter and student
 handbook still needed to be added.

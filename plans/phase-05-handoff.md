@@ -22,6 +22,14 @@ with18undergraduate grading rows. Earlier26row/21table/10text review instruction
 are superseded. Before retrieval/rules/publication, derive reviewed undergraduate-only
 span/chunk selection; no source scope filter or activation has been deployed yet.
 
+Latest supplemental preparation:
+`plans/2026-10-13-undergraduate-table-source-readings.md`, six still-refused
+undergraduate structures/30human-pending row readings. Image-only flowchart bodies,
+source clipping, native disciplinary glyph overhang and one ambiguous penalty
+remain explicit findings; no canonical corrections installed.390prior sealed
+files/45dataset entries/10decision sheets unchanged. Owner18row grading review
+remains first; supplemental reading decisions can wait.25new evidence files sealed.
+
 Latest recovery,13October: both original policy conversions captured. Handbook
 retained-byte replay has4272chunks after1546original-list repairs,10text/18table
 refusals; Charter427chunks/3table refusals unchanged. Final reader `d33340e`

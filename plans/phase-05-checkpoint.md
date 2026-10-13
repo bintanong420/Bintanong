@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 61
+sequence: 63
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 04b140e
-working_tree: clean resume baseline; bounded source-reading documentation pending; production unchanged
-updated_at: 2026-10-13T10:50:54+08:00
+head_commit: 30f4557
+working_tree: supplemental source-reading documentation closure after 30f4557; inspect Git for current state; production unchanged
+updated_at: 2026-10-13T11:10:48+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Escape interruption reconciled: only expected documentation closure is dirty;
+external preparation/verification finished and is not rerun.18grading decisions
+still pending after resume. Post-resume documentation hygiene352passed0.92s;
+25file seal checked intact; no new product-suite claim.
+
+Six undergraduate table-reading structures prepared and verified separately;
+30pending row proposals (17image-only/13native-grid),51image fields/65native
+diagnostics, four visual qualification branches and one explicit unresolved
+penalty retained. Graduation source clipping and native glyph overhang recorded;
+no canonical SourceSpan/chunk correction created.25file evidence seal
+8b27e56bf3161dc88fd02bf8796d181795c37dedb6e9e85365a34bdc74cec646.
+Verification27links/390unchanged previous sealed files/45dataset entries/
+10unchanged decision sheets passes. Owner's18row grading review remains first;
+supplemental rows can wait. Report: `plans/2026-10-13-undergraduate-table-source-readings.md`.
 
 Owner resumes remaining Phase05 preparation from clean `04b140e`. All18grading
 rows remain pending. Prepare independent original-backed readings for the six
@@ -206,6 +221,14 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Current supplemental `verify.py`/`seal.py` pass six source identities/30pending
+rows,51manual-image regions with no native body text,65exact original native
+region diagnostics,13visual table-row proposals/one unresolved field,27links,
+390old sealed files/45dataset entries/10prior decision sheets unchanged;25new
+files sealed. Manual content remains human-pending. No product code changed or
+new full-suite pass claimed; final documentation hygiene/ledger checks recorded
+in the current table-readings report.
+
 Final current documentation hygiene351passed0.93s,exit0 after writing the test
 audit report; overlaps prior658test gate, not a distinct product total. Diff check
 and phase-ledger validation pass. Logs remain in ignored test-scope audit root.
@@ -296,6 +319,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current governing action: owner18row undergraduate grading review, then source-bound
+decision validation. Supplemental30table-reading rows are prepared separately for
+later review; do not repeat preparation or apply image/native-grid proposals without
+human review. Graduation clipping and the ambiguous penalty require source evidence.
+After reviewed corrections and undergraduate selection, prepare approved policy
+development labels and actual retrieval/calibration. No Phase06 or activation.
+
+Previous next-action wording retained below for history:
 
 Governing scope-corrected action: owner reviews only the18undergraduate rows in
 `p05-undergraduate-policy-review-20261013/grading-review.md`. Current packet and

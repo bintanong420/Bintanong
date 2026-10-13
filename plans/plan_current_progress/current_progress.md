@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Verified continuation11:04 +08,13October2026:** Six undergraduate procedure/
+discipline structures now have30pending reading proposals (17image-only flowchart
+rows,13native-table rows).51image regions contain no native body text;65native
+grid reads remain diagnostics because glyphs can cross column lines. Separate
+visual proposals retain complete words/proposed blanks and one unresolved penalty.
+Graduation figure clips its final instruction; no continuation/end node invented.
+25file seal8b27e56bf3161dc88fd02bf8796d181795c37dedb6e9e85365a34bdc74cec646;
+27links/390old files/45dataset entries/10prior decision sheets verify unchanged.
+New ignored root `audit-evidence/p05-undergraduate-table-readings-20261013`.
+Next remains owner's18undergraduate grading rows; supplemental30rows can wait.
+No corrections/authority/corpus activation/model/OCR run or Phase06. Report:
+`plans/2026-10-13-undergraduate-table-source-readings.md`.
+
 **Resumed10:50 +08,13October2026:** Clean04b140e; all18grading decisions still
 pending. Continue independent original-backed reading of six undergraduate
 procedure/discipline refusals. Three flowchart bodies are image text absent from
