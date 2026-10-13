@@ -7,6 +7,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 **Phase 1–2 readiness correction (12 October 2026):** [progress-claims audit](2026-10-12-phase12-progress-claims-audit.md) disputes the historical Phase 2 complete label against unmet real-source exits. Candidate software delivery and later infrastructure status do not establish completed Handbook/Charter ingestion or human-review readiness. Historical handoff metadata is retained pending corrective reconciliation; a valid phase-state structure is not exit-gate proof.
 
 - Master plan: `plans/master_implementation_plan_original_long.md`
+- Frontend design preparation (13 October): [dev-grounded Figma feature and integration map](2026-10-13-frontend-figma-analysis.md), including current versus planned capabilities, 16 frame/state groups, public-contract gaps and branch/file ownership guidance. Analysis only; no student UI/API implementation or phase advancement.
 - Active phase: `5` (actual handbook/Charter source governance, ingestion and approved policy-retrieval evidence pending; prospectus review deferred)
 - Active plan: `phase-05-retrieval-plan.md`
 - Active checkpoint: `phase-05-checkpoint.md`; Phase 04 checkpoint superseded

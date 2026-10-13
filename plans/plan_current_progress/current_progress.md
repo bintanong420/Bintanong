@@ -731,3 +731,33 @@ Independent file/readerQA passes:45currentfiles checked,42originalbytes preserve
 and Git exclusion verified. Finalhandoff is plans/2026-10-12-phase05-next-cli-handoff.md.
 Owner asks a short appendable prompt; exact nextactions/boundaries already recorded.
 Finaldocumentarycommit follows validated ledger/diff; no additional implementation.
+
+## 13 October 2026 — frontend/Figma discovery on dev baseline
+
+Owner requested codebase, thesis, runtime PNG and long-master analysis before
+designing the frontend in Figma; frontend follows dev. Fresh local/remote refs:
+dev/origin-dev b0ba6d4; frontend/origin-frontend59724f1, dev ancestor, only prior
+branch difference empty DESIGN.md. GitHub MCP independently read dev's frontend
+package. No checkout, merge, push or product changes.
+
+Created plans/2026-10-13-frontend-figma-analysis.md; INDEX links it. Read thesis
+physical13–15,17–20,55–56,59,65–66,68–79 and visually reviewed17–18/66 plus routing
+PNG. Master, standing scope/gap/table policies, contracts, health-only API,
+retrieval CLI and ingestion/private-lifecycle documents reconciled. Checkpoint
+baseline advanced from stale e9e2eab to59724f1; Phase05 stays blocked.
+
+Findings: current student-runtime APIs are absent; frontend is compatibility UI.
+Recommend one student conversation workspace with source/temporary-context panels,
+16 Figma frame/state groups and scoped canonical result rendering. Documented
+public transport/reason-code/citation/fact-confirmation/private-lifecycle gaps and
+dev synchronization/file ownership. AI SDK/shadcn/Tailwind are planned, not current
+dependencies. No invented institutional rules, persistent student profile/history,
+administrative transactions, runtime activation or phase advancement.
+
+Verification: local/remote baseline and code inventories performed; report links,
+diff whitespace and phase-state structure checked before documentation commit.
+No frontend build/browser run, model/database run or product tests for this
+documentation-only change. Renders stay outside checkout in workspace/audit-evidence.
+Next: owner uses report F01–F16 for Figma wireframes; frontend/backend agree section8
+public contracts before connected implementation. Existing Phase05 source/retrieval
+recovery remains separate and must resume from its recorded next action.
