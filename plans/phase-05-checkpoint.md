@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 94
+sequence: 95
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3bbbff0
-working_tree: new image-region mapper/graph binder, synthetic tests, decision record, checkpoint and progress ready for explicit commit
-updated_at: 2026-10-13T18:47:00+08:00
+head_commit: 03d02c2
+working_tree: image-flowchart report, plan delivery note, index, checkpoint and progress prepared for explicit documentation commit
+updated_at: 2026-10-13T18:55:14+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,22 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Image-flowchart delivery verified at `03d02c2`; final independent review found no
+actionable issues under the trusted render/layout contract. Reviewer ran 14 tests
+(0.084s), independently checked the saved output, original branch geometry and
+607 preserved file hashes. Phase ledger: 19 passed (11.215s). Fourteen-file evidence
+seal: `dc2c0a5f44338437cd3b823f3fedb53cc675ae0df7823f37b1c8374677b0b956`.
+Report: `plans/2026-10-13-reviewed-image-flowchart-report.md`. Thesis physical
+17–18/36, routing PNG, master section10 and scope/source-gap/association policies
+reconsulted after rollover; no discrepancy. The first context text-read attempt
+used an unsupported PdfPage context manager; retry with explicit closes succeeded.
+Final documentation hygiene: 368 passed (1.17s); diff check passed. Phase validation
+exit0, can-advance exit1 (expected blocked handoff). Fresh independent verification
+rechecked 607 earlier hashes and all14 sealed files. Five-path closure commit follows.
+Next bounded mapping is graduation physical64, including the actual row8 field
+correction while retaining row6 clipping and row9 cutoff. All 66 applicability
+declarations remain unknown, with zero actual chunks; formal Phase05 stays blocked.
 
 Imagemapper/graphbinder implementedunderTDD:13absentmoduleRED/GREEN then missing
 cropobservationRED fixed by requiringexplicit readertransformmetadata,14GREEN0.069s.
@@ -865,6 +881,17 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Resume `plans/2026-10-13-reviewed-image-flowchart-report.md` and its sealed packet.
+Map confirmed graduation physical64 fields from the original full-page image,
+using the actual correction event for row8's diploma-cover wording. Define the
+correction binding under focused TDD; preserve the earlier proposed values rather
+than replacing them. Retain row6's readable but clipped label and row9's visible
+cutoff as source-gap evidence. No END or missing continuation can be inferred.
+Unknown applicability, authority/effectivity, structured context and retrieval
+calibration remain unresolved. Do not repeat the completed owner page comparisons.
+
+Previous overload/cross-enrollment next action retained for history:
 
 Resume nativefieldreport/sealedmapping, not earlier unanchored snapshots. Next
 bounded step: original-layout fieldmappings for confirmed overload/cross-enrollment

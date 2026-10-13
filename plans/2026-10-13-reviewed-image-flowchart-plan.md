@@ -66,3 +66,11 @@ No installs/downloads/dependency locks, OCR/full conversion, canonical overwrite
 database/API/Docker/runtime/model/Prolog execution, push or source acquisition.
 SystemPython3.13.7 and existing approved Python3.13 environment, no pytest cache,
 workspace audit-evidence TEMP/TMP/basetemp. Exact model paths remain inMODELS.
+
+## Delivered increment
+
+Implementation `03d02c2` and the
+[delivery report](2026-10-13-reviewed-image-flowchart-report.md) record all three
+bounded tasks, including 24 field mappings, four selected edges, original-render
+verification, preservation, tests and independent review. Graduation field
+corrections are the next bounded mapping; formal Phase05 remains blocked.

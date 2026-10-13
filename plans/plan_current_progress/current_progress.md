@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Image-flowchart delivery, 18:55 +08, 13 October 2026:** Code `03d02c2`
+maps 24 confirmed scalar fields across eight rows and binds four selected decision
+edges/two END regions. Combined evidence has 69 nonblank spans/nine native blanks;
+actual output remains zero chunks with all 66 unknown-applicability readings withheld.
+Final independent review found no actionable issues; 14 reviewer tests passed
+(0.084s), original geometry and saved output matched, and 607 prior hashes remained
+unchanged. Relevant suite: 1,026 passed/one existing skip/56 subtests (23.94s).
+Phase ledger: 19 passed (11.215s). Report:
+`plans/2026-10-13-reviewed-image-flowchart-report.md`; fourteen-file seal
+`dc2c0a5f44338437cd3b823f3fedb53cc675ae0df7823f37b1c8374677b0b956`.
+Context thesis17–18/36 and routing PNG reconsulted after rollover; scope/routing
+agree. Final docs368 passed (1.17s); diff and all14 sealed file checks passed.
+Phase validation exit0, can-advance exit1 (expected blocked handoff); fresh saved
+verification rechecked all607 earlier hashes. Five-path curated closure follows.
+Next: graduation64 field mappings with explicit row8 correction-event binding,
+preserving row6 clipping and row9 cutoff; no repeated owner review or invented END.
+Authority/applicability/activation and formal Phase05 gates remain open.
+
 **Image-flowchart mappings verified, 18:47 +08, 13 October 2026:**
 Plan3bbbff0retained; new scalarimage mapper/inactivegraph binder14testsGREEN0.069s
 after initial13RED/GREEN and explicitcroppresenceRED/GREEN. Relevant1026tests/
