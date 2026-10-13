@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 117
+sequence: 119
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 6ab9c10
-working_tree: source-limit context plan, checkpoint and current progress prepared
-updated_at: 2026-10-13T23:10:08+08:00
+head_commit: 0a8d453
+working_tree: six curated source-limit context documentation paths prepared for closure
+updated_at: 2026-10-13T23:29:21+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,34 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Source-limit code38f23a8/reviewfix0a8d453 verified. Reviewer producer/consumer
+extra-gapmetadata asymmetry regradedImportant, focusedRED1error->25GREEN0.214s;
+related215passed/157subtests1.72s. Finalreview30tests0.211s, loaderroundtrip, nine
+malformedprobes, atomicneighborbudget andactualreplay verified; no otherfindings.
+Declined glyph/meaning/authority/scope/forgedcaller/liveRPC/RLS/deployment/exact
+modeltokens/answers/formalexit remain documented limits or unperformedgates; no
+deferredminors. Current-code actualdefault/opt-in replay equality passes; independent
+verifierPASS/718priorfiles unchanged.12files sealed:4083b4b70edf9112e804c509be9d90a52b94ec10e815882bd5b10bcbd01205c0.
+Actual0chunks/66unknownscope/sevengaps/sixnonChunklimitpreviews;225spans/29blanks,
+13structured/null requirements/3overcap/1structuredgap refusal.480capunchanged.
+Report2026-10-13-reviewed-source-limit-context-report.md. Next structured/complete
+step grouping underTDD and governance prerequisites; intake reminder remainsopen.
+No deployment/sourceapproval/DBwrites. Finaldocs387passed0.90s, diff/all12seal
+hashes-sizes/fourcurrentcode-testdigests match. Phasevalidationvalid/advancement
+blocked; six curated docs closure follows, SHA discoverable fromGit.
+
+Source-limit codec verified underTDD:five new regressions RED unexpectedoption
+(errors5), smallest codec/adapter/context GREEN22tests; storedRPCshape and removed
+marker/partialspan2RED(1failure/1error) lead24GREEN0.193s. Status-key contract guard
+refused implementation metadata; use nonprivileged resolution:unresolved. Legacy
+overlapfixture explicitly marks legacychunkerversion. Relevant214passed/157subtests
+1.77s; ledger19passed9.288s. Default actualreplay byte-equivalent to previousresult;
+opt-in0chunks/66unknownscope/13nonscalar/1unsupportedgap/3overcap reasons. Allseven
+gaps preserved, six preparation-only scalarlimit previews contain exact visible
+fields/unavailablemessages; independentverifierPASS/718priorfiles unchanged.
+No sourcepromotion/deployment/DBwrites. Next cohesivecodecommit, finalindependent
+review/seal/report/closure; structured/governance gates and intake reminder open.
 
 Source-limit context continuation from clean6ab9c10; no handoff stop requested.
 Plan2026-10-13-reviewed-source-limit-context-plan.md defines opt-in scalar context
@@ -1205,6 +1233,17 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current source-limit increment: code/fix/review/replay/seal complete; close curated
+docs. Next specify and implement structured arrow/segmentation/parentfee/nullnote/
+Chartercover context support and split oversized complete steps into source-bound
+480cap chunks linked atomically by required neighbors, without dropping fields or
+inferring END/conditions. Preserve source-limit text/exact context budget and
+actual66unknownapplicability. Source governance/reviewed development cases and
+calibration remain separate gates. Incoming placement only after completebatch
+notice and before calibrationincludingnewdata; no repeated originalreview/conversion.
+
+Previous scalar-source-limit next action retained for history:
 
 Current coverdelivery: final review/seal complete; commit verified curated closure.
 Next specify and implement source-limit context support underTDD in inactive

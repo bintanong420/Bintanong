@@ -6,7 +6,7 @@
 **Goal:** Preserve scalar field associations and explicit unresolved source limits
 through inactive pending chunks and offline cited retrieval-context assembly.
 
-**Architecture:** A pure `reviewed_policy_context.py` codec validates complete
+**Architecture:** A pure `backend/bintanong_contracts/reviewed_policy_context.py` codec validates complete
 field-to-span associations and recognized source gaps, renders fields plus limits
 as bounded JSON and reconstructs that exact text from chunk contracts. Optional
 `include_source_limits=False` on pending adapter retains legacy gap withholding.
@@ -43,13 +43,13 @@ policy, active Phase05 checkpoint and scalar integration seams in cover report.
 
 ## Tasks
 
-- [ ] Task1: Focused synthetic adapter/context regressions RED: opt-in scalar
+- [x] Task1: Focused synthetic adapter/context regressions RED: opt-in scalar
   cutoff retains text/limits/citations; default withheld,unknownscope stillwithheld;
   tampered/missing limits/spans/text, overlap, budget and unsupported gaps reject.
-- [ ] Task2: Minimal codec/pending/context implementation GREEN, relevant regressions
+- [x] Task2: Minimal codec/pending/context implementation GREEN, relevant regressions
   and19ledger checks. Preserve existing no-gap identity/text when not opted in;
   marked format only for opted-in records. Document full-record overlap tradeoff.
-- [ ] Task3: Separate actual opt-in replay from unchanged225span map/bundle/events/
+- [x] Task3: Separate actual opt-in replay from unchanged225span map/bundle/events/
   registers; preserve all718prior unique files. Expect0actualchunks/66unknownscope,
   no unsupported field bypass. Independently inspect producer/candidate checks,
   final reviewer/seal/report, code and curated closure commits. Full formal exit
@@ -62,3 +62,13 @@ actual applicability. Version marker keeps legacy behavior intact. Full marked
 record citations can duplicate previously displayed spans; retaining associations
 and limitations is necessary and budgeted. Cost: less deduplication, no unsafe
 partial-record view. Source artifacts/logs/temp remain ignored workspace evidence.
+
+## Completion evidence
+
+Code38f23a8/reviewfix0a8d453; fiveinitialRED errors andtwoRPC/markerREDs yield
+24focusedGREEN. Review-found original evidence_ref asymmetry regraded Important;
+oneRED regression/consistent extra-gapmetadata correction yields25GREEN0.214s.
+Related215passed/157subtests1.72s; ledger19passed9.288s. Finalreview30tests/loader/
+malformedinputs/groupbudget/actualreplay verified; no otherfindings. Default actual
+replay identical/opt-inzerochunks66unknownscope/sevengaps, sixpreparationpreviews/
+718priorfiles unchanged;12curated files sealed. Full formalexit NOT RUN.

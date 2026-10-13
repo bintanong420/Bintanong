@@ -1,5 +1,33 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Source-limit context delivery,13October2026:** Source-limit code38f23a8/reviewfix0a8d453 verified. Reviewer producer/consumer
+extra-gapmetadata asymmetry regradedImportant, focusedRED1error->25GREEN0.214s;
+related215passed/157subtests1.72s. Finalreview30tests0.211s, loaderroundtrip, nine
+malformedprobes, atomicneighborbudget andactualreplay verified; no otherfindings.
+Declined glyph/meaning/authority/scope/forgedcaller/liveRPC/RLS/deployment/exact
+modeltokens/answers/formalexit remain documented limits or unperformedgates; no
+deferredminors. Current-code actualdefault/opt-in replay equality passes; independent
+verifierPASS/718priorfiles unchanged.12files sealed:4083b4b70edf9112e804c509be9d90a52b94ec10e815882bd5b10bcbd01205c0.
+Actual0chunks/66unknownscope/sevengaps/sixnonChunklimitpreviews;225spans/29blanks,
+13structured/null requirements/3overcap/1structuredgap refusal.480capunchanged.
+Report2026-10-13-reviewed-source-limit-context-report.md. Next structured/complete
+step grouping underTDD and governance prerequisites; intake reminder remainsopen.
+No deployment/sourceapproval/DBwrites. Finaldocs387passed0.90s, diff/all12seal
+hashes-sizes/fourcurrentcode-testdigests match. Phasevalidationvalid/advancement
+blocked; six curated docs closure follows, SHA discoverable fromGit.
+
+**Source-limit codec verified,13October2026:** Source-limit codec verified underTDD:five new regressions RED unexpectedoption
+(errors5), smallest codec/adapter/context GREEN22tests; storedRPCshape and removed
+marker/partialspan2RED(1failure/1error) lead24GREEN0.193s. Status-key contract guard
+refused implementation metadata; use nonprivileged resolution:unresolved. Legacy
+overlapfixture explicitly marks legacychunkerversion. Relevant214passed/157subtests
+1.77s; ledger19passed9.288s. Default actualreplay byte-equivalent to previousresult;
+opt-in0chunks/66unknownscope/13nonscalar/1unsupportedgap/3overcap reasons. Allseven
+gaps preserved, six preparation-only scalarlimit previews contain exact visible
+fields/unavailablemessages; independentverifierPASS/718priorfiles unchanged.
+No sourcepromotion/deployment/DBwrites. Next cohesivecodecommit, finalindependent
+review/seal/report/closure; structured/governance gates and intake reminder open.
+
 **Source-limit context start,13October2026:** Source-limit context continuation from clean6ab9c10; no handoff stop requested.
 Plan2026-10-13-reviewed-source-limit-context-plan.md defines opt-in scalar context
 codec/defaultgapwithholding and full-record offline assembly; preserve480cap/
