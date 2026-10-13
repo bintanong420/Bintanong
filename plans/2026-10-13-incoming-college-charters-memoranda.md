@@ -79,3 +79,15 @@ Owner notice; dataset-location guide; master sections6/7/10; Phase1 source gover
 and Phase2 ingestion plans; undergraduate scope and source-gap policies. Thesis
 physical17–18 reread for this potential new-source scope decision. Routing PNG was
 consulted in the preceding continuation; no routing change is proposed here.
+
+## Scheduling update — 14 October2026
+
+The owner asks to continue Phase05 so new data can finally be placed. Ignored
+`dataset/Incoming/2026-10-14/CollegeCitizenCharter/` and `Memoranda/` are now
+available with a local organization guide; exact absolute root is recorded in
+dataset-locations.md. Placement can happen while current corpus work continues.
+This supersedes the earlier placement-delay wording above; processing still waits
+for the owner to confirm the complete batch. No incoming files inspected, registered,
+converted or approved. Current implementation is the bounded flowchart-context plan;
+earlier disciplinary-next-action wording is historical. Final calibration intended
+to include these documents follows their extraction/review/governance work.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 123
+sequence: 124
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cf4a862
-working_tree: six curated complete-service context documentation paths prepared for closure
-updated_at: 2026-10-14T00:10:41+08:00
+head_commit: 3fd1e1fa1855cf689be6c9a2809c1c95729072ba
+working_tree: curated flowchart plan and intake scheduling documentation prepared
+updated_at: 2026-10-14T00:29:08+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resumed from clean3fd1e1f. Current increment: plans/2026-10-14-reviewed-flowchart-context-plan.md; structured arrows with complete node context under TDD. Intake staging is now available at dataset/Incoming/2026-10-14 (CollegeCitizenCharter and Memoranda); owner complete-batch notice still pending. No incoming processing. Thesis physical17–18/36 and routingPNG freshly consulted, no discrepancy. Existing source/service results remain preserved. Formal exit blocked.
 
 Complete-service finalreviewno actionablefindings;6focused0.129s,63relatedtests/
 63subtests1.05s,18malformedprobes, stored/JSONroundtrips, childfirstsourceorder/
@@ -1298,6 +1300,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current: execute the bounded flowchart-context plan (focused RED, implementation, GREEN, actual preserved replay, final review). Later body segmentation/Charter cover and two oversized gap records, governance and calibration remain open. Incoming staging may be used now; process only once owner confirms collection complete.
 
 Currentservice increment: finalreview/replay/seal complete; commitcuratedclosure.
 Next integrate confirmed arrows and body/furniture segmentation as source-bound

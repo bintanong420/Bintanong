@@ -106,3 +106,15 @@ Actual original-source bundles: `.../p05-real-retrieval-readiness-20261012/origi
 Owner-requested prospectus reviewfolder: `C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012`. This review is deferred for Phase06 preparation. Its `START-HERE.md`, editable case/source decision sheets,10byteidentical selectedPDFcopies and12pageimages are retained; originaldataset remainsunchanged. Allreviews pending.
 
 New repaired Financial Management candidate lives under `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-extraction-recovery-20261012/repaired-ingestion/176cbbd07bcec16a9037b610636546c032fc66ac2aa24536e163632988625141/`,with54newvectors recordedseparately. Current source mix32errors/7warnings/390chunks; historical39-bundle/336-vector readinesssnapshot preserved. No datasetmove orsharedpublication.
+
+## Incoming college Charters and memoranda staging — 14 October2026
+
+Ignored intake root: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/Incoming/2026-10-14/`.
+
+Use `CollegeCitizenCharter/<College>/<Document>/` for complete photo sequences and
+`Memoranda/<Document>/` for memos; retain original PPTX/PDF files alongside photos.
+The local PLACE-ORIGINALS-HERE.md explains organization. Git check-ignore confirms
+the guide and future photo/PPTX paths are ignored. No incoming files inspected.
+Owner may copy originals now and notify when collection is complete; source
+registration/extraction/human review/governance follow in a separate batch. This
+is staging availability, not corpus activation or formal Phase05 completion.
