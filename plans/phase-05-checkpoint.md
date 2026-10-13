@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 92
+sequence: 93
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b9e614d
-working_tree: five native-field closure documentation paths updated; eleven-file private packet sealed; following closure commit discoverable in Git
-updated_at: 2026-10-13T18:21:58+08:00
+head_commit: 4bceb87
+working_tree: image-flowchart mapping plan, checkpoint and current progress updated for resume
+updated_at: 2026-10-13T18:33:04+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resume clean4bceb87, precedingcodehead reconciled. Contextthesisphysical17–18/36/
+routingPNG/master10andscope/gap/association rules reconsulted; handbook62/63PNG
+inspected, fresh fullpage scale2renders exactlymatch recordedhashes. Boundedplan
+`plans/2026-10-13-reviewed-image-flowchart-plan.md` maps24confirmedscalarfields and
+fourdirectionaledges/twoterminals using explicit sourcepoint/pixelscale, with
+separate inactive graphs and no nativeglyph/Doclingcell invention. Next synthetic
+mapper/graphRED; unknownapplicability/sourcegaps remainwithheld. No repeat ownerreview.
 
 Bounded nativefieldmapping deliveredba8aae4/b9e614d; final review noresidualfindings.
 16focused0.066s root/0.065s reviewer; finalrelevant1010tests/51subtests pass,1skip

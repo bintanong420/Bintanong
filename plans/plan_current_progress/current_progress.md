@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Image-flowchart continuation, 18:33 +08, 13 October 2026:** Clean4bceb87resumed.
+Plan `plans/2026-10-13-reviewed-image-flowchart-plan.md`: source/render-checked
+pixel-to-PDFpoint field mappings and complete inactive directionalgraphs for
+confirmedoverload/cross-enrollment. Original62/63images inspected; fresh full-page
+scale2renders match recordedhashes,936x1224px/468x612pt. Thesis17–18/36/routingPNG/
+master10/scope/gap/association rules agree. Next syntheticRED before24field/fouredge
+mapping code; unknownapplicability withheld, all originals/review/history preserved.
+
 **Native grading mappings delivered, 18:21 +08, 13 October 2026:**
 Codeba8aae4/b9e614dverified; report
 `plans/2026-10-13-reviewed-native-field-spans-report.md`.45nativefieldspans/nineblank
