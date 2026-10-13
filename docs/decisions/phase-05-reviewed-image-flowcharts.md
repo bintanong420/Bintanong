@@ -49,3 +49,32 @@ mapped. Combined69nonblank spans/nine native blanks; missing scalar mappings
 Final relevant1026tests/56subtests pass,oneexistingWindows symlinkskip23.94s.
 Independent saved checks compare both original renders,24field associations,
 fourordereddecisionedges/twoterminals and607priorfilehashes successfully.
+
+## Retained disciplinary regions and explicit blanks
+
+13October2026, code488f34e: reuse the hash-checked full-page mapper with optional
+`table_region_formats`, keyed by source SHA256/physical page. Trusted callers
+declare `source_region_pixels` or `raw_cell_points`; no format/scale/origin is
+inferred from magnitudes. Raw TOPLEFT PDFpoint boxes multiply by verified render
+scale before the existing pixel-to-point conversion. Other origins/formats/invalid
+geometry withhold fields. No native character ranges or Docling IDs are fabricated.
+
+Confirmed table blanks require matching literal proposed_blank and empty original/
+reviewed values. They retain original evidence, actual event/page/render identity
+and an empty span list. Explicit raw_cell:null blanks retain no rectangle; missing
+raw_cell keys or nonblank null cells stay unmapped. Render validation applies even
+to null-cell blanks. Exact corrected-field review and audience guards remain intact.
+
+Retained rectangles are coarse transcription/diagnostic locators, not exact glyph
+boundaries or complete cell outlines. Neighbor glyph overhang and partial native
+text remain in copied diagnostics; original layout and actual confirmed visual
+transcription establish field/column association. Independent checks distinguish
+diagnostic-only proposals from accepted visual proposals and the separately
+checked fabrication association. Do not claim exact native geometry from this work.
+
+Actual37 text fields/18 blanks/11 rows mapped; combined133 spans/27 blanks.
+Five page88 blanks have null raw cells.637 earlier hashes unchanged, zero chunks/
+66 unknown-applicability readings/seven gap groups withheld. Malformed weapon
+meaning remains unresolved. [Plan](../../plans/2026-10-13-reviewed-disciplinary-regions-plan.md)
+and [report](../../plans/2026-10-13-reviewed-disciplinary-regions-report.md) record
+TDD and independent review. No source approval or runtime activation.

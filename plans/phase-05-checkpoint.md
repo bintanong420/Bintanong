@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 103
+sequence: 104
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 1f78176
-working_tree: verified image mapper, synthetic tests, bounded plan, checkpoint and progress prepared for code commit
-updated_at: 2026-10-13T19:51:48+08:00
+head_commit: 488f34e
+working_tree: disciplinary report, decision, bounded plan, index, checkpoint and progress prepared for documentation closure
+updated_at: 2026-10-13T19:57:11+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,23 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Disciplinary code488f34e committed; final fresh-context review found no actionable
+issues. Reviewer31 focused tests passed0.193s, independently verified original
+pages87/88/89 column associations and637 prior hashes, explicit18 blanks/seven
+source-gap groups, and clean diff/valid blocked phase state. Reviewer declined
+institutional approval/runtime/history/whole-corpus judgments and exact glyph/
+full-cell precision: these remain separate gates or explicit coarse-provenance
+limits, not inferred approvals. No deferred code issues. Independent verifier
+rerun passes; fourteen-file seal
+d14e71a5d549fe2388fcd5bfb1fc85a975670b4e3067e72e783cb8bcc9cfffa6.
+Report2026-10-13-reviewed-disciplinary-regions-report.md and existing image decision
+record cover delivery. Relevant1343/1skip/104subtests21.17s, phase ledger19passed
+9.323s. Final docs374passed0.92s; diff check,14 sealed files and current mapper/
+test digests match. Phase validation exit0; can-advance exit1 (expected blocked
+handoff). Six-path documentation closure follows; its SHA is discoverable from Git.
+Next confirmed Charter11–12 logical-step/association mapping; no repeated reviews/
+conversions, unknown applicability retained, no incoming intake or runtime activation.
 
 Disciplinary region mapping GREEN: optional table_region_formats handles retained
 source_region pixels and raw_cell TOPLEFT points; confirmed blanks retain empty
@@ -741,6 +758,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Clean488f34e reconciles the implementation checkpoint; six curated documentation
+paths form closure: disciplinary report/plan, existing image decision, INDEX,
+checkpoint and current progress. Sealed private originals/outputs stay ignored.
+Closure SHA follows from Git; no remote writes or Phase06.
+
 Scope clarification starts from clean `ffd8a09`; five curated documentation paths
 only: undergraduate-scope-policy, incoming-source note, INDEX, checkpoint and
 current_progress. Closure commit is discoverable from Git. Source originals,
@@ -817,6 +839,12 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Disciplinary continuation:31 focused tests GREEN after recorded interface/format/
+null-blank REDs; relevant1343 passed/1skip/104subtests21.17s, phase ledger19passed
+9.323s. Independent original/event/region/blank/gap/preservation checks pass;
+637 earlier files unchanged. Fresh reviewer31passed0.193s/no actionable issues.
+Fourteen-file evidence seal recorded above; fullsuite/formalPhase05 exit NOT RUN.
 
 Currentnative15initialtests0.070s, readerfix16GREEN0.066s; final relevant1010pass/
 1skip/51subtests21.11s. Independent finalreview16pass0.065s, actualnative mapping
@@ -991,6 +1019,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current after disciplinary delivery: inspect retained confirmed Charter logical
+step1 across physical11–12 with seven agency sub-actions, shared fees and steps2–5/
+total. Define original field/structured associations and required continuation
+context under focused TDD; preserve original/raw/preparation/confirmed reviews.
+No repeated page reviews or conversions. Unknown scope/authority and known gaps
+remain gated. Incoming college Charter/memorandum intake reminder stays pending;
+owner complete-batch notice precedes exact destination/organization instructions
+and intake, before final retrieval calibration including the new sources.
 
 Resume `plans/2026-10-13-reviewed-graduation-image-report.md` and its14-file seal.
 Map the already confirmed disciplinary tables on handbook physical87/88/89,
