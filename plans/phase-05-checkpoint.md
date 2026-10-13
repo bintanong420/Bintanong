@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 102
+sequence: 103
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 231fb6f
-working_tree: disciplinary mapping plan, checkpoint and progress prepared for documentation commit
-updated_at: 2026-10-13T19:40:39+08:00
+head_commit: 1f78176
+working_tree: verified image mapper, synthetic tests, bounded plan, checkpoint and progress prepared for code commit
+updated_at: 2026-10-13T19:51:48+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,23 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Disciplinary region mapping GREEN: optional table_region_formats handles retained
+source_region pixels and raw_cell TOPLEFT points; confirmed blanks retain empty
+span lists. Nine new tests reproduce absent interface RED (35 subtest errors),
+malformed format types add2RED then guarded GREEN; actual page88 discovery adds
+two blank-cell tests/oneRED, final31 tests GREEN0.194s. Relevant final1343passed/
+1existing Windows symlink skip/104subtests21.17s (earlier1341/102,67.35s preceded
+null-blank change). Actual37 text/18 blanks/11rows mapped;133 combined spans/
+27 blanks, missing scalar requirements129to92. Zero chunks/66 unknown applicability;
+seven source-gap groups unchanged. Independent original/render/event/region/blank
+checks pass and637 earlier hashes match. Private verifier initially confused
+diagnostic-only proposals with confirmed visual transcriptions; now independently
+checks actual hash-bound visual/fabrication/page88 proposals and event fields,
+retaining the diagnostic boxes separately. No product relaxation needed. Packet:
+workspace/audit-evidence/p05-reviewed-disciplinary-regions-20261013. Next code
+commit then one final independent review, evidence seal/report and curated closure.
+No incoming intake, source authority/runtime activation or phase advancement.
 
 Owner authorizes Phase05 continuation after recovering the missing discussion.
 Clean231fb6f verified; next bounded disciplinary87/88/89 mapping plan is

@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Disciplinary mappings verified, 13 October2026:** Eleven rows/37 nonblank
+fields/18 explicit blanks mapped from original87/88/89 renders and actual reviews.
+Combined133 spans/27 blanks; missing scalar requirements129to92; zero chunks/
+66 unknown applicability, seven gap groups retained.637 earlier files unchanged.
+Nine regression tests absent-interface RED, format-type2RED and null-blank1RED
+lead to31 focused GREEN0.194s. Relevant final1343passed/1existing skip/104subtests
+21.17s. Independent original/event/field/region/blank checks pass; verifier corrected
+diagnostic-versus-transcription input association without changing saved output.
+Next cohesive code commit, final independent review/seal/report/curated closure.
+Incoming collection and intake reminder remain pending; no source/runtime approval.
+
 **Disciplinary continuation, 13 October2026:** Owner authorizes Phase05 work.
 Clean231fb6f; bounded plan2026-10-13-reviewed-disciplinary-regions-plan.md
 uses explicit retained pixel/point regions with original render identity,37 text

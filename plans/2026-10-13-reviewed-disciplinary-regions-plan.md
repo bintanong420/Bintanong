@@ -10,8 +10,9 @@ including37 nonblank fields and18 literal source blanks, without changing sancti
 `table_region_formats`, keyed by source SHA256/physical page. Declare
 `source_region_pixels` for retained TOPLEFT pixel regions or `raw_cell_points`
 for retained raw-cell TOPLEFT PDFpoint boxes. Validate each through the existing
-hash-bound full-page render before mapping; blanks retain region/evidence with
-empty span lists. These are reviewed transcription regions, not glyph ranges
+hash-bound full-page render before mapping; blanks retain evidence and any recorded
+region with empty span lists. Explicit raw_cell:null blanks have no fabricated
+rectangle. These are reviewed transcription regions, not glyph ranges
 or invented Docling cell IDs. Existing image and corrected-field paths stay intact.
 
 **Spec:** Undergraduate/source-gap/service-table policies and the next action in
@@ -42,10 +43,10 @@ Modify `backend/bintanong_tools/document_ingest/reviewed_image_spans.py` and
 `tests/test_reviewed_image_spans.py`. Optional `table_region_formats=None` is an
 additional trusted layout input, not an authority or review decision.
 
-- [ ] Focused RED for pixel/point conversion, exact blank preservation, explicit
+- [x] Focused RED for pixel/point conversion, exact blank preservation, explicit
   format/origin/geometry requirements, invalid flags/text/field/page/review,
   render identity, excluded audience, gaps and input invariance.
-- [ ] Minimal GREEN; existing image/native/preparation/pending/source/governance
+- [x] Minimal GREEN; existing image/native/preparation/pending/source/governance
   regressions. Record exact results; cohesive code/test/checkpoint commit.
 
 ## Task 2: Additive original disciplinary evidence
@@ -65,6 +66,10 @@ additional trusted layout input, not an authority or review decision.
 
 Task1 produces field_spans consumed by the existing pending adapter in Task2.
 Empty lists already represent explicit blanks; no chunk-contract change needed.
+Actual page88 evidence retains raw_cell:null for five confirmed blanks. Ruling:
+map those literal blanks after full-page validation with no invented region;
+missing raw_cell keys or nonblank null cells stay withheld. Focused RED/GREEN
+records this discovery separately from the earlier complete-region test fixtures.
 The prior native mapper requires saved character ranges/page-size evidence absent
 here. Ruling: use declared retained regions against original images, retaining all
 native/raw diagnostics, rather than fabricate ranges or mutate the sealed bundle.

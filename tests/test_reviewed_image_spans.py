@@ -154,6 +154,156 @@ class ImageFieldSpanTests(unittest.TestCase):
         return [{'from':'a','label':'Yes','to':'b','pixel_region':[60,100,100,200]},
             {'from':'a','label':'No','to':'END','pixel_region':[120,80,180,350]}]
 
+    def table_setup(self,kind='source_region_pixels',blank=False):
+        field=self.rows[0]['fields'][0]
+        evidence=field['locator']['evidence']
+        evidence.pop('proposed_image_region')
+        evidence.pop('region_origin')
+        evidence.update(proposed_blank=blank,original_native_region_text='neighbor glyph overhang')
+        if kind=='source_region_pixels':
+            evidence['source_region']=[20,40,120,100]
+        else:
+            evidence['raw_cell']={'bbox':{'l':10,'t':20,'r':60,'b':50,'coord_origin':'TOPLEFT'},
+                'text':'retained raw diagnostic','start_col_offset_idx':0}
+        if blank:
+            field.update(original_value='',reviewed_value='',source_blank=True)
+            evidence['proposed_reading']=''
+        return {(self.sha,2):kind}
+
+    def test_retained_pixel_or_point_table_region_keeps_reviewed_column_text(self):
+        for kind in ('source_region_pixels','raw_cell_points'):
+            with self.subTest(kind=kind):
+                self.setUp()
+                formats=self.table_setup(kind)
+                result=self.map(table_region_formats=formats)
+                record=result['mapping_evidence'][0]
+                self.assertEqual(record['span']['text'],'Get the form.')
+                self.assertEqual(record['span']['bbox'],[10,20,60,50])
+                self.assertEqual(record['pixel_region'],[20,40,120,100])
+                self.assertEqual(record['region_format'],kind)
+                self.assertEqual(record['original_evidence'],self.rows[0]['fields'][0]['locator']['evidence'])
+                self.assertEqual(record['span']['locator']['cell_ids'],[])
+                self.assertEqual(len(self.calls),1)
+
+    def test_reviewed_blank_maps_empty_spans_despite_neighbor_glyph_diagnostic(self):
+        for kind in ('source_region_pixels','raw_cell_points'):
+            with self.subTest(kind=kind):
+                self.setUp()
+                formats=self.table_setup(kind,blank=True)
+                result=self.map(table_region_formats=formats)
+                self.assertEqual(result['field_spans'],{'node-a':{'instruction':[]}})
+                record=result['mapping_evidence'][0]
+                self.assertTrue(record['source_blank'])
+                self.assertIsNone(record['span'])
+                self.assertEqual(record['pixel_region'],[20,40,120,100])
+                self.assertEqual(record['original_evidence']['original_native_region_text'],'neighbor glyph overhang')
+                self.assertEqual(len(self.calls),1)
+
+    def test_table_coordinate_format_is_explicit_and_never_guessed(self):
+        self.table_setup()
+        for formats in ({},{(self.sha,2):'pixels'},{(self.sha,2):'raw_cell_points'},
+                        {(self.sha,3):'source_region_pixels'}, {(self.sha,2):[]}, {(self.sha,2):{}}):
+            with self.subTest(formats=formats):
+                self.assertFalse(self.map(table_region_formats=formats)['field_spans'])
+        with self.assertRaisesRegex(ValueError,'table region formats'):
+            self.map(table_region_formats=[])
+
+    def test_blank_flag_must_be_literal_and_match_reviewed_empty_value(self):
+        for value in (None,False,1,'true'):
+            with self.subTest(value=value):
+                self.setUp()
+                formats=self.table_setup(blank=True)
+                self.rows[0]['fields'][0]['locator']['evidence']['proposed_blank']=value
+                self.assertFalse(self.map(table_region_formats=formats)['field_spans'])
+        self.setUp()
+        formats=self.table_setup()
+        self.rows[0]['fields'][0]['locator']['evidence']['proposed_blank']=True
+        self.assertFalse(self.map(table_region_formats=formats)['field_spans'])
+
+    def test_invalid_retained_table_regions_never_map_text_or_blank(self):
+        for blank in (False,True):
+            for kind in ('source_region_pixels','raw_cell_points'):
+                for box in ([0,0,1300,50],[10,50,60,20],[10,20,float('inf'),50],[10,20,60]):
+                    with self.subTest(blank=blank,kind=kind,box=box):
+                        self.setUp()
+                        formats=self.table_setup(kind,blank)
+                        evidence=self.rows[0]['fields'][0]['locator']['evidence']
+                        if kind=='source_region_pixels':
+                            evidence['source_region']=box
+                        else:
+                            evidence['raw_cell']['bbox']=dict(zip(('l','t','r','b'),box),coord_origin='TOPLEFT')
+                        # Nonfinite preparation itself must fail before mapping.
+                        if any(n==float('inf') for n in box):
+                            with self.assertRaises(ValueError):self.map(table_region_formats=formats)
+                        else:
+                            self.assertFalse(self.map(table_region_formats=formats)['field_spans'])
+
+    def test_raw_cell_origin_and_confirmed_field_association_are_required(self):
+        for edit in ('origin','field','reading','page','decision','audience'):
+            with self.subTest(edit=edit):
+                self.setUp()
+                formats=self.table_setup('raw_cell_points')
+                field=self.rows[0]['fields'][0]
+                evidence=field['locator']['evidence']
+                if edit=='origin':evidence['raw_cell']['bbox']['coord_origin']='BOTTOMLEFT'
+                if edit=='field':evidence['field']='other penalty'
+                if edit=='reading':evidence['proposed_reading']='Other text.'
+                if edit=='page':field['locator']['physical_pages']=[2,3]
+                if edit=='decision':field['decision']='pending'
+                if edit=='audience':self.rows[0]['intended_audience']='staff'
+                self.assertFalse(self.map(table_region_formats=formats)['field_spans'])
+
+    def test_table_blank_requires_matching_original_render(self):
+        formats=self.table_setup(blank=True)
+        self.observed['image_bytes']=b'different original image'
+        result=self.map(table_region_formats=formats)
+        self.assertFalse(result['field_spans'])
+        self.assertEqual(result['withheld_fields'][0]['reason'],'original_image_mismatch')
+
+    def test_explicit_absent_raw_blank_cell_retains_no_fabricated_region(self):
+        formats=self.table_setup('raw_cell_points',blank=True)
+        self.rows[0]['fields'][0]['locator']['evidence']['raw_cell']=None
+        result=self.map(table_region_formats=formats)
+        self.assertEqual(result['field_spans'],{'node-a':{'instruction':[]}})
+        record=result['mapping_evidence'][0]
+        self.assertIsNone(record['pixel_region'])
+        self.assertIsNone(record['span'])
+        self.assertEqual(len(self.calls),1)
+
+    def test_absent_raw_cell_only_maps_an_explicit_confirmed_blank(self):
+        for blank,missing in ((False,False),(True,True)):
+            with self.subTest(blank=blank,missing=missing):
+                self.setUp()
+                formats=self.table_setup('raw_cell_points',blank=blank)
+                evidence=self.rows[0]['fields'][0]['locator']['evidence']
+                if missing:evidence.pop('raw_cell')
+                else:evidence['raw_cell']=None
+                self.assertFalse(self.map(table_region_formats=formats)['field_spans'])
+
+    def test_table_format_cannot_bypass_corrected_field_event(self):
+        formats=self.table_setup()
+        self.rows[0]['fields'][0].update(decision='corrected',reviewed_value='Corrected instruction.')
+        result=self.map(table_region_formats=formats)
+        self.assertFalse(result['field_spans'])
+        self.assertEqual(result['withheld_fields'][0]['reason'],'correction_review_mismatch')
+
+    def test_table_mapping_preserves_inputs_gaps_and_applicability_withholding(self):
+        formats=self.table_setup()
+        self.rows[0]['gaps']=[{'gap_id':'condition','field_names':['instruction'],
+            'issue':'malformed_source_condition','visible_text':'Get the form.',
+            'affected_claims':['eligibility'],'locator':{'physical_pages':[2],'field':'instruction'}}]
+        prep=self.prep()
+        before=copy.deepcopy((prep,self.sources,self.events,self.pages,formats))
+        result=self.map(prep,table_region_formats=formats)
+        pending=build_reviewed_policy_chunks(prep,sources=self.sources,review_events=self.events,
+            source_versions=[self.version],field_spans=result['field_spans'])
+        self.assertEqual(pending['chunks'],[])
+        self.assertIn('source_gap_requires_context_support',pending['withheld'][0]['reasons'])
+        self.assertIn('undergraduate_applicability_required',pending['withheld'][0]['reasons'])
+        self.assertEqual((prep,self.sources,self.events,self.pages,formats),before)
+        result['mapping_evidence'][0]['original_evidence']['proposed_reading']='mutated'
+        self.assertEqual((prep,self.sources,self.events,self.pages,formats),before)
+
     def bind(self,mapping,edges,**changes):
         from backend.bintanong_tools.document_ingest.reviewed_image_spans import bind_reviewed_flowchart
         args={'arrow_reading_id':'arrows','row_reading_ids':{'a':'node-a','b':'node-b'},
