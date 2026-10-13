@@ -56,9 +56,23 @@ def make_source_limits(row, associations, spans):
     return limits
 
 
-def serialize_reviewed_fields(associations, limits):
-    return _json({'fields':[{k:f[k] for k in ('name','value','source_blank')} for f in associations],
-        'source_limits':limits})
+def serialize_reviewed_fields(associations, limits, group=None):
+    fields=[]
+    for f in associations:
+        display={k:f[k] for k in ('name','value','source_blank')}
+        if 'field_state' in f:
+            display.update(field_state=f['field_state'],
+                limitation='Additional conditions are not separately recorded; their absence is not established.')
+        fields.append(display)
+    payload={'fields':fields,'source_limits':limits}
+    if group is not None:
+        if (not isinstance(group,dict) or set(group)!= {'logical_step_id','part_order','part_count'}
+                or not isinstance(group['logical_step_id'],str) or not group['logical_step_id']
+                or type(group['part_order']) is not int or type(group['part_count']) is not int
+                or not 0 <= group['part_order'] < group['part_count']):
+            raise ValueError('invalid service context group')
+        payload['service_group']=group
+    return _json(payload)
 
 
 def render_reviewed_policy_context(chunk, spans):
@@ -101,12 +115,17 @@ def render_reviewed_policy_context(chunk, spans):
         indexes, names = [], set()
         for field in associations:
             name, value, blank, refs = (field[k] for k in ('name','value','source_blank','span_indexes'))
-            if (not isinstance(name,str) or not name or name in names or not isinstance(value,str)
+            unrecorded=(value is None and isinstance(name,str) and name.endswith('/condition_note')
+                and field.get('field_state')=='not_recorded' and blank is False and refs==[])
+            if (not isinstance(name,str) or not name or name in names or (not isinstance(value,str) and not unrecorded)
+                    or ('field_state' in field and not unrecorded)
                     or type(blank) is not bool or not isinstance(refs,list)
                     or any(type(i) is not int or not 0 <= i < len(bound) for i in refs)
                     or not re.fullmatch(r'[0-9a-f]{64}',field['event_sha256'])):
                 raise ValueError('invalid reviewed context field association')
             names.add(name); indexes.extend(refs)
+            if unrecorded:
+                continue
             if blank:
                 if value != '' or refs:
                     raise ValueError('source blank differs from located fields')
@@ -121,7 +140,7 @@ def render_reviewed_policy_context(chunk, spans):
                     {'source_sha256','version_id','span_indexes','resolution','message'}}
                     for g in limits]}
         regenerated = make_source_limits(row, associations, located)
-        if limits != regenerated or chunk['text'] != serialize_reviewed_fields(associations,limits):
+        if limits != regenerated or chunk['text'] != serialize_reviewed_fields(associations,limits,fields.get('service_group')):
             raise ValueError('reviewed context text or source limits differ')
         return chunk['text']
     except (KeyError,TypeError,IndexError,ValueError) as exc:

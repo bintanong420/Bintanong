@@ -122,6 +122,11 @@ def build_reviewed_policy_chunks(
             if not isinstance(supplied, (list, tuple)):
                 errors.append(f"invalid_field_spans:{name}")
                 continue
+            if (include_source_limits and value is None and field['original_value'] is None
+                    and name.endswith('/condition_note') and field['source_blank'] is False and not supplied):
+                associations.append({'name':name,'value':None,'source_blank':False,
+                    'span_indexes':[],'event_sha256':field['review_event_sha256'],'field_state':'not_recorded'})
+                continue
             if not isinstance(value, str):
                 errors.append(f"field_requires_scalar_mapping:{name}")
                 continue
@@ -149,10 +154,19 @@ def build_reviewed_policy_chunks(
         source_text = "\n".join(s.text for s in spans)
         text = _json({"fields": [{k: f[k] for k in ("name", "value", "source_blank")} for f in associations]})
         limits = []
+        group = None
         if include_source_limits:
             try:
                 limits = make_source_limits(row, associations, spans)
-                text = serialize_reviewed_fields(associations,limits)
+                if 'original_reading_id' in row or 'part_order' in row:
+                    members=[r for r in rows.values() if r.get('original_reading_id')==row.get('original_reading_id')]
+                    orders=[r.get('part_order') for r in members]
+                    if (any(type(i) is not int for i in orders) or sorted(orders)!=list(range(len(members)))
+                            or any(r['version_id'] != row['version_id'] for r in members)):
+                        raise ValueError('incomplete service parts')
+                    group={'logical_step_id':row['original_reading_id'],'part_order':row['part_order'],
+                        'part_count':len(members)}
+                text = serialize_reviewed_fields(associations,limits,group)
             except (ValueError,KeyError,TypeError,IndexError):
                 errors.append("source_gap_requires_context_support")
         count = max(estimate_tokens(source_text), estimate_tokens(text))
@@ -164,6 +178,7 @@ def build_reviewed_policy_chunks(
             "applicability_basis_ref": row["applicability_evidence_ref"]}
         if include_source_limits:
             fields.update(context_format=CONTEXT_FORMAT,source_limits=limits)
+            if group is not None:fields['service_group']=group
         data = {"schema_version": Chunk.SCHEMA_VERSION, "chunk_type": "policy",
             "chunker_version": CONTEXT_CHUNKER_VERSION if include_source_limits else CHUNKER_VERSION, "edition_id": version.edition_id,
             "document_id": version.document_id, "version_id": version.version_id,

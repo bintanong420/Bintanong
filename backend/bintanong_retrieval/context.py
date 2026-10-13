@@ -63,6 +63,21 @@ def build_context(candidates, budget: int, count_tokens):
             continue
         trial, trial_chunks, trial_spans=[],set(seen_chunks),set(seen_spans)
         try:
+            grouped={}
+            for row in group:
+                meta=row['chunk'].get('type_fields',{}).get('service_group')
+                if meta is not None:
+                    grouped.setdefault(meta['logical_step_id'],[]).append(row)
+            for members in grouped.values():
+                metas=[r['chunk']['type_fields']['service_group'] for r in members]
+                count=metas[0]['part_count']
+                if (type(count) is not int or any(type(m['part_order']) is not int or m['part_count']!=count for m in metas)
+                        or sorted(m['part_order'] for m in metas)!=list(range(count))
+                        or len({r['chunk']['version_id'] for r in members})!=1):
+                    raise ValueError('invalid reviewed context record')
+                ordered=iter(sorted(members,key=lambda r:r['chunk']['type_fields']['service_group']['part_order']))
+                member_ids={r['chunk']['chunk_id'] for r in members}
+                group=[next(ordered) if r['chunk']['chunk_id'] in member_ids else r for r in group]
             for row in group:
                 chunk=row['chunk']
                 if chunk['chunk_id'] in trial_chunks:
