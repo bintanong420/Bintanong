@@ -46,3 +46,18 @@ Synthetic focused tests cover pending register round trips, duplicate locators, 
 The seven previously reviewed Task 1/2 source/test/decision files are adopted verbatim from the external `draft_review_archives/p2_final` archive. The generic `ingest PATH` command remains; there is no Phase F command.
 
 NOT RUN: four institutional conversions, Handbook spike, authorized source/scope selection, content review, ten-document OCR gate, phone photographs, broad mutation campaign, broad suite, Linux/macOS/containers, exact tokenizer and institutional approval. Independent Spec and Standards acceptance remain root-managed. This batch does not meet the formal plan's real-source or phase-exit gates.
+
+## 2026-10-13 source-review evidence boundary
+
+Current Phase05 source review distinguishes original transcription proposals from
+raw extraction provenance and institutional approval. Critical grade-table field
+geometry is retained separately; no proposal patches the saved raw or candidate.
+Three refused handbook structures are process flowcharts, while other refusals
+include continuations, merged multilevel headers, contents indexes and headerless
+course-description pairs. A single row-sort/header-invention rule cannot recover
+these safely. Original/native bbox diagnostics remain review aids only.
+The ten separator-gap text refusals include furniture/cross-page joins and stay
+strictly refused pending a reviewed segmentation policy. Editable human decisions
+are excluded from the review evidence seal; no automatic import or approval follows.
+Detailed bounded evidence and next human action:
+`plans/2026-10-13-phase05-policy-review-preparation.md`.

@@ -25,7 +25,7 @@ performed during this organization.
 | Category | Current source location relative to dataset parent | Status |
 | --- | --- | --- |
 | University Charter | `CitizenCharter/2025/University/PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf` |2025/fourth edition,117pages;427candidate chunks/3table refusals; governance/content approval pending |
-| Student handbook | `StudentHandbook/2021/PSU Student Handbook.pdf` |2021,394pages,printed2020BOR approval separate;2726candidate chunks/1556text+18table refusals; governance/content approval pending |
+| Student handbook | `StudentHandbook/2021/PSU Student Handbook.pdf` |2021,394pages,printed2020BOR approval separate;4272candidate chunks/10text+18table refusals after list recovery; governance/content approval pending |
 | Memoranda | `Memoranda/2024/` through `2027/`, plus `UnknownYear/` | No files supplied yet; original photos will be retained |
 | College-specific Charters | `Deferred/CollegeCitizenCharter/` | Future photographs/documents intentionally deferred |
 | Organization policies | `Deferred/OrganizationPolicies/` | Future sources intentionally deferred |

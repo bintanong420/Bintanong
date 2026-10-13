@@ -170,6 +170,15 @@ policy embeddings/rankings orPhase06. Preserve deferred prospectus review.
 
 ## Both policy JSON candidates / source-span recovery continuation
 
+Latest source-review continuation (2026-10-13):
+`plans/2026-10-13-phase05-policy-review-preparation.md` and ignored
+`audit-evidence/p05-policy-human-review-20261013/START-HERE.md` govern the next
+owner review.26grading readings/61nonempty fields,21table/10text refusals,
+64original images/161links verified; all86decisions pending. Prior169sealed files
+and45dataset entries unchanged; no corrected candidate applied. Start with the
+two grading pages. This preparation does not satisfy source approval or retrieval
+exit gates; the formal handoff remains blocked. Earlier continuation below is history.
+
 Handbook394page original conversion and exact retained-byte recovery now checked:
 2726candidate chunks,1556text+18table rejections, image cover gap retained. TDD
 picture traversal2b11c5dverified4935tests/107subtests pass450.39s.45dataset entries
