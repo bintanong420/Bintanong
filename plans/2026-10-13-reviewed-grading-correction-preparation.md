@@ -1,5 +1,45 @@
 # Reviewed undergraduate grading correction preparation
 
+## Pre-enrollment readings confirmed; total and continuation unresolved
+
+Owner repeats the same confirmation twice; record one review event. All four
+Charter pre-enrollment rows, their linked fields and the printed total match.
+Step 3's agency action ends at "for" in the original. Preserve the printed
+25-minute total separately from the arithmetic sum of four 5-minute rows (20).
+The intended total and missing continuation remain unresolved; do not change
+the printed total, invent another step or complete the sentence. The editable
+interpretation issue is unresolved, with its applicability field unchanged.
+Two other interpretation rows and five other decision sheets are unchanged.
+
+Ignored packet `audit-evidence/p05-owner-pre-enrollment-confirmation-20261013/`
+contains the duplicate statement, one event, before/after interpretation sheet,
+accepted row derivative, next cover proposals and a fresh original cover render.
+Event SHA256 `6594c6586f3d144d44cc7afdb629295bb2fb519f43a6a082cc20fb5dbd62989e`,
+recorded 2026-10-13T15:36:47+08:00.527 prior sealed files and both original PDF
+hashes are unchanged. Eleven-file seal SHA256
+`ef105f40b071ed6aa30e3c9ae4738f4234826fb6250fa5f5bcbd5f2f1780f127`.
+Independent readonly verification passes the sealed packet, actual saved sheet,
+unchanged row values, duplicate handling and pending next readings.
+
+Three selected groups remain: handbook cover/approval distinction and two source
+records. Next review is handbook physical page 1 only: cover year label 2021,
+Board of Regents/217th BOR Meeting, November 11, 2020, Resolution No. 104,
+series of 2020. Original cover freshly rendered and visually inspected; no OCR
+or automatic image-only transcription claim. Earlier guide incorrectly called
+physical page 2 an approval page; it is a blank personal-data form. Approval text
+is at the bottom of page 1. Preserve the historical guide and correct the locator
+in the new proposal/guide. Next four readings are pending; cover year and printed
+approval date do not establish effectivity, supersession or current validity.
+Header/checklist, source applicability/authority, canonical correction and runtime
+activation remain separate pending gates. No product or source changes.
+
+Final documentation verification: approved Python3.13 venv, `-B -m pytest
+tests/test_docs_hygiene.py -p no:cacheprovider` with external basetemp,
+356passed0.92s. Readonly packet verifier, diff check and phase validation pass.
+Explicit four-path conventional documentation commit only; no push or product
+suite rerun. Failed optional missing-page/glob reads corrected through actual
+cover/form images; no original or historical evidence changed.
+
 ## Completion-timing wording confirmed; applicable deadline unresolved
 
 Owner confirms all four handbook47time statements match and explicitly leaves

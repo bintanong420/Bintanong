@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 78
+sequence: 79
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 4221131
-working_tree: four timing-review documentation paths updated; private eight-file packet sealed; following review closure discoverable from Git
-updated_at: 2026-10-13T15:29:06+08:00
+head_commit: 8ad5a66
+working_tree: four pre-enrollment review documentation paths updated; private eleven-file packet sealed; following closure discoverable from Git
+updated_at: 2026-10-13T15:36:47+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner confirms four pre-enrollment rows/printed total/step3cutoff, duplicate reply
+recorded once. Wording accepted; interpretation row unresolved, intended total
+and missing continuation unresolved. Preserve printed25minutes versus arithmetic
+20minutes, no invented fifth step or completion. Two other interpretation entries,
+scope field/five other sheets unchanged. Event
+6594c6586f3d144d44cc7afdb629295bb2fb519f43a6a082cc20fb5dbd62989e;
+527 prior sealed files/original hashes unchanged;11-file seal
+ef105f40b071ed6aa30e3c9ae4738f4234826fb6250fa5f5bcbd5f2f1780f127.
+Independent readonly verifier passes actual saved sheet/seal/duplicate handling.
+Three selected groups remain. Next handbook cover PDF1four readings pending:
+2021label,217th BOR meeting,November11,2020,resolution104/series2020.
+Fresh original cover visually inspected; old page2approval locator wrong (blank
+personal-data form), corrected in new guide. Printed dates do not establish
+effectivity/current validity. No source/canonical/runtime approval or phase advance.
 
 Owner confirms four handbook47time statements and leaves applicable deadline
 unresolved. Separate transcription accepted; interpretation row unresolved, scope
@@ -421,6 +436,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Clean8ad5a66baseline reconciled. Four explicit documentation paths updated:
+report/index/checkpoint/progress; private eleven-file packet stays ignored.
+Following conventional documentation closure ID from Git. Product/raw/original
+evidence unchanged; no branch rewrite, dependency change, push or activation.
+
 Clean4221131resume baseline reconciled with completed skill workflow. Four review
 documentation paths now updated: report, index, checkpoint and progress. Private
 confirmation/sheets/proposals stay ignored. Following conventional documentation
@@ -462,6 +482,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Pre-enrollment recorder verifies527 prior sealed files/five other sheets/source
+hashes,24row-field readings and printed total against fresh original native text.
+Independent readonly verifier passes eleven sealed files/actual current sheet,
+unchanged other issues and preserved row values. Original cover freshly rendered
+and visually checked; four next human readings pending. Final documentation/diff/
+phase checks pass:356docs tests0.92s with approved Python3.13 venv/cache disabled/
+external basetemp. Four explicit documentation paths staged; no product-suite claim.
 
 Timing confirmation recorder checks519previous sealed files/five other sheets,
 original hashes, four handbook clauses and all24pre-enrollment row-field readings
@@ -577,15 +605,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Owner compares complete pre-enrollment rows/total in
-`audit-evidence/p05-owner-completion-timing-confirmation-20261013/NEXT-REVIEW-PRE-ENROLLMENT.md`.
-Charter PDF102–103/printed98–99, four rows with fees/time/person/office associations.
-Confirm printed25minute total and step3agency cutoff at for; keep intended total
-and missing continuation unresolved. Do not rewrite as20minutes, invent a fifth
-step or complete the broken sentence. Header/checklist/source authority/current
-undergraduate applicability remain separate; no approval from a wording match.
-Four selected groups remain, not all corpus/release checks. Handbook47wording
-and programme body/separations confirmed; no duplicate review or phase advance.
+Owner compares four handbook cover readings in
+`audit-evidence/p05-owner-pre-enrollment-confirmation-20261013/NEXT-REVIEW-HANDBOOK-COVER.md`.
+PDF page1only:2021label,217th BOR meeting,November11,2020,resolution104/series2020.
+Keep cover year/printed approval separate; matching text does not establish
+effective-from/current validity/supersession or source authority. Do not request
+personal-data form(page2)review; historical approval locator corrected. Three
+selected groups remain, not all corpus/release checks. Pre-enrollment rows/total/
+cutoff,handbook47wording and programme separations confirmed; no duplicate review
+or phase advancement. Preserve known source gaps and pending governance gates.
 
 Previous programme-fragment next action retained for history:
 

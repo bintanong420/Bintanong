@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Pre-enrollment confirmation 15:36 +08, 13 October 2026:** Duplicate owner reply
+recorded once. Four Charter rows and printed total accepted; visible step 3 cutoff
+at "for" confirmed. Printed 25 minutes preserved; arithmetic row sum 20 minutes,
+intended total and missing continuation unresolved. Interpretation row unresolved;
+two other entries, applicability field and five other sheets unchanged.527 prior
+sealed files/original PDFs unchanged. Event
+6594c6586f3d144d44cc7afdb629295bb2fb519f43a6a082cc20fb5dbd62989e;
+11-file seal ef105f40b071ed6aa30e3c9ae4738f4234826fb6250fa5f5bcbd5f2f1780f127,
+independent readonly check passes. Three selected groups remain. Next guide:
+`audit-evidence/p05-owner-pre-enrollment-confirmation-20261013/NEXT-REVIEW-HANDBOOK-COVER.md`,
+handbook PDF page 1: year 2021, 217th BOR meeting, November 11, 2020, resolution
+104/series 2020. Four readings pending, effectivity/currentness unresolved. Fresh
+original cover inspected; historical page-2 approval locator corrected (blank
+personal-data form). Resume clean8ad5a66; conventional doc closure follows.
+No product/canonical/source authority/runtime approval or push.
+Documentation356passed0.92s, readonly packet/diff/phase validation pass. Only four
+documentation paths staged; no product-suite rerun. Closure ID discoverable in Git.
+
 **Completion-time wording15:29 +08,13October2026:** Owner confirms four handbook47
 time statements; wording accepted, applicable deadline/relationship unresolved.
 Interpretation row now unresolved; original scope field/two other interpretation
