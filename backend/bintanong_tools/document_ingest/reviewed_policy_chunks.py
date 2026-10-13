@@ -19,6 +19,7 @@ from ..prospectus_extractor.chunking import estimate_tokens
 from .policy_chunks import TOKEN_CAP
 from .register import load_pending_register
 from .reviewed_policy import build_reviewed_policy_bundle
+from .reviewed_text_segments import reviewed_body_partition
 
 
 CHUNKER_VERSION = "palsu-reviewed-policy-chunker-v1"
@@ -32,7 +33,7 @@ def _digest(value: Any) -> str:
     return hashlib.sha256(_json(value).encode("utf-8")).hexdigest()
 
 
-def _field_spans(field, supplied, version):
+def _field_spans(field, supplied, version, row):
     spans = []
     for raw in supplied:
         data = raw.model_dump(mode="json") if isinstance(raw, SourceSpan) else raw
@@ -44,7 +45,10 @@ def _field_spans(field, supplied, version):
                 or span.bbox is None or span.bbox_origin is None or span.page_size is None):
             raise ValueError("complete original geometry and source version required")
         spans.append(span)
-    if (set(s.page for s in spans) != set(field["locator"]["physical_pages"])
+    pages = field["locator"]["physical_pages"]
+    if field["name"] == "body" and any(f["name"] == "segmentation" for f in row["fields"]):
+        pages = reviewed_body_partition(row)["body_pages"]
+    if (set(s.page for s in spans) != set(pages)
             or canonical_text(" ".join(s.text for s in spans)) != canonical_text(field["reviewed_value"])):
         raise ValueError("field text or physical pages differ from supplied spans")
     return spans
@@ -125,7 +129,7 @@ def build_reviewed_policy_chunks(
                 continue
             else:
                 try:
-                    located = _field_spans(field, supplied, version)
+                    located = _field_spans(field, supplied, version, row)
                 except ValueError:
                     errors.append(f"invalid_field_spans:{name}")
                     continue

@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Text/timing mappings verified,13October2026:** Four body/four timing fields;
+body24/furniture25 separated with complete raw provenance retained.195combined
+spans/29blanks, missing scalar38to30; zero chunks/66unknownapplicability/seven
+gaps. All six original renders and actual review events match;668 earlier files
+unchanged, independent verifier passes. Initial8RED23errors + type/furniture2RED
+(1failure/2errors) lead to10GREEN0.047s. Relevant1375passed/1skip/173subtests
+25.60s. ETEEAP/campus/current-offering limits and unresolved deadline unchanged.
+Next cohesive code commit, final independent review/seal/report/curated closure.
+Incoming intake reminder and source/runtime/phase gates remain open.
+
 **Text/timing continuation,13October2026:** Cleancafd728; bounded plan2026-10-13-
 reviewed-text-timing-regions-plan.md. Eight confirmed scalar readings; exact raw
 body/furniture partition derives bodypage24 separately from furniture25, retaining

@@ -46,10 +46,10 @@ Owner already confirmed these body/furniture separations and all four statements
 Add reviewed_text_segments.py and tests/test_reviewed_text_segments.py;
 modify reviewed_policy_chunks.py and its tests as needed for verified body pages.
 
-- [ ] RED for exact body/furniture partition, raw character/provenance agreement,
+- [x] RED for exact body/furniture partition, raw character/provenance agreement,
   page24-only body without page25 furniture, partial review, source/render/geometry
   mismatch, source gap/input invariance and independent adapter page validation.
-- [ ] Smallest GREEN; image/native/service/preparation/pending/source/governance
+- [x] Smallest GREEN; image/native/service/preparation/pending/source/governance
   regressions and phase ledger checks. Record commands/results and cohesive commit.
 
 ## Task 2: Additive actual body and timing evidence
@@ -77,3 +77,9 @@ source statements, not approval of current programme offerings.
 
 Incoming collection remains incomplete; exact placement instructions at intake
 after complete-batch notice and before final calibration including new sources.
+
+Implementation verification:10 focused tests GREEN0.047s after observed interface/
+malformed-type/furniture-geometry REDs; relevant1375passed/1skip/173subtests25.60s.
+Actual eight source fields mapped,195combinedspans/29blanks and scalar38to30;
+668earlierfiles unchanged. Structured segmentation and timing/source gaps remain
+withheld; no original locator or review/history changed. Final review/closure next.

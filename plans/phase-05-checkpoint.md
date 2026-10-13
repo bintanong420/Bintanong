@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 108
+sequence: 109
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cafd728
-working_tree: text/timing plan, checkpoint and progress prepared for documentation commit
-updated_at: 2026-10-13T20:37:56+08:00
+head_commit: 39ae063
+working_tree: reviewed body mapper, pending adapter, synthetic tests, bounded plan, checkpoint and progress prepared for implementation commit
+updated_at: 2026-10-13T21:00:35+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Text/timing mappings verified: pure complete raw partition plus original-image
+body mapping; pending adapter derives only reviewed programme body pages, leaving
+structured segmentation withheld. Initial8tests RED23subtesterrors absent module;
+malformed role/body types and furniture geometry add2tests RED1failure/2errors;
+smallest guards yield10GREEN0.047s. Relevant1375passed/1existing Windows symlink
+skip/173subtests25.60s. Actual four body/four timing fields;195combinedspans/
+29blanks; missing scalar requirements38to30, zero chunks/66unknownapplicability/
+seven gapgroups unchanged. Body24/furniture25 separate with complete raw history;
+original ETEEAP/campus and unresolved timing deadline retained. All six original
+19/21/23/24/25/47 renders match prior images. Independent original/raw/event/
+partition/region/gap checks pass and668earlierfiles unchanged. Packet workspace/
+audit-evidence/p05-reviewed-text-timing-regions-20261013. Next cohesive code commit
+then final independent review, seal/report and curated closure. No completed output
+overwritten, new source intake, offering/source authority or runtime/phase approval.
 
 Text/timing continuation authorized; cleancafd728 verified. Plan2026-10-13-
 reviewed-text-timing-regions-plan.md. Four body readings retain corrected raw
