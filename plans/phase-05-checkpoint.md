@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 119
+sequence: 120
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0a8d453
-working_tree: six curated source-limit context documentation paths prepared for closure
-updated_at: 2026-10-13T23:29:21+08:00
+head_commit: 9f0fdd8
+working_tree: service-context plan, checkpoint and current progress prepared
+updated_at: 2026-10-13T23:45:45+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Service-context continuation authorized; clean9f0fdd8 reconciles previouscode
+reference0a8d453/documentaryclosure. Plan2026-10-13-reviewed-service-context-plan.md
+uses verified binder to derive parent/sevenactions, onefee/fivenullnotes and atomic
+requiredgroup without raising480cap. Original row/structured fee stays preserved;
+exact fee text is a separate located projection, no new review or charge inferred.
+Thesisphysical17–18/36/routing/master10/activeplan/handoffs/scope/gap/service/dataset
+locations consulted; no discrepancy. Next focused preparation/null/group RED.
+Owner timing question: current work prepares reviewed policy corpus for embeddings;
+newbatch receives extraction/humanreview/governance checks before embeddings,
+no automatic activation. Rough Phase05 estimateabout60% is engineering judgment,
+not formalcompletion evidence or corpusaccuracy; retrieval code largely delivered,
+corpus/governance/realcalibration remain. Intake placement reminder stays pending.
 
 Source-limit code38f23a8/reviewfix0a8d453 verified. Reviewer producer/consumer
 extra-gapmetadata asymmetry regradedImportant, focusedRED1error->25GREEN0.214s;

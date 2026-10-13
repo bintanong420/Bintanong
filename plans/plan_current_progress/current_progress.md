@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Service context start,13October2026:** Service-context continuation authorized; clean9f0fdd8 reconciles previouscode
+reference0a8d453/documentaryclosure. Plan2026-10-13-reviewed-service-context-plan.md
+uses verified binder to derive parent/sevenactions, onefee/fivenullnotes and atomic
+requiredgroup without raising480cap. Original row/structured fee stays preserved;
+exact fee text is a separate located projection, no new review or charge inferred.
+Thesisphysical17–18/36/routing/master10/activeplan/handoffs/scope/gap/service/dataset
+locations consulted; no discrepancy. Next focused preparation/null/group RED.
+Owner timing question: current work prepares reviewed policy corpus for embeddings;
+newbatch receives extraction/humanreview/governance checks before embeddings,
+no automatic activation. Rough Phase05 estimateabout60% is engineering judgment,
+not formalcompletion evidence or corpusaccuracy; retrieval code largely delivered,
+corpus/governance/realcalibration remain. Intake placement reminder stays pending.
+
 **Source-limit context delivery,13October2026:** Source-limit code38f23a8/reviewfix0a8d453 verified. Reviewer producer/consumer
 extra-gapmetadata asymmetry regradedImportant, focusedRED1error->25GREEN0.214s;
 related215passed/157subtests1.72s. Finalreview30tests0.211s, loaderroundtrip, nine
