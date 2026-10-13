@@ -9,6 +9,10 @@
   school, and procedures intended for faculty or staff from the supported corpus,
   active review queue, benchmark cases and executable rules. Undergraduate Nursing
   and Health Sciences remain in scope. Do not expand scope to fill extraction gaps.
+- Positive policy tests and benchmark fixtures must stay within that undergraduate
+  scope. Remove dedicated excluded-audience policy cases when found, while keeping
+  generic synthetic parser/geometry tests and negative scope/privacy/security tests.
+  Staff-record rejection and undergraduate laboratory-unit checks remain valid.
 - Select by a clause/service's intended audience and applicability, not keywords
   or the whole PDF's title. Student-facing services can legitimately name staff
   roles; those references do not make the service a staff-only procedure.

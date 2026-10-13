@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 59
+sequence: 60
 plan: plans/phase-05-retrieval-plan.md
-head_commit: fcd7dfe
-working_tree: undergraduate scope correction documentation; closure follows fcd7dfe; product unchanged at d33340e
-updated_at: 2026-10-13T10:26:31+08:00
+head_commit: 463e01b
+working_tree: fixture/rule/documentation closure after 463e01b; inspect Git for current state; production unchanged
+updated_at: 2026-10-13T10:37:17+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner test cleanup audited at `463e01b`: no dedicated excluded-audience positive
+policy tests found across162tracked paths/140Python modules/1830test definitions.
+Two generic geometry fixtures renamed Law/Business Law to Art/Creative Art with
+identical positions/lengths/assertions; zero tests deleted. Negative staff-origin
+privacy guards and undergraduate lab-unit checks retained. Baseline99pass/1skip;
+after related658pass/1skip72.72s,exit0. AGENTS now covers positive policy fixtures
+versus generic parser/negative safety coverage. Thesis17–18/routingPNG consulted.
+Report: `plans/2026-10-13-undergraduate-test-scope-audit.md`. Current owner18row
+grading review remains the next action; no production/source/candidate changes.
 
 Owner scope correction supersedes the mixed-scope review queue below. Thesis
 physical17–18/printed16–17 and participant list67 consulted; original Context
@@ -184,6 +194,16 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Final current documentation hygiene351passed0.93s,exit0 after writing the test
+audit report; overlaps prior658test gate, not a distinct product total. Diff check
+and phase-ledger validation pass. Logs remain in ignored test-scope audit root.
+
+Current test-fixture cleanup: two-module baseline99passed/1skipped3.11s; eight
+related modules658passed/1skipped72.72s,exit0, cache disabled/external basetemp.
+Tracked test/data audit1830definitions across140Python modules/18data files,
+only two reviewed negative staff-origin references remain. No full product-suite
+claim. Exact commands/logs/environment in the current test-scope audit report.
 
 Current source-review packet gate: `verify_final_packet.py` passes exact raw and
 queue membership,61original fields,9blank fields,86pending decisions,64PNGimages,

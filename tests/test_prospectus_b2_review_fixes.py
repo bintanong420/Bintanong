@@ -150,9 +150,9 @@ def make_page(*words, glyph=5.0, space=3.0, height=800.0):
 def test_item7_a_code_whose_glyphs_sit_in_different_cells_has_no_location_and_no_row():
     from backend.bintanong_tools.prospectus_extractor.placement import locate_in_page, unclaimed_items
     touching = make_page(("Mktg", 100.0), ("2001", 128.0))          # one space apart: a real code
-    split = make_page(("Business", 100.0), ("Law", 145.0), ("3", 265.0))   # "3" is the units cell, 100 pt away
+    split = make_page(("Creative", 100.0), ("Art", 145.0), ("3", 265.0))   # "3" is the units cell, 100 pt away
     assert locate_in_page(touching, "Mktg 2001") == [100.0, 90.0, 148.0, 100.0]
-    assert locate_in_page(split, "Law 3") is None
+    assert locate_in_page(split, "Art 3") is None
     assert [i["code"] for i in unclaimed_items({}, [], {1: touching})] == ["Mktg 2001"]
     assert unclaimed_items({}, [], {1: split}) == []
 

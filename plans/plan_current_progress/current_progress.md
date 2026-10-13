@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Latest test cleanup,13October2026 10:37 +08:** No dedicated positive policy
+tests for excluded audiences found in162tracked test/evaluation paths;140Python
+modules/1830test definitions and18data files audited. Two generic geometry
+fixtures now Art/Creative Art; zero tests deleted and assertions/geometry preserved.
+Negative staff-record privacy and undergraduate lab-unit guards retained. AGENTS
+now scopes positive policy fixtures explicitly. Baseline99pass/1skip3.11s;
+related post-cleanup658pass/1skip72.72s. Report:
+`plans/2026-10-13-undergraduate-test-scope-audit.md`. Next remains owner's18row
+undergraduate grading review. No production, source or candidate changes.
+
 **Scope correction governs resume,13October2026 10:26 +08:** Owner confirms thesis
 undergraduate-only scope for handbook/Charter and requests a standing AGENTS rule.
 Thesis physical17–18/printed16–17 excludes professional Medicine/Law,faculty/staff
