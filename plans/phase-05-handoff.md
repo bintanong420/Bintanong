@@ -12,6 +12,16 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 **Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
 
+**13October owner scope ruling governs all recovery:** Apply AGENTS and
+`plans/undergraduate-scope-policy.md`. Handbook/Charter source work supports
+undergraduates only; professional Medicine/Law,graduate,laboratory-school and
+faculty/staff-only material is excluded from supported review/corpus/rules/evaluation.
+Whole-source raw/candidates are preserved for provenance. Current owner packet is
+`audit-evidence/p05-undergraduate-policy-review-20261013/START-HERE.md`, beginning
+with18undergraduate grading rows. Earlier26row/21table/10text review instructions
+are superseded. Before retrieval/rules/publication, derive reviewed undergraduate-only
+span/chunk selection; no source scope filter or activation has been deployed yet.
+
 Latest recovery,13October: both original policy conversions captured. Handbook
 retained-byte replay has4272chunks after1546original-list repairs,10text/18table
 refusals; Charter427chunks/3table refusals unchanged. Final reader `d33340e`

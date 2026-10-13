@@ -1,5 +1,53 @@
 # Phase 05 policy review preparation - 13 October 2026
 
+## Current scope correction supersedes the earlier queue
+
+Owner requests undergraduate-only handbook/Charter scope as a standing AGENTS
+rule. Thesis Scope/Limitations physical17–18/printed16–17 and undergraduate
+participant list physical67/printed66 freshly consulted; routing PNG agrees.
+The earlier architectural sample36/55/68 omitted the explicit limitation pages,
+so its no-discrepancy claim was insufficient for selecting review audiences.
+
+AGENTS now routes to `plans/undergraduate-scope-policy.md`. Exclude professional
+Medicine/Law,graduate,laboratory-school and faculty/staff-only procedures from
+the supported study corpus/review/rules/evaluation. Bachelor Nursing/Health Sciences
+remain in scope. Staff agency actions within an undergraduate student procedure
+remain part of that procedure. A shared original heading does not expand the
+supported audience; keep source text unchanged and review applicability separately.
+
+Corrected packet:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-undergraduate-policy-review-20261013/START-HERE.md`.
+18undergraduate grading rows replace26mixed-audience rows. Earlier21table items
+partition into6undergraduate content candidates,2navigation-only indexes and
+13excluded items. Earlier10text refusals partition into4undergraduate candidates,
+1front-matter/navigation item and5excluded items. Three interpretation issues and
+24source-governance fields remain;55decision rows total. Excluded items do not
+require owner approval to complete the undergraduate study's review queue.
+
+Approved existing Python `-B <new-packet>/prepare_scoped_review.py` checks exact
+subsets,27local links,45nonempty undergraduate grade fields,210unchanged earlier
+sealed files and five unchanged original decision sheets. New11file seal SHA256:
+`b4586baaeff57841eab7d76a01d2da5a818f83191617f603881aaea21f57e786`.
+All source/raw/candidate bytes are preserved; earlier packet remains historical.
+No installed dependencies, repeated conversion, product behavior change or
+deployed whole-source scope filter. Before embeddings/approved retrieval/rules,
+derive a reviewed undergraduate-only span/chunk selection from the full candidates;
+mixed/unresolved applicability cannot be activated by default.
+
+Current next action: owner reviews the18rows in the corrected grading-review.md
+and saves grading-decisions.csv. Only then validate source-bound decisions and
+continue reviewed correction/undergraduate selection. Phase05 formal exit stays
+blocked. Original master plan/historical evidence are preserved.
+
+Final independent scope check:18physical46rows with application context
+undergraduate,6table candidates and all11new sealed files match. `git diff --check`
+and `phase_state.py validate` pass; `can-advance` correctly refuses the blocked
+Phase05 handoff. No product tests rerun for this document/evidence-only ruling.
+Baseline `fcd7dfe`; following eight-path documentation commit is discoverable
+through Git. Checkpoint's pre-closure HEAD distinction is intentional.
+
+## Historical preparation before scope correction
+
 Owner asked to continue the previous agent's work and identify incoming human
 verification. Resume baseline is clean `b7eea10`; product code remains `d33340e`.
 The list-recovery continuation governs this bounded source-review task.

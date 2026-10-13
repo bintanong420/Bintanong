@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 58
+sequence: 59
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b11013e
-working_tree: documentation-only closure after b11013e; inspect Git for current state; product unchanged at d33340e
-updated_at: 2026-10-13T09:52:15+08:00
+head_commit: fcd7dfe
+working_tree: undergraduate scope correction documentation; closure follows fcd7dfe; product unchanged at d33340e
+updated_at: 2026-10-13T10:26:31+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,22 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner scope correction supersedes the mixed-scope review queue below. Thesis
+physical17–18/printed16–17 and participant list67 consulted; original Context
+routing PNG rechecked. Earlier36/55/68 readings missed the explicit limitations;
+the previous no-discrepancy assertion did not cover these scope pages.
+AGENTS now requires `plans/undergraduate-scope-policy.md`: undergraduate-only;
+exclude Medicine/Law,graduate,laboratory-school and faculty/staff-only procedures
+from supported corpus/review/rules/evaluation. Bachelor Nursing/Health Sciences
+remain included; staff roles inside student services are not excluded by keywords.
+New owner packet `audit-evidence/p05-undergraduate-policy-review-20261013/START-HERE.md`:
+18undergraduate grading rows,6table/4text candidates,3interpretation issues,
+24source fields;55decision rows. Shared source heading retained as provenance,
+application audience undergraduate only; graduate page355 removed from active review.
+Verification27links/45nonempty grade fields pass;210old sealed files/five original
+decision sheets unchanged. New11file sealb4586baaeff57841eab7d76a01d2da5a818f83191617f603881aaea21f57e786.
+No source/candidate/runtime mutation or whole-source scope filter deployed.
 
 Source-review preparation verified. Owner entry point:
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-policy-human-review-20261013/START-HERE.md`.
@@ -139,6 +155,13 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Scope-correction baseline `fcd7dfe`; eight explicit rule/policy/ledger/decision
+documents form the following verified closure commit. Current product remains
+`d33340e`; raw originals, conversions and all prior packet files are preserved.
+Checkpoint head identifies the preceding baseline rather than a self-referential
+documentation SHA, so a post-closure HEAD warning is expected. Source-scope
+filtering remains a required pre-publication step, not a deployed feature claim.
+
 Current resume documentation commit `b11013e`; source-review closure follows and
 is discoverable through Git. Checkpoint head names that verified baseline to avoid
 a self-referential commit SHA; an inspector HEAD warning after the documentation
@@ -242,6 +265,17 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Governing scope-corrected action: owner reviews only the18undergraduate rows in
+`p05-undergraduate-policy-review-20261013/grading-review.md`. Current packet and
+standing boundaries are in `plans/undergraduate-scope-policy.md`; earlier mixed-scope
+packet instructions below are superseded. Excluded audiences are not required
+review work for this study. Then verify saved decisions and derive reviewed
+undergraduate-only content selections before embeddings/rules/approved retrieval.
+Unresolved/mixed applicability cannot be published. Whole-source counts are
+historical extraction accounting, not supported-corpus eligibility.
+
+Historical next action before the owner's scope correction:
 
 Current governing action: owner reviews the two grading pages/26readings via
 the new ignored `p05-policy-human-review-20261013/START-HERE.md` and saves

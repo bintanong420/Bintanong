@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Scope correction governs resume,13October2026 10:26 +08:** Owner confirms thesis
+undergraduate-only scope for handbook/Charter and requests a standing AGENTS rule.
+Thesis physical17–18/printed16–17 excludes professional Medicine/Law,faculty/staff
+and laboratory-school procedures; graduate content is outside undergraduate scope.
+Rule: `plans/undergraduate-scope-policy.md`. New current packet:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-undergraduate-policy-review-20261013/START-HERE.md`.
+Start with18undergraduate grade rows.6table/4text candidates,24source fields,
+3interpretation issues;55decision rows.27links/45nonempty fields verified;
+210old sealed files and five decision sheets unchanged. Original shared Law heading
+is provenance only. No raw/candidate edits or deployed scope filter. Next: owner
+undergraduate review, then reviewed undergraduate-only selection before any
+approved retrieval/rules/publication. Earlier mixed-scope queue is superseded.
+
 **Latest verified task, 13 October 2026 09:52 +08:** Policy review packet ready at
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-policy-human-review-20261013/START-HERE.md`.
 Start with two grading pages/26original readings;61nonempty fields independently

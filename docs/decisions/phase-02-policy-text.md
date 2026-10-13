@@ -61,3 +61,15 @@ strictly refused pending a reviewed segmentation policy. Editable human decision
 are excluded from the review evidence seal; no automatic import or approval follows.
 Detailed bounded evidence and next human action:
 `plans/2026-10-13-phase05-policy-review-preparation.md`.
+
+### Owner scope correction applies to both policy PDFs
+
+`AGENTS.md` and `plans/undergraduate-scope-policy.md` now govern selection:
+undergraduate-only support; professional Medicine/Law,graduate,laboratory-school
+and faculty/staff-only procedures are excluded. Original mixed-audience PDFs/raw
+remain intact, while active review selections are separate derivatives. Staff roles
+inside a student service are not exclusion keywords. A shared undergraduate/Law
+source heading can support verified undergraduate content without admitting Law.
+The earlier whole-source review queue is superseded. Unreviewed mixed scopes cannot
+reach embeddings, rules or publication by default. This is a scope ruling and
+review derivative, not a deployed source filter or source/content approval.

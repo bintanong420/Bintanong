@@ -1,5 +1,32 @@
 # Repository documentation and development rules
 
+## Study scope: undergraduate academic affairs only
+
+- Apply `plans/undergraduate-scope-policy.md` to every task, including handbook,
+  Citizens' Charter, curriculum, extraction review, retrieval, rules and evaluation.
+  Bintanong supports PalSU undergraduate academic affairs for the 2026–2027 study.
+- Exclude Medicine and Law professional programs, graduate programs, laboratory
+  school, and procedures intended for faculty or staff from the supported corpus,
+  active review queue, benchmark cases and executable rules. Undergraduate Nursing
+  and Health Sciences remain in scope. Do not expand scope to fill extraction gaps.
+- Select by a clause/service's intended audience and applicability, not keywords
+  or the whole PDF's title. Student-facing services can legitimately name staff
+  roles; those references do not make the service a staff-only procedure.
+- Keep complete original PDFs, raw conversions and historical evidence unchanged.
+  Derive undergraduate-only review/corpus candidates separately. A shared original
+  heading such as undergraduate/School of Law is provenance, not authorization to
+  support Law. Use its undergraduate content only after applicability review.
+- On every phase start/resume or scope decision, read thesis physical pages17–18
+  (printed16–17: Scope and Limitations), alongside other relevant Context pages.
+  Record the consulted scope evidence in the active checkpoint. Unknown or mixed
+  applicability stays unresolved and cannot be activated by default.
+- Remain a read-only advisory tool. Missing authorized information requires
+  clarification, an unavailable-information response or university-office referral;
+  it does not authorize autonomous acquisition, enrollment, grade changes or COR
+  issuance. Private uploads stay separate from institutional knowledge.
+
+## Repository workflow
+
 - For every prompt concerning Bintanong, read and apply `.agents/skills/bintanong-handoff-reminder/SKILL.md`, which routes to `.agents/skills/bintanong-phase-handoff/SKILL.md`. Reload both after context rollover before continuing work.
 - Use `plans/plan_current_progress/current_progress.md` for current changes, decisions, blockers and the next action; update it after material work and before ending a turn or pausing. Maintain formal phase plans/checkpoints/handoffs in `plans/` through the handoff skill as well. Read `plans/ingestion/` only when the current task or relevant master-plan section requires ingestion evidence; preserve its existing documents.
 - Maintain Bintanong plans, specifications, decisions, progress and developer handoffs in this repository, including isolated repository worktrees. Do not keep the only current plan in an external scratch directory.
