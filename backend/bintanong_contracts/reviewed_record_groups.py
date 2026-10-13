@@ -33,7 +33,7 @@ def validate_record_manifest(manifest, count):
     parts,gaps=manifest['parts'],manifest['gaps']
     if (type(count) is not int or not isinstance(parts,list) or len(parts)!=count or not parts
             or any(not isinstance(p,list) or not p or any(not isinstance(n,str) or not n.strip() for n in p) for p in parts)
-            or not isinstance(gaps,dict)):
+            or not isinstance(gaps,dict) or not gaps):
         raise ValueError('invalid record field parts')
     names=[n for part in parts for n in part]
     if len(set(names))!=len(names):raise ValueError('duplicate record field')
@@ -61,6 +61,9 @@ def project_record_gaps(row, names, anchors):
         original=gap['field_names'];values=gap['visible_text']
         visible=values if isinstance(values,list) else [values]
         if len(visible)!=len(original):raise ValueError('complete original visible fields required')
+        original_pages={s['page'] for n in original for s in anchors[n]}
+        if set(gap['locator']['physical_pages'])!=original_pages:
+            raise ValueError('original gap source pages differ')
         selected=[n for n in original if n in names]
         if not selected:continue
         projected=copy.deepcopy(gap);projected['field_names']=selected
@@ -97,7 +100,7 @@ def validate_record_group(members):
         for identity,origin in manifest['gaps'].items():
             by_part={i:g for i,g in pieces[identity]}
             if len(by_part)!=len(pieces[identity]):raise ValueError('duplicate projected gap')
-            base=None;values={}
+            base=None;values={};projected_pages=set()
             for index,names in enumerate(manifest['parts']):
                 expected=[n for n in origin['field_names'] if n in names]
                 if not expected:
@@ -107,7 +110,15 @@ def validate_record_group(members):
                 if gap is None or gap['field_names']!=expected:raise ValueError('missing projected gap fields')
                 visible=gap['visible_text'];kind='list' if isinstance(visible,list) else 'string'
                 text=visible if kind=='list' else [visible]
-                locator=gap['locator'];extra_locator={k:v for k,v in locator.items() if k not in ('field','physical_pages')}
+                locator=gap['locator']
+                if (not isinstance(locator,dict) or not isinstance(locator.get('physical_pages'),list)
+                        or not locator['physical_pages'] or locator.get('field')!=','.join(expected)
+                        or any(type(p) is not int or p<1 for p in locator['physical_pages'])
+                        or len(set(locator['physical_pages']))!=len(locator['physical_pages'])
+                        or not set(locator['physical_pages'])<=set(origin['locator']['physical_pages'])):
+                    raise ValueError('invalid projected gap locator')
+                projected_pages.update(locator['physical_pages'])
+                extra_locator={k:v for k,v in locator.items() if k not in ('field','physical_pages')}
                 original_extra={k:v for k,v in origin['locator'].items() if k not in ('field','physical_pages')}
                 if (kind!=origin['visible_text_kind'] or len(text)!=len(expected)
                         or any(not isinstance(v,str) or not v.strip() for v in text)
@@ -117,7 +128,9 @@ def validate_record_group(members):
                 if base is None:base=remainder
                 elif base!=remainder:raise ValueError('projected gap meaning differs')
                 values.update(zip(expected,text))
-            if set(values)!=set(origin['field_names']):raise ValueError('incomplete original gap')
+            if (set(values)!=set(origin['field_names'])
+                    or projected_pages!=set(origin['locator']['physical_pages'])):
+                raise ValueError('incomplete original gap fields or pages')
             original={**base,'field_names':origin['field_names'],'locator':origin['locator'],
                 'visible_text':[values[n] for n in origin['field_names']] if origin['visible_text_kind']=='list'
                     else values[origin['field_names'][0]]}

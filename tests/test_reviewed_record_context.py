@@ -154,5 +154,30 @@ class ReviewedRecordContextTests(unittest.TestCase):
         self.rewrite(rows[1])
         self.assertFalse(build_context([rows[1]],100000,len)['evidence'])
 
+    def test_malformed_projected_gap_locator_withholds_without_crashing(self):
+        original=self.candidates(self.build(self.eligible()))
+        for locator in (None,[],1,'x',True):
+            rows=copy.deepcopy(original)
+            rows[1]['chunk']['type_fields']['source_limits'][0]['locator']=locator
+            with self.subTest(locator=locator):
+                result=build_context([rows[1]],100000,len)
+                self.assertFalse(result['evidence'])
+                self.assertTrue(any(g.startswith('invalid_reviewed_context:') for g in result['gaps']))
+
+    def test_projected_gap_pages_must_reconstruct_original_page_declaration(self):
+        rows=self.candidates(self.build(self.eligible()))
+        rows[1]['chunk']['type_fields']['source_limits'][0]['locator']['physical_pages']=[3]
+        rows[1]['spans'][0]['page']=3
+        self.rewrite(rows[1])
+        self.assertFalse(build_context([rows[1]],100000,len)['evidence'])
+
+    def test_gap_free_record_uses_existing_scalar_route(self):
+        self.row['gaps']=[]
+        with self.assertRaises(ValueError):self.prepare()
+
+    def test_original_gap_pages_require_complete_source_span_coverage(self):
+        self.row['gaps'][0]['locator']['physical_pages']=[2,3]
+        with self.assertRaises(ValueError):self.prepare()
+
 
 if __name__=='__main__':unittest.main()
