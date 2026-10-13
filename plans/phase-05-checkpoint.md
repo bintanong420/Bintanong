@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 65
+sequence: 76
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 18e5fcc
-working_tree: owner grading-confirmation documentation closure after 18e5fcc; inspect Git for current state; production unchanged
-updated_at: 2026-10-13T11:36:28+08:00
+head_commit: e717474
+working_tree: eight reviewed documentation paths ready for explicit commit; personal commit skill validated; repository routing next; HEAD e717474
+updated_at: 2026-10-13T15:12:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,190 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner confirms four programme names/body placement and separation from footer/
+cover extras. Corrected explanation: extractor joined body content and furniture
+into one body-layer item, not classification of programme as footer. Four scoped
+text decisions accepted with original segmentation locators; raw fields/refusals
+unchanged. Event `audit-evidence/p05-owner-text-confirmation-20261013/confirmation.json`
+SHA2562702de0df6c2b51793316df9d247ce373dd4a956edde1cd87ef14028415c1ccf.
+511prior sealed files/five other sheets/nonreview columns unchanged. Five selected
+review groups remain: three interpretations/two source contracts. Next completion
+timing wording guide prepared, handbook47/four printed statements; deadline
+relationship unresolved, no current institutional applicability approval.
+Owner additionally requests a reusable Conventional Commits skill, mandatory
+workflow use for future commits and renaming only unpublished local messages.
+Remote boundary audit and skill creation now active; preserve dirty review work.
+
+Programme packet eight-file seale99930d893de97fbacc88652d1f393126cfd435b6e1fe851fd9a39f9633a21ea
+and four accepted text entries checked independently. Documentation355passed0.91s;
+diff/phase validation pass. Context thesis physical17–18/routingPNG reconsulted,
+scope/routing unchanged. Personal commit skill passes bundled quick_validate and
+is applied to the review documentation commit. Fresh fetch/GitHub branch evidence:
+existing p05HEAD e717474equals upstream; only unpublished local branch commit is
+dev ee629ae, already `docs: clarify ingestion revisions and release boundaries`.
+No historical rewrite is necessary or authorized for pushed p05history.
+
+Owner confirms restored step1agency actions/notes/fee and steps2–5/printed total;
+duplicated sentence counted once. Earlier seven duration/person/office pairs remain
+confirmed. Six legacy Charter entries reviewed: row1corrected with whole logical
+step cross-page binding, rows2–6accepted; table-level corrected. Separate reviewed
+workflow records7agency actions/2notes/parent fee accepted. Header/checklist,
+authority/applicability/effectivity stay pending. Event
+`audit-evidence/p05-owner-charter-confirmation-20261013/confirmation.json`
+SHA256a52a9c270de84f1cd8d00cbce34626171e56d78ffa7632c681d4c41bc733a7d5.
+499prior sealed files/four other sheets/nonreview columns/unrelated rows unchanged.
+34readings31accepted/2corrected/1source-gap-unresolved/0pending; no pending selected
+table groups. Nine selected review groups remain. Next four-text-fragment batch
+prepared with original pages19/21/23/24/25 and exact programme/furniture separation
+proposals, all pending; strict reader refusals preserved. Source context ETEEAP,
+Araceli/San Rafael/Taytay retained; no current-offering or curriculum approval.
+Twelve-file seal516a3e7b86f1205fbc3013f67d7319d2115e8c787cc6959e0094e373a4b8f87a;
+independent readonly check and documentation355passed0.98s, diff/phase checks pass.
+Eight dirty documentation paths preserved; no product-suite/canonical/runtime/push.
+
+Owner identifies incomplete logical Charter step1and supplies complete seven
+duration/person/office pairs. Latest complete repeated message governs, not partial
+draft approvals. Restored client instruction and seven linked agency sub-actions
+across physical11–12/printed10–11; explicit shared None fee source physical11.
+Evaluator role physical11has office continuation at top of physical12; not a new
+responsible person. Owner pairing corrections recorded separately, agency action
+wording/conditions/fee and other steps remain pending. Current six legacy Charter
+decision statuses remain pending; row1/table annotations reference grouped reading.
+Output `audit-evidence/p05-charter-step1-correction-20261013/`; correction SHA256
+a290f760e914860cc03069a91c8b3f55d014562011e049363c0eaeb9495d932d.
+488prior sealed files/four other sheets/eight candidate files unchanged; source
+hash and raw tables9/10pages checked. `plans/service-table-association-policy.md`
+and AGENTS require complete steps, linked actions/durations/role/office/conditions,
+shared fee provenance and field-level approval. Corrected full-step guide ready;
+no canonical parser/runtime change or whole-service approval.
+Eleven-file seal11951880a1534d81ba677ae7e7b902ec20a3943840893eae09d6906e8eed0687;
+independent readonly data check and documentation355passed0.91s, diff/phase checks
+pass. Eight documentation paths dirty; no product-suite or push. Quotation failure
+in initial inline readonly command corrected with additive file-based verifier.
+
+Owner confirms handbook88four rows/five blank cells; duplicated sentence counted
+once. Four handbook/table10reading decisions and its table-level transcription
+accepted; charter/table10entries remain pending. Event
+`audit-evidence/p05-owner-page88-confirmation-20261013/confirmation.json`
+SHA2563a75c39ced6c8d3168f50fbe55235c5afef5c722b15e87f57005656187734e24.
+478prior sealed files/four other sheets/nonreview columns/other rows unchanged;
+source originals and original images match.34reading entries26accepted/1corrected/
+1unresolved/6pending; Charter continuation is the sole pending selected table,
+about10selected review groups remain. Next guide six Charter12continuation rows
+with physical11header/context image. Both original pages visually inspected;
+blank continuation cells and explicitly printed None remain distinct, row1keeps
+two1day entries, printed9days55minutes total includes previous page. Full prior
+page/service applicability/effectivity not approved by this next transcription.
+Ten-file sealaaff9405272b9e4b0aed78eba0045d36ad6a17da42fea89878d69341c1c31dfd;
+documentation354passed0.82s, diff/phase validation pass. Seven dirty documentation
+paths preserved; no product/source/canonical/runtime change or push.
+
+Owner confirms handbook89three academic-dishonesty rows/five blanks against the
+new source-backed fabrication proposal. Three reading entries and table11 accepted.
+Event `audit-evidence/p05-owner-academic-dishonesty-confirmation-20261013/confirmation.json`
+SHA256c3b61a09dca8c68c64685579d46024bce04bdc88f44a82b59363481f4de0ef3b.
+Owner asks why intervening handbook88was not reviewed. Fresh source/candidate audit:
+table10emitted two chunks with source/content review pending; it was absent from
+the failed-table queue, not audience-excluded or human-approved. Selected refusals
+are not a whole-source accuracy audit. Added four critical page88rows and one
+table-level pending entry; raw/canonical candidates unchanged.34reading entries:
+22accepted/1corrected/1unresolved/10pending; two pending structures, about11groups
+in this selected queue.462previous sealed files/four other sheets/eight candidate
+files unchanged. AGENTS now clarifies structural success versus independent review
+of consequential fields intended for release. Next page88guide ready.
+Sixteen-file sealdfb1f72ea948e716b308b927a230191ad96693e312deca118c0cd4b6c64bcc33;
+documentation354passed0.91s, diff/phase validation pass. Seven prior dirty paths
+preserved; no product/canonical/runtime change or push.
+
+Owner confirms handbook87four disciplinary rows including8blank cells. Four
+table-9 reading entries and duplicate table-level transcription accepted. Source
+blanks do not establish no penalty; malformed weapon condition meaning remains
+unresolved in a separately updated issue ledger. Event
+`audit-evidence/p05-owner-discipline-confirmation-20261013/confirmation.json`
+SHA256ffcff6f6b3f38b342b3dc0126840ecc7273cceead7df023516c0fe27d54f2df9.
+449prior sealed files/four other sheets/nonreview columns/other rows unchanged;
+original/source-image hashes match.19accepted/1corrected/1unresolved/9pending
+table-reading rows; two pending structures, about11policy review groups.
+Next handbook89academic-dishonesty guide3rows ready. Fresh original render pixels
+match the earlier image; fabrication first-offense native region is suspension
+for1semester, with Dismissal in the separate second-offense column. Earlier
+visible-first-column ambiguity claim is superseded by this source-backed proposal;
+original sealed diagnostic retained, human confirmation pending.
+Thirteen-file seal64bf932a3f84f676e6be82f092b681100f4b318756c66f02665705dc5369d3fa;
+documentation354passed0.87s, diff/phase validation pass. Seven dirty documentation
+paths preserved; no product/canonical/runtime change or push.
+
+Owner graduation review recorded: seven rows accepted including separately
+clarified row6Update Student Records; row8corrected to diploma cover from visible
+original; row9visible fragment confirmed but missing continuation remains unresolved.
+Table8review done with documented source gap, not an instruction to reconstruct it.
+Event `audit-evidence/p05-owner-graduation-review-20261013/confirmation.json`
+SHA256cbf51a3effda752820c9347c7bf8c3293cd5e6b28153bbc8e438a28aebc141e3.
+438prior sealed files/four other sheets/nonreview columns/other rows unchanged;
+original source/images match. Reading counts15accepted/1corrected/1unresolved/
+13pending; three pending table groups, about12remaining policy review groups.
+AGENTS routes standing `plans/source-gap-policy.md`: retain source defects,
+disclose question-relevant missing content and never invent process continuation.
+Decision record updated; runtime enforcement not claimed. New discipline guide
+ready, handbook87/four rows. Malformed weapon qualification separately noted as
+unresolved meaning; no silent grammatical repair or invented exception/rule.
+Eleven-file sealbebb83a0f871f26f2be2b1f3ea8cd0136ae16b641bcbbd3a644766088884da71;
+documentation354passed0.86s, diff/phase validation pass. Seven documentation paths
+dirty with prior changes preserved; no product/runtime change or push.
+
+Owner confirms all4cross-enrollment rows/both arrows. Four table-7 reading rows
+and its duplicate table-level transcription entry accepted. Separate event binds
+proposal/source/image and both arrows; recording time12:30:11+08. Output
+`audit-evidence/p05-owner-cross-enrollment-confirmation-20261013/`; event SHA256
+40f795e06ffe1967ab97fcffab6af5d75c40bcb4f864c49fb6b4bc30f95a8462.
+429prior sealed files/four other sheets/nonreview columns/other rows unchanged.
+Eight table-reading rows accepted/22pending, two groups accepted/four pending;
+about13current policy review groups. Graduation guide ready, handbook64/nine
+rows; row6process label partly clipped and row9detail ends at during. Missing
+continuation/END stay unresolved; no canonical/source authority promoted.
+Nine-file seal6839081f76af48a2d9915a2651634f325bb2c882b18bc4c57f80abea14029fc3;
+documentation353passed0.82s, diff/phase validation pass. No product-suite/push.
+
+Owner confirms "All 4 overload rows and both arrows match". Four table-6
+reading rows and the duplicate table-level transcription entry are accepted;
+both qualification arrows are explicitly bound in a separate confirmation event.
+Recording time12:19:27+08; no personal name/review date invented. Output:
+`audit-evidence/p05-owner-overload-confirmation-20261013/`, event SHA256
+ca7ae8be2278da800537df508459e96046c8bc4003ba050d163e05819c001b02.
+Verification420prior sealed files/four other sheets/nonreview columns/other rows
+unchanged; original PDF/image hashes match.26table-reading rows/five table groups
+remain pending, about14existing policy review groups total. New nine-file seal
+27a6e036b377352ea069c4eaaf59033ca7006a90cf72c2b50a0d15ec71bbcf05.
+Cross-enrollment plain guide ready: four rows/two arrows on handbook63.
+Historical pending proposal flags and earlier invariance reports remain intact;
+accepted decisions are current sheets/event. No canonical/source approval.
+Confirmation documentation check353passed0.90s; diff/phase validation pass.
+Four prior documentation paths remain unstaged; no product-suite run or push.
+
+Reviewed grading preparation finished. New derivative18owner-accepted rows,
+45exact native fields/nine blanks; independent45box checks pass. Raw columns
+misassociate rows3–9 (seven rows), so retain original cells separately and plan
+reviewed correction ingestion rather than sort alone.415prior sealed files/six
+decision sheets/eight candidate files unchanged. New five-file seal
+8acfc84b9ec340cf5de756f4f1ee3e3a43577cebde6d85f04e8cffe69381d203.
+Output `audit-evidence/p05-reviewed-grading-preparation-20261013/` and delivery
+report `2026-10-13-reviewed-grading-correction-preparation.md`. No product change.
+Next owner review ready: NEXT-REVIEW-OVERLOAD.md, four rows/two arrows on page62.
+Thirty supplemental rows still pending; transcription authority is not inferred.
+Documentation hygiene353passed0.92s; diff check/phase validation pass. Phase05
+cannot advance. Four documentation paths remain unstaged for owner's commit;
+no product-suite rerun or push is claimed.
+
+Owner authorizes continuation and will handle branch commit/push. Clean `e717474`
+verified. Preparing a separate18row reviewed grading derivative, with45native
+field readings/nine retained blank percentages and unchanged original/raw/bundle
+evidence, plus the next plain overload review. No canonical ingestion interface
+change is planned here. Task: `2026-10-13-reviewed-grading-correction-preparation.md`.
+Thesis17–18/routingPNG/master7.1/7.3/10.3 consulted; scope/routing agree.
+Remaining review estimate15groups: six structures (30row decisions), four text
+items, three interpretation issues and two source records (24fields). Table/row
+sheets describe the same six reviews, not additional duplicate work.
 
 Owner explicitly confirms all18undergraduate grading rows match. Scoped editable
 grading sheet now records18accepted with `owner (chat confirmation)`; no personal
@@ -339,6 +523,130 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Complete owner-requested Conventional Commits skill/workflow and remote-boundary
+audit before any authorized unpublished message rename; preserve review records.
+Then resume handbook47completion-time wording in
+`audit-evidence/p05-owner-text-confirmation-20261013/NEXT-REVIEW-COMPLETION-TIMING.md`.
+Owner compares four printed statements, not arbitrates which deadline applies;
+keep applicability/interpretation unresolved absent supporting authority evidence.
+Programme names/separations are confirmed; do not request duplicate review.
+Five selected groups remain, not all corpus/release checks. No phase advancement.
+
+Previous programme-fragment next action retained for history:
+
+Owner compares four programme-name/furniture separation proposals in
+`audit-evidence/p05-owner-charter-confirmation-20261013/NEXT-REVIEW-TEXT.md`:
+text248/318/384/404 against original pages19/21/23/24/25. Check only target
+undergraduate names and separate PAfooter/cover-header extras, not other listings
+or excluded laboratory-school entries. Keep ETEEAP/campus contexts and do not
+infer current offerings/applicability from this old handbook. Record actual chat
+matches/corrections; four current text decisions stay pending until that reply.
+Selected table comparisons are complete with known graduation/weapon source gaps
+preserved. Nine selected groups remain, not all future corpus/release review.
+Preserve eight dirty documentation paths; owner handles commit/push. No activation.
+
+Prior corrected Charter next action retained for history:
+
+Owner reviews `audit-evidence/p05-charter-step1-correction-20261013/REVIEW-CORRECTED-CHARTER.md`:
+restored agency wording/notes/shared fee for complete step1, then steps2–5 and
+printed total. Seven duration/person/office pairs and client instruction correction
+already recorded; do not require duplicate confirmation of those facts. Preserve
+blank raw continuation cells and parent fee source; no independent extra charge.
+Only actual field confirmations may close pending service content; source audience/
+effectivity/authority and runtime/canonical gates remain separate. Use the new
+association policy for later correction ingestion/chunks under focused TDD. The
+Charter service remains one selected pending group; old partial guide superseded.
+Preserve prior dirty files; owner handles commit/push. No activation/Phase06.
+
+Previous continuation-only next action retained for history:
+
+Owner compares six Charter continuation rows on physical12 in
+`audit-evidence/p05-owner-page88-confirmation-20261013/NEXT-REVIEW-CHARTER.md`,
+using physical11as service/header context. Check exact fees, times, email, office
+labels, blank cells versus explicit None and full-procedure printed total. Record
+actual row/field matches or corrections; never total from continuation alone or
+infer an absent client step/no fee. This confirms only the six selected rows,
+not full prior-page content or Students/Alumni undergraduate applicability.
+About10selected review groups remain, not all corpus/phase approvals. All reviewed
+handbook comparisons above are complete with graduation/weapon source gaps kept.
+Preserve seven dirty documentation paths; owner handles commit/push. No activation.
+
+Previous page88next action retained for history:
+
+Owner compares handbook88four disciplinary policy rows/penalty columns in
+`audit-evidence/p05-owner-academic-dishonesty-confirmation-20261013/NEXT-REVIEW-PAGE-88.md`
+and replies in chat. Preserve graduating-student credential condition, timing
+and zero-or-five cheating-grade alternatives; record only actual confirmation.
+Page89three rows are complete. This critical continuation is an explicit addition
+to the previous failed-table queue, not a repeated request or excluded audience.
+Explain selected queue coverage/estimates; before approved release, audit intended
+critical content even when parsing passed. The selected queue is about11groups;
+it does not count every future corpus/evaluation review. Preserve seven dirty
+documentation paths; owner handles commit/push. Source/runtime/phase gates remain.
+
+Prior academic-dishonesty next action retained for history:
+
+Owner compares handbook89three academic-dishonesty rows and penalty/source-blank
+columns in `audit-evidence/p05-owner-discipline-confirmation-20261013/NEXT-REVIEW-ACADEMIC-DISHONESTY.md`.
+Page88link supplies Academic Dishonesty continuation context only. Record actual
+chat confirmation against the new visual proposal, including fabrication first
+offense suspension and separately printed second-offense dismissal. Do not ask
+owner to reconcile native text fragments. Graduation source cutoff/weapon clause
+meaning remain documented gaps, not repeated transcription requests. About11
+current policy review groups remain. Source/correction/runtime gates stay separate;
+preserve seven dirty documentation paths; owner handles commit/push.
+
+Previous disciplinary-page next action retained for history:
+
+Owner compares handbook87 four disciplinary rows/penalty columns/source blanks in
+`audit-evidence/p05-owner-graduation-review-20261013/NEXT-REVIEW-DISCIPLINE.md`
+and replies with transcription matches/differences. Malformed source condition
+meaning remains unresolved; do not infer an exception. Graduation visible review
+is finished; missing row9continuation/END stay documented unavailable. Do not
+request repeated review/reconstruction of the supplied incomplete original.
+Carry `plans/source-gap-policy.md` into later correction ingestion, retrieval,
+rules/answers/evaluation under applicable TDD; policy documentation is not deployed
+enforcement. About12current review groups remain. Preserve existing dirty paths;
+owner handles commit/push; source authority/applicability and Phase05 gates remain.
+
+Previous graduation next action retained for history:
+
+Owner compares graduation guide
+`audit-evidence/p05-owner-cross-enrollment-confirmation-20261013/NEXT-REVIEW-GRADUATION.md`
+against handbook64, nine rows and visible step order. Confirm visible fragments
+only; explicitly identify whether row6process label can be read. Row9detail
+ending at during stays incomplete even when visible text matches. Do not invent
+continuation/END. Record actual field-level confirmations/unclear readings; do
+not request repeat grading/overload/cross-enrollment review. About13current
+policy groups remain. Technical correction-ingestion specification/TDD and
+source-authority/applicability/retrieval gates remain separate. Owner handles
+four dirty documentation paths' commit/push; no Phase06/activation.
+
+Prior cross-enrollment next action retained for history:
+
+Owner compares handbook63 cross-enrollment guide
+`audit-evidence/p05-owner-overload-confirmation-20261013/NEXT-REVIEW-CROSS-ENROLLMENT.md`,
+four rows and two arrows, and replies in chat with matches/differences. Record
+only actual confirmation; grading18rows and overload4rows/two arrows are complete.
+Technical reviewed-correction ingestion specification/TDD remains a separate
+next step. Five remaining table structures/26rows plus four text items, three
+interpretations and two source records remain. No activation/Phase06. Preserve
+four existing dirty documentation paths; owner handles commit/push.
+
+Previous overload next action retained for history:
+
+Owner compares the four overload rows and both Yes/No arrows on handbook62 in
+`audit-evidence/p05-reviewed-grading-preparation-20261013/NEXT-REVIEW-OVERLOAD.md`
+and replies in chat; record only actual confirmation. The18grading comparison is
+complete. Technical next step: specify a source-bound reviewed table correction
+interface, then implement with synthetic RED/GREEN tests and canonical citation
+checks. Keep native-PDF evidence separate from raw Docling cell provenance.
+Remaining policy queue approximately15review groups; no whole-project estimate.
+Source authority/applicability, unresolved interpretations and retrieval gates
+remain open. No Phase06/activation. Owner handles this turn's commit/push.
+
+Prior next action before reviewed derivative preparation:
 
 Use the18accepted source-bound undergraduate grading decisions for bounded
 correction preparation under TDD; retain separate applicability/source-authority

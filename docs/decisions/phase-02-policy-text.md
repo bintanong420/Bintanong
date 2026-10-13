@@ -87,3 +87,58 @@ All bounded text remains diagnostic. Proposed visual readings,
 blanks and unresolved content stay separate from raw/canonical SourceSpans.
 No reader behavior changed. Evidence and review order:
 `plans/2026-10-13-undergraduate-table-source-readings.md`.
+
+### Owner rule for defective original content and corrected transcription
+
+Standing13October2026 rule: `plans/source-gap-policy.md`, routed by AGENTS.
+Preserve source defects and carry their limitations with affected evidence; never
+complete a cut-off process or infer missing conditions, sanctions or an END node.
+Answer verified visible content, disclose material gaps and refer to a source-named
+responsible office when needed. A gap limits only dependent claims, not unrelated
+progress, and does not require the owner to recreate unavailable university text.
+
+Handbook64,row8original includes diploma cover; the review transcription omitted
+diploma and is corrected separately. Owner confirms row6Update Student Records
+readable. Row9visible fragment matches but stops at during in the university PDF;
+missing continuation remains unresolved. Original/raw/historical evidence stays
+unchanged. Runtime propagation/answer enforcement remains an implementation
+requirement, not a completed feature claim.
+
+### Corrected next-page fabrication diagnostic
+
+Following owner confirmation of handbook87disciplinary rows, a fresh original
+handbook89render is pixel-identical to the earlier image. Bounded fabrication
+first-offense native region and visible cell contain suspension for1semester;
+the separate second-offense column contains dismissal. Linear native extraction
+concatenates the columns. The earlier agent claim of an extra visible dismissal
+inside the first-offense cell is unsupported and superseded. Preserve that sealed
+diagnostic; derive a separate source-backed pending reading and ask the owner to
+compare the actual visible cells. This corrects review evidence, not the original
+source or product ingestion. Native fragments remain diagnostic, not sanctions.
+
+### Successful structural extraction is not critical-content review
+
+Owner questioned skipped handbook88between reviewed disciplinary pages87/89.
+Fresh source/candidate evidence confirms table10emitted two chunks with source
+and content review still pending; absence from the failed-table queue is not a
+scope exclusion, accuracy result or human approval. Add the four consequential
+policy rows to independent review, preserving original/raw/chunks unchanged.
+AGENTS requires applicable critical-field review before approved release even
+when parsing passes. Selected problem-queue counts do not describe an exhaustive
+handbook/Charter audit or every remaining release/evaluation approval.
+
+### Complete logical steps and linked service-table sub-actions
+
+Owner corrects Charter step1missing beginning and specifies seven time/person/
+office associations. Continuation-only review omitted five agency sub-actions
+and parent None fee from physical11/printed10; physical12/printed11completes the
+same client step. Source is complete here: this was a review coverage/grouping
+omission, not defective institutional content. Evaluator office crosses the page
+boundary; wrapped labels remain one role, and joint role labels remain intact.
+
+`plans/service-table-association-policy.md`, routed by AGENTS, requires a complete
+logical step with ordered linked agency action/duration/role/office/conditions and
+explicit shared-fee source. Preserve raw blanks/original fragments; do not flatten
+columns into unrelated lists. Owner pairings are reviewed separately from newly
+restored action/fee fields. This derives corrected review data and requirements,
+not a deployed reader/chunker fix or whole-service approval.

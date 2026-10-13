@@ -29,6 +29,24 @@
   it does not authorize autonomous acquisition, enrollment, grade changes or COR
   issuance. Private uploads stay separate from institutional knowledge.
 
+## Incomplete or defective institutional sources
+
+- Apply `plans/source-gap-policy.md` to all institutional source review, ingestion,
+  retrieval, rule authoring, answer generation and evaluation. Record clipped,
+  missing, unreadable, malformed or conflicting source content with its original
+  hash/page/field and affected claims. Preserve complete originals and history.
+- Correct extraction/transcription omissions only from visible original evidence
+  and actual review decisions. A defect in the university-provided original remains
+  a documented gap; never invent a continuation, omitted condition or process end.
+- Carry known gaps with the affected evidence. Answer from verified visible content
+  only, state the limitation when it affects the student's question, and indicate
+  unavailable information or refer to the relevant named university office. Do not
+  present a broken process as complete or compile its unknown portion into rules.
+- Missing or blank content does not mean zero, no fee, no prerequisite, no penalty,
+  automatic approval or completion. A known gap limits the affected capability;
+  do not repeatedly ask the owner to reconstruct unavailable source content or
+  expand the study scope. These are standing requirements, not a deployment claim.
+
 ## Repository workflow
 
 - For every prompt concerning Bintanong, read and apply `.agents/skills/bintanong-handoff-reminder/SKILL.md`, which routes to `.agents/skills/bintanong-phase-handoff/SKILL.md`. Reload both after context rollover before continuing work.
@@ -46,3 +64,15 @@
 - Read and apply appropriate available `SKILL.md` workflows when necessary, including test-driven-development for implementation, systematic-debugging for failures, and verification-before-completion before success claims. Continue the active phase from verified Git and handoff evidence after an account/session change; do not repeat completed setup or infer approval from candidate delivery.
 - Naturally utilize available MCP tools in the development and handoff workflows: GitHub MCP (`github-mcp-server`) for inspecting branches/commits/PRs and remote repository synchronization, and Supabase MCP (`supabase` alongside local CLI) for database health, schema inspection, advisor checks, and migration workflows.
 - Candidate output remains inactive. Runtime/API/Docker work, executable Prolog, release activation and institutional use retain their applicable approval boundaries.
+- Parser success and absence from an extraction-refusal queue do not establish
+  content accuracy or human approval. Include consequential source fields intended
+  for release, especially numeric grades, penalties, conditions and executable-rule
+  inputs, in the applicable independent review even when structural parsing passes.
+  State review-queue coverage and estimates explicitly; do not call a selected
+  problem queue a complete handbook/Charter audit or corpus accuracy result.
+- Apply `plans/service-table-association-policy.md` to procedure/service tables.
+  Review complete logical client steps across page breaks. Keep each agency action
+  linked to its processing time, responsible-person label, office and conditions;
+  line wrapping does not create new roles. Preserve explicit shared fees and source
+  references separately from blank continuation cells. Do not flatten columns into
+  unrelated lists or approve a whole step from a partial field correction.
