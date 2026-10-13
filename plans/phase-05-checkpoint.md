@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 116
+sequence: 117
 plan: plans/phase-05-retrieval-plan.md
-head_commit: bafc0e3
-working_tree: six curated handbook cover documentation paths prepared for closure
-updated_at: 2026-10-13T23:03:01+08:00
+head_commit: 6ab9c10
+working_tree: source-limit context plan, checkpoint and current progress prepared
+updated_at: 2026-10-13T23:10:08+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Source-limit context continuation from clean6ab9c10; no handoff stop requested.
+Plan2026-10-13-reviewed-source-limit-context-plan.md defines opt-in scalar context
+codec/defaultgapwithholding and full-record offline assembly; preserve480cap/
+actual66unknownscope/0chunks. Current span-text reconstruction would lose field
+labels and metadata-only limits, so explicit codec text/allcitations must remain
+atomic despite overlap. No runtime deployment/API/DB/Prolog activation. Next focused
+RED with cutoff/unknownscope/tampering/overlap/budget/unsupportedgap regressions.
+Context17–18/36/routing/master10 from current continuation applies; no discrepancy.
+Incoming reminder remains recorded before newbatch calibration.
 
 Cover finalreviewno actionable findings; original1/fourregions/exactvalues/scale1.7/
 qualifiedprovenance checked, independentverifierPASS/702priorfiles unchanged.

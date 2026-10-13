@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Source-limit context start,13October2026:** Source-limit context continuation from clean6ab9c10; no handoff stop requested.
+Plan2026-10-13-reviewed-source-limit-context-plan.md defines opt-in scalar context
+codec/defaultgapwithholding and full-record offline assembly; preserve480cap/
+actual66unknownscope/0chunks. Current span-text reconstruction would lose field
+labels and metadata-only limits, so explicit codec text/allcitations must remain
+atomic despite overlap. No runtime deployment/API/DB/Prolog activation. Next focused
+RED with cutoff/unknownscope/tampering/overlap/budget/unsupportedgap regressions.
+Context17–18/36/routing/master10 from current continuation applies; no discrepancy.
+Incoming reminder remains recorded before newbatch calibration.
+
 **Handbook cover closure,13October2026:** Cover finalreviewno actionable findings; original1/fourregions/exactvalues/scale1.7/
 qualifiedprovenance checked, independentverifierPASS/702priorfiles unchanged.
 Declined glyph/native/OCR, currentness/authority, formalinterview/verifiedorigin,
