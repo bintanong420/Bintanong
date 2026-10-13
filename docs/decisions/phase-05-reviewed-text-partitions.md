@@ -38,3 +38,24 @@ seven gapgroups and668 earlier files preserved. This is coarse reviewed transcri
 mapping, not source authority/currentness, whole-corpus accuracy or runtime activation.
 [Report](../../plans/2026-10-13-reviewed-text-timing-regions-report.md) records TDD,
 independent original review and the next source-gap mapping.
+
+## Opt-in complete partition metadata — 14 October 2026
+
+Bodycode5eba651 carries the original reviewed segmentation array, full raw item
+text/ref and linked event beside programme-only citations. It labels this data
+as extraction metadata with a fixed furniture limitation. Producer independently
+reuses reviewed_body_partition; consumer verifies ordered roles/ranges/text,
+matching events and programme page/box conversion. Actual24body/25furniture stays
+separate; ETEEAP/campus context is preserved, not approved as current offerings.
+Default behavior remains unchanged; source/applicability/governance stay pending.
+
+Actual four saved bodymaps replayexact,267totalfields/29blanks/sevengaps/73unknown/
+0chunks retained. Existing480estimatedtoken cap and full citation/context budget
+withholding remain. Raw offsets refer to retained text strings, not native glyphs.
+The accompanying coverlabel implementation2a9cc45 adds threecited labels and
+unchanged currentness gap; combined235spans/five descriptive refusals resolved.
+One finalreviewoverflow finding receives focused9RED2errors->9GREEN0.119s at
+codec/covermapper rejection boundaries; full suite recorded in the new report.
+No deferredminors, activation or institutionaltruth claim. Coherent annotation
+forgery, exactglyphs, governance/exacttokens/liveRPC/answers/runtime/phaseexit remain
+separate gates. [Report](../../plans/2026-10-14-reviewed-body-cover-context-report.md).

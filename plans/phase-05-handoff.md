@@ -10,6 +10,15 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest14October2026: [body/cover context report](2026-10-14-reviewed-body-cover-context-report.md)
+closes codes5eba651/2a9cc45/fix49e89c6. Full5138tests/341subtests pass, finalreview
+overflow corrected underTDD,26files sealed/782priorhashes preserved. Allfive
+descriptive structured requirements resolve; two oversizedgap records remain.
+267fields/29blanks/sevengaps/235spans/73unknown/0chunks; formalhandoff staysblocked.
+Next bounded complete-field partition/grouping for oversizedrecords, then actual
+governance/approveddevelopmentcases/realretrievalcalibration. No incomingprocessing.
+Flowchart recovery below is completed history; do not repeat it or originalconversion.
+
 Latest recovery14October2026: [flowchart context report](2026-10-14-reviewed-flowchart-context-report.md)
 closes the cutoff increment8b74030/5c9fffa after focused RED/GREEN,160relatedtests,
 fresh independent review and34file seal.73unknown/0chunks/sevengaps remain; this

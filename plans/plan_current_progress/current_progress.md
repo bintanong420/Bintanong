@@ -1,5 +1,38 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Body/cover delivery closed,14October2026:** Body5eba651/cover2a9cc45/fix49e89c6
+resolve five descriptive structured requirements. Preserve programme-onlycitations,
+full extraction metadata, orderedcoverlabels/currentnessgap.267fields/29blanks/
+sevengaps/235spans/73unknown/0chunks; two oversizedgap records remain. Related167/
+234subtests26.49s; finalreviewoneImportantoverflowfixed9RED2errors->9GREEN0.119s;
+full5138passed/341subtests/6skips/6warnings314.94s,exit0. Ledger19/10.311s. Independent
+postfixverifierPASS/source-render/default/currentreplay/782priorhashesunchanged.
+26files/fivecode digests seal6024446bf48cd1fd6679d70be1f703856708ad0ef5a5bce355588cb2ecc67f1d.
+Report2026-10-14-reviewed-body-cover-context-report.md. Eightcurateddocs closure;
+SHA follows inGit. Next complete-field partition/grouping for twoovercaprecords;
+sourcegovernance/approvedcases/realpolicycalibration/formalPhase05exit stillopen.
+Verifiedcaller/geometry/governance/exacttoken/runtime limits retained; no deferred
+findings or institutionalactivation. Newbatch andlaterorganizationrequest pending.
+
+Finaldocs393passed0.96s; diffcheck/all26sealhashes-sizes/fivecode digests/manifest
+match. Phasevalidationexit0/canadvanceexit1expectedblocked. Eightexplicit paths
+staged fordocumentaryclosure; no private artifacts. Localbranch/worktree preserved.
+
+**Finalreview correction,14October2026:** OneImportant coordinate overflow in
+newcodec/covermapper; noCritical/Minor. Focused9tests RED2OverflowErrors0.123s ->
+9GREEN0.119s, normalizing malformedinput failures toValueError.
+One correction pass proceeds with fullpytest inexistingoffline environment,
+externaltemp; no rerereview. Actual782priorfiles/267fields/73unknown/0chunks unchanged.
+Source/caller/geometry/governance/exacttokens/runtime/phaseexit gates retained.
+
+**Actual body/cover replay,14October2026:** Codes5eba651/2a9cc45committed. Current
+73-reading replay resolves five descriptive structured requirements;235spans,
+267fields/29blanks/sevengaps/73unknown/0chunks, twoovercaprecords unchanged. Saved
+fourbodymaps/original19/21/23/24/25/Charter1renderhashes match;782prior sealedfiles
+unchanged. Next one fresh finalreview/independentchecks/seal/report/closure. No
+newbatch processing/sourceapproval/activation. Currentpacket p05-reviewed-body-cover-
+context-20261014 under ignoredworkspace audit-evidence.
+
 **Cover support verified,14October2026:** Three new tests RED10missingmoduleerrors
 ->7totalGREEN0.103s; related167passed/234subtests26.49s. Complete accepted cover
 labels retain ordered imagecitations and unchanged list-valued currentness gaps;

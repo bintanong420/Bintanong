@@ -36,3 +36,23 @@ was omitted during consumer regeneration, rejecting its own legitimate record.
 Regraded Important for availability loss; focusedRED->GREEN preserves all original
 extra metadata consistently while deriving fixed source/index/limitmessage fields.
 No lost evidence reference or weaker regeneration check;25focused/215related pass.
+
+## Ordered cover labels and original list-valued currentness gap
+
+14October2026, code2a9cc45: allow only the bounded cover_labels field kind to
+carry a nonempty ordered string list with a complete matching source span per
+label. Preserve the exact original gap visible_text list for a single cover-label
+field, requiring full-list identity before comparing located pages/fields and
+regenerating the fixed unresolved message. No arbitrary structured gap support
+or scalar flattening is inferred. Printed2025/fourth edition remains printed
+evidence, not effective-date/currentness/authority approval.
+
+New map_reviewed_cover_labels checks exact accepted review labels/source/event/
+version/page and the original full-page render before using explicitly declared
+TOPLEFTpixel regions. Regions are coarse caller annotations. Unknown applicability
+produces zerochunks. The new renderer/mapper boundaries normalize out-of-float-
+range coordinate overflow toValueError after focused regression RED/GREEN. Preserve
+evidence/history and standalone limitations; new hashes do not authenticate a
+coordinated forgedcaller or grant institutional authority. No deferredminors.
+[Report](../../plans/2026-10-14-reviewed-body-cover-context-report.md) records complete
+fields/gaps/priorhashes, verification and remaining formalPhase05 gates.

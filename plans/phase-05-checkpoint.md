@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 132
+sequence: 135
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5eba651
-working_tree: cover mapper-codec-adapter-test paths and checkpoint-progress prepared
-updated_at: 2026-10-14T01:21:08+08:00
+head_commit: 49e89c6
+working_tree: eight curated body-cover documentation paths prepared for closure
+updated_at: 2026-10-14T01:36:44+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,36 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Body/cover incrementcomplete: body5eba651/cover2a9cc45/overflowfix49e89c6. Focused
+body4RED->4GREEN0.062s; cover3newRED10errors->7GREEN0.103s. FinalreviewoneImportant
+overflow/noCriticalorMinor, correction9RED2errors0.123s->9GREEN0.119s; full5138passed/
+341subtests/6skip/6warnings314.94s,exit0. Ledger19pass10.311s. Independentpostfix
+source/partition/span/event/render/default/currentadapterreplayPASS;782priorfiles
+unchanged. Actual267fields/29blanks/sevengaps/235spans/73unknown/0chunks; allfive
+descriptive refusals resolve, twoovercaprecords remain.26files/fivecode digests seal
+6024446bf48cd1fd6679d70be1f703856708ad0ef5a5bce355588cb2ecc67f1d. Newreport records
+verifiedcaller/geometry/governance/exacttoken/runtime limits; no deferred findings.
+Eightpath documentaryclosure follows; SHA discoverable fromGit. Futurebatch waits.
+
+Finaldocs393passed0.96s; diffcheck/all26sealhashes-sizes/fivecodedigests/manifest
+match. Phasevalidationexit0/canadvanceexit1expectedblocked. Eightexplicit paths
+staged fordocumentaryclosure; no private artifacts. Localbranch/worktree preserved.
+
+Fresh final reviewer found oneImportant malformed-coordinate overflow at both new
+boundaries; noCritical/Minor. Root reproduces9tests RED2OverflowErrors0.123s; smallest
+codec-render/covermapper normalization ->9GREEN0.119s.
+Finalreview138reviewedtests/29bodyprobes/eightcoverprobes andindependentactual
+checks pass; no secondreview requested. Existing source/scope/token/runtime trust
+limits retained. Next fullrepositorypytest usingexistingofflineassets/externaltemp
+for the single correction pass; record finalresult before commit/seal/closure.
+
+Actual body/cover replayPASS: all five structured requirements resolved,235spans,
+267fields/29blanks/sevengaps/73unknown/0chunks unchanged, twoovercaprecords retain
+refusals. Saved four bodymaps replayexact; original19/21/23/24/25/Charter1render
+hashes match.782prior sealedfiles unchanged. Bodycode5eba651/covercode2a9cc45
+committed; next one fresh finalreview and independent source/field replay/seal.
+Packetworkspace/audit-evidence/p05-reviewed-body-cover-context-20261014. No incoming.
 
 Cover support verified: three new tests RED10missingmoduleerrors ->7totalGREEN
 0.103s. Related167tests/234subtests pass26.49s, including synthetic disposableDB
@@ -1079,6 +1109,12 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Currentverifiedcode49e89c6; eightcuratedclosure paths: bodycoverplan/report,
+existingtextpartition/source-limitdecisions, INDEX/checkpoint/currentprogress and
+blockedhandoffcontinuation. Code/test changes committed; originals/packets/logs/
+scripts/testtemporaries/26fileseal untracked. Following documentarySHA fromGit.
+Localbranch/worktree preserved; no integration/push/activation/newbatch processing.
+
 Verified implementation HEAD5c9fffa; only eight documentary paths prepared:
 flowchartplan/report, existing flowchartdecision, INDEX/checkpoint/currentprogress,
 blockedhandoff continuation and incomingnotice. Originals, review events, packet
@@ -1333,6 +1369,13 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Body/cover recovery: unchanged approvedPython3.13.7 environment/offlineDoclingassets;
+existing cache paths and8CPUthreads used for fullpytest. No installs/dependency/
+modelasset change. Fivecurrentcode/testdigests and26artifacthashes-sizes inmanifest
+6024446bf48cd1fd6679d70be1f703856708ad0ef5a5bce355588cb2ecc67f1d. Originalhandbook/
+Charter hashes unchanged as documented below. No freshSEA-LION/GEMMAmeasurement;
+models stay atC:/Coding-projects/MODELS. Context17–18/36/routing/master10 consulted.
+
 Current flowchart recovery uses existing Python3.13.7/offline approved environment,
 no dependency/model changes or model execution. Five exact current code/test SHA256
 digests and sizes stored in recovery evidence-manifest.json;34retainedfiles sealed
@@ -1361,6 +1404,12 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Current: zero descriptive nonscalar requirements, two oversizedgap records;
+235source spans/267fields/29blanks/sevengaps/73unknown/0chunks. Body/furniture and
+coverlabel preparation is structural evidence, not currentofferings/effectivity/
+authority/undergraduateapplicability approval. Approveddevelopmentcases andactual
+policyretrieval/calibration/formalPhase05exit remain open. Incoming stilllater.
 
 Latest actual derivative73readings retain unknown applicability/0chunks,267fields/
 29blanks/sevengaps/232spans. Five nonscalar requirements/two oversizedgap records
@@ -1398,6 +1447,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Authoritative nextaction: after this eightpath documentaryclosure, specify bounded
+complete-field partition/grouping for handbook-table-9-row-3 and handbook-completion-
+timing within480estimatedtokens, preserving every condition/gap/sourcecitation and
+fullrequiredcontext. Do not invent policy meaning or precedence. Resolve actualsource
+governance/undergraduateapplicability/approvedcases before realpolicycalibration.
+Owner'slaternewbatch/organizationrequest remains pending; no immediateintake. Body/
+cover/flowchart increments complete; older instructions below are historical.
 
 Current authoritative next action: after this eight-path documentary commit, resume
 remaining bounded reviewed body segmentation/structured Charter-cover preparation
@@ -1697,6 +1754,11 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not repeat bodycovermapping/partitionchecks/current/defaultreplays/originalrenders/
+finalreview/TDDfix5eba651/2a9cc45/49e89c6. Preserve782priorhashes/26fileseal; fullsuite
+5138passed applies to currentcode. No originalconversion/repeatedselectedownerreview,
+newbatchprocessing or inferredinstitutionalapproval. Phase05 remains active/blocked.
 
 Do not repeat completed flowchart preparation, current/helper/oldservice replays,
 original renders, final review or TDD fixes8b74030/5c9fffa. Preserve747prior files and

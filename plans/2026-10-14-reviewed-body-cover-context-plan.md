@@ -35,14 +35,14 @@ choices here are agent decisions within that authorization, not source approvals
 Files: tests/test_reviewed_descriptive_context.py; contracts/reviewed_policy_context.py;
 document_ingest/reviewed_policy_chunks.py. Reuse reviewed_body_partition validation.
 
-- [ ] Focused synthetic regression: accepted linked body/segmentation reviews produce
+- [x] Focused synthetic regression: accepted linked body/segmentation reviews produce
   one pending opt-in context record; source_text/citations contain programme body only;
   segmentation retains exact reviewed list, raw item text/ref and extraction role.
-- [ ] Observe RED with unittest; retain log. Default and unknown branches stay withheld.
-- [ ] Add body_partition association kind, empty citation indexes, linked event and
+- [x] Observe RED with unittest; retain log. Default and unknown branches stay withheld.
+- [x] Add body_partition association kind, empty citation indexes, linked event and
   original raw text/ref. Producer independently validates full reviewed partition;
   consumer validates roles/ranges/text/order and body source/page/geometry binding.
-- [ ] Verify malformed/pending/event/page/furniture mutations, JSON and stored shape,
+- [x] Verify malformed/pending/event/page/furniture mutations, JSON and stored shape,
   exact budget refusal and relevant existing reviewed/retrieval suites. Commit GREEN.
 
 ## Task 2 — Ordered cover labels and source limit
@@ -52,27 +52,27 @@ Interface: map_reviewed_cover_labels(bundle, *, sources, review_events,
 source_versions, image_page, read_page_image, label_regions, reading_id).
 Returns inactive field_spans, original reading and original render/evidence metadata.
 
-- [ ] Write accepted cover-label array plus currentness-gap rendering and checked
+- [x] Write accepted cover-label array plus currentness-gap rendering and checked
   original-image mapping regressions. Observe expected RED before implementation.
-- [ ] Bind each exact accepted label to an explicitly declared TOPLEFT pixel region;
+- [x] Bind each exact accepted label to an explicitly declared TOPLEFT pixel region;
   verify source/event/version/page/image/transform. Copy source governance unchanged.
-- [ ] Add cover_labels kind with complete ordered spans and list-preserving display.
+- [x] Add cover_labels kind with complete ordered spans and list-preserving display.
   Extend source-limit validation only for a single cover-label list field; preserve
   the exact original visible_text list and all unresolved claims/metadata.
-- [ ] Verify partial/changed labels/render/version/review, structured unrelated values,
+- [x] Verify partial/changed labels/render/version/review, structured unrelated values,
   unknown scope, stored/JSON/budget and existing service/arrow/scalar behavior. Commit.
 
 ## Actual replay and closure
 
-- [ ] Use current73-reading bundle/spans/dependencies/graphs; replay body/cover support
+- [x] Use current73-reading bundle/spans/dependencies/graphs; replay body/cover support
   separately without overwriting prior output. Verify four original body partitions,
   original Charter cover and saved source hashes; no repeated whole conversion.
-- [ ] Compare every prior sealed file; 267fields/29blanks/sevengaps/73unknown/0chunks
+- [x] Compare every prior sealed file; 267fields/29blanks/sevengaps/73unknown/0chunks
   remain. Three cover citations should bring232to235; nonscalar5to0, overcap2remain.
-- [ ] One fresh-context final code/evidence review; fixes, if required, use TDD.
-- [ ] Independent source/row/event/span/partition/current-adapter checks; seal files,
+- [x] One fresh-context final code/evidence review; fixes, if required, use TDD.
+- [x] Independent source/row/event/span/partition/current-adapter checks; seal files,
   report/decisions/currentprogress/checkpoint/INDEX, docs hygiene and phase ledger.
-- [ ] Explicit small Conventional Commits; formalPhase05 remains blocked.
+- [x] Explicit small Conventional Commits; formalPhase05 remains blocked.
 
 ## Resume evidence and rulings
 
@@ -86,3 +86,26 @@ it or counting furniture as programme content — preserves all fields and prove
 wrong labeling could contaminate retrieval. Cover-label arrays retain ordered identity,
 not arbitrary scalar flattening; currentness remains unavailable. Existing caller/
 annotation trust boundary stands; new hashes cannot grant institutional authority.
+
+## Verification progress
+
+Plan73b1416/body5eba651/cover2a9cc45 committed. Body4REDfailures->4GREEN0.062s;
+related60/91subtests1.24s. Cover3newRED10missingmoduleerrors->7GREEN0.103s;
+allreviewed/retrieval167/234subtests26.49s. Ledger19pass10.311s. Actual independent
+source/field/partition/span/event/render/default/currentadapter replayPASS;
+73unknown/0chunks/267fields/29blanks/sevengaps/235spans/782prior hashes unchanged.
+
+Final reviewer: oneImportant overflow, noCritical/Minor;138reviewedtests1.198s,
+sixcontexttests/29body/eightcover malformedprobes andactualchecks pass. Root
+9tests RED2OverflowErrors0.123s->9GREEN0.119s; renderer/covermapper normalize
+out-of-float-range geometry toValueError. Full repositorypytest runs for the single
+correction pass. No secondreview. Existing caller/geometry/governance/exacttoken/
+runtime/formalphase gates stand; ignoring them risks unsupportedpolicy/activation.
+No deferredminors. Preserve source/history/packets rather than generic skill cleanup.
+
+Finalfixedcode49e89c6: full5138passed/341subtests/6skip/6warnings314.94s,exit0;
+postfixindependentverifierPASS/currentreplay/default/source-render782hashesunchanged.
+26files/fivecode digests sealed6024446bf48cd1fd6679d70be1f703856708ad0ef5a5bce355588cb2ecc67f1d.
+FinalreviewImportantfixed via two focused regressions RED->GREEN and fullsuite;
+no deferred findings. [Report](2026-10-14-reviewed-body-cover-context-report.md).
+Next twooversizedgap records andactualsourcegovernance/approvedretrieval/calibration.
