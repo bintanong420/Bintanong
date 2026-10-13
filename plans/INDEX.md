@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+**Phase 1–2 readiness correction (12 October 2026):** [progress-claims audit](2026-10-12-phase12-progress-claims-audit.md) disputes the historical Phase 2 complete label against unmet real-source exits. Candidate software delivery and later infrastructure status do not establish completed Handbook/Charter ingestion or human-review readiness. Historical handoff metadata is retained pending corrective reconciliation; a valid phase-state structure is not exit-gate proof.
+
 - Master plan: `plans/master_implementation_plan_original_long.md`
 - Active phase: `5` (actual handbook/Charter source governance, ingestion and approved policy-retrieval evidence pending; prospectus review deferred)
 - Active plan: `phase-05-retrieval-plan.md`
@@ -41,6 +43,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 - Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
 
 ## Parallel prospectus workstream
+
+- Owner-led Phase 1–2 source review started 12 October 2026: [run instructions and per-file human checklist](2026-10-12-phase12-human-review-checklist.md), [batch evidence/status](2026-10-12-phase12-human-verification.md). Separate from Lawrence's later-phase verification; no approvals or numbered-phase changes implied.
 
 - Approved review-only prospectus workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`
 - Current ingestion plans and delivery: [repository documentation index](ingestion/README.md) and [current status](ingestion/CURRENT_STATUS.md)
