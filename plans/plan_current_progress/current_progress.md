@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Pending-chunk adapter delivered, 18:03 +08, 13 October 2026:**
+Code21833d8and plan83b17b2verified; final independent reviewer no findings,
+17focusedtests0.132s and actualfresh/savedbuildmatch/585priorhashesmatch. Report
+`plans/2026-10-13-reviewed-policy-pending-chunks-report.md`. Actual0chunks/66withheld,
+allapplicabilityunknown;267fields/29blanks/seven gapgroups preserved.225scalarfield
+spans and13structured/null mappings needed in thiscall, not exhaustive sourceaudit.
+Nine-file seal f1b3f9bb3c048306ba4545392a795ef9c89619d4cc46e70db9094251a25093d2;
+result3d0ee1eaf81ab5cb2ca3636ce1cb6111d73d960cecd68ea920a534ead2e30205.
+Relevant1323tests/28subtests pass,1skip29.15s; ledger19pass10.001s. Next map existing
+45nonblankgradingfields/nineblanks to exact spans underTDD, originalcoordinate
+orders/rawassociation evidence retained. Unknownapplicability withheld. Structured
+row display/sourcegap contextpropagation and authority/effectivity/retrievalcalibration
+gates stayopen. No repeatreviews/conversions/install/database/runtime/push/Phase06.
+Fivecurateddocpaths form closure; privatepacket/sourcebytes stayignored.
+Finaldocs362passed0.93s; diff/seal/585earlierhashchecks pass; phasevalidexit0,
+can-advanceexit1expected blockedPhase05. Only five curateddocs explicitly staged;
+following closure ID discoverable from Git, no private staging or push.
+
 **Pending adapter verified, 17:59 +08, 13 October 2026:**
 Plan83b17b2retained; new separate reviewed-policy chunks module/17synthetictests
 pass0.124s. Initial15absent-moduleRED/GREEN, requiredexceptionIDregressionRED fixed

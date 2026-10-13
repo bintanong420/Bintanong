@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 87
+sequence: 88
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 83b17b2
-working_tree: new pending-chunk adapter, synthetic tests, decision record, checkpoint and progress ready for explicit commit
-updated_at: 2026-10-13T17:59:00+08:00
+head_commit: 21833d8
+working_tree: five pending-chunk closure documentation paths updated; separate real-source result ignored and sealed; closure commit discoverable from Git
+updated_at: 2026-10-13T18:03:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Pending adapter bounded delivery21833d8complete; final independent reviewer finds
+no actionable issues,17focusedtests0.132s pass, saved actual result equals fresh
+in-memory build and585priorfile hashes match. Private nine-file result sealSHA256
+f1b3f9bb3c048306ba4545392a795ef9c89619d4cc46e70db9094251a25093d2;
+result3d0ee1eaf81ab5cb2ca3636ce1cb6111d73d960cecd68ea920a534ead2e30205.
+Report `plans/2026-10-13-reviewed-policy-pending-chunks-report.md` records exact
+code/test/commands/versions/digests and next scalar-anchor mapping. Actual0chunks/
+66withheldwith unknownapplicability;267fields/29blanks/7gapgroups unchanged.
+225scalarfieldsneedanchors inthiscall,13structured/null mapping requirements;
+not an original-source absence or exhaustive auditclaim. Relevant1323pass/1skip/
+28subtests29.15s, ledger19pass10.001s. Finaldocs/diff/phasechecks beforeclosure.
+FormalPhase05 remainsblocked, runtime row-display/gap propagation pending.
 
 Pending-chunk adapter complete under TDD:15initial absent-moduleRED thenGREEN;
 changed required-context regression RED(unaffected parentID) corrected with full
@@ -541,6 +554,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Pending adapter verified21833d8after83b17b2plan; five explicit closure docs:
+report/plan/index/checkpoint/currentprogress. Private result/seal/scripts/logs stay
+ignored in workspaceaudit-evidence. OriginalPDFs/registers/canonical/history
+unchanged,585earlierfiles rechecked. No push/branchrewrite/dependencies/externalwrite.
+
 Verified code6279985retained after clean core8c99a46; final five-path docs closure
 contains report/spec/index/checkpoint/current progress only. Private originals,
 normalized bundle, scripts/logs/seal remain under ignored workspaceaudit-evidence.
@@ -602,6 +620,16 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Current adapter17unittestpass0.124s; relevant1323pytestpass/1skip/28subtests29.15s;
+independentreview17pass0.132s and actual inmemory/saved equivalence; independent
+savedverifier66reasonlists/full267fieldsidecar/29blanks/7gapgroups/585priorhashesmatch.
+Ledger19pass10.001s. Source events/registers and earlier preparationseal intact;
+newninefilesealf1b3f9bb3c048306ba4545392a795ef9c89619d4cc46e70db9094251a25093d2.
+Exact commands/digests in pending-chunk deliveryreport. Fullsuite/formalexitNOTRUN.
+Finaldocs362passed0.93s; diffcheck/ninefileseal/585priorhashespass. Phasevalidate
+exit0, can-advanceexit1expected blockedPhase05. Fivecurateddocumentationpaths
+explicitly staged for following closure; no source-derived staging or push.
 
 Current preparation:17focused unittestpass0.010s; relevantpytest1193pass/1skip/
 12subtests55.80s; phase ledger19pass9.509s. Independent267savedfield comparisons,
@@ -757,15 +785,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Resume from the sealed preparation/delivery report, not earlier pending snapshots.
-Inspect governed pending-chunk integration seams and specify exact source-locator,
-required-neighbor/gap metadata and unknown-scope withholding before further behavior
-changes under synthetic TDD. Keep actual source/applicability and approved policy
-retrieval/calibration gates open. Do not repeat selected comparisons/origin-channel
-questions, one-time normalization, original conversions or completed environment
-setup. Staff context is informal/minimal changes; missing metadata/effectivity and
-three policy meanings remain unresolved. No canonical overwrite, executable rules,
-activation or phase advancement authorized by this preparation.
+Resume from the pending-chunk deliveryreport/sealedresult. Map existing scalar
+review evidence to exact field spans, starting with45nonblank undergraduategrading
+fields/nineblankpercentages. Use originalcoordinateorders and retain rawassociation
+corrections; no fabricatedDoclingcells or unscaled pixelgeometry. Keep66unknown
+applicability declarations withheld. Define structured logical-step mapping and
+sourcegap/fieldassociation contextpropagation under focusedTDD before approved
+retrieval. Source authority/effectivity and realpolicyretrieval/calibration remain
+formal gates. Do not repeat pagecomparisons/originquestions/normalization/conversions
+or setup. No canonicaloverwrite, executable rules, activation or Phase06 advancement.
 
 Previous programme-fragment next action retained for history:
 
