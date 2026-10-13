@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Body/cover context start,14October2026:** Owner says proceed; cleanf90095c resumes
+remaining four segmentation arrays and Chartercover labels. Plan2026-10-14-reviewed-
+body-cover-context-plan.md preserves reviewed fields/gaps/unknownscope and480cap,
+adds explicit body extraction metadata and complete ordered cover citations with
+unresolved currentness warning. Next focused RED/inlineTDD; one final review.
+Thesis17–18/36/routingPNG/master10/policies freshly consulted, no discrepancy.
+Future incoming batch remains unprocessed; formalPhase05 blocked.
+
 **Flowchart cutoff recovery closed,14October2026:** Implementation8b74030 and
 fix5c9fffa carry complete structured arrow/node groups with displayed endpoint IDs
 and same-page citations. Focused9RED1->9GREEN;160relatedtests/212subtests27.03s;

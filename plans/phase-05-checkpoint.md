@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 129
+sequence: 130
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5c9fffa
-working_tree: eight curated documentation paths prepared for flowchart recovery closure
-updated_at: 2026-10-14T01:00:59+08:00
+head_commit: f90095c
+working_tree: body-cover plan and checkpoint-progress resume records prepared
+updated_at: 2026-10-14T01:18:09+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner says proceed. Cleanf90095c reconciles flowchart implementation and closure.
+Active bounded plan2026-10-14-reviewed-body-cover-context-plan.md handles four
+segmentation lists and one Chartercover label list; preserve267fields/sevengaps/
+73unknown/0chunks and480cap. Existing body mapper and complete partition checks
+reused; segmentation remains explicit extraction metadata, furniture excluded from
+body source_text. Cover label list retains ordered citations/currentness warning.
+Thesis17–18/36/routingPNG/master10/standingpolicies and active/priorhandoffs freshly
+consulted; no discrepancy. Next focused RED. No incoming or runtime work authorized.
 
 Flowchart recovery complete at code8b74030/5c9fffa: focused9RED1->9GREEN,
 related160passed/212subtests27.03s, ledger19pass9.772s. Fresh final reviewer finds
