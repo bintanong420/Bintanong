@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 120
+sequence: 123
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9f0fdd8
-working_tree: service-context plan, checkpoint and current progress prepared
-updated_at: 2026-10-13T23:45:45+08:00
+head_commit: cf4a862
+working_tree: six curated complete-service context documentation paths prepared for closure
+updated_at: 2026-10-14T00:10:41+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,48 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Complete-service finalreviewno actionablefindings;6focused0.129s,63relatedtests/
+63subtests1.05s,18malformedprobes, stored/JSONroundtrips, childfirstsourceorder/
+exactbudget/pendingchild atomicwithholding verified. Currenthelper/adapteractual
+replay equals savedoutputs; originalPDF/fresh11/12renderhashes/dimensions match.
+267fields/oneparentfee/sevenactions/fivenullnotes/73unknown/0chunks/sevengaps/
+731priorfilesunchanged independently checked. Feeprojection/nullnotes/inactive
+grouping/boundedgroups valid; forgedcoherentcaller, glyph/policymeaning/currentness/
+authority, exactembeddingtokens/liveRPC/RLS/deployment/answers/phaseexit andother
+structures remain documentedlimits/unperformedgates. No deferredfindings.
+Related221passed/161subtests1.88s, ledger19passed9.257s. Independentverifierrerun
+PASS;15filessealed:df3beb5ef2a31d2aef3becc7299515138c06b4a673f38484253369126712735e.
+Report2026-10-14-reviewed-service-context-report.md; codeeffb6cc/cf4a862. Next
+arrows/segmentation andstructuredChartercover; two oversizedgaprecords still
+withheld. Sourcegovernance/approvedretrieval/calibration andincoming reminder open.
+Finaldocs389passed0.90s/diff/all15sealhashes-sizes/fivecurrentcode-testdigests
+match. Phasevalidationexit0/can-advanceexit1expectedblocked. Six-path curated
+closure follows; SHA discoverable fromGit.
+
+Service codeeffb6cc andboundedgroupfixcf4a862 committed. Impossible declared
+groupcount regression REDOverflowError ->6GREEN0.122s; count must equal actual
+available group members before range allocation. Fullgroup orderedparent/actions
+regression RED1failure corrected chronologicalmetadata/assembly. Related221tests
+pass (duration in freshlog); ledger19pass9.257s. Originalderivative/output/source
+checks remain saved/731filesunchanged; final independentreview next. Owner
+pipeline-location answer recorded; approximately60% is roughengineeringestimate.
+Scope/runtime/phase gates and newbatch-intake reminder stayopen.
+
+Complete-service preparation verified:initial5tests RED8missingmoduleerrors ->
+5GREEN0.104s; source-order regression RED1failure ->GREEN0.101s. Deriveparent+
+sevenactions, onefee/fivenullnotes, original37fields preserved. Codec supports
+explicit not_recorded conditions with fixed visible limitation, no emptyfee/client
+inference. Fullgroup carries partorder and displays chronological parent/actions
+even when childretrievedfirst; complete budget/dependencies atomic. Actual73
+unknownscope/0chunks, original267fields/sevengaps/29blanks,226spans; sixnonscalar
+requirementsresolved(13to7), overcap3to2/servicepartsnone.731priorfilesunchanged;
+freshoriginal11/12renderhashes match, independent field/fee/null/page/groupchecks
+PASS and currentcodeactualreplay exactsaved output. Ledger19pass9.257s. Next codecommit/finalreview/seal/report/curatedclosure.
+Owner pipeline question answered with actual ingestion/reviewedpolicy/embedding/
+storage/retrieval/evaluation modulepaths; end-to-end chatintegration remainsfuture.
+Approx60% estimate remains rough engineering judgment, not phasegate evidence.
+Incoming placement reminder/source-runtime-phase gates stayopen.
 
 Service-context continuation authorized; clean9f0fdd8 reconciles previouscode
 reference0a8d453/documentaryclosure. Plan2026-10-13-reviewed-service-context-plan.md
@@ -967,6 +1009,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Complete-service codeeffb6cc/cf4a862 committed; six curated closure paths:
+serviceplan/report, existing servicedecision, INDEX/checkpoint/currentprogress.
+Private artifacts/source/codeexecutionlogs and15fileseal remain ignored; no remote
+write/activation. ClosureSHA follows fromGit.
+
 Cleanfadc292 plan baseline; six curated closure paths: pre-enrollment plan/report,
 existing service decision, INDEX/checkpoint/current progress. Sixteen sealed private
 files, originals, outputs, scripts and logs remain untracked; no production change.
@@ -1061,6 +1108,11 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Service-context:TDD6focusedGREEN0.122s afterinitialmodule/order/sizeRED;
+related221pass/161subtests1.88s, ledger19pass9.257s. Originalsource/render/field/
+fee/null/group/verifier PASS/731preserved; finalreviewno findings,6focused/
+63relatedtests63subtests/18probes.15fileseal inreport; formalphaseexit NOTRUN.
 
 Pre-enrollment:590relatedtests/173subtests17.37s; ledger19passed10.855s. Actual
 producer and independent verifier pass26fields/685prior files. Final reviewer
@@ -1246,6 +1298,18 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Currentservice increment: finalreview/replay/seal complete; commitcuratedclosure.
+Next integrate confirmed arrows and body/furniture segmentation as source-bound
+structuredcontext underTDD; no executablegraph/rules or discardedfurniturehistory.
+Then structuredChartercover and two oversizedgap-bearing records need complete
+boundedcontext, preserving mandatorylimits and480cap. Allactualscopeunknown,
+sourcegovernance/approveddevelopmentretrieval/calibration separate. No repeated
+sourceconversion/ownerreview. Incoming placement aftercompletebatchnotice and
+beforecalibrationincludingnewdata remainsrecorded; humanreview/preparation then
+clearedcontentembeddings, noautomaticactivation.
+
+Previous service-group nextaction retained for history:
 
 Current source-limit increment: code/fix/review/replay/seal complete; close curated
 docs. Next specify and implement structured arrow/segmentation/parentfee/nullnote/

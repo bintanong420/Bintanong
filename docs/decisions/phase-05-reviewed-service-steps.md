@@ -69,3 +69,22 @@ complete-service or institutional/runtime approval is inferred from this mapping
 
 [Delivery evidence](../../plans/2026-10-13-reviewed-charter-step-regions-report.md)
 records TDD, original comparisons,652 preserved files and final independent review.
+
+## Complete logical-step context parts — 14October2026
+
+Codeeffb6cc/cf4a862 reuses verifiedbinder and derives parent/client/onefee plus
+orderedactions; full originalrow/structured fee stay in separate preparation.
+Only confirmed fee text projects to a scalar span, not a correction or added
+charge. Five nullconditionnotes become opt-in not_recorded associations with
+source_blank:false, zero spans and visible absence-of-evidence wording.
+
+Parentrequiresallactions, eachactionrequiresparent. Fullgroup is content-bound
+and exact-budget atomic, orderedparent/actions evenwhenchildfirstretrieved.
+Eachpart respects480estimatedtokencap. Groupmetadata validatescount/order/version
+and bounds declaredsize againstavailablemembers before allocation. Missing or
+pending child cannot leave a partial logicalstep looking complete. No runtime
+activation, sourceapproval or inferred processEND. Original66readings derive73
+unknownscope/0chunks,267fields/sevengaps/29blanks retained;226spans include one
+parent fee. Seven unsupportedstructures/twooversizedgaprecords remain.
+[Report](../../plans/2026-10-14-reviewed-service-context-report.md) recordsTDD,
+independentreview/preservation and remaining source/corpus gates.

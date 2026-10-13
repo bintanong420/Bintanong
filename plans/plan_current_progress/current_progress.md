@@ -1,5 +1,47 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Complete service delivery closure,14October2026:** Complete-service finalreviewno actionablefindings;6focused0.129s,63relatedtests/
+63subtests1.05s,18malformedprobes, stored/JSONroundtrips, childfirstsourceorder/
+exactbudget/pendingchild atomicwithholding verified. Currenthelper/adapteractual
+replay equals savedoutputs; originalPDF/fresh11/12renderhashes/dimensions match.
+267fields/oneparentfee/sevenactions/fivenullnotes/73unknown/0chunks/sevengaps/
+731priorfilesunchanged independently checked. Feeprojection/nullnotes/inactive
+grouping/boundedgroups valid; forgedcoherentcaller, glyph/policymeaning/currentness/
+authority, exactembeddingtokens/liveRPC/RLS/deployment/answers/phaseexit andother
+structures remain documentedlimits/unperformedgates. No deferredfindings.
+Related221passed/161subtests1.88s, ledger19passed9.257s. Independentverifierrerun
+PASS;15filessealed:df3beb5ef2a31d2aef3becc7299515138c06b4a673f38484253369126712735e.
+Report2026-10-14-reviewed-service-context-report.md; codeeffb6cc/cf4a862. Next
+arrows/segmentation andstructuredChartercover; two oversizedgaprecords still
+withheld. Sourcegovernance/approvedretrieval/calibration andincoming reminder open.
+Finaldocs389passed0.90s/diff/all15sealhashes-sizes/fivecurrentcode-testdigests
+match. Phasevalidationexit0/can-advanceexit1expectedblocked. Six-path curated
+closure follows; SHA discoverable fromGit.
+
+**Service code/fix committed,14October2026:** Service codeeffb6cc andboundedgroupfixcf4a862 committed. Impossible declared
+groupcount regression REDOverflowError ->6GREEN0.122s; count must equal actual
+available group members before range allocation. Fullgroup orderedparent/actions
+regression RED1failure corrected chronologicalmetadata/assembly. Related221tests
+pass (duration in freshlog); ledger19pass9.257s. Originalderivative/output/source
+checks remain saved/731filesunchanged; final independentreview next. Owner
+pipeline-location answer recorded; approximately60% is roughengineeringestimate.
+Scope/runtime/phase gates and newbatch-intake reminder stayopen.
+
+**Complete service preparation verified,13October2026:** Complete-service preparation verified:initial5tests RED8missingmoduleerrors ->
+5GREEN0.104s; source-order regression RED1failure ->GREEN0.101s. Deriveparent+
+sevenactions, onefee/fivenullnotes, original37fields preserved. Codec supports
+explicit not_recorded conditions with fixed visible limitation, no emptyfee/client
+inference. Fullgroup carries partorder and displays chronological parent/actions
+even when childretrievedfirst; complete budget/dependencies atomic. Actual73
+unknownscope/0chunks, original267fields/sevengaps/29blanks,226spans; sixnonscalar
+requirementsresolved(13to7), overcap3to2/servicepartsnone.731priorfilesunchanged;
+freshoriginal11/12renderhashes match, independent field/fee/null/page/groupchecks
+PASS and currentcodeactualreplay exactsaved output. Ledger19pass9.257s. Next codecommit/finalreview/seal/report/curatedclosure.
+Owner pipeline question answered with actual ingestion/reviewedpolicy/embedding/
+storage/retrieval/evaluation modulepaths; end-to-end chatintegration remainsfuture.
+Approx60% estimate remains rough engineering judgment, not phasegate evidence.
+Incoming placement reminder/source-runtime-phase gates stayopen.
+
 **Service context start,13October2026:** Service-context continuation authorized; clean9f0fdd8 reconciles previouscode
 reference0a8d453/documentaryclosure. Plan2026-10-13-reviewed-service-context-plan.md
 uses verified binder to derive parent/sevenactions, onefee/fivenullnotes and atomic

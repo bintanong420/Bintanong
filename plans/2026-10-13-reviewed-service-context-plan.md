@@ -43,13 +43,13 @@ structures and source governance remain subsequent work.
 
 ## Tasks and expected checks
 
-- [ ] Task1: Focused synthetic RED for absent preparation interface, preserved
+- [x] Task1: Focused synthetic RED for absent preparation interface, preserved
   projections/nulls/onefee/cross-page associations, partial review/scope rejection,
   complete-group dependency/budget/480cap and null-context tampering.
-- [ ] Task2: Minimal helper/null-context support GREEN and relevant regressions;
+- [x] Task2: Minimal helper/null-context support GREEN and relevant regressions;
   core preparation/default output unchanged. Derivative scope is copied from
   original; no synthetic applicability copied onto real rows. Commit verified code.
-- [ ] Task3: Actual additive preparation/replay from saved verified original step;
+- [x] Task3: Actual additive preparation/replay from saved verified original step;
   originalfieldreview/source/render bindings and all731priorfiles unchanged.
   Expect eight parts/sevenactions/onefee/fivenullnotes, derivative73unknownscope/
   zerochunks. Independent field/fee/null/association checks, finalreview/seal/report/
@@ -66,3 +66,12 @@ Thesisphysical17–18/36/routing/master10 consulted; no discrepancy. Rough Phase
 engineering estimate about60% reflects delivered retrieval code and remaining
 corpus/governance/calibration gates; not completion evidence or corpus accuracy.
 Incoming placement reminder remains pending after complete-batch notice.
+
+## Completion evidence — 14October2026
+
+Codeeffb6cc/groupfixcf4a862: initial5RED8errors, orderingRED1failure and
+impossiblesizeREDOverflowError produce6GREEN0.122s. Related221passed/161subtests
+1.88s; ledger19passed9.257s. Actualsource/render/field/fee/null/dependency checks
+and currentreplay pass/731priorfilesunchanged. Finalreviewno findings,6focused/
+63relatedtests63subtests/18malformedprobes, originalrenders/replayverified.
+Report2026-10-14-reviewed-service-context-report.md records seal/finalchecks.
