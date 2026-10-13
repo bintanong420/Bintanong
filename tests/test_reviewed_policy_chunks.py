@@ -234,6 +234,17 @@ class ReviewedPolicyChunkTests(unittest.TestCase):
             out=build_context([candidate],10000,len)
             self.assertFalse(out['evidence'])
 
+    def test_extra_original_gap_evidence_survives_preparation_and_context(self):
+        from backend.bintanong_retrieval.context import build_context
+        self.limited_candidate()
+        self.rows[0]['gaps'][0]['evidence_ref']='synthetic-review#1'
+        chunk=self.build(include_source_limits=True)['chunks'][0]
+        candidate={'chunk':chunk,'spans':chunk['spans'],'version':self.version.model_dump(mode='json'),
+            'neighbors':[],'similarity':0.9}
+        out=build_context([candidate],10000,len)
+        self.assertEqual(out['evidence'][0]['text'],chunk['text'])
+        self.assertIn('synthetic-review#1',out['context'])
+
     def test_partial_review_is_not_inherited(self):
         for state in ["pending", "unresolved"]:
             self.rows[0]["fields"][0]["decision"] = state

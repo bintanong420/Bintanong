@@ -117,7 +117,8 @@ def render_reviewed_policy_context(chunk, spans):
         # Reuse exact gap checks, including pages and visible field values. No
         # instruction/message supplied by a caller can replace the fixed limitation.
         row = {'source_sha256':chunk['byte_sha256'],'version_id':chunk['version_id'],
-            'gaps':[{k:g[k] for k in ('gap_id','field_names','issue','visible_text','affected_claims','locator')}
+            'gaps':[{k:v for k,v in g.items() if k not in
+                    {'source_sha256','version_id','span_indexes','resolution','message'}}
                     for g in limits]}
         regenerated = make_source_limits(row, associations, located)
         if limits != regenerated or chunk['text'] != serialize_reviewed_fields(associations,limits):
