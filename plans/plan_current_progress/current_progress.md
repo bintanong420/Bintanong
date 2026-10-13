@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Preparation builder verified, 17:14 +08, 13 October 2026:** Tasks1/2 from the
+correction/selection specification implemented as a separate pure module and
+fourteen synthetic tests. RED: absent module; GREEN:14unittest pass. Approved
+Python3.13pytest governance/docs regressions624passed/12subtests2.50s, external
+basetemp/no cache. Original/reviewed fields, blanks, source/event hashes, partial
+review, scope partitioning, service associations and gap claims covered. No chunks
+or source approval created. New decision record documents normalized mapping
+responsibility; byte hashes do not authenticate institutional authority. Next:
+consolidate actual saved reviews in ignored packet, independently verify fields,
+events/source hashes and history invariance. Five paths form code closure; no push.
+
 **Inactive reviewed-policy continuation, 17:07 +08, 13 October 2026:** Resumed
 clean `13ee5f9`, reconciled preceding-head checkpoint, selected review closure
 confirmed from Git. Implement the existing correction/selection specification in

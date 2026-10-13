@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 82
+sequence: 83
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 13ee5f9
-working_tree: correction-selection specification, checkpoint and current progress updated for resumed implementation
-updated_at: 2026-10-13T17:07:35+08:00
+head_commit: b39df01
+working_tree: new preparation builder, synthetic tests, decision record, checkpoint and progress ready for explicit commit
+updated_at: 2026-10-13T17:14:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Separate pure reviewed-policy preparation builder implemented under synthetic
+TDD: initial fourteen cases fail on absent module, then fourteen pass in system
+Python3.13.7. Related governance/doc suite624passed/12subtests2.50s. Builder checks
+source/event bytes, field decisions/locators, literal blanks, explicit scope and
+gap claims; retains structured associations/originals/refusals without mutation.
+Always inactive; no governed chunk or source-register transition. Decision record
+`docs/decisions/phase-05-reviewed-policy-preparation.md` explains caller review-scope
+mapping responsibility. Tasks1/2 verified; next task3 normalizes saved review
+events/fields into a new ignored packet and independently checks source/history
+invariance and selection coverage. Current code closure discoverable in Git.
 
 Resumed from clean `13ee5f9`; closure commit verifies the selected review work
 above. Correct stale preceding-head metadata before implementation. Execute the
