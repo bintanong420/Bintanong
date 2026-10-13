@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 86
+sequence: 87
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0293b9f
-working_tree: pending-chunk adapter plan, checkpoint and current progress updated for continuation
-updated_at: 2026-10-13T17:50:01+08:00
+head_commit: 83b17b2
+working_tree: new pending-chunk adapter, synthetic tests, decision record, checkpoint and progress ready for explicit commit
+updated_at: 2026-10-13T17:59:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Pending-chunk adapter complete under TDD:15initial absent-moduleRED thenGREEN;
+changed required-context regression RED(unaffected parentID) corrected with full
+dependencyclosurehashing,17finaltestsGREEN0.124s. Relevant1323pytestpass/1skip/
+28subtests29.15s. Separate pending binding preserves scalar associations/blanks,
+source/version/page/geometry match, partialreview/gap/scope withholding and required
+context. Real sealed bundlecheck emitszerochunks/66withheld;585earlierfiles unchanged.
+Additional actual requirements225missing scalar spans/13structured-or-null field
+mappings/7gapgroups explicitly recorded. Original PDFs/registers/canonical/history
+unchanged. No runtime context integration claimed: current context renders span
+text rather than structured row display; later integration remains required.
+Next final independent code/mapping review, saved-output verification/seal and
+documentation handoff. GitHubMCP remote branch read performed, no external writes.
 
 Resume clean0293b9fafter interrupted user continuation; no partial modifications
 or running task artifacts found. Read Contextthesisphysical17–18/36 and routingPNG,

@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Pending adapter verified, 17:59 +08, 13 October 2026:**
+Plan83b17b2retained; new separate reviewed-policy chunks module/17synthetictests
+pass0.124s. Initial15absent-moduleRED/GREEN, requiredexceptionIDregressionRED fixed
+using transitive context hashes. Related1323pytestpass/1skip/28subtests29.15s;
+pure pending-register/spans/association/context checks. Real sealed bundlecheck:
+0chunks/66withheld,585earlierfiles unchanged. All66applicabilityunknown,225scalar
+fieldsneedanchors/13structured-or-null mappings/seven gapgroups preserved. Result
+3d0ee1eaf81ab5cb2ca3636ce1cb6111d73d960cecd68ea920a534ead2e30205.
+Current runtime renders span text; structured row-display/context integration
+remains future work, no runtime deploymentclaim. Next independent final review,
+saved-output verification/seal and handoff; code increment explicitly committed.
+
 **Pending-chunk continuation, 17:50 +08, 13 October 2026:** Clean0293b9fresumed;
 no interrupted changes found. Contextthesisphysical17–18/36/routingPNG and master10
 reconsulted; inspected pending registers, strict SourceSpan/Chunk contracts and
