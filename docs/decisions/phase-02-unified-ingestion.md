@@ -226,3 +226,65 @@ missing/ambiguous support, native BOTTOMLEFT coordinates, repairs, blank review 
 policy/private misuse and absence of publication/network/runtime. This closes the
 field handoff interface; original-corpus accuracy, office/domain review, OCR/private
 lifecycle, runtime/release verification and historical M1/F/session debts remain separate.
+
+## 2026-10-12: native policy children and refused-conversion diagnostics
+
+The original university Charter exposed a policy reader gap: Docling reading order
+can descend through text and table items as well as groups. The saved actual graph
+contained table-owned qualifying footnotes and nested text/group fragments. Follow
+those child references in their native order; retain duplicate/cycle refusal and
+require canonical text/table reference syntax. Do not append unvisited items from
+their array order or invent an order from page geometry. Synthetic RED/GREEN tests
+cover parent text children, table footnotes, malformed descendants and cycles.
+
+Candidate-reader refusal previously removed completed raw conversion during
+temporary cleanup. Retain raw JSON and its source/settings/digest metadata after
+the unchanged-source guard, before interpreting candidates. These diagnostic files
+have no completion manifest and cannot be consumed as a candidate bundle. Successful
+publication still writes completion last; source mutation still prevents publication.
+This lets recovery reuse verified conversion bytes without repeating expensive PDF
+processing, while preserving incomplete-bundle refusal.
+
+The recovered Charter bundle has complete item/table accounting but retains three
+table rejections and upstream dropped-cell warnings. Accounting is not content
+accuracy or authority. Source-owner time-total discrepancies, applicability and
+independent review remain pending; no policy activation or Phase06 follows from
+this correction. Execution and TDD evidence: `plans/phase-05-policy-source-recovery.md`.
+
+### 2026-10-12: handbook native text inside picture containers
+
+The complete handbook conversion exposed83native text items under picture nodes,
+including captions and headings. Picture containers participate in reading order
+even when image content itself is not OCRed. Traverse their children alongside
+groups in both policy/procedure readers, preserving native order and rejecting
+malformed, missing or cyclic container refs. Do not append unvisited arrays or
+invent image text. Existing incomplete-bundle refusal and source guards remain.
+Synthetic regressions reproduced the omission before correction; actual source
+graph and retained conversion are reused for recovery. This does not establish
+image-body coverage, institutional applicability or authority. Evidence:
+`plans/phase-05-handbook-source-recovery.md`.
+
+### 2026-10-13: exact original list text and provenance
+
+The retained handbook conversion has1546 list items whose `text` lacks a marker
+but whose single provenance range exactly covers `orig`. Installed Docling
+list-marker postprocessing changes `text` and retains `orig`/provenance. Preserve
+the explicit original only when `orig == marker + " " + text` and a strictly
+integer range `[0, len(orig)]` covers it in one provenance entry. Keep malformed,
+partial, multiple or mismatched ranges under existing guards. Do not globally
+prefer `orig`, shift offsets or synthesize source locations.
+
+Source units and spans use that same original text; raw JSON stays immutable.
+Exception recognition continues on the marker-free text so preserving numbering
+cannot detach a qualifying exception. Synthetic RED/GREEN regressions cover both
+the located original and its parent-clause relationship. Old handbook bundles
+remain historical evidence; consumers rederive candidates, so regenerate into a
+new directory with this reader. Charter raw interpretations are unchanged.
+Source review/authority and grading geometry remain separate pending gates.
+Evidence: `plans/2026-10-12-handbook-list-provenance-recovery.md`.
+
+Procedure label recognition also uses marker-free raw text, while field text keeps
+the original marker prefix on its first line. This preserves fees, office,
+requirements and processing-time candidates after original-list recovery.
+An empty marker-free body remains an omission; a list marker alone cannot create
+a policy clause. Both interactions have synthetic failing regressions before fixes.

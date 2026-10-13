@@ -90,6 +90,36 @@ def test_no_printed_fee_means_no_fee_candidate(bound):
     assert result.fields == ()
 
 
+@pytest.mark.parametrize("text,kind", [
+    ("Fees: 25 pesos", "fees"), ("Office: Registrar", "office"),
+    ("Requirements: valid ID", "requirements"), ("Processing time: 3 days", "processing_time")
+])
+def test_recovered_bullet_original_keeps_procedure_field_recognition(bound, text, kind):
+    _, capture = bound
+    _, version = capture()
+    bullet = item(text, label="list_item")
+    bullet.update(marker="•", enumerated=False, orig="• " + text)
+    bullet["prov"][0]["charspan"] = [0, len(bullet["orig"])]
+    raw = raw_document([bullet], pages=1)
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version)
+    assert [(field.kind, field.raw_text) for field in result.fields] == [(kind, "• " + text)]
+    assert result.pdf.units[0].spans[0].text == "• " + text
+    assert raw == before
+
+
+def test_recovered_bullet_multiline_fields_keep_original_line_text(bound):
+    _, capture = bound
+    _, version = capture()
+    bullet = item("Fees: 25 pesos\nOffice: Registrar", label="list_item")
+    bullet.update(marker="•", enumerated=False, orig="• Fees: 25 pesos\nOffice: Registrar")
+    bullet["prov"][0]["charspan"] = [0, len(bullet["orig"])]
+    result = module().read_procedure_items(raw_document([bullet], pages=1), version)
+    assert [(field.kind, field.raw_text) for field in result.fields] == [
+        ("fees", "• Fees: 25 pesos\n"), ("office", "Office: Registrar")
+    ]
+
+
 @pytest.mark.parametrize("source_format", ["pdf", "pptx"])
 def test_explicit_numbered_markers_kept_without_rewriting_text(bound, source_format):
     _, capture = bound
@@ -134,6 +164,104 @@ def test_native_nested_refs_and_original_structure_retained(bound, source_format
     assert result.reading_order == ("#/texts/1", "#/texts/0")
     assert json.loads(result.raw_reading_order_json) == {"body": raw["body"], "groups": raw["groups"]}
     assert raw == before
+
+
+@pytest.mark.parametrize("source_format", ["pdf", "pptx"])
+def test_text_children_follow_parent_in_native_reading_order(bound, source_format):
+    _, capture = bound
+    _, version = capture("source." + source_format)
+    raw = raw_document([item("Registration", label="section_header"), item("1. Submit ID.")])
+    raw["texts"][0]["children"] = [{"cref": "#/texts/1"}]
+    raw["body"] = {"children": [{"cref": "#/texts/0"}]}
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version, source_format=source_format)
+    assert result.reading_order == ("#/texts/0", "#/texts/1")
+    assert [(f.kind, f.raw_text) for f in result.fields] == [("step", "1. Submit ID.")]
+    assert raw == before
+
+
+@pytest.mark.parametrize("child_ref", ["#/texts/0", "#/texts/1"])
+def test_text_descendant_cycles_and_duplicate_references_refused(bound, child_ref):
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([item("Parent"), item("Child")])
+    raw["texts"][0]["children"] = [{"cref": child_ref}]
+    raw["body"] = {"children": [{"cref": "#/texts/0"}, {"cref": "#/texts/1"}]}
+    with pytest.raises(ValueError, match="duplicate"):
+        module().read_procedure_items(raw, version)
+
+
+def test_pdf_table_children_preserve_qualifying_footnote(bound):
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([item("Only for returning students.", label="footnote")])
+    raw["tables"] = [{"label": "table", "children": [{"cref": "#/texts/0"}],
+                      "prov": [item("")["prov"][0]], "data": {"num_rows": 1, "num_cols": 1, "table_cells": []}}]
+    raw["body"] = {"children": [{"cref": "#/tables/0"}]}
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version)
+    assert result.reading_order == ("#/tables/0", "#/texts/0")
+    assert result.pdf.units[0].source_text == "Only for returning students."
+    assert result.pdf.units[0].spans[0].page == 1
+    assert raw == before
+
+
+def test_policy_text_descendant_ref_must_be_canonical(bound):
+    from backend.bintanong_tools.document_ingest.policy_text import read_policy_items
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([item("Parent"), item("Child")])
+    raw["texts"][0]["children"] = [{"cref": "#/texts/not-an-index/1"}]
+    raw["body"] = {"children": [{"cref": "#/texts/0"}]}
+    with pytest.raises(ValueError, match="reference"):
+        read_policy_items(raw, version)
+
+
+def test_policy_table_descendant_cycle_refused(bound):
+    from backend.bintanong_tools.document_ingest.policy_text import read_policy_items
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([])
+    raw["tables"] = [{"children": [{"cref": "#/tables/0"}]}]
+    raw["body"] = {"children": [{"cref": "#/tables/0"}]}
+    with pytest.raises(ValueError, match="cyclic"):
+        read_policy_items(raw, version)
+
+
+@pytest.mark.parametrize("source_format", ["pdf", "pptx"])
+def test_picture_children_keep_native_text_reading_order(bound, source_format):
+    _, capture = bound
+    _, version = capture("source." + source_format)
+    raw = raw_document([item("Following paragraph"), item("1. Keep the exception."),
+                        item("Figure caption", label="caption")])
+    raw["pictures"] = [{"children": [{"$ref": "#/texts/2"}, {"$ref": "#/texts/1"}]}]
+    raw["body"] = {"children": [{"$ref": "#/pictures/0"}, {"$ref": "#/texts/0"}]}
+    before = copy.deepcopy(raw)
+    result = module().read_procedure_items(raw, version, source_format=source_format)
+    assert result.reading_order == ("#/texts/2", "#/texts/1", "#/texts/0")
+    assert [(f.kind, f.raw_text) for f in result.fields] == [("step", "1. Keep the exception.")]
+    assert raw == before
+
+
+@pytest.mark.parametrize("reader", ["policy", "procedure"])
+@pytest.mark.parametrize("damage", ["cycle", "malformed", "missing"])
+def test_picture_container_invalid_references_refused(bound, reader, damage):
+    from backend.bintanong_tools.document_ingest.policy_text import read_policy_items
+    _, capture = bound
+    _, version = capture()
+    raw = raw_document([])
+    raw["pictures"] = [{"children": []}]
+    ref = "#/pictures/0"
+    if damage == "cycle":
+        raw["pictures"][0]["children"] = [{"$ref": ref}]
+    elif damage == "malformed":
+        ref = "#/pictures/not-an-index/0"
+    else:
+        ref = "#/pictures/1"
+    raw["body"] = {"children": [{"$ref": ref}]}
+    read = read_policy_items if reader == "policy" else module().read_procedure_items
+    with pytest.raises(ValueError, match="reading-order"):
+        read(raw, version)
 
 
 def test_table_raw_cells_headers_provenance_and_geometry_retained(bound):
@@ -264,6 +392,30 @@ def test_source_mutation_prevents_completion(bound, tmp_path, monkeypatch, suffi
     with pytest.raises(ValueError, match="changed"):
         module().extract_procedure(snap, [version], input_root=root, out=out,
                                   converter=fake_converter(raw, snap, mutate=True))
+    assert not (out / "manifest.json").exists()
+    assert not (out / "procedure_candidates.json").exists()
+    assert not (out / "raw_docling.json").exists()
+    assert not (out / "raw_docling.meta.json").exists()
+
+
+@pytest.mark.parametrize("suffix", ["pdf", "pptx"])
+def test_reader_refusal_retains_byte_bound_raw_conversion(bound, tmp_path, monkeypatch, suffix):
+    root, capture = bound
+    snap, version = capture("source." + suffix)
+    raw = raw_document([item("Parent"), item("Unreferenced child")])
+    raw["body"] = {"children": [{"cref": "#/texts/0"}]}
+    monkeypatch.setattr(loader, "load_docling", lambda: {"DoclingDocument":
+                        SimpleNamespace(model_validate=lambda data: SimpleNamespace(export_to_markdown=lambda: ""))})
+    out = tmp_path / "refused"
+    with pytest.raises(ValueError, match="reading order"):
+        module().extract_procedure(snap, [version], input_root=root, out=out,
+                                  converter=fake_converter(raw, snap))
+    assert json.loads((out / "raw_docling.json").read_text(encoding="utf-8")) == raw
+    metadata = json.loads((out / "raw_docling.meta.json").read_text(encoding="utf-8"))
+    source_key = "pdf_sha256" if suffix == "pdf" else "source_sha256"
+    assert metadata[source_key] == snap.sha256
+    assert metadata["raw_json_sha256"] == bytes_sha256((out / "raw_docling.json").read_bytes())
+    assert snap.path.read_bytes() == snap.data
     assert not (out / "manifest.json").exists()
     assert not (out / "procedure_candidates.json").exists()
 

@@ -46,3 +46,99 @@ Synthetic focused tests cover pending register round trips, duplicate locators, 
 The seven previously reviewed Task 1/2 source/test/decision files are adopted verbatim from the external `draft_review_archives/p2_final` archive. The generic `ingest PATH` command remains; there is no Phase F command.
 
 NOT RUN: four institutional conversions, Handbook spike, authorized source/scope selection, content review, ten-document OCR gate, phone photographs, broad mutation campaign, broad suite, Linux/macOS/containers, exact tokenizer and institutional approval. Independent Spec and Standards acceptance remain root-managed. This batch does not meet the formal plan's real-source or phase-exit gates.
+
+## 2026-10-13 source-review evidence boundary
+
+Current Phase05 source review distinguishes original transcription proposals from
+raw extraction provenance and institutional approval. Critical grade-table field
+geometry is retained separately; no proposal patches the saved raw or candidate.
+Three refused handbook structures are process flowcharts, while other refusals
+include continuations, merged multilevel headers, contents indexes and headerless
+course-description pairs. A single row-sort/header-invention rule cannot recover
+these safely. Original/native bbox diagnostics remain review aids only.
+The ten separator-gap text refusals include furniture/cross-page joins and stay
+strictly refused pending a reviewed segmentation policy. Editable human decisions
+are excluded from the review evidence seal; no automatic import or approval follows.
+Detailed bounded evidence and next human action:
+`plans/2026-10-13-phase05-policy-review-preparation.md`.
+
+### Owner scope correction applies to both policy PDFs
+
+`AGENTS.md` and `plans/undergraduate-scope-policy.md` now govern selection:
+undergraduate-only support; professional Medicine/Law,graduate,laboratory-school
+and faculty/staff-only procedures are excluded. Original mixed-audience PDFs/raw
+remain intact, while active review selections are separate derivatives. Staff roles
+inside a student service are not exclusion keywords. A shared undergraduate/Law
+source heading can support verified undergraduate content without admitting Law.
+The earlier whole-source review queue is superseded. Unreviewed mixed scopes cannot
+reach embeddings, rules or publication by default. This is a scope ruling and
+review derivative, not a deployed source filter or source/content approval.
+
+### Original flowchart/native-grid review findings
+
+Current undergraduate handbook flowchart bodies physical62/63/64 contain no native
+text in the selected process/role/detail regions; captured tables6/7/8 have no
+cells. Preserve separate manual visual proposals and qualification branches;
+ordinary row sorting cannot manufacture missing cell text. The graduation figure
+has a visibly incomplete final instruction. Native disciplinary-table glyphs
+straddle gridlines; bounded text must not assign word fragments to neighboring
+penalties. Charter continuation reads require header and row ownership review.
+All bounded text remains diagnostic. Proposed visual readings,
+blanks and unresolved content stay separate from raw/canonical SourceSpans.
+No reader behavior changed. Evidence and review order:
+`plans/2026-10-13-undergraduate-table-source-readings.md`.
+
+### Owner rule for defective original content and corrected transcription
+
+Standing13October2026 rule: `plans/source-gap-policy.md`, routed by AGENTS.
+Preserve source defects and carry their limitations with affected evidence; never
+complete a cut-off process or infer missing conditions, sanctions or an END node.
+Answer verified visible content, disclose material gaps and refer to a source-named
+responsible office when needed. A gap limits only dependent claims, not unrelated
+progress, and does not require the owner to recreate unavailable university text.
+
+Handbook64,row8original includes diploma cover; the review transcription omitted
+diploma and is corrected separately. Owner confirms row6Update Student Records
+readable. Row9visible fragment matches but stops at during in the university PDF;
+missing continuation remains unresolved. Original/raw/historical evidence stays
+unchanged. Runtime propagation/answer enforcement remains an implementation
+requirement, not a completed feature claim.
+
+### Corrected next-page fabrication diagnostic
+
+Following owner confirmation of handbook87disciplinary rows, a fresh original
+handbook89render is pixel-identical to the earlier image. Bounded fabrication
+first-offense native region and visible cell contain suspension for1semester;
+the separate second-offense column contains dismissal. Linear native extraction
+concatenates the columns. The earlier agent claim of an extra visible dismissal
+inside the first-offense cell is unsupported and superseded. Preserve that sealed
+diagnostic; derive a separate source-backed pending reading and ask the owner to
+compare the actual visible cells. This corrects review evidence, not the original
+source or product ingestion. Native fragments remain diagnostic, not sanctions.
+
+### Successful structural extraction is not critical-content review
+
+Owner questioned skipped handbook88between reviewed disciplinary pages87/89.
+Fresh source/candidate evidence confirms table10emitted two chunks with source
+and content review still pending; absence from the failed-table queue is not a
+scope exclusion, accuracy result or human approval. Add the four consequential
+policy rows to independent review, preserving original/raw/chunks unchanged.
+AGENTS requires applicable critical-field review before approved release even
+when parsing passes. Selected problem-queue counts do not describe an exhaustive
+handbook/Charter audit or every remaining release/evaluation approval.
+
+### Complete logical steps and linked service-table sub-actions
+
+Owner corrects Charter step1missing beginning and specifies seven time/person/
+office associations. Continuation-only review omitted five agency sub-actions
+and parent None fee from physical11/printed10; physical12/printed11completes the
+same client step. Source is complete here: this was a review coverage/grouping
+omission, not defective institutional content. Evaluator office crosses the page
+boundary; wrapped labels remain one role, and joint role labels remain intact.
+
+`plans/service-table-association-policy.md`, routed by AGENTS, requires a complete
+logical step with ordered linked agency action/duration/role/office/conditions and
+explicit shared-fee source. Preserve raw blanks/original fragments; do not flatten
+columns into unrelated lists. Owner pairings are reviewed separately from newly
+restored action/fee fields. This derives corrected review data and requirements,
+not a deployed reader/chunker fix or whole-service approval.
