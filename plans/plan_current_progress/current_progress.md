@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Resumed10:50 +08,13October2026:** Clean04b140e; all18grading decisions still
+pending. Continue independent original-backed reading of six undergraduate
+procedure/discipline refusals. Three flowchart bodies are image text absent from
+native PDF text/captured cells, requiring visual/OCR review rather than row sorting.
+Preserve source branches and unresolved/truncated content. No applied correction,
+approval, model/OCR run or Phase06. Task:
+`plans/2026-10-13-undergraduate-table-source-readings.md`.
+
 **Latest test cleanup,13October2026 10:37 +08:** No dedicated positive policy
 tests for excluded audiences found in162tracked test/evaluation paths;140Python
 modules/1830test definitions and18data files audited. Two generic geometry

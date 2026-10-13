@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 60
+sequence: 61
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 463e01b
-working_tree: fixture/rule/documentation closure after 463e01b; inspect Git for current state; production unchanged
-updated_at: 2026-10-13T10:37:17+08:00
+head_commit: 04b140e
+working_tree: clean resume baseline; bounded source-reading documentation pending; production unchanged
+updated_at: 2026-10-13T10:50:54+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner resumes remaining Phase05 preparation from clean `04b140e`. All18grading
+rows remain pending. Prepare independent original-backed readings for the six
+undergraduate procedure/discipline refusals without applying grade corrections.
+Source flowchart bodies physical62/63/64 are absent from the native text layer;
+raw tables6/7/8 have no cells. Capture image transcription proposals and branches
+separately; ordinary row reordering cannot recover them. Full original/evidence
+invariance and remaining table readings still require current verification.
+Context thesis17–18/routingPNG and master6/7/10 consulted. Owner confirms curriculum
+mostly symbolic/policy mostly retrieval, with approved source-dependent overlap.
+Bounded task: `plans/2026-10-13-undergraduate-table-source-readings.md`.
 
 Owner test cleanup audited at `463e01b`: no dedicated excluded-audience positive
 policy tests found across162tracked paths/140Python modules/1830test definitions.
