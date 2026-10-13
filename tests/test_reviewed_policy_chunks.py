@@ -113,6 +113,127 @@ class ReviewedPolicyChunkTests(unittest.TestCase):
         self.assertIn("source_gap_requires_context_support", self.reason(result))
         self.assertEqual(result["preparation"]["readings"][0]["gaps"], self.rows[0]["gaps"])
 
+    def limited_candidate(self):
+        self.rows[0]['gaps'] = [{'gap_id': 'cutoff', 'field_names': ['instruction'],
+            'issue': 'source_cutoff', 'visible_text': 'Submit the form.',
+            'affected_claims': ['remaining instructions', 'complete process'],
+            'locator': {'physical_pages': [1], 'field': 'instruction'}}]
+        result = self.build(include_source_limits=True)
+        chunk = result['chunks'][0]
+        return {'chunk': chunk, 'version': self.version.model_dump(mode='json'),
+            'spans': chunk['spans'], 'neighbors': [], 'similarity': 0.9}
+
+    def test_opt_in_limit_and_field_names_reach_cited_context_without_input_mutation(self):
+        from backend.bintanong_retrieval.context import build_context
+        candidate = self.limited_candidate()
+        before = copy.deepcopy(candidate)
+        chunk = candidate['chunk']
+        Chunk.parse(chunk)
+        self.assertEqual(chunk['type_fields']['context_format'], 'reviewed-policy-fields-v1')
+        self.assertEqual(json.loads(chunk['text'])['source_limits'][0]['visible_text'], 'Submit the form.')
+        out = build_context([candidate], 10000, len)
+        self.assertIn('Unavailable information:', out['context'])
+        self.assertIn('complete process', out['context'])
+        self.assertIn('instruction', out['context'])
+        self.assertEqual(out['evidence'][0]['text'], chunk['text'])
+        self.assertEqual(candidate, before)
+        self.assertEqual(len(out['evidence'][0]['citations']), 1)
+        self.assertFalse(self.build()['chunks'])
+
+    def test_opt_in_keeps_unknown_scope_and_unsupported_gap_withheld(self):
+        self.limited_candidate()
+        self.rows[0]['applicability'] = 'unknown'
+        self.assertFalse(self.build(include_source_limits=True)['chunks'])
+        self.rows[0]['applicability'] = 'undergraduate'
+        gap = self.rows[0]['gaps'][0]
+        for change in [lambda g:g.update(issue='unknown_policy'),
+                       lambda g:g.update(visible_text='Invented ending.'),
+                       lambda g:g['locator'].update(physical_pages=[2]),
+                       lambda g:g.update(field_names=['instruction', 'instruction'])]:
+            before = copy.deepcopy(gap)
+            change(gap)
+            result = self.build(include_source_limits=True)
+            self.assertFalse(result['chunks'])
+            self.assertIn('source_gap_requires_context_support', self.reason(result))
+            gap.clear(); gap.update(before)
+        self.rows[0]['gaps'].append(copy.deepcopy(gap))
+        self.assertFalse(self.build(include_source_limits=True)['chunks'])
+        for flag in [None, 1, 'true']:
+            with self.assertRaises(ValueError): self.build(include_source_limits=flag)
+
+    def test_altered_marked_record_never_falls_back_to_unlimited_span_text(self):
+        from backend.bintanong_retrieval.context import build_context
+        original = self.limited_candidate()
+        for change in [lambda c:c['chunk']['type_fields']['source_limits'].clear(),
+                       lambda c:c['chunk'].update(text='Submit the form.'),
+                       lambda c:c['chunk']['type_fields']['source_limits'][0].update(message='All complete'),
+                       lambda c:c['chunk']['type_fields']['field_associations'][0].update(span_indexes=[True]),
+                       lambda c:c['spans'][0].update(text='Invented ending'),
+                       lambda c:c['chunk'].update(content_hash='a'*64),
+                       lambda c:c['chunk']['type_fields'].update(context_format='unsupported-v2')]:
+            with self.subTest(change=change):
+                candidate = copy.deepcopy(original); change(candidate)
+                out = build_context([candidate], 10000, len)
+                self.assertFalse(out['evidence'])
+                self.assertIn('invalid_reviewed_context:'+candidate['chunk']['chunk_id'],out['gaps'])
+
+    def test_overlap_does_not_drop_limitation_and_budget_keeps_complete_record(self):
+        from backend.bintanong_retrieval.context import build_context
+        limited = self.limited_candidate()
+        plain = copy.deepcopy(limited)
+        plain['chunk'].update(chunk_id='prior', chunker_version='legacy', type_fields={}, text='Submit the form.')
+        out = build_context([plain, limited], 10000, len)
+        self.assertEqual(len(out['evidence']), 2)
+        self.assertIn('Unavailable information:', out['context'])
+        self.assertEqual(out['evidence'][1]['text'],limited['chunk']['text'])
+        self.assertEqual(len(out['evidence'][1]['citations']),1)
+        complete = build_context([limited],10000,len)
+        small = build_context([limited],len(complete['context'])-1,len)
+        self.assertFalse(small['evidence'])
+        self.assertIn('context_budget:'+limited['chunk']['chunk_id'],small['gaps'])
+        self.assertFalse(self.build(include_source_limits=True,token_cap=8)['chunks'])
+
+    def test_no_gap_opt_in_preserves_scalar_associations_and_literal_blank(self):
+        from backend.bintanong_retrieval.context import build_context
+        self.rows[0]['fields'].append(self.field('fee',''))
+        chunk = self.build(include_source_limits=True)['chunks'][0]
+        candidate={'chunk':chunk,'spans':chunk['spans'],'version':self.version.model_dump(mode='json'),
+            'neighbors':[],'similarity':0.9}
+        out=build_context([candidate],10000,len)
+        self.assertIn('"source_blank":true',out['context'])
+        self.assertIn('"name":"fee"',out['context'])
+        self.assertEqual(chunk['type_fields']['source_limits'],[])
+
+    def test_stored_rpc_rows_keep_limits_without_contract_only_fields(self):
+        from backend.bintanong_retrieval.context import build_context
+        candidate=self.limited_candidate()
+        original_text=candidate['chunk']['text']
+        for key in ['schema_version','spans','register_binding']:
+            candidate['chunk'].pop(key,None)
+        candidate['chunk'].update(created_at='synthetic',source_verification='verified',content_review='reviewed')
+        for i,span in enumerate(candidate['spans']):
+            span.pop('schema_version',None)
+            span.update(span_id='synthetic-'+str(i),chunk_id=candidate['chunk']['chunk_id'],span_order=i,created_at='synthetic')
+        out=build_context([candidate],10000,len)
+        self.assertEqual(out['evidence'][0]['text'],original_text)
+        candidate['spans'][0]['span_order']=1
+        self.assertFalse(build_context([candidate],10000,len)['evidence'])
+
+    def test_removed_format_markers_or_partial_span_set_cannot_hide_limits(self):
+        from backend.bintanong_retrieval.context import build_context
+        self.rows[0]['fields'].append(self.field('office','Registry'))
+        self.anchors['step-1']['office']=[self.span('office','Registry')]
+        original=self.limited_candidate()
+        for edit in ['markers','missing_span','reordered_spans']:
+            candidate=copy.deepcopy(original)
+            if edit=='markers':
+                candidate['chunk']['type_fields'].pop('context_format')
+                candidate['chunk']['type_fields'].pop('source_limits')
+            elif edit=='missing_span':candidate['spans']=candidate['spans'][:1]
+            else:candidate['spans'].reverse()
+            out=build_context([candidate],10000,len)
+            self.assertFalse(out['evidence'])
+
     def test_partial_review_is_not_inherited(self):
         for state in ["pending", "unresolved"]:
             self.rows[0]["fields"][0]["decision"] = state
