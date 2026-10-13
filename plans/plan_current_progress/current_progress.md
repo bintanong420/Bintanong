@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Charter continuation,13October2026:** Cleanf7990bc; plan2026-10-13-reviewed-
+charter-step-regions-plan.md maps54scalarfields/two blanks and binds the first
+step seven sub-actions/shared fee/five unrecorded null notes separately. Actual
+11/12 images confirm fifth office pagebreak. Explicit original/evidence/value/
+page/render bindings fill absent step1 geometry; saved rectangles take precedence.
+Context17–18/36/routing/master10 agree. Next synthetic RED; no repeated review,
+source/runtime approval or incoming intake. Exact incoming placement reminder pending.
+
 **Disciplinary delivery closure, 13 October2026:** Code488f34e; final independent
 review found no actionable issues,31tests passed0.193s and original87/88/89 column/
 blank/gap checks plus637 earlier hashes pass. Combined133 spans/27 blanks, zero

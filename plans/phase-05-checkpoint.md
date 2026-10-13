@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 104
+sequence: 105
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 488f34e
-working_tree: disciplinary report, decision, bounded plan, index, checkpoint and progress prepared for documentation closure
-updated_at: 2026-10-13T19:57:11+08:00
+head_commit: f7990bc
+working_tree: Charter mapping plan, checkpoint and progress prepared for documentation commit
+updated_at: 2026-10-13T20:06:49+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Charter continuation authorized; cleanf7990bc verified. Plan2026-10-13-reviewed-
+charter-step-regions-plan.md maps54 scalar fields/two blanks and preserves first
+step seven linked sub-actions/shared fee/five null notes. Original11/12 images
+visually inspected; office for fifth Evaluator continues on12. Step1 retains
+reviewed values/page associations but no field rectangles. Ruling: optional exact
+source/evidence/value/page/render-bound region annotations, with saved evidence
+regions taking precedence; pure inactive logical-step binder, no pending adapter
+structured/null relaxation. Thesisphysical17–18/36/routing/master10, active plan/
+handoffs/scope/gap/association rules consulted, no discrepancy. Next focused
+binding and service-step RED; intake reminder remains pending.
 
 Disciplinary code488f34e committed; final fresh-context review found no actionable
 issues. Reviewer31 focused tests passed0.193s, independently verified original
