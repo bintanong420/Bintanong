@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 56
+sequence: 57
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d33340e
-working_tree: final documentation closure pending; verified product clean at d33340e
-updated_at: 2026-10-13T01:13:40+08:00
+head_commit: b7eea10
+working_tree: clean resume baseline; source-review documentation increment pending
+updated_at: 2026-10-13T09:41:04+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,18 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+2026-10-13 owner-requested resume reconciles clean HEAD `b7eea10` with verified
+product `d33340e`; the difference is the completed documentation closure.
+Read AGENTS, both handoff skills, INDEX, active plan/checkpoint, Phase04 handoff,
+latest list-recovery continuation and dataset-location guide. Thesis physical
+36/55/68 and routing PNG agree with master sections6/7/10; no scope discrepancy.
+Bounded next task: consolidate original-backed grading correction proposals,
+all21remaining table refusals and10text refusals into a human-review packet,
+with physical-page images, raw-cell evidence and blank reviewer decisions.
+Existing source/raw/candidate bundles remain sealed; this task prepares reviewed
+evidence without installing corrections or granting source authority.
+See `plans/2026-10-13-phase05-policy-review-preparation.md` for scope and checks.
 
 Current continuation: `plans/2026-10-13-phase05-list-recovery-handoff.md`.
 Bounded reader recovery/review/verification finished at `d33340e`. Final full

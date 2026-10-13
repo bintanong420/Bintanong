@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Latest resume, 13 October 2026 09:41 +08:** Clean HEAD `b7eea10` reconciled
+with prior verified product `d33340e`. Current Phase05 next task is a separate
+source-review packet for 26 original grade readings,21 table refusals and10 text
+refusals. Context thesis36/55/68/routing PNG and master6/7/10 agree. Existing
+evidence will be rechecked before packet construction. Human transcription,
+authority/applicability/effectivity and approved policy labels remain pending;
+Phase05 stays blocked at its formal exit. Preparation details:
+`plans/2026-10-13-phase05-policy-review-preparation.md`.
+
 **Current numbered-phase status, 13 October 2026:** List provenance recovery finished at d33340e:4272handbook chunks,1546recovered original list items,10text/18table refusals retained. Final4953tests/107subtests pass386.83s,6skips/6warnings; ledger19pass12.669s; reviewerP2fixed RED/GREEN. Independent verifier confirms2726prior chunks/45originals/63handbook/70Charter files unchanged; Charter427chunks still validates. New36file evidence seal c8e2aff5641018830acaaa36e473f7a22755b10357610b7b4147d018545dd26d.26grading rows have separate original-backed human-pending readings. Next: reviewed grading correction/segmentation and source applicability/content decisions before approved policy retrieval/calibration. Phase05formalexit remains blocked. Continuation: plans/2026-10-13-phase05-list-recovery-handoff.md.
 
 This is the recoverable handoff for the approved review-only prospectus workstream. It is not a formal numbered phase checkpoint or institutional approval. Fresh Git/test evidence outranks this note.
