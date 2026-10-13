@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Inactive reviewed-policy continuation, 17:07 +08, 13 October 2026:** Resumed
+clean `13ee5f9`, reconciled preceding-head checkpoint, selected review closure
+confirmed from Git. Implement the existing correction/selection specification in
+four bounded tasks: synthetic TDD preparation builder, audience/gap validation,
+ignored source-backed consolidation/invariance checks, relevant regressions and
+review. Thesis physical 17–18/36 and routing PNG consulted; undergraduate and
+read-only requirements agree. Reuse installed Python 3.13/pypdfium2; unavailable
+fitz attempt corrected without installs. GitHub MCP read-only branch check done.
+Next: focused synthetic RED before writing builder code. Preserve originals/raw,
+sealed reviews and canonical bundles; applicability/authority/interpretations and
+retrieval calibration remain open. Commit this three-path resumed plan increment.
+
 **Provenance correction and Charter cover 16:39 +08, 13 October 2026:** Owner
 clarifies informal exchange, not a formal interview; staff mentioned minimal
 changes while researchers were being questioned. Earlier interview description

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 81
+sequence: 82
 plan: plans/phase-05-retrieval-plan.md
-head_commit: e9e2eab
-working_tree: five provenance and review-closure documentation paths updated; private clarification and Charter-cover packets sealed; following closure discoverable from Git
-updated_at: 2026-10-13T16:39:09+08:00
+head_commit: 13ee5f9
+working_tree: correction-selection specification, checkpoint and current progress updated for resumed implementation
+updated_at: 2026-10-13T17:07:35+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resumed from clean `13ee5f9`; closure commit verifies the selected review work
+above. Correct stale preceding-head metadata before implementation. Execute the
+four tasks in the inactive correction/selection specification, starting with
+focused synthetic RED for a separate preparation builder. Preserve raw readers,
+canonical bundles, source records and sealed review events. Read thesis physical
+17–18/36 and inspect runtime routing PNG; scope/routing agree. Installed approved
+Python 3.13 venv supplies pypdfium2; attempted fitz inspection failed because that
+module is absent, corrected by using the installed PDF library, no installation.
+GitHub MCP branch inspection performed; no fetch, merge, push or external write.
+Formal Phase 05 and all existing source/retrieval approval gates remain open.
 
 Owner corrects staff interaction: informal exchange while researchers were being
 questioned; staff mentioned minimal changes. Formal-interview description
