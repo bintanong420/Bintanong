@@ -170,6 +170,92 @@ class ImageFieldSpanTests(unittest.TestCase):
             evidence['proposed_reading']=''
         return {(self.sha,2):kind}
 
+    def region_binding(self):
+        field=self.rows[0]['fields'][0]
+        field['locator']['evidence']={'basis':'confirmed original logical-step field'}
+        return {'node-a':{'instruction':{'reading_id':'node-a','field_name':'instruction',
+            'source_sha256':self.sha,'version_id':self.version.version_id,'physical_page':2,
+            'original_value':field['original_value'],'reviewed_value':field['reviewed_value'],
+            'original_evidence':copy.deepcopy(field['locator']['evidence']),
+            'image_sha256':self.image_sha,'pixel_region':[20,40,120,100],
+            'region_origin':'TOPLEFT_pixels'}}}
+
+    def test_explicit_region_binding_keeps_original_paginated_evidence(self):
+        bindings=self.region_binding()
+        before=copy.deepcopy((self.rows,bindings,self.pages,self.events))
+        result=self.map(field_region_bindings=bindings)
+        record=result['mapping_evidence'][0]
+        self.assertEqual(record['span']['bbox'],[10,20,60,50])
+        self.assertEqual(record['span']['text'],'Get the form.')
+        self.assertEqual(record['region_binding'],bindings['node-a']['instruction'])
+        self.assertEqual(record['original_evidence'],{'basis':'confirmed original logical-step field'})
+        self.assertEqual((self.rows,bindings,self.pages,self.events),before)
+
+    def test_region_binding_source_value_page_render_and_evidence_are_exact(self):
+        original=self.region_binding()
+        for key,value in {'reading_id':'other','field_name':'other','source_sha256':'b'*64,
+            'version_id':'other','physical_page':3,'original_value':'Other original.',
+            'reviewed_value':'Other instruction.','original_evidence':{'basis':'other'},
+            'image_sha256':'b'*64,'region_origin':'BOTTOMLEFT_pixels'}.items():
+            with self.subTest(key=key):
+                bindings=copy.deepcopy(original)
+                bindings['node-a']['instruction'][key]=value
+                result=self.map(field_region_bindings=bindings)
+                self.assertFalse(result['field_spans'])
+                self.assertEqual(result['withheld_fields'][0]['reason'],'original_region_binding_mismatch')
+
+    def test_region_binding_requires_known_reading_and_field_names(self):
+        self.region_binding()
+        for bindings in ([],{'missing':{}},{'node-a':{'missing':{}}},{'node-a':[]}):
+            with self.subTest(bindings=bindings):
+                with self.assertRaisesRegex(ValueError,'region binding'):
+                    self.map(field_region_bindings=bindings)
+
+    def test_region_binding_never_overrides_saved_table_or_image_regions(self):
+        bindings=self.region_binding()
+        evidence=self.rows[0]['fields'][0]['locator']['evidence']
+        evidence.update(field='instruction',proposed_reading='Get the form.',
+            proposed_image_region=[40,80,240,200],region_origin='TOPLEFT_pixels')
+        result=self.map(field_region_bindings=bindings)
+        self.assertEqual(result['field_spans']['node-a']['instruction'][0]['bbox'],[20,40,120,100])
+        self.assertNotIn('region_binding',result['mapping_evidence'][0])
+        evidence.pop('proposed_image_region');evidence.pop('region_origin')
+        evidence.update(proposed_blank=False,source_region=[40,80,240,200])
+        result=self.map(field_region_bindings=bindings,table_region_formats={(self.sha,2):'source_region_pixels'})
+        self.assertEqual(result['field_spans']['node-a']['instruction'][0]['bbox'],[20,40,120,100])
+
+    def test_binding_does_not_replace_retained_table_geometry_without_a_declared_format(self):
+        bindings=self.region_binding()
+        evidence=self.rows[0]['fields'][0]['locator']['evidence']
+        evidence['source_region']=[40,80,240,200]
+        bindings['node-a']['instruction']['original_evidence']=copy.deepcopy(evidence)
+        self.assertFalse(self.map(field_region_bindings=bindings)['field_spans'])
+
+    def test_binding_for_missing_geometry_can_share_a_page_with_retained_table_fields(self):
+        bindings=self.region_binding()
+        result=self.map(field_region_bindings=bindings,
+            table_region_formats={(self.sha,2):'source_region_pixels'})
+        self.assertEqual(result['field_spans']['node-a']['instruction'][0]['text'],'Get the form.')
+
+    def test_region_binding_cannot_bypass_partial_review_or_render_geometry(self):
+        for edit in ('review','audience','pages','render','box'):
+            with self.subTest(edit=edit):
+                self.setUp();bindings=self.region_binding()
+                if edit=='review':self.rows[0]['fields'][0]['decision']='pending'
+                if edit=='audience':self.rows[0]['intended_audience']='staff'
+                if edit=='pages':self.rows[0]['fields'][0]['locator']['physical_pages']=[2,3]
+                if edit=='render':self.observed['image_bytes']=b'changed render'
+                if edit=='box':bindings['node-a']['instruction']['pixel_region']=[0,0,1300,50]
+                self.assertFalse(self.map(field_region_bindings=bindings)['field_spans'])
+
+    def test_changed_corrected_field_cannot_use_region_binding_as_a_review(self):
+        bindings=self.region_binding()
+        self.rows[0]['fields'][0].update(decision='corrected',reviewed_value='Changed instruction.')
+        bindings['node-a']['instruction']['reviewed_value']='Changed instruction.'
+        result=self.map(field_region_bindings=bindings)
+        self.assertFalse(result['field_spans'])
+        self.assertEqual(result['withheld_fields'][0]['reason'],'correction_review_mismatch')
+
     def test_retained_pixel_or_point_table_region_keeps_reviewed_column_text(self):
         for kind in ('source_region_pixels','raw_cell_points'):
             with self.subTest(kind=kind):

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 105
+sequence: 106
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f7990bc
-working_tree: Charter mapping plan, checkpoint and progress prepared for documentation commit
-updated_at: 2026-10-13T20:06:49+08:00
+head_commit: 4d06e59
+working_tree: image mapper, service binder, synthetic tests, bounded plan, checkpoint and progress prepared for implementation commit
+updated_at: 2026-10-13T20:24:34+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,25 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Charter region/service mapping verified under TDD. Six region tests reproduce
+absent keyword RED22subtesterrors; existing field-name guard incorrectly required
+an evidence field key absent in actual sub-action records, then exact binding
+checks yield GREEN. Saved-region override guard, null client instruction and
+mixed saved/bound geometry each reproduce RED before focused corrections. One
+misplaced test tail was repaired (fixture error, not product behavior). Actual
+parent fee retains owner_accepted review annotation separate from reviewed value;
+annotation regression RED then exact annotation/value handling GREEN. Final39image
+tests GREEN0.206s and9service tests GREEN0.130s. Relevant1362passed/1existing
+Windows symlink skip/147subtests27.23s. Actual54scalar fields/two blanks/sixreadings;
+complete first-step seven sub-actions/one parent fee/five null notes. Fifth office
+page12 remains linked to rolepage11. Combined187spans/29blanks; missing scalar
+requirements92to38. Zero chunks/66unknownapplicability/seven gapgroups unchanged.
+Independent original/workflow/event/region/association/fee/null checks pass and
+652earlierfiles unchanged. No completed output overwritten. Next implementation
+commit then final independent review, evidence seal/report and curated closure.
+Packet: workspace/audit-evidence/p05-reviewed-charter-step-regions-20261013.
+No header/checklist/source approval, incoming intake, runtime or phase advancement.
 
 Charter continuation authorized; cleanf7990bc verified. Plan2026-10-13-reviewed-
 charter-step-regions-plan.md maps54 scalar fields/two blanks and preserves first

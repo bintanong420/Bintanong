@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Charter mappings verified,13October2026:**54textfields/two blanks/sixreadings
+from original11/12; first step seven linked sub-actions/one parent fee/five null
+notes, fifth officepage12 linked to rolepage11.187combinedspans/29blanks; missing
+scalar requirements92to38, zero chunks/66unknownapplicability/seven gaps.652prior
+files unchanged; independent original/workflow/event/region/fee/null checks pass.
+39image/9service focused tests GREEN after interface, precedence, null-client,
+mixed-format and exact fee-annotation REDs; one test-tail fixture error repaired.
+Relevant1362passed/1existing skip/147subtests27.23s. Next cohesive code commit,
+final independent review/seal/report/curated closure. Headers/checklist/source
+authority remain pending; incoming collection/placement reminder unchanged.
+
 **Charter continuation,13October2026:** Cleanf7990bc; plan2026-10-13-reviewed-
 charter-step-regions-plan.md maps54scalarfields/two blanks and binds the first
 step seven sub-actions/shared fee/five unrecorded null notes separately. Actual

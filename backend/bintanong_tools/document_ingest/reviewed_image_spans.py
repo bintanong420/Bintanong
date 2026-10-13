@@ -69,6 +69,17 @@ def _table_region(evidence, region_format, page, *, source_blank=False):
     raise ValueError("explicit table region format required")
 
 
+def _bound_region(row, field, evidence, page, binding):
+    expected = {"reading_id": row["reading_id"], "field_name": field["name"],
+        "source_sha256": row["source_sha256"], "version_id": row["version_id"],
+        "physical_page": page["physical_page"], "original_value": field["original_value"],
+        "reviewed_value": field["reviewed_value"], "original_evidence": evidence,
+        "image_sha256": page["image_sha256"], "region_origin": "TOPLEFT_pixels"}
+    if not isinstance(binding, dict) or any(binding.get(k) != v for k, v in expected.items()):
+        raise ValueError("original region binding differs from field evidence")
+    return _numbers(binding.get("pixel_region"), 4)
+
+
 def _span(row, name, text, region, page):
     pixel_label = ",".join(str(n) for n in region)
     data = {"schema_version": SourceSpan.SCHEMA_VERSION, "byte_sha256": row["source_sha256"],
@@ -110,7 +121,7 @@ def _correction_review(row, field, evidence, page, events, aliases):
 
 
 def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions, image_pages, read_page_image,
-                             correction_rows=None, table_region_formats=None):
+                             correction_rows=None, table_region_formats=None, field_region_bindings=None):
     """Map confirmed scalar fields using hash-matched, full-page, unrotated renders.
 
     image_pages keys are (source_sha256,physical_page). The injected trusted reader
@@ -121,6 +132,9 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
     table_region_formats keys are (source_sha256,physical_page), with explicit
     source_region_pixels or raw_cell_points values for retained table evidence.
     Confirmed table blanks retain their regions/evidence and an empty span list.
+    field_region_bindings supplements missing rectangles with exact source/value/
+    evidence/page/render-bound trusted TOPLEFT pixel annotations. Saved regions
+    take precedence; bindings do not supply review or applicability decisions.
     """
     if not callable(read_page_image) or not isinstance(image_pages, Mapping):
         raise ValueError("original page reader and image descriptors required")
@@ -137,6 +151,15 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
         table_region_formats = {}
     if not isinstance(table_region_formats, Mapping):
         raise ValueError("table region formats mapping required")
+    if field_region_bindings is None:
+        field_region_bindings = {}
+    rows = {r["reading_id"]: r for r in core["readings"]}
+    if not isinstance(field_region_bindings, Mapping) or any(k not in rows for k in field_region_bindings):
+        raise ValueError("region bindings require known reading identities")
+    for identity, bindings in field_region_bindings.items():
+        names = {f["name"] for f in rows[identity]["fields"]}
+        if not isinstance(bindings, Mapping) or any(k not in names for k in bindings):
+            raise ValueError("region bindings require known field identities")
     versions = {v.version_id: v for v in load_pending_register(source_versions)}
     for row in core["readings"]:
         version = versions.get(row["version_id"])
@@ -194,17 +217,22 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
             table = "proposed_image_region" not in evidence
             pages = field["locator"]["physical_pages"]
             region_format = table_region_formats.get((row["source_sha256"], pages[0])) if table else None
-            if table and (not isinstance(region_format, str)
-                          or region_format not in {"source_region_pixels", "raw_cell_points"}):
+            has_table_format = (isinstance(region_format, str) and
+                ((region_format == "source_region_pixels" and "source_region" in evidence)
+                 or (region_format == "raw_cell_points" and "raw_cell" in evidence)))
+            bound = (table and not has_table_format and "source_region" not in evidence
+                     and "raw_cell" not in evidence and name in field_region_bindings.get(identity, {}))
+            binding = field_region_bindings.get(identity, {}).get(name) if bound else None
+            if table and not has_table_format and not bound:
                 reject("image_region_unavailable")
                 continue
-            if field["source_blank"] and not table:
+            if field["source_blank"] and (not table or bound):
                 reject("blank_image_field_requires_mapping")
                 continue
-            if (evidence.get("field") != name or field["locator"]["field"] != name
-                    or (not corrected and evidence.get("proposed_reading") != field["reviewed_value"])
+            if ((not bound and evidence.get("field") != name) or field["locator"]["field"] != name
+                    or (not bound and not corrected and evidence.get("proposed_reading") != field["reviewed_value"])
                     or (not table and evidence.get("region_origin") != "TOPLEFT_pixels")
-                    or (table and evidence.get("proposed_blank") is not field["source_blank"])
+                    or (table and not bound and evidence.get("proposed_blank") is not field["source_blank"])
                     or (field["source_blank"] and (field["original_value"] != "" or field["reviewed_value"] != ""))
                     or len(pages) != 1):
                 reject("invalid_image_field_evidence")
@@ -220,20 +248,23 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
                     reject("correction_review_mismatch")
                     continue
             try:
-                region = (_table_region(evidence, region_format, page, source_blank=field["source_blank"])
+                region = (_bound_region(row, field, evidence, page, binding) if bound else
+                          _table_region(evidence, region_format, page, source_blank=field["source_blank"])
                           if table else evidence["proposed_image_region"])
                 if region is not None:
                     _region(region, page)
                 span = None if field["source_blank"] else _span(row, name, field["reviewed_value"], region, page)
             except ValueError:
-                reject("invalid_image_field_evidence")
+                reject("original_region_binding_mismatch" if bound else "invalid_image_field_evidence")
                 continue
             anchors.setdefault(identity, {})[name] = [] if span is None else [span]
             mapped.append({"reading_id": identity, "field_name": name,
                 "event_sha256": field["review_event_sha256"], "image_sha256": page["image_sha256"],
                 "original_evidence": copy.deepcopy(evidence), "pixel_region": copy.deepcopy(region),
                 "span": span})
-            if table:
+            if bound:
+                mapped[-1]["region_binding"] = copy.deepcopy(binding)
+            elif table:
                 mapped[-1].update(region_format=region_format, source_blank=field["source_blank"])
             if correction is not None:
                 mapped[-1]["correction_review"] = correction

@@ -46,11 +46,11 @@ source-gap-policy and the disciplinary delivery's recorded next action.
 Modify reviewed_image_spans.py/tests; add reviewed_service_steps.py and synthetic
 tests/test_reviewed_service_steps.py.
 
-- [ ] RED for exact binding, cross-page office, evidence/value/source/page/image
+- [x] RED for exact binding, cross-page office, evidence/value/source/page/image
   mismatch, source mutation/input invariance, geometry/format/review/audience guards.
-- [ ] RED for ordered complete sub-actions, null notes, one shared fee, missing/
+- [x] RED for ordered complete sub-actions, null notes, one shared fee, missing/
   wrong-source spans, partial review, malformed fee and input invariance.
-- [ ] Minimal GREEN and relevant image/native/preparation/pending/source/governance
+- [x] Minimal GREEN and relevant image/native/preparation/pending/source/governance
   regressions; record commands/results and cohesive commit.
 
 ## Task 2: Additive actual Charter evidence and handoff
@@ -79,3 +79,11 @@ Parent fee geometry is trusted annotated evidence; never duplicate it per action
 
 Incoming collection remains incomplete. Agent gives exact placement instructions
 at intake after owner's complete-batch notice, before calibration including it.
+
+Implementation discovery: actual fee original_value includes review:owner_accepted
+while reviewed_value contains only text/source_page/applies_to. Preserve original
+annotation in preparation; binder permits exactly that recorded annotation and
+requires every value key to match. Focused annotation RED/GREEN; no generic value
+relaxation. Mixed field evidence can share a page; use saved geometry when present,
+explicit supplemental bindings only where rectangles are absent. Null client
+instructions cannot bind complete steps; null notes remain unrecorded.
