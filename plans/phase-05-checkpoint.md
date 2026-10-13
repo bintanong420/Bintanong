@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 110
+sequence: 111
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 09b9c6d
-working_tree: text/timing report, decision, plan, index, checkpoint and progress prepared for documentation closure
-updated_at: 2026-10-13T21:06:30+08:00
+head_commit: c391026
+working_tree: bounded pre-enrollment plan, checkpoint and current progress prepared
+updated_at: 2026-10-13T21:16:49+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Pre-enrollment continuation authorized; clean c391026 verified after text/timing
+documentary closure. Checkpoint09b9c6d was that closure's implementation reference,
+not missing work. Bounded plan2026-10-13-reviewed-pre-enrollment-regions-plan.md
+reuses unchanged mapper for26confirmed fields/four linked rows/two printed totals.
+Original102/103 visible layout checked; printed25minutes versus arithmetic20 and
+step3cutoff at for remain unresolved. Thesisphysical17–18/36/routing/master10/
+active plan/handoffs/scope/gap/service policies consulted; no discrepancy.
+Next original-render-bound annotations and independent mapping/evidence checks.
+No new production behavior planned; any discovered defect requires TDD. Incoming
+collection/placement reminder remains pending; source/runtime/phase gates open.
 
 Text/timing code09b9c6d committed. Final independent review no actionable findings;
 10tests passed0.063s, independent original/raw/event/partition/render checks pass,

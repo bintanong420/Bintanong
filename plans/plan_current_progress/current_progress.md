@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Pre-enrollment continuation,13October2026:** Pre-enrollment continuation authorized; clean c391026 verified after text/timing
+documentary closure. Checkpoint09b9c6d was that closure's implementation reference,
+not missing work. Bounded plan2026-10-13-reviewed-pre-enrollment-regions-plan.md
+reuses unchanged mapper for26confirmed fields/four linked rows/two printed totals.
+Original102/103 visible layout checked; printed25minutes versus arithmetic20 and
+step3cutoff at for remain unresolved. Thesisphysical17–18/36/routing/master10/
+active plan/handoffs/scope/gap/service policies consulted; no discrepancy.
+Next original-render-bound annotations and independent mapping/evidence checks.
+No new production behavior planned; any discovered defect requires TDD. Incoming
+collection/placement reminder remains pending; source/runtime/phase gates open.
+
 **Text/timing delivery closure,13October2026:** Code09b9c6d; independent reviewer
 no actionable findings/10tests0.063s/seven negative probes; six original pages and
 body/timing regions checked. Original/raw/event/partition/gap verifier passes;
