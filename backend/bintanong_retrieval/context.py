@@ -88,7 +88,13 @@ def build_context(candidates, budget: int, count_tokens):
                             other_ids=[r['chunk']['type_fields']['reading_id'] for r in members if r is not row]
                             if (row['chunk']['type_fields']['service_group']['part_order']!=0
                                     or len(set(other_ids))!=len(other_ids)
-                                    or len(node_ids)!=len(other_ids) or set(node_ids)!=set(other_ids)):
+                                    or len(node_ids)!=len(other_ids) or set(node_ids)!=set(other_ids)
+                                    or any(r['chunk']['type_fields']['service_group'].get('part_reading_id')
+                                        !=r['chunk']['type_fields'].get('reading_id') for r in members)):
+                                raise ValueError('invalid reviewed context record')
+                            arrow_pages={s['page'] for s in row['spans']}
+                            if (len(arrow_pages)!=1 or any(
+                                    {s['page'] for s in r['spans']}!=arrow_pages for r in members)):
                                 raise ValueError('invalid reviewed context record')
                 ordered=iter(sorted(members,key=lambda r:r['chunk']['type_fields']['service_group']['part_order']))
                 member_ids={r['chunk']['chunk_id'] for r in members}

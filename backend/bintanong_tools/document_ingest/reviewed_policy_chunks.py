@@ -195,6 +195,8 @@ def build_reviewed_policy_chunks(
                         raise ValueError('incomplete service parts')
                     group={'logical_step_id':row['original_reading_id'],'part_order':row['part_order'],
                         'part_count':len(members)}
+                    if row['original_reading_id'] in node_mappings:
+                        group['part_reading_id']=identity
                 text = serialize_reviewed_fields(associations,limits,group)
             except (ValueError,KeyError,TypeError,IndexError):
                 errors.append("source_gap_requires_context_support")

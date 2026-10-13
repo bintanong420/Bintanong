@@ -68,8 +68,12 @@ def serialize_reviewed_fields(associations, limits, group=None):
         fields.append(display)
     payload={'fields':fields,'source_limits':limits}
     if group is not None:
-        if (not isinstance(group,dict) or set(group)!= {'logical_step_id','part_order','part_count'}
+        if (not isinstance(group,dict) or set(group) not in (
+                {'logical_step_id','part_order','part_count'},
+                {'logical_step_id','part_order','part_count','part_reading_id'})
                 or not isinstance(group['logical_step_id'],str) or not group['logical_step_id']
+                or ('part_reading_id' in group and (not isinstance(group['part_reading_id'],str)
+                    or not group['part_reading_id'].strip()))
                 or type(group['part_order']) is not int or type(group['part_count']) is not int
                 or not 0 <= group['part_order'] < group['part_count']):
             raise ValueError('invalid service context group')
@@ -110,6 +114,9 @@ def render_reviewed_policy_context(chunk, spans):
         fields = chunk['type_fields']
         if fields.get('context_format') != CONTEXT_FORMAT:
             raise ValueError('unsupported reviewed context format')
+        group=fields.get('service_group')
+        if isinstance(group,dict) and 'part_reading_id' in group and group['part_reading_id']!=fields.get('reading_id'):
+            raise ValueError('displayed reading identity differs')
         associations, limits = fields['field_associations'], fields['source_limits']
         if 'spans' in chunk:
             bound = Chunk.parse(chunk).model_dump(mode='json')['spans']
@@ -152,7 +159,7 @@ def render_reviewed_policy_context(chunk, spans):
                 raise ValueError('invalid reviewed context field association')
             names.add(name); indexes.extend(refs)
             if structured:
-                if fields.get('service_group') is None:
+                if not isinstance(group,dict) or group.get('part_reading_id')!=fields.get('reading_id'):
                     raise ValueError('complete flowchart group required')
                 validate_reviewed_arrows(field,located)
                 continue

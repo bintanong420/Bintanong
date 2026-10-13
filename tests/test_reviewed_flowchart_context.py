@@ -134,5 +134,25 @@ class ReviewedFlowchartContextTests(unittest.TestCase):
             bad[0]['chunk']['type_fields']['field_associations']=[value]
             with self.subTest(field=value):self.assertFalse(build_context([bad[0]],100000,len)['evidence'])
 
+    def test_displayed_node_identity_resolves_each_structured_endpoint(self):
+        rows=self.candidates(self.build(self.eligible()))
+        context=build_context([rows[2]],100000,len)
+        displayed=[json.loads(r['text']) for r in context['evidence']]
+        self.assertEqual([p['service_group']['part_reading_id'] for p in displayed],['arrows','node-a','node-b'])
+        mapping=displayed[0]['fields'][0]['node_reading_ids']
+        self.assertEqual(set(mapping.values()),{p['service_group']['part_reading_id'] for p in displayed[1:]})
+        for edit in ['missing','substitution']:
+            bad=copy.deepcopy(rows);meta=bad[2]['chunk']['type_fields']['service_group']
+            if edit=='missing':meta.pop('part_reading_id')
+            else:meta['part_reading_id']='different-step'
+            bad[2]['chunk']['text']=serialize_reviewed_fields(bad[2]['chunk']['type_fields']['field_associations'],[],meta)
+            bad[2]['chunk']['content_hash']=compute_content_hash(bad[2]['chunk']['source_text'],bad[2]['chunk']['text'])
+            with self.subTest(edit=edit):self.assertFalse(build_context([bad[0]],100000,len)['evidence'])
+
+    def test_flowchart_nodes_must_stay_on_the_original_arrow_page(self):
+        rows=self.candidates(self.build(self.eligible()))
+        rows[1]['spans'][0]['page']=3
+        self.assertFalse(build_context([rows[0]],100000,len)['evidence'])
+
 
 if __name__=='__main__':unittest.main()
