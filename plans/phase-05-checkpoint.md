@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 109
+sequence: 110
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 39ae063
-working_tree: reviewed body mapper, pending adapter, synthetic tests, bounded plan, checkpoint and progress prepared for implementation commit
-updated_at: 2026-10-13T21:00:35+08:00
+head_commit: 09b9c6d
+working_tree: text/timing report, decision, plan, index, checkpoint and progress prepared for documentation closure
+updated_at: 2026-10-13T21:06:30+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Text/timing code09b9c6d committed. Final independent review no actionable findings;
+10tests passed0.063s, independent original/raw/event/partition/render checks pass,
+668priorfiles unchanged. Seven extra in-memory probes reject missing/overlapping/
+changed ranges/text/pages. Six original pages visually checked; body/timing regions
+match intended lines. Declined approval/offerings/deadline/exact glyph/furniture
+visibility/trusted declaration authentication/history/runtime/whole-corpus judgments
+remain documented limits or separate pending gates; no deferred findings. Independent
+verifier rerun passes;16files sealed, digest in report. Relevant1375passed/1skip/
+173subtests25.60s, ledger19passed11.042s. Six curated docs closure follows final
+docs380passed1.04s, diff/current mapper-adapter-test-digest/all16-sealed-file checks
+pass. Phase validation exit0; can-advance exit1 (expected blocked handoff). Seal
+8fe902b059a5a9c4f2af168e726140ae5b2e18bae844b375541e4da390d4fc0c. Next confirmed
+pre-enrollment102–103 visible fields with linked associations and total/cutoff gaps;
+no repeated owner reviews/conversions, source/runtime/phase advancement or intake.
 
 Text/timing mappings verified: pure complete raw partition plus original-image
 body mapping; pending adapter derives only reviewed programme body pages, leaving
@@ -829,6 +844,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Clean09b9c6d reconciles implementation metadata. Six text/timing closure docs:
+report/decision/plan/INDEX/checkpoint/current progress.16sealed private files and
+all original/raw/history remain ignored. Closure SHA discoverable from Git.
+
 Cleaned87579 reconciles implementation metadata. Six curated Charter closure paths:
 report/decision/plan/INDEX/checkpoint/current progress. Private maps/originals/logs/
 15file seal remain ignored. Closure SHA discoverable from Git; no remote writes.
@@ -1094,6 +1113,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current after text/timing delivery: map the confirmed Charter pre-enrollment
+physical102–103 visible client/action/fee/time/person/office fields and printed
+total. Preserve linked sub-actions, printed25minutes versus20minute arithmetic sum
+and step3 source cutoff. Do not infer intended total/missing words or repeat owner
+review. Source-governance, structured/null/graph/gap-context integration and real
+approved retrieval/calibration remain separate gates. Incoming intake reminder
+pending: exact folders after complete-batch notice, before calibration including it.
 
 Current after Charter delivery: map the four confirmed handbook text bodies and
 four handbook47 timing statements from original native/image evidence, preserving

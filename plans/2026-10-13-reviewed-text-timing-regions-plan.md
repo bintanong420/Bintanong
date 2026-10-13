@@ -54,14 +54,14 @@ modify reviewed_policy_chunks.py and its tests as needed for verified body pages
 
 ## Task 2: Additive actual body and timing evidence
 
-- [ ] New ignored p05-reviewed-text-timing-regions-20261013 packet. Verify prior
+- [x] New ignored p05-reviewed-text-timing-regions-20261013 packet. Verify prior
   Charter seal/652priorfiles+15files+seal, actual text/timing events and original
   images19/21/23/24/25/47. Preserve body/furniture and ETEEAP/campus context.
-- [ ] Eight scalar mappings; expected combined195spans/29blanks, scalar requirements
+- [x] Eight scalar mappings; expected combined195spans/29blanks, scalar requirements
  38to30, zero chunks/66unknown applicability/seven gaps. Parent fee remains separate.
-- [ ] Independent original/raw/event/region/partition/gap/preservation verifier,
+- [x] Independent original/raw/event/region/partition/gap/preservation verifier,
   one final review and new evidence seal. Original wordings are not reinterpreted.
-- [ ] Curated report/decision/index/checkpoint/progress, final docs/diff/phase checks,
+- [x] Curated report/decision/index/checkpoint/progress, final docs/diff/phase checks,
   local commit and exact next action (pre-enrollment source-gap field mapping).
 
 ## Pre-flight ruling
@@ -83,3 +83,9 @@ malformed-type/furniture-geometry REDs; relevant1375passed/1skip/173subtests25.6
 Actual eight source fields mapped,195combinedspans/29blanks and scalar38to30;
 668earlierfiles unchanged. Structured segmentation and timing/source gaps remain
 withheld; no original locator or review/history changed. Final review/closure next.
+
+Verified delivery:09b9c6d; eight scalar fields/195spans/29blanks, unknownscope/
+seven gaps/zerochunks unchanged. Independent original checks and668priorhashes
+pass; final reviewer10tests0.063s/seven negative probes/no findings;16files sealed.
+Report/checkpoint/progress carry final docs checks and pre-enrollment next action.
+No phase advancement or institutional/current-offering/deadline/runtime approval.

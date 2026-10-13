@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Text/timing delivery closure,13October2026:** Code09b9c6d; independent reviewer
+no actionable findings/10tests0.063s/seven negative probes; six original pages and
+body/timing regions checked. Original/raw/event/partition/gap verifier passes;
+668earlierfiles unchanged,16files sealed.195combinedspans/29blanks, scalar30,
+zero chunks/66unknownapplicability/seven gaps. Relevant1375passed/1skip/173subtests
+25.60s; ledger19passed11.042s. Report2026-10-13-reviewed-text-timing-regions-report.md.
+Next pre-enrollment102–103 visible field associations/printed-total/cutoff gaps.
+Final docs380passed1.04s; diff/current mapper-adapter-test-digests/all16sealedfiles
+match. Phase validation exit0/can-advance exit1 (expected blocked handoff). Seal
+8fe902b059a5a9c4f2af168e726140ae5b2e18bae844b375541e4da390d4fc0c.
+Six-path documentation closure follows; SHA discoverable from Git.
+Incoming-intake reminder/source-runtime-phase gates remain open.
+
 **Text/timing mappings verified,13October2026:** Four body/four timing fields;
 body24/furniture25 separated with complete raw provenance retained.195combined
 spans/29blanks, missing scalar38to30; zero chunks/66unknownapplicability/seven
