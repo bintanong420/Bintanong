@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 88
+sequence: 89
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 21833d8
-working_tree: five pending-chunk closure documentation paths updated; separate real-source result ignored and sealed; closure commit discoverable from Git
-updated_at: 2026-10-13T18:03:00+08:00
+head_commit: a8d3421
+working_tree: native-field span plan, checkpoint and current progress updated for continuation
+updated_at: 2026-10-13T18:06:24+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resume cleana8d3421and reconcile preceding-code checkpointhead. Next bounded plan
+`plans/2026-10-13-reviewed-native-field-spans-plan.md` maps existing native grading
+evidence via verified sourcebytes/injected originalrange reader; native textlocators
+explicitly distinguish PDFcharacter ranges from Doclingcells.45nonblank/9blank
+fields targeted, unknownapplicability remainswithheld. Read thesisphysical17–18/36,
+routingPNG/master10/scope/gap policies and originalgrading/nativeevidence contracts;
+no discrepancy. Next focused syntheticRED before mapper; no repeatreview/conversion.
 
 Pending adapter bounded delivery21833d8complete; final independent reviewer finds
 no actionable issues,17focusedtests0.132s pass, saved actual result equals fresh

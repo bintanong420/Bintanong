@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Native-field continuation, 18:06 +08, 13 October 2026:** Clean a8d3421 resumed;
+checkpoint preceding-head reconciled. Plan
+`plans/2026-10-13-reviewed-native-field-spans-plan.md` targets45nonblank grading
+fields/nineblanks from retained PDF character ranges/boxes. Pure native mapper
+uses original-byte/range reader, explicit coordinate conversion and native-text
+locator namespace; preserves raw association diagnostics and unknownapplicability.
+Thesisphysical17–18/36/routingPNG/master10/scope/sourcegap context agree. Next:
+synthetic mapperRED, then actual native text/geometry verification and sealed
+inactive derivative. No original/canonical/source/review changes or phaseadvance.
+
 **Pending-chunk adapter delivered, 18:03 +08, 13 October 2026:**
 Code21833d8and plan83b17b2verified; final independent reviewer no findings,
 17focusedtests0.132s and actualfresh/savedbuildmatch/585priorhashesmatch. Report
