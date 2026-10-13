@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Oversized-record start,14October2026:** Owner says continue; cleanf58e483 resumes
+handbooktable9row3/completiontiming. Plan2026-10-14-reviewed-record-partitions-plan.md
+keeps exactwholefields and fullstoredoriginalgaps, partitions mandatoryorderedparts
+and checks originalgap hashes acrosswholecontext. Compact only redundantdisplay
+values for these manifestboundgroups;480cap unchanged. Next focusedTDDRED; all
+source/scope/runtime gates open. Thesis17–18/36/routing/master10/policies freshly
+consulted, nodiscrepancy. Incomingbatch stilllater.
+
 **Body/cover delivery closed,14October2026:** Body5eba651/cover2a9cc45/fix49e89c6
 resolve five descriptive structured requirements. Preserve programme-onlycitations,
 full extraction metadata, orderedcoverlabels/currentnessgap.267fields/29blanks/

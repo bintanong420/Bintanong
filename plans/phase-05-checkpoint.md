@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 135
+sequence: 136
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 49e89c6
-working_tree: eight curated body-cover documentation paths prepared for closure
-updated_at: 2026-10-14T01:36:44+08:00
+head_commit: f58e483
+working_tree: record-partition plan and checkpoint-progress resume records prepared
+updated_at: 2026-10-14T01:48:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner says continue; cleanf58e483 reconciles bodycoverclosure. New boundedplan
+2026-10-14-reviewed-record-partitions-plan.md partitions twoovercaprecords using
+wholefields/mandatorygroups/originalgap hash reconstruction. Cause alone still496
+estimatedtokens with repeatedgapvisibletext; compact only redundantlimit display
+for newmanifestboundgroups, preserve fullstored/source gaps. Timingconflict stays
+unresolved across allfourfields. Next focusedRED. Thesis17–18/36/routing/master10/
+active-priorhandoffs/scope-gap-service/dataset/ingestionREADME consulted, nodiscrepancy.
+No sourceapproval/runtime/newbatchwork; formalPhase05blocked.
 
 Body/cover incrementcomplete: body5eba651/cover2a9cc45/overflowfix49e89c6. Focused
 body4RED->4GREEN0.062s; cover3newRED10errors->7GREEN0.103s. FinalreviewoneImportant
