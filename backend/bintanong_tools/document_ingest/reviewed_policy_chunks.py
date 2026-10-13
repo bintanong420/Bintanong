@@ -16,7 +16,7 @@ from typing import Any
 from ...bintanong_contracts.source import (Chunk, SourceSpan, bind_chunk, canonical_text,
     check_span_binding, compute_content_hash, span_identity)
 from ...bintanong_contracts.reviewed_policy_context import (CONTEXT_FORMAT, CONTEXT_CHUNKER_VERSION,
-    make_source_limits, serialize_reviewed_fields)
+    make_source_limits, serialize_reviewed_fields, validate_reviewed_cover_labels)
 from ..prospectus_extractor.chunking import estimate_tokens
 from .policy_chunks import TOKEN_CAP
 from .register import load_pending_register
@@ -146,6 +146,25 @@ def build_reviewed_policy_chunks(
                 associations.append({'name':name,'value':copy.deepcopy(value),'source_blank':False,
                     'span_indexes':[],'event_sha256':field['review_event_sha256'],'field_kind':'body_partition',
                     'raw_text':partition['raw_text'],'raw_item_ref':partition['raw_item_ref']})
+                continue
+            if include_source_limits and name=='cover_labels':
+                try:
+                    located=[SourceSpan.parse(s) for s in supplied]
+                    for span in located:
+                        check_span_binding(span,version)
+                        if not span.is_complete or span.bbox is None or span.page_size is None:
+                            raise ValueError('complete cover geometry required')
+                    if {s.page for s in located}!=set(field['locator']['physical_pages']):
+                        raise ValueError('cover page differs')
+                    association={'name':name,'value':copy.deepcopy(value),'source_blank':field['source_blank'],
+                        'span_indexes':list(range(len(located))),'event_sha256':field['review_event_sha256'],
+                        'field_kind':'cover_labels'}
+                    validate_reviewed_cover_labels(association,located)
+                except (ValueError,KeyError,TypeError,IndexError):
+                    errors.append(f'invalid_field_spans:{name}')
+                    continue
+                association['span_indexes']=list(range(len(spans),len(spans)+len(located)))
+                spans.extend(located);associations.append(association)
                 continue
             if include_source_limits and name=='arrows' and identity in node_mappings:
                 try:

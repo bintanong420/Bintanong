@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 131
+sequence: 132
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 73b1416
-working_tree: body codec-adapter-test paths and checkpoint-progress prepared
+head_commit: 5eba651
+working_tree: cover mapper-codec-adapter-test paths and checkpoint-progress prepared
 updated_at: 2026-10-14T01:21:08+08:00
 ---
 
@@ -21,6 +21,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Cover support verified: three new tests RED10missingmoduleerrors ->7totalGREEN
+0.103s. Related167tests/234subtests pass26.49s, including synthetic disposableDB
+retrieval. Accepted cover arrays map to complete ordered originalimage spans and
+retain exact original visible_text lists/currentness messages; metadata-body tests
+remain green. Viewed originalCharter1: allthree confirmedlabels visible; broad
+TOPLEFTpixel regions declared separately, no exactglyph claim. Next cohesive code
+commit, actual73unknown replay/new cover mapping and independent finalreview.
 
 Bodymetadata TDD: four focused tests RED4failures ->4GREEN0.062s; related60tests/
 91subtests pass1.24s. Full raw text/ref/segmentation preserved as explicit extraction

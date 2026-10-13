@@ -1,5 +1,6 @@
 """Descriptive lists retain source provenance without approving institutional use."""
 import copy
+import hashlib
 import json
 import unittest
 
@@ -85,6 +86,86 @@ class ReviewedDescriptiveContextTests(unittest.TestCase):
         for i,span in enumerate(row['spans']):
             span.update(chunk_id=row['chunk']['chunk_id'],span_order=i)
         self.assertEqual(build_context([row],100000,len)['context'],expected)
+
+    def cover_setup(self, *, eligible=True):
+        self.labels=['SYNTHETIC UNIVERSITY','CITIZEN’S CHARTER','2026 (1st Edition)']
+        event=json.dumps({'source_sha256':self.f.sha,'owner_statement':'Synthetic cover labels match.',
+            'physical_page':1,'accepted_cover_labels':self.labels}).encode()
+        ev=hashlib.sha256(event).hexdigest();self.f.events={ev:event}
+        self.f.row={'reading_id':'cover','source_sha256':self.f.sha,'version_id':self.f.version.version_id,
+            'intended_audience':'undergraduate','applicability':'undergraduate' if eligible else 'unknown',
+            'applicability_evidence_ref':'synthetic-cover-scope' if eligible else None,
+            'fields':[{'name':'cover_labels','original_value':self.labels[:],'reviewed_value':self.labels[:],
+                'source_blank':False,'decision':'accepted','review_event_sha256':ev,
+                'locator':{'physical_pages':[1],'field':'cover_labels','evidence':{'basis':'synthetic reading'}}}],
+            'gaps':[{'gap_id':'currentness','field_names':['cover_labels'],'issue':'effectivity_currentness_unknown',
+                'visible_text':self.labels[:],'affected_claims':['effective date','current policy status'],
+                'locator':{'physical_pages':[1],'field':'cover_labels'}}],
+            'preserved_evidence':[{'artifact':'synthetic-event.json','sha256':ev}]}
+        self.cover_regions=[[10,20,350,55],[10,60,350,100],[10,110,350,145]]
+
+    def cover_map(self, **changes):
+        from backend.bintanong_tools.document_ingest.reviewed_cover_context import map_reviewed_cover_labels
+        options=dict(sources={self.f.sha:self.f.data},review_events=self.f.events,
+            source_versions=[self.f.version],image_page=self.f.pages[(self.f.sha,1)],
+            read_page_image=self.f.reader,label_regions=self.cover_regions,reading_id='cover')
+        options.update(changes)
+        return map_reviewed_cover_labels(self.f.prep(),**options)
+
+    def cover(self, **changes):
+        mapping=self.cover_map()
+        options=dict(sources={self.f.sha:self.f.data},review_events=self.f.events,
+            source_versions=[self.f.version],field_spans=mapping['field_spans'],include_source_limits=True)
+        options.update(changes)
+        return build_reviewed_policy_chunks(self.f.prep(),**options)
+
+    def test_cover_labels_and_currentness_gap_keep_complete_ordered_citations(self):
+        self.cover_setup();before=copy.deepcopy(self.f.row)
+        mapped=self.cover_map();self.assertEqual(mapped['original_reading'],before)
+        self.assertFalse(mapped['activation_eligible'])
+        out=self.cover();self.assertEqual(len(out['chunks']),1)
+        chunk=out['chunks'][0];self.assertEqual([s['text'] for s in chunk['spans']],self.labels)
+        self.assertEqual(chunk['type_fields']['source_limits'][0]['visible_text'],self.labels)
+        context=build_context([self.candidate(chunk)],100000,len)
+        self.assertEqual(len(context['evidence'][0]['citations']),3)
+        displayed=json.loads(context['evidence'][0]['text'])
+        self.assertEqual(displayed['fields'][0]['value'],self.labels)
+        self.assertIn('current policy status',displayed['source_limits'][0]['message'])
+        self.assertFalse(build_context([self.candidate(chunk)],len(context['context'])-1,len)['evidence'])
+        self.assertEqual(self.f.row,before)
+        self.assertFalse(self.cover(include_source_limits=False)['chunks'])
+
+    def test_cover_mapping_rejects_partial_review_regions_or_changed_render(self):
+        self.cover_setup()
+        for edit in ('regions','bounds','transform','image','review','event','labels','version'):
+            self.cover_setup();options={}
+            if edit=='regions':options['label_regions']=self.cover_regions[:2]
+            if edit=='bounds':options['label_regions']=[[0,0,2000,20],*self.cover_regions[1:]]
+            if edit=='transform':options['image_page']={**self.f.pages[(self.f.sha,1)],'crop':[0,0,0,0]}
+            if edit=='image':options['read_page_image']=lambda data,page:{**self.f.reader(data,page),'image_bytes':b'changed'}
+            if edit=='review':self.f.row['fields'][0]['decision']='pending'
+            if edit=='event':self.f.row['fields'][0]['review_event_sha256']='b'*64
+            if edit=='labels':self.f.row['fields'][0]['reviewed_value'].reverse()
+            if edit=='version':self.f.row['version_id']='ver-other'
+            with self.subTest(edit=edit),self.assertRaises(ValueError):self.cover_map(**options)
+
+    def test_cover_unknown_scope_and_tampered_or_partial_stored_context_withhold(self):
+        self.cover_setup(eligible=False)
+        result=self.cover();self.assertFalse(result['chunks'])
+        self.assertEqual(result['withheld'][0]['reasons'],['undergraduate_applicability_required'])
+        self.cover_setup();out=self.cover();self.assertEqual(len(out['chunks']),1)
+        original=self.candidate(out['chunks'][0]);expected=build_context([original],100000,len)['context']
+        row=json.loads(json.dumps(original));row['chunk'].pop('spans')
+        for i,span in enumerate(row['spans']):span.update(chunk_id=row['chunk']['chunk_id'],span_order=i)
+        self.assertEqual(build_context([row],100000,len)['context'],expected)
+        for edit in ('labels','visible','page','partial'):
+            row=copy.deepcopy(original);fields=row['chunk']['type_fields']
+            if edit=='labels':fields['field_associations'][0]['value'].reverse()
+            if edit=='visible':fields['source_limits'][0]['visible_text'][0]='Other University'
+            if edit=='page':row['spans'][1]['page']=2
+            if edit=='partial':row['spans'].pop()
+            self.rewrite(row)
+            with self.subTest(edit=edit):self.assertFalse(build_context([row],100000,len)['evidence'])
 
 
 if __name__=='__main__':unittest.main()

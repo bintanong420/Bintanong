@@ -34,6 +34,14 @@ def make_source_limits(row, associations, spans):
         names = gap['field_names']
         visible = gap['visible_text']
         values = [visible] if isinstance(visible, str) else visible
+        cover=(isinstance(names,list) and len(names)==1 and isinstance(names[0],str)
+            and names[0] in fields and fields[names[0]].get('field_kind')=='cover_labels')
+        if cover:
+            if (not isinstance(visible,list) or not visible
+                    or any(not isinstance(v,str) or not v.strip() for v in visible)
+                    or visible!=fields[names[0]]['value']):
+                raise ValueError('cover limitation differs from complete label list')
+            values=['\n'.join(visible)]
         claims, pages = gap['affected_claims'], gap['locator']['physical_pages']
         if (gap['issue'] not in ISSUES or not isinstance(gap['gap_id'],str) or not gap['gap_id'].strip()
                 or gap['gap_id'] in seen or not isinstance(claims,list) or not claims
@@ -47,7 +55,7 @@ def make_source_limits(row, associations, spans):
             raise ValueError('unsupported source limitation')
         indexes = [i for name in names for i in fields[name]['span_indexes']]
         if (not indexes or set(gap['locator']['physical_pages']) != {spans[i].page for i in indexes}
-                or any(canonical_text(v) not in canonical_text(fields[n]['value'])
+                or any(canonical_text(v) not in canonical_text('\n'.join(fields[n]['value']) if cover else fields[n]['value'])
                        for n, v in zip(names, values))):
             raise ValueError('source limitation differs from located visible fields')
         seen.add(gap['gap_id'])
@@ -108,6 +116,17 @@ def validate_reviewed_arrows(field, spans):
     if (not any(e['to']=='END' for e in value) or spans[refs[-1]].text!='END'
             or len({spans[i].page for i in refs})!=1):
         raise ValueError('invalid reviewed arrow terminal/page')
+
+
+def validate_reviewed_cover_labels(field, spans):
+    labels,refs=field.get('value'),field.get('span_indexes')
+    if (field.get('name')!='cover_labels' or field.get('source_blank') is not False
+            or not isinstance(labels,list) or not labels
+            or any(not isinstance(s,str) or not s.strip() for s in labels)
+            or not isinstance(refs,list) or len(labels)!=len(refs)
+            or any(type(i) is not int or not 0<=i<len(spans) for i in refs)
+            or [spans[i].text for i in refs]!=labels or len({spans[i].page for i in refs})!=1):
+        raise ValueError('complete ordered cover labels required')
 
 
 def validate_reviewed_body_partition(field, associations, spans):
@@ -198,7 +217,7 @@ def render_reviewed_policy_context(chunk, spans):
             unrecorded=(value is None and isinstance(name,str) and name.endswith('/condition_note')
                 and field.get('field_state')=='not_recorded' and blank is False and refs==[])
             kind=field.get('field_kind')
-            structured=kind in ('arrows','body_partition')
+            structured=kind in ('arrows','body_partition','cover_labels')
             if (not isinstance(name,str) or not name or name in names or (not isinstance(value,str) and not unrecorded and not structured)
                     or ('field_state' in field and not unrecorded)
                     or ('field_kind' in field and not structured) or ('node_reading_ids' in field and kind!='arrows')
@@ -208,6 +227,9 @@ def render_reviewed_policy_context(chunk, spans):
                 raise ValueError('invalid reviewed context field association')
             names.add(name); indexes.extend(refs)
             if structured:
+                if kind=='cover_labels':
+                    validate_reviewed_cover_labels(field,located)
+                    continue
                 if kind=='body_partition':
                     validate_reviewed_body_partition(field,associations,located)
                     continue

@@ -1,5 +1,12 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Cover support verified,14October2026:** Three new tests RED10missingmoduleerrors
+->7totalGREEN0.103s; related167passed/234subtests26.49s. Complete accepted cover
+labels retain ordered imagecitations and unchanged list-valued currentness gaps;
+bodymetadata/default/unknown/stored/budget regressions green. OriginalCharter1
+visually inspected for three exact confirmedlabels; coarse source regions declared.
+Next commit and actual73unknown replay/newcovermapping/finalindependentreview.
+
 **Bodymetadata verified,14October2026:** Four focused tests RED4failures ->4GREEN
 0.062s; related60passed/91subtests1.24s. Opt-in context retains exact raw partition
 as extraction metadata while source_text/citations use programme body only; event,
