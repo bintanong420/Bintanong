@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 113
+sequence: 114
 plan: plans/phase-05-retrieval-plan.md
-head_commit: fadc292
-working_tree: six curated pre-enrollment documentation paths prepared for closure
-updated_at: 2026-10-13T21:25:56+08:00
+head_commit: ee85052
+working_tree: bounded handbook-cover plan, checkpoint and current progress prepared
+updated_at: 2026-10-13T21:31:20+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Handbook cover continuation authorized; cleanee85052 verified, checkpointfadc292
+was pre-enrollment plan reference before its documentary closure. Bounded plan
+2026-10-13-reviewed-handbook-cover-regions-plan.md reuses unchanged mapper forfour
+confirmed originalpage1 labels;2021cover versus2020BOR details/currentness gap
+kept separate. Corrected informal staff/provenance context supersedes historical
+interview wording; no source approval inferred. Thesisphysical17–18/36/routingPNG,
+master10/activeplan/handoffs/datasetlocations/scope/gap/spec consulted, no discrepancy.
+Next original-render-bound rectangles/exactactualreview/independent verifier.
+Incoming placement reminder and source/runtime/phase gates remain open.
 
 Pre-enrollment final independent review has no actionable findings. Actual
 original102/103,26fields, rows/total/cutoff/gaps and685prior files independently

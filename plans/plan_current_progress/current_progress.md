@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Handbook cover continuation,13October2026:** Handbook cover continuation authorized; cleanee85052 verified, checkpointfadc292
+was pre-enrollment plan reference before its documentary closure. Bounded plan
+2026-10-13-reviewed-handbook-cover-regions-plan.md reuses unchanged mapper forfour
+confirmed originalpage1 labels;2021cover versus2020BOR details/currentness gap
+kept separate. Corrected informal staff/provenance context supersedes historical
+interview wording; no source approval inferred. Thesisphysical17–18/36/routingPNG,
+master10/activeplan/handoffs/datasetlocations/scope/gap/spec consulted, no discrepancy.
+Next original-render-bound rectangles/exactactualreview/independent verifier.
+Incoming placement reminder and source/runtime/phase gates remain open.
+
 **Pre-enrollment delivery closure,13October2026:** Pre-enrollment final independent review has no actionable findings. Actual
 original102/103,26fields, rows/total/cutoff/gaps and685prior files independently
 checked;65focusedtests/112subtests1.03s. Declined glyph/OCR, intendedtotal/missing
