@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 114
+sequence: 116
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ee85052
-working_tree: bounded handbook-cover plan, checkpoint and current progress prepared
-updated_at: 2026-10-13T21:31:20+08:00
+head_commit: bafc0e3
+working_tree: six curated handbook cover documentation paths prepared for closure
+updated_at: 2026-10-13T23:03:01+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,30 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Cover finalreviewno actionable findings; original1/fourregions/exactvalues/scale1.7/
+qualifiedprovenance checked, independentverifierPASS/702priorfiles unchanged.
+Declined glyph/native/OCR, currentness/authority, formalinterview/verifiedorigin,
+whole-source/header/downstream/release, forgedtrustedcaller and formalexit remain
+explicit documented limits/pending gates; scale issue resolved, no deferred findings.
+Relevant590passed/173subtests14.89s;ledger19passed11.479s.15curated files sealed:
+f2179057be9c6d1813b2e74cb1fe88d9e334466a8b31ca4669cacc8781d9fbee.
+Report2026-10-13-reviewed-handbook-cover-regions-report.md.225combinedspans/29blanks,
+scalar0/0chunks/66unknownapplicability/sevengaps. Final docs384passed0.86s/diff/15seal/currentmapper-adapterdigests pass;
+phasevalidationvalid/advancementblocked. Owner revokes usage-related stop;
+continue after documentation closure. Next specify/TDD source-limit context before
+changing gap withholding; remaining13structured/null fields/3nolocated/1overcap
+480estimatedtokens and source governance separate. Intake reminder remains pending.
+
+Handbookcover mapping and independent verifier pass:fourlabels,225combinedspans/
+29blanks, missing scalar4to0, zerochunks/66unknownapplicability/seven gaps.702prior
+files unchanged. Ruling: historical cover image is scale1.7/796x1041, not scale2;
+initial hash refusal before outputs diagnosed from originalproducer, then correct
+transform matched exact prior image. No native text on cover, no native anchor/OCR
+claim. Exact reviewed values and qualified provenance/currentness gap retained.
+No production behavior change. Next final independent review/seal/report/closure;
+remaining seam inventory13nonscalar field requirements/sevengaps/oneovercaprow,
+all66unknownscope. Source/runtime/phase gates and incoming-placement reminder open.
 
 Handbook cover continuation authorized; cleanee85052 verified, checkpointfadc292
 was pre-enrollment plan reference before its documentary closure. Bounded plan
@@ -1171,6 +1195,18 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current coverdelivery: final review/seal complete; commit verified curated closure.
+Next specify and implement source-limit context support underTDD in inactive
+pending/context seams. Visible limitations must reach serialized cited text;
+metadata-only gaps are insufficient. Preserve field associations/full required
+stepgroups, source/version/locator/review bindings, all66unknown applicability.
+Do not drop structured fields or raise480cap to bypass withholding. Structured/
+null/graph/fee/Chartercover integration and sourcegovernance separate; no runtime
+activation or repeated originalreview/conversion. Incoming placement after owner
+completebatch notice, beforecalibrationincludingnewdata.
+
+Previous covermapping next action retained for history:
 
 Current pre-enrollment delivery: independent review/seal complete; close curated docs.
 Next map the four confirmed handbook cover fields from originalpage1 and actual

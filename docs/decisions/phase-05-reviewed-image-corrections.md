@@ -27,3 +27,16 @@ Synthetic regressions cover missing/ambiguous/mismatched event fields, transform
 identity, annotation versus original evidence, input invariance and gap withholding.
 No source authority, currentness, activation or runtime gap enforcement follows from
 technical mapping. Structured/gap context propagation remains a later requirement.
+
+## Handbook cover execution — 13October2026
+
+Reuse unchanged image/pending adapters forfour originalpage1 labels. Historical
+cover rendering uses scale1.7; scale2first failed hash before any output, original
+producer established1.7and exactimage identity passes. No native text layer,
+no native anchor/OCR claim. Trusted broad rectangles retain exact accepted text,
+not glyph isolation. Preserve printed2021/2020BOR details and unresolved currentness,
+qualified ownerreportedFBorigin and corrected informalstaffminimalchange context.
+Current225scalarspans/29blanks,0missing scalar requirements inselectedbundle;
+all66applicabilityunknown/0chunks/sevengaps,702priorfiles unchanged.
+[Report](../../plans/2026-10-13-reviewed-handbook-cover-regions-report.md) records
+independent verification/review. Structured/gap-context/governance gates remain.
