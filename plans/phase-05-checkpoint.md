@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 91
+sequence: 92
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ba8aae4
-working_tree: mapper reader-failure fix, regression, decision record, checkpoint and progress ready for commit; delivery report unstaged
-updated_at: 2026-10-13T18:20:44+08:00
+head_commit: b9e614d
+working_tree: five native-field closure documentation paths updated; eleven-file private packet sealed; following closure commit discoverable in Git
+updated_at: 2026-10-13T18:21:58+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Bounded nativefieldmapping deliveredba8aae4/b9e614d; final review noresidualfindings.
+16focused0.066s root/0.065s reviewer; finalrelevant1010tests/51subtests pass,1skip
+21.11s; phaseledger19pass10.805s. Actual45text/unionbox native mappings+nineblanks
+in18rows checked independently; sevenrawcolumnerrors/history retained.595earlier
+files unchanged. All66actual applicabilityunknown/0chunks; missing scalar mappings
+225to180. Report `plans/2026-10-13-reviewed-native-field-spans-report.md` and
+elevenfileseal37031433c67495c09d2d5ef2575c51cb779079777efce320c377f48d0fea98b9
+govern resume. Mapping9621641ca6032f90b5d4fa40f38b767e37b7bb07961a0211c05939df35f063ef;
+pending823eeb751960a6584ca1f581c54f84294244fa4c7438fea71ea106510dba5a01.
+No source/canonical/register/runtime changes or activation; formalPhase05blocked.
 
 Independent native/saved mapping verification passes45fields/nineblanks/18rows,
 seven rawassociationerrors retained,595priorfiles unchanged. Elevenfilepacket
@@ -588,6 +599,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Nativecodeba8aae4/b9e614dverified afterplan5e8eab1; report/plan/index/checkpoint/
+currentprogress form separate fivepathclosure. OriginalPDFs/canonical/register/
+review/history unchanged; private mappings/native reads/logs/seal ignored inworkspace.
+No push/branchrewrite/dependencies/models/database/runtime/Prolog or Phase06.
+
 Pending adapter verified21833d8after83b17b2plan; five explicit closure docs:
 report/plan/index/checkpoint/currentprogress. Private result/seal/scripts/logs stay
 ignored in workspaceaudit-evidence. OriginalPDFs/registers/canonical/history
@@ -654,6 +670,16 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Currentnative15initialtests0.070s, readerfix16GREEN0.066s; final relevant1010pass/
+1skip/51subtests21.11s. Independent finalreview16pass0.065s, actualnative mapping
+equivalence/45textboxes/nineblanks/595hashchecks pass, noresidualfindings. Ledger19
+pass10.805s. Savedverifier retains sevenrawcolumnerrors (rows3–9),18mappedrows,
+all66unknownapplicabilitywithheld and180remainingmissingscalarspans. Exactcommands/
+versions/digests in native report; fullsuite/formalexitNOTRUN. Finaldocchecks beforeclosure.
+Finaldocs365passed0.87s; diff/elevenfileseal/595priorhashchecks pass. Phasevalidate
+exit0, can-advanceexit1expected blockedPhase05. Fivecurateddocpaths explicitly
+staged; source-derived evidence staysignored. FollowingclosureID fromGit, no push.
 
 Current adapter17unittestpass0.124s; relevant1323pytestpass/1skip/28subtests29.15s;
 independentreview17pass0.132s and actual inmemory/saved equivalence; independent
@@ -819,15 +845,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Resume from the pending-chunk deliveryreport/sealedresult. Map existing scalar
-review evidence to exact field spans, starting with45nonblank undergraduategrading
-fields/nineblankpercentages. Use originalcoordinateorders and retain rawassociation
-corrections; no fabricatedDoclingcells or unscaled pixelgeometry. Keep66unknown
-applicability declarations withheld. Define structured logical-step mapping and
-sourcegap/fieldassociation contextpropagation under focusedTDD before approved
-retrieval. Source authority/effectivity and realpolicyretrieval/calibration remain
-formal gates. Do not repeat pagecomparisons/originquestions/normalization/conversions
-or setup. No canonicaloverwrite, executable rules, activation or Phase06 advancement.
+Resume nativefieldreport/sealedmapping, not earlier unanchored snapshots. Next
+bounded step: original-layout fieldmappings for confirmed overload/cross-enrollment
+rows/arrows with explicit native/image/raw provenance and scale evidence. Define
+scalar/structured associations underfocusedTDD, no fabricatednative ranges for
+image-onlyfields. Keep66unknownapplicability withheld andsourcegaps unresolved;
+structuredlogicalsteps/gap/fieldassociationcontextpropagation remains required
+beforeapproved retrieval. Authority/effectivity and policyretrievalcalibration remain
+formal gates. No repeatgrading/page reviews/originalconversions/normalization/setup,
+canonicaloverwrite, executable rules, activation or Phase06 advancement.
 
 Previous programme-fragment next action retained for history:
 

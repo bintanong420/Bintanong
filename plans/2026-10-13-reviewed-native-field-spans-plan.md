@@ -69,3 +69,8 @@ System Python3.13.7 and existing approved Python3.13 environment; no cache,
 external TEMP/TMP/pytest basetemp. No installs/downloads/lock changes, original
 conversion/normalization reruns, original or canonical overwrite, push or Phase06.
 Unknown meaning/authority/effectivity stays unknown; no repeat owner page review.
+
+Tasks1–3 delivered5e8eab1/ba8aae4/b9e614d; see
+[exact verification/digests and next action](2026-10-13-reviewed-native-field-spans-report.md).
+45native/nonblank andnineblank fields mapped; zeroactualchunks/66unknown
+applicabilitywithheld. Final independent review has no residual findings.

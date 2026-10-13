@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Native grading mappings delivered, 18:21 +08, 13 October 2026:**
+Codeba8aae4/b9e614dverified; report
+`plans/2026-10-13-reviewed-native-field-spans-report.md`.45nativefieldspans/nineblank
+mappings in18undergraduate rows, originalPDFtexts/unionboxes exact; sevenrawcolumn
+errors preserved.595earlierfiles unchanged, elevenfileseal
+37031433c67495c09d2d5ef2575c51cb779079777efce320c377f48d0fea98b9.
+Mapping9621641ca6032f90b5d4fa40f38b767e37b7bb07961a0211c05939df35f063ef;
+pending823eeb751960a6584ca1f581c54f84294244fa4c7438fea71ea106510dba5a01.
+All66applicabilityunknown/0chunks; missing scalarspans225to180,213fieldsneedother
+mappingevidence. ReviewreaderfailurefixedRED/GREEN16tests0.066s; finalrelevant
+1010pass/1skip/51subtests21.11s; reviewer16pass/noresidualfindings, actualsaved/fresh
+outputs match. Phaseledger19pass10.805s. Next originallayoutmapping for confirmed
+overload/cross-enrollmentrows/arrows, explicit image/native/rawscale and associations;
+no inventednative ranges/repeatreviews. Authority/effectivity/gapcontext/structured
+display/retrievalcalibration remainopen. Fivecurateddocs close boundedtask, no push.
+Finaldocs365passed0.87s; diff/seal/595priorhashchecks pass. Phasevalidexit0,
+can-advanceexit1expected blockedPhase05. Explicit fivepathdocclosure, no private staging.
+
 **Native reader-failure review correction, 18:20 +08, 13 October 2026:**
 Coreba8aae4verified. Independent saved/native checks45textboxes/nineblanks/seven
 rawassociation errors/595priorfiles pass; eleven-filepacketseal
