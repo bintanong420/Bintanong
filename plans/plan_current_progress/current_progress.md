@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Disciplinary continuation, 13 October2026:** Owner authorizes Phase05 work.
+Clean231fb6f; bounded plan2026-10-13-reviewed-disciplinary-regions-plan.md
+uses explicit retained pixel/point regions with original render identity,37 text
+fields/18 blanks/11 rows. Preserve native overhang, column ownership and weapon
+source gap; no invented character ranges or repeat page review. Context17–18/36/
+routing/master10 agree. Next focused synthetic RED. New-source intake reminder
+remains pending; give exact folders before calibration including incoming batch.
+
 **Student gatepass scope clarified, 19:34 +08, 13 October2026:** Owner includes
 undergraduate vehicle-gatepass applications within supported student transactions.
 Shared staff use does not exclude the student-facing process; staff-only procedures

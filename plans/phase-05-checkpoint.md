@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 101
+sequence: 102
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ffd8a09
-working_tree: scope policy, incoming-source note, index, checkpoint and current progress prepared for explicit documentation commit
-updated_at: 2026-10-13T19:34:45+08:00
+head_commit: 231fb6f
+working_tree: disciplinary mapping plan, checkpoint and progress prepared for documentation commit
+updated_at: 2026-10-13T19:40:39+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner authorizes Phase05 continuation after recovering the missing discussion.
+Clean231fb6f verified; next bounded disciplinary87/88/89 mapping plan is
+plans/2026-10-13-reviewed-disciplinary-regions-plan.md. Retained image regions
+and raw TOPLEFT point boxes require explicit format/scale declarations;37 fields/
+18 blanks in11 confirmed rows. Ruling: reuse full-page hash-checked image mapping,
+without invented native ranges or raw-cell IDs. Thesisphysical17–18/36/routingPNG,
+master10, active plan/checkpoint/handoffs and scope/gap/association rules consulted.
+No discrepancy. Next focused synthetic region/blank RED. Intake reminder stays
+pending; no new source requests or ingestion, activation or phase advancement.
 
 Owner clarifies that undergraduate vehicle-gatepass applications fall within the
 study's student transactions. Students and staff may share the service; staff use
