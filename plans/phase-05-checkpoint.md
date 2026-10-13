@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 111
+sequence: 113
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c391026
-working_tree: bounded pre-enrollment plan, checkpoint and current progress prepared
-updated_at: 2026-10-13T21:16:49+08:00
+head_commit: fadc292
+working_tree: six curated pre-enrollment documentation paths prepared for closure
+updated_at: 2026-10-13T21:25:56+08:00
 ---
 
 # Phase 05 checkpoint
@@ -21,6 +21,33 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Pre-enrollment final independent review has no actionable findings. Actual
+original102/103,26fields, rows/total/cutoff/gaps and685prior files independently
+checked;65focusedtests/112subtests1.03s. Declined glyph/OCR, intendedtotal/missing
+instruction, completeprocess/no-conditions, header/checklist/neighbors/source
+approval, forgedtrustedinputs, generalized/downstreambinder and wholecorpus/
+runtime/Prolog/release/intake/formalexit judgments stay documented limits or
+separate pending gates, not deferred findings. Relevant590passed/173subtests17.37s,
+ledger19passed10.855s. Independent verifier rerun passes;16curated files sealed:
+ec91c7ad6659e423a3e81ee54f4f697858c095c6326d1a53223bafcf36838bd9.
+Report2026-10-13-reviewed-pre-enrollment-regions-report.md. No production changes;
+221combinedspans/29blanks, scalar4(handbookcover), zerochunks/66unknown/sevengaps.
+Next four confirmed handbookcover1 fields; incoming-placement reminder pending.
+Final docs382passed0.90s; diff/all16sealedhashes-sizes/currentmapper-adapter
+digests match. Phase validation exit0/can-advance exit1(expectedblocked). Six-path
+documentation closure follows; SHA discoverable in Git.
+
+Pre-enrollment mapping verified through unchanged adapters:26fields/four complete
+linked client rows/two printed totals on original102/103.221combinedspans/29blanks;
+scalar requirements30to4(handbookcover), zero chunks/66unknownapplicability/seven
+gap groups unchanged. Original render hashes match; independent source/event/
+proposal/exact field/26native anchor/association/total/cutoff checks pass;685prior
+files unchanged. Broad office region retains one neighboring descender, explicitly
+documented coarse transcription evidence, not exactglyph isolation. Relevant590
+passed/173subtests17.37s; no production changes, no new mirrored tests or TDDclaim.
+Next final independent review, seal/report/curated closure; ledger19 result follows.
+Incoming placement reminder/source-runtime-phase gates remain open.
 
 Pre-enrollment continuation authorized; clean c391026 verified after text/timing
 documentary closure. Checkpoint09b9c6d was that closure's implementation reference,
@@ -855,6 +882,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Cleanfadc292 plan baseline; six curated closure paths: pre-enrollment plan/report,
+existing service decision, INDEX/checkpoint/current progress. Sixteen sealed private
+files, originals, outputs, scripts and logs remain untracked; no production change.
+Documentation closure SHA follows in Git; no remote writes.
+
 Clean09b9c6d reconciles implementation metadata. Six text/timing closure docs:
 report/decision/plan/INDEX/checkpoint/current progress.16sealed private files and
 all original/raw/history remain ignored. Closure SHA discoverable from Git.
@@ -944,6 +976,11 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Pre-enrollment:590relatedtests/173subtests17.37s; ledger19passed10.855s. Actual
+producer and independent verifier pass26fields/685prior files. Final reviewer
+65tests/112subtests1.03s, no actionable findings;16file seal in report. Fullsuite/
+formal Phase05 exit NOT RUN.
 
 Disciplinary continuation:31 focused tests GREEN after recorded interface/format/
 null-blank REDs; relevant1343 passed/1skip/104subtests21.17s, phase ledger19passed
@@ -1124,6 +1161,17 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current pre-enrollment delivery: independent review/seal complete; close curated docs.
+Next map the four confirmed handbook cover fields from originalpage1 and actual
+review; retain printed2021 versus2020approval, owner-reported origins and informal
+minimal-change comment separately from unresolved currentness/effectivity.
+Structured/null/graph/shared-fee/gap-context integration and source-governance
+prerequisites remain separate before approved retrieval/calibration. No repeated
+owner review/conversion. Incoming placement reminder remains pending after the
+complete-batch notice, before calibration intended to include those sources.
+
+Previous text/timing next action retained for history:
 
 Current after text/timing delivery: map the confirmed Charter pre-enrollment
 physical102–103 visible client/action/fee/time/person/office fields and printed

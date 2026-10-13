@@ -1,5 +1,31 @@
 # Reviewed original service-step regions and associations
 
+## Pre-enrollment field execution — 13 October2026
+
+The confirmed four-row pre-enrollment reading on Charter102–103 needs26 original
+scalar rectangles, not a new production abstraction. Reuse the delivered image
+mapper and pending adapter unchanged. Preserve a source-specific inactive receipt
+with ordered client rows and linked agency action/fee/time/person/office fields,
+exact source/event/region references and original gaps. The earlier first-step
+binder deliberately rejects gaps and has a different field shape; do not relax
+it or pass a cut-off row through its complete-step contract.
+
+Keep explicit `None`/`NONE` fees and printed25minute total, alongside a separately
+named arithmetic20minute diagnostic. The remaining instruction after step3's `for`
+and intended total stay unresolved. Conditions are not separately recorded; no
+no-condition assumption. Header/checklist remain unapproved context. Broad regions
+are coarse transcription evidence; first-row office includes a native neighboring
+descender, documented rather than claimed as isolated glyph geometry. Independent
+native anchor containment is a diagnostic, not a changed transcription or review.
+
+Result:26newfields,221combinedspans/29blanks, four scalar cover fields remaining;
+zero chunks/66unknownapplicability/seven preserved gaps,685 prior files unchanged.
+No production/TDD-change claim, institutional authority or runtime activation.
+[Report](../../plans/2026-10-13-reviewed-pre-enrollment-regions-report.md) records
+actual verification and the separate source-governance/integration prerequisites.
+
+## Earlier Charter step implementation
+
 13October2026, implementationed87579. Continue the Charter service associations
 recorded in the [standing policy](../../plans/service-table-association-policy.md)
 and [bounded plan](../../plans/2026-10-13-reviewed-charter-step-regions-plan.md).

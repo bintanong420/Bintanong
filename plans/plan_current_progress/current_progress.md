@@ -1,5 +1,32 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Pre-enrollment delivery closure,13October2026:** Pre-enrollment final independent review has no actionable findings. Actual
+original102/103,26fields, rows/total/cutoff/gaps and685prior files independently
+checked;65focusedtests/112subtests1.03s. Declined glyph/OCR, intendedtotal/missing
+instruction, completeprocess/no-conditions, header/checklist/neighbors/source
+approval, forgedtrustedinputs, generalized/downstreambinder and wholecorpus/
+runtime/Prolog/release/intake/formalexit judgments stay documented limits or
+separate pending gates, not deferred findings. Relevant590passed/173subtests17.37s,
+ledger19passed10.855s. Independent verifier rerun passes;16curated files sealed:
+ec91c7ad6659e423a3e81ee54f4f697858c095c6326d1a53223bafcf36838bd9.
+Report2026-10-13-reviewed-pre-enrollment-regions-report.md. No production changes;
+221combinedspans/29blanks, scalar4(handbookcover), zerochunks/66unknown/sevengaps.
+Next four confirmed handbookcover1 fields; incoming-placement reminder pending.
+Final docs382passed0.90s; diff/all16sealedhashes-sizes/currentmapper-adapter
+digests match. Phase validation exit0/can-advance exit1(expectedblocked). Six-path
+documentation closure follows; SHA discoverable in Git.
+
+**Pre-enrollment mapping verified,13October2026:** Pre-enrollment mapping verified through unchanged adapters:26fields/four complete
+linked client rows/two printed totals on original102/103.221combinedspans/29blanks;
+scalar requirements30to4(handbookcover), zero chunks/66unknownapplicability/seven
+gap groups unchanged. Original render hashes match; independent source/event/
+proposal/exact field/26native anchor/association/total/cutoff checks pass;685prior
+files unchanged. Broad office region retains one neighboring descender, explicitly
+documented coarse transcription evidence, not exactglyph isolation. Relevant590
+passed/173subtests17.37s; no production changes, no new mirrored tests or TDDclaim.
+Next final independent review, seal/report/curated closure; ledger19 result follows.
+Incoming placement reminder/source-runtime-phase gates remain open.
+
 **Pre-enrollment continuation,13October2026:** Pre-enrollment continuation authorized; clean c391026 verified after text/timing
 documentary closure. Checkpoint09b9c6d was that closure's implementation reference,
 not missing work. Bounded plan2026-10-13-reviewed-pre-enrollment-regions-plan.md

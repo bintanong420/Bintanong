@@ -40,17 +40,17 @@ checkpoint and `plans/2026-10-13-reviewed-policy-correction-selection-spec.md`.
 
 ## Tasks
 
-- [ ] Task1: Reconcile cleanc391026 with checkpoint09b9c6d documentary predecessor;
+- [x] Task1: Reconcile cleanc391026 with checkpoint09b9c6d documentary predecessor;
   inspect thesisphysical17–18/36 and routingPNG, standing policies, master10 and
   relevant handoffs. Commit this bounded plan/checkpoint/progress explicitly.
   Expected: phase valid/blocked; original scope/routing assumptions agree.
-- [ ] Task2: Render original Charter102/103 scale2/rotation0/uncropped and match
+- [x] Task2: Render original Charter102/103 scale2/rotation0/uncropped and match
   previous image hashes. Declare 26 complete field rectangles; map exact reviewed
   fields, preserve row/total/gap receipt, combine with195 prior spans/29 blanks.
   Expected:221combinedspans/29blanks, scalar requirements30to4,0chunks/66unknown
   applicability/seven gap groups. Independently verify original/event/proposal/
   region/association/total/cutoff evidence and all prior sealed bytes unchanged.
-- [ ] Task3: Run relevant mapper/pending/review/service tests,19phase-ledger tests,
+- [x] Task3: Run relevant mapper/pending/review/service tests,19phase-ledger tests,
   doc hygiene and phase validation. Independent reviewer checks actual originals,
   exact fields, associations and trust/gap limits; seal new evidence and report
   hashes/commands/results. Update INDEX/checkpoint/current progress and commit
@@ -63,3 +63,12 @@ its new receipt and original evidence. No interface conflict. Standing corpus
 location is explicitly resolved from consolidation input inventory; no move.
 Placement reminder remains pending until intake checkpoint after the owner's
 complete-batch notice, before calibration intended to include the new sources.
+
+## Completion evidence
+
+Planfadc292 followed by26field execution through unchanged production code.
+Actual producer/independent verifier pass;685prior files preserved. Relevant590
+passed/173subtests17.37s, ledger19passed10.855s. Final independent reviewer no
+actionable findings,65focused tests/112subtests1.03s;16curated files sealed,
+digest in report. Final documentation and state checks recorded in checkpoint.
+Formal Phase05 exit NOT RUN; source/runtime/phase gates and intake reminder open.
