@@ -102,5 +102,10 @@ class ReviewedServiceContextTests(unittest.TestCase):
         candidate['chunk']['type_fields']['required_neighbor_chunk_ids']=[]
         self.assertFalse(build_context([candidate],100000,len)['evidence'])
 
+    def test_impossible_declared_group_size_is_withheld_without_allocation(self):
+        rows=self.candidates(self.build(self.approved_synthetic()))
+        for row in rows:row['chunk']['type_fields']['service_group']['part_count']=2**65
+        self.assertFalse(build_context([rows[0]],100000,len)['evidence'])
+
 
 if __name__=='__main__':unittest.main()

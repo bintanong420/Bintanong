@@ -71,7 +71,8 @@ def build_context(candidates, budget: int, count_tokens):
             for members in grouped.values():
                 metas=[r['chunk']['type_fields']['service_group'] for r in members]
                 count=metas[0]['part_count']
-                if (type(count) is not int or any(type(m['part_order']) is not int or m['part_count']!=count for m in metas)
+                if (type(count) is not int or count!=len(members)
+                        or any(type(m['part_order']) is not int or m['part_count']!=count for m in metas)
                         or sorted(m['part_order'] for m in metas)!=list(range(count))
                         or len({r['chunk']['version_id'] for r in members})!=1):
                     raise ValueError('invalid reviewed context record')
