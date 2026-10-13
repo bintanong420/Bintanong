@@ -804,3 +804,25 @@ require prior clarification with the owner.
 
 Next: use the frontend brief for Figma, including F06's selectable clarification
 dialog and free-text explanation. Keep frontend progress separate from Phase 05.
+
+### Owner refinement — specification-driven popup and parallel development
+
+Owner confirms that the clarification interaction must follow the system specs;
+the Codex/Claude Code popup is the interaction style. Updated the frontend brief
+to map clarification to NormalizedQuery ambiguities, RoutingDecision clarify/
+missing facts, canonical scope choices and SessionFact confirmation. Choices and
+explanations require backend validation; a student choice cannot resolve missing
+institutional authority, source conflicts or unavailable rules.
+
+Owner also confirms frontend and dev develop side by side. Recorded parallel
+branches/workstreams of one system, shared specifications/contracts, separate
+working directories where needed, coordinated file ownership and focused verified
+integration. Branch trees may differ during development; frontend follows the
+applicable backend contract without becoming a separate product fork. No branch
+merge, creation, push, API/schema change or UI implementation in this increment.
+
+Verification: reviewed master sections 12/16 and current query/routing/session-fact
+contracts; documentation diff/links and unchanged Phase 05 checkpoint hash checked
+before commit. No runtime tests for this documentation refinement. Next: use the
+updated brief for Figma; agree public clarification/transport contracts before
+connecting the UI. Phase 05 checkpoint remains outside this frontend work.

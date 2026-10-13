@@ -90,6 +90,15 @@ Choose **one conversation workspace with contextual panels**. A citation opens s
 
 Owner-selected clarification interaction: use a Codex/Claude Code style popup with selectable options and a chance to explain. Present one focused question, concise relevant choices, and a free-text explanation field that can accompany a choice or supply an alternative answer. Use an explicit submit action; neither a preselected choice nor closing the popup counts as an answer. Include an unknown option when appropriate, preserve the current task when dismissed, and keep unresolved facts unresolved. Choices must come from supported context rather than invented curriculum options. The dialog needs keyboard navigation, labeled controls, focus management and a usable mobile layout. The exact visual styling remains the owner's Figma decision.
 
+The system specifications determine when the popup is needed and what it asks; the Codex/Claude Code reference supplies the interaction style. Map it to the existing semantics:
+
+- `NormalizedQuery.ambiguities` and `RoutingDecision.control == "clarify"` / `missing_facts` identify unresolved meaning or required context. Ask only what the current supported task needs; a question with sufficient context does not need a popup.
+- Supported canonical entities and applicable source versions constrain program/course/curriculum choices. If grounded options are unavailable, allow a free-text answer or “I don't know”; do not fabricate a catalog or guess the answer.
+- Private extraction review follows `SessionFact.confirmation_state`. Preserve the displayed extracted value and student explanation; only explicit confirmation can support the corresponding confirmed fact. Both choices and explanations are untrusted input for backend validation. A contradictory explanation must remain unresolved rather than silently losing to the selected option.
+- A student can clarify their context, but cannot establish institutional policy authority by selecting an option. Source gaps, missing rules and conflicting institutional sources still require the specification's limited answer, abstention or supported referral. Do not ask students to choose which unsupported policy is true.
+
+These are UI requirements mapped to existing contracts and master sections 12/15/16. The public clarification/options transport remains to be agreed under section 8; no such endpoint or runtime behavior is claimed as delivered.
+
 Alternatives considered:
 
 - A multi-page policy/course/standing dashboard offers direct navigation, but implies structured catalogs and summary endpoints that are not delivered. It also risks collecting a persistent academic profile. Revisit only for an explicitly supported workflow.
@@ -179,6 +188,8 @@ For Figma, annotate unavailable integrations and represent unknown/pending varia
 
 ## 9. Keep frontend work aligned with dev
 
+Owner preference: `frontend` and `dev` develop side by side as branches/workstreams of one system. Their changes may diverge while features are in progress; they share the system specifications and coordinated interfaces. Frontend work follows dev's applicable backend behavior without requiring identical branch trees at every moment. This is parallel development, not a separate product fork or a requirement to wait for the entire backend before designing the UI.
+
 | Ownership | Likely files | Coordination rule |
 | --- | --- | --- |
 | Student presentation | `frontend/app`, future focused conversation/source/context components | Frontend owns layout, responsive behavior, accessibility and rendering of agreed states |
@@ -190,8 +201,8 @@ For Figma, annotate unavailable integrations and represent unknown/pending varia
 Practical branch workflow:
 
 1. Refresh remote refs and compare `frontend` against `origin/dev` before each implementation slice. At this snapshot the product trees already match; no merge was needed or performed.
-2. Keep frontend branches based on current `dev`. For an already published/shared `frontend` branch, merging `origin/dev` preserves shared history; do not rewrite it with a force push as a routine synchronization step.
-3. Review upstream contract/config/dependency changes before merging, then update the adapter and affected fixtures in the same coherent slice. Avoid copying backend files into the frontend branch as substitutes for integration.
+2. Start new frontend feature branches from an agreed dev baseline; continue the existing `frontend` branch alongside dev using separate working directories/worktrees when both are being edited. Integrate focused, verified changes at agreed boundaries. For an already published/shared `frontend` branch, merging `origin/dev` preserves shared history; do not rewrite it with a force push as a routine synchronization step.
+3. Review upstream contract/config/dependency changes before merging, then update the adapter and affected fixtures in the same coherent slice. Keep one coordinated public contract and explicit synthetic mocks for endpoints still under development; do not let frontend and backend invent incompatible versions independently. Avoid copying backend files into the frontend branch as substitutes for integration.
 4. Keep Figma-generated presentation code in `frontend/`. Do not regenerate package/lock/config/backend files wholesale. Map Figma components to existing code or the selected component stack when that stack is deliberately installed.
 5. Split work around real flows: text + sources + clarification first; supported symbolic result rendering next; private uploads only after lifecycle readiness; regression checks for errors/mobile/accessibility alongside each connected flow. Formal phase prerequisites remain binding.
 6. Preserve a distinct developer health view when changing the current root page. Coordinate this route change and the root layout/styles with other frontend work.
