@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Revised question set accepted — 14 October 2026.**
+
+Owner says "yes that's good" at clean cccd2ee: 12-scenario selection and displayed
+questions accepted. Separate ignored owner-question-set-acceptance.json/current-review-status.json
+record this decision; original candidates and all 19 sealed files verified unchanged.
+Do not reopen selection. Next source-bound evidence expectations and selected
+extraction/governance recovery; authority/applicability and runtime cases still pending.
+No source approval, retrieval, rules, DB or activation inferred. Future college
+Charters/memos/miscellaneous and later organization request remain pending.
+
+Acceptance verification: 19-file seal unchanged, 12 unique IDs/candidate binding;
+402 documentation tests pass in 0.88s, phase validation 0/advancement 1 expected.
+
 **Prospectus question revision — 14 October 2026.**
 
 At clean 9ffeb9f, owner replaces Q2 with "Pwede ko bang kunin ang CC5 kahit bumagsak

@@ -10,6 +10,13 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest owner decision: revised 12-scenario set accepted ("yes that's good") after
+cccd2ee; [record](2026-10-14-mixed-development-question-revision.md). Selection
+is settled; ignored acceptance event/status preserves original candidate packet
+and 19-file seal. Next expected-evidence review and selected extraction/governance
+recovery before retrieval/calibration. Source authority/applicability and future
+additional-data batch remain pending; no activation or Phase 06.
+
 Latest owner revision: [mixed policy/prospectus questions](2026-10-14-mixed-development-question-revision.md).
 Q2 exact CC5/failed-CC4 query replaces the blank-percentage question; Q1/3–7
 retained, five new curriculum scenarios. 12 groups/36 variants, six originals/five

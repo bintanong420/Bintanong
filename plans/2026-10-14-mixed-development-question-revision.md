@@ -1,5 +1,26 @@
 # Mixed policy and prospectus questions — 14 October 2026
 
+## Owner acceptance — 14 October 2026
+
+At clean `cccd2ee`, the owner confirms: "yes that's good". Record acceptance of
+the revised 12-scenario selection and the displayed questions, including Q2 and
+Q8–12. Do not reopen that selection. Individual review of all 36 language wordings
+is not established by this message. Expected source evidence, institutional authority,
+applicability and runtime release remain separate pending decisions.
+
+The ignored packet's `owner-question-set-acceptance.json` and
+`current-review-status.json` record this later decision. The original candidate JSON
+and 19-file preparation seal remain unchanged and were freshly rehashed. No source
+register, query text, chunk, vector or runtime case was changed. Next: review the
+source-bound expected evidence and recover selected extraction/governance gaps.
+The future additional-data batch remains pending. Earlier question-pending entries
+below describe preparation before this acceptance.
+
+Acceptance verification: all 19 prior sealed files rehash unchanged; event contains
+12 unique scenario IDs and binds the unchanged candidate hash. Documentation checks:
+402 passed in 0.88s (`acceptance-doc-tests.log`); phase validation exits 0,
+advancement exits 1 as expected for the existing blocked handoff; diff check passes.
+
 Owner instruction at clean `9ffeb9f`: replace question 2 with the BSCS thesis
 example, "Pwede ko bang kunin ang CC5 kahit bumagsak ako sa CC4?", and add more
 varied questions connected to prospectuses.
@@ -66,7 +87,7 @@ master sections 10/11 and current handoff/scope clarification. Routing PNG was v
 in the preceding continuation. Positive cases remain undergraduate-only; no new
 institutional applicability, effectivity or source-content ruling is inferred.
 
-Next: owner judges Q8–12 and expected source evidence; recover/review selected failed
+Next after scenario acceptance: review expected source evidence; recover selected failed
 extraction rows and existing source-governance evidence before retrieval/calibration.
 This instruction authorizes bounded prospectus question preparation now. Broader
 prospectus review remains deferred; do not repeat all 39 conversions or require all

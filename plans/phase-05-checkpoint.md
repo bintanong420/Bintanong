@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 155
+sequence: 156
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9ffeb9f
-working_tree: clean at 9ffeb9f; six scoped mixed-question documents close in the following Git commit
-updated_at: 2026-10-14T13:45:00+08:00
+head_commit: cccd2ee
+working_tree: clean at cccd2ee; five scoped acceptance documents close in the following Git commit
+updated_at: 2026-10-14T13:47:57+08:00
 ---
 
 # Phase 05 checkpoint
@@ -59,6 +59,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner accepts revised 12 scenarios: "yes that's good", after clean cccd2ee.
+Acceptance event/current status added separately to the ignored mixed-review packet;
+all 19 previously sealed files and original candidate JSON remain unchanged.
+Question selection is settled; do not ask again. Evidence expectations, actual source
+authority/applicability and selected failed extraction recovery remain pending.
+No retrieval, Prolog, database or activation; future batch still pending.
+
+Acceptance checks: 19 sealed files and candidate hash unchanged, 12 unique IDs;
+402 documentation tests pass in 0.88s, phase validation 0/advancement 1 expected.
 
 Owner replaces Q2 with the exact BSCS CC5/failed-CC4 query and adds prospectus
 variety. Revised packet `p05-mixed-development-review-20261014/QUESTIONS.md`:
@@ -1841,6 +1851,10 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current after owner acceptance: review source-bound expected evidence, recover
+selected failed extraction rows and actual governance evidence before calibration.
+Do not repeat accepted 12-scenario selection or presume source authorization from it.
 
 Latest: show revised 12 questions; record new-question/evidence judgments, then
 recover/review selected curriculum rows and actual authorization before retrieval.
