@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 169
+sequence: 170
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cb77f81
-working_tree: six curated candidate closure documents; private evidence ignored
-updated_at: 2026-10-14T16:34:43+08:00
+head_commit: f76a2c8
+working_tree: five curated source-deferral and query-delivery documents; private evidence ignored
+updated_at: 2026-10-14T18:27:50+08:00
 ---
 
 # Phase 05 checkpoint
@@ -63,6 +63,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner defers authorization/authenticity/current-SY verification. Letter submission
+planned15October; owner explicitly expects no same-day reply. Hold dependent steps
+pending university evidence and remind before activation/when reply reported; no
+automatic timed reminder. Earlier request resolved by deferral, no repeat query.
+Complete query catalogue exported:96entries/76exactwordings across36current/27earlier/
+12archived/21superseded. Exact27embedded texts/18scope-trace texts/sixinput hashes
+match. Source/code/registers/seals unchanged, no semantic scoring or approval.
+Decision:2026-10-14-source-verification-deferral.md; output ignoredp05-query-catalogue-
+20261014/ALL-RETRIEVAL-QUERIES.md. Scope17–18/routing/master10 reconsulted, no discrepancy.
 
 Candidate curriculum selection closed: plan0f06222/code0767309/fixcb77f81.
 Final post-review full: 5204 passed, 6 skipped, 6 warnings, 461 subtests passed in 296.38s (0:04:56). Related83tests/138subtests pass2.52s.
@@ -1667,6 +1677,11 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Export/document closure:431documentation/ledger tests and11subtests pass14.31s.
+Phasevalidation0/advancement1expectedblocked; diffcheckpasses. 8file query
+catalogue seal SHA256:d806abd6d3d4d5f0f9d063f920e3c969122616f7022c7ab13c7db0b082bea2d2; all six source-input
+hashes and previous36file candidate seal unchanged. Product suite not rerun.
+
 Final documentary/ledger checks:430passed11subtests10.93s; phasevalidate0/
 canadvance1expectedblocked, diffcheckpasses. 36file evidence seal SHA256:
 76cf3a0fe925f6ce2fc12069df1e486a0d54d13e6ccfa3668c92ea2aa2a3220d. Two current code digests and1203preserved hashes match.
@@ -2045,6 +2060,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Deliver the full sample-query catalogue and preserve the owner's source-verification
+deferral across handoffs. Await university evidence for dependent authorization/
+authenticity/current-SY validation; remind before activation or when reply reported.
+Continue independent authorized preparation as available; no timed reminder or
+repeated row/evidence/cohort judgments. Earlier next-action requests are historical.
 
 Use six-source SOURCE-VERIFICATION-CHECKLIST.md to record genuine issuer confirmation
 and source-use authorization when supplied. Prepare evidence-backed derived register/

@@ -10,6 +10,15 @@ completed_at: 2026-10-14T16:34:43+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest owner steering: source-verification deferral recorded in
+2026-10-14-source-verification-deferral.md. Letter submission planned15October2026;
+no same-day reply expected. Hold dependent source-use authorization/authenticity/
+current-SY verification pending new university evidence. Remind before activation or
+when owner reports a response; no timed reminder. Content/cohort decisions settled.
+Complete query catalogue ignoredp05-query-catalogue-20261014:96entries/76exactwordings,
+36current/27earlier/12archived/21superseded; actual27embeddings/18scope checks identified.
+Pending states/zeroactive and previous evidence retained; no activation or Phase06.
+
 Final documentary/ledger checks:430passed11subtests10.93s; phasevalidate0/
 canadvance1expectedblocked, diffcheckpasses. 36file evidence seal SHA256:
 76cf3a0fe925f6ce2fc12069df1e486a0d54d13e6ccfa3668c92ea2aa2a3220d. Two current code digests and1203preserved hashes match.

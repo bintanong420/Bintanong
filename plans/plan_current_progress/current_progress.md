@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Export/document closure:431documentation/ledger tests and11subtests pass14.31s.
+Phasevalidation0/advancement1expectedblocked; diffcheckpasses. 8file query
+catalogue seal SHA256:d806abd6d3d4d5f0f9d063f920e3c969122616f7022c7ab13c7db0b082bea2d2; all six source-input
+hashes and previous36file candidate seal unchanged. Product suite not rerun.
+
+**Owner defers university verification; all sample queries exported — 14 October2026.**
+
+Owner plans letter submission15October and explicitly expects no same-day reply.
+Hold source-use authorization/authenticity/current-SY validation pending university
+response; do not repeat the request during ordinary preparation. Remind before
+activation or when owner reports a reply; no timed reminder created. Existing46fields/
+12evidencegroups/cohort guidance remain settled; zeroactive/Phase05blocked.
+ALL-RETRIEVAL-QUERIES.md in ignored p05-query-catalogue-20261014 contains exact96
+entries/76distinct wordings across current36,earlier27,archived12,superseded21.
+Actual27embedded texts/18scope traces and all input hashes match; no new ranking
+or calibration claimed. Decision:2026-10-14-source-verification-deferral.md.
+Baselinef76a2c8; five curated documentation paths only. Next retain owner deferral,
+deliver complete catalogue and await new university evidence for dependent steps.
+
 Final documentary/ledger checks:430passed11subtests10.93s; phasevalidate0/
 canadvance1expectedblocked, diffcheckpasses. 36file evidence seal SHA256:
 76cf3a0fe925f6ce2fc12069df1e486a0d54d13e6ccfa3668c92ea2aa2a3220d. Two current code digests and1203preserved hashes match.
