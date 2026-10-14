@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Provisional curriculum ranking started — 14 October 2026.**
+
+Clean cb71438; bounded plan2026-10-14-provisional-curriculum-ranking-plan.md.
+Reuse36queryvectors, encode8reviewed undergraduate payloads and measure12explicit-
+edition positives. Six BSCS questions require curriculum clarification;18policy
+variants retain unresolved applicability. Real unfiltered/scoped cosine comparisons
+and complete cited contexts next; no threshold/source approval/runtime activation.
+Thesis17–18/routingPNG/master10 consulted, no discrepancy; schoolvalidation deferred.
+
+
 **Public-source thesis testing explicitly authorized — 14October2026.**
 
 Owner confirms thesis development/testing with supplied public data; no near-term

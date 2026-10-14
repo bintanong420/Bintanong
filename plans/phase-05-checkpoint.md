@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 177
+sequence: 178
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c09135a
-working_tree: six curated thesis-development clarification and phase ledger documents
-updated_at: 2026-10-14T20:18:09+08:00
+head_commit: cb71438
+working_tree: four curated provisional ranking plan and ledger documents
+updated_at: 2026-10-14T20:34:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -70,6 +70,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Provisional offline curriculum ranking started from clean cb71438. Plan:
+2026-10-14-provisional-curriculum-ranking-plan.md. Reuse36queryvectors, encode8
+reviewed payloads; measure12explicit-edition positives, retain6BSCS clarifications
+and18policy applicability holds separately. No threshold selection/source activation.
+Context: thesisphysical17–18/routingPNG/master10 consulted; no discrepancy.
+
 
 Owner explicitly authorizes provisional source-based thesisdevelopment/testing with
 supplied public data while school validation is pending. Correct earlier blanket
