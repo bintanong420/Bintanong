@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Original-row comparison and evidence key ready — 14 October 2026.**
+
+After plan 52be464, ignored p05-selected-evidence-recovery-20261014 contains
+REVIEW-CURRICULUM-ROWS.md (eight new curriculum readings/original regions/raw
+extraction/proposed treatment) and EXPECTED-EVIDENCE.md (12 accepted scenarios).
+183 actual native fragments replay text/geometry/register binding; field ownership
+remains pending. All 1,078 prior inputs unchanged; 395 relevant tests/35 subtests
+pass in 1.38s. 27-file seal 33b54ff6777f405e317ed81b2ba21e48415832171d6f4dcfd3660fa8d295a16d.
+Two focused owner requests posted for row content and expected evidence; no answers
+inferred from earlier scenario approval. Next record actual decisions and prepare
+confirmed derivatives/field mappings; source authority/applicability still pending.
+No product correction or model/DB/activation/new intake. Report:
+plans/2026-10-14-selected-curriculum-evidence-recovery-report.md. Do not repeat accepted
+questions/policy transcription or missing-ending requests; future batch still pending.
+
+Closure docs/ledger: 423 tests/11 subtests pass in 10.68s; phase validation 0,
+advancement 1 expected, diff check passes. Six curated paths close in Git; raw
+sources/observations/renderings/test logs remain ignored. Owner judgments pending.
+
 **Selected evidence recovery started — 14 October 2026.**
 
 Owner says "ok proceed"; clean baseline c690c03 and accepted scenarios preserved.

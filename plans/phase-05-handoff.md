@@ -10,6 +10,14 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest recovery: [eight-row source comparisons and evidence key](2026-10-14-selected-curriculum-evidence-recovery-report.md).
+Plan52be464; eight pending curriculum row proposals/12-scenario expected evidence,
+183 original native fragment texts/boxes rechecked, field ownership pending.
+1,078 dependencies unchanged;395 tests/35 subtests pass,27-file seal in report.
+Two focused owner judgments pending; do not infer content/source authority from
+accepted questions. Next actual decisions, then confirmed derivatives/field mapping
+and governance. No source correction/model/DB/activation;future batch pending.
+
 Latest owner decision: revised 12-scenario set accepted ("yes that's good") after
 cccd2ee; [record](2026-10-14-mixed-development-question-revision.md). Selection
 is settled; ignored acceptance event/status preserves original candidate packet

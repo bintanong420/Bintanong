@@ -53,3 +53,11 @@ Next: finish the eight-row native/original comparison and 12-scenario evidence m
 then record actual owner source-content decisions. Future college Charters/memos/
 miscellaneous and later organization request remain pending. Phase 05 stays blocked;
 no approved retrieval, calibration, database publication, Prolog execution or Phase 06.
+
+## Bounded preparation delivered
+
+Plan `52be464`; eight row comparisons, 12-scenario evidence key and 183 original
+native fragments prepared and rechecked. All 1,078 preserved inputs remain unchanged;
+395 relevant tests/35 subtests pass. Two focused owner content/evidence requests are
+pending. See `2026-10-14-selected-curriculum-evidence-recovery-report.md`; do not
+mistake this preparation for installed corrections or approved source activation.

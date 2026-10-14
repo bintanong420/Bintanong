@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 157
+sequence: 158
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c690c03
-working_tree: selected-evidence recovery plan and checkpoint/progress notes; product code unchanged
-updated_at: 2026-10-14T14:00:00+08:00
+head_commit: 52be464
+working_tree: six scoped selected-evidence closure documents; product code unchanged
+updated_at: 2026-10-14T14:14:17+08:00
 ---
 
 # Phase 05 checkpoint
@@ -59,6 +59,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Selected evidence preparation delivered after plan 52be464: eight original-row
+comparisons, six complete original pages and 12-scenario evidence key. All 183 native
+fragment texts/boxes replay; field ownership remains pending. All 1,078 dependencies
+unchanged; 395 relevant tests/35 subtests pass in 1.38s. 27-file seal:
+33b54ff6777f405e317ed81b2ba21e48415832171d6f4dcfd3660fa8d295a16d.
+Two focused owner requests pending: row readings/associations and expected evidence.
+Report: 2026-10-14-selected-curriculum-evidence-recovery-report.md. No correction,
+model run, approval or activation; selected audits still error/zero chunks and policy
+applicability unknown. Preserve accepted questions and all prior source decisions.
+
+Closure docs/ledger: 423 tests/11 subtests pass in 10.68s; phase validation 0 and
+advancement 1 expected. Product unchanged; documentary closure follows in Git.
 
 Owner says "ok proceed" after accepted 12-scenario set; clean baseline c690c03.
 Diagnose selected saved extraction and prepare eight curriculum-row comparisons/
@@ -1860,6 +1873,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current: record actual owner decisions on the eight original-row proposals and
+12-scenario evidence key in p05-selected-evidence-recovery-20261014/. Apply only
+confirmed source-content decisions to separate derivatives/mappings, preserving
+original/raw artifacts and unknown authority/currentness/applicability. Do not repeat
+question selection, accepted policy transcription or unavailable-ending requests.
 
 Current after owner acceptance: review source-bound expected evidence, recover
 selected failed extraction rows and actual governance evidence before calibration.
