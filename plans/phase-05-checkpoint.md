@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 168
+sequence: 169
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0767309
-working_tree: two candidate integrity code/test fixes, three scoped ledger updates and an unstaged draft report
-updated_at: 2026-10-14T16:40:00+08:00
+head_commit: cb77f81
+working_tree: six curated candidate closure documents; private evidence ignored
+updated_at: 2026-10-14T16:34:43+08:00
 ---
 
 # Phase 05 checkpoint
@@ -63,6 +63,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Candidate curriculum selection closed: plan0f06222/code0767309/fixcb77f81.
+Final post-review full: 5204 passed, 6 skipped, 6 warnings, 461 subtests passed in 296.38s (0:04:56). Related83tests/138subtests pass2.52s.
+One fresh reviewer/one Important corrected under RED/GREEN; zero Critical/Minor,
+no deferred findings or second review. Actual5programs/6versions/8unchangedchunks/
+46fields/113spans/18unchanged multilingual scope traces/sixexplicitchecks pass;
+1203prior hashes and six pending registers unchanged. Six BSCS variants require
+curriculum clarification; twelve sole-program variants match. Deterministic
+scope selection only, no semantic ranking/calibration or runtime filtering.
+Source-verification checklist prepared for six exact originals; issuer confirmation
+and source-use authorization remain separate from settled owner content/cohort
+decisions. Printed proposal stays proposed. Zero active releases, Phase05blocked.
+Report: plans/2026-10-14-candidate-curriculum-selection-report.md. Futurebatchpending.
+
+Earlier running-suite/review notes below are historical.
 
 One fresh final reviewer found one Important integrity gap: changed candidate IDs,
 citation pages and applicability references could survive preparation. Six mutation
@@ -1515,6 +1530,9 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified codecb77f81; six curated closure paths only: report/plan/INDEX/
+checkpoint/handoff/currentprogress. No private artifacts staged; no push/cleanup.
+
 Verified baseline3b25d98, code7da9334; six curated closure paths only: report/plan/INDEX/checkpoint/handoff/currentprogress. Ignored48file packet/currentcode digests; no private artifacts staged, push or worktree cleanup. Following closure commit discoverable viaGit rather than selfreferentialhead.
 
 Clean planbaseline0c41210; scoped code3files/newtest plus plan/checkpoint/currentprogress. Existing isolation and prior evidence retained; no dependency/model/source mutations or push.
@@ -1648,6 +1666,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Final documentary/ledger checks:430passed11subtests10.93s; phasevalidate0/
+canadvance1expectedblocked, diffcheckpasses. 36file evidence seal SHA256:
+76cf3a0fe925f6ce2fc12069df1e486a0d54d13e6ccfa3668c92ea2aa2a3220d. Two current code digests and1203preserved hashes match.
+
+Final corrected code: 5204 passed, 6 skipped, 6 warnings, 461 subtests passed in 296.38s (0:04:56). Related83passed138subtests2.52s;
+review mutationREDsixsubfailures0.67s; actual1203hashes/18traces/sixchecks unchanged.
+Commands/logs/digests in latest candidate report and ignored packet.
 
 Final documentation/ledger checks:428passed11subtests10.88s; phasevalidation0/advancement1expectedblocked. Diffcheckpasses,48sealedfiles/currentcode and1155preserved hashes match. Six curated closure paths only; ownercohortquestion settled.
 
@@ -1885,6 +1911,9 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Python3.13.7/existing authorized environment unchanged. Two current candidate code
+digests retained in packet code-digests.json; originals/prior48fileseal match.
+
 Latest48-file seal61ad504db2c7d12e7cb9d7b14a2610bd4e560e690fce0bb5e89df714e315ff65; code7da9334, Python3.13.7; offline SEA-LION revisiondf5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1/externalMODELS unchanged. No dependency/model download.
 
 Latest20-file evidence manifest944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7. AuthorizedPython3.13.7/models/dependencies unchanged.
@@ -1923,6 +1952,10 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Keep deterministic program/version restrictions separate from original candidate chunks
+until governed publication enforces them. Source verification/use authorization
+requires actual issuing-office evidence; owner row/cohort guidance remains settled.
+
 Actual owner clarification:2018–2019 curricula valid without supplied newer version; old cohorts can keepold curriculum when both versions exist; new incoming students use supplied newer2025–2026. Applied conditionally to separate8undergraduate candidate rows; unknown studentcurriculum requiresclarification, no exact admissionyear/general supersession. Printedproposal retained; owner guidance is not fabricated formalinstitutional approval. Clarification answered; do not repeat. Final reviewer declined sourceauth/applicability authentication: keep institutional evidence gates separate; wrong inference couldselectwrongcurriculum.
 
 Actual latest owner reply confirms both eight original rows and 12-scenario expected evidence. Apply all46fields and group labels once; no repeated review. Source authority/effectivity/applicability/activation not inferred. Charter cutoff and timing conflict remain as visible original evidence.
@@ -1942,6 +1975,10 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Candidate integrity fix verified. Six source registers remain pending/not_requested;
+no issuing-office authorization supplied. Printed proposal not promoted. Actual governed
+retrieval/calibration and policy-source gates remain open, zeroactive; not a wholeaudit.
 
 Technical10metadata mapping/adapter and cohortclarification are complete. Eightcurriculum pendingchunks exist, zeroactive; currentregisters/sourcegov and encodedcohort/version restrictions remain open before governed use. Priorpolicy sources/gaps/gov still separate. No unansweredrow/evidence/cohort question remains; no newbatch received.
 
@@ -2008,6 +2045,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Use six-source SOURCE-VERIFICATION-CHECKLIST.md to record genuine issuer confirmation
+and source-use authorization when supplied. Prepare evidence-backed derived register/
+release transitions without inventing authority; then authorized retrieval/calibration
+on accepted12groups/36variants. No repeated row/cohort review or automatic Phase06.
 
 Continue actualsourcegovernance and explicitprogram/curriculum/cohort restriction preparation from owner-guidance event and existing sourceevidence; preservevalidoldversions and incomingnewerconditional use. Then governed candidate retrieval/calibration on accepted12groups/36variants; no fabricatedsourceapproval or releaseactivation. Newhumanjudgment only for genuinelynew sourcecontent choices/missing evidence, not settled comparisons/cohort guidance. Earlier nextactions historical.
 
@@ -2364,6 +2406,9 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not repeat the settled eight-row/46field,12evidence and conditional cohort judgments,
+rebuild prior intake, alter sourcecutoffs or rerun finalreview. Preserve futurebatch notice.
 
 Do not repeatmetadatafeature/13fieldmapping/fullpassingchecks/originalconversions or originalrow/evidence/cohort questions. Preserve oldversions, ownercohortconditions and printedproposal marker; do not turn incomingguidance into whole-source approval or selectnewestforunknownstudent. Retain audit history and sourcecutoffs.
 

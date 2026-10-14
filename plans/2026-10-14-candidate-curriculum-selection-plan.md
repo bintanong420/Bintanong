@@ -71,7 +71,7 @@ Selector contexts are only `None`, `new_incoming`, `continuing`; arbitrary value
 - [x] Inspect source-governance states and produce a concrete readiness matrix describing
   what existing evidence satisfies and which institutional/release evidence is absent.
   Do not invent formal source approval or repeat settled human judgments.
-- [ ] Full suite/no cache/external basetemp, one fresh review, fix consequential findings
+- [x] Full suite/no cache/external basetemp, one fresh review, fix consequential findings
   in one TDD pass, seal evidence, update plan/report/index/checkpoint/handoff/progress.
   Keep Phase05 blocked, preserve isolated branch and ignored history, explicit commits.
 
@@ -98,3 +98,7 @@ skill scratch directories. Existing isolated p05 worktree remains; no install/do
   subcases reproduced RED; one TDD correction pass replays original candidate
   construction, GREEN83tests/138subtests2.52s. Actual catalogue/traces/source bindings
   unchanged; full post-review run pending. No second review or deferred findings.
+
+- Closed codecb77f81: 5204 passed, 6 skipped, 6 warnings, 461 subtests passed in 296.38s (0:04:56). One Important corrected, no deferred
+  findings/secondreview. Actual1203hashes/traces/bindings unchanged; checklist prepared.
+  Phase05 exit remains blocked on source governance and actual retrieval/calibration.

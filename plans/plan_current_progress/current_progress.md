@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Final documentary/ledger checks:430passed11subtests10.93s; phasevalidate0/
+canadvance1expectedblocked, diffcheckpasses. 36file evidence seal SHA256:
+76cf3a0fe925f6ce2fc12069df1e486a0d54d13e6ccfa3668c92ea2aa2a3220d. Two current code digests and1203preserved hashes match.
+
+**Candidate curriculum selection closed — 14 October 2026.**
+
+Candidate curriculum selection closed: plan0f06222/code0767309/fixcb77f81.
+Final post-review full: 5204 passed, 6 skipped, 6 warnings, 461 subtests passed in 296.38s (0:04:56). Related83tests/138subtests pass2.52s.
+One fresh reviewer/one Important corrected under RED/GREEN; zero Critical/Minor,
+no deferred findings or second review. Actual5programs/6versions/8unchangedchunks/
+46fields/113spans/18unchanged multilingual scope traces/sixexplicitchecks pass;
+1203prior hashes and six pending registers unchanged. Six BSCS variants require
+curriculum clarification; twelve sole-program variants match. Deterministic
+scope selection only, no semantic ranking/calibration or runtime filtering.
+Source-verification checklist prepared for six exact originals; issuer confirmation
+and source-use authorization remain separate from settled owner content/cohort
+decisions. Printed proposal stays proposed. Zero active releases, Phase05blocked.
+Report: plans/2026-10-14-candidate-curriculum-selection-report.md. Futurebatchpending.
+
 **Candidate integrity review correction — 14 October 2026.**
 
 One final reviewer identified one Important integrity gap; six changed candidate
