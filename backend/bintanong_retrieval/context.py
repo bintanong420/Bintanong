@@ -2,6 +2,7 @@
 import json
 from ..bintanong_contracts.reviewed_policy_context import CONTEXT_CHUNKER_VERSIONS, render_reviewed_policy_context
 from ..bintanong_contracts.reviewed_record_groups import validate_record_group
+from .group_display import prepare_group_display
 
 
 def _citation(span, chunk, version):
@@ -27,7 +28,7 @@ def _span_key(span):
     )},sort_keys=True)
 
 
-def _serialize_shared_citations(items):
+def _serialize_shared_citations(items, shared_group_metadata=False, reviewed_group_chunk_ids=()):
     if not items:
         return ''
     encode=lambda value:json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':'))
@@ -45,7 +46,13 @@ def _serialize_shared_citations(items):
                 for field in list(defaults):
                     if field not in locator or encode(defaults[field])!=encode(locator[field]):
                         del defaults[field]
-    blocks=[encode(dict(citation_format='shared-source-locators-v1',citation_sources=sources))]
+    metadata=dict(citation_format='shared-source-locators-v1',citation_sources=sources)
+    texts={}
+    if shared_group_metadata:
+        groups,texts=prepare_group_display(items,reviewed_group_chunk_ids)
+        if groups:
+            metadata.update(citation_format='shared-source-groups-v1',policy_groups=groups)
+    blocks=[encode(metadata)]
     for item in items:
         groups=[]
         for citation in item['citations']:
@@ -57,13 +64,14 @@ def _serialize_shared_citations(items):
             if not groups or groups[-1]['source_index']!=index:
                 groups.append(dict(source_index=index,locators=[]))
             groups[-1]['locators'].append(residual)
-        blocks.append(f"[{item['chunk_id']} | {encode(groups)}]\n{item['text']}")
+        blocks.append(f"[{item['chunk_id']} | {encode(groups)}]\n{texts.get(item['chunk_id'],item['text'])}")
     return blocks[0]+'\n'+'\n\n'.join(blocks[1:])
 
 
-def _serialize(items, compact_citations=False, shared_citations=False):
+def _serialize(items, compact_citations=False, shared_citations=False,
+               shared_group_metadata=False, reviewed_group_chunk_ids=()):
     if shared_citations:
-        return _serialize_shared_citations(items)
+        return _serialize_shared_citations(items,shared_group_metadata,reviewed_group_chunk_ids)
     blocks=[]
     for item in items:
         if compact_citations:
@@ -81,12 +89,18 @@ def _serialize(items, compact_citations=False, shared_citations=False):
     return '\n\n'.join(blocks)
 
 
-def build_context(candidates, budget: int, count_tokens, *, compact_citations=False, shared_citations=False):
+def build_context(candidates, budget: int, count_tokens, *, compact_citations=False, shared_citations=False,
+                  shared_group_metadata=False):
     if type(compact_citations) is not bool:
         raise ValueError('compact_citations must be an explicit boolean')
     if type(shared_citations) is not bool:
         raise ValueError('shared_citations must be an explicit boolean')
+    if type(shared_group_metadata) is not bool:
+        raise ValueError('shared_group_metadata must be an explicit boolean')
+    if shared_group_metadata and not shared_citations:
+        raise ValueError('shared_group_metadata requires shared_citations')
     accepted, seen_chunks, seen_spans, gaps = [], set(), set(), []
+    reviewed_group_chunk_ids=set()
     for candidate in candidates:
         main_id = candidate['chunk']['chunk_id']
         if main_id in seen_chunks:
@@ -112,6 +126,7 @@ def build_context(candidates, budget: int, count_tokens, *, compact_citations=Fa
             gaps.append(f'missing_required_neighbor:{main_id}')
             continue
         trial, trial_chunks, trial_spans=[],set(seen_chunks),set(seen_spans)
+        trial_group_chunk_ids=set(reviewed_group_chunk_ids)
         try:
             grouped={}
             for row in group:
@@ -184,13 +199,16 @@ def build_context(candidates, budget: int, count_tokens, *, compact_citations=Fa
                     similarity=row['similarity'],text=text,scope=chunk.get('scope',[]),
                     section_path=chunk.get('section_path',[]),citations=[c for s,c in fresh],
                     selection='primary' if row is candidate else 'required_neighbor'))
+                if marked and chunk.get('type_fields',{}).get('service_group') is not None:
+                    trial_group_chunk_ids.add(chunk['chunk_id'])
                 trial_spans.update(_span_key(s) for s,c in fresh)
         except (KeyError,ValueError,TypeError) as exc:
             reason=('partial_table_overlap' if str(exc)=='partial_table_overlap' else
                     'invalid_reviewed_context' if str(exc)=='invalid reviewed context record' else 'invalid_citation')
             gaps.append(f'{reason}:{main_id}')
             continue
-        context=_serialize(accepted+trial,compact_citations,shared_citations)
+        context=_serialize(accepted+trial,compact_citations,shared_citations,
+                           shared_group_metadata,trial_group_chunk_ids)
         tokens=count_tokens(context) if context else 0
         if type(tokens) is not int or tokens<0:
             raise ValueError('context tokenizer must return an exact nonnegative integer')
@@ -199,6 +217,8 @@ def build_context(candidates, budget: int, count_tokens, *, compact_citations=Fa
             continue
         accepted.extend(trial)
         seen_chunks,seen_spans=trial_chunks,trial_spans
-    context=_serialize(accepted,compact_citations,shared_citations)
+        reviewed_group_chunk_ids=trial_group_chunk_ids
+    context=_serialize(accepted,compact_citations,shared_citations,
+                       shared_group_metadata,reviewed_group_chunk_ids)
     return dict(evidence=accepted, context=context,
                 context_tokens=count_tokens(context) if context else 0, gaps=gaps)

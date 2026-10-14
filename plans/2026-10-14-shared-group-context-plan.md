@@ -69,18 +69,18 @@ group members by the existing admission path.
 include exact shared service/payload metadata and a digest over original ordered
 member IDs/text; part JSON contains `group_index` and residual metadata.
 
-- [ ] Verify fresh baseline and write synthetic regressions for complete group
+- [x] Verify fresh baseline and write synthetic regressions for complete group
   recovery, source limits, generic-JSON rejection, defaults/identity preservation.
-- [ ] Observe expected RED for the missing group option/helper.
-- [ ] Implement the minimal codec and admission plumbing; observe GREEN.
-- [ ] Run related suites and full pytest without cache/external basetemp. Commit
+- [x] Observe expected RED for the missing group option/helper.
+- [x] Implement the minimal codec and admission plumbing; observe GREEN.
+- [x] Run related suites and full pytest without cache/external basetemp. Commit
   explicit verified code/tests and checkpoint/progress with actual commands/results.
 
 ## Task 2: Saved-evidence comparison and closure
 
-- [ ] Verify prior seals/bindings and preserve old bytes for authorized code/test
+- [x] Verify prior seals/bindings and preserve old bytes for authorized code/test
   changes. Reuse 21 candidates, 36 questions, saved ranks and all vector artifacts.
-- [ ] Replay 900 existing context observations; independently reconstruct all
+- [x] Replay 900 existing context observations; independently reconstruct all
   policy properties/citations, compute exact group minima and 2K/4K coverage.
 - [ ] One fresh final reviewer checks code/defaults, group integrity, token
   accounting, preservation and real negative controls. Fix any consequential
@@ -102,3 +102,19 @@ Self-review: one optional codec/admission interface, five explicit regression
 classes, immutable evidence and defaults preserved. Per-part hash replacement is
 display-only and stated explicitly; do not call it byte-identical payload display.
 If the complete group still exceeds2K, report the exact count and retain withholding.
+
+## Task 1 verified delivery
+
+Shared reviewed-group context verified under plan0b2b405. Fullpytest5264passed/
+500subtests/6skips/6existing warnings in302.92s, exit0; related95passed100subtests
+1.80s after observedRED. Actual complete overload2265→1961tokens, timing1917→1738;
+15/4citations retained. k3/0.5 complete expected30/30 atboth2048/4096 (18/18policy);
+budgetgapcases12/3 refer to rejected extras, invalid0. SixBSCSscopeholds remain.
+900prior shared observations unchanged;900new/18strings/245archived citations/
+7683citation instances/57old-new-trial counts. All source fields/limits/groups
+reconstruct exactly except explicitly replaced display hashes; original payloads
+and hashes remain exact in structured evidence.1501prior hashes/four old snapshots
+preserved; no model encoding/new questions/activation. Report:
+2026-10-15-shared-group-context-report.md. Next verified code commit, one fresh
+review and curated closure. After this measured budget recovery, next gate is
+owner-reviewed unsupported-query proposals before calibration; no more text shrinking.

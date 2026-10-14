@@ -4,6 +4,8 @@ import hashlib
 import json
 import unittest
 
+from test_retrieval_context import decode_group_payloads
+
 from backend.bintanong_contracts.source import compute_content_hash
 from backend.bintanong_contracts.reviewed_policy_context import serialize_reviewed_fields
 from backend.bintanong_tools.document_ingest.register import mint_pending_register
@@ -216,6 +218,38 @@ class ReviewedRecordContextTests(unittest.TestCase):
         changed=build_context([rows[-1]],100000,len,shared_citations=True)
         self.assertEqual(changed['evidence'],[])
         self.assertTrue(changed['gaps'])
+
+    def test_shared_group_preserves_full_conflict_and_exact_evidence_under_budget(self):
+        rows=self.candidates(self.build(self.eligible(),compact_context=True))
+        before=copy.deepcopy([{k:v for k,v in r.items() if k!='neighbors'} for r in rows])
+        neighbor_ids=[[n['chunk']['chunk_id'] for n in r['neighbors']] for r in rows]
+        old=build_context([rows[-1]],100000,len,shared_citations=True)
+        result=build_context([rows[-1]],old['context_tokens']-1,len,shared_citations=True,shared_group_metadata=True)
+        self.assertEqual(result['evidence'],old['evidence']);self.assertEqual(result['gaps'],[])
+        self.assertLess(result['context_tokens'],old['context_tokens'])
+        self.assertIn('precedence',result['context'])
+        decoded=decode_group_payloads(result['context']);self.assertEqual(len(decoded),4)
+        for (cid,citations,payload),item in zip(decoded,old['evidence']):
+            expected=json.loads(item['text']);expected.pop('evidence_sha256')
+            self.assertEqual(cid,item['chunk_id']);self.assertEqual(payload,expected)
+            self.assertEqual(citations,[{k:c[k] for k in ('version_id','byte_sha256','page','locator')} for c in item['citations']])
+        self.assertEqual([{k:v for k,v in r.items() if k!='neighbors'} for r in rows],before)
+        self.assertEqual([[n['chunk']['chunk_id'] for n in r['neighbors']] for r in rows],neighbor_ids)
+        boundary=build_context([rows[-1]],result['context_tokens']-1,len,shared_citations=True,shared_group_metadata=True)
+        self.assertEqual(boundary['evidence'],[]);self.assertEqual(boundary['context_tokens'],0)
+        for row in rows:
+            row['chunk']['type_fields']['service_group']['record_manifest']['gaps']['deadlines']['sha256']='b'*64
+        self.assertFalse(build_context([rows[-1]],100000,len,shared_citations=True,shared_group_metadata=True)['evidence'])
+
+    def test_rejected_group_trial_leaves_accepted_context_defaults_unchanged(self):
+        from test_retrieval_context import evidence
+        rows=self.candidates(self.build(self.eligible(),compact_context=True))
+        first=evidence('first','Independent complete source clause')
+        single=build_context([first],100000,len,shared_citations=True,shared_group_metadata=True)
+        result=build_context([first,rows[-1]],single['context_tokens'],len,shared_citations=True,shared_group_metadata=True)
+        self.assertEqual(result['evidence'],single['evidence']);self.assertEqual(result['context'],single['context'])
+        self.assertEqual(result['context_tokens'],single['context_tokens'])
+        self.assertEqual(result['gaps'],['context_budget:'+rows[-1]['chunk']['chunk_id']])
 
 
 if __name__=='__main__':unittest.main()

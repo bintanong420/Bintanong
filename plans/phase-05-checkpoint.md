@@ -2,16 +2,30 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 209
+sequence: 211
 plan: plans/phase-05-retrieval-plan.md
-head_commit: a6c2c17
-working_tree: shared group context plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-15T00:00:27+08:00
+head_commit: 0b2b405
+working_tree: shared group codec/context/three tests/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-15T00:15:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Shared reviewed-group context verified under plan0b2b405. Fullpytest5264passed/
+500subtests/6skips/6existing warnings in302.92s, exit0; related95passed100subtests
+1.80s after observedRED. Actual complete overload2265→1961tokens, timing1917→1738;
+15/4citations retained. k3/0.5 complete expected30/30 atboth2048/4096 (18/18policy);
+budgetgapcases12/3 refer to rejected extras, invalid0. SixBSCSscopeholds remain.
+900prior shared observations unchanged;900new/18strings/245archived citations/
+7683citation instances/57old-new-trial counts. All source fields/limits/groups
+reconstruct exactly except explicitly replaced display hashes; original payloads
+and hashes remain exact in structured evidence.1501prior hashes/four old snapshots
+preserved; no model encoding/new questions/activation. Report:
+2026-10-15-shared-group-context-report.md. Next verified code commit, one fresh
+review and curated closure. After this measured budget recovery, next gate is
+owner-reviewed unsupported-query proposals before calibration; no more text shrinking.
 
 Feature branch published successfully: normal mergefd06c3e includes remote
 f10d5cd and all103previous local-only commits; explicit push to origin/
@@ -171,6 +185,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Commit verified shared-group codec/tests, then one fresh final review and closure.
+The complete overload nowfits2K; formalcalibration/source-approval gates remain.
 
 Owner resumes implementation from synced a6c2c17/productdea9442. Next bounded
 task:2026-10-14-shared-group-context-plan.md. Share reviewed group metadata only;
@@ -2022,6 +2039,33 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Shared reviewed-group context verified under plan0b2b405. Fullpytest5264passed/
+500subtests/6skips/6existing warnings in302.92s, exit0; related95passed100subtests
+1.80s after observedRED. Actual complete overload2265→1961tokens, timing1917→1738;
+15/4citations retained. k3/0.5 complete expected30/30 atboth2048/4096 (18/18policy);
+budgetgapcases12/3 refer to rejected extras, invalid0. SixBSCSscopeholds remain.
+900prior shared observations unchanged;900new/18strings/245archived citations/
+7683citation instances/57old-new-trial counts. All source fields/limits/groups
+reconstruct exactly except explicitly replaced display hashes; original payloads
+and hashes remain exact in structured evidence.1501prior hashes/four old snapshots
+preserved; no model encoding/new questions/activation. Report:
+2026-10-15-shared-group-context-report.md. Next verified code commit, one fresh
+review and curated closure. After this measured budget recovery, next gate is
+owner-reviewed unsupported-query proposals before calibration; no more text shrinking.
+
+Shared reviewed-group context plan0b2b405: seven focused regressions observed
+expected missing module/keyword RED:10failures including3subtest failures,
+39passed/51subtests1.26s. Minimal codec and validated admission plumbing GREEN:
+95relatedtests100subtests1.80s. Fresh baseline58tests62subtests10.81s.
+Initial GREEN failed only cyclic-fixture deep comparison (1failed/94passed):
+inspect confirmed mutual neighbor references; compare each row's non-neighbor
+data and neighbor IDs separately, retaining immutability checks. No product fix
+was needed for that fixture error. Fullsuite and900saved-context comparisons
+running. Original evidence text/digests remain exact; display group root binds
+ordered member IDs/text, all properties except replaced display hashes reconstruct.
+Context/doc filenames retain14October start date; continuation is now15October.
+No new scope/wording decision, source acquisition, vector encoding or activation.
 
 Feature branch published successfully: normal mergefd06c3e includes remote
 f10d5cd and all103previous local-only commits; explicit push to origin/
