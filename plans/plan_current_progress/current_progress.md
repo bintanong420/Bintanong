@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Owner confirms all five policy applicability areas — 14 October 2026.**
+
+Actual response accepts provisional undergraduate use with existing limitations;
+sharedmasters use/SchoolofLaw words do not exclude undergraduate-applicable clauses.
+Exclude specifically unsupported audiences, not keywords. Durable scopepolicy/AGENTS
+updated. Next bound exact source/reading event, derive selected13readings preserving
+37fields39spans/gaps/groups, then offline policy retrieval using saved36queries.
+Schoolverification/sourceapproval remains pending; no graduate-support/activation.
+Plan2026-10-14-confirmed-policy-applicability-plan.md; owner artifacts preserved.
+
+
 Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
 phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode
 digests sealed; editableownerCSV excluded/initialsnapshotretained.

@@ -16,6 +16,12 @@
 - Select by a clause/service's intended audience and applicability, not keywords
   or the whole PDF's title. Student-facing services can legitimately name staff
   roles; those references do not make the service a staff-only procedure.
+- Shared use with master's students or a School of Law reference does not exclude
+  an undergraduate-applicable clause. Exclude content specifically intended only
+  for unsupported audiences or otherwise inapplicable to undergraduates. The owner
+  confirmed five selected policy areas for provisional undergraduate research on
+  14 October 2026, retaining all existing limitations; this is not school validation
+  or authorization to support graduate/professional programs.
 - Keep complete original PDFs, raw conversions and historical evidence unchanged.
   Derive undergraduate-only review/corpus candidates separately. A shared original
   heading such as undergraduate/School of Law is provenance, not authorization to

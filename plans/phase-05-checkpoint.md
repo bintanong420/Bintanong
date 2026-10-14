@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 196
+sequence: 197
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ab0aa3e
-working_tree: applicability report/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T22:15:04+08:00
+head_commit: 21a7b8f
+working_tree: confirmed scope rules/plan/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T22:34:56+08:00
 ---
 
 # Phase 05 checkpoint
@@ -122,6 +122,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Apply actual owner confirmation under2026-10-14-confirmed-policy-applicability-plan.md:
+record bound event, derive selected13readings/37fields39spans through existing
+contracts, then actual offline policy ranking/context evaluation. Prior pending
+packet/source originals/history remain unchanged. Actual thesis17–18/routingPNG/
+master10 reconsulted; no discrepancy or expansion tograduate/professional support.
+
 
 Packet ready:workspace/audit-evidence/p05-policy-applicability-review-20261014/
 START-HERE.md. Close curated docs and request only five undergraduate research
@@ -2342,6 +2349,14 @@ digests below are not fresh model checks for this offline recovery.
 Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
+
+Owner confirms all five policy areas for provisional undergraduate research with
+existing limitations. Shared use with masters or SchoolofLaw references does not
+exclude undergraduate-applicable clauses; only specifically unsupported/inapplicable
+content excluded. Record exact response in source-bound event, update durable scope
+rules. No schoolvalidation/graduate-support/sourceactivation inferred. This resolves
+the selected13reading audience question; do not ask it again.
+
 
 Ruling: compactcitations is opt-in only; grouping source/page preserves everylocator/
 fullstructure and avoids source-retention choices. Existing runtimecallers staylegacy
