@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Both source/evidence confirmations applied — 14 October 2026.**
+
+Documentation/phase-ledger checks: 424 passed, 11 subtests passed, 10.63s, exit0. Phase validation exits0; advancement exits1 expected for blocked Phase05. Diff check passes; five curated documentation paths only.
+
+Owner confirms both eight original curriculum rows (46 fields) and the expected
+evidence for all 12 accepted scenarios. Applied separately in ignored
+p05-confirmed-curriculum-evidence-20261014; accepted judgments are settled.
+Latest row-anchored mappings: 33 fields/90 native spans, 13 technically held.
+All 1,106 preserved dependencies and exact source limits/cutoffs unchanged;
+typed builders replay, eight unknown-applicability readings withheld/zero chunks.
+227 relevant tests/77 subtests pass in 1.31s. 24-file manifest SHA256:
+98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87.
+Source authority/effectivity/applicability and activation remain pending.
+Record: 2026-10-14-confirmed-curriculum-evidence-report.md. Earlier pending row/evidence
+requests are historical; do not repeat them. Next technical mapping of 13 held fields
+and actual governance evidence before candidate retrieval/calibration; future batch
+still pending. Original Charter cutoff and handbook deadline conflict stay unresolved.
+
 **Original-row comparison and evidence key ready — 14 October 2026.**
 
 After plan 52be464, ignored p05-selected-evidence-recovery-20261014 contains

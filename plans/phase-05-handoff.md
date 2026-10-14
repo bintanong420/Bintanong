@@ -10,6 +10,23 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest owner-confirmed recovery: [2026-10-14-confirmed-curriculum-evidence-report.md](2026-10-14-confirmed-curriculum-evidence-report.md).
+Owner confirms both eight original curriculum rows (46 fields) and the expected
+evidence for all 12 accepted scenarios. Applied separately in ignored
+p05-confirmed-curriculum-evidence-20261014; accepted judgments are settled.
+Latest row-anchored mappings: 33 fields/90 native spans, 13 technically held.
+All 1,106 preserved dependencies and exact source limits/cutoffs unchanged;
+typed builders replay, eight unknown-applicability readings withheld/zero chunks.
+227 relevant tests/77 subtests pass in 1.31s. 24-file manifest SHA256:
+98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87.
+Source authority/effectivity/applicability and activation remain pending.
+Record: 2026-10-14-confirmed-curriculum-evidence-report.md. Earlier pending row/evidence
+requests are historical; do not repeat them. Next technical mapping of 13 held fields
+and actual governance evidence before candidate retrieval/calibration; future batch
+still pending. Original Charter cutoff and handbook deadline conflict stay unresolved.
+
+Earlier recovery entries below are historical.
+
 Latest recovery: [eight-row source comparisons and evidence key](2026-10-14-selected-curriculum-evidence-recovery-report.md).
 Plan52be464; eight pending curriculum row proposals/12-scenario expected evidence,
 183 original native fragment texts/boxes rechecked, field ownership pending.

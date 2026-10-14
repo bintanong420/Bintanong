@@ -2,16 +2,18 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 158
+sequence: 159
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 52be464
-working_tree: six scoped selected-evidence closure documents; product code unchanged
-updated_at: 2026-10-14T14:14:17+08:00
+head_commit: 7ea32c7
+working_tree: five scoped owner-confirmation closure documents; product code unchanged
+updated_at: 2026-10-14T14:46:56+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Applied actual owner confirmations through existing reviewed preparation contracts; no product behavior changes. See current task and latest decision record.
 
 Compact codec03f757f/fix2437f28 complete; final5165tests/377subtests pass,
 all77selected inactivepreviews nowfit512 without source changes.
@@ -59,6 +61,22 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner confirms both eight original curriculum rows (46 fields) and the expected
+evidence for all 12 accepted scenarios. Applied separately in ignored
+p05-confirmed-curriculum-evidence-20261014; accepted judgments are settled.
+Latest row-anchored mappings: 33 fields/90 native spans, 13 technically held.
+All 1,106 preserved dependencies and exact source limits/cutoffs unchanged;
+typed builders replay, eight unknown-applicability readings withheld/zero chunks.
+227 relevant tests/77 subtests pass in 1.31s. 24-file manifest SHA256:
+98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87.
+Source authority/effectivity/applicability and activation remain pending.
+Record: 2026-10-14-confirmed-curriculum-evidence-report.md. Earlier pending row/evidence
+requests are historical; do not repeat them. Next technical mapping of 13 held fields
+and actual governance evidence before candidate retrieval/calibration; future batch
+still pending. Original Charter cutoff and handbook deadline conflict stay unresolved.
+
+Context thesis physical17–18/routing PNG reconsulted after rollover; master10/11 and active Phase05 agree. No scope/routing discrepancy.
 
 Selected evidence preparation delivered after plan 52be464: eight original-row
 comparisons, six complete original pages and 12-scenario evidence key. All 183 native
@@ -1418,6 +1436,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified pre-closure baseline7ea32c7; clean at owner confirmation. Five curated closure paths: confirmed-evidence report, INDEX, checkpoint, handoff and current progress. Ignored packet only for source-derived data/logs; no owner changes disturbed. Following documentation commit is discoverable in Git rather than self-referential here.
+
 Code2437f28 committed; seven curated closure docs only. No private/source/raw
 artifacts staged. Localbranch/worktree/evidence preserved; no push.
 
@@ -1543,6 +1563,10 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Documentation/phase-ledger checks: 424 passed, 11 subtests passed, 10.63s, exit0. Phase validation exits0; advancement exits1 expected for blocked Phase05. Diff check passes; five curated documentation paths only.
+
+Fresh confirmation checker: 8rows/46fields/12groups/36variants,90 native spans,1,106 preserved hashes and source limits unchanged; actual0chunks. Focused227passed/77subtests1.31s; command/log in latest report. No full product suite or real retrieval/calibration claim.
 
 14October resumed review:900governance/source/preparation/chunk/context tests and
 71subtests pass4.36s;420docs/ledger tests and11subtests pass14.47s. Separate local
@@ -1766,6 +1790,8 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Latest ignored24-file seal98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87. Existing authorized Python3.13.7; no dependency changes, model paths/digests unchanged.
+
 Compactpacket47files/seven currentcode digests: ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
 ExistingPython3.13.7/offlineassets/externalMODELS unchanged; modelbinding inpacket.
 
@@ -1798,6 +1824,8 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Actual latest owner reply confirms both eight original rows and 12-scenario expected evidence. Apply all46fields and group labels once; no repeated review. Source authority/effectivity/applicability/activation not inferred. Charter cutoff and timing conflict remain as visible original evidence.
+
 Owner14October2026 future-batch notice: college-specific Charters, memos and
 miscellaneous material will arrive later, with organization requested after the
 current Phase05 work. Finish this cohesive flowchart recovery first; no immediate
@@ -1813,6 +1841,8 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Content/evidence decisions settled. Remaining13 field mappings are technical representation/geometry issues; all8applicabilityunknown/0chunks, six whole-source audits stillerror. Actual source governance and authorized retrieval/calibration remain gates; earlier pending content requests are historical.
 
 Current selectedcodec sizing has zero overflows; Charter466/footer292/maximum466.
 All77unknown applicability/zerochunks remain; actual source governance and approved
@@ -1873,6 +1903,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Continue technical representation/mapping for13 held fields from accepted values and originals, then actual authority/effectivity/applicability evidence before authorized retrieval/calibration. Do not reopen eight-row/evidence-key judgments or unavailable endings. Incomingbatch/organization request still pending; Phase05 exit blocked.
 
 Current: record actual owner decisions on the eight original-row proposals and
 12-scenario evidence key in p05-selected-evidence-recovery-20261014/. Apply only
@@ -2221,6 +2253,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not request the eight-row or 12-scenario evidence confirmation again, rewrite source cutoffs, choose deadline precedence, redo compact-context work/conversions, or infer activation from native mapping or owner content confirmation.
 
 Do not repeat compact codec03f757f/2437f28, focused/full verification, exact77replay,
 source conversions, equivalent partitions or original-content questions settled by
