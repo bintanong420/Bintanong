@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 139
+sequence: 140
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f70262a
-working_tree: seven curated record-partition closure documents; code and tests committed
-updated_at: 2026-10-14T02:16:22+08:00
+head_commit: 94097c5
+working_tree: token readiness plan and checkpoint-progress preparation
+updated_at: 2026-10-14T09:39:21+08:00
 ---
 
 # Phase 05 checkpoint
@@ -33,6 +33,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+14 October 2026 continuation from clean94097c5: exact-token/governance readiness
+plan2026-10-14-reviewed-policy-token-readiness-plan.md. Reuse strict local encoder
+and unchanged adapter, observe serializer previews without changing unknown scope.
+No product changes or active chunks. Next verify sealed inputs, capture77previews,
+measure exact tokens and inventory actual governance gaps. Thesis17–18/36/routing/
+master10/active-priorhandoffs and policies consulted; no discrepancy. Futurebatch waits.
 
 Authoritative closure: Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
 review correctionf70262a. Both remaining size refusals in the selected bundle resolve

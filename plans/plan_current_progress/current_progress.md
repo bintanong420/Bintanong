@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Exact-token readiness start — 14 October 2026.**
+
+14 October 2026 continuation from clean94097c5: exact-token/governance readiness
+plan2026-10-14-reviewed-policy-token-readiness-plan.md. Reuse strict local encoder
+and unchanged adapter, observe serializer previews without changing unknown scope.
+No product changes or active chunks. Next verify sealed inputs, capture77previews,
+measure exact tokens and inventory actual governance gaps. Thesis17–18/36/routing/
+master10/active-priorhandoffs and policies consulted; no discrepancy. Futurebatch waits.
+
+
 **Verified record-partition closure — 14October2026.**
 
 Final documentary checks:395 passed in0.97s,exit0 (`tests/test_docs_hygiene.py`,
