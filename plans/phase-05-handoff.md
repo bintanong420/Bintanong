@@ -3,12 +3,28 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 3928c42
+final_commit: 093ea4a
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T18:47:45+08:00
+completed_at: 2026-10-14T19:09:55+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Closure:435documentation/ledger tests and11subtests pass11.24s; phasevalidate0/
+canadvance1expectedblocked; diffcheckpasses. 25files/two currentcode digests
+sealed; SHA256:90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c.1273current hashes and one
+exacthistorical code binding retained; sourceverification remainsdeferred.
+
+Latestcompletedcandidate: Optional compact citation context complete: plan782dbfe/code093ea4a. Default8
+contexts2000–3528tokens,2fit2048; opt-in1209–1917/all8fit2048. All113citations/
+46sourcefields/sourcepayloads unchanged; full structured evidence identical.
+RED6failures0.48s; related83tests125subtests pass1.70s. Finalfull: 5212 passed, 6 skipped, 6 warnings, 464 subtests passed in 341.98s (0:05:41).
+Onefresh reviewer noCritical/Important/Minor;1000defaultdifferential/100random
+compact checks pass. No secondreview/deferredfindings.1273current hashes unchanged,
+oneauthorized contextcode change preserved via exactbaseline snapshot. Engine/
+settings/RPC do not optin; no rankings/metrics/sourcevectors or activation.
+Report:2026-10-14-cited-context-budget-report.md. Schoolverification deferred;
+futurecollegeCharters excluded/possiblememoranda retained. Phase05 stillblocked.
 
 Closure checks:433documentation/ledger tests and11subtests pass14.75s;
 phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six

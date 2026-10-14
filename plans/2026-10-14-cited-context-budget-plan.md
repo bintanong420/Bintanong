@@ -12,14 +12,14 @@ ranker/RPC/release. Check each row separately so old/new BSCS alternatives are n
 combined into an eligibility claim. Preserve source/register/event/chunk/history hashes.
 No new query, source fact, vector, authority/effectivity decision or active release.
 
-- [ ] Verify current candidate packet/code/source/model bindings and context contract.
-- [ ] Count all eight complete contexts with a high diagnostic cap, then replay
+- [x] Verify current candidate packet/code/source/model bindings and context contract.
+- [x] Count all eight complete contexts with a high diagnostic cap, then replay
   1024/2048/4096/8192 budgets through existing builder; preserve full text/citations.
-- [ ] Separate original source length from added citation/metadata repetition.
+- [x] Separate original source length from added citation/metadata repetition.
   If retention would change source content, show original/affected region to owner.
   If the issue is purely technical serialization, record a bounded proposed fix
   and use synthetic TDD before changing product behavior; do not remove citations.
-- [ ] Record actual counts/gaps, direct preservation checks, required verification,
+- [x] Record actual counts/gaps, direct preservation checks, required verification,
   sealed ignored evidence and current checkpoint/progress/handoff. KeepPhase05blocked.
 
 Evidence root: workspace/audit-evidence/p05-cited-context-budget-20261014/.
@@ -42,12 +42,12 @@ its original per-group order. Structured evidence/citations and payload remain
 identical. No engine/settings/API/RPC caller switches format in this task. Cost:
 later governed runtime integration must opt in; this alone does not activate sources.
 
-- [ ] SyntheticRED: compact assembly recovers full evidence under a budget where
+- [x] SyntheticRED: compact assembly recovers full evidence under a budget where
   repeated prefixes do not fit; retain every locator, multi-page binding/order,
   complete required-neighbor groups, unchanged default/input and invalid flags.
-- [ ] MinimalGREEN serializer/context flag; related and full suite, actual8row
+- [x] MinimalGREEN serializer/context flag; related and full suite, actual8row
   opt-in versus original replay, exact limits and preserved113citations/sourcefields.
-- [ ] One fresh final review per executing-plans; one TDD fix pass for consequential
+- [x] One fresh final review per executing-plans; one TDD fix pass for consequential
   findings if any, no secondreview. Seal evidence and update phase ledger/report.
 
 Execute inline with executing-plans/TDD; no source-content decision needed for this
@@ -56,3 +56,7 @@ lossless citation display. No new dependencies/modelweights or user questions.
 Implementation: expectedRED6failures0.48s (missingflag), relatedGREEN83tests/
 125subtests1.70s. Opt-in only; original runtimecaller stayslegacy. Actualreplay/full
 suite and onefresh finalreview pending; sourceverification stilldeferred.
+
+Closedcode093ea4a: compact1209–1917tokens/all8fit2048, default2/8;113citations
+unchanged. Full5212tests464subtests pass341.98s. Onefinalreview nofindings/minors,
+no secondreview;1273unchanged dependencies/one exact historicalcodesnapshot binding.

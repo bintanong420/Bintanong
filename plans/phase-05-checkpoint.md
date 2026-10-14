@@ -2,16 +2,19 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 174
+sequence: 175
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 782dbfe
-working_tree: context formatter, synthetic tests, bounded plan and two active ledger updates
-updated_at: 2026-10-14T19:02:00+08:00
+head_commit: 093ea4a
+working_tree: six curated compact-context closure documents; private evidence ignored
+updated_at: 2026-10-14T19:09:55+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Optional compactcitation formatter093ea4a verified; all8individual contexts fit2048,
+113citations unchanged. Final5212tests464subtests pass341.98s; one reviewer nofindings.
 
 Current36-query preflight and real offline query encoding complete;13policy previews/
 eightcurriculum candidates/152citation spans bound;25-file sealed evidence and six
@@ -67,6 +70,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Optional compact citation context complete: plan782dbfe/code093ea4a. Default8
+contexts2000–3528tokens,2fit2048; opt-in1209–1917/all8fit2048. All113citations/
+46sourcefields/sourcepayloads unchanged; full structured evidence identical.
+RED6failures0.48s; related83tests125subtests pass1.70s. Finalfull: 5212 passed, 6 skipped, 6 warnings, 464 subtests passed in 341.98s (0:05:41).
+Onefresh reviewer noCritical/Important/Minor;1000defaultdifferential/100random
+compact checks pass. No secondreview/deferredfindings.1273current hashes unchanged,
+oneauthorized contextcode change preserved via exactbaseline snapshot. Engine/
+settings/RPC do not optin; no rankings/metrics/sourcevectors or activation.
+Report:2026-10-14-cited-context-budget-report.md. Schoolverification deferred;
+futurecollegeCharters excluded/possiblememoranda retained. Phase05 stillblocked.
+
+Earlier pending-suite/review notes below are historical.
 
 Diagnostic17.353s:8candidate payloads286–478tokens, fullcited contexts2000–3528,
 only2/8fit2048; all8fit4096. Existingbuilder withholds whole oversized clauses.
@@ -1582,6 +1598,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verifiedcode093ea4a; six curated closurepaths:report/plan/INDEX/checkpoint/handoff/
+currentprogress. Code/tests alreadycommitted; private contexts/logs stayignored.
+Followingdocumentationcommit discoverable inGit; no push/cleanup.
+
 Verified planbaseline3928c42; no productcode changes. Six curated closure paths:
 preflight report/plan, INDEX, checkpoint, handoff and currentprogress. The following
 documentation commit is discoverable in Git; private inputs/vectors/logs stay ignored.
@@ -1722,6 +1742,11 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Closure:435documentation/ledger tests and11subtests pass11.24s; phasevalidate0/
+canadvance1expectedblocked; diffcheckpasses. 25files/two currentcode digests
+sealed; SHA256:90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c.1273current hashes and one
+exacthistorical code binding retained; sourceverification remainsdeferred.
 
 Closure checks:433documentation/ledger tests and11subtests pass14.75s;
 phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six
@@ -1977,6 +2002,10 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Latest 25file citationcontext seal90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c;
+code093ea4a/two currentcode digests and exacthistorical context.py snapshot retained.
+Existing modelconfiguration/externalassets unchanged; no downloads.
+
 Currentpreflight25-file sealc90c6cffb92c461a480bb43732c1fcc77a945e2c8646c895c3e339a09f02490e;
 six currentcode digests/tenexternalSEA-LION assets verified. Existing Python3.13.7/
 environment/modelrevision retained; no downloads/copies. See query-encoder-report.json.
@@ -2021,6 +2050,10 @@ digests below are not fresh model checks for this offline recovery.
 Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
+
+Ruling: compactcitations is opt-in only; grouping source/page preserves everylocator/
+fullstructure and avoids source-retention choices. Existing runtimecallers staylegacy
+until governed integration opts in; cost is deferred runtimebenefit, no sourceapproval.
 
 Latest ownerincoming correction: no college-specificCitizens'Charters in futurebatch;
 possiblememoranda such as undergraduate vehiclegatepass. Existing universityCharter
@@ -2124,6 +2157,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Preserve optionalcompact-context/querypreflight outputs. Resume governed source/
+release-dependent retrieval/calibration when university verification/useauthorization
+and applicable source-scope evidence arrive; remind beforeactivation/when response
+reported. No repeated source/cohort question, automatic runtimeoptin or Phase06.
 
 Preserve this verified query/evidence preflight and pending source gates; resume
 authorized real-source retrieval/calibration when university verification/use
