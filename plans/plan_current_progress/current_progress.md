@@ -1,5 +1,7 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Candidate program/version selection preparation started from cleanb8866b9. Plan: plans/2026-10-14-candidate-curriculum-selection-plan.md. Standalone offline source/event-bound catalogue and deterministic selector; no runtime/DB/source-register edits. Owner cohort/row/evidence decisions settled. Next syntheticRED, implementation and actual18variant scope traces/governance readiness; no semantic scoring or activation.
+
 **Metadata adapter and owner cohort guidance closed — 14 October 2026.**
 
 Final documentation/ledger checks:428passed11subtests10.88s; phasevalidation0/advancement1expectedblocked. Diffcheckpasses,48sealedfiles/currentcode and1155preserved hashes match. Six curated closure paths only; ownercohortquestion settled.

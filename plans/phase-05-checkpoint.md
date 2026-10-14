@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 165
+sequence: 166
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3b25d98
-working_tree: six scoped heading metadata closure documents; code7da9334 verified
-updated_at: 2026-10-14T16:02:21+08:00
+head_commit: b8866b9
+working_tree: three scoped candidate selection preparation documents
+updated_at: 2026-10-14T16:13:10+08:00
 ---
 
 # Phase 05 checkpoint
@@ -63,6 +63,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Candidate program/version selection preparation started from cleanb8866b9. Plan: plans/2026-10-14-candidate-curriculum-selection-plan.md. Standalone offline source/event-bound catalogue and deterministic selector; no runtime/DB/source-register edits. Owner cohort/row/evidence decisions settled. Next syntheticRED, implementation and actual18variant scope traces/governance readiness; no semantic scoring or activation.
 
 Heading metadata candidate complete: plan0c41210/code7da9334, UTF-8 repair3b25d98.
 All10 projections/46 accepted fields/113 source spans preserved; default unchanged,
