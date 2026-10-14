@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 148
+sequence: 152
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5b5c14b
-working_tree: compact codec-adapter-consumer/tests and checkpoint-progress updates
-updated_at: 2026-10-14T10:24:17+08:00
+head_commit: 03f757f
+working_tree: verified integrity correction/tests and checkpoint-progress closure preparation
+updated_at: 2026-10-14T10:40:12+08:00
 ---
 
 # Phase 05 checkpoint
@@ -56,6 +56,43 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Final corrected fullsuite5165passed/377subtests/6skips/6warnings308.86s,exit0.
+Ledger19passed11.410s. Review2Important reproducedRED andfixed inonepass with
+fullstored-evidence digest;9focusedGREEN/19subtests,102related/125subtests pass.
+Corrected77previews111..466tokens(Charter466/footer292), zerooverflows; complete
+fields/gaps/sourceinputs/owner choices preserved, default/v1 savedresults equal.
+Next commit verifiedintegrityfix, seal finalpacket and close7curateddocs; no second
+review/deferredfindings, no sourceapproval/newbatch/activation/Phase06.
+
+Reviewcorrection verified:9focusedtests RED2failures/7pass0.74s ->9GREEN/
+19subtests0.56s; related102passed/125subtests1.96s. A compact evidence_sha256 binds
+canonical fullstored source_limits/service_group, rejecting missingmanifest and
+containedsubstring changes without adding sourcecontent. Corrected exactreplay
+PASS24.08s:77previews111..466, Charter466/footer292, zerooverflows. Fullfields/spans/
+limits/groups unchanged; only integritydigest added toinitialv2text. Plain/v1equal
+savedoutputs,917stableinputhashes/fourhistoricalcode snapshots unchanged. Reviewer
+finished2Important/noCriticalorMinor at03f757f; onecorrectionpass, no secondreview.
+Precorrectionfull5162passed/377subtests/6skip/6warnings320.68s ishistory. Corrected
+fullsuite running; next inspectresult andcommitverifiedfix/seal/report/docsclosure.
+
+Finalreview found2Important v2integrity omissions: deleting all stored record
+manifests keeps displayedtext unchanged; changing scalar visible_text to another
+containedsubstring also keeps textunchanged. Both mustfail. Reviewed03f757f remains
+stable while reviewer finishes evidence replay. Next add bothsyntheticREDs, one
+correctionpass: compact integritydigest over fullstored source_limits/service_group,
+then GREEN/relevant/fullsuite/exactsizing replay. No sourcecontent change/question;
+preliminary412/241counts will be superseded by corrected exactmeasurements.
+
+Actual v2 replay verified at03f757f: all77inactive previews exact111..412tokens,
+Charter563->412/footer389->241, zerooverflows, no truncation/vectors. Plain/defaultv1
+results exactlyequal prior saved outputs. Source264fields/29blanks/232spans/seven
+logicalgaps/tenprojectedparts andall associations/limits/fullmanifests unchanged;
+77unknown/0chunks.917priorfilehashes unchanged; four plannedcode revisions retain
+exactoldbyte snapshots boundto845abff, not silent historicalseal repair. Onefresh
+finalreview running; fullpytest inexisting offlineenvironment/externaltemp started.
+Next inspectreview/fullresults, oneTDDcorrectionpass ifnecessary, seal/report/docs.
+No source question/repartition/newintake/activation; formalPhase05blocked.
 
 Compact v2 verified underTDD: sevennewtests RED14reported failures inclsubcases
 frommissingcompactoption0.95s ->7passed/19subtests0.54s. Corrected testhelper preserves

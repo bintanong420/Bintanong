@@ -5,6 +5,7 @@ This codec carries evidence limitations, never source authority or policy decisi
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import math
 import re
@@ -111,6 +112,9 @@ def serialize_reviewed_fields(associations, limits, group=None, *, context_forma
             raise ValueError('invalid service context group')
         if record_group:validate_record_manifest(group['record_manifest'],group['part_count'])
         payload['service_group']={k:v for k,v in group.items() if k!='record_manifest'} if compact else group
+    if compact and (limits or group is not None):
+        payload['evidence_sha256']=hashlib.sha256(_json({
+            'source_limits':limits,'service_group':group}).encode('utf-8')).hexdigest()
     return _json(payload)
 
 

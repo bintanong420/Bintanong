@@ -197,5 +197,10 @@ class ReviewedRecordContextTests(unittest.TestCase):
         rows[-1]['neighbors'].pop()
         self.assertFalse(build_context([rows[-1]],100000,len)['evidence'])
 
+    def test_compact_v2_missing_all_stored_manifests_cannot_hide_record_binding(self):
+        rows=self.candidates(self.build(self.eligible(),compact_context=True))
+        for row in rows:row['chunk']['type_fields']['service_group'].pop('record_manifest')
+        self.assertFalse(build_context([rows[-1]],100000,len)['evidence'])
+
 
 if __name__=='__main__':unittest.main()

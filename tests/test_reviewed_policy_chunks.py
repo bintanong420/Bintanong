@@ -314,6 +314,15 @@ class ReviewedPolicyChunkTests(unittest.TestCase):
             else:limit.pop('visible_text')
             with self.subTest(edit=edit):self.assertFalse(build_context([candidate],10000,len)['evidence'])
 
+    def test_compact_v2_binds_exact_visible_fragment_even_when_substring_is_valid(self):
+        from backend.bintanong_retrieval.context import build_context
+        legacy=self.limited_candidate()
+        legacy['chunk']['type_fields']['source_limits'][0]['visible_text']='form.'
+        self.assertFalse(build_context([legacy],10000,len)['evidence'])
+        compact=self.compact_candidate()
+        compact['chunk']['type_fields']['source_limits'][0]['visible_text']='form.'
+        self.assertFalse(build_context([compact],10000,len)['evidence'])
+
     def test_compact_v2_stored_spans_and_extra_gap_evidence_remain_checked(self):
         from backend.bintanong_retrieval.context import build_context
         self.limited_candidate();self.rows[0]['gaps'][0]['evidence_ref']='synthetic#original-gap'
