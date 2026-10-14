@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 190
+sequence: 191
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f9b1502
-working_tree: course-selector report/closure documents; owner artifacts preserved
-updated_at: 2026-10-14T21:39:47+08:00
+head_commit: 80d66b6
+working_tree: ranking-comparison plan/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T21:46:17+08:00
 ---
 
 # Phase 05 checkpoint
@@ -102,6 +102,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner says continue. Verified80d66b6; helperf9b1502 unchanged. Execute
+2026-10-14-course-filter-ranking-comparison-plan.md using saved vectors/queries
+and separately recorded literal researcher hints. Only Q2CC5/Q8AD-2/L have
+single-code targets; title-only/comparative queries retain missing helper hints,
+not gold-derived targets. Preserve default scoped retrieval and all scope holds.
+Actual thesis17–18/routingPNG/master10 consulted; no discrepancy.
+
 
 Offline course-selector unit verified and committed f9b1502; close current
 documentation/ledger and preserve verified checkpoint. Source governance and

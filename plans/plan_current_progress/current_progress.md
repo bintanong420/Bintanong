@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Offline course-filter comparison resumed — 14 October 2026.**
+
+Owner continues; verified80d66b6, helperf9b1502 unchanged. Plan:
+2026-10-14-course-filter-ranking-comparison-plan.md. Reuse36query/8document
+vectors and accepted questions; compare default12scoped positives with strict
+explicit-code coverage and6CC5controlled branches. No target hint from goldrows;
+missing/comparative roles recorded separately. Scope/privacy/sourcegap boundaries
+unchanged, schoolvalidation deferred, owner artifact changes preserved.
+Next execute bounded script, verify independent scores/citations/hashes and report.
+
+
 Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
 canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;
 manifest SHA256:7b12fbccda457e645a6fb4d6467cfd03c248653726bc927a18e6529f7bda372d.
