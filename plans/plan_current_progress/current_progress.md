@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Compatible compact codec start — 14 October 2026.**
+
+Compact codec start — 14 October2026, clean845abff. New boundedplan2026-10-14-
+compact-reviewed-context-plan.md: opt-in pairedv2markers/compactdisplay, defaultv1
+unchanged, fullstoredlimits/manifests checked and sourcewording/cutoff untouched.
+Next syntheticRED for codec/adapter/consumer compatibility and failclosedguards;
+then exact77previewreplay, one freshreview/fullsuite/seal. No furtherpartition or
+source-content choice; owner'sfooter389/2021metadata retained. Thesis17–18/36,
+routing/master10/active-priorhandoffs and scope/gap policies checked; no discrepancy.
+Existing offlineenvironment reused, no intake/activation/Phase06.
+
+
 **Human-review rule and owner selection verified — 14 October 2026.**
 
 Owner-decision application verified. Workflow06f6eef adds AGENTS human review;

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 146
+sequence: 147
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 06f6eef
-working_tree: five curated owner-decision closure documents; product code unchanged
-updated_at: 2026-10-14T10:12:53+08:00
+head_commit: 845abff
+working_tree: compact-context plan and checkpoint-progress preparation
+updated_at: 2026-10-14T10:21:13+08:00
 ---
 
 # Phase 05 checkpoint
@@ -56,6 +56,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Compact codec start — 14 October2026, clean845abff. New boundedplan2026-10-14-
+compact-reviewed-context-plan.md: opt-in pairedv2markers/compactdisplay, defaultv1
+unchanged, fullstoredlimits/manifests checked and sourcewording/cutoff untouched.
+Next syntheticRED for codec/adapter/consumer compatibility and failclosedguards;
+then exact77previewreplay, one freshreview/fullsuite/seal. No furtherpartition or
+source-content choice; owner'sfooter389/2021metadata retained. Thesis17–18/36,
+routing/master10/active-priorhandoffs and scope/gap policies checked; no discrepancy.
+Existing offlineenvironment reused, no intake/activation/Phase06.
 
 Owner-decision application verified. Workflow06f6eef adds AGENTS human review;
 full footer389exacttokens, printed2021metadata and allfourpriorcoverfields/spans
