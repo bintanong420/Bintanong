@@ -1,5 +1,37 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
+phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code
+digests sealed; manifestSHA256:72808649d9f1872477f59ddfb28c0910dd96541dfa063e14797f8816661f7455.
+
+
+**Course-filter ranking comparison verified — 14 October 2026.**
+
+Plan4612f13/helperf9b1502 unchanged. Default12positive top1 preserved; strict3of12
+explicit-code coverage,9missing target hints. ControlledCC5branches5of6to6of6;
+6practicum hypotheses lack hints, actual6BSCSscopeholds/18policyholds preserved.
+Independent verifier no findings:144scores/405measurements/315aggregates,267
+citations across21contexts/sixunique strings fit2048 at1209..1680tokens.36accepted
+questions/44savedvectors and1369prior hashes unchanged. Related46tests82subtests
+pass3.60s; initial458docs/ledger11subtests pass11.07s. Fullsuite not repeated for
+unchanged code. Report2026-10-14-course-filter-ranking-comparison-report.md.
+Next policy-applicability preparation for six accepted policy scenarios as needed;
+keep settled contentreviews closed/schoolverification deferred. No activation or
+Phase06. Owner artifact changes preserved; exact experiment should not be repeated.
+
+
+**Course-filter comparison executed — 14 October 2026.**
+
+Plan4612f13; helperf9b1502 unchanged. Reused36query/8sourcevectors,144dotproducts
+exactly match saved baseline. Default12positives preserve top1; strictcode helper
+3Architecture matches/9missing targets, actual6BSCSscope and18policyholds intact.
+ControlledCC5branches5of6to6of6;6practicumbranches still need target input.
+21completecontexts/267citations fit2048 at1209..1680tokens;405case measurements
+and1369preserved hashes verified. One independent verifier now checks scores,
+coverage/denominators, original citations and preservation. Next final report/ledger
+verification and curated documentation commit; no new source judgment needed.
+
+
 **Offline course-filter comparison resumed — 14 October 2026.**
 
 Owner continues; verified80d66b6, helperf9b1502 unchanged. Plan:

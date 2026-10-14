@@ -5,10 +5,26 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: f9b1502
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T21:39:47+08:00
+completed_at: 2026-10-14T21:54:31+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
+phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code
+digests sealed; manifestSHA256:72808649d9f1872477f59ddfb28c0910dd96541dfa063e14797f8816661f7455.
+
+
+Latest experiment:course-filter ranking comparison, plan4612f13/helperf9b1502
+unchanged. Default12positive matches preserved; strict3of12explicitcode coverage.
+ControlledCC5branches5of6to6of6; actual6BSCSscope/18policyholds remain. Independent
+verifier no findings:144scores405measurements315aggregates/267citations1369hashes.
+21contexts/sixdistinct strings1209..1680 fit2048;46tests82subtests pass3.60s.
+Report2026-10-14-course-filter-ranking-comparison-report.md records limitations.
+Next focused policy-applicability preparation for six accepted policy scenarios;
+keep settled transcriptions/questions and deferred schoolverification intact.
+No activation/entitypipeline/Phase06 or repeated model execution.
+
 
 Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
 canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;

@@ -39,12 +39,12 @@ execution, database/runtime/Prolog/source activation or Phase06 advancement.
 
 ## Work and verification
 
-- [ ] Verify prior evidence seals, source relocation bindings and vector/query identities.
-- [ ] Run the bounded comparison and retain all36case statuses, all12controlled
+- [x] Verify prior evidence seals, source relocation bindings and vector/query identities.
+- [x] Run the bounded comparison and retain all36case statuses, all12controlled
   branches, annotated hints, recomputed rankings, metrics and complete contexts.
-- [ ] Independently check scores, filtering coverage, every citation, unchanged
+- [x] Independently check scores, filtering coverage, every citation, unchanged
   questions/default outputs and dependency hashes. Run applicable existing tests.
-- [ ] Record results/limitations/next action in repository progress/checkpoint/index,
+- [x] Record results/limitations/next action in repository progress/checkpoint/index,
   verify the ledger and commit explicit curated documentation only.
 
 No product behavior changes are planned; the previously verified helper remains
@@ -58,3 +58,11 @@ Read both handoff skills, active phase plan/checkpoint/blocked handoff and prior
 Phase04 complete handoff. Consulted actual thesis physical17–18, routing PNG,
 master section10, undergraduate scope/source-gap policies and dataset locations
 previously read in this session; no discrepancy. Preserve owner artifact changes.
+
+## Task ledger
+
+Comparison executed with unchanged helperf9b1502. Independent verifier reports no
+findings:144scores/405case measurements/315aggregates/267citations/1369hashes
+verified. Existing46tests82subtests pass3.60s;458docs/ledger tests11subtests pass
+11.07s before closure. No product defect, implementation deviation or deferred minor.
+Report:2026-10-14-course-filter-ranking-comparison-report.md.

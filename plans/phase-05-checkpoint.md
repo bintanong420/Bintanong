@@ -2,16 +2,26 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 191
+sequence: 193
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 80d66b6
-working_tree: ranking-comparison plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T21:46:17+08:00
+head_commit: 4612f13
+working_tree: ranking-comparison checkpoint/progress/report; owner artifacts preserved
+updated_at: 2026-10-14T21:54:31+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Saved-vector course-filter comparison complete; plan4612f13/helperf9b1502.
+Default12positives unchanged; strict3of12eligible Architecture variants,9missing
+targets. ControlledCC5branches5of6to6of6;6practicum branches lack target hints.
+36questions/8sourcevectors unchanged,144dotproducts/405measurements/315aggregates
+checked;21contexts267citations/sixdistinct strings1209..1680tokens fit2048.
+Independent verifier no findings,1369prior hashes/six relocated originals preserved.
+46relevanttests82subtests pass3.60s;458docs/ledger11subtests pass11.07s beforeclosure.
+Report:2026-10-14-course-filter-ranking-comparison-report.md.
+
 
 Reusable offline course selector f9b1502 complete; plan17d86cc. Full5236tests/
 494subtests pass313.57s,6skips6warnings,exit0. New14tests30subtests GREEN after
@@ -102,6 +112,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Close verified ranking-comparison evidence/documentation. No product code changed;
+helperf9b1502 and prior full-suite evidence retained. Independent verification passes
+without findings; final documentation/phase checks and explicit commit next.
+Phase05 formal gates remain open. Owner artifacts deletion/untracked directory
+preserved. Following documentation closure SHA is discovered from Git.
+
 
 Owner says continue. Verified80d66b6; helperf9b1502 unchanged. Execute
 2026-10-14-course-filter-ranking-comparison-plan.md using saved vectors/queries
@@ -1858,6 +1875,32 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
+phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code
+digests sealed; manifestSHA256:72808649d9f1872477f59ddfb28c0910dd96541dfa063e14797f8816661f7455.
+
+
+Independent script/log/result in course-filter-ranking-comparison evidence root
+reproduce36strings/44vector bindings/144cosines/405case measurements/315aggregates,
+36status controls/12hypotheses/267citations/21complete contexts/sixunique strings.
+All1369prior hashes and six relocated PDFs match; two helper/test code digests
+unchanged. No automatic role extraction/gold-derived hint/new benchmark/source change.
+Related pytest command covers candidate_course,candidate_curriculum,retrieval_context,
+retrieval_evaluation,retrieval_query:46passed82subtests3.60s. Initial documentation
+checks458passed11subtests11.07s; final phase/doc checks follow closure updates.
+No repeated full suite for unchanged product; prior5236test result is historical.
+
+
+Saved-vector comparison executes successfully:36unchanged queries/8saved source
+vectors;144dotproducts exactly reproduce baseline. Default12positive top1;strict
+helper3matched/9needs_target;actual6BSCSscopeholds/18policyholds unchanged.
+CC5controlledbranches5of6to6of6;6practicumbranches lack target hints.
+21complete contexts/267citations1209..1680tokens fit2048;405case measurements.
+1369prior dependency hashes verified through exact relocation mapping. One
+independent verifier running; no full-suite repeat needed for unchanged product.
+Raw evidence:workspace/audit-evidence/p05-course-filter-ranking-comparison-20261014.
+
+
 Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
 canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;
 manifest SHA256:7b12fbccda457e645a6fb4d6467cfd03c248653726bc927a18e6529f7bda372d.
@@ -2361,6 +2404,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Saved-vector comparison is complete; do not repeat it on resume. Prepare a focused
+policy-applicability packet for six already accepted policy scenarios if needed for
+Phase05 source governance, using exact original pages/fields and proposed treatment.
+Preserve settled transcriptions, known gaps and accepted queries; no new approval
+inferred. Continue ordinary provisional work while schoolvalidation is deferred.
+Read2026-10-14-course-filter-ranking-comparison-report.md. Title/multi-code query
+role handling remains later intent/entity work, not a finished Phase05 pipeline.
+
 
 Use verified helper f9b1502 for the next bounded offline ranking comparison on
 saved vectors/accepted scoped cases, with explicit researcher target hints.
