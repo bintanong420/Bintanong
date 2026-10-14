@@ -10,6 +10,13 @@ completed_at: 2026-10-14T16:34:43+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest continuation supersedes earlier incoming-batch expectations: no college-
+specificCitizens'Charters expected; possiblememoranda such as vehicle gatepass.
+Existing universityCharter/handbook/curriculum work continues. Owner authorizes
+independentPhase05 preflight while school verification remains deferred. Plan:
+2026-10-14-development-retrieval-preflight-plan.md; bind36accepted queries to complete
+evidence/scope/gates, no fabricated observed rankings/calibration or source activation.
+
 Latest owner steering: source-verification deferral recorded in
 2026-10-14-source-verification-deferral.md. Letter submission planned15October2026;
 no same-day reply expected. Hold dependent source-use authorization/authenticity/

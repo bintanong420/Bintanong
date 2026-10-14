@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 170
+sequence: 171
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f76a2c8
-working_tree: five curated source-deferral and query-delivery documents; private evidence ignored
-updated_at: 2026-10-14T18:27:50+08:00
+head_commit: 49d100c
+working_tree: six curated preflight plan, dataset and continuation ledger documents; private evidence ignored
+updated_at: 2026-10-14T18:36:55+08:00
 ---
 
 # Phase 05 checkpoint
@@ -63,6 +63,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner resumesPhase05 independent preparation. Incoming batch excludes college-
+specificCharters and may include memoranda such as vehicle gatepass; existing
+universityCharter work retained. Scopepolicy already covers undergraduate gatepass
+service subject to actual source review; no incoming facts/queries/receipt inferred.
+Plan2026-10-14-development-retrieval-preflight-plan.md prepares36exact query/evidence/
+scope/gate bindings. School verification remains deferred; no repeated authority ask,
+fabricated rankings, calibration or activation. Scope17–18/routing/master10 reconsulted.
 
 Owner defers authorization/authenticity/current-SY verification. Letter submission
 planned15October; owner explicitly expects no same-day reply. Hold dependent steps
@@ -2060,6 +2068,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Execute36-query retrieval preflight from the unchanged accepted cases, policy previews,
+curriculum chunks/catalogue and eight pending registers; preserve complete evidence
+groups/limitations and distinguish preparation from observations. Future incoming
+collegeCharter expectation superseded by possiblememoranda. Authorization-dependent
+steps remain deferred; no new gatepass query until supplied source/owner judgment.
 
 Deliver the full sample-query catalogue and preserve the owner's source-verification
 deferral across handoffs. Await university evidence for dependent authorization/

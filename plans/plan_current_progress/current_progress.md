@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Phase05 resumed; future batch revised — 14 October2026.**
+
+Owner resumes independentPhase05 work and says incoming data no longer includes
+college-specificCitizens'Charters; possiblememoranda such as vehicle gatepass remain.
+Existing universityCharter retained; actual memo intake/review still future. Source-
+verification deferral persists. Plan2026-10-14-development-retrieval-preflight-plan.md
+prepares all36current queries with complete evidence/scope/gate links; no fabricated
+observations, new queries or activation. Scope17–18/routing/master10 and existing
+student gatepassscope consulted. Baseline49d100c; next actual preflight preparation.
+
 Export/document closure:431documentation/ledger tests and11subtests pass14.31s.
 Phasevalidation0/advancement1expectedblocked; diffcheckpasses. 8file query
 catalogue seal SHA256:d806abd6d3d4d5f0f9d063f920e3c969122616f7022c7ab13c7db0b082bea2d2; all six source-input

@@ -27,7 +27,7 @@ performed during this organization.
 | University Charter | `CitizenCharter/2025/University/PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf` |2025/fourth edition,117pages;427candidate chunks/3table refusals; governance/content approval pending |
 | Student handbook | `StudentHandbook/2021/PSU Student Handbook.pdf` |2021,394pages,printed2020BOR approval separate;4272candidate chunks/10text+18table refusals after list recovery; governance/content approval pending |
 | Memoranda | `Memoranda/2024/` through `2027/`, plus `UnknownYear/` | No files supplied yet; original photos will be retained |
-| College-specific Charters | `Deferred/CollegeCitizenCharter/` | Future photographs/documents intentionally deferred |
+| College-specific Charters | `Deferred/CollegeCitizenCharter/` | No longer expected in the incoming batch per owner14October; historical folder retained |
 | Organization policies | `Deferred/OrganizationPolicies/` | Future sources intentionally deferred |
 
 Charter and handbook categories also have2024–2027 andUnknownYear folders.
@@ -108,6 +108,14 @@ Owner-requested prospectus reviewfolder: `C:/Coding-projects/bintanong_workspace
 New repaired Financial Management candidate lives under `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-extraction-recovery-20261012/repaired-ingestion/176cbbd07bcec16a9037b610636546c032fc66ac2aa24536e163632988625141/`,with54newvectors recordedseparately. Current source mix32errors/7warnings/390chunks; historical39-bundle/336-vector readinesssnapshot preserved. No datasetmove orsharedpublication.
 
 ## Incoming college Charters and memoranda staging — 14 October2026
+
+Latest owner correction: the incoming batch will no longer include college-specific
+Citizens' Charters. It may include memoranda such as vehicle gatepass guidance.
+Continue Phase05 with the existing university Charter/handbook/curricula while
+school verification is deferred. Verify each supplied memo's actual undergraduate
+student audience, source identity and effectivity during intake. No gatepass facts
+or query cases are added until a source arrives and is reviewed. Existing folders
+and earlier staging instructions below are historical, preserved for recovery.
 
 Ignored intake root: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/Incoming/2026-10-14/`.
 
