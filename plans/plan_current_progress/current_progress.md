@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Focused policy applicability preparation resumed — 14 October 2026.**
+
+Verified07bd6d2;13policy readings remain applicabilityunknown despite settled
+transcriptions and12scenario evidence confirmation. Prepare one packet for five
+policy areas/sixaccepted scenarios, showing originals and provisional undergraduate
+selection proposals. Preserve grade-table sharedLaw heading asprovenance only,
+sourcecutoff/deadlineconflict and staff actions within studentservices. No metadata
+change before focused owner judgment; schoolverification deferred separately.
+Plan2026-10-14-policy-applicability-review-plan.md; owner artifacts preserved.
+
+
 Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
 phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code
 digests sealed; manifestSHA256:72808649d9f1872477f59ddfb28c0910dd96541dfa063e14797f8816661f7455.
