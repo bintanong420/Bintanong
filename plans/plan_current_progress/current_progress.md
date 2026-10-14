@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Offline course helper verification in progress — 14 October 2026.**
+
+Synthetic missing-module RED observed; helper implemented with reviewed-preparation
+replay and explicit target role after existing curriculum scope. Related93tests/
+174subtests pass4.03s; final14new tests/30subtests pass2.35s. First run exposed stale
+fixture chunk IDs after changing synthetic fields, corrected from rebuilt IDs.
+Actual8row/13span replay reproduces6of6CC5 branches;1358preserved hashes verified
+with exact relocation mapping. No vectors/questions/chunks/source states changed.
+Full offline pytest and one independent review now running. Next inspect results,
+fix genuine findings under TDD, commit bounded helper and close checkpoint.
+
+
 **Offline course selector resumed — 14 October 2026.**
 
 Verified baseline87f2b81; stale checkpoint metadata reconciled. Read AGENTS, both

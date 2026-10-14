@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 187
+sequence: 188
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 87f2b81
-working_tree: course-selector plan/checkpoint/progress; owner artifacts deletion and backend/artifacts preserved
-updated_at: 2026-10-14T21:29:00+08:00
+head_commit: 17d86cc
+working_tree: candidate_course.py, synthetic tests, checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T21:36:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -1829,6 +1829,17 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Offline course helper TDD: missing-module RED33fail/6pass1.42s; first GREEN
+revealed two stale expected fixture IDs after source field replacement. Updated
+fixture IDs from rebuilt chunks (no product fix); related93pass/174subtests4.03s.
+Additional gap/duplicate-target/wrong-program controls:14pass/30subtests2.35s.
+Actual replay:8rows/13spans/6of6controlled CC5 matches;1358dependency hashes
+unchanged, six source PDFs resolved through exact relocation mapping. Full pytest
+currently running with existing offline environment; no full pass claim yet.
+One read-only independent reviewer dispatched for this bounded helper.
+Evidence: workspace/audit-evidence/p05-offline-course-selector-20261014.
+
 
 Cleanup closure:454documentation/ledger tests and11subtests pass10.72s; phase
 validate0/canadvance1(expected blocked).18file evidence seal
