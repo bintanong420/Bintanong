@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 156
+sequence: 157
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cccd2ee
-working_tree: clean at cccd2ee; five scoped acceptance documents close in the following Git commit
-updated_at: 2026-10-14T13:47:57+08:00
+head_commit: c690c03
+working_tree: selected-evidence recovery plan and checkpoint/progress notes; product code unchanged
+updated_at: 2026-10-14T14:00:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -59,6 +59,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner says "ok proceed" after accepted 12-scenario set; clean baseline c690c03.
+Diagnose selected saved extraction and prepare eight curriculum-row comparisons/
+12-scenario expected-evidence matrix. Old CC5 gains adjacent CC1/L; old practicum
+loses 70% prefix; Architecture loses TOA-1; Nursing title/breakdown incomplete;
+Criminology co-requisite unresolved; Tourism immersion missing. No corrections yet.
+Use original evidence and existing conversions; source-content judgments stay human.
+Plan: 2026-10-14-selected-curriculum-evidence-recovery.md. Thesis 17–18/master10/11
+and handoff context consulted; routing recheck follows. No new data/activation.
 
 Owner accepts revised 12 scenarios: "yes that's good", after clean cccd2ee.
 Acceptance event/current status added separately to the ignored mixed-review packet;

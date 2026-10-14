@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Selected evidence recovery started — 14 October 2026.**
+
+Owner says "ok proceed"; clean baseline c690c03 and accepted scenarios preserved.
+Plan: plans/2026-10-14-selected-curriculum-evidence-recovery.md. Saved target rows
+show old CC5 adjacent prerequisite contamination, old practicum missing 70% prefix,
+Architecture missing TOA-1/title continuation, Nursing title/breakdown issue,
+Criminology co-requisite unresolved, Tourism immersion absent. No source correction
+or approvals applied. Next eight original/native row comparisons and concise
+12-scenario expected-evidence matrix; owner judgment for content choices under AGENTS.
+Reuse conversions; no source reconstruction, new intake, model/DB/activation or rules.
+
 **Revised question set accepted — 14 October 2026.**
 
 Owner says "yes that's good" at clean cccd2ee: 12-scenario selection and displayed
