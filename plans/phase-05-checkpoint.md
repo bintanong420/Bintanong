@@ -2,16 +2,18 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 164
+sequence: 165
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 7da9334
-working_tree: three scoped metadata verification and UTF-8 repair documents
-updated_at: 2026-10-14T15:43:38+08:00
+head_commit: 3b25d98
+working_tree: six scoped heading metadata closure documents; code7da9334 verified
+updated_at: 2026-10-14T16:02:21+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Headingmetadata/code7da9334 verified and ownercohort guidance applied; source PDFs/history preserved. See currenttask/report for actual scopes and inactive candidates.
 
 Applied actual owner confirmations through existing reviewed preparation contracts; no product behavior changes. See current task and latest decision record.
 
@@ -61,6 +63,24 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Heading metadata candidate complete: plan0c41210/code7da9334, UTF-8 repair3b25d98.
+All10 projections/46 accepted fields/113 source spans preserved; default unchanged,
+exact contexts286–478/512tokens. Final postrepair full5187passed412subtests6skips/
+6warnings314.48s,exit0; related88passed148subtests1.91s. One final reviewer: no code
+findings/minors; Important documentencoding fixed/verified.48-file seal:
+61ad504db2c7d12e7cb9d7b14a2610bd4e560e690fce0bb5e89df714e315ff65.
+Actual owner cohort answer applied:2018–2019 valid absent supplied newer version,
+older curricula retained for older cohorts, newer2025–2026 for new incoming students.
+13provided-header checks preserve coexistence; question settled, do not repeat.
+Separate owner-guided preparation emits8inactive pending chunks/0active, source
+registers unchanged. No guessed student curriculum, exact admissionyear or formal
+institutional approval; proposedlabels/limitations remain.1155prior dependencies
+preserved including2historicalcode snapshots. Current report: plans/2026-10-14-reviewed-heading-metadata-report.md.
+Next sourcegovernance/program-curriculum-cohort restrictions and governed retrieval/
+calibration; policy-source gates/futurebatch stillpending, no activation/Phase06.
+
+Contextscope17–18/routing/master10/11 reconsulted; no discrepancy. Earlier CurrentTask entries are historical.
 
 Code7da9334 accepted by final read-only reviewer: no Critical/codeImportant/Minor;
 Important Windows planencoding repaired. Docs408pass2.99s/phasevalidate0. Guarded
@@ -1475,6 +1495,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified baseline3b25d98, code7da9334; six curated closure paths only: report/plan/INDEX/checkpoint/handoff/currentprogress. Ignored48file packet/currentcode digests; no private artifacts staged, push or worktree cleanup. Following closure commit discoverable viaGit rather than selfreferentialhead.
+
 Clean planbaseline0c41210; scoped code3files/newtest plus plan/checkpoint/currentprogress. Existing isolation and prior evidence retained; no dependency/model/source mutations or push.
 
 Clean planbaseline9a1d790; five closure paths: new mapping report, INDEX, checkpoint, handoff, currentprogress. Source/private/script/render/log artifacts ignored under workspace audit-evidence. Following closure commit discoverable in Git.
@@ -1606,6 +1628,10 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Final documentation/ledger checks:428passed11subtests10.88s; phasevalidation0/advancement1expectedblocked. Diffcheckpasses,48sealedfiles/currentcode and1155preserved hashes match. Six curated closure paths only; ownercohortquestion settled.
+
+Postrepair full5187passed412subtests6skips6warnings314.48s,exit0; related88/148subtests1.91s; reviewer46/77subtests plus2probes. Fresh111native/2image replay,1155preserved hashes, exacttokenmaximum478 and owner-guided8candidatechunk renderer/value checks pass. Previous full planUTF8failure and encoding repair recorded; no productfailure remains. Commands/logs/report and48file seal in ignoredpacket.
 
 Commands/logs in ignored p05-reviewed-heading-metadata-20261014: red.log, kind-red.log, related-final.log, full-tests.log(initial preguard), actual-replay-corrected.log and exact-token-diagnostics.json. Source/register/event binding and all46fields preserved. Test expectation adjusted to existing renderer ValueError; first log-directory/invalid test-path invocations did not run tests. No source handling dead end or content change.
 
@@ -1839,6 +1865,8 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Latest48-file seal61ad504db2c7d12e7cb9d7b14a2610bd4e560e690fce0bb5e89df714e315ff65; code7da9334, Python3.13.7; offline SEA-LION revisiondf5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1/externalMODELS unchanged. No dependency/model download.
+
 Latest20-file evidence manifest944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7. AuthorizedPython3.13.7/models/dependencies unchanged.
 
 Latest ignored24-file seal98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87. Existing authorized Python3.13.7; no dependency changes, model paths/digests unchanged.
@@ -1875,6 +1903,8 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Actual owner clarification:2018–2019 curricula valid without supplied newer version; old cohorts can keepold curriculum when both versions exist; new incoming students use supplied newer2025–2026. Applied conditionally to separate8undergraduate candidate rows; unknown studentcurriculum requiresclarification, no exact admissionyear/general supersession. Printedproposal retained; owner guidance is not fabricated formalinstitutional approval. Clarification answered; do not repeat. Final reviewer declined sourceauth/applicability authentication: keep institutional evidence gates separate; wrong inference couldselectwrongcurriculum.
+
 Actual latest owner reply confirms both eight original rows and 12-scenario expected evidence. Apply all46fields and group labels once; no repeated review. Source authority/effectivity/applicability/activation not inferred. Charter cutoff and timing conflict remain as visible original evidence.
 
 Owner14October2026 future-batch notice: college-specific Charters, memos and
@@ -1892,6 +1922,8 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Technical10metadata mapping/adapter and cohortclarification are complete. Eightcurriculum pendingchunks exist, zeroactive; currentregisters/sourcegov and encodedcohort/version restrictions remain open before governed use. Priorpolicy sources/gaps/gov still separate. No unansweredrow/evidence/cohort question remains; no newbatch received.
 
 All46sourcevalues cited; remaining10metadata projections require explicit adapter/context representation and stillwithheld. All8curriculum applicabilityunknown, no actualchunks; sourcegovernance pending. This is no longer missing original content or unlocated fields.
 
@@ -1956,6 +1988,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Continue actualsourcegovernance and explicitprogram/curriculum/cohort restriction preparation from owner-guidance event and existing sourceevidence; preservevalidoldversions and incomingnewerconditional use. Then governed candidate retrieval/calibration on accepted12groups/36variants; no fabricatedsourceapproval or releaseactivation. Newhumanjudgment only for genuinelynew sourcecontent choices/missing evidence, not settled comparisons/cohort guidance. Earlier nextactions historical.
 
 Final whole suite for guarded implementation, then one fresh reviewer of cohesive plan/code/tests. One TDD fix pass for Critical/Important, no second review; seal evidence/curate closure. No new human content judgment found, actual applicability/governance still unresolved.
 
@@ -2310,6 +2344,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not repeatmetadatafeature/13fieldmapping/fullpassingchecks/originalconversions or originalrow/evidence/cohort questions. Preserve oldversions, ownercohortconditions and printedproposal marker; do not turn incomingguidance into whole-source approval or selectnewestforunknownstudent. Retain audit history and sourcecutoffs.
 
 Do not redo completed13field citation preparation, re-review46values/12evidencegroups, manufacture nativequotes for projectedheadings or infer current effectivity from proposedimplementation. Preserve failedhelperlogs and existing originalcutoffs.
 

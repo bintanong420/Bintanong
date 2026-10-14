@@ -1,5 +1,27 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Metadata adapter and owner cohort guidance closed — 14 October 2026.**
+
+Final documentation/ledger checks:428passed11subtests10.88s; phasevalidation0/advancement1expectedblocked. Diffcheckpasses,48sealedfiles/currentcode and1155preserved hashes match. Six curated closure paths only; ownercohortquestion settled.
+
+Heading metadata candidate complete: plan0c41210/code7da9334, UTF-8 repair3b25d98.
+All10 projections/46 accepted fields/113 source spans preserved; default unchanged,
+exact contexts286–478/512tokens. Final postrepair full5187passed412subtests6skips/
+6warnings314.48s,exit0; related88passed148subtests1.91s. One final reviewer: no code
+findings/minors; Important documentencoding fixed/verified.48-file seal:
+61ad504db2c7d12e7cb9d7b14a2610bd4e560e690fce0bb5e89df714e315ff65.
+Actual owner cohort answer applied:2018–2019 valid absent supplied newer version,
+older curricula retained for older cohorts, newer2025–2026 for new incoming students.
+13provided-header checks preserve coexistence; question settled, do not repeat.
+Separate owner-guided preparation emits8inactive pending chunks/0active, source
+registers unchanged. No guessed student curriculum, exact admissionyear or formal
+institutional approval; proposedlabels/limitations remain.1155prior dependencies
+preserved including2historicalcode snapshots. Current report: plans/2026-10-14-reviewed-heading-metadata-report.md.
+Next sourcegovernance/program-curriculum-cohort restrictions and governed retrieval/
+calibration; policy-source gates/futurebatch stillpending, no activation/Phase06.
+
+Earlier pending clarification/zero-chunk scope notes are historical.
+
 Code7da9334 accepted by final read-only reviewer: no Critical/codeImportant/Minor;
 Important Windows planencoding repaired. Docs408pass2.99s/phasevalidate0. Guarded
 full run encountered that plan before repair: test_docs_hygiene plan decode failed,

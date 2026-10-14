@@ -71,11 +71,11 @@ Consumes Task1's binding API; no additional product feature.
   eight unknown-applicability readings withheld and zero actual chunks. Preserve all46values.
 - [x] Produce separate non-Chunk diagnostic contexts without declaring actual applicability;
   validate all citations and proposal warnings, confirm unchanged default adapter replay.
-- [ ] Full repository pytest with external basetemp/no cache; preserve log and report all
+- [x] Full repository pytest with external basetemp/no cache; preserve log and report all
   skips/warnings/failures. No real retrieval scoring or release claim.
 - [x] One fresh reviewer against this cohesive change, spec and review-focus list. Fix
   Critical/Important findings in one TDD pass; record any deferred minors/rulings.
-- [ ] Seal ignored replay evidence; curate report/index/checkpoint/handoff/progress.
+- [x] Seal ignored replay evidence; curate report/index/checkpoint/handoff/progress.
   Run documentation/ledger validation, keep Phase05 blocked, explicit staging/commit.
 
 Context consulted: thesis physical17–18, routing PNG, master10/11, active Phase05
@@ -107,3 +107,11 @@ retain evidence/history rather than deleting the audit packet.
   evidence gates, as the reviewer declined to judge them; original byte/native/render
   replay passes but cannot establish institution/cohort authority. If wrongly inferred,
   guidance could use the wrong curriculum. No activation or repeated content review.
+
+- Task1: complete, code7da9334; default and literal handling preserved.
+- Task2: postrepair full5187passed412subtests6skips6warnings314.48s; final source replay
+  and48-file seal pass. Owner subsequently answered cohortguidance; separate existing
+  contracts apply that actual decision to8inactive candidatechunks/0active.
+- Cohortquestion settled: oldvalidabsentnewer; coexistingoldcohortsretainold; incoming
+  studentsuse suppliednewer perowner. No studentcohort, exactyear or formalapproval guessed.
+- No behavioral scope deviations/deferred minors; only documented sourceauth gate ruling.
