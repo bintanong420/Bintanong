@@ -65,3 +65,45 @@ Verify the inactive derivative against reviewed fields and locators, preserve
 refusal/gap evidence, and report selection coverage explicitly. A selected problem
 queue is not an exhaustive corpus audit. Approved source applicability and actual
 policy retrieval/calibration remain required by the formal Phase 05 exit gate.
+
+## Execution tasks — resumed 13 October 2026
+
+1. Add a pure `document_ingest/reviewed_policy.py` preparation builder and focused
+   synthetic tests. Input is explicit field readings, source identities, and
+   content-addressed original review artifacts. Each field records original and
+   reviewed values, literal source blanks, page/field evidence, transcription
+   decision, and the exact owner-event reference. Structured values retain ordered
+   actions, role fragments, shared-fee provenance and arrows without flattening.
+2. Validate source/event byte hashes and field references, preserve gap and refusal
+   evidence, partition intended audiences explicitly, and withhold unknown or mixed
+   applicability from selection. All output remains preparation only, with no
+   `Chunk`/`SourceSpan` creation or automatic governance transition. Regression
+   fixtures cover source mismatch, stale approvals, blanks, partial reviews,
+   complete service associations, unknown scope and input invariance.
+3. Normalize the existing selected review artifacts in a new ignored workspace
+   packet. Validate original PDF/candidate/review hashes before and after, derive
+   the bundle, independently compare output fields/associations/events against
+   inputs, and seal the new evidence. Report selected coverage and unresolved
+   applicability separately; do not estimate whole-corpus accuracy.
+4. Run relevant ingestion/contract regressions and a final review, update the
+   decision record, active checkpoint/current progress/index, and commit cohesive
+   verified increments with explicit staging. Formal Phase 05 stays active.
+
+Ruling: use a separate preparation interface rather than changing the strict raw
+reader or canonical bundle loader. Existing contracts intentionally reject review
+status inside chunk fields and require governed source bindings. Owner continuation
+authorizes this existing bounded specification; no additional design approval is
+needed. Event references authenticate artifact bytes, not institutional authority;
+the normalization mapping must be checked against the actual recorded review.
+
+Resume evidence: clean Git `13ee5f9`; checkpoint still named preceding `e9e2eab`.
+Thesis physical 17–18 (printed 16–17), physical 36 (printed 35) and the runtime
+routing PNG consulted. Undergraduate, read-only and verified-evidence requirements
+agree with this preparation. Original-list recovery and selected page reviews are
+complete and must not be repeated. Existing approved Python 3.13 environment is
+reused; PDF inspection uses its installed `pypdfium2`, not unavailable `fitz`.
+
+Execution complete for this bounded preparation at `8c99a46`/`6279985`; see
+[delivery/verification and exact next action](2026-10-13-reviewed-policy-consolidation-report.md).
+The separate bundle carries explicit unknown applicability and is inactive.
+No formal Phase 05 exit or institutional approval follows from this delivery.

@@ -16,5 +16,7 @@ models
 uploads
 data/private
 artifacts/ocr
+# Local institutional originals and generated data stay out of build contexts
+/dataset/
 *.gguf
 *.safetensors

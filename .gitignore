@@ -55,8 +55,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local Bintanong PDF files and their .jsonified outputs
+# Repository-root institutional dataset: originals and local generated outputs
 /dataset/
+# Legacy location kept ignored for old checkouts and accidental local recreation
 /backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/
 /backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump/
 # Bulk local scratch copy; curated planning documents live in plans/ingestion/

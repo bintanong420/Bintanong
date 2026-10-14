@@ -3,12 +3,412 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: d33340e
+final_commit: dea9442
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-13T01:13:40+08:00
+completed_at: 2026-10-14T23:20:37+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Shared-citation closure:464docs/ledger tests11subtests pass10.73s; phasevalidate0/
+canadvance1(expectedblocked).33ignored evidence files/13current code-test digests
+sealed; manifestSHA256:
+aa2b6c038e6501d0d1bab4bf0c91ff99efffd6904054f9378e41ed0c97bf2ca2.
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate source-reference decoding, exact token counts and complete-group budget
+replay agree with saved results; prior1467 hashes remain preserved through explicit
+old-byte snapshots for authorized tracked edits. No calibration/source-authority/
+activation claim is made by these technical checks; existing gates stand.
+
+Optional shared citation context dea9442 complete under plan1e260ec; full5252tests/
+497subtests pass315.28s,6skips/6existing warnings. Default and compact outputs stay
+unchanged; runtime callers do not opt in.1467prior hashes preserved with exact
+old snapshots for authorized tracked changes.900default observations replay;
+900shared observations/17strings/212archived citations/6855citation instances
+decode exactly,68old/new/trial token counts. k3/0.5:2048complete expected27/30
+(15/18policy),4096complete30/30(18/18policy),budgetgapcases15/6,invalid0.
+Timing2270→1917 nowfits2048; overload3186→2265 remains withheld intact. Fields,
+blank markers, source limits, complete groups and original chunk IDs preserved.
+Report:2026-10-14-shared-citation-context-report.md. One final reviewer checking
+code/independent measurement accounting; no new source-content approval needed.
+
+Preserve optional shared citation context dea9442 and measured saved results.
+Next bounded development can share repeated whole-group display metadata under
+synthetic TDD while retaining every confirmed field, source-limit message, original
+identity and full structured evidence. Complete overload stillneeds2265tokens;
+never truncate conditions or admit a partial group to fit2048. Reuse all saved
+vectors/ranks/accepted questions; no repeated audience/wording decision or model
+encoding. Unsupported-query calibration requires owner-reviewed question proposals
+before testing. Schoolverification remains deferred; formalPhase05exit stays open.
+
+Confirmed-policy closure:462docs/ledger tests11subtests pass10.76s; phasevalidate0/
+canadvance1(expectedblocked).37ignored evidence files/ten unchanged checkoutcode
+digests sealed; manifestSHA256:
+2947ec9fdf6f73c2a40a675a66b714af32efedd2997e7f9b1232e1d36fff3789.
+
+Five policy areas confirmed and applied for provisional undergraduate research;
+scope/plan463c351, productf9b1502 unchanged. Shared master's use or School of Law
+references do not exclude undergraduate-applicable clauses.13inactive candidates
+preserve37fields/39spans, complete5part overload/4part timing and all known gaps.
+1429prior hashes/original77unknown bundle/registers preserved.13policy payloads
+encoded locally113..466tokens;36query/eightcurriculum vectors reused.30scoped
+variants across10scenarios first expected primary top1;6BSCSscope holds remain.
+k3/threshold0.5: complete expected24/30 at2048tokens,30/30 at4096; full overload
+3186/timing2270 withheld intact at2048.4096stillhas12budget-gap cases for extras.
+99related tests/106subtests pass24.48s; independent verification no findings,
+756cosines/900primary measures/900context observations/33token counts checked.
+Report:2026-10-14-confirmed-policy-applicability-report.md. Owner audience decision
+is settled; schoolverification/sourceapproval/activation/formalPhase05exit pending.
+
+Preserve the confirmed selection, vectors and verified results; do not repeat
+audience/wording review or model encoding. Next bounded development: compact
+repeated context display metadata for complete groups under synthetic TDD while
+preserving every field/citation/gap, complete groups, chunk IDs and default behavior.
+Record a bounded implementation plan first; no new source-content decision is
+needed while all confirmed content is retained. Unsupported-query calibration
+requires separately presented owner-reviewed question proposals before testing;
+positive-only scores do not select a global threshold. School verification stays
+deferred under standing timing/activation boundaries; no Phase06 advancement.
+
+
+Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
+phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode
+digests sealed; editableownerCSV excluded/initialsnapshotretained.
+ManifestSHA256:0938d0e2bde69bf99d85fa21b1264def90412bd0b0f02c3c880d7803fefda8c4. Owner scope response pending.
+
+
+Latest preparation:focused policyapplicability packet, planab0aa3e/report
+2026-10-14-policy-applicability-review-report.md. Fivependingareas/sixaccepted
+scenarios/13readings37fields39spans unchanged;13currentimages16links verified
+against originals. Independent QA no findings;76tests103subtests pass1.58s.
+1392prior hashes/twooriginals/77unknownactualapplicabilities preserved. Exact
+wording/expected evidence settled; next focused owner audience selection, then
+source-bound derivation of confirmed areas. No repeated cutoff/deadline/current
+schoolverification question, no dependentapp change/activation/Phase06.
+
+
+Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
+phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code
+digests sealed; manifestSHA256:72808649d9f1872477f59ddfb28c0910dd96541dfa063e14797f8816661f7455.
+
+
+Latest experiment:course-filter ranking comparison, plan4612f13/helperf9b1502
+unchanged. Default12positive matches preserved; strict3of12explicitcode coverage.
+ControlledCC5branches5of6to6of6; actual6BSCSscope/18policyholds remain. Independent
+verifier no findings:144scores405measurements315aggregates/267citations1369hashes.
+21contexts/sixdistinct strings1209..1680 fit2048;46tests82subtests pass3.60s.
+Report2026-10-14-course-filter-ranking-comparison-report.md records limitations.
+Next focused policy-applicability preparation for six accepted policy scenarios;
+keep settled transcriptions/questions and deferred schoolverification intact.
+No activation/entitypipeline/Phase06 or repeated model execution.
+
+
+Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
+canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;
+manifest SHA256:7b12fbccda457e645a6fb4d6467cfd03c248653726bc927a18e6529f7bda372d.
+
+
+Latest bounded delivery: offline course selector f9b1502, plan17d86cc/report
+2026-10-14-offline-course-selector-report.md. Full5236tests494subtests pass313.57s,
+6skips6warnings; one independent review no findings. Actual8rows13spans/6of6CC5
+branches and1358preserved hashes checked; no new vectors/questions/source changes.
+Next bounded offline ranking comparison using saved vectors/accepted scoped cases
+and explicit researcher target hints. Missing targets/curriculum stay clarification;
+no entity extraction/runtime/database/Prolog/activation or Phase06. Owner artifact
+changes preserved and school validation deferred under standing authorization.
+
+
+Dataset cleanup closure:454docs/ledger tests and11subtests pass10.72s;
+phasevalidate0/canadvance1(expected blocked).18file evidence seal:
+7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.
+47dataset files ignored, zero staged/tracked originals; owner artifact changes preserved.
+
+
+Latest requested cleanup:2026-10-14-dataset-relocation-and-cli-handoff.md.
+47files/41PDFs/63dirs moved byte-identically to root/dataset, all47Git-ignored/zero
+tracked; rootDockerexclude/defaultextractor paths/locationguide updated.35related
+tests/19subtests pass1.08s after RED;1333prior hashes verify with8source-path maps,
+12/27case packets validate. Critical owner decisions persist inAGENTS.md. NewCLI
+resumes offline course selector under TDD; no repeated review/validation wait.
+Owner artifact changes preserved; historical evidence untouched, use relocation-map.json.
+
+
+Course-diagnostic closure:453docs/ledger tests and11subtests pass10.80s;
+phasevalidate0/canadvance1(expected blocked).24file/five unchanged code-digest seal:
+f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
+
+
+Latest course-identity diagnostic, plan01d30b7/report2026-10-14-course-identity-
+diagnostic-report.md: controlled CC5 branches5/6 to6/6 using explicit researcher
+course hints and unchanged cosine.6complete contexts/78citations fit2048;1333hashes
+unchanged. No product/code/vector/runtime change. Exact thesis wording ranked CC5
+first; earlier report incorrectly attributed Taglish paraphrase scores to that wording,
+corrected01d30b7. Next reusable offline course-selector preparation/filter under TDD,
+retain scope clarification/source bindings and default behavior. No new human content
+verification needed; schoolvalidation deferred and formalphase gates remain blocked.
+
+
+Provisional ranking closure:451docs/ledger tests and11subtests pass10.87s;
+phase state valid, advancement blocked.30file/five code-digest evidence seal:
+2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605.
+
+
+Latest completed experiment:2026-10-14-provisional-curriculum-ranking-report.md.
+Plan c92f51c; product remains093ea4a.36queryvectors reused/8source vectors encoded;
+12explicit-edition positives top1 and12complete contexts fit2048.6BSCS scope holds,
+18policy variants unranked.12controlled edition branches11top1; old-curriculum
+Taglish CC5 incorrectly ranks practicum first. Related32tests/52subtests pass;144
+dot products/360metrics/153citations/1302current hashes verified. No global threshold,
+source approval or activation. Next bounded offline course-identity diagnostic with
+TDD for any behavior change; school validation remains deferred, no new content
+verification needed for this diagnostic. Evidence stays ignored; original packets intact.
+
+
+Latest owner instruction supersedes blanket developmentwaits: provisional offline
+retrieval/testing with supplied public undergraduate-selected data is authorized
+while school validation remainspending. See2026-10-14-thesis-development-source-use-
+clarification.md. Continue candidate ranking/evaluation; authentic edition/program/
+cohort/confirmation metadata remainsseparate, oldercurricula not discarded for age.
+Actual register approval and formalinstitutionalactivation gates remain; no fake
+sourceverification or new query inferred. This is a thesisdevelopment continuation.
+
+Closure:435documentation/ledger tests and11subtests pass11.24s; phasevalidate0/
+canadvance1expectedblocked; diffcheckpasses. 25files/two currentcode digests
+sealed; SHA256:90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c.1273current hashes and one
+exacthistorical code binding retained; sourceverification remainsdeferred.
+
+Latestcompletedcandidate: Optional compact citation context complete: plan782dbfe/code093ea4a. Default8
+contexts2000–3528tokens,2fit2048; opt-in1209–1917/all8fit2048. All113citations/
+46sourcefields/sourcepayloads unchanged; full structured evidence identical.
+RED6failures0.48s; related83tests125subtests pass1.70s. Finalfull: 5212 passed, 6 skipped, 6 warnings, 464 subtests passed in 341.98s (0:05:41).
+Onefresh reviewer noCritical/Important/Minor;1000defaultdifferential/100random
+compact checks pass. No secondreview/deferredfindings.1273current hashes unchanged,
+oneauthorized contextcode change preserved via exactbaseline snapshot. Engine/
+settings/RPC do not optin; no rankings/metrics/sourcevectors or activation.
+Report:2026-10-14-cited-context-budget-report.md. Schoolverification deferred;
+futurecollegeCharters excluded/possiblememoranda retained. Phase05 stillblocked.
+
+Closure checks:433documentation/ledger tests and11subtests pass14.75s;
+phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six
+unchanged code digests sealed; manifest SHA256:
+c90c6cffb92c461a480bb43732c1fcc77a945e2c8646c895c3e339a09f02490e.
+
+Latest completed preparation: Development retrieval preflight closed under plan3928c42. All36exact queries/
+12scenarios bound to13policy previews/eightcurriculum chunks/152target spans;
+1249preserved hashes/eightpending registers unchanged. SixBSCS variants need
+student curriculum; twelve explicit version candidates;18policy scope pending.
+Actual36query embeddings offline56.468s:finite1024-D/L2normalized,52–78/512tokens;
+tenexternal modelasset hashes and priorconfiguration checked. Related43tests/
+94subtests pass5.58s; directquery/vector/field/group/citation replay verified.
+No new source-document embeddings, observed rankings/calibration, DB/runtime
+changes or activation. Currentquery status: ignoredpacket CURRENT-QUERIES-AND-STATUS.md.
+Future batch excludescollegeCharters; possiblememoranda such as gatepass.
+Schoolverification remainsdeferred; settled ownerrow/evidence/cohort decisions
+preserved. Report:2026-10-14-development-retrieval-preflight-report.md.
+
+Latest continuation supersedes earlier incoming-batch expectations: no college-
+specificCitizens'Charters expected; possiblememoranda such as vehicle gatepass.
+Existing universityCharter/handbook/curriculum work continues. Owner authorizes
+independentPhase05 preflight while school verification remains deferred. Plan:
+2026-10-14-development-retrieval-preflight-plan.md; bind36accepted queries to complete
+evidence/scope/gates, no fabricated observed rankings/calibration or source activation.
+
+Latest owner steering: source-verification deferral recorded in
+2026-10-14-source-verification-deferral.md. Letter submission planned15October2026;
+no same-day reply expected. Hold dependent source-use authorization/authenticity/
+current-SY verification pending new university evidence. Remind before activation or
+when owner reports a response; no timed reminder. Content/cohort decisions settled.
+Complete query catalogue ignoredp05-query-catalogue-20261014:96entries/76exactwordings,
+36current/27earlier/12archived/21superseded; actual27embeddings/18scope checks identified.
+Pending states/zeroactive and previous evidence retained; no activation or Phase06.
+
+Final documentary/ledger checks:430passed11subtests10.93s; phasevalidate0/
+canadvance1expectedblocked, diffcheckpasses. 36file evidence seal SHA256:
+76cf3a0fe925f6ce2fc12069df1e486a0d54d13e6ccfa3668c92ea2aa2a3220d. Two current code digests and1203preserved hashes match.
+
+Latest completed candidate: [curriculum selection](2026-10-14-candidate-curriculum-selection-report.md).
+
+Candidate curriculum selection closed: plan0f06222/code0767309/fixcb77f81.
+Final post-review full: 5204 passed, 6 skipped, 6 warnings, 461 subtests passed in 296.38s (0:04:56). Related83tests/138subtests pass2.52s.
+One fresh reviewer/one Important corrected under RED/GREEN; zero Critical/Minor,
+no deferred findings or second review. Actual5programs/6versions/8unchangedchunks/
+46fields/113spans/18unchanged multilingual scope traces/sixexplicitchecks pass;
+1203prior hashes and six pending registers unchanged. Six BSCS variants require
+curriculum clarification; twelve sole-program variants match. Deterministic
+scope selection only, no semantic ranking/calibration or runtime filtering.
+Source-verification checklist prepared for six exact originals; issuer confirmation
+and source-use authorization remain separate from settled owner content/cohort
+decisions. Printed proposal stays proposed. Zero active releases, Phase05blocked.
+Report: plans/2026-10-14-candidate-curriculum-selection-report.md. Futurebatchpending.
+
+Earlier candidate records below remain historical.
+
+Previous completed candidate: [heading metadata and owner cohort guidance](2026-10-14-reviewed-heading-metadata-report.md).
+Heading metadata candidate complete: plan0c41210/code7da9334, UTF-8 repair3b25d98.
+All10 projections/46 accepted fields/113 source spans preserved; default unchanged,
+exact contexts286–478/512tokens. Final postrepair full5187passed412subtests6skips/
+6warnings314.48s,exit0; related88passed148subtests1.91s. One final reviewer: no code
+findings/minors; Important documentencoding fixed/verified.48-file seal:
+61ad504db2c7d12e7cb9d7b14a2610bd4e560e690fce0bb5e89df714e315ff65.
+Actual owner cohort answer applied:2018–2019 valid absent supplied newer version,
+older curricula retained for older cohorts, newer2025–2026 for new incoming students.
+13provided-header checks preserve coexistence; question settled, do not repeat.
+Separate owner-guided preparation emits8inactive pending chunks/0active, source
+registers unchanged. No guessed student curriculum, exact admissionyear or formal
+institutional approval; proposedlabels/limitations remain.1155prior dependencies
+preserved including2historicalcode snapshots. Current report: plans/2026-10-14-reviewed-heading-metadata-report.md.
+Next sourcegovernance/program-curriculum-cohort restrictions and governed retrieval/
+calibration; policy-source gates/futurebatch stillpending, no activation/Phase06.
+
+Earlier scope/technical-next pointers below are historical.
+
+Latest source citation preparation: [remaining curriculum mappings](2026-10-14-curriculum-provenance-mapping-report.md).
+Remaining13 field citations prepared under plan9a1d790: all46 accepted values located,
+34 native scalar fields/91spans,2 original-image fields,10 heading metadata projections
+with20 literal native citations. Existing adapter accepts36scalars but withholds10
+metadata plus8unknown-applicability rows; actual0chunks. Metadata integration remains
+unfinished; no fake literal spans or new product behavior. Fresh native/render/contract
+replay,3negativeprobes and1,133preserved hashes pass;266tests/149subtests1.65s.
+20-file seal944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7.
+Report: plans/2026-10-14-curriculum-provenance-mapping-report.md. Next opt-in metadata
+adapter/context validation with syntheticTDD, then actual authority/effectivity/
+applicability evidence. Confirmed rows/evidence and sourcecutoffs stay settled;
+futurebatch pending, no activation or Phase06.
+
+Earlier recovery entries below are historical.
+
+Latest owner-confirmed recovery: [2026-10-14-confirmed-curriculum-evidence-report.md](2026-10-14-confirmed-curriculum-evidence-report.md).
+Owner confirms both eight original curriculum rows (46 fields) and the expected
+evidence for all 12 accepted scenarios. Applied separately in ignored
+p05-confirmed-curriculum-evidence-20261014; accepted judgments are settled.
+Latest row-anchored mappings: 33 fields/90 native spans, 13 technically held.
+All 1,106 preserved dependencies and exact source limits/cutoffs unchanged;
+typed builders replay, eight unknown-applicability readings withheld/zero chunks.
+227 relevant tests/77 subtests pass in 1.31s. 24-file manifest SHA256:
+98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87.
+Source authority/effectivity/applicability and activation remain pending.
+Record: 2026-10-14-confirmed-curriculum-evidence-report.md. Earlier pending row/evidence
+requests are historical; do not repeat them. Next technical mapping of 13 held fields
+and actual governance evidence before candidate retrieval/calibration; future batch
+still pending. Original Charter cutoff and handbook deadline conflict stay unresolved.
+
+Earlier recovery entries below are historical.
+
+Latest recovery: [eight-row source comparisons and evidence key](2026-10-14-selected-curriculum-evidence-recovery-report.md).
+Plan52be464; eight pending curriculum row proposals/12-scenario expected evidence,
+183 original native fragment texts/boxes rechecked, field ownership pending.
+1,078 dependencies unchanged;395 tests/35 subtests pass,27-file seal in report.
+Two focused owner judgments pending; do not infer content/source authority from
+accepted questions. Next actual decisions, then confirmed derivatives/field mapping
+and governance. No source correction/model/DB/activation;future batch pending.
+
+Latest owner decision: revised 12-scenario set accepted ("yes that's good") after
+cccd2ee; [record](2026-10-14-mixed-development-question-revision.md). Selection
+is settled; ignored acceptance event/status preserves original candidate packet
+and 19-file seal. Next expected-evidence review and selected extraction/governance
+recovery before retrieval/calibration. Source authority/applicability and future
+additional-data batch remain pending; no activation or Phase 06.
+
+Latest owner revision: [mixed policy/prospectus questions](2026-10-14-mixed-development-question-revision.md).
+Q2 exact CC5/failed-CC4 query replaces the blank-percentage question; Q1/3–7
+retained, five new curriculum scenarios. 12 groups/36 variants, six originals/five
+undergraduate programs. CC5 prerequisites differ by old/proposed BSCS curriculum;
+unknown edition requires clarification, no universal eligibility claim. All six
+selected registers pending and saved audits error/zero chunks; prior 29-file packet
+and 1,014 dependencies preserved. Next owner new-question/evidence judgment and
+selected-row recovery/governance before retrieval. Bounded prospectus preparation
+authorized now; broader review/future batch still deferred, no activation/Phase 06.
+
+Current14October2026 continuation: [development scenario review](2026-10-14-policy-development-review-preparation.md).
+Clean aad1497 confirms prior documentary closure. Seven scenarios/21en-tl-Taglish
+questions prepared with14selected readings/8original-page images. Owner accepts
+seven English scenarios; translations/evidence expectations/source authorization
+pending. Taglish retrieval belongs currentPhase05. Prior47sealed files/seven code
+digests/917stable inputs/two originals/two registers match;900tests/71subtests pass.
+Next owner evidence judgment and actual institutional authorization/applicability;
+77unknown/0chunks, no retrieval/activation. Future additionalbatch/organization
+request pending. Earlier technical-next entries remain completed history.
+
+Latest14October2026: [compact context report](2026-10-14-compact-reviewed-context-report.md).
+Compact context closed — 14 October2026. Plan5b5c14b, code03f757f/fix2437f28:
+opt-in pairedv2markers, defaultv1 savedoutputs unchanged, fullstored fields/limits/
+manifests preserved and bound by evidence_sha256. Full5165passed/377subtests/
+6skips/6warnings308.86s,exit0; related102/125subtests1.96s; ledger19/11.410s.
+One finalreview2Important/noCriticalorMinor; both reproducedRED andfixed inonepass,
+9GREEN/19subtests0.56s, no secondreview/deferredfindings. Correctedactualreplay24.08s:
+all77previews111..466tokens, Charter466/footer292, nooverflows/truncation/vectors.
+264fields/29blanks/232spans/sevenlogicalgaps/tenprojectedparts unchanged,77unknown/
+0chunks; originalChartercutoff/footer/yearmetadata choices remain.917inputhashes
+unchanged; four intentionalcode revisions retain exacthistorical snapshots.
+47files/sevencode digests sealed:
+ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+Next actualsource-governance/approveddevelopment-case evidence and retrieval
+calibration, preserving unknowns and existing approval boundaries. Do not repeat
+answered source reviews, unavailable-ending reconstruction, equivalent partitions,
+completedmetadatafix or originalconversions. No incomingprocessing/activation/Phase06.
+
+Earlier sizing/technical-next-action pointers below are completed history.
+
+Current owner decision14October2026: [source-handling record](2026-10-14-owner-source-handling-decisions.md).
+AGENTS human-in-the-loop rule committed06f6eef. Preserve original Charter103step3
+and cutoff; no reconstruction or further equivalent partition trial. Owner selects
+full handbook approval footer (389exacttokens); printed2021 remains metadata, with
+all four previous cover fields/spans/gap retained in a hashed sidecar.77unknown/
+0chunks,264selectedfields/29blanks/232selectedspans/sevenlogicalgaps. Other76rows/
+previews unchanged. Charter563exacttokens remains a technical wrapper issue; next
+compatible metadata correction underTDD, keeping full stored evidence/cutoffwarning.
+Fresh independent review no findings;21files sealed/899prior hashes preserved;
+78relatedtests/117subtests and398docs pass. Productcode unchanged.
+No sourceapproval/effectivity/activation/Phase06 or incoming-batch processing.
+Earlier sizing attempts below are preserved history, not repeated next actions.
+
+Current diagnostic14October2026: [exact token readiness](2026-10-14-reviewed-policy-token-readiness-report.md).
+The accepted structural derivative remains77unknown/0chunks,267fields/29blanks/
+235spans/sevenlogicalgaps. Exact SEA-LION sizing finds563/539tokens above512.
+Existinghelper trial81unknown/0chunks fails four parts535/542/522/517; diagnostic
+only, not adopted. Independentreview confirms/no findings;37files sealed,64relatedtests/94subtests and
+397docs pass. No product behavior change. Next bounded TDD for compatible
+manifest-display compaction, retaining full stored manifests/gaps and legacy
+validation; then exact replay. Source-governance/approveddevelopment gates remain.
+Historical guide changed (808of809match); current34fileseal/sixcode digests match.
+Unknown cause, no activeevent/bundle reference, preserve observed bytes/old seals.
+No incomingprocessing, sourceactivation or Phase06. Prior preparation-size claims
+below refer to estimated480cap, not this newly measured exact512encoder limit.
+
+Latest14October2026: [record-partition report](2026-10-14-reviewed-record-partitions-report.md)
+Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
+review correctionf70262a. Both remaining size refusals in the selected bundle resolve
+through two complete groups/six whole reviewed-field parts.77unknown/0chunks,
+267fields/29blanks/235spans/sevenoriginalgapgroups/tenprojectedgapbearingparts;
+malformed condition/conflicting deadlines remain unresolved. Full5150passed/
+358subtests/6skipped/6warnings302.61s,exit0; focused10GREEN0.189s after observedRED,
+related175passed/246subtests39.83s,ledger19passed9.450s. One finalreview/twoImportant
+fixed in onecorrectionpass; no secondreview/deferredminors. Independent post-fix
+original/field/gap/current-adapter checks PASS,809priorhashes/original47/87renders
+unchanged.34files/sixpost-correction code digests sealed:
+f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
+
+Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
+Incomingbatch/laterorganization request remains pending. Earlier bounded delivery
+next-action pointers below are historical; formalhandoff remainsblocked.
+
+Latest14October2026: [body/cover context report](2026-10-14-reviewed-body-cover-context-report.md)
+closes codes5eba651/2a9cc45/fix49e89c6. Full5138tests/341subtests pass, finalreview
+overflow corrected underTDD,26files sealed/782priorhashes preserved. Allfive
+descriptive structured requirements resolve; two oversizedgap records remain.
+267fields/29blanks/sevengaps/235spans/73unknown/0chunks; formalhandoff staysblocked.
+Next bounded complete-field partition/grouping for oversizedrecords, then actual
+governance/approveddevelopmentcases/realretrievalcalibration. No incomingprocessing.
+Flowchart recovery below is completed history; do not repeat it or originalconversion.
+
+Latest recovery14October2026: [flowchart context report](2026-10-14-reviewed-flowchart-context-report.md)
+closes the cutoff increment8b74030/5c9fffa after focused RED/GREEN,160relatedtests,
+fresh independent review and34file seal.73unknown/0chunks/sevengaps remain; this
+formal handoff is still blocked. Resume remaining bounded body/cover preparation
+and source-governance/development evidence, not repeated original conversions.
+Owner will later supply college-specific Charters/memos/miscellaneous material and
+request organization after currentPhase05 work; no immediate intake requested.
 
 **Software candidate delivered and reviewed; formal Phase 05 exit BLOCKED.** Phase 06 is not authorized by this handoff. The owner started Phase 05 from `10bfd6f`; implementation remains in isolated `p05` on `feat/p05-retrieval-logic`. No push or merge was requested or performed.
 

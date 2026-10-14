@@ -8,7 +8,8 @@ Evidence: `Context/bintanong_thesis_for_context.pdf`, physical17–18/printed16�
 and undergraduate participant list physical67/printed66. Physical17 limits the
 system to undergraduate academic affairs during2026–2027. Physical18 explicitly
 excludes faculty/staff/laboratory-school procedures and Medicine/Law professional
-programs. Graduate content also falls outside the undergraduate-only boundary.
+programs. Graduate-only content falls outside the undergraduate-only boundary.
+Policies shared with undergraduates remain usable for their undergraduate application.
 
 | Include when source applicability is verified | Exclude from supported knowledge/review/evaluation |
 |---|---|
@@ -21,6 +22,29 @@ Applicability is a clause/service decision. Do not exclude an undergraduate serv
 merely because its responsible officer is a registrar, dean or staff member, and
 do not include an entire handbook/Charter because some of its content is relevant.
 General student/alumni wording requires undergraduate applicability review.
+
+Owner clarification,14October2026: the five selected policy areas in
+`2026-10-14-policy-applicability-review-report.md` are confirmed for provisional
+undergraduate research with their existing limitations. The owner says these
+policies are used by both undergraduate and master's students. Shared graduate
+use or references to the School of Law do not exclude an undergraduate-applicable
+clause. Exclude content when it is specifically for an unsupported audience or
+does not apply to undergraduates; do not classify by a program keyword alone.
+This does not add graduate or professional-program support. Keep printed audience
+headings unchanged as provenance and the supported selection undergraduate-only.
+This audience decision does not establish university authenticity/current-year
+effectivity, source approval or activation. Preserve the known cutoff/conflict.
+
+Owner clarification,13October2026: supported student transactions include the
+vehicle-gatepass application process available to undergraduate students. The owner
+reports that students use this service and that staff also use it. Shared student/
+staff use does not exclude the undergraduate-facing procedure; select the relevant
+student clauses and retain shared requirements/actions needed for that procedure.
+Staff-only requirements or procedures remain outside the supported audience.
+This resolves the intended study scope for the student service. At intake, verify
+the memorandum's actual audience, requirements, authority and effectivity from
+the supplied originals. No gatepass document has been inspected or approved, and
+no specific fee, eligibility condition or procedure is inferred from this ruling.
 
 Preserve original titles/headings and complete source bytes for provenance.
 Separate a source's printed audience from the supported application audience.
