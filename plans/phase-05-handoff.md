@@ -5,10 +5,26 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: 093ea4a
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T19:09:55+08:00
+completed_at: 2026-10-14T20:45:00+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Provisional ranking closure:451docs/ledger tests and11subtests pass10.87s;
+phase state valid, advancement blocked.30file/five code-digest evidence seal:
+2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605.
+
+
+Latest completed experiment:2026-10-14-provisional-curriculum-ranking-report.md.
+Plan c92f51c; product remains093ea4a.36queryvectors reused/8source vectors encoded;
+12explicit-edition positives top1 and12complete contexts fit2048.6BSCS scope holds,
+18policy variants unranked.12controlled edition branches11top1; old-curriculum
+Taglish CC5 incorrectly ranks practicum first. Related32tests/52subtests pass;144
+dot products/360metrics/153citations/1302current hashes verified. No global threshold,
+source approval or activation. Next bounded offline course-identity diagnostic with
+TDD for any behavior change; school validation remains deferred, no new content
+verification needed for this diagnostic. Evidence stays ignored; original packets intact.
+
 
 Latest owner instruction supersedes blanket developmentwaits: provisional offline
 retrieval/testing with supplied public undergraduate-selected data is authorized

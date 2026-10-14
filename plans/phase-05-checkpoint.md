@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 178
+sequence: 180
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cb71438
-working_tree: four curated provisional ranking plan and ledger documents
-updated_at: 2026-10-14T20:34:00+08:00
+head_commit: c92f51c
+working_tree: six curated provisional ranking report and phase ledger documents
+updated_at: 2026-10-14T20:47:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Provisional curriculum ranking experiment complete; plan c92f51c, unchanged product
+093ea4a. Reused36queryvectors, encoded8source payloads (286–478tokens,7.000s).
+12explicit-edition positives expected top1;12complete contexts1242–1574tokens.
+6BSCS cases still need scope;18policy variants unranked. Controlled branches11/12
+expected course top1; old-BSCS TaglishCC5 ranks practicum first. No threshold chosen.
+Report:2026-10-14-provisional-curriculum-ranking-report.md; original/source states pending.
+
 
 Optional compactcitation formatter093ea4a verified; all8individual contexts fit2048,
 113citations unchanged. Final5212tests464subtests pass341.98s; one reviewer nofindings.
@@ -70,6 +78,11 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest experiment is complete and sealed. Next bounded offline course-identity
+diagnostic addresses old-curriculum Taglish CC5/practicum ranking mismatch.
+No new human source-content verification is needed for the completed run.
+
 
 Provisional offline curriculum ranking started from clean cb71438. Plan:
 2026-10-14-provisional-curriculum-ranking-plan.md. Reuse36queryvectors, encode8
@@ -1764,6 +1777,20 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Closure:451documentation/ledger tests and11subtests pass10.87s; phasevalidate0/
+canadvance1(expected blocked); diffcheck passes. Thirty generated files and five
+current product digests sealed; manifest SHA256:
+2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605.
+No product diff, dependency changes, source activation or new questions.
+
+
+Fresh provisional run:26.059s total,8source vectors encoded7.000s. Independent144
+dot products/360case metrics/12controlled branches/153citation bindings/36strings
+verified;1302current hashes and one historical code snapshot unchanged. Related
+32tests/52subtests pass1.71s. Checker first required optional span_id; corrected
+to nullable contract value, failure/corrected logs retained. No product code changed.
+
+
 Closure:435documentation/ledger tests and11subtests pass11.24s; phasevalidate0/
 canadvance1expectedblocked; diffcheckpasses. 25files/two currentcode digests
 sealed; SHA256:90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c.1273current hashes and one
@@ -2023,6 +2050,12 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Latest provisional curriculum run:30file seal
+2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605;
+five current product digests unchanged, source vectors match pinned query identity.
+1302current dependencies and one historical context-code snapshot verified unchanged.
+
+
 Latest 25file citationcontext seal90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c;
 code093ea4a/two currentcode digests and exacthistorical context.py snapshot retained.
 Existing modelconfiguration/externalassets unchanged; no downloads.
@@ -2105,6 +2138,12 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Observed candidate retrieval failure: exact Taglish CC5 question ranks old practicum
+above old CC5 even when the old curriculum is supplied as a controlled hypothesis.
+Actual sixBSCS questions still need curriculum clarification.18policy cases remain
+unranked pending applicability; formal Phase05 exit blocked. No new owner review ask.
+
+
 All36cases lack approvedrelease bindings/sourceauthorization; eighteenpolicy variants
 retain unknownapplicability, sixBSCS variants need studentcurriculum. These are pending
 readiness gates, not observedretrieval failures or empty rankings suitable for scoring.
@@ -2178,6 +2217,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Continue a bounded offline course-identity retrieval diagnostic for the old BSCS
+Taglish CC5 mismatch; compare against preserved cosine observations. Preserve all
+source fields/citations and curriculum clarification. Any new product behavior
+requires synthetic TDD and appropriate checks; no source judgment is needed now.
+School verification remains deferred; no repeated owner confirmation request.
+
 
 Run provisional offline candidate source embedding/ranking/evaluation for reviewed
 undergraduate-selected evidence using unchanged accepted queries. Keep unknownpolicy

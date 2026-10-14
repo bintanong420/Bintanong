@@ -32,19 +32,19 @@ source-gap policies. This is a bounded experiment inside Phase 05, not its exit 
 
 ## Tasks
 
-- [ ] Bind current vectors, candidate chunks, catalogue, original hashes, pending
+- [x] Bind current vectors, candidate chunks, catalogue, original hashes, pending
   registers and model manifest in ignored `audit-evidence/p05-provisional-curriculum-retrieval-20261014/`.
-- [ ] Encode eight document payloads without a query prompt; validate identity,
+- [x] Encode eight document payloads without a query prompt; validate identity,
   exact token lengths, 1024 finite dimensions and L2 normalization.
-- [ ] Record unfiltered observations for all 18 curriculum variants, then scoped
+- [x] Record unfiltered observations for all 18 curriculum variants, then scoped
   observations for the 12 eligible variants using `select_candidate_curriculum`.
   Keep six clarification cases and 18 policy cases outside numeric evaluation.
-- [ ] Run `evaluate_rankings` for k=3/5/8 and exploratory thresholds
+- [x] Run `evaluate_rankings` for k=3/5/8 and exploratory thresholds
   0/0.25/0.5/0.75/0.9; select no production threshold. Build complete scoped contexts
   using `build_context(..., compact_citations=True)` with exact 2048-token budgets.
-- [ ] Independently recompute scores/labels/citation bindings, verify source and
+- [x] Independently recompute scores/labels/citation bindings, verify source and
   historical preservation, run relevant existing tests, seal generated evidence.
-- [ ] Commit a concise report and updated checkpoint/progress/handoff/index with
+- [x] Commit a concise report and updated checkpoint/progress/handoff/index with
   measured limits and the exact next action. Product code remains unchanged unless
   an actual defect is discovered; any behavior fix then requires TDD and its checks.
 

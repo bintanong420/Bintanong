@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Provisional ranking closure:451docs/ledger tests and11subtests pass10.87s;
+phase state valid, advancement blocked.30file/five code-digest evidence seal:
+2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605.
+
+
+**Real provisional curriculum rankings recorded — 14 October 2026.**
+
+Plan c92f51c; product unchanged. Reused36queryvectors, encoded8reviewed rows.
+12explicit-edition positives rank their expected row first;12complete contexts
+fit2048 (1242–1574tokens). Six BSCS questions need curriculum clarification and
+18policy variants remain unranked. Controlled BSCS branches11/12top1: exact Taglish
+CC5 question incorrectly favors old practicum under the old-edition hypothesis.
+No query/gold/source changes or global threshold selection.32tests/52subtests pass;
+144dot products/360metrics/153citations/1302hashes verified. Report:
+2026-10-14-provisional-curriculum-ranking-report.md; all36questions/observations
+linked there. Next bounded course-identity diagnostic; schoolvalidation deferred.
+Owner reviews settled, no new human content verification required for this run.
+
+
 **Provisional curriculum ranking started — 14 October 2026.**
 
 Clean cb71438; bounded plan2026-10-14-provisional-curriculum-ranking-plan.md.
