@@ -7,9 +7,12 @@ import json
 import re
 
 from ...bintanong_contracts.source import Chunk, SourceSpan, check_chunk_binding
-from ...bintanong_contracts.reviewed_policy_context import render_reviewed_policy_context, make_source_limits
+from ...bintanong_contracts.reviewed_policy_context import (
+    render_reviewed_policy_context, make_source_limits, COMPACT_CONTEXT_FORMAT,
+)
 from .register import load_pending_register
 from .reviewed_policy import build_reviewed_policy_bundle
+from .reviewed_policy_chunks import build_reviewed_policy_chunks
 
 
 SCHEMA = 'bintanong-candidate-curriculum-catalogue-v1'
@@ -23,6 +26,42 @@ def _digest(value):
 
 def _text(value):
     return isinstance(value, str) and bool(value.strip()) and len(value) <= 2048
+
+
+def _replay_candidates(core, raw_chunks, pending_chunks, sources, events, versions):
+    """Rebuild IDs/row/page/metadata bindings through the original chunk builder."""
+    anchors = {}; headings = {}; dependencies = {}
+    by_id = {c['chunk_id']:c['type_fields']['reading_id'] for c in raw_chunks}
+    formats = {c['type_fields']['context_format'] for c in raw_chunks}
+    if len(formats)!=1:
+        raise ValueError('one candidate context format required')
+    for chunk in raw_chunks:
+        fields = chunk['type_fields']; identity = fields['reading_id']; spans = chunk['spans']
+        anchors[identity] = {}
+        for field in fields['field_associations']:
+            located = [spans[i] for i in field['span_indexes']]
+            name = field['name']
+            if field.get('field_kind')=='heading_metadata':
+                headings.setdefault(identity,{})[name] = {'reading_id':identity,'field_name':name,
+                    'source_sha256':chunk['byte_sha256'],'version_id':chunk['version_id'],
+                    'owner_event_sha256':field['event_sha256'],'confirmed_value':field['value'],
+                    'projection_kind':field['projection_kind'],'is_literal_scalar_quote':False,
+                    'literal_source_spans':located,
+                    'row_anchor_spans':[spans[i] for i in field['row_anchor_indexes']]}
+            else:
+                anchors[identity][name] = located
+        try:
+            dependencies[identity] = [by_id[i] for i in fields['required_neighbor_chunk_ids']]
+        except KeyError as exc:
+            raise ValueError('candidate requires unavailable neighboring evidence') from exc
+    replay = build_reviewed_policy_chunks(core,sources=sources,review_events=events,
+        source_versions=list(versions.values()),field_spans=anchors,required_readings=dependencies,
+        heading_metadata_bindings=headings or None,include_source_limits=True,
+        compact_context=next(iter(formats))==COMPACT_CONTEXT_FORMAT,
+        token_cap=pending_chunks.get('token_cap',480))
+    if replay['withheld'] or {c['type_fields']['reading_id']:c for c in replay['chunks']} != {
+            c['type_fields']['reading_id']:c for c in raw_chunks}:
+        raise ValueError('candidate differs from reproducible reviewed chunk identity or row binding')
 
 
 def prepare_candidate_curriculum_catalogue(bundle, pending_chunks, *, sources,
@@ -78,6 +117,7 @@ def prepare_candidate_curriculum_catalogue(bundle, pending_chunks, *, sources,
                     for e in row['preserved_evidence'])):
             raise ValueError('owner guidance is not bound to this source and reading')
         grouped.setdefault(row['version_id'], []).append((row, raw, owner_sha))
+    _replay_candidates(core,raw_chunks,pending_chunks,sources,review_events,versions)
     if not isinstance(version_assignments, dict) or set(version_assignments) != set(grouped):
         raise ValueError('exact supplied version assignments required')
     entries = []

@@ -94,3 +94,7 @@ skill scratch directories. Existing isolated p05 worktree remains; no install/do
   final related82tests132subtests pass2.04s. Task2 actual scope traces5programs/6versions/
   8chunks/46fields/18variants pass;1203previous hashes/registers unchanged.
 - Initial full predates final source-limit guard; final full/review/closure pending.
+- One fresh final review complete: one Important, zero Critical/Minor. Six mutation
+  subcases reproduced RED; one TDD correction pass replays original candidate
+  construction, GREEN83tests/138subtests2.52s. Actual catalogue/traces/source bindings
+  unchanged; full post-review run pending. No second review or deferred findings.

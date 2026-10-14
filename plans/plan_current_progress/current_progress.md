@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Candidate integrity review correction — 14 October 2026.**
+
+One final reviewer identified one Important integrity gap; six changed candidate
+bindings reproduced RED (six subfailures,0.67s). Replaying original chunk construction
+now checks IDs/pages/applicability/source labels/scope/token metadata. Related83tests/
+138subtests pass2.52s; actual8chunks/46fields/113spans/18scope traces/sixchecks and
+1203preserved hashes remain identical. Code baseline0767309; scoped review fix ready
+for commit. Earlier full5201/5202passed runs predate the final guard; post-review
+full suite running. No repeated human decisions, new source content, runtime wiring
+or activation. Next read final full result, seal evidence and close this candidate unit.
+
 Candidate curriculum selector implemented under plan0f06222. RED missing module1failed0.51s;
 known-source-limit omission regression1failed0.55s then GREEN. Related82passed132subtests
 2.04s. Actual5programs/6versions/8unchangedchunks/46fields,18multilingual scope traces:

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 167
+sequence: 168
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0f06222
-working_tree: five scoped candidate catalogue code/tests/ledger files
-updated_at: 2026-10-14T16:20:05+08:00
+head_commit: 0767309
+working_tree: two candidate integrity code/test fixes, three scoped ledger updates and an unstaged draft report
+updated_at: 2026-10-14T16:40:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -63,6 +63,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+One fresh final reviewer found one Important integrity gap: changed candidate IDs,
+citation pages and applicability references could survive preparation. Six mutation
+subcases reproduced RED (six subfailures,0.67s); original-builder replay now rejects
+identity/page/applicability/source-label/scope/token changes. Related83passed/
+138subtests2.52s; actual catalogue/18traces/sixchecks/1203hashes replay unchanged.
+Earlier full5201passed455subtests320.20s predates source-limit guard; second
+5202passed455subtests317.74s predates this review fix. Final post-review full running;
+no second review. Existing content/cohort decisions and source cutoffs remain settled.
+Scope thesis17–18/routing/master10/11 reconsulted after rollover, no discrepancy.
 
 Candidate curriculum selector implemented under plan0f06222. RED missing module1failed0.51s;
 known-source-limit omission regression1failed0.55s then GREEN. Related82passed132subtests

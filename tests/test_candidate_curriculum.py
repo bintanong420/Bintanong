@@ -184,5 +184,19 @@ class CandidateCurriculumTests(unittest.TestCase):
             'locator':{'physical_pages':[1],'field':'instruction'}}]
         with self.assertRaises(ValueError):self.prep()
 
+    def test_preparation_rejects_mutated_chunk_identity_citation_page_and_applicability_reference(self):
+        original=copy.deepcopy(self.chunks)
+        for change in ('identity','page','applicability','source_label','scope','token_count'):
+            with self.subTest(change=change):
+                self.chunks=copy.deepcopy(original)
+                if change=='identity':self.chunks[0]['chunk_id']='0'*64
+                elif change=='page':self.chunks[0]['spans'][0]['page']=99
+                elif change=='applicability':self.chunks[0]['type_fields']['applicability_basis_ref']='unbound'
+                elif change=='source_label':self.chunks[0]['source_label']='wrong.pdf'
+                elif change=='scope':self.chunks[0]['scope'].append('program:wrong')
+                else:self.chunks[0]['token_count']['count']=1
+                with self.assertRaises(ValueError):self.prep()
+        self.chunks=original
+
 
 if __name__=='__main__':unittest.main()
