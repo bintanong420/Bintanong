@@ -210,6 +210,44 @@ Practical branch workflow:
 
 This reduces overlapping edits and semantic drift; it cannot guarantee zero merge conflicts. Stable contracts and small changes matter more than matching the architecture PNG's boxes to individual screens.
 
+### Practical synchronization recipe — 14 October 2026
+
+Fresh live refs and GitHub comparison: dev `b0ba6d4`, frontend `727576d`, frontend five commits ahead/zero behind. Its upstream is correctly `origin/frontend`; the product trees match dev and the Phase 05 checkpoint matches its restored original. No upstream merge is currently needed. These are the pre-documentation-update refs, not permanent branch state.
+
+Keep `frontend` tracking `origin/frontend`. A plain `git pull` uses the configured upstream; it does not continuously follow dev. Fetch updates the remote-tracking refs, then an explicit merge of `origin/dev` brings those backend changes into the frontend branch. Do not change frontend's upstream to dev to simulate this relationship. Automatic editor fetching is useful; background automatic merging is not the recommended workflow because it can interrupt work and integrate unverified changes.
+
+Run the following deliberately, checking each command succeeds before continuing. Begin with a clean working tree and no staged changes; save current work in focused commits rather than merging over it.
+
+```powershell
+git switch frontend
+git status --short
+git fetch origin
+git merge --ff-only origin/frontend
+git log --oneline HEAD..origin/dev
+git diff --stat HEAD...origin/dev
+git merge --no-commit --no-ff origin/dev
+```
+
+If the status command lists changes, stop and preserve them first. If fast-forwarding from `origin/frontend` fails, local and remote frontend history need inspection; do not continue the remaining commands blindly or force-push. If the dev merge reports already up to date, there is no merge to commit. Otherwise `--no-commit --no-ff` lets the merged tree be inspected and tested before a merge commit is created, including when fast-forwarding would have been possible.
+
+Review contract/configuration changes and resolve conflicts deliberately. Stage only the exact conflict-resolution files. Run checks appropriate to the merged changes; for frontend changes use the existing build command when its authorized dependencies are available:
+
+```powershell
+npm --prefix frontend run build
+git diff --cached --stat
+git diff --cached --check
+git commit -m "chore(sync): merge dev into frontend"
+git push origin frontend
+```
+
+The build is not sufficient for backend/API changes: also run their relevant tests and verify the agreed transport behavior. Do not install missing dependencies or alter locks merely to run this recipe without the applicable owner instruction. Commit only after checks pass. Push is shown as the owner's publication step, not performed by this analysis. If an in-progress merge must be abandoned, `git merge --abort` returns toward the clean pre-merge state; starting clean is important for reliable recovery.
+
+Use this loop at the start of a work session, after a meaningful dev API/contract change, and before opening or updating a frontend-to-dev PR. Integrate completed frontend slices back into dev through small reviewed PRs rather than letting the entire interface accumulate on a long-lived branch. Frequent syncing reduces delayed integration; it does not prevent conflicts when both workstreams edit the same files or interpret an interface differently.
+
+Separate worktrees support simultaneous frontend/backend editing without switching a shared working directory. They share Git history/remote refs, but their files do not automatically merge. Keep frontend presentation, backend logic and shared contract/dependency ownership explicit. Frontend documentation remains in the brief/current progress; do not rewrite Phase 05's checkpoint to match frontend HEAD.
+
+This recommendation follows AGENTS' preservation, explicit staging, small verified commits and worktree rules, and master sections 16/20's typed interface and module ownership. It is an engineering workflow derived from those rules, not a branching requirement stated by the thesis or a formal Phase 11 start. Official references: [Git pull](https://git-scm.com/docs/git-pull), [Git merge](https://git-scm.com/docs/git-merge), [Git worktree](https://git-scm.com/docs/git-worktree).
+
 ## 10. What to leave out of the initial student design
 
 No enrollment/payment transactions, official COR generation, grade edits, university-record synchronization, persistent grade dashboard, institutional upload/publish controls, automatic policy acquisition, unrestricted general-chat mode, route selector, confidence meter or exposed internal reasoning. Exclude professional Medicine/Law, graduate, laboratory-school and staff-only workflows; undergraduate Nursing/Health Sciences remain in scope.

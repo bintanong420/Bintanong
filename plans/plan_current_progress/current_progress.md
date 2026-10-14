@@ -826,3 +826,26 @@ contracts; documentation diff/links and unchanged Phase 05 checkpoint hash check
 before commit. No runtime tests for this documentation refinement. Next: use the
 updated brief for Figma; agree public clarification/transport contracts before
 connecting the UI. Phase 05 checkpoint remains outside this frontend work.
+
+### 14 October 2026 — frontend synchronization guidance
+
+Owner asks how frontend can keep following dev and whether that fits Bintanong.
+Live remote refs and GitHub MCP comparison confirm pre-update frontend727576d
+five commits ahead/zero behind devb0ba6d4; configured upstream origin/frontend.
+No dev changes currently need merging. Documented clean-tree fetch, remote-frontend
+fast-forward, incoming-dev inspection and explicit no-commit/no-ff merge, followed
+by relevant checks, Conventional Commit and owner publication. Automatic fetching
+is useful; automatic merging is not recommended. Preserve shared branch history.
+
+Guidance aligns with AGENTS' isolated worktrees, preservation, explicit staging
+and small verified commits, plus master sections16/20 contracts/module ownership.
+The thesis does not prescribe a Git branching workflow. Separate worktrees prevent
+shared-directory interference but do not automatically merge changes. Small
+reviewed frontend-to-dev slices and shared contract ownership reduce long-lived
+divergence. Added commands/recovery/limits and official Git references to the brief.
+
+No merge, push, worktree/config/dependency/product change performed. Phase05
+checkpoint remains untouched and restored; verify its hash, documentation links
+and whitespace before the documentation commit. No runtime/build tests needed
+for this advisory documentation. Next: owner uses the documented sync loop when
+dev advances, and continues spec-grounded Figma preparation in parallel.
