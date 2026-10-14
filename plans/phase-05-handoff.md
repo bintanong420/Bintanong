@@ -5,10 +5,40 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: f9b1502
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T22:15:04+08:00
+completed_at: 2026-10-14T22:58:15+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Confirmed-policy closure:462docs/ledger tests11subtests pass10.76s; phasevalidate0/
+canadvance1(expectedblocked).37ignored evidence files/ten unchanged checkoutcode
+digests sealed; manifestSHA256:
+2947ec9fdf6f73c2a40a675a66b714af32efedd2997e7f9b1232e1d36fff3789.
+
+Five policy areas confirmed and applied for provisional undergraduate research;
+scope/plan463c351, productf9b1502 unchanged. Shared master's use or School of Law
+references do not exclude undergraduate-applicable clauses.13inactive candidates
+preserve37fields/39spans, complete5part overload/4part timing and all known gaps.
+1429prior hashes/original77unknown bundle/registers preserved.13policy payloads
+encoded locally113..466tokens;36query/eightcurriculum vectors reused.30scoped
+variants across10scenarios first expected primary top1;6BSCSscope holds remain.
+k3/threshold0.5: complete expected24/30 at2048tokens,30/30 at4096; full overload
+3186/timing2270 withheld intact at2048.4096stillhas12budget-gap cases for extras.
+99related tests/106subtests pass24.48s; independent verification no findings,
+756cosines/900primary measures/900context observations/33token counts checked.
+Report:2026-10-14-confirmed-policy-applicability-report.md. Owner audience decision
+is settled; schoolverification/sourceapproval/activation/formalPhase05exit pending.
+
+Preserve the confirmed selection, vectors and verified results; do not repeat
+audience/wording review or model encoding. Next bounded development: compact
+repeated context display metadata for complete groups under synthetic TDD while
+preserving every field/citation/gap, complete groups, chunk IDs and default behavior.
+Record a bounded implementation plan first; no new source-content decision is
+needed while all confirmed content is retained. Unsupported-query calibration
+requires separately presented owner-reviewed question proposals before testing;
+positive-only scores do not select a global threshold. School verification stays
+deferred under standing timing/activation boundaries; no Phase06 advancement.
+
 
 Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
 phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode

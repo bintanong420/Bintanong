@@ -1,5 +1,63 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Confirmed-policy closure:462docs/ledger tests11subtests pass10.76s; phasevalidate0/
+canadvance1(expectedblocked).37ignored evidence files/ten unchanged checkoutcode
+digests sealed; manifestSHA256:
+2947ec9fdf6f73c2a40a675a66b714af32efedd2997e7f9b1232e1d36fff3789.
+
+**Confirmed policy selection and retrieval verified — 14 October 2026.**
+
+Five policy areas confirmed and applied for provisional undergraduate research;
+scope/plan463c351, productf9b1502 unchanged. Shared master's use or School of Law
+references do not exclude undergraduate-applicable clauses.13inactive candidates
+preserve37fields/39spans, complete5part overload/4part timing and all known gaps.
+1429prior hashes/original77unknown bundle/registers preserved.13policy payloads
+encoded locally113..466tokens;36query/eightcurriculum vectors reused.30scoped
+variants across10scenarios first expected primary top1;6BSCSscope holds remain.
+k3/threshold0.5: complete expected24/30 at2048tokens,30/30 at4096; full overload
+3186/timing2270 withheld intact at2048.4096stillhas12budget-gap cases for extras.
+99related tests/106subtests pass24.48s; independent verification no findings,
+756cosines/900primary measures/900context observations/33token counts checked.
+Report:2026-10-14-confirmed-policy-applicability-report.md. Owner audience decision
+is settled; schoolverification/sourceapproval/activation/formalPhase05exit pending.
+
+Preserve the confirmed selection, vectors and verified results; do not repeat
+audience/wording review or model encoding. Next bounded development: compact
+repeated context display metadata for complete groups under synthetic TDD while
+preserving every field/citation/gap, complete groups, chunk IDs and default behavior.
+Record a bounded implementation plan first; no new source-content decision is
+needed while all confirmed content is retained. Unsupported-query calibration
+requires separately presented owner-reviewed question proposals before testing;
+positive-only scores do not select a global threshold. School verification stays
+deferred under standing timing/activation boundaries; no Phase06 advancement.
+
+
+**Confirmed policy retrieval executed; independent QA in progress — 14 October 2026.**
+
+13inactivepolicy chunks encoded locally(113..466tokens,9.205s);36queries/eight
+curriculumvectors reused.21candidate corpus/756cosines;30scopedvariants first
+expectedprimarytop1,6BSCSscope holds. Atk3threshold0.5 completeexpected24of30
+in2048versus30of30in4096. Whole overload3186/timing2270 do notfit2048; intact
+withholding retained. 17emittedstrings/33exacttrialcounts,900primarymetrics/900
+contextobservations. Largerbudgetstillrejects extras(12cases); no globalthreshold
+or unsupporteddetection result.99relatedtests106subtests pass24.48s.
+Independent verifier nowchecks sourceevent/gaps/groups/ranks/metrics/citations.
+Next finalreport/ledger/curatedcommit, then bounded fullgroup contextcompaction
+underTDD; sourceaudience confirmation is settled, schoolverification stilldeferred.
+
+
+**Confirmed policy selection applied as a separate candidate — 14 October 2026.**
+
+Plan463c351; exact eventbc25bd07a6debb4e8d6a1ca0592ccb1bd556942ed0f7bf0d4441e68c7e4d4800
+records owner confirmation/sharedmastersscope clarification. Derived13undergraduate
+readings emit13inactive chunks/0withheld through existingcontracts.37fields39spans,
+completeflowchart/timinggroups, sourcegaps and13payloadstrings exactly preserved.
+Historical77unknown bundle/pendingregisters and1429prior hashes unchanged. Next
+exact token validation and13new policyvectors using existing offlineassets, reuse
+36queries/eightcurriculumvectors, then measured30scopedcase retrieval/6BSCSholds.
+No sourceauthority/currentSY/activation or new source judgment inferred.
+
+
 **Owner confirms all five policy applicability areas — 14 October 2026.**
 
 Actual response accepts provisional undergraduate use with existing limitations;

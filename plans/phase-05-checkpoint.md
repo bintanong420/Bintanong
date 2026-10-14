@@ -2,16 +2,31 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 197
+sequence: 200
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 21a7b8f
-working_tree: confirmed scope rules/plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T22:34:56+08:00
+head_commit: 463c351
+working_tree: six curated confirmed policy closure documents; owner artifacts preserved
+updated_at: 2026-10-14T22:58:15+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Five policy areas confirmed and applied for provisional undergraduate research;
+scope/plan463c351, productf9b1502 unchanged. Shared master's use or School of Law
+references do not exclude undergraduate-applicable clauses.13inactive candidates
+preserve37fields/39spans, complete5part overload/4part timing and all known gaps.
+1429prior hashes/original77unknown bundle/registers preserved.13policy payloads
+encoded locally113..466tokens;36query/eightcurriculum vectors reused.30scoped
+variants across10scenarios first expected primary top1;6BSCSscope holds remain.
+k3/threshold0.5: complete expected24/30 at2048tokens,30/30 at4096; full overload
+3186/timing2270 withheld intact at2048.4096stillhas12budget-gap cases for extras.
+99related tests/106subtests pass24.48s; independent verification no findings,
+756cosines/900primary measures/900context observations/33token counts checked.
+Report:2026-10-14-confirmed-policy-applicability-report.md. Owner audience decision
+is settled; schoolverification/sourceapproval/activation/formalPhase05exit pending.
+
 
 Focused applicability packet prepared and independently verified; planab0aa3e.
 Fivependingareas/sixaccepted scenarios/13readings37fields39spans unchanged.
@@ -122,6 +137,11 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Close verified confirmed-policy report/ledger and evidence seal. No product changes.
+Actual thesis physical17–18 and routingPNG reconsulted after context rollover;
+master10/scope remain consistent. Following closure commit is discoverable from Git.
+
 
 Apply actual owner confirmation under2026-10-14-confirmed-policy-applicability-plan.md:
 record bound event, derive selected13readings/37fields39spans through existing
@@ -1764,6 +1784,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified scope/plan463c351; unchanged productf9b1502. Six explicit closure paths:
+confirmed plan/report, INDEX, checkpoint, blocked handoff and currentprogress.
+Owner artifacts/.gitkeep deletion and untracked backend/artifacts/ preserved.
+
+
 Verifiedcode093ea4a; six curated closurepaths:report/plan/INDEX/checkpoint/handoff/
 currentprogress. Code/tests alreadycommitted; private contexts/logs stayignored.
 Followingdocumentationcommit discoverable inGit; no push/cleanup.
@@ -1908,6 +1933,41 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Confirmed-policy closure:462docs/ledger tests11subtests pass10.76s; phasevalidate0/
+canadvance1(expectedblocked).37ignored evidence files/ten unchanged checkoutcode
+digests sealed; manifestSHA256:
+2947ec9fdf6f73c2a40a675a66b714af32efedd2997e7f9b1232e1d36fff3789.
+Initial Git-blob raw comparison refused source.py's checkoutCRLF; exact LF-normalized
+comparison confirms unchanged content, while seal retains exact raw checkout hashes.
+
+Independent confirmed-policy verifier PASS/no findings: exact event/payload/group/gap
+bindings,1429prior hashes,756cosines,900primary measurements/420aggregates,900context
+observations/214archived citations/6090citation instances and33exact tokens verified.
+99relatedtests/106subtests pass24.48s. No product changes; historical full5236suite
+evidence remains separate. Final documentation and phase checks recorded at closure.
+
+
+Real offline retrieval executed68.446s:13policyvectors113..466tokens encoded9.205s;
+36query/eightcurriculumvectors reused. 21candidatechunks/756dotproducts;30scoped
+variants firstexpectedprimary top1,6BSCSscopeholds unchanged. 900primarymetrics/
+900contextobservations;17distinct emittedstrings/33exact trialtoken counts.
+k3threshold0.5:2048completeexpected24of30(12of18policy);4096complete30of30
+(18of18policy). Full overload3186tokens/timing2270 withheldintact at2048;4096
+stillhas12caseswithrejected-extra budgetgaps. No invalidcontexts/globalthreshold.
+Related99tests106subtests pass24.48s; independent verifier now checking owner
+bindings/scores/metrics/citations/budgets/oldhashes. No productchange or newask.
+
+
+Actual owner eventbc25bd07a6debb4e8d6a1ca0592ccb1bd556942ed0f7bf0d4441e68c7e4d4800
+binds fiveareas/13readings/twosourcePDFs and shared-audience clarification. Derived
+selected13undergrad readings emit13inactive compact candidates/zero withheld.
+37fields39spans/13serializedpayloads/gaps exactly equal priorpreviews; complete
+5partflowchart and4parttiming rebuilt through existingcontracts. Original77unknown
+readings/pendingregisters/1429prior hashes unchanged. No productchange. Next exact
+local token checks/new13policyvectors and bounded ranking/context comparisons;
+reuse36queries/eightcurriculumvectors. No re-opened audience question.
+
 
 Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
 phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode
@@ -2285,6 +2345,12 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Exact owner event SHA256:
+bc25bd07a6debb4e8d6a1ca0592ccb1bd556942ed0f7bf0d4441e68c7e4d4800.
+Existing SEA-LION assets/configuration preserved; tenasset hashes independently
+verified. Evidence root:workspace/audit-evidence/p05-confirmed-policy-applicability-20261014/.
+
+
 Root dataset relocation:47files/41PDFs/24770707bytes unchanged.18file evidence seal
 7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.
 Raw relocation-map binds old/new paths; existing source/vector/event hashes retained.
@@ -2350,6 +2416,12 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Actual owner confirms all five policy areas with existing limitations. Shared
+master's use/Law references do not exclude applicable undergraduate provisions.
+Selection covers13readings, not whole PDFs or graduate/professional support.
+Historical pending packet retained; new bound event records settled selection.
+
+
 Owner confirms all five policy areas for provisional undergraduate research with
 existing limitations. Shared use with masters or SchoolofLaw references does not
 exclude undergraduate-applicable clauses; only specifically unsupported/inapplicable
@@ -2390,6 +2462,14 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Complete overload3186tokens/completion timing2270 do notfit2048 and are withheld
+intact.4096comparison recovers all expected evidence at k3/0.5 but rejects extras
+in12cases; unsupported detection/calibration still unmeasured.6BSCSscope holds
+remain. No new owner source judgment required for metadata compaction.
+Context reload: pypdf/fitz unavailable in existing environment; used installed
+pypdfium2 to read actual thesis17–18 without installation or content changes.
+
 
 Observed candidate retrieval failure: exact Taglish CC5 question ranks old practicum
 above old CC5 even when the old curriculum is supplied as a controlled hypothesis.
@@ -2470,6 +2550,17 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Preserve the confirmed selection, vectors and verified results; do not repeat
+audience/wording review or model encoding. Next bounded development: compact
+repeated context display metadata for complete groups under synthetic TDD while
+preserving every field/citation/gap, complete groups, chunk IDs and default behavior.
+Record a bounded implementation plan first; no new source-content decision is
+needed while all confirmed content is retained. Unsupported-query calibration
+requires separately presented owner-reviewed question proposals before testing;
+positive-only scores do not select a global threshold. School verification stays
+deferred under standing timing/activation boundaries; no Phase06 advancement.
+
 
 Obtain the focused owner response to five proposed undergraduate research areas
 in the verified START-HERE.md packet. Then record exact decision/sourcehash/
@@ -2907,6 +2998,11 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not reopen five-area undergraduate selection, shared-audience clarification,
+settled37field wording or known cutoff/deadline conflict. Reuse saved36query/eight
+curriculum/13policy vectors and exact verified evidence; no repeat conversion.
+
 
 Do not reopen accepted policy wording/12scenario expectations or ask for original
 cutoff continuation/deadline precedence. Current request concerns audience selection
