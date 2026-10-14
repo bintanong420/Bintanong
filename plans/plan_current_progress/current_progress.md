@@ -1,5 +1,27 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Prospectus question revision — 14 October 2026.**
+
+At clean 9ffeb9f, owner replaces Q2 with "Pwede ko bang kunin ang CC5 kahit bumagsak
+ako sa CC4?" for BSCS and requests more curriculum variety. Revised ignored packet:
+C:/Coding-projects/bintanong_workspace/audit-evidence/p05-mixed-development-review-20261014/QUESTIONS.md.
+12 scenarios/36 variants; Q1/3–7 unchanged, Q8–12 add Architecture, Nursing,
+Criminology, Tourism and BSCS practicum. Six originals/registers match; selected
+saved audits error/zero chunks, source approvals pending. CC5 prerequisites differ
+in 2018–2019 and proposed 2025–2026; clarify curriculum instead of universal refusal.
+Prior 29 sealed files/1,014 dependencies preserved. Expected evidence, new question
+judgment, production mapping and governance remain pending; no retrieval/rules/DB.
+Thesis 17–18/30/41–44/56–57 and master 10/11 consulted. Report:
+plans/2026-10-14-mixed-development-question-revision.md. Next owner judgment and
+selected source-row/governance recovery. Bounded prospectus preparation authorized;
+broader review and future college Charters/memos/miscellaneous organization remain
+deferred. No repeated conversions, incoming inspection, activation or Phase 06.
+
+Revision QA confirms exact retained questions/evidence and Q2 wording, all 1,014
+inputs unchanged; 19-file seal 7e800b2ada5ac7ebd008de32ac5918b31106a69a6793793bd1295f6aca8aecc6.
+Docs/ledger 421 tests/11 subtests pass in 10.69s; phase validation 0 and advancement
+1 (expected blocked). Curated six-document closure follows in Git.
+
 **Policy development scenario acceptance — 14 October 2026.**
 
 Resumed clean aad1497; previous compact-context closure confirmed. Seven scenarios/

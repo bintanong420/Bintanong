@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 154
+sequence: 155
 plan: plans/phase-05-retrieval-plan.md
-head_commit: aad1497
-working_tree: clean at aad1497; five scoped review documents close in the following Git commit
-updated_at: 2026-10-14T13:24:00+08:00
+head_commit: 9ffeb9f
+working_tree: clean at 9ffeb9f; six scoped mixed-question documents close in the following Git commit
+updated_at: 2026-10-14T13:45:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -59,6 +59,23 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner replaces Q2 with the exact BSCS CC5/failed-CC4 query and adds prospectus
+variety. Revised packet `p05-mixed-development-review-20261014/QUESTIONS.md`:
+12 groups/36 language variants; Q1/3–7 unchanged, Q8–12 proposed. Six curriculum
+sources/five undergraduate programs verified. CC5 prerequisites differ by old versus
+proposed edition; unknown curriculum requires clarification, no universal eligibility
+claim. Selected registers pending, saved audits error/zero chunks; prior 29-file
+packet and 1,014 dependencies unchanged. New question/evidence review, production
+span mapping and governance remain pending. See the mixed-question revision report.
+Thesis 17–18/30/41–44/56–57 and master 10/11 consulted. Bounded prospectus question
+preparation now authorized; broader review and incoming batch remain deferred.
+
+Separate packet validation confirms exact retained questions/evidence, Q2 replacement,
+12 groups/36 variants and all 1,014 preserved inputs. 19 files sealed at
+7e800b2ada5ac7ebd008de32ac5918b31106a69a6793793bd1295f6aca8aecc6.
+Docs/ledger: 421 tests/11 subtests pass in 10.69s; phase validation 0, advancement
+1 as expected. Question/document-only increment; no product or model execution.
 
 Resumed clean aad1497; compact-context closure confirmed. Prepared seven scenarios/
 21 en-tl-Taglish questions with exact evidence/8original-page images in ignored
@@ -1824,6 +1841,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: show revised 12 questions; record new-question/evidence judgments, then
+recover/review selected curriculum rows and actual authorization before retrieval.
+Q2 owner-requested; Q8–12 proposed; Q1/3–7 retain scenario acceptance. Do not
+repeat all 39 conversions, execute eligibility rules, activate or inspect incoming data.
 
 Current next action: show all language variants, then record actual owner decisions
 on evidence expectations and existing institutional authorization/applicability.

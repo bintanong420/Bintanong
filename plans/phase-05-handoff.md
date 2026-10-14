@@ -10,6 +10,16 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest owner revision: [mixed policy/prospectus questions](2026-10-14-mixed-development-question-revision.md).
+Q2 exact CC5/failed-CC4 query replaces the blank-percentage question; Q1/3–7
+retained, five new curriculum scenarios. 12 groups/36 variants, six originals/five
+undergraduate programs. CC5 prerequisites differ by old/proposed BSCS curriculum;
+unknown edition requires clarification, no universal eligibility claim. All six
+selected registers pending and saved audits error/zero chunks; prior 29-file packet
+and 1,014 dependencies preserved. Next owner new-question/evidence judgment and
+selected-row recovery/governance before retrieval. Bounded prospectus preparation
+authorized now; broader review/future batch still deferred, no activation/Phase 06.
+
 Current14October2026 continuation: [development scenario review](2026-10-14-policy-development-review-preparation.md).
 Clean aad1497 confirms prior documentary closure. Seven scenarios/21en-tl-Taglish
 questions prepared with14selected readings/8original-page images. Owner accepts
