@@ -32,18 +32,18 @@ synthetic identifiers without proposing new owner benchmark scenarios.
 
 ## Work and verification
 
-- [ ] Correct the previous report's exact-query/Taglish-paraphrase attribution;
+- [x] Correct the previous report's exact-query/Taglish-paraphrase attribution;
   preserve original observations and record correction in checkpoint/progress.
-- [ ] Build an ignored eight-row identity view only from reviewed course-code
+- [x] Build an ignored eight-row identity view only from reviewed course-code
   fields; record source spans and explicit formatting rules, no candidate mutation.
-- [ ] Replay the existing six CC5 edition branches with researcher target hint
+- [x] Replay the existing six CC5 edition branches with researcher target hint
   `CC5`, then reuse cosine order inside allowed identities. Compare to edition-only
   baseline. Test unknown-code, prerequisite-code and wrong-program controls plus
   ambiguity with no curriculum; do not relabel controls as approved benchmark cases.
-- [ ] Independently check row/code/span bindings, score reuse, question attribution,
+- [x] Independently check row/code/span bindings, score reuse, question attribution,
   unchanged existing 12-positive rankings and all prior sealed artifacts. Preserve
   complete prior contexts and scores; no claims of broad multilingual accuracy.
-- [ ] Record measured findings, remaining automatic target identification work and
+- [x] Record measured findings, remaining automatic target identification work and
   explicit next action. Verify documentation/phase ledger, seal ignored evidence,
   commit curated report/index/checkpoint/handoff/progress.
 

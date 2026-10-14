@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 181
+sequence: 183
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0456ba6
-working_tree: five curated query attribution correction and diagnostic plan documents
-updated_at: 2026-10-14T20:55:00+08:00
+head_commit: 01d30b7
+working_tree: six curated course-identity report and phase ledger documents
+updated_at: 2026-10-14T21:01:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Course identity diagnostic complete, plan01d30b7; product unchanged093ea4a.
+Reviewed course-code field filter improves controlled CC5 branches5/6 to6/6.
+8identity rows/13source spans/6complete contexts/78citations verified;11executed technical
+controls pass; one role-handling design case recorded;1333dependencies/prior30file seal unchanged. Actual6BSCS questions
+still need curriculum scope. Report:2026-10-14-course-identity-diagnostic-report.md.
+Exact thesis question ranks CC5 first; mismatch belongs to approved Taglish paraphrase.
+
 
 Provisional curriculum ranking experiment complete; plan c92f51c, unchanged product
 093ea4a. Reused36queryvectors, encoded8source payloads (286–478tokens,7.000s).
@@ -78,6 +86,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest course diagnostic complete; next reusable offline course-selector unit under
+synthetic TDD, bind through existing reviewed preparation and accept explicit target
+hint. Preserve default selector/unknown curriculum, no free-text role guess or activation.
+No new human content verification required; schoolvalidation still deferred.
+
 
 Course identity diagnostic begins from clean0456ba6; plan:
 2026-10-14-course-identity-diagnostic-plan.md. Prior report attributed Taglish
@@ -1786,6 +1800,19 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Course-diagnostic closure:453documentation/ledger tests and11subtests pass10.80s;
+phasevalidate0/canadvance1(expected blocked).24file/five unchanged product-digest
+seal f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
+Exact commands/scripts/logs in2026-10-14-course-identity-diagnostic-report.md.
+No product change or fresh product full-suite claim. Diffcheck passes.
+
+
+Fresh independent course diagnostic:8rows/13course-code spans/6score-reuse checks/
+6complete contexts/78citations/11executed controls verified; one role-design case recorded;1333hashes/six originals
+unchanged. Exact-query/paraphrase attribution corrected and bound to recorded strings.
+No product code or vectors changed; existing12positive rankings retained.
+
+
 Closure:451documentation/ledger tests and11subtests pass10.87s; phasevalidate0/
 canadvance1(expected blocked); diffcheck passes. Thirty generated files and five
 current product digests sealed; manifest SHA256:
@@ -2059,6 +2086,11 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Latest course identity diagnostic:24file seal
+f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
+Five product digests unchanged from preceding run;1333inputs preserved.
+
+
 Latest provisional curriculum run:30file seal
 2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605;
 five current product digests unchanged, source vectors match pinned query identity.
@@ -2226,6 +2258,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Implement bounded reusable offline candidate course selection under synthetic TDD;
+prepare source-code index through existing fully reviewed curriculum contract, then
+filter explicitly supplied target hint after curriculum selection. Retain printed
+codes/field provenance/full payloads; no prerequisite-as-target or edition inference.
+Source-binding/unknown-code/ambiguous-scope/default-compatibility tests required.
+
 
 Continue a bounded offline course-identity retrieval diagnostic for the old BSCS
 Taglish CC5 mismatch; compare against preserved cosine observations. Preserve all

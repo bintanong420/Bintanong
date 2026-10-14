@@ -5,10 +5,25 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: 093ea4a
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T20:45:00+08:00
+completed_at: 2026-10-14T20:58:00+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Course-diagnostic closure:453docs/ledger tests and11subtests pass10.80s;
+phasevalidate0/canadvance1(expected blocked).24file/five unchanged code-digest seal:
+f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
+
+
+Latest course-identity diagnostic, plan01d30b7/report2026-10-14-course-identity-
+diagnostic-report.md: controlled CC5 branches5/6 to6/6 using explicit researcher
+course hints and unchanged cosine.6complete contexts/78citations fit2048;1333hashes
+unchanged. No product/code/vector/runtime change. Exact thesis wording ranked CC5
+first; earlier report incorrectly attributed Taglish paraphrase scores to that wording,
+corrected01d30b7. Next reusable offline course-selector preparation/filter under TDD,
+retain scope clarification/source bindings and default behavior. No new human content
+verification needed; schoolvalidation deferred and formalphase gates remain blocked.
+
 
 Provisional ranking closure:451docs/ledger tests and11subtests pass10.87s;
 phase state valid, advancement blocked.30file/five code-digest evidence seal:

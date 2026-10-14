@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Course-diagnostic closure:453docs/ledger tests and11subtests pass10.80s;
+phasevalidate0/canadvance1(expected blocked).24file/five unchanged code-digest seal:
+f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
+
+
+**Course identity diagnostic verified — 14 October 2026.**
+
+Plan01d30b7; product unchanged. Reviewed target-course field matching improves
+existing controlled CC5 branches5/6 to6/6, using explicit researcher target hints.
+Six complete contexts1209/1680tokens retain78citations.8identity rows/13source spans,
+11executed controls/one role-design case and1333preserved hashes verified; no new vectors/questions.
+Exact thesis query already ranked CC5 first; failed wording was the approved Taglish
+paraphrase. Actual6BSCS questions still require curriculum;18policy variants unranked.
+Report2026-10-14-course-identity-diagnostic-report.md links exact queries/results.
+Next bounded reusable offline course selector under TDD; automatic role extraction
+and activation remain separate. No new human review needed; schoolvalidation deferred.
+
+
 **Course identity diagnostic and report correction — 14 October 2026.**
 
 Clean0456ba6. Exact thesis query is case-tl and ranked oldCC5 first; mismatch
