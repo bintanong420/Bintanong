@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Offline course selector resumed — 14 October 2026.**
+
+Verified baseline87f2b81; stale checkpoint metadata reconciled. Read AGENTS, both
+handoff skills, active phase records and actual thesis17–18/routingPNG/master10.
+No scope discrepancy. Next synthetic TDD for reviewed course identity preparation
+and explicit target filtering after curriculum selection, per dated selector plan.
+Preserve owner artifacts changes, pending source status and settled reviews.
+
+
 Dataset cleanup closure:454docs/ledger tests and11subtests pass10.72s;
 phasevalidate0/canadvance1(expected blocked).18file evidence seal:
 7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.

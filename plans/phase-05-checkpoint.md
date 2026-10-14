@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 186
+sequence: 187
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 90fed07
-working_tree: twelve curated relocation/context files; owner artifact changes preserved
-updated_at: 2026-10-14T21:22:00+08:00
+head_commit: 87f2b81
+working_tree: course-selector plan/checkpoint/progress; owner artifacts deletion and backend/artifacts preserved
+updated_at: 2026-10-14T21:29:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -95,6 +95,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resumed at verified87f2b81. Implement the offline course selector described in
+2026-10-14-offline-course-selector-plan.md, with synthetic RED/GREEN and existing
+reviewed preparation replay. Actual thesis17–18/routingPNG/master10 and previous
+Phase04 handoff consulted; no discrepancy. Preserve owner artifact changes.
+GitHub MCP remote p05=f10d5cd; no synchronization or push requested.
+
 
 Requested dataset cleanup/context preservation complete; verify/commit curated files
 only. Owner reiterates dataset must never be pushed: root/dataset ignored, all47
