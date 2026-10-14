@@ -1,5 +1,37 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Human-review rule and owner selection verified — 14 October 2026.**
+
+Owner-decision application verified. Workflow06f6eef adds AGENTS human review;
+full footer389exacttokens, printed2021metadata and allfourpriorcoverfields/spans
+preserved. Charter103step3/all76otherreadings remain exactlyunchanged, cutoff kept.
+One fresh review: no Critical/Important/Minor,66.46s,exit0; both adapteroutputs,
+full originalrender/imagebinding, all77exactcounts and899inputhashes checked.
+77unknown/0chunks,264selectedfields/29blanks/232spans/sevengaps; Charter563sole
+remainingmetadataoverflow, no furtherpartitiontrial.21files/sixcode digests sealed:
+3dae40fb870d70bf408a6317a03cd905636d5c433663cfdb494803480d106eb5.
+Related78tests/117subtests pass1.22s; docs398pass5.60s; phasevalidate0/canadvance1
+expectedblocked. Productcode unchanged. Five curated closure paths only; rawsource/
+evidence artifacts remainignored. Next technical metadata correction underTDD,
+preserving source wording/fullstored evidence and no repeated content question.
+
+
+**Owner selection applied; Charter unchanged — 14 October 2026.**
+
+Owner selection applied — 14 October2026. Workflowrule commit06f6eef; no product
+code edits. Footer389exacttokens (previous539), printed2021 retained as metadata;
+full oldfourcoverfields/fourspans/oldcurrentnessgap preserved in hashedsidecar.
+All76other readings/previews and Charter103step3 originalfields/cutoff/gap are
+unchanged.77unknown/0chunks,264selectedfields/29blanks/232selectedspans/sevenlogical
+gaps; counts changed from267/235 becausefourcoverfields becameonecompletefooter,
+not because original evidence was discarded.899priorobserved hashes unchanged.
+Related78tests/117subtests pass1.22s; initialdocs398pass0.90s. One independent
+review pending. Charterstill563exacttokens frommetadata wrapper; no furtherpartition
+trial. Next preserve source asowner instructed and implement compatible technical
+metadata correction underTDD, without new source-content choices or gap repair.
+Futureincomingbatch/sourceapproval/development labels and Phase05 gates unchanged.
+
+
 **Owner source decisions and human-in-the-loop rule — 14 October 2026.**
 
 Owner decisions,14 October2026: preserve Charter103step3 fields/gap exactly;

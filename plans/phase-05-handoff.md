@@ -10,6 +10,19 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Current owner decision14October2026: [source-handling record](2026-10-14-owner-source-handling-decisions.md).
+AGENTS human-in-the-loop rule committed06f6eef. Preserve original Charter103step3
+and cutoff; no reconstruction or further equivalent partition trial. Owner selects
+full handbook approval footer (389exacttokens); printed2021 remains metadata, with
+all four previous cover fields/spans/gap retained in a hashed sidecar.77unknown/
+0chunks,264selectedfields/29blanks/232selectedspans/sevenlogicalgaps. Other76rows/
+previews unchanged. Charter563exacttokens remains a technical wrapper issue; next
+compatible metadata correction underTDD, keeping full stored evidence/cutoffwarning.
+Fresh independent review no findings;21files sealed/899prior hashes preserved;
+78relatedtests/117subtests and398docs pass. Productcode unchanged.
+No sourceapproval/effectivity/activation/Phase06 or incoming-batch processing.
+Earlier sizing attempts below are preserved history, not repeated next actions.
+
 Current diagnostic14October2026: [exact token readiness](2026-10-14-reviewed-policy-token-readiness-report.md).
 The accepted structural derivative remains77unknown/0chunks,267fields/29blanks/
 235spans/sevenlogicalgaps. Exact SEA-LION sizing finds563/539tokens above512.

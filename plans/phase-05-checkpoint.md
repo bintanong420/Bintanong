@@ -2,16 +2,19 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 144
+sequence: 146
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ddefd23
-working_tree: AGENTS owner-decision record and checkpoint-progress preparation
-updated_at: 2026-10-14T10:02:53+08:00
+head_commit: 06f6eef
+working_tree: five curated owner-decision closure documents; product code unchanged
+updated_at: 2026-10-14T10:12:53+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner-selected full cover footer and human-review workflow verified; see
+2026-10-14-owner-source-handling-decisions.md and workflowcommit06f6eef.
 
 Exact-token diagnostic complete — 14 October 2026. Plan354b7b0; product code
 unchanged. Baseline77unknown/0chunks: exact111..563; pre-enrollmentstep3=563 and
@@ -53,6 +56,32 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner-decision application verified. Workflow06f6eef adds AGENTS human review;
+full footer389exacttokens, printed2021metadata and allfourpriorcoverfields/spans
+preserved. Charter103step3/all76otherreadings remain exactlyunchanged, cutoff kept.
+One fresh review: no Critical/Important/Minor,66.46s,exit0; both adapteroutputs,
+full originalrender/imagebinding, all77exactcounts and899inputhashes checked.
+77unknown/0chunks,264selectedfields/29blanks/232spans/sevengaps; Charter563sole
+remainingmetadataoverflow, no furtherpartitiontrial.21files/sixcode digests sealed:
+3dae40fb870d70bf408a6317a03cd905636d5c433663cfdb494803480d106eb5.
+Related78tests/117subtests pass1.22s; docs398pass5.60s; phasevalidate0/canadvance1
+expectedblocked. Productcode unchanged. Five curated closure paths only; rawsource/
+evidence artifacts remainignored. Next technical metadata correction underTDD,
+preserving source wording/fullstored evidence and no repeated content question.
+
+Owner selection applied — 14 October2026. Workflowrule commit06f6eef; no product
+code edits. Footer389exacttokens (previous539), printed2021 retained as metadata;
+full oldfourcoverfields/fourspans/oldcurrentnessgap preserved in hashedsidecar.
+All76other readings/previews and Charter103step3 originalfields/cutoff/gap are
+unchanged.77unknown/0chunks,264selectedfields/29blanks/232selectedspans/sevenlogical
+gaps; counts changed from267/235 becausefourcoverfields becameonecompletefooter,
+not because original evidence was discarded.899priorobserved hashes unchanged.
+Related78tests/117subtests pass1.22s; initialdocs398pass0.90s. One independent
+review pending. Charterstill563exacttokens frommetadata wrapper; no furtherpartition
+trial. Next preserve source asowner instructed and implement compatible technical
+metadata correction underTDD, without new source-content choices or gap repair.
+Futureincomingbatch/sourceapproval/development labels and Phase05 gates unchanged.
 
 Owner decisions,14 October2026: preserve Charter103step3 fields/gap exactly;
 no reconstruction of unavailable continuation. Select complete handbook approval
@@ -1247,6 +1276,9 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Workflowrule06f6eef committed; five curated owner-decision closure documents only.
+Product code unchanged and no source/artifact staging. Documentary SHA follows inGit.
+
 Current code354b7b0 has no product edits; seven curated readiness documents close
 this diagnostic. Do not stage packet previews, source text, original renders or logs.
 
@@ -1366,6 +1398,19 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Owner-decision application verified. Workflow06f6eef adds AGENTS human review;
+full footer389exacttokens, printed2021metadata and allfourpriorcoverfields/spans
+preserved. Charter103step3/all76otherreadings remain exactlyunchanged, cutoff kept.
+One fresh review: no Critical/Important/Minor,66.46s,exit0; both adapteroutputs,
+full originalrender/imagebinding, all77exactcounts and899inputhashes checked.
+77unknown/0chunks,264selectedfields/29blanks/232spans/sevengaps; Charter563sole
+remainingmetadataoverflow, no furtherpartitiontrial.21files/sixcode digests sealed:
+3dae40fb870d70bf408a6317a03cd905636d5c433663cfdb494803480d106eb5.
+Related78tests/117subtests pass1.22s; docs398pass5.60s; phasevalidate0/canadvance1
+expectedblocked. Productcode unchanged. Five curated closure paths only; rawsource/
+evidence artifacts remainignored. Next technical metadata correction underTDD,
+preserving source wording/fullstored evidence and no repeated content question.
 
 Exact-token diagnostic complete — 14 October 2026. Plan354b7b0; product code
 unchanged. Baseline77unknown/0chunks: exact111..563; pre-enrollmentstep3=563 and
@@ -1552,6 +1597,9 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Owner-footer packet21files/sixcode digests: 3dae40fb870d70bf408a6317a03cd905636d5c433663cfdb494803480d106eb5.
+Unchanged approvedPython3.13.7/externalmodel/offlineconfiguration.
+
 New readiness seal37files/sixcode digests: 7550fc07cb5d5e8448ea70629a822b7e995af6053129986db760dca71d1a187f.
 Unchanged external SEA-LION weightsdf5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1.
 
@@ -1593,6 +1641,10 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Current: footer now389tokens; only Charter103step3wrapper563 remains over512. Original
+cutoff is accepted as an unresolved source defect, not something to reconstruct.
+Sourcegovernance/unknownapplicability/approveddevelopment retrieval gates remain.
 
 Current exact sizing: two77baseline overflows563/539; failed81trialfourparts over512.
 Do not confuse earlier estimate-fit delivery with encoder-fit or source approval.
@@ -1644,6 +1696,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current owner-directed next action: preserve Charter row/cutoff and all source data;
+correct repeated technical metadata in encoder input under compatible syntheticTDD,
+keeping full stored validation and the displayed source limitation. Footer selection
+is complete; do not repeat equivalent partitions or ask for the missing ending.
+New source-content decisions require original evidence and human judgment perAGENTS.
 
 Authoritative next action: bounded TDD for compatible compaction of manifest display,
 retaining full stored bindings/manifests/limits, original gap checks and legacy
