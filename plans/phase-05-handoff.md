@@ -10,6 +10,26 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest14October2026: [compact context report](2026-10-14-compact-reviewed-context-report.md).
+Compact context closed — 14 October2026. Plan5b5c14b, code03f757f/fix2437f28:
+opt-in pairedv2markers, defaultv1 savedoutputs unchanged, fullstored fields/limits/
+manifests preserved and bound by evidence_sha256. Full5165passed/377subtests/
+6skips/6warnings308.86s,exit0; related102/125subtests1.96s; ledger19/11.410s.
+One finalreview2Important/noCriticalorMinor; both reproducedRED andfixed inonepass,
+9GREEN/19subtests0.56s, no secondreview/deferredfindings. Correctedactualreplay24.08s:
+all77previews111..466tokens, Charter466/footer292, nooverflows/truncation/vectors.
+264fields/29blanks/232spans/sevenlogicalgaps/tenprojectedparts unchanged,77unknown/
+0chunks; originalChartercutoff/footer/yearmetadata choices remain.917inputhashes
+unchanged; four intentionalcode revisions retain exacthistorical snapshots.
+47files/sevencode digests sealed:
+ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+Next actualsource-governance/approveddevelopment-case evidence and retrieval
+calibration, preserving unknowns and existing approval boundaries. Do not repeat
+answered source reviews, unavailable-ending reconstruction, equivalent partitions,
+completedmetadatafix or originalconversions. No incomingprocessing/activation/Phase06.
+
+Earlier sizing/technical-next-action pointers below are completed history.
+
 Current owner decision14October2026: [source-handling record](2026-10-14-owner-source-handling-decisions.md).
 AGENTS human-in-the-loop rule committed06f6eef. Preserve original Charter103step3
 and cutoff; no reconstruction or further equivalent partition trial. Owner selects

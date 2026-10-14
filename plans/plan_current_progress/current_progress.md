@@ -1,5 +1,27 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Final documentary checks:400passed1.31s; phasevalidateexit0/can-advanceexit1(expectedblocked). All47sealed file hashes/sizes, seven code digests and manifest hash match; gitdiffcheck passes. Seven curated paths only; documentary commit follows inGit.
+
+**Compatible compact context complete — 14 October 2026.**
+
+Compact context closed — 14 October2026. Plan5b5c14b, code03f757f/fix2437f28:
+opt-in pairedv2markers, defaultv1 savedoutputs unchanged, fullstored fields/limits/
+manifests preserved and bound by evidence_sha256. Full5165passed/377subtests/
+6skips/6warnings308.86s,exit0; related102/125subtests1.96s; ledger19/11.410s.
+One finalreview2Important/noCriticalorMinor; both reproducedRED andfixed inonepass,
+9GREEN/19subtests0.56s, no secondreview/deferredfindings. Correctedactualreplay24.08s:
+all77previews111..466tokens, Charter466/footer292, nooverflows/truncation/vectors.
+264fields/29blanks/232spans/sevenlogicalgaps/tenprojectedparts unchanged,77unknown/
+0chunks; originalChartercutoff/footer/yearmetadata choices remain.917inputhashes
+unchanged; four intentionalcode revisions retain exacthistorical snapshots.
+47files/sevencode digests sealed:
+ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+Next actualsource-governance/approveddevelopment-case evidence and retrieval
+calibration, preserving unknowns and existing approval boundaries. Do not repeat
+answered source reviews, unavailable-ending reconstruction, equivalent partitions,
+completedmetadatafix or originalconversions. No incomingprocessing/activation/Phase06.
+
+
 **Final compact context verification passed — 14 October 2026.**
 
 Final corrected fullsuite5165passed/377subtests/6skips/6warnings308.86s,exit0.

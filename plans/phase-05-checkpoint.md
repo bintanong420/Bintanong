@@ -2,16 +2,19 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 152
+sequence: 153
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 03f757f
-working_tree: verified integrity correction/tests and checkpoint-progress closure preparation
-updated_at: 2026-10-14T10:40:12+08:00
+head_commit: 2437f28
+working_tree: seven curated compact-context closure documents; code and tests committed
+updated_at: 2026-10-14T10:42:04+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Compact codec03f757f/fix2437f28 complete; final5165tests/377subtests pass,
+all77selected inactivepreviews nowfit512 without source changes.
 
 Owner-selected full cover footer and human-review workflow verified; see
 2026-10-14-owner-source-handling-decisions.md and workflowcommit06f6eef.
@@ -56,6 +59,25 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Final documentary checks:400passed1.31s; phasevalidateexit0/can-advanceexit1(expectedblocked). All47sealed file hashes/sizes, seven code digests and manifest hash match; gitdiffcheck passes. Seven curated paths only; documentary commit follows inGit.
+
+Compact context closed — 14 October2026. Plan5b5c14b, code03f757f/fix2437f28:
+opt-in pairedv2markers, defaultv1 savedoutputs unchanged, fullstored fields/limits/
+manifests preserved and bound by evidence_sha256. Full5165passed/377subtests/
+6skips/6warnings308.86s,exit0; related102/125subtests1.96s; ledger19/11.410s.
+One finalreview2Important/noCriticalorMinor; both reproducedRED andfixed inonepass,
+9GREEN/19subtests0.56s, no secondreview/deferredfindings. Correctedactualreplay24.08s:
+all77previews111..466tokens, Charter466/footer292, nooverflows/truncation/vectors.
+264fields/29blanks/232spans/sevenlogicalgaps/tenprojectedparts unchanged,77unknown/
+0chunks; originalChartercutoff/footer/yearmetadata choices remain.917inputhashes
+unchanged; four intentionalcode revisions retain exacthistorical snapshots.
+47files/sevencode digests sealed:
+ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+Next actualsource-governance/approveddevelopment-case evidence and retrieval
+calibration, preserving unknowns and existing approval boundaries. Do not repeat
+answered source reviews, unavailable-ending reconstruction, equivalent partitions,
+completedmetadatafix or originalconversions. No incomingprocessing/activation/Phase06.
 
 Final corrected fullsuite5165passed/377subtests/6skips/6warnings308.86s,exit0.
 Ledger19passed11.410s. Review2Important reproducedRED andfixed inonepass with
@@ -1331,6 +1353,9 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Code2437f28 committed; seven curated closure docs only. No private/source/raw
+artifacts staged. Localbranch/worktree/evidence preserved; no push.
+
 Workflowrule06f6eef committed; five curated owner-decision closure documents only.
 Product code unchanged and no source/artifact staging. Documentary SHA follows inGit.
 
@@ -1453,6 +1478,23 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Compact context closed — 14 October2026. Plan5b5c14b, code03f757f/fix2437f28:
+opt-in pairedv2markers, defaultv1 savedoutputs unchanged, fullstored fields/limits/
+manifests preserved and bound by evidence_sha256. Full5165passed/377subtests/
+6skips/6warnings308.86s,exit0; related102/125subtests1.96s; ledger19/11.410s.
+One finalreview2Important/noCriticalorMinor; both reproducedRED andfixed inonepass,
+9GREEN/19subtests0.56s, no secondreview/deferredfindings. Correctedactualreplay24.08s:
+all77previews111..466tokens, Charter466/footer292, nooverflows/truncation/vectors.
+264fields/29blanks/232spans/sevenlogicalgaps/tenprojectedparts unchanged,77unknown/
+0chunks; originalChartercutoff/footer/yearmetadata choices remain.917inputhashes
+unchanged; four intentionalcode revisions retain exacthistorical snapshots.
+47files/sevencode digests sealed:
+ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+Next actualsource-governance/approveddevelopment-case evidence and retrieval
+calibration, preserving unknowns and existing approval boundaries. Do not repeat
+answered source reviews, unavailable-ending reconstruction, equivalent partitions,
+completedmetadatafix or originalconversions. No incomingprocessing/activation/Phase06.
 
 Owner-decision application verified. Workflow06f6eef adds AGENTS human review;
 full footer389exacttokens, printed2021metadata and allfourpriorcoverfields/spans
@@ -1652,6 +1694,9 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Compactpacket47files/seven currentcode digests: ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+ExistingPython3.13.7/offlineassets/externalMODELS unchanged; modelbinding inpacket.
+
 Owner-footer packet21files/sixcode digests: 3dae40fb870d70bf408a6317a03cd905636d5c433663cfdb494803480d106eb5.
 Unchanged approvedPython3.13.7/externalmodel/offlineconfiguration.
 
@@ -1696,6 +1741,11 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Current selectedcodec sizing has zero overflows; Charter466/footer292/maximum466.
+All77unknown applicability/zerochunks remain; actual source governance and approved
+policydevelopment retrieval/calibration gates remain. Source defects unchanged.
+Earlier two-overflow/metadatafix-next entries below are historical, not activework.
 
 Current: footer now389tokens; only Charter103step3wrapper563 remains over512. Original
 cutoff is accepted as an unresolved source defect, not something to reconstruct.
@@ -1751,6 +1801,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Authoritative next action: actual source-governance and approved policydevelopment
+case evidence, then retrieval/calibration. Use actual available authorization and
+labels; preserve unknown currentness/applicability and known gaps. Do not repeat
+completed codec fixes, answered source comparisons or unavailable-ending requests.
+Incomingbatch/organization request remains later; no activation/Phase06 fromcounts.
 
 Current owner-directed next action: preserve Charter row/cutoff and all source data;
 correct repeated technical metadata in encoder input under compatible syntheticTDD,
@@ -2071,6 +2127,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not repeat compact codec03f757f/2437f28, focused/full verification, exact77replay,
+source conversions, equivalent partitions or original-content questions settled by
+owner. Preserve47file seal/preliminary logs/historicalcode snapshots; no secondreview.
 
 Do not repeat completed recordpartition code/tests/review/source renders/conversions.
 Preserve sealed34files and809priorhashes; no secondreview or invented source content,

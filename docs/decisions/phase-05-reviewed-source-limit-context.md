@@ -107,3 +107,29 @@ gap checks. Preserve legacy validation and version the new representation before
 use. Synthetic TDD and exact sizing must precede any delivery claim. Risk if wrong:
 metadata compaction could weaken completeness or hide a limitation. No code change
 is delivered by this diagnostic; source approval and Phase05 exit remain separate.
+
+## Versioned compact text with full evidence integrity
+
+14 October2026: opt-in v2 (`compact_context=True` with source-limit context) removes
+repeated display metadata and full record manifests, preserving full stored fields,
+limits/manifests and visible warnings/claims/locators. v1 remains the default and
+saved plain/v1 results remain identical. Paired format/chunker markers are required;
+invalid marked records cannot fall back to raw source text.
+
+Fresh review exposed missing-manifest and valid-contained-fragment substitutions
+that could leave initial v2 text unchanged. Both regressions were reproduced RED.
+Ruling: include one evidence_sha256 over canonical full stored source_limits and
+service_group whenever either exists. Consumer regeneration binds all omitted
+metadata to text and keeps the prior integrity checks. The hash is not source
+approval or protection against coordinated replacement of both data and text.
+One correction pass; both GREEN, no second review. Preserve preliminary evidence.
+
+Corrected exact sizing:77inactive previews111..466tokens, Charter466/footer292;
+all below512 without truncation or source changes. Source264fields/29blanks/232spans/
+sevengaps preserved, all77unknown/0chunks. Owner's original cutoff/footer/yearmetadata
+choices stay settled. [Report](../../plans/2026-10-14-compact-reviewed-context-report.md)
+records commands, proof, full-suite result and remaining Phase05governance gates.
+
+Verified03f757f/fix2437f28: full5165tests/377subtests pass308.86s;
+47files/sevencode digests sealea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
+FormalPhase05 remainsblocked on actual governance/approved retrieval evidence.
