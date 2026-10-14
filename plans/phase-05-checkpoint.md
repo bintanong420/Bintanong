@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 162
+sequence: 163
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c1c295c
-working_tree: three scoped heading metadata plan documents; product unchanged
-updated_at: 2026-10-14T15:20:50+08:00
+head_commit: 0c41210
+working_tree: seven scoped heading metadata code/test/ledger paths
+updated_at: 2026-10-14T15:36:13+08:00
 ---
 
 # Phase 05 checkpoint
@@ -61,6 +61,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Heading metadata adapter implemented under plan0c41210. RED: missing optional API,
+1failed0.54s; GREEN/related88passed148subtests1.91s. Added unsupported-field/null-kind
+regression RED1failed0.67s then GREEN. Initial full5186passed412subtests6skips6warnings
+368.49s predates that final guard; final full run and one fresh review pending.
+Actual10projection replay:46accepted values/113literal spans unchanged, default replay
+identical, zero metadata errors,8unknown-applicability withheld/0chunks. Eight nonChunk
+contexts exact286..478tokens using real offline adapter, no vectors/truncation.1155
+preserved hashes include2verified historical code baselines; sources/registers/limits
+unchanged. Next final full suite/reviewer and closure; source governance still pending.
 
 Heading metadata adapter implementation started from clean c1c295c. Plan: plans/2026-10-14-reviewed-heading-metadata-plan.md. Owner authorizes continuous work and requests human verification only for new content judgments. Existing ten projections/46 confirmed fields remain settled. Synthetic TDD, default-output preservation and one final fresh review; source governance/Phase05 exit remain pending.
 
@@ -1455,6 +1465,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Clean planbaseline0c41210; scoped code3files/newtest plus plan/checkpoint/currentprogress. Existing isolation and prior evidence retained; no dependency/model/source mutations or push.
+
 Clean planbaseline9a1d790; five closure paths: new mapping report, INDEX, checkpoint, handoff, currentprogress. Source/private/script/render/log artifacts ignored under workspace audit-evidence. Following closure commit discoverable in Git.
 
 Verified pre-closure baseline7ea32c7; clean at owner confirmation. Five curated closure paths: confirmed-evidence report, INDEX, checkpoint, handoff and current progress. Ignored packet only for source-derived data/logs; no owner changes disturbed. Following documentation commit is discoverable in Git rather than self-referential here.
@@ -1584,6 +1596,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Commands/logs in ignored p05-reviewed-heading-metadata-20261014: red.log, kind-red.log, related-final.log, full-tests.log(initial preguard), actual-replay-corrected.log and exact-token-diagnostics.json. Source/register/event binding and all46fields preserved. Test expectation adjusted to existing renderer ValueError; first log-directory/invalid test-path invocations did not run tests. No source handling dead end or content change.
 
 Documentation/ledger checks:426passed/11subtests10.82s,exit0; phase validation0/advancement1expectedblocked; diffcheckpasses. Five curated closure paths; no product code changed.
 
@@ -1932,6 +1946,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Final whole suite for guarded implementation, then one fresh reviewer of cohesive plan/code/tests. One TDD fix pass for Critical/Important, no second review; seal evidence/curate closure. No new human content judgment found, actual applicability/governance still unresolved.
 
 Implement bounded opt-in headingmetadata adapter/context seam described in latestreport, under syntheticRED/GREEN/default-output compatibility. Replay citedledger without inventing literalquotes or effectivity; actual sourcegovernance evidence before activation. No repeated8row/12evidencejudgments; futurebatchpending. Earlier nextactions are historical.
 

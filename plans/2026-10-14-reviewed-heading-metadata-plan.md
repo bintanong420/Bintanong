@@ -50,26 +50,26 @@ associations validated by `validate_reviewed_heading_metadata(field, association
 Only `placement`/`year_term_heading_metadata` and
 `edition_status`/`proposed_edition_heading_metadata` are supported.
 
-- [ ] Write synthetic behavioral tests first: year/term and proposal display round trips;
+- [x] Write synthetic behavioral tests first: year/term and proposal display round trips;
   unknown scope withheld; default output identical; wrong row/event/version/text/field,
   wrong column/origin/pages, partial anchors and regenerated stored-context tampering
   rejected. Expected placement `Second Year / Second Semester`; proposal
   `PROPOSED 2025-2026`; raw headings remain uppercase/full proposed-date sentence.
-- [ ] Run focused pytest and observe missing optional-argument behavior (RED).
-- [ ] Implement the smallest opt-in binding/association validator and codec integration.
+- [x] Run focused pytest and observe missing optional-argument behavior (RED).
+- [x] Implement the smallest opt-in binding/association validator and codec integration.
   Bind headings to complete actual code/title citations; use explicit coordinate conversion
   and fixed formatting. Never replace literal spans with projected strings.
-- [ ] Focused GREEN and related contract/preparation/chunk/context/retrieval regressions.
+- [x] Focused GREEN and related contract/preparation/chunk/context/retrieval regressions.
 - [ ] Commit verified code/tests with checkpoint/current-progress evidence.
 
 ## Task 2: Actual inactive replay and final verification
 
 Consumes Task1's binding API; no additional product feature.
 
-- [ ] Replay all ten recorded projections with existing 36 scalar mappings, actual owner
+- [x] Replay all ten recorded projections with existing 36 scalar mappings, actual owner
   event, source bytes and pending registers. Expect zero missing/invalid metadata fields,
   eight unknown-applicability readings withheld and zero actual chunks. Preserve all46values.
-- [ ] Produce separate non-Chunk diagnostic contexts without declaring actual applicability;
+- [x] Produce separate non-Chunk diagnostic contexts without declaring actual applicability;
   validate all citations and proposal warnings, confirm unchanged default adapter replay.
 - [ ] Full repository pytest with external basetemp/no cache; preserve log and report all
   skips/warnings/failures. No real retrieval scoring or release claim.
@@ -89,3 +89,10 @@ retain evidence/history rather than deleting the audit packet.
 - Baseline: clean `c1c295c`, isolated `feat/p05-retrieval-logic`; previous citations and
   confirmations complete. No original conversion, source-content review or intake repeated.
 - Task1: pending RED. Task2: pending Task1.
+
+- Task1 candidate: initial API RED and unsupported/null-kind RED observed; final related
+  88 passed/148 subtests/1.91s. Initial full5186 passed/412 subtests predates null-kind guard.
+- Task2 real replay: ten projections validated, zero metadata errors,46values/113spans
+  unchanged,8unknown-applicability/0chunks. Exact offline model counts286–478/512,
+  no vectors.1155 preserved dependencies including two verified historical code baselines.
+- Final guarded full suite/review/closure pending. No human content judgment required.

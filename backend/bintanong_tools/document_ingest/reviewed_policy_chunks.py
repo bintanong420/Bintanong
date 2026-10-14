@@ -24,6 +24,9 @@ from .reviewed_policy import build_reviewed_policy_bundle
 from .reviewed_text_segments import reviewed_body_partition
 from .reviewed_flowchart_context import validate_reviewed_flowchart_binding
 from .reviewed_record_context import validate_reviewed_record_binding
+from ...bintanong_contracts.reviewed_heading_metadata import (
+    bind_reviewed_heading_metadata, validate_reviewed_heading_metadata,
+)
 
 
 CHUNKER_VERSION = "palsu-reviewed-policy-chunker-v1"
@@ -66,6 +69,7 @@ def build_reviewed_policy_chunks(
     compact_context: bool = False,
     flowchart_bindings: Mapping[str, Any] | None = None,
     record_bindings: Mapping[str, Any] | None = None,
+    heading_metadata_bindings: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Recheck preparation evidence and produce pending chunks or explicit withholding.
 
@@ -102,6 +106,14 @@ def build_reviewed_policy_chunks(
         names = {f["name"] for f in rows[identity]["fields"]}
         if not isinstance(values, Mapping) or any(name not in names for name in values):
             raise ValueError("field span mapping has an unknown field")
+    heading_bindings = {} if heading_metadata_bindings is None else heading_metadata_bindings
+    if (not isinstance(heading_bindings, Mapping) or any(i not in rows for i in heading_bindings)
+            or (heading_metadata_bindings is not None and not include_source_limits)):
+        raise ValueError('heading metadata requires known readings and source-limit context')
+    for identity, values in heading_bindings.items():
+        names = {f['name'] for f in rows[identity]['fields']}
+        if not isinstance(values, Mapping) or any(n not in names for n in values):
+            raise ValueError('heading metadata has an unknown field')
     if not isinstance(dependencies, Mapping) or any(identity not in rows for identity in dependencies):
         raise ValueError("required readings contain an unknown root")
     required = {}
@@ -152,6 +164,18 @@ def build_reviewed_policy_chunks(
             supplied = anchors.get(identity, {}).get(name, [])
             if not isinstance(supplied, (list, tuple)):
                 errors.append(f"invalid_field_spans:{name}")
+                continue
+            if name in heading_bindings.get(identity, {}):
+                try:
+                    if supplied:
+                        raise ValueError('heading metadata cannot override literal scalar mapping')
+                    located, association = bind_reviewed_heading_metadata(row, field,
+                        heading_bindings[identity][name], anchors.get(identity, {}), version)
+                except (ValueError, KeyError, TypeError, IndexError):
+                    errors.append(f'invalid_heading_metadata:{name}')
+                    continue
+                association['span_indexes'] = list(range(len(spans),len(spans)+len(located)))
+                spans.extend(located); associations.append(association)
                 continue
             if include_source_limits and name=='segmentation' and any(f['name']=='body' for f in row['fields']):
                 try:
@@ -223,6 +247,16 @@ def build_reviewed_policy_chunks(
             spans.extend(located)
             associations.append({"name": name, "value": value, "source_blank": field["source_blank"],
                 "span_indexes": indexes, "event_sha256": field["review_event_sha256"]})
+        course_indexes = [i for n in ('course_code','course_title') for f in associations
+            if f['name']==n for i in f['span_indexes']]
+        for association in associations:
+            if association.get('field_kind') != 'heading_metadata':
+                continue
+            association['row_anchor_indexes'] = list(course_indexes)
+            try:
+                validate_reviewed_heading_metadata(association, associations, spans)
+            except (ValueError, KeyError, TypeError, IndexError):
+                errors.append('invalid_heading_metadata:'+association['name'])
         if not spans:
             errors.append("no_located_source_text")
         if len({span_identity(s) for s in spans}) != len(spans):

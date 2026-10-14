@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Heading metadata candidate implemented — 14 October 2026.**
+
+Heading metadata adapter implemented under plan0c41210. RED: missing optional API,
+1failed0.54s; GREEN/related88passed148subtests1.91s. Added unsupported-field/null-kind
+regression RED1failed0.67s then GREEN. Initial full5186passed412subtests6skips6warnings
+368.49s predates that final guard; final full run and one fresh review pending.
+Actual10projection replay:46accepted values/113literal spans unchanged, default replay
+identical, zero metadata errors,8unknown-applicability withheld/0chunks. Eight nonChunk
+contexts exact286..478tokens using real offline adapter, no vectors/truncation.1155
+preserved hashes include2verified historical code baselines; sources/registers/limits
+unchanged. Next final full suite/reviewer and closure; source governance still pending.
+
 Heading metadata adapter implementation started from clean c1c295c. Plan: plans/2026-10-14-reviewed-heading-metadata-plan.md. Owner authorizes continuous work and requests human verification only for new content judgments. Existing ten projections/46 confirmed fields remain settled. Synthetic TDD, default-output preservation and one final fresh review; source governance/Phase05 exit remain pending.
 
 **All remaining field citations prepared — 14 October 2026.**

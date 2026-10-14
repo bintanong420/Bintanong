@@ -12,6 +12,7 @@ import re
 
 from .source import Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, span_identity
 from .reviewed_record_groups import validate_record_manifest
+from .reviewed_heading_metadata import validate_reviewed_heading_metadata, heading_metadata_display
 
 
 CONTEXT_FORMAT = 'reviewed-policy-fields-v1'
@@ -86,6 +87,7 @@ def serialize_reviewed_fields(associations, limits, group=None, *, context_forma
         display={k:f[k] for k in ('name','value','source_blank')}
         if 'field_kind' in f:
             display['field_kind']=f['field_kind']
+            if f['field_kind']=='heading_metadata':display.update(heading_metadata_display(f))
             if f['field_kind']=='arrows':display['node_reading_ids']=f.get('node_reading_ids')
             if f['field_kind']=='body_partition':
                 display.update(raw_text=f['raw_text'],raw_item_ref=f['raw_item_ref'],
@@ -241,7 +243,7 @@ def render_reviewed_policy_context(chunk, spans):
             unrecorded=(value is None and isinstance(name,str) and name.endswith('/condition_note')
                 and field.get('field_state')=='not_recorded' and blank is False and refs==[])
             kind=field.get('field_kind')
-            structured=kind in ('arrows','body_partition','cover_labels')
+            structured=kind in ('arrows','body_partition','cover_labels','heading_metadata')
             if (not isinstance(name,str) or not name or name in names or (not isinstance(value,str) and not unrecorded and not structured)
                     or ('field_state' in field and not unrecorded)
                     or ('field_kind' in field and not structured) or ('node_reading_ids' in field and kind!='arrows')
@@ -251,6 +253,9 @@ def render_reviewed_policy_context(chunk, spans):
                 raise ValueError('invalid reviewed context field association')
             names.add(name); indexes.extend(refs)
             if structured:
+                if kind=='heading_metadata':
+                    validate_reviewed_heading_metadata(field,associations,located)
+                    continue
                 if kind=='cover_labels':
                     validate_reviewed_cover_labels(field,located)
                     continue
