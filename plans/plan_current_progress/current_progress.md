@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Shared citation context implementation resumed — 14 October 2026.**
+
+Owner continues the verified next action from ee38320: optional shared citation
+display under2026-10-14-shared-citation-context-plan.md. Preserve exact evidence
+payloads/locators/source limits and default outputs; shared source/page defaults
+are display metadata only. No dependency/install/vector encoding or scope review.
+Actual thesis17–18/routingPNG/master10 and previousPhase04/05 handoffs reconsulted;
+no discrepancy. Existing linked worktree confirmed; owner artifact changes retained.
+Next fresh context baseline, synthetic regression RED, minimal implementation GREEN.
+
 Confirmed-policy closure:462docs/ledger tests11subtests pass10.76s; phasevalidate0/
 canadvance1(expectedblocked).37ignored evidence files/ten unchanged checkoutcode
 digests sealed; manifestSHA256:

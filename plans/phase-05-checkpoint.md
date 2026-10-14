@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 200
+sequence: 201
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 463c351
-working_tree: six curated confirmed policy closure documents; owner artifacts preserved
-updated_at: 2026-10-14T22:58:15+08:00
+head_commit: ee38320
+working_tree: shared citation plan/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T23:09:52+08:00
 ---
 
 # Phase 05 checkpoint
@@ -137,6 +137,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner continues the verified next action from ee38320: optional shared citation
+display under2026-10-14-shared-citation-context-plan.md. Preserve exact evidence
+payloads/locators/source limits and default outputs; shared source/page defaults
+are display metadata only. No dependency/install/vector encoding or scope review.
+Actual thesis17–18/routingPNG/master10 and previousPhase04/05 handoffs reconsulted;
+no discrepancy. Existing linked worktree confirmed; owner artifact changes retained.
+Next fresh context baseline, synthetic regression RED, minimal implementation GREEN.
 
 Close verified confirmed-policy report/ledger and evidence seal. No product changes.
 Actual thesis physical17–18 and routingPNG reconsulted after context rollover;
@@ -2550,6 +2558,10 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Execute the bounded shared-citation context plan inline under TDD, then fullsuite,
+saved-ranking/tokenizer comparison and one final independent review. Reuse all
+settled scope/questions/vectors; no source-retention or activation decision inferred.
 
 Preserve the confirmed selection, vectors and verified results; do not repeat
 audience/wording review or model encoding. Next bounded development: compact
