@@ -54,21 +54,21 @@ IDs/labels, curriculum labels, usage (`single_supplied`, `older_coexisting`,
 `newer_incoming`), the existing owner event hash and source-linked evidence reference.
 Selector contexts are only `None`, `new_incoming`, `continuing`; arbitrary values error.
 
-- [ ] Tests first: wrong/default/program/version/cohort selection, mixed versions,
+- [x] Tests first: wrong/default/program/version/cohort selection, mixed versions,
   unchanged chunks, exact accepted fields and source/event/hash/coverage failures.
   Expected unknown BSCS =>needs_scope; explicitold=>old only; incoming=>new only;
   continuing alone=>needs_scope; wrong-program ID=>unavailable; single programme=>matched.
-- [ ] Observe RED for missing implementation; implement minimum validation/selection.
-- [ ] GREEN and related preparation/context/retrieval regressions; commit verified unit.
+- [x] Observe RED for missing implementation; implement minimum validation/selection.
+- [x] GREEN and related preparation/context/retrieval regressions; commit verified unit.
 
 ## Task2: Actual restrictions and verification
 
-- [ ] Build separate ignored catalogue for six selected versions/five programs/eightchunks.
+- [x] Build separate ignored catalogue for six selected versions/five programs/eightchunks.
   Use accepted scenario/program labels and actual cohort event; do not promote registers.
-- [ ] Replay existing multilingual cases without changing wording: curriculum scenarios
+- [x] Replay existing multilingual cases without changing wording: curriculum scenarios
   Q2/8–12 get candidate selection traces, 18 language variants; policy cases stay separate.
   This is scope selection, not semantic retrieval/Precision@k/Recall@k calibration.
-- [ ] Inspect source-governance states and produce a concrete readiness matrix describing
+- [x] Inspect source-governance states and produce a concrete readiness matrix describing
   what existing evidence satisfies and which institutional/release evidence is absent.
   Do not invent formal source approval or repeat settled human judgments.
 - [ ] Full suite/no cache/external basetemp, one fresh review, fix consequential findings
@@ -89,3 +89,8 @@ skill scratch directories. Existing isolated p05 worktree remains; no install/do
   runtime wiring now would imply unauthorized source use. Cost: this is preparation
   and must be enforced by later publication/retrieval integration before active use.
 - Task1 pending RED; Task2 pending Task1.
+
+- Task1 candidate implemented; initial missing-moduleRED and missing-source-limitRED,
+  final related82tests132subtests pass2.04s. Task2 actual scope traces5programs/6versions/
+  8chunks/46fields/18variants pass;1203previous hashes/registers unchanged.
+- Initial full predates final source-limit guard; final full/review/closure pending.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 166
+sequence: 167
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b8866b9
-working_tree: three scoped candidate selection preparation documents
-updated_at: 2026-10-14T16:13:10+08:00
+head_commit: 0f06222
+working_tree: five scoped candidate catalogue code/tests/ledger files
+updated_at: 2026-10-14T16:20:05+08:00
 ---
 
 # Phase 05 checkpoint
@@ -63,6 +63,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Candidate curriculum selector implemented under plan0f06222. RED missing module1failed0.51s;
+known-source-limit omission regression1failed0.55s then GREEN. Related82passed132subtests
+2.04s. Actual5programs/6versions/8unchangedchunks/46fields,18multilingual scope traces:
+6BSCS needcurriculum/12single-program matches;6explicitold/new/incoming/wrong-program
+checks pass.1203previous dependencies/registers unchanged. No runtime filtering,
+source promotion, vectors/scoring/calibration or activation. Initial full suite running
+predates final gap guard; final suite and one fresh review remain required.
 
 Candidate program/version selection preparation started from cleanb8866b9. Plan: plans/2026-10-14-candidate-curriculum-selection-plan.md. Standalone offline source/event-bound catalogue and deterministic selector; no runtime/DB/source-register edits. Owner cohort/row/evidence decisions settled. Next syntheticRED, implementation and actual18variant scope traces/governance readiness; no semantic scoring or activation.
 
