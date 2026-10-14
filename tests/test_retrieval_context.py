@@ -15,6 +15,51 @@ def evidence(chunk_id='a', text='Main clause', page=1, locator=None):
 
 
 class ContextTests(unittest.TestCase):
+    def test_opt_in_compact_citations_recover_complete_evidence_under_budget(self):
+        row=evidence(text='Complete clause; no condition may be removed.')
+        row['spans']=[dict(row['spans'][0],span_id='span-'+str(i),text='Part '+str(i),
+            locator={'kind':'text_item','item_ids':['native-range-'+str(i)]}) for i in range(12)]
+        before=copy.deepcopy(row)
+        legacy=build_context([row],32768,len)
+        budget=len(legacy['context'])-1
+        self.assertFalse(build_context([row],budget,len)['evidence'])
+        compact=build_context([row],budget,len,compact_citations=True)
+        self.assertEqual(compact['evidence'],legacy['evidence'])
+        self.assertEqual(compact['gaps'],[])
+        self.assertEqual(compact['context_tokens'],len(compact['context']))
+        self.assertLess(compact['context_tokens'],legacy['context_tokens'])
+        self.assertEqual(row,before)
+        self.assertEqual(build_context([row],32768,len,compact_citations=False),legacy)
+
+    def test_compact_citations_preserve_every_locator_with_its_source_and_page(self):
+        import json
+        row=evidence()
+        row['spans']=[dict(row['spans'][0],span_id='s'+str(i),page=page,text='P'+str(i),
+            locator={'kind':'text_item','item_ids':['entry-'+str(i)],'ref':'Unicode ñ; ref'})
+            for i,page in enumerate((1,2,1))]
+        result=build_context([row],32768,len,compact_citations=True)
+        groups=json.loads(result['context'].split('\n',1)[0][1:-1].split(' | ',1)[1])
+        self.assertEqual([g['page'] for g in groups],[1,2])
+        self.assertEqual([g['locators'] for g in groups],
+            [[row['spans'][0]['locator'],row['spans'][2]['locator']],[row['spans'][1]['locator']]])
+        self.assertTrue(all(g['version_id']=='version' and g['byte_sha256']=='0'*64 for g in groups))
+        self.assertEqual(len(result['evidence'][0]['citations']),3)
+
+    def test_compact_citation_budget_still_withholds_complete_required_group(self):
+        row,neighbor=evidence('a'),evidence('b','Required condition',page=2)
+        row['chunk']['type_fields']['required_neighbor_chunk_ids']=['b']
+        row['neighbors']=[neighbor]
+        complete=build_context([row],32768,len,compact_citations=True)
+        self.assertEqual([e['chunk_id'] for e in complete['evidence']],['a','b'])
+        withheld=build_context([row],complete['context_tokens']-1,len,compact_citations=True)
+        self.assertEqual(withheld['evidence'],[])
+        self.assertEqual(withheld['gaps'],['context_budget:a'])
+
+    def test_compact_citation_flag_is_explicit_boolean(self):
+        for value in ('true',1,None):
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                build_context([evidence()],1000,len,compact_citations=value)
+
     def test_overlap_deduplicated_by_location_instead_of_text_alone(self):
         a, b, c = evidence('a'), evidence('b'), evidence('c', page=2)
         out = build_context([a,b,c], 1000, len)

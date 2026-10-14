@@ -27,16 +27,27 @@ def _span_key(span):
     )},sort_keys=True)
 
 
-def _serialize(items):
+def _serialize(items, compact_citations=False):
     blocks=[]
     for item in items:
-        cites='; '.join(f"{c['version_id']}#{c['byte_sha256']}#p{c['page']}:"+
-                        json.dumps(c['locator'],sort_keys=True,ensure_ascii=False) for c in item['citations'])
+        if compact_citations:
+            grouped={}
+            for citation in item['citations']:
+                key=(citation['version_id'],citation['byte_sha256'],citation['page'])
+                group=grouped.setdefault(key,dict(version_id=key[0],byte_sha256=key[1],
+                                                page=key[2],locators=[]))
+                group['locators'].append(citation['locator'])
+            cites=json.dumps(list(grouped.values()),sort_keys=True,ensure_ascii=False,separators=(',',':'))
+        else:
+            cites='; '.join(f"{c['version_id']}#{c['byte_sha256']}#p{c['page']}:"+
+                            json.dumps(c['locator'],sort_keys=True,ensure_ascii=False) for c in item['citations'])
         blocks.append(f"[{item['chunk_id']} | {cites}]\n{item['text']}")
     return '\n\n'.join(blocks)
 
 
-def build_context(candidates, budget: int, count_tokens):
+def build_context(candidates, budget: int, count_tokens, *, compact_citations=False):
+    if type(compact_citations) is not bool:
+        raise ValueError('compact_citations must be an explicit boolean')
     accepted, seen_chunks, seen_spans, gaps = [], set(), set(), []
     for candidate in candidates:
         main_id = candidate['chunk']['chunk_id']
@@ -141,7 +152,7 @@ def build_context(candidates, budget: int, count_tokens):
                     'invalid_reviewed_context' if str(exc)=='invalid reviewed context record' else 'invalid_citation')
             gaps.append(f'{reason}:{main_id}')
             continue
-        context=_serialize(accepted+trial)
+        context=_serialize(accepted+trial,compact_citations)
         tokens=count_tokens(context) if context else 0
         if type(tokens) is not int or tokens<0:
             raise ValueError('context tokenizer must return an exact nonnegative integer')
@@ -150,6 +161,6 @@ def build_context(candidates, budget: int, count_tokens):
             continue
         accepted.extend(trial)
         seen_chunks,seen_spans=trial_chunks,trial_spans
-    context=_serialize(accepted)
+    context=_serialize(accepted,compact_citations)
     return dict(evidence=accepted, context=context,
                 context_tokens=count_tokens(context) if context else 0, gaps=gaps)

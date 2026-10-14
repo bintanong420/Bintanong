@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Optional compact citation formatter implemented — 14October2026.**
+
+Exactbaseline8rows:286–478payloadtokens versus2000–3528fullycited;2/8fit2048,
+all8fit4096. Repeatedcitation version/hash prefixes causemetadataoverhead, no source
+defect. Opt-in compact_citations flag groups exactsource/page while retaining all
+locators/fullstructured113citations and sourcepayload. Default remainsidentical;
+no engine/RPC switch. RED6failures0.48s; related83passed125subtests1.70s. Plan782dbfe;
+actualcompactreplay/fullsuite/freshreview pending. Schoolverification stilldeferred.
+
 **Cited-context budget diagnostic started — 14October2026.**
 
 Owner saysproceed from clean22896c1. Check complete citation serialization for eight

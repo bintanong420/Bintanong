@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 173
+sequence: 174
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 22896c1
-working_tree: cited-context diagnostic plan and two active ledger updates; private evidence ignored
-updated_at: 2026-10-14T18:56:00+08:00
+head_commit: 782dbfe
+working_tree: context formatter, synthetic tests, bounded plan and two active ledger updates
+updated_at: 2026-10-14T19:02:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -67,6 +67,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Diagnostic17.353s:8candidate payloads286–478tokens, fullcited contexts2000–3528,
+only2/8fit2048; all8fit4096. Existingbuilder withholds whole oversized clauses.
+Cause repeatedversion/hash display prefixes;113structured citations/sourcepayload
+preserved. Added opt-in compactcitation grouping(version,hash,page) underTDD:
+RED6failures/7passed0.48s; GREENrelated83passed125subtests1.70s. Defaultcaller/output
+unchanged; no runtimeengine/settings/RPC caller optsin. Actualopt-in replay/fullsuite
+and one fresh finalreview running/pending; schoolverification remainsdeferred.
 
 Ownerproceeds; independent nextcheck is complete cited-context sizing for eight
 unchanged curriculum candidates through existing build_context/exacttokenizer.
