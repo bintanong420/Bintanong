@@ -49,6 +49,23 @@
 
 ## Repository workflow
 
+- Use a human-in-the-loop for source-content decisions and recurring source-handling
+  dead ends. If clipped/incomplete text, ambiguous layout, field selection or chunk
+  sizing needs a judgment about what content to retain, show the owner the exact
+  original page/region, affected wording and proposed treatment before proceeding
+  with dependent content changes. Explain whether the problem comes from the PDF,
+  extraction or added metadata; do not make the owner diagnose packaging overhead.
+- After a bounded extraction/partition attempt fails, do not keep trying equivalent
+  variations without new evidence. Notify the owner of the result and request a
+  focused judgment when the next step depends on source-content choices. Continue
+  independent verification and ordinary technical fixes where authorized; this is
+  not a requirement to ask about every test failure or routine implementation choice.
+- Record the owner's decision in current progress and the active checkpoint, then
+  apply it without reopening the same question. Known original cutoffs remain
+  untouched, with their limitations attached; do not repeatedly request missing
+  text that the owner has already said is unavailable. A retention/transcription
+  decision does not establish institutional authority, effectivity or activation.
+
 - For every prompt concerning Bintanong, read and apply `.agents/skills/bintanong-handoff-reminder/SKILL.md`, which routes to `.agents/skills/bintanong-phase-handoff/SKILL.md`. Reload both after context rollover before continuing work.
 - Use `plans/plan_current_progress/current_progress.md` for current changes, decisions, blockers and the next action; update it after material work and before ending a turn or pausing. Maintain formal phase plans/checkpoints/handoffs in `plans/` through the handoff skill as well. Read `plans/ingestion/` only when the current task or relevant master-plan section requires ingestion evidence; preserve its existing documents.
 - Maintain Bintanong plans, specifications, decisions, progress and developer handoffs in this repository, including isolated repository worktrees. Do not keep the only current plan in an external scratch directory.

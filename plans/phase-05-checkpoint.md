@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 143
+sequence: 144
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 354b7b0
-working_tree: seven curated readiness closure documents; no product-code edits
-updated_at: 2026-10-14T09:52:16+08:00
+head_commit: ddefd23
+working_tree: AGENTS owner-decision record and checkpoint-progress preparation
+updated_at: 2026-10-14T10:02:53+08:00
 ---
 
 # Phase 05 checkpoint
@@ -53,6 +53,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner decisions,14 October2026: preserve Charter103step3 fields/gap exactly;
+no reconstruction of unavailable continuation. Select complete handbook approval
+footer, retain printed2021 as metadata and priorfourfields/spans as history. Neither
+statement grants effectivity/currentness/sourceapproval. AGENTS now requires human
+review for source-content choices/recurring handling dead ends, original evidence,
+focused judgment and recorded reuse. Do not repeat equivalent failed partitions.
+Next apply footer through existing image mapper, exactmeasure and preserve Charter
+unchanged; no productchange/newbatch/activation. See2026-10-14-owner-source-handling-
+decisions.md. Cleanbaseline ddefd23; thesis17–18/36/routing/master10/policies checked.
 
 Final closure recheck:397 documentation tests pass1.06s; all37sealed artifacts/sixcode digests and manifest hash match. Seven curated text paths only, no private artifacts staged.
 

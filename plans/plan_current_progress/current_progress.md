@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Owner source decisions and human-in-the-loop rule — 14 October 2026.**
+
+Owner decisions,14 October2026: preserve Charter103step3 fields/gap exactly;
+no reconstruction of unavailable continuation. Select complete handbook approval
+footer, retain printed2021 as metadata and priorfourfields/spans as history. Neither
+statement grants effectivity/currentness/sourceapproval. AGENTS now requires human
+review for source-content choices/recurring handling dead ends, original evidence,
+focused judgment and recorded reuse. Do not repeat equivalent failed partitions.
+Next apply footer through existing image mapper, exactmeasure and preserve Charter
+unchanged; no productchange/newbatch/activation. See2026-10-14-owner-source-handling-
+decisions.md. Cleanbaseline ddefd23; thesis17–18/36/routing/master10/policies checked.
+
+
 Final closure recheck:397 documentation tests pass1.06s; all37sealed artifacts/sixcode digests and manifest hash match. Seven curated text paths only, no private artifacts staged.
 
 **Exact-token diagnostic and independent review closed — 14 October 2026.**
