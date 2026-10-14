@@ -2,16 +2,29 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 211
+sequence: 214
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0b2b405
-working_tree: shared group codec/context/three tests/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-15T00:15:16+08:00
+head_commit: f5e1a65
+working_tree: six curated shared group closure documents; owner artifacts preserved
+updated_at: 2026-10-15T00:25:41+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Shared reviewed-group contextf5e1a65 verified under plan0b2b405. Full5264tests/
+500subtests pass302.92s,6skips/6existing warnings. Complete overload1961tokens and
+completion conflict1738nowfit2048, with all15/4citations and source fields/limits
+retained. k3/0.5 complete expected30/30 at2K/4K(18/18policy); budgetgapcases12/3
+refer to extras, invalid0. SixBSCSscopeholds remain.900prior shared observations
+unchanged;900new observations/18strings/245archived citations/7683instances and
+57old-new-trial counts. All original structured text/integrity hashes unchanged;
+group display reconstructs policy properties except replaced display-only hashes,
+binding all original ordered member IDs/text by one groupdigest.1501prior hashes/
+four authorized baseline snapshots preserved. Report:
+2026-10-15-shared-group-context-report.md. One final reviewer checking code and
+independent accounting; no new source-content judgment or institutional activation.
 
 Shared reviewed-group context verified under plan0b2b405. Fullpytest5264passed/
 500subtests/6skips/6existing warnings in302.92s, exit0; related95passed100subtests
@@ -185,6 +198,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Final review clean; finish documentation/phase checks, ignored evidence seal and
+explicit curated closure commit. Productf5e1a65/full5264suite alreadyverified.
+
+Close one independent final review, documentation/phase checks and ignored
+evidence seal for shared-group context; code/tests alreadycommittedf5e1a65.
 
 Commit verified shared-group codec/tests, then one fresh final review and closure.
 The complete overload nowfits2K; formalcalibration/source-approval gates remain.
@@ -1882,6 +1901,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified productf5e1a65 on existing feature branch. Six explicit closure paths:
+sharedgroup plan/report, INDEX, checkpoint, blockedhandoff and currentprogress.
+Owner artifacts/.gitkeep deletion/untracked backend/artifacts remain untouched.
+Following closure SHA is in Git; no new push/merge/cleanup in this implementation.
+
 Normal merge in progress:9c6351b local/f10d5cd remote, only three historicaldocs/
 four INDEX lines added; sourcecode/tests unchanged. Explicit staged docs only.
 
@@ -2039,6 +2063,32 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Shared-group closure:469docs/ledger tests11subtests pass11.49s; phasevalidate0/
+canadvance1(expectedblocked).38ignored evidence files/14current code-test digests
+sealed; manifestSHA256:
+ae9c3829853e21d87d00e15590f3252ee4a4a7a15eddc00e93d2c4c465aa8e58.
+Productf5e1a65; following documentation closure SHA discoverable fromGit.
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate group/source display reconstruction, budget admission, exact token counts,
+original payload/field/limit/citation preservation and prior1501hashes/four new
+baseline snapshots verified. Per-part display hashes are explicitly replaced by
+a bound group digest; originals remain exact in evidence. Positive-only calibration,
+institutional source approval and runtime activation remain separate existing gates.
+
+Shared reviewed-group contextf5e1a65 verified under plan0b2b405. Full5264tests/
+500subtests pass302.92s,6skips/6existing warnings. Complete overload1961tokens and
+completion conflict1738nowfit2048, with all15/4citations and source fields/limits
+retained. k3/0.5 complete expected30/30 at2K/4K(18/18policy); budgetgapcases12/3
+refer to extras, invalid0. SixBSCSscopeholds remain.900prior shared observations
+unchanged;900new observations/18strings/245archived citations/7683instances and
+57old-new-trial counts. All original structured text/integrity hashes unchanged;
+group display reconstructs policy properties except replaced display-only hashes,
+binding all original ordered member IDs/text by one groupdigest.1501prior hashes/
+four authorized baseline snapshots preserved. Report:
+2026-10-15-shared-group-context-report.md. One final reviewer checking code and
+independent accounting; no new source-content judgment or institutional activation.
 
 Shared reviewed-group context verified under plan0b2b405. Fullpytest5264passed/
 500subtests/6skips/6existing warnings in302.92s, exit0; related95passed100subtests
@@ -2611,6 +2661,11 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Opt-in group context shares exact common metadata and a rootdigest binding
+original member IDs/text. Full originals/per-part hashes remain in evidence; only
+display hash representation changes. Every policy field/limit/citation/group member
+stays preserved. Default formats and runtime callers remain unchanged.
+
 Shared display only pools exact common locator keys with identical JSON values
 for each source version/hash/page. It preserves original evidence payloads, full
 citation order, unknown/missing keys and complete groups. Neither citation mode
@@ -2750,6 +2805,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+The measured complete-group2K refusal is resolved at k3/0.5; preserve verified
+group/source metadata displays and stop shrinking source text. Next bounded task:
+prepare new/changed unavailable-query and scope-boundary benchmark proposals with
+exact questions and expected behavior for owner review before testing. Reuse all
+accepted positives/candidate source bindings/saved vectors. No new query testing
+or global threshold selection until that required review. School verification
+remains deferred pending actual evidence; no inferred letter submission/response,
+source activation, Phase05 completion or Phase06 advancement.
 
 Execute shared-group context plan inline under TDD, then fullsuite, actual saved
 comparison and one fresh final review. All original source fields remain retained;
@@ -3215,6 +3279,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Complete group budget refusal at2K is now measured resolved; do not repeat source
+conversion, audience/wording review, model encoding or push-reconciliation steps.
+Reuse all saved vectors/ranks/context measurements and actual owner decisions.
 
 Reuse900verified default comparisons and saved vectors/ranks; do not repeat model
 inference/source conversions. Five-area undergraduate/shared-audience selection

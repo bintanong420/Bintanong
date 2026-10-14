@@ -1,5 +1,43 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Shared-group closure:469docs/ledger tests11subtests pass11.49s; phasevalidate0/
+canadvance1(expectedblocked).38ignored evidence files/14current code-test digests
+sealed; manifestSHA256:
+ae9c3829853e21d87d00e15590f3252ee4a4a7a15eddc00e93d2c4c465aa8e58.
+
+**Shared group context final review passed — 15 October 2026.**
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate group/source display reconstruction, budget admission, exact token counts,
+original payload/field/limit/citation preservation and prior1501hashes/four new
+baseline snapshots verified. Per-part display hashes are explicitly replaced by
+a bound group digest; originals remain exact in evidence. Positive-only calibration,
+institutional source approval and runtime activation remain separate existing gates.
+
+**Shared group context committed; final review underway — 15 October 2026.**
+
+Shared reviewed-group contextf5e1a65 verified under plan0b2b405. Full5264tests/
+500subtests pass302.92s,6skips/6existing warnings. Complete overload1961tokens and
+completion conflict1738nowfit2048, with all15/4citations and source fields/limits
+retained. k3/0.5 complete expected30/30 at2K/4K(18/18policy); budgetgapcases12/3
+refer to extras, invalid0. SixBSCSscopeholds remain.900prior shared observations
+unchanged;900new observations/18strings/245archived citations/7683instances and
+57old-new-trial counts. All original structured text/integrity hashes unchanged;
+group display reconstructs policy properties except replaced display-only hashes,
+binding all original ordered member IDs/text by one groupdigest.1501prior hashes/
+four authorized baseline snapshots preserved. Report:
+2026-10-15-shared-group-context-report.md. One final reviewer checking code and
+independent accounting; no new source-content judgment or institutional activation.
+
+The measured complete-group2K refusal is resolved at k3/0.5; preserve verified
+group/source metadata displays and stop shrinking source text. Next bounded task:
+prepare new/changed unavailable-query and scope-boundary benchmark proposals with
+exact questions and expected behavior for owner review before testing. Reuse all
+accepted positives/candidate source bindings/saved vectors. No new query testing
+or global threshold selection until that required review. School verification
+remains deferred pending actual evidence; no inferred letter submission/response,
+source activation, Phase05 completion or Phase06 advancement.
+
 **Shared group context implementation/actual comparison verified — 15 October 2026.**
 
 Shared reviewed-group context verified under plan0b2b405. Fullpytest5264passed/

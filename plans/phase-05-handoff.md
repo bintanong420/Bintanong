@@ -3,12 +3,46 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: dea9442
+final_commit: f5e1a65
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T23:20:37+08:00
+completed_at: 2026-10-15T00:18:59+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Shared-group closure:469docs/ledger tests11subtests pass11.49s; phasevalidate0/
+canadvance1(expectedblocked).38ignored evidence files/14current code-test digests
+sealed; manifestSHA256:
+ae9c3829853e21d87d00e15590f3252ee4a4a7a15eddc00e93d2c4c465aa8e58.
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate group/source display reconstruction, budget admission, exact token counts,
+original payload/field/limit/citation preservation and prior1501hashes/four new
+baseline snapshots verified. Per-part display hashes are explicitly replaced by
+a bound group digest; originals remain exact in evidence. Positive-only calibration,
+institutional source approval and runtime activation remain separate existing gates.
+
+Shared reviewed-group contextf5e1a65 verified under plan0b2b405. Full5264tests/
+500subtests pass302.92s,6skips/6existing warnings. Complete overload1961tokens and
+completion conflict1738nowfit2048, with all15/4citations and source fields/limits
+retained. k3/0.5 complete expected30/30 at2K/4K(18/18policy); budgetgapcases12/3
+refer to extras, invalid0. SixBSCSscopeholds remain.900prior shared observations
+unchanged;900new observations/18strings/245archived citations/7683instances and
+57old-new-trial counts. All original structured text/integrity hashes unchanged;
+group display reconstructs policy properties except replaced display-only hashes,
+binding all original ordered member IDs/text by one groupdigest.1501prior hashes/
+four authorized baseline snapshots preserved. Report:
+2026-10-15-shared-group-context-report.md. One final reviewer checking code and
+independent accounting; no new source-content judgment or institutional activation.
+
+The measured complete-group2K refusal is resolved at k3/0.5; preserve verified
+group/source metadata displays and stop shrinking source text. Next bounded task:
+prepare new/changed unavailable-query and scope-boundary benchmark proposals with
+exact questions and expected behavior for owner review before testing. Reuse all
+accepted positives/candidate source bindings/saved vectors. No new query testing
+or global threshold selection until that required review. School verification
+remains deferred pending actual evidence; no inferred letter submission/response,
+source activation, Phase05 completion or Phase06 advancement.
 
 Shared-citation closure:464docs/ledger tests11subtests pass10.73s; phasevalidate0/
 canadvance1(expectedblocked).33ignored evidence files/13current code-test digests

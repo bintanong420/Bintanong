@@ -82,10 +82,10 @@ member IDs/text; part JSON contains `group_index` and residual metadata.
   changes. Reuse 21 candidates, 36 questions, saved ranks and all vector artifacts.
 - [x] Replay 900 existing context observations; independently reconstruct all
   policy properties/citations, compute exact group minima and 2K/4K coverage.
-- [ ] One fresh final reviewer checks code/defaults, group integrity, token
+- [x] One fresh final reviewer checks code/defaults, group integrity, token
   accounting, preservation and real negative controls. Fix any consequential
   finding in one TDD pass; do not invent source-content decisions.
-- [ ] Commit curated report/ledger/handoff/INDEX; seal raw evidence and verify
+- [x] Commit curated report/ledger/handoff/INDEX; seal raw evidence and verify
   phase validity with formal advancement still blocked.
 
 ## Resume evidence and recovery
@@ -118,3 +118,12 @@ preserved; no model encoding/new questions/activation. Report:
 2026-10-15-shared-group-context-report.md. Next verified code commit, one fresh
 review and curated closure. After this measured budget recovery, next gate is
 owner-reviewed unsupported-query proposals before calibration; no more text shrinking.
+
+## Final verification
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate group/source display reconstruction, budget admission, exact token counts,
+original payload/field/limit/citation preservation and prior1501hashes/four new
+baseline snapshots verified. Per-part display hashes are explicitly replaced by
+a bound group digest; originals remain exact in evidence. Positive-only calibration,
+institutional source approval and runtime activation remain separate existing gates.
