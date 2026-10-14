@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Deferred validation and rollback clarified — 14October2026.**
+
+Owner asks whether validation can wait and whether later recovery is possible.
+Code/source-version/candidate/evaluation recovery is available while work stays
+provisional/local/inactive; source states remainpending. Publishedrollback requires
+a valid prior publication and cannot undo already-delivered student advice. No DB
+or rollback action performed. Note2026-10-14-provisional-retrieval-recovery.md;
+baselineaa1a2d0. Offline experiments can continue on undergraduate-selected content;
+unknownpolicy applicability/sourcegaps/formalapproval gates remain. The question
+does not provide university authorization; no repeated validation request.
+
 Closure:435documentation/ledger tests and11subtests pass11.24s; phasevalidate0/
 canadvance1expectedblocked; diffcheckpasses. 25files/two currentcode digests
 sealed; SHA256:90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c.1273current hashes and one

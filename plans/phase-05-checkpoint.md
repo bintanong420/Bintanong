@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 175
+sequence: 176
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 093ea4a
-working_tree: six curated compact-context closure documents; private evidence ignored
-updated_at: 2026-10-14T19:09:55+08:00
+head_commit: aa1a2d0
+working_tree: provisional-retrieval recovery note and two active ledger updates
+updated_at: 2026-10-14T19:41:52+08:00
 ---
 
 # Phase 05 checkpoint
@@ -70,6 +70,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner asks about temporarily deferred school validation and rollback. Recovery by
+code/source versions/candidates/evaluation documented; publishedrollback needs an
+existing valid prior publication. No rollback/activation performed or authorization
+inferred. Verification remainspending; provisional offline experiments can continue
+on undergraduate-selected evidence. Scope/gap/formalapproval gates retained. Note:
+2026-10-14-provisional-retrieval-recovery.md. No repeated schoolvalidation request.
 
 Optional compact citation context complete: plan782dbfe/code093ea4a. Default8
 contexts2000–3528tokens,2fit2048; opt-in1209–1917/all8fit2048. All113citations/
