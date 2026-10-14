@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 163
+sequence: 164
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 0c41210
-working_tree: seven scoped heading metadata code/test/ledger paths
-updated_at: 2026-10-14T15:36:13+08:00
+head_commit: 7da9334
+working_tree: three scoped metadata verification and UTF-8 repair documents
+updated_at: 2026-10-14T15:43:38+08:00
 ---
 
 # Phase 05 checkpoint
@@ -61,6 +61,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Code7da9334 accepted by final read-only reviewer: no Critical/codeImportant/Minor;
+Important Windows planencoding repaired. Docs408pass2.99s/phasevalidate0. Guarded
+full run encountered that plan before repair: test_docs_hygiene plan decode failed,
+5186other tests/412subtests pass,6skips6warnings308.48s. Postrepair full required.
+Actual10projections/46values/113spans and zeroactualchunks replay; exactmax478/512,
+1155dependencies preserved. Human curriculum/cohort clarification pending; no answer
+inferred. Sourceauth/applicability remain separate gates; no new contentjudgment.
+
+Human applicability clarification posted: whether verified curriculum/cohort guidance identifies editions for2026–2027 BSCS/Architecture/Nursing/Criminology/Tourism scenarios. No answer inferred; owner row/evidence approvals remain settled, proposedBSCS stays proposed. Continue independent suite/review/closure while waiting.
 
 Heading metadata adapter implemented under plan0c41210. RED: missing optional API,
 1failed0.54s; GREEN/related88passed148subtests1.91s. Added unsupported-field/null-kind

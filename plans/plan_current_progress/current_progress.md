@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Code7da9334 accepted by final read-only reviewer: no Critical/codeImportant/Minor;
+Important Windows planencoding repaired. Docs408pass2.99s/phasevalidate0. Guarded
+full run encountered that plan before repair: test_docs_hygiene plan decode failed,
+5186other tests/412subtests pass,6skips6warnings308.48s. Postrepair full required.
+Actual10projections/46values/113spans and zeroactualchunks replay; exactmax478/512,
+1155dependencies preserved. Human curriculum/cohort clarification pending; no answer
+inferred. Sourceauth/applicability remain separate gates; no new contentjudgment.
+
+Human applicability clarification posted: whether verified curriculum/cohort guidance identifies editions for2026–2027 BSCS/Architecture/Nursing/Criminology/Tourism scenarios. No answer inferred; owner row/evidence approvals remain settled, proposedBSCS stays proposed. Continue independent suite/review/closure while waiting.
+
 **Heading metadata candidate implemented — 14 October 2026.**
 
 Heading metadata adapter implemented under plan0c41210. RED: missing optional API,

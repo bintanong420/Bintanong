@@ -60,7 +60,7 @@ Only `placement`/`year_term_heading_metadata` and
   Bind headings to complete actual code/title citations; use explicit coordinate conversion
   and fixed formatting. Never replace literal spans with projected strings.
 - [x] Focused GREEN and related contract/preparation/chunk/context/retrieval regressions.
-- [ ] Commit verified code/tests with checkpoint/current-progress evidence.
+- [x] Commit verified code/tests with checkpoint/current-progress evidence.
 
 ## Task 2: Actual inactive replay and final verification
 
@@ -73,7 +73,7 @@ Consumes Task1's binding API; no additional product feature.
   validate all citations and proposal warnings, confirm unchanged default adapter replay.
 - [ ] Full repository pytest with external basetemp/no cache; preserve log and report all
   skips/warnings/failures. No real retrieval scoring or release claim.
-- [ ] One fresh reviewer against this cohesive change, spec and review-focus list. Fix
+- [x] One fresh reviewer against this cohesive change, spec and review-focus list. Fix
   Critical/Important findings in one TDD pass; record any deferred minors/rulings.
 - [ ] Seal ignored replay evidence; curate report/index/checkpoint/handoff/progress.
   Run documentation/ledger validation, keep Phase05 blocked, explicit staging/commit.
@@ -93,6 +93,17 @@ retain evidence/history rather than deleting the audit packet.
 - Task1 candidate: initial API RED and unsupported/null-kind RED observed; final related
   88 passed/148 subtests/1.91s. Initial full5186 passed/412 subtests predates null-kind guard.
 - Task2 real replay: ten projections validated, zero metadata errors,46values/113spans
-  unchanged,8unknown-applicability/0chunks. Exact offline model counts286–478/512,
+  unchanged,8unknown-applicability/0chunks. Exact offline model counts286â€“478/512,
   no vectors.1155 preserved dependencies including two verified historical code baselines.
 - Final guarded full suite/review/closure pending. No human content judgment required.
+
+- Task1: candidate committed7da9334. One fresh read-only review: no code findings,
+  one Important UTF-8 plan-encoding issue fixed;408docs pass2.99s/phasevalidate0.
+- Final full run captured that encoding failure before repair:1failed5186passed/
+  412subtests/6skips/6warnings308.48s. Failure is test_docs_hygiene plan decoding;
+  post-repair complete full run remains required. No second code review.
+- Human applicability/cohort clarification posted; no answer inferred.
+- Final: Ruling: source authenticity and institutional applicability remain separate
+  evidence gates, as the reviewer declined to judge them; original byte/native/render
+  replay passes but cannot establish institution/cohort authority. If wrongly inferred,
+  guidance could use the wrong curriculum. No activation or repeated content review.
