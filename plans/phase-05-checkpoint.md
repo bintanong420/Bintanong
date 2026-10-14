@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 161
+sequence: 162
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9a1d790
-working_tree: five scoped curriculum provenance closure documents; product unchanged
-updated_at: 2026-10-14T15:13:03+08:00
+head_commit: c1c295c
+working_tree: three scoped heading metadata plan documents; product unchanged
+updated_at: 2026-10-14T15:20:50+08:00
 ---
 
 # Phase 05 checkpoint
@@ -61,6 +61,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Heading metadata adapter implementation started from clean c1c295c. Plan: plans/2026-10-14-reviewed-heading-metadata-plan.md. Owner authorizes continuous work and requests human verification only for new content judgments. Existing ten projections/46 confirmed fields remain settled. Synthetic TDD, default-output preservation and one final fresh review; source governance/Phase05 exit remain pending.
 
 Remaining13 field citations prepared under plan9a1d790: all46 accepted values located,
 34 native scalar fields/91spans,2 original-image fields,10 heading metadata projections
