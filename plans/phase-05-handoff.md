@@ -10,6 +10,19 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Current diagnostic14October2026: [exact token readiness](2026-10-14-reviewed-policy-token-readiness-report.md).
+The accepted structural derivative remains77unknown/0chunks,267fields/29blanks/
+235spans/sevenlogicalgaps. Exact SEA-LION sizing finds563/539tokens above512.
+Existinghelper trial81unknown/0chunks fails four parts535/542/522/517; diagnostic
+only, not adopted. Independentreview confirms/no findings;37files sealed,64relatedtests/94subtests and
+397docs pass. No product behavior change. Next bounded TDD for compatible
+manifest-display compaction, retaining full stored manifests/gaps and legacy
+validation; then exact replay. Source-governance/approveddevelopment gates remain.
+Historical guide changed (808of809match); current34fileseal/sixcode digests match.
+Unknown cause, no activeevent/bundle reference, preserve observed bytes/old seals.
+No incomingprocessing, sourceactivation or Phase06. Prior preparation-size claims
+below refer to estimated480cap, not this newly measured exact512encoder limit.
+
 Latest14October2026: [record-partition report](2026-10-14-reviewed-record-partitions-report.md)
 Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
 review correctionf70262a. Both remaining size refusals in the selected bundle resolve

@@ -1,5 +1,60 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Final closure recheck:397 documentation tests pass1.06s; all37sealed artifacts/sixcode digests and manifest hash match. Seven curated text paths only, no private artifacts staged.
+
+**Exact-token diagnostic and independent review closed — 14 October 2026.**
+
+Exact-token diagnostic complete — 14 October 2026. Plan354b7b0; product code
+unchanged. Baseline77unknown/0chunks: exact111..563; pre-enrollmentstep3=563 and
+handbookcover=539 exceed512. Existinghelper trial81 also fails535/542/522/517 and
+is not adopted. Preserve267fields/29blanks/235spans/sevengaps; fullgroup checks pass.
+Fresh independent review: no Critical/Important/Minor; reproduced all counts and
+both real adapter replays, four original bindings, 15eventhashes, two originalPDFs,
+45native spans and both displayed original sections. Related64tests/94subtests
+pass2.39s; docs397pass3.57s; phasevalidate0/canadvance1expectedblocked.
+Current34file priorseal/sixcode digests match. Historical808/809match; one superseded
+guide changed, causeunknown, no activebundle/event reference, preserved asobserved.
+861observed input/model/code hashes verified. New37files/sixcode digests seal:
+7550fc07cb5d5e8448ea70629a822b7e995af6053129986db760dca71d1a187f.
+Next bounded compatible manifest-display compaction with syntheticTDD, fullstored
+metadata/gap reconstruction and legacyvalidation; then exact sizing. No product
+fix or successful partition replacement claimed by this diagnostic. Sourceapproval,
+applicability and approved development labels/retrieval remain separate gates.
+Owner asked to inspect originalsections; linked Charter103step3 and handbookcover,
+explained70/27source tokens versus563/539serialized tokens. No new content/scope
+judgment inferred; Chartercutoff after for remains unresolved. Incomingbatch waits.
+
+
+**Exact readiness measured; partition trial not adopted — 14 October 2026.**
+
+Exact-token readiness measured,14 October 2026: initial77previews111..563tokens;
+pre-enrollmentstep3=563, handbookcover=539 (512limit). Existinghelper whole-field
+trial81unknown/0chunks keeps267fields/29blanks/235spans/sevengaps but stillfourexact
+overflows535/542/522/517 despite estimatefit. Trialheld diagnostic, not adopted.
+No productcode/source/scope change; no vectors or retrievalquality claims.
+861observed input/model/code hashes recorded; current34fileseal/sixcode digests
+match. Historical808/809unchanged; one supersededguide changed, causeunknown,
+no activeevent/bundle reference. Correctedrelated64tests/94subtests2.39s pass.
+Independent reviewer checking saved counts/preservation/governance. Nextseal/report/
+docsclosure, then compatible manifest-display compaction underTDD, preserving full
+storedmetadata/legacyvalidation and exactmeasurement; Phase05 stillblocked.
+
+
+**Exact sizing and historical drift — 14 October 2026.**
+
+Exact sizing discovery,14 October 2026: 77 inactive serializer previews captured
+from unchanged real adapter replay (zerochunks/77unknown). Exact SEA-LION counts
+111..563; pre-enrollmentstep3=563 and handbookcover=539 exceed512 despite451/423
+estimates. Existing helper now derives81unknown/0chunks preserving267fields,
+29blanks/235spans; final exact pass running. No new product behavior or scope edits.
+Related64tests/94subtests pass2.39s; first command named a nonexistent test and ran
+nothing, retained separately. Historical drift:808of809prior files match; superseded
+NEXT-REVIEW-SOURCE-RECORDS.md changed96fcd5f... to f4320145..., causeunknown. No active
+bundle/event reference; current34-file seal/sixcode digests match, changed bytes
+copied to newpacket without overwriting history. Next exactmeasure/independent
+verification/report/seal. No incoming/sourceapproval/activation/Phase06.
+
+
 **Exact-token readiness start — 14 October 2026.**
 
 14 October 2026 continuation from clean94097c5: exact-token/governance readiness

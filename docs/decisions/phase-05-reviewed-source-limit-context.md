@@ -90,3 +90,20 @@ formalPhase05exit remain separate gates; hashes do not grant sourceauthority.
 Correctionf70262a verified by full5150tests/358subtests/6skips/6warnings302.61s.
 34files/sixpost-correction code digests sealf3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
 FormalPhase05 remainsblocked; actual77unknown/0chunks cannot establishapproval.
+
+## Exact sizing distinguishes estimates from encoder capacity
+
+14 October2026: [readiness diagnostic](../../plans/2026-10-14-reviewed-policy-token-readiness-report.md)
+measures the unchanged77-reading candidate with the pinned local tokenizer,
+special tokens and no truncation. Pre-enrollmentstep3=563 and handbookcover=539
+exceed512 although their estimates451/423 fit480. The existing whole-field helper
+trial preserves267fields/29blanks/235spans/sevengaps but still exceeds512 in four
+parts. Retain the trial as failed diagnostic evidence, not a replacement candidate.
+
+Ruling: do not raise the encoder limit, truncate or omit fields/limits. Specify a
+compatible display change that avoids repeating validation-only manifest material
+in encoder text, while preserving full stored manifests and whole-group original
+gap checks. Preserve legacy validation and version the new representation before
+use. Synthetic TDD and exact sizing must precede any delivery claim. Risk if wrong:
+metadata compaction could weaken completeness or hide a limitation. No code change
+is delivered by this diagnostic; source approval and Phase05 exit remain separate.

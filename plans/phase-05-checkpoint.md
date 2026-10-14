@@ -2,16 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 140
+sequence: 143
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 94097c5
-working_tree: token readiness plan and checkpoint-progress preparation
-updated_at: 2026-10-14T09:39:21+08:00
+head_commit: 354b7b0
+working_tree: seven curated readiness closure documents; no product-code edits
+updated_at: 2026-10-14T09:52:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Exact-token diagnostic complete — 14 October 2026. Plan354b7b0; product code
+unchanged. Baseline77unknown/0chunks: exact111..563; pre-enrollmentstep3=563 and
+handbookcover=539 exceed512. Existinghelper trial81 also fails535/542/522/517 and
+is not adopted. Preserve267fields/29blanks/235spans/sevengaps; fullgroup checks pass.
+Fresh independent review: no Critical/Important/Minor; reproduced all counts and
+both real adapter replays, four original bindings, 15eventhashes, two originalPDFs,
+45native spans and both displayed original sections. Related64tests/94subtests
+pass2.39s; docs397pass3.57s; phasevalidate0/canadvance1expectedblocked.
+Current34file priorseal/sixcode digests match. Historical808/809match; one superseded
+guide changed, causeunknown, no activebundle/event reference, preserved asobserved.
+861observed input/model/code hashes verified. New37files/sixcode digests seal:
+7550fc07cb5d5e8448ea70629a822b7e995af6053129986db760dca71d1a187f.
+Next bounded compatible manifest-display compaction with syntheticTDD, fullstored
+metadata/gap reconstruction and legacyvalidation; then exact sizing. No product
+fix or successful partition replacement claimed by this diagnostic. Sourceapproval,
+applicability and approved development labels/retrieval remain separate gates.
+Owner asked to inspect originalsections; linked Charter103step3 and handbookcover,
+explained70/27source tokens versus563/539serialized tokens. No new content/scope
+judgment inferred; Chartercutoff after for remains unresolved. Incomingbatch waits.
 
 Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
 review correctionf70262a. Both remaining size refusals in the selected bundle resolve
@@ -33,6 +53,52 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Final closure recheck:397 documentation tests pass1.06s; all37sealed artifacts/sixcode digests and manifest hash match. Seven curated text paths only, no private artifacts staged.
+
+Exact-token diagnostic complete — 14 October 2026. Plan354b7b0; product code
+unchanged. Baseline77unknown/0chunks: exact111..563; pre-enrollmentstep3=563 and
+handbookcover=539 exceed512. Existinghelper trial81 also fails535/542/522/517 and
+is not adopted. Preserve267fields/29blanks/235spans/sevengaps; fullgroup checks pass.
+Fresh independent review: no Critical/Important/Minor; reproduced all counts and
+both real adapter replays, four original bindings, 15eventhashes, two originalPDFs,
+45native spans and both displayed original sections. Related64tests/94subtests
+pass2.39s; docs397pass3.57s; phasevalidate0/canadvance1expectedblocked.
+Current34file priorseal/sixcode digests match. Historical808/809match; one superseded
+guide changed, causeunknown, no activebundle/event reference, preserved asobserved.
+861observed input/model/code hashes verified. New37files/sixcode digests seal:
+7550fc07cb5d5e8448ea70629a822b7e995af6053129986db760dca71d1a187f.
+Next bounded compatible manifest-display compaction with syntheticTDD, fullstored
+metadata/gap reconstruction and legacyvalidation; then exact sizing. No product
+fix or successful partition replacement claimed by this diagnostic. Sourceapproval,
+applicability and approved development labels/retrieval remain separate gates.
+Owner asked to inspect originalsections; linked Charter103step3 and handbookcover,
+explained70/27source tokens versus563/539serialized tokens. No new content/scope
+judgment inferred; Chartercutoff after for remains unresolved. Incomingbatch waits.
+
+Exact-token readiness measured,14 October 2026: initial77previews111..563tokens;
+pre-enrollmentstep3=563, handbookcover=539 (512limit). Existinghelper whole-field
+trial81unknown/0chunks keeps267fields/29blanks/235spans/sevengaps but stillfourexact
+overflows535/542/522/517 despite estimatefit. Trialheld diagnostic, not adopted.
+No productcode/source/scope change; no vectors or retrievalquality claims.
+861observed input/model/code hashes recorded; current34fileseal/sixcode digests
+match. Historical808/809unchanged; one supersededguide changed, causeunknown,
+no activeevent/bundle reference. Correctedrelated64tests/94subtests2.39s pass.
+Independent reviewer checking saved counts/preservation/governance. Nextseal/report/
+docsclosure, then compatible manifest-display compaction underTDD, preserving full
+storedmetadata/legacyvalidation and exactmeasurement; Phase05 stillblocked.
+
+Exact sizing discovery,14 October 2026: 77 inactive serializer previews captured
+from unchanged real adapter replay (zerochunks/77unknown). Exact SEA-LION counts
+111..563; pre-enrollmentstep3=563 and handbookcover=539 exceed512 despite451/423
+estimates. Existing helper now derives81unknown/0chunks preserving267fields,
+29blanks/235spans; final exact pass running. No new product behavior or scope edits.
+Related64tests/94subtests pass2.39s; first command named a nonexistent test and ran
+nothing, retained separately. Historical drift:808of809prior files match; superseded
+NEXT-REVIEW-SOURCE-RECORDS.md changed96fcd5f... to f4320145..., causeunknown. No active
+bundle/event reference; current34-file seal/sixcode digests match, changed bytes
+copied to newpacket without overwriting history. Next exactmeasure/independent
+verification/report/seal. No incoming/sourceapproval/activation/Phase06.
 
 14 October 2026 continuation from clean94097c5: exact-token/governance readiness
 plan2026-10-14-reviewed-policy-token-readiness-plan.md. Reuse strict local encoder
@@ -1171,6 +1237,9 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Current code354b7b0 has no product edits; seven curated readiness documents close
+this diagnostic. Do not stage packet previews, source text, original renders or logs.
+
 HEADf70262a after ae3db3b/plan97211bd; code/tests committed. Seven curated
 closure documents only: boundedplan/report, source-limitdecision, INDEX, checkpoint,
 currentprogress and blockedhandoff. No source/private/generated artifacts staged.
@@ -1287,6 +1356,26 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Exact-token diagnostic complete — 14 October 2026. Plan354b7b0; product code
+unchanged. Baseline77unknown/0chunks: exact111..563; pre-enrollmentstep3=563 and
+handbookcover=539 exceed512. Existinghelper trial81 also fails535/542/522/517 and
+is not adopted. Preserve267fields/29blanks/235spans/sevengaps; fullgroup checks pass.
+Fresh independent review: no Critical/Important/Minor; reproduced all counts and
+both real adapter replays, four original bindings, 15eventhashes, two originalPDFs,
+45native spans and both displayed original sections. Related64tests/94subtests
+pass2.39s; docs397pass3.57s; phasevalidate0/canadvance1expectedblocked.
+Current34file priorseal/sixcode digests match. Historical808/809match; one superseded
+guide changed, causeunknown, no activebundle/event reference, preserved asobserved.
+861observed input/model/code hashes verified. New37files/sixcode digests seal:
+7550fc07cb5d5e8448ea70629a822b7e995af6053129986db760dca71d1a187f.
+Next bounded compatible manifest-display compaction with syntheticTDD, fullstored
+metadata/gap reconstruction and legacyvalidation; then exact sizing. No product
+fix or successful partition replacement claimed by this diagnostic. Sourceapproval,
+applicability and approved development labels/retrieval remain separate gates.
+Owner asked to inspect originalsections; linked Charter103step3 and handbookcover,
+explained70/27source tokens versus563/539serialized tokens. No new content/scope
+judgment inferred; Chartercutoff after for remains unresolved. Incomingbatch waits.
 
 Record partitions closed,14October2026: plan97211bd, implementationae3db3b,
 review correctionf70262a. Both remaining size refusals in the selected bundle resolve
@@ -1453,6 +1542,9 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+New readiness seal37files/sixcode digests: 7550fc07cb5d5e8448ea70629a822b7e995af6053129986db760dca71d1a187f.
+Unchanged external SEA-LION weightsdf5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1.
+
 Recordpacket34files/sixcode digests: f3ff1d0e20ab6874ed813809a8e64c6c072cf2b02add0c2f26b34336388001de.
 Existing Python3.13.7/offline assets/externalMODELS remain unchanged.
 
@@ -1491,6 +1583,10 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Current exact sizing: two77baseline overflows563/539; failed81trialfourparts over512.
+Do not confuse earlier estimate-fit delivery with encoder-fit or source approval.
+Historical guide drift is documented; no active event/bundle reference, causeunknown.
 
 Selected structural preparation refusals are resolved; all77actual readings remain
 unknown applicability/zerochunks. Sourceauthority/currentness/interpretation and
@@ -1538,6 +1634,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Authoritative next action: bounded TDD for compatible compaction of manifest display,
+retaining full stored bindings/manifests/limits, original gap checks and legacy
+validation. Recount exact tokens without truncation; do not adopt failed81trial.
+Source-governance/approveddevelopment evidence remains separately pending.
 
 Continue source-governance and approved development-evidence recovery; preserve unknown authority/currentness/applicability, bind approved cases to complete source groups, and measure exact tokenizer/retrieval behavior through the existing authorized offline environment. Candidate preparation does not authorize activation or Phase06.
 
