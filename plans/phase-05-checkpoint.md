@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 176
+sequence: 177
 plan: plans/phase-05-retrieval-plan.md
-head_commit: aa1a2d0
-working_tree: provisional-retrieval recovery note and two active ledger updates
-updated_at: 2026-10-14T19:41:52+08:00
+head_commit: c09135a
+working_tree: six curated thesis-development clarification and phase ledger documents
+updated_at: 2026-10-14T20:18:09+08:00
 ---
 
 # Phase 05 checkpoint
@@ -70,6 +70,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner explicitly authorizes provisional source-based thesisdevelopment/testing with
+supplied public data while school validation is pending. Correct earlier blanket
+wait framing. Validation tracks sourceauthenticity, edition/curriculum/cohort/current-
+SY applicability and confirmationdate; sourceyear is separate, oldcurricula can remain
+valid. Actual register approvals staypending; no issuerstatement fabricated. Note:
+2026-10-14-thesis-development-source-use-clarification.md; scope17–18/master10 reviewed.
 
 Owner asks about temporarily deferred school validation and rollback. Recovery by
 code/source versions/candidates/evaluation documented; publishedrollback needs an
@@ -2164,6 +2171,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Run provisional offline candidate source embedding/ranking/evaluation for reviewed
+undergraduate-selected evidence using unchanged accepted queries. Keep unknownpolicy
+scope/ambiguousstudentcurriculum/sourcegaps visible, results explicitlycandidate and
+version/recovery bindings intact. Universityverification does not block this research
+testing; institutionalactivation/formalvalidatedclaims retain their approval gates.
 
 Preserve optionalcompact-context/querypreflight outputs. Resume governed source/
 release-dependent retrieval/calibration when university verification/useauthorization

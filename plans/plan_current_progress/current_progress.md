@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Public-source thesis testing explicitly authorized — 14October2026.**
+
+Owner confirms thesis development/testing with supplied public data; no near-term
+institutional guidance deployment. Proceed with provisional offline source-based
+retrieval/evaluation on reviewed undergraduate candidates while school validation
+remainspending. Earlier blanket developmentwait framing corrected. Verification
+concerns authenticity/applicableedition/program/cohort and confirmationdate; older
+curricula are not automatically obsolete. Sourceyear and validationdate separate;
+no schoolstatement or approvalreference inferred. Record:2026-10-14-thesis-development-
+source-use-clarification.md. Baselinec09135a; next provisional candidate ranking/
+evaluation with unchanged accepted questions, recoverable versions and honest status.
+Unknownscope/sourcegaps/formalactivation gates remain; no repeated validation ask.
+
 **Deferred validation and rollback clarified — 14October2026.**
 
 Owner asks whether validation can wait and whether later recovery is possible.

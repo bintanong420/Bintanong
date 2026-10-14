@@ -8,6 +8,13 @@ previous_handoff: plans/phase-04-handoff.md
 
 # Phase 5 — Retrieval Plan
 
+Latest owner clarification14October2026: provisional offline retrieval/evaluation
+with supplied public undergraduate-selected candidates is authorized during thesis
+development while school validation is pending. See2026-10-14-thesis-development-
+source-use-clarification.md. Do not treat the university response as a blanket blocker
+for candidate experiments. Actual source approvals, scope/edition uncertainties,
+governed activation and formal institutional exit claims remain separately gated.
+
 Originally prepared at `4244870`; corrected storage baseline `c5beecd`. Owner formally started Phase 05 on 12 October 2026 from `10bfd6f` in `feat/p05-retrieval-logic`. The complete Phase 04 corrective handoff governs eligibility.
 Nothing here constitutes institutional policy approval or active production release.
 Anything not run is marked NOT RUN.

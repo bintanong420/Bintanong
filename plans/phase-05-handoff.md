@@ -10,6 +10,14 @@ completed_at: 2026-10-14T19:09:55+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest owner instruction supersedes blanket developmentwaits: provisional offline
+retrieval/testing with supplied public undergraduate-selected data is authorized
+while school validation remainspending. See2026-10-14-thesis-development-source-use-
+clarification.md. Continue candidate ranking/evaluation; authentic edition/program/
+cohort/confirmation metadata remainsseparate, oldercurricula not discarded for age.
+Actual register approval and formalinstitutionalactivation gates remain; no fake
+sourceverification or new query inferred. This is a thesisdevelopment continuation.
+
 Closure:435documentation/ledger tests and11subtests pass11.24s; phasevalidate0/
 canadvance1expectedblocked; diffcheckpasses. 25files/two currentcode digests
 sealed; SHA256:90d89fd72afc8a33827e94a514127f391a430f026ce824d6b4113d1a7caa9b7c.1273current hashes and one
