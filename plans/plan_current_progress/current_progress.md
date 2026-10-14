@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Cited-context budget diagnostic started — 14October2026.**
+
+Owner saysproceed from clean22896c1. Check complete citation serialization for eight
+reviewed curriculum candidates using existing context builder and exact local
+tokenizer; candidate-only/manual assembly/no ranker or RPC. No sourcecontent or
+authorization inference. Plan2026-10-14-cited-context-budget-plan.md; schoolverification
+remainsdeferred, incomingcollegeCharters removed/possiblememoranda retained.
+Next actual2048budget replay and metadata/source-length diagnosis; preservepriorseals.
+
 Closure checks:433documentation/ledger tests and11subtests pass14.75s;
 phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six
 unchanged code digests sealed; manifest SHA256:

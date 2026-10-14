@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 172
+sequence: 173
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3928c42
-working_tree: six curated preflight closure documents; private evidence ignored
-updated_at: 2026-10-14T18:47:45+08:00
+head_commit: 22896c1
+working_tree: cited-context diagnostic plan and two active ledger updates; private evidence ignored
+updated_at: 2026-10-14T18:56:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -67,6 +67,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Ownerproceeds; independent nextcheck is complete cited-context sizing for eight
+unchanged curriculum candidates through existing build_context/exacttokenizer.
+Manual assembly only, similaritynull, no semantic rankings/RPC/activation or combined
+old/new eligibility. Plan2026-10-14-cited-context-budget-plan.md; isolate metadata
+overhead from source length before any correction. Sourceverification staysdeferred.
+Scope17–18/routing/master10 reconsulted; baseline22896c1 clean, priorpreflightcomplete.
 
 Development retrieval preflight closed under plan3928c42. All36exact queries/
 12scenarios bound to13policy previews/eightcurriculum chunks/152target spans;
