@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Course identity diagnostic and report correction — 14 October 2026.**
+
+Clean0456ba6. Exact thesis query is case-tl and ranked oldCC5 first; mismatch
+belongs to approved CS-student/i-take/failed Taglish paraphrase. Corrected prior
+report attribution; sealed scores and questions unchanged. Plan:
+2026-10-14-course-identity-diagnostic-plan.md. Next compare reviewed course-code
+field filtering with six existing CC5 edition branches; no automatic query-role
+extraction or curriculum inference, no product/source changes. Actual thesis17–18,
+routingPNG/master10 consulted; undergraduate scope retained, schoolvalidation deferred.
+
+
 Provisional ranking closure:451docs/ledger tests and11subtests pass10.87s;
 phase state valid, advancement blocked.30file/five code-digest evidence seal:
 2ec37c341783b6baa9979f6ea7655b54c5e91c227225e9aaca2e331eaf20d605.

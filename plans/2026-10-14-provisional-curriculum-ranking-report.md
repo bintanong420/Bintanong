@@ -35,8 +35,16 @@ contexts fit 2048 tokens: 1242–1574 tokens, no gaps, 153 citation bindings acr
 the repeated language variants. Source fields and citation arrays match the prior
 complete compact contexts; cosine values are observations, not probabilities.
 
-For the exact thesis question **“Pwede ko bang kunin ang CC5 kahit bumagsak ako sa
-CC4?”**, unfiltered ranking is:
+Correction recorded on the following continuation: the ranking below belongs to
+the approved Taglish paraphrase **“CS student ako: pwede ko bang i-take ang CC5
+kahit failed ako sa CC4?”** (`cs-cc5-failed-cc4-taglish`), not the exact thesis
+question. The exact thesis question **“Pwede ko bang kunin ang CC5 kahit bumagsak
+ako sa CC4?”** is `cs-cc5-failed-cc4-tl` and ranks old CC5 first (0.534219), proposed
+CC5 second (0.519685) and old practicum third (0.507289). Original numeric artifacts
+and question strings were correct and remain unchanged; this corrects the report's
+wording-to-score attribution.
+
+For the approved Taglish paraphrase, unfiltered ranking is:
 
 | Source row | Cosine similarity |
 | --- | ---: |

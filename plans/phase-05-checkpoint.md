@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 180
+sequence: 181
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c92f51c
-working_tree: six curated provisional ranking report and phase ledger documents
-updated_at: 2026-10-14T20:47:00+08:00
+head_commit: 0456ba6
+working_tree: five curated query attribution correction and diagnostic plan documents
+updated_at: 2026-10-14T20:55:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -78,6 +78,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Course identity diagnostic begins from clean0456ba6; plan:
+2026-10-14-course-identity-diagnostic-plan.md. Prior report attributed Taglish
+paraphrase scores to exact thesis query incorrectly: exact question is case-tl
+and ranks oldCC5 first; failed case-taglish uses CS-student/i-take/failed wording.
+Correct the narrative, preserve numeric artifacts/queries. Reuse scores with
+reviewed target-course field filtering; no product behavior or source change.
+Actual thesis17–18/routingPNG/master10 consulted; no discrepancy.
+
 
 Latest experiment is complete and sealed. Next bounded offline course-identity
 diagnostic addresses old-curriculum Taglish CC5/practicum ranking mismatch.
