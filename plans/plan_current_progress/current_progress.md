@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Feature branch push requested; remote documentation merged — 14 October 2026.**
+
+Owner authorized pushing local committed changes to feat/p05-retrieval-logic.
+Fresh Git fetch and GitHub MCP agree remote f10d5cd:3remote-only/103local-only
+commits. The remote additions are three historical12October review documents
+and four INDEX lines; normal merge staged cleanly with no conflicts. Preserve
+those remote records and current Phase05 state, avoiding published-history rewrites.
+Productdea9442 is unchanged; next documentation/phase checks and ordinary explicit
+feature-branch push. Original datasets/raw evidence remain ignored. Owner changes
+artifacts/.gitkeep deletion/untracked backend/artifacts remain uncommitted locally.
+No source decision, runtime activation, Phase06 advancement, dev/main merge or PR.
+
 Shared-citation closure:464docs/ledger tests11subtests pass10.73s; phasevalidate0/
 canadvance1(expectedblocked).33ignored evidence files/13current code-test digests
 sealed; manifestSHA256:

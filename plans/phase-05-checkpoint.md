@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 206
+sequence: 207
 plan: plans/phase-05-retrieval-plan.md
-head_commit: dea9442
-working_tree: six curated shared citation closure documents; owner artifacts preserved
-updated_at: 2026-10-14T23:28:05+08:00
+head_commit: 9c6351b
+working_tree: feature-branch remote documentation merge/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T23:33:58+08:00
 ---
 
 # Phase 05 checkpoint
@@ -161,6 +161,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner authorized pushing local committed changes to feat/p05-retrieval-logic.
+Fresh Git fetch and GitHub MCP agree remote f10d5cd:3remote-only/103local-only
+commits. The remote additions are three historical12October review documents
+and four INDEX lines; normal merge staged cleanly with no conflicts. Preserve
+those remote records and current Phase05 state, avoiding published-history rewrites.
+Productdea9442 is unchanged; next documentation/phase checks and ordinary explicit
+feature-branch push. Original datasets/raw evidence remain ignored. Owner changes
+artifacts/.gitkeep deletion/untracked backend/artifacts remain uncommitted locally.
+No source decision, runtime activation, Phase06 advancement, dev/main merge or PR.
 
 Final review clean; close final documentation/phase checks, evidence seal and
 explicit curated documentation commit. Productdea9442 and priorfullsuite verified.
@@ -1824,6 +1834,9 @@ Bothpolicy candidate bundles checked; source/content authority remainpending.
 Retained Docling dropped-cell findings and1556unlocatable text items need recovery.
 
 ## Repository State
+
+Normal merge in progress:9c6351b local/f10d5cd remote, only three historicaldocs/
+four INDEX lines added; sourcecode/tests unchanged. Explicit staged docs only.
 
 Verified optional serializerdea9442; six curated closure paths only: shared citation
 plan/report, INDEX, checkpoint, blockedhandoff and currentprogress. Owner changes
