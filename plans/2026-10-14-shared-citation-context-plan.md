@@ -72,9 +72,9 @@ the original chunk ID, source-indexed ordered locators and exact original text.
   already bound local tokenizer, without loading model weights.
 - [x] Compare complete-group minima and the same 900 context observations; decode
   every emitted citation back to the original and check unchanged fields/gaps.
-- [ ] Dispatch one fresh final reviewer for code/default/atomic-group correctness
+- [x] Dispatch one fresh final reviewer for code/default/atomic-group correctness
   and evidence accounting; resolve Important/Critical findings in one TDD fix pass.
-- [ ] Commit a curated report and update checkpoint, progress, INDEX and blocked
+- [x] Commit a curated report and update checkpoint, progress, INDEX and blocked
   handoff. Seal ignored evidence; validate phase state with advancement still blocked.
 
 ## Preflight and recovery
@@ -104,3 +104,11 @@ Timing2270→1917tokens nowfits2048; overload3186→2265 still withheld intact.
 68exact old/new/trial counts; no invalidcontexts or selectedthreshold. No model
 inference/runtime opt-in/activation. Next verified code commit, one final fresh
 review, documentation/phase checks and evidence seal. Source decisions settled.
+
+## Final verification
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate source-reference decoding, exact token counts and complete-group budget
+replay agree with saved results; prior1467 hashes remain preserved through explicit
+old-byte snapshots for authorized tracked edits. No calibration/source-authority/
+activation claim is made by these technical checks; existing gates stand.

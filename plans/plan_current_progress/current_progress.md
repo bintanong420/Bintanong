@@ -1,5 +1,41 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Shared-citation closure:464docs/ledger tests11subtests pass10.73s; phasevalidate0/
+canadvance1(expectedblocked).33ignored evidence files/13current code-test digests
+sealed; manifestSHA256:
+aa2b6c038e6501d0d1bab4bf0c91ff99efffd6904054f9378e41ed0c97bf2ca2.
+
+**Shared citation context final review passed — 14 October 2026.**
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate source-reference decoding, exact token counts and complete-group budget
+replay agree with saved results; prior1467 hashes remain preserved through explicit
+old-byte snapshots for authorized tracked edits. No calibration/source-authority/
+activation claim is made by these technical checks; existing gates stand.
+
+**Shared citation context committed; final review underway — 14 October 2026.**
+
+Optional shared citation context dea9442 complete under plan1e260ec; full5252tests/
+497subtests pass315.28s,6skips/6existing warnings. Default and compact outputs stay
+unchanged; runtime callers do not opt in.1467prior hashes preserved with exact
+old snapshots for authorized tracked changes.900default observations replay;
+900shared observations/17strings/212archived citations/6855citation instances
+decode exactly,68old/new/trial token counts. k3/0.5:2048complete expected27/30
+(15/18policy),4096complete30/30(18/18policy),budgetgapcases15/6,invalid0.
+Timing2270→1917 nowfits2048; overload3186→2265 remains withheld intact. Fields,
+blank markers, source limits, complete groups and original chunk IDs preserved.
+Report:2026-10-14-shared-citation-context-report.md. One final reviewer checking
+code/independent measurement accounting; no new source-content approval needed.
+
+Preserve optional shared citation context dea9442 and measured saved results.
+Next bounded development can share repeated whole-group display metadata under
+synthetic TDD while retaining every confirmed field, source-limit message, original
+identity and full structured evidence. Complete overload stillneeds2265tokens;
+never truncate conditions or admit a partial group to fit2048. Reuse all saved
+vectors/ranks/accepted questions; no repeated audience/wording decision or model
+encoding. Unsupported-query calibration requires owner-reviewed question proposals
+before testing. Schoolverification remains deferred; formalPhase05exit stays open.
+
 **Shared citation implementation and actual comparison verified — 14 October 2026.**
 
 Optional shared-citation context verified under plan1e260ec. Full pytest:

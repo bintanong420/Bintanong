@@ -2,16 +2,28 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 203
+sequence: 206
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 1e260ec
-working_tree: shared citation serializer/three test files/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T23:18:56+08:00
+head_commit: dea9442
+working_tree: six curated shared citation closure documents; owner artifacts preserved
+updated_at: 2026-10-14T23:28:05+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Optional shared citation context dea9442 complete under plan1e260ec; full5252tests/
+497subtests pass315.28s,6skips/6existing warnings. Default and compact outputs stay
+unchanged; runtime callers do not opt in.1467prior hashes preserved with exact
+old snapshots for authorized tracked changes.900default observations replay;
+900shared observations/17strings/212archived citations/6855citation instances
+decode exactly,68old/new/trial token counts. k3/0.5:2048complete expected27/30
+(15/18policy),4096complete30/30(18/18policy),budgetgapcases15/6,invalid0.
+Timing2270→1917 nowfits2048; overload3186→2265 remains withheld intact. Fields,
+blank markers, source limits, complete groups and original chunk IDs preserved.
+Report:2026-10-14-shared-citation-context-report.md. One final reviewer checking
+code/independent measurement accounting; no new source-content approval needed.
 
 Optional shared-citation context verified under plan1e260ec. Full pytest:
 5252passed/497subtests/6skipped/6warnings in315.28s, exit0; related82passed/
@@ -149,6 +161,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Final review clean; close final documentation/phase checks, evidence seal and
+explicit curated documentation commit. Productdea9442 and priorfullsuite verified.
+
+Close one final independent review, final documentation/phase checks and ignored
+evidence seal for shared citation context; code/tests alreadycommitteddea9442.
 
 Commit verified shared-citation code/tests, then one fresh final review and closure.
 No new content decision needed; overload2265tokens remains a measured budget limit.
@@ -1807,6 +1825,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified optional serializerdea9442; six curated closure paths only: shared citation
+plan/report, INDEX, checkpoint, blockedhandoff and currentprogress. Owner changes
+artifacts/.gitkeep deletion/backend/artifacts directory preserved. Local feature
+branch/worktree retained; no push/merge/cleanup. Following closure SHA is in Git.
+
 Verified scope/plan463c351; unchanged productf9b1502. Six explicit closure paths:
 confirmed plan/report, INDEX, checkpoint, blocked handoff and currentprogress.
 Owner artifacts/.gitkeep deletion and untracked backend/artifacts/ preserved.
@@ -1956,6 +1979,32 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Shared-citation closure:464docs/ledger tests11subtests pass10.73s; phasevalidate0/
+canadvance1(expectedblocked).33ignored evidence files/13current code-test digests
+sealed; manifestSHA256:
+aa2b6c038e6501d0d1bab4bf0c91ff99efffd6904054f9378e41ed0c97bf2ca2.
+Implementationdea9442; following documentation closure SHA is discoverable inGit.
+Closure reader initially expected a status/list QA shape; actual severity dictionary
+and verified counts were read and bound without modifying the independent result.
+
+Final review: independent verification PASS, no Critical/Important/Minor findings.
+Separate source-reference decoding, exact token counts and complete-group budget
+replay agree with saved results; prior1467 hashes remain preserved through explicit
+old-byte snapshots for authorized tracked edits. No calibration/source-authority/
+activation claim is made by these technical checks; existing gates stand.
+
+Optional shared citation context dea9442 complete under plan1e260ec; full5252tests/
+497subtests pass315.28s,6skips/6existing warnings. Default and compact outputs stay
+unchanged; runtime callers do not opt in.1467prior hashes preserved with exact
+old snapshots for authorized tracked changes.900default observations replay;
+900shared observations/17strings/212archived citations/6855citation instances
+decode exactly,68old/new/trial token counts. k3/0.5:2048complete expected27/30
+(15/18policy),4096complete30/30(18/18policy),budgetgapcases15/6,invalid0.
+Timing2270→1917 nowfits2048; overload3186→2265 remains withheld intact. Fields,
+blank markers, source limits, complete groups and original chunk IDs preserved.
+Report:2026-10-14-shared-citation-context-report.md. One final reviewer checking
+code/independent measurement accounting; no new source-content approval needed.
 
 Optional shared-citation context verified under plan1e260ec. Full pytest:
 5252passed/497subtests/6skipped/6warnings in315.28s, exit0; related82passed/
@@ -2465,6 +2514,11 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Shared display only pools exact common locator keys with identical JSON values
+for each source version/hash/page. It preserves original evidence payloads, full
+citation order, unknown/missing keys and complete groups. Neither citation mode
+default nor runtime behavior changes. Measured overload refusal is retained.
+
 Actual owner confirms all five policy areas with existing limitations. Shared
 master's use/Law references do not exclude applicable undergraduate provisions.
 Selection covers13readings, not whole PDFs or graduate/professional support.
@@ -2599,6 +2653,15 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Preserve optional shared citation context dea9442 and measured saved results.
+Next bounded development can share repeated whole-group display metadata under
+synthetic TDD while retaining every confirmed field, source-limit message, original
+identity and full structured evidence. Complete overload stillneeds2265tokens;
+never truncate conditions or admit a partial group to fit2048. Reuse all saved
+vectors/ranks/accepted questions; no repeated audience/wording decision or model
+encoding. Unsupported-query calibration requires owner-reviewed question proposals
+before testing. Schoolverification remains deferred; formalPhase05exit stays open.
 
 Execute the bounded shared-citation context plan inline under TDD, then fullsuite,
 saved-ranking/tokenizer comparison and one final independent review. Reuse all
@@ -3051,6 +3114,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Reuse900verified default comparisons and saved vectors/ranks; do not repeat model
+inference/source conversions. Five-area undergraduate/shared-audience selection
+and all prior wording/cutoff/deadline decisions remain settled.
 
 Do not reopen five-area undergraduate selection, shared-audience clarification,
 settled37field wording or known cutoff/deadline conflict. Reuse saved36query/eight
