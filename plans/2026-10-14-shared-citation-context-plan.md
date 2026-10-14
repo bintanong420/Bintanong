@@ -57,20 +57,20 @@ The new context prefix identifies `shared-source-locators-v1`; each source entry
 has `version_id`, `byte_sha256`, `page`, `locator_defaults`. Each block contains
 the original chunk ID, source-indexed ordered locators and exact original text.
 
-- [ ] Run existing context tests as a fresh baseline; write synthetic tests proving
+- [x] Run existing context tests as a fresh baseline; write synthetic tests proving
   full group recovery below the former display budget and lossless citation decoding.
-- [ ] Observe expected RED for the absent shared-citation keyword.
-- [ ] Implement the smallest serializer addition and use it for trial/final counts.
-- [ ] Verify GREEN plus record/flowchart tampering, atomic-budget and default tests.
-- [ ] Run the full pytest suite without cache and with external basetemp; record
+- [x] Observe expected RED for the absent shared-citation keyword.
+- [x] Implement the smallest serializer addition and use it for trial/final counts.
+- [x] Verify GREEN plus record/flowchart tampering, atomic-budget and default tests.
+- [x] Run the full pytest suite without cache and with external basetemp; record
   commands/results and commit explicit verified code/tests/ledger paths.
 
 ## Task 2: Real offline comparison and closure
 
-- [ ] Verify the previous seal and bindings; reuse 21 chunks, 36 queries and existing
+- [x] Verify the previous seal and bindings; reuse 21 chunks, 36 queries and existing
   scoped rankings. Independently tokenize the new assembled displays with the
   already bound local tokenizer, without loading model weights.
-- [ ] Compare complete-group minima and the same 900 context observations; decode
+- [x] Compare complete-group minima and the same 900 context observations; decode
   every emitted citation back to the original and check unchanged fields/gaps.
 - [ ] Dispatch one fresh final reviewer for code/default/atomic-group correctness
   and evidence accounting; resolve Important/Critical findings in one TDD fix pass.
@@ -90,3 +90,17 @@ Self-review: one optional serializer interface, no producer/consumer mismatch;
 all five review inputs have regression coverage planned. No new source-content
 retention choice or owner question is required. If complete groups still exceed2048,
 retain intact withholding and report the measured limit; do not truncate content.
+
+## Task 1 verified delivery
+
+Optional shared-citation context verified under plan1e260ec. Full pytest:
+5252passed/497subtests/6skipped/6warnings in315.28s, exit0; related82passed/
+97subtests1.54s after observedRED. Exact900default-format observations unchanged;
+900shared observations/17strings/212archived citations/6855citation instances
+round-trip.1467prior hashes preserved with exact baseline snapshots for authorized
+tracked edits; original/source/register/vector/question/rank bytes untouched.
+At k3/0.5,2048complete expected24/30→27/30 (policy12/18→15/18);4096still30/30.
+Timing2270→1917tokens nowfits2048; overload3186→2265 still withheld intact.
+68exact old/new/trial counts; no invalidcontexts or selectedthreshold. No model
+inference/runtime opt-in/activation. Next verified code commit, one final fresh
+review, documentation/phase checks and evidence seal. Source decisions settled.

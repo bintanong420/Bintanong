@@ -80,6 +80,19 @@ class ReviewedFlowchartContextTests(unittest.TestCase):
         rows[0]['neighbors']=[]
         self.assertFalse(build_context([rows[0]],100000,len)['evidence'])
 
+    def test_shared_citations_preserve_ordered_graph_and_reject_bad_node_citation(self):
+        out=self.build(self.eligible(),compact_context=True);rows=self.candidates(out)
+        original=build_context([rows[-1]],100000,len,compact_citations=True)
+        shared=build_context([rows[-1]],100000,len,shared_citations=True)
+        self.assertEqual(shared['evidence'],original['evidence'])
+        self.assertEqual(shared['gaps'],[])
+        self.assertIn('"node_reading_ids":{"a":"node-a","b":"node-b"}',shared['context'])
+        self.assertLess(shared['context_tokens'],original['context_tokens'])
+        rows[1]['spans'][0]['page']=None
+        changed=build_context([rows[-1]],100000,len,shared_citations=True)
+        self.assertEqual(changed['evidence'],[])
+        self.assertTrue(changed['gaps'])
+
     def test_partial_reviews_excluded_nodes_and_invalid_terminal_are_rejected(self):
         for edit in ['excluded','review','gaps','terminal']:
             mapping=self.f.map()

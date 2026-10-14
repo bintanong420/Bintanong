@@ -27,7 +27,43 @@ def _span_key(span):
     )},sort_keys=True)
 
 
-def _serialize(items, compact_citations=False):
+def _serialize_shared_citations(items):
+    if not items:
+        return ''
+    encode=lambda value:json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':'))
+    sources, source_indexes = [], {}
+    for item in items:
+        for citation in item['citations']:
+            key=tuple(citation[k] for k in ('version_id','byte_sha256','page'))
+            locator=citation['locator']
+            if key not in source_indexes:
+                source_indexes[key]=len(sources)
+                sources.append(dict(version_id=key[0],byte_sha256=key[1],page=key[2],
+                                    locator_defaults=dict(locator)))
+            else:
+                defaults=sources[source_indexes[key]]['locator_defaults']
+                for field in list(defaults):
+                    if field not in locator or encode(defaults[field])!=encode(locator[field]):
+                        del defaults[field]
+    blocks=[encode(dict(citation_format='shared-source-locators-v1',citation_sources=sources))]
+    for item in items:
+        groups=[]
+        for citation in item['citations']:
+            key=tuple(citation[k] for k in ('version_id','byte_sha256','page'))
+            index=source_indexes[key]
+            defaults=sources[index]['locator_defaults']
+            residual={k:v for k,v in citation['locator'].items() if k not in defaults}
+            # Only combine adjacent citations so their original order survives.
+            if not groups or groups[-1]['source_index']!=index:
+                groups.append(dict(source_index=index,locators=[]))
+            groups[-1]['locators'].append(residual)
+        blocks.append(f"[{item['chunk_id']} | {encode(groups)}]\n{item['text']}")
+    return blocks[0]+'\n'+'\n\n'.join(blocks[1:])
+
+
+def _serialize(items, compact_citations=False, shared_citations=False):
+    if shared_citations:
+        return _serialize_shared_citations(items)
     blocks=[]
     for item in items:
         if compact_citations:
@@ -45,9 +81,11 @@ def _serialize(items, compact_citations=False):
     return '\n\n'.join(blocks)
 
 
-def build_context(candidates, budget: int, count_tokens, *, compact_citations=False):
+def build_context(candidates, budget: int, count_tokens, *, compact_citations=False, shared_citations=False):
     if type(compact_citations) is not bool:
         raise ValueError('compact_citations must be an explicit boolean')
+    if type(shared_citations) is not bool:
+        raise ValueError('shared_citations must be an explicit boolean')
     accepted, seen_chunks, seen_spans, gaps = [], set(), set(), []
     for candidate in candidates:
         main_id = candidate['chunk']['chunk_id']
@@ -152,7 +190,7 @@ def build_context(candidates, budget: int, count_tokens, *, compact_citations=Fa
                     'invalid_reviewed_context' if str(exc)=='invalid reviewed context record' else 'invalid_citation')
             gaps.append(f'{reason}:{main_id}')
             continue
-        context=_serialize(accepted+trial,compact_citations)
+        context=_serialize(accepted+trial,compact_citations,shared_citations)
         tokens=count_tokens(context) if context else 0
         if type(tokens) is not int or tokens<0:
             raise ValueError('context tokenizer must return an exact nonnegative integer')
@@ -161,6 +199,6 @@ def build_context(candidates, budget: int, count_tokens, *, compact_citations=Fa
             continue
         accepted.extend(trial)
         seen_chunks,seen_spans=trial_chunks,trial_spans
-    context=_serialize(accepted,compact_citations)
+    context=_serialize(accepted,compact_citations,shared_citations)
     return dict(evidence=accepted, context=context,
                 context_tokens=count_tokens(context) if context else 0, gaps=gaps)

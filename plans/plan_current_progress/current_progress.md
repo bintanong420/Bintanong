@@ -1,5 +1,35 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Shared citation implementation and actual comparison verified — 14 October 2026.**
+
+Optional shared-citation context verified under plan1e260ec. Full pytest:
+5252passed/497subtests/6skipped/6warnings in315.28s, exit0; related82passed/
+97subtests1.54s after observedRED. Exact900default-format observations unchanged;
+900shared observations/17strings/212archived citations/6855citation instances
+round-trip.1467prior hashes preserved with exact baseline snapshots for authorized
+tracked edits; original/source/register/vector/question/rank bytes untouched.
+At k3/0.5,2048complete expected24/30→27/30 (policy12/18→15/18);4096still30/30.
+Timing2270→1917tokens nowfits2048; overload3186→2265 still withheld intact.
+68exact old/new/trial counts; no invalidcontexts or selectedthreshold. No model
+inference/runtime opt-in/activation. Next verified code commit, one final fresh
+review, documentation/phase checks and evidence seal. Source decisions settled.
+
+**Shared citation TDD verified; full suite and real comparison running — 14 October 2026.**
+
+Shared-citation implementation under plan1e260ec: eight focused regressions
+observed expected absent-keyword RED (10failed including3subtest failures,
+32passed/48subtests,1.09s). Minimal optional serializer now GREEN:82relatedtests/
+97subtests pass1.54s. Fresh baseline29tests14subtests passed10.05s. Fullsuite and
+900saved-context comparisons running; code not yet committed. Default evidence,
+source payloads/groups/gaps remain intact. Exact source/page locator defaults use
+JSON equality, preserving false/zero/missing-key distinctions and citation order.
+Initial related command named absent test_retrieval_candidate.py: no tests ran;
+corrected from rg file inventory, then valid related run above passed. Initial
+preservation comparison correctly refused edited tracked regression bytes; preserve
+exact ee38320 snapshots with their old hashes for authorized four-path changes.
+No original or historical raw artifacts changed. Next fullsuite/real-token results,
+verified code commit and one final review; no source question or activation.
+
 **Shared citation context implementation resumed — 14 October 2026.**
 
 Owner continues the verified next action from ee38320: optional shared citation

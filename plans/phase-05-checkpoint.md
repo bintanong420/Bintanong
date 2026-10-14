@@ -2,16 +2,28 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 201
+sequence: 203
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ee38320
-working_tree: shared citation plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T23:09:52+08:00
+head_commit: 1e260ec
+working_tree: shared citation serializer/three test files/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T23:18:56+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Optional shared-citation context verified under plan1e260ec. Full pytest:
+5252passed/497subtests/6skipped/6warnings in315.28s, exit0; related82passed/
+97subtests1.54s after observedRED. Exact900default-format observations unchanged;
+900shared observations/17strings/212archived citations/6855citation instances
+round-trip.1467prior hashes preserved with exact baseline snapshots for authorized
+tracked edits; original/source/register/vector/question/rank bytes untouched.
+At k3/0.5,2048complete expected24/30→27/30 (policy12/18→15/18);4096still30/30.
+Timing2270→1917tokens nowfits2048; overload3186→2265 still withheld intact.
+68exact old/new/trial counts; no invalidcontexts or selectedthreshold. No model
+inference/runtime opt-in/activation. Next verified code commit, one final fresh
+review, documentation/phase checks and evidence seal. Source decisions settled.
 
 Five policy areas confirmed and applied for provisional undergraduate research;
 scope/plan463c351, productf9b1502 unchanged. Shared master's use or School of Law
@@ -137,6 +149,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Commit verified shared-citation code/tests, then one fresh final review and closure.
+No new content decision needed; overload2265tokens remains a measured budget limit.
 
 Owner continues the verified next action from ee38320: optional shared citation
 display under2026-10-14-shared-citation-context-plan.md. Preserve exact evidence
@@ -1941,6 +1956,32 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Optional shared-citation context verified under plan1e260ec. Full pytest:
+5252passed/497subtests/6skipped/6warnings in315.28s, exit0; related82passed/
+97subtests1.54s after observedRED. Exact900default-format observations unchanged;
+900shared observations/17strings/212archived citations/6855citation instances
+round-trip.1467prior hashes preserved with exact baseline snapshots for authorized
+tracked edits; original/source/register/vector/question/rank bytes untouched.
+At k3/0.5,2048complete expected24/30→27/30 (policy12/18→15/18);4096still30/30.
+Timing2270→1917tokens nowfits2048; overload3186→2265 still withheld intact.
+68exact old/new/trial counts; no invalidcontexts or selectedthreshold. No model
+inference/runtime opt-in/activation. Next verified code commit, one final fresh
+review, documentation/phase checks and evidence seal. Source decisions settled.
+
+Shared-citation implementation under plan1e260ec: eight focused regressions
+observed expected absent-keyword RED (10failed including3subtest failures,
+32passed/48subtests,1.09s). Minimal optional serializer now GREEN:82relatedtests/
+97subtests pass1.54s. Fresh baseline29tests14subtests passed10.05s. Fullsuite and
+900saved-context comparisons running; code not yet committed. Default evidence,
+source payloads/groups/gaps remain intact. Exact source/page locator defaults use
+JSON equality, preserving false/zero/missing-key distinctions and citation order.
+Initial related command named absent test_retrieval_candidate.py: no tests ran;
+corrected from rg file inventory, then valid related run above passed. Initial
+preservation comparison correctly refused edited tracked regression bytes; preserve
+exact ee38320 snapshots with their old hashes for authorized four-path changes.
+No original or historical raw artifacts changed. Next fullsuite/real-token results,
+verified code commit and one final review; no source question or activation.
 
 Confirmed-policy closure:462docs/ledger tests11subtests pass10.76s; phasevalidate0/
 canadvance1(expectedblocked).37ignored evidence files/ten unchanged checkoutcode

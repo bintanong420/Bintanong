@@ -202,5 +202,20 @@ class ReviewedRecordContextTests(unittest.TestCase):
         for row in rows:row['chunk']['type_fields']['service_group'].pop('record_manifest')
         self.assertFalse(build_context([rows[-1]],100000,len)['evidence'])
 
+    def test_shared_citations_keep_full_conflict_and_reject_tampered_record(self):
+        rows=self.candidates(self.build(self.eligible(),compact_context=True))
+        original=build_context([rows[-1]],100000,len,compact_citations=True)
+        shared=build_context([rows[-1]],100000,len,shared_citations=True)
+        self.assertEqual(shared['evidence'],original['evidence'])
+        self.assertEqual(shared['gaps'],[])
+        self.assertIn('precedence',shared['context'])
+        self.assertLess(shared['context_tokens'],original['context_tokens'])
+        self.assertFalse(build_context([rows[-1]],shared['context_tokens']-1,len,shared_citations=True)['evidence'])
+        for row in rows:
+            row['chunk']['type_fields']['service_group']['record_manifest']['gaps']['deadlines']['sha256']='b'*64
+        changed=build_context([rows[-1]],100000,len,shared_citations=True)
+        self.assertEqual(changed['evidence'],[])
+        self.assertTrue(changed['gaps'])
+
 
 if __name__=='__main__':unittest.main()
