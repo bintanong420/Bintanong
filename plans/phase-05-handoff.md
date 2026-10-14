@@ -10,6 +10,21 @@ completed_at: 2026-10-13T01:13:40+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest source citation preparation: [remaining curriculum mappings](2026-10-14-curriculum-provenance-mapping-report.md).
+Remaining13 field citations prepared under plan9a1d790: all46 accepted values located,
+34 native scalar fields/91spans,2 original-image fields,10 heading metadata projections
+with20 literal native citations. Existing adapter accepts36scalars but withholds10
+metadata plus8unknown-applicability rows; actual0chunks. Metadata integration remains
+unfinished; no fake literal spans or new product behavior. Fresh native/render/contract
+replay,3negativeprobes and1,133preserved hashes pass;266tests/149subtests1.65s.
+20-file seal944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7.
+Report: plans/2026-10-14-curriculum-provenance-mapping-report.md. Next opt-in metadata
+adapter/context validation with syntheticTDD, then actual authority/effectivity/
+applicability evidence. Confirmed rows/evidence and sourcecutoffs stay settled;
+futurebatch pending, no activation or Phase06.
+
+Earlier recovery entries below are historical.
+
 Latest owner-confirmed recovery: [2026-10-14-confirmed-curriculum-evidence-report.md](2026-10-14-confirmed-curriculum-evidence-report.md).
 Owner confirms both eight original curriculum rows (46 fields) and the expected
 evidence for all 12 accepted scenarios. Applied separately in ignored

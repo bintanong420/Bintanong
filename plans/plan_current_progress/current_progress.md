@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**All remaining field citations prepared — 14 October 2026.**
+
+Documentation/ledger checks:426passed/11subtests10.82s,exit0; phase validation0/advancement1expectedblocked; diffcheckpasses. Five curated closure paths; no product code changed.
+
+Remaining13 field citations prepared under plan9a1d790: all46 accepted values located,
+34 native scalar fields/91spans,2 original-image fields,10 heading metadata projections
+with20 literal native citations. Existing adapter accepts36scalars but withholds10
+metadata plus8unknown-applicability rows; actual0chunks. Metadata integration remains
+unfinished; no fake literal spans or new product behavior. Fresh native/render/contract
+replay,3negativeprobes and1,133preserved hashes pass;266tests/149subtests1.65s.
+20-file seal944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7.
+Report: plans/2026-10-14-curriculum-provenance-mapping-report.md. Next opt-in metadata
+adapter/context validation with syntheticTDD, then actual authority/effectivity/
+applicability evidence. Confirmed rows/evidence and sourcecutoffs stay settled;
+futurebatch pending, no activation or Phase06.
+
+Earlier mapping/pending-review pointers below are historical.
+
 Remaining provenance mapping started from clean246398e. Plan: plans/2026-10-14-curriculum-provenance-mapping-plan.md. Existing contracts only: one literal Tourism units span, two confirmed original-image readings, ten separately cited metadata projections. Preserve accepted46values/12evidencegroups and originalcutoffs. No product behavior or governance changes; futurebatch pending.
 
 **Both source/evidence confirmations applied — 14 October 2026.**

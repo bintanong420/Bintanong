@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 160
+sequence: 161
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 246398e
-working_tree: three scoped provenance preparation documents; product unchanged
-updated_at: 2026-10-14T15:04:13+08:00
+head_commit: 9a1d790
+working_tree: five scoped curriculum provenance closure documents; product unchanged
+updated_at: 2026-10-14T15:13:03+08:00
 ---
 
 # Phase 05 checkpoint
@@ -61,6 +61,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Remaining13 field citations prepared under plan9a1d790: all46 accepted values located,
+34 native scalar fields/91spans,2 original-image fields,10 heading metadata projections
+with20 literal native citations. Existing adapter accepts36scalars but withholds10
+metadata plus8unknown-applicability rows; actual0chunks. Metadata integration remains
+unfinished; no fake literal spans or new product behavior. Fresh native/render/contract
+replay,3negativeprobes and1,133preserved hashes pass;266tests/149subtests1.65s.
+20-file seal944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7.
+Report: plans/2026-10-14-curriculum-provenance-mapping-report.md. Next opt-in metadata
+adapter/context validation with syntheticTDD, then actual authority/effectivity/
+applicability evidence. Confirmed rows/evidence and sourcecutoffs stay settled;
+futurebatch pending, no activation or Phase06.
+
+Contextscope17–18/routing/master10/11 reconsulted; no discrepancy.
+Earlier CurrentTask entries are historical.
 
 Remaining provenance mapping started from clean246398e. Plan: plans/2026-10-14-curriculum-provenance-mapping-plan.md. Existing contracts only: one literal Tourism units span, two confirmed original-image readings, ten separately cited metadata projections. Preserve accepted46values/12evidencegroups and originalcutoffs. No product behavior or governance changes; futurebatch pending.
 
@@ -1438,6 +1453,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Clean planbaseline9a1d790; five closure paths: new mapping report, INDEX, checkpoint, handoff, currentprogress. Source/private/script/render/log artifacts ignored under workspace audit-evidence. Following closure commit discoverable in Git.
+
 Verified pre-closure baseline7ea32c7; clean at owner confirmation. Five curated closure paths: confirmed-evidence report, INDEX, checkpoint, handoff and current progress. Ignored packet only for source-derived data/logs; no owner changes disturbed. Following documentation commit is discoverable in Git rather than self-referential here.
 
 Code2437f28 committed; seven curated closure docs only. No private/source/raw
@@ -1565,6 +1582,10 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Documentation/ledger checks:426passed/11subtests10.82s,exit0; phase validation0/advancement1expectedblocked; diffcheckpasses. Five curated closure paths; no product code changed.
+
+Fresh preparation/native/render replay:36scalarfields/10headingprojections,111native citations,2image fields,3negativeprobes,1133hashes/priorseal unchanged;266tests/149subtests1.65s. Two technical helper failures corrected (resultkey/coordinateorigin); logs preserved. No productchanges/fullsuite/modelretrieval.
 
 Documentation/phase-ledger checks: 424 passed, 11 subtests passed, 10.63s, exit0. Phase validation exits0; advancement exits1 expected for blocked Phase05. Diff check passes; five curated documentation paths only.
 
@@ -1792,6 +1813,8 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Latest20-file evidence manifest944fac639218a5577322755a1d9653109e291226baeae38cbebbcc54f8a1d6a7. AuthorizedPython3.13.7/models/dependencies unchanged.
+
 Latest ignored24-file seal98a475bf32e58a5dbe04cf5f13e0cccaf59d4767934d8b02ea8f3a9c22aa9d87. Existing authorized Python3.13.7; no dependency changes, model paths/digests unchanged.
 
 Compactpacket47files/seven currentcode digests: ea1e2a7acb40a704df7cf1ddab207449c41baf1eefdda1ee193d651d39f7bf5d.
@@ -1843,6 +1866,8 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+All46sourcevalues cited; remaining10metadata projections require explicit adapter/context representation and stillwithheld. All8curriculum applicabilityunknown, no actualchunks; sourcegovernance pending. This is no longer missing original content or unlocated fields.
 
 Content/evidence decisions settled. Remaining13 field mappings are technical representation/geometry issues; all8applicabilityunknown/0chunks, six whole-source audits stillerror. Actual source governance and authorized retrieval/calibration remain gates; earlier pending content requests are historical.
 
@@ -1905,6 +1930,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Implement bounded opt-in headingmetadata adapter/context seam described in latestreport, under syntheticRED/GREEN/default-output compatibility. Replay citedledger without inventing literalquotes or effectivity; actual sourcegovernance evidence before activation. No repeated8row/12evidencejudgments; futurebatchpending. Earlier nextactions are historical.
 
 Continue technical representation/mapping for13 held fields from accepted values and originals, then actual authority/effectivity/applicability evidence before authorized retrieval/calibration. Do not reopen eight-row/evidence-key judgments or unavailable endings. Incomingbatch/organization request still pending; Phase05 exit blocked.
 
@@ -2255,6 +2282,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not redo completed13field citation preparation, re-review46values/12evidencegroups, manufacture nativequotes for projectedheadings or infer current effectivity from proposedimplementation. Preserve failedhelperlogs and existing originalcutoffs.
 
 Do not request the eight-row or 12-scenario evidence confirmation again, rewrite source cutoffs, choose deadline precedence, redo compact-context work/conversions, or infer activation from native mapping or owner content confirmation.
 
