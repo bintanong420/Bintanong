@@ -3,12 +3,30 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: cb77f81
+final_commit: 3928c42
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T16:34:43+08:00
+completed_at: 2026-10-14T18:47:45+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Closure checks:433documentation/ledger tests and11subtests pass14.75s;
+phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six
+unchanged code digests sealed; manifest SHA256:
+c90c6cffb92c461a480bb43732c1fcc77a945e2c8646c895c3e339a09f02490e.
+
+Latest completed preparation: Development retrieval preflight closed under plan3928c42. All36exact queries/
+12scenarios bound to13policy previews/eightcurriculum chunks/152target spans;
+1249preserved hashes/eightpending registers unchanged. SixBSCS variants need
+student curriculum; twelve explicit version candidates;18policy scope pending.
+Actual36query embeddings offline56.468s:finite1024-D/L2normalized,52–78/512tokens;
+tenexternal modelasset hashes and priorconfiguration checked. Related43tests/
+94subtests pass5.58s; directquery/vector/field/group/citation replay verified.
+No new source-document embeddings, observed rankings/calibration, DB/runtime
+changes or activation. Currentquery status: ignoredpacket CURRENT-QUERIES-AND-STATUS.md.
+Future batch excludescollegeCharters; possiblememoranda such as gatepass.
+Schoolverification remainsdeferred; settled ownerrow/evidence/cohort decisions
+preserved. Report:2026-10-14-development-retrieval-preflight-report.md.
 
 Latest continuation supersedes earlier incoming-batch expectations: no college-
 specificCitizens'Charters expected; possiblememoranda such as vehicle gatepass.

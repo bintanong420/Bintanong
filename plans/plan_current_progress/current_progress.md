@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Closure checks:433documentation/ledger tests and11subtests pass14.75s;
+phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six
+unchanged code digests sealed; manifest SHA256:
+c90c6cffb92c461a480bb43732c1fcc77a945e2c8646c895c3e339a09f02490e.
+
+**Development retrieval inputs and actual query encoding prepared — 14October2026.**
+
+Development retrieval preflight closed under plan3928c42. All36exact queries/
+12scenarios bound to13policy previews/eightcurriculum chunks/152target spans;
+1249preserved hashes/eightpending registers unchanged. SixBSCS variants need
+student curriculum; twelve explicit version candidates;18policy scope pending.
+Actual36query embeddings offline56.468s:finite1024-D/L2normalized,52–78/512tokens;
+tenexternal modelasset hashes and priorconfiguration checked. Related43tests/
+94subtests pass5.58s; directquery/vector/field/group/citation replay verified.
+No new source-document embeddings, observed rankings/calibration, DB/runtime
+changes or activation. Currentquery status: ignoredpacket CURRENT-QUERIES-AND-STATUS.md.
+Future batch excludescollegeCharters; possiblememoranda such as gatepass.
+Schoolverification remainsdeferred; settled ownerrow/evidence/cohort decisions
+preserved. Report:2026-10-14-development-retrieval-preflight-report.md.
+
 **Phase05 resumed; future batch revised — 14 October2026.**
 
 Owner resumes independentPhase05 work and says incoming data no longer includes

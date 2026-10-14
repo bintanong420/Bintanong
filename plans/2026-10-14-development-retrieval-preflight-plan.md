@@ -36,24 +36,31 @@ accepted12groups/36variants and candidate curriculum report.
 
 ## Task1: Record continuation and incoming-source correction
 
-- [ ] Update dataset guide/intake instructions and active ledger; preserve historical
+- [x] Update dataset guide/intake instructions and active ledger; preserve historical
   plans, original folders/files and source-verification deferral.
-- [ ] Commit a small checked documentation unit before preparing the manifest.
+- [x] Commit a small checked documentation unit before preparing the manifest.
 
 ## Task2: Prepare and verify complete current development inputs
 
-- [ ] Rehash and replay the actual curriculum catalogue through existing contracts;
+- [x] Rehash and replay the actual curriculum catalogue through existing contracts;
   compare policy evidence/previews and required groups against the accepted packet.
-- [ ] Emit36 exact queries/12group target maps, source/version/reading/page links,
+- [x] Emit36 exact queries/12group target maps, source/version/reading/page links,
   accepted review-event bindings, limitations and candidate scope/gating information.
   Distinguish complete policy groups from separate BSCS edition alternatives.
-- [ ] Record eight actual pending source registers and all absent release/scope gates.
+- [x] Record eight actual pending source registers and all absent release/scope gates.
   Report prepared inputs separately from missing retrieval observations; no metrics
   or calibrated threshold until an eligible real run exists.
-- [ ] Verify complete group/case coverage, all language wordings, sources/citations,
+- [x] Execute only the36existing query embeddings with the pinned offline strict
+  QueryEncoder and freshly checked external asset manifest. Save finite normalized
+  1024-D vectors, exact query lengths and configuration identity; no source-document
+  embedding, ranking, office verification or activation is implied by query encoding.
+- [x] Verify complete group/case coverage, all language wordings, sources/citations,
   prior hashes/seals and targeted existing contracts. Seal ignored evidence; update
   report/index/checkpoint/handoff/currentprogress and explicitly commit curated docs.
 
 Context scope thesis physical17–18, routing PNG, master10/11, active Phase05 plan/
 checkpoint/handoff, dataset and scope/gap policies consulted; no discrepancy.
 Existing isolated p05 branch retained. Baseline49d100c; candidate code unchanged.
+
+Verification:36queries/152spans/1249hashes; real36query encoding56.468s,52–78tokens,
+43existing relatedtests/94subtests pass5.58s. Sourceverification stilldeferred.

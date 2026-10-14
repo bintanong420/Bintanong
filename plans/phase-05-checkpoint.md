@@ -2,16 +2,20 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 171
+sequence: 172
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 49d100c
-working_tree: six curated preflight plan, dataset and continuation ledger documents; private evidence ignored
-updated_at: 2026-10-14T18:36:55+08:00
+head_commit: 3928c42
+working_tree: six curated preflight closure documents; private evidence ignored
+updated_at: 2026-10-14T18:47:45+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Current36-query preflight and real offline query encoding complete;13policy previews/
+eightcurriculum candidates/152citation spans bound;25-file sealed evidence and six
+unchanged code digests. Full details in latest preflight report; formalexit stillblocked.
 
 Headingmetadata/code7da9334 verified and ownercohort guidance applied; source PDFs/history preserved. See currenttask/report for actual scopes and inactive candidates.
 
@@ -63,6 +67,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Development retrieval preflight closed under plan3928c42. All36exact queries/
+12scenarios bound to13policy previews/eightcurriculum chunks/152target spans;
+1249preserved hashes/eightpending registers unchanged. SixBSCS variants need
+student curriculum; twelve explicit version candidates;18policy scope pending.
+Actual36query embeddings offline56.468s:finite1024-D/L2normalized,52–78/512tokens;
+tenexternal modelasset hashes and priorconfiguration checked. Related43tests/
+94subtests pass5.58s; directquery/vector/field/group/citation replay verified.
+No new source-document embeddings, observed rankings/calibration, DB/runtime
+changes or activation. Currentquery status: ignoredpacket CURRENT-QUERIES-AND-STATUS.md.
+Future batch excludescollegeCharters; possiblememoranda such as gatepass.
+Schoolverification remainsdeferred; settled ownerrow/evidence/cohort decisions
+preserved. Report:2026-10-14-development-retrieval-preflight-report.md.
+
+Earlier preparation/verification requests below are historical.
 
 Owner resumesPhase05 independent preparation. Incoming batch excludes college-
 specificCharters and may include memoranda such as vehicle gatepass; existing
@@ -1548,6 +1567,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified planbaseline3928c42; no productcode changes. Six curated closure paths:
+preflight report/plan, INDEX, checkpoint, handoff and currentprogress. The following
+documentation commit is discoverable in Git; private inputs/vectors/logs stay ignored.
+
 Verified codecb77f81; six curated closure paths only: report/plan/INDEX/
 checkpoint/handoff/currentprogress. No private artifacts staged; no push/cleanup.
 
@@ -1684,6 +1707,11 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Closure checks:433documentation/ledger tests and11subtests pass14.75s;
+phasevalidation0/advancement1expectedblocked; diffcheckpasses. 25files/six
+unchanged code digests sealed; manifest SHA256:
+c90c6cffb92c461a480bb43732c1fcc77a945e2c8646c895c3e339a09f02490e.
 
 Export/document closure:431documentation/ledger tests and11subtests pass14.31s.
 Phasevalidation0/advancement1expectedblocked; diffcheckpasses. 8file query
@@ -1934,6 +1962,10 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Currentpreflight25-file sealc90c6cffb92c461a480bb43732c1fcc77a945e2c8646c895c3e339a09f02490e;
+six currentcode digests/tenexternalSEA-LION assets verified. Existing Python3.13.7/
+environment/modelrevision retained; no downloads/copies. See query-encoder-report.json.
+
 Python3.13.7/existing authorized environment unchanged. Two current candidate code
 digests retained in packet code-digests.json; originals/prior48fileseal match.
 
@@ -1975,6 +2007,11 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Latest ownerincoming correction: no college-specificCitizens'Charters in futurebatch;
+possiblememoranda such as undergraduate vehiclegatepass. Existing universityCharter
+retained. Schoolverification staysdeferred. Queryencoding can proceed independently;
+it does not authorize sourceuse or create retrieval/calibration observations.
+
 Keep deterministic program/version restrictions separate from original candidate chunks
 until governed publication enforces them. Source verification/use authorization
 requires actual issuing-office evidence; owner row/cohort guidance remains settled.
@@ -1998,6 +2035,10 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+All36cases lack approvedrelease bindings/sourceauthorization; eighteenpolicy variants
+retain unknownapplicability, sixBSCS variants need studentcurriculum. These are pending
+readiness gates, not observedretrieval failures or empty rankings suitable for scoring.
 
 Candidate integrity fix verified. Six source registers remain pending/not_requested;
 no issuing-office authorization supplied. Printed proposal not promoted. Actual governed
@@ -2068,6 +2109,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Preserve this verified query/evidence preflight and pending source gates; resume
+authorized real-source retrieval/calibration when university verification/use
+authorization and applicable scope evidence arrive. Ownerverification deferral
+staysinforce; remind beforeactivation/when reply reported. Futurememoranda intake
+uses original-preserving undergraduate review; show any new queries before testing.
 
 Execute36-query retrieval preflight from the unchanged accepted cases, policy previews,
 curriculum chunks/catalogue and eight pending registers; preserve complete evidence
