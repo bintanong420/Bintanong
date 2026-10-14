@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 159
+sequence: 160
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 7ea32c7
-working_tree: five scoped owner-confirmation closure documents; product code unchanged
-updated_at: 2026-10-14T14:46:56+08:00
+head_commit: 246398e
+working_tree: three scoped provenance preparation documents; product unchanged
+updated_at: 2026-10-14T15:04:13+08:00
 ---
 
 # Phase 05 checkpoint
@@ -61,6 +61,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Remaining provenance mapping started from clean246398e. Plan: plans/2026-10-14-curriculum-provenance-mapping-plan.md. Existing contracts only: one literal Tourism units span, two confirmed original-image readings, ten separately cited metadata projections. Preserve accepted46values/12evidencegroups and originalcutoffs. No product behavior or governance changes; futurebatch pending.
 
 Owner confirms both eight original curriculum rows (46 fields) and the expected
 evidence for all 12 accepted scenarios. Applied separately in ignored

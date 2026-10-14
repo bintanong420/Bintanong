@@ -1,5 +1,7 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Remaining provenance mapping started from clean246398e. Plan: plans/2026-10-14-curriculum-provenance-mapping-plan.md. Existing contracts only: one literal Tourism units span, two confirmed original-image readings, ten separately cited metadata projections. Preserve accepted46values/12evidencegroups and originalcutoffs. No product behavior or governance changes; futurebatch pending.
+
 **Both source/evidence confirmations applied — 14 October 2026.**
 
 Documentation/phase-ledger checks: 424 passed, 11 subtests passed, 10.63s, exit0. Phase validation exits0; advancement exits1 expected for blocked Phase05. Diff check passes; five curated documentation paths only.
