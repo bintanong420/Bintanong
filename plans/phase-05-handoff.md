@@ -3,12 +3,27 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 093ea4a
+final_commit: f9b1502
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T21:18:00+08:00
+completed_at: 2026-10-14T21:39:47+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
+canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;
+manifest SHA256:7b12fbccda457e645a6fb4d6467cfd03c248653726bc927a18e6529f7bda372d.
+
+
+Latest bounded delivery: offline course selector f9b1502, plan17d86cc/report
+2026-10-14-offline-course-selector-report.md. Full5236tests494subtests pass313.57s,
+6skips6warnings; one independent review no findings. Actual8rows13spans/6of6CC5
+branches and1358preserved hashes checked; no new vectors/questions/source changes.
+Next bounded offline ranking comparison using saved vectors/accepted scoped cases
+and explicit researcher target hints. Missing targets/curriculum stay clarification;
+no entity extraction/runtime/database/Prolog/activation or Phase06. Owner artifact
+changes preserved and school validation deferred under standing authorization.
+
 
 Dataset cleanup closure:454docs/ledger tests and11subtests pass10.72s;
 phasevalidate0/canadvance1(expected blocked).18file evidence seal:

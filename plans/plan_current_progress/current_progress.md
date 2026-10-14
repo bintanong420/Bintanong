@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
+canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;
+manifest SHA256:7b12fbccda457e645a6fb4d6467cfd03c248653726bc927a18e6529f7bda372d.
+
+
+**Reusable offline course selector complete — 14 October 2026.**
+
+Plan17d86cc/codef9b1502; helper replay-binds reviewed course-code identity and
+applies explicit target hints after curriculum selection. Missing target returns
+needs_target_course; ambiguity stays needs_scope; unknown target means absent
+from selected candidates only. Existing default selector/chunks/gaps unchanged.
+Full5236tests494subtests pass313.57s,6skips6warnings. New14tests30subtests GREEN;
+related93tests174subtests pass. One independent review no findings. Actual8rows/
+13spans/6of6controlled CC5branches and1358preserved hashes verified; no vectors
+or question changes. Report2026-10-14-offline-course-selector-report.md.
+Next bounded offline ranking comparison with saved vectors/accepted scoped cases
+and separately recorded researcher targets. Schoolvalidation deferred; source
+governance/formalexit open, no activation/Phase06. Owner artifacts work preserved.
+
+
 **Offline course helper verification in progress — 14 October 2026.**
 
 Synthetic missing-module RED observed; helper implemented with reviewed-preparation

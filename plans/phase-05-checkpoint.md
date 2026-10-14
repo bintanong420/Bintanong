@@ -2,16 +2,23 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 188
+sequence: 190
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 17d86cc
-working_tree: candidate_course.py, synthetic tests, checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T21:36:00+08:00
+head_commit: f9b1502
+working_tree: course-selector report/closure documents; owner artifacts preserved
+updated_at: 2026-10-14T21:39:47+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Reusable offline course selector f9b1502 complete; plan17d86cc. Full5236tests/
+494subtests pass313.57s,6skips6warnings,exit0. New14tests30subtests GREEN after
+missing-module RED;8actualrows/13identityspans/6of6CC5branches/1358preserved
+hashes verified. One independent reviewer no findings. Report:
+2026-10-14-offline-course-selector-report.md. No source/vector/question activation.
+
 
 Owner dataset relocation complete: repository-root dataset/,47files/41PDFs/63dirs,
 24770707bytes preserved; every hash/relative path matches. All47files Git-ignored,
@@ -95,6 +102,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Offline course-selector unit verified and committed f9b1502; close current
+documentation/ledger and preserve verified checkpoint. Source governance and
+formal Phase05 exit remain open; no new owner decision required for this unit.
+Following documentation closure SHA is found from Git; head_commit identifies
+verified helper code, avoiding a self-referential documentation hash.
+
+
+Offline helper f9b1502 committed after focused GREEN and real8row replay.
+Independent review no findings;28tests79subtests pass3.62s. Full offlinepytest
+still running; inspect final summary before completion claim. Final report and
+checkpoint/progress/index closure next. No new source-content decisions needed.
+
 
 Resumed at verified87f2b81. Implement the offline course selector described in
 2026-10-14-offline-course-selector-plan.md, with synthetic RED/GREEN and existing
@@ -1830,6 +1850,21 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Final closure:456docs/ledger tests11subtests pass10.79s;phasevalidate0/
+canadvance1(expected blocked). 10ignored evidence files/two code digests sealed;
+manifest SHA256:7b12fbccda457e645a6fb4d6467cfd03c248653726bc927a18e6529f7bda372d.
+
+
+Final offline command using existing Python3.13 venv: python -B -m pytest tests
+-q -p no:cacheprovider --basetemp
+C:/Coding-projects/bintanong_workspace/audit-evidence/p05-offline-course-selector-20261014/pytest-full.
+Result:5236 passed,6 skipped,6 warnings,494 subtests passed in313.57s (5m13s),exit0. Raw full-tests.log retained ignored.
+Reviewer focused28tests79subtests pass3.62s; no Critical/Important/Minor.
+Actual replay script and index/6branch outputs retained;1358prior hashes and
+original six PDFs checked through exact relocation mapping. No new embedding
+or conversions. Final documentation/ledger verification follows these updates.
+
+
 Offline course helper TDD: missing-module RED33fail/6pass1.42s; first GREEN
 revealed two stale expected fixture IDs after source field replacement. Updated
 fixture IDs from rebuilt chunks (no product fix); related93pass/174subtests4.03s.
@@ -2318,6 +2353,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Use verified helper f9b1502 for the next bounded offline ranking comparison on
+saved vectors/accepted scoped cases, with explicit researcher target hints.
+Preserve edition clarification/default baselines/complete cited contexts; no
+automatic role extraction, source approval, runtime or Phase06 inferred.
+Read2026-10-14-offline-course-selector-report.md first. Earlier next-actions
+below are historical; reusable helper preparation/selection is now complete.
+
 
 NewCLI starts fromAGENTS.md and2026-10-14-dataset-relocation-and-cli-handoff.md,
 then INDEX/progress/activephase5. Resolve current corpus under root/dataset; map

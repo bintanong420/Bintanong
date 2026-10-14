@@ -34,15 +34,15 @@ Return matching chunk IDs and copied identity evidence, not rewritten chunks.
 
 ## Task 1: Prepare and select reviewed target courses
 
-- [ ] Write `tests/test_candidate_course.py` with synthetic reviewed rows for two
+- [x] Write `tests/test_candidate_course.py` with synthetic reviewed rows for two
   computing editions and another undergraduate program. Observe missing helper RED.
-- [ ] Implement preparation/selection in
+- [x] Implement preparation/selection in
   `backend/bintanong_tools/document_ingest/candidate_course.py`.
-- [ ] Run new tests and related curriculum/reviewed-context regressions GREEN.
-- [ ] Replay the existing eight-row candidate preparation and six controlled CC5
+- [x] Run new tests and related curriculum/reviewed-context regressions GREEN.
+- [x] Replay the existing eight-row candidate preparation and six controlled CC5
   branches using saved evidence, resolving historical paths through the relocation
   mapping. Do not re-encode vectors or alter questions.
-- [ ] Review the bounded change, run required verification, commit explicit files,
+- [x] Review the bounded change, run required verification, commit explicit files,
   update current progress/checkpoint/index and record the exact next action.
 
 Verification uses pytest without cache and basetemp under workspace audit-evidence.
@@ -55,3 +55,11 @@ Baseline `87f2b81`; owner deletion `artifacts/.gitkeep` and untracked
 master section10, Phase04 complete handoff and Phase05 plan/checkpoint/blocked handoff,
 scope/source-gap policies and dataset guide. No scope/routing discrepancy.
 GitHub MCP lists remote p05 at `f10d5cd`; local work continues without push.
+
+## Task ledger
+
+Task1 complete:17d86cc..f9b1502. Missing-helper RED observed; focused14tests/30subtests
+GREEN and real8row/6branch replay verified. Full suite 5236 passed,6 skipped,6 warnings,494 subtests passed in313.57s (5m13s),exit0.
+One independent read-only review: no findings;28tests/79subtests pass3.62s.
+No implementation deviations or deferred minors. Detailed report:
+2026-10-14-offline-course-selector-report.md. Formal Phase05 remains active.
