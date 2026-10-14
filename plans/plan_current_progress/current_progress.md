@@ -1,5 +1,37 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
+phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode
+digests sealed; editableownerCSV excluded/initialsnapshotretained.
+ManifestSHA256:0938d0e2bde69bf99d85fa21b1264def90412bd0b0f02c3c880d7803fefda8c4. Owner scope response pending.
+
+
+**Focused policy applicability packet ready — 14 October 2026.**
+
+Planab0aa3e;5pendingareas/6acceptedscenarios/13readings37fields39spans preserved.
+6sourcepages/6selectedcrops/1audienceheader verifiedpixel-exact;16guide links and
+5pendingCSVrows valid. Independent packet QA no findings;76tests103subtests pass
+1.58s. BothPDFs/all77unknown actualapplicabilities/1392prior hashes unchanged.
+Report2026-10-14-policy-applicability-review-report.md links START-HERE.md.
+Owner question concerns undergraduate research selection only; settled wording and
+expected evidence remain closed, sourcecutoff/conflict unchanged, schoolverification
+deferred. No actualevent or applicability changes until response. Next record exact
+source-bound reply, derive only confirmed selected readings, then candidate retrieval.
+Owner artifact changes preserved, no activation/Phase06.
+
+
+**Applicability packet prepared; QA in progress — 14 October 2026.**
+
+Planab0aa3e;fivepending proposals cover sixaccepted policy scenarios/13readings,
+37confirmedfields/39spans. Original PDFs/1392prior hashes unchanged. Sixsource
+pages/sixselected crops/oneaudienceheader available; three crops expanded toshow
+complete source headings (presentationonly, initial evidence retained). Scope
+question concerns selected undergraduate research use, with sourceauthority/current
+SY/activation stillpending. All77actualapplicabilities remainunknown. One fresh
+packet verifier checks source/crop/field/group/link identity before owner question.
+Next finish QA/docchecks/curatedcommit, then request focused audience decision.
+
+
 **Focused policy applicability preparation resumed — 14 October 2026.**
 
 Verified07bd6d2;13policy readings remain applicabilityunknown despite settled

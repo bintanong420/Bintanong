@@ -5,10 +5,26 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: f9b1502
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T21:54:31+08:00
+completed_at: 2026-10-14T22:15:04+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
+phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode
+digests sealed; editableownerCSV excluded/initialsnapshotretained.
+ManifestSHA256:0938d0e2bde69bf99d85fa21b1264def90412bd0b0f02c3c880d7803fefda8c4. Owner scope response pending.
+
+
+Latest preparation:focused policyapplicability packet, planab0aa3e/report
+2026-10-14-policy-applicability-review-report.md. Fivependingareas/sixaccepted
+scenarios/13readings37fields39spans unchanged;13currentimages16links verified
+against originals. Independent QA no findings;76tests103subtests pass1.58s.
+1392prior hashes/twooriginals/77unknownactualapplicabilities preserved. Exact
+wording/expected evidence settled; next focused owner audience selection, then
+source-bound derivation of confirmed areas. No repeated cutoff/deadline/current
+schoolverification question, no dependentapp change/activation/Phase06.
+
 
 Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
 phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code

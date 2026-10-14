@@ -2,16 +2,26 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 194
+sequence: 196
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 07bd6d2
-working_tree: applicability plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T22:02:27+08:00
+head_commit: ab0aa3e
+working_tree: applicability report/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-14T22:15:04+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Focused applicability packet prepared and independently verified; planab0aa3e.
+Fivependingareas/sixaccepted scenarios/13readings37fields39spans unchanged.
+Sixsourcepages/sixselectedregions/oneaudienceheader pixel-bound,16guide links
+valid, optionalCSVfivependingrows. Complete overload5part/timing4part groups and
+two service associations retained; five gap projections unchanged. Both PDFs/
+77unknown actualapplicabilities/1392prior hashes preserved. Independent QA no
+findings;76relatedtests103subtests pass1.58s. Report:
+2026-10-14-policy-applicability-review-report.md. Owner audience response pending.
+
 
 Saved-vector course-filter comparison complete; plan4612f13/helperf9b1502.
 Default12positives unchanged; strict3of12eligible Architecture variants,9missing
@@ -112,6 +122,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Packet ready:workspace/audit-evidence/p05-policy-applicability-review-20261014/
+START-HERE.md. Close curated docs and request only five undergraduate research
+applicability selections; source wording/expected evidence already settled.
+No dependent metadata change before actual owner response. Schoolverification
+remains deferred. This is a genuine missing source-selection decision required
+by AGENTS, not a repeated transcription review or school-approval request.
+
 
 Owner continues; verified07bd6d2. Prepare five focused undergraduate research
 applicability proposals covering six accepted policy scenarios/13readings. Exact
@@ -1884,6 +1902,30 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Applicability packet closure:460docs/ledger tests11subtests pass10.78s;
+phasevalidate0/canadvance1(expectedblocked). 36immutable files/four unchangedcode
+digests sealed; editableownerCSV excluded/initialsnapshotretained.
+ManifestSHA256:0938d0e2bde69bf99d85fa21b1264def90412bd0b0f02c3c880d7803fefda8c4. Owner scope response pending.
+
+
+Independent verifier passes:1392prior hashes/twoPDFs/77unknown applicabilityrecords,
+13readings37fields39spans,5partoverload+4parttiming,2service records/5gap projections.
+6fullpages+6selectedcrops+1audienceheader reproduced from PDFpixels;3initial crops
+retained. All16guide links/fivependingCSVrows checked. No findings; source selection
+still requires owner. Related76tests103subtests pass1.58s under approvedPython3.13,
+pytest -q -p no:cacheprovider with external taskbasetemp. No repeated whole suite
+for unchanged product. Finaldocs/phase checks follow latest closure updates.
+
+
+Focused applicability packet prepared:fivepending areas/sixaccepted scenarios,
+13readings/37confirmedfields/39spans preserved; sixoriginalpageimages/sixselected
+regions/oneaudienceheader. Three crops expanded from original fullimages toshow
+complete headings; initial crops/bindings retained. Both original PDFs and1392
+prior dependency hashes match through relocationmapping. No actualapplicability
+change;77unknown/zeroactive unchanged. One independent packet QA running.
+Rawpacket:workspace/audit-evidence/p05-policy-applicability-review-20261014.
+
+
 Course-filter comparison closure:458docs/ledger tests11subtests pass10.74s;
 phasevalidate0/canadvance1(expectedblocked). 22ignored files/seven unchanged code
 digests sealed; manifestSHA256:72808649d9f1872477f59ddfb28c0910dd96541dfa063e14797f8816661f7455.
@@ -2414,6 +2456,15 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Obtain the focused owner response to five proposed undergraduate research areas
+in the verified START-HERE.md packet. Then record exact decision/sourcehash/
+reading IDs and derive only confirmed selected readings through existingcontracts,
+preserving37fields39spans/gaps/completegroups. Do not infer schoolauthority/current
+SY/activation or change held exceptions. No repeat wording/evidence/cutoff review.
+Once the candidate policy selection is actually bound, continue offline retrieval
+with unchanged accepted questions; schoolverification remains separately deferred.
+
+
 Saved-vector comparison is complete; do not repeat it on resume. Prepare a focused
 policy-applicability packet for six already accepted policy scenarios if needed for
 Phase05 source governance, using exact original pages/fields and proposed treatment.
@@ -2841,6 +2892,12 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not reopen accepted policy wording/12scenario expectations or ask for original
+cutoff continuation/deadline precedence. Current request concerns audience selection
+only. Do not regenerate the verified packet or repeat saved-vector comparisons
+merely on session/account change. Record actual response before dependent changes.
+
 
 Do not repeat the settled eight-row/46field,12evidence and conditional cohort judgments,
 rebuild prior intake, alter sourcecutoffs or rerun finalreview. Preserve futurebatch notice.

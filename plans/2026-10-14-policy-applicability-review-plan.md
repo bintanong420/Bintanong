@@ -23,15 +23,15 @@ deadline conflict. No new expected answers/questions, source claims or precedenc
 
 ## Work
 
-- [ ] Verify accepted question/evidence events, current preparation metadata and
+- [x] Verify accepted question/evidence events, current preparation metadata and
   the two source hashes through the relocation map; preserve prior seals.
-- [ ] Render six original pages and selected regions with source/page/bbox bindings.
+- [x] Render six original pages and selected regions with source/page/bbox bindings.
   Show audience headings and relevant field wording alongside proposed treatment.
-- [ ] Create an ignored review guide, five pending applicability decisions and a
+- [x] Create an ignored review guide, five pending applicability decisions and a
   proposed13reading selection. No actual applicability event or source state change.
-- [ ] Verify every link, image/page/region binding, field/span/group association and
+- [x] Verify every link, image/page/region binding, field/span/group association and
   unchanged input hash; run applicable existing checks and independent packet QA.
-- [ ] Commit curated report/progress/checkpoint/index, then request the one remaining
+- [x] Commit curated report/progress/checkpoint/index, then request the one remaining
   owner applicability judgment with links to the original evidence. Apply no dependent
   changes before that response. School verification remains deferred separately.
 
@@ -49,3 +49,12 @@ used. No discrepancy. Source page reading initially hit cp1252 output on a nativ
 glyph; stdout was set to UTF8 and the targeted read succeeded, without data changes.
 Current source metadata intentionally distinguishes confirmed text from unresolved
 audience applicability. The review question must concern that distinction only.
+
+## Preparation ledger
+
+Packet preparation and independent QA complete:13readings37fields39spans unchanged,
+13current source/crop images pixel-bound, fivependingproposals and16workinglinks.
+76relatedtests103subtests pass1.58s. Independent reviewer no findings.
+The final owner question is presented only after curated documentary closure.
+Owner response remains pending; no actual audience/applicability state changed.
+No product implementation or content-decision deviation; no deferred minors.
