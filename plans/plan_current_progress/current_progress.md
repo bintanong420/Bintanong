@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Dataset cleanup closure:454docs/ledger tests and11subtests pass10.72s;
+phasevalidate0/canadvance1(expected blocked).18file evidence seal:
+7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.
+47dataset files ignored, zero staged/tracked originals; owner artifact changes preserved.
+
+
+**Dataset moved and new-CLI context preserved — 14 October 2026.**
+
+Owner requests root relocation and durable critical decisions. Complete dataset now
+at repository-root dataset/:47files/41PDFs/63dirs/24770707bytes preserved; allhashes
+match, oldbackend path absent. Entire dataset Git-ignored, zero tracked files; no push.
+Extractor defaults and source-root examples updated. RED1fail0.31s; GREEN35tests/
+19subtests1.08s.1333prior bindings verified (1325unchanged/8mapped); original12/27
+case packets validate on newroot. AGENTS.md stores settled owner decisions; resume
+record2026-10-14-dataset-relocation-and-cli-handoff.md links exact nextcourse-selector
+work under TDD. Historical sealed paths unchanged; use ignored relocation-map.json.
+Owner artifacts/.gitkeep deletion and backend/artifacts/ left untouched. School
+validation deferred; candidate/noactivation scope unchanged, no new sources processed.
+
+
 Course-diagnostic closure:453docs/ledger tests and11subtests pass10.80s;
 phasevalidate0/canadvance1(expected blocked).24file/five unchanged code-digest seal:
 f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.

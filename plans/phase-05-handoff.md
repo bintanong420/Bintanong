@@ -5,10 +5,25 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: 093ea4a
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-14T20:58:00+08:00
+completed_at: 2026-10-14T21:18:00+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Dataset cleanup closure:454docs/ledger tests and11subtests pass10.72s;
+phasevalidate0/canadvance1(expected blocked).18file evidence seal:
+7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.
+47dataset files ignored, zero staged/tracked originals; owner artifact changes preserved.
+
+
+Latest requested cleanup:2026-10-14-dataset-relocation-and-cli-handoff.md.
+47files/41PDFs/63dirs moved byte-identically to root/dataset, all47Git-ignored/zero
+tracked; rootDockerexclude/defaultextractor paths/locationguide updated.35related
+tests/19subtests pass1.08s after RED;1333prior hashes verify with8source-path maps,
+12/27case packets validate. Critical owner decisions persist inAGENTS.md. NewCLI
+resumes offline course selector under TDD; no repeated review/validation wait.
+Owner artifact changes preserved; historical evidence untouched, use relocation-map.json.
+
 
 Course-diagnostic closure:453docs/ledger tests and11subtests pass10.80s;
 phasevalidate0/canadvance1(expected blocked).24file/five unchanged code-digest seal:

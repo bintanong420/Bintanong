@@ -20,7 +20,7 @@ Twelve candidate cases, eight scenario families, four English/four Filipino/four
 From this worktree:
 
 ```powershell
-$sourceRoot = (Resolve-Path -LiteralPath 'backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump').Path
+$sourceRoot = (Resolve-Path -LiteralPath 'dataset/PalSU Undergraduate Prospectus Website Dump').Path
 python -m evaluation.practice_exam --exam C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/practice-exam.json --source-root $sourceRoot --output-dir C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dev-exam-20261012/exam --allow-ignored-output
 python -m unittest tests.test_practice_exam tests.test_practice_exam_cli -v
 ```

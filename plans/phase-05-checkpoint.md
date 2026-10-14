@@ -2,16 +2,25 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 183
+sequence: 186
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 01d30b7
-working_tree: six curated course-identity report and phase ledger documents
-updated_at: 2026-10-14T21:01:00+08:00
+head_commit: 90fed07
+working_tree: twelve curated relocation/context files; owner artifact changes preserved
+updated_at: 2026-10-14T21:22:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner dataset relocation complete: repository-root dataset/,47files/41PDFs/63dirs,
+24770707bytes preserved; every hash/relative path matches. All47files Git-ignored,
+zero tracked originals; oldbackend directory absent.1333prior bindings verified:
+1325unchanged plus8relocated through exact mapping. Original12/27case packets
+validate on newroot. Critical owner decisions inAGENTS.md; nextCLI record:
+2026-10-14-dataset-relocation-and-cli-handoff.md. Path regression RED1fail0.31s;
+minimal extractor-root fix/relevant GREEN35tests19subtests1.08s.
+
 
 Course identity diagnostic complete, plan01d30b7; product unchanged093ea4a.
 Reviewed course-code field filter improves controlled CC5 branches5/6 to6/6.
@@ -86,6 +95,20 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Requested dataset cleanup/context preservation complete; verify/commit curated files
+only. Owner reiterates dataset must never be pushed: root/dataset ignored, all47
+files checked, zero tracked. Owner artifacts/.gitkeep deletion/backend/artifacts/
+remain untouched. Resume offline course-selector unit next; no scope/gov state change.
+
+
+Owner requests complete dataset relocation to repository root/dataset and durable
+critical decisions for a new CLI. Baseline90fed07; preserve unrelated owner artifact
+changes. Native PowerShell exact-path move with all-file hashes/relative-tree check;
+update ignore/location/current handoff, preserve historical manifests through mapping.
+Actual thesis17–18/routingPNG/master10 consulted; no discrepancy. Course-selector
+implementation remains the next development task after this requested cleanup.
+
 
 Latest course diagnostic complete; next reusable offline course-selector unit under
 synthetic TDD, bind through existing reviewed preparation and accept explicit target
@@ -1800,6 +1823,20 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Cleanup closure:454documentation/ledger tests and11subtests pass10.72s; phase
+validate0/canadvance1(expected blocked).18file evidence seal
+7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.
+All47dataset files ignored/zero tracked, byte/relative-tree verification PASS.
+Owner artifact edits remain outside staged cleanup; no push.
+
+
+Relocation independent PASS:47byte-hash matches/63directory paths/41PDFs/24770707
+bytes; gitcheckignore47,gitlsfiles dataset0.1333prior dependency hashes pass with
+8exactpath rebindings;12/27case exam packets validate against new corpus root.
+Focused RED1fail0.31s, relevant GREEN35tests19subtests1.08s. Existing modelweights,
+rawconversion/evidence/event/register files unchanged; no dataset staged.
+
+
 Course-diagnostic closure:453documentation/ledger tests and11subtests pass10.80s;
 phasevalidate0/canadvance1(expected blocked).24file/five unchanged product-digest
 seal f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
@@ -2086,6 +2123,11 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Root dataset relocation:47files/41PDFs/24770707bytes unchanged.18file evidence seal
+7ee860b2785850664abf46143f1969ca5f3590b51afe2f9bb0072b87afb26f82.
+Raw relocation-map binds old/new paths; existing source/vector/event hashes retained.
+
+
 Latest course identity diagnostic:24file seal
 f14071290077f54d2bcb1ae45bbc906859f8bf3525a700e065574e245554d454.
 Five product digests unchanged from preceding run;1333inputs preserved.
@@ -2258,6 +2300,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+NewCLI starts fromAGENTS.md and2026-10-14-dataset-relocation-and-cli-handoff.md,
+then INDEX/progress/activephase5. Resolve current corpus under root/dataset; map
+old sealed paths through ignored relocation-map.json and verify original hashes.
+Next development is reusable offline target-course selector under syntheticTDD;
+keep owner reviews settled/schoolvalidation deferred and owner artifact changes intact.
+
 
 Implement bounded reusable offline candidate course selection under synthetic TDD;
 prepare source-code index through existing fully reviewed curriculum contract, then

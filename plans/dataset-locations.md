@@ -1,24 +1,33 @@
 # Dataset locations and relocation
 
-Recorded 2026-10-12 from the owner's Phase 05 worktree. Read this guide when resuming source reading, ingestion or practice-exam work; discover files again rather than assuming another worktree contains the ignored dataset.
+Updated 14 October 2026 after the owner-authorized root relocation in the Phase 05
+worktree. Read this guide when resuming source reading, ingestion or practice-exam
+work; discover files again rather than assuming another worktree contains ignored data.
 
 The current dataset parent is:
 
 ```text
-C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset
+C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset
 ```
 
 The original PDF corpus root passed to `evaluation.practice_exam --source-root` is **one level below** that parent:
 
 ```text
-C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump
+C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset/PalSU Undergraduate Prospectus Website Dump
 ```
 
-This deep codebase location is temporary; the owner intends to relocate it. No relocation was performed during the exam expansion. Existing ignored originals remain read-only. New originals, conversions, gold answers and raw evidence must remain untracked within `C:/Coding-projects/bintanong_workspace`, following the owner's location correction; do not force-add the existing dataset.
+The complete former `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/`
+directory was moved to repository-root `dataset/`. All 47 files (41 PDFs), 63
+subdirectories and original relative paths were retained; file SHA-256 values match.
+The old directory is absent. `/dataset/` is explicitly ignored by Git and Docker.
+Ignored data does not travel with a clone or branch change into another worktree.
+Use this actual local root explicitly rather than reinstalling or acquiring sources.
+New originals, conversions, gold answers and raw evidence remain untracked within
+`C:/Coding-projects/bintanong_workspace`; never force-add the dataset.
 
-**Current organization, 12 October 2026:** the owner authorized categorization
-inside this existing dataset parent. The prospectus corpus root above remains
-unchanged. Only two loose policy PDFs moved into the edition folders below.
+**Organization established 12 October 2026, preserved by the 14 October move:**
+the owner authorized categorization within the dataset parent. The prospectus tree
+and policy edition folders below retain their contents and relative paths.
 Historical relocation notes describe a possible later root move, not an action
 performed during this organization.
 
@@ -81,11 +90,31 @@ These counts describe paths, not approved curricula, distinct documents or exhau
 Exam packets store paths relative to the corpus root, alongside exact original SHA-256/version/page/locator identities. The CLI requires `--source-root`; it has no hardcoded dataset root or automatic environment-variable resolution.
 
 ```powershell
-$datasetRoot = (Resolve-Path -LiteralPath 'backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump').Path
+$datasetRoot = (Resolve-Path -LiteralPath 'dataset/PalSU Undergraduate Prospectus Website Dump').Path
 python -B -m evaluation.practice_exam --exam C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/practice-exam.json --source-root $datasetRoot --output-dir C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/exam --allow-ignored-output
 ```
 
-For the future move, choose an owner-approved untracked location within `C:/Coding-projects/bintanong_workspace`, preserve the campus/college relative tree and original bytes, and pass that new root explicitly. Re-inventory the live PDFs, revalidate hashes/college coverage, and update this guide and the current checkpoint/progress log with the new location. Test coverage proves that a changed root with unchanged relative paths and bytes validates. A newly added college causes an all-college packet to fail validation until its declared coverage and cases are updated.
+The current move is complete; portable exam packets retain their relative paths.
+For later relocation preserve the campus/college tree and original bytes, pass the
+new root explicitly, re-inventory and update this guide/checkpoint/progress. Test
+coverage verifies unchanged relative paths and bytes survive a root change. A newly
+added college still requires its declared coverage/cases to be updated.
+
+## Historical absolute paths after relocation
+
+Do not edit sealed historical scripts, source records, inventories or citations
+merely to replace paths. The old prefix is
+`C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/`;
+the current prefix is `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset/`.
+Resolve a saved path through the recorded exact mapping, retain its relative suffix
+and require its original SHA-256 to match the relocated file before using it.
+Do not create a junction or duplicate corpus at the old location.
+
+Raw before/after manifests and the 47-file mapping are ignored at
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dataset-relocation-20261014/relocation-map.json`.
+The tracked cleanup and next-CLI handoff is
+`plans/2026-10-14-dataset-relocation-and-cli-handoff.md`. Earlier no-relocation notes
+below describe historical execution, not the present dataset root.
 
 ## External evaluation artifacts
 
@@ -117,12 +146,12 @@ student audience, source identity and effectivity during intake. No gatepass fac
 or query cases are added until a source arrives and is reviewed. Existing folders
 and earlier staging instructions below are historical, preserved for recovery.
 
-Ignored intake root: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/Incoming/2026-10-14/`.
+Ignored intake root: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset/Incoming/2026-10-14/`.
 
-Use `CollegeCitizenCharter/<College>/<Document>/` for complete photo sequences and
-`Memoranda/<Document>/` for memos; retain original PPTX/PDF files alongside photos.
-The local PLACE-ORIGINALS-HERE.md explains organization. Git check-ignore confirms
-the guide and future photo/PPTX paths are ignored. No incoming files inspected.
+Use `Memoranda/<Document>/` for the current future batch; retain complete original
+PPTX/PDF files and photo sequences. The local CURRENT-INCOMING-BATCH.md carries the
+latest owner correction. Older PLACE-ORIGINALS-HERE.md college-Charter instructions
+are historical. The entire root dataset is ignored; no incoming sources inspected.
 Owner may copy originals now and notify when collection is complete; source
 registration/extraction/human review/governance follow in a separate batch. This
 is staging availability, not corpus activation or formal Phase05 completion.
