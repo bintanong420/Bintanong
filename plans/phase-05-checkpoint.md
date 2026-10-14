@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 153
+sequence: 154
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 2437f28
-working_tree: seven curated compact-context closure documents; code and tests committed
-updated_at: 2026-10-14T10:42:04+08:00
+head_commit: aad1497
+working_tree: clean at aad1497; five scoped review documents close in the following Git commit
+updated_at: 2026-10-14T13:24:00+08:00
 ---
 
 # Phase 05 checkpoint
@@ -59,6 +59,22 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Resumed clean aad1497; compact-context closure confirmed. Prepared seven scenarios/
+21 en-tl-Taglish questions with exact evidence/8original-page images in ignored
+p05-policy-development-review-20261014/. Owner accepted seven English scenarios
+after repeated list; translations/evidence expectations/source authorization pending.
+Taglish retrieval belongs currentPhase05, not later-only. See
+2026-10-14-policy-development-review-preparation.md. Prior47sealed files/seven
+code digests/917stable inputs/two originals/two registers match;970dependencies
+preserved. Related900tests/71subtests pass4.36s. Thesis17–18/36,routingPNG/master6/7/10
+and handoffs consulted; no discrepancy.77unknown/0chunks, no retrieval/intake.
+Separate local packet QA:14readings/41case spans exactly match prior evidence, all970
+dependencies unchanged;29files sealed2811778ea3829656842e0fa216398fec033da787db608b4871db93dc734b0cc0.
+Docs/ledger420tests/11subtests pass14.47s;phasevalidate0/canadvance1expectedblocked.
+Next translated-question/evidence judgment and actual institutional authorization/
+applicability evidence. Incoming collegeCharters/memos/miscellaneous and separate
+organization request remain later. Earlier commit/technical-next pointers are history.
 
 Final documentary checks:400passed1.31s; phasevalidateexit0/can-advanceexit1(expectedblocked). All47sealed file hashes/sizes, seven code digests and manifest hash match; gitdiffcheck passes. Seven curated paths only; documentary commit follows inGit.
 
@@ -1479,6 +1495,13 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+14October resumed review:900governance/source/preparation/chunk/context tests and
+71subtests pass4.36s;420docs/ledger tests and11subtests pass14.47s. Separate local
+packet QA checks14readings/41case spans/970preserved dependencies and all local
+links.29file preparation seal recorded in latestreport;source/register/applicability
+unchanged. Phasevalidate0/canadvance1expectedblocked. No new productcode or runtime
+measurement; historical fullsuite remains prior evidence, not rerun this increment.
+
 Compact context closed — 14 October2026. Plan5b5c14b, code03f757f/fix2437f28:
 opt-in pairedv2markers, defaultv1 savedoutputs unchanged, fullstored fields/limits/
 manifests preserved and bound by evidence_sha256. Full5165passed/377subtests/
@@ -1801,6 +1824,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Current next action: show all language variants, then record actual owner decisions
+on evidence expectations and existing institutional authorization/applicability.
+Seven visible English scenarios accepted;14translations and formal labels pending.
+QUESTIONS.md/DEVELOPMENT-REVIEW.md and current-review-status.json in ignored
+p05-policy-development-review-20261014/ govern this review. No retrieval/calibration
+without approved evidence and source governance. Incoming batch remains later.
 
 Authoritative next action: actual source-governance and approved policydevelopment
 case evidence, then retrieval/calibration. Use actual available authorization and
