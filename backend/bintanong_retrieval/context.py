@@ -1,6 +1,6 @@
 """Assemble complete source clauses under the exact serialized context budget."""
 import json
-from ..bintanong_contracts.reviewed_policy_context import CONTEXT_CHUNKER_VERSION, render_reviewed_policy_context
+from ..bintanong_contracts.reviewed_policy_context import CONTEXT_CHUNKER_VERSIONS, render_reviewed_policy_context
 from ..bintanong_contracts.reviewed_record_groups import validate_record_group
 
 
@@ -112,7 +112,7 @@ def build_context(candidates, budget: int, count_tokens):
                 citations=[_citation(s,chunk,row['version']) for s in spans]
                 fresh=[(s,c) for s,c in zip(spans,citations) if _span_key(s) not in trial_spans]
                 trial_chunks.add(chunk['chunk_id'])
-                marked = (chunk.get('chunker_version') == CONTEXT_CHUNKER_VERSION
+                marked = (chunk.get('chunker_version') in CONTEXT_CHUNKER_VERSIONS
                     or 'context_format' in chunk.get('type_fields',{})
                     or 'source_limits' in chunk.get('type_fields',{}))
                 if marked:

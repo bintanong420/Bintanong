@@ -15,6 +15,11 @@ from .reviewed_record_groups import validate_record_manifest
 
 CONTEXT_FORMAT = 'reviewed-policy-fields-v1'
 CONTEXT_CHUNKER_VERSION = 'palsu-reviewed-policy-context-chunker-v1'
+COMPACT_CONTEXT_FORMAT = 'reviewed-policy-fields-v2'
+COMPACT_CONTEXT_CHUNKER_VERSION = 'palsu-reviewed-policy-context-chunker-v2'
+_CONTEXT_VERSIONS = {CONTEXT_FORMAT: CONTEXT_CHUNKER_VERSION,
+    COMPACT_CONTEXT_FORMAT: COMPACT_CONTEXT_CHUNKER_VERSION}
+CONTEXT_CHUNKER_VERSIONS = frozenset(_CONTEXT_VERSIONS.values())
 ISSUES = frozenset({'source_cutoff', 'malformed_source_condition',
     'conflicting_deadlines', 'printed_total_discrepancy', 'effectivity_currentness_unknown'})
 
@@ -25,6 +30,12 @@ def _json(value):
 
 def _message(issue, claims):
     return 'Unavailable information: '+', '.join(claims)+'. Source limitation remains unresolved ('+issue+').'
+
+
+def context_chunker_version(context_format):
+    if not isinstance(context_format,str) or context_format not in _CONTEXT_VERSIONS:
+        raise ValueError('unsupported reviewed context format')
+    return _CONTEXT_VERSIONS[context_format]
 
 
 def make_source_limits(row, associations, spans):
@@ -66,7 +77,9 @@ def make_source_limits(row, associations, spans):
     return limits
 
 
-def serialize_reviewed_fields(associations, limits, group=None):
+def serialize_reviewed_fields(associations, limits, group=None, *, context_format=CONTEXT_FORMAT):
+    context_chunker_version(context_format)
+    compact = context_format == COMPACT_CONTEXT_FORMAT
     fields=[]
     for f in associations:
         display={k:f[k] for k in ('name','value','source_blank')}
@@ -83,7 +96,7 @@ def serialize_reviewed_fields(associations, limits, group=None):
         fields.append(display)
     record_group=isinstance(group,dict) and 'record_manifest' in group
     displayed_limits=[{k:v for k,v in limit.items() if k not in
-        {'visible_text','source_sha256','version_id','span_indexes'}} for limit in limits] if record_group else limits
+        {'visible_text','source_sha256','version_id','span_indexes'}} for limit in limits] if compact or record_group else limits
     payload={'fields':fields,'source_limits':displayed_limits}
     if group is not None:
         if (not isinstance(group,dict) or set(group) not in (
@@ -97,7 +110,7 @@ def serialize_reviewed_fields(associations, limits, group=None):
                 or not 0 <= group['part_order'] < group['part_count']):
             raise ValueError('invalid service context group')
         if record_group:validate_record_manifest(group['record_manifest'],group['part_count'])
-        payload['service_group']=group
+        payload['service_group']={k:v for k,v in group.items() if k!='record_manifest'} if compact else group
     return _json(payload)
 
 
@@ -185,8 +198,9 @@ def render_reviewed_policy_context(chunk, spans):
     """
     try:
         fields = chunk['type_fields']
-        if fields.get('context_format') != CONTEXT_FORMAT:
-            raise ValueError('unsupported reviewed context format')
+        context_format = fields.get('context_format')
+        if chunk.get('chunker_version') != context_chunker_version(context_format):
+            raise ValueError('reviewed context version markers differ')
         group=fields.get('service_group')
         if isinstance(group,dict) and 'part_reading_id' in group and group['part_reading_id']!=fields.get('reading_id'):
             raise ValueError('displayed reading identity differs')
@@ -259,7 +273,8 @@ def render_reviewed_policy_context(chunk, spans):
                     {'source_sha256','version_id','span_indexes','resolution','message'}}
                     for g in limits]}
         regenerated = make_source_limits(row, associations, located)
-        if limits != regenerated or chunk['text'] != serialize_reviewed_fields(associations,limits,fields.get('service_group')):
+        if limits != regenerated or chunk['text'] != serialize_reviewed_fields(associations,limits,
+                fields.get('service_group'),context_format=context_format):
             raise ValueError('reviewed context text or source limits differ')
         return chunk['text']
     except (KeyError,TypeError,IndexError,ValueError,OverflowError) as exc:

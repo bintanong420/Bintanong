@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 147
+sequence: 148
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 845abff
-working_tree: compact-context plan and checkpoint-progress preparation
-updated_at: 2026-10-14T10:21:13+08:00
+head_commit: 5b5c14b
+working_tree: compact codec-adapter-consumer/tests and checkpoint-progress updates
+updated_at: 2026-10-14T10:24:17+08:00
 ---
 
 # Phase 05 checkpoint
@@ -56,6 +56,15 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Compact v2 verified underTDD: sevennewtests RED14reported failures inclsubcases
+frommissingcompactoption0.95s ->7passed/19subtests0.54s. Corrected testhelper preserves
+explicitextra gap evidence. Related100tests/125subtests pass2.01s. Opt-in paired
+v2format/chunker markers; displayed duplicate limitmetadata/recordmanifest omitted,
+fullstored fields/limits/manifests revalidated. Legacydefaultv1 preserved; mismatched
+markers/tamperedmetadata/missingparts/spans/exactbudget failclosed. Next cohesive
+codecommit, unchanged77input/default-v1replays/strict exactcounts, onefinalreview and
+fullsuite. No sourcewording/gap/ownerdecision changes; no activation/newbatch.
 
 Compact codec start — 14 October2026, clean845abff. New boundedplan2026-10-14-
 compact-reviewed-context-plan.md: opt-in pairedv2markers/compactdisplay, defaultv1

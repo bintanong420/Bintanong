@@ -252,6 +252,89 @@ class ReviewedPolicyChunkTests(unittest.TestCase):
             self.assertFalse(result["chunks"])
             self.assertIn("field_not_confirmed:instruction", self.reason(result))
 
+    def compact_candidate(self):
+        if not self.rows[0]['gaps']:self.limited_candidate()
+        chunk=self.build(include_source_limits=True,compact_context=True)['chunks'][0]
+        return {'chunk':chunk,'spans':chunk['spans'],'version':self.version.model_dump(mode='json'),
+            'neighbors':[],'similarity':0.9}
+
+    def test_compact_v2_preserves_full_stored_limits_and_complete_visible_content(self):
+        from backend.bintanong_retrieval.context import build_context
+        legacy=self.limited_candidate();before=copy.deepcopy((self.rows,self.anchors))
+        candidate=self.compact_candidate();chunk=candidate['chunk'];fields=chunk['type_fields']
+        self.assertEqual(fields['context_format'],'reviewed-policy-fields-v2')
+        self.assertEqual(chunk['chunker_version'],'palsu-reviewed-policy-context-chunker-v2')
+        self.assertEqual(fields['source_limits'],legacy['chunk']['type_fields']['source_limits'])
+        self.assertEqual(fields['field_associations'],legacy['chunk']['type_fields']['field_associations'])
+        self.assertEqual(chunk['source_text'],legacy['chunk']['source_text'])
+        display=json.loads(chunk['text'])
+        self.assertEqual(display['fields'],json.loads(legacy['chunk']['text'])['fields'])
+        for key in ('visible_text','source_sha256','version_id','span_indexes'):
+            self.assertNotIn(key,display['source_limits'][0])
+        self.assertEqual(display['source_limits'][0]['message'],fields['source_limits'][0]['message'])
+        out=build_context([candidate],10000,len)
+        self.assertEqual(out['evidence'][0]['text'],chunk['text'])
+        self.assertIn('Unavailable information:',out['context'])
+        self.assertIn('complete process',out['context'])
+        self.assertFalse(build_context([candidate],len(out['context'])-1,len)['evidence'])
+        self.assertLess(len(chunk['text']),len(legacy['chunk']['text']))
+        self.assertEqual(self.build(include_source_limits=True)['chunks'][0],legacy['chunk'])
+        self.assertEqual((self.rows,self.anchors),before)
+
+    def test_compact_context_requires_explicit_limits_and_boolean_flag(self):
+        for value in (None,1,'true',[]):
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                self.build(include_source_limits=True,compact_context=value)
+        with self.assertRaises(ValueError):self.build(compact_context=True)
+        self.assertEqual(self.build(),self.build(compact_context=False))
+
+    def test_compact_v2_missing_or_incompatible_markers_cannot_fall_back(self):
+        from backend.bintanong_retrieval.context import build_context
+        original=self.compact_candidate()
+        for edit in ('old_format','old_chunker','unknown_format','unknown_chunker','all_fields_missing'):
+            candidate=copy.deepcopy(original);chunk=candidate['chunk']
+            if edit=='old_format':chunk['type_fields']['context_format']='reviewed-policy-fields-v1'
+            if edit=='old_chunker':chunk['chunker_version']='palsu-reviewed-policy-context-chunker-v1'
+            if edit=='unknown_format':chunk['type_fields']['context_format']='unknown'
+            if edit=='unknown_chunker':chunk['chunker_version']='unknown'
+            if edit=='all_fields_missing':chunk['type_fields']={}
+            with self.subTest(edit=edit):self.assertFalse(build_context([candidate],10000,len)['evidence'])
+
+    def test_compact_v2_still_rejects_tampered_full_stored_limit_evidence(self):
+        from backend.bintanong_retrieval.context import build_context
+        original=self.compact_candidate()
+        for edit in ('visible_text','source_sha256','version_id','span_indexes','resolution','message','missing'):
+            candidate=copy.deepcopy(original);limit=candidate['chunk']['type_fields']['source_limits'][0]
+            if edit=='visible_text':limit[edit]='Invented continuation.'
+            elif edit=='source_sha256':limit[edit]='b'*64
+            elif edit=='version_id':limit[edit]='other-version'
+            elif edit=='span_indexes':limit[edit]=[]
+            elif edit=='resolution':limit[edit]='resolved'
+            elif edit=='message':limit[edit]='Complete process.'
+            else:limit.pop('visible_text')
+            with self.subTest(edit=edit):self.assertFalse(build_context([candidate],10000,len)['evidence'])
+
+    def test_compact_v2_stored_spans_and_extra_gap_evidence_remain_checked(self):
+        from backend.bintanong_retrieval.context import build_context
+        self.limited_candidate();self.rows[0]['gaps'][0]['evidence_ref']='synthetic#original-gap'
+        candidate=self.compact_candidate();expected=candidate['chunk']['text']
+        self.assertIn('synthetic#original-gap',expected)
+        for key in ('schema_version','spans','register_binding'):candidate['chunk'].pop(key,None)
+        for i,span in enumerate(candidate['spans']):
+            span.pop('schema_version',None)
+            span.update(chunk_id=candidate['chunk']['chunk_id'],span_order=i,span_id='synthetic-'+str(i))
+        self.assertEqual(build_context([candidate],10000,len)['evidence'][0]['text'],expected)
+        candidate['spans'][0]['span_order']=1
+        self.assertFalse(build_context([candidate],10000,len)['evidence'])
+
+    def test_compact_v2_does_not_select_unknown_or_unreviewed_source(self):
+        self.limited_candidate()
+        for state in ('unknown','mixed','excluded'):
+            self.rows[0].update(applicability=state,applicability_evidence_ref='synthetic#scope')
+            with self.subTest(state=state):self.assertFalse(self.build(include_source_limits=True,compact_context=True)['chunks'])
+        self.rows[0]['applicability']='undergraduate';self.rows[0]['fields'][0]['decision']='pending'
+        self.assertFalse(self.build(include_source_limits=True,compact_context=True)['chunks'])
+
     def test_preparation_selection_active_flags_or_field_tampering_is_rejected(self):
         bundle = self.prep()
         for change in [lambda b:b.update(activation_eligible=True),

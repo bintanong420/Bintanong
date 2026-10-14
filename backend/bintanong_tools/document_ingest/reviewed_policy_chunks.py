@@ -15,8 +15,8 @@ from typing import Any
 
 from ...bintanong_contracts.source import (Chunk, SourceSpan, bind_chunk, canonical_text,
     check_span_binding, compute_content_hash, span_identity)
-from ...bintanong_contracts.reviewed_policy_context import (CONTEXT_FORMAT, CONTEXT_CHUNKER_VERSION,
-    make_source_limits, serialize_reviewed_fields, validate_reviewed_cover_labels)
+from ...bintanong_contracts.reviewed_policy_context import (CONTEXT_FORMAT, COMPACT_CONTEXT_FORMAT,
+    context_chunker_version, make_source_limits, serialize_reviewed_fields, validate_reviewed_cover_labels)
 from ..prospectus_extractor.chunking import estimate_tokens
 from .policy_chunks import TOKEN_CAP
 from .register import load_pending_register
@@ -63,6 +63,7 @@ def build_reviewed_policy_chunks(
     source_versions: Sequence[Any], field_spans: Mapping[str, Mapping[str, Sequence[Any]]] | None = None,
     required_readings: Mapping[str, Sequence[str]] | None = None, token_cap: int = TOKEN_CAP,
     include_source_limits: bool = False,
+    compact_context: bool = False,
     flowchart_bindings: Mapping[str, Any] | None = None,
     record_bindings: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -77,6 +78,10 @@ def build_reviewed_policy_chunks(
         raise ValueError("token cap must be an integer in 1..480")
     if type(include_source_limits) is not bool:
         raise ValueError("include_source_limits must be a boolean")
+    if type(compact_context) is not bool or (compact_context and not include_source_limits):
+        raise ValueError("compact_context must be a boolean and requires source-limit context")
+    context_format = COMPACT_CONTEXT_FORMAT if compact_context else CONTEXT_FORMAT
+    context_version = context_chunker_version(context_format)
     if not isinstance(bundle, dict) or not isinstance(bundle.get("readings"), list):
         raise ValueError("invalid reviewed preparation")
     core = build_reviewed_policy_bundle(bundle["readings"], sources=sources, review_events=review_events)
@@ -241,7 +246,7 @@ def build_reviewed_policy_chunks(
                         group['part_reading_id']=identity
                     if identity in record_manifests:
                         group.update(part_reading_id=identity,record_manifest=copy.deepcopy(record_manifests[identity]))
-                text = serialize_reviewed_fields(associations,limits,group)
+                text = serialize_reviewed_fields(associations,limits,group,context_format=context_format)
             except (ValueError,KeyError,TypeError,IndexError):
                 errors.append("source_gap_requires_context_support")
         count = max(estimate_tokens(source_text), estimate_tokens(text))
@@ -252,10 +257,10 @@ def build_reviewed_policy_chunks(
         fields = {"reading_id": identity, "field_associations": associations,
             "applicability_basis_ref": row["applicability_evidence_ref"]}
         if include_source_limits:
-            fields.update(context_format=CONTEXT_FORMAT,source_limits=limits)
+            fields.update(context_format=context_format,source_limits=limits)
             if group is not None:fields['service_group']=group
         data = {"schema_version": Chunk.SCHEMA_VERSION, "chunk_type": "policy",
-            "chunker_version": CONTEXT_CHUNKER_VERSION if include_source_limits else CHUNKER_VERSION, "edition_id": version.edition_id,
+            "chunker_version": context_version if include_source_limits else CHUNKER_VERSION, "edition_id": version.edition_id,
             "document_id": version.document_id, "version_id": version.version_id,
             "byte_sha256": version.byte_sha256, "anchored": True, "source_verification": "pending",
             "content_review": "pending", "source_text": source_text, "text": text,
@@ -304,7 +309,7 @@ def build_reviewed_policy_chunks(
         coverage.append({"reading_id": identity, "chunk_ids": [chunk.chunk_id]})
     return {"schema_version": "bintanong-reviewed-policy-pending-chunks-v1", "candidate_only": True,
         "activation_eligible": False, "source_governance_changed": False,
-        "chunker_version": CONTEXT_CHUNKER_VERSION if include_source_limits else CHUNKER_VERSION,
+        "chunker_version": context_version if include_source_limits else CHUNKER_VERSION,
         "preparation_fingerprint": _digest(core), "token_cap": token_cap, "chunks": chunks,
         "item_coverage": coverage, "withheld": withheld, "preparation": copy.deepcopy(bundle),
         "coverage": {"supplied_readings": len(rows), "emitted_readings": len(coverage),

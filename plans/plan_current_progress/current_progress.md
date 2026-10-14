@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Compact v2 TDD verified — 14 October 2026.**
+
+Compact v2 verified underTDD: sevennewtests RED14reported failures inclsubcases
+frommissingcompactoption0.95s ->7passed/19subtests0.54s. Corrected testhelper preserves
+explicitextra gap evidence. Related100tests/125subtests pass2.01s. Opt-in paired
+v2format/chunker markers; displayed duplicate limitmetadata/recordmanifest omitted,
+fullstored fields/limits/manifests revalidated. Legacydefaultv1 preserved; mismatched
+markers/tamperedmetadata/missingparts/spans/exactbudget failclosed. Next cohesive
+codecommit, unchanged77input/default-v1replays/strict exactcounts, onefinalreview and
+fullsuite. No sourcewording/gap/ownerdecision changes; no activation/newbatch.
+
+
 **Compatible compact codec start — 14 October 2026.**
 
 Compact codec start — 14 October2026, clean845abff. New boundedplan2026-10-14-

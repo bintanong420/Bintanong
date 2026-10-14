@@ -179,5 +179,23 @@ class ReviewedRecordContextTests(unittest.TestCase):
         self.row['gaps'][0]['locator']['physical_pages']=[2,3]
         with self.assertRaises(ValueError):self.prepare()
 
+    def test_compact_v2_keeps_full_group_manifest_validation_and_atomic_budget(self):
+        prepared=self.eligible();out=self.build(prepared,compact_context=True)
+        rows=self.candidates(out);expected_manifest=prepared['readings'][0]['record_manifest']
+        for row in rows:
+            chunk=row['chunk'];stored=chunk['type_fields']['service_group']
+            self.assertEqual(stored['record_manifest'],expected_manifest)
+            self.assertNotIn('record_manifest',json.loads(chunk['text'])['service_group'])
+            self.assertIn('visible_text',chunk['type_fields']['source_limits'][0])
+        result=build_context([rows[-1]],100000,len)
+        self.assertEqual([e['chunk_id'] for e in result['evidence']],[c['chunk_id'] for c in out['chunks']])
+        self.assertIn('precedence',result['context'])
+        self.assertFalse(build_context([rows[-1]],len(result['context'])-1,len)['evidence'])
+        changed=copy.deepcopy(rows)
+        for row in changed:row['chunk']['type_fields']['service_group']['record_manifest']['gaps']['deadlines']['sha256']='b'*64
+        self.assertFalse(build_context([changed[-1]],100000,len)['evidence'])
+        rows[-1]['neighbors'].pop()
+        self.assertFalse(build_context([rows[-1]],100000,len)['evidence'])
+
 
 if __name__=='__main__':unittest.main()
