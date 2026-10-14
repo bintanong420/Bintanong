@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 208
+sequence: 209
 plan: plans/phase-05-retrieval-plan.md
-head_commit: fd06c3e
-working_tree: feature-branch push receipt/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-14T23:35:27+08:00
+head_commit: a6c2c17
+working_tree: shared group context plan/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-15T00:00:27+08:00
 ---
 
 # Phase 05 checkpoint
@@ -171,6 +171,16 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner resumes implementation from synced a6c2c17/productdea9442. Next bounded
+task:2026-10-14-shared-group-context-plan.md. Share reviewed group metadata only;
+all original payloads/integrity hashes remain in structured evidence. Display uses
+one group digest plus exact common metadata/residuals; preserve fields/limits/IDs,
+source-version separation, citation order, contract checks and atomic admission.
+No new source decision/vector encoding/runtime opt-in. Actual thesis17–18/routingPNG/
+master10/priorPhase04/05/scope-sourcegap-dataset records reconsulted, no discrepancy.
+Push receipt and remote historicaldocs retained; owner artifact changes untouched.
+Next synthetic regression RED, smallest GREEN, fullsuite and real saved comparison.
 
 Feature branch published successfully: normal mergefd06c3e includes remote
 f10d5cd and all103previous local-only commits; explicit push to origin/
@@ -2696,6 +2706,10 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Execute shared-group context plan inline under TDD, then fullsuite, actual saved
+comparison and one fresh final review. All original source fields remain retained;
+no need to reopen scope/wording reviews or rerun model encoding.
 
 Preserve optional shared citation context dea9442 and measured saved results.
 Next bounded development can share repeated whole-group display metadata under

@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Shared reviewed-group display resumed — 14 October 2026.**
+
+Owner resumes implementation from synced a6c2c17/productdea9442. Next bounded
+task:2026-10-14-shared-group-context-plan.md. Share reviewed group metadata only;
+all original payloads/integrity hashes remain in structured evidence. Display uses
+one group digest plus exact common metadata/residuals; preserve fields/limits/IDs,
+source-version separation, citation order, contract checks and atomic admission.
+No new source decision/vector encoding/runtime opt-in. Actual thesis17–18/routingPNG/
+master10/priorPhase04/05/scope-sourcegap-dataset records reconsulted, no discrepancy.
+Push receipt and remote historicaldocs retained; owner artifact changes untouched.
+Next synthetic regression RED, smallest GREEN, fullsuite and real saved comparison.
+
 **Feature branch pushed and verified — 14 October 2026.**
 
 Feature branch published successfully: normal mergefd06c3e includes remote
