@@ -11,6 +11,17 @@ These six scenarios / eighteen English, Filipino and Taglish variants are propos
 additions. They do not replace or relabel the accepted12 scenarios /36 variants.
 No new query vectors, scores, gold files or thresholds have been generated.
 
+## Presentation on resumed Phase05 — 15 October 2026
+
+All18exact wordings and six expected behaviors below were presented in the current
+conversation after decision commit196982d. A focused async owner question is
+pending; no actual acceptance/correction has arrived. All cases remain untested.
+New confirmed V/E22field bindings reuse66fee/threeE01headings; see the
+[bindings report](2026-10-15-vehicle-enrollment-binding-report.md). This is selected
+coverage only. U1still needs complete necessary II/III context and referral-office
+review; U2's F01/F08/F09 bindings are available. Neither technical binding nor
+presentation accepts benchmark wordings or institutional source authority.
+
 ## Purpose and evaluation boundary
 
 Master section10.3 requires unavailable policies, ambiguous acronyms, wrong-program

@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Latest source-binding increment: [confirmed V/E fields](2026-10-15-vehicle-enrollment-binding-report.md),22new fields/91selected total including reused66fee+3E01headings;112tests/157subtests and saved replay pass,62originals/47prior sealed files unchanged. Exact six/18benchmark proposal presented, actual acceptance pending; U1necessary context/referral review separate. No chunks/testing/activation/advancement.
+
 - Latest recovered owner decisions: [G03 and distinct ASG clause](2026-10-15-csg-human-review-packet.md). G03 confirmed only; G01/original G02 unconfirmed. ASG physical23 belongs to excluded audiences, never a G02 replacement. Shell/write access restored at857b8db;62source hashes and22+25sealed files verified. Continue V/E bindings and exact18wording review; F04 held, Phase05 active/formally blocked. Older pointers below are history.
 
 **Phase 1–2 readiness correction (12 October 2026):** [progress-claims audit](2026-10-12-phase12-progress-claims-audit.md) disputes the historical Phase 2 complete label against unmet real-source exits. Candidate software delivery and later infrastructure status do not establish completed Handbook/Charter ingestion or human-review readiness. Historical handoff metadata is retained pending corrective reconciliation; a valid phase-state structure is not exit-gate proof.

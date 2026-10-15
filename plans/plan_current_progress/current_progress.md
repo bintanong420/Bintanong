@@ -1,5 +1,36 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Closure:466documentation/ledger tests and11subtests pass15.13s, exit0;
+phase validate succeeds, can-advance refuses blockedPhase05 as expected.
+V/E27file seal SHA256:d7aa34c13abe115e8fc27f4ba6f8edbc2240ca65f5d93a85f5c0b9ad03549ddc;
+G5file seal SHA256:3871c0728d1570fd2bf49bdc4d42bb1e5fa251b8af36b7d203e46de2e13d9a88.
+Both seals verified read-only; no writing-script reruns in sealed directories.
+Only explicit six report/continuity paths are staged; owner artifacts untouched.
+Parent196982d, following docs commit discoverable from Git. Benchmark answer pending.
+
+## Verified V/E binding increment — 15 October 2026
+
+Recovered G03/ASG decisions committed as196982d. Existing mappers now bind22new
+confirmed V/E fields (14raster/eightnative);66fee fields/threeprior E01headings
+remain unchanged,91selected scalar bindings total. All14raster regions viewed;
+independent saved-artifact/source/event/native replay passes.112related tests/
+157subtests pass1.37s,exit0. All62originals and47prior sealed files match.
+Report: [vehicle/enrollment bindings](2026-10-15-vehicle-enrollment-binding-report.md).
+Only selected V01–06/E01–04 groups; no full procedure/penalty approval, chunks,
+embeddings, new benchmark tests or activation. Source dependencies/limits,
+15versus20speed discrepancy, E02timing/appointment alternative, PSA difference,
+missingStep2label and unknown applicability remain. No product/TDD/fullsuite rerun.
+Initial label-regex/body-reference and verifier JPEG-attribute errors corrected
+from actual original geometry/existing reader; raw rulings retained.
+
+Exact six scenarios/18language variants and expected behaviors presented in this
+turn; async acceptance question pending, not accepted or tested. Next actual
+wording/behavior answer, then versioned evidence-ready offline packet. U1's full
+necessary II/III context/referral-office review remains separate; U2F01/F08/F09
+bindings available. G03only confirmed; G01/G02unconfirmed, ASG23excluded, F04held.
+Models/vectors/settled reviews reused. Owner artifacts preserved. Phase05 remains
+active with blocked formal handoff; no Phase06/runtime/DB/Prolog/activation.
+
 ## Explicit owner decisions recovered on resume — 15 October 2026
 
 Shell and file access work again. Fresh Git starts at `857b8db`; the recorded

@@ -2,16 +2,40 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 229
+sequence: 230
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 857b8db
-working_tree: six explicit CSG clarification and continuity documentation paths; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T18:10:00+08:00
+head_commit: 196982d
+working_tree: explicit V/E report and continuity documentation; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T18:17:01+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Verified V/E binding increment — 15 October 2026
+
+Recovered G03/ASG decisions committed as196982d. Existing mappers now bind22new
+confirmed V/E fields (14raster/eightnative);66fee fields/threeprior E01headings
+remain unchanged,91selected scalar bindings total. All14raster regions viewed;
+independent saved-artifact/source/event/native replay passes.112related tests/
+157subtests pass1.37s,exit0. All62originals and47prior sealed files match.
+Report: [vehicle/enrollment bindings](2026-10-15-vehicle-enrollment-binding-report.md).
+Only selected V01–06/E01–04 groups; no full procedure/penalty approval, chunks,
+embeddings, new benchmark tests or activation. Source dependencies/limits,
+15versus20speed discrepancy, E02timing/appointment alternative, PSA difference,
+missingStep2label and unknown applicability remain. No product/TDD/fullsuite rerun.
+Initial label-regex/body-reference and verifier JPEG-attribute errors corrected
+from actual original geometry/existing reader; raw rulings retained.
+
+Exact six scenarios/18language variants and expected behaviors presented in this
+turn; async acceptance question pending, not accepted or tested. Next actual
+wording/behavior answer, then versioned evidence-ready offline packet. U1's full
+necessary II/III context/referral-office review remains separate; U2F01/F08/F09
+bindings available. G03only confirmed; G01/G02unconfirmed, ASG23excluded, F04held.
+Models/vectors/settled reviews reused. Owner artifacts preserved. Phase05 remains
+active with blocked formal handoff; no Phase06/runtime/DB/Prolog/activation.
+
 
 ## Explicit owner decisions recovered on resume — 15 October 2026
 
@@ -402,6 +426,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+V/E22field increment verified with existing mappers; seal/commit recoverable evidence and pending18wording review. No benchmark testing without actual acceptance.
 
 Record recovered G03/ASG decisions; continue confirmed V/E bindings using unchanged mappers. G01/G02 unconfirmed; F04 held.
 
@@ -2367,6 +2393,17 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Closure:466documentation/ledger tests and11subtests pass15.13s, exit0;
+phase validate succeeds, can-advance refuses blockedPhase05 as expected.
+V/E27file seal SHA256:d7aa34c13abe115e8fc27f4ba6f8edbc2240ca65f5d93a85f5c0b9ad03549ddc;
+G5file seal SHA256:3871c0728d1570fd2bf49bdc4d42bb1e5fa251b8af36b7d203e46de2e13d9a88.
+Both seals verified read-only; no writing-script reruns in sealed directories.
+Only explicit six report/continuity paths are staged; owner artifacts untouched.
+Parent196982d, following docs commit discoverable from Git. Benchmark answer pending.
+
+
+Fresh112tests/157subtests pass1.37s; independent22field saved replay,62source hashes and47prior sealed files pass. See2026-10-15-vehicle-enrollment-binding-report.md; no fullsuite rerun claimed.
+
 Clarification-only update: compared actual message with event/AGENTS/G packet;
 retention is distinct from exact field verification and future-source receipt.
 Previous actual thesis17–18/routingPNG/master10 evidence remains applicable;
@@ -3270,6 +3307,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Await actual six-scenario/18wording and expected-behavior acceptance; prepare versioned evidence-ready packet afterward. U1 still requires complete necessary source-context/referral review; no blanket vehicle approval. Preserve G03only confirmation/G01G02unconfirmed/F04hold.
 
 Finish confirmed V/E bindings, then obtain exact six-scenario/18-variant wording and expected-behavior acceptance before testing. Do not reopen G03 or substitute excluded ASG content.
 
