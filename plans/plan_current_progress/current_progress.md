@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Candidate subject selection resumed — 15 October 2026
+
+Fresh245fd73 reconciles checkpointparent2722eb6; product7456613 unchanged. Owner
+artifact changes preserved. Active phase/CLI/master10, dataset/scope/gap policies,
+thesis physical17–18 and routingPNG consulted; no discrepancy. Continue the exact
+recorded next action via2026-10-15-candidate-subject-selection-plan.md: small
+source-bound offline catalogue/explicit trusted subject selector, synthetic TDD,
+then same nine queries/saved scores with annotated caller subjects. No NLP or
+claim-support inference; no engine, source, vector, DB or activation change.
+Next commit reviewed plan/recovery point, then synthetic RED→GREEN.
+
+
 Closure:36file evidence seal verified read-only, manifest SHA256:
 3d4f3c36b1dcfd2391941b35fe3698dbe9d537dbdc727003b3bf0e7a6a78c2e5.
 All338prior hashes/nineunique product files unchanged. Local links/whitespace pass;
