@@ -1,5 +1,27 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Verified Phase05 resume increment15October2026:**66fee fields across F01–F09
+now bound with existing mapper; unit/hour/rate/date relationships retained. Only
+F04 amount held, unaffected fields mapped but row incomplete. Six absent values
+remain unknown; six prior amount spans unchanged. All62originals/22prior sealed
+files match; authorQA66regions/nine sheets and saved-artifact replay pass. Targeted
+112tests/157subtests pass1.25s, exit0.25new evidence files sealed; report:
+2026-10-15-fee-relationship-binding-report.md. No product changes/fullsuite rerun,
+new chunks/embeddings/benchmark tests or activation. G01–G03 presented/pending,
+F04 actual answer pending; other F1/V/E settled. Next actual answers in new evidence,
+remaining confirmed V/E bindings, then exact18benchmark wording review before tests.
+Baseline957e7e4; six explicit curated docs only, owner artifacts preserved.
+Read-only new seal25/25matches, phase validate exit0/can-advance exit1 as expected,
+staged whitespace check passes. Following docs commit is discoverable in Git.
+
+**Phase05 resume15October2026, baseline957e7e4:** AGENTS/latestCLI handoff and
+freshGit agree; owner artifact changes preserved. Actual thesis17–18/routingPNG/
+master10 checked, no discrepancy. G01–G03 shown with original17/19/20/21regions
+and treatment; owner answer pending. F04 amount still held separately. Continuing
+already-confirmed fee units/hours/rate/date bindings with existing mapper in new
+ignored evidence; no previous seal mutation or source confirmation inferred.
+No new benchmark testing, product/runtime/DB change, activation or Phase06.
+
 **CLI handoff15October2026:** read plans/2026-10-15-phase05-cli-handoff.md first
 with AGENTS/INDEX/checkpoint/freshGit. Owner expressly available for human verification
 throughoutPhase05; AGENTS now directs early short source batches while independent

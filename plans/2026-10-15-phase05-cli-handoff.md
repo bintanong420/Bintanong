@@ -1,5 +1,14 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+Resume increment after957e7e4: [fee relationship binding report](2026-10-15-fee-relationship-binding-report.md)
+supersedes this session's earlier six-fee-field count:66confirmed fee fields now
+bound using unchanged mapper; only F04 amount held. G01–G03 original pages/readings/
+treatment were presented and the focused question is pending, no actual answer.
+Do not repeat that question or treat this resume as confirmation.112targeted tests/
+157subtests pass;25new evidence files sealed, all62originals/22prior sealed files
+unchanged. Continue actual answers, remaining V/E bindings and separate benchmark
+wording review. Formal Phase05 remains blocked; older paragraphs below are history.
+
 This is a session handoff within the active Phase05, not a phase-completion
 handoff. Formal state remains `plans/phase-05-handoff.md` **blocked**, Phase06 not
 authorized. Latest checkpoint/progress override older chronological paragraphs.

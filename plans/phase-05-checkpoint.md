@@ -2,16 +2,33 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 225
+sequence: 227
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d9d5990
-working_tree: seven explicit CLI handoff and human-verification documentation paths; owner artifacts preserved
-updated_at: 2026-10-15T17:31:00+08:00
+head_commit: 957e7e4
+working_tree: six explicit fee report and resume documentation paths; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T17:41:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Existing mapper binds66confirmed fee fields across F01–F09, retaining unit/hour/
+rate/date relationships and six original amount spans. F04 unaffected fields bound;
+only disputed amount held, row incomplete. Six not-shown fields remain unknown.
+All62originals/22prior sealed files unchanged. Saved-artifact replay and author
+QA of nine region sheets pass;112targeted tests/157subtests pass, exit0. New25file
+seal c3962dd03fb6fd06e978df5982b6810e40f12b8f397c539dfc21f702ad40cab2.
+Report2026-10-15-fee-relationship-binding-report.md contains commands/digests/limits.
+G presented/pending; no actual G/F04 answers, chunks or new benchmark tests.
+
+Resumed from CLI handoff957e7e4; its seven documentation paths account for the
+expected parent-SHA difference. Owner artifact changes match the handoff and stay
+untouched. Reconsulted actual thesis physical17–18, routingPNG and master10;
+undergraduate/read-only scope and retrieval-only Phase05 remain consistent.
+Viewed original USG17/19/20/21 and presented G01–G03/treatment for a focused owner
+decision. Pending, no confirmation inferred. F04 amount remains separately held.
+
 
 CLI handoff2026-10-15-phase05-cli-handoff.md prepared at owner request. AGENTS
 records owner availability for human verification throughoutPhase05, focused early
@@ -332,6 +349,17 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Bounded fee relationship preparation verified; curate resume/report and checkpoint
+commit, with whitespace/phase validation passing and expected can-advance exit1.
+Existing product50405f5 unchanged. Next actual G/F04 answers and remaining
+confirmed V/E bindings, then separate exact18benchmark wording acceptance.
+
+Continue existing mapper bindings for already-confirmed F01–F09 units/hours/rate/
+date relationships in a NEW ignored evidence directory. Hold only F04 amount;
+preserve its other confirmed fields, unknown values, original limits and event.
+No product behavior change, service-table expansion or new benchmark execution.
+
 
 Session handoff ready after documentation validation/commit. New CLI resumes from
 2026-10-15-phase05-cli-handoff.md, checks actual F04 answer, presents G01–03 with
@@ -2094,6 +2122,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Resume baseline957e7e4 reconciled against parentd9d5990. Six explicit curated docs:
+fee report, Gpacket, latest CLI handoff, INDEX, checkpoint and currentprogress.
+Owner artifact deletion/untracked backend/artifacts unchanged/unstaged. Remote
+feature tipa6c2c175 read through GitHub MCP, matching cached remote ref; no push/merge.
+
 Baseline d9d5990, product50405f5 on feat/p05-retrieval-logic. Seven explicit handoff/
 AGENTS/Gpacket/ledger docs; owner artifacts/.gitkeep deletion/backend/artifacts/
 untouched and unstaged. No new push/merge/runtime or branch changes this session.
@@ -2268,6 +2301,18 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Resume15October: actual thesis17–18/routingPNG/master10 checked, no discrepancy.
+New root p05-fee-relationships-20261015: verify_resume.py62originals/22sealed pass;
+bind_relationships.py66fields/9groups/6unknowns/F04amountheld; saved-artifact verifier
+checks values/event/geometry/limits and six unchanged prior spans, pass. Author
+visual QA all66regions/nine sheets pass. Targeted fourmodules112passed/157subtests,
+1.25s, exit0; pytest no cache/externalbasetemp. No fresh fullsuite or product change.
+Caller gap metadata/test-path/result nesting corrections recorded in raw rulings;
+no source-content decisions or equivalent extraction retries. New25files sealed.
+Read-only new-seal check25/25matches; phase validate exit0, can-advance exit1 as
+expected. The following documentation commit is discoverable in Git;957e7e4 is
+its pre-commit baseline, not a claim that the new documentation is absent.
 
 Current session stdlib/source checks62original SHA256/22sealed files pass; three
 proposed Gquotes match normalized native text of original34pagePDF; visual17/19/
@@ -2833,6 +2878,10 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+New fee mapping8383c0533f68c7254cab128c34ee28c50f58822f9d64fce5d563aa68e41a482d;
+25file manifestc3962dd03fb6fd06e978df5982b6810e40f12b8f397c539dfc21f702ad40cab2.
+Source/old seal/model/dependency versions unchanged; existing authorizedPython3.13.
+
 Product50405f5. Fee-six mappingSHA4eb2312e10df1f303834e99c61ebfff09f444538b0e36694afee016220ab1917;
 native-threeSHA723eea9c50dfb5e29e09e33384d936d55ba5b1f13c05e07392bbb77f0fb0bf6f.
 Code/test digests and bindings in ignored rawroot/binding-verification.json.
@@ -2912,6 +2961,12 @@ digests below are not fresh model checks for this offline recovery.
 Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
+
+Existing mapper is sufficient for these previously confirmed fee scalar fields;
+no product expansion/new human reading inferred. F04 gap limits completeness of
+mapped relationships; disputed amount excluded separately. Six absent values
+stay unknown. F09 recipient not independently confirmed, not mapped. No new query
+wordings accepted. G question presented/pending, F04 focused answer still pending.
 
 Owner15October expressly available for Phase05 human verification; ask early exact
 short batches, continue independent work and record actual answers. Handoff is a
@@ -3017,6 +3072,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+G01–G03 and F04 amount need actual owner answers before dependent source changes.
+Neither blocks already-confirmed V/E bindings. Remaining source relationships and
+unaccepted18benchmark variants still precede new offline evaluation/calibration.
+Formal phase exits unchanged; no institutional verification/activation inferred.
+
 Final code review finished with no findings. F04 focused digit decision pending;
 other E/V/F1 decisions remain settled. Prior review-pending entries are history.
 
@@ -3117,6 +3177,16 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Apply actual G/F04 answers in separate new evidence without changing sealed roots.
+Continue confirmed V/E source-field/event/geometry bindings with their exact limits.
+Then present exact six new scenarios/18variants for wording/behavior acceptance
+before testing. Existing accepted12/36 and prior vectors stay unchanged.
+
+Record actual G/F04 answers if received, without reopening settled F1/V/E. Finish
+and verify bounded fee relationship mappings; preserve previous seals. Present
+exact unaccepted benchmark questions separately before any new query testing.
+
 
 New CLI: read2026-10-15-phase05-cli-handoff.md and AGENTS; verify Git/status/phase
 state and preserve owner artifacts. If actual F04 answer exists apply separate new
@@ -3651,6 +3721,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not rerun writing scripts in new sealed p05-fee-relationships-20261015 root.
+Do not redo66fee bindings, prior native headings, confirmed F1/V/E or settledsetup.
+Do not repeat pending G/F04 questions solely because a CLI/account changes.
 
 Do not redo completed raster implementation/review/fullsuite or source conversions
 merely for a CLI change. Do not execute scripts that write into sealed raster root.

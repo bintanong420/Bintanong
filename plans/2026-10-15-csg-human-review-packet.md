@@ -1,9 +1,12 @@
 # Prepared CSG source-reading batch G
 
-15 October2026. **Prepared, not yet presented for confirmation; all three pending.**
+15 October2026. **Presented on Phase05 resume after957e7e4; all three pending.**
+The original17/19/20/21page images and the table/treatment below were shown;
+a focused confirmation/correction question was submitted. No actual owner answer
+has arrived. Preserve prepared artifacts as history; no G decision is inferred.
 This continues the authorized explicit-USG/CSG review. The owner is available for
-short human-verification batches throughout Phase05. Show these exact readings
-and original pages in the next CLI session, then record the actual response.
+short human-verification batches throughout Phase05. Record the actual response
+when received; do not repeat a pending question simply because the CLI changes.
 No field decisions, new benchmark wordings or school approval are inferred here.
 
 Original: [2023 Tiniguiban USG Constitution](<../dataset/Student Government Constitutions and Election Code/THE-2023-TINIGUIBAN-USG-Constitution (2).pdf>),34physical pages.
