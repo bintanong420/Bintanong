@@ -1,5 +1,55 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Accepted coverage matrix verified — 15 October 2026
+
+Factual join at baseline `b1e73e3`, unchanged product `232a418`: all 63 accepted
+identities/21 scenarios/three languages verified. Categories: 12 field-available,
+nine known limits, six selected-field absence reviews, 12 selected-curriculum
+claims unassessed, six curriculum clarifications, six partial-evidence expectations,
+six excluded-audience traces, three entity clarifications and three selected-program
+unavailable traces. Source-claim observations cover 27 variants; 36 have none.
+No answer-support aggregate is inferred from recovery or scope checks.
+
+Independent read-only verification: 150 saved strategy references, 71 source-report
+links, ten null selections, 139 copied source-limit occurrences, 519 prior hashes,
+20 input hashes and 15 unchanged code/test/document digests pass. Prior expected-
+evidence recovery count 36 is a distinct historical metric. Initial builder and
+verifier bookkeeping adapted to null saved selections/source_review values; no
+product/data defect, failed old evidence or source-content choice was found.
+Report: plans/2026-10-15-accepted-case-coverage-matrix.md. New ignored raw root:
+workspace/audit-evidence/p05-accepted-coverage-matrix-20261015/.
+
+Documentation/ledger preflight: 487 tests/11 subtests pass in 11.32s, exit 0; phase validation/whitespace pass.
+
+Next single final independent review and seal. Then
+prepare the source-claim boundary for four already-scoped curriculum scenarios/
+12variants; keep eight curriculum rows outside the policy-subject catalogue and
+six unknown-BSCS variants as clarification controls. U1/U2 declared limits can be
+reused for future exact-claim sidecars, without reopening confirmed source choices.
+No product change, retrieval/model run, new question, school approval or activation.
+Owner artifacts preserved; Phase 05 stays active/blocked, no Phase 06.
+
+
+## Accepted-case coverage consolidation resumed — 15 October 2026
+
+Fresh HEAD `b1e73e3` reconciles the expected checkpoint parent `3502cdd`; product
+`232a418` unchanged. Owner artifact deletion/untracked directory preserved.
+Read active ledger/plan/handoffs, master section 10, scope/dataset instructions;
+consulted thesis physical 17–18 and routing PNG, no discrepancy. Continue the
+recorded factual consolidation: join the original 36, accepted natural 18 and
+accepted temporal nine identities to existing source-claim observations and
+scope/curriculum traces. No new benchmark wording, source reading or policy.
+
+Ruling: keep recovery metrics, source-field reports, partial-evidence expectations
+and explicit scope/clarification traces separate — they measure different things;
+combining them as successful answers would misstate coverage. Cost if wrong:
+revisit the consolidation grouping, without altering preserved observations.
+Use a new ignored p05-accepted-coverage-matrix-20261015 evidence root. Do not rerun
+sealed writers, retrieval, embeddings, conversions, full/native tests or source
+approval. Next build/independently verify all 63 identity joins and document gaps
+before any calibrated integration. Phase 05 active/blocked; candidate inactive.
+
+
 ## Accepted policy source-field review closed — 15 October 2026
 
 Observation commit `3502cdd`, plan `f5a9dd5`, unchanged product `232a418`.

@@ -2,16 +2,66 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 265
+sequence: 267
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3502cdd
-working_tree: policy review closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:54:38+08:00
+head_commit: b1e73e3
+working_tree: accepted coverage consolidation; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T23:02:27+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Accepted coverage matrix verified — 15 October 2026
+
+Factual join at baseline `b1e73e3`, unchanged product `232a418`: all 63 accepted
+identities/21 scenarios/three languages verified. Categories: 12 field-available,
+nine known limits, six selected-field absence reviews, 12 selected-curriculum
+claims unassessed, six curriculum clarifications, six partial-evidence expectations,
+six excluded-audience traces, three entity clarifications and three selected-program
+unavailable traces. Source-claim observations cover 27 variants; 36 have none.
+No answer-support aggregate is inferred from recovery or scope checks.
+
+Independent read-only verification: 150 saved strategy references, 71 source-report
+links, ten null selections, 139 copied source-limit occurrences, 519 prior hashes,
+20 input hashes and 15 unchanged code/test/document digests pass. Prior expected-
+evidence recovery count 36 is a distinct historical metric. Initial builder and
+verifier bookkeeping adapted to null saved selections/source_review values; no
+product/data defect, failed old evidence or source-content choice was found.
+Report: plans/2026-10-15-accepted-case-coverage-matrix.md. New ignored raw root:
+workspace/audit-evidence/p05-accepted-coverage-matrix-20261015/.
+
+Documentation/ledger preflight: 487 tests/11 subtests pass in 11.32s, exit 0; phase validation/whitespace pass.
+
+Next single final independent review and seal. Then
+prepare the source-claim boundary for four already-scoped curriculum scenarios/
+12variants; keep eight curriculum rows outside the policy-subject catalogue and
+six unknown-BSCS variants as clarification controls. U1/U2 declared limits can be
+reused for future exact-claim sidecars, without reopening confirmed source choices.
+No product change, retrieval/model run, new question, school approval or activation.
+Owner artifacts preserved; Phase 05 stays active/blocked, no Phase 06.
+
+
+## Accepted-case coverage consolidation resumed — 15 October 2026
+
+Fresh HEAD `b1e73e3` reconciles the expected checkpoint parent `3502cdd`; product
+`232a418` unchanged. Owner artifact deletion/untracked directory preserved.
+Read active ledger/plan/handoffs, master section 10, scope/dataset instructions;
+consulted thesis physical 17–18 and routing PNG, no discrepancy. Continue the
+recorded factual consolidation: join the original 36, accepted natural 18 and
+accepted temporal nine identities to existing source-claim observations and
+scope/curriculum traces. No new benchmark wording, source reading or policy.
+
+Ruling: keep recovery metrics, source-field reports, partial-evidence expectations
+and explicit scope/clarification traces separate — they measure different things;
+combining them as successful answers would misstate coverage. Cost if wrong:
+revisit the consolidation grouping, without altering preserved observations.
+Use a new ignored p05-accepted-coverage-matrix-20261015 evidence root. Do not rerun
+sealed writers, retrieval, embeddings, conversions, full/native tests or source
+approval. Next build/independently verify all 63 identity joins and document gaps
+before any calibrated integration. Phase 05 active/blocked; candidate inactive.
+
 
 ## Accepted policy source-field review closed — 15 October 2026
 
@@ -1045,6 +1095,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: factual 63-variant coverage matrix verified; one final independent review, documentation checks/seal and closure next. Product unchanged.
 
 Latest: bounded accepted-policy review complete; finish six-path documentation closure, then consolidate the accepted-case source-field/known-limit/unknown-claim matrix. Product `232a418` unchanged.
 
@@ -4043,6 +4095,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: finish the factual matrix review/seal, then design the missing four-scenario/12-variant curriculum source-claim boundary; unknown BSCS remains clarification, not a policy-subject guess.
 
 Latest: consolidate source-field/known-limit/unknown-claim coverage across existing accepted cases using established scope/curriculum selectors and saved vectors/wordings. Identify missing review or caller interpretation before calibrated integration; candidate inactive, no Phase 06.
 
