@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-bound claim review resumed — 15 October 2026
+
+Freshd2906ca reconciles checkpoint parentc86333b; productc86333b and25-file seal
+unchanged. Owner artifacts preserved. AGENTS/handoff skills, active plan/checkpoint,
+CLI/blocked handoffs, master10, scope/gap/service-association/dataset policies,
+thesis physical17–18 and routingPNG consulted; no discrepancy. Small existing-module
+extension in plans/2026-10-15-source-claim-review-plan.md: trusted source-review
+register bound to complete subject snapshots, exact source field refs and source
+audit hashes. Default reports stay byte-compatible; no another reporting layer.
+Ruling: source-side selected-field absence findings are explicit researcher
+judgments, not automatic inference, newly owner-confirmed gaps or benchmark labels.
+Complete field audit precedes loading query cases; known source limits take priority.
+Positive findings mean fields available as printed, not certified answer/billing.
+No original/transcription/scope change or settled review reopened. Next plan commit,
+synthetic RED→GREEN, saved1430sidecars/default replay and one final independent review.
+
+
 ## Source-limit claim report closed — 15 October 2026
 
 Plan3af3052/productc86333b implements the bounded offline report; both plan tasks

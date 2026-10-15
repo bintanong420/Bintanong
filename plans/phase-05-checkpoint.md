@@ -2,16 +2,33 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 254
+sequence: 255
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c86333b
-working_tree: six curated closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:08:23+08:00
+head_commit: d2906ca
+working_tree: source-claim review plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T22:14:11+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-bound claim review resumed — 15 October 2026
+
+Freshd2906ca reconciles checkpoint parentc86333b; productc86333b and25-file seal
+unchanged. Owner artifacts preserved. AGENTS/handoff skills, active plan/checkpoint,
+CLI/blocked handoffs, master10, scope/gap/service-association/dataset policies,
+thesis physical17–18 and routingPNG consulted; no discrepancy. Small existing-module
+extension in plans/2026-10-15-source-claim-review-plan.md: trusted source-review
+register bound to complete subject snapshots, exact source field refs and source
+audit hashes. Default reports stay byte-compatible; no another reporting layer.
+Ruling: source-side selected-field absence findings are explicit researcher
+judgments, not automatic inference, newly owner-confirmed gaps or benchmark labels.
+Complete field audit precedes loading query cases; known source limits take priority.
+Positive findings mean fields available as printed, not certified answer/billing.
+No original/transcription/scope change or settled review reopened. Next plan commit,
+synthetic RED→GREEN, saved1430sidecars/default replay and one final independent review.
+
 
 ## Source-limit claim report closed — 15 October 2026
 
@@ -855,6 +872,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: execute bounded source-bound review register extension, preserving default reports and independent source audit before labels/cases. Earlier entries below are history.
 
 Latest: bounded source-limit report Tasks1/2 complete atc86333b, final review no findings,25-file seal verified; finish documentation closure, then independent source-side claim assessment design. Earlier entries below are history.
 
@@ -3835,6 +3854,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: plans/2026-10-15-source-claim-review-plan.md, inline synthetic TDD then source-side review/1430saved-context/default replay; one final independent review.
 
 Latest: design independent source-side assessment for undeclared missing claims/positive support, separate from benchmark labels and automatic NLP. Reuse settled questions, reviewed fields, saved vectors and controls; preserve actual source-content approval boundaries. T1/U3 still unassessed; no calibration/activation/Phase06 claim.
 
