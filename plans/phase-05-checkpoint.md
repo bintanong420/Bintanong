@@ -2,16 +2,68 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 262
+sequence: 265
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f5a9dd5
-working_tree: policy observation report and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:45:56+08:00
+head_commit: 3502cdd
+working_tree: policy review closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T22:54:38+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Accepted policy source-field review closed — 15 October 2026
+
+Observation commit `3502cdd`, plan `f5a9dd5`, unchanged product `232a418`.
+Six accepted scenarios/18 language variants correct the historical plan's 15 count;
+both pre-enrollment questions remain. Source-first audit: 13 chunks/37 unique
+fields/39 spans. The separate first-step derivative is development-informed,
+not blind; all 324 initially unassessed reports remain preserved.
+
+All 1,944 saved-prefix reports independently checked: 1,164 reviewed fields
+available, 132 missing context, 648 known source limits. At k3/.5/2048, both
+existing strategies give 12 field-available and six insufficient-evidence cases;
+assembly-gap cases 12 versus zero. These are trusted researcher source/caller
+conditions, not automatic interpretation, answer accuracy or calibrated policy.
+Full associations, original cutoff, timing conflict and held fields stay intact.
+
+Fresh parent focused checks: 99 tests/236 subtests in 3.65s, exit 0. Single final
+independent review: no actionable findings; fresh 19 tests/84 subtests in 0.30s.
+Documentation/ledger preflight: 486 tests/11 subtests in 11.68s, exit 0. Independent
+checks include 8,748 field occurrences, 1,944 copied limits, 19 contexts/266 citation
+bindings, 108 controls/21 probes, 37 source confirmation-event bindings, 480 prior
+hashes, seven input hashes and 15 unchanged code/test/document digests.
+The prior full-suite exit 0/native stderr diagnostic remains historical, cause
+unknown; neither the full suite nor PDF isolation was repeated.
+
+Report: plans/2026-10-15-positive-policy-claim-review-report.md. The 38-file top-level
+observation/review seal verifies; pytest temporary directories are excluded.
+Manifest SHA256: 04c64302e684ff468c654c0e65f2d59def8d435688dcb951a36f5f05f8ef89f8.
+Evidence root: workspace/audit-evidence/p05-positive-policy-claim-review-20261015/;
+review sibling: p05-positive-policy-claim-review-final-20261015/.
+Use `close_evidence.py verify` read-only; never rerun sealed writers. Owner artifact
+changes remain untouched and unstaged. Formal Phase 05 Tasks 4/6, source governance
+and representative calibration remain open; candidate inactive, no Phase 06.
+
+Next consolidate source-field/known-limit/unknown-claim coverage across existing
+accepted cases with established scope/curriculum selectors. Reuse saved vectors
+and exact wordings; identify missing source-review or caller-interpretation work
+before calibrated integration. New ambiguous content choices need focused review.
+Final closure checks: documentation/ledger 486 tests/11 subtests in 11.53s, exit 0; phase validation exit 0; can-advance exit 1 as expected for blocked Phase 05; three local Markdown links, whitespace and read-only 38-file seal verification pass.
+
+Checkpoint parent `3502cdd` precedes the following documentation closure commit;
+reconcile that expected difference on resume. Earlier entries below are history.
+
+
+## Policy review closure preflight — 15 October 2026
+
+Observations3502cdd/product232a418 unchanged. Focused99tests/236subtests3.65s;
+doc-ledger486tests/11subtests11.68s exit0. Current plan/report links and whitespace
+pass. Single final independent review in progress; final artifact/seal and updated
+INDEX/CLI/blocked handoff remain. No new source decision, wordings, vectors, runtime
+or product changes. Native observation remains historical/unknown, no repeat.
+
 
 ## Accepted policy observations independently verified — 15 October 2026
 
@@ -993,6 +1045,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: bounded accepted-policy review complete; finish six-path documentation closure, then consolidate the accepted-case source-field/known-limit/unknown-claim matrix. Product `232a418` unchanged.
 
 Latest: accepted positive-policy source-first review/saved-context sidecars using unchanged232a418; no product behavior change. Earlier entries below are history.
 
@@ -2807,6 +2861,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: observation HEAD `3502cdd`, unchanged product `232a418`; six explicit closure documents only (report, INDEX, CLI handoff, blocked handoff, checkpoint, current progress). Owner artifacts/.gitkeep deletion and backend/artifacts/ preserved/unstaged. Parent SHA precedes the following documentation commit.
+
 Latest:232a418 is verified product HEAD before six-path documentation closure; report/INDEX/CLI/blocked handoff/checkpoint/current progress explicit only. Owner artifacts/.gitkeep deletion/backend/artifacts/ untouched/unstaged.
 
 Latest: c86333b is verified product HEAD before the six-path documentation closure. Only report/INDEX/CLI/blocked handoff/checkpoint/current progress staged explicitly; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved.
@@ -2999,6 +3055,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: parent focused 99/236 in 3.65s; reviewer 19/84 in 0.30s, no actionable findings; doc-ledger 486/11 in 11.68s. All 1,944 reports and preservation checks pass. 38-file seal 04c64302e684ff468c654c0e65f2d59def8d435688dcb951a36f5f05f8ef89f8 verifies. Final closure doc-ledger 486/11 in 11.53s exit 0; phase validate 0/can-advance 1 (expected blocked), three links/whitespace/seal pass. Parent and reviewer both consulted thesis physical 17–18 and routing PNG; reconsulted after compaction, no scope/routing discrepancy.
 
 Latest: full5365tests/669subtests337.17s exit0 (native stderr diagnostic retained), focused99/2363.86s, reviewer32/1250.43s/no findings; doc-ledger484/11pass11.40s.1430actual-baseline v1 matches/1430conditional v2/2398limits/439hashes/15codefiles verified.40-file seal 2856805eb86144c723b2074b0a2523e8038c4fd2b6bc913d4244c7f3c3c5070e.
 
@@ -3986,6 +4044,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: consolidate source-field/known-limit/unknown-claim coverage across existing accepted cases using established scope/curriculum selectors and saved vectors/wordings. Identify missing review or caller interpretation before calibrated integration; candidate inactive, no Phase 06.
+
 Latest: execute plans/2026-10-15-positive-policy-claim-review-plan.md; freeze full source groups before loading existing15policy variants/prefix attempts.
 
 Latest: extend independent source-side claim coverage review to existing accepted positive policy cases using settled source/field associations; freeze findings before cases, reuse vectors and explicit caller metadata. New consequential/ambiguous source choices need actual focused review. No calibrated policy, automatic NLP, activation or Phase06.
@@ -4568,6 +4628,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: source-first policy audit, six/18 observations, initial324/refined comparisons, final independent review, focused checks and 38-file seal are complete. Do not rerun sealed writers, conversions, encodings, settled reviews or unchanged full/native tests. Development-informed derivative is not a blind evaluation.
 
 Latest: review register/TDD/fullsuite/default1430replay/v2sidecars/final independent review/doc-ledger/40-file seal complete. Native diagnostic preserved; one isolated probe clean, exact origin unknown. No repeated writers/conversions/encodings/settled reviews or broad native fixes without new evidence.
 

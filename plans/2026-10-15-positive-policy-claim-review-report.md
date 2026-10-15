@@ -5,7 +5,7 @@ reviewed source fields available. The six missing-ending/deadline-conflict varia
 remain insufficient evidence, including with complete visible source context.
 This is conditional source-field reporting, not answer accuracy or automatic NLP.
 
-Baseline `d70cb2f`, plan `f5a9dd5`, unchanged product `232a418`.
+Baseline `d70cb2f`, plan `f5a9dd5`, observations `3502cdd`, unchanged product `232a418`.
 [Bounded plan](2026-10-15-positive-policy-claim-review-plan.md);
 [preceding source-register report](2026-10-15-source-claim-review-report.md).
 
@@ -77,9 +77,21 @@ unchanged product/test/doc digests pass. All source values/spans/events remain b
 
 No product code changed. The prior full-suite passing exit0 and unresolved native
 stderr observation remain historical; neither the suite nor PDF isolation was
-repeated. New evidence lives ignored under workspace
-`audit-evidence/p05-positive-policy-claim-review-20261015/`. Final independent review,
-documentation checks and evidence seal follow.
+repeated. The single final independent review found no actionable issues; fresh
+19 tests/84 subtests pass in 0.30s, exit 0. It additionally checks all 37 original
+confirmation-event bindings, complete initial field groups and the exact six-ref
+first-step derivative. Documentation/ledger preflight: 486 tests/11 subtests pass
+in 11.68s, exit 0; final closure rerun: 486/11 in 11.53s, exit 0. Phase validation
+passes; advancement remains blocked as expected. Three local links, whitespace
+and read-only seal verification pass. Exact results are recorded in the checkpoint.
+
+Evidence lives ignored under workspace
+`audit-evidence/p05-positive-policy-claim-review-20261015/`, with the review in sibling
+`p05-positive-policy-claim-review-final-20261015/final-review.md`. The 38-file top-level
+seal verifies; test temporary directories are excluded. Manifest SHA256:
+`04c64302e684ff468c654c0e65f2d59def8d435688dcb951a36f5f05f8ef89f8`.
+Run `python -B <observation-root>/close_evidence.py verify` read-only; do not rerun
+sealed writing scripts. Owner artifact changes remain untouched and unstaged.
 
 These are explicit researcher source-review and caller conditions. They do not
 authenticate reviewers/source truth, verify school-year validity, certify a final

@@ -1,5 +1,57 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Accepted policy source-field review closed — 15 October 2026
+
+Observation commit `3502cdd`, plan `f5a9dd5`, unchanged product `232a418`.
+Six accepted scenarios/18 language variants correct the historical plan's 15 count;
+both pre-enrollment questions remain. Source-first audit: 13 chunks/37 unique
+fields/39 spans. The separate first-step derivative is development-informed,
+not blind; all 324 initially unassessed reports remain preserved.
+
+All 1,944 saved-prefix reports independently checked: 1,164 reviewed fields
+available, 132 missing context, 648 known source limits. At k3/.5/2048, both
+existing strategies give 12 field-available and six insufficient-evidence cases;
+assembly-gap cases 12 versus zero. These are trusted researcher source/caller
+conditions, not automatic interpretation, answer accuracy or calibrated policy.
+Full associations, original cutoff, timing conflict and held fields stay intact.
+
+Fresh parent focused checks: 99 tests/236 subtests in 3.65s, exit 0. Single final
+independent review: no actionable findings; fresh 19 tests/84 subtests in 0.30s.
+Documentation/ledger preflight: 486 tests/11 subtests in 11.68s, exit 0. Independent
+checks include 8,748 field occurrences, 1,944 copied limits, 19 contexts/266 citation
+bindings, 108 controls/21 probes, 37 source confirmation-event bindings, 480 prior
+hashes, seven input hashes and 15 unchanged code/test/document digests.
+The prior full-suite exit 0/native stderr diagnostic remains historical, cause
+unknown; neither the full suite nor PDF isolation was repeated.
+
+Report: plans/2026-10-15-positive-policy-claim-review-report.md. The 38-file top-level
+observation/review seal verifies; pytest temporary directories are excluded.
+Manifest SHA256: 04c64302e684ff468c654c0e65f2d59def8d435688dcb951a36f5f05f8ef89f8.
+Evidence root: workspace/audit-evidence/p05-positive-policy-claim-review-20261015/;
+review sibling: p05-positive-policy-claim-review-final-20261015/.
+Use `close_evidence.py verify` read-only; never rerun sealed writers. Owner artifact
+changes remain untouched and unstaged. Formal Phase 05 Tasks 4/6, source governance
+and representative calibration remain open; candidate inactive, no Phase 06.
+
+Next consolidate source-field/known-limit/unknown-claim coverage across existing
+accepted cases with established scope/curriculum selectors. Reuse saved vectors
+and exact wordings; identify missing source-review or caller-interpretation work
+before calibrated integration. New ambiguous content choices need focused review.
+Final closure checks: documentation/ledger 486 tests/11 subtests in 11.53s, exit 0; phase validation exit 0; can-advance exit 1 as expected for blocked Phase 05; three local Markdown links, whitespace and read-only 38-file seal verification pass.
+
+Checkpoint parent `3502cdd` precedes the following documentation closure commit;
+reconcile that expected difference on resume. Earlier entries below are history.
+
+
+## Policy review closure preflight — 15 October 2026
+
+Observations3502cdd/product232a418 unchanged. Focused99tests/236subtests3.65s;
+doc-ledger486tests/11subtests11.68s exit0. Current plan/report links and whitespace
+pass. Single final independent review in progress; final artifact/seal and updated
+INDEX/CLI/blocked handoff remain. No new source decision, wordings, vectors, runtime
+or product changes. Native observation remains historical/unknown, no repeat.
+
+
 ## Accepted policy observations independently verified — 15 October 2026
 
 Planf5a9dd5/product232a418 unchanged. Ruling: include SIXexisting policy scenarios/
