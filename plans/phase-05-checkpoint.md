@@ -2,16 +2,38 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 244
+sequence: 245
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 915c795
-working_tree: accepted temporal-query preflight and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:31:18+08:00
+head_commit: ca41cea
+working_tree: temporal-query report and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T19:39:05+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Verified temporal-query observations — 15 October 2026
+
+Baseline915c795/preflightca41cea/product7456613 unchanged. Nine accepted queries
+encoded46–55tokens;27document vectors reused,243scores/135rankingconfigs/
+944prefixattempts/270decisions/18contexts in39.001s. At k3/.5/2048only1/6fee
+context sets recovered; cleanprefix still1/6. At4096five/6recover; morekdoesnothelp.
+All3T1queries can yield clean irrelevant contexts. No globalcutoff separates
+T1negatives from required T2/U3fee context: >.5753808387 versus <=.5125070220.
+This is context relevance, not answer accuracy. Claim coverage always unknown.
+
+Independent243dot/cosines/944builderreplays/4980traces/234citations/338hashes pass;
+11codehashbindings normalize to9unique files, unchanged. Sourcepayloads59–478tokens.
+Fresh87tests/93subtests pass1.40s. No fullsuite rerun for unchanged code. One final
+fresh-context review in progress; then evidence seal/closure commit. See
+2026-10-15-temporal-unsupported-evaluation-report.md. No new source choices,
+conversions, oldwording changes, downloads, activation or Phase06. F04/G01G02holds
+unchanged; selected absence is not university-wide absence or payment prohibition.
+Next bounded source-subject design from reviewed provenance, with separate claim
+support; any caller subject/year annotations must not masquerade as automatic NLP
+or gold-derived filters. Reuse exact queries/vectors and preserve engine defaults.
+
 
 ## Accepted temporal-query evaluation resumed — 15 October 2026
 
@@ -657,6 +679,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: temporal-query observations verified; final review/evidence seal and closure next. Then source-subject design; older current tasks below are history.
 
 Latest: reporting verified; execute accepted T1/T2/U3 nine-query preflight/evaluation via2026-10-15-temporal-unsupported-evaluation-plan.md. Earlier entries below are history.
 
@@ -3615,6 +3639,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: finish single review/seal/closure, then bounded reviewed source-subject design separate from claim support; no blind threshold/prefix selection. Earlier entries below are history.
 
 Latest: execute accepted temporal/unsupported evaluation preflight and nine new query encodings with existing27document vectors. No repeat wording/source review, activation or Phase06. Earlier entries below are history.
 

@@ -1,5 +1,27 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Verified temporal-query observations — 15 October 2026
+
+Baseline915c795/preflightca41cea/product7456613 unchanged. Nine accepted queries
+encoded46–55tokens;27document vectors reused,243scores/135rankingconfigs/
+944prefixattempts/270decisions/18contexts in39.001s. At k3/.5/2048only1/6fee
+context sets recovered; cleanprefix still1/6. At4096five/6recover; morekdoesnothelp.
+All3T1queries can yield clean irrelevant contexts. No globalcutoff separates
+T1negatives from required T2/U3fee context: >.5753808387 versus <=.5125070220.
+This is context relevance, not answer accuracy. Claim coverage always unknown.
+
+Independent243dot/cosines/944builderreplays/4980traces/234citations/338hashes pass;
+11codehashbindings normalize to9unique files, unchanged. Sourcepayloads59–478tokens.
+Fresh87tests/93subtests pass1.40s. No fullsuite rerun for unchanged code. One final
+fresh-context review in progress; then evidence seal/closure commit. See
+2026-10-15-temporal-unsupported-evaluation-report.md. No new source choices,
+conversions, oldwording changes, downloads, activation or Phase06. F04/G01G02holds
+unchanged; selected absence is not university-wide absence or payment prohibition.
+Next bounded source-subject design from reviewed provenance, with separate claim
+support; any caller subject/year annotations must not masquerade as automatic NLP
+or gold-derived filters. Reuse exact queries/vectors and preserve engine defaults.
+
+
 Closure: new36file evidence seal verified read-only, manifest SHA256:
 6d324122b23f06666dcb1ad6495f445ba01b30f17ea6bd6c99d2f9a2f7facb7f.
 Phasevalidate0/canadvance1(expectedblocked), whitespace/local links pass. Raw

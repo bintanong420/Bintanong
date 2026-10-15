@@ -8,7 +8,8 @@ PNG, master10 and dataset/scope/source-gap policies checked; no discrepancy.
 The actual nine-wording acceptance binds snapshot
 `34529fad525df70d2274f151538ddcecd3bcfb06f50bbc752a6a0ff984d1a5eb`.
 All27candidate chunk/version/span/dependency bindings and27saved document vectors
-pass;338preserved hashes and11existing product/test hashes match. Prior originals,
+pass;338preserved hashes and11existing product/test hash bindings match (nine
+unique files after normalizing Windows path separators). Prior originals,
 vectors, accepted questions and seals remain unchanged. No new conversions,
 document encodings, acquisition or source decisions.
 

@@ -44,6 +44,10 @@
   evidence labels before evaluation; acceptance does not establish current-year
   validity, payment permission/prohibition, institutional approval or activation.
   Existing accepted12/36 and six/18 questions remain unchanged.
+  These nine cases now have offline observations in
+  plans/2026-10-15-temporal-unsupported-evaluation-report.md. They expose missing
+  fee context and irrelevant deadline matches; clean assembly does not prove
+  claim coverage. Do not repeat their encoding or infer a calibrated policy.
 
 - Later15October2026 source follow-ups explicitly confirm U1's G2 II.B.1/3
   PSU Security Services Unit office/context reading and selected student-vehicle
