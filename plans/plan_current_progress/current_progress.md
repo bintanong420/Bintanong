@@ -1,5 +1,32 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-limit claim report closed — 15 October 2026
+
+Plan3af3052/productc86333b implements the bounded offline report; both plan tasks
+verified. Existing source-declared limitations match exact trusted caller claims.
+T2's current-year limitation stays not_established; T1/U3 remain unassessed. No
+benchmark expectations entered inference, no affirmative support or runtime gate.
+Full5353tests/622subtests pass365.95s,exit0,6skips/6existingwarnings; focused89/189
+pass3.59s. Single final independent review no findings; fresh75/159pass1.90s.
+Independent1430sidecars/37controls/500limit references (223absent from context),
+27bindings/413prior hashes/14code digests pass. No new encodings/conversions.
+Report: plans/2026-10-15-source-limit-claim-report.md. Final25-file top-level raw
+seal verifies; pytest temporary directories excluded. Manifest SHA256:
+7e82de3b73ed40530225d239990689546a4cc1484588692234785f469963fed1.
+Evidence roots: workspace/audit-evidence/p05-source-limit-claim-report-20261015/
+and p05-source-limit-claim-review-20261015/. Use close_evidence.py verify read-only;
+never rerun their writing scripts. Owner artifact changes remain unstaged.
+Next design independent source-side assessment for undeclared missing claims and
+positive support, without turning accepted benchmark expectations into inference.
+Reuse reviewed fields/known limits, exact accepted cases/saved vectors and controls;
+new consequential source-content decisions need actual focused review. Keep unknowns
+and source gaps explicit. FormalTask4/6/governance/calibration exits remain open,
+candidate inactive/noPhase06. Earlier entries below are history. Checkpoint parent
+c86333b precedes the following documentation closure commit; reconcile it on resume.
+Documentation closure: whitespace/current plan-report links pass; phasevalidate0/
+canadvance1(expected blocked); final25-file seal verifies read-only.
+
+
 ## Source-limit report product verified — 15 October 2026
 
 Plan3af3052. Full offline suite5353tests/622subtests pass365.95s,exit0,6skips/

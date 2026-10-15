@@ -2,16 +2,43 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 253
+sequence: 254
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3af3052
-working_tree: source-limit helper/tests/README/report and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:06:45+08:00
+head_commit: c86333b
+working_tree: six curated closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T22:08:23+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-limit claim report closed — 15 October 2026
+
+Plan3af3052/productc86333b implements the bounded offline report; both plan tasks
+verified. Existing source-declared limitations match exact trusted caller claims.
+T2's current-year limitation stays not_established; T1/U3 remain unassessed. No
+benchmark expectations entered inference, no affirmative support or runtime gate.
+Full5353tests/622subtests pass365.95s,exit0,6skips/6existingwarnings; focused89/189
+pass3.59s. Single final independent review no findings; fresh75/159pass1.90s.
+Independent1430sidecars/37controls/500limit references (223absent from context),
+27bindings/413prior hashes/14code digests pass. No new encodings/conversions.
+Report: plans/2026-10-15-source-limit-claim-report.md. Final25-file top-level raw
+seal verifies; pytest temporary directories excluded. Manifest SHA256:
+7e82de3b73ed40530225d239990689546a4cc1484588692234785f469963fed1.
+Evidence roots: workspace/audit-evidence/p05-source-limit-claim-report-20261015/
+and p05-source-limit-claim-review-20261015/. Use close_evidence.py verify read-only;
+never rerun their writing scripts. Owner artifact changes remain unstaged.
+Next design independent source-side assessment for undeclared missing claims and
+positive support, without turning accepted benchmark expectations into inference.
+Reuse reviewed fields/known limits, exact accepted cases/saved vectors and controls;
+new consequential source-content decisions need actual focused review. Keep unknowns
+and source gaps explicit. FormalTask4/6/governance/calibration exits remain open,
+candidate inactive/noPhase06. Earlier entries below are history. Checkpoint parent
+c86333b precedes the following documentation closure commit; reconcile it on resume.
+Documentation closure: whitespace/current plan-report links pass; phasevalidate0/
+canadvance1(expected blocked); final25-file seal verifies read-only.
+
 
 ## Source-limit report product verified — 15 October 2026
 
@@ -828,6 +855,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: bounded source-limit report Tasks1/2 complete atc86333b, final review no findings,25-file seal verified; finish documentation closure, then independent source-side claim assessment design. Earlier entries below are history.
 
 Latest: source-limit claim report design/TDD and saved-context sidecar under the bounded plan; no benchmark-label gate. Earlier entries below are history.
 
@@ -2634,6 +2663,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: c86333b is verified product HEAD before the six-path documentation closure. Only report/INDEX/CLI/blocked handoff/checkpoint/current progress staged explicitly; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved.
+
 Latest: HEAD5cd5120 is the verified product baseline before the following six-path documentation closure commit. Explicit paths: subject report, INDEX, CLI handoff, blocked Phase05 handoff, checkpoint and current progress. Owner artifacts/.gitkeep deletion/backend/artifacts/ remain untouched and unstaged.
 
 Latest verified HEAD5cd5120 on the existing isolated p05 worktree. Subject helper/tests/README committed by previous agent. Curated report and continuity documents are current work; owner artifacts/.gitkeep deletion and backend/artifacts/ remain untouched/unstaged.
@@ -2822,6 +2853,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: full5353tests/622subtests365.95s exit0, focused89/1893.59s, final reviewer75/1591.90s/no findings. Independent1430reports/37controls/500limit refs/223absence traces/413hashes/14code digests pass. Final25-file seal 7e82de3b73ed40530225d239990689546a4cc1484588692234785f469963fed1 verifies. Exact commands/results in latest report and raw logs.
 
 Latest closure: single independent review no findings;80tests/152subtests3.62s,486replays/270strategies/948traces/43citations/8limits/375hashes/11codefiles and24comparison rows pass. Parent47/99 and phaseledger19 pass.37-file seal SHA256 d1063ecf6c29b3b7e0bc470682deb81bdf994145e09505d19af33d9f081c9223. See latest report for commands and evidence locations.
 
@@ -3803,6 +3836,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: design independent source-side assessment for undeclared missing claims/positive support, separate from benchmark labels and automatic NLP. Reuse settled questions, reviewed fields, saved vectors and controls; preserve actual source-content approval boundaries. T1/U3 still unassessed; no calibration/activation/Phase06 claim.
+
 Latest: execute plans/2026-10-15-source-limit-claim-report-plan.md inline, with source-declared limitation matches only; unknown claims remain unassessed.
 
 Latest: after the documentation closure, design an offline requested-claim coverage boundary using reviewed fields/known limits and explicit trusted caller intent. Keep unknowns and unavailable/referral outcomes separate from subject relevance; reuse accepted questions/vectors and raw controls. No source/wording re-review, new encodings, blind cutoff, automatic NLP, activation or Phase06.
@@ -4377,6 +4412,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: source-limit report implementation/TDD/fullsuite/1430saved-context sidecars/independent review/seal complete. Do not rerun this suite or writing scripts absent changed code/new evidence. No new model encodings, source conversions or settled reviews needed.
 
 Latest: candidate-subject code/TDD/fullsuite/saved-score diagnostic/final independent review and37-file evidence seal are complete. Do not repeat these checks unless files change or new evidence warrants it. Sealed scripts are read-only; use a new evidence root for subsequent work.
 
