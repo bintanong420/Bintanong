@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-bound subject selector verified — 15 October 2026
+
+Full offline suite5323tests/574subtests passed332.04s,exit0,6skips/6existingwarnings. Subject helper/tests/README ready for product commit; single final independent review and diagnostic report/seal follow.
+
+Plan3b7c549. Synthetic missing-module RED then99tests/134subtests GREEN1.53s.
+Additional unassigned-reference alias regression RED exposed shared nested value;
+minimal deepcopy GREEN100tests/134subtests1.59s. Full offline suite running.
+New candidate_subject module only; existing engine/context/query/contracts/DB
+unchanged. Catalogue binds27snapshots,19policy readings/sevensubjects from existing
+source-review area provenance; eight curriculum rows unassigned. Researcher aliases
+are metadata, not fresh owner/source approval.375priorhashes preserved.
+
+Saved-score diagnostic:486prefixes/270strategies/sixcontexts,18unknownhint controls
+and onewronghint probe, zero new embeddings. Atk3/.5/2048 trustedsubject filtering
+recovers6/6fee contextsets versusraw1/6, noassembly gaps; bothfee queries' requested
+claims remain unestablished. Parent independent replay486/948traces/43citations/
+8limitoccurrences/375hashes passes. Fullsuite and final independent review pending;
+no automaticNLP, claimcoverage, institutional approval, activation or Phase06.
+
+
 ## Candidate subject selection resumed — 15 October 2026
 
 Fresh245fd73 reconciles checkpointparent2722eb6; product7456613 unchanged. Owner

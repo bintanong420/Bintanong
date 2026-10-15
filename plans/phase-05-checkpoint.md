@@ -2,16 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 247
+sequence: 248
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 245fd73
-working_tree: candidate subject plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:51:01+08:00
+head_commit: 3b7c549
+working_tree: candidate subject helper/tests/README and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T20:01:17+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-bound subject selector verified — 15 October 2026
+
+Full offline suite5323tests/574subtests passed332.04s,exit0,6skips/6existingwarnings. Subject helper/tests/README ready for product commit; single final independent review and diagnostic report/seal follow.
+
+Plan3b7c549. Synthetic missing-module RED then99tests/134subtests GREEN1.53s.
+Additional unassigned-reference alias regression RED exposed shared nested value;
+minimal deepcopy GREEN100tests/134subtests1.59s. Full offline suite running.
+New candidate_subject module only; existing engine/context/query/contracts/DB
+unchanged. Catalogue binds27snapshots,19policy readings/sevensubjects from existing
+source-review area provenance; eight curriculum rows unassigned. Researcher aliases
+are metadata, not fresh owner/source approval.375priorhashes preserved.
+
+Saved-score diagnostic:486prefixes/270strategies/sixcontexts,18unknownhint controls
+and onewronghint probe, zero new embeddings. Atk3/.5/2048 trustedsubject filtering
+recovers6/6fee contextsets versusraw1/6, noassembly gaps; bothfee queries' requested
+claims remain unestablished. Parent independent replay486/948traces/43citations/
+8limitoccurrences/375hashes passes. Fullsuite and final independent review pending;
+no automaticNLP, claimcoverage, institutional approval, activation or Phase06.
+
 
 ## Candidate subject selection resumed — 15 October 2026
 

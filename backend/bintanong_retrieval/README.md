@@ -63,3 +63,18 @@ does not establish relevance, source authority, audience, recency or answer
 sufficiency. Required groups remain atomic; source limits and citations are not
 removed to fit a budget. See
 `plans/2026-10-15-context-selection-reporting-plan.md` for the bounded workflow.
+
+The separate offline `candidate_subject` helper prepares a source-bound subject
+catalogue from complete chunks and explicit researcher assignments by `reading_id`,
+`subject_id` and `basis_ref`. It never reads a query or gold labels. A selection
+requires an explicit trusted canonical subject; missing/unknown subjects return
+no IDs. Current chunk payloads, provenance and dependency membership must match
+the catalogue. Assigned rows require undergraduate applicability metadata, and
+every declared dependency must share the subject. Unassigned rows stay visible.
+
+The catalogue digest detects accidental changes, not forged researcher input.
+Callers must keep this preparation boundary trusted. Checks validate metadata
+bindings only, not human approval, citations, source authenticity or requested
+claims. All results stay candidate-only/inactive with unknown claim coverage;
+subject matches do not verify a deadline, current year or payment method.
+The engine, SQL filters, public contracts and curriculum selectors are unchanged.
