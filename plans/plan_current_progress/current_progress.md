@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-limit claim boundary resumed — 15 October 2026
+
+Fresh85986fd reconciles checkpoint parent5cd5120; product5cd5120 and37-file seal
+unchanged. Owner artifacts preserved. AGENTS/handoff skills, active plan/checkpoint,
+CLI/blocked handoffs, master10, scope/gap policies, thesis physical17–18 and routingPNG
+consulted; no discrepancy. Continue with a small opt-in offline source-limit report.
+Ruling: use only existing source_limits.affected_claims and exact trusted caller
+claim text, never the source-claim-labels.json benchmark expectations as report input.
+F09 already declares current-year validity unknown; T1/U3 have no matching declared
+limit and must remain unassessed. This deliberately does not claim9/9unsupported
+detection. Full claim-support inference/calibration and runtime behavior stay open.
+Implementation choices follow settled unavailable/unknown requirements; no source
+content, retention, institutional authority or new benchmark decision is inferred.
+Next commit bounded plan, synthetic RED→GREEN, saved-context sidecar/replay and one
+final independent review. No new encodings, conversion, database or activation.
+
+
 ## Candidate subject selection closed — 15 October 2026
 
 Product `5cd5120`, plan `3b7c549`: both bounded tasks are verified. With explicit

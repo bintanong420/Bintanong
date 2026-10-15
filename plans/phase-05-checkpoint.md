@@ -2,16 +2,33 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 250
+sequence: 251
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5cd5120
-working_tree: six curated closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T21:53:06+08:00
+head_commit: 85986fd
+working_tree: source-limit claim plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T21:57:56+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-limit claim boundary resumed — 15 October 2026
+
+Fresh85986fd reconciles checkpoint parent5cd5120; product5cd5120 and37-file seal
+unchanged. Owner artifacts preserved. AGENTS/handoff skills, active plan/checkpoint,
+CLI/blocked handoffs, master10, scope/gap policies, thesis physical17–18 and routingPNG
+consulted; no discrepancy. Continue with a small opt-in offline source-limit report.
+Ruling: use only existing source_limits.affected_claims and exact trusted caller
+claim text, never the source-claim-labels.json benchmark expectations as report input.
+F09 already declares current-year validity unknown; T1/U3 have no matching declared
+limit and must remain unassessed. This deliberately does not claim9/9unsupported
+detection. Full claim-support inference/calibration and runtime behavior stay open.
+Implementation choices follow settled unavailable/unknown requirements; no source
+content, retention, institutional authority or new benchmark decision is inferred.
+Next commit bounded plan, synthetic RED→GREEN, saved-context sidecar/replay and one
+final independent review. No new encodings, conversion, database or activation.
+
 
 ## Candidate subject selection closed — 15 October 2026
 
@@ -786,6 +803,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: source-limit claim report design/TDD and saved-context sidecar under the bounded plan; no benchmark-label gate. Earlier entries below are history.
 
 Latest: candidate-subject Tasks1/2 complete at5cd5120; final review no findings and37-file evidence seal verified. Finish the curated documentation commit, then design requested-claim coverage separately. Earlier entries below are history.
 
@@ -3758,6 +3777,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: execute plans/2026-10-15-source-limit-claim-report-plan.md inline, with source-declared limitation matches only; unknown claims remain unassessed.
 
 Latest: after the documentation closure, design an offline requested-claim coverage boundary using reviewed fields/known limits and explicit trusted caller intent. Keep unknowns and unavailable/referral outcomes separate from subject relevance; reuse accepted questions/vectors and raw controls. No source/wording re-review, new encodings, blind cutoff, automatic NLP, activation or Phase06.
 
