@@ -1,5 +1,35 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Closure:470docs/ledger tests and11subtests pass13.97s; phasevalid/canadvance1
+(expectedblocked). New43file evidence seal SHA256:0780291a6e5e167bc9cbaafafe19175ca8c35d0487db4c620a93166698143249.
+Accepted-packet3file seal SHA256:6b5e01da7206d3d71869f61ab04a760da39967179a832241100963bc8d6372ae. Both verified read-only;
+no writing-script reruns in sealed roots. Productfeaa961 unchanged; parentSHA in
+checkpoint precedes following eight-path documentation commit. Owner artifacts
+preserved. Next exact saved-vector context-selection diagnostic; no new wording,
+source activation or Phase06. Full/report evidence retained in repository plans.
+
+## Verified approved-query evaluation — 15 October 2026
+
+Acceptance efe67ad, plan d3723bd, product feaa961. All18approved variants have real
+offline observations using27inactive candidates:21source/36query vectors reused,
+6new payloads59–446tokens and18new queries. U1/U2each3/3complete expected evidence
+at k3/.5/2048 (1480/1629tokens); old scoped positives30/30complete. All9raw
+S1/S2/P1variants return unrelated candidates at.5, demonstrating similarity alone
+is insufficient. Scope/acronym traces are researcher annotations, not automatic NLP.
+U2retains budget refusals for additional unrelated groups; no end-to-end engine
+success/global threshold/answer accuracy or recency-selection claim.
+
+Full5286tests/510subtests pass344.68s,6skips/6existingwarnings. Related94/124pass.
+Independent1458cosines/1350rankingmeasurements/1350contexts/28strings/432citations/
+235inputhashes (62originals) pass. One final independent review: no findings,
+33tests/44subtests pass; six candidates rebuild exactly. Original unknown bundles,
+old seals/models/vectors preserved. F04held/G01G02unconfirmed/G03only/ASG23excluded.
+Report:2026-10-15-approved-natural-query-evaluation-report.md. Selected actual
+U1office/U2applicability follow-ups are settled; do not reopen. Next bounded
+context-selection/coverage diagnostic on unchanged questions/vectors, distinguishing
+missing required evidence from refused extra groups; no gold as retrieval hints.
+Candidate inactive, schoolverification pending, formalPhase05blocked/noPhase06.
+
 Missing-claim codec verified: synthetic RED2failing format subtests/1parent pass;
 GREEN94tests/124subtests1.95s. Full offline suite5286passed/510subtests,6skips /
 6existing warnings,344.68s,exit0. Minimal claim_not_stated kind preserves default

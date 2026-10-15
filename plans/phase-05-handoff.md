@@ -3,12 +3,19 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 50405f5
+final_commit: feaa961
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-15T00:18:59+08:00
+completed_at: 2026-10-15T18:48:35+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Latest verified product feaa961 and approved-query observations are recorded in
+2026-10-15-approved-natural-query-evaluation-report.md. Full5286tests/510subtests
+pass; all18new queries observed, U1/U2complete in all languages, source limitations
+retained. Independent replay/review pass. Scope/acronym traces are annotations,
+not automatic NLP. Formal handoff remains blocked; source governance/calibration
+and required exit evidence still govern advancement. Older delivery notes are history.
 
 Latest recovered owner decisions are in the updated2026-10-15 CLI handoff and G packet: G03 confirmed only; G01/G02 unconfirmed, distinct excluded ASG clause at physical23. This supersedes older all-G-pending notes; F04 remains held and formal Phase05 remains blocked.
 

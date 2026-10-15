@@ -1,5 +1,9 @@
 # Revised natural student-query proposal — 15 October 2026
 
+Execution is now recorded in [approved-query results](2026-10-15-approved-natural-query-evaluation-report.md).
+All18exact wordings were used; earlier unaccepted/untested/held paragraphs below
+are historical. Source prerequisites were separately confirmed and applied.
+
 Later source follow-ups also confirm the selected U1office/context/undergraduate
 research use and U2undergraduate applicability with existing limits. See the
 approved-query evaluation plan. Earlier held-source notes remain history; exact

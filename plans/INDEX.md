@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Latest bounded delivery: [approved natural-query observations](2026-10-15-approved-natural-query-evaluation-report.md), productfeaa961. U1/U2all6complete and old positives30/30 at k3/.5/2048; all18approved variants observed, raw scope/wrong-program false matches retained. Full5286tests/510subtests and independent scores/contexts/citations/hash checks pass; one review no findings. Next context-selection/coverage diagnostic, no global threshold, automatic NLP, activation or advancement.
+
 - Current bounded execution: [approved-query evaluation plan](2026-10-15-approved-natural-query-evaluation-plan.md). Actual U1office/context and U2undergraduate applicability replies received; apply separate selected derivatives. Add missing-claim codec kind under TDD, then all18offline observations; no source activation or phase advancement.
 
 - Latest owner decision: revised [six-scenario/18variant packet](2026-10-15-natural-query-review-proposal.md) explicitly approved at bb57f66; no repeat wording review. Continue versioned offline preparation/evidence-ready U2/S1/S2/A1/P1 evaluation; U1source-context/referral prerequisite remains separate. Earlier pending notes are history. Candidate inactive; Phase05 remains active/formally blocked.
