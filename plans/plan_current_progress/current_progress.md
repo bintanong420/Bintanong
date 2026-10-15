@@ -1,5 +1,28 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Missing-claim codec verified: synthetic RED2failing format subtests/1parent pass;
+GREEN94tests/124subtests1.95s. Full offline suite5286passed/510subtests,6skips /
+6existing warnings,344.68s,exit0. Minimal claim_not_stated kind preserves default
+refusal/opt-in context and all existing scope/field/citation guards. Product/tests
+are the only behavior changes. New source selection6inactive candidates/15fields
+includes2original-raster office fields under actual owner replies; original unknown
+bundles and F04hold unchanged. All18approved queries encoded,21old source/36query
+vectors reused,6new payloads59–446tokens. Bounded run1458cosines/1350ranking
+measurements/1350context observations: U1andU2each3/3complete and old positives30/30
+at k3/.5/2048. No global threshold/automatic NLP/answer generation/activation.
+Independent replay and one final read-only review in progress; raw evidence root
+p05-approved-natural-query-evaluation-20261015. Initial P1Expected-heading parser
+assumption corrected from actual approved Markdown; initial attempt retained.
+Token warning>512came only from counting assembled contexts, not embedded payloads.
+
+Missing-claim codec TDD: expected RED two failing subtests (legacy/compact),
+one parent test passed,32deselected,0.51s; unsupported issue correctly refused.
+Minimal supported-vocabulary addition GREEN94tests/124subtests,1.95s,exit0,
+covering policy/record/service/flowchart/descriptive/retrieval context. Defaults,
+unknown-scope refusal, exact visible text/citations and input immutability checked.
+Full offline suite next. Logs in p05-approved-natural-query-evaluation-20261015.
+Actual two source-selection replies recorded; no source or benchmark words changed.
+
 ## Approved-query source follow-ups and codec plan — 15 October 2026
 
 Owner confirmed U1's G2 II.B.1/3 office/context reading plus undergraduate research

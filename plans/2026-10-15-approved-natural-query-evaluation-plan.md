@@ -48,11 +48,11 @@ Interface: existing `make_source_limits`, reviewed chunk builder and `build_cont
 add `claim_not_stated` to the supported issue vocabulary. Retain default opt-in,
 scope/field/geometry validation, legacy payloads and fail-closed behavior.
 
-- [ ] Add a synthetic integration regression for a visible clause with an unstated
+- [x] Add a synthetic integration regression for a visible clause with an unstated
   consequential amount. Check default refusal and opt-in context/citation survival,
   both compact and legacy formats, input immutability and unknown scope refusal.
-- [ ] Observe expected RED from unsupported issue, then make the smallest correction.
-- [ ] Run focused and related context/record/reviewed tests; run the full offline suite
+- [x] Observe expected RED from unsupported issue, then make the smallest correction.
+- [x] Run focused and related context/record/reviewed tests; run the full offline suite
   for this product change with existing offline environment.
 - [ ] Commit the verified codec increment with checkpoint/progress commands/results.
 
