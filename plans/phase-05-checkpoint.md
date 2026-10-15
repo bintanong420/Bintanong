@@ -2,16 +2,41 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 269
+sequence: 270
 plan: plans/phase-05-retrieval-plan.md
-head_commit: fcf90bd
-working_tree: six coverage closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T23:09:34+08:00
+head_commit: 16634ba
+working_tree: curriculum coverage plan/checkpoint/progress; owner artifact changes preserved
+updated_at: 2026-10-15T23:19:49+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Scoped curriculum claim contract resumed — 15 October 2026
+
+Fresh `16634ba` reconciles checkpoint parent `fcf90bd`; unchanged product `232a418`.
+Thesis physical 17–18/routing PNG, master 10, active plan/handoffs/ledger and relevant
+scope/source-gap/dataset/curriculum evidence consulted, no discrepancy. Preserve
+owner artifacts. Bounded plan: plans/2026-10-15-curriculum-claim-coverage-plan.md.
+
+Ruling: reuse existing helpers through a separate curriculum-only assignment
+catalogue over unchanged chunks, leaving the original policy catalogue unchanged.
+A matched curriculum selection must supply the exact program/version subject;
+unknown BSCS remains clarification. This avoids a product change without bypassing
+curriculum selection. Cost if wrong: adjust the offline metadata contract before
+integration; no runtime behavior is affected.
+Ruling: distinguish printed row facts from individual eligibility; Architecture/
+Nursing eligibility and Nursing prerequisite-code/name identity remain unassessed.
+The selected NURS MC3 row names NURS MC2 but does not independently identify it as
+Biochemistry. No new source reading/absence finding/owner approval inferred.
+Cost if wrong: refine caller facets after evidence review, preserving original reports.
+
+Next source-only audit of eight already-confirmed rows/46 fields, four full-row
+reviews, then saved-prefix sidecars for the 12 scoped variants and six BSCS controls.
+Prior exposure to questions/metrics is explicit; no blind-evaluation claim. No new
+wording/vectors/conversions/model call/product code, activation or Phase 06.
+
 
 ## Accepted-case coverage consolidation closed — 15 October 2026
 
