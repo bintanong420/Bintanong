@@ -13,6 +13,16 @@ limitations rather than ask you to reconstruct missing source content.
 
 ## First batch: F1 special-class calculations
 
+**Confirmed15October2026:** owner replied `confirm F1`. F01–F09 below, including
+seven unit/hour/amount mappings, rate/weekly hours and printed date/resolution/
+effectivity, are accepted visible readings for provisional undergraduate research.
+Do not reopen this batch. Earlier proposal wording below is preserved as the
+reviewed packet. Confirmation does not remove its source limits or activate data.
+Separate reviewed derivative and owner event:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-human-review-20261015/f1-confirmed/`.
+Seven rows/nine field groups and all62source hashes verify. Exact canonical
+field-span binding/admission is still required; this is not yet a retrieval chunk.
+
 [Open the original fee photograph](<../dataset/Misc. Student related procedures/SPECIAL CLASS FEE/2023/IMG_20250127_150005.jpg>).
 Original SHA256:
 `d35323d042e730038f6cc0401d2c294654f8158c68d86a6e17308df80ff5bf94`.
@@ -45,6 +55,22 @@ effectivity and source verification remain pending. An F1 confirmation covers
 these listed readings only, not absent signature text, all fee policy or release.
 
 ## Following batches: existing proposed readings, still pending
+
+**Next batch V:** confirm the six groups below against the originals. `confirm V`
+accepts these readings/treatment only; corrections or unreadable IDs are welcome.
+
+| ID | Proposed reading | Exact original and region |
+| --- | --- | --- |
+| V01 |P50.00 application/vehicle sticker payment |[G2](<../dataset/Misc. Student related procedures/GATE PASS/2025/542407158_1469692494265411_2318282640255511703_n.jpg>), requirements5and procedure2 |
+| V02 |LTO student permits are not honored instead of a driver's license |G2, requirements4 |
+| V03 |Vehicle pass is non-transferable; valid one year from issuance |[G4](<../dataset/Misc. Student related procedures/GATE PASS/2025/545632299_24298141213202958_1340063100066377919_n.jpg>), sectionVII |
+| V04 |Renewable on/before expiry; same requirements as application |G4, sectionVII |
+| V05 |Lost/stolen/destroyed sticker replacement is at owner's expense; no replacement price printed in that clause |[G3](<../dataset/Misc. Student related procedures/GATE PASS/2025/541731295_1667568507269794_3341713748846532473_n.jpg>), termIII.l |
+| V06 |New guideline prints15km/hr, while handbook driving row prints20kph; retain both as an unresolved discrepancy |G2, termIII.f; [handbook physical93](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-source-intake-20261015/handbook-p093.png>), row23 |
+
+This reviews six selected groups, not the entire application service, all conditions
+or penalties. V06 does not choose the current governing speed or establish
+supersession. All other source fields remain at their actual review status.
 
 The full comparisons and original links remain in
 [the intake report](2026-10-15-additional-source-intake-report.md).

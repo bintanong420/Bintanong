@@ -155,6 +155,12 @@ The latest cleanup/resume record is
   Preserve the statement as reported. Use only reviewed explicit CSG provisions
   in the supplied USG source; do not infer unsupplied college-specific rules or
   claim separate college constitutions have been acquired.
+- On 15 October 2026 the owner replied `confirm F1`, accepting F01–F09 in the
+  short human-review packet: seven special-class unit/hour/amount mappings,
+  the printed rate/weekly hours and date/resolution/effectivity readings.
+  Do not reopen that batch. Preserve its printed sums, unknown per-student
+  division and cropped acknowledgement; content confirmation is not school
+  authority/current-year verification or activation. Next source batch is V01–V06.
 - Continue authorized work until a new human source-content decision is genuinely
   needed, the task is finished, or a verified progress checkpoint is ready for handoff.
   Record decisions/results/next action in this repository. Reuse completed setup,

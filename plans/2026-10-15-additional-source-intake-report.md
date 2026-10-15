@@ -9,6 +9,12 @@ approved transcriptions, current university guidance or active retrieval candida
 
 ## Settled retention decision and current review
 
+F1 owner response15October: `confirm F1`. The nine listed fee groups/seven rows
+are now confirmed visible readings, applied in a separate ignored reviewed
+derivative. Original photo, printed amounts, unknowns and original cutoff remain
+unchanged. No field-span admission, embeddings, new benchmark tests or activation.
+Next focused review is V01–V06 in the short human packet; F1 is settled.
+
 Owner15October2026: "ok keep them i guess"; agrees with the recommendation and
 explicitly requests human help verifying data because image quality is a concern.
 Retain the supplied student-related supplements for bounded undergraduate review;

@@ -2,16 +2,34 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 218
+sequence: 219
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 1a949ab
-working_tree: ten curated retention/review/ledger paths; owner artifacts preserved
-updated_at: 2026-10-15T08:38:48+08:00
+head_commit: 949274d
+working_tree: seven curated F1 confirmation/next-review paths; owner artifacts preserved
+updated_at: 2026-10-15T16:42:48+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner replied `confirm F1` on15October. F01–F09 are settled: seven special-class
+unit/hour/printed-amount mappings, rate/weekly hours and date/resolution/effectivity.
+Separate ignored reviewed-reading derivative and exact confirmation event written
+under p05-additional-human-review-20261015/f1-confirmed/. Seven rows/nine groups
+verify against packet949274d; all62original source hashes match. Printed sums,
+not-shown values, cropped acknowledgement and unknown per-student division remain
+attached. DerivativeSHA256:bba1d8bab27149eadcd83e4317a72b194d4ec1aa009bb5da8ad7dc5ffa2e6a9b.
+This is not an admitted retrieval chunk: exact canonical field-span binding remains.
+No school authority/current-year confirmation, executable rule or activation.
+Next short vehicle batchV01–V06 displayed with originals and handbook93speed row;
+question presented, no answer received yet. Source/schema/benchmark boundaries
+and accepted12/36questions remain; no new embeddings or benchmark execution.
+
+Await V01–V06 human readings/treatment; preserve unresolved15/20speed discrepancy.
+Record and apply actual answers without reopening F1. Continue exact field-span
+binding for confirmed F1, then the remaining enrollment and explicit USGCSG review
+as authorized. No new benchmark tests before separate wording acceptance.
 
 Owner retention decision15October is settled: keep the added student-facing
 vehicle/fee/enrollment sources and student-government material for provisional
@@ -245,6 +263,11 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Await V01–V06 human readings/treatment; preserve unresolved15/20speed discrepancy.
+Record and apply actual answers without reopening F1. Continue exact field-span
+binding for confirmed F1, then the remaining enrollment and explicit USGCSG review
+as authorized. No new benchmark tests before separate wording acceptance.
 
 Await F1 human response; record exact accepted/corrected/unreadable IDs once,
 then derive only accepted fields with source identity/region and original limits.
@@ -2145,6 +2168,10 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Fresh62original-source hash checks pass. Seven fee rows/nine groups preserved in
+separate reviewed derivative, fields match accepted packet; no product tests run
+for this source-review-only change. Phasevalidator and diff checks run at closure.
+
 Fresh62source SHA256checks pass;47prior+13supplements+2government files.
 Fee9field groups pending, zero confirmed; no tests of new questions or product changes.
 
@@ -2764,6 +2791,9 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+F1 confirmed as presented; no per-student allocation or missing text inferred.
+Vehicle batch remains pending; never carry fee confirmation to other source fields.
+
 Owner retention decision15October is settled: keep the added student-facing
 vehicle/fee/enrollment sources and student-government material for provisional
 undergraduate review. Low-quality fields require human checks, not invented text.
@@ -2932,6 +2962,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Await V01–V06 human readings/treatment; preserve unresolved15/20speed discrepancy.
+Record and apply actual answers without reopening F1. Continue exact field-span
+binding for confirmed F1, then the remaining enrollment and explicit USGCSG review
+as authorized. No new benchmark tests before separate wording acceptance.
 
 Await F1 human response; record exact accepted/corrected/unreadable IDs once,
 then derive only accepted fields with source identity/region and original limits.

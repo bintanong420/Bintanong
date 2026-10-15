@@ -10,6 +10,24 @@ completed_at: 2026-10-15T00:18:59+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Owner replied `confirm F1` on15October. F01–F09 are settled: seven special-class
+unit/hour/printed-amount mappings, rate/weekly hours and date/resolution/effectivity.
+Separate ignored reviewed-reading derivative and exact confirmation event written
+under p05-additional-human-review-20261015/f1-confirmed/. Seven rows/nine groups
+verify against packet949274d; all62original source hashes match. Printed sums,
+not-shown values, cropped acknowledgement and unknown per-student division remain
+attached. DerivativeSHA256:bba1d8bab27149eadcd83e4317a72b194d4ec1aa009bb5da8ad7dc5ffa2e6a9b.
+This is not an admitted retrieval chunk: exact canonical field-span binding remains.
+No school authority/current-year confirmation, executable rule or activation.
+Next short vehicle batchV01–V06 displayed with originals and handbook93speed row;
+question presented, no answer received yet. Source/schema/benchmark boundaries
+and accepted12/36questions remain; no new embeddings or benchmark execution.
+
+Await V01–V06 human readings/treatment; preserve unresolved15/20speed discrepancy.
+Record and apply actual answers without reopening F1. Continue exact field-span
+binding for confirmed F1, then the remaining enrollment and explicit USGCSG review
+as authorized. No new benchmark tests before separate wording acceptance.
+
 Owner retention decision15October is settled: keep the added student-facing
 vehicle/fee/enrollment sources and student-government material for provisional
 undergraduate review. Low-quality fields require human checks, not invented text.
