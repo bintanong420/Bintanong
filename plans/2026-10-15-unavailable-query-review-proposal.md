@@ -1,5 +1,15 @@
 # Proposed unavailable-query and scope-boundary development cases
 
+## Superseded wording draft — owner critique on 15 October 2026
+
+The owner wants natural student questions without compulsory undergraduate or
+source/date declarations, with short answer references and clear scope notices.
+This original18wording packet remains historical and untested; its async acceptance
+request is superseded, not approved. Use the
+[revised six/18proposal](2026-10-15-natural-query-review-proposal.md) for the next
+actual wording review and the [standing response requirements](2026-10-15-natural-query-response-requirements.md).
+All source prerequisites, original evidence and accepted12/36cases are preserved.
+
 Date: 15 October 2026. Phase05, baseline `029d031`.
 **Draft for owner wording/expected-behavior review. NOT TESTED.**
 Latest owner15October retention decision keeps the supplemental sources for review.

@@ -2,16 +2,41 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 230
+sequence: 231
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 196982d
-working_tree: explicit V/E report and continuity documentation; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T18:17:01+08:00
+head_commit: 60114e8
+working_tree: explicit natural-query requirements, revised draft and continuity docs; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T18:21:50+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Owner response requirements and revised query draft — 15 October 2026
+
+After V/E commit60114e8, the owner explained that ordinary students will not
+usually declare undergraduate status or identify a source/date. Save supported
+undergraduate website context, natural questions, short answer references,
+latest applicable reviewed evidence and honest excluded-scope notices as critical
+requirements. Recorded in AGENTS and
+[response requirements](2026-10-15-natural-query-response-requirements.md).
+Cosine/k-NN relevance is distinct from date/authority/applicability; preserve
+specific conflicts, unknown curricula, school-verification limits and settled
+vehicle/edition choices. No website/runtime implementation or source approval.
+
+The owner likes the scenario layout but identified wording issues; this is not
+acceptance of the original18variants. The earlier async acceptance question is
+superseded. A concrete [revised six/18packet](2026-10-15-natural-query-review-proposal.md)
+removes ordinary undergraduate/source declarations, keeps explicit negative-scope
+context and separates P1's verified prior curriculum context from its utterance.
+Revised wordings/expectations remain unaccepted and untested. Next actual revised
+wording review and U1's separate source-context/referral prerequisite; do not encode
+or score new queries first.22new V/E fields/91selected total and prior seals remain
+unchanged; G03only confirmed, G01/G02unconfirmed, F04held, ASG23excluded. Candidate
+output inactive, Phase05 formally blocked. Raw owner message is in new ignored
+p05-natural-query-owner-direction-20261015; original sources/seals untouched.
+
 
 ## Verified V/E binding increment — 15 October 2026
 
@@ -426,6 +451,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Record owner natural-query/source-selection/scope-notice requirements and prepare revised18wording packet. No product behavior changes; original async request superseded.
 
 V/E22field increment verified with existing mappers; seal/commit recoverable evidence and pending18wording review. No benchmark testing without actual acceptance.
 
@@ -2393,6 +2420,15 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Verification for this documentation-only direction:468docs/ledger tests and11subtests
+pass11.63s, exit0; phase-state valid and advancement still blocked. Six revised
+scenarios/18variants/local links checked; earlier new G5/V/E27file seals unchanged.
+No new TDD cycle/product changes or benchmark runs. Owner-direction evidence seal
+(3root files) SHA256:647c285405d2372e3899b0f5799bdb282b635dbcd2e4f0c5a93da0fb0bb588a9, read-only verification passes. Preserve raw history;
+future writing goes to a new ignored root. Eight explicit curated paths only.
+Checkpoint records parent60114e8; following docs commit is discoverable in Git.
+
+
 Closure:466documentation/ledger tests and11subtests pass15.13s, exit0;
 phase validate succeeds, can-advance refuses blockedPhase05 as expected.
 V/E27file seal SHA256:d7aa34c13abe115e8fc27f4ba6f8edbc2240ca65f5d93a85f5c0b9ad03549ddc;
@@ -3077,6 +3113,8 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Owner requires ordinary queries without compulsory undergraduate/source declarations, brief answer citations, latest applicable reviewed sources and clear excluded-scope notices. See2026-10-15-natural-query-response-requirements.md. Similarity is relevance, not authority; original/new benchmark wordings unaccepted.
+
 Latest explicit G03-only confirmation and ASG physical23 exclusion above supersede older all-G-pending notes; original G01/G02 remain unconfirmed.
 
 Owner says the similarity claim was told to them and can be disregarded. It is
@@ -3307,6 +3345,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Present revised six-scenario/18variant packet for actual wording/behavior acceptance before testing. U1source-context/referral review remains separate. Use natural undergraduate website context without inventing curriculum/source applicability.
 
 Await actual six-scenario/18wording and expected-behavior acceptance; prepare versioned evidence-ready packet afterward. U1 still requires complete necessary source-context/referral review; no blanket vehicle approval. Preserve G03only confirmation/G01G02unconfirmed/F04hold.
 

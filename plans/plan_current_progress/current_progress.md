@@ -1,5 +1,37 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Verification for this documentation-only direction:468docs/ledger tests and11subtests
+pass11.63s, exit0; phase-state valid and advancement still blocked. Six revised
+scenarios/18variants/local links checked; earlier new G5/V/E27file seals unchanged.
+No new TDD cycle/product changes or benchmark runs. Owner-direction evidence seal
+(3root files) SHA256:647c285405d2372e3899b0f5799bdb282b635dbcd2e4f0c5a93da0fb0bb588a9, read-only verification passes. Preserve raw history;
+future writing goes to a new ignored root. Eight explicit curated paths only.
+Checkpoint records parent60114e8; following docs commit is discoverable in Git.
+
+## Owner response requirements and revised query draft — 15 October 2026
+
+After V/E commit60114e8, the owner explained that ordinary students will not
+usually declare undergraduate status or identify a source/date. Save supported
+undergraduate website context, natural questions, short answer references,
+latest applicable reviewed evidence and honest excluded-scope notices as critical
+requirements. Recorded in AGENTS and
+[response requirements](../2026-10-15-natural-query-response-requirements.md).
+Cosine/k-NN relevance is distinct from date/authority/applicability; preserve
+specific conflicts, unknown curricula, school-verification limits and settled
+vehicle/edition choices. No website/runtime implementation or source approval.
+
+The owner likes the scenario layout but identified wording issues; this is not
+acceptance of the original18variants. The earlier async acceptance question is
+superseded. A concrete [revised six/18packet](../2026-10-15-natural-query-review-proposal.md)
+removes ordinary undergraduate/source declarations, keeps explicit negative-scope
+context and separates P1's verified prior curriculum context from its utterance.
+Revised wordings/expectations remain unaccepted and untested. Next actual revised
+wording review and U1's separate source-context/referral prerequisite; do not encode
+or score new queries first.22new V/E fields/91selected total and prior seals remain
+unchanged; G03only confirmed, G01/G02unconfirmed, F04held, ASG23excluded. Candidate
+output inactive, Phase05 formally blocked. Raw owner message is in new ignored
+p05-natural-query-owner-direction-20261015; original sources/seals untouched.
+
 Closure:466documentation/ledger tests and11subtests pass15.13s, exit0;
 phase validate succeeds, can-advance refuses blockedPhase05 as expected.
 V/E27file seal SHA256:d7aa34c13abe115e8fc27f4ba6f8edbc2240ca65f5d93a85f5c0b9ad03549ddc;
@@ -15,7 +47,7 @@ confirmed V/E fields (14raster/eightnative);66fee fields/threeprior E01headings
 remain unchanged,91selected scalar bindings total. All14raster regions viewed;
 independent saved-artifact/source/event/native replay passes.112related tests/
 157subtests pass1.37s,exit0. All62originals and47prior sealed files match.
-Report: [vehicle/enrollment bindings](2026-10-15-vehicle-enrollment-binding-report.md).
+Report: [vehicle/enrollment bindings](../2026-10-15-vehicle-enrollment-binding-report.md).
 Only selected V01–06/E01–04 groups; no full procedure/penalty approval, chunks,
 embeddings, new benchmark tests or activation. Source dependencies/limits,
 15versus20speed discrepancy, E02timing/appointment alternative, PSA difference,

@@ -35,6 +35,40 @@
   it does not authorize autonomous acquisition, enrollment, grade changes or COR
   issuance. Private uploads stay separate from institutional knowledge.
 
+## Natural student questions and intended responses
+
+- Standing owner direction,15October2026: normal users need not say they are
+  undergraduates or name a source/memo/date. Undergraduate academic affairs is
+  the website's supported context; explain it in website guidelines or equivalent
+  scope information. Exact website copy/placement remains future design work.
+- Answer natural questions from applicable reviewed evidence and include a concise
+  source/date/section reference. Users should not have to discover or select the
+  memo first. Preserve material source gaps, conflicts and cohort/date limitations.
+- Prefer the latest applicable reviewed material available for the same subject
+  and audience. Cosine similarity and k-NN measure relevance, not source recency,
+  authority or applicability; scope/version metadata and recorded source decisions
+  must guide evidence selection as well. This research-design preference does not
+  establish institutional supersession or settle a held field/specific conflict.
+  A newer source for another cohort/program does not replace an applicable older
+  curriculum. Preserve the settled old/proposed BSCS rules and vehicle choice.
+- Website audience context does not establish program, curriculum, cohort, grades
+  or eligibility. Clarify missing facts when they materially change the answer;
+  do not repeatedly ask every user to declare undergraduate status/source details.
+- Explicit faculty/staff-only, Medicine, Law, graduate or laboratory-school requests
+  should receive a clear notice that Bintanong covers undergraduate academic
+  affairs and cannot answer that excluded procedure/program question. Do not
+  substitute undergraduate rules. Determine the intended service/audience in
+  context; staff roles within an undergraduate service remain legitimate.
+- Missing in-scope information needs an honest unavailable-information response,
+  clarification or supported office referral. Keep this distinct from an excluded
+  audience notice. Remain advisory; private uploads and institutional knowledge
+  stay separate. These are intended requirements, not deployed behavior.
+- See plans/2026-10-15-natural-query-response-requirements.md and the revised
+  plans/2026-10-15-natural-query-review-proposal.md. The owner's critique does not
+  accept the original or revised18benchmark wordings. Original proposal/history
+  and accepted12/36cases remain unchanged; revised wordings need actual acceptance
+  before tests. No school/source approval or activation is inferred.
+
 ## Incomplete or defective institutional sources
 
 - Apply `plans/source-gap-policy.md` to all institutional source review, ingestion,
