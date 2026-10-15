@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 227
+sequence: 228
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 957e7e4
-working_tree: six explicit fee report and resume documentation paths; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T17:41:00+08:00
+head_commit: 29f1410
+working_tree: six explicit CSG clarification and continuity documentation paths; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T17:51:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner clarified the G question: retain documented USG/CSG material for review;
+the CSG/USG similarity statement was secondhand and may be disregarded as policy
+evidence. Possible policies from eight college governments are future intake,
+not received files. Owner expressly found the question unclear; no exact G01–G03
+field confirmation inferred. Updated AGENTS/G packet/CLI continuity and recorded
+the exact clarification in a new ignored event, preserving previous seals.
+
 
 Existing mapper binds66confirmed fee fields across F01–F09, retaining unit/hour/
 rate/date relationships and six original amount spans. F04 unaffected fields bound;
@@ -349,6 +357,11 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Record the CSG clarification and continue remaining already-confirmed V/E bindings.
+No need to wait for or reaffirm the secondhand similarity claim. Verify actual
+college-specific sources when supplied; keep exact G readings unconfirmed.
+
 
 Bounded fee relationship preparation verified; curate resume/report and checkpoint
 commit, with whitespace/phase validation passing and expected can-advance exit1.
@@ -2122,6 +2135,11 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Baseline29f1410 verifies the prior six-path fee-binding documentation commit.
+Six current curated paths: AGENTS, G packet, CLI handoff, INDEX, checkpoint and
+current progress. Owner artifact changes preserved; no product or source edits.
+
+
 Resume baseline957e7e4 reconciled against parentd9d5990. Six explicit curated docs:
 fee report, Gpacket, latest CLI handoff, INDEX, checkpoint and currentprogress.
 Owner artifact deletion/untracked backend/artifacts unchanged/unstaged. Remote
@@ -2301,6 +2319,15 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Clarification-only update: compared actual message with event/AGENTS/G packet;
+retention is distinct from exact field verification and future-source receipt.
+Previous actual thesis17–18/routingPNG/master10 evidence remains applicable;
+no new supported audience or campus inferred. No product tests required for docs.
+Clarification JSON semantic checks pass; whitespace check and phase validation
+pass (exit0), Phase05 remains blocked against advancement. Following documentation
+commit records this ruling; head_commit29f1410 is its verified parent baseline.
+
 
 Resume15October: actual thesis17–18/routingPNG/master10 checked, no discrepancy.
 New root p05-fee-relationships-20261015: verify_resume.py62originals/22sealed pass;
@@ -2878,6 +2905,10 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+CSG clarification event SHA256:
+ff1faac7867c8f353604517b0338cace10ae32c4c14b5b2ace1aafcd9d744564.
+Previous source/binding seals and product versions unchanged.
+
 New fee mapping8383c0533f68c7254cab128c34ee28c50f58822f9d64fce5d563aa68e41a482d;
 25file manifestc3962dd03fb6fd06e978df5982b6810e40f12b8f397c539dfc21f702ad40cab2.
 Source/old seal/model/dependency versions unchanged; existing authorizedPython3.13.
@@ -2961,6 +2992,13 @@ digests below are not fresh model checks for this offline recovery.
 Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
+
+Owner says the similarity claim was told to them and can be disregarded. It is
+unverified hearsay, not policy evidence. Retain documented provisions as candidates;
+actual source clauses, campus/department associations and exact review determine
+later use. Possible eight-college policy delivery is not a source-acquisition or
+completeness claim. User uncertainty means this reply is not exact G verification.
+
 
 Existing mapper is sufficient for these previously confirmed fee scalar fields;
 no product expansion/new human reading inferred. F04 gap limits completeness of
@@ -3072,6 +3110,12 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+G exact readings remain unverified after a retention/hearsay clarification. Do not
+repeat the confusing similarity question. Future college files may resolve local
+coverage when actually supplied; independent confirmed V/E work continues. F04
+amount unchanged/held. Earlier "no G answer" notes precede this clarification.
+
+
 G01–G03 and F04 amount need actual owner answers before dependent source changes.
 Neither blocks already-confirmed V/E bindings. Remaining source relationships and
 unaccepted18benchmark variants still precede new offline evaluation/calibration.
@@ -3177,6 +3221,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Continue confirmed V/E source-field/event/geometry bindings and exact benchmark
+wording review before tests. At actual delivery, inventory/review the possible
+eight-college policy sets against their own explicit content and applicability.
+If later checking G wording, explain the concrete source check plainly; do not
+request confirmation of the similarity claim or count this reply as field review.
+
 
 Apply actual G/F04 answers in separate new evidence without changing sealed roots.
 Continue confirmed V/E source-field/event/geometry bindings with their exact limits.

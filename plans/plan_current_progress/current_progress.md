@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**Owner CSG clarification, 15 October 2026, baseline29f1410:** retain documented
+USG/CSG material for review. The earlier similarity claim was secondhand and may
+be disregarded as policy evidence. Policies from eight college governments may
+arrive; none were supplied with this message. Owner found the G question unclear,
+so this is retention/claim clarification, not exact G01–G03 field verification.
+AGENTS/G packet/CLI handoff record the ruling; exact message saved in new ignored
+p05-csg-owner-clarification-20261015, previous seals untouched. F04 not addressed.
+Next continue confirmed V/E bindings and separate benchmark wording review; review
+actual college files when supplied. Do not repeat the confusing similarity question
+or presume college-local rules. No product/source changes or new tests required.
+Clarification event checks, whitespace and phase validation pass; Phase05 remains
+active with blocked formal handoff. Following small docs commit records the ruling.
+
 **Verified Phase05 resume increment15October2026:**66fee fields across F01–F09
 now bound with existing mapper; unit/hour/rate/date relationships retained. Only
 F04 amount held, unaffected fields mapped but row incomplete. Six absent values

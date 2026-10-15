@@ -1,5 +1,13 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+Latest owner clarification after29f1410: retain documented USG/CSG provisions for
+review; the earlier CSG/USG similarity statement is secondhand and must not serve
+as policy evidence. Policies from eight college student governments may arrive;
+none are supplied by that message. The owner found the G question unclear, so
+do not mark G01–G03 exact readings confirmed or ask them to reaffirm hearsay.
+See the updated G packet and AGENTS. Continue remaining confirmed V/E bindings;
+review actual college files at intake when supplied. F04 remains separately held.
+
 Resume increment after957e7e4: [fee relationship binding report](2026-10-15-fee-relationship-binding-report.md)
 supersedes this session's earlier six-fee-field count:66confirmed fee fields now
 bound using unchanged mapper; only F04 amount held. G01–G03 original pages/readings/

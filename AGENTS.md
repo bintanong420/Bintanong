@@ -173,7 +173,16 @@ fresh Git evidence, rather than repeating completed source conversions/reviews.
   all transcriptions, benchmark wordings, school authority or activation. Start
   from `plans/2026-10-15-additional-source-human-review.md` and the current checkpoint.
 - The owner reports that CSG constitutions pattern/reference the USG Constitution.
-  Preserve the statement as reported. Use only reviewed explicit CSG provisions
+  On 15 October 2026 the owner clarified that this was a secondhand claim and may
+  be disregarded as a policy basis. Preserve its history as unverified hearsay,
+  not evidence of similar or identical college rules. The owner permits retaining
+  the documented USG/CSG provisions for review and may soon supply policies from
+  eight college student governments; those files have not been supplied by this
+  clarification. This is inclusion guidance, not verification of the exact
+  G01–G03 wording: the owner explicitly said the review question was unclear.
+  Explain future source checks in plain language and do not repeat the similarity
+  question. Continue independent work while awaiting actual college sources.
+  Use only reviewed explicit CSG provisions
   in the supplied USG source; do not infer unsupplied college-specific rules or
   claim separate college constitutions have been acquired.
 - On 15 October 2026 the owner replied `confirm F1`, accepting F01–F09 in the

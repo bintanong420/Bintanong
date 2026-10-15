@@ -1,5 +1,28 @@
 # Prepared CSG source-reading batch G
 
+## Owner clarification after presentation — 15 October 2026
+
+The owner said to include the material, explained that the review question was
+unclear, and clarified that the earlier CSG/USG similarity statement was something
+they had been told. They permit disregarding that claim as a policy basis and may
+soon supply policies from eight college student governments. This settles retention
+and how to treat the reported claim. It does **not** verify the exact G01–G03 readings
+or establish that any new college policy file has been received.
+
+Keep the explicit provisions below as source-backed candidates for review. Their
+basis is the actual supplied USG pages, not the secondhand similarity statement.
+Preserve the Tiniguiban limit and separate executive/legislative associations.
+Do not infer a college's local rules or require the owner to reaffirm hearsay.
+If exact field verification is needed later, explain the specific printed wording
+being checked in plain language. Continue other confirmed source work meanwhile.
+
+Exact owner message and conservative interpretation are recorded separately under
+`audit-evidence/p05-csg-owner-clarification-20261015/owner-clarification.json` in the
+owner workspace. This is a clarification event, not a G field-confirmation event.
+F04 was not addressed. No source mappings, embeddings or query tests were created.
+
+## Earlier presentation record
+
 15 October2026. **Presented on Phase05 resume after957e7e4; all three pending.**
 The original17/19/20/21page images and the table/treatment below were shown;
 a focused confirmation/correction question was submitted. No actual owner answer
