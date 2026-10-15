@@ -4,7 +4,7 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
-- Latest observations: [accepted T1/T2/U3 evaluation](2026-10-15-temporal-unsupported-evaluation-report.md), preflightca41cea/product7456613 unchanged. Nine new queries/27reused document vectors,243scores/944prefixes independently checked. Atk3/.5/2048only1/6fee contexts retained; clean prefixes do not improve recovery, and deadline cases yield irrelevant context. No justified scalar cutoff. Final review/seal pending, next reviewed source-subject design separate from claim coverage; no activation or Phase06.
+- Latest observations: [accepted T1/T2/U3 evaluation](2026-10-15-temporal-unsupported-evaluation-report.md), preflightca41cea/product7456613 unchanged. Nine new queries/27reused document vectors,243scores/944prefixes independently checked. Atk3/.5/2048only1/6fee contexts retained; clean prefixes do not improve recovery, and deadline cases yield irrelevant context. No justified scalar cutoff. Single independent review nofindings,36file evidence seal verified; next reviewed source-subject design separate from claim coverage; no activation or Phase06.
 
 - Latest verified delivery: [offline context-selection reporting](2026-10-15-context-selection-reporting-report.md), product4da6e19/fix7456613 afterplan9fec57d. Caller prefix/deferred/dependency trace; original builder/engine and source limits unchanged, coverage always unknown. Full5305tests/533subtests and4390attempt/1350default replay pass; oneP2review finding fixed underTDD. Next [accepted T1/T2/U3 nine-query evaluation](2026-10-15-temporal-unsupported-evaluation-plan.md); owner acceptance settled, no new encodings yet. Candidate inactive/formal exit blocked.
 

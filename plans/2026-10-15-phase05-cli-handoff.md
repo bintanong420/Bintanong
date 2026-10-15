@@ -1,5 +1,31 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+Closure:36file evidence seal verified read-only, manifest SHA256:
+3d4f3c36b1dcfd2391941b35fe3698dbe9d537dbdc727003b3bf0e7a6a78c2e5.
+All338prior hashes/nineunique product files unchanged. Local links/whitespace pass;
+phasevalidate0/canadvance1(expectedblocked). Single independent review nofindings;
+no source authority/currentness/automaticNLP/claimaccuracy or phasecompletion claim.
+Parent2722eb6 precedes following closure commit. Owner artifacts remain unstaged.
+Next bounded source-subject design/claim-coverage handling using existing trusted
+caller contract; no newwordings, encodings, parameter-only sweep or activation.
+
+
+## Temporal-query evaluation closure — 15 October 2026
+
+Observation2722eb6/product7456613 unchanged. Single independent review nofindings:
+243scores/54direct builds/270decisions/4980traces/18contexts/234citations/
+59source-limit occurrences/338hashes/nineunique codefiles match. Parent full944
+replay verified separately; no repeat embeddings or fullsuite. Ledger19tests/
+11subtests pass11.29s, focused87/93pass1.40s. Final seal/curated commit next.
+The numerical failures remain open work, not corrected or calibrated behavior.
+Next source-subject selection design from reviewed provenance using existing
+canonical caller contract, separate from actual requested-claim coverage; no
+source/memo declaration required from students and no gold-derived selectors.
+Unknown subject/year/curriculum/currentness stays unknown. Do not rerun these
+nine encodings, oldqueries/documentvectors, conversions or settled reviews.
+Candidate inactive, schoolverificationpending, formalPhase05blocked/noPhase06.
+
+
 ## Verified temporal-query observations — 15 October 2026
 
 Baseline915c795/preflightca41cea/product7456613 unchanged. Nine accepted queries

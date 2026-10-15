@@ -2,16 +2,42 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 245
+sequence: 246
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ca41cea
+head_commit: 2722eb6
 working_tree: temporal-query report and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:39:05+08:00
+updated_at: 2026-10-15T19:44:23+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Closure:36file evidence seal verified read-only, manifest SHA256:
+3d4f3c36b1dcfd2391941b35fe3698dbe9d537dbdc727003b3bf0e7a6a78c2e5.
+All338prior hashes/nineunique product files unchanged. Local links/whitespace pass;
+phasevalidate0/canadvance1(expectedblocked). Single independent review nofindings;
+no source authority/currentness/automaticNLP/claimaccuracy or phasecompletion claim.
+Parent2722eb6 precedes following closure commit. Owner artifacts remain unstaged.
+Next bounded source-subject design/claim-coverage handling using existing trusted
+caller contract; no newwordings, encodings, parameter-only sweep or activation.
+
+
+## Temporal-query evaluation closure — 15 October 2026
+
+Observation2722eb6/product7456613 unchanged. Single independent review nofindings:
+243scores/54direct builds/270decisions/4980traces/18contexts/234citations/
+59source-limit occurrences/338hashes/nineunique codefiles match. Parent full944
+replay verified separately; no repeat embeddings or fullsuite. Ledger19tests/
+11subtests pass11.29s, focused87/93pass1.40s. Final seal/curated commit next.
+The numerical failures remain open work, not corrected or calibrated behavior.
+Next source-subject selection design from reviewed provenance using existing
+canonical caller contract, separate from actual requested-claim coverage; no
+source/memo declaration required from students and no gold-derived selectors.
+Unknown subject/year/curriculum/currentness stays unknown. Do not rerun these
+nine encodings, oldqueries/documentvectors, conversions or settled reviews.
+Candidate inactive, schoolverificationpending, formalPhase05blocked/noPhase06.
+
 
 ## Verified temporal-query observations — 15 October 2026
 
@@ -680,7 +706,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Latest: temporal-query observations verified; final review/evidence seal and closure next. Then source-subject design; older current tasks below are history.
+Latest: temporal-query observations/review/seal complete; bounded source-subject design/claim-coverage handling next; older current tasks below are history.
 
 Latest: reporting verified; execute accepted T1/T2/U3 nine-query preflight/evaluation via2026-10-15-temporal-unsupported-evaluation-plan.md. Earlier entries below are history.
 
@@ -3640,7 +3666,7 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Latest: finish single review/seal/closure, then bounded reviewed source-subject design separate from claim support; no blind threshold/prefix selection. Earlier entries below are history.
+Latest: prepare bounded reviewed source-subject design separate from claim support; no blind threshold/prefix selection. Earlier entries below are history.
 
 Latest: execute accepted temporal/unsupported evaluation preflight and nine new query encodings with existing27document vectors. No repeat wording/source review, activation or Phase06. Earlier entries below are history.
 
