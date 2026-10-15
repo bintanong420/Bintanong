@@ -110,6 +110,27 @@ These are standing owner instructions from the Phase 05 conversation. Read them
 alongside the phase ledger; do not ask the owner to repeat settled decisions.
 The latest cleanup/resume record is
 `plans/2026-10-14-dataset-relocation-and-cli-handoff.md`.
+The current Phase05 CLI-session handoff is
+`plans/2026-10-15-phase05-cli-handoff.md`; use it with the active checkpoint and
+fresh Git evidence, rather than repeating completed source conversions/reviews.
+
+- On 15 October 2026 the owner explicitly said they will be available for human
+  verification throughout Phase05 to speed up the phase. Actively use that help:
+  surface consequential, ambiguous or difficult source readings early in short
+  batches, with the exact original page/region, proposed reading and limitation.
+  Ask focused source-content questions while continuing independent authorized
+  work; do not wait for a whole-document audit before presenting useful batches.
+  Record actual answers in current progress/checkpoint and apply them without
+  repeatedly reopening settled decisions. Availability or a generic "continue"
+  is not confirmation of a pending field, new benchmark wording, institutional
+  authority or activation. Routine technical fixes still proceed autonomously.
+- F04's printed fee amount is the one focused follow-up to the earlier F1
+  confirmation: the author read the photo as41,666.52, while the prior confirmed
+  proposal and independent review favor41,666.62. No new owner answer has been
+  received. Keep only this disputed field held; preserve both observations and
+  the prior confirmation. Six other fee amounts and three E01native headings
+  are already bound. Do not treat the owner's request to continue or switch CLI
+  as resolving F04; apply a later actual answer in new evidence, preserving seals.
 
 - This is thesis development/testing, not imminent official university guidance.
   Continue provisional offline retrieval with the supplied public undergraduate

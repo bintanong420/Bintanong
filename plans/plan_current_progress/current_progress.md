@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+**CLI handoff15October2026:** read plans/2026-10-15-phase05-cli-handoff.md first
+with AGENTS/INDEX/checkpoint/freshGit. Owner expressly available for human verification
+throughoutPhase05; AGENTS now directs early short source batches while independent
+work continues. A generic continue is not a pending reading/benchmark approval.
+Prepared G01–G03 explicit CSG readings (USG17/19/20/21) with native-text and visual
+checks; all pending, confirmation question not yet presented. Ready packet:
+2026-10-15-csg-human-review-packet.md. Fresh all62source hashes/22priorsealed files
+match; no seal mutation. New ignored p05-human-verification-handoff-20261015 contains
+verification script/results/proposals. Product50405f5/full5277tests508subtests and
+independent review remain verified prior evidence; no full-suite rerun for docs.
+F04 .52/.62 still awaits actual owner answer; other F1/V/E settled. Next present G
+and resolve only an actual F04 answer in separate evidence, continue other bindings,
+then exact18new benchmark wording review before tests. Owner artifacts preserved.
+Actual thesis17–18/routingPNG/master10 and dataset guide consulted, no discrepancy.
+No candidate admission/embeddings/runtime/DB/activation/Phase06. Older paragraphs
+below are chronological history; use this handoff and latest Git as current state.
+
 Bounded raster plan finished at product50405f5: full5277tests/508subtests; independent
 review no findings/fresh72tests127subtests. Six fee amounts/three native E01headings
 bound, F04 held for actual owner .52/.62 decision, initial attempt quarantined.

@@ -10,6 +10,12 @@ completed_at: 2026-10-15T00:18:59+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest session handoff:2026-10-15-phase05-cli-handoff.md, baseline d9d5990. Owner
+available for human verification throughoutPhase05, now standing AGENTS instruction.
+Prepared G01–03 general CSG source readings, pending/not yet presented as a question;
+F04 .52/.62 remains held. Fresh62source hashes/22priorsealed files match. No product
+change or phase advancement in this handoff; previous fullsuite/review remain valid.
+
 Current product50405f5: optional truthful original-raster mapping, exact default
 PDF compatibility, related144tests/206subtests/full5277tests/508subtests pass.
 Six fee amount fields and three native E01headings bound; F04 withheld upstream

@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 224
+sequence: 225
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 50405f5
-working_tree: curated raster report and review/ledger closure paths; owner artifacts preserved
-updated_at: 2026-10-15T17:16:00+08:00
+head_commit: d9d5990
+working_tree: seven explicit CLI handoff and human-verification documentation paths; owner artifacts preserved
+updated_at: 2026-10-15T17:31:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+CLI handoff2026-10-15-phase05-cli-handoff.md prepared at owner request. AGENTS
+records owner availability for human verification throughoutPhase05, focused early
+source batches and actual-answer-only decisions. Three explicit CSG readingsG01–03
+prepared from actual PDF17/19/20/21/native text; all pending, not yet presented for
+confirmation. Fresh62original hashes/22priorseal files match; no original/seal edit.
+No product changes; prior full5277tests508subtests/reviewer evidence preserved.
+Context thesis17–18/routingPNG/master10/dataset guide consulted, no discrepancy.
 
 Bounded raster plan complete, product50405f5. Independent final review no findings,
 fresh72tests/127subtests and actual-source/event/range checks pass. No fix pass.
@@ -324,6 +332,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Session handoff ready after documentation validation/commit. New CLI resumes from
+2026-10-15-phase05-cli-handoff.md, checks actual F04 answer, presents G01–03 with
+original pages, continues independent confirmed-field bindings. No repeatedsetup.
 
 Verified bounded handoff ready. Await focused F04 answer; apply in new evidence,
 preserve existing seal/confirmation. Continue remaining source bindings/explicit
@@ -2082,6 +2094,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Baseline d9d5990, product50405f5 on feat/p05-retrieval-logic. Seven explicit handoff/
+AGENTS/Gpacket/ledger docs; owner artifacts/.gitkeep deletion/backend/artifacts/
+untouched and unstaged. No new push/merge/runtime or branch changes this session.
+
 Verified product50405f5, baseline105666a on feat/p05-retrieval-logic. Only curated
 report/review/ledger closure changes; unrelated owner artifacts/.gitkeep deletion
 and untracked backend/artifacts/ preserved and never staged.
@@ -2252,6 +2268,11 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Current session stdlib/source checks62original SHA256/22sealed files pass; three
+proposed Gquotes match normalized native text of original34pagePDF; visual17/19/
+20/21checked. Python3.13.7 reused. No code/test changes, so no repeat full suite.
+Phase validator exit0/diff check pass; can-advance exit1 as expected blocked.
 
 Final independent reviewer no findings:72tests/127subtests, six photo/three native
 field checks.22file seal rehashed successfully. Report records full author suite,
@@ -2892,6 +2913,11 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Owner15October expressly available for Phase05 human verification; ask early exact
+short batches, continue independent work and record actual answers. Handoff is a
+CLI checkpoint within Phase05, not formal phase closure or Phase06 authorization.
+Gthree readings remain pending/unpresented; F04 is not settled by generic continue.
+
 Final Ruling: declined human digit reading/authority/currentness/full-source review/
 admission/benchmarks/activation/phase completion remain separate gates, rather than
 being inferred from code review. Reviewer .62 impression versus author .52 is
@@ -3091,6 +3117,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+New CLI: read2026-10-15-phase05-cli-handoff.md and AGENTS; verify Git/status/phase
+state and preserve owner artifacts. If actual F04 answer exists apply separate new
+evidence; otherwise keep onlyF04held. Present pending Gpacket with original regions,
+record actual response, continue source bindings and separate new18wording review.
 
 Apply actual F04 answer to separate new evidence; do not mutate the22file seal.
 Continue other source fields/explicit USGCSG review and exact new benchmark wording
@@ -3620,6 +3651,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Do not redo completed raster implementation/review/fullsuite or source conversions
+merely for a CLI change. Do not execute scripts that write into sealed raster root.
+Do not construe human availability/continue as F04/G/new benchmark approval.
 
 Retain all60dataset files and ignore private/raw data. Do not delete the duplicate
 original, merge enrollment cohorts or silently complete C0Step2/Charter103. Do not
