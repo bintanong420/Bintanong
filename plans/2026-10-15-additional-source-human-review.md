@@ -87,6 +87,16 @@ owner decision above selects15km/h for provisional research, retaining both sour
 
 ## Next enrollment batch E: selected cohort and source-gap readings
 
+**Confirmed15October2026:** owner replied `Confirm E`. E01–E04 below are settled,
+including the distinct cohorts, timing ambiguity/appointment-slip alternative,
+original/photocopy readings and printed numbering gap. No missing action is
+inferred from the missing Step2label. Separate reviewed derivative/event is in
+ignored `p05-additional-human-review-20261015/e-confirmed/`. All62original hashes
+verify. Three E01 continuing-PDF heading fields now have validated exact native
+character ranges and glyph-derived coordinates through the existing mapper.
+This selected review does not approve every enrollment checklist/procedure field.
+Do not reopen E, F1 or V; the memo15km/h choice remains in force for the study.
+
 Reply `confirm E`, corrections by ID, or mark an ID unreadable. This is a selected
 four-group review, not approval of every enrollment field or the entire procedures.
 It does not ask you to supply missing steps or decide school authority.

@@ -9,6 +9,14 @@ approved transcriptions, current university guidance or active retrieval candida
 
 ## Settled retention decision and current review
 
+Enrollment response15October: `Confirm E`. Four listed E groups are confirmed;
+the source labels, medical timing ambiguity, original/photocopy difference and
+numbering gap are preserved in a separate derivative. Three E01 PDF headings
+have actual native-character/coordinate bindings; no new candidates are activated.
+F1/V/E now total19confirmed selected groups, not a complete-source audit. The
+existing image mapper hardcodes PDF-image provenance, so standalone JPEG source
+binding needs a bounded technical correction before those bindings are emitted.
+
 Vehicle decision15October: owner confirmsV01–V06 and chooses the more recent
 memo's15km/h forV06. Apply15km/h in provisional study responses, preserving the
 handbook20kph wording, source discrepancy and explicit owner rationale. This is

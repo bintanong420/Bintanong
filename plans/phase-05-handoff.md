@@ -10,6 +10,24 @@ completed_at: 2026-10-15T00:18:59+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Owner `Confirm E` settlesE01–E04. F1/V/E19selected groups now confirmed; no
+whole-source audit or school approval inferred. Enrollment derivativeSHA256:
+9960a2447e1809dfdd030d58970c935688c0c3612c7f3e7beb8a035d213e5281.
+Original62hashes match. Existing native mapper binds3E01continuing-PDF headings
+(campus/term/audience) with actual character indices and glyph coordinates, zero
+withheld, scope unknown/inactive preserved. Initial raw-reader API/coverage-key
+errors corrected from installed API/code; no source-content change or repeated
+extraction attempt. Standalone JPEG mapping currently hardcodes original_pdf_image;
+new bounded raster-provenance plan prepares an optional truthful label and original
+byte/scale/page validation under TDD. No source review reopens;15km/h study choice
+preserved. No new embeddings/new query tests/active chunks.
+
+Execute plans/2026-10-15-original-raster-span-plan.md with synthetic RED/GREEN,
+related/full checks and one independent final review. Bind only confirmed fields
+with original source identity/geometry and limits; retain originals. New18benchmark
+wordings still need separate owner acceptance before testing. No source authority,
+release activation or Phase06 advancement inferred from these confirmations.
+
 Owner confirmsV01–V06 and selects newer memo15km/h forV06 in provisional
 undergraduate research responses. Use15with its memo/source/date and owner rationale;
 retain handbook20kph text and discrepancy. This settles the specific research choice,

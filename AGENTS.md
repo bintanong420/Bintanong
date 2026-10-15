@@ -168,6 +168,12 @@ The latest cleanup/resume record is
   issuing-office/current-year verification and institutional supersession remain
   separate. The confirmation covers the six listed groups, not the whole vehicle
   service or penalty scheme. Next selected source review is E01–E04 enrollment.
+- On 15 October 2026 the owner replied `Confirm E`, accepting E01–E04: distinct
+  incoming/continuing cohort terms, the clinic/enrollment timing ambiguity with
+  appointment-slip alternative, original-versus-photocopy PSA readings and the
+  original continuing PDF's numbering gap. Do not reopen E/F1/V. An absent Step2
+  label does not prove an omitted action; preserve the source without inventing it.
+  This selected review does not approve every field in the enrollment procedures.
 - Continue authorized work until a new human source-content decision is genuinely
   needed, the task is finished, or a verified progress checkpoint is ready for handoff.
   Record decisions/results/next action in this repository. Reuse completed setup,

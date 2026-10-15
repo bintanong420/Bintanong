@@ -2,16 +2,34 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 220
+sequence: 221
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 6c37a88
-working_tree: seven curated V confirmation/enrollment-review paths; owner artifacts preserved
-updated_at: 2026-10-15T16:49:56+08:00
+head_commit: d0c46aa
+working_tree: eight curated E confirmation/raster-plan paths; owner artifacts preserved
+updated_at: 2026-10-15T16:59:11+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner `Confirm E` settlesE01–E04. F1/V/E19selected groups now confirmed; no
+whole-source audit or school approval inferred. Enrollment derivativeSHA256:
+9960a2447e1809dfdd030d58970c935688c0c3612c7f3e7beb8a035d213e5281.
+Original62hashes match. Existing native mapper binds3E01continuing-PDF headings
+(campus/term/audience) with actual character indices and glyph coordinates, zero
+withheld, scope unknown/inactive preserved. Initial raw-reader API/coverage-key
+errors corrected from installed API/code; no source-content change or repeated
+extraction attempt. Standalone JPEG mapping currently hardcodes original_pdf_image;
+new bounded raster-provenance plan prepares an optional truthful label and original
+byte/scale/page validation under TDD. No source review reopens;15km/h study choice
+preserved. No new embeddings/new query tests/active chunks.
+
+Execute plans/2026-10-15-original-raster-span-plan.md with synthetic RED/GREEN,
+related/full checks and one independent final review. Bind only confirmed fields
+with original source identity/geometry and limits; retain originals. New18benchmark
+wordings still need separate owner acceptance before testing. No source authority,
+release activation or Phase06 advancement inferred from these confirmations.
 
 Owner confirmsV01–V06 and selects newer memo15km/h forV06 in provisional
 undergraduate research responses. Use15with its memo/source/date and owner rationale;
@@ -280,6 +298,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Execute plans/2026-10-15-original-raster-span-plan.md with synthetic RED/GREEN,
+related/full checks and one independent final review. Bind only confirmed fields
+with original source identity/geometry and limits; retain originals. New18benchmark
+wordings still need separate owner acceptance before testing. No source authority,
+release activation or Phase06 advancement inferred from these confirmations.
 
 Await E01–E04 enrollment readings/limitations; record the actual response once.
 Retain exact cohorts, source differences and missing originalStep2. Continue exact
@@ -3000,6 +3024,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Execute plans/2026-10-15-original-raster-span-plan.md with synthetic RED/GREEN,
+related/full checks and one independent final review. Bind only confirmed fields
+with original source identity/geometry and limits; retain originals. New18benchmark
+wordings still need separate owner acceptance before testing. No source authority,
+release activation or Phase06 advancement inferred from these confirmations.
 
 Await E01–E04 enrollment readings/limitations; record the actual response once.
 Retain exact cohorts, source differences and missing originalStep2. Continue exact
