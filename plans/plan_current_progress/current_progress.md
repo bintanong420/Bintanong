@@ -1,5 +1,26 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Accepted temporal-query evaluation resumed — 15 October 2026
+
+Verified temporal-query preflight:9accepted cases/27saved document vectors,
+338preserved hashes/11existing code-test hashes pass,exit0. No contradictory
+selected field; T1deadline/T2currentness/U3payment permission remain unsupported
+claims in this bounded selection. See2026-10-15-temporal-query-preflight.md.
+Next strict local asset check/nine new query encodings and bounded observations.
+No source/model/product change, candidate inactive/exitblocked.
+
+Fresh915c795 reconciles checkpoint parent7456613; product7456613 unchanged. Owner
+artifacts preserved. Active plan/ledger/CLI/master10, dataset/scope/gap policies,
+thesis physical17–18 and routingPNG consulted; no discrepancy. Existing36file
+report seal and accepted9snapshot remain inputs, not writing destinations.
+Execute2026-10-15-temporal-unsupported-evaluation-plan.md inline: source-label/
+asset preflight,27saved document vectors/nine new queries, bounded rankings/
+explicit-prefix reports, independent score/context/citation/hash verification.
+No product change planned, so TDD/fullsuite rerun only if a real code fix is needed.
+Keep claim coverage unknown; no automatic language interpretation or school approval.
+Next verify preflight and commit this recovery point before model execution.
+
+
 Closure: new36file evidence seal verified read-only, manifest SHA256:
 6d324122b23f06666dcb1ad6495f445ba01b30f17ea6bd6c99d2f9a2f7facb7f.
 Phasevalidate0/canadvance1(expectedblocked), whitespace/local links pass. Raw
