@@ -1,5 +1,21 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Vehicle-pass and fee claim checks resumed — 16 October 2026
+
+Fresh `014df8a` reconciles expected checkpoint parent `936da62`; product232a418
+unchanged. Read latest ledger/handoffs/master10 and selected U1/U2/source reports;
+thesis physical17–18 and routingPNG reconsulted, no discrepancy. Execute
+plans/2026-10-16-partial-claim-coverage-plan.md using existing helpers only.
+Ruling: actual U1 asks existing exact-replacement-price claim; U2 asks existing
+individual-assessment claim. Printed fee example stays ancillary; workflow and
+currentness remain source limits/structural controls, not added user requests.
+This avoids narrowing the student's question into an answerable printed fact.
+Cost if wrong: revise trusted caller facets in new evidence without changing old
+wordings/reviews or activating output. No new source decision or product change.
+Next freeze selected sixrows/15fields then all594saved prefixes and focus controls.
+Owner artifacts/settled decisions preserved; candidate inactive/Phase05blocked.
+
+
 ## Scoped curriculum claim coverage closed — 16 October 2026
 
 Plan `f6fe933`, observations `936da62`, unchanged product `232a418`.

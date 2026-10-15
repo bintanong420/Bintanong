@@ -2,16 +2,32 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 276
+sequence: 277
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 936da62
-working_tree: six curriculum closure documents; owner artifact changes preserved
-updated_at: 2026-10-16T00:09:47+08:00
+head_commit: 014df8a
+working_tree: partial-claim plan/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-16T00:11:59+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Vehicle-pass and fee claim checks resumed — 16 October 2026
+
+Fresh `014df8a` reconciles expected checkpoint parent `936da62`; product232a418
+unchanged. Read latest ledger/handoffs/master10 and selected U1/U2/source reports;
+thesis physical17–18 and routingPNG reconsulted, no discrepancy. Execute
+plans/2026-10-16-partial-claim-coverage-plan.md using existing helpers only.
+Ruling: actual U1 asks existing exact-replacement-price claim; U2 asks existing
+individual-assessment claim. Printed fee example stays ancillary; workflow and
+currentness remain source limits/structural controls, not added user requests.
+This avoids narrowing the student's question into an answerable printed fact.
+Cost if wrong: revise trusted caller facets in new evidence without changing old
+wordings/reviews or activating output. No new source decision or product change.
+Next freeze selected sixrows/15fields then all594saved prefixes and focus controls.
+Owner artifacts/settled decisions preserved; candidate inactive/Phase05blocked.
+
 
 ## Scoped curriculum claim coverage closed — 16 October 2026
 
