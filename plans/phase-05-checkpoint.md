@@ -2,16 +2,39 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 277
+sequence: 279
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 014df8a
-working_tree: partial-claim plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-16T00:11:59+08:00
+head_commit: cd46d87
+working_tree: partial-claim report/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-16T00:18:17+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Vehicle-pass and fee observations independently verified — 16 October 2026
+
+Plan cd46d87/product232a418 unchanged. Frozen selected sixchunks/15fields/15spans,
+four existing limits/four event objects/three original source hashes. Existing
+catalogue/register byte-identical. Two vehicle event hashes bind existing indent2
+encoded objects rather than standalone files; original map/owner bytes verified.
+Initial raw audit's file-only assumption corrected from original preparation code;
+no source-content or product defect. Verifier preserved unknown versus false
+emission states and missing-subject versus unassigned rows after bookkeeping fixes.
+
+594saved-prefix sidecars: all594actual requests insufficient evidence. Separate
+324U2printed-example reports:288fieldsavailable/36missingcontext. Bothfocusstrategies
+retain all6actual insufficiencies plus3U2printed examples available per strategy.
+918reports/3240field occurrences/1864limittraces/10context byte hashes,648nonnull
+pointers72nulls/12focusentries/18controls verified;572priorhashes,15source/11observation
+inputs and16codedigests match. No inference of price, workflow, individual bill or
+current-year validity. No new source findings, questions, encoding or retrieval.
+Prior39 plusnew6 yields45of63source-observed/18without, not answer-success rate.
+Fresh focused claim tests19/84subtests0.34s and doc-ledger491/11subtests11.41s pass, exit0; phase validation, four local plan/report links and whitespace pass.
+Report: plans/2026-10-16-partial-claim-coverage-report.md. Next single final independent
+review and seal; then bounded offline request-trace design.
+
 
 ## Vehicle-pass and fee claim checks resumed — 16 October 2026
 
@@ -1274,6 +1297,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: U1/U2existing limits applied to all594saved prefixes/918reports; independent/focused/doc checks pass. Single final review/seal next.
 
 Latest: scoped curriculum contract/observations/final review/34-file seal complete; final documentation closure next, then existing U1/U2 exact-claim sidecars.
 
@@ -4288,6 +4313,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: final independent partial-claim review, seal and continuity closure; then design one bounded offline request trace composing existing trusted scope/curriculum/subject/context/claim evidence.
 
 Latest: existing six U1/U2 variants exact-claim sidecars using reviewed declared limits, saved contexts and separate printed fee example. Preserve unavailable price/workflow/billing/currentness and unknown eligibility; no new source/wording approval or encoding.
 

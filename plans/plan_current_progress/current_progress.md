@@ -1,5 +1,28 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Vehicle-pass and fee observations independently verified — 16 October 2026
+
+Plan cd46d87/product232a418 unchanged. Frozen selected sixchunks/15fields/15spans,
+four existing limits/four event objects/three original source hashes. Existing
+catalogue/register byte-identical. Two vehicle event hashes bind existing indent2
+encoded objects rather than standalone files; original map/owner bytes verified.
+Initial raw audit's file-only assumption corrected from original preparation code;
+no source-content or product defect. Verifier preserved unknown versus false
+emission states and missing-subject versus unassigned rows after bookkeeping fixes.
+
+594saved-prefix sidecars: all594actual requests insufficient evidence. Separate
+324U2printed-example reports:288fieldsavailable/36missingcontext. Bothfocusstrategies
+retain all6actual insufficiencies plus3U2printed examples available per strategy.
+918reports/3240field occurrences/1864limittraces/10context byte hashes,648nonnull
+pointers72nulls/12focusentries/18controls verified;572priorhashes,15source/11observation
+inputs and16codedigests match. No inference of price, workflow, individual bill or
+current-year validity. No new source findings, questions, encoding or retrieval.
+Prior39 plusnew6 yields45of63source-observed/18without, not answer-success rate.
+Fresh focused claim tests19/84subtests0.34s and doc-ledger491/11subtests11.41s pass, exit0; phase validation, four local plan/report links and whitespace pass.
+Report: plans/2026-10-16-partial-claim-coverage-report.md. Next single final independent
+review and seal; then bounded offline request-trace design.
+
+
 ## Vehicle-pass and fee claim checks resumed — 16 October 2026
 
 Fresh `014df8a` reconciles expected checkpoint parent `936da62`; product232a418
