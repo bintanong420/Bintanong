@@ -3,12 +3,43 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: c86333b
+final_commit: 232a418
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-15T22:08:23+08:00
+completed_at: 2026-10-15T22:29:32+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Source-bound claim reviews closed — 15 October 2026
+
+Planf9adcd6/product232a418: bounded tasks verified. Optional source-review register
+binds full subject snapshots/audit basis/field refs; v2 distinguishes reviewed
+fields available, missing context and selected-field absence. All1430defaultv1
+reports identical to actuald2906ca; answer sufficiency still unassessed/inactive.
+Five source chunks/22fields/three explicit researcher reviews precede loading cases;
+1430conditional reports (930absence reviews/500existing limits),37controls/fourfield
+probes/2398limittraces/439hashes/15code digests verified. Not automatic NLP or
+unsupported detection accuracy; no new owner/source approval inferred.
+Full5365tests/669subtests337.17s exit0,6skips/6warnings; focused99/2363.86s;
+single independent review no findings, fresh32/1250.43s plus actual-baseline/input
+checks. Finaldoc-ledger484tests/11subtests11.40s exit0. Full stderr logs native
+Windows access-violation diagnostic near99% despite passing exit0; adjacent PDF
+isolation1pass18.00s does not reproduce it. Exact origin unknown, logs retained;
+no clean-stderr claim or speculative dependency/code fix/fullsuite repeat.
+Report: plans/2026-10-15-source-claim-review-report.md.40-file top-level seal
+verified, pytest temporaries excluded. Manifest SHA256:
+2856805eb86144c723b2074b0a2523e8038c4fd2b6bc913d4244c7f3c3c5070e.
+Root: workspace/audit-evidence/p05-source-claim-review-20261015/; final review in
+sibling p05-source-claim-review-final-20261015/. close_evidence.py verify is read-only;
+never rerun sealed writers. Owner artifacts remain untouched/unstaged.
+Next extend source-side coverage review to existing accepted positive policy cases
+with settled field/association decisions; freeze source findings before cases,
+reuse saved vectors and preserve unknown curriculum/currentness. New ambiguous
+content decisions need focused owner review. Capture a native reproducer if it
+recurs before changing code/dependencies. FormalPhase05Task4/6/governance/calibration
+remain open, candidate inactive/noPhase06. Earlier entries below are history.
+Checkpoint parent232a418 precedes the following documentation closure commit.
+
 
 ## Source-limit claim report closed — 15 October 2026
 

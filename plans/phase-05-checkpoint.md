@@ -2,16 +2,49 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 258
+sequence: 259
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f9adcd6
-working_tree: claim review helper/tests/README and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:26:57+08:00
+head_commit: 232a418
+working_tree: six curated closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T22:29:32+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-bound claim reviews closed — 15 October 2026
+
+Planf9adcd6/product232a418: bounded tasks verified. Optional source-review register
+binds full subject snapshots/audit basis/field refs; v2 distinguishes reviewed
+fields available, missing context and selected-field absence. All1430defaultv1
+reports identical to actuald2906ca; answer sufficiency still unassessed/inactive.
+Five source chunks/22fields/three explicit researcher reviews precede loading cases;
+1430conditional reports (930absence reviews/500existing limits),37controls/fourfield
+probes/2398limittraces/439hashes/15code digests verified. Not automatic NLP or
+unsupported detection accuracy; no new owner/source approval inferred.
+Full5365tests/669subtests337.17s exit0,6skips/6warnings; focused99/2363.86s;
+single independent review no findings, fresh32/1250.43s plus actual-baseline/input
+checks. Finaldoc-ledger484tests/11subtests11.40s exit0. Full stderr logs native
+Windows access-violation diagnostic near99% despite passing exit0; adjacent PDF
+isolation1pass18.00s does not reproduce it. Exact origin unknown, logs retained;
+no clean-stderr claim or speculative dependency/code fix/fullsuite repeat.
+Report: plans/2026-10-15-source-claim-review-report.md.40-file top-level seal
+verified, pytest temporaries excluded. Manifest SHA256:
+2856805eb86144c723b2074b0a2523e8038c4fd2b6bc913d4244c7f3c3c5070e.
+Root: workspace/audit-evidence/p05-source-claim-review-20261015/; final review in
+sibling p05-source-claim-review-final-20261015/. close_evidence.py verify is read-only;
+never rerun sealed writers. Owner artifacts remain untouched/unstaged.
+Next extend source-side coverage review to existing accepted positive policy cases
+with settled field/association decisions; freeze source findings before cases,
+reuse saved vectors and preserve unknown curriculum/currentness. New ambiguous
+content decisions need focused owner review. Capture a native reproducer if it
+recurs before changing code/dependencies. FormalPhase05Task4/6/governance/calibration
+remain open, candidate inactive/noPhase06. Earlier entries below are history.
+Checkpoint parent232a418 precedes the following documentation closure commit.
+Closure checks: phasevalidate0/canadvance1(expected blocked), current links/
+whitespace pass; final40-file seal verifies read-only.
+
 
 ## Source-bound review product verified — 15 October 2026
 
@@ -914,6 +947,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: source-bound claim review Tasks1/2 verified at232a418; final review no findings/40-file seal verified. Finish documentation closure, then source-side review for accepted positive policy cases. Earlier entries below are history.
 
 Latest: execute bounded source-bound review register extension, preserving default reports and independent source audit before labels/cases. Earlier entries below are history.
 
@@ -2724,6 +2759,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest:232a418 is verified product HEAD before six-path documentation closure; report/INDEX/CLI/blocked handoff/checkpoint/current progress explicit only. Owner artifacts/.gitkeep deletion/backend/artifacts/ untouched/unstaged.
+
 Latest: c86333b is verified product HEAD before the six-path documentation closure. Only report/INDEX/CLI/blocked handoff/checkpoint/current progress staged explicitly; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved.
 
 Latest: HEAD5cd5120 is the verified product baseline before the following six-path documentation closure commit. Explicit paths: subject report, INDEX, CLI handoff, blocked Phase05 handoff, checkpoint and current progress. Owner artifacts/.gitkeep deletion/backend/artifacts/ remain untouched and unstaged.
@@ -2914,6 +2951,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: full5365tests/669subtests337.17s exit0 (native stderr diagnostic retained), focused99/2363.86s, reviewer32/1250.43s/no findings; doc-ledger484/11pass11.40s.1430actual-baseline v1 matches/1430conditional v2/2398limits/439hashes/15codefiles verified.40-file seal 2856805eb86144c723b2074b0a2523e8038c4fd2b6bc913d4244c7f3c3c5070e.
 
 Latest: full5353tests/622subtests365.95s exit0, focused89/1893.59s, final reviewer75/1591.90s/no findings. Independent1430reports/37controls/500limit refs/223absence traces/413hashes/14code digests pass. Final25-file seal 7e82de3b73ed40530225d239990689546a4cc1484588692234785f469963fed1 verifies. Exact commands/results in latest report and raw logs.
 
@@ -3785,6 +3824,8 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Latest observed reliability limitation: full run logs native Windows access violation near99%, then completes5365passing/exit0. Exact origin unknown; adjacent synthetic PDF isolation passes1/18.00s without reproduction. No failing test or process shown, no clean-stderr or fix claim. Preserve logs; obtain specific reproducer if it recurs before a dependency/code change.
+
 G exact readings remain unverified after a retention/hearsay clarification. Do not
 repeat the confusing similarity question. Future college files may resolve local
 coverage when actually supplied; independent confirmed V/E work continues. F04
@@ -3896,6 +3937,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: extend independent source-side claim coverage review to existing accepted positive policy cases using settled source/field associations; freeze findings before cases, reuse vectors and explicit caller metadata. New consequential/ambiguous source choices need actual focused review. No calibrated policy, automatic NLP, activation or Phase06.
 
 Latest: plans/2026-10-15-source-claim-review-plan.md, inline synthetic TDD then source-side review/1430saved-context/default replay; one final independent review.
 
@@ -4475,6 +4518,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: review register/TDD/fullsuite/default1430replay/v2sidecars/final independent review/doc-ledger/40-file seal complete. Native diagnostic preserved; one isolated probe clean, exact origin unknown. No repeated writers/conversions/encodings/settled reviews or broad native fixes without new evidence.
 
 Latest: source-limit report implementation/TDD/fullsuite/1430saved-context sidecars/independent review/seal complete. Do not rerun this suite or writing scripts absent changed code/new evidence. No new model encodings, source conversions or settled reviews needed.
 
