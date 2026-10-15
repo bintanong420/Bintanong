@@ -1,5 +1,22 @@
 # Revised natural student-query proposal — 15 October 2026
 
+## Owner approval — 15 October 2026
+
+The owner replied: “the revised questions i approve. now lets keep it going”.
+This accepts the six scenarios U1/U2/S1/S2/A1/P1, all 18 exact revised language
+variants and the packet's stated expectations. Approval binds the packet at
+`bb57f66`, SHA256:`4ae2e5cdc7213d9127470c9fb2531d5ab328f2a020218c383f33a950e755b361`.
+The original wording draft is not substituted or retrospectively approved.
+
+Proceed with provisional offline evaluation using the accepted questions. Keep
+source prerequisites separate: U1 remains held for the complete necessary II/III
+context and supported referral-office review. U2's F01/F08/F09 bindings are ready;
+S1/S2/A1/P1 can proceed under their explicit scope/context limits. Preserve the
+prior accepted 12 scenarios/36 variants. No source authority, current-year validity,
+activation, automatic query interpretation or Phase06 advancement is approved.
+Exact acceptance and byte-identical packet snapshot are preserved in ignored
+`audit-evidence/p05-natural-query-acceptance-20261015/`.
+
 **Draft for owner wording and expected-behavior review. Not accepted or tested.**
 This revises the six scenarios / 18 variants in the
 [earlier proposal](2026-10-15-unavailable-query-review-proposal.md) in response to

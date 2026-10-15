@@ -1,5 +1,21 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Revised benchmark packet accepted — 15 October 2026
+
+Owner explicitly approved the revised questions and continuation: six scenarios /
+18 English, Filipino and Taglish variants plus their stated expectations, bound
+to the exact bb57f66 packet. Acceptance event/snapshot live in new ignored
+p05-natural-query-acceptance-20261015. Earlier unaccepted notes are historical;
+no need to ask again about these exact wordings. Preserve accepted12/36cases.
+U1source-context/referral prerequisite remains held; U2F01/F08/F09 ready, S1/S2/A1/P1
+can proceed under approved request-context/scope limits. Next create a versioned
+offline packet and run bounded evidence-ready diagnostics with existing assets /
+vectors; report explicit scope/ambiguity traces separately from ranking metrics.
+School/source approval remains separate; no runtime/DB/Prolog/activation/Phase06.
+Fresh Git bb57f66 matches expected documentation increment; owner artifacts
+preserved. Thesis17–18/routingPNG/master10/active plan and dataset guide consulted,
+no scope/routing discrepancy. Unknown applicability is not silently promoted.
+
 Verification for this documentation-only direction:468docs/ledger tests and11subtests
 pass11.63s, exit0; phase-state valid and advancement still blocked. Six revised
 scenarios/18variants/local links checked; earlier new G5/V/E27file seals unchanged.

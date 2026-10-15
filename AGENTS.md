@@ -37,6 +37,15 @@
 
 ## Natural student questions and intended responses
 
+- On15October2026 the owner explicitly approved the revised six scenarios/18
+  English/Filipino/Taglish variants and continuation, referring to
+  plans/2026-10-15-natural-query-review-proposal.md at bb57f66. Their wordings and
+  stated expectations are settled; do not ask again. This supersedes older
+  pending-wording notes below. Preserve the prior accepted12/36cases. U1's
+  necessary source-context/referral-office review remains separate and held;
+  other evidence-ready cases may proceed offline. Approval does not establish
+  source authority/currentness, promote unknown applicability or activate output.
+
 - Standing owner direction,15October2026: normal users need not say they are
   undergraduates or name a source/memo/date. Undergraduate academic affairs is
   the website's supported context; explain it in website guidelines or equivalent

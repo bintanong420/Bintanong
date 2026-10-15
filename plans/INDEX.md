@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Latest owner decision: revised [six-scenario/18variant packet](2026-10-15-natural-query-review-proposal.md) explicitly approved at bb57f66; no repeat wording review. Continue versioned offline preparation/evidence-ready U2/S1/S2/A1/P1 evaluation; U1source-context/referral prerequisite remains separate. Earlier pending notes are history. Candidate inactive; Phase05 remains active/formally blocked.
+
 - Latest owner response direction: [natural questions and source selection](2026-10-15-natural-query-response-requirements.md), persisted in AGENTS. Normal users need not declare undergraduate status/source dates; provide short citations, prefer latest applicable reviewed evidence and explain excluded scope. Source authority remains distinct from similarity. [Revised six/18query packet](2026-10-15-natural-query-review-proposal.md) replaces the old draft for review; neither wording set accepted/tested. Prior V/E increment60114e8 verified and sealed; Phase05 stays active/formally blocked.
 
 - Latest source-binding increment: [confirmed V/E fields](2026-10-15-vehicle-enrollment-binding-report.md),22new fields/91selected total including reused66fee+3E01headings;112tests/157subtests and saved replay pass,62originals/47prior sealed files unchanged. Exact six/18benchmark proposal presented, actual acceptance pending; U1necessary context/referral review separate. No chunks/testing/activation/advancement.

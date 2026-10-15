@@ -1,5 +1,9 @@
 # Natural student questions and source selection — 15 October 2026
 
+Latest owner reply explicitly approves the revised six/18packet and continuation;
+see its acceptance record. Older pending-wording text below is history. The
+response requirements and independent source prerequisites remain unchanged.
+
 Standing owner response requirements, recorded during Phase 05 after the
 confirmed V/E binding increment `60114e8`. This is a requirements record for
 provisional thesis development and later implementation, not deployed behavior.

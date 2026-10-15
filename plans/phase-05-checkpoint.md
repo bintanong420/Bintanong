@@ -2,16 +2,33 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 231
+sequence: 232
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 60114e8
-working_tree: explicit natural-query requirements, revised draft and continuity docs; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T18:21:50+08:00
+head_commit: bb57f66
+working_tree: explicit benchmark acceptance and continuity documentation; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T18:28:38+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Revised benchmark packet accepted — 15 October 2026
+
+Owner explicitly approved the revised questions and continuation: six scenarios /
+18 English, Filipino and Taglish variants plus their stated expectations, bound
+to the exact bb57f66 packet. Acceptance event/snapshot live in new ignored
+p05-natural-query-acceptance-20261015. Earlier unaccepted notes are historical;
+no need to ask again about these exact wordings. Preserve accepted12/36cases.
+U1source-context/referral prerequisite remains held; U2F01/F08/F09 ready, S1/S2/A1/P1
+can proceed under approved request-context/scope limits. Next create a versioned
+offline packet and run bounded evidence-ready diagnostics with existing assets /
+vectors; report explicit scope/ambiguity traces separately from ranking metrics.
+School/source approval remains separate; no runtime/DB/Prolog/activation/Phase06.
+Fresh Git bb57f66 matches expected documentation increment; owner artifacts
+preserved. Thesis17–18/routingPNG/master10/active plan and dataset guide consulted,
+no scope/routing discrepancy. Unknown applicability is not silently promoted.
+
 
 ## Owner response requirements and revised query draft — 15 October 2026
 
@@ -451,6 +468,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Apply actual six-scenario/18variant approval, commit acceptance; then prepare versioned offline packet and evidence-ready diagnostics. U1source-context/referral held separately.
 
 Record owner natural-query/source-selection/scope-notice requirements and prepare revised18wording packet. No product behavior changes; original async request superseded.
 
@@ -3113,6 +3132,8 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Six revised scenarios/18wordings and stated expectations approved by explicit owner reply; exact bb57f66 packet sealed separately. This does not promote unknown source applicability, resolve F04/G01/G02, or authorize activation.
+
 Owner requires ordinary queries without compulsory undergraduate/source declarations, brief answer citations, latest applicable reviewed sources and clear excluded-scope notices. See2026-10-15-natural-query-response-requirements.md. Similarity is relevance, not authority; original/new benchmark wordings unaccepted.
 
 Latest explicit G03-only confirmation and ASG physical23 exclusion above supersede older all-G-pending notes; original G01/G02 remain unconfirmed.
@@ -3345,6 +3366,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Continue U2/S1/S2/A1/P1 offline preparation/evaluation using existing assets. Surface exact necessary U1source/context/office reading early while independent work continues; do not reopen accepted wording or F1/V/E.
 
 Present revised six-scenario/18variant packet for actual wording/behavior acceptance before testing. U1source-context/referral review remains separate. Use natural undergraduate website context without inventing curriculum/source applicability.
 
