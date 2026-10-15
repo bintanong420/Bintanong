@@ -7,7 +7,7 @@ reports remain unassessed. Criminology/Tourism's six variants have their reviewe
 printed fields available. No report establishes final-answer sufficiency.
 
 Baseline `16634ba`, [plan](2026-10-15-curriculum-claim-coverage-plan.md) `f6fe933`,
-unchanged product `232a418`. Continues the [accepted-case coverage matrix](2026-10-15-accepted-case-coverage-matrix.md).
+observations `936da62`, unchanged product `232a418`. Continues the [accepted-case coverage matrix](2026-10-15-accepted-case-coverage-matrix.md).
 
 ## Source and caller contract
 
@@ -96,7 +96,20 @@ Raw source audit, catalogues/register, caller annotations, reports and verifier
 live ignored under workspace `audit-evidence/p05-curriculum-claim-coverage-20261015/`.
 Fresh focused regressions: 99 tests/236 subtests in 4.00s, exit 0. Documentation/
 ledger: 489 tests/11 subtests in 14.52s, exit 0. Phase validation, links and whitespace
-pass. One final independent review and seal follow.
+pass. The single resumed final independent review completed on 16 October 2026
+with no actionable findings. Supplemental checks verify both original owner-event
+objects, all 46 values/113 spans, 24 selector replays, 360 saved strategy decisions,
+1,296 non-null pointers/144 nulls and exhaustive focus coverage. Parent read-only
+replay passes. The date change establishes no new source currentness/approval.
+
+The 34-file top-level observation/review seal verifies; test temporaries are
+excluded. Manifest SHA256:
+`251cc4a79181e6872dfe84433b08990f4deae453a9d653a366285f822ac76a78`.
+Reviewer artifact: sibling `p05-curriculum-claim-coverage-review-20261015/final-review.md`.
+Use `python -B <observation-root>/seal_evidence.py verify` read-only; never rerun
+sealed writers. Final documentation/ledger checks: 489 tests/11 subtests in11.34s,
+exit0. Phase validation, links/whitespace and seal verification pass; advancement
+remains blocked as expected. Exact closure evidence is recorded in the checkpoint.
 No product/full/native suite change or repeat is planned. The historical native
 stderr diagnostic remains unresolved; no clean-stderr or cause/fix claim is made.
 

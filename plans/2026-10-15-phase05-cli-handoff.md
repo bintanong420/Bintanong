@@ -1,5 +1,51 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Scoped curriculum claim coverage closed — 16 October 2026
+
+Plan `f6fe933`, observations `936da62`, unchanged product `232a418`.
+[Curriculum coverage report](2026-10-15-curriculum-claim-coverage-report.md): all
+12 scoped variants retain printed row fields at k3/.5/2048 under both saved
+strategies. Six Architecture/Nursing caller reports remain unassessed, including
+individual eligibility and the NURS MC2/Biochemistry identity. Six Criminology/
+Tourism reports have reviewed fields available; all answer sufficiency unassessed.
+Six unknown-edition BSCS cases retain clarification with no subject/report.
+
+Separate derivative binds all27chunks/eightcurriculumrows/sixversion subjects;
+original policy catalogue unchanged. Audited eight rows/46fields/113spans and six
+relocated originals; four full-row reviews22fields/51spans. Source preparation
+precedes this run's query loading, with prior development exposure disclosed.
+360sidecars/720reports: printed216available/144missing; caller108available/
+108unassessed/144missing. Source-reported identity union39of63/24without is an
+observation count, never an answer-success rate or calibrated policy.
+
+Single resumed final reviewer: no actionable findings. Fresh parent/reviewer audit
+checks537priorhashes,15source/11observationinputs,16codedigests,4070field occurrences,
+five archived context byte hashes/copied token counts,32controls/24focusentries.
+Supplement verifies actual two owner-event objects/46values/113spans,24selector
+replays,360decisions/1296nonnull pointers/144nulls and exhaustive focus coverage;
+parent read-only replay passes. Prior focused99tests/236subtests4.00s and doc-ledger
+489tests/11subtests14.52s exit0. No product/full/native/model/retrieval repeat.
+Thesis physical17–18/routingPNG consulted on resume and review, no discrepancy.
+
+34-file top-level evidence seal verified; pytest temporaries excluded. SHA256:
+251cc4a79181e6872dfe84433b08990f4deae453a9d653a366285f822ac76a78.
+Root: workspace/audit-evidence/p05-curriculum-claim-coverage-20261015/;
+review sibling: p05-curriculum-claim-coverage-review-20261015/.
+Use `seal_evidence.py verify` read-only; never rerun sealed writers.
+Owner artifact deletion/untracked directory preserved and unstaged. Historic native
+stderr uncertainty remains unresolved. Candidate inactive, Phase05active/blocked,
+Tasks4/6/source governance/representative calibration open; no Phase06 advancement.
+
+Next reuse existing declared limits for the six accepted U1/U2 variants with exact
+caller facets and saved contexts. Keep missing replacement price/workflow and
+individual billing/current-year validity separate from the printed fee example.
+No new source-content decision, wording, embedding or institutional approval.
+Final closure checks: documentation/ledger 489 tests/11 subtests in11.34s, exit0; phasevalidate0/canadvance1(expectedblocked), four plan/report links plus progress link, whitespace and34-file read-only seal verify pass.
+
+Earlier entries below are history. Checkpoint parent `936da62` precedes the
+following documentation closure commit; reconcile the expected difference on resume.
+
+
 ## Accepted-case coverage consolidation closed — 15 October 2026
 
 Observation `fcf90bd`, baseline `b1e73e3`, unchanged product `232a418`.
