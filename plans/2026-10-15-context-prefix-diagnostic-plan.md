@@ -21,23 +21,23 @@ researcher request annotations, not measured automatic interpretation.
 
 ## Bounded comparison
 
-- [ ] Verify the previous 43-file seal, its preserved inputs and tokenizer hash.
-- [ ] Reproduce previous primary candidates and contexts at each saved k3/5/8,
+- [x] Verify the previous 43-file seal, its preserved inputs and tokenizer hash.
+- [x] Reproduce previous primary candidates and contexts at each saved k3/5/8,
   threshold0/0.25/0.5/0.75/0.9 and budget2048/4096 combination.
-- [ ] For each combination, assemble ranking prefixes of length1 through the
+- [x] For each combination, assemble ranking prefixes of length1 through the
   configured maximum k, retaining all declared transitive required neighbors.
   Prefix length uses ranking order alone, never expected-reading IDs or results.
-- [ ] Record actual primary IDs/scores, returned IDs/limits, budget and invalid
+- [x] Record actual primary IDs/scores, returned IDs/limits, budget and invalid
   refusals, exact tokens and original citations for every attempt. Separate
   missing expected evidence, unsupported claim coverage and omitted extra groups.
-- [ ] Compare fixed one/two/all-primary strategies and an **experimental**
+- [x] Compare fixed one/two/all-primary strategies and an **experimental**
   longest-gap-free-prefix strategy. The latter is a diagnostic only: record its
   omissions and evaluate against gold afterward; do not install it as a policy.
-- [ ] Include raw S1/S2/P1 rankings and A1 diagnostic controls to show whether
+- [x] Include raw S1/S2/P1 rankings and A1 diagnostic controls to show whether
   apparently valid compact contexts still contain wrong/ambiguous evidence.
-- [ ] Independently replay selection, token counts, citations and summary counts;
+- [x] Independently replay selection, token counts, citations and summary counts;
   run relevant existing context tests without cache and with external basetemp.
-- [ ] Record results and a qualified progress estimate; commit curated report,
+- [x] Record results and a qualified progress estimate; commit curated report,
   checkpoint/current progress/INDEX/CLI pointers and seal new ignored evidence.
 
 ## Constraints and completion evidence
@@ -64,3 +64,6 @@ in size. Finish context/coverage selection, representative unsupported-case
 calibration and final verification/handoff. School-verification timing is unknown
 and separate from authorized offline work. Revisit this estimate after the
 diagnostic instead of treating the count of passing fixtures as a completion score.
+
+Results recorded in2026-10-15-context-prefix-diagnostic-report.md; no product policy
+installed. Exact comparisons/replay preserved in new ignored evidence root.

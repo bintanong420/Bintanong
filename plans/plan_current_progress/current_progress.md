@@ -1,5 +1,34 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Closure: one independent review nofindings,4390uncached builds/1710decisions /
+13681dependency checks pass;reviewer68tests/70subtests1.50s. Documentation472tests /
+11subtests pass14.47s. Phasevalidate0/canadvance1(expectedblocked), whitespace/link /
+7unchangedcode-testhash checks pass. New21file evidence seal SHA256:14bc4f94e4a0688755e45d4bd88dd06d70a526e35ef5ee1a3a2dfe6035e326e6.
+All278prior hashes verified; no sealedwriting-script reruns. Checkpointparent5bfb7a1
+precedes following six-path reportcommit;ownerartifacts preserved. Estimate80%
+technical(75–85rough),formalPhase05notcomplete. Next opt-in context-selection
+reporting design/coverage calibration;no sourcecontent changes or activation.
+
+## Verified context-prefix diagnostic — 15 October 2026
+
+Plan5bfb7a1, baseline91bba1f/productfeaa961. Saved rankings only:4390prefix attempts,
+1710strategy configurations,424unique assemblies/52contexts; all1350previous
+contexts reproduce. Independent prefixes/selection/tokens/1032citations/278hashes
+pass;68related tests/70subtests pass1.41s. No product/model/source/wording changes.
+At k3/.5/2048 all36positive variants complete with allprimaries but15have budget
+refusals; top1gives33/36complete (U1office/paymentcontext missing inall3); diagnostic
+longest-gap-free gives36/36complete and0refusals, but6stillhave extra evidence.
+Raw9scope/wrongprogram+3ambiguous controls still yield gapfree wrong contexts.
+No automatic NLP, global threshold or engine-success claim; dependencies/limits/
+citations and omissions preserved. See2026-10-15-context-prefix-diagnostic-report.md.
+
+Owner estimate:about80%technical Phase05 work,75–85%rough range;not formal completion
+or measured corpus accuracy. Four/six main areas delivered; context/coverage policy,
+representative unsupported/temporal calibration and sourcegovernance/finalexit remain.
+Schoolresponse timing unknown/not an offline blocker. Next narrow opt-in context-
+selection reporting design, never blanket-ignore budgetgaps or infer completeness
+from clean assembly. Candidate inactive, Phase05formalhandoffblocked/noPhase06.
+
 ## Context-prefix diagnostic resumed — 15 October 2026
 
 Fresh Git91bba1f matches expected final documentation commit after productfeaa961;

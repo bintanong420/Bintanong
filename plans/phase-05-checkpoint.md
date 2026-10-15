@@ -2,16 +2,37 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 237
+sequence: 238
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 91bba1f
-working_tree: context-prefix diagnostic plan and active ledgers; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T18:58:01+08:00
+head_commit: 5bfb7a1
+working_tree: context-prefix diagnostic report and continuity documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T19:02:57+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Verified context-prefix diagnostic — 15 October 2026
+
+Plan5bfb7a1, baseline91bba1f/productfeaa961. Saved rankings only:4390prefix attempts,
+1710strategy configurations,424unique assemblies/52contexts; all1350previous
+contexts reproduce. Independent prefixes/selection/tokens/1032citations/278hashes
+pass;68related tests/70subtests pass1.41s. No product/model/source/wording changes.
+At k3/.5/2048 all36positive variants complete with allprimaries but15have budget
+refusals; top1gives33/36complete (U1office/paymentcontext missing inall3); diagnostic
+longest-gap-free gives36/36complete and0refusals, but6stillhave extra evidence.
+Raw9scope/wrongprogram+3ambiguous controls still yield gapfree wrong contexts.
+No automatic NLP, global threshold or engine-success claim; dependencies/limits/
+citations and omissions preserved. See2026-10-15-context-prefix-diagnostic-report.md.
+
+Owner estimate:about80%technical Phase05 work,75–85%rough range;not formal completion
+or measured corpus accuracy. Four/six main areas delivered; context/coverage policy,
+representative unsupported/temporal calibration and sourcegovernance/finalexit remain.
+Schoolresponse timing unknown/not an offline blocker. Next narrow opt-in context-
+selection reporting design, never blanket-ignore budgetgaps or infer completeness
+from clean assembly. Candidate inactive, Phase05formalhandoffblocked/noPhase06.
+
 
 ## Context-prefix diagnostic resumed — 15 October 2026
 
@@ -545,6 +566,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Verified diagnostic ready for reportcommit; review and seal complete. Next opt-in reporting design; no formaladvancement.
+
+Context-prefix comparison/replay complete; independent review and final documentation/seal next. Productfeaa961 unchanged.
 
 Run saved-ranking context-prefix diagnostic under2026-10-15-context-prefix-diagnostic-plan.md; product unchanged.
 
@@ -2522,6 +2547,18 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Closure: one independent review nofindings,4390uncached builds/1710decisions /
+13681dependency checks pass;reviewer68tests/70subtests1.50s. Documentation472tests /
+11subtests pass14.47s. Phasevalidate0/canadvance1(expectedblocked), whitespace/link /
+7unchangedcode-testhash checks pass. New21file evidence seal SHA256:14bc4f94e4a0688755e45d4bd88dd06d70a526e35ef5ee1a3a2dfe6035e326e6.
+All278prior hashes verified; no sealedwriting-script reruns. Checkpointparent5bfb7a1
+precedes following six-path reportcommit;ownerartifacts preserved. Estimate80%
+technical(75–85rough),formalPhase05notcomplete. Next opt-in context-selection
+reporting design/coverage calibration;no sourcecontent changes or activation.
+
+
+Independent4390attempts/1710decisions/424assemblies/1350priorcontexts/52tokenstrings/1032citations/278hashes verified;68tests/70subtests pass1.41s. See context-prefix report.
+
 Closure:470docs/ledger tests and11subtests pass13.97s; phasevalid/canadvance1
 (expectedblocked). New43file evidence seal SHA256:0780291a6e5e167bc9cbaafafe19175ca8c35d0487db4c620a93166698143249.
 Accepted-packet3file seal SHA256:6b5e01da7206d3d71869f61ab04a760da39967179a832241100963bc8d6372ae. Both verified read-only;
@@ -3485,6 +3522,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Prepare narrow opt-in context-selection reporting design; distinguish omitted extras from unassembled required groups and unknown claim completeness. Preserve all limits/no default policy until tested; representative calibration/formal exits pending.
 
 Bounded context-selection diagnostic on saved vectors/exact approved questions: preserve complete evidence while distinguishing budget refusals for unrelated extras from missing required context. No source limits removed, gold hints or auto-NLP claim; Phase05gates remain open.
 
