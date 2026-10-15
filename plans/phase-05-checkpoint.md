@@ -2,16 +2,32 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 214
+sequence: 216
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f5e1a65
-working_tree: six curated shared group closure documents; owner artifacts preserved
-updated_at: 2026-10-15T00:25:41+08:00
+head_commit: 029d031
+working_tree: seven curated intake/review/ledger documents; owner artifacts preserved
+updated_at: 2026-10-15T08:23:41+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Additional student sources inspected:13files/12distinct hashes; five vehicle
+images, one2023special-class fee photo, six incoming enrollment images(one exact
+duplicate) and one continuing PDF. All47prior dataset files and13new originals
+hash-match; originals stay untouched. Unique enrollment details retained, duplicate
+occurrence excluded only from proposed future derivatives. Incoming advisory is
+first-semester2026–2027; continuing PDF is second-semester2025–2026. New guideline
+15km/hr vs handbook93 20kph preserved as an unresolved discrepancy. Fee seven-row
+readings and original schedule/numbering limitations documented for focused owner
+review; no source-content acceptance or school verification inferred.
+Report:plans/2026-10-15-additional-source-intake-report.md.
+Six new scenarios/eighteen exact language variants proposed in
+plans/2026-10-15-unavailable-query-review-proposal.md; all untested. Source review
+and benchmark wording questions presented separately. Existing12/36accepted cases,
+sixBSCSscopeholds,21inactive candidates and saved vectors/ranks are unchanged.
+No product code, ingestion rerun, query encoding, runtime/DB or release activation work.
 
 Shared reviewed-group contextf5e1a65 verified under plan0b2b405. Full5264tests/
 500subtests pass302.92s,6skips/6existing warnings. Complete overload1961tokens and
@@ -198,6 +214,30 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Owner paused supplemental intake to ask whether the existing Handbook2021/Charter2025
+policy baseline is preferable. Owner reports staff said no big changes; this is
+not independently verified item-level equivalence. Recommendation: freeze the
+current policy benchmark baseline and preserve the added files as deferred evidence,
+unless a defined study question needs their unique details. This is advice pending
+owner choice, not a corpus exclusion/approval decision. No new source was ingested
+or scored. Keep the known15/20speed discrepancy logged even if supplements remain
+excluded, and retain the separate curriculum/USG/CSG commitments from the thesis.
+V/F/E questions are conditional and do not block independent baseline work; draft
+U1/U2 stay deferred and all18new question variants remain untested. Await the
+owner's response to this scope recommendation before resuming supplemental intake.
+Actual thesis17–18,68and73–75 consulted; no claim the entire thesis uses only2PDFs.
+
+Await focused owner source readings/treatment(V1/V2,F1,E1/E2) and six proposed
+benchmark scenarios before dependent candidate derivation/testing. Record answers
+once, apply only confirmed fields, retain original gaps and source identities.
+U1/U2 remain held until incoming evidence is reviewed and exactly bound; no new
+questions tested before wording acceptance. Source/current-year verification
+stays deferred pending actual evidence; ordinary independent development is allowed.
+Measured overload/timing budget issue remains resolved at1961/1738tokens; no more
+source-text shrinking, prior conversions or vector recomputation to repeat.
+
+Earlier closure instructions below are historical; closure029d031 is complete.
 
 Final review clean; finish documentation/phase checks, ignored evidence seal and
 explicit curated closure commit. Productf5e1a65/full5264suite alreadyverified.
@@ -1901,6 +1941,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Baseline029d031 on feat/p05-retrieval-logic. Curated intake report, benchmark
+proposal, dataset guide, INDEX, checkpoint, blockedhandoff and currentprogress only.
+Owner artifacts/.gitkeep deletion/untracked backend/artifacts remain unstaged.
+
 Verified productf5e1a65 on existing feature branch. Six explicit closure paths:
 sharedgroup plan/report, INDEX, checkpoint, blockedhandoff and currentprogress.
 Owner artifacts/.gitkeep deletion/untracked backend/artifacts remain untouched.
@@ -2063,6 +2107,20 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Fresh intake verification: all47baseline files and13new originals hash-match;
+13paths/12unique incoming hashes; six proposals/eighteen variants and zero new query
+tests. Phase-state regressions19passed/11subtests in12.78s (exit0), using authorized
+Python3.13, no pytest cache and external basetemp. Phasevalidate0/canadvance1
+(expected blocked), gitdiffcheck0. Product5264suite was not rerun for documentation
+changes. Owner source/wording decisions remain pending; no source activation.
+
+Intake verification:47prior dataset files and13new files hash/size unchanged;
+12distinct incoming digests, six proposed scenarios/eighteen variants, zero tested
+newqueries and zero active candidates added. Actual thesis17–18/routingPNG/master10
+consulted; no scope/routing discrepancy. pypdfium2 native text plus visual originals
+used, no dependency changes. Evidence root:workspace/audit-evidence/
+p05-additional-source-intake-20261015/. Prior5264test result retained, not rerun.
 
 Shared-group closure:469docs/ledger tests11subtests pass11.49s; phasevalidate0/
 canadvance1(expectedblocked).38ignored evidence files/14current code-test digests
@@ -2590,6 +2648,11 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+New13file inventory and twelve exact digests are bound in ignored
+p05-additional-source-intake-20261015/incoming-inventory.json and tracked report.
+Prior source hashes, original47file catalog, all model assets and sealed evidence
+are unchanged. No new library/model version or dependency change.
+
 Exact owner event SHA256:
 bc25bd07a6debb4e8d6a1ca0592ccb1bd556942ed0f7bf0d4441e68c7e4d4800.
 Existing SEA-LION assets/configuration preserved; tenasset hashes independently
@@ -2661,6 +2724,12 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Owner supplied vehicle/gatepass, special-class fee and enrollment data15October;
+exclude enrollment only if actually redundant. Targeted original comparison finds
+unique content in both cohorts; preserve dated scope, exact duplicate aliases,
+15/20speed discrepancy, fee interpretation limits and original enrollment defects.
+Human review is pending; observations/proposals are not approved transcriptions.
+
 Opt-in group context shares exact common metadata and a rootdigest binding
 original member IDs/text. Full originals/per-part hashes remain in evidence; only
 display hash representation changes. Every policy field/limit/citation/group member
@@ -2717,6 +2786,12 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+CURRENT: focused new source review and proposed benchmark-wording acceptance
+are pending; school governance/formal exits remain separate. Native console Unicode
+printing failed once and was corrected with UTF-8 settings. No failed extraction
+loop. Historical overload/timing2K blocker below was resolved byf5e1a65/029d031;
+do not treat that old paragraph as an active failure.
 
 Complete overload3186tokens/completion timing2270 do notfit2048 and are withheld
 intact.4096comparison recovers all expected evidence at k3/0.5 but rejects extras
@@ -2805,6 +2880,30 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Owner paused supplemental intake to ask whether the existing Handbook2021/Charter2025
+policy baseline is preferable. Owner reports staff said no big changes; this is
+not independently verified item-level equivalence. Recommendation: freeze the
+current policy benchmark baseline and preserve the added files as deferred evidence,
+unless a defined study question needs their unique details. This is advice pending
+owner choice, not a corpus exclusion/approval decision. No new source was ingested
+or scored. Keep the known15/20speed discrepancy logged even if supplements remain
+excluded, and retain the separate curriculum/USG/CSG commitments from the thesis.
+V/F/E questions are conditional and do not block independent baseline work; draft
+U1/U2 stay deferred and all18new question variants remain untested. Await the
+owner's response to this scope recommendation before resuming supplemental intake.
+Actual thesis17–18,68and73–75 consulted; no claim the entire thesis uses only2PDFs.
+
+Earlier intake review instructions below are conditional on inclusion.
+
+Await focused owner source readings/treatment(V1/V2,F1,E1/E2) and six proposed
+benchmark scenarios before dependent candidate derivation/testing. Record answers
+once, apply only confirmed fields, retain original gaps and source identities.
+U1/U2 remain held until incoming evidence is reviewed and exactly bound; no new
+questions tested before wording acceptance. Source/current-year verification
+stays deferred pending actual evidence; ordinary independent development is allowed.
+Measured overload/timing budget issue remains resolved at1961/1738tokens; no more
+source-text shrinking, prior conversions or vector recomputation to repeat.
 
 The measured complete-group2K refusal is resolved at k3/0.5; preserve verified
 group/source metadata displays and stop shrinking source text. Next bounded task:
@@ -3279,6 +3378,11 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Retain all60dataset files and ignore private/raw data. Do not delete the duplicate
+original, merge enrollment cohorts or silently complete C0Step2/Charter103. Do not
+choose15vs20by date, infer per-student fees or rerequest missing original text.
+Earlier accepted12/36questions/fields/audience decisions stay settled.
 
 Complete group budget refusal at2K is now measured resolved; do not repeat source
 conversion, audience/wording review, model encoding or push-reconciliation steps.

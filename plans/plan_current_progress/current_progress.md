@@ -1,5 +1,52 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Owner paused supplemental intake to ask whether the existing Handbook2021/Charter2025
+policy baseline is preferable. Owner reports staff said no big changes; this is
+not independently verified item-level equivalence. Recommendation: freeze the
+current policy benchmark baseline and preserve the added files as deferred evidence,
+unless a defined study question needs their unique details. This is advice pending
+owner choice, not a corpus exclusion/approval decision. No new source was ingested
+or scored. Keep the known15/20speed discrepancy logged even if supplements remain
+excluded, and retain the separate curriculum/USG/CSG commitments from the thesis.
+V/F/E questions are conditional and do not block independent baseline work; draft
+U1/U2 stay deferred and all18new question variants remain untested. Await the
+owner's response to this scope recommendation before resuming supplemental intake.
+Actual thesis17–18,68and73–75 consulted; no claim the entire thesis uses only2PDFs.
+
+**Additional data intake and focused review — 15 October 2026.**
+
+Fresh intake verification: all47baseline files and13new originals hash-match;
+13paths/12unique incoming hashes; six proposals/eighteen variants and zero new query
+tests. Phase-state regressions19passed/11subtests in12.78s (exit0), using authorized
+Python3.13, no pytest cache and external basetemp. Phasevalidate0/canadvance1
+(expected blocked), gitdiffcheck0. Product5264suite was not rerun for documentation
+changes. Owner source/wording decisions remain pending; no source activation.
+
+Additional student sources inspected:13files/12distinct hashes; five vehicle
+images, one2023special-class fee photo, six incoming enrollment images(one exact
+duplicate) and one continuing PDF. All47prior dataset files and13new originals
+hash-match; originals stay untouched. Unique enrollment details retained, duplicate
+occurrence excluded only from proposed future derivatives. Incoming advisory is
+first-semester2026–2027; continuing PDF is second-semester2025–2026. New guideline
+15km/hr vs handbook93 20kph preserved as an unresolved discrepancy. Fee seven-row
+readings and original schedule/numbering limitations documented for focused owner
+review; no source-content acceptance or school verification inferred.
+Report:plans/2026-10-15-additional-source-intake-report.md.
+Six new scenarios/eighteen exact language variants proposed in
+plans/2026-10-15-unavailable-query-review-proposal.md; all untested. Source review
+and benchmark wording questions presented separately. Existing12/36accepted cases,
+sixBSCSscopeholds,21inactive candidates and saved vectors/ranks are unchanged.
+No product code, ingestion rerun, query encoding, runtime/DB or release activation work.
+
+Await focused owner source readings/treatment(V1/V2,F1,E1/E2) and six proposed
+benchmark scenarios before dependent candidate derivation/testing. Record answers
+once, apply only confirmed fields, retain original gaps and source identities.
+U1/U2 remain held until incoming evidence is reviewed and exactly bound; no new
+questions tested before wording acceptance. Source/current-year verification
+stays deferred pending actual evidence; ordinary independent development is allowed.
+Measured overload/timing budget issue remains resolved at1961/1738tokens; no more
+source-text shrinking, prior conversions or vector recomputation to repeat.
+
 Shared-group closure:469docs/ledger tests11subtests pass11.49s; phasevalidate0/
 canadvance1(expectedblocked).38ignored evidence files/14current code-test digests
 sealed; manifestSHA256:

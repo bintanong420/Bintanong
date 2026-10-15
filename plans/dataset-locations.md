@@ -1,5 +1,26 @@
 # Dataset locations and relocation
 
+## Added student procedures received — 15 October 2026
+
+The owner supplied13files (12distinct byte hashes) at repository-root
+`dataset/Misc. Student related procedures/`: five vehicle/gatepass images,
+one2023special-class fee photograph, six incoming-student enrollment images
+(one exact duplicate), and one continuing-student enrollment PDF. The incoming
+advisory prints first-semester2026–2027; the continuing PDF prints second-semester
+2025–2026 despite its2026folder. No file was moved, deleted or activated.
+
+The [intake and focused review](2026-10-15-additional-source-intake-report.md)
+records source hashes, proposed page order, enrollment differences and visible
+gaps/conflicts. Keep the unique enrollment content; exclude only the exact
+duplicate occurrence from later derivatives, retaining both original paths.
+The earlier "no files supplied" and incoming-staging notes below are historical.
+Fresh verification preserves all47relocation baseline files and all13new originals.
+The60file total describes local files, not approved documents or an active corpus.
+Do not edit the historical acquisition catalog or sealed relocation evidence to
+make old counts look current; use the new ignored intake inventory and report.
+Raw manifest/native inspection/page renders:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-source-intake-20261015/`.
+
 Updated 14 October 2026 after the owner-authorized root relocation in the Phase 05
 worktree. Read this guide when resuming source reading, ingestion or practice-exam
 work; discover files again rather than assuming another worktree contains ignored data.
