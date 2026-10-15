@@ -1,5 +1,30 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-limit report product verified — 15 October 2026
+
+Plan3af3052. Full offline suite5353tests/622subtests pass365.95s,exit0,6skips/
+6existingwarnings (tests plus phase-handoff tests). Focused89/189pass3.59s.
+Single independent review checks pass1430sidecars/37controls/413hashes/14codefiles;
+fresh reviewer75tests/159subtests1.90s, no finding reported. No product correction
+needed. Code/helper/tests/README ready for explicit product commit; final review
+artifact, report, evidence seal and continuity closure follow. No repeated model
+calls or source decisions. T2declared limitation matched; T1/U3remain unassessed.
+
+
+## Source-limit claim report implementation — 15 October 2026
+
+Plan3af3052. Synthetic missing-module RED(exit2), focused GREEN89tests/189subtests
+3.59s. New opt-in candidate_claims helper and README; existing subject/context/
+engine/query/public contracts unchanged. Exact existing unresolved affected-claim
+matches yield not_established; unmatched claims stay unassessed, no positive support.
+Saved1430attempt sidecars/37controls pass independent verification:500T2limit refs,
+223absent-from-context traces,27catalogue bindings/413input hashes/14code digests.
+T1/U3 remain unassessed; no source-claim-labels/gold input, new encodings or source edits.
+Full offline suite is running and the single final independent review is underway.
+Next verify full result, commit product increment, resolve actual review findings
+under TDD if necessary, then final report/evidence seal/continuity closure.
+
+
 ## Source-limit claim boundary resumed — 15 October 2026
 
 Fresh85986fd reconciles checkpoint parent5cd5120; product5cd5120 and37-file seal

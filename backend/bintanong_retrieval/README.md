@@ -78,3 +78,20 @@ bindings only, not human approval, citations, source authenticity or requested
 claims. All results stay candidate-only/inactive with unknown claim coverage;
 subject matches do not verify a deadline, current year or payment method.
 The engine, SQL filters, public contracts and curriculum selectors are unchanged.
+
+`candidate_claims.build_candidate_claim_report(catalogue, chunks, *, subject_id,
+requested_claims, emitted_chunk_ids)` is a separate opt-in offline report.
+Trusted caller claim strings match existing unresolved
+`source_limits[].affected_claims` exactly. A match reports `not_established`;
+unmatched claims stay `unassessed`. No affirmative support outcome exists, and
+empty claims cannot establish coverage. A subject or assembled context alone
+does not answer a claim. The helper never consumes benchmark expectations.
+
+Source limitations are inspected across the selected subject snapshot even when
+their chunk was not retrieved. Copied limit records identify the source chunk and
+whether its literal ID was supplied as emitted; those IDs do not certify emitted
+text/citations. Missing context IDs mean unknown emission, not empty context.
+The existing subject catalogue validates complete current payload bindings.
+Malformed limitations and unknown/duplicate context IDs are rejected. Missing
+subjects/claims and unknown subjects remain explicit; no runtime gate, source
+content verification, NLP inference or institutional activation is implemented.
