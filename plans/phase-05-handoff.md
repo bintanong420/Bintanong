@@ -3,12 +3,44 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: feaa961
+final_commit: 5cd5120
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-15T18:48:35+08:00
+completed_at: 2026-10-15T21:53:06+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Candidate subject selection closed — 15 October 2026
+
+Product `5cd5120`, plan `3b7c549`: both bounded tasks are verified. With explicit
+researcher caller subjects, all six fee variants recover complete selected context
+at k=3/0.5/2048, versus one of six raw controls. Claim coverage stays unknown;
+deadline/current-year/GCash claims remain unestablished. This is conditional
+context recovery, not automatic NLP or a calibrated answer policy.
+
+Fresh parent checks: 47 tests/99 subtests (1.75s), phase ledger 19 tests (10.686s),
+486 direct replays/270 strategies/948 traces/43 citations/eight source-limit
+occurrences/375 prior hashes/11 code-file digests pass. The single final independent
+review reports no findings: fresh 80 tests/152 subtests (3.62s), separate source
+aliases/accepted-nine annotations/all 24 comparison rows verified. Previous unchanged
+product full-suite log confirms 5,323 tests/574 subtests (332.04s), six skips/six
+existing warnings, exit0; no repeat full suite, encodings or conversions.
+
+Report: `plans/2026-10-15-candidate-subject-selection-report.md`. A 37-file seal
+covers top-level diagnostic, resume and review evidence; pytest temporary directories
+are excluded. Manifest SHA256:
+d1063ecf6c29b3b7e0bc470682deb81bdf994145e09505d19af33d9f081c9223.
+Read-only `seal_evidence.py verify` in the new resume evidence root rechecks it.
+Never rerun writing scripts in these sealed roots. Owner artifact changes preserved.
+
+Next: design the requested-claim coverage boundary using reviewed fields/known
+limits and explicit trusted caller intent, separate from subject membership.
+Reuse accepted questions/saved vectors/raw and wrong-hint controls; preserve unknown
+curriculum/currentness. No automatic-NLP/source-authority/answer-accuracy claim,
+activation or Phase06. Formal Phase05 Tasks4/6 and source-governance exits remain open.
+This checkpoint records product HEAD5cd5120 before the following documentation
+closure commit; reconcile that expected parent-SHA difference on the next resume.
+
 
 Latest verified product feaa961 and approved-query observations are recorded in
 2026-10-15-approved-natural-query-evaluation-report.md. Full5286tests/510subtests

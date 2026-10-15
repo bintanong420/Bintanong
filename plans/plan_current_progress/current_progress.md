@@ -1,5 +1,54 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Candidate subject selection closed — 15 October 2026
+
+Product `5cd5120`, plan `3b7c549`: both bounded tasks are verified. With explicit
+researcher caller subjects, all six fee variants recover complete selected context
+at k=3/0.5/2048, versus one of six raw controls. Claim coverage stays unknown;
+deadline/current-year/GCash claims remain unestablished. This is conditional
+context recovery, not automatic NLP or a calibrated answer policy.
+
+Fresh parent checks: 47 tests/99 subtests (1.75s), phase ledger 19 tests (10.686s),
+486 direct replays/270 strategies/948 traces/43 citations/eight source-limit
+occurrences/375 prior hashes/11 code-file digests pass. The single final independent
+review reports no findings: fresh 80 tests/152 subtests (3.62s), separate source
+aliases/accepted-nine annotations/all 24 comparison rows verified. Previous unchanged
+product full-suite log confirms 5,323 tests/574 subtests (332.04s), six skips/six
+existing warnings, exit0; no repeat full suite, encodings or conversions.
+
+Report: `plans/2026-10-15-candidate-subject-selection-report.md`. A 37-file seal
+covers top-level diagnostic, resume and review evidence; pytest temporary directories
+are excluded. Manifest SHA256:
+d1063ecf6c29b3b7e0bc470682deb81bdf994145e09505d19af33d9f081c9223.
+Read-only `seal_evidence.py verify` in the new resume evidence root rechecks it.
+Never rerun writing scripts in these sealed roots. Owner artifact changes preserved.
+
+Next: design the requested-claim coverage boundary using reviewed fields/known
+limits and explicit trusted caller intent, separate from subject membership.
+Reuse accepted questions/saved vectors/raw and wrong-hint controls; preserve unknown
+curriculum/currentness. No automatic-NLP/source-authority/answer-accuracy claim,
+activation or Phase06. Formal Phase05 Tasks4/6 and source-governance exits remain open.
+Closure documentation: whitespace and current local links pass; phase validation
+exit0/can-advance exit1 (expected blocked). The 37-file seal verifies read-only.
+This checkpoint records product HEAD5cd5120 before the following documentation
+closure commit; reconcile that expected parent-SHA difference on the next resume.
+
+
+## Subject-selector closure resumed — 15 October 2026
+
+Fresh Git HEAD5cd5120 contains the verified helper/tests/README after plan3b7c549;
+checkpoint parent3b7c549 is reconciled. The untracked candidate-subject report is
+previous-agent work to finish, not discarded. Owner artifacts/.gitkeep deletion
+and backend/artifacts/ remain untouched. Read AGENTS, handoff skills, active plan/
+checkpoint, prior Phase04/blocked Phase05 handoffs, CLI handoff, master section10,
+scope/gap/dataset policies, thesis physical17–18 (printed16–17) and routingPNG.
+No scope/routing discrepancy: offline trusted metadata remains separate from NLP.
+Existing full-suite log confirms5323tests/574subtests,6skips/6warnings,332.04s,
+exit0; no product changes since that run. Resume exact unfinished Task2: fresh
+read-only replay/focused checks, one final independent review, report/evidence seal
+and current handoff pointers. No repeated encodings, conversions or settled reviews.
+
+
 ## Source-bound subject selector verified — 15 October 2026
 
 Full offline suite5323tests/574subtests passed332.04s,exit0,6skips/6existingwarnings. Subject helper/tests/README ready for product commit; single final independent review and diagnostic report/seal follow.

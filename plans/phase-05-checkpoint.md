@@ -2,16 +2,65 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 248
+sequence: 250
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3b7c549
-working_tree: candidate subject helper/tests/README and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T20:01:17+08:00
+head_commit: 5cd5120
+working_tree: six curated closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T21:53:06+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Candidate subject selection closed — 15 October 2026
+
+Product `5cd5120`, plan `3b7c549`: both bounded tasks are verified. With explicit
+researcher caller subjects, all six fee variants recover complete selected context
+at k=3/0.5/2048, versus one of six raw controls. Claim coverage stays unknown;
+deadline/current-year/GCash claims remain unestablished. This is conditional
+context recovery, not automatic NLP or a calibrated answer policy.
+
+Fresh parent checks: 47 tests/99 subtests (1.75s), phase ledger 19 tests (10.686s),
+486 direct replays/270 strategies/948 traces/43 citations/eight source-limit
+occurrences/375 prior hashes/11 code-file digests pass. The single final independent
+review reports no findings: fresh 80 tests/152 subtests (3.62s), separate source
+aliases/accepted-nine annotations/all 24 comparison rows verified. Previous unchanged
+product full-suite log confirms 5,323 tests/574 subtests (332.04s), six skips/six
+existing warnings, exit0; no repeat full suite, encodings or conversions.
+
+Report: `plans/2026-10-15-candidate-subject-selection-report.md`. A 37-file seal
+covers top-level diagnostic, resume and review evidence; pytest temporary directories
+are excluded. Manifest SHA256:
+d1063ecf6c29b3b7e0bc470682deb81bdf994145e09505d19af33d9f081c9223.
+Read-only `seal_evidence.py verify` in the new resume evidence root rechecks it.
+Never rerun writing scripts in these sealed roots. Owner artifact changes preserved.
+
+Next: design the requested-claim coverage boundary using reviewed fields/known
+limits and explicit trusted caller intent, separate from subject membership.
+Reuse accepted questions/saved vectors/raw and wrong-hint controls; preserve unknown
+curriculum/currentness. No automatic-NLP/source-authority/answer-accuracy claim,
+activation or Phase06. Formal Phase05 Tasks4/6 and source-governance exits remain open.
+Closure documentation: whitespace and current local links pass; phase validation
+exit0/can-advance exit1 (expected blocked). The 37-file seal verifies read-only.
+This checkpoint records product HEAD5cd5120 before the following documentation
+closure commit; reconcile that expected parent-SHA difference on the next resume.
+
+
+## Subject-selector closure resumed — 15 October 2026
+
+Fresh Git HEAD5cd5120 contains the verified helper/tests/README after plan3b7c549;
+checkpoint parent3b7c549 is reconciled. The untracked candidate-subject report is
+previous-agent work to finish, not discarded. Owner artifacts/.gitkeep deletion
+and backend/artifacts/ remain untouched. Read AGENTS, handoff skills, active plan/
+checkpoint, prior Phase04/blocked Phase05 handoffs, CLI handoff, master section10,
+scope/gap/dataset policies, thesis physical17–18 (printed16–17) and routingPNG.
+No scope/routing discrepancy: offline trusted metadata remains separate from NLP.
+Existing full-suite log confirms5323tests/574subtests,6skips/6warnings,332.04s,
+exit0; no product changes since that run. Resume exact unfinished Task2: fresh
+read-only replay/focused checks, one final independent review, report/evidence seal
+and current handoff pointers. No repeated encodings, conversions or settled reviews.
+
 
 ## Source-bound subject selector verified — 15 October 2026
 
@@ -737,6 +786,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: candidate-subject Tasks1/2 complete at5cd5120; final review no findings and37-file evidence seal verified. Finish the curated documentation commit, then design requested-claim coverage separately. Earlier entries below are history.
+
+Latest: finish Task2 of the candidate-subject plan at product5cd5120: fresh replay/focused/ledger checks pass; single independent review, evidence seal and curated report/continuity commit pending. Earlier tasks below are history.
 
 Latest: temporal-query observations/review/seal complete; bounded source-subject design/claim-coverage handling next; older current tasks below are history.
 
@@ -2537,6 +2590,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: HEAD5cd5120 is the verified product baseline before the following six-path documentation closure commit. Explicit paths: subject report, INDEX, CLI handoff, blocked Phase05 handoff, checkpoint and current progress. Owner artifacts/.gitkeep deletion/backend/artifacts/ remain untouched and unstaged.
+
+Latest verified HEAD5cd5120 on the existing isolated p05 worktree. Subject helper/tests/README committed by previous agent. Curated report and continuity documents are current work; owner artifacts/.gitkeep deletion and backend/artifacts/ remain untouched/unstaged.
+
 Baseline29f1410 verifies the prior six-path fee-binding documentation commit.
 Six current curated paths: AGENTS, G packet, CLI handoff, INDEX, checkpoint and
 current progress. Owner artifact changes preserved; no product or source edits.
@@ -2721,6 +2778,10 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest closure: single independent review no findings;80tests/152subtests3.62s,486replays/270strategies/948traces/43citations/8limits/375hashes/11codefiles and24comparison rows pass. Parent47/99 and phaseledger19 pass.37-file seal SHA256 d1063ecf6c29b3b7e0bc470682deb81bdf994145e09505d19af33d9f081c9223. See latest report for commands and evidence locations.
+
+Resume: read-only independent replay486prefixes/270decisions/948traces/43citations/8limits/375hashes/11codefiles passes; focused47tests/99subtests1.75s and phaseledger19tests10.686s pass. Previous unchanged-product fullsuite5323tests/574subtests332.04s exit0 confirmed from saved log; not rerun. Evidence: workspace/audit-evidence/p05-candidate-subject-resume-20261015/.
 
 Closure: one independent review nofindings,4390uncached builds/1710decisions /
 13681dependency checks pass;reviewer68tests/70subtests1.50s. Documentation472tests /
@@ -3698,6 +3759,10 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: after the documentation closure, design an offline requested-claim coverage boundary using reviewed fields/known limits and explicit trusted caller intent. Keep unknowns and unavailable/referral outcomes separate from subject relevance; reuse accepted questions/vectors and raw controls. No source/wording re-review, new encodings, blind cutoff, automatic NLP, activation or Phase06.
+
+Latest: complete the single final independent subject-selector review, seal the diagnostic/review/resume evidence and commit the report/continuity. Then design requested-claim coverage separately from source-subject membership, reusing accepted questions/saved vectors. No new encodings, threshold-only sweep, automatic NLP, activation or Phase06.
+
 Latest: prepare bounded reviewed source-subject design separate from claim support; no blind threshold/prefix selection. Earlier entries below are history.
 
 Latest: execute accepted temporal/unsupported evaluation preflight and nine new query encodings with existing27document vectors. No repeat wording/source review, activation or Phase06. Earlier entries below are history.
@@ -4266,6 +4331,10 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: candidate-subject code/TDD/fullsuite/saved-score diagnostic/final independent review and37-file evidence seal are complete. Do not repeat these checks unless files change or new evidence warrants it. Sealed scripts are read-only; use a new evidence root for subsequent work.
+
+Latest: subject-helper implementation/TDD/fullsuite and saved-score diagnostic already delivered at5cd5120. Fresh replay confirms375inputs/11codefiles unchanged. Preserve raw944attempts, existing vectors/conversions and settled owner decisions; do not rerun sealed writing scripts or reopen F/V/E/G03/U1/U2/accepted9/18/36 reviews.
 
 Do not rerun writing scripts in new sealed p05-fee-relationships-20261015 root.
 Do not redo66fee bindings, prior native headings, confirmed F1/V/E or settledsetup.
