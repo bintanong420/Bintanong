@@ -37,6 +37,14 @@
 
 ## Natural student questions and intended responses
 
+- Later15October2026 source follow-ups explicitly confirm U1's G2 II.B.1/3
+  PSU Security Services Unit office/context reading and selected student-vehicle
+  undergraduate research use, plus U2's confirmed special-class-example
+  undergraduate applicability with existing limits. Those selected prerequisites
+  supersede earlier U1held/U2unknown notes. Do not reopen them or infer a price,
+  replacement workflow, F04 digit answer or institutional/current-year approval.
+  See plans/2026-10-15-approved-natural-query-evaluation-plan.md and recorded events.
+
 - On15October2026 the owner explicitly approved the revised six scenarios/18
   English/Filipino/Taglish variants and continuation, referring to
   plans/2026-10-15-natural-query-review-proposal.md at bb57f66. Their wordings and

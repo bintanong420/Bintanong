@@ -1,5 +1,10 @@
 # Revised natural student-query proposal — 15 October 2026
 
+Later source follow-ups also confirm the selected U1office/context/undergraduate
+research use and U2undergraduate applicability with existing limits. See the
+approved-query evaluation plan. Earlier held-source notes remain history; exact
+18wordings and expectations stay unchanged.
+
 ## Owner approval — 15 October 2026
 
 The owner replied: “the revised questions i approve. now lets keep it going”.

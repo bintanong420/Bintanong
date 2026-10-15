@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Approved-query source follow-ups and codec plan — 15 October 2026
+
+Owner confirmed U1's G2 II.B.1/3 office/context reading plus undergraduate research
+use, and U2's undergraduate special-class applicability with existing limits.
+Exact replies recorded in new ignored p05-approved-natural-query-evaluation-20261015/
+owner-source-selection.json. This resolves those selected prerequisites only;
+F04held/G01G02unconfirmed/ASG23excluded and school authority remain unchanged.
+
+Plan:2026-10-15-approved-natural-query-evaluation-plan.md. Existing codec cannot
+represent an otherwise relevant clause's unstated consequential claim; bounded
+claim_not_stated vocabulary addition needs synthetic RED/GREEN before candidate
+admission. Then bind two office paragraphs, derive separate selected undergraduate
+U1/U2 candidates, preserve old unknown bundles, and evaluate all18approved queries
+with existing assets/vectors. Explicit researcher scope/acronym annotations are
+not automatic language interpretation; report them separately from vector metrics.
+Context thesis17–18/routing/master10 rechecked; no discrepancy. Owner artifacts
+preserved. No source activation/runtime/DB/Prolog/Phase06.
+
 ## Revised benchmark packet accepted — 15 October 2026
 
 Owner explicitly approved the revised questions and continuation: six scenarios /
