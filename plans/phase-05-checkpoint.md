@@ -2,16 +2,29 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 222
+sequence: 224
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 105666a
-working_tree: two raster code/test files and three ledger paths; owner artifacts preserved
-updated_at: 2026-10-15T17:25:00+08:00
+head_commit: 50405f5
+working_tree: curated raster report and review/ledger closure paths; owner artifacts preserved
+updated_at: 2026-10-15T17:16:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Bounded raster plan complete, product50405f5. Independent final review no findings,
+fresh72tests/127subtests and actual-source/event/range checks pass. No fix pass.
+Final selected mapping SIXfee amounts/three E01headings; F04 held pending actual
+owner .52/.62 answer, technical seven-field attempt quarantined.22raw files sealed,
+manifest56cba00e214837353a30747fa93aab65777786e876b0e4bc3d0e8f93d7ad754e.
+Source62hashes preserved; full5277tests/508subtests pass. Full Phase05 not complete.
+
+Product50405f5 verified5277tests/508subtests. Final current mapping has SIXfee
+amounts, F04 excluded before mapping pending focused .52/.62 reading; old seven
+technical mapping quarantined under pre-qa-mapping/. Three native E01headings bound.
+Fresh62original hashes pass; nine selected fields/0chunks/unknown scope preserved.
+See2026-10-15-original-raster-span-report.md. One independent final review running.
 
 Raster provenance implementation: RED13failed/41passed/72subtests, derived graph
 RED1failed; GREEN144passed/206subtests, full5277passed/508subtests,6skips/6warnings
@@ -311,6 +324,14 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Verified bounded handoff ready. Await focused F04 answer; apply in new evidence,
+preserve existing seal/confirmation. Continue remaining source bindings/explicit
+USGCSG preparation and separate new-question review. Technical raster plan finished.
+
+Finish independent raster review, record actual F04 answer if received, and seal
+bounded evidence. F04 source-content dependent work stays held; other confirmations
+settled. No new benchmark tests before separate wording acceptance.
 
 Execute plans/2026-10-15-original-raster-span-plan.md with synthetic RED/GREEN,
 related/full checks and one independent final review. Bind only confirmed fields
@@ -2061,6 +2082,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Verified product50405f5, baseline105666a on feat/p05-retrieval-logic. Only curated
+report/review/ledger closure changes; unrelated owner artifacts/.gitkeep deletion
+and untracked backend/artifacts/ preserved and never staged.
+
 Baseline029d031 on feat/p05-retrieval-logic. Curated intake report, benchmark
 proposal, dataset guide, INDEX, checkpoint, blockedhandoff and currentprogress only.
 Owner artifacts/.gitkeep deletion/untracked backend/artifacts remain unstaged.
@@ -2227,6 +2252,14 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Final independent reviewer no findings:72tests/127subtests, six photo/three native
+field checks.22file seal rehashed successfully. Report records full author suite,
+original62hashes, exact artifact digests and explicit upstream F04 hold.
+
+Raster RED13failed/41passed/72subtests and graph RED1failed; related144passed/
+206subtests; full5277passed/508subtests,6skips/6warnings,362.47s. Fresh actual six
+fee/three native bindings and62original hashes pass; F04 explicitly held upstream.
 
 Fresh62original SHA256checks pass; six vehicle groups preserved and15km/h selected
 exactly under owner decision, old20kph retained. No product tests for this source
@@ -2779,6 +2812,10 @@ Finalcode4912pytest/107subtests pass371.98s,6skips/6warnings,exit0;19phaseledger
 
 ## Versions and Digests
 
+Product50405f5. Fee-six mappingSHA4eb2312e10df1f303834e99c61ebfff09f444538b0e36694afee016220ab1917;
+native-threeSHA723eea9c50dfb5e29e09e33384d936d55ba5b1f13c05e07392bbb77f0fb0bf6f.
+Code/test digests and bindings in ignored rawroot/binding-verification.json.
+
 New13file inventory and twelve exact digests are bound in ignored
 p05-additional-source-intake-20261015/incoming-inventory.json and tracked report.
 Prior source hashes, original47file catalog, all model assets and sealed evidence
@@ -2854,6 +2891,16 @@ digests below are not fresh model checks for this offline recovery.
 Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,docling-parse7.22.2,Torch2.14.0,sentence-transformers6.1.0,transformers5.19.0,pytest9.1.1. Existing PostgreSQL17.6/vector0.8.2. SEA-LION remains under MODELS, freshly verified weights SHA-256 df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1 and tokenizer883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085. Five separately approved Docling assets in workspace cache, exact immutable commits/digests in readiness report. System interpreter and repository dependencies untouched.
 
 ## Decisions
+
+Final Ruling: declined human digit reading/authority/currentness/full-source review/
+admission/benchmarks/activation/phase completion remain separate gates, rather than
+being inferred from code review. Reviewer .62 impression versus author .52 is
+unresolved; actual owner decision required for only F04. No deferred code minors.
+
+Hold only F04 after newly observed printed-digit discrepancy; original .62 proposal
+and confirmation preserved, .52 not silently substituted. Raw seven-field technical
+attempt quarantined; other six fee fields verified. Plan/report record external
+evidence-location and PDF/helper compatibility rulings. Final review pending.
 
 Owner confirmsV01–V06 and selects newer memo15km/h forV06 in provisional
 undergraduate research responses. Use15with its memo/source/date and owner rationale;
@@ -2943,6 +2990,13 @@ Ruling: pin active release in a single STABLE invoker RPC; stale pins return rel
 Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its synthetic fallback and network loading. Mock encoders are explicit test-only injections.
 
 ## Known Failures or Blockers
+
+Final code review finished with no findings. F04 focused digit decision pending;
+other E/V/F1 decisions remain settled. Prior review-pending entries are history.
+
+Focused F04 photo reading .52 versus earlier .62 awaits actual owner decision.
+Independent review not finished. New18question wordings unaccepted/untested;
+source governance/calibration/formal Phase05 exits remain open.
 
 CURRENT: focused new source review and proposed benchmark-wording acceptance
 are pending; school governance/formal exits remain separate. Native console Unicode
@@ -3037,6 +3091,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Apply actual F04 answer to separate new evidence; do not mutate the22file seal.
+Continue other source fields/explicit USGCSG review and exact new benchmark wording
+acceptance before any new query tests. No Phase06 advancement.
+
+Finish final review and bounded report/seal; apply only actual focused F04 answer.
+Then continue remaining source bindings/explicit USGCSG review and present exact
+new benchmark wordings before testing. Do not reopen settled E/V/other F1 fields.
 
 Execute plans/2026-10-15-original-raster-span-plan.md with synthetic RED/GREEN,
 related/full checks and one independent final review. Bind only confirmed fields

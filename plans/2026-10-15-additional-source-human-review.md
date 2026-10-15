@@ -1,5 +1,12 @@
 # Additional sources: human verification
 
+Latest binding QA: E01–E04 confirmed; F1/V remain settled. One focused F04
+transcription discrepancy needs a new decision: photo crop appears41,666.52 versus
+the earlier accepted41,666.62 below. Preserve that proposal/history and hold F04
+before mapping pending actual answer. Six other fee amounts and three E01native
+headings are bound; [coverage and evidence](2026-10-15-original-raster-span-report.md).
+No other F1/V/E review reopens;19selected groups are not a complete source audit.
+
 Owner decision,15October2026: keep the supplied student-related additions, proceed
 with the recommendation, and actively involve the human in verifying the data.
 The source-retention decision is settled; do not ask whether to keep them again.

@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Bounded raster plan finished at product50405f5: full5277tests/508subtests; independent
+review no findings/fresh72tests127subtests. Six fee amounts/three native E01headings
+bound, F04 held for actual owner .52/.62 decision, initial attempt quarantined.
+22raw files sealed, manifest56cba00e214837353a30747fa93aab65777786e876b0e4bc3d0e8f93d7ad754e;
+all62original hashes preserved. No chunks/activation. Reviewer favors .62 versus
+author .52; neither substitutes for human answer. Other F1/V/E remain settled.
+Next apply actual F04 answer in separate evidence, continue other source bindings/
+explicit USGCSG preparation, then exact new18question review before testing.
+Report2026-10-15-original-raster-span-report.md contains coverage/digests/rulings.
+
+Current product50405f5 committed; independent review running. Usable photo mapping
+is SIXamounts: F04 excluded pending focused .52/.62 owner answer; initial seven-field
+technical attempt preserved/quarantined. Three native E01headings bound. Fresh62
+original hashes pass. Report2026-10-15-original-raster-span-report.md gives exact
+coverage/limits/digests. Next finish review/seal and actual F04 decision; no repeated
+E/V/otherF1 questions, new query testing or activation.
+
 Raster provenance implementation passes144related tests/206subtests and the full
 5277tests/508subtests (6skips/6warnings,362.47s). RED13failed/41passed and derived
 graph RED1failed recorded before correction. Optional original_raster_image validates

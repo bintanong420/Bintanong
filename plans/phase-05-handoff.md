@@ -3,12 +3,23 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: f5e1a65
+final_commit: 50405f5
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
 completed_at: 2026-10-15T00:18:59+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Current product50405f5: optional truthful original-raster mapping, exact default
+PDF compatibility, related144tests/206subtests/full5277tests/508subtests pass.
+Six fee amount fields and three native E01headings bound; F04 withheld upstream
+for newly observed .52/.62 transcription discrepancy, focused owner question pending.
+Other confirmations remain settled. Fresh62source hashes pass; no chunks/activation.
+See2026-10-15-original-raster-span-report.md for coverage/digests/limits. Final review
+no findings, fresh72tests/127subtests;22raw files sealed with manifest
+56cba00e214837353a30747fa93aab65777786e876b0e4bc3d0e8f93d7ad754e.
+New18benchmark wordings remain unaccepted/untested. Formal Phase05 blocked. F04
+answer, when received, needs separate new evidence; never mutate this seal.
 
 Owner `Confirm E` settlesE01–E04. F1/V/E19selected groups now confirmed; no
 whole-source audit or school approval inferred. Enrollment derivativeSHA256:
