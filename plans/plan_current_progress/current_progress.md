@@ -1,5 +1,34 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Scoped curriculum observations verified — 15 October 2026
+
+Plan `f6fe933`, product `232a418` unchanged. Separate curriculum catalogue binds
+27 chunks, eight curriculum rows/six program-version subjects; original policy
+catalogue unchanged. All eight source rows/46 fields/113 spans, six original PDF
+hashes and existing owner-event bindings verified via recorded dataset relocation.
+Four full-row reviews: 22 fields/51 spans. Reviews hash:
+`eea843e02179fd50c1c543dfc2e23a38d7a3b2f89727ff1f73db60c902d516fd`.
+
+All 360 saved-prefix sidecars/720 reports independently checked; 4,070 field
+occurrences, five context byte hashes/copied token counts, 24 focus entries,
+32 structural controls, six BSCS clarification controls, six existing curriculum
+checks, 537 prior hashes, 15 source/11 observation bindings and 16 code digests
+match. At k3/.5/2048, both strategies retain all 12 printed rows; caller reports
+are six field-available/six unassessed. Architecture/Nursing eligibility and the
+NURS MC2-to-Biochemistry name mapping remain unassessed; no rule or new source
+absence finding. Across all prefixes printed216available/144missing; caller108
+available/108unassessed/144missing. All answer sufficiency unassessed.
+
+No source-content decision or product change needed. Prior question/metric exposure
+explicit; not a blind test. Existing exact 18 curriculum identities unchanged,
+six unknown BSCS get no subject/report. Current63-case history now has39distinct
+variants with source-claim observations/24without, not an answer-success count.
+Fresh focused claim/subject/curriculum/context regressions: 99 tests/236 subtests in 4.00s, exit 0. Documentation/ledger: 489 tests/11 subtests in 14.52s, exit 0. Phase validation, local links and whitespace pass. Prior/new identity union independently confirms39variants with source-claim observations,24without.
+Report: plans/2026-10-15-curriculum-claim-coverage-report.md. Next one final independent
+review and seal; then existing U1/U2 exact-claim sidecars.
+No new retrieval, context assembly, embedding, conversion or settled review.
+
+
 ## Scoped curriculum claim contract resumed — 15 October 2026
 
 Fresh `16634ba` reconciles checkpoint parent `fcf90bd`; unchanged product `232a418`.

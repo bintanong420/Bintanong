@@ -2,16 +2,45 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 270
+sequence: 272
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 16634ba
-working_tree: curriculum coverage plan/checkpoint/progress; owner artifact changes preserved
-updated_at: 2026-10-15T23:19:49+08:00
+head_commit: f6fe933
+working_tree: curriculum observation report/checkpoint/progress; owner artifact changes preserved
+updated_at: 2026-10-15T23:26:42+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Scoped curriculum observations verified — 15 October 2026
+
+Plan `f6fe933`, product `232a418` unchanged. Separate curriculum catalogue binds
+27 chunks, eight curriculum rows/six program-version subjects; original policy
+catalogue unchanged. All eight source rows/46 fields/113 spans, six original PDF
+hashes and existing owner-event bindings verified via recorded dataset relocation.
+Four full-row reviews: 22 fields/51 spans. Reviews hash:
+`eea843e02179fd50c1c543dfc2e23a38d7a3b2f89727ff1f73db60c902d516fd`.
+
+All 360 saved-prefix sidecars/720 reports independently checked; 4,070 field
+occurrences, five context byte hashes/copied token counts, 24 focus entries,
+32 structural controls, six BSCS clarification controls, six existing curriculum
+checks, 537 prior hashes, 15 source/11 observation bindings and 16 code digests
+match. At k3/.5/2048, both strategies retain all 12 printed rows; caller reports
+are six field-available/six unassessed. Architecture/Nursing eligibility and the
+NURS MC2-to-Biochemistry name mapping remain unassessed; no rule or new source
+absence finding. Across all prefixes printed216available/144missing; caller108
+available/108unassessed/144missing. All answer sufficiency unassessed.
+
+No source-content decision or product change needed. Prior question/metric exposure
+explicit; not a blind test. Existing exact 18 curriculum identities unchanged,
+six unknown BSCS get no subject/report. Current63-case history now has39distinct
+variants with source-claim observations/24without, not an answer-success count.
+Fresh focused claim/subject/curriculum/context regressions: 99 tests/236 subtests in 4.00s, exit 0. Documentation/ledger: 489 tests/11 subtests in 14.52s, exit 0. Phase validation, local links and whitespace pass. Prior/new identity union independently confirms39variants with source-claim observations,24without.
+Report: plans/2026-10-15-curriculum-claim-coverage-report.md. Next one final independent
+review and seal; then existing U1/U2 exact-claim sidecars.
+No new retrieval, context assembly, embedding, conversion or settled review.
+
 
 ## Scoped curriculum claim contract resumed — 15 October 2026
 
@@ -1159,6 +1188,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: scoped curriculum source/caller contract and 360 saved-prefix observations verified with unchanged product; single final review and seal next.
 
 Latest: factual 63-variant coverage consolidation verified, independently reviewed and sealed. Finish six-path closure, then design the four-scenario/12-variant curriculum source-claim contract.
 
@@ -4165,6 +4196,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: final independent curriculum review, raw seal and closure; then reuse existing U1/U2 declared limits in exact-claim sidecars. Preserve unassessed Architecture/Nursing claims and unknown BSCS clarification.
 
 Latest: design separate curriculum source-claim contract for four already-scoped scenarios/12 variants. Reuse reviewed fields, existing selectors and saved wordings/vectors; preserve six BSCS curriculum clarifications and current policy catalogue eight unassigned rows. No product extension presumed.
 
