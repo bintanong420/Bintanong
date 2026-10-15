@@ -142,6 +142,19 @@ The latest cleanup/resume record is
   are in study scope even if staff also use the service. No new memo has been
   supplied or approved; retain the existing university Charter and review actual
   new source audience/content/effectivity at intake.
+- On 15 October 2026 the owner supplied and chose to retain the student-facing
+  vehicle/gatepass, special-class-fee and enrollment additions, plus USG
+  Constitution/election material, for provisional undergraduate review. This
+  supersedes the older no-memo-received note and interim advice to defer them.
+  Do not reopen retention or exclude a source solely for image quality or year.
+  Use the human to confirm difficult/consequential fields in short batches;
+  unreadable/cropped content remains a documented gap. Retention does not approve
+  all transcriptions, benchmark wordings, school authority or activation. Start
+  from `plans/2026-10-15-additional-source-human-review.md` and the current checkpoint.
+- The owner reports that CSG constitutions pattern/reference the USG Constitution.
+  Preserve the statement as reported. Use only reviewed explicit CSG provisions
+  in the supplied USG source; do not infer unsupplied college-specific rules or
+  claim separate college constitutions have been acquired.
 - Continue authorized work until a new human source-content decision is genuinely
   needed, the task is finished, or a verified progress checkpoint is ready for handoff.
   Record decisions/results/next action in this repository. Reuse completed setup,

@@ -2,9 +2,11 @@
 
 Date: 15 October 2026. Phase05, baseline `029d031`.
 **Draft for owner wording/expected-behavior review. NOT TESTED.**
-Owner subsequently paused supplemental-source intake to consider retaining the
-Handbook/Charter policy baseline. U1/U2 below are conditional proposals and stay
-deferred while that boundary is considered; no acceptance or test is inferred.
+Latest owner15October retention decision keeps the supplemental sources for review.
+U1/U2 source preparation may resume after the necessary field-level human decisions;
+the retention decision is not acceptance of these proposed question wordings.
+The earlier pause to consider a two-PDF policy baseline is historical and superseded
+by the retention decision. U1/U2 still await reviewed evidence and wording acceptance.
 These six scenarios / eighteen English, Filipino and Taglish variants are proposed
 additions. They do not replace or relabel the accepted12 scenarios /36 variants.
 No new query vectors, scores, gold files or thresholds have been generated.

@@ -10,6 +10,24 @@ completed_at: 2026-10-15T00:18:59+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Owner retention decision15October is settled: keep the added student-facing
+vehicle/fee/enrollment sources and student-government material for provisional
+undergraduate review. Low-quality fields require human checks, not invented text.
+First concise packet:plans/2026-10-15-additional-source-human-review.md, F01–F09;
+question presented with original photo and proposed unit/hour/amount readings.
+No field answer received yet. Existing V/E reviews follow in short batches; no
+retention/old accepted-row review needs reopening. CSGpattern claim recorded as
+owner-reported; USGArticleXIV19/21 supports consistent local rules, not identical
+unsupplied college constitutions. All62source hashes unchanged; originals kept.
+Actual thesis17–18/routingPNG/master10 reread; no scope/routing discrepancy.
+No source-derived candidate, embedding, new query test, DB/runtime or activation.
+
+Await F1 human response; record exact accepted/corrected/unreadable IDs once,
+then derive only accepted fields with source identity/region and original limits.
+After that present vehicle/enrollment batches and prepare explicit USGCSG review.
+The earlier source-retention pause is superseded. New18question wordings remain
+unaccepted/untested; school verification stays under the existing deferral.
+
 Student-government inventory15October: two new PDFs are present:2023Tiniguiban
 USGConstitution34pages and OmnibusElectionCode21pages. No separate college-specific
 CSGconstitution file found in dataset; USGArticleXIV(physical17–21) supplies general

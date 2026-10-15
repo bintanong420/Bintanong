@@ -7,6 +7,20 @@ material and authorized excluding enrollment data only when it is actually
 redundant. This report records source observations and review proposals, not
 approved transcriptions, current university guidance or active retrieval candidates.
 
+## Settled retention decision and current review
+
+Owner15October2026: "ok keep them i guess"; agrees with the recommendation and
+explicitly requests human help verifying data because image quality is a concern.
+Retain the supplied student-related supplements for bounded undergraduate review;
+do not reopen retention or exclude them solely for differing years/low image quality.
+This supersedes the earlier pending corpus-choice/deferral recommendation below.
+It does not confirm every transcription, establish every document's current-year
+validity or activate a corpus. [Short human verification packet](2026-10-15-additional-source-human-review.md)
+starts withF1seven fee rows/rate/date/effectivity, then vehicle/enrollment batches.
+Unreadable fields remain unresolved; original cutoffs/conflicts remain attached.
+The CSG pattern/reference claim is owner-reported; the USG's explicit CSG clauses
+can be reviewed, but no unsupplied college-specific rules are inferred.
+
 ## Owner pause and source-boundary recommendation
 
 Latest clarification after the owner added USG material: differing publication

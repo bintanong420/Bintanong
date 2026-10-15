@@ -1,0 +1,88 @@
+# Additional sources: human verification
+
+Owner decision,15October2026: keep the supplied student-related additions, proceed
+with the recommendation, and actively involve the human in verifying the data.
+The source-retention decision is settled; do not ask whether to keep them again.
+Baseline `1a949ab`. This decision does not confirm the transcription of every
+image, new benchmark wording, current-year institutional validity or activation.
+
+Images stay unchanged. Review each listed field against the linked original.
+Reply `confirm F1`, or corrections such as `F03 = ...`; `unreadable F03` is valid.
+Confirm only what is visible. We will retain unreadable or cropped portions as
+limitations rather than ask you to reconstruct missing source content.
+
+## First batch: F1 special-class calculations
+
+[Open the original fee photograph](<../dataset/Misc. Student related procedures/SPECIAL CLASS FEE/2023/IMG_20250127_150005.jpg>).
+Original SHA256:
+`d35323d042e730038f6cc0401d2c294654f8158c68d86a6e17308df80ff5bf94`.
+Review region: central calculation column, from the three-unit lecture example
+through the final one-unit laboratory example, with its top date/effectivity text.
+The entries below are proposed readings, not accepted institutional assessments.
+
+| ID | Lecture units / lab units as printed | Lecture hours | Lab hours | Lab conversion | Equivalent hours | Printed PHP amount |
+| --- | --- | ---: | ---: | --- | ---: | ---: |
+| F01 |3 lecture; lab not shown |54 |not shown |not shown |54 |20,000.00 |
+| F02 |2 lecture /1 lab |36 |54 |54 x .75 =40.5 |76.5 |28,333.30 |
+| F03 |3 lecture /1 lab |54 |54 |54 x .75 =40.5 |94.5 |34,999.96 |
+| F04 |4 lecture /1 lab |72 |54 |54 x .75 =40.5 |112.5 |41,666.62 |
+| F05 |3 lecture /2 lab |54 |108 |108 x .75 =81 |135 |49,999.95 |
+| F06 |1 lecture /1 lab |18 |54 |54 x .75 =40.5 |58.5 |21,666.64 |
+| F07 |lecture not shown /1 lab |not shown |54 |54 x .75 =40.5 |40.5 |14,999.98 |
+
+F08: the printed rate is **PHP370.37/hour**. Lecture weekly hours are3,2,3,4,3,1
+forF01–F06; laboratory weekly hours are3,3,3,6,3,3forF02–F07.
+F09: the date reads **4August2023**; the opening cites **BORResolution40,s.2023**
+and effectivity **first semesterSY2023–2024**. Recipient: all college deans.
+Please confirm or correct these together with the seven rows if legible.
+
+Treatment already required by source-gap policy: keep printed sums and arithmetic
+as printed, including rounding differences. Blank/not-shown fields are not zeros.
+The bottom "Noted" acknowledgement is cut off in the original photograph. The
+visible text does not establish how an individual student's bill is calculated
+from the printed figures; do not silently divide by class size. Current-year
+effectivity and source verification remain pending. An F1 confirmation covers
+these listed readings only, not absent signature text, all fee policy or release.
+
+## Following batches: existing proposed readings, still pending
+
+The full comparisons and original links remain in
+[the intake report](2026-10-15-additional-source-intake-report.md).
+We will request the next short batch after the first response rather than require
+another whole-source audit. Earlier V/F/E questions were not answered by the
+general decision to retain these sources; preserve any actual field-level answer.
+
+- **V1/V2:** vehicle P50application payment, driver's-license/student-permit
+  distinction, one-year non-transferable pass, replacement amount unspecified,
+  and the15km/hr versus handbook20kph discrepancy. Confirm exact readings without
+  choosing the governing speed or approving the entire memo/penalty scheme.
+- **E1/E2:** retain unique incoming/continuing enrollment instructions and cohort
+  labels; confirm apparent clinic/enrollment timing ambiguity and the original
+  continuing PDF's missing Step2. Do not append the unavailable step or claim
+  these files repair the known Charter103cutoff.
+
+## CSG claim and source-supported boundary
+
+Owner reports that CSG constitutions pattern/reference the USG Constitution.
+Record this as a reported relationship; do not treat it as possession of separate
+college constitutions or proof all local rules are identical. The supplied2023
+USGConstitution, ArticleXIV, provides CSG provisions. Physical19, Section3.iii,
+permits internal rules/policies that are not inconsistent with that constitution;
+physical21, Section5, also discusses college legislative rules/resolutions.
+The named source can support its explicit CSG provisions after review. A college's
+unsupplied local rule or different implementation remains unknown.
+See [USG physical19 original-page render](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-student-government-inventory-20261015/THE-2023-TINIGUIBAN-USG-Constitution (2)-p19.png>).
+USG SHA256: `b40cca9e22d8f30dc9e48b684aa179a2f666ef1aef325c8132d170ec80b8d68d`.
+No separate college-specific CSG constitution was found in the current dataset.
+
+## Execution boundary
+
+While a review is pending, complete source identity/quality checks and independent
+technical work. After each human response, record the exact decision once and
+derive only the accepted fields with their original image/page/region and retained
+limits. No vague whole-document approval, invented text or repeated OCR variants.
+No new embeddings/scoring or candidate admission precedes those dependencies.
+The six proposed benchmark scenarios still require their separate wording review;
+the retention decision does not approve18new questions. Reuse all accepted12/36
+questions and saved vectors. Source authority, activation and Phase05exit retain
+their standing gates; no new school-letter request is needed here.

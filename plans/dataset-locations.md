@@ -1,5 +1,17 @@
 # Dataset locations and relocation
 
+## Current source-retention decision — 15 October 2026
+
+The owner keeps the added student-related memos, fees, enrollment material and
+student-government sources for provisional undergraduate review. Poor image
+quality is handled per field with human verification and recorded unreadable/cropped
+limits, not by inventing text or silently deleting whole sources. Retention is
+settled and supersedes the interim proposal to defer them solely to retain a two-PDF
+policy baseline. Start [the short verification packet](2026-10-15-additional-source-human-review.md)
+atF1; no source-content readings/new question wordings or school verification are
+approved merely by this retention decision. Keep the source facts/current-year
+effectivity and runtime activation states separate.
+
 ## Student-government files observed — 15 October 2026
 
 Two additional originals are now present under

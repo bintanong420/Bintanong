@@ -2,16 +2,34 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 217
+sequence: 218
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 66bfd33
-working_tree: six curated inventory/advice/ledger documents; owner artifacts preserved
-updated_at: 2026-10-15T08:32:24+08:00
+head_commit: 1a949ab
+working_tree: ten curated retention/review/ledger paths; owner artifacts preserved
+updated_at: 2026-10-15T08:38:48+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner retention decision15October is settled: keep the added student-facing
+vehicle/fee/enrollment sources and student-government material for provisional
+undergraduate review. Low-quality fields require human checks, not invented text.
+First concise packet:plans/2026-10-15-additional-source-human-review.md, F01–F09;
+question presented with original photo and proposed unit/hour/amount readings.
+No field answer received yet. Existing V/E reviews follow in short batches; no
+retention/old accepted-row review needs reopening. CSGpattern claim recorded as
+owner-reported; USGArticleXIV19/21 supports consistent local rules, not identical
+unsupplied college constitutions. All62source hashes unchanged; originals kept.
+Actual thesis17–18/routingPNG/master10 reread; no scope/routing discrepancy.
+No source-derived candidate, embedding, new query test, DB/runtime or activation.
+
+Await F1 human response; record exact accepted/corrected/unreadable IDs once,
+then derive only accepted fields with source identity/region and original limits.
+After that present vehicle/enrollment batches and prepare explicit USGCSG review.
+The earlier source-retention pause is superseded. New18question wordings remain
+unaccepted/untested; school verification stays under the existing deferral.
 
 Student-government inventory15October: two new PDFs are present:2023Tiniguiban
 USGConstitution34pages and OmnibusElectionCode21pages. No separate college-specific
@@ -227,6 +245,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Await F1 human response; record exact accepted/corrected/unreadable IDs once,
+then derive only accepted fields with source identity/region and original limits.
+After that present vehicle/enrollment batches and prepare explicit USGCSG review.
+The earlier source-retention pause is superseded. New18question wordings remain
+unaccepted/untested; school verification stays under the existing deferral.
 
 Owner paused supplemental intake to ask whether the existing Handbook2021/Charter2025
 policy baseline is preferable. Owner reports staff said no big changes; this is
@@ -2121,6 +2145,9 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Fresh62source SHA256checks pass;47prior+13supplements+2government files.
+Fee9field groups pending, zero confirmed; no tests of new questions or product changes.
+
 Fresh intake verification: all47baseline files and13new originals hash-match;
 13paths/12unique incoming hashes; six proposals/eighteen variants and zero new query
 tests. Phase-state regressions19passed/11subtests in12.78s (exit0), using authorized
@@ -2737,6 +2764,18 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Owner retention decision15October is settled: keep the added student-facing
+vehicle/fee/enrollment sources and student-government material for provisional
+undergraduate review. Low-quality fields require human checks, not invented text.
+First concise packet:plans/2026-10-15-additional-source-human-review.md, F01–F09;
+question presented with original photo and proposed unit/hour/amount readings.
+No field answer received yet. Existing V/E reviews follow in short batches; no
+retention/old accepted-row review needs reopening. CSGpattern claim recorded as
+owner-reported; USGArticleXIV19/21 supports consistent local rules, not identical
+unsupplied college constitutions. All62source hashes unchanged; originals kept.
+Actual thesis17–18/routingPNG/master10 reread; no scope/routing discrepancy.
+No source-derived candidate, embedding, new query test, DB/runtime or activation.
+
 Owner supplied vehicle/gatepass, special-class fee and enrollment data15October;
 exclude enrollment only if actually redundant. Targeted original comparison finds
 unique content in both cohorts; preserve dated scope, exact duplicate aliases,
@@ -2893,6 +2932,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Await F1 human response; record exact accepted/corrected/unreadable IDs once,
+then derive only accepted fields with source identity/region and original limits.
+After that present vehicle/enrollment batches and prepare explicit USGCSG review.
+The earlier source-retention pause is superseded. New18question wordings remain
+unaccepted/untested; school verification stays under the existing deferral.
 
 Owner paused supplemental intake to ask whether the existing Handbook2021/Charter2025
 policy baseline is preferable. Owner reports staff said no big changes; this is
