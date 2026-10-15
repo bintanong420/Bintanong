@@ -9,6 +9,18 @@ approved transcriptions, current university guidance or active retrieval candida
 
 ## Owner pause and source-boundary recommendation
 
+Latest clarification after the owner added USG material: differing publication
+years do not themselves make a source set inconsistent. A2021handbook,2023USG
+constitution and2025Charter can coexist if their applicable scope/version is
+recorded; a memo's date is not a reason to exclude it. The earlier recommendation
+to defer optional memos concerns bounded review/evaluation work, not requiring all
+sources to share a year. Public availability limits the claims a frozen research
+snapshot can support; it does not establish every old clause is currently unchanged.
+Any known contradictory or updating evidence must remain documented, even when it
+is outside the scored snapshot. Newly received USG constitution/OmnibusElectionCode
+are inventoried separately in dataset-locations.md; no college-specific CSG
+constitutions or source activation are inferred from their general CSG provisions.
+
 After the initial review packet was prepared, the owner asked to pause and assess
 whether supplemental sources are necessary. The owner reports a staff statement
 that there are no big changes from the2021handbook and2025Charter to current use.

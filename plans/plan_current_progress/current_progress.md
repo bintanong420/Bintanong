@@ -1,5 +1,18 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Student-government inventory15October: two new PDFs are present:2023Tiniguiban
+USGConstitution34pages and OmnibusElectionCode21pages. No separate college-specific
+CSGconstitution file found in dataset; USGArticleXIV(physical17–21) supplies general
+CSGprovisions and the code opening includes USG/CSGelections. This is partial
+CSG-related coverage, not collected constitutions for all colleges. Covers and
+relevant article visually inspected; hashes/page counts are in dataset-locations.md
+and ignored p05-student-government-inventory-20261015/source-inventory.json.
+62local files now; these sources remain unreviewed/unembedded/inactive.
+Advice clarified: mixed source publication years are normal; consistency depends
+on applicability and resolving contradictory/superseded clauses. Deferring optional
+memos controls review scope, not date uniformity. Owner is still considering the
+source boundary; no corpus-selection or question acceptance decision inferred.
+
 Owner paused supplemental intake to ask whether the existing Handbook2021/Charter2025
 policy baseline is preferable. Owner reports staff said no big changes; this is
 not independently verified item-level equivalence. Recommendation: freeze the

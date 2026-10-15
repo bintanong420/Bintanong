@@ -2,16 +2,29 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 216
+sequence: 217
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 029d031
-working_tree: seven curated intake/review/ledger documents; owner artifacts preserved
-updated_at: 2026-10-15T08:23:41+08:00
+head_commit: 66bfd33
+working_tree: six curated inventory/advice/ledger documents; owner artifacts preserved
+updated_at: 2026-10-15T08:32:24+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Student-government inventory15October: two new PDFs are present:2023Tiniguiban
+USGConstitution34pages and OmnibusElectionCode21pages. No separate college-specific
+CSGconstitution file found in dataset; USGArticleXIV(physical17–21) supplies general
+CSGprovisions and the code opening includes USG/CSGelections. This is partial
+CSG-related coverage, not collected constitutions for all colleges. Covers and
+relevant article visually inspected; hashes/page counts are in dataset-locations.md
+and ignored p05-student-government-inventory-20261015/source-inventory.json.
+62local files now; these sources remain unreviewed/unembedded/inactive.
+Advice clarified: mixed source publication years are normal; consistency depends
+on applicability and resolving contradictory/superseded clauses. Deferring optional
+memos controls review scope, not date uniformity. Owner is still considering the
+source boundary; no corpus-selection or question acceptance decision inferred.
 
 Additional student sources inspected:13files/12distinct hashes; five vehicle
 images, one2023special-class fee photo, six incoming enrollment images(one exact

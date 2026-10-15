@@ -1,5 +1,27 @@
 # Dataset locations and relocation
 
+## Student-government files observed — 15 October 2026
+
+Two additional originals are now present under
+`dataset/Student Government Constitutions and Election Code/`:
+
+| File | Pages | SHA-256 |
+| --- | ---: | --- |
+| `THE-2023-TINIGUIBAN-USG-Constitution (2).pdf` |34 | `b40cca9e22d8f30dc9e48b684aa179a2f666ef1aef325c8132d170ec80b8d68d` |
+| `The-PALAWAN-STATE-UNIVERSITY-Omnibus-Election-Code-1.pdf` |21 | `c46652fe52889425458cf52b1566fe2cd85234831080c137ce0cac77e1688f9e` |
+
+The constitution cover prints2023/TiniguibanCampus and ratification15November2023.
+ArticleXIV, physical17–21, addresses College Student Government. The election code
+opening explicitly includes USG and CSG elections. No separate college-specific
+CSG constitution file was found in the current dataset. This is partial CSG-related
+source coverage, not evidence that every college constitution has been collected.
+The handbook70–76 also contains student-government references/general provisions,
+not an identified set of separate college constitutions. These two newly observed
+PDFs are inventoried/read-only; neither is reviewed, embedded or active. There are
+now62local dataset files, including the earlier60file inventory, not62approved
+documents. Raw hashes/native inspection/covers remain ignored under
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-student-government-inventory-20261015/`.
+
 ## Added student procedures received — 15 October 2026
 
 The owner supplied13files (12distinct byte hashes) at repository-root
