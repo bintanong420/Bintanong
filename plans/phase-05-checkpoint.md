@@ -2,16 +2,46 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 260
+sequence: 262
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d70cb2f
-working_tree: positive-policy review plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:36:08+08:00
+head_commit: f5a9dd5
+working_tree: policy observation report and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T22:45:56+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Accepted policy observations independently verified — 15 October 2026
+
+Planf5a9dd5/product232a418 unchanged. Ruling: include SIXexisting policy scenarios/
+18variants, correcting plan15count; preserve both pre-enrollment questions. Initial
+source-only register/audit13chunks37fields39spans frozen before cases. Separate
+query-informed development derivative adds first-step whole-record field refs,
+not gold IDs; initial324unassessed comparisons preserved. No new source value or
+owner approval. Refined9-review register5f9529469ced09a1592d6fcad396eff5a4f5a124d2d322b621a991c41753068c.
+1944sidecars:1164fieldavailable/132missingcontext/648knownlimits. Atk3/.5/2048
+allprimaries and savedexperimentalprefix both12fieldavailable/6knownlimits;
+assemblygap cases12vs0, no automaticanswer/NLP/calibration claim. Independent8748
+fieldoccurrences/1944limittraces/19contexts266citations/108controls/21probes/
+480priorhashes/7inputhashes/15unchangedcodefiles pass. Focused99tests/236subtests
+3.65s exit0. No fullsuite/native retry or new embeddings. Next single independent
+review, report/evidence seal and closure; source helper/engine unchanged.
+
+
+## Positive-policy case-count correction — 15 October 2026
+
+Source-only audit frozen:13chunks/37fields/39spans, five new reviews plus three
+prior controls, registerd6fc9cf9f76f56a1e9a03930cf8999dd91d155f6883546fbf9181139fb2cf55e;
+480preservedhashes/15codefiles pass. Only afterward inspected saved case catalogue.
+Ruling: five policy subjects contain SIXaccepted scenarios, with distinct first-
+step/missing-ending pre-enrollment cases; include all18variants, correcting plan's
+15count without changing any wording/approval/source data. Keep frozen full-group
+reviews; do not silently derive field refs from inspected gold IDs. Caller claims
+must match each actual utterance; report review granularity/unknowns honestly.
+No code change or source-content decision needed; no fullsuite/new embeddings.
+
 
 ## Accepted positive-policy source review resumed — 15 October 2026
 
