@@ -2,16 +2,58 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 255
+sequence: 258
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d2906ca
-working_tree: source-claim review plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T22:14:11+08:00
+head_commit: f9adcd6
+working_tree: claim review helper/tests/README and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T22:26:57+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-bound review product verified — 15 October 2026
+
+Full5365tests/669subtests pass337.17s,exit0,6skips/6existingwarnings. Full stderr
+also logs native Windows access-violation diagnostic near99%, Pydantic frame,
+then normal100%/passing summary. Not clean-stderr evidence. Bounded investigation:
+adjacent unchanged synthetic Docling PDF test isolated1pass/3warnings18.00s exit0,
+no diagnostic reproduced. Exact native origin remains unknown; no failing test or
+process, no speculative code/dependency fix or duplicate fullsuite. Preserve logs.
+Single final independent review no findings:32tests/125subtests0.43s,1430actual
+baseline serialized/default comparisons and input-preservation checks, seven extra
+rejection probes;2398limit traces/439hashes/15code files pass. Source-only findings
+remain trusted conditional researcher judgments, not automatic inference or new
+owner/source approval. Product helper/tests/README ready for explicit commit;
+then finalreport/seal/continuity closure, keeping native observation visible.
+
+
+## Source-only register and conditional replay verified — 15 October 2026
+
+Five existing chunks/all22fields frozen before case/annotation/score loading.
+Three trusted researcher reviews: two selected-field absence findings and one
+complete as-printed fee field group. Register SHA256:
+0662846c6f3df454683fe7866825a5c6e9f222b9a5fc720107d9d1350acfe45b.
+Independent1430v2sidecars/37controls/fourfieldprobes,930absence-review matches/
+500declared-limit matches/2398limittrace checks/439priorhashes/15code digests pass.
+All1430defaultv1replays byte-identical. No source-claim-labels/gold/newmodelcalls,
+new source text or new owner confirmation; counts are conditional, not automatic
+unsupported detection/generalization. Single final independent review running;
+fullsuite running. Next read results, commit verified product, seal/report closure.
+
+
+## Source-bound review extension GREEN — 15 October 2026
+
+Planf9adcd6. Missing-function RED(exit2); initial98tests/236subtests GREEN3.68s.
+A focused mutation regression then reproduced field-ref aliasing (REDexit1);
+root cause was sorted original dictionaries overriding an earlier deepcopy.
+Minimal deepcopy correction GREEN99/2363.79s. Opt-in schema-v2 regression REDexit1,
+then versioned output GREEN99/2363.86s; default v1 remains unchanged. No other code
+or source edits. New source-review register/report extension and README ready for
+fullsuite. Next full offline suite, source-only review preparation before cases,
+saved1430sidecar/default replay and one final independent review. No model calls.
+
 
 ## Source-bound claim review resumed — 15 October 2026
 

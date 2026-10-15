@@ -95,3 +95,18 @@ The existing subject catalogue validates complete current payload bindings.
 Malformed limitations and unknown/duplicate context IDs are rejected. Missing
 subjects/claims and unknown subjects remain explicit; no runtime gate, source
 content verification, NLP inference or institutional activation is implemented.
+
+An optional `claim_reviews` register prepared by `prepare_candidate_claim_reviews`
+extends this same helper with a v2 report. Each trusted researcher finding binds
+the complete selected subject snapshot, a source-audit reference/hash and either
+existing reviewed field references or a `not_stated_in_selected_fields` finding.
+The digest checks integrity, not reviewer identity or source truth. Do not use
+benchmark expected labels to manufacture these findings.
+
+Visible fields require nonblank values, review-event metadata and matching source
+spans. `reviewed_fields_available` means that those fields and their transitive
+required chunks occur in the supplied context IDs; missing or unknown emission
+remains explicit. Answer sufficiency stays unassessed. Existing exact source
+limitations override positive field findings; unreviewed claims stay unassessed.
+Selected-field absence is never a university-wide absence or policy prohibition.
+Without this opt-in register, the v1 report is unchanged.
