@@ -161,6 +161,13 @@ The latest cleanup/resume record is
   Do not reopen that batch. Preserve its printed sums, unknown per-student
   division and cropped acknowledgement; content confirmation is not school
   authority/current-year verification or activation. Next source batch is V01–V06.
+- On 15 October 2026 the owner confirmed V01–V06 and explicitly selected the
+  newer vehicle memo's 15 km/h for V06 in provisional research responses. Keep
+  the handbook's 20 kph wording, source/date discrepancy and owner rationale.
+  Do not reopen this choice or generalize it into a newest-source-wins rule;
+  issuing-office/current-year verification and institutional supersession remain
+  separate. The confirmation covers the six listed groups, not the whole vehicle
+  service or penalty scheme. Next selected source review is E01–E04 enrollment.
 - Continue authorized work until a new human source-content decision is genuinely
   needed, the task is finished, or a verified progress checkpoint is ready for handoff.
   Record decisions/results/next action in this repository. Reuse completed setup,

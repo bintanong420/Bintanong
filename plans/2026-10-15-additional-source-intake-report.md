@@ -9,6 +9,14 @@ approved transcriptions, current university guidance or active retrieval candida
 
 ## Settled retention decision and current review
 
+Vehicle decision15October: owner confirmsV01–V06 and chooses the more recent
+memo's15km/h forV06. Apply15km/h in provisional study responses, preserving the
+handbook20kph wording, source discrepancy and explicit owner rationale. This is
+a specific research-source selection, not a global date-precedence rule or
+verified institutional supersession. Earlier no-selection proposals below are
+historical. Six confirmed groups are applied separately; the whole vehicle
+procedure/penalty scheme is not thereby approved. Next review: E01–E04.
+
 F1 owner response15October: `confirm F1`. The nine listed fee groups/seven rows
 are now confirmed visible readings, applied in a separate ignored reviewed
 derivative. Original photo, printed amounts, unknowns and original cutoff remain

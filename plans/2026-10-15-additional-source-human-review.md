@@ -56,6 +56,16 @@ these listed readings only, not absent signature text, all fee policy or release
 
 ## Following batches: existing proposed readings, still pending
 
+**Vehicle batch confirmed15October2026:** owner replied `confirm V` and explicitly
+chose the newer memo's **15km/h** forV06. V01–V06 are accepted readings. For
+provisional undergraduate research responses use the memo's15km/h and retain the
+source/date, handbook20kph text and the owner's selection rationale. This supersedes
+the proposed no-selection treatment below for this one reading. It does not create
+a general newest-document-wins rule or claim verified institutional supersession.
+Separate reviewed derivative/event: ignored
+`p05-additional-human-review-20261015/v-confirmed/`. All62original hashes verify;
+canonical field-span binding/admission remains pending. Do not reopen V or F1.
+
 **Next batch V:** confirm the six groups below against the originals. `confirm V`
 accepts these readings/treatment only; corrections or unreadable IDs are welcome.
 
@@ -71,6 +81,28 @@ accepts these readings/treatment only; corrections or unreadable IDs are welcome
 This reviews six selected groups, not the entire application service, all conditions
 or penalties. V06 does not choose the current governing speed or establish
 supersession. All other source fields remain at their actual review status.
+
+The preceding V06 no-selection wording is the historical proposal. The actual
+owner decision above selects15km/h for provisional research, retaining both sources.
+
+## Next enrollment batch E: selected cohort and source-gap readings
+
+Reply `confirm E`, corrections by ID, or mark an ID unreadable. This is a selected
+four-group review, not approval of every enrollment field or the entire procedures.
+It does not ask you to supply missing steps or decide school authority.
+
+| ID | Proposed reading and treatment | Exact original/region |
+| --- | --- | --- |
+| E01 |Incoming first-year advisory: first semesterSY2026–2027. Continuing PDF: MainCampus, second semesterSY2025–2026. Preserve their distinct audience/term labels. |[Incoming cover](<../dataset/Misc. Student related procedures/ENROLLMENT/NEW STUDENTS/2026/704570498_1492622079221228_6068049744890409276_n.jpg>); [continuing PDF](<../dataset/Misc. Student related procedures/ENROLLMENT/CONTINUING STUDENTS/2026/MAIN-OLD-STUDENT-Enrollment-Procedure.v2 (1).pdf>), page1heading |
+| E02 |Incoming general enrollment20–23and25–28May2026; Step1says health clearance before other steps, but clinic dates extend intoJune(CS22–26June). Step2permits a University Medical Certificate OR Printed Clinic Appointment Slip. Keep these exact readings and the ordering/timing ambiguity; do not invent an exception. |Incoming cover; [Step1](<../dataset/Misc. Student related procedures/ENROLLMENT/NEW STUDENTS/2026/704527461_1492622065887896_6518655658596124273_n.jpg>), first instruction/clinic schedule; [Step2](<../dataset/Misc. Student related procedures/ENROLLMENT/NEW STUDENTS/2026/704527643_1492622075887895_8487296828235481312_n.jpg>), document checklist |
+| E03 |Incoming Step2lists an ORIGINAL PSA Birth Certificate; handbook31 undergraduate freshman list says PSA Birth Certificate(photocopy). Preserve the source/cohort difference; the vehicle-speed decision does not automatically decide document precedence here. |Step2checklist last item; [handbook physical31](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-source-intake-20261015/handbook-p031.png>), undergraduate freshman itemd |
+| E04 |Continuing PDF visibly numbers Steps1,3,4,5,6,7 with no Step2. Retain printed numbering and record the unavailable Step2; no invented continuation or claim of a complete seven-step process. |Continuing PDFpage1, step-number column; [complete page render](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-source-intake-20261015/continuing-p001.png>) |
+
+These issues occur in the supplied originals, not lost OCR text or added packaging.
+E02does not prove that every student faces an impossible schedule: the appointment
+slip alternative is retained. No new enrollment source repairs the settled
+Charter103cutoff. All unlisted procedure/checklist fields remain at their actual
+review status; later candidate use requires their applicable review and citations.
 
 The full comparisons and original links remain in
 [the intake report](2026-10-15-additional-source-intake-report.md).

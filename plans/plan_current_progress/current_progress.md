@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Owner confirmsV01–V06 and selects newer memo15km/h forV06 in provisional
+undergraduate research responses. Use15with its memo/source/date and owner rationale;
+retain handbook20kph text and discrepancy. This settles the specific research choice,
+not institutional supersession or a global newest-source-wins rule. V/F1 stay settled.
+Six vehicle groups applied in separate ignored v-confirmed derivative, SHA256
+8b7bc2d0d5d7a1f1dd29778e7c1c7677d4c0a7ff79d8d96b31268d212ba95980.
+All62original-source hashes pass. Whole-service/penalty approval and canonical
+field-span admission remain separate; no new retrieval chunks, embeddings or query
+tests. New enrollmentE01–E04packet presented with source images and exact limitations;
+owner response pending. Existing benchmark wordings remain unaccepted/untested.
+
+Await E01–E04 enrollment readings/limitations; record the actual response once.
+Retain exact cohorts, source differences and missing originalStep2. Continue exact
+canonical field-span binding for confirmed F1/V and explicit USGCSG preparation
+without reopening settled choices. School verification and activation remain at
+standing gates; no generic date-based precedence or new benchmark tests inferred.
+
 Owner replied `confirm F1` on15October. F01–F09 are settled: seven special-class
 unit/hour/printed-amount mappings, rate/weekly hours and date/resolution/effectivity.
 Separate ignored reviewed-reading derivative and exact confirmation event written

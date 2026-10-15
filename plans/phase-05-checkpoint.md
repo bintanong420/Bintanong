@@ -2,16 +2,33 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 219
+sequence: 220
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 949274d
-working_tree: seven curated F1 confirmation/next-review paths; owner artifacts preserved
-updated_at: 2026-10-15T16:42:48+08:00
+head_commit: 6c37a88
+working_tree: seven curated V confirmation/enrollment-review paths; owner artifacts preserved
+updated_at: 2026-10-15T16:49:56+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Owner confirmsV01–V06 and selects newer memo15km/h forV06 in provisional
+undergraduate research responses. Use15with its memo/source/date and owner rationale;
+retain handbook20kph text and discrepancy. This settles the specific research choice,
+not institutional supersession or a global newest-source-wins rule. V/F1 stay settled.
+Six vehicle groups applied in separate ignored v-confirmed derivative, SHA256
+8b7bc2d0d5d7a1f1dd29778e7c1c7677d4c0a7ff79d8d96b31268d212ba95980.
+All62original-source hashes pass. Whole-service/penalty approval and canonical
+field-span admission remain separate; no new retrieval chunks, embeddings or query
+tests. New enrollmentE01–E04packet presented with source images and exact limitations;
+owner response pending. Existing benchmark wordings remain unaccepted/untested.
+
+Await E01–E04 enrollment readings/limitations; record the actual response once.
+Retain exact cohorts, source differences and missing originalStep2. Continue exact
+canonical field-span binding for confirmed F1/V and explicit USGCSG preparation
+without reopening settled choices. School verification and activation remain at
+standing gates; no generic date-based precedence or new benchmark tests inferred.
 
 Owner replied `confirm F1` on15October. F01–F09 are settled: seven special-class
 unit/hour/printed-amount mappings, rate/weekly hours and date/resolution/effectivity.
@@ -263,6 +280,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Await E01–E04 enrollment readings/limitations; record the actual response once.
+Retain exact cohorts, source differences and missing originalStep2. Continue exact
+canonical field-span binding for confirmed F1/V and explicit USGCSG preparation
+without reopening settled choices. School verification and activation remain at
+standing gates; no generic date-based precedence or new benchmark tests inferred.
 
 Await V01–V06 human readings/treatment; preserve unresolved15/20speed discrepancy.
 Record and apply actual answers without reopening F1. Continue exact field-span
@@ -2168,6 +2191,10 @@ database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
 
+Fresh62original SHA256checks pass; six vehicle groups preserved and15km/h selected
+exactly under owner decision, old20kph retained. No product tests for this source
+review/metadata-only increment. Phasevalidator/diff checks run at closure.
+
 Fresh62original-source hash checks pass. Seven fee rows/nine groups preserved in
 separate reviewed derivative, fields match accepted packet; no product tests run
 for this source-review-only change. Phasevalidator and diff checks run at closure.
@@ -2791,6 +2818,17 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Owner confirmsV01–V06 and selects newer memo15km/h forV06 in provisional
+undergraduate research responses. Use15with its memo/source/date and owner rationale;
+retain handbook20kph text and discrepancy. This settles the specific research choice,
+not institutional supersession or a global newest-source-wins rule. V/F1 stay settled.
+Six vehicle groups applied in separate ignored v-confirmed derivative, SHA256
+8b7bc2d0d5d7a1f1dd29778e7c1c7677d4c0a7ff79d8d96b31268d212ba95980.
+All62original-source hashes pass. Whole-service/penalty approval and canonical
+field-span admission remain separate; no new retrieval chunks, embeddings or query
+tests. New enrollmentE01–E04packet presented with source images and exact limitations;
+owner response pending. Existing benchmark wordings remain unaccepted/untested.
+
 F1 confirmed as presented; no per-student allocation or missing text inferred.
 Vehicle batch remains pending; never carry fee confirmation to other source fields.
 
@@ -2962,6 +3000,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Await E01–E04 enrollment readings/limitations; record the actual response once.
+Retain exact cohorts, source differences and missing originalStep2. Continue exact
+canonical field-span binding for confirmed F1/V and explicit USGCSG preparation
+without reopening settled choices. School verification and activation remain at
+standing gates; no generic date-based precedence or new benchmark tests inferred.
 
 Await V01–V06 human readings/treatment; preserve unresolved15/20speed discrepancy.
 Record and apply actual answers without reopening F1. Continue exact field-span
