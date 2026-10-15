@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Offline selection helper verified — 15 October 2026
+
+Plan9fec57d; synthetic expected missing-module RED(exit2), then87tests/87subtests
+pass1.52s(exit0). Added caller-selected offline report; original assembly/engine
+unchanged. Deferred/refused/local required/transitive/malformed/overlap/invalid
+citation controls pass; coverage always unknown. Full offline suite and4390attempt
+replay running under new ignored p05-context-selection-reporting-20261015 root.
+Next inspect actual results, one final independent review, then evidence/report
+commit. No source/wording/model changes; candidate inactive/formal gate blocked.
+
+
 ## Context-selection reporting resumed — 15 October 2026
 
 Fresh e8ead56 verified; owner artifact changes preserved. Applying handoff/planning/

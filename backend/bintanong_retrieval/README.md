@@ -39,3 +39,25 @@ python -m unittest discover -s tests -p 'test_retrieval_*.py' -v
 ```
 
 Observations come from separate retrieval runs. The committed fixture uses manual unit vectors and labeled synthetic database chunks; it tests mechanics, not SEA-LION quality. The evaluator compares k=3/5/8, uses `hits/k` for Precision@k and `hits/gold_count` for Recall@k, separates language/category, and rejects final-split tuning. Ranking metrics alone cannot pass the approved source/citation exit gate. See `plans/phase-05-retrieval-report.md` for measurements and limits.
+
+The optional offline `context_selection.build_context_selection_report` wraps the
+existing assembler with an explicit caller-selected `primary_limit` (None: all;
+zero: none). It does not choose a prefix or change the engine. Pass the same
+candidate list, budget, exact token counter and optional display flags as to
+`build_context`; the unchanged result is under `assembly`.
+
+Its `context-selection-report-v1` envelope records offered primaries in rank
+order, requested/deferred IDs, literal emitted IDs, source version/hash/score,
+local transitive required IDs, absent neighbor rows, malformed dependency lists
+and the original assembly gaps. A deferred primary may already be emitted as
+another primary's neighbor. Unemitted IDs may also reflect span deduplication;
+they do not prove missing information. Deferred rows are not certified as valid
+citations or applicable evidence. Duplicate offered IDs retain their ranks;
+emission and gaps describe chunk identities rather than individual attempts.
+
+Every report is candidate-only, activation-ineligible and has
+`claim_coverage='unknown'`, even with nonempty gap-free context. This diagnostic
+does not establish relevance, source authority, audience, recency or answer
+sufficiency. Required groups remain atomic; source limits and citations are not
+removed to fit a budget. See
+`plans/2026-10-15-context-selection-reporting-plan.md` for the bounded workflow.

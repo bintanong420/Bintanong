@@ -2,16 +2,27 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 239
+sequence: 240
 plan: plans/phase-05-retrieval-plan.md
-head_commit: e8ead56
-working_tree: context-selection reporting plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:10:55+08:00
+head_commit: 9fec57d
+working_tree: offline selection helper/tests/README and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T19:15:08+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Offline selection helper verified — 15 October 2026
+
+Plan9fec57d; synthetic expected missing-module RED(exit2), then87tests/87subtests
+pass1.52s(exit0). Added caller-selected offline report; original assembly/engine
+unchanged. Deferred/refused/local required/transitive/malformed/overlap/invalid
+citation controls pass; coverage always unknown. Full offline suite and4390attempt
+replay running under new ignored p05-context-selection-reporting-20261015 root.
+Next inspect actual results, one final independent review, then evidence/report
+commit. No source/wording/model changes; candidate inactive/formal gate blocked.
+
 
 ## Context-selection reporting resumed — 15 October 2026
 
