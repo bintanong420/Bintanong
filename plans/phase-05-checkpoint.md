@@ -2,16 +2,43 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 241
+sequence: 242
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 4da6e19
-working_tree: metadata refusal fix, accepted temporal proposal and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:26:04+08:00
+head_commit: 7456613
+working_tree: final reporting evidence and accepted next-packet continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T19:27:23+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Closure: new36file evidence seal verified read-only, manifest SHA256:
+6d324122b23f06666dcb1ad6495f445ba01b30f17ea6bd6c99d2f9a2f7facb7f.
+Phasevalidate0/canadvance1(expectedblocked), whitespace/local links pass. Raw
+sealed scripts must not be rerun in place. Product7456613 complete; parentSHA
+precedes following documentation commit. Owner artifacts remain unstaged.
+Next accepted-nine evaluation plan; no new encoding/activation/Phase06.
+
+
+## Verified offline selection reporting — 15 October 2026
+
+Product4da6e19/fix7456613 afterplan9fec57d. Full5305tests/533subtests pass324.19s,
+6skips/6existingwarnings; focused88/93pass1.47s, phaseledger19/11pass12.16s. One
+final independent review650graph checks and oneP2metadata failure fixed underTDD;
+no other findings. Final4390attempt/1350default replay,44986dependency checks,
+300input hashes and sevenpriorcode-testhashes pass118.58s; all pre/postfix traces
+identical. Builder/engine/source limits unchanged. Coverage always unknown.
+Report:2026-10-15-context-selection-reporting-report.md. No new embeddings or
+question changes. Owner artifacts preserved; candidate inactive/exitblocked.
+
+Actual T1/T2/U3 nine-wording/expectation acceptance saved with exact snapshot hash
+34529fad525df70d2274f151538ddcecd3bcfb06f50bbc752a6a0ff984d1a5eb.
+Next2026-10-15-temporal-unsupported-evaluation-plan.md: bounded source-label/asset
+preflight, reuse27document vectors, encode only nine new queries. No repeat review.
+Existing approved12/36 and six/18 untouched. Schoolverification/F04/G01G02 holds
+remain scoped; no institutional approval, activation, or Phase06 inferred.
+
 
 ## Reporting review and accepted next cases — 15 October 2026
 
@@ -610,7 +637,7 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
-Latest: finish reviewed metadata correction/final checks, then execute accepted T1/T2/U3 nine-query preflight/evaluation via2026-10-15-temporal-unsupported-evaluation-plan.md. Earlier entries below are history.
+Latest: reporting verified; execute accepted T1/T2/U3 nine-query preflight/evaluation via2026-10-15-temporal-unsupported-evaluation-plan.md. Earlier entries below are history.
 
 Verified diagnostic ready for reportcommit; review and seal complete. Next opt-in reporting design; no formaladvancement.
 
@@ -3568,7 +3595,7 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
-Latest: complete current reporting seal/commit, then accepted temporal/unsupported evaluation preflight and nine new query encodings with existing27document vectors. No repeat wording/source review, activation or Phase06. Earlier entries below are history.
+Latest: execute accepted temporal/unsupported evaluation preflight and nine new query encodings with existing27document vectors. No repeat wording/source review, activation or Phase06. Earlier entries below are history.
 
 Prepare narrow opt-in context-selection reporting design; distinguish omitted extras from unassembled required groups and unknown claim completeness. Preserve all limits/no default policy until tested; representative calibration/formal exits pending.
 

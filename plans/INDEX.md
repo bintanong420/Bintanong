@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Latest verified delivery: [offline context-selection reporting](2026-10-15-context-selection-reporting-report.md), product4da6e19/fix7456613 afterplan9fec57d. Caller prefix/deferred/dependency trace; original builder/engine and source limits unchanged, coverage always unknown. Full5305tests/533subtests and4390attempt/1350default replay pass; oneP2review finding fixed underTDD. Next [accepted T1/T2/U3 nine-query evaluation](2026-10-15-temporal-unsupported-evaluation-plan.md); owner acceptance settled, no new encodings yet. Candidate inactive/formal exit blocked.
+
 - Active bounded work: [offline context-selection reporting](2026-10-15-context-selection-reporting-plan.md), baseline e8ead56. Explicit caller prefix, unchanged builder/engine, emitted/deferred/dependency trace and unknown claim coverage; TDD then saved4390attempt/1350baseline replay. No automatic policy or activation.
 
 - Latest diagnostic: [saved-ranking context prefixes and estimate](2026-10-15-context-prefix-diagnostic-report.md), plan5bfb7a1/productfeaa961 unchanged. Full vs top1 trade-off verified; experimental gapfreeprefix keeps36positive recoveries but cannot establish relevance/scope/claimcoverage.4390attempts/1710decisions/1350baselinecontexts independently replay,68tests/70subtests pass. Rough80%technical estimate (75–85range), formalPhase05stillblocked. Next opt-in context-selection reporting design then representative calibration/finalgates.

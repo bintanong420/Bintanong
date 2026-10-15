@@ -1,5 +1,32 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Closure: new36file evidence seal verified read-only, manifest SHA256:
+6d324122b23f06666dcb1ad6495f445ba01b30f17ea6bd6c99d2f9a2f7facb7f.
+Phasevalidate0/canadvance1(expectedblocked), whitespace/local links pass. Raw
+sealed scripts must not be rerun in place. Product7456613 complete; parentSHA
+precedes following documentation commit. Owner artifacts remain unstaged.
+Next accepted-nine evaluation plan; no new encoding/activation/Phase06.
+
+
+## Verified offline selection reporting — 15 October 2026
+
+Product4da6e19/fix7456613 afterplan9fec57d. Full5305tests/533subtests pass324.19s,
+6skips/6existingwarnings; focused88/93pass1.47s, phaseledger19/11pass12.16s. One
+final independent review650graph checks and oneP2metadata failure fixed underTDD;
+no other findings. Final4390attempt/1350default replay,44986dependency checks,
+300input hashes and sevenpriorcode-testhashes pass118.58s; all pre/postfix traces
+identical. Builder/engine/source limits unchanged. Coverage always unknown.
+Report:2026-10-15-context-selection-reporting-report.md. No new embeddings or
+question changes. Owner artifacts preserved; candidate inactive/exitblocked.
+
+Actual T1/T2/U3 nine-wording/expectation acceptance saved with exact snapshot hash
+34529fad525df70d2274f151538ddcecd3bcfb06f50bbc752a6a0ff984d1a5eb.
+Next2026-10-15-temporal-unsupported-evaluation-plan.md: bounded source-label/asset
+preflight, reuse27document vectors, encode only nine new queries. No repeat review.
+Existing approved12/36 and six/18 untouched. Schoolverification/F04/G01G02 holds
+remain scoped; no institutional approval, activation, or Phase06 inferred.
+
+
 ## Reporting review and accepted next cases — 15 October 2026
 
 Final post-fix full suite:5305tests/533subtests pass324.19s,6skips/6existingwarnings,exit0. Post-fix4390attempt/1350baseline replay and44986dependency checks pass118.58s; pre/post traces identical,300input/sevenpriorcode-testhashes preserved. Phase-ledger19tests/11subtests pass12.16s. OneP2 fixed underTDD, no other findings. Next seal/report commit, then accepted nine-query evaluation.

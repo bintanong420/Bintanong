@@ -37,6 +37,14 @@
 
 ## Natural student questions and intended responses
 
+- Later15October2026 the owner explicitly accepted all nine T1/T2/U3 wordings and
+  expectations in plans/2026-10-15-temporal-unsupported-query-proposal.md:
+  current-year enrollment deadline, special-class memo current-year validity and
+  GCash payment-channel availability. Do not ask again. Verify bounded selected-
+  evidence labels before evaluation; acceptance does not establish current-year
+  validity, payment permission/prohibition, institutional approval or activation.
+  Existing accepted12/36 and six/18 questions remain unchanged.
+
 - Later15October2026 source follow-ups explicitly confirm U1's G2 II.B.1/3
   PSU Security Services Unit office/context reading and selected student-vehicle
   undergraduate research use, plus U2's confirmed special-class-example
