@@ -494,6 +494,86 @@ class ImageFieldSpanTests(unittest.TestCase):
         result=self.map(reader=broken)
         self.assertEqual(result['withheld_fields'][0]['reason'],'image_reader_failure')
 
+    def raster_setup(self):
+        self.image=self.data
+        self.image_sha=self.sha
+        self.rows[0]['fields'][0]['locator']['physical_pages']=[1]
+        self.pages={(self.sha,1):{'image_sha256':self.sha,'image_size':[1200,1600],
+            'page_size':[1200,1600],'scale':1,'rotation':0,'crop':None}}
+        self.observed={**self.pages[(self.sha,1)],'image_bytes':self.data}
+
+    def test_original_raster_uses_original_byte_identity_and_pixel_canvas(self):
+        self.raster_setup()
+        before=copy.deepcopy((self.rows,self.pages,self.sources,self.events))
+        result=self.map(source_kind='original_raster_image')
+        span=result['field_spans']['node-a']['instruction'][0]
+        self.assertEqual(span['extraction']['source_kind'],'original_raster_image')
+        self.assertEqual(span['byte_sha256'],self.sha)
+        self.assertEqual(span['page'],1)
+        self.assertEqual(span['bbox'],[20,40,120,100])
+        self.assertEqual(span['page_size'],[1200,1600])
+        self.assertEqual(span['text'],'Get the form.')
+        self.assertFalse(result['activation_eligible'])
+        self.assertEqual((self.rows,self.pages,self.sources,self.events),before)
+
+    def test_image_source_kind_must_be_one_of_the_two_explicit_formats(self):
+        for kind in (None,False,1,'jpeg','native_pdf'):
+            with self.subTest(kind=kind),self.assertRaises(ValueError):
+                self.map(source_kind=kind)
+
+    def test_raster_rejects_matching_reader_and_descriptor_for_replaced_image(self):
+        self.raster_setup()
+        replacement=b'synthetic resaved image'
+        self.pages[(self.sha,1)]['image_sha256']=hashlib.sha256(replacement).hexdigest()
+        self.observed={**self.pages[(self.sha,1)],'image_bytes':replacement}
+        result=self.map(source_kind='original_raster_image')
+        self.assertFalse(result['field_spans'])
+        self.assertEqual(result['withheld_fields'][0]['reason'],'original_raster_source_mismatch')
+
+    def test_original_raster_requires_page_one_and_unscaled_canvas(self):
+        for number,scale in ((2,1),(1,2),(1,.5)):
+            with self.subTest(number=number,scale=scale):
+                self.raster_setup()
+                page=self.pages.pop((self.sha,1))
+                page.update(scale=scale,page_size=[1200/scale,1600/scale])
+                self.pages[(self.sha,number)]=page
+                self.rows[0]['fields'][0]['locator']['physical_pages']=[number]
+                self.observed={**page,'image_bytes':self.data}
+                result=self.map(source_kind='original_raster_image')
+                self.assertFalse(result['field_spans'])
+                self.assertEqual(result['withheld_fields'][0]['reason'],'invalid_original_raster')
+
+    def test_raster_does_not_supply_missing_field_confirmation(self):
+        self.raster_setup()
+        self.rows[0]['fields'][0].update(decision='pending',review_event_sha256=None)
+        result=self.map(source_kind='original_raster_image')
+        self.assertFalse(result['field_spans'])
+        self.assertEqual(result['withheld_fields'][0]['reason'],'field_not_confirmed')
+
+    def test_raster_rejects_fractional_canvas_even_if_render_rounds_to_same_pixels(self):
+        self.raster_setup()
+        self.pages[(self.sha,1)]['page_size']=[1199.5,1600]
+        self.observed={**self.pages[(self.sha,1)],'image_bytes':self.data}
+        result=self.map(source_kind='original_raster_image')
+        self.assertFalse(result['field_spans'])
+        self.assertEqual(result['withheld_fields'][0]['reason'],'invalid_original_raster')
+
+    def test_explicit_pdf_kind_preserves_default_mapping_exactly(self):
+        self.assertEqual(self.map(),self.map(source_kind='original_pdf_image'))
+
+    def test_raster_graph_derived_edges_keep_original_raster_provenance(self):
+        edges=self.graph_setup()
+        self.raster_setup()
+        for row in self.rows:
+            for field in row['fields']:
+                field['locator']['physical_pages']=[1]
+        graph=self.bind(self.map(source_kind='original_raster_image'),edges)
+        spans=[e['label_span'] for e in graph['edges']]+[graph['terminal']['span']]
+        self.assertTrue(spans)
+        for span in spans:
+            self.assertEqual(span['extraction']['source_kind'],'original_raster_image')
+            self.assertEqual(span['page_size'],[1200,1600])
+
     def test_rows_and_directional_edges_bind_as_inactive_structured_graph(self):
         edges=self.graph_setup()
         mapping=self.map()

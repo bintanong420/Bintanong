@@ -2,16 +2,29 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 221
+sequence: 222
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d0c46aa
-working_tree: eight curated E confirmation/raster-plan paths; owner artifacts preserved
-updated_at: 2026-10-15T16:59:11+08:00
+head_commit: 105666a
+working_tree: two raster code/test files and three ledger paths; owner artifacts preserved
+updated_at: 2026-10-15T17:25:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+Raster provenance implementation: RED13failed/41passed/72subtests, derived graph
+RED1failed; GREEN144passed/206subtests, full5277passed/508subtests,6skips/6warnings
+in362.47s. Original standalone image bytes/native geometry verified; optional
+original_raster_image, default PDF payload unchanged. Seven fee amount regions
+mapped technically; F04 QA appears41,666.52 versus prior confirmed41,666.62.
+Focused exact-crop question pending; hold F04, preserve all prior history and other
+settled confirmations. Three native E01headings remain valid. No chunks emitted.
+Thesis physical17–18/routingPNG/master10 reconsulted after compaction; no discrepancy.
+Next: product commit, one independent review, actual F04 decision and bounded seal.
+Execution rulings/commands/results in2026-10-15-original-raster-span-plan.md and
+workspace/audit-evidence/p05-original-raster-spans-20261015. No source authority,
+new benchmark acceptance, service-raster support, activation or phase advancement.
 
 Owner `Confirm E` settlesE01–E04. F1/V/E19selected groups now confirmed; no
 whole-source audit or school approval inferred. Enrollment derivativeSHA256:

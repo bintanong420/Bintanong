@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+Raster provenance implementation passes144related tests/206subtests and the full
+5277tests/508subtests (6skips/6warnings,362.47s). RED13failed/41passed and derived
+graph RED1failed recorded before correction. Optional original_raster_image validates
+page1/scale1/native pixel canvas/original bytes; default PDF payloads unchanged.
+Exact seven fee amount regions mapped technically, plus prior three native E01
+headings. QA spotted F04 appears41,666.52 versus confirmed41,666.62; exact crop shown
+and focused owner question pending. Hold that field; other confirmations settled.
+Raw artifacts/logs:workspace/audit-evidence/p05-original-raster-spans-20261015.
+Next commit verified code, independent final review, resolve only actual F04 answer
+and seal bounded field-binding evidence. No new query tests/chunks/activation.
+Thesis physical17–18/routingPNG/master10 reconsulted after compaction; no discrepancy.
+
 Owner `Confirm E` settlesE01–E04. F1/V/E19selected groups now confirmed; no
 whole-source audit or school approval inferred. Enrollment derivativeSHA256:
 9960a2447e1809dfdd030d58970c935688c0c3612c7f3e7beb8a035d213e5281.

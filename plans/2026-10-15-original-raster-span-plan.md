@@ -17,9 +17,9 @@ synthetic regressions in `tests/test_reviewed_image_spans.py`. Original source
 bytes, review events/field ownership, scope states, release flags and context/ranking
 formats stay under existing contracts. No installs or model/runtime/DB changes.
 
-- [ ] Record expected RED for original raster labeling and rejection controls.
-- [ ] Implement the smallest optional provenance/transform validation correction.
-- [ ] Verify GREEN and related image/native/policy/context regressions; then the
+- [x] Record expected RED for original raster labeling and rejection controls.
+- [x] Implement the smallest optional provenance/transform validation correction.
+- [x] Verify GREEN and related image/native/policy/context regressions; then the
   full suite under authorized Python3.13, no pytest cache, external basetemp.
 - [ ] Commit the verified product increment with explicit paths.
 - [ ] One independent final review; address findings with focused TDD if needed.
@@ -33,3 +33,23 @@ Current confirmed work: E01 continuing-PDF headings mapped as3native fields with
 actual character indices/glyph boxes. F1/V/E19selected groups are settled. Raster
 mapping work is technical provenance, not a new source-content review or approval
 of source authority/current-year applicability. Full Phase05 exit remains open.
+
+Execution ledger, 15 October: RED13failed/41passed/72subtests; derived raster graph
+RED1failed. GREEN144passed/206subtests across seven related modules. Full suite:
+5277passed/508subtests,6skipped/6warnings,362.47s. Logs under workspace
+audit-evidence/p05-original-raster-spans-20261015; no dependency/model changes.
+
+Ruling: preserve external workspace evidence and this tracked ledger, rather than
+the skill's default scratch directory/deletion — owner location and recoverability
+instructions take precedence; deleting evidence would prevent later audit.
+Ruling: propagate raster provenance into graph-derived spans and retain the private
+span helper's PDF default — existing graph/service callers need compatibility.
+The service binder remains PDF-only and rejects raster input; expanding it is
+outside this bounded change and could misstate procedure-table evidence.
+Ruling: mapping seven fee amounts and three PDF headings is selected-field coverage,
+not complete F1/V/E admission; remaining fields and governance gates stay open.
+
+Photo-region QA found F04's final digits appear .52, versus earlier confirmed .62.
+Owner shown the exact crop and asked only this focused discrepancy; F04 artifact
+is held pending actual answer. Preserve the previous confirmation/history and do
+not silently correct it. Other F1/V/E decisions remain settled.
