@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Active bounded work: [offline context-selection reporting](2026-10-15-context-selection-reporting-plan.md), baseline e8ead56. Explicit caller prefix, unchanged builder/engine, emitted/deferred/dependency trace and unknown claim coverage; TDD then saved4390attempt/1350baseline replay. No automatic policy or activation.
+
 - Latest diagnostic: [saved-ranking context prefixes and estimate](2026-10-15-context-prefix-diagnostic-report.md), plan5bfb7a1/productfeaa961 unchanged. Full vs top1 trade-off verified; experimental gapfreeprefix keeps36positive recoveries but cannot establish relevance/scope/claimcoverage.4390attempts/1710decisions/1350baselinecontexts independently replay,68tests/70subtests pass. Rough80%technical estimate (75–85range), formalPhase05stillblocked. Next opt-in context-selection reporting design then representative calibration/finalgates.
 
 - Latest bounded delivery: [approved natural-query observations](2026-10-15-approved-natural-query-evaluation-report.md), productfeaa961. U1/U2all6complete and old positives30/30 at k3/.5/2048; all18approved variants observed, raw scope/wrong-program false matches retained. Full5286tests/510subtests and independent scores/contexts/citations/hash checks pass; one review no findings. Next context-selection/coverage diagnostic, no global threshold, automatic NLP, activation or advancement.

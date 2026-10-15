@@ -2,16 +2,28 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 238
+sequence: 239
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5bfb7a1
-working_tree: context-prefix diagnostic report and continuity documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:02:57+08:00
+head_commit: e8ead56
+working_tree: context-selection reporting plan and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T19:10:55+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Context-selection reporting resumed — 15 October 2026
+
+Fresh Git e8ead56 reconciles prior checkpoint parent5bfb7a1. Owner artifacts remain
+untouched. Active ledger/plan/CLI/master10 and thesis physical17–18/routingPNG
+consulted this session; no scope/routing discrepancy. Continue the recorded next
+action via2026-10-15-context-selection-reporting-plan.md: caller-controlled offline
+prefix report around unchanged builder, literal emitted/deferred/dependency traces,
+coverage always unknown. No automatic selection, runtime change or source decision.
+Next synthetic RED→GREEN, exact4390attempt/1350baseline replay, fullsuite and one
+final independent review. Prior seals/models/vectors/approved questions unchanged.
+Candidate inactive; F04held/G01G02unconfirmed/G03only/ASGexcluded; formal exit blocked.
 
 ## Verified context-prefix diagnostic — 15 October 2026
 

@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Context-selection reporting resumed — 15 October 2026
+
+Fresh e8ead56 verified; owner artifact changes preserved. Applying handoff/planning/
+TDD workflows to2026-10-15-context-selection-reporting-plan.md. Required Context
+physical17–18/routingPNG and master10 checked this session, no discrepancy. Build
+an opt-in offline prefix report with unchanged builder/engine, separate deferred,
+absent and unemitted dependency IDs, and claim coverage always unknown. Next
+synthetic RED→GREEN,4390saved attempts/1350baseline replay, fullsuite and one review.
+No new benchmark text, source decisions, embeddings, activation or Phase06.
+
 Closure: one independent review nofindings,4390uncached builds/1710decisions /
 13681dependency checks pass;reviewer68tests/70subtests1.50s. Documentation472tests /
 11subtests pass14.47s. Phasevalidate0/canadvance1(expectedblocked), whitespace/link /
