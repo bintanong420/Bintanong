@@ -7,7 +7,7 @@ individual student's assessment. No replacement price or official P2,000 bill
 is inferred. Answer sufficiency remains unassessed.
 
 Baseline `014df8a`, [bounded plan](2026-10-16-partial-claim-coverage-plan.md) `cd46d87`,
-unchanged product `232a418`. Continues the [curriculum handoff](2026-10-15-curriculum-claim-coverage-report.md).
+observations `08d9eab`, unchanged product `232a418`. Continues the [curriculum handoff](2026-10-15-curriculum-claim-coverage-report.md).
 
 ## Existing sources and explicit caller facets
 
@@ -83,8 +83,19 @@ authority/currentness and automatic interpretation remain separate questions.
 Raw evidence lives ignored under workspace
 `audit-evidence/p05-partial-claim-coverage-20261016/`. Fresh focused claim regressions:
 19 tests/84 subtests in0.34s, exit0. Documentation/ledger491tests/11subtests in11.41s,
-exit0; phase validation, four local links and whitespace pass. One final independent
-review and evidence seal follow.
+exit0; phase validation, four local links and whitespace pass. The single final
+independent review found no actionable issues. Parent read-only replay of its
+supplemental audit confirms exact accepted/vector identities, unique sidecars,
+all180configuration entries/four strategies and exhaustive focus/control coverage.
+
+The 26-file top-level observation/review seal verifies, excluding test temporaries.
+Manifest SHA256:
+`0390d697a398fd4bcbcc8741cb51f5b04906630d5d45444263bdfcd6891523ae`.
+Reviewer artifact: sibling `p05-partial-claim-coverage-review-20261016/final-review.md`.
+Use `python -B <observation-root>/seal_evidence.py verify` read-only; never rerun
+sealed writers. Final documentation/ledger checks: 491 tests/11 subtests in11.41s,
+exit0. Phase validation, four plan/report links plus progress link, whitespace and
+read-only seal verification pass; advancement stays blocked as expected.
 No product code changed; unchanged full/native tests are not repeated. Their
 historical native stderr uncertainty remains unresolved. All F04/G01/original G02
 holds, confirmed G03 and excluded ASG decisions remain intact.

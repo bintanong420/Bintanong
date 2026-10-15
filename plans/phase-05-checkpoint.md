@@ -2,16 +2,55 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 279
+sequence: 281
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cd46d87
-working_tree: partial-claim report/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-16T00:18:17+08:00
+head_commit: 08d9eab
+working_tree: six partial-claim closure documents; owner artifacts preserved
+updated_at: 2026-10-16T00:23:41+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Vehicle-pass and fee claim checks closed — 16 October 2026
+
+Plan `cd46d87`, observations `08d9eab`, unchanged product `232a418`.
+[Partial-claim report](2026-10-16-partial-claim-coverage-report.md): all594actual
+U1/U2requests remain insufficient evidence. Separate324U2printed-example reports:
+288fieldsavailable/36missingcontext. Both focus strategies preserve all6actual
+insufficiencies plus3printed examples available per strategy. No price, workflow,
+individual bill or current-year validity inferred.45of63distinct accepted variants
+now have source-claim observations/18without; this is not an answer-success rate.
+
+Single final review: no actionable findings; parent read-only supplemental replay
+passes. Verified594sidecars/918reports,3240field occurrences/1864limittraces,
+10archivecontext hashes,180configurations/648nonnull72null pointers/12focusentries,
+18controls,572priorhashes/15source11observationinputs/16codedigests. Sixrows/15fields/
+15spans/four existing event objects/three original image hashes bound. No new source
+review or product change. Focused19tests/84subtests0.34s and doc-ledger491/11 11.41s
+exit0. Thesis17–18/routingPNG consulted by parent/reviewer, no discrepancy.
+
+26-file top-level seal verifies, test temporaries excluded. Manifest SHA256:
+0390d697a398fd4bcbcc8741cb51f5b04906630d5d45444263bdfcd6891523ae.
+Raw root: workspace/audit-evidence/p05-partial-claim-coverage-20261016/;
+review sibling: p05-partial-claim-coverage-review-20261016/.
+Use `seal_evidence.py verify` read-only; never rerun sealed writers. All owner
+artifact changes remain untouched/unstaged. Historical native uncertainty remains
+unresolved; no full/native/model/retrieval repetition. Candidate inactive, formal
+Phase05Tasks4/6/calibration/source governance open; no Phase06 advancement.
+
+Next design one bounded offline request trace composing existing explicit audience,
+entity, curriculum and subject decisions with saved context and claim reports.
+Preserve gate evidence/unknowns and all accepted wordings/vectors; no automatic
+interpretation, answer-permission or calibrated default claim. Earlier entries
+below are history.
+
+Final closure: documentation/ledger491tests/11subtests in11.41s exit0; phasevalidate0/canadvance1(expectedblocked), four plan/report links plus progress link, whitespace and26-file read-only seal verification pass.
+
+Checkpoint parent `08d9eab` precedes the following documentation closure commit;
+reconcile that expected difference on resume.
+
 
 ## Vehicle-pass and fee observations independently verified — 16 October 2026
 
@@ -1297,6 +1336,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: U1/U2partial-claim observations/final review/26-file seal complete; final closure next, then bounded offline request-trace composition design.
 
 Latest: U1/U2existing limits applied to all594saved prefixes/918reports; independent/focused/doc checks pass. Single final review/seal next.
 
@@ -3123,6 +3164,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: observations08d9eab/product232a418 unchanged; six explicit closure documents only. Owner artifacts/.gitkeep deletion/backend/artifacts/ preserved/unstaged. Checkpoint parent precedes following docs commit.
+
 Latest: observations936da62/product232a418 unchanged; six explicit report/INDEX/CLI/blocked-handoff/checkpoint/current-progress closure paths. Owner artifacts/.gitkeep deletion/backend/artifacts/ preserved/unstaged. Expected checkpoint parent precedes following docs commit.
 
 Latest: observation HEAD `fcf90bd`, product `232a418` unchanged; six curated closure paths only. Owner artifacts/.gitkeep deletion and backend/artifacts/ preserved/unstaged. Expected checkpoint parent precedes following docs commit.
@@ -3321,6 +3364,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: independent594sidecars918reports/3240fields1864limits/10contexts,648nonnull72null pointers and572priorhashes/16codedigests verified. Single final review no findings; focused19/84 .34s and doc-ledger491/11 11.41s exit0.26-file seal 0390d697a398fd4bcbcc8741cb51f5b04906630d5d45444263bdfcd6891523ae verifies; final closure doc-ledger491/11 in11.41s exit0; phasevalidate0/canadvance1expectedblocked,links/whitespace/seal pass.
 
 Latest: source/sidecar independent checks and single resumed final review pass with no findings; supplemental24selector replays/1296nonnull144null pointers,537priorhashes/16codefiles. Prior focused99/2364.00s and doc-ledger489/11 14.52s exit0. Seal34files 251cc4a79181e6872dfe84433b08990f4deae453a9d653a366285f822ac76a78 verifies; final doc-ledger489/11 in11.34s exit0; phasevalidate0/canadvance1expectedblocked, links/whitespace/seal pass.
 
@@ -4314,6 +4359,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: design one bounded offline request trace for existing accepted cases composing trusted audience/entity/curriculum/subject hints, saved context and claim reports. Preserve separate gate evidence/unknowns; no automatic NLP, default calibration or answer permission.
+
 Latest: final independent partial-claim review, seal and continuity closure; then design one bounded offline request trace composing existing trusted scope/curriculum/subject/context/claim evidence.
 
 Latest: existing six U1/U2 variants exact-claim sidecars using reviewed declared limits, saved contexts and separate printed fee example. Preserve unavailable price/workflow/billing/currentness and unknown eligibility; no new source/wording approval or encoding.
@@ -4908,6 +4955,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: U1/U2source audit,594sidecars918reports,focused/doc checks,single final review and26-file seal complete. Do not rerun sealed writers, source conversions, encodings/retrieval or unchanged full/native suite. Printed fee example stays ancillary.
 
 Latest: curriculum source audit,360sidecars/720reports,focused tests,one final review and34-file seal complete. Do not rerun sealed writers, conversions, encodings/retrieval or unchanged full/native tests. Keep six unknown BSCS cases in clarification.
 

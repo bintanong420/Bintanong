@@ -5,10 +5,49 @@ status: blocked
 plan: plans/phase-05-retrieval-plan.md
 final_commit: 232a418
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-16T00:09:06+08:00
+completed_at: 2026-10-16T00:22:58+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Vehicle-pass and fee claim checks closed — 16 October 2026
+
+Plan `cd46d87`, observations `08d9eab`, unchanged product `232a418`.
+[Partial-claim report](2026-10-16-partial-claim-coverage-report.md): all594actual
+U1/U2requests remain insufficient evidence. Separate324U2printed-example reports:
+288fieldsavailable/36missingcontext. Both focus strategies preserve all6actual
+insufficiencies plus3printed examples available per strategy. No price, workflow,
+individual bill or current-year validity inferred.45of63distinct accepted variants
+now have source-claim observations/18without; this is not an answer-success rate.
+
+Single final review: no actionable findings; parent read-only supplemental replay
+passes. Verified594sidecars/918reports,3240field occurrences/1864limittraces,
+10archivecontext hashes,180configurations/648nonnull72null pointers/12focusentries,
+18controls,572priorhashes/15source11observationinputs/16codedigests. Sixrows/15fields/
+15spans/four existing event objects/three original image hashes bound. No new source
+review or product change. Focused19tests/84subtests0.34s and doc-ledger491/11 11.41s
+exit0. Thesis17–18/routingPNG consulted by parent/reviewer, no discrepancy.
+
+26-file top-level seal verifies, test temporaries excluded. Manifest SHA256:
+0390d697a398fd4bcbcc8741cb51f5b04906630d5d45444263bdfcd6891523ae.
+Raw root: workspace/audit-evidence/p05-partial-claim-coverage-20261016/;
+review sibling: p05-partial-claim-coverage-review-20261016/.
+Use `seal_evidence.py verify` read-only; never rerun sealed writers. All owner
+artifact changes remain untouched/unstaged. Historical native uncertainty remains
+unresolved; no full/native/model/retrieval repetition. Candidate inactive, formal
+Phase05Tasks4/6/calibration/source governance open; no Phase06 advancement.
+
+Next design one bounded offline request trace composing existing explicit audience,
+entity, curriculum and subject decisions with saved context and claim reports.
+Preserve gate evidence/unknowns and all accepted wordings/vectors; no automatic
+interpretation, answer-permission or calibrated default claim. Earlier entries
+below are history.
+
+Final closure: documentation/ledger491tests/11subtests in11.41s exit0; phasevalidate0/canadvance1(expectedblocked), four plan/report links plus progress link, whitespace and26-file read-only seal verification pass.
+
+Checkpoint parent `08d9eab` precedes the following documentation closure commit;
+reconcile that expected difference on resume.
+
 
 ## Scoped curriculum claim coverage closed — 16 October 2026
 
