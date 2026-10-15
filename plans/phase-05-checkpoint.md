@@ -2,16 +2,35 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 236
+sequence: 237
 plan: plans/phase-05-retrieval-plan.md
-head_commit: feaa961
-working_tree: explicit evaluation report, plan and continuity documentation; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T18:48:35+08:00
+head_commit: 91bba1f
+working_tree: context-prefix diagnostic plan and active ledgers; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T18:58:01+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Context-prefix diagnostic resumed — 15 October 2026
+
+Fresh Git91bba1f matches expected final documentation commit after productfeaa961;
+owner artifacts preserved. Active plan/checkpoint/CLI/master10 reviewed; thesis
+physical17–18/routingPNG consulted, no scope/routing discrepancy. Exact accepted
+questions/source decisions and previous43file seal retained. Continue recorded
+context-selection next action via2026-10-15-context-prefix-diagnostic-plan.md:
+saved-ranking prefixes, whole dependency groups, exact tokenizer, no re-encoding,
+gold hints, source edits or runtime change. Distinguish budget-refused extras from
+missing expected evidence; scope/acronym controls remain annotated, not automaticNLP.
+
+Estimate requested by owner: around80%technical Phase05 work (75–85%rough range),
+judgment rather than measured completion; four/six top-level tasks delivered,
+calibration and final evaluation/governance/exit open. No formal completion date
+while required verification evidence is missing; schoolresponse timing unknown
+and not an offline-work blocker. F04held/G01G02unconfirmed/G03only/ASG23excluded.
+Next run bounded comparison and independent replay, then record outcome/recovery.
+
 
 ## Verified approved-query evaluation — 15 October 2026
 
@@ -526,6 +545,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Run saved-ranking context-prefix diagnostic under2026-10-15-context-prefix-diagnostic-plan.md; product unchanged.
 
 Approved-query bounded plan complete; finish documentation checks/evidence seal/curated commit. Product feaa961 and one final review verified.
 

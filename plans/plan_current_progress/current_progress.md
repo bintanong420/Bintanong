@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Context-prefix diagnostic resumed — 15 October 2026
+
+Fresh Git91bba1f matches expected final documentation commit after productfeaa961;
+owner artifacts preserved. Active plan/checkpoint/CLI/master10 reviewed; thesis
+physical17–18/routingPNG consulted, no scope/routing discrepancy. Exact accepted
+questions/source decisions and previous43file seal retained. Continue recorded
+context-selection next action via2026-10-15-context-prefix-diagnostic-plan.md:
+saved-ranking prefixes, whole dependency groups, exact tokenizer, no re-encoding,
+gold hints, source edits or runtime change. Distinguish budget-refused extras from
+missing expected evidence; scope/acronym controls remain annotated, not automaticNLP.
+
+Estimate requested by owner: around80%technical Phase05 work (75–85%rough range),
+judgment rather than measured completion; four/six top-level tasks delivered,
+calibration and final evaluation/governance/exit open. No formal completion date
+while required verification evidence is missing; schoolresponse timing unknown
+and not an offline-work blocker. F04held/G01G02unconfirmed/G03only/ASG23excluded.
+Next run bounded comparison and independent replay, then record outcome/recovery.
+
 Closure:470docs/ledger tests and11subtests pass13.97s; phasevalid/canadvance1
 (expectedblocked). New43file evidence seal SHA256:0780291a6e5e167bc9cbaafafe19175ca8c35d0487db4c620a93166698143249.
 Accepted-packet3file seal SHA256:6b5e01da7206d3d71869f61ab04a760da39967179a832241100963bc8d6372ae. Both verified read-only;
