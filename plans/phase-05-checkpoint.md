@@ -2,16 +2,61 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 228
+sequence: 229
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 29f1410
+head_commit: 857b8db
 working_tree: six explicit CSG clarification and continuity documentation paths; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T17:51:00+08:00
+updated_at: 2026-10-15T18:10:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Explicit owner decisions recovered on resume — 15 October 2026
+
+Shell and file access work again. Fresh Git starts at `857b8db`; the recorded
+owner artifact deletion/untracked directory are preserved. This supersedes older
+all-G-pending notes below; they remain historical presentation records.
+
+- **G03 confirmed, reading only:** “Formulate internal rules and policies that shall
+  facilitate the performance of their duties and responsibilities provided they shall
+  not be inconsistent to this constitution;” Original physical21, ArticleXIV
+  section5(c), College Legislative Department heading on physical20. Preserve
+  the department association and consistency condition. G01 and original G02
+  remain **unconfirmed**; no wider ArticleXIV approval is inferred.
+- The other owner quotation, “Adopt its own constitution, internal rules, and policies
+  that shall facilitate the performance of their duties and responsibilities
+  provided they shall not be inconsistent to this constitution;”, is on original
+  **physical23, ArticleXV, printed section4, paragraph(d)**, under “The General
+  Provisions of all Autonomous Student Government units”. The original repeats
+  section4 after the ASG-Commissioner section4; retain its printed heading.
+  Physical22 section2 lists laboratory school, Law, Graduate School and Medicine.
+  Preserve this separate clause as provenance, excluded from undergraduate
+  evidence/review candidates. It must never replace **G02, physical19,
+  ArticleXIV section3(iii), College Executive Department**, which says “Adopt its
+  own internal rules and policies...” without “its own constitution”.
+- CSG/USG similarity was secondhand information; disregard it as policy evidence.
+  Retain actual documented USG/CSG provisions for review without inferring local
+  rules. Possible policies from eight college governments have not been supplied.
+- **F04 remains unresolved.** Prior .62 confirmation and .52/.62 observations stay
+  intact. These replies confer no broader source or institutional approval.
+
+New ignored decision/preservation evidence:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-g03-asg-resume-20261015/`.
+Original constitution hash matches; all62original source hashes,22raster-seal files
+and25fee-seal files match. No originals or prior sealed files were written.
+Thesis physical17–18, original USG19–23/native text, routingPNG, master10,
+active plan/checkpoint, previous complete/blocked handoffs and dataset/scope/gap/
+service policies consulted. No scope or routing discrepancy: retrieval preparation
+remains offline, read-only, undergraduate-only and inactive; formalPhase05 blocked.
+Python imports for unavailable `pymupdf`/`pypdf` failed; used the already-installed
+`pypdfium2` reader successfully, without installs or renewed source conversion.
+
+Next: remaining confirmed V/E source-field/event/geometry bindings with existing
+mappers; reuse66fee bindings, prior three E01headings, models/vectors and settled
+reviews. Present exact six scenarios/18variants and expected behavior before tests.
+
 
 Owner clarified the G question: retain documented USG/CSG material for review;
 the CSG/USG similarity statement was secondhand and may be disregarded as policy
@@ -357,6 +402,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Record recovered G03/ASG decisions; continue confirmed V/E bindings using unchanged mappers. G01/G02 unconfirmed; F04 held.
 
 Record the CSG clarification and continue remaining already-confirmed V/E bindings.
 No need to wait for or reaffirm the secondhand similarity claim. Verify actual
@@ -2993,6 +3040,8 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Latest explicit G03-only confirmation and ASG physical23 exclusion above supersede older all-G-pending notes; original G01/G02 remain unconfirmed.
+
 Owner says the similarity claim was told to them and can be disregarded. It is
 unverified hearsay, not policy evidence. Retain documented provisions as candidates;
 actual source clauses, campus/department associations and exact review determine
@@ -3221,6 +3270,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Finish confirmed V/E bindings, then obtain exact six-scenario/18-variant wording and expected-behavior acceptance before testing. Do not reopen G03 or substitute excluded ASG content.
 
 Continue confirmed V/E source-field/event/geometry bindings and exact benchmark
 wording review before tests. At actual delivery, inventory/review the possible

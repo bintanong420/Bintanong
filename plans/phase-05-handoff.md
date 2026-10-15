@@ -10,6 +10,8 @@ completed_at: 2026-10-15T00:18:59+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest recovered owner decisions are in the updated2026-10-15 CLI handoff and G packet: G03 confirmed only; G01/G02 unconfirmed, distinct excluded ASG clause at physical23. This supersedes older all-G-pending notes; F04 remains held and formal Phase05 remains blocked.
+
 Latest session handoff:2026-10-15-phase05-cli-handoff.md, baseline d9d5990. Owner
 available for human verification throughoutPhase05, now standing AGENTS instruction.
 Prepared G01–03 general CSG source readings, pending/not yet presented as a question;

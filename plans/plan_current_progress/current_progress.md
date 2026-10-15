@@ -1,5 +1,49 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Explicit owner decisions recovered on resume — 15 October 2026
+
+Shell and file access work again. Fresh Git starts at `857b8db`; the recorded
+owner artifact deletion/untracked directory are preserved. This supersedes older
+all-G-pending notes below; they remain historical presentation records.
+
+- **G03 confirmed, reading only:** “Formulate internal rules and policies that shall
+  facilitate the performance of their duties and responsibilities provided they shall
+  not be inconsistent to this constitution;” Original physical21, ArticleXIV
+  section5(c), College Legislative Department heading on physical20. Preserve
+  the department association and consistency condition. G01 and original G02
+  remain **unconfirmed**; no wider ArticleXIV approval is inferred.
+- The other owner quotation, “Adopt its own constitution, internal rules, and policies
+  that shall facilitate the performance of their duties and responsibilities
+  provided they shall not be inconsistent to this constitution;”, is on original
+  **physical23, ArticleXV, printed section4, paragraph(d)**, under “The General
+  Provisions of all Autonomous Student Government units”. The original repeats
+  section4 after the ASG-Commissioner section4; retain its printed heading.
+  Physical22 section2 lists laboratory school, Law, Graduate School and Medicine.
+  Preserve this separate clause as provenance, excluded from undergraduate
+  evidence/review candidates. It must never replace **G02, physical19,
+  ArticleXIV section3(iii), College Executive Department**, which says “Adopt its
+  own internal rules and policies...” without “its own constitution”.
+- CSG/USG similarity was secondhand information; disregard it as policy evidence.
+  Retain actual documented USG/CSG provisions for review without inferring local
+  rules. Possible policies from eight college governments have not been supplied.
+- **F04 remains unresolved.** Prior .62 confirmation and .52/.62 observations stay
+  intact. These replies confer no broader source or institutional approval.
+
+New ignored decision/preservation evidence:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-g03-asg-resume-20261015/`.
+Original constitution hash matches; all62original source hashes,22raster-seal files
+and25fee-seal files match. No originals or prior sealed files were written.
+Thesis physical17–18, original USG19–23/native text, routingPNG, master10,
+active plan/checkpoint, previous complete/blocked handoffs and dataset/scope/gap/
+service policies consulted. No scope or routing discrepancy: retrieval preparation
+remains offline, read-only, undergraduate-only and inactive; formalPhase05 blocked.
+Python imports for unavailable `pymupdf`/`pypdf` failed; used the already-installed
+`pypdfium2` reader successfully, without installs or renewed source conversion.
+
+Next: remaining confirmed V/E source-field/event/geometry bindings with existing
+mappers; reuse66fee bindings, prior three E01headings, models/vectors and settled
+reviews. Present exact six scenarios/18variants and expected behavior before tests.
+
 **Owner CSG clarification, 15 October 2026, baseline29f1410:** retain documented
 USG/CSG material for review. The earlier similarity claim was secondhand and may
 be disregarded as policy evidence. Policies from eight college governments may

@@ -106,6 +106,20 @@
 
 ## Owner decisions to preserve across CLI sessions
 
+- On 15 October 2026 resume, the owner explicitly confirmed only G03's supplied
+  wording: ArticleXIV section5(c), physical21, College Legislative Department
+  heading on physical20, with its consistency condition. G01 and the original
+  College Executive G02 (physical19, ArticleXIV section3(iii), “Adopt its own
+  internal rules and policies...”) remain unconfirmed. The other quotation,
+  “Adopt its own constitution, internal rules, and policies...”, is a separate
+  ASG clause: physical23, ArticleXV, printed section4 headed “The General Provisions
+  of all Autonomous Student Government units”, paragraph(d). Physical22 section2
+  lists laboratory school, Law, Graduate School and Medicine; preserve provenance
+  but exclude that clause from undergraduate evidence. Never substitute it for G02.
+  CSG/USG similarity is disregarded secondhand information; eight possible college
+  policy sets are not yet supplied. F04 remains held; no wider approval inferred.
+  See plans/2026-10-15-csg-human-review-packet.md for recovered decisions/native check.
+
 These are standing owner instructions from the Phase 05 conversation. Read them
 alongside the phase ledger; do not ask the owner to repeat settled decisions.
 The latest cleanup/resume record is
