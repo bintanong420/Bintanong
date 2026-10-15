@@ -138,6 +138,18 @@ class ContextSelectionTests(unittest.TestCase):
         self.assertEqual(result['offered'][0]['assembly_gaps'], ['invalid_citation:a'])
         self.assertEqual(result['emitted_chunk_ids'], [])
 
+    def test_missing_trace_metadata_preserves_invalid_or_deferred_assembly(self):
+        for field in ('version_id', 'byte_sha256', 'similarity'):
+            for limit in (0, 1):
+                with self.subTest(field=field, limit=limit):
+                    a = row('a')
+                    del (a if field == 'similarity' else a['chunk'])[field]
+                    expected = build_context([a][:limit], 100000, len)
+                    result = self.report([a], primary_limit=limit)
+                    self.assertEqual(result['assembly'], expected)
+                    self.assertIsNone(result['offered'][0][field])
+                    self.assertEqual(expected['gaps'], ['invalid_citation:a'] if limit else [])
+
     def test_empty_zero_and_full_prefix_are_explicit(self):
         self.assertEqual(self.report([])['offered'], [])
         a = row('a')

@@ -53,8 +53,8 @@ def build_context_selection_report(candidates, budget, count_tokens, *, primary_
         identity = chunk['chunk_id']
         dependencies = _dependencies(candidate)
         offered.append(dict(rank=index+1, chunk_id=identity,
-            version_id=chunk['version_id'], byte_sha256=chunk['byte_sha256'],
-            similarity=candidate['similarity'], requested=index < limit,
+            version_id=chunk.get('version_id'), byte_sha256=chunk.get('byte_sha256'),
+            similarity=candidate.get('similarity'), requested=index < limit,
             primary_emitted=identity in emitted, **dependencies,
             unemitted_required_chunk_ids=sorted(set(dependencies['required_chunk_ids']) - emitted),
             assembly_gaps=[gap for gap in assembly['gaps'] if gap.partition(':')[2] == identity]))

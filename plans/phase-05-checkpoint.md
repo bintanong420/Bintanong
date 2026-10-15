@@ -2,16 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 240
+sequence: 241
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9fec57d
-working_tree: offline selection helper/tests/README and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T19:15:08+08:00
+head_commit: 4da6e19
+working_tree: metadata refusal fix, accepted temporal proposal and continuity; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T19:26:04+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Reporting review and accepted next cases — 15 October 2026
+
+Final post-fix full suite:5305tests/533subtests pass324.19s,6skips/6existingwarnings,exit0. Post-fix4390attempt/1350baseline replay and44986dependency checks pass118.58s; pre/post traces identical,300input/sevenpriorcode-testhashes preserved. Phase-ledger19tests/11subtests pass12.16s. OneP2 fixed underTDD, no other findings. Next seal/report commit, then accepted nine-query evaluation.
+
+Product4da6e19;4390attempts/1350defaults match all prior contexts/evidence/gaps/
+tokens,44986dependency checks/300preserved hashes pass119.599s. Pre-fix full5303
+tests/527subtests pass358.45s,6skips/6existingwarnings. One final independent review
+found oneP2: absent version/hash/score crashed the trace after valid refusal.
+Six requested/deferred cases reproduced RED; nullable trace metadata correction
+GREEN88tests/93subtests1.47s. Reviewer650graph checks pass, no additional findings.
+Final fullsuite and replay running; no second review. Original builder/engine and
+source limits unchanged. Coverage always unknown; candidate inactive/exitblocked.
+
+Actual owner reply accepts all nine T1/T2/U3 wordings/expectations in
+2026-10-15-temporal-unsupported-query-proposal.md. Snapshot SHA256:
+34529fad525df70d2274f151538ddcecd3bcfb06f50bbc752a6a0ff984d1a5eb.
+Recorded byte-bound event in ignored accepted-temporal-packet; do not ask again.
+No new queries encoded/scored yet. Next finish current fix verification/seal,
+then selected-evidence label preflight and bounded accepted nine-query evaluation.
 
 ## Offline selection helper verified — 15 October 2026
 
@@ -589,6 +609,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: finish reviewed metadata correction/final checks, then execute accepted T1/T2/U3 nine-query preflight/evaluation via2026-10-15-temporal-unsupported-evaluation-plan.md. Earlier entries below are history.
 
 Verified diagnostic ready for reportcommit; review and seal complete. Next opt-in reporting design; no formaladvancement.
 
@@ -3545,6 +3567,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: complete current reporting seal/commit, then accepted temporal/unsupported evaluation preflight and nine new query encodings with existing27document vectors. No repeat wording/source review, activation or Phase06. Earlier entries below are history.
 
 Prepare narrow opt-in context-selection reporting design; distinguish omitted extras from unassembled required groups and unknown claim completeness. Preserve all limits/no default policy until tested; representative calibration/formal exits pending.
 

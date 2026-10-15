@@ -54,6 +54,8 @@ another primary's neighbor. Unemitted IDs may also reflect span deduplication;
 they do not prove missing information. Deferred rows are not certified as valid
 citations or applicable evidence. Duplicate offered IDs retain their ranks;
 emission and gaps describe chunk identities rather than individual attempts.
+Missing version/hash/score metadata remains null in the trace; it does not hide
+the assembler's invalid-citation refusal or prevent reporting deferred rows.
 
 Every report is candidate-only, activation-ineligible and has
 `claim_coverage='unknown'`, even with nonempty gap-free context. This diagnostic

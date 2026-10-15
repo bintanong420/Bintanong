@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Reporting review and accepted next cases — 15 October 2026
+
+Final post-fix full suite:5305tests/533subtests pass324.19s,6skips/6existingwarnings,exit0. Post-fix4390attempt/1350baseline replay and44986dependency checks pass118.58s; pre/post traces identical,300input/sevenpriorcode-testhashes preserved. Phase-ledger19tests/11subtests pass12.16s. OneP2 fixed underTDD, no other findings. Next seal/report commit, then accepted nine-query evaluation.
+
+Product4da6e19;4390attempts/1350defaults/44986dependency checks/300hashes pass.
+Pre-fix full5303tests/527subtests pass358.45s,6skips/6existingwarnings. One review
+found missing trace metadataP2; six-case RED then nullable metadata GREEN88/93
+in1.47s. Final fullsuite/replay running. Reviewer650independent graph checks pass;
+no other findings or second review. Source limits/builder/engine unchanged.
+
+Actual owner accepts nine T1/T2/U3 wordings/expectations. Exact snapshot hash:
+34529fad525df70d2274f151538ddcecd3bcfb06f50bbc752a6a0ff984d1a5eb.
+See2026-10-15-temporal-unsupported-query-proposal.md; byte-bound event saved,
+no repeated acceptance request. No new queries encoded yet. Next complete current
+fix verification/report/seal, then selected-evidence preflight and bounded nine
+query evaluation. No school approval, activation or Phase06 inferred.
+
 ## Offline selection helper verified — 15 October 2026
 
 Plan9fec57d; synthetic expected missing-module RED(exit2), then87tests/87subtests
