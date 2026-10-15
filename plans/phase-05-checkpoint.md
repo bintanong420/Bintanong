@@ -2,16 +2,55 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 267
+sequence: 269
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b1e73e3
-working_tree: accepted coverage consolidation; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
-updated_at: 2026-10-15T23:02:27+08:00
+head_commit: fcf90bd
+working_tree: six coverage closure documents; owner artifacts/.gitkeep deletion and backend/artifacts/ preserved
+updated_at: 2026-10-15T23:09:34+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Accepted-case coverage consolidation closed — 15 October 2026
+
+Observation `fcf90bd`, baseline `b1e73e3`, unchanged product `232a418`.
+[Coverage matrix](2026-10-15-accepted-case-coverage-matrix.md) joins all 63 accepted
+variants/21 scenarios: 27 have existing source-claim reports, 36 have other traces.
+Categories total 63: 12 fields available, nine known limits, six selected-field
+absence reviews, 12 scoped curriculum claims unassessed, six BSCS curriculum
+clarifications, six partial-evidence expectations, six excluded audiences, three
+entity clarifications and three selected-program-unavailable traces. Recovery,
+field availability and explicit scope traces stay separate; no answer-success rate.
+
+Parent audit and the single final independent review pass: no actionable findings;
+150 exhaustive saved strategy references, 71 report links, ten null selections,
+139 copied limit occurrences, 519 prior hashes, 20 inputs and 15 code/test/document
+digests verified. Existing doc-ledger 487 tests/11 subtests in 11.32s, exit 0.
+No product/full/native tests, retrieval, model calls or source conversions repeated.
+Thesis physical 17–18 and routing PNG consulted by parent/reviewer, no discrepancy.
+
+The 17-file top-level observation/review seal verifies; test temporaries excluded.
+Manifest SHA256: ce1b27c13ad4c7e5029af1016929334a5280e202e140b79627a60945620ebd16.
+Raw root: workspace/audit-evidence/p05-accepted-coverage-matrix-20261015/;
+review sibling: p05-accepted-coverage-matrix-review-20261015/.
+Use `seal_evidence.py verify` read-only; do not rerun sealed writers.
+Owner artifact deletion/untracked directory untouched and unstaged.
+
+Next design the curriculum source-claim contract for the four scoped scenarios/
+12 variants, using existing reviewed fields and caller claims. Preserve eight
+unassigned curriculum rows in the current policy catalogue and six unknown-BSCS
+clarification controls. A separate derivative may reuse current helpers; a product
+extension is not assumed necessary. U1/U2 limits remain available for future exact-
+claim sidecars. Do not reopen settled source/wording approvals or infer an individual
+bill, replacement price/workflow, eligibility or institutional/current-year approval.
+Formal Phase 05 Tasks 4/6, representative calibration and source governance remain
+open; candidate inactive, no Phase 06. Earlier entries below are history.
+Final closure: documentation/ledger 487 tests/11 subtests in 11.52s, exit 0; phase validation exit 0/can-advance exit 1 (expected blocked), five report links plus progress link, whitespace and read-only seal verification pass.
+
+Checkpoint parent `fcf90bd` precedes the following documentation closure commit.
+
 
 ## Accepted coverage matrix verified — 15 October 2026
 
@@ -1095,6 +1134,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: factual 63-variant coverage consolidation verified, independently reviewed and sealed. Finish six-path closure, then design the four-scenario/12-variant curriculum source-claim contract.
 
 Latest: factual 63-variant coverage matrix verified; one final independent review, documentation checks/seal and closure next. Product unchanged.
 
@@ -2913,6 +2954,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: observation HEAD `fcf90bd`, product `232a418` unchanged; six curated closure paths only. Owner artifacts/.gitkeep deletion and backend/artifacts/ preserved/unstaged. Expected checkpoint parent precedes following docs commit.
+
 Latest: observation HEAD `3502cdd`, unchanged product `232a418`; six explicit closure documents only (report, INDEX, CLI handoff, blocked handoff, checkpoint, current progress). Owner artifacts/.gitkeep deletion and backend/artifacts/ preserved/unstaged. Parent SHA precedes the following documentation commit.
 
 Latest:232a418 is verified product HEAD before six-path documentation closure; report/INDEX/CLI/blocked handoff/checkpoint/current progress explicit only. Owner artifacts/.gitkeep deletion/backend/artifacts/ untouched/unstaged.
@@ -3107,6 +3150,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: all 63 identities/21 groups,150 decision entries/71 report links/ten nulls/139 limits,519 prior hashes/20 inputs/15 code digests verified; final independent review no findings. Doc-ledger 487/11 in 11.32s exit 0. 17-file seal ce1b27c13ad4c7e5029af1016929334a5280e202e140b79627a60945620ebd16 verified; final closure doc-ledger 487/11 in 11.52s exit 0; phase validate 0/can-advance 1 (expected blocked), links/whitespace/seal pass.
 
 Latest: parent focused 99/236 in 3.65s; reviewer 19/84 in 0.30s, no actionable findings; doc-ledger 486/11 in 11.68s. All 1,944 reports and preservation checks pass. 38-file seal 04c64302e684ff468c654c0e65f2d59def8d435688dcb951a36f5f05f8ef89f8 verifies. Final closure doc-ledger 486/11 in 11.53s exit 0; phase validate 0/can-advance 1 (expected blocked), three links/whitespace/seal pass. Parent and reviewer both consulted thesis physical 17–18 and routing PNG; reconsulted after compaction, no scope/routing discrepancy.
 
@@ -4096,6 +4141,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: design separate curriculum source-claim contract for four already-scoped scenarios/12 variants. Reuse reviewed fields, existing selectors and saved wordings/vectors; preserve six BSCS curriculum clarifications and current policy catalogue eight unassigned rows. No product extension presumed.
+
 Latest: finish the factual matrix review/seal, then design the missing four-scenario/12-variant curriculum source-claim boundary; unknown BSCS remains clarification, not a policy-subject guess.
 
 Latest: consolidate source-field/known-limit/unknown-claim coverage across existing accepted cases using established scope/curriculum selectors and saved vectors/wordings. Identify missing review or caller interpretation before calibrated integration; candidate inactive, no Phase 06.
@@ -4682,6 +4729,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: 63-case matrix, exhaustive pointer audit, single final review and 17-file seal complete. Do not rerun consolidate.py or sealed writers, retrieval, encoding, conversions or unchanged full/native tests. Never combine recovery metrics with answer accuracy.
 
 Latest: source-first policy audit, six/18 observations, initial324/refined comparisons, final independent review, focused checks and 38-file seal are complete. Do not rerun sealed writers, conversions, encodings, settled reviews or unchanged full/native tests. Development-informed derivative is not a blind evaluation.
 

@@ -5,7 +5,7 @@ evidence. Existing source-claim reports cover 27 variants. The other 36 have
 curriculum-selection, explicit request-context or partial-evidence observations;
 they have no saved source-claim report. None establishes final-answer sufficiency.
 
-Baseline `b1e73e3`, unchanged product `232a418`. This is a factual consolidation
+Baseline `b1e73e3`, observations `fcf90bd`, unchanged product `232a418`. This is a factual consolidation
 of the original 12/36, accepted natural six/18 and temporal three/nine packets.
 It adds no question, source reading, review approval, inference or retrieval run.
 
@@ -89,9 +89,22 @@ Raw evidence is ignored under workspace
 product/test/document digests. Independent read-only audit passes: all 63 identity
 joins, 150 saved strategy entries, 71 source-report links, ten null selections and
 139 copied source-limit occurrences. Documentation/ledger preflight: 487 tests/11
-subtests pass in 11.32s, exit 0. Phase validation and whitespace pass. Single final
-independent review and evidence seal follow; final results go in this report and
-the checkpoint.
+subtests pass in 11.32s, exit 0. The single final independent review found no
+actionable issues and additionally proved exhaustive equality with all eligible
+saved focus decisions, report join keys/modes and the 519-entry preservation union.
+Parent replay of that separate read-only audit passes. Phase validation, five
+local links and whitespace pass; advancement remains blocked as expected.
+
+The 17-file top-level seal covers the observation root and sibling
+`p05-accepted-coverage-matrix-review-20261015/`; test temporary directories are
+excluded. Manifest SHA256:
+`ce1b27c13ad4c7e5029af1016929334a5280e202e140b79627a60945620ebd16`.
+Use `python -B <matrix-root>/seal_evidence.py verify` read-only; do not rerun
+`consolidate.py` or any sealed writing script. Final documentation checks are
+recorded in the checkpoint: 487 tests/11 subtests in 11.52s, exit 0. Phase
+validation, link/whitespace and read-only seal checks pass; advancement remains
+blocked as expected. No product/full-suite/native tests were repeated;
+the prior native diagnostic remains historical with its cause unresolved.
 
 Relevant preceding evidence: [policy fields](2026-10-15-positive-policy-claim-review-report.md),
 [source-bound claims](2026-10-15-source-claim-review-report.md),
@@ -102,7 +115,8 @@ Relevant preceding evidence: [policy fields](2026-10-15-positive-policy-claim-re
 Next prepare the missing curriculum source-claim boundary for the four already
 scoped scenarios/12 variants, using all existing reviewed row fields and actual
 caller claims. Keep the curriculum selector separate from policy-subject metadata;
-design that contract before changing code. Reuse settled evidence and wordings.
+design that contract before changing code. A separate derivative may reuse the
+existing helpers; this consolidation does not require a product extension. Reuse settled evidence and wordings.
 The six unknown-edition BSCS variants remain clarification controls. Separately
 reuse declared U1/U2 limits for their exact requested claims when adding future
 sidecars; no new source-content confirmation is inferred or required by this join.

@@ -1,5 +1,44 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Accepted-case coverage consolidation closed — 15 October 2026
+
+Observation `fcf90bd`, baseline `b1e73e3`, unchanged product `232a418`.
+[Coverage matrix](2026-10-15-accepted-case-coverage-matrix.md) joins all 63 accepted
+variants/21 scenarios: 27 have existing source-claim reports, 36 have other traces.
+Categories total 63: 12 fields available, nine known limits, six selected-field
+absence reviews, 12 scoped curriculum claims unassessed, six BSCS curriculum
+clarifications, six partial-evidence expectations, six excluded audiences, three
+entity clarifications and three selected-program-unavailable traces. Recovery,
+field availability and explicit scope traces stay separate; no answer-success rate.
+
+Parent audit and the single final independent review pass: no actionable findings;
+150 exhaustive saved strategy references, 71 report links, ten null selections,
+139 copied limit occurrences, 519 prior hashes, 20 inputs and 15 code/test/document
+digests verified. Existing doc-ledger 487 tests/11 subtests in 11.32s, exit 0.
+No product/full/native tests, retrieval, model calls or source conversions repeated.
+Thesis physical 17–18 and routing PNG consulted by parent/reviewer, no discrepancy.
+
+The 17-file top-level observation/review seal verifies; test temporaries excluded.
+Manifest SHA256: ce1b27c13ad4c7e5029af1016929334a5280e202e140b79627a60945620ebd16.
+Raw root: workspace/audit-evidence/p05-accepted-coverage-matrix-20261015/;
+review sibling: p05-accepted-coverage-matrix-review-20261015/.
+Use `seal_evidence.py verify` read-only; do not rerun sealed writers.
+Owner artifact deletion/untracked directory untouched and unstaged.
+
+Next design the curriculum source-claim contract for the four scoped scenarios/
+12 variants, using existing reviewed fields and caller claims. Preserve eight
+unassigned curriculum rows in the current policy catalogue and six unknown-BSCS
+clarification controls. A separate derivative may reuse current helpers; a product
+extension is not assumed necessary. U1/U2 limits remain available for future exact-
+claim sidecars. Do not reopen settled source/wording approvals or infer an individual
+bill, replacement price/workflow, eligibility or institutional/current-year approval.
+Formal Phase 05 Tasks 4/6, representative calibration and source governance remain
+open; candidate inactive, no Phase 06. Earlier entries below are history.
+Final closure: documentation/ledger 487 tests/11 subtests in 11.52s, exit 0; phase validation exit 0/can-advance exit 1 (expected blocked), five report links plus progress link, whitespace and read-only seal verification pass.
+
+Checkpoint parent `fcf90bd` precedes the following documentation closure commit.
+
+
 ## Accepted policy source-field review closed — 15 October 2026
 
 Observation commit `3502cdd`, plan `f5a9dd5`, unchanged product `232a418`.
