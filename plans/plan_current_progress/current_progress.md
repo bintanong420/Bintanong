@@ -1,5 +1,54 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Offline request-trace composition closed — 16 October 2026
+
+Planfbed8b5/observationsfa79cb3/product232a418 unchanged.
+[Offline trace report](../2026-10-16-offline-request-trace-report.md):63accepted variants/
+126traces,90claim reports/36earlystops;89reports exactly match preserved sidecars.
+OneT1Filipino nullprefix remains nullcontext with new existing-absence review output,
+not a historical report or successful emptyretrieval. Across both strategies:
+36fieldsavailable/42insufficientevidence/12unassessed,12outsideaudience/12needscope/
+6entityclarifications/6selectedprogramunavailable. Answer sufficiency unassessed.
+
+Single final review: no unresolved findings. Parent-discovered diagnostic missing-
+curriculum-hints guard reproduced RED, corrected with existing program_required
+selection, verified GREEN; all126accepted outputs unchanged. Seven initial plus
+one supplemental precedence probes pass. Reviewer/parent replays check36earlystops
+without later inputs and4invalid-metadata/archive guards.599priorhashes/27inputs/
+two website-context provenance hashes/16codedigests/14archivebytehashes verified.
+Focused46tests/174subtests2.40s,doc-ledger493/11 15.27s exit0. No backend/API/runtime
+change, retrieval/model run or full/native rerun. Historical native cause unresolved.
+Thesis17–18/routingPNG consulted by parent/reviewer, no discrepancy.
+
+29-file top-level seal verifies; test temporaries excluded. Manifest SHA256:
+42041bfa071e772eb7f6e066a026fda275f33236238348b0f7db2d8ecbc3f131.
+Root: workspace/audit-evidence/p05-offline-request-trace-20261016/;
+review sibling: p05-offline-request-trace-review-20261016/. Use seal_evidence.py
+verify read-only; never rerun sealed writers. Owner artifacts preserved/unstaged.
+Next prepare representative development-case/calibration proposal from remaining
+coverage gaps/unassessed claims. Show any new/changed wordings and expectations to
+owner before testing; retain accepted63/vectors. No calibrated policy, automatic
+interpretation, answer permission, institutional approval or activation. Formal
+Phase05Tasks4/6/source governance open; no Phase06. Earlier entries below are history.
+Final closure: documentation/ledger493tests/11subtests in11.12s exit0; phasevalidate0/canadvance1(expectedblocked), three plan/report links plus progress link, whitespace and29-file read-only seal verification pass.
+
+Checkpoint parentfa79cb3 precedes following documentation closure commit.
+
+
+## Missing curriculum-context guard corrected — 16 October 2026
+
+Parent structural probe reproduced a diagnostic-only gap: clearing curriculum_hints
+on a curriculum request reached reporting despite a known subject. RED:
+missing-scope-red.log actualunassessed/stoppedNone. Minimal raw composer correction
+calls existing curriculum selector with empty hints for curriculum-kind requests;
+GREEN check_scope_guard.py yields needs_scope/program_required, no context/report.
+All126accepted traces replay byte-object-identical. Original composer and RED/GREEN
+logs preserved; product232a418 unchanged. Seven initial precedence probes plus one
+supplement make eight total. Single current reviewer notified to inspect correction;
+no second reviewer or new accepted wording/source decision. Final closure will
+record the guard and supplement; unchanged product/full/native suites not repeated.
+
+
 ## Composed offline traces verified — 16 October 2026
 
 Planfbed8b5/product232a418 unchanged. All63accepted identities compose126traces
