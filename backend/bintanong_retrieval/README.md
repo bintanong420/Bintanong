@@ -31,6 +31,29 @@ The versioned `bintanong-retrieval-debug-v1` JSON contains configuration fingerp
 
 Exit code 2 exposes an open retrieval gate. The default policy stays `uncalibrated-v1`; a synthetic threshold is never installed as institutional calibration. No endpoint, API service, LLM answer, candidate publication or institutional activation is introduced.
 
+An internal opt-in `SourceAwareEvidencePolicy` can be supplied through
+`RetrievalEngine(..., evidence_policy=policy)`. Prepare it with explicit pinned
+release/set IDs and complete trusted candidate chunks/catalogue/source reviews.
+Then call `retrieve(request, subject_id=..., requested_claims=(... ,))` with exact
+trusted intent. The engine binds actual RPC rows, checks conflicts before subject
+selection, assembles complete groups and assesses only its actual emitted IDs.
+Original source payloads are validated before private transport projections are
+derived; source packaging and DB-only identifiers do not hide changed facts.
+
+Opt-in calls return `bintanong-retrieval-debug-v2`, a policy/snapshot fingerprint,
+assessment or an explicit not-run reason, and root candidate/inactive/unverified-
+authorization flags. Missing claims force `insufficient_evidence`; unknown claims
+stay `unassessed`; available reviewed fields stay `uncalibrated`, regardless of a
+caller-selected settings policy name. Answer sufficiency stays unassessed. Shared
+citations/group display use the original exact token budget. No-policy calls
+retain the exact v1 behavior; supplying intent without a policy is invalid.
+
+This injected research snapshot is not an authorized release loader. Matching
+release IDs do not establish membership/currentness or institutional approval.
+There is no CLI/public exposure, administrative storage fallback, automatic
+subject/claim recognition or activation. See
+`plans/2026-10-16-source-aware-retrieval-policy-design.md` and its implementation plan.
+
 Development measurement:
 
 ```powershell

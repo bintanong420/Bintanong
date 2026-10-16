@@ -1,5 +1,28 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Actual engine source/claim integration verified — 16 October 2026
+
+Task 2 implemented the approved opt-in policy in the real RetrievalEngine path.
+Engine RED: unsupported policy/intent integration produced 23 failed, 10 passed,
+14 subtests, exit 1. Minimal integration GREEN: 102 tests / 184 subtests, 1.24s;
+added invalid-citation/whole-reviewed-group regressions: 104 / 184, 1.35s, exit 0.
+Commands use existing readiness Python -B -m pytest, no cache, external basetemp;
+raw logs engine-red.log, engine-green.log and engine-group-green.log in workspace
+p05-source-aware-policy-20261016. Named files: new policy tests, retrieval engine/
+query/context/evaluation/CLI, candidate subject/claims/reviews and context selection.
+
+Available fields stay uncalibrated; reviewed missing claims force insufficiency;
+unknown claims stay unassessed. Actual assembly IDs drive reports, including empty
+contexts. Binding failures clear context; off-subject conflicts precede filtering.
+Legacy v1 behavior and runtime-only storage remain intact. Root v2 candidate/
+inactive/authorization-unverified flags prevent an institutional readiness claim.
+Whole reviewed groups, source limits and exact context counts are tested.
+
+Next Task 3: compatible saved-case integration replay, full pytest suite and one
+fresh whole-change review. No new embeddings, source rulings or shared DB changes.
+Formal Phase 05 remains active/blocked; source governance/calibration still open.
+Verified parent cc62c99 precedes the following code commit.
+
 ## Source snapshot policy verified — 16 October 2026
 
 Task 1 of the owner-approved source-aware policy plan is complete. Synthetic

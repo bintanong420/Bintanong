@@ -59,16 +59,16 @@ flags identify candidate status; `evidence_policy` contains version, digest, int
 **Produces:** `RetrievalEngine(..., *, evidence_policy=None)` and
 `retrieve(request, *, subject_id=None, requested_claims=None)` using v2 only when opted in.
 
-- [ ] Add engine-level RED tests for exact legacy v1 compatibility, intent rejection before encoding,
+- [x] Add engine-level RED tests for exact legacy v1 compatibility, intent rejection before encoding,
   positive-field uncalibrated output, reviewed absence/omitted limits, unknown/mixed claims,
   actual empty/over-budget/invalid-citation/missing-neighbor context, whole groups and conflicts.
   Include root safety flags, unchanged settings fingerprint, actual source citations and arbitrary policy names.
-- [ ] Run new engine tests; expected failure is unsupported constructor/intent behavior or incorrect status.
-- [ ] Wire validation/binding before assembly, preserve original legacy flow, check opt-in conflicts before
+- [x] Run new engine tests; expected failure is unsupported constructor/intent behavior or incorrect status.
+- [x] Wire validation/binding before assembly, preserve original legacy flow, check opt-in conflicts before
   filtering, assemble retained subject rows once with shared citations/group metadata, and assess actual IDs.
   Binding errors clear evidence/context; early retrieval failures carry a null assessment and not-run reason.
-- [ ] Run all retrieval non-database and candidate helper regressions; expected GREEN. Update README.
-- [ ] Record RED/GREEN and commit engine/tests/documentation increment.
+- [x] Run all retrieval non-database and candidate helper regressions; expected GREEN. Update README.
+- [x] Record RED/GREEN and commit engine/tests/documentation increment.
 
 ### Task 3: Verify, replay and close this bounded increment
 
@@ -103,3 +103,5 @@ Full suite target is `tests`; retain raw logs. No installs, downloads, dependenc
   Final integration, saved-case verification, testing/review and source/release governance remain.
 
 - Task 1: complete — missing module RED; 39 tests / 139 subtests GREEN in 0.70s; snapshot/transport bindings and original helper regressions verified.
+
+- Task 2: complete — engine integration RED then 104 tests / 184 subtests GREEN, 1.35s; legacy behavior and conservative source-aware output verified.

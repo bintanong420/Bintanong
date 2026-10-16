@@ -2,16 +2,39 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 298
+sequence: 299
 plan: plans/phase-05-retrieval-plan.md
-head_commit: c649e48
-working_tree: snapshot policy/test and three plan/progress paths; owner artifacts preserved
-updated_at: 2026-10-16T12:30:51+08:00
+head_commit: cc62c99
+working_tree: engine/policy/tests/README and plan/progress paths; owner artifacts preserved
+updated_at: 2026-10-16T12:34:36+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Actual engine source/claim integration verified — 16 October 2026
+
+Task 2 implemented the approved opt-in policy in the real RetrievalEngine path.
+Engine RED: unsupported policy/intent integration produced 23 failed, 10 passed,
+14 subtests, exit 1. Minimal integration GREEN: 102 tests / 184 subtests, 1.24s;
+added invalid-citation/whole-reviewed-group regressions: 104 / 184, 1.35s, exit 0.
+Commands use existing readiness Python -B -m pytest, no cache, external basetemp;
+raw logs engine-red.log, engine-green.log and engine-group-green.log in workspace
+p05-source-aware-policy-20261016. Named files: new policy tests, retrieval engine/
+query/context/evaluation/CLI, candidate subject/claims/reviews and context selection.
+
+Available fields stay uncalibrated; reviewed missing claims force insufficiency;
+unknown claims stay unassessed. Actual assembly IDs drive reports, including empty
+contexts. Binding failures clear context; off-subject conflicts precede filtering.
+Legacy v1 behavior and runtime-only storage remain intact. Root v2 candidate/
+inactive/authorization-unverified flags prevent an institutional readiness claim.
+Whole reviewed groups, source limits and exact context counts are tested.
+
+Next Task 3: compatible saved-case integration replay, full pytest suite and one
+fresh whole-change review. No new embeddings, source rulings or shared DB changes.
+Formal Phase 05 remains active/blocked; source governance/calibration still open.
+Verified parent cc62c99 precedes the following code commit.
 
 ## Source snapshot policy verified — 16 October 2026
 
@@ -1762,6 +1785,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: Task 2 engine integration verified with 104 tests / 184 subtests. Commit, then saved-case replay/full suite/final review; no new source decision or model encoding.
 
 Latest: Task 1 snapshot module verified RED/GREEN; commit it, then Task 2 engine integration RED tests. Owner design approval is settled.
 

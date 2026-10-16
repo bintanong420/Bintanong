@@ -1,8 +1,8 @@
 """Trusted candidate policy bindings; metadata consistency is not authorization."""
 import copy
 
-from .candidate_subject import _digest, prepare_candidate_subject_catalogue, select_candidate_subject
-from .candidate_claims import prepare_candidate_claim_reviews, build_candidate_claim_report
+from .candidate_subject import _digest, _subject, prepare_candidate_subject_catalogue, select_candidate_subject
+from .candidate_claims import _strings, prepare_candidate_claim_reviews, build_candidate_claim_report
 
 
 _CHUNK_FIELDS = ('chunk_id', 'document_id', 'version_id', 'edition_id', 'byte_sha256',
@@ -62,6 +62,17 @@ class SourceAwareEvidencePolicy:
         return dict(version=self.VERSION, snapshot_sha256=self._snapshot_sha256,
                     subject_id=None, requested_claims=None, assessment=None,
                     not_run_reason='retrieval_pending')
+
+    @staticmethod
+    def _validate_intent(subject_id, requested_claims):
+        if subject_id is not None and not _subject(subject_id):
+            raise ValueError('explicit canonical subject hint required')
+        if requested_claims is not None and (not isinstance(requested_claims, tuple)
+                or not _strings(list(requested_claims))):
+            raise ValueError('distinct exact claim strings in a tuple required')
+
+    def _has_subject(self, subject_id):
+        return any(a['subject_id'] == subject_id for a in self._catalogue['assignments'])
 
     def _bind(self, request_release_id, raw):
         try:
