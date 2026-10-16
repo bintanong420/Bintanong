@@ -1,5 +1,28 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## V1 evidence verified; complete design ready — 17 October 2026
+
+Five local V1 derivatives/5input hashes/19chunks/54spans/52fields/9events verified;
+1085tests/11subtests pass15.71s. Single builder check clear, new10-file seal
+created/verified (digest in preparation report). Productdba0777 unchanged/no DB
+call/new owner confirmation; C1 labels/limits/old events retained. Complete
+new persistence interface needs full-description approval under cited skill,
+then implementation plan/TDD. No renewed source/wording/school question orPhase06.
+Finaldocs539tests/11subtests pass12.00s, phasevalid/blocked, whitespace clear;
+documentary commit follows. Productdba0777 unchanged and owner artifacts retained.
+
+## Existing V1 observation evidence prepared — 17 October 2026
+
+Baselineee1d851/productdba0777 unchanged. Five local V1 candidates reuse C1/
+accepted19chunk review and A2 records:54spans/52fields/nineevents. V1 only sets
+verification observed, keeps review partial/approval absent; actual labels and
+original event times retained, new timestamp compilation only. Five input hashes
+unchanged/no DB calls/new owner confirmations. Complete proposed persistence
+design written; independent verifier and single builder check pending. Context
+thesis17–18/routingPNG/master6/10 consulted, undergraduate scope preserved.
+Next focused contract/docs/seal and complete-description review; no V1 product
+change, shared migration, activation, new source question orPhase06.
+
 ## Approved A2 plan complete — 17 October 2026
 
 Productdba0777 unchanged; full5507tests/1323subtests and finaldocs537/11 pass.

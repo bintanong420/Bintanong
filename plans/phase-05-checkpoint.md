@@ -2,16 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 369
+sequence: 372
 plan: plans/phase-05-retrieval-plan.md
-head_commit: dba0777
-working_tree: Final A2 documentary closure; owner artifact changes preserved unstaged
-updated_at: 2026-10-17T00:03:42+08:00
+head_commit: ee1d851
+working_tree: Verified V1 evidence and complete design; owner artifact changes preserved unstaged
+updated_at: 2026-10-17T00:17:45+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## V1 evidence independently verified; design builder-clear — 17 October 2026
+
+Five exact local derivatives/5input hashes and19chunks/54spans/52fields/9events
+independently reconstructed; attribution/limits/C1/A2 preserved.1085tests/11subtests
+pass15.71s. Single builder check: nothing important left. New10-file seal verified,
+digest in preparation report. No product/DB/source-reading change. Complete V1
+description ready for approval under cited brainstorming SKILL.md; no prior
+source review or school-response question reopened. Final doc checks next.
+Final docs/phase-ledger539tests/11subtests pass12.00s, validate0/can-advance1
+(expected blocked), whitespace clear. Documentary commit follows; product unchanged.
+
+## Existing V1 printed observations prepared — 17 October 2026
+
+Reuse settled C1/accepted selection and A2 derivatives:5local V1 contracts,
+19chunks/54spans/52fields/nineevents. No new owner reading/confirmation or source
+authority; new timestamp is compilation only, original roles/events preserved.
+Five input hashes unchanged; no product or DB changes. Independent verification,
+one builder check and contract/docs/seal pending. Actual thesis17–18/routingPNG/
+master6/10 consulted, no scope discrepancy. See dated preparation report/design.
 
 ## A2 approved implementation plan complete — 17 October 2026
 
@@ -2796,6 +2816,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: prepared V1 evidence verified/sealed and complete design builder-clear.
+Present new interface description for approval required by quoted skill; no
+implementation or stored transition yet. Existing A2/selected delivery complete.
+
+Latest: verify prepared V1 observation coverage and finish complete design with
+one builder check. No V1 implementation or source promotion has occurred.
 
 Latest: approved A2 plan complete and verified; documentary closure commit only.
 No further code/review/suite/rehearsal/grid work remains for this increment.
@@ -6088,6 +6115,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: record actual approval of complete V1 persistence description when
+received; then write implementation plan/TDD. No repeat existing source reviews,
+prepared observations, A2 fullsuite, grids or school-response question. NoPhase06.
+
+Latest: inspect single V1 builder result, verify exact local derivatives/input
+hashes, run focused contract/docs checks, seal new evidence and present complete
+persistence design. No repeated C1/A2/selected source acceptance or school question.
 
 Latest: preserve verified bounded delivery after closure; resume actual source/
 release/authorized-runtime exit work when supported. No repeated A2, original

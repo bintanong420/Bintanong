@@ -10,6 +10,16 @@ completed_at: 2026-10-17T00:01:12+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Existing reviewed printed spans now have5valid local V1 candidates, preserving
+C1/A2/accepted19chunk scope54spans/52fields/9events. Five input hashes unchanged,
+1085tests/11subtests pass15.71s, new10-file seal verified. Complete proposed
+[V1 persistence design](2026-10-17-source-observation-design.md) builder check
+clear; see [preparation](2026-10-17-source-observation-preparation-report.md).
+No V1 implementation, stored transition or new human confirmation. Present
+full-description approval required by quoted brainstorming skill before new
+interface implementation. Existing source decisions/A2 complete; no repeat school
+question, review, grid orPhase06. Actual source/release/runtime gates remain.
+
 Approved A2 plan complete atproductdba0777. Final5507tests/1323subtests and
 docs537/11 pass, sole Important issue fixed/no deferred minors.177owned/reviewer
 DBs absent,11inputs/prior6seals unchanged and14825-file newseal verified.
