@@ -35,6 +35,44 @@
   it does not authorize autonomous acquisition, enrollment, grade changes or COR
   issuance. Private uploads stay separate from institutional knowledge.
 
+## Curriculum reasoning and architecture alignment
+
+- Standing owner direction, 16 October 2026: curriculum/prospectus work must follow
+  the structured-knowledge and Prolog architecture, rather than treating every
+  course question as a vector-retrieval problem. Read master sections 3, 11 and 13,
+  thesis physical 39–44 and the runtime routing PNG when choosing the next relevant
+  task. See `plans/2026-10-16-curriculum-symbolic-routing-clarification.md`.
+- Keep course identities, program/curriculum versions, units, placement and reviewed
+  prerequisite/co-requisite relationships as structured institutional facts.
+  Supported prerequisite, eligibility and dependency checks use reviewed,
+  deterministic Prolog rules. Exact course-fact lookups can use version-scoped
+  structured operations without semantic search once that capability exists.
+- Reviewed structured records and rule specifications are the authoring source of
+  truth; generate versioned Prolog fact/rule bundles from them. Do not maintain
+  independently edited prerequisite copies or hand-code a separate custom rule
+  for every course. Preserve original spans, exceptions and curriculum scope.
+- Use RAG for source explanations and documented procedures where text is needed;
+  use Hybrid when a symbolic decision and document explanation are both required.
+  Retaining curriculum text for citations does not require routing every course
+  question through embeddings or using similarity to decide eligibility.
+- Missing grades, curriculum, course identity or rule coverage remain unknown,
+  distinct from a documented unmet condition. No recorded prerequisites does not
+  prove that a course has none. Preserve all-of/any-of/co-requisite semantics only
+  when the actual source establishes them; the thesis example is illustrative.
+- Before adding another diagnostic, sidecar or parameter sweep, name the student
+  capability, intended evidence path, phase exit requirement and unresolved question
+  it advances. Reuse completed evidence; do not expand curriculum retrieval work
+  merely to make every accepted question look answerable through RAG. Keep useful
+  component probes separate from final routing/capability evaluation and stop a
+  diagnostic once its stated question is resolved.
+- The owner approved D1–D4's four scenarios / 12 exact language variants and
+  expectations at `d2abc8d`; the accepted roster is 75 variants. Do not ask for
+  their wording acceptance again. Acceptance does not mean all 75 need fresh
+  retrieval experiments or that structured eligibility has been implemented.
+- This architecture direction preserves existing source-content holds, candidate
+  inactivity and formal phase gates. It does not authorize Phase 06 advancement,
+  executable institutional rules or activation before their applicable boundaries.
+
 ## Natural student questions and intended responses
 
 - Later15October2026 the owner explicitly accepted all nine T1/T2/U3 wordings and

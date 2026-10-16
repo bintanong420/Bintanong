@@ -1,5 +1,20 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## AGENTS architecture rule and narrowed document work — 16 October 2026
+
+Owner requested durable guidance after noting wasted work. AGENTS.md now requires
+structured facts/Prolog for supported curriculum checks, RAG/Hybrid where text is
+needed, and capability/phase/question justification before another diagnostic.
+[Execution plan](2026-10-16-document-evidence-calibration-plan.md) replaces broad75
+retrieval sweeps:39 document probes /18 structured reservations /18 existing controls.
+Task1 identity/vector-metadata preflight passes:75 exact strings,27 document vectors,
+33 old document-query vectors,15 input hashes. Only six D3/D4 encodings planned;
+D1/D2 stay accepted for structured lookups. No model/score/source-content change.
+Next Task2 source/claim preflight, then bounded document comparisons. Raw working
+root p05-document-evidence-calibration-20261016; prior seals/owner artifacts intact.
+Product232a418/Phase05blocked/gates unchanged, noPhase06. Older sweep proposals
+remain history; do not reopen wording review or curriculum tuning without need.
+
 ## D1–D4 accepted; curriculum/Prolog clarification — 16 October 2026
 
 All12 [new wordings/expectations](2026-10-16-development-calibration-proposal.md)

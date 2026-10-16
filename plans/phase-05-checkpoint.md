@@ -2,16 +2,54 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 289
+sequence: 290
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d2abc8d
-working_tree: seven acceptance and curriculum-routing documentation paths; owner artifacts preserved
-updated_at: 2026-10-16T11:15:58+08:00
+head_commit: f812f35
+working_tree: AGENTS and six document-calibration plan/continuity paths; owner artifacts preserved
+updated_at: 2026-10-16T11:24:53+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Durable architecture direction and narrowed input preflight — 16 October 2026
+
+Owner explicitly requested AGENTS.md guidance and corrected time spent on the
+wrong areas. Added standing structured-fact/Prolog, RAG/Hybrid, unknown-state,
+single-authoring-source and capability-first work-selection rules. Existing
+source/phase gates remain. No deletion of useful historical evidence or master edit.
+
+[Execution plan](2026-10-16-document-evidence-calibration-plan.md), parent `f812f35`,
+product `232a418` unchanged. Ruling: replace broad75-case sweep with39 document
+probes,18 scoped curriculum reservations and18 existing controls. Why: supported
+prerequisites/lookups belong in structured work, not compulsory RAG tuning. Cost
+if later Hybrid retrieval is needed: reuse preserved evidence for a justified probe.
+D1/D2 all6 remain accepted/reserved; only six D3/D4 encodings planned. All75
+wordings/expectations intact; no repeat acceptance request.
+
+Task1 complete: exact identities/purposes,27 document-vector payload/version/ID/
+finite/norm/dimension checks,33 old document-query strings/vectors and compatible
+configuration.15 input hashes, nine ancestor matches; independent identity/hash
+check verifies63 unchanged +12 accepted strings and39/18/18 partition. No runtime
+routes assigned, model loaded, source-review claim, new vector or score. Prior
+29-file trace seal verifies. Raw working input root:
+workspace/audit-evidence/p05-document-evidence-calibration-20261016/.
+Next Task2 source/claim preflight, then only six new document encodings/comparisons.
+
+Read current ledger/plan/Phase04+05 handoffs, master3/10/11/13, actual thesis17–18/
+39–40 and routingPNG; no discrepancy. Parent reconciles prior expected difference.
+Owner artifacts remain unstaged; Phase05blocked/Tasks4/6/governance open, noPhase06.
+Checkpoint parent precedes following verified documentation commit.
+
+Verification: existing readiness venv `-B -m pytest tests/test_docs_hygiene.py
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider`
+with external basetemp `p05-architecture-direction-docs-20261016`:496 tests/11
+subtests in12.61s exit0. AGENTS format check, new plan links/five continuity
+pointers, phase validate0, whitespace and prior29-file seal pass. Initial ad hoc
+link check incorrectly included historical absolute targets; narrowed to new
+relative references, which pass. No historical document/link/source correction.
+Master/backend/tests unchanged; no full/native/model run.
 
 ## D1–D4 accepted and curriculum symbolic role reconciled — 16 October 2026
 
@@ -1487,6 +1525,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: AGENTS architecture guidance and narrowed execution plan prepared; Task1 input identities/vector metadata verified. Next Task2 source/claim preflight for39 document cases, then encode only six D3/D4 variants. Do not resume curriculum RAG sweeps.
 
 Latest: D1–D4 all12 accepted; curriculum/Prolog question reconciled against master/Context. Record verification and commit; next versioned evaluation plan, keeping retrieval probes distinct from final Symbolic/Hybrid routes.
 
@@ -3323,6 +3363,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: parent `f812f35`, product `232a418`; AGENTS plus six plan/continuity paths, explicit staging only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` untouched. New ignored document-calibration input root; historical master/code/tests/seals unchanged.
+
 Latest: parent `d2abc8d`, product `232a418`; seven acceptance/reconciliation documentation paths. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` untouched/unstaged. Raw acceptance receipt/context render external and ignored; master unchanged.
 
 Latest: parent `9f55b3c`, unchanged product `232a418`; six proposal/continuity documentation paths only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` preserved and unstaged. No backend/test/dependency/model edits.
@@ -3529,6 +3571,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: Task1 exact75 identities (63 unchanged +12 accepted),39/18/18 purpose partition;27 document-vector payload/version/finite/norm checks,33 compatible saved document-query vectors,15 input hashes/nine ancestor matches. Independent identity/hash check and prior29-file seal pass. Documentation/ledger496 tests/11 subtests in12.61s exit0; AGENTS format, new relative links/five pointers, phase validate0 and whitespace pass. No model/score/source-content observation or master/backend/test edit.
 
 Latest acceptance/routing increment: documentation/ledger495 tests/11 subtests in14.09s exit0 through existing readiness venv, no cache/external basetemp. Independent receipt/Git snapshot/message hashes, accepted12/total75 counts and eight local links pass; phase validate0, whitespace and prior29-file seal pass. Master/backend/tests unchanged. Inspected master3/10/11/13, thesis17–18/39–44/55/58–59 and routingPNG/rendered41. No new model, predicate, rule or source finding.
 
@@ -4530,6 +4574,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: execute Task2 of document-evidence calibration plan: bind source-only direct V01 payment review and reused complete F01/F08/F09/policy groups, then caller annotations/evaluation-only labels for39 document cases. Preserve18 structured reservations and18 controls. Only six D3/D4 queries need future encoding; no repeat wording approval, curriculum sweep or Phase06 advancement.
+
 Latest: prepare versioned development evaluation plan for accepted75 variants (only63 observed). Name curriculum retrieval-component probes separately from future Symbolic/Hybrid routing/capability tests; preserve source/register/curriculum versions and original claims. No repeat acceptance request, Phase06 advancement or executable Prolog inferred from this clarification.
 
 Latest: obtain actual acceptance/edits for D1–D4 exact wordings and expectations in the development-calibration proposal. Record subset/version and owner response, then create a versioned execution plan. Do not encode/score/create benchmark fixtures for pending wordings; preserve accepted 63 and saved vectors.
@@ -5134,6 +5180,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: do not reopen completed curriculum retrieval/claim sweeps to improve RAG coverage. D1/D2 are accepted structured-lookup reservations, not missing RAG results. AGENTS now requires capability/evidence-path/phase-gate/question justification for new diagnostics; stop at its declared outcome. All accepted75/evidence/vectors preserved; no extra source authority or Prolog activation inferred.
 
 Latest: D1–D4 exact12 wordings/expectations accepted atd2abc8d; do not ask again. Retrieval probes do not force final RAG routing. Do not translate missing grades/coverage into proven failure, maintain duplicate hand-edited prerequisite sources, treat thesis CC5 illustration as institutional policy, rewrite master, or infer Prolog activation/Phase06 permission.
 

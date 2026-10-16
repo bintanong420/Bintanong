@@ -10,6 +10,17 @@ completed_at: 2026-10-16T10:54:45+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+## Architecture made durable; document-only comparison scope — 16 October 2026
+
+AGENTS.md now records the owner's curriculum/Prolog direction and capability-first
+work selection. [Narrowed plan](2026-10-16-document-evidence-calibration-plan.md)
+uses39 document probes, reserves18 scoped curriculum variants for structured work,
+and preserves18 early-stop controls. All75 accepted wordings/expectations intact.
+Task1 input/vector-metadata audit verifies27 source vectors and33 old document-query
+vectors; only six D3/D4 encodings planned. Next Task2 source/claim preflight; no
+fresh curriculum sweep, model run, runtime route or executable rule. Product232a418,
+recovery condition and formal Phase05blocked status unchanged; noPhase06.
+
 ## D1–D4 accepted; symbolic curriculum role clarified — 16 October 2026
 
 Actual owner approval accepts [D1–D4's12 variants/expectations](2026-10-16-development-calibration-proposal.md)

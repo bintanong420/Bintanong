@@ -1,5 +1,51 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Architecture made durable; document work narrowed — 16 October 2026
+
+Owner asked to keep the curriculum/Prolog direction in AGENTS.md and said time had
+been spent on the wrong parts. Added a standing curriculum architecture section:
+reviewed structured facts and generated Prolog for supported checks; RAG for text,
+Hybrid where needed, unknown distinct from unmet, no duplicate prerequisite source.
+Every new diagnostic must name the student capability, evidence path, phase gate
+and unresolved question, then stop when that question is resolved. Existing useful
+evidence remains preserved; no claim that all earlier retrieval work was unnecessary.
+
+[Narrowed execution plan](../2026-10-16-document-evidence-calibration-plan.md)
+replaces the earlier broad75-case sweep proposal. Ruling: reserve18 scoped
+curriculum variants, including D1/D2, for structured capability work and retain18
+existing controls; compare39 document-evidence variants only. Why: avoid optimizing
+prerequisite lookups as compulsory RAG. Cost if a later Hybrid case needs retrieval:
+reuse preserved source text/vectors and add a justified component check then.
+No accepted wording/expectation changes; all75 remain accepted, only63 observed.
+
+Task1 complete: exact75 identities joined from the sealed63 and accepted packet;
+39 document /18 structured /18 early-stop purposes, no inferred runtime routes.
+Verified27 existing document vector IDs/payload hashes/version bindings, dimensions,
+finite values and norms; compatible configuration across saved inputs. All33 old
+document-query strings/vectors match; only D3/D4's six IDs need future encoding.
+Independent exact identity/purpose/input-hash check passes:63 unchanged +12 exact
+new strings,15 input files, nine ancestor hash matches. Prior29-file seal verifies.
+No model loaded, new score, source review or runtime behavior created.
+
+Raw input preparation: ignored workspace
+`audit-evidence/p05-document-evidence-calibration-20261016/`. It is a new working
+root, not a sealed writer rerun. Task2 source/claim preflight remains incomplete;
+prepare direct V01 payment review from confirmed fields and reuse F01/F08/F09.
+Then encode only six document queries and compare the bounded document grid.
+Parent `f812f35` reconciles prior expected checkpoint difference; product/master,
+owner artifacts and existing seals unchanged. Consulted thesis17–18/39–40,
+routing PNG, master3/10/11/13 and active handoffs; no discrepancy. Phase05active/
+blocked, Tasks4/6/governance open; no executable Prolog or Phase06 advancement.
+
+Verification: existing readiness venv `-B -m pytest tests/test_docs_hygiene.py
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider`
+with external basetemp `p05-architecture-direction-docs-20261016`:496 tests/11
+subtests in12.61s exit0. AGENTS format, plan links/five continuity pointers, phase
+validation, whitespace and prior29-file seal pass. Broad ad hoc link check first
+included old absolute history targets; corrected scope to new relative links,
+without altering history. No master/backend/test or full/native/model changes.
+
+
 ## D1–D4 accepted; curriculum symbolic role reconciled — 16 October 2026
 
 Owner replied “I approve of them, but by the way.” and asked whether course/
