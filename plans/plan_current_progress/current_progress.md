@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A1 loader verified — 16 October 2026
+
+Owner approved78ae763. Implementation plan Task1 loader RED31 failures/subcases
+on missing implementation, GREEN11tests/46subtests1.87s with existing client.
+Bound check/current contracts, A1-only derivation, preserved inputs/history,
+exact returned register and no retry. RPC not yet implemented. Next Task2actual
+role SQL RED. Scope17–18/routing/master10 reconsulted; owner artifacts preserved.
+Execution ledger uses repository plan/checkpoint plus ignored audit-evidence to
+honor owner storage instructions; no extra disposable workspace. No shared writes.
+
+## A1 design approved; implementation resumed — 16 October 2026
+
+Owner “ok proceed” after78ae763 approves the bounded A1 persistence design and
+disposable rehearsal. [Plan](../2026-10-16-acquisition-observation-plan.md) is
+self-reviewed; execute inline with focused TDD, no repeated plan/method approval.
+Next loader RED then guarded real-role SQL; reuse five existing byte checks.
+No shared application, wider source promotion or activation; owner artifacts
+preserved. Prior design-wait notes below are history.
+
 ## Evidence-backed A1 persistence design ready for approval — 16 October 2026
 
 [Design](../2026-10-16-acquisition-observation-design.md), baseline 3fde038;

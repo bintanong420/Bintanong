@@ -2,16 +2,27 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 329
+sequence: 331
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3fde038
-working_tree: reviewed A1 design and continuity documents; owner artifacts preserved and unstaged
-updated_at: 2026-10-16T17:11:09+08:00
+head_commit: 78ae763
+working_tree: approved A1 implementation plan and progress; owner artifacts preserved
+updated_at: 2026-10-16T17:34:40+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A1 loader verified — 16 October 2026
+
+Owner approved78ae763. Implementation plan Task1 loader RED31 failures/subcases
+on missing implementation, GREEN11tests/46subtests1.87s with existing client.
+Bound check/current contracts, A1-only derivation, preserved inputs/history,
+exact returned register and no retry. RPC not yet implemented. Next Task2actual
+role SQL RED. Scope17–18/routing/master10 reconsulted; owner artifacts preserved.
+Execution ledger uses repository plan/checkpoint plus ignored audit-evidence to
+honor owner storage instructions; no extra disposable workspace. No shared writes.
+
 
 ## Evidence-backed A1 persistence design ready for approval — 16 October 2026
 
@@ -2276,6 +2287,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: owner approved the A1 design after78ae763. Execute the dated acquisition
+observation plan inline with TDD; begin loader unit RED, then actual-role RPC.
+No repeat design/plan approval. Shared/source authority/activation gates remain.
 
 Latest: A1-only persistence design reviewed and verified; present the complete
 description for its required approval. No new interface implementation yet.

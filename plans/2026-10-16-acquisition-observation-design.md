@@ -1,6 +1,6 @@
 # Persisting a supported acquisition observation — 16 October 2026
 
-Status: proposed, awaiting owner design approval. Baseline `3fde038`; product
+Status: approved by the owner with “ok proceed” after `78ae763`. Baseline `3fde038`; product
 `b0d6c6d` unchanged. This document does not apply a source transition.
 
 ## Purpose and evidence
