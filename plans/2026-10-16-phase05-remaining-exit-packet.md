@@ -109,3 +109,11 @@ records, five original byte checks, no state changes. Actual V2/P2 office eviden
 and scoped completed-review decisions remain absent from the supplied mapping.
 Next independent engineering work is the bounded development acceptance contract
 described there, not another mapping pass or speculative status updater.
+
+Step3's bounded development criteria are now specified in the
+[acceptance contract](2026-10-16-document-development-acceptance-contract.md).
+The existing profile is retained for offline research, with18/18available
+contexts,21/21insufficient outcomes and the literal36/39related-context result.
+No overall formal pass or engine behavior change follows. The remaining work
+is the actual source/release and runtime path in steps2/4/5 when prerequisites
+exist;do not create another report/helper to rename the same observations.

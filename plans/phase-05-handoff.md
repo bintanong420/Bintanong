@@ -3,12 +3,36 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 418aef3
-recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-16T16:03:58+08:00
+final_commit: 349056b
+recovery_condition: Complete applicable source governance and release authorization, verify the fixed document profile through actual runtime roles, and pass remaining master section10 exit checks; bounded offline acceptance preserves three T1 context misses.
+completed_at: 2026-10-16T16:14:45+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Bounded document acceptance criteria recorded — 16 October 2026
+
+[Contract](2026-10-16-document-development-acceptance-contract.md), baseline
+349056b; product 8595fb8 unchanged. Retain k3/.25/2048 for offline research:
+18/18 available-field contexts complete, 21/21 insufficient outcomes. Each
+language has 6/6 and 7/7 respectively. Literal related-context recovery remains
+36/39, with three T1 misses. These are criteria recorded after exposed
+observations, without a formal pass, status promotion or new helper.
+
+Fresh read-only audit verifies 741 scores, 39 ranking/token checks, 303 citations,
+117 fields, 17 primary/emission groups and 17 inputs. Profile and source-event
+seals remain unchanged. Single builder check: nothing important left.
+Documentation/ledger: 521 tests and 11 subtests pass in 11.96s; final check also
+passes in 11.60s. Phase validate exits 0; can-advance exits 1 (expected blocked).
+Whitespace and all 39 conservative result flags verify; owner artifacts remain
+preserved and unstaged. No product, source, database or activation change.
+
+Formal Tasks 4/6 remain open on actual source/release decisions and authorized
+runtime-role verification. The contract identifies no additional independent
+implementation from these observations. Do not repeat grids, source mapping,
+acceptance sidecars or the pending school-response question. No Phase 06.
+Engineering estimate remains 85% (80–90%), with 6–12 focused hours conditional
+on prerequisites; formal completion date remains unknown.
 
 ## Existing source-event reconciliation verified — 16 October 2026
 

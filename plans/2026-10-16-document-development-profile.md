@@ -195,3 +195,8 @@ rerun or deployment was performed. Only owner artifact changes remain unstaged.
 The [remaining exit packet](2026-10-16-phase05-remaining-exit-packet.md) now binds
 the exact pending source inventory and recovery sequence. Its52field-association
 count covers only the selected package, not full-document independent review.
+
+The [bounded acceptance contract](2026-10-16-document-development-acceptance-contract.md)
+now specifies the development disposition of these unchanged observations:
+retain the offline profile with its context limitation;no formal pass, new
+positive result or response-schema change. Source/release/runtime gates remain.

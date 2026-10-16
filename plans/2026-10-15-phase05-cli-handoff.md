@@ -1,5 +1,29 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Bounded document acceptance criteria recorded — 16 October 2026
+
+[Contract](2026-10-16-document-development-acceptance-contract.md), baseline
+349056b; product 8595fb8 unchanged. Retain k3/.25/2048 for offline research:
+18/18 available-field contexts complete, 21/21 insufficient outcomes. Each
+language has 6/6 and 7/7 respectively. Literal related-context recovery remains
+36/39, with three T1 misses. These are criteria recorded after exposed
+observations, without a formal pass, status promotion or new helper.
+
+Fresh read-only audit verifies 741 scores, 39 ranking/token checks, 303 citations,
+117 fields, 17 primary/emission groups and 17 inputs. Profile and source-event
+seals remain unchanged. Single builder check: nothing important left.
+Documentation/ledger: 521 tests and 11 subtests pass in 11.96s; final check also
+passes in 11.60s. Phase validate exits 0; can-advance exits 1 (expected blocked).
+Whitespace and all 39 conservative result flags verify; owner artifacts remain
+preserved and unstaged. No product, source, database or activation change.
+
+Formal Tasks 4/6 remain open on actual source/release decisions and authorized
+runtime-role verification. The contract identifies no additional independent
+implementation from these observations. Do not repeat grids, source mapping,
+acceptance sidecars or the pending school-response question. No Phase 06.
+Engineering estimate remains 85% (80–90%), with 6–12 focused hours conditional
+on prerequisites; formal completion date remains unknown.
+
 ## Existing source-event reconciliation verified — 16 October 2026
 
 [Report](2026-10-16-source-event-evidence-reconciliation.md):52selected field
