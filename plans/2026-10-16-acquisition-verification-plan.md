@@ -54,14 +54,14 @@ Interfaces: consumes existing SourceDocumentVersion/Evidence/A2 vocabulary;
 produces SourceAcquisitionLoader.verify(current, check) -> SourceDocumentVersion
 via verify_source_acquisition(p_expected_register=current, p_check=check), admin.
 
-- [ ] Write synthetic loader tests for exact request/return, unchanged inputs/history,
+- [x] Write synthetic loader tests for exact request/return, unchanged inputs/history,
   envelope/identity/hash/locator rejection, duplicate/blank IDs, wrong kinds/roles,
   unsupported lifecycle, pending-content rejection, specifically cited A1 order,
   equal/equivalent instants and malformed return/one propagated storage failure.
-- [ ] Run loader class; expected RED: verify method absent.
-- [ ] Implement smallest verify method, retaining observe() unchanged. Parse both
+- [x] Run loader class; expected RED: verify method absent.
+- [x] Implement smallest verify method, retaining observe() unchanged. Parse both
   contracts, derive acquisition/evidence only and validate the returned exact record.
-- [ ] Run loader and existing A1 unit classes; expected all GREEN. Record counts
+- [x] Run loader and existing A1 unit classes; expected all GREEN. Record counts
   and explicitly commit loader/test/continuity as one cohesive increment.
 
 ## Task 2: Atomic admin RPC and actual-role regressions
@@ -115,6 +115,11 @@ external skill scratch tools. Retain evidence/worktree rather than delete them.
 Preflight Task1→2: RPC name/parameter names and full contract return agree.
 Preflight Task2→3: C1 must occur before A2; prepared inputs already satisfy that.
 No other subsystem is added; no spec gaps found in self-review.
+
+Task1 RED:37missing-method failures/subcases,2passing subcases (raw loader-red.log).
+GREEN:13tests/60subtests0.58s, exit0, new loader plus existing A1 unit class.
+Task1 implementation explicitly committed after this evidence; no behavior change
+to observe(). Task2 missing-RPC RED next.
 
 Context: thesis physical17–18/routing PNG reconsulted this resume; prior39–44 and
 master3/6/10/11/13 architecture retained. No scope/routing discrepancy. Existing

@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 357
+sequence: 358
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 184b33f
-working_tree: Approved A2 implementation plan; owner artifact changes preserved unstaged
+head_commit: f92b6bc
+working_tree: A2 loader and synthetic regressions verified; owner artifact changes preserved unstaged
 updated_at: 2026-10-16T23:25:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A2 loader RED/GREEN — 16 October 2026
+
+Planf92b6bc; new verify() missing-method RED37failures/subcases observed, then
+13tests/60subtests GREEN0.58s including existing A1 unit regressions. Acquired
+timestamp checks bind specifically to cited A1; C1/history/other fields preserved.
+Commit Task1, then actual missing-RPC RED and narrow additive SQL. No DB source
+promotion/shared application/activation. Same scope and formal gates remain.
 
 ## A2 full design approved; inline plan ready — 16 October 2026
 
@@ -2701,6 +2709,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: Task1 verified; Task2 direct database RED/migration/actual-role tests next.
 
 Latest: execute approved A2 plan inline, starting focused loader RED/GREEN.
 Owner approval is settled; do not request plan/method/source acceptance again.

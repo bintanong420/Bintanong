@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A2 loader verified — 16 October 2026
+
+Planf92b6bc. Missing-method RED37failures/subcases; GREEN13tests/60subtests0.58s
+including A1 units. New verify() preserves C1/history/identity/other lifecycle
+fields, validates specifically cited A1 ordering and exact admin return; no
+automatic retry. Commit Task1, then missing-RPC RED/additive SQL/disposable tests.
+Supabase current Context7 invoker/ACL docs and changelog inspected, existing CLI
+retained2.117.0; no installs. Owner artifacts/source limits preserved, noPhase06.
+
 ## A2 design approved; implementation begins — 16 October 2026
 
 Owner “ye i approve, then proceed” approves complete design after184b33f.
