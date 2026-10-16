@@ -10,6 +10,17 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Owner accepted the exact19chunk selected-review completion scope after234df0c,
+conditional on complete coverage. Fresh renderer/receipt check confirms52field
+associations/54spans, zero uncovered spans and22same-source neighbor edges;
+all input hashes and retained limitations match. See the acceptance section of
+[the scope decision](2026-10-16-selected-corpus-review-scope.md). This resolves
+the earlier pending-answer notes below. Full originals remain partially reviewed;
+decision document plus bound acceptance evidence preserve the exact selection
+without changing source states or adding a lifecycle updater. Actual source/
+release authorization and runtime exit validation remain; noPhase06. Do not
+reopen this decision, settled readings or the pending school-response inquiry.
+
 Developer takeover now starts with the expanded [root README](../README.md):
 tracked code, ignored originals/evidence/models, exact Phase05 recovery packages
 and query-vector inputs, snapshot lineage, environment/testing and handoff steps.

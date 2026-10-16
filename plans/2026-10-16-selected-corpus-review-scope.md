@@ -1,6 +1,7 @@
 # Selected corpus content-review scope decision
 
-Prepared 16 October 2026 at baseline `5f38c2e`. **Owner decision pending.**
+Prepared 16 October 2026 at baseline `5f38c2e`. **Owner accepted the exact
+selected scope, conditional on complete coverage; condition verified below.**
 This packet requests a decision about the completion boundary of the existing
 human content review. It does not request another reading of confirmed fields.
 No source state, product code, database or release has changed.
@@ -9,8 +10,9 @@ The student capability is source-linked undergraduate procedure and policy
 explanation. The evidence path is the existing owner confirmations, their C1
 receipts and exact selected chunks, followed by a declared review scope. This
 addresses the scoped completed-review prerequisite in Phase05 Tasks4/6 and
-master sections6/10. The unresolved question is whether the owner considers
-human content review complete for this exact selected package, with its limits.
+master sections6/10. The original question was whether the owner considers human
+content review complete for this exact selected package, with its limits. The
+answer and coverage check below resolve that question without changing states.
 
 ## Decision proposed
 
@@ -113,7 +115,76 @@ blocked as expected. Whitespace checks pass. No product code changed, so the
 completed product suite was not repeated. Only this packet and four continuity
 documents are staged; owner artifact changes remain unstaged.
 
-## Next action
+## Owner acceptance and verified coverage — 16 October 2026
+
+At continuation baseline `234df0c`, the owner answered:
+
+> yes sure i agree, as long as it completely covered the data in these chunks.
+
+This accepts the proposed completion boundary subject to its stated coverage
+condition. A fresh read-only check satisfies that condition for the exact
+package identified above:
+
+- All 19 chunks pass the existing reviewed-context renderer. It verifies each
+  field against its bound source text, recomputes source/content bindings and
+  reconstructs the entire serialized chunk, including recorded limitations.
+- All 52 field associations cover all 54 source spans in order, with zero
+  unassociated spans. Their original source-event bindings are retained.
+- Every chunk/content identity, complete type_fields and ordered stored-span
+  projection matches the existing immutable C1 receipt. All three inputs and
+  the original scope inventory retain their recorded byte hashes.
+- All 22 required-neighbor edges resolve within the same source version. The
+  four-part completion-timing record also passes its complete-group validator,
+  preserving its original conflicting-deadlines limitation.
+
+Content review is therefore complete **for this exact selected package** for
+provisional undergraduate research. This is coverage of data already in these
+chunks; it does not assert complete extraction of any original page/document,
+recover absent source content, settle contradictions or cover later changes.
+Every limitation and exclusion above remains part of the accepted selection.
+Do not ask for this completion decision or the settled readings again.
+
+Fresh verification was recorded at `2026-10-16T12:57:45.187489+00:00`; this is
+the check's recording time, not an invented exact time for the owner's reply.
+Ignored evidence: workspace/audit-evidence/p05-selected-review-accepted-20261016/
+`accepted-scope-verification.json`, SHA-256
+`eb64ee1d754e287ff2af7aee793c444a57eb30733c0b3dbb75a559617900fc47`.
+Its sibling `verify_scope.py` records the check. The historical pending-decision
+inventory and sealed receipts were read only, not rewritten to imply an earlier
+acceptance. No model call, institutional-source conversion or database call.
+
+## Persistence assessment and next action
+
+The existing C1 receipts already durably bind the exact field/span/limit
+snapshots. This versioned decision document plus the new hash-bound acceptance
+record preserve the later completion decision separately. That is sufficient
+to record the owner's decision now; another status updater is unnecessary for
+this documentation action.
+
+Existing source content-review state is version-wide; the delivered C1 loader
+only supports pending to partially_reviewed. Applying C2/C3 to the whole source
+would overstate the scope accepted here. Keep all five original source records
+partially reviewed in the retained rehearsal snapshots; do not mutate them or
+their immutable C1 receipts. No chunk/source state or database is changed here.
+A future database consumer that needs selected-review completion must first
+have an explicitly scope-bound contract covering this exact content and limits,
+rather than using whole-source reviewed as shorthand. No new interface is
+implemented or required to preserve this decision.
+
+The completion-scope answer is resolved. Remaining formal exit requirements
+are actual source/release authorization and authorized runtime-role validation
+identified in the exit packet. Reconcile actual new evidence when supplied;
+do not repeat the pending school inquiry, source confirmations, calibration
+grid or completed implementation to fill that wait. Phase05 remains active;
+noPhase06, institutional approval or activation follows from this acceptance.
+
+Acceptance documentation verification: 518 tests and 11 subtests pass in15.70s,
+exit0, using the existing Python3.13 environment with bytecode/cache disabled
+and ignored workspace basetemp. Phase validation passes; can-advance remains
+blocked as expected. Whitespace checks pass. No product change or full-suite
+rerun. Five explicit documentation paths only; owner artifacts remain unstaged.
+
+## Original proposed next action (resolved by the acceptance above)
 
 Record the owner's actual answer to this bounded completion-scope question in
 current progress and the checkpoint. If accepted, preserve its precise package

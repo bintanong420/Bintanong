@@ -1,5 +1,33 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Selected review accepted with complete coverage verified — 16 October 2026
+
+Owner: "yes sure i agree, as long as it completely covered the data in these
+chunks." Recorded actual acceptance in the [scope decision](../2026-10-16-selected-corpus-review-scope.md),
+baseline234df0c. Fresh renderer/receipt check confirms all19chunks reconstruct
+exactly,52field associations cover54spans with zero uncovered spans, and all
+22required-neighbor edges stay within the same source. Complete four-part
+conflicting-deadlines record validates. Exact C1 content/metadata/span snapshots,
+all three inputs and prior inventory hashes match; limits remain attached.
+
+The condition is satisfied for data in this exact package, not whole PDFs,
+absent information or later changes. Existing C1 receipts plus versioned owner
+decision/hash-bound acceptance preserve it; no new updater or whole-source
+C2/C3 promotion is needed to record this answer. All source states, school
+authority/release/runtime gates and held readings remain unchanged. No DB/model
+call, new experiment or institutional-source conversion. Owner artifacts intact.
+Same-session scope/routing context remains applicable; master6/transition rules
+rechecked. Raw evidence under workspace/audit-evidence/
+p05-selected-review-accepted-20261016; acceptance JSON SHA256
+eb64ee1d754e287ff2af7aee793c444a57eb30733c0b3dbb75a559617900fc47.
+
+Next reuse this settled decision and reconcile actual source/release evidence
+when supplied, then applicable authorized runtime validation. Do not repeat the
+completion question, settled readings, school inquiry, grid or C1 work. Phase05
+Tasks4/6 remain open; noPhase06. Fresh docs/ledger518tests/11subtests pass15.70s,
+exit0; phasevalidate0/can-advance1(expected blocked), whitespace clear. Raw
+docs-ledger.log retained in the acceptance root; five documentary paths only.
+
 ## Previous-agent continuation reconciled — 16 October 2026
 
 Read AGENTS.md and the handoff/phase ledger; fresh Git baseline ab39576 confirms

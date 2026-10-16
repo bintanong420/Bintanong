@@ -2,16 +2,44 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 347
+sequence: 348
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ab395764b053f5040b47b926f3184490a219a911
-working_tree: Resume checkpoint/progress only; existing artifacts/.gitkeep deletion and untracked backend/artifacts preserved unstaged
-updated_at: 2026-10-16T20:53:00+08:00
+head_commit: 234df0cbc6bd0f225cf946d4a726ccc0af7897b7
+working_tree: Selected review acceptance and four continuity files; owner artifact changes preserved unstaged
+updated_at: 2026-10-16T20:58:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Selected review completion accepted; coverage condition verified — 16 October 2026
+
+Owner: "yes sure i agree, as long as it completely covered the data in these
+chunks." Actual selected-scope decision is received, not generic continuation.
+Fresh read-only verification confirms all19chunks reconstruct exactly from
+52reviewed field associations/54spans, zero uncovered spans, complete C1
+content/metadata/span snapshots and22same-source required-neighbor edges.
+Four-part completion record validates as a complete group. All three inputs
+and the original scope inventory retain their hashes; limitations unchanged.
+Accepted scope is the exact package, not whole documents or absent source data.
+
+Scope decision now records actual reply, condition/evidence and persistence
+assessment. Existing immutable C1 receipts plus this versioned decision and
+hash-bound acceptance preserve completion scope; no new updater required to
+record it. Version-wide C2/C3 would overstate this selection and is not applied.
+No source/chunk state, database, model, runtime or institutional approval change.
+Context17–18/39–44/routing/master3/6/10/11/13 from the immediate prior resume
+remains applicable; master6/governance transition semantics rechecked now.
+
+Raw root:workspace/audit-evidence/p05-selected-review-accepted-20261016.
+accepted-scope-verification.json SHA256:
+eb64ee1d754e287ff2af7aee793c444a57eb30733c0b3dbb75a559617900fc47.
+Historical pending inventories/receipts remain unmodified. Current code9e6526c
+unchanged; owner artifacts/.gitkeep deletion/backend/artifacts untouched.
+Fresh docs/ledger518tests/11subtests pass15.70s, exit0; phasevalidate0 and
+can-advance1(expected blocked), whitespace clear. Raw docs-ledger.log is in
+the acceptance root. Only five documentary paths are this verified increment.
 
 ## Previous-agent continuation reconciled — 16 October 2026
 
@@ -2506,6 +2534,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: selected-scope completion accepted and complete-coverage condition
+verified. Record/commit the bound decision and continuity; no implementation
+or database promotion follows. Earlier waiting-for-answer entries are history.
 
 Latest: prior README/C1 delivery is complete in Git. Await the exact selected
 content-review completion-scope answer already presented. Preserve whole-source
@@ -5737,6 +5769,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: selected completion question resolved; reuse its bound acceptance.
+Reconcile actual new source/release evidence when supplied and perform actual
+authorized runtime validation only after applicable prerequisites. Any future
+database use of selected completion needs an exact scope-bound contract; do not
+set whole-source reviewed. No repeated completion/source/school-response
+question, experiment or C1 work; Phase05Tasks4/6 remain open, noPhase06.
 
 Latest: record the actual answer to the already presented selected-package
 completion question. If accepted, assess a precisely scope-bound completion
