@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 335
+sequence: 336
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5e69cf3
-working_tree: scoped C1 design and continuity docs; owner artifacts preserved unstaged
-updated_at: 2026-10-16T18:28:44+08:00
+head_commit: b5ddea9
+working_tree: approved C1 implementation starting; owner artifacts preserved unstaged
+updated_at: 2026-10-16T18:33:09+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## C1 loader verified — 16 October 2026
+
+Task1 RED81 expected missing-implementation cases/subcases. Unit GREEN11tests/
+96subtests2.05s including existing client. Validates exact closed receipt, original
+labels/times, distinct C1 evidence, full field/span/event/neighbor bindings;
+retains input/history and checks returned register, with no automatic retry.
+No SQL/C1 source update yet. Next actual-role SQL RED. Owner artifacts intact.
 
 ## Scoped partial-review design prepared — 16 October 2026
 
@@ -2365,6 +2373,11 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: owner “ye sure go ahead” approves C1 design at b5ddea9. Execute the
+self-reviewed dated partial-source-review plan inline: Task1 loader RED/GREEN,
+Task2 actual-role SQL, Task3 saved-package rehearsal and one final review.
+No repeated approval or source decisions. Shared/source-authority gates remain.
 
 Latest: scoped C1 partial-review design is complete and builder-checked; await
 approval of that new interface before writing an implementation plan or code.

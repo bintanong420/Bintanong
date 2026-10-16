@@ -1,6 +1,6 @@
 # Recording selected source reviews without claiming complete review
 
-Status: proposed design for owner review. Baseline `5e69cf3`; product `7c40308`.
+Status: owner approved with “ye sure go ahead” after `b5ddea9`. Baseline `5e69cf3`; product `7c40308`.
 No product code, schema, source state or database is changed by this document.
 
 ## Purpose and existing evidence

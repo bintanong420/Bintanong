@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## C1 loader verified — 16 October 2026
+
+Task1 RED81 missing-implementation cases/subcases; GREEN11tests/96subtests2.05s
+with existing client. Closed receipts retain original labels/provenance, event
+times, exact source/field/span bindings and complete same-source neighbors.
+Only content review/evidence are derived; returned register compared exactly,
+storage errors propagate once. No SQL/C1 source state persisted. Next actual-role
+missing-RPC RED and immutable receipt storage. Owner artifacts preserved.
+
+## C1 design approved; implementation starting — 16 October 2026
+
+Owner “ye sure go ahead” after b5ddea9 approves the scoped partial-review build
+and disposable rehearsal. Self-reviewed implementation plan is
+plans/2026-10-16-partial-source-review-plan.md; execute inline without repeated
+plan/method approval. Next loader RED/GREEN, actual-role SQL, saved-package
+rehearsal and one final review/full suite. Existing owner confirmations reused;
+no shared writes, source authority, activation or Phase06. Owner artifacts intact.
+
 ## Scoped partial-review design prepared — 16 October 2026
 
 [Design](../2026-10-16-partial-source-review-design.md), baseline5e69cf3;
