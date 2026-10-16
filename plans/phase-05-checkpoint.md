@@ -2,16 +2,50 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 364
+sequence: 369
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d20153e
-working_tree: Single review timestamp-parity correction GREEN; final full suite next; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T23:25:16+08:00
+head_commit: dba0777
+working_tree: Final A2 documentary closure; owner artifact changes preserved unstaged
+updated_at: 2026-10-17T00:03:42+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A2 approved implementation plan complete — 17 October 2026
+
+Final docs/phase-ledger537tests/11subtests GREEN12.09s, validate0/can-advance1
+(expected blocked), whitespace clear.14825-file newseal created/verified.
+Productdba0777 unchanged; full5507/1323 and177DBcleanup/11inputs/prior6seals
+verified. All dated-plan tasks complete, one Important issue fixed/no deferred
+minor. Following explicit documentary commit closes bounded delivery; preserve
+owner artifacts/branch/worktree and formal actual-source/runtime gates.
+
+## A2 evidence sealed; final docs check — 17 October 2026
+
+14825-file curated seal created/verified, digest in delivery report. Product
+dba0777 unchanged, full5507/1323 and all177DBcleanup/11inputs/prior6seals verified.
+Final documentation/phase-ledger checks running in sibling checks root; then
+explicit documentary closure commit. No further code/review/rehearsal/fullsuite.
+
+## Corrected A2 full suite and integrity pass — 17 October 2026
+
+Productdba0777:5507tests/1323subtests GREEN754.26s, six skips/warnings, exit0.
+Fresh verifier confirms11unchanged inputs, prior6seals8/49/119/489/16047/10files
+and all177owned/reviewer DB names absent. Single Important review issue fixed
+RED4/GREEN23/201; no other findings/minors. No new code/review/rehearsal needed.
+New evidence seal and final documentary/phase-ledger closure now finishing.
+
+## A2 correction committed; final full suite running — 16 October 2026
+
+Fixdba0777 follows sole Important RED4/GREEN23tests/201subtests106.03s. Final
+full suite now runs on this corrected code; earlier interrupted log is history.
+Python3.13.7/PostgreSQL17.6/CLI2.117.0 freshly confirmed, no environment change.
+No further product/review/rehearsal work planned. Parent owns final log, all
+owned/reviewer DB cleanup,11input hashes, prior6seals/newseal and docs/ledger
+closure. Active rules rechecked: undergraduate scope, preserved gaps/owner dirt,
+no shared mutation/activation/models/dependencies/Phase06.
 
 ## A2 review correction GREEN — 16 October 2026
 
@@ -2762,6 +2796,21 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: approved A2 plan complete and verified; documentary closure commit only.
+No further code/review/suite/rehearsal/grid work remains for this increment.
+
+Latest: final5507/1323GREEN and cleanup/integrity verified; finish new seal,
+documentary/phase checks and explicit closure commit. No further implementation.
+
+Final corrected-code full suite still running on dba0777, unified exec session
+3129. Raw final-full-suite.log and owned SQL under final-full-db in workspace/
+audit-evidence/p05-acquisition-verification-20261016; basetemp fixed-final-full-temp.
+At this checkpoint it is in97%database portion with no reported failure, not a
+completion claim. Resume by inspecting this running session/log, never restart
+the suite merely after a context boundary. Single review/fix GREEN and real
+rehearsal are complete. After final exit0 run verify_delivery.py, then final
+report/plan/INDEX/blocked handoff/docs checks/seal/explicit documentary commit.
 
 Latest: review correction GREEN; commit then final corrected-code full suite,
 cleanup/input/seal/documentary gates. No additional source/review/rehearsal needed.
@@ -6039,6 +6088,14 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: preserve verified bounded delivery after closure; resume actual source/
+release/authorized-runtime exit work when supported. No repeated A2, original
+checks, settled owner/source/wording/school questions, experiments or Phase06.
+
+Latest: finish verified A2 documentary/seal closure, then retain bounded delivery
+and resume actual source/release/authorized-runtime exit work only when supported.
+No further A2 work, repeated source checks/review/suite/rehearsal/grid or Phase06.
 
 Latest: write synthetic A2 loader regressions, observe missing-method RED,
 implement minimal verify(), then GREEN/commit; proceed through dated plan.

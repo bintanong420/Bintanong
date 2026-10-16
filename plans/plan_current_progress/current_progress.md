@@ -1,5 +1,50 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Approved A2 plan complete — 17 October 2026
+
+Productdba0777 unchanged; full5507tests/1323subtests and finaldocs537/11 pass.
+One Important timestamp issue fixed RED4/GREEN23/201, no other findings/minors.
+All177owned/reviewer DBs absent,11inputs/prior6seals unchanged,14825-file newseal
+verified. Approved dated plan complete; documentary commit closes delivery.
+Next actual source/release/authorized-runtime exit evidence when supported;
+no repeated A2/source checks/review/suite/rehearsal/grid, shared activation or
+Phase06. Owner artifact changes preserved unstaged and worktree retained.
+
+## A2 evidence sealed; documentary closure — 17 October 2026
+
+14825-file newseal created/verified, digest in delivery report. Productdba0777
+unchanged; full5507/1323,11inputs/prior6seals and177DBcleanup verified. Final
+docs/phase-ledger checks now run in sibling checks root, then explicit closure
+commit. No more code/review/rehearsal/fullsuite; formal source/runtime gates remain.
+
+## A2 final full suite/integrity pass — 17 October 2026
+
+Productdba0777:5507tests/1323subtests pass754.26s, six skips/warnings, exit0.
+Fresh verifier confirms11unchanged inputs, prior6seals8/49/119/489/16047/10files
+and all177owned/reviewer DB names absent. Single Important review issue fixed
+RED4/GREEN23/201; no other material/deferred minor finding. Finish newseal/final
+docs/phase-ledger/commit closure; no further code/review/fullsuite/rehearsal/grid.
+Candidate inactive/source authority and formal Tasks4/6 remain separate. Owner
+artifacts preserved/unstaged; noPhase06.
+
+## Corrected full run remains active — 16 October 2026
+
+Final dba0777 full suite: session3129, final-full-suite.log/final-full-db and
+fixed-final-full-temp in p05-acquisition-verification-20261016 evidence root.
+At23:54+08 it is in database portion without reported failures; not final evidence
+yet. Resume existing session/log rather than restart. After exit0 verify11inputs,
+prior6seals/all owned/reviewer DB cleanup, newseal and finaldocs/ledger closure.
+Single review/fix/rehearsal already complete; no repetition or source question.
+
+## Corrected A2 final suite running — 16 October 2026
+
+Fixdba0777 committed after RED4/GREEN23tests/201subtests106.03s. Final full
+suite runs on corrected code; interrupted earlier run is history. Single review
+complete, no additional findings/minors or re-review. Environment freshly
+confirmed Python3.13.7/PostgreSQL17.6/CLI2.117.0 unchanged. Next inspect final
+full result, cleanup/input/prior-seal verification/new seal and documentary
+closure. No repeated source questions/rehearsal/grids or Phase06.
+
 ## A2 review correction GREEN — 16 October 2026
 
 Sole Important timestamp-parity issue reproduced RED4, fixed by narrow A2 offset

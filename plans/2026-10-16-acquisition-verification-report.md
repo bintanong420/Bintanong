@@ -2,8 +2,10 @@
 
 Owner approved the [complete A2 design](2026-10-16-acquisition-verification-design.md)
 after184b33f; inline [implementation plan](2026-10-16-acquisition-verification-plan.md)
-committedf92b6bc. Loader44e0856 and SQLd20153e are delivered; final review/full
-verification is in progress. This report does not claim formal Phase05 completion.
+committedf92b6bc. Loader44e0856/SQLd20153e/fixdba0777 are delivered. Final full
+suite passes5507tests/1323subtests, with six skips/warnings,754.26s, exit0.
+One Important review finding is corrected; no other material/deferred minor.
+This closes the bounded A2 implementation, not formal Phase05.
 
 ## Behavior
 
@@ -144,5 +146,53 @@ owner artifacts/.gitkeep deletion and untracked backend/artifacts preserved.
 Current Supabase Context7 invoker/ACL docs and relevant changelog inspected;
 CLI2.117.0/PostgreSQL17.6 retained without installation or version updates.
 
-One final fresh reviewer, final full suite, cleanup/input/seal checks and
-documentary/phase-state closure remain; actual results will be recorded below.
+## Final corrected-code verification — 17 October 2026
+
+Final productdba0777: **5507passed,6skipped,6warnings,1323subtests passed in754.26s**,
+exit0. Command: existing readiness Python `-B -m pytest -q -p no:cacheprovider
+tests --basetemp <raw-root>/fixed-final-full-temp`, external TEMP/TMP and
+BINTANONG_STORAGE_EVIDENCE_DIR=<raw-root>/final-full-db. The six warnings concern
+existing pytest markers and Docling/Pydantic deprecations. No environment change,
+whole-suite repeat after this successful result, new independent review or
+real-package re-rehearsal is needed.
+
+The real package was rehearsed before the timestamp wrapper correction; its
+actual Z timestamps remain on the unchanged delegated-parser path. The focused
+corrected-code regressions and full suite verify that path plus the additional
+normalized offsets. Eleven saved input hashes remain byte-identical, so no new
+original-byte measurement, source review, encoding or package replay is required.
+
+Fresh verify_delivery.py checks all11rehearsal input hashes, six historical
+seals (8/49/119/489/16047/10files), and all177owned/reviewer disposable database
+names absent. Candidate release remains inactive, source verification pending,
+approval not_requested/null, C1 and selected review unchanged. Rehearsal database
+was dropped; no actual source was published and no shared migration applied.
+
+| Final product file | SHA-256 |
+| --- | --- |
+| source_acquisition.py | `7e51a7ea493eda535f489fe17dad3049dcab7988578c6a2d8b2cf1e778caf48a` |
+| 20261016152947_phase5_acquisition_verification.sql | `3bb2dadb0b21d5e21c04a42140875f9ca3b9bcac5cb62ded41f228cd04a732e6` |
+| test_storage_source_acquisition_verification.py | `942723ea79b0b98ef208af6e2936dee0c7c685a266f387c117a84ecae3e46ede` |
+
+The phase worktree/branch and owner artifact changes remain preserved. Formal
+Tasks4/6 require actual applicable source/release/authorized-runtime exit evidence;
+A2 byte-state bookkeeping supplies no authority. Do not createPhase06, apply the
+shared migration, activate sources or repeat completed reviews/experiments.
+New evidence seal and final documentary/phase checks are recorded below.
+
+New curated evidence seal created and verified:14825files, manifest SHA-256
+`a7b3d2791ae4bd89a9b367861bd8fa889172bf291b4802948fbaa21d8acd5317`.
+Only `python -B seal_evidence.py verify` is allowed in that sealed root from now
+on. Curated scripts/logs/results and owned disposable SQL are included; synthetic
+temporary trees excluded. Final documentation logs use sibling
+p05-acquisition-verification-checks-20261017. Keep branch/worktree as already
+directed; no integration/deletion menu or push is needed for this increment.
+
+Final documentation/phase-ledger **537tests/11subtests pass12.09s**, exit0.
+Phase validation succeeds; can-advance remains blocked as expected, whitespace
+clear. Approved bounded implementation plan is complete. This following
+documentation-only commit closes delivery; productdba0777 and its recorded hashes
+remain unchanged. Discover the documentary SHA through Git rather than embedding
+a self-referential hash. No further A2 implementation or unchanged tests,
+rehearsal, review, source measurement or retrieval experiment remains authorized
+or necessary to finish this approved increment.
