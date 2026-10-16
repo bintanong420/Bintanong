@@ -57,6 +57,26 @@ registration of the old pending record remains a conflict after observation.
 Runtime roles cannot invoke this operation, and observed pending sources remain
 hidden. No verification, approval, content review or release activation follows.
 
+`SourceAcquisitionLoader.verify(current, check)` records only A2 acquisition
+observed→verified after an existing C1 partial review. Verification remains
+pending and approval not_requested/null. Supply the same closed byte-check
+envelope with new Evidence, kind byte_hash_check by reviewer/system, no
+authorization reference and an instant no earlier than the specifically cited
+valid A1 observation. The operation preserves C1 history and selected review
+bindings; it cannot verify authenticity/currentness or grant school authority.
+
+The admin-only invoker RPC `verify_source_acquisition` independently derives
+the acquisition/Evidence change under the publication and source-row locks.
+Complete expected-register and relational comparison reject stale/conflicting,
+legacy/null, drifted and ever-published sources. Exact replay checks everything
+again and returns without UPDATE. Python validates the complete resulting record;
+uncertain storage errors propagate without automatic retries or role fallback.
+Current source and chunk verification/review fields, receipts, vectors, membership
+and runtime visibility are unchanged. Replay A2 with its original expected
+record/check; obsolete registration/A1/C1 replay may conflict and cannot downgrade
+it. C1 must precede this narrow A2 operation. Candidate migrations remain unapplied
+to shared databases until their applicable deployment workflow.
+
 `SourcePartialReviewLoader.record(current, receipt)` records C1 only: an observed
 source with pending verification/content review and unrequested approval moves
 to `partially_reviewed`. The closed `selected-source-partial-review-v1` receipt

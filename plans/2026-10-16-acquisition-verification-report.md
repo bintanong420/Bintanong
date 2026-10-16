@@ -1,0 +1,103 @@
+# Acquisition second-check delivery — 16 October 2026
+
+Owner approved the [complete A2 design](2026-10-16-acquisition-verification-design.md)
+after184b33f; inline [implementation plan](2026-10-16-acquisition-verification-plan.md)
+committedf92b6bc. Loader44e0856 is delivered; SQL/regression/final delivery work
+is in progress. This report does not claim formal Phase05 completion.
+
+## Behavior
+
+SourceAcquisitionLoader.verify(current, check) records a second, source-bound
+byte check after existing C1 partial review. It requires acquisition observed,
+verification pending, approval not_requested/null and content partially_reviewed.
+The closed envelope's source ID/hash/locator order must exactly match. New
+Evidence must be byte_hash_check by system/reviewer, distinct and nonblank with
+no authorization reference, and dated no earlier than the specifically cited
+valid A1 observation. Equal instants and existing wide-offset/fraction syntax
+remain supported. No unrelated old observation can replace the cited reference.
+
+Only acquisition_state and the one appended Evidence change. Python parses the
+full current/resulting/returned source contracts and rejects altered returns.
+One admin RPC call is made, without automatic retries or credential fallback.
+Current A1/C1/importer interfaces stay unchanged; obsolete earlier replay may
+conflict after A2 and must never downgrade acquisition.
+
+CLI-generated additive migration
+20261016152947_phase5_acquisition_verification.sql defines
+verify_source_acquisition as SECURITY INVOKER with empty search_path and explicit
+PUBLIC/anon/authenticated execution denial. Only service_role may execute it.
+It independently guards envelope/Evidence/state/source identity, cited A1 and C1
+references, distinct history and chronological ordering. Under the existing
+publication lock/source row lock it compares the full register and complete
+relational projection, excluding only created_at. Exact replay returns without
+UPDATE but still checks projection and ever-published membership. Stale,
+conflicting, legacy/null, drifted and published sources fail atomically.
+
+This is acquisition byte verification. Source verification stays pending and
+approval not_requested/null. No authenticity, current-year validity, institutional
+permission or full-document content-review claim follows. Administrative evidence
+labels do not authenticate a person; SQL cannot read original files or confirm
+an external check. Trusted preparation remains responsible for truthful evidence.
+
+## Evidence and verification so far
+
+Existing readiness Python3.13.7 environment; all tests use -B, pytest without
+cache and external basetemp. New ignored raw root:
+workspace/audit-evidence/p05-acquisition-verification-20261016.
+
+- Loader RED:37missing-method failures/subcases; GREEN new+A1 units13tests/
+  60subtests0.58s, exit0. Existing observe() is unchanged.
+- Actual database RED: missing verify_source_acquisition RPC, one failure4.85s.
+- Initial DB run:14tests/115subtests pass; four failures/subcases came from three
+  test-harness assumptions. Published guard test tried to set published_at on a
+  draft (correctly denied by existing trigger); lock probe parsed psql t as JSON;
+  direct select denial expected the RPC wrapper's exception. Corrected tests use
+  real synthetic activation, to_jsonb and the direct adapter exception. No product
+  change was needed for those failures. Focused corrected3tests/12subtests pass
+  15.96s, including publication locking and rollback.
+- Full relevant regression command includes new A2, A1, C1, selected-review
+  loader/database, registration and storage security files; running.
+
+One real-package rehearsal succeeds in uniquely named disposable DB
+bintanong_storage_test_8a49d469d7864b9492ad81c1ee4f5c7f, then drops it.
+It reuses the five pending records, original A1/C1 evidence and19saved vectors/
+19chunks/54spans/52field associations. Five A2 calls and five exact replays
+match the previously prepared full derivatives. Accepted selected-review receipt
+and binding record/replay unchanged; activation is denied for missing authority.
+Both actual runtime roles see zero rows across seven corpus/release tables,
+retrieve_context returns release_changed/no items and admin receipts are denied.
+There are zero active pointers and no actual-source publication. All11input
+hashes remain unchanged. This is negative activation/access verification, not
+positive authorized-runtime relevance calibration or answer generation.
+
+## Rulings and continuation
+
+Ruling: inline execution without another plan/method confirmation follows the
+active phase plan and explicit design approval/proceed instruction. Cost if
+wrong: isolated implementation rework. Ruling: keep repository plan/checkpoint
+and ignored evidence rather than skill scratch/deletion defaults, following
+owner continuity/location requirements. Cost: manual ledger upkeep.
+
+Ruling: reuse existing private partial_review_time(text), whose established
+calendar/offset/microsecond semantics match the current Python contract, rather
+than add another timestamp parser. Cost if wrong: parity drift shared with C1;
+new A2 timestamp tests pin equal/wide-offset/long-fraction behavior independently.
+No earlier migration or vocabulary is changed.
+
+The existing C1-before-A2 boundary is retained from the builder-reviewed design;
+no new source-content or owner wording decision is inferred. Original PDFs/raw
+conversions, F04/G01/originalG02 holds, Charter cutoff, deadline conflicts and
+undergraduate scope remain unchanged. Full-source byte hashing does not admit
+excluded audiences. No new models, conversions, embeddings, benchmark variants,
+parameter sweep, runtime/API/Docker deployment or shared migration application.
+No Phase06/executable institutional rules or institutional activation follows.
+
+Context consulted this resume: actual thesis17–18/routing PNG, master10 and
+prior same-session39–44/master3/6/11/13, scope/source-gap/dataset guidance and
+active phase documents. Existing isolated feat/p05-retrieval-logic retained;
+owner artifacts/.gitkeep deletion and untracked backend/artifacts preserved.
+Current Supabase Context7 invoker/ACL docs and relevant changelog inspected;
+CLI2.117.0/PostgreSQL17.6 retained without installation or version updates.
+
+One final fresh reviewer, final full suite, cleanup/input/seal checks and
+documentary/phase-state closure remain; actual results will be recorded below.

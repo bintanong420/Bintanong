@@ -1,5 +1,24 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A2 verified increment committed next; compatibility gate running — 16 October 2026
+
+New DB cases verified across initial14tests/115subtests and corrected3/12,
+one real rehearsal passes5A2/5replays/exact C1+selected bindings. Commit this
+bounded SQL/test/doc unit while broader compatibility tests finish; gate remains
+open. Single final reviewer may inspect stable committed code concurrently.
+Ruling/cost in dated plan. No source authority/shared application/activation.
+
+## A2 SQL and real-package rehearsal — 16 October 2026
+
+Loader44e0856; actual missing-RPC RED then additive20261016152947. Three initial
+test-harness assumptions corrected, focused3tests/12subtests pass15.96s; relevant
+regressions running. One inactive disposable rehearsal verifies5A2/5replays,
+exact prepared derivatives, retained C1/selected19chunk coverage/19savedvectors/
+54spans/52fields, missing-authority denial/both-role invisibility; DB dropped and
+11inputs unchanged. No new authority/shared writes. Next inspect regressions,
+commitTask2 then single fresh review/full suite/cleanup/seal/continuity. Existing
+timestamp helper reused; rationale/cost in delivery report. Do not repeat rehearsal.
+
 ## A2 loader verified — 16 October 2026
 
 Planf92b6bc. Missing-method RED37failures/subcases; GREEN13tests/60subtests0.58s

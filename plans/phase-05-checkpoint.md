@@ -2,16 +2,34 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 358
+sequence: 360
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f92b6bc
-working_tree: A2 loader and synthetic regressions verified; owner artifact changes preserved unstaged
+head_commit: 44e0856
+working_tree: Verified A2 SQL/test increment ready to commit; compatibility regressions running; owner artifact changes preserved unstaged
 updated_at: 2026-10-16T23:25:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A2 verified increment ready; final review next — 16 October 2026
+
+New loader/DB tests individually verified (initial14tests/115subtests plus
+corrected3tests/12subtests), real-package rehearsal complete and immutable inputs
+preserved. Compatibility regressions still running without reported failures.
+Commit bounded SQL/tests/docs now, leaving broader gate open; one final review
+may run concurrently on stable code. Ruling/cost in dated plan. No activation.
+
+## A2 actual RPC and inactive rehearsal — 16 October 2026
+
+Loader44e0856; missing-RPC RED observed, additive CLI migration20261016152947
+implemented. Initial run14tests/115subtests pass plus three test-harness issues
+corrected (no product failure); corrected3/12pass15.96s. Relevant full subset
+running. One real-package rehearsal verifies5A2/5replays/19savedvectors/54spans/
+52fields and exact derivatives, retains selected receipt/binding, denies missing
+authority and hides both roles; DB dropped,11inputs unchanged. No shared writes.
+Reused existing timestamp parser; ruling/cost in report. Do not repeat rehearsal.
 
 ## A2 loader RED/GREEN — 16 October 2026
 
@@ -2709,6 +2727,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: inspect relevant regression result, commit Task2, then one final fresh
+review/full suite and cleanup/seal/documentary closure. No new source question.
 
 Latest: Task1 verified; Task2 direct database RED/migration/actual-role tests next.
 

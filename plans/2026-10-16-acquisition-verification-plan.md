@@ -69,14 +69,14 @@ via verify_source_acquisition(p_expected_register=current, p_check=check), admin
 Interfaces: consumes Task1 request; produces service_role-only invoker RPC,
 returning complete persisted source register; no schema/vocabulary/RLS change.
 
-- [ ] Add disposable DB tests with actual A1 and C1 synthetic preparation. Assert
+- [x] Add disposable DB tests with actual A1 and C1 synthetic preparation. Assert
   persist/exact no-update replay, preserved projection/history/receipts, direct
   malformed inputs and null/missing fields, specific A1 refs/order/time parity,
   stale/conflicting/concurrent calls, missing/null register, first/replay drift,
   published immutability, publication-lock serialization and rollback; assert
   anon/authenticated EXECUTE denial and invisibility, PUBLIC denied/invoker ACL.
-- [ ] Run positive DB test before migration; expected RED: missing RPC.
-- [ ] Generate additive migration using installed CLI help/new workflow. Implement
+- [x] Run positive DB test before migration; expected RED: missing RPC.
+- [x] Generate additive migration using installed CLI help/new workflow. Implement
   independent closed shape/state/evidence/source guards and exact register CAS
   under publication + row locks. Compare timestamps without narrow timestamptz
   displacement; preserve original text. Match existing Python microsecond parsing
@@ -90,7 +90,7 @@ returning complete persisted source register; no schema/vocabulary/RLS change.
 Interfaces: consumes Task1/2 and sealed five A2 envelopes/expected derivatives;
 produces inactive disposable evidence, final review, checks/seal/report.
 
-- [ ] One rehearsal reuses saved five pending/A1/C1 records and19chunks/54spans/
+- [x] One rehearsal reuses saved five pending/A1/C1 records and19chunks/54spans/
   19vectors; compare five A2 results and exact replays to prepared derivatives.
   Retain selected-review receipt/release binding, deny missing-authority activation,
   assert both runtime roles see no corpus/retrieve evidence, then drop own DB.
@@ -120,6 +120,14 @@ Task1 RED:37missing-method failures/subcases,2passing subcases (raw loader-red.l
 GREEN:13tests/60subtests0.58s, exit0, new loader plus existing A1 unit class.
 Task1 implementation explicitly committed after this evidence; no behavior change
 to observe(). Task2 missing-RPC RED next.
+
+Task2 missing-RPC RED1/4.85s; initial14tests/115subtests pass plus three test-harness
+assumptions corrected, corrected3tests/12subtests GREEN15.96s. No product failure.
+One real-package rehearsal5A2/5replays/11unchanged inputs/hiddenroles/droppedDB.
+Ruling: commit the verified bounded SQL/test increment while broader compatibility
+regressions finish, retaining Task2's remaining gate open; one final review can
+run concurrently on stable code. Cost if wrong: a subsequent corrective commit,
+with no publication or shared migration. Final full suite remains mandatory.
 
 Context: thesis physical17–18/routing PNG reconsulted this resume; prior39–44 and
 master3/6/10/11/13 architecture retained. No scope/routing discrepancy. Existing
