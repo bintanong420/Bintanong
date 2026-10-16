@@ -1,5 +1,35 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Document source/claim preflight complete — 16 October 2026
+
+Resumed `5cf7066`, unchanged product `232a418`. Task2 source-only preparation froze
+the confirmed vehicle payment fields before caller/metric-label joins; prior
+development exposure remains explicit. Reproduced nine existing reviews and added
+one direct V01 application-payment facet over its two confirmed P50 fields. The
+ten-review derivative keeps complete subject/dependency/source-limit context;
+F01/F08/F09 example review is reused unchanged. No source approval or new price.
+Verified three original image hashes, four event objects/owner bytes and old
+review basis hashes. Old register/bundles/seals preserved.
+
+All39 annotations and evaluation-only labels are separate inputs.117 complete/
+empty/wrong-subject controls pass; complete context18fieldsavailable/21insufficient
+evidence, all answer sufficiency unassessed. Labels distinguish relevant context
+from establishing missing replacement price, individual billing, deadlines,
+currentness or GCash permission. No new owner review or held-field change.
+
+Raw working root: workspace/audit-evidence/p05-document-evidence-calibration-20261016/.
+Ruling: retain the owner-designated root for this plan's ledger/evidence instead
+of generic skill scratch. Context consulted: thesis17–18/routingPNG/master10/11,
+active handoffs/ledger/dataset locations; no discrepancy. Next Task3 existing
+local asset verification, six D3/D4 encodings only and39document comparisons using
+33saved queries/27document vectors. D1/D2/curriculum remain reserved. Owner files
+preserved; Phase05active/blocked/gates unchanged, noProlog/activation/Phase06.
+
+Verification: existing readiness venv focused claim/subject plus documentation/
+phase-ledger suites, `-B -q -p no:cacheprovider` with external basetemp
+p05-document-claim-preflight-tests-20261016:528tests/136subtests in12.84s exit0.
+Source controls/prior29-file seal pass. No full/native suite repeated.
+
 ## Architecture made durable; document work narrowed — 16 October 2026
 
 Owner asked to keep the curriculum/Prolog direction in AGENTS.md and said time had

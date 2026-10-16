@@ -2,16 +2,50 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 290
+sequence: 291
 plan: plans/phase-05-retrieval-plan.md
-head_commit: f812f35
-working_tree: AGENTS and six document-calibration plan/continuity paths; owner artifacts preserved
-updated_at: 2026-10-16T11:24:53+08:00
+head_commit: 5cf7066
+working_tree: two source-preflight checkpoint/progress paths; owner artifacts preserved
+updated_at: 2026-10-16T11:33:01+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Document source/claim preflight complete — 16 October 2026
+
+Resumed at `5cf7066`, product `232a418` unchanged. Active plan Task2 completed
+inline using existing helpers; no new backend interface or source-content decision.
+Source-only preparation precedes this run's caller/label joins, with prior exposure
+explicit. Reused nine immutable reviews, added one researcher direct-payment facet
+over V01's two confirmed P50 fields; register10reviews. Whole vehicle subject and
+existing dependencies/limits retained. Three original source-image hashes and four
+existing event objects/owner bytes verified; old basis hashes and register reproduced.
+No replacement price, individual assessment, currentness or whole-procedure approval.
+
+All39 document annotations/metric labels prepared separately.117 complete/empty/
+wrong-subject controls pass: complete context18fieldsavailable/21insufficientevidence;
+answer sufficiency unassessed throughout. Labels describe context relevance, never
+affirmative support for missing claims. New register is an explicit derivative;
+old records/seals remain unchanged. Raw working root remains
+workspace/audit-evidence/p05-document-evidence-calibration-20261016/.
+
+Thesis17–18/routingPNG, master10/11, active handoffs/ledger and dataset locations
+consulted; no discrepancy. Ruling: keep this experiment's ledger/raw artifacts in
+the existing owner-designated audit-evidence root rather than skill scratch paths.
+No new product behavior requiring TDD; source preparations checked against fixed
+old evidence and helper controls. Next Task3 verify local assets and encode only
+six D3/D4 questions, reuse33 saved queries/27documents and compare document evidence.
+Do not encode reservedD1/D2 or rerun curriculum sweeps. Owner artifacts untouched;
+Phase05blocked/gates unchanged. Parent precedes following checkpoint commit.
+
+Verification: existing readiness venv `-B -m pytest tests/test_candidate_claim_reviews.py
+tests/test_candidate_claims.py tests/test_candidate_subject.py tests/test_docs_hygiene.py
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider`
+with external basetemp p05-document-claim-preflight-tests-20261016:528tests/
+136subtests in12.84s exit0. Source preparation controls/prior seal pass; no full/
+native suite repeated.
 
 ## Durable architecture direction and narrowed input preflight — 16 October 2026
 
@@ -1525,6 +1559,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: document Task2 source/claim preflight complete; ten reviews/39 annotations/117 controls. Next Task3 only six D3/D4 encodings and bounded39-case document comparison; product unchanged.
 
 Latest: AGENTS architecture guidance and narrowed execution plan prepared; Task1 input identities/vector metadata verified. Next Task2 source/claim preflight for39 document cases, then encode only six D3/D4 variants. Do not resume curriculum RAG sweeps.
 
@@ -3363,6 +3399,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: parent5cf7066, product232a418; two source-preflight checkpoint/progress paths only. Owner artifact deletion/untracked backend artifacts remain untouched/unstaged. Task2 raw files are in the existing ignored working root; no old sealed writer rerun.
+
 Latest: parent `f812f35`, product `232a418`; AGENTS plus six plan/continuity paths, explicit staging only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` untouched. New ignored document-calibration input root; historical master/code/tests/seals unchanged.
 
 Latest: parent `d2abc8d`, product `232a418`; seven acceptance/reconciliation documentation paths. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` untouched/unstaged. Raw acceptance receipt/context render external and ignored; master unchanged.
@@ -3571,6 +3609,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: prepare_sources.py exit0; source-only original3image hashes/four existing event objects/owner bytes and old review basis hashes verified. Reproduced old nine-review register, added directV01two-field facet, ten-review derivative.117 complete/empty/wrong-subject controls:18fieldsavailable/21insufficientevidence with complete context, answer sufficiency unassessed. Prior29-file seal verifies. No model run yet.
 
 Latest: Task1 exact75 identities (63 unchanged +12 accepted),39/18/18 purpose partition;27 document-vector payload/version/finite/norm checks,33 compatible saved document-query vectors,15 input hashes/nine ancestor matches. Independent identity/hash check and prior29-file seal pass. Documentation/ledger496 tests/11 subtests in12.61s exit0; AGENTS format, new relative links/five pointers, phase validate0 and whitespace pass. No model/score/source-content observation or master/backend/test edit.
 
@@ -4573,6 +4613,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: Task3 document-evidence comparison: verify existing external model assets/configuration; encode six D3/D4 variants only, reuse33 saved document-query vectors/27documents. Preserve curriculum reservations/control history; no activation or default-policy inference.
 
 Latest: execute Task2 of document-evidence calibration plan: bind source-only direct V01 payment review and reused complete F01/F08/F09/policy groups, then caller annotations/evaluation-only labels for39 document cases. Preserve18 structured reservations and18 controls. Only six D3/D4 queries need future encoding; no repeat wording approval, curriculum sweep or Phase06 advancement.
 
