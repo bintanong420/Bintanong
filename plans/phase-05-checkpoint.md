@@ -2,16 +2,53 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 293
+sequence: 294
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9c76e83
-working_tree: six document-comparison closure paths; owner artifacts preserved
-updated_at: 2026-10-16T11:50:55+08:00
+head_commit: a7786ee
+working_tree: six exit-reconciliation documentation paths; owner artifacts preserved
+updated_at: 2026-10-16T12:05:09+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Phase 05 exit requirements reconciled — 16 October 2026
+
+Resumed at a7786ee; product232a418 unchanged. Read repository AGENTS, ledger,
+active plan/checkpoint/blocked handoff, Phase04 complete handoff and CLI handoff.
+Consulted thesis physical17–18/39–44, actual routingPNG, master1/3/6/10/11/13,
+ingestionREADME and scope/source-gap/dataset-location policies. No new discrepancy;
+preserve the existing unknown-versus-unmet correction to the illustrative thesis.
+
+[Exit reconciliation](2026-10-16-phase05-exit-reconciliation.md): Tasks1/2/3/5 have candidate implementation;
+Tasks4/6 and source/release governance retain their exits. The sealed comparison
+is complete, not a calibrated runtime policy. No generated-answer requirement,
+new75-case retrieval run, extra sidecar or curriculum sweep is inferred. Existing
+engine still defaults uncalibrated; trusted researcher labels do not implement
+runtime claim coverage. No source holds or settled owner decisions reopened.
+
+Fresh read-only41-file seal verifies manifest035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86.
+Fresh focused query/engine/context/evaluation/CLI regressions:36tests/9subtests,
+0.82s exit0, existing Python3.13 readinessvenv, -B -p no:cacheprovider and external
+basetemp. No product/model/database/native-suite change or new source decision.
+Owner artifacts deletion/untrackedbackend/artifacts preserved and unstaged.
+
+Next specify the smallest Task4 source-aware retrieval-policy interface using
+existing helpers, trusted request inputs and reviewed source metadata; prepare
+focused synthetic RED/GREEN cases before implementation. Keep Phase07 NLP and
+Phase06 symbolic capabilities at their boundaries. Reconcile selected-release
+governance separately before final runtime/exit verification; no default policy,
+activation or Phase06 advancement. Parent precedes following documentary commit.
+
+Verification: focused retrieval command is documented in the dated reconciliation
+(36 passed / nine subtests, 0.82s, exit 0). Documentation/phase-ledger preflight:
+498 passed / 11 subtests, 12.86s, exit 0, existing readiness Python with -B,
+-p no:cacheprovider and external reconciliation basetemp. Phase validate exits 0;
+can-advance exits 1 as expected for blocked Phase 05. Read-only seal verifies all
+41 files; product-path diff against 232a418 is empty; whitespace check passes.
+Raw logs: workspace/audit-evidence/p05-exit-reconciliation-20261016/.
+Final documentation check follows this evidence-note update before commit.
 
 ## Bounded document-evidence comparison closed — 16 October 2026
 
@@ -1627,6 +1664,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: exit requirements reconciled; finish documentation verification/commit. Next Task4 source-aware retrieval-policy interface; no more completed document comparison or curriculum diagnostic. See the dated reconciliation; earlier entries below are historical.
 
 Latest: bounded39document experiment/review/41-file seal complete; finish documentation closure, then formalPhase05exit-requirement reconciliation. Do not expand retrieval to fill unsupported claims or reserved curriculum cases.
 
@@ -3471,6 +3510,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest resume baseline a7786ee; product paths unchanged from232a418. This increment changes only six documentation paths. Preserve owner deletion artifacts/.gitkeep and untracked backend/artifacts/. Checkpoint names verified parent, not its following commit.
+
 Latest: observations9c76e83/product232a418; six closure documents only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` intact/unstaged. Both experiment/review roots sealed; no writes/re-execution of writers. Master/AGENTS/backend/tests unchanged this increment.
 
 Latest: parentad0c62e, product232a418; three explicit document-report/checkpoint/progress paths. Owner artifact deletion/backend artifacts untouched; raw root still working until final review/seal. Old sources/seals/master/code/tests unchanged.
@@ -4694,6 +4735,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: specify Task4 minimal source-aware retrieval-policy contract using existing subject/claim helpers, trusted request information and reviewed source metadata. Prepare focused synthetic RED/GREEN acceptance cases before implementation. Then evaluate selected policy with compatible saved inputs; reconcile release governance and final runtime/exit checks separately. Do not reopen accepted wordings or expand curriculum sweeps.
+
 Latest: reconcile formal Phase05 exit requirements against current source/corpus/calibration/verification evidence; identify concrete remaining capability and governance work. Preserve structured/Prolog priority and all settled wordings; no more curriculum sweeps, extra sidecar layers or invented source conclusions just to fill unknowns. No automatic Phase06 advancement.
 
 Latest: one final independent document-experiment review, then seal raw evidence and close curated report/INDEX/handoffs/checkpoint/progress. After closure audit remaining formalPhase05exit requirements; stop exploratory curriculum/claim-report expansion.
@@ -5306,6 +5349,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: do not repeat sealed39-document comparison, encodings or writer scripts. No new75-case retrieval run or generated-answer requirement. Source limits, owner decisions, structured reservations and later-phase NLP/Prolog boundaries remain unchanged.
 
 Latest: bounded39document experiment, six new encodings, source controls, independent audit, subgroup correction/single final review and41-file seal complete. Never rerun sealed writers or modify those roots. Do not re-encode D1/D2/curriculum or repeat settled source reviews. No scalar default/generalization/answer permission inferred; historical native uncertainty remains.
 

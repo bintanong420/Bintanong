@@ -1,5 +1,21 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Formal exit reconciliation — 16 October 2026
+
+[Exit requirements](2026-10-16-phase05-exit-reconciliation.md) reconciled at
+baselinea7786ee/product232a418 unchanged. Completed document comparison is not a
+runtime policy. Next specify Task4's minimal source-aware retrieval contract,
+reusing helpers/accepted cases with trusted inputs; then focused TDD and selected
+policy verification. No generated-answer prerequisite, new curriculum sweep,
+extra sidecar or fresh75-case experiment. Source/release governance and final
+runtime/exit checks remain separate; school validation is not a blanket offline
+stop. F04/G01/originalG02 and known source limits remain held.
+
+Fresh41-file seal verifies; focused36tests/9subtests pass0.82s. Context thesis
+physical17–18/39–44/routingPNG and master1/3/6/10/11/13 consulted; no new
+discrepancy. Owner artifacts unchanged/unstaged. Phase05active/blocked; candidate
+inactive/noPhase06. This entry supersedes earlier pending next-action notes.
+
 ## Document-evidence experiment closed — 16 October 2026
 
 [Report](2026-10-16-document-evidence-calibration-report.md), observations9c76e83/

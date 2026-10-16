@@ -1,5 +1,42 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Phase 05 exit requirements reconciled — 16 October 2026
+
+Resumed at a7786ee; product232a418 unchanged. Read repository AGENTS, ledger,
+active plan/checkpoint/blocked handoff, Phase04 complete handoff and CLI handoff.
+Consulted thesis physical17–18/39–44, actual routingPNG, master1/3/6/10/11/13,
+ingestionREADME and scope/source-gap/dataset-location policies. No new discrepancy;
+preserve the existing unknown-versus-unmet correction to the illustrative thesis.
+
+[Exit reconciliation](../2026-10-16-phase05-exit-reconciliation.md): Tasks1/2/3/5 have candidate implementation;
+Tasks4/6 and source/release governance retain their exits. The sealed comparison
+is complete, not a calibrated runtime policy. No generated-answer requirement,
+new75-case retrieval run, extra sidecar or curriculum sweep is inferred. Existing
+engine still defaults uncalibrated; trusted researcher labels do not implement
+runtime claim coverage. No source holds or settled owner decisions reopened.
+
+Fresh read-only41-file seal verifies manifest035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86.
+Fresh focused query/engine/context/evaluation/CLI regressions:36tests/9subtests,
+0.82s exit0, existing Python3.13 readinessvenv, -B -p no:cacheprovider and external
+basetemp. No product/model/database/native-suite change or new source decision.
+Owner artifacts deletion/untrackedbackend/artifacts preserved and unstaged.
+
+Next specify the smallest Task4 source-aware retrieval-policy interface using
+existing helpers, trusted request inputs and reviewed source metadata; prepare
+focused synthetic RED/GREEN cases before implementation. Keep Phase07 NLP and
+Phase06 symbolic capabilities at their boundaries. Reconcile selected-release
+governance separately before final runtime/exit verification; no default policy,
+activation or Phase06 advancement. Parent precedes following documentary commit.
+
+Verification: focused retrieval command is documented in the dated reconciliation
+(36 passed / nine subtests, 0.82s, exit 0). Documentation/phase-ledger preflight:
+498 passed / 11 subtests, 12.86s, exit 0, existing readiness Python with -B,
+-p no:cacheprovider and external reconciliation basetemp. Phase validate exits 0;
+can-advance exits 1 as expected for blocked Phase 05. Read-only seal verifies all
+41 files; product-path diff against 232a418 is empty; whitespace check passes.
+Raw logs: workspace/audit-evidence/p05-exit-reconciliation-20261016/.
+Final documentation check follows this evidence-note update before commit.
+
 ## Bounded document-evidence comparison closed — 16 October 2026
 
 Plan5cf7066/preflightad0c62e/observations9c76e83/product232a418 unchanged.
