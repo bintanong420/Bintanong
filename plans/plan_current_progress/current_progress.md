@@ -1,5 +1,65 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-aware retrieval design ready for approval — 16 October 2026
+
+Continued from 88c50de; product remains 232a418. The concrete
+[engine policy design](../2026-10-16-source-aware-retrieval-policy-design.md) is written and the single read-only builder check
+reported “nothing important left”. This completes the recorded interface-design
+step, not implementation or calibration. Next owner design approval, then a
+versioned implementation plan and focused TDD. No product code changed.
+
+The proposed opt-in engine path reuses the subject/claim helpers against its
+actual emitted context, binds source snapshots to retrieval rows, preserves
+scope/conflict/error precedence, and keeps every positive field result
+uncalibrated. It may withhold/downgrade outcomes but never produces ok/sufficient.
+Default engine/debug/CLI behavior stays unchanged. Projection resolves source
+packaging versus RPC transport differences; it does not prove runtime release
+authorization. That unfinished boundary is explicit and activation remains false.
+
+Read active ledger/progress/plan/checkpoint/handoffs and exit reconciliation.
+Re-read thesis physical 17–18 and viewed the runtime PNG; earlier 39–44 reading
+and master 3/10/11/13 remain applicable. No new scope/routing discrepancy, source
+content ruling, benchmark wording, encoding, database change or dependency.
+F04/G01/original G02 and known source gaps remain held; accepted decisions stand.
+
+The brainstorming skill explicitly requires approval of the full description
+before implementation. The design quotes/links that requirement. Present this
+concrete design for approval, without reopening settled source questions.
+Phase 05 remains active/blocked; no Phase 06. Owner artifact changes stay unstaged.
+
+Verification: documentation/phase-ledger preflight passed 499 tests / 11 subtests
+in 12.68s, exit 0. Command: existing readiness Python 3.13 -B -m pytest
+tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py
+-q -p no:cacheprovider --basetemp <workspace>/audit-evidence/p05-source-aware-policy-design-20261016/docs-tests.
+Phase validate exits 0; can-advance exits 1 (expected blocked). Read-only 41-file
+seal matches; all design links/five continuity pointers, whitespace, unchanged
+product paths and preserved owner artifacts verify. Final same-suite check uses
+docs-tests-final under that ignored root. No implementation/full/native test run.
+The checkpoint names baseline 88c50de before the following documentary commit.
+
+## Source-aware retrieval design in review — 16 October 2026
+
+Continued from 88c50de; product remains 232a418. Read the handoff skills, active
+ledger/progress/checkpoint/plan/handoffs and exit reconciliation. Re-read thesis
+physical 17–18 and inspected the runtime PNG; earlier 39–44 consultation and
+master 3/10/11/13 remain applicable. No scope or routing discrepancy.
+
+Draft: [source-aware engine policy](../2026-10-16-source-aware-retrieval-policy-design.md). Existing source catalogue and claim
+helpers deliberately remain inactive; engine transport rows and candidate source
+packaging differ. Proposed opt-in integration binds a private canonical snapshot,
+uses actual engine emission, preserves limits and never promotes to ok/sufficient.
+Default engine/CLI behavior remains unchanged. No product code or new source
+content decision. This is design work, not a new sidecar or retrieval experiment.
+
+The brainstorming skill requires a builder check and owner design approval before
+implementation. One fresh read-only builder is reviewing the concrete design;
+no implementation plan, product scaffolding or tests for unapproved behavior yet.
+Owner artifact changes remain unstaged. Phase 05 stays active/blocked.
+
+Next resolve material builder questions, verify/document the design, then present
+it for the required design approval. Do not reopen accepted wordings or source
+reviews; no encodings, downloads, database changes or phase advancement.
+
 ## Phase 05 exit requirements reconciled — 16 October 2026
 
 Resumed at a7786ee; product232a418 unchanged. Read repository AGENTS, ledger,

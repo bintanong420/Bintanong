@@ -2,16 +2,76 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 294
+sequence: 296
 plan: plans/phase-05-retrieval-plan.md
-head_commit: a7786ee
-working_tree: six exit-reconciliation documentation paths; owner artifacts preserved
-updated_at: 2026-10-16T12:05:09+08:00
+head_commit: 88c50de
+working_tree: six source-aware design/continuity paths; owner artifacts preserved
+updated_at: 2026-10-16T12:18:44+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-aware retrieval design ready for approval — 16 October 2026
+
+Continued from 88c50de; product remains 232a418. The concrete
+[engine policy design](2026-10-16-source-aware-retrieval-policy-design.md) is written and the single read-only builder check
+reported “nothing important left”. This completes the recorded interface-design
+step, not implementation or calibration. Next owner design approval, then a
+versioned implementation plan and focused TDD. No product code changed.
+
+The proposed opt-in engine path reuses the subject/claim helpers against its
+actual emitted context, binds source snapshots to retrieval rows, preserves
+scope/conflict/error precedence, and keeps every positive field result
+uncalibrated. It may withhold/downgrade outcomes but never produces ok/sufficient.
+Default engine/debug/CLI behavior stays unchanged. Projection resolves source
+packaging versus RPC transport differences; it does not prove runtime release
+authorization. That unfinished boundary is explicit and activation remains false.
+
+Read active ledger/progress/plan/checkpoint/handoffs and exit reconciliation.
+Re-read thesis physical 17–18 and viewed the runtime PNG; earlier 39–44 reading
+and master 3/10/11/13 remain applicable. No new scope/routing discrepancy, source
+content ruling, benchmark wording, encoding, database change or dependency.
+F04/G01/original G02 and known source gaps remain held; accepted decisions stand.
+
+The brainstorming skill explicitly requires approval of the full description
+before implementation. The design quotes/links that requirement. Present this
+concrete design for approval, without reopening settled source questions.
+Phase 05 remains active/blocked; no Phase 06. Owner artifact changes stay unstaged.
+
+Verification: documentation/phase-ledger preflight passed 499 tests / 11 subtests
+in 12.68s, exit 0. Command: existing readiness Python 3.13 -B -m pytest
+tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py
+-q -p no:cacheprovider --basetemp <workspace>/audit-evidence/p05-source-aware-policy-design-20261016/docs-tests.
+Phase validate exits 0; can-advance exits 1 (expected blocked). Read-only 41-file
+seal matches; all design links/five continuity pointers, whitespace, unchanged
+product paths and preserved owner artifacts verify. Final same-suite check uses
+docs-tests-final under that ignored root. No implementation/full/native test run.
+The checkpoint names baseline 88c50de before the following documentary commit.
+
+## Source-aware retrieval design in review — 16 October 2026
+
+Continued from 88c50de; product remains 232a418. Read the handoff skills, active
+ledger/progress/checkpoint/plan/handoffs and exit reconciliation. Re-read thesis
+physical 17–18 and inspected the runtime PNG; earlier 39–44 consultation and
+master 3/10/11/13 remain applicable. No scope or routing discrepancy.
+
+Draft: [source-aware engine policy](2026-10-16-source-aware-retrieval-policy-design.md). Existing source catalogue and claim
+helpers deliberately remain inactive; engine transport rows and candidate source
+packaging differ. Proposed opt-in integration binds a private canonical snapshot,
+uses actual engine emission, preserves limits and never promotes to ok/sufficient.
+Default engine/CLI behavior remains unchanged. No product code or new source
+content decision. This is design work, not a new sidecar or retrieval experiment.
+
+The brainstorming skill requires a builder check and owner design approval before
+implementation. One fresh read-only builder is reviewing the concrete design;
+no implementation plan, product scaffolding or tests for unapproved behavior yet.
+Owner artifact changes remain unstaged. Phase 05 stays active/blocked.
+
+Next resolve material builder questions, verify/document the design, then present
+it for the required design approval. Do not reopen accepted wordings or source
+reviews; no encodings, downloads, database changes or phase advancement.
 
 ## Phase 05 exit requirements reconciled — 16 October 2026
 
@@ -1664,6 +1724,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: source-aware engine policy design written; single builder check found nothing important left. Verify and commit the design/continuity documents, then present the concrete description for required owner approval. Product code is unchanged.
 
 Latest: exit requirements reconciled; finish documentation verification/commit. Next Task4 source-aware retrieval-policy interface; no more completed document comparison or curriculum diagnostic. See the dated reconciliation; earlier entries below are historical.
 
@@ -3510,6 +3572,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: design baseline 88c50de, product 232a418 unchanged; six documentation paths only. Preserve deleted artifacts/.gitkeep and untracked backend/artifacts/. One read-only builder check completed. No product implementation or approval yet.
+
 Latest resume baseline a7786ee; product paths unchanged from232a418. This increment changes only six documentation paths. Preserve owner deletion artifacts/.gitkeep and untracked backend/artifacts/. Checkpoint names verified parent, not its following commit.
 
 Latest: observations9c76e83/product232a418; six closure documents only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` intact/unstaged. Both experiment/review roots sealed; no writes/re-execution of writers. Master/AGENTS/backend/tests unchanged this increment.
@@ -4734,6 +4798,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: obtain owner approval of plans/2026-10-16-source-aware-retrieval-policy-design.md as required by the linked brainstorming skill; then write the implementation plan and execute focused TDD. Do not infer approval of these new interface choices from earlier generic continuation. Preserve accepted source/benchmark decisions and Phase 05 boundaries.
 
 Latest: specify Task4 minimal source-aware retrieval-policy contract using existing subject/claim helpers, trusted request information and reviewed source metadata. Prepare focused synthetic RED/GREEN acceptance cases before implementation. Then evaluate selected policy with compatible saved inputs; reconcile release governance and final runtime/exit checks separately. Do not reopen accepted wordings or expand curriculum sweeps.
 

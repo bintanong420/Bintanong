@@ -1,5 +1,19 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Source-aware engine design ready — 16 October 2026
+
+[Design](2026-10-16-source-aware-retrieval-policy-design.md) prepared at 88c50de,
+product 232a418 unchanged. One builder check: “nothing important left”. Proposed
+opt-in engine integration uses actual emission and existing source/claim helpers;
+known limits can force insufficiency, positive field availability stays
+uncalibrated. Default engine/CLI behavior is preserved. No new sidecar, source
+ruling, experiment or product code. Runtime authorization/calibration remain open.
+
+The brainstorming skill requires approval of this full design before building;
+the document quotes and links the requirement. Next obtain that design approval,
+then write the implementation plan and run focused TDD. All previous source holds
+and accepted wordings persist. Phase 05 active/blocked; no activation or Phase 06.
+
 ## Formal exit reconciliation — 16 October 2026
 
 [Exit requirements](2026-10-16-phase05-exit-reconciliation.md) reconciled at
