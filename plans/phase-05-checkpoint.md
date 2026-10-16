@@ -2,16 +2,45 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 287
+sequence: 288
 plan: plans/phase-05-retrieval-plan.md
-head_commit: fa79cb3
-working_tree: six offline trace closure documents; owner artifacts preserved
-updated_at: 2026-10-16T10:55:36+08:00
+head_commit: 9f55b3c
+working_tree: six development-calibration proposal and continuity documents; owner artifacts preserved
+updated_at: 2026-10-16T11:04:12+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Development-case/calibration proposal prepared — 16 October 2026
+
+Baseline `9f55b3c` reconciles prior expected checkpoint-parent difference;
+product `232a418` unchanged. Consulted INDEX/current progress, active plan/checkpoint,
+Phase 04 complete and Phase 05 blocked/CLI handoffs, master section 10, thesis
+physical 17–18 and routing PNG; no scope/routing discrepancy. Existing isolated
+worktree and owner artifact changes preserved. Prior trace evidence stays sealed.
+
+[Proposal](2026-10-16-development-calibration-proposal.md): four scenarios / 12
+exact en/tl/Taglish variants for printed Architecture/Nursing prerequisites,
+initial vehicle application payment and printed special-class example amount.
+Existing 27-candidate corpus/document vectors retained; V06 not in that selection.
+Accepted 63 remain unchanged; 75 total is conditional on actual new acceptance.
+No new query encoding, fixture, scoring, source reading, product code or activation.
+
+Proposed evaluation keeps full reviewed fields, explicit curriculum context,
+original claims/unknowns and source gaps; source-only review precedes claim joins,
+gold never filters retrieval, early stops are separate from primary recall, and
+all answer sufficiency stays unassessed. All cases are development-exposed. One
+builder check completed; clarified raw/filtered/emitted metric stages and explicit
+saved-vector derivatives. No owner-only design question beyond wording acceptance.
+Documentation/ledger preflight: 494 tests / 11 subtests, 11.33s, exit 0. Five
+proposal links and all 12 exact wordings checked; prior 29-file seal verifies.
+Actual D1–D4 acceptance question presented; no response received at checkpoint.
+Next actual D1–D4 wording/expectation review, then versioned execution plan.
+Do not infer acceptance from generic continuation or reopen settled source fields.
+Phase 05 blocked, Tasks 4/6/governance open; no Phase 06. Parent `9f55b3c` precedes
+the following proposal documentation commit; that difference is expected on resume.
 
 ## Offline request-trace composition closed — 16 October 2026
 
@@ -1424,6 +1453,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: development-case/calibration proposal reviewed and presented for D1–D4 exact wording/expectation acceptance. No response recorded; no new evaluation is authorized by draft status. Builder clarification applied, documentation preflight 494/11 passes.
 
 Latest:126offline traces/final review/29-file seal verified; finish closure, then representative development-case/calibration proposal for owner wording review.
 
@@ -3256,6 +3287,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: parent `9f55b3c`, unchanged product `232a418`; six proposal/continuity documentation paths only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` preserved and unstaged. No backend/test/dependency/model edits.
+
 Latest: observationsfa79cb3/product232a418 unchanged; six explicit closure documents only. Owner artifacts/.gitkeep deletion/backend/artifacts/ untouched/unstaged; expected checkpoint parent precedes docs commit.
 
 Latest: observations08d9eab/product232a418 unchanged; six explicit closure documents only. Owner artifacts/.gitkeep deletion/backend/artifacts/ preserved/unstaged. Checkpoint parent precedes following docs commit.
@@ -3458,6 +3491,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest proposal increment: `python -B -m pytest tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider --basetemp C:/Coding-projects/bintanong_workspace/audit-evidence/p05-development-calibration-proposal-docs-20261016` through existing readiness venv: 494 tests/11 subtests in11.33s, exit0. Phase validate0, five proposal links/12 wordings, whitespace and prior29-file seal pass. One builder check, metric-stage clarification applied. Thesis17–18/routing PNG consulted; no model/retrieval or source-content observation.
 
 Latest:126gate chains/90claim42curriculum replays/89oldreportmatches;599priorhashes/27inputs+2scopeprovenancehashes/16codedigests/14contexts. Guard RED-GREEN/eightprecedencecontrols; reviewer no unresolved findings. Prior46/1742.40s,doc493/11 15.27s.29-file seal 42041bfa071e772eb7f6e066a026fda275f33236238348b0f7db2d8ecbc3f131 verifies; final doc493/11 in11.12s exit0,phasevalidate0/canadvance1expectedblocked,links/whitespace/seal pass.
 
@@ -4455,6 +4490,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: obtain actual acceptance/edits for D1–D4 exact wordings and expectations in the development-calibration proposal. Record subset/version and owner response, then create a versioned execution plan. Do not encode/score/create benchmark fixtures for pending wordings; preserve accepted 63 and saved vectors.
+
 Latest: prepare representative development-case/calibration proposal using remaining coverage gaps and unassessed claims; show new/changed wordings/expectations to owner before any test. Preserve accepted63cases/vectors; no defaultpolicy/activation.
 
 Latest: final independent offline-trace review, seal and closure; then prepare representative development-case/calibration proposal, with owner review before new wordings are tested.
@@ -5055,6 +5092,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: do not treat this proposal or a generic continuation as acceptance, alter original Architecture/Nursing/U1/U2 claims, reopen reviewed source fields, infer Nursing course-name equivalence, add V06 to the 27-candidate corpus silently, rerun sealed writers, or claim a blind/generalizable evaluation from development cases.
 
 Latest: frozen126trace composition,independent replay,missing-curriculum guard RED-GREEN,single review and29-file seal complete. Do not rerun sealed writers/retrieval/encoding/conversions or unchanged full/native tests. Trust annotations are not NLP/authority/answer permission.
 

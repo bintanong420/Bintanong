@@ -10,6 +10,20 @@ completed_at: 2026-10-16T10:54:45+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+## Development-case/calibration proposal — 16 October 2026
+
+The [review packet](2026-10-16-development-calibration-proposal.md) at baseline
+`9f55b3c` proposes four scenarios / 12 variants, pending actual wording/expectation
+acceptance. Existing 63 cases, 27 candidates, vectors and prior evidence stay intact.
+No model/evaluation/product change or source approval is claimed. The proposed
+development-only comparison preserves gates, complete reviewed field groups,
+unknown eligibility and source limits; neither strategy nor cutoff is adopted.
+Next record D1–D4 acceptance/edits, then prepare a versioned execution plan. One
+builder check completed with metric-stage clarification applied; documentation
+preflight 494/11 in11.33s exit0, phase/links/wordings/whitespace/prior seal pass.
+Actual wording review question presented; no response recorded. Recovery
+condition and unchanged product `232a418` remain; this is not a final phase exit.
+
 ## Offline request-trace composition closed — 16 October 2026
 
 Planfbed8b5/observationsfa79cb3/product232a418 unchanged.

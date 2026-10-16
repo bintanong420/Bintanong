@@ -1,5 +1,39 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Development-case/calibration proposal prepared — 16 October 2026
+
+Resumed from verified `9f55b3c`; product `232a418` unchanged. Preserved owner
+`D artifacts/.gitkeep` and untracked `backend/artifacts/`. Read the active ledger,
+plan and handoffs, prior Phase 04 handoff, master section 10, thesis physical
+17–18 and routing PNG; no scope discrepancy. Reconciled the preceding checkpoint's
+expected parent-commit difference rather than repeating completed trace work.
+
+[Review packet](../2026-10-16-development-calibration-proposal.md) proposes four
+scenarios / 12 exact variants: printed Architecture prerequisites, Nursing's
+printed prerequisite code, initial vehicle-pass application payment, and the
+printed three-lecture-unit special-class amount. Source bases are existing reviewed
+rows/V01/F01/F08/F09. Keep the 27 candidates and document vectors; V06 is settled
+but outside that selection, so no speed-rule corpus expansion is proposed.
+
+These are new development questions requiring actual wording/expectation acceptance.
+All existing 63 variants and their eligibility, unknown course-name, replacement-
+price, individual-bill and source-currentness limits remain. A 75-variant roster
+is conditional; no new encoding, scores, fixtures or results exist. The proposed
+protocol separates source review, trusted request annotations, evaluation-only gold,
+primary relevance, complete field recovery and claim status; no default is chosen.
+All cases are development-exposed, not a blind holdout or proof of representativeness.
+
+One builder check completed: clarified raw/filtered/emitted metric stages and
+explicit saved-vector derivatives. No owner-only design question beyond wording
+acceptance. Documentation/ledger preflight: 494 tests / 11 subtests in 11.33s,
+exit 0; phase validation, five proposal links / 12 exact wordings, whitespace and
+prior 29-file read-only seal verification pass. Actual D1–D4 acceptance question
+presented; no response received at checkpoint. No new model/retrieval run.
+Next obtain the actual D1–D4 wording/expectation response, record its exact subset
+and version, then prepare the execution plan. Generic continuation does not settle
+wordings. Existing source-content decisions are not reopened. Phase 05 remains
+active/blocked; source governance/Tasks 4/6 open, candidate inactive, no Phase 06.
+
 ## Offline request-trace composition closed — 16 October 2026
 
 Planfbed8b5/observationsfa79cb3/product232a418 unchanged.

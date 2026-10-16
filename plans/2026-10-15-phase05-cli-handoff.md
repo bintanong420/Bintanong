@@ -1,5 +1,20 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Development-case/calibration proposal — 16 October 2026
+
+Continue from `9f55b3c` with the [review packet](2026-10-16-development-calibration-proposal.md).
+Four proposed scenarios / 12 exact variants compare printed Architecture/Nursing
+prerequisites, initial vehicle application payment and the special-class printed
+example against the existing unresolved caller claims. All accepted 63 stay intact;
+75 total is conditional on actual acceptance. Keep existing 27 candidates/document
+vectors, original limits and sealed evidence. No new question has been encoded,
+scored or made a benchmark fixture. One builder check completed; metric stages
+clarified. Documentation preflight 494 tests/11 subtests in11.33s exit0; phase,
+links/wordings/whitespace and prior29-file seal pass. Actual D1–D4 wording review
+question presented, no response recorded; next actual acceptance/edits and versioned
+execution plan. Do not infer new acceptance from continuation. Source governance,
+Tasks 4/6, candidate inactivity and Phase 05 blocked status remain; no Phase 06.
+
 ## Offline request-trace composition closed — 16 October 2026
 
 Planfbed8b5/observationsfa79cb3/product232a418 unchanged.
