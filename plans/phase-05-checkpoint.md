@@ -2,16 +2,34 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 297
+sequence: 298
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ff53c65
-working_tree: approved policy plan and continuity; owner artifacts preserved
-updated_at: 2026-10-16T12:28:15+08:00
+head_commit: c649e48
+working_tree: snapshot policy/test and three plan/progress paths; owner artifacts preserved
+updated_at: 2026-10-16T12:30:51+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source snapshot policy verified — 16 October 2026
+
+Task 1 of the owner-approved source-aware policy plan is complete. Synthetic
+regressions first failed explicitly because the module was missing (snapshot-red.log,
+exit 1). The minimal policy implementation now validates original catalogues and
+reviews, copies inputs, projects source/transport payloads, binds every offered
+row/neighbor and preserves complete subject claim semantics. Changed fields,
+spans, IDs, release/set and conflicting duplicates reject; packaging extras pass.
+
+GREEN: existing readiness Python -B -m pytest tests/test_retrieval_evidence_policy.py
+tests/test_candidate_subject.py tests/test_candidate_claims.py
+tests/test_candidate_claim_reviews.py -q -p no:cacheprovider with external basetemp
+p05-source-aware-policy-20261016/snapshot-green: 39 passed / 139 subtests, 0.70s,
+exit 0. Raw RED/GREEN logs remain in that ignored workspace evidence root.
+Task 1 is independently testable; engine integration is next, not yet implemented.
+No source judgments, model operations, database writes or activation. Phase 05
+remains active/blocked. Verified parent c649e48 precedes the following code commit.
 
 ## Source-aware retrieval implementation authorized — 16 October 2026
 
@@ -1744,6 +1762,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: Task 1 snapshot module verified RED/GREEN; commit it, then Task 2 engine integration RED tests. Owner design approval is settled.
 
 Latest: source-aware engine policy design written; single builder check found nothing important left. Verify and commit the design/continuity documents, then present the concrete description for required owner approval. Product code is unchanged.
 

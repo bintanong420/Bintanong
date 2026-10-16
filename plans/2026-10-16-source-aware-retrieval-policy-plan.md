@@ -43,15 +43,15 @@ private intent validation, RPC binding, subject selection, assessment and metada
 Use a fixed `source-aware-candidate-policy-v1` identity and canonical JSON digest. Root v2 safety
 flags identify candidate status; `evidence_policy` contains version, digest, intent and assessment/not-run reason.
 
-- [ ] Write synthetic tests exercising transport-field changes, whole-snapshot validation,
+- [x] Write synthetic tests exercising transport-field changes, whole-snapshot validation,
   packaging extras, ordered span changes, duplicate/unknown IDs, release/set mismatch and defensive copies.
   Tests must fail explicitly because the source-aware policy is missing, rather than fail during collection.
-- [ ] Run `pytest tests/test_retrieval_evidence_policy.py -q -p no:cacheprovider` with external basetemp;
+- [x] Run `pytest tests/test_retrieval_evidence_policy.py -q -p no:cacheprovider` with external basetemp;
   expected RED assertions identify the missing feature.
-- [ ] Implement the class and a `PolicyBindingError` in `evidence_policy.py`. Reuse existing catalogue/
+- [x] Implement the class and a `PolicyBindingError` in `evidence_policy.py`. Reuse existing catalogue/
   register preparation and reporting functions. Do not weaken their full-payload validation.
-- [ ] Run the new tests plus existing candidate-subject/claim tests; expected GREEN with no failing cases.
-- [ ] Record RED/GREEN and commit this independently testable snapshot module/tests increment.
+- [x] Run the new tests plus existing candidate-subject/claim tests; expected GREEN with no failing cases.
+- [x] Record RED/GREEN and commit this independently testable snapshot module/tests increment.
 
 ### Task 2: Integrate with actual engine evidence
 
@@ -101,3 +101,5 @@ Full suite target is `tests`; retain raw logs. No installs, downloads, dependenc
 - Estimate requested by owner: approximately 80% technical Phase 05 completion, rough 75–85% range;
   not a weighted measurement or formal exit result. Core retrieval exists; this work integrates source/claim gates.
   Final integration, saved-case verification, testing/review and source/release governance remain.
+
+- Task 1: complete — missing module RED; 39 tests / 139 subtests GREEN in 0.70s; snapshot/transport bindings and original helper regressions verified.

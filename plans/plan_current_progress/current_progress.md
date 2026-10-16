@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source snapshot policy verified — 16 October 2026
+
+Task 1 of the owner-approved source-aware policy plan is complete. Synthetic
+regressions first failed explicitly because the module was missing (snapshot-red.log,
+exit 1). The minimal policy implementation now validates original catalogues and
+reviews, copies inputs, projects source/transport payloads, binds every offered
+row/neighbor and preserves complete subject claim semantics. Changed fields,
+spans, IDs, release/set and conflicting duplicates reject; packaging extras pass.
+
+GREEN: existing readiness Python -B -m pytest tests/test_retrieval_evidence_policy.py
+tests/test_candidate_subject.py tests/test_candidate_claims.py
+tests/test_candidate_claim_reviews.py -q -p no:cacheprovider with external basetemp
+p05-source-aware-policy-20261016/snapshot-green: 39 passed / 139 subtests, 0.70s,
+exit 0. Raw RED/GREEN logs remain in that ignored workspace evidence root.
+Task 1 is independently testable; engine integration is next, not yet implemented.
+No source judgments, model operations, database writes or activation. Phase 05
+remains active/blocked. Verified parent c649e48 precedes the following code commit.
+
 ## Source-aware retrieval implementation authorized — 16 October 2026
 
 The owner explicitly replied “ye i approve” to the complete design at ff53c65.
