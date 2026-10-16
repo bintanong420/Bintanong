@@ -1,5 +1,33 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Document comparison independently verified — 16 October 2026
+
+Task3 complete, plan5cf7066/preflightad0c62e/product232a418. Only six D3/D4 queries
+encoded;33saved queries/27document vectors reused. No curriculum sweep/encoding.
+[Report](../2026-10-16-document-evidence-calibration-report.md):39document cases,
+1053cosines/1170primary metrics/6338attempts/4680decisions,52contexts/85unique claim
+reports. Atk3/.5/2048 all four comparisons retain18fieldsavailable/21insufficient,
+perlanguage6/7. Expected context raw31/39/trusted38/39; T1Filipino keeps actual
+empty all-primary versus nullgapfreecontext. All answer sufficiency unassessed.
+
+Independent saved-evidence/math checks pass all scores/ranks/metrics/decisions,
+52bytehashes/872citations/85reports/117source controls. Separate85helper replay
+passes. Tokenizer-only51nonempty/sixquery counts pass without weights reload;
+empty0budget convention retained. Initial audit assumption about saved tokenizer
+defaults corrected by disabling them, matching the existing no-truncation path.
+Long-context warning is context measurement; six embedding inputs fit512.
+
+No new scalar/default policy justified or adopted: threshold.25 improves complete
+related context39vs38 at.5, with18vs15non-target slots; highcutoffs lose printed
+facts,21missing/conflicting claims remain held. Diagnostic question resolved;
+do not add curriculum sweeps or more sidecars merely to fill unknown claims.
+Next one final independent review, seal/closure, then formalPhase05exit requirement
+reconciliation.75accepted/69observed; sixD1/D2 reserved. Original sources/holds/
+seals/owner artifacts preserved; no runtime/API/DB/Prolog/dependency/Phase06 change.
+
+Observation documentation/ledger497tests/11subtests in13.07s exit0; phasevalidate
+and whitespace pass. Prior preflight528tests/136subtests12.84s remains current.
+
 ## Document source/claim preflight complete — 16 October 2026
 
 Resumed `5cf7066`, unchanged product `232a418`. Task2 source-only preparation froze

@@ -2,16 +2,45 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 291
+sequence: 292
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5cf7066
-working_tree: two source-preflight checkpoint/progress paths; owner artifacts preserved
-updated_at: 2026-10-16T11:33:01+08:00
+head_commit: ad0c62e
+working_tree: three document-comparison report/checkpoint/progress paths; owner artifacts preserved
+updated_at: 2026-10-16T11:43:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Document comparison independently verified — 16 October 2026
+
+Plan5cf7066/preflightad0c62e/product232a418. Task3 completed: only six D3/D4
+queries encoded,33saved queries/27document vectors reused.39document cases across
+fixed grid yield1053scores/1170primary measurements/6338attempts/4680decisions,
+52contexts/85unique claim reports. No curriculum encoding or new source vectors.
+[Report](2026-10-16-document-evidence-calibration-report.md): atk3/.5/2048 every
+mode/strategy retains18fieldsavailable/21insufficient. Complete context raw31/39,
+trusted38/39; FilipinoT1 has empty all-primary context versus nullgapfreeprefix.
+Perlanguage6available/7insufficient, answer sufficiency always unassessed.
+
+Independent saved-record/math audit passes1053scores,1170metrics,4680decisions,
+6338attempts,52bytehashes/872citations/85reports/117controls. Separate85helper replay
+passes. Tokenizer-only51nonempty context/sixquery recounts pass without weights
+reload; empty context keeps0budget convention. Audit initially assumed no saved
+JSON truncation defaults; disabled defaults to match existing no-truncation path.
+No product defect/query truncation; long-context warning is measurement only.
+
+No scalar default justified/adopted: .25 recovers39context targets with18non-target
+primaryslots, .5 recovers38with15slots; highthresholds lose direct facts, while21
+unestablished claims never become answers. Stop this diagnostic; no more curriculum
+sweeps/sidecars to fill unavailable claims. Next one final independent review,
+seal and closure, then formalPhase05exit reconciliation. No runtime/API/database/
+Prolog/dependency change; current75accepted/69observed, sixD1/D2 remain reserved.
+Owner artifacts intact, Phase05blocked/gates unchanged. Parent precedes docs commit.
+
+Observation documentation/ledger497tests/11subtests in13.07s exit0; phasevalidate
+and whitespace pass. Prior528focused/doc tests136subtests12.84s remain current.
 
 ## Document source/claim preflight complete — 16 October 2026
 
@@ -1559,6 +1588,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest:39document comparison/independent audit complete; one final review and evidence seal/closure next. No new default, automatic routing or curriculum experiment. Then reconcile remaining formal exit work.
 
 Latest: document Task2 source/claim preflight complete; ten reviews/39 annotations/117 controls. Next Task3 only six D3/D4 encodings and bounded39-case document comparison; product unchanged.
 
@@ -3399,6 +3430,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: parentad0c62e, product232a418; three explicit document-report/checkpoint/progress paths. Owner artifact deletion/backend artifacts untouched; raw root still working until final review/seal. Old sources/seals/master/code/tests unchanged.
+
 Latest: parent5cf7066, product232a418; two source-preflight checkpoint/progress paths only. Owner artifact deletion/untracked backend artifacts remain untouched/unstaged. Task2 raw files are in the existing ignored working root; no old sealed writer rerun.
 
 Latest: parent `f812f35`, product `232a418`; AGENTS plus six plan/continuity paths, explicit staging only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` untouched. New ignored document-calibration input root; historical master/code/tests/seals unchanged.
@@ -3609,6 +3642,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: independent1053scores/1170primary metrics/6338attempts/4680decisions/52contexts/872citations/85claim reports/117controls pass; separate85helper replay. Tokenizer-only51nonempty/sixquery exact counts, empty0budget convention. Prior preflight528tests/136subtests12.84s exit0. No query truncation, new curriculum encoding or product change; final review/seal pending.
 
 Latest: prepare_sources.py exit0; source-only original3image hashes/four existing event objects/owner bytes and old review basis hashes verified. Reproduced old nine-review register, added directV01two-field facet, ten-review derivative.117 complete/empty/wrong-subject controls:18fieldsavailable/21insufficientevidence with complete context, answer sufficiency unassessed. Prior29-file seal verifies. No model run yet.
 
@@ -4613,6 +4648,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: one final independent document-experiment review, then seal raw evidence and close curated report/INDEX/handoffs/checkpoint/progress. After closure audit remaining formalPhase05exit requirements; stop exploratory curriculum/claim-report expansion.
 
 Latest: Task3 document-evidence comparison: verify existing external model assets/configuration; encode six D3/D4 variants only, reuse33 saved document-query vectors/27documents. Preserve curriculum reservations/control history; no activation or default-policy inference.
 
