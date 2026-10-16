@@ -2,16 +2,38 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 340
+sequence: 342
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 2653d72
+head_commit: 9e6526c
 working_tree: C1 delivery report and continuity closure; owner artifacts preserved unstaged
-updated_at: 2026-10-16T18:51:26+08:00
+updated_at: 2026-10-16T19:05:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## C1 approved implementation plan complete — 16 October 2026
+
+489-file evidence seal created/verified, digest recorded in delivery report.
+This documentary commit closes the dated implementation plan after final full
+5462tests/1087subtests and documentation516tests/11subtests pass. Verified
+product9e6526c remains the metadata baseline; final documentary SHA is in Git.
+All owner artifact changes remain preserved/unstaged. Formal Phase05 stays
+blocked, Tasks4/6 open, no shared deployment/source authority/activation/Phase06.
+
+## C1 final fixed-code verification passes — 16 October 2026
+
+Code9e6526c:full5462tests/1087subtests pass551.87s, six skips/warnings, exit0.
+Single Important review finding fixed RED4/GREEN3tests/4subtests16.97s; no other
+material findings or deferred minors. Documentation/ledger516tests/11subtests
+pass15.97s; validate0/can-advance1(expected blocked), whitespace clear.
+Corrected rehearsal five receipts/five replays preserves52fields/nineevents/
+54spans/22neighbors/19saved vectors with both runtime roles hidden, zero pointers.
+Fresh verifier checks five records/eight rehearsal inputs/21 historical inputs,
+prior8/49/119-file seals and212 own/four reviewer database names absent. Code
+and review hashes unchanged. Evidence seal/documentary commit finish delivery.
+No source authority/shared deployment/activation or Phase06; owner artifacts intact.
 
 ## C1 review integrity correction verified — 16 October 2026
 
@@ -2397,6 +2419,25 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: approved C1 implementation, review correction, fixed-code rehearsal,
+full suite, documentation and evidence seal complete. No further C1 task remains.
+
+Latest: final code, review fix, corrected rehearsal, full suite and documentation
+checks all verified. Finish raw evidence sealing and documentary closure only.
+No additional code, model, source review or product-suite rerun is required.
+
+Latest: final documentation/phase-ledger516tests/11subtests pass15.97s; phase
+validate0/can-advance1(expected blocked), whitespace clear. Initial full run
+finished5460tests/1083subtests585.79s, six skips/warnings, but predates the fix
+and is not final-code evidence. Corrected final suite still running; read its
+actual completion before seal/closure. No additional tests or source work needed.
+
+Latest: review fix committed9e6526c; focused3tests/4subtests16.97s and corrected
+post-review five-source rehearsal pass. Final full suite is running from fixed
+code, including new drift regression. Initial full run predates the fix and is
+historical only. No further product changes or second reviewer planned. Parent
+owns final full output, post-review verifier/seal and documentary/ledger closure.
 
 Latest: C1 product committed2653d72, loader43c0c3c. One final independent reviewer
 and full pytest suite are running. Final focused18tests/250subtests and actual
@@ -5583,6 +5624,20 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: preserve this verified checkpoint and resume only concrete source/release
+governance or authorized runtime exit work supported by actual evidence/decisions.
+Do not repeat delivered C1 work or manufacture authority to close Tasks4/6.
+
+Latest: seal evidence and commit C1 delivery/continuity. Then preserve Phase05
+blocked on applicable source/release governance and actual authorized runtime
+exit evidence. No unchanged test/rehearsal/grid rerun, invented authority or
+repeated source/wording/school-response question. NoPhase06.
+
+Latest: read final-full-suite.log for9e6526c. If GREEN, verify post-review source
+receipts/input hashes, prior seals and all own disposable DB cleanup; seal raw
+evidence, update final report/continuity, run doc/phase-ledger checks and commit.
+Keep formal source/release/runtime gates; no repeat unchanged source experiments.
 
 Latest: read the single final review and full-suite output; resolve material
 issues with TDD if any, otherwise verify saved evidence/database cleanup, seal

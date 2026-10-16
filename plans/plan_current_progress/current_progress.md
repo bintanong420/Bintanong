@@ -1,5 +1,45 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## C1 approved plan complete — 16 October 2026
+
+Final product9e6526c, full5462tests/1087subtests and documentation516tests/
+11subtests pass. One Important review issue verified fixed;489-file evidence
+seal created/verified. This documentation-only commit closes the C1 plan.
+Next actual source/release governance or authorized runtime exit evidence;
+no further C1 implementation or unchanged suite/rehearsal/grid needed.
+Phase05Tasks4/6 remain open, noPhase06. Owner artifacts intact/unstaged and
+active branch/worktree preserved. Report records exact results/digests/rulings.
+
+## C1 final code verified — 16 October 2026
+
+Full5462tests/1087subtests pass551.87s on9e6526c, six skips/warnings, exit0.
+One Important review finding corrected RED4/GREEN3tests/4subtests16.97s; no
+other material findings/deferred minors. Documentation/ledger516tests/11subtests
+pass15.97s, phasevalidate0/can-advance1(expected blocked), whitespace clear.
+Corrected five-receipt/five-replay rehearsal preserves52fields/nineevents/
+54spans/22neighbors/19saved vectors, zero pointers and runtime hiding. Eight
+rehearsal/21 historical inputs plus prior8/49/119-file seals unchanged;212 own
+and four reviewer disposable database names absent. Next seal/documentary commit,
+then retain Phase05 source/release/runtime gates. Owner artifacts preserved.
+
+## C1 documentation checks pass; final suite pending — 16 October 2026
+
+Documentation/phase-ledger516tests/11subtests pass15.97s; validate0/can-advance1
+(expected blocked), whitespace clear. Initial full5460tests/1083subtests585.79s
+passed with six skips/warnings; it predates fix9e6526c, so wait for the corrected
+final-full-suite.log before completing delivery. No code changes since9e6526c.
+Then verify post-review evidence/DB cleanup, seal and commit documentary closure.
+
+## C1 integrity fix committed; final full suite running — 16 October 2026
+
+Fix9e6526c follows verified RED4/GREEN3tests/4subtests16.97s. Post-review
+real-source rehearsal passes five receipts/five replays with unchanged19saved
+vectors/54spans/52fields/nineevents, both roles hidden and DB dropped. New outputs
+are under raw-root/post-review; original successful evidence is retained.
+Final full suite starts from9e6526c and includes the new regression. Earlier
+full run predates this fix and is not the final code gate. No further product
+changes/re-review planned; parent owns final checks/evidence/continuity closure.
+
 ## C1 final review integrity fix — 16 October 2026
 
 One Important review finding confirmed: retained content_hash hid text/source_text

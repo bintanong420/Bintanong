@@ -3,12 +3,42 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 5e69cf3
+final_commit: 9e6526c
 recovery_condition: Complete applicable source governance and release authorization, verify the fixed document profile through actual runtime roles, and pass remaining master section10 exit checks; bounded offline acceptance preserves three T1 context misses.
-completed_at: 2026-10-16T18:28:44+08:00
+completed_at: 2026-10-16T19:05:16+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Final C1 closure: approved implementation plan complete;489-file evidence seal
+created/verified. Product9e6526c is the verified baseline, final documentary SHA
+is discoverable in Git. No further C1 work remains; Phase05Tasks4/6 still need
+actual source/release/authorized-runtime evidence. Preserve owner artifacts and
+the phase worktree. No unchanged suite/rehearsal/grid rerun or Phase06 follows.
+
+## Scoped C1 partial-review delivery verified
+
+[Report](2026-10-16-partial-source-review-report.md): loader43c0c3c, atomic
+receipt storage2653d72 and integrity correction9e6526c. Exact scoped receipts
+preserve existing owner events, field/span/limit snapshots and same-source
+context. Only content review/evidence advance to partially_reviewed in the
+removed disposable rehearsal; all other source/chunk/release states unchanged.
+
+Single final review: one Important stale-content-hash issue fixed through
+RED4/GREEN3tests/4subtests16.97s; no other material findings/deferred minors.
+Final full5462tests/1087subtests pass551.87s, six skips/warnings, exit0. Docs/
+ledger516tests/11subtests pass15.97s; validate0/can-advance1(expected blocked).
+Fixed-code five receipts/five replays preserve52fields/nineevents/54spans/
+22neighbors/19saved vectors, zero pointers and both runtime roles hidden.
+Eight rehearsal/21 historical inputs and prior8/49/119-file seals unchanged;
+212 own/four reviewer disposable database names absent. Exact code/review/log
+hashes retained in ignored evidence. Final seal/documentary commit follows.
+
+Next actual source/release governance and authorized runtime exit evidence for
+formal Tasks4/6. Do not repeat C1 implementation/rehearsal/full suite/review or
+source/wording/school-response questions. No shared migration, source authority,
+activation or Phase06 approval. Owner artifacts intact/unstaged; keep worktree.
+Earlier design-awaiting-approval notes below are historical and superseded.
 
 ## Next bounded step: scoped partial-review persistence
 

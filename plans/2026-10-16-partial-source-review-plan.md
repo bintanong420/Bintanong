@@ -79,7 +79,7 @@ returns exact stored register. SECURITY INVOKER, empty search_path, service only
 - [x] Add RLS plus restrictive runtime policies, minimal admin SELECT/INSERT,
   immutable UPDATE/DELETE/TRUNCATE guard and explicit function EXECUTE ACLs.
   Insert receipt and update source register atomically; reject inconsistent replay.
-- [ ] Verify GREEN and storage security/idempotency/acquisition/registration plus
+- [x] Verify GREEN and storage security/idempotency/acquisition/registration plus
   source-aware database regressions; inspect advisor-equivalent ACL/RLS catalog
   and FK coverage inside the disposable harness. Commit SQL/tests/README/ledger.
 
@@ -95,9 +95,9 @@ p05-partial-source-review-20261016; tracked delivery report and continuity docs.
   load19saved chunks/vectors, record/replay five C1 receipts and create inactive
   draft. Verify52field associations/nine events, unchanged other source/chunk
   flags, zero pointers, runtime-role hiding and unchanged original inputs; drop DB.
-- [ ] One independent final review of b5ddea9..final product. Material findings
+- [x] One independent final review of b5ddea9..final product. Material findings
   get focused RED/GREEN; run full suite after final code, then doc/ledger checks.
-- [ ] Seal ignored evidence, record exact commands/results/digests and limits,
+- [x] Seal ignored evidence, record exact commands/results/digests and limits,
   update current progress/checkpoint/index/blocked handoff and commit closure.
   Keep Phase05Tasks4/6 and Phase06 blocked on actual remaining prerequisites.
 
@@ -127,6 +127,19 @@ reproduced four failing subcases, then added recomputation with existing private
 content_hash inside the publication lock. Focused GREEN3tests/4subtests16.97s.
 No new receipt shape or source meaning. This is the one review fix pass; final
 full suite must run on fixed code and include the new regression. No re-review.
+
+Final fixed-code full suite5462tests/1087subtests pass551.87s, six skips/warnings,
+exit0. Documentation/ledger516tests/11subtests pass15.97s. Fresh post-review
+verifier confirms five corrected records/52fields/nineevents/54spans/22neighbors,
+eight rehearsal and21 historical inputs unchanged, prior8/49/119-file seals
+unchanged,212 own and four reviewer disposable database names absent. Final
+code/review hashes match. Only sealing and documentary commit remain.
+
+Final closure:489-file curated seal created and verified, digest
+35869101f033d6aa0a645d799aa17bec42090ba868fb409c243d33a61390b7ab.
+This documentation-only commit closes Task3. Formal Phase05Tasks4/6 stay open;
+no product/test/SQL change follows final5462-test execution. Owner artifacts
+remain preserved/unstaged and the existing branch/worktree remains active.
 
 Self-review: each spec requirement maps to Task1/2/3; all five review focuses
 have actual-role coverage in Task2. Task1's two-param RPC consumes Task2's exact
