@@ -371,3 +371,13 @@ class PartialReviewDatabaseTests(unittest.TestCase):
             current = copy.deepcopy(self.current); current[key]['state']='reviewed'
             with self.subTest(key=key),self.assertRaises(StorageError): self.rpc(current=current)
         self.assertEqual(self.snapshot(),before)
+
+    def test_changed_chunk_text_cannot_hide_behind_a_retained_content_hash(self):
+        for replay in (False,True):
+            for column in ('text','source_text'):
+                with self.subTest(replay=replay,column=column):
+                    call = 'select public.record_source_partial_review('+sql_literal(json.dumps(self.current))+'::jsonb,'+sql_literal(json.dumps(self.receipt))+'::jsonb);'
+                    sql = 'begin; '+(call if replay else '')+' update public.chunks set '+column+"='changed visible content'; "+call+' rollback;'
+                    before = self.snapshot()
+                    with self.assertRaises(AssertionError): self.db.execute(sql)
+                    self.assertEqual(self.snapshot(),before)

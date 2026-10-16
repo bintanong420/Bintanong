@@ -239,6 +239,8 @@ begin
            or chunk_row->>'source_verification' is distinct from 'pending'
            or chunk_row->>'content_review' is distinct from 'pending'
            or chunk_row->'content_hash' is distinct from c->'content_hash'
+           or chunk_row->>'content_hash' is distinct from bintanong_private.content_hash(
+                chunk_row->>'source_text',chunk_row->>'text')
            or chunk_row->'type_fields' is distinct from c->'type_fields' then
             raise exception 'C1 stored chunk snapshot differs' using errcode='23514';
         end if;

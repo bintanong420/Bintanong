@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## C1 final review integrity fix — 16 October 2026
+
+One Important review finding confirmed: retained content_hash hid text/source_text
+drift on first/replay. Parent reproduced RED4subcases, then existing SQL hash
+recomputation under lock gives GREEN3tests/4subtests16.97s. No schema/interface
+expansion or new source decision. Post-review real-package rehearsal and final
+full suite must pass on fixed code; earlier running suite predates the fix.
+One fix pass, no repeated independent review. Owner artifacts preserved.
+
+## C1 product committed; final verification running — 16 October 2026
+
+Loader43c0c3c and atomic storage2653d72 are committed. Final focused18tests/
+250subtests83.53s and real-source five-receipt/five-replay rehearsal passed.
+One independent reviewer and full suite are now running. Parent owns their
+final results and documentary/evidence/ledger closure; do not repeat rehearsal
+or claim full-suite success before completion. Report prepared under plans/.
+Owner artifacts intact/unstaged; all formal source/release/Phase06 gates remain.
+
 ## C1 SQL and rehearsal verified — 16 October 2026
 
 Final focused18tests/250subtests pass83.53s. Atomic receipt/source update, exact

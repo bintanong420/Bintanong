@@ -2,16 +2,27 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 338
+sequence: 340
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 43c0c3c
-working_tree: C1 migration and actual-role tests under verification; owner artifacts preserved
-updated_at: 2026-10-16T18:48:56+08:00
+head_commit: 2653d72
+working_tree: C1 delivery report and continuity closure; owner artifacts preserved unstaged
+updated_at: 2026-10-16T18:51:26+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## C1 review integrity correction verified — 16 October 2026
+
+Single final review finds one Important issue: content_hash did not bind current
+stored text/source_text after direct unpublished drift. Parent RED4subcases
+reproduces first/replay acceptance; existing private hash recomputation under
+lock gives GREEN3tests/4subtests16.97s. No interface/receipt expansion. Corrected
+real-package rehearsal and final full suite follow; earlier full run started
+before this correction and is not final-code evidence. No re-review needed.
+Review's trusted-identity/source-authority/nonprojected-column/admin/deployment
+limits remain explicit; no new institutional decision or shared migration.
 
 ## C1 SQL and real-package rehearsal verified — 16 October 2026
 
@@ -2386,6 +2397,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: C1 product committed2653d72, loader43c0c3c. One final independent reviewer
+and full pytest suite are running. Final focused18tests/250subtests and actual
+five-source rehearsal already GREEN; do not repeat them unchanged. Parent owns
+full-suite result, evidence seal, report and documentary/phase-ledger closure.
+Review any material finding through focused RED/GREEN before completion.
 
 Latest: Task1 committed43c0c3c; final loader regression17tests/124subtests2.33s.
 Task2 missing-RPC RED observed; migration generated via installed CLI2.117.0 at
@@ -5566,6 +5583,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: read the single final review and full-suite output; resolve material
+issues with TDD if any, otherwise verify saved evidence/database cleanup, seal
+raw evidence, finish documentation/ledger checks and commit closure. No repeated
+source review, wording/school-response request, grid, shared write or Phase06.
 
 Latest: owner reviews plans/2026-10-16-partial-source-review-design.md. On actual
 approval, invoke writing-plans, implement its narrow C1 interface using TDD and

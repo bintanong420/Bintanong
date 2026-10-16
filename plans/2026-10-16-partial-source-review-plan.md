@@ -88,10 +88,10 @@ returns exact stored register. SECURITY INVOKER, empty search_path, service only
 **Files:** ignored driver/results under workspace/audit-evidence/
 p05-partial-source-review-20261016; tracked delivery report and continuity docs.
 
-- [ ] Hash-bind prior sealed reconciliation, A1 checks and saved19chunk/vector/
+- [x] Hash-bind prior sealed reconciliation, A1 checks and saved19chunk/vector/
   54span package. Prepare five closed receipts from existing nine event bindings,
   preserving owner labels/original times and recording actual compiler time.
-- [ ] In one unique disposable database: register five initial sources, replay A1,
+- [x] In one unique disposable database: register five initial sources, replay A1,
   load19saved chunks/vectors, record/replay five C1 receipts and create inactive
   draft. Verify52field associations/nine events, unchanged other source/chunk
   flags, zero pointers, runtime-role hiding and unchanged original inputs; drop DB.
@@ -120,6 +120,13 @@ corrects them. All rehearsal databases dropped; prior logs retained. Fresh
 verify_delivery.py validates all52fields/nineevents/22edges and prior8/49/119-file
 seals;92 retained disposable names absent. No source decision or shared write.
 Single final review/full-suite verification remains before delivery closure.
+
+Final review identified one Important integrity gap: stale content_hash could
+hide text/source_text mutation on first call or replay. Parent independently
+reproduced four failing subcases, then added recomputation with existing private
+content_hash inside the publication lock. Focused GREEN3tests/4subtests16.97s.
+No new receipt shape or source meaning. This is the one review fix pass; final
+full suite must run on fixed code and include the new regression. No re-review.
 
 Self-review: each spec requirement maps to Task1/2/3; all five review focuses
 have actual-role coverage in Task2. Task1's two-param RPC consumes Task2's exact
