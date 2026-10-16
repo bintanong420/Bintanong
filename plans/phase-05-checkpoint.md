@@ -2,16 +2,46 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 346
+sequence: 347
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 79bd804
-working_tree: Developer workspace README and continuity; owner artifacts preserved unstaged
-updated_at: 2026-10-16T20:04:45+08:00
+head_commit: ab395764b053f5040b47b926f3184490a219a911
+working_tree: Resume checkpoint/progress only; existing artifacts/.gitkeep deletion and untracked backend/artifacts preserved unstaged
+updated_at: 2026-10-16T20:53:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Previous-agent continuation reconciled — 16 October 2026
+
+Read repository AGENTS.md, both handoff skills, INDEX/current progress, active
+plan/checkpoint, Phase04 final handoff and Phase05 recovery handoff. Fresh Git
+confirms README delivery committed at ab39576 and final C1 product at9e6526c;
+the earlier instruction to commit the README is already fulfilled. Existing
+artifacts/.gitkeep deletion and untracked backend/artifacts remain untouched.
+
+Reconsulted thesis physical17–18 and39–44, inspected the runtime routing PNG,
+and read master3/6/10/11/13, scope/source-gap policies and dataset guide. Routing
+agrees with the current document/structured split. Thesis illustrative
+negation-as-failure does not override the explicit owner/master requirement:
+missing student facts remain unknown, distinct from documented failure. No
+institutional prerequisite inferred or executable rule authored.
+
+The exact next prerequisite is the actual selected-review completion-scope
+answer in plans/2026-10-16-selected-corpus-review-scope.md. Presented one focused
+question for its19chunks/52field associations/54spans and retained limitations;
+answer remains pending. Generic continuation does not supply that decision.
+No further C1/README work, source reading, model experiment or database job is
+needed while it is pending. Do not reopen settled readings or the school inquiry.
+
+GitHub MCP lookup could not resolve local HEAD ab39576 remotely; local Git
+remains authoritative and no push/synchronization was attempted. The existing
+environment lacks pypdf; thesis reading used installed pypdfium2 successfully,
+without installation or conversion of institutional originals. Fresh docs/ledger
+checks:518tests/11subtests pass15.95s, exit0; phase validate0/can-advance1
+(expected blocked), whitespace clear. Raw log: workspace/audit-evidence/
+p05-resume-20261016-2053/docs-ledger.log. No product suite repeated.
 
 ## Developer workspace README prepared — 16 October 2026
 
@@ -2477,6 +2507,10 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: prior README/C1 delivery is complete in Git. Await the exact selected
+content-review completion-scope answer already presented. Preserve whole-source
+partial status and all recorded source/release/runtime gates.
+
 Latest: developer README and continuity complete; reader gaps fixed and targeted
 verification passes. Commit this documentation increment. No product change,
 new review decision or data migration is part of this task.
@@ -4443,6 +4477,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest resume baseline: ab39576 on feat/p05-retrieval-logic; product9e6526c.
+Only checkpoint/current progress are this increment. Existing deleted
+artifacts/.gitkeep and untracked backend/artifacts remain unstaged.
+
 Latest: baseline5e69cf3, product7c40308 unchanged. New partial-review design and
 four continuity documents only; raw checks stay ignored under workspace.
 Owner artifacts/.gitkeep deletion and backend/artifacts remain untouched.
@@ -5699,6 +5737,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: record the actual answer to the already presented selected-package
+completion question. If accepted, assess a precisely scope-bound completion
+claim before dependent persistence; if declined, retain C1 and identify the
+requested remaining scope. Do not infer an answer or promote whole documents.
+No Phase06, activation, repeated experiments or pending school-response request.
 
 Latest: use the completed README as the developer entry point alongside this
 ledger; preserve pending source/release/runtime gates. No additional work or

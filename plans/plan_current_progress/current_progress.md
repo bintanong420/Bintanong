@@ -1,5 +1,30 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Previous-agent continuation reconciled — 16 October 2026
+
+Read AGENTS.md and the handoff/phase ledger; fresh Git baseline ab39576 confirms
+the developer README is already committed and C1 product9e6526c complete.
+Repaired stale checkpoint metadata without repeating either delivery. Existing
+artifacts/.gitkeep deletion and untracked backend/artifacts remain untouched.
+
+Context reconsulted: thesis physical17–18/39–44, runtime routing PNG, master
+3/6/10/11/13, scope/source-gap policies and dataset guide. Retain document RAG
+and structured/Prolog curriculum routing; the thesis illustration does not
+override the explicit rule that missing student facts remain unknown. Used
+installed pypdfium2 after finding pypdf absent; no install/source conversion.
+GitHub MCP could not resolve local HEAD remotely; no push or shared mutation.
+
+Next actual prerequisite is the [selected completion-scope answer](../2026-10-16-selected-corpus-review-scope.md).
+One focused question presented for19chunks/52associations/54spans, preserving
+all recorded gaps/date limits and whole-document partial status; answer pending.
+Generic continuation supplies no completion decision. Record the actual answer
+before dependent scope-aware work. No repeated source confirmations, school
+inquiry, model experiment, completed suite/rehearsal or Phase06 advancement.
+Fresh docs/ledger518tests/11subtests pass15.95s, exit0; phasevalidate0 and
+can-advance1(expected blocked), whitespace clear. Raw output under workspace/
+audit-evidence/p05-resume-20261016-2053/docs-ledger.log. Only these two continuity
+documents are this increment; existing artifact changes remain unstaged.
+
 ## Developer workspace and local-data README — 16 October 2026
 
 Owner requested documentation for another developer, especially ignored data
