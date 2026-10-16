@@ -1,5 +1,40 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A1 documentary closure verified — 16 October 2026
+
+513documentation/phase-ledger tests and11subtests pass11.73s, exit0; validate0,
+can-advance1(expected blocked), whitespace clear. Dated A1 plan complete; this
+documentation-only commit closes the prior agent's work at product7c40308.
+Next actual source/release governance or authorized runtime exit evidence from
+the remaining exit packet; acquisition alone implies no new implementation.
+Owner artifacts stay untouched/unstaged; active branch/worktree preserved.
+Phase05Tasks4/6 remain open, noPhase06; no repeat completed suite/rehearsal/review.
+
+## A1 final review and retained execution verified — 16 October 2026
+
+[Delivery](../2026-10-16-acquisition-observation-report.md): loader391ef8a and
+SQL7c40308 unchanged. One independent reviewer clear; fresh21tests/88subtests
+40.31s and195 malformed service-role probes rejected without row changes.
+Saved full-suite5458tests/844subtests403.12s, six skips/warnings, verified from
+completed log rather than rerun. Parent checks five observed contracts/six
+input hashes, prior8/49/164-file seals and93 disposable database names absent.
+Five observations/five replays with19saved vectors/54spans stay inactive.
+Next documentary/ledger checks and explicit closure commit; afterward retain
+Phase05Tasks4/6 source/release/runtime gates. No A1 implementation left, shared
+migration, new source decision, school-response request, encoding/grid or Phase06.
+Report records review-scope rulings/costs; no deferred minors. Owner artifacts
+remain preserved/unstaged. Keep the existing branch/worktree for ongoing Phase05.
+
+## A1 continuation recovered — 16 October 2026
+
+Fresh Git confirms loader391ef8a and SQL7c40308 are committed. Resume Task3
+closure, preserving the completed five-source rehearsal. Retained full-suite.log
+ends5458passed/844subtests/6skips/6warnings in403.12s; no test process remains.
+One independent final review is running. Next evidence/continuity checks and
+explicit documentary commit; no unchanged product-suite rerun or shared writes.
+Thesis17–18/PDFium, routing PNG, master10 and Phase04 handoff consulted; no
+scope/routing discrepancy. Owner artifact changes remain preserved/unstaged.
+
 ## A1 SQL and five-source rehearsal verified — 16 October 2026
 
 Approved implementation Task2: atomic acquisition pending→observed only, exact

@@ -96,10 +96,10 @@ delivery report in plans/. Raw driver/results stay ignored, not in product code.
 - [x] Reuse the existing chunks/vectors for an inactive draft compatibility check;
   verify both runtime roles remain unable to see the real-source corpus/release.
   Keep original package files unchanged; remove only the rehearsal database.
-- [ ] Run one independent final review; resolve material findings with focused
+- [x] Run one independent final review; resolve material findings with focused
   RED/GREEN. Run applicable full/product and documentation/ledger checks once the
   final code is stable. Record exact commands/results/raw hashes and limitations.
-- [ ] Commit verified delivery and continuity; validate phase ledger. Keep formal
+- [x] Commit verified delivery and continuity; validate phase ledger. Keep formal
   Tasks4/6/Phase06 blocked on their remaining real verification/approval/runtime gates.
 
 Self-review: all design interfaces, guards, replay ordering and rehearsal limits
@@ -126,4 +126,16 @@ Task3 rehearsal: five observations/five exact replays, 19 saved chunks/vectors,
 54 spans, one inactive draft, zero active pointers; both runtime roles see zero
 rows. Six input hashes unchanged; unique rehearsal database dropped. Raw evidence
 at workspace/audit-evidence/p05-acquisition-observation-20261016. Final independent
-review/full suite pending; do not repeat this successful rehearsal unchanged.
+review/full suite were pending at this entry; closure below supersedes that note.
+Do not repeat this successful rehearsal unchanged.
+
+Task3 closure: one independent reviewer finds no issues;21tests/88subtests pass
+40.31s plus195 malformed direct-RPC probes reject without row changes. Saved
+full-suite run completed5458tests/844subtests, six skips/warnings,403.12s. Parent
+read-only verifier confirms five observed contracts/six unchanged inputs,
+8/49/164-file prior seals and93 disposable names absent. No unchanged suite rerun.
+See the delivery report for hashes, exact boundaries and review scope rulings.
+Final documentation/ledger checks:513tests/11subtests pass11.73s, exit0.
+Phase validate exits0; can-advance exits1 as expected for blockedPhase05.
+Whitespace checks pass. This documentary commit closes Task3; formal Tasks4/6
+stay open. Product7c40308 unchanged and owner artifacts remain unstaged.

@@ -2,16 +2,49 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 332
+sequence: 334
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 391ef8a
-working_tree: verified A1 migration tests README and continuity; owner artifacts preserved
-updated_at: 2026-10-16T17:48:49+08:00
+head_commit: 7c40308
+working_tree: verified A1 report and documentary closure; owner artifacts preserved unstaged
+updated_at: 2026-10-16T18:19:23+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A1 documentary closure verified — 16 October 2026
+
+513documentation/phase-ledger tests/11subtests pass11.73s, exit0; validate0,
+can-advance1(expected blocked), whitespace clear. The dated A1 plan is complete;
+this documentation-only commit records closure. Product7c40308 stays the verified
+metadata baseline; final documentary SHA is discoverable in Git. Owner artifacts
+stay untouched/unstaged. No remaining A1 implementation or deferred minor.
+
+## A1 final review and retained execution verified — 16 October 2026
+
+Delivery report: plans/2026-10-16-acquisition-observation-report.md. Loader391ef8a
+and SQL7c40308 remain unchanged. One final independent review no findings;
+fresh21tests/88subtests40.31s plus195 malformed service-role calls rejected with
+complete row unchanged. Saved full-suite5458tests/844subtests403.12s, six skips
+and six warnings; read and hash-verified without repeating unchanged execution.
+Parent verify_closure.py validates five contracts/six input hashes, both saved
+runtime denials, prior8/49/164-file seals and93 disposable names absent. The
+five observations/five exact replays and inactive19chunk/54span draft are complete.
+Review-scope rulings and their costs recorded in report; no deferred minors.
+Documentary/ledger checks and explicit commit finish this bounded increment.
+Formal Tasks4/6 remain blocked; no new source decision/shared write/activation.
+
+## A1 continuation recovered — 16 October 2026
+
+Fresh Git confirms loader391ef8a and SQL7c40308 are committed. Tasks1/2 and
+five-source rehearsal are complete; do not restart them. Retained full-suite.log
+ends5458passed/844subtests/6skips/6warnings in403.12s. No Python test process
+remains. One independent final review is now running; parent owns evidence and
+documentation/phase-ledger closure. No unchanged full-suite rerun is justified.
+Thesis physical17–18 read using existing PDFium, runtime routing PNG inspected,
+master10 and Phase04 handoff consulted; no scope/routing discrepancy. No installs.
+Owner artifacts/.gitkeep deletion and backend/artifacts remain untouched.
 
 ## A1 SQL and five-source rehearsal verified — 16 October 2026
 
@@ -2307,6 +2340,17 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: approved A1 plan complete, including evidence/review/documentary checks.
+Retain blocked Phase05 until actual source/release/runtime exit prerequisites
+are satisfied; no additional implementation follows from acquisition alone.
+
+Latest: A1 implementation/rehearsal/review verified; finish only documentary
+closure and phase-ledger checks. No further A1 implementation remains.
+
+Latest: close approved A1 plan Task3: finish the independent review, verify
+retained rehearsal/full-suite evidence and document the bounded delivery.
+Tasks1/2 already committed at391ef8a/7c40308; earlier start/approval notes are history.
+
 Latest: owner approved the A1 design after78ae763. Execute the dated acquisition
 observation plan inline with TDD; begin loader unit RED, then actual-role RPC.
 No repeat design/plan approval. Shared/source authority/activation gates remain.
@@ -4203,6 +4247,14 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: HEAD7c40308; product/tests/SQL unchanged. This commit stages only the
+A1 report/plan and INDEX/checkpoint/handoff/current progress. Owner artifact
+deletion/untracked backend/artifacts remain preserved and unstaged.
+
+Latest: HEAD7c40308 on feat/p05-retrieval-logic. Only A1 report/continuity edits
+belong to this closure. Preserve unrelated artifacts/.gitkeep deletion and
+untracked backend/artifacts. Existing full-suite output is complete.
+
 Latest baseline418aef3/product8595fb8 unchanged;one new source-event report and
 six continuity docs. Owner artifacts deletion/untracked backend/artifacts are
 preserved and unstaged;no source/register/database changes.
@@ -5441,6 +5493,22 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: preserve this verified checkpoint; resume actual source/release governance
+or authorized runtime exit work when its evidence/decisions exist. The remaining
+exit packet and source-event reconciliation identify those prerequisites. No
+repeat A1 tests/rehearsal/review/suite or speculative wider updater. NoPhase06.
+
+Latest: complete documentary verification/commit, then resume Phase05 only from
+actual gate-bearing source/release evidence or decisions. See the remaining
+exit packet and source-event reconciliation for exact requirements. A1 closes
+acquisition persistence only; no general status updater, invented authority,
+repeat school-response question, completed suite/rehearsal/grid or Phase06.
+
+Latest: finish one independent A1 review and evidence/documentation checks,
+commit report/continuity, then retain Phase05 blocked on actual source/release
+governance and authorized runtime exit evidence. No repeated loader/rehearsal,
+approval request, grid, encoding or shared migration; no Phase06.
 
 Latest: obtain owner approval of plans/2026-10-16-acquisition-observation-design.md;
 then invoke writing-plans and implement its narrow A1 interface through focused

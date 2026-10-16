@@ -3,12 +3,45 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 3fde038
+final_commit: 7c40308
 recovery_condition: Complete applicable source governance and release authorization, verify the fixed document profile through actual runtime roles, and pass remaining master section10 exit checks; bounded offline acceptance preserves three T1 context misses.
-completed_at: 2026-10-16T17:11:09+08:00
+completed_at: 2026-10-16T18:19:23+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+Final A1 documentary closure:513tests/11subtests pass11.73s; phase validate0,
+can-advance1(expected blocked), whitespace clear. Approved A1 plan complete;
+7c40308 names verified product, final documentary SHA is in Git. Next actual
+source/release governance and authorized runtime exit evidence; do not repeat
+the completed A1 implementation/rehearsal/review/suite. Owner artifacts remain
+preserved/unstaged. Formal Tasks4/6 remain open and noPhase06 is authorized.
+
+## A1 acquisition observation delivered — 16 October 2026
+
+[Report](2026-10-16-acquisition-observation-report.md) records approved loader
+391ef8a/SQL7c40308, five real-source observations/five exact replays in a dropped
+disposable database,19saved chunks/vectors/54spans and zero active pointers.
+Both runtime roles remain hidden; verification/content review pending and
+approval not_requested/null. Shared databases and original source inputs unchanged.
+
+Single final independent review no findings:21tests/88subtests40.31s plus195
+malformed-RPC probes reject without row changes. Completed full-suite log:
+5458tests/844subtests403.12s, six skips/warnings. This session verifies that saved
+run/code binding rather than repeat it. Fresh parent read-only verifier validates
+five observed contracts/six input hashes,8/49/164-file prior seals and93 retained
+disposable names absent. Documentation/ledger verification and closure commit
+follow; inspect Git for the final documentary commit rather than self-reference.
+
+Task3 implementation is complete after documentary closure. Keep the phase
+blocked on actual source/release governance and authorized runtime exit evidence;
+acquisition does not establish source approval or close formal Tasks4/6. Preserve
+F04/G01/originalG02 and source cutoffs/conflicts. No repeat setup/rehearsal/suite,
+source/wording/school-response question, encoding/grid, shared migration or Phase06.
+Thesis17–18, routing PNG, master10/Phase04 consulted; no architecture discrepancy.
+Review-scope rulings/costs are explicit in report; no deferred minors. Owner
+artifacts remain untouched/unstaged; active worktree/branch remain for Phase05.
+Earlier design-awaiting-approval notes below are historical and superseded.
 
 ## Evidence-backed A1 persistence design ready for approval — 16 October 2026
 
