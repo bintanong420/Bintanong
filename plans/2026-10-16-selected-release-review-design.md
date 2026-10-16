@@ -1,6 +1,6 @@
 # Release review coverage for an exact undergraduate selection
 
-Status: proposed for implementation review. Baseline `20b8230`; verified product
+Status: owner approved with "i approve, proceed" after `28be67e`. Baseline `20b8230`; verified product
 remains `9e6526c`. No code, migration, database or release changes in this design.
 
 ## Purpose and scope

@@ -2,16 +2,37 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 349
+sequence: 350
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 20b8230e391b493e97dea85b15a6cb3cf2d142f4
-working_tree: Selected release review design, scope reminder and continuity; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T21:06:00+08:00
+head_commit: 28be67e6041fd468a72dae80c589537daa899871
+working_tree: Approved selected release review plan/implementation; owner artifact changes preserved unstaged
+updated_at: 2026-10-16T21:12:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Selected review loader GREEN — 16 October 2026
+
+Task1 expected missing-loader RED46subcases; GREEN4tests/52subtests0.51s.
+Initial fixture locator-key failure corrected before actual RED. Closed exact
+receipts reconstruct full fields/spans/limits with same-source neighbors; admin
+RPC/response equality, binding, single-attempt transport verified. No DB work yet.
+Ruling: reuse codec stored-span path rather than fabricate a full Chunk from
+the narrower C1 projection. SourceSpan validation and complete-group checks stay.
+Next actual-role missing-RPC RED and additive SQL implementation. Raw logs under
+workspace/audit-evidence/p05-selected-release-review-20261016; owner artifacts intact.
+
+## Selected release-review implementation authorized — 16 October 2026
+
+Owner "i approve, proceed" approves complete design at28be67e and its disposable
+verification. Self-reviewed implementation plan is
+plans/2026-10-16-selected-release-review-plan.md. Execute inline with TDD;
+next loader RED/GREEN, actual-role SQL, one saved-package inactive rehearsal,
+one final independent review/full suite. No repeated plan/method/content/scope
+approval. Context/scope/source authority boundaries from approved design remain.
+Existing linked worktree verified; owner artifacts preserved unstaged.
 
 ## Scope-aware release review design in progress — 16 October 2026
 

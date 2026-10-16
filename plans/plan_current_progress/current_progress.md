@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Selected review loader verified — 16 October 2026
+
+Missing-loader RED46subcases; GREEN4tests/52subtests0.51s. Codec stored-span path
+validates exact C1 projections without fabricating full Chunk metadata. Closed
+decision/content/span/neighbor bindings, admin calls and response/transport
+guards verified. No DB/source-state change. Next missing-RPC RED then additive
+publication/role integration. Approved scope and owner artifacts preserved.
+
+## Selected release-review design approved — 16 October 2026
+
+Owner "i approve, proceed" after28be67e authorizes implementation and disposable
+verification. Self-reviewed [plan](../2026-10-16-selected-release-review-plan.md)
+executes inline with focused TDD, one inactive saved-package rehearsal and one
+final independent review/full suite. Next loader RED/GREEN; no repeated method,
+scope/source/wording approval. Existing linked worktree/owner artifacts preserved.
+No shared application, real-source activation, office authority or Phase06 inferred.
+
 ## Concrete selected-release review design — 16 October 2026
 
 Owner asks to proceed and reiterates undergraduate student procedures: exclude
