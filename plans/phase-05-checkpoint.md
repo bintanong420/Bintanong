@@ -2,16 +2,58 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 376
+sequence: 382
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 52619c1
-working_tree: V1 candidate SQL and database tests verified; owner artifact changes preserved unstaged
-updated_at: 2026-10-17T00:39:00+08:00
+head_commit: ee7567a
+working_tree: V1 delivery verified; following documentary closure commit; owner artifacts preserved unstaged
+updated_at: 2026-10-17T00:59:10+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Approved V1 plan complete — 17 October 2026
+
+Finaldocs541tests/11subtests pass17.25s, validate0/can-advance1(expected blocked),
+whitespace clear. Full5530/1480GREEN, review clear,150DBcleanup/13inputs/
+eightpriorseals and11663-file newseal verified. Following documentary commit
+closes bounded delivery, productee7567a unchanged; discover closure SHA via Git.
+No further code/review/unchanged suite/rehearsal/grid needed. Owner artifacts,
+branch/worktree and actual source/release/runtime/formal gates retained.
+
+## V1 evidence sealed; final documentation check — 17 October 2026
+
+11663-file curated seal created/verified, SHA in delivery report. All13inputs,
+eightpriorseals and150DBcleanup verified; final full5530/1480GREEN. Final docs
+and phase-ledger checks running in sibling checks root, then explicit closure
+commit. Productee7567a unchanged; bounded approved work complete after closure.
+
+## V1 full suite and integrity verified — 17 October 2026
+
+Final productee7567a5530tests/1480subtests pass873.03s,6skips/6warnings,exit0.
+Single final review clear; no fix pass. verify_delivery.py confirms13inputs
+unchanged, eight prior seals intact and all150owned/reviewer DB names absent.
+New seal create/verify running; final report/plan/ledger/docs and closure commit
+follow. No further implementation/review/fullsuite/rehearsal/grid is needed.
+
+## V1 final review clear; full suite still running — 17 October 2026
+
+Single fresh gpt-6-astra/high reviewer inspected2a472ba..ee7567a: no Critical,
+Important or actionable minor finding. No fix pass or second review. Reviewer
+two-file run finished but final summary/exit not retained: explicitly inconclusive,
+not passed; no rerun. Its11DBs absent. Root relevant326/216 remains authoritative.
+Final full82205 still running at96%database section at00:47; no reported failure,
+not yet a pass. Continue existing session/log, then verify_delivery.py/seal/docs.
+
+## V1 final verification in progress — 17 October 2026
+
+Pre-final docs/phase-ledger541tests/11subtests pass12.32s; validate0 and
+can-advance1(expected blocked). Reviewer static inspection found no material
+issue so far, independent two-file tests running. Full suite started on product
+ee7567a, shell session82205, final-full-suite.log/final-full-db/final-full-temp
+under new raw root. Inspect this session/log after rollover; do not restart.
+No product change since relevant326/216GREEN and successful inactive rehearsal.
 
 ## V1 relevant storage checks GREEN — 17 October 2026
 
@@ -2853,6 +2895,21 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: approved V1 plan complete after following documentary closure commit.
+No remaining bounded implementation; actual source/release/authorized-runtime
+exit prerequisites govern further phase work. Preserve recorded holds/scope.
+
+Latest: V1 full5530/1480GREEN and150DBcleanup/13inputs/eightpriorseals verified.
+Finish newseal, final documentary/phase checks and explicit closure commit only.
+
+Latest: inspect running final full suite82205 and reviewer final result. Static
+review found no material issue; do not infer success before actual exits.
+
+Latest: V1 implementation52619c1/ee7567a verified relevant326/216 and inactive
+rehearsal; single fresh /root/source_observation_final_review running. Inspect
+its actual findings, one material RED/GREEN fix pass if needed, then final full
+suite on final product, cleanup/input/prior-seal verification and closure.
+
 Latest: commit verified Task1, then Task2 actual-RPC RED/additive migration/tests.
 
 Latest: execute approved V1 plan inline; focused missing-module RED first.
@@ -4891,6 +4948,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest verified productee7567a, loader52619c1 and plan99a1b21. Following docs-only
+closure SHA is discoverable in Git; product hashes in dated delivery report.
+Owner D artifacts/.gitkeep and ??backend/artifacts preserved unstaged.
+
 Latest resume baseline: ab39576 on feat/p05-retrieval-logic; product9e6526c.
 Only checkpoint/current progress are this increment. Existing deleted
 artifacts/.gitkeep and untracked backend/artifacts remain unstaged.
@@ -6157,6 +6218,21 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: preserve completed V1 delivery and resume actual source/release/runtime
+exit work when supported by applicable evidence. No new source decision is
+implied by V1 or generic continuation; no repeated settled reviews orPhase06.
+
+Latest: finish evidence seal/report/plan/INDEX/blocked handoff/current progress,
+docs/phasevalid/expectedblocked and explicit documentary closure. Productee7567a
+unchanged; retain worktree/owner dirt and actual source/release/runtime gates.
+
+Latest: finish existing full82205, read reviewer result, verify owned/reviewer
+DB cleanup/13inputs/eight prior seals, new seal and final documentary closure.
+
+Latest: receive one V1 final review, resolve material findings once with focused
+RED/GREEN, then final full tests/cleanup/seal/report/ledger/doc checks/commit.
+No repeated source acceptance, real-package rehearsal or retrieval experiments.
+
 Latest: Task1 loader RED/GREEN/commit, then narrow receipt/RPC/disposable tests,
 one saved-package rehearsal, single final review/full checks/cleanup/seal/closure.
 
@@ -6933,6 +7009,9 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+V1 approved plan, one final review, full5530/1480suite, inactive five-source/
+19chunk rehearsal,13input/eightseal checks and150DBcleanup are complete.
 
 Latest: owner design approval, snapshot/engine TDD, single final review/two fixes, corrected full5388-test run and39-case replay are complete. Evidence root sealed/read-only. Preserve source holds and owner artifact changes.
 

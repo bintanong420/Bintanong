@@ -1,5 +1,46 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Approved V1 plan complete — 17 October 2026
+
+Final productee7567a; full5530tests/1480subtests pass873.03s, finaldocs541/11
+pass17.25s. Single review clear,13inputs/eightpriorseals/150DBcleanup verified,
+11663-file newseal created/verified. Phasevalid/can-advance blocked as expected,
+whitespace clear. Following explicit documentary commit closes bounded work;
+keep branch/worktree/owner artifacts and actual V2/P2/source/release/runtime
+prerequisites. No further V1 code/review/unchanged suite/rehearsal/grid orPhase06.
+
+## V1 evidence sealed; final documentary closure — 17 October 2026
+
+11663-file newseal created/verified, digest in dated report. Final full5530/1480
+GREEN, single review clear,13inputs/eightpriorseals/150DBcleanup verified. Final
+docs/phase checks in sibling checks root then explicit closure commit. Product
+ee7567a unchanged; keep owner artifacts/worktree and actual formal exit gates.
+
+## V1 final full suite and integrity verified — 17 October 2026
+
+Productee7567a final5530tests/1480subtests pass873.03s,6skips/6warnings,exit0.
+Single review clear; all150owned/reviewer DB names absent,13input hashes and
+eight prior seals unchanged. Newseal and final documentary/phase checks/closure
+commit follow. No further implementation/review/unchanged fullsuite/rehearsal/
+grid; keep branch/worktree/owner artifacts and actual V2/P2/formal phase gates.
+
+## V1 final review clear — 17 October 2026
+
+Single fresh review2a472ba..ee7567a: no Critical/Important/actionable minor.
+Independent reviewer tests inconclusive because final output was lost;11DBs
+absent. Root relevant326/216 passed; final full82205 still running at96%database
+section, no failure reported, not yet a pass. No fix/second review/repeated
+rehearsal needed. Resume current session/log, then cleanup/integrity/seal/docs.
+
+## V1 final regression suite running — 17 October 2026
+
+Productee7567a unchanged. Reviewer static pass has no material finding so far;
+two-file independent tests running. Full suite shell82205 running with logs/SQL/
+basetemp in p05-source-observation-20261017. Pre-final docs541tests/11subtests
+pass12.32s, phasevalid/blocked. Inspect actual exits before closure; do not
+restart suite/rehearsal after rollover. Then cleanup/inputs/prior8seals/newseal,
+report/plan/ledger/doc checks and explicit closure commit. Candidate inactive.
+
 ## V1 scoped storage verified — 17 October 2026
 
 Final relevant326tests/216subtests pass185.23s; inactive5V1/5replays/19chunk

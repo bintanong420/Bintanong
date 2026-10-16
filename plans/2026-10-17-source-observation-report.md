@@ -3,8 +3,9 @@
 Owner approved the [complete V1 design](2026-10-17-source-observation-design.md)
 after2a472ba with “alright i approve, continue”. The inline
 [implementation plan](2026-10-17-source-observation-plan.md) is committed99a1b21;
-loader52619c1 is verified. SQL/relevant regressions and final delivery checks
-are in progress. This report concerns the bounded implementation, not formal
+loader52619c1/storageee7567a are delivered. Final full suite5530tests/1480subtests
+passes873.03s, exit0; one fresh final review is clear. This report concerns the
+bounded implementation, not formal
 Phase05 completion or institutional activation.
 
 ## Behavior and boundaries
@@ -70,8 +71,49 @@ p05-source-observation-20261017. No installation/dependency/lock/model changes.
   and cannot read any of the three administrative receipt tables. DB dropped.
 
 Final relevant326tests/216subtests pass185.23s, exit0: new unit/DB files,
-selected-review database regressions and three source-contract files. Single final fresh review, final full suite,
-cleanup/input/prior-seal verification and evidence seal follow below.
+selected-review database regressions and three source-contract files.
+
+One fresh final reviewer (gpt-6-astra/high) inspected2a472ba..ee7567a against
+the complete design/plan and returned no Critical, Important or actionable minor
+finding. No fix pass or second review is required. Its independent two-file run
+finished but the final summary/exit code was not retained, so its test outcome
+is explicitly inconclusive, not passed; no rerun. All11reviewer-created DBs are
+confirmed absent. Root's retained relevant run and final full suite are the
+authoritative test evidence. Raw assessment is final-review.txt in the new root.
+Final full-suite, integrity and seal results follow.
+
+## Final unchanged-code regression result
+
+Final productee7567a: **5530passed,6skipped,6warnings,1480subtests passed in873.03s**,
+exit0. Command: existing readiness Python `-B -m pytest -q -p no:cacheprovider
+tests --basetemp <raw-root>/final-full-temp`, external TEMP/TMP and
+BINTANONG_STORAGE_EVIDENCE_DIR=<raw-root>/final-full-db. The warnings concern
+existing Starlette/HTTPX and Docling/Pydantic deprecations and a pytest GPU marker.
+No dependency or environment change follows. No unchanged full-suite repeat,
+second review, real-package rehearsal or retrieval experiment is needed.
+
+Fresh verify_delivery.py confirms all13rehearsal inputs byte-identical, eight
+prior seals intact (8/49/119/489/16047/10/14825/10files), and all150owned/reviewer
+disposable database names absent. The rehearse database was dropped; no actual
+source published, zero active pointers, and no shared migration was applied.
+
+| Final product file | SHA-256 |
+| --- | --- |
+| source_verification.py | `d3b3e9e89d01b101017a1204dd45d5af20c08e035756656f944b441d2ff0dc5b` |
+| 20261016162938_phase5_source_observation.sql | `48972cfbf116fefc50ae6599c4867cda351850e7ae0fdd189eca37991eaf319c` |
+| test_storage_source_verification.py | `299c14de7f731edbf82a9a7bc25f94e50b0e123d58016c32bf3d1240b70c9032` |
+| test_storage_source_verification_database.py | `ed0a3f77d2f78c5d110d307e718dc22f3fa42881d4362d67e9f07523ef1f274b` |
+
+New curated evidence seal created and verified:11663files, manifest SHA-256
+`28d0b6e7efffb1541f4242e93796dd91af944aaaa3d18ea6b77f0d4d3808b6c2`.
+Only `python -B seal_evidence.py verify` is allowed in that root from now on.
+Curated scripts/logs/results and owned disposable SQL are included; synthetic
+temporary trees excluded. Final documentation logs use sibling
+p05-source-observation-checks-20261017. Final docs/phase-ledger541tests/11subtests
+pass17.25s, exit0; phase validation succeeds and can-advance remains blocked as
+expected, whitespace clear. Following explicit documentary commit closes the
+approved bounded plan; discover its SHA through Git. Keep branch/worktree/owner dirt; formal actual
+source/release/authorized-runtime exit evidence is the next prerequisite.
 
 ## Decisions and recovery
 
