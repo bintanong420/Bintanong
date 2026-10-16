@@ -1,5 +1,13 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## V1 loader verified — 17 October 2026
+
+Plan99a1b21, missing-module RED50failures/subcases. Initial GREEN20tests/157
+subtests0.80s includes A2/C1 units; added stale-binding/rebind composition check.
+New loader derives only V1 observed Evidence/state, keeps source unknowns/review/
+approval/old history and requires exact admin return. Commit Task1 then actual
+RPC RED/storage migration/role tests. No new source decision or activation.
+
 ## V1 design approved; implementation begins — 17 October 2026
 
 Owner approves full design after2a472ba with “alright i approve, continue”.

@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 373
+sequence: 374
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 2a472ba
-working_tree: Approved V1 implementation plan; owner artifact changes preserved unstaged
+head_commit: 99a1b21
+working_tree: V1 loader and focused tests verified; owner artifact changes preserved unstaged
 updated_at: 2026-10-17T00:22:13+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## V1 loader RED/GREEN — 17 October 2026
+
+Plan99a1b21; new loader missing-module RED50failures/subcases, then new+A2+C1
+units GREEN20tests/157subtests0.80s. Added existing bind_chunk composition check
+for stale old binding/new observed ref and invariant content; final check run.
+Commit Task1 then missing-RPC RED and immutable observation storage. No source
+authority/shared application/runtime activation or new content decision follows.
 
 ## V1 design approved; inline implementation plan — 17 October 2026
 
@@ -2823,6 +2831,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: commit verified Task1, then Task2 actual-RPC RED/additive migration/tests.
 
 Latest: execute approved V1 plan inline; focused missing-module RED first.
 Existing prepared five observations/coverage/source decisions stay settled.

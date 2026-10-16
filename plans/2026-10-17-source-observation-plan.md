@@ -45,14 +45,14 @@ tests/test_storage_source_verification.py. Interface:
 SourceVerificationLoader(client=None).observe(current, observation) -> SourceDocumentVersion;
 RPC observe_source_verification(p_expected_register, p_observation), role admin.
 
-- [ ] Write synthetic loader tests for exact closed schema, source/hash/locator/C1
+- [x] Write synthetic loader tests for exact closed schema, source/hash/locator/C1
   ref and scope identity syntax; current lifecycle boundary; reviewer role/new
   Evidence ID/null authority; complete returned contract; preserved inputs/history;
   real timezone/fraction/equivalent instants and observation>=current C1; storage
   failure propagation once. Assert old binding fails/new bind_chunk agrees.
-- [ ] Run missing-module RED. Implement minimal local validation/derivation,
+- [x] Run missing-module RED. Implement minimal local validation/derivation,
   existing models/vocabulary and one RPC; no new parsing or status vocabulary.
-- [ ] Run new unit class plus existing A2/C1 units; expected GREEN. Record results
+- [x] Run new unit class plus existing A2/C1 units; expected GREEN. Record results
   and explicitly commit focused loader/tests/continuity increment.
 
 ## Task 2: Atomic scoped receipt and admin RPC
@@ -111,3 +111,7 @@ cost if wrong: isolated rework. Ruling: repository plan/checkpoint and ignored r
 root replace skill scratch/deletion defaults per owner instructions; cost: manual
 ledger upkeep. Existing linked branch verified; thesis17–18/routing PNG/master6/10
 reconsulted, no discrepancy. Original school/authority/formal phase gates retained.
+
+Task1 RED50missing-module failures/subcases observed; initialGREEN20tests/157
+subtests0.80s. Added authoring composition check: stale binding fails, existing
+bind_chunk produces V1 reference without content drift; final unit result below.
