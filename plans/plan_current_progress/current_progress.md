@@ -1,5 +1,27 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Pending source registration and draft rehearsal verified — 16 October 2026
+
+SourceRegistrationLoader and pending-only invoker RPC retain full source register,
+explicit storage categories and initial states; reject conflicts atomically.
+RED missing-module;GREEN9tests/19subtests22.12s;regressions70/125subtests97.29s.
+Actual sealed package imported twice into unique disposable DB, inactive draft
+created:5docs/5versions/19chunks/54spans/19vectors/1draft/0active. Both runtime
+roles see zero rows/RPC release_changed;full source records and version/span IDs
+unchanged,50sealed files unchanged,DB dropped. No shared mutation/activation.
+Actual five versions include two vehicle images, no enrollment; mapping corrected
+without changing sources. Next commit, final reviewer/full suite and closure.
+
+## Source registration resumed — 16 October 2026
+
+Owner continued at5faf2fd. [Plan](../2026-10-16-source-registration-plan.md):
+pending-only atomic registration, explicit storage categories, full source
+register retention and conflict rejection; inline TDD, isolated positive draft
+load, final review/full suite. No source approval/shared writes/activation.
+Context17–18/routing/master9/10 consulted. Next RED tests; reuse sealed package.
+Ruling: pending-only importer defers authorized transitions to their own governed
+interface, preventing accidental promotion. Owner artifacts preserved/unstaged.
+
 ## Document loader package and boundaries verified — 16 October 2026
 
 [Readiness report](../2026-10-16-document-loader-readiness-report.md): baseline

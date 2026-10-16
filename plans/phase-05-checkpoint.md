@@ -2,16 +2,41 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 305
+sequence: 307
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 17c097b
-working_tree: readiness report and five continuity documents; owner artifacts preserved
+head_commit: 5faf2fd
+working_tree: source-registration module/migration/tests/README/plan and continuity; owner artifacts preserved
 updated_at: 2026-10-16T13:08:08+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Pending source registration and draft rehearsal verified — 16 October 2026
+
+New SourceRegistrationLoader/register_pending_sources candidate migration
+preserves full register/states, requires explicit metadata and rejects identity
+conflicts atomically. RED missing module exit2; GREEN9tests/19subtests22.12s;
+storage/retrieval70tests/125subtests97.29s exit0. Actual19-row sealed package
+imports twice and creates an inactive draft in unique DB41d1d76616164457979af9aa3a347da0:
+5docs/5versions/19chunks/54spans/19vectors/1draft/0active. Both runtime roles see
+zero rows and draft pin returns release_changed. Full registers and version/span
+identities unchanged;50sealed inputs unchanged;pgvector float32 error<5e-9.
+DB dropped. No shared writes/source promotion/activation. Packaging correction:
+five versions contain two vehicle images, no enrollment; explicit mapping keeps
+both identities. Task1/2 complete; commit then final review/full suite. Additional
+valid acquired-contract guard regression included for final verification.
+
+## Source registration resumed — 16 October 2026
+
+Owner continued the readiness report's next action. [Implementation plan](2026-10-16-source-registration-plan.md)
+records a pending-only atomic source importer with explicit storage categories,
+full register retention and immutable/idempotent identities. Inline TDD, then
+positive isolated draft load and one final review; no shared migration/activation.
+Context scope17–18/routing PNG/master9/10 reconsulted; no discrepancy. Existing
+sealed19-row package reused, original owner artifact changes preserved. Next
+Task1 RED tests. Pending source decisions/Phase05 gates remain unchanged.
 
 ## Document loader package and boundaries verified — 16 October 2026
 

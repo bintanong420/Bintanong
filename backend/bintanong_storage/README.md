@@ -1,0 +1,34 @@
+# Source registration and candidate loading
+
+`SourceRegistrationLoader.load_versions(versions, documents)` registers parent
+sources before `BatchKnowledgeLoader.load_artifacts`. Both accept an injected
+storage client; administrative credentials stay on the server. Runtime requests
+never invoke this importer or fall back to its credentials.
+
+Versions must validate as `SourceDocumentVersion` and retain initial acquisition,
+verification and content-review state `pending`, approval `not_requested`, and
+null approval ID. This interface does not approve sources or update their review
+states. A valid acquired/approved register needs a separate governed transition
+workflow. It cannot be downgraded through registration.
+
+Pass explicit document dictionaries with exactly `document_id`, `namespace`
+(`institutional`), `synthetic` (boolean), `document_category` and `title`. The
+storage categories are curriculum_prospectus, academic_handbook,
+institutional_statute, administrative_order and enrollment_guideline. A generic
+source-register category is preserved in the full payload; it does not infer the
+storage category. Document namespace/synthetic flags must match every version,
+and document/version membership must match exactly.
+
+The administrative `register_pending_sources` RPC atomically inserts documents
+and versions under the publication lock. `document_versions.source_register`
+retains the complete contract including evidence references and approval ID.
+Existing version fields preserve the source metadata/states. Exact reimports
+are no-ops; changed document/version identities reject the whole registration
+batch. Legacy rows remain null in the new column and are not backfilled here.
+
+Registration, chunk/vector loading and draft creation are separate resumable
+operations. A later load failure can leave pending parents, which remain hidden
+by existing RLS. Creating a draft does not activate it. Existing activation
+checks and source/content holds still apply. New migration files are candidates
+until applied through the applicable deployment workflow; no shared application
+is implied by local test delivery.
