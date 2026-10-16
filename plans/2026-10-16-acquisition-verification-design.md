@@ -1,6 +1,6 @@
 # Persisting a subsequent acquisition byte check — 16 October 2026
 
-Status: proposed complete description; implementation has not begun. Baseline
+Status: approved by the owner after184b33f with “ye i approve, then proceed”. Baseline
 `a4661f1`, product `6378994` unchanged. This is the A2 acquisition transition,
 not issuing-office verification or institutional approval.
 

@@ -1,5 +1,15 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A2 design approved; implementation begins — 16 October 2026
+
+Owner “ye i approve, then proceed” approves complete design after184b33f.
+Implementation plan written/self-reviewed; execute inline per active phase plan
+without repeated method/plan/source questions. Existing isolated branch/owner dirt
+verified. Actual thesis17–18/routingPNG/master10 reconsulted, prior architecture
+retained. Next Task1 loader RED/GREEN, then narrow RPC/disposable rehearsal and
+one final review/full verification. No actual source authority/shared activation
+or Phase06 follows; sealed five second checks reused unchanged.
+
 ## A2 evidence and complete design ready — 16 October 2026
 
 Independent verification confirms five original hashes/five exact local A2

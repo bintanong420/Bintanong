@@ -2,16 +2,24 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 356
+sequence: 357
 plan: plans/phase-05-retrieval-plan.md
-head_commit: a4661f1
-working_tree: A2 original-byte evidence preparation and proposed persistence design; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T22:04:02+08:00
+head_commit: 184b33f
+working_tree: Approved A2 implementation plan; owner artifact changes preserved unstaged
+updated_at: 2026-10-16T23:25:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A2 full design approved; inline plan ready — 16 October 2026
+
+Owner explicitly approves after184b33f and directs execution. Dated A2 plan
+self-reviewed, retained isolated branch verified, owner dirt preserved. Resume
+thesis17–18/routingPNG/master10 consulted; prior39–44/master3/6/11/13 retained,
+no discrepancy. Task1 loader RED/GREEN next, then RPC and one final review/full
+verification. Prepared five checks are sealed; no repeated original recheck.
 
 ## Subsequent original-byte check prepared — 16 October 2026
 
@@ -2693,6 +2701,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: execute approved A2 plan inline, starting focused loader RED/GREEN.
+Owner approval is settled; do not request plan/method/source acceptance again.
 
 Latest: A2 packet independently verified/sealed and complete proposed design
 builder-checked. Present the design for full-description approval required by
@@ -5949,6 +5960,9 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: write synthetic A2 loader regressions, observe missing-method RED,
+implement minimal verify(), then GREEN/commit; proceed through dated plan.
 
 Latest: record actual approval of the complete A2 persistence design when
 received; then write the implementation plan and use narrow TDD. New interface
