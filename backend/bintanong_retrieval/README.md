@@ -26,7 +26,7 @@ The versioned `bintanong-retrieval-debug-v1` JSON contains configuration fingerp
 | `needs_scope` | Multiple plausible curriculum versions need caller clarification. |
 | `conflicting_sources` | Competing editions are retained for review; score does not choose authority. |
 | `uncalibrated` | Context is available but development relevance/coverage approval is pending. |
-| `storage_error` | The runtime storage call failed; no administrative retry. |
+| `storage_error` | The runtime storage call failed, including connection/timeout/protocol request errors; no retry or administrative fallback. |
 | `ok` | A configured development policy accepted complete context; institutional approval is separate. |
 
 Exit code 2 exposes an open retrieval gate. The default policy stays `uncalibrated-v1`; a synthetic threshold is never installed as institutional calibration. No endpoint, API service, LLM answer, candidate publication or institutional activation is introduced.

@@ -2,16 +2,57 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 323
+sequence: 326
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 01c70b7
-working_tree: test adapter, new integration tests and continuity/report updates; owner artifacts preserved
-updated_at: 2026-10-16T16:38:33+08:00
+head_commit: 4872b29
+working_tree: storage transport-error regression/fix in progress; owner artifacts preserved
+updated_at: 2026-10-16T16:42:53+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Transport fix reviewed; full suite still running — 16 October 2026
+
+Independent review finds no Critical/Important/Minor issues. Reviewer separately
+runs six HTTP-client/composed tests successfully, with no edits. Live HTTP/server
+behavior and institutional/database authorization remain outside this fix; parent
+owns full-suite result. Focused 38 tests / 61 subtests pass. Commit the bounded
+client/test/README change now; full suite is still running, not yet claimed passing.
+
+
+## Transport boundary fixed; full verification running — 16 October 2026
+
+Focused RED observed 27 failing transport subcases, six baseline tests and three
+HTTP-error subtests passing. Central SupabaseStorageClient._request now translates
+only HTTPX RequestError to generic StorageError, retaining the cause but excluding
+raw URL/details from caller-facing text. All five request methods share it;
+existing success/permission handling remains. No retry, role escalation or engine
+schema change. Focused GREEN: 38 tests / 61 subtests pass in 5.33s. New composed
+tests cover both engine paths at release read, embedding-set read and RPC.
+Full suite and one independent review running; read their results before closure.
+No live network/model/source changes; owner artifacts preserved.
+
+
+## Storage transport failure reproduced — 16 October 2026
+
+At 4872b29 a synthetic HTTPX ReadTimeout escapes SupabaseStorageClient.select
+instead of the documented StorageError boundary; RetrievalEngine catches only
+StorageError, so network failures can crash retrieval. HTTP status failures
+already translate correctly. Student capability: unavailable storage yields a
+structured error without evidence or an administrative retry. Path: production
+HTTP client → runtime selects/RPC → legacy/source-aware engine; master10 / Task6.
+
+Plan: focused client and composed engine RED tests for transport failures,
+translate HTTPX RequestError once at the client boundary, preserve successful
+request/permission behavior, verify GREEN plus relevant storage/retrieval tests
+and one independent review. No automatic retries or broad exception swallowing.
+No database/schema/source/model/default-policy change. Scope17–18/routing/master10
+reconsulted; current Context7 HTTPX exception docs confirm hierarchy. Raw evidence
+under ignored audit-evidence/p05-storage-transport-errors-20261016. Owner artifacts
+preserved and unstaged; formal source/release gates remain open.
+
 
 ## Source-aware engine verified through real database roles — 16 October 2026
 
@@ -2177,6 +2218,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: repair reproduced raw HTTP transport exceptions at storage boundary;
+first focused RED client/composed-engine regressions, then smallest correction.
 
 Latest: synthetic source-aware database integration and relevant regressions
 verified; one reviewer clear. Finish documentation checks and commit.
