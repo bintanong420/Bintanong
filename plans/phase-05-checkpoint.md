@@ -2,16 +2,29 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 336
+sequence: 338
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b5ddea9
-working_tree: approved C1 implementation starting; owner artifacts preserved unstaged
-updated_at: 2026-10-16T18:33:09+08:00
+head_commit: 43c0c3c
+working_tree: C1 migration and actual-role tests under verification; owner artifacts preserved
+updated_at: 2026-10-16T18:48:56+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## C1 SQL and real-package rehearsal verified — 16 October 2026
+
+Final focused18tests/250subtests pass83.53s after missing-RPC RED and projection
+fix. Actual roles verify atomic replay/rollback, unchanged source/chunk flags,
+immutable receipt data, publication serialization and timestamp parity. Earlier
+mixed regression test-fixture faults corrected; final full suite still required.
+Five receipts/five exact replays preserve52fields/nineevents/54spans/22neighbors
+with19saved vectors and zero active pointers. Both runtime roles hidden/receipt
+reads denied; eight input hashes and21 historical inputs unchanged. Rehearsal
+DBs dropped; verifier sees92 retained disposable names absent and8/49/119-file
+prior seals unchanged. Next cohesive SQL/tests/README commit, one final review
+and full suite. No shared migration/source approval/activation/Phase06.
 
 ## C1 loader verified — 16 October 2026
 
@@ -2373,6 +2386,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: Task1 committed43c0c3c; final loader regression17tests/124subtests2.33s.
+Task2 missing-RPC RED observed; migration generated via installed CLI2.117.0 at
+20261016103716_phase5_partial_source_review.sql, shared databases untouched.
+Initial SQL valid-call failures identify ambiguous key column; qualified JSON
+projection corrects it. Actual-role matrix/concurrency/receipt verification
+running; inspect final results before claiming GREEN. Keep C1 inactive.
 
 Latest: owner “ye sure go ahead” approves C1 design at b5ddea9. Execute the
 self-reviewed dated partial-source-review plan inline: Task1 loader RED/GREEN,

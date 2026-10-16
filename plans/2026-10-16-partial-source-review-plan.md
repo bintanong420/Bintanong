@@ -67,16 +67,16 @@ extend tests/test_storage_source_partial_review.py; update storage README.
 restrictive version FK and composite key; record_source_partial_review(jsonb,jsonb)
 returns exact stored register. SECURITY INVOKER, empty search_path, service only.
 
-- [ ] Add actual-role tests for correct persistence/replay and unchanged columns,
+- [x] Add actual-role tests for correct persistence/replay and unchanged columns,
   SQL malformed input matrix, wrong lifecycle/evidence, field/event/span/neighbor
   omissions, source/chunk/span drift on first/replay, missing/conflicting receipt,
   exact/competing concurrency, published/legacy rejection and all receipt ACLs.
-- [ ] Observe missing-RPC RED; discover the installed CLI via existing repository
+- [x] Observe missing-RPC RED; discover the installed CLI via existing repository
   evidence/--help and generate the migration without shared application.
-- [ ] Implement exact C1 guards, complete source projection and receipt/snapshot
+- [x] Implement exact C1 guards, complete source projection and receipt/snapshot
   comparison under publication lock then source row lock. Existing statement
   triggers already serialize source/chunk/span writes; retain them.
-- [ ] Add RLS plus restrictive runtime policies, minimal admin SELECT/INSERT,
+- [x] Add RLS plus restrictive runtime policies, minimal admin SELECT/INSERT,
   immutable UPDATE/DELETE/TRUNCATE guard and explicit function EXECUTE ACLs.
   Insert receipt and update source register atomically; reject inconsistent replay.
 - [ ] Verify GREEN and storage security/idempotency/acquisition/registration plus
@@ -102,6 +102,24 @@ p05-partial-source-review-20261016; tracked delivery report and continuity docs.
   Keep Phase05Tasks4/6 and Phase06 blocked on actual remaining prerequisites.
 
 ## Execution ledger and rulings
+
+Task2 final focused GREEN18tests/250subtests83.53s after actual missing-RPC RED.
+One SQL projection ambiguity fixed from its valid-call failures. Later mixed
+regression failures were test-fixture issues: unchanged authorization_ref in
+the malformed matrix, duplicate fixture chunk identity and raw PostgreSQL
+booleans passed to the JSON reader. Corrected tests now pass. Existing source/
+chunk/span publication triggers serialize snapshot writes; no new guard needed.
+Actual-role checks cover RLS under accidental grants, immutable receipts,
+timestamp parity, late rollback and a waiting receipt after a concurrent writer.
+
+Task3 rehearsal GREEN:five receipts/five replays,19saved chunks/vectors/54spans,
+zero active pointers; both runtime roles hidden and receipt reads denied. Eight
+inputs and21 reconciliation inputs unchanged. Two initial driver calls used
+incorrect retrieval parameter names; the migration's actual p_config interface
+corrects them. All rehearsal databases dropped; prior logs retained. Fresh
+verify_delivery.py validates all52fields/nineevents/22edges and prior8/49/119-file
+seals;92 retained disposable names absent. No source decision or shared write.
+Single final review/full-suite verification remains before delivery closure.
 
 Self-review: each spec requirement maps to Task1/2/3; all five review focuses
 have actual-role coverage in Task2. Task1's two-param RPC consumes Task2's exact

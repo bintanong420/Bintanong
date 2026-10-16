@@ -1,5 +1,26 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## C1 SQL and rehearsal verified — 16 October 2026
+
+Final focused18tests/250subtests pass83.53s. Atomic receipt/source update, exact
+replay, malformed calls, actual-role ACL/RLS, immutable receipts, timestamps,
+late rollback and concurrent chunk changes covered. Saved-package rehearsal:
+five receipts/five replays,52fields/nineevents/54spans/22neighbors,19saved vectors,
+zero pointers; both runtime roles hidden. Eight inputs and21 historical inputs
+unchanged; DBs dropped,92 retained disposable names absent, prior8/49/119-file
+seals verify. Next SQL/tests/README commit then one final review/full suite.
+No shared migration, new source content/authority, activation or Phase06.
+
+## C1 SQL verification running — 16 October 2026
+
+Task1 committed43c0c3c; final loader regression17tests/124subtests2.33s. Actual
+missing-RPC RED observed. CLI-generated migration20261016103716 adds admin-only
+immutable receipt storage and C1 invoker RPC; no shared application. Initial
+valid-call failures traced to ambiguous SQL key column; projection is qualified.
+Actual-role matrix/replay/rollback/concurrency checks running; no GREEN claim
+yet. Existing source/chunk/span writers share publication lock. Owner artifacts
+preserved; raw evidence under p05-partial-source-review-20261016.
+
 ## C1 loader verified — 16 October 2026
 
 Task1 RED81 missing-implementation cases/subcases; GREEN11tests/96subtests2.05s

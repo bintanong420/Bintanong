@@ -56,3 +56,26 @@ transport errors never trigger retries. Replay observation directly: initial
 registration of the old pending record remains a conflict after observation.
 Runtime roles cannot invoke this operation, and observed pending sources remain
 hidden. No verification, approval, content review or release activation follows.
+
+`SourcePartialReviewLoader.record(current, receipt)` records C1 only: an observed
+source with pending verification/content review and unrequested approval moves
+to `partially_reviewed`. The closed `selected-source-partial-review-v1` receipt
+retains actual owner labels and original event recording times separately from
+the compiler identity/time. Complete selected chunk metadata, field/event/span
+bindings, source limits and transitive same-source neighbors remain attached.
+See the approved partial-source-review design/plan in `plans/` for its schema.
+
+The service-role-only invoker RPC `record_source_partial_review` checks actual
+source/chunk/span snapshots under the publication lock, atomically inserts the
+immutable administrative `source_partial_reviews` receipt and appends the C1
+source-register Evidence. Exact replay checks both records and current snapshots;
+missing/altered receipts or drift fail. Ordinary UPDATE/DELETE/TRUNCATE of receipts
+is denied; RLS and restrictive policies hide them even after accidental runtime
+table grants. Existing provenance paths remain inside administrative snapshots.
+
+Python validates complete source contracts; SQL independently guards this bounded
+mutation. Neither verifies external event files nor authenticates declared human
+identities. Trusted administrative preparation supplies truthful existing review
+bindings. C1 changes no chunk flags, verification, approval, scope or release
+state and does not claim complete source review. Uncertain storage failures
+propagate without retry. The migration remains unapplied to shared databases.
