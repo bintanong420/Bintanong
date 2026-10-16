@@ -1,5 +1,28 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Composed offline traces verified — 16 October 2026
+
+Planfbed8b5/product232a418 unchanged. All63accepted identities compose126traces
+under two existing saved focus strategies. Ordered audience/entity/curriculum/
+subject/context/claim evidence retained;18variants short-circuit before claims.
+90reached reports:36fieldsavailable/42insufficientevidence/12unassessed;89match
+preserved sidecars exactly. One T1Filipino gapfree null prefix retains nullcontext
+and a newly composed existing-absence-review report, not fabricated old retrieval.
+Early stops12audience/12unknownBSCS/6entity/6selectedBSITunavailable across strategies.
+Seven synthetic metadata precedence probes pass, including curriculum/subject-set
+mismatch rejection. No product API/router, defaultpolicy or answer permission.
+
+Independent frozen-record audit plus separate current-helper replay pass:
+63identities/126gatechains,90claim and42curriculumreplays,89oldreportmatches,
+14contextbytehashes/copied counts,599priorhashes/27inputs/two standing-context
+provenance hashes and16codedigests. Existing owner website context is bound to
+requirements/original-message bytes; descriptive fragment resolved in supplement.
+No new source/wording/review/model/ranking or context assembly. Report:
+plans/2026-10-16-offline-request-trace-report.md. Fresh focused46tests/174subtests in2.40s and documentation/ledger493tests/11subtests in15.27s pass, exit0; phase validation, three local links and whitespace pass.
+Next single final independent review and seal; then representative devcase/calibration proposal
+with actual owner review before testing any new wordings. Phase05active/blocked.
+
+
 ## Offline request-trace composition resumed — 16 October 2026
 
 Fresh9916068 reconciles checkpoint parent08d9eab; product232a418 unchanged.

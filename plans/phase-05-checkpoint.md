@@ -2,16 +2,39 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 282
+sequence: 284
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9916068
-working_tree: offline trace plan/checkpoint/progress; owner artifacts preserved
-updated_at: 2026-10-16T10:41:32+08:00
+head_commit: fbed8b5
+working_tree: offline trace report/checkpoint/progress; owner artifacts preserved
+updated_at: 2026-10-16T10:49:26+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Composed offline traces verified — 16 October 2026
+
+Planfbed8b5/product232a418 unchanged. All63accepted identities compose126traces
+under two existing saved focus strategies. Ordered audience/entity/curriculum/
+subject/context/claim evidence retained;18variants short-circuit before claims.
+90reached reports:36fieldsavailable/42insufficientevidence/12unassessed;89match
+preserved sidecars exactly. One T1Filipino gapfree null prefix retains nullcontext
+and a newly composed existing-absence-review report, not fabricated old retrieval.
+Early stops12audience/12unknownBSCS/6entity/6selectedBSITunavailable across strategies.
+Seven synthetic metadata precedence probes pass, including curriculum/subject-set
+mismatch rejection. No product API/router, defaultpolicy or answer permission.
+
+Independent frozen-record audit plus separate current-helper replay pass:
+63identities/126gatechains,90claim and42curriculumreplays,89oldreportmatches,
+14contextbytehashes/copied counts,599priorhashes/27inputs/two standing-context
+provenance hashes and16codedigests. Existing owner website context is bound to
+requirements/original-message bytes; descriptive fragment resolved in supplement.
+No new source/wording/review/model/ranking or context assembly. Report:
+plans/2026-10-16-offline-request-trace-report.md. Fresh focused46tests/174subtests in2.40s and documentation/ledger493tests/11subtests in15.27s pass, exit0; phase validation, three local links and whitespace pass.
+Next single final independent review and seal; then representative devcase/calibration proposal
+with actual owner review before testing any new wordings. Phase05active/blocked.
+
 
 ## Offline request-trace composition resumed — 16 October 2026
 
@@ -1352,6 +1375,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: offline126trace composition and independent/focused/doc checks pass; single final review and seal next, product232a418 unchanged.
 
 Latest: U1/U2partial-claim observations/final review/26-file seal complete; final closure next, then bounded offline request-trace composition design.
 
@@ -4374,6 +4399,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: final independent offline-trace review, seal and closure; then prepare representative development-case/calibration proposal, with owner review before new wordings are tested.
 
 Latest: design one bounded offline request trace for existing accepted cases composing trusted audience/entity/curriculum/subject hints, saved context and claim reports. Preserve separate gate evidence/unknowns; no automatic NLP, default calibration or answer permission.
 
