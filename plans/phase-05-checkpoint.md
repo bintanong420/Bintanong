@@ -2,16 +2,44 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 327
+sequence: 329
 plan: plans/phase-05-retrieval-plan.md
-head_commit: b0d6c6d
-working_tree: verified transport-fix documentary closure; owner artifacts preserved and unstaged
-updated_at: 2026-10-16T16:51:32+08:00
+head_commit: 3fde038
+working_tree: reviewed A1 design and continuity documents; owner artifacts preserved and unstaged
+updated_at: 2026-10-16T17:11:09+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Evidence-backed A1 persistence design ready for approval — 16 October 2026
+
+[Design](2026-10-16-acquisition-observation-design.md), baseline 3fde038;
+product b0d6c6d unchanged. Existing five source-bound byte checks support A1
+acquisition pending→observed. Initial-only registration cannot persist it.
+Propose one administrative A1-only compare-and-set interface, server-derived
+observation, unchanged identity/history, exact retry and both runtime-role denials.
+This is supported by existing evidence, not a speculative general status updater.
+Verification/approval/content review remain pending; no A2 or wider transitions.
+
+Single builder check: nothing important left. Five source/check bindings and
+observed derivatives validate in memory against existing contracts; no output
+source record persisted. Existing eight-file reconciliation seal unchanged.
+Documentation/ledger 523 tests / 11 subtests pass in 11.63s. No product/test/SQL
+change, database call, model, conversion, new source decision or full-suite rerun.
+Scope17–18/routing/master10 consulted; owner artifacts preserved/unstaged.
+
+Next owner approval of this exact new-interface design, required by the cited
+brainstorming hard gate, then writing-plans and focused TDD/disposable rehearsal.
+Approval would cover that bounded build, not shared deployment, source authority,
+activation or formal phase completion. No repeat school-response/source-reading
+question; settled confirmations remain intact. Formal Tasks4/6 stay open.
+
+
+Final phase checks: validate exits 0; can-advance exits 1 (expected blocked).
+Whitespace checks pass. The baseline precedes this documentary commit; product,
+tests, source records and SQL remain unchanged. Owner artifacts stay unstaged.
 
 ## Storage transport crash corrected and verified — 16 October 2026
 
@@ -2248,6 +2276,13 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: A1-only persistence design reviewed and verified; present the complete
+description for its required approval. No new interface implementation yet.
+
+Latest: specify an A1-only acquisition-observation interface supported by the
+five existing source-bound byte checks. No implementation or database mutation.
+Single builder check and concrete design review before any new interface build.
 
 Latest: transport fix b0d6c6d independently reviewed and full-suite verified;
 finish documentation/ledger closure without another unchanged full-suite run.
@@ -5372,6 +5407,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: obtain owner approval of plans/2026-10-16-acquisition-observation-design.md;
+then invoke writing-plans and implement its narrow A1 interface through focused
+TDD and an isolated five-source rehearsal. Existing byte checks supply concrete
+A1 prerequisites, not issuing-office verification/approval. Do not re-ask settled
+source/wording decisions, build a general updater or apply shared migrations.
 
 Latest: transport failure boundary is corrected and verified; no further fix
 from this reproduction. Keep formal source/release prerequisites and actual

@@ -3,12 +3,36 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: b0d6c6d
+final_commit: 3fde038
 recovery_condition: Complete applicable source governance and release authorization, verify the fixed document profile through actual runtime roles, and pass remaining master section10 exit checks; bounded offline acceptance preserves three T1 context misses.
-completed_at: 2026-10-16T16:51:32+08:00
+completed_at: 2026-10-16T17:11:09+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Evidence-backed A1 persistence design ready for approval — 16 October 2026
+
+[Design](2026-10-16-acquisition-observation-design.md), baseline 3fde038;
+product b0d6c6d unchanged. Existing five source-bound byte checks support A1
+acquisition pending→observed. Initial-only registration cannot persist it.
+Propose one administrative A1-only compare-and-set interface, server-derived
+observation, unchanged identity/history, exact retry and both runtime-role denials.
+This is supported by existing evidence, not a speculative general status updater.
+Verification/approval/content review remain pending; no A2 or wider transitions.
+
+Single builder check: nothing important left. Five source/check bindings and
+observed derivatives validate in memory against existing contracts; no output
+source record persisted. Existing eight-file reconciliation seal unchanged.
+Documentation/ledger 523 tests / 11 subtests pass in 11.63s. No product/test/SQL
+change, database call, model, conversion, new source decision or full-suite rerun.
+Scope17–18/routing/master10 consulted; owner artifacts preserved/unstaged.
+
+Next owner approval of this exact new-interface design, required by the cited
+brainstorming hard gate, then writing-plans and focused TDD/disposable rehearsal.
+Approval would cover that bounded build, not shared deployment, source authority,
+activation or formal phase completion. No repeat school-response/source-reading
+question; settled confirmations remain intact. Formal Tasks4/6 stay open.
+
 
 ## Storage transport crash corrected and verified — 16 October 2026
 
