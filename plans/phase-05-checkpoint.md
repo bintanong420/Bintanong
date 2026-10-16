@@ -2,16 +2,39 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 350
+sequence: 351
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 28be67e6041fd468a72dae80c589537daa899871
+head_commit: bbb3592
 working_tree: Approved selected release review plan/implementation; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T21:12:00+08:00
+updated_at: 2026-10-16T21:24:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Selected review relevant regressions pass — 16 October 2026
+
+Final41tests/387subtests pass157.03s, including actual-role ACL/RLS, text/hash/
+metadata/span drift, membership changes, locking, rollback and prior C1/source-
+aware database regressions. One inactive real-package rehearsal already passes.
+Commit additive SQL/tests/docs, then one independent review and full suite;
+no source/authority/shared migration/activation change. Owner artifacts preserved.
+
+## Selected review SQL and inactive rehearsal verified — 16 October 2026
+
+Task1 bbb3592. Actual missing-RPC RED confirmed before implementation. CLI-generated
+20261016131344 adds immutable selected review receipts, exact draft binding and
+publication/RLS coverage without whole-source promotion. Initial integration
+test-only None-default/permission-exception assumptions corrected; no SQL failure.
+Focused12tests/109subtests pass43.85s; additional ACL/drift regressions next.
+
+One saved-source rehearsal passes19chunks/52fields/54spans/five sources with
+19reused vectors, exact receipt/binding replay, denied missing-authority activation,
+zero pointers and both runtime roles hidden. Nine inputs unchanged; owned DB
+686c25ac9f1a4fffa468af88e9343fa8 dropped. New raw evidence at selected-release
+root; historical receipts/seals preserved. No shared write or actual publication.
+Next final regressions, commit SQL/tests/docs, one independent review/full suite.
 
 ## Selected review loader GREEN — 16 October 2026
 
@@ -2582,6 +2605,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: loader/SQL and real-package inactive rehearsal pass; commit Task2 and
+run one independent final review plus full suite. Approval already received;
+earlier description-wait notes are historical. No repeated rehearsal/grid needed.
 
 Latest: single builder check clear; concrete selected release-review design
 ready for full-description approval under brainstorming after documentation
@@ -5821,6 +5848,10 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: inspect final review and full-suite output, resolve material findings
+with TDD, verify owned DB cleanup and evidence seal, then documentary closure.
+Actual source/release authority and authorized runtime remain formal gates.
 
 Latest: present the completed selected release-review design for approval.
 If its complete description is approved, write the implementation plan and

@@ -79,3 +79,19 @@ identities. Trusted administrative preparation supplies truthful existing review
 bindings. C1 changes no chunk flags, verification, approval, scope or release
 state and does not claim complete source review. Uncertain storage failures
 propagate without retry. The migration remains unapplied to shared databases.
+
+`SelectedReleaseReviewLoader.record(receipt)` stores completed review coverage
+for an exact undergraduate selection, using immutable C1 content/span snapshots
+and the actual recorded scope decision. `bind_release(release_id, review_scope_id)`
+attaches that receipt to an unpublished draft with exactly those chunks and source
+versions and no rule members. Replays are exact; altered identities, snapshots,
+required neighbors or membership fail. Administrative receipts remain runtime-hidden.
+
+Publication rechecks coverage under the existing publication lock. Explicitly
+bound releases can use matching partial-review source/chunk states while retaining
+all independent verification, approval, provenance and embedding requirements.
+Unbound releases retain whole-reviewed requirements. Active-membership RLS exposes
+only the exact published selection, without administrative receipt access or a
+privileged helper. Original source/chunk scalar states are not promoted by either
+new operation. This does not authorize publication of the current candidate sources.
+See plans/2026-10-16-selected-release-review-design.md and its delivery report.

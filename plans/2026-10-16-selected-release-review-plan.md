@@ -57,6 +57,10 @@ bind_selected_release_review(p_release_id,p_review_scope_id), both admin only.
 
 ## Task 2 — Atomic scoped publication and actual-role verification
 
+Status: complete. Actual missing-RPC RED; final relevant41tests/387subtests
+GREEN157.03s, including actual-role ACL/RLS, content drift, membership changes,
+publication/rollback, C1 compatibility and source-aware database integration.
+
 Files: CLI-generated migration, same synthetic test file/database integration
 companion as needed, backend/bintanong_storage/README.md.
 Interface: table selected_release_reviews and nullable knowledge_releases scope

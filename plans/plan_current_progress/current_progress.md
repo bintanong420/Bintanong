@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Selected release final relevant checks pass — 16 October 2026
+
+Final41tests/387subtests GREEN157.03s. Actual-role ACL/RLS, hash-retaining text/
+metadata/span drift, exact membership, concurrency, publication/rollback and
+existing C1/source-aware database paths verify. Inactive real-source rehearsal
+already passes. Next Task2 commit, one independent review/full suite and final
+evidence/documentary closure. Owner artifacts intact; no repeated rehearsal/grid.
+
+## Selected release SQL/rehearsal GREEN — 16 October 2026
+
+Task1 bbb3592; actual missing-RPC RED then additive20261016131344. Focused
+12tests/109subtests pass43.85s, extra ACL/drift checks next. One real-package
+inactive rehearsal preserves19chunks/52fields/54spans/five sources/19saved vectors;
+receipt/binding exact replays pass, activation denied without authority, both roles
+hidden and DB dropped. Nine inputs unchanged. No shared write/source promotion.
+Next relevant regressions, commit SQL/tests/docs, one independent review/full suite.
+
 ## Selected review loader verified — 16 October 2026
 
 Missing-loader RED46subcases; GREEN4tests/52subtests0.51s. Codec stored-span path
