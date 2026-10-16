@@ -2,16 +2,51 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 316
+sequence: 319
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 3c09104
-working_tree: three policy/gate documents and five continuity documents; owner artifacts preserved
-updated_at: 2026-10-16T15:55:29+08:00
+head_commit: 418aef3
+working_tree: source-event report and six continuity documents; owner artifacts preserved
+updated_at: 2026-10-16T16:05:18+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-event transition mapping verified — 16 October 2026
+
+[Report](2026-10-16-source-event-evidence-reconciliation.md) closes exitpacketstep1:
+52field associations/nine source-bound event identities/eight actual owner records,
+five original hash matches,21input hashes/18top-level package files unchanged.
+Seven event identities are original-file bytes/two existing encoded objects.
+Concrete A1byte-check evidence validates;does not authorizeV2verification/P2
+approval. V1/C1selected observations/partial-review preparation remain distinct
+from issuing-office evidence and scoped completed-review decisions. No planned
+letter reinterpreted as submitted request;no owner decision repeated or fabricated.
+Five source contracts remain pending/not_requested/nullapproval/emptyevidence;
+zero source changes/new content decisions/DB calls.887tests/11subtests13.11s
+pass;current8-file seal2c0aced9be2acd60e26052fbbaabffb7f1d5ef8e562836041ade50684febe743
+and five prior seals verify. No fresh independent human source review claimed.
+Engineering estimate85%(80–90%),6–12focused hours conditional on prerequisites;
+university calendar unknown. Next development acceptance contract for selected
+profile using39saved cases, no new grid/updater/activation. FormalTasks4/6 remain
+open;product8595fb8 unchanged/owner artifacts preserved/unstaged.
+
+Final closure508doc/ledger tests/11subtests pass11.68s;validate0/can-advance1
+(expected),whitespace/current8-file seal verify,no product diff. Raw evidence
+read-only;checks in separate sibling. Baseline418aef3 precedes documentary commit.
+
+## Source-event reconciliation resumed; ETA supplied — 16 October 2026
+
+Owner proceeded from418aef3 and requested updated ETA/percentage. Engineering
+estimate about85%(80–90%range),6–12focused hours remaining assuming prerequisite
+decisions/evidence and no major new defects;not weighted/elapsed progress or a
+formal completion promise. University response date unknown and not included.
+Scope17–18/routing/master6/10 and governance vocabulary reconsulted. Mapping
+five pending versions/52field associations to nine existing confirmed event
+identities, original source hashes and exact transition requirements. No source
+promotion/database write;next produce bounded evidence mapping and name actual
+missing prerequisites, not another speculative updater. Owner artifacts preserved.
 
 ## Selected document research profile verified — 16 October 2026
 
@@ -2069,6 +2104,10 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: source-event reconciliation/ETA report verified;documentary closure.
+Next explicit bounded development acceptance semantics, preserving source and
+runtime authorization gates. Event mapping itself is complete;do not repeat it.
+
 Latest: bounded document research profile and remaining exit packet verified;
 documentary closure. Next source-event/transition-evidence mapping, reusing
 actual reviewed events and preserving any genuinely missing prerequisites.
@@ -3934,6 +3973,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest baseline418aef3/product8595fb8 unchanged;one new source-event report and
+six continuity docs. Owner artifacts deletion/untracked backend/artifacts are
+preserved and unstaged;no source/register/database changes.
+
 Latest baseline3c09104/product8595fb8 unchanged. Three new selection/gate docs
 and five continuity documents are this closure; owner artifact changes remain
 preserved/unstaged. Raw current17-file and four prior seals verify unchanged.
@@ -5168,6 +5211,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: specify bounded development acceptance contract using the selected
+k3/.25/2048 profile and39saved observations: separate field availability,
+expected insufficiency and literal context recovery;retain authority/answer/
+runtime gates. Define semantics before behavior changes, without another grid,
+source-review pass or guessed status updater. ActualV2/P2office evidence remains
+missing;do not repeatedly request the known pending school response. NoPhase06.
 
 Latest: follow the remaining exit packet's step1: map existing confirmed source
 events to exact governance transition/evidence requirements. Produce concrete

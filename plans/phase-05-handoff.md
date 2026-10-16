@@ -3,12 +3,25 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 3c09104
+final_commit: 418aef3
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-16T15:53:46+08:00
+completed_at: 2026-10-16T16:03:58+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Existing source-event reconciliation verified — 16 October 2026
+
+[Report](2026-10-16-source-event-evidence-reconciliation.md):52selected fields/
+nine source-bound events/eight actual owner records,five original hash checks,
+21input hashes unchanged. ConcreteA1evidence valid,notV2/P2permission;source
+states/approvals untouched. Office confirmation/authorization and scoped completed
+review-state decisions remain absent from mapping;no fresh human review claimed.
+887tests/11subtests13.11s pass;8-file seal in report/five prior seals unchanged.
+Estimate85%engineering(80–90%),6–12focused hours conditional;school response
+date unknown/formal gates open. Next development acceptance contract using
+selected profile/39saved cases,not repeated mapping/review/grid or updater.
+Product8595fb8 unchanged;no shared writes/activation/Phase06. Earlier steps history.
 
 ## Document research profile and exit packet verified — 16 October 2026
 

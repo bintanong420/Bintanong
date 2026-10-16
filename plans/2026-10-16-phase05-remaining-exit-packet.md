@@ -102,3 +102,10 @@ the source inventory was not rerun by that reviewer. The parent inventory script
 binds its four exact input hashes. It is included in the17-file selection seal
 recorded in the profile report. Review exclusion of actual authority, transition
 decisions and formal phase acceptance remains in force.
+
+Step1 is now resolved by the [source-event reconciliation](2026-10-16-source-event-evidence-reconciliation.md)
+at baseline418aef3:52field associations/nine bound events/eight actual owner
+records, five original byte checks, no state changes. Actual V2/P2 office evidence
+and scoped completed-review decisions remain absent from the supplied mapping.
+Next independent engineering work is the bounded development acceptance contract
+described there, not another mapping pass or speculative status updater.

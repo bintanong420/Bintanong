@@ -1,5 +1,36 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-event transition mapping verified; ETA recorded — 16 October 2026
+
+[Report](../2026-10-16-source-event-evidence-reconciliation.md) at418aef3 closes
+remainingpacketstep1:52field associations/nine source-bound events/eight actual
+owner records,five fresh original hashes,21inputs/18top-level package files
+unchanged. A1byte-check contracts valid;cannot authorizeV2/P2. Selected V1/C1
+observations/partial review distinct from missing office verification/approval
+and scoped completed-review decisions. No source transitions/repeated reviews/
+new owner decision/DB call.887tests/11subtests13.11s pass;8-file seal
+2c0aced9be2acd60e26052fbbaabffb7f1d5ef8e562836041ade50684febe743;
+five prior seals unchanged. No new independent human review claimed.
+Estimate85%engineering(80–90%),6–12focused hours conditional on decisions/
+evidence/no major defects;university response calendar unknown. Next bounded
+development acceptance contract for selected profile/39saved observations,
+not another grid/mapping/updater. FormalTasks4/6 open;product8595fb8 unchanged,
+owner artifacts preserved/unstaged;no activation/Phase06.
+
+Final closure508documentation/ledger tests/11subtests11.68s pass;validate0/
+can-advance1(expected),whitespace/current8-file seal verify,no product diff.
+Raw evidence read-only,checks separate. Baseline418aef3 before documentary commit.
+
+## Source-event reconciliation resumed; ETA supplied — 16 October 2026
+
+At418aef3 owner proceeds and asks ETA/percentage. Rough engineering85%(80–90%),
+6–12focused hours conditional on required decisions/evidence/no major defects;
+formal phase still blocked,school response calendar unknown. Scope17–18/routing/
+master6/10/governance vocabulary consulted. Next map five pending sources/52
+field associations/nine existing event identities to actual byte checks, selected
+review coverage and exact transition requirements. No source promotion/DB write,
+new model or repeat content review;owner artifact changes preserved/unstaged.
+
 ## Selected document research profile verified — 16 October 2026
 
 [Profile](../2026-10-16-document-development-profile.md)/[exit packet](../2026-10-16-phase05-remaining-exit-packet.md)
