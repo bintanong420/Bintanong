@@ -154,6 +154,17 @@
   do not repeatedly ask the owner to reconstruct unavailable source content or
   expand the study scope. These are standing requirements, not a deployment claim.
 
+## Phase 05 completion boundary — owner approval, 17 October 2026
+
+The owner explicitly approved Phase 05 completion as an offline research/software
+milestone (“ye sure approve”), while university approval and actual authorized
+real-source runtime validation remain outstanding institutional-release gates.
+This supersedes earlier requirements tying Phase 05 completion to those gates.
+Preserve all source states, known retrieval misses, uncalibrated response status,
+source/edition limits, inactive candidates and release guards. Follow the revised
+Phase 05 plan and verified final handoff; this is not school approval, deployment
+permission or authorization to execute institutional rules in Phase 06.
+
 ## Repository workflow
 
 - Use a human-in-the-loop for source-content decisions and recurring source-handling

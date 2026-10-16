@@ -2,22 +2,22 @@
 
 ## Current state
 
-- Active phase: **05 — Retrieval**; candidate software delivered, formal exit blocked.
-- [Master plan](master_implementation_plan_original_long.md) is unchanged.
-- [Active plan](phase-05-retrieval-plan.md) · [Checkpoint](phase-05-checkpoint.md) ·
-  [Blocked handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Last completed implementation: V1 source observations, product `ee7567a`,
-  documentary closure `9a0eea7`. Phase 06 is not authorized.
-- Remaining gates: applicable source/release authorization, calibrated retrieval
-  acceptance and actual authorized real-source runtime evaluation. See checkpoint.
+- Phase 05 **complete as an owner-approved offline research/software milestone**.
+- Active phase/plan/checkpoint: none; Phase 06 is next eligible, not started.
+- [Master plan](master_implementation_plan_original_long.md) unchanged.
+- [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
+  [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
+- Product `ee7567a`; latest bounded implementation closure `9a0eea7`.
+- University approval, governed release and authorized real-source runtime validation
+  remain outstanding institutional-release gates. Candidates stay inactive.
 
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress and the active checkpoint; use the plan/handoff for scope.
+2. Read current progress and the latest final handoff; no active checkpoint remains.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. Follow the checkpoint's single next action. Read linked evidence only as needed.
+5. Scope the next eligible phase separately. Read linked evidence only as needed.
 
 ## Phase ledger
 
@@ -32,7 +32,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 2 | Document ingestion | historical complete; audit applies | [Plan](phase-02-document-ingestion-plan.md) | none | [Handoff](phase-02-handoff.md) |
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
-| 5 | Retrieval | blocked formal exit; candidate verified | [Plan](phase-05-retrieval-plan.md) | [Active](phase-05-checkpoint.md) | [Blocked](phase-05-handoff.md) |
+| 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
 
 ## Read only when relevant
 

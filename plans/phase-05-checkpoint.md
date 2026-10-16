@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 5
-status: blocked
-sequence: 385
+status: superseded
+sequence: 387
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 81be71a
-working_tree: handoff documentation cleanup; owner artifact changes preserved
-updated_at: 2026-10-17T01:59:48+08:00
+head_commit: 1e40708
+working_tree: approved offline milestone closure verification; owner artifact changes preserved
+updated_at: 2026-10-17T02:20:42+08:00
 ---
 
 # Phase 05 checkpoint
@@ -18,24 +18,31 @@ updated_at: 2026-10-17T01:59:48+08:00
 - Source-aware offline retrieval, pending import, selected-review binding and
   A1/C1/A2/V1 governance increments delivered. Latest product `ee7567a`,
   V1 closure `9a0eea7`; [V1 report](2026-10-17-source-observation-report.md).
+- Revised Tasks 4/6: fixed-profile/source/citation/code compatibility verified;
+  offline final handoff prepared.
 - Selected package: five sources / 19 chunks / 54 spans / 52 field associations /
   19 reused vectors. Candidates remain inactive.
 
 ## Current Task
 
-Owner-authorized handoff cleanup only. Current snapshots replace duplicated
-running history; original snapshots remain in Git at `81be71a`. No phase-gate
-revision was approved or applied.
+Offline research/software closure supersedes this checkpoint. Owner explicitly
+approved the revised boundary; use the complete final handoff. Institutional
+source/release authority and authorized real-source runtime acceptance stay open.
 
 ## Repository State
 
 Branch `feat/p05-retrieval-logic`, existing isolated `p05` worktree. Documentation
-baseline `81be71a`; following cleanup commit is discoverable in Git. Preserve
+baseline `1e40708`; closure commit will be discoverable in Git. Preserve
 owner deletion `artifacts/.gitkeep` and untracked `backend/artifacts/`.
 No background work is required by the last completed V1 delivery.
 
 ## Verification Evidence
 
+- Fresh closure checks: 39 saved cases / 741 scores / 303 citations / 117 fields / 17 inputs,
+  five original hashes, both profile/V1 seals and unchanged product code verified.
+  Raw: workspace/audit-evidence/p05-offline-closure-20261017.
+  Final docs/phase: 529 tests / 11 subtests pass, 14.39s; validate/can-advance exit0.
+  Seven-file closure manifest verified; exact digest in final handoff.
 - Historical final V1 suite: 5,530 passed / 1,480 subtests, six skips/six warnings,
   873.03s; single final review clear. Reviewer test output was inconclusive;
   parent suite is authoritative. See V1 report for commands, logs and digests.
@@ -76,26 +83,21 @@ Exact code/input digests and raw locations are in the V1 report, not copied here
 
 ## Known Failures or Blockers
 
-Tasks 4/6 remain formally open. Actual V2 issuing-office confirmation/P2
-institutional authorization and authorized real-source runtime acceptance are
-absent. No shared migration/publication is implied. Existing offline research
-permission does not change these formal gates or source-register authority.
-School response is pending, not a blanket blocker for supported offline work.
-Keep F04's disputed digit, G01/original G02, Charter103 cutoff, handbook47 deadline
-conflict and curriculum/current-year limitations attached to affected evidence.
+No unresolved offline exit failure. Institutional V2/P2 authority and authorized
+real-source runtime acceptance remain absent/release-gated. Three T1 context
+misses, unassessed runtime calibration/answer sufficiency and recorded source
+holds/cutoffs/conflicts are retained; they are not relabeled as successful answers.
 
 ## Next Action
 
-Use the existing [remaining-exit packet](2026-10-16-phase05-remaining-exit-packet.md)
-and latest V1 report to act only on genuinely supported source/release/runtime
-exit work. If no prerequisite evidence exists, state that dependency; do not
-invent another implementation. Any revision to the formal gate needs an explicit
-owner decision. Do not repeat the pending school-response question.
+Use the complete final handoff; documentary closure commit follows. Phase 06
+is eligible for separately scoped structured/Symbolic work;
+no Phase 06 implementation or institutional activation in this task.
 
 ## Do Not Repeat
 
 Completed V1/A2/C1/A1 or selected-review work; source conversions, settled reviews,
 model downloads, vector encoding, calibration grids or unchanged full suites.
-Keep candidates inactive; no fabricated approval, weakened guards or Phase 06.
+Keep candidates inactive; no fabricated approval, weakened guards or automatic rule activation.
 Read historical snapshots only for a specific missing fact:
 `git show 81be71a:plans/phase-05-checkpoint.md`.
