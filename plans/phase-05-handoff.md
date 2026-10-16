@@ -3,12 +3,25 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 232a418
+final_commit: 7d1b0fe
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-16T10:54:45+08:00
+completed_at: 2026-10-16T12:49:45+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Source-aware integration verified — 16 October 2026
+
+[Delivery](2026-10-16-source-aware-retrieval-policy-report.md): corrected code
+7d1b0fe integrates existing subject/claim checks with actual engine context.
+Available fields stay uncalibrated; missing claims remain insufficient; legacy
+v1 is preserved. One final review's two Important findings fixed RED/GREEN.
+Full5388tests/689subtests pass359.99s,6skips/6warnings; saved39-case replay18/21,
+perlanguage6/7, with16unchanged inputs and all39contexts retained. Replay uses no
+new embeddings or actual DB calls; no source approval, activation or Phase06. Raw evidence
+sealed/read-only. Next calibration/governed source/release requirements using
+existing evidence; formal Phase05 remains active/blocked. Earlier approval or
+implementation-wait notes below are history. Owner artifacts preserved/unstaged.
 
 ## Source-aware engine design ready — 16 October 2026
 

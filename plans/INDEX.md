@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Latest verified delivery: [source-aware engine integration](2026-10-16-source-aware-retrieval-policy-report.md), corrected code `7d1b0fe`. Full 5388 tests / 689 subtests pass; one review, two material fixes verified. Saved 39 cases retain 18 uncalibrated / 21 insufficient, six/seven per language. Candidate flags and legacy behavior preserved; raw evidence sealed. Next selected-policy calibration and governed source/release requirements using existing evidence. Phase 05 active/blocked, no Phase 06. Earlier pending steps below are history.
+
 - Owner approved the source-aware design at `ff53c65` with “ye i approve”. Execute [the implementation plan](2026-10-16-source-aware-retrieval-policy-plan.md) inline with TDD; no repeat approval. Rough technical Phase 05 estimate 80% (75–85%), formal exit remains blocked. Earlier approval-wait notes below are history.
 
 - Latest continuation: [source-aware engine policy design](2026-10-16-source-aware-retrieval-policy-design.md) ready for approval at baseline `88c50de`; product `232a418` unchanged. Single builder check: “nothing important left”. Opt-in integration will use actual emitted context and preserve known limits, without promoting reviewed fields to answer permission. Next owner approval required by the quoted brainstorming skill, then implementation plan and focused TDD. No code, model, database, source approval or phase advancement. Earlier next-action notes below are history.

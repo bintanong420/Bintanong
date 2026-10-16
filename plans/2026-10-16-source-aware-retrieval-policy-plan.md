@@ -75,14 +75,14 @@ flags identify candidate status; `evidence_policy` contains version, digest, int
 **Consumes:** Task 2 v2 engine and already saved accepted document cases/vectors/rankings.
 **Produces:** Ignored replay evidence, a repository delivery report and one fresh whole-change review.
 
-- [ ] Replay compatible saved document cases through the real engine with saved-score/runtime doubles
+- [x] Replay compatible saved document cases through the real engine with saved-score/runtime doubles
   and an exact tokenizer-only counter; disclose supplied intent and simulated storage/encoder roles.
   No fresh embeddings, parameter grid or unsupported end-to-end/runtime-authorization claim.
-- [ ] Run the complete project pytest suite in the existing offline environment with no pytest cache,
+- [x] Run the complete project pytest suite in the existing offline environment with no pytest cache,
   external basetemp/TEMP and existing model/cache paths. Record all actual failures, skips and warnings.
-- [ ] Request one fresh whole-change review, then reproduce/fix material findings with RED/GREEN;
+- [x] Request one fresh whole-change review, then reproduce/fix material findings with RED/GREEN;
   preserve any declined findings as explicit rulings. No per-task implementer/reviewer agents.
-- [ ] Verify original seals read-only, links, phase validate and expected blocked can-advance;
+- [x] Verify original seals read-only, links, phase validate and expected blocked can-advance;
   update report/INDEX/handoffs/checkpoint/progress and explicitly commit only task paths.
 
 ## Verification commands
@@ -107,3 +107,5 @@ Full suite target is `tests`; retain raw logs. No installs, downloads, dependenc
 - Task 2: complete — engine integration RED then 104 tests / 184 subtests GREEN, 1.35s; legacy behavior and conservative source-aware output verified.
 
 - Final review: two Important findings independently reproduced and fixed in one RED/GREEN pass; 106 tests / 188 subtests GREEN. Final full-suite/replay verification pending.
+
+- Task 3: complete — corrected full5388tests/689subtests pass359.99s; corrected saved39-case replay18/21; single final review/two material fixes RED/GREEN verified; raw seal and phase gates preserved. Final documentation closure follows.

@@ -1,5 +1,18 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Source-aware integration verified — 16 October 2026
+
+[Delivery](2026-10-16-source-aware-retrieval-policy-report.md): corrected code
+7d1b0fe integrates existing subject/claim checks with actual engine context.
+Available fields stay uncalibrated; missing claims remain insufficient; legacy
+v1 is preserved. One final review's two Important findings fixed RED/GREEN.
+Full5388tests/689subtests pass359.99s,6skips/6warnings; saved39-case replay18/21,
+perlanguage6/7, with16unchanged inputs and all39contexts retained. Replay uses no
+new embeddings or actual DB calls; no source approval, activation or Phase06. Raw evidence
+sealed/read-only. Next calibration/governed source/release requirements using
+existing evidence; formal Phase05 remains active/blocked. Earlier approval or
+implementation-wait notes below are history. Owner artifacts preserved/unstaged.
+
 ## Source-aware engine design ready — 16 October 2026
 
 [Design](2026-10-16-source-aware-retrieval-policy-design.md) prepared at 88c50de,

@@ -2,16 +2,73 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 301
+sequence: 303
 plan: plans/phase-05-retrieval-plan.md
-head_commit: d0f996e
-working_tree: review corrections/tests/README/report/progress; owner artifacts preserved
-updated_at: 2026-10-16T12:42:26+08:00
+head_commit: 7d1b0fe
+working_tree: eight final delivery/continuity documents; owner artifacts preserved
+updated_at: 2026-10-16T12:49:45+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-aware engine integration complete — 16 October 2026
+
+Owner-approved implementation complete: plan c649e48, snapshot cc62c99, engine
+d0f996e, corrected code 7d1b0fe. [Delivery report](2026-10-16-source-aware-retrieval-policy-report.md) records the actual engine
+path, conservative v2 outcomes, unchanged legacy v1 and no CLI/API/SQL changes.
+Both Important findings from the single fresh review were reproduced RED and
+fixed in one pass: generic rendered-field verification and malformed version
+transport. Focused106 tests/188subtests pass1.40s. No second review; no deferred
+minor findings. Declined source/currentness/auth/NLP/calibration/phase judgments
+remain explicitly outside this candidate integration; existing gates persist.
+
+Final full offline pytest tests at7d1b0fe:5388passed/689subtests,6skips/6upstream
+warnings,359.99s exit0. Initial pre-fix5385/685 run392.35s retained as history.
+Post-fix real-engine/saved-data replay39cases:18uncalibrated/21insufficient,
+perlanguage6/7; all39contexts unchanged and16input hashes preserved. Source
+intent and storage/encoder doubles are explicit; no new embeddings or actual DB
+calls. Tokenizer-only exact counts retain512-query/2048-context conventions.
+
+26-file raw evidence seal verifies: 115d92e7544bb5b550ba944c6f87342741441ec918cb307b07d58aef00a1ad6b.
+Root workspace/audit-evidence/p05-source-aware-policy-20261016, now read-only;
+prior41-file seal unchanged. Closure tests/logs use the separate closure sibling.
+No source-content decision, original mutation, download/dependency/lock change,
+activation or Phase06. Owner deleted artifacts/.gitkeep and untracked backend/
+artifacts preserved/unstaged. Existing Context17–18/39–44/routingPNG and master
+3/10/11/13 consultation remain applicable; no architectural discrepancy.
+
+Next selected-policy calibration and governed source/release loader requirement
+reconciliation, reusing completed evidence; runtime/database verification at its
+applicable boundary. Phase05 remains active/blocked. Owner requested estimate:
+roughly80% technical completion (75–85% range), not a measured formal gate.
+Checkpoint names verified code7d1b0fe before the following documentary closure.
+
+Closure preflight: documentation/phase-ledger command (readiness Python -B -m
+pytest tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py
+-q -p no:cacheprovider, external closure/doc-tests basetemp) passes501tests /
+11subtests in13.06s, exit0. Phase validate0 / can-advance1(expected blocked),
+report/design/plan links and five continuity pointers, unchanged verified code,
+owner artifact preservation, whitespace and26-file read-only seal verify.
+Final same-suite output is retained in the closure sibling's final-doc-tests.log.
+No sealed-root writes or product changes follow verification.
+
+## Corrected engine replay verified; final suite running — 16 October 2026
+
+Code 7d1b0fe contains the single review-fix pass. Post-review saved-case replay
+again verifies all39 document variants:18 uncalibrated/21 insufficient, per
+language6/7, actual emitted IDs/exact tokenizer counts/16 unchanged inputs.
+New report fields verify rendering, not just IDs; original replay files preserved.
+No model weights, fresh vectors or real DB calls. Final full suite is running
+under the same offline assets/environment; first pre-fix suite5385/685subtests
+passed392.35s with6skips/6warnings but does not verify the corrected code.
+
+One final review complete, both Important findings RED/GREEN verified; no second
+review or extra diagnostics. Delivery report is being finalized. Next read final
+suite exit/results, seal completed raw evidence read-only, update final continuity
+and commit. Phase05 remains active/blocked and output inactive; no source ruling,
+repeated approvals or Phase06. Owner artifact changes preserved/unstaged.
 
 ## Final review findings reproduced and corrected — 16 October 2026
 
@@ -1834,6 +1891,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: approved source-aware integration and review fixes verified; finish documentary closure. Next calibration/governed-source-release requirements, using existing evidence. Phase 05 remains active/blocked.
 
 Latest: Task 2 engine integration verified with 104 tests / 184 subtests. Commit, then saved-case replay/full suite/final review; no new source decision or model encoding.
 
@@ -4913,6 +4972,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: reconcile selected-policy calibration and governed source/release loader requirements using this completed engine integration and saved evidence. Run applicable runtime/database verification when prerequisites are available; no new curriculum sweeps, repeated approvals or Phase 06.
+
 Latest: owner approved the full source-aware design. Execute its implementation plan inline with TDD, starting snapshot bindings; do not repeat the design approval request.
 
 Latest: obtain owner approval of plans/2026-10-16-source-aware-retrieval-policy-design.md as required by the linked brainstorming skill; then write the implementation plan and execute focused TDD. Do not infer approval of these new interface choices from earlier generic continuation. Preserve accepted source/benchmark decisions and Phase 05 boundaries.
@@ -5531,6 +5592,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: owner design approval, snapshot/engine TDD, single final review/two fixes, corrected full5388-test run and39-case replay are complete. Evidence root sealed/read-only. Preserve source holds and owner artifact changes.
 
 Latest: do not repeat sealed39-document comparison, encodings or writer scripts. No new75-case retrieval run or generated-answer requirement. Source limits, owner decisions, structured reservations and later-phase NLP/Prolog boundaries remain unchanged.
 
