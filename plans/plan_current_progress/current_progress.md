@@ -1,5 +1,34 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Pending source importer delivered — 16 October 2026
+
+[Report](../2026-10-16-source-registration-report.md):code dc98b25/review fix
+8595fb8. Actual pending package imports twice into inactive disposable draft;
+5versions/19chunks/54spans/19saved vectors,1draft/0active. Complete records/spans
+preserved;both runtime roles invisible;50input files unchanged;DB dropped.
+One Important identity finding independently RED/GREEN fixed,13tests/25subtests
+35.78s. Final full5404tests/714subtests pass374.88s,6skips/6upstreamwarnings;
+first missing-parent failed command retained in raw evidence/report.
+Doc/ledger504tests/11subtests14.98s pass;validate0/can-advance1(expected).
+164-file seal9ec29c54682ac14663d7872c89c49dced4e82abea4689c1437412f69e88d6c9e.
+No second review/minor deferrals;trusted admin/source authority/future transition/
+deployment/formal gate boundaries retained. No shared migration/activation/new
+vectors. Next bounded document calibration policy using existing accepted cases,
+not repeated source reviews/imports. Formal Tasks4/6 open;owner artifacts unstaged.
+
+Final documentary preflight504tests/11subtests12.82s pass;all four seals verify;
+curated164raw files/manifest read-only. No code changes after full suite;final
+logs live in separate source-registration-checks sibling.
+
+## Corrected draft verified; final suite running — 16 October 2026
+
+8595fb8 fixes one Important reviewer finding,13tests/25subtests GREEN35.78s.
+Post-review package recheck repeats5docs/5versions/19chunks/54spans/19vectors,
+1draft/0active;complete records and version/span IDs unchanged;both roles see
+zero rows and release_changed;50sealed inputs unchanged;unique DB dropped.
+No second review/source promotion. Corrected full suite running; first missing-
+parent invocation retained as failed evidence. Next seal/final docs after result.
+
 ## Review identity gap fixed; full-suite scratch repaired — 16 October 2026
 
 One Important reviewer finding/noCriticalorMinor: missing cross-record source

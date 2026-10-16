@@ -26,6 +26,13 @@ Existing version fields preserve the source metadata/states. Exact reimports
 are no-ops; changed document/version identities reject the whole registration
 batch. Legacy rows remain null in the new column and are not backfilled here.
 
+Incoming versions also pass the existing cross-record register validator.
+The RPC rejects duplicate source bytes under separate IDs and conflicting
+edition/byte identities against stored rows, including later calls, while
+holding the publication lock. It does not silently merge locators or identities.
+The trusted administrative ingester must use the Python contract boundary;
+the RPC is not a second implementation of every governance validator.
+
 Registration, chunk/vector loading and draft creation are separate resumable
 operations. A later load failure can leave pending parents, which remain hidden
 by existing RLS. Creating a draft does not activate it. Existing activation

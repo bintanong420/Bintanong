@@ -2,16 +2,49 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 309
+sequence: 312
 plan: plans/phase-05-retrieval-plan.md
-head_commit: dc98b25
-working_tree: test EOF whitespace and final continuity; owner artifacts preserved
-updated_at: 2026-10-16T13:23:00+08:00
+head_commit: 8595fb8
+working_tree: eight final delivery and continuity documents; owner artifacts preserved
+updated_at: 2026-10-16T13:35:03+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Pending source importer delivered — 16 October 2026
+
+[Delivery report](2026-10-16-source-registration-report.md):code dc98b25/review
+fix8595fb8. One Important finding/noCriticalorMinor, independently reproduced
+and fixed in one pass;13focused tests/25subtests GREEN35.78s. Final full suite
+5404passed/714subtests,6skips/6upstreamwarnings374.88s exit0. First missing-parent
+test invocation failed as recorded below; no hidden failure or source change.
+Corrected real-package draft repeats5versions/19chunks/54spans/19vectors,
+1draft/0active;both runtime roles invisible,50input files unchanged,DB dropped.
+164-file curated raw seal9ec29c54682ac14663d7872c89c49dced4e82abea4689c1437412f69e88d6c9e.
+Doc/ledger504tests/11subtests14.98s pass;phase validate0/can-advance1(expected).
+No second review/deferred minors;source authority/future transitions/adversarial
+admin/deployment/formal-phase judgments remain outside trusted candidate import.
+No shared migration, source promotion, weights/download/dependency change or
+activation. Next bounded document calibration policy using existing evidence.
+Formal Tasks4/6 stay open;owner artifacts unstaged. Product head8595fb8 precedes
+the following documentary closure; earlier registration pending steps are history.
+
+Final documentary preflight:504tests/11subtests pass12.82s;four current/prior
+seals verify unchanged,whitespace clean. Curated164files and manifest read-only;
+remaining verification logs use separate checks sibling. No code changes follow
+the full suite at8595fb8;owner artifacts preserved/unstaged.
+
+## Corrected draft verified; final suite running — 16 October 2026
+
+Review fix8595fb8 verified13tests/25subtests35.78s; post-review real-package
+draft in unique DB09d62e5529ed4cfb96bc8eb13ca6d1dc repeats exact5/5/19/54/19,
+1draft/0active, complete register/version/span identity checks, both runtime
+roles invisible/release_changed,50unchanged sealed files;DB dropped. No second
+review or activation. Corrected full suite running with flat scratch parent;
+initial failed command/results preserved. Next read final results, seal curated
+raw evidence, doc/ledger checks and final documentary commit.
 
 ## One review finding corrected; full-suite command repaired — 16 October 2026
 
@@ -1985,6 +2018,10 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: source importer and positive inactive-draft verification delivered at
+8595fb8; final documentary closure. Next bounded document calibration policy
+reconciliation using existing accepted cases; no new source/embedding sweep.
+
 Latest: source-parent registration/category mapping prerequisite identified;
 19-row candidate package validated, positive import and draft creation pending.
 See the 16 October document loader readiness report. Earlier entries are history.
@@ -3842,6 +3879,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest verified product:8595fb8. Final report/README/plan/index/handoffs/current
+progress are documentary closure. Owner artifacts/.gitkeep deletion and untracked
+backend/artifacts preserved and unstaged; no shared database writes.
+
 Latest: design baseline 88c50de, product 232a418 unchanged; six documentation paths only. Preserve deleted artifacts/.gitkeep and untracked backend/artifacts/. One read-only builder check completed. No product implementation or approval yet.
 
 Latest resume baseline a7786ee; product paths unchanged from232a418. This increment changes only six documentation paths. Preserve owner deletion artifacts/.gitkeep and untracked backend/artifacts/. Checkpoint names verified parent, not its following commit.
@@ -5068,6 +5109,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: reconcile/select bounded document-retrieval calibration policy from
+existing accepted cases and source-aware integration. Registration/draft gap is
+closed; do not repeat imports, conversions, models or settled source reviews.
+Shared migration/application and activation retain their gates;Phase05 remains
+active/blocked, no Phase06. See latest source-registration delivery report.
 
 Latest: define governed document/version registration with explicit category
 metadata and unchanged source states; focused TDD for importer behavior, then

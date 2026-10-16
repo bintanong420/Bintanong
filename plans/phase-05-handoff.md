@@ -3,12 +3,24 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 17c097b
+final_commit: 8595fb8
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-16T12:49:45+08:00
+completed_at: 2026-10-16T13:35:03+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Pending source importer delivered — 16 October 2026
+
+[Report](2026-10-16-source-registration-report.md):dc98b25/review fix8595fb8.
+Actual19-chunk/54-span/19-vector/five-version package imports twice into inactive
+disposable draft;both runtime roles invisible;records/50sealed inputs unchanged,
+DB dropped. One Important identity finding RED/GREEN fixed;full5404tests/
+714subtests pass374.88s,6skips/6warnings. Doc/ledger504/11subtests pass.164-file
+raw seal in report;first missing-parent command failure preserved and resolved.
+No second review/deferred minors/shared writes/source promotion/activation.
+Next bounded document calibration policy using existing accepted cases/evidence;
+formal Tasks4/6 open/noPhase06. Prior registration-gap notes below are history.
 
 ## Document loader readiness verified — 16 October 2026
 

@@ -1,5 +1,17 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Pending source importer delivered — 16 October 2026
+
+[Report](2026-10-16-source-registration-report.md):dc98b25/review fix8595fb8.
+Actual pending19chunks/54spans/19vectors/five versions import twice and form an
+inactive disposable draft;runtime roles see zero rows;records/input hashes
+unchanged;DB dropped. One Important identity finding RED/GREEN fixed;full5404/
+714subtests pass374.88s,6skips/warnings;doc/ledger504/11subtests pass.164-file
+raw seal in report. Initial missing-scratch-parent run preserved as failed.
+Next bounded document calibration policy, using existing accepted cases/evidence.
+No repeat imports/reviews/embeddings;no shared writes/activation/Phase06. Formal
+Tasks4/6 open;owner artifacts unstaged. Earlier pending registration notes history.
+
 ## Document loader readiness verified — 16 October 2026
 
 [Report](2026-10-16-document-loader-readiness-report.md):19chunks/19saved vectors/

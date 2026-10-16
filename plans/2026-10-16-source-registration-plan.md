@@ -48,7 +48,7 @@ checkpoint/current progress and final delivery report.
   Register sources, import twice, create draft without activation; compare exact
   stored states/full registers/counts/spans/vectors, verify runtime invisibility
   for anon/authenticated and draft pin, then drop only that disposable DB.
-- [ ] 3. Run full offline suite with existing Python3.13/assets, one independent
+- [x] 3. Run full offline suite with existing Python3.13/assets, one independent
   review, fix material findings with RED/GREEN, seal raw evidence, update phase
   ledger/handoffs/report and commit. Phase05 Tasks4/6 stay open; no Phase06.
 
@@ -71,3 +71,17 @@ one draft/no active pointer; both runtime roles see zero rows/RPC release_change
 identical source registers/reimported versions/spans,50sealed input files unchanged.
 Packaging ruling: actual fifth source is a second vehicle image, not enrollment;
 the explicit five-version map preserves both image identities. No source change.
+
+Final: one Important review finding fixed at8595fb8, cross-record byte/edition
+invariants: RED7failures across3tests/subcases;GREEN13tests/25subtests35.78s.
+Post-review draft repeats all checks; final full suite5404pass/714subtests,
+6skips/6upstreamwarnings374.88s exit0. First full invocation's missing scratch
+parent caused965setup errors/two failures; preserved and corrected, no product
+patch for that setup issue. Doc/ledger504tests/11subtests14.98s pass.164-file raw
+seal recorded in delivery report. No second review or deferred minor findings.
+Final rulings: reviewer exclusions remain outside initial candidate ingestion;
+trusted administrator boundary, source authority and deployment/phase gates
+remain. Cost if treated as authorization: unapproved material could be used as
+guidance. Formal Tasks4/6 open; next bounded document calibration, not new source
+conversions or embeddings. Product committed dc98b25/8595fb8; documentary closure
+follows. See [delivery report](2026-10-16-source-registration-report.md).
