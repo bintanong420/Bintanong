@@ -198,6 +198,8 @@ class AcquisitionVerificationDatabaseTests(unittest.TestCase):
                 ('kind','issuing_office_confirmation'),('authorization_ref','forbidden'),('recorded_at',None),
                 ('recorded_at','2026-02-30T00:00:00Z'),('recorded_at','2026-10-16T25:00:00Z'),
                 ('recorded_at','2026-10-16T00:00:00+24:00'),('recorded_at','1999-10-16T00:00:00Z'),
+                ('recorded_at','2026-10-16T12:00:00+23:99'),
+                ('recorded_at','2026-10-16T12:00:00-23:60'),
                 ('recorded_at','2026-10-15T00:00:00Z')):
             case = copy.deepcopy(self.check); case['evidence'][key] = value; cases.append((self.current,case))
         before = self.snapshot()
@@ -242,6 +244,20 @@ class AcquisitionVerificationDatabaseTests(unittest.TestCase):
             self.restore(current)
             with self.subTest(prior=prior,new=new):
                 self.assertEqual(self.loader.verify(current,check),SourceDocumentVersion.parse(verified_record(current,check)))
+            self.restore()
+
+    def test_existing_python_offset_normalization_in_new_and_cited_check(self):
+        for prior,new in (
+                ('2026-10-16T08:01:22Z','2026-10-16T12:00:00+00:60'),
+                ('2026-10-16T08:01:22Z','2026-10-16T12:00:00+00:99'),
+                ('2026-10-16T08:01:22+00:60','2026-10-16T08:01:22+01:00'),
+                ('2026-10-16T08:01:22-00:99','2026-10-16T09:40:22Z')):
+            current=copy.deepcopy(self.current);current['evidence'][0]['recorded_at']=prior
+            check=copy.deepcopy(self.check);check['evidence']['recorded_at']=new
+            expected=SourceDocumentVersion.parse(verified_record(current,check))
+            self.restore(current)
+            with self.subTest(prior=prior,new=new):
+                self.assertEqual(self.loader.verify(current,check),expected)
             self.restore()
 
     def test_conflicts_concurrency_and_stale_replay_do_not_downgrade(self):

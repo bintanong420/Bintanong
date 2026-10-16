@@ -2,16 +2,51 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 360
+sequence: 364
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 44e0856
-working_tree: Verified A2 SQL/test increment ready to commit; compatibility regressions running; owner artifact changes preserved unstaged
+head_commit: d20153e
+working_tree: Single review timestamp-parity correction GREEN; final full suite next; owner artifact changes preserved unstaged
 updated_at: 2026-10-16T23:25:16+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A2 review correction GREEN — 16 October 2026
+
+Sole Important finding fixed: RED4subcases, final23tests/201subtests GREEN106.03s
+with complete A2 plus C1-loader regressions. One narrow A2 offset wrapper preserves
+original JSON and old migrations; >=24h rejected. No other material/deferred minor
+finding, no second review. Commit correction and start final full suite on that
+code. Interrupted earlier run has0ownedDBs and is not final evidence. Rulings/costs
+in report. Candidate inactive; owner artifacts and formal gates preserved.
+
+## One final review: timestamp parity finding reproduced — 16 October 2026
+
+Single reviewer identifies Important A2 offset-minute normalization mismatch:
+Python accepts +00:60/+00:99, existing C1 SQL parser rejects. Parent RED4subcases
+reproduces new-check and specifically cited A1 cases. Narrow A2 wrapper normalizes
+valid total offsets under24h and preserves JSON text/earlier C1 migration; GREEN
+running. No other material/minor findings; reviewer DB dropped. Initial full run
+interrupted on task-owned Python processes after finding, log preserved; it is
+not final evidence. Final full suite must run on corrected code. One fix pass,
+no second review. No authority/shared mutation/activation change.
+
+## A2 compatibility regressions pass — 16 October 2026
+
+Productd20153e:94tests/630subtests GREEN376.57s, exit0. New A2 and existingA1/
+C1/selected-review/registration/security compatibility complete. One fresh final
+review still running; final full suite starts on this unchanged code. If material
+review changes occur, final verification must run on corrected code. No repeated
+source decisions/rehearsal/grid. Parent owns final logs/cleanup/input/seal/closure.
+
+## A2 implementation committed; final review running — 16 October 2026
+
+Loader44e0856/SQLd20153e. Single fresh final reviewer dispatched for184b33f..
+d20153e with approved design/plan/rulings/five review-focus conditions. Parent
+retains compatibility/full-suite/results/cleanup/seal ownership. No repeated
+review/rehearsal/source questions, shared mutation or Phase06.
 
 ## A2 verified increment ready; final review next — 16 October 2026
 
@@ -2727,6 +2762,19 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: review correction GREEN; commit then final corrected-code full suite,
+cleanup/input/seal/documentary gates. No additional source/review/rehearsal needed.
+
+Latest: inspect timestamp-fix GREEN, commit correction, then final whole suite
+on corrected code. Earlier d20153e compatibility remains historical evidence.
+
+Latest: relevant94/630GREEN; final full suite and one final review running on
+d20153e. Inspect results, resolve material findings if any, verify cleanup/seals
+and document bounded delivery. Formal actual-source/runtime gates remain open.
+
+Latest: compatibility regressions and single independent review running; inspect
+their final outputs, resolve material issues with TDD, then final full suite.
 
 Latest: inspect relevant regression result, commit Task2, then one final fresh
 review/full suite and cleanup/seal/documentary closure. No new source question.

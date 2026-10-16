@@ -2,8 +2,8 @@
 
 Owner approved the [complete A2 design](2026-10-16-acquisition-verification-design.md)
 after184b33f; inline [implementation plan](2026-10-16-acquisition-verification-plan.md)
-committedf92b6bc. Loader44e0856 is delivered; SQL/regression/final delivery work
-is in progress. This report does not claim formal Phase05 completion.
+committedf92b6bc. Loader44e0856 and SQLd20153e are delivered; final review/full
+verification is in progress. This report does not claim formal Phase05 completion.
 
 ## Behavior
 
@@ -56,7 +56,9 @@ workspace/audit-evidence/p05-acquisition-verification-20261016.
   change was needed for those failures. Focused corrected3tests/12subtests pass
   15.96s, including publication locking and rollback.
 - Full relevant regression command includes new A2, A1, C1, selected-review
-  loader/database, registration and storage security files; running.
+  loader/database, registration and storage security files: **94tests/630subtests
+  pass376.57s**, exit0, regression-temp/regressions.log. All production changes
+  remain atd20153e; one final fresh review and final full suite now running.
 
 One real-package rehearsal succeeds in uniquely named disposable DB
 bintanong_storage_test_8a49d469d7864b9492ad81c1ee4f5c7f, then drops it.
@@ -83,6 +85,49 @@ calendar/offset/microsecond semantics match the current Python contract, rather
 than add another timestamp parser. Cost if wrong: parity drift shared with C1;
 new A2 timestamp tests pin equal/wide-offset/long-fraction behavior independently.
 No earlier migration or vocabulary is changed.
+
+The single final review disproved complete offset parity in that ruling:
+Python normalizes minute components60–99 if the total displacement is under24h,
+while the C1 parser rejects them. Parent reproduced **RED4subcases** covering
+both the new check and the specifically cited A1 timestamp. The one fix pass
+adds private invoker acquisition_check_time(text), which normalizes only the
+offset for comparison and delegates calendar/fraction validation to the unchanged
+C1 helper. It rejects total displacements of24h or more, preserves original
+JSON timestamp text and has explicit restricted EXECUTE grants. Final focused
+**23tests/201subtests GREEN106.03s**, exit0, includes complete A2 and existing C1
+loader cases. Both reviewer examples and specifically cited A1 offset forms pass;
+invalid >=24h offsets remain rejected. No other product finding or deferred minor.
+
+The initial full-suite run was stopped after this finding on only the exact
+task-owned Python processes, identified from command-line/basetemp. Its partial
+output is retained as interrupted-before-fix-full-suite.log; it is not passing
+or final-code verification evidence. Final full verification follows the fix.
+The reviewer found no other material issues or minor polish items; no second
+independent review is needed. Review reproduction and its dropped DB are under
+workspace/audit-evidence/p05-acquisition-verification-review-20261016.
+
+Final review boundary rulings:
+
+- Earlier features beyond their A2 interactions retain their prior delivery
+  boundaries; broad regressions cover the interactions. Cost if wrong: a missed
+  unrelated older defect; this increment does not claim a whole-system audit.
+- Original-source accuracy, authority and phase advancement retain actual source
+  gates. Cost if wrong: unsupported guidance if byte identity were misrepresented;
+  inactive status and pending verification/approval are preserved.
+- Shared deployment/hosted behavior remain outside this local delivery. Cost if
+  wrong: environment differences need their applicable deployment/runtime checks;
+  no shared application is claimed.
+- Deliberate administrative forgery/arbitrary superuser corruption remain outside
+  the trusted administration model. Cost if wrong: false evidence supplied by a
+  privileged actor; declared labels are not authenticated identities.
+- Final whole-suite, evidence seals and all parent-owned cleanup remain the
+  parent's gates, not reviewer claims. Cost if wrong: incomplete delivery evidence;
+  do not claim closure before those actual results are verified.
+
+Ruling: narrow A2 normalization wrapper replaces the earlier reuse-only choice
+because the approved existing-contract parity requirement is binding. Cost if
+wrong: an extra private helper to maintain; focused offset tests and unchanged
+earlier migrations constrain the risk. No source decision or wider feature added.
 
 The existing C1-before-A2 boundary is retained from the builder-reviewed design;
 no new source-content or owner wording decision is inferred. Original PDFs/raw

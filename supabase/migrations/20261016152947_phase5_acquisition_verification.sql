@@ -1,4 +1,32 @@
 -- A2 byte acquisition only, after existing C1; never issuing-office verification.
+-- Python's existing datetime parser normalizes offset minutes through 99 when
+-- their total displacement stays below 24 hours. Keep that contract's acceptance
+-- without changing the earlier C1 parser or original timestamp text in JSON.
+create function bintanong_private.acquisition_check_time(v text) returns timestamptz
+language plpgsql immutable security invoker set search_path='' as $$
+declare displacement text; minutes integer; normalized text;
+begin
+    if v is null then
+        raise exception 'Real A2 timestamp required' using errcode='23514';
+    end if;
+    if right(v,1)='Z' then
+        return bintanong_private.partial_review_time(v);
+    end if;
+    displacement:=right(v,6);
+    if displacement !~ '^[+-][0-9]{2}:[0-9]{2}$' then
+        raise exception 'Real A2 timestamp offset required' using errcode='23514';
+    end if;
+    minutes:=substring(displacement,2,2)::integer*60+substring(displacement,5,2)::integer;
+    if minutes>=1440 then
+        raise exception 'A2 timestamp displacement must be less than 24 hours' using errcode='23514';
+    end if;
+    normalized:=left(v,length(v)-6)||left(displacement,1)||lpad((minutes/60)::text,2,'0')||':'||lpad((minutes%60)::text,2,'0');
+    return bintanong_private.partial_review_time(normalized);
+end; $$;
+
+revoke all on function bintanong_private.acquisition_check_time(text) from public,anon,authenticated;
+grant execute on function bintanong_private.acquisition_check_time(text) to service_role;
+
 create function public.verify_source_acquisition(p_expected_register jsonb,p_check jsonb)
 returns jsonb language plpgsql volatile security invoker set search_path='' as $$
 declare
@@ -35,7 +63,7 @@ begin
     end if;
     -- Reuse the existing contract-compatible parser: calendar validation, wide
     -- offsets and microsecond truncation, without changing original JSON text.
-    evidence_at:=bintanong_private.partial_review_time(ev->>'recorded_at');
+    evidence_at:=bintanong_private.acquisition_check_time(ev->>'recorded_at');
     if p_expected_register->'verification_state' is distinct from
            '{"state":"pending","evidence_ref":null}'::jsonb
        or p_expected_register->'approval_state' is distinct from
@@ -77,7 +105,7 @@ begin
        or jsonb_typeof(prior->'recorded_at') is distinct from 'string' then
         raise exception 'Cited valid A1 byte observation required' using errcode='23514';
     end if;
-    prior_at:=bintanong_private.partial_review_time(prior->>'recorded_at');
+    prior_at:=bintanong_private.acquisition_check_time(prior->>'recorded_at');
     if evidence_at<prior_at then
         raise exception 'A2 check precedes the cited A1 observation' using errcode='23514';
     end if;

@@ -1,5 +1,38 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A2 review correction GREEN — 16 October 2026
+
+Sole Important timestamp-parity issue reproduced RED4, fixed by narrow A2 offset
+normalization wrapper; complete A2+C1-loader23tests/201subtests pass106.03s. No
+other material/deferred minor finding, no second review. Earlier interrupted
+full run preserved and0ownedDBs created; commit fix, then corrected-code full
+suite and cleanup/input/seal/docs. No new source question/rehearsal or activation.
+
+## Single A2 review fix RED4; GREEN running — 16 October 2026
+
+Reviewer finds one Important parity gap: Python permits normalized +00:60/+00:99,
+C1 SQL helper rejects. Parent reproduces RED4 for new/cited A1 timestamps. Narrow
+A2 wrapper normalizes valid total displacement under24h; earlier helper/JSON text
+retained. GREEN running. No other material/minor findings. Initial full run
+interrupted on exact task-owned Python processes, preserved as history; final
+suite restarts after verified fix. No repeated independent review/rehearsal.
+
+## A2 compatibility GREEN; final suite running — 16 October 2026
+
+Productd20153e:94tests/630subtests pass376.57s, exit0. New A2 and prior A1/C1/
+selected-review/registration/security verified. Single final independent review
+and full suite running on unchanged code. Inspect results and any material TDD
+fixes, then final cleanup/input/seal/docs. No repeated actual source reviews,
+rehearsal, model work or retrieval grid; Phase05 formal gates remain open.
+
+## A2 committed; single final review running — 16 October 2026
+
+Loader44e0856 and SQLd20153e. One final fresh reviewer on184b33f..d20153e;
+broader compatibility tests still running, no reported failures. Parent owns
+material fix pass if needed, final full suite and cleanup/input/seal checks.
+Existing5A2/5replay/19chunk inactive rehearsal complete; do not repeat. No new
+source decision, shared migration, activation or Phase06. Owner artifacts kept.
+
 ## A2 verified increment committed next; compatibility gate running — 16 October 2026
 
 New DB cases verified across initial14tests/115subtests and corrected3/12,

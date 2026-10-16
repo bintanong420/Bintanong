@@ -81,7 +81,7 @@ returning complete persisted source register; no schema/vocabulary/RLS change.
   under publication + row locks. Compare timestamps without narrow timestamptz
   displacement; preserve original text. Match existing Python microsecond parsing
   for chronological comparison. Complete duplicated projection excludes created_at.
-- [ ] Run new full file plus A1, C1, selected-review DB/loader, registration and
+- [x] Run new full file plus A1, C1, selected-review DB/loader, registration and
   storage security regressions; expected GREEN. Document supported boundary/error
   behavior in README; explicitly commit verified SQL/tests/docs/continuity.
 
@@ -94,7 +94,7 @@ produces inactive disposable evidence, final review, checks/seal/report.
   19vectors; compare five A2 results and exact replays to prepared derivatives.
   Retain selected-review receipt/release binding, deny missing-authority activation,
   assert both runtime roles see no corpus/retrieve evidence, then drop own DB.
-- [ ] Dispatch one fresh independent final reviewer for184b33f..implementation HEAD,
+- [x] Dispatch one fresh independent final reviewer for184b33f..implementation HEAD,
   supplied approved design/plan/rulings. Verify any material findings; one TDD fix
   pass if needed. Do not reopen earlier features or run repeated independent review.
 - [ ] Run final applicable whole suite once on final product code; if review changes
@@ -128,6 +128,17 @@ Ruling: commit the verified bounded SQL/test increment while broader compatibili
 regressions finish, retaining Task2's remaining gate open; one final review can
 run concurrently on stable code. Cost if wrong: a subsequent corrective commit,
 with no publication or shared migration. Final full suite remains mandatory.
+
+Task2 complete atd20153e: final relevant94tests/630subtests pass376.57s, exit0.
+One final review is running; final full suite starts on unchanged d20153e.
+Any material review correction requires final verification on corrected code.
+
+Final: fixed sole Important offset-parity finding — new/cited A1 normalization
+regression RED4subcases; narrow A2 wrapper and invalid-displacement coverage;
+complete A2 plus C1-loader GREEN23tests/201subtests106.03s. No other material or
+deferred minor finding; declined-boundary rulings/costs in delivery report.
+Initial full run intentionally interrupted before any DB tests, preserved as
+history. Commit fix then final corrected-code full suite; no second review.
 
 Context: thesis physical17–18/routing PNG reconsulted this resume; prior39–44 and
 master3/6/10/11/13 architecture retained. No scope/routing discrepancy. Existing
