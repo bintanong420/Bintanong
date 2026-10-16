@@ -2,16 +2,50 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 288
+sequence: 289
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9f55b3c
-working_tree: six development-calibration proposal and continuity documents; owner artifacts preserved
-updated_at: 2026-10-16T11:04:12+08:00
+head_commit: d2abc8d
+working_tree: seven acceptance and curriculum-routing documentation paths; owner artifacts preserved
+updated_at: 2026-10-16T11:15:58+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## D1–D4 accepted and curriculum symbolic role reconciled — 16 October 2026
+
+Actual owner approval accepts all12 exact wordings/expectations at `d2abc8d`.
+Roster75 accepted, prior63 observed; no new embedding/scoring/fixtures. Packet
+SHA256 `cc4446cb9bf73f7637b03b20f6d9f2b0c01aff248bd74474830325fa2b005f6a`;
+receipt `c095a343dbcd389203813a9928659fe1db42ed8f61c83cdaefc51a871a6b6b0c`, ignored
+workspace/audit-evidence/p05-development-calibration-acceptance-20261016/.
+Preserved original snapshot and full owner message, including Prolog follow-up.
+
+[Reconciliation](2026-10-16-curriculum-symbolic-routing-clarification.md) records
+master3.1/3.3/11/13: reviewed structured data/specs generate versioned Prolog;
+supported prerequisites/dependencies and exact structured lookups are separate
+from RAG prose and Hybrid explanation. Curriculum retrieval-component probes do
+not establish final routing. Preserve unknown versus proven unmet conditions;
+no course-name identity, executable rule, source authority or activation inferred.
+
+Consulted thesis physical17–18,39–44,55,58–59 and rendered41, actual routingPNG,
+canonical original-long master1.3/3/10/11/13, active plan/handoffs/ledger. No new
+discrepancy; prior master already corrects illustrative closed-world and processing-
+order issues. No tracked short-name master; historical master unchanged.
+Parent `d2abc8d` reconciles preceding expected checkpoint difference. Product
+`232a418`, owner artifacts and seals preserved; seven explicit documentation paths.
+Next versioned evaluation plan with retrieval-component purposes and separate future
+symbolic/hybrid capability boundary. Do not reopen D1–D4 acceptance. Phase05blocked,
+Tasks4/6/governance open; no Phase06 work. Parent precedes following docs commit.
+
+Verification: existing readiness venv `-B -m pytest tests/test_docs_hygiene.py
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider
+--basetemp C:/Coding-projects/bintanong_workspace/audit-evidence/p05-curriculum-routing-docs-20261016`:
+495 tests/11 subtests in14.09s, exit0. Independent receipt/snapshot/message hashes
+and counts, eight local links, phase validate0, whitespace and prior29-file seal
+pass. Master/backend/tests diff empty; owner artifacts untouched. No product/full/
+native/model rerun, no new source-content finding.
 
 ## Development-case/calibration proposal prepared — 16 October 2026
 
@@ -1453,6 +1487,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: D1–D4 all12 accepted; curriculum/Prolog question reconciled against master/Context. Record verification and commit; next versioned evaluation plan, keeping retrieval probes distinct from final Symbolic/Hybrid routes.
 
 Latest: development-case/calibration proposal reviewed and presented for D1–D4 exact wording/expectation acceptance. No response recorded; no new evaluation is authorized by draft status. Builder clarification applied, documentation preflight 494/11 passes.
 
@@ -3287,6 +3323,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: parent `d2abc8d`, product `232a418`; seven acceptance/reconciliation documentation paths. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` untouched/unstaged. Raw acceptance receipt/context render external and ignored; master unchanged.
+
 Latest: parent `9f55b3c`, unchanged product `232a418`; six proposal/continuity documentation paths only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` preserved and unstaged. No backend/test/dependency/model edits.
 
 Latest: observationsfa79cb3/product232a418 unchanged; six explicit closure documents only. Owner artifacts/.gitkeep deletion/backend/artifacts/ untouched/unstaged; expected checkpoint parent precedes docs commit.
@@ -3491,6 +3529,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest acceptance/routing increment: documentation/ledger495 tests/11 subtests in14.09s exit0 through existing readiness venv, no cache/external basetemp. Independent receipt/Git snapshot/message hashes, accepted12/total75 counts and eight local links pass; phase validate0, whitespace and prior29-file seal pass. Master/backend/tests unchanged. Inspected master3/10/11/13, thesis17–18/39–44/55/58–59 and routingPNG/rendered41. No new model, predicate, rule or source finding.
 
 Latest proposal increment: `python -B -m pytest tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider --basetemp C:/Coding-projects/bintanong_workspace/audit-evidence/p05-development-calibration-proposal-docs-20261016` through existing readiness venv: 494 tests/11 subtests in11.33s, exit0. Phase validate0, five proposal links/12 wordings, whitespace and prior29-file seal pass. One builder check, metric-stage clarification applied. Thesis17–18/routing PNG consulted; no model/retrieval or source-content observation.
 
@@ -4490,6 +4530,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: prepare versioned development evaluation plan for accepted75 variants (only63 observed). Name curriculum retrieval-component probes separately from future Symbolic/Hybrid routing/capability tests; preserve source/register/curriculum versions and original claims. No repeat acceptance request, Phase06 advancement or executable Prolog inferred from this clarification.
+
 Latest: obtain actual acceptance/edits for D1–D4 exact wordings and expectations in the development-calibration proposal. Record subset/version and owner response, then create a versioned execution plan. Do not encode/score/create benchmark fixtures for pending wordings; preserve accepted 63 and saved vectors.
 
 Latest: prepare representative development-case/calibration proposal using remaining coverage gaps and unassessed claims; show new/changed wordings/expectations to owner before any test. Preserve accepted63cases/vectors; no defaultpolicy/activation.
@@ -5092,6 +5134,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: D1–D4 exact12 wordings/expectations accepted atd2abc8d; do not ask again. Retrieval probes do not force final RAG routing. Do not translate missing grades/coverage into proven failure, maintain duplicate hand-edited prerequisite sources, treat thesis CC5 illustration as institutional policy, rewrite master, or infer Prolog activation/Phase06 permission.
 
 Latest: do not treat this proposal or a generic continuation as acceptance, alter original Architecture/Nursing/U1/U2 claims, reopen reviewed source fields, infer Nursing course-name equivalence, add V06 to the 27-candidate corpus silently, rerun sealed writers, or claim a blind/generalizable evaluation from development cases.
 

@@ -1,5 +1,46 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## D1–D4 accepted; curriculum symbolic role reconciled — 16 October 2026
+
+Owner replied “I approve of them, but by the way.” and asked whether course/
+prospectus content should mainly be encoded in Prolog. This accepts the four
+scenarios / 12 exact language variants and expectations at `d2abc8d`; all 75 are
+now accepted, but only the prior 63 have observations. No model/query run occurred.
+Snapshot SHA256 `cc4446cb9bf73f7637b03b20f6d9f2b0c01aff248bd74474830325fa2b005f6a`;
+receipt `c095a343dbcd389203813a9928659fe1db42ed8f61c83cdaefc51a871a6b6b0c`, ignored
+workspace `audit-evidence/p05-development-calibration-acceptance-20261016/`.
+Approval settles wordings/expectations, not the entire proposed protocol or source
+authority/currentness, executable rules, institutional activation or Phase 06.
+
+[Architecture reconciliation](../2026-10-16-curriculum-symbolic-routing-clarification.md):
+the canonical master is `master_implementation_plan_original_long.md`; no tracked
+short-name master exists. Sections 3.1/3.3/11/13 already separate reviewed structured
+facts and compiled Prolog from source-text retrieval. Supported prerequisite/
+dependency checks use deterministic rules; explanations/procedures use RAG, or
+Hybrid when both are needed. Direct fact lookups can use version-scoped structured
+operations. Do not maintain independently edited prerequisite copies. Unknown
+grades/curriculum/coverage remain unknown, not a proven denial or default approval.
+
+Consulted thesis physical 17–18,39–44,55,58–59, rendered physical41, routing PNG,
+active ledger/plan/handoffs and master sections1.3/3/10/11/13; no new discrepancy.
+Existing master already resolves older thesis processing-order/closed-world gaps.
+Current Phase 05 curriculum cases are conditional retrieval-component probes;
+they do not set final runtime routes or replace supported Prolog reasoning.
+Original Architecture/Nursing eligibility and Nursing name identity remain unassessed.
+
+Next versioned development evaluation plan distinguishing retrieval probes from
+future Symbolic/Hybrid route/capability tests; preserve exact accepted75 strings,
+existing observations/vectors/seals. No repeated wording confirmation or master
+rewrite. Product `232a418`, owner artifacts and all held source fields unchanged.
+Phase 05 remains active/blocked; Tasks4/6/governance open, no Phase06/activation.
+
+Verification: existing readiness venv `-B -m pytest tests/test_docs_hygiene.py
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py -q -p no:cacheprovider`
+with external basetemp `p05-curriculum-routing-docs-20261016`: 495 tests/11 subtests
+in14.09s, exit0. Receipt/snapshot/message hashes, accepted counts, eight local links,
+phase validation, whitespace and prior29-file seal pass. Master/backend/tests
+unchanged; no full/native/model evaluation repeated.
+
 ## Development-case/calibration proposal prepared — 16 October 2026
 
 Resumed from verified `9f55b3c`; product `232a418` unchanged. Preserved owner

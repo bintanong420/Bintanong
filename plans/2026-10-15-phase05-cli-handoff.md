@@ -1,5 +1,20 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## D1–D4 accepted; curriculum/Prolog clarification — 16 October 2026
+
+All12 [new wordings/expectations](2026-10-16-development-calibration-proposal.md)
+at `d2abc8d` accepted by actual owner reply; now75 accepted, prior63 observed.
+Do not ask again. Snapshot/receipt hashes in packet/checkpoint, ignored acceptance
+root. Owner's Prolog question is reconciled in the
+[architecture note](2026-10-16-curriculum-symbolic-routing-clarification.md):
+master3/11/13 and thesis39–44 already put supported structured prerequisite and
+dependency checks in the symbolic layer. Generate Prolog from reviewed structured
+records; keep RAG source prose and Hybrid explanations. D1/D2 retrieval probes do
+not select final runtime routes. Unknowns remain distinct from proven failure.
+Next versioned evaluation plan with that distinction; no model/rule/product change,
+source-currentness confirmation, institutional activation or Phase06 advancement.
+Earlier pending-wording notes below are history.
+
 ## Development-case/calibration proposal — 16 October 2026
 
 Continue from `9f55b3c` with the [review packet](2026-10-16-development-calibration-proposal.md).

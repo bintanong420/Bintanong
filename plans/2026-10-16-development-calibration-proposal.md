@@ -1,5 +1,29 @@
 # Development cases and bounded calibration proposal — 16 October 2026
 
+## Owner acceptance — 16 October 2026
+
+Actual reply begins: “I approve of them, but by the way.” In response to the
+explicit D1–D4 review request, this accepts all four scenarios / 12 exact language
+variants and their stated expectations. The accepted roster is now 25 scenarios /
+75 variants (25 per language); the prior 63 strings and results remain unchanged.
+No new question has been encoded or evaluated. Earlier pending/conditional wording
+below is preserved proposal history and is superseded by this acceptance.
+
+Acceptance binds the packet at `d2abc8d`, SHA256:
+`cc4446cb9bf73f7637b03b20f6d9f2b0c01aff248bd74474830325fa2b005f6a`.
+Snapshot, actual message and receipt remain ignored under workspace
+`audit-evidence/p05-development-calibration-acceptance-20261016/`.
+Receipt SHA256: `c095a343dbcd389203813a9928659fe1db42ed8f61c83cdaefc51a871a6b6b0c`.
+This accepts benchmark wordings/expectations, not current-year source validity,
+executable rules, institutional approval, the entire proposed protocol or activation.
+
+The same message asks whether curricula/prospectuses should mainly use Prolog.
+The [architecture reconciliation](2026-10-16-curriculum-symbolic-routing-clarification.md)
+confirms the existing master plan's separate structured facts/rules pipeline.
+D1/D2 may remain conditional retrieval-component probes; they do not establish
+that the final product must vector-search for a structured prerequisite lookup.
+Next prepare the versioned evaluation plan with that distinction explicit.
+
 **For owner review: four proposed scenarios / 12 exact language variants and
 their expectations. These additions are not accepted, encoded or tested.**
 The existing 21 scenarios / 63 variants remain accepted and unchanged. Approval

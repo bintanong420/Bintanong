@@ -10,6 +10,17 @@ completed_at: 2026-10-16T10:54:45+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+## D1–D4 accepted; symbolic curriculum role clarified — 16 October 2026
+
+Actual owner approval accepts [D1–D4's12 variants/expectations](2026-10-16-development-calibration-proposal.md)
+at `d2abc8d`; roster75 accepted, only prior63 observed. No repeat wording review.
+[Master/Context reconciliation](2026-10-16-curriculum-symbolic-routing-clarification.md)
+confirms structured curriculum facts and supported Prolog checks, cited source
+text for RAG, and Hybrid where a decision and explanation are needed. Current
+retrieval-component probes do not determine final runtime routing. Next versioned
+evaluation plan; no new model run, executable rules, source approval, product
+change or Phase06 advancement. Recovery condition/product `232a418` unchanged.
+
 ## Development-case/calibration proposal — 16 October 2026
 
 The [review packet](2026-10-16-development-calibration-proposal.md) at baseline
