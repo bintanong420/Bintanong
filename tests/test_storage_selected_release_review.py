@@ -6,6 +6,8 @@ import unittest
 
 from backend.bintanong_contracts.reviewed_policy_context import serialize_reviewed_fields
 from backend.bintanong_contracts.source import SourceSpan, compute_content_hash
+from backend.bintanong_contracts.reviewed_policy_context import make_source_limits
+from backend.bintanong_contracts.reviewed_record_groups import make_record_manifest
 from backend.bintanong_storage.client import StorageError
 from tests.test_storage_source_partial_review import current_source, receipt_for
 
@@ -43,6 +45,32 @@ def loader(test, client):
     name = 'backend.bintanong_storage.selected_release_review'
     test.assertIsNotNone(importlib.util.find_spec(name), 'Selected review loader is not implemented')
     return importlib.import_module(name).SelectedReleaseReviewLoader(client)
+
+
+def add_record_group(partial):
+    """Synthetic two-part source defect whose full visible fields stay together."""
+    original = dict(gap_id='synthetic-conflict', issue='conflicting_deadlines',
+        affected_claims=['applicable synthetic deadline'], field_names=['first','second'],
+        visible_text=['First visible condition','Second visible condition'],
+        locator=dict(physical_pages=[1,2],field='first,second'))
+    manifest = make_record_manifest({'gaps':[original]},[['first'],['second']])
+    initial = partial['chunks'][0]; parts = []
+    for i,name in enumerate(('first','second')):
+        chunk = copy.deepcopy(initial); chunk['chunk_id'] = ('a' if i==0 else 'b')*64
+        span = chunk['spans'][0]; span.update(chunk_id=chunk['chunk_id'],page=i+1,text=original['visible_text'][i])
+        fields = chunk['type_fields']; fields['reading_id'] = 'synthetic-record::part:'+str(i)
+        field = fields['field_associations'][0]; field.update(name=name,value=span['text'])
+        fields['required_neighbor_chunk_ids'] = [('b' if i==0 else 'a')*64]
+        fields['service_group'] = dict(logical_step_id='synthetic-record',part_order=i,part_count=2,
+            part_reading_id=fields['reading_id'],record_manifest=copy.deepcopy(manifest))
+        projected = copy.deepcopy(original); projected.update(field_names=[name],visible_text=[span['text']],
+            locator=dict(physical_pages=[i+1],field=name))
+        located = SourceSpan.parse(dict(schema_version=SourceSpan.SCHEMA_VERSION,
+            **{k:v for k,v in span.items() if k not in ('chunk_id','span_order')}))
+        fields['source_limits'] = make_source_limits(dict(source_sha256=partial['source_sha256'],
+            version_id=partial['version_id'],gaps=[projected]),[field],[located])
+        parts.append(chunk)
+    partial['chunks'] = parts
 
 
 class RecordingClient:
@@ -121,3 +149,12 @@ class SelectedReviewLoaderTests(unittest.TestCase):
                 subject = loader(self,self.client)
                 subject.record(self.receipt) if operation == 'record' else subject.bind_release('release-selected','9'*64)
         self.assertEqual(len(self.client.calls), 2)
+
+    def test_ordinary_service_groups_require_all_parts_without_neighbor_hints(self):
+        for group in (dict(logical_step_id='synthetic-procedure',part_order=0,part_count=2),
+                dict(logical_step_id='synthetic-procedure',part_order=1,part_count=2)):
+            case = copy.deepcopy(self.receipt); chunk = case['chunks'][0]
+            fields = chunk['type_fields']; fields['service_group'] = group
+            chunk['content_hash'] = compute_content_hash(chunk['spans'][0]['text'],
+                serialize_reviewed_fields(fields['field_associations'],[],group))
+            with self.subTest(group=group),self.assertRaises(ValueError): loader(self,self.client).record(case)

@@ -2,16 +2,52 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 351
+sequence: 352
 plan: plans/phase-05-retrieval-plan.md
-head_commit: bbb3592
+head_commit: cfb9e1f
 working_tree: Approved selected release review plan/implementation; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T21:24:00+08:00
+updated_at: 2026-10-16T21:26:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Review correction GREEN; fixed-code full suite next — 16 October 2026
+
+Expanded19tests/113subtests pass91.63s; final local5tests/54subtests pass0.49s.
+Corrected real-package rehearsal in post-review-corrected preserves19vectors/
+54spans/52fields/nine inputs, rejects authority absence and hides both roles.
+Two Important review findings corrected in one pass; no second review needed.
+Initial full5481tests/1198subtests pass624.70s, six skips/warnings, predates fixes.
+Commit corrections, then fresh full suite on that code; do not reuse initial
+full output as final-code gate. Owner artifacts remain untouched/unstaged.
+
+## Single final review: two verified Important findings corrected — 16 October 2026
+
+Reviewer reproduces incomplete ordinary service-group admission and direct-SQL
+field values unsupported by original spans. Parent confirms RED4subcases across
+local and actual-C1/direct-RPC tests. Fix pass adds group count/order checks in
+both layers plus independent SQL scalar/arrow/source-limit rendering validation,
+complete record/flowchart groups and original gap reconstruction/digests.
+First fixed subset17tests/113subtests GREEN74.69s; final expanded checks running.
+Corrected real19chunk rehearsal passes after fixing SQL JSON-operator parentheses;
+new results in post-review-corrected, nine inputs unchanged/both roles hidden.
+
+Ruling: scoped SQL supports the located scalar/arrow codec fields actually used
+by this accepted package; other specialised field kinds fail closed in both
+layers until separately implemented. Preserve the existing generic codecs.
+Earlier full suite predates these corrections and cannot establish final code.
+Next final GREEN/commit fix, then fresh fixed-code full suite and closure.
+
+## Selected review committed; final verification running — 16 October 2026
+
+Loaderbbb3592 and SQLcfb9e1f committed after relevant41tests/387subtests pass
+157.03s and one inactive real-package rehearsal. Single independent review and
+full suite running. Added test-only positive retrieve_context assertions for
+both runtime roles on a scoped synthetic release; focused check running.
+Production code unchanged sincecfb9e1f. Parent owns final results/cleanup/seal.
+Preserve owner artifacts and existing source/phase boundaries; no shared writes.
 
 ## Selected review relevant regressions pass — 16 October 2026
 

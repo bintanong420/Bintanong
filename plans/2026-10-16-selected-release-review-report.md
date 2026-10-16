@@ -72,9 +72,28 @@ Its timestamp remains the prior check's recording time, not a claimed chat time.
 
 ## Remaining verification and phase limits
 
-Final relevant regressions, one independent whole-change review, full suite,
-documentation/phase-ledger checks, owned-DB cleanup and new evidence seal remain
-to be read and recorded before delivery is declared complete.
+The single independent review found two Important defects: ordinary service-group
+completeness was not enforced without record_manifest, and direct SQL could trust
+a malformed existing C1 field value unsupported by its original span. Parent
+reproduced RED4subcases and fixed both in one pass. Python and SQL now enforce
+complete groups; SQL independently checks scalar/arrow text, serialized payload,
+source-limit bindings/messages and complete original record-gap reconstruction.
+Expanded19tests/113subtests pass91.63s; final local5tests/54subtests pass0.49s.
+Corrected full19chunk rehearsal passes in post-review-corrected with the same
+nine inputs, both roles hidden and missing-authority activation still denied.
+Its owned DB bintanong_storage_test_2851e28bde4b4489904a35cff69803e4 was dropped.
+
+Ruling: the scoped path supports located scalar/arrow codec kinds used by this
+accepted package. Other specialised codec fields fail closed in both layers;
+generic codecs remain unchanged. A SQL JSON-operator precedence error in added
+gap validation was found by the real-package rehearsal and corrected before
+the successful expanded tests/rehearsal. Failed attempts remain as history.
+Reviewer-owned two disposable reproduction databases were also dropped.
+
+The initial full suite5481tests/1198subtests passed624.70s with six skips/warnings,
+but predates the review corrections and is not final-code evidence. A fresh
+fixed-code full suite plus documentation/phase-ledger checks, owned-DB cleanup
+and new evidence seal remain before delivery is declared complete.
 
 No shared database write, source-authority promotion, actual-source publication,
 runtime deployment, dependency/model download or executable Prolog. Preserve

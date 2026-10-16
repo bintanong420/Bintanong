@@ -10,6 +10,14 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Approved selected-review implementation: loaderbbb3592/SQLcfb9e1f. Relevant
+41tests/387subtests pass157.03s; saved real19chunk/vector inactive rehearsal
+stores/replays review/binding, rejects missing authority, keeps both runtime
+roles hidden, preserves nine inputs and drops its DB. One final independent
+review and full suite are running; read final results before delivery closure.
+See [report](2026-10-16-selected-release-review-report.md). No shared application,
+actual-source authority/publication or Phase06. Earlier approval waits are history.
+
 Latest continuation: [selected release-review design](2026-10-16-selected-release-review-design.md)
 at20b8230, product9e6526c unchanged. Exact selected receipts and release binding
 would bridge the actual whole-source-reviewed publication guard while preserving

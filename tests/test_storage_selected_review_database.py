@@ -6,7 +6,7 @@ import time
 import unittest
 
 from backend.bintanong_storage.client import StorageError, PermissionDeniedError
-from backend.bintanong_storage.loader import BatchKnowledgeLoader
+from backend.bintanong_storage.loader import BatchKnowledgeLoader, CONFIG_FIELDS
 from backend.bintanong_storage.release import ReleaseManager
 from backend.bintanong_storage.selected_release_review import SelectedReleaseReviewLoader
 from backend.bintanong_storage.source_registration import SourceRegistrationLoader
@@ -15,17 +15,31 @@ from backend.bintanong_storage.source_partial_review import SourcePartialReviewL
 from tests.storage_database import StorageDatabase, DatabaseStorageClient, sql_literal, FIXTURE
 from tests.test_storage_source_registration import pending_version, document_record
 from tests.test_storage_source_acquisition import byte_check
-from tests.test_storage_selected_release_review import selected_fixture
+from tests.test_storage_selected_release_review import selected_fixture, add_record_group
+from backend.bintanong_contracts.reviewed_policy_context import serialize_reviewed_fields
+from backend.bintanong_contracts.source import compute_content_hash
 
 
 class SelectedReviewDatabaseTests(unittest.TestCase):
     def setUp(self):
+        self.prepare()
+
+    def prepare(self,mutate=None):
         self.db = StorageDatabase(); self.addCleanup(self.db.close)
         self.client = DatabaseStorageClient(self.db)
         initial = pending_version()
         SourceRegistrationLoader(self.client).load_versions([initial],[document_record()])
         source = SourceAcquisitionLoader(self.client).observe(initial,byte_check(initial)).model_dump(mode='json')
         _, self.partial, self.receipt, self.text = selected_fixture()
+        if mutate:
+            mutate(self.partial)
+            for chunk in self.partial['chunks']:
+                fields = chunk['type_fields']
+                text = serialize_reviewed_fields(fields['field_associations'],fields['source_limits'],fields.get('service_group'))
+                chunk['content_hash'] = compute_content_hash(chunk['spans'][0]['text'],text)
+            self.text = serialize_reviewed_fields(self.partial['chunks'][0]['type_fields']['field_associations'],
+                self.partial['chunks'][0]['type_fields']['source_limits'],self.partial['chunks'][0]['type_fields'].get('service_group'))
+            self.receipt['chunks'] = copy.deepcopy(self.partial['chunks'])
         snap = self.partial['chunks'][0]
         self.chunk = dict(chunk_id=snap['chunk_id'], chunk_type='policy',
             chunker_version='palsu-reviewed-policy-context-chunker-v1',
@@ -34,7 +48,13 @@ class SelectedReviewDatabaseTests(unittest.TestCase):
             source_verification='pending', content_review='pending', text=self.text,
             source_text=snap['spans'][0]['text'],content_hash=snap['content_hash'],
             type_fields=snap['type_fields'],spans=snap['spans'],scope=['audience:undergraduate'])
-        BatchKnowledgeLoader(self.client).load_chunks([self.chunk])
+        records = []
+        for chunk in self.partial['chunks']:
+            fields = chunk['type_fields']
+            records.append(dict(self.chunk,chunk_id=chunk['chunk_id'],spans=chunk['spans'],type_fields=fields,
+                source_text=chunk['spans'][0]['text'],content_hash=chunk['content_hash'],
+                text=serialize_reviewed_fields(fields['field_associations'],fields['source_limits'],fields.get('service_group'))))
+        BatchKnowledgeLoader(self.client).load_chunks(records)
         SourcePartialReviewLoader(self.client).record(source,self.partial)
         self.db.execute("update public.chunks set content_review='partially_reviewed';")
         self.db.execute("""
@@ -43,11 +63,12 @@ class SelectedReviewDatabaseTests(unittest.TestCase):
           values ('set-selected','synthetic-model',repeat('2',64),1024,'l2',repeat('3',64),repeat('4',64),repeat('5',64),1);
           insert into public.chunk_embeddings(chunk_id,embedding_set_id,chunk_content_hash,embedding)
           select chunk_id,'set-selected',content_hash,('[' || '1,' || repeat('0,',1022) || '0]')::extensions.vector from public.chunks;
+          update public.embedding_sets set total_chunks=(select count(*) from public.chunks) where embedding_set_id='set-selected';
         """)
         self.loader = SelectedReleaseReviewLoader(self.client)
         self.manager = ReleaseManager(self.client)
         self.manager.create_release('release-selected','selected-test','Synthetic undergraduate selection',
-            'set-selected',['a'*64],[initial['version_id']])
+            'set-selected',[c['chunk_id'] for c in self.partial['chunks']],[initial['version_id']])
 
     def record(self,receipt=...):
         return self.client.rpc('record_selected_release_review', {'p_receipt':self.receipt if receipt is ... else receipt},role='admin')
@@ -132,6 +153,13 @@ class SelectedReviewDatabaseTests(unittest.TestCase):
             runtime = DatabaseStorageClient(self.db,runtime_role=role)
             self.assertEqual([c['chunk_id'] for c in runtime.select('chunks')],['a'*64])
             self.assertEqual(len(runtime.select('source_spans')),1)
+            configuration = self.client.select('embedding_sets',role='admin')[0]
+            response = runtime.rpc('retrieve_context',dict(query_embedding=[1.0]+[0.0]*1023,
+                p_release_id='release-selected',p_config={k:configuration[k] for k in CONFIG_FIELDS},
+                p_top_k=3,p_min_similarity=.25,p_scope=['audience:undergraduate'],
+                p_entity_hints=[],p_version_ids=[]))
+            self.assertEqual(response['status'],'ok')
+            self.assertEqual([item['chunk']['chunk_id'] for item in response['items']],['a'*64])
             with self.assertRaisesRegex(AssertionError,'permission denied'): runtime.select('selected_release_reviews')
             with self.assertRaises(PermissionDeniedError): runtime.rpc('record_selected_release_review',{'p_receipt':self.receipt})
             with self.assertRaises(PermissionDeniedError): runtime.rpc('bind_selected_release_review',dict(p_release_id='release-selected',p_review_scope_id='9'*64))
@@ -202,3 +230,26 @@ class SelectedReviewDatabaseTests(unittest.TestCase):
                 time.sleep(0.02)
             with self.assertRaises(StorageError): self.bind()
             hold.result()
+
+    def test_direct_rpc_rejects_incomplete_group_already_present_in_c1(self):
+        self.prepare(lambda r:r['chunks'][0]['type_fields'].update(service_group=dict(
+            logical_step_id='synthetic-procedure',part_order=0,part_count=2)))
+        with self.assertRaises(StorageError): self.record()
+
+    def test_direct_rpc_rejects_unprinted_value_already_present_in_c1(self):
+        self.prepare(lambda r:r['chunks'][0]['type_fields']['field_associations'][0].update(
+            value='A different unreviewed undergraduate condition'))
+        with self.assertRaises(StorageError): self.record()
+
+    def test_complete_record_group_preserves_original_gap_hash_and_can_publish(self):
+        self.prepare(add_record_group)
+        self.loader.record(self.receipt); self.bind(); self.authority()
+        self.manager.activate_release('release-selected')
+        self.assertEqual(len(self.client.select('chunks')),2)
+
+    def test_missing_projected_original_gap_in_c1_is_rejected_by_sql(self):
+        def mutate(partial):
+            add_record_group(partial)
+            partial['chunks'][1]['type_fields']['source_limits'] = []
+        self.prepare(mutate)
+        with self.assertRaises(StorageError): self.record()

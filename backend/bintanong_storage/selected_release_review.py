@@ -79,6 +79,9 @@ def validate_selected_receipt(receipt):
         fields = chunk['type_fields']
         if not isinstance(fields,dict): raise ValueError('Selected field metadata required')
         _text(fields.get('applicability_basis_ref'))
+        if any(f.get('field_kind') not in (None,'arrows') or 'field_state' in f
+                for f in fields.get('field_associations',[]) if isinstance(f,dict)):
+            raise ValueError('Selected codec supports located scalar/arrow fields only')
         required = fields.get('required_neighbor_chunk_ids')
         if not isinstance(required,list) or len(set(required)) != len(required):
             raise ValueError('Distinct selected neighbors required')
@@ -94,14 +97,32 @@ def validate_selected_receipt(receipt):
             content_hash=chunk['content_hash'],type_fields=fields)
         render_reviewed_policy_context(stored,spans)
         group = fields.get('service_group')
-        if isinstance(group,dict) and 'record_manifest' in group:
-            groups.setdefault((version,group['logical_step_id']),[]).append({'chunk':stored})
+        if group is not None:
+            groups.setdefault((version,group['logical_step_id']),[]).append({'chunk':stored,'spans':spans})
         ids[chunk['chunk_id']] = version; used_sources.add(version)
     if list(ids) != sorted(ids) or used_sources != set(versions):
         raise ValueError('Sorted exact source/chunk coverage required')
     if any(ids.get(neighbor) != version for neighbor,version in neighbors):
         raise ValueError('Complete same-source selected neighbors required')
-    for members in groups.values(): validate_record_group(members)
+    for members in groups.values():
+        metas = [r['chunk']['type_fields']['service_group'] for r in members]
+        count = metas[0]['part_count']
+        if (type(count) is not int or count != len(members)
+                or any(type(m['part_order']) is not int or m['part_count'] != count for m in metas)
+                or sorted(m['part_order'] for m in metas) != list(range(count))):
+            raise ValueError('Complete selected service group required')
+        if any('record_manifest' in meta for meta in metas): validate_record_group(members)
+        for row in members:
+            for field in row['chunk']['type_fields']['field_associations']:
+                if field.get('field_kind') == 'arrows':
+                    others = [r for r in members if r is not row]
+                    mapping = list(field['node_reading_ids'].values())
+                    if (row['chunk']['type_fields']['service_group']['part_order'] != 0
+                            or sorted(mapping) != sorted(r['chunk']['type_fields']['reading_id'] for r in others)
+                            or any(r['chunk']['type_fields']['service_group'].get('part_reading_id')
+                                != r['chunk']['type_fields']['reading_id'] for r in members)
+                            or len({s['page'] for r in members for s in r['spans']}) != 1):
+                        raise ValueError('Complete same-page selected flowchart required')
     json.dumps(receipt, allow_nan=False)
 
 

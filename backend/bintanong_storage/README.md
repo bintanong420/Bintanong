@@ -95,3 +95,7 @@ only the exact published selection, without administrative receipt access or a
 privileged helper. Original source/chunk scalar states are not promoted by either
 new operation. This does not authorize publication of the current candidate sources.
 See plans/2026-10-16-selected-release-review-design.md and its delivery report.
+The selected path supports located scalar fields and reviewed flowchart arrows;
+other specialised codec field kinds fail closed. SQL independently checks field
+values against source spans, rendered fields/limitations, complete procedure
+groups and original record-gap digests; a partial C1 receipt alone is insufficient.

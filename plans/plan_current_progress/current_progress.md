@@ -1,5 +1,35 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Review corrections verified; final code gate next — 16 October 2026
+
+Expanded19tests/113subtests GREEN91.63s and final unit5tests/54subtests0.49s.
+Corrected19chunk/vector rehearsal passes with nine unchanged inputs and both
+roles hidden; activation still denied without authority. Two Important findings
+fixed in one pass. Initial full5481/1198 passed624.70s with six skips/warnings
+but predates fixes; commit fixes and run fresh final suite. No repeated review,
+new source decision, model run or shared write; owner artifacts preserved.
+
+## Review findings reproduced and corrected — 16 October 2026
+
+Single reviewer found two Important gaps: incomplete service groups and direct
+SQL fields unsupported by cited spans. Parent RED4subcases; fix pass validates
+full group membership plus scalar/arrow text, rendered limits, record gaps and
+flowchart structure independently in SQL. Initial fixed17tests/113subtests pass;
+expanded synthetic group checks running. Corrected19chunk rehearsal passes with
+nine unchanged inputs, missing authority still denied and both roles hidden.
+Scoped path supports actual package scalar/arrow kinds; unsupported special
+codec fields fail closed. Earlier full suite predates fixes; final full suite
+must run after fix commit. No new content/scope approval or shared write.
+
+## Selected review final verification running — 16 October 2026
+
+Loaderbbb3592/SQLcfb9e1f committed. Single independent review and full suite
+running; parent will inspect results before closure. Test-only actual scoped
+retrieve_context positive assertions added for both roles, focused check running;
+production unchanged. Existing relevant41/387 and inactive real-package rehearsal
+pass. Next review fixes if any, final evidence/owned-DB checks and documentary
+closure. No shared application, actual-source publication or Phase06.
+
 ## Selected release final relevant checks pass — 16 October 2026
 
 Final41tests/387subtests GREEN157.03s. Actual-role ACL/RLS, hash-retaining text/
