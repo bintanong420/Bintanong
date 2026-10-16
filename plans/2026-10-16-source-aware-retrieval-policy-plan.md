@@ -105,3 +105,5 @@ Full suite target is `tests`; retain raw logs. No installs, downloads, dependenc
 - Task 1: complete — missing module RED; 39 tests / 139 subtests GREEN in 0.70s; snapshot/transport bindings and original helper regressions verified.
 
 - Task 2: complete — engine integration RED then 104 tests / 184 subtests GREEN, 1.35s; legacy behavior and conservative source-aware output verified.
+
+- Final review: two Important findings independently reproduced and fixed in one RED/GREEN pass; 106 tests / 188 subtests GREEN. Final full-suite/replay verification pending.

@@ -2,16 +2,65 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 299
+sequence: 301
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cc62c99
-working_tree: engine/policy/tests/README and plan/progress paths; owner artifacts preserved
-updated_at: 2026-10-16T12:34:36+08:00
+head_commit: d0f996e
+working_tree: review corrections/tests/README/report/progress; owner artifacts preserved
+updated_at: 2026-10-16T12:42:26+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Final review findings reproduced and corrected — 16 October 2026
+
+The single final reviewer found two Important defects, no Critical/Minor findings:
+(1) a generic emitted chunk ID could hide a missing reviewed field when only its
+footnote rendered; (2) malformed RPC version objects could raise AttributeError.
+Both were independently reproduced before changes: review-fix-red.log, 5 failures
+across the two regressions/four malformed-version subcases, exit 1. The root causes
+were ID-only assessment and unvalidated version shape, not source-content defects.
+
+Minimal corrections require rendered-field evidence for generic chunks (marked
+records retain their validated whole-field codec) and reject malformed version
+objects as policy_binding_error before assembly. Missing rendered fields are
+explicit in the nested assessment; no inference or source approval is added.
+GREEN: 106 focused tests / 188 subtests, 1.40s, exit 0, review-fix-green.log.
+Both Important findings fixed in this single TDD pass; no second review requested.
+
+The first pre-fix full offline suite passed 5385 tests / 685 subtests, six skips /
+six upstream warnings, 392.35s, exit 0. It is historical for the correction above;
+a final whole-suite run and compatible saved replay must verify the corrected code.
+
+Final: Ruling: source correctness/currentness, actual database authorization,
+NLP intent inference, calibration and formal Phase 05 completion were declined
+by the reviewer and remain outside this bounded integration — preserve explicit
+false/unassessed flags and existing gates — cost if wrong: candidate evidence
+could be mistaken for approved output, so activation remains unavailable.
+Owner artifact changes stay unstaged; no source decision or Phase 06 advancement.
+
+## Saved engine replay verified; final checks running — 16 October 2026
+
+Task 3 saved-case replay uses actual engine code d0f996e, strict runtime-role
+storage/saved-vector doubles and the verified local tokenizer only. All 39
+accepted document variants at k3/.5/2048 yield 18 uncalibrated/field-available and
+21 insufficient; English/Filipino/Taglish each 6/7. Actual emitted IDs and exact
+context tokens match; all16 input hashes unchanged. No weights/encodings or
+real database calls. Initial language-summary fil/tl key error corrected from
+saved result records with original summary preserved, no retrieval repeated.
+
+Delivery report: plans/2026-10-16-source-aware-retrieval-policy-report.md.
+Full offline pytest tests is running; raw full-suite.log/result.json under
+workspace/audit-evidence/p05-source-aware-policy-20261016. One final read-only
+reviewer policy_final_review is checking ff53c65..d0f996e; no verdict yet.
+Current focused gate is 104 tests/184 subtests passing. Next read full-suite and
+review results, reproduce/fix material findings with RED/GREEN, then seal/report
+and commit documentary closure. Do not repeat approved design/source reviews.
+
+Phase 05 active/blocked; source governance/calibrated policy/runtime authorization
+remain separate. Owner artifacts preserved. Context and owner approval recorded
+in earlier entries; no new discrepancy, source ruling or phase advancement.
 
 ## Actual engine source/claim integration verified — 16 October 2026
 

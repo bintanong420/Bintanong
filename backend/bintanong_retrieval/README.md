@@ -48,6 +48,13 @@ caller-selected settings policy name. Answer sufficiency stays unassessed. Share
 citations/group display use the original exact token budget. No-policy calls
 retain the exact v1 behavior; supplying intent without a policy is invalid.
 
+The engine also verifies that reviewed fields survive rendering. Validated marked
+records use the existing whole-field renderer; generic records require literal
+field/span text and its source locators in the emitted evidence. Otherwise the
+claim reports `reviewed_fields_not_in_context` with `unverified_rendered_fields`.
+An emitted footnote alone cannot establish field availability. Malformed version
+transport objects are rejected before citation assembly.
+
 This injected research snapshot is not an authorized release loader. Matching
 release IDs do not establish membership/currentness or institutional approval.
 There is no CLI/public exposure, administrative storage fallback, automatic

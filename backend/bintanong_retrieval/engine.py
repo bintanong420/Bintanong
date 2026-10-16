@@ -118,7 +118,8 @@ class RetrievalEngine:
         response.update(build_context(selected,self.settings.context_budget,self.encoder.count_context_tokens,
             shared_citations=True,shared_group_metadata=True))
         response['coverage']='partial' if response['evidence'] else 'none'
-        report=policy._assess(subject_id,requested_claims,[e['chunk_id'] for e in response['evidence']])
+        report=policy._assess(subject_id,requested_claims,[e['chunk_id'] for e in response['evidence']],
+                              emitted_evidence=response['evidence'])
         response['evidence_policy'].update(assessment=report,not_run_reason=None)
         if report['status']=='insufficient_evidence':
             return fail('insufficient_evidence','requested_claim_not_established')

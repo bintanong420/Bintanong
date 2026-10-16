@@ -3,6 +3,7 @@ import copy
 
 from .candidate_subject import _digest, _subject, prepare_candidate_subject_catalogue, select_candidate_subject
 from .candidate_claims import _strings, prepare_candidate_claim_reviews, build_candidate_claim_report
+from ..bintanong_contracts.reviewed_policy_context import CONTEXT_CHUNKER_VERSIONS
 
 
 _CHUNK_FIELDS = ('chunk_id', 'document_id', 'version_id', 'edition_id', 'byte_sha256',
@@ -54,6 +55,7 @@ class SourceAwareEvidencePolicy:
         self._reviews = prepare_candidate_claim_reviews(
             self._catalogue, self._chunks, claim_reviews['reviews'])
         self._bindings = {c['chunk_id']: _digest(c) for c in self._chunks}
+        self._by_id = {c['chunk_id']: c for c in self._chunks}
         # Validate declared limits even on members not returned by a future query.
         for subject in {a['subject_id'] for a in self._catalogue['assignments']}:
             self._assess(subject, (), [])
@@ -85,6 +87,8 @@ class SourceAwareEvidencePolicy:
                 if id(row) in visited:
                     continue
                 visited.add(id(row))
+                if not isinstance(row.get('version'), dict):
+                    raise ValueError('source version object required')
                 projected = _project(row['chunk'], row['spans'])
                 if self._bindings.get(projected['chunk_id']) != _digest(projected):
                     raise ValueError('source payload mismatch')
@@ -100,7 +104,40 @@ class SourceAwareEvidencePolicy:
             self._catalogue, self._chunks, subject_id=subject_id)['chunk_ids'])
         return [row for row in candidates if row['chunk']['chunk_id'] in selected]
 
-    def _assess(self, subject_id, requested_claims, emitted_chunk_ids):
-        return build_candidate_claim_report(self._catalogue, self._chunks,
+    def _assess(self, subject_id, requested_claims, emitted_chunk_ids, *, emitted_evidence=None):
+        report = build_candidate_claim_report(self._catalogue, self._chunks,
             subject_id=subject_id, requested_claims=list(requested_claims),
             emitted_chunk_ids=emitted_chunk_ids, claim_reviews=self._reviews)
+        if emitted_evidence is None:
+            return report
+        by_id = {e['chunk_id']: e for e in emitted_evidence}
+        for claim in report['claims']:
+            unverified = [dict(chunk_id=f['chunk_id'], reading_id=f['reading_id'], field_name=f['field']['name'])
+                for f in claim['source_fields'] if not self._field_rendered(f, by_id.get(f['chunk_id']))]
+            claim['unverified_rendered_fields'] = unverified
+            if unverified and claim['status'] == 'reviewed_fields_available':
+                claim['status'] = 'reviewed_fields_not_in_context'
+        if (report['status'] not in ('insufficient_evidence', 'needs_subject', 'unavailable_subject', 'needs_claims')
+                and any(c['status'] == 'reviewed_fields_not_in_context' for c in report['claims'])):
+            report['status'] = 'insufficient_context'
+        report['context_validation_scope'] = 'literal_chunk_ids_and_reviewed_field_rendering'
+        return report
+
+    def _field_rendered(self, field, emitted):
+        if emitted is None:
+            return False
+        chunk = self._by_id[field['chunk_id']]
+        fields = chunk['type_fields']
+        # Successful assembly of a marked record guarantees whole-field rendering.
+        if (chunk['chunker_version'] in CONTEXT_CHUNKER_VERSIONS
+                or 'context_format' in fields or 'source_limits' in fields):
+            return True
+        # Generic assembly can omit blank or overlapping spans. Require literal
+        # value/text and the referenced locators, rather than just its chunk ID.
+        value = field['field']['value']
+        if not isinstance(value, str) or value not in emitted['text']:
+            return False
+        keys = ('version_id', 'byte_sha256', 'page', 'locator')
+        return all(isinstance(s['text'], str) and bool(s['text'].strip()) and s['text'] in emitted['text']
+            and any(all(c.get(k) == s.get(k) for k in keys) for c in emitted['citations'])
+            for s in field['spans'])

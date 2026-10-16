@@ -338,3 +338,28 @@ class EvidencePolicyEngineTests(unittest.TestCase):
         self.assertIn('conflicting_deadlines', out['context'])
         self.assertEqual(out['context_tokens'], len(out['context']))
         self.assertEqual(out['evidence_policy']['assessment']['status'], 'reviewed_fields_available')
+
+    def test_emitted_footnote_cannot_stand_in_for_an_unrendered_reviewed_field(self):
+        self.rows[0]['spans'][0]['text'] = ''
+        self.rows[0]['spans'].append(dict(self.rows[0]['spans'][0], span_id='footnote',
+            text='A separate synthetic footnote', locator={'kind':'section','section_path':['Footnote']}))
+        self.remint()
+        out = self.result()
+        self.assertEqual([e['chunk_id'] for e in out['evidence']], ['a', 'b'])
+        self.assertNotIn('Synthetic amount a', out['context'])
+        self.assertEqual(out['status'], 'insufficient_evidence')
+        report = out['evidence_policy']['assessment']
+        self.assertEqual(report['status'], 'insufficient_context')
+        self.assertEqual(report['claims'][0]['status'], 'reviewed_fields_not_in_context')
+        self.assertEqual(report['claims'][0]['unverified_rendered_fields'][0]['field_name'], 'printed_amount')
+
+    def test_malformed_transport_version_returns_a_binding_failure(self):
+        engine = self.engine()
+        for invalid in (None, [], 'version', 1):
+            with self.subTest(invalid=invalid):
+                self.client.payload['items'][0]['version'] = invalid
+                out = engine.retrieve(self.request, subject_id='fees', requested_claims=('printed amount',))
+                self.assertEqual(out['status'], 'policy_binding_error')
+                self.assertEqual(out['context'], '')
+                self.assertEqual(out['evidence'], [])
+                self.assertIsNone(out['evidence_policy']['assessment'])
