@@ -122,3 +122,64 @@ Whitespace checks pass. This commit contains test coverage, the restricted test
 adapter option and recovery documentation only. Product/schema/evaluation trees
 remain unchanged; owner artifact changes remain unstaged. The synthetic composed
 path is verified; the real-source release gate remains unresolved.
+
+## HTTP transport failure follow-up — 16 October 2026
+
+Product fix `b0d6c6d`, baseline `4872b29`. A subsequent bounded check of the
+previously separate HTTP client reproduced a raw ReadTimeout escaping its
+StorageError boundary. RetrievalEngine catches StorageError, so this could
+crash a request rather than return the documented storage_error envelope.
+HTTP status failures already had the correct error classification.
+
+Focused regressions first observed 27 failing transport subcases. The storage
+client now routes its existing five HTTP methods through one request wrapper
+that translates only HTTPX RequestError into generic StorageError, retaining
+the diagnostic cause. Public error text excludes raw transport details/URLs.
+There are no retries, administrative fallbacks, engine schema changes or new
+retrieval permissions. Existing request shapes, successful response handling
+and permission-error classification remain intact. Non-request programming
+errors still propagate from the client.
+
+Composed synthetic tests exercise both legacy and source-aware engines at the
+release read, embedding-set read and retrieval RPC. Connection/timeouts return
+storage_error with no evidence or context, stop subsequent requests and retain
+runtime credentials. Source-aware conservative flags remain unchanged. Client
+regressions also cover protocol failures and mutation paths without retries.
+The focused client/engine/policy/CLI suite passes 38 tests / 61 subtests in 5.33s.
+
+One independent reviewer found no Critical, Important or Minor issues and
+separately passed all six client/composed test methods. Live HTTP/server
+behavior, database/institutional authorization and the parent's full-suite
+result were explicitly outside that review. Those boundaries remain; no second
+review or deferred minor finding. No live request, source mutation, model or
+shared schema/database change is involved in this correction.
+
+Raw logs are ignored under workspace/audit-evidence/
+p05-storage-transport-errors-20261016: initial-reproduction.log, red.log,
+green.log, review.txt and full-suite.log. Exact Python3.13 readiness venv,
+-B/-p no:cacheprovider and external basetemp are used. Current Context7
+[HTTPX exception documentation](https://github.com/encode/httpx/blob/master/docs/exceptions.md)
+confirms the request-error hierarchy. Thesis17–18/routing/master10 were
+reconsulted; the standing undergraduate advisory/source-release limits persist.
+The full suite is still pending at this entry; its final result follows below.
+
+Final follow-up verification: **5421 tests / 763 subtests pass in 366.39s**,
+with six skips / six dependency warnings, exit 0. Command: Python3.13 readiness
+venv `python -B -m pytest -q -p no:cacheprovider tests`, external basetemp
+workspace/audit-evidence/p05-http-full-temp, storage evidence variable bound to
+the follow-up raw root. Product/test/schema bytes match b0d6c6d; no subsequent
+code changes. Fresh catalog check confirms all 35 disposable databases created
+by this full run are absent. Owner artifact bytes remain preserved/unstaged.
+
+closure-verification.json records exact SHA-256 hashes for the reproduction,
+RED/GREEN, review and full-suite logs; full-suite.log hash is
+`d4541056f1282dcfef7fa993ccd3703c7ba6800bd352f86e797149b67a5341d4`.
+No new source review, real model encoding or shared migration/activation. Formal
+Tasks 4/6 retain their source/release and final runtime prerequisites. Final
+continuity checks follow; no repeat product suite after documentary edits.
+
+Final follow-up closure: 522 documentation/ledger tests and 11 subtests pass in
+11.82s, exit 0. Phase validate exits 0; can-advance exits 1 (expected blocked).
+Whitespace checks pass. No code changes followed the full 5421-test result;
+only these continuity updates are staged. Raw follow-up logs remain ignored;
+owner artifacts remain preserved and unstaged.

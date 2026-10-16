@@ -2,16 +2,46 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 326
+sequence: 327
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 4872b29
-working_tree: storage transport-error regression/fix in progress; owner artifacts preserved
-updated_at: 2026-10-16T16:42:53+08:00
+head_commit: b0d6c6d
+working_tree: verified transport-fix documentary closure; owner artifacts preserved and unstaged
+updated_at: 2026-10-16T16:51:32+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Storage transport crash corrected and verified — 16 October 2026
+
+Product fix b0d6c6d, baseline 4872b29. Network/timeout/protocol RequestError
+now becomes StorageError at the shared HTTP client boundary. Both retrieval
+paths return storage_error with empty evidence/context, preserve runtime
+credentials and stop after the failed request. No retry or administrative
+fallback; raw transport text is excluded from public error text. Successful
+request/response handling and permission-error classification remain intact.
+
+RED: 27 failing transport subcases. Focused GREEN: 38 tests / 61 subtests in
+5.33s. Full suite: 5421 tests / 763 subtests pass in 366.39s, six skips and
+six dependency warnings, exit 0. Single reviewer clear, six independent client/
+composed tests pass. All 35 disposable full-suite databases removed; five raw
+log/review hashes recorded. See the HTTP follow-up in the
+[verification report](2026-10-16-source-aware-database-verification.md).
+
+No source state, model, shared schema/database or calibrated-policy change.
+Live HTTP/server behavior and real-source authorization remain outside this fix;
+formal Tasks 4/6 and Phase 06 gate remain unchanged. Owner artifact changes
+preserved/unstaged. Next finish documentary closure, then resume concrete
+source/release work when its actual prerequisites exist. No repeat grid,
+source mapping, completed tests or pending school-response question.
+
+
+Final follow-up closure: 522 documentation/ledger tests and 11 subtests pass in
+11.82s, exit 0. Phase validate exits 0; can-advance exits 1 (expected blocked).
+Whitespace checks pass. No code changes followed the full 5421-test result;
+only these continuity updates are staged. Raw follow-up logs remain ignored;
+owner artifacts remain preserved and unstaged.
 
 ## Transport fix reviewed; full suite still running — 16 October 2026
 
@@ -2218,6 +2248,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: transport fix b0d6c6d independently reviewed and full-suite verified;
+finish documentation/ledger closure without another unchanged full-suite run.
 
 Latest: repair reproduced raw HTTP transport exceptions at storage boundary;
 first focused RED client/composed-engine regressions, then smallest correction.
@@ -5339,6 +5372,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: transport failure boundary is corrected and verified; no further fix
+from this reproduction. Keep formal source/release prerequisites and actual
+authorized runtime validation separate from these synthetic HTTP failures.
+Continue concrete gate-bearing work when supported evidence/decisions exist;
+no repeated school-response question, calibration sweep or fabricated approval.
 
 Latest: source-aware engine composition with real synthetic-role SQL is now
 verified. Keep that evidence distinct from real-source authorization and the

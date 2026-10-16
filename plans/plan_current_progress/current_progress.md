@@ -1,5 +1,35 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Storage transport crash corrected and verified — 16 October 2026
+
+Product fix b0d6c6d, baseline 4872b29. Network/timeout/protocol RequestError
+now becomes StorageError at the shared HTTP client boundary. Both retrieval
+paths return storage_error with empty evidence/context, preserve runtime
+credentials and stop after the failed request. No retry or administrative
+fallback; raw transport text is excluded from public error text. Successful
+request/response handling and permission-error classification remain intact.
+
+RED: 27 failing transport subcases. Focused GREEN: 38 tests / 61 subtests in
+5.33s. Full suite: 5421 tests / 763 subtests pass in 366.39s, six skips and
+six dependency warnings, exit 0. Single reviewer clear, six independent client/
+composed tests pass. All 35 disposable full-suite databases removed; five raw
+log/review hashes recorded. See the HTTP follow-up in the
+[verification report](../2026-10-16-source-aware-database-verification.md).
+
+No source state, model, shared schema/database or calibrated-policy change.
+Live HTTP/server behavior and real-source authorization remain outside this fix;
+formal Tasks 4/6 and Phase 06 gate remain unchanged. Owner artifact changes
+preserved/unstaged. Next finish documentary closure, then resume concrete
+source/release work when its actual prerequisites exist. No repeat grid,
+source mapping, completed tests or pending school-response question.
+
+
+Final follow-up closure: 522 documentation/ledger tests and 11 subtests pass in
+11.82s, exit 0. Phase validate exits 0; can-advance exits 1 (expected blocked).
+Whitespace checks pass. No code changes followed the full 5421-test result;
+only these continuity updates are staged. Raw follow-up logs remain ignored;
+owner artifacts remain preserved and unstaged.
+
 ## Transport fix reviewed; full suite still running — 16 October 2026
 
 Independent review finds no Critical/Important/Minor issues. Reviewer separately
