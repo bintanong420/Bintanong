@@ -3,12 +3,24 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 7d1b0fe
+final_commit: 17c097b
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
 completed_at: 2026-10-16T12:49:45+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Document loader readiness verified — 16 October 2026
+
+[Report](2026-10-16-document-loader-readiness-report.md):19chunks/19saved vectors/
+54spans/five pending source versions validate. Actual disposable loader rejects
+missing parent registration atomically; generic source_document category fails
+storage check. No imported draft; anon RPC returns no evidence, DB dropped,
+nine input hashes preserved. Hosted read-only snapshot has no Phase05 RPC or
+corpus/releases. Next governed source registration/category mapping contract
+and focused TDD before positive isolated draft import. No source-state promotion,
+new embeddings/defaults, shared writes, activation or Phase06.49-file seal in
+report. Earlier next-action notes are history; Tasks4/6 remain open.
 
 ## Source-aware integration verified — 16 October 2026
 

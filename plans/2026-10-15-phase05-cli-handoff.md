@@ -1,5 +1,16 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Document loader readiness verified — 16 October 2026
+
+[Report](2026-10-16-document-loader-readiness-report.md):19chunks/19saved vectors/
+54spans/five pending versions validate. Actual disposable loader fails atomically
+on missing parent registration; generic category also fails DB check. No imported
+draft; anon RPC returns no evidence; DB dropped/nine hashes preserved. Hosted
+inspection read-only: no Phase05 RPC, corpus or release. Next governed source
+registration/category mapping contract and focused TDD, then positive isolated
+draft import. No source promotion, new vectors/defaults, activation or Phase06.
+Use49-file seal in report; do not repeat negative import. Earlier steps history.
+
 ## Source-aware integration verified — 16 October 2026
 
 [Delivery](2026-10-16-source-aware-retrieval-policy-report.md): corrected code

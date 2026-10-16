@@ -1,5 +1,36 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Document loader package and boundaries verified — 16 October 2026
+
+[Readiness report](../2026-10-16-document-loader-readiness-report.md): baseline
+17c097b/product unchanged.19chunks/19saved vectors/54spans/five pending versions
+validate; nine input hashes unchanged. Actual disposable service_role loader
+fails atomically on missing parent registration; source_document category also
+fails DB check. All eight measured tables stay empty; anon RPC release_changed/
+no evidence. No imported real-source draft or activation; unique DB dropped.
+49-file seal cf996f72c2f0234eacc1ceee04870115a5727bc56dcfb3c6b8084ae9d5794a1e.
+Next governed source registration/category mapping contract and focused TDD,
+then positive isolated draft import. Hosted checks read-only, no Phase05 RPC or
+corpus/releases. No new vectors, source rulings, policy default or Phase06.
+Owner artifact changes preserved/unstaged; formal Tasks4/6 remain open.
+
+Verification:502documentation/ledger tests/11subtests pass13.07s exit0;
+phase validate0/can-advance1(expected);49-file seal verify0;whitespace clean.
+Raw evidence read-only; check logs in separate readiness-checks sibling.
+
+## Hosted readiness inspected; draft packaging next — 16 October 2026
+
+At17c097b, read-only Supabase MCP confirms six Phase04 migrations, missing
+Phase05 retrieve_context, and zero documents/versions/chunks/embeddings/releases/
+active pointer. All19 public tables have RLS; security advisor zero lints.
+Administrative import/activation denies public runtime roles. No hosted writes.
+Raw responses: workspace/audit-evidence/p05-release-readiness-20261016.
+Context scope17–18/routing PNG reconsulted; no discrepancy. Next validate a
+19-chunk/19-vector/five-version document-only package and rehearse existing
+loader boundaries in a unique disposable DB. Keep every pending source state;
+source registration/category mapping remains a prerequisite, not approval.
+Owner artifact changes preserved; no new vectors, defaults, activation or Phase06.
+
 ## Source-aware engine integration complete — 16 October 2026
 
 Owner-approved implementation complete: plan c649e48, snapshot cc62c99, engine

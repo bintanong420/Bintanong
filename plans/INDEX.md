@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Latest continuation: [document loader readiness](2026-10-16-document-loader-readiness-report.md), baseline `17c097b`, product unchanged. Validated 19 chunks/19 reused vectors/54 spans/five pending source versions. Actual disposable import fails atomically on missing parent registration; unchanged generic category also fails the storage check. No real-source draft imported; anon RPC returns no evidence. Hosted inspection read-only: six migrations, missing Phase05 RPC, no corpus/releases. Next governed source registration/category mapping contract and focused TDD, then positive isolated draft import; calibration and formal gates stay open. No activation or Phase06; owner artifacts preserved.
+
 - Latest verified delivery: [source-aware engine integration](2026-10-16-source-aware-retrieval-policy-report.md), corrected code `7d1b0fe`. Full 5388 tests / 689 subtests pass; one review, two material fixes verified. Saved 39 cases retain 18 uncalibrated / 21 insufficient, six/seven per language. Candidate flags and legacy behavior preserved; raw evidence sealed. Next selected-policy calibration and governed source/release requirements using existing evidence. Phase 05 active/blocked, no Phase 06. Earlier pending steps below are history.
 
 - Owner approved the source-aware design at `ff53c65` with “ye i approve”. Execute [the implementation plan](2026-10-16-source-aware-retrieval-policy-plan.md) inline with TDD; no repeat approval. Rough technical Phase 05 estimate 80% (75–85%), formal exit remains blocked. Earlier approval-wait notes below are history.

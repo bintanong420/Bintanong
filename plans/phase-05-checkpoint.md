@@ -2,16 +2,56 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 303
+sequence: 305
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 7d1b0fe
-working_tree: eight final delivery/continuity documents; owner artifacts preserved
-updated_at: 2026-10-16T12:49:45+08:00
+head_commit: 17c097b
+working_tree: readiness report and five continuity documents; owner artifacts preserved
+updated_at: 2026-10-16T13:08:08+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Document loader package and boundaries verified — 16 October 2026
+
+[Readiness report](2026-10-16-document-loader-readiness-report.md):19unchanged
+chunks/19reused vectors/54spans/five pending versions validate. Actual isolated
+service_role loader call fails on missing parent source registrations and rolls
+back all eight measured tables to zero. Exact generic source_document category
+also fails storage check. No guessed mappings/approval promotion. Actual anon
+retrieve_context returns release_changed/empty; no real-source draft imported.
+Unique DB8e72442e657c433aa0c0d8874a34ee4f dropped, nine input hashes preserved.
+Hosted inspection remained read-only; Phase05 RPC absent, corpus/releases empty.
+49-file raw seal cf996f72c2f0234eacc1ceee04870115a5727bc56dcfb3c6b8084ae9d5794a1e.
+No product/source/default/activation changes. Next source registration/category
+contract and focused TDD, then positive isolated draft import. Calibration and
+formal Phase05 gates remain open; no Phase06. Do not repeat negative rehearsal.
+
+Readiness verification: package/rehearsal exit0;49-file seal verify0; docs/ledger
+502tests/11subtests pass13.07s exit0;phase validate0/can-advance1(expected);
+whitespace clean. Logs use separate readiness-checks sibling, sealed root remains
+read-only. No product changes or full-suite rerun. Owner artifacts unstaged.
+
+## Hosted readiness inspected; draft packaging next — 16 October 2026
+
+Read-only Supabase MCP inspection: hosted PostgreSQL17.6 has the six Phase04
+migrations, no Phase05 retrieve_context function, zero documents/versions/chunks/
+embeddings/releases/active pointer; all19 public tables have RLS, security advisor
+has zero lints. Administrative import/activation functions deny anon/authenticated
+EXECUTE; match_chunks is invoker. No hosted mutation or credentials requested.
+Raw responses: workspace/audit-evidence/p05-release-readiness-20261016.
+Context thesis physical17–18 (saved original renders) and runtime routing PNG
+reconsulted; undergraduate/advisory scope and separate symbolic route preserved.
+Context7 official Supabase function/RLS documentation and changelog consulted.
+
+Next package the existing19 document chunks/19 compatible saved vectors/five
+pending source versions, validate unchanged IDs/hashes/neighbor closure, then
+rehearse the existing loader in a unique disposable DB without fabricated source
+approvals. Source-document/version registration is absent from the loader and
+generic source_document categories require explicit storage mapping. Preserve
+these prerequisite gaps rather than silently activating or relabeling records.
+No new source review, query encoding, model download, policy/default or Phase06.
 
 ## Source-aware engine integration complete — 16 October 2026
 
@@ -1891,6 +1931,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: source-parent registration/category mapping prerequisite identified;
+19-row candidate package validated, positive import and draft creation pending.
+See the 16 October document loader readiness report. Earlier entries are history.
 
 Latest: approved source-aware integration and review fixes verified; finish documentary closure. Next calibration/governed-source-release requirements, using existing evidence. Phase 05 remains active/blocked.
 
@@ -4971,6 +5015,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: define governed document/version registration with explicit category
+metadata and unchanged source states; focused TDD for importer behavior, then
+positive isolated draft-import verification. Reuse the validated package. Do not
+repeat the failed import, embeddings or settled source reviews. No shared writes
+or activation inferred. Earlier next-action entries below are historical.
 
 Latest: reconcile selected-policy calibration and governed source/release loader requirements using this completed engine integration and saved evidence. Run applicable runtime/database verification when prerequisites are available; no new curriculum sweeps, repeated approvals or Phase 06.
 
