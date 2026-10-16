@@ -77,6 +77,24 @@ record/check; obsolete registration/A1/C1 replay may conflict and cannot downgra
 it. C1 must precede this narrow A2 operation. Candidate migrations remain unapplied
 to shared databases until their applicable deployment workflow.
 
+`SourceVerificationLoader.observe(current, observation)` records V1 printed
+observations for the exact accepted selected spans after A2/C1. The closed
+`selected-source-observation-v1` receipt binds source bytes/locators, stored C1
+evidence and selected-review scope. It preserves actual reviewer attribution;
+its new timestamp records compilation of existing confirmations, not a new review.
+Only verification pending→observed and one appended Evidence change. Approval,
+scope, content, vectors and institutional authority remain independent.
+
+The admin-only invoker `observe_source_verification` stores the immutable receipt
+and source transition atomically under publication/source locks. It rechecks full
+register/projection, exact C1 coverage and current selected snapshots, including
+on exact no-UPDATE replay. Stale, drifted, legacy and ever-published sources fail.
+Runtime roles cannot invoke it or read its receipts, even after accidental table
+grants. Old authoring chunk bindings become stale: use existing `bind_chunk` and
+`load_chunks` to refresh verification metadata separately. Retry V1 with the
+original expected register/receipt; transport errors propagate without retries.
+This does not establish V2/P2, whole-source review or permission to activate.
+
 `SourcePartialReviewLoader.record(current, receipt)` records C1 only: an observed
 source with pending verification/content review and unrequested approval moves
 to `partially_reviewed`. The closed `selected-source-partial-review-v1` receipt

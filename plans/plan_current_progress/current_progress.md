@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## V1 scoped storage verified — 17 October 2026
+
+Final relevant326tests/216subtests pass185.23s; inactive5V1/5replays/19chunk
+rehearsal complete. Candidate SQL/README/tests/report commit follows, then one
+final fresh reviewer and final full suite/cleanup/seal. No source decisions,
+shared application or activation; known holds and owner artifacts preserved.
+
+## V1 inactive rehearsal succeeds; storage verification running — 17 October 2026
+
+Loader52619c1 final21tests/157subtests pass0.86s. Database missing-RPC RED1test;
+initial SQL ambiguous key error corrected with qualified columns. Relevant
+new/selected-review/binding regressions running. One saved-package rehearsal
+passes5V1/5replays/19chunk rebinding without content/span/vector drift,13input
+hashes unchanged; activation denied and both runtime roles hidden, DB dropped.
+Next inspect results, commit candidate SQL/tests/README, one final reviewer and
+final full checks/cleanup/seal. Undergraduate scope, known holds, candidate
+inactivity and actual V2/P2/formal gates remain; owner artifacts preserved.
+
 ## V1 loader verified — 17 October 2026
 
 Plan99a1b21, missing-module RED50failures/subcases. Initial GREEN20tests/157

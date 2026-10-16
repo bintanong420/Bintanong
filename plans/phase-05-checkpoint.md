@@ -2,16 +2,37 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 374
+sequence: 376
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 99a1b21
-working_tree: V1 loader and focused tests verified; owner artifact changes preserved unstaged
-updated_at: 2026-10-17T00:22:13+08:00
+head_commit: 52619c1
+working_tree: V1 candidate SQL and database tests verified; owner artifact changes preserved unstaged
+updated_at: 2026-10-17T00:39:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## V1 relevant storage checks GREEN — 17 October 2026
+
+Final relevant326tests/216subtests pass185.23s: new unit/DB files, selected-review
+DB regressions and three source-contract files. Saved-package rehearsal passes
+as recorded below. SQL/tests/README/report/plan continuity commit next, then one
+fresh final reviewer for2a472ba..implementationHEAD and final full suite.
+
+## V1 storage verification and inactive rehearsal — 17 October 2026
+
+Task1 final21tests/157subtests pass0.86s, committed52619c1. Database RED1test
+failed for missing RPC5.99s; initial implementation exposed ambiguous SQL key
+reference (11failed/12passed/149subtests76.31s), qualified column fixes it.
+Relevant new/selected/binding tests running; one command typo found no tests,
+corrected to actual contracts source files. Saved-package rehearsal succeeds:
+5V1/5exact replays/19rebound chunks/54spans/52fields/19saved vectors,13inputs
+unchanged, both runtime roles hidden/admin receipts denied, activation denied,
+database dropped. No source content/vector change or school authority follows.
+Context after rollover: actual thesis17–18 via existing pypdfium2, routingPNG,
+master6/10, scope policy and ledger; no discrepancy. Next inspect relevant tests,
+commit SQL/tests/README, one final fresh review and final full suite/cleanup/seal.
 
 ## V1 loader RED/GREEN — 17 October 2026
 

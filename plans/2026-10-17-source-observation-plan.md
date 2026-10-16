@@ -62,14 +62,14 @@ supabase/migrations/*_phase5_source_observation.sql; update storage README.
 Consumes Task1 envelope; produces immutable source_verification_observations and
 observe_source_verification returning exact full register.
 
-- [ ] Seed synthetic A1/C1/A2 and accepted selected review using existing fixtures.
+- [x] Seed synthetic A1/C1/A2 and accepted selected review using existing fixtures.
   Write actual-role DB tests for positive persist/replay/no second UPDATE, C1/
   selected identity/label/time membership, malformed direct RPC, false scopes,
   snapshot/span/field/group drift, missing/legacy/stale/relational drift, concurrent
   equals/conflicts, publication locks/rollback/ever-published guard, runtime receipt
   access/mutation denial including accidental grants, and ordinary chunk rebind.
-- [ ] Run positive test before migration; expected RED missing RPC/table.
-- [ ] Generate additive migration using installed CLI help/new. Add composite
+- [x] Run positive test before migration; expected RED missing RPC/table.
+- [x] Generate additive migration using installed CLI help/new. Add composite
   source/evidence PK, source/C1/scope FKs, scope-ref index, RLS/runtime-denial policy,
   immutable mutation/publication-lock triggers and least-privilege grants. RPC
   independently validates shape/state/evidence/source, existing immutable C1 and
@@ -78,7 +78,7 @@ observe_source_verification returning exact full register.
   Under publication+row locks derive proposed record, compare full register and
   relational projection, store receipt/change atomically or exact no-update replay.
   Reject missing/stale/published/drift/receipt conflicts without wider promotion.
-- [ ] Run complete new unit/DB files plus selected-review DB regressions and source
+- [x] Run complete new unit/DB files plus selected-review DB regressions and source
   binding contract tests; expected GREEN. Existing A1/C1/A2 stay unchanged. Document
   rebind/retry boundaries, record evidence and explicitly commit cohesive increment.
 
@@ -87,7 +87,7 @@ observe_source_verification returning exact full register.
 Consumes Task1/2 and sealed preparation packet; produces report
 plans/2026-10-17-source-observation-report.md, single review, final checks/seal.
 
-- [ ] One disposable rehearsal reuses pending→A1→C1→A2 records and stored accepted
+- [x] One disposable rehearsal reuses pending→A1→C1→A2 records and stored accepted
   review, applies/replays five V1 receipts and compares exact prepared derivatives.
   Rebind/load19chunks without text/span/hash/vector changes, retain C1/selected
   receipts/binding, deny missing-authority activation, verify both actual roles
@@ -114,4 +114,8 @@ reconsulted, no discrepancy. Original school/authority/formal phase gates retain
 
 Task1 RED50missing-module failures/subcases observed; initialGREEN20tests/157
 subtests0.80s. Added authoring composition check: stale binding fails, existing
-bind_chunk produces V1 reference without content drift; final unit result below.
+bind_chunk produces V1 reference without content drift; final21tests/157subtests
+pass0.86s. Task2 missing-RPC RED1test5.99s, ambiguous SQL column corrected after
+11failed/12passed/149subtests76.31s. Final relevant326tests/216subtests pass185.23s.
+One selector typo exited4/no tests before corrected run. Inactive rehearsal
+5V1/5replays/19rebound chunks/13unchanged inputs passes; DB dropped.
