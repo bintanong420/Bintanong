@@ -1,5 +1,29 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Source-aware engine verified through real database roles — 16 October 2026
+
+[Report](2026-10-16-source-aware-database-verification.md), baseline 01c70b7;
+production remains 8595fb8. New synthetic integration closes the missing
+source-aware engine + actual PostgreSQL SELECT/RPC composition check under
+both anon and authenticated. Whole required-neighbor context, rendered source
+fields/citations, absent claims, scope/budget rejection, snapshot mismatch and
+pre-encoding release/configuration guards pass. Test adapter now selects only
+explicit unprivileged runtime roles, preserving default anon/admin behavior.
+
+Role-helper RED: seven expected failing subcases; GREEN two tests/seven
+subtests. Initial integration seven tests/19 subtests; final relevant regression
+suite 99 tests/148 subtests passes in 108.63s. One independent review finds no
+Critical/Important/Minor issues. HTTP transport, real models and institutional
+authority remain outside this synthetic check; parent verified final tests.
+All 29 disposable databases removed; four synthetic role outputs hash-recorded.
+No production/schema/source/model/shared-database change. Owner artifacts
+preserved and unstaged. Prior claim of no independent verification work was too
+broad; this specific composed path was missing. Formal Tasks 4/6 remain open
+on real-source/release prerequisites and actual authorized runtime validation.
+No repeat model/grid/source mapping or pending school-response question;
+no Phase 06. Engineering estimate remains about 85%, conditional 6–12 hours.
+
+
 ## Bounded document acceptance criteria recorded — 16 October 2026
 
 [Contract](2026-10-16-document-development-acceptance-contract.md), baseline

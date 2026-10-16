@@ -1,5 +1,54 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-aware engine verified through real database roles — 16 October 2026
+
+[Report](../2026-10-16-source-aware-database-verification.md), baseline 01c70b7;
+production remains 8595fb8. New synthetic integration closes the missing
+source-aware engine + actual PostgreSQL SELECT/RPC composition check under
+both anon and authenticated. Whole required-neighbor context, rendered source
+fields/citations, absent claims, scope/budget rejection, snapshot mismatch and
+pre-encoding release/configuration guards pass. Test adapter now selects only
+explicit unprivileged runtime roles, preserving default anon/admin behavior.
+
+Role-helper RED: seven expected failing subcases; GREEN two tests/seven
+subtests. Initial integration seven tests/19 subtests; final relevant regression
+suite 99 tests/148 subtests passes in 108.63s. One independent review finds no
+Critical/Important/Minor issues. HTTP transport, real models and institutional
+authority remain outside this synthetic check; parent verified final tests.
+All 29 disposable databases removed; four synthetic role outputs hash-recorded.
+No production/schema/source/model/shared-database change. Owner artifacts
+preserved and unstaged. Prior claim of no independent verification work was too
+broad; this specific composed path was missing. Formal Tasks 4/6 remain open
+on real-source/release prerequisites and actual authorized runtime validation.
+No repeat model/grid/source mapping or pending school-response question;
+no Phase 06. Engineering estimate remains about 85%, conditional 6–12 hours.
+
+
+Closure checks: documentation/phase ledger 522 tests / 11 subtests pass in
+11.79s, exit 0; phase validate exits 0, can-advance exits 1 (expected blocked).
+Whitespace checks pass. This commit contains test coverage, the restricted test
+adapter option and recovery documentation only. Product/schema/evaluation trees
+remain unchanged; owner artifact changes remain unstaged. The synthetic composed
+path is verified; the real-source release gate remains unresolved.
+
+## Source-aware database integration gap identified — 16 October 2026
+
+At 01c70b7, code inspection finds the source-aware engine covered with storage
+doubles and the real database suite covered with the legacy engine. The prior
+claim of no independent verification work remaining was too broad. Student
+capability: source-linked reviewed policy context, with insufficient claims
+withheld. Path: existing SourceAwareEvidencePolicy → engine → actual role SQL
+and RPC → assembly/rendered-field assessment. Master 10 / Task 6 question:
+does real transport preserve snapshot bindings, whole required context and
+conservative dispositions for both runtime roles? Use synthetic fixtures only.
+
+Next add bounded integration coverage for both roles, available/absent claims,
+neighbor/budget handling, wrong scope, stale pins and snapshot mismatch. No new
+benchmarks, real-source promotion, shared migration, model or dependency change.
+Thesis physical17–18 and routing PNG/master10 reconsulted, no scope discrepancy.
+Full product behavior changes, if a defect is found, require focused RED/GREEN;
+verification alone must not invent a production fix. Owner artifacts preserved.
+
 ## Bounded document acceptance criteria recorded — 16 October 2026
 
 [Contract](../2026-10-16-document-development-acceptance-contract.md), baseline

@@ -117,3 +117,8 @@ contexts,21/21insufficient outcomes and the literal36/39related-context result.
 No overall formal pass or engine behavior change follows. The remaining work
 is the actual source/release and runtime path in steps2/4/5 when prerequisites
 exist;do not create another report/helper to rename the same observations.
+
+The [source-aware database integration verification](2026-10-16-source-aware-database-verification.md)
+adds real-role composition coverage with synthetic fixtures. Step4's actual
+authorized real-source release validation remains NOT RUN; synthetic releases
+do not supply its source authority or governance decisions.

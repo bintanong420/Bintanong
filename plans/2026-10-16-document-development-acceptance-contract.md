@@ -156,3 +156,11 @@ test code changed, so the previous full product suite was not repeated. Raw
 check logs are in sibling p05-document-acceptance-checks-20261016. The contract
 and continuity documents form one documentary commit; owner artifacts remain
 unstaged. No formal acceptance or Phase 06 advancement follows.
+
+Subsequent code inspection identified an independent integration-verification
+seam: source-aware engine tests used doubles while actual database engine tests
+used the legacy path. The [synthetic database integration](2026-10-16-source-aware-database-verification.md)
+now verifies that composition under both real roles without changing these
+criteria or the 39 observations. It does not establish actual-source release
+authorization. The earlier lack of an identified implementation task was not
+proof that every integration seam had already been verified.

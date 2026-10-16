@@ -91,8 +91,11 @@ class DatabaseStorageClient:
     does not connect the shared PostgREST instance to a test database.
     """
 
-    def __init__(self, db):
+    def __init__(self, db, *, runtime_role="anon"):
+        if runtime_role not in ("anon", "authenticated"):
+            raise ValueError("explicit unprivileged runtime role required")
         self.db = db
+        self.runtime_role = runtime_role
 
     def rpc(self, function_name, params=None, role="runtime"):
         if not re.fullmatch(r"[a-z_]+", function_name):
@@ -110,7 +113,7 @@ class DatabaseStorageClient:
             else:
                 literal = sql_literal(value)
             arguments.append(f"{key}=>{literal}")
-        selected_role = "service_role" if role == "admin" else "anon"
+        selected_role = "service_role" if role == "admin" else self.runtime_role
         expression = f"public.{function_name}({','.join(arguments)})"
         if function_name == "match_chunks":
             query = f"select coalesce(jsonb_agg(to_jsonb(r)),'[]') from {expression} r;"
@@ -131,7 +134,7 @@ class DatabaseStorageClient:
                 raise ValueError("unsupported test filter")
             predicates.append(f"{key}={sql_literal(expression[3:])}")
         where = "where " + " and ".join(predicates) if predicates else ""
-        selected_role = "service_role" if role == "admin" else "anon"
+        selected_role = "service_role" if role == "admin" else self.runtime_role
         return self.db.json(f"begin; set local role {selected_role}; select coalesce(jsonb_agg(to_jsonb(t)),'[]') from public.{table} t {where}; commit;")
 
 

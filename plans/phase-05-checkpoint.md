@@ -2,16 +2,66 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 321
+sequence: 323
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 349056b
-working_tree: acceptance contract and continuity documents; owner artifacts preserved and unstaged
-updated_at: 2026-10-16T16:14:45+08:00
+head_commit: 01c70b7
+working_tree: test adapter, new integration tests and continuity/report updates; owner artifacts preserved
+updated_at: 2026-10-16T16:38:33+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-aware engine verified through real database roles — 16 October 2026
+
+[Report](2026-10-16-source-aware-database-verification.md), baseline 01c70b7;
+production remains 8595fb8. New synthetic integration closes the missing
+source-aware engine + actual PostgreSQL SELECT/RPC composition check under
+both anon and authenticated. Whole required-neighbor context, rendered source
+fields/citations, absent claims, scope/budget rejection, snapshot mismatch and
+pre-encoding release/configuration guards pass. Test adapter now selects only
+explicit unprivileged runtime roles, preserving default anon/admin behavior.
+
+Role-helper RED: seven expected failing subcases; GREEN two tests/seven
+subtests. Initial integration seven tests/19 subtests; final relevant regression
+suite 99 tests/148 subtests passes in 108.63s. One independent review finds no
+Critical/Important/Minor issues. HTTP transport, real models and institutional
+authority remain outside this synthetic check; parent verified final tests.
+All 29 disposable databases removed; four synthetic role outputs hash-recorded.
+No production/schema/source/model/shared-database change. Owner artifacts
+preserved and unstaged. Prior claim of no independent verification work was too
+broad; this specific composed path was missing. Formal Tasks 4/6 remain open
+on real-source/release prerequisites and actual authorized runtime validation.
+No repeat model/grid/source mapping or pending school-response question;
+no Phase 06. Engineering estimate remains about 85%, conditional 6–12 hours.
+
+
+Closure checks: documentation/phase ledger 522 tests / 11 subtests pass in
+11.79s, exit 0; phase validate exits 0, can-advance exits 1 (expected blocked).
+Whitespace checks pass. This commit contains test coverage, the restricted test
+adapter option and recovery documentation only. Product/schema/evaluation trees
+remain unchanged; owner artifact changes remain unstaged. The synthetic composed
+path is verified; the real-source release gate remains unresolved.
+
+## Source-aware database integration gap identified — 16 October 2026
+
+At 01c70b7, code inspection finds the source-aware engine covered with storage
+doubles and the real database suite covered with the legacy engine. The prior
+claim of no independent verification work remaining was too broad. Student
+capability: source-linked reviewed policy context, with insufficient claims
+withheld. Path: existing SourceAwareEvidencePolicy → engine → actual role SQL
+and RPC → assembly/rendered-field assessment. Master 10 / Task 6 question:
+does real transport preserve snapshot bindings, whole required context and
+conservative dispositions for both runtime roles? Use synthetic fixtures only.
+
+Next add bounded integration coverage for both roles, available/absent claims,
+neighbor/budget handling, wrong scope, stale pins and snapshot mismatch. No new
+benchmarks, real-source promotion, shared migration, model or dependency change.
+Thesis physical17–18 and routing PNG/master10 reconsulted, no scope discrepancy.
+Full product behavior changes, if a defect is found, require focused RED/GREEN;
+verification alone must not invent a production fix. Owner artifacts preserved.
+
 
 ## Bounded document acceptance criteria recorded — 16 October 2026
 
@@ -2127,6 +2177,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: synthetic source-aware database integration and relevant regressions
+verified; one reviewer clear. Finish documentation checks and commit.
+
+Latest: verify the source-aware engine through real disposable PostgreSQL roles
+with synthetic reviewed fixtures; previously uncovered composition seam.
 
 Latest: bounded acceptance criteria recorded and saved evidence rechecked.
 No engine change is justified by this decision;finish documentary closure.
@@ -5239,6 +5295,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: source-aware engine composition with real synthetic-role SQL is now
+verified. Keep that evidence distinct from real-source authorization and the
+remaining formal runtime validation. Resume concrete real-source/release work
+when supported decisions/evidence exist; no repeated integration run without
+a new change/failure, no speculative updater or additional calibration sidecar.
 
 Latest: bounded development acceptance contract is resolved. Continue gate-bearing
 source/release integration only on concrete supported decisions/evidence and
