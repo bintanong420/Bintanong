@@ -10,6 +10,16 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Subsequent acquisition byte evidence is now available locally: all five original
+hashes match and five later system checks produce valid A2 derivatives preserving
+C1 partial review/pending verification/not_requested approval and accepted
+selected19chunk bindings. See [recheck](2026-10-16-acquisition-recheck-report.md)
+and [proposed A2 design](2026-10-16-acquisition-verification-design.md).
+Single builder question resolved by requiring existing C1 before this narrow A2
+operation. No A2 persistence implementation or database call; new design needs
+full-description approval before implementation. Actual source/release/runtime
+formal exits remain open; noPhase06 or repeated completed experiments/reviews.
+
 Approved selected-release review plan complete at product6378994; final full5486/
 1200 and documentary521/11 checks pass. Two Important findings fixed, corrected
 real-package rehearsal,241owned/reviewer DB absences and16047-file evidence

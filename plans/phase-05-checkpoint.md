@@ -2,16 +2,31 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 354
+sequence: 356
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 6378994
-working_tree: Selected release-review documentary closure; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T21:50:00+08:00
+head_commit: a4661f1
+working_tree: A2 original-byte evidence preparation and proposed persistence design; owner artifact changes preserved unstaged
+updated_at: 2026-10-16T22:04:02+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Subsequent original-byte check prepared — 16 October 2026
+
+Fresh reads of five originals match all recorded hashes. Five new system checks
+strictly follow cited A1 observations; five local A2 derivatives validate while
+retaining C1 partial review, pending verification, not_requested/null approval
+and selected19chunk bindings. Six historical inputs unchanged; no database call
+or product change. See acquisition-recheck report and proposed A2 design.
+Independent packet verification passes5derivatives/5originals/6input hashes;
+1081contract/docs/ledger tests and11subtests pass14.02s. Ten-file seal verified,
+digest in recheck report. One builder question resolved by requiring existing
+C1 partial review before the narrow A2 call; no deferred question. Consulted
+actual thesis17–18/39–44/routingPNG, master3/6/10/11/13; no scope discrepancy.
+Final docs/ledger535tests/11subtests pass11.65s, validate0/can-advance1(expected
+blocked), whitespace clear. Documentary commit follows; product unchanged.
 
 ## Selected release-review delivery closed — 16 October 2026
 
@@ -2678,6 +2693,11 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: A2 packet independently verified/sealed and complete proposed design
+builder-checked. Present the design for full-description approval required by
+the quoted brainstorming skill. Existing A1/C1/scoped-review delivery remains
+complete; no A2 implementation or stored state change has occurred.
 
 Latest: product6378994, final verification, evidence seal and dated plan complete.
 This documentary commit closes delivery; no further code/review/rehearsal/grid.
@@ -5811,6 +5831,11 @@ Ruling: keep legacy adapter compatibility; Phase 05 strict wrapper forbids its s
 
 ## Known Failures or Blockers
 
+Latest: subsequent A2 byte evidence now exists locally. A2 persistence is absent;
+the proposed interface needs full-description approval before implementation.
+Issuing-office verification/approval, source/release/authorized-runtime formal
+exits remain missing; a byte check supplies none of those. NoPhase06.
+
 Latest observed reliability limitation: full run logs native Windows access violation near99%, then completes5365passing/exit0. Exact origin unknown; adjacent synthetic PDF isolation passes1/18.00s without reproduction. No failing test or process shown, no clean-stderr or fix claim. Preserve logs; obtain specific reproducer if it recurs before a dependency/code change.
 
 G exact readings remain unverified after a retention/hearsay clarification. Do not
@@ -5924,6 +5949,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: record actual approval of the complete A2 persistence design when
+received; then write the implementation plan and use narrow TDD. New interface
+requires C1 partial review before A2. Do not repeat prepared original checks,
+A1/C1/selected reviews, unchanged full suite, models or retrieval grid. Actual
+source/release/runtime authority remains separate, noPhase06.
 
 Latest: preserve verified bounded delivery. Resume only actual source/release
 evidence and authorized runtime

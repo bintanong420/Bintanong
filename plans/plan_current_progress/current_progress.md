@@ -1,5 +1,32 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A2 evidence and complete design ready — 16 October 2026
+
+Independent verification confirms five original hashes/five exact local A2
+derivatives/six unchanged historical inputs.1081tests/11subtests pass14.02s;
+new10-file seal verified, digest in acquisition-recheck report. One builder
+question resolved: require existing C1 partial review before A2, preserving
+the existing C1 boundary and matching all five sources. No deferred question.
+Complete narrow design ready for full-description approval under the quoted
+brainstorming SKILL.md. Then implementation plan/TDD; no A2 code/database change
+yet. Formal source/release/runtime exits remain, noPhase06. Owner artifacts
+preserved. No repeated original checks, source reviews, grids or full suite.
+Final docs/ledger535tests/11subtests pass11.65s, validate0/can-advance1(expected
+blocked), whitespace clear. Documentary closure commit follows.
+
+## Subsequent acquisition check prepared — 16 October 2026
+
+Fresh reads match all five original hashes. Five distinct later system checks
+produce contract-valid A2 local derivatives from C1 partial-review registers,
+preserving pending verification, not_requested/null approval and accepted19chunk
+review bindings. Six input hashes unchanged; zero database calls/product changes.
+See plans/2026-10-16-acquisition-recheck-report.md and the proposed narrow
+acquisition-verification design. One builder check and independent evidence/docs
+verification pending; no A2 persistence yet. Actual thesis17–18/39–44/routingPNG
+and master3/6/10/11/13 reconsulted, undergraduate scope retained. Owner artifacts
+preserved/unstaged. Next finish checks/seal, then complete-description review;
+Phase05 formal exits remain open, noPhase06.
+
 ## Selected release-review approved plan complete — 16 October 2026
 
 Product6378994 unchanged; final5486tests/1200subtests and docs521tests/11subtests
