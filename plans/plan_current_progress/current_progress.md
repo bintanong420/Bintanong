@@ -1,5 +1,47 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Selected document research profile verified — 16 October 2026
+
+[Profile](../2026-10-16-document-development-profile.md)/[exit packet](../2026-10-16-phase05-remaining-exit-packet.md)
+at3c09104/product8595fb8 unchanged. Frozenk3/.25/2048:39engine/saved-double
+probes retain18field-available/21insufficient,18positive contexts complete,
+36related contexts with threeT1misses preserved. No second trial/model/DB call.
+Independent741score/39ranking-token/303citation/117field/17input/17primary+
+17emission audit verifies. Reviewer resumed the initially unrun usage-limited
+review and completed clear:noCritical/Important/Minor. Authority/held fields/
+NLP/runtime/generalization/formal gates remain outside research selection.
+Combined559tests/51subtests13.19s pass;17-file seal
+6f8154ecf056fdb94c75b294b7e4b1b5c93c04e737ac70d4e73ef5e772b02428;
+four prior seals unchanged. Exact source package5versions/19chunks/54spans/
+52field associations remains pending, not whole-source audit. Next packetstep1
+maps actual existing source events to transition evidence;no guessed promotion,
+new DB/helper/model or repeated reviews. FormalTasks4/6 open;owner artifacts
+unstaged;no default change/activation/Phase06.
+
+Final closure507doc/ledger tests/11subtests pass11.59s;validate0/can-advance1
+(expected blocked),whitespace and17-file seal verify. Raw evidence read-only;
+check logs in separate selection-checks sibling,product unchanged.
+
+## Profile results recovered after usage cutoff — 16 October 2026
+
+Frozenk3/.25/2048 and39engine/saved-double results recovered, not repeated.
+18field-available/21insufficient unchanged;all18positive contexts complete;
+relatedcontext36/39with threeT1misses. Independent741score/39token/303citation/
+117field/17input/17primary+17emission-summary audit passes;frozen JSON identical.
+53focused tests/40subtests passed0.95s. Reviewer never ran due to usage limit;
+one resumed attempt pending, no completed review claimed. Scope17–18/routing/
+master10 reconsulted. Next review/seal/doc checks and exact remaining-gate packet.
+No new embeddings/DB/default/source decisions;owner artifacts preserved.
+
+## Document development profile selection resumed — 16 October 2026
+
+At3c09104, owner continued bounded calibration. [Plan](../2026-10-16-document-policy-selection-plan.md)
+selectsk3/.25/2048 from saved grid before fixed39-case verification over19-chunk
+loader package. Trusted subject/all primaries, no new encodings/grid/helper or
+runtime default. Next freeze settings/bindings, actual-engine/saved-input replay
+and independent741score/metrics/citation/token audit. Scope17–18/routing/master10
+consulted;original artifacts preserved. Formal gates/uncalibrated status retained.
+
 ## Pending source importer delivered — 16 October 2026
 
 [Report](../2026-10-16-source-registration-report.md):code dc98b25/review fix

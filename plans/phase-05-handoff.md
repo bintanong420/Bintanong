@@ -3,12 +3,26 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 8595fb8
+final_commit: 3c09104
 recovery_condition: Complete source governance and verified candidate ingestion for the supplied policy documents, then approved development-case retrieval/calibration and master section10; prospectus review is deferred and candidate counts alone do not authorize advancement.
-completed_at: 2026-10-16T13:35:03+08:00
+completed_at: 2026-10-16T15:53:46+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Document research profile and exit packet verified — 16 October 2026
+
+[Profile](2026-10-16-document-development-profile.md)/[packet](2026-10-16-phase05-remaining-exit-packet.md):
+frozenk3/.25/2048,39engine/saved-double probes,18field-available/21insufficient;
+all18positive contexts complete,36/39related contexts,threeT1misses preserved.
+Single reviewer resumed after usage cutoff and completed with no findings.
+Independent scores/rankings/tokens/citations/fields/subgroup audit passes;
+559tests/51subtests13.19s pass,17-file seal in report/fourprior seals unchanged.
+Product8595fb8 unchanged. Exact pending inventory5versions/19chunks/54spans/
+52field associations, not whole-source audit. Next existing-source-event mapping
+to exact transition evidence per packet, without promotion/DB writes/repeated
+decisions. Research profile does not close formalTasks4/6 or authorize runtime/
+source activation/Phase06. Earlier calibration-next notes below are history.
 
 ## Pending source importer delivered — 16 October 2026
 

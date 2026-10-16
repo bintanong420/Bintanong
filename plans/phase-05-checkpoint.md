@@ -2,16 +2,67 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 312
+sequence: 316
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 8595fb8
-working_tree: eight final delivery and continuity documents; owner artifacts preserved
-updated_at: 2026-10-16T13:35:03+08:00
+head_commit: 3c09104
+working_tree: three policy/gate documents and five continuity documents; owner artifacts preserved
+updated_at: 2026-10-16T15:55:29+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Selected document research profile verified — 16 October 2026
+
+[Profile](2026-10-16-document-development-profile.md)/[remaining exit packet](2026-10-16-phase05-remaining-exit-packet.md)
+complete at baseline3c09104/product8595fb8 unchanged. Frozenk3/.25/2048 verified
+against39accepted document variants/19-chunk package with saved doubles/local
+tokenizer:18fields-available/21insufficient,18of18positive contexts complete,
+36of39related contexts. ThreeT1misses preserved;no second parameter trial.
+Independent741score/39rank-token/303citation/117field/17input/17primary+17emission
+audit passes. Single reviewer initially blocked by usage limit, resumed and
+completed with noCritical/Important/Minor findings. Source authority, held fields,
+automatic interpretation, real runtime authorization, generalization/formal
+acceptance/phase judgments remain outside this research profile;gates preserved.
+Combined559tests/51subtests pass13.19s.17-file raw seal
+6f8154ecf056fdb94c75b294b7e4b1b5c93c04e737ac70d4e73ef5e772b02428;
+four prior seals unchanged. Exact pending source inventory5versions/19chunks/
+54spans/52field associations is selected packaging, not whole-source audit.
+Next existing source-event/transition-evidence reconciliation from packet, no
+new DB/helper/embedding/wording review. FormalTasks4/6 open/noPhase06. Owner
+artifacts preserved/unstaged;no product/default/shared migration/activation.
+
+Final closure:507documentation/ledger tests/11subtests pass11.59s exit0;
+validate0/can-advance1(expected),whitespace/current17-file seal verify. Raw
+evidence marked read-only;checks stay in separate sibling. Baseline3c09104
+precedes documentary closure;no product changes or formal advancement.
+
+## Profile results recovered after usage cutoff — 16 October 2026
+
+No lost experiment: frozenk3/.25/2048 profile and39actual-engine/saved-double
+results exist.18field-available variants have complete expected context and
+remainuncalibrated;21expected insufficient variants stay insufficient. Related
+context36/39;all three misses T1current-year deadline, because globaltopk precedes
+subject filtering, unlike the prior diagnostic. No second parameter trial.
+Independent audit verifies741dot scores,39normalized-cosine topk agreement,
+39token counts,303citation bindings,117rendered fields,17primary/17emission
+summary groups and17unchanged input hashes;initial/final frozen JSON identical.
+The requested independent reviewer never ran due to usage limit; one resumed
+attempt now pending. Do not claim completed review. Focused53tests/40subtests
+passed0.95s before cutoff. Scope17–18/routing/master10 reconsulted on resume;
+source holds/owner artifacts/legacy defaults preserved. Next finish review,
+seal observations and doc/ledger verification, then remaining-gate packet.
+
+## Document development profile selection resumed — 16 October 2026
+
+Owner continued after importer closure3c09104. [Bounded plan](2026-10-16-document-policy-selection-plan.md)
+predeclaresk3/.25/2048 from existing grid, trusted subject/all primaries. Verify
+actual engine over19-chunk loader package and39saved document queries; one fixed
+profile, no grid/model/new policy helper. Independent741score/math/citation/token
+audit and per-language/category findings. Scope17–18/routing/master10 consulted,
+no discrepancy;owner artifacts preserved. Next freeze profile/bindings then run.
+Source holds/legacy default/uncalibrated engine/Phase05 gates remain unchanged.
 
 ## Pending source importer delivered — 16 October 2026
 
@@ -2018,6 +2069,10 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: bounded document research profile and remaining exit packet verified;
+documentary closure. Next source-event/transition-evidence mapping, reusing
+actual reviewed events and preserving any genuinely missing prerequisites.
+
 Latest: source importer and positive inactive-draft verification delivered at
 8595fb8; final documentary closure. Next bounded document calibration policy
 reconciliation using existing accepted cases; no new source/embedding sweep.
@@ -3879,6 +3934,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest baseline3c09104/product8595fb8 unchanged. Three new selection/gate docs
+and five continuity documents are this closure; owner artifact changes remain
+preserved/unstaged. Raw current17-file and four prior seals verify unchanged.
+
 Latest verified product:8595fb8. Final report/README/plan/index/handoffs/current
 progress are documentary closure. Owner artifacts/.gitkeep deletion and untracked
 backend/artifacts preserved and unstaged; no shared database writes.
@@ -5109,6 +5168,13 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: follow the remaining exit packet's step1: map existing confirmed source
+events to exact governance transition/evidence requirements. Produce concrete
+supported mapping or actual missing prerequisite without writing DB states,
+inventing approvals, repeating source decisions or adding another experiment.
+The profile is selected research evidence, not formal calibrated acceptance.
+Phase05 remains active/blocked;noPhase06 or activation.
 
 Latest: reconcile/select bounded document-retrieval calibration policy from
 existing accepted cases and source-aware integration. Registration/draft gap is
