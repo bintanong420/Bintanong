@@ -39,3 +39,20 @@ by existing RLS. Creating a draft does not activate it. Existing activation
 checks and source/content holds still apply. New migration files are candidates
 until applied through the applicable deployment workflow; no shared application
 is implied by local test delivery.
+
+`SourceAcquisitionLoader.observe(current, check)` records only the A1 acquisition
+transition from initial pending to observed. Supply the unchanged full source
+contract and an exact check envelope: version_id, source_sha256,
+acquisition_locators and Evidence. It binds the check to the source and preserves
+all scope, review and approval fields. This records a trusted byte-check claim;
+it does not verify local files, authenticate a recorder or establish authority.
+
+The administrative `observe_source_acquisition` invoker RPC derives the change
+under the publication lock, compares the complete register and relational
+projection, and rejects stale/conflicting, legacy/null or published sources.
+Only acquisition_state and the appended source-register Evidence change. An
+explicit exact replay returns the persisted record without an UPDATE; uncertain
+transport errors never trigger retries. Replay observation directly: initial
+registration of the old pending record remains a conflict after observation.
+Runtime roles cannot invoke this operation, and observed pending sources remain
+hidden. No verification, approval, content review or release activation follows.

@@ -58,27 +58,27 @@ params p_expected_register/p_check, role admin. Parse and compare its return.
 
 ## Task 2: Atomic database observation
 
-**Files:** add the CLI-generated phase5_acquisition_observation migration; record
-its exact generated path in this plan/checkpoint. Extend the new test file with
+**Files:** CLI-generated supabase/migrations/20261016093918_phase5_acquisition_observation.sql.
+Extend the new test file with
 actual disposable-database tests. Modify storage README for the interface.
 
 **Interface:** observe_source_acquisition(p_expected_register jsonb, p_check jsonb)
 returns jsonb (the exact stored SourceDocumentVersion). SECURITY INVOKER, explicit
 service_role EXECUTE, runtime/PUBLIC revoked. No caller-supplied desired record.
 
-- [ ] Write actual-role tests: correct first call/replay and flattened register
+- [x] Write actual-role tests: correct first call/replay and flattened register
   consistency, retained evidence, stale/different concurrent observations,
   malformed direct calls, wrong source binding and attempted wider transitions.
   Pin each of the five Review Focus conditions with assertions, including
   published/null-register rejection and replay with drifted relational metadata.
-- [ ] Observe RED for missing RPC. Discover existing CLI usage with --help;
+- [x] Observe RED for missing RPC. Discover existing CLI usage with --help;
   generate the additive migration without applying it to shared databases.
-- [ ] Implement closed-shape/null/type/initial-state/A1 checks. Validate real
+- [x] Implement closed-shape/null/type/initial-state/A1 checks. Validate real
   timestamp syntax/value. Derive the observed JSON from expected + one Evidence.
   Acquire publication lock; require full stored register/row projection equality
   for either expected or exact observed replay; reject published membership.
   Update only acquisition_state and source_register, then return the register.
-- [ ] Verify actual persisted values and no writes on failures, both runtime-role
+- [x] Verify actual persisted values and no writes on failures, both runtime-role
   denials and importer conflict after observation. Run relevant storage/governance
   regressions. Commit the cohesive SQL/test increment.
 
@@ -87,13 +87,13 @@ service_role EXECUTE, runtime/PUBLIC revoked. No caller-supplied desired record.
 **Files:** update this plan, active checkpoint/progress/index/handoffs and a concise
 delivery report in plans/. Raw driver/results stay ignored, not in product code.
 
-- [ ] Bind existing pending five-version package and sealed byte-check inputs by
+- [x] Bind existing pending five-version package and sealed byte-check inputs by
   hash. Prepare only the design's check projection, preserving actual recording
   times/roles and fresh-hash-{version_id} Evidence IDs.
-- [ ] In one uniquely named disposable database, register initial sources, apply
+- [x] In one uniquely named disposable database, register initial sources, apply
   each A1 observation twice and compare complete stored/returned records. Retain
   all other states, source identities and existing span/vector bindings.
-- [ ] Reuse the existing chunks/vectors for an inactive draft compatibility check;
+- [x] Reuse the existing chunks/vectors for an inactive draft compatibility check;
   verify both runtime roles remain unable to see the real-source corpus/release.
   Keep original package files unchanged; remove only the rehearsal database.
 - [ ] Run one independent final review; resolve material findings with focused
@@ -114,3 +114,16 @@ Pre-flight: Task1 produces the exact two-param admin RPC consumed by Task2;
 Task2 returns the full source register consumed by Task1/Task3; no conflicts.
 Ruling: retain execution inline without a second plan/method approval because
 owner approved the complete bounded design and continuation. No wider gate added.
+
+Task2 evidence: actual-role missing-RPC RED1 failure, then GREEN15tests/70subtests
+in34.22s. Added timestamp parity regression: valid +23:59/nanosecond fraction
+failed PostgreSQL timestamptz casting; smallest correction validates the calendar
+as timestamp independently of the already checked offset syntax, retaining text.
+Relevant final GREEN58tests/178subtests in123.97s (acquisition, registration,
+idempotency, security and source-aware database). No shared migration applied.
+
+Task3 rehearsal: five observations/five exact replays, 19 saved chunks/vectors,
+54 spans, one inactive draft, zero active pointers; both runtime roles see zero
+rows. Six input hashes unchanged; unique rehearsal database dropped. Raw evidence
+at workspace/audit-evidence/p05-acquisition-observation-20261016. Final independent
+review/full suite pending; do not repeat this successful rehearsal unchanged.

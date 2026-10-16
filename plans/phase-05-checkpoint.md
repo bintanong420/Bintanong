@@ -2,16 +2,35 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 331
+sequence: 332
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 78ae763
-working_tree: approved A1 implementation plan and progress; owner artifacts preserved
-updated_at: 2026-10-16T17:34:40+08:00
+head_commit: 391ef8a
+working_tree: verified A1 migration tests README and continuity; owner artifacts preserved
+updated_at: 2026-10-16T17:48:49+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## A1 SQL and five-source rehearsal verified — 16 October 2026
+
+Task2 migration supabase/migrations/20261016093918_phase5_acquisition_observation.sql
+implements atomic A1-only persistence, full row/register compare-and-set, exact
+replay, published/legacy rejection and service-role-only invoker execution.
+Missing-RPC RED1; initial GREEN15tests/70subtests34.22s. Timestamp parity RED1
+then corrected independent calendar/offset validation: Python accepts +23:59.
+Final relevant GREEN58tests/178subtests123.97s, exit0, including real-role tests.
+
+Task3 real-package rehearsal passed: five observations/five replays; five versions,
+19 reused chunks/vectors,54spans, one draft, zero active pointers. Both runtime
+roles see zero rows; all other lifecycle states/bindings and six inputs unchanged.
+Only the unique rehearsal DB changed and was dropped; no shared writes. Raw logs
+under workspace/audit-evidence/p05-acquisition-observation-20261016. Next commit
+SQL/tests then one final review/full suite; do not repeat the successful rehearsal.
+After context rollover reloaded AGENTS/skills and scope physical17–18/routing PNG,
+master10, phase04 handoff and active plans. No architecture/scope discrepancy.
+Owner artifact changes remain unstaged. Formal Tasks4/6 and Phase06 stay gated.
 
 ## A1 loader verified — 16 October 2026
 

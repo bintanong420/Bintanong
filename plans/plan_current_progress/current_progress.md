@@ -1,5 +1,17 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## A1 SQL and five-source rehearsal verified — 16 October 2026
+
+Approved implementation Task2: atomic acquisition pending→observed only, exact
+replay and full row consistency, service-role-only RPC. Relevant GREEN58tests/
+178subtests123.97s after missing-RPC RED and timestamp-parity RED/GREEN. Migration
+20261016093918_phase5_acquisition_observation.sql remains unapplied to shared DBs.
+Disposable real-package rehearsal passed five observations/five exact replays,
+19 saved chunks/vectors/54spans; zero active pointers, both runtime roles hidden.
+Other source states/bindings and six input hashes unchanged; rehearsal DB dropped.
+Next commit this verified increment, one final review/full suite, then closure.
+No new source decision/encoding/conversion or Phase06; owner artifacts preserved.
+
 ## A1 loader verified — 16 October 2026
 
 Owner approved78ae763. Implementation plan Task1 loader RED31 failures/subcases

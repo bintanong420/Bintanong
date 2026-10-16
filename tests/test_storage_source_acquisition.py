@@ -1,12 +1,18 @@
 """Synthetic A1-only source observations; no institutional authority fixtures."""
 import copy
+from concurrent.futures import ThreadPoolExecutor
 import importlib
 import importlib.util
+import json
 import unittest
 
 from backend.bintanong_contracts.governance import SourceDocumentVersion
 from backend.bintanong_storage.client import StorageError
-from tests.test_storage_source_registration import pending_version
+from backend.bintanong_storage.client import PermissionDeniedError
+from backend.bintanong_storage.source_registration import SourceRegistrationLoader
+from backend.bintanong_storage.source_acquisition import SourceAcquisitionLoader
+from tests.storage_database import DatabaseStorageClient, StorageDatabase, FIXTURE, sql_literal
+from tests.test_storage_source_registration import pending_version, document_record
 
 
 def byte_check(version=None):
@@ -115,3 +121,165 @@ class AcquisitionLoaderTests(unittest.TestCase):
         with self.assertRaises(StorageError):
             loader_class(self)(self.client).observe(self.current, self.check)
         self.assertEqual(len(self.client.calls), 1)
+
+
+class AcquisitionDatabaseTests(unittest.TestCase):
+    def setUp(self):
+        self.db = StorageDatabase()
+        self.addCleanup(self.db.close)
+        self.client = DatabaseStorageClient(self.db)
+        self.current = pending_version()
+        self.check = byte_check(self.current)
+        self.registration = SourceRegistrationLoader(self.client)
+        self.registration.load_versions([self.current], [document_record()])
+        self.loader = SourceAcquisitionLoader(self.client)
+
+    def rows(self):
+        return self.client.select('document_versions', role='admin')
+
+    def rpc(self, current=None, check=None):
+        return self.client.rpc('observe_source_acquisition', dict(
+            p_expected_register=self.current if current is None else current,
+            p_check=self.check if check is None else check), role='admin')
+
+    def test_persisted_record_and_exact_replay_preserve_all_other_columns(self):
+        before = self.rows()[0]
+        result = self.loader.observe(self.current, self.check)
+        after = self.rows()[0]
+        self.assertEqual(after['source_register'], result.model_dump(mode='json'))
+        self.assertEqual(after['acquisition_state'], 'observed')
+        self.assertEqual({k:v for k,v in before.items() if k not in ('source_register','acquisition_state')},
+                         {k:v for k,v in after.items() if k not in ('source_register','acquisition_state')})
+        self.assertEqual(self.loader.observe(self.current, self.check), result)
+        self.assertEqual(self.rows()[0], after)
+        with self.assertRaises(StorageError):
+            self.registration.load_versions([self.current], [document_record()])
+        with self.assertRaises(ValueError):
+            self.registration.load_versions([result], [document_record()])
+        self.assertEqual(self.rows()[0], after)
+
+    def test_retains_unused_preexisting_evidence(self):
+        current = pending_version('two')
+        check = byte_check(current)
+        current['evidence'] = [dict(check['evidence'], evidence_id='old-observation')]
+        self.registration.load_versions([current], [document_record()])
+        out = self.loader.observe(current, check).model_dump(mode='json')
+        self.assertEqual(out['evidence'], current['evidence']+[check['evidence']])
+        self.assertEqual(self.loader.observe(current, check).model_dump(mode='json'), out)
+
+    def test_preserves_valid_contract_timestamp_with_wide_offset_and_fraction(self):
+        self.check['evidence']['recorded_at'] = '2026-10-16T08:01:22.123456789+23:59'
+        expected = SourceDocumentVersion.parse(observed_record(self.current,self.check))
+        self.assertEqual(self.loader.observe(self.current,self.check), expected)
+
+    def test_direct_rpc_rejects_malformed_observations_without_updates(self):
+        calls = [(None,self.check), ([],self.check), (self.current,None),
+            (self.current,[]), (self.current,{}), (self.current,dict(self.check,extra=True)),
+            (self.current,dict(self.check,version_id='ver-other')),
+            (self.current,dict(self.check,source_sha256='9'*64)),
+            (self.current,dict(self.check,acquisition_locators=[]))]
+        for key in self.check:
+            calls.append((self.current,{k:v for k,v in self.check.items() if k != key}))
+        for field,value in (('kind','issuing_office_confirmation'), ('recorded_by','issuing_office'),
+                ('recorded_at','2026-02-30T00:00:00Z'),('recorded_at','2026-10-16T25:01:00Z'),
+                ('recorded_at','2026-10-16T00:01:00+24:00'),('recorded_at','1999-10-16T00:01:00Z'),
+                ('recorded_at',None),('authorization_ref','forbidden'),('evidence_id','')):
+            check = copy.deepcopy(self.check)
+            check['evidence'][field] = value
+            calls.append((self.current,check))
+        for field in self.check['evidence']:
+            check = copy.deepcopy(self.check)
+            del check['evidence'][field]
+            calls.append((self.current,check))
+        for field in ('verification_state','content_review_state','approval_state'):
+            current = copy.deepcopy(self.current)
+            current[field]['state'] = 'verified'
+            calls.append((current,self.check))
+        before = self.rows()
+        for current,check in calls:
+            with self.subTest(current=current,check=check), self.assertRaises(StorageError):
+                self.client.rpc('observe_source_acquisition',dict(p_expected_register=current,p_check=check),role='admin')
+        self.assertEqual(self.rows(), before)
+
+    def test_stale_expected_record_and_different_evidence_do_not_overwrite(self):
+        self.loader.observe(self.current, self.check)
+        before = self.rows()
+        stale = dict(self.current, filename='stale.pdf')
+        different = copy.deepcopy(self.check)
+        different['evidence']['evidence_id'] = 'different-observation'
+        for current,check in ((stale,self.check),(self.current,different)):
+            with self.subTest(current=current,check=check), self.assertRaises(StorageError):
+                self.rpc(current,check)
+        self.assertEqual(self.rows(), before)
+
+    def test_relational_drift_is_rejected_on_first_application_and_replay(self):
+        for replay in (False,True):
+            for assignment in ("filename='changed.pdf'", "acquisition_state='pending'" if replay else "acquisition_state='observed'",
+                    "verification_state='verified'", "issuer='{}'::jsonb"):
+                with self.subTest(replay=replay,assignment=assignment):
+                    if replay:
+                        self.loader.observe(self.current,self.check)
+                    self.db.execute('update public.document_versions set '+assignment+
+                        " where version_id='ver-registration-one';")
+                    before = self.rows()
+                    with self.assertRaises(StorageError):
+                        self.rpc()
+                    self.assertEqual(self.rows(), before)
+                    self.db.execute("update public.document_versions set filename='one.pdf', acquisition_state='pending',"
+                        "verification_state='pending',issuer="+sql_literal(json.dumps(self.current['issuer']))+
+                        "::jsonb,source_register="+sql_literal(json.dumps(self.current))+"::jsonb where version_id='ver-registration-one';")
+
+    def test_missing_and_legacy_null_registers_are_rejected(self):
+        other = pending_version('two')
+        with self.assertRaises(StorageError):
+            self.loader.observe(other,byte_check(other))
+        self.db.execute("update public.document_versions set source_register=null;")
+        before = self.rows()
+        with self.assertRaises(StorageError):
+            self.rpc()
+        self.assertEqual(self.rows(), before)
+
+    def test_both_runtime_roles_cannot_execute_or_read_observed_source(self):
+        self.loader.observe(self.current,self.check)
+        for role in ('anon','authenticated'):
+            with self.subTest(role=role):
+                client = DatabaseStorageClient(self.db,runtime_role=role)
+                with self.assertRaises(PermissionDeniedError):
+                    client.rpc('observe_source_acquisition',dict(p_expected_register=self.current,p_check=self.check))
+                self.assertEqual(client.select('document_versions'), [])
+        attrs = self.db.json("select jsonb_build_object('definer',prosecdef,'public',exists(select 1 from "
+            "aclexplode(proacl) x where x.grantee=0 and x.privilege_type='EXECUTE')) from pg_proc "
+            "where proname='observe_source_acquisition';")
+        self.assertEqual(attrs,dict(definer=False,public=False))
+
+    def test_concurrent_equal_replays_succeed_and_different_observations_conflict(self):
+        for same in (True,False):
+            other = copy.deepcopy(self.check)
+            if not same:
+                other['evidence']['evidence_id'] = 'competing-observation'
+            def observe(check):
+                try:
+                    return self.loader.observe(self.current,check).model_dump(mode='json')
+                except StorageError:
+                    return None
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                results = list(pool.map(observe,[self.check,other]))
+            self.assertEqual(sum(x is not None for x in results), 2 if same else 1)
+            stored = self.rows()[0]
+            self.assertEqual(len(stored['source_register']['evidence']), 1)
+            self.assertIn(stored['source_register'], results)
+            self.db.execute("update public.document_versions set acquisition_state='pending',source_register="+
+                sql_literal(json.dumps(self.current))+"::jsonb;")
+
+    def test_published_membership_is_rejected_even_with_a_pending_register(self):
+        from backend.bintanong_storage.release import ReleaseManager
+        self.db.execute(FIXTURE+"update public.document_versions set source_register="+
+            sql_literal(json.dumps(self.current))+"::jsonb where version_id='ver-test1'; commit;")
+        ReleaseManager(self.client).activate_release('release-test1')
+        before = self.rows()
+        expected = copy.deepcopy(self.current)
+        expected['version_id'] = 'ver-test1'
+        check = byte_check(expected)
+        with self.assertRaisesRegex(StorageError,'Published'):
+            self.rpc(expected,check)
+        self.assertEqual(self.rows(), before)
