@@ -2,16 +2,29 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 343
+sequence: 344
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5f38c2e
-working_tree: Selected review-scope decision packet and continuity; owner artifacts preserved unstaged
-updated_at: 2026-10-16T19:20:38+08:00
+head_commit: 21ceea5
+working_tree: Owner-requested chunking research and continuity; owner artifacts preserved unstaged
+updated_at: 2026-10-16T19:43:33+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Owner-requested RAG chunking research — 16 October 2026
+
+Primary-source research recorded in plans/2026-10-16-rag-chunking-research.md,
+baseline21ceea5. Grouping reviewed fields and restoring context around small
+retrieval units are established patterns;19selected chunks cannot establish
+full-corpus coverage. Read-only draft inspection counts2,309source_text chars,
+min/median/max6/119/261; serialized field labels/limits and embedding tokens are
+distinct. Adapter uses chunk.text. No new model/tokenizer/experiment/code/DB call.
+Existing39case findings and all source states/confirmations remain unchanged;
+separate selected-review completion answer pending. Governance is a project
+requirement, not an inherent RAG per-chunk human approval rule. Same-session
+scope17–18/routing/master10 evidence remains applicable; no scope discrepancy.
 
 ## Selected package review-scope decision prepared — 16 October 2026
 
@@ -2433,6 +2446,12 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: answer the owner's RAG chunking research question using primary sources
+and the actual selected package. Research does not answer the pending review
+scope question or justify another parameter sweep or source promotion.
+Research documentation/ledger518tests/11subtests pass11.44s, phase valid/blocked,
+whitespace clear. No product suite repeated; four documentation files only.
 
 Latest: present the concrete selected-package completion-scope decision. Actual
 owner answer remains pending; preserve existing confirmed readings and C1 scope.

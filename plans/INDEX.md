@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Owner-requested [RAG chunking research](2026-10-16-rag-chunking-research.md): multiple reviewed fields per chunk and small-unit/context expansion are established patterns.19is a selected pilot count, not a RAG coverage target. Existing source_text totals2,309characters before serialized labels/limits; source fragment length is not embedding-token count. Quality depends on evidence/context recovery and corpus coverage. No new experiment, policy/source change or approval; selected-review scope answer remains pending.
+
 - Next concrete source decision: [selected corpus review scope](2026-10-16-selected-corpus-review-scope.md), baseline5f38c2e. Existing renderer/receipt checks confirm19chunks/52field associations/54spans with zero unassociated spans and unchanged inputs. Owner completion decision is pending for this exact provisional undergraduate package; this does not reopen confirmed readings or mean whole-source review. No product/state/database change, school-response question or new experiment. Record the actual scope answer before dependent completion claims; source/release/runtime/Phase06 gates remain.
 
 - C1 approved plan complete: [delivery](2026-10-16-partial-source-review-report.md), final product9e6526c. All code/review/rehearsal/full-suite/documentation checks recorded;489-file raw seal created/verified. This documentary commit closes the feature while Phase05Tasks4/6 remain open on actual source/release/authorized-runtime evidence. Owner artifacts remain preserved/unstaged and worktree kept. No further C1 implementation, unchanged suite/rehearsal/grid or Phase06 follows.

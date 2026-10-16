@@ -1,5 +1,22 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Owner-requested RAG chunking research — 16 October 2026
+
+[Research](../2026-10-16-rag-chunking-research.md), baseline21ceea5. Primary
+Microsoft/LlamaIndex/Anthropic guidance and Chroma/author research support
+coherent chunks and small-unit/context expansion; count alone establishes no
+coverage or quality. Existing19chunks are a small selected pilot, with2,309
+source_text characters before serialized field labels/limits. This is not a
+token count or all reviewed material. No new experiment or implementation;
+existing confirmations remain valid and the separate completion-scope answer
+is still pending. Human/source approval gates are project governance, not an
+inherent RAG requirement to approve each chunk. Keep completed evidence and
+curriculum structured routing; no scope/authority/activation/phase advancement.
+Owner artifact changes preserved. Next answer the research question and retain
+the actual source/release prerequisites without asking for settled readings.
+Documentation/ledger518tests/11subtests pass11.44s; phase valid/blocked and
+whitespace clear. Four documentation files only; no product-suite rerun.
+
 ## Selected package completion-scope decision prepared — 16 October 2026
 
 [Decision packet](../2026-10-16-selected-corpus-review-scope.md), baseline5f38c2e.
