@@ -2,16 +2,44 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 307
+sequence: 309
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 5faf2fd
-working_tree: source-registration module/migration/tests/README/plan and continuity; owner artifacts preserved
-updated_at: 2026-10-16T13:08:08+08:00
+head_commit: dc98b25
+working_tree: test EOF whitespace and final continuity; owner artifacts preserved
+updated_at: 2026-10-16T13:23:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## One review finding corrected; full-suite command repaired — 16 October 2026
+
+Single final reviewer found one Important identity-invariant gap, no Critical/
+Minor findings. Independently reproduced7failures across3new tests/subcases:
+duplicate bytes and conflicting edition identities within batches/across calls.
+Fix invokes existing check_register for incoming contracts and checks stored
+byte/edition relationships under the publication lock.13tests/25subtests pass
+35.78s. No second review. Source/currentness, future transitions/backfill,
+adversarial admin, hosted deployment/formal phase/full-suite judgments remain
+outside this candidate interface; existing gates apply. Cost if mistaken for
+authority: pending research material could be treated as approved guidance.
+
+First full-suite command omitted the scratch parent:965setup errors/two failures
+(both long-path prospectus tests) all show basetemp mkdir WinError3;4437passed,
+2skipped/5warnings/708subtests334.69s. This is an execution setup mistake, not
+evidence of a passing full suite. Corrected flat scratch path has an existing
+parent. Next commit review fix, rerun full suite and positive draft, then seal.
+
+## Importer committed; final suite/review running — 16 October 2026
+
+dc98b25 commits pending-only registration/SQL/tests/README/plan. Valid acquired
+contract rejection additionally passes1test2.55s, distinguishing this interface
+from contract validation. Positive real-package draft verification complete;
+full offline tests suite running, one fresh final reviewer dispatched per inline
+execution skill. No success claimed for unfinished checks. One test EOF blank
+line corrected after commit; no behavior change. Next resolve material review
+findings with RED/GREEN, read final suite, seal evidence and close documentation.
 
 ## Pending source registration and draft rehearsal verified — 16 October 2026
 

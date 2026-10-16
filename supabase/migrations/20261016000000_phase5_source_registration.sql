@@ -55,6 +55,14 @@ begin
                 and x->'synthetic'=v->'synthetic') then
             raise exception 'Source parent metadata mismatch' using errcode='23514';
         end if;
+        -- Existing and earlier-in-batch versions share one byte/edition identity
+        -- space. The publication lock also serializes concurrent registrations.
+        if exists(select 1 from public.document_versions t
+            where t.version_id<>v->>'version_id' and
+                (t.byte_sha256=v->>'byte_sha256' or
+                    (t.edition_id=v->>'edition_id' and t.byte_sha256<>v->>'byte_sha256'))) then
+            raise exception 'Source byte/edition identity conflicts with registered evidence' using errcode='23514';
+        end if;
         proposed := jsonb_build_object(
             'version_id',v->'version_id','document_id',v->'document_id','edition_id',v->'edition_id',
             'filename',v->'filename','byte_sha256',v->'byte_sha256','acquisition_locators',v->'acquisition_locators',

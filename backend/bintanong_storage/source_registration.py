@@ -1,7 +1,7 @@
 """Initial-state source registration; never an approval or transition interface."""
 from collections.abc import Sequence
 
-from backend.bintanong_contracts.governance import SourceDocumentVersion, STATE_FIELDS
+from backend.bintanong_contracts.governance import SourceDocumentVersion, STATE_FIELDS, check_register
 from .client import SupabaseStorageClient
 
 
@@ -25,10 +25,10 @@ class SourceRegistrationLoader:
         for rows in (versions, documents):
             if not isinstance(rows, Sequence) or isinstance(rows, (str, bytes)) or not rows:
                 raise ValueError('Nonempty source versions and explicit document metadata required')
-        records = [SourceDocumentVersion.parse(v.model_dump(mode='json')
-            if isinstance(v, SourceDocumentVersion) else v).model_dump(mode='json') for v in versions]
-        if len({v['version_id'] for v in records}) != len(records):
-            raise ValueError('Duplicate source version identities')
+        parsed = [SourceDocumentVersion.parse(v.model_dump(mode='json')
+            if isinstance(v, SourceDocumentVersion) else v) for v in versions]
+        check_register(parsed)
+        records = [v.model_dump(mode='json') for v in parsed]
         docs = {}
         for d in documents:
             if (not isinstance(d, dict) or set(d) != _DOCUMENT_FIELDS

@@ -1,5 +1,23 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Review identity gap fixed; full-suite scratch repaired — 16 October 2026
+
+One Important reviewer finding/noCriticalorMinor: missing cross-record source
+byte/edition invariants. Independent RED7failures across3tests/subcases; existing
+check_register plus locked stored-identity checks GREEN13tests/25subtests35.78s.
+No second review. First full run failed due to missing basetemp parent:965setup
+errors/two long-path test failures,4437pass/708subtests334.69s;raw log preserved.
+Corrected flat scratch path; next corrected full suite and draft recheck, then
+seal/closure. No source promotion/shared writes; reviewer exclusions retain gates.
+
+## Importer committed; final suite/review running — 16 October 2026
+
+dc98b25 contains source registration/SQL/tests/README/plan. Valid acquired
+contract guard also passes1test2.55s. Positive pending-package draft complete;
+full offline suite and one final independent review running. One test EOF blank
+line corrected after commit. Next resolve material findings RED/GREEN, read final
+suite, seal evidence and close handoff. No shared migration/source promotion.
+
 ## Pending source registration and draft rehearsal verified — 16 October 2026
 
 SourceRegistrationLoader and pending-only invoker RPC retain full source register,

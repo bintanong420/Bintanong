@@ -79,6 +79,34 @@ class TestSourceRegistration(unittest.TestCase):
             self.register(documents=[dict(self.document,title='Different title')])
         self.assertEqual(self.client.select('documents', role='admin')[0]['title'], self.document['title'])
 
+    def test_batch_register_rejects_duplicate_bytes_and_conflicting_edition(self):
+        same_bytes = dict(pending_version('two'), byte_sha256=self.version['byte_sha256'])
+        same_edition = dict(pending_version('two'), edition_id=self.version['edition_id'])
+        for other in (same_bytes, same_edition):
+            with self.subTest(other=other), self.assertRaises(ValueError):
+                self.register([self.version, other])
+        self.assertEqual(self.client.select('documents', role='admin'), [])
+
+    def test_later_registration_rejects_duplicate_bytes_and_conflicting_edition(self):
+        self.register()
+        same_bytes = dict(pending_version('two'), byte_sha256=self.version['byte_sha256'])
+        same_edition = dict(pending_version('two'), edition_id=self.version['edition_id'])
+        before = self.client.select('document_versions', role='admin')
+        for other in (same_bytes, same_edition):
+            with self.subTest(other=other), self.assertRaisesRegex(StorageError, 'identity conflicts'):
+                self.register([other])
+        self.assertEqual(self.client.select('document_versions', role='admin'), before)
+
+    def test_direct_rpc_register_identity_failure_rolls_back_entire_batch(self):
+        same_bytes = dict(pending_version('two'), byte_sha256=self.version['byte_sha256'])
+        same_edition = dict(pending_version('two'), edition_id=self.version['edition_id'])
+        for other in (same_bytes, same_edition):
+            with self.subTest(other=other), self.assertRaisesRegex(StorageError, 'identity conflicts'):
+                self.client.rpc('register_pending_sources',dict(p_documents=[self.document],
+                    p_versions=[self.version, other]), role='admin')
+            self.assertEqual(self.client.select('document_versions', role='admin'), [])
+            self.assertEqual(self.client.select('documents', role='admin'), [])
+
     def test_invalid_batches_are_rejected_without_writes(self):
         batches = [([],[]), ([self.version,self.version],[self.document]),
             ([self.version],[self.document,self.document]), ([self.version],[]),
@@ -139,4 +167,3 @@ class TestSourceRegistration(unittest.TestCase):
                 self.assertEqual(rows, [])
                 allowed = self.db.json(f"select to_jsonb(has_function_privilege('{role}','public.register_pending_sources(jsonb,jsonb)','EXECUTE'));")
                 self.assertFalse(allowed)
-
