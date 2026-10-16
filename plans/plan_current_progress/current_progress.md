@@ -1,5 +1,26 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Developer workspace and local-data README — 16 October 2026
+
+Owner requested documentation for another developer, especially ignored data
+and its structure. Expanded the existing [root README](../../README.md), baseline
+79bd804: code map, required-input matrix, institutional-original tree, candidate
+bundle shape, data bindings, exact Phase05 packages/query-vector files and source
+snapshot lineage, model/cache/environment requirements, tests and handoff checklist.
+One fresh-reader check answers five takeover questions; two minor navigation gaps
+resolved with direct report links/exact inputs and an integration-test command.
+Published synthetic test example passes20tests/9subtests0.37s. Initial21local links,
+nine named package files and path-specific ignore behavior verified; final expanded
+links checked before commit. No model/data moves, installs, shared DB changes or
+activation. Existing backend/artifacts is untracked, not covered by /artifacts/*;
+README records this without changing it. Owner artifacts/.gitkeep deletion remains.
+Next use README with the active ledger when handing work over; no repeated setup,
+source confirmations or experiments are required by this documentation task.
+Final documentation/ledger518tests/11subtests pass11.49s; phase valid/blocked,
+whitespace clear. All27README local links/anchors, five document control checks,
+four saved-query input paths and acquisition snapshot paths verify. README's
+focused example passed separately; no product suite or DB job was repeated.
+
 ## Chunking justification accepted and documented — 16 October 2026
 
 Owner: "ok that's good enough. Just document that somewhere so we have good

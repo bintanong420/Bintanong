@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- [Developer workspace README](../README.md) expanded at owner request: tracked code map, ignored originals/evidence/model layout, required-input matrix, exact Phase05 packages/query-vector inputs and snapshot lineage, configuration/testing and developer handoff checklist. Fresh-reader check's two navigation gaps fixed. No data movement, provisioning, database change or activation; owner artifacts preserved. README replaces obsolete Phase0-only entry instructions while formal phase state remains here.
+
 - Owner accepted the [documented chunking justification](2026-10-16-rag-chunking-research.md#accepted-justification) on16October2026 and requested durable documentation. The19chunk selected development package is justified by coherent records, preserved context and question/evidence coverage. Supporting primary sources remain in the note. Acceptance concerns this rationale; no source state, review-completion decision, release or phase advancement follows.
 
 - Owner-requested [RAG chunking research](2026-10-16-rag-chunking-research.md): multiple reviewed fields per chunk and small-unit/context expansion are established patterns.19is a selected pilot count, not a RAG coverage target. Existing source_text totals2,309characters before serialized labels/limits; source fragment length is not embedding-token count. Quality depends on evidence/context recovery and corpus coverage. No new experiment, policy/source change or approval; selected-review scope answer remains pending.

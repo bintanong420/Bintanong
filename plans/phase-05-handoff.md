@@ -10,6 +10,13 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Developer takeover now starts with the expanded [root README](../README.md):
+tracked code, ignored originals/evidence/models, exact Phase05 recovery packages
+and query-vector inputs, snapshot lineage, environment/testing and handoff steps.
+Owner requested this documentation at79bd804. No existing local data were moved,
+ignored artifacts staged, models installed or databases changed by that task.
+Use this ledger for current phase/approval state; the README is a dated layout map.
+
 Latest continuation at5f38c2e prepares the [selected package review-scope decision](2026-10-16-selected-corpus-review-scope.md).
 An actual completion-scope decision remains absent independently of the school
 response. Read-only coverage/receipt comparison validates19chunks/52associations/

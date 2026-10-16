@@ -2,16 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 345
+sequence: 346
 plan: plans/phase-05-retrieval-plan.md
-head_commit: a0c772f
-working_tree: Accepted chunking justification and continuity; owner artifacts preserved unstaged
-updated_at: 2026-10-16T19:46:50+08:00
+head_commit: 79bd804
+working_tree: Developer workspace README and continuity; owner artifacts preserved unstaged
+updated_at: 2026-10-16T20:04:45+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Developer workspace README prepared — 16 October 2026
+
+Owner-requested existing root README expansion, baseline79bd804. Documents tracked
+modules, required local inputs, ignored original/evidence/model trees, current
+bundle/data relationships and exact Phase05 packages with saved query-vector paths
+and pending→observed→partial snapshot lineage. Configuration, focused tests,
+machine-specific environment limits and developer handoff checklist included.
+One fresh-reader pass answers five takeover questions; two minor navigation gaps
+resolved by direct report links/exact inputs and a concrete storage-test command.
+Synthetic README example20tests/9subtests pass0.37s. Initial21local links/nine
+package files and root-artifacts versus backend/artifacts ignore behavior checked;
+final links/control/phase checks before commit. No data movement/provisioning,
+DB work or activation. Owner artifact deletion/untracked material preserved.
+Same-session scope17–18/routing/master3/10 and dataset guide remain applicable;
+this documents the layout without changing architecture or source scope.
+Final docs/ledger518tests/11subtests pass11.49s; phase valid/blocked and whitespace
+clear.27README local links/anchors, five document control checks and four exact
+saved-query paths verified. Raw checks retained under workspace/audit-evidence/
+p05-developer-readme-20261016. No unchanged full suite or DB execution required.
 
 ## Accepted chunking justification documented — 16 October 2026
 
@@ -2456,6 +2476,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: developer README and continuity complete; reader gaps fixed and targeted
+verification passes. Commit this documentation increment. No product change,
+new review decision or data migration is part of this task.
 
 Latest: owner-requested justification is documented with its supporting sources
 and actual acceptance. Reuse it in future development/thesis explanations;
@@ -5675,6 +5699,10 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: use the completed README as the developer entry point alongside this
+ledger; preserve pending source/release/runtime gates. No additional work or
+approval is required to complete the documentation request.
 
 Latest: record the actual owner answer to the selected19chunk completion scope,
 retaining all limits and whole-source partial status. If accepted, assess how
