@@ -1,5 +1,14 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## V1 design approved; implementation begins — 17 October 2026
+
+Owner approves full design after2a472ba with “alright i approve, continue”.
+Dated plan self-reviewed; execute inline per active Phase05 plan, no renewed
+method/plan/source confirmation. Isolated branch/owner dirt verified; actual
+thesis17–18/routingPNG/master6/10 reconsulted. Next loader RED/GREEN, then scoped
+immutable receipt/RPC, existing package rehearsal and one final review/full
+checks/cleanup/seal. Undergraduate scope and actual V2/P2/formal gates retained.
+
 ## V1 evidence verified; complete design ready — 17 October 2026
 
 Five local V1 derivatives/5input hashes/19chunks/54spans/52fields/9events verified;

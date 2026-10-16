@@ -2,16 +2,23 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 372
+sequence: 373
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ee1d851
-working_tree: Verified V1 evidence and complete design; owner artifact changes preserved unstaged
-updated_at: 2026-10-17T00:17:45+08:00
+head_commit: 2a472ba
+working_tree: Approved V1 implementation plan; owner artifact changes preserved unstaged
+updated_at: 2026-10-17T00:22:13+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## V1 design approved; inline implementation plan — 17 October 2026
+
+Owner explicitly approves after2a472ba and directs continuation. Dated V1 plan
+self-reviewed with matching loader/RPC/receipt and rebind sequence. Existing
+isolated branch verified; actual thesis17–18/routingPNG/master6/10 reconsulted,
+no discrepancy. Task1 RED/GREEN next; no repeated method/source/plan approval.
 
 ## V1 evidence independently verified; design builder-clear — 17 October 2026
 
@@ -2816,6 +2823,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: execute approved V1 plan inline; focused missing-module RED first.
+Existing prepared five observations/coverage/source decisions stay settled.
 
 Latest: prepared V1 evidence verified/sealed and complete design builder-clear.
 Present new interface description for approval required by quoted skill; no
@@ -6115,6 +6125,9 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: Task1 loader RED/GREEN/commit, then narrow receipt/RPC/disposable tests,
+one saved-package rehearsal, single final review/full checks/cleanup/seal/closure.
 
 Latest: record actual approval of complete V1 persistence description when
 received; then write implementation plan/TDD. No repeat existing source reviews,

@@ -1,6 +1,6 @@
 # Recording existing reviewed source observations — 17 October 2026
 
-Status: proposed complete description; no implementation or database change.
+Status: approved after2a472ba with “alright i approve, continue”.
 Baselineee1d851, productdba0777 unchanged. This is V1 pending→observed,
 not V2 issuing-office verification or institutional approval.
 
