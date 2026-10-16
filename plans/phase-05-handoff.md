@@ -10,6 +10,16 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest continuation: [selected release-review design](2026-10-16-selected-release-review-design.md)
+at20b8230, product9e6526c unchanged. Exact selected receipts and release binding
+would bridge the actual whole-source-reviewed publication guard while preserving
+partial source status, separate verification/approval and default full-reviewed
+behavior. One builder check clear. Owner undergraduate/general-student-context
+reminder recorded in scope policy; no excluded-audience expansion. Await complete
+new-description approval under brainstorming, then implementation plan/TDD and
+disposable verification. No new content acceptance, shared migration, school
+authority, real-source activation or Phase06. Source completion remains settled.
+
 Owner accepted the exact19chunk selected-review completion scope after234df0c,
 conditional on complete coverage. Fresh renderer/receipt check confirms52field
 associations/54spans, zero uncovered spans and22same-source neighbor edges;

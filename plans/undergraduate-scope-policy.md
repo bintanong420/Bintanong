@@ -1,5 +1,13 @@
 # Bintanong undergraduate scope policy
 
+Owner reminder,16October2026: undergraduate student procedures remain the
+supported audience; exclude Law, Medicine and staff-only procedures. General
+student-facing procedures can apply without explicitly saying undergraduate.
+Evaluate their audience and applicability in context, retaining shared student
+services and their required staff actions. This reminder does not approve
+unresolved clauses or expand the existing graduate/laboratory-school exclusions.
+The selected release-review design must preserve these same boundaries.
+
 Owner15October2026 retains the supplied student-facing vehicle/special-class-fee/
 enrollment additions and student-government sources for provisional undergraduate
 review, with human assistance for image readings. Existing audience exclusions and

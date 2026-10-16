@@ -2,16 +2,43 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 348
+sequence: 349
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 234df0cbc6bd0f225cf946d4a726ccc0af7897b7
-working_tree: Selected review acceptance and four continuity files; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T20:58:00+08:00
+head_commit: 20b8230e391b493e97dea85b15a6cb3cf2d142f4
+working_tree: Selected release review design, scope reminder and continuity; owner artifact changes preserved unstaged
+updated_at: 2026-10-16T21:06:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Scope-aware release review design in progress — 16 October 2026
+
+Owner requests continuation after accepted selected coverage at20b8230 and
+reiterates undergraduate-only procedures, with general student applicability
+judged in context. Scope policy records that reminder without approving unknown
+audiences. Existing Law/Medicine/graduate/laboratory-school/staff-only exclusions
+and valid staff actions within student services remain unchanged.
+
+Code inspection identifies a concrete release consumer: current SQL requires
+whole-source/chunk reviewed, while bind/check_chunk_binding correctly preserves
+the source-register state. Proposed selected release-review receipt binds exact
+C1 snapshots and accepted decision to exact release membership, retaining source
+partial status and separate authority/approval requirements. This is needed for
+future release review coverage, not to re-record the settled owner acceptance.
+No source state, product, migration, model or database changed.
+
+Design:plans/2026-10-16-selected-release-review-design.md. One builder check
+reports "nothing important left"; no additional human question from that check.
+This new release behavior needs complete-description approval;
+generic continuation does not waive school authority or authorize activation.
+Same-session thesis17–18/39–44/routing/master3/6/10/11/13 remain applicable.
+Actual binding, publication, RLS and C1 code consulted; Supabase/Postgres skills,
+Context7 functions/RLS docs and changelog index checked. Preserve owner artifacts.
+Fresh documentation/ledger519tests/11subtests pass13.62s, exit0; phasevalidate0,
+can-advance1(expected blocked), whitespace clear. Raw docs-ledger.log under
+workspace/audit-evidence/p05-selected-release-review-design-20261016.
 
 ## Selected review completion accepted; coverage condition verified — 16 October 2026
 
@@ -2534,6 +2561,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: single builder check clear; concrete selected release-review design
+ready for full-description approval under brainstorming after documentation
+checks. Source completion and wordings remain settled.
 
 Latest: selected-scope completion accepted and complete-coverage condition
 verified. Record/commit the bound decision and continuity; no implementation
@@ -5769,6 +5800,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: present the completed selected release-review design for approval.
+If its complete description is approved, write the implementation plan and
+use focused TDD/disposable tests. No shared application, actual source authority,
+real release activation or Phase06 authorization follows. Scope reminder retained.
 
 Latest: selected completion question resolved; reuse its bound acceptance.
 Reconcile actual new source/release evidence when supplied and perform actual

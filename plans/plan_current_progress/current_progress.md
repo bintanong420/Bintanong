@@ -1,5 +1,30 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Concrete selected-release review design — 16 October 2026
+
+Owner asks to proceed and reiterates undergraduate student procedures: exclude
+Law/Medicine/staff-only procedures; general student services can apply without
+literal undergraduate wording. Scope policy records intended-audience/context
+selection, existing exclusions and unresolved applicability safeguards.
+
+Baseline20b8230, product9e6526c unchanged. Current release validator/RLS requires
+whole-reviewed source/chunk states; bind/check_chunk_binding correctly retains
+source states. [Proposed design](../2026-10-16-selected-release-review-design.md)
+adds exact selected review coverage at the release level so the settled19chunk
+completion can be consumed without mislabeling full originals. Concrete consumer
+is future governed publication; office authority/approval still required. This
+extends software capability, not the already sufficient documentary acceptance.
+
+One independent brainstorming builder check: "nothing important left". Present
+the completed description before implementation; approval pertains to this new
+release behavior, not settled content/scope confirmation. No product/SQL/DB/model
+changes. Same-session thesis17–18/39–44/routing/master context applicable; actual
+release/C1/binding code and current Context7 Supabase docs consulted. Owner
+artifacts intact. No repeated source/wording/school inquiry, grid or Phase06.
+Docs/ledger519tests/11subtests pass13.62s, exit0; phasevalidate0/can-advance1
+(expected blocked), whitespace clear. Raw log in workspace/audit-evidence/
+p05-selected-release-review-design-20261016. Final design only; no implementation.
+
 ## Selected review accepted with complete coverage verified — 16 October 2026
 
 Owner: "yes sure i agree, as long as it completely covered the data in these
