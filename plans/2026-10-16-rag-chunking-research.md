@@ -3,6 +3,25 @@
 Owner requested this research on16October2026 after asking whether the reviewed
 material becoming19chunks is normal. Baseline21ceea5; no product/source changes.
 
+## Accepted justification
+
+On 16 October 2026, the owner accepted the research explanation with
+"ok that's good enough. Just document that somewhere so we have good justification".
+This records acceptance of the chunking rationale for the selected development
+package; it introduces no source-content or release approval.
+
+The selected development corpus groups 52 reviewed field associations and
+54 source spans into 19 coherent retrieval chunks. Chunk boundaries follow
+related policy records and preserve source citations, limitations and required
+neighboring context. This is consistent with documented RAG practices that
+separate fine-grained retrieval from the wider context needed to interpret it.
+The chunk count reflects this bounded selection. Its adequacy is judged through
+coverage of the intended questions, recovery of relevant evidence and retention
+of material conditions, rather than a predetermined minimum number of chunks.
+These 19 chunks support bounded development testing; they do not establish
+complete coverage of the original documents or the finished system. The primary
+sources supporting this justification are linked below.
+
 ## Findings from primary sources
 
 Multiple reviewed fields becoming one coherent chunk is consistent with RAG.

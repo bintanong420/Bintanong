@@ -1,5 +1,16 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Chunking justification accepted and documented — 16 October 2026
+
+Owner: "ok that's good enough. Just document that somewhere so we have good
+justification". Added a reusable justification and the actual acceptance to
+[the research note](../2026-10-16-rag-chunking-research.md#accepted-justification).
+It explains52field associations/54spans grouped into19coherent development
+chunks, preserved context/citations/limits and evaluation by intended-question
+coverage. Existing primary-source references remain attached. This accepts the
+research rationale only; no source-content/review-completion/release decision
+or phase advancement inferred. No product, source or database changes.
+
 ## Owner-requested RAG chunking research — 16 October 2026
 
 [Research](../2026-10-16-rag-chunking-research.md), baseline21ceea5. Primary

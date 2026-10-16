@@ -2,16 +2,26 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 344
+sequence: 345
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 21ceea5
-working_tree: Owner-requested chunking research and continuity; owner artifacts preserved unstaged
-updated_at: 2026-10-16T19:43:33+08:00
+head_commit: a0c772f
+working_tree: Accepted chunking justification and continuity; owner artifacts preserved unstaged
+updated_at: 2026-10-16T19:46:50+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Accepted chunking justification documented — 16 October 2026
+
+Owner accepted the research explanation and requested durable justification.
+The research note now records the actual response and a reusable rationale:
+52field associations/54spans form19coherent selected development chunks;
+preserve context/citations/limits and assess intended-question/evidence coverage.
+Primary sources retained. Acceptance concerns the rationale only, with no new
+source-content, review-completion, release or institutional approval inferred.
+No product/source/database changes; owner artifact changes remain unstaged.
 
 ## Owner-requested RAG chunking research — 16 October 2026
 
@@ -2446,6 +2456,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: owner-requested justification is documented with its supporting sources
+and actual acceptance. Reuse it in future development/thesis explanations;
+no repeated research, source reading or implementation is needed for this request.
 
 Latest: answer the owner's RAG chunking research question using primary sources
 and the actual selected package. Research does not answer the pending review
