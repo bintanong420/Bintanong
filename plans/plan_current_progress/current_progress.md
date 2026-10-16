@@ -1,5 +1,44 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Bounded document-evidence comparison closed — 16 October 2026
+
+Plan5cf7066/preflightad0c62e/observations9c76e83/product232a418 unchanged.
+[Report](../2026-10-16-document-evidence-calibration-report.md):39document variants,
+six new D3/D4 encodings,33saved query/27document vectors; no curriculum sweep.
+Atk3/.5/2048 eachmode/strategy18fieldsavailable/21insufficient, perlanguage6/7;
+complete related context raw31/39/trusted38/39. T1Filipino keeps empty all-primary
+versus nullgapfreecontext.75accepted/69observed, D1/D2six reserved. No scalar
+default or answer permission; unsupported source claims stay unresolved.
+
+Single final review: no unresolved material findings. One P2 reporting gap fixed
+and independently verified within that review:120overall/360language/1560category
+summaries with returned N/A denominators, emitted metrics and macro means.
+Original aggregate bytes retained; no experiment repeated. Parent replay verifies
+all6338attempts/1592unique assemblies and aggregates. Independent1053cosines/
+1170primary metrics/4680decisions/52contexts/872citations/85reports/117controls pass,
+plus separate85helper replay. Tokenizer-only51nonempty/sixqueries exact; empty0
+budget convention, saved defaults disabled to match existing no-truncation path.
+
+599prior hashes/30distinct inputs/16code digests preserved. Focused114tests/
+218subtests1.77s, observationdoc497/11 13.07s exit0; prior sourcepreflight528/136
+12.84s. No unchanged full/native repeat; historical native uncertainty retained.
+41-file top-level seal verifies, test temporaries excluded. Manifest SHA256:
+035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86.
+Root p05-document-evidence-calibration-20261016; review sibling
+p05-document-evidence-calibration-review-20261016. Both stop writes; seal verify
+read-only, never rerun writers. All owner artifacts preserved/unstaged.
+
+Thesis17–18/routingPNG/master10/11 consulted, no discrepancy. No held-source,
+authority/currentness or activation change. Next formalPhase05exit-requirement
+reconciliation using current evidence, identifying concrete remaining capability/
+governance work. Do not expand curriculum/claim diagnostics just to fill unknowns.
+FormalTasks4/6/governance open; Phase05active/blocked, noPhase06. Earlier pending
+steps below are history; checkpoint parent precedes following closure commit.
+
+Final closure: documentation/ledger497tests/11subtests in12.90s exit0; phase
+validate0/can-advance1(expected blocked), report link/five pointers, whitespace
+and41-file read-only seal pass. Raw roots sealed/unchanged, owner artifacts unstaged.
+
 ## Document comparison independently verified — 16 October 2026
 
 Task3 complete, plan5cf7066/preflightad0c62e/product232a418. Only six D3/D4 queries

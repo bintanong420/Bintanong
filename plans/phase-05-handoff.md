@@ -10,6 +10,21 @@ completed_at: 2026-10-16T10:54:45+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+## Document-evidence experiment closed — 16 October 2026
+
+[Report](2026-10-16-document-evidence-calibration-report.md), observations9c76e83,
+product232a418.39document variants using sixnew/33saved query/27document vectors;
+18fieldavailable/21insufficient atfocus, related context31raw/38trusted of39.
+Answer sufficiency unassessed, no scalar default;75accepted/69observed, D1/D2six
+reserved for structured work. One P2 subgroup-reporting gap corrected in single
+final review; no unresolved findings. Independent evidence and parent full6338
+attempt replay pass;599prior hashes/30inputs/16codedigests preserved.
+41-file raw/review seal verifies, digest
+035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86.
+Next formalPhase05exit-requirement reconciliation, with no more curriculum/claim
+diagnostics solely to fill unknown claims. Existing recovery condition remains;
+formalTasks4/6/governance open, output inactive/noPhase06. Owner artifacts intact.
+
 ## Architecture made durable; document-only comparison scope — 16 October 2026
 
 AGENTS.md now records the owner's curriculum/Prolog direction and capability-first

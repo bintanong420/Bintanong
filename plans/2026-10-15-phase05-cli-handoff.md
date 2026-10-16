@@ -1,5 +1,22 @@
 # Phase05 CLI-session handoff — 15 October2026
 
+## Document-evidence experiment closed — 16 October 2026
+
+[Report](2026-10-16-document-evidence-calibration-report.md), observations9c76e83/
+product232a418 unchanged.39document variants, sixnew D3/D4 queries/33saved queries/
+27documents; no curriculum encoding. Atk3/.5/2048:18fieldsavailable/21insufficient,
+related context raw31/39/trusted38/39; answer sufficiency unassessed.75accepted/
+69observed, sixD1/D2 reserved. No new scalar/default policy.
+Single final review corrected one P2 subgroup reporting gap, no unresolved findings.
+Independent1053scores/4680decisions/6338attempts; parent6338/1592unique assembly and
+aggregate replay pass.599prior hashes/30inputs/16code digests preserved. Focused
+114/2181.77s and observationdoc497/11 13.07s exit0.41-file seal verifies:
+035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86.
+Raw/review roots p05-document-evidence-calibration[-review]-20261016 are sealed;
+verify read-only, no writer reruns. Owner artifacts/held fields/master intact.
+Next formalPhase05exit-requirement reconciliation; stop repeated curriculum and
+unsupported-claim expansion. FormalTasks4/6/governance remain open, noPhase06.
+
 ## AGENTS architecture rule and narrowed document work — 16 October 2026
 
 Owner requested durable guidance after noting wasted work. AGENTS.md now requires

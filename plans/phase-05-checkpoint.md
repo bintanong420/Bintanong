@@ -2,16 +2,55 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 292
+sequence: 293
 plan: plans/phase-05-retrieval-plan.md
-head_commit: ad0c62e
-working_tree: three document-comparison report/checkpoint/progress paths; owner artifacts preserved
-updated_at: 2026-10-16T11:43:00+08:00
+head_commit: 9c76e83
+working_tree: six document-comparison closure paths; owner artifacts preserved
+updated_at: 2026-10-16T11:50:55+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Bounded document-evidence comparison closed — 16 October 2026
+
+Plan5cf7066/preflightad0c62e/observations9c76e83/product232a418 unchanged.
+[Report](2026-10-16-document-evidence-calibration-report.md):39document variants,
+sixnew D3/D4 queries/33saved queries/27saved documents, zero curriculum encodings.
+Atk3/.5/2048 eachmode/strategy18fieldsavailable/21insufficient; complete expected
+context raw31/39/trusted38/39. T1Filipino preserves empty versus null selection.
+75accepted/69observed; sixD1/D2 reserved. No scalar/default or answer permission.
+
+One final review completed with no unresolved findings. P2 reporting gap corrected
+within same review:120overall/360language/1560category metrics, returned-primary
+N/A denominators, emitted-primary and macro summaries. Initial aggregate bytes
+preserved; no encoding/ranking/context run repeated. Parent reviewer-probe replay
+passes all6338attempts/1592unique assemblies and aggregates. Independent1053scores/
+1170metrics/4680decisions/52contexts/872citations/85reports/117controls verified;
+separate85helper replay. Tokenizer-only51nonempty/sixquery recounts match, empty0
+budget convention; saved defaults disabled, no query truncation or model reload.
+
+599prior hashes/30distinct inputs/16unchanged code digests verify. Focused114tests/
+218subtests1.77s; observationdoc497/11 13.07s exit0. Prior source-preflight528/136
+12.84s. No full/native suite repeat; historical native uncertainty unchanged.
+41-file top-level seal verifies, excludes test temporaries. Manifest SHA256:
+035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86.
+Raw root p05-document-evidence-calibration-20261016; review sibling
+p05-document-evidence-calibration-review-20261016. Both stop writes; use seal
+verify read-only, never rerun writers. No model weights in Git or new downloads.
+
+Thesis17–18/routingPNG/master10/11 consulted by parent/reviewer, no discrepancy.
+Owner artifacts preserved/unstaged; no source-content/held-field/approval change.
+Bounded experiment complete; formalPhase05Tasks4/6/governance remain open. Next
+reconcile formal exit requirements against current evidence; stop additional
+curriculum/claim-report expansion merely to fill unavailable claims. No Phase06.
+Checkpoint parent precedes following closure commit; reconcile expected difference.
+
+Final closure: documentation/ledger497tests/11subtests in12.90s exit0; phase
+validate0/can-advance1(expected blocked), report link/five continuity pointers,
+whitespace and41-file read-only seal verification pass. No raw-root writes after
+sealing; owner artifacts stay unstaged.
 
 ## Document comparison independently verified — 16 October 2026
 
@@ -1588,6 +1627,8 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: bounded39document experiment/review/41-file seal complete; finish documentation closure, then formalPhase05exit-requirement reconciliation. Do not expand retrieval to fill unsupported claims or reserved curriculum cases.
 
 Latest:39document comparison/independent audit complete; one final review and evidence seal/closure next. No new default, automatic routing or curriculum experiment. Then reconcile remaining formal exit work.
 
@@ -3430,6 +3471,8 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: observations9c76e83/product232a418; six closure documents only. Owner `D artifacts/.gitkeep` and `?? backend/artifacts/` intact/unstaged. Both experiment/review roots sealed; no writes/re-execution of writers. Master/AGENTS/backend/tests unchanged this increment.
+
 Latest: parentad0c62e, product232a418; three explicit document-report/checkpoint/progress paths. Owner artifact deletion/backend artifacts untouched; raw root still working until final review/seal. Old sources/seals/master/code/tests unchanged.
 
 Latest: parent5cf7066, product232a418; two source-preflight checkpoint/progress paths only. Owner artifact deletion/untracked backend artifacts remain untouched/unstaged. Task2 raw files are in the existing ignored working root; no old sealed writer rerun.
@@ -3642,6 +3685,8 @@ dev10bfd6f; Phase05 remains local. No setup/dependency change, dataset move,
 database write, runtime/Prolog execution or activation.
 
 ## Verification Evidence
+
+Latest: independent1053scores1170metrics4680decisions6338attempts52contexts872citations85reports117controls; review replay6338/1592unique plus120/360/1560aggregate summaries.599prior hashes/30inputs/16codedigests preserved; tokenizer51nonempty/sixqueries/empty0 convention. Focused114/2181.77s, observationdoc497/11 13.07s exit0. One P2 reporting gap corrected, no unresolved review findings.41-file seal035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86 verifies. Final closure checks recorded below.
 
 Latest: independent1053scores/1170primary metrics/6338attempts/4680decisions/52contexts/872citations/85claim reports/117controls pass; separate85helper replay. Tokenizer-only51nonempty/sixquery exact counts, empty0budget convention. Prior preflight528tests/136subtests12.84s exit0. No query truncation, new curriculum encoding or product change; final review/seal pending.
 
@@ -4649,6 +4694,8 @@ context; they do not replace the current policy-source next action.
 
 ## Next Action
 
+Latest: reconcile formal Phase05 exit requirements against current source/corpus/calibration/verification evidence; identify concrete remaining capability and governance work. Preserve structured/Prolog priority and all settled wordings; no more curriculum sweeps, extra sidecar layers or invented source conclusions just to fill unknowns. No automatic Phase06 advancement.
+
 Latest: one final independent document-experiment review, then seal raw evidence and close curated report/INDEX/handoffs/checkpoint/progress. After closure audit remaining formalPhase05exit requirements; stop exploratory curriculum/claim-report expansion.
 
 Latest: Task3 document-evidence comparison: verify existing external model assets/configuration; encode six D3/D4 variants only, reuse33 saved document-query vectors/27documents. Preserve curriculum reservations/control history; no activation or default-policy inference.
@@ -5259,6 +5306,8 @@ repeat list repair/conversion/setup, overwrite sealed bundles, activate corpus,
 resume deferred prospectus review or advance Phase06.
 
 ## Do Not Repeat
+
+Latest: bounded39document experiment, six new encodings, source controls, independent audit, subgroup correction/single final review and41-file seal complete. Never rerun sealed writers or modify those roots. Do not re-encode D1/D2/curriculum or repeat settled source reviews. No scalar default/generalization/answer permission inferred; historical native uncertainty remains.
 
 Latest: do not reopen completed curriculum retrieval/claim sweeps to improve RAG coverage. D1/D2 are accepted structured-lookup reservations, not missing RAG results. AGENTS now requires capability/evidence-path/phase-gate/question justification for new diagnostics; stop at its declared outcome. All accepted75/evidence/vectors preserved; no extra source authority or Prolog activation inferred.
 

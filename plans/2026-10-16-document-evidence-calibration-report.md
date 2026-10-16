@@ -59,6 +59,21 @@ declared labels fall from 60 to 15. These primary-stage metrics precede context
 strategy selection; identical strategy numbers do not establish a ranking change.
 Required-neighbor recovery and emitted-context measurements remain separate.
 
+The same fixed setting, using all primaries, gives these per-language primary
+measurements. Each row has13 document variants; context counts are separate.
+
+| Language | Raw fixed-k precision / recall | Trusted fixed-k precision / recall | Trusted complete context |
+| --- | --- | --- | ---: |
+| English | 0.461538 / 0.719231 | 0.615385 / 0.898718 | 13/13 |
+| Filipino | 0.487179 / 0.744872 | 0.487179 / 0.744872 | 12/13 |
+| Taglish | 0.461538 / 0.719231 | 0.538462 / 0.821795 | 13/13 |
+
+Finite overall/language/category summaries also include returned-primary precision,
+emitted requested-primary precision/recall, defined-case counts, context states and
+macro scenario means. Empty returned-primary denominators are N/A; for example,
+trusted Filipino precision at this setting is defined for12 of13 variants.
+Primary and emitted measurements are not substituted for each other.
+
 ## Calibration conclusion and stopping point
 
 The fixed grid covers k3/5/8, thresholds0/.25/.5/.75/.9, budgets2048/4096, two
@@ -109,9 +124,32 @@ documentation checks passed528tests/136subtests in12.84s. No backend, API, datab
 dependency, executable Prolog or runtime change. The historical full/native stderr
 uncertainty is unchanged; no unchanged full/native suite was repeated.
 
-Final independent review, evidence seal and final documentation checks follow this
-observation commit. Candidate output remains inactive; Tasks4/6 and source-governance
+The single final review completed with no unresolved material findings after the
+reporting correction below. Parent replay independently verified the review probe,
+including all6,338 attempts/1,592 unique context assemblies and all subgroup metrics.
+Candidate output remains inactive; formal Phase05Tasks4/6 and source-governance
 exit requirements remain open.
 
 Observation documentation/phase-ledger verification:497tests/11subtests in13.07s,
-exit0. Phase validation and whitespace checks pass. No full/native suite repeat.
+exit0. Focused context/claim/source regressions114tests/218subtests in1.77s, exit0.
+Phase validation and whitespace checks pass. No full/native suite repeat.
+
+During the single final review, the reviewer identified missing aggregate precision/
+recall/context summaries by language/category. The reporting-only correction derives
+120 overall,360 language and1,560 category summaries from saved rows, including
+explicit N/A denominators. Initial aggregate bytes remain preserved separately;
+no encoding, ranking or context experiment was repeated. The reviewer verified
+the correction within the same review; no second review was requested.
+
+All599 prior evidence hashes,30 distinct input bindings and16 code/test/document
+digests verify. The41-file top-level observation/review seal excludes test
+temporaries; manifest SHA256:
+`035eb15bc0f97d157f2e631d53aaedad3aa91fdd564f2dcf4efc30ec2c8b0c86`.
+Review sibling: `p05-document-evidence-calibration-review-20261016/`.
+Run `seal_evidence.py verify` read-only; never rerun sealed writer scripts or alter
+either root. Final closure documentation checks are recorded in the checkpoint.
+
+Final closure checks:497documentation/ledger tests and11subtests pass in12.90s,
+exit0; phase validate0/can-advance1(expected blocked), report/continuity links,
+whitespace and41-file read-only seal verification pass. Owner artifacts remain
+unstaged and product code unchanged.
