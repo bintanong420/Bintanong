@@ -4,6 +4,8 @@ This file is the authoritative pointer for resuming work. Do not select a phase 
 
 ## Current State
 
+- Owner approved the source-aware design at `ff53c65` with “ye i approve”. Execute [the implementation plan](2026-10-16-source-aware-retrieval-policy-plan.md) inline with TDD; no repeat approval. Rough technical Phase 05 estimate 80% (75–85%), formal exit remains blocked. Earlier approval-wait notes below are history.
+
 - Latest continuation: [source-aware engine policy design](2026-10-16-source-aware-retrieval-policy-design.md) ready for approval at baseline `88c50de`; product `232a418` unchanged. Single builder check: “nothing important left”. Opt-in integration will use actual emitted context and preserve known limits, without promoting reviewed fields to answer permission. Next owner approval required by the quoted brainstorming skill, then implementation plan and focused TDD. No code, model, database, source approval or phase advancement. Earlier next-action notes below are history.
 
 - Latest continuation: [Phase05 exit reconciliation](2026-10-16-phase05-exit-reconciliation.md), baselinea7786ee/product232a418 unchanged. Sealed comparison complete; Tasks4/6 and source/release governance remain open. Next minimal source-aware retrieval-policy contract using existing helpers/trusted inputs, then focused TDD and selected-policy verification. No generated-answer prerequisite, new curriculum sweep, sidecar or75-case retrieval rerun. Fresh41-file seal and36tests/9subtests pass. Phase05active/blocked; noPhase06. Earlier pending next-action notes below are history.

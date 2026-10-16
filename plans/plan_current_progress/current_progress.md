@@ -1,5 +1,25 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Source-aware retrieval implementation authorized — 16 October 2026
+
+The owner explicitly replied “ye i approve” to the complete design at ff53c65.
+[Implementation plan](../2026-10-16-source-aware-retrieval-policy-plan.md) implements it inline with focused TDD and one final
+whole-change review. No further design/plan permission is needed for this scope.
+Existing isolated p05 worktree verified; owner artifacts preserved. Baseline
+ff53c65; earlier approval-wait notes below are historical.
+
+The owner also asked whether retrieval is finally being built and for a Phase 05
+estimate. Answer: core query embedding/filter/rank/context/citation retrieval
+already exists; this increment integrates source/claim gates into that engine.
+Rough technical completion estimate: about 80% (75–85% range), not a measured
+weighted result or formal exit. Remaining integration, saved-case verification,
+full tests/review and source/release governance keep Phase 05 active/blocked.
+
+Context scope/routing and master 3/10/11/13 consulted in this ongoing session;
+no new discrepancy or source judgment. Preserve all source holds, candidate
+inactivity and later NLP/Prolog/activation boundaries. Next Task 1 snapshot
+regression RED, smallest implementation, GREEN, verified commit.
+
 ## Source-aware retrieval design ready for approval — 16 October 2026
 
 Continued from 88c50de; product remains 232a418. The concrete

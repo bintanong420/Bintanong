@@ -1,7 +1,8 @@
 # Source-aware retrieval policy integration — 16 October 2026
 
-Status: proposed design, awaiting owner approval. No implementation or new
-source-content decision. Baseline `88c50de`; product `232a418` unchanged.
+Status: approved by the owner with “ye i approve” after `ff53c65`.
+Implementation follows the linked dated plan; approval adds no source-content
+decision, institutional verification or activation. Original design baseline `88c50de`.
 
 ## Purpose and scope
 

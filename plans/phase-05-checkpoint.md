@@ -2,16 +2,36 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 296
+sequence: 297
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 88c50de
-working_tree: six source-aware design/continuity paths; owner artifacts preserved
-updated_at: 2026-10-16T12:18:44+08:00
+head_commit: ff53c65
+working_tree: approved policy plan and continuity; owner artifacts preserved
+updated_at: 2026-10-16T12:28:15+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Source-aware retrieval implementation authorized — 16 October 2026
+
+The owner explicitly replied “ye i approve” to the complete design at ff53c65.
+[Implementation plan](2026-10-16-source-aware-retrieval-policy-plan.md) implements it inline with focused TDD and one final
+whole-change review. No further design/plan permission is needed for this scope.
+Existing isolated p05 worktree verified; owner artifacts preserved. Baseline
+ff53c65; earlier approval-wait notes below are historical.
+
+The owner also asked whether retrieval is finally being built and for a Phase 05
+estimate. Answer: core query embedding/filter/rank/context/citation retrieval
+already exists; this increment integrates source/claim gates into that engine.
+Rough technical completion estimate: about 80% (75–85% range), not a measured
+weighted result or formal exit. Remaining integration, saved-case verification,
+full tests/review and source/release governance keep Phase 05 active/blocked.
+
+Context scope/routing and master 3/10/11/13 consulted in this ongoing session;
+no new discrepancy or source judgment. Preserve all source holds, candidate
+inactivity and later NLP/Prolog/activation boundaries. Next Task 1 snapshot
+regression RED, smallest implementation, GREEN, verified commit.
 
 ## Source-aware retrieval design ready for approval — 16 October 2026
 
@@ -4798,6 +4818,8 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: owner approved the full source-aware design. Execute its implementation plan inline with TDD, starting snapshot bindings; do not repeat the design approval request.
 
 Latest: obtain owner approval of plans/2026-10-16-source-aware-retrieval-policy-design.md as required by the linked brainstorming skill; then write the implementation plan and execute focused TDD. Do not infer approval of these new interface choices from earlier generic continuation. Preserve accepted source/benchmark decisions and Phase 05 boundaries.
 
