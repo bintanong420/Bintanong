@@ -1,5 +1,42 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Selected release-review approved plan complete — 16 October 2026
+
+Product6378994 unchanged; final5486tests/1200subtests and docs521tests/11subtests
+pass. Two Important findings corrected, corrected real-package rehearsal and
+241owned/reviewer DB cleanup verified.16047-file evidence seal created/verified;
+digest in delivery report. This documentation-only commit closes the dated plan.
+Next actual source/release/authorized-runtime exit work when supported; no further
+scoped-review implementation, repeated review/suite/rehearsal/grid or Phase06.
+Owner artifact changes preserved unstaged, branch/worktree retained.
+
+## Final selected-release review verification passes — 16 October 2026
+
+Code6378994 final5486tests/1200subtests GREEN596.87s, six skips/warnings, exit0.
+Single review's two Important issues reproduced/fixed RED4/GREEN19tests/113subtests;
+no other material/deferred minor findings. Corrected19chunk/vector rehearsal
+preserves52fields/54spans/nine inputs, denies missing-authority activation and
+hides both runtime roles. Prior8/49/119/489-file seals unchanged; all241owned/
+reviewer DB names absent. No source/authority/shared application/activation change.
+Final docs/evidence seal and commit remain; then preserve bounded delivery and
+actual source/release/runtime gates. No further implementation, repeated review,
+test/rehearsal/grid or Phase06. Owner artifacts/worktree retained.
+
+## Documentation checks pass; full gate pending — 16 October 2026
+
+Docs/ledger521tests/11subtests GREEN16.09s; phasevalidate0/can-advance1(expected
+blocked), whitespace clear. Final full suite on6378994 still running. Read
+final-full-suite.log, then verify inputs/prior seals/owned-DB cleanup and seal
+new evidence. No further code/review/rehearsal changes planned.
+
+## Final fixed-code verification running — 16 October 2026
+
+Fix6378994 committed; final full suite runs on this code. Earlier5481tests pass
+predates correction and is not final evidence. Two findings fixed RED/GREEN;
+expanded19/113 and corrected19chunk rehearsal already pass. Next inspect final
+full result, final doc/phase checks and owned-DB/input/seal verification, then
+commit delivery closure. No extra source decision/review/rehearsal/grid needed.
+
 ## Review corrections verified; final code gate next — 16 October 2026
 
 Expanded19tests/113subtests GREEN91.63s and final unit5tests/54subtests0.49s.

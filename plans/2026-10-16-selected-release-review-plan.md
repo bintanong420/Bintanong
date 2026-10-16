@@ -10,6 +10,11 @@ publication/RLS integration retaining the existing whole-reviewed path.
 **Tech stack:** Existing Python3.13, PostgreSQL/Supabase migrations and test harness.
 **Spec:** [approved design](2026-10-16-selected-release-review-design.md).
 
+Status: complete. Loaderbbb3592/SQLcfb9e1f/fix6378994. Final5486tests/1200subtests
+pass596.87s; six skips/warnings. One review's two Important findings corrected
+RED/GREEN; corrected real-package rehearsal and241owned DB cleanup verified.
+See the dated delivery report for exact evidence and remaining formal phase gates.
+
 ## Global constraints
 
 - Undergraduate academic affairs; general student applicability judged in context.
@@ -45,15 +50,15 @@ bind_release(release_id, review_scope_id) -> dict with exactly those two keys.
 RPC names: record_selected_release_review(p_receipt),
 bind_selected_release_review(p_release_id,p_review_scope_id), both admin only.
 
-- [ ] Write synthetic receipt/recording-client tests: closed shapes, sorting,
+- [x] Write synthetic receipt/recording-client tests: closed shapes, sorting,
   hashes/timestamps/path, exact reconstructed text, full ordered spans, event/
   source references, same-source neighbors and complete groups; returns exact
   receipt/binding; malformed response rejected; transport error propagates once.
-- [ ] Run focused tests and observe expected missing-loader RED.
-- [ ] Implement minimal loader validation; reconstruct Chunk input from stored
+- [x] Run focused tests and observe expected missing-loader RED.
+- [x] Implement minimal loader validation; reconstruct Chunk input from stored
   receipt projection using existing context codec and derive hashes, not statuses.
-- [ ] Run focused GREEN plus existing C1/contract regressions; record results.
-- [ ] Explicitly stage/commit verified loader/tests and checkpoint/progress.
+- [x] Run focused GREEN plus existing C1/contract regressions; record results.
+- [x] Explicitly stage/commit verified loader/tests and checkpoint/progress.
 
 ## Task 2 — Atomic scoped publication and actual-role verification
 
@@ -66,17 +71,17 @@ companion as needed, backend/bintanong_storage/README.md.
 Interface: table selected_release_reviews and nullable knowledge_releases scope
 FK; two RPCs above. Existing release manager interfaces remain compatible.
 
-- [ ] Add disposable database tests; observe missing-RPC RED before migration.
-- [ ] Generate migration with installed supabase migration new; implement receipt
+- [x] Add disposable database tests; observe missing-RPC RED before migration.
+- [x] Generate migration with installed supabase migration new; implement receipt
   validation, immutable storage, exact draft binding, replay/conflict checks and
   publication-lock protection using existing C1 snapshots.
-- [ ] Extend validate_release and active source/chunk RLS only for explicitly
+- [x] Extend validate_release and active source/chunk RLS only for explicitly
   bound, exact selected coverage. Retain source/chunk state matching and every
   independent authority/provenance/embedding check. Keep old full-reviewed path.
-- [ ] Verify direct malformed admin calls, role ACL/RLS, late rollback, text/
+- [x] Verify direct malformed admin calls, role ACL/RLS, late rollback, text/
   metadata/span/neighbor drift, membership extension/omission, concurrent writers,
   immutable published metadata, exact selected visibility and rollback.
-- [ ] Run existing storage/retrieval integration regressions. Stage/commit the
+- [x] Run existing storage/retrieval integration regressions. Stage/commit the
   additive migration/tests/docs with checkpoint results after GREEN.
 
 ## Task 3 — Inactive saved-package rehearsal and final closure
@@ -84,18 +89,18 @@ FK; two RPCs above. Existing release manager interfaces remain compatible.
 Files: ignored rehearsal/verification script, tracked dated delivery report,
 plan/checkpoint/progress/index/handoff and relevant package README.
 
-- [ ] Reuse existing five source records/A1/C1 receipts, 19 chunks/vectors;
+- [x] Reuse existing five source records/A1/C1 receipts, 19 chunks/vectors;
   preserve all input hashes and source gaps. Prepare receipt from the actual
   accepted decision, using its recorded compilation timestamp honestly.
-- [ ] One uniquely named disposable draft: import, A1/C1, existing bind_chunk
+- [x] One uniquely named disposable draft: import, A1/C1, existing bind_chunk
   metadata copy/reimport, store/replay receipt and bind/replay draft. Confirm
   activation denied without authority and both runtime roles hidden. Drop DB.
-- [ ] One fresh independent whole-change review; fix any material issue with
+- [x] One fresh independent whole-change review; fix any material issue with
   RED/GREEN, then relevant regressions. No per-task review dispatches.
-- [ ] Run appropriate full suite and documentation/phase-ledger checks, verify
+- [x] Run appropriate full suite and documentation/phase-ledger checks, verify
   actual output and owned DB cleanup. Seal new raw evidence without touching
   historical seals. Record exact commits/digests/results and remaining gates.
-- [ ] Mark this plan complete and commit documentary closure. Phase05 formal
+- [x] Mark this plan complete and commit documentary closure. Phase05 formal
   Tasks4/6 remain open until actual source/release/runtime prerequisites pass.
 
 Self-review: spec receipt/publication/runtime requirements mapped to Tasks1/2;

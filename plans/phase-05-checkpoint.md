@@ -2,16 +2,53 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 352
+sequence: 354
 plan: plans/phase-05-retrieval-plan.md
-head_commit: cfb9e1f
-working_tree: Approved selected release review plan/implementation; owner artifact changes preserved unstaged
-updated_at: 2026-10-16T21:26:00+08:00
+head_commit: 6378994
+working_tree: Selected release-review documentary closure; owner artifact changes preserved unstaged
+updated_at: 2026-10-16T21:50:00+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Selected release-review delivery closed — 16 October 2026
+
+Final docs521tests/11subtests pass11.89s, phasevalid/blocked and whitespace clear.
+16047-file new evidence seal created/verified, digest in the delivery report.
+Approved dated plan complete, product6378994 unchanged. This documentary commit
+closes delivery; metadata retains verified product HEAD, documentary SHA in Git.
+Owner artifacts stay unstaged and worktree retained. No further scoped-review
+implementation, review, unchanged suite/rehearsal/grid or Phase06 follows.
+
+## Final fixed-code verification complete — 16 October 2026
+
+Code6378994:5486tests/1200subtests pass596.87s, six skips/warnings, exit0.
+One independent review's two Important findings fixed RED4/GREEN19tests/113subtests
+91.63s; no additional material findings or deferred minors. Corrected19chunk/
+19vector rehearsal retains52fields/54spans, denies missing authority, hides both
+roles and drops its DB. Nine inputs and prior8/49/119/489-file seals unchanged;
+all241owned/reviewer disposable database names absent. Exact code hashes in
+delivery-verification.json. Docs/phase-ledger521tests/11subtests pass16.09s;
+final documentary check/seal/commit closure follows. Owner artifacts preserved.
+No source authority, shared application, actual-source publication or Phase06.
+
+## Documentary checks pass; final fixed-code suite pending — 16 October 2026
+
+Docs/phase-ledger521tests/11subtests pass16.09s, exit0. Phasevalidate0 and
+can-advance1(expected blocked), whitespace clear. Final full suite on6378994
+still running; inspect final-full-suite.log before claiming delivery complete.
+No product changes since6378994. New cleanup/input/seal verifier prepared;
+run only after the full suite stops creating disposable databases.
+
+## Review fixes committed; final fixed-code full suite running — 16 October 2026
+
+Fix6378994 follows reproduced RED4/expandedGREEN19tests/113subtests91.63s and
+successful corrected real-package rehearsal. Final full suite starts from this
+commit; earlier5481full output predates fixes. Do not repeat source reviews,
+rehearsal or independent review. Parent owns final results, cleanup/seal and
+documentary closure. Same scope/authority/activation/Phase06 boundaries remain.
 
 ## Review correction GREEN; fixed-code full suite next — 16 October 2026
 
@@ -2641,6 +2678,9 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: product6378994, final verification, evidence seal and dated plan complete.
+This documentary commit closes delivery; no further code/review/rehearsal/grid.
 
 Latest: loader/SQL and real-package inactive rehearsal pass; commit Task2 and
 run one independent final review plus full suite. Approval already received;
@@ -5884,6 +5924,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: preserve verified bounded delivery. Resume only actual source/release
+evidence and authorized runtime
+exit work when applicable prerequisites exist; do not manufacture authority or
+repeat settled completion/source/wording/school questions. NoPhase06.
 
 Latest: inspect final review and full-suite output, resolve material findings
 with TDD, verify owned DB cleanup and evidence seal, then documentary closure.

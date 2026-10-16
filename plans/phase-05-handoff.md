@@ -10,6 +10,24 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Approved selected-release review plan complete at product6378994; final full5486/
+1200 and documentary521/11 checks pass. Two Important findings fixed, corrected
+real-package rehearsal,241owned/reviewer DB absences and16047-file evidence
+seal verified. This documentary increment closes delivery; see the report for
+digest/results. No further implementation, repeated review/tests/rehearsal/grid.
+Actual source/release/authorized-runtime exit requirements remain, noPhase06.
+Preserve owner artifacts and phase worktree.
+
+Selected release-review software delivered at6378994, followingbbb3592/cfb9e1f.
+One independent review found two Important issues; both reproduced and corrected
+with local/direct-RPC/group-gap regressions. Final5486tests/1200subtests pass
+596.87s, six skips/warnings, exit0. Corrected19chunk/vector inactive rehearsal
+preserves52fields/54spans/nine inputs and both-role hiding; no actual source
+publication. Prior8/49/119/489-file seals and all241owned/reviewer DB absences
+verify. Final evidence/documentary closure follows; do not repeat implementation,
+review, unchanged tests/rehearsal/grid. See [delivery](2026-10-16-selected-release-review-report.md).
+Formal Phase05 source/release/authorized-runtime gates remain; noPhase06.
+
 Approved selected-review implementation: loaderbbb3592/SQLcfb9e1f. Relevant
 41tests/387subtests pass157.03s; saved real19chunk/vector inactive rehearsal
 stores/replays review/binding, rejects missing authority, keeps both runtime
