@@ -1,5 +1,31 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Scoped partial-review design prepared — 16 October 2026
+
+[Design](../2026-10-16-partial-source-review-design.md), baseline5e69cf3;
+product7c40308 unchanged. Next supported work is C1-only pending→partially_reviewed
+content review, carrying exact already confirmed fields in durable admin-only
+receipts. Reuse52 associations/19 chunks/54 spans/nine source-bound events/five
+sources; no new source-content decision or review of whole sources is inferred.
+
+Single builder check clear after preserving existing absolute provenance paths
+only in administrative snapshots; cost is retaining internal workstation paths.
+Original owner labels/timestamps remain separate from compilation identity/time.
+Read-only preflight verifies21input hashes, prior8/49/119-file seals, five A1
+records and22same-source dependency edges. No actual C1 receipt, source update,
+database call, model run, conversion or changed source file. Scope17–18/master6/10
+reconsulted; same-session routing PNG remains applicable. Owner artifacts intact.
+
+Next approval of the complete new-interface description, required by the cited
+brainstorming skill; then writing-plans and focused TDD/disposable rehearsal.
+No repeat A1 implementation, source/wording/school-response question, speculative
+general updater, shared deployment or Phase06. Formal Tasks4/6 remain open.
+
+Final design checks: 514 documentation/phase-ledger tests and 11 subtests pass
+in11.63s, exit0. Validate0/can-advance1(expected blocked); whitespace clear.
+No product/test/SQL changes or full-suite repeat. Design and four continuity
+files committed together; raw checks stay ignored and owner artifacts unstaged.
+
 ## A1 documentary closure verified — 16 October 2026
 
 513documentation/phase-ledger tests and11subtests pass11.73s, exit0; validate0,

@@ -3,12 +3,41 @@ artifact: phase-handoff
 phase: 5
 status: blocked
 plan: plans/phase-05-retrieval-plan.md
-final_commit: 7c40308
+final_commit: 5e69cf3
 recovery_condition: Complete applicable source governance and release authorization, verify the fixed document profile through actual runtime roles, and pass remaining master section10 exit checks; bounded offline acceptance preserves three T1 context misses.
-completed_at: 2026-10-16T18:19:23+08:00
+completed_at: 2026-10-16T18:28:44+08:00
 ---
 
 # Phase 05 recovery handoff — retrieval candidate
+
+## Next bounded step: scoped partial-review persistence
+
+[C1 design](2026-10-16-partial-source-review-design.md), baseline5e69cf3 and
+unchanged product7c40308. Existing52associations/19chunks/54spans/nine events
+support recording partial coverage for five sources. Exact source-event/field/
+span/limit snapshots live in a proposed immutable administrative receipt;
+the source register changes only content review to partially_reviewed with
+appended evidence. Other lifecycle/chunk/release states remain unchanged.
+
+Builder check clear after resolving the existing-path conflict: preserve the
+complete existing metadata only in admin receipt storage, without adding new
+filesystem paths or original/private file bytes. Existing owner labels and
+recording times are not new personal/office identities or review decisions.
+Preflight verifies21input hashes,8/49/119-file seals and22same-source dependency
+links. No code, migration, database call or actual source transition occurred.
+
+Await full-description approval under the quoted brainstorming skill, then
+write the implementation plan and execute focused TDD/disposable rehearsal.
+Approval concerns this new persistence interface, not renewed source readings,
+institutional authorization, shared deployment, activation or Phase06. Formal
+Tasks4/6 remain blocked. Owner artifacts preserved/unstaged; active worktree kept.
+Earlier notes saying no further supported A1 implementation remain true;
+this C1 step is separately constrained by existing content-review evidence.
+
+Design closure checks: 514 documentation/phase-ledger tests/11subtests pass
+11.63s, exit0; validate0/can-advance1(expected blocked), whitespace clear.
+No code/SQL change, full-suite repeat or source promotion. The next action is
+actual full-description approval, followed by writing-plans and focused TDD.
 
 Final A1 documentary closure:513tests/11subtests pass11.73s; phase validate0,
 can-advance1(expected blocked), whitespace clear. Approved A1 plan complete;

@@ -2,16 +2,42 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 334
+sequence: 335
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 7c40308
-working_tree: verified A1 report and documentary closure; owner artifacts preserved unstaged
-updated_at: 2026-10-16T18:19:23+08:00
+head_commit: 5e69cf3
+working_tree: scoped C1 design and continuity docs; owner artifacts preserved unstaged
+updated_at: 2026-10-16T18:28:44+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Scoped partial-review design prepared — 16 October 2026
+
+Design: plans/2026-10-16-partial-source-review-design.md. Reuse the confirmed
+52 associations/19 chunks/54 spans/nine source-bound events in five C1-only
+partial receipts. A separate administrative immutable receipt retains exact
+scope; source register changes only content review to partially_reviewed and
+appends its evidence. All other lifecycle/chunk/release states remain unchanged.
+No product code, migration, database call or actual C1 receipt is produced.
+
+Single builder check: nothing important left after resolving exact-snapshot
+versus existing-path conflict. Preserve existing paths only as admin metadata;
+cost is retaining internal workstation provenance strings. Actual owner labels
+and timestamps stay separate from compilation identity/time; no new reviewer
+name, office role or content confirmation is invented. Read-only preflight:
+21 input hashes, five A1-observed source records, prior8/49/119-file seals and
+22 same-source dependency edges verify. No new mapping or retrieval experiment.
+Thesis17–18 reconsulted, routing PNG inspected earlier this session, master6/10
+and scope/source-gap/dataset guidance consulted; no architecture discrepancy.
+Owner artifacts preserved. Next full-description approval required by quoted
+brainstorming skill, then writing-plans/TDD; formal Phase05 remains blocked.
+
+Final design checks: 514 documentation/phase-ledger tests and 11 subtests pass
+11.63s, exit0; phase validate0/can-advance1(expected blocked), whitespace clear.
+No product/test/SQL change or full-suite repeat. One documentation commit
+contains the design and four continuity files; owner artifacts stay unstaged.
 
 ## A1 documentary closure verified — 16 October 2026
 
@@ -2340,6 +2366,10 @@ Recovered Phase 04 corrective handoff, verified clean baseline and owner start i
 
 ## Current Task
 
+Latest: scoped C1 partial-review design is complete and builder-checked; await
+approval of that new interface before writing an implementation plan or code.
+No repeat A1 work or already settled source/benchmark confirmations.
+
 Latest: approved A1 plan complete, including evidence/review/documentary checks.
 Retain blocked Phase05 until actual source/release/runtime exit prerequisites
 are satisfied; no additional implementation follows from acquisition alone.
@@ -4247,6 +4277,10 @@ Retained Docling dropped-cell findings and1556unlocatable text items need recove
 
 ## Repository State
 
+Latest: baseline5e69cf3, product7c40308 unchanged. New partial-review design and
+four continuity documents only; raw checks stay ignored under workspace.
+Owner artifacts/.gitkeep deletion and backend/artifacts remain untouched.
+
 Latest: HEAD7c40308; product/tests/SQL unchanged. This commit stages only the
 A1 report/plan and INDEX/checkpoint/handoff/current progress. Owner artifact
 deletion/untracked backend/artifacts remain preserved and unstaged.
@@ -5257,6 +5291,12 @@ Python3.13.7; isolated approved venv pins Docling2.133.0,docling-core2.101.1,doc
 
 ## Decisions
 
+Latest: record only C1 partial coverage supported by existing confirmations.
+Choose an immutable administrative receipt over evidence-ID-only storage so
+exact scope is durable. Preserve existing snapshot provenance strings under
+admin restrictions rather than rewriting historical type_fields. New full-design
+approval authorizes a bounded build only, not source authority or activation.
+
 Six revised scenarios/18wordings and stated expectations approved by explicit owner reply; exact bb57f66 packet sealed separately. This does not promote unknown source applicability, resolve F04/G01/G02, or authorize activation.
 
 Owner requires ordinary queries without compulsory undergraduate/source declarations, brief answer citations, latest applicable reviewed sources and clear excluded-scope notices. See2026-10-15-natural-query-response-requirements.md. Similarity is relevance, not authority; original/new benchmark wordings unaccepted.
@@ -5493,6 +5533,12 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: owner reviews plans/2026-10-16-partial-source-review-design.md. On actual
+approval, invoke writing-plans, implement its narrow C1 interface using TDD and
+rehearse five receipts in a disposable database with existing inputs. Before
+approval, no product or database change. Do not re-ask source readings or school
+response, run a new retrieval grid or create a general status updater. NoPhase06.
 
 Latest: preserve this verified checkpoint; resume actual source/release governance
 or authorized runtime exit work when its evidence/decisions exist. The remaining
