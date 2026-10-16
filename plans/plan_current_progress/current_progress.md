@@ -1,5 +1,21 @@
 # Current prospectus workstream progress — 29 September 2026
 
+## Selected package completion-scope decision prepared — 16 October 2026
+
+[Decision packet](../2026-10-16-selected-corpus-review-scope.md), baseline5f38c2e.
+Continuation need not wait exclusively on the school response: the existing
+reconciliation also identifies a separate declared completion-scope decision.
+Read-only renderer/receipt comparison verifies19chunks/52associations/54spans,
+zero unassociated spans and three unchanged inputs. No new reading/experiment,
+database call or source promotion. The actual owner decision is pending for
+this exact provisional undergraduate selection, with all known limits retained;
+whole originals remain partially reviewed. Do not ask for settled readings again.
+Next record the actual scope answer, then assess safe scope-bound persistence;
+no general updater, school authority, shared activation or Phase06 inferred.
+Context17–18/routing/master6/10 reconsulted. Owner artifacts remain preserved.
+Documentation/ledger517tests/11subtests pass11.59s; phase validate passes and
+can-advance remains blocked. Whitespace clear; no unchanged product-suite rerun.
+
 ## C1 approved plan complete — 16 October 2026
 
 Final product9e6526c, full5462tests/1087subtests and documentation516tests/

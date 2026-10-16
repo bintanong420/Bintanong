@@ -2,16 +2,30 @@
 artifact: phase-checkpoint
 phase: 5
 status: blocked
-sequence: 342
+sequence: 343
 plan: plans/phase-05-retrieval-plan.md
-head_commit: 9e6526c
-working_tree: C1 delivery report and continuity closure; owner artifacts preserved unstaged
-updated_at: 2026-10-16T19:05:16+08:00
+head_commit: 5f38c2e
+working_tree: Selected review-scope decision packet and continuity; owner artifacts preserved unstaged
+updated_at: 2026-10-16T19:20:38+08:00
 ---
 
 # Phase 05 checkpoint
 
 ## Completed Tasks
+
+## Selected package review-scope decision prepared — 16 October 2026
+
+Baseline5f38c2e. The remaining reconciliation includes a completion-scope
+decision independent of the pending school response. Existing renderer and
+C1 receipt comparison validate19chunks/52associations/54spans, zero unassociated
+spans and three unchanged inputs. Exact scope, retained gaps and boundaries are
+in plans/2026-10-16-selected-corpus-review-scope.md; owner decision pending.
+No new source reading/experiment, state change or database call. Full originals
+remain partially reviewed; a selected completion claim must stay scope-bound.
+Context thesis17–18, same-session routing PNG/master6/10 and scope/source-gap/
+dataset guidance reconsulted; no discrepancy. Owner artifact changes untouched.
+Docs/phase-ledger517tests/11subtests pass11.59s, exit0; phase validate passes,
+can-advance remains blocked, whitespace clear. No unchanged product-suite rerun.
 
 ## C1 approved implementation plan complete — 16 October 2026
 
@@ -2419,6 +2433,10 @@ pass386.83s; ledger19pass12.669s. FormalPhase05exit remains blocked.
 Recovered Phase 04 corrective handoff, verified clean baseline and owner start instruction. Phase inspector: valid, can advance yes. GitHub MCP confirms merged PR 6. Hosted MCP: PostgreSQL 17.6, vector 0.8.2, zero releases/active pointers.
 
 ## Current Task
+
+Latest: present the concrete selected-package completion-scope decision. Actual
+owner answer remains pending; preserve existing confirmed readings and C1 scope.
+No source promotion, institutional approval or new implementation is inferred.
 
 Latest: approved C1 implementation, review correction, fixed-code rehearsal,
 full suite, documentation and evidence seal complete. No further C1 task remains.
@@ -5624,6 +5642,11 @@ context; they do not replace the current policy-source next action.
 32latest-source extraction audits stillerror andemit0chunks. Only3/27examcaseshave same-byte chunks; geometry remains27/28candidate targetswith field ownershippending. Financial Management rawsuperscript/prerequisite readingorder remainsunreviewed despite repaired146-unit checksum. Ownerconfirms noanswer/source reviewyet; applicability/authority/domainapproval andapproved-release calibrationremainopen. Historical336vector diagnostics unchanged,new54vector cohortseparate. Noadditionalasset/installblocker.
 
 ## Next Action
+
+Latest: record the actual owner answer to the selected19chunk completion scope,
+retaining all limits and whole-source partial status. If accepted, assess how
+to persist a safely scope-bound claim before any dependent operation. No repeat
+readings, school-response request, experiment or Phase06; formal exits stay open.
 
 Latest: preserve this verified checkpoint and resume only concrete source/release
 governance or authorized runtime exit work supported by actual evidence/decisions.

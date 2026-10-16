@@ -10,6 +10,14 @@ completed_at: 2026-10-16T19:05:16+08:00
 
 # Phase 05 recovery handoff — retrieval candidate
 
+Latest continuation at5f38c2e prepares the [selected package review-scope decision](2026-10-16-selected-corpus-review-scope.md).
+An actual completion-scope decision remains absent independently of the school
+response. Read-only coverage/receipt comparison validates19chunks/52associations/
+54spans with zero unassociated spans and three unchanged inputs. Owner answer
+pending; confirmed readings need no repetition. Whole originals remain partially
+reviewed and no source/state/product/database change follows. Record the actual
+scope answer before dependent work; school/release/runtime/Phase06 gates remain.
+
 Final C1 closure: approved implementation plan complete;489-file evidence seal
 created/verified. Product9e6526c is the verified baseline, final documentary SHA
 is discoverable in Git. No further C1 work remains; Phase05Tasks4/6 still need
