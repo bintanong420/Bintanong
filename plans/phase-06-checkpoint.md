@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 29
+sequence: 30
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: a8efcc8
-working_tree: CSV delivery documentation; concurrent compose.yaml/docker/api.Dockerfile preserved
-updated_at: 2026-10-17T23:53:00+08:00
+head_commit: 87ebada
+working_tree: branch-sync documentation; concurrent compose.yaml/docker/api.Dockerfile preserved
+updated_at: 2026-10-18T00:08:00+08:00
 ---
 
 # Phase06 checkpoint
@@ -23,24 +23,33 @@ source artifacts/runtime cases. All generated files remain ignored.
 
 ## Current Task
 
-Deliver generated artifacts for Excel review. Two originals went through the
-existing PDF -> Docling -> prospectus pipeline; audit holds remain visible.
-Native reviewed-field generation separately reproduces settled authoring/PL.
-CSV reviewer verdicts are blank/unreviewed. No new source decision is inferred.
+Owner explicitly requests mainline Phase06 push while reviewing. Local
+feat/p06-prolog-janus-rules fast-forwarded4772e08 ->87ebada in the primary checkout;
+fresh relevant verification there passed854 tests106.03s. This is
+an active-phase branch sync, not Phase06 completion, release or output approval.
+Generated review artifacts stay ignored/local; active p06 worktree is preserved.
 
 ## Repository State
 
 C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06;
-branch chore/p06-hawksprey420-scaffold. Product49bc993; reviewed baselinea8efcc8.
+branch chore/p06-hawksprey420-scaffold. Product49bc993; reviewed baseline87ebada.
+Mainline checkout:C:/Users/Hawksprey/source/repos/Bintanong, branch
+feat/p06-prolog-janus-rules; only its pre-existing untracked model directory remains.
+Remote initially4772e08; six commits/14 scoped tracked paths ahead, no divergence.
+Final ref identities/preservation evidence:workspace/audit-evidence/p06-mainline-sync-20261018.
 This documentation wrapper contains report/checkpoint/progress changes; head_commit
 names its prior reviewed baseline, so a wrapper-HEAD warning can be expected.
 Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
-No product/dependency/lock/API/DB/frontend/later-phase changes, installs or remote
-writes. Dataset/config/venv and generated derivatives remain ignored.
+No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
+Only the owner-requested Phase06 remote branch write is authorized.
+Dataset/config/venv and generated derivatives remain ignored.
 Pre-condensation snapshot:a8efcc8:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Mainline sync:854 relevant tests passed106.03s in the primary target checkout
+  after fast-forward, system Python3.13/no cache/external basetemp. Raw related.log
+  and final docs/ref verification live in p06-mainline-sync-20261018.
 - Fresh full extraction:old53/proposed55 detected draft course rows, audit=error;
   both strict CLI exits1. JSON/CSV/Markdown published; full PL withheld honestly.
 - Fresh reviewed generation:11 identities/10 reviewed/one draft, seven expressions,

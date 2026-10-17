@@ -1,6 +1,16 @@
 # Current progress
 
-Updated:17 October2026. Phase06 active; product49bc993 unchanged.
+Updated:18 October2026. Phase06 active; product49bc993 unchanged.
+
+## Mainline synchronization
+
+Owner explicitly requests pushing this work to feat/p06-prolog-janus-rules while
+human review continues. Primary checkout fast-forwarded4772e08 ->87ebada without
+conflicts;854 relevant tests passed106.03s in that target checkout before push.
+final ref/preservation evidence is under audit-evidence/p06-mainline-sync-20261018.
+Only committed code/tests/handoff documents are included. Review artifacts remain
+ignored/local. Both worktrees and unrelated Docker edits/model directory preserved.
+This does not complete Phase06, approve output or activate institutional rules.
 
 ## Latest delivery
 
@@ -37,7 +47,8 @@ compatible transformers/hub and cached CPU models; downloads explicitly disabled
 System3.13.12 handles source/compiler/Janus/CSV verification/tests. No packages,
 locks, environment files or model assets changed/copied/downloaded.
 Concurrent compose.yaml/docker/api.Dockerfile edits untouched/unstaged. No product,
-API/DB/frontend/later-phase work or remote writes. Generated data stays ignored.
+API/DB/frontend/later-phase work. Only the requested Phase06 branch push is in scope.
+Generated data stays ignored.
 53-file manifest7a417f05; full hashes/source bindings in the report and package.
 Final docs/phase550 passed/11 subtests27.26s; phase state valid/blocked.
 Repository handoff/reminder/conventional commits
