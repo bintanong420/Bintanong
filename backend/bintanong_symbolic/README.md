@@ -64,8 +64,9 @@ not authenticate reviewers or establish truth, applicability or school approval.
 
 The existing prospectus extraction candidate compiler and capability registry are
 unchanged. No real-source rule translation is approved by synthetic tests. Runtime
-compilation/release gates, Janus, request-local student facts and safe registered
-operations remain future Phase06 increments. Do not use the preview for decisions.
+compilation/release gates and institutional operation registration remain future
+Phase06 increments; the synthetic research runtime is described below. Do not use
+the preview for institutional decisions.
 
 `compiler.compile_curriculum_review_bundle(ledger)` is the separate partial human
 review exporter. It revalidates the same complete ledger and emits reviewed
@@ -91,3 +92,52 @@ Every review bundle retains runtime_ready=false, activation_allowed=false,
 eligibility_executable=false, approval_id=null and explicit release holds. The
 function returns text in memory; offline tooling may save it for human review.
 No Prolog consultation, decision, source promotion or capability registration occurs.
+
+## Synthetic prerequisite runtime
+
+`runtime.CurriculumRuntime(ledger).check(request, facts=None)` is the offline
+research runtime for the `check_prerequisite_eligibility` operation. Its
+PredicateRequest has exactly `curriculum_id` and `course_id` bound inputs;
+`StudentFacts` contains explicit synthetic passed/failed/currently enrolled and
+explicitly not_enrolled course IDs. Missing enrollment is unknown; failed completion
+alone cannot prove an unmet co-requisite. This is normalized fixture state, not numeric grade interpretation or policy
+for repeated attempts, exemptions or equivalent courses.
+
+The constructor revalidates the entire ledger through the review compiler and
+retains detached immutable JSON. It rejects non-synthetic sources and compiler
+holds. Institutional candidates cannot execute through this interface. Synthetic
+execution does not change ledger flags, approve sources, activate a release,
+register an institutional capability or publish an API. EMPTY_REGISTRY stays empty.
+Non-synthetic release/runtime integration remains a separate gated Phase06 step.
+
+One fixed Prolog engine evaluates reviewed expression trees: ordered all_of/any_of,
+explicit co_requisite and verified_none. Draft identities, unknown rules, missing
+completion and mismatched curricula remain unknown; known required failure stays
+distinct. Any satisfied alternative is sufficient; missing alternatives alone do
+not establish failure. Conflicting relevant completion states stay unknown unless
+an independent alternative proves the result. A referenced course's own unknown
+prerequisites are not rechecked when its explicit completion is supplied; this is
+a direct prerequisite check, not an inferred transitive completion audit.
+
+The adapter uses the existing registry and SymbolicResult contracts, attaching
+scoped rule/source spans and stable satisfied/violated/unknown explanations.
+Other operations return unsupported. It never interprets a failed Prolog goal,
+worker failure, malformed output, timeout or size limit as a policy denial.
+
+Each request runs in a fresh hidden Python/Janus subprocess with typed input
+bindings and a fixed goal. Only the tracked engine is consulted; its exact bytes
+are pinned in the bundle identity and checked by the worker. Authoring/candidate
+files are not consulted, student facts are arguments, and there are no global
+student assertions. A shared admission lock serializes workers; queue plus process
+execution has a bounded deadline. `subprocess.run` kills/waits on timeout. Limits:
+timeout >0 through30 seconds (default5), at most256 entries per fact list,
+128-character printable IDs, at most two request inputs/request8KiB,
+bundle512KiB/worker input1MiB/complete result64KiB, and1–256 condition
+entries (default128). Exceeding a result limit returns an operational error without
+truncating a policy result. No credentials, student inputs or child stderr are logged.
+
+Test with system Python3.13, no pytest cache and external TEMP/TMP/basetemp:
+`tests/test_symbolic_runtime.py`. These tests execute actual synthetic Janus calls;
+missing Janus is an operational failure, not an implicit passing integration check.
+Real-source generated-output human inspection and all institutional release gates
+remain outstanding and are not proved by synthetic test success.
