@@ -11,6 +11,8 @@
 - Phase06 product `6fedc45`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - University approval, governed release and authorized real-source runtime validation
   remain outstanding institutional-release gates. Candidates stay inactive.
+- Hawksprey420 machine/worktree preparation and missing-evidence recovery:
+  [Phase 06 scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md).
 
 ## Resume order
 

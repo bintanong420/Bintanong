@@ -1,5 +1,26 @@
 # Dataset locations and relocation
 
+## Current machine scaffold — 17 October 2026
+
+For Hawksprey420's Phase 06 worktree, the freshly verified dataset parent is:
+
+```text
+C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06/dataset
+```
+
+The prospectus root is its `PalSU Undergraduate Prospectus Website Dump/` child.
+This is a byte-preserving copy of 55 locally available files from
+`C:/Users/Hawksprey/source/repos/Bintanong/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/`;
+the source remains untouched. Both reviewed BSCS originals match their recorded
+hashes. Legacy `handbook_citizen_charter/` relative paths are retained, rather than
+silently reshaping originals into the other machine's category layout.
+
+The p05 dataset path below is absent on this machine. Its historical 62-file
+inventory and later additions are not a completeness claim for this 55-file copy.
+See the [machine scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md)
+for ignored-asset hashes, missing review evidence and next-chat recovery.
+All originals and generated derivatives remain inactive and ignored by Git.
+
 ## Current source-retention decision — 15 October 2026
 
 The owner keeps the added student-related memos, fees, enrollment material and
