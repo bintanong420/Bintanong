@@ -6,19 +6,21 @@ retrieval with structured knowledge and Prolog reasoning. The supported study
 scope is undergraduate academic affairs for 2026–2027; the complete student chat
 workflow and institutional deployment are not yet delivered.
 
-This README explains the developer workspace, including data that a Git clone
-does not contain. It describes the existing layout; it does not instruct you to
-move originals, regenerate evidence or activate a release.
+This README explains the main `bintanong_workspace/Bintanong/` checkout and its
+developer workspace, including data that a Git clone does not contain. Paths below
+start at `bintanong_workspace/` or are relative to the repository root as indicated.
 
-Workspace snapshot: **16 October 2026**. Use the phase index for later changes.
+Workspace snapshot: **17 October 2026**. Use the phase index for later changes.
 
 ## Start here when taking over
 
 1. Read [AGENTS.md](AGENTS.md), the [phase index](plans/INDEX.md) and
    [current progress](plans/plan_current_progress/current_progress.md).
 2. Follow the index to the active phase plan, checkpoint and handoff. At this
-   update, Phase 05 retrieval is active with open exit gates. The index and Git
-   take precedence over this dated summary.
+   update, Phase 05 is complete as an approved offline research/software milestone.
+   The ledger records Phase 06 Task 1 delivered; further implementation awaits
+   phase alignment with the owner. Institutional release remains gated. The index
+   and Git take precedence over this dated summary.
 3. Read the relevant sections of the
    [master plan](plans/master_implementation_plan_original_long.md). Consult the
    [thesis](Context/bintanong_thesis_for_context.pdf), especially physical17–18
@@ -32,7 +34,7 @@ Workspace snapshot: **16 October 2026**. Use the phase index for later changes.
    ```
 
 5. Obtain the authorized local-data handoff described below before running a
-   source-backed job. A missing ignored directory in a new clone/worktree is
+   source-backed job. A missing ignored directory in a new clone is
    expected; it is not a reason to reacquire sources or repeat completed runs.
 
 ## Tracked repository structure
@@ -48,6 +50,7 @@ Bintanong/
 │   ├── bintanong_embedding/    Embedding adapter and batch verification
 │   ├── bintanong_retrieval/    Retrieval, context assembly and evidence policy
 │   ├── bintanong_storage/      Registration, loading and release interfaces
+│   ├── bintanong_symbolic/     Inactive curriculum authoring ledger
 │   ├── bintanong_tools/        Ingestion, extraction and source-review tools
 │   ├── pyproject.toml         Python version and dependency groups
 │   └── uv.lock                Locked Python dependencies
@@ -81,23 +84,23 @@ must resolve their actual paths explicitly rather than assume these directories
 exist on their machine.
 
 ```text
-C:/Coding-projects/
-├── MODELS/                                      External model assets
+bintanong_workspace/
+├── Bintanong/                                  Main checkout; run commands here
+│   └── dataset/                                Ignored institutional originals
+├── MODELS/                                     Model assets outside the checkout
 │   ├── SEA-LION-E5-Embedding-600M/
 │   └── GEMMA_4_E4B/
-└── bintanong_workspace/
-    ├── Bintanong/                                Main checkout
-    ├── worktrees/Bintanong/p05/                   Current Phase 05 worktree
-    │   └── dataset/                              Ignored institutional originals
-    └── audit-evidence/                           Local execution/handoff evidence
-        └── <task-or-run-name>/
+└── audit-evidence/                              Local execution/handoff evidence
+    └── <task-or-run-name>/
 ```
 
 Keep model weights outside all repository checkouts. Keep task data, generated
 outputs and test temporaries under `bintanong_workspace`, in ignored
 `audit-evidence` folders. If your workspace differs, record the path mapping in
-the handoff and pass the resolved paths explicitly. Ignored data is not copied
-automatically into another worktree.
+the handoff and pass the resolved paths explicitly. From the main repository root,
+the dataset is `dataset/`, models are `../MODELS/`, and evidence is
+`../audit-evidence/`. Older handoffs can name the former Phase 05 worktree or model
+location; resolve those references against this layout and verify recorded hashes.
 
 ### What a developer needs
 
@@ -119,9 +122,11 @@ of the institutional corpus handoff.
 
 ## Institutional originals: `dataset/` (ignored)
 
-The [dataset-location guide](plans/dataset-locations.md) is the detailed source
-map, including relocation history and source status. Preserve original bytes,
-filenames and relative paths. The present categories include:
+The dataset is at `bintanong_workspace/Bintanong/dataset/`. The
+[dataset-location guide](plans/dataset-locations.md) contains the detailed source
+map, relocation history and source status; its Phase 05 worktree paths predate the
+owner's move to the main checkout. Preserve original bytes, filenames and relative
+paths. The present categories include:
 
 ```text
 dataset/
@@ -149,13 +154,15 @@ For the practice-exam tools, `--source-root` is the **prospectus directory**, no
 the enclosing `dataset/` directory:
 
 ```text
-<checkout>/dataset/PalSU Undergraduate Prospectus Website Dump/
+bintanong_workspace/Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/
 ```
 
 The former `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/` location
-was moved to root `dataset/`. Do not recreate it. Historical sealed records can
-contain the old absolute prefix; use the relocation map in the dataset guide
-and verify the original SHA-256 before resolving a saved path.
+was moved to root `dataset/`. Do not recreate it. For historical paths under
+`worktrees/Bintanong/p05/dataset/`, resolve the suffix after `dataset/` under the
+main checkout's `dataset/`. For the earlier backend location, also consult the
+relocation map in the dataset guide. Verify the original SHA-256 when resolving
+a saved path and preserve sealed records unchanged.
 
 Select clauses and services applicable to undergraduates. Keep complete originals
 as evidence even when they contain excluded audiences. Missing text, conflicting
@@ -231,7 +238,7 @@ spans and 19 saved document vectors across five source identities. It is a bound
 research selection, not the complete corpus. Its rationale is recorded in the
 [accepted chunking justification](plans/2026-10-16-rag-chunking-research.md).
 
-These paths are relative to `<workspace>/audit-evidence/`:
+These paths are relative to `bintanong_workspace/audit-evidence/`:
 
 | Directory | Important contents/purpose | Tracked recovery document |
 | --- | --- | --- |
@@ -291,10 +298,12 @@ or CLI account changed.
 ```
 
 Retain the complete supplied model directory, not only the weight file. The
-current owner location is `C:/Coding-projects/MODELS`. `MODELS_DIR` supplies the
-host directory; Compose mounts it read-only at `/models`, and the embedding
-service resolves that container path through `MODELS_ROOT`. Model-relative paths
-are configured in `.env.example`. Do not copy/download weights into Git.
+current owner location is `bintanong_workspace/MODELS/`, beside the main checkout.
+Set `MODELS_DIR` in the ignored local `.env` to the resolved host path for
+`../MODELS/`; `.env.example` still names the former model location. Compose mounts
+it read-only at `/models`, and the embedding service resolves that container path
+through `MODELS_ROOT`. Model-relative paths are configured in `.env.example`.
+Do not copy/download weights into Git.
 
 Real retrieval also needs its verified asset manifest: a JSON mapping of
 model-relative filenames to SHA-256 values. Use the active embedding/retrieval
@@ -305,7 +314,7 @@ See [retrieval setup](backend/bintanong_retrieval/README.md).
 The owner's existing Python3.13 environment is:
 
 ```text
-<workspace>/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe
+bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe
 ```
 
 Its parent also contains the established `hf-cache/` and `docling-artifacts/`.
@@ -350,7 +359,7 @@ For tests, use an existing suitable environment, disable bytecode/pytest cache,
 and put all temporaries in a new task directory. Example from the repository root:
 
 ```powershell
-$workspaceRoot = 'C:/Coding-projects/bintanong_workspace'
+$workspaceRoot = (Resolve-Path -LiteralPath '..').Path
 $pythonPath = "$workspaceRoot/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe"
 $runRoot = "$workspaceRoot/audit-evidence/dev-$([guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Path $runRoot | Out-Null
@@ -380,18 +389,18 @@ check uses the same environment and fresh run directory:
 | Local path | Handling |
 | --- | --- |
 | `/dataset/` | Ignored originals and local source inventories; obtain separately |
-| `/artifacts/*` | Ignored generated output, with a tracked `.gitkeep` exception; use task audit-evidence for new phase work |
+| `/artifacts/*` | Ignored generated output; the tracked placeholder is now `backend/artifacts/.gitkeep`; use task audit-evidence for new phase work |
 | `/uploads/`, `/data/private/` | Ignored private/session inputs; keep separate from institutional knowledge |
 | `/plans/progress_plans/` | Ignored bulk scratch copies; curate current documents into tracked `plans/` |
 | `.env`, `.env*.local` | Ignored local settings/secrets; `.env.example` is the tracked template |
 | `node_modules/`, `.venv/`, build/test caches | Local dependencies/generated files; not the handoff's source of truth |
-| `<workspace>/audit-evidence/` | Local-only sibling storage, currently outside the code checkouts; verify Git boundaries if relocating |
-| `<MODELS_DIR>/` | External weights; ignored weight extensions are an additional safeguard |
+| `bintanong_workspace/audit-evidence/` | Local-only storage beside the main checkout; verify Git boundaries if relocating |
+| `bintanong_workspace/MODELS/` | Model weights beside the main checkout; ignored weight extensions are an additional safeguard |
 
 Ignore rules are path-specific. In particular, `/artifacts/*` does **not** cover
-`backend/artifacts/`; the latter currently exists as untracked owner material.
-Do not stage, remove or relocate it as part of routine cleanup. Check the actual
-ignore status of any new output location before writing source-derived data.
+`backend/artifacts/`; only its `.gitkeep` placeholder is currently tracked.
+Preserve local owner material and check the actual ignore status of any new output
+location before writing source-derived data.
 Git ignore status also does not imply exclusion from every Docker build context.
 
 Before handing work to another developer:
