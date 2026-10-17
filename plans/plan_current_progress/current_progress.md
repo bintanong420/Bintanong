@@ -1,26 +1,23 @@
 # Current progress
 
-Updated: 17 October 2026. **Phase 05 complete: offline research/software milestone.**
+Updated: 17 October 2026. Phase 06 active; approved authoring-ledger Task 1 complete.
 
-## Latest work
+## Delivered
 
-Owner “ye sure approve” explicitly revised the completion boundary. The completed
-plan/final handoff retain pending institutional authority, inactive candidates,
-release guards and unassessed positive runtime calibration/answer sufficiency.
-Fresh profile/input/citation/original-source/code/seal checks pass: 39 cases,
-18 available contexts / 21 insufficient, 36/39 related context; three T1 misses retained.
-Full-suite evidence is reused only after unchanged-code and sealed-log verification.
-No product, source-state, database, model or dependency change.
+Product `67ed4bd`: source/version-scoped course facts and explicit prerequisite
+expressions, digest-bound reviews, detached deterministic output and private-ID
+rejection throughout spans. Always inactive; no Prolog or eligibility decisions.
+Existing compiler/contracts/registry/dependencies and original sources unchanged.
 
-## Final checks
+## Verification
 
-Fresh documentation/phase checks: 529 passed / 11 subtests, 14.39s; validate and
-can-advance both exit0. Raw evidence: workspace/audit-evidence/
-p05-offline-closure-20261017 (seven-file manifest verified). Owner changes preserved.
+Final affected regressions: 457 passed, 23.59s; docs/phase: 531 passed / 11 subtests, 16.90s.
+Single final review's one Important span-privacy issue reproduced RED 3 and fixed;
+no other actionable findings. Raw logs/review/manifest under workspace/audit-evidence/
+p06-authoring-20261017. Owner artifact changes preserved; compact checkpoint retained.
 
 ## Next action
 
-Documentary closure commit follows; discover its SHA via Git. No active phase; Phase 06 is
-next eligible for separately scoped structured/Symbolic preparation, not started.
-Actual university approval and authorized real-source runtime validation remain
-outstanding release gates. [Final handoff](../phase-05-handoff.md).
+Design versioned reviewed-ledger compilation (Task 2); preserve source/review gates,
+unknowns and cycle reporting. Formal Phase 06 completion remains future work.
+[Plan](../phase-06-structured-knowledge-plan.md) · [Checkpoint](../phase-06-checkpoint.md).
