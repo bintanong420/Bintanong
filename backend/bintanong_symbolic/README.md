@@ -102,6 +102,8 @@ compact payload and exact tracked Prolog engine bytes. Preparation neither
 consults Prolog nor promotes a source. Every artifact retains runtime_ready=false,
 activation_allowed=false, eligibility_executable=false and approval_id=null.
 Real-source ledgers may be prepared only as inactive data.
+The explicit offline acceptance path below can execute their checked projection
+for research without changing these artifact flags.
 
 `bundle.validate_runtime_bundle(bundle)` rebuilds every field against the current
 compiler/engine and rejects any difference, including unknown extra keys.
@@ -172,3 +174,28 @@ These tests execute actual synthetic Janus calls;
 missing Janus is an operational failure, not an implicit passing integration check.
 Real-source generated-output human inspection and all institutional release gates
 remain outstanding and are not proved by synthetic test success.
+
+## Controlled real-bundle acceptance
+
+`CurriculumRuntime.for_offline_research(bundle, authorization=record)` validates
+an exact non-synthetic saved bundle against the current compiler/engine. Its
+closed record requires purpose `offline_curriculum_acceptance`, a
+`research-...` authorization reference, the exact bundle `content_sha256`, and
+one to three explicitly allowed operations from the existing runtime operations.
+This is a trusted local research execution record, not authenticated university
+permission or a user-facing authorization service. Normal constructors remain
+synthetic-only; StudentFacts remains fictional completion/enrollment state.
+
+The same fixed Prolog engine and request/resource bounds apply. Research context
+is bounded to8KiB and checked again in the worker alongside the exact payload
+hash and allowed predicate. Actual rule data retains synthetic=false; results
+use separate offline-research schemas, bundle/research scope, pending human
+output-review labels, source holds and institutional_use_allowed=false.
+`as_policy_result` and the answer EvidenceBundle reject these observations.
+No source, approval, bundle flag or global institutional registry is promoted.
+
+Fresh source-bound JSON -> candidate PL -> checked runtime projection acceptance
+is recorded in
+[the Phase06 report](../../plans/2026-10-17-phase06-offline-real-runtime-acceptance.md).
+Tracked `tests/test_symbolic_offline_research.py` uses fictional institutional
+records; actual source-derived outputs and execution evidence remain ignored.

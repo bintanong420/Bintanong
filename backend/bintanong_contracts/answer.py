@@ -49,6 +49,8 @@ class EvidenceBundle(Contract):
     def _rules(self):
         errs: list[str] = []
         sym, ret, claims = self.symbolic, self.retrieval, self.permitted_claims
+        if getattr(sym, 'research', None) is not None:
+            errs.append('offline research observations cannot enter the institutional answer pipeline')
         if self.route == "RAG" and (ret is None or sym is not None):
             errs.append("a RAG bundle needs retrieval and carries no symbolic result")
         if self.route == "Symbolic" and sym is None:

@@ -1,4 +1,4 @@
-"""Bounded synthetic prerequisite execution; institutional candidates remain inactive."""
+"""Bounded prerequisite research execution; institutional candidates remain inactive."""
 from __future__ import annotations
 
 import hashlib
@@ -111,6 +111,47 @@ class DependencyResult(Contract):
         return self
 
 
+class ResearchAuthorization(Record):
+    purpose: Literal['offline_curriculum_acceptance']
+    authorization_ref: str = Field(pattern=r'^research-[A-Za-z0-9_-]+$', max_length=128)
+    bundle_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+    operations: tuple[Literal['check_prerequisite_eligibility','list_missing_prerequisites',
+                              'list_affected_courses'], ...] = Field(min_length=1, max_length=3)
+
+    @model_validator(mode='after')
+    def _unique(self):
+        if len(set(self.operations)) != len(self.operations):
+            raise ValueError('duplicate research operations')
+        return self
+
+
+class ResearchContext(Record):
+    mode: Literal['offline_research']
+    institutional_use_allowed: Literal[False]
+    student_facts_synthetic: Literal[True]
+    generated_output_review: Literal['pending']
+    authorization: ResearchAuthorization
+    release_holds: tuple[_Text, ...] = Field(min_length=1)
+    payload_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+
+
+class ResearchSymbolicResult(SymbolicResult):
+    SCHEMA_VERSION = 'bintanong-offline-research-result-v1'
+    research: ResearchContext
+
+    @model_validator(mode='after')
+    def _real_rules(self):
+        if self.decision.synthetic:
+            raise ValueError('offline real-rule result cannot label rules synthetic')
+        return self
+
+
+class ResearchDependencyResult(DependencyResult):
+    SCHEMA_VERSION = 'bintanong-offline-research-dependency-result-v1'
+    synthetic: Literal[False]
+    research: ResearchContext
+
+
 class _WorkerFailure(RuntimeError):
     pass
 
@@ -136,8 +177,8 @@ def _spans(courses):
     return list({_json(s):s for s in spans}.values())
 
 
-def _scope(ledger):
-    return {'knowledge_release_id':'release-synthetic-'+ledger['content_sha256'][:16],
+def _scope(ledger, release_id):
+    return {'knowledge_release_id':release_id,
             'edition_ids':[s['edition_id'] for s in ledger['sources']],
             'scope_ids':list(ledger['scope'].values())}
 
@@ -171,17 +212,22 @@ class CurriculumRuntime:
     _version: str
     _engine_sha256: str
     _reviewed_rules: frozenset[str]
+    _research_json: str | None
+    _allowed_operations: frozenset[str]
+    _release_id: str
     timeout_seconds: float
     max_conditions: int
 
     def __init__(self, ledger, *, timeout_seconds=5.0, max_conditions=128):
+        self._initialize(prepare_runtime_bundle(ledger), timeout_seconds, max_conditions)
+
+    def _initialize(self, bundle, timeout_seconds, max_conditions, authorization=None):
         if type(timeout_seconds) not in (int, float) or not math.isfinite(timeout_seconds) or not 0 < timeout_seconds <= 30:
             raise ValueError('timeout_seconds must be finite, positive and at most 30')
         if type(max_conditions) is not int or not 1 <= max_conditions <= 256:
             raise ValueError('max_conditions must be 1..256')
-        bundle = prepare_runtime_bundle(ledger)
         checked = bundle['ledger']
-        if not checked['synthetic']:
+        if not checked['synthetic'] and authorization is None:
             raise ValueError('only synthetic research ledgers may execute; institutional release is not authorized')
         coverage = {c['course_id']:c for c in bundle['coverage']}
         encoded = _json(bundle['payload'])
@@ -191,7 +237,21 @@ class CurriculumRuntime:
         object.__setattr__(self, '_engine_sha256', engine_sha)
         object.__setattr__(self, '_reviewed_rules', frozenset(
             cid for cid,c in coverage.items() if c['direct_rule']=='reviewed'))
-        object.__setattr__(self, '_version', bundle['runtime_version'])
+        research = None if authorization is None else ResearchContext.parse({
+            'mode':'offline_research','institutional_use_allowed':False,'student_facts_synthetic':True,
+            'generated_output_review':'pending','authorization':authorization.model_dump(mode='json'),
+            'release_holds':bundle['release_holds'],'payload_sha256':bundle['payload_sha256']})
+        if research is not None and len(_json(research.model_dump(mode='json')).encode()) > 8192:
+            raise ValueError('research context exceeds byte limit')
+        version = bundle['runtime_version'] if research is None else 'offline-research-runtime-v1-'+hashlib.sha256(
+            _json([bundle['content_sha256'],research.model_dump(mode='json')]).encode()).hexdigest()
+        object.__setattr__(self, '_version', version)
+        object.__setattr__(self, '_research_json', None if research is None else _json(research.model_dump(mode='json')))
+        object.__setattr__(self, '_allowed_operations', frozenset(
+            (*_DECISIONS,'list_affected_courses') if authorization is None else authorization.operations))
+        release = 'release-synthetic-'+checked['content_sha256'][:16] if research is None else (
+            'release-offline-research-'+bundle['content_sha256'][:16])
+        object.__setattr__(self, '_release_id', release)
         object.__setattr__(self, 'timeout_seconds', float(timeout_seconds))
         object.__setattr__(self, 'max_conditions', max_conditions)
 
@@ -203,16 +263,30 @@ class CurriculumRuntime:
             raise ValueError('runtime engine or compiler changed during bundle loading')
         return runtime
 
+    @classmethod
+    def for_offline_research(cls, bundle, *, authorization, timeout_seconds=5.0, max_conditions=128):
+        checked = validate_runtime_bundle(bundle)
+        authorization = ResearchAuthorization.parse(authorization)
+        if checked['ledger']['synthetic'] or authorization.bundle_sha256 != checked['content_sha256']:
+            raise ValueError('research authorization must bind this exact non-synthetic bundle')
+        runtime = cls.__new__(cls)
+        runtime._initialize(checked, timeout_seconds, max_conditions, authorization)
+        return runtime
+
+    def _capability(self, name):
+        return name if self._research_json is None else name.replace('synthetic_','offline_research_',1)
+
     def check(self, request: PredicateRequest, facts: StudentFacts | None = None) -> SymbolicResult:
         request = _parse_request(request)
         facts = StudentFacts() if facts is None else StudentFacts.parse(facts.model_dump(mode='json'))
-        registry = CapabilityRegistry({name:Capability(cap, ('curriculum_id','course_id')) for name,cap in _DECISIONS.items()})
+        registry = CapabilityRegistry({name:Capability(self._capability(cap), ('curriculum_id','course_id'))
+            for name,cap in _DECISIONS.items() if name in self._allowed_operations})
         if not registry.supports(request.predicate):
             return self._result(request, outcome='unsupported', supported=False)
         goal = registry.goal(request)
         args = dict(goal.args)
         try:
-            result = self._execute(args, facts, 'eligibility')
+            result = self._execute(args, facts, 'eligibility', request.predicate)
             answer = self._result(request, outcome=result.outcome, evaluation=result)
             registry.check_result(answer)
             return answer
@@ -223,19 +297,21 @@ class CurriculumRuntime:
 
     def list_affected_courses(self, request: PredicateRequest) -> DependencyResult:
         request = _parse_request(request)
-        registry = CapabilityRegistry({'list_affected_courses':Capability('synthetic_dependency_inspection', ('curriculum_id','course_id'))})
+        registry = CapabilityRegistry({'list_affected_courses':Capability(
+            self._capability('synthetic_dependency_inspection'), ('curriculum_id','course_id'))}
+            if 'list_affected_courses' in self._allowed_operations else {})
         if not registry.supports(request.predicate):
             return self._dependency_result(request, status='unsupported')
         args = dict(registry.goal(request).args)
         try:
-            result = self._execute(args, StudentFacts(), 'dependencies')
+            result = self._execute(args, StudentFacts(), 'dependencies', request.predicate)
             return self._dependency_result(request, evaluation=result)
         except _WorkerFailure as exc:
             return self._dependency_result(request, status='error', error=str(exc))
         except (ValueError, TypeError, KeyError, AttributeError):
             return self._dependency_result(request, status='error', error='runtime_invalid_output')
 
-    def _execute(self, args, facts, operation):
+    def _execute(self, args, facts, operation, predicate):
         started = time.monotonic()
         if not _ADMISSION.acquire(timeout=self.timeout_seconds):
             raise _WorkerFailure('runtime_timeout')
@@ -246,7 +322,8 @@ class CurriculumRuntime:
             result = _invoke_worker({'bundle':json.loads(self._bundle_json), 'curriculum_id':args['curriculum_id'],
                 'course_id':args['course_id'], 'facts':facts.model_dump(mode='json'),
                 'engine_sha256':self._engine_sha256,
-                'operation':operation,
+                'operation':operation, 'predicate':predicate,
+                'research':None if self._research_json is None else json.loads(self._research_json),
                 'time_limit':remaining, 'max_conditions':self.max_conditions}, remaining)
             fields = ('course_ids','unknown_conditions') if operation=='dependencies' else ('satisfied','violated','unknown','conflicts')
             if sum(len(getattr(result,k)) for k in fields) > self.max_conditions:
@@ -270,8 +347,9 @@ class CurriculumRuntime:
         refs = ['span-'+hashlib.sha256(_json(s).encode()).hexdigest() for s in spans]
         ev = evaluation
         unknown = () if ev is None else ev.unknown
-        data = {'schema_version':'bintanong-symbolic-result-v1',
-            'decision':{'schema_version':'bintanong-decision-v1','synthetic':True,'outcome':outcome,
+        result_type = SymbolicResult if self._research_json is None else ResearchSymbolicResult
+        data = {'schema_version':result_type.SCHEMA_VERSION,
+            'decision':{'schema_version':'bintanong-decision-v1','synthetic':ledger['synthetic'],'outcome':outcome,
                 'predicate':request.predicate, 'predicate_supported':supported,
                 'rule_coverage':'absent' if ev is None else ev.coverage,
                 'prerequisite_rule_state':None if ev is None else (
@@ -283,14 +361,16 @@ class CurriculumRuntime:
                 'missing_facts':[x for x in unknown if x.startswith('completion_unknown:')],
                 'evidence_refs':refs, 'unresolved_conflicts':() if ev is None else ev.conflicts,
                 'error_code':error},
-            'capability':_DECISIONS.get(request.predicate,'unsupported') if supported else 'unsupported',
+            'capability':self._capability(_DECISIONS.get(request.predicate,'unsupported')) if supported else 'unsupported',
             'inputs':[i.model_dump(mode='json') for i in request.inputs],
             'rule_ids':['rule-'+target['course_id']] if spans else [],
             'rule_bundle_version':None if outcome in ('unsupported','error') else self._version,
-            'scope':None if outcome in ('unsupported','error') else _scope(ledger), 'rule_spans':spans}
+            'scope':None if outcome in ('unsupported','error') else _scope(ledger,self._release_id), 'rule_spans':spans}
+        if self._research_json is not None:
+            data['research'] = json.loads(self._research_json)
         if outcome != 'error' and len(_json(data).encode()) > 65_536:
             return self._result(request, outcome='error', error='runtime_result_limit')
-        return SymbolicResult.parse(data)
+        return result_type.parse(data)
 
     def _dependency_result(self, request, *, status=None, error=None, evaluation=None):
         ledger = json.loads(self._ledger_json)
@@ -304,16 +384,19 @@ class CurriculumRuntime:
                 not known_input or len(self._reviewed_rules)!=len(ledger['courses'])):
             raise ValueError('unbound dependency completeness')
         courses = [c for c in ledger['courses'] if c['course_id'] in ids]
-        data = {'schema_version':DependencyResult.SCHEMA_VERSION,'synthetic':True,
+        result_type = DependencyResult if self._research_json is None else ResearchDependencyResult
+        data = {'schema_version':result_type.SCHEMA_VERSION,'synthetic':ledger['synthetic'],
             'activation_allowed':False,'eligibility_executable':False,
             'relation':'potential_prior_completion_dependency','coverage_scope':'supplied_bundle',
             'status':status if evaluation is None else evaluation.status,
             'inputs':[i.model_dump(mode='json') for i in request.inputs], 'course_ids':ids,
             'unknown_conditions':() if evaluation is None else evaluation.unknown_conditions,
             'rule_bundle_version':None if evaluation is None else self._version,
-            'scope':_scope(ledger) if known_input and evaluation is not None else None,
+            'scope':_scope(ledger,self._release_id) if known_input and evaluation is not None else None,
             'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_spans(courses),
             'error_code':error}
+        if self._research_json is not None:
+            data['research'] = json.loads(self._research_json)
         if status != 'error' and len(_json(data).encode()) > 65_536:
             return self._dependency_result(request, status='error', error='runtime_result_limit')
-        return DependencyResult.parse(data)
+        return result_type.parse(data)
