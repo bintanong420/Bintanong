@@ -1,6 +1,6 @@
 # Dataset locations and relocation
 
-## Current machine scaffold — 17 October 2026
+## Current machine verification — 17 October 2026
 
 For Hawksprey420's Phase 06 worktree, the freshly verified dataset parent is:
 
@@ -8,18 +8,24 @@ For Hawksprey420's Phase 06 worktree, the freshly verified dataset parent is:
 C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06/dataset
 ```
 
-The prospectus root is its `PalSU Undergraduate Prospectus Website Dump/` child.
-This is a byte-preserving copy of 55 locally available files from
-`C:/Users/Hawksprey/source/repos/Bintanong/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/`;
-the source remains untouched. Both reviewed BSCS originals match their recorded
-hashes. Legacy `handbook_citizen_charter/` relative paths are retained, rather than
-silently reshaping originals into the other machine's category layout.
+The prospectus root is its `PalSU Undergraduate Prospectus Website Dump/` child:
+39 PDFs and one CSV, including both BSCS originals with review01 hashes intact.
+The supplied current tree has62 files:44 PDFs,12 JPGs, one CSV, four MD and one JSON.
+Policy originals now use `CitizenCharter/2025/University/`, `StudentHandbook/2021/`,
+`Student Government Constitutions and Election Code/` and
+`Misc. Student related procedures/` (gatepass, special-class fee and enrollment).
+No dataset files were changed during resume; presence does not establish approval
+or equivalence to the historical62-file inventory.
 
-The p05 dataset path below is absent on this machine. Its historical 62-file
-inventory and later additions are not a completeness claim for this 55-file copy.
-See the [machine scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md)
-for ignored-asset hashes, missing review evidence and next-chat recovery.
-All originals and generated derivatives remain inactive and ignored by Git.
+This supersedes the scaffold's55-file/legacy-layout availability observation.
+Its sealed manifest is retained:15 saved destination paths are absent, eight have
+hash-identical categorized matches, seven old copies remain only in the original
+checkout; all101 original source paths still match. Do not restore the old layout
+over the supplied current tree. Exact path/hash mapping and a fresh inventory stay
+ignored in `workspace/audit-evidence/p06-resume-20261017/`.
+The p05 path below is historical and absent here. See the [resume audit](2026-10-17-phase06-resume-verification.md)
+for fresh evidence, missing review-bundle recovery and verification limits.
+Originals/generated derivatives stay inactive and ignored by Git.
 
 ## Current source-retention decision — 15 October 2026
 

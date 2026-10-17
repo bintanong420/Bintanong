@@ -1,47 +1,51 @@
 # Current progress
 
-Updated: 17 October 2026. Hawksprey420's Phase 06 machine/worktree scaffold prepared.
+Updated:17 October2026. Phase06 resumed and verified on Hawksprey420's machine.
 
 ## Latest change
 
-Active path: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`.
-Branch `chore/p06-hawksprey420-scaffold` starts from85366d4; the original checkout's
-branch, untracked model metadata and other registered worktrees remain untouched.
-[Next-chat machine handoff](../2026-10-17-phase06-hawksprey420-scaffold-handoff.md)
-records exact paths, versions, ignored-asset treatment and missing-evidence recovery.
+Active `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`, branch
+`chore/p06-hawksprey420-scaffold`, resume baselineff39af8. Original checkout and
+other worktrees preserved. [Resume audit/recovery package](../2026-10-17-phase06-resume-verification.md)
+reconciles both supplied photos with product6fedc45/delivery85366d4 and scaffold.
+No product, source, dependency, registry or approval changes.
 
-Copied55 dataset files and32 local artifacts with exact hashes;14 agent-state files
-archived outside the active worktree. Both BSCS source hashes match review01.
-Added ignored example-only `.env` and a Python3.13 system-package venv without
-installing dependencies. External MODELS junction resolves the configured path;
-both existing weight hashes match. No source/product/dependency/registry changes.
+Dataset now62 files, including memo/enrollment additions; both BSCS original
+hashes match review01. This supersedes scaffold55-file availability. Existing
+layout preserved. All101 scaffold source paths match;86 saved destination paths
+match, eight relocated dataset paths match by hash, seven old copies remain in
+the primary checkout. Historical manifest untouched; current paths recorded in
+[dataset locations](../dataset-locations.md). Dataset/artifacts remain ignored.
 
 ## Current capability and limitations
 
-Product6fedc45 and delivery85366d4 remain the latest partial review export.
-Seven reviewed expressions/eleven identities and four unknown conditions remain
-as documented. Reviews01–03/design are settled; generated-output human answer
-is pending. Full Phase06 and institutional release remain open; outputs inactive.
+Seven reviewed direct expressions/eleven identities/four unknown conditions remain
+as delivered. Reviews01–03/design settled; generated-output inspection pending.
+Owner requests continuation of Prolog review/runtime, with no frontend/later phases.
+Workspace and primary-checkout searches, including ignored local files, matching
+text and all-ref Git filename history, found no original Phase06 sealed bundles/
+ledgers/receipts. Generators/tests/reports are present; no receipts reconstructed.
 
-Previous ignored review bundles, ledgers, receipts and readiness/closure evidence
-are absent here. The55-file copy does not reproduce the other machine's62-file
-inventory. Do not treat tracked historical reports as fresh local artifact checks.
-System Python3.13.12 works; bare python is3.11.15. Packages differ from pins, Node22
-differs from pinned24, Docker daemon is down, Janus1.5.2/SWI10.1.6 bridge untested.
-No installs, runtime/DB/model execution, frontend build or remote mutations.
+Explicit Python3.13.12/Pydantic2.13.4/pytest9.0.3 work for tested scope; versions
+differ from pins. SWI10.1.6/Janus1.5.2 passed a bound synthetic bridge query,
+superseding the scaffold's untested note. Typed decision runtime/concurrency and
+acceptance are not implemented/verified by that probe. Node22 differs from pinned24;
+Docker Linux daemon unavailable. Candidates remain inactive; full Phase06 incomplete.
 
 ## Verification
 
-Fresh symbolic/authoring/compiler/contracts/candidate suites: **330 passed53.63s**,
-exit0, system Python3.13 with no pytest cache and external TEMP/TMP/basetemp.
-Documentation/phase suites: **542 passed / 11 subtests**, exit0; phase validation
-and diff checks pass. Phase06 remains active and cannot advance.
-Asset manifest binds101 copied files; originals retained and ignored paths checked.
-Raw evidence: workspace/audit-evidence/p06-machine-scaffold-20261017.
+Fresh related suites:330 passed54.02s, exit0. Final docs/phase:543 passed/
+11 subtests16.64s, exit0; phase validation/diff checks pass.
+Python selected with `py -3.13 -B`, no pytest cache; external TEMP/TMP/basetemp.
+Synthetic Prolog data parsing passed; no real-source consult or student decisions.
+GitHub MCP confirmed exact delivery85366d4 remotely; no remote writes.
+Raw evidence:workspace/audit-evidence/p06-resume-20261017, including search,
+copy/relocation rechecks, thesis pages, bridge probe and test logs.
 [Resumable checkpoint](../phase-06-checkpoint.md).
 
 ## Next action
 
-Recover the previous developer's original ignored Phase06 evidence into shared
-audit-evidence, verify recorded manifests/hashes, then resume generated-output
-human inspection. Do not reopen settled reviews or recreate missing receipts.
+Obtain the original ignored Phase06 recovery folders listed in the resume audit,
+verify manifests/dependency/file hashes, then resume generated-output human review
+and remaining typed runtime/exit work under existing gates. Original evidence
+transfer is the concrete local blocker; no repeated setup or settled reviews.

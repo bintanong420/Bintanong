@@ -3,6 +3,10 @@
 Prepared 17 October 2026 for **Hawksprey420**, using this machine's files and tools.
 This is workspace preparation, not a Phase 06 completion or runtime authorization.
 
+This scaffold is a historical snapshot. The [fresh resume audit](2026-10-17-phase06-resume-verification.md)
+supersedes its dataset-availability and Janus-untested observations; use current
+progress/checkpoint for the next action. Preserve the original copy manifest.
+
 ## Open this workspace
 
 ```powershell
