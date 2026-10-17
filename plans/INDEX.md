@@ -3,12 +3,12 @@
 ## Current state
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
-- Active phase: **06 — structured knowledge**, synthetic Janus queries delivered at `0fb5189`.
+- Active phase: **06 — structured knowledge**, checked runtime bundles delivered at `8706abc`.
 - [Active plan](phase-06-structured-knowledge-plan.md) · [Active checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Phase06 product `0fb5189`; Phase05 product `ee7567a`, closure `9a0eea7`.
+- Phase06 product `8706abc`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - University approval, governed release and authorized real-source runtime validation
   remain outstanding institutional-release gates. Candidates stay inactive.
 - Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);
