@@ -1,0 +1,109 @@
+---
+artifact: phase-handoff
+phase: 6
+status: blocked
+plan: plans/phase-06-structured-knowledge-plan.md
+final_commit: 49bc993
+recovery_condition: Complete pending generated-output review and applicable institutional source/release runtime gates; rerun affected acceptance and final phase checks
+completed_at: 2026-10-17T22:05:00+08:00
+---
+
+# Phase06 bounded research delivery and blocked exit
+
+## Delivered
+
+Product49bc993 adds controlled offline execution of both actual BSCS versions
+using fictional completion facts, with exact saved-bundle/operation scope,
+truthful research-only result schemas and unchanged source/release holds.
+Normal runtime constructors remain synthetic-only. Institutional answer contracts
+reject research observations. No activation, source approval or student decision
+publication is delivered.
+
+Previous product:authoring67ed4bd, preview0a2faa8, exporter6fedc45, historical
+delivery85366d4/scaffoldff39af8, fresh local candidatesa01256d,
+synthetic runtime232727d/0fb5189, checked runtime bundles8706abc.
+[Full acceptance evidence](2026-10-17-phase06-offline-real-runtime-acceptance.md).
+
+## Exit evidence
+
+| Requirement | Verified result | Remaining boundary |
+| --- | --- | --- |
+| Structured authoring -> generated versioned PL | Fresh JSON/PL/runtime JSON exactly reproduces both sealed bundles | Human generated-output inspection pending |
+| Source/rule identity | Original hashes and39 native spans checked; seven reviewed expressions preserved | Source authority/lifecycle holds unchanged |
+| Fixed Janus goals and immutable bundles | Three existing operations execute actual checked rule projections | Explicit offline research scope only |
+| Deterministic scoped decisions | Known met/unmet, missing/conflicting facts, wrong identity/curriculum, partial coverage | Four unknown rules/old draftCC1/L remain unknown |
+| Operational behavior | Unsupported, timeout/recovery and concurrent/version isolation verified | No API/container concurrency deployment claim |
+| Result publication boundary | Policy conversion and EvidenceBundle reject research results | Governed institutional release runtime stays closed |
+| Formal advancement | Blocked handoff; same Phase06 remains active | Recovery condition above; no Phase07 work |
+
+Actual source-bound acceptance:73 recorded cases, four concurrent/cross-version
+checks and39 native spans, all passed. Fixed expectations derive from settled
+reviews01-03; no new policy interpretation. Blank cells never become verified_none.
+Explicit-none, alternative and co-requisite semantics have fictional regression
+coverage; no such unsupported relationships are invented for the BSCS sources.
+
+Related regressions854 passed97.13s, exit0. Final docs/phase548 passed/
+11 subtests20.02s, exit0. Full repository:5748 passed,2 failed,1 skipped,
+1480 subtests1077.48s, exit1. Both unchanged Docling conversion tests fail because
+transformers5.10.2 requires huggingface-hub>=1.5.0,<2.0 but2.2.0 is installed.
+Exact failures/unchanged-path check are in the report; no package changes made.
+Phase state validates; can-advance=no explicitly because this handoff is blocked.
+
+Independent final review:113 focused passed28.11s, one answer-contract finding.
+Regression failed before fix, then research+answer110 passed7.87s; final854
+includes that guard. Other TDD:17 initial REDs ->112 GREEN; two adversarial REDs
+->113 GREEN. No other actionable independent-review finding.
+
+## Commands and recovery evidence
+
+From C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06, select system
+Python3.13 and external TEMP/TMP under the evidence root. Exact source acceptance
+and854-case regression commands are in the dated report.
+
+```powershell
+py -3.13 -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-real-runtime-20261017/docs-final-temp
+py -3.13 -B .agents/skills/bintanong-phase-handoff/scripts/phase_state.py validate --repo .
+py -3.13 -B .agents/skills/bintanong-phase-handoff/scripts/phase_state.py can-advance --repo .
+```
+
+Ignored evidence:C:/Coding-projects/bintanong_workspace/audit-evidence/
+p06-real-runtime-20261017. Read ACCEPTANCE.md and acceptance-results.json for
+requests, fictional facts, complete observations/source spans and execution scope;
+fresh/{old,proposed}/ contains regenerated JSON/PL. accept.py reuses existing
+authoring/compiler/bundle/runtime APIs and original verifier helpers. It never
+consults candidate PL; the same compiler derives the checked engine projection.
+Prior37-file regeneration and12-file bundle manifests remain byte-identical.
+Their exact hashes and original/PL/bundle/engine hashes are in the dated report.
+New32-file delivery manifest SHA:
+`565c6ddff46796c52876c20c983b417ba27c44e5d0a059574ad97bcae56f70c3`.
+
+## Environment and deviations
+
+Python3.13.12/Pydantic2.13.4/pytest9.0.3/SWI10.1.6/Janus1.5.2 verified here.
+Bare Python3.11 and Node22 differ from selected3.13/pinned24. No install, lock or
+dependency change. Existing dataset62 files/local assets remain ignored. External
+MODELS unchanged; no new model weights required for this increment.
+Broad verification exercised existing disposable local DB tests; it does not
+verify application container deployment, API/model services or institutional use.
+Concurrent compose.yaml/docker/api.Dockerfile edits preserved and excluded.
+No API/frontend/later-phase changes, remote writes or merge performed.
+Repository handoff/reminder/artifact-contract/conventional-commits and triggered
+Superpowers workflows applied; Supabase workflows consulted for broad disposable
+database integration tests, with no database implementation changes.
+
+Context:master3/11/13, thesis physical17-18/39-44 and runtime routing PNG.
+Undergraduate/read-only/private boundaries preserved; master11.4 unknown semantics
+supersede the illustrative thesis closed-world denial. Forwarded screenshots are
+supplemental historical evidence, not instructions or current approval receipts.
+
+## Recovery and prerequisites
+
+Owner previously deferred generated-output inspection. The later actual-data
+testing/fresh-generation instructions authorize this offline experiment only.
+Review the existing REVIEW.md/source regions without reopening approved source
+translations01-03. Record the actual answer, correct authoring truth if necessary,
+regenerate separately and rerun affected tests. Source authority, governed release
+runtime and activation require their applicable actual evidence; do not promote
+pending sources, remove research guards or infer institutionally verified results.
+Four unknowns limit the supported subset; they do not authorize inventing missing
+policy. Phase06 is not complete and cannot advance on this blocked handoff.

@@ -126,7 +126,7 @@ before the shared EvidenceBundle rejection; GREEN110 passed across research
 and answer contracts. as_policy_result also rejects research observations.
 Raw logs:the ignored acceptance root and sibling p06-real-runtime-review-20261017.
 The final reviewer found no other actionable issue. Broader verification and
-formal exit status are recorded below once their commands finish.
+formal exit status follow below.
 
 Final related command (external TEMP/TMP set to the acceptance root's tmp folder):
 
@@ -138,3 +138,39 @@ Result:854 passed97.13s, exit0; raw related.log. Documentation/phase preliminary
 check:547 passed/11 subtests23.35s, exit0; raw docs-pre.log. Exact docs command is
 the final handoff's command with docs-pre-temp substituted. No installs, dependency
 or lock changes. System Python3.13.12/Pydantic2.13.4/pytest9.0.3, SWI10.1.6/Janus1.5.2.
+
+## Full verification and formal exit
+
+Product commit49bc993. Full project command:
+
+```powershell
+py -3.13 -B -m pytest -q -p no:cacheprovider --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-real-runtime-20261017/full-temp
+```
+
+Result:2 failed,5748 passed,1 skipped,1480 subtests passed,9 warnings1077.48s,
+exit1; raw full.log. Both failures are unchanged ingestion tests:
+`tests/test_ingest_hardening.py::test_real_cli_stdout_parses_as_json` and
+`tests/test_tools_contract.py::ToolsContractTests::test_synthetic_pdf_fixture_exists_and_parses`.
+Docling conversion imports transformers5.10.2, whose installed dependency metadata
+requires huggingface-hub>=1.5.0,<2.0; the machine has2.2.0. Both traces report this
+ImportError before conversion can succeed. Docling2.129.0/core2.97.1/parse7.20.0
+and torch2.12.0+cpu are installed; CUDA smoke is skipped on this CPU torch build.
+No ingestion, converter, test or dependency/lock file on this failure path changed
+between baseline9df5aa5 and product49bc993 (`git diff --exit-code` returned0).
+This environment incompatibility is unresolved; no packages installed/changed.
+The854 Phase06/shared-contract regressions pass independently. The broad run also
+exercised the existing disposable local database tests; no schema implementation
+or institutional data changes are included in this delivery.
+
+Final docs/phase checks:548 passed/11 subtests20.02s, exit0, raw docs-final.log;
+exact command in the handoff. phase_state validate returns0 and can-advance returns1
+with the explicit reason:Phase06 handoff is blocked. [Blocked handoff](phase-06-handoff.md)
+records pending human generated-output review and institutional release/runtime
+conditions. This completes the bounded offline experiment, not full Phase06 or
+institutional activation. Source candidates and all release holds remain unchanged.
+
+Delivery seal:32 files; delivery-manifest.json SHA-256
+`565c6ddff46796c52876c20c983b417ba27c44e5d0a059574ad97bcae56f70c3`.
+verification-summary.json binds product49bc993, working code hashes, actual
+acceptance and broad/docs test summaries. Temporaries and later snapshot-only
+logs are excluded. Prior sealed deliveries remain unchanged.

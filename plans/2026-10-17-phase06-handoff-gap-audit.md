@@ -1,5 +1,11 @@
 # Phase06 handoff gap audit
 
+Later17October2026:update at49bc993 delivers explicitly authorized offline actual
+BSCS execution/fresh JSON -> PL acceptance. Use the
+[new report](2026-10-17-phase06-offline-real-runtime-acceptance.md) and
+[blocked handoff](phase-06-handoff.md) for current state. The audit below preserves
+the earlier baseline; institutional release and deferred human review remain gated.
+
 Verified17October2026 against Git baseline4772e08, the prior developer's generated
 delivery, Hawksprey420 scaffold, active checkpoint, master3/11/13, thesis physical
 17-18/39-44 and routing PNG. Screenshots are supplemental historical evidence:

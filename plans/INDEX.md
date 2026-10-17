@@ -3,14 +3,15 @@
 ## Current state
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
-- Active phase: **06 — structured knowledge**, checked runtime bundles delivered at `8706abc`.
+- Active phase: **06 — structured knowledge**, offline real-bundle acceptance delivered at `49bc993`.
 - [Active plan](phase-06-structured-knowledge-plan.md) · [Active checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Phase06 product `8706abc`; Phase05 product `ee7567a`, closure `9a0eea7`.
-- University approval, governed release and authorized real-source runtime validation
-  remain outstanding institutional-release gates. Candidates stay inactive.
+- Latest final handoff:[Phase06 blocked](phase-06-handoff.md); next phase not permitted.
+- Phase06 product `49bc993`; Phase05 product `ee7567a`, closure `9a0eea7`.
+- Actual BSCS offline acceptance passes; human output review, university approval
+  and governed institutional release/runtime remain gated. Candidates stay inactive.
 - Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);
   [fresh local candidates](2026-10-17-phase06-local-regeneration.md) and
   [typed runtime verification](2026-10-17-phase06-typed-runtime.md).
@@ -37,7 +38,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
-| 6 | Structured knowledge | Three synthetic operations verified; real review/runtime integration pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
+| 6 | Structured knowledge | Actual BSCS offline acceptance verified; institutional exit blocked | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | [Blocked](phase-06-handoff.md) |
 
 ## Read only when relevant
 
