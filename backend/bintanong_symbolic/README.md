@@ -41,7 +41,28 @@ approval_id=null. Original source lifecycle fields remain unchanged. Course,
 source and review collections sort deterministically; semantic item/span order
 is preserved. Callers cannot supply arbitrary extra fields; no input string is executed.
 
-The existing prospectus candidate compiler and capability registry are unchanged.
-No real-source rule translation is approved by the synthetic tests. Compiler,
-Janus, request-local student facts and safe registered operations are future
-Phase06 increments; do not consume this ledger as an executable rule bundle.
+`compiler.compile_curriculum_preview(ledger)` revalidates the complete ledger,
+including all derived digests, review receipts and inactive flags. Reviewed,
+structurally complete input produces reproducible `candidate_*` ground facts;
+source records/review receipts and complete original spans remain attached as
+canonical JSON data. Ordered all_of/any_of trees and co-requisites are preserved.
+It emits no eligibility predicate and performs no Prolog execution or file writes.
+
+Drafts, unresolved conditions or a detected prerequisite cycle hold the entire
+preview with diagnostics and null Prolog. Cycle reporting gives one deterministic
+witness, inspecting all alternative branches conservatively; it is a request for
+review, not a policy denial. Co-requisites are not prior-completion edges. Text
+accepted by authoring but incompatible with the existing strict atom-quoting
+contract is held as `unrenderable_text`, preserving the original ledger verbatim.
+
+Source lifecycle states remain unchanged and are carried as release holds. A
+pending source can support an offline candidate preview; a review label/digest
+cannot make it an authorized institutional bundle. Every output still has
+activation_allowed=false, eligibility_executable=false and approval_id=null.
+The returned content/prolog SHA-256 digests identify the exact preview; they do
+not authenticate reviewers or establish truth, applicability or school approval.
+
+The existing prospectus extraction candidate compiler and capability registry are
+unchanged. No real-source rule translation is approved by synthetic tests. Runtime
+compilation/release gates, Janus, request-local student facts and safe registered
+operations remain future Phase06 increments. Do not use the preview for decisions.
