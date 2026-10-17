@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 3
+sequence: 4
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 67ed4bd
-working_tree: Task 1 documentary closure; owner artifact changes preserved
-updated_at: 2026-10-17T10:27:39+08:00
+head_commit: 3879590
+working_tree: phase clarification recorded; owner artifact changes preserved
+updated_at: 2026-10-17T10:35:04+08:00
 ---
 
 # Phase 06 checkpoint
@@ -19,8 +19,8 @@ always inactive/non-executable. Existing candidate compiler and registry unchang
 
 ## Current Task
 
-Task 1 implementation and its single final review/fix are complete. This checkpoint
-closes the approved increment; formal Phase 06 Tasks 2–4 remain unimplemented.
+Task 1 and its final review/fix are complete. Task 2 implementation awaits phase
+alignment: owner approved the proposal but said work is still Phase 05.
 
 ## Repository State
 
@@ -53,6 +53,9 @@ janus-swi absent in readiness environment; neither is used by Task 1.
 
 Owner approved this authoring-only increment. Actual thesis 17–18/39–44,
 runtime-routing PNG and master 3/11/13 consulted; missing information stays unknown.
+Owner's latest Task 2 reply approves but questions the Phase 06 transition. Git
+records Phase 05 offline closure at 38fe57c and Phase 06 delivery at 67ed4bd/3879590.
+Clarification requested; no compiler code written and no completion history changed.
 Ruling: source truth/scope/logic translation still need human review; structural
 binding cannot prove them. Misuse risks false claims, so output stays inactive.
 Ruling: reviewer labels are declared attribution, not authenticated office authority.
@@ -68,10 +71,9 @@ Institutional authority and activation remain separately gated; no rule is enabl
 
 ## Next Action
 
-Design Task 2's versioned compiler over this reviewed ledger, reusing existing
-candidate preparation. Specify review/source coverage, unresolved-reference/cycle
-reporting and inactive synthetic verification before any executable-rule boundary.
-Do not repeat Task 1 tests/review merely because a new session begins.
+Resolve owner's intended phase before Task 2 implementation. Phase 05 is complete
+under its approved offline scope; institutional-release gates remain outstanding.
+Preserve Task 1; do not repeat its tests/review solely because a new session begins.
 
 ## Do Not Repeat
 

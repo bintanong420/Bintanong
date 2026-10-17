@@ -1,6 +1,6 @@
 # Current progress
 
-Updated: 17 October 2026. Phase 06 active; approved authoring-ledger Task 1 complete.
+Updated: 17 October 2026. Phase 06 recorded active; Task 1 complete; phase clarification pending.
 
 ## Delivered
 
@@ -18,6 +18,8 @@ p06-authoring-20261017. Owner artifact changes preserved; compact checkpoint ret
 
 ## Next action
 
-Design versioned reviewed-ledger compilation (Task 2); preserve source/review gates,
-unknowns and cycle reporting. Formal Phase 06 completion remains future work.
+Resolve owner's statement that work is still Phase 05 before implementing Task 2.
+Owner approved its proposed compiler but questioned the phase; no new compiler is
+written. Phase 05 is 100% complete within its approved offline milestone, with
+institutional-release gates outstanding. Preserve delivered work and await phase alignment.
 [Plan](../phase-06-structured-knowledge-plan.md) · [Checkpoint](../phase-06-checkpoint.md).
