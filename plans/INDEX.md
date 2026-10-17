@@ -34,7 +34,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
-| 6 | Structured knowledge | Inactive compiler foundation delivered; human review pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
+| 6 | Structured knowledge | Inactive compiler delivered; translation batch 1 approved | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
 
 ## Read only when relevant
 

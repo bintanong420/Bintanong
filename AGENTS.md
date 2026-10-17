@@ -227,6 +227,17 @@ permission or authorization to execute institutional rules in Phase 06.
 
 ## Owner decisions to preserve across CLI sessions
 
+- Phase 06, 17 October 2026: the owner approved both P06-T01 prerequisite logic
+  translations and confirmed both BSCS curricula remain in use. Old 2018–2019
+  CC 5/L requires `all_of(CC 3/L, CC 4/L)`; proposed 2025–2026 CC 5/L requires
+  `all_of(CC 3/L, CS 2)`. Preserve each version's printed codes, including `/L`;
+  do not merge editions or choose one without the student's curriculum. The owner
+  tentatively explains `/L` as Lab (computer laboratory), saying "I think"; this
+  is not verified authority to split courses, infer units, equivalencies, passing
+  conditions or co-requisites. Do not reopen the two conjunction reviews. See
+  `plans/2026-10-17-phase06-translation-review-01.md` for exact source/receipt hashes.
+  Source authority, full authoring receipts, execution and activation remain separate.
+
 - On 15 October 2026 resume, the owner explicitly confirmed only G03's supplied
   wording: ArticleXIV section5(c), physical21, College Legislative Department
   heading on physical20, with its consistency condition. G01 and the original

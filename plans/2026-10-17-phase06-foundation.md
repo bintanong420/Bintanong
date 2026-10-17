@@ -91,7 +91,8 @@ Reuse previously confirmed source fields; a new logic translation may need revie
 without reopening their transcription. Separate researcher translation review,
 institutional source authority and activation. No real translation is approved
 by this foundation or by tests. The [first two-translation packet](2026-10-17-phase06-translation-review-01.md)
-is prepared; the actual owner answer remains pending.
+was approved by the owner on 17 October: both version-specific lists mean `all_of`.
+The linked packet records the exact answer, receipt and preserved `/L` identity.
 
 ## Reading policy
 

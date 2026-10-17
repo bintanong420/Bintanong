@@ -1,31 +1,33 @@
 # Current progress
 
-Updated: 17 October 2026. Phase 06 resumed in p06; compiler foundation delivered.
+Updated: 17 October 2026. Phase 06 translation batch P06-T01 approved.
 
-## Latest change
+## Latest decision
 
-Product `0a2faa8`: complete-ledger revalidation and deterministic inactive Prolog
-candidate data preview. Explicit nested expressions/provenance remain attached;
-drafts, unresolved conditions, cycles and incompatible source characters are held.
-No eligibility decisions, Janus, registry or institutional activation.
-[Foundation/readiness](../2026-10-17-phase06-foundation.md).
-Owner's phase-specific reading/human-review direction is recorded in AGENTS.md.
+Owner approved both CC 5/L conjunctions and confirmed both BSCS curricula remain
+in use: 2018–2019 requires CC 3/L and CC 4/L; proposed 2025–2026 requires CC 3/L
+and CS 2. Keep edition-scoped identities and `/L` exactly as printed. The owner's
+Lab/computer-laboratory expansion was tentative ("I think"); no split courses,
+unit values, passing conditions, equivalencies or co-requisites inferred.
+[Exact source/receipt record](../2026-10-17-phase06-translation-review-01.md).
 
-## Verification and worktree readiness
+The original hashed proposals are unchanged. Separate ignored receipt and accepted
+translation derivative bind both exact proposals to the actual reply under
+workspace/audit-evidence/p06-foundation-20261017. No full-course authoring receipt,
+source-state promotion, execution or activation is inferred. AGENTS.md preserves
+this decision; do not repeat the two conjunction reviews.
 
-Focused/related tests **315 passed, 23.86s**; docs/phase **534 passed / 11 subtests,
-14.27s**. One final review's quoting issue reproduced RED2/fixed; README corrected.
-Raw logs/review/inventory/delivery hashes: workspace/audit-evidence/p06-foundation-20261017.
-All 62 p05 dataset files exist in p06 with matching paths/SHA-256. `.env`, frontend
-dependencies and backend artifacts exist. Reuse the existing Python3.13 readiness
-venv; no local backend venv/install needed. SWI-Prolog10.1.15 installed; Janus absent.
-Both model weights exist at workspace/MODELS; C:/Coding-projects/MODELS is absent,
-while .env still names it. Resolve before model execution; no paths/files changed.
+## Verification and environment
+
+Compiler `0a2faa8` unchanged; prior 315 related tests and 534 docs/phase checks passed.
+This update verifies decision/proposal/source hashes, the accepted derivative,
+image links and docs/phase: **534 passed / 11 subtests, 11.30s**, exit0.
+Product code/tests unchanged; no product-code rerun needed.
+Existing model path mismatch and absent Janus remain recorded in the checkpoint.
 
 ## Next action
 
-Await/apply the actual P06-T01 answer on the two version-specific CC5/L all_of
-translations; [original regions and exact proposals](../2026-10-17-phase06-translation-review-01.md).
-Question presented; no answer or approval inferred. Then prepare complete referenced
-course records/source spans before minting content-bound review receipts.
-[Checkpoint](../phase-06-checkpoint.md). Full Phase06 and release gates remain open.
+Prepare version-scoped CC 5/L authoring selections with exact original spans and
+referenced-course records. Carry approved conjunctions and /L identities; retain
+unreviewed dependency conditions as unresolved before full-record review.
+[Checkpoint](../phase-06-checkpoint.md). Phase06/release gates remain open.
