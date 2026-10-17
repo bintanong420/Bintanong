@@ -23,7 +23,8 @@ _CONTEXT_VERSIONS = {CONTEXT_FORMAT: CONTEXT_CHUNKER_VERSION,
     COMPACT_CONTEXT_FORMAT: COMPACT_CONTEXT_CHUNKER_VERSION}
 CONTEXT_CHUNKER_VERSIONS = frozenset(_CONTEXT_VERSIONS.values())
 ISSUES = frozenset({'source_cutoff', 'malformed_source_condition',
-    'conflicting_deadlines', 'printed_total_discrepancy', 'effectivity_currentness_unknown'})
+    'conflicting_deadlines', 'printed_total_discrepancy', 'effectivity_currentness_unknown',
+    'claim_not_stated'})
 
 
 def _json(value):

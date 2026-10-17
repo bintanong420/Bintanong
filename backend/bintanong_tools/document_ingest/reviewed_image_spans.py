@@ -80,14 +80,14 @@ def _bound_region(row, field, evidence, page, binding):
     return _numbers(binding.get("pixel_region"), 4)
 
 
-def _span(row, name, text, region, page):
+def _span(row, name, text, region, page, source_kind="original_pdf_image"):
     pixel_label = ",".join(str(n) for n in region)
     data = {"schema_version": SourceSpan.SCHEMA_VERSION, "byte_sha256": row["source_sha256"],
         "version_id": row["version_id"], "page": page["physical_page"], "printed_page_label": None,
         "locator": {"kind": "text_item", "table_index": None, "cell_ids": [],
             "item_ids": [f"image-region:p{page['physical_page']}:{name}:{pixel_label}"], "ref": None},
         "text": text, "bbox": _region(region, page), "bbox_origin": "TOPLEFT", "page_size": page["page_size"],
-        "extraction": {"source_kind": "original_pdf_image", "resolution_method": "owner_transcribed_region",
+        "extraction": {"source_kind": source_kind, "resolution_method": "owner_transcribed_region",
             "repair_id": hashlib.sha256(_json([row["source_sha256"], name, text, region, page]).encode()).hexdigest(),
             "ocr_confidence": None}}
     return SourceSpan.parse(data).model_dump(mode="json")
@@ -121,7 +121,8 @@ def _correction_review(row, field, evidence, page, events, aliases):
 
 
 def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions, image_pages, read_page_image,
-                             correction_rows=None, table_region_formats=None, field_region_bindings=None):
+                             correction_rows=None, table_region_formats=None, field_region_bindings=None,
+                             source_kind="original_pdf_image"):
     """Map confirmed scalar fields using hash-matched, full-page, unrotated renders.
 
     image_pages keys are (source_sha256,physical_page). The injected trusted reader
@@ -135,7 +136,12 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
     field_region_bindings supplements missing rectangles with exact source/value/
     evidence/page/render-bound trusted TOPLEFT pixel annotations. Saved regions
     take precedence; bindings do not supply review or applicability decisions.
+    Original raster mode requires page1, scale1, exact original source-image bytes
+    and a canvas equal to the native pixel dimensions. Its span coordinates are
+    pixels; default PDF-image spans retain source-point coordinates and provenance.
     """
+    if source_kind not in ("original_pdf_image", "original_raster_image"):
+        raise ValueError("explicit supported image source kind required")
     if not callable(read_page_image) or not isinstance(image_pages, Mapping):
         raise ValueError("original page reader and image descriptors required")
     if not isinstance(bundle, dict) or not isinstance(bundle.get("readings"), list):
@@ -179,6 +185,14 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
         except ValueError:
             cache[key] = (None, "invalid_image_transform")
             return cache[key]
+        if source_kind == "original_raster_image":
+            if (number != 1 or declaration["scale"] != 1
+                    or declaration["page_size"] != declaration["image_size"]):
+                cache[key] = (None, "invalid_original_raster")
+                return cache[key]
+            if declaration["image_sha256"] != sha:
+                cache[key] = (None, "original_raster_source_mismatch")
+                return cache[key]
         try:
             observed = read_page_image(sources[sha], number)
         except (OSError, ValueError, IndexError, RuntimeError):
@@ -191,8 +205,13 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
                 or any(observed.get(k) != declaration.get(k) for k in ("image_size", "page_size", "scale", "rotation", "crop"))):
             cache[key] = (None, "original_image_mismatch")
             return cache[key]
+        if source_kind == "original_raster_image" and observed["image_bytes"] != sources[sha]:
+            cache[key] = (None, "original_raster_source_mismatch")
+            return cache[key]
         page = {k: copy.deepcopy(declaration[k]) for k in ("image_sha256", "image_size", "page_size", "scale", "rotation", "crop")}
         page.update(source_sha256=sha, physical_page=number)
+        if source_kind == "original_raster_image":
+            page["source_kind"] = source_kind
         cache[key] = (page, None)
         return cache[key]
     for row in core["readings"]:
@@ -253,7 +272,7 @@ def map_reviewed_image_spans(bundle, *, sources, review_events, source_versions,
                           if table else evidence["proposed_image_region"])
                 if region is not None:
                     _region(region, page)
-                span = None if field["source_blank"] else _span(row, name, field["reviewed_value"], region, page)
+                span = None if field["source_blank"] else _span(row, name, field["reviewed_value"], region, page, source_kind)
             except ValueError:
                 reject("original_region_binding_mismatch" if bound else "invalid_image_field_evidence")
                 continue
@@ -328,11 +347,13 @@ def bind_reviewed_flowchart(mapping, *, arrow_reading_id, row_reading_ids, edge_
     for index, edge in enumerate(edge_regions):
         if edge["from"] not in row_reading_ids or edge["to"] not in set(row_reading_ids) | {"END"}:
             raise ValueError("arrow has dangling row endpoint")
-        span = _span(arrow, f"edge-{index}-{edge['label']}", edge["label"], edge["pixel_region"], page)
+        span = _span(arrow, f"edge-{index}-{edge['label']}", edge["label"], edge["pixel_region"], page,
+                     page.get("source_kind", "original_pdf_image"))
         edges.append({**copy.deepcopy(edge), "label_span": span, "event_sha256": field["review_event_sha256"]})
     if not any(e["to"] == "END" for e in edges):
         raise ValueError("reviewed arrow terminal absent")
-    terminal_span = _span(arrow, "terminal-END", "END", terminal_region, page)
+    terminal_span = _span(arrow, "terminal-END", "END", terminal_region, page,
+                          page.get("source_kind", "original_pdf_image"))
     return {"schema_version": "bintanong-reviewed-flowchart-v1", "candidate_only": True,
         "activation_eligible": False, "source_governance_changed": False,
         "arrow_reading_id": arrow_reading_id, "source_sha256": arrow["source_sha256"],

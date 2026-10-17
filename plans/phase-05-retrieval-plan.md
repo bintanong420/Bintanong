@@ -1,7 +1,7 @@
 ---
 artifact: phase-plan
 phase: 5
-status: in_progress
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-04-handoff.md
 ---
@@ -18,6 +18,29 @@ governed activation and formal institutional exit claims remain separately gated
 Originally prepared at `4244870`; corrected storage baseline `c5beecd`. Owner formally started Phase 05 on 12 October 2026 from `10bfd6f` in `feat/p05-retrieval-logic`. The complete Phase 04 corrective handoff governs eligibility.
 Nothing here constitutes institutional policy approval or active production release.
 Anything not run is marked NOT RUN.
+
+## Approved completion boundary — 17 October 2026
+
+Owner explicitly replied “ye sure approve” to completing Phase05 as an offline
+research/software milestone, with university approval and actual authorized
+real-source runtime validation outstanding. This supersedes the old completion
+restriction below for this milestone only; historical evidence stays unchanged.
+
+Exit: verify the fixed19chunk/39document-variant profile and source/citation/input
+bindings; retain18/18available contexts,21/21insufficient outcomes and literal
+36/39related contexts with all three T1 misses. Keep the exposed-development
+selection and per-language/category metrics; available-field responses remain
+uncalibrated and answer sufficiency unassessed. No unseen-set accuracy claim.
+Verify unchanged-code compatibility and retained full-suite evidence; run fresh
+applicable documentation/phase checks. Reuse valid completed runs rather than
+repeat conversions, vectors, model loads, parameter grids or unchanged suites.
+Then create a complete offline research/software handoff and supersede the
+checkpoint. Actual issuing-office verification/approval, governed institutional
+release and authorized real-source runtime validation remain release prerequisites,
+not completion prerequisites for this owner-approved offline milestone. Keep
+source states/holds, inactive candidates, RLS and activation guards unchanged.
+The master plan remains historical; no Phase06 implementation or executable
+institutional rules are authorized by this boundary approval.
 
 ## Goal and Context
 
@@ -44,9 +67,9 @@ Corrected storage prerequisite: runtime RLS currently exposes only the active ap
 - [x] Task 1: Retrieval request specification and query embedding pipeline (matching Retrieval instruction via `SeaLionEmbeddingAdapter`).
 - [x] Task 2: Pinned release and scope-filtered vector similarity search via `match_chunks`.
 - [x] Task 3: Context window budgeting, span deduplication, and adjacent section inclusion.
-- [ ] Task 4: Relevance and coverage threshold calibration (handling insufficient evidence).
+- [x] Task 4: Verify/accept the bounded offline development profile; runtime calibration remains unassessed.
 - [x] Task 5: Structured retrieval response formatter with source locators, scores, and configuration fingerprints.
-- [ ] Task 6: Phase 5 evaluation, benchmark verification, and final handoff.
+- [x] Task 6: Offline development evaluation, evidence verification and final software handoff.
 
 ## Implementation interfaces and verification
 
@@ -69,7 +92,7 @@ For each task: write focused tests, observe expected RED, implement minimal chan
 - Overlapping and required adjacent clauses: preserve cited provenance and whole-group budget integrity.
 - Synthetic evaluation and missing approved development cases: report separately and keep formal advancement gated.
 
-## Exit gate
+## Original exit gate (historical; superseded for offline completion above)
 
 Run all retrieval/storage/embedding unittest suites and phase-state tests; verify migration in disposable databases and effective RPC ACL/RLS. Run development-only evaluation by language/category with every returned span resolving to its source/version/page/locator. Record exact versions and external model/file digests. Formal completion additionally requires approved labeled development cases recovering expected evidence and detecting unsupported cases without answer generation. If those cases are unavailable, retain Phase 05 active with a blocked handoff/recovery condition; do not create Phase 06.
 

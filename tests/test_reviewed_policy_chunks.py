@@ -140,6 +140,35 @@ class ReviewedPolicyChunkTests(unittest.TestCase):
         self.assertEqual(len(out['evidence'][0]['citations']), 1)
         self.assertFalse(self.build()['chunks'])
 
+    def test_unstated_claim_survives_cited_context_without_inventing_amount(self):
+        from backend.bintanong_retrieval.context import build_context
+        value = "Replacement is at the applicant's expense."
+        self.rows[0]['fields'] = [self.field('instruction', value)]
+        self.anchors['step-1']['instruction'] = [self.span('instruction', value)]
+        self.rows[0]['gaps'] = [{'gap_id': 'unstated-price', 'field_names': ['instruction'],
+            'issue': 'claim_not_stated', 'visible_text': value,
+            'affected_claims': ['exact replacement price'],
+            'locator': {'physical_pages': [1], 'field': 'instruction'}}]
+        before = copy.deepcopy((self.rows, self.anchors))
+        self.assertFalse(self.build()['chunks'])
+        for compact in (False, True):
+            with self.subTest(compact=compact):
+                result = self.build(include_source_limits=True, compact_context=compact)
+                self.assertEqual(len(result['chunks']), 1, result['withheld'])
+                chunk = result['chunks'][0]
+                candidate = {'chunk': chunk, 'version': self.version.model_dump(mode='json'),
+                    'spans': chunk['spans'], 'neighbors': [], 'similarity': 0.9}
+                out = build_context([candidate], 10000, len)
+                self.assertEqual(len(out['evidence']), 1, out['gaps'])
+                self.assertIn('claim_not_stated', out['context'])
+                self.assertIn('Unavailable information: exact replacement price', out['context'])
+                self.assertEqual(out['evidence'][0]['text'], chunk['text'])
+                self.assertEqual(len(out['evidence'][0]['citations']), 1)
+                self.assertFalse(result['activation_eligible'])
+        self.assertEqual((self.rows, self.anchors), before)
+        self.rows[0]['applicability'] = 'unknown'
+        self.assertFalse(self.build(include_source_limits=True)['chunks'])
+
     def test_opt_in_keeps_unknown_scope_and_unsupported_gap_withheld(self):
         self.limited_candidate()
         self.rows[0]['applicability'] = 'unknown'

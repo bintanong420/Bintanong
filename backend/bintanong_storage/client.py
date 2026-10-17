@@ -82,6 +82,15 @@ class SupabaseStorageClient:
             details=err_data,
         )
 
+    def _request(self, method: str, url: str, **kwargs: Any) -> Any:
+        try:
+            response = self._http.request(method, url, **kwargs)
+        except httpx.RequestError as exc:
+            # Keep transport URLs/details out of caller-facing errors. Never
+            # retry here: a failed write response does not prove no write occurred.
+            raise StorageError("Storage transport request failed") from exc
+        return self._handle_response(response)
+
     def select(
         self,
         table: str,
@@ -95,8 +104,7 @@ class SupabaseStorageClient:
         if filters:
             params.update(filters)
         headers = self._headers(role=role)
-        res = self._http.get(url, params=params, headers=headers)
-        return self._handle_response(res) or []
+        return self._request("GET", url, params=params, headers=headers) or []
 
     def insert(
         self,
@@ -110,8 +118,7 @@ class SupabaseStorageClient:
         prefer = "return=representation" if return_records else "return=minimal"
         headers = self._headers(role=role, prefer=prefer)
         payload = [data] if isinstance(data, dict) else data
-        res = self._http.post(url, json=payload, headers=headers)
-        return self._handle_response(res)
+        return self._request("POST", url, json=payload, headers=headers)
 
     def upsert(
         self,
@@ -126,8 +133,7 @@ class SupabaseStorageClient:
         prefer = "resolution=merge-duplicates,return=minimal"
         headers = self._headers(role=role, prefer=prefer)
         payload = [data] if isinstance(data, dict) else data
-        res = self._http.post(url, params=params, json=payload, headers=headers)
-        return self._handle_response(res)
+        return self._request("POST", url, params=params, json=payload, headers=headers)
 
     def delete(
         self,
@@ -138,8 +144,7 @@ class SupabaseStorageClient:
         """Delete rows matching filters."""
         url = f"{self.base_url}/{table}"
         headers = self._headers(role=role)
-        res = self._http.delete(url, params=filters, headers=headers)
-        return self._handle_response(res)
+        return self._request("DELETE", url, params=filters, headers=headers)
 
     def rpc(
         self,
@@ -150,5 +155,4 @@ class SupabaseStorageClient:
         """Execute a PostgreSQL RPC function."""
         url = f"{self.base_url}/rpc/{function_name}"
         headers = self._headers(role=role)
-        res = self._http.post(url, json=params or {}, headers=headers)
-        return self._handle_response(res)
+        return self._request("POST", url, json=params or {}, headers=headers)

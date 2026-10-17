@@ -1,5 +1,60 @@
 # Dataset locations and relocation
 
+## Current source-retention decision — 15 October 2026
+
+The owner keeps the added student-related memos, fees, enrollment material and
+student-government sources for provisional undergraduate review. Poor image
+quality is handled per field with human verification and recorded unreadable/cropped
+limits, not by inventing text or silently deleting whole sources. Retention is
+settled and supersedes the interim proposal to defer them solely to retain a two-PDF
+policy baseline. Start [the short verification packet](2026-10-15-additional-source-human-review.md)
+atF1; no source-content readings/new question wordings or school verification are
+approved merely by this retention decision. Keep the source facts/current-year
+effectivity and runtime activation states separate.
+
+## Student-government files observed — 15 October 2026
+
+Two additional originals are now present under
+`dataset/Student Government Constitutions and Election Code/`:
+
+| File | Pages | SHA-256 |
+| --- | ---: | --- |
+| `THE-2023-TINIGUIBAN-USG-Constitution (2).pdf` |34 | `b40cca9e22d8f30dc9e48b684aa179a2f666ef1aef325c8132d170ec80b8d68d` |
+| `The-PALAWAN-STATE-UNIVERSITY-Omnibus-Election-Code-1.pdf` |21 | `c46652fe52889425458cf52b1566fe2cd85234831080c137ce0cac77e1688f9e` |
+
+The constitution cover prints2023/TiniguibanCampus and ratification15November2023.
+ArticleXIV, physical17–21, addresses College Student Government. The election code
+opening explicitly includes USG and CSG elections. No separate college-specific
+CSG constitution file was found in the current dataset. This is partial CSG-related
+source coverage, not evidence that every college constitution has been collected.
+The handbook70–76 also contains student-government references/general provisions,
+not an identified set of separate college constitutions. These two newly observed
+PDFs are inventoried/read-only; neither is reviewed, embedded or active. There are
+now62local dataset files, including the earlier60file inventory, not62approved
+documents. Raw hashes/native inspection/covers remain ignored under
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-student-government-inventory-20261015/`.
+
+## Added student procedures received — 15 October 2026
+
+The owner supplied13files (12distinct byte hashes) at repository-root
+`dataset/Misc. Student related procedures/`: five vehicle/gatepass images,
+one2023special-class fee photograph, six incoming-student enrollment images
+(one exact duplicate), and one continuing-student enrollment PDF. The incoming
+advisory prints first-semester2026–2027; the continuing PDF prints second-semester
+2025–2026 despite its2026folder. No file was moved, deleted or activated.
+
+The [intake and focused review](2026-10-15-additional-source-intake-report.md)
+records source hashes, proposed page order, enrollment differences and visible
+gaps/conflicts. Keep the unique enrollment content; exclude only the exact
+duplicate occurrence from later derivatives, retaining both original paths.
+The earlier "no files supplied" and incoming-staging notes below are historical.
+Fresh verification preserves all47relocation baseline files and all13new originals.
+The60file total describes local files, not approved documents or an active corpus.
+Do not edit the historical acquisition catalog or sealed relocation evidence to
+make old counts look current; use the new ignored intake inventory and report.
+Raw manifest/native inspection/page renders:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-source-intake-20261015/`.
+
 Updated 14 October 2026 after the owner-authorized root relocation in the Phase 05
 worktree. Read this guide when resuming source reading, ingestion or practice-exam
 work; discover files again rather than assuming another worktree contains ignored data.

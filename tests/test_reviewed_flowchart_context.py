@@ -3,6 +3,8 @@ import copy
 import json
 import unittest
 
+from test_retrieval_context import decode_group_payloads
+
 import test_reviewed_image_spans as fixtures
 from backend.bintanong_contracts.source import compute_content_hash
 from backend.bintanong_contracts.reviewed_policy_context import serialize_reviewed_fields
@@ -92,6 +94,24 @@ class ReviewedFlowchartContextTests(unittest.TestCase):
         changed=build_context([rows[-1]],100000,len,shared_citations=True)
         self.assertEqual(changed['evidence'],[])
         self.assertTrue(changed['gaps'])
+
+    def test_shared_group_preserves_all_graph_fields_and_original_integrity_payloads(self):
+        out=self.build(self.eligible(),compact_context=True);rows=self.candidates(out)
+        old=build_context([rows[-1]],100000,len,shared_citations=True)
+        result=build_context([rows[-1]],old['context_tokens']-1,len,shared_citations=True,shared_group_metadata=True)
+        self.assertEqual(result['evidence'],old['evidence']);self.assertEqual(result['gaps'],[])
+        decoded=decode_group_payloads(result['context']);self.assertEqual(len(decoded),3)
+        for (cid,citations,payload),item in zip(decoded,old['evidence']):
+            expected=json.loads(item['text']);expected.pop('evidence_sha256')
+            self.assertEqual(cid,item['chunk_id']);self.assertEqual(payload,expected)
+            self.assertEqual(citations,[{k:c[k] for k in ('version_id','byte_sha256','page','locator')} for c in item['citations']])
+        groups=json.loads(result['context'].split('\n',1)[0])['policy_groups']
+        expected_digest=__import__('hashlib').sha256(json.dumps(
+            [{'chunk_id':i['chunk_id'],'text':i['text']} for i in old['evidence']],
+            sort_keys=True,ensure_ascii=False,separators=(',',':')).encode('utf8')).hexdigest()
+        self.assertEqual(groups[0]['evidence_sha256'],expected_digest)
+        rows[-1]['neighbors']=rows[-1]['neighbors'][:1]
+        self.assertFalse(build_context([rows[-1]],100000,len,shared_citations=True,shared_group_metadata=True)['evidence'])
 
     def test_partial_reviews_excluded_nodes_and_invalid_terminal_are_rejected(self):
         for edit in ['excluded','review','gaps','terminal']:
