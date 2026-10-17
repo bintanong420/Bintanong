@@ -95,6 +95,21 @@ No Prolog consultation, decision, source promotion or capability registration oc
 
 ## Synthetic prerequisite runtime
 
+`bundle.prepare_runtime_bundle(ledger)` extracts the same compiler-checked worker
+projection as a deterministic `curriculum-runtime-bundle-v1` JSON artifact. It
+binds the complete ledger, review-compiler digest, coverage, source/release holds,
+compact payload and exact tracked Prolog engine bytes. Preparation neither
+consults Prolog nor promotes a source. Every artifact retains runtime_ready=false,
+activation_allowed=false, eligibility_executable=false and approval_id=null.
+Real-source ledgers may be prepared only as inactive data.
+
+`bundle.validate_runtime_bundle(bundle)` rebuilds every field against the current
+compiler/engine and rejects any difference, including unknown extra keys.
+`CurriculumRuntime.from_bundle(bundle)` validates saved JSON and creates the same
+synthetic-only runtime as the ledger constructor. A concurrent engine/compiler
+change rejects loading; later engine drift rejects in the worker. Hashes prove
+content identity, not reviewer authentication or institutional permission.
+
 `runtime.CurriculumRuntime(ledger).check(request, facts=None)` is the offline
 research runtime for `check_prerequisite_eligibility` and
 `list_missing_prerequisites`. Its
@@ -151,7 +166,8 @@ Unsupported operations and operational errors cannot cite dependency facts.
 The same synthetic-only execution boundary and resource limits apply.
 
 Test with system Python3.13, no pytest cache and external TEMP/TMP/basetemp:
-`tests/test_symbolic_runtime.py` and `tests/test_symbolic_queries.py`.
+`tests/test_symbolic_runtime.py`, `tests/test_symbolic_queries.py` and
+`tests/test_symbolic_runtime_bundle.py`.
 These tests execute actual synthetic Janus calls;
 missing Janus is an operational failure, not an implicit passing integration check.
 Real-source generated-output human inspection and all institutional release gates

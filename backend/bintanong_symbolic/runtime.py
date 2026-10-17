@@ -18,11 +18,10 @@ from ..bintanong_contracts.base import Contract, Record
 from ..bintanong_contracts.runtime import BoundInput, PredicateRequest
 from ..bintanong_contracts.source import SourceSpan
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry, DecisionScope, SymbolicResult
-from .compiler import compile_curriculum_review_bundle
+from .bundle import prepare_runtime_bundle, validate_runtime_bundle
 
 _ADMISSION = threading.Lock()
 _WORKER = Path(__file__).with_name('_janus_worker.py')
-_ENGINE = Path(__file__).with_name('curriculum_runtime.pl')
 _MAX_BYTES = 1_048_576
 _PREDICATE = 'check_prerequisite_eligibility'
 _DECISIONS = {_PREDICATE:'synthetic_prerequisite_check',
@@ -180,34 +179,29 @@ class CurriculumRuntime:
             raise ValueError('timeout_seconds must be finite, positive and at most 30')
         if type(max_conditions) is not int or not 1 <= max_conditions <= 256:
             raise ValueError('max_conditions must be 1..256')
-        bundle = compile_curriculum_review_bundle(ledger)
+        bundle = prepare_runtime_bundle(ledger)
         checked = bundle['ledger']
         if not checked['synthetic']:
             raise ValueError('only synthetic research ledgers may execute; institutional release is not authorized')
-        if bundle['status'] == 'blocked':
-            raise ValueError('compiler holds prevent runtime preparation')
-        def expression(node):
-            result = {k:v for k,v in node.items() if k != 'source_spans' and k != 'items'}
-            if 'items' in node:
-                result['items'] = [expression(x) for x in node['items']]
-            return result
         coverage = {c['course_id']:c for c in bundle['coverage']}
-        compact = {'synthetic':True, 'curriculum_id':checked['scope']['curriculum_id'], 'courses':[
-            {'id':c['course_id'], 'reviewed':c['review_state']=='reviewed',
-             'rule':expression(c['prerequisites']) if coverage[c['course_id']]['direct_rule']=='reviewed'
-                    else {'kind':'unresolved'}} for c in checked['courses']]}
-        encoded = _json(compact)
-        if len(encoded.encode()) > _MAX_BYTES // 2:
-            raise ValueError('runtime bundle exceeds byte limit')
+        encoded = _json(bundle['payload'])
         object.__setattr__(self, '_ledger_json', _json(checked))
         object.__setattr__(self, '_bundle_json', encoded)
-        engine_sha = hashlib.sha256(_ENGINE.read_bytes()).hexdigest()
+        engine_sha = bundle['engine_sha256']
         object.__setattr__(self, '_engine_sha256', engine_sha)
         object.__setattr__(self, '_reviewed_rules', frozenset(
             cid for cid,c in coverage.items() if c['direct_rule']=='reviewed'))
-        object.__setattr__(self, '_version', 'synthetic-runtime-v1-'+hashlib.sha256(_json([bundle,engine_sha]).encode()).hexdigest())
+        object.__setattr__(self, '_version', bundle['runtime_version'])
         object.__setattr__(self, 'timeout_seconds', float(timeout_seconds))
         object.__setattr__(self, 'max_conditions', max_conditions)
+
+    @classmethod
+    def from_bundle(cls, bundle, *, timeout_seconds=5.0, max_conditions=128):
+        checked = validate_runtime_bundle(bundle)
+        runtime = cls(checked['ledger'], timeout_seconds=timeout_seconds, max_conditions=max_conditions)
+        if runtime._version != checked['runtime_version']:
+            raise ValueError('runtime engine or compiler changed during bundle loading')
+        return runtime
 
     def check(self, request: PredicateRequest, facts: StudentFacts | None = None) -> SymbolicResult:
         request = _parse_request(request)

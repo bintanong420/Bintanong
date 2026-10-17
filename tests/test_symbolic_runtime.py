@@ -184,9 +184,10 @@ def test_wrong_curriculum_does_not_attach_another_curriculums_rules():
 def test_bundle_identity_pins_the_fixed_engine_bytes(tmp_path,monkeypatch):
     original=runtime()
     path=tmp_path/'engine.pl'
-    engine=api()._ENGINE
+    bundle_api=importlib.import_module('backend.bintanong_symbolic.bundle')
+    engine=bundle_api._ENGINE
     path.write_bytes(engine.read_bytes()+b'\n% Changed engine build.\n')
-    monkeypatch.setattr(api(),'_ENGINE',path)
+    monkeypatch.setattr(bundle_api,'_ENGINE',path)
     changed=runtime()
     assert original._version!=changed._version
 

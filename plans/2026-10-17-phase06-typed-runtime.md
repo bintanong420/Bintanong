@@ -116,3 +116,55 @@ non-synthetic bundle/runtime integration and its authorized source-bound tests,
 followed by applicable phase-exit verification and final handoff. A later review
 answer alone does not automatically authorize execution or activation. No numeric
 passing policy, exceptions or equivalencies are inferred from synthetic fixtures.
+
+## Saved compiler-to-runtime artifact continuation
+
+The continued Phase06 request advances the same prerequisite capability and
+master11.1/11.3 artifact boundary: reproducible authoring ledger to saved immutable
+runtime data to a checked loader. Existing preparation lived only inside the
+constructor. Extract that exact projection into `bundle.prepare_runtime_bundle`;
+retain existing runtime identity/behavior and size bounds. This is an artifact
+delivery path, not another retrieval diagnostic or policy family.
+
+The inactive JSON artifact binds complete ledger, compiler digest, exact engine
+bytes, coverage, release holds and compact worker payload. `validate_runtime_bundle`
+rebuilds all fields against the current compiler and engine; hashes alone are not
+approval or authentication. `CurriculumRuntime.from_bundle` validates it and uses
+the same synthetic-only constructor. Extra/forged/stale fields reject before
+execution. Real ledgers may be prepared/verified as inactive data, never executed.
+No source transition, institutional registry, database or public endpoint changes.
+
+Acceptance: saved JSON round-trip gives identical synthetic decisions; mutated
+ledger/payload/coverage/flags/engine reject; partial rules remain unresolved;
+real-source prepared bundles stay non-executable. TDD15 absent-API failures first.
+Run new bundle tests plus runtime/query/compiler/authoring/contracts regressions,
+one independent final review and docs/phase checks. Raw logs and inactive real
+bundle previews belong in ignored `audit-evidence/p06-runtime-bundle-20261017/`.
+
+Delivery:16 new artifact cases plus existing runtime/query cases passed in the
+broader suite:744 passed128.88s, exit0. Independent focused verification95 passed
+30.20s; no remaining actionable findings. One engine-drift race was reproduced
+RED before its identity check was added: validation followed by a changed engine
+must reject instead of silently constructing another artifact. The extraction
+preserves the prior synthetic runtime version for unchanged compiler/engine bytes.
+
+Fresh inactive source artifacts:
+
+- [Old2018-2019 runtime bundle](../../../../audit-evidence/p06-runtime-bundle-20261017/old/runtime-bundle.json).
+- [Proposed2025-2026 runtime bundle](../../../../audit-evidence/p06-runtime-bundle-20261017/proposed/runtime-bundle.json).
+- [Source/hash/rejection checks](../../../../audit-evidence/p06-runtime-bundle-20261017/inactive-preparation-summary.json).
+
+Both original source hashes and all37 prior sealed review-delivery files were
+verified unchanged before preparation. New artifacts preserve six/five identities,
+four/three reviewed rules and two/two unknown rules, original source states and
+all inactive flags. `from_bundle` rejects both as non-synthetic; no Janus execution
+of their data occurred. These files are preparation evidence, not a new human
+translation decision or runtime authorization.
+
+Exact preparation command:
+`py -3.13 -B C:/Coding-projects/bintanong_workspace/audit-evidence/p06-runtime-bundle-20261017/prepare_inactive.py`.
+Broader pytest uses the preceding delivery command with
+`tests/test_symbolic_runtime_bundle.py` added and
+`--basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-runtime-bundle-20261017/related-temp`.
+TEMP/TMP point to that raw root's temp directory; no cache or installs.
+The unrelated concurrent `docker/api.Dockerfile` edit is preserved and excluded.
