@@ -11,6 +11,7 @@ from ..bintanong_contracts.runtime import prolog_quote
 from .authoring import build_curriculum_ledger
 
 COMPILER_VERSION = 'curriculum-prolog-preview-v1'
+REVIEW_COMPILER_VERSION = 'curriculum-prolog-review-bundle-v1'
 
 
 def _json(value) -> str:
@@ -76,7 +77,7 @@ def _expression(node) -> str:
     raise ValueError('unresolved requirements cannot be rendered')
 
 
-def _render(ledger) -> str:
+def _render(ledger, coverage=None) -> str:
     quote = prolog_quote
     scope = ledger['scope']
     lines = ['% Inactive candidate data only; no decision rules or release authorization.',
@@ -87,15 +88,34 @@ def _render(ledger) -> str:
         lines.append(f"candidate_review({quote(review['review_id'])},{quote(_json(review))}).")
     for course in ledger['courses']:
         identity = quote(course['course_id'])
-        lines.append(f"candidate_course({identity},{quote(course['source_version_id'])},"
-                     f"{quote(course['content_sha256'])}).")
+        entry = None if coverage is None else coverage[course['course_id']]
+        reviewed = entry is None or entry['identity_review'] == 'reviewed'
+        if entry is not None:
+            lines.append(f"candidate_reference_identity({identity},{quote(course['source_version_id'])},"
+                         f"{quote(course['content_sha256'])},{quote(course['facts']['course_code']['value'])},"
+                         f"{quote(entry['identity_review'])}).")
+            lines.append(f"candidate_coverage({identity},{quote(_json(entry))}).")
+        if reviewed:
+            lines.append(f"candidate_course({identity},{quote(course['source_version_id'])},"
+                         f"{quote(course['content_sha256'])}).")
         lines.append(f"candidate_record({identity},{quote(_json(course))}).")
-        for name, fact in sorted(course['facts'].items()):
+        for name, fact in sorted(course['facts'].items()) if reviewed else []:
             value = fact['value']
             rendered = quote(value) if isinstance(value, str) else _json(value)
             lines.append(f"candidate_fact({identity},{quote(name)},{rendered}).")
-        lines.append(f"candidate_requirement({identity},{_expression(course['prerequisites'])}).")
+        if entry is None or entry['direct_rule'] == 'reviewed':
+            lines.append(f"candidate_requirement({identity},{_expression(course['prerequisites'])}).")
     return '\n'.join(lines) + '\n'
+
+
+def _release_holds(ledger) -> list[str]:
+    holds = ['inactive_preview_only', 'declared_scope_not_institutionally_verified']
+    for source in ledger['sources']:
+        if source['synthetic']:
+            holds.append(f"{source['version_id']}:synthetic_source")
+        for field in ('acquisition_state', 'verification_state', 'content_review_state', 'approval_state'):
+            holds.append(f"{source['version_id']}:{field}:{source[field]['state']}")
+    return holds
 
 
 def compile_curriculum_preview(ledger) -> dict:
@@ -116,17 +136,61 @@ def compile_curriculum_preview(ledger) -> dict:
             # Preserve the valid ledger verbatim; do not normalize source values
             # merely to fit the stricter executable-text quoting contract.
             diagnostics.append({'reason': 'unrenderable_text', 'detail': str(error)})
-    holds = ['inactive_preview_only', 'declared_scope_not_institutionally_verified']
-    for source in ledger['sources']:
-        if source['synthetic']:
-            holds.append(f"{source['version_id']}:synthetic_source")
-        for field in ('acquisition_state', 'verification_state', 'content_review_state', 'approval_state'):
-            holds.append(f"{source['version_id']}:{field}:{source[field]['state']}")
     result = {'compiler_version': COMPILER_VERSION, 'ledger_sha256': ledger['content_sha256'],
               'status': 'blocked' if diagnostics else 'review_candidate',
               'activation_allowed': False, 'eligibility_executable': False, 'approval_id': None,
-              'ledger': ledger, 'source_states': ledger['sources'], 'release_holds': holds,
+              'ledger': ledger, 'source_states': ledger['sources'], 'release_holds': _release_holds(ledger),
               'diagnostics': diagnostics, 'prolog': prolog,
               'prolog_sha256': None if prolog is None else _digest(prolog)}
+    result['content_sha256'] = _digest(_json(result))
+    return result
+
+
+def compile_curriculum_review_bundle(ledger) -> dict:
+    """Export reviewed direct expressions alongside explicit draft/unknown coverage.
+
+    References to draft identities stay labeled for human inspection. They confer
+    no reviewed facts, transitive coverage or executable institutional capability.
+    Audit records retain their complete evidence and declared review state.
+    """
+    ledger = _rebuild(ledger)
+    by_id = {c['course_id']: c for c in ledger['courses']}
+    coverage = {}
+    for course in ledger['courses']:
+        unresolved, pending = [], []
+        for path, node in _walk(course['prerequisites']):
+            if node['kind'] == 'unresolved':
+                unresolved.append({'path': path, 'reason': node['reason']})
+            elif node['kind'] in ('course', 'co_requisite'):
+                target = node['course_id']
+                if by_id[target]['review_state'] != 'reviewed' and target not in pending:
+                    pending.append(target)
+        state = course['review_state']
+        coverage[course['course_id']] = {
+            'course_id': course['course_id'], 'source_version_id': course['source_version_id'],
+            'content_sha256': course['content_sha256'], 'review_refs': list(course['review_refs']),
+            'identity_review': state, 'direct_rule': 'unresolved' if unresolved else state,
+            'pending_identity_refs': pending, 'unresolved': unresolved,
+        }
+    # Draft edges and unresolved trees cannot contribute speculative cycles.
+    supported = [c for c in ledger['courses'] if coverage[c['course_id']]['direct_rule'] == 'reviewed']
+    diagnostics = _diagnostics({'courses': supported})
+    partial = any(c['identity_review'] != 'reviewed' or c['direct_rule'] != 'reviewed'
+                  or c['pending_identity_refs'] for c in coverage.values())
+    prolog = None
+    if not diagnostics:
+        try:
+            prolog = _render(ledger, coverage)
+        except ContractError as error:
+            diagnostics.append({'reason': 'unrenderable_text', 'detail': str(error)})
+    result = {
+        'compiler_version': REVIEW_COMPILER_VERSION, 'ledger_sha256': ledger['content_sha256'],
+        'status': 'blocked' if diagnostics else ('partial_review_candidate' if partial else 'review_candidate'),
+        'activation_allowed': False, 'eligibility_executable': False, 'runtime_ready': False,
+        'approval_id': None, 'ledger': ledger, 'source_states': ledger['sources'],
+        'coverage': list(coverage.values()), 'diagnostics': diagnostics,
+        'release_holds': _release_holds(ledger) + ['partial_coverage_requires_explicit_handling'],
+        'prolog': prolog, 'prolog_sha256': None if prolog is None else _digest(prolog),
+    }
     result['content_sha256'] = _digest(_json(result))
     return result

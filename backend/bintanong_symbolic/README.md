@@ -66,3 +66,28 @@ The existing prospectus extraction candidate compiler and capability registry ar
 unchanged. No real-source rule translation is approved by synthetic tests. Runtime
 compilation/release gates, Janus, request-local student facts and safe registered
 operations remain future Phase06 increments. Do not use the preview for decisions.
+
+`compiler.compile_curriculum_review_bundle(ledger)` is the separate partial human
+review exporter. It revalidates the same complete ledger and emits reviewed
+`candidate_fact` values and unresolved-free reviewed `candidate_requirement` trees.
+Draft facts/rules remain absent from those semantic predicates. All courses have
+`candidate_reference_identity` with their exact code, source, digest and explicit
+identity review state, plus `candidate_coverage` with direct-rule state, unresolved
+reasons and ordered pending identity references. Full `candidate_record` JSON is
+audit evidence; it does not promote draft contents to reviewed facts.
+
+A reviewed identity can still have unknown prerequisites. A reviewed direct rule
+can name a draft identity, which stays flagged for review. Neither case establishes
+transitive coverage or eligibility. Explicit verified_none is exported only when
+reviewed; blank or missing prerequisites never produce it. An unresolved branch
+holds that entire course expression, preserving all-of/any-of semantics.
+
+Partial output has status `partial_review_candidate`; all-draft input can produce
+an identity/coverage audit only. Reviewed complete input is `review_candidate`.
+A cycle among reviewed complete prior-completion expressions or unrenderable text
+holds the entire export as `blocked` with null Prolog. Draft edges do not contribute
+speculative cycles; co-requisites stay distinct. The strict preview is unchanged.
+Every review bundle retains runtime_ready=false, activation_allowed=false,
+eligibility_executable=false, approval_id=null and explicit release holds. The
+function returns text in memory; offline tooling may save it for human review.
+No Prolog consultation, decision, source promotion or capability registration occurs.
