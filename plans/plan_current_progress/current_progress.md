@@ -6,6 +6,14 @@ curricula. [Acceptance report](../2026-10-17-phase06-offline-real-runtime-accept
 
 ## Latest change
 
+Human-verification [guide](../2026-10-17-phase06-human-verification-guide.md) and
+ignored p06-human-verification-20261017/REVIEW.md now pair printed course codes,
+fictional inputs and all73 saved results. Start with six oldCC5/L cases, then six
+proposed cases. No new runtime run, source decision or human approval recorded.
+Targeted earlier-phase review confirms Phase05's explicit offline closure;
+Phase1-2 audit and a Phase03 similarity-test assertion gap limit older claims.
+Guide docs/phase549 passed/11 subtests20.86s; no product tests rerun in this review.
+
 Existing p06 worktree/branch chore/p06-hawksprey420-scaffold; product49bc993,
 baseline9df5aa5. [Blocked handoff](../phase-06-handoff.md) records remaining gates.
 Named offline research runtime validates exact non-synthetic bundle/operation
@@ -55,7 +63,7 @@ Context scope/logic thesis pages, master and routing PNG consulted.
 
 ## Next action
 
-Obtain pending generated-output review using the existing REVIEW.md/original
-regions, then satisfy applicable institutional source/release/runtime gates and
-rerun affected acceptance before full Phase06 closure. No new source reviews01-03.
+Review worksheet oldCC5/L H01,H03,H05,H07,H09,H10 against the linked original
+row/generated expression; record the actual matches/mismatch/unsure verdict.
+Preserve remaining output-review and institutional gates; reviews01-03 stay settled.
 [Checkpoint](../phase-06-checkpoint.md).

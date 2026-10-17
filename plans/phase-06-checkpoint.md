@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 26
+sequence: 27
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 49bc993
+head_commit: f2f4fd6
 working_tree: concurrent compose.yaml/docker/api.Dockerfile preserved; this snapshot is committed with its documentation wrapper
-updated_at: 2026-10-17T22:05:00+08:00
+updated_at: 2026-10-17T22:59:34+08:00
 ---
 
 # Phase06 checkpoint
@@ -29,12 +29,15 @@ Bounded experiment delivered; the
 explicitly requested actual BSCS testing and fresh JSON -> PL generation.
 This authorizes offline research with fictional completion facts; deferred
 human generated-output review is not confirmed by that testing request.
+[Human-verification guide](2026-10-17-phase06-human-verification-guide.md) and
+ignored p06-human-verification-20261017/REVIEW.md now decode all73 saved cases.
+No new runtime run or human verdict. First batch is six oldCC5/L observations.
 
 ## Repository State
 
 Active worktree:C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06;
 branch chore/p06-hawksprey420-scaffold; product49bc993, baseline9df5aa5.
-head_commit identifies verified product49bc993; its following documentation-only
+head_commit identifies reviewed deliveryf2f4fd6; its following documentation-only
 commit contains this snapshot (the validator can warn about that wrapper HEAD).
 Concurrent compose.yaml/docker/api.Dockerfile
 remain untouched/unstaged. No dependency/lock/API/DB/frontend/later-phase changes,
@@ -60,6 +63,14 @@ Pre-condensation snapshot:9df5aa5:plans/phase-06-checkpoint.md.
   requiredhub>=1.5.0,<2.0. Named failures/root cause in the acceptance report.
   Unchanged ingestion/test/dependency paths verified against9df5aa5; no installs.
 - Phase state valid; can-advance=no because Phase06 handoff is blocked.
+- Targeted earlier-phase review:Phase05 explicitly closed offline; Phase1-2
+  corrective audit limits old completion claims. Inspected Phase03 similarity
+  test checks finite scores without asserting positive outranks negative, and
+  adapter allows mock fallback. Recorded in the guide; no unrelated code changed.
+- New worksheet asserts73 rows and matches both original/source and runtime
+  delivery seals. Six old/six proposedCC5 checks named; zero human decisions.
+- Human-guide docs/phase549 passed/11 subtests20.86s; phase state valid/blocked.
+  Raw:p06-human-verification-20261017/docs.log. Product tests reused, not rerun.
 
 ## Versions and Digests
 
@@ -107,9 +118,9 @@ API/model/frontend and institutional release checks remain unverified.
 
 ## Next Action
 
-Obtain the actual pending generated-output review using the existing REVIEW.md
-and original regions, then satisfy applicable institutional source/release/runtime
-gates and rerun affected acceptance before considering full Phase06 closure.
+Review oldCC5/L H01,H03,H05,H07,H09,H10 in the worksheet against the original
+row/generated expression and record the actual matches/mismatch/unsure verdict.
+Remaining output-review and institutional gates persist; no source01-03 re-review.
 
 ## Do Not Repeat
 
