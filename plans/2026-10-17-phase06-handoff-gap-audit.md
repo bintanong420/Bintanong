@@ -92,3 +92,20 @@ Implement the governed non-synthetic bundle/runtime boundary using existing sour
 decision and registry contracts, with synthetic tests proving rejection and allowed
 behavior. Preserve the deferred human review and actual source/execution gates.
 Then perform the authorized source-bound acceptance and formal Phase06 exit work.
+
+## Re-review with the explicitly requested handoff skills
+
+Both skills and their artifact contract were reread against baselinec7aab5f,
+the original Phase06 plan, previous Phase05 final handoff and AGENTS.md.
+Phase state validates but cannot advance; this is not itself a functional test.
+Fresh focused runtime/query/bundle verification:95 passed21.25s, exit0;
+raw:p06-skill-rereview-20261017/focused.log. Product code is unchanged.
+Fresh documentation/phase checks:546 passed/11 subtests16.17s; phase state valid,
+cannot advance. Raw docs.log is alongside the focused run.
+The supported next increment is remaining task3 using existing source/decision/
+registry contracts and a concrete bounded acceptance contract. The skills do not
+prescribe a new CLI, a separate approval subsystem or later-phase chat work.
+Deferred generated-output inspection remains a separate pending human decision.
+Neither inactive candidate delivery nor the Phase05 offline-completion ruling
+authorizes real institutional execution or supplies a complete Phase06 handoff.
+Thesis scope/logic pages and routing PNG rechecked; missing facts remain unknown.

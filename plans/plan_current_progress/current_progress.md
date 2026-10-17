@@ -3,6 +3,7 @@
 Updated:17 October2026. Phase06 active; synthetic runtime/query delivery complete.
 Latest [handoff gap audit](../2026-10-17-phase06-handoff-gap-audit.md) distinguishes
 unfinished institutional runtime code from deferred review and later chat phases.
+Explicit handoff-skill re-review:95 focused tests passed21.25s; no product changes.
 
 ## Latest change
 
@@ -39,7 +40,7 @@ or repeated source review is needed for inspecting these fresh artifacts.
 
 Fresh related suite:744 passed128.88s, including95 runtime/query/artifact cases.
 Independent actual-Janus review:95 passed30.20s; no actionable findings.
-Gap-audit docs/phase:546 passed/11 subtests22.81s; phase_state validates,
+Skill re-review docs/phase:546 passed/11 subtests16.17s; phase_state validates,
 cannot advance (Phase06 unfinished). Python3.13 selected explicitly, no pytest cache,
 external TEMP/TMP/basetemp. Raw:workspace/audit-evidence/p06-runtime-bundle-20261017.
 System Python3.13.12/Pydantic2.13.4/pytest9.0.3; SWI10.1.6/Janus1.5.2.
@@ -51,8 +52,9 @@ No real-source Prolog consulted or institutional/student runtime activated.
 
 ## Next action
 
-Implement the governed non-synthetic bundle/runtime boundary with synthetic gate
-tests while preserving the deferred [generated-output review](../../../../../audit-evidence/p06-regenerated-review-20261017/REVIEW.md).
+Resume task3 with a bounded acceptance contract and existing source/decision/
+registry contracts; TDD the missing bundle path with synthetic gate tests while
+preserving the deferred [generated-output review](../../../../../audit-evidence/p06-regenerated-review-20261017/REVIEW.md).
 Actual source-bound execution still needs its applicable review/execution gates,
 then Phase06 exit checks/final handoff. Review alone does not authorize execution.
 The current adapter deliberately rejects all non-synthetic ledgers; passing its

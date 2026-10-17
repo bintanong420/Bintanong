@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 22
+sequence: 23
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 4772e08
-working_tree: handoff audit/current docs; concurrent compose.yaml and docker/api.Dockerfile preserved
-updated_at: 2026-10-17T21:09:33+08:00
+head_commit: c7aab5f
+working_tree: explicit handoff-skill re-review docs; concurrent compose.yaml and docker/api.Dockerfile preserved
+updated_at: 2026-10-17T21:23:37+08:00
 ---
 
 # Phase 06 checkpoint
@@ -56,10 +56,12 @@ Necessary dataset/.env/backend/.venv remain ignored; no local artifacts staged.
   six empty-label/malformed-worker completeness REDs, then79 passed22.47s.
 - Fresh related suite744 passed128.88s, exit0; exact command in runtime delivery.
   Covers authoring/compiler/review exporter, runtime and shared contract regressions.
+- Explicit skill re-review:95 focused runtime/query/bundle tests passed21.25s;
+  raw:p06-skill-rereview-20261017/focused.log. Product unchanged; not a new744 run.
 - Independent actual-Janus final review95 passed30.20s, no actionable findings;
   prior source/artifact review found no mismatch in seven translated expressions.
-- Gap-audit docs/phase546 passed/11 subtests22.81s, exit0:
-  `py -3.13 -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-gap-audit-20261017/docs-temp`.
+- Skill re-review docs/phase546 passed/11 subtests16.17s, exit0:
+  `py -3.13 -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-skill-rereview-20261017/docs-temp`.
   phase_state validate passes; can-advance=no (no complete Phase06 handoff).
 - Existing37-file regeneration seal/hash manifest reverified byte-for-byte after
   runtime changes. Original span39 checks and exact ledger/coverage/Prolog replay
@@ -129,10 +131,10 @@ stack/build/service tests are unverified here. No DB/API/model/frontend checks.
 
 ## Next Action
 
-Implement the governed non-synthetic bundle/runtime boundary and synthetic gate
-fixtures independently of the deferred generated-output review. Preserve all real
-source/execution gates, then verify authorized source-bound behavior and phase
-exit. Do not claim review/activation or full Phase06 completion from synthetic tests.
+Resume remaining task3 with a bounded acceptance contract using existing source,
+decision and registry contracts, then TDD the missing authorized-bundle path with
+synthetic fixtures. Preserve deferred real output review/execution gates. No new
+CLI/approval subsystem or phase completion claim follows from the handoff skills.
 
 ## Do Not Repeat
 
