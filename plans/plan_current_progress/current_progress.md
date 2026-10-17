@@ -1,69 +1,53 @@
 # Current progress
 
-Updated:17 October2026. Phase06 active. Owner requested actual BSCS pipeline
-testing, then explicitly permitted fresh JSON -> Prolog generation for the same
-curricula. [Acceptance report](../2026-10-17-phase06-offline-real-runtime-acceptance.md).
+Updated:17 October2026. Phase06 active; product49bc993 unchanged.
 
-## Latest change
+## Latest delivery
 
-Human-verification [guide](../2026-10-17-phase06-human-verification-guide.md) and
-ignored p06-human-verification-20261017/REVIEW.md now pair printed course codes,
-fictional inputs and all73 saved results. Start with six oldCC5/L cases, then six
-proposed cases. No new runtime run, source decision or human approval recorded.
-Targeted earlier-phase review confirms Phase05's explicit offline closure;
-Phase1-2 audit and a Phase03 similarity-test assertion gap limit older claims.
-Guide docs/phase549 passed/11 subtests20.86s; no product tests rerun in this review.
+Owner requested actual BSCS source artifacts and test cases as Excel CSVs, then
+selected two separate sets:full prospectuses and reviewed Phase06 subset.
+[Delivery report](../2026-10-17-phase06-bscs-excel-delivery.md).
+Ignored root:workspace/audit-evidence/p06-bscs-excel-20261017.
+BSCS-review-package.zip includes four reviewer CSVs, original PDF copies,
+actual full draft JSON/raw Docling conversions and reviewed authoring/PL/runtime
+bundles/source images/test results. Reviewer verdicts remain unreviewed/blank.
 
-Existing p06 worktree/branch chore/p06-hawksprey420-scaffold; product49bc993,
-baseline9df5aa5. [Blocked handoff](../phase-06-handoff.md) records remaining gates.
-Named offline research runtime validates exact non-synthetic bundle/operation
-scope and reuses existing fixed Janus engine. Normal constructors remain
-synthetic-only; StudentFacts remains fictional. Actual rules retain truthful
-research/source labels and all release holds. Institutional answer contracts
-reject research observations, including a label-erasure regression found in review.
-No new approval service, dependency, API, DB, CLI, frontend or later phase.
+Full-prospectus CSVs contain53 old/55 proposed detected course rows. Both fresh
+original-PDF runs failed audits; strict exits1; full PL correctly withheld.
+Old has unit discrepancies/missing CS3 units and CC5/L prerequisite spill; proposed
+has ambiguous standing-fragment ownership and a skipped table. CSVs preserve the
+raw values and flag the oldCC5 discrepancy against its settled source reading.
+Detected row counts are not a claim of complete/accurate extraction.
 
-## Actual verification
+Reviewed subset:11 identities/10 reviewed/one draft, seven expressions/four
+unknowns. Fresh original-field authoring and PL match the earlier sealed output.
+Fresh73 actual-Janus cases/four isolation checks pass with fictional facts.
+Native39 spans pass. Prior source/runtime seals and original PDFs unchanged.
+Four CSVs have UTF-8 BOM/CRLF/quoted fields, source/hash/page/geometry and reviewer
+columns. CSV roundtrip/safety checks pass; Artifact Tool independently imports
+all53/55/11/73 rows with no formulas. Native Excel was not opened.
 
-73 source-bound recorded cases passed, plus four concurrent/cross-version checks
-and39 original native spans. Fresh JSON -> candidate PL -> saved runtime projection
-reproduces both sealed BSCS versions exactly. All37 original regeneration and12
-saved-runtime files remain byte-identical. Missing/conflicting facts, unknowns,
-draft identity, partial dependencies, unsupported, timeout/recovery and deterministic
-results pass. Raw:workspace/audit-evidence/p06-real-runtime-20261017/ACCEPTANCE.md
-and acceptance-results.json; generated artifacts stay ignored in fresh/.
+## Verification and environment
 
-Research TDD:17 initial REDs ->112 GREEN; two adversarial REDs ->113 GREEN.
-Independent reviewer:113 passed28.11s, one answer-boundary finding. Focused
-regression reproduced before fix; research+answer GREEN110 passed7.87s.
-Related suite854 passed97.13s; final docs/phase548 passed/11 subtests20.02s.
-Full suite5748 passed,2 failed,1 skipped/1480 subtests1077.48s. Both unchanged
-Docling conversion tests fail on transformers5.10.2 requiring huggingface-hub<2.0
-while2.2.0 is installed. No dependency changes. Named failures in the report.
-Phase state valid; advancement refused because the Phase06 handoff is blocked.
+Fresh109 focused tests passed12.14s; report names exact command/logs.
+Prior854 related regressions remain valid for unchanged product. Previous full
+suite5748 passed/two system-Docling dependency failures is retained, not rerun.
+Source conversion uses an existing primary Python3.13.5/Docling2.129.0 venv with
+compatible transformers/hub and cached CPU models; downloads explicitly disabled.
+System3.13.12 handles source/compiler/Janus/CSV verification/tests. No packages,
+locks, environment files or model assets changed/copied/downloaded.
+Concurrent compose.yaml/docker/api.Dockerfile edits untouched/unstaged. No product,
+API/DB/frontend/later-phase work or remote writes. Generated data stays ignored.
+53-file manifest7a417f05; full hashes/source bindings in the report and package.
+Final docs/phase550 passed/11 subtests27.26s; phase state valid/blocked.
+Repository handoff/reminder/conventional commits
+and spreadsheet/verification workflows applied.
 
-## Review and environment
+## Review boundary and next action
 
-Owner defers generated-output inspection:Check them later. But I will review
-them. This remains pending. Reviews01-03/export design stay settled. Fresh
-execution authorization does not approve output/source authority or activation.
-11 identities/10 reviewed/one draft; seven expressions/four unknown rules.
-OldCC1/L stays draft; blanks remain unknown; versions and literal /L stay separate.
-Candidates, source states and EMPTY_REGISTRY remain inactive/unchanged.
-
-Python3.13.12/Pydantic2.13.4/pytest9.0.3/SWI10.1.6/Janus1.5.2; no installs.
-Python explicitly selected; no pytest cache; external TEMP/TMP/basetemp.
-Concurrent compose.yaml/docker/api.Dockerfile preserved/unstaged. No remote writes.
-Dataset62 files and necessary local assets remain ignored. Docker daemon available;
-application stack/API/model/frontend unverified; broad suite ran disposable DB
-tests. Bare Python/Node versions differ.
-Repository handoff/reminder/conventional-commits skills applied; Supabase workflows
-consulted for full-suite disposable DB tests. No database implementation changes.
-Context scope/logic thesis pages, master and routing PNG consulted.
-
-## Next action
-
-Review worksheet oldCC5/L H01,H03,H05,H07,H09,H10 against the linked original
-row/generated expression; record the actual matches/mismatch/unsure verdict.
-Preserve remaining output-review and institutional gates; reviews01-03 stay settled.
-[Checkpoint](../phase-06-checkpoint.md).
+Review the four CSVs in Excel and return reviewer copies with stable row/test IDs,
+verdicts and source-based notes. Actual decisions must be recorded before changing
+authoring. CSV edits do not automatically approve/import rules. Reviews01-03 stay
+settled; output review and institutional release remain pending. Unknowns/draft
+identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)
+and [checkpoint](../phase-06-checkpoint.md) remain active; no advancement inferred.
