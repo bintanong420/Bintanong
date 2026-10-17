@@ -227,6 +227,14 @@ permission or authorization to execute institutional rules in Phase 06.
 
 ## Owner decisions to preserve across CLI sessions
 
+- Phase 06, 17 October 2026: the owner approved all four P06-T02 readings and
+  relationships. Old 2018–2019 CC 3/L requires CC 2/L; old CC 4/L requires both
+  CC 3/L and CS 1/L. Proposed 2025–2026 CC 3/L requires CC 2/L; proposed CS 2
+  requires CS 1. Preserve version-scoped `/L` spelling and do not reopen these
+  source/logic reviews. See `plans/2026-10-17-phase06-translation-review-02.md` for
+  exact proposal/receipt hashes. Newly referenced course conditions and all
+  grade/exception/source-authority/execution/activation questions remain separate.
+
 - Phase 06, 17 October 2026: the owner approved both P06-T01 prerequisite logic
   translations and confirmed both BSCS curricula remain in use. Old 2018–2019
   CC 5/L requires `all_of(CC 3/L, CC 4/L)`; proposed 2025–2026 CC 5/L requires

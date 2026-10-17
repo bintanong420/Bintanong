@@ -63,7 +63,9 @@ text/geometry verification was independently performed by the preparing agent.
 Code, dependencies, models, institutional source states and registry are unchanged.
 
 New human packet: [P06-T02, four reference rows](2026-10-17-phase06-translation-review-02.md).
-The actual answer is pending. Full-course prerequisite records beyond these two
+At this delivery the answer was pending; the owner subsequently approved all four.
+See the [reference extension](2026-10-17-phase06-reference-extension.md) for application.
+Full-course prerequisite records beyond these two
 selections, numeric units, grade conditions and runtime execution remain later work.
 
 ## Exact commands and file identities

@@ -34,7 +34,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
-| 6 | Structured knowledge | Six source-bound records; review02 pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
+| 6 | Structured knowledge | Ten source-bound records; review03 pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
 
 ## Read only when relevant
 
@@ -45,8 +45,8 @@ real-source exits; ledger validity alone does not prove source readiness.
   [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
   [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
 - Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md),
-  [BSCS selections](2026-10-17-phase06-bscs-authoring-selections.md),
-  [translation review02](2026-10-17-phase06-translation-review-02.md),
+  [Reference extension](2026-10-17-phase06-reference-extension.md),
+  [translation review03](2026-10-17-phase06-translation-review-03.md),
   [authoring/compiler](../backend/bintanong_symbolic/README.md).
 - Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
 - Benchmarks: [evaluation protocol](../evaluation/README.md).

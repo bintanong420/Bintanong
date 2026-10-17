@@ -1,6 +1,7 @@
 # Phase 06 translation review 02: four referenced-course rows
 
-Status: pending owner source/translation review. This batch adds four direct
+Status: all four readings/relationships approved by the owner on 17 October 2026.
+This batch adds four direct
 prerequisite relationships; the two CC 5/L conjunctions from P06-T01 stay approved.
 Student capability: preserve the correct version-scoped prerequisite/dependency
 chain before compiling supported decisions. No grades or eligibility are evaluated.
@@ -34,17 +35,17 @@ identity/number. Preserve the codes exactly: old **CS 1/L** and proposed **CS 1*
 are different scoped records; do not append/remove `/L` or assume equivalence.
 Titles here locate the rows and are not added as reviewed authoring facts.
 
-## Focused question
+## Reviewed question and actual decision
 
-Do these four code/prerequisite readings and proposed direct relationships match
-the original rows? Confirm all four, or identify the item/reading that needs correction.
-This does not ask again about either CC 5/L rule. It does not approve passing
-thresholds, exceptions, unit interpretation, source authority or activation.
+The owner answered "yes i approve of that." to the four presented readings and
+relationships. All four are accepted for offline research; do not reopen them.
+Passing thresholds, exceptions, unit interpretation, source authority and
+activation remain separate. Reviews01 and02 do not select a student's curriculum.
 
-The six-course draft selections remain held: referenced-course logic is unresolved,
-so no whole-selection Prolog is emitted. If approved, extend only these direct
-relationships using their actual referenced-course records. Unknown or blank
-prerequisite cells on other courses stay unresolved; no blanket no-prerequisite rule.
+The [reference extension](2026-10-17-phase06-reference-extension.md) applies the
+four exact accepted expressions and adds their named reference courses. Previous
+six-record selections stay preserved as delivery history. Unknown or blank
+conditions on new courses stay unresolved; no no-prerequisite rule is inferred.
 
 ## Exact proposal identities
 
@@ -56,5 +57,8 @@ Ignored records: workspace `audit-evidence/p06-bscs-authoring-selections-2026101
 - P06-T02-proposed-1: `a5a1380063023ef71055df2322dcea2e0d44b90c9e739e2619e5287e027bed83`.
 - P06-T02-proposed-2: `5622815781aa769585ecc35fa899443448cb1255cb03ec1619cedf87ebf13099`.
 
-Record the actual answer separately against these hashes; preserve the original
-proposals. This is a bounded research review, not whole-curriculum approval.
+The original proposal records remain unchanged. Separate ignored receipt
+`reference-translation-review-receipt.json` in the same folder binds the actual
+reply to all four hashes. Receipt SHA-256:
+`aa92cf8dfeda83cf6df3f10ff7fd73ab37e036f30aaca01ee3c56e5c6a95a2e1`.
+This is a bounded research review, not whole-curriculum approval.
