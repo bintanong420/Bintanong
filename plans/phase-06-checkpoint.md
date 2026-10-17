@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 21
+sequence: 22
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 8706abc
-working_tree: checkpoint/index/progress documentation; separate docker/api.Dockerfile edit preserved
-updated_at: 2026-10-17T20:25:00+08:00
+head_commit: 4772e08
+working_tree: handoff audit/current docs; concurrent compose.yaml and docker/api.Dockerfile preserved
+updated_at: 2026-10-17T21:09:33+08:00
 ---
 
 # Phase 06 checkpoint
@@ -32,13 +32,17 @@ real generated-output inspection: "Check them later. But I will review them."
 No approval inferred. Saved real artifacts remain inactive and loading rejects.
 Governed non-synthetic runtime integration, authorized source-bound tests and
 formal Phase06 exit remain open. No real institutional decisions claimed.
+[Gap audit](2026-10-17-phase06-handoff-gap-audit.md) confirms this is unfinished
+institutional-runtime code as well as deferred review; independent gate-fixture
+implementation can proceed without approving or executing the real candidates.
 
 ## Repository State
 
 C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06,
 branch chore/p06-hawksprey420-scaffold; product8706abc, previous0fb5189/232727d.
-Current docs await checkpoint commit; separate concurrent docker/api.Dockerfile
-adds build-essential and is preserved/unstaged, not tested or included. Original checkout,
+At4772e08 both local target and live origin Phase06 branch now match the scaffold;
+integration occurred externally. Concurrent compose.yaml/docker/api.Dockerfile
+edits remain untouched/unstaged, not tested or included. Original checkout,
 other worktrees,62-file ignored dataset and external models preserved.
 No dependency/lock/API/DB/frontend changes, installs or remote writes by this task.
 Before snapshot condensation: `e0a7f8b:plans/phase-06-checkpoint.md`.
@@ -54,8 +58,8 @@ Necessary dataset/.env/backend/.venv remain ignored; no local artifacts staged.
   Covers authoring/compiler/review exporter, runtime and shared contract regressions.
 - Independent actual-Janus final review95 passed30.20s, no actionable findings;
   prior source/artifact review found no mismatch in seven translated expressions.
-- Final snapshot docs/phase545 passed/11 subtests25.81s, exit0:
-  `py -3.13 -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-runtime-bundle-20261017/snapshot-docs-temp`.
+- Gap-audit docs/phase546 passed/11 subtests22.81s, exit0:
+  `py -3.13 -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-gap-audit-20261017/docs-temp`.
   phase_state validate passes; can-advance=no (no complete Phase06 handoff).
 - Existing37-file regeneration seal/hash manifest reverified byte-for-byte after
   runtime changes. Original span39 checks and exact ledger/coverage/Prolog replay
@@ -77,7 +81,7 @@ Necessary dataset/.env/backend/.venv remain ignored; no local artifacts staged.
 
 Explicit system Python3.13.12/Pydantic2.13.4/pytest9.0.3/PyMuPDF1.27.2.3;
 SWI10.1.6/Janus1.5.2 actual synthetic calls verified. Bare python3.11 differs;
-Node22 differs from pinned24; Docker Linux daemon unavailable. No installs.
+Node22 differs from pinned24; Docker info now returns linux. No installs.
 Raw runtime evidence:workspace/audit-evidence/p06-typed-runtime-20261017;
 independent review:workspace/audit-evidence/p06-runtime-review-20261017.
 Saved artifacts/evidence:workspace/audit-evidence/p06-runtime-bundle-20261017;
@@ -120,15 +124,15 @@ explicitly deferred. Real-source runtime requires its separate source/review/
 execution gates and governed adapter integration/tests; those are not delivered
 by synthetic success. Four rule unknowns and source authority/release holds persist.
 Historical raw receipts absent only for exact prior replay, not fresh generation.
-Installed package/Node differences and unavailable Docker remain environment
-limitations; no container/DB/API/model/frontend verification claimed.
+Installed package/Node differences remain. Docker daemon is available; container
+stack/build/service tests are unverified here. No DB/API/model/frontend checks.
 
 ## Next Action
 
-Resume the deferred generated-output review when the owner is ready, then resolve
-the separate non-synthetic runtime authorization/integration and source-bound
-verification requirements before Phase06 exit checks/final handoff. Do not treat
-review alone as execution approval or mark Phase06 complete from synthetic tests.
+Implement the governed non-synthetic bundle/runtime boundary and synthetic gate
+fixtures independently of the deferred generated-output review. Preserve all real
+source/execution gates, then verify authorized source-bound behavior and phase
+exit. Do not claim review/activation or full Phase06 completion from synthetic tests.
 
 ## Do Not Repeat
 

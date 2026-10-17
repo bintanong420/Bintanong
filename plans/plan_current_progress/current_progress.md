@@ -1,6 +1,8 @@
 # Current progress
 
 Updated:17 October2026. Phase06 active; synthetic runtime/query delivery complete.
+Latest [handoff gap audit](../2026-10-17-phase06-handoff-gap-audit.md) distinguishes
+unfinished institutional runtime code from deferred review and later chat phases.
 
 ## Latest change
 
@@ -37,22 +39,22 @@ or repeated source review is needed for inspecting these fresh artifacts.
 
 Fresh related suite:744 passed128.88s, including95 runtime/query/artifact cases.
 Independent actual-Janus review:95 passed30.20s; no actionable findings.
-Final docs/phase:545 passed/11 subtests25.81s; phase_state validates,
+Gap-audit docs/phase:546 passed/11 subtests22.81s; phase_state validates,
 cannot advance (Phase06 unfinished). Python3.13 selected explicitly, no pytest cache,
 external TEMP/TMP/basetemp. Raw:workspace/audit-evidence/p06-runtime-bundle-20261017.
 System Python3.13.12/Pydantic2.13.4/pytest9.0.3; SWI10.1.6/Janus1.5.2.
 No installs, dependency/lock changes, API/DB/frontend/later-phase work or remote
-writes. Docker Linux daemon absent; Node22 differs from pinned24.
-Concurrent docker/api.Dockerfile edit preserved/unstaged; not part of this work.
+writes. Docker Linux daemon now available; stack not revalidated. Node22 differs
+from pinned24. Concurrent compose.yaml/docker/api.Dockerfile edits preserved.
 Dataset62 files and necessary ignored worktree assets remain ignored/preserved.
 No real-source Prolog consulted or institutional/student runtime activated.
 
 ## Next action
 
-Resume the deferred [generated-output review](../../../../../audit-evidence/p06-regenerated-review-20261017/REVIEW.md)
-when the owner is ready. Then resolve the separate governed non-synthetic
-bundle/runtime integration and authorized source-bound verification requirements
-before Phase06 exit checks/final handoff. Review alone does not authorize execution.
+Implement the governed non-synthetic bundle/runtime boundary with synthetic gate
+tests while preserving the deferred [generated-output review](../../../../../audit-evidence/p06-regenerated-review-20261017/REVIEW.md).
+Actual source-bound execution still needs its applicable review/execution gates,
+then Phase06 exit checks/final handoff. Review alone does not authorize execution.
 The current adapter deliberately rejects all non-synthetic ledgers; passing its
 synthetic tests does not complete those remaining steps. Phase06 cannot advance.
 [Checkpoint](../phase-06-checkpoint.md).
