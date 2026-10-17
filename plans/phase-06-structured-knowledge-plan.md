@@ -77,8 +77,9 @@ unordered source/course/review collections; node/span order is preserved.
   proposal starts with the [bounded offline preview](2026-10-17-phase06-foundation.md).
   Runtime-ready compilation and source-to-rule review remain later boundaries.
   The [partial review export design](2026-10-17-phase06-partial-review-export-design.md)
-  is proposed to preserve reviewed expressions alongside unknown reference coverage;
-  the complete design awaits owner approval before new compiler behavior.
+  was approved and implemented at `6fedc45`, preserving reviewed expressions alongside
+  explicit unknown reference coverage. [Generated delivery](2026-10-17-phase06-prolog-review-delivery.md).
+  Human generated-output inspection and later runtime/release gates remain separate.
 - [ ] 3. Separately authorize and implement typed Janus integration/registry with
   immutable bundles, request-local facts, timeout/result/concurrency limits.
 - [ ] 4. Verify eligible/ineligible/unknown/unsupported/error and deterministic

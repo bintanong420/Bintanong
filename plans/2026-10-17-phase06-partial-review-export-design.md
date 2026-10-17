@@ -1,8 +1,9 @@
 # Phase 06 partial review export design
 
-Status: proposed for owner approval; no new compiler behavior implemented.
-Owner authorized continued preparation on 17 October. Reviews01/02 remain settled;
-"ok proceed" is not an answer to the pending review03 source readings.
+Status: explicitly approved by owner with review03 on 17 October2026; implemented
+at `6fedc45`. [Generated delivery](2026-10-17-phase06-prolog-review-delivery.md).
+The earlier generic "ok proceed" did not answer review03; its later explicit
+approval is separately recorded. Reviews01/02 remain settled.
 
 ## Purpose and evidence path
 
@@ -105,8 +106,9 @@ identity/condition readings in a separate clearly pending column. Do not ask aga
 for settled rule meanings; generated translation correctness remains reviewable.
 No real-source eligibility query is executed by this increment.
 
-Keep review03 pending until the owner's actual answer. Independently prepared
-old CC1/L is a draft reference stub only, not an approved extension of old CS1/L.
+Review03 subsequently received explicit approval, applied in the linked delivery.
+Independently prepared old CC1/L remains a draft reference identity; its inclusion
+does not establish reviewed identity or its own prerequisite coverage.
 Do not expand to an entire curriculum to fill blank prerequisites.
 
 ## Implementation and verification boundary
@@ -124,9 +126,9 @@ Actual source-derived artifacts stay ignored. Full Phase06/runtime/release remai
 
 ## Design review and independent preparation
 
-Fresh builder check on 17 October: "nothing important left". The design is proposed;
-its complete description was presented for owner approval. No implementation,
-runtime or new source approval is inferred from the owner's generic continuation.
+Fresh builder check on 17 October: "nothing important left". The owner subsequently
+approved the complete description and review03 explicitly. Implementation/source
+decision scope is bound to that later actual reply, not the generic continuation.
 
 A separate old CC1/L reference stub is prepared at ignored workspace
 `audit-evidence/p06-partial-export-preparation-20261017/`. It is **draft**, with an
@@ -150,4 +152,5 @@ This is reversible data preparation; no product behavior change or install.
 
 Docs/phase: **539 passed / 11 subtests, 11.63s**, exit0 (`docs.log`).
 Preparation manifest: 9 files, SHA-256 `e751b7f46d54719c8a4042a6ab3bc28364b72b250e9ce0e2ae73f11cddfb26d8`.
-No compiler code or `.pl` bundle implemented/emitted in this design increment.
+No compiler code or `.pl` was emitted during that earlier design increment.
+The subsequent approved implementation/delivery is linked above.

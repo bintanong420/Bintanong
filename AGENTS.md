@@ -227,6 +227,17 @@ permission or authorization to execute institutional rules in Phase 06.
 
 ## Owner decisions to preserve across CLI sessions
 
+- Phase06,17October2026: owner explicitly approved both the partial review-export
+  design238ad3b and review03's four row readings/one relationship: old2018–2019
+  CS1/L requires CC1/L; oldCC2/L, proposed2025–2026 CC2/L and proposedCS1 have
+  blank printed prerequisite cells. Those blanks remain unknown under the source-
+  gap policy. Owner's observation that first-year first-semester foundation courses
+  might naturally have no prerequisites is context, not a verified_none assertion
+  or permission to infer rule completeness. Do not reopen review03. See
+  `plans/2026-10-17-phase06-translation-review-03.md` and the generated review
+  delivery for exact receipts. Export approval allows inactive candidate files for
+  human inspection; it does not authorize eligibility execution or activation.
+
 - Phase 06, 17 October 2026: the owner approved all four P06-T02 readings and
   relationships. Old 2018–2019 CC 3/L requires CC 2/L; old CC 4/L requires both
   CC 3/L and CS 1/L. Proposed 2025–2026 CC 3/L requires CC 2/L; proposed CS 2
