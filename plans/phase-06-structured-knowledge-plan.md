@@ -73,6 +73,9 @@ unordered source/course/review collections; node/span order is preserved.
   regressions; README describes caller trust and deferred functionality.
 - [ ] 2. Separately design reviewed specification → versioned Prolog compilation,
   source/review gates, unresolved references and cycle reporting; reuse candidates.
+  Owner resumed Phase 06 in p06 on 17 October; the previously approved compiler
+  proposal starts with the [bounded offline preview](2026-10-17-phase06-foundation.md).
+  Runtime-ready compilation and source-to-rule review remain later boundaries.
 - [ ] 3. Separately authorize and implement typed Janus integration/registry with
   immutable bundles, request-local facts, timeout/result/concurrency limits.
 - [ ] 4. Verify eligible/ineligible/unknown/unsupported/error and deterministic

@@ -2,80 +2,101 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 4
+sequence: 6
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 3879590
-working_tree: phase clarification recorded; owner artifact changes preserved
-updated_at: 2026-10-17T10:35:04+08:00
+head_commit: 0a2faa8
+working_tree: product committed; phase06 documentation delivered with this checkpoint
+updated_at: 2026-10-17T11:17:43+08:00
 ---
 
 # Phase 06 checkpoint
 
 ## Completed Tasks
 
-Task 1 delivered at `67ed4bd`: pure curriculum authoring ledger, source-bound facts,
-explicit prerequisite expressions and digest-bound review references. Output is
-always inactive/non-executable. Existing candidate compiler and registry unchanged.
+Task 1 `67ed4bd` preserved. Compiler foundation `0a2faa8`: revalidated ledger to
+reproducible inactive candidate data facts; explicit nested requirements/provenance;
+unknown/draft/cycle/quoting holds. No evaluator, registry or Janus changes.
+[Foundation/readiness](2026-10-17-phase06-foundation.md) ·
+[First translation review](2026-10-17-phase06-translation-review-01.md), pending.
 
 ## Current Task
 
-Task 1 and its final review/fix are complete. Task 2 implementation awaits phase
-alignment: owner approved the proposal but said work is still Phase 05.
+Owner explicitly resumed Phase 06 in p06 on 17 October, resolving phase alignment.
+Bounded compiler foundation delivered. Human review P06-T01 asks only whether the
+two already confirmed CC 5/L lists mean all_of in their respective curricula.
+No answer received; no real translation applied. Full Task 2 remains incomplete.
 
 ## Repository State
 
-Existing isolated p05 worktree on feat/p05-retrieval-logic retained. Preserve owner
-deletion artifacts/.gitkeep and untracked backend/artifacts/. Following documentary
-commit is discoverable in Git. No shared mutation, installation or original edit.
+Worktree `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`, branch
+`feat/p06-prolog-janus-rules`; baseline `f189ad9`, product `0a2faa8`. Subsequent
+phase-documentation commit is discoverable in Git. No unrelated dirty changes.
+Previous full checkpoint: `f189ad9:plans/phase-06-checkpoint.md`.
 
 ## Verification Evidence
 
-- RED 1 missing module; GREEN 45 cases,0.57s. Additional stale-translation RED 1
-  led to exact review-content binding; no stale reference may approve new logic.
-- One final review found an Important private-ID span gap. Parent RED 3
-  (text/locator/repair metadata), namespace-scan fix, final component/related
-  regressions **457 passed, 23.59s**, exit0. No other actionable review findings.
-- Documentation/phase checks **531 passed / 11 subtests, 16.90s**, exit0. Final metadata
-  checked separately for valid links/control characters/phase state and size.
-- Raw logs/review/delivery hashes: workspace/audit-evidence/p06-authoring-20261017.
-  10-file manifest verified, SHA-256:
-  `eb2b56d941bc0ff2bafb5206494c767d5c5a6b9e88f3df40b59dc77bbf18d143`.
-- Existing contracts, candidate compiler and dependencies unchanged from 38fe57c.
-  No full repository-suite rerun or actual-source rule correctness claim.
+Python below plus `-B -m pytest -q -p no:cacheprovider`, external TEMP/TMP/basetemp
+under workspace/audit-evidence/p06-foundation-20261017. Exact invocations:
+
+- RED: `tests/test_symbolic_compiler.py --basetemp=<evidence>/red-temp`:
+  18 expected failures, missing compiler module; `red.log`.
+- Review regression RED: `tests/test_symbolic_compiler.py -k incompatible
+  --basetemp=<evidence>/quote-red-temp`: 2 failures reproduced strict-quote
+  rejection of valid authoring nonbreaking spaces; `quote-red.log`.
+- Final GREEN: `tests/test_symbolic_compiler.py tests/test_symbolic_authoring.py
+  tests/test_contracts_symbolic.py tests/test_rule_candidates.py
+  tests/test_prospectus_rule_handoff.py --basetemp=<evidence>/final-regressions-temp`:
+  **315 passed, 23.86s**, exit0; `final-regressions.log`. Includes installed
+  SWI-Prolog parsing of synthetic output as ground data, never consulting it.
+- Docs: `tests/test_docs_hygiene.py
+  .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py
+  --basetemp=<evidence>/docs-temp`: **534 passed / 11 subtests, 14.27s**, exit0;
+  `docs.log`. Final snapshot metadata/link/hash checks recorded in the same root.
+- One fresh final code review: Important quoting incompatibility reproduced/fixed;
+  Minor outdated README fixed. No additional actionable finding. Declined source
+  truth/authority, Janus/runtime, activation and whole-phase completion are
+  intentionally deferred; tests confer none of those claims.
+- `phase_state.py validate --repo .`: valid. Advancement remains unavailable:
+  no Phase06 final handoff. `git diff --check` passes. No full repository suite claim.
 
 ## Versions and Digests
 
-Python 3.13.7 / Pydantic 2.13.5 / pytest 9.1.1 readiness venv retained. Four exact product
-file digests in raw delivery.json. No model execution or install. SWI-Prolog found;
-janus-swi absent in readiness environment; neither is used by Task 1.
+Python3.13.7 / Pydantic2.13.5 / pytest9.1.1; SWI-Prolog10.1.15. Python executable:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`.
+Janus absent; no install/model execution. Weight hashes and path/size inventory:
+foundation report and ignored `asset-inventory.json`; delivery code hashes in
+ignored `delivery.json`. All 62 dataset files match p05 by path/SHA-256.
 
 ## Decisions
 
-Owner approved this authoring-only increment. Actual thesis 17–18/39–44,
-runtime-routing PNG and master 3/11/13 consulted; missing information stays unknown.
-Owner's latest Task 2 reply approves but questions the Phase 06 transition. Git
-records Phase 05 offline closure at 38fe57c and Phase 06 delivery at 67ed4bd/3879590.
-Clarification requested; no compiler code written and no completion history changed.
-Ruling: source truth/scope/logic translation still need human review; structural
-binding cannot prove them. Misuse risks false claims, so output stays inactive.
-Ruling: reviewer labels are declared attribution, not authenticated office authority.
-Ruling: cycles/Janus/decisions remain later compiler/runtime work; the ledger cannot execute.
-Ruling: unreferenced stale review receipts are history; current references must
-bind the exact content digest, preventing misattribution after a changed record.
+Owner requests Phase06-specific handoff reading and small human review batches.
+Actual thesis physical17–18/39–44 read; routing PNG viewed; master3/11/13 consulted.
+Missing information stays unknown, overriding thesis illustrative closed-world
+denial. Phase05 final handoff outcome checked only for inherited boundaries;
+confirmed-curriculum evidence report read specifically to reuse the settled rows.
+Ruling: candidate data only; reuse authoring/quote contracts, preserve old flat
+extraction compiler. Source lifecycle states remain separate release holds.
+Ruling: unsupported source characters hold a preview, preserving original values.
+Ruling: receipt attribution/content binding cannot authenticate a reviewer or
+establish policy truth; human review/authority/activation remain separate.
 
 ## Known Failures or Blockers
 
-No unresolved Task 1 failure. Full Phase 06 still needs reviewed-spec compilation,
-registered safe operations, Janus isolation/limits and deterministic decision tests.
-Institutional authority and activation remain separately gated; no rule is enabled.
+No unresolved compiler-foundation failure. P06-T01 translation answer pending.
+C:/Coding-projects/MODELS is absent; weights exist at workspace/MODELS while .env
+still points to the absent path. Resolve before model execution; files unchanged.
+Janus absent from tested environment; later integration needs a scoped dependency
+decision. Neither issue blocks pure compiler tests. Full phase still needs
+reviewed institutional compilation, typed operations/isolation/limits and decision
+semantics tests. Institutional authority/execution/activation remain held.
 
 ## Next Action
 
-Resolve owner's intended phase before Task 2 implementation. Phase 05 is complete
-under its approved offline scope; institutional-release gates remain outstanding.
-Preserve Task 1; do not repeat its tests/review solely because a new session begins.
+Apply the actual P06-T01 owner translation answer when received, recording it
+against the exact proposal hashes; then prepare complete scoped referenced-course
+records and source-bound spans before minting new authoring review receipts.
 
 ## Do Not Repeat
 
-No source conversions, model work, source/wording re-confirmation or duplicate
-candidate compiler. No dependency install, runtime/API deployment or activation.
+No original conversions, weight downloads/copies, settled source/wording reviews,
+duplicate extraction compiler, dependency changes or institutional rule execution.

@@ -167,6 +167,14 @@ permission or authorization to execute institutional rules in Phase 06.
 
 ## Repository workflow
 
+- Phase 06 owner direction, 17 October 2026: active implementation worktree is
+  `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`. Keep routine
+  handoff reading to Phase 06 MD files plus INDEX/current progress and required
+  shared scope/architecture evidence. Open older phase documents only for a
+  specific dependency or boundary; do not bulk-read Phase 05 history. Conduct
+  source-to-rule human reviews in short batches with exact original regions;
+  reuse settled source transcriptions and record actual translation decisions.
+
 - Use a human-in-the-loop for source-content decisions and recurring source-handling
   dead ends. If clipped/incomplete text, ambiguous layout, field selection or chunk
   sizing needs a judgment about what content to retain, show the owner the exact

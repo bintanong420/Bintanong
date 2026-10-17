@@ -3,7 +3,7 @@
 ## Current state
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
-- Active phase: **06 — structured knowledge**, authoring-ledger Task1 delivered at `67ed4bd`.
+- Active phase: **06 — structured knowledge**, inactive compiler foundation delivered at `0a2faa8`.
 - [Active plan](phase-06-structured-knowledge-plan.md) · [Active checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
@@ -15,7 +15,7 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress and the active Phase06 checkpoint; use the Phase05 final handoff for boundaries.
+2. Read current progress and Phase06 plan/checkpoint; earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
 5. Follow the active checkpoint's next action. Read linked evidence only as needed.
@@ -34,7 +34,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
-| 6 | Structured knowledge | Task1 delivered; phase in progress | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
+| 6 | Structured knowledge | Inactive compiler foundation delivered; human review pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
 
 ## Read only when relevant
 
@@ -44,7 +44,9 @@ real-source exits; ledger validity alone does not prove source readiness.
 - Retrieval: [selected profile](2026-10-16-document-development-profile.md),
   [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
   [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
-- Latest delivery: [authoring ledger](../backend/bintanong_symbolic/README.md).
+- Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md),
+  [translation review01](2026-10-17-phase06-translation-review-01.md),
+  [authoring/compiler](../backend/bintanong_symbolic/README.md).
 - Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
 - Benchmarks: [evaluation protocol](../evaluation/README.md).
 - Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.

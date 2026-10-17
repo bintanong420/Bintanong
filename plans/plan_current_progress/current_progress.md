@@ -1,25 +1,31 @@
 # Current progress
 
-Updated: 17 October 2026. Phase 06 recorded active; Task 1 complete; phase clarification pending.
+Updated: 17 October 2026. Phase 06 resumed in p06; compiler foundation delivered.
 
-## Delivered
+## Latest change
 
-Product `67ed4bd`: source/version-scoped course facts and explicit prerequisite
-expressions, digest-bound reviews, detached deterministic output and private-ID
-rejection throughout spans. Always inactive; no Prolog or eligibility decisions.
-Existing compiler/contracts/registry/dependencies and original sources unchanged.
+Product `0a2faa8`: complete-ledger revalidation and deterministic inactive Prolog
+candidate data preview. Explicit nested expressions/provenance remain attached;
+drafts, unresolved conditions, cycles and incompatible source characters are held.
+No eligibility decisions, Janus, registry or institutional activation.
+[Foundation/readiness](../2026-10-17-phase06-foundation.md).
+Owner's phase-specific reading/human-review direction is recorded in AGENTS.md.
 
-## Verification
+## Verification and worktree readiness
 
-Final affected regressions: 457 passed, 23.59s; docs/phase: 531 passed / 11 subtests, 16.90s.
-Single final review's one Important span-privacy issue reproduced RED 3 and fixed;
-no other actionable findings. Raw logs/review/manifest under workspace/audit-evidence/
-p06-authoring-20261017. Owner artifact changes preserved; compact checkpoint retained.
+Focused/related tests **315 passed, 23.86s**; docs/phase **534 passed / 11 subtests,
+14.27s**. One final review's quoting issue reproduced RED2/fixed; README corrected.
+Raw logs/review/inventory/delivery hashes: workspace/audit-evidence/p06-foundation-20261017.
+All 62 p05 dataset files exist in p06 with matching paths/SHA-256. `.env`, frontend
+dependencies and backend artifacts exist. Reuse the existing Python3.13 readiness
+venv; no local backend venv/install needed. SWI-Prolog10.1.15 installed; Janus absent.
+Both model weights exist at workspace/MODELS; C:/Coding-projects/MODELS is absent,
+while .env still names it. Resolve before model execution; no paths/files changed.
 
 ## Next action
 
-Resolve owner's statement that work is still Phase 05 before implementing Task 2.
-Owner approved its proposed compiler but questioned the phase; no new compiler is
-written. Phase 05 is 100% complete within its approved offline milestone, with
-institutional-release gates outstanding. Preserve delivered work and await phase alignment.
-[Plan](../phase-06-structured-knowledge-plan.md) · [Checkpoint](../phase-06-checkpoint.md).
+Await/apply the actual P06-T01 answer on the two version-specific CC5/L all_of
+translations; [original regions and exact proposals](../2026-10-17-phase06-translation-review-01.md).
+Question presented; no answer or approval inferred. Then prepare complete referenced
+course records/source spans before minting content-bound review receipts.
+[Checkpoint](../phase-06-checkpoint.md). Full Phase06 and release gates remain open.
