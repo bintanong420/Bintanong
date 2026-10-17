@@ -96,7 +96,8 @@ No Prolog consultation, decision, source promotion or capability registration oc
 ## Synthetic prerequisite runtime
 
 `runtime.CurriculumRuntime(ledger).check(request, facts=None)` is the offline
-research runtime for the `check_prerequisite_eligibility` operation. Its
+research runtime for `check_prerequisite_eligibility` and
+`list_missing_prerequisites`. Its
 PredicateRequest has exactly `curriculum_id` and `course_id` bound inputs;
 `StudentFacts` contains explicit synthetic passed/failed/currently enrolled and
 explicitly not_enrolled course IDs. Missing enrollment is unknown; failed completion
@@ -121,11 +122,13 @@ a direct prerequisite check, not an inferred transitive completion audit.
 
 The adapter uses the existing registry and SymbolicResult contracts, attaching
 scoped rule/source spans and stable satisfied/violated/unknown explanations.
-Other operations return unsupported. It never interprets a failed Prolog goal,
+The missing-prerequisite operation returns the same scoped decision with known
+unmet and unknown conditions; it does not flatten alternative paths into a new
+conjunction. Other decision operations return unsupported. It never interprets a failed Prolog goal,
 worker failure, malformed output, timeout or size limit as a policy denial.
 
 Each request runs in a fresh hidden Python/Janus subprocess with typed input
-bindings and a fixed goal. Only the tracked engine is consulted; its exact bytes
+bindings and one of two fixed goals. Only the tracked engine is consulted; its exact bytes
 are pinned in the bundle identity and checked by the worker. Authoring/candidate
 files are not consulted, student facts are arguments, and there are no global
 student assertions. A shared admission lock serializes workers; queue plus process
@@ -136,8 +139,20 @@ bundle512KiB/worker input1MiB/complete result64KiB, and1–256 condition
 entries (default128). Exceeding a result limit returns an operational error without
 truncating a policy result. No credentials, student inputs or child stderr are logged.
 
+`runtime.CurriculumRuntime(ledger).list_affected_courses(request)` returns a
+separate `DependencyResult`: potential transitive prior-completion dependencies,
+with source spans and bundle/scope identity. Both all_of and any_of references
+are potential graph edges; co-requisites are excluded. This is dependency
+inspection, not an eligibility decision. Completeness applies only to the supplied
+bundle. Any draft or unresolved rule makes the listing partial, including an empty
+listing; it cannot prove that no affected courses exist in the full curriculum.
+Unknown input identity or curriculum also remains partial without borrowed rules.
+Unsupported operations and operational errors cannot cite dependency facts.
+The same synthetic-only execution boundary and resource limits apply.
+
 Test with system Python3.13, no pytest cache and external TEMP/TMP/basetemp:
-`tests/test_symbolic_runtime.py`. These tests execute actual synthetic Janus calls;
+`tests/test_symbolic_runtime.py` and `tests/test_symbolic_queries.py`.
+These tests execute actual synthetic Janus calls;
 missing Janus is an operational failure, not an implicit passing integration check.
 Real-source generated-output human inspection and all institutional release gates
 remain outstanding and are not proved by synthetic test success.

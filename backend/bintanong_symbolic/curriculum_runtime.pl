@@ -1,4 +1,4 @@
-:- module(bintanong_curriculum, [run/5]).
+:- module(bintanong_curriculum, [run/5, dependencies/4]).
 :- use_module(library(http/json)).
 :- use_module(library(time)).
 :- use_module(library(lists)).
@@ -79,3 +79,26 @@ combine(Kind,Results,R) :-
 column(Key,Results,Values) :-
     findall(Value,(member(R,Results),get_dict(Key,R,List),member(Value,List)),Raw),
     sort(Raw,Values).
+
+dependencies(BundleJSON, Curriculum, Course, ResultJSON) :-
+    atom_json_dict(BundleJSON,Bundle,[value_string_as(atom)]),
+    ( Bundle.curriculum_id \== Curriculum -> Courses=[], Unknown=[curriculum_mismatch]
+    ; \+ identity(Bundle,Course,_) -> Courses=[], Unknown=[unknown_course]
+    ; findall(ID,(member(C,Bundle.courses),ID=C.id, ID \== Course,
+                  reaches(Bundle,ID,Course,[ID])),Raw), sort(Raw,Courses),
+      findall(U,(member(C,Bundle.courses),
+          ( C.reviewed == false -> atom_concat('identity_unreviewed:',C.id,U)
+          ; C.rule.kind == unresolved -> atom_concat('rule_unresolved:',C.id,U) )),UnknownRaw),
+      sort(UnknownRaw,Unknown)
+    ),
+    ( Unknown == [] -> Status=complete ; Status=partial ),
+    atom_json_dict(ResultJSON, d{status:Status,course_ids:Courses,unknown_conditions:Unknown}, []).
+
+reaches(Bundle,ID,Target,Visited) :-
+    identity(Bundle,ID,C), C.reviewed == true, prior_reference(C.rule,Next),
+    ( Next == Target ; \+ memberchk(Next,Visited), reaches(Bundle,Next,Target,[Next|Visited]) ).
+
+prior_reference(Node,ID) :-
+    ( Node.kind == course -> ID=Node.course_id
+    ; (Node.kind == all_of ; Node.kind == any_of), member(Child,Node.items), prior_reference(Child,ID)
+    ).

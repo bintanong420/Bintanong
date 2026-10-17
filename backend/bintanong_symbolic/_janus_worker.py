@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 GOAL = 'call_with_time_limit(Limit, bintanong_curriculum:run(Bundle, Curriculum, Course, Facts, Result))'
+DEPENDENCIES = 'call_with_time_limit(Limit, bintanong_curriculum:dependencies(Bundle, Curriculum, Course, Result))'
 
 
 def main():
@@ -23,13 +24,15 @@ def main():
         if hashlib.sha256(engine_bytes).hexdigest() != payload['engine_sha256']:
             raise ValueError('engine changed after bundle preparation')
         janus.consult(str(engine), data=engine_bytes.decode('utf-8'))
-        reply = janus.query_once(GOAL, {'Limit':payload['time_limit'],
+        dependency_query = payload.get('operation')=='dependencies'
+        reply = janus.query_once(DEPENDENCIES if dependency_query else GOAL, {'Limit':payload['time_limit'],
             'Bundle':json.dumps(payload['bundle']), 'Curriculum':payload['curriculum_id'],
             'Course':payload['course_id'], 'Facts':json.dumps(payload['facts'])})
         if reply.get('truth') is not True:
             raise ValueError('reasoning failed operationally')
         result = json.loads(reply['Result'])
-        if sum(len(result[k]) for k in ('satisfied','violated','unknown','conflicts')) > payload['max_conditions']:
+        fields = ('course_ids','unknown_conditions') if dependency_query else ('satisfied','violated','unknown','conflicts')
+        if sum(len(result[k]) for k in fields) > payload['max_conditions']:
             print(json.dumps({'error':'runtime_result_limit'}))
         else:
             out = json.dumps({'result':result})
