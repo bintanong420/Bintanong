@@ -94,6 +94,13 @@ inputs/receipts. Do not recreate receipts, claim a replay, silently reconstruct
 missing authoring records or reopen settled reviews. Independent synthetic work
 can proceed within its own authorized scope while evidence transfer is pending.
 
+**Subsequent owner correction:** fresh local generation is required and may apply
+settled tracked decisions to newly verified source records. Historical receipts
+must not be recreated or claimed recovered. Both new inactive candidates and
+their source/rebuild verification are delivered in the [local regeneration report](2026-10-17-phase06-local-regeneration.md).
+Its generated-output inspection is now the next action; historical transfer is
+needed only for an exact replay of the prior delivery, not fresh generation.
+
 ## Verification and boundaries
 
 Fresh related baseline: **330 passed in 53.63s**, system Python 3.13.12, exit 0.

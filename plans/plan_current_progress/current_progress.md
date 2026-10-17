@@ -1,51 +1,53 @@
 # Current progress
 
-Updated:17 October2026. Phase06 resumed and verified on Hawksprey420's machine.
+Updated:17 October2026. Both Phase06 Prolog review candidates freshly generated.
 
 ## Latest change
 
-Active `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`, branch
-`chore/p06-hawksprey420-scaffold`, resume baselineff39af8. Original checkout and
-other worktrees preserved. [Resume audit/recovery package](../2026-10-17-phase06-resume-verification.md)
-reconciles both supplied photos with product6fedc45/delivery85366d4 and scaffold.
-No product, source, dependency, registry or approval changes.
-
-Dataset now62 files, including memo/enrollment additions; both BSCS original
-hashes match review01. This supersedes scaffold55-file availability. Existing
-layout preserved. All101 scaffold source paths match;86 saved destination paths
-match, eight relocated dataset paths match by hash, seven old copies remain in
-the primary checkout. Historical manifest untouched; current paths recorded in
-[dataset locations](../dataset-locations.md). Dataset/artifacts remain ignored.
+Active p06 worktree, branch `chore/p06-hawksprey420-scaffold`; baseline2dd1abb.
+Owner correction accepted: missing historical outputs do not require waiting for
+transfer before explicit fresh generation from available originals/settled reviews.
+[Local generation/delivery](../2026-10-17-phase06-local-regeneration.md) links both
+new `.pl` files, readable review table, source images, ledgers and verification.
+Historical receipts were not recreated; new digest-bound projections cite exact
+tracked review01–03 Git bytes and keep original history separate.
 
 ## Current capability and limitations
 
-Seven reviewed direct expressions/eleven identities/four unknown conditions remain
-as delivered. Reviews01–03/design settled; generated-output inspection pending.
-Owner requests continuation of Prolog review/runtime, with no frontend/later phases.
-Workspace and primary-checkout searches, including ignored local files, matching
-text and all-ref Git filename history, found no original Phase06 sealed bundles/
-ledgers/receipts. Generators/tests/reports are present; no receipts reconstructed.
+Fresh local export:11 identities,10 reviewed/one draft, seven reviewed expressions,
+four unknown prerequisite conditions. OldCC1/L stays draft and oldCS1/L's reference
+to it is flagged. All three confirmed blanks stay unknown; no verified_none.
+Old2018–2019 and proposed2025–2026 remain separate; literal `/L` preserved.
+Source states remain pending; bundles inactive with runtime_ready=false and no
+eligibility result. Product code/dependencies/registry/original PDFs unchanged.
+No frontend/later-phase work. Full Phase06 remains incomplete.
 
-Explicit Python3.13.12/Pydantic2.13.4/pytest9.0.3 work for tested scope; versions
-differ from pins. SWI10.1.6/Janus1.5.2 passed a bound synthetic bridge query,
-superseding the scaffold's untested note. Typed decision runtime/concurrency and
-acceptance are not implemented/verified by that probe. Node22 differs from pinned24;
-Docker Linux daemon unavailable. Candidates remain inactive; full Phase06 incomplete.
+Historical raw receipt/manifests remain unavailable for exact prior replay only;
+they no longer block this new generated-output review. Reviews01–03/design stay
+settled. Actual owner generated-output inspection remains pending. Janus arithmetic
+bridge already verified here; typed runtime/concurrency and phase exits remain open.
 
 ## Verification
 
-Fresh related suites:330 passed54.02s, exit0. Final docs/phase:543 passed/
-11 subtests16.64s, exit0; phase validation/diff checks pass.
-Python selected with `py -3.13 -B`, no pytest cache; external TEMP/TMP/basetemp.
-Synthetic Prolog data parsing passed; no real-source consult or student decisions.
-GitHub MCP confirmed exact delivery85366d4 remotely; no remote writes.
-Raw evidence:workspace/audit-evidence/p06-resume-20261017, including search,
-copy/relocation rechecks, thesis pages, bridge probe and test logs.
-[Resumable checkpoint](../phase-06-checkpoint.md).
+Both original hashes,39 fresh native-span occurrences, exact text/ranges/boxes/
+page sizes, three reviewed blank cells, source/version isolation and inactive flags
+verified. Ledger/compiler/coverage rebuilds match; reordered inputs deterministic.
+Exact UTF8 Prolog byte hashes match. Second generation preserved31 delivery files.
+Six forged/stale/activation inputs rejected. One independent final source/artifact
+review found no actionable mismatch and independently reproduced these checks,
+exact decision-ID mappings and all four original-PDF renders.
+
+Fresh related330 tests passed39.81s; docs/phase544 passed/11 subtests18.45s,
+both exit0. Phase validation/diff checks pass. Explicit Python3.13, no pytest cache; external TEMP/TMP/
+basetemp. Raw:workspace/audit-evidence/p06-regenerated-review-20261017.
+Original62-file dataset/other-worktree assets preserved; local artifacts ignored.
+No real-source Prolog consult, institutional/student execution or activation.
+[Checkpoint](../phase-06-checkpoint.md).
 
 ## Next action
 
-Obtain the original ignored Phase06 recovery folders listed in the resume audit,
-verify manifests/dependency/file hashes, then resume generated-output human review
-and remaining typed runtime/exit work under existing gates. Original evidence
-transfer is the concrete local blocker; no repeated setup or settled reviews.
+Inspect the new REVIEW.md/source regions and record actual generated-output
+observations, correct demonstrated mismatches through authoring records, then
+continue the remaining typed runtime/exit work under the existing Phase06 gates.
+Do not reopen settled source reviews or request historical transfer as a prerequisite
+to fresh generation. Independent synthetic runtime work remains possible.

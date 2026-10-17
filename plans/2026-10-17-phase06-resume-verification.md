@@ -1,5 +1,12 @@
 # Phase 06 resume verification and evidence recovery
 
+**Correction after owner direction:** the transfer-only next action in this audit
+was too broad. Historical receipts are still missing, but original PDFs and tracked
+settled decisions support explicit fresh generation with new provenance. Both
+local candidates now exist; see [local regeneration](2026-10-17-phase06-local-regeneration.md).
+Retain this audit as the record of historical-file availability, not a blocker to
+generating new inactive artifacts or authorization to recreate old receipts.
+
 Verified 17 October 2026 in the existing p06 worktree on
 `chore/p06-hawksprey420-scaffold`, starting clean at `ff39af8`.
 This is a resume audit, not Phase 06 completion or generated-output approval.

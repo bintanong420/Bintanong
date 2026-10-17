@@ -11,8 +11,8 @@
 - Phase06 product `6fedc45`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - University approval, governed release and authorized real-source runtime validation
   remain outstanding institutional-release gates. Candidates stay inactive.
-- Hawksprey420 machine/worktree preparation and missing-evidence recovery:
-  [Phase 06 scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md).
+- Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);
+  [fresh local candidates and verification](2026-10-17-phase06-local-regeneration.md).
 
 ## Resume order
 
@@ -36,7 +36,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
-| 6 | Structured knowledge | Candidate Prolog delivered; generated-output review pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
+| 6 | Structured knowledge | Candidates freshly regenerated locally; generated-output review pending | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
 
 ## Read only when relevant
 
