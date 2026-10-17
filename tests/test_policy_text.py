@@ -306,6 +306,72 @@ def test_multipage_charspan_not_invented(bound, charspans):
     assert result.units[0].rejection_reason and not result.units[0].anchored
 
 
+@pytest.mark.parametrize("marker", ["7.", "(b)", "•"])
+def test_list_marker_original_range_preserves_located_source_text(bound, marker):
+    # Docling strips the list marker from text but leaves orig/provenance intact.
+    # Indexing the longer original range against normalized text loses the clause.
+    _, _, version = bound
+    native = item("Do not waive 2–3 requirements.²", label="list_item")
+    native.update(marker=marker, orig=marker + " Do not waive 2–3 requirements.²")
+    native["prov"][0]["charspan"] = [0, len(native["orig"])]
+    raw = raw_document([native], pages=1)
+    before = copy.deepcopy(raw)
+    result = policy_text.read_policy_items(raw, version)
+    unit = result.units[0]
+    assert unit.anchored, unit.rejection_reason
+    assert unit.source_text == marker + " Do not waive 2–3 requirements.²"
+    assert unit.spans[0].text == unit.source_text
+    assert unit.spans[0].page == 1
+    assert json.loads(unit.raw_provenance_json) == native["prov"]
+    assert raw == before
+
+
+@pytest.mark.parametrize("damage", ["wording", "marker", "non_list", "partial", "multiple", "boolean"])
+def test_list_original_range_does_not_relax_provenance_guards(bound, damage):
+    _, _, version = bound
+    native = item("Do not waive 2–3 requirements.²", label="list_item")
+    native.update(marker="7.", orig="7. Do not waive 2–3 requirements.²")
+    native["prov"][0]["charspan"] = [0, len(native["orig"])]
+    if damage == "wording":
+        native["orig"] = "7. You may waive 2–3 requirements.²"
+    elif damage == "marker":
+        native["marker"] = "8."
+    elif damage == "non_list":
+        native["label"] = "text"
+    elif damage == "partial":
+        native["prov"][0]["charspan"][0] = 3
+    elif damage == "multiple":
+        native["prov"].append(copy.deepcopy(native["prov"][0]))
+    else:
+        native["prov"][0]["charspan"][0] = False
+    result = policy_text.read_policy_items(raw_document([native], pages=1), version)
+    assert not result.units[0].anchored
+    assert result.units[0].rejection_reason
+
+
+def test_original_list_marker_keeps_exception_attached_to_clause(bound):
+    _, _, version = bound
+    exception = item("Except when the dean approves.", label="list_item")
+    exception.update(marker="(b)", orig="(b) Except when the dean approves.")
+    exception["prov"][0]["charspan"] = [0, 34]
+    result = policy_text.read_policy_items(raw_document([
+        item("No waiver is allowed."), exception
+    ], pages=1), version)
+    assert result.units[1].anchored
+    assert result.units[1].source_text == "(b) Except when the dean approves."
+    assert result.units[1].exception_to == "text-0"
+
+
+def test_original_list_marker_does_not_turn_empty_content_into_clause(bound):
+    _, _, version = bound
+    empty = item("", label="list_item")
+    empty.update(marker="•", orig="• ")
+    empty["prov"][0]["charspan"] = [0, 2]
+    result = policy_text.read_policy_items(raw_document([empty], pages=1), version)
+    assert result.units == ()
+    assert result.item_omissions[0].reason == "empty_text_item"
+
+
 def test_real_loader_with_stub_docling_uses_stage_and_never_relaunches(bound, tmp_path, monkeypatch):
     from backend.bintanong_tools.prospectus_extractor import docling_env
     root, snap, version = bound

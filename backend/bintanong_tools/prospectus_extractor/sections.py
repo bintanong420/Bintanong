@@ -1050,6 +1050,30 @@ def _assemble_section_candidates(
                 existing = pending.get(group.index)
                 if (
                     existing is not None and existing.row_end == row
+                    and existing.code and existing.code.evidence_cell_ids
+                    and all(
+                        (getattr(existing, name).value if getattr(existing, name) else "")
+                        == (fields[name].value if fields[name] else "")
+                        and set(getattr(existing, name).evidence_cell_ids
+                                if getattr(existing, name) else [])
+                        == set(fields[name].evidence_cell_ids if fields[name] else [])
+                        for name in ("code", "title", "units")
+                    )
+                ):
+                    # One source row can span several projected grid rows. A
+                    # newly encountered prerequisite cell continues that row;
+                    # identical text from distinct cells is a separate course.
+                    if prereq and (
+                        not existing.prerequisites
+                        or not set(prereq.evidence_cell_ids).issubset(
+                            existing.prerequisites.evidence_cell_ids
+                        )
+                    ):
+                        existing.absorb("prerequisites", prereq)
+                    existing.row_end = row + 1
+                    continue
+                if (
+                    existing is not None and existing.row_end == row
                     and existing.prerequisites and is_standing_rule(existing.prerequisites.value)
                     and not existing.prerequisites.value.endswith((".", ":", ";"))
                     and prereq and re.fullmatch(r"[a-z]{4,}", prereq.value)
@@ -1126,16 +1150,6 @@ def _assemble_section_candidates(
                 ):
                     existing.absorb("prerequisites", prereq)
                     fields["prerequisites"] = prereq = None
-                if (
-                    existing is not None and existing.row_end == row
-                    and all(
-                        (getattr(existing, name).value if getattr(existing, name) else "")
-                        == (fields[name].value if fields[name] else "")
-                        for name in ("code", "title", "units", "prerequisites")
-                    )
-                ):
-                    existing.row_end = row + 1
-                    continue
                 flush(group.index)
                 candidate = CourseCandidate(
                     candidate_id=f"t{table.table_index}-r{row}-g{group.index}",

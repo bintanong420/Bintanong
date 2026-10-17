@@ -44,7 +44,11 @@ class TestStorageSecurity(unittest.TestCase):
                 exposed = self.db.json(f"""
                     select coalesce(json_agg(n.nspname||'.'||p.proname),'[]')
                     from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-                    where n.nspname in ('public','bintanong_private') and p.proname<>'match_chunks'
+                    where n.nspname in ('public','bintanong_private')
+                        and p.oid not in (
+                            'public.match_chunks(extensions.vector,double precision,integer)'::regprocedure,
+                            'public.retrieve_context(text,jsonb,extensions.vector,integer,double precision,jsonb,jsonb,jsonb)'::regprocedure
+                        )
                         and has_function_privilege('{role}',p.oid,'EXECUTE');
                 """)
                 self.assertEqual(exposed, [])

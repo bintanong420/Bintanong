@@ -1,47 +1,59 @@
-# Bintanong Implementation Ledger
+# Bintanong implementation ledger
 
-This file is the authoritative pointer for resuming work. Do not select a phase by file modification time.
+## Current state
 
-## Current State
+- Phase 05 **complete as an owner-approved offline research/software milestone**.
+- Active phase: **06 — structured knowledge**, authoring-ledger Task1 delivered at `67ed4bd`.
+- [Active plan](phase-06-structured-knowledge-plan.md) · [Active checkpoint](phase-06-checkpoint.md).
+- [Master plan](master_implementation_plan_original_long.md) unchanged.
+- [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
+  [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
+- Product `ee7567a`; latest bounded implementation closure `9a0eea7`.
+- University approval, governed release and authorized real-source runtime validation
+  remain outstanding institutional-release gates. Candidates stay inactive.
 
-- Master plan: `plans/master_implementation_plan_original_long.md`
-- Active phase: none (Phase 04 corrective exit gate complete)
-- Active plan: none; Phase 05 remains preparation only
-- Active checkpoint: none; Phase 04 checkpoint superseded
-- Latest final handoff: `plans/phase-04-handoff.md` (complete after remediation; history preserved)
-- Next permitted phase: `5`; `phase-05-retrieval-plan.md` remains preparation only until formal start
-- Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
+## Resume order
 
-## Parallel prospectus workstream
+1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
+2. Read current progress and the active Phase06 checkpoint; use the Phase05 final handoff for boundaries.
+3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
+4. On phase resume, consult relevant Context thesis pages and the routing PNG.
+5. Follow the active checkpoint's next action. Read linked evidence only as needed.
 
-- Approved review-only prospectus workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`
-- Current ingestion plans and delivery: [repository documentation index](ingestion/README.md) and [current status](ingestion/CURRENT_STATUS.md)
-- Candidate ingestion pipelines and rule preparations delivered in dev branch. Ingestion outputs remain candidate text and review bundles.
+## Phase ledger
 
-## Phase Ledger
+Historical completion labels are retained. The
+[Phase 1–2 claims audit](2026-10-12-phase12-progress-claims-audit.md) records unmet
+real-source exits; ledger validity alone does not prove source readiness.
 
-| Phase | Name | Status | Plan | Checkpoint | Handoff |
+| Phase | Name | Recorded status | Plan | Checkpoint | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| 0 | Docker and compatibility foundation | complete | `phase-00-docker-compatibility-plan.md` | `phase-00-checkpoint.md` | `phase-00-handoff.md` |
-| 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
-| 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
-| 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
-| 4 | Supabase vector and relational storage | complete after security remediation | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` (superseded) | `phase-04-handoff.md` (complete) |
-| 5 | Retrieval | ready (preparation only) | `phase-05-retrieval-plan.md` | none | none |
+| 0 | Docker and compatibility | complete | [Plan](phase-00-docker-compatibility-plan.md) | [Checkpoint](phase-00-checkpoint.md) | [Handoff](phase-00-handoff.md) |
+| 1 | Source governance and contracts | complete; source gates qualified above | [Plan](phase-01-source-governance-contracts-plan.md) | [Superseded](phase-01-checkpoint.md) | [Handoff](phase-01-handoff.md) |
+| 2 | Document ingestion | historical complete; audit applies | [Plan](phase-02-document-ingestion-plan.md) | none | [Handoff](phase-02-handoff.md) |
+| 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
+| 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
+| 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
+| 6 | Structured knowledge | Task1 delivered; phase in progress | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | not yet |
 
-## Resume Order
+## Read only when relevant
 
-1. Run `.agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .` when available.
-2. Read the active checkpoint and plan.
-3. Inspect Git status, recent commits, and referenced verification results.
-4. Reconcile repository evidence before continuing the checkpoint's next action.
+- Sources: [locations](dataset-locations.md), [undergraduate scope](undergraduate-scope-policy.md),
+  [source gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
+- Architecture: [curriculum/Symbolic direction](2026-10-16-curriculum-symbolic-routing-clarification.md).
+- Retrieval: [selected profile](2026-10-16-document-development-profile.md),
+  [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
+  [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
+- Latest delivery: [authoring ledger](../backend/bintanong_symbolic/README.md).
+- Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
+- Benchmarks: [evaluation protocol](../evaluation/README.md).
+- Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
 
+## History and upkeep
 
-## Prepared documents (not phase completion)
-
-- Phase 1 plan: [source governance and contracts](phase-01-source-governance-contracts-plan.md), formally started and software exit completed 2026-10-08; see the final handoff for pending source/benchmark gates.
-- Phase 2 plan: [document ingestion plan](phase-02-document-ingestion-plan.md).
-- Phase 4 plan: [Supabase vector and relational storage plan](phase-04-supabase-storage-plan.md).
-- Remaining Phase 2 background: [document ingestion preparation](phase-02-document-ingestion-preparation.md). Depends on a complete Phase 1 handoff.
-- [Prospectus and whole-Phase-2 workstream status](phase2-workstream-status.md) distinguishes completed A–D, unfinished implementation and human/authority gates.
-- [Evaluation protocol](../evaluation/README.md) describes development/final grouping and review rubrics; final verified cases are pending.
+Owner requested compact handoffs on 17 October 2026. These are current snapshots,
+not activity logs. Replace stale state; keep durable evidence in dated reports.
+The full pre-cleanup index/progress/checkpoint/handoff are preserved at commit
+`81be71a`. Recover any one with `git show 81be71a:<repository-relative-path>`;
+for example `git show 81be71a:plans/phase-05-checkpoint.md`.
+Do not read the historical snapshots during routine resume or copy them back here.

@@ -349,7 +349,7 @@ def test_r2_item5_a_wrapped_code_in_one_code_region_is_a_review_item_not_dropped
     page = _page(("Mktg", 400.0, 700.0), ("2001", 423.0, 686.0))          # adjacent lines, 3 pt apart
     items = unclaimed_items({}, [], {1: page})
     assert [(i["code"], i["confidence"]) for i in items] == [("Mktg 2001", "review")]
-    far = _page(("Law", 145.0, 700.0), ("3", 265.0, 686.0))                # the "3" is 100 pt away: the units column
+    far = _page(("Art", 145.0, 700.0), ("3", 265.0, 686.0))                # the "3" is 100 pt away: the units column
     assert unclaimed_items({}, [], {1: far}) == []
     apart = _page(("Mktg", 400.0, 700.0), ("2001", 423.0, 600.0))          # lines 100 pt apart are not a wrap
     assert unclaimed_items({}, [], {1: apart}) == []
