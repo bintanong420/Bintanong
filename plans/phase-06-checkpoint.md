@@ -2,112 +2,98 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 7
+sequence: 9
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 9b38b1c
-working_tree: verified baseline; owner-decision documentation delivered with this checkpoint
-updated_at: 2026-10-17T11:24:10+08:00
+head_commit: 3c8a694
+working_tree: verified data preparation; compact documentation delivered with this checkpoint
+updated_at: 2026-10-17T11:33:32+08:00
 ---
 
 # Phase 06 checkpoint
 
 ## Completed Tasks
 
-Task 1 `67ed4bd` preserved. Compiler foundation `0a2faa8`: revalidated ledger to
-reproducible inactive candidate data facts; explicit nested requirements/provenance;
-unknown/draft/cycle/quoting holds. No evaluator, registry or Janus changes.
-[Foundation/readiness](2026-10-17-phase06-foundation.md) ·
-[First translation review](2026-10-17-phase06-translation-review-01.md), both approved.
+Task1 `67ed4bd`; inactive compiler `0a2faa8`; P06-T01 owner approvals `3c8a694`.
+Two version-isolated BSCS authoring selections prepared: six real-source records,
+two narrowly reviewed CC 5/L projections and four draft unresolved references.
+[Selection delivery/recovery](2026-10-17-phase06-bscs-authoring-selections.md).
 
 ## Current Task
 
-Owner explicitly resumed Phase 06 in p06 on 17 October, resolving phase alignment.
-Bounded compiler foundation delivered. Owner approved both P06-T01 all_of
-translations and confirmed both curricula remain in use. Accepted proposal
-expressions now have a separate receipt/derivative; original proposals unchanged.
-Complete referenced-course authoring records remain next. Full Task 2 is incomplete.
+P06-T02 source/translation review: four new reference-course relationships.
+[Exact original regions/proposals](2026-10-17-phase06-translation-review-02.md).
+Question presented; actual answer pending. Both P06-T01 conjunctions stay approved.
+Full Phase06 Task2 is incomplete; no real-source Prolog file or decision emitted.
 
 ## Repository State
 
 Worktree `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`, branch
-`feat/p06-prolog-janus-rules`; baseline `f189ad9`, product `0a2faa8`. Subsequent
-phase-documentation baseline `9b38b1c` verified; this turn changes owner-decision
-documentation only. No unrelated dirty changes.
-Previous full checkpoint: `f189ad9:plans/phase-06-checkpoint.md`.
+`feat/p06-prolog-janus-rules`; baseline `3c8a694` verified clean. Only phase06
+selection/review documents and compact snapshots change. Product code, original
+sources, saved source registers, dependencies and registry remain unchanged.
+Previous full snapshot: `3c8a694:plans/phase-06-checkpoint.md`.
+Raw scripts/records/renders/logs stay outside Git under workspace/audit-evidence/
+p06-bscs-authoring-selections-20261017; do not stage them.
 
 ## Verification Evidence
 
-Python below plus `-B -m pytest -q -p no:cacheprovider`, external TEMP/TMP/basetemp
-under workspace/audit-evidence/p06-foundation-20261017. Exact invocations:
-
-- RED: `tests/test_symbolic_compiler.py --basetemp=<evidence>/red-temp`:
-  18 expected failures, missing compiler module; `red.log`.
-- Review regression RED: `tests/test_symbolic_compiler.py -k incompatible
-  --basetemp=<evidence>/quote-red-temp`: 2 failures reproduced strict-quote
-  rejection of valid authoring nonbreaking spaces; `quote-red.log`.
-- Final GREEN: `tests/test_symbolic_compiler.py tests/test_symbolic_authoring.py
-  tests/test_contracts_symbolic.py tests/test_rule_candidates.py
-  tests/test_prospectus_rule_handoff.py --basetemp=<evidence>/final-regressions-temp`:
-  **315 passed, 23.86s**, exit0; `final-regressions.log`. Includes installed
-  SWI-Prolog parsing of synthetic output as ground data, never consulting it.
-- Docs: `tests/test_docs_hygiene.py
-  .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py
-  --basetemp=<evidence>/docs-temp`: **534 passed / 11 subtests, 14.27s**, exit0;
-  `docs.log`. Final snapshot metadata/link/hash checks recorded in the same root.
-- One fresh final code review: Important quoting incompatibility reproduced/fixed;
-  Minor outdated README fixed. No additional actionable finding. Declined source
-  truth/authority, Janus/runtime, activation and whole-phase completion are
-  intentionally deferred; tests confer none of those claims.
-- `phase_state.py validate --repo .`: valid. Advancement remains unavailable:
-  no Phase06 final handoff. `git diff --check` passes. No full repository suite claim.
-- Owner-decision update: receipt/proposal hashes, unchanged original proposals,
-  accepted derivative, image links and source hashes verified. Docs command above
-  with basetemp `<evidence>/owner-decision-docs-temp`: **534 passed / 11 subtests,
-  11.30s**, exit0; ignored `owner-decision-docs.log`. Product code/tests unchanged.
+- Preparation exit0: two selections/six records/two supported review projections/
+  four draft references; 28 distinct native source ranges checked against originals.
+- Independent replay exit0: 10 bound input hashes, 44 native-span occurrences
+  (21 old/23 proposed), exact source text/character ranges/bounding boxes/page sizes;
+  ledger/compiler deterministic rebuilds and disjoint version-scoped identities.
+  Forged source binding refused in both selections. `verification.json/log`.
+- Both compiler reports are blocked with null Prolog: two draft-review holds and
+  two unresolved-condition holds each. Real source registers match existing bytes.
+- One independent final review found no actionable record/projection-scope,
+  version-isolation, candidate-hold or pending-proposal issue. Native PDF geometry
+  verification remained the preparing agent's independent check.
+- Exact preparation/replay commands, ledger digests and raw paths: delivery report.
+  Docs/phase check: `tests/test_docs_hygiene.py` and
+  `.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py`, with
+  `-B -m pytest -q -p no:cacheprovider`, external TEMP/TMP/basetemp under the raw
+  folder: **536 passed / 11 subtests, 11.29s**, exit0 (`docs.log`).
+  Manifest binds 21 raw files; SHA-256 in delivery report. No product-code rerun.
+- Historical product checks: 315 related tests passed; last prior doc checks
+  534 passed/11 subtests. Phase06 completion/activation is not inferred.
 
 ## Versions and Digests
 
-Python3.13.7 / Pydantic2.13.5 / pytest9.1.1; SWI-Prolog10.1.15. Python executable:
-`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`.
-Janus absent; no install/model execution. Weight hashes and path/size inventory:
-foundation report and ignored `asset-inventory.json`; delivery code hashes in
-ignored `delivery.json`. All 62 dataset files match p05 by path/SHA-256.
+Python3.13.7 / Pydantic2.13.5 / pytest9.1.1; SWI-Prolog10.1.15 installed, Janus absent.
+Use workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe.
+No model execution/installation. Raw input-bindings and delivery manifest preserve
+byte identities; semantic ledger digests are in the linked delivery report.
 
 ## Decisions
 
 Owner requests Phase06-specific handoff reading and small human review batches.
-Actual thesis physical17–18/39–44 read; routing PNG viewed; master3/11/13 consulted.
-Missing information stays unknown, overriding thesis illustrative closed-world
-denial. Phase05 final handoff outcome checked only for inherited boundaries;
-confirmed-curriculum evidence report read specifically to reuse the settled rows.
-Ruling: candidate data only; reuse authoring/quote contracts, preserve old flat
-extraction compiler. Source lifecycle states remain separate release holds.
-Ruling: unsupported source characters hold a preview, preserving original values.
-Ruling: receipt attribution/content binding cannot authenticate a reviewer or
-establish policy truth; human review/authority/activation remain separate.
-
-P06-T01: both conjunctions approved; both editions remain in use per owner.
-Preserve printed /L; Lab explanation is tentative, not permission to infer units
-or split courses. Receipt SHA-256:
-`713e0b2c9b8cf551697dc569f338a53ae775c0131ac884d7a1da56b1c3df095f`.
+Previously consulted actual thesis17–18/39–44, runtime-routing PNG and master3/11/13
+still apply; master11 rechecked for this selection. No scope/routing change.
+Missing information remains unknown; keep undergraduate/read-only/privacy limits.
+P06-T01: both curricula still used per owner, both conjunctions approved; preserve
+printed /L. Lab explanation remains tentative. [Decision](2026-10-17-phase06-translation-review-01.md).
+Ruling: target review receipts project only confirmed code/title and approved
+conjunctions onto exact record digests. They assert no new human review or whole
+course/curriculum/source approval. Reference records remain draft/unresolved.
+Ruling: raw 2/1, placement and title footnote metadata stay separate; do not invent
+normalized units or source geometry. No equivalency across CS 1/L and CS 1.
 
 ## Known Failures or Blockers
 
-No unresolved compiler-foundation failure or pending P06-T01 answer.
-C:/Coding-projects/MODELS is absent; weights exist at workspace/MODELS while .env
-still points to the absent path. Resolve before model execution; files unchanged.
-Janus absent from tested environment; later integration needs a scoped dependency
-decision. Neither issue blocks pure compiler tests. Full phase still needs
-reviewed institutional compilation, typed operations/isolation/limits and decision
-semantics tests. Institutional authority/execution/activation remain held.
+No preparation/verification failure. P06-T02 actual answer pending. Real-source
+whole-selection Prolog stays held by draft/unresolved records. Additional source
+review and full rule/runtime safeguards remain open. Source authority/execution/
+activation remain held. Janus absent; later integration needs a scoped dependency
+decision. Model path mismatch persists: weights at workspace/MODELS but .env names
+absent C:/Coding-projects/MODELS; resolve before model use. Neither blocks this work.
 
 ## Next Action
 
-Prepare the two version-scoped CC 5/L authoring selections with exact original
-spans and referenced-course records, carrying the approved conjunctions and /L
-codes; keep unreviewed dependency conditions unresolved before full-record review.
+Apply the actual P06-T02 answer against its four exact proposal hashes when received;
+then add only the named prerequisite-reference records needed by those approved
+relationships, preserving any unreviewed/blank conditions as unresolved.
 
 ## Do Not Repeat
 
-No original conversions, weight downloads/copies, settled source/wording reviews,
-duplicate extraction compiler, dependency changes or institutional rule execution.
+No CC 5/L conjunction re-review, corpus conversions, weight downloads/copies,
+old Phase05 history reads, dependency changes or institutional rule execution.
