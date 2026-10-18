@@ -1,47 +1,56 @@
 # Current progress
 
-Updated:18 October2026. Phase06 remains complete as the owner-approved offline
-BSCS research/software milestone. Runtime49bc993; checkout fixa9d8a5d; closure869579e.
-[Complete handoff](../phase-06-handoff.md), [completed plan](../phase-06-structured-knowledge-plan.md),
-[superseded checkpoint](../phase-06-checkpoint.md).
-No active phase; next eligible Phase07 has not started.
-Previous full progress snapshot:76150e6:plans/plan_current_progress/current_progress.md.
+Updated:19October2026. Phase07 planning started at owner request in p07,
+branch feat/p07-router-taglish-nlp, inherited clean baseline c5f110b.
+[Active plan](../phase-07-multilingual-routing-plan.md),
+[checkpoint](../phase-07-checkpoint.md), [proposed design](../2026-10-19-phase07-routing-design.md).
+Previous full snapshot:c5f110b:plans/plan_current_progress/current_progress.md.
 
-## Latest task: Janus installation and accepted developer handoff
+## Latest change
 
-[Audit, owner resolution and fresh verification](../2026-10-18-phase06-independent-developer-audit.md).
-Owner explicitly authorizes installing Janus, accepts reliance on the previous
-developer's recorded verification and does not require reviewer-receipt transfer.
-Missing raw73-case artifacts remain a factual replay limitation, not a routine
-continuation blocker. Recover receipts only for a concrete later need; do not
-request repeated source/CSV grading. Stale local p06 is informational; use dev.
+Read AGENTS/handoff skills, phase ledger, Phase06 final handoff/accepted audit,
+master3/11/12/13 and shared scope/gap/architecture requirements. Phase-state
+inspect permitted7. Main checkout dev matches c5f110b; preserve stale p06 and
+other developers' worktrees. GitHub MCP remote dev380551a/p066923835; no push/merge.
 
-Installed janus-swi1.5.2 in the existing readiness venv. Repository pin1.5.3 has no
-matching Windows wheel on contacted index;1.5.2 matches predecessor's tested version.
-Only that wheel installed (--no-deps); dependency/lock files and system Python unchanged.
-Import/bound arithmetic pass. Fresh full17-file gate:**1415 passed/11 subtests,
-102.57s, exit0**. All62 previous runtime failures pass without product/test changes.
-Current Python3.13.7/Pydantic2.13.5/pytest9.1.1/Janus1.5.2/SWI10.1.15 verified by gate.
+Owner specifically reminded this agent to check Context. Freshly extracted actual
+thesis physical17-18/39-44/58-59 with installed pypdfium2; viewed cached17-18
+renders and actual runtime routing PNG. Exact thesis digest and architecture
+reconciliation are in the checkpoint/design. No new institutional policy inferred.
 
-Executable:C:/Coding-projects/bintanong_workspace/audit-evidence/
-p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe.
-Raw:workspace/audit-evidence/p06-janus-install-20261018/:install.log (unavailable
-1.5.3), install-1.5.2.log, pip-install-report.json, import-smoke.log, regressions.log.
-Prior RED/source/hash audit evidence stays preserved under p06-independent-dev-audit-20261018.
+Proposed design:one Bintu call with separate observable interpretation/routing,
+existing shared contracts, exact scoped entities, material clarifications,
+preserved negation/hypotheticals, bounded output repair and capability validation.
+New path excludes legacy Direct; no semantic classifier or executor integration.
+Actual model evaluation reports raw proposals separately from validated outcomes.
+Builder review identified fact provenance and compound requests; design resolves
+both explicitly. No product code, package, source or registry changes.
 
-## Accepted completion scope and boundaries
+## Fresh verification and environment
 
-Seven relationships/eleven reviewed identities across distinct old/proposed BSCS
-editions; four blank own-rule conditions remain unknown. Source PDF/engine hashes
-matched the handoff in the prior audit. Its actual73-case/four-isolation/39-span
-proof is accepted as predecessor evidence; no local replay is claimed.
-Candidate PL is review data; generic Prolog evaluates compiler-derived JSON.
-University authority/currentness, governed institutional runtime/registry code and
-activation remain release holds. Full53/55-row conversion stays draft. Two historical
-Docling failures remain disclosed; no all-project-green or deployment claim.
-Scope/routing context already consulted in this audit:thesis17-18/39-44, routing
-PNG, master3/11/13 and scope/architecture policy. No active checkpoint exists.
+Relevant legacy-client/runtime-contract/symbolic-contract/phase-state baseline:
+**309 passed/11 subtests,14.65s,exit0**. Exact files/command in checkpoint.
+Raw:workspace/audit-evidence/p07-kickoff-20261019/baseline.log,
+thesis-selected.txt and context-manifest.json. Python3.13.7 readiness venv reused;
+no installs/dependency/lock changes. Context7 official llama.cpp docs consulted.
+Final document phase tests:19passed/11subtests,14.06s,exit0; phase-state validation
+and git diff --check pass. Phase07 remains active; Phase08 advancement closed.
+Configured C:/Coding-projects/MODELS absent; no localhost8080 listener. Actual-model
+run needs intended existing model/server identity and digest; no download/copy.
+Mocks cannot satisfy the actual Bintu evaluation exit.
 
-Next:separately assign/scope Phase07 from current dev when requested. Janus setup
-is verified and missing receipt transfer is no longer a routine handoff blocker;
-no further Phase06 work or Phase07 implementation is requested here.
+## Preserved Phase06 acceptance and release boundaries
+
+[Phase06 complete offline handoff](../phase-06-handoff.md) and
+[accepted receiving audit](../2026-10-18-phase06-independent-developer-audit.md)
+remain predecessor evidence:1415passed/11subtests after authorized Janus1.5.2
+setup; historical73-case/four-isolation/39-span proof accepted without transfer.
+No repeat source/CSV review or receipt recovery. Eleven reviewed identities/seven
+relationships across old/proposed BSCS, four own-rule unknowns. Institutional
+authority/currentness, normal institutional loading/registry and activation stay
+held. Full53/55-row conversion remains draft; two historical Docling failures
+remain disclosed. No whole-project-green, official answer or deployment claim.
+
+Next:obtain concrete design acceptance, then write the exact implementation plan
+and start focused TDD. Actual-model evaluation additionally needs an existing
+model/server with the intended identity.

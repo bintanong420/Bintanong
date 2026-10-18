@@ -4,7 +4,10 @@
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
 - Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
-- Active phase: **none**. Next permitted phase: **07**, not started or authorized here.
+- Active phase: **07**, planning started at owner request on19October2026.
+- [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
+  [Proposed design](2026-10-19-phase07-routing-design.md). Implementation awaits design review.
+- Next phase08 remains gated on a complete Phase07 handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
@@ -24,7 +27,8 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress and Phase06 plan/checkpoint; earlier phase files only for a specific dependency/boundary.
+2. Read current progress, Phase07 plan/checkpoint/design and complete Phase06 handoff;
+   earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
 5. Follow the active checkpoint's next action. Read linked evidence only as needed.
@@ -44,6 +48,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
+| 7 | Multilingual NLP and LLM routing | planning; proposed design under review | [Plan](phase-07-multilingual-routing-plan.md) | [Active](phase-07-checkpoint.md) | none |
 
 ## Read only when relevant
 
