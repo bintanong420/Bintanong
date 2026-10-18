@@ -12,9 +12,9 @@ previous_handoff: plans/phase-06-handoff.md
 
 Owner19October2026 requests continuation in p07 after the other developer's
 Phase06, and explicitly requests checking Context. Phase-state inspect confirms
-the complete Phase06 handoff permits7. Planning starts here; product implementation
-awaits acceptance of the concrete [routing design](2026-10-19-phase07-routing-design.md).
-Use native inline execution after design and implementation-plan review.
+the complete Phase06 handoff permits7. Owner now explicitly directs implementation:
+“proceed to phase 07 lets go!” Use the [accepted design](2026-10-19-phase07-routing-design.md)
+and [implementation plan](2026-10-19-phase07-implementation-plan.md) with inline TDD.
 Owner19October2026 confirms prospectus/Prolog and handbook/Charter/memo RAG roles,
 matching English/Taglish/Filipino response style and later-phase image attachments;
 these settled requirements are incorporated in the design, without treating the
@@ -54,9 +54,9 @@ plus deterministic safety regression evidence and a complete final handoff.
 - [x] Consult required Context evidence, master3/11/12/13 and scope/gap policies.
 - [x] Inspect existing contracts/legacy client; draft concrete Phase07 design.
 - [x] Complete builder review; clarify fact provenance and compound requests.
-- [ ] Record owner acceptance of the concrete design.
-- [ ] Write/review exact implementation interfaces and RED/GREEN task steps.
-- [ ] Implement request/interpretation contracts, response-style metadata and minimal normalization.
+- [x] Record owner acceptance of the concrete design and direction to proceed.
+- [x] Write/review exact implementation interfaces and RED/GREEN task steps.
+- [x] Implement request/interpretation contracts, response-style metadata and minimal normalization.
 - [ ] Implement scoped exact entity resolution and capability/fact validation.
 - [ ] Implement versioned Bintu prompt/transport, token budget and bounded repair.
 - [ ] Review route labels, resolve actual model identity/server and run offline evaluation.

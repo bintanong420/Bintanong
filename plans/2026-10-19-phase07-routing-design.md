@@ -1,9 +1,10 @@
 # Phase 07 multilingual interpretation and routing design
 
-Status: proposed for owner review, 19 October 2026. The owner requested continuation
+Status: accepted for implementation, 19 October 2026: “proceed to phase 07 lets go!”
+The owner requested continuation
 into Phase 07 in the existing p07 worktree and specifically reminded this agent to
 check Context. Owner19October2026 explicitly confirms the evidence roles and
-response-language requirements below; remaining detailed design is still proposed.
+response-language requirements below, then authorized implementation.
 
 ## Purpose and inherited state
 
@@ -233,7 +234,9 @@ output and chat-template/token-count endpoints; verify the deployed build rather
 than assuming current docs match this historical image. See the
 [official server documentation](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md).
 
-C:/Coding-projects/MODELS is absent and no listener was found on local port 8080.
+Kickoff observed C:/Coding-projects/MODELS absent and no local8080 listener.
+Owner corrected the current root to C:/Coding-projects/bintanong_workspace/MODELS
+and confirms Gemma is there. Use the existing weights in place; do not copy them.
 No runtime URL was supplied. The configured GGUF name is Gemma-4-E4B; do not claim
 this proves a distinct fine-tuned Bintu-1 model identity. Before actual evaluation,
 resolve the intended existing model/server, its identity and digest with the owner.
