@@ -3,9 +3,9 @@ artifact: phase-handoff
 phase: 6
 status: complete
 plan: plans/phase-06-structured-knowledge-plan.md
-final_commit: 49bc993
+final_commit: a9d8a5d
 next_phase: 7
-completed_at: 2026-10-18T21:33:00+08:00
+completed_at: 2026-10-18T21:45:47+08:00
 completion_scope: owner-approved offline research/software milestone for reviewed BSCS subset
 ---
 
@@ -20,7 +20,8 @@ This supersedes the older blocked recovery condition for the offline milestone.
 University/source verification, normal institutional runtime and activation remain
 release prerequisites. No official student answer, full curriculum or deployment claim.
 
-Product49bc993 unchanged; pre-closure ledger78c8d51. Authoring67ed4bd,
+Runtime code49bc993 unchanged; checkout portability fixa9d8a5d, closure869579e,
+pre-closure ledger78c8d51. Authoring67ed4bd,
 exporter6fedc45, predecessor85366d4, synthetic runtime232727d/0fb5189,
 checked bundles8706abc and real-input research path49bc993 are delivered.
 Final documentation wrapper identity is discoverable in Git.
@@ -34,6 +35,8 @@ Final documentation wrapper identity is discoverable in Git.
 - Three typed operations:check_prerequisite_eligibility, list_missing_prerequisites,
   list_affected_courses. Fixed generic Prolog/Janus goals use bound JSON data.
 - Fresh17-file regression gate:1411 passed/11 subtests94.14s, exit0.
+- Final primary checkout gate after LF fix:1413 passed/11 subtests83.38s, exit0;
+  actual73 cases/four isolation/39 spans replay identically in the mainline checkout.
 - Fresh actual-source acceptance:73 cases/four isolation checks/39 native spans;
   repeat equality/timeout recovery asserted. Exact latest authoring/PL/runtime
   artifacts reproduced; originals, both owner CSVs and confirmed seals unchanged.
@@ -43,7 +46,8 @@ Final documentation wrapper identity is discoverable in Git.
 - Research observations remain institutionally unusable; normal constructors,
   global EMPTY_REGISTRY and answer-publication guards remain closed.
 - Prior full-suite log retained against unchanged backend/tests:5748 passed,
-  two failed, one skipped/1480 subtests1077.48s. Two system-Docling failures
+  two failed, one skipped/1480 subtests1077.48s. Runtime unchanged; one checkout
+  regression added. Two system-Docling failures
   disclosed in the closure report; not rerun, repaired or claimed green here.
 - Final documentation/phase-state evidence is recorded in the closure report.
   Complete plan/superseded checkpoint/INDEX use Phase05's offline closure pattern.
@@ -57,6 +61,7 @@ not verified_none. Full53/55-row automatic extraction still fails audit.
 
 Raw closure:workspace/audit-evidence/p06-offline-closure-20261018-9ffb24df.
 Fresh source replay:sibling p06-offline-source-20261018-9ffb24df.
+Final primary replay:sibling p06-mainline-source-lf-20261018-9ffb24df.
 Read closure-verification.json, verify_closure.py, regressions.log, pipeline.log,
 acceptance-results.json and manifest.json. The existing verifier was copied unchanged.
 Exact17-file pytest command and source commands:[closure report](2026-10-18-phase06-offline-closure.md).
@@ -89,6 +94,9 @@ derived JSON; candidate PL is review data, not directly executed. Research schem
 retain their historical pending-output label; current human verdicts are separately
 bound receipts, not automatic activation. This is not an institutional release.
 Full extraction defects/two system Docling failures/source authority stay visible.
+Git autocrlf caused a real primary-replay hash mismatch; .gitattributes now pins
+this engine to LF. Fresh checkout RED ->115 runtime GREEN ->1413 primary GREEN;
+hash protection was preserved. Initial rejection and successful replay logs retained.
 Primary checkout lacked two BSCS PDFs; only these required ignored files were
 copied and SHA-checked. Shared audit evidence remains ignored; no private outputs staged.
 Concurrent p06 Docker edits and primary untracked model directory are preserved;

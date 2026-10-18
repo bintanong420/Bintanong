@@ -10,7 +10,7 @@
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - Latest final handoff:[Phase06 complete offline](phase-06-handoff.md).
-- Phase06 product `49bc993`; Phase05 product `ee7567a`, closure `9a0eea7`.
+- Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.
 - [Final closure/specification report](2026-10-18-phase06-offline-closure.md).

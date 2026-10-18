@@ -1,6 +1,6 @@
 # Phase 06 status in plain language
 
-18 October 2026. Product code:49bc993; closure verification baseline:78c8d51.
+18 October 2026. Runtime49bc993; checkout portability fixa9d8a5d; closure869579e.
 The reviewed BSCS engine is implemented and tested offline. The owner approved
 that software milestone and keeping institutional release separately pending.
 The owner subsequently authorized formal handoff finalization and Phase06 mainline
@@ -37,7 +37,7 @@ full PL generation. No whole-BSCS, chatbot, API deployment or institutional-use 
 
 ## Evidence and repository requirements
 
-Fresh closure verification:1411 passed/11 subtests;73 actual BSCS acceptance cases,
+Final primary checkout verification:1413 passed/11 subtests;73 actual BSCS acceptance cases,
 four isolation checks and39 native source spans passed. Source/review/bundle seals
 match the confirmed delivery. Full-project verification is not green:two recorded
 system-Docling failures were retained against unchanged code, not retested/fixed.

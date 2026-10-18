@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: superseded
-sequence: 45
+sequence: 46
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 869579e
-working_tree: checkout portability fix/test/docs; concurrent compose.yaml/docker/api.Dockerfile preserved
-updated_at: 2026-10-18T21:33:00+08:00
+head_commit: a9d8a5d
+working_tree: final sync verification docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+updated_at: 2026-10-18T21:45:47+08:00
 ---
 
 # Phase06 superseded checkpoint
@@ -23,7 +23,7 @@ identities/seven expressions/four own-rule unknowns. Original artifacts preserve
 
 Offline research/software closure approved; finalization explicitly authorized
 using Phase05's handoff as reference. No additional owner issue. Phase06 mainline
-fast-forward requested; delivery/ref verification belongs in current progress and
+fast-forward and target verification complete througha9d8a5d; final wrapper/ref proof in
 [closure report](2026-10-18-phase06-offline-closure.md), not a new implementation phase.
 
 ## Repository State
@@ -46,9 +46,10 @@ one skipped/1480 subtests. Not a new full-project-green claim.
 Raw:p06-offline-closure-20261018-9ffb24df and p06-offline-source-20261018-9ffb24df.
 verify_closure.py/closure-verification.json record exact assertions/digests.
 Final docs/phase checks are recorded in the closure report.
-Post-fast-forward portability regression:Git autocrlf changed engine bytes; source
-replay rejected stale identity. Fresh checkout RED1 failure0.87s -> LF attribute
-GREEN115 runtime tests26.06s. Final target replay remains to verify synchronization.
+Post-fast-forward Git autocrlf mismatch fixed with narrow LF attributea9d8a5d:
+RED1 failure0.87s -> GREEN115 runtime tests26.06s. Final primary gate1413 passed/
+11 subtests83.38s;73 source cases/four isolation/39 spans pass with identical bundles.
+Primary tracked work clean; original untracked model directory remains untouched.
 
 ## Versions and Digests
 
@@ -78,7 +79,7 @@ No API deployment/load, full chatbot or whole-curriculum completeness claim.
 
 ## Next Action
 
-Use complete handoff; synchronize/verify Phase06 mainline as explicitly requested.
+Use complete handoff and closure report for verified Phase06 mainline/ref delivery.
 Next eligible phase7 requires separate scope/instruction and is not started here.
 
 ## Do Not Repeat

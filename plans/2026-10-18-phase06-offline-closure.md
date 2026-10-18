@@ -75,7 +75,23 @@ A real fresh Git checkout under autocrlf=true failed RED before the attribute
 the final regression removes its temporary file to exercise an actual fresh checkout.
 Logs:checkout-red-fresh.log/checkout-green.log; rejected source attempt remains in
 p06-mainline-source-20261018-9ffb24df. No existing source/bundle seal was replaced.
-Final target replay/ref verification follows after the configuration fix lands.
+Fix a9d8a5d was fast-forwarded to the primary Phase06 checkout. Its existing engine
+file was refreshed to canonical LF only after verifying it differed solely by CRLF;
+the index stat cache was refreshed, leaving no tracked target change.
+
+Final primary17-file gate:1413 passed/11 subtests83.38s, exit0, including the real
+Git checkout regression. Actual primary acceptance:73 cases/four isolation/39 spans,
+exit0, with exactly reproduced authoring/PL/runtime artifacts and canonical engine.
+Source raw:p06-mainline-source-lf-20261018-9ffb24df; manifest03d3aac4 matches closure.
+Read mainline-fixed-regressions.log, mainline-engine-refresh.json and
+verify_integration.py/integration-verification.json in the closure root.
+Fresh origin/dev remainedf189ad9, an ancestor with no divergent commits. This is
+ready for continued development/review or integration into dev as the approved
+offline milestone, not an all-project-green or institutional-release assertion.
+The final documentation wrapper adds no runtime/test change to validateda9d8a5d;
+its fast-forward/publication and exact refs are recorded in final-refs.json.
+Final synchronization docs/phase tests:558 passed/11 subtests12.63s, exit0;
+sync-docs.log. validate/can-advance both pass; no active phase, next eligible7.
 
 Concurrent compose.yaml/docker/api.Dockerfile edits in p06 and primary checkout's
 untracked model directory are preserved. No branch/worktree removal, force push,
