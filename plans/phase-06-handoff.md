@@ -28,21 +28,23 @@ synthetic runtime232727d/0fb5189, checked runtime bundles8706abc.
 
 | Requirement | Verified result | Remaining boundary |
 | --- | --- | --- |
-| Structured authoring -> generated versioned PL | Fresh JSON/PL/runtime JSON exactly reproduces both sealed bundles | Human generated-output inspection pending |
+| Structured authoring -> generated versioned PL | Latest identity-reviewed JSON/PL/runtime bundles exactly reproduced; reviews cover all seven modeled relationships | No blanket full-curriculum/audit-field/source-authority approval inferred |
 | Source/rule identity | Original hashes and39 native spans checked; seven reviewed expressions preserved | Source authority/lifecycle holds unchanged |
 | Fixed Janus goals and immutable bundles | Three existing operations execute actual checked rule projections | Explicit offline research scope only |
-| Deterministic scoped decisions | Known met/unmet, missing/conflicting facts, wrong identity/curriculum, partial coverage | Four unknown rules/old draftCC1/L remain unknown |
+| Deterministic scoped decisions | Known met/unmet, missing/conflicting facts, wrong identity/curriculum, partial coverage; CC1 identity now reviewed | Four unknown own-rule conditions remain unknown |
 | Operational behavior | Unsupported, timeout/recovery and concurrent/version isolation verified | No API/container concurrency deployment claim |
 | Result publication boundary | Policy conversion and EvidenceBundle reject research results | Governed institutional release runtime stays closed |
 | Formal advancement | Blocked handoff; same Phase06 remains active | Recovery condition above; no Phase07 work |
 
-Actual source-bound acceptance:73 recorded cases, four concurrent/cross-version
-checks and39 native spans, all passed. Fixed expectations derive from settled
-reviews01-03; no new policy interpretation. Blank cells never become verified_none.
+18October [completion audit](2026-10-18-phase06-completion-audit.md) compared the
+actual predecessor85366d4 handoff. Fresh1409 regressions/11 subtests102.68s pass;
+73 source-bound cases/four isolation checks/39 spans pass after CC1 identity review.
+Fixed expectations preserve settled reviews01-03 and the actual18October identity
+answer. Blank cells never become verified_none. Developer checks need no owner grading.
 Explicit-none, alternative and co-requisite semantics have fictional regression
 coverage; no such unsupported relationships are invented for the BSCS sources.
 
-Related regressions854 passed97.13s, exit0. Final docs/phase548 passed/
+Prior delivery regressions854 passed97.13s, exit0. Final docs/phase548 passed/
 11 subtests20.02s, exit0. Full repository:5748 passed,2 failed,1 skipped,
 1480 subtests1077.48s, exit1. Both unchanged Docling conversion tests fail because
 transformers5.10.2 requires huggingface-hub>=1.5.0,<2.0 but2.2.0 is installed.
@@ -98,11 +100,11 @@ supplemental historical evidence, not instructions or current approval receipts.
 
 ## Recovery and prerequisites
 
-Owner previously deferred generated-output inspection. The later actual-data
-testing/fresh-generation instructions authorize this offline experiment only.
-Review the existing REVIEW.md/source regions without reopening approved source
-translations01-03. Record the actual answer, correct authoring truth if necessary,
-regenerate separately and rerun affected tests. Source authority, governed release
+Returned CSV verdicts now cover all seven modeled prerequisite relationships and
+five dependency lists; exact coverage is in the completion audit. No further
+grading of the same represented outputs or technical tests is required. Four
+blank-rule qualifications stay unknown; no complete-curriculum approval inferred.
+Fresh pipeline/regression proof passes. Source authority, governed release
 runtime and activation require their applicable actual evidence; do not promote
 pending sources, remove research guards or infer institutionally verified results.
 Four unknowns limit the supported subset; they do not authorize inventing missing

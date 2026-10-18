@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 37
+sequence: 38
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: d568aeb
-working_tree: returned review intake; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: f75d619
+working_tree: completion audit docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -23,14 +23,13 @@ source artifacts/runtime cases. All generated files remain ignored.
 
 ## Current Task
 
-Returned short CSV:[follow-up intake](2026-10-18-phase06-runtime-followup-review.md)
-records15 Yes, correct and10 uncertain. CS1 corrections/five dependency lists
-accepted; four unknown-rule yes verdicts carry no-prerequisite notes. Keep unknown
-under source-gap policy; no new source approval inferred. Prior48 ok retained.
-[Short checklist](2026-10-18-phase06-closeout-checklist.md):offline engine implemented;
-scoped output review/institutional release/formal exit remain separate gates.
-[Final review/procedure](2026-10-18-phase06-final-review-and-verification.md) retains the seven-rule review and prior feedback.
-Short25-case review now returned; no source, engine, runtime rerun or activation change.
+[Completion audit](2026-10-18-phase06-completion-audit.md) compares actual Netoerare
+85366d4 baseline. Selected engine implemented/tested offline; formal closure remains
+blocked. Fresh1409 tests and73 actual cases pass. Case verdicts cover all seven
+modeled relationships; optional seven-row form is not a repeat-review requirement.
+Returned reviews:59 unqualified yes cases, four qualified yes,10 uncertain technical
+verdicts. Keep blank rules unknown; no institutional approval or activation inferred.
+The completion audit reconciles review scope; no repeated review required.
 
 ## Repository State
 
@@ -47,10 +46,16 @@ Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
 No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
 Only the owner-requested Phase06 remote branch write is authorized.
 Dataset/config/venv and generated derivatives remain ignored.
-Pre-condensation snapshot:d568aeb:plans/phase-06-checkpoint.md.
+Pre-condensation snapshot:f75d619:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Completion audit:1409 passed/11 subtests102.68s; new73 BSCS cases/four isolation/
+  39 spans pass; fresh artifacts exactly match latest confirmed bundle and manifest.
+  Source-audit export rerun in an isolated artifact/TEMP arrangement after an audit
+  manifest encountered a locked pytest temp file. No product defect/change.
+  Raw:p06-completion-audit-20261018 and p06-completion-source-audit-20261018.
+  Final docs556 passed/11 subtests13.57s; phase state valid/blocked.
 - Returned CSV:25 unique ordered IDs/protected cells unchanged;15 yes/10 uncertain;
   snapshot/receipt in p06-runtime-followup-intake-20261018, SHA02df9186. Exact notes
   retained. No new runtime or whole-output approval claimed.
@@ -75,9 +80,6 @@ Pre-condensation snapshot:d568aeb:plans/phase-06-checkpoint.md.
 - Mainline sync:854 relevant tests passed106.03s in the primary target checkout
   after fast-forward, system Python3.13/no cache/external basetemp. Raw related.log
   and final docs/ref verification live in p06-mainline-sync-20261018.
-- Owner intake:73 unique ordered IDs/protected cells unchanged,48/3/22 verdicts;
-  original review SHAadb14cf9; identical snapshot/receipt in p06-runtime-review-20261018.
-  No Janus rerun; intake checks do not replace the prior acceptance evidence.
 - Fresh full extraction:old53/proposed55 detected draft course rows, audit=error;
   both strict CLI exits1. JSON/CSV/Markdown published; full PL withheld honestly.
 - Fresh reviewed generation:11 identities/10 reviewed/one draft, seven expressions,
@@ -148,8 +150,8 @@ Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Reconcile remaining output/source qualifications against recorded reviews and
-developer evidence; no more technical CSV grading. Preserve remaining
+Reconcile formal software completion scope with current institutional release
+recovery condition; no repeated output/technical grading. Preserve remaining
 CSV reviews, source/release gates and blocked Phase06 handoff.
 
 ## Do Not Repeat
