@@ -61,6 +61,8 @@ school validation does not prevent independent offline development/testing.
 - Two historical full-suite failures are the recorded system Docling dependency
   conflict. No all-project-green or fixed-environment claim is made here.
 
-Next action: inspect the seven source-linked generated meanings in ignored
-workspace/audit-evidence/p06-cc1-identity-20261018/CURRICULUM-REVIEW.md and record
-the scoped final output verdict. Retain the institutional release/formal-exit gates.
+Next action: inspect the seven generated meanings in the requested Excel CSV at
+workspace/audit-evidence/p06-final-review-csv-20261018/BSCS-generated-prerequisites-review.csv.
+Earlier48 ok verdicts/CS1 correction are referenced, not erased or regraded.
+Follow the [concrete final verification procedure](2026-10-18-phase06-final-review-and-verification.md)
+after recording the scoped output verdict; retain institutional release gates.
