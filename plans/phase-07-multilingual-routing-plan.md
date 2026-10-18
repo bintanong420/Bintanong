@@ -59,15 +59,15 @@ plus deterministic safety regression evidence and a complete final handoff.
 - [x] Implement request/interpretation contracts, response-style metadata and minimal normalization.
 - [x] Implement scoped exact entity resolution and capability/fact validation.
 - [x] Implement versioned Bintu prompt/transport, token budget and bounded repair.
-- [ ] Review route labels, resolve actual model identity/server and run offline evaluation.
+- [x] Review synthetic route labels, resolve model identity/server and run offline evaluation.
 - [ ] Review confusion matrices, language/meaning consistency and failures; verify
       exit, complete handoff, supersede checkpoint and validate advancement.
 
 ## Interfaces and verification
 
 Design reuses NormalizedQuery/RoutingDecision/PredicateRequest/CapabilityRegistry.
-Exact new APIs belong in the implementation plan once the design is accepted;
-do not scaffold speculative product modules while review is pending.
+Implemented interfaces and exact task steps are in the accepted implementation
+plan and backend/bintanong_routing/README.md. No evidence executors/API were added.
 Focused tests use synthetic fixtures, fake transports and existing Python3.13
 readiness venv, pytest -B -p no:cacheprovider with workspace-external basetemp.
 Actual Bintu runs need model/runtime/template/prompt/schema digests and reviewed
@@ -81,7 +81,10 @@ has yet been approved; report observations for review rather than invent one.
 
 ## Current dependencies
 
-Existing configured model directory is absent and localhost8080 has no listener.
-This blocks actual-model evaluation, not design or later synthetic implementation.
-Model identity/location must be resolved without downloads or invented Bintu claims.
+Owner supplies workspace/MODELS and authorized official runtime image download.
+Existing Gemma bytes/image/build/template are verified; no weight copies or package
+changes. Current candidate's clean15-case trial gets14/15guarded outcomes and
+10/15exact response-style labels, with one Filipino excluded-audience failure.
+The language/scope consistency exit remains open; Phase07 is active and Phase08
+cannot begin. See the dated evaluation report and exact next checkpoint action.
 Phase06 predecessor verification remains accepted; no receipt-recovery task.

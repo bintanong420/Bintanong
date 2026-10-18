@@ -1,6 +1,7 @@
 # Phase07 offline model routing evaluation
 
-Status:development evaluation in progress; Phase07 not complete. No institutional
+Status:current candidate evaluation recorded; Phase07 remains active because
+language/scope exit requirements are not satisfied. No institutional
 execution, final benchmark, approved source release or student-answer quality claim.
 
 ## Fixed development scope
@@ -77,5 +78,87 @@ This is a known guarded failure, not successful multilingual scope handling.
 Promptv4 makes explicit graduate/pang-masterado scope override the undergraduate
 default and distinguishes program admission from course operations. It also removes
 all ownership/scenario identifiers from model-visible context. A final same-wording
-run with raw capture will measure the corrected setup. The earlier hinted runs
+run with raw capture measures the corrected setup below. The earlier hinted runs
 are retained with their actual versions and are not rewritten as valid final proof.
+
+## Clean promptv4 development result
+
+Inference commit32747dbea36f05e6d3bceb1d58d0b9317ee8c637; same15wordings,
+opaque host IDs and no session/request/fact IDs in model input. Raw:
+synthetic-dev-v3.json, synthetic-model-report-v3.json, synthetic-model-run-v3.log
+and model-v4-raw/ (16responses, including one format repair).
+
+| Language | Variants | Proposed route/control correct | Effective outcome correct | Exact style label |
+| --- | ---: | ---: | ---: | ---: |
+| English | 5 | 5 | 5 | 5 |
+| Filipino | 5 | 4 | 4 | 3 |
+| Taglish | 5 | 5 | 5 | 2 |
+| Total | 15 | 14 | 14 | 10 |
+
+Canonical entity, claim and operation collections match15/15, but nine variants
+have empty gold collections:the substantive scoped operations/claims are6/6.
+All nine positive RAG/Symbolic/Hybrid cases validate. Greetings work3/3;
+excluded requests produce the expected notice control2/3. Filipino excluded
+request instead yields invalid_model_output/evidence_unavailable after retry;
+no symbolic request is dispatched. Four/five equivalent families have consistent
+route/meaning signatures. Eight cases use17unique exact-quote offset corrections.
+These are whole-pipeline results, not unaided model offset accuracy.
+
+Remaining exact-style mismatches:procedure-taglish ->fil, prerequisite-fil
+->taglish, greeting-taglish ->fil, excluded-fil ->unknown, excluded-taglish ->fil.
+The malformed Filipino graduate response again selected an undergraduate/program
+prerequisite interpretation. Original attempts14/15 are in model-v4-raw/. Keep
+this as a real failed requirement. Style labels are metadata; no final answers
+were generated and no response-language quality result is claimed.
+
+This is a small tuned development trial, not a held-out/general accuracy estimate,
+the accepted75institutional variants or the final thesis benchmark. No source
+retrieval, grades-to-outcome conversion, Prolog execution or final answer occurred.
+Do not call Phase07 complete or begin Phase08 from these results.
+
+Reproducibility identities:
+- Canonical case set:f0f85d8308d341970b6e6d051dcb735d10e1042b8e3cea84df538f4689aa236e.
+- Prompt:f803f16bc2c5643dbb880c1ca43e5620023ac1c8bfd617aa13239aa302524e70.
+- Output schema:c470a75026be71f1ffe1740322e51074335756f49a0ab7a4fbaef54f311067d4.
+- Catalog:2207f062dce8dc42483dfd0993e7e1f5d08330294673c37f293e1a2a8180ce0a.
+- Input file:f60c39ea8081adfce4f244e49d59d03c113e1e10d5ca0e9f50a7a9a0b522b55e.
+- Report file:2c9b9a3fdd4779b1837666a2e84114ac8279dbe9c5d08e1a88d4b340853023b4.
+
+## Bounded compact-pass probe and preflight correction
+
+Question:can a small Bintu language/scope-only pass fix the remaining labels
+without course-extraction schema pressure? Six selected synthetic queries were
+checked, without scenario IDs. Language5/6; controls3/6, with three supported
+undergraduate questions wrongly rejected. scope-only-diagnostic.json/log and
+probe-scope-only.py preserve the exact prompt/results. This alternative is not
+integrated. Its question is resolved negatively; do not repeat it unchanged or
+start another blanket prompt sweep. Next design must retain undergraduate website
+context while correctly honoring explicit excluded audience and language preference.
+
+Actual template comparison also found /apply-template defaults differ from
+reasoning_effort=none used for generation. Preflight now passes the same option;
+regression RED1 ->79routing tests passed,1.02s (template-match-*.log).
+Generation messages/settings are unchanged. Stateless re-tokenization of all16
+recorded inference/repair messages confirms at least4185tokens of remaining context
+after the768output budget/eight-token margin. No new model calls were made;
+exact-template-headroom-audit.json and template-options-comparison.json retain proof.
+The old report's input_tokens came from the old preflight, not the corrected count.
+
+## Public synthetic wording roster
+
+These contain no university rule or private student record. Canonical scope is
+program-a/curriculum-a. Reviewed fixture aliases A1 ->course-a and B1 ->course-b;
+see tests/test_routing_validation.py:catalog for the declared fixture records.
+
+| Family / expected path | English | Filipino | Taglish |
+| --- | --- | --- | --- |
+| Procedure / RAG | How do I request a copy of my grades? | Paano ako hihingi ng kopya ng aking mga marka? | Paano ako mag-request ng copy of grades ko? |
+| Prerequisite / Symbolic | I failed A1. Check if I can take B1. | Bumagsak ako sa A1. Maaari ko bang kunin ang B1? | Failed ako sa A1. Pwede ko bang i-take ang B1? |
+| Affected courses + procedure / Hybrid | I failed A1. Which courses are affected, and what is the documented retaking procedure? | Bumagsak ako sa A1. Aling mga asignatura ang maaapektuhan at ano ang dokumentadong proseso ng pag-ulit? | Failed ako sa A1. Anong subjects ang affected at ano ang documented retaking process? |
+| Greeting / greeting | Hello! | Kumusta? | Hi, kumusta? |
+| Graduate procedure / unsupported_scope | What are the graduate program enrollment requirements? | Ano ang mga kailangan para makapagpatala sa programang pang-masterado? | Ano ang enrollment requirements para sa master's program? |
+
+Prerequisite operation:check_prerequisite_eligibility:curriculum-a:course-b.
+Hybrid operation:list_affected_courses:curriculum-a:course-a. Both preserve the
+asserted course-a:failed claim; no prerequisite relationship or eligibility outcome
+is asserted. Other families have no scoped course operations/claims.

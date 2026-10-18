@@ -35,6 +35,7 @@ def test_model_template_tokenization_and_schema_constrained_payload():
             assert [p for p, _ in calls] == ['/props','/apply-template','/tokenize','/v1/chat/completions']
             assert calls[2][1]['add_special'] is False and calls[2][1]['parse_special'] is True
             payload = calls[-1][1]
+            assert calls[1][1]['reasoning_effort'] == payload['reasoning_effort']
             assert payload['response_format'] == {'type':'json_object', 'schema':{'type':'object'}}
             assert payload['temperature'] == 0 and payload['max_tokens'] == 768
             assert transport.metadata['build'] == 'test-build'

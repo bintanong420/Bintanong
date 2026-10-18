@@ -57,7 +57,8 @@ class LlamaTransport:
                     max_output_tokens=self.max_output_tokens, timeout_seconds=self.timeout_seconds,
                     temperature=0, seed=0,
                     constrained=self.constrained)
-                templated = await self._json(client, 'POST', '/apply-template', {'messages': messages})
+                templated = await self._json(client, 'POST', '/apply-template',
+                    {'messages': messages, 'reasoning_effort': 'none'})
                 if not isinstance(templated['prompt'], str):
                     raise RuntimeFailure('invalid_server_response')
                 counted = await self._json(client, 'POST', '/tokenize', dict(

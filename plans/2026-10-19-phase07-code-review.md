@@ -62,3 +62,11 @@ The same captured model output replayed without another model call now yields
 Symbolic/check_prerequisite_eligibility on course-b, failed course-a, three offset
 corrections. structured-quote-replay.json records this bounded result. It is not a
 new multilingual accuracy run or evidence that all old failed outputs are repaired.
+
+Later actual runtime audit also found chat-template preflight omitted the
+reasoning_effort=none setting used for generation. Exact template hashes differed.
+Focused request-payload regression RED1 ->79routing tests passed,1.02s; preflight
+now supplies the same option. Generation payload is unchanged. Stateless audit of
+all16clean-run message sets (including repair) proves minimum4185tokens headroom;
+recorded model outcomes are unaffected. This correction is additional to the
+independent review findings and has its own technical evidence/test.
