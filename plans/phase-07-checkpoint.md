@@ -2,119 +2,102 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 13
+sequence: 14
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 79d56f1
-working_tree: promptv4 explicit graduate scope and host-only ownership IDs verified
-updated_at: 2026-10-19T01:04:01+08:00
+head_commit: 879d352
+working_tree: documentation snapshot changes in INDEX, current progress and this checkpoint
+updated_at: 2026-10-19T01:59:09+08:00
 ---
 
-# Phase07 checkpoint
+# Phase07 active checkpoint - candidate delivery, exit open
 
 ## Completed Tasks
 
-Owner accepts design and explicitly directs implementation. Task1 strict immutable
-request/proposal/catalog contracts, original quote indices, ownership and minimal
-NFC/whitespace normalization delivered. [Implementation ledger](2026-10-19-phase07-implementation-plan.md).
+Owner accepted design/directed implementation. Contracts7ed9abe; resolution2de4f76;
+transport8fb40c3; evaluator9286c76; review fixes4fa64e4; anchoring73cd2e2;
+prompt79d56f1; host-only IDs/explicit graduate scope32747db; preflight879d352.
+[Implementation steps](2026-10-19-phase07-implementation-plan.md),
+[review/corrections](2026-10-19-phase07-code-review.md),
+[actual model report](2026-10-19-phase07-routing-evaluation.md).
 
 ## Current Task
 
-Promptv3 repeat complete:13/15proposals,14/15effective,4/5family consistency.
-Explicit Filipino graduate scope still failed; model-visible scenario request IDs
-also made both earlier runs hinted debug evidence. Promptv4 clarifies excluded
-audience and removes session/request/fact IDs from model input; regression RED1
-->79routing tests,0.90s,exit0. Final clean same-wording run next.
-
-Task1 committed7ed9abe; Task2 committed2de4f76. Task3 transport/prompt/router verified.
-Task3 committed8fb40c3; Task4 evaluator9286c76. Independent review complete;
-threeP2 findings reproduced/corrected. Actual15-case model batch is running against
-9286c76; preserve its initial contract. [Review/corrections](2026-10-19-phase07-code-review.md).
-Review fixes committed4fa64e4. Captured model output proves wrong offset counting;
-deterministic unique literal-quote anchoring now verified, without changing meaning.
+Verified inactive candidate delivered; language/scope interpretation exit remains
+open. One structured Bintu call plus at most one format repair remains implemented.
+Compact separate-control probe was rejected by evidence; no second pass integrated.
+No Phase07 final handoff or Phase08 advancement.
 
 ## Repository State
 
-p07/feat/p07-router-taglish-nlp; base87ece27, inherited product c5f110b.
-Only this worktree changed; stale p06 and other developer worktrees preserved.
-Pre-condensation checkpoint snapshot:87ece27:plans/phase-07-checkpoint.md.
-Current progress holds latest change; dated implementation plan holds task contract.
+p07/feat/p07-router-taglish-nlp; product879d352, inference trial32747db.
+Other developer worktrees and existing dev/p06 refs preserved; no push/merge.
+Pre-condensation full checkpoint:32747db:plans/phase-07-checkpoint.md.
+Later documentation wrappers are discoverable in Git; no source/registry mutation.
 
 ## Verification Evidence
 
-Current-code v3 full gate:1504passed/11subtests,165.38s,exit0 (final-regressions.log).
-That gate precedes v4 ownership-ID correction; final v4 gate still required.
-
-Task1 RED22failed (package absent); initial console-encoding/long-ID problem
-corrected in test reporting, then expected RED observed. Task1 GREEN238passed,
-1.77s,exit0: tests/test_routing_contracts.py tests/test_bintu_inference.py
-tests/test_contracts_runtime.py tests/test_contracts_runtime_fix2.py.
-Command:readiness-venv python -B -m pytest -q -p no:cacheprovider with TEMP/TMP
-and --basetemp under workspace/audit-evidence/p07-implementation-20261019.
-Raw task1-red-fixed.log/task1-green.log. Task2 RED20failed -> GREEN207passed,0.97s,
-exit0 (routing contracts/validation plus symbolic/runtime contracts); task2-*.log.
-Task3 RED15 -> GREEN227passed. Actual probe exposed format-repair meta-question
-and route/control schema mismatch; focused repair/schema regressions each RED1.
-Original probe output saved; promptv2/decoder oneOf and repair reanchoring corrected.
-Final Task3 gate229passed,2.51s,exit0; task3-final-green.log.
-Task4 RED8 -> GREEN65; effective-label RED1 ->68passed. Review RED4failed/3passed
-->75passed,2.43s. Full23-file gate1499passed/11subtests,266.57s,exit0, regressions.log.
-Material-fact RAG regression RED1 -> final focused76passed,2.31s. Full collection
-predates that last delta; final focused suite covers it. No model-score claim yet.
-Quote anchoring RED1/1passed ->248passed,5.02s,exit0; anchor-*.log. Captured actual
-English output replay yields correct operation/course/failed claim with3offset
-corrections and no new model call; structured-quote-replay.json. Not a15-case rerun.
-Prior kickoff309/phase19 remain history,
-not current reruns. Phase06 accepted1415 is predecessor evidence.
+Current 23-file gate at879d352:1505passed/11subtests,115.94s,exit0;
+delivery-regressions.log. Exact replay command:ignored verify-delivery.ps1.
+Template-setting regression RED1 ->79routing tests,1.02s,exit0.
+Final documentation gate:566passed/11subtests,15.28s,exit0;delivery-docs.log.
+git diff --check clean; phase-state valid, advancement correctly withheld.
+Earlier per-task RED/GREEN and independent review findings are in dated reports.
+Gate includes Phase06's17files, legacy Bintu and five routing suites; no whole-
+repository-green claim. System Python3.13 readiness venv, -B -p no:cacheprovider,
+external TEMP/TMP/--basetemp under workspace/audit-evidence.
+Clean15-case actual model trial:14/15proposal/effective,10/15style,4/5family
+consistency. Six nonempty operation/claim checks correct. One Filipino graduate
+request held invalid; no symbolic goal dispatched. Nine RAG/Symbolic/Hybrid cases
+validated, greetings3/3, excluded notices2/3.17offset corrections in8cases.
+Full raw capture/input hashes/matrices in dated evaluation report. Earlier hinted
+runs are debug evidence, not clean performance. Compact6-case probe:language5/6,
+controls3/6 (three UG false rejections); do not adopt/repeat unchanged.
+Stateless exact-template audit:16recorded message sets, minimum4185tokens headroom;
+no new model calls or generation-body changes from the final preflight correction.
 
 ## Versions and Digests
 
-Existing Python3.13.7 readiness venv; no package/pin/lock changes.
-Owner-corrected MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS.
-Gemma GGUF5,126,306,944bytes; freshly verified SHA256
+Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/pytest9.1.1/Janus1.5.2/SWI10.1.15.
+Owner-corrected model root:C:/Coding-projects/bintanong_workspace/MODELS.
+Existing Gemma5,126,306,944bytes, freshly verified hash
 3cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
-Official runtime download authorized; image digest:
-sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c.
-Task-owned bintanong-p07-router-offline loaded Gemma on127.0.0.1:18087,
-CPU8threads/context8192/one slot/output768. No other containers altered.
-Original model bytes stay in place; previous C:/Coding-projects/MODELS is historical.
-Thesis SHA256729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
+Official image (owner approved download):
+sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c;
+llama.cpp b11718-547208dca. Template/prompt/schema/case/report digests in report.
+No packages, locks or model weights changed. Supplied Gemma serves Bintu role;
+no separate fine-tuned Bintu-1 identity is established.
 
 ## Decisions
 
-Context already consulted:actual thesis17-18/39-44/58-59, cached scope renders,
-routing PNG, master3/11/12/13 and scope/gap/architecture policies. Master11.4
-unknown semantics and diagram routing order govern over illustrative older prose.
-Owner confirms LLM routing; curriculum primarily structured/Prolog, documents RAG,
-Hybrid when both required. English/Taglish/Filipino response preference preserved;
-image/private inputs later. Current Context evidence remains applicable.
-Ruling:owner's explicit proceed authorizes design execution without another approval
-round; exact plan supplies internal interfaces, not a new user-facing scope.
-Ruling:owner model-root correction supersedes old path for this phase; no model move.
-Ruling:ownership/scenario IDs are unnecessary model input; keep them host-side.
-Earlier hinted runs remain debug evidence, not clean language-accuracy proof.
-Ruling:unique literal quotes can anchor wrong model offsets deterministically;
-count corrections and reject ambiguous/missing quotes. No semantic/fact inference.
-Docker Desktop started; unrelated existing containers preserved.
-Context7 Pydantic/HTTPX/llama.cpp docs fetched; deployed runtime still must be probed.
+Consulted actual thesis17-18/39-44/58-59, scope renders/routing PNG, master3/11/12/13,
+scope/gap/architecture policies. Thesis hash729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
+Master/owner unknown semantics and diagram routing order govern over older examples.
+Owner confirms curriculum primarily structured/Prolog; handbook/Charter/memos RAG;
+Hybrid combines both. English/Taglish/Filipino style preference stays required.
+Ruling:unique exact quote anchoring may correct offsets; never infer text/state or
+guess repeated/missing quotes. Corrections remain visible.
+Ruling:session/request/fact IDs stay host-side; actual hinted runs are not clean
+evaluation proof. Preflight must use identical generation-template settings.
+Task-owned bintanong-p07-router-offline stopped; retain image/container and restart
+with docker start bintanong-p07-router-offline for an authorized next probe.
+No repeated source grading/Phase06 receipt recovery, corpus expansion or activation.
 
 ## Known Failures or Blockers
 
-Baseline15-case complete:8/15proposed,3/15effective,2/5family consistency;
-seven schema failures and two grounding failures. RAG explanations were placed in
-ambiguities. Promptv3 clarifies field purpose and pre-retrieval routing; current
-15-wording repeat with operation labels/raw capture next. Initial probe misread the formatting
-instruction; not a passing language result. Keep original raw output and corrections.
-Synthetic contract tests prove boundaries, not language accuracy. Institutional
-registry/source authority/currentness/activation remain closed; four blank own-rules
-unknown. Two inherited Docling failures/full-prospectus defects remain disclosed.
+No implementation/environment blocker. Language-style selection and Filipino
+excluded-audience handling fail current phase exit; source-safe withholding is not
+correct interpretation. No institution/whole-curriculum/final-benchmark claim.
+Source authority/normal institutional registry/activation still held; four blank
+own-rules remain unknown; full-prospectus defects/two old Docling failures unchanged.
 
 ## Next Action
 
-Finish bounded actual-model batch, inspect exact failed outputs and report route/
-meaning results separately from guard/test success. Do not activate or advance.
+Design the next targeted Bintu interpretation change from exact clean-run style/
+Filipino-scope errors. Verify UG positives/excluded negatives before another full
+run; preserve website UG default and do not repeat the rejected compact pass.
 
 ## Do Not Repeat
 
-No Phase06 review reopening/receipt recovery, model copying, institutional registry
-activation, arbitrary Prolog, unapproved institutional questions, external merges
-or modification of other developer worktrees. Preserve ignored evidence.
+No setup/weight downloads, earlier full prompt sweeps, source/CSV regrading, owner
+scope/75-wording reacceptance, Phase06 receipt demands, model copying, arbitrary
+Prolog, institution activation, external merges or other worktree modifications.
