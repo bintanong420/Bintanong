@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 31
+sequence: 32
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: f3e80ac
-working_tree: owner review documentation; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: 1e09dd1
+working_tree: simplified review guide; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -26,16 +26,18 @@ source artifacts/runtime cases. All generated files remain ignored.
 Owner submitted reviewed runtime CSV:48 affirmative verdicts, three disagreements,
 22 blank verdicts. [Intake](2026-10-18-phase06-owner-runtime-review.md) records exact
 IDs/comments and the unresolved oldCC1/L identity behind H27-H32. Skips stay pending.
-No source-state/runtime change. Explain remaining categories and resolve the draft
-identity from original evidence before dependent authoring changes.
+No source-state/runtime change. The simplified human-verification guide separates
+reviewer source decisions from developer-owned runtime/provenance checks. Technical
+CSV skips need developer proof, not owner grading. Resolve genuine source gaps only.
 
 ## Repository State
 
 C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06;
-branch chore/p06-hawksprey420-scaffold. Product49bc993; reviewed baseline87ebada.
+branch chore/p06-hawksprey420-scaffold. Product49bc993; reviewed baseline1e09dd1.
 Mainline checkout:C:/Users/Hawksprey/source/repos/Bintanong, branch
 feat/p06-prolog-janus-rules; only its pre-existing untracked model directory remains.
-Remote initially4772e08; six commits/14 scoped tracked paths ahead, no divergence.
+Prior sync pushedf3e80ac to Phase06 mainline. Current guide work is local only;
+no new remote inspection or push in this task.
 Final ref identities/preservation evidence:workspace/audit-evidence/p06-mainline-sync-20261018.
 This documentation wrapper contains report/checkpoint/progress changes; head_commit
 names its prior reviewed baseline, so a wrapper-HEAD warning can be expected.
@@ -47,6 +49,11 @@ Pre-condensation snapshot:a8efcc8:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Simplified guide:unchanged accept.py rerun in p06-developer-checks-20261018;
+  actual BSCS73 cases/four concurrent/version checks/39 native spans pass, plus
+  repeat-result equality and timeout recovery assertions for both versions.
+  Prior source/bundle seals and owner CSV SHAadb14cf9 unchanged. No source promotion.
+  Docs/phase551 passed/11 subtests17.49s; phase state validates/blocked.
 - Mainline sync:854 relevant tests passed106.03s in the primary target checkout
   after fast-forward, system Python3.13/no cache/external basetemp. Raw related.log
   and final docs/ref verification live in p06-mainline-sync-20261018.
@@ -94,6 +101,10 @@ External model assets reused; no model copies in Git.
 Owner runtime feedback is partial:ok/no are in reviewer, review_status unchanged.
 H27-H32 expectations do not confirm the exact draftCC1/L source identity; preserve
 the feedback without inferring approval. Other CSVs/technical skips stay pending.
+Technical skips are pending owner verdicts, not a requirement for owner grading;
+developer execution evidence independently verifies these engineering checks.
+CSV review_status/annotations are not authoring review_state. The latter actually
+gates execution through bundle.py/curriculum_runtime.pl; the former do not.
 Owner explicitly chose combined delivery in two separate sets. Full extraction
 is unreviewed and must not replace the settled Phase06 authoring truth. CSV
 editing is review evidence, not automatic rule import or university approval.
@@ -119,8 +130,8 @@ Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Show exact oldCC1/L source identity row for a short review, explain pending cases,
-then apply actual decisions and rerun affected acceptance. Preserve the remaining
+Developer verifies technical checks, shows only unresolved oldCC1/L source identity
+for short review, then applies actual decisions/reruns affected acceptance. Preserve remaining
 CSV reviews, source/release gates and blocked Phase06 handoff.
 
 ## Do Not Repeat

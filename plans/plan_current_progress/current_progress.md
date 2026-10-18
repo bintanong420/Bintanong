@@ -12,8 +12,11 @@ All non-review cells/IDs match the delivered CSV. Ignored snapshot/receipt:
 workspace/audit-evidence/p06-runtime-review-20261018; owner-file SHAadb14cf9.
 CS1/L feedback expects passed/failedCC1/L to decide; current guard stops at its
 draft identity. Record the disagreement without promoting that identity by inference.
-No code/source-state changes or runtime rerun. Unknown-course display and single
-determinism observation need clearer presentation. Full/rule CSV review not inferred.
+The [simplified guide](../2026-10-17-phase06-human-verification-guide.md) separates
+source decisions from developer tests and explains actual field effects. Technical
+CSV skips do not require owner grading. Full/rule CSV review is not inferred.
+Developer rerun:73 actual BSCS cases/four isolation checks/39 spans pass, including
+repeat equality and timeout recovery. Raw:p06-developer-checks-20261018. Owner CSV unchanged.
 
 ## Mainline synchronization
 
@@ -64,15 +67,15 @@ Concurrent compose.yaml/docker/api.Dockerfile edits untouched/unstaged. No produ
 API/DB/frontend/later-phase work. Only the requested Phase06 branch push is in scope.
 Generated data stays ignored.
 53-file manifest7a417f05; full hashes/source bindings in the report and package.
-Review intake docs/phase551 passed/11 subtests18.50s; phase state valid/blocked.
+Simplified-guide docs/phase551 passed/11 subtests17.49s; phase state valid/blocked.
 Repository handoff/reminder/conventional commits
 and spreadsheet/verification workflows applied.
 
 ## Review boundary and next action
 
-Resolve oldCC1/L's draft identity from its exact original row in a short review,
-and explain the pending runtime categories in the intake report. Apply actual
-decisions before changing authoring, then rerun affected acceptance. Reviews01-03
+Developer verifies technical categories and presents only unresolved oldCC1/L
+source identity evidence in a short review. Apply actual decisions before changing
+authoring, then rerun affected acceptance. Reviews01-03
 stay settled; partial feedback does not approve other CSVs or institutional release.
 Unknowns/draft identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)
 and [checkpoint](../phase-06-checkpoint.md) remain active; no advancement inferred.
