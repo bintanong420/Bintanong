@@ -11,7 +11,7 @@
 - Latest final handoff:[Phase06 blocked](phase-06-handoff.md); next phase not permitted.
 - Phase06 product `49bc993`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - All seven supported relationships have reconciled review; offline acceptance passes.
-  Software milestone sign-off is pending; institutional release stays gated/inactive.
+  Owner approved the offline milestone/release holds; finalization awaits recap and consent.
 - [Original-plan review and proposed sign-off](2026-10-18-phase06-original-plan-review.md).
 - [Short Phase06 completion checklist](2026-10-18-phase06-closeout-checklist.md).
 - Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);

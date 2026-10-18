@@ -57,7 +57,7 @@ its INDEX names university verification/governed release as separate release gat
 Later blocked recovery wording conflates those with phase closure. Returned review
 coverage is already reconciled for all seven relationships; no repeat CSV grading.
 
-Proposed overall completion decision, still awaiting approval:
+Overall completion decision proposed here and approved in the latest response below:
 "Approve Phase06 completion as an offline research/software milestone for the
 reviewed BSCS subset. Keep university verification, governed institutional runtime
 and activation as separate outstanding release gates."
@@ -100,3 +100,20 @@ These unknowns do not independently block scoped offline completion. Overall
 completion/final-handoff authorization remains undecided; institutional gates stand.
 Foundation clarification docs:557 passed/11 subtests12.66s, exit0; raw
 workspace/audit-evidence/p06-foundation-context-597e383ce26d461e96574925ad5389dd/docs.log.
+
+## Offline milestone approved; finalization awaits recap
+
+Latest actual owner replies18October2026:
+1. "Yes, approve offline Phase 06 completion".
+2. "Yes, keep those release gates pending".
+3. "for this, recap what was done muna, then ask again".
+
+The owner now approves the reviewed BSCS offline research/software milestone and
+separate university source verification/normal institutional runtime/activation
+holds. Do not ask for those same decisions again. Final handoff/status finalization
+remains expressly deferred until a recap and a fresh answer to that action alone.
+Keep the current blocked handoff/checkpoint status; no advancement or Phase07 work.
+Next:recap delivered authoring/compiler/runtime, review corrections, verification
+and limitations; ask only whether to finalize handoff/records and final phase checks.
+Approval-record docs:557 passed/11 subtests13.45s, exit0; raw
+workspace/audit-evidence/p06-offline-milestone-approval-5ddf9bf283364ee19004bb2d3e8989e2/docs.log.
