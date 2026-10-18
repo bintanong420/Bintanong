@@ -24,6 +24,12 @@ CPU8threads/context8192/one slot/output768; temperature0/seed0/constrainedJSON.
 Offline timeout240seconds per model call; at most one format repair. Other tests
 ran concurrently, so elapsed times are not a controlled latency benchmark.
 
+The first two development runs also exposed scenario-family words in model-visible
+request IDs. Gold fields themselves were not passed, but those identifiers were
+unnecessary hints. Preserve these runs as debugging evidence, not clean evaluation
+accuracy. Current code removes session/request/fact IDs before prompt construction;
+ownership and lineage remain host-side. Focused regression records this correction.
+
 ## Baseline observations, not a passing result
 
 - Proposed route/control correct:8/15. Effective outcome correct:3/15.
@@ -56,3 +62,20 @@ The revised development input keeps the same15wordings and adds explicit expecte
 operation bindings. A bounded repeat will capture every raw model response and
 score current route/control, entities, scoped operations/targets, claims, language
 style and offset corrections. Its results are pending, not inferred from tests.
+
+## Promptv3 repeat and final correction
+
+The same15-wording repeat at79d56f1 produced13/15correct raw proposals,
+14/15effective outcomes,15/15entity/claim/operation collections,14/15response
+styles and4/5consistent families.17unique-quote offset corrections were recorded.
+All nine RAG/Symbolic/Hybrid variants validated. English excluded audience was
+correctly withheld by its audience guard despite a RAG proposal. Filipino graduate
+request was misread as undergraduate/program prerequisites and failed the typed
+course-target check. Its two raw attempts are preserved in model-v3-raw/.
+This is a known guarded failure, not successful multilingual scope handling.
+
+Promptv4 makes explicit graduate/pang-masterado scope override the undergraduate
+default and distinguishes program admission from course operations. It also removes
+all ownership/scenario identifiers from model-visible context. A final same-wording
+run with raw capture will measure the corrected setup. The earlier hinted runs
+are retained with their actual versions and are not rewritten as valid final proof.

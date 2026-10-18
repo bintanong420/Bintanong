@@ -24,6 +24,9 @@ negation or attach the wrong meaning. Actual model evaluation must measure that.
 ScopedFact is a trusted application's request-local user assertion, not an official
 grade record. The application must establish session ownership before constructing
 RequestContext; this module checks consistency, not authentication or session expiry.
+Session/request/fact identifiers stay host-side; the model sees only applicable
+program/curriculum scope and course-state assertions. Evaluation scenario names
+must never be encoded into model-visible request identifiers.
 No transcript completeness, pass threshold or equivalence rule is invented.
 
 Only the three Phase06 operation names are recognized, with fixed course_id and

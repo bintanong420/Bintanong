@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 11
+sequence: 13
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 73cd2e2
-working_tree: baseline evaluation report and evidence-driven promptv3 clarification
+head_commit: 79d56f1
+working_tree: promptv4 explicit graduate scope and host-only ownership IDs verified
 updated_at: 2026-10-19T01:04:01+08:00
 ---
 
@@ -18,6 +18,12 @@ request/proposal/catalog contracts, original quote indices, ownership and minima
 NFC/whitespace normalization delivered. [Implementation ledger](2026-10-19-phase07-implementation-plan.md).
 
 ## Current Task
+
+Promptv3 repeat complete:13/15proposals,14/15effective,4/5family consistency.
+Explicit Filipino graduate scope still failed; model-visible scenario request IDs
+also made both earlier runs hinted debug evidence. Promptv4 clarifies excluded
+audience and removes session/request/fact IDs from model input; regression RED1
+->79routing tests,0.90s,exit0. Final clean same-wording run next.
 
 Task1 committed7ed9abe; Task2 committed2de4f76. Task3 transport/prompt/router verified.
 Task3 committed8fb40c3; Task4 evaluator9286c76. Independent review complete;
@@ -34,6 +40,9 @@ Pre-condensation checkpoint snapshot:87ece27:plans/phase-07-checkpoint.md.
 Current progress holds latest change; dated implementation plan holds task contract.
 
 ## Verification Evidence
+
+Current-code v3 full gate:1504passed/11subtests,165.38s,exit0 (final-regressions.log).
+That gate precedes v4 ownership-ID correction; final v4 gate still required.
 
 Task1 RED22failed (package absent); initial console-encoding/long-ID problem
 corrected in test reporting, then expected RED observed. Task1 GREEN238passed,
@@ -81,6 +90,8 @@ image/private inputs later. Current Context evidence remains applicable.
 Ruling:owner's explicit proceed authorizes design execution without another approval
 round; exact plan supplies internal interfaces, not a new user-facing scope.
 Ruling:owner model-root correction supersedes old path for this phase; no model move.
+Ruling:ownership/scenario IDs are unnecessary model input; keep them host-side.
+Earlier hinted runs remain debug evidence, not clean language-accuracy proof.
 Ruling:unique literal quotes can anchor wrong model offsets deterministically;
 count corrections and reject ambiguous/missing quotes. No semantic/fact inference.
 Docker Desktop started; unrelated existing containers preserved.

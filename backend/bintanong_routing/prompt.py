@@ -7,7 +7,7 @@ from ..bintanong_contracts.base import VOCAB
 from .contracts import Interpretation, prepare_query
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p07-v3'
+PROMPT_VERSION = 'bintanong-router-p07-v4'
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
@@ -19,6 +19,11 @@ taglish for conversational Tagalog mixed with English, unknown if unclear. A cou
 quoted English source title alone does not make Filipino Taglish. This is also the response style.
 Undergraduate context is the default: do not ask everyone to restate it. audience is undergraduate,
 excluded (faculty/staff-only, graduate, Medicine, Law, laboratory-school procedures), unrelated or unknown.
+Explicit excluded audiences override that default even when the supplied program context is
+undergraduate. Graduate/master's/pang-masterado/masterado/doktorado PROGRAM requirements are
+outside this system's undergraduate scope. For such a request set audience=excluded,
+route=null, control=unsupported_scope, operations=[], ambiguities=[]. Do not substitute
+undergraduate rules or treat graduate program admission as a course-prerequisite check.
 Undergraduate Nursing and shared student services remain supported; staff roles in a student
 procedure do not make it excluded. Do not infer current-year authority from a document date.
 Routes: RAG for document explanations/procedures (handbook, Citizens' Charter, memos);
@@ -35,6 +40,8 @@ operations when several were requested, so the backend can ask which check to do
 mentions are literal program/curriculum/course text from original_text, with ZERO-BASED Python
 character start and exclusive end offsets. Do not normalize spelling or invent alias identities.
 operations.target and claims.entity index the mentions array; both refer to course mentions.
+An operation never targets a program/curriculum mention. Program requirements are not
+course prerequisites just because the word "requirements" occurs.
 claims capture only explicit passed/failed/enrolled/not_enrolled assertions, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
 statement, including negation. Do not turn numeric grades into pass/fail or missing records into failure.
@@ -76,7 +83,8 @@ def output_schema():
 
 def build_messages(text, context, catalog, registry):
     data = dict(original_text=text, normalized_text=prepare_query(text),
-        context=context.model_dump(mode='json'),
+        context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
+                     facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         reviewed_aliases=[c.model_dump(mode='json') for c in catalog],
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
     return [dict(role='system', content=SYSTEM_PROMPT + '\nJSON schema:\n' + canonical(output_schema())),

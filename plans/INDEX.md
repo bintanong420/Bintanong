@@ -7,7 +7,8 @@
 - Active phase: **07**, planning started at owner request on19October2026.
 - [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
   [Accepted design](2026-10-19-phase07-routing-design.md). Owner directed implementation;
-  [execution steps](2026-10-19-phase07-implementation-plan.md), Task1 verified.
+  [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
+  [model evaluation](2026-10-19-phase07-routing-evaluation.md) remains in progress.
 - Next phase08 remains gated on a complete Phase07 handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
@@ -49,7 +50,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
-| 7 | Multilingual NLP and LLM routing | planning; proposed design under review | [Plan](phase-07-multilingual-routing-plan.md) | [Active](phase-07-checkpoint.md) | none |
+| 7 | Multilingual NLP and LLM routing | implementing; actual model evaluation pending | [Plan](phase-07-multilingual-routing-plan.md) | [Active](phase-07-checkpoint.md) | none |
 
 ## Read only when relevant
 

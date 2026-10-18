@@ -132,3 +132,18 @@ def test_ambiguous_repeated_quote_cannot_repair_invalid_model_offsets():
     router = api().Router(FakeTransport(json.dumps(value)),catalog=catalog(),registry=registry(),synthetic=True)
     result = asyncio.run(router.route('A1 A1',RequestContext.parse(context())))
     assert result.diagnostic == 'invalid_grounding' and not result.decision.dispatchable
+
+
+def test_private_ownership_and_scenario_identifiers_never_enter_model_input():
+    transport = FakeTransport(json.dumps(proposal()))
+    ctx = context(session_id='sess-private-owner',request_id='req-gold-symbolic-label',
+        facts=[dict(fact_id='fact-private-record',session_id='sess-private-owner',
+            program_id='program-a',curriculum_id='curriculum-a',course_id='course-a',state='passed')])
+    router = api().Router(transport,catalog=catalog(),registry=registry(),synthetic=True)
+    result = asyncio.run(router.route('A1',RequestContext.parse(ctx)))
+    sent = json.dumps(transport.calls[0][0])
+    for private in ['sess-private-owner','req-gold-symbolic-label','fact-private-record']:
+        assert private not in sent
+    assert result.query.session_fact_refs == ('fact-private-record',)
+    data = json.loads(transport.calls[0][0][1]['content'])
+    assert data['context']['facts'] == [{'course_id':'course-a','state':'passed'}]
