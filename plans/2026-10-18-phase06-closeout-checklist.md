@@ -1,9 +1,10 @@
 # Phase 06 status in plain language
 
-18 October 2026. Product code:49bc993; reviewed Git baseline:45358ca.
+18 October 2026. Product code:49bc993; closure verification baseline:78c8d51.
 The reviewed BSCS engine is implemented and tested offline. The owner approved
 that software milestone and keeping institutional release separately pending.
-Formal handoff finalization awaits the owner's answer after this recap.
+The owner subsequently authorized formal handoff finalization and Phase06 mainline
+synchronization. [Complete handoff](phase-06-handoff.md); no Phase07 work started.
 
 ## What works
 
@@ -36,29 +37,26 @@ full PL generation. No whole-BSCS, chatbot, API deployment or institutional-use 
 
 ## Evidence and repository requirements
 
-Last engine verification:1410 passed/11 subtests;73 actual BSCS acceptance cases,
-four isolation checks and39 native source spans passed. These logs were inspected
-for this report; engine code/tests are unchanged from the verified product. The
-engine was not rerun just to rewrite this status report. Full-project verification
-is not green:two previously recorded system-Docling failures were not retested.
-Exact commands/logs/artifacts:[original-plan review](2026-10-18-phase06-original-plan-review.md).
+Fresh closure verification:1411 passed/11 subtests;73 actual BSCS acceptance cases,
+four isolation checks and39 native source spans passed. Source/review/bundle seals
+match the confirmed delivery. Full-project verification is not green:two recorded
+system-Docling failures were retained against unchanged code, not retested/fixed.
+Exact commands/logs/artifacts:[closure report](2026-10-18-phase06-offline-closure.md).
 
 Master11.5 requires deterministic supported decisions/explanations and truthful
 unknowns. AGENTS.md and source-gap-policy.md prohibit treating blank fields as
 verified none or parser success as content approval. The handoff skill requires
-exit evidence and a complete handoff before advancement. Final phase checks are
-still to be run as part of the owner-deferred handoff finalization.
+exit evidence and a complete handoff before advancement. Final phase checks verify
+the completed offline ledger; institutional use remains held.
 
 Workflows applied:repository bintanong-handoff-reminder and bintanong-phase-handoff;
 verify-and-stop and verification-before-completion for evidence/claim limits;
 conventional-commits for recording this report. TDD/systematic debugging apply to
 code changes/failures; no product implementation or dependency change in this task.
 
-## Only remaining authorization question
+## Closeout and next step
 
-Offline completion and separate release holds are already approved. Do not ask
-for those decisions or the same curriculum reviews again.
-May the developer now finalize the Phase06 handoff/completion records, run the
-final applicable phase checks, and stop without starting Phase07?
-Until that answer, keep the handoff blocked and checkpoint active. This question
-comes from the owner's explicit recap-first instruction, not a new technical gate.
+Offline completion, separate release holds and finalization are approved. Do not
+repeat those questions or the same curriculum reviews. The completed handoff and
+superseded checkpoint follow Phase05's offline closure pattern. Synchronize the
+Phase06 mainline and report readiness; keep dev and Phase07 implementation untouched.

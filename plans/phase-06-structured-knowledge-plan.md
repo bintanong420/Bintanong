@@ -1,7 +1,7 @@
 ---
 artifact: phase-plan
 phase: 6
-status: in_progress
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-05-handoff.md
 ---
@@ -13,6 +13,24 @@ supply the architecture; the owner approved the authoring-ledger increment on
 17 October 2026 via “Approve the authoring-ledger increment”. Later implementation
 boundaries retain their applicable design/source/runtime approval requirements.
 
+## Approved completion boundary - 18 October 2026
+
+The owner approved offline Phase06 completion for the reviewed BSCS subset and
+keeping university verification, normal institutional runtime and activation as
+separate release holds. After the requested recap, the owner explicitly said
+"Yes, go ahead, with phase05 being your reference" and authorized fast-forwarding
+to the Phase06 mainline. No additional issue was supplied. This supersedes the
+older blocked recovery condition for this milestone only, following Phase05's
+offline closure pattern. No institutional approval, activation or Phase07 work.
+
+Exit:verify the source/review/bundle identities, actual73-case BSCS acceptance,
+deterministic/unknown/error/isolation behavior and relevant regression evidence;
+complete the handoff, supersede the checkpoint, update INDEX and validate/can-advance.
+Four own-rule unknowns and full-prospectus extraction defects remain explicit.
+Generated candidate PL remains review data; the typed runtime evaluates the checked
+JSON projection in the fixed Prolog engine. See the complete handoff and
+[specification/closure report](2026-10-18-phase06-offline-closure.md).
+
 ## Goal and constraints
 
 Student capability: version-scoped exact course facts and, later, source-supported
@@ -21,7 +39,7 @@ records/specifications are authoring truth; generated Prolog is a derived artifa
 Reuse the delivered inactive candidate compiler; do not rebuild ingestion or route
 eligibility through vector similarity. Undergraduate academic affairs only.
 
-This increment is pure Python validation, no Prolog, eligibility result, database,
+The original first increment was pure Python validation, no Prolog, eligibility result, database,
 network, model, source-state promotion, installation or activation. Original data
 and existing contracts/compiler/EMPTY_REGISTRY remain unchanged. Synthetic tracked
 fixtures only; actual source records/outputs stay ignored under workspace.
@@ -71,18 +89,20 @@ unordered source/course/review collections; node/span order is preserved.
 
 - [x] 1. Approved authoring ledger: focused RED, minimal GREEN, meaningful boundary
   regressions; README describes caller trust and deferred functionality.
-- [ ] 2. Separately design reviewed specification → versioned Prolog compilation,
+- [x] 2. Separately design reviewed specification → versioned Prolog compilation,
   source/review gates, unresolved references and cycle reporting; reuse candidates.
   Owner resumed Phase 06 in p06 on 17 October; the previously approved compiler
   proposal starts with the [bounded offline preview](2026-10-17-phase06-foundation.md).
-  Runtime-ready compilation and source-to-rule review remain later boundaries.
+  Source-to-rule reviews and partial compilation were subsequently delivered.
   The [partial review export design](2026-10-17-phase06-partial-review-export-design.md)
   was approved and implemented at `6fedc45`, preserving reviewed expressions alongside
   explicit unknown reference coverage. [Generated delivery](2026-10-17-phase06-prolog-review-delivery.md).
-  Human generated-output inspection and later runtime/release gates remain separate.
-- [ ] 3. Separately authorize and implement typed Janus integration/registry with
+  Returned reviews now cover all seven modeled relationships; release holds stay separate.
+- [x] 3. Separately authorize and implement typed Janus integration/registry with
   immutable bundles, request-local facts, timeout/result/concurrency limits.
-- [ ] 4. Verify eligible/ineligible/unknown/unsupported/error and deterministic
+  Synthetic and explicitly authorized actual-data offline paths are delivered;
+  global institutional EMPTY_REGISTRY and normal institutional execution stay closed.
+- [x] 4. Verify eligible/ineligible/unknown/unsupported/error and deterministic
   explanations across supported rule families; record formal phase exit evidence.
 
 Task 1 tests: `tests/test_symbolic_authoring.py`; related existing tests:
@@ -96,8 +116,8 @@ applicable docs/ledger checks. Commit verified cohesive increments explicitly.
 
 Master11.5 requires deterministic supported decisions and explanations for fixed
 inputs/rules, without false approval or unsupported definitive denial on missing
-information. Task 1 alone does not meet this. Real institutional rule translation,
-source authority and release activation remain separately gated.
+information. The approved offline milestone meets this for the reviewed BSCS subset;
+institutional source authority, normal release runtime and activation stay separate.
 
 ## Context and baseline
 

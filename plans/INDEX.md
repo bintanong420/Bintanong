@@ -3,15 +3,17 @@
 ## Current state
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
-- Active phase: **06 — structured knowledge**, offline real-bundle acceptance delivered at `49bc993`.
-- [Active plan](phase-06-structured-knowledge-plan.md) · [Active checkpoint](phase-06-checkpoint.md).
+- Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
+- Active phase: **none**. Next permitted phase: **07**, not started or authorized here.
+- [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Latest final handoff:[Phase06 blocked](phase-06-handoff.md); next phase not permitted.
+- Latest final handoff:[Phase06 complete offline](phase-06-handoff.md).
 - Phase06 product `49bc993`; Phase05 product `ee7567a`, closure `9a0eea7`.
-- All seven supported relationships have reconciled review; offline acceptance passes.
-  Owner approved the offline milestone/release holds; finalization awaits recap and consent.
+- Seven reviewed relationships verified; university verification, institutional runtime
+  and activation remain separate release holds. Full-prospectus conversion stays draft.
+- [Final closure/specification report](2026-10-18-phase06-offline-closure.md).
 - [Original-plan review and proposed sign-off](2026-10-18-phase06-original-plan-review.md).
 - [Short Phase06 completion checklist](2026-10-18-phase06-closeout-checklist.md).
 - Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);
@@ -40,7 +42,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
-| 6 | Structured knowledge | Actual BSCS offline acceptance verified; institutional exit blocked | [Plan](phase-06-structured-knowledge-plan.md) | [Active](phase-06-checkpoint.md) | [Blocked](phase-06-handoff.md) |
+| 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
 
 ## Read only when relevant
 

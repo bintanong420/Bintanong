@@ -1,5 +1,10 @@
 # Phase06 final CSV review and verification procedure
 
+Historical preparation procedure. Returned reviews and the final offline boundary
+are now approved; use the [complete handoff](phase-06-handoff.md) and
+[executed closure evidence](2026-10-18-phase06-offline-closure.md). Earlier pending
+labels and prepared-command notes below describe their original delivery date.
+
 Current18October2026 at product49bc993. This is the concrete closing procedure,
 not a claim that pending review/institutional gates have passed.
 

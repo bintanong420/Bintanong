@@ -1,115 +1,102 @@
 ---
 artifact: phase-handoff
 phase: 6
-status: blocked
+status: complete
 plan: plans/phase-06-structured-knowledge-plan.md
 final_commit: 49bc993
-recovery_condition: Owner approved offline completion and separate release holds; present the requested recap and obtain consent to finalize handoff and phase checks
-completed_at: 2026-10-17T22:05:00+08:00
+next_phase: 7
+completed_at: 2026-10-18T21:33:00+08:00
+completion_scope: owner-approved offline research/software milestone for reviewed BSCS subset
 ---
 
-# Phase06 bounded research delivery and blocked exit
+# Phase06 final handoff - offline BSCS research/software
 
-## Delivered
+## Outcome and owner decision
 
-Product49bc993 adds controlled offline execution of both actual BSCS versions
-using fictional completion facts, with exact saved-bundle/operation scope,
-truthful research-only result schemas and unchanged source/release holds.
-Normal runtime constructors remain synthetic-only. Institutional answer contracts
-reject research observations. No activation, source approval or student decision
-publication is delivered.
+The owner approved offline completion and keeping institutional release separately
+pending. After the recap, the owner said "Yes, go ahead, with phase05 being your
+reference", confirmed no additional issue, and requested Phase06 mainline sync.
+This supersedes the older blocked recovery condition for the offline milestone.
+University/source verification, normal institutional runtime and activation remain
+release prerequisites. No official student answer, full curriculum or deployment claim.
 
-Previous product:authoring67ed4bd, preview0a2faa8, exporter6fedc45, historical
-delivery85366d4/scaffoldff39af8, fresh local candidatesa01256d,
-synthetic runtime232727d/0fb5189, checked runtime bundles8706abc.
-[Full acceptance evidence](2026-10-17-phase06-offline-real-runtime-acceptance.md).
+Product49bc993 unchanged; pre-closure ledger78c8d51. Authoring67ed4bd,
+exporter6fedc45, predecessor85366d4, synthetic runtime232727d/0fb5189,
+checked bundles8706abc and real-input research path49bc993 are delivered.
+Final documentation wrapper identity is discoverable in Git.
 
-## Exit evidence
+## Delivered scope and exit evidence
 
-| Requirement | Verified result | Remaining boundary |
-| --- | --- | --- |
-| Structured authoring -> generated versioned PL | Latest identity-reviewed JSON/PL/runtime bundles exactly reproduced; reviews cover all seven modeled relationships | No blanket full-curriculum/audit-field/source-authority approval inferred |
-| Source/rule identity | Original hashes and39 native spans checked; seven reviewed expressions preserved | Source authority/lifecycle holds unchanged |
-| Fixed Janus goals and immutable bundles | Three existing operations execute actual checked rule projections | Explicit offline research scope only |
-| Deterministic scoped decisions | Known met/unmet, missing/conflicting facts, wrong identity/curriculum, partial coverage; CC1 identity now reviewed | Four unknown own-rule conditions remain unknown |
-| Operational behavior | Unsupported, timeout/recovery and concurrent/version isolation verified | No API/container concurrency deployment claim |
-| Result publication boundary | Policy conversion and EvidenceBundle reject research results | Governed institutional release runtime stays closed |
-| Formal advancement | Blocked handoff; same Phase06 remains active | Recovery condition above; no Phase07 work |
+- Both BSCS editions remain distinct:old2018-2019 and PROPOSED2025-2026.
+  Eleven reviewed identities/seven prerequisite expressions; four own-rule unknowns.
+- Reviewed source-bound authoring, reproducible candidate PL and checked runtime
+  bundles; no independently edited rule copy or source-state promotion.
+- Three typed operations:check_prerequisite_eligibility, list_missing_prerequisites,
+  list_affected_courses. Fixed generic Prolog/Janus goals use bound JSON data.
+- Fresh17-file regression gate:1411 passed/11 subtests94.14s, exit0.
+- Fresh actual-source acceptance:73 cases/four isolation checks/39 native spans;
+  repeat equality/timeout recovery asserted. Exact latest authoring/PL/runtime
+  artifacts reproduced; originals, both owner CSVs and confirmed seals unchanged.
+- Missing/conflicting facts, scope/version mistakes, unsupported/error results,
+  partial coverage, explicit-none/alternatives/co-requisites and compiler cycle/
+  reference boundaries tested. Synthetic families are not extra PalSU policy.
+- Research observations remain institutionally unusable; normal constructors,
+  global EMPTY_REGISTRY and answer-publication guards remain closed.
+- Prior full-suite log retained against unchanged backend/tests:5748 passed,
+  two failed, one skipped/1480 subtests1077.48s. Two system-Docling failures
+  disclosed in the closure report; not rerun, repaired or claimed green here.
+- Final documentation/phase-state evidence is recorded in the closure report.
+  Complete plan/superseded checkpoint/INDEX use Phase05's offline closure pattern.
 
-18October [completion audit](2026-10-18-phase06-completion-audit.md) compared the
-actual predecessor85366d4 handoff. Fresh1409 regressions/11 subtests102.68s pass;
-73 source-bound cases/four isolation checks/39 spans pass after CC1 identity review.
-Fixed expectations preserve settled reviews01-03 and the actual18October identity
-answer. Blank cells never become verified_none. Developer checks need no owner grading.
-Explicit-none, alternative and co-requisite semantics have fictional regression
-coverage; no such unsupported relationships are invented for the BSCS sources.
+Human reviews01-03 and both CSV intakes reconcile all seven relationships and five
+dependency lists. OldCC1 identity correction is applied. No repeat grading needed.
+Four blank-rule qualifications retain unknown; foundation placement is context,
+not verified_none. Full53/55-row automatic extraction still fails audit.
 
-Prior delivery regressions854 passed97.13s, exit0. Final docs/phase548 passed/
-11 subtests20.02s, exit0. Full repository:5748 passed,2 failed,1 skipped,
-1480 subtests1077.48s, exit1. Both unchanged Docling conversion tests fail because
-transformers5.10.2 requires huggingface-hub>=1.5.0,<2.0 but2.2.0 is installed.
-Exact failures/unchanged-path check are in the report; no package changes made.
-Phase state validates; can-advance=no explicitly because this handoff is blocked.
+## Reproducibility, versions and digests
 
-Independent final review:113 focused passed28.11s, one answer-contract finding.
-Regression failed before fix, then research+answer110 passed7.87s; final854
-includes that guard. Other TDD:17 initial REDs ->112 GREEN; two adversarial REDs
-->113 GREEN. No other actionable independent-review finding.
+Raw closure:workspace/audit-evidence/p06-offline-closure-20261018-9ffb24df.
+Fresh source replay:sibling p06-offline-source-20261018-9ffb24df.
+Read closure-verification.json, verify_closure.py, regressions.log, pipeline.log,
+acceptance-results.json and manifest.json. The existing verifier was copied unchanged.
+Exact17-file pytest command and source commands:[closure report](2026-10-18-phase06-offline-closure.md).
+System Python3.13.12/Pydantic2.13.4/pytest9.0.3/Janus1.5.2/SWI10.1.6.
+Older installed packages differ from recorded pins; tested compatibility only,
+no installation, download, dependency/lock or copied-environment change.
 
-## Commands and recovery evidence
+Original PDF hashes:
+- Old:c781052fc7242ba520410910f171379721e9bfd0c695b2f0094a3e3981641e4d.
+- Proposed:600cb36b362cff598d84c66a11598b07593c0e74e78a62658b3c61c89f5d5664.
+Generated PL hashes:
+- Old:d7f58f095f50ceee5a28b3ef6b1df41c0b4be9c328279639fe7eb367e72a1257.
+- Proposed:a81b4c40c690dfdc542c71ae926e8bbf822d52446a40c86960fbcc0dd618677a.
+Runtime bundle content hashes:
+- Old:4448702d80294c10d71270b5dca07847f71c1a101a41130be18bf8b699c4f351.
+- Proposed:3e136f28a9b10b783c6a3e01ac6adcabe5d2a530731d4d14415cbc3db723c0a3.
+Fixed engine:e87ebb8cfd06e71b6e5fe15ccec0748487bf8d5044a9b71a7ce14eee1cfd9258.
+Fresh source manifest:03d3aac49e210bfd657c7546bf89d96ab83dc274dfc3d9c8a429fbc7f46b2761.
+Confirmed19-file manifest:275393faf80156eee4d3e8e826a0591ed56987be12c17d1586b2257f92b8bdb5.
 
-From C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06, select system
-Python3.13 and external TEMP/TMP under the evidence root. Exact source acceptance
-and854-case regression commands are in the dated report.
+MODELS_DIR=C:/Coding-projects/MODELS remains external and unused by this runtime.
+Previously recorded embedding digest:df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1.
+Previously recorded Bintu digest:3cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
+No fresh model execution/hash claim or model copies.
 
-```powershell
-py -3.13 -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p06-real-runtime-20261017/docs-final-temp
-py -3.13 -B .agents/skills/bintanong-phase-handoff/scripts/phase_state.py validate --repo .
-py -3.13 -B .agents/skills/bintanong-phase-handoff/scripts/phase_state.py can-advance --repo .
-```
+## Deviations, preservation and next-phase prerequisites
 
-Ignored evidence:C:/Coding-projects/bintanong_workspace/audit-evidence/
-p06-real-runtime-20261017. Read ACCEPTANCE.md and acceptance-results.json for
-requests, fictional facts, complete observations/source spans and execution scope;
-fresh/{old,proposed}/ contains regenerated JSON/PL. accept.py reuses existing
-authoring/compiler/bundle/runtime APIs and original verifier helpers. It never
-consults candidate PL; the same compiler derives the checked engine projection.
-Prior37-file regeneration and12-file bundle manifests remain byte-identical.
-Their exact hashes and original/PL/bundle/engine hashes are in the dated report.
-New32-file delivery manifest SHA:
-`565c6ddff46796c52876c20c983b417ba27c44e5d0a059574ad97bcae56f70c3`.
+The approved design consults generic curriculum_runtime.pl and evaluates compiler-
+derived JSON; candidate PL is review data, not directly executed. Research schemas
+retain their historical pending-output label; current human verdicts are separately
+bound receipts, not automatic activation. This is not an institutional release.
+Full extraction defects/two system Docling failures/source authority stay visible.
+Primary checkout lacked two BSCS PDFs; only these required ignored files were
+copied and SHA-checked. Shared audit evidence remains ignored; no private outputs staged.
+Concurrent p06 Docker edits and primary untracked model directory are preserved;
+no worktree/branch deletion. Phase06 mainline synchronization evidence is in the report.
 
-## Environment and deviations
-
-Python3.13.12/Pydantic2.13.4/pytest9.0.3/SWI10.1.6/Janus1.5.2 verified here.
-Bare Python3.11 and Node22 differ from selected3.13/pinned24. No install, lock or
-dependency change. Existing dataset62 files/local assets remain ignored. External
-MODELS unchanged; no new model weights required for this increment.
-Broad verification exercised existing disposable local DB tests; it does not
-verify application container deployment, API/model services or institutional use.
-Concurrent compose.yaml/docker/api.Dockerfile edits preserved and excluded.
-No API/frontend/later-phase changes, remote writes or merge performed.
-Repository handoff/reminder/artifact-contract/conventional-commits and triggered
-Superpowers workflows applied; Supabase workflows consulted for broad disposable
-database integration tests, with no database implementation changes.
-
-Context:master3/11/13, thesis physical17-18/39-44 and runtime routing PNG.
-Undergraduate/read-only/private boundaries preserved; master11.4 unknown semantics
-supersede the illustrative thesis closed-world denial. Forwarded screenshots are
-supplemental historical evidence, not instructions or current approval receipts.
-
-## Recovery and prerequisites
-
-The [original-plan review](2026-10-18-phase06-original-plan-review.md) verifies the
-scoped offline engine against master11.5:1410 tests/11 subtests77.35s and fresh
-73 BSCS cases/four isolation/39 spans pass. Owner approved offline completion and
-separate release holds; finalization awaits the requested recap and renewed consent.
-Returned CSV verdicts now cover all seven modeled prerequisite relationships and
-five dependency lists; exact coverage is in the completion audit. No further
-grading of the same represented outputs or technical tests is required. Four
-blank-rule qualifications stay unknown; no complete-curriculum approval inferred.
-Fresh pipeline/regression proof passes. Source authority, governed release
-runtime and activation require their applicable actual evidence; do not promote
-pending sources, remove research guards or infer institutionally verified results.
-Four unknowns limit the supported subset; they do not authorize inventing missing
-policy. Final sign-off/status updates remain; this blocked handoff cannot advance.
+Context rechecked:actual thesis17-18/39-44, routing PNG, master3/11/13.
+Undergraduate/read-only/private boundaries stand; master11.4 unknown semantics
+supersede the illustrative thesis denial on unproven completion. Screenshots are
+supplemental history, not authority or new approval receipts.
+Next eligible phase7 is not started. Separately scope any NLP/routing integration;
+do not publish research results, infer missing policy or activate institutional rules.
