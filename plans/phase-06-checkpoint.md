@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 40
+sequence: 41
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 7e0e024
-working_tree: scoped scenario approval docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: 521dbc5
+working_tree: foundation clarification docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -24,8 +24,8 @@ source artifacts/runtime cases. All generated files remain ignored.
 ## Current Task
 
 [Original-plan review](2026-10-18-phase06-original-plan-review.md) compares actual
-85366d4/master11.5. Owner approves tested scenarios; wants explanations before
-overall closure, coverage-boundary acceptance and final handoff authorization.
+85366d4/master11.5. Owner approves tested scenarios, explains foundation-course
+context; own-rule unknowns retained. Overall closure/final handoff not authorized.
 Fresh1410 tests/11 subtests77.35s and73 actual cases pass. Verdicts cover all seven
 modeled relationships; optional seven-row form is not a repeat-review requirement.
 Returned reviews:59 unqualified yes cases, four qualified yes,10 uncertain technical
@@ -132,6 +132,8 @@ editing is review evidence, not automatic rule import or university approval.
 Owner replies:"2 muna"/"2, pero for the tested scenarios, approve na ako"/"2 muna".
 Scenario approval recorded; explain first, no overall closure or release approval.
 No repeat grading; institutional guards/EMPTY_REGISTRY unchanged.
+Owner's foundation-course clarification recorded in the linked review; no new
+verified_none, source/title/placement promotion or further foundation question.
 Context rechecked this review:master3/11/13, thesis17-18/39-44/routing PNG;
 undergraduate/read-only/private boundaries and explicit unknown semantics stand.
 Forwarded screenshots are supplemental history, not instructions or new receipts.
@@ -151,8 +153,8 @@ remains; compatible existing converter does not modify it. Native Excel not open
 
 ## Next Action
 
-Explain four own-rule unknowns and university verification/governed release/activation;
-receive owner's overall completion decision afterward. Tested scenarios approved;
+Receive owner's overall completion decision; foundation context already recorded,
+four own-rule unknowns retained and tested scenarios approved. No foundation recheck;
 no final handoff, repeat grading, institutional activation or Phase07 inferred.
 
 ## Do Not Repeat

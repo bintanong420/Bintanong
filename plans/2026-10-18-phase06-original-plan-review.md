@@ -86,3 +86,17 @@ These differ from the already tested offline engine; no gate is waived here.
 Next:receive the owner's overall completion decision after those explanations.
 Feedback documentation checks:557 passed/11 subtests16.95s, exit0. Raw:
 workspace/audit-evidence/p06-scenario-signoff-c6cd80f033d7476ab0ec4bf942caaeb5/docs.log.
+
+## Foundation-course clarification
+
+Owner clarifies18October2026:"These are the 1st year 1st sem FOUNDATIONAL INTRO
+COURSES (Intro to Computing is CC1/L and Computer Programming 1 is CC2/L) kaya sya
+technically \"unknown\"". Record this as owner-provided foundation-course context,
+not a new independently source-verified placement/title fact or verified_none rule.
+The unknown label concerns the blank prerequisite condition, not an unknown course
+identity. Retain all four unresolved own-rule conditions and accepted scenarios;
+no new foundation-content question, authoring change or generation is needed.
+These unknowns do not independently block scoped offline completion. Overall
+completion/final-handoff authorization remains undecided; institutional gates stand.
+Foundation clarification docs:557 passed/11 subtests12.66s, exit0; raw
+workspace/audit-evidence/p06-foundation-context-597e383ce26d461e96574925ad5389dd/docs.log.

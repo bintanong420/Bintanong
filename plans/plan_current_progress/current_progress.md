@@ -4,9 +4,9 @@ Updated:18 October2026. Phase06 active; product49bc993 unchanged.
 [Original-plan review](../2026-10-18-phase06-original-plan-review.md):scoped offline
 engine meets the tested master11.5 behavior; fresh1410 tests/11 subtests77.35s and
 73 BSCS cases/four isolation/39 spans pass. Seven relationships' review reconciled.
-Owner approves the tested scenarios, but chose explanation first for overall
-closure, four unknowns and release gates. [Actual replies](../2026-10-18-phase06-original-plan-review.md#owner-response-to-the-three-sign-off-questions)
-recorded; Phase06 remains open. Candidate PL is review data; JSON drives fixed Prolog.
+Owner approves tested scenarios and explains the four blanks as foundation-course
+context; prerequisite unknowns stay unchanged. [Actual replies/context](../2026-10-18-phase06-original-plan-review.md#foundation-course-clarification)
+recorded. Overall closure/release sign-off pending; JSON drives fixed Prolog.
 
 The [CSV/procedure](../2026-10-18-phase06-final-review-and-verification.md) retains the seven-rule review and prior feedback.
 Returned short review:[intake](../2026-10-18-phase06-runtime-followup-review.md).
@@ -73,8 +73,8 @@ p06-engine-plan-source-review-7ab623d1b4114c58806256cafdef7abf. Phase state vali
 
 ## Review boundary and next action
 
-Explain four unknowns/release gates, then receive the owner's overall completion
-decision. Tested scenarios already approved; no repeat grading. No final closure,
+Receive the owner's overall completion decision after the explanations; foundation
+context recorded, no further foundation review or scenario grading. No final closure,
 institutional activation or Phase07 work inferred. Unknown rules remain unknown.
 [Blocked handoff](../phase-06-handoff.md) and [checkpoint](../phase-06-checkpoint.md)
 remain active until that decision; [short checklist](../2026-10-18-phase06-closeout-checklist.md).
