@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 35
+sequence: 36
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: fa48211
-working_tree: runtime follow-up CSV docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: d187d87
+working_tree: shortened CSV pointer; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -56,7 +56,7 @@ Pre-condensation snapshot:fa48211:plans/phase-06-checkpoint.md.
 ## Verification Evidence
 
 - Runtime follow-up CSV:exact25 non-ok IDs (H27-H42/H65-H73), six corrected/19
-  skipped; prior verdict/notes verbatim and new verdicts blank. Artifact Tool
+  skipped; shorter eight-column CSV added after owner wording critique. Artifact Tool
   roundtrip/no-formula/render plus independent Python selection/annotation checks
   pass; original review SHAadb14cf9 unchanged. Raw:p06-runtime-followup-csv-20261018.
   Docs/phase554 passed/11 subtests27.24s; phase state valid/blocked.

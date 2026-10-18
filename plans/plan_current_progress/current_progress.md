@@ -6,9 +6,9 @@ offline engine versus pending output review/governed release/formal exit.
 
 The [CSV/procedure](../2026-10-18-phase06-final-review-and-verification.md) retains
 the seven-row generated review at p06-final-review-csv-20261018; prior feedback intact.
-Latest follow-up:p06-runtime-followup-csv-20261018/BSCS-runtime-corrections-and-skipped-review.csv.
-Only25 cases:six correctedCS1/L plus19 skipped, with plain definitions/input/why/
-expected-observed/check instructions and exact earlier notes;48 accepted cases excluded.
+Owner requests shorter wording:BSCS-runtime-review-short.csv in p06-runtime-followup-csv-20261018.
+Same25 cases, eight columns/short phrases; CSV roundtrip passes. Detailed earlier
+annotations/files preserved;48 accepted cases excluded. No runtime rerun.
 
 ## Owner runtime review received
 
