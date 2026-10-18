@@ -58,7 +58,7 @@ plus deterministic safety regression evidence and a complete final handoff.
 - [x] Write/review exact implementation interfaces and RED/GREEN task steps.
 - [x] Implement request/interpretation contracts, response-style metadata and minimal normalization.
 - [x] Implement scoped exact entity resolution and capability/fact validation.
-- [ ] Implement versioned Bintu prompt/transport, token budget and bounded repair.
+- [x] Implement versioned Bintu prompt/transport, token budget and bounded repair.
 - [ ] Review route labels, resolve actual model identity/server and run offline evaluation.
 - [ ] Review confusion matrices, language/meaning consistency and failures; verify
       exit, complete handoff, supersede checkpoint and validate advancement.

@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 6
+sequence: 7
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 7ed9abe
-working_tree: verified Task2; Task3 RED tests untracked and excluded from this commit
+head_commit: 2de4f76
+working_tree: Task3 transport/prompt/router verified; Task4 evaluation files untracked
 updated_at: 2026-10-19T00:35:00+08:00
 ---
 
@@ -19,8 +19,8 @@ NFC/whitespace normalization delivered. [Implementation ledger](2026-10-19-phase
 
 ## Current Task
 
-Task1 committed7ed9abe; Task2 ready to commit. Task3 transport/router tests observed
-RED15failed. Implement bounded transport and versioned prompts next; no executors/API.
+Task1 committed7ed9abe; Task2 committed2de4f76. Task3 transport/prompt/router verified.
+Task4 evaluation RED8 -> GREEN focused tests; actual-model development probes in progress.
 
 ## Repository State
 
@@ -39,7 +39,12 @@ Command:readiness-venv python -B -m pytest -q -p no:cacheprovider with TEMP/TMP
 and --basetemp under workspace/audit-evidence/p07-implementation-20261019.
 Raw task1-red-fixed.log/task1-green.log. Task2 RED20failed -> GREEN207passed,0.97s,
 exit0 (routing contracts/validation plus symbolic/runtime contracts); task2-*.log.
-Task3 RED15failed (transport/router absent); task3-red.log. Prior kickoff309/phase19 remain history,
+Task3 RED15 -> GREEN227passed. Actual probe exposed format-repair meta-question
+and route/control schema mismatch; focused repair/schema regressions each RED1.
+Original probe output saved; promptv2/decoder oneOf and repair reanchoring corrected.
+Final Task3 gate229passed,exit0; exact elapsed time in task3-final-green.log.
+Task4 RED8 -> routing-focused GREEN65 before new prompt regression; task4-*.log.
+Prior kickoff309/phase19 remain history,
 not current reruns. Phase06 accepted1415 is predecessor evidence.
 
 ## Versions and Digests
@@ -71,14 +76,15 @@ Context7 Pydantic/HTTPX/llama.cpp docs fetched; deployed runtime still must be p
 
 ## Known Failures or Blockers
 
-Actual model evaluation pending transport/runtime compatibility probes.
+Actual-model report pending. Initial probe used a repair then misread the formatting
+instruction; not a passing language result. Keep original raw output and corrections.
 Synthetic contract tests prove boundaries, not language accuracy. Institutional
 registry/source authority/currentness/activation remain closed; four blank own-rules
 unknown. Two inherited Docling failures/full-prospectus defects remain disclosed.
 
 ## Next Action
 
-Implement Task3 after observed RED15; then actual-model evaluation. Do not repeat Tasks1/2.
+Run bounded actual-model synthetic development evaluation and finish Task4 report/review.
 
 ## Do Not Repeat
 
