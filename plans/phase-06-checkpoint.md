@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: superseded
-sequence: 44
+sequence: 45
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 78c8d51
-working_tree: offline closure docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: 869579e
+working_tree: checkout portability fix/test/docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18T21:33:00+08:00
 ---
 
@@ -46,6 +46,9 @@ one skipped/1480 subtests. Not a new full-project-green claim.
 Raw:p06-offline-closure-20261018-9ffb24df and p06-offline-source-20261018-9ffb24df.
 verify_closure.py/closure-verification.json record exact assertions/digests.
 Final docs/phase checks are recorded in the closure report.
+Post-fast-forward portability regression:Git autocrlf changed engine bytes; source
+replay rejected stale identity. Fresh checkout RED1 failure0.87s -> LF attribute
+GREEN115 runtime tests26.06s. Final target replay remains to verify synchronization.
 
 ## Versions and Digests
 

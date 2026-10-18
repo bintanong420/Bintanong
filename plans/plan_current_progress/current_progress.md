@@ -36,6 +36,10 @@ Source decisions, original PDFs, seals and historical CSV verdicts stay preserve
 
 ## Mainline synchronization and next action
 
+Post-fast-forward source replay exposed a Windows checkout defect:core.autocrlf
+rewrote the engine LF to CRLF, changing the bundle hash. Preserve exact engine bytes
+with a narrow Git attribute:RED1 failure -> GREEN115 runtime tests26.06s. Runtime
+code/hashes in the approved LF worktree unchanged; reverify the primary checkout.
 Source:chore/p06-hawksprey420-scaffold in workspace/worktrees/Bintanong/p06.
 Target:feat/p06-prolog-janus-rules in C:/Users/Hawksprey/source/repos/Bintanong.
 Initial targetf3e80ac; origin/dev f189ad9 is an ancestor. Two missing required BSCS

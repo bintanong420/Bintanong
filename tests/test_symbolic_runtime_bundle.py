@@ -94,3 +94,31 @@ def test_extra_keys_and_changed_ledger_do_not_load():
     with pytest.raises(ValueError): bundles().validate_runtime_bundle(bundle)
     bundle=prepared(); bundle['ledger']['courses'][0]['facts']['course_code']['value']='SYN999'
     with pytest.raises(ValueError): bundles().validate_runtime_bundle(bundle)
+
+
+def test_windows_git_checkout_preserves_immutable_engine_bytes(tmp_path):
+    import os
+    import shutil
+    import subprocess
+    from pathlib import Path
+
+    git = shutil.which('git')
+    if git is None:
+        pytest.skip('Git checkout verification requires Git')
+    repo = Path(__file__).resolve().parents[1]
+    relative = 'backend/bintanong_symbolic/curriculum_runtime.pl'
+    canonical = subprocess.check_output([git, 'show', f'HEAD:{relative}'], cwd=repo, timeout=10)
+    target = tmp_path / relative
+    target.parent.mkdir(parents=True)
+    target.write_bytes(canonical)
+    attributes = repo / '.gitattributes'
+    if attributes.is_file():
+        shutil.copyfile(attributes, tmp_path / '.gitattributes')
+    command = [git, '-c', 'core.autocrlf=true', '-c', 'core.safecrlf=false',
+               '-c', f'core.attributesFile={os.devnull}', '-C', str(tmp_path)]
+    subprocess.run([*command, 'init', '-q'], check=True, capture_output=True, timeout=10)
+    subprocess.run([*command, 'add', '--', '.'], check=True, capture_output=True, timeout=10)
+    target.unlink()
+    subprocess.run([*command, 'checkout-index', '--force', '--', relative],
+                   check=True, capture_output=True, timeout=10)
+    assert target.read_bytes() == canonical, 'Git checkout changed the immutable Prolog engine bytes'

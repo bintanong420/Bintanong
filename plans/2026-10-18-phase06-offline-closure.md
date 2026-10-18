@@ -44,7 +44,9 @@ source/PL/runtime/engine identities are in closure-verification.json and the han
 Final docs/phase tests:558 passed/11 subtests14.43s, exit0. validate/can-advance
 both succeed with no active phase, next eligible7; no Phase07 plan/work created.
 Logs:docs-final.log and phase-validate/phase-can-advance.log in the closure root.
-All tracked backend/tests match product49bc993. Retained full-suite evidence is
+At initial closure, tracked backend/tests matched product49bc993. A subsequent
+checkout regression/Git attribute is described below; runtime code stays unchanged.
+Retained full-suite evidence is
 5748 passed/two failed/one skipped/1480 subtests1077.48s, not a fresh full-suite run.
 The two failures are test_ingest_hardening::test_real_cli_stdout_parses_as_json and
 test_tools_contract::test_synthetic_pdf_fixture_exists_and_parses, from the recorded
@@ -60,7 +62,20 @@ Primary checkout lacked both required BSCS PDFs. Copied only those originals fro
 the active worktree after checking expected SHA and ignored destination; no other
 dataset, model, environment, credential or cache copied. required-local-files.json
 records the two hashes/paths. Shared generated evidence stays under audit-evidence.
-Mainline post-fast-forward checks and final refs will be recorded here after execution.
+Mainline first fast-forwarded to869579e; its17-file suite passed1412 tests/11 subtests
+87.61s. Actual-source replay then rejected the changed engine identity, as it should:
+Windows core.autocrlf=true materialized CRLF while the approved worktree had LF.
+Mainline hash006eac2e differed from canonical e87ebb8c solely by104 CRLF endings.
+
+The narrow fix pins only backend/bintanong_symbolic/curriculum_runtime.pl to LF in
+.gitattributes; runtime hashing/drift protection and rule logic are unchanged.
+A real fresh Git checkout under autocrlf=true failed RED before the attribute
+(one failure0.87s), then the four-file runtime/bundle/query/research gate passed
+115 tests26.06s. The initial in-place checkout probe retained its existing bytes;
+the final regression removes its temporary file to exercise an actual fresh checkout.
+Logs:checkout-red-fresh.log/checkout-green.log; rejected source attempt remains in
+p06-mainline-source-20261018-9ffb24df. No existing source/bundle seal was replaced.
+Final target replay/ref verification follows after the configuration fix lands.
 
 Concurrent compose.yaml/docker/api.Dockerfile edits in p06 and primary checkout's
 untracked model directory are preserved. No branch/worktree removal, force push,
