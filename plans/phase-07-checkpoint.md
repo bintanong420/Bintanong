@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 5
+sequence: 6
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 87ece27
-working_tree: Task1 contracts/tests plus accepted implementation documentation
+head_commit: 7ed9abe
+working_tree: verified Task2; Task3 RED tests untracked and excluded from this commit
 updated_at: 2026-10-19T00:35:00+08:00
 ---
 
@@ -19,8 +19,8 @@ NFC/whitespace normalization delivered. [Implementation ledger](2026-10-19-phase
 
 ## Current Task
 
-Task1 verified, ready to commit. Next implement scoped exact resolution and shared
-effective decision validation (Task2). No evidence executors or API integration.
+Task1 committed7ed9abe; Task2 ready to commit. Task3 transport/router tests observed
+RED15failed. Implement bounded transport and versioned prompts next; no executors/API.
 
 ## Repository State
 
@@ -37,7 +37,9 @@ corrected in test reporting, then expected RED observed. Task1 GREEN238passed,
 tests/test_contracts_runtime.py tests/test_contracts_runtime_fix2.py.
 Command:readiness-venv python -B -m pytest -q -p no:cacheprovider with TEMP/TMP
 and --basetemp under workspace/audit-evidence/p07-implementation-20261019.
-Raw task1-red-fixed.log/task1-green.log. Prior kickoff309/phase19 remain history,
+Raw task1-red-fixed.log/task1-green.log. Task2 RED20failed -> GREEN207passed,0.97s,
+exit0 (routing contracts/validation plus symbolic/runtime contracts); task2-*.log.
+Task3 RED15failed (transport/router absent); task3-red.log. Prior kickoff309/phase19 remain history,
 not current reruns. Phase06 accepted1415 is predecessor evidence.
 
 ## Versions and Digests
@@ -46,7 +48,10 @@ Existing Python3.13.7 readiness venv; no package/pin/lock changes.
 Owner-corrected MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS.
 Gemma GGUF5,126,306,944bytes; freshly verified SHA256
 3cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
-Official runtime-image download explicitly authorized; pull running, digest pending.
+Official runtime download authorized; image digest:
+sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c.
+Task-owned bintanong-p07-router-offline loaded Gemma on127.0.0.1:18087,
+CPU8threads/context8192/one slot/output768. No other containers altered.
 Original model bytes stay in place; previous C:/Coding-projects/MODELS is historical.
 Thesis SHA256729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -66,14 +71,14 @@ Context7 Pydantic/HTTPX/llama.cpp docs fetched; deployed runtime still must be p
 
 ## Known Failures or Blockers
 
-Runtime download in progress; actual model evaluation pending server compatibility.
+Actual model evaluation pending transport/runtime compatibility probes.
 Synthetic contract tests prove boundaries, not language accuracy. Institutional
 registry/source authority/currentness/activation remain closed; four blank own-rules
 unknown. Two inherited Docling failures/full-prospectus defects remain disclosed.
 
 ## Next Action
 
-Execute Task2 RED/GREEN; then transport and actual-model evaluation. Do not repeat Task1.
+Implement Task3 after observed RED15; then actual-model evaluation. Do not repeat Tasks1/2.
 
 ## Do Not Repeat
 
