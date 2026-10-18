@@ -54,7 +54,8 @@ class LlamaTransport:
                 self.metadata = dict(build=props.get('build_info', 'unknown'), n_ctx=n_ctx,
                     model_file=str(props.get('model_path','unknown')).replace('\\','/').rsplit('/',1)[-1],
                     chat_template_sha256=hashlib.sha256(template.encode()).hexdigest(),
-                    max_output_tokens=self.max_output_tokens, temperature=0, seed=0,
+                    max_output_tokens=self.max_output_tokens, timeout_seconds=self.timeout_seconds,
+                    temperature=0, seed=0,
                     constrained=self.constrained)
                 templated = await self._json(client, 'POST', '/apply-template', {'messages': messages})
                 if not isinstance(templated['prompt'], str):

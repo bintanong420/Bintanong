@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 7
+sequence: 8
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 2de4f76
-working_tree: Task3 transport/prompt/router verified; Task4 evaluation files untracked
+head_commit: 8fb40c3
+working_tree: Task4 evaluation harness/docs verified; actual-model batch next
 updated_at: 2026-10-19T00:35:00+08:00
 ---
 
@@ -20,7 +20,7 @@ NFC/whitespace normalization delivered. [Implementation ledger](2026-10-19-phase
 ## Current Task
 
 Task1 committed7ed9abe; Task2 committed2de4f76. Task3 transport/prompt/router verified.
-Task4 evaluation RED8 -> GREEN focused tests; actual-model development probes in progress.
+Task3 committed8fb40c3. Task4 evaluator/CLI/docs verified; actual-model batch next.
 
 ## Repository State
 
@@ -42,8 +42,9 @@ exit0 (routing contracts/validation plus symbolic/runtime contracts); task2-*.lo
 Task3 RED15 -> GREEN227passed. Actual probe exposed format-repair meta-question
 and route/control schema mismatch; focused repair/schema regressions each RED1.
 Original probe output saved; promptv2/decoder oneOf and repair reanchoring corrected.
-Final Task3 gate229passed,exit0; exact elapsed time in task3-final-green.log.
-Task4 RED8 -> routing-focused GREEN65 before new prompt regression; task4-*.log.
+Final Task3 gate229passed,2.51s,exit0; task3-final-green.log.
+Task4 RED8 -> GREEN65. Separate expected-effective label regression RED1 -> final
+routing gate68passed,1.26s,exit0 (task4-final-green.log). No model-score claim yet.
 Prior kickoff309/phase19 remain history,
 not current reruns. Phase06 accepted1415 is predecessor evidence.
 

@@ -30,7 +30,8 @@ UTF8 output fix only test reporting. Task1 GREEN:238passed,1.77s,exit0.
 Task2 RED20 -> GREEN207passed. Task3 RED15 -> GREEN227passed. Actual probe exposed
 repair meta-question and route/control mismatch; focused regressions RED1 each,
 corrected promptv2/schema oneOf and repair reanchoring; final Task3 gate229passed.
-Task4 RED8 -> routing GREEN65 before those added regressions. Python3.13.7 readiness venv;
+Task3 committed8fb40c3. Task4 RED8 -> GREEN65; separate effective-label regression
+RED1 -> final routing gate68passed,1.26s,exit0. Python3.13.7 readiness venv;
 no dependency/lock changes.
 Raw:workspace/audit-evidence/p07-implementation-20261019/. Existing Context checks
 (thesis17-18/39-44/58-59 and routing PNG) remain consulted; no new scope discrepancy.
