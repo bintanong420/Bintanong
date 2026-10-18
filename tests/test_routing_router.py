@@ -93,12 +93,42 @@ def test_duplicate_json_keys_are_not_silently_overwritten():
 
 
 def test_decoder_schema_expresses_mutually_exclusive_route_and_control():
+    jsonschema = pytest.importorskip('jsonschema')
     from backend.bintanong_routing.prompt import output_schema
-    schema = output_schema()
-    branches = schema['oneOf']
-    assert len(branches) == 2
-    assert branches[0]['properties']['control'] == {'type':'null'}
-    assert branches[1]['properties']['route'] == {'type':'null'}
+    validator = jsonschema.Draft202012Validator(output_schema())
+    assert validator.is_valid(proposal())
+    assert not validator.is_valid(proposal(control='greeting'))
+    assert not validator.is_valid(proposal(route=None))
+
+
+@pytest.mark.parametrize('control', ['greeting', 'unsupported_scope'])
+@pytest.mark.parametrize('field', ['operations', 'claims'])
+def test_terminal_control_schema_and_contract_forbid_student_actions(control, field):
+    jsonschema = pytest.importorskip('jsonschema')
+    from backend.bintanong_routing.contracts import Interpretation
+    from backend.bintanong_routing.prompt import output_schema
+    value = proposal(route=None, control=control, operations=[])
+    validator = jsonschema.Draft202012Validator(output_schema())
+    assert validator.is_valid(value)
+    assert Interpretation.parse(value).control == control
+    if field == 'operations':
+        value[field] = [dict(name='check_prerequisite_eligibility', target=0)]
+    else:
+        value[field] = [dict(text='A1', start=0, end=2, entity=0, state='passed', mode='asserted')]
+    assert not validator.is_valid(value)
+    with pytest.raises(ValueError, match='terminal_control_has_actions'):
+        Interpretation.parse(value)
+
+
+def test_compound_clarification_keeps_the_requested_operations():
+    jsonschema = pytest.importorskip('jsonschema')
+    from backend.bintanong_routing.contracts import Interpretation
+    from backend.bintanong_routing.prompt import output_schema
+    value = proposal(route=None, control='clarify', operations=[
+        dict(name='check_prerequisite_eligibility', target=0),
+        dict(name='list_affected_courses', target=0)])
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value)
+    assert len(Interpretation.parse(value).operations) == 2
 
 
 @pytest.mark.parametrize('apostrophe', ["'", '’'])

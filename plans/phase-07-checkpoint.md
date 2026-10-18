@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 14
+sequence: 15
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 879d352
-working_tree: documentation snapshot changes in INDEX, current progress and this checkpoint
-updated_at: 2026-10-19T01:59:09+08:00
+head_commit: dd40c08
+working_tree: followup plan, routing regression and active checkpoint/progress changes
+updated_at: 2026-10-19T02:25:47+08:00
 ---
 
 # Phase07 active checkpoint - candidate delivery, exit open
@@ -22,8 +22,12 @@ prompt79d56f1; host-only IDs/explicit graduate scope32747db; preflight879d352.
 
 ## Current Task
 
-Verified inactive candidate delivered; language/scope interpretation exit remains
-open. One structured Bintu call plus at most one format repair remains implemented.
+Resumed dd40c08 for the [targeted followup](2026-10-19-phase07-interpretation-followup.md).
+Captured Filipino scope response already selected excluded/unsupported_scope but
+attached an invalid program-target operation. Correct the prior diagnosis; enforce
+terminal-control shape and clarify language contrasts with RED/GREEN evidence.
+Promptv5 terminal schema/contract fix is GREEN:84routing tests,1.01s,exit0.
+Language/scope interpretation exit remains open; actual model verification next.
 Compact separate-control probe was rejected by evidence; no second pass integrated.
 No Phase07 final handoff or Phase08 advancement.
 
@@ -92,9 +96,9 @@ own-rules remain unknown; full-prospectus defects/two old Docling failures uncha
 
 ## Next Action
 
-Design the next targeted Bintu interpretation change from exact clean-run style/
-Filipino-scope errors. Verify UG positives/excluded negatives before another full
-run; preserve website UG default and do not repeat the rejected compact pass.
+Run promptv5 against the original Filipino excluded question and two supported UG
+controls. If terminal-shape premise holds, separately add language contrasts then
+verify the original15-case set once. Preserve website UG default; no compact pass.
 
 ## Do Not Repeat
 

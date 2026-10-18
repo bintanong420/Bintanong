@@ -7,7 +7,7 @@ from ..bintanong_contracts.base import VOCAB
 from .contracts import Interpretation, prepare_query
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p07-v4'
+PROMPT_VERSION = 'bintanong-router-p07-v5'
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
@@ -35,6 +35,9 @@ Document-only questions do not require a student curriculum. General procedure q
 can use RAG; do not invent an ambiguity merely because more detail could be requested.
 Keep a requested structured operation even if it is unavailable; never hide it behind RAG.
 Controls (route=null): clarify, greeting, unsupported_scope, evidence_unavailable. No Direct route.
+Decide audience and route/control BEFORE filling mentions, claims or operations.
+For greeting or unsupported_scope, operations=[] and claims=[] ALWAYS: no course check is
+performed for these controls. A program mention must never create a course operation.
 Emit either route or control, never both. Only one operation/target can proceed; preserve all
 operations when several were requested, so the backend can ask which check to do first.
 mentions are literal program/curriculum/course text from original_text, with ZERO-BASED Python
@@ -68,16 +71,25 @@ def digest(value):
 
 def output_schema():
     schema = Interpretation.model_json_schema()
+    # Make the control decision before emitting actions in constrained decoding.
+    first = ('schema_version', 'language', 'audience', 'route', 'control')
+    schema['properties'] = {k:schema['properties'][k] for k in
+                            (*first, *(k for k in schema['properties'] if k not in first))}
     schema['properties']['schema_version']['const'] = Interpretation.SCHEMA_VERSION
     for field, vocab in [('route','routes'), ('control','controls')]:
         schema['properties'][field] = {'enum': [*VOCAB['runtime'][vocab], None]}
     route_branch = {k:deepcopy(v) for k,v in schema.items() if k != '$defs'}
     control_branch = deepcopy(route_branch)
+    terminal_branch = deepcopy(route_branch)
     route_branch['properties']['route'] = {'enum':VOCAB['runtime']['routes']}
     route_branch['properties']['control'] = {'type':'null'}
     control_branch['properties']['route'] = {'type':'null'}
-    control_branch['properties']['control'] = {'enum':VOCAB['runtime']['controls']}
-    schema['oneOf'] = [route_branch, control_branch]
+    control_branch['properties']['control'] = {'enum':['clarify', 'evidence_unavailable']}
+    terminal_branch['properties']['route'] = {'type':'null'}
+    terminal_branch['properties']['control'] = {'enum':['greeting', 'unsupported_scope']}
+    for name in ('operations', 'claims'):
+        terminal_branch['properties'][name]['maxItems'] = 0
+    schema['oneOf'] = [route_branch, control_branch, terminal_branch]
     return schema
 
 

@@ -106,6 +106,8 @@ class Interpretation(Contract):
     def _structure(self):
         if (self.route is None) == (self.control is None):
             raise ValueError('exactly_one_route_or_control')
+        if self.control in ('greeting', 'unsupported_scope') and (self.operations or self.claims):
+            raise ValueError('terminal_control_has_actions')
         for item in (*self.claims, *self.operations):
             idx = item.entity if isinstance(item, Claim) else item.target
             if idx >= len(self.mentions) or self.mentions[idx].kind != 'course':

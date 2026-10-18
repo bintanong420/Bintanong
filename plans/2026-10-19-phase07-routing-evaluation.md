@@ -106,9 +106,12 @@ These are whole-pipeline results, not unaided model offset accuracy.
 
 Remaining exact-style mismatches:procedure-taglish ->fil, prerequisite-fil
 ->taglish, greeting-taglish ->fil, excluded-fil ->unknown, excluded-taglish ->fil.
-The malformed Filipino graduate response again selected an undergraduate/program
-prerequisite interpretation. Original attempts14/15 are in model-v4-raw/. Keep
-this as a real failed requirement. Style labels are metadata; no final answers
+Reinspection on continuation corrects the earlier diagnosis:both malformed Filipino
+responses selected audience=excluded/control=unsupported_scope, but also attached
+check_prerequisite_eligibility to a program mention. The invalid course reference
+caused rejection; the scope label itself was correct. Original attempts14/15 are
+in model-v4-raw/. Original scores/bytes remain unchanged. Keep this as a real
+failed requirement. Style labels are metadata; no final answers
 were generated and no response-language quality result is claimed.
 
 This is a small tuned development trial, not a held-out/general accuracy estimate,

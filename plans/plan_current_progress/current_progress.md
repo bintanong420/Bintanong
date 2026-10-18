@@ -50,7 +50,12 @@ Phase06 acceptance/settled reviews stand; source authority, institutional regist
 activation, four own-rule unknowns and full-prospectus defects remain held.
 Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
-Next:design the next targeted Bintu interpretation change from the five style
-mismatches and Filipino scope failure; verify UG positives and excluded negatives
-before another full run. Keep the website's UG default; do not ask settled scope,
-wordings/source reviews again or advance Phase08.
+Resumed dd40c08:raw Filipino response already selects excluded/unsupported_scope;
+the defect is an attached course operation targeting a program, not a missing scope
+recognition. [Bounded followup](../2026-10-19-phase07-interpretation-followup.md).
+Terminal schema/contract RED4failed/2passed ->GREEN84routing tests,1.01s,exit0.
+Promptv5 decides control before action arrays; terminal actions are forbidden by
+decoder and strict parsing, never silently removed.
+Next:verify the original Filipino excluded question and two UG controls on existing
+Gemma before the separate language-contrast change and single15-case repeat.
+Do not repeat the rejected compact pass, settled reviews or advance Phase08.
