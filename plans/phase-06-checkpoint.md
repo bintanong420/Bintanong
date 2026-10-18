@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 36
+sequence: 37
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: d187d87
-working_tree: shortened CSV pointer; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: d568aeb
+working_tree: returned review intake; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -23,18 +23,14 @@ source artifacts/runtime cases. All generated files remain ignored.
 
 ## Current Task
 
-Owner runtime feedback:48 affirmative, three no,22 blank verdicts; [intake](2026-10-18-phase06-owner-runtime-review.md)
-preserves exact annotations. Subsequent [CC1 identity review](2026-10-18-phase06-cc1-identity-review.md)
-resolves H27-H32; all73 new-bundle cases pass. Own prerequisites/units/grades stay
-unknown. Technical skips need developer proof, not owner grading.
+Returned short CSV:[follow-up intake](2026-10-18-phase06-runtime-followup-review.md)
+records15 Yes, correct and10 uncertain. CS1 corrections/five dependency lists
+accepted; four unknown-rule yes verdicts carry no-prerequisite notes. Keep unknown
+under source-gap policy; no new source approval inferred. Prior48 ok retained.
 [Short checklist](2026-10-18-phase06-closeout-checklist.md):offline engine implemented;
 scoped output review/institutional release/formal exit remain separate gates.
-Owner requests CSV for the seven generated meanings and retention of prior review.
-[Final review/procedure](2026-10-18-phase06-final-review-and-verification.md):new
-seven-row CSV carries earlier48 ok cases/CS1 correction, no technical grading.
-Latest request adds only the25 corrected/skipped runtime cases with clearer
-per-row definitions, input/expected/observed/why/check and original annotations.
-Earlier48 ok cases excluded. No source, engine, evidence rerun or activation change.
+[Final review/procedure](2026-10-18-phase06-final-review-and-verification.md) retains the seven-rule review and prior feedback.
+Short25-case review now returned; no source, engine, runtime rerun or activation change.
 
 ## Repository State
 
@@ -51,10 +47,14 @@ Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
 No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
 Only the owner-requested Phase06 remote branch write is authorized.
 Dataset/config/venv and generated derivatives remain ignored.
-Pre-condensation snapshot:fa48211:plans/phase-06-checkpoint.md.
+Pre-condensation snapshot:d568aeb:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Returned CSV:25 unique ordered IDs/protected cells unchanged;15 yes/10 uncertain;
+  snapshot/receipt in p06-runtime-followup-intake-20261018, SHA02df9186. Exact notes
+  retained. No new runtime or whole-output approval claimed.
+  Docs/phase555 passed/11 subtests17.87s; phase state valid/blocked.
 - Runtime follow-up CSV:exact25 non-ok IDs (H27-H42/H65-H73), six corrected/19
   skipped; shorter eight-column CSV added after owner wording critique. Artifact Tool
   roundtrip/no-formula/render plus independent Python selection/annotation checks
@@ -148,8 +148,8 @@ Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Review25 runtime follow-up cases and seven generated meanings in the two CSVs
-and record scoped final output verdict; no technical CSV regrading. Preserve remaining
+Reconcile remaining output/source qualifications against recorded reviews and
+developer evidence; no more technical CSV grading. Preserve remaining
 CSV reviews, source/release gates and blocked Phase06 handoff.
 
 ## Do Not Repeat
