@@ -56,6 +56,8 @@ recognition. [Bounded followup](../2026-10-19-phase07-interpretation-followup.md
 Terminal schema/contract RED4failed/2passed ->GREEN84routing tests,1.01s,exit0.
 Promptv5 decides control before action arrays; terminal actions are forbidden by
 decoder and strict parsing, never silently removed.
-Next:verify the original Filipino excluded question and two UG controls on existing
-Gemma before the separate language-contrast change and single15-case repeat.
+Actual ecde58c/promptv5 targeted3/3route/effective/style; meaning collections correct,
+including valid Filipino scope notice. Loading-server503attempt preserved separately.
+Promptv6 clarifies language with unrelated contrasts, not exact evaluation questions.
+Next:verify/commit promptv6 then run the original15-case development set once.
 Do not repeat the rejected compact pass, settled reviews or advance Phase08.

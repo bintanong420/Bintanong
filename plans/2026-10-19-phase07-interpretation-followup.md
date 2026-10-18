@@ -59,3 +59,20 @@ Current llama.cpp docs consulted through Context7:response_format schema is supp
 JSON-schema grammar supports alternative/object/array size constraints. Actual pinned
 runtime compatibility will be checked with the target calls, not assumed from docs.
 Reference:[official server docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md).
+
+## Targeted actual-model result and language increment
+
+At ecde58c/promptv5, terminal-v5-ready/report.json:3/3route/effective/style and
+entity/claim/operation collections correct. Original procedure-en, prerequisite-fil
+and excluded-fil; one model call each,4offset corrections. The excluded response
+has no operation. The earlier terminal-v5-targeted attempt reached a loading server
+(three503/model_http_error records); preserve separately as startup evidence. Health
+became ok before the actual rerun; no automatic inference fallback was introduced.
+
+Language RED evidence remains the exact five style failures in the clean v4 run;
+v5 also incidentally corrects prerequisite-fil in this three-case check. Promptv6
+separately distinguishes original conversational wording from English IDs/reasons
+and answer-language guidance. Seven unrelated illustrative language examples are
+development teaching material, not the15evaluation questions or institutional data.
+No unit test merely asserts prompt prose; actual same-wording model evaluation is
+the regression test for language behavior. No result yet inferred for v6.

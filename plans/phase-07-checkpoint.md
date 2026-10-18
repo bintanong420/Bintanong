@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 15
+sequence: 16
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: dd40c08
-working_tree: followup plan, routing regression and active checkpoint/progress changes
+head_commit: ecde58c
+working_tree: promptv6 language contrasts and followup/checkpoint/progress evidence
 updated_at: 2026-10-19T02:25:47+08:00
 ---
 
@@ -26,8 +26,9 @@ Resumed dd40c08 for the [targeted followup](2026-10-19-phase07-interpretation-fo
 Captured Filipino scope response already selected excluded/unsupported_scope but
 attached an invalid program-target operation. Correct the prior diagnosis; enforce
 terminal-control shape and clarify language contrasts with RED/GREEN evidence.
-Promptv5 terminal schema/contract fix is GREEN:84routing tests,1.01s,exit0.
-Language/scope interpretation exit remains open; actual model verification next.
+Promptv5 structural correctionecde58c is GREEN:84routing tests,1.01s,exit0;
+actual targeted3/3route/effective/style, all meaning collections correct.
+Promptv6 language contrasts now prepared; full15-case actual verification next.
 Compact separate-control probe was rejected by evidence; no second pass integrated.
 No Phase07 final handoff or Phase08 advancement.
 
@@ -96,9 +97,8 @@ own-rules remain unknown; full-prospectus defects/two old Docling failures uncha
 
 ## Next Action
 
-Run promptv5 against the original Filipino excluded question and two supported UG
-controls. If terminal-shape premise holds, separately add language contrasts then
-verify the original15-case set once. Preserve website UG default; no compact pass.
+Verify promptv6 routing tests, commit, then run the original15-case development set
+once with complete raw capture. Preserve website UG default; no compact pass.
 
 ## Do Not Repeat
 
