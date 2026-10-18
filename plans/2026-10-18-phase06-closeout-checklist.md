@@ -1,7 +1,7 @@
 # Phase06: what is finished and what remains
 
 Current18October2026; product49bc993. The scoped curriculum engine is implemented
-and tested offline. Formal Phase06 completion is still blocked. This is the short
+and tested offline. Proposed offline software sign-off awaits owner. This is the short
 working checklist; the original phase plan retains its earlier increment history.
 
 ## Only three groups are needed to understand the tests
@@ -27,7 +27,7 @@ rule verification. Those checks belong in Phase06's developer evidence.
 | Typed Python/Janus/Prolog runtime | Implemented. Check prerequisites, list missing prerequisites, list potentially affected courses. |
 | Controlled execution of actual BSCS data | Verified offline with fictional completion facts; institutional use remains closed. |
 | Software checks, including technical categories | Latest developer run:73 cases, four isolation checks,39 native spans; repeat equality and timeout recovery also asserted. |
-| Received human runtime feedback |48 affirmative verdicts recorded; three no verdicts and22 blank verdicts preserved with comments. Technical blanks do not require owner grading. |
+| Received human runtime feedback | Both returned CSVs reconciled:59 unqualified yes/four qualified yes/10 uncertain technical cases. All seven relationships covered; no repeat grading. |
 | Old CS1/L disagreement, H27-H32 | Resolved after the actual18October CC1/L identity confirmation:failed -> ineligible, passed -> eligible, missing/conflicting -> unknown. New bundle passes all73 cases. |
 
 Latest raw evidence:ignored workspace/audit-evidence/p06-cc1-identity-20261018.
@@ -41,9 +41,9 @@ were changed by executing tests or editing reviewer CSVs.
 
 | Item | What finishes it |
 | --- | --- |
-| Complete the generated-output review | Reconcile the returned verdicts with the exact generated mappings; show only actual pending source/output questions. Do not regrade48 accepted rows or require technical CSV verdicts. Record the scoped final review result. |
+| Scoped generated-output review | Reconciled across all seven relationships and five dependency lists. Four blank-rule notes do not establish verified_none; technical cases need developer evidence only. No repeat CSV required. |
 | Governed institutional runtime/release | Current standard runtime path rejects real institutional bundles; the explicit research path is implemented. Institutional source authority/approval and governed release/runtime integration remain separate outstanding gates in the blocked handoff. |
-| Formal final exit | After applicable gates are satisfied, rerun affected acceptance/regressions and phase checks; replace the blocked handoff with a verified complete handoff and update checkpoint/index. Passing tests alone cannot do this. |
+| Formal final exit | Owner decides the proposed offline software milestone scope. Fresh1410 regressions/73 source cases pass; after that decision finalize handoff/checkpoint/plan/index and validate/can-advance. Institutional release stays held. |
 
 The current handoff does not authorize an automatic offline-only closure in place
 of its recorded recovery condition. Do not silently waive that condition. Pending
@@ -61,8 +61,8 @@ school validation does not prevent independent offline development/testing.
 - Two historical full-suite failures are the recorded system Docling dependency
   conflict. No all-project-green or fixed-environment claim is made here.
 
-Next action: inspect the seven generated meanings in the requested Excel CSV at
-workspace/audit-evidence/p06-final-review-csv-20261018/BSCS-generated-prerequisites-review.csv.
-Earlier48 ok verdicts/CS1 correction are referenced, not erased or regraded.
-Follow the [concrete final verification procedure](2026-10-18-phase06-final-review-and-verification.md)
-after recording the scoped output verdict; retain institutional release gates.
+Next action: record an actual owner answer to the proposed decision in the
+[original-plan review](2026-10-18-phase06-original-plan-review.md), then finalize
+the phase artifacts/checks if approved. No repeated source or technical grading.
+The [final procedure](2026-10-18-phase06-final-review-and-verification.md) remains
+the command reference; fresh evidence is linked in the original-plan review.

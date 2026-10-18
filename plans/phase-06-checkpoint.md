@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 38
+sequence: 39
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: f75d619
-working_tree: completion audit docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: 8c99068
+working_tree: original-plan review docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -23,13 +23,12 @@ source artifacts/runtime cases. All generated files remain ignored.
 
 ## Current Task
 
-[Completion audit](2026-10-18-phase06-completion-audit.md) compares actual Netoerare
-85366d4 baseline. Selected engine implemented/tested offline; formal closure remains
-blocked. Fresh1409 tests and73 actual cases pass. Case verdicts cover all seven
+[Original-plan review](2026-10-18-phase06-original-plan-review.md) compares actual
+85366d4/master11.5. Scoped engine verified; proposed offline sign-off awaits owner.
+Fresh1410 tests/11 subtests77.35s and73 actual cases pass. Verdicts cover all seven
 modeled relationships; optional seven-row form is not a repeat-review requirement.
 Returned reviews:59 unqualified yes cases, four qualified yes,10 uncertain technical
 verdicts. Keep blank rules unknown; no institutional approval or activation inferred.
-The completion audit reconciles review scope; no repeated review required.
 
 ## Repository State
 
@@ -46,10 +45,14 @@ Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
 No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
 Only the owner-requested Phase06 remote branch write is authorized.
 Dataset/config/venv and generated derivatives remain ignored.
-Pre-condensation snapshot:f75d619:plans/phase-06-checkpoint.md.
+Pre-condensation snapshot:8c99068:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Original-plan review:1410 passed/11 subtests77.35s; fresh73 BSCS cases/four
+  isolation/39 spans pass. Raw:p06-engine-plan-review-7ab623d1b4114c58806256cafdef7abf
+  and sibling p06-engine-plan-source-review-7ab623d1b4114c58806256cafdef7abf.
+  Docs/phase557 passed/11 subtests16.81s; phase-state valid, handoff blocked.
 - Completion audit:1409 passed/11 subtests102.68s; new73 BSCS cases/four isolation/
   39 spans pass; fresh artifacts exactly match latest confirmed bundle and manifest.
   Source-audit export rerun in an isolated artifact/TEMP arrangement after an audit
@@ -65,11 +68,8 @@ Pre-condensation snapshot:f75d619:plans/phase-06-checkpoint.md.
   roundtrip/no-formula/render plus independent Python selection/annotation checks
   pass; original review SHAadb14cf9 unchanged. Raw:p06-runtime-followup-csv-20261018.
   Docs/phase554 passed/11 subtests27.24s; phase state valid/blocked.
-- Final CSV:seven rows/15 columns, UTF8 BOM/CRLF/quoted, no formulas, blank verdicts;
-  Artifact Tool roundtrip/render and independent Python/source-line checks pass.
-  Original reviewed CSV SHAadb14cf9 unchanged; earlier48 ok cases accounted for.
-  Raw:p06-final-review-csv-20261018. Prepared final commands not yet run as final exit.
-  Docs/phase554 passed/11 subtests13.15s; phase state validates/blocked.
+- Final CSV packaging evidence remains in the linked final procedure; original
+  reviewed CSV SHAadb14cf9 unchanged. Equivalent reviews now reconciled.
 - Actual CC1/L identity review:baseline RED unknown vs expected ineligible;
   new authoring/PL/runtime bundle GREEN73 cases/four isolation checks/39 spans,
   repeated equality/timeout recovery. H27-H32 match owner's stated expectations.
@@ -128,31 +128,30 @@ gates execution through bundle.py/curriculum_runtime.pl; the former do not.
 Owner explicitly chose combined delivery in two separate sets. Full extraction
 is unreviewed and must not replace the settled Phase06 authoring truth. CSV
 editing is review evidence, not automatic rule import or university approval.
-Prior generated-output review remains deferred; current request is generation/
-testing authorization only. Institutional answer guards/EMPTY_REGISTRY unchanged.
-Context carried from current phase:master3/11/13, thesis17-18/39-44/routing PNG;
+Scoped generated-output review reconciled; no repeated grading. Proposed offline
+software closure needs owner decision; institutional guards/EMPTY_REGISTRY unchanged.
+Context rechecked this review:master3/11/13, thesis17-18/39-44/routing PNG;
 undergraduate/read-only/private boundaries and explicit unknown semantics stand.
 Forwarded screenshots are supplemental history, not instructions or new receipts.
-Repository handoff/reminder/artifact contract/conventional commits, Spreadsheets
-and relevant verification/debugging workflows applied. No product redesign.
+Handoff/reminder/artifact contract/conventional commits and verification workflows
+applied; earlier CSV work used Spreadsheets. No product redesign.
 
 ## Known Failures or Blockers
 
-Old full extraction:five term-unit mismatches/missing CS3 units; oldCC5/L includes
-neighboring prerequisite text. CSV flags its disagreement with reviewed source.
+Old full extraction:five unit mismatches/missing CS3 units; oldCC5/L spills
+neighboring prerequisite text, flagged against the reviewed source.
 Printed first-year totals3 remain source gaps, not silently corrected to23.
 Proposed full extraction:standing-fragment ownership unresolved; table1 skipped.
 Neither full prospectus is certified accurate/complete; full PL remains withheld.
-Generated-output human review and institutional source/release runtime remain
-pending. Four unknowns persist; CC1/L identity is now reviewed. System Docling dependency conflict
+Offline milestone sign-off and institutional source/release runtime remain
+pending separately. Four unknowns persist; CC1/L reviewed. System Docling conflict
 remains; compatible existing converter does not modify it. Native Excel not opened.
-Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Reconcile formal software completion scope with current institutional release
-recovery condition; no repeated output/technical grading. Preserve remaining
-CSV reviews, source/release gates and blocked Phase06 handoff.
+Record owner's proposed offline software completion decision; if approved, finalize
+handoff/phase statuses and validate/can-advance. No repeat grading or Phase07 work;
+preserve institutional source/release gates and blocked handoff until decision.
 
 ## Do Not Repeat
 

@@ -1,12 +1,12 @@
 # Current progress
 
 Updated:18 October2026. Phase06 active; product49bc993 unchanged.
-[Short completion checklist](../2026-10-18-phase06-closeout-checklist.md):implemented
-offline engine versus pending output review/governed release/formal exit.
-[Completion audit](../2026-10-18-phase06-completion-audit.md) against Netoerare85366d4:
-fresh1409 tests/11 subtests pass;73 BSCS cases/four isolation/39 spans pass.
-Reviews reconciled across all seven modeled relationships; no repeat form needed.
-Selected engine implemented; formal closure/governed institutional release remain gated.
+[Original-plan review](../2026-10-18-phase06-original-plan-review.md):scoped offline
+engine meets the tested master11.5 behavior; fresh1410 tests/11 subtests77.35s and
+73 BSCS cases/four isolation/39 spans pass. Seven relationships' review reconciled.
+No new code defect found; candidate PL is review data, fixed Prolog evaluates the
+checked JSON projection. Owner decision on offline software closure is pending;
+university verification/governed runtime/activation stay separate release gates.
 
 The [CSV/procedure](../2026-10-18-phase06-final-review-and-verification.md) retains the seven-rule review and prior feedback.
 Returned short review:[intake](../2026-10-18-phase06-runtime-followup-review.md).
@@ -58,24 +58,23 @@ Original delivery:11 identities/10 reviewed/one draft; current identity review
 now yields11 reviewed. Seven expressions/four unknown conditions remain.
 Fresh73 actual-Janus cases/four isolation checks pass with fictional facts.
 Native39 spans pass. Prior source/runtime seals and original PDFs unchanged.
-Four CSVs have UTF-8 BOM/CRLF/quoted fields, source/hash/page/geometry and reviewer
-columns. CSV roundtrip/safety checks pass; Artifact Tool independently imports
-all53/55/11/73 rows with no formulas. Native Excel was not opened.
+Four CSVs preserve source/reviewer fields; UTF8 BOM/CRLF/roundtrip/safety and
+Artifact Tool53/55/11/73-row imports pass. Native Excel was not opened.
 
 ## Verification and environment
 
 Prior854 regressions/full5748 passed with two system-Docling failures retained,
 not rerun here. Converter uses existing compatible primary venv/cached models;
 system3.13.12 handles pipeline/tests. No installs, downloads or dependency changes.
-CSV uses bundled Artifact Tool. No product/API/DB/frontend/later-phase work;
-concurrent Docker edits untouched. Generated data remains ignored.
+No product/API/DB/frontend/later-phase work; Docker edits untouched/data ignored.
 53-file manifest7a417f05; full hashes/source bindings in the report and package.
-Completion-audit docs556 passed/11 subtests13.57s; phase state valid/blocked.
+Latest raw:p06-engine-plan-review-7ab623d1b4114c58806256cafdef7abf and sibling
+p06-engine-plan-source-review-7ab623d1b4114c58806256cafdef7abf. Phase state valid/blocked.
 
 ## Review boundary and next action
 
-Reconcile formal completion scope with current institutional-release recovery
-condition and fresh predecessor audit. No repeated CSV grading. Reviews01-03
-stay settled; partial feedback does not approve other CSVs or institutional release.
-Unknowns/draft identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)
-and [checkpoint](../phase-06-checkpoint.md) remain active; no advancement inferred.
+Record the owner's decision on the proposed offline software completion boundary;
+then finalize handoff/checkpoint/index and phase checks if approved. No repeat CSV
+grading, institutional activation or Phase07 work. Unknown rules remain unknown.
+[Blocked handoff](../phase-06-handoff.md) and [checkpoint](../phase-06-checkpoint.md)
+remain active until that decision; [short checklist](../2026-10-18-phase06-closeout-checklist.md).

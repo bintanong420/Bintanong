@@ -10,8 +10,9 @@
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - Latest final handoff:[Phase06 blocked](phase-06-handoff.md); next phase not permitted.
 - Phase06 product `49bc993`; Phase05 product `ee7567a`, closure `9a0eea7`.
-- Actual BSCS offline acceptance passes; human output review, university approval
-  and governed institutional release/runtime remain gated. Candidates stay inactive.
+- All seven supported relationships have reconciled review; offline acceptance passes.
+  Software milestone sign-off is pending; institutional release stays gated/inactive.
+- [Original-plan review and proposed sign-off](2026-10-18-phase06-original-plan-review.md).
 - [Short Phase06 completion checklist](2026-10-18-phase06-closeout-checklist.md).
 - Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);
   [fresh local candidates](2026-10-17-phase06-local-regeneration.md) and
