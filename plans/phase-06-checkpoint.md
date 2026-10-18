@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 30
+sequence: 31
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 87ebada
-working_tree: branch-sync documentation; concurrent compose.yaml/docker/api.Dockerfile preserved
-updated_at: 2026-10-18T00:08:00+08:00
+head_commit: f3e80ac
+working_tree: owner review documentation; concurrent compose.yaml/docker/api.Dockerfile preserved
+updated_at: 2026-10-18
 ---
 
 # Phase06 checkpoint
@@ -23,11 +23,11 @@ source artifacts/runtime cases. All generated files remain ignored.
 
 ## Current Task
 
-Owner explicitly requests mainline Phase06 push while reviewing. Local
-feat/p06-prolog-janus-rules fast-forwarded4772e08 ->87ebada in the primary checkout;
-fresh relevant verification there passed854 tests106.03s. This is
-an active-phase branch sync, not Phase06 completion, release or output approval.
-Generated review artifacts stay ignored/local; active p06 worktree is preserved.
+Owner submitted reviewed runtime CSV:48 affirmative verdicts, three disagreements,
+22 blank verdicts. [Intake](2026-10-18-phase06-owner-runtime-review.md) records exact
+IDs/comments and the unresolved oldCC1/L identity behind H27-H32. Skips stay pending.
+No source-state/runtime change. Explain remaining categories and resolve the draft
+identity from original evidence before dependent authoring changes.
 
 ## Repository State
 
@@ -50,6 +50,10 @@ Pre-condensation snapshot:a8efcc8:plans/phase-06-checkpoint.md.
 - Mainline sync:854 relevant tests passed106.03s in the primary target checkout
   after fast-forward, system Python3.13/no cache/external basetemp. Raw related.log
   and final docs/ref verification live in p06-mainline-sync-20261018.
+- Owner intake:73 unique ordered IDs/protected cells unchanged,48/3/22 verdicts;
+  original review SHAadb14cf9; identical snapshot/receipt in p06-runtime-review-20261018.
+  Docs/phase551 passed/11 subtests18.50s; phase state validates/blocked.
+  No Janus rerun; intake checks do not replace the prior acceptance evidence.
 - Fresh full extraction:old53/proposed55 detected draft course rows, audit=error;
   both strict CLI exits1. JSON/CSV/Markdown published; full PL withheld honestly.
 - Fresh reviewed generation:11 identities/10 reviewed/one draft, seven expressions,
@@ -87,6 +91,9 @@ External model assets reused; no model copies in Git.
 
 ## Decisions
 
+Owner runtime feedback is partial:ok/no are in reviewer, review_status unchanged.
+H27-H32 expectations do not confirm the exact draftCC1/L source identity; preserve
+the feedback without inferring approval. Other CSVs/technical skips stay pending.
 Owner explicitly chose combined delivery in two separate sets. Full extraction
 is unreviewed and must not replace the settled Phase06 authoring truth. CSV
 editing is review evidence, not automatic rule import or university approval.
@@ -112,9 +119,9 @@ Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Review the four CSVs in Excel and return reviewer copies with stable row/test IDs,
-verdicts and source-based notes. Record actual decisions before changing authoring;
-preserve remaining source/release gates and the blocked Phase06 handoff.
+Show exact oldCC1/L source identity row for a short review, explain pending cases,
+then apply actual decisions and rerun affected acceptance. Preserve the remaining
+CSV reviews, source/release gates and blocked Phase06 handoff.
 
 ## Do Not Repeat
 

@@ -2,6 +2,19 @@
 
 Updated:18 October2026. Phase06 active; product49bc993 unchanged.
 
+## Owner runtime review received
+
+[Review intake](../2026-10-18-phase06-owner-runtime-review.md):73 rows preserved;
+48 ok (H01-H26/H43-H64), three no (H27-H29),22 blank verdicts (H30-H42/H65-H73).
+H30-H32 have alternative expectations; H41 says its category is unclear.
+Verdicts are in reviewer; review_status remains unreviewed. No raw cells rewritten.
+All non-review cells/IDs match the delivered CSV. Ignored snapshot/receipt:
+workspace/audit-evidence/p06-runtime-review-20261018; owner-file SHAadb14cf9.
+CS1/L feedback expects passed/failedCC1/L to decide; current guard stops at its
+draft identity. Record the disagreement without promoting that identity by inference.
+No code/source-state changes or runtime rerun. Unknown-course display and single
+determinism observation need clearer presentation. Full/rule CSV review not inferred.
+
 ## Mainline synchronization
 
 Owner explicitly requests pushing this work to feat/p06-prolog-janus-rules while
@@ -20,7 +33,8 @@ selected two separate sets:full prospectuses and reviewed Phase06 subset.
 Ignored root:workspace/audit-evidence/p06-bscs-excel-20261017.
 BSCS-review-package.zip includes four reviewer CSVs, original PDF copies,
 actual full draft JSON/raw Docling conversions and reviewed authoring/PL/runtime
-bundles/source images/test results. Reviewer verdicts remain unreviewed/blank.
+bundles/source images/test results. Original templates remain unreviewed/blank;
+the separately returned runtime copy has the partial feedback recorded above.
 
 Full-prospectus CSVs contain53 old/55 proposed detected course rows. Both fresh
 original-PDF runs failed audits; strict exits1; full PL correctly withheld.
@@ -39,7 +53,7 @@ all53/55/11/73 rows with no formulas. Native Excel was not opened.
 
 ## Verification and environment
 
-Fresh109 focused tests passed12.14s; report names exact command/logs.
+Delivery109 focused tests passed12.14s; report names exact command/logs.
 Prior854 related regressions remain valid for unchanged product. Previous full
 suite5748 passed/two system-Docling dependency failures is retained, not rerun.
 Source conversion uses an existing primary Python3.13.5/Docling2.129.0 venv with
@@ -50,15 +64,15 @@ Concurrent compose.yaml/docker/api.Dockerfile edits untouched/unstaged. No produ
 API/DB/frontend/later-phase work. Only the requested Phase06 branch push is in scope.
 Generated data stays ignored.
 53-file manifest7a417f05; full hashes/source bindings in the report and package.
-Final docs/phase550 passed/11 subtests27.26s; phase state valid/blocked.
+Review intake docs/phase551 passed/11 subtests18.50s; phase state valid/blocked.
 Repository handoff/reminder/conventional commits
 and spreadsheet/verification workflows applied.
 
 ## Review boundary and next action
 
-Review the four CSVs in Excel and return reviewer copies with stable row/test IDs,
-verdicts and source-based notes. Actual decisions must be recorded before changing
-authoring. CSV edits do not automatically approve/import rules. Reviews01-03 stay
-settled; output review and institutional release remain pending. Unknowns/draft
-identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)
+Resolve oldCC1/L's draft identity from its exact original row in a short review,
+and explain the pending runtime categories in the intake report. Apply actual
+decisions before changing authoring, then rerun affected acceptance. Reviews01-03
+stay settled; partial feedback does not approve other CSVs or institutional release.
+Unknowns/draft identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)
 and [checkpoint](../phase-06-checkpoint.md) remain active; no advancement inferred.
