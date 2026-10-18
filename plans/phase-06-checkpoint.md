@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 32
+sequence: 33
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 1e09dd1
-working_tree: simplified review guide; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: ab471af
+working_tree: closeout checklist; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -29,6 +29,11 @@ IDs/comments and the unresolved oldCC1/L identity behind H27-H32. Skips stay pen
 No source-state/runtime change. The simplified human-verification guide separates
 reviewer source decisions from developer-owned runtime/provenance checks. Technical
 CSV skips need developer proof, not owner grading. Resolve genuine source gaps only.
+[Short closeout checklist](2026-10-18-phase06-closeout-checklist.md) separates
+implemented offline engine from pending scoped output review, institutional release
+and formal exit. The exact oldCC1/L first-year row was shown; its identity-only
+confirmation is now received/applied in the [identity review](2026-10-18-phase06-cc1-identity-review.md).
+All73 new-bundle cases pass; own prerequisites/units/grade policy are not inferred.
 
 ## Repository State
 
@@ -49,6 +54,13 @@ Pre-condensation snapshot:a8efcc8:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Actual CC1/L identity review:baseline RED unknown vs expected ineligible;
+  new authoring/PL/runtime bundle GREEN73 cases/four isolation checks/39 spans,
+  repeated equality/timeout recovery. H27-H32 match owner's stated expectations.
+  Eleven reviewed identities/seven expressions/four unknown conditions. Proposed
+  artifacts/prior seals/owner CSV unchanged. Raw:p06-cc1-identity-20261018.
+  Final generated review reduced to seven source-linked rows in CURRICULUM-REVIEW.md;
+  docs/phase553 passed/11 subtests12.61s. Source-data change only; product unchanged.
 - Simplified guide:unchanged accept.py rerun in p06-developer-checks-20261018;
   actual BSCS73 cases/four concurrent/version checks/39 native spans pass, plus
   repeat-result equality and timeout recovery assertions for both versions.
@@ -99,8 +111,9 @@ External model assets reused; no model copies in Git.
 ## Decisions
 
 Owner runtime feedback is partial:ok/no are in reviewer, review_status unchanged.
-H27-H32 expectations do not confirm the exact draftCC1/L source identity; preserve
-the feedback without inferring approval. Other CSVs/technical skips stay pending.
+Initial H27-H32 CSV expectations did not alone confirm the source identity;
+the subsequent explicit identity answer now supplies that review. Other CSVs/
+technical owner verdicts stay pending; verified developer tests are separate.
 Technical skips are pending owner verdicts, not a requirement for owner grading;
 developer execution evidence independently verifies these engineering checks.
 CSV review_status/annotations are not authoring review_state. The latter actually
@@ -124,14 +137,14 @@ Printed first-year totals3 remain source gaps, not silently corrected to23.
 Proposed full extraction:standing-fragment ownership unresolved; table1 skipped.
 Neither full prospectus is certified accurate/complete; full PL remains withheld.
 Generated-output human review and institutional source/release runtime remain
-pending. Four unknowns/old draftCC1/L persist. System Docling dependency conflict
+pending. Four unknowns persist; CC1/L identity is now reviewed. System Docling dependency conflict
 remains; compatible existing converter does not modify it. Native Excel not opened.
 Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Developer verifies technical checks, shows only unresolved oldCC1/L source identity
-for short review, then applies actual decisions/reruns affected acceptance. Preserve remaining
+Inspect seven generated meanings in p06-cc1-identity-20261018/CURRICULUM-REVIEW.md
+and record scoped final output verdict; no technical CSV regrading. Preserve remaining
 CSV reviews, source/release gates and blocked Phase06 handoff.
 
 ## Do Not Repeat

@@ -1,6 +1,8 @@
 # Current progress
 
 Updated:18 October2026. Phase06 active; product49bc993 unchanged.
+[Short completion checklist](../2026-10-18-phase06-closeout-checklist.md):implemented
+offline engine versus pending output review/governed release/formal exit.
 
 ## Owner runtime review received
 
@@ -10,23 +12,21 @@ H30-H32 have alternative expectations; H41 says its category is unclear.
 Verdicts are in reviewer; review_status remains unreviewed. No raw cells rewritten.
 All non-review cells/IDs match the delivered CSV. Ignored snapshot/receipt:
 workspace/audit-evidence/p06-runtime-review-20261018; owner-file SHAadb14cf9.
-CS1/L feedback expects passed/failedCC1/L to decide; current guard stops at its
-draft identity. Record the disagreement without promoting that identity by inference.
+Owner now confirms oldCC1/L identity; [applied review](../2026-10-18-phase06-cc1-identity-review.md).
+Fresh authoring/PL/bundle:CS1/L failed/passed/missing/conflicting cases match the
+owner's expectations. Eleven identities reviewed; four own-rule unknowns preserved.
 The [simplified guide](../2026-10-17-phase06-human-verification-guide.md) separates
 source decisions from developer tests and explains actual field effects. Technical
 CSV skips do not require owner grading. Full/rule CSV review is not inferred.
-Developer rerun:73 actual BSCS cases/four isolation checks/39 spans pass, including
-repeat equality and timeout recovery. Raw:p06-developer-checks-20261018. Owner CSV unchanged.
+New identity bundle:73 cases/four isolation checks/39 spans pass, plus repeat/timeout
+recovery. Raw:p06-cc1-identity-20261018. Proposed/old evidence/owner CSV unchanged.
 
 ## Mainline synchronization
 
-Owner explicitly requests pushing this work to feat/p06-prolog-janus-rules while
-human review continues. Primary checkout fast-forwarded4772e08 ->87ebada without
-conflicts;854 relevant tests passed106.03s in that target checkout before push.
-final ref/preservation evidence is under audit-evidence/p06-mainline-sync-20261018.
-Only committed code/tests/handoff documents are included. Review artifacts remain
-ignored/local. Both worktrees and unrelated Docker edits/model directory preserved.
-This does not complete Phase06, approve output or activate institutional rules.
+Prior owner-requested sync pushedf3e80ac to Phase06 mainline after854 relevant
+tests; evidence:audit-evidence/p06-mainline-sync-20261018. Later review/guide work
+is local. Generated artifacts/worktrees/unrelated edits remain preserved.
+The sync did not complete Phase06 or activate rules.
 
 ## Latest delivery
 
@@ -46,8 +46,8 @@ has ambiguous standing-fragment ownership and a skipped table. CSVs preserve the
 raw values and flag the oldCC5 discrepancy against its settled source reading.
 Detected row counts are not a claim of complete/accurate extraction.
 
-Reviewed subset:11 identities/10 reviewed/one draft, seven expressions/four
-unknowns. Fresh original-field authoring and PL match the earlier sealed output.
+Original delivery:11 identities/10 reviewed/one draft; current identity review
+now yields11 reviewed. Seven expressions/four unknown conditions remain.
 Fresh73 actual-Janus cases/four isolation checks pass with fictional facts.
 Native39 spans pass. Prior source/runtime seals and original PDFs unchanged.
 Four CSVs have UTF-8 BOM/CRLF/quoted fields, source/hash/page/geometry and reviewer
@@ -67,15 +67,14 @@ Concurrent compose.yaml/docker/api.Dockerfile edits untouched/unstaged. No produ
 API/DB/frontend/later-phase work. Only the requested Phase06 branch push is in scope.
 Generated data stays ignored.
 53-file manifest7a417f05; full hashes/source bindings in the report and package.
-Simplified-guide docs/phase551 passed/11 subtests17.49s; phase state valid/blocked.
+Closeout/identity docs553 passed/11 subtests12.61s; phase state valid/blocked.
 Repository handoff/reminder/conventional commits
 and spreadsheet/verification workflows applied.
 
 ## Review boundary and next action
 
-Developer verifies technical categories and presents only unresolved oldCC1/L
-source identity evidence in a short review. Apply actual decisions before changing
-authoring, then rerun affected acceptance. Reviews01-03
+Inspect seven source-linked meanings in p06-cc1-identity-20261018/CURRICULUM-REVIEW.md
+and record the scoped final output verdict. No technical CSV regrading. Reviews01-03
 stay settled; partial feedback does not approve other CSVs or institutional release.
 Unknowns/draft identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)
 and [checkpoint](../phase-06-checkpoint.md) remain active; no advancement inferred.

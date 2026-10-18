@@ -4,6 +4,11 @@ Updated18October2026 after the owner's partial CSV review; product49bc993 unchan
 The earlier-phase section is a targeted historical review, not a fresh audit of
 Phases00-05. The two concurrent Docker edits remain untouched.
 
+Start with the [short completion checklist](2026-10-18-phase06-closeout-checklist.md).
+For review, use only three groups:prerequisites, affected courses and developer
+checks. The detailed original case labels below are developer reference material;
+they do not require a separate owner verdict on every engineering row.
+
 ## What Phase06 needs from the reviewer and developer
 
 The [previous developer's delivery](2026-10-17-phase06-prolog-review-delivery.md)
@@ -69,13 +74,15 @@ or approve unknown source content/institutional release.
 The [bundle builder](../backend/bintanong_symbolic/bundle.py) explicitly projects
 authoring review_state into the engine's reviewed boolean. The
 [Prolog completion check](../backend/bintanong_symbolic/curriculum_runtime.pl)
-checks that boolean before passed/failed facts. This explains H27-H32:
+checks that boolean before passed/failed facts. This explains the original H27-H32:
 CS1/L requires CC1/L is already accepted, but the referenced CC1/L identity is draft.
 The returned identity_unreviewed is a preparation limitation, not a PalSU condition
 that CC1/L is impossible to pass. The owner's desired pass/fail behavior is recorded.
-Developer action: locate the exact pending source record and show only its unresolved
-identity question; bind actual review evidence, regenerate and rerun affected cases.
-Do not remove the guard, infer verified_none or ask again about the settled edge.
+On18October the owner confirmed the exact CC1/L identity. The
+[applied review](2026-10-18-phase06-cc1-identity-review.md) rebuilds the authoring/PL/
+runtime data:failedCC1/L now gives ineligible, passed gives eligible, and missing/
+conflicting completion gives unknown. The guard remains; CC1/L's own rule stays
+unknown. Do not repeat this identity/relationship question or infer verified_none.
 
 ## Use the returned review
 
