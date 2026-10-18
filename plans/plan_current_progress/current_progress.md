@@ -8,10 +8,14 @@ Previous full snapshot:c5f110b:plans/plan_current_progress/current_progress.md.
 
 ## Latest change
 
-Read AGENTS/handoff skills, phase ledger, Phase06 final handoff/accepted audit,
-master3/11/12/13 and shared scope/gap/architecture requirements. Phase-state
-inspect permitted7. Main checkout dev matches c5f110b; preserve stale p06 and
-other developers' worktrees. GitHub MCP remote dev380551a/p066923835; no push/merge.
+Owner19October2026 confirms:prospectus/curriculum primarily structured facts/Prolog;
+handbook, Citizens' Charter and memos primarily cited RAG; Hybrid when both are
+needed. English questions receive English, Taglish questions natural Taglish,
+Filipino questions predominantly Filipino while retaining useful English technical
+terms. No forced translation or numeric language quota. Phase07 carries the style
+preference for later generation. Image attachments stay later-phase private input.
+Applied these settled requirements to design/plan; remaining choices still proposed.
+Documentation-only continuation from dc64ae3; other developers' worktrees untouched.
 
 Owner specifically reminded this agent to check Context. Freshly extracted actual
 thesis physical17-18/39-44/58-59 with installed pypdfium2; viewed cached17-18
@@ -26,7 +30,11 @@ Actual model evaluation reports raw proposals separately from validated outcomes
 Builder review identified fact provenance and compound requests; design resolves
 both explicitly. No product code, package, source or registry changes.
 
-## Fresh verification and environment
+## Verification and environment
+
+Owner-clarification edit:git diff --check and phase-state validation pass. Four
+planning/status MD files changed; no product tests needed or rerun. The following
+test/environment observations are from the prior kickoff, not new executions.
 
 Relevant legacy-client/runtime-contract/symbolic-contract/phase-state baseline:
 **309 passed/11 subtests,14.65s,exit0**. Exact files/command in checkpoint.
@@ -51,6 +59,6 @@ authority/currentness, normal institutional loading/registry and activation stay
 held. Full53/55-row conversion remains draft; two historical Docling failures
 remain disclosed. No whole-project-green, official answer or deployment claim.
 
-Next:obtain concrete design acceptance, then write the exact implementation plan
+Next:obtain acceptance of remaining proposed design choices, then write the exact implementation plan
 and start focused TDD. Actual-model evaluation additionally needs an existing
 model/server with the intended identity.

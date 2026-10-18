@@ -2,7 +2,8 @@
 
 Status: proposed for owner review, 19 October 2026. The owner requested continuation
 into Phase 07 in the existing p07 worktree and specifically reminded this agent to
-check Context. This starts phase planning; the detailed design is not yet approved.
+check Context. Owner19October2026 explicitly confirms the evidence roles and
+response-language requirements below; remaining detailed design is still proposed.
 
 ## Purpose and inherited state
 
@@ -19,6 +20,20 @@ missing historical receipts or reactivate institutional capabilities. Phase 06's
 73-case verification is accepted predecessor evidence, not a new local replay.
 
 ## Architecture and boundaries
+
+Owner-confirmed evidence roles: prospectus/curriculum knowledge primarily belongs
+in reviewed structured facts and deterministic Prolog checks for prerequisites,
+eligibility and dependencies. Handbook, Citizens' Charter and memorandum content
+primarily supplies cited RAG explanations and procedures. Hybrid combines a
+structured check with a document explanation or next-step procedure when both
+are needed. These roles apply equally across English, Filipino and Taglish.
+
+Choose the actual route by the requested evidence/operation, not the PDF extension
+or language. Exact curriculum facts use scoped structured operations once those
+operations exist; unsupported operations remain unavailable. Curriculum explanatory
+text can still supply citations. Do not use vector similarity to determine
+eligibility or turn a retrieved handbook/memo clause into an executable rule
+without its separately reviewed authoring/capability work.
 
 Bintu remains the semantic interpreter/router. No keyword classifier, trained
 replacement router, semantic-search eligibility decision or general-chat policy
@@ -39,6 +54,41 @@ generation belongs to Phase 09. The new router does not call those executors,
 publish an API, change source lifecycle state or fill EMPTY_REGISTRY. Synthetic
 capabilities are explicitly injected in offline tests. Institutional loading and
 activation remain independently gated.
+
+## Owner-confirmed response-language preference
+
+| Student query | Intended response style |
+| --- | --- |
+| English | English response throughout. |
+| Tagalog mixed with English / Taglish | Natural Taglish response using both languages. |
+| Tagalog / Filipino | Filipino throughout where practical; otherwise predominantly Filipino with familiar English technical or institutional terms. |
+
+Do not force awkward literal translations of course names, codes, official terms
+or concepts with no useful Filipino equivalent. Preserve their meaning and use
+natural conversational Filipino around them. The owner's preference for a high
+Filipino proportion is qualitative; no numeric word-ratio threshold is specified.
+
+Phase07 carries the intended response language/style in the interpretation
+envelope for later answer generation, including clarification and fallback text.
+Keep it distinct from routing and from evidence language. Route/meaning consistency
+across languages remains required; response style is not a reason to change the
+selected evidence path. Answer generation and its language-quality evaluation
+remain later-phase work; this records their required behavior now.
+
+Implementation recommendation: infer conversational style from the student's own
+question, rather than treating one course code, an official source title or a
+quoted English passage as enough to make a Filipino question Taglish. Evaluate
+these cases with synthetic interpretation fixtures without inventing new PalSU
+benchmark approvals.
+
+## Image attachments reserved for later phases
+
+Owner confirms students will eventually be able to attach an image with a query.
+This remains later-phase upload/private-context work (master15/Phase10); do not
+add image upload, OCR or a vision-model dependency to Phase07. Its future extracted
+context must preserve session ownership and extraction uncertainty, remain separate
+from institutional knowledge, and never install rules or verify policy authority.
+The student's language preference remains applicable when the query has an image.
 
 ## Observable request flow
 
@@ -136,7 +186,8 @@ explicit bound. Model confidence is not a calibrated acceptance threshold.
 
 - Request/interpretation contracts and minimal normalization, with synthetic
   regressions for negation, Unicode, temporal qualifiers, hypothetical claims and
-  session ownership. Preserve existing contract/legacy-adapter tests.
+  session ownership, plus English/Taglish/Filipino response-style metadata.
+  Preserve existing contract/legacy-adapter tests.
 - Scoped exact resolution and validation against the existing capability boundary;
   regress ambiguous aliases, wrong editions, extra/missing arguments, invented
   facts, unsupported operations and closed institutional execution.
@@ -200,5 +251,7 @@ older universal retrieval and generation-before-validation description.
 Raw kickoff evidence: workspace/audit-evidence/p07-kickoff-20261019/.
 Fresh builder review raised fact provenance and multi-operation handling; the
 decisions above resolve both without changing the fixed phase boundary.
-This proposal is the agent's implementation recommendation, not an owner-approved
-new source decision, institutional release or assertion of deployed behavior.
+Evidence roles, response-language preference and deferring image attachments are
+explicit owner requirements. Other proposed implementation choices are the
+agent's recommendations; no new source approval, institutional release or deployed
+behavior is established.

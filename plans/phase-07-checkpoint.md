@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 2
+sequence: 3
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: c5f110b
-working_tree: Phase07 design/plan/checkpoint and INDEX/current progress documentation
-updated_at: 2026-10-19T00:07:30+08:00
+head_commit: dc64ae3
+working_tree: Phase07 design/plan/checkpoint and current progress clarification
+updated_at: 2026-10-19T00:19:42+08:00
 ---
 
 # Phase07 checkpoint
@@ -18,10 +18,12 @@ c5f110b baseline on feat/p07-router-taglish-nlp in p07. phase_state inspect:vali
 no prior active phase, advancement permitted. Drafted concrete routing design.
 Fresh builder review raised fact provenance and compound requests; design now
 specifies source-bound self-reports, hypothetical separation and one-check scope.
+Owner evidence-role/language/image clarification recorded in design and plan.
 
 ## Current Task
 
-Phase07 planning started at owner request. Owner design review precedes
+Phase07 planning started at owner request. Owner clarified evidence roles,
+response style and later image input; remaining proposed design review precedes
 implementation. [Design](2026-10-19-phase07-routing-design.md),
 [plan](phase-07-multilingual-routing-plan.md). Product code unchanged.
 
@@ -48,6 +50,9 @@ pytest options with pytest-final-docs basetemp and only test_phase_state.py give
 **19 passed/11subtests,14.06s,exit0** (final-docs.log). git diff --check passes.
 No complete Phase07 handoff exists, so advancement to08 correctly remains closed.
 Phase06's accepted1415-test receiving audit is predecessor evidence, not rerun here.
+Owner-clarification edit:git diff --check and phase_state.py validate pass;
+only four planning/status MD files changed. No product tests rerun for this prose
+change;309/19 counts above remain the prior kickoff runs, not new results.
 
 ## Versions and Digests
 
@@ -71,6 +76,13 @@ Institutional registry/execution/activation holds remain separate; no source rev
 or historical73-case receipt recovery required. Context7 official llama.cpp docs
 consulted for structured output and model-template token counts; deployed-version
 compatibility must be verified later.
+Owner19October confirms prospectus/curriculum primarily structured/Prolog,
+handbook/Charter/memos primarily RAG and Hybrid when both are needed. Responses
+match English/Taglish/Filipino questions; Filipino should dominate where practical,
+keeping natural English technical terms without a numeric quota. Phase07 carries
+this preference; actual answer generation remains later. Image attachments stay
+later-phase session-private work. Do not reopen these requirements or infer blanket
+design/source/runtime approval from this clarification.
 
 ## Known Failures or Blockers
 

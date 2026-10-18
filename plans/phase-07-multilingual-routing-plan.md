@@ -15,6 +15,10 @@ Phase06, and explicitly requests checking Context. Phase-state inspect confirms
 the complete Phase06 handoff permits7. Planning starts here; product implementation
 awaits acceptance of the concrete [routing design](2026-10-19-phase07-routing-design.md).
 Use native inline execution after design and implementation-plan review.
+Owner19October2026 confirms prospectus/Prolog and handbook/Charter/memo RAG roles,
+matching English/Taglish/Filipino response style and later-phase image attachments;
+these settled requirements are incorporated in the design, without treating the
+clarification as blanket acceptance of every proposed implementation choice.
 
 Student capability: natural English/Filipino/Taglish queries yield an observable,
 validated RAG/Symbolic/Hybrid decision or an explicit clarification/scope/unavailable
@@ -31,6 +35,12 @@ plus deterministic safety regression evidence and a complete final handoff.
   source gaps and missing-fact unknowns; do not reopen settled source decisions.
 - Preserve negation, hypotheticals and time expressions; reject invented facts,
   aliases, equivalencies, unsupported operations and cross-session context.
+- Prospectus/curriculum primarily uses structured facts/Prolog; handbook, Citizens'
+  Charter and memos primarily use RAG. Hybrid joins both when the question needs it.
+- Carry response-style metadata:English -> English, Taglish -> Taglish, Filipino
+  -> predominantly Filipino with natural technical terms; no forced translations
+  or invented word-ratio quota. Final answer generation remains later work.
+- Image attachments/OCR remain later-phase private-context work, outside Phase07.
 - Keep proposed route distinct from effective validated control/route; do not
   conceal capability failures by reclassifying a decision request as RAG.
 - No dependency installs/pin changes, weight downloads/copies or deployed API.
@@ -46,7 +56,7 @@ plus deterministic safety regression evidence and a complete final handoff.
 - [x] Complete builder review; clarify fact provenance and compound requests.
 - [ ] Record owner acceptance of the concrete design.
 - [ ] Write/review exact implementation interfaces and RED/GREEN task steps.
-- [ ] Implement request/interpretation contracts and minimal normalization.
+- [ ] Implement request/interpretation contracts, response-style metadata and minimal normalization.
 - [ ] Implement scoped exact entity resolution and capability/fact validation.
 - [ ] Implement versioned Bintu prompt/transport, token budget and bounded repair.
 - [ ] Review route labels, resolve actual model identity/server and run offline evaluation.
