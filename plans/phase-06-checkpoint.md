@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 34
+sequence: 35
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: e8823c5
-working_tree: final review CSV/procedure docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: fa48211
+working_tree: runtime follow-up CSV docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -32,6 +32,9 @@ scoped output review/institutional release/formal exit remain separate gates.
 Owner requests CSV for the seven generated meanings and retention of prior review.
 [Final review/procedure](2026-10-18-phase06-final-review-and-verification.md):new
 seven-row CSV carries earlier48 ok cases/CS1 correction, no technical grading.
+Latest request adds only the25 corrected/skipped runtime cases with clearer
+per-row definitions, input/expected/observed/why/check and original annotations.
+Earlier48 ok cases excluded. No source, engine, evidence rerun or activation change.
 
 ## Repository State
 
@@ -48,10 +51,15 @@ Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
 No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
 Only the owner-requested Phase06 remote branch write is authorized.
 Dataset/config/venv and generated derivatives remain ignored.
-Pre-condensation snapshot:e8823c5:plans/phase-06-checkpoint.md.
+Pre-condensation snapshot:fa48211:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Runtime follow-up CSV:exact25 non-ok IDs (H27-H42/H65-H73), six corrected/19
+  skipped; prior verdict/notes verbatim and new verdicts blank. Artifact Tool
+  roundtrip/no-formula/render plus independent Python selection/annotation checks
+  pass; original review SHAadb14cf9 unchanged. Raw:p06-runtime-followup-csv-20261018.
+  Docs/phase554 passed/11 subtests27.24s; phase state valid/blocked.
 - Final CSV:seven rows/15 columns, UTF8 BOM/CRLF/quoted, no formulas, blank verdicts;
   Artifact Tool roundtrip/render and independent Python/source-line checks pass.
   Original reviewed CSV SHAadb14cf9 unchanged; earlier48 ok cases accounted for.
@@ -64,17 +72,11 @@ Pre-condensation snapshot:e8823c5:plans/phase-06-checkpoint.md.
   artifacts/prior seals/owner CSV unchanged. Raw:p06-cc1-identity-20261018.
   Final generated review reduced to seven source-linked rows in CURRICULUM-REVIEW.md;
   docs/phase553 passed/11 subtests12.61s. Source-data change only; product unchanged.
-- Simplified guide:unchanged accept.py rerun in p06-developer-checks-20261018;
-  actual BSCS73 cases/four concurrent/version checks/39 native spans pass, plus
-  repeat-result equality and timeout recovery assertions for both versions.
-  Prior source/bundle seals and owner CSV SHAadb14cf9 unchanged. No source promotion.
-  Docs/phase551 passed/11 subtests17.49s; phase state validates/blocked.
 - Mainline sync:854 relevant tests passed106.03s in the primary target checkout
   after fast-forward, system Python3.13/no cache/external basetemp. Raw related.log
   and final docs/ref verification live in p06-mainline-sync-20261018.
 - Owner intake:73 unique ordered IDs/protected cells unchanged,48/3/22 verdicts;
   original review SHAadb14cf9; identical snapshot/receipt in p06-runtime-review-20261018.
-  Docs/phase551 passed/11 subtests18.50s; phase state validates/blocked.
   No Janus rerun; intake checks do not replace the prior acceptance evidence.
 - Fresh full extraction:old53/proposed55 detected draft course rows, audit=error;
   both strict CLI exits1. JSON/CSV/Markdown published; full PL withheld honestly.
@@ -146,7 +148,7 @@ Historical missing receipts affect exact old replay only, not fresh generation.
 
 ## Next Action
 
-Inspect seven generated meanings in p06-final-review-csv-20261018/BSCS-generated-prerequisites-review.csv
+Review25 runtime follow-up cases and seven generated meanings in the two CSVs
 and record scoped final output verdict; no technical CSV regrading. Preserve remaining
 CSV reviews, source/release gates and blocked Phase06 handoff.
 

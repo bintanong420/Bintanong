@@ -4,10 +4,11 @@ Updated:18 October2026. Phase06 active; product49bc993 unchanged.
 [Short completion checklist](../2026-10-18-phase06-closeout-checklist.md):implemented
 offline engine versus pending output review/governed release/formal exit.
 
-Requested [final Excel CSV/procedure](../2026-10-18-phase06-final-review-and-verification.md)
-delivered at audit-evidence/p06-final-review-csv-20261018:seven rows/15 columns,
-printed/generated meanings, earlier feedback/test IDs and blank output-review cells.
-Prior48 ok cases and CS1 correction carried forward; original owner CSV unchanged.
+The [CSV/procedure](../2026-10-18-phase06-final-review-and-verification.md) retains
+the seven-row generated review at p06-final-review-csv-20261018; prior feedback intact.
+Latest follow-up:p06-runtime-followup-csv-20261018/BSCS-runtime-corrections-and-skipped-review.csv.
+Only25 cases:six correctedCS1/L plus19 skipped, with plain definitions/input/why/
+expected-observed/check instructions and exact earlier notes;48 accepted cases excluded.
 
 ## Owner runtime review received
 
@@ -67,13 +68,12 @@ system3.13.12 handles pipeline/tests. No installs, downloads or dependency chang
 CSV uses bundled Artifact Tool. No product/API/DB/frontend/later-phase work;
 concurrent Docker edits untouched. Generated data remains ignored.
 53-file manifest7a417f05; full hashes/source bindings in the report and package.
-Final CSV/procedure docs554 passed/11 subtests13.15s; phase state valid/blocked.
-Repository handoff/reminder/conventional commits
-and spreadsheet/verification workflows applied.
+Runtime follow-up docs554 passed/11 subtests27.24s; phase state valid/blocked.
+Repository handoff/conventional commits and spreadsheet/verification workflows applied.
 
 ## Review boundary and next action
 
-Inspect seven source-linked meanings in the new final-review CSV
+Review the requested25-case runtime follow-up and seven generated meanings
 and record the scoped final output verdict. No technical CSV regrading. Reviews01-03
 stay settled; partial feedback does not approve other CSVs or institutional release.
 Unknowns/draft identities stay unknown and candidates inactive. [Blocked handoff](../phase-06-handoff.md)

@@ -31,6 +31,19 @@ for this CSV export; the identity-aware73-case acceptance remains its named evid
 
 ## Construct the final verification record
 
+Owner follow-up requests runtime cases limited to corrections and skipped rows.
+Separate CSV:workspace/audit-evidence/p06-runtime-followup-csv-20261018/
+BSCS-runtime-corrections-and-skipped-review.csv. Exactly25 rows:H27-H42/H65-H73;
+six correctedCS1/L and19 previously skipped, excluding all48 ok cases.
+Each row explains meaning, actual input, expected/observed result, why, and what
+to check. Prior verdict/notes remain verbatim; new verdict/notes stay blank.
+Unknown-course displays course-unknown, not the misleading CC5/L base label.
+Repeat/timeout rows identify developer assertions and the limits of a single CSV
+observation. Existing identity-aware results are exported; no fresh runtime run.
+Artifact Tool/Python verify exact selection/annotations, UTF8 BOM/CRLF/roundtrip,
+no formulas and original file preservation. Rendered corrected/skipped samples checked.
+Follow-up docs/phase554 passed/11 subtests27.24s; phase state valid/blocked.
+
 1. **Record the human result.** Preserve the returned reviewer copy. Match stable
    IDs to this delivery and compare non-review cells; record the actual answers
    with the exact CSV/bundle hashes. Reuse the48 accepted cases and the recorded
