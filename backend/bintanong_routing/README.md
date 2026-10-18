@@ -14,7 +14,11 @@ explicit program/curriculum mentions may resolve scope through their own aliases
 There is no fuzzy equivalence or curriculum inference from a course code.
 
 Text offsets are Python Unicode character offsets into the original text, with
-exclusive ends. Claim spans must include the corresponding course mention. These
+exclusive ends. A model can quote exactly but count incorrectly. The backend
+anchors a quote only if it occurs exactly once; corrections are reported separately.
+Correct explicit offsets can distinguish repeated text; bad offsets on repeated or
+missing quotes remain unresolved. No text/state/meaning is rewritten.
+Claim spans must include the corresponding course mention. These
 checks establish textual provenance, not semantic truth: the LLM can still misread
 negation or attach the wrong meaning. Actual model evaluation must measure that.
 ScopedFact is a trusted application's request-local user assertion, not an official
@@ -72,7 +76,10 @@ inconsistent equivalent-family labels. Expected labels never enter router calls.
 
 The CLI defaults to localhost18087; --url/--timeout configure an existing runtime.
 Output must stay under --evidence-root (default workspace/audit-evidence). Reports
-contain raw synthetic interpretations; keep them ignored. The report separately
+contain synthetic interpretations after exact quote anchoring, plus offset-correction
+counts; keep them ignored. Proposed route/control semantics stay as selected by the
+model. Explicit diagnostic probes may retain original raw model output separately.
+The report separately
 scores proposed evidence/control labels, effective guarded labels, canonical
 entities, scoped operation names/targets, claim meaning and response style.
 Each case requires expected_operations (empty for no operation); bindings use

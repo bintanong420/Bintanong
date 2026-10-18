@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+from copy import deepcopy
 from dataclasses import dataclass
 
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
@@ -29,6 +30,37 @@ class RoutingResult:
     attempts: int = 1
     program_id: str | None = None
     curriculum_id: str | None = None
+    offset_corrections: int = 0
+
+
+def anchor_unique_quotes(data, text):
+    """Anchor literal quotes deterministically; never choose between repeated text.
+
+    Model offsets are suggestions, not evidence. Keep correctly positioned repeated
+    quotes; correct bad integer offsets only when the complete quote occurs once.
+    Schema/type errors, invented quotes and ambiguous occurrences remain invalid.
+    """
+    if not isinstance(data, dict):
+        return data, 0
+    anchored = deepcopy(data)
+    corrections = 0
+    for name in ('mentions', 'claims'):
+        items = anchored.get(name)
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            quote, start, end = item.get('text'), item.get('start'), item.get('end')
+            if not isinstance(quote, str) or not quote or type(start) is not int or type(end) is not int:
+                continue
+            if 0 <= start < end <= len(text) and text[start:end] == quote:
+                continue
+            first = text.find(quote)
+            if first >= 0 and text.find(quote, first + 1) == -1:
+                item['start'], item['end'] = first, first + len(quote)
+                corrections += 1
+    return anchored, corrections
 
 
 def _key(text):

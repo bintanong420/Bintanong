@@ -11,7 +11,7 @@ from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
 from .contracts import Interpretation, RequestContext, prepare_query
 from .prompt import build_messages, output_schema
 from .transport import RuntimeFailure
-from .validation import RoutingResult, _decision, validate_interpretation
+from .validation import RoutingResult, _decision, anchor_unique_quotes, validate_interpretation
 
 
 def _unique_object(pairs):
@@ -55,6 +55,7 @@ class Router:
                 if not isinstance(raw, str) or len(raw.encode('utf-8')) > 65536:
                     raise ValueError('invalid_output_size')
                 data = json.loads(raw, object_pairs_hook=_unique_object)
+                data, offset_corrections = anchor_unique_quotes(data, text)
                 proposed = Interpretation.parse(data)
             except (ValueError, ValidationError):
                 if attempt == 2:
@@ -69,7 +70,7 @@ class Router:
                 result = validate_interpretation(text, context, proposed, catalog=self.catalog,
                     registry=self.registry, documents_available=self.documents_available,
                     synthetic=self.synthetic)
-                return replace(result, attempts=attempt)
+                return replace(result, attempts=attempt, offset_corrections=offset_corrections)
             except ValueError:
                 return failure('invalid_grounding', attempt)
         raise AssertionError('unreachable')

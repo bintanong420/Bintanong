@@ -110,3 +110,25 @@ def test_english_contractions_do_not_fail_grounding(apostrophe):
     result = asyncio.run(router.route(text, RequestContext.parse(context())))
     assert result.diagnostic == 'validated' and result.decision.route == 'Symbolic'
     assert result.query.normalized_text == text
+
+
+def test_unique_literal_quotes_anchor_bad_model_offsets_without_changing_meaning():
+    value = proposal(language='en', mentions=[dict(kind='course',text='A1',start=0,end=2),
+        dict(kind='course',text='B1',start=16,end=19)],
+        claims=[dict(text='I failed A1.',start=0,end=10,entity=0,state='failed',mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility',target=1)])
+    text = 'I failed A1. Check if I can take B1.'
+    transport = FakeTransport(json.dumps(value))
+    router = api().Router(transport,catalog=catalog(),registry=registry(),synthetic=True)
+    result = asyncio.run(router.route(text,RequestContext.parse(context())))
+    assert result.decision.route == 'Symbolic' and result.offset_corrections == 3
+    assert result.claims[0].state == 'failed' and result.claims[0].text == 'I failed A1.'
+    assert result.proposed.mentions[0].start == text.index('A1')
+    assert len(transport.calls) == 1
+
+
+def test_ambiguous_repeated_quote_cannot_repair_invalid_model_offsets():
+    value = proposal(mentions=[dict(kind='course',text='A1',start=1,end=3)])
+    router = api().Router(FakeTransport(json.dumps(value)),catalog=catalog(),registry=registry(),synthetic=True)
+    result = asyncio.run(router.route('A1 A1',RequestContext.parse(context())))
+    assert result.diagnostic == 'invalid_grounding' and not result.decision.dispatchable

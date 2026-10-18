@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 9
+sequence: 10
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 9286c76
-working_tree: verified review corrections and focused material-fact guard fix
-updated_at: 2026-10-19T00:57:06+08:00
+head_commit: 4fa64e4
+working_tree: verified literal-quote anchoring correction and documentation
+updated_at: 2026-10-19T01:04:01+08:00
 ---
 
 # Phase07 checkpoint
@@ -23,6 +23,8 @@ Task1 committed7ed9abe; Task2 committed2de4f76. Task3 transport/prompt/router ve
 Task3 committed8fb40c3; Task4 evaluator9286c76. Independent review complete;
 threeP2 findings reproduced/corrected. Actual15-case model batch is running against
 9286c76; preserve its initial contract. [Review/corrections](2026-10-19-phase07-code-review.md).
+Review fixes committed4fa64e4. Captured model output proves wrong offset counting;
+deterministic unique literal-quote anchoring now verified, without changing meaning.
 
 ## Repository State
 
@@ -49,6 +51,9 @@ Task4 RED8 -> GREEN65; effective-label RED1 ->68passed. Review RED4failed/3passe
 ->75passed,2.43s. Full23-file gate1499passed/11subtests,266.57s,exit0, regressions.log.
 Material-fact RAG regression RED1 -> final focused76passed,2.31s. Full collection
 predates that last delta; final focused suite covers it. No model-score claim yet.
+Quote anchoring RED1/1passed ->248passed,5.02s,exit0; anchor-*.log. Captured actual
+English output replay yields correct operation/course/failed claim with3offset
+corrections and no new model call; structured-quote-replay.json. Not a15-case rerun.
 Prior kickoff309/phase19 remain history,
 not current reruns. Phase06 accepted1415 is predecessor evidence.
 
@@ -76,6 +81,8 @@ image/private inputs later. Current Context evidence remains applicable.
 Ruling:owner's explicit proceed authorizes design execution without another approval
 round; exact plan supplies internal interfaces, not a new user-facing scope.
 Ruling:owner model-root correction supersedes old path for this phase; no model move.
+Ruling:unique literal quotes can anchor wrong model offsets deterministically;
+count corrections and reject ambiguous/missing quotes. No semantic/fact inference.
 Docker Desktop started; unrelated existing containers preserved.
 Context7 Pydantic/HTTPX/llama.cpp docs fetched; deployed runtime still must be probed.
 

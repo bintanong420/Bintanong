@@ -99,6 +99,7 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
             operation_correct=operations == tuple(sorted(c.expected_operations)),
             style_correct=result.response_style == c.expected_style,
             diagnostic=result.diagnostic, attempts=result.attempts,
+            offset_corrections=result.offset_corrections,
             entities=entities, claims=claims, operations=operations, response_style=result.response_style,
             seconds=time.monotonic() - started,
             interpretation=raw.model_dump(mode='json') if raw else None)
@@ -129,6 +130,8 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         family_compared=len(compared),
         family_consistent=sum(len(set(v)) == 1 and v[0][0] != 'invalid' for v in compared),
         repair_attempts=sum(r['attempts'] - 1 for r in records), records=records,
+        offset_corrected_cases=sum(r['offset_corrections'] > 0 for r in records),
+        offset_corrections=sum(r['offset_corrections'] for r in records),
         institutional_approval=False, activation_allowed=False)
     for key in ('proposal_correct', 'effective_correct', 'entity_correct', 'claim_correct',
                 'operation_correct', 'style_correct'):

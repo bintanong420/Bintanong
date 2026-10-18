@@ -47,3 +47,18 @@ was pending and excluded from reviewer calls. Implementer ruling:that remains an
 explicit phase-exit requirement, evaluated separately with actual Gemma outputs;
 neither independent review nor passing mocks establish it. No institutional/final
 benchmark claim is authorized. Initial model probe failures remain evidence.
+
+## Later bounded model diagnostic
+
+An actual prerequisite-output replay identified correct course/operation/failed
+claim text but incorrect character offsets. Root evidence:
+structured-original-output.json SHA256
+0e799cf8e2d268dc02805f355b9975faecd3a18b9640235bbdf721223acec54d.
+Implementation ruling:host can anchor a complete literal quote only when it occurs
+exactly once; never guess repeated/missing text or reinterpret the claim's state.
+Correction count is explicit. New regression RED1/1passed -> focused248passed,
+5.02s,exit0 (anchor-*.log); wrong/repeated/missing quotes still withhold dispatch.
+The same captured model output replayed without another model call now yields
+Symbolic/check_prerequisite_eligibility on course-b, failed course-a, three offset
+corrections. structured-quote-replay.json records this bounded result. It is not a
+new multilingual accuracy run or evidence that all old failed outputs are repaired.

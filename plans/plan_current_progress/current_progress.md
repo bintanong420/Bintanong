@@ -14,6 +14,9 @@ Task1 committed7ed9abe; Task2 committed2de4f76; Task3 committed8fb40c3;
 evaluator9286c76. Independent review found threeP2 defects, now reproduced/fixed:
 contraction markers, scoped operation/target scoring and malformed HTTP envelopes.
 Also keep irrelevant grade conflicts from blocking document-only RAG. No executors,
+Review fixes committed4fa64e4. Actual structured trace reveals correct quoted facts/
+course/operation but wrong offsets. Verified host exact-quote anchoring corrects
+only unique occurrences and counts corrections; repeated/missing quotes stay held.
 source promotion, API or institutional capability activation.
 
 Owner corrects model root to C:/Coding-projects/bintanong_workspace/MODELS and
@@ -35,6 +38,9 @@ corrected promptv2/schema oneOf and repair reanchoring; final Task3 gate229passe
 Task4 RED8 ->GREEN65; effective-label RED1 ->68passed. Review RED4/3passed ->75passed.
 Full23-file gate1499passed/11subtests,266.57s,exit0; then material-fact RED1 -> focused
 76passed,2.31s. Full collection preceded last validation delta; final76 covers it.
+Quote anchoring RED1/1passed ->248passed,5.02s. Replayed one actual English output
+without another model call:correct Symbolic target and failed claim,3offset fixes.
+This does not revise the old model batch's failed counts or prove other languages.
 Python3.13.7 readiness venv;
 no dependency/lock changes.
 Raw:workspace/audit-evidence/p07-implementation-20261019/. Existing Context checks

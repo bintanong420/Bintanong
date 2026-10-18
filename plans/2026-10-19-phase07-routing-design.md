@@ -93,6 +93,14 @@ The student's language preference remains applicable when the query has an image
 
 ## Observable request flow
 
+Implementation ruling from actual Gemma evidence: literal quote text can be correct
+while generated character counts are wrong. Before strict proposal validation,
+the host may reanchor bad integer offsets when that complete literal quote occurs
+exactly once in the original text. Preserve correct explicit repeated occurrences;
+do not guess among repeated/missing quotes or change claim text/state. Report
+offset-correction counts separately from model output accuracy. This is deterministic
+text anchoring, not semantic routing or a new institutional source decision.
+
 1. Accept text plus a trusted request-context object. Session-owned facts supplied
    by the embedding application must match that object's session; reject foreign
    references. Phase 07 validates this boundary, not browser login or authentication.
