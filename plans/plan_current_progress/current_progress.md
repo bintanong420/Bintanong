@@ -1,61 +1,56 @@
 # Current progress
 
-Updated:18 October2026. Phase06 complete as an owner-approved offline BSCS
-research/software milestone. Runtime49bc993; Windows checkout fixa9d8a5d; closure869579e.
+Updated:18 October2026. Phase06 remains complete as the owner-approved offline
+BSCS research/software milestone. Runtime49bc993; checkout fixa9d8a5d; closure869579e.
 [Complete handoff](../phase-06-handoff.md), [completed plan](../phase-06-structured-knowledge-plan.md),
-[superseded checkpoint](../phase-06-checkpoint.md) and
-[closure/specification report](../2026-10-18-phase06-offline-closure.md).
-No active phase; next eligible Phase07 is not started or authorized here.
+[superseded checkpoint](../phase-06-checkpoint.md).
+No active phase; next eligible Phase07 has not started.
+Previous full progress snapshot:380551a:plans/plan_current_progress/current_progress.md.
 
-## Latest task: dev integration
+## Latest task: independent receiving-developer audit
 
-Owner now explicitly authorizes merging Phase06 into dev; earlier no-dev-mutation
-limit is superseded for this task. Local dev fast-forwarded to verified Phase06
-6923835 with identical complete tree; source branch/p06 worktree preserved.
-[Integration and next-developer entry point](../2026-10-18-phase06-dev-integration.md)
-records target checks/publication. Primary checkout is now dev. Phase07 remains
-eligible for separate planning/assignment; no implementation started.
-Merged-dev gate:1414 passed/11 subtests88.89s. Product/tests unchanged from Phase06;
-only integration/handoff notes added. Exact refs/logs live in the integration report.
+[Audit and recovery requirements](../2026-10-18-phase06-independent-developer-audit.md).
+Audited dev380551a; GitHub MCP confirms remote dev matches. Tracked backend/tests/
+attributes match a9d8a5d exactly. Phase inspect/validate/can-advance pass; formal
+closure matches the expressly approved offline subset. This machine cannot yet
+reproduce the final technical acceptance.
 
-## Verified delivery
+Fresh named17-file gate:1352 passed/62 failed/11 subtests115.22s, exit1. All failures
+are in four runtime-dependent files. Existing readiness venv lacks janus_swi;
+independent smoke returns error/runtime_unavailable. Python3.13.7, pytest9.1.1,
+Pydantic2.13.5, SWI10.1.15 differ from predecessor's tested environment.
+No installation, download, source/implementation edit or environment copying.
 
-Owner approved offline completion/separate release holds, then authorized formal
-finalization using Phase05 as reference and fast-forward to Phase06 mainline.
-Final primary checkout gate:1413 passed/11 subtests83.38s; actual73 BSCS cases/
-four isolation checks/39 native spans pass, with repeat equality and timeout recovery.
-Authoring/PL/runtime artifacts reproduce exactly; sources/reviewer CSVs/seals intact.
-Initial worktree gate1411 passed94.14s; first primary gate1412 passed87.61s.
-A real primary replay caught core.autocrlf rewriting engine bytes. Narrow LF Git
-attribute fixes it without weakening hashes or changing reasoning. Fresh checkout
-RED ->115 runtime GREEN ->1413 primary GREEN. Initial rejection logs preserved.
+Final corrected bundles,73-case replay scripts/results, closure/integration seals
+and returned reviewer CSV receipts are absent from this workspace. Earlier candidate
+delivery is intact (921 manifest entries) and compiler-replays, but has ten reviewed
+identities/one draft, not the final eleven. Both original BSCS PDFs and fixed engine
+match final handoff hashes. No freshly rerun final73-case acceptance claim.
+Local p06 worktree is32 commits behind dev/31 behind its tracking ref; inspect
+current dev for completed code. Existing worktrees/branches remain untouched.
 
-Both owner CSVs reconciled; oldCC1/L identity correction applied. Seven relationships/
-11 identities reviewed; four foundation own-rule conditions remain unknown.
-No repeated grading, blank-to-none inference, new grade policy or edition merging.
-Generic Prolog evaluates checked JSON; generated candidate PL remains review data.
-[Plain-language status](../2026-10-18-phase06-closeout-checklist.md) keeps these distinctions.
+Raw:workspace/audit-evidence/p06-independent-dev-audit-20261018/:
+regressions.log, inspect_delivery.py and delivery-inspection.json.
+Context rechecked:actual thesis17-18/39-44, routing PNG, master3/11/13 and scope/
+architecture policy; missing facts stay unknown. No active checkpoint exists.
 
-## Mainline synchronization and preservation
+## Completed delivery and remaining boundaries
 
-Phase06 mainline:feat/p06-prolog-janus-rules, primary checkout
-C:/Users/Hawksprey/source/repos/Bintanong, fast-forwarded fromf3e80ac througha9d8a5d;
-the final documentation wrapper follows the same verified runtime/test tree.
-Closure raw:p06-offline-closure-20261018-9ffb24df; successful primary source replay:
-p06-mainline-source-lf-20261018-9ffb24df. integration-verification.json and final-refs.json
-record exact target/remote identities, dev ancestry, hashes and preservation checks.
-Two missing required BSCS PDFs copied only to the ignored primary dataset; SHA
-verified. Primary tracked tree clean;
-original untracked model directory preserved. Concurrent p06 Docker edits unchanged.
-No secret/model/cache copies or staging, worktree deletion, force push or dev mutation.
+Predecessor records1414 passing dev regressions and actual73 BSCS cases/four
+isolation checks/39 native spans. Those final raw results are unavailable locally;
+retain them as historical evidence, not this audit's passing results.
+[Dev integration](../2026-10-18-phase06-dev-integration.md) records published delivery.
 
-## Remaining boundaries and next action
+Both editions remain separate; seven relationships/eleven identities are final
+reviewed scope. Four blank own-rule conditions stay unknown. No repeated source/
+CSV grading, unknown-to-none inference or grade-policy expansion is authorized.
+Candidate PL is review data; fixed Prolog evaluates compiler-derived JSON.
+University authority/currentness, governed institutional runtime/registry code and
+activation remain release holds. Full53/55-row conversion stays draft. Two historical
+Docling failures remain disclosed; no all-project-green or deployment claim.
 
-University source authority/currentness, normal institutional runtime/registry
-integration and activation remain release holds. Full53/55-row conversion still
-fails unit/prerequisite/table audits; full PL withheld. Four own-rule unknowns stand.
-Retained full suite:5748 passed/two system-Docling failures/one skipped; historical,
-not rerun/fixed. Runtime code is unchanged; one checkout regression was added.
-No all-project-green, whole-curriculum, API/deployment or official-answer claim.
-Next:assign/separately scope Phase07 from updated dev, preferably with the developer
-who will own it. Read the integration entry point; no Phase07 implementation yet.
+Next:restore final ignored acceptance/review package and its referenced inputs
+from previous developer, verify handoff hashes, resolve Janus setup through an
+applicable owner instruction, then rerun17-file and73-case acceptance in fresh
+evidence before claiming independently reproduced delivery. Phase07 remains
+eligible for separate assignment; no Phase07 implementation in this audit.
