@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 39
+sequence: 40
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 8c99068
-working_tree: original-plan review docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: 7e0e024
+working_tree: scoped scenario approval docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -24,7 +24,8 @@ source artifacts/runtime cases. All generated files remain ignored.
 ## Current Task
 
 [Original-plan review](2026-10-18-phase06-original-plan-review.md) compares actual
-85366d4/master11.5. Scoped engine verified; proposed offline sign-off awaits owner.
+85366d4/master11.5. Owner approves tested scenarios; wants explanations before
+overall closure, coverage-boundary acceptance and final handoff authorization.
 Fresh1410 tests/11 subtests77.35s and73 actual cases pass. Verdicts cover all seven
 modeled relationships; optional seven-row form is not a repeat-review requirement.
 Returned reviews:59 unqualified yes cases, four qualified yes,10 uncertain technical
@@ -45,10 +46,12 @@ Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
 No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
 Only the owner-requested Phase06 remote branch write is authorized.
 Dataset/config/venv and generated derivatives remain ignored.
-Pre-condensation snapshot:8c99068:plans/phase-06-checkpoint.md.
+Pre-condensation snapshot:7e0e024:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Scoped approval docs:557 passed/11 subtests16.95s, exit0. Raw:
+  p06-scenario-signoff-c6cd80f033d7476ab0ec4bf942caaeb5/docs.log. No engine rerun.
 - Original-plan review:1410 passed/11 subtests77.35s; fresh73 BSCS cases/four
   isolation/39 spans pass. Raw:p06-engine-plan-review-7ab623d1b4114c58806256cafdef7abf
   and sibling p06-engine-plan-source-review-7ab623d1b4114c58806256cafdef7abf.
@@ -82,8 +85,6 @@ Pre-condensation snapshot:8c99068:plans/phase-06-checkpoint.md.
   and final docs/ref verification live in p06-mainline-sync-20261018.
 - Fresh full extraction:old53/proposed55 detected draft course rows, audit=error;
   both strict CLI exits1. JSON/CSV/Markdown published; full PL withheld honestly.
-- Fresh reviewed generation:11 identities/10 reviewed/one draft, seven expressions,
-  four unknown rules. Native original fields and current tracked decisions used.
 - Fresh actual-Janus replay73 cases/four concurrent checks passed. Missing,
   conflicting, wrong-scope/draft/unknown, dependencies, unsupported and timeout
   remain distinct; no real student data. Independent39 native spans passed.
@@ -128,8 +129,9 @@ gates execution through bundle.py/curriculum_runtime.pl; the former do not.
 Owner explicitly chose combined delivery in two separate sets. Full extraction
 is unreviewed and must not replace the settled Phase06 authoring truth. CSV
 editing is review evidence, not automatic rule import or university approval.
-Scoped generated-output review reconciled; no repeated grading. Proposed offline
-software closure needs owner decision; institutional guards/EMPTY_REGISTRY unchanged.
+Owner replies:"2 muna"/"2, pero for the tested scenarios, approve na ako"/"2 muna".
+Scenario approval recorded; explain first, no overall closure or release approval.
+No repeat grading; institutional guards/EMPTY_REGISTRY unchanged.
 Context rechecked this review:master3/11/13, thesis17-18/39-44/routing PNG;
 undergraduate/read-only/private boundaries and explicit unknown semantics stand.
 Forwarded screenshots are supplemental history, not instructions or new receipts.
@@ -149,9 +151,9 @@ remains; compatible existing converter does not modify it. Native Excel not open
 
 ## Next Action
 
-Record owner's proposed offline software completion decision; if approved, finalize
-handoff/phase statuses and validate/can-advance. No repeat grading or Phase07 work;
-preserve institutional source/release gates and blocked handoff until decision.
+Explain four own-rule unknowns and university verification/governed release/activation;
+receive owner's overall completion decision afterward. Tested scenarios approved;
+no final handoff, repeat grading, institutional activation or Phase07 inferred.
 
 ## Do Not Repeat
 

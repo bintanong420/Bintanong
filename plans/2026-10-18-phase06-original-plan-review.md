@@ -2,8 +2,8 @@
 
 Reviewed18October2026 at8c99068; product49bc993 unchanged. Compared master3/11/13,
 the actual85366d4 predecessor phase plan/INDEX, scaffold, subsequent runtime design,
-current implementation and tests. This records a proposed completion boundary,
-not owner approval, source authority, release activation or Phase07 commencement.
+current implementation and tests. Overall completion is proposed; the later scoped
+scenario approval below does not authorize source/release activation or Phase07.
 
 ## Technical assessment
 
@@ -57,7 +57,7 @@ its INDEX names university verification/governed release as separate release gat
 Later blocked recovery wording conflates those with phase closure. Returned review
 coverage is already reconciled for all seven relationships; no repeat CSV grading.
 
-Proposed decision, awaiting an actual owner answer:
+Proposed overall completion decision, still awaiting approval:
 "Approve Phase06 completion as an offline research/software milestone for the
 reviewed BSCS subset. Keep university verification, governed institutional runtime
 and activation as separate outstanding release gates."
@@ -66,3 +66,23 @@ After that decision, record it, finalize the complete handoff with this evidence
 supersede the checkpoint, update phase plan/index status, and run phase-state
 validate/can-advance. Preserve all research/source guards and unknowns. Do not start
 Phase07 without its own instruction. Until the decision, the handoff stays blocked.
+
+## Owner response to the three sign-off questions
+
+Actual replies,18October2026:overall offline completion="2 muna";
+coverage="2, pero for the tested scenarios, approve na ako";
+final handoff/release separation="2 muna". Option2 requested an explanation first
+in all three questions. Record approval of the tested scenarios only; overall
+Phase06 closure, acceptance of the complete coverage boundary and final handoff
+authorization remain undecided. No repeated scenario grading is needed.
+
+Explain the four own-rule unknowns:oldCC1/L and CC2/L; proposedCC2/L and CS1.
+Their blank prerequisite cells do not establish verified_none. The reviewed old
+CS1/L -> CC1/L relationship remains usable with explicit completion facts even
+though CC1/L's own prerequisite is unknown. Preserve those distinct meanings.
+Explain university source/currentness verification, a governed institutional
+bundle/operation release path, and activation for student-facing institutional use.
+These differ from the already tested offline engine; no gate is waived here.
+Next:receive the owner's overall completion decision after those explanations.
+Feedback documentation checks:557 passed/11 subtests16.95s, exit0. Raw:
+workspace/audit-evidence/p06-scenario-signoff-c6cd80f033d7476ab0ec4bf942caaeb5/docs.log.
