@@ -74,10 +74,16 @@ class LlamaTransport:
                 data = await self._json(client, 'POST', '/v1/chat/completions', dict(
                     messages=messages, temperature=0, seed=0, max_tokens=self.max_output_tokens,
                     stream=False, response_format=response_format, reasoning_effort='none'))
-                choice = data['choices'][0]
+                choices = data['choices']
+                if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+                    raise RuntimeFailure('invalid_server_response')
+                choice = choices[0]
                 if choice.get('finish_reason') == 'length':
                     raise RuntimeFailure('truncated_output')
-                content = choice['message']['content']
+                message = choice['message']
+                if not isinstance(message, dict):
+                    raise RuntimeFailure('invalid_server_response')
+                content = message['content']
                 if not isinstance(content, str) or len(content.encode('utf-8')) > 65536:
                     raise RuntimeFailure('invalid_server_response')
                 return content

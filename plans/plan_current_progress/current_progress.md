@@ -10,8 +10,10 @@ Previous full snapshot:87ece27:plans/plan_current_progress/current_progress.md.
 Owner explicitly directs “proceed to phase 07 lets go!” after reviewing scope,
 LLM routing, curriculum/Prolog versus document RAG and language preferences.
 Design accepted; executing inline TDD, no second design approval needed.
-Task1 committed7ed9abe; Task2 committed2de4f76. Task3 versioned Bintu prompt,
-token-budgeted transport and bounded router verified. No executors,
+Task1 committed7ed9abe; Task2 committed2de4f76; Task3 committed8fb40c3;
+evaluator9286c76. Independent review found threeP2 defects, now reproduced/fixed:
+contraction markers, scoped operation/target scoring and malformed HTTP envelopes.
+Also keep irrelevant grade conflicts from blocking document-only RAG. No executors,
 source promotion, API or institutional capability activation.
 
 Owner corrects model root to C:/Coding-projects/bintanong_workspace/MODELS and
@@ -30,8 +32,10 @@ UTF8 output fix only test reporting. Task1 GREEN:238passed,1.77s,exit0.
 Task2 RED20 -> GREEN207passed. Task3 RED15 -> GREEN227passed. Actual probe exposed
 repair meta-question and route/control mismatch; focused regressions RED1 each,
 corrected promptv2/schema oneOf and repair reanchoring; final Task3 gate229passed.
-Task3 committed8fb40c3. Task4 RED8 -> GREEN65; separate effective-label regression
-RED1 -> final routing gate68passed,1.26s,exit0. Python3.13.7 readiness venv;
+Task4 RED8 ->GREEN65; effective-label RED1 ->68passed. Review RED4/3passed ->75passed.
+Full23-file gate1499passed/11subtests,266.57s,exit0; then material-fact RED1 -> focused
+76passed,2.31s. Full collection preceded last validation delta; final76 covers it.
+Python3.13.7 readiness venv;
 no dependency/lock changes.
 Raw:workspace/audit-evidence/p07-implementation-20261019/. Existing Context checks
 (thesis17-18/39-44/58-59 and routing PNG) remain consulted; no new scope discrepancy.
@@ -47,5 +51,6 @@ answer, deployment, completed Phase07 or whole-project-green claim.
 English -> English, Taglish -> natural Taglish, Filipino -> predominantly Filipino
 with useful technical terms; image/private-upload processing remains later-phase.
 
-Next:bounded actual-model synthetic development evaluation, Task4 report and final
-independent review. Keep initial probe failures visible; no calibrated routing claim.
+Next:finish the15-variant/five-family actual Gemma batch and inspect failed outputs.
+Early RAG variants over-clarify; first two prerequisite outputs fail schema. Report
+these failures and operation-aware meaning separately; no calibrated routing claim.

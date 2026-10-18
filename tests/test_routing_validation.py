@@ -135,3 +135,13 @@ def test_claim_quote_cannot_be_assigned_to_an_unrelated_mention():
                                  text='failed', start=3, end=9)])
     with pytest.raises(ValueError, match='ungrounded_claim'):
         validate('A1 failed', value)
+
+
+def test_document_only_request_does_not_require_resolving_irrelevant_grade_conflicts():
+    ctx = context(facts=[dict(fact_id='fact-'+state, session_id='sess-a',
+        program_id='program-a', curriculum_id='curriculum-a', course_id='course-a', state=state)
+        for state in ['passed','failed']])
+    result = validate('Where do I request a copy?',
+        proposal(route='RAG', operations=[], mentions=[], intent='procedure'), ctx)
+    assert result.decision.route == 'RAG'
+    assert len(result.query.session_fact_refs) == 2  # preserve conflict for any later check

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 8
+sequence: 9
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 8fb40c3
-working_tree: Task4 evaluation harness/docs verified; actual-model batch next
-updated_at: 2026-10-19T00:35:00+08:00
+head_commit: 9286c76
+working_tree: verified review corrections and focused material-fact guard fix
+updated_at: 2026-10-19T00:57:06+08:00
 ---
 
 # Phase07 checkpoint
@@ -20,7 +20,9 @@ NFC/whitespace normalization delivered. [Implementation ledger](2026-10-19-phase
 ## Current Task
 
 Task1 committed7ed9abe; Task2 committed2de4f76. Task3 transport/prompt/router verified.
-Task3 committed8fb40c3. Task4 evaluator/CLI/docs verified; actual-model batch next.
+Task3 committed8fb40c3; Task4 evaluator9286c76. Independent review complete;
+threeP2 findings reproduced/corrected. Actual15-case model batch is running against
+9286c76; preserve its initial contract. [Review/corrections](2026-10-19-phase07-code-review.md).
 
 ## Repository State
 
@@ -43,8 +45,10 @@ Task3 RED15 -> GREEN227passed. Actual probe exposed format-repair meta-question
 and route/control schema mismatch; focused repair/schema regressions each RED1.
 Original probe output saved; promptv2/decoder oneOf and repair reanchoring corrected.
 Final Task3 gate229passed,2.51s,exit0; task3-final-green.log.
-Task4 RED8 -> GREEN65. Separate expected-effective label regression RED1 -> final
-routing gate68passed,1.26s,exit0 (task4-final-green.log). No model-score claim yet.
+Task4 RED8 -> GREEN65; effective-label RED1 ->68passed. Review RED4failed/3passed
+->75passed,2.43s. Full23-file gate1499passed/11subtests,266.57s,exit0, regressions.log.
+Material-fact RAG regression RED1 -> final focused76passed,2.31s. Full collection
+predates that last delta; final focused suite covers it. No model-score claim yet.
 Prior kickoff309/phase19 remain history,
 not current reruns. Phase06 accepted1415 is predecessor evidence.
 
@@ -77,7 +81,9 @@ Context7 Pydantic/HTTPX/llama.cpp docs fetched; deployed runtime still must be p
 
 ## Known Failures or Blockers
 
-Actual-model report pending. Initial probe used a repair then misread the formatting
+Actual-model report pending. Early procedure variants choose RAG but add unnecessary
+ambiguity holds; first two prerequisite variants fail output validation. Retain as
+model errors, not passing routing. Initial probe used a repair then misread the formatting
 instruction; not a passing language result. Keep original raw output and corrections.
 Synthetic contract tests prove boundaries, not language accuracy. Institutional
 registry/source authority/currentness/activation remain closed; four blank own-rules
@@ -85,7 +91,8 @@ unknown. Two inherited Docling failures/full-prospectus defects remain disclosed
 
 ## Next Action
 
-Run bounded actual-model synthetic development evaluation and finish Task4 report/review.
+Finish bounded actual-model batch, inspect exact failed outputs and report route/
+meaning results separately from guard/test success. Do not activate or advance.
 
 ## Do Not Repeat
 

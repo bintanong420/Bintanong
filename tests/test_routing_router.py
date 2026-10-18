@@ -99,3 +99,14 @@ def test_decoder_schema_expresses_mutually_exclusive_route_and_control():
     assert len(branches) == 2
     assert branches[0]['properties']['control'] == {'type':'null'}
     assert branches[1]['properties']['route'] == {'type':'null'}
+
+
+@pytest.mark.parametrize('apostrophe', ["'", '’'])
+def test_english_contractions_do_not_fail_grounding(apostrophe):
+    text = f'I didn{apostrophe}t pass A1.'
+    value = proposal(language='en', mentions=[dict(kind='course',text='A1',start=14,end=16)], claims=[])
+    transport = FakeTransport(json.dumps(value))
+    router = api().Router(transport, catalog=catalog(), registry=registry(), synthetic=True)
+    result = asyncio.run(router.route(text, RequestContext.parse(context())))
+    assert result.diagnostic == 'validated' and result.decision.route == 'Symbolic'
+    assert result.query.normalized_text == text

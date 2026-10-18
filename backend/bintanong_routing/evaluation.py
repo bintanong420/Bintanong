@@ -17,7 +17,7 @@ from .contracts import CatalogEntry, RequestContext, prepare_query
 from .prompt import PROMPT_SHA256, PROMPT_VERSION, digest, output_schema
 from .router import Router
 from .transport import LlamaTransport
-from .validation import OPERATIONS
+from .validation import OPERATIONS, _matches
 
 
 class DevelopmentCase(Record):
@@ -33,6 +33,7 @@ class DevelopmentCase(Record):
     expected_effective: str | None = None
     expected_entities: tuple[str, ...]
     expected_claims: tuple[str, ...]
+    expected_operations: tuple[str, ...]
     expected_style: Literal['en', 'fil', 'taglish']
 
     @model_validator(mode='after')
@@ -66,7 +67,8 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
     for c in cases:
         families[c.family_id].append(c)
     for family in families.values():
-        gold = {(c.expected, tuple(sorted(c.expected_entities)), tuple(sorted(c.expected_claims))) for c in family}
+        gold = {(c.expected, tuple(sorted(c.expected_entities)), tuple(sorted(c.expected_claims)),
+                 tuple(sorted(c.expected_operations))) for c in family}
         if len(gold) != 1:
             raise ValueError('inconsistent_family_labels')
     proposal_matrix, effective_matrix = defaultdict(Counter), defaultdict(Counter)
@@ -80,15 +82,24 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         effective = result.decision.route or result.decision.control
         entities = tuple(sorted(e.value for e in result.query.entities))
         claims = tuple(sorted(f'{f.course_id}:{f.state}:{f.mode}' for f in result.claims))
+        operations = []
+        if raw:
+            for op in raw.operations:
+                matches = (_matches(raw.mentions[op.target], router.catalog, result.program_id,
+                    result.curriculum_id) if result.program_id and result.curriculum_id else ())
+                target = matches[0].entity_id if len(matches) == 1 else 'unresolved'
+                operations.append(f'{op.name}:{result.curriculum_id or "unresolved"}:{target}')
+        operations = tuple(sorted(operations))
         expected_effective = c.expected_effective or c.expected
         row = dict(case_id=c.case_id, family_id=c.family_id, language=c.language,
             expected=c.expected, expected_effective=expected_effective, proposed=proposed, effective=effective,
             proposal_correct=proposed == c.expected, effective_correct=effective == expected_effective,
             entity_correct=entities == tuple(sorted(c.expected_entities)),
             claim_correct=claims == tuple(sorted(c.expected_claims)),
+            operation_correct=operations == tuple(sorted(c.expected_operations)),
             style_correct=result.response_style == c.expected_style,
             diagnostic=result.diagnostic, attempts=result.attempts,
-            entities=entities, claims=claims, response_style=result.response_style,
+            entities=entities, claims=claims, operations=operations, response_style=result.response_style,
             seconds=time.monotonic() - started,
             interpretation=raw.model_dump(mode='json') if raw else None)
         records.append(row)
@@ -97,14 +108,15 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         diagnostics[result.diagnostic] += 1
         lang = per_language[c.language]
         lang['total'] += 1
-        for key in ('proposal_correct', 'effective_correct', 'entity_correct', 'claim_correct', 'style_correct'):
+        for key in ('proposal_correct', 'effective_correct', 'entity_correct', 'claim_correct',
+                    'operation_correct', 'style_correct'):
             lang[key] += int(row[key])
         if progress:
             progress(dict(case_id=c.case_id, proposed=proposed, effective=effective,
                           diagnostic=result.diagnostic, seconds=row['seconds']))
     family_signatures = defaultdict(list)
     for r in records:
-        family_signatures[r['family_id']].append((r['proposed'], r['entities'], r['claims']))
+        family_signatures[r['family_id']].append((r['proposed'], r['entities'], r['claims'], r['operations']))
     compared = [values for values in family_signatures.values() if len(values) > 1]
     report = dict(schema_version='bintanong-routing-evaluation-v1', total=len(cases),
         metadata=metadata, prompt_version=PROMPT_VERSION, prompt_sha256=PROMPT_SHA256,
@@ -118,7 +130,8 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         family_consistent=sum(len(set(v)) == 1 and v[0][0] != 'invalid' for v in compared),
         repair_attempts=sum(r['attempts'] - 1 for r in records), records=records,
         institutional_approval=False, activation_allowed=False)
-    for key in ('proposal_correct', 'effective_correct', 'entity_correct', 'claim_correct', 'style_correct'):
+    for key in ('proposal_correct', 'effective_correct', 'entity_correct', 'claim_correct',
+                'operation_correct', 'style_correct'):
         report[key] = sum(r[key] for r in records)
     return report
 

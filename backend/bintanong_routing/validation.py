@@ -112,7 +112,8 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         'taglish':('tl','en'), 'unknown':()}[p.language], intent=p.intent,
         entities=tuple(ResolvedEntity(kind=p.mentions[i].kind, value=c.entity_id,
                        source_ref=c.source_ref) for i, c in sorted(resolved.items())),
-        ambiguities=p.ambiguities, negations=tuple(sorted(negation_tokens(text))),
+        ambiguities=p.ambiguities, negations=tuple(sorted(
+            word for word in negation_tokens(text) if word in normalized.casefold())),
         time_qualifiers=tuple(sorted(time_phrases(text))),
         session_fact_refs=tuple(f.fact_id for f in context.facts) + tuple(c.fact_id for c in claims))
 
@@ -148,7 +149,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     states = {}
     for f in (*context.facts, *claims):
         states.setdefault(f.course_id, set()).add(f.state)
-    if any({'passed','failed'} <= s or {'enrolled','not_enrolled'} <= s for s in states.values()):
+    if p.operations and any({'passed','failed'} <= s or {'enrolled','not_enrolled'} <= s for s in states.values()):
         return result('conflicting_facts')
     request = None
     if p.operations:

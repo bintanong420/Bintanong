@@ -74,7 +74,9 @@ The CLI defaults to localhost18087; --url/--timeout configure an existing runtim
 Output must stay under --evidence-root (default workspace/audit-evidence). Reports
 contain raw synthetic interpretations; keep them ignored. The report separately
 scores proposed evidence/control labels, effective guarded labels, canonical
-entities, claim meaning and response style. Invalid/failing outputs stay in every
+entities, scoped operation names/targets, claim meaning and response style.
+Each case requires expected_operations (empty for no operation); bindings use
+operation:curriculum_id:course_id. Invalid/failing outputs stay in every
 relevant denominator. Equivalent-family consistency and per-language counts are
 separate from accuracy. A safe guard cannot make a wrong proposal correct.
 evaluation_kind=mock proves only test/harness behavior, never model accuracy.

@@ -19,6 +19,7 @@ def case(case_id='case-en', language='en', **kw):
     data = dict(case_id=case_id, family_id='family-1', split='dev', synthetic=True,
         synthetic_policy='Fictional A1 catalog; no university rule is asserted.', text='A1',
         language=language, context=context(), expected='Symbolic',
+        expected_operations=['check_prerequisite_eligibility:curriculum-a:course-a'],
         expected_entities=['course-a'], expected_claims=[], expected_style=language)
     data.update(kw)
     return data
@@ -80,3 +81,13 @@ def test_expected_effective_hold_is_separate_from_the_required_evidence_path():
         [case(expected_effective='evidence_unavailable')], metadata()))
     assert report['proposal_correct'] == 1 and report['effective_correct'] == 1
     assert report['effective_matrix'] == {'evidence_unavailable': {'evidence_unavailable': 1}}
+
+
+def test_wrong_operation_target_fails_meaning_even_when_all_mentions_are_correct():
+    value = proposal(language='en', mentions=[dict(kind='course',text='A1',start=0,end=2),
+        dict(kind='course',text='B1',start=3,end=5)],
+        operations=[dict(name='check_prerequisite_eligibility',target=1)])
+    report = evaluate([case(text='A1 B1',expected_entities=['course-a','course-b'],
+        expected_operations=['check_prerequisite_eligibility:curriculum-a:course-a'])], value)
+    assert report['proposal_correct'] == 1 and report['entity_correct'] == 1
+    assert report['operation_correct'] == 0 and report['records'][0]['operation_correct'] is False

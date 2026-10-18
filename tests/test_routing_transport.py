@@ -72,3 +72,18 @@ def test_server_errors_never_expose_query_or_response_text(kind, code):
         assert str(error.value) == code
         assert 'private' not in str(error.value)
     asyncio.run(run())
+
+
+@pytest.mark.parametrize('response', [{'choices':['invalid']}, {'choices':[{'message':[]}]},
+                                      {'choices':None}, ['invalid']])
+def test_malformed_successful_completion_envelopes_become_typed_failures(response):
+    async def run():
+        original, _ = handler_for()
+        def handler(request):
+            if request.url.path == '/v1/chat/completions':
+                return httpx.Response(200, json=response)
+            return original(request)
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            with pytest.raises(api().RuntimeFailure, match='invalid_server_response'):
+                await api().LlamaTransport('http://localhost', client=client).infer([], {})
+    asyncio.run(run())
