@@ -4,7 +4,42 @@ Audited18October2026 at dev380551a14a146b284f37cc9a4d76d0ba115de8c1.
 Request: independently assess completion and missing predecessor delivery.
 Documentation-only audit; existing approval/release boundaries remain unchanged.
 
-## Verdict
+## Owner resolution and local Janus installation
+
+After the audit, the owner explicitly requested installing Janus and accepted
+reliance on the previous developer's recorded verification: "i trust the other
+dev" and "i dont think its really needed" about transferring reviewer receipts.
+The stale local p06 worktree is informational; the owner will use current dev.
+Do not make receipt transfer or repeated grading a routine continuation gate.
+Recover raw evidence only if a concrete later task actually requires its bytes.
+This decision does not fabricate the missing artifacts, establish university
+authority or claim that the actual73-case pipeline was independently replayed.
+
+Installed janus-swi1.5.2 into the existing readiness venv, explicitly authorized
+by this request. The repository pin1.5.3 has no matching wheel on the contacted
+package index (available1.5.0/1.5.1/1.5.2);1.5.2 matches the predecessor's measured
+version. Dependency/lock files are unchanged. Installed only that CPython3.13
+Windows wheel using --no-deps --only-binary=:all:. No other package or model
+download or SWI-Prolog upgrade. The default system interpreter is unchanged.
+
+Environment executable:
+C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe.
+Import and bound Janus arithmetic query both pass (X=1, Y=2, truth=true).
+Current Python3.13.7/Pydantic2.13.5/pytest9.1.1/SWI10.1.15 remain as installed.
+Wheel SHA-256:7802fc1d9671ed2341f266ac88d37c75770fdad9c936f3ef17bac2226d4caf81.
+Raw:workspace/audit-evidence/p06-janus-install-20261018/, including failed
+install.log, successful install-1.5.2.log, pip-install-report.json and import-smoke.log.
+Installation guidance consulted through Context7:
+[official Janus Windows documentation](https://www.swi-prolog.org/pldoc/man?section=janus-on-windows).
+
+Fresh full named17-file gate with Janus installed:**1415 passed,11 subtests passed,
+102.57s, exit0**. Same existing environment, -B, no pytest cache and fresh external
+TEMP/TMP/basetemp; regressions.log in the installation root. All62 previously
+failing runtime cases now pass without product/test changes. This establishes
+local compatibility for this gate, not a whole-project/Docker or actual73-case replay.
+The original missing-Janus failure log remains preserved in the first audit root.
+
+## Verdict at initial audit
 
 Phase06 is formally closed for the expressly owner-approved **offline BSCS
 research/software subset**. Plan, complete handoff, superseded checkpoint and
@@ -105,7 +140,7 @@ with known defects. Two historical Docling failures remain disclosed, not replay
 or claimed fixed. Later NLP/routing, orchestration, chat/API/UI and deployment
 are outside this approved Phase06 closure.
 
-## Next action
+## Original recommendation, superseded by owner resolution
 
 Obtain a self-contained **ignored** final acceptance package from the previous
 developer:corrected source-bound authoring JSON/review bindings, candidate PL,
@@ -114,8 +149,9 @@ matrix/results, manifests, replay scripts and every non-secret input they refere
 Include isolation, determinism and timeout-recovery evidence. Both original PDFs
 already exist here with correct hashes; do not repeat settled source review.
 
-Verify transferred bytes against handoff/CSV hashes. Resolve local Janus setup
-through an applicable owner instruction, then rerun17-file and actual73-case gates
-with fresh ignored evidence before certifying a reproduced technical handoff.
-Phase07 remains formally eligible; that status is not fresh runtime verification
-or authorization for institutional execution/Phase07 work in this audit.
+That package is necessary to reproduce the exact historical73-case pipeline,
+but the owner now accepts its recorded verification without transferring it.
+Janus installation is separately authorized and performed above. Current fresh
+regressions supplement that accepted historical evidence. No demand to recover
+receipts or rerun the unavailable historical pipeline remains as a routine blocker.
+Phase07 is eligible for separate assignment; institutional execution stays held.
