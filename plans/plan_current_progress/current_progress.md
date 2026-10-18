@@ -7,6 +7,8 @@ engine meets the tested master11.5 behavior; fresh1410 tests/11 subtests77.35s a
 Owner approves offline Phase06 completion and separate institutional release holds.
 [Latest replies](../2026-10-18-phase06-original-plan-review.md#offline-milestone-approved-finalization-awaits-recap):recap first, then ask again before
 finalizing handoff/records. Four own-rule unknowns remain; JSON drives fixed Prolog.
+[One plain-language status report](../2026-10-18-phase06-closeout-checklist.md)
+separates tested engine, foundation unknowns, defective full extraction and release holds.
 
 The [CSV/procedure](../2026-10-18-phase06-final-review-and-verification.md) retains the seven-rule review and prior feedback.
 Returned short review:[intake](../2026-10-18-phase06-runtime-followup-review.md).
@@ -73,7 +75,7 @@ p06-engine-plan-source-review-7ab623d1b4114c58806256cafdef7abf. Phase state vali
 
 ## Review boundary and next action
 
-Recap delivery, then ask only for final handoff/record updates and final phase checks.
+Present the single status report, then ask only for final handoff/record updates/checks.
 Offline completion/release holds already approved; no repeat scope/source grading.
 No handoff finalization, institutional activation or Phase07 work inferred yet.
 [Blocked handoff](../phase-06-handoff.md) and [checkpoint](../phase-06-checkpoint.md)

@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 6
 status: in_progress
-sequence: 42
+sequence: 43
 plan: plans/phase-06-structured-knowledge-plan.md
-head_commit: 5c44cdf
-working_tree: offline milestone approval docs; concurrent compose.yaml/docker/api.Dockerfile preserved
+head_commit: 45358ca
+working_tree: plain-language status docs; concurrent compose.yaml/docker/api.Dockerfile preserved
 updated_at: 2026-10-18
 ---
 
@@ -25,7 +25,7 @@ source artifacts/runtime cases. All generated files remain ignored.
 
 [Original-plan review](2026-10-18-phase06-original-plan-review.md) compares actual
 85366d4/master11.5. Owner approves offline completion and separate release holds;
-recap delivery and ask again before final handoff/record updates. Unknowns retained.
+one plain-language status report before final handoff/record consent. Unknowns retained.
 Fresh1410 tests/11 subtests77.35s and73 actual cases pass. Verdicts cover all seven
 modeled relationships; optional seven-row form is not a repeat-review requirement.
 Returned reviews:59 unqualified yes cases, four qualified yes,10 uncertain technical
@@ -46,22 +46,20 @@ Concurrent compose.yaml/docker/api.Dockerfile remain untouched/unstaged.
 No product/dependency/lock/API/DB/frontend/later-phase changes or installs in sync.
 Only the owner-requested Phase06 remote branch write is authorized.
 Dataset/config/venv and generated derivatives remain ignored.
-Pre-condensation snapshot:7e0e024:plans/phase-06-checkpoint.md.
+Pre-condensation snapshot:45358ca:plans/phase-06-checkpoint.md.
 
 ## Verification Evidence
 
+- Plain-language status docs:557 passed/11 subtests12.51s, exit0. Raw:
+  p06-simple-status-7c2f7fd782d148eeab82f2f45b97a071/docs.log. Phase state valid/blocked.
 - Scoped approval docs:557 passed/11 subtests16.95s, exit0. Raw:
   p06-scenario-signoff-c6cd80f033d7476ab0ec4bf942caaeb5/docs.log. No engine rerun.
 - Original-plan review:1410 passed/11 subtests77.35s; fresh73 BSCS cases/four
   isolation/39 spans pass. Raw:p06-engine-plan-review-7ab623d1b4114c58806256cafdef7abf
   and sibling p06-engine-plan-source-review-7ab623d1b4114c58806256cafdef7abf.
   Docs/phase557 passed/11 subtests16.81s; phase-state valid, handoff blocked.
-- Completion audit:1409 passed/11 subtests102.68s; new73 BSCS cases/four isolation/
-  39 spans pass; fresh artifacts exactly match latest confirmed bundle and manifest.
-  Source-audit export rerun in an isolated artifact/TEMP arrangement after an audit
-  manifest encountered a locked pytest temp file. No product defect/change.
-  Raw:p06-completion-audit-20261018 and p06-completion-source-audit-20261018.
-  Final docs556 passed/11 subtests13.57s; phase state valid/blocked.
+- Prior1409-case completion audit/isolated source replay and its packaging recovery
+  remain in the linked completion report; current1410-case proof supersedes that run.
 - Returned CSV:25 unique ordered IDs/protected cells unchanged;15 yes/10 uncertain;
   snapshot/receipt in p06-runtime-followup-intake-20261018, SHA02df9186. Exact notes
   retained. No new runtime or whole-output approval claimed.
@@ -154,7 +152,7 @@ remains; compatible existing converter does not modify it. Native Excel not open
 
 ## Next Action
 
-Recap delivered work and ask only for final handoff/record updates and phase checks.
+Present the plain-language checklist/report; ask only for final handoff/records/checks.
 Offline milestone/release holds approved; no repeated scope or foundation question.
 Do not finalize the handoff, activate institutional use or start Phase07 yet.
 

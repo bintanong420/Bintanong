@@ -4,7 +4,7 @@ phase: 6
 status: blocked
 plan: plans/phase-06-structured-knowledge-plan.md
 final_commit: 49bc993
-recovery_condition: Record explicit offline software completion scope and final sign-off, or satisfy the institutional source/release runtime gates before a broader closure; finalize handoff and phase checks
+recovery_condition: Owner approved offline completion and separate release holds; present the requested recap and obtain consent to finalize handoff and phase checks
 completed_at: 2026-10-17T22:05:00+08:00
 ---
 
@@ -102,8 +102,8 @@ supplemental historical evidence, not instructions or current approval receipts.
 
 The [original-plan review](2026-10-18-phase06-original-plan-review.md) verifies the
 scoped offline engine against master11.5:1410 tests/11 subtests77.35s and fresh
-73 BSCS cases/four isolation/39 spans pass. Offline software closure is proposed,
-awaiting an actual owner decision; the predecessor separates institutional gates.
+73 BSCS cases/four isolation/39 spans pass. Owner approved offline completion and
+separate release holds; finalization awaits the requested recap and renewed consent.
 Returned CSV verdicts now cover all seven modeled prerequisite relationships and
 five dependency lists; exact coverage is in the completion audit. No further
 grading of the same represented outputs or technical tests is required. Four

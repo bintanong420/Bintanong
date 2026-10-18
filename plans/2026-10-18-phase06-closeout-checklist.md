@@ -1,68 +1,64 @@
-# Phase06: what is finished and what remains
+# Phase 06 status in plain language
 
-Current18October2026; product49bc993. The scoped curriculum engine is implemented
-and tested offline. Proposed offline software sign-off awaits owner. This is the short
-working checklist; the original phase plan retains its earlier increment history.
+18 October 2026. Product code:49bc993; reviewed Git baseline:45358ca.
+The reviewed BSCS engine is implemented and tested offline. The owner approved
+that software milestone and keeping institutional release separately pending.
+Formal handoff finalization awaits the owner's answer after this recap.
 
-## Only three groups are needed to understand the tests
+## What works
 
-| Group | Simple question | Review responsibility |
+| Item | What it means | Status |
 | --- | --- | --- |
-| Prerequisites | Given this curriculum's actual rule and fictional passed/failed courses, is the prerequisite satisfied, unmet or undetermined? | Researcher checks source meaning; developer tests the combinations. |
-| Affected courses | Which later courses depend on this course through the reviewed prerequisite paths? | Developer derives/checks paths; researcher decides only genuinely new or ambiguous source meanings. |
-| Developer checks | Does the software handle missing/conflicting input, wrong curriculum, unknown courses, unsupported operations, repeated execution and timeouts correctly? | Developer tests/logs; no owner grading of internal mechanics required. |
+| Reviewed BSCS records | Two curriculum versions kept separate, with source evidence for seven prerequisite relationships and11 course identities. | Implemented; scoped reviews reconciled |
+| JSON-to-Prolog pipeline | Reviewed structured records generate reproducible candidate PL and checked runtime data. | Implemented |
+| Prolog/Janus engine | Checks prerequisites, lists missing prerequisites and identifies potentially affected courses. | Implemented and tested offline |
+| Reviewer corrections | CC1/L identity and CS1/L cases corrected; both returned CSV reviews carried forward. | Applied; no repeated grading needed |
+| Failure handling | Missing/conflicting facts, wrong curriculum, unsupported operations and operational errors remain distinct; timeouts recover and requests stay isolated. | Covered by developer tests |
 
-The existing CSV labels are test names, not required thesis terminology. Keep
-their original IDs/results for audit, but do not present the engineering group as
-additional university rules or mandatory researcher verdicts. Master11.3 requires
-bounded execution/isolation;11.4-11.5 require truthful unknown/error outcomes and
-rule verification. Those checks belong in Phase06's developer evidence.
+Janus evaluates checked JSON rules using the fixed curriculum_runtime.pl engine.
+Generated candidate PL is review data; it is not directly consulted by Janus.
+All rule changes originate in reviewed structured records, not hand-edited PL.
+An eligible result covers the supported prerequisite check, not official enrollment.
 
-## Finished for the selected BSCS subset
+## What remains limited
 
-| Work | Status and evidence |
-| --- | --- |
-| Structured authoring records with source/curriculum binding | Implemented. Reviewed records are authoring truth. |
-| JSON-to-Prolog compiler and reproducible bundles | Implemented. Both actual BSCS versions regenerate; seven direct expressions retained. |
-| Typed Python/Janus/Prolog runtime | Implemented. Check prerequisites, list missing prerequisites, list potentially affected courses. |
-| Controlled execution of actual BSCS data | Verified offline with fictional completion facts; institutional use remains closed. |
-| Software checks, including technical categories | Latest developer run:73 cases, four isolation checks,39 native spans; repeat equality and timeout recovery also asserted. |
-| Received human runtime feedback | Both returned CSVs reconciled:59 unqualified yes/four qualified yes/10 uncertain technical cases. All seven relationships covered; no repeat grading. |
-| Old CS1/L disagreement, H27-H32 | Resolved after the actual18October CC1/L identity confirmation:failed -> ineligible, passed -> eligible, missing/conflicting -> unknown. New bundle passes all73 cases. |
+| Item | Why it is limited | Effect on this offline milestone |
+| --- | --- | --- |
+| Four own-prerequisite conditions | OldCC1/L, oldCC2/L, proposedCC2/L and proposedCS1 have blank source cells. Owner explains their foundation-course context; no explicit no-prerequisite rule was established. | Keep unknown; does not independently block the approved tested subset |
+| Full-prospectus extraction | The53 old/55 proposed detected rows have failed audits:unit discrepancies/missing CS3 units/CC5 text spill in old; ambiguous standing text/skipped table in proposed. | Whole-prospectus coverage remains draft; separate from the reviewed subset |
+| University source verification | Institutional authority/current applicability still needs actual evidence. | Separate institutional-release hold |
+| Normal institutional runtime and activation | Real BSCS execution uses an explicit research path with fictional completion facts; a governed institutional release path is not delivered and nothing is activated. | Separate implementation/release work; not claimed complete |
 
-Latest raw evidence:ignored workspace/audit-evidence/p06-cc1-identity-20261018.
-The [identity review](2026-10-18-phase06-cc1-identity-review.md) binds the actual
-answer and new artifacts; the original reviewed CSV is preserved unchanged.
-The [review guide](2026-10-17-phase06-human-verification-guide.md) maps original
-case labels and fields to their implementation roles. No source/activation flags
-were changed by executing tests or editing reviewer CSVs.
+Full-prospectus extraction defects are not the same issue as the four foundation
+blanks. They must not enter the reviewed rule ledger or be hidden by passing tests.
+Both full-extraction manifests still say audit_status=error; their pipeline blocks
+full PL generation. No whole-BSCS, chatbot, API deployment or institutional-use claim.
 
-## Remaining work
+## Evidence and repository requirements
 
-| Item | What finishes it |
-| --- | --- |
-| Scoped generated-output review | Reconciled across all seven relationships and five dependency lists. Four blank-rule notes do not establish verified_none; technical cases need developer evidence only. No repeat CSV required. |
-| Governed institutional runtime/release | Current standard runtime path rejects real institutional bundles; the explicit research path is implemented. Institutional source authority/approval and governed release/runtime integration remain separate outstanding gates in the blocked handoff. |
-| Formal final exit | Owner decides the proposed offline software milestone scope. Fresh1410 regressions/73 source cases pass; after that decision finalize handoff/checkpoint/plan/index and validate/can-advance. Institutional release stays held. |
+Last engine verification:1410 passed/11 subtests;73 actual BSCS acceptance cases,
+four isolation checks and39 native source spans passed. These logs were inspected
+for this report; engine code/tests are unchanged from the verified product. The
+engine was not rerun just to rewrite this status report. Full-project verification
+is not green:two previously recorded system-Docling failures were not retested.
+Exact commands/logs/artifacts:[original-plan review](2026-10-18-phase06-original-plan-review.md).
 
-The current handoff does not authorize an automatic offline-only closure in place
-of its recorded recovery condition. Do not silently waive that condition. Pending
-school validation does not prevent independent offline development/testing.
+Master11.5 requires deterministic supported decisions/explanations and truthful
+unknowns. AGENTS.md and source-gap-policy.md prohibit treating blank fields as
+verified none or parser success as content approval. The handoff skill requires
+exit evidence and a complete handoff before advancement. Final phase checks are
+still to be run as part of the owner-deferred handoff finalization.
 
-## Boundaries that must remain visible
+Workflows applied:repository bintanong-handoff-reminder and bintanong-phase-handoff;
+verify-and-stop and verification-before-completion for evidence/claim limits;
+conventional-commits for recording this report. TDD/systematic debugging apply to
+code changes/failures; no product implementation or dependency change in this task.
 
-- Unknown printed prerequisite conditions stay unknown; they do not all need to
-  become resolved/no-prerequisite for a bounded capability to be tested honestly.
-- The full-prospectus53/55-row exports still have extraction/source gaps and no
-  full PL. That delivery is incomplete; it does not invalidate the tested selected
-  subset or automatically require whole-curriculum completion to close that scope.
-- Chat UI, LLM routing, full conversational evaluation and later phases are outside
-  this Phase06 increment. No complete chatbot or whole-BSCS coverage is claimed.
-- Two historical full-suite failures are the recorded system Docling dependency
-  conflict. No all-project-green or fixed-environment claim is made here.
+## Only remaining authorization question
 
-Next action: record an actual owner answer to the proposed decision in the
-[original-plan review](2026-10-18-phase06-original-plan-review.md), then finalize
-the phase artifacts/checks if approved. No repeated source or technical grading.
-The [final procedure](2026-10-18-phase06-final-review-and-verification.md) remains
-the command reference; fresh evidence is linked in the original-plan review.
+Offline completion and separate release holds are already approved. Do not ask
+for those decisions or the same curriculum reviews again.
+May the developer now finalize the Phase06 handoff/completion records, run the
+final applicable phase checks, and stop without starting Phase07?
+Until that answer, keep the handoff blocked and checkpoint active. This question
+comes from the owner's explicit recap-first instruction, not a new technical gate.
