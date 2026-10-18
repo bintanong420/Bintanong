@@ -14,6 +14,7 @@
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.
 - [Final closure/specification report](2026-10-18-phase06-offline-closure.md).
+- [Phase06 integration into dev and next-developer entry point](2026-10-18-phase06-dev-integration.md).
 - [Original-plan review and proposed sign-off](2026-10-18-phase06-original-plan-review.md).
 - [Short Phase06 completion checklist](2026-10-18-phase06-closeout-checklist.md).
 - Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);

@@ -7,6 +7,17 @@ research/software milestone. Runtime49bc993; Windows checkout fixa9d8a5d; closur
 [closure/specification report](../2026-10-18-phase06-offline-closure.md).
 No active phase; next eligible Phase07 is not started or authorized here.
 
+## Latest task: dev integration
+
+Owner now explicitly authorizes merging Phase06 into dev; earlier no-dev-mutation
+limit is superseded for this task. Local dev fast-forwarded to verified Phase06
+6923835 with identical complete tree; source branch/p06 worktree preserved.
+[Integration and next-developer entry point](../2026-10-18-phase06-dev-integration.md)
+records target checks/publication. Primary checkout is now dev. Phase07 remains
+eligible for separate planning/assignment; no implementation started.
+Merged-dev gate:1414 passed/11 subtests88.89s. Product/tests unchanged from Phase06;
+only integration/handoff notes added. Exact refs/logs live in the integration report.
+
 ## Verified delivery
 
 Owner approved offline completion/separate release holds, then authorized formal
@@ -46,4 +57,5 @@ fails unit/prerequisite/table audits; full PL withheld. Four own-rule unknowns s
 Retained full suite:5748 passed/two system-Docling failures/one skipped; historical,
 not rerun/fixed. Runtime code is unchanged; one checkout regression was added.
 No all-project-green, whole-curriculum, API/deployment or official-answer claim.
-Next work needs a separate owner-scoped instruction; Phase07 remains unstarted.
+Next:assign/separately scope Phase07 from updated dev, preferably with the developer
+who will own it. Read the integration entry point; no Phase07 implementation yet.
