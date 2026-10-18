@@ -97,7 +97,9 @@ class Interpretation(Contract):
     operations: tuple[Operation, ...] = Field(max_length=4)
     route: Route() | None
     control: Control() | None
-    ambiguities: tuple[Text, ...] = Field(max_length=16)
+    ambiguities: tuple[Text, ...] = Field(max_length=16, description=
+        'Only unresolved questions needed to interpret the request. Normally empty. '
+        'Never put a route explanation or a need to retrieve documents here.')
     reason: Text
 
     @model_validator(mode='after')

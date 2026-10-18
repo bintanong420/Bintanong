@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 10
+sequence: 11
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 4fa64e4
-working_tree: verified literal-quote anchoring correction and documentation
+head_commit: 73cd2e2
+working_tree: baseline evaluation report and evidence-driven promptv3 clarification
 updated_at: 2026-10-19T01:04:01+08:00
 ---
 
@@ -88,9 +88,10 @@ Context7 Pydantic/HTTPX/llama.cpp docs fetched; deployed runtime still must be p
 
 ## Known Failures or Blockers
 
-Actual-model report pending. Early procedure variants choose RAG but add unnecessary
-ambiguity holds; first two prerequisite variants fail output validation. Retain as
-model errors, not passing routing. Initial probe used a repair then misread the formatting
+Baseline15-case complete:8/15proposed,3/15effective,2/5family consistency;
+seven schema failures and two grounding failures. RAG explanations were placed in
+ambiguities. Promptv3 clarifies field purpose and pre-retrieval routing; current
+15-wording repeat with operation labels/raw capture next. Initial probe misread the formatting
 instruction; not a passing language result. Keep original raw output and corrections.
 Synthetic contract tests prove boundaries, not language accuracy. Institutional
 registry/source authority/currentness/activation remain closed; four blank own-rules
