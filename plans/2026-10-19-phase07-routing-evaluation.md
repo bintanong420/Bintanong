@@ -1,8 +1,10 @@
 # Phase07 offline model routing evaluation
 
-Status:current promptv6 has15/15correct routes/meaning and10/15style labels;
-Taglish style handling remains open. See the [targeted followup](2026-10-19-phase07-interpretation-followup.md)
-for actual matrices, interruption recovery and native-thinking probe. No institutional
+Historical combined-call result:promptv6 has15/15correct routes/meaning and10/15style
+labels. Current independent-stage candidate improves style to13/15; see the
+[stage evaluation](2026-10-19-phase07-style-stage-evaluation.md). Language-style
+exit remains open. The [targeted followup](2026-10-19-phase07-interpretation-followup.md)
+records interruption recovery and native-thinking probe. No institutional
 execution, final benchmark, approved source release or student-answer quality claim.
 
 ## Fixed development scope

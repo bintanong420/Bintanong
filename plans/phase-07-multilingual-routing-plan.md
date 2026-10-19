@@ -87,6 +87,9 @@ changes. Independent style/routing candidate ac00ac9 gets15/15guarded outcomes/
 meaning and13/15response-style labels. Two Taglish labels remain wrong. Label-first
 candidate regresses pure-language cases and is retired. See the
 [stage results](2026-10-19-phase07-style-stage-evaluation.md).
+Two fresh complete requests yield2/2proposed routes/styles but1/2effective outcomes:
+Hybrid adds an unrequested operation and safely clarifies. Compact style ablation
+scores12/15and is retired. Keep model failures distinct from successful guards.
 The language-style exit remains open; Phase07 is active and Phase08
 cannot begin. See the dated evaluation report and exact next checkpoint action.
 Phase06 predecessor verification remains accepted; no receipt-recovery task.

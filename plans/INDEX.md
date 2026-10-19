@@ -9,7 +9,8 @@
   [Accepted design](2026-10-19-phase07-routing-design.md). Owner directed implementation;
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
   [stage evaluation](2026-10-19-phase07-style-stage-evaluation.md):15/15routes/meaning,
-  13/15styles; two Taglish errors keep the language-style exit open.
+  13/15styles on captured composition; fresh Hybrid extra-operation error withheld.
+  Model-quality/language-style exit remains open.
 - Next phase08 remains gated on a complete Phase07 handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
@@ -38,8 +39,7 @@
 
 ## Phase ledger
 
-Historical completion labels are retained. The
-[Phase 1–2 claims audit](2026-10-12-phase12-progress-claims-audit.md) records unmet
+Historical labels are retained. The [Phase 1–2 claims audit](2026-10-12-phase12-progress-claims-audit.md) records unmet
 real-source exits; ledger validity alone does not prove source readiness.
 
 | Phase | Name | Recorded status | Plan | Checkpoint | Handoff |
@@ -51,7 +51,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
-| 7 | Multilingual NLP and LLM routing | candidate implemented; Taglish style exit open | [Plan](phase-07-multilingual-routing-plan.md) | [Active](phase-07-checkpoint.md) | none |
+| 7 | Multilingual NLP and LLM routing | candidate implemented; model-quality/style exit open | [Plan](phase-07-multilingual-routing-plan.md) | [Active](phase-07-checkpoint.md) | none |
 
 ## Read only when relevant
 
@@ -77,5 +77,4 @@ Owner requested compact handoffs on 17 October 2026. These are current snapshots
 not activity logs. Replace stale state; keep durable evidence in dated reports.
 The full pre-cleanup index/progress/checkpoint/handoff are preserved at commit
 `81be71a`. Recover any one with `git show 81be71a:<repository-relative-path>`;
-for example `git show 81be71a:plans/phase-05-checkpoint.md`.
-Do not read the historical snapshots during routine resume or copy them back here.
+Do not read historical snapshots during routine resume or copy them back here.

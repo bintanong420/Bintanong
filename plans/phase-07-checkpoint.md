@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 24
+sequence: 25
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 614e3c3
-working_tree: restore evidence-first style and update stage report/plan/index/progress/checkpoint
-updated_at: 2026-10-19T11:58:18+08:00
+head_commit: 2f92524
+working_tree: final evidence/report/plan/index/progress/checkpoint documentation; code unchanged
+updated_at: 2026-10-19T12:05:08+08:00
 ---
 
 # Phase07 checkpoint - independent style delivered, two Taglish failures open
@@ -27,12 +27,15 @@ Retain exact ac00ac9 backend/tests:15/15routes/meaning,13/15styles on existing
 taglish and excluded-taglish still select fil. Explicit span instructions fail
 unchanged. Label-first614e3c3 regresses four pure-language cases (11/15styles),
 so retired and reverted. No further equivalent prompt trial or host dictionary.
-Selected fresh two-stage verification remains pending; Phase07 stays open.
+Selected fresh two-stage execution:2/2proposed routes/styles,1/2effective outcomes;
+Hybrid adds an extra operation and safely clarifies. Compact style-only ablation
+12/15; retired. Phase07 stays open; no final handoff or Phase08 advancement.
 
 ## Repository State
 
 p07/feat/p07-router-taglish-nlp. Routing prompt d019318; retained code ac00ac9.
-Restoration checked with git diff --exit-code ac00ac9 -- backend tests.
+Restoration2f92524 checked with git diff --exit-code ac00ac9 -- backend tests.
+head_commit pins verified product; later documentation wrapper is discoverable in Git.
 Other worktrees/dev/p06 preserved; no push/merge or source/registry mutation.
 Pre-condensation snapshot:614e3c3:plans/phase-07-checkpoint.md.
 
@@ -52,6 +55,13 @@ nine empty gold collections.18offset corrections/nine cases;zero repairs.
 Messages/schema/config/runtime identity equality asserted. No replay latency claim.
 Failed combined-call, instruction-v2 and label-first experiments preserved and
 retired. No final response, institutional retrieval or Prolog execution occurred.
+Fresh2requests:four real calls,zero repairs,2/2proposal/entity/claim/style and
+1/2effective/operation collections; Hybrid compound_request withheld dispatch.
+Equal inputs/settings did not reproduce its earlier operation collection.
+Compact style schema12/15; no adoption. Evidence verifier passed34compatible
+captures/121sealed artifacts; commands/digests/failures are in the stage report.
+Final docs/phase-state gate569passed/11subtests11.19s,exit0;final-stage-docs.log.
+git diff --check passes; phase state valid; advancement correctly withheld(exit1).
 
 ## Versions and Digests
 
@@ -74,20 +84,22 @@ Curriculum structured/Prolog; handbook/Charter/memos RAG; Hybrid when both neede
 English/Filipino/Taglish preference required; final answers/images later.
 Provenance guards cannot prove language semantics. Unknown rules/source authority/
 activation holds and Phase06 acceptance stay unchanged; no source review reopened.
-Task-owned bintanong-p07-router-offline running for selected fresh verification.
+Task-owned bintanong-p07-router-offline stopped12:05; inspect confirms exited.
 
 ## Known Failures or Blockers
 
 No environment blocker. Two Taglish labels remain wrong with the best verified
 candidate. Label-first improves Taglish while damaging English/Filipino; retired.
+Fresh Hybrid proposes an extra operation; correctly withheld as compound_request.
+Compact style-only schema scores12/15; no further equivalent prompt/schema trial.
 No separate Bintu checkpoint in supplied folder. Institutional release holds,
 four own-rule unknowns, full-prospectus defects and two Docling failures remain.
 
 ## Next Action
 
-Commit restored candidate after checks, run selected fresh two-stage requests,
-seal evidence and stop only the task container. Preserve language-style exit;
-record the concrete remaining model/design decision without another prompt sweep.
+Review a justified model/design correction plan for the two style errors and fresh
+Hybrid extra operation using the sealed evidence. Preserve current candidate and
+phase exit; do not repeat retired trials or reopen settled source-content reviews.
 
 ## Do Not Repeat
 

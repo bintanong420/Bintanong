@@ -1,6 +1,6 @@
 # Current progress
 
-Updated:19October2026,11:58. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,12:05. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
 [stage results](../2026-10-19-phase07-style-stage-evaluation.md),
 [design/evidence trail](../2026-10-19-phase07-response-style-design.md).
@@ -14,7 +14,7 @@ only original_text and returns bounded literal evidence plus a style label.
 One shared format repair:normal2/max3calls. Unknown/rejected style and invalid
 course proposals cannot bypass guards. No executor/API/institutional activation.
 
-Retained implementation:ac00ac9 bytes. Actual fixed15-case composition has
+Retained implementation:2f92524,matching ac00ac9 bytes. Actual15-case composition has
 15/15proposed/effective routes, entities, claims and operations; five consistent
 families. Style13/15:English5/5,Filipino5/5,Taglish3/5. procedure-taglish and
 excluded-taglish still select fil. Fifteen exact routing captures reused;
@@ -33,18 +33,24 @@ Stage TDD:RED35failed/18passed ->GREEN127tests1.34s; independent review:no P1/P2
 Retired label-first focused127passed3.38s; broad1555/11subtests141.12s.
 Restore verified with git diff --exit-code ac00ac9 -- backend tests.
 Fresh restored routing/docs/phase-state gate696passed/11subtests12.37s,exit0.
-Selected fresh two-stage model checks pending.
+Selected fresh2requests:four real calls; proposed routes/entities/claims/styles2/2,
+effective/operations1/2. Hybrid adds an unrequested eligibility operation; guard
+returns clarify/compound_request,withholding dispatch. No semantic success claim.
+Compact style-only ablation12/15; retired. Verifier checks34compatible captures/
+121sealed artifacts; exact hashes and failed-case readings are in stage results.
 Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
 ## Boundaries and next action
 
 Existing Python3.13 readiness venv; no installs/locks/weights/source changes.
 Owner-corrected models:C:/Coding-projects/bintanong_workspace/MODELS.
-Task-owned localhost18087 runtime running for selected fresh verification; other
+Task-owned localhost18087 runtime stopped12:05; inspect=exited. Other
 containers/worktrees preserved. Raw:workspace/audit-evidence/p07-implementation-20261019/.
 Context thesis scope17-18 refreshed from saved extraction; routing PNG viewed.
 Prior39-44/58-59/master3/11/12/13 and Phase06 acceptance/source holds stay settled.
 
-Next:commit restored candidate after checks, finish selected fresh two-stage
-requests, seal evidence and stop only the task container. Phase07 stays open;
-its language-style requirement still needs a model/design decision. No Phase08.
+Next:review a justified model/design correction plan from the two style failures
+and fresh Hybrid extra operation. Preserve sealed results/current candidate;
+no repeated retired prompt/schema trials or source reviews. Phase07 stays open;
+no final handoff or Phase08 advancement. Final docs/phase-state checks recorded
+in the stage report; verified product2f92524,documentation wrapper discoverable in Git.

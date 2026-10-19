@@ -151,5 +151,23 @@ exit0 (style-stages-regressions.log). Two inherited Docling failures still apply
 
 Implementation uses existing Python/Pydantic/runtime only. No installs, weights,
 institutional data, final answers, API or Phase08 work. New tracked tests remain synthetic.
+## Bounded wire-complexity ablation
+
+Student capability remains accurate conversational language preference. Evidence
+path remains a separate interpretation by the same model, with no institutional
+facts/execution. Phase exit still needs honest per-language observations. Unresolved
+question:does requiring linguistic quote arrays itself harm style classification?
+Literal containment demonstrably cannot detect quotes assigned the wrong language.
+Test a minimal style-only enum schema on ALL15existing cases, not another selected
+prompt patch. Same model/settings/original text, no gold or example-specific tokens.
+No model-routing changes. This probe is not integration or a success claim; retain
+raw outputs and compare all language controls before considering any design change.
+Run after the selected fresh two-stage requests to avoid competing CPU inferences.
+Actual result12/15styles:the same two Taglish errors plus prerequisite-fil newly
+wrong. Retire this ablation; quoted evidence is not the only cause. Retained
+code stays2f92524/ac00ac9-equivalent. Fresh complete requests also expose one
+Hybrid extra-operation error safely withheld by compound_request. Exact counts,
+raw provenance and remaining decision are in the stage report; no further trial.
+
 Context scope pages17-18 and routing PNG refreshed; master12 permits shared-call logical
 interpretation/routing stages. Prior architecture/scope decisions stay settled.

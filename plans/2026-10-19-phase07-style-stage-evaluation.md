@@ -4,8 +4,9 @@ Product ac00ac9 separates evidence routing and response-style interpretation int
 two structured calls to the same supplied Gemma/Bintu model. No classifier,
 language dictionary, final answer generator or institutional executor is added.
 The routing prompt/messages/schema remain exactly those verified at d019318.
-The retained candidate gets15/15routes/meaning and13/15styles. Phase07 remains
-open for two Taglish failures; selected fresh two-stage checks are in progress.
+Retained product2f92524 is byte-identical to ac00ac9 backend/tests. Its15-case
+composition gets15/15routes/meaning and13/15styles. Selected fresh execution adds
+a guarded Hybrid false positive:1/2effective outcomes. Phase07 remains open.
 
 ## Change and evidence trail
 
@@ -95,6 +96,10 @@ with768output+8reserved; no SEA-LION tokenizer substitutes for model input limit
 Routing prompt:version p07-v6, SHA256
 e84c54ce7dce6f4cba0e39c02d7388a06caf3048714aa86f49c08cce95abe65f.
 Routing schema SHA256:92e0be47d46963fc9042f1c9018c8deb1d70a3be64a1bcf1cdf43d8d0dd97c14.
+Retained style prompt:bintanong-response-style-p07-v1, SHA256
+0cbf0d85e492d178cad5fc4d822cd65b0323e74ce16f1de09887332b78ff84db.
+Retained style schema SHA256:
+1bb408daa26acd5a6190cea9e094fdb85186d6c82278b30514933e4461e03b22.
 Retired label-first style prompt:bintanong-response-style-p07-v3, SHA256
 ded4789b15c0e05ab2c2b56620ec8fb7b3dfc409257422b177c21f7e4d698537.
 Retired label-first style schema:bintanong-response-style-v1, SHA256
@@ -154,5 +159,51 @@ Only Gemma and SEA-LION embedding folders exist in the owner-supplied model root
 no distinct Bintu LLM checkpoint is available there. Further unchanged prompt
 trials or a host keyword override are not a justified next action. Preserve this
 bounded result for an explicit model/design decision; no download is authorized.
-Selected fresh two-stage verification remains pending. Phase07 has no final
-handoff and Phase08 cannot begin under the current language-style exit decision.
+
+## Fresh complete requests and rejected compact ablation
+
+run-style-stages.py --label style-stages-fresh --fresh-routing
+--cases prerequisite-en affected-procedure-taglish runs BOTH stages fresh, product
+2f92524. Four actual calls,zero repairs,no captures reused. Proposed routes2/2,
+entities2/2,claims2/2,styles2/2; effective outcomes1/2,operations1/2.
+Prerequisite English passes Symbolic with the correct operation. Hybrid Taglish
+selects Hybrid but adds check_prerequisite_eligibility to list_affected_courses;
+compound_request correctly withholds dispatch and returns clarify. That is a
+model error and safe refusal, not a correct answer or repaired semantic success.
+Raw:style-stages-fresh/input.json,report.json and four stage captures.
+
+Its messages/schema/settings match the earlier routing inputs, but its Hybrid
+operation collection differs. Zero temperature/seed and equal input do not establish
+repeatable semantic output here. Do not hide this behind the earlier15/15snapshot
+or claim repeatability/general routing accuracy. No semantic retry/drop/fallback.
+
+A bounded all15-case wire-complexity ablation removes quote arrays and asks the
+same model only for a style enum. It gets12/15styles:English5/5,Filipino4/5,
+Taglish3/5. It still fails both original Taglish cases and additionally mislabels
+prerequisite-fil as Taglish. No adoption or integration; do not repeat equivalent
+instruction/schema-order trials. Raw:compact-style-ablation/ plus ignored
+probe-compact-style.py and compact-style-ablation.log. No gold enters messages.
+
+verify-style-stage-evidence.py asserts exact observed counts (including failures),
+34current-compatible captures/messages/schema/runtime identities/token budgets,
+source-capture byte seals and current ac00ac9 style identity. Passed,exit0;
+style-stage-verification.log. Manifest covers121artifacts, SHA256
+1aaa4481e6d5a66104e26ecf8255489902dd79d0c3827c4e74edfcf04a5c5237.
+Retained full report SHA256:
+663ce88b9435475ff5e3d24ed72ac352a4ab2a30d6ab30a8e9e838a3b462899e.
+Fresh report SHA256:b392ecc3a8353c8fe91210519402a8f9e92555a547621261fe906dc9db5d98dc.
+All raw inputs/outputs, scripts, patches and manifests remain ignored.
+
+Task-owned bintanong-p07-router-offline stopped12:05; inspect confirms exited.
+Image/container/weights retained; other containers/worktrees untouched. No installs,
+new weights, package locks, institutional-source mutations or deployed service.
+Phase07 has no final handoff; Phase08 cannot begin. The remaining work is a justified
+model/design decision for style and operation selection, not another unchanged
+prompt trial or a reopened source review. No numerical accuracy threshold is invented.
+
+Final docs/phase-state test gate:569passed/11subtests11.19s,exit0;
+final-stage-docs.log. Existing readiness Python -B -m pytest -q -p no:cacheprovider
+--basetemp=raw-root/final-stage-docs tests/test_docs_hygiene.py
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py.
+git diff --check passes; phase_state.py validate --repo . is valid; can-advance
+--repo . correctly exits1 and withholds8 because Phase07 has no complete handoff.
