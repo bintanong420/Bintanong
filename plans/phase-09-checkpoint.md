@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 17
+sequence: 19
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: df99ac6
+head_commit: fab0225
 working_tree: dirty
-updated_at: 2026-10-20T01:00:00+08:00
+updated_at: 2026-10-20T01:08:00+08:00
 ---
 
 # Phase09 checkpoint - actual service composition
@@ -19,6 +19,10 @@ Last full pre-reopen snapshot:684a2fe:plans/phase-09-checkpoint.md.
 Added explicit application composition and read-only synthetic release provider.
 CLI deliverydf99ac6; independent review confirmed a provenance defect in input
 hashing after inference. RED2failures(edit/delete); snapshot fix GREEN16passed1.11s.
+Corrected RAG full request answered277.492s; actual retrieval22.064s/1passage.
+Independent assessment accepts both RAG claims and4Symbolic claims within scope.
+Review found pre-limit full-file reads; focused RED1failure,then bounded limit+1
+snapshot read; GREEN17focused tests2.04s. No inference/prompt behavior changed.
 
 ## Current Task
 [Integration supplement](2026-10-20-live-backend-composition-plan.md) task1 GREEN;
@@ -46,6 +50,7 @@ exact SQL/hash/command in raw local-migration.json. No hosted changes.
 Actual SEA-LION+PostgREST retrieval after migration:ok,1passage,no gaps.
 Corrected batch command:raw verify-followup.ps1; finite240s inference/generation,
 300sstage/600srequest. Do not start competing inference or heavy tests during it.
+RAG complete; Hybrid follow-up started01:04:40local and remains running.
 
 ## Versions and Digests
 Existing Python3.13.7/Pydantic2.13.5/HTTPX0.28.1; sentence-transformers6.1.0 available.

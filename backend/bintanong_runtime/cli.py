@@ -18,7 +18,8 @@ class RuntimeRequest(Record):
 
 
 def _input_bytes(path, limit):
-    raw=Path(path).read_bytes()
+    with Path(path).open('rb') as stream:
+        raw=stream.read(limit+1)
     if len(raw)>limit: raise ValueError('input_too_large')
     return raw
 

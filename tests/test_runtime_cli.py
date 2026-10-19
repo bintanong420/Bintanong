@@ -1,6 +1,7 @@
 """CLI validation must precede opening services or writing evidence."""
 import json
 import hashlib
+import io
 from types import SimpleNamespace
 
 import pytest
@@ -63,3 +64,15 @@ def test_report_binds_the_input_snapshot_used_before_inference(tmp_path,monkeypa
     assert report['spec_sha256']==hashlib.sha256(original_spec).hexdigest()
     assert report['request_sha256']==hashlib.sha256(original_request).hexdigest()
     assert app.closed
+
+
+def test_input_limit_does_not_read_an_entire_oversized_file(tmp_path,monkeypatch):
+    from pathlib import Path
+    from backend.bintanong_runtime.cli import read_json
+    class LimitedStream(io.BytesIO):
+        def read(self,size=-1):
+            assert 0<=size<=9, 'an oversized input must not be read without a bound'
+            return super().read(size)
+    monkeypatch.setattr(Path,'open',lambda *args,**kwargs:LimitedStream(b'x'*32))
+    with pytest.raises(ValueError,match='input_too_large'):
+        read_json(tmp_path/'oversized.json',limit=8)
