@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 3
+sequence: 4
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 120fb3d
+head_commit: 8ef4033
 working_tree: dirty
 updated_at: 2026-10-19T20:20:00+08:00
 ---
@@ -16,9 +16,12 @@ Fresh resume:clean p08/feat/p08-orchestration at120fb3d; inspect/can-advance val
 latest complete handoff8. Owner "continue" authorizes next permitted phase.
 Read AGENTS,both handoff skills,master14/phase ledger,Phase08 final handoff and
 standing prompt decision. Existing isolation verified; no new worktree needed.
+Research/start record committed8ef4033. Task1 source-card preparation and strict
+draft/check/candidate answer contracts delivered; integration policy reassembled,
+canonical decision copied, locators/private-reference limits preserved.
 
 ## Current Task
-Task1:write evidence/contract regressions before implementation.
+Task2:versioned prompts, draft/support validation and localized canonical rendering.
 
 ## Repository State
 New Phase09 plan/checkpoint and required index/progress edits; preserve prior files.
@@ -31,6 +34,8 @@ Research alignment gate:702passed/11subtests16.09s,exit0 in
 workspace/audit-evidence/p09-generation-20261019/research-alignment.log.
 Python3.13 -B -m pytest -q -p no:cacheprovider; external TEMP/TMP/--basetemp;
 five orchestration files,routing validation/contracts,docs and phase-state tests.
+Task1RED6missing-module failures;GREEN35passed0.60s,exit0 (generation evidence+
+orchestration integration);task1-red.log/task1-green.log under same raw root.
 
 ## Versions and Digests
 Existing Python3.13 readiness environment; dependencies unchanged.
@@ -59,8 +64,8 @@ flow while preserving thread/grammar/LLM-checker limits. Whole composed request
 deadline added to Phase09 plan; active guide's Phase10/11 labels corrected.
 
 ## Next Action
-Write Task1 RED source-card/contract tests before implementation; research audit
-and Phase09 start are verified and ready for their cohesive documentation commit.
+Write Task2 RED tests for citation/version/language/outcome/support/final rendering
+before implementing prompt/validation/render modules.
 
 ## Do Not Repeat
 Do not rerun settled source reviews/accepted question wording/Phase07 prompt sweeps.

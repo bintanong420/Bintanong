@@ -59,7 +59,7 @@ remain scoped. Source cards preserve complete supplied passages/locators and gap
 Each behavior task:write focused failing tests, observe RED, implement minimally,
 verify GREEN/relevant regressions, record commands/results and commit.
 
-1. [ ] Evidence preparation and strict candidate contracts.
+1. [x] Evidence preparation and strict candidate contracts.
    Files:contracts/evidence; tests/test_generation_evidence.py.
    Verify reassembly rejects mismatched status/release/components, deterministic
    source-card identity/locators, decision copying, private-ID exclusion, dependency
