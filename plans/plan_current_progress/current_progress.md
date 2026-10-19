@@ -1,10 +1,19 @@
 # Current progress
 
-Updated:20October2026. Phase09 model check complete in p09/feat/p09-generation-validation.
+Updated:20October2026. Runtime architecture audit in p09/feat/p09-generation-validation.
 [Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
-Last full pre-condensation snapshot:3839fbe:plans/plan_current_progress/current_progress.md.
+Last full pre-condensation snapshot:e6dee83:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
+
+Owner challenged "complete" against the actual diagram. [Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md)
+confirms callable Orchestrator/AnswerPipeline code,but no demonstrated request
+using actual model,SEA-LION,database retrieval,Janus and generation together.
+Smoke tests use scripted model/manual vector/fake database; generation composition
+uses fake evidence ports. Recent actual-model runs started at preassembled evidence.
+Default provider holds; no institutional loader or student chat endpoint is delivered.
+Fresh18targeted synthetic tests passed2.94s; they establish only those stated bounds.
+Immediate priority:complete backend integration/verification in p09 before Phase10.
 
 Completed one [six-case actual-model batch](../2026-10-19-phase09-structured-generation-observations.md)
 with unchanged prompts/decoding/default120s and a240s observation window.
@@ -24,17 +33,10 @@ premature Hybrid conclusions;e675d01 preserves useful missing-program/curriculum
 clarifications. Scoped gate1857passed/63subtests116.79s;independent final review
 found no substantive issues. No product changes after that gate; no rerun needed.
 
-Owner requested a dedicated [backend/algorithms folder](../../backend/algorithms/README.md)
-for panel/paper inspection. Canonical cosine/L2 math and generic Prolog engine moved
-there;nearest-neighbor demo moved with old imports/CLI preserved. Live k-NN SQL
-remains in its migration,linked alongside callers in the folder and
-[algorithm map](../../docs/development/algorithms.md).
-[Refactor plan/evidence](../2026-10-19-algorithms-folder-refactor-plan.md):RED8;
-GREEN106tests24.20s including actual Janus. Engine bytes/hash unchanged and pre-move
-saved bundle validates. Independent code review:no substantive findings.
-Full gate1832passed/63subtests84.51s;111local links resolve;phase ledger valid.
-Logs/exact script:workspace/audit-evidence/algorithms-folder-20261019/.
-Offline test flags and explicit selection avoid model-loading legacy tests.
+Prior [algorithm refactor](../2026-10-19-algorithms-folder-refactor-plan.md) and
+[algorithm map](../../docs/development/algorithms.md) remain delivered. Generic
+Prolog engine bytes/saved-bundle compatibility are unchanged; full evidence stays
+in the dated record and Git history. No completed component work is discarded.
 
 Owner prefers a separate Phase10 feature branch; agent recommends separation.
 [Branch boundary](../2026-10-20-phase09-phase10-branch-boundary.md) supersedes the
@@ -60,12 +62,9 @@ Thesis scope/structured routing and actual PNG rechecked; no architecture expans
 
 ## Verification and limits
 
-Phase09 core gate1819passed/63subtests82.37s,exit0; later work adds docs/synthetic demo.
-Exact command/log:workspace/audit-evidence/p09-generation-final-20261019/.
-Raw model evidence:workspace/audit-evidence/p09-generation-20261019/.
-Five prior P2 review fixes remain verified; no whole-project-green claim.
-Closure docs/phase592passed,11subtests11.34s,exit0; local links resolve and phase
-validation/can-advance pass with latest complete handoff9.
+Historical offline gate/closure evidence stays in the Phase09 handoff and dated
+resume/model reports. Those verified component milestones are retained; they do
+not establish full real-service integration or whole-project correctness.
 
 Default-budget latency,prose scope and conversational style remain unresolved.
 The same-model checker is fallible; broader language/adversarial evaluation and
@@ -75,5 +74,6 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-Keep p09 scoped to its delivered work; start future Phase10 work on a separate
-feature branch containing reviewed Phase09 commits. Preserve measured limits/one-week cap.
+Finish an explicit real-service backend composition and verify full requests per
+route against the diagram in p09. Preserve source/runtime gates and measured limits;
+Phase10 remains separate and is not the next implementation priority.

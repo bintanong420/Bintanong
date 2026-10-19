@@ -15,9 +15,9 @@
   effective outcomes,13/15exact reused styles;two Taglish style errors remain.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
-- Phase **09 complete: offline candidate generation/validation**; [Plan](phase-09-generation-validation-plan.md),
-  [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md).
-- Active phase:none. Phase10 not started; [separate feature branch preferred](2026-10-20-phase09-phase10-branch-boundary.md).
+- Phase **09 offline candidate milestone recorded; full real-service pipeline unverified**;
+  [Plan](phase-09-generation-validation-plan.md) · [Checkpoint](phase-09-checkpoint.md) · [Handoff](phase-09-handoff.md).
+- Active phase:none; current work:[runtime architecture audit](2026-10-20-runtime-architecture-implementation-audit.md) in p09; Phase10 not started.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
@@ -30,7 +30,7 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress,Phase09 model check and complete handoff;master14 for review;
+2. Read current progress,runtime architecture audit and Phase09 handoff;master3/13/14;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
@@ -52,7 +52,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
 | 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
-| 9 | Generation/validation | complete offline candidate software; model/latency limits disclosed | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
+| 9 | Generation/validation | offline candidate milestone; real-service full-pipeline verification remains | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Offline milestone](phase-09-handoff.md) |
 
 ## Read only when relevant
 
