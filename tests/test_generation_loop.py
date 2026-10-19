@@ -76,7 +76,9 @@ def test_controls_unknown_and_conflicts_skip_inference(status):
         model=Fake()
         result=await api().Generator(model).generate('Fictional?',source)
         assert result.status!='answered' and not model.calls and result.draft_attempts==0
-        if status=='unknown': assert result.decision.outcome=='unknown'
+        if status=='unknown':
+            assert result.decision.outcome=='unknown'
+            assert 'confirmed result for FICTIONAL-101' in result.text
     asyncio.run(scenario())
 
 
@@ -107,8 +109,10 @@ def test_final_text_and_decision_tampering_rejected():
     asyncio.run(scenario())
 
 
-@pytest.mark.parametrize('document_status',['conflicting_sources','release_changed','uncalibrated'])
-def test_nonready_hybrid_never_renders_a_positive_or_negative_canonical_conclusion(document_status):
+@pytest.mark.parametrize('document_status',['conflicting_sources','release_changed','uncalibrated',
+    'needs_scope','needs_subject','needs_claims'])
+@pytest.mark.parametrize('language',['en','fil','taglish'])
+def test_nonready_hybrid_never_renders_a_positive_or_negative_canonical_conclusion(document_status,language):
     from backend.bintanong_orchestration.contracts import IntegrationResult
     from backend.bintanong_orchestration.integration import assemble
     from test_orchestration_integration import pin,documents,symbolic
@@ -116,11 +120,34 @@ def test_nonready_hybrid_never_renders_a_positive_or_negative_canonical_conclusi
         for outcome in ('eligible','ineligible'):
             evidence=assemble(pin(),'Hybrid',documents=documents(document_status),symbolic=symbolic(outcome))
             source=IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,request_id='req-a',
-                route='Hybrid',response_style='en',status=evidence.status,evidence=evidence,events=())
+                route='Hybrid',response_style=language,status=evidence.status,evidence=evidence,events=())
             answer=await api().Generator(Fake()).generate('Fictional?',source)
             assert answer.decision.outcome==outcome
             assert 'conditions satisfied' not in answer.text and 'condition is unmet' not in answer.text
+            assert 'Sa sinuring prerequisite:' not in answer.text and 'Sa supported prerequisite check,' not in answer.text
             assert 'fictional-prereq' not in answer.text and not answer.citations
+    asyncio.run(scenario())
+
+
+def test_document_clarification_withholds_complete_dependency_listing():
+    from backend.bintanong_orchestration.contracts import IntegrationResult
+    from backend.bintanong_orchestration.integration import assemble
+    from backend.bintanong_symbolic.runtime import DependencyResult
+    from test_orchestration_integration import pin,documents,symbolic
+    async def scenario():
+        sym=symbolic()
+        dependencies=DependencyResult(schema_version=DependencyResult.SCHEMA_VERSION,
+            synthetic=True,activation_allowed=False,eligibility_executable=False,
+            relation='potential_prior_completion_dependency',coverage_scope='supplied_bundle',
+            status='complete',inputs=sym.inputs,course_ids=('fictional-dependent',),
+            unknown_conditions=(),rule_bundle_version=sym.rule_bundle_version,scope=sym.scope,
+            rule_ids=sym.rule_ids,rule_spans=sym.rule_spans,error_code=None)
+        evidence=assemble(pin(),'Hybrid',documents=documents('needs_scope'),dependencies=dependencies)
+        source=IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,request_id='req-a',
+            route='Hybrid',response_style='en',status=evidence.status,evidence=evidence,events=())
+        answer=await api().Generator(Fake()).generate('Fictional?',source)
+        assert answer.status=='clarification_needed' and answer.dependencies==dependencies
+        assert 'fictional-dependent' not in answer.text and not answer.citations
     asyncio.run(scenario())
 
 

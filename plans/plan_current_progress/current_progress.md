@@ -1,10 +1,20 @@
 # Current progress
 
-Updated:19October2026. Phase09 offline candidate milestone complete in p08/feat/p08-orchestration.
+Updated:19October2026. Phase09 review in p09/feat/p09-generation-validation.
 [Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
-Last full pre-condensation snapshot:37c8d69:plans/plan_current_progress/current_progress.md.
+Last full pre-condensation snapshot:b844c5f:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
+
+Owner switched to p09 and requested continuation. Clean starting HEADb844c5f
+retains Phase09 product/closure and algorithm-folder commits; GitHub MCP confirms
+PR13 merged. Phase ledger valid, no active phase. Phase10 remains deferred.
+[Resume review](../2026-10-19-phase09-resume-review.md) records consulted thesis
+17-18/39-44/58-59, actual routing PNG and master3/11/13/14; no new discrepancy.
+Hybrid document clarification wrongly rendered retained definitive decisions.
+RED9failed/9passed; corrected rendering passed75generation tests1.68s. Ready-only
+conclusions preserve unknown/missing-fact guidance. Independent review also
+reproduced dropped control missing_facts; that correction is next.
 
 Owner requested a dedicated [backend/algorithms folder](../../backend/algorithms/README.md)
 for panel/paper inspection. Canonical cosine/L2 math and generic Prolog engine moved
@@ -60,7 +70,6 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-After the owner switches,verify the new checkout retains Phase09 and algorithm
-folder commits and follow
-the transfer note for Phase09 review/validation. Phase10 advancement is deferred by
-the owner's current direction,despite formal ledger eligibility.
+Reproduce and correct Hybrid clarification rendering under the bounded resume
+review plan, then resolve concrete reviewer findings and verify offline regressions.
+Phase10 advancement remains deferred despite formal ledger eligibility.
