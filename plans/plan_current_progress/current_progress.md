@@ -8,6 +8,14 @@ Last full snapshot:73cf70a:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Owner explicitly holds Phase08 planning/implementation and requests feature-branch
+publication before moving to a new branch/worktree. Fresh fetch/ls-remote and
+GitHub MCP confirm origin/feat/p07-router-taglish-nlp already contains closure
+96f3797;working tree was clean. This note preserves the hold for the next session.
+No new branch/worktree created;preserve this checkout and ignored local evidence.
+Publication-note docs/phase gate581passed/11subtests11.26s,exit0;raw log:
+workspace/audit-evidence/p07-branch-publication-20261019/docs.log.
+
 Owner continued after the offered offline completion review carrying both known
 style errors. Review verified all written report-based exits;no numeric quality
 gate or institutional approval inferred. Final handoff/ledger closure records
@@ -46,6 +54,7 @@ documentRAG,language preferences and undergraduate/read-only/private/source-gap
 boundaries retained. Context17-18/actual PNG/master12-13 refreshed;prior39-44/
 58-59/master3/11 remain applicable. No new architecture discrepancy.
 
-Next:after successful advancement validation,prepare Phase08 orchestration plan
-from master13/final handoff,carrying all limitations and release guards. No Phase08
-plan or implementation started;no repeated inference or source-review sweep.
+Next:wait for owner's branch/worktree move and explicit Phase08 resume. When
+resumed,read master13/final handoff and make conversational follow-up/session
+context handling explicit in the plan. No Phase08 plan/implementation started;
+no repeated inference or source-review sweep. Feature-branch publication only.
