@@ -10,17 +10,20 @@ This README explains the main `bintanong_workspace/Bintanong/` checkout and its
 developer workspace, including data that a Git clone does not contain. Paths below
 start at `bintanong_workspace/` or are relative to the repository root as indicated.
 
-Workspace snapshot: **17 October 2026**. Use the phase index for later changes.
+Workspace paths reviewed **17 October 2026**; pipeline guide added **19 October 2026**.
+Use the phase index for current delivery status.
 
 ## Start here when taking over
 
 1. Read [AGENTS.md](AGENTS.md), the [phase index](plans/INDEX.md) and
    [current progress](plans/plan_current_progress/current_progress.md).
-2. Follow the index to the active phase plan, checkpoint and handoff. At this
-   update, Phase 05 is complete as an approved offline research/software milestone.
-   The ledger records Phase 06 Task 1 delivered; further implementation awaits
-   phase alignment with the owner. Institutional release remains gated. The index
-   and Git take precedence over this dated summary.
+2. Follow the index to the active phase plan, checkpoint and previous handoff.
+   Read the [developer pipeline map](docs/development/pipelines.md) for the source
+   preparation/request flows, module responsibilities and generation/API boundaries.
+   Institutional release remains gated; the index and Git determine current status.
+   Open [backend/algorithms](backend/algorithms/README.md) for cosine math, the
+   nearest-neighbor demo, Prolog reasoning and links to the runtime SQL and callers.
+   The [detailed algorithm map](docs/development/algorithms.md) covers other workflows.
 3. Read the relevant sections of the
    [master plan](plans/master_implementation_plan_original_long.md). Consult the
    [thesis](Context/bintanong_thesis_for_context.pdf), especially physical17–18
@@ -45,12 +48,16 @@ Bintanong/
 ├── README.md                   Developer entry point and local-data map
 ├── Context/                    Thesis and intended runtime architecture
 ├── backend/
+│   ├── algorithms/             Canonical vector math, Prolog engine and paper demo
 │   ├── bintanong_api/          API/service scaffold and model client
 │   ├── bintanong_contracts/    Typed source, span, chunk and runtime contracts
 │   ├── bintanong_embedding/    Embedding adapter and batch verification
 │   ├── bintanong_retrieval/    Retrieval, context assembly and evidence policy
+│   ├── bintanong_routing/      Multilingual LLM interpretation and validated routing
+│   ├── bintanong_orchestration/ Pinned candidate route execution and integration
+│   ├── bintanong_generation/   Candidate drafts, validation, bounded repair and fallbacks
 │   ├── bintanong_storage/      Registration, loading and release interfaces
-│   ├── bintanong_symbolic/     Inactive curriculum authoring ledger
+│   ├── bintanong_symbolic/     Authoring/compiler and bounded research Prolog runtime
 │   ├── bintanong_tools/        Ingestion, extraction and source-review tools
 │   ├── pyproject.toml         Python version and dependency groups
 │   └── uv.lock                Locked Python dependencies
@@ -65,6 +72,7 @@ Bintanong/
 ├── docker/                    Service/tool Dockerfiles
 ├── compose.yaml               CPU service definitions and tools profile
 ├── compose.gpu.yaml           NVIDIA override
+├── docs/development/          Developer pipeline and module navigation
 ├── docs/decisions/            Technical decisions and verification records
 ├── plans/                     Formal plans, checkpoints, handoffs and progress
 ├── .agents/skills/            Repository workflows, including phase handoff

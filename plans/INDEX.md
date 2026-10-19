@@ -4,38 +4,37 @@
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
 - Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
-- Phase **07 complete as a verified offline software/research milestone**;
-  no active numbered implementation phase. [Completed plan](phase-07-multilingual-routing-plan.md) ·
+- Phase **08 complete: offline candidate orchestration** in p08/feat/p08-orchestration.
+  [Plan](phase-08-orchestration-plan.md) · [Superseded checkpoint](phase-08-checkpoint.md) ·
+  [Final handoff](phase-08-handoff.md).
+  [Developer pipelines](../docs/development/pipelines.md): actual flows/files and boundaries.
+- Phase **07 complete as a verified offline software/research milestone**.
+  [Completed plan](phase-07-multilingual-routing-plan.md) ·
   [Superseded checkpoint](phase-07-checkpoint.md) · [Final handoff](phase-07-handoff.md) ·
   [Exit mapping/review](2026-10-19-phase07-offline-closeout.md).15/15fresh dev routes/
   effective outcomes,13/15exact reused styles;two Taglish style errors remain.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
-- Next permitted phase **08 planning**,after successful advancement check;not started.
+- Phase **09 complete: offline candidate generation/validation**; [Plan](phase-09-generation-validation-plan.md),
+  [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md).
+- Active phase:none. Owner requests [Phase09 transfer/review](2026-10-19-phase09-worktree-transfer.md); Phase10 deferred.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Latest final handoff:[Phase07 complete offline](phase-07-handoff.md).
+- Latest final handoff:[Phase09 complete offline](phase-09-handoff.md).
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.
-- [Final closure/specification report](2026-10-18-phase06-offline-closure.md).
-- [Phase06 integration into dev and next-developer entry point](2026-10-18-phase06-dev-integration.md).
-- [Original-plan review and proposed sign-off](2026-10-18-phase06-original-plan-review.md).
-- [Short Phase06 completion checklist](2026-10-18-phase06-closeout-checklist.md).
-- Hawksprey420 [scaffold handoff](2026-10-17-phase06-hawksprey420-scaffold-handoff.md);
-  [fresh local candidates](2026-10-17-phase06-local-regeneration.md) and
-  [typed runtime verification](2026-10-17-phase06-typed-runtime.md).
 
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress and complete Phase07 handoff;master13 for Phase08 planning;
+2. Read current progress,Phase09 transfer note and complete handoff;master14 for review;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. No active implementation checkpoint;follow final handoff's next action.
+5. Run can-advance before preparing Phase10; preserve all inherited release holds.
 
 ## Phase ledger
 
@@ -52,6 +51,8 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
 | 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
+| 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
+| 9 | Generation/validation | complete offline candidate software; model/latency limits disclosed | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 
 ## Read only when relevant
 
@@ -75,5 +76,5 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state; keep durable evidence in dated reports.
-Latest full Phase07 snapshot:`73cf70a`;pre-cleanup:`81be71a`;recover with `git show <commit>:<path>`;
+Latest full snapshots:Phase09:`37c8d69`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
 Do not read historical snapshots during routine resume or copy them back here.

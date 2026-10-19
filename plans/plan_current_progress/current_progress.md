@@ -1,60 +1,66 @@
 # Current progress
 
-Updated:19October2026. Phase07 complete as a verified offline software/research
-milestone in p07/feat/p07-router-taglish-nlp. No active numbered implementation phase.
-[Final handoff](../phase-07-handoff.md),[exit mapping/review](../2026-10-19-phase07-offline-closeout.md),
-[superseded checkpoint](../phase-07-checkpoint.md).
-Last full snapshot:73cf70a:plans/plan_current_progress/current_progress.md.
+Updated:19October2026. Phase09 offline candidate milestone complete in p08/feat/p08-orchestration.
+[Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
+Last full pre-condensation snapshot:37c8d69:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner explicitly holds Phase08 planning/implementation and requests feature-branch
-publication before moving to a new branch/worktree. Fresh fetch/ls-remote and
-GitHub MCP confirm origin/feat/p07-router-taglish-nlp already contains closure
-96f3797;working tree was clean. This note preserves the hold for the next session.
-No new branch/worktree created;preserve this checkout and ignored local evidence.
-Publication-note docs/phase gate581passed/11subtests11.26s,exit0;raw log:
-workspace/audit-evidence/p07-branch-publication-20261019/docs.log.
+Owner requested a dedicated [backend/algorithms folder](../../backend/algorithms/README.md)
+for panel/paper inspection. Canonical cosine/L2 math and generic Prolog engine moved
+there;nearest-neighbor demo moved with old imports/CLI preserved. Live k-NN SQL
+remains in its migration,linked alongside callers in the folder and
+[algorithm map](../../docs/development/algorithms.md).
+[Refactor plan/evidence](../2026-10-19-algorithms-folder-refactor-plan.md):RED8;
+GREEN106tests24.20s including actual Janus. Engine bytes/hash unchanged and pre-move
+saved bundle validates. Independent code review:no substantive findings.
+Full gate1832passed/63subtests84.51s;111local links resolve;phase ledger valid.
+Logs/exact script:workspace/audit-evidence/algorithms-folder-20261019/.
+Offline test flags and explicit selection avoid model-loading legacy tests.
 
-Owner continued after the offered offline completion review carrying both known
-style errors. Review verified all written report-based exits;no numeric quality
-gate or institutional approval inferred. Final handoff/ledger closure records
-verified deliverables and limitations;candidate frozen. No new product edits or
-model calls. Institutional registry/source/release holds remain closed.
+Owner stopped advancement into Phase10 and requested Phase09 preparation for a new
+branch/worktree. [Transfer note](../2026-10-19-phase09-worktree-transfer.md) records
+the existing Phase09 commits,base and resume order. Owner handles the switch;
+no Phase10 plan or implementation was created. Completed phase history is preserved.
+Transfer docs/phase checks:593passed,11subtests11.34s; phase ledger valid. Raw log:
+workspace/audit-evidence/p09-worktree-transfer-20261019/docs.log.
 
-Fresh24-file gate1615passed/11subtests72.14s,exit0. Independent whole-change review
-no P1/P2,176tests1.63s;52candidate/212style source seals checked. Routing verifier
-30captures pass;recomputed manifest byte-identical to original. Fresh model SHA/
-size/image match;container exited. Raw:workspace/audit-evidence/
-p07-offline-closeout-20261019/. Exact verify-final.ps1/final-regressions.log,
-routing-verification.log and assets.json retained. Review docs580passed/11subtests
-16.91s;final closure docs/phase evidence in closeout report. No whole-project-green claim.
+Owner started the existing offline model container. Initial nine-case120s baseline
+produced nine timeout fallbacks and no validated explanation. A single240s trace
+found RAG invented eligible then unknown where no structured decision existed.
+Both were rejected. Correction37c8d69 binds the draft field to the host value and
+explicitly states null; independent guards remain. RED3/GREEN60 generation tests.
 
-## Observed results and remaining limits
+One corrected follow-up reused the three RAG language variants at240s:
+3/3 answers,one draft/check each,no repairs,null decision preserved.
+Agent inspection found four source-supported claims and appropriate English,
+Filipino and Taglish styles. This is one fictional source family,not language-wide
+accuracy or default120s success. Baseline/trace/follow-up remain separate evidence.
 
-Router-v9/be39e67:15/15fresh proposed routes,15/15effective outcomes,five consistent
-families. Entities/claims/operations each15/15(6substantive/9empty);18offset
-corrections explicit. Exactly15baseline style reuses:13/15overall,English5/5,
-Filipino5/5,Taglish3/5. procedure-taglish/excluded-taglish still select Filipino.
-These remain semantic errors. No population accuracy,fresh two-stage latency,
-repeatability or final-answer language claim.75accepted institutional variants and
-sealed final families were not re-evaluated. Four inferior alternatives stay retired.
+Developer navigation:[pipeline map](../../docs/development/pipelines.md),
+[module guide](../../backend/bintanong_generation/README.md).
+[Research/Context audit](../2026-10-19-orchestration-research-and-context-alignment.md)
+and current llama.cpp/Pydantic docs support the explicit typed flow/request schema.
+Thesis scope/structured routing and actual PNG rechecked; no architecture expansion.
 
-Four own-rule unknowns/full-prospectus defects/two inherited Docling failures,
-source authority/currentness and [hosted schema/history gaps](../2026-10-19-hosted-migration-status.md)
-remain. Authenticated ownership must come from eventual caller;context validation
-is not authentication. No source reviews reopened,DB mutation,push/merge or activation.
+## Verification and limits
 
-## Standing decision and next action
+Phase09 core gate1819passed/63subtests82.37s,exit0; later work adds docs/synthetic demo.
+Exact command/log:workspace/audit-evidence/p09-generation-final-20261019/.
+Raw model evidence:workspace/audit-evidence/p09-generation-20261019/.
+Five prior P2 review fixes remain verified; no whole-project-green claim.
+Closure docs/phase592passed,11subtests11.34s,exit0; local links resolve and phase
+validation/can-advance pass with latest complete handoff9.
 
-[Prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
-inference guidance/guards,no parameter training/fine-tuning/LoRA/learned soft prompts;
-maximum one-week added accuracy work. LLM routing,structured curriculum/Prolog,
-documentRAG,language preferences and undergraduate/read-only/private/source-gap
-boundaries retained. Context17-18/actual PNG/master12-13 refreshed;prior39-44/
-58-59/master3/11 remain applicable. No new architecture discrepancy.
+Default-budget latency and successful actual Symbolic/Hybrid explanations remain
+unverified. Same-model checker is fallible; broader language/adversarial evaluation
+and independent human review remain pending. All inherited source/schema/style,
+privacy/auth,university and release holds stay. No training/dependencies/downloads,
+source activation,student endpoint or deployment. One-week accuracy cap preserved.
 
-Next:wait for owner's branch/worktree move and explicit Phase08 resume. When
-resumed,read master13/final handoff and make conversational follow-up/session
-context handling explicit in the plan. No Phase08 plan/implementation started;
-no repeated inference or source-review sweep. Feature-branch publication only.
+## Next action
+
+After the owner switches,verify the new checkout retains Phase09 and algorithm
+folder commits and follow
+the transfer note for Phase09 review/validation. Phase10 advancement is deferred by
+the owner's current direction,despite formal ledger eligibility.

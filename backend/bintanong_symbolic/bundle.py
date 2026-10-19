@@ -5,7 +5,7 @@ from pathlib import Path
 
 from .compiler import _digest, _json, compile_curriculum_review_bundle
 
-_ENGINE = Path(__file__).with_name('curriculum_runtime.pl')
+_ENGINE = Path(__file__).resolve().parents[1]/'algorithms/curriculum_runtime.pl'
 _MAX_PAYLOAD_BYTES = 524_288
 
 

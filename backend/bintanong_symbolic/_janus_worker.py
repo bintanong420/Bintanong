@@ -49,7 +49,7 @@ def main():
         elif payload['bundle']['synthetic'] is not True or research is not None:
             raise ValueError('invalid execution context')
         import janus_swi as janus
-        engine = Path(__file__).with_name('curriculum_runtime.pl')
+        engine = Path(__file__).resolve().parents[1]/'algorithms/curriculum_runtime.pl'
         engine_bytes = engine.read_bytes()
         if hashlib.sha256(engine_bytes).hexdigest() != payload['engine_sha256']:
             raise ValueError('engine changed after bundle preparation')

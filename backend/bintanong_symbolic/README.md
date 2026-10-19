@@ -128,7 +128,8 @@ execution does not change ledger flags, approve sources, activate a release,
 register an institutional capability or publish an API. EMPTY_REGISTRY stays empty.
 Non-synthetic release/runtime integration remains a separate gated Phase06 step.
 
-One fixed Prolog engine evaluates reviewed expression trees: ordered all_of/any_of,
+The canonical [Prolog engine](../algorithms/curriculum_runtime.pl) in
+`backend/algorithms/` evaluates reviewed expression trees: ordered all_of/any_of,
 explicit co_requisite and verified_none. Draft identities, unknown rules, missing
 completion and mismatched curricula remain unknown; known required failure stays
 distinct. Any satisfied alternative is sufficient; missing alternatives alone do
