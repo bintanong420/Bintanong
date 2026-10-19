@@ -44,6 +44,68 @@ def test_model_template_tokenization_and_schema_constrained_payload():
     asyncio.run(run())
 
 
+@pytest.mark.parametrize('constrained', [True, False])
+def test_explicit_evaluation_profile_records_sampling_defaults_without_prompt_text(constrained):
+    async def run():
+        original, calls = handler_for()
+        def handler(request):
+            response = original(request)
+            if request.url.path == '/props':
+                data = json.loads(response.content)
+                data['default_generation_settings']['params'] = dict(
+                    temperature=0.8, seed=4294967295, top_k=40, top_p=0.95,
+                    min_p=0.05, repeat_penalty=1.0, samplers=['top_k', 'temperature'],
+                    grammar='private grade data', stop=['private grade data'],
+                    unexpected='private grade data')
+                data['default_generation_settings']['prompt'] = 'private grade data'
+                return httpx.Response(200, json=data)
+            return response
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            transport = api().LlamaTransport('http://localhost', client=client, constrained=constrained)
+            assert await transport.infer([], {}) == '{}'
+            payload = calls[-1][1]
+            assert payload['cache_prompt'] is False
+            assert payload['temperature'] == 0 and payload['seed'] == 0
+            assert payload['reasoning_effort'] == calls[1][1]['reasoning_effort'] == 'none'
+            assert transport.metadata['inference_profile'] == 'p07-greedy-no-prefix-cache-v1'
+            assert transport.metadata['cache_prompt'] is False
+            assert transport.metadata['reasoning_effort'] == 'none'
+            defaults = transport.metadata['server_sampling_defaults']
+            assert defaults['temperature'] == 0.8 and defaults['seed'] == 4294967295
+            assert defaults['top_k'] == 40 and defaults['min_p'] == 0.05
+            assert defaults['samplers'] == ['top_k', 'temperature']
+            assert 'private grade data' not in json.dumps(transport.metadata)
+    asyncio.run(run())
+
+
+def test_absent_sampling_defaults_are_not_fabricated():
+    async def run():
+        handler, _ = handler_for()
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            transport = api().LlamaTransport('http://localhost', client=client)
+            assert await transport.infer([], {}) == '{}'
+            assert transport.metadata['server_sampling_defaults'] == {}
+    asyncio.run(run())
+
+
+@pytest.mark.parametrize('params', [None, [], True, 'private grade data'])
+def test_malformed_sampling_defaults_stop_before_generation(params):
+    async def run():
+        original, calls = handler_for()
+        def handler(request):
+            response = original(request)
+            if request.url.path == '/props':
+                data = json.loads(response.content)
+                data['default_generation_settings']['params'] = params
+                return httpx.Response(200, json=data)
+            return response
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            with pytest.raises(api().RuntimeFailure, match='^invalid_server_response$'):
+                await api().LlamaTransport('http://localhost', client=client).infer([], {})
+        assert [path for path, _ in calls] == ['/props']
+    asyncio.run(run())
+
+
 def test_complete_message_overflow_stops_before_inference():
     async def run():
         handler, calls = handler_for(n_ctx=800, token_count=100)

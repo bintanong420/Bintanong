@@ -9,6 +9,16 @@ import math
 import httpx
 
 
+SAMPLING_SETTING_KEYS = (
+    'seed', 'temperature', 'dynatemp_range', 'dynatemp_exponent', 'top_k', 'top_p',
+    'min_p', 'top_n_sigma', 'xtc_probability', 'xtc_threshold', 'typical_p',
+    'repeat_last_n', 'repeat_penalty', 'presence_penalty', 'frequency_penalty',
+    'dry_multiplier', 'dry_base', 'dry_allowed_length', 'dry_penalty_last_n',
+    'mirostat', 'mirostat_tau', 'mirostat_eta', 'adaptive_target', 'adaptive_decay',
+    'min_keep', 'samplers', 'backend_sampling',
+)
+
+
 class RuntimeFailure(Exception):
     """Only a fixed, nonsensitive operational code crosses this boundary."""
 
@@ -51,11 +61,17 @@ class LlamaTransport:
                 template = props['chat_template']
                 if type(n_ctx) is not int or n_ctx <= 0 or not isinstance(template, str) or not template:
                     raise RuntimeFailure('invalid_server_response')
+                defaults = props['default_generation_settings'].get('params', {})
+                if not isinstance(defaults, dict):
+                    raise RuntimeFailure('invalid_server_response')
                 self.metadata = dict(build=props.get('build_info', 'unknown'), n_ctx=n_ctx,
                     model_file=str(props.get('model_path','unknown')).replace('\\','/').rsplit('/',1)[-1],
                     chat_template_sha256=hashlib.sha256(template.encode()).hexdigest(),
                     max_output_tokens=self.max_output_tokens, timeout_seconds=self.timeout_seconds,
                     temperature=0, seed=0,
+                    inference_profile='p07-greedy-no-prefix-cache-v1', cache_prompt=False,
+                    reasoning_effort='none',
+                    server_sampling_defaults={k:defaults[k] for k in SAMPLING_SETTING_KEYS if k in defaults},
                     constrained=self.constrained)
                 templated = await self._json(client, 'POST', '/apply-template',
                     {'messages': messages, 'reasoning_effort': 'none'})
@@ -74,7 +90,7 @@ class LlamaTransport:
                     response_format['schema'] = schema
                 data = await self._json(client, 'POST', '/v1/chat/completions', dict(
                     messages=messages, temperature=0, seed=0, max_tokens=self.max_output_tokens,
-                    stream=False, response_format=response_format, reasoning_effort='none'))
+                    stream=False, response_format=response_format, reasoning_effort='none', cache_prompt=False))
                 choices = data['choices']
                 if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
                     raise RuntimeFailure('invalid_server_response')

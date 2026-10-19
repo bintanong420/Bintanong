@@ -61,6 +61,15 @@ claim is established here. Image attachments and private-file parsing are later 
 ## Transport
 
 LlamaTransport uses /props, /apply-template, /tokenize and /v1/chat/completions.
+The p07-greedy-no-prefix-cache-v1 profile fixes temperature0/seed0,
+reasoning_effort=none and cache_prompt=false in each generation request.
+Metadata records these overrides separately from an allowlisted subset of server-
+reported sampling defaults, including sampler order when available. Missing defaults
+are not invented; arbitrary prompt/grammar/stop text is excluded. Batch/thread/model
+startup configuration still belongs in the external evaluation evidence. Disabling
+prefix reuse changes evaluation conditions and can increase latency; it does not
+guarantee determinism or improve accuracy. Prior implicit-cache outputs cannot be
+presented as fresh inference under this profile. Semantic prompts remain unchanged.
 It reserves max_output_tokens plus eight tokens within actual n_ctx for the whole
 chat, including any repair. The model's tokenizer/template is used, not SEA-LION.
 JSON-schema decoding is the default; explicit constrained=False uses JSON-only
