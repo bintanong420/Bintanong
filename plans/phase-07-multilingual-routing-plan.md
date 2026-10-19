@@ -90,6 +90,10 @@ candidate regresses pure-language cases and is retired. See the
 Two fresh complete requests yield2/2proposed routes/styles but1/2effective outcomes:
 Hybrid adds an unrequested operation and safely clarifies. Compact style ablation
 scores12/15and is retired. Keep model failures distinct from successful guards.
+Decoder correction bec3d8e now enforces proceeding operation counts. New six-case
+fresh-routing check:operations/entities/claims6/6,routes5/6; Filipino prerequisite
+over-routes to Hybrid. Six style captures reused unchanged; no fresh-style claim.
+See [current correction/results](2026-10-19-phase07-operation-constraint-correction.md).
 The language-style exit remains open; Phase07 is active and Phase08
 cannot begin. See the dated evaluation report and exact next checkpoint action.
 Phase06 predecessor verification remains accepted; no receipt-recovery task.

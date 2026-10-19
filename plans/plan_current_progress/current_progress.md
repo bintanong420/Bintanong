@@ -1,65 +1,49 @@
 # Current progress
 
-Updated:19October2026,12:15. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,12:25. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
-[stage results](../2026-10-19-phase07-style-stage-evaluation.md),
-[design/evidence trail](../2026-10-19-phase07-response-style-design.md).
-Pre-condensation snapshot:e576266:plans/plan_current_progress/current_progress.md.
+[current correction/results](../2026-10-19-phase07-operation-constraint-correction.md),
+[prior style results](../2026-10-19-phase07-style-stage-evaluation.md).
+Pre-condensation snapshot:bec3d8e:plans/plan_current_progress/current_progress.md.
 
 ## Latest verified change
 
-Resumed e576266 for [operation-count decoder correction](../2026-10-19-phase07-operation-constraint-correction.md).
-Decoder allowed0-4operations despite host requiring RAG0 or Symbolic/Hybrid1.
-Schema now expresses those counts, while clarification preserves compounds and
-unchanged host guards still withhold nonconforming output. RED6failed/4passed ->
-GREEN137routing tests1.33s. Review:no P1/P2,137passed1.42s; broad24-file gate
-1567passed/11subtests76.68s,exit0. Six-case fresh-routing check pending.
-Prompt text/style interpretation unchanged; no language/schema wording sweep.
+Product bec3d8e constrains proceeding decoder output:RAG0operations,
+Symbolic/Hybrid exactly1. Clarification preserves compounds. Host guard remains
+unchanged and withholds a nonconforming transport's compound without truncation
+or semantic retry. Prompt text, canonical Interpretation v1 and style-v1 unchanged.
+Version router-p07-v7 identifies the changed embedded schema, not a language sweep.
 
-Two independent structured calls to the SAME Gemma/Bintu model isolate routing
-from conversational style. Routing messages/schema remain d019318. Style receives
-only original_text and returns bounded literal evidence plus a style label.
-One shared format repair:normal2/max3calls. Unknown/rejected style and invalid
-course proposals cannot bypass guards. No executor/API/institutional activation.
-
-Retained implementation:2f92524,matching ac00ac9 bytes. Actual15-case composition has
-15/15proposed/effective routes, entities, claims and operations; five consistent
-families. Style13/15:English5/5,Filipino5/5,Taglish3/5. procedure-taglish and
-excluded-taglish still select fil. Fifteen exact routing captures reused;
-15fresh style calls,30logical calls,zero repairs; replay is not model latency.
-
-A span-instruction variant fails the same two cases. Label-first614e3c3 passes
-five selected cases but regresses four pure-language course queries in the full
-set (style11/15); retired. Restore exact ac00ac9 backend/test bytes. No further
-equivalent prompt sweep or host dictionary. Raw failed experiments stay preserved.
-Only Gemma and SEA-LION embedding folders exist; no separate Bintu checkpoint found.
-
-## Verification
-
-Stage TDD:RED35failed/18passed ->GREEN127tests1.34s; independent review:no P1/P2,
-127passed1.30s. Broad24-file gate1555passed/11subtests179.81s,exit0.
-Retired label-first focused127passed3.38s; broad1555/11subtests141.12s.
-Restore verified with git diff --exit-code ac00ac9 -- backend tests.
-Fresh restored routing/docs/phase-state gate696passed/11subtests12.37s,exit0.
-Selected fresh2requests:four real calls; proposed routes/entities/claims/styles2/2,
-effective/operations1/2. Hybrid adds an unrequested eligibility operation; guard
-returns clarify/compound_request,withholding dispatch. No semantic success claim.
-Compact style-only ablation12/15; retired. Verifier checks34compatible captures/
-121sealed artifacts; exact hashes and failed-case readings are in stage results.
+TDD RED6failed/4passed0.80s ->GREEN137routing tests1.33s. Independent review:
+no P1/P2,137passed1.42s. Broad24-file gate1567passed/11subtests76.68s,exit0.
 Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
-## Boundaries and next action
+Actual six EXISTING structured variants:6fresh routing calls/6exact-compatible
+style captures reused,12logical calls,zero repairs. Operation name/target,
+canonical entities and claim meaning6/6. Proposed/effective routes5/6:Filipino
+prerequisite wrongly chooses Hybrid; other variants correct. Family consistency1/2.
+All three affected-course-plus-procedure cases now select one correct operation,
+including previously failing Taglish. Count correctness is not route correctness.
+Style6/6 is reused evidence only; two known Taglish errors in prior15-case profile
+remain (13/15styles). No new whole15-case or final-answer accuracy claim.
 
-Existing Python3.13 readiness venv; no installs/locks/weights/source changes.
-Owner-corrected models:C:/Coding-projects/bintanong_workspace/MODELS.
-Task-owned localhost18087 runtime restarted for bounded six-case evaluation; health=ok.
-No image download/model copy. Other
-containers/worktrees preserved. Raw:workspace/audit-evidence/p07-implementation-20261019/.
-Context thesis scope17-18 refreshed from saved extraction; routing PNG viewed.
-Prior39-44/58-59/master3/11/12/13 and Phase06 acceptance/source holds stay settled.
+Evidence verifier passed12captures/21sealed artifacts. Exact commands, hashes,
+matrices, failed reason and input-token budgets are in the current correction report.
+Task-only runtime stopped12:25; inspect=exited. Image/container/models retained.
+No weights, installs, locks, sources, registry, other containers/worktrees or remotes changed.
 
-Next:verify/review and commit decoder correction, evaluate six existing structured
-variants with fresh routing/compatible saved style and report exact operations.
-Preserve sealed failures; no retired prompt/schema trials/source reviews. Phase07 open;
-no final handoff or Phase08 advancement. Final docs/phase-state checks recorded
-in the stage report; verified product2f92524,documentation wrapper discoverable in Git.
+## Decisions and next action
+
+Scope physical17-18 reread from saved extraction, actual routing PNG viewed, PDF
+hash verified unchanged. Existing39-44/58-59/master3/11/12/13 decisions preserved.
+Master2.2 names quantized Gemma4E4B as Bintu-1; the supplied model is intended.
+No separately fine-tuned checkpoint is required. Preserve the same artifact and
+all undergraduate/read-only/source-authority/activation/Phase06 boundaries.
+
+Owner quality-target question is pending:keep style errors as blockers, or prepare
+an offline completion review documenting them. No answer/elapsed time is approval.
+Next:apply the actual owner target if supplied; otherwise keep Phase07 open and
+draft a revised LLM interpretation design for the two style failures and Filipino
+Symbolic/Hybrid mismatch. Stop the resolved count diagnostic; no retired trials,
+wording sweep, host semantic override, model change/training or Phase08 advancement.
+Final docs/phase-state verification is recorded in the correction report.

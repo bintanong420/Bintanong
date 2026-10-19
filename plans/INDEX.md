@@ -8,8 +8,8 @@
 - [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
   [Accepted design](2026-10-19-phase07-routing-design.md). Owner directed implementation;
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
-  [stage evaluation](2026-10-19-phase07-style-stage-evaluation.md):15/15routes/meaning,
-  13/15styles on captured composition; fresh Hybrid extra-operation error withheld.
+  [decoder correction](2026-10-19-phase07-operation-constraint-correction.md):6/6operations,
+  5/6routes in fresh structured check; [style profile](2026-10-19-phase07-style-stage-evaluation.md)13/15 unchanged.
   Model-quality/language-style exit remains open.
 - Next phase08 remains gated on a complete Phase07 handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
