@@ -35,10 +35,11 @@ scope/clarification outcomes, shared repair count and token headroom observable.
 - [x] Use its errors to specify one prompt candidate with separate synthetic
       examples. Preserve output schema/domain/host guards. RED/GREEN focused prompt
       contract tests precede product edits; tests are not model-accuracy evidence.
-- [ ] Candidate15-case comparison, full stage captures and matched settings.
-- [ ] Select/retire candidate on all reported semantics; do not hide regression
+- [x] Candidate comparison retired early after10completed pairs; five outputs
+      incomplete. Verified partial captures; no full15-case candidate claim.
+- [x] Select/retire candidate on all reported semantics; do not hide regression
       behind valid JSON or a clarification. Record limitations and next action.
-- [ ] Relevant regressions/review, stop task runtime, seal raw evidence and commit
+- [x] Relevant regressions/review, stop task runtime, seal raw evidence and commit
       curated report/checkpoint/progress. Phase07 remains active until exits met.
 
 Raw root:workspace/audit-evidence/p07-prompt-comparison-20261019/.
@@ -88,13 +89,13 @@ Independent style_examples_review:no P1/P2,124passed3.31s,exit0 on style/contrac
 router/transport/evaluation tests;reviewer/pytest basetemp. An initial reviewer
 command named a nonexistent test file and ran no tests; corrected invocation passed.
 Examples distinct from evaluation families, exact grounding and technical-term
-policy checked; no schema/host/route changes. Actual candidate quality still pending.
+policy checked; no schema/host/route changes. Actual candidate outcome is recorded below.
 Candidate code9dde229 committed before its inference. Baseline script retains its
 original definition; separate evaluate-candidate.py implements exact routing reuse.
 run-candidate-after-baseline.ps1 waits for baseline/report.json (one-hour maximum)
 before starting candidate inference. Baseline session71133; queued wrapper87552.
-Never start duplicate evaluations while either is alive. Completed stage captures
-are already durable; final reports/verification still pending.
+These sessions are historical and are no longer alive. Completed captures remain
+durable; the interrupted candidate was subsequently retired below.
 Docs/ledger gate575passed/11subtests26.38s,exit0,candidate-docs.log; existing Python
 -B -m pytest -q -p no:cacheprovider --basetemp=raw-root/candidate-docs
 tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py;
@@ -120,14 +121,11 @@ all excluded variants; it does not make their proposals correct. The two style
 errors are procedure-taglish/excluded-taglishFilipino. No current population or
 institutional accuracy claim. No semantic host override added.
 
-At owner's request,[developer handoff](2026-10-19-phase07-cli-handoff.md) preserves
-active candidate session87552 and completion supervisor63851. Candidate is running
-15fresh styles with15exact baseline routing captures reused. Supervisor performs
-offline evidence verification/comparison and stops task runtime automatically,
-writing completion-status.json; no repository edits/model calls from supervisor.
-Candidate selection/final broad regression gate remain for the next developer.
-Do not restart completed baseline or duplicate a live candidate. Resume instructions
-and case/profile/code compatibility checks are in the developer handoff.
+At the earlier handoff, candidate87552/supervisor63851 were running. On resume
+neither was alive, candidate/report.json was absent, and the task container had
+exited255 with OOMKilled=false. Interruption cause remains unestablished. The
+current [developer handoff](2026-10-19-phase07-cli-handoff.md) supersedes those
+running-job and resume instructions. Do not restart either retired evaluation.
 
 Baseline report SHA25693352f695f5d28e3a474ed92e04bef49a82e48388b0e605b5a86ad1eaf6a5c05;
 manifest SHA256bb69ad24d7ea42b295f86f4e9630a62b611fa1967a1d8103f167521eea11f7bf.
@@ -135,3 +133,53 @@ Handoff docs gate576passed/11subtests25.98s,exit0;handoff-docs.log. Same readine
 Python -B -m pytest -q -p no:cacheprovider --basetemp=raw-root/handoff-docs
 tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py;
 TEMP/TMP=raw-root. Candidate final quality/broad gate not claimed by this docs check.
+
+## Early retirement and restoration,19October2026
+
+Inspection found21saved stage captures:11exact reused routing captures and10fresh
+completed style calls. req-0011 had no completed style output; five planned outputs
+remain incomplete. No model inference was added on resume. The retained runtime
+was briefly restarted before inspecting failures, then stopped again. No full
+candidate report was fabricated and missing outputs are not scored as failures.
+
+On the10completed paired cases, baseline style9/10 versus candidate8/10:zero fixes,
+one regression, prerequisite-fil. For the pure Filipino query "Bumagsak ako sa A1.
+Maaari ko bang kunin ang B1?", v4 selected Taglish with English evidence ["B1"].
+Course codes are neutral under the standing policy. procedure-taglish remains
+incorrectly Filipino. Remaining five cases have no candidate outcome claim.
+
+Ruling:retire v4 now because its observed regression already violates the stated
+no-new-regressions selection criterion. Completing the remaining calls cannot make
+that criterion pass. This is an engineering rejection on a partial development
+comparison, not a complete15-case accuracy estimate or a statistical conclusion.
+Keep original style-v1 and explicit inference profile29cc8d9; no new prompt sweep.
+
+verify-retired-candidate.py passed, exit0:code identities checked against9dde229,
+all21capture/request/profile/schema/grounding checks passed, routing reuse exactly
+matches baseline bytes, and runtime state=exited. Results and capture SHA256 seals:
+retired-candidate-comparison.json; completion-status.json records
+retired_early_on_observed_regression and runtime_stopped=true. Log:
+retirement-verification.log. Run with existing readiness Python -B; no model calls.
+Comparison SHA25609c2ff9c64aad8b322c32bd5f13d91cd8ab5a64b9fe860cd7528b164d85304c8;
+completion SHA2568cafc3b1e319df9ef5547f3ad69d4e4e27c3d22c708138e3ef3a4b981886eb6e.
+
+Restoration833d2f4 changes only style.py, routing README and its candidate-only
+fixture test back to9dde229^, verified by git diff --exit-code against those three
+paths. No independent edits were overwritten. This reversal reuses the original
+RED/GREEN evidence above; no new language-classifier fix or accuracy gain claimed.
+verify-final.ps1 ran24contract/symbolic/routing/style/evaluation/inference/docs/phase
+files with Python -B -m pytest -q -p no:cacheprovider and external basetemp/TEMP/TMP:
+1580passed,11subtests passed101.65s,exit0; final-regressions.log. Two inherited
+Docling failures outside this selected gate remain disclosed. No whole-project claim.
+Retirement docs/ledger gate576passed/11subtests17.50s,exit0;retirement-docs.log.
+Same readiness Python -B -m pytest -q -p no:cacheprovider with external
+basetemp=raw-root/retirement-docs, tests/test_docs_hygiene.py and
+.agents/skills/bintanong-phase-handoff/tests/test_phase_state.py;TEMP/TMP=raw-root.
+
+Next bounded task:student scope handling; saved excluded-language captures ->
+decoder audience/control constraints -> existing host audience-precedence guard.
+Phase exit advanced:consistent proposed scope decisions, separately from guarded
+outcomes. Unresolved question:can the schema encode the existing excluded/unrelated
+invariant without suppressing unknown-audience/compound handling? Inspect/test this
+invariant first; no new inference or seed/schema-order sweep is justified yet.
+prerequisite-filHybrid, greeting-taglishRAG and the two baseline style errors remain.

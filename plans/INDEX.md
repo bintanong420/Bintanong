@@ -8,8 +8,8 @@
 - [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
   [Developer handoff](2026-10-19-phase07-cli-handoff.md). Owner directed implementation;
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
-  [decoder correction](2026-10-19-phase07-operation-constraint-correction.md):6/6operations,
-  5/6routes in fresh structured check; [style profile](2026-10-19-phase07-style-stage-evaluation.md)13/15 unchanged.
+  [current comparison](2026-10-19-phase07-prompt-comparison.md):baseline10/15proposals,
+  13/15effective/styles; style-v4 retired on regression, style-v1 restored at833d2f4.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases; one-week improvement cap; route/style exit remains open.
 - Next phase08 remains gated on a complete Phase07 handoff.

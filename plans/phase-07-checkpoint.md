@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 37
+sequence: 39
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: f345c3c
-working_tree: handoff formatting and checkpoint metadata correction
-updated_at: 2026-10-19T15:58:00+08:00
+head_commit: 833d2f4
+working_tree: comparison report, index, plan, progress, checkpoint and developer handoff docs
+updated_at: 2026-10-19T16:50:00+08:00
 ---
 
-# Phase07 checkpoint - baseline verified, candidate running, developer handoff
+# Phase07 checkpoint - candidate retired, baseline restored
 
 ## Completed Tasks
 
@@ -17,7 +17,8 @@ Original interpretation/resolution/style/transport/evaluator/scope/count guards
 complete. Same Gemma both stages,normal2calls/max3with one shared format repair,
 EMPTY_REGISTRY default,no executor. Standing owner decisionbbaf5f9 saved in AGENTS.
 29cc8d9 explicit inference profile verified;9dde229 style-v4 prompt candidate tested
-and reviewed. No routing/schema/host change. This is not Phase07 completion.
+and reviewed, then retired by833d2f4 on model regression. No routing/schema/host
+change. Original style-v1 restored. This is not Phase07 completion.
 
 ## Current Task
 
@@ -25,14 +26,18 @@ Owner requests [developer handoff](2026-10-19-phase07-cli-handoff.md). Baseline
 [comparison](2026-10-19-phase07-prompt-comparison.md) COMPLETE:15cases,30fresh calls,
 zero repairs/transport failures. Proposals10/15,effective13/15,styles13/15;
 entity/claim/operation collections15/15each(6nonempty,9empty),family consistency3/5.
-Candidate RUNNING:15fresh styles/15exact baseline routing captures reused. No final
-candidate score, selection or fresh-route/whole-request latency claim.
+Candidate interrupted:21captures (11reused routing,10fresh completed style outputs).
+Paired subset baseline9/10styles vs candidate8/10;zero fixes,one new prerequisite-fil
+error (B1 treated as English). procedure-taglish still wrong. Five planned outputs
+incomplete, including req-0011. No full15candidate score. Regression already fails
+selection criterion; retired early without new inference. Runtime STOPPED.
+Interruption cause unestablished:container255,OOMKilled=false. No live old jobs.
 
 ## Repository State
 
-p07/feat/p07-router-taglish-nlp. Profile29cc8d9,candidate9dde229,prior docs0110668.
-Last full snapshot:0110668:plans/phase-07-checkpoint.md. Only handoff/report/status/
-index/progress/checkpoint docs pending. Other worktrees/dev/p06 preserved.
+p07/feat/p07-router-taglish-nlp. Profile29cc8d9,retired9dde229,restoration833d2f4.
+Last full snapshot:45b9b9d:plans/phase-07-checkpoint.md. Only comparison report/plan/
+index/progress/checkpoint/developer handoff docs pending. Other worktrees/dev/p06 preserved.
 No push/merge/source/registry/database mutation,weights/download/install/lock change.
 
 ## Verification Evidence
@@ -47,8 +52,13 @@ Candidate integrity RED1failed32passed1.67s ->145passed3.40s. Independent review
 no P1/P2,124passed3.31s. Prior docs575passed/11subtests26.38s;candidate-docs.log.
 Product profile RED7failed10passed ->106passed3.43s; independent106passed2.29s.
 Prior24-file gate1577passed/11subtests128.27s,one actual transport smoke passed;
-exact evidence in profile plan. Candidate final broad gate still pending.
-Handoff docs/ledger576passed/11subtests25.98s,exit0;handoff-docs.log.
+exact evidence in profile plan. Restored24-file gate1580passed/11subtests101.65s,
+exit0;final-regressions.log. Three restored paths byte-identical to9dde229^.
+Retirement verifier passed21capture/code/profile/grounding/exact reuse checks;
+retired-candidate-comparison.json seals bytes;completion-status.json records retired
+and runtime_stopped=true. No new regression test for exact reversal of own candidate;
+original TDD evidence retained, no language-accuracy fix claimed.
+Retirement docs/ledger576passed/11subtests17.50s,exit0;retirement-docs.log.
 Inherited Docling failures disclosed; no whole-project-green claim.
 
 ## Versions and Digests
@@ -58,7 +68,7 @@ Owner-corrected model root:workspace/MODELS/GEMMA_4_E4B,5,126,306,944bytes.
 Model SHA2563cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
 Image sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c;
 llama.cpp b11718-547208dca. Template74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32126f3f6b3.
-Router-p07-v7;baseline style-v1,candidate style-v4;schemasunchanged.
+Router-p07-v7;selected style-v1,retired style-v4;schemas unchanged.
 Profilep07-greedy-no-prefix-cache-v1:T0/seed0/reasoning-none/cachefalse/output768/
 context8192/CPU8/one slot. Reported defaultsT1/top_k64/top_p~.95/min_p~.05/repeat1
 separate from request overrides/startup configuration. No determinism guarantee.
@@ -78,7 +88,7 @@ Undergraduate/read-only/private/source-gap/EMPTY_REGISTRY/release holds preserve
 
 Baseline:prerequisite-fil wronglyHybrid,greeting-taglish wronglyRAG;all three
 excluded proposals wronglyRAG but existing audience guard returns unsupported_scope.
-Procedure-taglish/excluded-taglish wronglyFilipino. Candidate not yet selected.
+Procedure-taglish/excluded-taglish wronglyFilipino. Style-v4 retired on new error.
 Four own-rule unknowns,full-prospectus defects,inherited Docling failures remain.
 [Hosted status](2026-10-19-hosted-migration-status.md):same project,6applied through
 12October vs13repo files;7Phase05 versions absent from history. Actual schema not
@@ -86,12 +96,12 @@ audited,no DB mutation. Local router evaluation unaffected.
 
 ## Next Action
 
-Inspect live sessions/logs BEFORE restarting anything. Baseline71133 COMPLETE;
-candidate87552 running,completion supervisor63851. Supervisor verifies reports,
-compares them and stops ONLY task runtime,writing completion-status.json.
-Follow developer handoff to select/retire current candidate,run verify-final.ps1,
-seal results/update snapshots and confirm shutdown. No duplicate completed calls,
-new sweep,semantic host override or Phase08 advancement.
+Audit prompt.py output_schema against validation.py audience precedence using
+three saved excluded proposals. Test whether excluded/unrelated consistency can
+be constrained without changing unknown-audience/compound handling. Student scope
+capability, evidence path and exit question recorded in comparison report.
+No new model run, prompt/seed/schema-order sweep, semantic host override or Phase08.
+Do not resume retired candidate or duplicate baseline. Developer handoff is current.
 
 ## Do Not Repeat
 

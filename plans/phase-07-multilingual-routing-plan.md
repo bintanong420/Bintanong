@@ -85,22 +85,22 @@ has yet been approved; report observations for review rather than invent one.
 ## Current dependencies
 
 Owner supplies workspace/MODELS and authorized official runtime image download.
-Existing Gemma bytes/image/build/template are verified; no weight copies or package
-changes. Independent style/routing candidate ac00ac9 gets15/15guarded outcomes/
-meaning and13/15response-style labels. Two Taglish labels remain wrong. Label-first
-candidate regresses pure-language cases and is retired. See the
-[stage results](2026-10-19-phase07-style-stage-evaluation.md).
-Two fresh complete requests yield2/2proposed routes/styles but1/2effective outcomes:
-Hybrid adds an unrequested operation and safely clarifies. Compact style ablation
-scores12/15and is retired. Keep model failures distinct from successful guards.
-Decoder correction bec3d8e now enforces proceeding operation counts. New six-case
-fresh-routing check:operations/entities/claims6/6,routes5/6; Filipino prerequisite
-over-routes to Hybrid. Six style captures reused unchanged; no fresh-style claim.
-See [current correction/results](2026-10-19-phase07-operation-constraint-correction.md).
-Owner now prioritizes minimal errors/high accuracy and requests research. The
-[research recommendation](2026-10-19-phase07-accuracy-research-recommendation.md)
-identifies runtime-control and prior thinking-budget issues to audit before a
-bounded comparison. Numerical targets there are proposals, not approved gates.
-The language-style exit remains open; Phase07 is active and Phase08
-cannot begin. See the dated evaluation report and exact next checkpoint action.
+Existing Gemma bytes/image/build/template verified; no weights/packages changed.
+Explicit inference profile29cc8d9 is verified; see [current comparison/results](2026-10-19-phase07-prompt-comparison.md).
+Fresh15-case synthetic baseline:10/15proposals,13/15effective,13/15styles; entity/
+claim/operation collections15/15each (6nonempty,9empty),family consistency3/5.
+Style-v4 candidate9dde229 retired early:10completed pairs baseline9/10styles vs
+candidate8/10,zero fixes,one new pure-Filipino error. Five outputs incomplete;
+no full15candidate estimate. Restoration833d2f4 returns selected style-v1 exactly.
+Restored24-file gate1580passed/11subtests101.65s. Task runtime stopped.
+
+Baseline Filipino prerequisite wronglyHybrid,Taglish greeting wronglyRAG;three
+excluded proposals wronglyRAG but host audience guard safely returns unsupported.
+Two Taglish styles remain wrong. Guard success is separate from model accuracy.
+Next bounded question:can decoder constraints express existing excluded/unrelated
+audience precedence without suppressing unknown/compound handling? Use saved
+captures and focused TDD before any new model run. No unchanged prompt/seed sweep.
+The language/route exit remains open; Phase07 active,Phase08 gated. Numerical
+accuracy targets in the research recommendation remain proposals, not owner gates.
+Prior retired trials/evidence remain in their dated reports; do not repeat them.
 Phase06 predecessor verification remains accepted; no receipt-recovery task.

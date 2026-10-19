@@ -1,120 +1,95 @@
-# Phase07 developer handoff - baseline verified, style comparison running
+# Phase07 developer handoff - candidate retired, baseline restored
 
-Prepared19October2026 at owner's request. Phase07 remains IN PROGRESS; this is
+Updated19October2026 after continuation. Phase07 remains IN PROGRESS; this is
 not a complete numbered-phase handoff and does not authorize Phase08.
+Last full snapshot:45b9b9d:plans/2026-10-19-phase07-cli-handoff.md.
 
 ## Start here
 
 Workspace:C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p07,
-branchfeat/p07-router-taglish-nlp. Read AGENTS, INDEX, current progress and Phase07
-checkpoint; run phase_state.py inspect/validate. Refresh Context physical17-18
-and the actual runtime-routing PNG; prior39-44/58-59/master3/11/12/13 stay settled.
-Preserve other worktrees/dev/p06, source decisions and all institutional holds.
+branchfeat/p07-router-taglish-nlp. Read AGENTS, INDEX, progress and checkpoint;
+run phase_state.py inspect/validate. Refresh Context physical17-18 and actual
+routing PNG; prior39-44/58-59/master3/11/12/13 remain settled. Preserve dev/p06.
 
-Owner accepts [prompt engineering/guardrails](2026-10-19-prompt-engineering-and-validation-decision.md)
-for remaining initial-build phases:inference instructions/examples, no weight
-training/fine-tuning/LoRA/learned soft prompts. Maximum one-week added accuracy
-work before defense. Numeric95%targets are proposals, not approved gates. Keep
-LLM routing, curriculum/Prolog and document/RAG roles; English/Filipino/Taglish
-style matching. Final generation/images later. No keyword route override.
+Owner accepts [prompt engineering/guards](2026-10-19-prompt-engineering-and-validation-decision.md)
+for later initial-build phases:inference instructions/examples, no parameter
+training/fine-tuning/LoRA/learned soft prompts. Maximum one-week added accuracy work.
+Numeric95%targets remain proposals. LLM routing, curriculum/Prolog, documents/RAG,
+English/Filipino/Taglish preferences remain required. Final generation/images later.
+No keyword route override. Undergraduate/read-only/private/source-gap/EMPTY_REGISTRY/
+institutional release holds remain. No push/merge/install/other-worktree changes.
 
-## Delivered commits and verification
+## Delivered and verified
 
 - bbaf5f9:standing decision in AGENTS/index/phase plan.
-- 29cc8d9:explicit cache_prompt=false profile, safe reported sampling defaults;
+- 29cc8d9:explicit cache_prompt=false profile and safe reported sampler defaults;
   [verified record](2026-10-19-phase07-inference-baseline-plan.md), docs7b99552.
-  RED7failed/10passed0.92s ->106passed3.43s; review no P1/P2,106passed2.29s;
-  24-file gate1577passed/11subtests128.27s. One actual transport smoke, no accuracy claim.
-- 9b61f99:bounded comparison plan. 9dde229:style-v4 CANDIDATE adds six balanced
-  unrelated grounded examples; schema/router/host unchanged. RED1failed/32passed
-  1.67s ->145passed3.40s; independent review no P1/P2,124passed3.31s.
-  Candidate actual-model selection and final broad regressions STILL PENDING.
-- 0110668:latest prior checkpoint and read-only hosted migration gap. Subsequent
-  handoff documentation commit discoverable in Git. No pushes/merges/installs.
+  TDD7failed/10passed ->106passed; independent no P1/P2,106passed;
+  prior24-file gate1577passed/11subtests;one actual transport smoke.
+- 9dde229:style-v4 six-example candidate, TDD1failed/32passed ->145passed;
+  independent review no P1/P2,124passed. Actual model evidence rejected it.
+- 833d2f4:only style.py/README/candidate-only test restored exactly to9dde229^;
+  Git diff identity verified. Restored24-file gate1580passed/11subtests101.65s,
+  exit0;final-regressions.log. No new language fix or accuracy gain claimed.
+Retirement docs/ledger576passed/11subtests17.50s,exit0;retirement-docs.log.
 
-## Running work - inspect before doing anything
+## Evidence - do not restart retired work
 
 Raw root:C:/Coding-projects/bintanong_workspace/audit-evidence/p07-prompt-comparison-20261019/.
-All captures/data/scripts stay ignored. [Comparison plan](2026-10-19-phase07-prompt-comparison.md).
+Captures/scripts/data stay ignored. [Comparison/results](2026-10-19-phase07-prompt-comparison.md).
+Baseline COMPLETE at7b99552:15cases/30fresh calls,zero repairs/failures; verifier
+passed30captures/35artifacts,minimum3853context headroom. Original style-v1.
+Proposals10/15,effective13/15,styles13/15;entity/claim/operation collections15/15each
+(6nonempty,9empty),family consistency3/5. Per-language counts in report. Synthetic
+observations only; distinct from75accepted institutional variants and final tests.
 
-1. Baseline unified session71133:evaluate-prompt.py baseline; original style-v1
-   already imported at7b99552, code hashes saved BEFORE style-v4 edits. All15
-   original synthetic cases, both stages fresh, new explicit-cache profile.
-   COMPLETE:30fresh calls,zero repairs/failures; verification passed30captures/
-   35artifacts,minimum3853context headroom. Do not run another baseline.
-2. Candidate session87552:run-candidate-after-baseline.ps1,process8000 at
-   capture. Baseline finished; evaluate-candidate.py candidate is NOW RUNNING.
-   Fifteen new style calls, fifteen EXACT-matched current-baseline routing captures
-   reused. No fresh-route or two-stage latency claim; no older implicit-cache reuse.
-3. Completion supervisor session63851:finish-running-evaluation.ps1. Waits for
-   candidate completion, runs verify-comparison.py for both, then compare-results.py,
-   writes completion-status.json and stops ONLY bintanong-p07-router-offline.
-   It starts no model calls, edits no repository files and never selects a candidate.
-   On failure it records needs_review and still stops the task runtime. One-hour
-   bound; inspect logs/status before assuming success or rerunning anything.
+Candidate interrupted:21captures,11exact reused routes/10fresh completed styles.
+No candidate/report.json. Container exited255,OOMKilled=false; cause unestablished.
+No model calls added on resume. Paired subset baseline9/10style vs candidate8/10;
+zero fixes,one new prerequisite-fil error:neutral B1 code counted as English.
+procedure-taglish still incorrectly Filipino. Five planned outputs incomplete,
+including unfinished req-0011. No full15-case candidate score; missing not failures.
+Observed regression already fails no-new-regressions selection criterion; early
+retirement avoids calls that cannot restore acceptability. Keep style-v1.
 
-In this conversation poll the named sessions with write_stdin; across sessions
-inspect task-specific process names/log timestamps plus completion-status.json.
-Runtime localhost18087. Assets retained. Do not run another client/stop container
-while legitimate current model calls are alive. If all jobs finish, confirm
-docker inspect state=exited. Supervisor monitors observed queue-wrapper PID8000;
-new wrapper PIDs after a manual resume require updating/reviewing the supervisor.
+verify-retired-candidate.py passed code/schema/request/profile/grounding checks
+for all21captures and exact baseline reuse. retired-candidate-comparison.json
+seals SHA256s;retirement-verification.log;completion-status.json records
+retired_early_on_observed_regression,runtime_stopped=true. Task container
+bintanong-p07-router-offline STOPPED. No live87552/63851jobs. Old --resume and
+supervisor instructions obsolete; do not restart retired evaluations.
 
-## Verified baseline -15synthetic cases,not population accuracy
+## Known errors and exact next action
 
-Proposals10/15,effective outcomes13/15,styles13/15;entity/claim/operation collections
-15/15each(6nonempty,9empty). Family consistency3/5. English4/5proposals,5/5effective,
-5/5style;Filipino3/5,4/5,5/5;Taglish3/5,4/5,3/5. No new candidate score yet.
+Baseline prerequisite-fil wronglyHybrid; greeting-taglish("Hi, kumusta?") wrongly
+RAG despite reason describing greeting. Three excluded variants propose RAG with
+audience=excluded; existing host guard correctly returns unsupported_scope. Model
+errors remain separate from guard success. procedure-taglish/excluded-taglish styles
+wronglyFilipino. Four own-rule unknowns/full-prospectus defects remain unchanged.
 
-- procedure-taglish still selects Filipino style; this motivated the single candidate.
-- prerequisite-fil wrongly selects Hybrid instead of Symbolic.
-- greeting-taglish("Hi, kumusta?") wrongly selects RAG even though reason says greeting.
-- All three excluded variants propose RAG with audience=excluded; existing explicit
-  audience-precedence guard returns unsupported_scope correctly. Count model errors
-  separately from guarded success. excluded-taglish also wrongly selects Filipino.
+Next:audit prompt.py output_schema against validation.py audience precedence using
+the three saved excluded proposals. Capability:consistent scope handling; evidence
+path:LLM audience/control -> existing host guard; exit:proposal consistency separate
+from effective safety. Question:can existing excluded/unrelated invariants be
+encoded without suppressing unknown-audience/compound behavior? Read contracts/tests,
+then focused TDD if warranted. No new inference/seed/schema-order sweep yet. Do not
+parse reason text or add keyword rerouting. Remaining semantic errors stay open.
 
-## Recovery and exact next action
-
-First inspect existing jobs and reports. If finished, read completion-status.json,
-baseline-verification.log,candidate-verification.log,comparison.json and comparison.log.
-If verifier fails, diagnose the saved evidence/command; do not repeat model calls
-to fix an offline verification defect. All raw captures include request/schema/
-template/token metadata. Model semantic errors stay in denominators.
-
-If candidate was interrupted, NO live candidate/finisher exists and no candidate
-report is complete, restart retained task server, verify same props/config, then
-use existing readiness Python -B evaluate-candidate.py candidate --resume. It
-requires unchanged code/cases/profile, replays exactly matching saved style outputs,
-retains saved failures and runs missing calls only. Provenance separates cumulative
-captured style calls from new calls/replays in the resumed process. No automatic
-retry of a saved model failure. Do not use --resume against a completed report.
-
-After results:select or retire ONLY the current style candidate; compare all15,
-especially pure-language regressions. Routing errors remain independent. Finish
-the prepared verify-final.ps1 24-file gate, record exact output, seal evidence,
-update compact plan/progress/checkpoint and commit explicit paths. If candidate
-regresses, restore only its own product/test/docs changes with verified evidence;
-preserve history and unrelated edits. Stop task runtime and keep Phase07 active
-until actual exits. Do not begin another prompt/seed/schema-order/thinking sweep.
-
-## Runtime and release boundaries
+## Runtime and separate database boundary
 
 Readiness Python:C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe.
-Use -B,pytest -p no:cacheprovider,external TEMP/TMP/basetemp. Model stays at owner's
-workspace/MODELS/GEMMA_4_E4B, SHA2563cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
+Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/pytest9.1.1/Janus1.5.2/SWI10.1.15.
+Use -B,pytest -p no:cacheprovider,external TEMP/TMP/basetemp. Owner-corrected model:
+workspace/MODELS/GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf,5,126,306,944bytes;
+SHA2563cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
 llama.cpp b11718-547208dca; image sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c.
+Template74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32126f3f6b3.
 Profilep07-greedy-no-prefix-cache-v1:T0/seed0/reasoning-none/cachefalse/output768/
-context8192/CPU8/one slot. Props report T1/top_k64/top_p~.95/min_p~.05/repeat1;
-reported defaults are distinct from overrides. No new models/dependencies.
-Undergraduate/read-only/private separation/source gaps/EMPTY_REGISTRY/release holds
-remain. Prior inherited Docling failures disclosed; no whole-project-green claim.
+context8192/CPU8/one slot. Props T1/top_k64/top_p~.95/min_p~.05/repeat1 separate
+from request overrides; no determinism guarantee. Assets retained,no downloads.
+Inherited Docling failures outside selected gate remain; no whole-project-green claim.
 
-## Supabase question
-
-[Read-only status](2026-10-19-hosted-migration-status.md):same hosted project,
-six applied versions through12October vs13repository files; seven Phase05 versions
-absent from history. Actual schema drift not audited; no migrations applied. The
-owner asked about age, not deployment. Reconcile schema/history before integration;
-schema deployment and institutional data/release activation remain separate.
-
-Handoff docs/ledger576passed/11subtests25.98s,exit0;handoff-docs.log in raw root.
+[Hosted status](2026-10-19-hosted-migration-status.md):same project,6applied through
+12October vs13repo files;7Phase05 versions absent from history. Actual schema not
+audited;no mutations. Age question did not authorize deployment. Reconcile before
+integration; schema deployment and institutional activation remain separate gates.

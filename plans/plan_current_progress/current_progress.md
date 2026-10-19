@@ -1,20 +1,18 @@
 # Current progress
 
-Updated:19October2026,15:56. Phase07 active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026. Phase07 active in p07/feat/p07-router-taglish-nlp.
 [Developer handoff](../2026-10-19-phase07-cli-handoff.md), [checkpoint](../phase-07-checkpoint.md),
 [comparison/results](../2026-10-19-phase07-prompt-comparison.md),
 [standing owner decision](../2026-10-19-prompt-engineering-and-validation-decision.md).
-Last full snapshot:0110668:plans/plan_current_progress/current_progress.md.
+Last full snapshot:45b9b9d:plans/plan_current_progress/current_progress.md.
 
 ## Current delivery
 
-Owner requested a handoff soon. Baseline is COMPLETE and verified; style candidate
-is RUNNING and not selected. Do not start another baseline or duplicate the candidate.
-Existing sessions:baseline71133complete,candidate87552,completion supervisor63851.
+Retired style-v4 early on observed regression. Restoration833d2f4 returns only its
+three product/test/docs paths exactly to9dde229^; style-v1 remains selected with
+explicit profile29cc8d9. No added inference on resume. Runtime STOPPED; no live
+candidate/supervisor and no remaining calls planned. Do not resume retired work.
 Raw root:workspace/audit-evidence/p07-prompt-comparison-20261019/.
-Supervisor verifies both reports/comparison, writes completion-status.json and
-stops ONLY bintanong-p07-router-offline; it never selects a product or edits Git.
-Check actual logs/processes/status first after resuming. Exact recovery in handoff.
 
 ## Verified evidence
 
@@ -27,14 +25,17 @@ Errors:prerequisite-fil wronglyHybrid,greeting-taglish wronglyRAG; all three
 excluded proposals wronglyRAG but existing audience guard returns unsupported_scope.
 Procedure-taglish/excluded-taglish wronglyFilipino. Host guard success is separate.
 
-Candidate9dde229 adds six balanced unrelated examples to independent style promptv4;
-router/schema/host unchanged. RED1failed32passed1.67s ->145passed3.40s; independent
-review no P1/P2,124passed3.31s. Comparison uses15fresh style calls plus15exact baseline
-routing captures reused, no fresh-route/whole-request latency claim. No final score yet.
-Explicit-profile product29cc8d9 previously passed1577tests/11subtests128.27s;
-no-prefix-cache and reported defaults verified. Candidate final broad gate pending.
-Handoff docs/ledger576passed/11subtests25.98s,exit0;handoff-docs.log.
-Two inherited Docling failures remain; no whole-project-green claim.
+Candidate9dde229 interrupted with21captures:11reused routes,10fresh completed styles.
+Paired subset:baseline9/10styles,candidate8/10;zero fixes,one regression
+prerequisite-fil (neutral B1 code counted as English). procedure-taglish still wrong.
+Five planned outputs incomplete, including unfinished req-0011; no full15 score.
+Interruption cause unestablished (container255,OOMKilled=false). Retirement verifier
+passed capture/code/profile/grounding/reuse checks; comparison JSON seals retained.
+completion-status.json=retired_early_on_observed_regression,runtime_stopped=true.
+Restored24-file gate1580passed/11subtests101.65s,exit0;final-regressions.log.
+Retirement docs/ledger576passed/11subtests17.50s,exit0;retirement-docs.log.
+Prior candidate TDD/review retained in report; fixture integrity did not predict
+model accuracy. Two inherited Docling failures remain; no whole-project-green claim.
 
 ## Standing decisions and next action
 
@@ -50,6 +51,7 @@ Read-only hosted check confirms same project:6applied versions through12October
 vs13repo files;7Phase05 versions absent from history. Actual schema not audited;
 no DB mutation. [Status](../2026-10-19-hosted-migration-status.md).
 
-Next:use developer handoff to inspect candidate/supervisor outputs, select or retire
-only this candidate, run verify-final.ps1, seal results/update snapshots and confirm
-runtime shutdown. Preserve all failures/denominators. No new sweep/host override or8.
+Next:audit decoder audience/control consistency against existing host precedence
+using the three saved excluded proposals; test whether the existing invariant can
+be constrained without changing unknown/compound behavior. See report's bounded
+question. No new model run, prompt sweep, host semantic override or Phase08.
