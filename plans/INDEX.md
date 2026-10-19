@@ -17,7 +17,7 @@
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
 - Phase **09 complete: offline candidate generation/validation**; [Plan](phase-09-generation-validation-plan.md),
   [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md).
-- Active phase:none. [Phase09 model observations](2026-10-19-phase09-structured-generation-observations.md); Phase10 deferred.
+- Active phase:none. Phase10 not started; [separate feature branch preferred](2026-10-20-phase09-phase10-branch-boundary.md).
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·

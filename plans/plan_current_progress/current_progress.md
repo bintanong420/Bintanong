@@ -17,7 +17,7 @@ claim. Raw root:workspace/audit-evidence/p09-structured-generation-20261019/.
 Docs/phase596passed/11subtests11.45s;84local links resolve;9sealed product hashes
 unchanged. Raw manifest and per-claim agent assessment bind the results.
 Reconsulted thesis17-18/39-40,actual routing PNG/master3/14; no discrepancy.
-Phase ledger valid,no active numbered phase; Phase10 remains deferred.
+Phase ledger valid,no active numbered phase; Phase10 has not started.
 
 [Completed resume review](../2026-10-19-phase09-resume-review.md):65fd482 withholds
 premature Hybrid conclusions;e675d01 preserves useful missing-program/curriculum
@@ -36,9 +36,9 @@ Full gate1832passed/63subtests84.51s;111local links resolve;phase ledger valid.
 Logs/exact script:workspace/audit-evidence/algorithms-folder-20261019/.
 Offline test flags and explicit selection avoid model-loading legacy tests.
 
-[Transfer note](../2026-10-19-phase09-worktree-transfer.md) preserves the owner's
-Phase10 deferral and checkout instructions. The switch is now verified; completed
-phase history is preserved. No Phase10 plan or implementation was created.
+Owner prefers a separate Phase10 feature branch; agent recommends separation.
+[Branch boundary](../2026-10-20-phase09-phase10-branch-boundary.md) supersedes the
+pending scope question. No Phase10 plan,code or branch was created here.
 
 Owner started the existing offline model container. Initial nine-case120s baseline
 produced nine timeout fallbacks and no validated explanation. A single240s trace
@@ -75,5 +75,5 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-Owner review of the recorded limitations and future scope. Preserve the frozen
-product,separate120s/RAG results and one-week cap; stop this batch. Phase10 deferred.
+Keep p09 scoped to its delivered work; start future Phase10 work on a separate
+feature branch containing reviewed Phase09 commits. Preserve measured limits/one-week cap.
