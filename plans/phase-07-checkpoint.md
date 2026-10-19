@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 41
+sequence: 42
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: dfa16d2
-working_tree: audience decoder report, progress and checkpoint docs
-updated_at: 2026-10-19T16:58:00+08:00
+head_commit: 464f276
+working_tree: clean after audience result documentation commit
+updated_at: 2026-10-19T17:07:00+08:00
 ---
 
-# Phase07 checkpoint - audience decoder correction, selected runtime check
+# Phase07 checkpoint - audience decoder verified on three selected failures
 
 ## Completed Tasks
 
@@ -22,8 +22,10 @@ change. Original style-v1 restored. This is not Phase07 completion.
 
 ## Current Task
 
-Owner resumed audience consistency task. Productdfa16d2 verified; selected-three
-runtime check session3451 RUNNING. Baseline
+Audience consistency task COMPLETE atdfa16d2;selected-three runtime check3451
+finished,exit0. Three fresh routing calls/three exact style reuses,zero repairs/
+transport failures. Proposals0/3 ->3/3;effective3/3alreadyguarded. Reused style2/3
+unchanged;no full15/fresh-style accuracy claim. Runtime STOPPED. Baseline
 [comparison](2026-10-19-phase07-prompt-comparison.md) COMPLETE:15cases,30fresh calls,
 zero repairs/transport failures. Proposals10/15,effective13/15,styles13/15;
 entity/claim/operation collections15/15each(6nonempty,9empty),family consistency3/5.
@@ -32,14 +34,15 @@ Paired subset baseline9/10styles vs candidate8/10;zero fixes,one new prerequisit
 error (B1 treated as English). procedure-taglish still wrong. Five planned outputs
 incomplete, including req-0011. No full15candidate score. Regression already fails
 selection criterion; retired early without added inference in that retirement.
-Runtime subsequently restarted only for current audience check.
+Runtime subsequently restarted only for audience check and stopped again.
 Interruption cause unestablished:container255,OOMKilled=false. No live old jobs.
 
 ## Repository State
 
 p07/feat/p07-router-taglish-nlp. Profile29cc8d9,retired9dde229,restoration833d2f4.
-Last full snapshot:45b9b9d:plans/phase-07-checkpoint.md. Only comparison report/plan/
-index/progress/checkpoint/developer handoff docs pending. Other worktrees/dev/p06 preserved.
+Last full snapshot:00a0e68:plans/phase-07-checkpoint.md. Audience report/plan/index/
+progress/checkpoint/handoff committed in final docs wrapper, discoverable in Git.
+Recorded head is its verified pre-wrapper commit;other worktrees/dev/p06 preserved.
 No push/merge/source/registry/database mutation,weights/download/install/lock change.
 
 ## Verification Evidence
@@ -70,7 +73,7 @@ Owner-corrected model root:workspace/MODELS/GEMMA_4_E4B,5,126,306,944bytes.
 Model SHA2563cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
 Image sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c;
 llama.cpp b11718-547208dca. Template74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32126f3f6b3.
-Router-p07-v7;selected style-v1,retired style-v4;schemas unchanged.
+Router-p07-v8;audience decoder updated;style-v1/schema unchanged,style-v4 retired.
 Profilep07-greedy-no-prefix-cache-v1:T0/seed0/reasoning-none/cachefalse/output768/
 context8192/CPU8/one slot. Reported defaultsT1/top_k64/top_p~.95/min_p~.05/repeat1
 separate from request overrides/startup configuration. No determinism guarantee.
@@ -98,21 +101,19 @@ audited,no DB mutation. Local router evaluation unaffected.
 
 ## Next Action
 
-Audit confirms current decoder permits all audience/control combinations, whereas
-host precedence requires excluded/unrelated -> unsupported_scope and unknown ->
-clarify. Encode those existing invariants in decoder branches only; preserve all
-undergraduate routes/controls, unknown clarification's compound operations and
-nonconforming-transport host guards. No semantic contract/host/style change.
-Productdfa16d2:RED18failed/14passed1.40s ->176passed1.83s; independent no P1/P2,
-176passed2.24s. Broader24-file gate1612passed/11subtests125.90s. Saved15outputs:
-only three excluded contradictions rejected;12remain schema-valid. See
-[scope correction](2026-10-19-phase07-audience-decoder-correction.md).
-Next:session3451 evaluate-audience.py is running ONLY three existing excluded
-variants with fresh routing and exact-compatible saved styles. Poll log/session,
-verify captured report and runtime shutdown, record actual outcomes. No duplicate
-model client, new wording or broad sweep. Other baseline errors remain open.
-Scope17-18 saved extraction and actual routing PNG/master12 refreshed on resume;
-no discrepancy. Prior docs-only00a0e68 explains checkpoint's old head mismatch.
+dfa16d2 enforces excluded/unrelated -> unsupported_scope and unknown -> clarify
+in decoder only;undergraduate branches,unknown compound details and nonconforming
+host guards preserved. System wording/style unchanged. RED18failed/14passed1.40s
+->176passed1.83s;independent no P1/P2,176passed2.24s. 24-file gate1612passed/
+11subtests125.90s;docs577passed/11subtests31.87s. Saved15outputs:only three excluded
+contradictions rejected. [Scope evidence](2026-10-19-phase07-audience-decoder-correction.md).
+Fresh selected3routing/3exact style reuses verified:all6captures,case/catalog/code/
+schema/request/profile/source seals;minimum3317context headroom. Runtime STOPPED.
+No improvement in already-correct effective scope control or reused style claimed.
+Scope17-18 saved extraction/actual PNG/master12 refreshed;no discrepancy.
+Next:review remaining prerequisite-fil/greeting-taglish route errors and two Taglish
+style errors from saved evidence, under one-week cap. Document one bounded correction
+only if supported;no new prompt/seed/schema-order sweep,host override or Phase08.
 
 ## Do Not Repeat
 

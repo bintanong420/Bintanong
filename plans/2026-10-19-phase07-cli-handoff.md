@@ -1,8 +1,8 @@
-# Phase07 developer handoff - candidate retired, baseline restored
+# Phase07 developer handoff - audience consistency correction
 
 Updated19October2026 after continuation. Phase07 remains IN PROGRESS; this is
 not a complete numbered-phase handoff and does not authorize Phase08.
-Last full snapshot:45b9b9d:plans/2026-10-19-phase07-cli-handoff.md.
+Last full snapshot:00a0e68:plans/2026-10-19-phase07-cli-handoff.md.
 
 ## Start here
 
@@ -56,24 +56,38 @@ verify-retired-candidate.py passed code/schema/request/profile/grounding checks
 for all21captures and exact baseline reuse. retired-candidate-comparison.json
 seals SHA256s;retirement-verification.log;completion-status.json records
 retired_early_on_observed_regression,runtime_stopped=true. Task container
-bintanong-p07-router-offline STOPPED. No live87552/63851jobs. Old --resume and
+bintanong-p07-router-offline STOPPED after retirement and after new scope check.
+No live87552/63851jobs. Old --resume and
 supervisor instructions obsolete; do not restart retired evaluations.
 
-## Known errors and exact next action
+## Latest scope correction and current task
 
-Baseline prerequisite-fil wronglyHybrid; greeting-taglish("Hi, kumusta?") wrongly
-RAG despite reason describing greeting. Three excluded variants propose RAG with
-audience=excluded; existing host guard correctly returns unsupported_scope. Model
-errors remain separate from guard success. procedure-taglish/excluded-taglish styles
-wronglyFilipino. Four own-rule unknowns/full-prospectus defects remain unchanged.
+Productdfa16d2 constrains existing host audience precedence:excluded/unrelated ->
+unsupported_scope;unknown -> clarify, preserving compound details. Four original
+undergraduate branches, semantic host checks and style-v1 remain. Routerv8 system
+wording unchanged. [Correction/evidence](2026-10-19-phase07-audience-decoder-correction.md).
+TDD18failed/14passed ->176passed1.83s;independent no P1/P2,176passed2.24s.
+24-file gate1612passed/11subtests125.90s;docs577passed/11subtests31.87s,exit0.
+Saved15outputs revalidated:only the three excluded contradictions rejected.
 
-Next:audit prompt.py output_schema against validation.py audience precedence using
-the three saved excluded proposals. Capability:consistent scope handling; evidence
-path:LLM audience/control -> existing host guard; exit:proposal consistency separate
-from effective safety. Question:can existing excluded/unrelated invariants be
-encoded without suppressing unknown-audience/compound behavior? Read contracts/tests,
-then focused TDD if warranted. No new inference/seed/schema-order sweep yet. Do not
-parse reason text or add keyword rerouting. Remaining semantic errors stay open.
+Raw root:workspace/audit-evidence/p07-audience-constraints-20261019/.
+Selected-three check3451 COMPLETE,exit0. Three fresh routing calls/three exact
+baseline style reuses,zero repairs/transport failures. Scope proposals0/3 ->3/3;
+effective3/3alreadyguarded. Reused style2/3unchanged,Taglish still wronglyFilipino.
+Audience remains excluded in all3;consistency fix,not new audience comprehension.
+No full15/fresh-style/two-stage latency claim. verify-evidence.py passed6captures,
+case/catalog/code/request/schema/profile/exact reuse;minimum3317context headroom.
+excluded-three/report.json and manifest.json sealed;verification.log. Runtime
+STOPPED,confirmed by runtime-stop.json and docker inspection. Do not rerun this
+resolved scope check. Productdfa16d2,checkpoint464f276;latest docs wrapper in Git.
+
+Baseline residuals:prerequisite-fil wronglyHybrid,greeting-taglish wronglyRAG,
+procedure-taglish/excluded-taglish styles wronglyFilipino. Three excluded prior
+RAG proposals were guarded correctly; selected check addresses consistency,
+not previously unsafe dispatch. Four own-rule unknowns/full-prospectus defects remain.
+Next:review the two remaining route errors and two style
+errors from saved captures; propose one bounded correction only if evidence supports
+it. Do not start a prompt/seed/schema-order sweep or claim Phase07 completion.
 
 ## Runtime and separate database boundary
 

@@ -4,16 +4,17 @@ Updated:19October2026. Phase07 active in p07/feat/p07-router-taglish-nlp.
 [Developer handoff](../2026-10-19-phase07-cli-handoff.md), [checkpoint](../phase-07-checkpoint.md),
 [comparison/results](../2026-10-19-phase07-prompt-comparison.md),
 [standing owner decision](../2026-10-19-prompt-engineering-and-validation-decision.md).
-Last full snapshot:45b9b9d:plans/plan_current_progress/current_progress.md.
+Last full snapshot:00a0e68:plans/plan_current_progress/current_progress.md.
 
 ## Current delivery
 
-Audience decoder correctiondfa16d2 is committed. Existing excluded/unrelated/
-unknown host precedence now constrains model output; no host/style/wording change.
-Fresh selected-three runtime check RUNNING in session3451; evaluation.log at
-workspace/audit-evidence/p07-audience-constraints-20261019/. Script stops task
-runtime in finally. No duplicate inference; inspect log/captures before resuming.
-Style-v4 remains retired; selected style-v1/profile29cc8d9 unchanged.
+Audience decoder correctiondfa16d2 verified:excluded/unrelated -> unsupported_scope;
+unknown -> clarify. Model still selects audience; host/style/wording unchanged.
+Selected three existing excluded-language variants now propose correct control3/3
+(previously0/3),effective3/3alreadyguarded. Three fresh routing calls/three exact
+baseline style reuses,zero repairs/transport failures. Reused style2/3 unchanged;
+Taglish still wronglyFilipino. No full15/fresh-style accuracy claim. Runtime STOPPED.
+[Scope correction/results](../2026-10-19-phase07-audience-decoder-correction.md).
 
 ## Verified evidence
 
@@ -52,12 +53,13 @@ Read-only hosted check confirms same project:6applied versions through12October
 vs13repo files;7Phase05 versions absent from history. Actual schema not audited;
 no DB mutation. [Status](../2026-10-19-hosted-migration-status.md).
 
-Current:audience decoder correctiondfa16d2 enforces existing host precedence;
-unknown compound details/nonconforming guards retained. RED18failed14passed ->
-176passed1.83s;independent no P1/P2,176passed2.24s. 24-file gate1612passed/
-11subtests125.90s. Saved15outputs:only three excluded contradictions rejected.
-[Report](../2026-10-19-phase07-audience-decoder-correction.md). Scope17-18/PNG/master12 refreshed.
-Next:session3451 runs ONLY three existing excluded variants,fresh routing/exact
-saved styles. Raw root:workspace/audit-evidence/p07-audience-constraints-20261019/.
-Inspect evaluation.log/captures/report, verify result and runtime shutdown. No
-duplicate client, new question wording, prompt sweep, host override or Phase08.
+Verification:RED18failed14passed ->176passed1.83s;independent no P1/P2,
+176passed2.24s. 24-file gate1612passed/11subtests125.90s;docs577passed/11subtests
+31.87s. Saved15outputs:only three excluded contradictions rejected. Scope17-18/
+PNG/master12 refreshed. New raw root:workspace/audit-evidence/p07-audience-constraints-20261019/.
+verify-evidence.py passed6captures/code/schema/profile/exact-reuse checks;minimum
+3317context headroom;report/manifest retained, runtime-stop.json confirms exited.
+
+Next:review prerequisite-fil/greeting-taglish route errors and two style errors
+from saved captures under the one-week cutoff; document one bounded correction
+only if supported. No new sweep, duplicate calls, host override or Phase08.

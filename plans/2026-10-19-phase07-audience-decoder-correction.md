@@ -51,9 +51,40 @@ two-stage latency,15-case candidate accuracy or unaffected semantic claim.
 This is a selected-failure runtime/grammar check, not final evaluation or a new
 parameter sweep. No new question wording/examples,75case changes or model download.
 Retain actual failures; no semantic retry. Stop task runtime in finally handling.
-Evaluation session3451 is running evaluate-audience.py;evaluation.log under raw
-root. No duplicate client; inspect captures/report/processes on resume. This
-script stops only the task container in finally, preserving all completed captures.
+Evaluation session3451 COMPLETE,exit0;evaluate-audience.py;evaluation.log under
+raw root. Exactly3fresh routing calls/3baseline style reuses,0repairs/transport
+failures. All completed captures preserved; task container STOPPED in finally.
+
+| Selected existing variant | Old proposal | Fresh proposal | Effective | Reused style |
+| --- | --- | --- | --- | --- |
+| excluded-en | RAG | unsupported_scope | unsupported_scope | en, correct |
+| excluded-fil | RAG | unsupported_scope | unsupported_scope | fil, correct |
+| excluded-taglish | RAG | unsupported_scope | unsupported_scope | fil, incorrect |
+
+Scope proposal consistency0/3 ->3/3 on these selected failures only. Effective
+controls were already3/3 due to the host guard; they remain3/3. Audience remains
+excluded in all three:decoder consistency improved, not newly demonstrated audience
+comprehension. All entity/claim/operation collections are empty; this establishes
+no additional extraction capability. Style2/3 is unchanged/reused, not fresh.
+No new full15-case accuracy, unaffected semantic behavior or final answer claim.
+
+verify-evidence.py passed,exit0;verification.log:all6captures checked against code
+dfa16d2, original case/catalog, prompt/schema/request/profile/runtime pins and exact
+style-source SHA256s. Minimum3317tokens context headroom after output/reserve.
+excluded-three/manifest.json seals artifacts;report.json retains per-language
+matrices/outcomes. runtime-stop.json and fresh docker inspection confirm exited.
+Report SHA25660585897f115fdce8451839efc87c9dbafd964d0ceb549989ad35a150d028f57;
+manifest SHA256742eb20c147e4234f67a7e22b4a2caa05cf526c5221502645deb49307c648b7d.
+No repeated calls or additional experiment is needed to resolve this scope question.
+
+Docs gate577passed/11subtests31.87s,exit0;docs.log. Same Python -B pytest options,
+external basetemp=raw-root/docs;tests/test_docs_hygiene.py plus phase-state tests.
+Final result documentation gate577passed/11subtests13.62s,exit0;final-docs.log;
+same options/files,basetemp=raw-root/final-docs. Diff/phase-state checks pass.
+Next review residual prerequisite-fil/greeting-taglish routing and two Taglish
+style failures from existing captures, alongside the one-week improvement cutoff.
+Document one bounded correction only if the evidence supports it; do not launch
+another prompt/seed/schema-order sweep or infer the Phase07 exit is satisfied.
 
 ## Boundaries
 

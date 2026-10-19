@@ -97,9 +97,16 @@ Restored24-file gate1580passed/11subtests101.65s. Task runtime stopped.
 Baseline Filipino prerequisite wronglyHybrid,Taglish greeting wronglyRAG;three
 excluded proposals wronglyRAG but host audience guard safely returns unsupported.
 Two Taglish styles remain wrong. Guard success is separate from model accuracy.
-Next bounded question:can decoder constraints express existing excluded/unrelated
-audience precedence without suppressing unknown/compound handling? Use saved
-captures and focused TDD before any new model run. No unchanged prompt/seed sweep.
+[Audience correction](2026-10-19-phase07-audience-decoder-correction.md) dfa16d2 now
+encodes existing excluded/unrelated/unknown precedence, preserving undergraduate
+branches and unknown/compound details. TDD18failed14passed ->176passed;independent
+review no P1/P2;24-file gate1612passed/11subtests125.90s. Saved15capture revalidation
+rejects exactly three prior excluded contradictions. Selected-three check complete:
+3/3scope proposals correct(previously0/3),effective3/3alreadyguarded;3fresh routing
+calls/3exact style reuses,0repairs/failures. Style2/3unchanged,Taglish remains wrong.
+All6captures verified;3317minimumcontext headroom;runtime stopped. No broader score.
+Next review remaining two route/two style errors using saved evidence under one-week
+cap;document one bounded correction only if supported,without a new sweep.
 The language/route exit remains open; Phase07 active,Phase08 gated. Numerical
 accuracy targets in the research recommendation remain proposals, not owner gates.
 Prior retired trials/evidence remain in their dated reports; do not repeat them.
