@@ -1,99 +1,68 @@
 ---
 artifact: phase-checkpoint
 phase: 8
-status: in_progress
-sequence: 7
+status: superseded
+sequence: 8
 plan: plans/phase-08-orchestration-plan.md
-head_commit: 2431231
-working_tree: dirty
-updated_at: 2026-10-19T20:04:00+08:00
+head_commit: 96063199f7c5807da7b015c7774a78ebc9ce7eaf
+working_tree: clean
+updated_at: 2026-10-19T20:10:00+08:00
 ---
 
-# Phase 08 checkpoint
+# Phase 08 checkpoint - superseded
 
 ## Completed Tasks
-Resume audit: prior handoff complete; clean p08 branch based on merge 6c3b09a.
-`phase_state.py inspect` and `can-advance`: valid, no active phase, advancement yes
-before this plan. Owner's current request lifts prior Phase 08 hold.
-Task1 candidate contracts/integration delivered: source/chunk membership, rule
-version, route shape, synthetic-only flags and conservative permitted scope.
-Task2 adapters delivered; runtime exposes read-only synthetic/release/bundle identity.
-Real synthetic Janus exercises all three operations; student assertions stay local.
-Task3 explicit orchestrator/release ports/allowlisted telemetry delivered. One pin,
-existing Router, concurrent independent Hybrid branches, bounded failures/no reroute.
-Session regressions cover explicit context reuse, no persistence, hypothetical facts,
-missing target clarification and concurrent owning-session isolation.
-Task4 developer guide maps source preparation/request flow, actual files, ownership,
-outcomes and future generation/API/release work; root/package READMEs link it.
-Combined actual Router/RetrievalEngine/Janus synthetic smoke delivered for each route.
+All five tasks completed as an offline candidate software milestone.
+[Final handoff](phase-08-handoff.md) holds exit mapping/versions/digests/recovery.
+[Developer guide](../docs/development/pipelines.md) maps actual pipelines and files.
+[Review record](2026-10-19-phase08-integration-review.md) preserves all four P2s,
+their regressions and fixed status. No reviewed issue deferred.
 
 ## Current Task
-Task5 verified; record offline exit mapping/final handoff and validate phase closure.
+None. Phase08 closed; Phase09 not started. Candidate/institutional boundaries stand.
 
 ## Repository State
-Isolated p08/feat/p08-orchestration. New plan/checkpoint and ledger/progress edits.
-Last full pre-start snapshots:6c3b09a:plans/INDEX.md and
-6c3b09a:plans/plan_current_progress/current_progress.md.
+Isolated p08/feat/p08-orchestration; verified product anchor9606319. The final
+closure commit updates documentation only; fresh Git names that wrapper.
+Last full pre-condensation snapshot:9606319:plans/phase-08-checkpoint.md.
+No remote write, owner changes overwritten, dependencies changed or model copied.
 
 ## Verification Evidence
-Fresh Git status/log and phase advancement checked. Read AGENTS and both handoff
-skills, Phase 07 final handoff, master3/11/12/13/14/15, scope/source-gap policy and
-standing prompt decision. No model/server/database/source operations performed.
-Task1 RED:19 missing-module failures (task1-red.log). First GREEN attempt exposed
-incomplete synthetic locator fixture; fixed required locator fields. Verified:
-715passed/11subtests14.99s,exit0 (integration,answer/routing contracts,docs,phase).
-Python3.13 -B -m pytest -q -p no:cacheprovider with external --basetemp;
-raw root:workspace/audit-evidence/p08-orchestration-20261019/task1-verified.log.
-Diff check pass. Subsequent task logs use this same ignored evidence root.
-Task2 RED9failures (absent adapters/runtime properties); GREEN90passed15.45s,exit0
-in task2-verified.log (adapters,integration,symbolic runtime,retrieval engine).
-First attempt revealed retrieval transport citations need explicit absent locator
-defaults and metadata preservation; fixed projection and normalized fictional IDs.
-Task3 RED13missing-module failures; initial GREEN32passed0.94s. Added telemetry
-RED2failures exposed absent pin/route/outcome metadata; fixed stage projection and
-closed outcome vocabulary. task3-final.log:142passed3.45s,exit0 (four orchestration
-files + routing router/validation). Session tests pass without product behavior edits.
-task4-smoke.log:3passed1.33s,exit0 (actual modules; scripted model/manual vector/
-synthetic database transport). Local Markdown links and diff check pass;
-phase-state valid/active8. Independent review of core0a6db29 completed.
-Four P2s accepted/reproduced; RED15failed/1passed; correction GREEN67passed3.60s,
-exit0 across five orchestration files. review-red.log/review-green.log. Decisions
-and findings:[review record](2026-10-19-phase08-integration-review.md).
-Full36-file gate:1748passed/63subtests103.91s,exit0 in final-regressions.log;
-exact command verify-final.ps1. Supplemental operation-smoke.log:7passed2.62s,
-exit0 extends actual-module smoke to all three ops on Symbolic/Hybrid plus RAG.
-No product changes after full gate; supplemental change extends synthetic tests only.
-GitHub MCP confirms baseline6c3b09a is merged PR12; no remote write performed.
+Full36-file gate1748passed/63subtests103.91s,exit0; supplemental smoke7passed2.62s.
+Actual Router/RetrievalEngine/Janus; scripted model/manual vector/synthetic storage.
+Raw workspace/audit-evidence/p08-orchestration-20261019/:verify-final.ps1,
+final-regressions.log,review-red.log,review-green.log,operation-smoke.log and manifest.
+InitialTask1RED19/GREEN715;Task2RED9/GREEN90;Task3RED13/telemetryRED2/GREEN142.
+ReviewRED15failures/GREEN67. No product edits after broad gate; supplemental tests only.
+GitHub MCP verified merged Phase07 baseline6c3b09a. Closure docs585passed/
+11subtests11.16s,exit0; local links resolve; phase validate/can-advance pass.
 
 ## Versions and Digests
-System/readiness Python3.13.7; use existing readiness environment from Phase 07.
-No dependency changes. Model artifacts unchanged; no model load/copy required.
-Context PDF fresh SHA256 matches prior extraction manifest:
+Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/pytest9.1.1/Janus1.5.2/SWI10.1.15.
+No installs/lock changes. Manifest SHA256:
+f227e1bba39a3867d5e43c74cf859772a9adf08310084400a70679bdf532c0f6.
+Thesis PDF fresh SHA256:
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
-Read physical17-18/39-44/58-59 from byte-matched p07-kickoff thesis-selected.txt;
-viewed actual runtime routing PNG. Cached extraction avoids new converters/install.
+Read physical17-18/39-44/58-59 from byte-matched prior extraction; actual routing PNG
+viewed; master3/11-15/standing prompt/scope/gap policies consulted. No new discrepancy.
+Inherited unchanged model identity is in final handoff; no Phase08 load/hash/inference.
 
 ## Decisions
-Use existing structured/Prolog path for curriculum; retain unknown semantics over
-thesis's illustrative closed-world denial. Master's explicit routes govern over
-older universal-retrieval prose. No new discrepancy. Build candidate orchestration
-without promoting synthetic/offline reports into institutional answer contracts.
-Follow-ups use caller-owned scoped facts only; no transcript storage or target guess.
-Carry prompt decision: inference guidance only, one-week cap, known style errors.
-Context7 consulted official Python3.13 asyncio cancellation/timeouts and Pydantic
-instance validation docs. Threads cannot be killed by cancelling an async wait;
-adapters must retain admission until their bounded worker actually finishes.
+Explicit candidate contracts keep institutional EvidenceBundle guards intact. Default
+provider holds; only synthetic release injection. Pin once, fixed typed operations,
+no fallback route, unknowns/conflicts/errors preserved. Follow-ups use explicit owned
+scoped context; no hidden transcript/target reuse/persistence. Thread admission remains
+held after cancelled waits. Prompt decision:inference guidance only,one-week cap.
 
 ## Known Failures or Blockers
-Inherited source/release/hosted-schema holds and two Taglish style errors persist.
-No authenticated API or institutional release loader exists; default execution held.
-All four reviewed defects corrected and scoped gate passes. No whole-project-green
-claim: inherited Docling/source/hosted-schema limitations are outside this gate.
+No unmet written offline exit. Institutional loader/auth API/generation not delivered;
+inherited source/hosted-schema/Docling holds and two Taglish style errors remain.
+No actual-model quality or institutional activation/approval claim.
 
 ## Next Action
-Commit verified review corrections; write final offline handoff/exit mapping,
-supersede checkpoint and validate/can-advance. Do not start Phase09 in this task.
+After successful phase validation/can-advance, Phase09 planning is permitted from
+master14 and final handoff. No Phase09 work started in this task.
 
 ## Do Not Repeat
-Do not reopen settled source reviews, benchmark wording or Phase 07 inference sweeps.
-Do not install/download, activate institutional sources or execute real-source rules.
+Do not reopen settled source reviews/accepted wordings, Phase07 inference sweeps or
+completed Phase08 setup. Preserve ignored evidence, models and inactive candidates.

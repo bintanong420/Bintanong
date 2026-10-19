@@ -1,50 +1,45 @@
 # Current progress
 
-Updated:19October2026. Phase08 active in p08/feat/p08-orchestration.
-[Plan](../phase-08-orchestration-plan.md) · [Checkpoint](../phase-08-checkpoint.md).
-Prior snapshot:6c3b09a:plans/plan_current_progress/current_progress.md.
+Updated:19October2026. Phase08 complete as an offline candidate software milestone
+in p08/feat/p08-orchestration. No active numbered implementation phase.
+[Final handoff](../phase-08-handoff.md) · [Review record](../2026-10-19-phase08-integration-review.md).
+Last full pre-condensation snapshot:9606319:plans/plan_current_progress/current_progress.md.
 
-## Latest change
+## Latest delivery
 
-Owner explicitly resumed Phase08 and requested organized developer files/pipelines.
-This supersedes the prior hold awaiting a branch/worktree move. Fresh Git confirms
-clean isolated p08 on merge6c3b09a, containing the completed Phase07 handoff.
-Phase inspect/can-advance passed before creating the Phase08 plan/checkpoint.
+Owner's explicit Phase08 resume superseded the previous branch-switch hold.
+Delivered typed candidate evidence/release contracts, retrieval/Prolog adapters,
+one-pin LLM-routed orchestration, independent Hybrid branches, bounded failures,
+safe telemetry and request-local follow-up/session handling. Default provider holds.
+Developer entry:[pipeline map](../../docs/development/pipelines.md), linked from root
+and module READMEs, with actual flows/files/outcomes and later-phase boundaries.
+Product9606319; closure wrapper documentation only. All work committed locally;
+no push/merge, install/download, dependency changes, source/database mutations.
 
-Plan joins existing routing/retrieval/Prolog through typed candidate adapters,
-one release pin, explicit integration/failure outcomes and safe telemetry. Developer
-guide will map preparation/request pipelines, files and follow-up/session ownership.
-Default execution stays held; explicit synthetic fixtures only in this increment.
-Task1 delivered candidate contracts/policy with source/chunk and rule-version checks.
-RED19missing-module failures;GREEN715passed/11subtests14.99s,exit0 including
-contract/docs/phase regressions. Logs:workspace/audit-evidence/p08-orchestration-20261019/.
-Task2 adapter RED9failures;GREEN90passed15.45s,exit0 including real synthetic
-Janus for all three operations and retrieval/cancellation admission regressions.
-Task3 one-pin orchestrator, concurrent independent Hybrid branches and safe stage
-telemetry delivered. RED13absent-module failures; telemetry RED2; final GREEN
-142passed3.45s,exit0 with routing and explicit follow-up/concurrent-session tests.
-Developer guide delivered at docs/development/pipelines.md with root/package links.
-Combined actual Router/RetrievalEngine/Janus synthetic smoke3passed1.33s,exit0;
-scripted model/manual vectors/synthetic storage, no actual-model accuracy claim.
-Local Markdown links/diff check pass. Fresh reviewer inspecting core0a6db29;
-four P2boundary defects accepted/corrected with RED15failures and GREEN67passed3.60s,
-exit0 across all orchestration tests. [Review record](../2026-10-19-phase08-integration-review.md).
-Full36-file gate1748passed/63subtests103.91s,exit0 (final-regressions.log);
-supplemental all-operation actual-module smoke7passed2.62s,exit0. No product changes
-after full gate; only extended synthetic smoke tests. Phase08 exit handoff pending.
+## Verification
 
-## Preserved limits
+Fresh36-file gate1748passed/63subtests103.91s,exit0. Supplemental real-module smoke
+7passed2.62s,exit0 covers RAG plus three symbolic ops on both Symbolic/Hybrid.
+Actual Router/RetrievalEngine/Janus; scripted model/manual vector/synthetic storage.
+No product changes after broad gate; supplemental tests only. Independent reviewer
+reproduced four P2s; all fixed via RED15failures/GREEN67passed3.60s,exit0.
+Exact commands/logs/manifest:workspace/audit-evidence/p08-orchestration-20261019/.
+Final handoff records hashes/versions and exit mapping. No whole-project-green claim.
+Closure docs585passed/11subtests11.16s,exit0; local links resolve;
+phase validate/can-advance pass with latest complete handoff8/no active phase.
 
+## Limits carried forward
+
+Candidate contracts do not weaken institutional EvidenceBundle/AnswerEnvelope.
 No institutional loader, source activation, student endpoint or final generation.
-Existing source/hosted-schema holds persist; two Phase07 Taglish style errors remain.
-No model calls, installs/downloads, source review changes or database operations;
-actual synthetic Janus execution only, no institutional rules.
+Inherited source/full-prospectus/hosted-schema holds and two Phase07 Taglish style
+errors remain. Caller authenticates ownership; no hidden transcript/private-file
+indexing or auto-persisted assertions. Actual-model/language quality unmeasured here.
 Standing prompt decision:inference guidance only,no training/fine-tuning/LoRA;
-one-week accuracy-work cap. Curriculum uses structured/Prolog evidence, documents RAG.
-Scope17-18/39-44/58-59 read from byte-matched prior PDF extraction; actual PNG viewed;
-master3/11-15 and handoff consulted. No new architecture discrepancy.
+one-week cap. Structured/Prolog curriculum and source-gap/undergraduate scope retained.
+Thesis17-18/39-44/58-59 byte-matched extraction/actual PNG/master3/11-15 consulted.
 
 ## Next action
 
-Commit verified review fixes, record offline final handoff/exit mapping and phase
-closure validation. Preserve all institutional/source holds; do not start Phase09.
+Phase09 planning is permitted after successful can-advance, using master14 and
+Phase08 handoff. No Phase09 plan/implementation, remote publication or activation.
