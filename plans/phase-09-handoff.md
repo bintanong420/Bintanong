@@ -11,6 +11,12 @@ completion_scope: offline candidate generation and bounded synthetic observation
 
 # Phase09 final handoff
 
+Historical offline milestone only. Phase09 was reopened20October2026 after the
+owner requested full real-service composition. Resume from the
+[active checkpoint](phase-09-checkpoint.md) and [actual delivery/results](2026-10-20-live-backend-composition-results.md).
+This older complete record does not authorize advancement while that checkpoint
+is unfinished; preserve its original observations and commit evidence below.
+
 Phase09 completes its written offline software/observation exit. Candidate answers
 preserve evidence and scoped host decisions,validate claims and stop after one
 repair. This is not institutional release,student service or default-budget

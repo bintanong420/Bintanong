@@ -1,5 +1,9 @@
 # Real-service backend composition
 
+Delivery20October2026:[actual paths/results](2026-10-20-live-backend-composition-results.md).
+All five supplement tasks delivered;the numbered Phase09 remains active for the
+measured latency/output-scope/language limits. No Phase10 advancement.
+
 20October2026; p09/feat/p09-generation-validation; baseline684a2fe.
 Owner directs continuation after the architecture audit and asks whether Phase07
 functionality was omitted. Student capability: one natural request traverses the

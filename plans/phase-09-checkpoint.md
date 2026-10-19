@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 19
+sequence: 21
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: fab0225
+head_commit: e0e86ea
 working_tree: dirty
-updated_at: 2026-10-20T01:08:00+08:00
+updated_at: 2026-10-20T01:17:00+08:00
 ---
 
 # Phase09 checkpoint - actual service composition
@@ -26,13 +26,15 @@ snapshot read; GREEN17focused tests2.04s. No inference/prompt behavior changed.
 
 ## Current Task
 [Integration supplement](2026-10-20-live-backend-composition-plan.md) task1 GREEN;
-CLI implemented; corrected actual RAG/Hybrid batch running. Phase07 audit finds core
+Actual composition increment delivered;Phase09 latency/prose/language work remains.
+Phase07 audit finds core
 master12 functionality present; two known Taglish style errors remain. Auth/private
 files belong to their later phase and are not router authentication capabilities.
 
 ## Repository State
-p09/feat/p09-generation-validation. Reopened original plan, new runtime module/tests
-and supplement; current progress/index/checkpoint updated. No Phase10 branch/work.
+p09/feat/p09-generation-validation. Product commits7227732/df99ac6/fab0225/ab9aee9;
+workflow guarde0e86ea. Final wrapper changes docs only;head_commit anchors verified
+code. Current progress/index/checkpoint updated. No Phase10 branch/work.
 
 ## Verification Evidence
 Raw:workspace/audit-evidence/p09-live-composition-20261020/.
@@ -49,10 +51,22 @@ Applied existing migration20261012013339 locally only,transactional/history reco
 exact SQL/hash/command in raw local-migration.json. No hosted changes.
 Actual SEA-LION+PostgREST retrieval after migration:ok,1passage,no gaps.
 Corrected batch command:raw verify-followup.ps1; finite240s inference/generation,
-300sstage/600srequest. Do not start competing inference or heavy tests during it.
-RAG complete; Hybrid follow-up started01:04:40local and remains running.
+300sstage/600srequest. Batch finished;no rerun needed for this resolved wiring proof.
+Hybrid answered355.696s;actual retrieval+Janus joined,1draft/1check,0repairs.
+All3routes4modelcalls each;9claims,8clear scope fits/1Hybrid wording concern.
+New phase-state regression RED3unfinished-state subtestfailures;GREEN20passed/
+14subtests14.13s. Old completehandoff no longer permits unfinished checkpoint
+advancement;current inspect valid/active9/cannotadvance.
+Final46-selection gate:1881passed/66subtests88.53s,exit0;raw verify-regressions.ps1
+and final-regressions.log. This is the relevant gate,not every legacy project test.
+Independent whole-change review found2CLI issues,both RED/GREEN fixed;17focused
+tests1.01s pass. New phase-state fix independently reviewed;no unresolved new
+composition finding. Detailed delivery/results and exact raw files are in
+[the report](2026-10-20-live-backend-composition-results.md).
 
 ## Versions and Digests
+Final raw/code manifest hash is in the delivery/results report;all sealed files
+checked against their hashes. Final docs check:123local links resolve,no controls.
 Existing Python3.13.7/Pydantic2.13.5/HTTPX0.28.1; sentence-transformers6.1.0 available.
 Reconsulted thesis physical17–18/39–44,actual PNG,master11–14 on resume.
 Structured routing and unknown facts govern over illustrative closed-world denial.
@@ -67,14 +81,13 @@ Default institutional provider/source/runtime/activation holds stay. No new API,
 training,dependency/lock change or benchmark wording/source-content approval.
 
 ## Known Failures or Blockers
-Fictional local fixture now populated after explicit empty-corpus check; no real
-sources/release promoted. Corrected RAG/Hybrid full requests remain. Default latency,
-prose scope and language remain
-open; source/schema/release and institutional holds remain in dated records.
+Fictional local fixture populated after explicit empty-corpus check; no real
+sources/release promoted. Default latency,Hybrid scope wording and language remain
+open;source/schema/release and institutional holds remain in dated records.
 
 ## Next Action
-Read corrected RAG/Hybrid reports when finished,assess final outputs,then run
-46-selection regression gate and complete independent final review.
+Address the measured Phase09 output-scope gap with a bounded correction before
+another completion review;retain latency/default-budget limits and no Phase10 advance.
 
 ## Do Not Repeat
 Prior model/prompt sweeps,settled source decisions or accepted institutional labels.

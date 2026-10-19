@@ -15,6 +15,12 @@ no student chat endpoint, institutional release loader or deployment.
 Source authority/currentness, held fields and hosted migration gaps remain open.
 The existing 75 accepted institutional question variants were not rerun here.
 
+The [actual service runner](../../backend/bintanong_runtime/README.md) now composes
+these modules for a checked fictional local release. All three routes have actual
+model/service observations in the [delivery report](../../plans/2026-10-20-live-backend-composition-results.md).
+This proves the internal paths on controlled fixtures; latency,language/prose scope
+and institutional loading remain open. Phase09 is active;Phase10 has not started.
+
 ## Two separate pipelines
 
 Institutional preparation happens outside student requests. Private uploads and

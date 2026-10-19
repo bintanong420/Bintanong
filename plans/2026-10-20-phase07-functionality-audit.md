@@ -30,6 +30,13 @@ are finished. In particular:
   course-fact operations are not registered by this initial router. The current
   three operations are prerequisite eligibility, missing prerequisites and affected
   courses; unknown capability coverage cannot become an answer by similarity.
+- Master12.4's post-retrieval reconsideration is not an explicit Orchestrator
+  stage. RAG keeps its typed decision null; prompts restrict decision expansion
+  and the support checker judges scope. That remains a fallible safeguard, not
+  demonstrated detection of every structured condition missed by routing.
+  A future bounded correction should explicitly withhold personalized deductions
+  in document_explanation when no structured result supports them. Do not report
+  this integration limit as verified rerouting or as a missing core NLP module.
 - Private PDF/photo extraction, authenticated session lifecycle, student HTTP/UI
   and institutional source/release loading are separate undelivered boundaries.
   The gap confirmed by the [architecture audit](2026-10-20-runtime-architecture-implementation-audit.md)

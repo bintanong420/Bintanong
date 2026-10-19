@@ -24,7 +24,9 @@ llama.cpp server; the runner does not start services or download models.
 ```powershell
 python -B -m backend.bintanong_runtime runtime-spec.json request.json `
   --output C:/Coding-projects/bintanong_workspace/audit-evidence/run.json `
-  --evidence-root C:/Coding-projects/bintanong_workspace/audit-evidence
+  --evidence-root C:/Coding-projects/bintanong_workspace/audit-evidence `
+  --inference-timeout 240 --stage-timeout 300 `
+  --generation-timeout 240 --request-timeout 600
 ```
 
 Request JSON contains only `question` and `context` (RequestContext). Context
@@ -46,3 +48,9 @@ only completion status. Output must stay inside the explicit evidence root and
 cannot overwrite an earlier observation. No intermediate unvalidated draft is
 returned. Same-model support checking remains fallible; final human/independent
 output assessment and institutional release authorization are still separate.
+
+The database must already contain the checked fictional release and the committed
+`20261012013339_phase5_retrieval_snapshot` migration. The runner performs no schema
+changes. A missing RPC produces a held/error fallback; inspect service readiness
+before an expensive model run. The [live composition record](../../plans/2026-10-20-live-backend-composition-plan.md)
+defines the proof and retained limitations.
