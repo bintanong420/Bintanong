@@ -37,6 +37,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status),decision=pack.decision,dependencies=pack.dependencies,
+        structured_context=pack.structured_context,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0))
     validate_final(answer,pack,claims)
@@ -73,7 +74,7 @@ class Generator:
                     try:
                         proposal=_parse(raw,AnswerDraft)
                         errors=validate_draft(proposal,pack)
-                    except (ValueError,TypeError):
+                    except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                     if not errors and proposal.claims:
                         checks+=1
@@ -81,7 +82,7 @@ class Generator:
                                                               output_schema(SupportReport))
                         try:
                             errors=validate_support(_parse(review_raw,SupportReport),proposal)
-                        except (ValueError,TypeError):
+                        except (ValueError,TypeError,RecursionError):
                             errors=('invalid_support_report',)
                     if not errors:
                         return _answer(pack,'answered',claims=proposal.claims,reason='validated',
@@ -90,6 +91,8 @@ class Generator:
             timeout=isinstance(error,TimeoutError) or str(error)=='model_timeout'
             return _answer(pack,'temporarily_unavailable',reason='timeout' if timeout else 'tool_error',
                            attempts=attempts,checks=checks)
+        except Exception:
+            return _answer(pack,'temporarily_unavailable',reason='tool_error',attempts=attempts,checks=checks)
         return _answer(pack,'abstained',reason='repair_exhausted',attempts=attempts,checks=checks)
 
 

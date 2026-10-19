@@ -67,3 +67,17 @@ def test_strict_draft_rejects_unknown_fields_and_duplicate_claims():
         contracts.AnswerDraft.parse(dict(payload,approved=True))
     with pytest.raises(ValueError):
         contracts.AnswerDraft.parse(dict(payload,claims=payload['claims']*2))
+
+
+def test_resolved_target_curriculum_and_edition_survive_without_fact_refs():
+    first=integrated('Symbolic')
+    value=first.model_dump(mode='json')
+    value['evidence']['symbolic']['inputs'][0]['value']='FICTIONAL-202'
+    second=IntegrationResult.parse(value)
+    a,b=api().prepare(first),api().prepare(second)
+    assert a.model_payload()!=b.model_payload()
+    context=a.model_payload()['structured_context']
+    assert context['inputs']=={'course':'FICTIONAL-101'}
+    assert context['scope']['edition_ids']==['edition-synth-handbook-1']
+    assert context['rule_bundle_version']=='bundle-synth-1'
+    assert 'fact-synth' not in str(context) and 'fact_ref' not in str(context)

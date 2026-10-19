@@ -76,3 +76,21 @@ def test_prompt_keeps_source_question_and_repair_as_untrusted_data():
     assert 'untrusted' in messages[0]['content'].lower()
     assert 'req-a' not in str(messages) and 'fact-synth' not in str(messages)
     assert prompt.PROMPT_SHA256 and prompt.SUPPORT_PROMPT_SHA256
+
+
+def test_hybrid_needs_an_actual_document_reference_not_just_a_rule_claim():
+    pack=prepare(integrated())
+    rule=next(c for c in pack.cards if c.kind=='rule')
+    value=draft(pack,claims=[dict(claim_id='c1',text=rule.text,evidence_ids=[rule.evidence_id])])
+    assert 'missing_document_claim' in validation().validate_draft(value,pack)
+
+
+def test_each_rendered_claim_keeps_its_own_evidence_marker():
+    rendering=importlib.import_module('backend.bintanong_generation.render')
+    pack=prepare(integrated())
+    claims=draft(pack,claims=[dict(claim_id=f'c{i+1}',text=c.text,evidence_ids=[c.evidence_id])
+        for i,c in enumerate(pack.cards)]).claims
+    lines=rendering.render_text(pack,claims,'answered').splitlines()
+    for claim in claims:
+        assert any(claim.text in line and all(ref in line for ref in claim.evidence_ids) for line in lines)
+    assert 'FICTIONAL-101' in '\n'.join(lines)

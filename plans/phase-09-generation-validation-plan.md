@@ -76,7 +76,8 @@ verify GREEN/relevant regressions, record commands/results and commit.
    whole-request and generation deadline/cancellation, no streaming/raw logging, controls skip model calls,
    concurrent sessions and all three routes preserve outcomes.
 4. [ ] Bounded synthetic model observations and developer guide.
-   Files:module README/developer pipeline guide; dated evaluation report in plans.
+   Files:module README/developer pipeline guide, evaluation.py (bounded reusable
+   observation CLI with mock/real distinction); dated evaluation report in plans.
    Reuse supplied existing runtime/assets if locally available; no download/install.
    Keep held institutional corpus inactive and accepted75wordings untouched.
    Use distinct synthetic dev families from prompt examples; report actual source

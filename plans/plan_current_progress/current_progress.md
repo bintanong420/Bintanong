@@ -38,5 +38,12 @@ No new model/install/DB/source operations; actual generation/
 checker/language performance remains unmeasured.
 Task3 bounded Generator/AnswerPipeline delivered;RED16/GREEN39passed1.31s,exit0.
 Single repair,unchanged evidence,separate counters and request deadline tested.
-Next:fresh review and bounded actual-model synthetic observations using existing
-offline runtime only,then developer guide and scoped final regression.
+Fresh review found five P2s,all corrected with RED10/GREEN55; target/edition context,
+per-claim citations, held-result rendering, document support and nested JSON guarded.
+Relevant generation/orchestration/answer regression217passed6.39s,exit0.
+[Review record](../2026-10-19-phase09-generation-review.md).
+Automatic approval review rejected starting existing offline Docker runtime:
+only "blocked by policy" returned. No retry/model calls/downloads. Actual-model
+generation/support/language evaluation NOT RUN; required Phase09 exit stays open.
+Next:prepare synthetic observation input/command and guide, run final scoped gate,
+commit verified code/docs and keep Phase09 active pending authorized runtime availability.

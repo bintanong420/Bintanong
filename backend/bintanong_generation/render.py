@@ -53,6 +53,7 @@ def fallback_status(status):
 
 
 def selected_cards(pack,claims):
+    if pack.status!='ready': return ()
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))
@@ -61,18 +62,25 @@ def selected_cards(pack,claims):
 def render_text(pack,claims,status):
     words=_WORDS.get(pack.language,_WORDS['en'])
     lines=[words['preview'],words[status]]
-    if pack.decision is not None:
+    if pack.structured_context is not None:
+        context=pack.structured_context
+        label={'en':'Check scope','fil':'Saklaw ng pagsusuri','taglish':'Check scope'}.get(pack.language,'Check scope')
+        values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
+        editions=', '.join(context.scope.edition_ids) if context.scope else ''
+        lines.append(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}')
+    canonical_allowed=(pack.status=='ready' and status=='answered') or pack.status in ('unknown','clarify')
+    if pack.decision is not None and canonical_allowed:
         decision=pack.decision
         lines.append(words[decision.outcome])
         conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
         if conditions: lines.append(words['conditions']+': '+', '.join(conditions))
         if decision.missing_facts: lines.append(words['missing']+': '+', '.join(decision.missing_facts))
-    if pack.dependencies is not None:
+    if pack.dependencies is not None and canonical_allowed:
         lines.append(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)'))
         if pack.dependencies.unknown_conditions:
             lines.append(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions))
     for claim in claims:
-        lines.append(claim.text)
+        lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     for card in selected_cards(pack,claims):
         for cite in card.citations:
             locator=cite.locator.ref or '/'.join((*cite.locator.section_path,*cite.locator.cell_ids,*cite.locator.item_ids))

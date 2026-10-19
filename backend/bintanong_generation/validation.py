@@ -8,7 +8,10 @@ def validate_draft(draft,pack):
     if draft.language!=pack.language: errors.append('wrong_language')
     expected=pack.decision.outcome if pack.decision else None
     if draft.decision_outcome!=expected: errors.append('wrong_outcome')
-    if pack.route in ('RAG','Hybrid') and not draft.claims: errors.append('missing_document_claim')
+    document_ids={c.evidence_id for c in pack.cards if c.kind=='document'}
+    if pack.route in ('RAG','Hybrid') and not any(document_ids.intersection(c.evidence_ids)
+                                               for c in draft.claims):
+        errors.append('missing_document_claim')
     allowed={c.evidence_id for c in pack.cards}
     if any(not set(c.evidence_ids)<=allowed for c in draft.claims): errors.append('unknown_evidence')
     if any(not c.text.strip() for c in draft.claims): errors.append('empty_claim')
@@ -31,11 +34,13 @@ def validate_final(answer,pack,claims):
     from .render import render_text,selected_cards
     if (answer.request_id!=pack.request_id or answer.release_id!=pack.release_id
             or answer.language!=pack.language or answer.decision!=pack.decision
-            or answer.dependencies!=pack.dependencies):
+            or answer.dependencies!=pack.dependencies or answer.structured_context!=pack.structured_context):
         raise ValueError('final_identity_or_decision_mismatch')
     if answer.text!=render_text(pack,claims,answer.status):
         raise ValueError('final_render_mismatch')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')
+    if answer.claims!=tuple(claims):
+        raise ValueError('final_claim_mapping_mismatch')
     if foreign_ids(answer.text,'institutional'):
         raise ValueError('private_final_reference')

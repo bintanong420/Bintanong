@@ -105,3 +105,46 @@ def test_final_text_and_decision_tampering_rejected():
         with pytest.raises(ValueError,match='render'):
             validate_final(result.model_copy(update={'text':'You are officially enrolled.'}),prepare(source),draft().claims)
     asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('document_status',['conflicting_sources','release_changed','uncalibrated'])
+def test_nonready_hybrid_never_renders_a_positive_or_negative_canonical_conclusion(document_status):
+    from backend.bintanong_orchestration.contracts import IntegrationResult
+    from backend.bintanong_orchestration.integration import assemble
+    from test_orchestration_integration import pin,documents,symbolic
+    async def scenario():
+        for outcome in ('eligible','ineligible'):
+            evidence=assemble(pin(),'Hybrid',documents=documents(document_status),symbolic=symbolic(outcome))
+            source=IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,request_id='req-a',
+                route='Hybrid',response_style='en',status=evidence.status,evidence=evidence,events=())
+            answer=await api().Generator(Fake()).generate('Fictional?',source)
+            assert answer.decision.outcome==outcome
+            assert 'conditions satisfied' not in answer.text and 'condition is unmet' not in answer.text
+            assert 'fictional-prereq' not in answer.text and not answer.citations
+    asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('where',['draft','checker'])
+def test_deeply_nested_json_uses_bounded_repair_then_fallback(where):
+    async def scenario():
+        nested='['*20000+'0'+']'*20000
+        model=Fake(nested,nested) if where=='draft' else Fake(good(),nested,good(),nested)
+        answer=await api().Generator(model).generate('Fictional?',integrated())
+        assert answer.validation=='repair_exhausted' and answer.answer_repairs==1
+    asyncio.run(scenario())
+
+
+def test_unexpected_transport_error_is_a_fixed_fallback_without_exception_body():
+    async def scenario():
+        answer=await api().Generator(Fake(RuntimeError('PRIVATE upstream response'))).generate('Fictional?',integrated())
+        assert answer.validation=='tool_error' and 'PRIVATE' not in answer.text
+    asyncio.run(scenario())
+
+
+def test_candidate_answer_preserves_typed_claim_mapping_and_safe_scope():
+    async def scenario():
+        answer=await api().Generator(Fake(good(),supported())).generate('Fictional?',integrated())
+        assert answer.claims==draft().claims
+        assert answer.structured_context.inputs[0].value=='FICTIONAL-101'
+        assert all(i.fact_ref is None for i in answer.structured_context.inputs)
+    asyncio.run(scenario())

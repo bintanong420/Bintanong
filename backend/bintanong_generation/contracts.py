@@ -4,7 +4,8 @@ from typing import Annotated,Literal
 from pydantic import Field,model_validator
 
 from ..bintanong_contracts.base import Contract,Record
-from ..bintanong_contracts.symbolic import DecisionOutcome
+from ..bintanong_contracts.symbolic import DecisionOutcome,DecisionScope
+from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
 from ..bintanong_symbolic.runtime import DependencyResult
 
@@ -59,6 +60,19 @@ class SupportReport(Contract):
     within_scope: bool
 
 
+class StructuredContext(Record):
+    operation: str=Field(min_length=1,max_length=128)
+    inputs: tuple[BoundInput,...]
+    scope: DecisionScope|None
+    rule_bundle_version: str|None
+
+    @model_validator(mode='after')
+    def _no_private_refs(self):
+        if any(i.fact_ref is not None for i in self.inputs):
+            raise ValueError('private_fact_refs_not_permitted')
+        return self
+
+
 class CandidateAnswer(Contract):
     SCHEMA_VERSION='bintanong-candidate-answer-v1'
     candidate_only: Literal[True]=True
@@ -72,6 +86,8 @@ class CandidateAnswer(Contract):
     text: str=Field(min_length=1,max_length=65536)
     decision: DecisionOutcome|None
     dependencies: DependencyResult|None
+    structured_context: StructuredContext|None=None
+    claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error']
     draft_attempts: int=Field(ge=0,le=2)

@@ -5,10 +5,11 @@ import json
 
 from ..bintanong_contracts.base import foreign_ids
 from ..bintanong_contracts.symbolic import DecisionOutcome
+from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,IntegrationResult
 from ..bintanong_orchestration.integration import assemble
 from ..bintanong_symbolic.runtime import DependencyResult
-from .contracts import EvidenceCard
+from .contracts import EvidenceCard,StructuredContext
 
 
 @dataclass(frozen=True)
@@ -22,6 +23,7 @@ class PreparedEvidence:
     decision: DecisionOutcome|None
     dependencies: DependencyResult|None
     scope: str
+    structured_context: StructuredContext|None
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -29,6 +31,11 @@ class PreparedEvidence:
             self.decision.model_dump(mode='json'),dependencies=None if self.dependencies is None else
             dict(status=self.dependencies.status,course_ids=self.dependencies.course_ids,
                  unknown_conditions=self.dependencies.unknown_conditions),
+            structured_context=None if self.structured_context is None else dict(
+                operation=self.structured_context.operation,
+                inputs={i.name:i.value for i in self.structured_context.inputs},
+                scope=None if self.structured_context.scope is None else self.structured_context.scope.model_dump(mode='json'),
+                rule_bundle_version=self.structured_context.rule_bundle_version),
             sources=[c.model_dump(mode='json') for c in self.cards])
 
 
@@ -64,7 +71,11 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     cards=tuple({c.evidence_id:c for c in cards}.values())
     if len(cards)>32 or sum(len(c.text) for c in cards)>65536:
         raise ValueError('generation_evidence_limit')
+    context=None if reasoning is None else StructuredContext(
+        operation=symbolic.decision.predicate if symbolic else 'list_affected_courses',
+        inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in reasoning.inputs),
+        scope=reasoning.scope,rule_bundle_version=reasoning.rule_bundle_version)
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         result.status,result.response_style,result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
-        evidence.permitted_scope if evidence else 'none')
+        evidence.permitted_scope if evidence else 'none',context)
