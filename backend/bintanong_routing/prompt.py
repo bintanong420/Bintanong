@@ -7,7 +7,7 @@ from ..bintanong_contracts.base import VOCAB
 from .contracts import Interpretation, prepare_query
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p07-v6'
+PROMPT_VERSION = 'bintanong-router-p07-v7'
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
@@ -90,15 +90,20 @@ def output_schema():
     route_branch = {k:deepcopy(v) for k,v in schema.items() if k != '$defs'}
     control_branch = deepcopy(route_branch)
     terminal_branch = deepcopy(route_branch)
-    route_branch['properties']['route'] = {'enum':VOCAB['runtime']['routes']}
+    rag_branch = deepcopy(route_branch)
+    rag_branch['properties']['route'] = {'const':'RAG'}
+    rag_branch['properties']['control'] = {'type':'null'}
+    rag_branch['properties']['operations']['maxItems'] = 0
+    route_branch['properties']['route'] = {'enum':['Symbolic', 'Hybrid']}
     route_branch['properties']['control'] = {'type':'null'}
+    route_branch['properties']['operations'].update(minItems=1, maxItems=1)
     control_branch['properties']['route'] = {'type':'null'}
     control_branch['properties']['control'] = {'enum':['clarify', 'evidence_unavailable']}
     terminal_branch['properties']['route'] = {'type':'null'}
     terminal_branch['properties']['control'] = {'enum':['greeting', 'unsupported_scope']}
     for name in ('operations', 'claims'):
         terminal_branch['properties'][name]['maxItems'] = 0
-    schema['oneOf'] = [route_branch, control_branch, terminal_branch]
+    schema['oneOf'] = [rag_branch, route_branch, control_branch, terminal_branch]
     return schema
 
 

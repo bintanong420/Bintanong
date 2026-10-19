@@ -66,7 +66,11 @@ chat, including any repair. The model's tokenizer/template is used, not SEA-LION
 JSON-schema decoding is the default; explicit constrained=False uses JSON-only
 decoding with the same strict backend validation. There is no automatic downgrade.
 The routing decoder has disjoint route/control branches; style has its own strict
-versioned schema. Exactly one format/schema repair is SHARED across both calls:
+versioned schema.
+Proceeding RAG decoder output has no operations; Symbolic/Hybrid has exactly one.
+Clarification can retain multiple requested operations. The downstream guard still
+withholds compounds if a transport ignores the schema; no operation is dropped.
+Exactly one format/schema repair is SHARED across both calls:
 normal two calls, maximum three. attempts counts routing calls, style_attempts counts
 style calls, inference_calls counts both, repair_attempts counts repairs alone.
 Repair reanchors the original question. Grounding/capability holds

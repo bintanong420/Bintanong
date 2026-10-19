@@ -1,12 +1,20 @@
 # Current progress
 
-Updated:19October2026,12:05. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,12:15. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
 [stage results](../2026-10-19-phase07-style-stage-evaluation.md),
 [design/evidence trail](../2026-10-19-phase07-response-style-design.md).
-Pre-condensation snapshot:614e3c3:plans/plan_current_progress/current_progress.md.
+Pre-condensation snapshot:e576266:plans/plan_current_progress/current_progress.md.
 
 ## Latest verified change
+
+Resumed e576266 for [operation-count decoder correction](../2026-10-19-phase07-operation-constraint-correction.md).
+Decoder allowed0-4operations despite host requiring RAG0 or Symbolic/Hybrid1.
+Schema now expresses those counts, while clarification preserves compounds and
+unchanged host guards still withhold nonconforming output. RED6failed/4passed ->
+GREEN137routing tests1.33s. Review:no P1/P2,137passed1.42s; broad24-file gate
+1567passed/11subtests76.68s,exit0. Six-case fresh-routing check pending.
+Prompt text/style interpretation unchanged; no language/schema wording sweep.
 
 Two independent structured calls to the SAME Gemma/Bintu model isolate routing
 from conversational style. Routing messages/schema remain d019318. Style receives
@@ -44,13 +52,14 @@ Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
 Existing Python3.13 readiness venv; no installs/locks/weights/source changes.
 Owner-corrected models:C:/Coding-projects/bintanong_workspace/MODELS.
-Task-owned localhost18087 runtime stopped12:05; inspect=exited. Other
+Task-owned localhost18087 runtime restarted for bounded six-case evaluation; health=ok.
+No image download/model copy. Other
 containers/worktrees preserved. Raw:workspace/audit-evidence/p07-implementation-20261019/.
 Context thesis scope17-18 refreshed from saved extraction; routing PNG viewed.
 Prior39-44/58-59/master3/11/12/13 and Phase06 acceptance/source holds stay settled.
 
-Next:review a justified model/design correction plan from the two style failures
-and fresh Hybrid extra operation. Preserve sealed results/current candidate;
-no repeated retired prompt/schema trials or source reviews. Phase07 stays open;
+Next:verify/review and commit decoder correction, evaluate six existing structured
+variants with fresh routing/compatible saved style and report exact operations.
+Preserve sealed failures; no retired prompt/schema trials/source reviews. Phase07 open;
 no final handoff or Phase08 advancement. Final docs/phase-state checks recorded
 in the stage report; verified product2f92524,documentation wrapper discoverable in Git.

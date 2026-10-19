@@ -151,6 +151,30 @@ def test_compound_clarification_keeps_the_requested_operations():
     assert len(Interpretation.parse(value).operations) == 2
 
 
+@pytest.mark.parametrize('route', ['RAG', 'Symbolic', 'Hybrid'])
+@pytest.mark.parametrize('count', [0, 1, 2])
+def test_proceed_decoder_matches_supported_operation_count(route, count):
+    jsonschema = pytest.importorskip('jsonschema')
+    from backend.bintanong_routing.prompt import output_schema
+    value = proposal(route=route, operations=[
+        dict(name=name, target=0) for name in
+        ('list_affected_courses', 'check_prerequisite_eligibility')[:count]])
+    expected = count == (0 if route == 'RAG' else 1)
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value) is expected
+
+
+def test_nonconforming_transport_cannot_bypass_compound_guard():
+    value = proposal(route='Hybrid', operations=[
+        dict(name='list_affected_courses', target=0),
+        dict(name='check_prerequisite_eligibility', target=0)])
+    result = run(FakeTransport(json.dumps(value)), documents_available=True)
+    assert result.diagnostic == 'compound_request'
+    assert result.decision.control == 'clarify'
+    assert result.decision.predicate_request is None
+    assert len(result.proposed.operations) == 2
+    assert result.attempts == result.style_attempts == 1
+
+
 @pytest.mark.parametrize('apostrophe', ["'", '’'])
 def test_english_contractions_do_not_fail_grounding(apostrophe):
     text = f'I didn{apostrophe}t pass A1.'

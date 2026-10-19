@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 25
+sequence: 26
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 2f92524
-working_tree: final evidence/report/plan/index/progress/checkpoint documentation; code unchanged
-updated_at: 2026-10-19T12:05:08+08:00
+head_commit: e576266
+working_tree: operation decoder constraint, router regressions, README and correction report/progress/checkpoint
+updated_at: 2026-10-19T12:15:00+08:00
 ---
 
 # Phase07 checkpoint - independent style delivered, two Taglish failures open
@@ -27,7 +27,13 @@ Retain exact ac00ac9 backend/tests:15/15routes/meaning,13/15styles on existing
 taglish and excluded-taglish still select fil. Explicit span instructions fail
 unchanged. Label-first614e3c3 regresses four pure-language cases (11/15styles),
 so retired and reverted. No further equivalent prompt trial or host dictionary.
-Selected fresh two-stage execution:2/2proposed routes/styles,1/2effective outcomes;
+Resumed e576266 for [operation decoder correction](2026-10-19-phase07-operation-constraint-correction.md).
+Decoder previously allowed0-4operations where host accepts RAG0 or Symbolic/Hybrid1.
+New schema expresses those counts; no host validation/prompt text/style change.
+RED6failed/4passed ->GREEN137routing tests1.33s. Review:no P1/P2,137passed1.42s.
+Broad24-file gate1567passed/11subtests76.68s,exit0. Six existing structured-case
+fresh routing evaluations pending; compatible style captures will be reused.
+Prior selected fresh execution:2/2proposed routes/styles,1/2effective outcomes;
 Hybrid adds an extra operation and safely clarifies. Compact style-only ablation
 12/15; retired. Phase07 stays open; no final handoff or Phase08 advancement.
 
@@ -37,7 +43,7 @@ p07/feat/p07-router-taglish-nlp. Routing prompt d019318; retained code ac00ac9.
 Restoration2f92524 checked with git diff --exit-code ac00ac9 -- backend tests.
 head_commit pins verified product; later documentation wrapper is discoverable in Git.
 Other worktrees/dev/p06 preserved; no push/merge or source/registry mutation.
-Pre-condensation snapshot:614e3c3:plans/phase-07-checkpoint.md.
+Pre-condensation snapshot:e576266:plans/phase-07-checkpoint.md.
 
 ## Verification Evidence
 
@@ -84,7 +90,10 @@ Curriculum structured/Prolog; handbook/Charter/memos RAG; Hybrid when both neede
 English/Filipino/Taglish preference required; final answers/images later.
 Provenance guards cannot prove language semantics. Unknown rules/source authority/
 activation holds and Phase06 acceptance stay unchanged; no source review reopened.
-Task-owned bintanong-p07-router-offline stopped12:05; inspect confirms exited.
+Context scope17-18 saved extraction and actual routing PNG refreshed on this resume;
+PDF SHA verified unchanged. No architecture/scope discrepancy for decoder constraint.
+Task-owned runtime restarted for bounded actual check after image/mount inspection;
+health=ok. No new download/model copy; stop it after the six-case check.
 
 ## Known Failures or Blockers
 
@@ -97,9 +106,9 @@ four own-rule unknowns, full-prospectus defects and two Docling failures remain.
 
 ## Next Action
 
-Review a justified model/design correction plan for the two style errors and fresh
-Hybrid extra operation using the sealed evidence. Preserve current candidate and
-phase exit; do not repeat retired trials or reopen settled source-content reviews.
+Verify/review and commit the operation-count decoder correction, then evaluate
+the six existing structured variants with fresh routing/compatible saved style.
+Record exact operation names/targets; retain two known Taglish failures and Phase07 gate.
 
 ## Do Not Repeat
 
