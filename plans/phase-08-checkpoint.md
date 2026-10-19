@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 8
 status: in_progress
-sequence: 2
+sequence: 3
 plan: plans/phase-08-orchestration-plan.md
-head_commit: 6c3b09a
+head_commit: 5abdb42
 working_tree: dirty
-updated_at: 2026-10-19T20:00:00+08:00
+updated_at: 2026-10-19T19:57:00+08:00
 ---
 
 # Phase 08 checkpoint
@@ -17,9 +17,11 @@ Resume audit: prior handoff complete; clean p08 branch based on merge 6c3b09a.
 before this plan. Owner's current request lifts prior Phase 08 hold.
 Task1 candidate contracts/integration delivered: source/chunk membership, rule
 version, route shape, synthetic-only flags and conservative permitted scope.
+Task2 adapters delivered; runtime exposes read-only synthetic/release/bundle identity.
+Real synthetic Janus exercises all three operations; student assertions stay local.
 
 ## Current Task
-Task2: adapters over existing retrieval and Prolog runtime.
+Task3: bounded orchestrator, release resources and safe stage telemetry.
 
 ## Repository State
 Isolated p08/feat/p08-orchestration. New plan/checkpoint and ledger/progress edits.
@@ -36,6 +38,10 @@ incomplete synthetic locator fixture; fixed required locator fields. Verified:
 Python3.13 -B -m pytest -q -p no:cacheprovider with external --basetemp;
 raw root:workspace/audit-evidence/p08-orchestration-20261019/task1-verified.log.
 Diff check pass. Subsequent task logs use this same ignored evidence root.
+Task2 RED9failures (absent adapters/runtime properties); GREEN90passed15.45s,exit0
+in task2-verified.log (adapters,integration,symbolic runtime,retrieval engine).
+First attempt revealed retrieval transport citations need explicit absent locator
+defaults and metadata preservation; fixed projection and normalized fictional IDs.
 
 ## Versions and Digests
 System/readiness Python3.13.7; use existing readiness environment from Phase 07.
@@ -61,8 +67,8 @@ Inherited source/release/hosted-schema holds and two Taglish style errors persis
 No authenticated API or institutional release loader exists; default execution held.
 
 ## Next Action
-Write Task2 RED adapter regressions; connect retrieval/typed Prolog, preserving
-source gaps, operation identity and bounded worker admission.
+Write Task3 RED orchestrator tests: each route, default hold, Hybrid failures,
+timeouts, cancellation, safe telemetry and concurrent isolation.
 
 ## Do Not Repeat
 Do not reopen settled source reviews, benchmark wording or Phase 07 inference sweeps.

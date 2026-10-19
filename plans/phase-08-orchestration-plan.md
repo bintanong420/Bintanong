@@ -66,7 +66,7 @@ TEMP/TMP and `--basetemp` under workspace/audit-evidence/p08-orchestration-20261
    Tests: three routes, empty evidence, unknown/unsupported/error distinctions,
    membership/version mismatch, conflicts, dependency-list scope, synthetic-only
    boundary and serialization. No inference from empty lists.
-2. [ ] Typed adapters over existing retrieval and curriculum runtime.
+2. [x] Typed adapters over existing retrieval and curriculum runtime.
    Tests: preserve uncalibrated/source gaps; no vector call on Symbolic; dispatch
    all three fixed operations; request-local asserted facts; reject research results;
    bounded admission across thread cancellation. Real synthetic Janus smoke test.

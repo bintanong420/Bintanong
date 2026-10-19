@@ -18,12 +18,15 @@ Default execution stays held; explicit synthetic fixtures only in this increment
 Task1 delivered candidate contracts/policy with source/chunk and rule-version checks.
 RED19missing-module failures;GREEN715passed/11subtests14.99s,exit0 including
 contract/docs/phase regressions. Logs:workspace/audit-evidence/p08-orchestration-20261019/.
+Task2 adapter RED9failures;GREEN90passed15.45s,exit0 including real synthetic
+Janus for all three operations and retrieval/cancellation admission regressions.
 
 ## Preserved limits
 
 No institutional loader, source activation, student endpoint or final generation.
 Existing source/hosted-schema holds persist; two Phase07 Taglish style errors remain.
-No model calls, installs/downloads, source review changes or database operations.
+No model calls, installs/downloads, source review changes or database operations;
+actual synthetic Janus execution only, no institutional rules.
 Standing prompt decision:inference guidance only,no training/fine-tuning/LoRA;
 one-week accuracy-work cap. Curriculum uses structured/Prolog evidence, documents RAG.
 Scope17-18/39-44/58-59 read from byte-matched prior PDF extraction; actual PNG viewed;
@@ -31,5 +34,5 @@ master3/11-15 and handoff consulted. No new architecture discrepancy.
 
 ## Next action
 
-Write Task2 adapter RED tests, connect existing retrieval/typed Prolog with
-request-local facts and bounded worker admission, verify and commit.
+Write Task3 orchestrator RED tests for routes, Hybrid failure/timeout/cancellation,
+safe telemetry and concurrent session isolation; implement, verify and commit.

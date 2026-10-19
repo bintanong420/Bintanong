@@ -276,6 +276,18 @@ class CurriculumRuntime:
     def _capability(self, name):
         return name if self._research_json is None else name.replace('synthetic_','offline_research_',1)
 
+    @property
+    def release_id(self) -> str:
+        return self._release_id
+
+    @property
+    def rule_bundle_version(self) -> str:
+        return self._version
+
+    @property
+    def synthetic(self) -> bool:
+        return self._research_json is None
+
     def check(self, request: PredicateRequest, facts: StudentFacts | None = None) -> SymbolicResult:
         request = _parse_request(request)
         facts = StudentFacts() if facts is None else StudentFacts.parse(facts.model_dump(mode='json'))

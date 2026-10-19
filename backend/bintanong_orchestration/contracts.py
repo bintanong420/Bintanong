@@ -49,6 +49,12 @@ class ReleasePin(Record):
 class DocumentCitation(SourceBinding):
     page: int = Field(ge=1)
     locator: SpanLocator
+    span_id: Text | None = None
+    printed_page_label: Text | None = None
+    document_id: Text | None = None
+    edition_id: Text | None = None
+    filename: Text | None = None
+    acquisition_locators: tuple[Text, ...] = ()
 
 
 class DocumentPassage(Record):
