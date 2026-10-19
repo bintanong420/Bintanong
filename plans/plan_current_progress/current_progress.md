@@ -8,13 +8,13 @@ Last full snapshot:00a0e68:plans/plan_current_progress/current_progress.md.
 
 ## Current delivery
 
-Audience decoder correctiondfa16d2 verified:excluded/unrelated -> unsupported_scope;
-unknown -> clarify. Model still selects audience; host/style/wording unchanged.
-Selected three existing excluded-language variants now propose correct control3/3
-(previously0/3),effective3/3alreadyguarded. Three fresh routing calls/three exact
-baseline style reuses,zero repairs/transport failures. Reused style2/3 unchanged;
-Taglish still wronglyFilipino. No full15/fresh-style accuracy claim. Runtime STOPPED.
-[Scope correction/results](../2026-10-19-phase07-audience-decoder-correction.md).
+Requested-work routing prompt candidatebe39e67 RUNNING in session35472. Model
+acceptance pending;style-v1,decoderdfa16d2 and host unchanged. Raw root:
+workspace/audit-evidence/p07-requested-work-20261019/. Inspect evaluation.log,
+candidate captures/report and completion-status.json;script stops runtime in
+finally. No duplicate client or completed/rejected-candidate rerun.
+Prior audience check completed3/3scope proposals;reused style2/3unchanged.
+[Current bounded plan](../2026-10-19-phase07-requested-work-prompt.md).
 
 ## Verified evidence
 
@@ -60,6 +60,11 @@ PNG/master12 refreshed. New raw root:workspace/audit-evidence/p07-audience-const
 verify-evidence.py passed6captures/code/schema/profile/exact-reuse checks;minimum
 3317context headroom;report/manifest retained, runtime-stop.json confirms exited.
 
-Next:review prerequisite-fil/greeting-taglish route errors and two style errors
-from saved captures under the one-week cutoff; document one bounded correction
-only if supported. No new sweep, duplicate calls, host override or Phase08.
+Current:requested-work-only prompt candidatebe39e67 committed;style/decoder/host
+unchanged. Saved actual-target semantic RED2failed;integrity176passed1.85s;
+independent no P1/P2,176passed1.93s. [Plan](../2026-10-19-phase07-requested-work-prompt.md).
+Next:session35472 runs two fresh targets,13existing controls only if benefit/
+no-regression gate passes. Inspect evaluation.log/candidate captures/report and
+completion-status.json at workspace/audit-evidence/p07-requested-work-20261019/.
+Script stops runtime in finally;no duplicate inference or old-candidate reruns.
+Scope17-18/PNG/master12 refreshed. No new sweep/host override/Phase08.

@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 42
+sequence: 44
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 464f276
-working_tree: clean after audience result documentation commit
-updated_at: 2026-10-19T17:07:00+08:00
+head_commit: be39e67
+working_tree: requested-work candidate report and checkpoint/progress docs
+updated_at: 2026-10-19T17:20:00+08:00
 ---
 
-# Phase07 checkpoint - audience decoder verified on three selected failures
+# Phase07 checkpoint - requested-work prompt candidate running
 
 ## Completed Tasks
 
@@ -22,10 +22,12 @@ change. Original style-v1 restored. This is not Phase07 completion.
 
 ## Current Task
 
-Audience consistency task COMPLETE atdfa16d2;selected-three runtime check3451
+Requested-work prompt candidatebe39e67 RUNNING in session35472;see Next Action.
+Prior audience consistency task COMPLETE atdfa16d2;selected-three check3451
 finished,exit0. Three fresh routing calls/three exact style reuses,zero repairs/
 transport failures. Proposals0/3 ->3/3;effective3/3alreadyguarded. Reused style2/3
-unchanged;no full15/fresh-style accuracy claim. Runtime STOPPED. Baseline
+unchanged;no full15/fresh-style accuracy claim. Scope runtime was stopped;
+restarted only for current prompt candidate. Baseline
 [comparison](2026-10-19-phase07-prompt-comparison.md) COMPLETE:15cases,30fresh calls,
 zero repairs/transport failures. Proposals10/15,effective13/15,styles13/15;
 entity/claim/operation collections15/15each(6nonempty,9empty),family consistency3/5.
@@ -111,9 +113,18 @@ Fresh selected3routing/3exact style reuses verified:all6captures,case/catalog/co
 schema/request/profile/source seals;minimum3317context headroom. Runtime STOPPED.
 No improvement in already-correct effective scope control or reused style claimed.
 Scope17-18 saved extraction/actual PNG/master12 refreshed;no discrepancy.
-Next:review remaining prerequisite-fil/greeting-taglish route errors and two Taglish
-style errors from saved evidence, under one-week cap. Document one bounded correction
-only if supported;no new prompt/seed/schema-order sweep,host override or Phase08.
+Residual review finds both route errors add unrequested work, despite correct
+intent/reason. [One routing clarification](2026-10-19-phase07-requested-work-prompt.md)
+be39e67 is committed;style/decoder/host unchanged. Saved actual targets RED2failed;
+integrity176passed1.85s;independent no P1/P2,176passed1.93s. Semantic GREEN pending.
+Next:session35472 runs two fresh targets;remaining13controls only if at least one
+route improves and no previously correct component regresses. Inspect evaluation.log,
+candidate captures/report and completion-status.json under raw root
+workspace/audit-evidence/p07-requested-work-20261019/. Finally stops task runtime.
+No duplicate inference or rerun of rejected/completed candidates.
+No new questions, examples, schema-order sweep, host override or Phase08.
+Scope17-18/actual PNG/master12 refreshed;no discrepancy. Prior head mismatch was
+the e155a0e documentation wrapper, not unreviewed product changes.
 
 ## Do Not Repeat
 
