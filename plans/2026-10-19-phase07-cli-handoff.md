@@ -57,7 +57,7 @@ In this conversation poll the named sessions with write_stdin; across sessions
 inspect task-specific process names/log timestamps plus completion-status.json.
 Runtime localhost18087. Assets retained. Do not run another client/stop container
 while legitimate current model calls are alive. If all jobs finish, confirm
-docker inspect state=exited. Supervisor PID8000 is the observed queue wrapper;
+docker inspect state=exited. Supervisor monitors observed queue-wrapper PID8000;
 new wrapper PIDs after a manual resume require updating/reviewing the supervisor.
 
 ## Verified baseline -15synthetic cases,not population accuracy
@@ -65,6 +65,7 @@ new wrapper PIDs after a manual resume require updating/reviewing the supervisor
 Proposals10/15,effective outcomes13/15,styles13/15;entity/claim/operation collections
 15/15each(6nonempty,9empty). Family consistency3/5. English4/5proposals,5/5effective,
 5/5style;Filipino3/5,4/5,5/5;Taglish3/5,4/5,3/5. No new candidate score yet.
+
 - procedure-taglish still selects Filipino style; this motivated the single candidate.
 - prerequisite-fil wrongly selects Hybrid instead of Symbolic.
 - greeting-taglish("Hi, kumusta?") wrongly selects RAG even though reason says greeting.
