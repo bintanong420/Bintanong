@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 39
+sequence: 41
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 833d2f4
-working_tree: comparison report, index, plan, progress, checkpoint and developer handoff docs
-updated_at: 2026-10-19T16:50:00+08:00
+head_commit: dfa16d2
+working_tree: audience decoder report, progress and checkpoint docs
+updated_at: 2026-10-19T16:58:00+08:00
 ---
 
-# Phase07 checkpoint - candidate retired, baseline restored
+# Phase07 checkpoint - audience decoder correction, selected runtime check
 
 ## Completed Tasks
 
@@ -22,7 +22,8 @@ change. Original style-v1 restored. This is not Phase07 completion.
 
 ## Current Task
 
-Owner requests [developer handoff](2026-10-19-phase07-cli-handoff.md). Baseline
+Owner resumed audience consistency task. Productdfa16d2 verified; selected-three
+runtime check session3451 RUNNING. Baseline
 [comparison](2026-10-19-phase07-prompt-comparison.md) COMPLETE:15cases,30fresh calls,
 zero repairs/transport failures. Proposals10/15,effective13/15,styles13/15;
 entity/claim/operation collections15/15each(6nonempty,9empty),family consistency3/5.
@@ -30,7 +31,8 @@ Candidate interrupted:21captures (11reused routing,10fresh completed style outpu
 Paired subset baseline9/10styles vs candidate8/10;zero fixes,one new prerequisite-fil
 error (B1 treated as English). procedure-taglish still wrong. Five planned outputs
 incomplete, including req-0011. No full15candidate score. Regression already fails
-selection criterion; retired early without new inference. Runtime STOPPED.
+selection criterion; retired early without added inference in that retirement.
+Runtime subsequently restarted only for current audience check.
 Interruption cause unestablished:container255,OOMKilled=false. No live old jobs.
 
 ## Repository State
@@ -96,12 +98,21 @@ audited,no DB mutation. Local router evaluation unaffected.
 
 ## Next Action
 
-Audit prompt.py output_schema against validation.py audience precedence using
-three saved excluded proposals. Test whether excluded/unrelated consistency can
-be constrained without changing unknown-audience/compound handling. Student scope
-capability, evidence path and exit question recorded in comparison report.
-No new model run, prompt/seed/schema-order sweep, semantic host override or Phase08.
-Do not resume retired candidate or duplicate baseline. Developer handoff is current.
+Audit confirms current decoder permits all audience/control combinations, whereas
+host precedence requires excluded/unrelated -> unsupported_scope and unknown ->
+clarify. Encode those existing invariants in decoder branches only; preserve all
+undergraduate routes/controls, unknown clarification's compound operations and
+nonconforming-transport host guards. No semantic contract/host/style change.
+Productdfa16d2:RED18failed/14passed1.40s ->176passed1.83s; independent no P1/P2,
+176passed2.24s. Broader24-file gate1612passed/11subtests125.90s. Saved15outputs:
+only three excluded contradictions rejected;12remain schema-valid. See
+[scope correction](2026-10-19-phase07-audience-decoder-correction.md).
+Next:session3451 evaluate-audience.py is running ONLY three existing excluded
+variants with fresh routing and exact-compatible saved styles. Poll log/session,
+verify captured report and runtime shutdown, record actual outcomes. No duplicate
+model client, new wording or broad sweep. Other baseline errors remain open.
+Scope17-18 saved extraction and actual routing PNG/master12 refreshed on resume;
+no discrepancy. Prior docs-only00a0e68 explains checkpoint's old head mismatch.
 
 ## Do Not Repeat
 
