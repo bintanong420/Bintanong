@@ -52,6 +52,11 @@ clarify and can preserve compound details. Bintu still selects the audience from
 the question. Host checks retain contradictory proposals from nonconforming
 transports for inspection and withhold dispatch without a semantic retry.
 
+The router-v9 prompt candidate clarifies that context helps interpret requested
+work without adding tasks. Social-only greetings use their control; explaining a
+symbolic result alone does not add document retrieval. Its model acceptance is
+pending; the audience decoder, host validation and style prompt are unchanged.
+
 The selected response_style is en, taglish, fil or unknown. Bintu quotes literal
 English/Filipino fragments and selects a conversational style. The host checks
 bounded structure/count consistency and exact original-text containment, then maps
