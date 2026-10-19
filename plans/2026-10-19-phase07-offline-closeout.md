@@ -4,9 +4,9 @@
 explicit offer to review offline completion with both style errors disclosed.
 This records verification against the written exit, not school approval, a new
 accuracy threshold or an assertion that the two errors are corrected.
-Independent whole-change review and fresh regression checks pass. Technical
-offline exits are verified; formal handoff/ledger closure is next. No universal
-language accuracy or institutional release is claimed.
+Independent whole-change review and fresh regression checks pass. The scoped
+offline exit is complete; [final handoff](phase-07-handoff.md) records delivery and
+recovery. No universal language accuracy or institutional release is claimed.
 
 ## Exit evidence
 
@@ -18,7 +18,7 @@ language accuracy or institutional release is claimed.
 | Invalid proposals and missing facts cannot enter symbolic execution unchecked | Fresh selected regression gate passes; quote/session/edition/signature/capability/compound/repair guards covered; no executor in module, EMPTY_REGISTRY default and institutional execution hold remain |
 | Applicable contract, symbolic, transport, evaluation and phase checks | Fresh 24-file gate: 1615 passed, 11 subtests passed, 72.14s, exit0 |
 | Model/runtime/template/prompt/schema identities and disclosed failures | All 30 captures reverified; recomputed manifest identical; current model hash/image match; failures and reuse limits retained below |
-| Independent whole-change review and complete final handoff | No actionable P1/P2; independent 176 tests pass; formal handoff/ledger closure next |
+| Independent whole-change review and complete final handoff | No actionable P1/P2; independent 176 tests pass; phase-07-handoff.md records delivery/recovery; checkpoint superseded |
 
 The written master12/design/phase-plan exit requires reporting observed route and
 meaning performance, guard validation and failure disclosure. No owner-approved
@@ -65,6 +65,11 @@ Full command/file roster retained in that script; final-regressions.log records
 selected gate remain disclosed; this is not a whole-project-green result.
 Review documentation/phase gate:580passed/11subtests16.91s,exit0;review-docs.log,
 same Python/options with basetemp=raw-root/review-docs and docs hygiene/phase-state tests.
+Final closure documentation/phase gate:581passed/11subtests11.99s,exit0;
+final-docs.log,basetemp=raw-root/final-docs. Diff check and phase-state validate/
+can-advance pass;no active numbered phase,next permitted phase8. No Phase08 started.
+Eight raw closeout artifacts sealed in manifest.json;SHA256
+b00c0081a003e92bf8f0e70784b34c3c7a7c03f0246b494915a7fe7a8e3a8f76.
 
 verify_saved_routing.py re-executes the delivered verifier with only its manifest
 output redirected into this root. routing-verification.log:30captures pass,
