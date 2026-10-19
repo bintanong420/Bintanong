@@ -141,6 +141,11 @@ failed Taglish cases now choose taglish and quote an actual English fragment.
 Raw:style-stages-label-first/, including the exact uncommitted product.patch over
 ac00ac9. This supports adopting the combined prompt/order change; it is not an
 isolated causal proof that schema order alone explains the previous failures.
+Full15-case composition exposes four new pure-English/Filipino course-query
+mislabels (11/15styles,15/15routes/meaning). Retire label-first614e3c3 and restore
+exact ac00ac9 style-v1 bytes, retaining13/15styles. No further equivalent prompt
+variation or host-language override follows. Current results and remaining model/
+design question:[stage report](2026-10-19-phase07-style-stage-evaluation.md).
 Broad24-file gate for the stage implementation:1555passed/11subtests,179.81s,
 exit0 (style-stages-regressions.log). Two inherited Docling failures still apply.
 

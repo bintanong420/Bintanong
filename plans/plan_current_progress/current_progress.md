@@ -1,65 +1,50 @@
 # Current progress
 
-Updated:19October2026,11:12. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
-Verified product d019318; no Phase07 completion or Phase08 advancement.
+Updated:19October2026,11:58. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
-[followup/results](../2026-10-19-phase07-interpretation-followup.md),
-[evaluation history](../2026-10-19-phase07-routing-evaluation.md).
-Pre-condensation full snapshot:d019318:plans/plan_current_progress/current_progress.md.
+[stage results](../2026-10-19-phase07-style-stage-evaluation.md),
+[design/evidence trail](../2026-10-19-phase07-response-style-design.md).
+Pre-condensation snapshot:614e3c3:plans/plan_current_progress/current_progress.md.
 
 ## Latest verified change
 
-Terminal greeting/unsupported_scope proposals cannot carry claims or course
-operations. Decoder selects control before action arrays; strict parsing rejects
-inconsistent proposals. No bad fields are silently removed. Scope fix ecde58c;
-language-contrast candidate d019318. No source, registry, API or activation changes.
+Two independent structured calls to the SAME Gemma/Bintu model isolate routing
+from conversational style. Routing messages/schema remain d019318. Style receives
+only original_text and returns bounded literal evidence plus a style label.
+One shared format repair:normal2/max3calls. Unknown/rejected style and invalid
+course proposals cannot bypass guards. No executor/API/institutional activation.
 
-Reinspection corrected the earlier Filipino scope diagnosis:the model already
-selected excluded/unsupported_scope, but added an invalid program-target course
-operation. Current actual run now produces all three correct scope notices.
+Retained implementation:ac00ac9 bytes. Actual fixed15-case composition has
+15/15proposed/effective routes, entities, claims and operations; five consistent
+families. Style13/15:English5/5,Filipino5/5,Taglish3/5. procedure-taglish and
+excluded-taglish still select fil. Fifteen exact routing captures reused;
+15fresh style calls,30logical calls,zero repairs; replay is not model latency.
 
-## Verification and actual model limits
+A span-instruction variant fails the same two cases. Label-first614e3c3 passes
+five selected cases but regresses four pure-language course queries in the full
+set (style11/15); retired. Restore exact ac00ac9 backend/test bytes. No further
+equivalent prompt sweep or host dictionary. Raw failed experiments stay preserved.
+Only Gemma and SEA-LION embedding folders exist; no separate Bintu checkpoint found.
 
-Terminal schema RED4failed/2passed ->84routing GREEN1.01s; v6GREEN1.07s.
-Independent narrow review:no P1/P2 findings;84routing tests2.65s.
-Current23-file gate:1511passed/11subtests,176.94s,exit0;followup-regressions.log.
-Final documentation/phase-state checks are recorded in the checkpoint.
+## Verification
+
+Stage TDD:RED35failed/18passed ->GREEN127tests1.34s; independent review:no P1/P2,
+127passed1.30s. Broad24-file gate1555passed/11subtests179.81s,exit0.
+Retired label-first focused127passed3.38s; broad1555/11subtests141.12s.
+Restore verified with git diff --exit-code ac00ac9 -- backend tests.
+Fresh restored routing/docs/phase-state gate696passed/11subtests12.37s,exit0.
+Selected fresh two-stage model checks pending.
 Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
-Same15-case promptv6 actual result:15/15proposed/effective routes and entity/
-claim/operation collections;5/5equivalent-family consistency. Six substantive
-structured checks, nine empty collections.18exact-quote offset corrections.
-Style10/15:English5/5,Filipino5/5,Taglish0/5 (all mislabeled fil).
-V6language examples regress two formerly correct Taglish labels; no improvement claim.
+## Boundaries and next action
 
-Usage limits interrupted inference after10saved captures. Resume verified exact
-messages/schema, reused those outputs and ran only five missing cases. Original
-partial log/captures preserved; combined report records replay provenance.
-Replay durations are not model latency; code/prompt/schema/case/catalog identities
-match. No final responses, institutional retrieval or Prolog execution occurred.
-
-Fixed native-thinking probe:3/3routes,2/3styles. It fixes procedure-taglish, still
-mislabels greeting-taglish; pure Filipino control stays correct. Not adopted.
-No further prompt sweep or native-thinking parameter trial is pending.
-
-## Environment and preservation
-
-Existing Python3.13 readiness venv; no installs, locks or model-weight changes.
+Existing Python3.13 readiness venv; no installs/locks/weights/source changes.
 Owner-corrected models:C:/Coding-projects/bintanong_workspace/MODELS.
-Task-owned localhost18087 container stopped after trials; image/container retained.
-Other containers/worktrees preserved. Raw evidence:workspace/audit-evidence/
-p07-implementation-20261019/. No thought text retained from the native probe.
-Context thesis17-18/39-44/routing PNG consulted; scope17-18 refreshed on recovery.
-Phase06 acceptance, source authority/activation holds and unknown rules unchanged.
+Task-owned localhost18087 runtime running for selected fresh verification; other
+containers/worktrees preserved. Raw:workspace/audit-evidence/p07-implementation-20261019/.
+Context thesis scope17-18 refreshed from saved extraction; routing PNG viewed.
+Prior39-44/58-59/master3/11/12/13 and Phase06 acceptance/source holds stay settled.
 
-Resumed98aa714 with [response-style design](../2026-10-19-phase07-response-style-design.md).
-Combined-wire prototype style5/5 but altered routing/operation output; retired.
-Two independent calls to the same Bintu now preserve routing input and ground style
-separately. Shared one-repair budget:normal2/max3calls. RED35/18passed ->GREEN127,
-1.34s. Integration committed ac00ac9; review:no P1/P2,127passed1.30s.
-Full15-case composition retains routes/meaning15/15, styles13/15. procedure-taglish
-and excluded-taglish quote whole mixed utterances as Filipino. Promptv2's explicit
-span instructions fail the same cases; retired. Label-first promptv3/schema order
-passes the same two failures/three controls:5/5styles/routes/meaning. Broad
-gate1555/11subtests,179.81s,exit0;127focused tests3.38s. Next:commit verified
-candidate, complete compatible full evaluation and fresh two-stage checks. Phase07 open.
+Next:commit restored candidate after checks, finish selected fresh two-stage
+requests, seal evidence and stop only the task container. Phase07 stays open;
+its language-style requirement still needs a model/design decision. No Phase08.

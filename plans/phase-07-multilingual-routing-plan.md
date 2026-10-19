@@ -83,9 +83,10 @@ has yet been approved; report observations for review rather than invent one.
 
 Owner supplies workspace/MODELS and authorized official runtime image download.
 Existing Gemma bytes/image/build/template are verified; no weight copies or package
-changes. Current candidate's same15-case trial gets15/15guarded outcomes/meaning
-and10/15exact response-style labels. Scope failure is fixed; five Taglish labels
-remain wrong. See the targeted followup for exact interrupted-run recovery.
+changes. Independent style/routing candidate ac00ac9 gets15/15guarded outcomes/
+meaning and13/15response-style labels. Two Taglish labels remain wrong. Label-first
+candidate regresses pure-language cases and is retired. See the
+[stage results](2026-10-19-phase07-style-stage-evaluation.md).
 The language-style exit remains open; Phase07 is active and Phase08
 cannot begin. See the dated evaluation report and exact next checkpoint action.
 Phase06 predecessor verification remains accepted; no receipt-recovery task.

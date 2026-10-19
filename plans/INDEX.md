@@ -8,7 +8,8 @@
 - [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
   [Accepted design](2026-10-19-phase07-routing-design.md). Owner directed implementation;
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
-  [model evaluation](2026-10-19-phase07-routing-evaluation.md): Taglish style exit remains open.
+  [stage evaluation](2026-10-19-phase07-style-stage-evaluation.md):15/15routes/meaning,
+  13/15styles; two Taglish errors keep the language-style exit open.
 - Next phase08 remains gated on a complete Phase07 handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
