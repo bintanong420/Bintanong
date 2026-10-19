@@ -179,3 +179,38 @@ fails, tune routing/style behavior while policies stay in reviewed Prolog/RAG.
 Follow-up docs gate:same pytest files/options as above, basetemp=raw-root/
 finetuning-docs;571passed/11subtests18.48s,exit0,finetuning-docs.log.
 Diff check and phase-state validation pass; product/runtime unchanged.
+
+## One-week constraint and prompt-guidance follow-up,14:16
+
+Owner sets a maximum one-week extension with final defense about a month away,
+reports access to another GPU described as4080/8GB, and clarifies interest in
+prompts as guides plus guardrails. The other GPU identity/memory are owner-reported,
+not the locally verified3050; neither machine was changed or benchmarked here.
+
+Recommendation:use prompt engineering with the current artifact, existing schema
+and deterministic host guards within this budget. Technical soft-prompt tuning
+still learns parameters; ordinary instructions/few-shot examples need no training.
+See [PEFT's definition](https://huggingface.co/docs/peft/main/package_reference/prompt_tuning).
+[Google's prompt-design guidance](https://ai.google.dev/gemini-api/docs/prompting-strategies)
+supports explicit instructions and examples, but concerns Gemini and does not
+prove an accuracy improvement for our Gemma artifact. Measure the intervention.
+
+Suggested allocation, not a delivery guarantee or changed phase exit:day1 bound
+the runtime-control audit/baseline; days2-3 one justified prompt revision for the
+observed route/style confusions using separate synthetic examples; days4-5 paired
+per-language regression/broader reviewed validation; days6-7 freeze the candidate,
+finish verification and document results/limitations for the defense. Stop adding
+experiments at the cutoff. Retain the best verified candidate if an intervention
+regresses; unresolved errors remain disclosed and cannot imply phase completion.
+No fine-tuning/training pipeline is recommended for this time budget.
+
+LLM routing remains semantic. Schema, exact reviewed identities, capability and
+curriculum checks reject detectable invalid requests; they cannot guarantee that
+a well-formed wrong route or wrong language preference is caught. Missing facts
+need clarification; known schema-valid semantic errors still require evaluation.
+Curriculum/Prolog and document/RAG roles stay intact. Next action remains the
+bounded runtime-control audit, now under the owner's one-week improvement limit.
+
+Prompt-guidance docs gate:same files/options, basetemp=raw-root/prompt-guidance-docs;
+571passed/11subtests14.13s,exit0,prompt-guidance-docs.log. Diff check and phase-state
+validation pass. No new inference, implementation, hardware setup or training.

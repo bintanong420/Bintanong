@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 29
+sequence: 30
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 8db08e8
+head_commit: c4cd297
 working_tree: accuracy research report, progress and checkpoint documentation
-updated_at: 2026-10-19T14:08:00+08:00
+updated_at: 2026-10-19T14:16:00+08:00
 ---
 
 # Phase07 checkpoint - researched accuracy strategy, route/style quality open
@@ -49,6 +49,7 @@ Research/docs-only gate571passed/11subtests11.18s,exit0; docs.log under
 workspace/audit-evidence/p07-accuracy-research-20261019/. Commands in research report;
 diff check clean, phase state valid/active7/no advancement. Runtime inspect=exited.
 Fine-tuning follow-up docs gate571passed/11subtests18.48s,exit0;finetuning-docs.log.
+Prompt-guidance docs gate571passed/11subtests14.13s,exit0;prompt-guidance-docs.log.
 No product test rerun or new model calls for this documentation-only increment.
 
 Count matrix RED6failed/4passed0.80s ->137routing GREEN1.33s. Independent review:
@@ -97,10 +98,12 @@ reasoning_budget_tokens/thinking_budget_tokens;128token enforcement not establis
 Cache reuse is a documented possible source of drift, not the proven cause here.
 Native thinking/vendor sampling warrant controlled comparison, not assumed gains.
 Proposed all-known-regressions/95%per-language targets are recommendations only.
-Fine-tuning feasibility follow-up:rough1-3extra weeks for a narrow adapter pilot
-with reviewed data/suitable GPU, not a measured schedule. nvidia-smi confirms
-RTX3050 Laptop4096MiB; larger GPU/cloud likely. No training decision/setup made;
-research report records official sources and assumptions. Next action unchanged.
+Owner limits added improvement work to one week before defense; asks about prompt
+guidance/guardrails. Recommend ordinary prompt engineering without parameter
+training, bounded validation/freeze; research report has proposed allocation.
+Other4080/8GB is owner-reported/unverified; local3050 reading remains valid.
+Guards do not guarantee detection of schema-valid route/style errors. No accuracy
+gain/training decision/setup made; phase exits and release holds remain unchanged.
 
 ## Known Failures or Blockers
 
@@ -112,7 +115,7 @@ full-prospectus defects and inherited Docling failures remain disclosed.
 
 ## Next Action
 
-Audit effective runtime/cache/sampling/budget controls and specify the bounded
+Within the one-week cap, audit runtime/cache/sampling/budget controls and specify the bounded
 same-artifact thinking comparison in the research report; verify recognized budget
 behavior before new accuracy calls. This corrects new source-backed API evidence,
 not an unchanged thinking sweep. Preserve two style errors and Filipino route error
