@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 34
+sequence: 35
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 7b99552
-working_tree: prompt comparison plan, progress and checkpoint documentation
-updated_at: 2026-10-19T15:11:00+08:00
+head_commit: 9dde229
+working_tree: prompt comparison plan, hosted status, progress and checkpoint documentation
+updated_at: 2026-10-19T15:27:00+08:00
 ---
 
 # Phase07 checkpoint - explicit inference profile verified
@@ -28,15 +28,26 @@ actual transport smoke complete. Resolved diagnostic stops here. Next fresh15-ca
 baseline [comparison](2026-10-19-phase07-prompt-comparison.md) is running, before
 a single justified prompt intervention. Known route/style errors
 remain open; no new accuracy or completion claim.
+Observed current-profile procedure-taglish stillFilipino. Style-only candidate
+9dde229 adds six balanced unrelated examples; output schema/host/router unchanged.
+RED1failed32passed ->GREEN145passed3.40s; independent review no P1/P2,
+124passed3.31s. Full baseline still uses originalv1 imported at7b99552. Candidate
+waits for baseline report, then15fresh style calls with15exact-matched baseline
+routing captures reused; no fresh route/latency claim. Runtime running for this task.
 
 ## Repository State
 
 p07/feat/p07-router-taglish-nlp. Product29cc8d9; standing decisionbbaf5f9.
 Full previous snapshot:29cc8d9:plans/phase-07-checkpoint.md.
-Only plan/progress/checkpoint docs pending; product/tests committed.
+Current candidate9dde229 committed; only plan/status/progress/checkpoint docs pending.
 Other worktrees/dev/p06 preserved; no push/merge/source/registry mutation.
 
 ## Verification Evidence
+
+Candidate docs/ledger575passed/11subtests26.38s,exit0;candidate-docs.log under
+workspace/audit-evidence/p07-prompt-comparison-20261019/. Candidate style tests and
+review above. Baseline process71133 running; candidate wrapper87552 waits for report.
+Do not duplicate these calls; inspect existing sessions/logs first after rollover.
 
 Transport RED7failed/10passed0.92s ->GREEN106passed3.43s. Independent review:
 no P1/P2,106passed2.29s. Broad24-file gate1577passed/11subtests128.27s,exit0.
@@ -81,6 +92,10 @@ reasoning_budget probe used wrong key; no unchanged thinking/sampling sweep.
 
 ## Known Failures or Blockers
 
+Read-only [hosted migration observation](2026-10-19-hosted-migration-status.md):
+6applied versions through12October vs13repo files;7Phase05 versions absent from
+hosted history. No DB mutation/schema audit; local router evaluation unaffected.
+
 No environment blocker. Prior prerequisite-fil wronglyHybrid; procedure-taglish/
 excluded-taglish wronglyFilipino. No new language fix. Prior combined-wire,
 native-thinking,label-first,compact trials retired. Four own-rule unknowns,
@@ -88,11 +103,10 @@ full-prospectus defects and inherited Docling failures remain disclosed.
 
 ## Next Action
 
-Finish running fresh15-case baseline under explicit profile, retaining both stages
-under workspace/audit-evidence/p07-prompt-comparison-20261019/baseline/.
-Then one justified prompt change and matched
-evaluation. Preserve failures/denominators and final-family separation. No semantic
-host override or Phase08 advancement.
+Finish baseline and queued candidate style comparison under workspace/audit-evidence/
+p07-prompt-comparison-20261019/. Verify all captures/metrics and select or retire
+the single candidate; then final regressions,seal results,stop task runtime.
+Preserve failures/denominators and final-family separation. No host override or8.
 
 ## Do Not Repeat
 

@@ -47,3 +47,55 @@ metadata changes. Evaluation uses synthetic registry and executes no predicates.
 The generic15 are distinct from75accepted institutional variants and final tests.
 Runtime loading may return503; wait for readiness before inference, not counted
 as a student semantic failure. Each bounded request retains timeout handling.
+
+## Candidate specified after observed baseline error,15:22
+
+The first three procedure variants all routeRAG; baseline procedure-taglish still
+selects Filipino. Test ONE style-only intervention:append six exact grounded
+illustrations to the existing system instruction, balanced two per English/Filipino/
+Taglish label. Unrelated soup/readiness examples demonstrate English noun fragments,
+Filipino-affixed English stems and neutral course codes without using evaluation
+questions/families or institutional facts. No label-order/schema/route prompt change.
+New style prompt versionv4 avoids reusing retiredv2span/v3label-first identifiers.
+
+Files:backend/bintanong_routing/style.py (constant STYLE_EXAMPLES + version/hash/
+system-prompt examples), tests/test_routing_style.py and README.md. No new model
+stage/constructor/signature or host classifier. Test examples parse/ground under
+the existing StyleEvidence contract, are balanced, are present in system messages
+and never contaminate the original_text-only user payload. Observe RED before
+implementation; GREEN proves prompt/fixture integrity, not semantic accuracy.
+
+Baseline process imported and captured originalv1code at7b99552 before candidate
+edits; it continues using those loaded bytes. Save both commit/code identities and
+verify each against its own captures. Do not describe candidate disk bytes as the
+running baseline. Complete all15baseline outcomes before selecting the candidate.
+
+Ruling for candidate comparison:because only the independent style prompt changes,
+reuse baseline routing captures ONLY after exact message/schema/profile/settings
+equality checks. Run all15style calls fresh. Retain both stage captures and byte
+seals, report15reused routing captures separately from actual fresh style calls.
+This holds routing constant and avoids repeating unchanged evidence. It is not a
+fresh two-stage route/latency result; any baseline routing error remains open.
+No captures from prior implicit-cache profiles may be reused. If exact equality
+fails, stop rather than silently substituting a mismatched output.
+
+Candidate integrity RED1failed/32passed1.67s (missing STYLE_EXAMPLES),exit1;
+GREEN145passed3.40s,exit0. Existing readiness Python -B -m pytest -q
+-p no:cacheprovider --basetemp=raw-root/style-red tests/test_routing_style.py;
+GREENbasetemp=raw-root/style-green with style/router/transport/evaluation/contracts/
+validation tests. TEMP/TMP=raw-root. Logs:style-red.log/style-green.log.
+Independent style_examples_review:no P1/P2,124passed3.31s,exit0 on style/contracts/
+router/transport/evaluation tests;reviewer/pytest basetemp. An initial reviewer
+command named a nonexistent test file and ran no tests; corrected invocation passed.
+Examples distinct from evaluation families, exact grounding and technical-term
+policy checked; no schema/host/route changes. Actual candidate quality still pending.
+Candidate code9dde229 committed before its inference. Baseline script retains its
+original definition; separate evaluate-candidate.py implements exact routing reuse.
+run-candidate-after-baseline.ps1 waits for baseline/report.json (one-hour maximum)
+before starting candidate inference. Baseline session71133; queued wrapper87552.
+Never start duplicate evaluations while either is alive. Completed stage captures
+are already durable; final reports/verification still pending.
+Docs/ledger gate575passed/11subtests26.38s,exit0,candidate-docs.log; existing Python
+-B -m pytest -q -p no:cacheprovider --basetemp=raw-root/candidate-docs
+tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_phase_state.py;
+TEMP/TMP=raw-root. This is not actual-model quality evidence.

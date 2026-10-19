@@ -1,6 +1,6 @@
 # Current progress
 
-Updated:19October2026,15:09. Phase07 active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,15:27. Phase07 active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
 [standing decision](../2026-10-19-prompt-engineering-and-validation-decision.md),
 [verified baseline correction](../2026-10-19-phase07-inference-baseline-plan.md).
@@ -25,6 +25,13 @@ weights/downloads/installs/locks/registry changes.
 
 ## Open accuracy evidence
 
+Fresh baseline in progress at7b99552(originalv1loaded):procedure-taglish style still
+wrong; completed procedure variants routeRAG correctly. Candidate9dde229 adds six
+balanced unrelated style examples, no route/schema/host changes. RED1failed32passed
+->GREEN145passed3.40s; review no P1/P2,124passed3.31s. Candidate waits for baseline,
+then15fresh styles/15exact-matched baseline routing captures reused. No new accuracy
+claim before complete reports. Task runtime running; see comparison plan.
+
 Prior productbec3d8e six structured cases:6fresh routing/6reused style calls;
 operations/entities/claims6/6,routes5/6. Prerequisite-fil wronglyHybrid.
 Prior full15style profile13/15:procedure-taglish/excluded-taglish wronglyFilipino.
@@ -34,6 +41,9 @@ These differ from current profile; do not merge them into current accuracy.
 Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
 ## Decisions and next action
+
+Read-only hosted check:6applied vs13repository migrations;7Phase05 versions absent.
+[Observed gap](../2026-10-19-hosted-migration-status.md); no DB mutation/activation.
 
 Owner accepts prompt engineering/guards across future initial-build phases, maximum
 one-week added-improvement work before defense. Guidance is inference-time, not
@@ -45,8 +55,7 @@ Curriculum/Prolog; handbook/Charter/memos RAG; Hybrid needs both. English/Filipi
 Taglish preference; final answers/images later. Undergraduate/read-only, source
 gaps, EMPTY_REGISTRY and institutional-release holds remain.
 
-Fresh15-case baseline is running under the explicit profile, both stages captured
-under workspace/audit-evidence/p07-prompt-comparison-20261019/baseline/.
-Next:finish and verify that baseline, then one justified prompt change with matched
-evaluation and no final-family leakage/semantic host override. Stop resolved cache
-and count diagnostics and unchanged retired sweeps. Phase08 gated.
+Next:finish/verify baseline and queued style candidate under workspace/audit-evidence/
+p07-prompt-comparison-20261019/,select or retire it,then regressions/seal/stop runtime.
+No final-family leakage/semantic host override. Stop resolved cache/count diagnostics
+and unchanged retired sweeps. Phase08 gated.

@@ -70,11 +70,11 @@ real-source exits; ledger validity alone does not prove source readiness.
   [authoring/compiler](../backend/bintanong_symbolic/README.md).
 - Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
 - Benchmarks: [evaluation protocol](../evaluation/README.md).
+- Database integration: [hosted migration gap](2026-10-19-hosted-migration-status.md).
 - Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
 
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state; keep durable evidence in dated reports.
-The full pre-cleanup index/progress/checkpoint/handoff are preserved at commit
-`81be71a`. Recover any one with `git show 81be71a:<repository-relative-path>`;
+Full pre-cleanup snapshots:commit`81be71a`; recover with `git show 81be71a:<repository-relative-path>`;
 Do not read historical snapshots during routine resume or copy them back here.
