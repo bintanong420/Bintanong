@@ -5,6 +5,8 @@ Read-only configured Supabase MCP list_migrations returns six applied versions:
 20260920000000,20261012000000,20261012010000,20261012010001,
 20261012010002,20261012010003. Latest recorded migration version dates12October.
 No migration or database mutation performed for this question.
+Configured get_project_url confirms projectjyrudbiuajahsucsorco, matching the
+Phase04 handoff's hosted project. This is not a comparison against a different DB.
 
 Repository supabase/migrations has13files. Seven Phase05 versions are absent from
 the connected hosted migration history:
@@ -36,3 +38,11 @@ the concrete migration set/rollout before applying it within owner-authorized
 deployment scope. Schema synchronization and institutional data/release activation
 are separate actions; neither is authorized by the owner's status question.
 This observation does not block the current local synthetic routing evaluation.
+
+Context7 /supabase/cli migration-history documentation confirms that repository
+files and remote supabase_migrations.schema_migrations history are separate and
+version comparisons alone do not audit actual schema contents. See
+[official migration-list docs](https://github.com/supabase/cli/blob/develop/apps/cli/docs/supabase/migration/list.md).
+Do not mark absent versions applied with migration repair merely to hide the gap;
+first determine actual schema state and the intended rollout. No CLI push, pull,
+repair or schema-changing command was run for this observation.

@@ -6,7 +6,7 @@
 - Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
 - Active phase: **07**, planning started at owner request on19October2026.
 - [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
-  [Accepted design](2026-10-19-phase07-routing-design.md). Owner directed implementation;
+  [Developer handoff](2026-10-19-phase07-cli-handoff.md). Owner directed implementation;
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
   [decoder correction](2026-10-19-phase07-operation-constraint-correction.md):6/6operations,
   5/6routes in fresh structured check; [style profile](2026-10-19-phase07-style-stage-evaluation.md)13/15 unchanged.

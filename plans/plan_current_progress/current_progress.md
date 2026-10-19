@@ -1,61 +1,55 @@
 # Current progress
 
-Updated:19October2026,15:27. Phase07 active in p07/feat/p07-router-taglish-nlp.
-[Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
-[standing decision](../2026-10-19-prompt-engineering-and-validation-decision.md),
-[verified baseline correction](../2026-10-19-phase07-inference-baseline-plan.md).
-Full previous snapshot:29cc8d9:plans/plan_current_progress/current_progress.md.
+Updated:19October2026,15:56. Phase07 active in p07/feat/p07-router-taglish-nlp.
+[Developer handoff](../2026-10-19-phase07-cli-handoff.md), [checkpoint](../phase-07-checkpoint.md),
+[comparison/results](../2026-10-19-phase07-prompt-comparison.md),
+[standing owner decision](../2026-10-19-prompt-engineering-and-validation-decision.md).
+Last full snapshot:0110668:plans/plan_current_progress/current_progress.md.
 
-## Latest verified change
+## Current delivery
 
-Product29cc8d9 makes cache_prompt=false explicit for both decoder modes and records
-request settings separately from allowlisted server defaults. Semantic prompts,
-schemas, host guards and call limits unchanged. No training.
-RED7failed/10passed0.92s ->GREEN106passed3.43s. Independent review:no P1/P2,
-106passed2.29s. Broad24-file gate1577passed/11subtests128.27s,exit0.
-One actual synthetic transport smoke passed;24input tokens,one model call,valid
-JSON. This is no routing/language accuracy result. Evidence verifier passed8sealed
-artifacts again on resume; unchanged semantic modules and runtime inspect=exited.
-Exact commands/settings/evidence in baseline plan; task runtime stopped14:32.
+Owner requested a handoff soon. Baseline is COMPLETE and verified; style candidate
+is RUNNING and not selected. Do not start another baseline or duplicate the candidate.
+Existing sessions:baseline71133complete,candidate87552,completion supervisor63851.
+Raw root:workspace/audit-evidence/p07-prompt-comparison-20261019/.
+Supervisor verifies both reports/comparison, writes completion-status.json and
+stops ONLY bintanong-p07-router-offline; it never selects a product or edits Git.
+Check actual logs/processes/status first after resuming. Exact recovery in handoff.
 
-Server defaults:T1/top_k64/top_p~0.95/min_p~0.05/repeat_penalty1. Requests override
-T0/seed0/reasoning-none; profile=p07-greedy-no-prefix-cache-v1. Cacheoff does not
-prove determinism; fresh evaluation must measure quality. No duplicated setup,
-weights/downloads/installs/locks/registry changes.
+## Verified evidence
 
-## Open accuracy evidence
+Baseline at7b99552,original style-v1 loaded before candidate edits:15cases,30fresh
+model calls,zero repairs/transport failures. Proposals10/15,effective13/15,style13/15;
+entity/claim/operation collections15/15each(6nonempty,9empty),family consistency3/5.
+Verifier passed30captures/35artifacts,minimum3853context headroom. This is dev
+observation, not population/final-answer accuracy. Exact per-language table in report.
+Errors:prerequisite-fil wronglyHybrid,greeting-taglish wronglyRAG; all three
+excluded proposals wronglyRAG but existing audience guard returns unsupported_scope.
+Procedure-taglish/excluded-taglish wronglyFilipino. Host guard success is separate.
 
-Fresh baseline in progress at7b99552(originalv1loaded):procedure-taglish style still
-wrong; completed procedure variants routeRAG correctly. Candidate9dde229 adds six
-balanced unrelated style examples, no route/schema/host changes. RED1failed32passed
-->GREEN145passed3.40s; review no P1/P2,124passed3.31s. Candidate waits for baseline,
-then15fresh styles/15exact-matched baseline routing captures reused. No new accuracy
-claim before complete reports. Task runtime running; see comparison plan.
+Candidate9dde229 adds six balanced unrelated examples to independent style promptv4;
+router/schema/host unchanged. RED1failed32passed1.67s ->145passed3.40s; independent
+review no P1/P2,124passed3.31s. Comparison uses15fresh style calls plus15exact baseline
+routing captures reused, no fresh-route/whole-request latency claim. No final score yet.
+Explicit-profile product29cc8d9 previously passed1577tests/11subtests128.27s;
+no-prefix-cache and reported defaults verified. Candidate final broad gate pending.
+Handoff docs/ledger576passed/11subtests25.98s,exit0;handoff-docs.log.
+Two inherited Docling failures remain; no whole-project-green claim.
 
-Prior productbec3d8e six structured cases:6fresh routing/6reused style calls;
-operations/entities/claims6/6,routes5/6. Prerequisite-fil wronglyHybrid.
-Prior full15style profile13/15:procedure-taglish/excluded-taglish wronglyFilipino.
-These differ from current profile; do not merge them into current accuracy.
-[Prior correction](../2026-10-19-phase07-operation-constraint-correction.md),
-[style report](../2026-10-19-phase07-style-stage-evaluation.md).
-Two inherited Docling failures remain disclosed; no whole-project-green claim.
+## Standing decisions and next action
 
-## Decisions and next action
+Prompt engineering/guards accepted across future phases; no parameter training,
+fine-tuning/LoRA/learned soft prompts. One-week added-improvement cap before defense.
+Numeric95%targets remain proposals. Curriculum/Prolog; handbook/Charter/memos RAG;
+Hybrid needs both. English/Filipino/Taglish style; final answers/images later.
+Undergraduate/read-only/private/source-gap/EMPTY_REGISTRY/release holds preserved.
+Context scope17-18 saved extraction/actual routing PNG refreshed; prior architecture
+pages39-44/58-59/master3/11/12/13 retained, no discrepancy.
 
-Read-only hosted check:6applied vs13repository migrations;7Phase05 versions absent.
-[Observed gap](../2026-10-19-hosted-migration-status.md); no DB mutation/activation.
+Read-only hosted check confirms same project:6applied versions through12October
+vs13repo files;7Phase05 versions absent from history. Actual schema not audited;
+no DB mutation. [Status](../2026-10-19-hosted-migration-status.md).
 
-Owner accepts prompt engineering/guards across future initial-build phases, maximum
-one-week added-improvement work before defense. Guidance is inference-time, not
-parameter training. No fine-tuning/LoRA/learned soft prompts. Numeric95%targets
-remain proposed, not an approved gate. Carry decision into later handoffs.
-Context physical17-18 saved extraction/actual routing PNG refreshed on resume;
-prior39-44/58-59/master3/11/12/13 retained. No scope discrepancy.
-Curriculum/Prolog; handbook/Charter/memos RAG; Hybrid needs both. English/Filipino/
-Taglish preference; final answers/images later. Undergraduate/read-only, source
-gaps, EMPTY_REGISTRY and institutional-release holds remain.
-
-Next:finish/verify baseline and queued style candidate under workspace/audit-evidence/
-p07-prompt-comparison-20261019/,select or retire it,then regressions/seal/stop runtime.
-No final-family leakage/semantic host override. Stop resolved cache/count diagnostics
-and unchanged retired sweeps. Phase08 gated.
+Next:use developer handoff to inspect candidate/supervisor outputs, select or retire
+only this candidate, run verify-final.ps1, seal results/update snapshots and confirm
+runtime shutdown. Preserve all failures/denominators. No new sweep/host override or8.
