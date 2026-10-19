@@ -65,7 +65,7 @@ verify GREEN/relevant regressions, record commands/results and commit.
    source-card identity/locators, decision copying, private-ID exclusion, dependency
    listing semantics and no institutional-answer conversion.
    Consult [orchestration research/context audit](2026-10-19-orchestration-research-and-context-alignment.md).
-2. [ ] Versioned prompts, validation and localized rendering.
+2. [x] Versioned prompts, validation and localized rendering.
    Files:prompt/validation/render; tests/test_generation_validation.py.
    Verify fabricated IDs/wrong version/language/outcome and contradictory or
    unsupported claims rejected; complete support verdict required per claim; final

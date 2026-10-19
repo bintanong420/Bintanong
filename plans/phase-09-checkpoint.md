@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 4
+sequence: 5
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 8ef4033
+head_commit: 12198ee
 working_tree: dirty
 updated_at: 2026-10-19T20:20:00+08:00
 ---
@@ -19,9 +19,11 @@ standing prompt decision. Existing isolation verified; no new worktree needed.
 Research/start record committed8ef4033. Task1 source-card preparation and strict
 draft/check/candidate answer contracts delivered; integration policy reassembled,
 canonical decision copied, locators/private-reference limits preserved.
+Task2 versioned data-separated prompts, deterministic draft checks, complete prose
+verdict validation and localized canonical/fallback rendering delivered.
 
 ## Current Task
-Task2:versioned prompts, draft/support validation and localized canonical rendering.
+Task3:bounded generation/support-check loop and whole-request composition.
 
 ## Repository State
 New Phase09 plan/checkpoint and required index/progress edits; preserve prior files.
@@ -36,6 +38,9 @@ Python3.13 -B -m pytest -q -p no:cacheprovider; external TEMP/TMP/--basetemp;
 five orchestration files,routing validation/contracts,docs and phase-state tests.
 Task1RED6missing-module failures;GREEN35passed0.60s,exit0 (generation evidence+
 orchestration integration);task1-red.log/task1-green.log under same raw root.
+Task2RED17missing-module failures; initialGREEN exposed test fixture outside existing
+namespace scanner's known free-text matching rules; corrected synthetic ID fixture.
+task2-verified.log:114passed1.25s,exit0 (generation evidence/validation+answer contracts).
 
 ## Versions and Digests
 Existing Python3.13 readiness environment; dependencies unchanged.
@@ -64,8 +69,8 @@ flow while preserving thread/grammar/LLM-checker limits. Whole composed request
 deadline added to Phase09 plan; active guide's Phase10/11 labels corrected.
 
 ## Next Action
-Write Task2 RED tests for citation/version/language/outcome/support/final rendering
-before implementing prompt/validation/render modules.
+Write Task3 RED tests for repair/support failure/deadline/session behavior before
+implementing Generator and composed AnswerPipeline.
 
 ## Do Not Repeat
 Do not rerun settled source reviews/accepted question wording/Phase07 prompt sweeps.
