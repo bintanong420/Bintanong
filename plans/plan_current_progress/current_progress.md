@@ -1,26 +1,23 @@
 # Current progress
 
-Updated:19October2026. Phase09 review complete in p09/feat/p09-generation-validation.
+Updated:19October2026. Phase09 bounded model check in p09/feat/p09-generation-validation.
 [Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
-Last full pre-condensation snapshot:65fd482:plans/plan_current_progress/current_progress.md.
+Last full pre-condensation snapshot:3839fbe:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner switched to p09 and requested continuation. Clean starting HEADb844c5f
-retains Phase09 product/closure and algorithm-folder commits; GitHub MCP confirms
-PR13 merged. Phase ledger valid, no active phase. Phase10 remains deferred.
-[Resume review](../2026-10-19-phase09-resume-review.md) records consulted thesis
-17-18/39-44/58-59, actual routing PNG and master3/11/13/14; no new discrepancy.
-Hybrid clarification correction65fd482 withholds definitive decisions/dependency
-lists until both branches permit them; RED9failed/9passed, GREEN126tests2.48s.
-Control missing_facts correctione675d01 preserves preparation/final output and uses
-program/curriculum labels in all three styles. RED6clarifications/2boundary tests;
-GREEN155relevant regressions2.24s. Independent final review:no substantive
-findings,134focused tests passed and nine additional unknown/dependency checks.
-Fresh44-selection offline gate:1857passed/63subtests116.79s,exit0. Product unchanged
-after this gate; no whole-project or real-model accuracy claim. Commands/logs:
-workspace/audit-evidence/p09-resume-review-20261019/.
-Closure docs/phase:595passed/11subtests11.73s;82local links resolve,diff/phase checks pass.
+Owner requested continuation after the completed p09 review. The remaining bounded
+[model question](../2026-10-19-phase09-structured-generation-observations.md) concerns
+actual Symbolic/Hybrid explanations:one existing six-variant batch at240seconds,
+unchanged prompts/decoding/default120seconds. Local model health is ok; no startup.
+Prepared cases/runtime/code hashes will be sealed before inference. No result yet.
+Reconsulted thesis17-18/39-40,actual routing PNG/master3/14; no discrepancy.
+Phase ledger valid,no active numbered phase; Phase10 remains deferred.
+
+[Completed resume review](../2026-10-19-phase09-resume-review.md):65fd482 withholds
+premature Hybrid conclusions;e675d01 preserves useful missing-program/curriculum
+clarifications. Scoped gate1857passed/63subtests116.79s;independent final review
+found no substantive issues. No product changes after that gate; no rerun needed.
 
 Owner requested a dedicated [backend/algorithms folder](../../backend/algorithms/README.md)
 for panel/paper inspection. Canonical cosine/L2 math and generic Prolog engine moved
@@ -73,6 +70,5 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-Owner review of the delivered Phase09 candidate and disclosed model limitations;
-keep Phase10 deferred despite formal ledger eligibility. Do not repeat completed
-gates/model experiments without changed code or a bounded unresolved question.
+Seal exact six-case/runtime manifests,observe Symbolic/Hybrid once,then assess
+all surviving claims and languages. Preserve120s/RAG results separately; Phase10 deferred.
