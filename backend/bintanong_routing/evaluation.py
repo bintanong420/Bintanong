@@ -16,6 +16,7 @@ from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from .contracts import CatalogEntry, RequestContext, prepare_query
 from .prompt import PROMPT_SHA256, PROMPT_VERSION, digest, output_schema
 from .router import Router
+from .style import STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, style_output_schema
 from .transport import LlamaTransport
 from .validation import OPERATIONS, _matches
 
@@ -99,6 +100,9 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
             operation_correct=operations == tuple(sorted(c.expected_operations)),
             style_correct=result.response_style == c.expected_style,
             diagnostic=result.diagnostic, attempts=result.attempts,
+            style_attempts=result.style_attempts, inference_calls=result.inference_calls,
+            repair_attempts=result.repair_attempts,
+            style_evidence=result.style_evidence.model_dump(mode='json') if result.style_evidence else None,
             offset_corrections=result.offset_corrections,
             entities=entities, claims=claims, operations=operations, response_style=result.response_style,
             seconds=time.monotonic() - started,
@@ -119,9 +123,11 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
     for r in records:
         family_signatures[r['family_id']].append((r['proposed'], r['entities'], r['claims'], r['operations']))
     compared = [values for values in family_signatures.values() if len(values) > 1]
-    report = dict(schema_version='bintanong-routing-evaluation-v1', total=len(cases),
+    report = dict(schema_version='bintanong-routing-evaluation-v2', total=len(cases),
         metadata=metadata, prompt_version=PROMPT_VERSION, prompt_sha256=PROMPT_SHA256,
         schema_sha256=digest(output_schema()), case_set_sha256=digest([c.model_dump(mode='json') for c in cases]),
+        style_prompt_version=STYLE_PROMPT_VERSION, style_prompt_sha256=STYLE_PROMPT_SHA256,
+        style_schema_sha256=digest(style_output_schema()),
         catalog_sha256=digest([c.model_dump(mode='json') for c in router.catalog]),
         runtime=dict(getattr(router.transport, 'metadata', {})),
         proposal_matrix={k:dict(v) for k,v in proposal_matrix.items()},
@@ -129,7 +135,10 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         diagnostics=dict(diagnostics), per_language={k:dict(v) for k,v in per_language.items()},
         family_compared=len(compared),
         family_consistent=sum(len(set(v)) == 1 and v[0][0] != 'invalid' for v in compared),
-        repair_attempts=sum(r['attempts'] - 1 for r in records), records=records,
+        repair_attempts=sum(r['repair_attempts'] for r in records), records=records,
+        inference_calls=sum(r['inference_calls'] for r in records),
+        routing_calls=sum(r['attempts'] for r in records),
+        style_calls=sum(r['style_attempts'] for r in records),
         offset_corrected_cases=sum(r['offset_corrections'] > 0 for r in records),
         offset_corrections=sum(r['offset_corrections'] for r in records),
         institutional_approval=False, activation_allowed=False)

@@ -6,8 +6,8 @@ import pytest
 
 from backend.bintanong_routing.contracts import RequestContext
 from backend.bintanong_routing.router import Router
-from test_routing_contracts import context, proposal
-from test_routing_router import FakeTransport
+from test_routing_contracts import context
+from test_routing_router import FakeTransport, proposal
 from test_routing_validation import catalog, registry
 
 
@@ -91,3 +91,11 @@ def test_wrong_operation_target_fails_meaning_even_when_all_mentions_are_correct
         expected_operations=['check_prerequisite_eligibility:curriculum-a:course-a'])], value)
     assert report['proposal_correct'] == 1 and report['entity_correct'] == 1
     assert report['operation_correct'] == 0 and report['records'][0]['operation_correct'] is False
+
+
+def test_report_retains_style_evidence_without_turning_it_into_a_fact():
+    report = evaluate([case()], proposal(language='en'), proposal(language='en'))
+    row = report['records'][0]
+    assert row.get('style_evidence') is not None
+    assert row['style_evidence']['english_fragments'] == ['A1']
+    assert row['claims'] == () and row['style_correct']

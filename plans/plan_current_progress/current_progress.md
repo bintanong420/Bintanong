@@ -53,8 +53,8 @@ Context thesis17-18/39-44/routing PNG consulted; scope17-18 refreshed on recover
 Phase06 acceptance, source authority/activation holds and unknown rules unchanged.
 
 Resumed98aa714 with [response-style design](../2026-10-19-phase07-response-style-design.md).
-Builder check complete. Standalone style contract RED32 ->GREEN75,2.21s; not yet
-integrated. Actual five-case wire prototype style5/5/routes4/5:one prerequisite-only
-query incorrectly Hybrid. Focused original Symbolic/Hybrid pair is running with
-clarified existing evidence semantics. Next:inspect pair before wire integration/
-RED-GREEN/full15-case verification. No host override or phase advancement.
+Combined-wire prototype style5/5 but altered routing/operation output; retired.
+Two independent calls to the same Bintu now preserve routing input and ground style
+separately. Shared one-repair budget:normal2/max3calls. RED35/18passed ->GREEN127,
+1.34s. Next:commit integration, inspect review and full15-case composition with exact
+saved routing captures/fresh style, plus selected fresh two-stage requests. Phase07 open.

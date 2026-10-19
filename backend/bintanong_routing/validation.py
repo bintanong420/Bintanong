@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
 from .contracts import CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
+from .style import StyleEvidence
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
 
@@ -31,6 +32,16 @@ class RoutingResult:
     program_id: str | None = None
     curriculum_id: str | None = None
     offset_corrections: int = 0
+    style_attempts: int = 0
+    style_evidence: StyleEvidence | None = None
+
+    @property
+    def inference_calls(self):
+        return self.attempts + self.style_attempts
+
+    @property
+    def repair_attempts(self):
+        return max(self.attempts - 1, 0) + max(self.style_attempts - 1, 0)
 
 
 def anchor_unique_quotes(data, text):

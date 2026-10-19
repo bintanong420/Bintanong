@@ -72,6 +72,45 @@ well. A fixed two-case check reuses prerequisite-taglish and affected-procedure-
 taglish to test BOTH sides before integration/full15evaluation. No host route
 override or expected-label change; not a temperature/wording sweep.
 
+## Revised separation after observed interference
+
+The pair gives2/2proposed routes/styles but only1/2effective outcomes:the Hybrid
+case adds an unrequested eligibility operation to list_affected_courses. Preserve
+that failed combined-wire experiment; do not adopt it or add another wording patch.
+
+Builder implementation choice:use two independently observable calls to the SAME
+Bintu model, as master12.1permits. Keep verified routing prompt/schema/messages
+unchanged (v6,canonical interpretation-v1). A separate style-only structured call
+receives original_text and cannot emit routes, audiences, operations or policy.
+Its response is versioned bintanong-response-style-v1 wrapping StyleEvidence.
+This separates language-style output from routing-token generation, not a new
+trained classifier. The combined wire-v2 adapter is retired before integration.
+
+Run routing interpretation first, then style; neither executes an evidence tool.
+After grounding, project ONLY the model-selected style into canonical language
+metadata for validation; retain the original routing proposal separately. Return
+immutable style evidence alongside accepted response_style/query hints. Unknown
+style clarifies in-scope requests; excluded audiences still take precedence.
+Style/schema failures share ONE format-repair allowance with routing:normal2calls,
+maximum3total. Grounding failures never retry semantically and expose accepted
+style unknown. Count routing/style calls and repairs explicitly in evaluation.
+
+Reuse already completed routing captures ONLY when exact prompts/messages/schema
+and generation configuration match. Fresh style calls plus current deterministic
+composition can validate the same15cases without repeating15identical routing
+inferences. Report reuse provenance; this is not a live latency benchmark. Also
+verify fresh full two-stage execution on selected cases before closure. No new
+question wording, scope/registry/source change or Phase08 work.
+
+Revised-stage TDD:RED35failed/18passed, then GREEN127across all six routing suites,
+1.34s,exit0. Four stale test-helper references were corrected before final GREEN;
+no change to the production routing prompt/schema. style-stages-red.log,
+style-stages-green.log and style-stages-final-green.log retain exact results.
+Shared-budget, grounding failure, unknown precedence, style-only input privacy and
+independent accepted style versus original routing-language metadata are covered.
+The abandoned combined-wire projection/decoder was removed; no legacy style-output
+fallback is introduced. Actual full15-case composition evaluation remains pending.
+
 Implementation uses existing Python/Pydantic/runtime only. No installs, weights,
 institutional data, final answers, API or Phase08 work. New tracked tests remain synthetic.
 Context scope pages17-18 and routing PNG refreshed; master12 permits shared-call logical

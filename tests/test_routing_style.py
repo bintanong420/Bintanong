@@ -4,7 +4,6 @@ from itertools import product
 
 import pytest
 
-from backend.bintanong_routing.contracts import Interpretation
 from test_routing_contracts import proposal
 
 
@@ -18,9 +17,7 @@ def evidence(name='taglish', english=('request',), filipino=('Paano',)):
 
 
 def wire(style=None, **updates):
-    value = proposal(mentions=[], operations=[], route='RAG')
-    value.pop('language')
-    value.update(schema_version='bintanong-router-proposal-v2',
+    value = dict(schema_version='bintanong-response-style-v1',
                  style=evidence() if style is None else style)
     value.update(updates)
     return value
@@ -34,16 +31,16 @@ def test_style_schema_and_python_agree_on_evidence_combinations(name, english, f
               'taglish':(True,True), 'unknown':(False,False)}[name]
     valid = (bool(english), bool(filipino)) == wanted
     data = wire(evidence(name, english, filipino))
-    schema = api().model_schema(Interpretation.model_json_schema())
+    schema = api().style_output_schema()
     assert jsonschema.Draft202012Validator(schema).is_valid(data) is valid
     if valid:
-        canonical, style = api().decode_model_proposal(data)
-        assert canonical.language == {'english_only':'en','filipino':'fil',
+        style = api().StyleProposal.parse(data).style
+        assert style.language == {'english_only':'en','filipino':'fil',
             'taglish':'taglish','unknown':'unknown'}[name]
         assert style.preferred_response_style == name
     else:
         with pytest.raises(ValueError):
-            api().decode_model_proposal(data)
+            api().StyleProposal.parse(data)
 
 
 @pytest.mark.parametrize('text,fragment,valid', [
@@ -69,27 +66,27 @@ def test_style_fragments_are_bounded_nonblank_strings(english):
         api().StyleEvidence.parse(evidence('english_only', english, ()))
 
 
-def test_wire_decode_is_lossless_for_routing_and_keeps_style_separate_from_facts():
+def test_style_proposal_is_independent_of_routes_and_student_facts():
     value = wire()
-    canonical, style = api().decode_model_proposal(value)
-    style.ground('Paano ako mag-request?')
-    assert canonical.route == 'RAG' and canonical.language == 'taglish'
-    assert canonical.claims == () and canonical.operations == () and canonical.mentions == ()
-    assert style.english_fragments == ('request',)
-    assert 'style' in value and 'language' not in value  # caller's proposal untouched
-    assert canonical.schema_version == 'bintanong-interpretation-v1'
+    parsed = api().StyleProposal.parse(value)
+    parsed.style.ground('Paano ako mag-request?')
+    assert parsed.style.language == 'taglish'
+    assert parsed.style.english_fragments == ('request',)
+    for extra in [dict(route='Symbolic'), dict(claims=[]), dict(operations=[])]:
+        with pytest.raises(ValueError):
+            api().StyleProposal.parse(dict(value, **extra))
 
 
 @pytest.mark.parametrize('value', [proposal(), wire(language='en'), wire(extra='ignored'),
     wire(style=dict(evidence(), extra='ignored'))])
 def test_legacy_extra_and_conflicting_wire_fields_cannot_bypass_style(value):
     with pytest.raises(ValueError):
-        api().decode_model_proposal(value)
+        api().StyleProposal.parse(value)
 
 
-def test_model_schema_preserves_canonical_schema_and_uses_shared_style_definition():
-    base = Interpretation.model_json_schema()
-    schema = api().model_schema(base)
-    assert 'language' in base['properties'] and 'style' not in base['properties']
-    assert schema['properties']['style'] == {'$ref':'#/$defs/ResponseStyleEvidence'}
-    assert schema['properties']['schema_version']['const'] == 'bintanong-router-proposal-v2'
+def test_style_schema_is_versioned_and_cannot_accept_a_routing_proposal():
+    jsonschema = pytest.importorskip('jsonschema')
+    schema = api().style_output_schema()
+    assert schema['properties']['schema_version']['const'] == 'bintanong-response-style-v1'
+    assert not jsonschema.Draft202012Validator(schema).is_valid(proposal())
+    assert set(schema['properties']) == {'schema_version', 'style'}

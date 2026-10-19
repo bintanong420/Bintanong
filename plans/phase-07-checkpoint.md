@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 21
+sequence: 22
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 98aa714
-working_tree: style contract/tests, response-style design and checkpoint/progress
-updated_at: 2026-10-19T11:24:00+08:00
+head_commit: 3ec6238
+working_tree: two-stage style integration, evaluation/tests/docs and checkpoint/progress
+updated_at: 2026-10-19T11:43:57+08:00
 ---
 
 # Phase07 checkpoint - scope corrected, Taglish style open
@@ -24,10 +24,10 @@ all15selected development cases, while Taglish style remains wrong.
 ## Current Task
 
 Resumed98aa714. [Response-style design](2026-10-19-phase07-response-style-design.md)
-builder checked. New standalone style contract RED32 ->GREEN75,2.21s; not wired
-into Router. Fixed prototype style5/5,route4/5:prerequisite-only request incorrectly
-Hybrid. Focused existing Symbolic-vs-Hybrid semantics correction runs on two cases.
-No adopted configuration or whole-router style-success claim yet.
+builder checked. Combined-wire prototype style5/5 but route/operation interference;
+retired. Two independent Bintu calls now preserve verified routing input and ground
+style separately. One shared repair:normal2/max3calls. RED35/18passed ->GREEN127,
+1.34s. Review/full15-case composition pending; no model-style success claim yet.
 Native-thinking probe is not adopted; no Phase07 final handoff/Phase08 advancement.
 
 ## Repository State
@@ -96,9 +96,9 @@ prospectus defects and two inherited Docling failures remain unchanged.
 
 ## Next Action
 
-Finish focused Symbolic/Hybrid pair; if both correct, integrate wire decoding and
-observable style evidence with RED/GREEN, review and full15-case evaluation.
-Preserve existing guards; no host route override or parameter sweeps.
+Commit verified stage integration, run full15-case composition using exact saved
+routing captures plus fresh style calls, then selected fresh two-stage requests.
+Inspect independent review/full regressions; preserve all release guards.
 
 ## Do Not Repeat
 

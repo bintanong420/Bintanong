@@ -5,8 +5,20 @@ import json
 import pytest
 
 from backend.bintanong_routing.contracts import RequestContext
-from test_routing_contracts import context, proposal
+from test_routing_contracts import context, proposal as canonical_proposal
 from test_routing_validation import catalog, registry
+
+
+proposal = canonical_proposal
+
+
+def style_proposal(language='taglish', *, english=None, filipino=None):
+    # Synthetic protocol fixtures do not assert that A1 is linguistic evidence.
+    return dict(schema_version='bintanong-response-style-v1', style=dict(
+        english_fragments=(['A1'] if language in ('en','taglish') else []) if english is None else english,
+        filipino_fragments=(['A1'] if language in ('fil','taglish') else []) if filipino is None else filipino,
+        preferred_response_style={'en':'english_only','fil':'filipino',
+                                  'taglish':'taglish','unknown':'unknown'}[language]))
 
 
 def api():
@@ -14,12 +26,20 @@ def api():
 
 
 class FakeTransport:
-    def __init__(self, *outputs):
+    def __init__(self, *outputs, style_outputs=None):
         self.outputs = list(outputs)
+        self.style_outputs = list(style_outputs) if style_outputs is not None else None
         self.calls = []
+        self.last_routing = None
+
     async def infer(self, messages, schema):
         self.calls.append((messages, schema))
-        value = self.outputs.pop(0)
+        if schema['properties']['schema_version'].get('const') == 'bintanong-response-style-v1':
+            value = (self.style_outputs.pop(0) if self.style_outputs is not None else
+                     json.dumps(style_proposal(json.loads(self.last_routing)['language'])))
+        else:
+            value = self.outputs.pop(0)
+            self.last_routing = value
         if isinstance(value, Exception):
             raise value
         return value
@@ -69,7 +89,7 @@ def test_second_invalid_output_is_unavailable_not_rag():
 def test_semantic_hold_does_not_repair_or_fall_back():
     transport = FakeTransport(json.dumps(proposal(ambiguities=['uncertain'])))
     result = run(transport)
-    assert result.decision.control == 'clarify' and len(transport.calls) == 1
+    assert result.decision.control == 'clarify' and len(transport.calls) == 2
 
 
 def test_false_grounding_is_unavailable_without_a_semantic_repair():
@@ -77,7 +97,7 @@ def test_false_grounding_is_unavailable_without_a_semantic_repair():
     transport = FakeTransport(json.dumps(value))
     result = run(transport)
     assert result.diagnostic == 'invalid_grounding' and not result.decision.dispatchable
-    assert len(transport.calls) == 1
+    assert len(transport.calls) == 2
 
 
 def test_timeout_stops_without_format_repair():
@@ -154,7 +174,7 @@ def test_unique_literal_quotes_anchor_bad_model_offsets_without_changing_meaning
     assert result.decision.route == 'Symbolic' and result.offset_corrections == 3
     assert result.claims[0].state == 'failed' and result.claims[0].text == 'I failed A1.'
     assert result.proposed.mentions[0].start == text.index('A1')
-    assert len(transport.calls) == 1
+    assert len(transport.calls) == 2
 
 
 def test_ambiguous_repeated_quote_cannot_repair_invalid_model_offsets():
@@ -177,3 +197,83 @@ def test_private_ownership_and_scenario_identifiers_never_enter_model_input():
     assert result.query.session_fact_refs == ('fact-private-record',)
     data = json.loads(transport.calls[0][0][1]['content'])
     assert data['context']['facts'] == [{'course_id':'course-a','state':'passed'}]
+
+
+def test_grounded_style_evidence_is_observable_and_separate_from_student_facts():
+    value = proposal(language='fil', mentions=[], operations=[], route='RAG')
+    style = style_proposal(english=['request'], filipino=['Paano'])
+    transport = FakeTransport(json.dumps(value), style_outputs=[json.dumps(style)])
+    router = api().Router(transport, documents_available=True)
+    result = asyncio.run(router.route('Paano ako mag-request?', RequestContext.parse(context())))
+    assert result.decision.route == 'RAG' and result.response_style == 'taglish'
+    assert result.proposed.language == 'fil'  # original routing interpretation remains observable
+    assert result.style_evidence.english_fragments == ('request',)
+    assert result.query.language_hints == ('tl','en')
+    assert result.query.session_fact_refs == () and result.claims == ()
+    assert result.inference_calls == len(transport.calls) == 2
+    assert result.repair_attempts == 0
+
+
+@pytest.mark.parametrize('repaired', [False, True])
+def test_ungrounded_style_never_dispatches_or_retries_semantically(repaired):
+    value = json.dumps(proposal(language='en'))
+    outputs = ['bad json', value] if repaired else [value]
+    style = style_proposal('en', english=['invented'])
+    transport = FakeTransport(*outputs, style_outputs=[json.dumps(style)])
+    result = run(transport)
+    assert result.diagnostic == 'invalid_grounding' and not result.decision.dispatchable
+    assert result.response_style == 'unknown' and result.style_evidence is None
+    assert result.query.language_hints == ()
+    assert len(transport.calls) == (3 if repaired else 2)
+
+
+@pytest.mark.parametrize('audience,control', [('undergraduate','clarify'),('excluded','unsupported_scope')])
+def test_unknown_style_preserves_audience_precedence(audience, control):
+    value = proposal(audience=audience)
+    result = run(FakeTransport(json.dumps(value),
+        style_outputs=[json.dumps(style_proposal('unknown'))]))
+    assert result.decision.control == control and result.response_style == 'unknown'
+    assert result.style_evidence.preferred_response_style == 'unknown'
+
+
+def test_routing_output_cannot_bypass_required_style_evidence():
+    raw = json.dumps(proposal())
+    result = run(FakeTransport(raw, style_outputs=[raw, raw]))
+    assert result.diagnostic == 'invalid_style_output' and not result.decision.dispatchable
+
+
+def test_style_format_repair_uses_the_one_shared_allowance():
+    transport = FakeTransport(json.dumps(proposal()),
+        style_outputs=['bad json', json.dumps(style_proposal())])
+    result = run(transport)
+    assert result.decision.route == 'Symbolic'
+    assert result.attempts == 1 and result.style_attempts == 2
+    assert result.inference_calls == 3 and result.repair_attempts == 1
+    repair = transport.calls[-1][0][-1]['content']
+    assert 'original_text' in repair and 'A1' in repair
+
+
+def test_routing_repair_leaves_no_second_repair_for_style():
+    transport = FakeTransport('bad json', json.dumps(proposal()),
+        style_outputs=['bad json', json.dumps(style_proposal())])
+    result = run(transport)
+    assert result.diagnostic == 'invalid_style_output' and not result.decision.dispatchable
+    assert result.attempts == 2 and result.style_attempts == 1
+    assert result.inference_calls == len(transport.calls) == 3
+    assert result.repair_attempts == 1
+
+
+def test_style_timeout_stops_without_any_extra_call():
+    from backend.bintanong_routing.transport import RuntimeFailure
+    transport = FakeTransport(json.dumps(proposal()),
+        style_outputs=[RuntimeFailure('model_timeout')])
+    result = run(transport)
+    assert result.diagnostic == 'model_timeout' and result.response_style == 'unknown'
+    assert result.style_attempts == 1 and len(transport.calls) == 2
+
+
+def test_style_stage_receives_only_the_original_question():
+    transport = FakeTransport(json.dumps(proposal()))
+    run(transport)
+    payload = json.loads(transport.calls[1][0][1]['content'])
+    assert payload == {'original_text':'A1'}

@@ -1,7 +1,10 @@
 # Offline multilingual LLM routing
 
 This Phase07 module interprets English, Filipino and Taglish with a supplied local
-LLM. It returns a model proposal and a separately validated shared RoutingDecision.
+LLM. It returns the routing proposal, independently grounded style evidence and a
+separately validated shared RoutingDecision. Two calls use the SAME Bintu model:
+the verified routing prompt stays unchanged; style interpretation receives only the
+original question and cannot emit routes, audiences, operations or policy.
 It does not retrieve documents, execute Prolog, generate student answers, publish an
 API or activate institutional data. The historical API BintuClient/Direct adapter
 remains separate and cannot dispatch through this module.
@@ -43,7 +46,13 @@ compound operations, conflicting assertions and nonasserted hypothetical/reporte
 facts withhold dispatch. Missing unmentioned grades remain unknown; no full
 transcript is required simply to name a supported operation.
 
-The selected response_style is en, taglish, fil or unknown. English requests should
+The selected response_style is en, taglish, fil or unknown. Bintu quotes literal
+English/Filipino fragments and selects a conversational style. The host checks
+bounded structure/count consistency and exact original-text containment, then maps
+that selection losslessly to language metadata. It has no word-list classifier.
+Literal provenance cannot prove the fragment's language; model evaluation remains
+necessary. The original routing proposal's language remains observable, while query
+hints/accepted response_style come from the style interpretation. English requests should
 receive English, Taglish natural Taglish, Filipino predominantly Filipino with
 useful English technical terms. Language does not change evidence routing.
 This metadata carries the preference to later generation; no final-language quality
@@ -56,8 +65,11 @@ It reserves max_output_tokens plus eight tokens within actual n_ctx for the whol
 chat, including any repair. The model's tokenizer/template is used, not SEA-LION.
 JSON-schema decoding is the default; explicit constrained=False uses JSON-only
 decoding with the same strict backend validation. There is no automatic downgrade.
-The decoder schema has disjoint route/control branches. Exactly one format/schema
-repair is allowed; it reanchors the original question. Grounding/capability holds
+The routing decoder has disjoint route/control branches; style has its own strict
+versioned schema. Exactly one format/schema repair is SHARED across both calls:
+normal two calls, maximum three. attempts counts routing calls, style_attempts counts
+style calls, inference_calls counts both, repair_attempts counts repairs alone.
+Repair reanchors the original question. Grounding/capability holds
 do not cause semantic retry or a cheaper RAG route. HTTP bodies are bounded and
 errors expose only fixed operational codes. No module logs raw queries or grades.
 
@@ -87,7 +99,8 @@ scores proposed evidence/control labels, effective guarded labels, canonical
 entities, scoped operation names/targets, claim meaning and response style.
 Each case requires expected_operations (empty for no operation); bindings use
 operation:curriculum_id:course_id. Invalid/failing outputs stay in every
-relevant denominator. Equivalent-family consistency and per-language counts are
+relevant denominator. Report v2 adds style prompt/schema identity, grounded style
+evidence and explicit per-stage/call/repair counts. Equivalent-family consistency and per-language counts are
 separate from accuracy. A safe guard cannot make a wrong proposal correct.
 evaluation_kind=mock proves only test/harness behavior, never model accuracy.
 
