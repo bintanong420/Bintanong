@@ -1,8 +1,8 @@
-# Phase07 developer handoff - audience consistency correction
+# Phase07 developer handoff - requested-work candidate running
 
 Updated19October2026 after continuation. Phase07 remains IN PROGRESS; this is
 not a complete numbered-phase handoff and does not authorize Phase08.
-Last full snapshot:00a0e68:plans/2026-10-19-phase07-cli-handoff.md.
+Last full snapshot:c7382dc:plans/2026-10-19-phase07-cli-handoff.md.
 
 ## Start here
 
@@ -43,24 +43,12 @@ Proposals10/15,effective13/15,styles13/15;entity/claim/operation collections15/1
 (6nonempty,9empty),family consistency3/5. Per-language counts in report. Synthetic
 observations only; distinct from75accepted institutional variants and final tests.
 
-Candidate interrupted:21captures,11exact reused routes/10fresh completed styles.
-No candidate/report.json. Container exited255,OOMKilled=false; cause unestablished.
-No model calls added on resume. Paired subset baseline9/10style vs candidate8/10;
-zero fixes,one new prerequisite-fil error:neutral B1 code counted as English.
-procedure-taglish still incorrectly Filipino. Five planned outputs incomplete,
-including unfinished req-0011. No full15-case candidate score; missing not failures.
-Observed regression already fails no-new-regressions selection criterion; early
-retirement avoids calls that cannot restore acceptability. Keep style-v1.
+Prior style-v4 retired after10completed pairs:baseline9/10style,candidate8/10,
+zero fixes/one new error. Five outputs incomplete;no full15candidate claim.
+Restoration833d2f4 retained audience/profile work. Full evidence and source seals
+remain in the comparison report;do not resume retiredv4 or old87552/63851jobs.
 
-verify-retired-candidate.py passed code/schema/request/profile/grounding checks
-for all21captures and exact baseline reuse. retired-candidate-comparison.json
-seals SHA256s;retirement-verification.log;completion-status.json records
-retired_early_on_observed_regression,runtime_stopped=true. Task container
-bintanong-p07-router-offline STOPPED after retirement and after new scope check.
-No live87552/63851jobs. Old --resume and
-supervisor instructions obsolete; do not restart retired evaluations.
-
-## Latest scope correction and current task
+## Completed audience correction
 
 Productdfa16d2 constrains existing host audience precedence:excluded/unrelated ->
 unsupported_scope;unknown -> clarify, preserving compound details. Four original
@@ -81,13 +69,37 @@ excluded-three/report.json and manifest.json sealed;verification.log. Runtime
 STOPPED,confirmed by runtime-stop.json and docker inspection. Do not rerun this
 resolved scope check. Productdfa16d2,checkpoint464f276;latest docs wrapper in Git.
 
-Baseline residuals:prerequisite-fil wronglyHybrid,greeting-taglish wronglyRAG,
-procedure-taglish/excluded-taglish styles wronglyFilipino. Three excluded prior
-RAG proposals were guarded correctly; selected check addresses consistency,
-not previously unsafe dispatch. Four own-rule unknowns/full-prospectus defects remain.
-Next:review the two remaining route errors and two style
-errors from saved captures; propose one bounded correction only if evidence supports
-it. Do not start a prompt/seed/schema-order sweep or claim Phase07 completion.
+## Current candidate - inspect before restarting anything
+
+[Requested-work routing candidate](2026-10-19-phase07-requested-work-prompt.md)
+be39e67 adds7guidance lines,versionv9;schema/order/host/style unchanged.
+Saved actual target RED2failed;integrity176passed1.85s;review no P1/P2,176passed1.93s.
+Targets now both corrected:prerequisite-filSymbolic,greeting-taglishgreeting,
+0repairs/no previously correct component regressed. Twelve cases completed
+without regression;three scope controls running. No full15candidate score yet.
+
+Raw root:workspace/audit-evidence/p07-requested-work-20261019/.
+Live session35472 runs evaluate-requested-work.py;read evaluation.log and saved
+candidate/<case_id>-report.json. Aggregate report.json/input.json and root
+completion-status.json are written when the run stops. Three freshv8scope plus
+12v7nonexcluded references are composed for regression checks,not a freshv8baseline.
+Fresh routing/exact style reuse only;no fresh-style/two-stage latency claim.
+Script stops task container in finally and retires at first new control regression.
+Do not duplicate a live client or rerun completed/rejected cases. There is no
+--resume implementation here;an interruption requires inspecting saved evidence
+and live processes before any recovery decision,not restarting the script.
+
+Offline verifier repair issue resolved:4failed ->4passed;independent reviewer
+confirmed. Helper checks format failure/repair linkage and preserves failed final
+attempts;no product/live-evaluator changes. Aggregation sanity check reproduces
+all verified baseline metrics/matrices/IDs without model calls.
+Next:wait for current run;inspect completion-status/report,run verify-evidence.py,
+retain/retire ONLY this candidate,then run verify-final.ps1 and update snapshots.
+For retirement first verify no independent edits to prompt.py/README sincebe39e67,
+then restore only those two own paths tobe39e67^ (preserves audience correction).
+For retention remove README's pending-candidate wording only after evidence passes.
+No second prompt/seed/schema-order sweep. Two style errors remain independent;
+no Phase07 completion/Phase08 advancement inferred.
 
 ## Runtime and separate database boundary
 

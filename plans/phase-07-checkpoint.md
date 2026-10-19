@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 45
+sequence: 47
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: c21dee6
+head_commit: c7382dc
 working_tree: requested-work candidate report and checkpoint/progress docs
-updated_at: 2026-10-19T17:26:00+08:00
+updated_at: 2026-10-19T17:49:00+08:00
 ---
 
 # Phase07 checkpoint - requested-work prompt candidate running
@@ -119,7 +119,9 @@ be39e67 is committed;style/decoder/host unchanged. Saved actual targets RED2fail
 integrity176passed1.85s;independent no P1/P2,176passed1.93s. Semantic GREEN pending.
 Targets now both correct:prerequisite-filSymbolic,greeting-taglishgreeting;
 no previously correct component regressed,0repairs. Actual target semantic GREEN;
-full candidate acceptance pending. Next:session35472 runs remaining13controls.
+full candidate acceptance pending. Twelve cases complete without regression:
+all academic and greeting variants. Three excluded-scope controls now running
+in session35472. Inspect saved per-case reports;aggregate report comes last.
 Offline verifier repair bug resolved with RED4failed ->GREEN4passed;reviewer confirms;
 no product/live-evaluator changes or new inference. Inspect evaluation.log,
 candidate captures/report and completion-status.json under raw root
