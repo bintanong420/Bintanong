@@ -76,3 +76,123 @@ and answer-language guidance. Seven unrelated illustrative language examples are
 development teaching material, not the15evaluation questions or institutional data.
 No unit test merely asserts prompt prose; actual same-wording model evaluation is
 the regression test for language behavior. No result yet inferred for v6.
+
+Independent read-only review dd40c08..d019318: no P1/P2 findings. Schema alternatives
+are disjoint, terminal contract/decoder agree, compound clarification remains valid,
+and actual v5 capture orders route/control before action arrays. Fresh routing84tests
+passed2.65s; no code edits or new model calls. Earlier implementation/source review
+and actual v6 semantic accuracy were outside that review.
+
+## Conditional native-thinking component check
+
+If completed v6 still mislabels style, stop prompt rewriting. Student capability:
+match Filipino/Taglish conversation style. Exit question:does Gemma's native thinking
+mode distinguish code-switching where direct constrained JSON still fails? Evidence:
+same v6 prompt/schema/full router, existing Gemma, three original cases
+(procedure-fil/procedure-taglish/greeting-taglish), no compact classifier pass.
+The actual pinned /props template supports enable_thinking; current official Gemma4
+parser/server docs confirm template kwargs and extracted reasoning support. A
+throwaway probe enables it identically for preflight/generation, requests128thinking
+tokens within1024total, timeout240s. Retain final JSON, settings, usage/trace-size
+metadata only, never thought text. This probe changes no production transport;
+adoption would require focused RED/GREEN and whole-router model verification.
+Stop after this fixed check; no sweep or weight changes.
+
+## Usage-limit interruption recovery
+
+Owner10:58 resumes after exhausted usage. Git productd019318 unchanged, three
+documentation files preserved. Full regression already completed1511/11subtests,
+176.94s,exit0. Actual v6 run stopped after10captured cases; no final report existed.
+Task-owned runtime was stopped. Restart only that existing container, wait for
+health, then reuse the10exact captures only if input/messages/schema still match;
+run the five missing cases. Report replay provenance and non-comparable elapsed
+times. Preserve the original partial log/captures. Native-thinking probe had not
+started; retain its fixed conditional scope rather than repeat any earlier work.
+
+## Completed promptv6 result
+
+Product d019318, same canonical15-case set and catalog; no expected label or host
+ownership/scenario ID entered model input.10captures were replayed only after exact
+message/schema equality checks; five missing cases ran after runtime health=ok.
+The combined report records this recovery explicitly. Replay durations are not
+model latency; the original partial log remains untouched. No repeated inference
+for the first10cases. No format repairs were needed.
+
+| Language | Cases | Correct proposed/effective path | Entity/claim/operation collections | Correct style |
+| --- | ---: | ---: | ---: | ---: |
+| English | 5 | 5/5 | 5/5 | 5/5 |
+| Filipino | 5 | 5/5 | 5/5 | 5/5 |
+| Taglish | 5 | 5/5 | 5/5 | 0/5 |
+| Total | 15 | 15/15 | 15/15 | 10/15 |
+
+Both route confusion matrices are diagonal: RAG3,Symbolic3,Hybrid3,greeting3,
+unsupported_scope3. Equivalent-family route/entity/claim/operation consistency5/5.
+Nine positive evidence paths validate; all three excluded-program notices now work.
+Six substantive operation/claim collections are correct; nine empty collections
+also contribute to15/15, so this is not15successful prerequisite checks.
+18unique exact-quote offset corrections in9cases; these are guarded pipeline
+results, not unaided model offset accuracy. No source retrieval/rule execution or
+final student answer occurred.
+
+All five Taglish variants are mislabeled fil. Compared with v4, scope and pure
+Filipino labels improve but two formerly correct Taglish labels regress. The v6
+language examples do not solve the requirement; no language-accuracy improvement
+or phase completion is claimed. Native-thinking results are recorded separately
+below; do not infer them from this direct-output run.
+
+Evidence:interpretation-v6-full/input.json,report.json and15raw capture files;
+interpretation-v6-full.log (original partial),interpretation-v6-resume.log;
+interpretation-v6-manifest.json seals all input/captures/report. Assertions verified
+current prompt/schema identity, complete route/meaning accuracy and recovery counts.
+
+- Prompt:e84c54ce7dce6f4cba0e39c02d7388a06caf3048714aa86f49c08cce95abe65f.
+- Schema:92e0be47d46963fc9042f1c9018c8deb1d70a3be64a1bcf1cdf43d8d0dd97c14.
+- Canonical cases:f0f85d8308d341970b6e6d051dcb735d10e1042b8e3cea84df538f4689aa236e.
+- Catalog:2207f062dce8dc42483dfd0993e7e1f5d08330294673c37f293e1a2a8180ce0a.
+- Input file:2e5af3d874b8228facbbbdc4499d27bc37cb4882e52ad542d88c469d4196e5d6.
+- Report file:715209b95818bcaee19ae352365b636e652de8465e15737213f5794194aed5be.
+
+Current23-file regression gate:1511passed/11subtests,176.94s,exit0.
+Exact command:ignored verify-followup.ps1; result:followup-regressions.log.
+This relevant gate covers five routing suites, legacy Bintu and Phase06's17files;
+two inherited Docling failures remain disclosed; no whole-project-green claim.
+
+## Native-thinking result and delivery boundary
+
+Same product/prompt/schema/model, fixed three cases. Requested reasoning_effort=low,
+chat_template_kwargs.enable_thinking=true for BOTH preflight/generation and a
+128-token reasoning budget within1024total output tokens; timeout240s. Trace sizes
+confirm thinking occurred, but do not establish exact enforcement of the requested
+thinking budget. Actual completion tokens399/341/253, with trace character counts
+1172/851/588; thought text was removed before retention. Final JSON alone is scored.
+
+| Case | Proposed/effective path | Style | Correct style |
+| --- | --- | --- | --- |
+| procedure-fil | RAG | fil | yes |
+| procedure-taglish | RAG | taglish | yes |
+| greeting-taglish | greeting | fil | no |
+
+Routes3/3,style2/3. This fixes one recorded error but fails the other selected
+Taglish question. It is not a complete solution and is NOT adopted. No production
+transport/settings change, whole-router native-thinking accuracy claim or further
+thinking-budget/prompt sweep follows from this probe. All three cases have empty
+structured-operation/claim expectations; it does not verify symbolic behavior.
+
+Raw:native-thinking-probe/input.json,report.json,01-03.json; native-thinking-probe.log.
+native-thinking-manifest.json seals input/final captures/report. Assertions verified
+three cases and the reported route/style counts. Input SHA256
+435d669b4d3605d06992831f0ef9f94314f085335f883d13fd0156a47472aa6d;
+report SHA25604dbe3f8a68f30a131089b16eeb1f1d7e71d1cb2f7e0ec63d0d4daef8b5e8c77.
+Task-owned container stopped11:12; image/weights/other containers unchanged.
+
+Phase07 remains active. Next design question:hypothesize that conversational
+response style needs its own explicit, grounded LLM interpretation rather than an
+ISO-language shorthand. No new architecture is adopted or proven by this report.
+Preserve current passing route/meaning behavior; scope and source decisions remain
+settled. No Phase08, final student answer or institutional activation is authorized.
+
+Final documentation gate:567passed/11subtests,16.22s,exit0;followup-docs.log.
+Command:readiness Python -B -m pytest -q -p no:cacheprovider with external
+--basetemp=workspace/audit-evidence/p07-implementation-20261019/followup-docs,
+tests/test_docs_hygiene.py and the handoff skill's tests/test_phase_state.py.
+git diff --check clean; phase-state validates active7 and correctly withholds8.

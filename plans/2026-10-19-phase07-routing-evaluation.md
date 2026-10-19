@@ -1,7 +1,8 @@
 # Phase07 offline model routing evaluation
 
-Status:current candidate evaluation recorded; Phase07 remains active because
-language/scope exit requirements are not satisfied. No institutional
+Status:current promptv6 has15/15correct routes/meaning and10/15style labels;
+Taglish style handling remains open. See the [targeted followup](2026-10-19-phase07-interpretation-followup.md)
+for actual matrices, interruption recovery and native-thinking probe. No institutional
 execution, final benchmark, approved source release or student-answer quality claim.
 
 ## Fixed development scope

@@ -1,63 +1,58 @@
 # Current progress
 
-Updated:19October2026. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
-Verified candidate879d352; no Phase07 completion or Phase08 advancement.
-[Plan](../phase-07-multilingual-routing-plan.md), [execution steps](../2026-10-19-phase07-implementation-plan.md),
-[checkpoint](../phase-07-checkpoint.md), [design](../2026-10-19-phase07-routing-design.md),
-[actual evaluation](../2026-10-19-phase07-routing-evaluation.md).
-Previous full snapshot:32747db:plans/plan_current_progress/current_progress.md.
+Updated:19October2026,11:12. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Verified product d019318; no Phase07 completion or Phase08 advancement.
+[Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
+[followup/results](../2026-10-19-phase07-interpretation-followup.md),
+[evaluation history](../2026-10-19-phase07-routing-evaluation.md).
+Pre-condensation full snapshot:d019318:plans/plan_current_progress/current_progress.md.
 
-## Delivered candidate
+## Latest verified change
 
-LLM interpretation/router, scoped exact aliases, typed operation/capability checks,
-grounded request-local claims, response-style metadata, model-template token budget,
-one bounded format repair and reproducible synthetic evaluation. No trained
-replacement classifier, evidence execution, source promotion, API or activation.
-Owner explicitly directed implementation after accepting evidence/language scope.
-Image/private-upload processing and final answer generation remain later phases.
+Terminal greeting/unsupported_scope proposals cannot carry claims or course
+operations. Decoder selects control before action arrays; strict parsing rejects
+inconsistent proposals. No bad fields are silently removed. Scope fix ecde58c;
+language-contrast candidate d019318. No source, registry, API or activation changes.
 
-Independent review's threeP2 findings fixed with RED/GREEN tests. Actual model
-evidence led to unique-literal-quote anchoring (counts corrections), separation of
-route explanations from ambiguities, host-only ownership/scenario IDs and matched
-preflight/generation template settings. Source/claim meaning is never guessed.
+Reinspection corrected the earlier Filipino scope diagnosis:the model already
+selected excluded/unsupported_scope, but added an invalid program-target course
+operation. Current actual run now produces all three correct scope notices.
 
-## Verification and remaining exit
+## Verification and actual model limits
 
-Current 23-file gate at879d352:1505passed/11subtests,115.94s,exit0
-(delivery-regressions.log). Latest preflight regression RED1 ->79routing tests
-passed,1.02s. Final documentation gate:566passed/11subtests,15.28s;
-phase-state valid, advancement withheld because Phase07 exit remains open.
-[Review and test history](../2026-10-19-phase07-code-review.md).
+Terminal schema RED4failed/2passed ->84routing GREEN1.01s; v6GREEN1.07s.
+Independent narrow review:no P1/P2 findings;84routing tests2.65s.
+Current23-file gate:1511passed/11subtests,176.94s,exit0;followup-regressions.log.
+Final documentation/phase-state checks are recorded in the checkpoint.
+Two inherited Docling failures remain disclosed; no whole-project-green claim.
 
-Clean same-wording15-case Gemma run:14/15raw/effective outcomes,10/15exact style
-labels,4/5family consistency; six substantive scoped operation/claim checks correct.
-Filipino graduate question remains invalid_model_output, safely withheld. Several
-Filipino/Taglish styles disagree with gold; no final responses were generated.
-Earlier scenario-ID-hinted runs are debugging evidence only. A six-case compact
-language/scope-only probe wrongly rejected three valid UG questions; not integrated.
-Do not repeat that unchanged probe or claim the language/scope exit passed.
+Same15-case promptv6 actual result:15/15proposed/effective routes and entity/
+claim/operation collections;5/5equivalent-family consistency. Six substantive
+structured checks, nine empty collections.18exact-quote offset corrections.
+Style10/15:English5/5,Filipino5/5,Taglish0/5 (all mislabeled fil).
+V6language examples regress two formerly correct Taglish labels; no improvement claim.
+
+Usage limits interrupted inference after10saved captures. Resume verified exact
+messages/schema, reused those outputs and ran only five missing cases. Original
+partial log/captures preserved; combined report records replay provenance.
+Replay durations are not model latency; code/prompt/schema/case/catalog identities
+match. No final responses, institutional retrieval or Prolog execution occurred.
+
+Fixed native-thinking probe:3/3routes,2/3styles. It fixes procedure-taglish, still
+mislabels greeting-taglish; pure Filipino control stays correct. Not adopted.
+No further prompt sweep or native-thinking parameter trial is pending.
 
 ## Environment and preservation
 
-Raw:workspace/audit-evidence/p07-implementation-20261019/. Existing Python3.13
-readiness venv; no package/lock changes. Owner-corrected MODELS_DIR:
-C:/Coding-projects/bintanong_workspace/MODELS; Gemma hash/build/template in report.
-Owner authorized official llama.cpp image download; no weights moved/downloaded.
+Existing Python3.13 readiness venv; no installs, locks or model-weight changes.
+Owner-corrected models:C:/Coding-projects/bintanong_workspace/MODELS.
 Task-owned localhost18087 container stopped after trials; image/container retained.
-Other Docker containers/worktrees preserved. Context thesis17-18/39-44/58-59 and
-routing PNG consulted; undergraduate/read-only/private boundaries unchanged.
-Phase06 acceptance/settled reviews stand; source authority, institutional registry/
-activation, four own-rule unknowns and full-prospectus defects remain held.
-Two inherited Docling failures remain disclosed; no whole-project-green claim.
+Other containers/worktrees preserved. Raw evidence:workspace/audit-evidence/
+p07-implementation-20261019/. No thought text retained from the native probe.
+Context thesis17-18/39-44/routing PNG consulted; scope17-18 refreshed on recovery.
+Phase06 acceptance, source authority/activation holds and unknown rules unchanged.
 
-Resumed dd40c08:raw Filipino response already selects excluded/unsupported_scope;
-the defect is an attached course operation targeting a program, not a missing scope
-recognition. [Bounded followup](../2026-10-19-phase07-interpretation-followup.md).
-Terminal schema/contract RED4failed/2passed ->GREEN84routing tests,1.01s,exit0.
-Promptv5 decides control before action arrays; terminal actions are forbidden by
-decoder and strict parsing, never silently removed.
-Actual ecde58c/promptv5 targeted3/3route/effective/style; meaning collections correct,
-including valid Filipino scope notice. Loading-server503attempt preserved separately.
-Promptv6 clarifies language with unrelated contrasts, not exact evaluation questions.
-Next:verify/commit promptv6 then run the original15-case development set once.
-Do not repeat the rejected compact pass, settled reviews or advance Phase08.
+Next:design explicit response-style interpretation distinct from an ISO language
+label, grounded to the original utterance and selected by Bintu. This is an untested
+hypothesis, not an adopted architecture. Preserve passing routes/meaning, UG default,
+settled75wordings and source decisions. Phase07 stays open; no Phase08.
