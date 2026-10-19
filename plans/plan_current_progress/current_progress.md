@@ -1,12 +1,22 @@
 # Current progress
 
-Updated:19October2026,12:25. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,13:04. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
 [current correction/results](../2026-10-19-phase07-operation-constraint-correction.md),
-[prior style results](../2026-10-19-phase07-style-stage-evaluation.md).
+[prior style results](../2026-10-19-phase07-style-stage-evaluation.md),
+[accuracy research](../2026-10-19-phase07-accuracy-research-recommendation.md).
 Pre-condensation snapshot:bec3d8e:plans/plan_current_progress/current_progress.md.
 
-## Latest verified change
+## Latest findings and product baseline
+
+Owner prioritizes minimal errors/high accuracy; the quality-priority question is
+answered. Research confirms prior thinking probe used reasoning_budget=128,
+where pinned runtime reads reasoning_budget_tokens/thinking_budget_tokens. Its
+three observations do not establish an enforced128budget or controlled comparison.
+Pinned runtime also warns cache reuse can change outputs; cause here unproven.
+Google recommends a different sampling recipe, not a proven fix. Report links
+primary sources, limitations and an ordered comparison before any prompt changes.
+No code/new inference/runtime restart/download/install or accuracy improvement.
 
 Product bec3d8e constrains proceeding decoder output:RAG0operations,
 Symbolic/Hybrid exactly1. Clarification preserves compounds. Host guard remains
@@ -40,10 +50,11 @@ Master2.2 names quantized Gemma4E4B as Bintu-1; the supplied model is intended.
 No separately fine-tuned checkpoint is required. Preserve the same artifact and
 all undergraduate/read-only/source-authority/activation/Phase06 boundaries.
 
-Owner quality-target question is pending:keep style errors as blockers, or prepare
-an offline completion review documenting them. No answer/elapsed time is approval.
-Next:apply the actual owner target if supplied; otherwise keep Phase07 open and
-draft a revised LLM interpretation design for the two style failures and Filipino
-Symbolic/Hybrid mismatch. Stop the resolved count diagnostic; no retired trials,
-wording sweep, host semantic override, model change/training or Phase08 advancement.
-Final docs/phase-state verification is recorded in the correction report.
+Next:audit effective runtime/cache/sampling/budget controls and specify the bounded
+same-artifact thinking comparison in the research report. Correct the prior probe's
+budget-control assumption before new inference. Keep both Taglish style errors and
+the Filipino Symbolic/Hybrid error open. Proposed95%per-language development targets
+are recommendations, not approved gates or measured population accuracy.
+Stop the resolved count diagnostic; no blind retired trials/wording sweep, host
+semantic override, model change/training or Phase08 advancement. Research/docs
+gate571passed/11subtests11.18s,exit0; phase state valid and diff check clean.

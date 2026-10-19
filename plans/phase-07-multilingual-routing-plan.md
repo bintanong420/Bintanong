@@ -94,6 +94,10 @@ Decoder correction bec3d8e now enforces proceeding operation counts. New six-cas
 fresh-routing check:operations/entities/claims6/6,routes5/6; Filipino prerequisite
 over-routes to Hybrid. Six style captures reused unchanged; no fresh-style claim.
 See [current correction/results](2026-10-19-phase07-operation-constraint-correction.md).
+Owner now prioritizes minimal errors/high accuracy and requests research. The
+[research recommendation](2026-10-19-phase07-accuracy-research-recommendation.md)
+identifies runtime-control and prior thinking-budget issues to audit before a
+bounded comparison. Numerical targets there are proposals, not approved gates.
 The language-style exit remains open; Phase07 is active and Phase08
 cannot begin. See the dated evaluation report and exact next checkpoint action.
 Phase06 predecessor verification remains accepted; no receipt-recovery task.

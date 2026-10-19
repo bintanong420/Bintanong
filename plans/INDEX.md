@@ -10,7 +10,8 @@
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
   [decoder correction](2026-10-19-phase07-operation-constraint-correction.md):6/6operations,
   5/6routes in fresh structured check; [style profile](2026-10-19-phase07-style-stage-evaluation.md)13/15 unchanged.
-  Model-quality/language-style exit remains open.
+  [Accuracy research/next comparison](2026-10-19-phase07-accuracy-research-recommendation.md):
+  owner prioritizes minimal errors; model-quality/language-style exit remains open.
 - Next phase08 remains gated on a complete Phase07 handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
@@ -72,7 +73,6 @@ real-source exits; ledger validity alone does not prove source readiness.
 - Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
 
 ## History and upkeep
-
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state; keep durable evidence in dated reports.
 The full pre-cleanup index/progress/checkpoint/handoff are preserved at commit

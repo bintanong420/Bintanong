@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 27
+sequence: 28
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: bec3d8e
-working_tree: correction report, index, phase plan, progress and checkpoint documentation
-updated_at: 2026-10-19T12:27:45.5042681+08:00
+head_commit: 03c361c
+working_tree: accuracy research report, index, phase plan, progress and checkpoint documentation
+updated_at: 2026-10-19T13:04:00+08:00
 ---
 
-# Phase07 checkpoint - operation counts corrected, route/style quality open
+# Phase07 checkpoint - researched accuracy strategy, route/style quality open
 
 ## Completed Tasks
 
@@ -30,17 +30,25 @@ reason describing only a curriculum check. All three affected-course-plus-proced
 variants now select the correct single operation, including previous Taglish error.
 Style6/6 uses compatible saved outputs; prior two Taglish failures (13/15profile)
 remain unchanged. No whole15-case current-code or final-response success claim.
-Owner exit-quality target question pending; phase stays active with no final handoff.
+Owner now prioritizes minimal errors/high accuracy and requests research. Keep
+phase active with no final handoff. [Research and ordered recommendation](2026-10-19-phase07-accuracy-research-recommendation.md)
+records primary sources and a runtime-control audit before another comparison;
+no product change/new inference or improvement claim in this research turn.
 
 ## Repository State
 
-p07/feat/p07-router-taglish-nlp. Product/inference bec3d8e; docs wrapper discoverable
+p07/feat/p07-router-taglish-nlp. Product/inference bec3d8e; docs wrapper03c361c
 in Git. Only routing prompt version/decoder, focused tests and README changed in code
 increment; SYSTEM_PROMPT/domain/router/validation/style bytes unchanged.
 Pre-condensation snapshot:bec3d8e:plans/phase-07-checkpoint.md.
 Other worktrees/dev/p06 preserved; no push/merge/source/registry mutation.
 
 ## Verification Evidence
+
+Research/docs-only gate571passed/11subtests11.18s,exit0; docs.log under
+workspace/audit-evidence/p07-accuracy-research-20261019/. Commands in research report;
+diff check clean, phase state valid/active7/no advancement. Runtime inspect=exited.
+No product test rerun or new model calls for this documentation-only increment.
 
 Count matrix RED6failed/4passed0.80s ->137routing GREEN1.33s. Independent review:
 no P1/P2,137passed1.42s. Broad24-file gate1567passed/11subtests76.68s,exit0;
@@ -83,6 +91,11 @@ and master20's explicit-decision boundary for fine-tuning stay intact.
 English/Filipino/Taglish preference required; final answers/images later.
 Institutional authority/release/unknown-rule/EMPTY_REGISTRY/activation holds preserved.
 Task-owned bintanong-p07-router-offline stopped12:25; inspect=exited; assets retained.
+Research:prior native-thinking script sends reasoning_budget, unlike pinned runtime
+reasoning_budget_tokens/thinking_budget_tokens;128token enforcement not established.
+Cache reuse is a documented possible source of drift, not the proven cause here.
+Native thinking/vendor sampling warrant controlled comparison, not assumed gains.
+Proposed all-known-regressions/95%per-language targets are recommendations only.
 
 ## Known Failures or Blockers
 
@@ -94,11 +107,11 @@ full-prospectus defects and inherited Docling failures remain disclosed.
 
 ## Next Action
 
-Apply actual owner quality-target answer if supplied. Otherwise preserve active7
-and draft a revised LLM interpretation design for two style errors and Filipino
-Symbolic/Hybrid mismatch from sealed evidence; no repeated retired trials or host
-semantic override. Preparing an offline review would not itself waive these errors
-or authorize8. No answer or preselected option is approval.
+Audit effective runtime/cache/sampling/budget controls and specify the bounded
+same-artifact thinking comparison in the research report; verify recognized budget
+behavior before new accuracy calls. This corrects new source-backed API evidence,
+not an unchanged thinking sweep. Preserve two style errors and Filipino route error
+as open, with no host semantic override or Phase08 advancement.
 
 ## Do Not Repeat
 
