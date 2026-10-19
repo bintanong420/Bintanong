@@ -1,12 +1,17 @@
 ---
 artifact: phase-plan
 phase: 9
-status: complete
+status: in_progress
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-08-handoff.md
 ---
 
 # Phase 09 generation and validation implementation plan
+
+Reopened20October2026 for the owner's requested full backend composition.
+The original offline milestone/handoff remains historical evidence. Execute the
+[integration supplement](2026-10-20-live-backend-composition-plan.md); Phase10
+stays separate. This adds the missing real-service proof, not institutional use.
 
 **Goal:** generate bounded candidate explanations from Phase08 evidence, preserving
 canonical decisions, source identities, unknowns, privacy and language preferences.

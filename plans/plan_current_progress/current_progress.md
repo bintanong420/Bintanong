@@ -1,10 +1,19 @@
 # Current progress
 
-Updated:20October2026. Runtime architecture audit in p09/feat/p09-generation-validation.
+Updated:20October2026. Phase09 reopened in p09/feat/p09-generation-validation.
 [Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
 Last full pre-condensation snapshot:e6dee83:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
+
+Owner directs actual backend continuation and asks about Phase07 omissions.
+Core master12 router functionality is present; two disclosed Taglish style errors
+remain. Auth/private files are later-phase capabilities. Reopened Phase09 with a
+[concrete composition plan](../2026-10-20-live-backend-composition-plan.md).
+New application constructs actual model/query encoder/PostgREST/Janus/generation
+adapters and checks active fictional-source membership with anon/RLS before use.
+Focused TDD RED missing module; GREEN7passed0.76s. CLI/live requests remain next.
+Context thesis17–18/39–44,actual PNG/master11–14 consulted. No Phase10 work.
 
 Owner challenged "complete" against the actual diagram. [Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md)
 confirms callable Orchestrator/AnswerPipeline code,but no demonstrated request
@@ -26,7 +35,7 @@ claim. Raw root:workspace/audit-evidence/p09-structured-generation-20261019/.
 Docs/phase596passed/11subtests11.45s;84local links resolve;9sealed product hashes
 unchanged. Raw manifest and per-claim agent assessment bind the results.
 Reconsulted thesis17-18/39-40,actual routing PNG/master3/14; no discrepancy.
-Phase ledger valid,no active numbered phase; Phase10 has not started.
+Historical offline milestone retained; Phase09 is now active for missing integration.
 
 [Completed resume review](../2026-10-19-phase09-resume-review.md):65fd482 withholds
 premature Hybrid conclusions;e675d01 preserves useful missing-program/curriculum
@@ -74,6 +83,5 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-Finish an explicit real-service backend composition and verify full requests per
-route against the diagram in p09. Preserve source/runtime gates and measured limits;
-Phase10 remains separate and is not the next implementation priority.
+Add the bounded CLI and verify full requests per route through actual local services
+using controlled fictional data. Preserve source/runtime gates and measured limits.

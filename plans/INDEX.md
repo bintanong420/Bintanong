@@ -17,7 +17,8 @@
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
 - Phase **09 offline candidate milestone recorded; full real-service pipeline unverified**;
   [Plan](phase-09-generation-validation-plan.md) · [Checkpoint](phase-09-checkpoint.md) · [Handoff](phase-09-handoff.md).
-- Active phase:none; current work:[runtime architecture audit](2026-10-20-runtime-architecture-implementation-audit.md) in p09; Phase10 not started.
+- Active phase:09 reopened; [live composition plan](2026-10-20-live-backend-composition-plan.md)
+  in p09; Phase10 not started. [Audit](2026-10-20-runtime-architecture-implementation-audit.md).
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
