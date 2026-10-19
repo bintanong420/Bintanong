@@ -36,15 +36,21 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
             status = 'conflict' if conflicts else symbolic.decision.outcome
     if dependencies is not None and status is None and dependencies.status != 'complete':
         status = {'partial':'unknown', 'unsupported':'unsupported', 'error':'error'}[dependencies.status]
-    if documents is not None and status != 'release_mismatch':
+    if documents is not None:
         doc_status = {'conflicting_sources':'conflict', 'release_changed':'release_mismatch',
             'needs_scope':'clarify', 'uncalibrated':'uncalibrated',
             'insufficient_evidence':'no_evidence', 'unassessed':'no_evidence',
             'needs_subject':'clarify', 'needs_claims':'clarify'}.get(documents.status)
         if documents.status != 'ok':
-            status = doc_status or 'error'
+            doc_status = doc_status or 'error'
         elif not documents.passages or documents.gaps:
-            status = 'no_evidence'
+            doc_status = 'no_evidence'
+        # Both observations stay in the package. Availability cannot conceal a
+        # conflict or operational failure in the other required branch.
+        priority = {name:rank for rank,name in enumerate((None,'uncalibrated','no_evidence',
+            'clarify','unknown','unsupported','error','conflict','release_mismatch'))}
+        if priority[doc_status] > priority[status]:
+            status = doc_status
     return checked.model_copy(update=dict(status=status or 'ready',
         permitted_scope='none' if status else checked.permitted_scope,
         missing_facts=missing, conflicts=conflicts))

@@ -103,3 +103,22 @@ def test_empty_components_and_cross_route_components_are_invalid():
         api().assemble(pin(), 'Hybrid', documents=documents())
     with pytest.raises(ValueError):
         api().assemble(pin(), 'RAG', documents=documents(), symbolic=symbolic())
+
+
+@pytest.mark.parametrize('doc', ['uncalibrated','insufficient_evidence','empty'])
+@pytest.mark.parametrize('outcome', ['conflict','error','unknown'])
+def test_hybrid_preserves_symbolic_failure_ahead_of_document_availability(doc,outcome):
+    sym = symbolic('unknown' if outcome == 'conflict' else outcome)
+    if outcome == 'conflict':
+        sym = sym.model_copy(update={'decision':sym.decision.model_copy(update={
+            'unresolved_conflicts':('conflicting completion assertions',)})})
+    result = api().assemble(pin(),'Hybrid',symbolic=sym,
+        documents=documents(passages=[]) if doc == 'empty' else documents(doc))
+    assert result.status == outcome and result.permitted_scope == 'none'
+    assert result.documents is not None and result.symbolic == sym
+
+
+def test_document_conflict_and_release_mismatch_take_priority_over_unknown_facts():
+    for document_status,expected in [('conflicting_sources','conflict'),('release_changed','release_mismatch')]:
+        result = api().assemble(pin(),'Hybrid',symbolic=symbolic('unknown'),documents=documents(document_status))
+        assert result.status == expected

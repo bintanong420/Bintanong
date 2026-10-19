@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 8
 status: in_progress
-sequence: 5
+sequence: 7
 plan: plans/phase-08-orchestration-plan.md
-head_commit: 0a6db29
+head_commit: 2431231
 working_tree: dirty
 updated_at: 2026-10-19T20:04:00+08:00
 ---
@@ -28,7 +28,7 @@ outcomes and future generation/API/release work; root/package READMEs link it.
 Combined actual Router/RetrievalEngine/Janus synthetic smoke delivered for each route.
 
 ## Current Task
-Task5: independent review corrections and scoped full regression gate.
+Task5 verified; record offline exit mapping/final handoff and validate phase closure.
 
 ## Repository State
 Isolated p08/feat/p08-orchestration. New plan/checkpoint and ledger/progress edits.
@@ -55,7 +55,15 @@ closed outcome vocabulary. task3-final.log:142passed3.45s,exit0 (four orchestrat
 files + routing router/validation). Session tests pass without product behavior edits.
 task4-smoke.log:3passed1.33s,exit0 (actual modules; scripted model/manual vector/
 synthetic database transport). Local Markdown links and diff check pass;
-phase-state valid/active8. Fresh reviewer running read-only against core0a6db29.
+phase-state valid/active8. Independent review of core0a6db29 completed.
+Four P2s accepted/reproduced; RED15failed/1passed; correction GREEN67passed3.60s,
+exit0 across five orchestration files. review-red.log/review-green.log. Decisions
+and findings:[review record](2026-10-19-phase08-integration-review.md).
+Full36-file gate:1748passed/63subtests103.91s,exit0 in final-regressions.log;
+exact command verify-final.ps1. Supplemental operation-smoke.log:7passed2.62s,
+exit0 extends actual-module smoke to all three ops on Symbolic/Hybrid plus RAG.
+No product changes after full gate; supplemental change extends synthetic tests only.
+GitHub MCP confirms baseline6c3b09a is merged PR12; no remote write performed.
 
 ## Versions and Digests
 System/readiness Python3.13.7; use existing readiness environment from Phase 07.
@@ -79,12 +87,12 @@ adapters must retain admission until their bounded worker actually finishes.
 ## Known Failures or Blockers
 Inherited source/release/hosted-schema holds and two Taglish style errors persist.
 No authenticated API or institutional release loader exists; default execution held.
-Review has reproduced candidate boundary defects (telemetry IDs, fact-count overflow,
-routing failure classification); await consolidated review then RED/GREEN fix pass.
+All four reviewed defects corrected and scoped gate passes. No whole-project-green
+claim: inherited Docling/source/hosted-schema limitations are outside this gate.
 
 ## Next Action
-Resolve consolidated review through focused RED/GREEN; run scoped full regression,
-record exit mapping and handoff or explicit remaining work. Do not claim phase exit yet.
+Commit verified review corrections; write final offline handoff/exit mapping,
+supersede checkpoint and validate/can-advance. Do not start Phase09 in this task.
 
 ## Do Not Repeat
 Do not reopen settled source reviews, benchmark wording or Phase 07 inference sweeps.

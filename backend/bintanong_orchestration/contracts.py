@@ -125,7 +125,7 @@ class StageEvent(Record):
     outcome: Status | DocumentStatus | Literal['eligible', 'ineligible', 'control', 'held',
                                               'busy', 'invalid_output', 'tool_error']
     retry_count: int = Field(default=0, ge=0, le=1)
-    evidence_ids: tuple[Annotated[str, Field(pattern=r'^(?:[0-9a-f]{64}|rule-[a-z0-9-]+)$',
+    evidence_ids: tuple[Annotated[str, Field(pattern=r'^(?:[0-9a-f]{64}|rule-[a-z0-9_-]+)$',
                                             max_length=128)], ...] = ()
 
 

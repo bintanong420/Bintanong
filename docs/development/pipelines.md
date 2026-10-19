@@ -112,6 +112,11 @@ return typed observations but one is not ready, the package preserves them with
 component as permission to answer the failed combined request. Detected conflicts
 are supplied by upstream policy/runtime checks; this code does not semantically
 compare arbitrary document prose with Prolog rules.
+When typed branches disagree on failure status, the precedence is release mismatch,
+conflict, error, unsupported, unknown, clarification, no evidence, then uncalibrated.
+Both component observations remain available; a lower-priority hold cannot conceal
+a symbolic conflict or operational failure. Router timeout/transport/invalid-output
+diagnostics retain their operational classification rather than becoming controls.
 
 ## Follow-ups, ownership and private context
 

@@ -13,6 +13,15 @@ from .contracts import DocumentResult, IntegrationResult, StageEvent
 from .integration import assemble
 from .ports import HeldReleaseProvider, ReleaseResources, ReleaseUnavailable
 
+_ROUTING_FAILURES = {
+    'model_timeout':'timeout',
+    'model_connection_error':'tool_error', 'model_http_error':'tool_error',
+    'invalid_model_output':'invalid_output', 'invalid_style_output':'invalid_output',
+    'invalid_grounding':'invalid_output', 'invalid_server_response':'invalid_output',
+    'truncated_output':'invalid_output', 'server_response_too_large':'invalid_output',
+    'context_overflow':'invalid_output',
+}
+
 
 class Orchestrator:
     def __init__(self, transport, *, releases=None, stage_timeout=120.0):
@@ -60,6 +69,8 @@ class Orchestrator:
                     event_route = value.decision.route
                     if value.decision.control is not None:
                         observed = 'control'
+                    if value.decision.control == 'evidence_unavailable' and value.diagnostic in _ROUTING_FAILURES:
+                        outcome = observed = _ROUTING_FAILURES[value.diagnostic]
                 elif isinstance(value, DocumentResult):
                     ids = tuple(p.chunk_id for p in value.passages)
                     observed = value.status
@@ -69,9 +80,16 @@ class Orchestrator:
                         {'complete':'ready','partial':'unknown','unsupported':'unsupported','error':'error'}[value.status])
                 elif name == 'integration':
                     observed = value.status
-            events.append(StageEvent(stage=name, duration_ms=(perf_counter()-start)*1000,
-                route=event_route, release_id=release_id,
-                outcome=observed, retry_count=retries, evidence_ids=ids))
+            metadata = dict(stage=name, duration_ms=(perf_counter()-start)*1000,
+                route=event_route, release_id=release_id)
+            try:
+                event = StageEvent(**metadata, outcome=observed, retry_count=retries, evidence_ids=ids)
+            except ValueError:
+                # Invalid adapter metadata cannot leak through a validation error
+                # or crash the request. Keep only safe, host-owned stage metadata.
+                outcome, value = 'invalid_output', None
+                event = StageEvent(**metadata, outcome=outcome)
+            events.append(event)
             return value, None if outcome == 'ok' else outcome
 
         async def pin_release():
@@ -87,7 +105,23 @@ class Orchestrator:
             return finish(failure)
         router = Router(self.transport, catalog=resources.catalog, registry=resources.registry,
             documents_available=resources.retrieval is not None, synthetic=True)
-        routed, failure = await stage('routing', lambda: router.route(text, context))
+        scoped = None
+
+        async def route_request():
+            nonlocal scoped, route, style
+            value = await router.route(text, context)
+            route, style = value.decision.route, value.response_style
+            if route is not None:
+                # Bound the merged assertion set within the guarded routing stage.
+                # Nothing is persisted, and overflow cannot escape as an exception.
+                facts = (*context.facts, *(ScopedFact(**{name:getattr(c,name) for name in ScopedFact.model_fields})
+                    for c in value.claims if c.mode == 'asserted'))
+                scoped = RequestContext(session_id=context.session_id, request_id=context.request_id,
+                    program_id=value.program_id or context.program_id,
+                    curriculum_id=value.curriculum_id or context.curriculum_id, facts=facts)
+            return value
+
+        routed, failure = await stage('routing', route_request)
         if failure:
             return finish(failure)
         route, style = routed.decision.route, routed.response_style
@@ -96,14 +130,6 @@ class Orchestrator:
         if ((route in ('RAG','Hybrid') and resources.retrieval is None) or
                 (route in ('Symbolic','Hybrid') and resources.symbolic is None)):
             return finish('held')
-        # New assertions belong only to this request. Returning the result never
-        # persists them or upgrades them to confirmed institutional records.
-        facts = (*context.facts, *(ScopedFact(**{name:getattr(c,name) for name in ScopedFact.model_fields})
-            for c in routed.claims if c.mode == 'asserted'))
-        scoped = RequestContext(session_id=context.session_id, request_id=context.request_id,
-            program_id=routed.program_id or context.program_id,
-            curriculum_id=routed.curriculum_id or context.curriculum_id, facts=facts)
-
         async def retrieve():
             scope = tuple(f'{kind}:{value}' for kind,value in
                 (('program',scoped.program_id),('curriculum',scoped.curriculum_id)) if value)

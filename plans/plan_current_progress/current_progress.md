@@ -27,7 +27,11 @@ Developer guide delivered at docs/development/pipelines.md with root/package lin
 Combined actual Router/RetrievalEngine/Janus synthetic smoke3passed1.33s,exit0;
 scripted model/manual vectors/synthetic storage, no actual-model accuracy claim.
 Local Markdown links/diff check pass. Fresh reviewer inspecting core0a6db29;
-boundary defects found, consolidated correction pass pending. Phase08 remains active.
+four P2boundary defects accepted/corrected with RED15failures and GREEN67passed3.60s,
+exit0 across all orchestration tests. [Review record](../2026-10-19-phase08-integration-review.md).
+Full36-file gate1748passed/63subtests103.91s,exit0 (final-regressions.log);
+supplemental all-operation actual-module smoke7passed2.62s,exit0. No product changes
+after full gate; only extended synthetic smoke tests. Phase08 exit handoff pending.
 
 ## Preserved limits
 
@@ -42,5 +46,5 @@ master3/11-15 and handoff consulted. No new architecture discrepancy.
 
 ## Next action
 
-Apply consolidated review fixes with RED/GREEN, run scoped full regression and
-record exit mapping/handoff or explicit remaining work before delivery.
+Commit verified review fixes, record offline final handoff/exit mapping and phase
+closure validation. Preserve all institutional/source holds; do not start Phase09.

@@ -79,7 +79,7 @@ TEMP/TMP and `--basetemp` under workspace/audit-evidence/p08-orchestration-20261
    hypothetical claims, curriculum changes, no target invention or persistence.
    Document preparation versus request pipeline, files, failure matrix, testing,
    extension seams and remaining integration/release prerequisites.
-5. [ ] Verify scoped full regression gate, review the whole change, record exact
+5. [x] Verify scoped full regression gate, review the whole change, record exact
    results/limitations and a resumable checkpoint. Phase completion requires exit
    mapping and final handoff; keep Phase 08 active if any required exit is unverified.
 

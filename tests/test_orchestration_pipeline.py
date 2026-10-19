@@ -218,3 +218,58 @@ def test_telemetry_records_pinned_release_route_and_actual_integration_outcome(s
         assert result.events[1].route == 'Symbolic'
         assert result.events[-1].outcome == status
     asyncio.run(scenario())
+
+
+def test_valid_underscore_rule_identifier_survives_telemetry():
+    async def scenario():
+        class Underscore(Symbolic):
+            async def execute(self, request, context):
+                result = await super().execute(request, context)
+                return result.model_copy(update={'rule_ids':('rule-course_a',)})
+        result = await api().Orchestrator(transport(),releases=ports().SyntheticReleaseProvider(
+            resources(sym=Underscore()))).run('A1',ctx())
+        assert result.status == 'ready'
+        assert 'rule-course_a' in result.events[2].evidence_ids
+    asyncio.run(scenario())
+
+
+def test_unloggable_rule_identifier_returns_bounded_invalid_output_without_raw_text():
+    async def scenario():
+        class Unsafe(Symbolic):
+            async def execute(self, request, context):
+                result = await super().execute(request, context)
+                return result.model_copy(update={'rule_ids':('PRIVATE grade 5.00',)})
+        result = await api().Orchestrator(transport(),releases=ports().SyntheticReleaseProvider(
+            resources(sym=Unsafe()))).run('A1',ctx())
+        assert result.status == 'invalid_output' and result.evidence is None
+        assert 'PRIVATE' not in json.dumps([e.model_dump(mode='json') for e in result.events])
+    asyncio.run(scenario())
+
+
+def test_maximum_context_plus_new_assertion_has_a_bounded_failure():
+    async def scenario():
+        base = ctx().model_dump(mode='json')
+        base['facts'] = [dict(base['facts'][0],fact_id=f'fact-existing-{n}') for n in range(256)]
+        value = proposal(claims=[dict(entity=0,state='passed',mode='asserted',text='A1',start=0,end=2)])
+        release = resources()
+        result = await api().Orchestrator(FakeTransport(json.dumps(value)),releases=
+            ports().SyntheticReleaseProvider(release)).run('A1',RequestContext.parse(base))
+        assert result.status == 'invalid_output' and not release.symbolic.calls
+        assert result.events[-1].outcome == 'invalid_output'
+    asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('outputs,status', [
+    (['timeout'],'timeout'), (['bad','still bad'],'invalid_output'),
+    (['connection'],'tool_error')])
+def test_router_operational_failures_keep_distinct_status_and_telemetry(outputs,status):
+    from backend.bintanong_routing.transport import RuntimeFailure
+    async def scenario():
+        values = [RuntimeFailure({'timeout':'model_timeout','connection':'model_connection_error'}[v])
+                  if v in ('timeout','connection') else v for v in outputs]
+        release = resources()
+        result = await api().Orchestrator(FakeTransport(*values),releases=
+            ports().SyntheticReleaseProvider(release)).run('A1',ctx())
+        assert result.status == status and result.events[-1].outcome == status
+        assert not release.symbolic.calls and not release.retrieval.calls
+    asyncio.run(scenario())
