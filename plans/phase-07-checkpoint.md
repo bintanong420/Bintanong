@@ -2,78 +2,56 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 31
+sequence: 33
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 6406629
-working_tree: standing decision, AGENTS, index, phase plan, progress and checkpoint documentation
-updated_at: 2026-10-19T14:20:00+08:00
+head_commit: 29cc8d9
+working_tree: baseline plan, progress and checkpoint documentation
+updated_at: 2026-10-19T15:09:00+08:00
 ---
 
-# Phase07 checkpoint - researched accuracy strategy, route/style quality open
+# Phase07 checkpoint - explicit inference profile verified
 
 ## Completed Tasks
 
-Original contracts/resolution/transport/evaluator and scope guards delivered.
-Independent routing/style calls use the same supplied Gemma/Bintu; normal2calls,
-max3with one shared format repair. No executor/API/source activation.
-Current product bec3d8e expresses existing proceeding-operation counts in decoder:
-RAG0,Symbolic/Hybrid1. Clarification preserves compounds and unchanged host guard
-withholds nonconforming output. No host truncation, rerouting or semantic retry.
-[Current correction/results](2026-10-19-phase07-operation-constraint-correction.md),
-[prior style history](2026-10-19-phase07-style-stage-evaluation.md).
+Original routing/contracts/resolution/style/transport/evaluator/scope guards and
+count correction delivered. Normal2calls/max3with one shared format repair;
+same Gemma for both stages, EMPTY_REGISTRY default, no executor. Standing decision
+bbaf5f9 saved in AGENTS/index/phase plan for subsequent phases.
+Product29cc8d9 adds fixed no-prefix-cache requests and safe reported-defaults
+metadata, both decoding modes; no semantic prompt/schema/guard/call-limit changes.
+[Profile plan/results](2026-10-19-phase07-inference-baseline-plan.md).
 
 ## Current Task
 
-Bounded six-case operation check complete:6/6correct operations/entities/claims,
-5/6proposed/effective routes. Filipino prerequisite wrongly selects Hybrid despite
-reason describing only a curriculum check. All three affected-course-plus-procedure
-variants now select the correct single operation, including previous Taglish error.
-Style6/6 uses compatible saved outputs; prior two Taglish failures (13/15profile)
-remain unchanged. No whole15-case current-code or final-response success claim.
-Owner now accepts [prompt engineering/guards across future phases](2026-10-19-prompt-engineering-and-validation-decision.md),
-with one-week added-improvement cap. Standing decision linked from AGENTS/index
-and phase plan. Guidance is inference-time, not parameter training. Read-only
-transport audit confirms implicit cache/incomplete effective profile; no new
-inference/product change or accuracy gain. Phase active with no final handoff.
+Profile correction verified:RED/GREEN,24-file gate,independent review and one
+actual transport smoke complete. Resolved diagnostic stops here. Next fresh15-case
+baseline precedes a single justified prompt intervention. Known route/style errors
+remain open; no new accuracy or completion claim.
 
 ## Repository State
 
-p07/feat/p07-router-taglish-nlp. Product/inference bec3d8e; prior docs wrapper6406629
-in Git. Only routing prompt version/decoder, focused tests and README changed in code
-increment; SYSTEM_PROMPT/domain/router/validation/style bytes unchanged.
-Pre-condensation snapshot:bec3d8e:plans/phase-07-checkpoint.md.
+p07/feat/p07-router-taglish-nlp. Product29cc8d9; standing decisionbbaf5f9.
+Full previous snapshot:29cc8d9:plans/phase-07-checkpoint.md.
+Only plan/progress/checkpoint docs pending; product/tests committed.
 Other worktrees/dev/p06 preserved; no push/merge/source/registry mutation.
 
 ## Verification Evidence
 
-Standing-decision docs/ledger gate572passed/11subtests15.20s,exit0;
-standing-decision-docs.log under the same research evidence root. Commands in
-accepted decision record; no product/inference claim. Phase state valid/active7.
+Transport RED7failed/10passed0.92s ->GREEN106passed3.43s. Independent review:
+no P1/P2,106passed2.29s. Broad24-file gate1577passed/11subtests128.27s,exit0.
+Raw workspace/audit-evidence/p07-explicit-profile-20261019/:red.log,green.log,
+verify-profile.ps1,regressions.log,smoke-profile.py,smoke.json,verification.log.
+Actual synthetic smoke1call,24input tokens,valid JSON;cachefalse request and
+reported defaults verified. No multilingual/route/answer accuracy claim.
+verify-evidence.py passed8sealed artifacts again on resume; current transport and
+unchanged semantic-module bytes,build/template/context budget checked. Runtime
+inspect=exited; stopped14:32,assets retained. No duplicate inference on resume.
+Prior inherited Docling failures remain; no whole-project-green claim.
+Final docs/phase gate573passed/11subtests15.55s,exit0;final-docs.log.
 
-Research/docs-only gate571passed/11subtests11.18s,exit0; docs.log under
-workspace/audit-evidence/p07-accuracy-research-20261019/. Commands in research report;
-diff check clean, phase state valid/active7/no advancement. Runtime inspect=exited.
-Fine-tuning follow-up docs gate571passed/11subtests18.48s,exit0;finetuning-docs.log.
-Prompt-guidance docs gate571passed/11subtests14.13s,exit0;prompt-guidance-docs.log.
-No product test rerun or new model calls for this documentation-only increment.
-
-Count matrix RED6failed/4passed0.80s ->137routing GREEN1.33s. Independent review:
-no P1/P2,137passed1.42s. Broad24-file gate1567passed/11subtests76.68s,exit0;
-raw verify-regressions.ps1/regressions.log. Two inherited Docling failures remain
-explicit; no whole-project-green claim. Final docs/phase checks in current report.
-Final docs570passed/11subtests11.29s,exit0;final-docs.log. Diff check clean;
-phase state valid,advancement withheld. Only documentation changes after product.
-
-Actual6existing structured cases:6fresh routing calls/6exact-compatible saved
-style captures,12logical calls,zero repairs. Operations/entities/claims6/6,
-routes5/6,family consistency1/2. All raw model outputs satisfy decoder schema;
-15unique literal offset corrections/six cases. Styles are reused, not new inference.
-Verification passed12captures/21sealed artifacts, original case/catalog equality,
-current prompt/schema/model/template/configuration, source byte seals and token
-budgets. Routing3527-3563input tokens;3853minimum reserved-budget headroom.
-No replay latency claim. Count question resolved; stop its diagnostic.
-Prior full15capture composition and fresh2failure remain immutable historical
-observations. Do not combine them with new6to invent current15-case accuracy.
+Historicalbec3d8e6structured:operations/entities/claims6/6,routes5/6;6routingfresh,
+6stylesreused. Prior style-v1 full15profile13/15. Do not combine with newprofile
+or claim current15score. Exact commands/results in profile plan.
 
 ## Versions and Digests
 
@@ -81,52 +59,41 @@ Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/pytest9.1.1/Janus1.5.2/SWI10.1.15 unchan
 Owner-corrected model root:workspace/MODELS/GEMMA_4_E4B,5,126,306,944bytes.
 Model SHA2563cf61de12daa015ee0f7b68e7b7c541405bf220e1e942bad8b47cab827d7df80.
 Official image sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c;
-llama.cpp b11718-547208dca; template/settings unchanged. Prompt version router-p07-v7;
-new schema5365dfc1d20c2b9cc61e8c11ea4ac943d5bc42d09fb0f5eed5ebf3404bc17d15.
-Exact other digests/commands/results in current correction report. Raw root:
-workspace/audit-evidence/p07-operation-constraints-20261019/.
+llama.cpp b11718-547208dca. Template74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32126f3f6b3.
+Promptrouter-p07-v7/style-v1;schemasunchanged. Profilep07-greedy-no-prefix-cache-v1:
+T0/seed0/reasoning-none/cachefalse/output768/context8192/CPU8threads/parallel1.
+Reported defaults:T1/top_k64/top_p~.95/min_p~.05/repeat_penalty1;order saved.
+Defaults separate from request overrides and external startup configuration.
 
 ## Decisions
 
-Context physical17-18 saved extraction and actual routing PNG refreshed on resume;
-PDF hash unchanged729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
-Prior39-44/58-59 and master3/11/12/13 architecture decisions remain settled.
-Curriculum structured/Prolog; handbook/Charter/memos RAG; Hybrid when both needed.
-Master2.2 defines quantized Gemma4E4B as Bintu-1; supplied model fills intended role.
-A separately fine-tuned checkpoint is not a prerequisite. Same-artifact comparisons
-and master20's explicit-decision boundary for fine-tuning stay intact.
-English/Filipino/Taglish preference required; final answers/images later.
-Institutional authority/release/unknown-rule/EMPTY_REGISTRY/activation holds preserved.
-Task-owned bintanong-p07-router-offline stopped12:25; inspect=exited; assets retained.
-Research:prior native-thinking script sends reasoning_budget, unlike pinned runtime
-reasoning_budget_tokens/thinking_budget_tokens;128token enforcement not established.
-Cache reuse is a documented possible source of drift, not the proven cause here.
-Native thinking/vendor sampling warrant controlled comparison, not assumed gains.
-Proposed all-known-regressions/95%per-language targets are recommendations only.
-Owner accepts prompt engineering/guardrails for remaining initial-build phases;
-no parameter training/fine-tuning; one-week added-improvement cap before defense.
-Carry standing decision into later plans/handoffs; preserve validation/freeze.
-Other4080/8GB is owner-reported/unverified; local3050 reading remains valid.
-Guards do not guarantee detection of schema-valid route/style errors. No accuracy
-gain or training setup; phase exits and release holds remain unchanged.
+Owner accepts [prompt engineering/guards across future phases](2026-10-19-prompt-engineering-and-validation-decision.md),
+one-week added-improvement cap. Inference-time guidance is not parameter training;
+no fine-tuning/LoRA/learned soft prompts. Numeric95%targets remain proposals.
+Carry decision into later plans/handoffs. Context physical17-18 saved extraction
+and actual runtime PNG refreshed on resume; prior39-44/58-59/master3/11/12/13
+architecture preserved; no discrepancy. Curriculum structured/Prolog, documents
+RAG,Hybrid when both needed. English/Filipino/Taglish preference; final answers/
+images later. Undergraduate/read-only/private/source-gap/EMPTY_REGISTRY/release
+holds preserved. Cacheoff does not guarantee determinism/accuracy. Previous
+reasoning_budget probe used wrong key; no unchanged thinking/sampling sweep.
 
 ## Known Failures or Blockers
 
-No environment blocker. Current prerequisite-fil over-routes to Hybrid; correct
-single operation does not make route correct. Prior procedure-taglish/excluded-
-taglish still choose fil; no new style fix. Prior failed combined-wire/native-
-thinking/label-first/compact trials remain retired. Four own-rule unknowns,
+No environment blocker. Prior prerequisite-fil wronglyHybrid; procedure-taglish/
+excluded-taglish wronglyFilipino. No new language fix. Prior combined-wire,
+native-thinking,label-first,compact trials retired. Four own-rule unknowns,
 full-prospectus defects and inherited Docling failures remain disclosed.
 
 ## Next Action
 
-Specify/test explicit cache/baseline profile with unchanged semantic prompts, then
-bounded prompt comparison under the one-week cap. Verify recognized budget behavior
-if checking thinking; no unchanged sweep. Preserve two style errors and Filipino
-route error as open, with no host semantic override or Phase08 advancement.
+Run one fresh baseline on existing15synthetic cases under explicit profile,
+retaining both stages/raw captures; then one justified prompt change and matched
+evaluation. Preserve failures/denominators and final-family separation. No semantic
+host override or Phase08 advancement.
 
 ## Do Not Repeat
 
-Resolved count diagnostic, completed model calls/setup/downloads, retired language/
-wording/schema-order/native-thinking sweeps, source/CSV regrading,75wording acceptance,
-Phase06 receipt recovery, arbitrary Prolog, activation, merges or other worktree edits.
+Resolved cache/count diagnostics,completed model setup/downloads,unchanged retired
+language/wording/schema-order/thinking sweeps,75wording acceptance,source/CSV review,
+Phase06 receipts,arbitrary Prolog,activation,merges or other worktree edits.
