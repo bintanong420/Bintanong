@@ -8,6 +8,16 @@ Last full snapshot:9b6df0b:plans/plan_current_progress/current_progress.md.
 
 ## Latest change
 
+Owner's latest continue authorizes the offered offline completion review carrying
+both style errors. Fresh24-file gate1615passed/11subtests72.14s,exit0;independent
+review no P1/P2,176tests1.63s,52candidate/212style seals checked. All report-based
+offline exits satisfied;[review/rulings](../2026-10-19-phase07-offline-closeout.md).
+Delivered routing verifier re-executed with output redirected:
+30captures pass,recomputed manifest byte-identical;no prior evidence rewritten.
+Raw:workspace/audit-evidence/p07-offline-closeout-20261019/routing-verification.log.
+Fresh model SHA/size/image match;assets.json. No new inference or product edits;
+phase remains active only until formal handoff/ledger closure.
+
 Completed saved-evidence review of procedure-taglish/excluded-taglish. Both select
 Filipino instead of Taglish;the model quotes the whole mixed question as Filipino.
 Schema/literal grounding pass;no host projection defect identified. Four prior
@@ -62,7 +72,6 @@ release holds preserved. Context17-18 freshly read via existing pypdfium2/PDF ha
 matched;actual PNG/master12 refreshed,no new discrepancy;
 prior39-44/58-59/master3/11/13 architectural evidence retained.
 
-Next:owner chooses whether to carry two style errors into an offline Phase07
-completion review or separately justify a style-design change. Recommend retain
-candidate/review disclosed limitations;no acceptance or gate waiver inferred.
-Routing stays frozen;no equivalent trial or Phase08 advancement. One-week cap applies.
+Next:commit exit evidence,write final handoff,complete plan/supersede checkpoint,
+update ledger and verify advancement. Preserve both style errors/institutional holds.
+No equivalent trial or Phase08 implementation. One-week cap applies.

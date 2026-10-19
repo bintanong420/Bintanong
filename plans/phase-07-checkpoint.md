@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 49
+sequence: 50
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 9b6df0b
-working_tree: clean after residual-style review documentation commit
-updated_at: 2026-10-19T18:10:00+08:00
+head_commit: dac9f22
+working_tree: offline completion review checkpoint documentation in progress
+updated_at: 2026-10-19T18:34:00+08:00
 ---
 
-# Phase07 checkpoint - residual style review complete, owner decision next
+# Phase07 checkpoint - offline exits verified, final handoff next
 
 ## Completed Tasks
 
@@ -28,7 +28,11 @@ no previously correct component regressed. Style-v1 remains13/15,Taglish3/5.
 Exactly15fresh routing calls/15exact style reuses,zero repairs/transport failures.
 Runtime STOPPED. [Residual style review](2026-10-19-phase07-residual-style-review.md)
 now complete:four saved alternatives fail no-regression selection. No fresh model
-calls or product edits;style-v1 retained. Owner acceptance/design decision next.
+calls or product edits;style-v1 retained. Owner now directs continuation after the
+explicit offer of offline completion review with both errors disclosed. Review
+authorized;no perfect-style claim or institutional approval inferred. Whole-change
+independent review found no P1/P2;fresh24-file gate1615passed/11subtests72.14s,exit0.
+Written report-based offline exit satisfied;final handoff/ledger closure next.
 
 ## Repository State
 
@@ -60,10 +64,17 @@ Aggregation sanity check reproduces old15-case metrics/matrices/hash offline.
 Resume review_saved_styles.py exit0:212source-file seals checked,15retained styles
 match source captures and literal grounding;historical result/error sets reproduced.
 Raw:workspace/audit-evidence/p07-style-review-20261019/review.json and review.log.
-No prior evidence overwritten;zero new inference. Fresh docs/phase gate579passed/
+No prior evidence overwritten;zero new inference. Prior docs/phase gate579passed/
 11subtests11.85s,exit0;docs-phase.log. Python3.13 -B -m pytest -q -p no:cacheprovider
 --basetemp=raw-root/docs-phase tests/test_docs_hygiene.py and handoff/tests/test_phase_state.py;
 TEMP/TMP at raw root. Diff check/phase validate pass;no complete handoff/advance.
+Completion review re-executes delivered routing verifier with output redirected
+to workspace/audit-evidence/p07-offline-closeout-20261019/:all30captures pass and
+recomputed manifest byte-matches original;exit0. No old evidence rewritten.
+Fresh24-file gate1615passed/11subtests72.14s,exit0;final-regressions.log/verify-final.ps1.
+Independent176routing tests1.63s,exit0;52candidate and212style source hashes checked.
+Fresh model SHA/size/image match;assets.json. Product/runtime tests unchanged from
+be39e67 by Git diff. [Exit/rulings](2026-10-19-phase07-offline-closeout.md) recorded.
 
 ## Versions and Digests
 
@@ -101,11 +112,9 @@ actual schema not audited,no mutation. Local routing work unaffected.
 
 ## Next Action
 
-Obtain owner's choice on carrying the two style errors into an offline Phase07
-completion review versus a separately justified style-design change. Recommendation
-is retain current candidate/review disclosed limitations;not an approved gate waiver.
-Keep Phase07 active and routing frozen;no equivalent prompt trial or Phase08 until
-actual exit and complete final handoff. One-week improvement cutoff still applies.
+Commit verified exit evidence,then create final handoff,complete phase plan,
+supersede checkpoint/update ledger and verify can-advance. Keep style errors and
+institutional holds explicit. No inference sweep,source review or Phase08 implementation.
 
 ## Do Not Repeat
 
