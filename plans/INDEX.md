@@ -17,7 +17,7 @@
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
 - Phase **09 complete: offline candidate generation/validation**; [Plan](phase-09-generation-validation-plan.md),
   [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md).
-- Active phase:none. Next permitted:Phase10 planning; no Phase10 plan/implementation yet.
+- Active phase:none. Owner requests [Phase09 transfer/review](2026-10-19-phase09-worktree-transfer.md); Phase10 deferred.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
@@ -30,7 +30,7 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress and complete Phase09 handoff;master15 for the next phase;
+2. Read current progress,Phase09 transfer note and complete handoff;master14 for review;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
