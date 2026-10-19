@@ -1,8 +1,8 @@
 # Current progress
 
-Updated:19October2026. Phase09 review in p09/feat/p09-generation-validation.
+Updated:19October2026. Phase09 review complete in p09/feat/p09-generation-validation.
 [Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
-Last full pre-condensation snapshot:b844c5f:plans/plan_current_progress/current_progress.md.
+Last full pre-condensation snapshot:65fd482:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
@@ -11,10 +11,16 @@ retains Phase09 product/closure and algorithm-folder commits; GitHub MCP confirm
 PR13 merged. Phase ledger valid, no active phase. Phase10 remains deferred.
 [Resume review](../2026-10-19-phase09-resume-review.md) records consulted thesis
 17-18/39-44/58-59, actual routing PNG and master3/11/13/14; no new discrepancy.
-Hybrid document clarification wrongly rendered retained definitive decisions.
-RED9failed/9passed; corrected rendering passed75generation tests1.68s. Ready-only
-conclusions preserve unknown/missing-fact guidance. Independent review also
-reproduced dropped control missing_facts; that correction is next.
+Hybrid clarification correction65fd482 withholds definitive decisions/dependency
+lists until both branches permit them; RED9failed/9passed, GREEN126tests2.48s.
+Control missing_facts correctione675d01 preserves preparation/final output and uses
+program/curriculum labels in all three styles. RED6clarifications/2boundary tests;
+GREEN155relevant regressions2.24s. Independent final review:no substantive
+findings,134focused tests passed and nine additional unknown/dependency checks.
+Fresh44-selection offline gate:1857passed/63subtests116.79s,exit0. Product unchanged
+after this gate; no whole-project or real-model accuracy claim. Commands/logs:
+workspace/audit-evidence/p09-resume-review-20261019/.
+Closure docs/phase:595passed/11subtests11.73s;82local links resolve,diff/phase checks pass.
 
 Owner requested a dedicated [backend/algorithms folder](../../backend/algorithms/README.md)
 for panel/paper inspection. Canonical cosine/L2 math and generic Prolog engine moved
@@ -28,12 +34,9 @@ Full gate1832passed/63subtests84.51s;111local links resolve;phase ledger valid.
 Logs/exact script:workspace/audit-evidence/algorithms-folder-20261019/.
 Offline test flags and explicit selection avoid model-loading legacy tests.
 
-Owner stopped advancement into Phase10 and requested Phase09 preparation for a new
-branch/worktree. [Transfer note](../2026-10-19-phase09-worktree-transfer.md) records
-the existing Phase09 commits,base and resume order. Owner handles the switch;
-no Phase10 plan or implementation was created. Completed phase history is preserved.
-Transfer docs/phase checks:593passed,11subtests11.34s; phase ledger valid. Raw log:
-workspace/audit-evidence/p09-worktree-transfer-20261019/docs.log.
+[Transfer note](../2026-10-19-phase09-worktree-transfer.md) preserves the owner's
+Phase10 deferral and checkout instructions. The switch is now verified; completed
+phase history is preserved. No Phase10 plan or implementation was created.
 
 Owner started the existing offline model container. Initial nine-case120s baseline
 produced nine timeout fallbacks and no validated explanation. A single240s trace
@@ -70,6 +73,6 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-Reproduce and correct Hybrid clarification rendering under the bounded resume
-review plan, then resolve concrete reviewer findings and verify offline regressions.
-Phase10 advancement remains deferred despite formal ledger eligibility.
+Owner review of the delivered Phase09 candidate and disclosed model limitations;
+keep Phase10 deferred despite formal ledger eligibility. Do not repeat completed
+gates/model experiments without changed code or a bounded unresolved question.
