@@ -16,6 +16,9 @@ Focused TDD RED missing module; GREEN7passed0.76s. CLI implemented:29tests pass.
 First actual Symbolic full request answered304.913s; RAG failed safely because
 local DB lacked retrieve_context. Applied existing20261012013339 locally only;
 Hybrid interrupted by credit exhaustion. Preserve attempts; verify corrected routes.
+Actual retrieval nowok1passage; corrected RAG/Hybrid batch running. Independent
+review found CLI input hashes computed after inference; RED2(edit/delete),fixed
+to bind used snapshots,GREEN16passed1.11s. No other confirmed code finding so far.
 Context thesis17–18/39–44,actual PNG/master11–14 consulted. No Phase10 work.
 
 Owner challenged "complete" against the actual diagram. [Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md)

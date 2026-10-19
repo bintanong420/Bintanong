@@ -17,14 +17,22 @@ class RuntimeRequest(Record):
     context: RequestContext
 
 
-def read_json(path, limit=4_194_304):
+def _input_bytes(path, limit):
     raw=Path(path).read_bytes()
     if len(raw)>limit: raise ValueError('input_too_large')
-    return json.loads(raw)
+    return raw
+
+
+def read_json(path, limit=4_194_304):
+    return json.loads(_input_bytes(path,limit))
 
 
 def load_request(path):
-    request=RuntimeRequest.parse(read_json(path,131_072))
+    return _parse_request(read_json(path,131_072))
+
+
+def _parse_request(value):
+    request=RuntimeRequest.parse(value)
     prepare_query(request.question)
     return request
 
@@ -51,8 +59,10 @@ def main(argv=None):
     args=parser.parse_args(argv)
     output=output_path(args.output,args.evidence_root)
     if output.exists(): raise ValueError('refusing_to_overwrite_observation')
-    spec=RuntimeSpec.parse(read_json(args.spec))
-    request=load_request(args.request)
+    spec_raw=_input_bytes(args.spec,4_194_304)
+    request_raw=_input_bytes(args.request,131_072)
+    spec=RuntimeSpec.parse(json.loads(spec_raw))
+    request=_parse_request(json.loads(request_raw))
     settings=RuntimeSettings(args.url,args.inference_timeout,args.stage_timeout,
         args.generation_timeout,args.request_timeout)
     app=build_application(spec,model_path=args.model_path,settings=settings)
@@ -61,8 +71,8 @@ def main(argv=None):
     finally:
         app.close()
     report=result.model_dump(mode='json')
-    report.update(spec_sha256=hashlib.sha256(args.spec.read_bytes()).hexdigest(),
-        request_sha256=hashlib.sha256(args.request.read_bytes()).hexdigest(),
+    report.update(spec_sha256=hashlib.sha256(spec_raw).hexdigest(),
+        request_sha256=hashlib.sha256(request_raw).hexdigest(),
         budgets=dict(inference=settings.inference_timeout,stage=settings.stage_timeout,
             generation=settings.generation_timeout,request=settings.request_timeout),
         actual_model_accuracy='unmeasured',human_output_review='pending')

@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 16
+sequence: 17
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 7227732
+head_commit: df99ac6
 working_tree: dirty
 updated_at: 2026-10-20T01:00:00+08:00
 ---
@@ -17,10 +17,12 @@ Original offline milestone and later fixes remain delivered; see
 and [architecture audit](2026-10-20-runtime-architecture-implementation-audit.md).
 Last full pre-reopen snapshot:684a2fe:plans/phase-09-checkpoint.md.
 Added explicit application composition and read-only synthetic release provider.
+CLI deliverydf99ac6; independent review confirmed a provenance defect in input
+hashing after inference. RED2failures(edit/delete); snapshot fix GREEN16passed1.11s.
 
 ## Current Task
 [Integration supplement](2026-10-20-live-backend-composition-plan.md) task1 GREEN;
-CLI implemented; verify corrected actual RAG/Hybrid requests. Phase07 audit finds core
+CLI implemented; corrected actual RAG/Hybrid batch running. Phase07 audit finds core
 master12 functionality present; two known Taglish style errors remain. Auth/private
 files belong to their later phase and are not router authentication capabilities.
 
@@ -41,6 +43,9 @@ RAG164.769s failed safely with storage_error:local DB lacked retrieve_context.
 Hybrid interrupted by credit exhaustion;no completed artifact. Preserve attempts.
 Applied existing migration20261012013339 locally only,transactional/history recorded;
 exact SQL/hash/command in raw local-migration.json. No hosted changes.
+Actual SEA-LION+PostgREST retrieval after migration:ok,1passage,no gaps.
+Corrected batch command:raw verify-followup.ps1; finite240s inference/generation,
+300sstage/600srequest. Do not start competing inference or heavy tests during it.
 
 ## Versions and Digests
 Existing Python3.13.7/Pydantic2.13.5/HTTPX0.28.1; sentence-transformers6.1.0 available.
@@ -63,7 +68,8 @@ prose scope and language remain
 open; source/schema/release and institutional holds remain in dated records.
 
 ## Next Action
-Verify actual retrieval after existing local migration,then rerun RAG/Hybrid only.
+Read corrected RAG/Hybrid reports when finished,assess final outputs,then run
+46-selection regression gate and complete independent final review.
 
 ## Do Not Repeat
 Prior model/prompt sweeps,settled source decisions or accepted institutional labels.
