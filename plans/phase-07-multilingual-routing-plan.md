@@ -28,6 +28,9 @@ plus deterministic safety regression evidence and a complete final handoff.
 
 ## Constraints and review focus
 
+- Owner accepts the [standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md)
+  for this and future initial-build phases:inference-time instructions/examples,
+  existing model/guards, no parameter training, one-week added-improvement cap.
 - Bintu performs semantic routing; no replacement classifier or Direct route.
 - Reuse shared contracts and Phase06 typed operation signatures. EMPTY_REGISTRY,
   source lifecycle and institutional release/activation guards stay closed.

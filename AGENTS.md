@@ -73,6 +73,24 @@
   inactivity and formal phase gates. It does not authorize Phase 06 advancement,
   executable institutional rules or activation before their applicable boundaries.
 
+## Prompt engineering and validation - owner decision,19October2026
+
+- Read `plans/2026-10-19-prompt-engineering-and-validation-decision.md` in
+  Phase07 and subsequent initial-build phases. The owner accepted prompt guidance,
+  examples and deterministic guards, with a maximum one-week extension for added
+  accuracy work before defense. Carry this decision into later phase plans/handoffs.
+- Prompt engineering guides the existing Gemma/Bintu at inference time; it does
+  not train parameters or change weights. Do not describe it as model training.
+  No fine-tuning, LoRA/QLoRA or learned soft-prompt tuning is part of this build;
+  future training needs a demonstrated need and a new explicit owner decision.
+- Preserve LLM semantic routing, structured/Prolog curriculum reasoning and RAG
+  documents, matching English/Filipino/Taglish response preferences. Validate
+  actual per-language performance separately from schema/guard success; keep
+  evaluation families separate from prompt examples and disclose remaining errors.
+- The deadline does not waive source, privacy, institutional-release or phase
+  gates. Freeze the best verified candidate at the improvement cutoff rather than
+  starting an unbounded prompt/model sweep. See the record for exact boundaries.
+
 ## Natural student questions and intended responses
 
 - Later15October2026 the owner explicitly accepted all nine T1/T2/U3 wordings and

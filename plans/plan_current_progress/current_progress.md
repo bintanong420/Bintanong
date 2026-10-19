@@ -1,6 +1,6 @@
 # Current progress
 
-Updated:19October2026,14:16. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,14:20. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
 [current correction/results](../2026-10-19-phase07-operation-constraint-correction.md),
 [prior style results](../2026-10-19-phase07-style-stage-evaluation.md),
@@ -9,10 +9,12 @@ Pre-condensation snapshot:bec3d8e:plans/plan_current_progress/current_progress.m
 
 ## Latest findings and product baseline
 
-Owner caps added improvement work at one week before defense and clarifies
-interest in prompts as guides/guardrails. Recommend prompt engineering, no training
-pipeline, bounded validation and candidate freeze; allocation in research report.
+Owner accepts [prompt engineering/guards for this and future phases](../2026-10-19-prompt-engineering-and-validation-decision.md),
+with a one-week cap on added improvement work. Saved in AGENTS/index/phase plan.
+Inference-time guidance is not parameter training; no fine-tuning/soft-prompt tuning.
 Owner-reported other4080/8GB is unverified; local3050/4096MiB reading unchanged.
+Read-only transport audit:temperature0/seed0/reasoning-none explicit; cache implicit
+and effective inference profile incomplete. No model calls or product change.
 
 Owner prioritizes minimal errors/high accuracy; the quality-priority question is
 answered. Research confirms prior thinking probe used reasoning_budget=128,
@@ -55,11 +57,11 @@ Master2.2 names quantized Gemma4E4B as Bintu-1; the supplied model is intended.
 No separately fine-tuned checkpoint is required. Preserve the same artifact and
 all undergraduate/read-only/source-authority/activation/Phase06 boundaries.
 
-Next:within the one-week cap, audit runtime/cache/sampling/budget controls and specify the bounded
-same-artifact thinking comparison in the research report. Correct the prior probe's
-budget-control assumption before new inference. Keep both Taglish style errors and
+Next:specify/test an explicit cache/baseline profile with unchanged semantic prompts,
+then the bounded prompt comparison under the one-week cap. Correct the prior probe's
+budget-control assumption if checking thinking. Keep both Taglish style errors and
 the Filipino Symbolic/Hybrid error open. Proposed95%per-language development targets
 are recommendations, not approved gates or measured population accuracy.
 Stop the resolved count diagnostic; no blind retired trials/wording sweep, host
 semantic override, model change/training or Phase08 advancement. Research/docs
-prompt-guidance gate571passed/11subtests14.13s,exit0; phase state valid/diff check clean.
+standing-decision gate572passed/11subtests15.20s,exit0; phase state valid/diff check clean.
