@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 8
+sequence: 9
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: e668e0eb98afd15cb1d8735fe36b63bd74c59784
+head_commit: f5e54e26cf02a15ad709ff53df7812ea27ffddf7
 working_tree: clean
-updated_at: 2026-10-19T20:44:00+08:00
+updated_at: 2026-10-19T21:43:00+08:00
 ---
 
 # Phase09 checkpoint - actual-model exit open
@@ -24,8 +24,9 @@ and scoped software gate verified. Phase09 remains active, not complete.
 Actual-model generation/checker/language observation exit remains unverified.
 
 ## Repository State
-p08/feat/p08-orchestration. head_commit anchors verified producte668e0e; subsequent
-wrapper commits are documentation only (fresh Git names wrapper). All code committed;
+p08/feat/p08-orchestration. Account resume verified clean HEADf5e54e2; product remains
+e668e0e. head_commit anchors the inspected delivery before this documentation update.
+All code committed;
 keep existing worktree. Pre-condensation snapshot:e668e0e:plans/phase-09-checkpoint.md.
 No push/merge, installs, dependency/lock changes or intentional database/source work.
 
@@ -41,6 +42,10 @@ log retained,not gate evidence; no disposable DB test folders found in temp root
 No product changes after corrected full gate. Actual model calls0; no accuracy claim.
 Delivery docs/phase gate591passed/11subtests11.72s,exit0 in delivery-docs.log;
 changed-document links resolve; phase validation passes with active9/no advancement.
+Account-resume gate:646passed/11subtests12.57s,exit0 (five generation files plus
+docs/phase tests). All13manifest file hashes and nine prepared inputs verified;
+one input per route/language pair. Raw logs:workspace/audit-evidence/
+p09-account-resume-20261019/{resume-tests,input-validation}.log. No inference calls.
 
 ## Versions and Digests
 Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/pytest9.1.1/Janus1.5.2/SWI10.1.15 unchanged.
@@ -49,6 +54,8 @@ Prepared input SHA256:1cb09a8a967b5502203ddf897c797800d6562409cb25811b7f188e8797
 Thesis SHA256:729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 Read byte-matched17-18/39-44/58-59 extraction; actual PNG/master3/11/13-16/standing
 prompt/scope/source-gap policies consulted. Model unchanged; prior identity inherited.
+Account resume rechecked the PDF hash, scoped thesis extraction, actual routing PNG
+and master3/11/13/14; scope and architecture decisions remain applicable.
 
 ## Decisions
 Retain undergraduate/read-only scope,LLM three-route semantics,structured/Prolog
@@ -63,6 +70,8 @@ Guide corrected:private files10,web/API11. No other unresolved Context discrepan
 Automatic approval review rejected starting existing offline Docker container with
 only "blocked by policy"; no retry/workaround or model calls. Actual language/support
 observations NOT RUN. All inherited source/hosted-schema/style/release holds remain.
+Fresh read-only check:container exited137; localhost18087 connection refused.
+Owner asked to make the existing container available; no startup retry performed.
 
 ## Next Action
 When the existing authorized offline runtime is available, run the prepared single

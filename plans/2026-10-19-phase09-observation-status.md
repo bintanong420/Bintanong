@@ -11,6 +11,13 @@ sha256:4b7be0376002b4450a357a109bab804093ff9251193cc75ed4ce0cb39953ff5c.
 Supplied Gemma identity is inherited from the Phase07 handoff, not newly loaded or
 hashed in this phase. The container was stopped before the rejected start request.
 
+Account resume at21:43+08 rechecked the existing container read-only:still exited
+with code137; localhost18087 refused connection. No startup retry. All13delivery
+manifest file hashes and the nine prepared inputs still match; fresh generation/
+docs/phase tests646passed/11subtests12.57s. Evidence:
+workspace/audit-evidence/p09-account-resume-20261019/{input-validation,resume-tests}.log.
+Owner asked to make the existing runtime available; actual observations remain NOT RUN.
+
 ## Prepared bounded observation
 
 Student capability:explain supplied evidence and canonical prerequisite checks in

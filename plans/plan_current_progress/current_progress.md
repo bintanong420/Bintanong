@@ -6,6 +6,11 @@ Last full pre-condensation snapshot:e668e0e:plans/plan_current_progress/current_
 
 ## Latest delivery
 
+New-account resume verified clean delivery HEADf5e54e2, all13product/test manifest
+hashes and nine prepared inputs. Fresh generation/docs/phase gate:646passed,
+11subtests12.57s,exit0; logs in workspace/audit-evidence/p09-account-resume-20261019/.
+Rechecked thesis hash/scope/structured routing and actual PNG; no architecture change.
+
 Owner requested continued development with research and Context/scope alignment.
 [Research audit](../2026-10-19-orchestration-research-and-context-alignment.md) maps
 thesis17-18/39-44/58-59,actual PNG/master and official Python/FastAPI/Janus/
@@ -32,6 +37,8 @@ only "blocked by policy" supplied; no retry/workaround/download. Actual language
 prose support and prompt-injection behavior NOT RUN/unmeasured. Phase09 stays active.
 [Observation status](../2026-10-19-phase09-observation-status.md).
 All inherited source/hosted-schema/style/release holds and one-week accuracy cap stay.
+Fresh runtime inspection confirms exited137 and localhost18087 connection refused.
+Owner asked to make that existing runtime available; no new inference attempted.
 
 ## Next action
 
