@@ -58,11 +58,16 @@ Docling failures outside selected gate remain;no whole-project-green claim.
 
 ## Exact next action and work not to repeat
 
-Keep routing frozen. Review only two remaining style misses against saved evidence
-and prior retired candidates under one-week cap;document one bounded intervention
-only if justified,with pure-language controls and no regressions. Do not start a
-new routing/seed/schema-order/thinking sweep. No Phase07 completion inferred from
-15/15routes while style work remains open. Four own-rule unknowns/full-prospectus
+[Residual style review](2026-10-19-phase07-residual-style-review.md) completed on
+resume from9b6df0b:212source-file seals verified,15style captures/source reuse/
+grounding checked;zero fresh inference or product edits. Four saved alternatives
+fail no-regression selection;no equivalent prompt trial justified. Raw evidence:
+workspace/audit-evidence/p07-style-review-20261019/review.json and review.log.
+Next obtain owner's choice:carry two style errors into offline Phase07 completion
+review,or separately justify a style-design change. Recommend retain candidate and
+review disclosed limitations;no acceptance/gate waiver inferred. Keep routing frozen
+and Phase07 active;one-week cap still applies. Do not start routing/seed/schema-order/
+thinking sweep or Phase08. Four own-rule unknowns/full-prospectus
 defects/source holds unchanged. No75wording/source/CSV/Phase06 review repetitions,
 arbitrary Prolog,activation,merges,new downloads or old-candidate restarts.
 

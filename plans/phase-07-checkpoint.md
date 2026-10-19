@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 48
+sequence: 49
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: e985fb9
-working_tree: clean after retained-routing result documentation commit
-updated_at: 2026-10-19T17:59:00+08:00
+head_commit: 9b6df0b
+working_tree: clean after residual-style review documentation commit
+updated_at: 2026-10-19T18:10:00+08:00
 ---
 
-# Phase07 checkpoint - routing candidate retained, style errors remain
+# Phase07 checkpoint - residual style review complete, owner decision next
 
 ## Completed Tasks
 
@@ -26,14 +26,17 @@ all15synthetic dev variants/five families in session35472,exit0. Proposals15/15,
 effective15/15,all5families consistent. Corrects prerequisite-fil and greeting-taglish;
 no previously correct component regressed. Style-v1 remains13/15,Taglish3/5.
 Exactly15fresh routing calls/15exact style reuses,zero repairs/transport failures.
-Runtime STOPPED. Final24-file gate1614passed/11subtests74.57s,exit0.
+Runtime STOPPED. [Residual style review](2026-10-19-phase07-residual-style-review.md)
+now complete:four saved alternatives fail no-regression selection. No fresh model
+calls or product edits;style-v1 retained. Owner acceptance/design decision next.
 
 ## Repository State
 
 p07/feat/p07-router-taglish-nlp;productbe39e67,scope decoderdfa16d2. Last full
-snapshot:e985fb9:plans/phase-07-checkpoint.md. README/results/plan/index/progress/
-checkpoint/handoff committed in final docs wrapper,discoverable in Git. Recorded
-head identifies its verified parent;preserve other worktrees/dev/p06.
+snapshot:9b6df0b:plans/phase-07-checkpoint.md. Resume reconciled stale e985fb9 to
+verified HEAD9b6df0b;prior documentation wrapper retained. Current review/report,
+progress/checkpoint/handoff documentation only;preserve other worktrees/dev/p06.
+head_commit identifies the verified parent;review documentation wrapper is in Git.
 No push/merge/source/registry/database mutation,model download/install/lock change.
 
 ## Verification Evidence
@@ -53,6 +56,14 @@ causal/population/final-answer accuracy claim. All15current routing calls are fr
 Verifier repair handling fixed:behavioral RED4failed2.10s ->4passed1.91s;reviewer
 confirms resolved. Missing-helper collection error retained separately,not RED.
 Aggregation sanity check reproduces old15-case metrics/matrices/hash offline.
+
+Resume review_saved_styles.py exit0:212source-file seals checked,15retained styles
+match source captures and literal grounding;historical result/error sets reproduced.
+Raw:workspace/audit-evidence/p07-style-review-20261019/review.json and review.log.
+No prior evidence overwritten;zero new inference. Fresh docs/phase gate579passed/
+11subtests11.85s,exit0;docs-phase.log. Python3.13 -B -m pytest -q -p no:cacheprovider
+--basetemp=raw-root/docs-phase tests/test_docs_hygiene.py and handoff/tests/test_phase_state.py;
+TEMP/TMP at raw root. Diff check/phase validate pass;no complete handoff/advance.
 
 ## Versions and Digests
 
@@ -74,7 +85,8 @@ instructions/examples,not training. No fine-tuning/LoRA/learned soft prompts;
 one-week added-improvement cap. Numeric95%targets proposals only.
 Retain singlev9candidate after all15checks;freeze routing rather than run another
 routing sweep. No example insertion,wording changes,schema-order/host/style edits.
-Context physical17-18 saved extraction/actual PNG/master12 refreshed;prior39-44/
+Context physical17-18 freshly extracted with existing pypdfium2/PDF hash verified;
+actual PNG/master12 refreshed;prior39-44/
 58-59/master3/11/13 retained,no discrepancy. Curriculum/Prolog,documentRAG,
 English/Filipino/Taglish preferences and later final-generation/images unchanged.
 Undergraduate/read-only/private/source-gap/EMPTY_REGISTRY/release holds preserved.
@@ -89,11 +101,11 @@ actual schema not audited,no mutation. Local routing work unaffected.
 
 ## Next Action
 
-Review only two style misses from saved evidence and prior retired candidates
-under the one-week cutoff;
-freeze verified routing. Any new style intervention needs a bounded hypothesis,
-pure-language controls and no regression. No new routing/seed/schema-order sweep
-or Phase08 until actual exit and complete final handoff.
+Obtain owner's choice on carrying the two style errors into an offline Phase07
+completion review versus a separately justified style-design change. Recommendation
+is retain current candidate/review disclosed limitations;not an approved gate waiver.
+Keep Phase07 active and routing frozen;no equivalent prompt trial or Phase08 until
+actual exit and complete final handoff. One-week improvement cutoff still applies.
 
 ## Do Not Repeat
 
