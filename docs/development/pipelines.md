@@ -3,7 +3,8 @@
 Read this after [AGENTS.md](../../AGENTS.md) and the [phase index](../../plans/INDEX.md).
 The [master plan](../../plans/master_implementation_plan_original_long.md) defines
 the intended system; this guide maps it to code and states what runs today.
-For formulas,algorithm implementations and a runnable paper demonstration,see the
+For algorithm code and a runnable paper demonstration, open
+[backend/algorithms](../../backend/algorithms/README.md) and the detailed
 [algorithm map](algorithms.md).
 
 Phase08 delivers **internal candidate orchestration with synthetic release
@@ -79,6 +80,7 @@ the existing FastAPI app exposes health probes only.
 
 | Responsibility | File / module |
 | --- | --- |
+| Canonical vector math, generic Prolog engine and paper demo | [Algorithms folder](../../backend/algorithms/README.md) |
 | Request stage order, dispatch and total stage deadlines | [orchestrator.py](../../backend/bintanong_orchestration/orchestrator.py) |
 | Release provider and typed dependency interfaces | [ports.py](../../backend/bintanong_orchestration/ports.py) |
 | Candidate snapshot, evidence and telemetry schemas | [contracts.py](../../backend/bintanong_orchestration/contracts.py) |

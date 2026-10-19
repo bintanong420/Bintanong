@@ -96,6 +96,19 @@ def test_extra_keys_and_changed_ledger_do_not_load():
     with pytest.raises(ValueError): bundles().validate_runtime_bundle(bundle)
 
 
+def test_bundle_validation_is_bound_to_algorithm_folder_engine(monkeypatch):
+    from pathlib import Path
+    bundle=prepared()
+    canonical=Path(__file__).resolve().parents[1]/'backend/algorithms/curriculum_runtime.pl'
+    original=Path.read_bytes
+    def changed_engine(path):
+        data=original(path)
+        return data+b'\n' if path.resolve()==canonical else data
+    monkeypatch.setattr(Path,'read_bytes',changed_engine)
+    with pytest.raises(ValueError,match='runtime bundle differs'):
+        bundles().validate_runtime_bundle(bundle)
+
+
 def test_windows_git_checkout_preserves_immutable_engine_bytes(tmp_path):
     import os
     import shutil
@@ -106,8 +119,8 @@ def test_windows_git_checkout_preserves_immutable_engine_bytes(tmp_path):
     if git is None:
         pytest.skip('Git checkout verification requires Git')
     repo = Path(__file__).resolve().parents[1]
-    relative = 'backend/bintanong_symbolic/curriculum_runtime.pl'
-    canonical = subprocess.check_output([git, 'show', f'HEAD:{relative}'], cwd=repo, timeout=10)
+    relative = 'backend/algorithms/curriculum_runtime.pl'
+    canonical = (repo / relative).read_bytes()
     target = tmp_path / relative
     target.parent.mkdir(parents=True)
     target.write_bytes(canonical)

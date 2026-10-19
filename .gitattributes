@@ -1,2 +1,2 @@
 # Runtime bundles bind the exact Prolog engine bytes across checkouts.
-backend/bintanong_symbolic/curriculum_runtime.pl text eol=lf
+backend/algorithms/curriculum_runtime.pl text eol=lf

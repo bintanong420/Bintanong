@@ -21,8 +21,9 @@ Use the phase index for current delivery status.
    Read the [developer pipeline map](docs/development/pipelines.md) for the source
    preparation/request flows, module responsibilities and generation/API boundaries.
    Institutional release remains gated; the index and Git determine current status.
-   The [algorithm map and paper demo](docs/development/algorithms.md) locates cosine
-   similarity,exact top-k retrieval,Prolog reasoning and the other core workflows.
+   Open [backend/algorithms](backend/algorithms/README.md) for cosine math, the
+   nearest-neighbor demo, Prolog reasoning and links to the runtime SQL and callers.
+   The [detailed algorithm map](docs/development/algorithms.md) covers other workflows.
 3. Read the relevant sections of the
    [master plan](plans/master_implementation_plan_original_long.md). Consult the
    [thesis](Context/bintanong_thesis_for_context.pdf), especially physical17–18
@@ -47,6 +48,7 @@ Bintanong/
 ├── README.md                   Developer entry point and local-data map
 ├── Context/                    Thesis and intended runtime architecture
 ├── backend/
+│   ├── algorithms/             Canonical vector math, Prolog engine and paper demo
 │   ├── bintanong_api/          API/service scaffold and model client
 │   ├── bintanong_contracts/    Typed source, span, chunk and runtime contracts
 │   ├── bintanong_embedding/    Embedding adapter and batch verification

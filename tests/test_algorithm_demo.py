@@ -7,9 +7,10 @@ import sys
 import pytest
 
 
-def test_demo_shows_cosine_distance_ranking_and_threshold_before_top_k():
+@pytest.mark.parametrize('module',['scripts.demo_cosine_top_k','backend.algorithms.nearest_neighbors'])
+def test_demo_shows_cosine_distance_ranking_and_threshold_before_top_k(module):
     result = subprocess.run(
-        [sys.executable, '-B', '-m', 'scripts.demo_cosine_top_k'],
+        [sys.executable, '-B', '-m', module],
         cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True,
         timeout=20, check=False,
     )

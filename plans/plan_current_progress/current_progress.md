@@ -6,14 +6,17 @@ Last full pre-condensation snapshot:37c8d69:plans/plan_current_progress/current_
 
 ## Latest delivery
 
-Owner requested visible algorithm code for the paper. [Algorithm map](../../docs/development/algorithms.md)
-links cosine math,actual SQL top-k RPC,callers,Prolog and other core workflows.
-Synthetic demonstration:scripts/demo_cosine_top_k.py calls the existing cosine
-helper; no runtime/database algorithm moved or replaced. RED1/GREEN36tests,
-9subtests1.18s; raw logs/demo output:workspace/audit-evidence/algorithm-map-20261019/.
-An overly broad legacy embedding test run was stopped and excluded; narrowed
-verification uses offline flags and no live model execution. See verification-note.txt.
-Docs/phase checks593passed,11subtests11.49s;90local links resolve and phase state valid.
+Owner requested a dedicated [backend/algorithms folder](../../backend/algorithms/README.md)
+for panel/paper inspection. Canonical cosine/L2 math and generic Prolog engine moved
+there;nearest-neighbor demo moved with old imports/CLI preserved. Live k-NN SQL
+remains in its migration,linked alongside callers in the folder and
+[algorithm map](../../docs/development/algorithms.md).
+[Refactor plan/evidence](../2026-10-19-algorithms-folder-refactor-plan.md):RED8;
+GREEN106tests24.20s including actual Janus. Engine bytes/hash unchanged and pre-move
+saved bundle validates. Independent code review:no substantive findings.
+Full gate1832passed/63subtests84.51s;111local links resolve;phase ledger valid.
+Logs/exact script:workspace/audit-evidence/algorithms-folder-20261019/.
+Offline test flags and explicit selection avoid model-loading legacy tests.
 
 Owner stopped advancement into Phase10 and requested Phase09 preparation for a new
 branch/worktree. [Transfer note](../2026-10-19-phase09-worktree-transfer.md) records
@@ -57,6 +60,7 @@ source activation,student endpoint or deployment. One-week accuracy cap preserve
 
 ## Next action
 
-After the owner switches,verify the new checkout retains Phase09 commits and follow
+After the owner switches,verify the new checkout retains Phase09 and algorithm
+folder commits and follow
 the transfer note for Phase09 review/validation. Phase10 advancement is deferred by
 the owner's current direction,despite formal ledger eligibility.
