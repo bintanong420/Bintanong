@@ -8,8 +8,8 @@
 - [Active plan](phase-07-multilingual-routing-plan.md) · [Checkpoint](phase-07-checkpoint.md) ·
   [Developer handoff](2026-10-19-phase07-cli-handoff.md). Owner directed implementation;
   [execution steps](2026-10-19-phase07-implementation-plan.md), router implemented;
-  [audience correction](2026-10-19-phase07-audience-decoder-correction.md):dfa16d2 verified;
-  3/3selected scope proposals correct;style-v1 retained,Taglish errors still open.
+  [retained routing/results](2026-10-19-phase07-requested-work-prompt.md):15/15fresh dev routes;
+  15/15effective outcomes,13/15reused styles. Two Taglish style errors remain.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases; one-week improvement cap; route/style exit remains open.
 - Next phase08 remains gated on a complete Phase07 handoff.

@@ -84,30 +84,20 @@ has yet been approved; report observations for review rather than invent one.
 
 ## Current dependencies
 
-Owner supplies workspace/MODELS and authorized official runtime image download.
-Existing Gemma bytes/image/build/template verified; no weights/packages changed.
-Explicit inference profile29cc8d9 is verified; see [current comparison/results](2026-10-19-phase07-prompt-comparison.md).
-Fresh15-case synthetic baseline:10/15proposals,13/15effective,13/15styles; entity/
-claim/operation collections15/15each (6nonempty,9empty),family consistency3/5.
-Style-v4 candidate9dde229 retired early:10completed pairs baseline9/10styles vs
-candidate8/10,zero fixes,one new pure-Filipino error. Five outputs incomplete;
-no full15candidate estimate. Restoration833d2f4 returns selected style-v1 exactly.
-Restored24-file gate1580passed/11subtests101.65s. Task runtime stopped.
+Owner model/runtime assets verified;no weights/dependencies changed. Audience
+decoderdfa16d2 retained. [Router-v9 requested-work guidance](2026-10-19-phase07-requested-work-prompt.md)
+be39e67 passes all15synthetic dev variants:15/15proposals/effective outcomes,
+15/15entity/claim/operation collections(6nonempty/9empty),all5families consistent.
+Exactly15fresh routing calls/15exact baseline style reuses,zero repairs/failures;
+30captures verified,min3166context headroom,runtime stopped. No full freshv8baseline:
+saved comparison reference composes12v7nonexcluded+3v8scope. No population accuracy.
+Prior prerequisite-fil/greeting-taglish errors corrected;scope decoder preserved.
+Style-v1 remains13/15labels,Taglish3/5;procedure-taglish/excluded-taglish still wrong.
+18offset corrections remain observable;no raw-span perfection or final-answer claim.
 
-Baseline Filipino prerequisite wronglyHybrid,Taglish greeting wronglyRAG;three
-excluded proposals wronglyRAG but host audience guard safely returns unsupported.
-Two Taglish styles remain wrong. Guard success is separate from model accuracy.
-[Audience correction](2026-10-19-phase07-audience-decoder-correction.md) dfa16d2 now
-encodes existing excluded/unrelated/unknown precedence, preserving undergraduate
-branches and unknown/compound details. TDD18failed14passed ->176passed;independent
-review no P1/P2;24-file gate1612passed/11subtests125.90s. Saved15capture revalidation
-rejects exactly three prior excluded contradictions. Selected-three check complete:
-3/3scope proposals correct(previously0/3),effective3/3alreadyguarded;3fresh routing
-calls/3exact style reuses,0repairs/failures. Style2/3unchanged,Taglish remains wrong.
-All6captures verified;3317minimumcontext headroom;runtime stopped. No broader score.
-Next review remaining two route/two style errors using saved evidence under one-week
-cap;document one bounded correction only if supported,without a new sweep.
-The language/route exit remains open; Phase07 active,Phase08 gated. Numerical
-accuracy targets in the research recommendation remain proposals, not owner gates.
-Prior retired trials/evidence remain in their dated reports; do not repeat them.
-Phase06 predecessor verification remains accepted; no receipt-recovery task.
+Integrity176passed1.85s;review no P1/P2,176passed1.93s. Final relevant regression
+gate1614passed/11subtests74.57s,exit0. Style-v4 and other retired trials remain in their dated reports.
+Next freeze verified routing and review only residual style errors under one-week
+cap;no repeated routing or seed/schema-order sweep. Language/style exit remains
+open;Phase07 active,Phase08 gated. Numeric accuracy targets remain proposals.
+Phase06 predecessor verification accepted;no receipt-recovery/source-review task.

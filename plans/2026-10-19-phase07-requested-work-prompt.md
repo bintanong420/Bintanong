@@ -63,7 +63,7 @@ private/source-gap/EMPTY_REGISTRY/institutional release holds unchanged. No exec
 API, training, installs, models, DB writes, Phase08 or reopened source decisions.
 Even a passing route candidate does not resolve the two existing style errors.
 
-## Candidate delivery and running check
+## Candidate delivery and completed check
 
 Saved-output semantic RED:two expected-route assertions fail (prerequisite-fil
 Hybrid vs Symbolic;greeting-taglishRAG vs greeting),exit1;semantic-red.log. This
@@ -71,11 +71,11 @@ reuses real saved inference and is explicitly not fresh routerv8 inference.
 No text-matching/mock semantic test was added. Structural integrity gate176passed
 1.85s,exit0 across six routing files;integrity.log. Independent review no P1/P2,
 176passed1.93s,exit0. These passes do not establish semantic GREEN.
-Productbe39e67 committed before inference. Script evaluate-requested-work.py is
-running in session35472;evaluation.log under raw root. Target-first,then controls
-only on recorded benefit/no-regression gate. Runtime shutdown in finally;
-completion-status.json records acceptance/retirement and actual completion count.
-Do not duplicate a live request or resume a completed/rejected candidate.
+Productbe39e67 committed before inference. evaluate-requested-work.py completed
+in session35472,exit0;evaluation.log under raw root. Target-first,then controls
+only on recorded benefit/no-regression gate. Finally stopped the runtime;
+completion-status.json=candidate_checks_passed,runtime_stopped=true. Do not rerun
+this completed check or resume a rejected prior candidate.
 Candidate documentation/phase gate578passed/11subtests30.10s,exit0;
 candidate-docs.log. Existing readiness Python -B -m pytest -q -p no:cacheprovider,
 external TEMP/TMP/basetemp=raw-root/candidate-docs;docs hygiene and phase-state tests.
@@ -83,9 +83,64 @@ external TEMP/TMP/basetemp=raw-root/candidate-docs;docs hygiene and phase-state 
 Target gate COMPLETE:prerequisite-fil now Symbolic and greeting-taglish now greeting,
 both effective outcomes correct;all previously correct component checks preserved,
 0repairs. This is actual target semantic GREEN, not a complete15-case result.
-Thirteen controls are running under the same immutable candidate in session35472.
+The subsequent13controls completed under the same immutable candidate without
+a new regression;the complete result is below.
 Evidence-script reviewer found a conditional repair-verification bug; offline
 helper now verifies exact repair linkage and preserves initial/final failures.
 Behavioral regression RED4failed2.10s ->GREEN4passed1.91s;reviewer confirms resolved.
 Initial missing-helper collection error retained separately, not behavioral RED.
 No change to product or live evaluator;no extra model calls for verifier fixes.
+
+
+## Retained result and exact limits
+
+Retain router-v9 guidancebe39e67. Exactly15fresh routing calls and15exact baseline
+style reuses,zero repairs/transport failures. All15proposals/effective outcomes
+correct;all5families have consistent route/entity/claim/operation meaning.
+
+| Language | Fresh proposal | Effective | Reused style |
+| --- | --- | --- | --- |
+| English | 5/5 | 5/5 | 5/5 |
+| Filipino | 5/5 | 5/5 | 5/5 |
+| Taglish | 5/5 | 5/5 | 3/5 |
+| Total | 15/15 | 15/15 | 13/15 |
+
+Resolved entity/claim/operation collections15/15each,including6nonempty/9empty
+collections per axis. Host unique-literal anchoring corrected18offsets;this is not
+perfect raw-span extraction. Two style errors remain:procedure-taglish and
+excluded-taglish chooseFilipino. Style was reused unchanged,not freshly evaluated.
+No final-answer or institutional accuracy claim. Five scenario families/15language
+variants are a small synthetic development set,not15independent policy scenarios.
+
+Both original targets now correct;all previously correct reference components
+preserved. Reference composes12savedv7nonexcluded+3freshv8excluded,not a freshfullv8
+baseline. Current routing is one complete freshv9run with target-first control
+ordering. No pure prompt-causal attribution,repeat-stability or population claim.
+
+verify-evidence.py passed,exit0;verification.log. All30captures checked against
+be39e67 code,case/catalog,prompt/schema/request/profile/runtime pins and exact
+style-source SHA256s. Minimum3166tokens context headroom after output/reserve.
+Repair-aware verification retains failures and checks linkage;actual run had none.
+Offline aggregation sanity check reproduces old baseline counts/matrices/families/
+case digest;aggregation-check.log. No inference repeated for verifier corrections.
+
+candidate/report.json SHA256d1a2816e837d62a54334a90cd19e3655d885db55f2d72820b6ddd640e3511c41;
+candidate/manifest.json SHA2561197780e9646483651bb5d273be8703a71053ffd639105beb29c204627cecea1.
+Evaluator SHA256322cd1acb8ef42364ddfd0293c0568b94d9d9b74aa2faae9f54bc07bbbc010de;
+verifier SHA2567a38489807b20d858d467e6bae1ee6d8f3f4243c46de61b36318853bf2cb9977;
+repair helper SHA256517ceeb8df829d2c3f0edfbc157257aa6ed454d0ab8000d12fca343a51dbde13.
+Full input/props/container/messaging/request/raw/settings/per-case reports remain
+ignored. Runtime image/model/template/profile pins unchanged from scope record.
+
+Final verify-final.ps1 gate:24contract/symbolic/routing/style/evaluation/inference/
+docs/phase files,1614passed/11subtests74.57s,exit0;final-regressions.log. Existing
+readiness Python3.13 -B -m pytest -q -p no:cacheprovider with external TEMP/TMP/
+basetemp=raw-root/final-regressions. Two inherited Docling failures outside this
+selected gate remain disclosed;no whole-project-green claim.
+Final documentation/phase gate578passed/11subtests11.05s,exit0;final-docs.log.
+Same Python/pytest options,basetemp=raw-root/final-docs;docs hygiene and phase-state
+tests. Diff check and phase-state validation pass;Phase07 active,cannot advance.
+
+Freeze verified routing. Next review only two style errors against saved evidence
+and prior retired candidates,under the one-week cap. No additional routing sweep,
+model download/training/source review or Phase08 advancement. Phase07 stays open.
