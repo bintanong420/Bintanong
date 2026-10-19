@@ -151,6 +151,56 @@ def test_compound_clarification_keeps_the_requested_operations():
     assert len(Interpretation.parse(value).operations) == 2
 
 
+@pytest.mark.parametrize('audience', ['undergraduate', 'excluded', 'unrelated', 'unknown'])
+@pytest.mark.parametrize('choice', ['RAG', 'Symbolic', 'Hybrid', 'clarify',
+                                  'evidence_unavailable', 'greeting', 'unsupported_scope'])
+def test_decoder_audience_precedence_excludes_contradictory_route_controls(audience, choice):
+    import jsonschema
+    from backend.bintanong_routing.prompt import output_schema
+
+    route = choice if choice in ('RAG', 'Symbolic', 'Hybrid') else None
+    value = proposal(audience=audience, route=route,
+        control=None if route else choice,
+        operations=[dict(name='list_affected_courses', target=0)]
+            if route in ('Symbolic', 'Hybrid') else [])
+    allowed = (audience == 'undergraduate' or
+               (audience in ('excluded', 'unrelated') and choice == 'unsupported_scope') or
+               (audience == 'unknown' and choice == 'clarify'))
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value) is allowed
+
+
+def test_unknown_audience_clarification_retains_compound_details():
+    import jsonschema
+    from backend.bintanong_routing.prompt import output_schema
+
+    value = proposal(audience='unknown', route=None, control='clarify', operations=[
+        dict(name='check_prerequisite_eligibility', target=0),
+        dict(name='list_affected_courses', target=0)],
+        claims=[dict(text='A1', start=0, end=2, entity=0, state='failed', mode='hypothetical')])
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value)
+    result = run(FakeTransport(json.dumps(value)))
+    assert result.diagnostic == 'audience_unknown'
+    assert result.decision.control == 'clarify' and result.decision.predicate_request is None
+    assert len(result.proposed.operations) == 2
+    assert result.proposed.claims[0].mode == 'hypothetical'
+
+
+@pytest.mark.parametrize('audience,diagnostic,control', [
+    ('excluded', 'unsupported_scope', 'unsupported_scope'),
+    ('unrelated', 'unsupported_scope', 'unsupported_scope'),
+    ('unknown', 'audience_unknown', 'clarify')])
+def test_nonconforming_audience_proposal_keeps_host_guard_without_semantic_retry(
+        audience, diagnostic, control):
+    value = proposal(audience=audience, route='Hybrid', operations=[
+        dict(name='check_prerequisite_eligibility', target=0),
+        dict(name='list_affected_courses', target=0)])
+    result = run(FakeTransport(json.dumps(value)))
+    assert result.diagnostic == diagnostic
+    assert result.decision.control == control and result.decision.predicate_request is None
+    assert result.proposed.route == 'Hybrid' and len(result.proposed.operations) == 2
+    assert result.attempts == result.style_attempts == 1 and result.repair_attempts == 0
+
+
 @pytest.mark.parametrize('route', ['RAG', 'Symbolic', 'Hybrid'])
 @pytest.mark.parametrize('count', [0, 1, 2])
 def test_proceed_decoder_matches_supported_operation_count(route, count):

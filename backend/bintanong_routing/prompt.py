@@ -7,7 +7,7 @@ from ..bintanong_contracts.base import VOCAB
 from .contracts import Interpretation, prepare_query
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p07-v7'
+PROMPT_VERSION = 'bintanong-router-p07-v8'
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
@@ -103,7 +103,17 @@ def output_schema():
     terminal_branch['properties']['control'] = {'enum':['greeting', 'unsupported_scope']}
     for name in ('operations', 'claims'):
         terminal_branch['properties'][name]['maxItems'] = 0
-    schema['oneOf'] = [rag_branch, route_branch, control_branch, terminal_branch]
+    scope_branch = deepcopy(terminal_branch)
+    scope_branch['properties']['audience'] = {'enum':['excluded', 'unrelated']}
+    scope_branch['properties']['control'] = {'const':'unsupported_scope'}
+    unknown_branch = deepcopy(control_branch)
+    unknown_branch['properties']['audience'] = {'const':'unknown'}
+    unknown_branch['properties']['control'] = {'const':'clarify'}
+    # Match host audience precedence without classifying the student's wording.
+    branches = [rag_branch, route_branch, control_branch, terminal_branch]
+    for branch in branches:
+        branch['properties']['audience'] = {'const':'undergraduate'}
+    schema['oneOf'] = [*branches, scope_branch, unknown_branch]
     return schema
 
 

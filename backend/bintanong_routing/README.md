@@ -46,6 +46,12 @@ compound operations, conflicting assertions and nonasserted hypothetical/reporte
 facts withhold dispatch. Missing unmentioned grades remain unknown; no full
 transcript is required simply to name a supported operation.
 
+Decoder branches match existing host audience precedence: excluded/unrelated
+audiences require unsupported_scope with no operations/claims; unknown requires
+clarify and can preserve compound details. Bintu still selects the audience from
+the question. Host checks retain contradictory proposals from nonconforming
+transports for inspection and withhold dispatch without a semantic retry.
+
 The selected response_style is en, taglish, fil or unknown. Bintu quotes literal
 English/Filipino fragments and selects a conversational style. The host checks
 bounded structure/count consistency and exact original-text containment, then maps
