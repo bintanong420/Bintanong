@@ -70,7 +70,7 @@ verify GREEN/relevant regressions, record commands/results and commit.
    Verify fabricated IDs/wrong version/language/outcome and contradictory or
    unsupported claims rejected; complete support verdict required per claim; final
    decision text/conditions host-rendered; English/Filipino/Taglish fallbacks.
-3. [ ] Bounded generator and request composition.
+3. [x] Bounded generator and request composition.
    Files:generator; tests/test_generation_loop.py and test_generation_pipeline.py.
    Verify one repair/shared evidence, separate counters, malformed/checker failure,
    whole-request and generation deadline/cancellation, no streaming/raw logging, controls skip model calls,

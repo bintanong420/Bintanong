@@ -36,3 +36,7 @@ Existing namespace scanner is not general PII detection; no private inputs expos
 to model by evidence preparation. Next:Task3 RED bounded-loop/deadline tests.
 No new model/install/DB/source operations; actual generation/
 checker/language performance remains unmeasured.
+Task3 bounded Generator/AnswerPipeline delivered;RED16/GREEN39passed1.31s,exit0.
+Single repair,unchanged evidence,separate counters and request deadline tested.
+Next:fresh review and bounded actual-model synthetic observations using existing
+offline runtime only,then developer guide and scoped final regression.

@@ -37,14 +37,20 @@ def _messages(instructions,payload,schema):
         dict(role='user',content=json.dumps(payload,ensure_ascii=True,sort_keys=True))]
 
 
+def output_schema(contract):
+    schema=contract.model_json_schema()
+    schema['properties']['schema_version']['const']=contract.SCHEMA_VERSION
+    return schema
+
+
 def draft_messages(text,pack,*,errors=(),previous=''):
     return _messages(DRAFT_PROMPT,dict(untrusted_question=text,evidence=pack.model_payload(),
-        validation_errors=list(errors),untrusted_previous_draft=previous[:4096]),AnswerDraft.model_json_schema())
+        validation_errors=list(errors),untrusted_previous_draft=previous[:4096]),output_schema(AnswerDraft))
 
 
 def support_messages(text,pack,draft):
     return _messages(SUPPORT_PROMPT,dict(untrusted_question=text,evidence=pack.model_payload(),
-        untrusted_draft=draft.model_dump(mode='json')),SupportReport.model_json_schema())
+        untrusted_draft=draft.model_dump(mode='json')),output_schema(SupportReport))
 
 
 PROMPT_SHA256=hashlib.sha256(DRAFT_PROMPT.encode()).hexdigest()

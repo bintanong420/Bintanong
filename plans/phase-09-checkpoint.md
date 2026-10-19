@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 5
+sequence: 6
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 12198ee
+head_commit: d364a39
 working_tree: dirty
 updated_at: 2026-10-19T20:20:00+08:00
 ---
@@ -21,9 +21,11 @@ draft/check/candidate answer contracts delivered; integration policy reassembled
 canonical decision copied, locators/private-reference limits preserved.
 Task2 versioned data-separated prompts, deterministic draft checks, complete prose
 verdict validation and localized canonical/fallback rendering delivered.
+Task3 Generator/AnswerPipeline delivered:at most2draft/2checker calls,one repair,
+unchanged evidence, canonical output/fallback, overall remaining request deadline.
 
 ## Current Task
-Task3:bounded generation/support-check loop and whole-request composition.
+Task4:bounded actual-model synthetic observations and developer guide; review next.
 
 ## Repository State
 New Phase09 plan/checkpoint and required index/progress edits; preserve prior files.
@@ -41,6 +43,8 @@ orchestration integration);task1-red.log/task1-green.log under same raw root.
 Task2RED17missing-module failures; initialGREEN exposed test fixture outside existing
 namespace scanner's known free-text matching rules; corrected synthetic ID fixture.
 task2-verified.log:114passed1.25s,exit0 (generation evidence/validation+answer contracts).
+Task3RED16missing-module failures;GREEN39passed1.31s,exit0 across four generation
+files;task3-red.log/task3-green.log. No actual generation-quality claim from mocks.
 
 ## Versions and Digests
 Existing Python3.13 readiness environment; dependencies unchanged.
@@ -69,8 +73,8 @@ flow while preserving thread/grammar/LLM-checker limits. Whole composed request
 deadline added to Phase09 plan; active guide's Phase10/11 labels corrected.
 
 ## Next Action
-Write Task3 RED tests for repair/support failure/deadline/session behavior before
-implementing Generator and composed AnswerPipeline.
+Run fresh whole-change review; prepare bounded synthetic actual-model observations
+using existing stopped offline runtime/assets only; document results and guide.
 
 ## Do Not Repeat
 Do not rerun settled source reviews/accepted question wording/Phase07 prompt sweeps.
