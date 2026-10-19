@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 22
+sequence: 23
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 3ec6238
-working_tree: two-stage style integration, evaluation/tests/docs and checkpoint/progress
-updated_at: 2026-10-19T11:43:57+08:00
+head_commit: ac00ac9
+working_tree: response-style label-first schema/prompt and checkpoint/progress/design
+updated_at: 2026-10-19T11:51:20+08:00
 ---
 
 # Phase07 checkpoint - scope corrected, Taglish style open
@@ -27,15 +27,20 @@ Resumed98aa714. [Response-style design](2026-10-19-phase07-response-style-design
 builder checked. Combined-wire prototype style5/5 but route/operation interference;
 retired. Two independent Bintu calls now preserve verified routing input and ground
 style separately. One shared repair:normal2/max3calls. RED35/18passed ->GREEN127,
-1.34s. Review/full15-case composition pending; no model-style success claim yet.
+1.34s. Independent review found no P1/P2;127passed1.30s. Full15-case composition:
+routes/entities/claims/operations15/15,styles13/15; exact routing-capture reuse and
+15fresh style calls. Two mixed utterances quoted wholly as Filipino. Promptv2's
+explicit span instructions failed the same two cases; retired. Label-first promptv3/
+schema-order check passes5/5routes/meaning/styles;127unit tests pass3.38s.
+Broad24-file regression passed1555/11subtests179.81s,exit0.
 Native-thinking probe is not adopted; no Phase07 final handoff/Phase08 advancement.
 
 ## Repository State
 
-p07/feat/p07-router-taglish-nlp; product/inference d019318.
+p07/feat/p07-router-taglish-nlp; two-stage product ac00ac9; routing prompt d019318.
 Other worktrees/dev/p06 preserved; no push/merge, source or registry mutation.
 Pre-condensation snapshot:d019318:plans/phase-07-checkpoint.md.
-Documentation wrapper identity is discoverable in Git; product code stays d019318.
+Documentation wrapper identity is discoverable in Git; style prompt v3 is uncommitted.
 
 ## Verification Evidence
 
@@ -96,9 +101,8 @@ prospectus defects and two inherited Docling failures remain unchanged.
 
 ## Next Action
 
-Commit verified stage integration, run full15-case composition using exact saved
-routing captures plus fresh style calls, then selected fresh two-stage requests.
-Inspect independent review/full regressions; preserve all release guards.
+Commit verified label-first candidate and finish all15cases with exact-compatible
+capture reuse, then selected fresh two-stage requests. Preserve all release guards.
 
 ## Do Not Repeat
 

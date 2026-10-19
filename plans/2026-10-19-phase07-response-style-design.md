@@ -5,7 +5,10 @@ match English, Filipino and Taglish conversation style without altering evidence
 Existing actual v6:15/15routes/meaning,10/15style (all Taglish labeled fil). Native
 thinking only corrected one of two selected Taglish cases. Do not repeat those probes.
 
-## Design and bounded question
+Current integration uses two independent calls to the same Bintu model; the later
+separation section supersedes the original combined-call hypothesis below.
+
+## Original combined-call hypothesis (retired)
 
 Hypothesis:an ISO-like language label conflates Filipino language with Taglish response
 style. Make style interpretation observable in the SAME Bintu structured call, before
@@ -109,7 +112,37 @@ style-stages-green.log and style-stages-final-green.log retain exact results.
 Shared-budget, grounding failure, unknown precedence, style-only input privacy and
 independent accepted style versus original routing-language metadata are covered.
 The abandoned combined-wire projection/decoder was removed; no legacy style-output
-fallback is introduced. Actual full15-case composition evaluation remains pending.
+fallback is introduced. Independent stage review found no P1/P2 and reran127tests,
+1.30s. Actual full15-case composition keeps routes/entities/claims/operations15/15
+and five consistent families, but style13/15. Procedure and excluded Taglish outputs
+quote the entire mixed utterance as Filipino, leaving English fragments empty.
+All15 routing captures match exactly;15style calls are fresh,30logical calls,
+zero repairs. No end-to-end latency claim. style-stages-full/ retains raw evidence.
+
+Promptv2 addresses that observed span-selection failure:inspect embedded phrases,
+quote language-specific spans, and do not equate Filipino sentence frame with an
+unmixed utterance. No host vocabulary or semantic override. RED is the two actual
+failed development cases above. Fixed check:those same two plus procedure English,
+procedure Filipino and Taglish greeting controls. Only a passing bounded check
+permits the remaining full-case evaluation; no new gold or parameter sweep.
+The five-case check returned style3/5, with both same errors unchanged; do not
+adopt promptv2 or repeat equivalent wording changes. Raw:style-stages-v2-bounded/.
+
+The next bounded test addresses a different mechanism:decoder field order. Both
+failures first emit an empty English array, which forces the later label to
+filipino under the disjoint schema. Move preferred_response_style before both
+evidence arrays and ask the model to choose it from the complete utterance before
+supporting it with quotes. This is a causal hypothesis, not an established root
+cause. Keep all schema/count/grounding/repair rules and routing inputs unchanged.
+Same fixed five cases; no new gold, host classification or generation settings.
+Promptv3/schema-order candidate passes127routing tests,3.38s. Actual fixed check
+passes5/5routes,entities,claims,operations and styles; zero repairs. Both previously
+failed Taglish cases now choose taglish and quote an actual English fragment.
+Raw:style-stages-label-first/, including the exact uncommitted product.patch over
+ac00ac9. This supports adopting the combined prompt/order change; it is not an
+isolated causal proof that schema order alone explains the previous failures.
+Broad24-file gate for the stage implementation:1555passed/11subtests,179.81s,
+exit0 (style-stages-regressions.log). Two inherited Docling failures still apply.
 
 Implementation uses existing Python/Pydantic/runtime only. No installs, weights,
 institutional data, final answers, API or Phase08 work. New tracked tests remain synthetic.

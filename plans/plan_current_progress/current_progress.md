@@ -56,5 +56,10 @@ Resumed98aa714 with [response-style design](../2026-10-19-phase07-response-style
 Combined-wire prototype style5/5 but altered routing/operation output; retired.
 Two independent calls to the same Bintu now preserve routing input and ground style
 separately. Shared one-repair budget:normal2/max3calls. RED35/18passed ->GREEN127,
-1.34s. Next:commit integration, inspect review and full15-case composition with exact
-saved routing captures/fresh style, plus selected fresh two-stage requests. Phase07 open.
+1.34s. Integration committed ac00ac9; review:no P1/P2,127passed1.30s.
+Full15-case composition retains routes/meaning15/15, styles13/15. procedure-taglish
+and excluded-taglish quote whole mixed utterances as Filipino. Promptv2's explicit
+span instructions fail the same cases; retired. Label-first promptv3/schema order
+passes the same two failures/three controls:5/5styles/routes/meaning. Broad
+gate1555/11subtests,179.81s,exit0;127focused tests3.38s. Next:commit verified
+candidate, complete compatible full evaluation and fresh two-stage checks. Phase07 open.
