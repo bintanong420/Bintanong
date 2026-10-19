@@ -4,14 +4,17 @@
 
 - Phase 05 **complete as an owner-approved offline research/software milestone**.
 - Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
-- Phase **07 complete as a verified offline software/research milestone**;
-  no active numbered implementation phase. [Completed plan](phase-07-multilingual-routing-plan.md) ·
+- Phase **08 active: candidate runtime orchestration** in p08/feat/p08-orchestration.
+  [Plan](phase-08-orchestration-plan.md) · [Checkpoint](phase-08-checkpoint.md).
+  Owner explicitly resumed on 19 October 2026 and requests clear developer pipelines.
+- Phase **07 complete as a verified offline software/research milestone**.
+  [Completed plan](phase-07-multilingual-routing-plan.md) ·
   [Superseded checkpoint](phase-07-checkpoint.md) · [Final handoff](phase-07-handoff.md) ·
   [Exit mapping/review](2026-10-19-phase07-offline-closeout.md).15/15fresh dev routes/
   effective outcomes,13/15exact reused styles;two Taglish style errors remain.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
-- Next permitted phase **08 planning**,after successful advancement check;not started.
+- Next permitted phase: **08 implementation**; Phase 09 remains gated on its handoff.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
@@ -31,11 +34,11 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress and complete Phase07 handoff;master13 for Phase08 planning;
+2. Read current progress, Phase08 plan/checkpoint and complete Phase07 handoff;master13;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. No active implementation checkpoint;follow final handoff's next action.
+5. Resume the Phase08 checkpoint's exact next action.
 
 ## Phase ledger
 
@@ -52,6 +55,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
 | 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
+| 8 | Orchestration | in progress; candidate only | [Plan](phase-08-orchestration-plan.md) | [Checkpoint](phase-08-checkpoint.md) | none |
 
 ## Read only when relevant
 
