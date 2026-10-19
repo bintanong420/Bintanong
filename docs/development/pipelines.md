@@ -5,8 +5,9 @@ The [master plan](../../plans/master_implementation_plan_original_long.md) defin
 the intended system; this guide maps it to code and states what runs today.
 
 Phase08 delivers **internal candidate orchestration with synthetic release
-injection**. Phase09 adds candidate generation/validation; its actual-model
-observation exit remains NOT RUN. The default provider holds execution. There is
+injection**. Phase09 adds candidate generation/validation; see the
+[model observations](../../plans/2026-10-19-phase09-observation-status.md) for measured
+results and remaining limits. The default provider holds execution. There is
 no student chat endpoint, institutional release loader or deployment.
 Source authority/currentness, held fields and hosted migration gaps remain open.
 The existing 75 accepted institutional question variants were not rerun here.

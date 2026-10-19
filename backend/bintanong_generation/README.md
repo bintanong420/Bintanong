@@ -1,12 +1,11 @@
 # Candidate generation and output validation
 
-Phase09 implementation is active. After the owner started the existing container,
-the nine-case actual-model baseline completed with **nine timeout fallbacks and zero
-validated explanations**. A single traced case exposed invented RAG decision fields;
-the request grammar now binds that field to the host-owned value,including null.
-The targeted multilingual follow-up is pending; default deadlines are unchanged.
-Do not infer phase completion from passing mocked tests or preserved typed outcomes.
-[Plan/checkpoint](../../plans/phase-09-checkpoint.md),
+Phase09 is a completed offline candidate software milestone. The request grammar
+binds the draft decision to its host-owned value,including null. The initial120s
+baseline timed out9/9; a corrected three-language RAG follow-up at240s answered3/3.
+Those are separate observations; default-budget and broader route performance
+remain unresolved. See the [measured report](../../plans/2026-10-19-phase09-observation-status.md)
+and [final handoff](../../plans/phase-09-handoff.md),
 [research and Context alignment](../../plans/2026-10-19-orchestration-research-and-context-alignment.md).
 
 `await Generator(transport).generate(text,integration)` consumes a candidate
@@ -68,6 +67,6 @@ python -B -m backend.bintanong_generation.evaluation C:/Coding-projects/bintanon
 
 Run that only when the existing authorized runtime is available; preserve existing
 reports and choose a new output path for any justified follow-up. The nine-case
-baseline above is complete. Inspect each claim, condition, language
+baseline and targeted follow-up are complete. Inspect each claim, condition, language
 and fallback; annotate pending human review separately from model-checker acceptance.
 See the [observation report](../../plans/2026-10-19-phase09-observation-status.md).

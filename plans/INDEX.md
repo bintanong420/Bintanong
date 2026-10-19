@@ -15,13 +15,14 @@
   effective outcomes,13/15exact reused styles;two Taglish style errors remain.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
-- Active phase:**09 generation/validation**; [Plan](phase-09-generation-validation-plan.md),
-  [Checkpoint](phase-09-checkpoint.md). Owner continued after verified Phase08 exit.
+- Phase **09 complete: offline candidate generation/validation**; [Plan](phase-09-generation-validation-plan.md),
+  [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md).
+- Active phase:none. Next permitted:Phase10 planning; no Phase10 plan/implementation yet.
 - [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Latest final handoff:[Phase08 complete offline](phase-08-handoff.md).
+- Latest final handoff:[Phase09 complete offline](phase-09-handoff.md).
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.
@@ -29,11 +30,11 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress, Phase09 plan/checkpoint and complete Phase08 handoff;master14;
+2. Read current progress and complete Phase09 handoff;master15 for the next phase;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. Resume the active Phase09 checkpoint's exact next action.
+5. Run can-advance before preparing Phase10; preserve all inherited release holds.
 
 ## Phase ledger
 
@@ -51,7 +52,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
 | 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
-| 9 | Generation/validation | in progress; candidate only | [Plan](phase-09-generation-validation-plan.md) | [Checkpoint](phase-09-checkpoint.md) | none |
+| 9 | Generation/validation | complete offline candidate software; model/latency limits disclosed | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 
 ## Read only when relevant
 
@@ -75,5 +76,5 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state; keep durable evidence in dated reports.
-Latest full Phase08 snapshot:`9606319`;Phase07:`73cf70a`;recover with `git show <commit>:<path>`;
+Latest full snapshots:Phase09:`37c8d69`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
 Do not read historical snapshots during routine resume or copy them back here.

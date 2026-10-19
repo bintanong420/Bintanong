@@ -1,8 +1,10 @@
 # Phase09 actual-model observations
 
-**Baseline completed: nine timeout fallbacks, zero validated explanations.**
-Phase09 stays active. Copied decision fields and localized fallback templates do
-not establish successful generation, prose support or model language performance.
+**Offline observation completed.** Initial120s baseline:nine timeout fallbacks,
+zero validated explanations. Corrected RAG follow-up at240s:three validated
+explanations,four source-supported claims and three appropriate language styles
+by agent inspection. These separate denominators do not establish general accuracy
+or readiness under the default deadline. [Final handoff](phase-09-handoff.md).
 
 ## Scope and reproducibility
 
@@ -95,9 +97,47 @@ and [Pydantic schema docs](https://docs.pydantic.dev/latest/concepts/json_schema
 Schema-constrained sampling and schema customization support this boundary; skipped
 constraints and semantic errors still require host validation and actual runtime checks.
 
-Next bounded question:do the same three RAG language variants preserve the absent
-decision and yield supported,appropriately styled explanations after the correction?
-Use one follow-up batch,240seconds per candidate for semantic observation; report
-this separately from the failed120-second baseline. Do not rerun all nine or tune
-on accepted institutional/final families. Deadline/Hybrid performance remains a
-separate unresolved limitation until measured; no accuracy or phase-completion claim.
+The bounded follow-up asked whether the same three RAG language variants preserve
+the absent decision and yield supported,appropriately styled explanations after
+the correction. It used one batch at240seconds per candidate. No all-nine repeat,
+new questions or tuning on accepted institutional/final families occurred.
+
+## Corrected RAG follow-up
+
+Product37c8d69; same model/runtime/decoding,source evidence and original wording.
+240s observation deadline; default120s remains unchanged. Raw input:
+rag-followup-cases.json,SHA256
+84688e02858d7e03d7ab6d61534724e233363a4e717f40ffc53ef2df3e5836ce.
+Raw result:rag-followup-observations.json,SHA256
+4180d622f11ae8466c5226ee02f57e332bf754148406886d7279bf0bf9563784.
+Command:the same module CLI with those input/output names and --timeout240;
+rag-followup-cli.log exit0. Wall time249.815s for all three sequential cases,
+including imports/preflight/output. No per-case latency measurement or120s pass claim.
+
+| Requested style | Answered | Draft/check attempts | Repairs | Agent support/style assessment |
+| --- | ---: | --- | ---: | --- |
+| English | 1/1 | 1/1 | 0 | One supported desk-submission claim; natural English |
+| Filipino | 1/1 | 1/1 | 0 | Two supported submission/40-token claims; predominantly Filipino |
+| Taglish | 1/1 | 1/1 | 0 | One supported submission claim; natural mixed phrasing |
+
+All three decision fields stayed null. All four claims mapped to the supplied
+document card and its physical1/fictional/1 locator. No new office,fee,deadline,
+permission or student fact appeared. Agent manual assessment is independent of the
+model checker's positive verdicts,not an independent human or school assessment.
+Raw human_language_review/human_claim_support_review remain pending; raw
+actual_model_accuracy remains unmeasured. One source family/one variant per language
+is insufficient for language-wide accuracy or a calibrated safety claim.
+
+Post-correction manifestcd770d526c8b51632e46b5dd9078400fd464d2b81f5b1a7bd450c3f3dbf78743
+binds product files,inputs,base schemas and request schemas at run start. Draft
+prompt36f84e98c384e93543d32d5e537eb1939f92e25e8ba35e356f6625974e12f351;
+support prompt unchanged. Request RAG schema
+1d386f8d654fdb9af5a34fcc9c2f822e7f1a908937d4aa43090f092134035e76;
+the generic draft schema remains unchanged. No equivalent performance comparison
+is possible because both correction and observation deadline changed.
+
+The bounded question is resolved; stop this diagnostic. Default-budget latency,
+successful structured/Hybrid model explanations,adversarial model behavior and
+independent human assessment remain later evaluation/release work. Candidate code
+and regression exits are complete; institutional source/loading/privacy/release
+holds remain. No universal correctness,student service or deployment claim.

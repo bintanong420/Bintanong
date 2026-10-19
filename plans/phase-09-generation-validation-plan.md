@@ -1,7 +1,7 @@
 ---
 artifact: phase-plan
 phase: 9
-status: in_progress
+status: complete
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-08-handoff.md
 ---
@@ -75,7 +75,7 @@ verify GREEN/relevant regressions, record commands/results and commit.
    Verify one repair/shared evidence, separate counters, malformed/checker failure,
    whole-request and generation deadline/cancellation, no streaming/raw logging, controls skip model calls,
    concurrent sessions and all three routes preserve outcomes.
-4. [ ] Bounded synthetic model observations and developer guide.
+4. [x] Bounded synthetic model observations and developer guide.
    Files:module README/developer pipeline guide, evaluation.py (bounded reusable
    observation CLI with mock/real distinction); dated evaluation report in plans.
    Reuse supplied existing runtime/assets if locally available; no download/install.
@@ -107,3 +107,11 @@ regeneration terminates after one repair; final canonical output preserves symbo
 status. Source cards and scope remain pinned; no unvalidated answer is exposed.
 Report multilingual synthetic observations honestly, including residual checker/
 language failures; no universal correctness or institutional deployment claim.
+
+Verified offline exit: [final handoff](phase-09-handoff.md) and
+[actual observations](2026-10-19-phase09-observation-status.md). Initial nine-case
+120s baseline:0/9 answers; targeted corrected RAG follow-up at240s:3/3 answers,
+four source-supported claims and three appropriate styles by agent inspection.
+Different deadlines/families are separate denominators; no general accuracy gain
+or operational readiness inferred. Default120s and broader symbolic/Hybrid model
+generation performance remain unresolved release/evaluation work.

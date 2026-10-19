@@ -1,57 +1,45 @@
 # Current progress
 
-Updated:19October2026. Phase09 active in p08/feat/p08-orchestration.
-[Checkpoint](../phase-09-checkpoint.md) · [Software delivery](../2026-10-19-phase09-software-delivery.md).
-Last full pre-condensation snapshot:e668e0e:plans/plan_current_progress/current_progress.md.
+Updated:19October2026. Phase09 offline candidate milestone complete in p08/feat/p08-orchestration.
+[Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
+Last full pre-condensation snapshot:37c8d69:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner started the existing offline container; inspection confirms running with the
-same pinned image and arguments. Readiness503 resolved to ok; no agent startup retry.
-Nine actual-model observations completed from6ff5635:all nine timed out; zero
-validated explanations.12draft/5check attempts,3repairs. Six supplied decisions
-copied unchanged; RAG three null decisions retained. No generated claims exposed.
-Traced English RAG diagnostic completed125.907s:invented eligible then unknown
-instead of null; both correctly rejected. Request grammar now binds host outcome;
-explicit null prompt. RED3/GREEN60 generation tests; default120seconds unchanged.
-Post-observation explicit41-file gate1819passed/63subtests82.37s,exit0; command/log
-under workspace/audit-evidence/p09-generation-final-20261019/.
-Raw baseline/trace and RED/GREEN logs under existing p09-generation root.
+Owner started the existing offline model container. Initial nine-case120s baseline
+produced nine timeout fallbacks and no validated explanation. A single240s trace
+found RAG invented eligible then unknown where no structured decision existed.
+Both were rejected. Correction37c8d69 binds the draft field to the host value and
+explicitly states null; independent guards remain. RED3/GREEN60 generation tests.
 
-New-account resume verified clean delivery HEADf5e54e2, all13product/test manifest
-hashes and nine prepared inputs. Fresh generation/docs/phase gate:646passed,
-11subtests12.57s,exit0; logs in workspace/audit-evidence/p09-account-resume-20261019/.
-Rechecked thesis hash/scope/structured routing and actual PNG; no architecture change.
+One corrected follow-up reused the three RAG language variants at240s:
+3/3 answers,one draft/check each,no repairs,null decision preserved.
+Agent inspection found four source-supported claims and appropriate English,
+Filipino and Taglish styles. This is one fictional source family,not language-wide
+accuracy or default120s success. Baseline/trace/follow-up remain separate evidence.
 
-Owner requested continued development with research and Context/scope alignment.
-[Research audit](../2026-10-19-orchestration-research-and-context-alignment.md) maps
-thesis17-18/39-44/58-59,actual PNG/master and official Python/FastAPI/Janus/
-Pydantic/llama.cpp/OWASP docs. Keep explicit typed orchestration; guide phase labels
-corrected to private files10/web+API11. Undergraduate/advisory/three-route scope stays.
-
-Candidate generation now has pinned source cards,strict drafts,canonical target/
-curriculum/edition context,per-claim citations,separate fallible prose check,
-localized host rendering,one repair and whole request deadline. Institutional loader/
-activation remains held. No model training,new dependency,student endpoint or phase10.
+Developer navigation:[pipeline map](../../docs/development/pipelines.md),
+[module guide](../../backend/bintanong_generation/README.md).
+[Research/Context audit](../2026-10-19-orchestration-research-and-context-alignment.md)
+and current llama.cpp/Pydantic docs support the explicit typed flow/request schema.
+Thesis scope/structured routing and actual PNG rechecked; no architecture expansion.
 
 ## Verification and limits
 
-Five P2review issues fixed through RED10/GREEN55; relevant regression217passed.
-Corrected explicit41-file gate1813passed/63subtests81.63s,exit0; no product changes
-afterward. Initial unscoped test run stopped after splat-variable error; not gate
-evidence. Exact commands/logs:workspace/audit-evidence/p09-generation-20261019/.
-Producte668e0e; later documentation wrapper only. No whole-project-green claim.
-Delivery docs/phase591passed/11subtests11.72s; local links/phase validation pass.
+Fresh explicit41-file gate1819passed/63subtests82.37s,exit0; no later product changes.
+Exact command/log:workspace/audit-evidence/p09-generation-final-20261019/.
+Raw model evidence:workspace/audit-evidence/p09-generation-20261019/.
+Five prior P2 review fixes remain verified; no whole-project-green claim.
+Closure docs/phase592passed,11subtests11.34s,exit0; local links resolve and phase
+validation/can-advance pass with latest complete handoff9.
 
-Nine synthetic dev inputs and bounded observation CLI prepared. Previous startup
-denial ("blocked by policy") resolved by owner starting the container; no agent
-retry/workaround/download. Model prose/language quality unmeasured:zero final
-explanations to assess; prompt-injection behavior unmeasured. Phase09 stays active.
-[Observation status](../2026-10-19-phase09-observation-status.md).
-All inherited source/hosted-schema/style/release holds and one-week accuracy cap stay.
+Default-budget latency and successful actual Symbolic/Hybrid explanations remain
+unverified. Same-model checker is fallible; broader language/adversarial evaluation
+and independent human review remain pending. All inherited source/schema/style,
+privacy/auth,university and release holds stay. No training/dependencies/downloads,
+source activation,student endpoint or deployment. One-week accuracy cap preserved.
 
 ## Next action
 
-Commit verified correction,then one three-case RAG language follow-up at240s
-for absent-decision preservation and prose support/style. Preserve120s baseline;
-no all-nine repeat or complete handoff/Phase10 advancement claim yet.
+Next permitted task:Phase10 private-file/session design from master15 and the final
+handoff. Its plan and implementation have not started.

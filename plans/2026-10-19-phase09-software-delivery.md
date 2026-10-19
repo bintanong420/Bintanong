@@ -1,5 +1,10 @@
 # Phase09 software delivery - actual-model exit open
 
+Historical pre-model delivery atf5e54e2. The subsequent
+[observation report](2026-10-19-phase09-observation-status.md) and
+[final handoff](phase-09-handoff.md) supersede its pending-observation status.
+The recorded commands,hashes and earlier results below remain historical evidence.
+
 This is a delivery/recovery record, **not a complete phase handoff**. Phase09 remains
 active because actual-model generation/support/language observations are NOT RUN.
 Automatic approval review rejected starting the existing offline container; only

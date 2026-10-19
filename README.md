@@ -19,7 +19,7 @@ Use the phase index for current delivery status.
    [current progress](plans/plan_current_progress/current_progress.md).
 2. Follow the index to the active phase plan, checkpoint and previous handoff.
    Read the [developer pipeline map](docs/development/pipelines.md) for the source
-   preparation/request flows, module responsibilities and later generation/API work.
+   preparation/request flows, module responsibilities and generation/API boundaries.
    Institutional release remains gated; the index and Git determine current status.
 3. Read the relevant sections of the
    [master plan](plans/master_implementation_plan_original_long.md). Consult the
