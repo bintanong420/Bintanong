@@ -37,7 +37,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status),decision=pack.decision,dependencies=pack.dependencies,
-        structured_context=pack.structured_context,claims=tuple(claims),
+        structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0))
     validate_final(answer,pack,claims)

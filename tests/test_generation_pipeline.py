@@ -43,3 +43,26 @@ def test_composed_request_deadline_includes_orchestration_time():
         assert result.status=='temporarily_unavailable' and result.validation=='timeout'
         assert result.draft_attempts==0
     asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('language,missing_label,program_label,curriculum_label',[
+    ('en','Missing information','degree program','curriculum version'),
+    ('fil','Kulang na impormasyon','programa','bersiyon ng kurikulum'),
+    ('taglish','Missing information','degree program','curriculum version')])
+@pytest.mark.parametrize('missing',['program_id','curriculum_id'])
+def test_scope_clarification_names_the_information_the_student_must_supply(
+        language,missing_label,program_label,curriculum_label,missing):
+    from backend.bintanong_routing.contracts import RequestContext
+    from test_routing_contracts import context
+    async def scenario():
+        executor=orchestration().Orchestrator(transport(language=language),
+            releases=ports().SyntheticReleaseProvider(resources()))
+        pipeline=generation().AnswerPipeline(executor,generation().Generator(EchoEvidence()))
+        request=RequestContext.parse(context(**{missing:None}))
+        answer=await pipeline.run('A1',request)
+        expected=program_label if missing=='program_id' else curriculum_label
+        assert answer.status=='clarification_needed' and answer.draft_attempts==0
+        assert f'{missing_label}: {expected}' in answer.text
+        assert missing not in answer.text
+        assert answer.missing_facts==(missing,)
+    asyncio.run(scenario())

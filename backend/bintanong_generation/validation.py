@@ -36,6 +36,8 @@ def validate_final(answer,pack,claims):
             or answer.language!=pack.language or answer.decision!=pack.decision
             or answer.dependencies!=pack.dependencies or answer.structured_context!=pack.structured_context):
         raise ValueError('final_identity_or_decision_mismatch')
+    if answer.missing_facts!=pack.missing_facts:
+        raise ValueError('final_missing_facts_mismatch')
     if answer.text!=render_text(pack,claims,answer.status):
         raise ValueError('final_render_mismatch')
     if answer.citations!=selected_cards(pack,claims):

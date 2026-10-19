@@ -87,6 +87,7 @@ class CandidateAnswer(Contract):
     decision: DecisionOutcome|None
     dependencies: DependencyResult|None
     structured_context: StructuredContext|None=None
+    missing_facts: tuple[Annotated[str,Field(min_length=1)],...]=()
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error']

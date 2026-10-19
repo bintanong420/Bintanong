@@ -177,6 +177,17 @@ def test_candidate_answer_preserves_typed_claim_mapping_and_safe_scope():
     asyncio.run(scenario())
 
 
+def test_final_validation_rejects_changed_missing_information():
+    from backend.bintanong_generation.validation import validate_final
+    async def scenario():
+        source=integrated()
+        answer=await api().Generator(Fake(good(),supported())).generate('Fictional?',source)
+        changed=answer.model_copy(update={'missing_facts':('program_id',)})
+        with pytest.raises(ValueError,match='final_missing_facts_mismatch'):
+            validate_final(changed,prepare(source),answer.claims)
+    asyncio.run(scenario())
+
+
 @pytest.mark.parametrize('route,outcome',[('RAG',None),('Symbolic','eligible'),('Hybrid','ineligible')])
 def test_request_grammar_only_allows_the_host_decision_and_matches_prompt(route,outcome):
     from backend.bintanong_generation.contracts import AnswerDraft

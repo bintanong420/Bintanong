@@ -24,6 +24,7 @@ class PreparedEvidence:
     dependencies: DependencyResult|None
     scope: str
     structured_context: StructuredContext|None
+    missing_facts: tuple[str,...]
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -51,6 +52,8 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     if type(result) is not IntegrationResult:
         raise ValueError('candidate_integration_required')
     result=IntegrationResult.parse(result.model_dump(mode='json'))
+    if foreign_ids(result.missing_facts,'institutional'):
+        raise ValueError('private_missing_fact_reference')
     evidence=result.evidence
     if evidence is not None:
         checked=assemble(evidence.pin,evidence.route,documents=evidence.documents,
@@ -78,4 +81,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         result.status,result.response_style,result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
-        evidence.permitted_scope if evidence else 'none',context)
+        evidence.permitted_scope if evidence else 'none',context,result.missing_facts)

@@ -81,3 +81,11 @@ def test_resolved_target_curriculum_and_edition_survive_without_fact_refs():
     assert context['scope']['edition_ids']==['edition-synth-handbook-1']
     assert context['rule_bundle_version']=='bundle-synth-1'
     assert 'fact-synth' not in str(context) and 'fact_ref' not in str(context)
+
+
+def test_private_namespace_in_control_missing_facts_is_rejected():
+    control=IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
+        request_id='req-a',route=None,response_style='en',status='clarify',evidence=None,
+        missing_facts=('sess-other-1',),events=())
+    with pytest.raises(ValueError,match='private_missing_fact_reference'):
+        api().prepare(control)

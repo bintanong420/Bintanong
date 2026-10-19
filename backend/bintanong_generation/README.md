@@ -26,6 +26,9 @@ default institutional release hold; there is no student endpoint or activation.
 The host copies `DecisionOutcome`, target inputs and `DecisionScope`; private
 `fact_ref` values are removed. A held Hybrid result can retain a structured
 observation for inspection but cannot render its positive/negative conclusion.
+Control clarifications retain typed `missing_facts` and name the missing program
+or curriculum version in the requested language. Final validation checks those
+fields; private namespace references are rejected before preparation.
 RAG/Hybrid require documentary explanation, not merely a rule-only cited claim.
 Each rendered prose claim retains its own evidence markers and typed references.
 
