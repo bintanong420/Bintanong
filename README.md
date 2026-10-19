@@ -51,6 +51,7 @@ Bintanong/
 │   ├── bintanong_retrieval/    Retrieval, context assembly and evidence policy
 │   ├── bintanong_routing/      Multilingual LLM interpretation and validated routing
 │   ├── bintanong_orchestration/ Pinned candidate route execution and integration
+│   ├── bintanong_generation/   Candidate drafts, validation, bounded repair and fallbacks
 │   ├── bintanong_storage/      Registration, loading and release interfaces
 │   ├── bintanong_symbolic/     Authoring/compiler and bounded research Prolog runtime
 │   ├── bintanong_tools/        Ingestion, extraction and source-review tools

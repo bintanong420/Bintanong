@@ -84,7 +84,7 @@ verify GREEN/relevant regressions, record commands/results and commit.
    support, decision/language results and operational failures separately. If actual
    inference cannot run within authorized assets, record NOT RUN and leave required
    exit unresolved; mocks cannot establish actual-language performance.
-5. [ ] Independent whole-change review, scoped regression and final exit mapping.
+5. [x] Independent whole-change review, scoped regression and resumable exit mapping.
    Preserve residual semantic errors, source/release holds and precise measured
    denominators. Close only verified written offline exits; otherwise checkpoint
    active9 with one exact next action. Do not start Phase10 here.

@@ -4,9 +4,10 @@ Read this after [AGENTS.md](../../AGENTS.md) and the [phase index](../../plans/I
 The [master plan](../../plans/master_implementation_plan_original_long.md) defines
 the intended system; this guide maps it to code and states what runs today.
 
-Phase 08 delivers **internal candidate orchestration with synthetic release
-injection**. The default provider holds execution. There is no student chat
-endpoint, institutional release loader, final answer generation or deployment.
+Phase08 delivers **internal candidate orchestration with synthetic release
+injection**. Phase09 adds candidate generation/validation; its actual-model
+observation exit remains NOT RUN. The default provider holds execution. There is
+no student chat endpoint, institutional release loader or deployment.
 Source authority/currentness, held fields and hosted migration gaps remain open.
 The existing 75 accepted institutional question variants were not rerun here.
 
@@ -54,13 +55,21 @@ flowchart TD
     S --> I
     H --> I
     I --> E[Candidate evidence and stage telemetry]
-    E -. Phase 09 .-> A[Answer generation and output validation]
-    A -. Phase 10 .-> F[Isolated private-file context]
-    F -. Phase 11 .-> U[Authenticated student API and website]
+    E --> K{Ready evidence?}
+    K -->|yes| D[Candidate draft generation]
+    K -->|no| B
+    C --> B
+    D --> V{Schema, citation, canonical decision and prose-support checks}
+    V -->|pass| A[Host-rendered candidate preview]
+    V -->|one repair| D
+    V -->|exhausted| B[Grounded fallback]
+    A -. Phase 11 .-> U[Authenticated student API and website]
+    B -. Phase 11 .-> U
+    F[Future Phase 10 isolated private-file context] -.-> Q
 ```
 
 No extra orchestration framework, queue or graph service is needed. The control
-flow is ordinary async Python in `Orchestrator.run`. API composition is later work;
+flow is ordinary async Python in `Orchestrator.run` and `AnswerPipeline.run`. API composition is later work;
 the existing FastAPI app exposes health probes only.
 
 ## Where to make a change
@@ -72,6 +81,7 @@ the existing FastAPI app exposes health probes only.
 | Candidate snapshot, evidence and telemetry schemas | [contracts.py](../../backend/bintanong_orchestration/contracts.py) |
 | Release consistency and permitted conclusion scope | [integration.py](../../backend/bintanong_orchestration/integration.py) |
 | Existing retrieval/Prolog translation and worker admission | [adapters.py](../../backend/bintanong_orchestration/adapters.py) |
+| Candidate drafts, support checks, canonical rendering and one repair | [Generation module](../../backend/bintanong_generation/README.md) |
 | Semantic routing, aliases, claims and language metadata | [Routing module](../../backend/bintanong_routing/README.md) |
 | SEA-LION query embedding, source selection and context assembly | [Retrieval module](../../backend/bintanong_retrieval/README.md) |
 | Reviewed facts, generated rules, fixed goals and deterministic reasoning | [Symbolic module](../../backend/bintanong_symbolic/README.md) |
@@ -139,7 +149,8 @@ remain session-local; it cannot become a source catalog entry or institutional r
 Each stage has a finite `stage_timeout` (default120s, configurable up to300s).
 Retrieval's stage covers embedding plus storage; it does not report separate embedding
 and SQL durations. Preserve existing storage transport timeouts and Prolog's own
-bounded subprocess/admission limits. Generation deadlines belong to Phase09.
+bounded subprocess/admission limits. Phase09 adds a generation deadline and reduces
+its budget by time already spent in the composed request's orchestration.
 The adapters admit one worker each and return `busy` under overlap. Hybrid branches
 start concurrently only after independent inputs are ready; cancellation propagates
 to async branches. Cancelling an async wait cannot kill its running thread: adapter
@@ -172,7 +183,7 @@ Before institutional composition, implement an authorized release loader with ac
 membership, source authority, scope, recency, rule review and compatible embedding
 identity checks. Reconcile the [hosted migration gap](../../plans/2026-10-19-hosted-migration-status.md).
 Then honor the applicable phase/release gates. Do not flip a synthetic flag to bypass
-them. Phase09 must consume verified evidence, preserve unknowns and validate claims,
+them. Phase09 candidate code consumes revalidated evidence, preserves unknowns and checks claims,
 citations and response language. Phase07's two Taglish style errors remain; passing
 metadata through is not proof of answer-language quality. The standing
 [prompt decision](../../plans/2026-10-19-prompt-engineering-and-validation-decision.md)
