@@ -1,61 +1,60 @@
 # Current progress
 
-Updated:18 October2026. Phase06 complete as an owner-approved offline BSCS
-research/software milestone. Runtime49bc993; Windows checkout fixa9d8a5d; closure869579e.
-[Complete handoff](../phase-06-handoff.md), [completed plan](../phase-06-structured-knowledge-plan.md),
-[superseded checkpoint](../phase-06-checkpoint.md) and
-[closure/specification report](../2026-10-18-phase06-offline-closure.md).
-No active phase; next eligible Phase07 is not started or authorized here.
+Updated:19October2026. Phase07 complete as a verified offline software/research
+milestone in p07/feat/p07-router-taglish-nlp. No active numbered implementation phase.
+[Final handoff](../phase-07-handoff.md),[exit mapping/review](../2026-10-19-phase07-offline-closeout.md),
+[superseded checkpoint](../phase-07-checkpoint.md).
+Last full snapshot:73cf70a:plans/plan_current_progress/current_progress.md.
 
-## Latest task: dev integration
+## Latest delivery
 
-Owner now explicitly authorizes merging Phase06 into dev; earlier no-dev-mutation
-limit is superseded for this task. Local dev fast-forwarded to verified Phase06
-6923835 with identical complete tree; source branch/p06 worktree preserved.
-[Integration and next-developer entry point](../2026-10-18-phase06-dev-integration.md)
-records target checks/publication. Primary checkout is now dev. Phase07 remains
-eligible for separate planning/assignment; no implementation started.
-Merged-dev gate:1414 passed/11 subtests88.89s. Product/tests unchanged from Phase06;
-only integration/handoff notes added. Exact refs/logs live in the integration report.
+Owner explicitly holds Phase08 planning/implementation and requests feature-branch
+publication before moving to a new branch/worktree. Fresh fetch/ls-remote and
+GitHub MCP confirm origin/feat/p07-router-taglish-nlp already contains closure
+96f3797;working tree was clean. This note preserves the hold for the next session.
+No new branch/worktree created;preserve this checkout and ignored local evidence.
+Publication-note docs/phase gate581passed/11subtests11.26s,exit0;raw log:
+workspace/audit-evidence/p07-branch-publication-20261019/docs.log.
 
-## Verified delivery
+Owner continued after the offered offline completion review carrying both known
+style errors. Review verified all written report-based exits;no numeric quality
+gate or institutional approval inferred. Final handoff/ledger closure records
+verified deliverables and limitations;candidate frozen. No new product edits or
+model calls. Institutional registry/source/release holds remain closed.
 
-Owner approved offline completion/separate release holds, then authorized formal
-finalization using Phase05 as reference and fast-forward to Phase06 mainline.
-Final primary checkout gate:1413 passed/11 subtests83.38s; actual73 BSCS cases/
-four isolation checks/39 native spans pass, with repeat equality and timeout recovery.
-Authoring/PL/runtime artifacts reproduce exactly; sources/reviewer CSVs/seals intact.
-Initial worktree gate1411 passed94.14s; first primary gate1412 passed87.61s.
-A real primary replay caught core.autocrlf rewriting engine bytes. Narrow LF Git
-attribute fixes it without weakening hashes or changing reasoning. Fresh checkout
-RED ->115 runtime GREEN ->1413 primary GREEN. Initial rejection logs preserved.
+Fresh24-file gate1615passed/11subtests72.14s,exit0. Independent whole-change review
+no P1/P2,176tests1.63s;52candidate/212style source seals checked. Routing verifier
+30captures pass;recomputed manifest byte-identical to original. Fresh model SHA/
+size/image match;container exited. Raw:workspace/audit-evidence/
+p07-offline-closeout-20261019/. Exact verify-final.ps1/final-regressions.log,
+routing-verification.log and assets.json retained. Review docs580passed/11subtests
+16.91s;final closure docs/phase evidence in closeout report. No whole-project-green claim.
 
-Both owner CSVs reconciled; oldCC1/L identity correction applied. Seven relationships/
-11 identities reviewed; four foundation own-rule conditions remain unknown.
-No repeated grading, blank-to-none inference, new grade policy or edition merging.
-Generic Prolog evaluates checked JSON; generated candidate PL remains review data.
-[Plain-language status](../2026-10-18-phase06-closeout-checklist.md) keeps these distinctions.
+## Observed results and remaining limits
 
-## Mainline synchronization and preservation
+Router-v9/be39e67:15/15fresh proposed routes,15/15effective outcomes,five consistent
+families. Entities/claims/operations each15/15(6substantive/9empty);18offset
+corrections explicit. Exactly15baseline style reuses:13/15overall,English5/5,
+Filipino5/5,Taglish3/5. procedure-taglish/excluded-taglish still select Filipino.
+These remain semantic errors. No population accuracy,fresh two-stage latency,
+repeatability or final-answer language claim.75accepted institutional variants and
+sealed final families were not re-evaluated. Four inferior alternatives stay retired.
 
-Phase06 mainline:feat/p06-prolog-janus-rules, primary checkout
-C:/Users/Hawksprey/source/repos/Bintanong, fast-forwarded fromf3e80ac througha9d8a5d;
-the final documentation wrapper follows the same verified runtime/test tree.
-Closure raw:p06-offline-closure-20261018-9ffb24df; successful primary source replay:
-p06-mainline-source-lf-20261018-9ffb24df. integration-verification.json and final-refs.json
-record exact target/remote identities, dev ancestry, hashes and preservation checks.
-Two missing required BSCS PDFs copied only to the ignored primary dataset; SHA
-verified. Primary tracked tree clean;
-original untracked model directory preserved. Concurrent p06 Docker edits unchanged.
-No secret/model/cache copies or staging, worktree deletion, force push or dev mutation.
+Four own-rule unknowns/full-prospectus defects/two inherited Docling failures,
+source authority/currentness and [hosted schema/history gaps](../2026-10-19-hosted-migration-status.md)
+remain. Authenticated ownership must come from eventual caller;context validation
+is not authentication. No source reviews reopened,DB mutation,push/merge or activation.
 
-## Remaining boundaries and next action
+## Standing decision and next action
 
-University source authority/currentness, normal institutional runtime/registry
-integration and activation remain release holds. Full53/55-row conversion still
-fails unit/prerequisite/table audits; full PL withheld. Four own-rule unknowns stand.
-Retained full suite:5748 passed/two system-Docling failures/one skipped; historical,
-not rerun/fixed. Runtime code is unchanged; one checkout regression was added.
-No all-project-green, whole-curriculum, API/deployment or official-answer claim.
-Next:assign/separately scope Phase07 from updated dev, preferably with the developer
-who will own it. Read the integration entry point; no Phase07 implementation yet.
+[Prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
+inference guidance/guards,no parameter training/fine-tuning/LoRA/learned soft prompts;
+maximum one-week added accuracy work. LLM routing,structured curriculum/Prolog,
+documentRAG,language preferences and undergraduate/read-only/private/source-gap
+boundaries retained. Context17-18/actual PNG/master12-13 refreshed;prior39-44/
+58-59/master3/11 remain applicable. No new architecture discrepancy.
+
+Next:wait for owner's branch/worktree move and explicit Phase08 resume. When
+resumed,read master13/final handoff and make conversational follow-up/session
+context handling explicit in the plan. No Phase08 plan/implementation started;
+no repeated inference or source-review sweep. Feature-branch publication only.
