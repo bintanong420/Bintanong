@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 20
+sequence: 21
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: d019318
-working_tree: verified product; documentation snapshot in index, plan, reports and progress/checkpoint
-updated_at: 2026-10-19T11:12:01+08:00
+head_commit: 98aa714
+working_tree: style contract/tests, response-style design and checkpoint/progress
+updated_at: 2026-10-19T11:24:00+08:00
 ---
 
 # Phase07 checkpoint - scope corrected, Taglish style open
@@ -23,8 +23,11 @@ all15selected development cases, while Taglish style remains wrong.
 
 ## Current Task
 
-Verified scope correction and bounded model experiments delivered. No model job
-remains running. Taglish response-style interpretation is the remaining work.
+Resumed98aa714. [Response-style design](2026-10-19-phase07-response-style-design.md)
+builder checked. New standalone style contract RED32 ->GREEN75,2.21s; not wired
+into Router. Fixed prototype style5/5,route4/5:prerequisite-only request incorrectly
+Hybrid. Focused existing Symbolic-vs-Hybrid semantics correction runs on two cases.
+No adopted configuration or whole-router style-success claim yet.
 Native-thinking probe is not adopted; no Phase07 final handoff/Phase08 advancement.
 
 ## Repository State
@@ -93,9 +96,9 @@ prospectus defects and two inherited Docling failures remain unchanged.
 
 ## Next Action
 
-Design explicit response-style interpretation distinct from an ISO language label,
-grounded to original text and selected by Bintu; this is an untested hypothesis.
-Preserve all passing route/meaning guards and UG defaults. No further parameter sweep.
+Finish focused Symbolic/Hybrid pair; if both correct, integrate wire decoding and
+observable style evidence with RED/GREEN, review and full15-case evaluation.
+Preserve existing guards; no host route override or parameter sweeps.
 
 ## Do Not Repeat
 

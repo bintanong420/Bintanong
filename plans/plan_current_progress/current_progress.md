@@ -52,7 +52,9 @@ p07-implementation-20261019/. No thought text retained from the native probe.
 Context thesis17-18/39-44/routing PNG consulted; scope17-18 refreshed on recovery.
 Phase06 acceptance, source authority/activation holds and unknown rules unchanged.
 
-Next:design explicit response-style interpretation distinct from an ISO language
-label, grounded to the original utterance and selected by Bintu. This is an untested
-hypothesis, not an adopted architecture. Preserve passing routes/meaning, UG default,
-settled75wordings and source decisions. Phase07 stays open; no Phase08.
+Resumed98aa714 with [response-style design](../2026-10-19-phase07-response-style-design.md).
+Builder check complete. Standalone style contract RED32 ->GREEN75,2.21s; not yet
+integrated. Actual five-case wire prototype style5/5/routes4/5:one prerequisite-only
+query incorrectly Hybrid. Focused original Symbolic/Hybrid pair is running with
+clarified existing evidence semantics. Next:inspect pair before wire integration/
+RED-GREEN/full15-case verification. No host override or phase advancement.
