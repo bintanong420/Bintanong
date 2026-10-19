@@ -55,7 +55,8 @@ flowchart TD
     H --> I
     I --> E[Candidate evidence and stage telemetry]
     E -. Phase 09 .-> A[Answer generation and output validation]
-    A -. Phase 10 .-> U[Authenticated student API and website]
+    A -. Phase 10 .-> F[Isolated private-file context]
+    F -. Phase 11 .-> U[Authenticated student API and website]
 ```
 
 No extra orchestration framework, queue or graph service is needed. The control
