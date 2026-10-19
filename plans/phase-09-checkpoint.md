@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 15
+sequence: 16
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 684a2fe
+head_commit: 7227732
 working_tree: dirty
 updated_at: 2026-10-20T01:00:00+08:00
 ---
@@ -20,7 +20,7 @@ Added explicit application composition and read-only synthetic release provider.
 
 ## Current Task
 [Integration supplement](2026-10-20-live-backend-composition-plan.md) task1 GREEN;
-implement bounded CLI and run actual complete requests. Phase07 audit finds core
+CLI implemented; verify corrected actual RAG/Hybrid requests. Phase07 audit finds core
 master12 functionality present; two known Taglish style errors remain. Auth/private
 files belong to their later phase and are not router authentication capabilities.
 
@@ -35,6 +35,12 @@ First GREEN attempt exposed strict constructor/list mismatch in the new fixture;
 fixed fixture to use shared JSON parse boundary,not weakened production validation.
 Existing18synthetic audit tests and1857/63subtest prior scoped gate are historical,
 not proof of the new full service path. Model server/Supabase currently running.
+CLI RED missing module; GREEN29passed3.44s; application boundaries14passed1.83s.
+First live Symbolic answered304.913s via2router+2generation/check calls,actualJanus.
+RAG164.769s failed safely with storage_error:local DB lacked retrieve_context.
+Hybrid interrupted by credit exhaustion;no completed artifact. Preserve attempts.
+Applied existing migration20261012013339 locally only,transactional/history recorded;
+exact SQL/hash/command in raw local-migration.json. No hosted changes.
 
 ## Versions and Digests
 Existing Python3.13.7/Pydantic2.13.5/HTTPX0.28.1; sentence-transformers6.1.0 available.
@@ -51,12 +57,13 @@ Default institutional provider/source/runtime/activation holds stay. No new API,
 training,dependency/lock change or benchmark wording/source-content approval.
 
 ## Known Failures or Blockers
-Live full requests not yet run. Local anon tables empty; inspect controlled fixture
-setup before running. Whole-request/default latency,prose scope and language remain
+Fictional local fixture now populated after explicit empty-corpus check; no real
+sources/release promoted. Corrected RAG/Hybrid full requests remain. Default latency,
+prose scope and language remain
 open; source/schema/release and institutional holds remain in dated records.
 
 ## Next Action
-Add CLI,prepare isolated fictional live fixture,verify all three complete routes.
+Verify actual retrieval after existing local migration,then rerun RAG/Hybrid only.
 
 ## Do Not Repeat
 Prior model/prompt sweeps,settled source decisions or accepted institutional labels.

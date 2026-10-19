@@ -1,0 +1,76 @@
+"""Run one controlled candidate request through actual configured services."""
+import argparse
+import asyncio
+import hashlib
+import json
+from pathlib import Path
+
+from pydantic import Field
+
+from ..bintanong_contracts.base import Record
+from ..bintanong_routing.contracts import RequestContext, prepare_query
+from .application import RuntimeSettings, RuntimeSpec, build_application
+
+
+class RuntimeRequest(Record):
+    question: str = Field(min_length=1,max_length=8192)
+    context: RequestContext
+
+
+def read_json(path, limit=4_194_304):
+    raw=Path(path).read_bytes()
+    if len(raw)>limit: raise ValueError('input_too_large')
+    return json.loads(raw)
+
+
+def load_request(path):
+    request=RuntimeRequest.parse(read_json(path,131_072))
+    prepare_query(request.question)
+    return request
+
+
+def output_path(path,root):
+    path,root=Path(path).resolve(),Path(root).resolve()
+    if path==root or not path.is_relative_to(root):
+        raise ValueError('output_outside_evidence_root')
+    return path
+
+
+def main(argv=None):
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('spec',type=Path)
+    parser.add_argument('request',type=Path)
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--evidence-root',type=Path,required=True)
+    parser.add_argument('--url',default='http://127.0.0.1:18087')
+    parser.add_argument('--model-path',type=Path)
+    parser.add_argument('--inference-timeout',type=float,default=120)
+    parser.add_argument('--stage-timeout',type=float,default=120)
+    parser.add_argument('--generation-timeout',type=float,default=120)
+    parser.add_argument('--request-timeout',type=float,default=180)
+    args=parser.parse_args(argv)
+    output=output_path(args.output,args.evidence_root)
+    if output.exists(): raise ValueError('refusing_to_overwrite_observation')
+    spec=RuntimeSpec.parse(read_json(args.spec))
+    request=load_request(args.request)
+    settings=RuntimeSettings(args.url,args.inference_timeout,args.stage_timeout,
+        args.generation_timeout,args.request_timeout)
+    app=build_application(spec,model_path=args.model_path,settings=settings)
+    try:
+        result=asyncio.run(app.run(request.question,request.context))
+    finally:
+        app.close()
+    report=result.model_dump(mode='json')
+    report.update(spec_sha256=hashlib.sha256(args.spec.read_bytes()).hexdigest(),
+        request_sha256=hashlib.sha256(args.request.read_bytes()).hexdigest(),
+        budgets=dict(inference=settings.inference_timeout,stage=settings.stage_timeout,
+            generation=settings.generation_timeout,request=settings.request_timeout),
+        actual_model_accuracy='unmeasured',human_output_review='pending')
+    output.parent.mkdir(parents=True,exist_ok=True)
+    with output.open('x',encoding='utf-8') as stream:
+        stream.write(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+    # Final text remains in the explicit evidence file, not general service logs.
+    print('Candidate request recorded:',result.answer.status)
+
+
+if __name__=='__main__': main()

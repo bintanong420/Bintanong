@@ -85,3 +85,33 @@ def test_bundle_pin_mismatch_rejected_before_database_or_model_calls():
 def test_non_synthetic_spec_rejected():
     data=spec(); data['synthetic']=False
     with pytest.raises(ValueError): RuntimeSpec.parse(data)
+
+
+def test_application_keeps_failed_release_before_any_model_call():
+    from backend.bintanong_routing.contracts import RequestContext
+    data=spec()
+    class Empty(Database):
+        def select(self,table,**kwargs): return []
+    app=build_application(RuntimeSpec.parse(data),client=Empty(data))
+    context=RequestContext(session_id='sess-a',request_id='req-a')
+    result=asyncio.run(app.run('Where do I submit Form Q?',context))
+    assert result.answer.institutional_use_allowed is False
+    assert result.model_calls==()
+    assert [(e.stage,e.outcome) for e in result.events]==[('release','held')]
+
+
+def test_application_closes_only_its_owned_client(monkeypatch):
+    import backend.bintanong_runtime.application as module
+    data=spec()
+    class Closeable(Database):
+        closed=False
+        def close(self): self.closed=True
+    owned=Closeable(data)
+    monkeypatch.setattr(module,'SupabaseStorageClient',lambda:owned)
+    app=build_application(RuntimeSpec.parse(data))
+    app.close()
+    assert owned.closed
+    supplied=Closeable(data)
+    app=build_application(RuntimeSpec.parse(data),client=supplied)
+    app.close()
+    assert not supplied.closed

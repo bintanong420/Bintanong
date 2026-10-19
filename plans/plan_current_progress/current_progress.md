@@ -12,7 +12,10 @@ remain. Auth/private files are later-phase capabilities. Reopened Phase09 with a
 [concrete composition plan](../2026-10-20-live-backend-composition-plan.md).
 New application constructs actual model/query encoder/PostgREST/Janus/generation
 adapters and checks active fictional-source membership with anon/RLS before use.
-Focused TDD RED missing module; GREEN7passed0.76s. CLI/live requests remain next.
+Focused TDD RED missing module; GREEN7passed0.76s. CLI implemented:29tests pass.
+First actual Symbolic full request answered304.913s; RAG failed safely because
+local DB lacked retrieve_context. Applied existing20261012013339 locally only;
+Hybrid interrupted by credit exhaustion. Preserve attempts; verify corrected routes.
 Context thesis17–18/39–44,actual PNG/master11–14 consulted. No Phase10 work.
 
 Owner challenged "complete" against the actual diagram. [Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md)
