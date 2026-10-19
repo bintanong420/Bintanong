@@ -1,16 +1,21 @@
 # Current progress
 
-Updated:19October2026. Phase09 bounded model check in p09/feat/p09-generation-validation.
+Updated:20October2026. Phase09 model check complete in p09/feat/p09-generation-validation.
 [Final handoff](../phase-09-handoff.md) · [Model observations](../2026-10-19-phase09-observation-status.md).
 Last full pre-condensation snapshot:3839fbe:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner requested continuation after the completed p09 review. The remaining bounded
-[model question](../2026-10-19-phase09-structured-generation-observations.md) concerns
-actual Symbolic/Hybrid explanations:one existing six-variant batch at240seconds,
-unchanged prompts/decoding/default120seconds. Local model health is ok; no startup.
-Prepared cases/runtime/code hashes will be sealed before inference. No result yet.
+Completed one [six-case actual-model batch](../2026-10-19-phase09-structured-generation-observations.md)
+with unchanged prompts/decoding/default120s and a240s observation window.
+Symbolic3/3 and Hybrid2/3 returned answers; English Hybrid returned tool_error.
+Total864.210s;6drafts/5checks,no repairs;canonical fields preserved6/6 including
+fallback. All five answers took130-172s. The checker accepted15claims,but agent
+review flags4scope/clarity concerns across3answers;11claims fit supplied scope.
+Symbolic Taglish style/human review remain pending. No120s or population accuracy
+claim. Raw root:workspace/audit-evidence/p09-structured-generation-20261019/.
+Docs/phase596passed/11subtests11.45s;84local links resolve;9sealed product hashes
+unchanged. Raw manifest and per-claim agent assessment bind the results.
 Reconsulted thesis17-18/39-40,actual routing PNG/master3/14; no discrepancy.
 Phase ledger valid,no active numbered phase; Phase10 remains deferred.
 
@@ -62,13 +67,13 @@ Five prior P2 review fixes remain verified; no whole-project-green claim.
 Closure docs/phase592passed,11subtests11.34s,exit0; local links resolve and phase
 validation/can-advance pass with latest complete handoff9.
 
-Default-budget latency and successful actual Symbolic/Hybrid explanations remain
-unverified. Same-model checker is fallible; broader language/adversarial evaluation
-and independent human review remain pending. All inherited source/schema/style,
+Default-budget latency,prose scope and conversational style remain unresolved.
+The same-model checker is fallible; broader language/adversarial evaluation and
+independent human review remain pending. All inherited source/schema/style,
 privacy/auth,university and release holds stay. No training/dependencies/downloads,
 source activation,student endpoint or deployment. One-week accuracy cap preserved.
 
 ## Next action
 
-Seal exact six-case/runtime manifests,observe Symbolic/Hybrid once,then assess
-all surviving claims and languages. Preserve120s/RAG results separately; Phase10 deferred.
+Owner review of the recorded limitations and future scope. Preserve the frozen
+product,separate120s/RAG results and one-week cap; stop this batch. Phase10 deferred.

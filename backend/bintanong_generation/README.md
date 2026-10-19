@@ -7,6 +7,9 @@ Those are separate observations; default-budget and broader route performance
 remain unresolved. See the [measured report](../../plans/2026-10-19-phase09-observation-status.md)
 and [final handoff](../../plans/phase-09-handoff.md),
 [research and Context alignment](../../plans/2026-10-19-orchestration-research-and-context-alignment.md).
+The later [Symbolic/Hybrid observations](../../plans/2026-10-19-phase09-structured-generation-observations.md)
+returned five answers and one fallback at240s. Three answers have agent-identified
+scope/clarity concerns despite positive checker verdicts; all answers took over120s.
 
 `await Generator(transport).generate(text,integration)` consumes a candidate
 `IntegrationResult`. `await AnswerPipeline(orchestrator,generator).run(text,context)`
