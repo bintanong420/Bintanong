@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 8
 status: in_progress
-sequence: 4
+sequence: 5
 plan: plans/phase-08-orchestration-plan.md
-head_commit: 316ee1e
+head_commit: 0a6db29
 working_tree: dirty
-updated_at: 2026-10-19T19:57:00+08:00
+updated_at: 2026-10-19T20:04:00+08:00
 ---
 
 # Phase 08 checkpoint
@@ -23,9 +23,12 @@ Task3 explicit orchestrator/release ports/allowlisted telemetry delivered. One p
 existing Router, concurrent independent Hybrid branches, bounded failures/no reroute.
 Session regressions cover explicit context reuse, no persistence, hypothetical facts,
 missing target clarification and concurrent owning-session isolation.
+Task4 developer guide maps source preparation/request flow, actual files, ownership,
+outcomes and future generation/API/release work; root/package READMEs link it.
+Combined actual Router/RetrievalEngine/Janus synthetic smoke delivered for each route.
 
 ## Current Task
-Task4: developer pipeline guide and combined real-module synthetic smoke.
+Task5: independent review corrections and scoped full regression gate.
 
 ## Repository State
 Isolated p08/feat/p08-orchestration. New plan/checkpoint and ledger/progress edits.
@@ -50,6 +53,9 @@ Task3 RED13missing-module failures; initial GREEN32passed0.94s. Added telemetry
 RED2failures exposed absent pin/route/outcome metadata; fixed stage projection and
 closed outcome vocabulary. task3-final.log:142passed3.45s,exit0 (four orchestration
 files + routing router/validation). Session tests pass without product behavior edits.
+task4-smoke.log:3passed1.33s,exit0 (actual modules; scripted model/manual vector/
+synthetic database transport). Local Markdown links and diff check pass;
+phase-state valid/active8. Fresh reviewer running read-only against core0a6db29.
 
 ## Versions and Digests
 System/readiness Python3.13.7; use existing readiness environment from Phase 07.
@@ -73,10 +79,12 @@ adapters must retain admission until their bounded worker actually finishes.
 ## Known Failures or Blockers
 Inherited source/release/hosted-schema holds and two Taglish style errors persist.
 No authenticated API or institutional release loader exists; default execution held.
+Review has reproduced candidate boundary defects (telemetry IDs, fact-count overflow,
+routing failure classification); await consolidated review then RED/GREEN fix pass.
 
 ## Next Action
-Document actual pipeline/files and remaining boundaries; add combined synthetic
-Router/RetrievalEngine/Janus smoke, then run full scoped regression and review.
+Resolve consolidated review through focused RED/GREEN; run scoped full regression,
+record exit mapping and handoff or explicit remaining work. Do not claim phase exit yet.
 
 ## Do Not Repeat
 Do not reopen settled source reviews, benchmark wording or Phase 07 inference sweeps.

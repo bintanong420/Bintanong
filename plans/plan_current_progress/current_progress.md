@@ -23,6 +23,11 @@ Janus for all three operations and retrieval/cancellation admission regressions.
 Task3 one-pin orchestrator, concurrent independent Hybrid branches and safe stage
 telemetry delivered. RED13absent-module failures; telemetry RED2; final GREEN
 142passed3.45s,exit0 with routing and explicit follow-up/concurrent-session tests.
+Developer guide delivered at docs/development/pipelines.md with root/package links.
+Combined actual Router/RetrievalEngine/Janus synthetic smoke3passed1.33s,exit0;
+scripted model/manual vectors/synthetic storage, no actual-model accuracy claim.
+Local Markdown links/diff check pass. Fresh reviewer inspecting core0a6db29;
+boundary defects found, consolidated correction pass pending. Phase08 remains active.
 
 ## Preserved limits
 
@@ -37,5 +42,5 @@ master3/11-15 and handoff consulted. No new architecture discrepancy.
 
 ## Next action
 
-Write developer pipeline guide and combined real-module synthetic smoke; run full
-scoped regression and whole-change review before delivery/checkpoint.
+Apply consolidated review fixes with RED/GREEN, run scoped full regression and
+record exit mapping/handoff or explicit remaining work before delivery.

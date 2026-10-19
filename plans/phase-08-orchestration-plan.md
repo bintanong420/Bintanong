@@ -74,7 +74,7 @@ TEMP/TMP and `--basetemp` under workspace/audit-evidence/p08-orchestration-20261
    Tests: default hold; each route through real Router with scripted transport;
    Hybrid waits for both; no reroute; stage timeout/invalid output; cancellation;
    only allowlisted metadata in telemetry; concurrent session isolation.
-4. [ ] Follow-up/session regressions and developer pipeline documentation.
+4. [x] Follow-up/session regressions and developer pipeline documentation.
    Tests: explicitly scoped context reuse, absent/foreign context, asserted versus
    hypothetical claims, curriculum changes, no target invention or persistence.
    Document preparation versus request pipeline, files, failure matrix, testing,
