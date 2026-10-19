@@ -63,8 +63,9 @@ verify-evidence.py passed6captures/code/schema/profile/exact-reuse checks;minimu
 Current:requested-work-only prompt candidatebe39e67 committed;style/decoder/host
 unchanged. Saved actual-target semantic RED2failed;integrity176passed1.85s;
 independent no P1/P2,176passed1.93s. [Plan](../2026-10-19-phase07-requested-work-prompt.md).
-Next:session35472 runs two fresh targets,13existing controls only if benefit/
-no-regression gate passes. Inspect evaluation.log/candidate captures/report and
+Targets both now correct (prerequisite-filSymbolic,greeting-taglishgreeting),
+0repairs/no component regression. Target semantic GREEN;full acceptance pending.
+Next:session35472 runs13existing controls. Inspect evaluation.log/candidate report and
 completion-status.json at workspace/audit-evidence/p07-requested-work-20261019/.
 Script stops runtime in finally;no duplicate inference or old-candidate reruns.
 Scope17-18/PNG/master12 refreshed. No new sweep/host override/Phase08.

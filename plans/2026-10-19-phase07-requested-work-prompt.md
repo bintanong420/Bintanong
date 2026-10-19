@@ -79,3 +79,13 @@ Do not duplicate a live request or resume a completed/rejected candidate.
 Candidate documentation/phase gate578passed/11subtests30.10s,exit0;
 candidate-docs.log. Existing readiness Python -B -m pytest -q -p no:cacheprovider,
 external TEMP/TMP/basetemp=raw-root/candidate-docs;docs hygiene and phase-state tests.
+
+Target gate COMPLETE:prerequisite-fil now Symbolic and greeting-taglish now greeting,
+both effective outcomes correct;all previously correct component checks preserved,
+0repairs. This is actual target semantic GREEN, not a complete15-case result.
+Thirteen controls are running under the same immutable candidate in session35472.
+Evidence-script reviewer found a conditional repair-verification bug; offline
+helper now verifies exact repair linkage and preserves initial/final failures.
+Behavioral regression RED4failed2.10s ->GREEN4passed1.91s;reviewer confirms resolved.
+Initial missing-helper collection error retained separately, not behavioral RED.
+No change to product or live evaluator;no extra model calls for verifier fixes.

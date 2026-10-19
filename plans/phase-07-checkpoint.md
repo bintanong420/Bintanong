@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 44
+sequence: 45
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: be39e67
+head_commit: c21dee6
 working_tree: requested-work candidate report and checkpoint/progress docs
-updated_at: 2026-10-19T17:20:00+08:00
+updated_at: 2026-10-19T17:26:00+08:00
 ---
 
 # Phase07 checkpoint - requested-work prompt candidate running
@@ -117,8 +117,11 @@ Residual review finds both route errors add unrequested work, despite correct
 intent/reason. [One routing clarification](2026-10-19-phase07-requested-work-prompt.md)
 be39e67 is committed;style/decoder/host unchanged. Saved actual targets RED2failed;
 integrity176passed1.85s;independent no P1/P2,176passed1.93s. Semantic GREEN pending.
-Next:session35472 runs two fresh targets;remaining13controls only if at least one
-route improves and no previously correct component regresses. Inspect evaluation.log,
+Targets now both correct:prerequisite-filSymbolic,greeting-taglishgreeting;
+no previously correct component regressed,0repairs. Actual target semantic GREEN;
+full candidate acceptance pending. Next:session35472 runs remaining13controls.
+Offline verifier repair bug resolved with RED4failed ->GREEN4passed;reviewer confirms;
+no product/live-evaluator changes or new inference. Inspect evaluation.log,
 candidate captures/report and completion-status.json under raw root
 workspace/audit-evidence/p07-requested-work-20261019/. Finally stops task runtime.
 No duplicate inference or rerun of rejected/completed candidates.
