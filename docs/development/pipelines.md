@@ -3,6 +3,8 @@
 Read this after [AGENTS.md](../../AGENTS.md) and the [phase index](../../plans/INDEX.md).
 The [master plan](../../plans/master_implementation_plan_original_long.md) defines
 the intended system; this guide maps it to code and states what runs today.
+For formulas,algorithm implementations and a runnable paper demonstration,see the
+[algorithm map](algorithms.md).
 
 Phase08 delivers **internal candidate orchestration with synthetic release
 injection**. Phase09 adds candidate generation/validation; see the

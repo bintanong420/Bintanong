@@ -6,6 +6,15 @@ Last full pre-condensation snapshot:37c8d69:plans/plan_current_progress/current_
 
 ## Latest delivery
 
+Owner requested visible algorithm code for the paper. [Algorithm map](../../docs/development/algorithms.md)
+links cosine math,actual SQL top-k RPC,callers,Prolog and other core workflows.
+Synthetic demonstration:scripts/demo_cosine_top_k.py calls the existing cosine
+helper; no runtime/database algorithm moved or replaced. RED1/GREEN36tests,
+9subtests1.18s; raw logs/demo output:workspace/audit-evidence/algorithm-map-20261019/.
+An overly broad legacy embedding test run was stopped and excluded; narrowed
+verification uses offline flags and no live model execution. See verification-note.txt.
+Docs/phase checks593passed,11subtests11.49s;90local links resolve and phase state valid.
+
 Owner stopped advancement into Phase10 and requested Phase09 preparation for a new
 branch/worktree. [Transfer note](../2026-10-19-phase09-worktree-transfer.md) records
 the existing Phase09 commits,base and resume order. Owner handles the switch;
@@ -33,7 +42,7 @@ Thesis scope/structured routing and actual PNG rechecked; no architecture expans
 
 ## Verification and limits
 
-Fresh explicit41-file gate1819passed/63subtests82.37s,exit0; no later product changes.
+Phase09 core gate1819passed/63subtests82.37s,exit0; later work adds docs/synthetic demo.
 Exact command/log:workspace/audit-evidence/p09-generation-final-20261019/.
 Raw model evidence:workspace/audit-evidence/p09-generation-20261019/.
 Five prior P2 review fixes remain verified; no whole-project-green claim.

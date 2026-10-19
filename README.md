@@ -21,6 +21,8 @@ Use the phase index for current delivery status.
    Read the [developer pipeline map](docs/development/pipelines.md) for the source
    preparation/request flows, module responsibilities and generation/API boundaries.
    Institutional release remains gated; the index and Git determine current status.
+   The [algorithm map and paper demo](docs/development/algorithms.md) locates cosine
+   similarity,exact top-k retrieval,Prolog reasoning and the other core workflows.
 3. Read the relevant sections of the
    [master plan](plans/master_implementation_plan_original_long.md). Consult the
    [thesis](Context/bintanong_thesis_for_context.pdf), especially physical17–18
