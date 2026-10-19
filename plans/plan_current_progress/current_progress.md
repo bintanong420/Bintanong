@@ -45,7 +45,8 @@ Curriculum/Prolog; handbook/Charter/memos RAG; Hybrid needs both. English/Filipi
 Taglish preference; final answers/images later. Undergraduate/read-only, source
 gaps, EMPTY_REGISTRY and institutional-release holds remain.
 
-Next:run one fresh baseline on existing15synthetic cases under explicit profile,
-retaining both stages/raw captures. Then one justified prompt change with matched
+Fresh15-case baseline is running under the explicit profile, both stages captured
+under workspace/audit-evidence/p07-prompt-comparison-20261019/baseline/.
+Next:finish and verify that baseline, then one justified prompt change with matched
 evaluation and no final-family leakage/semantic host override. Stop resolved cache
 and count diagnostics and unchanged retired sweeps. Phase08 gated.

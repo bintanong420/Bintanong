@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 33
+sequence: 34
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 29cc8d9
-working_tree: baseline plan, progress and checkpoint documentation
-updated_at: 2026-10-19T15:09:00+08:00
+head_commit: 7b99552
+working_tree: prompt comparison plan, progress and checkpoint documentation
+updated_at: 2026-10-19T15:11:00+08:00
 ---
 
 # Phase07 checkpoint - explicit inference profile verified
@@ -25,7 +25,8 @@ metadata, both decoding modes; no semantic prompt/schema/guard/call-limit change
 
 Profile correction verified:RED/GREEN,24-file gate,independent review and one
 actual transport smoke complete. Resolved diagnostic stops here. Next fresh15-case
-baseline precedes a single justified prompt intervention. Known route/style errors
+baseline [comparison](2026-10-19-phase07-prompt-comparison.md) is running, before
+a single justified prompt intervention. Known route/style errors
 remain open; no new accuracy or completion claim.
 
 ## Repository State
@@ -87,8 +88,9 @@ full-prospectus defects and inherited Docling failures remain disclosed.
 
 ## Next Action
 
-Run one fresh baseline on existing15synthetic cases under explicit profile,
-retaining both stages/raw captures; then one justified prompt change and matched
+Finish running fresh15-case baseline under explicit profile, retaining both stages
+under workspace/audit-evidence/p07-prompt-comparison-20261019/baseline/.
+Then one justified prompt change and matched
 evaluation. Preserve failures/denominators and final-family separation. No semantic
 host override or Phase08 advancement.
 
