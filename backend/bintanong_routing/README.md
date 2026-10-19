@@ -58,6 +58,12 @@ useful English technical terms. Language does not change evidence routing.
 This metadata carries the preference to later generation; no final-language quality
 claim is established here. Image attachments and private-file parsing are later work.
 
+The style-v4 prompt candidate adds six grounded synthetic illustrations, balanced
+across English/Filipino/Taglish and separate from the evaluation question families.
+These guide inference; they do not train parameters or change the style schema,
+host language mapping, routing prompt or guard rules. Its actual-model comparison
+must pass before it is selected; fixture tests alone do not establish accuracy.
+
 ## Transport
 
 LlamaTransport uses /props, /apply-template, /tokenize and /v1/chat/completions.
