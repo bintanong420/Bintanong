@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 7
 status: in_progress
-sequence: 28
+sequence: 29
 plan: plans/phase-07-multilingual-routing-plan.md
-head_commit: 03c361c
-working_tree: accuracy research report, index, phase plan, progress and checkpoint documentation
-updated_at: 2026-10-19T13:04:00+08:00
+head_commit: 8db08e8
+working_tree: accuracy research report, progress and checkpoint documentation
+updated_at: 2026-10-19T14:08:00+08:00
 ---
 
 # Phase07 checkpoint - researched accuracy strategy, route/style quality open
@@ -48,6 +48,7 @@ Other worktrees/dev/p06 preserved; no push/merge/source/registry mutation.
 Research/docs-only gate571passed/11subtests11.18s,exit0; docs.log under
 workspace/audit-evidence/p07-accuracy-research-20261019/. Commands in research report;
 diff check clean, phase state valid/active7/no advancement. Runtime inspect=exited.
+Fine-tuning follow-up docs gate571passed/11subtests18.48s,exit0;finetuning-docs.log.
 No product test rerun or new model calls for this documentation-only increment.
 
 Count matrix RED6failed/4passed0.80s ->137routing GREEN1.33s. Independent review:
@@ -96,6 +97,10 @@ reasoning_budget_tokens/thinking_budget_tokens;128token enforcement not establis
 Cache reuse is a documented possible source of drift, not the proven cause here.
 Native thinking/vendor sampling warrant controlled comparison, not assumed gains.
 Proposed all-known-regressions/95%per-language targets are recommendations only.
+Fine-tuning feasibility follow-up:rough1-3extra weeks for a narrow adapter pilot
+with reviewed data/suitable GPU, not a measured schedule. nvidia-smi confirms
+RTX3050 Laptop4096MiB; larger GPU/cloud likely. No training decision/setup made;
+research report records official sources and assumptions. Next action unchanged.
 
 ## Known Failures or Blockers
 

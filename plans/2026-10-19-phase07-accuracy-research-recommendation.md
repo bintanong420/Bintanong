@@ -139,3 +139,43 @@ tests/test_docs_hygiene.py .agents/skills/bintanong-phase-handoff/tests/test_pha
 571passed/11subtests11.18s,exit0. TEMP/TMP redirected to the same ignored evidence
 root; docs.log retained there. Product tests were not repeated for this docs-only
 change. git diff --check and phase-state validate pass; active7 cannot advance.
+
+## Fine-tuning duration follow-up,14:08
+
+Owner asks whether adding fine-tuning would greatly extend development; this is
+a feasibility question, not a decision to start training. Rough engineering
+allowance for a narrow routing/style LoRA or QLoRA pilot:1-3additional weeks,
+assuming timely human data review and access to a suitable GPU. A reviewed dataset
+and working training environment could shorten a first experiment to several
+days; repeated failed validation or broader answer-generation tuning could take
+longer. These are planning estimates, not measured runtimes or delivery promises.
+
+[Google's tuning guide](https://ai.google.dev/gemma/docs/tune) identifies data
+collection, tuning/testing and deployment as separate work, supports less
+resource-intensive adapter methods, and requires testing on untrained requests.
+The work here would include reviewed English/Filipino/Taglish input-output labels,
+family-separated training/validation/test data, compatible training weights and
+environment, training trials, export/runtime integration and full regressions.
+Our75accepted development variants are not automatically a training dataset, and
+final evaluation families must stay held out. Actual training duration cannot
+be inferred from our inference timings or existing GGUF file size.
+
+[PEFT documentation](https://huggingface.co/docs/peft/main/en/conceptual_guides/lora)
+describes training adapters with the base frozen. Context7 resolved /huggingface/peft
+and confirmed adapter-only LoRA/k-bit training behavior. This is the recommended
+method to investigate if tuning becomes necessary, rather than full-weight tuning.
+Google's [QLoRA example](https://ai.google.dev/gemma/docs/core/huggingface_vision_finetune_qlora)
+uses a compatible training checkpoint and separate training stack; its vision-task
+hardware requirement is not a measured minimum for our text-routing task.
+
+Read-only nvidia-smi --query-gpu=name,memory.total --format=csv,noheader returned
+NVIDIA GeForce RTX3050 Laptop GPU,4096MiB. Current local GPU capacity makes larger
+GPU/cloud access likely for a practical pilot; no assertion that every low-memory
+configuration is impossible. No training setup, installs, downloads, paid service
+or model change authorized/executed. Master20 still requires an explicit project
+decision. Recommendation remains controlled inference evaluation first; if that
+fails, tune routing/style behavior while policies stay in reviewed Prolog/RAG.
+
+Follow-up docs gate:same pytest files/options as above, basetemp=raw-root/
+finetuning-docs;571passed/11subtests18.48s,exit0,finetuning-docs.log.
+Diff check and phase-state validation pass; product/runtime unchanged.

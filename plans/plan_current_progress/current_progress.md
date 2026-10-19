@@ -1,6 +1,6 @@
 # Current progress
 
-Updated:19October2026,13:04. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
+Updated:19October2026,14:08. Phase07 remains active in p07/feat/p07-router-taglish-nlp.
 [Plan](../phase-07-multilingual-routing-plan.md), [checkpoint](../phase-07-checkpoint.md),
 [current correction/results](../2026-10-19-phase07-operation-constraint-correction.md),
 [prior style results](../2026-10-19-phase07-style-stage-evaluation.md),
@@ -8,6 +8,11 @@ Updated:19October2026,13:04. Phase07 remains active in p07/feat/p07-router-tagli
 Pre-condensation snapshot:bec3d8e:plans/plan_current_progress/current_progress.md.
 
 ## Latest findings and product baseline
+
+Fine-tuning duration question answered in the research report:rough1-3additional
+weeks for a narrow adapter pilot with reviewed data/GPU access, not a measured
+schedule. nvidia-smi confirms RTX3050 Laptop4096MiB; larger GPU/cloud likely needed.
+Question is not authorization to train; current next action remains unchanged.
 
 Owner prioritizes minimal errors/high accuracy; the quality-priority question is
 answered. Research confirms prior thinking probe used reasoning_budget=128,
@@ -57,4 +62,4 @@ the Filipino Symbolic/Hybrid error open. Proposed95%per-language development tar
 are recommendations, not approved gates or measured population accuracy.
 Stop the resolved count diagnostic; no blind retired trials/wording sweep, host
 semantic override, model change/training or Phase08 advancement. Research/docs
-gate571passed/11subtests11.18s,exit0; phase state valid and diff check clean.
+follow-up gate571passed/11subtests18.48s,exit0; phase state valid and diff check clean.
