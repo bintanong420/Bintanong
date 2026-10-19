@@ -15,6 +15,10 @@ Status = Literal['ready', 'unknown', 'unsupported', 'error', 'timeout', 'conflic
     'release_mismatch', 'no_evidence', 'uncalibrated', 'clarify']
 Scope = Literal['none', 'document_explanation', 'scoped_prerequisite_check',
     'dependency_listing', 'combined_explanation']
+DocumentStatus = Literal['ok', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
+    'uncalibrated', 'release_changed', 'configuration_mismatch', 'encoder_unavailable',
+    'invalid_query', 'storage_error', 'policy_binding_error', 'needs_subject',
+    'needs_claims', 'unassessed']
 
 
 class SourceBinding(Record):
@@ -72,10 +76,7 @@ class DocumentPassage(Record):
 
 class DocumentResult(Record):
     release_id: ReleaseID
-    status: Literal['ok', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
-        'uncalibrated', 'release_changed', 'configuration_mismatch', 'encoder_unavailable',
-        'invalid_query', 'storage_error', 'policy_binding_error', 'needs_subject',
-        'needs_claims', 'unassessed']
+    status: DocumentStatus
     passages: tuple[DocumentPassage, ...]
     gaps: tuple[Text, ...]
 
@@ -112,4 +113,42 @@ class CandidateEvidence(Contract):
             raise ValueError('synthetic_dependencies_only')
         if (self.status == 'ready') != (self.permitted_scope != 'none'):
             raise ValueError('only_ready_evidence_has_permitted_scope')
+        return self
+
+
+class StageEvent(Record):
+    """Allowlist for telemetry; no questions, facts, grades, exceptions or prompts."""
+    stage: Literal['release', 'routing', 'retrieval', 'symbolic', 'integration']
+    duration_ms: float = Field(ge=0, allow_inf_nan=False)
+    route: Route() | None
+    release_id: ReleaseID | None
+    outcome: Status | DocumentStatus | Literal['eligible', 'ineligible', 'control', 'held',
+                                              'busy', 'invalid_output', 'tool_error']
+    retry_count: int = Field(default=0, ge=0, le=1)
+    evidence_ids: tuple[Annotated[str, Field(pattern=r'^(?:[0-9a-f]{64}|rule-[a-z0-9-]+)$',
+                                            max_length=128)], ...] = ()
+
+
+class IntegrationResult(Contract):
+    SCHEMA_VERSION = 'bintanong-candidate-integration-v1'
+    candidate_only: Literal[True] = True
+    institutional_use_allowed: Literal[False] = False
+    activation_allowed: Literal[False] = False
+    request_id: str = Field(pattern=r'^req-[a-z0-9-]+$')
+    route: Route() | None
+    response_style: Literal['en', 'fil', 'taglish', 'unknown']
+    status: Literal['ready', 'unknown', 'unsupported', 'error', 'conflict', 'release_mismatch',
+        'no_evidence', 'uncalibrated', 'clarify', 'greeting', 'unsupported_scope',
+        'evidence_unavailable', 'held', 'timeout', 'busy', 'invalid_output', 'tool_error']
+    evidence: CandidateEvidence | None
+    missing_facts: tuple[Text, ...] = ()
+    events: tuple[StageEvent, ...]
+
+    @model_validator(mode='after')
+    def _result(self):
+        if self.evidence is not None and (self.route != self.evidence.route
+                or self.status != self.evidence.status):
+            raise ValueError('integration_evidence_mismatch')
+        if self.status == 'ready' and self.evidence is None:
+            raise ValueError('ready_requires_evidence')
         return self

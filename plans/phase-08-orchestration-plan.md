@@ -70,7 +70,7 @@ TEMP/TMP and `--basetemp` under workspace/audit-evidence/p08-orchestration-20261
    Tests: preserve uncalibrated/source gaps; no vector call on Symbolic; dispatch
    all three fixed operations; request-local asserted facts; reject research results;
    bounded admission across thread cancellation. Real synthetic Janus smoke test.
-3. [ ] Request orchestrator with bounded stages and safe telemetry.
+3. [x] Request orchestrator with bounded stages and safe telemetry.
    Tests: default hold; each route through real Router with scripted transport;
    Hybrid waits for both; no reroute; stage timeout/invalid output; cancellation;
    only allowlisted metadata in telemetry; concurrent session isolation.
