@@ -1,8 +1,11 @@
 # Candidate generation and output validation
 
-Phase09 implementation is active; actual-model evaluation is **NOT RUN** because
-automatic approval review rejected starting the existing offline container. Do not
-infer language/support accuracy or phase completion from passing mocked tests.
+Phase09 implementation is active. After the owner started the existing container,
+the nine-case actual-model baseline completed with **nine timeout fallbacks and zero
+validated explanations**. A single traced case exposed invented RAG decision fields;
+the request grammar now binds that field to the host-owned value,including null.
+The targeted multilingual follow-up is pending; default deadlines are unchanged.
+Do not infer phase completion from passing mocked tests or preserved typed outcomes.
 [Plan/checkpoint](../../plans/phase-09-checkpoint.md),
 [research and Context alignment](../../plans/2026-10-19-orchestration-research-and-context-alignment.md).
 
@@ -63,7 +66,8 @@ split and writes only under the supplied evidence root. It starts no model/serve
 python -B -m backend.bintanong_generation.evaluation C:/Coding-projects/bintanong_workspace/audit-evidence/p09-generation-20261019/synthetic-dev-cases.json --output C:/Coding-projects/bintanong_workspace/audit-evidence/p09-generation-20261019/actual-observations.json --evidence-root C:/Coding-projects/bintanong_workspace/audit-evidence/p09-generation-20261019 --url http://127.0.0.1:18087 --timeout 120
 ```
 
-Run that only when the existing authorized runtime is available. The current nine
-synthetic inputs are prepared but unexecuted. Inspect each claim, condition, language
+Run that only when the existing authorized runtime is available; preserve existing
+reports and choose a new output path for any justified follow-up. The nine-case
+baseline above is complete. Inspect each claim, condition, language
 and fallback; annotate pending human review separately from model-checker acceptance.
-See the [pending observation report](../../plans/2026-10-19-phase09-observation-status.md).
+See the [observation report](../../plans/2026-10-19-phase09-observation-status.md).

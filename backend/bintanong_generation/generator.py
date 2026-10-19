@@ -8,7 +8,7 @@ from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
 from .contracts import AnswerDraft,CandidateAnswer,SupportReport
 from .evidence import prepare
-from .prompt import draft_messages,support_messages,output_schema
+from .prompt import draft_messages,draft_schema,support_messages,output_schema
 from .render import fallback_status,render_text,selected_cards
 from .validation import validate_draft,validate_support,validate_final
 
@@ -69,7 +69,7 @@ class Generator:
                 for attempt in (1,2):
                     attempts=attempt
                     raw=await self.transport.infer(draft_messages(text,pack,errors=errors,previous=previous),
-                                                   output_schema(AnswerDraft))
+                                                   draft_schema(pack))
                     previous=raw if isinstance(raw,str) else ''
                     try:
                         proposal=_parse(raw,AnswerDraft)

@@ -6,6 +6,18 @@ Last full pre-condensation snapshot:e668e0e:plans/plan_current_progress/current_
 
 ## Latest delivery
 
+Owner started the existing offline container; inspection confirms running with the
+same pinned image and arguments. Readiness503 resolved to ok; no agent startup retry.
+Nine actual-model observations completed from6ff5635:all nine timed out; zero
+validated explanations.12draft/5check attempts,3repairs. Six supplied decisions
+copied unchanged; RAG three null decisions retained. No generated claims exposed.
+Traced English RAG diagnostic completed125.907s:invented eligible then unknown
+instead of null; both correctly rejected. Request grammar now binds host outcome;
+explicit null prompt. RED3/GREEN60 generation tests; default120seconds unchanged.
+Post-observation explicit41-file gate1819passed/63subtests82.37s,exit0; command/log
+under workspace/audit-evidence/p09-generation-final-20261019/.
+Raw baseline/trace and RED/GREEN logs under existing p09-generation root.
+
 New-account resume verified clean delivery HEADf5e54e2, all13product/test manifest
 hashes and nine prepared inputs. Fresh generation/docs/phase gate:646passed,
 11subtests12.57s,exit0; logs in workspace/audit-evidence/p09-account-resume-20261019/.
@@ -31,17 +43,15 @@ evidence. Exact commands/logs:workspace/audit-evidence/p09-generation-20261019/.
 Producte668e0e; later documentation wrapper only. No whole-project-green claim.
 Delivery docs/phase591passed/11subtests11.72s; local links/phase validation pass.
 
-Nine synthetic dev inputs and bounded observation CLI prepared; no actual model
-calls. Automatic approval review rejected starting existing offline container:
-only "blocked by policy" supplied; no retry/workaround/download. Actual language,
-prose support and prompt-injection behavior NOT RUN/unmeasured. Phase09 stays active.
+Nine synthetic dev inputs and bounded observation CLI prepared. Previous startup
+denial ("blocked by policy") resolved by owner starting the container; no agent
+retry/workaround/download. Model prose/language quality unmeasured:zero final
+explanations to assess; prompt-injection behavior unmeasured. Phase09 stays active.
 [Observation status](../2026-10-19-phase09-observation-status.md).
 All inherited source/hosted-schema/style/release holds and one-week accuracy cap stay.
-Fresh runtime inspection confirms exited137 and localhost18087 connection refused.
-Owner asked to make that existing runtime available; no new inference attempted.
 
 ## Next action
 
-When existing authorized runtime is available, run the single prepared observation
-command in generation README and independently inspect language/support/canonical
-results. Preserve all errors/unknowns; no complete handoff or Phase10 advancement yet.
+Commit verified correction,then one three-case RAG language follow-up at240s
+for absent-decision preservation and prose support/style. Preserve120s baseline;
+no all-nine repeat or complete handoff/Phase10 advancement claim yet.

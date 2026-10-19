@@ -148,3 +148,36 @@ def test_candidate_answer_preserves_typed_claim_mapping_and_safe_scope():
         assert answer.structured_context.inputs[0].value=='FICTIONAL-101'
         assert all(i.fact_ref is None for i in answer.structured_context.inputs)
     asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('route,outcome',[('RAG',None),('Symbolic','eligible'),('Hybrid','ineligible')])
+def test_request_grammar_only_allows_the_host_decision_and_matches_prompt(route,outcome):
+    from backend.bintanong_generation.contracts import AnswerDraft
+    from backend.bintanong_generation.prompt import output_schema
+    async def scenario():
+        base=output_schema(AnswerDraft)
+        source=integrated(route,outcome=outcome or 'eligible')
+        pack=prepare(source)
+        model=Fake(draft(pack).model_dump_json(),supported())
+        answer=await api().Generator(model).generate('Fictional?',source)
+        assert answer.status=='answered'
+        messages,schema=model.calls[0]
+        field=schema['properties']['decision_outcome']
+        assert field.get('type')==('null' if outcome is None else 'string')
+        if outcome is not None: assert field['const']==outcome
+        prompted_schema=json.loads(messages[0]['content'].split('\nOutput schema:\n',1)[1])
+        assert prompted_schema==schema
+        assert output_schema(AnswerDraft)==base
+    asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('invented',['eligible','unknown'])
+def test_rag_still_rejects_a_decision_invented_by_a_nonconforming_transport(invented):
+    async def scenario():
+        pack=prepare(integrated('RAG'))
+        invalid=draft(pack,decision_outcome=invented).model_dump_json()
+        model=Fake(invalid,invalid)
+        answer=await api().Generator(model).generate('Fictional?',integrated('RAG'))
+        assert answer.validation=='repair_exhausted' and answer.decision is None
+        assert answer.check_attempts==0 and not answer.claims
+    asyncio.run(scenario())
