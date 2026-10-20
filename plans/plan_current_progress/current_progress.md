@@ -1,19 +1,25 @@
 # Current progress
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md).
-Last full prior snapshot1cdfc9b:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Proposed task-first protocol](../2026-10-21-task-first-interpretation-design.md).
+Last full prior snapshotd513768:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Read-only exit reconciliation:four finite packages,reusing completed software/
-service evidence. Latest interpretation/part failures and earlier unverified
-relevance/completeness safeguards remain explicit holds. Earlier failures are not
-fresh v13 reproductions;current guards do not prove them resolved. No new product
-change,inference,accuracy threshold or phase waiver. Historical19October handoff
-does not close the reopened phase;browser/UAT metrics stay with later work.
-Audit verification:docs10passed0.78s;19local links/caps pass;phase valid/active9,
-advancement refused. Raw:workspace/audit-evidence/p09-exit-map-20261021/.
+Proposed wirev2:explicit part_count/parts precede operations/route;host checks
+count consistency without inventing/deleting parts. Same model calls/guards;
+no benefit assumed. Four sealed traces show current route precedes parts;Taglish
+chooses Hybrid before emitting two document parts. No Prolog-file defect shown.
+One fresh builder check:nothing important left;no second review. Proposed gate:
+unchanged4pipeline cases,then only if4/4pass two prepared selected-checker reviews
+for irrelevant mapping/omitted fee;max30model calls. NOT approved/run.
+No product or inference change. Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md)
+still applies;Phase09 active,all quality holds retained. Review/audit raw:
+workspace/audit-evidence/p09-task-first-design-20261021/.
+Four sealed traces/five source hashes verified;both prepared B fixtures validate
+through public selected-path helpers. No checker verdict or quality pass claimed.
+Fresh docs10passed0.77s;12local links/caps pass;phase valid/active9,cannotadvance.
+Fourteen raw files sealed;digest in checkpoint. No product/model/service changes.
 
 Owner approved catalog separation with "aight continue" directly after its approval
 request. Product0aaa074 removes only reviewed_aliases from model input;full host
@@ -52,10 +58,10 @@ after run. Phase valid,advancement refused;new46raw files sealed,digest in check
 
 ## Boundaries and next action
 
-Write one bounded reliability proposal using saved traces,covering requested
-operations,independent question requirements and relevance/completeness together.
-Name a changed mechanism,evidence,risks and stop condition before a new decision.
-The separate conditional choice remains held;do not ask it again in this audit.
+Await owner approval of the reviewed wirev2 protocol and single finite gate;
+after an actual approval,write its implementation plan. Brainstorming's full-
+description approval boundary applies to this new contract;no product work yet.
+The separate conditional choice remains held;do not ask it again this turn.
 No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve
 all failed cases/criteria;approved4/4full gate unmet. Phase09 remains active.
 Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release/one-week

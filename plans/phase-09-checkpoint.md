@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 97
+sequence: 98
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 1cdfc9b
+head_commit: d513768
 working_tree: dirty
-updated_at: 2026-10-21T00:18:43+08:00
+updated_at: 2026-10-21T00:28:51+08:00
 ---
 
-# Phase09 checkpoint - remaining exits reconciled;quality holds retained
+# Phase09 checkpoint - task-first protocol proposed;no implementation
 
 ## Completed Tasks
 
@@ -24,34 +24,36 @@ response3/4,full quality1/4:FAIL/no promotion.
 
 ## Current Task
 
-Read-only [exit map](2026-10-21-phase09-remaining-work-and-exit-map.md) separates
-delivered software/service evidence from interpretation,independent question
-requirements and relevance/completeness holds. Four bounded remaining packages;
-no new implementation/inference or changed gate. Older safeguard failures are
-version-specific,neither reproduced nor proven corrected on v13 by this audit.
-
-Approved catalog separation and ONE actual evaluation completed. English/Filipino
-facts/citations correct but each coalesces two independent requested details.
-Taglish exact slip S quote incorrectly treated as course/unrequested prerequisite
-operation;two documentary parts do not cover operation. Host rejects inconsistent
-requirements before retrieval/Prolog. Two calls are interpreter/style,not repair.
-Hybrid correct ZX201 target/failed ZX101 asserted premise,two parts,actual scoped
-ineligible result/cited Office K. No absent-question catalog course emitted.
-All4actual payloads exclude catalog and match frozen questions;no causal model
-mechanism/general-accuracy claim. Stop bounded experiment;no product correction.
-Conditional-answer choice stays unresolved. Thesis17-18/39-44,actual PNG/master
-3/11/13/14 consulted this resume;no discrepancy. Unknown-vs-unmet policy retained.
+[Proposal](2026-10-21-task-first-interpretation-design.md):wirev2 adds checked
+part_count,emits count/parts before operations/route in the existing interpreter.
+No extra call,example bank,semantic host reroute or guard relaxation. Benefit is
+an untested hypothesis;count can still be wrong. Four sealed traces confirm current
+route-before-parts order;Taglish Hybrid choice precedes its two document parts.
+One fresh builder check:nothing important left;no product/inference authorized.
+Proposed gate:unchanged4pipeline cases,then only if4/4pass two prepared selected-
+checker challenges for irrelevant mapping/omitted fee. Max30calls,no rescue sweep.
+Earlier safeguard failures are not fresh v13 reproductions or verified corrections.
+Thesis17-18/39-44,actual PNG/master3/11/13/14 consulted;unknown-vs-unmet retained.
+Conditional-answer policy remains unanswered;four if/kung cases stay held.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEAD1cdfc9b;product0aaa074,executiona2b4f2d.
-Pending docs:exit map,progress/checkpoint only. No code/unrelated change.
+p09/feat/p09-generation-validation;HEADd513768;product0aaa074,executiona2b4f2d.
+Pending docs:task-first design,progress/checkpoint only. No code/unrelated change.
 Checkpoint names parent;containing delivery commit follows. Workspace MODELS/
 CUDA18088/default18087 unchanged. No service startup,weights copy/rehash/download,
 dependency/source/DB mutation,training,institutional rule execution,activation,
 push,merge or deployment. Phase09 active;no Phase10.
 
 ## Verification Evidence
+
+Design audit:four sealed call traces/five current source hashes verified. Both
+proposed B fixtures validate through existing integration/evidence/question/draft
+and selected review-message/schema helpers. No model verdict or quality pass.
+One fresh read-only builder check:nothing important left. Raw:
+workspace/audit-evidence/p09-task-first-design-20261021/.
+Fresh docs10passed0.77s;12local links/caps pass;phase valid/active9,cannotadvance.
+New14file seal603f2b04c002065c49799f2e31b021c8988e3f54ec409731b01f46159391245d.
 
 Exit-map audit:docs10passed0.78s;19local links/active caps pass;phase valid,active9,
 advancement refused. Raw:workspace/audit-evidence/p09-exit-map-20261021/.
@@ -86,7 +88,7 @@ Inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
 labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
 Binding20October23:59:56;actual attempt21October00:00:03 local;raw root retains
 software-start date. Prior240seals retained in freeze.py and linked design/results.
-Last full prior checkpoint1cdfc9b;git show preserves history. Historical123line
+Last full prior checkpointd513768;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -96,8 +98,8 @@ Limited4/4full gate unmet;no promotion or post-output label/criterion change.
 Preserve grounding/quote uniqueness/scope/conflict/nonasserted/evidence guards.
 Do not silently remove entities or route Taglish by keywords to hide model error.
 Implemented input separation is not proof of general cause/quality/speed gains.
-Stop this approved experiment;discuss interpretation/part-completeness capability
-limits before more product experiments. No next prompt fix/classifier/example bank.
+Catalog experiment stopped. New task-first protocol is a separate proposed
+decision,not permission for another prompt fix/classifier/example-bank sweep.
 Conditional family still held;catalog approval did not answer its policy question.
 Undergraduate/read-only/source-gap/privacy/release/one-week holds and75accepted
 variants persist. Candidate remains inactive/advisory;no phase completion inferred.
@@ -116,10 +118,10 @@ Earlier4-8active-hour phase estimate remains low-confidence;quality gate failed.
 
 ## Next Action
 
-Write one bounded reliability proposal using saved traces:requested operations,
-independent question requirements and response relevance/completeness. Identify
-changed mechanism,evidence,risks and stop condition before a new implementation/
-evaluation decision. Conditional family remains separately held. No new experiment.
+Await owner approval of the reviewed task-first protocol/gate. Brainstorming's
+full-description approval boundary applies to this new contract,not past catalog
+approval. After actual approval write its implementation plan;no product/model
+work before that decision. No new experiment or conditional-policy inference.
 
 ## Do Not Repeat
 
