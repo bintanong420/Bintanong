@@ -56,7 +56,7 @@ All private references/source holds/version and unknown semantics remain in forc
    request once through resident encoder/local Supabase to verify composition and
    outer/inner/guard timing. Reuse the existing startup/readiness timer;do not rerun
    unchanged actual-service Symbolic/Hybrid paths or claim browser/full-cold time.
-4. [ ] Independent whole-change review; TDD any important findings in one pass,
+4. [x] Independent whole-change review; TDD any important findings in one pass,
    explicit regression gate, dated results and compact progress/checkpoint pointers.
    Preserve raw workspace/audit-evidence/p09-post-retrieval-guard-20261020 receipts.
    No Phase10 advancement, push, merge or deployment.
@@ -105,3 +105,8 @@ Final ruling:reviewer P2 remains open in the explicit experiment;do not promote 
 or close Phase09. Cost:misrouted structured requests remain an unmet safeguard in
 the selected pipeline. No faster inaccurate route is approved. Next work must
 reassess evidence/task coverage before another generation/routing experiment.
+
+Delivery:isolated productd2d1131;explicit53-selection gate2048passed/66subtests
+89.43s,exit0;155raw files sealed. [Results](2026-10-20-post-retrieval-guard-results.md)
+preserves both failed quality gates and the open P2. Bounded experiment complete;
+the required capability and Phase09 exit remain unfinished. No further inference.

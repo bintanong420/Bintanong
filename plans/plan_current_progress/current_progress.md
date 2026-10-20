@@ -28,7 +28,11 @@ Mechanical RED25/GREEN143;metadata RED4/GREEN802tests5.67s. Initial oversized py
 IDs caused2Windows harness errors before corrected RED;receipts retained. Raw root:
 workspace/audit-evidence/p09-post-retrieval-guard-20261020/,including correction/
 source/input/prompt hashes,traces,failed outputs and independent reviewer assessment.
-Final explicit regression gate pending;no semantic-success claim from passing mocks.
+Final explicit53-selection gate2048passed/66subtests89.43s,exit0;selected product
+d2d1131.155sealed files verified;manifest300ccd212694d876c695a3cef33ce1092179dd802eaeb1135012bb3b08fb0829.
+112links/active caps verified;no semantic-success claim from passing mocks.
+Docs/phase gate617passed/14subtests13.40s;phase valid/active9/cannotadvance.
+Final docs-only597passed1.17s;no product changes after final gate.
 
 ## Timing and preserved boundaries
 
@@ -51,6 +55,5 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Finish explicit regressions and preserve the failed quality gate. Then reassess
-requested-task/evidence coverage before choosing a new bounded safeguard;do not
+Reassess requested-task/evidence coverage before choosing a new bounded safeguard;do not
 repeat this prompt correction or close Phase09 on these results.

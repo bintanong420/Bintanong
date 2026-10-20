@@ -100,12 +100,27 @@ guard observations relabeled as success,nonfinite durations,wrong/duplicate/extr
 JSON and cross-release assessment. Deadline/cancellation,request isolation and
 legacy/control bypasses are covered. Mocks establish mechanics,not semantic recall.
 
+Final selected productd2d1131 passes the explicit53-selection regression gate:
+2048passed/66subtests89.43s,exit0. Exact command script:raw verify-regressions.ps1;
+log:final-regressions.log. Python3.13 -B -m pytest -q -p no:cacheprovider with
+ignored workspace/audit-evidence test temporaries. Actual semantic gates remain FAILED;passing
+mechanical regressions does not close the P2. No product changes after this gate.
+Docs/phase gate617passed/14subtests13.40s;phase state valid,active9,cannotadvance
+because its checkpoint remains in_progress. No completion/activation is inferred.
+Final docs-only check597passed1.17s;112local links and active snapshot caps pass.
+
 Raw root:C:/Coding-projects/bintanong_workspace/audit-evidence/
 p09-post-retrieval-guard-20261020/. Original and corrected pre-inference manifests
 bind input bytes,code snapshots,observer hashes and server props;traces retain
 message/schema hashes,physical call durations and server usage/timings. Originals
 are not overwritten. Source-inference/ and correction/source-inference/ retain
 exact product bytes for their respective model observations.
+Root-assessment.json records all18observations and both failed gates;selected
+source snapshotd2d1131 preserves final isolated code. Delivery manifest155files
+verified,SHA256300ccd212694d876c695a3cef33ce1092179dd802eaeb1135012bb3b08fb0829.
+Later doc-wrapper logs are excluded. Local link/snapshot checks verify112links and
+active caps;historical handoff123lines is unchanged from4022711,a retained3line
+exception preserving its delivery evidence. No historical handoff rewrite occurs.
 
 Existing CUDA18088,35/43GPU layers,Gemma and owner workspace/MODELS reused. Shipped
 defaults120s inference/generation/stage,180s request remain;observations use240s

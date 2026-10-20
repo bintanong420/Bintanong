@@ -26,8 +26,7 @@
 - Guard experiment failed multilingual quality;explicit guarded profile unselected,Phase09 exit held.
 - Scoped/canonical/separate selected;warm backend RAG29.9s/Symbolic17.0s/Hybrid38.9s;student end-to-end unmeasured.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
-- Seven reviewed relationships verified; university verification, institutional runtime
-  and activation remain separate release holds. Full-prospectus conversion stays draft.
+- Seven reviewed relationships verified;university/institutional runtime/activation holds remain;full-prospectus conversion stays draft.
 
 ## Resume order
 
