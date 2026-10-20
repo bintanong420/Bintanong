@@ -1,60 +1,54 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Guidance delivery](../2026-10-20-router-semantic-guidance-results.md).
-Last full prior snapshotbb6c79f:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [V12 actual results/estimate](../2026-10-20-semantic-guidance-observation-results.md).
+Last full prior snapshot3252c6c:plans/plan_current_progress/current_progress.md.
 
-## Latest delivery
+## Latest result
 
-Bounded prompt/example correction062589c within existing owner authorization.
-Routerv12 defines direct self-premises as request-local asserted context,keeps
-hypothetical/reported meanings,and demonstrates three distinct requested parts
-in ONE complete fictional M4/N8/ticket R example. Host guards/contracts/Prolog,
-repair loops,style selection and model/budgets unchanged. Combined-promptv3
-inherits guidance,remains explicit/unselected. No new inference or service calls.
+One frozen v12 actual-model observation at3252c6c/code062589c:response success1/4,
+strict full quality1/4:FAIL,no promotion. Document d-en/d-fil/d-tl each invent
+catalog course ZX101 absent from original question;initial+sole format repair
+reject quote_occurrence_not_found. No style/evidence execution. d-en/d-fil also
+coalesce two details;d-tl extracts distinct parts but cannot pass grounding.
+Actual calls contain the correct question and revised prompt;no runner mix-up.
+Hybrid h-en preserves ZX201 target/failed ZX101 asserted premise and two parts;
+actual Janus returns scoped ineligible,final decision/cited Office K answer correct.
+Single English Hybrid success does not establish multilingual/overall accuracy.
 
-Four tests inspect the actual shipped example/schema/quotes/dispatch and retain
-both nonasserted guards:4RED0.93s->4GREEN0.61s. Relevant routing/prompt-schema
-gate237passed3.54s. One fresh read-only review89e9503..062589c:no findings/minors;
-no re-review needed. Do not rerun237tests without cause or repeat the old688gate.
-Software freeze32208711f72b17c4749ca6917a030dbdfa7b68f362c4ad83401eb534b74a9538
-binds181backend/vocabulary files and1test. Only prompt.py/combined.py change in
-backend;179other files/both decoders unchanged. All192prior sealed files intact.
-New raw:workspace/audit-evidence/p09-semantic-guidance-20261020/.
-Fresh docs10passed0.80s;88links/caps and182source/test hashes verified. New10raw
-files sealed;manifest in checkpoint. Phase valid/advance refused;new actual
-quality/latency unmeasured.
+Correct complete Hybrid component time59.866s;failed controls26.179-29.870s.
+Routing32.640s,Janus adapter1.614s,generation/support25.608s. Fixed docs bypass
+retrieval. Excludes embedding/vector/Supabase/API/browser/external network,
+load/queue,fixture preparation/readiness and cold startup. Resident readiness
+0.088480s is local HTTP,not isolated connection setup or Supabase readiness.
+10model calls/40HTTP exchanges;three format repairs,zero answer repairs/reruns.
+One Hybrid router reasoning field;local30048prompt/2094completion tokens separate
+from Codex quota. No achieved15-20s browser SLA or causal speed/accuracy comparison.
 
-## Prior actual failure and boundaries
+Raw:workspace/audit-evidence/p09-semantic-guidance-gate-20261020/.
+Binding37370a30ccb9cbe85907d1bd33f5ae4630b3608969d3e90c15fcceb4ed366c07.
+202prior sealed files/current181backend hashes and1test verified after run.
+Fresh docs10passed3.84s;79links/caps pass;phase valid,advancement refused.
+New34raw files sealed;manifest in checkpoint. No correction or rescue probe.
+Previous237software regressions/one review remain historical;not rerun.
 
-[Prior v11 observation](../2026-10-20-quoted-reference-focused-observation-results.md):
-2/4correct responses,0/4strict full quality. English duplicates rejected;Filipino/
-Taglish answers correct but coalesced;Hybrid correct target/failure but reported
-mode clarifies before Prolog. Zero actual Prolog executions. No v12 accuracy claim.
-Prior correct answers61.672/67.224s COMPONENT time;fixed document adapter bypasses
-retrieval. Supabase/embedding/vector/API/browser/external network/load/queue,
-startup and fixture/readiness excluded or unavailable. Resident readiness0.137141s
-is local HTTP,not isolated connection setup. Four prior router reasoning fields
-remain observed;local Gemma tokens are separate from Codex quota.
+## Estimate and standing boundaries
 
-Four explicit if/kung cases held for unanswered conditional choice;no mode coercion
-or inferred approval. Undergraduate/read-only/RAG+structured-Prolog/source-gap/
-privacy/institutional-release holds,accepted75variants and one-week cap persist.
-Thesis17-18/39-44,actual PNG/master3/11/13/14 revisited;closed-world illustration
-does not override unknown-vs-unmet policy. No scope discrepancy. Accuracy first.
-[Saved target](../../Context/response-time-recommendation.md):15-20s warm complete
-browser/conditional20-30complexHybrid remains proposed,unvalidated. System text
-grows12535->14788UTF-8bytes;no token-count/latency benefit inferred.
-No Phase10,training,installs,dependency/source/DB changes,push,merge or activation.
-[Earlier Codex usage findings](../2026-10-20-session-token-usage-observation.md) retained.
+Initial estimate2-4focused sessions/about4-8active hours required a clean quality
+gate plus remaining route/language/exit work. Gate failed;range is now low-confidence
+planning allowance,not a dependable finish date. No schedule-based accuracy waiver.
+Stop this correction sequence;discuss model/capability limits before more experiments.
+Four explicit if/kung cases still held;focused owner question presented again during
+independent run. Await actual answer;no conditional approval/mode coercion inferred.
+Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release holds,
+accepted75variants and one-week cap persist. Thesis17-18/39-44,actual PNG/master
+3/11/13/14 revisited;no scope discrepancy;unknown remains distinct from unmet.
+[Saved target](../../Context/response-time-recommendation.md) remains proposed and
+unvalidated. No Phase10,training,installs,dependency/source/DB changes,push/activation.
 
 ## Next action
 
-Commit [v12 protocol](../2026-10-20-semantic-guidance-quality-gate.md),freeze exact
-artifacts/settings/runtime and one readiness check;then run4unchanged cases once
-if ready. Runner prepared,zero new inference/service calls. Conditional family
-held;all quality criteria unchanged. Failure means discuss supported-capability/
-model limits before more experiments,no rescue probe or product correction.
-Owner estimate:4-8active hours/2-4focused sessions IF quality passes and remaining
-route/language/exit checks succeed. Planning estimate,not a fixed completion date;
-failures or pending decisions can extend it. No quality-for-schedule trade.
+Discuss supported-capability/model limits and review
+the pending conditional decision before any further product experiment. Reuse
+existing traces/tests/service proof;no prompt/guard/classifier/example-bank sweep
+or rerun of the sealed cases. Preserve every failure and formal Phase09 boundaries.

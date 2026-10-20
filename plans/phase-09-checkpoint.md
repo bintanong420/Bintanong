@@ -2,147 +2,114 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 86
+sequence: 88
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: bb6c79f
+head_commit: 3252c6c
 working_tree: dirty
-updated_at: 2026-10-20T23:36:55+08:00
+updated_at: 2026-10-20T23:43:43+08:00
 ---
 
-# Phase09 checkpoint - semantic guidance software verified;actual quality pending
+# Phase09 checkpoint - v12 actual observation failed;capability decision next
 
 ## Completed Tasks
 
-Owner-approved quoted-reference software:71be2fd/9a72d2e;delivery3c4cfd4.
-[Software results](2026-10-20-router-quoted-reference-results.md):wirev1 ->
-normalized Interpretationv2;promptv11. Host spans/course identity deterministic;
-existing generation/Prolog/contracts/guards and budgets unchanged.
-[Four-case protocol](2026-10-20-quoted-reference-focused-quality-gate.md) committed
-5e44625 before one readiness/frozen-input binding and actual-model execution.
-[Actual results](2026-10-20-quoted-reference-focused-observation-results.md):
-response requirements2/4;strict full quality0/4:FAIL,no promotion.
-Guidance revision062589c:[delivery](2026-10-20-router-semantic-guidance-results.md).
-Four RED0.93s->four GREEN0.61s;237regressionsGREEN3.54s. One fresh review:no findings.
+Quoted wire71be2fd/9a72d2e;v12 guidance062589c/deliverybb6c79f.
+[Guidance software](2026-10-20-router-semantic-guidance-results.md):4RED->4GREEN;
+237relevant regressions3.54s,one fresh review without findings/minors. Not rerun.
+[Protocol](2026-10-20-semantic-guidance-quality-gate.md)3252c6c frozen BEFORE
+readiness/input binding/inference. [Actual results/estimate](2026-10-20-semantic-guidance-observation-results.md):
+response success1/4,strict full quality1/4:FAIL,no promotion.
 
 ## Current Task
 
-Resume bb6c79f clean. [V12 observation protocol](2026-10-20-semantic-guidance-quality-gate.md)
-fixes the same4inputs/references BEFORE inference;all202prior seals/current software
-must verify. New runner prepared,zero model/service calls. One readiness then one
-batch only;conditional family stays held. No product changes/review/test repeats.
-
-Bounded [guidance correction](2026-10-20-router-semantic-guidance-correction-plan.md)
-implemented within existing prompt/example authorization. One complete fictional
-three-part example and explicit mode/detail guidance;no host/schema/guard change
-or inference. Four new tests:4RED0.93s then4GREEN0.61s;237regressionsGREEN3.54s.
-Fresh review89e9503..062589c complete:no findings/minors;no re-review. Final docs
-10passed0.80s;88links/caps;182source/test hashes and192prior sealed files verified.
-179other backend/vocabulary files and both decoders unchanged. New10raw files
-sealed;phase valid,advancement refused. New actual model quality/latency unmeasured.
-Scope17-18/architecture39-44,actual PNG/master3/11/13/14 revisited;the thesis
-closed-world illustration does not override the established unknown-vs-unmet policy.
-
-Prior v11 observation completed;no case rerun,rescue probe or in-batch change. English
-duplicate whole-question parts rejected after one format repair. Filipino/Taglish
-answers correct/cited but collapse two details into one part. Hybrid target ZX201
-and failed ZX101 present;reported mode triggers clarification;structured part
-also covers document question. Zero actual Prolog executions in this batch.
-Four explicit if/kung cases held for pending conditional choice;no mode coercion.
-Thesis17-18/39-44,actual PNG/master3/11/13/14 and prompt decision consulted during
-active recovery;no discrepancy. Undergraduate/read-only/unknown-vs-unmet preserved.
+ONE four-case observation complete. d-en/d-fil/d-tl invent catalog ZX101 absent
+from original_text;initial+sole format repair rejected quote_occurrence_not_found.
+d-en/d-fil coalesce details;d-tl separate parts still blocked by invalid mention.
+Correct original questions/v12prompt present in saved actual requests. No label/
+input substitution;model mechanism remains unproven. h-en has correct target/
+failure asserted context,two parts,actual scoped Prolog ineligible and Office K.
+Stop this correction sequence. No rescue probe/product correction/classifier.
+Four explicit if/kung cases remain held;owner question pending,not inferred answered.
+Scope17-18/architecture39-44,actual PNG/master3/11/13/14 revisited in this resume;
+closed-world illustration does not override unknown-vs-unmet/source-gap policy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;product062589c,prior observation HEAD5e44625.
-Pending docs:v12 observation protocol,progress/checkpoint. No code or unrelated
-changes. Previous delivery complete;protocol commit precedes new readiness/binding.
-Checkpoint names parent snapshot;its containing documentation commit follows.
-Existing workspace/MODELS/CUDA18088/default18087 untouched. No service startup,
-weights rehash/copy/download,dependency/source/DB changes,training,institutional
-execution,activation,push,merge or deployment. Phase09 active;no Phase10.
+p09/feat/p09-generation-validation;execution3252c6c,product062589c.
+Pending docs:actual results,INDEX,progress/checkpoint. No code/unrelated changes.
+Checkpoint names parent;containing delivery commit follows. Existing workspace
+MODELS/CUDA18088/default18087 untouched. No startup,weights copy/rehash/download,
+dependency/source/DB mutation,training,institutional rules,activation,push,merge
+or deployment. Phase09 active;no Phase10.
 
 ## Verification Evidence
 
-Pre-inference:155prior sealed files and12wire software-freeze hashes verified;
-all4exact input contracts validated;readiness matched model/template/build/context.
-Binding covers181backend/vocabulary files and exact synthetic artifacts/settings.
-One batch4requests/12model calls/48local HTTP exchanges;one format repair,
-zero answer repairs. All12finish_reason=stop;four initial router reasoning fields.
-Saved outputs manually checked against question/frozen passage/reference;not
-independent human gold or unseen evaluation. Host revalidation of both d-en
-outputs confirms duplicate_part_span;no model call needed for offline analysis.
-Fresh docs10passed0.84s;83links/snapshot caps pass;181backend/vocabulary hashes,
-12software-freeze hashes and155prior sealed files verified after the run. Phase
-validate0/can-advance1;advancement correctly refused. New37raw files sealed.
-
-Historical software evidence not rerun:Task1 15RED->58GREEN;Task2 7RED->22GREEN;
-fixture migration29fail/123pass corrected152GREEN;relevant31file688GREEN13.96s.
-One whole-change review da4673d..9a72d2e:no findings/minors;no re-review needed.
-No new product change to justify repeating that gate or completed source reviews.
+Before inference:202prior sealed files/current181backend-vocabulary and1test hashes
+verified;exact four input contracts/hashes valid;runtime model/build/template/
+context/residency matched. One GET readiness0.088480s,not isolated handshake.
+One batch4requests/10model calls/40HTTP exchanges,three format repairs,zero answer
+repairs/reruns. All10finish_reason=stop;one Hybrid router reasoning field.
+Offline host revalidation confirms quote_occurrence_not_found for all6failed
+document proposals. Actual call payloads checked against frozen questions/v12prompt.
+One actual Janus adapter execution1.613970s;correct scoped ineligible/failed course.
+Root author question/source/output assessment separate from model verdict/ledger;
+known developer cases,not independent human gold. Final docs10passed3.84s;79links/
+caps pass;202prior sealed files and182current source/test hashes verified after run.
+Phase valid,advancement refused;new34raw files sealed. No product changes.
+Historical tests688/237 and completed reviews remain;no new product change.
 
 ## Versions and Digests
 
-Current wirev1/normalized-v2;router-p09-v12,combined prompt-p09-v3/packetv2 explicit
-and unselected. Separate/canonical/scoped selected. New software freeze SHA256
-32208711f72b17c4749ca6917a030dbdfa7b68f362c4ad83401eb534b74a9538
-under workspace/audit-evidence/p09-semantic-guidance-20261020/;181backend/vocabulary
-and1test bound. Both decoders unchanged;new actual quality/latency NOT MEASURED.
-New10file manifest7700ae258f4003abb9bc534bfbafe7625a0a2d38df1a448c8226e45243765621.
-Prior observation below used routerv11;do not relabel it as a v12 result.
+Current router-p09-v12;combined-prompt-p09-v3/packetv2 explicit/unselected.
+Wirev1/normalized-v2 unchanged. Separate/canonical/scoped selected.
 Context8192,out768,temp0,seed0,cachefalse,requested reasoningnone;
 inference/stage/generation/request120/120/120/180s unchanged.
-New raw:workspace/audit-evidence/p09-wire-focused-gate-20261020/.
-Pre-inference c03c65d568fba873b20c258dfd7b1190c0a1690f668ca514f3c2ed7eafe45848;
+Raw:workspace/audit-evidence/p09-semantic-guidance-gate-20261020/.
+Execution binding37370a30ccb9cbe85907d1bd33f5ae4630b3608969d3e90c15fcceb4ed366c07;
 inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
-references078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
-New37file manifest c6f0f6b6007e656bb54eaa11b92da8b4bbd4f5c09f1ed73f8a9e7a88e25a089b.
-Wire software freeze a56937613c3e1dd97a6a79603b44f68c5fd25031a4e668271cf86d6ae86a1756;
-wire16file seal5ee6dee5c53effc2cb915f7dc59e19d01d9bb80895b44c6150e660d8beaa8969.
-Other139prior seals remain as linked in software results/prior checkpoint.
-Last full prior checkpoint062589c;git show preserves history. Historical123line
+labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
+New34file manifest31746077a26af399baf2df017564c9d36e93365394c6a8ba5cda32db0d3f577a.
+Current software freeze32208711f72b17c4749ca6917a030dbdfa7b68f362c4ad83401eb534b74a9538.
+Prior10file guidance seal7700ae258f4003abb9bc534bfbafe7625a0a2d38df1a448c8226e45243765621;
+prior37file v11seal c6f0f6b6007e656bb54eaa11b92da8b4bbd4f5c09f1ed73f8a9e7a88e25a089b.
+Other155prior seals retained in linked prior reports;do not overwrite.
+Last full prior checkpoint3252c6c;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
 ## Decisions
 
-Gate FAIL. Exact references solve identity/offset handling,not semantic parts/modes.
-Do not drop uniqueness/claim-mode/support checks to obtain faster answered status.
-Past-failure h-en keeps original developer label even though model says reported;
-do not turn hypothetical/reported claims into actual student facts. Conditional
-design remains separate/unanswered;generic continue did not settle it.
-This new4case subset was selected before inference,not after observed successes.
-No pure Symbolic or full-language Hybrid/institutional accuracy comparison.
-One separately bounded prompt/example clarification within existing approved scope;
-no classifier,guard,model/seed/budget change or sweep. No conditional policy change.
-If actual meaning still fails,discuss supported capability/model limits before
-further product experiments. Do not manufacture success through labels or guards.
-Scope/source-gap/privacy/institutional-release/one-week cap and accepted75 persist.
+Gate FAIL/no promotion. Preserve quote uniqueness/grounding/mode/evidence guards.
+No silent entity deletion,routing override or promotion of hypothetical/reported
+claims. One English Hybrid success does not validate all routes/languages;no pure
+Symbolic/conditional family executed. Accepted75/source-content decisions unchanged.
+Stop bounded observation and prompt-correction sequence;discuss supported model/
+capability limits before more product experiments. No new guard/classifier/sweep.
+Owner's continue is not a pending policy answer or approval to waive phase exits.
+Undergraduate/read-only/structured-Prolog/source-gap/privacy/release/one-week holds.
 
 ## Known Failures or Blockers
 
-Prior v11 complete component answers61.672/67.224s;failed/control54.740/35.832s.
-Current v12 model quality/latency unknown;system text grows12535->14788UTF-8bytes,
-not a measured token count or speed improvement. All model/runtime budgets unchanged.
-Readiness0.137141s is resident local HTTP,not isolated handshake. Fixed docs bypass
+Complete correct Hybrid59.865589s component;failed controls26.179-29.870s.
+Routing32.640s,Janus adapter1.614s,generation/support25.608s;fixed doc adapter bypasses
 retrieval. Embedding/vector/Supabase/API/browser/external network/load/queue,
-fixture preparation/readiness and cold startup excluded or unavailable.
-No browser end-to-end/SLA/student acceptance claim. Saved15-20s warm browser/
-conditional20-30s Hybrid recommendation remains proposed,unvalidated.
-Unexpected reasoning remains observed;local23711prompt/3792completion tokens
-are not Codex quota. No evidence of causal timing benefit or suppression.
-Quoted candidate does not meet strict part/meaning quality;no phase completion.
+fixture preparation/readiness and cold startup excluded/unavailable. No browser
+SLA,student acceptance,population percentile or causal comparison. Saved15-20s
+browser/conditional20-30complexHybrid remains proposed. Local30048prompt/
+2094completion tokens are not Codex quota;reasoning suppression not established.
+Estimate4-8active hours/2-4sessions was conditional on clean quality gate plus
+remaining route/language/exit checks. Gate failed;estimate low-confidence,not a
+dependable completion date or justification to reduce accuracy. Phase09 incomplete.
 
 ## Next Action
 
-Commit v12 protocol;freeze executable artifacts/runtime/settings and check one
-readiness request. If ready,execute4cases once;otherwise NOT RUN. Preserve every
-failure;no rescue probe or candidate edit. If quality fails,discuss model/capability
-limits before more experiments. Phase09 estimate4-8active hours only conditional
-on quality passing plus remaining route/language/exit work;not a fixed completion
-promise or permission to waive accuracy/latency/source/phase requirements.
+Discuss model/capability limits and review the pending
+conditional-answer decision before any more product experiments. Reuse existing
+evidence rather than another prompt/guard/classifier/example-bank sweep.
+No new inference or product correction within this observation.
 
 ## Do Not Repeat
 
-Settled source/benchmark reviews,model setup,test inventory/six mutations,old
-experiments,completed quoted implementation/design review or688tests. No rescue
-probe,unchecked streaming,invented grades,parameter sweep or Phase10 advance.
+Completed setup/source/benchmark reviews,software gates/reviews/test inventory,
+old experiments or these sealed cases. No rescue probe,unchecked streaming,
+invented grades,parameter sweep or Phase10 advancement.
