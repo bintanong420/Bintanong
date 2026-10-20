@@ -75,6 +75,10 @@
 
 ## Prompt engineering and validation - owner decision,19October2026
 
+- Owner20October2026 asks to preserve the researched response-time recommendation.
+  Read `Context/response-time-recommendation.md` when evaluating or changing latency.
+  Its15-20s warm student-visible target and conditional20-30s complex-Hybrid range
+  are proposals requiring measurement/student validation,not an achieved SLA.
 - Owner direction,20October2026: assess response time in the context of the RAG
   and neuro-symbolic architecture. Never sacrifice answer accuracy for speed;
   retain required evidence/reasoning/validation and reject quality regressions.

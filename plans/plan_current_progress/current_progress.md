@@ -6,6 +6,11 @@ Last full prior snapshot48307b8:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Owner asks to keep the earlier researched recommendation visible. Saved durable
+[Context reference](../../Context/response-time-recommendation.md),linked from
+AGENTS.md:proposed15-20s warm browser end-to-end,conditional20-30s complex Hybrid,
+separate startup/connections/Supabase/queue/API/browser metrics,accuracy first.
+
 Guard plan6bd9b43/product48307b8 adds explicit one-call post-retrieval assessment,
 strict release/output validation,localized withholding,shared deadline and host
 result/seconds metadata. It does not reroute or execute new rules.

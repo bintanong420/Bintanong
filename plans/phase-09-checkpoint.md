@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 47
+sequence: 48
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: d2d1131
+head_commit: cfe7652
 working_tree: dirty
 updated_at: 2026-10-20T12:49:11.7166083+08:00
 ---
@@ -19,6 +19,10 @@ snapshot48307b8:plans/phase-09-checkpoint.md. [Current results](2026-10-20-post-
 retains exact quality failures and timing;prior scoped delivery/seals remain linked.
 
 ## Current Task
+
+Resumed clean cfe7652;owner requests durable latency recommendation reference.
+Saved Context/response-time-recommendation.md and AGENTS pointer,with researched
+target/accuracy-first/measurement exclusions preserved. Next:question coverage.
 
 [Guard plan](2026-10-20-post-retrieval-guard-plan.md) initial12case model run and
 one6case correction both failed. Reject correction,restore initial prompt and
