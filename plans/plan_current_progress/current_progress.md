@@ -51,6 +51,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Define a single frozen extraction/per-part-review observation using existing
-transport and synthetic dev labels;validate actual outputs before runtime integration.
-Actual extractor/per-language quality NOT RUN;no repeated prompt/model/seed/budget sweep.
+Execute [fixed observation plan](../2026-10-20-question-parts-observation-plan.md):
+TDD detached two-call analyzer,freeze8fictional cases,one maximum16-call actual
+batch. No runtime selection or repeated prompt/model/seed/budget sweep.

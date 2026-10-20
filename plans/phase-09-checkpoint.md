@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 59
+sequence: 60
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 4f39833
+head_commit: ae9ff28
 working_tree: dirty
 updated_at: 2026-10-20T16:53:14.4945302+08:00
 ---
@@ -23,18 +23,16 @@ covered/guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Reference scorer delivery verified. Four offline checks expose omitted extraction/
-wrong mapping against frozen post-hoc labels. Correct uncertain control agrees
-while ledger unresolved. No actual extractor/model/per-language accuracy result,
-runtime/profile wiring or semantic P2 resolution. This bounded scorer question is
-resolved;next observation gate remains separate.
+Resumed cleanae9ff28. New [fixed observation plan](2026-10-20-question-parts-observation-plan.md)
+implements a detached two-call extractor/per-part reviewer,then freezes8synthetic
+cases for one actual-model batch. No product edit/inference yet. Selected runtime
+unchanged;prior scorer question resolved and semantic P2 remains open.
 Scope17-18/architecture39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified product4f39833,foundationf106070.
-Remaining changes:reference plan/results,index,progress/checkpoint docs only.
-head_commit names verified product;later wrapper is not a product change.
+p09/feat/p09-generation-validation;clean parentae9ff28,scorer4f39833. Remaining
+changes:new observation plan,current progress and checkpoint planning docs.
 No unrelated owner changes found.
 CUDA18088/localSupabase last observed running;no service-health check in this task.
 CPU18087 stopped intact,default18087 unchanged. No Phase10,student API,push,merge,
@@ -97,8 +95,8 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Define one frozen extraction/per-part-review observation using existing transport
-and synthetic dev labels;actual output validation precedes runtime integration.
+Execute detached analyzer with TDD,freeze8cases/labels,then one maximum16-call
+batch under fixed settings. No runtime integration or repeated prompt/model sweep.
 
 ## Do Not Repeat
 
