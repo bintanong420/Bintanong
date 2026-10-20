@@ -2,7 +2,7 @@
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
 [Checkpoint](../phase-09-checkpoint.md) | [Task-first plan](../2026-10-21-task-first-interpretation-implementation-plan.md).
-Last full prior snapshotdc26142:plans/plan_current_progress/current_progress.md.
+Last full prior snapshot8060c7b:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
@@ -13,7 +13,8 @@ guards,Prolog,generation,call/repair budgets unchanged;no extra pipeline call.
 9RED0.83s->9GREEN0.63s;250routing/schema regressionsGREEN4.02s. Both schemas keep
 all previous constraints except protocol/count;example meaning unchanged;
 178other backend/vocabulary files unchanged. No actual quality/latency gain claimed.
-One fresh whole-change review next,then unchanged4pipeline cases;only if4/4full
+Product8060c7b:one fresh whole-change review,no actionable finding;no code fix,
+test repetition or re-review. Next unchanged4pipeline cases;only if4/4full
 pass,run two prepared selected-checker challenges. Max30calls/no rescue sweep.
 Raw:workspace/audit-evidence/p09-task-first-20261021/;freeze digest in checkpoint.
 One earlier builder check completed;both proposed B fixtures verified model-free.
@@ -57,7 +58,7 @@ after run. Phase valid,advancement refused;new46raw files sealed,digest in check
 
 ## Boundaries and next action
 
-One whole-change review,then freeze/run the approved single A/B gate. If A fails,
+Freeze/run the approved [single A/B gate](../2026-10-21-task-first-quality-gate.md). If A fails,
 B is NOT RUN;no prompt correction or rescue. Conditional policy remains held.
 The separate conditional choice remains held;do not ask it again this turn.
 No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve

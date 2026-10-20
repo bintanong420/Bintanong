@@ -63,7 +63,7 @@ output_schema signatures unchanged. No production compatibility coercion.
 - [x] Run new tests GREEN, then existing tests/test_routing_*.py plus existing
   schema-display regressions. Record explicit selection/results; no2200-test rerun.
 - [x] Inspect/stage explicit files and commit the cohesive verified change.
-- [ ] Obtain one fresh whole-change read-only product review before inference;
+- [x] Obtain one fresh whole-change read-only product review before inference;
   resolve actionable defects only. No extra review/model loop without a real need.
 
 ## Task2: freeze and run the single approved actual-quality gate
