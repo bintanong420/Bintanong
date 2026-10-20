@@ -60,5 +60,5 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Reassess requested-task/evidence coverage before choosing a new bounded safeguard;do not
-repeat this prompt correction or close Phase09 on these results.
+Execute the [question-coverage plan](../2026-10-20-question-coverage-plan.md) with
+TDD,one6case actual-model gate and review. Keep rejected guard unselected;no sweep.
