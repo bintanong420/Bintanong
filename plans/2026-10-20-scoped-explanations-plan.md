@@ -65,7 +65,7 @@ Do not combine two unverified candidate changes into a promotion claim.
    passes, run existing3English real-service requests with resident encoder and
    record complete timing, calls and support separately. Stop if quality fails;
    no prompt/seed sweep. New institutional wordings are not introduced.
-5. [ ] Independent whole-change review, explicit scoped regression gate, dated
+5. [x] Independent whole-change review, explicit scoped regression gate, dated
    results and compact progress/checkpoint/index. Preserve residual issues. Phase09
    active; no Phase10 advancement inferred from a candidate or latency result.
 
@@ -94,3 +94,7 @@ The [measurement contract](2026-10-20-response-time-measurement-contract.md) def
 student-visible end-to-end,outer backend,inner pipeline,cold/readiness,connection,
 queue/API/browser boundaries and later-phase unavailable measurements. New raw
 observations record both outer/inner timing plus startup/Supabase readiness.
+
+Delivery:[results](2026-10-20-scoped-explanations-results.md). Explicit52-selection
+gate2008passed/66subtests89.45s,exit0;final independent review has one corrected
+P2/no open P1/P2. No further inference or parameter sweep. Phase09 stays active.

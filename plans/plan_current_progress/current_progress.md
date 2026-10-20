@@ -1,66 +1,60 @@
 # Current progress
 
 Updated:20October2026. Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Current delivery](../2026-10-20-short-evidence-references-results.md).
-Last full prior snapshot107a3ce:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Current results](../2026-10-20-scoped-explanations-results.md).
+Last full prior snapshot89bf4c1:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner requests continuation of the scoped accuracy fix. Resumed clean89bf4c1;
-[scoped plan](../2026-10-20-scoped-explanations-plan.md) separates canonical host
-decisions from document-only generation/checking. Legacy remains selected pending
-quality verification. Prior evidence is reused;no rejected experiment repeated.
-Scoped implementation RED30/GREEN160tests3.22s;expanded35scope tests plus existing
-generation/runtime/docs gate758passed4.29s,exit0. Actual-model observation next.
+Scoped plan2660f6f/implementation1563ae8/selection9d4f32d. Default now scoped
+explanations,canonical references,separate LLM routing/style. Host renders typed
+structured decisions/conditions/dependencies;RAG/Hybrid generate documentary claims
+with per-claim cited-source checking. Full text/provenance/unknown/privacy/release
+boundaries remain. Legacy/short-ID experiments stay explicit developer controls.
 
-Plan5e63854/product42c5754 deliver optional request-local short evidence references.
-Strict wire draft maps e1..e32 back to canonical hashes before existing guards;
-full evidence remains,with separate support checking. Canonical/separate defaults
-retained. Owner clarifies latency research means RAG/neuro-symbolic architecture
-and explicitly forbids sacrificing accuracy for speed;saved in AGENTS.md.
+Existing9prepared multilingual cases:6LLM-generated documentary answers/18claims
+and3host-only Symbolic outputs. Then3English actual-service answers:4documentary
+claims and1host-only structured output. Agent and independent review find no scope/
+support/style error in this bounded set. Old enrollment-scope/purpose failures are
+absent. Twelve plus10physical calls,zero repairs;host-only answers are not model
+accuracy cases. No75-case institutional evaluation or owner content/style approval.
 
-[Actual observation/results](../2026-10-20-short-evidence-references-results.md):
-9existing fictional multilingual cases,18real model calls,zero repairs. All strict
-outputs/host mapping pass;agent style review9/9acceptable. Selection REJECTED:
-Symbolic Taglish broadens a prerequisite result to enrollment eligibility;Hybrid
-English adds an enrollment purpose absent from the cited document. Positive
-same-model checker misses both. No matched canonical control,so no causal regression
-claim. Generation/checking only9.206-13.321s;planned3full-service requests NOT RUN.
-No complete-query speedup or institutional accuracy established.
+Scope RED30/GREEN160;product758passed4.29s. Selection RED3;reviewer P2 evaluation
+prompt-hash mislabel reproduced RED4/fixed with effective profile/hash/mode metadata.
+GREEN172tests3.16s;independent172passed3.19s,one corrected P2,no open P1/P2.
+Final explicit52-selection gate2008passed/66subtests89.45s,exit0. Raw workspace/
+audit-evidence/p09-scoped-explanations-20261020/;94sealed files verified. Code/input/
+message/schema hashes and final review retained;no product change after final gate.
+Docs/phase gate615passed/14subtests14.29s;82links/caps/seal pass;active9cannotadvance.
 
-TDD RED25/GREEN129;product720passed3.58s. Final explicit51-selection gate
-1963passed/66subtests89.42s,exit0. One independent review:no new P1/P2 software
-finding,confirms scope failures;129tests2.79s. Raw workspace/audit-evidence/
-p09-short-references-20261020/;46sealed files verified. Exact identities in checkpoint.
-Docs/phase gate612passed/14subtests12.57s;87links/caps/seal pass;Phase09 cannotadvance.
+Warm outer backend:RAG29.915s/Symbolic16.999s/Hybrid38.884s,4/2/4calls. Single
+observations,not p50/p95 or browser end-to-end. Prior35.662/35.058/52.967s preserved;
+no general speedup/accuracy claim. Pure Symbolic still executes routing/style and
+Prolog;no redundant free paraphrase. No query/answer/student/prefix cache added.
 
-[Research assessment](../2026-10-20-response-time-research-assessment.md) reviews
-Aurora,SymRAG,local educational RAG and human waiting studies. Proposed typical
-15-20s complete validated answer,preferably under10s for simple questions;20-30s
-complex Hybrid needs local student validation. Recommendations,not approved SLAs.
-Current35-53s is a substantial research-prototype limitation,not responsive use.
-Existing warm retrieval0.330-0.435s/Prolog0.422-0.850s;LLM calls account for98-99%
-of those observed requests. Architecture alone does not justify a long wait.
+Owner follow-ups ask whether startup/connections are included and need metrics.
+[Measurement contract](../2026-10-20-response-time-measurement-contract.md) separates
+student-visible end-to-end,warm outer backend/inner pipeline,cold/first response,
+connection/readiness,queue/API/browser/upload metrics. Target15-20s refers to
+submission-to-visible validated answer;current backend observations do not prove it.
+Process-to-ready25.955s includes encoder/build24.930s and Supabase readiness0.312s;
+model/Docker already running,local Supabase54321. No isolated handshake/full cold
+boot,hosted-network,browser/API/queue timing. Future metrics stay in their phases.
 
-## Preserved selected evidence and holds
+## Preserved limits
 
-[Selected speed results](../2026-10-20-fast-replies-results.md):historical warm
-RAG35.662s/Symbolic35.058s/Hybrid52.967s;4calls/1draft/check/0repairs each. Encoder
-25.131s/process26.408s startup separate. CUDAb11723-31288c9c6 localhost18088;
-default18087 unchanged. Prior35/43layers/512MiB fit reused;no new setup or tuning.
-[Combined candidate](../2026-10-20-combined-routing-results.md) still rejected.
-Previous Hybrid documentary-only support flaw,separate profile's2Taglish errors
-and absent explicit post-retrieval reconsideration remain. No75-case retest.
-
-Thesis17-18/39-44,actual PNG/master3/11-14/17 consulted. Undergrad/read-only/
-structured-Prolog/unknown/source-gap/privacy/release boundaries preserved. Existing
-owner workspace/MODELS assets reused;no installs/downloads/dependency/DB changes.
-[Standing prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
-one-week improvement cap,no parameter training. Institutional/source/auth/privacy/
-activation/hosted migration holds remain. Phase10 unstarted;no API/deploy/push/merge.
+CUDAb11723-31288c9c6 localhost18088;default18087 unchanged. Existing owner assets
+workspace/MODELS reused;no setup/tuning/download/dependency/DB changes. First observer
+keyword typo failed before app/model;corrected once with failed receipts preserved.
+Thesis17-18/39-40 and PNG/master13-14 reconsulted;reviewer broader context checked.
+Undergrad/read-only/structured-Prolog/unknown/source-gap/privacy/source holds remain.
+[Prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):one-week
+improvement cap,no parameter training. Upstream2Taglish style errors,absent explicit
+post-retrieval reconsideration and opaque technical IDs remain. No student endpoint,
+Phase10 advancement,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Design a bounded typed association between decision explanations and canonical
-structured support,using the saved scope failures;add narrow-scope regressions
-before another speed experiment. Keep canonical/separate defaults and Phase09 active.
+Design a bounded post-retrieval decision-withholding check for misrouted RAG
+requests requiring structured decisions,preserving LLM semantic routing and
+source/unknown boundaries before Phase09 exit. Reuse completed latency research.
