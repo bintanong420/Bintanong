@@ -2,9 +2,17 @@
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
 [Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-coverage-results.md).
-Last full prior snapshot040c27d:plans/plan_current_progress/current_progress.md.
+Last full prior snapshot722cc6e:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
+
+Question-parts foundation plan722cc6e:detached requirements.py binds exact spans,
+request/evidence/plan/draft and each declared claim-or-unavailable mapping. Missing
+fee mapping stays unresolved;structured checks cannot be replaced by documents.
+Always semantic_completeness=unverified;omitted extraction or a wrong semantic map
+can still pass mechanically. No Generator/profile selection or model call. RED68
+expected failures1.63s/GREEN68passed0.71s;generation regressions296passed3.64s.
+Raw workspace/audit-evidence/p09-question-parts-20261020/;review/full gate pending.
 
 Owner asks to preserve researched timing recommendation:ea749da saves
 [Context reference](../../Context/response-time-recommendation.md) and AGENTS pointer.
@@ -56,6 +64,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Execute [question-parts foundation](../2026-10-20-question-parts-plan.md) with TDD:
-exact query spans,per-part claim/unavailable mapping and replay-safe host checks.
-No runtime/profile selection or model run;extraction completeness stays unverified.
+Assess saved failed output OFFLINE with author-labeled location/fee requirements,
+then one whole-change review and55-selection gate per the
+[question-parts plan](../2026-10-20-question-parts-plan.md). No model run.

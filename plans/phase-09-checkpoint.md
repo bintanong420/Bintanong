@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 54
+sequence: 55
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 8b03dd3
+head_commit: 722cc6e
 working_tree: dirty
 updated_at: 2026-10-20T16:04:05.2573619+08:00
 ---
 
-# Phase09 checkpoint - coverage candidate fails live completeness
+# Phase09 checkpoint - detached question-parts foundation
 
 ## Completed Tasks
 
@@ -17,15 +17,17 @@ Owner latency reference committedea749da:Context/response-time-recommendation.md
 and AGENTS pointer. Coverage plan6eca2ac/product040c27d adds ready RAG review of
 question coverage plus source support in existing call,strict release binding,
 localized withholding,per-draft host observation/reset and effective per-case hashes.
-Last full prior checkpoint040c27d. [Results](2026-10-20-question-coverage-results.md)
+Last full prior checkpoint722cc6e. [Results](2026-10-20-question-coverage-results.md)
 preserves actual failures. Default scoped/canonical/separate remains selected;
 covered and prior guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Resumed clean8b03dd3;new [question-parts plan](2026-10-20-question-parts-plan.md)
-builds detached declared-part contracts/host checks before any extraction/model
-run. Prior failure remains;no product edit yet. Context17-18/39-44,PNG/master3/11/
+Resumed clean722cc6e;[question-parts plan](2026-10-20-question-parts-plan.md)
+tasks1-2 implemented:requirements.py detached exact-span/identity contracts and
+host mapping/support checks,68tests and module guide. Semantic completeness always
+unverified;missing plan parts/wrong semantic mappings explicitly tested as limits.
+No extraction/model run or Generator/profile wiring. Context17-18/39-44,PNG/master3/11/
 12.4-14 and saved timing recommendation reconsulted;no scope discrepancy.
 
 Prepared6cases passed,but actual-service multipart question failed:location and fee
@@ -35,14 +37,20 @@ regression/integrity delivery complete. This is quarantine,not a semantic fix.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified product/isolationeb9ceb9. Remaining
-changes:coverage plan/results,current progress and checkpoint docs wrapper only.
-head_commit names verified product;later docs wrapper is not a product change.
+p09/feat/p09-generation-validation;parent722cc6e,prior isolationeb9ceb9. Remaining
+changes:requirements.py,test_generation_requirements.py,module guide,parts plan,
+current progress and checkpoint. Preparing cohesive tasks1-2 verified commit.
 No unrelated owner changes found.
 Existing CUDA18088/localSupabase remain running;CPU18087 stopped intact,default
 18087 unchanged. No Phase10,student API,push,merge,deployment or activation.
 
 ## Verification Evidence
+
+New foundation RED68expected missing-module failures1.63s/GREEN68passed0.71s;
+generation regressions296passed3.64s,exit0. Logs:red.log/green.log/relevant.log in
+workspace/audit-evidence/p09-question-parts-20261020/. Python3.13 existing readiness
+interpreter,-B pytest -q -p no:cacheprovider,ignored TEMP/TMP/basetemp. Tasks3-4
+offline saved-output assessment,independent review and55-selection gate still pending.
 
 Coverage RED32/GREEN187tests2.96s;expanded841passed5.20s. Prepared6actual cases:
 3normalRAG answers/9supported claims and3forced structured RAG localized withheld
@@ -101,8 +109,8 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Design typed question requirements and per-item evidence/claim-or-unavailable binding before
-another model observation;validate extraction completeness separately. No sweep.
+Assess the saved failed actual-service output OFFLINE with author-labeled location/
+fee requirements,then one whole-change review and explicit55-selection gate. No model run.
 
 ## Do Not Repeat
 

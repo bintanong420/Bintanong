@@ -1,5 +1,20 @@
 # Candidate generation and output validation
 
+`requirements.py` is a detached declared-question-parts foundation;Generator does
+not call it. `create_plan(text,integration,parts)` binds1-8 supplied exact original
+question spans and their document/structured/unknown kinds to a release/query hash.
+`review_identity(text,integration,plan,draft)` binds request,language,full source
+cards,plan and draft;`assess_parts(...,review)` checks each supplied claim mapping
+or unavailable/uncertain state,existing draft/support guards and replay identity.
+Missing mappings,unmapped claims and failed support keep the ledger unresolved.
+Structured/unknown requirements cannot be satisfied by this document-only helper.
+The returned ledger is never an answer or runtime authorization. Even
+`all_declared_parts_mapped` leaves `semantic_completeness=unverified`:an omitted
+requirement or incorrect semantic mapping can still pass mechanically. Nested
+records share their enclosing contract version. No extractor/model call,renderer,
+new profile or runtime selection is introduced. See the
+[bounded plan](../../plans/2026-10-20-question-parts-plan.md).
+
 Phase09 is active after reopening the earlier offline milestone. The request grammar
 binds the draft decision to its host-owned value,including null. The initial120s
 baseline timed out9/9; a corrected three-language RAG follow-up at240s answered3/3.

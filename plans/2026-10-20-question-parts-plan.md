@@ -47,13 +47,13 @@ source-content decision,latency claim or Phase09 completion follows from deliver
 
 ## Tasks and verification
 
-1. [ ] tests/test_generation_requirements.py RED,then requirements.py minimal
+1. [x] tests/test_generation_requirements.py RED,then requirements.py minimal
    GREEN. Interfaces:create_plan(text,integration,parts),review_identity(text,
    integration,plan,draft),assess_parts(text,integration,plan,draft,review).
    Strict/frozen/versioned Requirement,QuestionPlan,PartMapping,RequirementReview,
    ReviewIdentity,LedgerEntry,RequirementLedger. Reuse AnswerDraft/SupportReport,
    prepare/validate_draft/validate_support;no independently edited policy facts.
-2. [ ] Cover declared location+fee mapping,mapping dropped/repeated/foreign,
+2. [x] Cover declared location+fee mapping,mapping dropped/repeated/foreign,
    unavailable/uncertain,structured/unknown never satisfied from documents,unmapped
    claims,all claim support/language/scope failures,private namespace rejection,
    release/query/request/language/evidence/plan/draft replay,strict JSON/extra fields,
@@ -90,3 +90,8 @@ source/release/phase boundaries persist. No Phase10,push,merge or deployment.
 Ruling:owner continuation authorizes this bounded reversible implementation.
 Cost if this foundation proves unsuitable:replace an unconnected helper;selected
 runtime is unaffected. Prefer one tested interface over another speculative profile.
+
+Tasks1-2:68expected missing-module assertion failures1.63s;GREEN68passed0.71s;
+generation regressions296passed3.64s. Exact commands/logs in ignored question-parts
+root:red.log,green.log,relevant.log. No selected runtime changes. Nested records
+inherit their enclosing schema version,matching existing contract conventions.
