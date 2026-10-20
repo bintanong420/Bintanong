@@ -10,11 +10,13 @@ Read-only data-flow audit confirms model receives reviewed aliases which the hos
 already resolves after literal extraction. Proposed boundary change:omit ONLY
 reviewed_aliases from model input;retain full host catalog,context/facts and every
 guard/call/budget. One fresh builder check:no material unanswered questions,
-contradictions or unsupported benefit claims;not approved or implemented.
+contradictions or unsupported benefit claims. Current "aight continue" approves
+this design and one bounded evaluation. Payload/catalog wording/version edits done;
+4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s. Host guards unchanged;no inference.
 236sealed files/current software verified intact;zero model/service calls this turn.
 Fresh docs10passed0.66s;80links/caps and182source/test hashes pass. New4raw files
 sealed under workspace/audit-evidence/p09-catalog-separation-design-20261020/;
-manifest in checkpoint. Bounded approval question presented;await actual reply.
+manifest in checkpoint. Approval received;conditional-answer choice stays separate.
 
 One frozen v12 actual-model observation at3252c6c/code062589c:response success1/4,
 strict full quality1/4:FAIL,no promotion. Document d-en/d-fil/d-tl each invent
@@ -58,8 +60,7 @@ unvalidated. No Phase10,training,installs,dependency/source/DB changes,push/acti
 
 ## Next action
 
-Await explicit decision on the reviewed catalog separation before implementation/
-model evaluation. If approved,write its bounded plan and execute focused TDD/review
-before freezing any new inference. No product
-or model experiment before that decision. Conditional-answer choice stays pending;
-all accuracy/phase requirements and the stopped-sweep boundary persist.
+Execute the [approved bounded plan](../2026-10-20-router-catalog-separation-implementation-plan.md):
+commit verified code,one fresh review,software freeze and ONE separately frozen
+actual four-case observation. No repeat241tests without cause or approval round,
+rescue probe or sweep. Conditional choice and every accuracy/phase boundary persist.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 91
+sequence: 93
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 7e150ed
+head_commit: df4ba7a
 working_tree: dirty
-updated_at: 2026-10-20T23:51:35+08:00
+updated_at: 2026-10-20T23:53:24+08:00
 ---
 
 # Phase09 checkpoint - catalog separation proposal;no new product experiment
@@ -22,15 +22,21 @@ response success1/4,strict full quality1/4:FAIL,no promotion.
 
 ## Current Task
 
+Owner's latest "aight continue" approves the presented catalog-separation design
+and one bounded evaluation. [Implementation plan](2026-10-20-router-catalog-separation-implementation-plan.md)
+written;4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s. Payload/catalog wording
+and prompt versions changed only;host schemas/guards unchanged. No inference yet.
+Conditional-answer policy remains unanswered;do not reopen settled design approval.
+
 Read-only data-flow audit:catalog reaches both model payload and existing host
 resolver. Full236sealed files/current software intact;zero model/service calls.
 [Catalog separation design](2026-10-20-router-catalog-separation-design.md) proposes
 omitting ONLY reviewed_aliases from model input,keeping host catalog/context/
-guards/calls unchanged. Not approved/implemented. One fresh builder check complete:
+guards/calls unchanged. Design now approved;implementation pending. Builder check:
 no material unanswered questions,contradictions or unsupported benefit claims.
 No second check needed. Fresh docs10passed0.66s;80links/caps,182current source/test
 hashes and236prior sealed files verified. New4raw files sealed. Explicit approval
-question presented for bounded implementation/evaluation;await actual reply.
+question answered by current continuation;no further approval round for these tasks.
 Scope17-18/architecture39-44,actual PNG/master3/11/13/14 consulted this resume;
 no discrepancy. Catalog cause/quality/latency benefits remain hypotheses.
 
@@ -47,8 +53,8 @@ closed-world illustration does not override unknown-vs-unmet/source-gap policy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEAD7e150ed,product062589c.
-Pending docs:catalog-separation design,INDEX,progress/checkpoint. No code/unrelated changes.
+p09/feat/p09-generation-validation;HEADdf4ba7a,product062589c.
+Pending:prompt.py/combined.py/README,new test/combined expectation,plan/progress/checkpoint.
 Checkpoint names parent;containing delivery commit follows. Existing workspace
 MODELS/CUDA18088/default18087 untouched. No startup,weights copy/rehash/download,
 dependency/source/DB mutation,training,institutional rules,activation,push,merge
@@ -117,11 +123,9 @@ dependable completion date or justification to reduce accuracy. Phase09 incomple
 
 ## Next Action
 
-Await explicit decision on the reviewed catalog-separation design before
-implementation/model evaluation. If approved,write the bounded implementation
-plan and execute focused TDD/review before freezing any new inference. Existing
-prompt-only approval does not settle this new contract. Conditional-answer choice
-remains separate/pending;no repeated prompt/guard/classifier sweep.
+Commit verified software;one fresh review,software freeze,then separately frozen
+actual four-case evaluation. Do not repeat passing241regressions without a cause.
+No repeated approval/test/review loops. Conditional-answer choice stays held.
 
 ## Do Not Repeat
 

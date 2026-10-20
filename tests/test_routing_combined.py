@@ -124,7 +124,7 @@ def test_combined_prompt_keeps_original_data_and_scopes_both_task_instructions()
     assert 'English' in system and 'Filipino' in system and 'Taglish' in system
     assert json.loads(system.split('JSON schema:\n',1)[1])==compact_for_prompt(module.output_schema())
     data=json.loads(messages[1]['content'])
-    assert data['original_text']=='A1' and data['reviewed_aliases']
+    assert data['original_text']=='A1' and 'reviewed_aliases' not in data
     assert 'session_id' not in data['context'] and 'request_id' not in data['context']
     assert module.PROMPT_SHA256 and module.PROMPT_VERSION
 

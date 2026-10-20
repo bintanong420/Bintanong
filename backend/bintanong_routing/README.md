@@ -15,6 +15,9 @@ program/curriculum/course mentions, claims and proposed operations. Course alias
 resolve only against explicitly injected reviewed records and known curriculum;
 explicit program/curriculum mentions may resolve scope through their own aliases.
 There is no fuzzy equivalence or curriculum inference from a course code.
+The full reviewed alias catalog stays in the host resolver after literal extraction;
+it is not included in either router profile's model-visible payload. Scope/facts
+and available operation names retain their existing model-input boundaries.
 
 The model-facing bintanong-interpretation-wire-v1 uses {text,occurrence} quotes.
 Occurrences are zero-based exact matches in original text,including overlapping
