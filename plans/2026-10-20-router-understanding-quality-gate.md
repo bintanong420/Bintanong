@@ -1,5 +1,8 @@
 # Frozen next quality-and-timing gate
 
+Executed once20October2026:see [actual results](2026-10-20-router-understanding-observation-results.md).
+Gate failed;the protocol below remains the pre-execution reference.
+
 Phase09 developer gate;NO inference performed by this document. This is the next
 model experiment after the bounded router-to-validation repair,not another prompt
 sweep. [Implementation plan](2026-10-20-router-understanding-implementation-plan.md).

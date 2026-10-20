@@ -2,8 +2,9 @@
 
 Phase09 software candidate,20October2026. [Plan](2026-10-20-router-understanding-implementation-plan.md)
 and [design](2026-10-20-router-question-understanding-recovery-design.md).
-Prior actual-model quality0/8remains unchanged;new actual-model quality **NOT RUN**.
-No accuracy or response-time improvement is claimed.
+Software-delivery snapshot;prior actual-model quality0/8remains unchanged.
+Subsequent [frozen actual run](2026-10-20-router-understanding-observation-results.md)
+meets response requirements3/8 and fails promotion. No latency improvement claimed.
 
 ## Behavior delivered
 
