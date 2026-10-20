@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 28
+sequence: 29
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 24423f4
+head_commit: efc6343
 working_tree: dirty
-updated_at: 2026-10-20T10:38:00+08:00
+updated_at: 2026-10-20T10:47:00+08:00
 ---
 
 # Phase09 checkpoint - CUDA latency observations
@@ -22,7 +22,9 @@ CUDA config5d92f9c and compact prompt display24423f4 delivered;see
 
 ## Current Task
 
-Bounded latency implementation/observations complete;Phase09 quality work remains.
+Owner requests more speed work/research. Execute [focused plan](2026-10-20-fast-replies-research-plan.md).
+Reuse prior evidence;test memory-aware placement and compact decoded JSON.
+Prior bounded latency observations complete;Phase09 quality work remains.
 All3actual-service compact requests answered:85.297sRAG/79.815sSymbolic/148.043sHybrid
 versus277.492/304.913/355.696sCPU. Four model calls,one draft/check,no repairs each.
 CUDA original-prompt Hybrid171.410s;router4160tokens read6.813s vs93.972sCPU.
@@ -68,8 +70,8 @@ Python3.13.7/Pydantic2.13.5/HTTPX0.28.1,Janus1.5.2/SWI10.1.15/encoder6.1.0 uncha
 Observation240s inference/generation,300s stage,600s request retained.
 Original model/embedding identities inherited from sealed composition evidence;
 SEA-LION strict asset verification reruns;GGUF not independently rehashed here.
-Thesis physical17–18/39–44,actual PNG/master11–14 consulted;after rollover reread
-physical17–18/39–40 and PNG. No scope/routing discrepancy. Actual owner model root
+Thesis physical17â€“18/39â€“44,actual PNG/master11â€“14 consulted;after rollover reread
+physical17â€“18/39â€“40 and PNG. No scope/routing discrepancy. Actual owner model root
 workspace/MODELS;former C:/Coding-projects/MODELS absent,no copies/downloads.
 
 ## Decisions
@@ -93,9 +95,9 @@ activation holds persist. Hosted still has onlyPhase04 migrations;no hosted chan
 
 ## Next Action
 
-Address the demonstrated Hybrid prose/citation limitation in a bounded RED/GREEN
-Phase09 task before broader reviewed multilingual quality evaluation. Reuse sealed
-latency evidence;do not infer institutional readiness from faster fictional runs.
+Execute focused speed plan:one memory-aware placement check,compact-output RED/GREEN,
+then bounded actual-service observations. Keep known Hybrid citation issue visible;
+no broad sweep or claim of very fast replies until measured.
 
 ## Do Not Repeat
 
