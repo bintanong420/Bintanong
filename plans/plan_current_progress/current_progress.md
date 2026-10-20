@@ -1,18 +1,20 @@
 # Current progress
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Proposed task-first protocol](../2026-10-21-task-first-interpretation-design.md).
-Last full prior snapshotd513768:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Task-first plan](../2026-10-21-task-first-interpretation-implementation-plan.md).
+Last full prior snapshotf1b7230:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Proposed wirev2:explicit part_count/parts precede operations/route;host checks
+Owner "oh ye definitely then" approves reviewed design and its single finite gate
+after explanation. Inline implementation plan written;no repeated approval needed.
+Wirev2:explicit part_count/parts precede operations/route;host checks
 count consistency without inventing/deleting parts. Same model calls/guards;
 no benefit assumed. Four sealed traces show current route precedes parts;Taglish
 chooses Hybrid before emitting two document parts. No Prolog-file defect shown.
-One fresh builder check:nothing important left;no second review. Proposed gate:
+One fresh builder check:nothing important left;no second design review. Approved gate:
 unchanged4pipeline cases,then only if4/4pass two prepared selected-checker reviews
-for irrelevant mapping/omitted fee;max30model calls. NOT approved/run.
+for irrelevant mapping/omitted fee;max30model calls. Not yet implemented/run.
 No product or inference change. Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md)
 still applies;Phase09 active,all quality holds retained. Review/audit raw:
 workspace/audit-evidence/p09-task-first-design-20261021/.
@@ -58,9 +60,8 @@ after run. Phase valid,advancement refused;new46raw files sealed,digest in check
 
 ## Boundaries and next action
 
-Await owner approval of the reviewed wirev2 protocol and single finite gate;
-after an actual approval,write its implementation plan. Brainstorming's full-
-description approval boundary applies to this new contract;no product work yet.
+Execute plan Task1 inline:RED,minimal wire/prompt/fixture change,GREEN/relevant
+regressions,one product review;then freeze/run the approved single A/B gate.
 The separate conditional choice remains held;do not ask it again this turn.
 No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve
 all failed cases/criteria;approved4/4full gate unmet. Phase09 remains active.

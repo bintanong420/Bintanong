@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 98
+sequence: 99
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: d513768
+head_commit: f1b7230
 working_tree: dirty
-updated_at: 2026-10-21T00:28:51+08:00
+updated_at: 2026-10-21T00:44:57+08:00
 ---
 
-# Phase09 checkpoint - task-first protocol proposed;no implementation
+# Phase09 checkpoint - task-first design approved;inline TDD next
 
 ## Completed Tasks
 
@@ -24,13 +24,15 @@ response3/4,full quality1/4:FAIL/no promotion.
 
 ## Current Task
 
-[Proposal](2026-10-21-task-first-interpretation-design.md):wirev2 adds checked
+[Design](2026-10-21-task-first-interpretation-design.md):wirev2 adds checked
 part_count,emits count/parts before operations/route in the existing interpreter.
 No extra call,example bank,semantic host reroute or guard relaxation. Benefit is
 an untested hypothesis;count can still be wrong. Four sealed traces confirm current
 route-before-parts order;Taglish Hybrid choice precedes its two document parts.
-One fresh builder check:nothing important left;no product/inference authorized.
-Proposed gate:unchanged4pipeline cases,then only if4/4pass two prepared selected-
+Owner "oh ye definitely then" approves design and single gate after explanation.
+[Implementation plan](2026-10-21-task-first-interpretation-implementation-plan.md)
+uses inline execution;no repeated approval. One builder check already completed.
+Approved gate:unchanged4pipeline cases,then only if4/4pass two prepared selected-
 checker challenges for irrelevant mapping/omitted fee. Max30calls,no rescue sweep.
 Earlier safeguard failures are not fresh v13 reproductions or verified corrections.
 Thesis17-18/39-44,actual PNG/master3/11/13/14 consulted;unknown-vs-unmet retained.
@@ -38,8 +40,8 @@ Conditional-answer policy remains unanswered;four if/kung cases stay held.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEADd513768;product0aaa074,executiona2b4f2d.
-Pending docs:task-first design,progress/checkpoint only. No code/unrelated change.
+p09/feat/p09-generation-validation;HEADf1b7230;product0aaa074,executiona2b4f2d.
+Pending docs:implementation plan,progress/checkpoint only. No product change yet.
 Checkpoint names parent;containing delivery commit follows. Workspace MODELS/
 CUDA18088/default18087 unchanged. No service startup,weights copy/rehash/download,
 dependency/source/DB mutation,training,institutional rule execution,activation,
@@ -88,7 +90,7 @@ Inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
 labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
 Binding20October23:59:56;actual attempt21October00:00:03 local;raw root retains
 software-start date. Prior240seals retained in freeze.py and linked design/results.
-Last full prior checkpointd513768;git show preserves history. Historical123line
+Last full prior checkpointf1b7230;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -98,8 +100,8 @@ Limited4/4full gate unmet;no promotion or post-output label/criterion change.
 Preserve grounding/quote uniqueness/scope/conflict/nonasserted/evidence guards.
 Do not silently remove entities or route Taglish by keywords to hide model error.
 Implemented input separation is not proof of general cause/quality/speed gains.
-Catalog experiment stopped. New task-first protocol is a separate proposed
-decision,not permission for another prompt fix/classifier/example-bank sweep.
+Catalog experiment stopped. Task-first design/single finite gate now approved;
+no additional prompt fix/classifier/example-bank sweep is authorized.
 Conditional family still held;catalog approval did not answer its policy question.
 Undergraduate/read-only/source-gap/privacy/release/one-week holds and75accepted
 variants persist. Candidate remains inactive/advisory;no phase completion inferred.
@@ -118,10 +120,9 @@ Earlier4-8active-hour phase estimate remains low-confidence;quality gate failed.
 
 ## Next Action
 
-Await owner approval of the reviewed task-first protocol/gate. Brainstorming's
-full-description approval boundary applies to this new contract,not past catalog
-approval. After actual approval write its implementation plan;no product/model
-work before that decision. No new experiment or conditional-policy inference.
+Execute implementation plan Task1 inline:focused failing regressions, minimal
+wire/prompt change,GREEN/relevant regressions,one product review;then freeze/run
+the single approved A/B gate. Conditional policy remains held;no new sweep.
 
 ## Do Not Repeat
 
