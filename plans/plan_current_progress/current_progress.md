@@ -1,10 +1,13 @@
 # Current progress
 
 Updated:20October2026. Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) · [Latest speed results](../2026-10-20-fast-replies-results.md).
+[Checkpoint](../phase-09-checkpoint.md) Â· [Latest speed results](../2026-10-20-fast-replies-results.md).
 Last full pre-condensation snapshot:791413e:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
+
+Owner continues;[combined routing plan](../2026-10-20-combined-routing-plan.md) removes
+one round trip only if existing15case route/meaning/style promotion checks pass.
 
 Owner asks for further speed/research. Research plan8f502fb;implementation791413e.
 Auto GPU fit512MiB selected35/43layers including output,about2.8GBVRAM/1.1free.
@@ -34,7 +37,7 @@ Raw:workspace/audit-evidence/p09-fast-replies-20261020/;report binds commands/ha
 
 ## Preserved evidence and boundaries
 
-[Prior latency results](../2026-10-20-phase09-latency-results.md):24layer runs85–148s,
+[Prior latency results](../2026-10-20-phase09-latency-results.md):24layer runs85â€“148s,
 original-message CUDA171.410s vs355.696sCPU;compaction-only gain not established.
 [Composition delivery](../2026-10-20-live-backend-composition-results.md) preserves
 actual baseline/failures/local RPC migration and sealed evidence.7227732/df99ac6
@@ -48,7 +51,7 @@ Current English cases do not validate Filipino/Taglish. Technical IDs hurt usabi
 [historical offline handoff](../phase-09-handoff.md) are preserved. Guarde0e86ea
 prevents advancement while reopened checkpoint unfinished;valid/9/cannotadvance.
 
-Thesis physical17–18/39–40,actual PNG/master12–14 reconsulted;undergraduate,
+Thesis physical17â€“18/39â€“40,actual PNG/master12â€“14 reconsulted;undergraduate,
 read-only/structured-Prolog/unknown/source-gap rules preserved. Owner model root
 workspace/MODELS reused. No weights/dependencies/locks changed or new downloads.
 [Standing prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
@@ -57,6 +60,6 @@ auth/activation holds remain. Phase10 separate/unstarted;no student API/deploy/p
 
 ## Next action
 
-Resolve the demonstrated Hybrid citation/scope flaw,then design bounded call/token
-reductions with multilingual quality checks against a stated latency goal. Reuse
-completed placement/format evidence;no broad seed/model/layer sweep or sub10s claim.
+Implement/test combined routing/style packet and evaluate existing15synthetic
+multilingual variants before runtime selection. Retain separate rollback and
+known Hybrid quality/source/release holds. No broad prompt/seed/model sweep.

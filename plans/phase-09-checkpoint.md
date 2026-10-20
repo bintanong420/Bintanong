@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 31
+sequence: 32
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 791413e
+head_commit: 30d1b17
 working_tree: dirty
-updated_at: 2026-10-20T10:58:00+08:00
+updated_at: 2026-10-20T11:08:00+08:00
 ---
 
 # Phase09 checkpoint - faster replies
@@ -20,7 +20,10 @@ reads ab9aee9 and guarde0e86ea remain delivered. Last full snapshot791413e.
 
 ## Current Task
 
-Focused speed work complete;roughly10s working aim not achieved. New resident
+Owner continues latency work;execute [combined routing plan](2026-10-20-combined-routing-plan.md).
+Keep separate default until15case route/meaning/no-new-style-error check. Known
+Hybrid quality flaw stays held;no release-readiness claim from fewer model calls.
+Prior focused speed work complete;roughly10s working aim not achieved. New resident
 actual RAG35.662s/Symbolic35.058s/Hybrid52.967s,versus85.297/79.815/148.043s on
 fixed24layers with cold encoder. Four calls/one draft/check/no repairs each.
 Unchanged-prompt auto Hybrid83.059s,model58.378s,~23tokens/s. Full decoder hashes,
@@ -65,7 +68,7 @@ free-memory dependent;512MiB fit margin,context8192 fixed,verbosity4 records fit
 Output768/threads8/temp0/seed0/reasoning-none/cachefalse unchanged.240s inference/
 generation,300s stage,600s request. Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/
 Janus1.5.2/SWI10.1.15/encoder6.1.0 retained. Owner workspace/MODELS reused.
-Thesis physical17–18/39–40,actual PNG/master12–14 consulted on resume;standing
+Thesis physical17â€“18/39â€“40,actual PNG/master12â€“14 consulted on resume;standing
 prompt decision retained. No routing/scope discrepancy;unknown is not denial.
 
 ## Decisions
@@ -90,9 +93,9 @@ migration gap unchanged;only fictional local release active. No sub10s readiness
 
 ## Next Action
 
-Resolve Hybrid citation/scope flaw,then design bounded call/token reductions with
-multilingual quality checks against a stated latency goal. Reuse sealed current
-results;do not rerun resolved placement/capacity/format diagnostics.
+Implement/test the combined candidate with full original guards,then evaluate
+existing15synthetic multilingual variants before selecting runtime default.
+Preserve known Hybrid citation flaw and all source/release/phase holds.
 
 ## Do Not Repeat
 
