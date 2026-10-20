@@ -65,7 +65,9 @@ def test_report_identifies_effective_profile_and_prompt_hashes(profile,refs):
         else:
             raw=draft(pack).model_dump_json()
             expected=(prompt.PROMPT_SHA256,prompt.SUPPORT_PROMPT_SHA256)
-        generator=Generator(Fake(raw,supported()),explanation_profile=profile,reference_profile=refs)
+        from test_generation_guard import assessment
+        outputs=([assessment()] if profile=='scoped' else [])+[raw,supported()]
+        generator=Generator(Fake(*outputs),explanation_profile=profile,reference_profile=refs)
         result=await api().observe(api().load_cases([case()]),generator,evaluation_kind='mock')
         assert result['observations'][0]['answer']['status']=='answered'
         assert (result['prompt_sha256'],result['support_prompt_sha256'])==expected

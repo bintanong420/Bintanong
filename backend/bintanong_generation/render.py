@@ -59,9 +59,15 @@ def selected_cards(pack,claims):
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))
 
 
-def render_text(pack,claims,status):
+_WITHHELD={
+ 'en':'I cannot verify this answer from retrieved text alone. No structured check has been verified, so I cannot give a structured conclusion.',
+ 'fil':'Hindi matiyak ang sagot mula sa nakuha lamang na teksto. Wala pang napatunayang nakabalangkas na pagsusuri, kaya hindi makapagbibigay ng pasya.',
+ 'taglish':'Hindi pa ma-verify ang answer gamit ang retrieved text lang. Wala pang verified structured check, kaya wala pang structured conclusion.'}
+
+
+def render_text(pack,claims,status,*,decision_withheld=False):
     words=_WORDS.get(pack.language,_WORDS['en'])
-    lines=[words['preview'],words[status]]
+    lines=[words['preview'],_WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status]]
     if pack.structured_context is not None:
         context=pack.structured_context
         label={'en':'Check scope','fil':'Saklaw ng pagsusuri','taglish':'Check scope'}.get(pack.language,'Check scope')

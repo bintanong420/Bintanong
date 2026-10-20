@@ -38,7 +38,9 @@ def validate_final(answer,pack,claims):
         raise ValueError('final_identity_or_decision_mismatch')
     if answer.missing_facts!=pack.missing_facts:
         raise ValueError('final_missing_facts_mismatch')
-    if answer.text!=render_text(pack,claims,answer.status):
+    if answer.decision_guard is not None and (pack.route!='RAG' or pack.status!='ready'):
+        raise ValueError('guard_requires_ready_rag')
+    if answer.text!=render_text(pack,claims,answer.status,decision_withheld=answer.validation=='decision_withheld'):
         raise ValueError('final_render_mismatch')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')

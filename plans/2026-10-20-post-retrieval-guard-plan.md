@@ -34,7 +34,7 @@ All private references/source holds/version and unknown semantics remain in forc
 
 ## Tasks, interfaces and verification
 
-1. [ ] Write focused tests in tests/test_generation_guard.py; observe RED.
+1. [x] Write focused tests in tests/test_generation_guard.py; observe RED.
    Create generation/guard.py for strict Assessment, schema, full-evidence prompt
    and prompt digest. Add host GuardObservation in generation/contracts.py;
    optional CandidateAnswer.decision_guard retains historical parsing. Integrate
@@ -43,7 +43,7 @@ All private references/source holds/version and unknown semantics remain in forc
    malformed/extra/duplicate/wrong-release output, cancellation/errors/deadline,
    no extra attempts/rerouting, full source/privacy boundaries, pass-through repairs,
    concurrent isolation and non-RAG/control/legacy bypass. Observe GREEN.
-2. [ ] Update evaluation metadata/mode and developer guide; adjust existing scoped
+2. [x] Update evaluation metadata/mode and developer guide; adjust existing scoped
    RAG mocks for explicit guard call. Verify focused plus relevant regressions and
    commit the cohesive implementation. Record failures and commands honestly.
 3. [ ] Once only, reuse existing nine fictional multilingual generation questions

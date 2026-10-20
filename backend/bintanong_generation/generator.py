@@ -6,7 +6,7 @@ import math
 from ..bintanong_orchestration.contracts import IntegrationResult
 from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
-from .contracts import AnswerDraft,CandidateAnswer,SupportReport
+from .contracts import AnswerDraft,CandidateAnswer,SupportReport,GuardObservation
 from .evidence import prepare
 from .references import EvidenceReferences,ShortAnswerDraft
 from .prompt import draft_messages,draft_schema,support_messages,output_schema
@@ -14,6 +14,7 @@ from .render import fallback_status,render_text,selected_cards
 from .validation import validate_draft,validate_support,validate_final
 from .scope import (DocumentExplanation,canonical_draft,document_messages,document_schema,
                     document_support_messages)
+from .guard import RetrievalAssessment,guard_messages,guard_schema
 
 
 def _seconds(value):
@@ -36,13 +37,14 @@ def _parse(raw,contract):
     return contract.parse(json.loads(raw,object_pairs_hook=_unique))
 
 
-def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0):
+def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None):
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
-        text=render_text(pack,claims,status),decision=pack.decision,dependencies=pack.dependencies,
+        text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld'),
+        decision=pack.decision,dependencies=pack.dependencies,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
-        check_attempts=checks,answer_repairs=max(attempts-1,0))
+        check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard)
     validate_final(answer,pack,claims)
     return answer
 
@@ -77,10 +79,24 @@ class Generator:
         if scoped and pack.route=='Symbolic':
             return _answer(pack,'answered',reason='validated')
         attempts=checks=0
+        guard=None
+        guard_started=None
+        loop=asyncio.get_running_loop()
         previous=''
         errors=()
         try:
             async with asyncio.timeout(seconds):
+                if scoped and pack.route=='RAG':
+                    guard_started=loop.time()
+                    raw=await self.transport.infer(guard_messages(text,pack),guard_schema(pack))
+                    try:
+                        assessment=_parse(raw,RetrievalAssessment)
+                        result=assessment.requirement if assessment.release_id==pack.release_id else 'invalid_output'
+                    except (ValueError,TypeError,RecursionError):
+                        result='invalid_output'
+                    guard=GuardObservation(result=result,elapsed_seconds=loop.time()-guard_started)
+                    if result!='document_only':
+                        return _answer(pack,'abstained',reason='decision_withheld',guard=guard)
                 for attempt in (1,2):
                     attempts=attempt
                     messages=(document_messages(text,pack,errors=errors,previous=previous) if scoped else
@@ -107,14 +123,19 @@ class Generator:
                             errors=('invalid_support_report',)
                     if not errors:
                         return _answer(pack,'answered',claims=proposal.claims,reason='validated',
-                                       attempts=attempts,checks=checks)
+                                       attempts=attempts,checks=checks,guard=guard)
         except (TimeoutError,RuntimeFailure) as error:
             timeout=isinstance(error,TimeoutError) or str(error)=='model_timeout'
+            if guard_started is not None and guard is None:
+                guard=GuardObservation(result='timeout' if timeout else 'tool_error',
+                    elapsed_seconds=loop.time()-guard_started)
             return _answer(pack,'temporarily_unavailable',reason='timeout' if timeout else 'tool_error',
-                           attempts=attempts,checks=checks)
+                           attempts=attempts,checks=checks,guard=guard)
         except Exception:
-            return _answer(pack,'temporarily_unavailable',reason='tool_error',attempts=attempts,checks=checks)
-        return _answer(pack,'abstained',reason='repair_exhausted',attempts=attempts,checks=checks)
+            if guard_started is not None and guard is None:
+                guard=GuardObservation(result='tool_error',elapsed_seconds=loop.time()-guard_started)
+            return _answer(pack,'temporarily_unavailable',reason='tool_error',attempts=attempts,checks=checks,guard=guard)
+        return _answer(pack,'abstained',reason='repair_exhausted',attempts=attempts,checks=checks,guard=guard)
 
 
 class AnswerPipeline:

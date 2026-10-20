@@ -58,8 +58,12 @@ Phase10 advancement,push,merge,deployment or institutional activation.
 Resumed clean4022711;Git confirms prior delivery. Using handoff,planning and TDD
 workflows for the [bounded guard](../2026-10-20-post-retrieval-guard-plan.md).
 Reconsulted thesis17-18/39-44,routing PNG/master12.4;no scope discrepancy.
+Guard RED25/GREEN143;metadata-invariant RED4;expanded GREEN802tests5.67s. New
+ready scoped RAG assessment gates drafting,records elapsed/result and fails closed.
+Initial long pytest parameter IDs caused2Windows harness errors;short IDs fixed
+before corrected RED. Raw receipts preserved;no actual-model guard result yet.
 
 ## Next action
 
-Implement the planned explicit one-call post-retrieval guard with RED/GREEN tests;
-then reuse bounded fictional cases and measure its added time. Phase09 stays active.
+Run the bounded existing fictional guard cases once and inspect quality/timing;
+then independent whole-change review and explicit regressions. Phase09 stays active.

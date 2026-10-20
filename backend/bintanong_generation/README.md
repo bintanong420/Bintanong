@@ -1,6 +1,6 @@
 # Candidate generation and output validation
 
-Phase09 is a completed offline candidate software milestone. The request grammar
+Phase09 is active after reopening the earlier offline milestone. The request grammar
 binds the draft decision to its host-owned value,including null. The initial120s
 baseline timed out9/9; a corrected three-language RAG follow-up at240s answered3/3.
 Those are separate observations; default-budget and broader route performance
@@ -21,7 +21,8 @@ default institutional release hold; there is no student endpoint or activation.
 | `contracts.py` | Strict model drafts/support reports and host-only candidate output; typed scope and claim mappings |
 | `evidence.py` | Revalidate integration, create source cards and copy safe canonical target/curriculum/edition/bundle context |
 | `references.py` | Optional request-local short wire labels; restore canonical hashes before validation/rendering |
-| `scope.py` | Experimental document-only explanation contract and per-claim documentary checking; structured decisions remain host-owned |
+| `scope.py` | Selected document-only explanation contract and per-claim documentary checking; structured decisions remain host-owned |
+| `guard.py` | Explicit one-call post-retrieval semantic assessment for scoped RAG; host withholds omitted structured conclusions |
 | `prompt.py` | Versioned draft/support instructions and constrained schemas; question/source/repair text remain untrusted data |
 | `validation.py` | Release/language/outcome/reference checks, complete support verdicts and final assembly checks |
 | `render.py` | Localized preview/control templates, canonical decision rendering and per-claim source markers |
@@ -63,6 +64,19 @@ fallible. Scoped is now default after the bounded actual quality gate. Legacy is
 explicit developer comparison with known scope limitations. Scoped currently
 requires canonical reference IDs; it does not select the rejected short-ID profile.
 
+Ready scoped RAG first runs one release-bound LLM assessment against the original
+question and complete documentary cards. Only `document_only` proceeds to drafting
+and support checking. `structured_required`, `uncertain` and invalid output return
+a localized `decision_withheld` abstention without generated claims. Timeout/tool
+failure returns temporary unavailability. No assessment repair, route change or
+new rule execution occurs. The existing generation/request deadline includes this
+call; Symbolic/Hybrid and nonready controls do not add it. See the
+[guard plan](../../plans/2026-10-20-post-retrieval-guard-plan.md). Assessment remains
+semantically fallible; schemas and mocks cannot establish missed-decision recall.
+`CandidateAnswer.decision_guard` records result and elapsed seconds (one assessment,
+including transport preflight/connection work). It is null for historical reports
+and paths with no guard. Its time is already inside generation/pipeline timing.
+
 The prose checker uses the supplied Bintu transport and can be wrong. Grammar/schema
 success, source ID presence or a positive checker verdict is not a guarantee of
 entailment, complete policy coverage or correct conversational language. Human
@@ -86,7 +100,8 @@ python -B -m pytest -q -p no:cacheprovider --basetemp=C:/Coding-projects/bintano
 
 Mock fixtures prove guard/control mechanics, not model quality. Observation reports
 record effective explanation/reference profiles and matching prompt hashes;host-only
-rendering is identified separately from actual generation. The observation
+rendering and guard-only inference are identified separately from actual generation.
+The guard prompt hash is recorded for the scoped profile. The observation
 CLI accepts only explicit synthetic dev cases (1–30), rejects duplicate IDs/final
 split and writes only under the supplied evidence root. It starts no model/server:
 

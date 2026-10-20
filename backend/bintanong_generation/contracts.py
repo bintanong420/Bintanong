@@ -73,6 +73,11 @@ class StructuredContext(Record):
         return self
 
 
+class GuardObservation(Record):
+    result: Literal['document_only','structured_required','uncertain','invalid_output','timeout','tool_error']
+    elapsed_seconds: float=Field(ge=0,allow_inf_nan=False)
+
+
 class CandidateAnswer(Contract):
     SCHEMA_VERSION='bintanong-candidate-answer-v1'
     candidate_only: Literal[True]=True
@@ -90,7 +95,8 @@ class CandidateAnswer(Contract):
     missing_facts: tuple[Annotated[str,Field(min_length=1)],...]=()
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
-    validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error']
+    validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error','decision_withheld']
+    decision_guard: GuardObservation|None=None
     draft_attempts: int=Field(ge=0,le=2)
     check_attempts: int=Field(ge=0,le=2)
     answer_repairs: int=Field(ge=0,le=1)
@@ -103,6 +109,18 @@ class CandidateAnswer(Contract):
             raise ValueError('checker_counter_mismatch')
         if self.status=='answered' and self.validation!='validated':
             raise ValueError('unvalidated_answer')
+        if self.decision_guard is not None and self.decision_guard.result!='document_only':
+            if self.status=='answered' or self.claims or self.draft_attempts or self.check_attempts:
+                raise ValueError('guard_requires_withholding')
+            result=self.decision_guard.result
+            expected=result if result in ('timeout','tool_error') else 'decision_withheld'
+            status='temporarily_unavailable' if result in ('timeout','tool_error') else 'abstained'
+            if self.validation!=expected or self.status!=status:
+                raise ValueError('guard_result_mismatch')
+        if self.validation=='decision_withheld':
+            if (self.status!='abstained' or self.decision_guard is None or
+                    self.decision_guard.result not in ('structured_required','uncertain','invalid_output')):
+                raise ValueError('invalid_withheld_answer')
         if self.decision is not None and not self.decision.synthetic:
             raise ValueError('synthetic_decision_required')
         return self
