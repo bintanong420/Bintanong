@@ -1,70 +1,55 @@
 # Current progress
 
-Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Catalog separation proposal](../2026-10-20-router-catalog-separation-design.md).
-Last full prior snapshot7e150ed:plans/plan_current_progress/current_progress.md.
+Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
+[Checkpoint](../phase-09-checkpoint.md) | [Catalog separation results](../2026-10-21-catalog-separation-observation-results.md).
+Last full prior snapshota2b4f2d:plans/plan_current_progress/current_progress.md.
 
-## Latest result
+## Latest delivery
 
-Read-only data-flow audit confirms model receives reviewed aliases which the host
-already resolves after literal extraction. Proposed boundary change:omit ONLY
-reviewed_aliases from model input;retain full host catalog,context/facts and every
-guard/call/budget. One fresh builder check:no material unanswered questions,
-contradictions or unsupported benefit claims. Current "aight continue" approves
-this design and one bounded evaluation. Payload/catalog wording/version edits done;
-4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s. Product0aaa074;one fresh review
-found no product issue;stale checkpoint wording corrected in normal handoff.
-Software freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106;
-240prior seals/179other backend files/both decoders/example unchanged. No inference.
-236sealed files/current software verified intact;zero model/service calls this turn.
-Fresh docs10passed0.66s;80links/caps and182source/test hashes pass. New4raw files
-sealed under workspace/audit-evidence/p09-catalog-separation-design-20261020/;
-manifest in checkpoint. Approval received;conditional-answer choice stays separate.
+Owner approved catalog separation with "aight continue" directly after its approval
+request. Product0aaa074 removes only reviewed_aliases from model input;full host
+catalog/context/facts,all guards,Prolog/repair budgets unchanged. Routerv13,
+combined-promptv4 explicit/unselected. One worked example/both decoders unchanged.
+4RED1.06s->4GREEN0.71s;241routing/prompt-schema regressionsGREEN3.80s. One fresh
+review:no product finding;stale checkpoint wording corrected in normal snapshot.
+No re-review or repeated software gate.
 
-One frozen v12 actual-model observation at3252c6c/code062589c:response success1/4,
-strict full quality1/4:FAIL,no promotion. Document d-en/d-fil/d-tl each invent
-catalog course ZX101 absent from original question;initial+sole format repair
-reject quote_occurrence_not_found. No style/evidence execution. d-en/d-fil also
-coalesce two details;d-tl extracts distinct parts but cannot pass grounding.
-Actual calls contain the correct question and revised prompt;no runner mix-up.
-Hybrid h-en preserves ZX201 target/failed ZX101 asserted premise and two parts;
-actual Janus returns scoped ineligible,final decision/cited Office K answer correct.
-Single English Hybrid success does not establish multilingual/overall accuracy.
+Frozen protocol/HEADa2b4f2d;one actual four-case run21October00:00local:
+response3/4,strict full quality1/4:FAIL,no promotion. English/Filipino correct
+Office K/7tokens citations,but coalesce two requested details into one part.
+Taglish treats slip S as a course/adds unrequested eligibility;host rejects
+inconsistent_requirements before retrieval/Prolog. Two calls are interpretation/
+style,NOT a repair. Hybrid preserves ZX201 target/failed ZX101 asserted premise/
+two parts;actual Janus scoped ineligible and cited Office K response correct.
+No catalog in all4actual payloads;questions match freeze. Known developer cases,
+not unseen/institutional accuracy. Root author assessment separate from model verdict.
 
-Correct complete Hybrid component time59.866s;failed controls26.179-29.870s.
-Routing32.640s,Janus adapter1.614s,generation/support25.608s. Fixed docs bypass
-retrieval. Excludes embedding/vector/Supabase/API/browser/external network,
-load/queue,fixture preparation/readiness and cold startup. Resident readiness
-0.088480s is local HTTP,not isolated connection setup or Supabase readiness.
-10model calls/40HTTP exchanges;three format repairs,zero answer repairs/reruns.
-One Hybrid router reasoning field;local30048prompt/2094completion tokens separate
-from Codex quota. No achieved15-20s browser SLA or causal speed/accuracy comparison.
+Correct complete COMPONENT45.705-50.634s;Taglish control18.195s is not success.
+Janus adapter0.494s;successful model routing17.252-20.688s and generation/support
+24.521-30.282s. Fixed docs bypass retrieval. Excludes embedding/vector/Supabase/
+API/browser/external network/load/queue/fixture readiness/cold startup.
+Readiness0.116103s resident local HTTP,not isolated connection establishment.
+14model calls/56HTTP;zero format/answer repairs or reruns. Local24871prompt/
+2593completion tokens separate from Codex quota. Zero reasoning fields in this
+batch does not establish reliable suppression or a causal speedup.
 
-Raw:workspace/audit-evidence/p09-semantic-guidance-gate-20261020/.
-Binding37370a30ccb9cbe85907d1bd33f5ae4630b3608969d3e90c15fcceb4ed366c07.
-202prior sealed files/current181backend hashes and1test verified after run.
-Fresh docs10passed3.84s;79links/caps pass;phase valid,advancement refused.
-New34raw files sealed;manifest in checkpoint. No correction or rescue probe.
-Previous237software regressions/one review remain historical;not rerun.
+Raw:workspace/audit-evidence/p09-catalog-separation-20261020/.
+Software freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106.
+Execution binding37c58a9a16b990921046639d378bf3ab826c08d056e766381d6acea64412f248.
+240prior sealed files/current181backend-vocabulary,2tests/README verified before
+inference. Offline validator confirms Taglish diagnostic without a model call.
+Fresh docs10passed0.78s;84links/caps;240prior seals/current184file hashes verified
+after run. Phase valid,advancement refused;new46raw files sealed,digest in checkpoint.
 
-## Estimate and standing boundaries
+## Boundaries and next action
 
-Initial estimate2-4focused sessions/about4-8active hours required a clean quality
-gate plus remaining route/language/exit work. Gate failed;range is now low-confidence
-planning allowance,not a dependable finish date. No schedule-based accuracy waiver.
-Stop this correction sequence;discuss model/capability limits before more experiments.
-Four explicit if/kung cases still held;focused owner question presented again during
-independent run. Await actual answer;no conditional approval/mode coercion inferred.
-Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release holds,
-accepted75variants and one-week cap persist. Thesis17-18/39-44,actual PNG/master
-3/11/13/14 revisited;no scope discrepancy;unknown remains distinct from unmet.
-[Saved target](../../Context/response-time-recommendation.md) remains proposed and
-unvalidated. No Phase10,training,installs,dependency/source/DB changes,push/activation.
-
-## Next action
-
-Execute the [approved bounded plan](../2026-10-20-router-catalog-separation-implementation-plan.md):
-commit [gate protocol](../2026-10-20-catalog-separation-quality-gate.md),freeze
-exact inputs/settings/HEAD and one readiness,then4cases ONCE if ready. No
-repeat241tests without cause or approval round,
-rescue probe or sweep. Conditional choice and every accuracy/phase boundary persist.
+Discuss remaining interpretation/part-completeness
+capability limit and the separate pending conditional choice before experiments.
+No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve
+all failed cases/criteria;approved4/4full gate unmet. Phase09 remains active.
+Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release/one-week
+holds and75accepted variants persist. Thesis17-18/39-44,PNG/master3/11/13/14
+consulted this resume;unknown-vs-unmet policy retained,no discrepancy.
+[Saved15-20s browser target](../../Context/response-time-recommendation.md) remains
+proposed/unvalidated;earlier4-8active-hour completion allowance stays low-confidence.
+No accuracy trade,Phase10,training,dependency/source/DB change,push or activation.

@@ -2,137 +2,116 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 94
+sequence: 96
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 0aaa074
+head_commit: a2b4f2d
 working_tree: dirty
-updated_at: 2026-10-20T23:58:53+08:00
+updated_at: 2026-10-21T00:07:23+08:00
 ---
 
-# Phase09 checkpoint - catalog separation proposal;no new product experiment
+# Phase09 checkpoint - catalog separation delivered;actual gate3/4responses,1/4full
 
 ## Completed Tasks
 
-Quoted wire71be2fd/9a72d2e;v12 guidance062589c/deliverybb6c79f.
-[Guidance software](2026-10-20-router-semantic-guidance-results.md):4RED->4GREEN;
-237relevant regressions3.54s,one fresh review without findings/minors. Not rerun.
-[Protocol](2026-10-20-semantic-guidance-quality-gate.md)3252c6c frozen BEFORE
-readiness/input binding/inference. [Actual results/estimate](2026-10-20-semantic-guidance-observation-results.md):
-response success1/4,strict full quality1/4:FAIL,no promotion.
+Owner approved [catalog design](2026-10-20-router-catalog-separation-design.md)
+with "aight continue" directly after its approval request. [Plan](2026-10-20-router-catalog-separation-implementation-plan.md):
+product0aaa074;4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s.
+One fresh review df4ba7a..0aaa074:no product findings;one stale checkpoint phrase
+corrected in mandatory snapshot. No product fix pass/re-review/test repetition.
+[Protocol](2026-10-20-catalog-separation-quality-gate.md)a2b4f2d frozen before
+inference;[actual results](2026-10-21-catalog-separation-observation-results.md):
+response3/4,full quality1/4:FAIL/no promotion.
 
 ## Current Task
 
-Owner's latest "aight continue" approves the presented catalog-separation design
-and one bounded evaluation. [Implementation plan](2026-10-20-router-catalog-separation-implementation-plan.md)
-written;4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s. Payload/catalog wording
-and prompt versions changed only;host schemas/guards unchanged. No inference yet.
-Conditional-answer policy remains unanswered;do not reopen settled design approval.
-
-Read-only data-flow audit:catalog reaches both model payload and existing host
-resolver. Full236sealed files/current software intact;zero model/service calls.
-[Catalog separation design](2026-10-20-router-catalog-separation-design.md) proposes
-omitting ONLY reviewed_aliases from model input,keeping host catalog/context/
-guards/calls unchanged. Design approved;implemented0aaa074. Builder check:
-no material unanswered questions,contradictions or unsupported benefit claims.
-No second check needed. Fresh docs10passed0.66s;80links/caps,182current source/test
-hashes and236prior sealed files verified. New4raw files sealed. Explicit approval
-question answered by current continuation;no further approval round for these tasks.
-Scope17-18/architecture39-44,actual PNG/master3/11/13/14 consulted this resume;
-no discrepancy. Catalog cause/quality/latency benefits remain hypotheses.
-
-ONE four-case observation complete. d-en/d-fil/d-tl invent catalog ZX101 absent
-from original_text;initial+sole format repair rejected quote_occurrence_not_found.
-d-en/d-fil coalesce details;d-tl separate parts still blocked by invalid mention.
-Correct original questions/v12prompt present in saved actual requests. No label/
-input substitution;model mechanism remains unproven. h-en has correct target/
-failure asserted context,two parts,actual scoped Prolog ineligible and Office K.
-Stop this correction sequence. No rescue probe/product correction/classifier.
-Four explicit if/kung cases remain held;owner question pending,not inferred answered.
-Scope17-18/architecture39-44,actual PNG/master3/11/13/14 revisited in this resume;
-closed-world illustration does not override unknown-vs-unmet/source-gap policy.
+Approved catalog separation and ONE actual evaluation completed. English/Filipino
+facts/citations correct but each coalesces two independent requested details.
+Taglish exact slip S quote incorrectly treated as course/unrequested prerequisite
+operation;two documentary parts do not cover operation. Host rejects inconsistent
+requirements before retrieval/Prolog. Two calls are interpreter/style,not repair.
+Hybrid correct ZX201 target/failed ZX101 asserted premise,two parts,actual scoped
+ineligible result/cited Office K. No absent-question catalog course emitted.
+All4actual payloads exclude catalog and match frozen questions;no causal model
+mechanism/general-accuracy claim. Stop bounded experiment;no product correction.
+Conditional-answer choice stays unresolved. Thesis17-18/39-44,actual PNG/master
+3/11/13/14 consulted this resume;no discrepancy. Unknown-vs-unmet policy retained.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEADdf4ba7a,product062589c.
-HEAD0aaa074;pending docs:actual-quality protocol,plan checklist,progress/checkpoint.
-Review:no product findings;stale checkpoint phrase corrected in normal update.
-Freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106
-binds181backend/vocabulary,2tests/README;240prior sealed files intact. Zero inference.
-Checkpoint names parent;containing delivery commit follows. Existing workspace
-MODELS/CUDA18088/default18087 untouched. No startup,weights copy/rehash/download,
-dependency/source/DB mutation,training,institutional rules,activation,push,merge
-or deployment. Phase09 active;no Phase10.
+p09/feat/p09-generation-validation;product0aaa074,execution HEADa2b4f2d.
+Pending docs:results,plan checklist,INDEX,progress/checkpoint. No code/unrelated change.
+Checkpoint names parent;containing delivery commit follows. Workspace MODELS/
+CUDA18088/default18087 unchanged. No service startup,weights copy/rehash/download,
+dependency/source/DB mutation,training,institutional rule execution,activation,
+push,merge or deployment. Phase09 active;no Phase10.
 
 ## Verification Evidence
 
-Before inference:202prior sealed files/current181backend-vocabulary and1test hashes
-verified;exact four input contracts/hashes valid;runtime model/build/template/
-context/residency matched. One GET readiness0.088480s,not isolated handshake.
-One batch4requests/10model calls/40HTTP exchanges,three format repairs,zero answer
-repairs/reruns. All10finish_reason=stop;one Hybrid router reasoning field.
-Offline host revalidation confirms quote_occurrence_not_found for all6failed
-document proposals. Actual call payloads checked against frozen questions/v12prompt.
-One actual Janus adapter execution1.613970s;correct scoped ineligible/failed course.
-Root author question/source/output assessment separate from model verdict/ledger;
-known developer cases,not independent human gold. Final docs10passed3.84s;79links/
-caps pass;202prior sealed files and182current source/test hashes verified after run.
-Phase valid,advancement refused;new34raw files sealed. No product changes.
-Historical tests688/237 and completed reviews remain;no new product change.
+4RED missing catalog separation1.06s;4GREEN0.71s;241routing/prompt-schema regressions
+3.80s. New tests prove complete payload invariance/both host curriculum bindings,
+missing-scope/privacy/call limits;existing unknown/conflict/nonasserted guards pass.
+One review;actual model/latency left to later gate,root owns test evidence.
+Before inference:240prior sealed files,181backend-vocabulary/2tests/README hashes
+verified;179other modules,both decoders/worked example unchanged. Readiness matches
+model/build/template/context/resident;one GET0.116103s,not isolated handshake.
+Four requests ONCE/14model calls/56HTTP,zero format/answer repairs/reruns.
+All14finish_reason=stop;zero reasoning fields observed. One actual Janus adapter
+0.493807s,ineligible under failed ZX101. Offline full host validation confirms
+Taglish inconsistent_requirements without model/service calls. Root source/question/
+output assessment distinct from checker;known developer set,not independent gold.
+Fresh docs10passed0.78s;84links/caps;240prior seals/184current source/test/README
+hashes verified after run. Phase valid,advancement refused;new46raw files sealed.
 
 ## Versions and Digests
 
-Current router-p09-v12;combined-prompt-p09-v3/packetv2 explicit/unselected.
-Wirev1/normalized-v2 unchanged. Separate/canonical/scoped selected.
-Context8192,out768,temp0,seed0,cachefalse,requested reasoningnone;
+Router-p09-v13;combined-prompt-p09-v4/packetv2 explicit/unselected;wirev1/
+normalized-v2 unchanged. Separate/canonical/scoped selected.
+Ctx8192,out768,temp0,seed0,cachefalse,requested reasoningnone;
 inference/stage/generation/request120/120/120/180s unchanged.
-Raw:workspace/audit-evidence/p09-semantic-guidance-gate-20261020/.
-Execution binding37370a30ccb9cbe85907d1bd33f5ae4630b3608969d3e90c15fcceb4ed366c07;
-inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
+Raw:workspace/audit-evidence/p09-catalog-separation-20261020/.
+Software freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106;
+execution binding37c58a9a16b990921046639d378bf3ab826c08d056e766381d6acea64412f248.
+New46file manifest09b1e73b96c49bbec9e0a760a4985d2c7e3f50dc5b7500ab0b1ffef35b46fd13.
+Inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
 labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
-New34file manifest31746077a26af399baf2df017564c9d36e93365394c6a8ba5cda32db0d3f577a.
-Current software freeze32208711f72b17c4749ca6917a030dbdfa7b68f362c4ad83401eb534b74a9538.
-Design evidence:workspace/audit-evidence/p09-catalog-separation-design-20261020/;
-4file manifest1693d44be9964e885498c1605d0999449ebae6a1b7fd60f70fffa6daac988f40.
-Prior10file guidance seal7700ae258f4003abb9bc534bfbafe7625a0a2d38df1a448c8226e45243765621;
-prior37file v11seal c6f0f6b6007e656bb54eaa11b92da8b4bbd4f5c09f1ed73f8a9e7a88e25a089b.
-Other155prior seals retained in linked prior reports;do not overwrite.
-Last full prior checkpoint7e150ed;git show preserves history. Historical123line
+Binding20October23:59:56;actual attempt21October00:00:03 local;raw root retains
+software-start date. Prior240seals retained in freeze.py and linked design/results.
+Last full prior checkpointa2b4f2d;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
 ## Decisions
 
-Gate FAIL/no promotion. Preserve quote uniqueness/grounding/mode/evidence guards.
-No silent entity deletion,routing override or promotion of hypothetical/reported
-claims. One English Hybrid success does not validate all routes/languages;no pure
-Symbolic/conditional family executed. Accepted75/source-content decisions unchanged.
-Stop bounded observation and prompt-correction sequence;discuss supported model/
-capability limits before more product experiments. No new guard/classifier/sweep.
-Owner's continue is not a pending policy answer or approval to waive phase exits.
-Undergraduate/read-only/structured-Prolog/source-gap/privacy/release/one-week holds.
+Limited4/4full gate unmet;no promotion or post-output label/criterion change.
+Preserve grounding/quote uniqueness/scope/conflict/nonasserted/evidence guards.
+Do not silently remove entities or route Taglish by keywords to hide model error.
+Implemented input separation is not proof of general cause/quality/speed gains.
+Stop this approved experiment;discuss interpretation/part-completeness capability
+limits before more product experiments. No next prompt fix/classifier/example bank.
+Conditional family still held;catalog approval did not answer its policy question.
+Undergraduate/read-only/source-gap/privacy/release/one-week holds and75accepted
+variants persist. Candidate remains inactive/advisory;no phase completion inferred.
 
 ## Known Failures or Blockers
 
-Complete correct Hybrid59.865589s component;failed controls26.179-29.870s.
-Routing32.640s,Janus adapter1.614s,generation/support25.608s;fixed doc adapter bypasses
-retrieval. Embedding/vector/Supabase/API/browser/external network/load/queue,
-fixture preparation/readiness and cold startup excluded/unavailable. No browser
-SLA,student acceptance,population percentile or causal comparison. Saved15-20s
-browser/conditional20-30complexHybrid remains proposed. Local30048prompt/
-2094completion tokens are not Codex quota;reasoning suppression not established.
-Estimate4-8active hours/2-4sessions was conditional on clean quality gate plus
-remaining route/language/exit checks. Gate failed;estimate low-confidence,not a
-dependable completion date or justification to reduce accuracy. Phase09 incomplete.
+Correct complete component45.705-50.634s;Taglish control18.195s not successful timing.
+Successful routing17.252-20.688s,generation/support24.521-30.282s;actual Janus adapter
+0.494s. Fixed doc adapter bypasses retrieval. Embedding/vector/Supabase/API/browser/
+external network/load/queue,fixture preparation/readiness,cold startup excluded.
+No full pipeline/browser SLA,student acceptance,population percentile or causal
+comparison. Saved15-20s browser/conditional20-30complexHybrid remains proposed.
+Local24871prompt/2593completion tokens are not Codex quota. Zero observed reasoning
+fields is not reliable suppression proof. Internal scope IDs are developer output.
+Earlier4-8active-hour phase estimate remains low-confidence;quality gate failed.
 
 ## Next Action
 
-Commit [actual gate protocol](2026-10-20-catalog-separation-quality-gate.md);freeze
-executable inputs/settings/HEAD and one runtime readiness,then4cases once if ready.
-No new product change,rescue probe or repeat241regressions without a cause.
-No repeated approval/test/review loops. Conditional-answer choice stays held.
+Discuss remaining semantic/
+part-completeness capability limits and pending conditional decision before any
+further experiment. Reuse current traces;no rescue probe or parameter sweep.
 
 ## Do Not Repeat
 
-Completed setup/source/benchmark reviews,software gates/reviews/test inventory,
-old experiments or these sealed cases. No rescue probe,unchecked streaming,
-invented grades,parameter sweep or Phase10 advancement.
+Completed source/benchmark reviews,setup/software gates/reviews,test inventory,
+old experiments or these sealed cases. No unchecked streaming,invented grades,
+silent reroute/guard relaxation or Phase10 advancement.

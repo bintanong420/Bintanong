@@ -51,19 +51,20 @@ expectation in tests/test_routing_combined.py. Existing other interfaces unchang
 
 ## Task2:one actual quality/timing observation
 
-- [ ] Commit a new protocol BEFORE inference:exact same d-en,d-fil,d-tl,h-en
+- [x] Protocola2b4f2d BEFORE inference:exact same d-en,d-fil,d-tl,h-en
   questions/references/artifacts and order,unchanged runtime/settings. Four explicit
   if/kung cases remain held. Expected response AND full quality4/4 for this gate.
-- [ ] Bind exact code/inputs/labels/observer/protocol/HEAD;one readiness GET at18088.
+- [x] Bind exact code/inputs/labels/observer/protocol/HEAD;readiness0.116103s at18088.
   Unavailable/mismatch -> NOT RUN,no startup/alternate endpoint/quiet retry.
-- [ ] Four sequential requests ONCE,existing repairs only,max7calls/request28total.
+- [x] Four requests ONCE,14calls/zero repairs;response3/4,full quality1/4:FAIL.
   No rescue probe,rereun,candidate fix or settings change. Assess each response,
   separate parts,target/failure/mode,actual Prolog,claim support and language.
-- [ ] Report component timing/exclusions separately from browser/full retrieval/
+- [x] Report component45.705-50.634s/exclusions separately from browser/full retrieval/
   Supabase/startup/queue. Known developer cases,not unseen or institutional accuracy.
   Stop on failure and discuss capability limits;no next prompt/classifier/sweep.
   Even4/4does not close Phase09;preserve remaining route/language/exit requirements.
-- [ ] Verify/seal raw evidence and update compact progress/checkpoint/index;commit.
+- [x] Fresh docs10passed0.78s;84links/caps;240prior seals/current184file hashes
+  verified. New46raw files sealed;progress/checkpoint/index current;commit follows.
 
 No permission round between these approved tasks. Actual observation results,
 not software success or input-byte reduction,determine quality/timing claims.
