@@ -1,71 +1,56 @@
 # Current progress
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Task-first plan](../2026-10-21-task-first-interpretation-implementation-plan.md).
-Last full prior snapshot8060c7b:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Task-first results](../2026-10-21-task-first-observation-results.md).
+Last full snapshot before condensation:dafea60:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner "oh ye definitely then" approved the design and single finite evaluation.
-Wirev2/count equality and parts-before-actions/route now implemented;v14 prompt,
-combinedv5/packetv3 stays explicit/unselected. Normalized contracts,host catalog/
-guards,Prolog,generation,call/repair budgets unchanged;no extra pipeline call.
-9RED0.83s->9GREEN0.63s;250routing/schema regressionsGREEN4.02s. Both schemas keep
-all previous constraints except protocol/count;example meaning unchanged;
-178other backend/vocabulary files unchanged. No actual quality/latency gain claimed.
-Product8060c7b:one fresh whole-change review,no actionable finding;no code fix,
-test repetition or re-review. Next unchanged4pipeline cases;only if4/4full
-pass,run two prepared selected-checker challenges. Max30calls/no rescue sweep.
-Raw:workspace/audit-evidence/p09-task-first-20261021/;freeze digest in checkpoint.
-One earlier builder check completed;both proposed B fixtures verified model-free.
-Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md) and all holds
-remain;Phase09 active. No actual task-first inference yet.
+Owner "oh ye definitely then" approved task-first design and single finite gate.
+[Plan](../2026-10-21-task-first-interpretation-implementation-plan.md)dc26142;
+product8060c7b;[protocol](../2026-10-21-task-first-quality-gate.md)/executiondafea60.
+Wirev2 checks count equality,emits parts before actions/route;promptv14,combinedv5/
+packetv3 explicit/unselected. No extra pipeline call. Catalog/host guards,normalized
+contracts,Prolog/generation/repair budgets unchanged. 9RED0.83s->9GREEN0.63s;
+250routing/schema GREEN4.02s. One fresh review:no actionable finding,no fix/review loop.
 
-Owner approved catalog separation with "aight continue" directly after its approval
-request. Product0aaa074 removes only reviewed_aliases from model input;full host
-catalog/context/facts,all guards,Prolog/repair budgets unchanged. Routerv13,
-combined-promptv4 explicit/unselected. One worked example/both decoders unchanged.
-4RED1.06s->4GREEN0.71s;241routing/prompt-schema regressionsGREEN3.80s. One fresh
-review:no product finding;stale checkpoint wording corrected in normal snapshot.
-No re-review or repeated software gate.
+Actual A4once:interpretation4/4;response/full quality3/4:FAIL/no promotion.
+All4declare two distinct parts/correct routes. Filipino/Taglish complete,cited
+Office K/7tokens;Hybrid correct target/failed premise,actual scoped Janus ineligible
+and cited Office K. English omits the fee;checker falsely maps both r1/r2 to the
+same office-only claim,host releases answered. Ledger still marks semantic
+completeness unverified. This is a CURRENT selected-checker failure,not Prolog.
+B2NOT RUN because Afailed;zero extra calls,no rescue/post-output correction.
 
-Frozen protocol/HEADa2b4f2d;one actual four-case run21October00:00local:
-response3/4,strict full quality1/4:FAIL,no promotion. English/Filipino correct
-Office K/7tokens citations,but coalesce two requested details into one part.
-Taglish treats slip S as a course/adds unrequested eligibility;host rejects
-inconsistent_requirements before retrieval/Prolog. Two calls are interpretation/
-style,NOT a repair. Hybrid preserves ZX201 target/failed ZX101 asserted premise/
-two parts;actual Janus scoped ineligible and cited Office K response correct.
-No catalog in all4actual payloads;questions match freeze. Known developer cases,
-not unseen/institutional accuracy. Root author assessment separate from model verdict.
+Four requests/16model calls/64HTTP;zero format/answer repairs,all stop. Known
+fictional developer cases,not unseen/independent human/institutional accuracy.
+Correct complete COMPONENT45.783-49.830s;English43.711s incomplete/not success.
+Successful routing16.864-21.384s;generation/support23.990-32.663s;Janus adapter
+0.406347s includes runtime overhead. Fixed docs bypass embedding/vector/Supabase.
+API/browser/external network/queue/load/fixture readiness/cold startup excluded.
+Readiness0.103116s resident local HTTP,not isolated connection establishment.
+Local27526prompt/3156completion tokens separate from Codex quota. No nonempty
+reasoning field in16responses;no global suppression or causal speed claim.
 
-Correct complete COMPONENT45.705-50.634s;Taglish control18.195s is not success.
-Janus adapter0.494s;successful model routing17.252-20.688s and generation/support
-24.521-30.282s. Fixed docs bypass retrieval. Excludes embedding/vector/Supabase/
-API/browser/external network/load/queue/fixture readiness/cold startup.
-Readiness0.116103s resident local HTTP,not isolated connection establishment.
-14model calls/56HTTP;zero format/answer repairs or reruns. Local24871prompt/
-2593completion tokens separate from Codex quota. Zero reasoning fields in this
-batch does not establish reliable suppression or a causal speedup.
-
-Raw:workspace/audit-evidence/p09-catalog-separation-20261020/.
-Software freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106.
-Execution binding37c58a9a16b990921046639d378bf3ab826c08d056e766381d6acea64412f248.
-240prior sealed files/current181backend-vocabulary,2tests/README verified before
-inference. Offline validator confirms Taglish diagnostic without a model call.
-Catalog delivery docs10passed0.78s;84links/caps;240prior seals/current184file hashes verified
-after run. Phase valid,advancement refused;new46raw files sealed,digest in checkpoint.
+Raw:workspace/audit-evidence/p09-task-first-20261021/;digests in checkpoint.
+300prior sealed files/189current source-test-README hashes verified before run.
+Both schemas preserve previous constraints except protocol/count/order;example
+meaning and178other backend/vocabulary files unchanged. One setup helper props
+lookup fixed before any service call;no product change or duplicate readiness GET.
+Final docs10passed0.82s;90links/caps pass;300prior seals/189current hashes reverified.
+Phase valid/active9,cannotadvance;57raw files sealed,digest in checkpoint.
+No250-test rerun or model/service call by verifier.
 
 ## Boundaries and next action
 
-Freeze/run the approved [single A/B gate](../2026-10-21-task-first-quality-gate.md). If A fails,
-B is NOT RUN;no prompt correction or rescue. Conditional policy remains held.
-The separate conditional choice remains held;do not ask it again this turn.
-No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve
-all failed cases/criteria;approved4/4full gate unmet. Phase09 remains active.
-Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release/one-week
-holds and75accepted variants persist. Thesis17-18/39-44,PNG/master3/11/13/14
-consulted this resume;unknown-vs-unmet policy retained,no discrepancy.
+Discuss current checker completeness limit from the saved English draft/review,
+alongside unresolved relevance,before another design or actual experiment.
+No automatic prompt/classifier/example/model/seed/budget sweep or unsafe mapping
+shortcut. Four explicit if/kung variants remain held;do not infer that policy.
+Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md) applies;
+Phase09 active,Phase10 not started. Accepted75variants and undergraduate/read-only/
+source-gap/privacy/institutional-release/one-week boundaries persist. Thesis17-18/
+39-44,actual PNG/master3/11/13/14 consulted;unknown-versus-unmet policy retained.
 [Saved15-20s browser target](../../Context/response-time-recommendation.md) remains
-proposed/unvalidated;earlier4-8active-hour completion allowance stays low-confidence.
-No accuracy trade,Phase10,training,dependency/source/DB change,push or activation.
+proposed/unvalidated;earlier4-8active-hour completion estimate stays low-confidence.
+No accuracy trade,training,dependency/source/DB change,startup,push or activation.

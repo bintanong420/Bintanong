@@ -73,31 +73,36 @@ hashes, raw output and assessment under the ignored raw root above.
 **Interfaces:** existing AnswerPipeline.run for A; selected
 understanding.review_messages/review_schema/assess for B. No product evaluator change.
 
-- [ ] Freeze unchanged four A questions/labels/order from catalog protocol,
+- [x] Freeze unchanged four A questions/labels/order from catalog protocol,
   current code/schema/prompt/settings and prepared B fixture bytes/labels before
   inference. Verify prior sealed evidence and unchanged non-target modules.
-- [ ] Verify resident18088 identity/readiness. If unavailable/mismatched, record
+- [x] Verify resident18088 identity/readiness. If unavailable/mismatched, record
   NOT RUN; no startup, replacement server, setting change or extra service probe.
-- [ ] One locked attempt: run d-en,d-fil,d-tl,h-en once each, maximum7calls each.
+- [x] One locked attempt: run d-en,d-fil,d-tl,h-en once each, maximum7calls each.
   Record meaning, count/order, distinct parts, route, target/facts, actual synthetic
   Janus status, prose relevance/support, language and timing separately.
-- [ ] Author-assess against frozen labels/source, separately from model verdicts.
+- [x] Author-assess against frozen labels/source, separately from model verdicts.
   Require unchanged response4/4 AND full-quality4/4. On failure, B is NOT RUN.
-- [ ] Only if A passes, run the two reviewed prepared B challenges once each,
+- [x] Only if A passes, run the two reviewed prepared B challenges once each,
   max1actual selected-review call each. Require relevance r1 unresolved and omitted
   charge r2 unresolved; no false all-declared-parts-mapped result. No gold in payload.
-- [ ] Maximum30physical model calls overall; no rescue/repair beyond A's existing
+  B NOT RUN:Aresponse/full quality3/4 failed its unchanged4/4prerequisite.
+- [x] Maximum30physical model calls overall; no rescue/repair beyond A's existing
   limits. A/B have separate denominators and timing; keep raw failures intact.
 
 ## Task3: delivery and recovery snapshot
 
-- [ ] Report actual gate outcome and all NOT RUN work; no schema/test accuracy claim.
+- [x] Report actual gate outcome and all NOT RUN work; no schema/test accuracy claim.
   Keep component versus real retrieval/Supabase/API/browser/cold exclusions explicit.
-- [ ] Update plan checklist, current progress and active checkpoint; index pointer
+- [x] Update plan checklist, current progress and active checkpoint; index pointer
   only if needed. Keep caps80/80/160; preserve f1b7230 as prior full snapshot.
-- [ ] Verify docs hygiene/local links/caps/diff and phase state. Seal raw evidence;
+- [x] Verify docs hygiene/local links/caps/diff and phase state. Seal raw evidence;
   explicitly stage/commit docs. No phase completion or candidate promotion from6/6
   alone; resume remaining written exits only when applicable prerequisites pass.
+
+Delivery:[actual results](2026-10-21-task-first-observation-results.md). Approved
+attempt complete:Ainterpretation4/4,response/full quality3/4:FAIL;B2NOT RUN.
+No further experiment or product fix. Phase09 remains active;no promotion.
 
 Self-review: all design requirements map to the three tasks; Task1 covers review
 focus1-4, Task2's binding/stop assertions cover5. Execution is already authorized
