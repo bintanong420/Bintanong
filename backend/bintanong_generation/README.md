@@ -20,6 +20,7 @@ default institutional release hold; there is no student endpoint or activation.
 | --- | --- |
 | `contracts.py` | Strict model drafts/support reports and host-only candidate output; typed scope and claim mappings |
 | `evidence.py` | Revalidate integration, create source cards and copy safe canonical target/curriculum/edition/bundle context |
+| `references.py` | Optional request-local short wire labels; restore canonical hashes before validation/rendering |
 | `prompt.py` | Versioned draft/support instructions and constrained schemas; question/source/repair text remain untrusted data |
 | `validation.py` | Release/language/outcome/reference checks, complete support verdicts and final assembly checks |
 | `render.py` | Localized preview/control templates, canonical decision rendering and per-claim source markers |
@@ -41,6 +42,14 @@ one repair with unchanged evidence. Failure then returns a deterministic grounde
 fallback; no unchecked tokens are streamed. Controls and non-ready evidence skip
 inference. Router repair counters remain in integration events, separate from
 answer repairs. Unexpected tool errors expose no exception body.
+
+`Generator(..., reference_profile='short')` is an explicit experimental token
+reduction; the default is `canonical`. Short drafts use a separate strict schema
+and e1..e32 labels, mapped only within that request. Full source text and metadata
+remain. The host restores canonical hashes before existing validation, then uses
+the same labels for the separate support check. Final claims/citations retain full
+canonical IDs. No prose replacement, source truncation or checker bypass occurs.
+See the [bounded plan](../../plans/2026-10-20-short-evidence-references-plan.md).
 
 The prose checker uses the supplied Bintu transport and can be wrong. Grammar/schema
 success, source ID presence or a positive checker verdict is not a guarantee of

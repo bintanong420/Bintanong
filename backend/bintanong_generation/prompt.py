@@ -3,6 +3,7 @@ import hashlib
 import json
 
 from .contracts import AnswerDraft,SupportReport
+from .references import ShortAnswerDraft
 from ..bintanong_contracts.schema_display import compact_for_prompt, COMPACT_JSON_INSTRUCTION
 
 DRAFT_PROMPT='''You explain a synthetic undergraduate academic-affairs evidence package.
@@ -46,22 +47,36 @@ def output_schema(contract):
     return schema
 
 
-def draft_schema(pack):
-    schema=output_schema(AnswerDraft)
+SHORT_REFERENCE_INSTRUCTION='Use only the supplied request-local e1..e32 evidence labels in evidence_ids. Copy labels exactly.'
+
+
+def draft_schema(pack,*,references=None):
+    schema=output_schema(AnswerDraft if references is None else ShortAnswerDraft)
+    if references is not None:
+        schema['$defs']['ShortProseClaim']['properties']['evidence_ids']['items']={
+            'type':'string','enum':list(references.labels)}
     schema['properties']['decision_outcome']=({'type':'null'} if pack.decision is None
         else {'type':'string','const':pack.decision.outcome})
     return schema
 
 
-def draft_messages(text,pack,*,errors=(),previous=''):
-    return _messages(DRAFT_PROMPT,dict(untrusted_question=text,evidence=pack.model_payload(),
-        validation_errors=list(errors),untrusted_previous_draft=previous[:4096]),draft_schema(pack))
+def draft_messages(text,pack,*,errors=(),previous='',references=None):
+    instructions=DRAFT_PROMPT if references is None else DRAFT_PROMPT+'\n'+SHORT_REFERENCE_INSTRUCTION
+    return _messages(instructions,dict(untrusted_question=text,
+        evidence=pack.model_payload() if references is None else references.payload(),
+        validation_errors=list(errors),untrusted_previous_draft=previous[:4096]),
+        draft_schema(pack,references=references))
 
 
-def support_messages(text,pack,draft):
-    return _messages(SUPPORT_PROMPT,dict(untrusted_question=text,evidence=pack.model_payload(),
-        untrusted_draft=draft.model_dump(mode='json')),output_schema(SupportReport))
+def support_messages(text,pack,draft,*,references=None):
+    instructions=SUPPORT_PROMPT if references is None else SUPPORT_PROMPT+'\n'+SHORT_REFERENCE_INSTRUCTION
+    return _messages(instructions,dict(untrusted_question=text,
+        evidence=pack.model_payload() if references is None else references.payload(),
+        untrusted_draft=draft.model_dump(mode='json') if references is None else references.encode(draft)),
+        output_schema(SupportReport))
 
 
 PROMPT_SHA256=hashlib.sha256(DRAFT_PROMPT.encode()).hexdigest()
 SUPPORT_PROMPT_SHA256=hashlib.sha256(SUPPORT_PROMPT.encode()).hexdigest()
+SHORT_PROMPT_SHA256=hashlib.sha256((DRAFT_PROMPT+'\n'+SHORT_REFERENCE_INSTRUCTION).encode()).hexdigest()
+SHORT_SUPPORT_PROMPT_SHA256=hashlib.sha256((SUPPORT_PROMPT+'\n'+SHORT_REFERENCE_INSTRUCTION).encode()).hexdigest()

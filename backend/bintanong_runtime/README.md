@@ -51,6 +51,13 @@ gate and remains experimental. Keep the default selected; fewer calls establishe
 no further full-chain speed gain. See [candidate results](../../plans/2026-10-20-combined-routing-results.md).
 The profile is application configuration, never request JSON or a model override.
 
+The programmatic `RuntimeSettings(generation_reference_profile='short')` enables
+experimental request-local evidence labels for generation/checking. Its default
+is `canonical`, independently of the selected `separate` routing profile.
+`RuntimeRun.generation_reference_profile` records it. Full canonical evidence is
+restored before host validation/output. The developer CLI retains canonical
+references; see the [short-reference plan](../../plans/2026-10-20-short-evidence-references-plan.md).
+
 Defaults remain 120s per inference/routing/generation and 180s per whole request.
 Explicit `--inference-timeout`, `--stage-timeout`, `--generation-timeout` and
 `--request-timeout` flags bound observations; stage maximum300s, others600s.

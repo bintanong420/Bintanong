@@ -75,6 +75,11 @@
 
 ## Prompt engineering and validation - owner decision,19October2026
 
+- Owner direction,20October2026: assess response time in the context of the RAG
+  and neuro-symbolic architecture. Never sacrifice answer accuracy for speed;
+  retain required evidence/reasoning/validation and reject quality regressions.
+  Research prototypes may disclose latency limits, but architecture alone does
+  not establish acceptable student waiting time or justify weaker safeguards.
 - Read `plans/2026-10-19-prompt-engineering-and-validation-decision.md` in
   Phase07 and subsequent initial-build phases. The owner accepted prompt guidance,
   examples and deterministic guards, with a maximum one-week extension for added

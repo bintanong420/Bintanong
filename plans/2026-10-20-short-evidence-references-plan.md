@@ -13,6 +13,10 @@ preserving exact canonical citations, decisions, language and support boundaries
 
 ## Design and constraints
 
+Owner clarification during execution:assess latency in the context of RAG and
+neuro-symbolic processing, and never sacrifice answer accuracy for response speed.
+Retain complete evidence, reasoning and validation; reject quality regressions.
+
 Add an explicit `canonical`/`short` generation reference profile, default canonical
 until bounded evidence supports selection. Keep separate routing/style selected.
 An immutable request-local codec assigns e1..e32 in prepared-card order. Only card
@@ -33,11 +37,11 @@ remains a quality hold; short references alone cannot repair entailment accuracy
 
 ## Tasks
 
-1. [ ] Write focused tests in `tests/test_generation_references.py`; observe RED.
+1. [x] Write focused tests in `tests/test_generation_references.py`; observe RED.
    Cover exact round trip, full payload preservation, all32cards, multiple
    references, duplicate/unknown/stale labels, unchanged prose, immutable schemas,
    request isolation, repair and final citations. Pin invalid profile rejection.
-2. [ ] Implement the small codec and optional prompt/generator/runtime wiring;
+2. [x] Implement the small codec and optional prompt/generator/runtime wiring;
    verify GREEN and existing generation/runtime/routing regressions. Commit.
 3. [ ] Reuse existing fictional multilingual generation cases for one bounded
    actual-model quality observation, plus the existing three English full-service

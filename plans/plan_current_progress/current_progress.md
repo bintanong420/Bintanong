@@ -1,71 +1,53 @@
 # Current progress
 
 Updated:20October2026. Phase09 active,p09/feat/p09-generation-validation.
-[Session handoff](../2026-10-20-phase09-fast-replies-session-handoff.md) | [Checkpoint](../phase-09-checkpoint.md).
-Last full pre-condensation snapshot:6ae711c:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Prior session handoff](../2026-10-20-phase09-fast-replies-session-handoff.md).
+Last full snapshot107a3ce:plans/plan_current_progress/current_progress.md.
 
-## Latest delivery
+## Latest change
 
-Resumed clean107a3ce on20October. Owner requests continuation plus intensive
-research on a defensible response-time target for an undergraduate research chatbot.
-[Short-reference plan](../2026-10-20-short-evidence-references-plan.md) scopes the
-recorded next action;canonical default remains until evaluated. Research will
-distinguish full validated-answer latency,first-token delay and task completion.
+Resumed clean107a3ce. Owner requests continued latency work and intensive research
+on defensible response time considering RAG/neuro-symbolic processing. Explicit
+owner constraint:never sacrifice accuracy for speed. Saved in AGENTS.md and
+[bounded short-reference plan](../2026-10-20-short-evidence-references-plan.md),
+plan commit5e63854. No institutional benchmark wording/source decisions reopened.
 
-Owner continues latency work. Combined routing/style candidate6ae711c implements
-[the bounded plan](../2026-10-20-combined-routing-plan.md);actual-model quality gate
-FAILED. Keep separate default;combined remains explicit experimental developer
-opt-in. Fifteen existing fictional multilingual variants:12/15proposed/effective
-routes,15/15entities/claims/operations after17offset corrections,10/15styles.
-All three greetings incorrectly route RAG;four previously correct styles regress.
-Taglish style1/5,English4/5,Filipino5/5. Fifteen calls,zero repairs. Consistency5/5
-includes the wrong greeting family;schema/grounding success is not accuracy.
+Optional short-reference codec implemented under TDD:request-local e1..e32 labels,
+separate strict wire schema,canonical hashes restored before existing host guards,
+same labels for separate support checking. Full text/source metadata retained;
+no checker bypass,cache or string replacement. Canonical default/separate routing
+unchanged. Runtime programmatic setting and run metadata explicitly record choice.
+Initial RED25missing module/profile;GREEN129tests2.67s. One new test expectation
+corrected:canonical decision also retains its rule citation. Final product gate
+720passed3.58s,exit0 including29new reference tests and docs. Raw evidence:
+workspace/audit-evidence/p09-short-references-20261020/. Actual model pending.
 
-TDD router RED16missing-module/GREEN142tests2.14s;profile/evaluation RED11/GREEN81
-3.27s. Final explicit50-selection gate1930passed/66subtests100.96s,exit0. Independent
-saved-output review agrees:do not promote;no new P1/P2 implementation defect found.
-CLI help/default guards92d55e4 preserve separate selection. No prompt/seed sweep.
-Stop diagnostic after failed prerequisite quality gate;skip three proposed full-
-service latency requests. No combined full-chain speed improvement established.
-[Results/recovery](../2026-10-20-combined-routing-results.md);raw workspace/audit-evidence/
-p09-combined-routing-20261020/. Delivery manifest seals67files;all verified.
-Final docs hygiene589passed1.21s;97local links/snapshot caps pass. Phase valid/9/
-cannotadvance;owner requests session handoff with7%of the five-hour budget left.
+## Preserved selected evidence and limits
 
-## Selected runtime and preserved evidence
+[Speed results](../2026-10-20-fast-replies-results.md):historical warm full-service
+RAG35.662s/Symbolic35.058s/Hybrid52.967s;four calls,one draft/check,no repairs.
+Encoder25.131s/process26.408s startup separate. Auto35/43layers/512MiB fit on
+RTX3050Laptop4GB,CUDAb11723-31288c9c6 atlocalhost18088;default18087 unchanged.
+Existing owner model root workspace/MODELS reused;no downloads/dependency changes.
 
-Research8f502fb/implementation791413e:CUDA auto fit512MiB selected35/43layers,
-about2.8GBVRAM/1.1free. Compact-output instructions retain full decoder/host guards.
-Previous actual resident observations:35.662sRAG/35.058sSymbolic/52.967sHybrid,
-four serial calls,one draft/check,zero repairs each. These are historical separate
-profile measurements,not a new combined comparison or latency distribution.
-Encoder startup25.131s/process26.408s separate;one-shot CLI still pays on RAG/Hybrid.
-Application already retains its encoder;no answer/student-fact/query cache added.
-Sub10s working comparison aim remains unmet. CUDA18088 running;CPU18087 stopped
-intact. Explicit --url http://127.0.0.1:18088 required;default18087 unchanged.
+[Combined candidate rejected](../2026-10-20-combined-routing-results.md):12/15routes,
+10/15styles;greeting/style regressions. Keep separate;do not repeat resolved run.
+[Composition results](../2026-10-20-live-backend-composition-results.md) remain.
+Known Hybrid c2 cites documentary text alone for an executed prerequisite decision;
+same-model checker misses scope. Short references do not resolve that quality hold.
+Separate profile's two prior Taglish errors/post-retrieval reconsideration remain.
 
-[Composition](../2026-10-20-live-backend-composition-results.md):actual services on
-fictional release;7227732/df99ac6/fab0225/ab9aee9 preserve wiring/input/read guards.
-No hosted schema changes or institutional sources/rules promoted. Known Hybrid c2
-uses documentary-only support for an executed prerequisite check;canonical decision
-is correct but same-model checker misses support scope. Human review remains.
-
-[Phase07 audit](../2026-10-20-phase07-functionality-audit.md):separate profile's two
-prior Taglish style errors,opaque technical IDs and no explicit post-retrieval
-reconsideration remain. The75institutional variants were not retested or changed.
-[Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md) and
-[historical handoff](../phase-09-handoff.md) remain. Guarde0e86ea keeps Phase09 active;
-Phase10 separate/unstarted. No student API,deploy,push or merge.
-
-Thesis physical17-18/39-40,actual PNG/master12-14 reconsulted;undergraduate,
-read-only/structured-Prolog/unknown/source-gap rules preserved. Existing owner model
-root workspace/MODELS reused. No downloads,weights/dependencies/lock changes.
+Thesis17-18/39-44 read from byte-matched extraction;actual PNG/master3/11-14/17
+consulted. Unknown semantics supersede illustrative closed-world denial.
+Undergraduate/read-only/structured-Prolog/source-gap/privacy/release boundaries
+preserved;only fictional local release active. Phase10 unstarted;no API/deploy/push.
 [Standing prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
-one-week accuracy cap,no parameter training. Institutional/source/privacy/auth/
-activation and hosted migration holds remain.
+one-week improvement cap,no parameter training. Institutional activation/hosted
+migration/source-auth/privacy gates remain. No p95/student acceptability established.
 
 ## Next action
 
-Design/test request-local short evidence references for generation/checking,
-restoring canonical citations before host validation. Retain separate routing/style
-and the Hybrid citation hold;do not repeat the failed combined experiment.
+Run one bounded actual-model short-reference observation on existing fictional
+multilingual cases,inspect citation/language/support quality,then permitted three
+full-service observations. Complete architecture-specific latency research and
+report a proposed target without weakening accuracy or claiming local usability.

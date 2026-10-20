@@ -8,6 +8,7 @@ from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
 from .contracts import AnswerDraft,CandidateAnswer,SupportReport
 from .evidence import prepare
+from .references import EvidenceReferences,ShortAnswerDraft
 from .prompt import draft_messages,draft_schema,support_messages,output_schema
 from .render import fallback_status,render_text,selected_cards
 from .validation import validate_draft,validate_support,validate_final
@@ -45,13 +46,17 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
 
 
 class Generator:
-    def __init__(self,transport,*,timeout_seconds=120):
+    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical'):
+        if reference_profile not in ('canonical','short'):
+            raise ValueError('invalid_generation_reference_profile')
         self.transport=transport
         self.timeout_seconds=_seconds(timeout_seconds)
+        self.reference_profile=reference_profile
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
         pack=prepare(integration)
+        references=EvidenceReferences(pack) if self.reference_profile=='short' else None
         if pack.status!='ready' or pack.language=='unknown':
             return _answer(pack,fallback_status(pack.status))
         seconds=self.timeout_seconds
@@ -68,17 +73,19 @@ class Generator:
             async with asyncio.timeout(seconds):
                 for attempt in (1,2):
                     attempts=attempt
-                    raw=await self.transport.infer(draft_messages(text,pack,errors=errors,previous=previous),
-                                                   draft_schema(pack))
+                    raw=await self.transport.infer(draft_messages(text,pack,errors=errors,previous=previous,
+                                                                 references=references),
+                                                   draft_schema(pack,references=references))
                     previous=raw if isinstance(raw,str) else ''
                     try:
-                        proposal=_parse(raw,AnswerDraft)
+                        proposal=(_parse(raw,AnswerDraft) if references is None else
+                                  references.decode(_parse(raw,ShortAnswerDraft)))
                         errors=validate_draft(proposal,pack)
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                     if not errors and proposal.claims:
                         checks+=1
-                        review_raw=await self.transport.infer(support_messages(text,pack,proposal),
+                        review_raw=await self.transport.infer(support_messages(text,pack,proposal,references=references),
                                                               output_schema(SupportReport))
                         try:
                             errors=validate_support(_parse(review_raw,SupportReport),proposal)
