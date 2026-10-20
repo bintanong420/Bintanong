@@ -1,62 +1,59 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-parts-evaluation-results.md).
-Last full prior snapshot4f39833:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-parts-observation-results.md).
+Last full prior snapshot6073fbe:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Plan ce9d993 Task1 adds detached parts.py:one extraction+one per-part review call,
-shared deadline,host-resolved exact quotes,identity/schema/privacy guards and safe
-failure states. RED45failures1.59s;firstGREEN44pass/1fail1.20s corrected a hand-counted
-Unicode fixture offset only;verified generation/reference376passed4.44s. No inference
-or selected runtime change. Fixed8case observation/review/full gate pending.
+Fixed analyzer plan ce9d993/product6073fbe FAILED actual quality gate0/8. Five
+document/multipart cases copied source sentences as question quotes;host rejected
+them before review. Three structured cases classified unknown,reviewed and stayed
+unresolved with unmapped_claim. No mapped ledger. Correct structured kind0/3;
+strict reference agreement0/3assessed/0of8overall pass decisions. Actual11calls,
+no transport failures/repairs. EN4/FIL2/Taglish2case denominators preserved.
+Document-part review NOT EXERCISED. No correction,prompt/model sweep or promotion.
+Candidate stays detached;scoped/canonical/separate remains selected.
 
-Reference plan8b9457f/product4f39833:evaluation/question_parts.py scores exact
-span/kind extraction and mapping against frozen synthetic author labels. Omitted
-parts stay in denominators;correct uncertainty can agree but remains unresolved.
-RED35failures1.43s/GREEN35passed0.72s;relevant regressions603passed6.81s. Offline
-4checks expose both mechanical false completions against post-hoc labels;not model
-accuracy. One fresh review:no actionable finding,122passed1.17s. Final56-selection
-gate2193passed/66subtests92.41s,exit0. No product changes afterward.
-Raw workspace/audit-evidence/p09-question-parts-evaluation-20261020/:20sealed files;
-manifestd41e89334d19c522de4f2c59e61b2fbd746b8f69f91c55ed8ff9fb9d3f4c762d.
-Full reference0754b6402bb7dc19912538710d18f5077ea63c8e16b30cee6c17ddcffe5ce755;
-input identity does not hash labels,so preserve that full artifact/hash. Prior
-foundation16/coverage103sealed files verified unchanged. Scorer question resolved.
-[Foundation](../2026-10-20-question-parts-results.md) remains detached;no extractor,
-inference or runtime/profile change. Semantic completeness ALWAYS unverified.
+Software RED45failures1.59s;firstGREEN44pass/1fail1.20s corrected hand-counted test
+offset only. Verified generation/reference376passed4.44s. One fresh review:no
+actionable finding,175passed1.89s. Final57-selection gate2239passed/66subtests
+92.19s,exit0. No product changes after inference/gate;guide now records failure.
+Raw workspace/audit-evidence/p09-question-parts-observation-20261020/:62sealed
+files,manifest46823c29023e5146443eeebb9bf1105f65ed8624367e13dd6d8d3c5f179e2f77.
+Frozen8cases187a6d594ac8c1c9eb65aad2232f3682a9fa1d4cbe9fca2354074b6af07ea21c;
+source/input/reference/code/messages/schema hashes and full outputs retained.
+Prior evaluator20/foundation16/coverage103sealed files verified unchanged.
 
-Owner asks to preserve researched timing recommendation:ea749da saves
-[Context reference](../../Context/response-time-recommendation.md) and AGENTS pointer.
-Proposed15-20s warm browser end-to-end,preferunder10s short questions,conditional
-20-30s complex Hybrid;unproven targets,accuracy first. Startup/connections/Supabase/
-queues/API/network/browser metrics stay separate. Existing research not repeated.
-
-Prior [coverage results](../2026-10-20-question-coverage-results.md) preserve the
-actual location-and-fee semantic P2:source had40tokens,but only location answered,
-checker falsely complete. Covered and guarded experiments remain explicit/unselected;
-scoped/canonical/separate remains selected. The detached foundation does not fix
-this semantic failure. No correction sweep or institutional accuracy claim.
+[Reference scorer](../2026-10-20-question-parts-evaluation-results.md) and
+[foundation](../2026-10-20-question-parts-results.md) remain detached. Author labels
+are synthetic dev,not independent human/institutional truth. Semantic completeness
+ALWAYS unverified. Prior guard/coverage semantic P2s remain open.
 
 ## Timing and preserved boundaries
 
-Actual RAG outer27.265337s/inner27.265130s,4calls,review5.342653s,no repairs:
-INCOMPLETE-answer duration,not supported complete-answer latency. Separate script
-entry-to-ready24.184131s includes imports0.833315s,build/encoder23.288540s,initial
-localSupabase verification0.062273s. Readiness is multiple reads,not TCP/TLS alone.
-Model/Docker/Supabase already running;browser/API/queue/hosted/fullcold unmeasured.
-Do not double-count nested review or call isolated samples p50/p95/student acceptance.
+New outer component7.803882-22.817629s measures extraction/review over prepared
+integration and supplied drafts;five failures/three unresolved ledgers. NOT complete
+validated-answer latency. Includes HTTP props/template/tokenization/inference;
+nested stage times must not be added twice. No router/embedding/retrieval/Supabase/
+Prolog/API/browser/queue/cold start or isolated handshake measurement.
 
-Existing CUDAb11723-31288c9c6:18088,default18087 unchanged;owner workspace/MODELS
-reused. No install/download/cache/training/source truncation/DB/dependency changes.
+Owner timing referenceea749da:[Context](../../Context/response-time-recommendation.md)
+and AGENTS. Proposed15-20s warm browser end-to-end,preferunder10s short,conditional
+20-30s complexHybrid remain unproven targets,accuracy first. Previous actual RAG
+27.265337s was incomplete;startup24.184131s/initial localSupabase reads0.062273s
+were separate earlier measurements,not new timing results or isolated handshakes.
+
+Existing CUDAb11723-31288c9c6:18088 reused;default18087 unchanged,workspace/MODELS.
+No install/download/model copy/rehash/training/source truncation/DB/dependency change.
 Thesis17-18/39-44,PNG/master3/11/12.4/13/14 reconsulted;no discrepancy. Undergrad/
-read-only/structured-Prolog/unknown/source-gap/privacy and one-week cap persist.
+read-only/structured-Prolog/unknown/source-gap/privacy/release and one-week cap persist.
 Upstream2Taglish style errors,opaque IDs,institutional/auth/hosted holds remain.
 No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Freeze8cases/references,one fresh code review,then one maximum16-call actual batch
-per [fixed plan](../2026-10-20-question-parts-observation-plan.md). No runtime
-selection or repeated prompt/model/seed/budget sweep.
+Review remaining Phase09 quality requirements against the existing router
+interpretation contract,using saved failures,to decide a bounded recovery design
+before further inference. Do not repeat the failed analyzer/guard/coverage batches
+or add another speculative profile. Preserve best verified selected candidate.

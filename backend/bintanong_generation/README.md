@@ -12,6 +12,12 @@ semantic completeness always remains unverified. Fixed failure states omit unche
 output and exception text. Per-stage seconds are nested component durations,not
 browser or complete-answer latency. See the
 [fixed observation plan](../../plans/2026-10-20-question-parts-observation-plan.md).
+The single frozen8case actual-model batch FAILED:five source sentences were copied
+instead of question quotes;three structured cases were classified unknown and
+remained unresolved. Document-part review was not exercised. Keep this helper
+detached/unselected,no correction sweep. The7.8-22.8s component durations do not
+measure complete validated answers. [Results](../../plans/2026-10-20-question-parts-observation-results.md)
+preserve outputs and the open limitations.
 
 `requirements.py` is a detached declared-question-parts foundation;Generator does
 not call it. `create_plan(text,integration,parts)` binds1-8 supplied exact original

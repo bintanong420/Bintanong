@@ -50,7 +50,7 @@ unchecked review. Keep source text complete and existing default pipeline unchan
    support failures,structured withholding,empty/malformed/truncated/tool failure,
    shared deadline,cancellation and concurrent request isolation. Verify all generation
    and reference scorer regressions;commit code/guide before inference.
-2. [ ] Freeze eight synthetic dev cases/references before first call:
+2. [x] Freeze eight synthetic dev cases/references before first call:
    saved actual English location+fee incomplete draft;one AUTHOR-CONSTRUCTED complete
    pair using its same question/source;the existing six prepared procedure/forced-
    structured cases from coverage experiment. Reuse exact six questions,full
@@ -60,7 +60,7 @@ unchecked review. Keep source text complete and existing default pipeline unchan
    one structured part,unavailable/structured_check_not_run;no document decision.
    Multipart references:two document parts;incomplete r1->c1/r2->uncertain;
    complete control r1->c1/r2->c2. Freeze exact clause quotes in raw inputs.
-3. [ ] ONE sequential batch,8cases/at most16calls. Reuse existing local CUDA18088
+3. [x] ONE sequential batch,8cases/at most16calls. Reuse existing local CUDA18088
    only if ready;otherwise NOT RUN,no startup/download. Fixed transport240s,
    analyzer480s,output768,temperature0/seed0/cachefalse/reasoningnone,full sources.
    No schema/prompt/model/seed/budget changes or second run after observations.
@@ -71,7 +71,7 @@ unchecked review. Keep source text complete and existing default pipeline unchan
    separately. Do not silently edit labels after seeing different valid boundaries.
    Report any such need as adjudication,not an established semantic error. Structured
    irrelevant draft claims remain unmapped;ledger may carry unmapped_claim as intended.
-4. [ ] One independent review,one TDD fix pass for important software findings only,
+4. [x] One independent review,one TDD fix pass for important software findings only,
    explicit57-selection regression gate,dated results and compact snapshots/seals.
    Semantic failures remain open;no inference rerun to make a fix look successful.
 
@@ -105,3 +105,17 @@ Task1:RED45expected missing-module assertion failures1.59s. First implementation
 15characters at11..26. Corrected test expectation only,retaining original log.
 Relevant generation/reference GREEN376passed4.44s,exit0 (green-verified.log;
 relevant-selections.txt). No selected runtime change or inference yet.
+Task2:8cases frozen at6073fbe;frozen-cases SHA256
+187a6d594ac8c1c9eb65aad2232f3682a9fa1d4cbe9fca2354074b6af07ea21c.
+Independent code reviewae9ff28..6073fbe:no actionable findings,175passed1.89s.
+Observer records exact outputs/schemas/messages/usage/timings and a single-attempt
+lock;code/inputs/prompts snapshotted before first inference. No correction sweep.
+Task3:ONE batch8cases/11calls finished;quality FAILED0/8. Five invalid source-copy
+extractions blocked review;three unknown-kind structured cases safely unresolved.
+No corrected run or settings change. assess_batch.py verified frozen inputs/code,
+messages/schemas/outputs and origins;root-assessment.json preserves exact findings.
+Task4:review found no actionable software defect,no fix pass/re-review required.
+Final57-selection gate2239passed/66subtests92.19s,exit0;semantic gate still FAILED.
+62sealed files,manifest46823c29023e5146443eeebb9bf1105f65ed8624367e13dd6d8d3c5f179e2f77.
+Prior20+16+103sealed files verified unchanged. See
+[results](2026-10-20-question-parts-observation-results.md) for exact limits/recovery.
