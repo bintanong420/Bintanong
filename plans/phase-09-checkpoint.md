@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 88
+sequence: 91
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 3252c6c
+head_commit: 7e150ed
 working_tree: dirty
-updated_at: 2026-10-20T23:43:43+08:00
+updated_at: 2026-10-20T23:51:35+08:00
 ---
 
-# Phase09 checkpoint - v12 actual observation failed;capability decision next
+# Phase09 checkpoint - catalog separation proposal;no new product experiment
 
 ## Completed Tasks
 
@@ -21,6 +21,18 @@ readiness/input binding/inference. [Actual results/estimate](2026-10-20-semantic
 response success1/4,strict full quality1/4:FAIL,no promotion.
 
 ## Current Task
+
+Read-only data-flow audit:catalog reaches both model payload and existing host
+resolver. Full236sealed files/current software intact;zero model/service calls.
+[Catalog separation design](2026-10-20-router-catalog-separation-design.md) proposes
+omitting ONLY reviewed_aliases from model input,keeping host catalog/context/
+guards/calls unchanged. Not approved/implemented. One fresh builder check complete:
+no material unanswered questions,contradictions or unsupported benefit claims.
+No second check needed. Fresh docs10passed0.66s;80links/caps,182current source/test
+hashes and236prior sealed files verified. New4raw files sealed. Explicit approval
+question presented for bounded implementation/evaluation;await actual reply.
+Scope17-18/architecture39-44,actual PNG/master3/11/13/14 consulted this resume;
+no discrepancy. Catalog cause/quality/latency benefits remain hypotheses.
 
 ONE four-case observation complete. d-en/d-fil/d-tl invent catalog ZX101 absent
 from original_text;initial+sole format repair rejected quote_occurrence_not_found.
@@ -35,8 +47,8 @@ closed-world illustration does not override unknown-vs-unmet/source-gap policy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;execution3252c6c,product062589c.
-Pending docs:actual results,INDEX,progress/checkpoint. No code/unrelated changes.
+p09/feat/p09-generation-validation;HEAD7e150ed,product062589c.
+Pending docs:catalog-separation design,INDEX,progress/checkpoint. No code/unrelated changes.
 Checkpoint names parent;containing delivery commit follows. Existing workspace
 MODELS/CUDA18088/default18087 untouched. No startup,weights copy/rehash/download,
 dependency/source/DB mutation,training,institutional rules,activation,push,merge
@@ -70,10 +82,12 @@ inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
 labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
 New34file manifest31746077a26af399baf2df017564c9d36e93365394c6a8ba5cda32db0d3f577a.
 Current software freeze32208711f72b17c4749ca6917a030dbdfa7b68f362c4ad83401eb534b74a9538.
+Design evidence:workspace/audit-evidence/p09-catalog-separation-design-20261020/;
+4file manifest1693d44be9964e885498c1605d0999449ebae6a1b7fd60f70fffa6daac988f40.
 Prior10file guidance seal7700ae258f4003abb9bc534bfbafe7625a0a2d38df1a448c8226e45243765621;
 prior37file v11seal c6f0f6b6007e656bb54eaa11b92da8b4bbd4f5c09f1ed73f8a9e7a88e25a089b.
 Other155prior seals retained in linked prior reports;do not overwrite.
-Last full prior checkpoint3252c6c;git show preserves history. Historical123line
+Last full prior checkpoint7e150ed;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -103,10 +117,11 @@ dependable completion date or justification to reduce accuracy. Phase09 incomple
 
 ## Next Action
 
-Discuss model/capability limits and review the pending
-conditional-answer decision before any more product experiments. Reuse existing
-evidence rather than another prompt/guard/classifier/example-bank sweep.
-No new inference or product correction within this observation.
+Await explicit decision on the reviewed catalog-separation design before
+implementation/model evaluation. If approved,write the bounded implementation
+plan and execute focused TDD/review before freezing any new inference. Existing
+prompt-only approval does not settle this new contract. Conditional-answer choice
+remains separate/pending;no repeated prompt/guard/classifier sweep.
 
 ## Do Not Repeat
 

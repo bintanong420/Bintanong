@@ -21,7 +21,7 @@
   in p09; Phase10 not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [V12 actual gate1/4;capability decision/estimate](2026-10-20-semantic-guidance-observation-results.md);[software verification](2026-10-20-router-semantic-guidance-results.md);[test audit](2026-10-20-test-meaning-audit-results.md).
+- [Catalog separation proposal](2026-10-20-router-catalog-separation-design.md);[V12 actual gate1/4/estimate](2026-10-20-semantic-guidance-observation-results.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - Guard/coverage experiments failed quality;both explicit/unselected,Phase09 exit held.
 - Scoped/canonical/separate selected;one current correct Hybrid component answer59.9s;student end-to-end latency unmeasured.

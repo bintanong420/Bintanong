@@ -1,10 +1,20 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [V12 actual results/estimate](../2026-10-20-semantic-guidance-observation-results.md).
-Last full prior snapshot3252c6c:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Catalog separation proposal](../2026-10-20-router-catalog-separation-design.md).
+Last full prior snapshot7e150ed:plans/plan_current_progress/current_progress.md.
 
 ## Latest result
+
+Read-only data-flow audit confirms model receives reviewed aliases which the host
+already resolves after literal extraction. Proposed boundary change:omit ONLY
+reviewed_aliases from model input;retain full host catalog,context/facts and every
+guard/call/budget. One fresh builder check:no material unanswered questions,
+contradictions or unsupported benefit claims;not approved or implemented.
+236sealed files/current software verified intact;zero model/service calls this turn.
+Fresh docs10passed0.66s;80links/caps and182source/test hashes pass. New4raw files
+sealed under workspace/audit-evidence/p09-catalog-separation-design-20261020/;
+manifest in checkpoint. Bounded approval question presented;await actual reply.
 
 One frozen v12 actual-model observation at3252c6c/code062589c:response success1/4,
 strict full quality1/4:FAIL,no promotion. Document d-en/d-fil/d-tl each invent
@@ -48,7 +58,8 @@ unvalidated. No Phase10,training,installs,dependency/source/DB changes,push/acti
 
 ## Next action
 
-Discuss supported-capability/model limits and review
-the pending conditional decision before any further product experiment. Reuse
-existing traces/tests/service proof;no prompt/guard/classifier/example-bank sweep
-or rerun of the sealed cases. Preserve every failure and formal Phase09 boundaries.
+Await explicit decision on the reviewed catalog separation before implementation/
+model evaluation. If approved,write its bounded plan and execute focused TDD/review
+before freezing any new inference. No product
+or model experiment before that decision. Conditional-answer choice stays pending;
+all accuracy/phase requirements and the stopped-sweep boundary persist.
