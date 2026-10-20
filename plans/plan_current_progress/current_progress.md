@@ -1,13 +1,15 @@
 # Current progress
 
 Updated:20October2026. Phase09 active in p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) Â· [Latency results](../2026-10-20-phase09-latency-results.md).
+[Checkpoint](../phase-09-checkpoint.md) Ã‚Â· [Latency results](../2026-10-20-phase09-latency-results.md).
 Last full pre-condensation snapshot:24423f4:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
 Owner requests further speed work/research;[focused plan](../2026-10-20-fast-replies-research-plan.md).
-Inspect remaining CPU layers and decoded JSON overhead;reuse prior evidence.
+Auto placement loaded2831MiB/1132free;unchanged Hybrid83.059s versus148.043s.
+Compact-output RED4failures/GREEN196tests4.19s;resident3route batch running.
+Encoder startup recorded separately;all4model calls/guards retained.
 
 Owner resumed implementation and explicitly approved downloading/testing the pinned
 CUDA runtime. Configuration5d92f9c/display compaction24423f4 delivered. RTX3050Laptop
@@ -55,7 +57,7 @@ from actual application readiness. Workflow guarde0e86ea prevents advancement fr
 that old complete handoff while current checkpoint is unfinished. State valid/9/
 cannotadvance. No student API,private-file work,deployment,push or merge.
 
-Thesis physical17â€“18/39â€“44,actual PNG and master11â€“14 consulted;physical17â€“18/39â€“40
+Thesis physical17Ã¢â‚¬â€œ18/39Ã¢â‚¬â€œ44,actual PNG and master11Ã¢â‚¬â€œ14 consulted;physical17Ã¢â‚¬â€œ18/39Ã¢â‚¬â€œ40
 and PNG reconsulted after context rollover. Undergraduate/read-only/structured-Prolog/
 unknown/source-gap rules retained. Owner-corrected workspace/MODELS reused;no weights
 copied/downloaded or dependencies/locks changed. Only approved runtime image pulled.

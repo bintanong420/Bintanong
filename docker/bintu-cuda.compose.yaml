@@ -40,6 +40,10 @@ services:
       - --n-predict
       - "768"
       - --n-gpu-layers
-      - ${BINTU_GPU_LAYERS:-24}
+      - ${BINTU_GPU_LAYERS:-auto}
+      - --fit-target
+      - ${BINTU_FIT_TARGET_MB:-512}
+      - --log-verbosity
+      - "4"
       - --no-webui
       - --jinja

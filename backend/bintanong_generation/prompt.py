@@ -3,7 +3,7 @@ import hashlib
 import json
 
 from .contracts import AnswerDraft,SupportReport
-from ..bintanong_contracts.schema_display import compact_for_prompt
+from ..bintanong_contracts.schema_display import compact_for_prompt, COMPACT_JSON_INSTRUCTION
 
 DRAFT_PROMPT='''You explain a synthetic undergraduate academic-affairs evidence package.
 Return only JSON matching the supplied schema. This is an offline candidate preview,
@@ -19,7 +19,7 @@ scope, exceptions and limitations. Never invent fees, offices, dates or next ste
 RAG/Hybrid need at least one supported documentary explanation. Symbolic may return
 claims=[] when the host's canonical decision is sufficient. At most eight concise
 claims. No personal identifiers, administrative actions or unrestricted reasoning.
-When repairing, correct the fixed validation errors using the SAME evidence only.'''
+When repairing, correct the fixed validation errors using the SAME evidence only.'''+ '\n' + COMPACT_JSON_INSTRUCTION
 
 SUPPORT_PROMPT='''Check an untrusted candidate explanation against ONLY the supplied
 synthetic evidence and canonical structured outcome. Return JSON matching the schema.
@@ -31,7 +31,7 @@ Invented fees/offices/dates, enrollment approval, unstated prerequisites, missin
 conditions and a claim contradicting the canonical outcome must not be supported.
 Use contradiction for conflicts, unsupported for absent support, unknown when unsure.
 Judge the requested conversational language and undergraduate/advisory scope too.
-Do not repair, change evidence, infer missing student facts or rely on model memory.'''
+Do not repair, change evidence, infer missing student facts or rely on model memory.'''+ '\n' + COMPACT_JSON_INSTRUCTION
 
 
 def _messages(instructions,payload,schema):

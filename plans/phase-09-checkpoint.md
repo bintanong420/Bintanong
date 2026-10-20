@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 29
+sequence: 30
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: efc6343
+head_commit: 8f502fb
 working_tree: dirty
-updated_at: 2026-10-20T10:47:00+08:00
+updated_at: 2026-10-20T10:50:00+08:00
 ---
 
 # Phase09 checkpoint - CUDA latency observations
@@ -23,7 +23,10 @@ CUDA config5d92f9c and compact prompt display24423f4 delivered;see
 ## Current Task
 
 Owner requests more speed work/research. Execute [focused plan](2026-10-20-fast-replies-research-plan.md).
-Reuse prior evidence;test memory-aware placement and compact decoded JSON.
+Auto placement loaded2831MiB/1132free;unchanged Hybrid answered83.059s versus148.043s
+previous24layers. Actual decode~23tokens/s;prompt/decision/schema identities retained.
+Compact-output RED4failures/GREEN196tests4.19s. Resident3route batch running;
+encoder startup reported separately,no answer/query-result cache.
 Prior bounded latency observations complete;Phase09 quality work remains.
 All3actual-service compact requests answered:85.297sRAG/79.815sSymbolic/148.043sHybrid
 versus277.492/304.913/355.696sCPU. Four model calls,one draft/check,no repairs each.
@@ -36,7 +39,9 @@ input size;its separate inference/end-to-end gain is not established. Stop diagn
 
 p09/feat/p09-generation-validation. Verified product HEAD24423f4;final wrapper only
 updates README/docker docs,INDEX,progress,checkpoint and dated latency results.
-These documentation files are the relevant dirty changes. No Phase10 branch/work.
+Current changed product files:shared schema_display guidance,3prompt modules,
+CUDA Compose and new test_compact_json_guidance.py;progress/checkpoint updated.
+No Phase10 branch/work.
 CUDA bintanong-p09-cuda-latency running18088;CPU bintanong-p07-router-offline stopped
 intact to freeRAM. Explicit runner --url http://127.0.0.1:18088 required;default18087.
 
@@ -70,8 +75,8 @@ Python3.13.7/Pydantic2.13.5/HTTPX0.28.1,Janus1.5.2/SWI10.1.15/encoder6.1.0 uncha
 Observation240s inference/generation,300s stage,600s request retained.
 Original model/embedding identities inherited from sealed composition evidence;
 SEA-LION strict asset verification reruns;GGUF not independently rehashed here.
-Thesis physical17â€“18/39â€“44,actual PNG/master11â€“14 consulted;after rollover reread
-physical17â€“18/39â€“40 and PNG. No scope/routing discrepancy. Actual owner model root
+Thesis physical17Ã¢â‚¬â€œ18/39Ã¢â‚¬â€œ44,actual PNG/master11Ã¢â‚¬â€œ14 consulted;after rollover reread
+physical17Ã¢â‚¬â€œ18/39Ã¢â‚¬â€œ40 and PNG. No scope/routing discrepancy. Actual owner model root
 workspace/MODELS;former C:/Coding-projects/MODELS absent,no copies/downloads.
 
 ## Decisions

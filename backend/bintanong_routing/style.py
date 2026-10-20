@@ -5,7 +5,7 @@ import json
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
-from ..bintanong_contracts.schema_display import compact_for_prompt
+from ..bintanong_contracts.schema_display import compact_for_prompt, COMPACT_JSON_INSTRUCTION
 
 from ..bintanong_contracts.base import Contract, Record
 from .contracts import prepare_query
@@ -24,7 +24,7 @@ present; filipino when only Filipino conversation is present; taglish when BOTH 
 even in a short greeting; unknown if the supported style cannot be established (both arrays empty).
 These are response-style choices, not ISO language codes or the language of a later explanation.
 Filipino answers may naturally retain useful technical terms; that does not relabel this question.
-Every nonempty fragment must occur literally, with identical case, in original_text.'''
+Every nonempty fragment must occur literally, with identical case, in original_text.'''+ '\n' + COMPACT_JSON_INSTRUCTION
 STYLE_PROMPT_SHA256 = hashlib.sha256(STYLE_PROMPT.encode()).hexdigest()
 Fragment = Annotated[str, Field(min_length=1, max_length=160)]
 _REQUIREMENTS = {'english_only':(True,False), 'filipino':(False,True),

@@ -1,6 +1,11 @@
 """Equivalent compact schema display; never substitutes the decoder's schema."""
 from copy import deepcopy
 
+COMPACT_JSON_INSTRUCTION = (
+    'Return compact JSON on one line, with no spaces or line breaks outside string values. '
+    'Keep string values complete; do not omit required fields.'
+)
+
 _MAPS=('properties','$defs','definitions','patternProperties','dependentSchemas')
 _SINGLE=('items','additionalProperties','not','if','then','else','contains','propertyNames')
 _ARRAYS=('oneOf','anyOf','allOf','prefixItems')
