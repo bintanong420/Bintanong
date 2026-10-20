@@ -46,12 +46,17 @@ class RuntimeSettings:
     request_timeout: float = 180
     routing_profile: Literal['separate','combined'] = 'separate'
     generation_reference_profile: Literal['canonical','short'] = 'canonical'
+    explanation_profile: Literal['legacy','scoped'] = 'legacy'
 
     def __post_init__(self):
         if self.routing_profile not in ('separate','combined'):
             raise ValueError('invalid_routing_profile')
         if self.generation_reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
+        if self.explanation_profile not in ('legacy','scoped'):
+            raise ValueError('invalid_explanation_profile')
+        if self.explanation_profile=='scoped' and self.generation_reference_profile!='canonical':
+            raise ValueError('scoped_requires_canonical_references')
         for name in ('inference_timeout','stage_timeout','generation_timeout','request_timeout'):
             value=getattr(self,name)
             maximum=300 if name=='stage_timeout' else 600
@@ -103,6 +108,7 @@ class RuntimeRun(Record):
     institutional_use_allowed: Literal[False] = False
     routing_profile: Literal['separate','combined'] = 'separate'
     generation_reference_profile: Literal['canonical','short'] = 'canonical'
+    explanation_profile: Literal['legacy','scoped'] = 'legacy'
     answer: CandidateAnswer
     events: tuple[StageEvent,...]
     model_calls: tuple[ModelCall,...]
@@ -155,13 +161,15 @@ class RuntimeApplication:
                 events.extend(integration.events)
                 return integration
         pipeline=AnswerPipeline(ObservedOrchestrator(),Generator(model,
-            timeout_seconds=settings.generation_timeout,reference_profile=settings.generation_reference_profile),
+            timeout_seconds=settings.generation_timeout,reference_profile=settings.generation_reference_profile,
+            explanation_profile=settings.explanation_profile),
             timeout_seconds=settings.request_timeout)
         started=perf_counter()
         answer=await pipeline.run(text,context)
         return RuntimeRun(answer=answer,events=tuple(events),model_calls=tuple(model.calls),
             duration_ms=(perf_counter()-started)*1000,routing_profile=settings.routing_profile,
-            generation_reference_profile=settings.generation_reference_profile)
+            generation_reference_profile=settings.generation_reference_profile,
+            explanation_profile=settings.explanation_profile)
 
 
 def build_application(spec: RuntimeSpec, *, client=None, model_path=None,

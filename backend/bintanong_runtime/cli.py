@@ -55,6 +55,8 @@ def main(argv=None):
     parser.add_argument('--model-path',type=Path)
     parser.add_argument('--routing-profile',choices=('separate','combined'),default='separate',
         help='combined is experimental and failed multilingual promotion; default: separate')
+    parser.add_argument('--explanation-profile',choices=('legacy','scoped'),default='legacy',
+        help='scoped separates host decisions from documentary prose; default: legacy pending quality selection')
     parser.add_argument('--inference-timeout',type=float,default=120)
     parser.add_argument('--stage-timeout',type=float,default=120)
     parser.add_argument('--generation-timeout',type=float,default=120)
@@ -67,7 +69,8 @@ def main(argv=None):
     spec=RuntimeSpec.parse(json.loads(spec_raw))
     request=_parse_request(json.loads(request_raw))
     settings=RuntimeSettings(args.url,args.inference_timeout,args.stage_timeout,
-        args.generation_timeout,args.request_timeout,routing_profile=args.routing_profile)
+        args.generation_timeout,args.request_timeout,routing_profile=args.routing_profile,
+        explanation_profile=args.explanation_profile)
     app=build_application(spec,model_path=args.model_path,settings=settings)
     try:
         result=asyncio.run(app.run(request.question,request.context))
@@ -76,6 +79,7 @@ def main(argv=None):
     report=result.model_dump(mode='json')
     report.update(spec_sha256=hashlib.sha256(spec_raw).hexdigest(),
         routing_profile=settings.routing_profile,
+        explanation_profile=settings.explanation_profile,
         request_sha256=hashlib.sha256(request_raw).hexdigest(),
         budgets=dict(inference=settings.inference_timeout,stage=settings.stage_timeout,
             generation=settings.generation_timeout,request=settings.request_timeout),

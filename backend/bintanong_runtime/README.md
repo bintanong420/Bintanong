@@ -58,6 +58,12 @@ is `canonical`, independently of the selected `separate` routing profile.
 restored before host validation/output. The developer CLI retains canonical
 references; see the [short-reference plan](../../plans/2026-10-20-short-evidence-references-plan.md).
 
+`--explanation-profile scoped` (or the corresponding RuntimeSettings field) enables
+the accuracy candidate that separates host-rendered structured results from
+document-only generation/checking. RuntimeRun records the selection. Legacy remains
+default pending the [scoped quality gate](../../plans/2026-10-20-scoped-explanations-plan.md).
+This choice does not change routing or the required retrieval/Prolog execution.
+
 Defaults remain 120s per inference/routing/generation and 180s per whole request.
 Explicit `--inference-timeout`, `--stage-timeout`, `--generation-timeout` and
 `--request-timeout` flags bound observations; stage maximum300s, others600s.

@@ -10,6 +10,8 @@ Owner requests continuation of the scoped accuracy fix. Resumed clean89bf4c1;
 [scoped plan](../2026-10-20-scoped-explanations-plan.md) separates canonical host
 decisions from document-only generation/checking. Legacy remains selected pending
 quality verification. Prior evidence is reused;no rejected experiment repeated.
+Scoped implementation RED30/GREEN160tests3.22s;expanded35scope tests plus existing
+generation/runtime/docs gate758passed4.29s,exit0. Actual-model observation next.
 
 Plan5e63854/product42c5754 deliver optional request-local short evidence references.
 Strict wire draft maps e1..e32 back to canonical hashes before existing guards;

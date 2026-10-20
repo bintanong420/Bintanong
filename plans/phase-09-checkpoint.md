@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 39
+sequence: 40
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 89bf4c1
 working_tree: dirty
@@ -24,16 +24,17 @@ Last full prior snapshot107a3ce;historical Phase09 handoff is not advancement.
 
 ## Current Task
 
-Owner requests the scoped accuracy fix. Clean89bf4c1 reconciled with the prior
-product-parent checkpoint. [Scoped plan](2026-10-20-scoped-explanations-plan.md)
-separates host structured decisions from document-only generation/checking.
+Scoped accuracy candidate implemented under plan2660f6f. RED30missing module/profile;
+GREEN160tests3.22s,expanded35new scope tests;product758passed4.29s including docs.
+Actual quality observation is next;legacy default/canonical/separate retained.
 The18physical calls cover9prepared-evidence generation/checking pairs only;
 planned3full-service requests are NOT RUN after the failed quality gate.
 
 ## Repository State
 
 p09/feat/p09-generation-validation;clean resume89bf4c1 includes product42c5754.
-Current changes:scoped plan,checkpoint and progress. Existing outputs remain sealed.
+Current changes:scope.py,generator/runtime/CLI wiring,35scope regressions,READMEs,
+plan/checkpoint/progress. Existing outputs remain sealed. No defaults selected yet.
 No product changes after actual observations/review/final gate. Wrapper is docs only.
 head_commit names that verified product parent,not a self-referential wrapper hash.
 CUDA bintanong-p09-cuda-latency running18088;CPU container stopped intact. Default

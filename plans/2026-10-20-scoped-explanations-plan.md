@@ -46,17 +46,17 @@ Do not combine two unverified candidate changes into a promotion claim.
 
 ## Tasks and interfaces
 
-1. [ ] TDD `tests/test_generation_scope.py` against `Generator(...,
+1. [x] TDD `tests/test_generation_scope.py` against `Generator(...,
    explanation_profile='scoped')`: ready Symbolic outcomes/dependencies and all
    languages, no invented free decision claim, host provenance/conditions,
    no draft/check calls for host-only text; controls/deadlines unchanged.
-2. [ ] TDD `scope.py`: DocumentExplanation, isolated document payload/schema,
+2. [x] TDD `scope.py`: DocumentExplanation, isolated document payload/schema,
    canonical AnswerDraft conversion, all-reference document binding and strict
    release/language/extra-field validation. Bind actual cited cards for checking;
    reject rule-only or mixed rule/document claims, missing documentary explanation,
    private references and negative/incomplete support verdicts. Preserve full text,
    subject/version context and canonical final decision. Cover repair/concurrency.
-3. [ ] Wire generator/runtime setting/run metadata and developer CLI selection.
+3. [x] Wire generator/runtime setting/run metadata and developer CLI selection.
    Verify focused GREEN/legacy regressions and commit. Keep legacy default until
    actual quality gate passes; document any later selection with regression checks.
 4. [ ] Reuse existing9fictional multilingual generation cases once under scoped

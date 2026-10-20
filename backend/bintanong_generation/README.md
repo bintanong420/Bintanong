@@ -21,6 +21,7 @@ default institutional release hold; there is no student endpoint or activation.
 | `contracts.py` | Strict model drafts/support reports and host-only candidate output; typed scope and claim mappings |
 | `evidence.py` | Revalidate integration, create source cards and copy safe canonical target/curriculum/edition/bundle context |
 | `references.py` | Optional request-local short wire labels; restore canonical hashes before validation/rendering |
+| `scope.py` | Experimental document-only explanation contract and per-claim documentary checking; structured decisions remain host-owned |
 | `prompt.py` | Versioned draft/support instructions and constrained schemas; question/source/repair text remain untrusted data |
 | `validation.py` | Release/language/outcome/reference checks, complete support verdicts and final assembly checks |
 | `render.py` | Localized preview/control templates, canonical decision rendering and per-claim source markers |
@@ -50,6 +51,16 @@ remain. The host restores canonical hashes before existing validation, then uses
 the same labels for the separate support check. Final claims/citations retain full
 canonical IDs. No prose replacement, source truncation or checker bypass occurs.
 See the [bounded plan](../../plans/2026-10-20-short-evidence-references-plan.md).
+
+`Generator(..., explanation_profile='scoped')` is the accuracy candidate described
+in the [scoped plan](../../plans/2026-10-20-scoped-explanations-plan.md). It renders
+ready pure Symbolic answers entirely from their validated typed result, with no
+generated claim to check. RAG/Hybrid still generate and separately check documentary
+claims, using complete document cards; the host alone constructs decision fields.
+Each checker item receives only that claim's cited documents. It cannot borrow
+Prolog results to justify an unstated documentary purpose. Free prose remains
+fallible. Legacy remains default pending actual quality selection. Scoped currently
+requires canonical reference IDs; it does not select the rejected short-ID profile.
 
 The prose checker uses the supplied Bintu transport and can be wrong. Grammar/schema
 success, source ID presence or a positive checker verdict is not a guarantee of
