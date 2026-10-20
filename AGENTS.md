@@ -80,6 +80,11 @@
   retain required evidence/reasoning/validation and reject quality regressions.
   Research prototypes may disclose latency limits, but architecture alone does
   not establish acceptable student waiting time or justify weaker safeguards.
+- Latency reporting must distinguish warm pipeline,outer backend request,cold
+  startup/first response,connection/readiness and student-visible end-to-end time.
+  Record excluded factors and unavailable metrics explicitly,including Supabase,
+  network/API/browser work and queueing;do not present a backend-only observation
+  as browser end-to-end latency. See `plans/2026-10-20-response-time-measurement-contract.md`.
 - Read `plans/2026-10-19-prompt-engineering-and-validation-decision.md` in
   Phase07 and subsequent initial-build phases. The owner accepted prompt guidance,
   examples and deterministic guards, with a maximum one-week extension for added

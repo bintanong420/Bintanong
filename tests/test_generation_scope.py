@@ -253,3 +253,30 @@ def test_runtime_profile_is_forwarded_and_reported(monkeypatch):
     result=asyncio.run(app.run('Fictional?',RequestContext(session_id='sess-a',request_id='req-a')))
     assert seen==['scoped'] and result.explanation_profile=='scoped'
     assert result.routing_profile=='separate' and not result.model_calls
+
+
+def test_selected_defaults_use_scoped_explanations_with_separate_routing_and_canonical_ids():
+    from backend.bintanong_runtime.application import RuntimeSettings,RuntimeRun
+    generator=Generator(Fake())
+    assert generator.explanation_profile=='scoped'
+    assert generator.reference_profile=='canonical'
+    settings=RuntimeSettings()
+    assert settings.explanation_profile=='scoped' and settings.routing_profile=='separate'
+    # Missing fields in historical reports must retain their historical meaning.
+    assert RuntimeRun.model_fields['explanation_profile'].default=='legacy'
+
+
+def test_selected_default_symbolic_retains_narrow_canonical_result_without_paraphrase():
+    async def run():
+        model=Fake()
+        answer=await Generator(model).generate('Fictional?',integrated('Symbolic',response_style='taglish'))
+        assert answer.status=='answered' and not answer.claims and not model.calls
+        assert 'Sa supported prerequisite check, satisfied ang conditions.' in answer.text
+    asyncio.run(run())
+
+
+def test_selected_cli_help_identifies_scoped_default(capsys):
+    from backend.bintanong_runtime.cli import main
+    with pytest.raises(SystemExit) as exc: main(['--help'])
+    assert exc.value.code==0
+    assert 'default: scoped' in capsys.readouterr().out

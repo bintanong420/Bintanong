@@ -44,7 +44,7 @@ fallback; no unchecked tokens are streamed. Controls and non-ready evidence skip
 inference. Router repair counters remain in integration events, separate from
 answer repairs. Unexpected tool errors expose no exception body.
 
-`Generator(..., reference_profile='short')` is an explicit experimental token
+`Generator(..., explanation_profile='legacy', reference_profile='short')` is an explicit experimental token
 reduction; the default is `canonical`. Short drafts use a separate strict schema
 and e1..e32 labels, mapped only within that request. Full source text and metadata
 remain. The host restores canonical hashes before existing validation, then uses
@@ -52,14 +52,15 @@ the same labels for the separate support check. Final claims/citations retain fu
 canonical IDs. No prose replacement, source truncation or checker bypass occurs.
 See the [bounded plan](../../plans/2026-10-20-short-evidence-references-plan.md).
 
-`Generator(..., explanation_profile='scoped')` is the accuracy candidate described
+`Generator(..., explanation_profile='scoped')` is the selected offline accuracy candidate described
 in the [scoped plan](../../plans/2026-10-20-scoped-explanations-plan.md). It renders
 ready pure Symbolic answers entirely from their validated typed result, with no
 generated claim to check. RAG/Hybrid still generate and separately check documentary
 claims, using complete document cards; the host alone constructs decision fields.
 Each checker item receives only that claim's cited documents. It cannot borrow
 Prolog results to justify an unstated documentary purpose. Free prose remains
-fallible. Legacy remains default pending actual quality selection. Scoped currently
+fallible. Scoped is now default after the bounded actual quality gate. Legacy is an
+explicit developer comparison with known scope limitations. Scoped currently
 requires canonical reference IDs; it does not select the rejected short-ID profile.
 
 The prose checker uses the supplied Bintu transport and can be wrong. Grammar/schema
@@ -83,7 +84,9 @@ TEMP/TMP/--basetemp under workspace/audit-evidence:
 python -B -m pytest -q -p no:cacheprovider --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/p09-generation-tests/run tests/test_generation_evidence.py tests/test_generation_validation.py tests/test_generation_loop.py tests/test_generation_pipeline.py tests/test_generation_evaluation.py
 ```
 
-Mock fixtures prove guard/control mechanics, not model quality. The observation
+Mock fixtures prove guard/control mechanics, not model quality. Observation reports
+record effective explanation/reference profiles and matching prompt hashes;host-only
+rendering is identified separately from actual generation. The observation
 CLI accepts only explicit synthetic dev cases (1–30), rejects duplicate IDs/final
 split and writes only under the supplied evidence root. It starts no model/server:
 

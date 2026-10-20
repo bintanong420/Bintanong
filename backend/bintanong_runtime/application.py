@@ -46,7 +46,7 @@ class RuntimeSettings:
     request_timeout: float = 180
     routing_profile: Literal['separate','combined'] = 'separate'
     generation_reference_profile: Literal['canonical','short'] = 'canonical'
-    explanation_profile: Literal['legacy','scoped'] = 'legacy'
+    explanation_profile: Literal['legacy','scoped'] = 'scoped'
 
     def __post_init__(self):
         if self.routing_profile not in ('separate','combined'):

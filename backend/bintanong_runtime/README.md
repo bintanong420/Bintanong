@@ -51,17 +51,19 @@ gate and remains experimental. Keep the default selected; fewer calls establishe
 no further full-chain speed gain. See [candidate results](../../plans/2026-10-20-combined-routing-results.md).
 The profile is application configuration, never request JSON or a model override.
 
-The programmatic `RuntimeSettings(generation_reference_profile='short')` enables
+The programmatic `RuntimeSettings(explanation_profile='legacy', generation_reference_profile='short')` enables
 experimental request-local evidence labels for generation/checking. Its default
 is `canonical`, independently of the selected `separate` routing profile.
 `RuntimeRun.generation_reference_profile` records it. Full canonical evidence is
 restored before host validation/output. The developer CLI retains canonical
 references; see the [short-reference plan](../../plans/2026-10-20-short-evidence-references-plan.md).
 
-`--explanation-profile scoped` (or the corresponding RuntimeSettings field) enables
-the accuracy candidate that separates host-rendered structured results from
-document-only generation/checking. RuntimeRun records the selection. Legacy remains
-default pending the [scoped quality gate](../../plans/2026-10-20-scoped-explanations-plan.md).
+`--explanation-profile scoped` (or the corresponding RuntimeSettings field) is the
+default offline accuracy candidate, separating host-rendered structured results
+from document-only generation/checking. RuntimeRun records the explicit selection;
+historical records missing that field still parse as legacy. The
+[scoped quality gate](../../plans/2026-10-20-scoped-explanations-plan.md) passed on
+bounded fictional evidence;legacy remains an explicit developer comparison.
 This choice does not change routing or the required retrieval/Prolog execution.
 
 Defaults remain 120s per inference/routing/generation and 180s per whole request.

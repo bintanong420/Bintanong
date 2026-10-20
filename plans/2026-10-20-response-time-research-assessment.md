@@ -15,6 +15,11 @@ prototype limitation if it preserves necessary checks and actual student evaluat
 finds the delay acceptable. These ranges are my synthesis, not cutoffs established
 by the papers below. They require local measurement and student validation.
 
+Owner follow-up clarifies the timing boundary:the proposed target is **submission
+to the complete validated answer visible in the student's browser**, including
+normal network/API/rendering and queueing costs. Current measurements cover the
+warm backend pipeline only;they do not establish that end-to-end target.
+
 I would not describe the current selected35–53second observations as a responsive
 student chatbot. They remain valid evidence of a functioning, constrained research
 prototype with a substantial performance limitation. A study can report an unmet
@@ -92,6 +97,25 @@ establish a sub10second complete response. Startup has an additional measured
 cost once a resident application is ready. Server/model boot is another measure.
 
 ## Measurement and accuracy conditions before calling latency sufficient
+
+The earlier timer starts immediately before AnswerPipeline.run,after creating
+request orchestration objects. It includes release queries,LLM HTTP connections
+and metadata/template/tokenization calls,query encoding and database retrieval,
+Prolog worker subprocess startup/execution,answer generation/checking/repairs and
+host validation/rendering. It excludes application construction/imports,initial
+encoder/model/container startup and the readiness preflight outside that timer.
+SupabaseStorageClient reuses an HTTP client;the benchmark performs release-pin
+reads before request timing. Subsequent Supabase requests and any reconnects they
+need inside the pipeline are timed;first-connection cost was not isolated.
+
+Additional end-to-end factors are browser request serialization/upload,client/server
+network and connection establishment,API parsing/authentication/session checks,
+admission/queue wait,resource contention,service cold starts/reconnections and
+browser rendering. A future uploaded document adds transfer/OCR/parsing costs.
+Those student-facing/API/private-file paths are not implemented by this phase and
+have no timing result here. Local Supabase timing also does not establish hosted
+Supabase network latency. Parallel work overlaps;do not simply add unrelated stage
+durations or pay resident model load on every ordinary query in a report.
 
 Use submission-to-complete-validated-answer as the primary endpoint. Report backend
 timing now; browser rendering/network/queue time will belong to later API/UI work.

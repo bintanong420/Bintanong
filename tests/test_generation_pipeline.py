@@ -26,7 +26,7 @@ class EchoEvidence:
 def test_composed_request_uses_same_text_context_and_pinned_release(route):
     async def scenario():
         executor=orchestration().Orchestrator(transport(route),releases=ports().SyntheticReleaseProvider(resources()))
-        pipeline=generation().AnswerPipeline(executor,generation().Generator(EchoEvidence()))
+        pipeline=generation().AnswerPipeline(executor,generation().Generator(EchoEvidence(),explanation_profile='legacy'))
         result=await pipeline.run('A1',ctx())
         assert result.status=='answered' and result.request_id=='req-a'
         assert result.release_id=='release-synth-1' and result.language=='taglish'
@@ -38,7 +38,7 @@ def test_composed_request_deadline_includes_orchestration_time():
     async def scenario():
         class Wait:
             async def run(self,text,context): await asyncio.Event().wait()
-        pipeline=generation().AnswerPipeline(Wait(),generation().Generator(EchoEvidence()),timeout_seconds=0.02)
+        pipeline=generation().AnswerPipeline(Wait(),generation().Generator(EchoEvidence(),explanation_profile='legacy'),timeout_seconds=0.02)
         result=await pipeline.run('A1',ctx())
         assert result.status=='temporarily_unavailable' and result.validation=='timeout'
         assert result.draft_attempts==0
@@ -57,7 +57,7 @@ def test_scope_clarification_names_the_information_the_student_must_supply(
     async def scenario():
         executor=orchestration().Orchestrator(transport(language=language),
             releases=ports().SyntheticReleaseProvider(resources()))
-        pipeline=generation().AnswerPipeline(executor,generation().Generator(EchoEvidence()))
+        pipeline=generation().AnswerPipeline(executor,generation().Generator(EchoEvidence(),explanation_profile='legacy'))
         request=RequestContext.parse(context(**{missing:None}))
         answer=await pipeline.run('A1',request)
         expected=program_label if missing=='program_id' else curriculum_label

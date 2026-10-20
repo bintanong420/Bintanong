@@ -74,7 +74,7 @@ def test_nonconforming_wire_never_reaches_checker_or_final_answer(change):
         elif change=='duplicate_claim': value['claims']*=2
         else: value['claims'][0]['office']='invented'
         model=Fake(json.dumps(value),json.dumps(value))
-        answer=await Generator(model,reference_profile='short').generate('Fictional?',integrated())
+        answer=await Generator(model,reference_profile='short',explanation_profile='legacy').generate('Fictional?',integrated())
         assert answer.validation=='repair_exhausted' and not answer.claims
         assert answer.check_attempts==0 and answer.answer_repairs==1
     asyncio.run(run())
@@ -84,7 +84,7 @@ def test_short_generator_restores_canonical_ids_before_host_validation_and_check
     async def run():
         pack=prepare(integrated())
         model=Fake(short_draft(pack),supported())
-        answer=await Generator(model,reference_profile='short').generate('Fictional?',integrated())
+        answer=await Generator(model,reference_profile='short',explanation_profile='legacy').generate('Fictional?',integrated())
         assert answer.status=='answered' and answer.claims==draft(pack).claims
         # Canonical decision rendering also retains its rule citation.
         assert answer.citations==pack.cards
@@ -113,7 +113,7 @@ def test_repair_reuses_same_map_and_preserves_canonical_checks():
     async def run():
         pack=prepare(integrated())
         model=Fake(short_draft(pack,release_id='release-wrong'),short_draft(pack),supported())
-        answer=await Generator(model,reference_profile='short').generate('Fictional?',integrated())
+        answer=await Generator(model,reference_profile='short',explanation_profile='legacy').generate('Fictional?',integrated())
         assert answer.status=='answered' and answer.answer_repairs==1
         calls=[json.loads(m[1]['content']) for m,s in model.calls[:2]]
         assert calls[0]['evidence']==calls[1]['evidence']
@@ -142,13 +142,13 @@ def test_concurrent_requests_do_not_share_short_reference_maps():
 @pytest.mark.parametrize('bad', [None,'combined',True,[],1])
 def test_invalid_profile_rejected(bad):
     with pytest.raises(ValueError,match='invalid_generation_reference_profile'):
-        Generator(Fake(),reference_profile=bad)
+        Generator(Fake(),reference_profile=bad,explanation_profile='legacy')
 
 
 def test_runtime_reference_profile_is_explicit_and_canonical_by_default():
     from backend.bintanong_runtime.application import RuntimeSettings,RuntimeRun
     assert RuntimeSettings().generation_reference_profile=='canonical'
-    assert RuntimeSettings(generation_reference_profile='short').generation_reference_profile=='short'
+    assert RuntimeSettings(generation_reference_profile='short',explanation_profile='legacy').generation_reference_profile=='short'
     with pytest.raises(ValueError,match='invalid_generation_reference_profile'):
         RuntimeSettings(generation_reference_profile='other')
     assert RuntimeRun.model_fields['generation_reference_profile'].default=='canonical'
@@ -168,7 +168,7 @@ def test_runtime_forwards_short_profile_and_reports_it_without_changing_routing(
         return original(*args,**kwargs)
     monkeypatch.setattr(module,'Generator',observe)
     app=module.build_application(module.RuntimeSpec.parse(data),client=Held(data),
-        settings=module.RuntimeSettings(generation_reference_profile='short'))
+        settings=module.RuntimeSettings(generation_reference_profile='short',explanation_profile='legacy'))
     result=asyncio.run(app.run('Fictional?',RequestContext(session_id='sess-a',request_id='req-a')))
     assert seen==['short'] and result.generation_reference_profile=='short'
     assert result.routing_profile=='separate' and not result.model_calls
@@ -181,7 +181,7 @@ def test_short_profile_preserves_language_and_canonical_decision_validation(fiel
         pack=prepare(integrated())
         invalid=short_draft(pack,**{field:value})
         model=Fake(invalid,invalid)
-        answer=await Generator(model,reference_profile='short').generate('Fictional?',integrated())
+        answer=await Generator(model,reference_profile='short',explanation_profile='legacy').generate('Fictional?',integrated())
         assert answer.validation=='repair_exhausted' and not answer.claims
         repair=json.loads(model.calls[1][0][1]['content'])
         assert error in repair['validation_errors']
@@ -195,7 +195,7 @@ def test_short_profile_retains_independent_support_rejection():
         pack=prepare(integrated())
         model=Fake(short_draft(pack),report('unsupported').model_dump_json(),
                    short_draft(pack),report('contradiction').model_dump_json())
-        answer=await Generator(model,reference_profile='short').generate('Fictional?',integrated())
+        answer=await Generator(model,reference_profile='short',explanation_profile='legacy').generate('Fictional?',integrated())
         assert answer.validation=='repair_exhausted' and not answer.claims
         assert (answer.draft_attempts,answer.check_attempts,answer.answer_repairs)==(2,2,1)
     asyncio.run(run())

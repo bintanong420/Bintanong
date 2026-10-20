@@ -48,7 +48,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
 
 
 class Generator:
-    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='legacy'):
+    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='scoped'):
         if reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
         if explanation_profile not in ('legacy','scoped'):

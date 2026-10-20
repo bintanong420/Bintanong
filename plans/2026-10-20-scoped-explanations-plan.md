@@ -59,7 +59,7 @@ Do not combine two unverified candidate changes into a promotion claim.
 3. [x] Wire generator/runtime setting/run metadata and developer CLI selection.
    Verify focused GREEN/legacy regressions and commit. Keep legacy default until
    actual quality gate passes; document any later selection with regression checks.
-4. [ ] Reuse existing9fictional multilingual generation cases once under scoped
+4. [x] Reuse existing9fictional multilingual generation cases once under scoped
    profile. Inspect each claim/purpose/scope/style and compare fixed expectations;
    host-only Symbolic is not an LLM generation accuracy denominator. If quality
    passes, run existing3English real-service requests with resident encoder and
@@ -81,3 +81,16 @@ Ruling: owner's continuation authorizes this scoped fix. This does not claim a
 universal semantic guarantee or permit an accuracy-for-speed trade. Host-only
 structured answers remove a redundant paraphrase opportunity; documentary claims
 still require the independent support check and human evaluation of residual errors.
+
+Selection ruling:agent and independent reviewer find18prepared documentary claims
+and4full-runtime claims supported/scoped,with3prepared plus1runtime host-only
+Symbolic outputs separately counted. Select scoped/canonical/separate for the
+offline candidate;no institutional accuracy claim. Default selection RED3;
+reviewer-found evaluation provenance bug RED4/GREEN172tests3.16s. RuntimeRun's
+missing-field default stays legacy so historical reports are not relabeled.
+
+Owner follow-ups ask about excluded startup/connection factors and their metrics.
+The [measurement contract](2026-10-20-response-time-measurement-contract.md) defines
+student-visible end-to-end,outer backend,inner pipeline,cold/readiness,connection,
+queue/API/browser boundaries and later-phase unavailable measurements. New raw
+observations record both outer/inner timing plus startup/Supabase readiness.
