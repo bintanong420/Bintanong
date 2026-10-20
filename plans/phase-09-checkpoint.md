@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 56
+sequence: 57
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: f106070
+head_commit: ac94a4a
 working_tree: dirty
 updated_at: 2026-10-20T16:27:46.2540798+08:00
 ---
@@ -22,16 +22,15 @@ covered/guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Foundation delivery verified;next validation gate remains separate. Offline saved-output
-3checks expose missing fee mapping and demonstrate omitted extraction/wrong semantic
-mapping still pass mechanically. Semantic completeness ALWAYS unverified. No
-extractor,model run,Generator/profile wiring or prior semantic P2 resolution.
+Resumed cleanac94a4a. New [reference evaluation plan](2026-10-20-question-parts-evaluation-plan.md)
+scores extraction and mapping against frozen author labels before any model run.
+Foundation stays detached;its semantic limitations remain. No product edit yet.
+Scope17-18/architecture39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified productf106070,prior isolationeb9ceb9.
-Remaining changes:parts plan/results,index,current progress and checkpoint docs.
-head_commit names verified product;later wrapper is not a product change.
+p09/feat/p09-generation-validation;clean parentac94a4a,productf106070. Remaining
+changes:new reference evaluation plan,current progress and checkpoint planning docs.
 No unrelated owner changes found.
 Existing CUDA18088/localSupabase remain running;CPU18087 stopped intact,default
 18087 unchanged. No Phase10,student API,push,merge,deployment or activation.
@@ -90,8 +89,8 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Define bounded extraction-completeness and semantic claim-to-part validation gate
-before runtime integration or inference promotion;reuse saved evidence,no sweep.
+Execute reference evaluator plan with TDD,then reuse saved three variants and one
+explicit author-constructed uncertain control. No model or runtime/profile change.
 
 ## Do Not Repeat
 

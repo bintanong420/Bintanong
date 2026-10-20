@@ -49,6 +49,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Define a bounded validation gate for extraction completeness and semantic
-claim-to-part correctness before runtime integration or inference promotion.
-Reuse saved evidence;do not repeat failed prompt/model/seed/budget experiments.
+Execute [reference evaluation plan](../2026-10-20-question-parts-evaluation-plan.md)
+with TDD:score against frozen author labels,reuse saved three failure variants and
+one explicit uncertain control. No model or runtime/profile change;no sweep.
