@@ -43,10 +43,10 @@ invalid operation associations and ungrounded quotes fail. Host declared-needs
 consistency prevents structured work becoming RAG;unknown/unavailable remains held.
 Preserve compound-operation clarification and audience/control precedence.
 
-- [ ] Focused RED for omitted/duplicated/misbound parts,quote grounding,unknown and
+- [x] Focused RED for omitted/duplicated/misbound parts,quote grounding,unknown and
   route inconsistency;observe assertion/validation failures before implementation.
-- [ ] Implement minimal versioned contract/prompt/grounding/host changes;no call added.
-- [ ] Migrate synthetic routing fixture helpers explicitly;relevant routing GREEN;
+- [x] Implement minimal versioned contract/prompt/grounding/host changes;no call added.
+- [x] Migrate synthetic routing fixture helpers explicitly;relevant routing GREEN;
   record exact commands/results and commit a cohesive increment.
 
 ## Task2: bound propagation and per-part generation
@@ -101,3 +101,13 @@ Reuse existing regressions;add only tests with distinct consequential failure mo
 Start37e8bda,clean. Context thesis17-18/39-44,actual routing PNG,master3/11/12.4/13/14,
 scope policy and prompt decision consulted. No new discrepancy;thesis illustrative
 missing-as-false does not override host unknown. Timing recommendation preserved.
+
+Task1 complete:RED6failed/6passed0.64s (parts rejected as extra or missing not
+rejected);GREEN12passed0.42s. Routing regression14fail/174pass3.32s exposed old
+fixture quotes/expected counters and schema's one-operation decoding limit. Fixture
+migration preserves old guards,adds explicit original text;decoder now permits up
+to4operations and host still clarifies compound requests. Intermediate4fail/184pass
+was helper text passed to constructor,corrected helper signature only. Final routing/
+format198passed3.67s. Exact logs task1-*.log. No inference or new call.
+Implementation call:allow4decoded operations to preserve compound meaning,matching
+the reviewed design;this changes old count=2 decoder rejection to host clarification.

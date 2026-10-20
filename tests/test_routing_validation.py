@@ -50,8 +50,9 @@ def test_supported_operation_uses_fixed_scoped_bound_inputs_and_response_style()
     (dict(synthetic=False), 'evidence_unavailable', 'institutional_execution_held'),
     (dict(documents_available=False), 'evidence_unavailable', 'documents_unavailable')])
 def test_components_never_fall_back_to_rag(options, control, diagnostic):
-    value = proposal(route='Hybrid') if 'documents_available' in options else proposal()
-    result = validate(value=value, **options)
+    text = 'A1 policy' if 'documents_available' in options else 'A1'
+    value = proposal(text=text, route='Hybrid') if 'documents_available' in options else proposal()
+    result = validate(text, value=value, **options)
     assert result.proposed.route in ('Symbolic', 'Hybrid')
     assert result.decision.control == control and result.decision.route is None
     assert result.diagnostic == diagnostic
@@ -95,7 +96,7 @@ def test_model_semantics_do_not_override_structural_guards(value, diagnostic):
 
 
 def test_rag_does_not_need_student_curriculum_but_needs_document_availability():
-    value = proposal(route='RAG', operations=[], mentions=[], intent='procedure')
+    value = proposal(text='Where do I ask?', route='RAG', operations=[], mentions=[], intent='procedure')
     assert validate('Where do I ask?', value, context(program_id=None, curriculum_id=None)).decision.route == 'RAG'
     assert validate('Where do I ask?', value, documents_available=False).decision.control == 'evidence_unavailable'
 
@@ -142,6 +143,6 @@ def test_document_only_request_does_not_require_resolving_irrelevant_grade_confl
         program_id='program-a', curriculum_id='curriculum-a', course_id='course-a', state=state)
         for state in ['passed','failed']])
     result = validate('Where do I request a copy?',
-        proposal(route='RAG', operations=[], mentions=[], intent='procedure'), ctx)
+        proposal(text='Where do I request a copy?', route='RAG', operations=[], mentions=[], intent='procedure'), ctx)
     assert result.decision.route == 'RAG'
     assert len(result.query.session_fact_refs) == 2  # preserve conflict for any later check

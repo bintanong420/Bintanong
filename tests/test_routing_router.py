@@ -45,10 +45,10 @@ class FakeTransport:
         return value
 
 
-def run(transport, **options):
+def run(transport, *, text='A1', **options):
     defaults = dict(catalog=catalog(), registry=registry(), documents_available=True, synthetic=True)
     defaults.update(options)
-    return asyncio.run(api().Router(transport, **defaults).route('A1', RequestContext.parse(context())))
+    return asyncio.run(api().Router(transport, **defaults).route(text, RequestContext.parse(context())))
 
 
 @pytest.mark.parametrize('language', ['en','fil','taglish'])
@@ -60,7 +60,7 @@ def test_model_selected_language_style_is_preserved(language):
     system = transport.calls[0][0][0]['content']
     assert 'LLM' in system and 'Taglish' in system and 'Prolog' in system
     assert 'A1' in transport.calls[0][0][1]['content']
-    assert transport.calls[0][1]['properties']['schema_version']['const'] == 'bintanong-interpretation-v1'
+    assert transport.calls[0][1]['properties']['schema_version']['const'] == 'bintanong-interpretation-v2'
 
 
 def test_invalid_json_repairs_once_and_retains_complete_repair_messages():
@@ -191,10 +191,10 @@ def test_unknown_audience_clarification_retains_compound_details():
     ('unknown', 'audience_unknown', 'clarify')])
 def test_nonconforming_audience_proposal_keeps_host_guard_without_semantic_retry(
         audience, diagnostic, control):
-    value = proposal(audience=audience, route='Hybrid', operations=[
+    value = proposal(text='A1 policy', audience=audience, route='Hybrid', operations=[
         dict(name='check_prerequisite_eligibility', target=0),
         dict(name='list_affected_courses', target=0)])
-    result = run(FakeTransport(json.dumps(value)))
+    result = run(FakeTransport(json.dumps(value)), text='A1 policy')
     assert result.diagnostic == diagnostic
     assert result.decision.control == control and result.decision.predicate_request is None
     assert result.proposed.route == 'Hybrid' and len(result.proposed.operations) == 2
@@ -209,15 +209,15 @@ def test_proceed_decoder_matches_supported_operation_count(route, count):
     value = proposal(route=route, operations=[
         dict(name=name, target=0) for name in
         ('list_affected_courses', 'check_prerequisite_eligibility')[:count]])
-    expected = count == (0 if route == 'RAG' else 1)
+    expected = count == 0 if route == 'RAG' else 1 <= count <= 4
     assert jsonschema.Draft202012Validator(output_schema()).is_valid(value) is expected
 
 
 def test_nonconforming_transport_cannot_bypass_compound_guard():
-    value = proposal(route='Hybrid', operations=[
+    value = proposal(text='A1 policy', route='Hybrid', operations=[
         dict(name='list_affected_courses', target=0),
         dict(name='check_prerequisite_eligibility', target=0)])
-    result = run(FakeTransport(json.dumps(value)), documents_available=True)
+    result = run(FakeTransport(json.dumps(value)), text='A1 policy', documents_available=True)
     assert result.diagnostic == 'compound_request'
     assert result.decision.control == 'clarify'
     assert result.decision.predicate_request is None
@@ -245,7 +245,7 @@ def test_unique_literal_quotes_anchor_bad_model_offsets_without_changing_meaning
     transport = FakeTransport(json.dumps(value))
     router = api().Router(transport,catalog=catalog(),registry=registry(),synthetic=True)
     result = asyncio.run(router.route(text,RequestContext.parse(context())))
-    assert result.decision.route == 'Symbolic' and result.offset_corrections == 3
+    assert result.decision.route == 'Symbolic' and result.offset_corrections == 4
     assert result.claims[0].state == 'failed' and result.claims[0].text == 'I failed A1.'
     assert result.proposed.mentions[0].start == text.index('A1')
     assert len(transport.calls) == 2
@@ -274,7 +274,7 @@ def test_private_ownership_and_scenario_identifiers_never_enter_model_input():
 
 
 def test_grounded_style_evidence_is_observable_and_separate_from_student_facts():
-    value = proposal(language='fil', mentions=[], operations=[], route='RAG')
+    value = proposal(text='Paano ako mag-request?', language='fil', mentions=[], operations=[], route='RAG')
     style = style_proposal(english=['request'], filipino=['Paano'])
     transport = FakeTransport(json.dumps(value), style_outputs=[json.dumps(style)])
     router = api().Router(transport, documents_available=True)

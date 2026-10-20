@@ -8,13 +8,28 @@ def api():
     return importlib.import_module('backend.bintanong_routing.contracts')
 
 
-def proposal(**updates):
-    value = dict(schema_version='bintanong-interpretation-v1', language='taglish',
+def proposal(*, text='A1', **updates):
+    value = dict(schema_version='bintanong-interpretation-v2', language='taglish',
                  audience='undergraduate', intent='prerequisite_check',
                  mentions=[dict(kind='course', text='A1', start=0, end=2)],
                  claims=[], operations=[dict(name='check_prerequisite_eligibility', target=0)],
                  route='Symbolic', control=None, ambiguities=[], reason='Check prerequisites.')
     value.update(updates)
+    if 'parts' not in updates:
+        value['parts'] = []
+        if value['route'] is not None:
+            if value['route'] != 'RAG':
+                mention = next((m for m in value['mentions'] if m['kind'] == 'course'),
+                               dict(text=text, start=0, end=len(text)))
+                value['parts'].append(dict(part_id='r1', text=mention['text'],
+                    start=mention['start'], end=mention['end'], evidence_need='structured',
+                    operation_indices=list(range(len(value['operations'])))))
+            if value['route'] != 'Symbolic':
+                quote = 'policy' if value['route'] == 'Hybrid' else text
+                start = text.find(quote) if quote in text else len(text)+1
+                value['parts'].append(dict(part_id='r2' if value['parts'] else 'r1',
+                    text=quote, start=start, end=start+len(quote), evidence_need='document',
+                    operation_indices=[]))
     return value
 
 

@@ -55,7 +55,7 @@ def anchor_unique_quotes(data, text):
         return data, 0
     anchored = deepcopy(data)
     corrections = 0
-    for name in ('mentions', 'claims'):
+    for name in ('mentions', 'claims', 'parts'):
         items = anchored.get(name)
         if not isinstance(items, list):
             continue
@@ -110,6 +110,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         m = p.mentions[c.entity]
         if text[c.start:c.end] != c.text or not c.start <= m.start < m.end <= c.end:
             raise ValueError('ungrounded_claim')
+    for part in p.parts:
+        if text[part.start:part.end] != part.text:
+            raise ValueError('ungrounded_part')
 
     program, curriculum = context.program_id, context.curriculum_id
     resolved = {}
@@ -179,6 +182,18 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
         return result('model_control', p.control)
+    if p.route == 'RAG' and p.operations:
+        return result('inconsistent_proposal', 'evidence_unavailable')
+    needs = {part.evidence_need for part in p.parts}
+    if 'unknown' in needs:
+        return result('unknown_requirement')
+    if any(part.evidence_need == 'structured' and not part.operation_indices for part in p.parts):
+        return result('unsupported_requirement', 'evidence_unavailable')
+    expected = {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic',
+                frozenset({'document', 'structured'}): 'Hybrid'}[frozenset(needs)]
+    covered_operations = {i for part in p.parts for i in part.operation_indices}
+    if p.route != expected or covered_operations != set(range(len(p.operations))):
+        return result('inconsistent_requirements', 'evidence_unavailable')
     if (p.route == 'RAG' and p.operations) or (p.route != 'RAG' and not p.operations):
         return result('inconsistent_proposal', 'evidence_unavailable')
     if p.operations:

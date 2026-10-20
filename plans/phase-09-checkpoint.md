@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 67
+sequence: 68
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 37e8bda
+head_commit: 38c4b73
 working_tree: dirty
 updated_at: 2026-10-20T17:57:27+08:00
 ---
@@ -27,9 +27,11 @@ FAILED0/8;[observation](2026-10-20-question-parts-observation-results.md) unchan
 
 ## Current Task
 
-Audit/refactor delivery verified and sealed. Next implementation must carry explicit
-requested parts through existing pre-evidence interpretation,orchestration and
-generation with versioned request/question/release binding and unknown semantics.
+Router implementation Task1 verified:Interpretation v2 requires grounded parts;
+declared needs cannot silently bypass structured work. Router prompt p09-v10;
+separate style/shared repair preserved. RED6fail/6pass;focusedGREEN12pass;
+relevant routing/format198passed3.67s. Task1 raw logs under workspace/audit-evidence/
+p09-router-understanding-20261020/. Next:Task2 bound propagation/per-part validation.
 Context thesis17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no new
 discrepancy. Thesis missing-as-false example stays illustrative;host unknown remains.
 

@@ -6,6 +6,15 @@ Last full prior snapshot4620a92:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Router recovery Task1 verified:Interpretation v2 requires grounded requested parts,
+operation associations and route/evidence-need consistency. No extra LLM call;
+separate style/shared repair preserved. RED6fail/6pass;focusedGREEN12pass;final
+routing/format198passed3.67s. Compound requests can decode all operations then
+clarify in host. [Implementation plan](../2026-10-20-router-understanding-implementation-plan.md)
+records exact outcomes. Task2 bound propagation/per-part output validation next.
+
+## Audit baseline
+
 Owner test-meaning audit complete.2240expanded items/649functions included605
 document-format items. Consolidated full-file scan and duplicate prompt checks:
 now1643items/648functions/10hygiene items. Every governed document and RAG/Hybrid
