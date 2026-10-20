@@ -6,13 +6,17 @@ Last full prior snapshot0f5e1bc:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Approved quoted-reference implementation Task1 delivered:strict wire contract and
+host normalizer,15focused RED0.72s then58GREEN0.59s with existing normalized-contract
+regressions. No model calls;RAG/Prolog/generation unchanged. Task2 integration next.
+
 Diagnosed the failed gate from sealed traces and pinned llama.cpp sources;zero
 new inference/product/configuration changes. All55prior sealed files unchanged.
 Fresh docs10passed0.78s;84links/caps pass;phase remains9,cannot advance. Research
 raw10files sealed under workspace/audit-evidence/p09-router-correction-design-20261020/.
 Design:LLM quoted references;host computes spans and binds targets/entities. Keep
 RAG/Prolog,normalized contracts,shared repairs/deadlines and validation;no new call.
-One focused builder check:nothing important left. Concrete design awaits approval;
+One focused builder check:nothing important left. Owner explicitly approved design;
 conditional execution excluded pending the separate owner decision/design.
 All8saved router prompts lack thinking trigger;7responses contain reasoning.
 Pinned b11723 parser already sets thinking false,but Gemma grammar still permits
@@ -62,7 +66,7 @@ No installs/downloads/training/DB/dependency/source changes,push,merge or activa
 
 ## Next action
 
-Obtain approval of the concrete quoted-reference design,then write its implementation
-plan and execute focused TDD. Conditional execution needs its separate decision/design.
-Preserve asserted/reported/hypothetical distinctions;freeze quality criteria before
-further inference. No old-batch rerun or open prompt/model/seed/budget sweep.
+Execute [Task2](../2026-10-20-router-quoted-reference-implementation-plan.md)
+router integration/fixtures with RED-GREEN and one whole-change review.
+Conditional execution needs separate decision/design. Preserve modes and guards;
+no inference,old-batch rerun or open prompt/model/seed/budget sweep.

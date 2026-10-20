@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 74
+sequence: 76
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 0f5e1bc
+head_commit: da4673d
 working_tree: dirty
 updated_at: 2026-10-20T22:12:00+08:00
 ---
 
-# Phase09 checkpoint - failure diagnosed;bounded correction design ready
+# Phase09 checkpoint - quoted-reference design approved;implementation active
 
 ## Completed Tasks
 
@@ -29,8 +29,11 @@ Four answered statuses include wrong-course eligible result. Gate FAIL;no promot
 ## Current Task
 
 Completed [bounded correction diagnosis/design](2026-10-20-router-correction-diagnosis-and-design.md).
-Quote-only model interface and host normalization selected for owner design review;
-one builder check returned nothing important left. No product edits or inference.
+Owner explicitly approved quoted-reference design;native TDD implementation active
+through [implementation plan](2026-10-20-router-quoted-reference-implementation-plan.md).
+One design builder check returned nothing important left;no repeat design review.
+Task1 delivered strict wire models and host normalization;15focused RED0.72s then
+58GREEN0.59s including normalized contracts/validation. Synthetic fixtures only.
 Actual saved prompts have no thinking trigger;the pinned Gemma JSON grammar still
 permits thoughts even with thinking false. Do not assume adding another flag fixes it
 or force zero reasoning for speed. Conditional-answer choice asked separately,pending.
@@ -41,8 +44,8 @@ master3/11/13/14 consulted;no discrepancy. Missing facts remain distinct from fa
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEAD0f5e1bc,execution1f0ead3,product8fafaf7 unchanged.
-Pending docs:INDEX,progress/checkpoint,new correction diagnosis/design. No unrelated
+p09/feat/p09-generation-validation;HEADda4673d,execution1f0ead3,product8fafaf7 baseline.
+Pending docs:approved design,implementation plan,progress/checkpoint. No unrelated
 changes. Checkpoint head names this task's starting snapshot;containing docs commit
 follows it. Existing workspace/MODELS/CUDA18088 untouched this task;
 default18087 untouched. No service startup,DB writes,installs/downloads,weight copies/
@@ -117,10 +120,9 @@ institutional/source/privacy/auth/hosted release holds unresolved.
 
 ## Next Action
 
-Obtain approval of the concrete quoted-reference design,then write its implementation
-plan and execute focused TDD. Conditional execution is excluded until its separate
-owner decision/design. Freeze any later quality gate before inference;no old-batch
-rerun or parameter sweep. Preserve requested/observed thinking distinction and guards.
+Execute Task2 boundary integration/migration RED-GREEN and one whole-change review.
+Task1 wire module/tests are verified;no new model calls. Conditional execution remains
+excluded pending separate decision/design. No inference,old-batch rerun or sweep.
 
 ## Do Not Repeat
 

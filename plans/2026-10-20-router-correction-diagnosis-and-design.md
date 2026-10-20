@@ -1,11 +1,12 @@
 # Bounded correction after the frozen router gate
 
-Ready for owner design review20October2026 at0f5e1bc;Phase09. Extends the approved
+Owner approved20October2026 ("ye i approve");Phase09. Extends the approved
 [prompt/validation direction](2026-10-19-prompt-engineering-and-validation-decision.md)
 and [router design](2026-10-20-router-question-understanding-recovery-design.md).
 No product changes or model inference in this investigation. One focused builder
 check returned "nothing important left";no repeat review. The conditional-answer
-boundary is a separate pending owner question. Implementation awaits design approval.
+boundary is a separate pending owner question. Execute the
+[implementation plan](2026-10-20-router-quoted-reference-implementation-plan.md).
 
 ## Capability and evidence
 
