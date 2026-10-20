@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 83
+sequence: 85
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 89e9503
+head_commit: 062589c
 working_tree: dirty
-updated_at: 2026-10-20T23:16:43+08:00
+updated_at: 2026-10-20T23:22:24+08:00
 ---
 
-# Phase09 checkpoint - actual quoted-reference observation failed quality
+# Phase09 checkpoint - semantic guidance software verified;actual quality pending
 
 ## Completed Tasks
 
@@ -21,6 +21,8 @@ existing generation/Prolog/contracts/guards and budgets unchanged.
 5e44625 before one readiness/frozen-input binding and actual-model execution.
 [Actual results](2026-10-20-quoted-reference-focused-observation-results.md):
 response requirements2/4;strict full quality0/4:FAIL,no promotion.
+Guidance revision062589c:[delivery](2026-10-20-router-semantic-guidance-results.md).
+Four RED0.93s->four GREEN0.61s;237regressionsGREEN3.54s. One fresh review:no findings.
 
 ## Current Task
 
@@ -28,10 +30,14 @@ Bounded [guidance correction](2026-10-20-router-semantic-guidance-correction-pla
 implemented within existing prompt/example authorization. One complete fictional
 three-part example and explicit mode/detail guidance;no host/schema/guard change
 or inference. Four new tests:4RED0.93s then4GREEN0.61s;237regressionsGREEN3.54s.
+Fresh review89e9503..062589c complete:no findings/minors;no re-review. Final docs
+10passed0.80s;88links/caps;182source/test hashes and192prior sealed files verified.
+179other backend/vocabulary files and both decoders unchanged. New10raw files
+sealed;phase valid,advancement refused. New actual model quality/latency unmeasured.
 Scope17-18/architecture39-44,actual PNG/master3/11/13/14 revisited;the thesis
 closed-world illustration does not override the established unknown-vs-unmet policy.
 
-One observation completed;no case rerun,rescue probe or candidate change. English
+Prior v11 observation completed;no case rerun,rescue probe or in-batch change. English
 duplicate whole-question parts rejected after one format repair. Filipino/Taglish
 answers correct/cited but collapse two details into one part. Hybrid target ZX201
 and failed ZX101 present;reported mode triggers clarification;structured part
@@ -42,9 +48,9 @@ active recovery;no discrepancy. Undergraduate/read-only/unknown-vs-unmet preserv
 
 ## Repository State
 
-p09/feat/p09-generation-validation;delivery f62f493,observation HEAD5e44625.
-Pending:prompt.py,combined.py,test_routing_prompt_example.py;plan/progress/checkpoint.
-No unrelated changes. Product commit follows;one fresh review then software seal.
+p09/feat/p09-generation-validation;product062589c,prior observation HEAD5e44625.
+Pending docs:guidance results/plan checklist,INDEX,progress/checkpoint. No code or
+unrelated changes. Review/software seal done;final delivery commit follows.
 Checkpoint names parent snapshot;its containing documentation commit follows.
 Existing workspace/MODELS/CUDA18088/default18087 untouched. No service startup,
 weights rehash/copy/download,dependency/source/DB changes,training,institutional
@@ -71,8 +77,13 @@ No new product change to justify repeating that gate or completed source reviews
 
 ## Versions and Digests
 
-Wire bintanong-interpretation-wire-v1;normalized interpretation-v2/router-p09-v11;
-combined packetv2 explicit/unselected. Separate/canonical/scoped selected.
+Current wirev1/normalized-v2;router-p09-v12,combined prompt-p09-v3/packetv2 explicit
+and unselected. Separate/canonical/scoped selected. New software freeze SHA256
+32208711f72b17c4749ca6917a030dbdfa7b68f362c4ad83401eb534b74a9538
+under workspace/audit-evidence/p09-semantic-guidance-20261020/;181backend/vocabulary
+and1test bound. Both decoders unchanged;new actual quality/latency NOT MEASURED.
+New10file manifest7700ae258f4003abb9bc534bfbafe7625a0a2d38df1a448c8226e45243765621.
+Prior observation below used routerv11;do not relabel it as a v12 result.
 Context8192,out768,temp0,seed0,cachefalse,requested reasoningnone;
 inference/stage/generation/request120/120/120/180s unchanged.
 New raw:workspace/audit-evidence/p09-wire-focused-gate-20261020/.
@@ -83,7 +94,7 @@ New37file manifest c6f0f6b6007e656bb54eaa11b92da8b4bbd4f5c09f1ed73f8a9e7a88e25a0
 Wire software freeze a56937613c3e1dd97a6a79603b44f68c5fd25031a4e668271cf86d6ae86a1756;
 wire16file seal5ee6dee5c53effc2cb915f7dc59e19d01d9bb80895b44c6150e660d8beaa8969.
 Other139prior seals remain as linked in software results/prior checkpoint.
-Last full prior checkpoint5e44625;git show preserves history. Historical123line
+Last full prior checkpoint062589c;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -96,12 +107,17 @@ do not turn hypothetical/reported claims into actual student facts. Conditional
 design remains separate/unanswered;generic continue did not settle it.
 This new4case subset was selected before inference,not after observed successes.
 No pure Symbolic or full-language Hybrid/institutional accuracy comparison.
-No new classifier,prompt/model/seed/budget sweep or post-failure correction.
+One separately bounded prompt/example clarification within existing approved scope;
+no classifier,guard,model/seed/budget change or sweep. No conditional policy change.
+If actual meaning still fails,discuss supported capability/model limits before
+further product experiments. Do not manufacture success through labels or guards.
 Scope/source-gap/privacy/institutional-release/one-week cap and accepted75 persist.
 
 ## Known Failures or Blockers
 
-Correct complete component answers61.672/67.224s;failed/control54.740/35.832s.
+Prior v11 complete component answers61.672/67.224s;failed/control54.740/35.832s.
+Current v12 model quality/latency unknown;system text grows12535->14788UTF-8bytes,
+not a measured token count or speed improvement. All model/runtime budgets unchanged.
 Readiness0.137141s is resident local HTTP,not isolated handshake. Fixed docs bypass
 retrieval. Embedding/vector/Supabase/API/browser/external network/load/queue,
 fixture preparation/readiness and cold startup excluded or unavailable.
@@ -113,10 +129,10 @@ Quoted candidate does not meet strict part/meaning quality;no phase completion.
 
 ## Next Action
 
-Commit verified guidance/example;one fresh read-only whole-change review and
-software freeze/seal. Do not repeat passing237regressions without a new change.
-No actual-model inference or semantic/latency success claim in this task.
-Retain guards;conditional decision and later observation protocol stay separate.
+Define/freeze ONE new actual-candidate protocol and exact executable inputs/
+references/runtime/settings/readiness before
+inference. No more product edits/model calls in this implementation task. Keep
+conditional family held;no sweep or repeat237regressions without a new change.
 
 ## Do Not Repeat
 
