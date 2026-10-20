@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 63
+sequence: 64
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6073fbe
+head_commit: 073f76e
 working_tree: dirty
 updated_at: 2026-10-20T17:28:34.3806131+08:00
 ---
@@ -23,18 +23,16 @@ guarded/covered and new analyzer stay unselected. No correction/model sweep.
 
 ## Current Task
 
-Bounded observation delivery complete;remaining Phase09 quality recovery is separate.
-Five source-copy extractions rejected before review. Three structured cases unknown
-instead of structured,withheld as unresolved. No affirmative document decision,no
-mapped ledger,but no correct structured classification. Documentary part review
-NOT EXERCISED. Actual semantic P2s remain open;no extractor promotion.
+Resumed clean073f76e. Owner asks to continue and ensure test count is meaningful.
+[Audit/recovery plan](2026-10-20-test-meaning-and-recovery-plan.md) inventories2240items/
+649functions/605doc checks;verify critical guards by mutation,consolidate redundant
+format checks and write recovery design over existing router. No new model run.
 Context17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified product6073fbe,scorer4f39833. Remaining
-changes:module guide,observation plan/results,index,current progress/checkpoint docs.
-head_commit names verified product;later wrapper is documentation only.
+p09/feat/p09-generation-validation;clean parent073f76e,verified product6073fbe.
+Remaining changes:audit/recovery plan,current progress/checkpoint planning docs.
 No unrelated owner changes found. Existing CUDA18088 ready for this batch;CPU18087
 last recorded stopped intact,default18087 unchanged. No DB/service startup work.
 No Phase10,student API,push,merge,deployment or activation.
@@ -108,9 +106,8 @@ end-to-end validation remain unresolved. Passing software tests do not resolve t
 
 ## Next Action
 
-Review remaining Phase09 quality requirements against existing router interpretation
-using saved failures;decide bounded recovery design before further inference.
-Preserve selected candidate;no additional speculative classifier/profile.
+Execute audit:baseline/mutate six existing safeguards,consolidate duplicate test
+work without losing checks,then router recovery design. No inference/profile change.
 
 ## Do Not Repeat
 

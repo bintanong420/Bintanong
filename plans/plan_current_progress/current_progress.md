@@ -53,7 +53,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Review remaining Phase09 quality requirements against the existing router
-interpretation contract,using saved failures,to decide a bounded recovery design
-before further inference. Do not repeat the failed analyzer/guard/coverage batches
-or add another speculative profile. Preserve best verified selected candidate.
+Execute [test meaning/recovery audit](../2026-10-20-test-meaning-and-recovery-plan.md):
+2240items/649functions/605doc checks inventoried;prove six safeguards by mutation,
+consolidate duplicate test work,then existing-router recovery design. No inference.
