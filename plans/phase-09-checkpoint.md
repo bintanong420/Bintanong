@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 72
+sequence: 74
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 1f0ead3
+head_commit: 0f5e1bc
 working_tree: dirty
-updated_at: 2026-10-20T21:47:00+08:00
+updated_at: 2026-10-20T22:12:00+08:00
 ---
 
-# Phase09 checkpoint - actual frozen gate failed;candidate held
+# Phase09 checkpoint - failure diagnosed;bounded correction design ready
 
 ## Completed Tasks
 
@@ -28,8 +28,12 @@ Four answered statuses include wrong-course eligible result. Gate FAIL;no promot
 
 ## Current Task
 
-Observation documented and raw sealed;use existing traces to design one bounded
-correction next. No further inference/product edits in this observation.
+Completed [bounded correction diagnosis/design](2026-10-20-router-correction-diagnosis-and-design.md).
+Quote-only model interface and host normalization selected for owner design review;
+one builder check returned nothing important left. No product edits or inference.
+Actual saved prompts have no thinking trigger;the pinned Gemma JSON grammar still
+permits thoughts even with thinking false. Do not assume adding another flag fixes it
+or force zero reasoning for speed. Conditional-answer choice asked separately,pending.
 Fixed document adapter+actual Janus/Gemma;embedding/vector/Supabase/API/browser
 excluded. Complete answers59.6-79.1s are component durations,not full real-service
 pipeline or student-visible latency. Context thesis17-18/39-44,actual routing PNG/
@@ -37,10 +41,10 @@ master3/11/13/14 consulted;no discrepancy. Missing facts remain distinct from fa
 
 ## Repository State
 
-p09/feat/p09-generation-validation;execution1f0ead3,product8fafaf7 unchanged.
-Pending docs:INDEX,progress/checkpoint,software-results/frozen-gate outcome pointers,
-new actual-observation report. No unrelated changes. Checkpoint head binds execution;
-the containing docs commit follows it. Existing workspace/MODELS/CUDA18088 reused;
+p09/feat/p09-generation-validation;HEAD0f5e1bc,execution1f0ead3,product8fafaf7 unchanged.
+Pending docs:INDEX,progress/checkpoint,new correction diagnosis/design. No unrelated
+changes. Checkpoint head names this task's starting snapshot;containing docs commit
+follows it. Existing workspace/MODELS/CUDA18088 untouched this task;
 default18087 untouched. No service startup,DB writes,installs/downloads,weight copies/
 rehash,dependency edits,push,merge,student endpoint,deployment or activation.
 
@@ -62,6 +66,13 @@ RED9 then9GREEN/relevant434. One review3Important;root3RED then146GREEN in one f
 pass. Final59selection1668passed/66subtests123.76s;no executable change since.
 Previous docs30passed/14subtests11.77s. Phase09 active;cannot advance.
 
+New research:Context7 official docs and pinned upstream source at
+31288c9c66e59377f7788d920678a565bb89dd37;prior55sealed files verified unchanged.
+Eight saved prompts checked,no trigger;7observed reasoning fields,zero new calls.
+One design builder check completed,no material questions. Fresh docs10passed0.78s;
+84local links/snapshot caps pass;prior55files/product hashes unchanged. Phase validate
+exits0;can-advance exits1 as required. No inference or product testing repeated.
+
 ## Versions and Digests
 
 New raw:workspace/audit-evidence/p09-router-gate-20261020/:55sealed files;manifest
@@ -74,7 +85,10 @@ Prior74file manifest a8b4e1e5dc0b0b4e3d69bdfef778bb7a92e4e0b7f0ee048d692b91433f2
 freeze dac9636ac92d08914d78bba7f75ea223c211093fbfd5811d8f8a30e2eff530b9.
 Thesis729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 Historical123line handoff unchanged4022711 retains inherited3line exception.
-Last full prior checkpoint1f0ead3;recover using git show.
+Last full prior checkpoint0f5e1bc;recover using git show.
+Research raw:workspace/audit-evidence/p09-router-correction-design-20261020/;
+source/trace/reviewer receipts and verification evidence:10sealed files;manifest
+90abb5f0608004c55a5742410d8b3fb01558a7276f089485a07f556a74c79289.
 
 ## Decisions
 
@@ -103,9 +117,10 @@ institutional/source/privacy/auth/hosted release holds unresolved.
 
 ## Next Action
 
-Prepare one bounded correction design from sealed traces for target/fact meaning,
-separate requested parts and runtime reasoning mismatch. Specify quality criteria
-before further model execution;no rerun of this batch or open parameter sweep.
+Obtain approval of the concrete quoted-reference design,then write its implementation
+plan and execute focused TDD. Conditional execution is excluded until its separate
+owner decision/design. Freeze any later quality gate before inference;no old-batch
+rerun or parameter sweep. Preserve requested/observed thinking distinction and guards.
 
 ## Do Not Repeat
 

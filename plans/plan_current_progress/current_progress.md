@@ -1,11 +1,25 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Actual results](../2026-10-20-router-understanding-observation-results.md).
-Last full prior snapshot1f0ead3:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Bounded design](../2026-10-20-router-correction-diagnosis-and-design.md).
+Last full prior snapshot0f5e1bc:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Diagnosed the failed gate from sealed traces and pinned llama.cpp sources;zero
+new inference/product/configuration changes. All55prior sealed files unchanged.
+Fresh docs10passed0.78s;84links/caps pass;phase remains9,cannot advance. Research
+raw10files sealed under workspace/audit-evidence/p09-router-correction-design-20261020/.
+Design:LLM quoted references;host computes spans and binds targets/entities. Keep
+RAG/Prolog,normalized contracts,shared repairs/deadlines and validation;no new call.
+One focused builder check:nothing important left. Concrete design awaits approval;
+conditional execution excluded pending the separate owner decision/design.
+All8saved router prompts lack thinking trigger;7responses contain reasoning.
+Pinned b11723 parser already sets thinking false,but Gemma grammar still permits
+thoughts. Another flag is not an established fix;no zero thinking budget selected.
+Removing model offset/index work is a hypothesis,not a measured quality/speed gain.
+
+Previous frozen observation unchanged:
 Frozen8case actual Gemma/Janus gate executed ONCE at1f0ead3,product8fafaf7.
 Response requirements3/8:document EN/Filipino/Taglish complete,59.6-79.1s. Gate FAIL;
 no promotion. Four answered statuses include one wrong-course eligibility answer.
@@ -20,7 +34,7 @@ does not establish correct intent/facts or semantic completeness.
 configuration/behavior mismatch needs bounded investigation,not presumed diagnosis.
 Local37672prompt/6713completion tokens are NOT Codex quota. Prior
 [Codex usage findings](../2026-10-20-session-token-usage-observation.md) persist;
-no new agents,reasoning-setting changes or bulk context rereads.
+no broad agent fanout,reasoning-setting changes or bulk context rereads.
 
 Exact inputs,observer/readiness frozen before inference;fixed documentary adapter
 plus actual Janus. No embedding/vector/Supabase/API/browser measurements here.
@@ -48,7 +62,7 @@ No installs/downloads/training/DB/dependency/source changes,push,merge or activa
 
 ## Next action
 
-Prepare one bounded correction design from sealed traces for operation target/fact
-meaning,separate requested parts and runtime reasoning mismatch. Preserve asserted/
-reported/hypothetical distinctions;freeze quality criteria before further model
-execution. Do not rerun this batch or begin another open parameter sweep.
+Obtain approval of the concrete quoted-reference design,then write its implementation
+plan and execute focused TDD. Conditional execution needs its separate decision/design.
+Preserve asserted/reported/hypothetical distinctions;freeze quality criteria before
+further inference. No old-batch rerun or open prompt/model/seed/budget sweep.
