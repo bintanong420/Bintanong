@@ -21,7 +21,7 @@
   in p09; Phase10 not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [Current test audit](2026-10-20-test-meaning-audit-results.md);[router recovery design](2026-10-20-router-question-understanding-recovery-design.md).
+- [Current router recovery](2026-10-20-router-understanding-results.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - Guard/coverage experiments failed quality;both explicit/unselected,Phase09 exit held.
 - Scoped/canonical/separate selected;warm backend RAG29.9s/Symbolic17.0s/Hybrid38.9s;student end-to-end unmeasured.
@@ -77,4 +77,4 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
-Latest full snapshots:Phase09:`4620a92`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+Latest full snapshots:Phase09:`8fafaf7`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

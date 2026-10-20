@@ -80,3 +80,16 @@ first boundaries remain in the [recommendation](../Context/response-time-recomme
 Owner's token concern is measured separately in the [usage observation](2026-10-20-session-token-usage-observation.md).
 Phase09 active;source/privacy/unknown/institutional release holds and one-week cap
 persist. No Phase10,student endpoint,push,merge,deployment or activation.
+
+Commits38c4b73plan,5b483adrouter,6c57869propagation,8fafaf7review corrections.
+74sealed files;manifest SHA256
+a8b4e1e5dc0b0b4e3d69bdfef778bb7a92e4e0b7f0ee048d692b91433f241d4a.
+Future-gate candidate-freeze SHA256
+dac9636ac92d08914d78bba7f75ea223c211093fbfd5811d8f8a30e2eff530b9.
+This freezes code/prompt/schema/default configuration,not executable runtime input
+or readiness. Bind the actual permitted local endpoint and complete runtime inputs
+before inference,retaining fixed model/seed/output/deadline budgets. Prior132test-
+audit and62actual-observation sealed files verified unchanged. Later documentation
+checks are intentionally excluded from the fixed raw seal.
+Documentation/phase gate30passed/14subtests11.77s;127local links and active snapshot
+caps pass. Phase state valid,active9,can-advance correctly refuses.

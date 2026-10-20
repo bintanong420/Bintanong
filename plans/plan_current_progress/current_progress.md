@@ -1,71 +1,59 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Audit](../2026-10-20-test-meaning-audit-results.md).
-Last full prior snapshot4620a92:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-router-understanding-results.md).
+Last full prior snapshot8fafaf7:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Router recovery Tasks1-2 software verified:interpretation/integration/answer v2,
-bound question/request/release and per-part documentary/canonical accounting.
-No extra LLM call;separate style/shared repair retained. Task1 routing198pass;
-Task2 focused RED9fail then9pass;relevant/new files434passed8.64s. Independent
-review/final gate pending. [Plan](../2026-10-20-router-understanding-implementation-plan.md).
-New candidate actual quality NOT RUN/unpromoted. Still Phase09;Phase10 not started.
+Router-to-answer recovery software delivered:Interpretation v2 grounded parts;
+Integration v2 binds original question/request/release/operation;CandidateAnswer v2
+requires per-part ledger. Existing support call maps document parts;actual canonical
+Prolog results cover structured parts. No extra model call;separate style/shared
+repair/deadline preserved. Unknown/missing parts withhold. New actual quality NOT RUN.
+Commits38c4b73plan,5b483adrouter,6c57869propagation,8fafaf7review corrections.
 
-## Audit baseline
+Task1 RED6fail then12pass;relevant198pass. Task2 RED9fail then9pass;relevant434pass.
+One review197passed3.07s found3Important gaps:nested support version,wrong-course
+part credit and nonexistent final claim mapping. Root3RED;one fix pass146GREEN.
+Final59-selection1668passed/66subtests123.76s. No re-review.74sealed raw files under
+workspace/audit-evidence/p09-router-understanding-20261020/;manifest
+a8b4e1e5dc0b0b4e3d69bdfef778bb7a92e4e0b7f0ee048d692b91433f241d4a.
+Prior132audit/62actual-observation files verified unchanged. Software green is not
+semantic accuracy;omitted/wrong but structurally consistent model parts remain risk.
 
-Owner test-meaning audit complete.2240expanded items/649functions included605
-document-format items. Consolidated full-file scan and duplicate prompt checks:
-now1643items/648functions/10hygiene items. Every governed document and RAG/Hybrid
-prompt context remains checked. Six sampled real-guard mutations were detected:
-release,privacy,support,missing part,cross-request review and shared deadline.
-This is bounded guard evidence,not certification of every test or chatbot accuracy.
+[Next8case quality/timing gate](../2026-10-20-router-understanding-quality-gate.md)
+fixes fictional dev questions/labels;cases SHA256
+c1071bbab22cd200a400b500e8622c077a43c18e4ab7c814abfd8d3258daad34.
+Code/prompt/schema/default-settings freeze retained;complete executable runtime
+inputs and permitted local endpoint/readiness must bind before ONE inference batch.
+No institutional benchmark changes or claim of unseen/independent gold.
 
-Refactor d87d0c7/format011bc2d;one independent review154passed2.64s found one P2:
-aggregate failure output hid15of20damaged paths. Root RED reproduced;fix4620a92
-explicitly prints all20paths;GREEN preserves expected damaged-file rejection.
-One fix pass,no re-review. Final same57-selection gate1643passed/66subtests89.02s.
-Raw workspace/audit-evidence/p09-test-meaning-audit-20261020/:132sealed files;
-manifest37dce8243a22e27443257a396e669f436021c056d5850c48c8715f88539ca10b.
-Prior62actual-observation files unchanged;no backend edit or new model call.
-[Recovery design](../2026-10-20-router-question-understanding-recovery-design.md)
-carries requested parts through existing pre-evidence interpretation and typed
-orchestration/generation contracts. Design only;no extra classifier/profile.
+## Scope,quality and timing
 
-## Quality and timing limits
+Still Phase09;Phase10 not started. Prior analyzer6073fbe actual0/8unchanged:5source-
+copy extractions,3structured unknown-kind misses;11calls. Detached analyzer/scorer
+remain unselected;semantic completeness ALWAYS unverified. No new model experiment.
+Current default code is a new unvalidated candidate;old timing is historical.
+Saved [recommendation](../../Context/response-time-recommendation.md):15-20s warm
+browser end-to-end,preferunder10short,conditional20-30complexHybrid are unproven
+targets. Accuracy first;startup/readiness/Supabase/queue/API/network/browser metrics
+remain separate. No new successful answer timing or student-wait validation.
+Thesis17-18/39-44,actual PNG/master3/11/12.4/13/14 consulted;unknown differs from
+failed and thesis example remains illustrative. Undergrad/read-only/Prolog/source-
+gap/privacy/release holds and one-week cap persist. No installs/downloads/training/
+DB/dependency/source changes,push,merge,deployment or institutional activation.
 
-Analyzer6073fbe remains detached. [Actual8case observation](../2026-10-20-question-parts-observation-results.md)
-FAILED0/8:five document/multipart extractions copied source sentences,host rejected
-before review;three structured cases classified unknown and stayed unresolved.
-Correct structured kind0/3;no mapped ledger.11calls,no transport failures/repairs;
-EN4/FIL2/Taglish2. Document-part review unexercised. No correction/model sweep.
-Scorer4f39833/foundationf106070 detached;semantic completeness ALWAYS unverified.
-Author labels are synthetic dev,not independent institutional/human truth.
-Selected scoped/canonical/separate unchanged;guarded/covered remain unselected.
+## Owner usage concern
 
-Component7.803882-22.817629s is extraction/review over prepared integration/drafts,
-not complete validated-answer time. No router/embedding/retrieval/Supabase/Prolog/
-API/browser/queue/cold-start or isolated connection-handshake measurement.
-Saved [recommendation](../../Context/response-time-recommendation.md),ea749da:
-proposed15-20s warm browser end-to-end,preferunder10short,conditional20-30complex
-Hybrid. Targets unproven;accuracy first. Prior incomplete RAG27.265337s is failure;
-earlier startup24.184131s/localSupabase readiness0.062273s remain separate samples.
-
-## Preserved boundaries
-
-Thesis17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no new discrepancy.
-Thesis example's missing-as-false is illustrative;host unknown remains distinct.
-Undergraduate/read-only/structured-Prolog/source-gap/privacy/release gates and
-one-week improvement cap persist. Upstream2Taglish style errors,opaque IDs,
-institutional/auth/hosted holds and student wait/end-to-end validation remain.
-Existing CUDA18088/default18087 configuration and owner workspace/MODELS unchanged.
-No installs/downloads/model copies/training/DB/dependency/source/benchmark changes.
-No Phase10,student endpoint,push,merge,deployment or institutional activation.
+[Measured usage](../2026-10-20-session-token-usage-observation.md):latest272394input,
+264064cached;parent thread cumulative97.19%cached input and165535reasoning tokens.
+Counts are not quota/dollar deductions. Targeted reads/compact output reduce
+avoidable overhead;no additional diagnostic agents or reasoning/config changes.
 
 ## Next action
 
-Implement the reviewed existing-router recovery as one coherent versioned contract
-change:focused RED/GREEN for part extraction/binding/propagation and unresolved
-structured coverage. Freeze the future actual-model gate before any new inference;
-reuse failed receipts and do not repeat prompt/model/seed/budget sweeps.
+Prepare complete runtime input/readiness binding for the frozen8case dev gate on
+the permitted existing local runtime,then execute ONCE. Judge actual coverage,
+route/operation,source support and language separately while timing successful
+complete backend answers. No prompt/model/seed/budget sweep or premature promotion.

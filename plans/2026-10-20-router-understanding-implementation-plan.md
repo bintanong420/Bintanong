@@ -73,7 +73,7 @@ parts are host-bound to the performed operation/result,never documentary prose.
 
 ## Task3: review,software gate and actual-quality prerequisite
 
-- [ ] Update developer documentation and dated results with exact contract versions,
+- [x] Update developer documentation and dated results with exact contract versions,
   behavior,limits and any provisional implementation calls.
 - [x] One fresh independent whole-change reviewer as executing-plans requires;one
   focused TDD fix pass for important findings,no re-review. Preserve source/privacy/
@@ -85,7 +85,7 @@ parts are host-bound to the performed operation/result,never documentary prose.
   prompt/code/schema/settings hashes. Do not reuse failed cases as unseen validation.
   Software delivery may complete before that gate;quality/promotion/Phase09 exit
   remain unresolved until actual evidence. No repeated prompt/model/seed/budget sweep.
-- [ ] Seal evidence,update compact INDEX/progress/checkpoint,verify links/phase state
+- [x] Seal evidence,update compact INDEX/progress/checkpoint,verify links/phase state
   and commit. No push,merge,deployment or institutional use.
 
 ## Review focus
@@ -140,3 +140,11 @@ document is parent-owned and the final gate resolves the review's fixture exclus
 No minor findings. Future8fictional dev question/reference records frozen SHA256
 c1071bbab22cd200a400b500e8622c077a43c18e4ab7c814abfd8d3258daad34;
 runtime inputs/readiness must bind before execution. NOT RUN,no quality promotion.
+
+Software correction8fafaf7;delivery74sealed files,manifest
+a8b4e1e5dc0b0b4e3d69bdfef778bb7a92e4e0b7f0ee048d692b91433f241d4a.
+Candidate code/prompt/schema/default-settings freeze SHA256
+dac9636ac92d08914d78bba7f75ea223c211093fbfd5811d8f8a30e2eff530b9.
+Complete executable inputs/runtime readiness still required before actual inference.
+Owner token-usage question scoped to this thread;local counter snapshot and official
+guidance saved separately. No diagnostic agents,reasoning/config or source changes.
