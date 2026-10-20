@@ -41,7 +41,7 @@ regressions,and where can question understanding live without another sidecar?
    implementation or new inference. Require exact question parts before evidence,
    per-part evidence-path requirements,host unknown semantics,coverage validation
    and separate actual-model gate;preserve separate language call/Prolog/RAG.
-5. [ ] One independent whole-change review,one focused fix pass if needed,explicit
+5. [x] One independent whole-change review,one focused fix pass if needed,explicit
    same57-selection regression gate,dated results/compact snapshots/sealed receipts.
    Report software guards and actual quality failures separately;stop adding tests
    when their claimed failure mode is already protected without new risk.
@@ -71,3 +71,10 @@ Refactor baseline620passed2.31s;first merged fixture21pass/1fail1.71s corrected 
 RAG-null decision assumption;verified22passed1.50s. Collection after1643items/
 648functions/10hygiene items;full checks remain. Audit/results and existing-router
 recovery design delivered;no product/inference change. Raw receipts remain ignored.
+
+Task5 complete:one independent review154passed2.64s;one P2 aggregate-output
+truncation reproduced RED (15of20paths hidden) and fixed GREEN (all20shown).
+Correction4620a92;no re-review. Final same57-selection gate1643passed/66subtests
+89.02s,exit0.132sealed files,manifest
+37dce8243a22e27443257a396e669f436021c056d5850c48c8715f88539ca10b;
+prior62observation files unchanged. Phase09 remains active;actual quality still0/8.

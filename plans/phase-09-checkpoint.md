@@ -2,125 +2,119 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 65
+sequence: 66
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 90e3257
+head_commit: 4620a92
 working_tree: dirty
-updated_at: 2026-10-20T17:28:34.3806131+08:00
+updated_at: 2026-10-20T17:57:27+08:00
 ---
 
-# Phase09 checkpoint - fixed part analyzer fails actual quality
+# Phase09 checkpoint - test meaning audited;actual quality unresolved
 
 ## Completed Tasks
 
-Owner timing referenceea749da:Context/response-time-recommendation.md and AGENTS.
-Plan ce9d993/product6073fbe implements detached parts.py two-call analyzer with
-exact quote/identity guards,one deadline and safe failure states. Single frozen
-8case actual-model observation FAILED0/8;[results](2026-10-20-question-parts-observation-results.md)
-preserves exact outputs/limits. Software verified;no runtime/profile promotion.
-Last full prior checkpoint6073fbe. Selected scoped/canonical/separate unchanged;
-guarded/covered and new analyzer stay unselected. No correction/model sweep.
+Owner [test audit](2026-10-20-test-meaning-audit-results.md) and
+[bounded plan](2026-10-20-test-meaning-and-recovery-plan.md) complete.
+2240expanded items/649functions included605format cases;consolidated full-file
+scan/duplicate prompt checks now1643items/648functions/10hygiene cases. All governed
+files and RAG/Hybrid prompt contexts retained. Six existing sampled guard tests
+detect six deliberate regressions;not whole-suite or semantic-accuracy proof.
+Refactor d87d0c7/format011bc2d;review correction4620a92 prints all failure paths.
+[Existing-router recovery design](2026-10-20-router-question-understanding-recovery-design.md)
+complete as design only;no new runtime behavior,profile or inference.
+Last full prior checkpoint4620a92. Prior detached analyzer6073fbe actual quality
+FAILED0/8;[observation](2026-10-20-question-parts-observation-results.md) unchanged.
 
 ## Current Task
 
-Owner [test audit](2026-10-20-test-meaning-audit-results.md):2240expanded cases/
-649functions included605doc-format cases. Consolidated full-file scan and duplicate
-prompt checks;after1643items/648functions/10hygiene cases. Six deliberate guard
-bugs detected by existing tests;not whole-suite or semantic accuracy proof.
-[Recovery design](2026-10-20-router-question-understanding-recovery-design.md) uses
-existing interpreter/typed propagation;design only,no product/model change.
-Independent review/final57-selection gate pending.
-Context17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
+Audit/refactor delivery verified and sealed. Next implementation must carry explicit
+requested parts through existing pre-evidence interpretation,orchestration and
+generation with versioned request/question/release binding and unknown semantics.
+Context thesis17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no new
+discrepancy. Thesis missing-as-false example stays illustrative;host unknown remains.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;parent90e3257,verified product6073fbe. Remaining
-changes:3test files,audit plan/results,recovery design,progress/checkpoint.
-No unrelated owner changes found. Existing CUDA18088 ready for this batch;CPU18087
-last recorded stopped intact,default18087 unchanged. No DB/service startup work.
-No Phase10,student API,push,merge,deployment or activation.
+p09/feat/p09-generation-validation;verified test fix4620a92,product6073fbe unchanged.
+Remaining delivery docs:INDEX,current progress,this checkpoint,audit plan/results.
+No unrelated owner changes. No service startup/DB work. Existing CUDA18088/default
+18087 and owner workspace/MODELS configuration unchanged. Phase09 active;
+no Phase10,student endpoint,push,merge,deployment or activation.
 
 ## Verification Evidence
 
-Audit baseline15cases passed;6isolated real-guard mutations caused1/1/3/1/1/1
-intended assertion failures. No production file modified. Old/new format scanner
-reject both damaged synthetic copied docs with all paths/control codes. Refactor
-baseline620pass2.31s;first merged run21pass/1fail1.71s corrected RAG-null test fixture;
-verified22passed1.50s. Raw workspace/audit-evidence/p09-test-meaning-audit-20261020/
-retains inventories,exact mutations/commands/function hashes,receipts and logs.
+Audit baseline15passed. Six isolated in-memory guard mutations cause1/1/3/1/1/1
+intended assertion failures:wrong release,private reference,negative support,
+missing part,foreign request review and100xshared deadline. Source files unchanged.
+Original/new scanner both reject two synthetic corrupted files with paths/codes.
+Refactor baseline620passed2.31s;first merged run21pass/1fail1.71s corrected a
+RAG-null test-fixture assumption;verified22passed1.50s. No production correction.
 
-Analyzer RED45missing-module assertions1.59s;firstGREEN44pass/1fail1.20s from a
-hand-counted fixture end25instead26,corrected test only,original log retained.
-Generation/reference GREEN376passed4.44s,exit0. One fresh code review
-ae9ff28..6073fbe175passed1.89s/no actionable finding;no software fix pass/re-review.
-Final57-selection gate2239passed/66subtests92.19s,exit0;no product changes after
-inference/gate. Guide subsequently records failed quality,no executable change.
+ONE fresh independent review073f76e..011bc2d:154passed2.64s;single P2 truncated
+aggregate failure diagnostics. Root20synthetic-file RED hides15paths;explicit
+failure-text GREEN shows all20,expected pytest exit1 preserved. One fix pass,
+no re-review. Initial57-selection gate1643passed/66subtests94.58s;AFTER correction
+final same gate1643passed/66subtests89.02s,exit0. No executable changes afterward.
+Exact scripts/nodes/mutations/source hashes/receipts/logs in ignored raw directory.
+Python3.13.7,-B -m pytest -q -p no:cacheprovider;workspace TEMP/TMP/basetemp.
+Docs/phase30passed/14subtests11.53s;87local links and snapshot caps pass. Initial
+81line index corrected to80. Phase state valid,active9;can-advance correctly refuses.
 
-ONE batch8cases/11calls:five invalid source-copy extractions blocked second call;
-three unknown-kind structured cases reviewed/unresolved with unmapped_claim.
-EN4/FIL2/Taglish2cases;correct structured kind0/3;reference agreement0/3assessed,
-0of8overall pass decisions. Host ledger prevents unsupported positive decision,
-but withholding does not prove correct kind/coverage. No operational errors/repairs.
-Researcher reviewed actual quotes/mappings separately from strict-span scoring.
-FIL supplied draft code-switches despite positive style verdict;no new answer prose.
-verification-commands.json/relevant-selections.txt/verify-regressions.ps1 retain
-executed commands/selections;red.log/green.log/green-verified.log/final-regressions.log
-and reviewer/ retain results. Python3.13.7,-B -m pytest -q -p no:cacheprovider;
-ignored workspace TEMP/TMP/basetemp. Prior scorer/foundation results linked below.
-Docs/phase gate625passed/14subtests14.09s,exit0;101local links/active caps pass.
-Phase valid,active9,cannot advance. Later doc-check logs excluded from fixed seal.
+Prior actual analyzer observation:ONE8case/11call batch,five invalid source-copy
+extractions blocked review,three unknown-kind structured cases unresolved with
+unmapped_claim. No mapped ledger;correct structured kind0/3;strict agreement0/3
+assessed/0of8overall pass decisions. EN4/FIL2/Taglish2. No operational errors/repairs.
+Documentary part review unexercised. Software green does not resolve semantic P2s.
 
 ## Versions and Digests
 
-Raw:workspace/audit-evidence/p09-question-parts-observation-20261020/.62sealed files;
+Raw workspace/audit-evidence/p09-test-meaning-audit-20261020/:132sealed files;
+manifest37dce8243a22e27443257a396e669f436021c056d5850c48c8715f88539ca10b.
+inventory-before/after,mutation-specs/results,per-mutation receipts and reviewer/
+retain exact evidence;many-hygiene-red/green bind20synthetic documents and logs.
+source-delivery/ binds all3test files. Later documentation-check logs excluded.
+Prior p09-question-parts-observation-20261020/:62sealed files verified unchanged;
 manifest46823c29023e5146443eeebb9bf1105f65ed8624367e13dd6d8d3c5f179e2f77.
-Frozen8cases SHA256187a6d594ac8c1c9eb65aad2232f3682a9fa1d4cbe9fca2354074b6af07ea21c.
-frozen-inputs.json/pre-inference.json bind original sources,full author references,
-prompts/code/observer/server metadata. Per-case JSON/traces retain full messages,
-schemas,outputs,usage/timings;root-assessment.json records actual failure findings.
-source-inference/source-delivery retain bytes,single-attempt.lock prevents rerun.
-Prior [scorer20](2026-10-20-question-parts-evaluation-results.md),
-[foundation16](2026-10-20-question-parts-results.md) and
-[coverage103](2026-10-20-question-coverage-results.md)sealed files verified unchanged.
-Later doc-check logs excluded. Historical123line handoff unchanged4022711 preserves
-its inherited3line exception. No installs/downloads/model copy/rehash/DB/lock changes.
-Existing b11723-31288c9c6/context8192/output768/temp0/seed0/cachefalse/reasoningnone,
-35/43GPU layers,owner workspace/MODELS reused. Template SHA256
-74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32126f3f6b3.
-Observation transport240s/sharedanalysis480s;shipped120s infer/generation/stage,
-180s request unchanged. Thesis PDF inherited SHA256
+Frozen8cases187a6d594ac8c1c9eb65aad2232f3682a9fa1d4cbe9fca2354074b6af07ea21c.
+Prior scorer4f39833/foundationf106070 and coverage evidence remain detached.
+Thesis inherited SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
+Historical123line handoff unchanged4022711 retains inherited3line exception.
+No installs/downloads/model copies/rehash/training/DB/lock/dependency changes.
 
 ## Decisions
 
-Accuracy first. Reject analyzer promotion after actual quality failure;no prompt/
-model/seed/budget change or rerun. Keep ledger/scorer detached and semantic
-completeness ALWAYS unverified. Full author reference artifact hashes are required
-provenance,not proof of truth. Do not silently relabel after output.
-Outer7.803882-22.817629s is component-only extraction/review duration,not complete
-validated answer. HTTP props/template/tokenization/inference included;stage spans
-nested. No routing/embedding/retrieval/Supabase/Prolog/API/browser/queue/cold-start/
-isolated handshake measurement. Not p50/p95,SLA or student acceptance.
-Proposed15-20s warm student-visible/conditional20-30s complexHybrid target saved in
-Context/AGENTS remains unachieved. Previous actual RAG27.265337s was incomplete;
-earlier startup24.184131s/localSupabase readiness0.062273s are separate historical
-metrics. Undergrad/read-only/structured-Prolog/unknown/source-gap/privacy/source/
-release gates and one-week accuracy cap persist.
+Accuracy first. Count assertions/parameter inputs/format checks separately from
+actual-model quality. Six sampled mutations cannot certify every test. Retain
+meaningful adversarial/security/version/unknown checks;stop count-only growth.
+No analyzer promotion,correction,model/seed/budget sweep or new classifier.
+Existing-router design requires coherent versioning,semantic part understanding,
+release/request binding,reviewed Prolog for structured decisions and RAG for text.
+Scorer/ledger semantic completeness ALWAYS unverified;author labels are provenance.
+Saved timing recommendationea749da:Context/response-time-recommendation.md/AGENTS;
+15-20s warm student-visible target,preferunder10short,conditional20-30s complex
+Hybrid unproven. Component7.803882-22.817629s is not complete-answer latency;
+router/retrieval/embedding/Supabase/Prolog/API/browser/queue/cold-start/isolated
+handshake unmeasured. Prior incomplete RAG27.265337s fails quality. Earlier
+startup24.184131s/localSupabase readiness0.062273s are separate historical samples.
+Undergrad/read-only/source-gap/privacy/source/release gates and one-week cap persist.
 
 ## Known Failures or Blockers
 
-Source/question confusion5/8;structured-kind miss3/3. Multipart documentary review
-unexercised. Prior coverage/guard semantic P2s,upstream2Taglish style errors,opaque
-IDs,source/institutional/runtime/privacy/auth/hosted holds and student wait/tail/
-end-to-end validation remain unresolved. Passing software tests do not resolve them.
+Actual source/question confusion5/8,structured-kind miss3/3,multipart documentary
+review unexercised. Prior guard/coverage semantic P2s,upstream2Taglish style errors,
+opaque IDs,source/institutional/runtime/privacy/auth/hosted holds and student-wait/
+end-to-end validation remain unresolved. Test counts do not establish accuracy.
 
 ## Next Action
 
-One fresh whole-change review,then same57-selection full regression gate and sealed
-audit/refactor/design delivery. No inference/profile or production behavior change.
+Implement the existing-router recovery as one coherent versioned contract change:
+focused RED/GREEN for extraction,binding,typed propagation and unresolved structured
+coverage. Freeze the separate future actual-model gate before any new inference.
 
 ## Do Not Repeat
 
-Settled source/benchmark reviews,model setup,combined/short-ID/guard/coverage failures,
-scoped9+3,coverage6+1or analyzer8case observations. No unchecked streaming,accuracy-
-for-speed trade,prompt/model sweep or Phase10 advancement.
+Settled source/benchmark reviews,model setup,completed test inventory/six mutations,
+fresh whole-change review,combined/short-ID/guard/coverage failures,scoped9+3,
+coverage6+1or analyzer8case observations. No unchecked streaming,accuracy-for-speed
+trade,prompt/model/seed/budget sweep or Phase10 advancement.

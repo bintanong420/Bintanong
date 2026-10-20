@@ -96,3 +96,12 @@ again1643passed/66subtests89.02s,exit0;fixed-regressions.log retains the final r
 The second run was required by the newly fixed reporting issue. No selected runtime
 changes,Phase10,push,merge,deployment,institutional activation or new latency claim.
 Accuracy-first,scope/privacy/source/release boundaries and one-week cap persist.
+
+Delivery commits:d87d0c7refactor,011bc2dformat,4620a92review correction.132raw files
+sealed;manifest SHA256
+37dce8243a22e27443257a396e669f436021c056d5850c48c8715f88539ca10b.
+All62prior actual-observation files verified unchanged. Later documentation-check
+logs are deliberately excluded from this fixed seal;production backend unchanged.
+Documentation/phase checks30passed/14subtests11.53s.87local pointers and snapshot
+caps pass after joining one index line (initial81line snapshot exceeded80line cap).
+Phase state valid,active9,can-advance refuses as required.
