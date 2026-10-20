@@ -46,7 +46,11 @@ def test_no_control_characters():
         report = control_character_report(path.read_bytes().decode("utf-8"), path.suffix)
         if report:
             findings[path.relative_to(ROOT).as_posix()] = report
-    assert findings == {}
+    if findings:
+        pytest.fail(
+            "\n".join(f"{path}: {', '.join(report)}" for path, report in findings.items()),
+            pytrace=False,
+        )
 
 
 @pytest.mark.parametrize("text,count", [

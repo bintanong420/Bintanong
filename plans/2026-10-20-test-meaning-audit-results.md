@@ -26,8 +26,8 @@ test_compact_json_guidance.py. Routing/style run once each;draft/support cover B
 RAG and Hybrid. Schema acceptance-equivalence/adversarial tests stay in
 test_prompt_schema_display.py. One repeated test body removed;no production edits.
 After collection:1643items from648distinct selected functions,including10hygiene
-items. Baseline-to-after difference597reflects consolidation and2duplicate cases,
-offset by1new planning document before consolidation. It is not removed safeguards.
+items. Baseline-to-after difference597reflects595fewer format items and2duplicate
+prompt cases. It is not removed safeguards;later documents remain fully scanned.
 
 ## Six deliberate-bug checks on EXISTING tests
 
@@ -59,6 +59,14 @@ First merged prompt run21pass/1fail1.71s exposed a Hybrid-only test fixture read
 pack.decision.outcome for a RAG null decision. Corrected fixture to preserve the
 old RAG test's null case;no production correction. Verified22passed1.50s.
 
+One fresh whole-change review of073f76e..011bc2d independently ran154selected tests
+(all passed2.64s) and found one P2:normal pytest dict-diff output truncated a large
+aggregate failure report. All files were checked,but15of20damaged paths were hidden.
+Root reproduced RED on20synthetic copied documents,then replaced the dict assertion
+with explicit complete failure text. GREEN confirms all20paths visible while the
+damaged documents still cause the expected pytest exit1. One focused fix pass;
+no re-review or original-document damage. Exact logs/receipts remain ignored.
+
 Direct assertion review covered generation validation,part analysis/ledger/reference
 scoring,pipeline composition,schema-display/compact prompt tests,math/import
 compatibility and document hygiene. Collection inventory covers all57selections;
@@ -74,7 +82,7 @@ source/function hashes,patches,commands and outcomes. Hygiene before/after copie
 and logs retain synthetic equivalence evidence. No new tracked test was added to
 raise a count;no new model/service/DB call or dependency change occurred.
 
-## Recovery direction and remaining gate
+## Recovery direction and verification
 
 [Router recovery design](2026-10-20-router-question-understanding-recovery-design.md)
 locates question parts in the EXISTING pre-retrieval interpretation stage,with
@@ -82,6 +90,9 @@ versioned request/release-bound propagation to output validation. This is design
 only;it does not claim source removal fixes the model or authorize new inference.
 It preserves the separate language call,LLM semantics,structured Prolog and RAG.
 
-Independent whole-change review/final same57-selection gate pending. No selected
-runtime changes,Phase10,push,merge,deployment,institutional activation or new latency
-claim. Accuracy-first,scope/privacy/source/release boundaries and one-week cap persist.
+Independent review is complete with the single reporting correction above. Initial
+same57-selection gate1643passed/66subtests94.58s. AFTER correction,the final gate
+again1643passed/66subtests89.02s,exit0;fixed-regressions.log retains the final result.
+The second run was required by the newly fixed reporting issue. No selected runtime
+changes,Phase10,push,merge,deployment,institutional activation or new latency claim.
+Accuracy-first,scope/privacy/source/release boundaries and one-week cap persist.
