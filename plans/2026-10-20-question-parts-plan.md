@@ -61,12 +61,12 @@ source-content decision,latency claim or Phase09 completion follows from deliver
    documenting that omitted-plan parts or wrong semantic mappings remain unverified.
    Add pure helper to assess a supplied review;no renderer or inference caller.
    Verify focused/relevant regressions and commit cohesive code+module guide.
-3. [ ] Reuse the already saved failed actual-service output OFFLINE ONLY,with
+3. [x] Reuse the already saved failed actual-service output OFFLINE ONLY,with
    explicitly author-labeled location/fee requirements. Show missing fee mapping
    yields unresolved ledger even if the old aggregate checker said complete.
    Contrast a deliberately omitted fee requirement to disclose extraction risk.
    No new questions,benchmark execution,model call,DB or source modification.
-4. [ ] One independent review,one focused TDD fix pass for important findings,
+4. [x] One independent review,one focused TDD fix pass for important findings,
    explicit55-selection regression gate,dated results and compact progress/
    checkpoint/index. Keep actual semantic failures open;preserve raw evidence.
 
@@ -95,3 +95,9 @@ Tasks1-2:68expected missing-module assertion failures1.63s;GREEN68passed0.71s;
 generation regressions296passed3.64s. Exact commands/logs in ignored question-parts
 root:red.log,green.log,relevant.log. No selected runtime changes. Nested records
 inherit their enclosing schema version,matching existing contract conventions.
+Task3:assess_saved.py checked3author-labeled scenarios using only saved bytes;
+missing fee unresolved,omitted extraction/wrong semantic mapping still mechanically
+mapped and always unverified. Full receipts:saved-output-assessment.json. No inference.
+Task4:one fresh review722cc6e..f106070 found no actionable defect;175passed2.59s.
+No fix pass required. Explicit55-selection gate2156passed/66subtests90.82s,exit0.
+See [results](2026-10-20-question-parts-results.md) for limits and recovery evidence.

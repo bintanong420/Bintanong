@@ -1,18 +1,23 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-coverage-results.md).
-Last full prior snapshot722cc6e:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-parts-results.md).
+Last full prior snapshotf106070:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Question-parts foundation plan722cc6e:detached requirements.py binds exact spans,
+Question-parts foundation plan722cc6e/productf106070:requirements.py binds exact spans,
 request/evidence/plan/draft and each declared claim-or-unavailable mapping. Missing
 fee mapping stays unresolved;structured checks cannot be replaced by documents.
 Always semantic_completeness=unverified;omitted extraction or a wrong semantic map
 can still pass mechanically. No Generator/profile selection or model call. RED68
 expected failures1.63s/GREEN68passed0.71s;generation regressions296passed3.64s.
-Raw workspace/audit-evidence/p09-question-parts-20261020/;review/full gate pending.
+Offline saved-output3checks:declared missing fee unresolved;omitted extraction/
+wrong semantic mapping still mechanically mapped and always unverified. One fresh
+review:no actionable findings,175passed2.59s. Final55-selection gate2156passed/
+66subtests90.82s,exit0. Raw workspace/audit-evidence/p09-question-parts-20261020/:
+16sealed files,manifest61bce1225350974db2f1887e031accaba34e24b658c7fa03546259a53dfa89f9.
+Prior103sealed coverage files verified unchanged. No product changes after gate.
 
 Owner asks to preserve researched timing recommendation:ea749da saves
 [Context reference](../../Context/response-time-recommendation.md) and AGENTS pointer.
@@ -20,31 +25,11 @@ Proposed15-20s warm browser end-to-end,preferunder10s short questions,conditiona
 20-30s complex Hybrid;unproven targets,accuracy first. Startup/connections/Supabase/
 queues/API/network/browser metrics stay separate. Existing research not repeated.
 
-Coverage plan6eca2ac/product040c27d adds explicit covered profile:existing RAG
-review assesses whole-question coverage plus source support/language/scope. Complete
-plus supported required;partial/none/uncertain localized withholding. No extra
-classifier,routing change or rule execution. Per-draft host observations/reset,
-strict release binding,one repair/deadline and per-case actual review hashes.
-
-Prepared6cases pass:3normalRAG answers/9supported claims;3forced structured RAG
-withheld across EN/FIL/Taglish,12calls/zero repairs. Saved-output6passed0.30s.
-BUT sole actual-service question asks location AND fee;only location answered.
-Fee40tokens was present in full source. Model falsely complete;answered/validated.
-Reviewer confirms one P2,243focused tests5.18s/no other actionable finding. Unreleased
-FIL draft mixed style despite positive checker;negative scope verdicts co-occur,
-so coverage-specific causal gain is not established. No institutional accuracy claim.
-
-Reject promotion;covered stays explicit/unselected. Scoped/canonical/separate
-remains selected;prior guarded experiment separately rejected. No correction sweep.
-Actual corrected saved-output regression1failed/6passed0.31s. Initial loose40
-assertion falsely matched citation hash;fixed claim40tokens check/receipts retained.
-Speculative promotion RED2 never implemented;default-isolation tests replace them.
-Coverage RED32/GREEN187tests2.96s;expanded841pass5.20s;rejection844pass5.18s.
-Final54-selection gate2086passed/66subtests91.14s,exit0;producteb9ceb9.
-103sealed files verified;manifest99b01941513be459dfe3714618174c07ee552f91d42796902240f6ced5741003.
-91links/active snapshot caps pass. Raw:workspace/audit-evidence/p09-question-coverage-
-20261020/:source/input/prompt/observer hashes,full outputs,review/failed tests.
-Docs/phase gate619passed/14subtests12.91s;phase valid,active9,cannotadvance.
+Prior [coverage results](../2026-10-20-question-coverage-results.md) preserve the
+actual location-and-fee semantic P2:source had40tokens,but only location answered,
+checker falsely complete. Covered and guarded experiments remain explicit/unselected;
+scoped/canonical/separate remains selected. The detached foundation does not fix
+this semantic failure. No correction sweep or institutional accuracy claim.
 
 ## Timing and preserved boundaries
 
@@ -64,6 +49,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Assess saved failed output OFFLINE with author-labeled location/fee requirements,
-then one whole-change review and55-selection gate per the
-[question-parts plan](../2026-10-20-question-parts-plan.md). No model run.
+Define a bounded validation gate for extraction completeness and semantic
+claim-to-part correctness before runtime integration or inference promotion.
+Reuse saved evidence;do not repeat failed prompt/model/seed/budget experiments.
