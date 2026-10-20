@@ -1,54 +1,54 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Delivery](../2026-10-20-router-quoted-reference-results.md).
-Last full prior snapshot3c4cfd4:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Actual results](../2026-10-20-quoted-reference-focused-observation-results.md).
+Last full prior snapshot5e44625:plans/plan_current_progress/current_progress.md.
 
-## Latest delivery
+## Latest result
 
-Owner-approved quoted-reference software delivered:Task1 71be2fd,Task2 9a72d2e.
-WireInterpretation v1 supplies exact text/occurrence references;host computes spans
-and numeric mention references,then existing Interpretation v2/dispatch checks run.
-Selected separate and explicit/unselected combined share one normalizer. Promptv11
-adds one fictional role contrast and separate-detail guidance. Prolog prerequisites,
-institutional records,generation contracts,required checks and budgets unchanged.
+One frozen four-case actual-model observation completed at5e44625/code9a72d2e.
+Response requirements met2/4;strict full-quality gate0/4:FAIL,no promotion.
+English d-en duplicates whole-question parts on initial+sole repair;host rejects.
+Filipino/Taglish correctly answer Office K and7tokens with citations,but each
+combines two requested details into one part. Hybrid preserves ZX201 target and
+failed ZX101,but reported mode triggers clarification before Prolog;structured
+part also includes its document question. Zero actual Prolog executions.
+Exact references do not establish semantic correctness or completeness.
 
-Task1 15RED0.72s then58GREEN0.59s;Task2 7RED0.93s then22GREEN1.12s.
-Runtime-fixture migration29fail/123pass corrected;152GREEN3.67s. Relevant31file
-gate688passed13.96s. One fresh whole-change review:no consequential findings or
-deferred minors;read-only,no repeated tests or model calls. No re-review needed.
-Software freeze binds12changed code/test files;SHA256
-a56937613c3e1dd97a6a79603b44f68c5fd25031a4e668271cf86d6ae86a1756.
-Raw workspace/audit-evidence/p09-router-wire-20261020/:16sealed files. Fresh docs
-10passed5.86s;90links/caps,139prior sealed files and12source hashes verified.
-Phase state valid,active9;advancement correctly refused. Seal SHA in checkpoint.
+Correct complete component answers61.672/67.224s;failed/control54.740/35.832s.
+Includes local model HTTP/host validation/trace writes;fixed passage bypasses
+retrieval. Excludes embedding/vector/Supabase/API/browser/external network,
+load/queue,fixture preparation,pre-batch readiness and cold startup. Readiness
+0.137141s is one resident-service HTTP exchange,not isolated connection setup.
+12model calls/48HTTP exchanges;one format repair,zero answer repairs/reruns.
+Four router reasoning fields remain despite requested none. Local Gemma usage
+23711prompt/3792completion tokens is separate from Codex quota.
 
-New actual-model quality and latency NOT MEASURED. Prior3/8 complete responses,
-59.6-79.1s component timing and wrong-target/omitted-fact/style failures remain
-historical;do not score this candidate from those outputs. Exact references cannot
-prove semantic meaning/completeness. No inference or experimental batch rerun.
+New ignored raw:workspace/audit-evidence/p09-wire-focused-gate-20261020/.
+Binding c03c65d568fba873b20c258dfd7b1190c0a1690f668ca514f3c2ed7eafe45848
+fixes181backend/vocabulary hashes,exact inputs/labels/settings and execution HEAD.
+All155prior sealed files,181backend/vocabulary and12software-freeze hashes verified
+after run. Fresh docs10passed0.84s;83links/caps pass;phase valid,advance refused.
+New37raw files sealed;manifest in checkpoint. No product change or model rescue.
+Previous688software tests/one whole-change review remain historical;not repeated.
 
 ## Standing boundaries
 
-Conditional execution remains excluded pending separate owner decision/design;
-asserted/hypothetical/reported modes retain guards. Requested reasoning settings
-unchanged;unexpected thinking is not declared fixed. No zero reasoning budget.
-Thesis17-18/39-44,actual PNG/master3/11/13/14 consulted in this active recovery;
-no new discrepancy. Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/
-institutional-release holds and one-week cap persist. Accepted75variants unchanged.
+Four explicit if/kung cases held for unanswered conditional choice;no mode coercion,
+conditional execution or inferred approval. Existing guards/settings retained.
+Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release holds,
+accepted75institutional variants and one-week accuracy-work cap persist.
+Context thesis17-18/39-44,actual PNG/master3/11/13/14 consulted in active recovery;
+no scope discrepancy. Missing remains distinct from documented unmet conditions.
 [Saved recommendation](../../Context/response-time-recommendation.md):15-20s warm
 complete browser/conditional20-30complexHybrid remains proposed and unvalidated.
-Accuracy first;startup/readiness/Supabase/embedding/network/API/browser/queue
-metrics/exclusions separate. No Phase10,training,installs,dependency/source/DB changes,
-push,merge,deployment or activation. One native implementer/one final reviewer;
-prior [Codex usage findings](../2026-10-20-session-token-usage-observation.md) retained.
+Accuracy first. No Phase10,training,install,dependency/source/DB changes,push,
+merge,deployment or activation. No extra agents or broad test rerun this turn.
+[Earlier Codex usage findings](../2026-10-20-session-token-usage-observation.md) retained.
 
 ## Next action
 
-Freeze/execute the [four-case protocol](../2026-10-20-quoted-reference-focused-quality-gate.md)
-once:three unchanged document cases and past-failure Hybrid h-en. Four explicit
-if/kung cases remain held for the unanswered conditional choice;no mode coercion.
-Selection fixed before inference;zero new calls so far. Verify readiness/exact
-inputs/code/settings before running;unavailable/mismatch means NOT RUN. Separate
-response success,strict part/meaning quality and component timing;no rescue probes,
-old-batch rerun,parameter sweep,overall accuracy or browser latency claim.
+Use the sealed four-case traces for one bounded correction design for distinct
+requested parts and claim-mode meaning. Preserve quoted
+identity/guards;conditional-answer choice remains separate. No more calls in
+this observation,no sweep,old-batch rerun or premature capability/latency claim.

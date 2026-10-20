@@ -21,10 +21,10 @@
   in p09; Phase10 not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [Quoted-reference software verified;actual quality pending](2026-10-20-router-quoted-reference-results.md);[prior3/8actual gate](2026-10-20-router-understanding-observation-results.md);[test audit](2026-10-20-test-meaning-audit-results.md).
+- [Quoted-reference actual check:2/4responses,0/4full quality](2026-10-20-quoted-reference-focused-observation-results.md);[software verification](2026-10-20-router-quoted-reference-results.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - Guard/coverage experiments failed quality;both explicit/unselected,Phase09 exit held.
-- Scoped/canonical/separate selected;historical complete component answers59.6-79.1s;new candidate and student end-to-end latency unmeasured.
+- Scoped/canonical/separate selected;two current complete component answers61.7-67.2s;student end-to-end latency unmeasured.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified;university/institutional runtime/activation holds remain;full-prospectus conversion stays draft.
 
