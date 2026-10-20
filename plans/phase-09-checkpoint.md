@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 35
+sequence: 36
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 92d55e4
+head_commit: 107a3ce
 working_tree: dirty
 updated_at: 2026-10-20T11:28:51+08:00
 ---
@@ -21,7 +21,9 @@ Last full pre-condensation snapshot6ae711c;historical handoff is not advancement
 
 ## Current Task
 
-Failed candidate results sealed;prepare session handoff for owner budget limit. No further
+Resumed from clean107a3ce;short-reference design/TDD plus latency-acceptability
+research underway. [Bounded plan](2026-10-20-short-evidence-references-plan.md).
+Previous failed candidate results sealed. No further combined
 inference needed:12/15proposed/effective routes,15/15entities/claims/operations,
 10/15styles;17host offset corrections in8cases. Three greetings wrongly route
 RAG;four prior-correct styles regress. Fifteen actual calls,zero repairs;all packets
@@ -31,10 +33,9 @@ Combined remains explicit experimental opt-in,not selected for student use.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified product/default guards92d55e4.
-Remaining delivery changes:INDEX,current progress,this checkpoint,dated combined
-results/session handoff,and routing/runtime READMEs. Next commit is docs only;
-head_commit records its verified product parent,not a self-referential commit hash.
+p09/feat/p09-generation-validation;clean resume HEAD107a3ce includes default guards
+92d55e4 and prior session wrapper. Current edits:bounded short-reference plan,
+current progress and this checkpoint. Preserve all previous sealed results.
 CUDA bintanong-p09-cuda-latency running18088;CPU bintanong-p07-router-offline stopped
 intact. Default URL18087 unchanged;explicit18088 required. No Phase10 branch/work,
 student API,push,merge,deployment or new source activation.
@@ -75,8 +76,10 @@ workspace/MODELS;no model copies. RTX3050Laptop4096MiB/driver596.36,auto35/43lay
 fit margin512MiB/context8192/threads8/output768/temp0/seed0/reasoning-none/cachefalse.
 Budgets240s inference/generation,300s stage,600s request unchanged. Python3.13.7/
 Pydantic2.13.5/HTTPX0.28.1/Janus1.5.2/SWI10.1.15/encoder6.1.0 retained.
-Thesis physical17-18/39-40,actual PNG/master12-14 reconsulted after rollover;
-no scope/routing discrepancy;undergraduate/read-only/structured-Prolog preserved.
+Thesis physical17-18/39-44 freshly read from byte-matched p07 extraction;
+PDF SHA256729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
+Actual PNG/master3/11-14/17 reconsulted. Standing unknown semantics supersede the
+illustrative closed-world example;undergraduate/read-only/Prolog preserved.
 
 ## Decisions
 

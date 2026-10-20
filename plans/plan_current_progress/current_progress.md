@@ -6,6 +6,12 @@ Last full pre-condensation snapshot:6ae711c:plans/plan_current_progress/current_
 
 ## Latest delivery
 
+Resumed clean107a3ce on20October. Owner requests continuation plus intensive
+research on a defensible response-time target for an undergraduate research chatbot.
+[Short-reference plan](../2026-10-20-short-evidence-references-plan.md) scopes the
+recorded next action;canonical default remains until evaluated. Research will
+distinguish full validated-answer latency,first-token delay and task completion.
+
 Owner continues latency work. Combined routing/style candidate6ae711c implements
 [the bounded plan](../2026-10-20-combined-routing-plan.md);actual-model quality gate
 FAILED. Keep separate default;combined remains explicit experimental developer
