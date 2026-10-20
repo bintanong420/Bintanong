@@ -44,7 +44,7 @@ unchecked review. Keep source text complete and existing default pipeline unchan
 
 ## Tasks and fixed observation gate
 
-1. [ ] Focused tests/test_generation_parts.py RED,then minimal contracts/prompts/
+1. [x] Focused tests/test_generation_parts.py RED,then minimal contracts/prompts/
    analyzer GREEN. Test two-call bound,typed quotes/original offsets/identity,
    missing/repeated spans,foreign part/claim IDs,private/nonready/non-RAG inputs,
    support failures,structured withholding,empty/malformed/truncated/tool failure,
@@ -99,3 +99,9 @@ cannot cross requests/drafts;no raw identifiers/gold labels in messages;one dead
 and at most2calls;component timings are not validated answer or browser latency.
 Ruling:owner continuation authorizes this bounded reversible candidate experiment;
 prompt guidance remains inference-only. No repeated failed aggregate-checker sweep.
+
+Task1:RED45expected missing-module assertion failures1.59s. First implementation
+44passed/1failed1.20s:hand-counted Unicode end offset25 was wrong;visible quote is
+15characters at11..26. Corrected test expectation only,retaining original log.
+Relevant generation/reference GREEN376passed4.44s,exit0 (green-verified.log;
+relevant-selections.txt). No selected runtime change or inference yet.

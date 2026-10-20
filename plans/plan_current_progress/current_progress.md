@@ -6,6 +6,12 @@ Last full prior snapshot4f39833:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Plan ce9d993 Task1 adds detached parts.py:one extraction+one per-part review call,
+shared deadline,host-resolved exact quotes,identity/schema/privacy guards and safe
+failure states. RED45failures1.59s;firstGREEN44pass/1fail1.20s corrected a hand-counted
+Unicode fixture offset only;verified generation/reference376passed4.44s. No inference
+or selected runtime change. Fixed8case observation/review/full gate pending.
+
 Reference plan8b9457f/product4f39833:evaluation/question_parts.py scores exact
 span/kind extraction and mapping against frozen synthetic author labels. Omitted
 parts stay in denominators;correct uncertainty can agree but remains unresolved.
@@ -51,6 +57,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Execute [fixed observation plan](../2026-10-20-question-parts-observation-plan.md):
-TDD detached two-call analyzer,freeze8fictional cases,one maximum16-call actual
-batch. No runtime selection or repeated prompt/model/seed/budget sweep.
+Freeze8cases/references,one fresh code review,then one maximum16-call actual batch
+per [fixed plan](../2026-10-20-question-parts-observation-plan.md). No runtime
+selection or repeated prompt/model/seed/budget sweep.

@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 60
+sequence: 61
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: ae9ff28
+head_commit: ce9d993
 working_tree: dirty
 updated_at: 2026-10-20T16:53:14.4945302+08:00
 ---
@@ -23,22 +23,27 @@ covered/guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Resumed cleanae9ff28. New [fixed observation plan](2026-10-20-question-parts-observation-plan.md)
-implements a detached two-call extractor/per-part reviewer,then freezes8synthetic
-cases for one actual-model batch. No product edit/inference yet. Selected runtime
-unchanged;prior scorer question resolved and semantic P2 remains open.
+Resumed cleanae9ff28;plan ce9d993 Task1 implements detached parts.py analyzer,
+45tests/module guide. At most2calls/one deadline,exact unique quote resolution,
+request-bound review and existing ledger;no answer or runtime wiring. Freeze8cases,
+independent review and single actual-model observation/full gate remain pending.
 Scope17-18/architecture39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;clean parentae9ff28,scorer4f39833. Remaining
-changes:new observation plan,current progress and checkpoint planning docs.
+p09/feat/p09-generation-validation;parentce9d993,scorer4f39833. Remaining changes:
+parts.py/test,module guide,observation plan,current progress/checkpoint.
 No unrelated owner changes found.
 CUDA18088/localSupabase last observed running;no service-health check in this task.
 CPU18087 stopped intact,default18087 unchanged. No Phase10,student API,push,merge,
 deployment or activation.
 
 ## Verification Evidence
+
+Analyzer RED45missing-module assertions1.59s;firstGREEN44pass/1fail1.20s from a
+hand-counted Unicode fixture end25 instead26,corrected test only. Verified relevant
+generation/reference376passed4.44s,exit0. Raw workspace/audit-evidence/p09-question-
+parts-observation-20261020/:red.log/green.log/green-verified.log and selections.
 
 Reference evaluator RED35expected missing-module assertions1.43s/GREEN35passed
 0.72s;relevant generation/evaluation regressions603passed6.81s,exit0. Four offline
@@ -95,8 +100,8 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Execute detached analyzer with TDD,freeze8cases/labels,then one maximum16-call
-batch under fixed settings. No runtime integration or repeated prompt/model sweep.
+Freeze8cases/references before inference,one fresh code review,then one fixed
+maximum16-call observation. No selected runtime change or repeated model sweep.
 
 ## Do Not Repeat
 

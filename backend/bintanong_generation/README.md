@@ -1,5 +1,18 @@
 # Candidate generation and output validation
 
+`parts.py` is a detached fixed-observation candidate,unconnected to Generator.
+`await QuestionPartAnalyzer(transport).analyze(text,integration,draft)` validates
+ready RAG input and supplied documentary claims,then uses at most two calls under
+one deadline:quoted-part extraction and individual mapping/support review. The host
+resolves unique exact quotes to original character offsets and rejects ambiguous
+occurrences. Review schemas pin identities and allowed IDs;existing ledger guards
+remain required. No repair,route change,Prolog check,answer generation or renderer
+occurs. An `ok` PartAnalysis contains an assessed ledger,which can be unresolved;
+semantic completeness always remains unverified. Fixed failure states omit unchecked
+output and exception text. Per-stage seconds are nested component durations,not
+browser or complete-answer latency. See the
+[fixed observation plan](../../plans/2026-10-20-question-parts-observation-plan.md).
+
 `requirements.py` is a detached declared-question-parts foundation;Generator does
 not call it. `create_plan(text,integration,parts)` binds1-8 supplied exact original
 question spans and their document/structured/unknown kinds to a release/query hash.
