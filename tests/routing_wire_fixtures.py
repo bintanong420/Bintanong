@@ -35,7 +35,8 @@ def wire_fixture(value, original_text=None):
     def replace_span(item):
         return {k:v for k,v in item.items() if k not in ('text', 'start', 'end')} | {'quote':quote(item)}
 
-    value['schema_version'] = 'bintanong-interpretation-wire-v1'
+    value['schema_version'] = 'bintanong-interpretation-wire-v2'
+    value['part_count'] = len(value['parts'])
     value['mentions'] = [replace_span(m) for m in value['mentions']]
     value['claims'] = [replace_span(c) | {'entity':reference(c['entity'])} for c in value['claims']]
     value['operations'] = [dict(o, target=reference(o['target'])) for o in value['operations']]

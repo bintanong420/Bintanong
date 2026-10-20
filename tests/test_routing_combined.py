@@ -23,7 +23,7 @@ def api():
 
 
 def packet(response_style='taglish', **interpretation):
-    return dict(schema_version='bintanong-routing-style-v2',
+    return dict(schema_version='bintanong-routing-style-v3',
         interpretation=wire_fixture(proposal(**interpretation), interpretation.get('text', 'A1')),
         style=style_proposal(response_style)['style'])
 

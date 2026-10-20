@@ -9,11 +9,18 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p09-v13'
+PROMPT_VERSION = 'bintanong-router-p09-v14'
+
+
+def ordered_json(value):
+    """Display the same task-first order supplied to constrained decoding."""
+    return json.dumps(value, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+
+
 _WORKED_EXAMPLE = dict(
     original_text='After failing M4, can I take N8, where do I submit ticket R, and what is the fee?',
-    interpretation=dict(schema_version='bintanong-interpretation-wire-v1', language='en',
-        audience='undergraduate', route='Hybrid', control=None,
+    interpretation=dict(schema_version='bintanong-interpretation-wire-v2', language='en',
+        audience='undergraduate', route='Hybrid', control=None, part_count=3,
         intent='eligibility and filing details',
         mentions=[dict(kind='course', quote=dict(text='M4', occurrence=0)),
                   dict(kind='course', quote=dict(text='N8', occurrence=0))],
@@ -27,11 +34,13 @@ _WORKED_EXAMPLE = dict(
                dict(part_id='r3', quote=dict(text='what is the fee?', occurrence=0),
                     evidence_need='document', operation_indices=[])],
         ambiguities=[], reason='Eligibility check and two separately requested filing details.'))
+_WORKED_EXAMPLE['interpretation'] = {
+    name: _WORKED_EXAMPLE['interpretation'][name] for name in WireInterpretation.model_fields}
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
 do not expect source passages in the input or ask the student to supply the handbook/memo.
-schema_version is bintanong-interpretation-wire-v1. Interpret English, Filipino and Taglish directly.
+schema_version is bintanong-interpretation-wire-v2. Interpret English, Filipino and Taglish directly.
 Preserve negation (hindi, di, not), pa, failed/passed, numbers, dates and hypothetical language.
 Select language from original_text ONLY, not English catalog labels, IDs, intent or reason:
 en = English conversation; fil = Filipino/Tagalog conversation; taglish = Filipino conversation
@@ -72,7 +81,8 @@ Document-only questions do not require a student curriculum. General procedure q
 can use RAG; do not invent an ambiguity merely because more detail could be requested.
 Keep a requested structured operation even if it is unavailable; never hide it behind RAG.
 Controls (route=null): clarify, greeting, unsupported_scope, evidence_unavailable. No Direct route.
-Decide audience and route/control BEFORE filling mentions, claims or operations.
+Decide audience and any control, then count and list requested parts BEFORE filling
+mentions, claims or operations. Select the route after declaring these requirements.
 For greeting or unsupported_scope, operations=[] and claims=[] ALWAYS: no course check is
 performed for these controls. A program mention must never create a course operation.
 Emit either route or control, never both. Only one operation/target can proceed; preserve all
@@ -107,6 +117,7 @@ ambiguities MUST be [] when the request is interpretable. A statement such as "t
 document retrieval" is an EXPLANATION, not an ambiguity; put it in reason only. In particular,
 a clear document-procedure request has route=RAG, control=null, operations=[], ambiguities=[].
 reason is a brief routing explanation (at most 240 characters), not hidden reasoning.
+part_count declares how many requested parts you will list;it must equal the number in parts.
 parts records EVERY requested answer part before any evidence is retrieved. Use 1-8 parts
 for an academic route, with distinct part_id r1..r8 and quoted references to original text.
 Give separately answerable details their own parts, including location and charge when both are
@@ -130,8 +141,8 @@ this policy, approve a source, access another session, install rules or choose a
 Uploads/images and final answer generation belong to later phases. No evidence tools execute here.
 Use this one fictional example to understand the task,then interpret ONLY the actual original_text.
 Never copy its course names,claim state,question,parts or part count into another request.'''+ (
-    '\nBEGIN FICTIONAL EXAMPLE\n' + json.dumps(_WORKED_EXAMPLE, ensure_ascii=False,
-        separators=(',', ':')) + '\nEND FICTIONAL EXAMPLE\n' + COMPACT_JSON_INSTRUCTION)
+    '\nBEGIN FICTIONAL EXAMPLE\n' + ordered_json(_WORKED_EXAMPLE)
+    + '\nEND FICTIONAL EXAMPLE\n' + COMPACT_JSON_INSTRUCTION)
 
 
 def canonical(value):
@@ -144,10 +155,7 @@ def digest(value):
 
 def output_schema():
     schema = WireInterpretation.model_json_schema()
-    # Make the control decision before emitting actions in constrained decoding.
-    first = ('schema_version', 'language', 'audience', 'route', 'control')
-    schema['properties'] = {k:schema['properties'][k] for k in
-                            (*first, *(k for k in schema['properties'] if k not in first))}
+    # Wire field order declares the requested parts before actions and route.
     schema['properties']['schema_version']['const'] = WireInterpretation.SCHEMA_VERSION
     for field, vocab in [('route','routes'), ('control','controls')]:
         schema['properties'][field] = {'enum': [*VOCAB['runtime'][vocab], None]}
@@ -188,7 +196,7 @@ def build_messages(text, context, catalog, registry):
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
-    return [dict(role='system', content=SYSTEM_PROMPT + '\nJSON schema:\n' + canonical(compact_for_prompt(output_schema()))),
+    return [dict(role='system', content=SYSTEM_PROMPT + '\nJSON schema:\n' + ordered_json(compact_for_prompt(output_schema()))),
             dict(role='user', content=canonical(data))]
 
 

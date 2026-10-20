@@ -47,22 +47,22 @@ adjust other active fixtures only if the affected regressions identify them.
 normalize_interpretation(text,wire) -> Interpretation-v2. build_messages and
 output_schema signatures unchanged. No production compatibility coercion.
 
-- [ ] Write focused regressions using literal v2 packets: count2/one part rejects;
+- [x] Write focused regressions using literal v2 packets: count2/one part rejects;
   missing count, bool count and wire-v1 reject; valid Hybrid preserves target,
   asserted failure and two parts. Terminal greeting count0 normalizes unchanged.
-- [ ] At actual separate/combined transport boundary verify prescribed property
+- [x] At actual separate/combined transport boundary verify prescribed property
   order on parent/all branches and displayed schema; worked example retains its
   original meaning with count3. Mismatched packet consumes only the shared repair;
   malformed style cannot obtain another. Reuse existing host/catalog/privacy tests.
-- [ ] Run new tests RED and record expected pre-change failures in red.log.
-- [ ] Implement required count and equality validator; remove wire-only count
+- [x] Run new tests RED and record expected pre-change failures in red.log.
+- [x] Implement required count and equality validator; remove wire-only count
   before normalizing. Reorder decoder/display/example; align only decision-order/
   schema-version guidance and version identities. Keep constraints/hashing helpers.
-- [ ] Migrate model-only test fixtures to v2/count and combined v3; leave normalized
+- [x] Migrate model-only test fixtures to v2/count and combined v3; leave normalized
   contracts and historical evidence unchanged. Update README's wire boundary.
-- [ ] Run new tests GREEN, then existing tests/test_routing_*.py plus existing
+- [x] Run new tests GREEN, then existing tests/test_routing_*.py plus existing
   schema-display regressions. Record explicit selection/results; no2200-test rerun.
-- [ ] Inspect/stage explicit files and commit the cohesive verified change.
+- [x] Inspect/stage explicit files and commit the cohesive verified change.
 - [ ] Obtain one fresh whole-change read-only product review before inference;
   resolve actionable defects only. No extra review/model loop without a real need.
 

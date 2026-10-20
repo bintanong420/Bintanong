@@ -72,7 +72,7 @@ def test_style_cannot_obtain_an_extra_repair_after_wire_repair():
 
 
 def test_explicit_combined_experiment_uses_same_wire_normalizer_in_one_call():
-    model = Model(dict(schema_version='bintanong-routing-style-v2',
+    model = Model(dict(schema_version='bintanong-routing-style-v3',
         interpretation=packet(), style=STYLE['style']))
     result = route(model, combined=True)
     assert result.decision.route == 'Hybrid' and len(model.calls) == 1

@@ -8,7 +8,7 @@ from ..bintanong_contracts.base import Contract
 from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.schema_display import compact_for_prompt
 from .contracts import Interpretation, RequestContext, prepare_query
-from .prompt import SYSTEM_PROMPT, build_messages as routing_messages, canonical, digest
+from .prompt import SYSTEM_PROMPT, build_messages as routing_messages, ordered_json, digest
 from .prompt import output_schema as routing_schema
 from .router import Router, _json_proposal, _repair_messages
 from .style import STYLE_PROMPT, STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, StyleEvidence, style_output_schema
@@ -18,14 +18,14 @@ from .wire import WireInterpretation, normalize_interpretation
 
 
 class CombinedProposal(Contract):
-    SCHEMA_VERSION = 'bintanong-routing-style-v2'
+    SCHEMA_VERSION = 'bintanong-routing-style-v3'
     interpretation: WireInterpretation
     style: StyleEvidence
 
 
-PROMPT_VERSION = 'bintanong-routing-style-p09-v4'
+PROMPT_VERSION = 'bintanong-routing-style-p09-v5'
 SYSTEM = '''Perform two separately validated tasks in ONE JSON packet.
-The outer schema_version is bintanong-routing-style-v2. Fill interpretation and
+The outer schema_version is bintanong-routing-style-v3. Fill interpretation and
 style as separate objects. Never answer the student or execute a tool here.
 The following routing instructions apply ONLY inside interpretation. Their
 schema_version refers to interpretation.schema_version, not the outer packet.
@@ -57,7 +57,7 @@ def output_schema():
 
 def build_messages(text,context,catalog,registry):
     data=routing_messages(text,context,catalog,registry)[1]
-    return [dict(role='system',content=SYSTEM+'\nJSON schema:\n'+canonical(
+    return [dict(role='system',content=SYSTEM+'\nJSON schema:\n'+ordered_json(
         compact_for_prompt(output_schema()))),data]
 
 

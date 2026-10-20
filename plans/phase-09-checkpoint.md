@@ -2,16 +2,22 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 99
+sequence: 100
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: f1b7230
+head_commit: dc26142
 working_tree: dirty
-updated_at: 2026-10-21T00:44:57+08:00
+updated_at: 2026-10-21T00:51:14+08:00
 ---
 
-# Phase09 checkpoint - task-first design approved;inline TDD next
+# Phase09 checkpoint - task-first software GREEN;one review then actual gate
 
 ## Completed Tasks
+
+Approved task-first software:wirev2/count equality,parts-before-operations/route,
+ordered displays/example,routerv14/combinedv5 packetv3 explicit/unselected.
+9RED0.83s->9GREEN0.63s;250routing/schema regressionsGREEN4.02s.
+Schema comparison preserves all other constraints/example meaning;178other
+backend/vocabulary files unchanged. No actual improvement claim yet.
 
 Owner approved [catalog design](2026-10-20-router-catalog-separation-design.md)
 with "aight continue" directly after its approval request. [Plan](2026-10-20-router-catalog-separation-implementation-plan.md):
@@ -40,14 +46,23 @@ Conditional-answer policy remains unanswered;four if/kung cases stay held.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEADf1b7230;product0aaa074,executiona2b4f2d.
-Pending docs:implementation plan,progress/checkpoint only. No product change yet.
+p09/feat/p09-generation-validation;HEADdc26142;task-first product commit follows.
+Pending:routing wire/prompt/combined/README,seven test/helper files,plan/progress/
+checkpoint. No unrelated change. Prior catalog product0aaa074/executiona2b4f2d.
 Checkpoint names parent;containing delivery commit follows. Workspace MODELS/
 CUDA18088/default18087 unchanged. No service startup,weights copy/rehash/download,
 dependency/source/DB mutation,training,institutional rule execution,activation,
 push,merge or deployment. Phase09 active;no Phase10.
 
 ## Verification Evidence
+
+Task-first:9RED0.83s missingv2/count;9GREEN0.63s;250GREEN4.02s. Schemas equal
+baseline after removing only new count/version and disregarding required-field
+order;all other constraints preserved. Worked example keeps original meaning.
+Raw:workspace/audit-evidence/p09-task-first-20261021/. Software freeze
+b132251d69444f6f4f06be0503b4e36fdf13a903c66e6c6dc5a8feda6f95a066.
+Verifier initially compared required-array order literally;corrected audit only,
+no product change/test rerun. One fresh whole-change review pending.
 
 Design audit:four sealed call traces/five current source hashes verified. Both
 proposed B fixtures validate through existing integration/evidence/question/draft
@@ -78,7 +93,7 @@ hashes verified after run. Phase valid,advancement refused;new46raw files sealed
 
 ## Versions and Digests
 
-Router-p09-v13;combined-prompt-p09-v4/packetv2 explicit/unselected;wirev1/
+Router-p09-v14;combined-prompt-p09-v5/packetv3 explicit/unselected;wirev2/
 normalized-v2 unchanged. Separate/canonical/scoped selected.
 Ctx8192,out768,temp0,seed0,cachefalse,requested reasoningnone;
 inference/stage/generation/request120/120/120/180s unchanged.
@@ -90,7 +105,7 @@ Inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
 labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
 Binding20October23:59:56;actual attempt21October00:00:03 local;raw root retains
 software-start date. Prior240seals retained in freeze.py and linked design/results.
-Last full prior checkpointf1b7230;git show preserves history. Historical123line
+Last full prior checkpointdc26142;git show preserves history. Historical123line
 handoff4022711 unchanged,inherited3line exception. Thesis SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -120,9 +135,9 @@ Earlier4-8active-hour phase estimate remains low-confidence;quality gate failed.
 
 ## Next Action
 
-Execute implementation plan Task1 inline:focused failing regressions, minimal
-wire/prompt change,GREEN/relevant regressions,one product review;then freeze/run
-the single approved A/B gate. Conditional policy remains held;no new sweep.
+Obtain one fresh whole-change review of the verified product;then bind and run
+the approved A4/B2 gate once on existing18088. No rescue or parameter sweep;
+if A fails,B is NOT RUN. Conditional family remains held. No promotion yet.
 
 ## Do Not Repeat
 

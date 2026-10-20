@@ -2,26 +2,23 @@
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
 [Checkpoint](../phase-09-checkpoint.md) | [Task-first plan](../2026-10-21-task-first-interpretation-implementation-plan.md).
-Last full prior snapshotf1b7230:plans/plan_current_progress/current_progress.md.
+Last full prior snapshotdc26142:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Owner "oh ye definitely then" approves reviewed design and its single finite gate
-after explanation. Inline implementation plan written;no repeated approval needed.
-Wirev2:explicit part_count/parts precede operations/route;host checks
-count consistency without inventing/deleting parts. Same model calls/guards;
-no benefit assumed. Four sealed traces show current route precedes parts;Taglish
-chooses Hybrid before emitting two document parts. No Prolog-file defect shown.
-One fresh builder check:nothing important left;no second design review. Approved gate:
-unchanged4pipeline cases,then only if4/4pass two prepared selected-checker reviews
-for irrelevant mapping/omitted fee;max30model calls. Not yet implemented/run.
-No product or inference change. Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md)
-still applies;Phase09 active,all quality holds retained. Review/audit raw:
-workspace/audit-evidence/p09-task-first-design-20261021/.
-Four sealed traces/five source hashes verified;both prepared B fixtures validate
-through public selected-path helpers. No checker verdict or quality pass claimed.
-Fresh docs10passed0.77s;12local links/caps pass;phase valid/active9,cannotadvance.
-Fourteen raw files sealed;digest in checkpoint. No product/model/service changes.
+Owner "oh ye definitely then" approved the design and single finite evaluation.
+Wirev2/count equality and parts-before-actions/route now implemented;v14 prompt,
+combinedv5/packetv3 stays explicit/unselected. Normalized contracts,host catalog/
+guards,Prolog,generation,call/repair budgets unchanged;no extra pipeline call.
+9RED0.83s->9GREEN0.63s;250routing/schema regressionsGREEN4.02s. Both schemas keep
+all previous constraints except protocol/count;example meaning unchanged;
+178other backend/vocabulary files unchanged. No actual quality/latency gain claimed.
+One fresh whole-change review next,then unchanged4pipeline cases;only if4/4full
+pass,run two prepared selected-checker challenges. Max30calls/no rescue sweep.
+Raw:workspace/audit-evidence/p09-task-first-20261021/;freeze digest in checkpoint.
+One earlier builder check completed;both proposed B fixtures verified model-free.
+Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md) and all holds
+remain;Phase09 active. No actual task-first inference yet.
 
 Owner approved catalog separation with "aight continue" directly after its approval
 request. Product0aaa074 removes only reviewed_aliases from model input;full host
@@ -60,8 +57,8 @@ after run. Phase valid,advancement refused;new46raw files sealed,digest in check
 
 ## Boundaries and next action
 
-Execute plan Task1 inline:RED,minimal wire/prompt/fixture change,GREEN/relevant
-regressions,one product review;then freeze/run the approved single A/B gate.
+One whole-change review,then freeze/run the approved single A/B gate. If A fails,
+B is NOT RUN;no prompt correction or rescue. Conditional policy remains held.
 The separate conditional choice remains held;do not ask it again this turn.
 No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve
 all failed cases/criteria;approved4/4full gate unmet. Phase09 remains active.

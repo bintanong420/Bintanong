@@ -12,7 +12,7 @@ def quote(text, occurrence=0):
 
 
 def packet():
-    return dict(schema_version='bintanong-interpretation-wire-v1', language='en',
+    return dict(schema_version='bintanong-interpretation-wire-v2', language='en', part_count=2,
         audience='undergraduate', intent='eligibility and form location',
         mentions=[dict(kind='course', quote=quote('A1')),
                   dict(kind='course', quote=quote('B2'))],
@@ -46,7 +46,7 @@ def test_quoted_target_and_condition_resolve_after_mention_reordering():
 
 def test_repeated_and_overlapping_text_use_declared_occurrence():
     value = packet()
-    value.update(mentions=[], claims=[], operations=[], route='RAG',
+    value.update(mentions=[], claims=[], operations=[], route='RAG', part_count=1,
         parts=[dict(part_id='r1', quote=quote('AA', 2), evidence_need='document', operation_indices=[])])
     result = normalize(value, 'AAAA')
     assert (result.parts[0].start, result.parts[0].end) == (2, 4)

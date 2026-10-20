@@ -19,7 +19,10 @@ The full reviewed alias catalog stays in the host resolver after literal extract
 it is not included in either router profile's model-visible payload. Scope/facts
 and available operation names retain their existing model-input boundaries.
 
-The model-facing bintanong-interpretation-wire-v1 uses {text,occurrence} quotes.
+The model-facing bintanong-interpretation-wire-v2 uses {text,occurrence} quotes.
+The model declares part_count and parts before operations/route. Count must match
+the list;the host never adds or deletes parts to make it match. This count remains
+untrusted and cannot prove semantic completeness. Wire-v1 packets are rejected.
 Occurrences are zero-based exact matches in original text,including overlapping
 matches. Operations and claims reference the identical quoted course mention;
 the model supplies neither character offsets nor numeric course-reference indices.

@@ -1,7 +1,7 @@
 """Model-facing quoted references; host-owned spans and course indices."""
 from typing import Annotated, Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Control, Record, Route
 from .contracts import Interpretation, Kind, Language, State, Text, prepare_query
@@ -37,20 +37,27 @@ class WirePart(Record):
 
 
 class WireInterpretation(Contract):
-    SCHEMA_VERSION = 'bintanong-interpretation-wire-v1'
+    SCHEMA_VERSION = 'bintanong-interpretation-wire-v2'
     language: Language
     audience: Literal['undergraduate', 'excluded', 'unrelated', 'unknown']
+    control: Control() | None
+    part_count: int = Field(ge=0, le=8)
+    parts: tuple[WirePart, ...] = Field(max_length=8)
     intent: Text
     mentions: tuple[WireMention, ...] = Field(max_length=32)
     claims: tuple[WireClaim, ...] = Field(max_length=32)
     operations: tuple[WireOperation, ...] = Field(max_length=4)
-    parts: tuple[WirePart, ...] = Field(max_length=8)
     route: Route() | None
-    control: Control() | None
     ambiguities: tuple[Text, ...] = Field(max_length=16, description=
         'Only unresolved questions needed to interpret the request. Normally empty. '
         'Never put a route explanation or a need to retrieve documents here.')
     reason: Text
+
+    @model_validator(mode='after')
+    def _part_count(self):
+        if self.part_count != len(self.parts):
+            raise ValueError('part_count_mismatch')
+        return self
 
 
 def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretation:
@@ -87,6 +94,7 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
         return index
 
     data = wire.model_dump(mode='json')
+    data.pop('part_count')
     data.update(schema_version=Interpretation.SCHEMA_VERSION,
         mentions=[dict(kind=m.kind, **span(m.quote)) for m in wire.mentions],
         claims=[dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)

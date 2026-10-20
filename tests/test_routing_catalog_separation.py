@@ -34,7 +34,7 @@ def test_actual_messages_are_catalog_invariant_and_preserve_remaining_input(modu
 def test_catalog_still_controls_curriculum_binding_after_literal_extraction(router_class):
     text = 'Can I take A1?'
     quote = dict(text='A1', occurrence=0)
-    packet = dict(schema_version='bintanong-interpretation-wire-v1', language='en',
+    packet = dict(schema_version='bintanong-interpretation-wire-v2', language='en', part_count=1,
         audience='undergraduate', route='Symbolic', control=None, intent='eligibility',
         mentions=[dict(kind='course', quote=quote)], claims=[],
         operations=[dict(name='check_prerequisite_eligibility', target=quote)],
@@ -42,7 +42,7 @@ def test_catalog_still_controls_curriculum_binding_after_literal_extraction(rout
                     evidence_need='structured', operation_indices=[0])], ambiguities=[], reason='Check eligibility.')
     catalog = (entry(), entry(entity='course-old', curriculum='curriculum-old'))
     for curriculum, expected in [('curriculum-a', 'course-a'), ('curriculum-old', 'course-old'), (None, None)]:
-        model = (Model(dict(schema_version='bintanong-routing-style-v2', interpretation=packet,
+        model = (Model(dict(schema_version='bintanong-routing-style-v3', interpretation=packet,
                             style=STYLE['style'])) if router_class is combined.CombinedRouter
                  else Model(packet, STYLE))
         router = router_class(model, catalog=catalog, registry=registry(), synthetic=True)
