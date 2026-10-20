@@ -75,12 +75,12 @@ parts are host-bound to the performed operation/result,never documentary prose.
 
 - [ ] Update developer documentation and dated results with exact contract versions,
   behavior,limits and any provisional implementation calls.
-- [ ] One fresh independent whole-change reviewer as executing-plans requires;one
+- [x] One fresh independent whole-change reviewer as executing-plans requires;one
   focused TDD fix pass for important findings,no re-review. Preserve source/privacy/
   unknown/operation binding and no extra language/classifier calls in review focus.
-- [ ] Run the prior explicit57-selection gate plus new focused files (no bare pytest),
+- [x] Run the prior explicit57-selection gate plus new focused files (no bare pytest),
   Python3.13 -B -m pytest -q -p no:cacheprovider with ignored TEMP/TMP/basetemp.
-- [ ] Freeze a bounded actual-quality gate separately before new inference:fictional
+- [x] Freeze a bounded actual-quality gate separately before new inference:fictional
   questions/independent expected parts/route/operation labels,full source text and
   prompt/code/schema/settings hashes. Do not reuse failed cases as unseen validation.
   Software delivery may complete before that gate;quality/promotion/Phase09 exit
@@ -125,3 +125,18 @@ therefore withholds even with a complete verdict. Old sealed observations unchan
 Both choices retain accuracy boundaries;experimental compatibility is narrower.
 Test support adapters explicitly cover only one declared document part;multipart
 regressions use independent scripted mappings,never automatic all-part acceptance.
+
+Task3 review197passed3.07s found3Important gaps:nested support version not pinned,
+operation target outside its credited part,and nonexistent claim ID in final ledger.
+Root RED3fail0.99s;one fix pass pins nested schema,requires target-mention containment
+before dispatch and validates final claim coverage. GREEN146passed2.15s. No re-review.
+Initial59-selection gate3fail/1662pass/66subtests92.98s identified3remaining explicit
+fixture migrations (reference request/release replay and Combined Hybrid quote).
+AFTER corrections final59-selection1668passed/66subtests123.76s,exit0.
+Review-set-aside rulings:actual semantic quality/latency and omitted/unrepresented
+parts remain unresolved until actual evaluation;institutional authority/readiness
+remain separate holds. These cannot be settled by more mocked tests. New gate
+document is parent-owned and the final gate resolves the review's fixture exclusion.
+No minor findings. Future8fictional dev question/reference records frozen SHA256
+c1071bbab22cd200a400b500e8622c077a43c18e4ab7c814abfd8d3258daad34;
+runtime inputs/readiness must bind before execution. NOT RUN,no quality promotion.

@@ -2,7 +2,7 @@
 import hashlib
 
 from ..bintanong_contracts.base import foreign_ids
-from .contracts import AnswerDraft
+from .contracts import AnswerDraft, SupportReport
 from .ledger_contracts import BoundRequirementLedger, LedgerEntry, ReviewIdentity
 from .requirements import RequirementReview, _digest
 from .scope import document_support_payload
@@ -58,6 +58,8 @@ def review_schema(pack, draft):
     identity = review_identity(pack, draft)
     for name in ('requirements_sha256','draft_sha256'):
         schema['properties'][name] = dict(type='string',const=getattr(identity,name))
+    schema['$defs']['SupportReport']['properties']['schema_version'] = dict(
+        type='string',const=SupportReport.SCHEMA_VERSION)
     schema['$defs']['PartMapping']['properties']['part_id'] = dict(enum=[
         p.part_id for p in pack.understanding.parts if p.evidence_need == 'document'])
     schema['$defs']['PartMapping']['properties']['claim_ids']['items'] = dict(enum=[
@@ -126,3 +128,8 @@ def validate_ledger(pack, claims, ledger, *, answered):
     if answered and (ledger.identity.draft_sha256 != identity.draft_sha256 or
                      ledger.status != 'all_declared_parts_mapped'):
         raise ValueError('final_part_draft_mismatch')
+    if answered:
+        mapped = [c for entry in ledger.entries for c in entry.claim_ids]
+        if set(mapped) != {c.claim_id for c in claims} or any(
+                len(set(entry.claim_ids)) != len(entry.claim_ids) for entry in ledger.entries):
+            raise ValueError('final_part_claim_mismatch')

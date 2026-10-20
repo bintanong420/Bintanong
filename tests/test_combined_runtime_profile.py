@@ -16,10 +16,10 @@ from test_runtime_composition import spec, Database
 
 @pytest.mark.parametrize('route',['RAG','Symbolic','Hybrid'])
 def test_combined_profile_routes_and_joins_required_evidence_with_one_inference(route):
-    value=packet(route=route,operations=[] if route=='RAG' else packet()['interpretation']['operations'])
+    value=packet(text='A1 policy',route=route,operations=[] if route=='RAG' else packet()['interpretation']['operations'])
     model=FakeTransport(json.dumps(value));release=resources()
     result=asyncio.run(Orchestrator(model,releases=SyntheticReleaseProvider(release),
-        routing_profile='combined').run('A1',ctx()))
+        routing_profile='combined').run('A1 policy',ctx()))
     assert result.status=='ready' and result.route==route
     assert len(model.calls)==1 and result.events[1].retry_count==0
     assert len(release.retrieval.calls)==(route!='Symbolic')

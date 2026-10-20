@@ -146,7 +146,8 @@ def test_reference_cannot_be_reused_after_bound_inputs_change(mutation):
     if mutation == 'question':
         text += ' '
     elif mutation == 'request':
-        result = result.model_copy(update=dict(request_id='req-other'))
+        result = result.model_copy(update=dict(request_id='req-other',understanding=
+            result.understanding.model_copy(update=dict(request_id='req-other'))))
     elif mutation == 'language':
         result = result.model_copy(update=dict(response_style='fil'))
         draft = draft.model_copy(update=dict(language='fil'))
@@ -154,6 +155,7 @@ def test_reference_cannot_be_reused_after_bound_inputs_change(mutation):
         raw = result.model_dump(mode='json')
         raw['evidence']['pin']['release_id'] = 'release-other'
         raw['evidence']['documents']['release_id'] = 'release-other'
+        raw['understanding']['release_id'] = 'release-other'
         result = IntegrationResult.parse(raw)
         draft = draft.model_copy(update=dict(release_id='release-other'))
     elif mutation == 'evidence':

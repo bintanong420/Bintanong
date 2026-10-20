@@ -80,7 +80,8 @@ question with an imagined source sentence. A quote may overlap another part when
 to preserve its subject, but identical spans are duplicates. For each part evidence_need is
 document (a procedure or source explanation), structured (a curriculum fact/check/dependency),
 or unknown. operation_indices indexes the operations array and is empty for document/unknown.
-Each supported structured part names its operation indices; keep unsupported structured
+Each supported structured part names its operation indices and its quote must contain the
+original course mention targeted by each referenced operation. Keep unsupported structured
 requests as structured with [] rather than pretending they are documentary. All requested
 operations must be associated with parts. The route must match those declared needs; a
 separately requested document detail plus a structured check needs Hybrid. Unknown work

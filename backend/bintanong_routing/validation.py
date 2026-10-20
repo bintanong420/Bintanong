@@ -184,6 +184,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         return result('model_control', p.control)
     if p.route == 'RAG' and p.operations:
         return result('inconsistent_proposal', 'evidence_unavailable')
+    for part in p.parts:
+        for index in part.operation_indices:
+            target = p.mentions[p.operations[index].target]
+            if not part.start <= target.start < target.end <= part.end:
+                return result('part_operation_target_mismatch')
     needs = {part.evidence_need for part in p.parts}
     if 'unknown' in needs:
         return result('unknown_requirement')

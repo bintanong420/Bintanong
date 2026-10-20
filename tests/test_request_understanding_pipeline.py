@@ -165,3 +165,46 @@ def test_review_identity_cannot_be_replayed_between_requests():
     schema=api.review_schema(a,da)
     assert schema['properties']['requirements_sha256']['const']==identity.requirements_sha256
     assert schema['properties']['draft_sha256']['const']==identity.draft_sha256
+
+
+def test_nested_support_version_is_fixed_in_the_model_schema():
+    from backend.bintanong_generation import understanding as api
+    from backend.bintanong_generation.contracts import AnswerDraft, SupportReport
+    pack=prepare(source())
+    draft=AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION,language='en',
+        release_id=pack.release_id,decision_outcome=None,claims=[dict(claim_id='c1',
+            text='File at Office V.',evidence_ids=[pack.cards[0].evidence_id])]))
+    schema=api.review_schema(pack,draft)
+    assert schema['$defs']['SupportReport']['properties']['schema_version']['const']==SupportReport.SCHEMA_VERSION
+
+
+def test_final_ledger_cannot_point_to_a_claim_that_was_never_generated():
+    from backend.bintanong_generation.validation import validate_final
+    from backend.bintanong_generation.contracts import CandidateAnswer
+    async def scenario():
+        integration=source()
+        answer=await Generator(Scripted()).generate(TEXT,integration)
+        changed=answer.model_dump(mode='json')
+        changed['part_ledger']['entries'][0]['claim_ids']=['c8']
+        with pytest.raises(ValueError,match='part_claim'):
+            validate_final(CandidateAnswer.parse(changed),prepare(integration),answer.claims)
+    asyncio.run(scenario())
+
+
+def test_another_course_part_cannot_be_credited_to_the_first_course_operation():
+    from backend.bintanong_orchestration.orchestrator import Orchestrator
+    from test_orchestration_pipeline import resources, ports, ctx
+    from test_routing_contracts import proposal
+    from test_routing_router import FakeTransport
+    text='Can I take A1 and can I take B1?'
+    data=proposal(text=text,language='en',parts=[
+        part('Can I take A1',need='structured',operations=(0,),text=text),
+        part('can I take B1?',need='structured',operations=(0,),text=text,ident='r2')],
+        mentions=[dict(kind='course',text='A1',start=11,end=13),
+                  dict(kind='course',text='B1',start=text.index('B1'),end=text.index('B1')+2)])
+    async def scenario():
+        release=resources()
+        integration=await Orchestrator(FakeTransport(json.dumps(data)),
+            releases=ports().SyntheticReleaseProvider(release)).run(text,ctx())
+        assert integration.status!='ready' and not release.symbolic.calls
+    asyncio.run(scenario())

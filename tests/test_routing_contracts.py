@@ -19,8 +19,10 @@ def proposal(*, text='A1', **updates):
         value['parts'] = []
         if value['route'] is not None:
             if value['route'] != 'RAG':
-                mention = next((m for m in value['mentions'] if m['kind'] == 'course'),
-                               dict(text=text, start=0, end=len(text)))
+                mention = (value['mentions'][value['operations'][0]['target']]
+                    if value['operations'] and value['operations'][0]['target'] < len(value['mentions'])
+                    else next((m for m in value['mentions'] if m['kind'] == 'course'),
+                              dict(text=text, start=0, end=len(text))))
                 value['parts'].append(dict(part_id='r1', text=mention['text'],
                     start=mention['start'], end=mention['end'], evidence_need='structured',
                     operation_indices=list(range(len(value['operations'])))))
