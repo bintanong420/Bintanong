@@ -2,88 +2,96 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 43
+sequence: 45
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6bd9b43
+head_commit: 48307b8
 working_tree: dirty
-updated_at: 2026-10-20T14:00:00+08:00
+updated_at: 2026-10-20T12:43:00+08:00
 ---
 
-# Phase09 checkpoint - post-retrieval decision guard
+# Phase09 checkpoint - guard quality failed;experiment isolated
 
 ## Completed Tasks
 
-Prior scoped/canonical/separate selection9d4f32d and results/docs4022711 remain
-verified. Last full snapshot4022711:plans/phase-09-checkpoint.md. Prior delivery
-[results](2026-10-20-scoped-explanations-results.md) retains exact evidence/seals.
-Guard plan6bd9b43;implementation adds explicit one-call release-bound assessment
-for ready scoped RAG,localized withholding,host elapsed/result and eval prompt/mode
-metadata. No route change,rule execution or retries. Other routes/controls unchanged.
+Prior selected product9d4f32d/docs4022711 remains scoped/canonical/separate.
+Guard plan6bd9b43/product48307b8 delivered mechanical boundaries. Last full prior
+snapshot48307b8:plans/phase-09-checkpoint.md. [Current results](2026-10-20-post-retrieval-guard-results.md)
+retains exact quality failures and timing;prior scoped delivery/seals remain linked.
 
 ## Current Task
 
-[Guard plan](2026-10-20-post-retrieval-guard-plan.md) tasks1-2 GREEN;commit product
-before one bounded existing-fictional actual-model observation and final review.
-Assessment remains semantically fallible;mock success is not actual-model accuracy.
+[Guard plan](2026-10-20-post-retrieval-guard-plan.md) initial12case model run and
+one6case correction both failed. Reject correction,restore initial prompt and
+retain guard only as explicit developer explanation_profile=guarded. Default
+scoped remains selected. Run final explicit regression gate;no more model runs.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;parent6bd9b43. Changes:generation guard/contracts/
-generator/render/validation/evaluation/README,new guard tests,eval mock update,
-guard plan,current progress and this checkpoint. No unrelated owner changes found.
-CUDA18088/model and local Supabase remain running;CPU18087 stopped intact. URL
-18087 default unchanged. No Phase10,student API,push,merge,deployment or activation.
+p09/feat/p09-generation-validation;parent48307b8. Changes:generator/evaluation
+profile isolation,runtime settings/report/CLI guarded option,guard/eval tests,
+module/pipeline/timing docs,guard results/plan,INDEX,current progress,checkpoint.
+No unrelated owner changes found. Existing CUDA18088/model and local Supabase
+remain running;CPU18087 stopped intact,default18087 unchanged. No Phase10,student
+endpoint,push,merge,deployment or activation. Full-runtime observer prepared but
+NOT RUN because its quality prerequisite failed;do not silently execute it.
 
 ## Verification Evidence
 
-Guard corrected RED25failures;initial oversized parameter IDs caused2Windows
-harness errors,corrected before RED and retained. GREEN143tests2.66s. Additional
-serialized result/validation invariant RED4;expanded GREEN802tests5.67s,exit0.
-Command:readiness Python3.13 -B -m pytest -q -p no:cacheprovider --basetemp=<raw>/
-product-green-temp;explicit generation guard/scope/evaluation/validation/loop/
-pipeline/evidence/references,runtime composition/CLI and docs hygiene selections.
-Logs:red.log,red-corrected.log,green.log,metadata-red.log,product-green.log.
-No real-model guard observations or new final review yet. Prior full gate2008pass/
-66subtests89.45s and bounded9prepared+3runtime observations remain historical.
+Mechanical corrected RED25/GREEN143tests2.66s;initial oversized parameter IDs
+caused2Windows harness errors then corrected before RED. Serialized guard-result
+metadata RED4/GREEN802tests5.67s. Independent whole-change review189passed5.61s;
+one P2 actual semantic finding,no other actionable defect. Reviewer may overlap
+initial inference timing;not a controlled latency comparison. No re-review loop.
+Initial actual12cases:original9appropriate,18document claims+3host Symbolic;forced
+EN withheld,FIL wrongly answered unrelated service,Taglish uncertain/withheld.
+One corrected6case run:normal3pass/9claims;forced EN withheld,FIL tool_error at
+768completion tokens,Taglish wrongly answered service. Actual saved-output RED1/
+5passed0.39s,corrected2failed/4passed0.33s. No false eligibility conclusion observed.
+Isolation RED2/GREEN209tests3.75s;intermediate CLI-help wrap1failed/208passed fixed.
+Final53-selection regression gate pending. Raw logs and exact commands retained.
 
 ## Versions and Digests
 
-Raw:workspace/audit-evidence/p09-post-retrieval-guard-20261020/;no overwrites.
-Python3.13.7/existing readiness interpreter;external TEMP/TMP/basetemp,no cache.
-Resident runtimeb11723-31288c9c6/context8192/output768/temp0/seed0/reasoningnone/
-cachefalse,35of43GPU layers. Existing workspace/MODELS assets reused;no install,
-download,model copy/rehash,dependency/lock or DB changes. Prior image/template/
-model hashes and94-file seal remain in scoped results4022711,not remeasured.
-Reconsulted byte-matched thesis17-18/39-44,actual routing PNG/master12.4;undergrad/
-read-only/structured-Prolog/unknown/source-gap boundaries agree. Thesis SHA256
-729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
+Raw:workspace/audit-evidence/p09-post-retrieval-guard-20261020/. Source-inference/
+and correction/source-inference/ bind separate observed code bytes;pre-inference
+manifests bind inputs,observer hashes,server props. Full messages/schema hashes,
+usage/timings,failed outputs,semantic regression and reviewer receipts retained.
+Python3.13.7 existing readiness interpreter -B pytest -q -p no:cacheprovider,
+external TEMP/TMP/basetemp. No installs,downloads,model copy/rehash,DB/dependency/
+lock changes. Runtimeb11723-31288c9c6/context8192/output768/temp0/seed0/reasoningnone/
+cachefalse,35/43GPU layers,existing workspace/MODELS reused. Observation budgets
+240s infer/generation;shipped120s infer/generation/stage/180s request unchanged.
+Prior model/image/template hashes in scoped results4022711 remain unchanged.
+Thesis17-18/39-44,routing PNG/master3/11/12.4/13/14 consulted;no discrepancy.
+PDF SHA729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
 ## Decisions
 
-Owner continuation authorizes bounded software safeguard;accuracy precedes speed.
-Ready scoped RAG gets one model assessment before drafting;only document_only
-continues. Required/uncertain/invalid results withhold;tool/time failures stop.
-No semantic keyword substitute,hidden reroute or institutionally executable rule.
-Guard seconds include its transport/preflight inside existing deadline;do not add
-nested duration twice. Existing warm backend29.915/16.999/38.884s and startup25.955s
-are prior observations,not new guard or browser/full-cold metrics. Reuse completed
-[timing contract](2026-10-20-response-time-measurement-contract.md) and research.
-Standing one-week prompt-improvement cap/no parameter training remains in force.
+Accuracy first;both quality gates fail regardless of latency. Guarded remains
+explicit/unselected;historical candidate reports named scoped are not relabeled.
+Guard time is already nested inside generation/pipeline. Initial spans3.411-35.123s;
+corrected3.599-36.791s include uncertain/failed attempts. No new full backend/cold/
+browser/API/queue/hosted metric or achieved15-20s student-visible target claimed.
+Reuse completed timing research/contract. Owner's one-week prompt cap,no parameter
+training,undergraduate/read-only/unknown/source-gap/privacy/release holds persist.
+Final ruling:reviewer P2 remains open in experiment;quarantine is not a semantic
+fix. Cost:misrouted structured-request coverage remains a selected-pipeline gap;
+Phase09 cannot close on this guard. No faster inaccurate route is approved.
 
 ## Known Failures or Blockers
 
-Guard actual-model behavior unmeasured;Phase09 active. Prior upstream2Taglish style
-errors,opaque technical IDs and student-visible latency/distribution remain. All
-institutional/source/privacy/auth/hosted-migration release holds remain unchanged.
+Failed multilingual guard/one correction;no universal recall or institutional
+accuracy. Upstream2Taglish style errors,opaque IDs,source/institutional/runtime/
+privacy/auth/hosted migration holds and student wait acceptance remain separate.
 
 ## Next Action
 
-Run the planned existing9fictional multilingual generation cases plus3forced-RAG
-structured requests once;inspect every assessment/claim/style and added latency.
-Then one independent whole-change review and explicit regression gate.
+Finish explicit regressions and commit isolated experiment/results. Then reassess
+requested-task/evidence coverage before selecting another bounded safeguard;
+do not repeat this prompt correction or advance Phase10 on these results.
 
 ## Do Not Repeat
 
-Settled source/benchmark reviews,combined/short-ID failures,model placement/setup
-or resolved scoped9+3experiment. Preserve evidence;no prompt/seed/model sweep,
-unchecked streaming or accuracy-for-speed trade. Do not advance Phase10 here.
+Settled source/benchmark reviews,model setup,combined/short-ID failures,resolved
+scoped9+3observations or guard12+6runs. Keep failure history and exact source bytes;
+no further prompt/seed/budget sweep,unchecked streaming or accuracy-for-speed trade.

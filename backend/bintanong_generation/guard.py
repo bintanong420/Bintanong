@@ -1,4 +1,4 @@
-"""Explicit bounded LLM assessment after retrieval; never executes or changes routes."""
+"""Unselected guard experiment: failed multilingual quality; never changes routes."""
 import hashlib
 from typing import Literal
 

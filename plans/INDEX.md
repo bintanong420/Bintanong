@@ -22,7 +22,8 @@
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [Current delivery/recovery](2026-10-20-scoped-explanations-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
+- [Current delivery/recovery](2026-10-20-post-retrieval-guard-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
+- Guard experiment failed multilingual quality;explicit guarded profile unselected,Phase09 exit held.
 - Scoped/canonical/separate selected;warm backend RAG29.9s/Symbolic17.0s/Hybrid38.9s;student end-to-end unmeasured.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime

@@ -55,8 +55,8 @@ def main(argv=None):
     parser.add_argument('--model-path',type=Path)
     parser.add_argument('--routing-profile',choices=('separate','combined'),default='separate',
         help='combined is experimental and failed multilingual promotion; default: separate')
-    parser.add_argument('--explanation-profile',choices=('legacy','scoped'),default='scoped',
-        help='scoped separates host decisions from documentary prose; default: scoped')
+    parser.add_argument('--explanation-profile',choices=('legacy','scoped','guarded'),default='scoped',
+        help='default: scoped; guarded is experimental and failed multilingual quality')
     parser.add_argument('--inference-timeout',type=float,default=120)
     parser.add_argument('--stage-timeout',type=float,default=120)
     parser.add_argument('--generation-timeout',type=float,default=120)

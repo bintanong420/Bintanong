@@ -66,11 +66,17 @@ flowchart TD
     H --> I
     I --> E[Candidate evidence and stage telemetry]
     E --> K{Ready evidence?}
-    K -->|yes| D[Candidate draft generation]
+    K -->|yes| X{Route and explanation profile}
+    X -->|RAG with experimental guarded profile| PG{Unselected post-retrieval LLM assessment}
+    PG -->|document only| D[Documentary draft generation]
+    PG -->|structured required / uncertain / invalid| B
+    PG -->|timeout / error| B
+    X -->|Selected scoped RAG or Hybrid| D
+    X -->|Symbolic| A
     K -->|no| B
     C --> B
     D --> V{Schema, citation, canonical decision and prose-support checks}
-    V -->|pass| A[Host-rendered candidate preview]
+    V -->|pass| A[Final host validation and candidate rendering]
     V -->|one repair| D
     V -->|exhausted| B[Grounded fallback]
     A -. Phase 11 .-> U[Authenticated student API and website]
@@ -81,6 +87,11 @@ flowchart TD
 No extra orchestration framework, queue or graph service is needed. The control
 flow is ordinary async Python in `Orchestrator.run` and `AnswerPipeline.run`. API composition is later work;
 the existing FastAPI app exposes health probes only.
+The experimental post-retrieval assessment failed multilingual quality and remains
+unselected;default scoped RAG follows its existing documentary path. The assessment
+does not change the original route or execute rules.
+Only a document-only result proceeds; other results withhold the structured answer.
+Its one call and timing are recorded separately from draft/support attempts.
 
 ## Where to make a change
 

@@ -53,9 +53,9 @@ class Generator:
     def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='scoped'):
         if reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
-        if explanation_profile not in ('legacy','scoped'):
+        if explanation_profile not in ('legacy','scoped','guarded'):
             raise ValueError('invalid_explanation_profile')
-        if explanation_profile=='scoped' and reference_profile!='canonical':
+        if explanation_profile in ('scoped','guarded') and reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
         self.transport=transport
         self.timeout_seconds=_seconds(timeout_seconds)
@@ -75,7 +75,7 @@ class Generator:
             seconds=min(seconds,remaining_seconds)
         if seconds<=0:
             return _answer(pack,'temporarily_unavailable',reason='timeout')
-        scoped=self.explanation_profile=='scoped'
+        scoped=self.explanation_profile in ('scoped','guarded')
         if scoped and pack.route=='Symbolic':
             return _answer(pack,'answered',reason='validated')
         attempts=checks=0
@@ -86,7 +86,7 @@ class Generator:
         errors=()
         try:
             async with asyncio.timeout(seconds):
-                if scoped and pack.route=='RAG':
+                if self.explanation_profile=='guarded' and pack.route=='RAG':
                     guard_started=loop.time()
                     raw=await self.transport.infer(guard_messages(text,pack),guard_schema(pack))
                     try:

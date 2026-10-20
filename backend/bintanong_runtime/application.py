@@ -46,16 +46,16 @@ class RuntimeSettings:
     request_timeout: float = 180
     routing_profile: Literal['separate','combined'] = 'separate'
     generation_reference_profile: Literal['canonical','short'] = 'canonical'
-    explanation_profile: Literal['legacy','scoped'] = 'scoped'
+    explanation_profile: Literal['legacy','scoped','guarded'] = 'scoped'
 
     def __post_init__(self):
         if self.routing_profile not in ('separate','combined'):
             raise ValueError('invalid_routing_profile')
         if self.generation_reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
-        if self.explanation_profile not in ('legacy','scoped'):
+        if self.explanation_profile not in ('legacy','scoped','guarded'):
             raise ValueError('invalid_explanation_profile')
-        if self.explanation_profile=='scoped' and self.generation_reference_profile!='canonical':
+        if self.explanation_profile in ('scoped','guarded') and self.generation_reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
         for name in ('inference_timeout','stage_timeout','generation_timeout','request_timeout'):
             value=getattr(self,name)
@@ -108,7 +108,7 @@ class RuntimeRun(Record):
     institutional_use_allowed: Literal[False] = False
     routing_profile: Literal['separate','combined'] = 'separate'
     generation_reference_profile: Literal['canonical','short'] = 'canonical'
-    explanation_profile: Literal['legacy','scoped'] = 'legacy'
+    explanation_profile: Literal['legacy','scoped','guarded'] = 'legacy'
     answer: CandidateAnswer
     events: tuple[StageEvent,...]
     model_calls: tuple[ModelCall,...]

@@ -46,12 +46,16 @@ All private references/source holds/version and unknown semantics remain in forc
 2. [x] Update evaluation metadata/mode and developer guide; adjust existing scoped
    RAG mocks for explicit guard call. Verify focused plus relevant regressions and
    commit the cohesive implementation. Record failures and commands honestly.
-3. [ ] Once only, reuse existing nine fictional multilingual generation questions
+3. [x] Once only, reuse existing nine fictional multilingual generation questions
    (RAG documents, Symbolic and Hybrid) and force the existing Symbolic eligibility
    questions onto document-only prepared RAG evidence to test withholding. These
    are synthetic software probes, not new institutional benchmark wording. Review
    every result before reporting latency; no seed/prompt sweep. If quality fails,
    record the failure and leave selection/Phase09 exit unresolved.
+   After a passing prepared check, run the existing English actual-service RAG
+   request once through resident encoder/local Supabase to verify composition and
+   outer/inner/guard timing. Reuse the existing startup/readiness timer;do not rerun
+   unchanged actual-service Symbolic/Hybrid paths or claim browser/full-cold time.
 4. [ ] Independent whole-change review; TDD any important findings in one pass,
    explicit regression gate, dated results and compact progress/checkpoint pointers.
    Preserve raw workspace/audit-evidence/p09-post-retrieval-guard-20261020 receipts.
@@ -70,3 +74,34 @@ browser/API/queue/hosted timings remain unmeasured and in their applicable phase
 - Legitimate documented services stay answerable; a course word alone is no rule.
 - Guard failure/deadline cannot fall through to drafting or consume a repair.
 - Reports cannot label guard inference as host-only or hide its timing/call cost.
+
+## Observed failure and one correction boundary
+
+Initial12case run completed at48307b8:original9appropriate;forced EN withheld,
+FIL incorrectly document_only/answered unrelated FormQ,Taglish uncertain/withheld.
+Independent reviewer confirms one P2,no fabricated eligibility observed. Requested
+reporting of an allegedly existing/supplied check needs explicit handling:the
+question is not evidence a check occurred. Full-runtime dependent observation held.
+
+One bounded correction is authorized by the existing accuracy-first task: add this
+semantic distinction to the guard instructions,without copying evaluation wording,
+keywords,routing substitution,new fields or changed source. Write an actual-model
+regression against saved FIL failure and observe RED;then rerun ONLY unchanged
+3forced questions plus3ordinaryRAG controls once under the corrected prompt.
+Store new source/prompt/input/output receipts separately in raw correction/.
+If this gate fails,leave the safeguard/Phase09 exit unresolved;no further sweep.
+This is the single reviewer-fix pass. Re-grade and report the finding honestly.
+
+Correction gate failed:EN withheld,FIL tool_error at768completion tokens,Taglish
+document_only/answered unrelated service. Saved-output regression2failed/4passed.
+No further model observation;the full-runtime quality prerequisite did not pass.
+Reject the correction and restore original instructions for reproducibility.
+Retain the failed guard only as explicit `explanation_profile='guarded'`,with
+canonical references. Selected default scoped/canonical/separate remains unchanged.
+Selection isolation RED2/GREEN209tests3.75s;CLI help wrapping failure corrected
+without changing behavior. This is quarantine of a known failure,not a semantic fix.
+
+Final ruling:reviewer P2 remains open in the explicit experiment;do not promote it
+or close Phase09. Cost:misrouted structured requests remain an unmet safeguard in
+the selected pipeline. No faster inaccurate route is approved. Next work must
+reassess evidence/task coverage before another generation/routing experiment.

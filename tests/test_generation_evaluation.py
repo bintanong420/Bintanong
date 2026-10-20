@@ -45,7 +45,7 @@ def test_report_must_stay_under_explicit_ignored_evidence_root(tmp_path):
     assert path.exists()
 
 
-@pytest.mark.parametrize('profile,refs',[('scoped','canonical'),('legacy','canonical'),('legacy','short')])
+@pytest.mark.parametrize('profile,refs',[('scoped','canonical'),('guarded','canonical'),('legacy','canonical'),('legacy','short')])
 def test_report_identifies_effective_profile_and_prompt_hashes(profile,refs):
     import json
     from backend.bintanong_generation.evidence import prepare
@@ -56,7 +56,7 @@ def test_report_identifies_effective_profile_and_prompt_hashes(profile,refs):
     from test_generation_scope import document_draft
     async def run():
         pack=prepare(integrated('RAG'))
-        if profile=='scoped':
+        if profile in ('scoped','guarded'):
             raw=document_draft(pack)
             expected=(scope.DOCUMENT_PROMPT_SHA256,scope.DOCUMENT_SUPPORT_PROMPT_SHA256)
         elif refs=='short':
@@ -66,7 +66,7 @@ def test_report_identifies_effective_profile_and_prompt_hashes(profile,refs):
             raw=draft(pack).model_dump_json()
             expected=(prompt.PROMPT_SHA256,prompt.SUPPORT_PROMPT_SHA256)
         from test_generation_guard import assessment
-        outputs=([assessment()] if profile=='scoped' else [])+[raw,supported()]
+        outputs=([assessment()] if profile=='guarded' else [])+[raw,supported()]
         generator=Generator(Fake(*outputs),explanation_profile=profile,reference_profile=refs)
         result=await api().observe(api().load_cases([case()]),generator,evaluation_kind='mock')
         assert result['observations'][0]['answer']['status']=='answered'
