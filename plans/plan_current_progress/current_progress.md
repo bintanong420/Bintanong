@@ -1,10 +1,19 @@
 # Current progress
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Catalog separation results](../2026-10-21-catalog-separation-observation-results.md).
-Last full prior snapshota2b4f2d:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md).
+Last full prior snapshot1cdfc9b:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
+
+Read-only exit reconciliation:four finite packages,reusing completed software/
+service evidence. Latest interpretation/part failures and earlier unverified
+relevance/completeness safeguards remain explicit holds. Earlier failures are not
+fresh v13 reproductions;current guards do not prove them resolved. No new product
+change,inference,accuracy threshold or phase waiver. Historical19October handoff
+does not close the reopened phase;browser/UAT metrics stay with later work.
+Audit verification:docs10passed0.78s;19local links/caps pass;phase valid/active9,
+advancement refused. Raw:workspace/audit-evidence/p09-exit-map-20261021/.
 
 Owner approved catalog separation with "aight continue" directly after its approval
 request. Product0aaa074 removes only reviewed_aliases from model input;full host
@@ -38,13 +47,15 @@ Software freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106.
 Execution binding37c58a9a16b990921046639d378bf3ab826c08d056e766381d6acea64412f248.
 240prior sealed files/current181backend-vocabulary,2tests/README verified before
 inference. Offline validator confirms Taglish diagnostic without a model call.
-Fresh docs10passed0.78s;84links/caps;240prior seals/current184file hashes verified
+Catalog delivery docs10passed0.78s;84links/caps;240prior seals/current184file hashes verified
 after run. Phase valid,advancement refused;new46raw files sealed,digest in checkpoint.
 
 ## Boundaries and next action
 
-Discuss remaining interpretation/part-completeness
-capability limit and the separate pending conditional choice before experiments.
+Write one bounded reliability proposal using saved traces,covering requested
+operations,independent question requirements and relevance/completeness together.
+Name a changed mechanism,evidence,risks and stop condition before a new decision.
+The separate conditional choice remains held;do not ask it again in this audit.
 No rescue probe,next prompt/classifier/example-bank/parameter sweep. Preserve
 all failed cases/criteria;approved4/4full gate unmet. Phase09 remains active.
 Undergraduate/read-only/RAG+structured-Prolog/source-gap/privacy/release/one-week
