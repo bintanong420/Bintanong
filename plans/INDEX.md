@@ -23,7 +23,7 @@
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - Latest historical handoff:[Phase09 offline](phase-09-handoff.md); current [delivery/results](2026-10-20-live-backend-composition-results.md).
-- [CUDA latency results](2026-10-20-phase09-latency-results.md):80–148s fictional runs;quality/release holds remain.
+- [Latest speed results](2026-10-20-fast-replies-results.md):35–53s warm;startup/quality/release holds remain.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.

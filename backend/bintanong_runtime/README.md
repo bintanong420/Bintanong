@@ -23,9 +23,15 @@ llama.cpp server; the runner does not start services or download models.
 The verified CUDA sidecar uses18088;pass `--url http://127.0.0.1:18088` explicitly.
 The CPU default remains18087 and its reference container is currently stopped.
 See [CUDA setup/results](../../docker/bintu-cuda.md) for startup and rollback.
+For repeated requests,keep one RuntimeApplication alive and initialize its strict
+encoder at startup when retrieval is needed. Its encoder already retains the model;
+each app.run still encodes its own question and pins/checks its release. Contexts
+and orchestration remain per request. The single-request CLI still pays cold encoder
+cost;[warm timings and startup are reported separately](../../plans/2026-10-20-fast-replies-results.md).
 
 ```powershell
 python -B -m backend.bintanong_runtime runtime-spec.json request.json `
+  --url http://127.0.0.1:18088 `
   --output C:/Coding-projects/bintanong_workspace/audit-evidence/run.json `
   --evidence-root C:/Coding-projects/bintanong_workspace/audit-evidence `
   --inference-timeout 240 --stage-timeout 300 `
