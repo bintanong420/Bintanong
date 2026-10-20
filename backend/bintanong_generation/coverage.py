@@ -1,4 +1,4 @@
-"""RAG answer relevance is separate from source entailment; both remain fallible."""
+"""Unselected coverage experiment: live multipart completeness judgment failed."""
 import hashlib
 
 from ..bintanong_contracts.schema_display import COMPACT_JSON_INSTRUCTION

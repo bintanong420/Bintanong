@@ -192,6 +192,27 @@ def test_explicit_coverage_runtime_profile_and_canonical_only_selection():
     with pytest.raises(ValueError): covered(Fake(),reference_profile='short')
 
 
+def test_failed_coverage_candidate_stays_unselected_and_preserves_historical_metadata():
+    from backend.bintanong_runtime.application import RuntimeSettings,RuntimeRun
+    assert Generator(Fake()).explanation_profile=='scoped'
+    assert RuntimeSettings().explanation_profile=='scoped'
+    assert RuntimeSettings().routing_profile=='separate'
+    assert RuntimeSettings().generation_reference_profile=='canonical'
+    assert RuntimeRun.model_fields['explanation_profile'].default=='legacy'
+
+
+def test_selected_default_retains_existing_scoped_protocol_without_failed_experiments():
+    async def run():
+        source=integrated('RAG')
+        pack=prepare(source)
+        model=Fake(document_draft(pack),supported())
+        answer=await Generator(model).generate('Fictional course-check result?',source)
+        assert answer.validation=='validated' and answer.status=='answered'
+        assert answer.decision_guard is None and answer.question_coverage is None
+        assert len(model.calls)==2
+    asyncio.run(run())
+
+
 @pytest.mark.parametrize('route',['RAG','Hybrid','Symbolic'])
 def test_observation_reports_effective_review_hash_per_route_and_pending_human_coverage(route):
     from backend.bintanong_generation.evaluation import load_cases,observe

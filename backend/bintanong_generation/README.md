@@ -23,7 +23,7 @@ default institutional release hold; there is no student endpoint or activation.
 | `references.py` | Optional request-local short wire labels; restore canonical hashes before validation/rendering |
 | `scope.py` | Selected document-only explanation contract and per-claim documentary checking; structured decisions remain host-owned |
 | `guard.py` | Experimental one-call post-retrieval assessment; failed multilingual gate and remains unselected |
-| `coverage.py` | Candidate RAG review of whole-question coverage alongside existing claim support; no extra call |
+| `coverage.py` | Unselected RAG question-coverage experiment; failed actual multipart request despite successful prepared probes |
 | `prompt.py` | Versioned draft/support instructions and constrained schemas; question/source/repair text remain untrusted data |
 | `validation.py` | Release/language/outcome/reference checks, complete support verdicts and final assembly checks |
 | `render.py` | Localized preview/control templates, canonical decision rendering and per-claim source markers |
@@ -79,7 +79,7 @@ both initial and single corrected multilingual gates. Guarded remains an explici
 developer experiment;default scoped does not run it. The rejected prompt correction
 is preserved in ignored evidence;the initial prompt is retained for reproducibility.
 The missing post-retrieval safeguard remains an unresolved Phase09 requirement.
-`explanation_profile='covered'` is a separate candidate in the
+`explanation_profile='covered'` is a separate unselected experiment in the
 [coverage plan](../../plans/2026-10-20-question-coverage-plan.md). Its ready RAG
 review requires complete question coverage plus every existing support/language/
 scope check. Supported claims about a different subject cannot pass on entailment
@@ -91,6 +91,13 @@ Hybrid keeps the original documentary checker and host result;this coverage clai
 is RAG only. `question_coverage` records the reviewed draft and combined review
 seconds,already included in generation/pipeline time. It is null for historical
 and other paths. No semantic guarantee or default selection follows from mocks.
+The six prepared probes passed,but the actual-service question asked for both
+location and fee. The model released location only and incorrectly judged complete
+coverage despite the fee being present in its source. Keep scoped selected;covered
+failed its quality gate. The27.3s live response is an incomplete-answer duration,
+not supported complete-answer latency. No correction or further model sweep follows
+this bounded experiment. [Results](../../plans/2026-10-20-question-coverage-results.md)
+preserve the open P2 and exact limitations.
 `CandidateAnswer.decision_guard` records result and elapsed seconds (one assessment,
 including transport preflight/connection work). It is null for historical reports
 and paths with no guard. Its time is already inside generation/pipeline timing.

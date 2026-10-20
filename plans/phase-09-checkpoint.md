@@ -2,95 +2,97 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 50
+sequence: 51
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6eca2ac
+head_commit: 040c27d
 working_tree: dirty
-updated_at: 2026-10-20T13:03:27.6927225+08:00
+updated_at: 2026-10-20T16:00:47.3217227+08:00
 ---
 
-# Phase09 checkpoint - whole-question coverage candidate
+# Phase09 checkpoint - coverage candidate fails live completeness
 
 ## Completed Tasks
 
-Resumed clean cfe7652. Owner requests preserved latency recommendation:ea749da
-adds Context/response-time-recommendation.md and AGENTS pointer,docs597passed1.29s.
-[Coverage plan](2026-10-20-question-coverage-plan.md)6eca2ac tasks1-2 GREEN.
-New explicit covered profile reviews proposed RAG answer coverage plus existing
-support/language/scope in the same call. Partial/none/uncertain coverage withholds
-claims/citations with localized insufficient evidence;no repair or reroute.
-Existing source support failures/invalid reports retain one repair/shared deadline.
-Last full prior checkpoint cfe7652;[guard failure](2026-10-20-post-retrieval-guard-results.md)
-remains separate,unselected. Current default scoped/canonical/separate unchanged.
+Owner latency reference committedea749da:Context/response-time-recommendation.md
+and AGENTS pointer. Coverage plan6eca2ac/product040c27d adds ready RAG review of
+question coverage plus source support in existing call,strict release binding,
+localized withholding,per-draft host observation/reset and effective per-case hashes.
+Last full prior checkpoint040c27d. [Results](2026-10-20-question-coverage-results.md)
+preserves actual failures. Default scoped/canonical/separate remains selected;
+covered and prior guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Commit mechanically verified candidate,then one6case existing-fictional actual-model
-quality gate. Only if it passes run one existing actual-service RAG request. No
-new institutional questions,guard rerun,prompt/seed/budget correction or training.
+Prepared6cases passed,but actual-service multipart question failed:location and fee
+asked;only location answered;model falsely complete despite full source40tokens.
+Independent reviewer confirms P2. Reject promotion,keep experiment explicit and
+finish regression/integrity delivery. This is quarantine,not a semantic fix.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;parent6eca2ac. Changes:coverage module/test,
-generation contracts/scope payload helper/generator/render/validation/evaluation,
-runtime profile/CLI,module docs,scope runtime-profile test,plan/progress/checkpoint.
-No unrelated owner changes. CUDA18088 and local Supabase already running;CPU18087
-stopped intact,default18087 unchanged. No Phase10,student API,push,merge/deployment
-or institutional activation. Actual-model coverage result is not established yet.
+p09/feat/p09-generation-validation;parent040c27d. Current changes:coverage module/
+CLI/README warnings,rejection/default-isolation tests,coverage plan/results,
+INDEX,current progress and this checkpoint. No unrelated owner changes found.
+Existing CUDA18088/localSupabase remain running;CPU18087 stopped intact,default
+18087 unchanged. No Phase10,student API,push,merge,deployment or activation.
 
 ## Verification Evidence
 
-Focused coverage RED32failures;GREEN187tests2.96s. Expanded explicit generation/
-runtime/doc selection841passed5.20s,exit0. Tests include wrong-subject/source-
-supported withholding,complete coverage plus support,strict release/JSON/mapping,
-repair review/reset,deadline/cancellation,concurrent isolation,host Symbolic/
-Hybrid/control bypass and actual per-route review hashes. Historical fields null.
-Raw red.log,green.log,product-green.log under new evidence root. No actual coverage
-inference yet. Prior2048/66subtests89.43s is inherited guard-isolation gate only.
+Coverage RED32/GREEN187tests2.96s;expanded841passed5.20s. Prepared6actual cases:
+3normalRAG answers/9supported claims and3forced structured RAG localized withheld
+results;12calls,zero repairs/errors. Saved-output6passed0.30s. All negative review
+within_scope=false too,so no causal isolation of coverage field. Unreleased FIL
+draft mixed style despite positive language check;released fallbacks appropriate.
+Single actual-service4calls:answered1claim but fee omitted;coverage complete is
+false positive. Actual saved-output corrected RED1failed/6passed0.31s. Initial
+loose numeric assertion falsely matched40in evidence hash;corrected to40tokens
+in claims,both receipts retained. Two speculative promotion tests RED2;no promotion
+implemented. Replaced with default-isolation checks. Focused844passed5.18s.
+One independent whole-change review243tests5.18s,one P2/no other actionable defect;
+no re-review or model correction. Final54-selection regression gate pending.
 
 ## Versions and Digests
 
-Raw:workspace/audit-evidence/p09-question-coverage-20261020/. Existing readiness
-Python3.13.7 -B pytest -q -p no:cacheprovider;external TEMP/TMP/basetemp. Candidate
-source/input/prompt/observation identities will be recorded before inference.
-Existing runtimeb11723-31288c9c6/context8192/output768/temp0/seed0/reasoningnone/
-cachefalse,35/43GPU layers,owner workspace/MODELS reused. No installs,downloads,
-model copy/rehash,dependency/lock or DB changes. Observation budgets240s inference/
-generation;shipped120s inference/generation/stage and180s request unchanged.
-Reconsulted thesis17-18/39-44,actual routing PNG/master12.4-14. PDF freshly hashes
-729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
-Undergrad/read-only/structured-Prolog/unknown/source-gap boundaries agree.
+Raw:workspace/audit-evidence/p09-question-coverage-20261020/. Pre-inference manifests
+bind code040c27d,unchanged prior6questions/input hashes,observer scripts,server props;
+source-inference/ retains bytes. Actual traces retain full messages,usage/timings
+and message/schema hashes. Reviewer assessment/log and failed regression retained.
+Python3.13.7 readiness interpreter,-B pytest -q -p no:cacheprovider;ignored external
+TEMP/TMP/basetemp. No installs/downloads/model copy/rehash,dependency/lock/DB changes.
+Runtimeb11723-31288c9c6/context8192/output768/temp0/seed0/reasoningnone/cachefalse,
+35/43GPU layers,owner workspace/MODELS reused. Observation240s infer/generation,
+300s stage/600s request;shipped120s infer/generation/stage,180s request unchanged.
+Thesis17-18/39-44,actual routing PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
+PDF SHA729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
 ## Decisions
 
-Owner continuation authorizes bounded accuracy fix;separate claim grounding from
-whole-question coverage. Same model/call makes both judgments;no independence or
-universal recall claim. Hybrid keeps documentary checker/host result;new coverage
-claim is RAG only. Covered initially explicit/unselected;guarded remains rejected.
-Reset coverage on new draft;record actual reviewed draft and combined review time,
-already nested inside generation/pipeline. Per-case hashes disambiguate RAG and
-Hybrid review prompts. No source truncation,extra classifier or checker bypass.
-ARES/Ragas primary papers support separate quality dimensions,not this prompt's
-accuracy. No judge training/framework is adopted. One-week improvement cap holds.
-Research recommendation saved durably in Context and AGENTS per owner direction:
-proposed15-20s student-visible,conditional20-30s complex Hybrid,not an achieved SLA;
-separate startup/connections/Supabase/queue/API/browser and avoid double counting.
+Accuracy first. Same-call model coverage judgment failed on multipart completeness;
+keep P2 open in unselected covered,no prompt/seed/budget sweep. Host checks enforce
+reported state,not semantic truth. Prepared negatives cannot prove universal recall.
+Actual outer27.265337s/inner27.265130s is an INCOMPLETE-answer duration,not supported
+complete-answer latency. Combined review5.342653s already nested. Separate script
+entry-to-ready24.184131s includes imports0.833315s,build/encoder23.288540s,initial
+Supabase verification reads0.062273s. Local54321;model/Docker/Supabase already
+running. No isolated handshake,interpreter startup,browser/API/queue/hosted/fullcold
+metric. Proposed15-20s warm student-visible target/conditional20-30s complexHybrid
+is saved in Context/AGENTS,not achieved or owner-approved SLA. One-week cap holds.
+Undergrad/read-only/structured-Prolog/unknown/source-gap/privacy/release holds persist.
 
 ## Known Failures or Blockers
 
-New actual-model coverage unmeasured. Prior guard12+6 failed;one semantic P2 remains
-in explicit guarded experiment. Upstream2Taglish style errors,opaque technical IDs,
-source/institutional/runtime/privacy/auth/hosted migration holds and waiting-time
-acceptance remain. Passing mocks do not resolve any semantic accuracy claim.
+Multipart coverage semantic P2 remains open;prior guarded P2 separately unselected.
+Source/institutional/runtime/privacy/auth/hosted holds,upstream2Taglish style errors,
+opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved.
 
 ## Next Action
 
-Run only unchanged3normalRAG+3forced structured RAG cases once with covered;inspect
-all coverage/claims/styles. Stop quality promotion if any fails. If pass,run one
-existing full actual-service RAG,then fresh whole-change review and selection gate.
+Finish54-selection regressions and seal/commit failed experiment. Then design typed
+question requirements and per-item evidence/claim-or-unavailable binding before
+another model observation;validate extraction completeness separately. No sweep.
 
 ## Do Not Repeat
 
-Settled source/benchmark reviews,model setup,combined/short-ID failures,scoped9+3
-observations or guard12+6. Preserve original seals/history;no further guard prompt
-correction,unchecked streaming or accuracy-for-speed trade. No Phase10 advancement.
+Settled source/benchmark reviews,model setup,combined/short-ID/guard failures,
+scoped9+3 or coverage6+1observations. Preserve exact source/failure history;no
+unchecked streaming,accuracy-for-speed trade or Phase10 advancement.

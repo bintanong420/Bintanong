@@ -56,7 +56,7 @@ def main(argv=None):
     parser.add_argument('--routing-profile',choices=('separate','combined'),default='separate',
         help='combined is experimental and failed multilingual promotion; default: separate')
     parser.add_argument('--explanation-profile',choices=('legacy','scoped','guarded','covered'),default='scoped',
-        help='default: scoped; covered is a coverage candidate; guarded failed multilingual quality')
+        help='default: scoped; covered and guarded are experiments that failed quality gates')
     parser.add_argument('--inference-timeout',type=float,default=120)
     parser.add_argument('--stage-timeout',type=float,default=120)
     parser.add_argument('--generation-timeout',type=float,default=120)

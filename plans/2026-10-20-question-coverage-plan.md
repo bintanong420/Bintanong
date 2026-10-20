@@ -68,7 +68,7 @@ is preserved;review seconds are nested in the pipeline,not added twice.
    from unchanged Hybrid);top-level covered support hash null with explicit coverage
    policy hash. Report pending human question-coverage review separately. Verify
    focused regressions,commit candidate;keep scoped default pending quality.
-3. [ ] Once:reuse the existing3normalRAG+3forced structured RAG questions and
+3. [x] Once:reuse the existing3normalRAG+3forced structured RAG questions and
    evidence from prior experiment,unchanged wording. Run full prepared generation
    with covered,inspect every claim/style/coverage/outcome and report time/calls.
    Expect3documentary answers and3safe withheld results;an operational error is not
@@ -99,3 +99,26 @@ shipped120s inference/generation/stage and180s request unchanged.
 - Hybrid scope must not be judged incomplete merely because its host-owned part is
   absent from the documentary checker;this profile's coverage claim is RAG only.
 - Reports must identify actual review prompt,failed attempts and timing boundaries.
+
+## Actual quality outcome and ruling
+
+Product040c27d:prepared6cases pass (3answers/9supported claims;3localized withheld
+results),12calls/zero repairs. All negative reviews also within_scope=false,so this
+does not isolate coverage's causal contribution. Actual-service RAG then fails:
+question asks location AND fee;only location generated;review falsely complete
+despite full source including40tokens. Independent reviewer confirms one P2 and
+243focused tests5.18s. Unreleased FIL draft mixes language while checker says true;
+document as a residual judge limitation. No supported complete-answer timing claim.
+
+Reviewer P2 remains open in explicit covered;do not select it. Stop rule applies:
+no prompt/seed/budget correction or further inference. Two anticipated promotion
+tests were RED before reviewer finding;promotion was never implemented. Replace
+them with rejection/default-isolation regressions. Keep scoped/canonical/separate
+selected. This is quarantine,not a semantic fix;multipart completeness remains
+unresolved. Final task is review/result integrity and explicit regression delivery.
+
+Ruling:one aggregate model coverage field cannot prove all requested parts were
+answered. Next recovery design must expose question requirements separately from
+answer claims and bind each to actual evidence/withholding. That design itself
+still needs validation that no requirement was omitted;do not call a checklist a
+guarantee or substitute keyword routing. No new model experiment starts here.
