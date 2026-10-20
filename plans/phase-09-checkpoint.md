@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 66
+sequence: 67
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 4620a92
+head_commit: 37e8bda
 working_tree: dirty
 updated_at: 2026-10-20T17:57:27+08:00
 ---
@@ -108,9 +108,9 @@ end-to-end validation remain unresolved. Test counts do not establish accuracy.
 
 ## Next Action
 
-Implement the existing-router recovery as one coherent versioned contract change:
-focused RED/GREEN for extraction,binding,typed propagation and unresolved structured
-coverage. Freeze the separate future actual-model gate before any new inference.
+Execute [router implementation plan](2026-10-20-router-understanding-implementation-plan.md)
+Task1 focused RED/GREEN,then bound propagation and per-part validation. Full scope
+and software/actual-quality boundaries are recorded there;no new inference yet.
 
 ## Do Not Repeat
 
