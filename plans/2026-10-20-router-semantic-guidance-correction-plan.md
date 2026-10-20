@@ -63,14 +63,14 @@ Files:backend/bintanong_routing/prompt.py,combined.py;
 tests/test_routing_prompt_example.py. Existing build_messages/output_schema/Router
 interfaces unchanged. Embed one JSON example between explicit example markers.
 
-- [ ] Write four focused cases:shipped example schema/quote/three-part coherence;
+- [x] Write four focused cases:shipped example schema/quote/three-part coherence;
   actual Router dispatch of its supplied packet with scoped target/failure;
   hypothetical and reported versions retain nonasserted guards. No string-only
   tests or synthetic tests presented as semantic accuracy.
-- [ ] Observe RED for the absent example before product edits;implement only
-  guidance/example/version bumps;observe GREEN.
-- [ ] Run relevant routing/prompt-schema regressions once;do not repeat688tests
-  or unrelated checks. Record exact commands/results and commit verified code.
+- [x] Observe RED for the absent example before product edits:4fail0.93s;implement
+  guidance/example/version bumps only;GREEN4pass0.61s.
+- [x] Relevant routing/prompt-schema regressions237passed3.54s;no repeat688tests
+  or unrelated checks. Exact command/log under the named raw root;commit follows.
 - [ ] One fresh read-only whole-change review;one correction pass for consequential
   findings only. Seal software identities and update progress/checkpoint.
 

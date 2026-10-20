@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 82
+sequence: 83
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: f62f493
+head_commit: 89e9503
 working_tree: dirty
-updated_at: 2026-10-20T23:12:03+08:00
+updated_at: 2026-10-20T23:16:43+08:00
 ---
 
 # Phase09 checkpoint - actual quoted-reference observation failed quality
@@ -24,9 +24,10 @@ response requirements2/4;strict full quality0/4:FAIL,no promotion.
 
 ## Current Task
 
-Resume f62f493 clean;bounded [guidance correction](2026-10-20-router-semantic-guidance-correction-plan.md)
-within existing prompt/example authorization. One complete fictional example and
-explicit mode/detail guidance;no host/schema/guard change or inference in this task.
+Bounded [guidance correction](2026-10-20-router-semantic-guidance-correction-plan.md)
+implemented within existing prompt/example authorization. One complete fictional
+three-part example and explicit mode/detail guidance;no host/schema/guard change
+or inference. Four new tests:4RED0.93s then4GREEN0.61s;237regressionsGREEN3.54s.
 Scope17-18/architecture39-44,actual PNG/master3/11/13/14 revisited;the thesis
 closed-world illustration does not override the established unknown-vs-unmet policy.
 
@@ -42,7 +43,8 @@ active recovery;no discrepancy. Undergraduate/read-only/unknown-vs-unmet preserv
 ## Repository State
 
 p09/feat/p09-generation-validation;delivery f62f493,observation HEAD5e44625.
-Pending docs:guidance plan,progress/checkpoint. No code or unrelated changes yet.
+Pending:prompt.py,combined.py,test_routing_prompt_example.py;plan/progress/checkpoint.
+No unrelated changes. Product commit follows;one fresh review then software seal.
 Checkpoint names parent snapshot;its containing documentation commit follows.
 Existing workspace/MODELS/CUDA18088/default18087 untouched. No service startup,
 weights rehash/copy/download,dependency/source/DB changes,training,institutional
@@ -111,9 +113,9 @@ Quoted candidate does not meet strict part/meaning quality;no phase completion.
 
 ## Next Action
 
-Execute the guidance plan inline:four meaningful example/boundary tests,observe
-RED,clarify guidance/example,verify GREEN/relevant routing regressions,one fresh
-whole-change review and software seal. No actual inference in this task.
+Commit verified guidance/example;one fresh read-only whole-change review and
+software freeze/seal. Do not repeat passing237regressions without a new change.
+No actual-model inference or semantic/latency success claim in this task.
 Retain guards;conditional decision and later observation protocol stay separate.
 
 ## Do Not Repeat

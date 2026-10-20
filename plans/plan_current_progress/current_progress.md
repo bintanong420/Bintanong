@@ -6,6 +6,12 @@ Last full prior snapshotf62f493:plans/plan_current_progress/current_progress.md.
 
 ## Latest result
 
+Bounded [guidance correction](../2026-10-20-router-semantic-guidance-correction-plan.md)
+implemented:one complete fictional three-part wire example,explicit direct-self/
+hypothetical/reported guidance,routerv12/combined-promptv3. Existing guards unchanged.
+4RED0.93s->4GREEN0.61s;237routing/prompt-schema regressionsGREEN3.54s.
+One fresh review/software seal next;no new actual-model or latency measurement.
+
 One frozen four-case actual-model observation completed at5e44625/code9a72d2e.
 Response requirements met2/4;strict full-quality gate0/4:FAIL,no promotion.
 English d-en duplicates whole-question parts on initial+sole repair;host rejects.
@@ -48,8 +54,7 @@ merge,deployment or activation. One inline correction/one fresh reviewer.
 
 ## Next action
 
-Execute the [bounded guidance plan](../2026-10-20-router-semantic-guidance-correction-plan.md)
-within existing approved prompt/example requirements:one complete worked example,
-explicit mode/detail guidance,four meaningful RED/GREEN cases,relevant regressions
-and one fresh review. Preserve quoted identity/guards;conditional choice separate.
+Commit the [bounded guidance correction](../2026-10-20-router-semantic-guidance-correction-plan.md),
+then one fresh whole-change review and software freeze/seal. Do not repeat passing
+237regressions without cause. Preserve quoted identity/guards;conditional choice separate.
 No actual-model calls in this implementation or new performance/accuracy claim.

@@ -23,7 +23,7 @@ class CombinedProposal(Contract):
     style: StyleEvidence
 
 
-PROMPT_VERSION = 'bintanong-routing-style-p09-v2'
+PROMPT_VERSION = 'bintanong-routing-style-p09-v3'
 SYSTEM = '''Perform two separately validated tasks in ONE JSON packet.
 The outer schema_version is bintanong-routing-style-v2. Fill interpretation and
 style as separate objects. Never answer the student or execute a tool here.
