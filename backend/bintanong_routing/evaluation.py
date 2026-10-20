@@ -161,7 +161,8 @@ def main():
     parser.add_argument('--url', default='http://127.0.0.1:18087')
     parser.add_argument('--timeout', type=float, default=120)
     parser.add_argument('--plain-json', action='store_true', help='Explicitly disable schema decoding; still validate')
-    parser.add_argument('--routing-profile',choices=('separate','combined'),default='separate')
+    parser.add_argument('--routing-profile',choices=('separate','combined'),default='separate',
+        help='combined is an experimental development candidate; default: separate')
     args = parser.parse_args()
     if not args.output.resolve().is_relative_to(args.evidence_root.resolve()):
         parser.error('output must stay in the ignored evidence root')

@@ -57,7 +57,8 @@ def test_application_passes_profile_and_observation_records_it(monkeypatch):
     assert result.model_calls==()
 
 
-def test_cli_profile_is_trusted_configuration_and_recorded(tmp_path,monkeypatch):
+@pytest.mark.parametrize('profile',['combined','separate',None])
+def test_cli_profile_is_trusted_configuration_and_recorded(tmp_path,monkeypatch,profile):
     import backend.bintanong_runtime.cli as cli
     seen=[]
     class App:
@@ -70,7 +71,14 @@ def test_cli_profile_is_trusted_configuration_and_recorded(tmp_path,monkeypatch)
     spec_path=tmp_path/'spec.json';spec_path.write_text(json.dumps(spec()))
     request=tmp_path/'request.json';request.write_text(json.dumps(dict(question='A1',context=ctx().model_dump(mode='json'))))
     output=tmp_path/'raw/run.json'
-    cli.main([str(spec_path),str(request),'--output',str(output),'--evidence-root',str(output.parent),
-        '--routing-profile','combined'])
-    assert seen[0].routing_profile=='combined'
-    assert json.loads(output.read_text())['routing_profile']=='combined'
+    args=[str(spec_path),str(request),'--output',str(output),'--evidence-root',str(output.parent)]
+    if profile is not None:args+=['--routing-profile',profile]
+    cli.main(args)
+    expected=profile or 'separate'
+    assert seen[0].routing_profile==expected
+    assert json.loads(output.read_text())['routing_profile']==expected
+
+
+def test_unselected_candidate_does_not_change_runtime_or_orchestrator_default():
+    assert RuntimeSettings().routing_profile=='separate'
+    assert Orchestrator(None).routing_profile=='separate'
