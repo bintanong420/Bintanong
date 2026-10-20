@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 9
-status: paused
-sequence: 22
+status: in_progress
+sequence: 25
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: d032298
+head_commit: c490fe8
 working_tree: dirty
-updated_at: 2026-10-20T01:17:00+08:00
+updated_at: 2026-10-20T10:11:00+08:00
 ---
 
 # Phase09 checkpoint - actual service composition
@@ -25,8 +25,9 @@ Review found pre-limit full-file reads; focused RED1failure,then bounded limit+1
 snapshot read; GREEN17focused tests2.04s. No inference/prompt behavior changed.
 
 ## Current Task
-Owner explicitly paused implementation until tomorrow morning. Current turn made
-read-only hardware/code/timing checks only;no implementation or service change.
+Owner resumes implementation this morning and recalls CUDA setup. Execute the
+[bounded latency plan](2026-10-20-phase09-latency-plan.md). Existing CPU container
+was stopped overnight;started it unchanged for readiness. No image/model download.
 [Integration supplement](2026-10-20-live-backend-composition-plan.md) task1 GREEN;
 Actual composition increment delivered;Phase09 latency/prose/language work remains.
 Phase07 audit finds core
@@ -39,6 +40,11 @@ workflow guarde0e86ea. Final wrapper changes docs only;head_commit anchors verif
 code. Current progress/index/checkpoint updated. No Phase10 branch/work.
 
 ## Verification Evidence
+Latency work:docker/bintu-cuda.compose.yaml validates;localhost18088/read-only
+weights/pinned officialamd64image/no implicit pull/one GPU. Owner-approved runtime
+download in progress. Compact display helper RED missingmodule/GREEN6tests1.69s;
+actual-message RED4failures pending wiring after unchanged-prompt GPU observation.
+Earlier actual-request evidence below is retained,not rerun as a new baseline.
 Raw:workspace/audit-evidence/p09-live-composition-20261020/.
 RED:red.log missing composition module; GREEN:green-2.log,7passed0.76s.
 First GREEN attempt exposed strict constructor/list mismatch in the new fixture;
@@ -76,6 +82,9 @@ Actual existing model root is workspace/MODELS; former C:/Coding-projects/MODELS
 is absent. No copies/downloads; explicitly configure the inherited owner path.
 
 ## Decisions
+Owner20October2026 explicitly approves "Download and test the CUDA runtime" for
+the pinned2.6GB image after reviewing the sidecar configuration/download boundary.
+This authorizes the runtime image only;no new model weights or project dependencies.
 User authorizes actual backend continuation; stay Phase09 and separate Phase10.
 Compose existing modules,keep LLM routing and deterministic Prolog. Only fictional
 fixtures admitted by this runner; source identities and anon/RLS checked per pin.
@@ -88,9 +97,9 @@ sources/release promoted. Default latency,Hybrid scope wording and language rema
 open;source/schema/release and institutional holds remain in dated records.
 
 ## Next Action
-Wait for owner to resume;then investigate measured latency/GPU feasibility before
-a bounded change. RTX3050Laptop4096MiB exists;current container has no GPU assigned.
-No speed-up or achievable latency has been measured. Preserve all Phase09 holds.
+Prepare/validate the pinned CUDA configuration and compact schema presentation
+without changing decoding/host guards. Then measure a bounded matched profile.
+No speed-up or achievable latency yet measured. Preserve all Phase09 holds.
 
 ## Do Not Repeat
 Prior model/prompt sweeps,settled source decisions or accepted institutional labels.

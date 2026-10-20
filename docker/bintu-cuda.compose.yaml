@@ -1,0 +1,45 @@
+# Optional local research runtime; no model acquisition or institutional activation.
+name: bintanong-p09-cuda
+services:
+  bintu_cuda:
+    # Official linux/amd64 manifest, resolved 20 October 2026; not a moving tag.
+    image: ghcr.io/ggml-org/llama.cpp@sha256:f66a5229a3e0586339d16155e9fe09c37834d7a7f4134bbdee7360b5a1f2546d
+    platform: linux/amd64
+    pull_policy: never
+    container_name: bintanong-p09-cuda-latency
+    restart: "no"
+    ports:
+      - "127.0.0.1:18088:8080"
+    volumes:
+      - type: bind
+        source: ${MODELS_DIR:?Set MODELS_DIR to the existing model root}
+        target: /models
+        read_only: true
+        bind:
+          create_host_path: false
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command:
+      - --model
+      - /models/GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8080"
+      - --ctx-size
+      - "8192"
+      - --parallel
+      - "1"
+      - --threads
+      - "8"
+      - --n-predict
+      - "768"
+      - --n-gpu-layers
+      - ${BINTU_GPU_LAYERS:-8}
+      - --no-webui
+      - --jinja

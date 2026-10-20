@@ -1,15 +1,19 @@
 # Current progress
 
 Updated:20October2026. Phase09 reopened in p09/feat/p09-generation-validation.
-Owner paused implementation until tomorrow morning;resume only on a later instruction.
+Owner resumed this morning;[bounded latency plan](../2026-10-20-phase09-latency-plan.md).
 [Active checkpoint](../phase-09-checkpoint.md) · [Integration plan](../2026-10-20-live-backend-composition-plan.md).
 Last full pre-condensation snapshot:fab0225:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Read-only latency follow-up:RTX3050Laptop GPU4096MiB available;current model
-container has no GPU assigned. Four serial model calls dominate the measured
-latency. No speed-up implementation,configuration change,install or restart done.
+RTX3050Laptop4096MiB available;CPU container has no GPU assigned. Hybrid routing
+spent94s reading4160tokens/47s generating319tokens. Prepare CUDA sidecar and compact
+duplicated prompt schema while preserving full guards/calls. CPU container started
+unchanged after overnight stop;weights/project dependencies stay unchanged.
+Owner explicitly approves downloading/testing the pinned CUDA runtime image.
+Validated sidecar configuration;approved runtime download in progress. Display
+compaction helper6tests pass;actual-message RED4pending hardware-only observation.
 
 Owner directs actual backend continuation and asks whether Phase07 omitted work.
 [Phase07 audit](../2026-10-20-phase07-functionality-audit.md): core interpreter,
@@ -73,5 +77,5 @@ No Phase10 implementation,student chat endpoint,deployment,push or merge.
 
 ## Next action
 
-After owner resumes tomorrow,investigate latency using existing timings and check
-GPU feasibility before a bounded change. Preserve output-scope/language/release holds.
+Validate CUDA configuration and implement/test schema-presentation compaction,
+then measure one bounded matched runtime/profile. Preserve all Phase09 holds.
