@@ -15,6 +15,7 @@ from backend.bintanong_routing.transport import RuntimeFailure
 from test_routing_contracts import context, proposal
 from test_routing_router import FakeTransport, style_proposal
 from test_routing_validation import catalog, registry
+from routing_wire_fixtures import wire_fixture
 
 
 def api():
@@ -22,8 +23,9 @@ def api():
 
 
 def packet(response_style='taglish', **interpretation):
-    return dict(schema_version='bintanong-routing-style-v1',
-        interpretation=proposal(**interpretation),style=style_proposal(response_style)['style'])
+    return dict(schema_version='bintanong-routing-style-v2',
+        interpretation=wire_fixture(proposal(**interpretation), interpretation.get('text', 'A1')),
+        style=style_proposal(response_style)['style'])
 
 
 def run(transport, **options):
@@ -64,14 +66,15 @@ def test_two_invalid_packets_fail_closed_without_separate_or_rag_fallback(raw):
 
 
 @pytest.mark.parametrize('change',['style','mention'])
-def test_invalid_literal_grounding_never_gets_a_semantic_repair(change):
+def test_invalid_wire_and_style_grounding_preserve_format_repair_limits(change):
     value=packet()
     if change=='style':value['style']['english_fragments']=['invented']
-    else:value['interpretation']['mentions'][0]['text']='B1'
-    transport=FakeTransport(json.dumps(value))
+    else:value['interpretation']['mentions'][0]['quote']['text']='B1'
+    transport=FakeTransport(json.dumps(value),json.dumps(value))
     result=run(transport)
-    assert result.diagnostic=='invalid_grounding' and not result.decision.dispatchable
-    assert result.inference_calls==len(transport.calls)==1
+    assert result.diagnostic==('invalid_grounding' if change=='style' else 'invalid_model_output')
+    assert not result.decision.dispatchable
+    assert result.inference_calls==len(transport.calls)==(1 if change=='style' else 2)
 
 
 def test_timeout_does_not_spend_a_repair_or_enter_separate_path():

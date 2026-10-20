@@ -6,12 +6,13 @@ Last full prior snapshot0f5e1bc:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Approved quoted-reference implementation Task1 delivered:strict wire contract and
-host normalizer,15focused RED0.72s then58GREEN0.59s with existing normalized-contract
-regressions. No model calls;RAG/Prolog/generation unchanged. Task2 integration next.
+Approved implementation Task1 committed71be2fd:15RED0.72s then58GREEN0.59s.
+Task2 boundary integration/promptv11:7RED0.93s then22GREEN1.12s. Fixture migration
+29fail/123pass corrected;152GREEN3.67s. Relevant31file gate688passed13.96s.
+No model calls;Prolog rules/generation contracts unchanged. One final review next.
 
-Diagnosed the failed gate from sealed traces and pinned llama.cpp sources;zero
-new inference/product/configuration changes. All55prior sealed files unchanged.
+Prior diagnosis used sealed traces/pinned sources;zero new inference/configuration
+changes. All55prior sealed files unchanged;current wire code differs from that run.
 Fresh docs10passed0.78s;84links/caps pass;phase remains9,cannot advance. Research
 raw10files sealed under workspace/audit-evidence/p09-router-correction-design-20261020/.
 Design:LLM quoted references;host computes spans and binds targets/entities. Keep
@@ -66,7 +67,7 @@ No installs/downloads/training/DB/dependency/source changes,push,merge or activa
 
 ## Next action
 
-Execute [Task2](../2026-10-20-router-quoted-reference-implementation-plan.md)
-router integration/fixtures with RED-GREEN and one whole-change review.
+Commit [Task2](../2026-10-20-router-quoted-reference-implementation-plan.md),then
+one whole-change review and root TDD corrections for consequential findings.
 Conditional execution needs separate decision/design. Preserve modes and guards;
 no inference,old-batch rerun or open prompt/model/seed/budget sweep.

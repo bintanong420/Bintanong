@@ -60,14 +60,16 @@ Interface:prompt.output_schema exposes wire contract;routers normalize before th
 existing host interpretation validator. Combined packet/version references wire;
 no legacy model-wire fallback. Host normalized-contract fixtures stay v2.
 
-- [ ] Add RED:wire schema contains no spans/numeric course target;actual routers
+- [x] Add RED:wire schema contains no spans/numeric course target;actual routers
   accept literal wire packets,share bounded repair and reject legacy/foreign refs.
-- [ ] Integrate both routers and new prompt identity. One short fictional role
+- [x] Integrate both routers and new prompt identity. One short fictional role
   contrast only;retain scope/mode/injection guards and separate requested details.
-- [ ] Migrate model-output fixtures explicitly;never call production normalization
+- [x] Migrate model-output fixtures explicitly;never call production normalization
   to manufacture expected answers. Keep independent literal wire regressions.
-- [ ] Run relevant routing,combined,prompt-schema,orchestration and generation
+- [x] Run relevant routing,combined,prompt-schema,orchestration and generation
   regressions;inspect all failures,correct migration errors,rerun affected gate.
+  Task2 RED7fail0.93s,focused22GREEN1.12s;fixture migration29fail/123pass4.28s,
+  corrected152GREEN3.67s;31file software gate688pass13.96s. No inference.
 - [ ] One fresh whole-change review;one correction pass with RED/GREEN if needed.
 - [ ] Verify code/prompt/schema bindings,prior seals,docs/phase/local links;commit
   compact results/progress/checkpoint. No further review/inference sweep.

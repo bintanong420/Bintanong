@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 76
+sequence: 77
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: da4673d
+head_commit: 71be2fd
 working_tree: dirty
 updated_at: 2026-10-20T22:12:00+08:00
 ---
@@ -32,8 +32,11 @@ Completed [bounded correction diagnosis/design](2026-10-20-router-correction-dia
 Owner explicitly approved quoted-reference design;native TDD implementation active
 through [implementation plan](2026-10-20-router-quoted-reference-implementation-plan.md).
 One design builder check returned nothing important left;no repeat design review.
-Task1 delivered strict wire models and host normalization;15focused RED0.72s then
+Task1 committed71be2fd:strict wire models/host normalization;15focused RED0.72s then
 58GREEN0.59s including normalized contracts/validation. Synthetic fixtures only.
+Task2 wired separate/combined packets and promptv11;7RED0.93s then22GREEN1.12s.
+Fixture migration29fail/123pass4.28s corrected;152GREEN3.67s. Relevant31file gate
+688passed13.96s. One fresh whole-change review pending;no model calls.
 Actual saved prompts have no thinking trigger;the pinned Gemma JSON grammar still
 permits thoughts even with thinking false. Do not assume adding another flag fixes it
 or force zero reasoning for speed. Conditional-answer choice asked separately,pending.
@@ -44,9 +47,10 @@ master3/11/13/14 consulted;no discrepancy. Missing facts remain distinct from fa
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEADda4673d,execution1f0ead3,product8fafaf7 baseline.
-Pending docs:approved design,implementation plan,progress/checkpoint. No unrelated
-changes. Checkpoint head names this task's starting snapshot;containing docs commit
+p09/feat/p09-generation-validation;HEAD71be2fd,prior actual execution1f0ead3.
+Pending Task2 routing code/README,test fixtures/boundary tests,plan/progress/checkpoint.
+No unrelated changes;old product8fafaf7 remains the last actual-model observation.
+Checkpoint head names this task's starting snapshot;containing docs commit
 follows it. Existing workspace/MODELS/CUDA18088 untouched this task;
 default18087 untouched. No service startup,DB writes,installs/downloads,weight copies/
 rehash,dependency edits,push,merge,student endpoint,deployment or activation.
@@ -120,8 +124,8 @@ institutional/source/privacy/auth/hosted release holds unresolved.
 
 ## Next Action
 
-Execute Task2 boundary integration/migration RED-GREEN and one whole-change review.
-Task1 wire module/tests are verified;no new model calls. Conditional execution remains
+Commit verified Task2,then one fresh whole-change review againstda4673d;root handles
+any consequential findings with focused TDD in one pass. Conditional execution
 excluded pending separate decision/design. No inference,old-batch rerun or sweep.
 
 ## Do Not Repeat

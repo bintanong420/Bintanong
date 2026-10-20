@@ -5,15 +5,16 @@ from copy import deepcopy
 
 from ..bintanong_contracts.base import VOCAB
 from ..bintanong_contracts.schema_display import compact_for_prompt, COMPACT_JSON_INSTRUCTION
-from .contracts import Interpretation, prepare_query
+from .contracts import prepare_query
+from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p09-v10'
+PROMPT_VERSION = 'bintanong-router-p09-v11'
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
 do not expect source passages in the input or ask the student to supply the handbook/memo.
-schema_version is bintanong-interpretation-v2. Interpret English, Filipino and Taglish directly.
+schema_version is bintanong-interpretation-wire-v1. Interpret English, Filipino and Taglish directly.
 Preserve negation (hindi, di, not), pa, failed/passed, numbers, dates and hypothetical language.
 Select language from original_text ONLY, not English catalog labels, IDs, intent or reason:
 en = English conversation; fil = Filipino/Tagalog conversation; taglish = Filipino conversation
@@ -57,14 +58,21 @@ For greeting or unsupported_scope, operations=[] and claims=[] ALWAYS: no course
 performed for these controls. A program mention must never create a course operation.
 Emit either route or control, never both. Only one operation/target can proceed; preserve all
 operations when several were requested, so the backend can ask which check to do first.
-mentions are literal program/curriculum/course text from original_text, with ZERO-BASED Python
-character start and exclusive end offsets. Do not normalize spelling or invent alias identities.
-operations.target and claims.entity index the mentions array; both refer to course mentions.
+Every quote is {text,occurrence}: exact original_text and its zero-based occurrence, normally 0.
+Count overlapping exact matches when text repeats. The backend computes character positions;
+do not calculate or emit start/end offsets. Do not normalize spelling or invent alias identities.
+mentions contain kind and quote. operations.target and claims.entity are quoted references
+identical to an existing course mention's quote, never numeric mention-array indices.
+An eligibility target is the course being requested, not the failed prerequisite mentioned nearby.
+One fictional role contrast only,not institutional facts: "I failed M4. Can I take N8?" targets
+{text:"N8",occurrence:0}; the failed claim's entity is {text:"M4",occurrence:0} and its
+statement quote is {text:"I failed M4",occurrence:0}. Mention ordering does not change these roles.
 An operation never targets a program/curriculum mention. Program requirements are not
 course prerequisites just because the word "requirements" occurs.
-claims capture only explicit passed/failed/enrolled/not_enrolled assertions, with mode asserted,
+claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
-statement, including negation. Do not turn numeric grades into pass/fail or missing records into failure.
+statement, including negation. Do not omit a stated condition because the target is a different course.
+Do not turn numeric grades into pass/fail or missing records into failure.
 Hypothetical conditions and friend-reported statements never become actual student records or policy.
 Leave claims empty when no completion/enrollment statement is supplied. Never invent facts or IDs.
 Missing curriculum must not be inferred from a course code, age, similarity or continuing status.
@@ -74,7 +82,9 @@ document retrieval" is an EXPLANATION, not an ambiguity; put it in reason only. 
 a clear document-procedure request has route=RAG, control=null, operations=[], ambiguities=[].
 reason is a brief routing explanation (at most 240 characters), not hidden reasoning.
 parts records EVERY requested answer part before any evidence is retrieved. Use 1-8 parts
-for an academic route, with distinct part_id r1..r8 and exact original text/start/end quotes.
+for an academic route, with distinct part_id r1..r8 and quoted references to original text.
+Give separately answerable details their own parts, including location and charge when both are
+requested. Do not merge independent details into one whole-question part.
 Preserve each requested detail, subject, condition, negation and date; do not replace a
 question with an imagined source sentence. A quote may overlap another part when necessary
 to preserve its subject, but identical spans are duplicates. For each part evidence_need is
@@ -100,12 +110,12 @@ def digest(value):
 
 
 def output_schema():
-    schema = Interpretation.model_json_schema()
+    schema = WireInterpretation.model_json_schema()
     # Make the control decision before emitting actions in constrained decoding.
     first = ('schema_version', 'language', 'audience', 'route', 'control')
     schema['properties'] = {k:schema['properties'][k] for k in
                             (*first, *(k for k in schema['properties'] if k not in first))}
-    schema['properties']['schema_version']['const'] = Interpretation.SCHEMA_VERSION
+    schema['properties']['schema_version']['const'] = WireInterpretation.SCHEMA_VERSION
     for field, vocab in [('route','routes'), ('control','controls')]:
         schema['properties'][field] = {'enum': [*VOCAB['runtime'][vocab], None]}
     route_branch = {k:deepcopy(v) for k,v in schema.items() if k != '$defs'}

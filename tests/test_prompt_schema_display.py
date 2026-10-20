@@ -11,6 +11,7 @@ from backend.bintanong_routing.style import style_output_schema
 from backend.bintanong_generation.contracts import AnswerDraft,SupportReport
 from backend.bintanong_generation.prompt import output_schema
 from test_routing_contracts import proposal
+from routing_wire_fixtures import wire_fixture
 
 
 def schemas():
@@ -31,6 +32,7 @@ def test_display_keeps_acceptance_for_valid_and_invalid_candidates(full):
             decision_outcome=None,claims=[dict(claim_id='c1',text='Fictional fact',evidence_ids=['ev-'+'a'*64])]),
         dict(schema_version='bintanong-prose-support-v1',verdicts=[dict(claim_id='c1',verdict='supported')],
             language_appropriate=True,within_scope=True)]
+    values = [wire_fixture(value) for value in values]
     assert any(original.is_valid(value) for value in values)
     for value in values:
         variants=[value,None,[],dict(value,extra='forbidden')]

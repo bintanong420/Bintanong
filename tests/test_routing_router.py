@@ -7,6 +7,7 @@ import pytest
 from backend.bintanong_routing.contracts import RequestContext
 from test_routing_contracts import context, proposal as canonical_proposal
 from test_routing_validation import catalog, registry
+from routing_wire_fixtures import wire_fixture
 
 
 proposal = canonical_proposal
@@ -39,6 +40,14 @@ class FakeTransport:
                      json.dumps(style_proposal(json.loads(self.last_routing)['language'])))
         else:
             value = self.outputs.pop(0)
+            if isinstance(value, str) and schema['properties']['schema_version'].get('const') == 'bintanong-interpretation-wire-v1':
+                try:
+                    authored = json.loads(value)
+                    if isinstance(authored, dict):
+                        text = json.loads(messages[1]['content'])['original_text']
+                        value = json.dumps(wire_fixture(authored, text))
+                except (ValueError, KeyError):
+                    pass
             self.last_routing = value
         if isinstance(value, Exception):
             raise value
@@ -60,7 +69,7 @@ def test_model_selected_language_style_is_preserved(language):
     system = transport.calls[0][0][0]['content']
     assert 'LLM' in system and 'Taglish' in system and 'Prolog' in system
     assert 'A1' in transport.calls[0][0][1]['content']
-    assert transport.calls[0][1]['properties']['schema_version']['const'] == 'bintanong-interpretation-v2'
+    assert transport.calls[0][1]['properties']['schema_version']['const'] == 'bintanong-interpretation-wire-v1'
 
 
 def test_invalid_json_repairs_once_and_retains_complete_repair_messages():
@@ -92,11 +101,11 @@ def test_semantic_hold_does_not_repair_or_fall_back():
     assert result.decision.control == 'clarify' and len(transport.calls) == 2
 
 
-def test_false_grounding_is_unavailable_without_a_semantic_repair():
+def test_invalid_wire_quote_is_unavailable_after_bounded_format_repair():
     value = proposal(mentions=[dict(kind='course', text='B1', start=0, end=2)])
-    transport = FakeTransport(json.dumps(value))
+    transport = FakeTransport(json.dumps(value), json.dumps(value))
     result = run(transport)
-    assert result.diagnostic == 'invalid_grounding' and not result.decision.dispatchable
+    assert result.diagnostic == 'invalid_model_output' and not result.decision.dispatchable
     assert len(transport.calls) == 2
 
 
@@ -116,9 +125,9 @@ def test_decoder_schema_expresses_mutually_exclusive_route_and_control():
     jsonschema = pytest.importorskip('jsonschema')
     from backend.bintanong_routing.prompt import output_schema
     validator = jsonschema.Draft202012Validator(output_schema())
-    assert validator.is_valid(proposal())
-    assert not validator.is_valid(proposal(control='greeting'))
-    assert not validator.is_valid(proposal(route=None))
+    assert validator.is_valid(wire_fixture(proposal()))
+    assert not validator.is_valid(wire_fixture(proposal(control='greeting')))
+    assert not validator.is_valid(wire_fixture(proposal(route=None)))
 
 
 @pytest.mark.parametrize('control', ['greeting', 'unsupported_scope'])
@@ -129,13 +138,13 @@ def test_terminal_control_schema_and_contract_forbid_student_actions(control, fi
     from backend.bintanong_routing.prompt import output_schema
     value = proposal(route=None, control=control, operations=[])
     validator = jsonschema.Draft202012Validator(output_schema())
-    assert validator.is_valid(value)
+    assert validator.is_valid(wire_fixture(value))
     assert Interpretation.parse(value).control == control
     if field == 'operations':
         value[field] = [dict(name='check_prerequisite_eligibility', target=0)]
     else:
         value[field] = [dict(text='A1', start=0, end=2, entity=0, state='passed', mode='asserted')]
-    assert not validator.is_valid(value)
+    assert not validator.is_valid(wire_fixture(value))
     with pytest.raises(ValueError, match='terminal_control_has_actions'):
         Interpretation.parse(value)
 
@@ -147,7 +156,7 @@ def test_compound_clarification_keeps_the_requested_operations():
     value = proposal(route=None, control='clarify', operations=[
         dict(name='check_prerequisite_eligibility', target=0),
         dict(name='list_affected_courses', target=0)])
-    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value)
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(wire_fixture(value))
     assert len(Interpretation.parse(value).operations) == 2
 
 
@@ -166,7 +175,7 @@ def test_decoder_audience_precedence_excludes_contradictory_route_controls(audie
     allowed = (audience == 'undergraduate' or
                (audience in ('excluded', 'unrelated') and choice == 'unsupported_scope') or
                (audience == 'unknown' and choice == 'clarify'))
-    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value) is allowed
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(wire_fixture(value)) is allowed
 
 
 def test_unknown_audience_clarification_retains_compound_details():
@@ -177,7 +186,7 @@ def test_unknown_audience_clarification_retains_compound_details():
         dict(name='check_prerequisite_eligibility', target=0),
         dict(name='list_affected_courses', target=0)],
         claims=[dict(text='A1', start=0, end=2, entity=0, state='failed', mode='hypothetical')])
-    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value)
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(wire_fixture(value))
     result = run(FakeTransport(json.dumps(value)))
     assert result.diagnostic == 'audience_unknown'
     assert result.decision.control == 'clarify' and result.decision.predicate_request is None
@@ -210,7 +219,7 @@ def test_proceed_decoder_matches_supported_operation_count(route, count):
         dict(name=name, target=0) for name in
         ('list_affected_courses', 'check_prerequisite_eligibility')[:count]])
     expected = count == 0 if route == 'RAG' else 1 <= count <= 4
-    assert jsonschema.Draft202012Validator(output_schema()).is_valid(value) is expected
+    assert jsonschema.Draft202012Validator(output_schema()).is_valid(wire_fixture(value)) is expected
 
 
 def test_nonconforming_transport_cannot_bypass_compound_guard():
@@ -236,7 +245,7 @@ def test_english_contractions_do_not_fail_grounding(apostrophe):
     assert result.query.normalized_text == text
 
 
-def test_unique_literal_quotes_anchor_bad_model_offsets_without_changing_meaning():
+def test_quoted_input_uses_host_spans_and_preserves_condition():
     value = proposal(language='en', mentions=[dict(kind='course',text='A1',start=0,end=2),
         dict(kind='course',text='B1',start=16,end=19)],
         claims=[dict(text='I failed A1.',start=0,end=10,entity=0,state='failed',mode='asserted')],
@@ -245,17 +254,18 @@ def test_unique_literal_quotes_anchor_bad_model_offsets_without_changing_meaning
     transport = FakeTransport(json.dumps(value))
     router = api().Router(transport,catalog=catalog(),registry=registry(),synthetic=True)
     result = asyncio.run(router.route(text,RequestContext.parse(context())))
-    assert result.decision.route == 'Symbolic' and result.offset_corrections == 4
+    assert result.decision.route == 'Symbolic' and result.offset_corrections == 0
     assert result.claims[0].state == 'failed' and result.claims[0].text == 'I failed A1.'
     assert result.proposed.mentions[0].start == text.index('A1')
     assert len(transport.calls) == 2
 
 
-def test_ambiguous_repeated_quote_cannot_repair_invalid_model_offsets():
+def test_unresolved_authored_occurrence_never_guesses_first_match():
     value = proposal(mentions=[dict(kind='course',text='A1',start=1,end=3)])
-    router = api().Router(FakeTransport(json.dumps(value)),catalog=catalog(),registry=registry(),synthetic=True)
+    router = api().Router(FakeTransport(json.dumps(value), json.dumps(value)),
+        catalog=catalog(),registry=registry(),synthetic=True)
     result = asyncio.run(router.route('A1 A1',RequestContext.parse(context())))
-    assert result.diagnostic == 'invalid_grounding' and not result.decision.dispatchable
+    assert result.diagnostic == 'invalid_model_output' and not result.decision.dispatchable
 
 
 def test_private_ownership_and_scenario_identifiers_never_enter_model_input():

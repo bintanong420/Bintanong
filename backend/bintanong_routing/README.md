@@ -3,7 +3,7 @@
 This Phase07 module interprets English, Filipino and Taglish with a supplied local
 LLM. It returns the routing proposal, independently grounded style evidence and a
 separately validated shared RoutingDecision. Two calls use the SAME Bintu model:
-the verified routing prompt stays unchanged; style interpretation receives only the
+routing and style interpretation remain separate; style receives only the
 original question and cannot emit routes, audiences, operations or policy.
 It does not retrieve documents, execute Prolog, generate student answers, publish an
 API or activate institutional data. The historical API BintuClient/Direct adapter
@@ -16,11 +16,16 @@ resolve only against explicitly injected reviewed records and known curriculum;
 explicit program/curriculum mentions may resolve scope through their own aliases.
 There is no fuzzy equivalence or curriculum inference from a course code.
 
-Text offsets are Python Unicode character offsets into the original text, with
-exclusive ends. A model can quote exactly but count incorrectly. The backend
-anchors a quote only if it occurs exactly once; corrections are reported separately.
-Correct explicit offsets can distinguish repeated text; bad offsets on repeated or
-missing quotes remain unresolved. No text/state/meaning is rewritten.
+The model-facing bintanong-interpretation-wire-v1 uses {text,occurrence} quotes.
+Occurrences are zero-based exact matches in original text,including overlapping
+matches. Operations and claims reference the identical quoted course mention;
+the model supplies neither character offsets nor numeric course-reference indices.
+wire.normalize_interpretation constructs host-owned spans and indices,then existing
+Interpretation v2/alias/scope/mode/dispatch validation runs unchanged. Missing,
+invented,duplicate or uncontained references reject within the existing shared
+format-repair budget. There is no legacy model-packet fallback or fuzzy/first-match
+guess. Internal Python spans retain exclusive ends;offset_corrections is zero
+because these spans are constructed,not repaired. No text/state/meaning is rewritten.
 Claim spans must include the corresponding course mention. These
 checks establish textual provenance, not semantic truth: the LLM can still misread
 negation or attach the wrong meaning. Actual model evaluation must measure that.
@@ -75,6 +80,10 @@ claim is established here. Image attachments and private-file parsing are later 
 LlamaTransport uses /props, /apply-template, /tokenize and /v1/chat/completions.
 The p07-greedy-no-prefix-cache-v1 profile fixes temperature0/seed0,
 reasoning_effort=none and cache_prompt=false in each generation request.
+reasoning_effort is a requested setting,not proof that no thinking was generated.
+The pinned Gemma JSON grammar permits thoughts;the sealed actual observation
+reported reasoning despite that request. No zero thinking budget is selected.
+See the [bounded design](../../plans/2026-10-20-router-correction-diagnosis-and-design.md).
 Metadata records these overrides separately from an allowlisted subset of server-
 reported sampling defaults, including sampler order when available. Missing defaults
 are not invented; arbitrary prompt/grammar/stop text is excluded. Batch/thread/model
@@ -126,8 +135,8 @@ inconsistent equivalent-family labels. Expected labels never enter router calls.
 
 The CLI defaults to localhost18087; --url/--timeout configure an existing runtime.
 Output must stay under --evidence-root (default workspace/audit-evidence). Reports
-contain synthetic interpretations after exact quote anchoring, plus offset-correction
-counts; keep them ignored. Proposed route/control semantics stay as selected by the
+contain normalized synthetic interpretations after quoted-reference resolution;
+keep them ignored. Proposed route/control semantics stay as selected by the
 model. Explicit diagnostic probes may retain original raw model output separately.
 The report separately
 scores proposed evidence/control labels, effective guarded labels, canonical

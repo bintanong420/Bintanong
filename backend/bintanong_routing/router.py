@@ -12,7 +12,8 @@ from .contracts import Interpretation, RequestContext, prepare_query
 from .prompt import build_messages, output_schema
 from .style import StyleProposal, build_style_messages, style_output_schema
 from .transport import RuntimeFailure
-from .validation import RoutingResult, _decision, anchor_unique_quotes, validate_interpretation
+from .validation import RoutingResult, _decision, validate_interpretation
+from .wire import WireInterpretation, normalize_interpretation
 
 
 def _unique_object(pairs):
@@ -68,8 +69,7 @@ class Router:
                 return failure(str(error), attempt)
             try:
                 data = _json_proposal(raw)
-                data, offset_corrections = anchor_unique_quotes(data, text)
-                proposed = Interpretation.parse(data)
+                proposed = normalize_interpretation(text, WireInterpretation.parse(data))
             except (ValueError, ValidationError):
                 if attempt == 2:
                     return failure('invalid_model_output', attempt)
@@ -97,7 +97,7 @@ class Router:
                         synthetic=self.synthetic)
                     return replace(result, proposed=proposed, attempts=attempt,
                         style_attempts=style_attempt, style_evidence=style,
-                        offset_corrections=offset_corrections)
+                        offset_corrections=0)
                 except ValueError:
                     return failure('invalid_grounding', attempt, style_attempt)
         raise AssertionError('unreachable')

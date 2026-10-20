@@ -13,18 +13,19 @@ from .prompt import output_schema as routing_schema
 from .router import Router, _json_proposal, _repair_messages
 from .style import STYLE_PROMPT, STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, StyleEvidence, style_output_schema
 from .transport import RuntimeFailure
-from .validation import RoutingResult, _decision, anchor_unique_quotes, validate_interpretation
+from .validation import RoutingResult, _decision, validate_interpretation
+from .wire import WireInterpretation, normalize_interpretation
 
 
 class CombinedProposal(Contract):
-    SCHEMA_VERSION = 'bintanong-routing-style-v1'
-    interpretation: Interpretation
+    SCHEMA_VERSION = 'bintanong-routing-style-v2'
+    interpretation: WireInterpretation
     style: StyleEvidence
 
 
-PROMPT_VERSION = 'bintanong-routing-style-p09-v1'
+PROMPT_VERSION = 'bintanong-routing-style-p09-v2'
 SYSTEM = '''Perform two separately validated tasks in ONE JSON packet.
-The outer schema_version is bintanong-routing-style-v1. Fill interpretation and
+The outer schema_version is bintanong-routing-style-v2. Fill interpretation and
 style as separate objects. Never answer the student or execute a tool here.
 The following routing instructions apply ONLY inside interpretation. Their
 schema_version refers to interpretation.schema_version, not the outer packet.
@@ -49,7 +50,7 @@ def output_schema():
     interpretation=routing_schema()
     # Existing local refs resolve at this packet's root, not a nested $defs root.
     schema['$defs'].update(interpretation.pop('$defs',{}))
-    schema['$defs']['Interpretation']=interpretation
+    schema['$defs']['WireInterpretation']=interpretation
     schema['$defs']['StyleEvidence']=style_output_schema()['$defs']['StyleEvidence']
     return schema
 
@@ -90,11 +91,8 @@ class CombinedRouter(Router):
                 return failure(str(error),attempt)
             try:
                 data=_json_proposal(raw)
-                corrections=0
-                if isinstance(data,dict) and 'interpretation' in data:
-                    data['interpretation'],corrections=anchor_unique_quotes(data['interpretation'],text)
                 packet=CombinedProposal.parse(data)
-                proposed=packet.interpretation
+                proposed=normalize_interpretation(text,packet.interpretation)
             except (ValueError,ValidationError):
                 if attempt==2:
                     return failure('invalid_model_output',attempt)
@@ -108,7 +106,7 @@ class CombinedRouter(Router):
                     registry=self.registry,documents_available=self.documents_available,
                     synthetic=self.synthetic)
                 return replace(result,proposed=proposed,attempts=attempt,style_attempts=0,
-                    style_evidence=packet.style,offset_corrections=corrections)
+                    style_evidence=packet.style,offset_corrections=0)
             except ValueError:
                 return failure('invalid_grounding',attempt)
         raise AssertionError('unreachable')
