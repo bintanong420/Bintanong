@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 38
+sequence: 39
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 42c5754
+head_commit: 89bf4c1
 working_tree: dirty
 updated_at: 2026-10-20T11:51:33.1877779+08:00
 ---
@@ -24,15 +24,16 @@ Last full prior snapshot107a3ce;historical Phase09 handoff is not advancement.
 
 ## Current Task
 
-Short-reference diagnostic complete;selection fails on2semantic scope errors.
-Research/results and compact recovery snapshots delivered. No more inference needed.
+Owner requests the scoped accuracy fix. Clean89bf4c1 reconciled with the prior
+product-parent checkpoint. [Scoped plan](2026-10-20-scoped-explanations-plan.md)
+separates host structured decisions from document-only generation/checking.
 The18physical calls cover9prepared-evidence generation/checking pairs only;
 planned3full-service requests are NOT RUN after the failed quality gate.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified product42c5754. Remaining changes are
-results/research,INDEX,current progress,this checkpoint and plan task statuses.
+p09/feat/p09-generation-validation;clean resume89bf4c1 includes product42c5754.
+Current changes:scoped plan,checkpoint and progress. Existing outputs remain sealed.
 No product changes after actual observations/review/final gate. Wrapper is docs only.
 head_commit names that verified product parent,not a self-referential wrapper hash.
 CUDA bintanong-p09-cuda-latency running18088;CPU container stopped intact. Default
@@ -69,7 +70,8 @@ b11723-31288c9c6;template74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32
 Context8192/output768/temp0/seed0/reasoningnone/cachefalse;240s inference/generation.
 Prior35/43layers/512MiB fit reused,not re-tuned. Existing owner workspace/MODELS
 weights reused;GGUF identity inherited,not freshly rehashed. Python3.13.7 retained.
-Thesis physical17-18/39-44 read from byte-matched p07 extraction;fresh PDF SHA256
+On this resume thesis17-18/39-40 re-read from byte-matched p07 extraction,actual
+PNG/master13-14 consulted. Prior39-44 evidence retained. PDF SHA256
 729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 Actual PNG/master3/11-14/17 consulted. Standing unknown semantics override the
 illustrative closed-world denial;no undergraduate/read-only/routing scope change.
@@ -98,9 +100,8 @@ Institutional/source/privacy/auth/hosted migration and human review holds remain
 
 ## Next Action
 
-Design a bounded typed association between decision explanations and canonical
-structured support,using the saved scope failures;add narrow-scope regressions
-before another speed experiment. Keep canonical/separate defaults and Phase09 active.
+Execute the scoped-explanations plan under TDD,then one bounded quality observation
+before any full-service timing. Keep canonical/separate defaults and Phase09 active.
 
 ## Do Not Repeat
 

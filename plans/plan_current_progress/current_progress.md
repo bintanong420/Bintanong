@@ -6,6 +6,11 @@ Last full prior snapshot107a3ce:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Owner requests continuation of the scoped accuracy fix. Resumed clean89bf4c1;
+[scoped plan](../2026-10-20-scoped-explanations-plan.md) separates canonical host
+decisions from document-only generation/checking. Legacy remains selected pending
+quality verification. Prior evidence is reused;no rejected experiment repeated.
+
 Plan5e63854/product42c5754 deliver optional request-local short evidence references.
 Strict wire draft maps e1..e32 back to canonical hashes before existing guards;
 full evidence remains,with separate support checking. Canonical/separate defaults
