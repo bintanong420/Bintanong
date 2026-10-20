@@ -56,5 +56,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Design explicit question requirements with per-item evidence/claim-or-unavailable binding. Validate omitted-
-requirement risk before new model observation;do not repeat coverage6+1or guard runs.
+Execute [question-parts foundation](../2026-10-20-question-parts-plan.md) with TDD:
+exact query spans,per-part claim/unavailable mapping and replay-safe host checks.
+No runtime/profile selection or model run;extraction completeness stays unverified.

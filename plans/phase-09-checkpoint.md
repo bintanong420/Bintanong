@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 53
+sequence: 54
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: eb9ceb9
+head_commit: 8b03dd3
 working_tree: dirty
 updated_at: 2026-10-20T16:04:05.2573619+08:00
 ---
@@ -22,6 +22,11 @@ preserves actual failures. Default scoped/canonical/separate remains selected;
 covered and prior guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
+
+Resumed clean8b03dd3;new [question-parts plan](2026-10-20-question-parts-plan.md)
+builds detached declared-part contracts/host checks before any extraction/model
+run. Prior failure remains;no product edit yet. Context17-18/39-44,PNG/master3/11/
+12.4-14 and saved timing recommendation reconsulted;no scope discrepancy.
 
 Prepared6cases passed,but actual-service multipart question failed:location and fee
 asked;only location answered;model falsely complete despite full source40tokens.
