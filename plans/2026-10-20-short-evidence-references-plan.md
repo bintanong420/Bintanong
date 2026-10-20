@@ -43,15 +43,15 @@ remains a quality hold; short references alone cannot repair entailment accuracy
    request isolation, repair and final citations. Pin invalid profile rejection.
 2. [x] Implement the small codec and optional prompt/generator/runtime wiring;
    verify GREEN and existing generation/runtime/routing regressions. Commit.
-3. [ ] Reuse existing fictional multilingual generation cases for one bounded
+3. [x] Reuse existing fictional multilingual generation cases for one bounded
    actual-model quality observation, plus the existing three English full-service
    questions if the codec behaves correctly. No new institutional benchmark cases,
    prompt/seed sweep or parameter tuning. Report failures, token counts, timing,
    cold startup and warm requests separately; three points do not establish p95.
-4. [ ] Research response-time acceptability from primary HCI/LLM/education sources;
+4. [x] Research response-time acceptability from primary HCI/LLM/education sources;
    distinguish complete validated answers from first tokens and task completion.
    Record source methods, limitations, proposed targets and stop conditions.
-5. [ ] Run the scoped final gate and independent review; record current progress,
+5. [x] Run the scoped final gate and independent review; record current progress,
    checkpoint and dated results. Keep Phase09 active and institutional holds.
 
 ## Verification
@@ -65,3 +65,11 @@ resident encoder. Record exact code/input/prompt/schema identities before infere
 Ruling: the owner's continuation authorizes the handoff's small wire optimization;
 no new source-content or architecture decision is needed. Proposed latency targets
 are engineering recommendations pending local student evaluation, not approved SLAs.
+
+Delivery: [actual results](2026-10-20-short-evidence-references-results.md),
+[research judgment](2026-10-20-response-time-research-assessment.md). Ruling after
+nine actual cases:selection fails on two semantic scope errors despite correct
+mapping/positive checker verdicts. Keep canonical selected;skip the three planned
+full-service timings after quality failure. No further speed gain established.
+Explicit51-selection gate1963passed/66subtests89.42s;independent review confirms
+the failure and finds no new P1/P2 software defect. Phase09 remains active.

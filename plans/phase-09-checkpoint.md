@@ -2,114 +2,108 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 36
+sequence: 38
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 107a3ce
+head_commit: 42c5754
 working_tree: dirty
-updated_at: 2026-10-20T11:28:51+08:00
+updated_at: 2026-10-20T11:51:33.1877779+08:00
 ---
 
-# Phase09 checkpoint - faster replies
+# Phase09 checkpoint - accuracy before latency
 
 ## Completed Tasks
 
-Combined plan98854ea/implementation6ae711c delivered under TDD. Actual15-case
-multilingual candidate check completed;promotion FAILED. Separate default retained.
-Prior selected speed implementation791413e/results30d1b17 remain. Composition
-7227732/CLI df99ac6/input fab0225/bounded reads ab9aee9 and guarde0e86ea preserved.
-Last full pre-condensation snapshot6ae711c;historical handoff is not advancement.
+Plan5e63854/product42c5754 deliver optional short evidence labels under TDD.
+[Results/recovery](2026-10-20-short-evidence-references-results.md) records9actual
+multilingual generation cases and rejected selection;canonical/separate defaults
+remain. [Research assessment](2026-10-20-response-time-research-assessment.md)
+addresses the owner's RAG/neuro-symbolic response-time question.
+Previous combined candidate remains rejected;selected implementation791413e and
+composition7227732/df99ac6/fab0225/ab9aee9/guarde0e86ea remain.
+Last full prior snapshot107a3ce;historical Phase09 handoff is not advancement.
 
 ## Current Task
 
-Resumed from clean107a3ce;short-reference design/TDD plus latency-acceptability
-research underway. [Bounded plan](2026-10-20-short-evidence-references-plan.md).
-Previous failed candidate results sealed. No further combined
-inference needed:12/15proposed/effective routes,15/15entities/claims/operations,
-10/15styles;17host offset corrections in8cases. Three greetings wrongly route
-RAG;four prior-correct styles regress. Fifteen actual calls,zero repairs;all packets
-strictly parse. Taglish style1/5,English4/5,Filipino5/5. Five consistent families
-include a consistently wrong greeting;schema/grounding success is not accuracy.
-Combined remains explicit experimental opt-in,not selected for student use.
+Short-reference diagnostic complete;selection fails on2semantic scope errors.
+Research/results and compact recovery snapshots delivered. No more inference needed.
+The18physical calls cover9prepared-evidence generation/checking pairs only;
+planned3full-service requests are NOT RUN after the failed quality gate.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;clean resume HEAD107a3ce includes default guards
-92d55e4 and prior session wrapper. Current edits:bounded short-reference plan,
-current progress and this checkpoint. Preserve all previous sealed results.
-CUDA bintanong-p09-cuda-latency running18088;CPU bintanong-p07-router-offline stopped
-intact. Default URL18087 unchanged;explicit18088 required. No Phase10 branch/work,
-student API,push,merge,deployment or new source activation.
+p09/feat/p09-generation-validation;verified product42c5754. Remaining changes are
+results/research,INDEX,current progress,this checkpoint and plan task statuses.
+No product changes after actual observations/review/final gate. Wrapper is docs only.
+head_commit names that verified product parent,not a self-referential wrapper hash.
+CUDA bintanong-p09-cuda-latency running18088;CPU container stopped intact. Default
+URL18087 unchanged. No Phase10 work,student API,push,merge,deployment or activation.
 
 ## Verification Evidence
 
-Router RED16missing module after fixing new fixture typo/GREEN142tests2.14s;
-profile/evaluation RED11/GREEN81tests3.27s. New schemas retain all original branches
-and23resolved refs;host strict parsing/quote/style/capability guards reused.
-Fresh explicit50-selection gate1930passed/66subtests100.96s,exit0. Exact roster and
-command in raw verify-regressions.ps1/final-regressions.log. Separate CLI selection
-and default guard covered. Independent final review reconciled all15saved model
-outputs/schema/prompt/anchoring/host results;no new P1/P2 implementation defect.
-It blocks promotion on actual semantic errors. Delivery seal67files verified;
-[results](2026-10-20-combined-routing-results.md) preserve exact hashes/recovery.
-[Session handoff](2026-10-20-phase09-fast-replies-session-handoff.md) is the compact resume entry.
-Final docs hygiene589passed1.21s;97local links resolve,snapshot caps pass.
+Initial RED25missing module/profile. GREEN129tests2.67s;product gate720passed3.58s.
+One citation fixture expectation corrected to retain canonical decision's rule source.
+Final explicit51-selection gate1963passed/66subtests89.42s,exit0. Exact command:
+workspace/audit-evidence/p09-short-references-20261020/verify-regressions.ps1;
+full output final-regressions.log. Python3.13 -B pytest -q -p no:cacheprovider,
+external TEMP/TMP/basetemp. No unrestricted suite claim.
+Independent read-only review:zero new P1/P2 software findings;129tests2.79s;
+confirms both saved-output scope errors block selection. No second review claimed.
+Actual9/9strict drafts/checks mechanically accepted,canonical mapping/decisions
+preserved;zero repairs. Agent style review9/9acceptable,not owner language review.
+Symbolic Taglish broadens prerequisite result to enrollment eligibility;Hybrid
+English adds enrollment purpose absent from its document. Positive checker misses
+both. Component timing9.206-13.321s is not end-to-end speed or calibrated accuracy.
+Final docs/phase gate612passed/14subtests12.57s;87local links/caps/46file seal pass.
 Phase valid/active9/cannotadvance;exit1 is the expected unfinished-phase guard.
-
-Previous selected separate-profile full-service resident observations remain
-35.662sRAG/35.058sSymbolic/52.967sHybrid;4calls,1draft/check,0repairs each.
-Encoder25.131s/process26.408s startup separate;one-shot retrieval CLI still pays.
-No new combined full-chain observation or speed claim. Old Phase07 separate
-reference uses a different runtime build/CPU and reused style captures;not a
-controlled causal comparison. Absolute errors against fixed gold reject candidate.
 
 ## Versions and Digests
 
-Raw:workspace/audit-evidence/p09-combined-routing-20261020/. Actual evaluation
-commit6ae711c;later CLI help/default tests do not change inference semantics.
-Packet bintanong-routing-style-p09-v1;prompt SHA256
-62d85e9057673e9ce0a569521a427627ce5a20cbfd6b802d6ade21f037931299;
-full schema2ad1f021f497097b61d2598319e327d16e57fdb6842d9d0c634caadb54bdf90a.
-Pinned CUDA imagef66a5229a3e0586339d16155e9fe09c37834d7a7f4134bbdee7360b5a1f2546d,
+Raw root:workspace/audit-evidence/p09-short-references-20261020/.
+Pre-inference source/input hashes,props and exact message/schema hashes retained;
+source-42c5754 snapshot and assessment.json recover code/results. Delivery manifest
+seals46files,all verified;SHA256
+ce0f2e042f1e272dd6ebe58de3d2c75e5dc29ca1db90bcdc878bf167eee397fd.
+Later delivery-doc logs are separate. Image freshly verified running:
+f66a5229a3e0586339d16155e9fe09c37834d7a7f4134bbdee7360b5a1f2546d;
 b11723-31288c9c6;template74a88f94c57c14e22dcdbe08e94127f42b87c6f584cb73838e73e32126f3f6b3.
-Existing read-only GGUF digest inherited,not freshly rehashed. Owner root
-workspace/MODELS;no model copies. RTX3050Laptop4096MiB/driver596.36,auto35/43layers,
-fit margin512MiB/context8192/threads8/output768/temp0/seed0/reasoning-none/cachefalse.
-Budgets240s inference/generation,300s stage,600s request unchanged. Python3.13.7/
-Pydantic2.13.5/HTTPX0.28.1/Janus1.5.2/SWI10.1.15/encoder6.1.0 retained.
-Thesis physical17-18/39-44 freshly read from byte-matched p07 extraction;
-PDF SHA256729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
-Actual PNG/master3/11-14/17 reconsulted. Standing unknown semantics supersede the
-illustrative closed-world example;undergraduate/read-only/Prolog preserved.
+Context8192/output768/temp0/seed0/reasoningnone/cachefalse;240s inference/generation.
+Prior35/43layers/512MiB fit reused,not re-tuned. Existing owner workspace/MODELS
+weights reused;GGUF identity inherited,not freshly rehashed. Python3.13.7 retained.
+Thesis physical17-18/39-44 read from byte-matched p07 extraction;fresh PDF SHA256
+729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
+Actual PNG/master3/11-14/17 consulted. Standing unknown semantics override the
+illustrative closed-world denial;no undergraduate/read-only/routing scope change.
 
 ## Decisions
 
-Owner continues latency/research. Keep separate profile default and experimental
-combined opt-in after failed promotion;no prompt/seed/model sweep. Stop diagnostic
-once its quality question is resolved;skip planned3full-service measurements and
-reuse historical separate timings explicitly. This ruling saves further inference
-without presenting fewer calls as speed evidence. About10s is a working aim,not
-an owner-approved SLA. No keyword router,semantic retry or silent fallback added.
-One-week accuracy cap/no parameter training and source/release guards retained.
+Owner explicitly means RAG/neuro-symbolic architecture and forbids sacrificing
+accuracy for response time;standing instruction saved in AGENTS.md. Retain all
+necessary evidence,Prolog and validation. Short profile remains developer opt-in,
+canonical references/separate routing selected. Stop resolved failed experiment;
+no prompt/seed sweep or three unnecessary full-service observations.
+Research proposes typical15-20s full validated answers,preferably below10s for
+simple questions;20-30s complex Hybrid only conditionally defensible with student
+validation. These are recommendations,not approved SLAs or measured acceptability.
+Current selected35.662sRAG/35.058sSymbolic/52.967sHybrid remain historical;no new
+full-chain improvement or p95. Old encoder25.131s/process26.408s startup separate.
+One-week improvement cap/no parameter training/source/privacy/release holds remain.
 
 ## Known Failures or Blockers
 
-Combined three greeting errors/four new style regressions block selection.
-Selected separate path still has two prior Taglish style errors. Hybrid c2 uses
-documentary-only support for an executed prerequisite check;canonical outcome is
-correct but support checker misses scope. Opaque IDs/post-retrieval reconsideration
-remain. Four serial calls/startup still slow;no sub10s readiness. Human review,
-institutional/source/privacy/auth/activation and hosted migration holds remain.
-Only fictional local release active;no75-case institutional accuracy claim.
+New candidate2scope failures block selection;not proven causal regressions without
+a matched canonical control. Prior Hybrid documentary-only support flaw,separate
+profile's2Taglish issues and absent explicit post-retrieval reconsideration remain.
+Only fictional local release active;no75-case institutional accuracy/activation.
+Institutional/source/privacy/auth/hosted migration and human review holds remain.
 
 ## Next Action
 
-Design/test request-local short evidence references for generation/checking,
-restoring canonical citations before host validation. Keep separate routing/style
-and the Hybrid quality hold. This next optimization is not implemented yet.
+Design a bounded typed association between decision explanations and canonical
+structured support,using the saved scope failures;add narrow-scope regressions
+before another speed experiment. Keep canonical/separate defaults and Phase09 active.
 
 ## Do Not Repeat
 
-Settled source/benchmark reviews,completed CUDA pulls/placement diagnostics,
-the failed combined15-case run or prompt/seed sweeps. Preserve failures and
-cold/warm distinction;do not substitute scripted inference,preassembled answers
-or institutional activation to improve speed/quality reports.
+Settled source/benchmark reviews,model setup/placement diagnostics,the failed
+combined15-case run or short-reference9-case run. Do not present generation-only
+seconds as complete query latency or unchecked output as an accuracy-preserving gain.

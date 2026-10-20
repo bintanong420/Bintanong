@@ -1,53 +1,59 @@
 # Current progress
 
 Updated:20October2026. Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Prior session handoff](../2026-10-20-phase09-fast-replies-session-handoff.md).
-Last full snapshot107a3ce:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Current delivery](../2026-10-20-short-evidence-references-results.md).
+Last full prior snapshot107a3ce:plans/plan_current_progress/current_progress.md.
 
-## Latest change
+## Latest delivery
 
-Resumed clean107a3ce. Owner requests continued latency work and intensive research
-on defensible response time considering RAG/neuro-symbolic processing. Explicit
-owner constraint:never sacrifice accuracy for speed. Saved in AGENTS.md and
-[bounded short-reference plan](../2026-10-20-short-evidence-references-plan.md),
-plan commit5e63854. No institutional benchmark wording/source decisions reopened.
+Plan5e63854/product42c5754 deliver optional request-local short evidence references.
+Strict wire draft maps e1..e32 back to canonical hashes before existing guards;
+full evidence remains,with separate support checking. Canonical/separate defaults
+retained. Owner clarifies latency research means RAG/neuro-symbolic architecture
+and explicitly forbids sacrificing accuracy for speed;saved in AGENTS.md.
 
-Optional short-reference codec implemented under TDD:request-local e1..e32 labels,
-separate strict wire schema,canonical hashes restored before existing host guards,
-same labels for separate support checking. Full text/source metadata retained;
-no checker bypass,cache or string replacement. Canonical default/separate routing
-unchanged. Runtime programmatic setting and run metadata explicitly record choice.
-Initial RED25missing module/profile;GREEN129tests2.67s. One new test expectation
-corrected:canonical decision also retains its rule citation. Final product gate
-720passed3.58s,exit0 including29new reference tests and docs. Raw evidence:
-workspace/audit-evidence/p09-short-references-20261020/. Actual model pending.
+[Actual observation/results](../2026-10-20-short-evidence-references-results.md):
+9existing fictional multilingual cases,18real model calls,zero repairs. All strict
+outputs/host mapping pass;agent style review9/9acceptable. Selection REJECTED:
+Symbolic Taglish broadens a prerequisite result to enrollment eligibility;Hybrid
+English adds an enrollment purpose absent from the cited document. Positive
+same-model checker misses both. No matched canonical control,so no causal regression
+claim. Generation/checking only9.206-13.321s;planned3full-service requests NOT RUN.
+No complete-query speedup or institutional accuracy established.
 
-## Preserved selected evidence and limits
+TDD RED25/GREEN129;product720passed3.58s. Final explicit51-selection gate
+1963passed/66subtests89.42s,exit0. One independent review:no new P1/P2 software
+finding,confirms scope failures;129tests2.79s. Raw workspace/audit-evidence/
+p09-short-references-20261020/;46sealed files verified. Exact identities in checkpoint.
+Docs/phase gate612passed/14subtests12.57s;87links/caps/seal pass;Phase09 cannotadvance.
 
-[Speed results](../2026-10-20-fast-replies-results.md):historical warm full-service
-RAG35.662s/Symbolic35.058s/Hybrid52.967s;four calls,one draft/check,no repairs.
-Encoder25.131s/process26.408s startup separate. Auto35/43layers/512MiB fit on
-RTX3050Laptop4GB,CUDAb11723-31288c9c6 atlocalhost18088;default18087 unchanged.
-Existing owner model root workspace/MODELS reused;no downloads/dependency changes.
+[Research assessment](../2026-10-20-response-time-research-assessment.md) reviews
+Aurora,SymRAG,local educational RAG and human waiting studies. Proposed typical
+15-20s complete validated answer,preferably under10s for simple questions;20-30s
+complex Hybrid needs local student validation. Recommendations,not approved SLAs.
+Current35-53s is a substantial research-prototype limitation,not responsive use.
+Existing warm retrieval0.330-0.435s/Prolog0.422-0.850s;LLM calls account for98-99%
+of those observed requests. Architecture alone does not justify a long wait.
 
-[Combined candidate rejected](../2026-10-20-combined-routing-results.md):12/15routes,
-10/15styles;greeting/style regressions. Keep separate;do not repeat resolved run.
-[Composition results](../2026-10-20-live-backend-composition-results.md) remain.
-Known Hybrid c2 cites documentary text alone for an executed prerequisite decision;
-same-model checker misses scope. Short references do not resolve that quality hold.
-Separate profile's two prior Taglish errors/post-retrieval reconsideration remain.
+## Preserved selected evidence and holds
 
-Thesis17-18/39-44 read from byte-matched extraction;actual PNG/master3/11-14/17
-consulted. Unknown semantics supersede illustrative closed-world denial.
-Undergraduate/read-only/structured-Prolog/source-gap/privacy/release boundaries
-preserved;only fictional local release active. Phase10 unstarted;no API/deploy/push.
+[Selected speed results](../2026-10-20-fast-replies-results.md):historical warm
+RAG35.662s/Symbolic35.058s/Hybrid52.967s;4calls/1draft/check/0repairs each. Encoder
+25.131s/process26.408s startup separate. CUDAb11723-31288c9c6 localhost18088;
+default18087 unchanged. Prior35/43layers/512MiB fit reused;no new setup or tuning.
+[Combined candidate](../2026-10-20-combined-routing-results.md) still rejected.
+Previous Hybrid documentary-only support flaw,separate profile's2Taglish errors
+and absent explicit post-retrieval reconsideration remain. No75-case retest.
+
+Thesis17-18/39-44,actual PNG/master3/11-14/17 consulted. Undergrad/read-only/
+structured-Prolog/unknown/source-gap/privacy/release boundaries preserved. Existing
+owner workspace/MODELS assets reused;no installs/downloads/dependency/DB changes.
 [Standing prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
-one-week improvement cap,no parameter training. Institutional activation/hosted
-migration/source-auth/privacy gates remain. No p95/student acceptability established.
+one-week improvement cap,no parameter training. Institutional/source/auth/privacy/
+activation/hosted migration holds remain. Phase10 unstarted;no API/deploy/push/merge.
 
 ## Next action
 
-Run one bounded actual-model short-reference observation on existing fictional
-multilingual cases,inspect citation/language/support quality,then permitted three
-full-service observations. Complete architecture-specific latency research and
-report a proposed target without weakening accuracy or claiming local usability.
+Design a bounded typed association between decision explanations and canonical
+structured support,using the saved scope failures;add narrow-scope regressions
+before another speed experiment. Keep canonical/separate defaults and Phase09 active.
