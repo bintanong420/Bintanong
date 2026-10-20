@@ -22,8 +22,8 @@
 - [Master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- Latest historical handoff:[Phase09 offline](phase-09-handoff.md); current [delivery/results](2026-10-20-live-backend-composition-results.md).
-- [Latest speed results](2026-10-20-fast-replies-results.md):35–53s warm;startup/quality/release holds remain.
+- [Current session handoff](2026-10-20-phase09-fast-replies-session-handoff.md); [historical Phase09 offline handoff](phase-09-handoff.md).
+- [Speed results](2026-10-20-fast-replies-results.md):35–53s warm;[combined candidate rejected](2026-10-20-combined-routing-results.md);holds remain.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.

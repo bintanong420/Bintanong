@@ -107,6 +107,16 @@ this does not prove a separately fine-tuned Bintu-1 checkpoint.
 
 ## Synthetic development evaluation
 
+The default `separate` profile keeps route and style in two normal calls with one
+shared repair, at most three calls. Trusted `--routing-profile combined` selects an
+experimental one-packet candidate, at most two calls with one whole-packet repair.
+Both nested contracts retain their original schemas and host validation. No
+request/model field can select a profile or silently fall back between profiles.
+The candidate **failed multilingual promotion**: three greeting-route errors and
+four new style regressions on the existing15fictional variants. Keep separate as
+the default. See [results and recovery](../../plans/2026-10-20-combined-routing-results.md);
+combined is not selected for student use and establishes no full-chain speed gain.
+
 `python -B -m backend.bintanong_routing.evaluation INPUT.json --output PATH.json`
 reads an explicit object containing catalog, cases and metadata. It uses a synthetic
 registry and never executes it. Inputs are synthetic development questions, not

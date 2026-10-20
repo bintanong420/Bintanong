@@ -1,7 +1,7 @@
 # Current progress
 
 Updated:20October2026. Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Selected speed results](../2026-10-20-fast-replies-results.md).
+[Session handoff](../2026-10-20-phase09-fast-replies-session-handoff.md) | [Checkpoint](../phase-09-checkpoint.md).
 Last full pre-condensation snapshot:6ae711c:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
@@ -18,10 +18,13 @@ includes the wrong greeting family;schema/grounding success is not accuracy.
 TDD router RED16missing-module/GREEN142tests2.14s;profile/evaluation RED11/GREEN81
 3.27s. Final explicit50-selection gate1930passed/66subtests100.96s,exit0. Independent
 saved-output review agrees:do not promote;no new P1/P2 implementation defect found.
-CLI help/default regression tests preserve separate selection. No prompt/seed sweep.
+CLI help/default guards92d55e4 preserve separate selection. No prompt/seed sweep.
 Stop diagnostic after failed prerequisite quality gate;skip three proposed full-
 service latency requests. No combined full-chain speed improvement established.
-Raw:workspace/audit-evidence/p09-combined-routing-20261020/;delivery seal pending.
+[Results/recovery](../2026-10-20-combined-routing-results.md);raw workspace/audit-evidence/
+p09-combined-routing-20261020/. Delivery manifest seals67files;all verified.
+Final docs hygiene589passed1.21s;97local links/snapshot caps pass. Phase valid/9/
+cannotadvance;owner requests session handoff with7%of the five-hour budget left.
 
 ## Selected runtime and preserved evidence
 
@@ -57,5 +60,6 @@ activation and hosted migration holds remain.
 
 ## Next action
 
-Seal failed combined experiment,write dated results/recovery pointers,verify
-documentation/phase state and commit. Preserve selected separate profile.
+Design/test request-local short evidence references for generation/checking,
+restoring canonical citations before host validation. Retain separate routing/style
+and the Hybrid citation hold;do not repeat the failed combined experiment.

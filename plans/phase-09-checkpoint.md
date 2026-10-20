@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 34
+sequence: 35
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6ae711c
+head_commit: 92d55e4
 working_tree: dirty
-updated_at: 2026-10-20T11:23:00+08:00
+updated_at: 2026-10-20T11:28:51+08:00
 ---
 
 # Phase09 checkpoint - faster replies
@@ -21,7 +21,7 @@ Last full pre-condensation snapshot6ae711c;historical handoff is not advancement
 
 ## Current Task
 
-Record failed combined candidate and seal recoverable evidence. No further
+Failed candidate results sealed;prepare session handoff for owner budget limit. No further
 inference needed:12/15proposed/effective routes,15/15entities/claims/operations,
 10/15styles;17host offset corrections in8cases. Three greetings wrongly route
 RAG;four prior-correct styles regress. Fifteen actual calls,zero repairs;all packets
@@ -31,9 +31,10 @@ Combined remains explicit experimental opt-in,not selected for student use.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEAD6ae711c. Current changed files:CLI help in
-routing/evaluation.py and runtime/cli.py,tests/test_combined_runtime_profile.py,
-current progress and this checkpoint. Preserve these verified default guards.
+p09/feat/p09-generation-validation;verified product/default guards92d55e4.
+Remaining delivery changes:INDEX,current progress,this checkpoint,dated combined
+results/session handoff,and routing/runtime READMEs. Next commit is docs only;
+head_commit records its verified product parent,not a self-referential commit hash.
 CUDA bintanong-p09-cuda-latency running18088;CPU bintanong-p07-router-offline stopped
 intact. Default URL18087 unchanged;explicit18088 required. No Phase10 branch/work,
 student API,push,merge,deployment or new source activation.
@@ -47,7 +48,11 @@ Fresh explicit50-selection gate1930passed/66subtests100.96s,exit0. Exact roster 
 command in raw verify-regressions.ps1/final-regressions.log. Separate CLI selection
 and default guard covered. Independent final review reconciled all15saved model
 outputs/schema/prompt/anchoring/host results;no new P1/P2 implementation defect.
-It blocks promotion on actual semantic errors. Final documentation/seal pending.
+It blocks promotion on actual semantic errors. Delivery seal67files verified;
+[results](2026-10-20-combined-routing-results.md) preserve exact hashes/recovery.
+[Session handoff](2026-10-20-phase09-fast-replies-session-handoff.md) is the compact resume entry.
+Final docs hygiene589passed1.21s;97local links resolve,snapshot caps pass.
+Phase valid/active9/cannotadvance;exit1 is the expected unfinished-phase guard.
 
 Previous selected separate-profile full-service resident observations remain
 35.662sRAG/35.058sSymbolic/52.967sHybrid;4calls,1draft/check,0repairs each.
@@ -95,8 +100,9 @@ Only fictional local release active;no75-case institutional accuracy claim.
 
 ## Next Action
 
-Seal failed experiment,write dated results/recovery pointers,verify docs/phase
-state and commit. Retain selected separate profile and Hybrid quality hold.
+Design/test request-local short evidence references for generation/checking,
+restoring canonical citations before host validation. Keep separate routing/style
+and the Hybrid quality hold. This next optimization is not implemented yet.
 
 ## Do Not Repeat
 

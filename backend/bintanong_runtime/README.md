@@ -45,6 +45,12 @@ The spec is a trusted developer configuration, not browser/model input. See
 [composition boundary tests](../../tests/test_runtime_composition.py) for a small
 synthetic spec builder. Real preparation/observations stay in ignored evidence.
 
+Trusted `--routing-profile` defaults to `separate`; RuntimeRun records that choice.
+The opt-in `combined` developer candidate failed its fixed multilingual promotion
+gate and remains experimental. Keep the default selected; fewer calls established
+no further full-chain speed gain. See [candidate results](../../plans/2026-10-20-combined-routing-results.md).
+The profile is application configuration, never request JSON or a model override.
+
 Defaults remain 120s per inference/routing/generation and 180s per whole request.
 Explicit `--inference-timeout`, `--stage-timeout`, `--generation-timeout` and
 `--request-timeout` flags bound observations; stage maximum300s, others600s.
