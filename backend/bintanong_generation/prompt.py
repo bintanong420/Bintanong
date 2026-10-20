@@ -3,6 +3,7 @@ import hashlib
 import json
 
 from .contracts import AnswerDraft,SupportReport
+from ..bintanong_contracts.schema_display import compact_for_prompt
 
 DRAFT_PROMPT='''You explain a synthetic undergraduate academic-affairs evidence package.
 Return only JSON matching the supplied schema. This is an offline candidate preview,
@@ -34,8 +35,9 @@ Do not repair, change evidence, infer missing student facts or rely on model mem
 
 
 def _messages(instructions,payload,schema):
-    return [dict(role='system',content=instructions+'\nOutput schema:\n'+json.dumps(schema)),
-        dict(role='user',content=json.dumps(payload,ensure_ascii=True,sort_keys=True))]
+    return [dict(role='system',content=instructions+'\nOutput schema:\n'+json.dumps(
+                compact_for_prompt(schema),separators=(',',':'),sort_keys=True)),
+        dict(role='user',content=json.dumps(payload,ensure_ascii=True,sort_keys=True,separators=(',',':')))]
 
 
 def output_schema(contract):

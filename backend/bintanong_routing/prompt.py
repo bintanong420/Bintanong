@@ -4,6 +4,7 @@ import json
 from copy import deepcopy
 
 from ..bintanong_contracts.base import VOCAB
+from ..bintanong_contracts.schema_display import compact_for_prompt
 from .contracts import Interpretation, prepare_query
 from .validation import OPERATIONS
 
@@ -130,7 +131,7 @@ def build_messages(text, context, catalog, registry):
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         reviewed_aliases=[c.model_dump(mode='json') for c in catalog],
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
-    return [dict(role='system', content=SYSTEM_PROMPT + '\nJSON schema:\n' + canonical(output_schema())),
+    return [dict(role='system', content=SYSTEM_PROMPT + '\nJSON schema:\n' + canonical(compact_for_prompt(output_schema()))),
             dict(role='user', content=canonical(data))]
 
 

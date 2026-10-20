@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 25
+sequence: 27
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: c490fe8
+head_commit: 5d92f9c
 working_tree: dirty
 updated_at: 2026-10-20T10:11:00+08:00
 ---
@@ -25,6 +25,13 @@ Review found pre-limit full-file reads; focused RED1failure,then bounded limit+1
 snapshot read; GREEN17focused tests2.04s. No inference/prompt behavior changed.
 
 ## Current Task
+CUDA sidecar ready,buildb11723-31288c9c6;CPU reference stopped intact to freeRAM.
+8layers used1.1GB;one capacity adjustment to24loaded at2.1GB/1.8GBfree. Original-
+prompt Hybrid hardware-only observation running;code hashes captured before calls.
+Original-prompt GPU Hybrid answered171.410s vs355.696s priorCPU. Routing47.82s,
+retrieval64.28s(cold host/import cost),generation/check59.3s. Same3claims/outcome;
+same Hybrid wording concern. Different backendbuild/cold costs preclude pureGPU
+causal/accuracy claims. Compact display wired:200focused tests pass3.01s.
 Owner resumes implementation this morning and recalls CUDA setup. Execute the
 [bounded latency plan](2026-10-20-phase09-latency-plan.md). Existing CPU container
 was stopped overnight;started it unchanged for readiness. No image/model download.
@@ -44,6 +51,10 @@ Latency work:docker/bintu-cuda.compose.yaml validates;localhost18088/read-only
 weights/pinned officialamd64image/no implicit pull/one GPU. Owner-approved runtime
 download in progress. Compact display helper RED missingmodule/GREEN6tests1.69s;
 actual-message RED4failures pending wiring after unchanged-prompt GPU observation.
+After wiring,3legacy tests assumed displayed/decoder schemas were byte-identical;
+updated to equivalent compact display while preserving exact outcome constraint.
+New display tests cover decoder detachment,literal property names,accepted/rejected
+shapes and320audience/route/control/operation combinations. Full decoder unchanged.
 Earlier actual-request evidence below is retained,not rerun as a new baseline.
 Raw:workspace/audit-evidence/p09-live-composition-20261020/.
 RED:red.log missing composition module; GREEN:green-2.log,7passed0.76s.

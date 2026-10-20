@@ -204,7 +204,9 @@ def test_request_grammar_only_allows_the_host_decision_and_matches_prompt(route,
         assert field.get('type')==('null' if outcome is None else 'string')
         if outcome is not None: assert field['const']==outcome
         prompted_schema=json.loads(messages[0]['content'].split('\nOutput schema:\n',1)[1])
-        assert prompted_schema==schema
+        from backend.bintanong_contracts.schema_display import compact_for_prompt
+        assert prompted_schema==compact_for_prompt(schema)
+        assert prompted_schema['properties']['decision_outcome']==field
         assert output_schema(AnswerDraft)==base
     asyncio.run(scenario())
 

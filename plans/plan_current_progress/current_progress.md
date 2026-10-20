@@ -12,8 +12,11 @@ spent94s reading4160tokens/47s generating319tokens. Prepare CUDA sidecar and com
 duplicated prompt schema while preserving full guards/calls. CPU container started
 unchanged after overnight stop;weights/project dependencies stay unchanged.
 Owner explicitly approves downloading/testing the pinned CUDA runtime image.
-Validated sidecar configuration;approved runtime download in progress. Display
-compaction helper6tests pass;actual-message RED4pending hardware-only observation.
+CUDA sidecar ready on18088;CPU fallback stopped intact to freeRAM. One capacity
+adjustment8->24layers loaded at2.1GBVRAM. Original-prompt Hybrid answered171.410s
+vs355.696s priorCPU;retrieval64.28s reflects cold imports,not SQL latency. Same
+claims/decision and wording concern. Display compaction wired;200focused tests
+pass3.01s. Full decoder/guards/instructions/four calls unchanged;new profile next.
 
 Owner directs actual backend continuation and asks whether Phase07 omitted work.
 [Phase07 audit](../2026-10-20-phase07-functionality-audit.md): core interpreter,

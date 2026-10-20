@@ -5,6 +5,7 @@ import json
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
+from ..bintanong_contracts.schema_display import compact_for_prompt
 
 from ..bintanong_contracts.base import Contract, Record
 from .contracts import prepare_query
@@ -86,5 +87,5 @@ def style_output_schema():
 def build_style_messages(original_text):
     prepare_query(original_text)  # validate, never normalize the evidence text
     encode = lambda value:json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False)
-    return [dict(role='system', content=STYLE_PROMPT + '\nJSON schema:\n' + encode(style_output_schema())),
+    return [dict(role='system', content=STYLE_PROMPT + '\nJSON schema:\n' + encode(compact_for_prompt(style_output_schema()))),
             dict(role='user', content=encode(dict(original_text=original_text)))]

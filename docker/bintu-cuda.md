@@ -1,7 +1,9 @@
 # Optional CUDA runtime for Phase09 latency work
 
 The current research container uses the CPU image. This separate configuration
-reserves one NVIDIA GPU and initially offloads eight layers. The observed laptop
+reserves one NVIDIA GPU and offloads24layers. An initial8layer readiness load used
+about1.1GB;24layers then loaded successfully atabout2.1GB,leavingabout1.8GBfree.
+This was one capacity adjustment before timed observations,not a layer sweep. The laptop
 has4GBVRAM;the existing GGUF is5.126GB,so complete GPU placement is not assumed.
 Memory allocation and actual acceleration must be verified from startup logs and
 matched requests. No latency or quality improvement is established by this file.
