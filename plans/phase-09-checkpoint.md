@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 81
+sequence: 82
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 5e44625
+head_commit: f62f493
 working_tree: dirty
-updated_at: 2026-10-20T22:58:55+08:00
+updated_at: 2026-10-20T23:12:03+08:00
 ---
 
 # Phase09 checkpoint - actual quoted-reference observation failed quality
@@ -24,6 +24,12 @@ response requirements2/4;strict full quality0/4:FAIL,no promotion.
 
 ## Current Task
 
+Resume f62f493 clean;bounded [guidance correction](2026-10-20-router-semantic-guidance-correction-plan.md)
+within existing prompt/example authorization. One complete fictional example and
+explicit mode/detail guidance;no host/schema/guard change or inference in this task.
+Scope17-18/architecture39-44,actual PNG/master3/11/13/14 revisited;the thesis
+closed-world illustration does not override the established unknown-vs-unmet policy.
+
 One observation completed;no case rerun,rescue probe or candidate change. English
 duplicate whole-question parts rejected after one format repair. Filipino/Taglish
 answers correct/cited but collapse two details into one part. Hybrid target ZX201
@@ -35,8 +41,8 @@ active recovery;no discrepancy. Undergraduate/read-only/unknown-vs-unmet preserv
 
 ## Repository State
 
-p09/feat/p09-generation-validation;execution HEAD5e44625,product9a72d2e.
-Pending docs:actual results,INDEX,progress/checkpoint. No code or unrelated changes.
+p09/feat/p09-generation-validation;delivery f62f493,observation HEAD5e44625.
+Pending docs:guidance plan,progress/checkpoint. No code or unrelated changes yet.
 Checkpoint names parent snapshot;its containing documentation commit follows.
 Existing workspace/MODELS/CUDA18088/default18087 untouched. No service startup,
 weights rehash/copy/download,dependency/source/DB changes,training,institutional
@@ -105,10 +111,10 @@ Quoted candidate does not meet strict part/meaning quality;no phase completion.
 
 ## Next Action
 
-Prepare one bounded correction design from the sealed four-case traces for
-distinct requested parts and claim-mode meaning. Delivery verification is complete.
-Preserve exact references/current guards;conditional decision remains separate.
-Stop this observation;no more model calls or product edits within it.
+Execute the guidance plan inline:four meaningful example/boundary tests,observe
+RED,clarify guidance/example,verify GREEN/relevant routing regressions,one fresh
+whole-change review and software seal. No actual inference in this task.
+Retain guards;conditional decision and later observation protocol stay separate.
 
 ## Do Not Repeat
 

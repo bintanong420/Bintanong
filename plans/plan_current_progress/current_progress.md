@@ -2,7 +2,7 @@
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
 [Checkpoint](../phase-09-checkpoint.md) | [Actual results](../2026-10-20-quoted-reference-focused-observation-results.md).
-Last full prior snapshot5e44625:plans/plan_current_progress/current_progress.md.
+Last full prior snapshotf62f493:plans/plan_current_progress/current_progress.md.
 
 ## Latest result
 
@@ -43,12 +43,13 @@ no scope discrepancy. Missing remains distinct from documented unmet conditions.
 [Saved recommendation](../../Context/response-time-recommendation.md):15-20s warm
 complete browser/conditional20-30complexHybrid remains proposed and unvalidated.
 Accuracy first. No Phase10,training,install,dependency/source/DB changes,push,
-merge,deployment or activation. No extra agents or broad test rerun this turn.
+merge,deployment or activation. One inline correction/one fresh reviewer.
 [Earlier Codex usage findings](../2026-10-20-session-token-usage-observation.md) retained.
 
 ## Next action
 
-Use the sealed four-case traces for one bounded correction design for distinct
-requested parts and claim-mode meaning. Preserve quoted
-identity/guards;conditional-answer choice remains separate. No more calls in
-this observation,no sweep,old-batch rerun or premature capability/latency claim.
+Execute the [bounded guidance plan](../2026-10-20-router-semantic-guidance-correction-plan.md)
+within existing approved prompt/example requirements:one complete worked example,
+explicit mode/detail guidance,four meaningful RED/GREEN cases,relevant regressions
+and one fresh review. Preserve quoted identity/guards;conditional choice separate.
+No actual-model calls in this implementation or new performance/accuracy claim.
