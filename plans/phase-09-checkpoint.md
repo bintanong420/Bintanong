@@ -2,69 +2,68 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 58
+sequence: 59
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 8b9457f
+head_commit: 4f39833
 working_tree: dirty
-updated_at: 2026-10-20T16:27:46.2540798+08:00
+updated_at: 2026-10-20T16:53:14.4945302+08:00
 ---
 
-# Phase09 checkpoint - detached question-parts foundation
+# Phase09 checkpoint - question-parts reference scoring
 
 ## Completed Tasks
 
 Owner latency referenceea749da:Context/response-time-recommendation.md and AGENTS.
-Question-parts plan722cc6e/productf106070 delivers detached exact-span/identity
-contracts,per-part host mapping/support checks,68tests and module guide. All four
-bounded tasks verified;[results](2026-10-20-question-parts-results.md) holds evidence.
-Last full prior checkpointf106070. Selected scoped/canonical/separate unchanged;
+Reference plan8b9457f/product4f39833 delivers detached synthetic-dev author label
+contracts/reference scoring,35tests and evaluation guide. All three bounded tasks
+verified;[results](2026-10-20-question-parts-evaluation-results.md) holds evidence.
+[Foundation](2026-10-20-question-parts-results.md) remains detachedf106070.
+Last full prior checkpoint4f39833. Selected scoped/canonical/separate unchanged;
 covered/guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Resumed cleanac94a4a;plan8b9457f. Task1 implements evaluation/question_parts.py
-and35tests:score exact spans/kinds and semantic mapping reference agreement,
-including omitted-part denominator,renumbering,correct uncertainty and replay checks.
-Foundation stays detached;its semantic limitations remain. Offline characterization,
-independent review and56-selection gate pending.
+Reference scorer delivery verified. Four offline checks expose omitted extraction/
+wrong mapping against frozen post-hoc labels. Correct uncertain control agrees
+while ledger unresolved. No actual extractor/model/per-language accuracy result,
+runtime/profile wiring or semantic P2 resolution. This bounded scorer question is
+resolved;next observation gate remains separate.
 Scope17-18/architecture39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;parent8b9457f,foundationf106070. Remaining
-changes:question_parts.py/test,evaluation guide,reference plan,progress/checkpoint.
-Preparing cohesive Task1 verified commit.
+p09/feat/p09-generation-validation;verified product4f39833,foundationf106070.
+Remaining changes:reference plan/results,index,progress/checkpoint docs only.
+head_commit names verified product;later wrapper is not a product change.
 No unrelated owner changes found.
-Existing CUDA18088/localSupabase remain running;CPU18087 stopped intact,default
-18087 unchanged. No Phase10,student API,push,merge,deployment or activation.
+CUDA18088/localSupabase last observed running;no service-health check in this task.
+CPU18087 stopped intact,default18087 unchanged. No Phase10,student API,push,merge,
+deployment or activation.
 
 ## Verification Evidence
 
 Reference evaluator RED35expected missing-module assertions1.43s/GREEN35passed
-0.72s;relevant generation/evaluation regressions603passed6.81s,exit0. Raw root
-workspace/audit-evidence/p09-question-parts-evaluation-20261020/ holds commands/
-selections/output. No actual extractor/per-language/model accuracy claim.
-
-Foundation RED68expected missing-module assertions1.63s/GREEN68passed0.71s;
-generation regressions296passed3.64s,exit0. Offline3author-labeled checks pass their
-stated expectations;last two demonstrate limitations,not semantic quality success.
-One fresh review722cc6e..f106070:no actionable findings,175passed2.59s. Initial
-reviewer nonexistent-file selection exited4/no tests,both logs retained. No fix
-pass needed. Final55-selection gate2156passed/66subtests90.82s,exit0;no product
-changes afterward. Raw red.log/green.log/relevant.log/reviewer/ and saved-output-
-assessment.json retained. verify-regressions.ps1 holds exact55selections/command.
+0.72s;relevant generation/evaluation regressions603passed6.81s,exit0. Four offline
+checks match expected2/2,1/2,2/2,2/2extraction and1/2,1/2,1/2,2/2mapping labels.
+These are reference characterization,not actual extractor successes. One fresh
+reviewac94a4a..4f39833:no actionable finding,122passed1.17s. No fix pass/re-review.
+Final56-selection gate2193passed/66subtests92.41s,exit0;no product changes afterward.
+verification-commands.json/relevant-selections.txt/verify-regressions.ps1 and
+red.log/green.log/relevant.log/final-regressions.log retain commands and results.
 All pytest runs:-B -m pytest -q -p no:cacheprovider,ignored TEMP/TMP/--basetemp.
 Prior failed coverage observations/history:[results](2026-10-20-question-coverage-results.md).
-Docs/phase gate621passed/14subtests13.17s;94local links/active caps pass. Phase
-state valid,active9,cannot advance. Delivery doc logs excluded from fixed seal.
+Docs/phase gate623passed/14subtests13.74s,exit0;94local links/active caps pass.
+Phase valid,active9,cannot advance. Later doc-check logs excluded from fixed seal.
 
 ## Versions and Digests
 
-Raw:workspace/audit-evidence/p09-question-parts-20261020/.16sealed files;manifest
-61bce1225350974db2f1887e031accaba34e24b658c7fa03546259a53dfa89f9. source-product/
-preserves code/test/guide;offline receipt binds saved inputs and author-labeled
-plans/reviews/ledgers. Prior coverage103sealed files verified unchanged;old manifest
-99b01941513be459dfe3714618174c07ee552f91d42796902240f6ced5741003.
+Raw:workspace/audit-evidence/p09-question-parts-evaluation-20261020/.20sealed files;
+manifestd41e89334d19c522de4f2c59e61b2fbd746b8f69f91c55ed8ff9fb9d3f4c762d.
+source-product/ preserves code/test/guide/dependency;saved-output-scores.json binds
+saved inputs,variant origins and frozen reference SHA256
+0754b6402bb7dc19912538710d18f5077ea63c8e16b30cee6c17ddcffe5ce755. Input identity
+does not hash labels;retain full reference artifact/hash. Prior foundation16 and
+coverage103sealed files verified unchanged;their manifests/digests linked in results.
 Later doc-wrapper logs excluded;historical123line handoff remains unchanged4022711
 with justified3line exception preserving delivery evidence.
 Python3.13.7 readiness interpreter,-B pytest -q -p no:cacheprovider;ignored external
@@ -78,8 +77,9 @@ PDF SHA729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 ## Decisions
 
 Accuracy first. Keep actual multipart semantic P2 open in unselected covered.
-New ledger rejects missing declared mappings and replay;cannot certify extraction
-completeness or semantic claim-to-part correctness. No prompt/seed/budget sweep.
+Ledger rejects missing mappings/replay;scorer exposes reference disagreement,not
+universal semantic truth. Exact boundary/claim alternatives need human adjudication.
+No actual extraction/per-part semantic check yet. No prompt/seed/budget sweep.
 Actual outer27.265337s/inner27.265130s is an INCOMPLETE-answer duration,not supported
 complete-answer latency. Combined review5.342653s already nested. Separate script
 entry-to-ready24.184131s includes imports0.833315s,build/encoder23.288540s,initial
@@ -97,8 +97,8 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Freeze author-labeled reference for saved failure;score three saved plan/mapping
-variants plus explicit uncertain control,then one review and56-selection gate.
+Define one frozen extraction/per-part-review observation using existing transport
+and synthetic dev labels;actual output validation precedes runtime integration.
 
 ## Do Not Repeat
 

@@ -1,29 +1,25 @@
 # Current progress
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-parts-results.md).
-Last full prior snapshotf106070:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [Results](../2026-10-20-question-parts-evaluation-results.md).
+Last full prior snapshot4f39833:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Reference plan8b9457f Task1:evaluation/question_parts.py scores exact extraction
-and mapping against frozen author labels. Correct uncertainty stays unresolved;
-omissions count against the whole reference. RED35failures1.43s/GREEN35passed0.72s;
-generation/evaluation regressions603passed6.81s. Offline assessment/review/full gate
-pending. No extractor,inference or runtime/profile change.
-
-Question-parts foundation plan722cc6e/productf106070:requirements.py binds exact spans,
-request/evidence/plan/draft and each declared claim-or-unavailable mapping. Missing
-fee mapping stays unresolved;structured checks cannot be replaced by documents.
-Always semantic_completeness=unverified;omitted extraction or a wrong semantic map
-can still pass mechanically. No Generator/profile selection or model call. RED68
-expected failures1.63s/GREEN68passed0.71s;generation regressions296passed3.64s.
-Offline saved-output3checks:declared missing fee unresolved;omitted extraction/
-wrong semantic mapping still mechanically mapped and always unverified. One fresh
-review:no actionable findings,175passed2.59s. Final55-selection gate2156passed/
-66subtests90.82s,exit0. Raw workspace/audit-evidence/p09-question-parts-20261020/:
-16sealed files,manifest61bce1225350974db2f1887e031accaba34e24b658c7fa03546259a53dfa89f9.
-Prior103sealed coverage files verified unchanged. No product changes after gate.
+Reference plan8b9457f/product4f39833:evaluation/question_parts.py scores exact
+span/kind extraction and mapping against frozen synthetic author labels. Omitted
+parts stay in denominators;correct uncertainty can agree but remains unresolved.
+RED35failures1.43s/GREEN35passed0.72s;relevant regressions603passed6.81s. Offline
+4checks expose both mechanical false completions against post-hoc labels;not model
+accuracy. One fresh review:no actionable finding,122passed1.17s. Final56-selection
+gate2193passed/66subtests92.41s,exit0. No product changes afterward.
+Raw workspace/audit-evidence/p09-question-parts-evaluation-20261020/:20sealed files;
+manifestd41e89334d19c522de4f2c59e61b2fbd746b8f69f91c55ed8ff9fb9d3f4c762d.
+Full reference0754b6402bb7dc19912538710d18f5077ea63c8e16b30cee6c17ddcffe5ce755;
+input identity does not hash labels,so preserve that full artifact/hash. Prior
+foundation16/coverage103sealed files verified unchanged. Scorer question resolved.
+[Foundation](../2026-10-20-question-parts-results.md) remains detached;no extractor,
+inference or runtime/profile change. Semantic completeness ALWAYS unverified.
 
 Owner asks to preserve researched timing recommendation:ea749da saves
 [Context reference](../../Context/response-time-recommendation.md) and AGENTS pointer.
@@ -55,6 +51,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Freeze one author reference for saved failure;score three saved variants and an
-explicit uncertain control,then one review and56-selection gate per the
-[reference plan](../2026-10-20-question-parts-evaluation-plan.md). No inference.
+Define a single frozen extraction/per-part-review observation using existing
+transport and synthetic dev labels;validate actual outputs before runtime integration.
+Actual extractor/per-language quality NOT RUN;no repeated prompt/model/seed/budget sweep.

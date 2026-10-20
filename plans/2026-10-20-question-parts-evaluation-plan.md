@@ -53,13 +53,13 @@ no-use/no-activation and semantic_completeness=unverified. Return no answer/text
    incomplete/duplicate/unknown labels,private data/invalid integration,strict bounds/
    extra fields and fixed authority flags. Use existing fictional fixtures only.
    GREEN plus relevant generation/evaluation regressions;commit cohesive code/guide.
-2. [ ] Freeze one author-labeled reference for the already saved actual location+
+2. [x] Freeze one author-labeled reference for the already saved actual location+
    fee failure. Reuse the three foundation assessment variants OFFLINE:missing fee
    mapping,omitted fee extraction,wrong fee-to-location mapping. Expected extraction
    match2/2,1/2,2/2;correct mappings1/2 each;false completion false,true,true.
    Add a clearly author-constructed correct uncertain-mapping control:agreement
    true,ledger unresolved. No fabricated new actual-model output or benchmark run.
-3. [ ] One independent whole-change review,one focused TDD fix pass if needed,
+3. [x] One independent whole-change review,one focused TDD fix pass if needed,
    explicit56-selection regression gate,dated results and compact snapshots.
    Seal raw receipts/source hashes;verify prior evidence unchanged.
 
@@ -89,3 +89,11 @@ for alternate boundaries,explicitly disclosed rather than called semantic failur
 Task1:RED35expected missing-module assertion failures1.43s/GREEN35passed0.72s.
 Relevant generation/evaluation regressions603passed6.81s,exit0. Raw red.log,
 green.log,relevant.log/relevant-selections.txt retain receipts. No runtime change.
+Task2:4offline checks match predeclared expectations;two mechanical false positives
+exposed against fixed post-hoc author labels. Reference0754b6402bb7dc19912538710d18f5077ea63c8e16b30cee6c17ddcffe5ce755;
+saved-output-scores.json records origins/denominators. Actual extractor quality NOT RUN.
+Task3:one reviewac94a4a..4f39833,no actionable finding,122passed1.17s. No fix pass.
+Final56-selection gate2193passed/66subtests92.41s,exit0;no product changes afterward.
+Ruling:input identity binds plan/evidence/draft,not expected annotations;full frozen
+reference SHA256 is mandatory receipt provenance. Current caller retains it;future
+callers must do so too. Cost if ignored:ambiguous label version across score reports.
