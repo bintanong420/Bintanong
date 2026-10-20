@@ -44,8 +44,11 @@ class RuntimeSettings:
     stage_timeout: float = 120
     generation_timeout: float = 120
     request_timeout: float = 180
+    routing_profile: Literal['separate','combined'] = 'separate'
 
     def __post_init__(self):
+        if self.routing_profile not in ('separate','combined'):
+            raise ValueError('invalid_routing_profile')
         for name in ('inference_timeout','stage_timeout','generation_timeout','request_timeout'):
             value=getattr(self,name)
             maximum=300 if name=='stage_timeout' else 600
@@ -95,6 +98,7 @@ class RuntimeRun(Record):
     schema_version: Literal['bintanong-runtime-run-v1'] = 'bintanong-runtime-run-v1'
     synthetic: Literal[True] = True
     institutional_use_allowed: Literal[False] = False
+    routing_profile: Literal['separate','combined'] = 'separate'
     answer: CandidateAnswer
     events: tuple[StageEvent,...]
     model_calls: tuple[ModelCall,...]
@@ -137,7 +141,8 @@ class RuntimeApplication:
         settings=self.settings
         model=_ObservedTransport(LlamaTransport(settings.model_url,
             timeout_seconds=settings.inference_timeout))
-        orchestrator=Orchestrator(model,releases=self.releases,stage_timeout=settings.stage_timeout)
+        orchestrator=Orchestrator(model,releases=self.releases,stage_timeout=settings.stage_timeout,
+            routing_profile=settings.routing_profile)
         # Capture evidence-stage telemetry in this request only. No raw text/grades.
         events=[]
         class ObservedOrchestrator:
@@ -150,7 +155,7 @@ class RuntimeApplication:
         started=perf_counter()
         answer=await pipeline.run(text,context)
         return RuntimeRun(answer=answer,events=tuple(events),model_calls=tuple(model.calls),
-            duration_ms=(perf_counter()-started)*1000)
+            duration_ms=(perf_counter()-started)*1000,routing_profile=settings.routing_profile)
 
 
 def build_application(spec: RuntimeSpec, *, client=None, model_path=None,

@@ -16,6 +16,7 @@ from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from .contracts import CatalogEntry, RequestContext, prepare_query
 from .prompt import PROMPT_SHA256, PROMPT_VERSION, digest, output_schema
 from .router import Router
+from .combined import CombinedRouter
 from .style import STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, style_output_schema
 from .transport import LlamaTransport
 from .validation import OPERATIONS, _matches
@@ -123,11 +124,14 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
     for r in records:
         family_signatures[r['family_id']].append((r['proposed'], r['entities'], r['claims'], r['operations']))
     compared = [values for values in family_signatures.values() if len(values) > 1]
-    report = dict(schema_version='bintanong-routing-evaluation-v2', total=len(cases),
-        metadata=metadata, prompt_version=PROMPT_VERSION, prompt_sha256=PROMPT_SHA256,
-        schema_sha256=digest(output_schema()), case_set_sha256=digest([c.model_dump(mode='json') for c in cases]),
+    identity = dict(routing_profile='separate',prompt_version=PROMPT_VERSION,
+        prompt_sha256=PROMPT_SHA256,schema_sha256=digest(output_schema()),
         style_prompt_version=STYLE_PROMPT_VERSION, style_prompt_sha256=STYLE_PROMPT_SHA256,
-        style_schema_sha256=digest(style_output_schema()),
+        style_schema_sha256=digest(style_output_schema()))
+    if isinstance(router,CombinedRouter):
+        identity=router.evaluation_identity()
+    report = dict(schema_version='bintanong-routing-evaluation-v2', total=len(cases),
+        metadata=metadata,**identity,case_set_sha256=digest([c.model_dump(mode='json') for c in cases]),
         catalog_sha256=digest([c.model_dump(mode='json') for c in router.catalog]),
         runtime=dict(getattr(router.transport, 'metadata', {})),
         proposal_matrix={k:dict(v) for k,v in proposal_matrix.items()},
@@ -157,13 +161,15 @@ def main():
     parser.add_argument('--url', default='http://127.0.0.1:18087')
     parser.add_argument('--timeout', type=float, default=120)
     parser.add_argument('--plain-json', action='store_true', help='Explicitly disable schema decoding; still validate')
+    parser.add_argument('--routing-profile',choices=('separate','combined'),default='separate')
     args = parser.parse_args()
     if not args.output.resolve().is_relative_to(args.evidence_root.resolve()):
         parser.error('output must stay in the ignored evidence root')
     data = json.loads(args.input.read_text(encoding='utf-8-sig'))
     registry = CapabilityRegistry({name:Capability('synthetic_' + name,
         ('curriculum_id','course_id')) for name in OPERATIONS})
-    router = Router(LlamaTransport(args.url, timeout_seconds=args.timeout,
+    router_class=CombinedRouter if args.routing_profile=='combined' else Router
+    router = router_class(LlamaTransport(args.url, timeout_seconds=args.timeout,
         constrained=not args.plain_json), catalog=tuple(CatalogEntry.parse(c) for c in data['catalog']),
         registry=registry, documents_available=True, synthetic=True)
     report = asyncio.run(evaluate_cases(router, data['cases'], data['metadata'],

@@ -7,6 +7,7 @@ from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
+from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_symbolic.runtime import DependencyResult
 from .adapters import AdapterFailure
 from .contracts import DocumentResult, IntegrationResult, StageEvent
@@ -24,13 +25,17 @@ _ROUTING_FAILURES = {
 
 
 class Orchestrator:
-    def __init__(self, transport, *, releases=None, stage_timeout=120.0):
+    def __init__(self, transport, *, releases=None, stage_timeout=120.0,
+                 routing_profile='separate'):
         if (type(stage_timeout) not in (int,float) or not math.isfinite(stage_timeout)
                 or not 0 < stage_timeout <= 300):
             raise ValueError('stage_timeout_must_be_finite_positive_at_most_300')
+        if routing_profile not in ('separate','combined'):
+            raise ValueError('invalid_routing_profile')
         self.transport = transport
         self.releases = HeldReleaseProvider() if releases is None else releases
         self.stage_timeout = float(stage_timeout)
+        self.routing_profile = routing_profile
 
     async def run(self, text: str, context: RequestContext) -> IntegrationResult:
         prepare_query(text)
@@ -103,7 +108,8 @@ class Orchestrator:
         resources, failure = await stage('release', pin_release)
         if failure:
             return finish(failure)
-        router = Router(self.transport, catalog=resources.catalog, registry=resources.registry,
+        router_class = CombinedRouter if self.routing_profile=='combined' else Router
+        router = router_class(self.transport, catalog=resources.catalog, registry=resources.registry,
             documents_available=resources.retrieval is not None, synthetic=True)
         scoped = None
 

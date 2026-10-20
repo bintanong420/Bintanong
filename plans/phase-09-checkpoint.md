@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 32
+sequence: 33
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 30d1b17
+head_commit: 98854ea
 working_tree: dirty
-updated_at: 2026-10-20T11:08:00+08:00
+updated_at: 2026-10-20T11:17:00+08:00
 ---
 
 # Phase09 checkpoint - faster replies
@@ -21,6 +21,9 @@ reads ab9aee9 and guarde0e86ea remain delivered. Last full snapshot791413e.
 ## Current Task
 
 Owner continues latency work;execute [combined routing plan](2026-10-20-combined-routing-plan.md).
+Combined module and trusted runtime/CLI profile selection implemented. RED16missing
+module after fixing a new fixture argument typo;GREEN142tests2.14s. Wiring/eval
+RED11failures/GREEN81tests3.27s. Full nested schemas retain original branches/refs.
 Keep separate default until15case route/meaning/no-new-style-error check. Known
 Hybrid quality flaw stays held;no release-readiness claim from fewer model calls.
 Prior focused speed work complete;roughly10s working aim not achieved. New resident
@@ -35,7 +38,8 @@ New output tokens462/540/859;11/12outputs one-line. Hybrid draft still530tokens.
 ## Repository State
 
 p09/feat/p09-generation-validation. Product791413e;final wrapper updates only
-INDEX,current progress,checkpoint,dated results and runtime/docker README docs.
+Current changed files:combined.py,orchestrator.py,runtime application/CLI,
+evaluation.py,two new test files and current progress/checkpoint.
 CUDA bintanong-p09-cuda-latency running18088;CPU bintanong-p07-router-offline stopped
 intact. Explicit --url http://127.0.0.1:18088 required;default18087 unchanged.
 No Phase10 branch/work,student API,push,merge or deployment.
@@ -68,7 +72,7 @@ free-memory dependent;512MiB fit margin,context8192 fixed,verbosity4 records fit
 Output768/threads8/temp0/seed0/reasoning-none/cachefalse unchanged.240s inference/
 generation,300s stage,600s request. Python3.13.7/Pydantic2.13.5/HTTPX0.28.1/
 Janus1.5.2/SWI10.1.15/encoder6.1.0 retained. Owner workspace/MODELS reused.
-Thesis physical17â€“18/39â€“40,actual PNG/master12â€“14 consulted on resume;standing
+Thesis physical17Ã¢â‚¬â€œ18/39Ã¢â‚¬â€œ40,actual PNG/master12Ã¢â‚¬â€œ14 consulted on resume;standing
 prompt decision retained. No routing/scope discrepancy;unknown is not denial.
 
 ## Decisions

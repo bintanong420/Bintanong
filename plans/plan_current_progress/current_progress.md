@@ -1,13 +1,15 @@
 # Current progress
 
 Updated:20October2026. Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) Â· [Latest speed results](../2026-10-20-fast-replies-results.md).
+[Checkpoint](../phase-09-checkpoint.md) Ã‚Â· [Latest speed results](../2026-10-20-fast-replies-results.md).
 Last full pre-condensation snapshot:791413e:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
 Owner continues;[combined routing plan](../2026-10-20-combined-routing-plan.md) removes
 one round trip only if existing15case route/meaning/style promotion checks pass.
+Combined contract/router GREEN142tests2.14s;profile/evaluation wiring GREEN81tests
+3.27s after RED16/11failures. Separate default retained pending actual-model check.
 
 Owner asks for further speed/research. Research plan8f502fb;implementation791413e.
 Auto GPU fit512MiB selected35/43layers including output,about2.8GBVRAM/1.1free.
@@ -37,7 +39,7 @@ Raw:workspace/audit-evidence/p09-fast-replies-20261020/;report binds commands/ha
 
 ## Preserved evidence and boundaries
 
-[Prior latency results](../2026-10-20-phase09-latency-results.md):24layer runs85â€“148s,
+[Prior latency results](../2026-10-20-phase09-latency-results.md):24layer runs85Ã¢â‚¬â€œ148s,
 original-message CUDA171.410s vs355.696sCPU;compaction-only gain not established.
 [Composition delivery](../2026-10-20-live-backend-composition-results.md) preserves
 actual baseline/failures/local RPC migration and sealed evidence.7227732/df99ac6
@@ -51,7 +53,7 @@ Current English cases do not validate Filipino/Taglish. Technical IDs hurt usabi
 [historical offline handoff](../phase-09-handoff.md) are preserved. Guarde0e86ea
 prevents advancement while reopened checkpoint unfinished;valid/9/cannotadvance.
 
-Thesis physical17â€“18/39â€“40,actual PNG/master12â€“14 reconsulted;undergraduate,
+Thesis physical17Ã¢â‚¬â€œ18/39Ã¢â‚¬â€œ40,actual PNG/master12Ã¢â‚¬â€œ14 reconsulted;undergraduate,
 read-only/structured-Prolog/unknown/source-gap rules preserved. Owner model root
 workspace/MODELS reused. No weights/dependencies/locks changed or new downloads.
 [Standing prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
