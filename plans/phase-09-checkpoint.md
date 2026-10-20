@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 51
+sequence: 53
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 040c27d
+head_commit: eb9ceb9
 working_tree: dirty
-updated_at: 2026-10-20T16:00:47.3217227+08:00
+updated_at: 2026-10-20T16:04:05.2573619+08:00
 ---
 
 # Phase09 checkpoint - coverage candidate fails live completeness
@@ -26,13 +26,14 @@ covered and prior guarded remain explicit/unselected. No prompt correction sweep
 Prepared6cases passed,but actual-service multipart question failed:location and fee
 asked;only location answered;model falsely complete despite full source40tokens.
 Independent reviewer confirms P2. Reject promotion,keep experiment explicit and
-finish regression/integrity delivery. This is quarantine,not a semantic fix.
+regression/integrity delivery complete. This is quarantine,not a semantic fix.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;parent040c27d. Current changes:coverage module/
-CLI/README warnings,rejection/default-isolation tests,coverage plan/results,
-INDEX,current progress and this checkpoint. No unrelated owner changes found.
+p09/feat/p09-generation-validation;verified product/isolationeb9ceb9. Remaining
+changes:coverage plan/results,current progress and checkpoint docs wrapper only.
+head_commit names verified product;later docs wrapper is not a product change.
+No unrelated owner changes found.
 Existing CUDA18088/localSupabase remain running;CPU18087 stopped intact,default
 18087 unchanged. No Phase10,student API,push,merge,deployment or activation.
 
@@ -49,7 +50,10 @@ loose numeric assertion falsely matched40in evidence hash;corrected to40tokens
 in claims,both receipts retained. Two speculative promotion tests RED2;no promotion
 implemented. Replaced with default-isolation checks. Focused844passed5.18s.
 One independent whole-change review243tests5.18s,one P2/no other actionable defect;
-no re-review or model correction. Final54-selection regression gate pending.
+no re-review or model correction. Final54-selection gate2086passed/66subtests
+91.14s,exit0;verify-regressions.ps1/final-regressions.log retain exact evidence.
+No product changes afterward;91local links and active snapshot caps verified.
+Docs/phase gate619passed/14subtests12.91s;phase valid,active9,cannotadvance.
 
 ## Versions and Digests
 
@@ -57,6 +61,11 @@ Raw:workspace/audit-evidence/p09-question-coverage-20261020/. Pre-inference mani
 bind code040c27d,unchanged prior6questions/input hashes,observer scripts,server props;
 source-inference/ retains bytes. Actual traces retain full messages,usage/timings
 and message/schema hashes. Reviewer assessment/log and failed regression retained.
+Root-assessment binds6prepared+1actual observations;selected sourceeb9ceb9 retained.
+103sealed files verified;delivery manifest SHA256
+99b01941513be459dfe3714618174c07ee552f91d42796902240f6ced5741003.
+Later doc-wrapper logs excluded;historical123line handoff remains unchanged4022711
+with justified3line exception preserving delivery evidence.
 Python3.13.7 readiness interpreter,-B pytest -q -p no:cacheprovider;ignored external
 TEMP/TMP/basetemp. No installs/downloads/model copy/rehash,dependency/lock/DB changes.
 Runtimeb11723-31288c9c6/context8192/output768/temp0/seed0/reasoningnone/cachefalse,
@@ -87,8 +96,7 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Finish54-selection regressions and seal/commit failed experiment. Then design typed
-question requirements and per-item evidence/claim-or-unavailable binding before
+Design typed question requirements and per-item evidence/claim-or-unavailable binding before
 another model observation;validate extraction completeness separately. No sweep.
 
 ## Do Not Repeat

@@ -32,8 +32,11 @@ Actual corrected saved-output regression1failed/6passed0.31s. Initial loose40
 assertion falsely matched citation hash;fixed claim40tokens check/receipts retained.
 Speculative promotion RED2 never implemented;default-isolation tests replace them.
 Coverage RED32/GREEN187tests2.96s;expanded841pass5.20s;rejection844pass5.18s.
-Final54-selection gate pending. Raw:workspace/audit-evidence/p09-question-coverage-
+Final54-selection gate2086passed/66subtests91.14s,exit0;producteb9ceb9.
+103sealed files verified;manifest99b01941513be459dfe3714618174c07ee552f91d42796902240f6ced5741003.
+91links/active snapshot caps pass. Raw:workspace/audit-evidence/p09-question-coverage-
 20261020/:source/input/prompt/observer hashes,full outputs,review/failed tests.
+Docs/phase gate619passed/14subtests12.91s;phase valid,active9,cannotadvance.
 
 ## Timing and preserved boundaries
 
@@ -53,6 +56,5 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Finish54-selection regression/integrity delivery;then design explicit question
-requirements with per-item evidence/claim-or-unavailable binding. Validate omitted-
+Design explicit question requirements with per-item evidence/claim-or-unavailable binding. Validate omitted-
 requirement risk before new model observation;do not repeat coverage6+1or guard runs.

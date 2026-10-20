@@ -77,7 +77,7 @@ is preserved;review seconds are nested in the pipeline,not added twice.
    using resident encoder/local Supabase and explicit covered. Record outer/inner
    request,review and process/readiness boundaries. Do not rerun unchanged service
    Symbolic/Hybrid. No browser/full-cold or institutional accuracy claim.
-4. [ ] Fresh independent whole-change review after observations;one TDD fix pass
+4. [x] Fresh independent whole-change review after observations;one TDD fix pass
    for important findings. If quality/review pass,RED default-selection tests then
    select covered/canonical/separate for the offline candidate. Otherwise keep it
    unselected. Preserve legacy historical report defaults and old experimental
@@ -122,3 +122,7 @@ answered. Next recovery design must expose question requirements separately from
 answer claims and bind each to actual evidence/withholding. That design itself
 still needs validation that no requirement was omitted;do not call a checklist a
 guarantee or substitute keyword routing. No new model experiment starts here.
+
+Delivery:rejection/isolationeb9ceb9;focused844pass5.18s;explicit54-selection gate
+2086passed/66subtests91.14s,exit0.103raw files sealed and verified. The experiment
+is delivered with an open semantic P2;required capability and Phase09 remain active.

@@ -98,8 +98,12 @@ distinct. That record links seven primary sources and the measurement contract.
 Initial focused RED32;GREEN187tests2.96s. Expanded generation/runtime/docs gate
 841passed5.20s,exit0. New profile's nonready/Hybrid/Symbolic/private-ID/release/
 repair-reset/deadline/cancellation/concurrency/per-route prompt metadata paths pass.
-Final explicit54-selection gate and integrity seal pending. No institutional75-case
-evaluation or owner content/style approval. No semantic-success claim from mocks.
+Rejection/default-isolation focused844passed5.18s. Final producteb9ceb9 explicit
+54-selection gate2086passed/66subtests91.14s,exit0. Exact raw command script
+verify-regressions.ps1 and final-regressions.log retained. No product change after
+this gate. No institutional75-case evaluation or owner content/style approval.
+No semantic-success claim from mocks;actual completeness gate remains failed.
+Docs/phase gate619passed/14subtests12.91s;phase valid,active9,cannotadvance.
 
 Raw:workspace/audit-evidence/p09-question-coverage-20261020/. Pre-inference manifests
 bind code040c27d,original input hashes,observer scripts and runtime props. Source-
@@ -109,6 +113,11 @@ reasoningnone/cachefalse,35/43GPU layers,owner workspace/MODELS. No model rehash
 Observation budgets240s infer/generation,300s stage/600s fullrequest;shipped
 120s infer/generation/stage,180s request unchanged. Existing Python3.13 readiness
 interpreter,-B pytest -q -p no:cacheprovider;ignored workspace TEMP/TMP/basetemp.
+Root-assessment.json binds all6prepared+1actual observations to selection state;
+source-selected-eb9ceb9/ retains final product bytes.103sealed files verified,
+delivery manifest SHA25699b01941513be459dfe3714618174c07ee552f91d42796902240f6ced5741003.
+Later docs-wrapper logs excluded.91local links/active snapshot caps verified;
+historical handoff123lines unchanged from4022711 preserves its3line exception.
 
 Thesis17-18/39-44,actual routing PNG/master3/11/12.4/13/14 reconsulted. Undergraduate/
 read-only/structured-Prolog/unknown/source-gap boundaries agree. One-week prompt cap
