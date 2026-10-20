@@ -19,14 +19,14 @@ regressions,and where can question understanding live without another sidecar?
    hygiene items. Previous2239gate predates one results document's collection.
    Keep parameter cases/functions/documents distinct;none is a model accuracy score.
    Raw inventory-before.json/collection-before.log preserve exact selections/nodes.
-2. [ ] Prove representative EXISTING behavioral tests fail for six deliberate bugs:
+2. [x] Prove representative EXISTING behavioral tests fail for six deliberate bugs:
    release mismatch accepted,private reference accepted,negative support ignored,
    missing declared part treated complete,cross-request review reused,and fresh/
    excessive deadline budget. Baseline must pass;isolated pytest-plugin mutations
    must fail their named assertions,not imports/setup. Keep mutated functions only
    in separate processes,never edit production source. Record exact patch/hash/test
    selections/outcome;this small sample cannot certify the whole suite.
-3. [ ] Consolidate tests/test_docs_hygiene.py's per-file cases into one scan that
+3. [x] Consolidate tests/test_docs_hygiene.py's per-file cases into one scan that
    still checks EVERY governed file and reports all paths/violations. Verify before/
    after scanner failure using synthetic copied docs,not source originals. Keep
    scanner edge-case tests. Remove duplicate four-stage prompt-message test from
@@ -34,7 +34,7 @@ regressions,and where can question understanding live without another sidecar?
    existing test_compact_json_guidance.py exercise both original RAG/Hybrid contexts
    with identical assertions. Preserve semantics and checks;do not delete security
    or genuine adversarial parameter cases to lower the headline count.
-4. [ ] Record an honest audit:counts and reviewed scope,six mutation receipts,
+4. [x] Record an honest audit:counts and reviewed scope,six mutation receipts,
    real boundaries protected,duplicate/formatting checks and residual semantic
    gaps. Read router contracts/prompt/validation/orchestrator/generator consumers;
    write bounded recovery design using existing interpretation stage. No speculative
@@ -64,3 +64,10 @@ RAG/Hybrid coverage survive deduplication;mutation failures must reflect intende
 guard behavior;router recovery remains design only. Ruling:owner request authorizes
 this bounded test review/refactor and recovery design. Avoid a broad suite rewrite;
 unreviewed tests cannot be certified merely because six sampled guards are meaningful.
+
+Tasks2-4:baseline15pass;six isolated guard mutations detected with1/1/3/1/1/1
+intended assertion failures. Old/new scanner reject both synthetic damaged files.
+Refactor baseline620passed2.31s;first merged fixture21pass/1fail1.71s corrected its
+RAG-null decision assumption;verified22passed1.50s. Collection after1643items/
+648functions/10hygiene items;full checks remain. Audit/results and existing-router
+recovery design delivered;no product/inference change. Raw receipts remain ignored.

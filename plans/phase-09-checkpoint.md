@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 64
+sequence: 65
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 073f76e
+head_commit: 90e3257
 working_tree: dirty
 updated_at: 2026-10-20T17:28:34.3806131+08:00
 ---
@@ -23,21 +23,31 @@ guarded/covered and new analyzer stay unselected. No correction/model sweep.
 
 ## Current Task
 
-Resumed clean073f76e. Owner asks to continue and ensure test count is meaningful.
-[Audit/recovery plan](2026-10-20-test-meaning-and-recovery-plan.md) inventories2240items/
-649functions/605doc checks;verify critical guards by mutation,consolidate redundant
-format checks and write recovery design over existing router. No new model run.
+Owner [test audit](2026-10-20-test-meaning-audit-results.md):2240expanded cases/
+649functions included605doc-format cases. Consolidated full-file scan and duplicate
+prompt checks;after1643items/648functions/10hygiene cases. Six deliberate guard
+bugs detected by existing tests;not whole-suite or semantic accuracy proof.
+[Recovery design](2026-10-20-router-question-understanding-recovery-design.md) uses
+existing interpreter/typed propagation;design only,no product/model change.
+Independent review/final57-selection gate pending.
 Context17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;clean parent073f76e,verified product6073fbe.
-Remaining changes:audit/recovery plan,current progress/checkpoint planning docs.
+p09/feat/p09-generation-validation;parent90e3257,verified product6073fbe. Remaining
+changes:3test files,audit plan/results,recovery design,progress/checkpoint.
 No unrelated owner changes found. Existing CUDA18088 ready for this batch;CPU18087
 last recorded stopped intact,default18087 unchanged. No DB/service startup work.
 No Phase10,student API,push,merge,deployment or activation.
 
 ## Verification Evidence
+
+Audit baseline15cases passed;6isolated real-guard mutations caused1/1/3/1/1/1
+intended assertion failures. No production file modified. Old/new format scanner
+reject both damaged synthetic copied docs with all paths/control codes. Refactor
+baseline620pass2.31s;first merged run21pass/1fail1.71s corrected RAG-null test fixture;
+verified22passed1.50s. Raw workspace/audit-evidence/p09-test-meaning-audit-20261020/
+retains inventories,exact mutations/commands/function hashes,receipts and logs.
 
 Analyzer RED45missing-module assertions1.59s;firstGREEN44pass/1fail1.20s from a
 hand-counted fixture end25instead26,corrected test only,original log retained.
@@ -106,8 +116,8 @@ end-to-end validation remain unresolved. Passing software tests do not resolve t
 
 ## Next Action
 
-Execute audit:baseline/mutate six existing safeguards,consolidate duplicate test
-work without losing checks,then router recovery design. No inference/profile change.
+One fresh whole-change review,then same57-selection full regression gate and sealed
+audit/refactor/design delivery. No inference/profile or production behavior change.
 
 ## Do Not Repeat
 

@@ -40,10 +40,13 @@ def test_scan_covers_the_governed_directories():
     assert any(p.parent.name == "decisions" for p in _files())
 
 
-@pytest.mark.parametrize("path", _files(), ids=lambda p: p.relative_to(ROOT).as_posix())
-def test_no_control_characters(path):
-    text = path.read_bytes().decode("utf-8")
-    assert control_character_report(text, path.suffix) == []
+def test_no_control_characters():
+    findings = {}
+    for path in _files():
+        report = control_character_report(path.read_bytes().decode("utf-8"), path.suffix)
+        if report:
+            findings[path.relative_to(ROOT).as_posix()] = report
+    assert findings == {}
 
 
 @pytest.mark.parametrize("text,count", [

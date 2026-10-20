@@ -66,35 +66,3 @@ def test_real_property_names_and_literal_objects_are_not_schema_annotations():
     assert 'title' in short['properties'] and 'title' not in short
 
 
-@pytest.mark.parametrize('stage',['routing','style','draft','support'])
-def test_actual_messages_display_the_compact_schema_and_keep_request_data(stage):
-    from backend.bintanong_contracts.symbolic import EMPTY_REGISTRY
-    from backend.bintanong_routing.contracts import RequestContext
-    from backend.bintanong_routing.prompt import build_messages,SYSTEM_PROMPT
-    from backend.bintanong_routing.style import build_style_messages,STYLE_PROMPT
-    from backend.bintanong_generation.prompt import draft_messages,draft_schema,support_messages,DRAFT_PROMPT,SUPPORT_PROMPT
-    from backend.bintanong_generation.evidence import prepare
-    from test_generation_evidence import integrated
-    question='Fictional source text: hindi pa passed next semester.'
-    pack=prepare(integrated('RAG'))
-    if stage=='routing':
-        full=routing_schema(); instructions=SYSTEM_PROMPT
-        messages=build_messages(question,RequestContext(session_id='sess-a',request_id='req-a'),(),EMPTY_REGISTRY)
-    elif stage=='style':
-        full=style_output_schema(); instructions=STYLE_PROMPT
-        messages=build_style_messages(question)
-    elif stage=='draft':
-        full=draft_schema(pack); instructions=DRAFT_PROMPT
-        messages=draft_messages(question,pack)
-    else:
-        full=output_schema(SupportReport); instructions=SUPPORT_PROMPT
-        draft=AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION,language='en',
-            release_id=pack.release_id,decision_outcome=None,claims=[]))
-        messages=support_messages(question,pack,draft)
-    assert messages[0]['content'].startswith(instructions+'\n')
-    displayed=json.loads(messages[0]['content'].split('schema:\n',1)[1])
-    assert displayed==compact_for_prompt(full)
-    payload=json.loads(messages[1]['content'])
-    assert payload.get('original_text',payload.get('untrusted_question'))==question
-    if stage in ('draft','support'):
-        assert payload['evidence']==json.loads(json.dumps(pack.model_payload()))

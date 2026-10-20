@@ -17,10 +17,11 @@ from backend.bintanong_contracts.schema_display import compact_for_prompt
 from test_generation_evidence import integrated
 
 
-@pytest.mark.parametrize('stage', ['routing', 'style', 'draft', 'support'])
-def test_real_prompt_requests_compact_json_with_complete_payload_and_schema(stage):
+@pytest.mark.parametrize('stage,route', [('routing',None),('style',None),
+    ('draft','RAG'),('draft','Hybrid'),('support','RAG'),('support','Hybrid')])
+def test_real_prompt_requests_compact_json_with_complete_payload_and_schema(stage,route):
     question='Fictional question: "hindi pa passed"; preserve negation.'
-    pack=prepare(integrated('Hybrid'))
+    pack=prepare(integrated(route or 'Hybrid'))
     before=pack.model_payload()
     if stage=='routing':
         messages=build_messages(question,RequestContext(session_id='sess-a',request_id='req-a'),(),EMPTY_REGISTRY)
@@ -33,7 +34,8 @@ def test_real_prompt_requests_compact_json_with_complete_payload_and_schema(stag
         instruction,schema=DRAFT_PROMPT,draft_schema(pack)
     else:
         draft=AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION,
-            language='en',release_id=pack.release_id,decision_outcome=pack.decision.outcome,claims=[]))
+            language='en',release_id=pack.release_id,
+            decision_outcome=pack.decision.outcome if pack.decision else None,claims=[]))
         messages=support_messages(question,pack,draft)
         instruction,schema=SUPPORT_PROMPT,generation_schema(SupportReport)
     system=messages[0]['content']
