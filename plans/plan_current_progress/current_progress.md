@@ -12,7 +12,10 @@ reviewed_aliases from model input;retain full host catalog,context/facts and eve
 guard/call/budget. One fresh builder check:no material unanswered questions,
 contradictions or unsupported benefit claims. Current "aight continue" approves
 this design and one bounded evaluation. Payload/catalog wording/version edits done;
-4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s. Host guards unchanged;no inference.
+4RED1.06s->4GREEN0.71s;241regressionsGREEN3.80s. Product0aaa074;one fresh review
+found no product issue;stale checkpoint wording corrected in normal handoff.
+Software freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106;
+240prior seals/179other backend files/both decoders/example unchanged. No inference.
 236sealed files/current software verified intact;zero model/service calls this turn.
 Fresh docs10passed0.66s;80links/caps and182source/test hashes pass. New4raw files
 sealed under workspace/audit-evidence/p09-catalog-separation-design-20261020/;
@@ -61,6 +64,7 @@ unvalidated. No Phase10,training,installs,dependency/source/DB changes,push/acti
 ## Next action
 
 Execute the [approved bounded plan](../2026-10-20-router-catalog-separation-implementation-plan.md):
-commit verified code,one fresh review,software freeze and ONE separately frozen
-actual four-case observation. No repeat241tests without cause or approval round,
+commit [gate protocol](../2026-10-20-catalog-separation-quality-gate.md),freeze
+exact inputs/settings/HEAD and one readiness,then4cases ONCE if ready. No
+repeat241tests without cause or approval round,
 rescue probe or sweep. Conditional choice and every accuracy/phase boundary persist.

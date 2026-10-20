@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 93
+sequence: 94
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: df4ba7a
+head_commit: 0aaa074
 working_tree: dirty
-updated_at: 2026-10-20T23:53:24+08:00
+updated_at: 2026-10-20T23:58:53+08:00
 ---
 
 # Phase09 checkpoint - catalog separation proposal;no new product experiment
@@ -32,7 +32,7 @@ Read-only data-flow audit:catalog reaches both model payload and existing host
 resolver. Full236sealed files/current software intact;zero model/service calls.
 [Catalog separation design](2026-10-20-router-catalog-separation-design.md) proposes
 omitting ONLY reviewed_aliases from model input,keeping host catalog/context/
-guards/calls unchanged. Design now approved;implementation pending. Builder check:
+guards/calls unchanged. Design approved;implemented0aaa074. Builder check:
 no material unanswered questions,contradictions or unsupported benefit claims.
 No second check needed. Fresh docs10passed0.66s;80links/caps,182current source/test
 hashes and236prior sealed files verified. New4raw files sealed. Explicit approval
@@ -54,7 +54,10 @@ closed-world illustration does not override unknown-vs-unmet/source-gap policy.
 ## Repository State
 
 p09/feat/p09-generation-validation;HEADdf4ba7a,product062589c.
-Pending:prompt.py/combined.py/README,new test/combined expectation,plan/progress/checkpoint.
+HEAD0aaa074;pending docs:actual-quality protocol,plan checklist,progress/checkpoint.
+Review:no product findings;stale checkpoint phrase corrected in normal update.
+Freeze8e803b707fce21bcadfc696aee9e14434a3ab6b76844c8311957471e8ff6d106
+binds181backend/vocabulary,2tests/README;240prior sealed files intact. Zero inference.
 Checkpoint names parent;containing delivery commit follows. Existing workspace
 MODELS/CUDA18088/default18087 untouched. No startup,weights copy/rehash/download,
 dependency/source/DB mutation,training,institutional rules,activation,push,merge
@@ -123,8 +126,9 @@ dependable completion date or justification to reduce accuracy. Phase09 incomple
 
 ## Next Action
 
-Commit verified software;one fresh review,software freeze,then separately frozen
-actual four-case evaluation. Do not repeat passing241regressions without a cause.
+Commit [actual gate protocol](2026-10-20-catalog-separation-quality-gate.md);freeze
+executable inputs/settings/HEAD and one runtime readiness,then4cases once if ready.
+No new product change,rescue probe or repeat241regressions without a cause.
 No repeated approval/test/review loops. Conditional-answer choice stays held.
 
 ## Do Not Repeat
