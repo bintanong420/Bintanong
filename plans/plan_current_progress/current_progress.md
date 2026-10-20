@@ -1,84 +1,68 @@
 # Current progress
 
-Updated:20October2026. Phase09 reopened in p09/feat/p09-generation-validation.
-Owner resumed this morning;[bounded latency plan](../2026-10-20-phase09-latency-plan.md).
-[Active checkpoint](../phase-09-checkpoint.md) · [Integration plan](../2026-10-20-live-backend-composition-plan.md).
-Last full pre-condensation snapshot:fab0225:plans/plan_current_progress/current_progress.md.
+Updated:20October2026. Phase09 active in p09/feat/p09-generation-validation.
+[Checkpoint](../phase-09-checkpoint.md) · [Latency results](../2026-10-20-phase09-latency-results.md).
+Last full pre-condensation snapshot:24423f4:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-RTX3050Laptop4096MiB available;CPU container has no GPU assigned. Hybrid routing
-spent94s reading4160tokens/47s generating319tokens. Prepare CUDA sidecar and compact
-duplicated prompt schema while preserving full guards/calls. CPU container started
-unchanged after overnight stop;weights/project dependencies stay unchanged.
-Owner explicitly approves downloading/testing the pinned CUDA runtime image.
-CUDA sidecar ready on18088;CPU fallback stopped intact to freeRAM. One capacity
-adjustment8->24layers loaded at2.1GBVRAM. Original-prompt Hybrid answered171.410s
-vs355.696s priorCPU;retrieval64.28s reflects cold imports,not SQL latency. Same
-claims/decision and wording concern. Display compaction wired;200focused tests
-pass3.01s. Full decoder/guards/instructions/four calls unchanged;new profile next.
+Owner resumed implementation and explicitly approved downloading/testing the pinned
+CUDA runtime. Configuration5d92f9c/display compaction24423f4 delivered. RTX3050Laptop
+4096MiB,24layers,2135MiBVRAM used/1828free;one8->24capacity adjustment,not a sweep.
+CUDA sidecar running on18088;CPU fallback stopped intact to free RAM. Runner needs
+explicit --url http://127.0.0.1:18088;default remains18087. Existing weights reused.
 
-Owner directs actual backend continuation and asks whether Phase07 omitted work.
-[Phase07 audit](../2026-10-20-phase07-functionality-audit.md): core interpreter,
-tokenizer,scoped aliases,claims and guarded LLM routes are present. Two known
-Taglish style errors remain; fifteen synthetic variants do not establish broad
-language accuracy. No explicit post-retrieval reconsideration stage; existing
-null-decision/prompt/checker safeguards remain fallible. Auth/OCR are later work.
+Three actual-service compact-profile requests answered: RAG85.297s vs277.492sCPU,
+Symbolic79.815s vs304.913s,Hybrid148.043s vs355.696s. Four calls/one draft/one check/
+zero repairs each. Same typed decisions/full decoder hashes and original fictional
+English inputs. Actual SEA-LION/PostgREST/Janus/integration/generation/rendering used.
+Original-prompt CUDA Hybrid171.410s supports a runtime gain. Different backend build
+and cold encoder costs limit causal claims. Same-GPU compaction reduced input size
+but model-call time rose107.042->125.884s;total gain is confounded by retrieval
+64.284->22.099s. No isolated compaction speed benefit or accuracy win claimed.
 
-Actual composition7227732 and CLI df99ac6 connect LlamaTransport,strict SEA-LION,
-PostgREST/pgvector,Janus,integration and generation/validation/rendering. The
-read-only provider checks active fictional release membership/hash/source flags
-with anon/RLS. No preassembled evidence or route override enters the runner.
-Provenance fixfab0225 captures input bytes before services; RED2(edit/delete),
-GREEN16passed1.11s. Independent static review confirms fix.
-Additional review caught unbounded pre-limit file reads; fixed to read limit+1,
-RED1failure/GREEN17focused tests2.04s. Model prompts/dispatch remain unchanged.
-
-Actual Symbolic full request answered304.913s. First RAG164.769s failed safely:
-local DB lacked retrieve_context. Applied existing20261012013339 transactionally
-locally only,with recorded history/hash; no hosted change. Actual retrieval then
-returnedok/1passage. Corrected RAG answered277.492s with source-supported desk/fee
-claims and null decision. Hybrid answered355.696s,joining retrieval/Janus before
-draft/support. Original Hybrid was interrupted by credit exhaustion. All3routes
-completed4calls each,1draft/1check/no repairs.
-[Delivery/results](../2026-10-20-live-backend-composition-results.md).
-Raw:workspace/audit-evidence/p09-live-composition-20261020/; verify-followup.ps1.
-Budgets240sinference/generation,300sstage,600srequest; no default120/180s readiness.
-Independent assessment:8/9claims clearly scoped;1Hybrid "eligibility confirmed"
-wording concern accepted by the fallible checker. Typed decisions remain correct;
-canonical prerequisite check is not enrollment approval. Raw IDs hurt readability.
+Compact display preserves full decoder/host guards,instructions,source payloads,
+four calls and bounded repairs. TDD helper missing-module RED;builder RED4failures;
+GREEN200focused tests3.01s. Fresh47-selection gate1892passed/66subtests95.14s,exit0.
+Independent final review found no new current-schema/code/Compose defect. Actual
+outputs:8claims,7clear fits/1Hybrid citation/scope concern. c2 cites a prerequisite
+document as evidence of this student's executed check;canonical result is correct,
+checker still accepts it. This blocks a quality/readiness claim. Human review pending.
+Raw:workspace/audit-evidence/p09-latency-20261020/;exact commands,digests and limits
+in the linked report. Phase09 remains active;Phase10 remains separate/unstarted.
 
 ## Preserved evidence and boundaries
 
-[Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md)
-corrected the earlier completion claim. [Original offline handoff](../phase-09-handoff.md)
-and [resume fixes/gate](../2026-10-19-phase09-resume-review.md) remain historical
-milestones,not proof that the student application or institutional corpus is ready.
-New46-selection gate1881passed/66subtests88.53s,exit0;verify-regressions.ps1 and
-final-regressions.log in raw root. Independent review17focused tests1.01s;both CLI
-findings fixed,no unresolved new-composition defect. Prior1857gate is historical.
-Phase-state checker fixed:old complete handoff cannot advance unfinished resumed
-checkpoint. RED3subtestfailures;GREEN20passed/14subtests14.13s;independent review
-accepts fix. Current phase_state valid/active9/cannotadvance.
+[Actual composition delivery](../2026-10-20-live-backend-composition-results.md):
+7227732/df99ac6 wire real services;fab0225 snapshots input hashes before inference;
+ab9aee9 bounds reads. Prior46-selection gate1881passed/66subtests88.53s remains
+historical. First RAG failed safely on missing local RPC;existing20261012013339
+migration applied transactionally locally only. Hosted migration gap remains.
+Fictional local release populated only after verified empty corpus;no real sources
+or institutional rules activated. Original Hybrid interruption/CPU attempts preserved.
 
-[Earlier six-case generation-only observations](../2026-10-19-phase09-structured-generation-observations.md):
-5answers/1tool_error at240s,4scope/clarity concerns; separate from this full-chain
-proof and not language-wide accuracy. Earlier RAG3/3also started from supplied
-evidence. Preserve those failures and exact denominators; do not repeat the sweep.
+[Phase07 audit](../2026-10-20-phase07-functionality-audit.md):core interpreter,
+tokenizer,aliases,claims and guarded LLM routing present;two known Taglish style
+errors and no explicit post-retrieval reconsideration stage remain. This English
+batch does not validate Filipino/Taglish quality. Opaque output IDs remain awkward.
 
-Thesis physical17–18/39–44,actual routing PNG/master11–14 consulted; undergraduate,
-read-only/structured-Prolog/source-gap rules and unknowns preserved. Existing
-owner-corrected workspace/MODELS reused; former C:/Coding-projects/MODELS absent.
-No weights copied/downloaded,no dependencies/locks changed. Only fictional local
-fixture data published after empty-corpus check; institutional release stays held.
+[Architecture audit](../2026-10-20-runtime-architecture-implementation-audit.md) and
+[historical offline handoff](../phase-09-handoff.md) distinguish delivered components
+from actual application readiness. Workflow guarde0e86ea prevents advancement from
+that old complete handoff while current checkpoint is unfinished. State valid/9/
+cannotadvance. No student API,private-file work,deployment,push or merge.
 
-[Standing prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
-inference guidance,no training; one-week accuracy cap. Source/schema/privacy/auth,
-university validation and activation holds persist. Phase10 stays on a separate
-future branch per [owner boundary](../2026-10-20-phase09-phase10-branch-boundary.md).
-No Phase10 implementation,student chat endpoint,deployment,push or merge.
+Thesis physical17–18/39–44,actual PNG and master11–14 consulted;physical17–18/39–40
+and PNG reconsulted after context rollover. Undergraduate/read-only/structured-Prolog/
+unknown/source-gap rules retained. Owner-corrected workspace/MODELS reused;no weights
+copied/downloaded or dependencies/locks changed. Only approved runtime image pulled.
+[Prompt decision](../2026-10-19-prompt-engineering-and-validation-decision.md):
+inference guidance,no parameter training,one-week accuracy cap. Source/schema,
+privacy/auth,university verification and activation holds persist. Separate Phase10
+[owner boundary](../2026-10-20-phase09-phase10-branch-boundary.md) preserved.
 
 ## Next action
 
-Validate CUDA configuration and implement/test schema-presentation compaction,
-then measure one bounded matched runtime/profile. Preserve all Phase09 holds.
+Address the demonstrated Hybrid prose/citation limitation in a bounded Phase09
+RED/GREEN task before broader reviewed multilingual quality evaluation. Preserve
+source/release gates;do not repeat resolved CUDA/layer/prompt timing diagnostics.

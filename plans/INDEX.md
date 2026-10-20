@@ -23,6 +23,7 @@
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - Latest historical handoff:[Phase09 offline](phase-09-handoff.md); current [delivery/results](2026-10-20-live-backend-composition-results.md).
+- [CUDA latency results](2026-10-20-phase09-latency-results.md):80–148s fictional runs;quality/release holds remain.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified; university verification, institutional runtime
   and activation remain separate release holds. Full-prospectus conversion stays draft.
@@ -75,6 +76,5 @@ real-source exits; ledger validity alone does not prove source readiness.
 
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
-not activity logs. Replace stale state; keep durable evidence in dated reports.
+not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
 Latest full snapshots:Phase09:`37c8d69`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
-Do not restore bulk historical snapshots during routine resume.

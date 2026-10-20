@@ -20,6 +20,9 @@ verifies its manifest and uses local files only. Set the existing storage client
 `SUPABASE_URL`/`SUPABASE_ANON_KEY` when needed. Requests use only the runtime role;
 the runner does not use administrative database credentials. Reuse the existing
 llama.cpp server; the runner does not start services or download models.
+The verified CUDA sidecar uses18088;pass `--url http://127.0.0.1:18088` explicitly.
+The CPU default remains18087 and its reference container is currently stopped.
+See [CUDA setup/results](../../docker/bintu-cuda.md) for startup and rollback.
 
 ```powershell
 python -B -m backend.bintanong_runtime runtime-spec.json request.json `

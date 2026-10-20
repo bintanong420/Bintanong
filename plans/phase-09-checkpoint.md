@@ -2,117 +2,104 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 27
+sequence: 28
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 5d92f9c
+head_commit: 24423f4
 working_tree: dirty
-updated_at: 2026-10-20T10:11:00+08:00
+updated_at: 2026-10-20T10:38:00+08:00
 ---
 
-# Phase09 checkpoint - actual service composition
+# Phase09 checkpoint - CUDA latency observations
 
 ## Completed Tasks
-Original offline milestone and later fixes remain delivered; see
-[historical handoff](phase-09-handoff.md),[resume review](2026-10-19-phase09-resume-review.md)
-and [architecture audit](2026-10-20-runtime-architecture-implementation-audit.md).
-Last full pre-reopen snapshot:684a2fe:plans/phase-09-checkpoint.md.
-Added explicit application composition and read-only synthetic release provider.
-CLI deliverydf99ac6; independent review confirmed a provenance defect in input
-hashing after inference. RED2failures(edit/delete); snapshot fix GREEN16passed1.11s.
-Corrected RAG full request answered277.492s; actual retrieval22.064s/1passage.
-Independent assessment accepts both RAG claims and4Symbolic claims within scope.
-Review found pre-limit full-file reads; focused RED1failure,then bounded limit+1
-snapshot read; GREEN17focused tests2.04s. No inference/prompt behavior changed.
+
+Actual-service composition7227732,CLI df99ac6,input snapshot fab0225 and bounded
+reads ab9aee9 delivered. [Prior delivery](2026-10-20-live-backend-composition-results.md).
+Workflow guarde0e86ea prevents historical handoff from advancing unfinished Phase09.
+Last full pre-condensation snapshot:24423f4:plans/phase-09-checkpoint.md.
+CUDA config5d92f9c and compact prompt display24423f4 delivered;see
+[latency results](2026-10-20-phase09-latency-results.md) for exact evidence.
 
 ## Current Task
-CUDA sidecar ready,buildb11723-31288c9c6;CPU reference stopped intact to freeRAM.
-8layers used1.1GB;one capacity adjustment to24loaded at2.1GB/1.8GBfree. Original-
-prompt Hybrid hardware-only observation running;code hashes captured before calls.
-Original-prompt GPU Hybrid answered171.410s vs355.696s priorCPU. Routing47.82s,
-retrieval64.28s(cold host/import cost),generation/check59.3s. Same3claims/outcome;
-same Hybrid wording concern. Different backendbuild/cold costs preclude pureGPU
-causal/accuracy claims. Compact display wired:200focused tests pass3.01s.
-Owner resumes implementation this morning and recalls CUDA setup. Execute the
-[bounded latency plan](2026-10-20-phase09-latency-plan.md). Existing CPU container
-was stopped overnight;started it unchanged for readiness. No image/model download.
-[Integration supplement](2026-10-20-live-backend-composition-plan.md) task1 GREEN;
-Actual composition increment delivered;Phase09 latency/prose/language work remains.
-Phase07 audit finds core
-master12 functionality present; two known Taglish style errors remain. Auth/private
-files belong to their later phase and are not router authentication capabilities.
+
+Bounded latency implementation/observations complete;Phase09 quality work remains.
+All3actual-service compact requests answered:85.297sRAG/79.815sSymbolic/148.043sHybrid
+versus277.492/304.913/355.696sCPU. Four model calls,one draft/check,no repairs each.
+CUDA original-prompt Hybrid171.410s;router4160tokens read6.813s vs93.972sCPU.
+Same-GPU compact model time rose107.042->125.884s;retrieval fell64.284->22.099s.
+Different builds,cold costs/output lengths limit causal claims. Compaction reduces
+input size;its separate inference/end-to-end gain is not established. Stop diagnostic.
 
 ## Repository State
-p09/feat/p09-generation-validation. Product commits7227732/df99ac6/fab0225/ab9aee9;
-workflow guarde0e86ea. Final wrapper changes docs only;head_commit anchors verified
-code. Current progress/index/checkpoint updated. No Phase10 branch/work.
+
+p09/feat/p09-generation-validation. Verified product HEAD24423f4;final wrapper only
+updates README/docker docs,INDEX,progress,checkpoint and dated latency results.
+These documentation files are the relevant dirty changes. No Phase10 branch/work.
+CUDA bintanong-p09-cuda-latency running18088;CPU bintanong-p07-router-offline stopped
+intact to freeRAM. Explicit runner --url http://127.0.0.1:18088 required;default18087.
 
 ## Verification Evidence
-Latency work:docker/bintu-cuda.compose.yaml validates;localhost18088/read-only
-weights/pinned officialamd64image/no implicit pull/one GPU. Owner-approved runtime
-download in progress. Compact display helper RED missingmodule/GREEN6tests1.69s;
-actual-message RED4failures pending wiring after unchanged-prompt GPU observation.
-After wiring,3legacy tests assumed displayed/decoder schemas were byte-identical;
-updated to equivalent compact display while preserving exact outcome constraint.
-New display tests cover decoder detachment,literal property names,accepted/rejected
-shapes and320audience/route/control/operation combinations. Full decoder unchanged.
-Earlier actual-request evidence below is retained,not rerun as a new baseline.
-Raw:workspace/audit-evidence/p09-live-composition-20261020/.
-RED:red.log missing composition module; GREEN:green-2.log,7passed0.76s.
-First GREEN attempt exposed strict constructor/list mismatch in the new fixture;
-fixed fixture to use shared JSON parse boundary,not weakened production validation.
-Existing18synthetic audit tests and1857/63subtest prior scoped gate are historical,
-not proof of the new full service path. Model server/Supabase currently running.
-CLI RED missing module; GREEN29passed3.44s; application boundaries14passed1.83s.
-First live Symbolic answered304.913s via2router+2generation/check calls,actualJanus.
-RAG164.769s failed safely with storage_error:local DB lacked retrieve_context.
-Hybrid interrupted by credit exhaustion;no completed artifact. Preserve attempts.
-Applied existing migration20261012013339 locally only,transactional/history recorded;
-exact SQL/hash/command in raw local-migration.json. No hosted changes.
-Actual SEA-LION+PostgREST retrieval after migration:ok,1passage,no gaps.
-Corrected batch command:raw verify-followup.ps1; finite240s inference/generation,
-300sstage/600srequest. Batch finished;no rerun needed for this resolved wiring proof.
-Hybrid answered355.696s;actual retrieval+Janus joined,1draft/1check,0repairs.
-All3routes4modelcalls each;9claims,8clear scope fits/1Hybrid wording concern.
-New phase-state regression RED3unfinished-state subtestfailures;GREEN20passed/
-14subtests14.13s. Old completehandoff no longer permits unfinished checkpoint
-advancement;current inspect valid/active9/cannotadvance.
-Final46-selection gate:1881passed/66subtests88.53s,exit0;raw verify-regressions.ps1
-and final-regressions.log. This is the relevant gate,not every legacy project test.
-Independent whole-change review found2CLI issues,both RED/GREEN fixed;17focused
-tests1.01s pass. New phase-state fix independently reviewed;no unresolved new
-composition finding. Detailed delivery/results and exact raw files are in
-[the report](2026-10-20-live-backend-composition-results.md).
+
+Compose validates;pinned officialamd64image,localhost/read-only weights/one GPU,
+no implicit pull. Owner-approved pull completed;8layers~1.1GB then one24layer
+capacity adjustment,final2135MiBused/1828free. Readiness/props/DeviceRequests saved.
+Display helper REDmissingmodule/GREEN6tests1.69s;actual-builder RED4failures;after
+wiring200focused tests pass3.01s. Three legacy byte-equality assertions updated
+for compact display;exact decision constraint/decoder immutability remain checked.
+New tests cover4builders,literal fields,source payloads and160routing combinations.
+Final47-selection gate:1892passed/66subtests95.14s,exit0. Exact roster/command in
+raw verify-regressions.ps1;full output final-regressions.log. No full legacy sweep.
+Independent final review:current-schema/code/Compose changes accepted;16saved model
+outputs schema-valid. Three compact requests/8claims:7clear fits,1Hybrid citation/
+scope concern. Canonical decision correct;fallible checker accepts c2's wrong
+support basis. No language-wide/accuracy/default-budget readiness claim.
+Prior composition gate1881/66subtests88.53s and earlier failures remain preserved;
+no repeat source review/setup. State inspect valid/active9/cannotadvance.
 
 ## Versions and Digests
-Final raw/code manifest hash is in the delivery/results report;all sealed files
-checked against their hashes. Final docs check:123local links resolve,no controls.
-Existing Python3.13.7/Pydantic2.13.5/HTTPX0.28.1; sentence-transformers6.1.0 available.
-Reconsulted thesis physical17–18/39–44,actual PNG,master11–14 on resume.
-Structured routing and unknown facts govern over illustrative closed-world denial.
-Actual existing model root is workspace/MODELS; former C:/Coding-projects/MODELS
-is absent. No copies/downloads; explicitly configure the inherited owner path.
+
+Raw:workspace/audit-evidence/p09-latency-20261020/;report links final manifest hash.
+All85manifest files verified;docs hygiene584passed1.20s/86local links resolve.
+Official CUDA manifest f66a5229a3e0586339d16155e9fe09c37834d7a7f4134bbdee7360b5a1f2546d;
+2,594,107,748compressed bytes. CUDA b11723-31288c9c6 vsCPU b11718-547208dca.
+RTX3050Laptop4096MiB/driver596.36. Same existing GGUF/template/context8192/output768/
+threads8/temp0/seed0/reasoning-none/cachefalse;same full decoder hashes per route.
+Python3.13.7/Pydantic2.13.5/HTTPX0.28.1,Janus1.5.2/SWI10.1.15/encoder6.1.0 unchanged.
+Observation240s inference/generation,300s stage,600s request retained.
+Original model/embedding identities inherited from sealed composition evidence;
+SEA-LION strict asset verification reruns;GGUF not independently rehashed here.
+Thesis physical17–18/39–44,actual PNG/master11–14 consulted;after rollover reread
+physical17–18/39–40 and PNG. No scope/routing discrepancy. Actual owner model root
+workspace/MODELS;former C:/Coding-projects/MODELS absent,no copies/downloads.
 
 ## Decisions
-Owner20October2026 explicitly approves "Download and test the CUDA runtime" for
-the pinned2.6GB image after reviewing the sidecar configuration/download boundary.
-This authorizes the runtime image only;no new model weights or project dependencies.
-User authorizes actual backend continuation; stay Phase09 and separate Phase10.
-Compose existing modules,keep LLM routing and deterministic Prolog. Only fictional
-fixtures admitted by this runner; source identities and anon/RLS checked per pin.
-Default institutional provider/source/runtime/activation holds stay. No new API,
-training,dependency/lock change or benchmark wording/source-content approval.
+
+Owner20October2026 resumes implementation and explicitly approves "Download and
+test the CUDA runtime" (~2.6GB pinned image only). No model/project dependencies.
+Keep four-call topology/instructions/full guards while shrinking displayed schema.
+No new model,seed/layer sweep,training,benchmark wording or source-content decision.
+Separate Phase10 per owner boundary;no phase advancement. Default institutional
+provider/source/runtime/activation holds retained. Only fictional local fixture
+release is active;anon/RLS reads,exact membership/hash/synthetic checks preserved.
 
 ## Known Failures or Blockers
-Fictional local fixture populated after explicit empty-corpus check; no real
-sources/release promoted. Default latency,Hybrid scope wording and language remain
-open;source/schema/release and institutional holds remain in dated records.
+
+Hybrid c2 claims an executed check using only documentary evidence;requires symbolic
+support/tighter scope. Existing broad eligibility phrasing/checker fallibility,
+two Taglish style errors,opaque IDs and absent explicit post-retrieval reconsideration
+remain. Cold encoder costs and4serial calls still make requests slow. No official
+enrollment determination. Human output review pending;university/source/auth/private/
+activation holds persist. Hosted still has onlyPhase04 migrations;no hosted changes.
 
 ## Next Action
-Prepare/validate the pinned CUDA configuration and compact schema presentation
-without changing decoding/host guards. Then measure a bounded matched profile.
-No speed-up or achievable latency yet measured. Preserve all Phase09 holds.
+
+Address the demonstrated Hybrid prose/citation limitation in a bounded RED/GREEN
+Phase09 task before broader reviewed multilingual quality evaluation. Reuse sealed
+latency evidence;do not infer institutional readiness from faster fictional runs.
 
 ## Do Not Repeat
-Prior model/prompt sweeps,settled source decisions or accepted institutional labels.
-Do not substitute preassembled evidence,manual vectors or scripted model/DB calls
-for the actual-service proof. Preserve raw failures and explicit observation budgets.
+
+Resolved CUDA download/capacity/timing diagnostics,prior prompt/model sweeps,
+settled source decisions or accepted institutional wordings. Preserve failed and
+interrupted observations. Do not substitute preassembled evidence/manual vectors/
+scripted inference for actual services,or activate real institutional candidates.
