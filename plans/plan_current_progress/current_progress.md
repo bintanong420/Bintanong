@@ -2,7 +2,7 @@
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
 [Checkpoint](../phase-09-checkpoint.md) | [Guidance delivery](../2026-10-20-router-semantic-guidance-results.md).
-Last full prior snapshot062589c:plans/plan_current_progress/current_progress.md.
+Last full prior snapshotbb6c79f:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
@@ -50,8 +50,11 @@ No Phase10,training,installs,dependency/source/DB changes,push,merge or activati
 
 ## Next action
 
-Define/freeze ONE new actual-candidate protocol with exact executable inputs/
-references/runtime/readiness/settings before
-inference. Keep conditional family held and all accuracy checks. If meaning still
-fails,discuss supported-capability/model limits before further product experiments.
-No new inference/product changes within this implementation or an unbounded sweep.
+Commit [v12 protocol](../2026-10-20-semantic-guidance-quality-gate.md),freeze exact
+artifacts/settings/runtime and one readiness check;then run4unchanged cases once
+if ready. Runner prepared,zero new inference/service calls. Conditional family
+held;all quality criteria unchanged. Failure means discuss supported-capability/
+model limits before more experiments,no rescue probe or product correction.
+Owner estimate:4-8active hours/2-4focused sessions IF quality passes and remaining
+route/language/exit checks succeed. Planning estimate,not a fixed completion date;
+failures or pending decisions can extend it. No quality-for-schedule trade.

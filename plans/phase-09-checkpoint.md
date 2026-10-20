@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 85
+sequence: 86
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 062589c
+head_commit: bb6c79f
 working_tree: dirty
-updated_at: 2026-10-20T23:22:24+08:00
+updated_at: 2026-10-20T23:36:55+08:00
 ---
 
 # Phase09 checkpoint - semantic guidance software verified;actual quality pending
@@ -25,6 +25,11 @@ Guidance revision062589c:[delivery](2026-10-20-router-semantic-guidance-results.
 Four RED0.93s->four GREEN0.61s;237regressionsGREEN3.54s. One fresh review:no findings.
 
 ## Current Task
+
+Resume bb6c79f clean. [V12 observation protocol](2026-10-20-semantic-guidance-quality-gate.md)
+fixes the same4inputs/references BEFORE inference;all202prior seals/current software
+must verify. New runner prepared,zero model/service calls. One readiness then one
+batch only;conditional family stays held. No product changes/review/test repeats.
 
 Bounded [guidance correction](2026-10-20-router-semantic-guidance-correction-plan.md)
 implemented within existing prompt/example authorization. One complete fictional
@@ -49,8 +54,8 @@ active recovery;no discrepancy. Undergraduate/read-only/unknown-vs-unmet preserv
 ## Repository State
 
 p09/feat/p09-generation-validation;product062589c,prior observation HEAD5e44625.
-Pending docs:guidance results/plan checklist,INDEX,progress/checkpoint. No code or
-unrelated changes. Review/software seal done;final delivery commit follows.
+Pending docs:v12 observation protocol,progress/checkpoint. No code or unrelated
+changes. Previous delivery complete;protocol commit precedes new readiness/binding.
 Checkpoint names parent snapshot;its containing documentation commit follows.
 Existing workspace/MODELS/CUDA18088/default18087 untouched. No service startup,
 weights rehash/copy/download,dependency/source/DB changes,training,institutional
@@ -129,10 +134,12 @@ Quoted candidate does not meet strict part/meaning quality;no phase completion.
 
 ## Next Action
 
-Define/freeze ONE new actual-candidate protocol and exact executable inputs/
-references/runtime/settings/readiness before
-inference. No more product edits/model calls in this implementation task. Keep
-conditional family held;no sweep or repeat237regressions without a new change.
+Commit v12 protocol;freeze executable artifacts/runtime/settings and check one
+readiness request. If ready,execute4cases once;otherwise NOT RUN. Preserve every
+failure;no rescue probe or candidate edit. If quality fails,discuss model/capability
+limits before more experiments. Phase09 estimate4-8active hours only conditional
+on quality passing plus remaining route/language/exit work;not a fixed completion
+promise or permission to waive accuracy/latency/source/phase requirements.
 
 ## Do Not Repeat
 
