@@ -71,3 +71,22 @@ No accuracy-for-speed trade,source truncation or unchecked streaming.
 This gate does not close Phase09 or authorize Phase10,institutional activation,
 student endpoints,push,merge or deployment. The immediate purpose is to establish
 whether the repaired candidate can produce complete answers worth timing.
+
+## Execution binding20October2026
+
+Owner's proceed resumes this gate atdd4a89a. Existing CUDA endpoint18088 matches
+the frozen model alias,context8192 and template SHA256;readiness props GET0.116906s
+is not an isolated handshake. Endpoint18088 is the permitted existing service;
+the default configuration18087 in candidate-freeze.json is not silently edited.
+An execution binding records18088 with the SAME inference/stage/generation/request
+budgets120/120/120/180s and all frozen sampling/output settings.
+
+Ruling:this quality gate uses a deterministic document adapter for the EXACT frozen
+fictional passage and the existing actual Janus runtime for the synthetic reviewed
+curriculum. No Supabase fixture writes or new release activation. Actual Bintu
+interprets/routes/styles/generates/reviews;no expected labels enter those calls.
+This resolves the requested-part semantic question before another real-service
+latency run. Cost/limit:outer candidate durations exclude query embedding/vector
+search/Supabase and cannot establish full pipeline performance. Prior real-service
+observations are historical,not measurements of this candidate. No component probe
+or prompt/model/seed/budget correction follows a failed case. No Phase09 completion.
