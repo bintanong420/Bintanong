@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 57
+sequence: 58
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: ac94a4a
+head_commit: 8b9457f
 working_tree: dirty
 updated_at: 2026-10-20T16:27:46.2540798+08:00
 ---
@@ -22,20 +22,28 @@ covered/guarded remain explicit/unselected. No prompt correction sweep.
 
 ## Current Task
 
-Resumed cleanac94a4a. New [reference evaluation plan](2026-10-20-question-parts-evaluation-plan.md)
-scores extraction and mapping against frozen author labels before any model run.
-Foundation stays detached;its semantic limitations remain. No product edit yet.
+Resumed cleanac94a4a;plan8b9457f. Task1 implements evaluation/question_parts.py
+and35tests:score exact spans/kinds and semantic mapping reference agreement,
+including omitted-part denominator,renumbering,correct uncertainty and replay checks.
+Foundation stays detached;its semantic limitations remain. Offline characterization,
+independent review and56-selection gate pending.
 Scope17-18/architecture39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;clean parentac94a4a,productf106070. Remaining
-changes:new reference evaluation plan,current progress and checkpoint planning docs.
+p09/feat/p09-generation-validation;parent8b9457f,foundationf106070. Remaining
+changes:question_parts.py/test,evaluation guide,reference plan,progress/checkpoint.
+Preparing cohesive Task1 verified commit.
 No unrelated owner changes found.
 Existing CUDA18088/localSupabase remain running;CPU18087 stopped intact,default
 18087 unchanged. No Phase10,student API,push,merge,deployment or activation.
 
 ## Verification Evidence
+
+Reference evaluator RED35expected missing-module assertions1.43s/GREEN35passed
+0.72s;relevant generation/evaluation regressions603passed6.81s,exit0. Raw root
+workspace/audit-evidence/p09-question-parts-evaluation-20261020/ holds commands/
+selections/output. No actual extractor/per-language/model accuracy claim.
 
 Foundation RED68expected missing-module assertions1.63s/GREEN68passed0.71s;
 generation regressions296passed3.64s,exit0. Offline3author-labeled checks pass their
@@ -89,8 +97,8 @@ opaque IDs,student wait acceptance and tail/end-to-end metrics remain unresolved
 
 ## Next Action
 
-Execute reference evaluator plan with TDD,then reuse saved three variants and one
-explicit author-constructed uncertain control. No model or runtime/profile change.
+Freeze author-labeled reference for saved failure;score three saved plan/mapping
+variants plus explicit uncertain control,then one review and56-selection gate.
 
 ## Do Not Repeat
 

@@ -46,7 +46,7 @@ no-use/no-activation and semantic_completeness=unverified. Return no answer/text
 
 ## Tasks
 
-1. [ ] tests/test_question_parts_evaluation.py RED,then minimal evaluator/contracts.
+1. [x] tests/test_question_parts_evaluation.py RED,then minimal evaluator/contracts.
    Cover omitted fee,wrong mapping,correct unresolved mapping,complete supported
    fixture,kind downgrade,renumber/order independence,claim-set order,all-reference
    denominator,stale question/request/release/language/evidence/draft/reference,
@@ -85,3 +85,7 @@ complete answer;wrong structured kind cannot pass;reference agreement never gran
 runtime authority. Ruling:owner continuation authorizes this reversible bounded
 evaluation work. Exact matching favors auditable labels;cost is human adjudication
 for alternate boundaries,explicitly disclosed rather than called semantic failure.
+
+Task1:RED35expected missing-module assertion failures1.43s/GREEN35passed0.72s.
+Relevant generation/evaluation regressions603passed6.81s,exit0. Raw red.log,
+green.log,relevant.log/relevant-selections.txt retain receipts. No runtime change.

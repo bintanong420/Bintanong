@@ -6,6 +6,12 @@ Last full prior snapshotf106070:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
+Reference plan8b9457f Task1:evaluation/question_parts.py scores exact extraction
+and mapping against frozen author labels. Correct uncertainty stays unresolved;
+omissions count against the whole reference. RED35failures1.43s/GREEN35passed0.72s;
+generation/evaluation regressions603passed6.81s. Offline assessment/review/full gate
+pending. No extractor,inference or runtime/profile change.
+
 Question-parts foundation plan722cc6e/productf106070:requirements.py binds exact spans,
 request/evidence/plan/draft and each declared claim-or-unavailable mapping. Missing
 fee mapping stays unresolved;structured checks cannot be replaced by documents.
@@ -49,6 +55,6 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Execute [reference evaluation plan](../2026-10-20-question-parts-evaluation-plan.md)
-with TDD:score against frozen author labels,reuse saved three failure variants and
-one explicit uncertain control. No model or runtime/profile change;no sweep.
+Freeze one author reference for saved failure;score three saved variants and an
+explicit uncertain control,then one review and56-selection gate per the
+[reference plan](../2026-10-20-question-parts-evaluation-plan.md). No inference.
