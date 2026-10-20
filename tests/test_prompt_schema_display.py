@@ -64,5 +64,3 @@ def test_real_property_names_and_literal_objects_are_not_schema_annotations():
     assert Draft202012Validator(short).is_valid(value)
     assert short['properties']['constant']['const']==value['constant']
     assert 'title' in short['properties'] and 'title' not in short
-
-
