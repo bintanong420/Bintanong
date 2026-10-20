@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 78
+sequence: 79
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 9a72d2e
+head_commit: 3c4cfd4
 working_tree: dirty
-updated_at: 2026-10-20T22:35:28.4045554+08:00
+updated_at: 2026-10-20T22:51:11+08:00
 ---
 
-# Phase09 checkpoint - quoted-reference software verified;actual quality pending
+# Phase09 checkpoint - four-case observation prepared;no new inference yet
 
 ## Completed Tasks
 
@@ -26,16 +26,19 @@ Prolog prerequisites,records,generation contracts and safety/repair budgets unch
 
 Software delivery/review and final evidence/documentation verification/seal complete.
 One fresh whole-change review da4673d..9a72d2e:no consequential findings or minors.
-No fix pass/re-review needed. No new model calls;new semantic quality/latency unknown.
+No fix pass/re-review needed. New [four-case protocol](2026-10-20-quoted-reference-focused-quality-gate.md)
+fixes d-en,d-fil,d-tl,h-en before inference. Four explicit if/kung cases held;
+past-failure h-en keeps its original label,without coercing the model's claim mode.
+No new model calls;new semantic quality/latency unknown.
 Conditional execution excluded pending separate decision/design;no mode promotion.
 Context thesis17-18/39-44,actual PNG/master3/11/13/14 and prompt decision consulted
 during this active recovery;no scope discrepancy. Missing remains distinct from failed.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;verified code9a72d2e. Pending docs:results,
-plan checklist,INDEX,progress/checkpoint. No unrelated changes. This checkpoint
-names the verified code snapshot;its containing documentation commit follows it.
+p09/feat/p09-generation-validation;software delivery3c4cfd4/code9a72d2e.
+Pending docs:four-case protocol,progress/checkpoint. No unrelated changes. This
+checkpoint names its parent snapshot;its containing documentation commit follows.
 Workspace/MODELS/CUDA18088/default18087 untouched. No service startup,inference,
 model copies/rehash/downloads,DB writes,dependency/source changes,training,push,
 merge,student endpoint,deployment or activation. Phase09 active;no Phase10.
@@ -72,7 +75,7 @@ experimental-input/readiness freeze. New raw16files sealed;delivery manifest:
 Prior74software manifest a8b4e1e5dc0b0b4e3d69bdfef778bb7a92e4e0b7f0ee048d692b91433f241d4a;
 55observation b5cc5825b3d6f82d8ac5c2accdafde3534c8d515a5596b2bb01da3017657b38e;
 10research90abb5f0608004c55a5742410d8b3fb01558a7276f089485a07f556a74c79289.
-Last full prior checkpoint9a72d2e;git show preserves detailed history. Historical
+Last full prior checkpoint3c4cfd4;git show preserves detailed history. Historical
 123line handoff4022711 remains unchanged with inherited3line exception.
 Thesis729653540c7991496aceea1f728382d2e2262ca096e4342ce956d072e603c81c.
 
@@ -108,9 +111,11 @@ remain separate. No institutional promotion or Phase09 completion.
 
 ## Next Action
 
-Resolve pending conditional-answer boundary,then freeze one actual candidate-quality
-protocol and exact runtime inputs/labels/settings/readiness before inference.
-Keep all denominators and timing exclusions explicit;no old-batch rerun or sweep.
+Commit the four-case protocol;prepare exact input/code/settings bindings and one
+readiness check. If ready,execute once;otherwise NOT RUN without service startup.
+Independent four-case progress does not settle the pending conditional boundary.
+Report response and strict quality separately,with all timing exclusions;no rescue
+probes,old-batch rerun or sweep. No further product changes in this observation.
 
 ## Do Not Repeat
 

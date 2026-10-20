@@ -2,7 +2,7 @@
 
 Updated20October2026;Phase09 active,p09/feat/p09-generation-validation.
 [Checkpoint](../phase-09-checkpoint.md) | [Delivery](../2026-10-20-router-quoted-reference-results.md).
-Last full prior snapshot9a72d2e:plans/plan_current_progress/current_progress.md.
+Last full prior snapshot3c4cfd4:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
@@ -45,7 +45,10 @@ prior [Codex usage findings](../2026-10-20-session-token-usage-observation.md) r
 
 ## Next action
 
-Resolve the pending conditional-answer boundary,then define/freeze one actual
-candidate-quality protocol and exact runtime inputs/settings before inference.
-Separate target/fact meaning,coverage,language and timing;no old-batch rerun,
-unbounded prompt/model/seed/budget sweep or premature promotion.
+Freeze/execute the [four-case protocol](../2026-10-20-quoted-reference-focused-quality-gate.md)
+once:three unchanged document cases and past-failure Hybrid h-en. Four explicit
+if/kung cases remain held for the unanswered conditional choice;no mode coercion.
+Selection fixed before inference;zero new calls so far. Verify readiness/exact
+inputs/code/settings before running;unavailable/mismatch means NOT RUN. Separate
+response success,strict part/meaning quality and component timing;no rescue probes,
+old-batch rerun,parameter sweep,overall accuracy or browser latency claim.
