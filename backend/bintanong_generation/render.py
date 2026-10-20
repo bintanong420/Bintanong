@@ -65,9 +65,17 @@ _WITHHELD={
  'taglish':'Hindi pa ma-verify ang answer gamit ang retrieved text lang. Wala pang verified structured check, kaya wala pang structured conclusion.'}
 
 
-def render_text(pack,claims,status,*,decision_withheld=False):
+_UNCOVERED={
+ 'en':'I cannot verify that the available evidence answers your question.',
+ 'fil':'Hindi mapatunayang nasasagot ng kasalukuyang ebidensya ang tanong.',
+ 'taglish':'Hindi ma-verify na nasasagot ng available evidence ang question mo.'}
+
+
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False):
     words=_WORDS.get(pack.language,_WORDS['en'])
-    lines=[words['preview'],_WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status]]
+    message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
+        _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
+    lines=[words['preview'],message]
     if pack.structured_context is not None:
         context=pack.structured_context
         label={'en':'Check scope','fil':'Saklaw ng pagsusuri','taglish':'Check scope'}.get(pack.language,'Check scope')

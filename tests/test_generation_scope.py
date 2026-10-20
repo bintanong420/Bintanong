@@ -235,7 +235,8 @@ def test_unverified_profile_composition_rejected():
         Generator(Fake(),explanation_profile='scoped',reference_profile='short')
 
 
-def test_runtime_profile_is_forwarded_and_reported(monkeypatch):
+@pytest.mark.parametrize('profile',['scoped','guarded','covered'])
+def test_runtime_profile_is_forwarded_and_reported(monkeypatch,profile):
     import backend.bintanong_runtime.application as module
     from backend.bintanong_routing.contracts import RequestContext
     from test_runtime_composition import spec,Database
@@ -249,9 +250,9 @@ def test_runtime_profile_is_forwarded_and_reported(monkeypatch):
         def select(self,*args,**kwargs): return []
     data=spec()
     app=module.build_application(module.RuntimeSpec.parse(data),client=Held(data),
-        settings=module.RuntimeSettings(explanation_profile='scoped'))
+        settings=module.RuntimeSettings(explanation_profile=profile))
     result=asyncio.run(app.run('Fictional?',RequestContext(session_id='sess-a',request_id='req-a')))
-    assert seen==['scoped'] and result.explanation_profile=='scoped'
+    assert seen==[profile] and result.explanation_profile==profile
     assert result.routing_profile=='separate' and not result.model_calls
 
 

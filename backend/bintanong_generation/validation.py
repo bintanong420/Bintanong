@@ -40,7 +40,10 @@ def validate_final(answer,pack,claims):
         raise ValueError('final_missing_facts_mismatch')
     if answer.decision_guard is not None and (pack.route!='RAG' or pack.status!='ready'):
         raise ValueError('guard_requires_ready_rag')
-    if answer.text!=render_text(pack,claims,answer.status,decision_withheld=answer.validation=='decision_withheld'):
+    if answer.question_coverage is not None and (pack.route!='RAG' or pack.status!='ready'):
+        raise ValueError('coverage_requires_ready_rag')
+    if answer.text!=render_text(pack,claims,answer.status,decision_withheld=answer.validation=='decision_withheld',
+                               question_uncovered=answer.validation=='question_uncovered'):
         raise ValueError('final_render_mismatch')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')

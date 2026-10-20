@@ -10,6 +10,10 @@ Owner asks to keep the earlier researched recommendation visible. Saved durable
 [Context reference](../../Context/response-time-recommendation.md),linked from
 AGENTS.md:proposed15-20s warm browser end-to-end,conditional20-30s complex Hybrid,
 separate startup/connections/Supabase/queue/API/browser metrics,accuracy first.
+Committedea749da;docs597passed1.29s. Coverage plan6eca2ac now implements explicit
+covered profile with existing-call question coverage plus source support. RED32/
+GREEN187tests2.96s;expanded841passed5.20s. Default scoped remains pending actual
+quality;per-case hashes distinguish RAG coverage from unchanged Hybrid support.
 
 Guard plan6bd9b43/product48307b8 adds explicit one-call post-retrieval assessment,
 strict release/output validation,localized withholding,shared deadline and host
@@ -60,5 +64,5 @@ No Phase10,student endpoint,push,merge,deployment or institutional activation.
 
 ## Next action
 
-Execute the [question-coverage plan](../2026-10-20-question-coverage-plan.md) with
-TDD,one6case actual-model gate and review. Keep rejected guard unselected;no sweep.
+Run [coverage plan](../2026-10-20-question-coverage-plan.md)'s unchanged6RAG cases
+once;inspect quality before one full actual-service RAG. Guard stays unselected.

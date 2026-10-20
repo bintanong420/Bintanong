@@ -23,6 +23,7 @@ default institutional release hold; there is no student endpoint or activation.
 | `references.py` | Optional request-local short wire labels; restore canonical hashes before validation/rendering |
 | `scope.py` | Selected document-only explanation contract and per-claim documentary checking; structured decisions remain host-owned |
 | `guard.py` | Experimental one-call post-retrieval assessment; failed multilingual gate and remains unselected |
+| `coverage.py` | Candidate RAG review of whole-question coverage alongside existing claim support; no extra call |
 | `prompt.py` | Versioned draft/support instructions and constrained schemas; question/source/repair text remain untrusted data |
 | `validation.py` | Release/language/outcome/reference checks, complete support verdicts and final assembly checks |
 | `render.py` | Localized preview/control templates, canonical decision rendering and per-claim source markers |
@@ -78,6 +79,18 @@ both initial and single corrected multilingual gates. Guarded remains an explici
 developer experiment;default scoped does not run it. The rejected prompt correction
 is preserved in ignored evidence;the initial prompt is retained for reproducibility.
 The missing post-retrieval safeguard remains an unresolved Phase09 requirement.
+`explanation_profile='covered'` is a separate candidate in the
+[coverage plan](../../plans/2026-10-20-question-coverage-plan.md). Its ready RAG
+review requires complete question coverage plus every existing support/language/
+scope check. Supported claims about a different subject cannot pass on entailment
+alone. Partial/none/uncertain coverage returns a fixed localized insufficient-
+evidence response with no claims/citations and no answer repair. Other review or
+support failures retain the one-repair limit and unchanged evidence/deadline.
+The same review call produces both judgments;these are not independent models.
+Hybrid keeps the original documentary checker and host result;this coverage claim
+is RAG only. `question_coverage` records the reviewed draft and combined review
+seconds,already included in generation/pipeline time. It is null for historical
+and other paths. No semantic guarantee or default selection follows from mocks.
 `CandidateAnswer.decision_guard` records result and elapsed seconds (one assessment,
 including transport preflight/connection work). It is null for historical reports
 and paths with no guard. Its time is already inside generation/pipeline timing.
@@ -107,6 +120,9 @@ Mock fixtures prove guard/control mechanics, not model quality. Observation repo
 record effective explanation/reference profiles and matching prompt hashes;host-only
 rendering and guard-only inference are identified separately from actual generation.
 The guard prompt hash is recorded for the guarded profile. The observation
+report records effective per-case support hashes. Covered has a null top-level
+support hash because RAG uses coverage review and Hybrid uses the original checker;
+its coverage policy hash and pending human question-coverage review stay explicit.
 CLI accepts only explicit synthetic dev cases (1–30), rejects duplicate IDs/final
 split and writes only under the supplied evidence root. It starts no model/server:
 

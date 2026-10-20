@@ -55,7 +55,7 @@ is preserved;review seconds are nested in the pipeline,not added twice.
 
 ## Tasks and interfaces
 
-1. [ ] Tests/test_generation_coverage.py RED,then minimal GREEN:coverage.py strict
+1. [x] Tests/test_generation_coverage.py RED,then minimal GREEN:coverage.py strict
    report/schema/messages;scope.py shared documentary review payload without changing
    old prompts;contracts.py optional observation and failed-coverage invariant;
    generator.py covered profile and review gating;render/validation localized
@@ -64,7 +64,7 @@ is preserved;review seconds are nested in the pipeline,not added twice.
    after valid noncoverage,claim-support failure repair with reset,malformed/extra/
    duplicate/wrong-release reports,deadline/cancellation/concurrency,full-source and
    private-ID boundaries,canonical decisions and non-RAG/control/legacy bypass.
-2. [ ] Evaluation effective per-case review prompt hashes (covered RAG differs
+2. [x] Evaluation effective per-case review prompt hashes (covered RAG differs
    from unchanged Hybrid);top-level covered support hash null with explicit coverage
    policy hash. Report pending human question-coverage review separately. Verify
    focused regressions,commit candidate;keep scoped default pending quality.

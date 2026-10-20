@@ -90,16 +90,21 @@ def canonical_draft(draft,pack):
         claims=[c.model_dump(mode='json') for c in draft.claims]))
 
 
-def document_support_messages(text,pack,draft):
+def document_support_payload(text,pack,draft):
     # Recheck binding even if the caller already validated the canonical draft.
     cards={c.evidence_id:c for c in pack.cards if c.kind=='document'}
     if any(not set(c.evidence_ids)<=cards.keys() for c in draft.claims):
         raise ValueError('non_document_evidence')
-    return _messages(DOCUMENT_SUPPORT_PROMPT,dict(untrusted_question=text,
+    return dict(untrusted_question=text,
         requested_language=pack.language,permitted_scope='documentary_explanation_only',
         claim_evidence=[dict(claim=claim.model_dump(mode='json'),
             sources=[cards[ref].model_dump(mode='json') for ref in claim.evidence_ids])
-            for claim in draft.claims]),output_schema(SupportReport))
+            for claim in draft.claims])
+
+
+def document_support_messages(text,pack,draft):
+    return _messages(DOCUMENT_SUPPORT_PROMPT,document_support_payload(text,pack,draft),
+                     output_schema(SupportReport))
 
 
 DOCUMENT_PROMPT_SHA256=hashlib.sha256(DOCUMENT_PROMPT.encode()).hexdigest()

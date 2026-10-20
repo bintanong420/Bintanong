@@ -13,6 +13,7 @@ Language=Literal['en','fil','taglish','unknown']
 Outcome=Literal['eligible','ineligible','unknown','unsupported','error']
 EvidenceID=Annotated[str,Field(pattern=r'^ev-[0-9a-f]{64}$')]
 ClaimID=Annotated[str,Field(pattern=r'^c[1-8]$')]
+CoverageState=Literal['complete','partial','none','uncertain']
 
 
 class EvidenceCard(Record):
@@ -78,6 +79,12 @@ class GuardObservation(Record):
     elapsed_seconds: float=Field(ge=0,allow_inf_nan=False)
 
 
+class CoverageObservation(Record):
+    result: CoverageState
+    draft_attempt: int=Field(ge=1,le=2)
+    elapsed_seconds: float=Field(ge=0,allow_inf_nan=False)
+
+
 class CandidateAnswer(Contract):
     SCHEMA_VERSION='bintanong-candidate-answer-v1'
     candidate_only: Literal[True]=True
@@ -95,8 +102,10 @@ class CandidateAnswer(Contract):
     missing_facts: tuple[Annotated[str,Field(min_length=1)],...]=()
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
-    validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error','decision_withheld']
+    validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error',
+        'decision_withheld','question_uncovered']
     decision_guard: GuardObservation|None=None
+    question_coverage: CoverageObservation|None=None
     draft_attempts: int=Field(ge=0,le=2)
     check_attempts: int=Field(ge=0,le=2)
     answer_repairs: int=Field(ge=0,le=1)
@@ -121,6 +130,17 @@ class CandidateAnswer(Contract):
             if (self.status!='abstained' or self.decision_guard is None or
                     self.decision_guard.result not in ('structured_required','uncertain','invalid_output')):
                 raise ValueError('invalid_withheld_answer')
+        if self.question_coverage is not None:
+            if (self.decision_guard is not None or
+                    self.question_coverage.draft_attempt!=self.draft_attempts or self.check_attempts==0):
+                raise ValueError('coverage_observation_mismatch')
+            if self.question_coverage.result!='complete':
+                if (self.validation!='question_uncovered' or self.status!='insufficient_evidence'
+                        or self.claims or self.citations):
+                    raise ValueError('uncovered_answer_must_be_withheld')
+        if self.validation=='question_uncovered':
+            if self.question_coverage is None or self.question_coverage.result=='complete':
+                raise ValueError('missing_failed_coverage')
         if self.decision is not None and not self.decision.synthetic:
             raise ValueError('synthetic_decision_required')
         return self

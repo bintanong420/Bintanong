@@ -6,7 +6,7 @@ import math
 from ..bintanong_orchestration.contracts import IntegrationResult
 from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
-from .contracts import AnswerDraft,CandidateAnswer,SupportReport,GuardObservation
+from .contracts import AnswerDraft,CandidateAnswer,SupportReport,GuardObservation,CoverageObservation
 from .evidence import prepare
 from .references import EvidenceReferences,ShortAnswerDraft
 from .prompt import draft_messages,draft_schema,support_messages,output_schema
@@ -15,6 +15,7 @@ from .validation import validate_draft,validate_support,validate_final
 from .scope import (DocumentExplanation,canonical_draft,document_messages,document_schema,
                     document_support_messages)
 from .guard import RetrievalAssessment,guard_messages,guard_schema
+from .coverage import CoverageReview,coverage_messages,coverage_schema
 
 
 def _seconds(value):
@@ -37,14 +38,15 @@ def _parse(raw,contract):
     return contract.parse(json.loads(raw,object_pairs_hook=_unique))
 
 
-def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None):
+def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None):
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
-        text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld'),
+        text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
+            question_uncovered=reason=='question_uncovered'),
         decision=pack.decision,dependencies=pack.dependencies,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
-        check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard)
+        check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage)
     validate_final(answer,pack,claims)
     return answer
 
@@ -53,9 +55,9 @@ class Generator:
     def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='scoped'):
         if reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
-        if explanation_profile not in ('legacy','scoped','guarded'):
+        if explanation_profile not in ('legacy','scoped','guarded','covered'):
             raise ValueError('invalid_explanation_profile')
-        if explanation_profile in ('scoped','guarded') and reference_profile!='canonical':
+        if explanation_profile in ('scoped','guarded','covered') and reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
         self.transport=transport
         self.timeout_seconds=_seconds(timeout_seconds)
@@ -75,11 +77,13 @@ class Generator:
             seconds=min(seconds,remaining_seconds)
         if seconds<=0:
             return _answer(pack,'temporarily_unavailable',reason='timeout')
-        scoped=self.explanation_profile in ('scoped','guarded')
+        scoped=self.explanation_profile in ('scoped','guarded','covered')
+        coverage_required=self.explanation_profile=='covered' and pack.route=='RAG'
         if scoped and pack.route=='Symbolic':
             return _answer(pack,'answered',reason='validated')
         attempts=checks=0
         guard=None
+        coverage=None
         guard_started=None
         loop=asyncio.get_running_loop()
         previous=''
@@ -99,6 +103,7 @@ class Generator:
                         return _answer(pack,'abstained',reason='decision_withheld',guard=guard)
                 for attempt in (1,2):
                     attempts=attempt
+                    coverage=None
                     messages=(document_messages(text,pack,errors=errors,previous=previous) if scoped else
                               draft_messages(text,pack,errors=errors,previous=previous,references=references))
                     schema=document_schema(pack) if scoped else draft_schema(pack,references=references)
@@ -113,29 +118,43 @@ class Generator:
                         errors=('invalid_draft',)
                     if not errors and proposal.claims:
                         checks+=1
-                        review_messages=(document_support_messages(text,pack,proposal) if scoped else
+                        review_messages=(coverage_messages(text,pack,proposal) if coverage_required else
+                                         document_support_messages(text,pack,proposal) if scoped else
                                          support_messages(text,pack,proposal,references=references))
+                        review_started=loop.time()
                         review_raw=await self.transport.infer(review_messages,
-                                                              output_schema(SupportReport))
+                            coverage_schema(pack,proposal) if coverage_required else output_schema(SupportReport))
                         try:
-                            errors=validate_support(_parse(review_raw,SupportReport),proposal)
+                            review=_parse(review_raw,CoverageReview if coverage_required else SupportReport)
+                            if coverage_required and review.release_id!=pack.release_id:
+                                errors=('wrong_review_release',)
+                            else:
+                                errors=validate_support(review,proposal)
+                                if coverage_required and 'incomplete_support_verdicts' not in errors:
+                                    coverage=CoverageObservation(result=review.question_coverage,
+                                        draft_attempt=attempt,elapsed_seconds=loop.time()-review_started)
+                                    if review.question_coverage!='complete':
+                                        return _answer(pack,'insufficient_evidence',reason='question_uncovered',
+                                            attempts=attempts,checks=checks,coverage=coverage)
                         except (ValueError,TypeError,RecursionError):
                             errors=('invalid_support_report',)
                     if not errors:
                         return _answer(pack,'answered',claims=proposal.claims,reason='validated',
-                                       attempts=attempts,checks=checks,guard=guard)
+                                       attempts=attempts,checks=checks,guard=guard,coverage=coverage)
         except (TimeoutError,RuntimeFailure) as error:
             timeout=isinstance(error,TimeoutError) or str(error)=='model_timeout'
             if guard_started is not None and guard is None:
                 guard=GuardObservation(result='timeout' if timeout else 'tool_error',
                     elapsed_seconds=loop.time()-guard_started)
             return _answer(pack,'temporarily_unavailable',reason='timeout' if timeout else 'tool_error',
-                           attempts=attempts,checks=checks,guard=guard)
+                           attempts=attempts,checks=checks,guard=guard,coverage=coverage)
         except Exception:
             if guard_started is not None and guard is None:
                 guard=GuardObservation(result='tool_error',elapsed_seconds=loop.time()-guard_started)
-            return _answer(pack,'temporarily_unavailable',reason='tool_error',attempts=attempts,checks=checks,guard=guard)
-        return _answer(pack,'abstained',reason='repair_exhausted',attempts=attempts,checks=checks,guard=guard)
+            return _answer(pack,'temporarily_unavailable',reason='tool_error',attempts=attempts,checks=checks,
+                           guard=guard,coverage=coverage)
+        return _answer(pack,'abstained',reason='repair_exhausted',attempts=attempts,checks=checks,
+                       guard=guard,coverage=coverage)
 
 
 class AnswerPipeline:
