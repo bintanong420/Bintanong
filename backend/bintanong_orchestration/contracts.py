@@ -8,6 +8,8 @@ from ..bintanong_contracts.governance import ID_VER, SHA256
 from ..bintanong_contracts.source import SpanLocator
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_symbolic.runtime import DependencyResult
+from ..bintanong_contracts.runtime import PredicateRequest
+from ..bintanong_routing.contracts import RequestPart, Operation
 
 Text = Annotated[str, Field(min_length=1)]
 ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128)]
@@ -129,8 +131,30 @@ class StageEvent(Record):
                                             max_length=128)], ...] = ()
 
 
+class RequestUnderstanding(Contract):
+    """Host-bound pre-evidence interpretation;not a completeness or policy oracle."""
+    SCHEMA_VERSION = 'bintanong-request-understanding-v1'
+    request_id: str = Field(pattern=r'^req-[a-z0-9-]+$')
+    release_id: ReleaseID
+    question_sha256: str = Field(pattern=SHA256)
+    route: Route() | None
+    parts: tuple[RequestPart, ...] = Field(max_length=8)
+    operations: tuple[Operation, ...] = Field(max_length=4)
+    predicate_request: PredicateRequest | None
+
+    @model_validator(mode='after')
+    def _parts(self):
+        if len({p.part_id for p in self.parts}) != len(self.parts):
+            raise ValueError('duplicate_part_id')
+        if len({(p.start,p.end) for p in self.parts}) != len(self.parts):
+            raise ValueError('duplicate_part_span')
+        if any(i >= len(self.operations) for p in self.parts for i in p.operation_indices):
+            raise ValueError('invalid_part_operation')
+        return self
+
+
 class IntegrationResult(Contract):
-    SCHEMA_VERSION = 'bintanong-candidate-integration-v1'
+    SCHEMA_VERSION = 'bintanong-candidate-integration-v2'
     candidate_only: Literal[True] = True
     institutional_use_allowed: Literal[False] = False
     activation_allowed: Literal[False] = False
@@ -141,6 +165,7 @@ class IntegrationResult(Contract):
         'no_evidence', 'uncalibrated', 'clarify', 'greeting', 'unsupported_scope',
         'evidence_unavailable', 'held', 'timeout', 'busy', 'invalid_output', 'tool_error']
     evidence: CandidateEvidence | None
+    understanding: RequestUnderstanding | None
     missing_facts: tuple[Text, ...] = ()
     events: tuple[StageEvent, ...]
 
@@ -151,4 +176,25 @@ class IntegrationResult(Contract):
             raise ValueError('integration_evidence_mismatch')
         if self.status == 'ready' and self.evidence is None:
             raise ValueError('ready_requires_evidence')
+        plan = self.understanding
+        if plan is not None:
+            if plan.request_id != self.request_id or plan.route != self.route:
+                raise ValueError('understanding_request_or_route_mismatch')
+            if self.evidence is not None and plan.release_id != self.evidence.pin.release_id:
+                raise ValueError('understanding_release_mismatch')
+        if self.status == 'ready':
+            if plan is None or not plan.parts:
+                raise ValueError('ready_requires_understanding')
+            needs = {p.evidence_need for p in plan.parts}
+            expected = {'RAG': {'document'}, 'Symbolic': {'structured'},
+                        'Hybrid': {'document','structured'}}[self.route]
+            if needs != expected:
+                raise ValueError('understanding_route_mismatch')
+            indices = {i for p in plan.parts for i in p.operation_indices}
+            if self.route == 'RAG':
+                if plan.operations or plan.predicate_request is not None:
+                    raise ValueError('document_understanding_has_operation')
+            elif (len(plan.operations) != 1 or plan.predicate_request is None or indices != {0}
+                  or any(p.evidence_need == 'structured' and not p.operation_indices for p in plan.parts)):
+                raise ValueError('structured_understanding_needs_one_operation')
         return self

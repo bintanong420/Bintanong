@@ -8,11 +8,11 @@ from ..bintanong_contracts.symbolic import DecisionOutcome,DecisionScope
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
 from ..bintanong_symbolic.runtime import DependencyResult
+from .ledger_contracts import ClaimID, BoundRequirementLedger
 
 Language=Literal['en','fil','taglish','unknown']
 Outcome=Literal['eligible','ineligible','unknown','unsupported','error']
 EvidenceID=Annotated[str,Field(pattern=r'^ev-[0-9a-f]{64}$')]
-ClaimID=Annotated[str,Field(pattern=r'^c[1-8]$')]
 CoverageState=Literal['complete','partial','none','uncertain']
 
 
@@ -86,7 +86,7 @@ class CoverageObservation(Record):
 
 
 class CandidateAnswer(Contract):
-    SCHEMA_VERSION='bintanong-candidate-answer-v1'
+    SCHEMA_VERSION='bintanong-candidate-answer-v2'
     candidate_only: Literal[True]=True
     institutional_use_allowed: Literal[False]=False
     activation_allowed: Literal[False]=False
@@ -103,7 +103,8 @@ class CandidateAnswer(Contract):
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error',
-        'decision_withheld','question_uncovered']
+        'decision_withheld','question_uncovered','parts_unresolved']
+    part_ledger: BoundRequirementLedger|None
     decision_guard: GuardObservation|None=None
     question_coverage: CoverageObservation|None=None
     draft_attempts: int=Field(ge=0,le=2)
@@ -118,6 +119,12 @@ class CandidateAnswer(Contract):
             raise ValueError('checker_counter_mismatch')
         if self.status=='answered' and self.validation!='validated':
             raise ValueError('unvalidated_answer')
+        if self.status=='answered' and (self.part_ledger is None or
+                self.part_ledger.status!='all_declared_parts_mapped'):
+            raise ValueError('answer_requires_part_ledger')
+        if self.validation=='parts_unresolved' and (self.status!='insufficient_evidence' or
+                self.claims or self.part_ledger is None or self.part_ledger.status!='unresolved'):
+            raise ValueError('unresolved_parts_must_be_withheld')
         if self.decision_guard is not None and self.decision_guard.result!='document_only':
             if self.status=='answered' or self.claims or self.draft_attempts or self.check_attempts:
                 raise ValueError('guard_requires_withholding')

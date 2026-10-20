@@ -1,5 +1,23 @@
 # Candidate generation and output validation
 
+The current Phase09 recovery candidate requires Interpretation v2,IntegrationResult
+v2 and CandidateAnswer v2. Routing extracts exact requested parts BEFORE evidence;
+orchestration binds original question SHA256,request,release and validated operation.
+Generation rejects another question and accounts for every declared part in a bound
+ledger. The EXISTING support call now maps document parts and checks source support;
+matching host-rendered symbolic results cover structured parts. No classifier call
+is added. Unknown/missing parts withhold a normal answer. The separate language call,
+shared repair/deadline,complete source cards and institutional holds remain.
+
+`understanding.py` integrates the shared review/ledger records. `ledger_contracts.py`
+contains the single ledger-record definitions used by this candidate and the older
+detached helpers. Ledger semantic completeness remains **unverified**;a wrong model
+part/mapping can pass host checks. Software green is not actual-model accuracy or
+latency. This v2 candidate has not passed a new actual-model gate or been promoted.
+Historical observations below refer to their recorded earlier code/contracts.
+Old payloads are rejected at the new runtime boundary;there is no silent empty plan.
+The old covered experiment's whole-question verdict cannot satisfy v2 part accounting.
+
 `parts.py` is a detached fixed-observation candidate,unconnected to Generator.
 `await QuestionPartAnalyzer(transport).analyze(text,integration,draft)` validates
 ready RAG input and supplied documentary claims,then uses at most two calls under
@@ -19,8 +37,8 @@ detached/unselected,no correction sweep. The7.8-22.8s component durations do not
 measure complete validated answers. [Results](../../plans/2026-10-20-question-parts-observation-results.md)
 preserve outputs and the open limitations.
 
-`requirements.py` is a detached declared-question-parts foundation;Generator does
-not call it. `create_plan(text,integration,parts)` binds1-8 supplied exact original
+`requirements.py` retains detached authoring/assessment functions;the generator
+reuses its review records,not its RAG-only helper path. `create_plan(text,integration,parts)` binds1-8 supplied exact original
 question spans and their document/structured/unknown kinds to a release/query hash.
 `review_identity(text,integration,plan,draft)` binds request,language,full source
 cards,plan and draft;`assess_parts(...,review)` checks each supplied claim mapping

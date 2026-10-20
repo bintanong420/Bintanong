@@ -222,7 +222,8 @@ def test_external_cancellation_propagates_without_starting_another_call():
 
 def test_concurrent_analyses_keep_request_bound_review_identities_separate():
     result, plan, draft, extract, checked = fixture()
-    other = result.model_copy(update=dict(request_id='req-other'))
+    other = result.model_copy(update=dict(request_id='req-other',understanding=
+        result.understanding.model_copy(update=dict(request_id='req-other'))))
     mappings = checked.model_dump(mode='json')['parts']
     second = review(QUESTION, other, plan, draft, mappings)
     reports = {r.requirements_sha256: r.model_dump_json() for r in (checked, second)}

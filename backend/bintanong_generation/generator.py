@@ -6,16 +6,18 @@ import math
 from ..bintanong_orchestration.contracts import IntegrationResult
 from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
-from .contracts import AnswerDraft,CandidateAnswer,SupportReport,GuardObservation,CoverageObservation
+from .contracts import AnswerDraft,CandidateAnswer,GuardObservation,CoverageObservation
 from .evidence import prepare
 from .references import EvidenceReferences,ShortAnswerDraft
-from .prompt import draft_messages,draft_schema,support_messages,output_schema
+from .prompt import draft_messages,draft_schema
 from .render import fallback_status,render_text,selected_cards
 from .validation import validate_draft,validate_support,validate_final
 from .scope import (DocumentExplanation,canonical_draft,document_messages,document_schema,
-                    document_support_messages)
+                    )
 from .guard import RetrievalAssessment,guard_messages,guard_schema
 from .coverage import CoverageReview,coverage_messages,coverage_schema
+from .requirements import RequirementReview
+from .understanding import check_question, assess, review_messages, review_schema
 
 
 def _seconds(value):
@@ -38,15 +40,16 @@ def _parse(raw,contract):
     return contract.parse(json.loads(raw,object_pairs_hook=_unique))
 
 
-def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None):
+def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None,ledger=None):
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
-            question_uncovered=reason=='question_uncovered'),
+            question_uncovered=reason in ('question_uncovered','parts_unresolved')),
         decision=pack.decision,dependencies=pack.dependencies,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
-        check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage)
+        check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
+        part_ledger=ledger)
     validate_final(answer,pack,claims)
     return answer
 
@@ -67,6 +70,7 @@ class Generator:
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
         pack=prepare(integration)
+        check_question(text,pack)
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
         if pack.status!='ready' or pack.language=='unknown':
             return _answer(pack,fallback_status(pack.status))
@@ -79,8 +83,10 @@ class Generator:
             return _answer(pack,'temporarily_unavailable',reason='timeout')
         scoped=self.explanation_profile in ('scoped','guarded','covered')
         coverage_required=self.explanation_profile=='covered' and pack.route=='RAG'
-        if scoped and pack.route=='Symbolic':
-            return _answer(pack,'answered',reason='validated')
+        if pack.route=='Symbolic':
+            draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
+                release_id=pack.release_id,decision_outcome=pack.decision.outcome if pack.decision else None,claims=())
+            return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft))
         attempts=checks=0
         guard=None
         coverage=None
@@ -88,6 +94,7 @@ class Generator:
         loop=asyncio.get_running_loop()
         previous=''
         errors=()
+        ledger=None
         try:
             async with asyncio.timeout(seconds):
                 if self.explanation_profile=='guarded' and pack.route=='RAG':
@@ -118,17 +125,26 @@ class Generator:
                         errors=('invalid_draft',)
                     if not errors and proposal.claims:
                         checks+=1
-                        review_messages=(coverage_messages(text,pack,proposal) if coverage_required else
-                                         document_support_messages(text,pack,proposal) if scoped else
-                                         support_messages(text,pack,proposal,references=references))
+                        messages_to_review=(coverage_messages(text,pack,proposal) if coverage_required else
+                                            review_messages(text,pack,proposal))
                         review_started=loop.time()
-                        review_raw=await self.transport.infer(review_messages,
-                            coverage_schema(pack,proposal) if coverage_required else output_schema(SupportReport))
+                        # Existing support call now accounts for each requested document part.
+                        # Historical guard/coverage profiles remain explicit experiments.
+                        part_review=not coverage_required
+                        review_raw=await self.transport.infer(messages_to_review,
+                            review_schema(pack,proposal) if part_review else coverage_schema(pack,proposal))
                         try:
-                            review=_parse(review_raw,CoverageReview if coverage_required else SupportReport)
-                            if coverage_required and review.release_id!=pack.release_id:
+                            review=_parse(review_raw,RequirementReview if part_review else CoverageReview)
+                            if part_review:
+                                ledger=assess(pack,proposal,review)
+                                errors=ledger.errors
+                                if ('incomplete_support_verdicts' not in errors and
+                                        any(e.status!='mapped' for e in ledger.entries)):
+                                    return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
+                                        attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
+                            elif coverage_required and review.release_id!=pack.release_id:
                                 errors=('wrong_review_release',)
-                            else:
+                            elif coverage_required:
                                 errors=validate_support(review,proposal)
                                 if coverage_required and 'incomplete_support_verdicts' not in errors:
                                     coverage=CoverageObservation(result=review.question_coverage,
@@ -139,8 +155,13 @@ class Generator:
                         except (ValueError,TypeError,RecursionError):
                             errors=('invalid_support_report',)
                     if not errors:
+                        if ledger is None:
+                            ledger=assess(pack,proposal)
+                        if ledger.status!='all_declared_parts_mapped':
+                            return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
+                                attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
                         return _answer(pack,'answered',claims=proposal.claims,reason='validated',
-                                       attempts=attempts,checks=checks,guard=guard,coverage=coverage)
+                                       attempts=attempts,checks=checks,guard=guard,coverage=coverage,ledger=ledger)
         except (TimeoutError,RuntimeFailure) as error:
             timeout=isinstance(error,TimeoutError) or str(error)=='model_timeout'
             if guard_started is not None and guard is None:
@@ -174,7 +195,7 @@ class AnswerPipeline:
         except TimeoutError:
             integration=IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id,route=None,response_style='unknown',status='timeout',
-                evidence=None,events=())
+                evidence=None,understanding=None,events=())
             return _answer(prepare(integration),'temporarily_unavailable',reason='timeout')
         if integration.request_id!=context.request_id:
             raise ValueError('request_identity_mismatch')

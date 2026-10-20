@@ -5,7 +5,7 @@ offsets and the question digest always refer to the exact original Python string
 """
 import hashlib
 import json
-from typing import Annotated, Literal
+from typing import Literal
 
 from pydantic import Field, model_validator
 
@@ -16,8 +16,7 @@ from .contracts import AnswerDraft, ClaimID, SupportReport
 from .evidence import prepare
 from .validation import validate_draft, validate_support
 
-PartID = Annotated[str, Field(pattern=r'^r[1-8]$')]
-Digest = Annotated[str, Field(pattern=r'^[0-9a-f]{64}$')]
+from .ledger_contracts import PartID, Digest, ReviewIdentity, LedgerEntry, RequirementLedger
 UnavailableReason = Literal['not_in_evidence', 'source_gap', 'structured_check_not_run', 'uncertain']
 
 
@@ -68,12 +67,6 @@ class PartMapping(Record):
         return self
 
 
-class ReviewIdentity(Contract):
-    SCHEMA_VERSION = 'bintanong-part-review-identity-v1'
-    requirements_sha256: Digest
-    draft_sha256: Digest
-
-
 class RequirementReview(Contract):
     SCHEMA_VERSION = 'bintanong-part-review-v1'
     requirements_sha256: Digest
@@ -86,27 +79,6 @@ class RequirementReview(Contract):
         if len({p.part_id for p in self.parts}) != len(self.parts):
             raise ValueError('duplicate_part_mapping')
         return self
-
-
-class LedgerEntry(Record):
-    part_id: PartID
-    status: Literal['mapped', 'missing', 'unavailable', 'uncertain', 'unresolved']
-    claim_ids: tuple[ClaimID, ...] = Field(default=(), max_length=8)
-    reason: Literal['not_in_evidence', 'source_gap', 'structured_check_not_run', 'uncertain',
-                    'missing_mapping', 'unknown_requirement_kind'] | None = None
-
-
-class RequirementLedger(Contract):
-    SCHEMA_VERSION = 'bintanong-requirement-ledger-v1'
-    candidate_only: Literal[True] = True
-    institutional_use_allowed: Literal[False] = False
-    activation_allowed: Literal[False] = False
-    semantic_completeness: Literal['unverified'] = 'unverified'
-    status: Literal['all_declared_parts_mapped', 'unresolved']
-    identity: ReviewIdentity
-    entries: tuple[LedgerEntry, ...] = Field(min_length=1, max_length=8)
-    errors: tuple[Literal['incomplete_support_verdicts', 'unsupported_claim', 'language_unsupported',
-                          'scope_unsupported', 'unmapped_claim'], ...] = ()
 
 
 def _digest(value):

@@ -186,7 +186,8 @@ def test_review_cannot_be_replayed_after_bound_input_changes(mutation):
     if mutation == 'question':
         text += ' '
     elif mutation == 'request':
-        result = result.model_copy(update=dict(request_id='req-other'))
+        result = result.model_copy(update=dict(request_id='req-other',understanding=
+            result.understanding.model_copy(update=dict(request_id='req-other'))))
     elif mutation == 'language':
         result = result.model_copy(update=dict(response_style='fil'))
         draft = draft.model_copy(update=dict(language='fil'))

@@ -51,7 +51,7 @@ def guarded(transport,**settings):
 @pytest.mark.parametrize('requirement',['structured_required','uncertain'])
 def test_required_or_uncertain_check_withholds_without_drafting_or_silent_reroute(language,requirement):
     async def run():
-        source=integrated('RAG',response_style=language)
+        source=integrated('RAG',text='Can I take FICTIONAL-101?',response_style=language)
         model=Fake(assessment(requirement))
         answer=await guarded(model).generate('Can I take FICTIONAL-101?',source)
         assert answer.status=='abstained' and answer.validation=='decision_withheld'
@@ -67,7 +67,7 @@ def test_required_or_uncertain_check_withholds_without_drafting_or_silent_rerout
 
 def test_document_only_runs_one_guard_then_unchanged_generation_support_and_repair():
     async def run():
-        source=integrated('RAG')
+        source=integrated('RAG',text='How do I request the fictional form?')
         pack=prepare(source)
         model=Fake(assessment(),document_draft(pack,release_id='release-wrong'),
             document_draft(pack),supported())
@@ -87,7 +87,7 @@ def test_document_only_runs_one_guard_then_unchanged_generation_support_and_repa
 def test_bad_guard_output_fails_closed_without_repair_or_raw_output(raw):
     async def run():
         model=Fake(raw)
-        answer=await guarded(model).generate('Fictional?',integrated('RAG'))
+        answer=await guarded(model).generate('Fictional check; fictional policy?',integrated('RAG'))
         assert answer.validation=='decision_withheld' and answer.status=='abstained'
         assert answer.decision_guard.result=='invalid_output' and not answer.claims
         assert answer.draft_attempts==0 and len(model.calls)==1
@@ -100,7 +100,7 @@ def test_bad_guard_output_fails_closed_without_repair_or_raw_output(raw):
 def test_guard_transport_failure_stops_request_without_drafting(error,result):
     async def run():
         model=Fake(error)
-        answer=await guarded(model).generate('Fictional?',integrated('RAG'))
+        answer=await guarded(model).generate('Fictional check; fictional policy?',integrated('RAG'))
         assert answer.validation==result and answer.status=='temporarily_unavailable'
         assert answer.decision_guard.result==result and answer.draft_attempts==0
         assert len(model.calls)==1 and 'private raw detail' not in answer.text
@@ -111,10 +111,10 @@ def test_guard_is_inside_shared_deadline_and_external_cancellation_propagates():
     async def run():
         class Wait:
             async def infer(self,*args): await asyncio.Event().wait()
-        answer=await guarded(Wait(),timeout_seconds=0.03).generate('Fictional?',integrated('RAG'))
+        answer=await guarded(Wait(),timeout_seconds=0.03).generate('Fictional check; fictional policy?',integrated('RAG'))
         assert answer.validation=='timeout' and answer.decision_guard.result=='timeout'
         assert answer.draft_attempts==0 and not answer.claims
-        task=asyncio.create_task(guarded(Wait()).generate('Fictional?',integrated('RAG')))
+        task=asyncio.create_task(guarded(Wait()).generate('Fictional check; fictional policy?',integrated('RAG')))
         await asyncio.sleep(0)
         task.cancel()
         with pytest.raises(asyncio.CancelledError): await task
@@ -126,7 +126,7 @@ def test_already_structured_routes_do_not_run_or_report_guard(route):
     async def run():
         source=integrated(route)
         model=Fake(document_draft(prepare(source)),supported()) if route=='Hybrid' else Fake()
-        answer=await guarded(model).generate('Fictional?',source)
+        answer=await guarded(model).generate('Fictional check; fictional policy?',source)
         assert answer.status=='answered' and answer.decision_guard is None
         assert len(model.calls)==(2 if route=='Hybrid' else 0)
     asyncio.run(run())
@@ -136,12 +136,12 @@ def test_nonready_legacy_and_exhausted_budget_do_not_invoke_guard():
     from test_generation_validation import draft
     async def run():
         model=Fake(draft(prepare(integrated('RAG'))).model_dump_json(),supported())
-        legacy=await guarded(model,explanation_profile='legacy').generate('Fictional?',integrated('RAG'))
+        legacy=await guarded(model,explanation_profile='legacy').generate('Fictional check; fictional policy?',integrated('RAG'))
         assert legacy.status=='answered' and legacy.decision_guard is None and len(model.calls)==2
         source=integrated(outcome='unknown')
         for integration,budget in ((source,1),(integrated('RAG'),0)):
             unused=Fake()
-            answer=await guarded(unused).generate('Fictional?',integration,remaining_seconds=budget)
+            answer=await guarded(unused).generate('Fictional check; fictional policy?',integration,remaining_seconds=budget)
             assert not unused.calls and answer.decision_guard is None and answer.status!='answered'
     asyncio.run(run())
 
@@ -164,8 +164,8 @@ def test_guard_payload_preserves_full_untrusted_sources_and_excludes_private_tel
 
 def test_guard_observations_are_request_local():
     async def run():
-        a=integrated('RAG')
-        b=integrated('RAG',request_id='req-b')
+        a=integrated('RAG',text='Fictional A?')
+        b=integrated('RAG',text='Fictional B?',request_id='req-b')
         outcomes=await asyncio.gather(
             guarded(Fake(assessment('structured_required'))).generate('Fictional A?',a),
             guarded(Fake(assessment(),document_draft(prepare(b)),supported())).generate('Fictional B?',b))
@@ -193,7 +193,7 @@ def test_evaluation_records_guard_prompt_and_never_calls_guard_inference_host_on
 def test_serialized_guard_failure_cannot_claim_a_different_validation_result(result,validation,status):
     from backend.bintanong_generation.contracts import CandidateAnswer
     async def run():
-        source=await guarded(Fake(assessment('structured_required'))).generate('Fictional?',integrated('RAG'))
+        source=await guarded(Fake(assessment('structured_required'))).generate('Fictional check; fictional policy?',integrated('RAG'))
         data=source.model_dump(mode='json')
         data.update(status=status,validation=validation,decision_guard=dict(result=result,elapsed_seconds=0.1))
         with pytest.raises(ValueError): CandidateAnswer.parse(data)

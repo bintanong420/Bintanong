@@ -1,6 +1,7 @@
 import asyncio
 import importlib
 import json
+import hashlib
 
 import pytest
 
@@ -65,7 +66,7 @@ def ctx(session='a', state='passed'):
 
 
 def transport(route='Symbolic', **kw):
-    defaults = dict(route=route, operations=[] if route=='RAG' else proposal()['operations'])
+    defaults = dict(text='A1 policy',route=route, operations=[] if route=='RAG' else proposal()['operations'])
     defaults.update(kw)
     return FakeTransport(json.dumps(proposal(**defaults)))
 
@@ -75,12 +76,16 @@ def test_route_uses_existing_router_and_returns_one_common_evidence_package(rout
     async def scenario():
         release = resources()
         result = await api().Orchestrator(transport(route),
-            releases=ports().SyntheticReleaseProvider(release)).run('A1', ctx())
+            releases=ports().SyntheticReleaseProvider(release)).run('A1 policy', ctx())
         assert result.status == 'ready' and result.evidence.route == route
         assert result.response_style == 'taglish'
         assert len(release.retrieval.calls) == (route != 'Symbolic')
         assert len(release.symbolic.calls) == (route != 'RAG')
         assert result.evidence.pin == release.pin
+        assert result.understanding.request_id==ctx().request_id
+        assert result.understanding.release_id==release.pin.release_id
+        assert result.understanding.question_sha256==hashlib.sha256(b'A1 policy').hexdigest()
+        assert len(result.understanding.parts)==(2 if route=='Hybrid' else 1)
         assert result.candidate_only and not result.institutional_use_allowed
         assert [e.stage for e in result.events][:2] == ['release','routing']
     asyncio.run(scenario())
@@ -89,7 +94,7 @@ def test_route_uses_existing_router_and_returns_one_common_evidence_package(rout
 def test_default_provider_holds_without_model_or_evidence_calls():
     async def scenario():
         model = transport()
-        result = await api().Orchestrator(model).run('A1', ctx())
+        result = await api().Orchestrator(model).run('A1 policy', ctx())
         assert result.status == 'held' and not model.calls and result.evidence is None
     asyncio.run(scenario())
 
@@ -103,7 +108,7 @@ def test_pin_once_even_if_provider_changes_between_branches():
                 assert self.calls == 1
                 return resources()
         provider = Provider()
-        result = await api().Orchestrator(transport('Hybrid'), releases=provider).run('A1', ctx())
+        result = await api().Orchestrator(transport('Hybrid'), releases=provider).run('A1 policy', ctx())
         assert result.status == 'ready' and provider.calls == 1
     asyncio.run(scenario())
 
@@ -120,7 +125,7 @@ def test_hybrid_waits_for_both_independent_branches():
                 await entered.wait()
                 return await super().execute(request, context)
         result = await api().Orchestrator(transport('Hybrid'), releases=
-            ports().SyntheticReleaseProvider(resources(WaitDocuments(), WaitSymbolic()))).run('A1', ctx())
+            ports().SyntheticReleaseProvider(resources(WaitDocuments(), WaitSymbolic()))).run('A1 policy', ctx())
         assert result.status == 'ready'
     asyncio.run(scenario())
 
@@ -138,7 +143,7 @@ def test_hybrid_failure_never_returns_a_document_only_fallback(problem, expected
                 return 'unvalidated'
         model = transport('Hybrid')
         result = await api().Orchestrator(model, releases=ports().SyntheticReleaseProvider(
-            resources(sym=Broken())), stage_timeout=0.05).run('A1', ctx())
+            resources(sym=Broken())), stage_timeout=0.05).run('A1 policy', ctx())
         assert result.status == expected and result.evidence is None and result.route == 'Hybrid'
         assert len(model.calls) == 2  # original routing and style only
         assert 'PRIVATE' not in json.dumps([e.model_dump(mode='json') for e in result.events])
@@ -149,7 +154,7 @@ def test_router_control_never_dispatches_evidence():
     async def scenario():
         release = resources()
         result = await api().Orchestrator(transport(None, control='greeting', operations=[]),
-            releases=ports().SyntheticReleaseProvider(release)).run('A1', ctx())
+            releases=ports().SyntheticReleaseProvider(release)).run('A1 policy', ctx())
         assert result.status == 'greeting' and result.evidence is None
         assert not release.symbolic.calls and not release.retrieval.calls
     asyncio.run(scenario())
@@ -174,8 +179,8 @@ def test_external_cancellation_cancels_both_async_branches():
                     cancelled.add('symbolic')
         pipeline = api().Orchestrator(transport('Hybrid'), releases=
             ports().SyntheticReleaseProvider(resources(WaitDoc(), WaitSym())))
-        task = asyncio.create_task(pipeline.run('A1', ctx()))
-        await entered.wait()
+        task = asyncio.create_task(pipeline.run('A1 policy', ctx()))
+        await asyncio.wait_for(entered.wait(),timeout=1)
         task.cancel()
         with pytest.raises(asyncio.CancelledError):
             await task
@@ -186,7 +191,7 @@ def test_external_cancellation_cancels_both_async_branches():
 def test_telemetry_has_only_fixed_stage_outcomes_and_evidence_ids():
     async def scenario():
         result = await api().Orchestrator(transport('Hybrid'), releases=
-            ports().SyntheticReleaseProvider(resources())).run('A1', ctx())
+            ports().SyntheticReleaseProvider(resources())).run('A1 policy', ctx())
         for event in result.events:
             assert set(event.model_dump()) == {'stage','duration_ms','route','release_id',
                 'outcome','retry_count','evidence_ids'}
@@ -204,7 +209,7 @@ def test_wrong_operation_identity_is_not_accepted_as_a_valid_symbolic_result():
                 return value.model_copy(update={'inputs':(BoundInput(
                     name='course_id', value='another', fact_ref=None), *value.inputs[:1])})
         result = await api().Orchestrator(transport(), releases=
-            ports().SyntheticReleaseProvider(resources(sym=Wrong()))).run('A1', ctx())
+            ports().SyntheticReleaseProvider(resources(sym=Wrong()))).run('A1 policy', ctx())
         assert result.status == 'invalid_output' and result.evidence is None
     asyncio.run(scenario())
 
@@ -213,7 +218,7 @@ def test_wrong_operation_identity_is_not_accepted_as_a_valid_symbolic_result():
 def test_telemetry_records_pinned_release_route_and_actual_integration_outcome(state,status):
     async def scenario():
         result = await api().Orchestrator(transport(),releases=
-            ports().SyntheticReleaseProvider(resources())).run('A1',ctx(state=state))
+            ports().SyntheticReleaseProvider(resources())).run('A1 policy',ctx(state=state))
         assert result.events[0].release_id == 'release-synth-1'
         assert result.events[1].route == 'Symbolic'
         assert result.events[-1].outcome == status
@@ -227,7 +232,7 @@ def test_valid_underscore_rule_identifier_survives_telemetry():
                 result = await super().execute(request, context)
                 return result.model_copy(update={'rule_ids':('rule-course_a',)})
         result = await api().Orchestrator(transport(),releases=ports().SyntheticReleaseProvider(
-            resources(sym=Underscore()))).run('A1',ctx())
+            resources(sym=Underscore()))).run('A1 policy',ctx())
         assert result.status == 'ready'
         assert 'rule-course_a' in result.events[2].evidence_ids
     asyncio.run(scenario())
@@ -240,7 +245,7 @@ def test_unloggable_rule_identifier_returns_bounded_invalid_output_without_raw_t
                 result = await super().execute(request, context)
                 return result.model_copy(update={'rule_ids':('PRIVATE grade 5.00',)})
         result = await api().Orchestrator(transport(),releases=ports().SyntheticReleaseProvider(
-            resources(sym=Unsafe()))).run('A1',ctx())
+            resources(sym=Unsafe()))).run('A1 policy',ctx())
         assert result.status == 'invalid_output' and result.evidence is None
         assert 'PRIVATE' not in json.dumps([e.model_dump(mode='json') for e in result.events])
     asyncio.run(scenario())
@@ -253,7 +258,7 @@ def test_maximum_context_plus_new_assertion_has_a_bounded_failure():
         value = proposal(claims=[dict(entity=0,state='passed',mode='asserted',text='A1',start=0,end=2)])
         release = resources()
         result = await api().Orchestrator(FakeTransport(json.dumps(value)),releases=
-            ports().SyntheticReleaseProvider(release)).run('A1',RequestContext.parse(base))
+            ports().SyntheticReleaseProvider(release)).run('A1 policy',RequestContext.parse(base))
         assert result.status == 'invalid_output' and not release.symbolic.calls
         assert result.events[-1].outcome == 'invalid_output'
     asyncio.run(scenario())
@@ -269,7 +274,7 @@ def test_router_operational_failures_keep_distinct_status_and_telemetry(outputs,
                   if v in ('timeout','connection') else v for v in outputs]
         release = resources()
         result = await api().Orchestrator(FakeTransport(*values),releases=
-            ports().SyntheticReleaseProvider(release)).run('A1',ctx())
+            ports().SyntheticReleaseProvider(release)).run('A1 policy',ctx())
         assert result.status == status and result.events[-1].outcome == status
         assert not release.symbolic.calls and not release.retrieval.calls
     asyncio.run(scenario())

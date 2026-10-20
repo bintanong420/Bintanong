@@ -31,7 +31,7 @@ def test_ready_symbolic_has_only_canonical_wording_and_no_generated_decision(lan
     async def run():
         source=integrated('Symbolic',outcome=outcome,response_style=language)
         model=Fake()
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',source)
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',source)
         assert answer.status=='answered' and answer.validation=='validated'
         assert answer.decision==source.evidence.symbolic.decision
         assert answer.claims==() and answer.citations==prepare(source).cards
@@ -46,11 +46,11 @@ def test_ready_symbolic_has_only_canonical_wording_and_no_generated_decision(lan
 def test_scoped_controls_keep_unknown_or_conflicting_conclusions_withheld(status):
     from backend.bintanong_orchestration.contracts import IntegrationResult
     async def run():
-        source=integrated('Symbolic',outcome='unknown') if status=='unknown' else IntegrationResult(
+        source=integrated('Symbolic',outcome='unknown') if status=='unknown' else IntegrationResult(understanding=None,
             schema_version=IntegrationResult.SCHEMA_VERSION,request_id='req-a',route=None,
             response_style='en',status=status,evidence=None,events=())
         model=Fake()
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',source)
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',source)
         assert answer.status!='answered' and not model.calls
         assert 'conditions satisfied' not in answer.text
     asyncio.run(run())
@@ -90,7 +90,7 @@ def test_host_rejects_every_non_document_reference_even_with_a_document_also_pre
         claims=[] if bad=='empty' else [dict(claim_id='c1',text='Fictional.',evidence_ids=ids[bad])]
         raw=document_draft(pack,claims=claims)
         model=Fake(raw,raw)
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',integrated())
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',integrated())
         assert answer.validation=='repair_exhausted' and not answer.claims
         assert answer.check_attempts==0 and answer.answer_repairs==1
     asyncio.run(run())
@@ -100,7 +100,7 @@ def test_scoped_hybrid_keeps_canonical_decision_and_checks_only_cited_documentar
     async def run():
         pack=prepare(integrated())
         model=Fake(document_draft(pack),supported())
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',integrated())
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',integrated())
         assert answer.status=='answered' and answer.decision==pack.decision
         assert answer.citations==pack.cards
         generation=json.loads(model.calls[0][0][1]['content'])
@@ -119,7 +119,7 @@ def test_documentary_checker_rejection_cannot_be_overridden_by_correct_canonical
         pack=prepare(integrated())
         model=Fake(document_draft(pack),report(verdict).model_dump_json(),
                    document_draft(pack),report(verdict).model_dump_json())
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',integrated())
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',integrated())
         assert answer.status=='abstained' and not answer.claims
         assert answer.decision==pack.decision and answer.check_attempts==2
         assert 'conditions satisfied' not in answer.text
@@ -132,7 +132,7 @@ def test_documentary_repair_reuses_evidence_and_preserves_identity_guards(field,
     async def run():
         pack=prepare(integrated())
         model=Fake(document_draft(pack,**{field:value}),document_draft(pack),supported())
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',integrated())
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',integrated())
         assert answer.status=='answered' and answer.answer_repairs==1
         payloads=[json.loads(m[1]['content']) for m,s in model.calls[:2]]
         assert payloads[0]['evidence']==payloads[1]['evidence']
@@ -143,7 +143,7 @@ def test_documentary_repair_reuses_evidence_and_preserves_identity_guards(field,
 def test_symbolic_host_only_still_respects_exhausted_request_budget():
     async def run():
         answer=await Generator(Fake(),explanation_profile='scoped').generate(
-            'Fictional?',integrated('Symbolic'),remaining_seconds=0)
+            'Fictional check; fictional policy?',integrated('Symbolic'),remaining_seconds=0)
         assert answer.validation=='timeout' and answer.status=='temporarily_unavailable'
         assert 'conditions satisfied' not in answer.text
     asyncio.run(run())
@@ -162,11 +162,15 @@ def test_host_dependency_listing_retains_exact_scope_and_rule_provenance():
         unknown_conditions=(),rule_bundle_version=sym.rule_bundle_version,scope=sym.scope,
         rule_ids=sym.rule_ids,rule_spans=sym.rule_spans,error_code=None)
     evidence=assemble(pin(),'Symbolic',dependencies=dependencies)
-    source=IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,request_id='req-a',
+    plan=integrated('Symbolic').understanding.model_dump(mode='json')
+    plan['operations'][0]['name']='list_affected_courses'
+    plan['predicate_request']['predicate']='list_affected_courses'
+    from backend.bintanong_orchestration.contracts import RequestUnderstanding
+    source=IntegrationResult(understanding=RequestUnderstanding.parse(plan),schema_version=IntegrationResult.SCHEMA_VERSION,request_id='req-a',
         route='Symbolic',response_style='en',status=evidence.status,evidence=evidence,events=())
     async def run():
         model=Fake()
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',source)
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',source)
         assert answer.status=='answered' and answer.dependencies==dependencies
         assert answer.decision is None and not model.calls and not answer.claims
         assert 'within the supplied bundle: fictional-dependent' in answer.text
@@ -181,7 +185,7 @@ def test_checker_basis_does_not_include_an_uncited_document_or_rule_card():
     pack=replace(pack,cards=(*pack.cards,extra))
     wire=api().DocumentExplanation.parse(json.loads(document_draft(pack)))
     proposal=api().canonical_draft(wire,pack)
-    payload=json.loads(api().document_support_messages('Fictional?',pack,proposal)[1]['content'])
+    payload=json.loads(api().document_support_messages('Fictional check; fictional policy?',pack,proposal)[1]['content'])
     assert payload['claim_evidence'][0]['sources']==[doc.model_dump(mode='json')]
     assert 'An unrelated service.' not in json.dumps(payload)
 
@@ -194,7 +198,7 @@ def test_scoped_checker_timeout_withholds_unchecked_documentary_prose():
                 if self.outputs: return await super().infer(messages,schema)
                 await asyncio.Event().wait()
         answer=await Generator(Wait(document_draft(pack)),explanation_profile='scoped',
-            timeout_seconds=0.03).generate('Fictional?',integrated())
+            timeout_seconds=0.03).generate('Fictional check; fictional policy?',integrated())
         assert answer.validation=='timeout' and not answer.claims
         assert answer.check_attempts==1 and answer.status=='temporarily_unavailable'
         assert 'conditions satisfied' not in answer.text
@@ -218,7 +222,7 @@ def test_scoped_documentary_text_keeps_existing_private_reference_guard():
         bad=document_draft(pack,claims=[dict(claim_id='c1',text='sess-other-1 fact-private-1',
             evidence_ids=[pack.cards[0].evidence_id])])
         model=Fake(bad,bad)
-        answer=await Generator(model,explanation_profile='scoped').generate('Fictional?',integrated())
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional check; fictional policy?',integrated())
         assert answer.validation=='repair_exhausted' and not answer.claims
         assert 'private_reference' in json.loads(model.calls[1][0][1]['content'])['validation_errors']
     asyncio.run(run())
@@ -251,7 +255,7 @@ def test_runtime_profile_is_forwarded_and_reported(monkeypatch,profile):
     data=spec()
     app=module.build_application(module.RuntimeSpec.parse(data),client=Held(data),
         settings=module.RuntimeSettings(explanation_profile=profile))
-    result=asyncio.run(app.run('Fictional?',RequestContext(session_id='sess-a',request_id='req-a')))
+    result=asyncio.run(app.run('Fictional check; fictional policy?',RequestContext(session_id='sess-a',request_id='req-a')))
     assert seen==[profile] and result.explanation_profile==profile
     assert result.routing_profile=='separate' and not result.model_calls
 
@@ -270,7 +274,7 @@ def test_selected_defaults_use_scoped_explanations_with_separate_routing_and_can
 def test_selected_default_symbolic_retains_narrow_canonical_result_without_paraphrase():
     async def run():
         model=Fake()
-        answer=await Generator(model).generate('Fictional?',integrated('Symbolic',response_style='taglish'))
+        answer=await Generator(model).generate('Fictional check; fictional policy?',integrated('Symbolic',response_style='taglish'))
         assert answer.status=='answered' and not answer.claims and not model.calls
         assert 'Sa supported prerequisite check, satisfied ang conditions.' in answer.text
     asyncio.run(run())

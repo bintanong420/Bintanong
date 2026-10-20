@@ -14,7 +14,7 @@ def api():
 
 def case(**updates):
     value=dict(case_id='synthetic-dev-1',family_id='fictional-policy',split='dev',synthetic=True,
-        question='Fictional policy?',integration=integrated('RAG').model_dump(mode='json'))
+        question='Fictional check; fictional policy?',integration=integrated('RAG').model_dump(mode='json'))
     value.update(updates)
     return value
 
@@ -67,6 +67,8 @@ def test_report_identifies_effective_profile_and_prompt_hashes(profile,refs):
             expected=(prompt.PROMPT_SHA256,prompt.SUPPORT_PROMPT_SHA256)
         from test_generation_guard import assessment
         outputs=([assessment()] if profile=='guarded' else [])+[raw,supported()]
+        from backend.bintanong_generation.understanding import PROMPT_SHA256
+        expected=(expected[0],PROMPT_SHA256)
         generator=Generator(Fake(*outputs),explanation_profile=profile,reference_profile=refs)
         result=await api().observe(api().load_cases([case()]),generator,evaluation_kind='mock')
         assert result['observations'][0]['answer']['status']=='answered'

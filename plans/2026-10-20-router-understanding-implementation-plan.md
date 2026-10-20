@@ -62,12 +62,12 @@ request/fact IDs. CandidateAnswer v2 carries per-part ledger or explicit no-ledg
 control. Reuse RequirementReview/PartMapping/RequirementLedger;canonical structured
 parts are host-bound to the performed operation/result,never documentary prose.
 
-- [ ] RED for cross-question/request/release replay,missing plan,missing fee mapping,
+- [x] RED for cross-question/request/release replay,missing plan,missing fee mapping,
   structured-via-document substitution and Hybrid loss;retain language/call/deadline
   and cancellation guards. Expected:failures from missing new boundary/coverage.
-- [ ] Implement bound propagation and existing support-call per-part accounting;
+- [x] Implement bound propagation and existing support-call per-part accounting;
   no new model call. Unknown/missing mappings cannot yield answered status.
-- [ ] Explicitly migrate all current synthetic producers/consumers;reject v1 payloads
+- [x] Explicitly migrate all current synthetic producers/consumers;reject v1 payloads
   at new runtime boundaries. GREEN relevant generation/orchestration/routing suites;
   keep historical loaders/evidence separate. Commit verified cohesive changes.
 
@@ -111,3 +111,17 @@ was helper text passed to constructor,corrected helper signature only. Final rou
 format198passed3.67s. Exact logs task1-*.log. No inference or new call.
 Implementation call:allow4decoded operations to preserve compound meaning,matching
 the reviewed design;this changes old count=2 decoder rejection to host clarification.
+
+Task2 complete:initial focused RED9fail1.11s;GREEN9pass0.75s. Symbolic all-profile
+host-only regression RED1fail0.80s;now passes. Review-identity schema pin RED1fail
+0.78s;effective support-prompt hash RED1fail/2pass1.10s;both corrected. Final
+generation/orchestration plus both new focused files434passed8.64s. No inference.
+First broad migration run was stopped when an outdated Hybrid fixture prevented
+its cancellation-test event;test now bounds that wait to1s. Subsequent27fail/395pass
+and4fail/418pass were explicit fixture identity/payload/hash migrations;logs retained.
+Implementation calls:Symbolic results use host canonical rendering in every profile;
+the old whole-question coverage experiment cannot bypass the new part ledger and
+therefore withholds even with a complete verdict. Old sealed observations unchanged.
+Both choices retain accuracy boundaries;experimental compatibility is narrower.
+Test support adapters explicitly cover only one declared document part;multipart
+regressions use independent scripted mappings,never automatic all-part acceptance.

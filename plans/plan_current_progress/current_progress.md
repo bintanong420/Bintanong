@@ -6,12 +6,12 @@ Last full prior snapshot4620a92:plans/plan_current_progress/current_progress.md.
 
 ## Latest delivery
 
-Router recovery Task1 verified:Interpretation v2 requires grounded requested parts,
-operation associations and route/evidence-need consistency. No extra LLM call;
-separate style/shared repair preserved. RED6fail/6pass;focusedGREEN12pass;final
-routing/format198passed3.67s. Compound requests can decode all operations then
-clarify in host. [Implementation plan](../2026-10-20-router-understanding-implementation-plan.md)
-records exact outcomes. Task2 bound propagation/per-part output validation next.
+Router recovery Tasks1-2 software verified:interpretation/integration/answer v2,
+bound question/request/release and per-part documentary/canonical accounting.
+No extra LLM call;separate style/shared repair retained. Task1 routing198pass;
+Task2 focused RED9fail then9pass;relevant/new files434passed8.64s. Independent
+review/final gate pending. [Plan](../2026-10-20-router-understanding-implementation-plan.md).
+New candidate actual quality NOT RUN/unpromoted. Still Phase09;Phase10 not started.
 
 ## Audit baseline
 

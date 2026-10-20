@@ -21,6 +21,13 @@ model/service observations in the [delivery report](../../plans/2026-10-20-live-
 This proves the internal paths on controlled fixtures; latency,language/prose scope
 and institutional loading remain open. Phase09 is active;Phase10 has not started.
 
+The current [question-understanding recovery](../../plans/2026-10-20-router-understanding-implementation-plan.md)
+requires interpretation/integration/answer v2. It binds requested parts from the
+pre-evidence router through the existing support call and host canonical results.
+Software verification is separate from actual model quality;the earlier service
+observations above do not validate this new candidate. No added classifier call,
+new latency result,student endpoint or institutional activation is implied.
+
 ## Two separate pipelines
 
 Institutional preparation happens outside student requests. Private uploads and

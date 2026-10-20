@@ -31,7 +31,7 @@ def covered(model,**settings): return Generator(model,explanation_profile='cover
 @pytest.mark.parametrize('coverage',['partial','none','uncertain'])
 def test_source_supported_but_uncovered_answer_is_withheld_without_repair(language,coverage):
     async def run():
-        source=integrated('RAG',response_style=language)
+        source=integrated('RAG',text='Fictional course-check result?',response_style=language)
         pack=prepare(source)
         model=Fake(document_draft(pack),reviewed(pack,coverage))
         answer=await covered(model).generate('Fictional course-check result?',source)
@@ -47,15 +47,15 @@ def test_source_supported_but_uncovered_answer_is_withheld_without_repair(langua
 
 
 @pytest.mark.parametrize('language',['en','fil','taglish'])
-def test_complete_covered_document_answer_still_requires_independent_support(language):
+def test_complete_whole_question_verdict_cannot_bypass_required_part_accounting(language):
     async def run():
-        source=integrated('RAG',response_style=language)
+        source=integrated('RAG',text='Fictional documented procedure?',response_style=language)
         pack=prepare(source)
         model=Fake(document_draft(pack),reviewed(pack))
         answer=await covered(model).generate('Fictional documented procedure?',source)
-        assert answer.status=='answered' and answer.validation=='validated'
+        assert answer.status=='insufficient_evidence' and answer.validation=='parts_unresolved'
         assert answer.question_coverage.result=='complete' and len(model.calls)==2
-        assert answer.claims and answer.citations==pack.cards
+        assert not answer.claims and answer.part_ledger.status=='unresolved'
         assert not answer.decision and not answer.dependencies and not answer.decision_guard
     asyncio.run(run())
 
@@ -66,8 +66,8 @@ def test_complete_coverage_never_overrides_unsupported_claim_and_repair_is_revie
         pack=prepare(source)
         model=Fake(document_draft(pack),reviewed(pack,verdict='unsupported'),
             document_draft(pack),reviewed(pack))
-        answer=await covered(model).generate('Fictional?',source)
-        assert answer.status=='answered' and answer.answer_repairs==1
+        answer=await covered(model).generate('Fictional check; fictional policy?',source)
+        assert answer.status=='insufficient_evidence' and answer.answer_repairs==1
         assert answer.question_coverage.draft_attempt==2
         assert len(model.calls)==4 and answer.check_attempts==2
         assert 'unsupported_claim' in json.loads(model.calls[2][0][1]['content'])['validation_errors']
@@ -81,7 +81,7 @@ def test_replacement_draft_cannot_reuse_old_complete_coverage():
     async def run():
         pack=prepare(integrated('RAG'))
         model=Fake(document_draft(pack),reviewed(pack,verdict='unsupported'),'bad draft')
-        answer=await covered(model).generate('Fictional?',integrated('RAG'))
+        answer=await covered(model).generate('Fictional check; fictional policy?',integrated('RAG'))
         assert answer.validation=='repair_exhausted' and answer.question_coverage is None
         assert not answer.claims and answer.draft_attempts==2 and answer.check_attempts==1
     asyncio.run(run())
@@ -101,7 +101,7 @@ def test_malformed_or_mismatched_coverage_report_never_releases_answer(bad):
         encoded=json.dumps(raw)
         if bad=='duplicate': encoded=encoded[:-1]+',"question_coverage":"complete"}'
         model=Fake(document_draft(pack),encoded,document_draft(pack),encoded)
-        answer=await covered(model).generate('Fictional?',integrated('RAG'))
+        answer=await covered(model).generate('Fictional check; fictional policy?',integrated('RAG'))
         assert answer.status=='abstained' and answer.validation=='repair_exhausted'
         assert not answer.claims and answer.check_attempts==2 and len(model.calls)==4
     asyncio.run(run())
@@ -130,7 +130,7 @@ def test_nonrag_coverage_profile_preserves_existing_host_and_documentary_paths(r
     async def run():
         source=integrated(route)
         model=Fake(document_draft(prepare(source)),supported()) if route=='Hybrid' else Fake()
-        answer=await covered(model).generate('Fictional?',source)
+        answer=await covered(model).generate('Fictional check; fictional policy?',source)
         assert answer.status=='answered' and answer.decision==source.evidence.symbolic.decision
         assert answer.question_coverage is None and answer.decision_guard is None
         assert len(model.calls)==(2 if route=='Hybrid' else 0)
@@ -141,7 +141,7 @@ def test_unknown_and_deadline_controls_skip_coverage_calls():
     async def run():
         for source,budget in ((integrated(outcome='unknown'),1),(integrated('RAG'),0)):
             model=Fake()
-            answer=await covered(model).generate('Fictional?',source,remaining_seconds=budget)
+            answer=await covered(model).generate('Fictional check; fictional policy?',source,remaining_seconds=budget)
             assert answer.status!='answered' and answer.question_coverage is None and not model.calls
     asyncio.run(run())
 
@@ -153,10 +153,10 @@ def test_coverage_review_timeout_and_cancellation_never_release_unchecked_claims
                 if self.outputs: return await super().infer(*args)
                 await asyncio.Event().wait()
         pack=prepare(integrated('RAG'))
-        answer=await covered(Wait(document_draft(pack)),timeout_seconds=0.03).generate('Fictional?',integrated('RAG'))
+        answer=await covered(Wait(document_draft(pack)),timeout_seconds=0.03).generate('Fictional check; fictional policy?',integrated('RAG'))
         assert answer.validation=='timeout' and answer.question_coverage is None and not answer.claims
         assert answer.check_attempts==1
-        task=asyncio.create_task(covered(Wait(document_draft(pack))).generate('Fictional?',integrated('RAG')))
+        task=asyncio.create_task(covered(Wait(document_draft(pack))).generate('Fictional check; fictional policy?',integrated('RAG')))
         await asyncio.sleep(0)
         task.cancel()
         with pytest.raises(asyncio.CancelledError): await task
@@ -165,13 +165,14 @@ def test_coverage_review_timeout_and_cancellation_never_release_unchecked_claims
 
 def test_parallel_requests_do_not_share_coverage():
     async def run():
-        first,second=integrated('RAG'),integrated('RAG',request_id='req-b')
+        first,second=integrated('RAG',text='Fictional A?'),integrated('RAG',text='Fictional B?',request_id='req-b')
         pack=prepare(first)
         a,b=await asyncio.gather(
             covered(Fake(document_draft(pack),reviewed(pack,'none'))).generate('Fictional A?',first),
             covered(Fake(document_draft(pack),reviewed(pack))).generate('Fictional B?',second))
         assert a.status=='insufficient_evidence' and a.request_id=='req-a'
-        assert b.status=='answered' and b.request_id=='req-b'
+        assert b.status=='insufficient_evidence' and b.request_id=='req-b'
+        assert a.question_coverage.result=='none' and b.question_coverage.result=='complete'
     asyncio.run(run())
 
 
@@ -179,7 +180,7 @@ def test_coverage_observation_and_negative_answer_cannot_be_relabelled_as_valida
     from backend.bintanong_generation.contracts import CandidateAnswer
     async def run():
         pack=prepare(integrated('RAG'))
-        answer=await covered(Fake(document_draft(pack),reviewed(pack,'none'))).generate('Fictional?',integrated('RAG'))
+        answer=await covered(Fake(document_draft(pack),reviewed(pack,'none'))).generate('Fictional check; fictional policy?',integrated('RAG'))
         for update in (dict(status='answered',validation='validated'),
                        dict(question_coverage=None),dict(validation='control_fallback')):
             with pytest.raises(ValueError): CandidateAnswer.parse(dict(answer.model_dump(mode='json'),**update))
@@ -203,7 +204,7 @@ def test_failed_coverage_candidate_stays_unselected_and_preserves_historical_met
 
 def test_selected_default_retains_existing_scoped_protocol_without_failed_experiments():
     async def run():
-        source=integrated('RAG')
+        source=integrated('RAG',text='Fictional course-check result?')
         pack=prepare(source)
         model=Fake(document_draft(pack),supported())
         answer=await Generator(model).generate('Fictional course-check result?',source)
@@ -216,7 +217,8 @@ def test_selected_default_retains_existing_scoped_protocol_without_failed_experi
 @pytest.mark.parametrize('route',['RAG','Hybrid','Symbolic'])
 def test_observation_reports_effective_review_hash_per_route_and_pending_human_coverage(route):
     from backend.bintanong_generation.evaluation import load_cases,observe
-    from backend.bintanong_generation.scope import DOCUMENT_SUPPORT_PROMPT_SHA256
+    from backend.bintanong_generation.understanding import PROMPT
+    import hashlib
     from test_generation_evaluation import case
     async def run():
         source=integrated(route)
@@ -227,8 +229,9 @@ def test_observation_reports_effective_review_hash_per_route_and_pending_human_c
             evaluation_kind='mock')
         row=result['observations'][0]
         expected=(api().COVERAGE_PROMPT_SHA256 if route=='RAG' else
-            DOCUMENT_SUPPORT_PROMPT_SHA256 if route=='Hybrid' else None)
+            hashlib.sha256(PROMPT.encode()).hexdigest() if route=='Hybrid' else None)
         assert row['support_prompt_sha256']==expected and result['support_prompt_sha256'] is None
         assert result['coverage_prompt_sha256']==api().COVERAGE_PROMPT_SHA256
-        assert row['human_question_coverage_review']=='pending' and row['answer']['status']=='answered'
+        assert row['human_question_coverage_review']=='pending'
+        assert row['answer']['status']==('insufficient_evidence' if route=='RAG' else 'answered')
     asyncio.run(run())

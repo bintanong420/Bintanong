@@ -18,6 +18,7 @@ from .prompt import (PROMPT_SHA256,SUPPORT_PROMPT_SHA256,
 from .scope import DOCUMENT_PROMPT_SHA256,DOCUMENT_SUPPORT_PROMPT_SHA256
 from .guard import GUARD_PROMPT_SHA256
 from .coverage import COVERAGE_PROMPT_SHA256
+from .understanding import PROMPT_SHA256 as PART_REVIEW_PROMPT_SHA256
 
 
 class GenerationCase(Record):
@@ -59,12 +60,12 @@ async def observe(cases,generator,*,evaluation_kind):
                 'documentary_model' if generator.explanation_profile in ('scoped','guarded','covered') else 'legacy_model'),
             support_prompt_sha256=(None if not answer.check_attempts else
                 COVERAGE_PROMPT_SHA256 if generator.explanation_profile=='covered' and case.integration.route=='RAG'
-                else support_hash),human_question_coverage_review='pending',
+                else PART_REVIEW_PROMPT_SHA256),human_question_coverage_review='pending',
             human_language_review='pending',human_claim_support_review='pending'))
     return dict(schema_version='bintanong-generation-observations-v1',candidate_only=True,
         institutional_use_allowed=False,evaluation_kind=evaluation_kind,
         actual_model_accuracy='unmeasured',prompt_sha256=prompt_hash,
-        support_prompt_sha256=None if generator.explanation_profile=='covered' else support_hash,
+        support_prompt_sha256=None if generator.explanation_profile=='covered' else PART_REVIEW_PROMPT_SHA256,
         explanation_profile=generator.explanation_profile,
         coverage_prompt_sha256=COVERAGE_PROMPT_SHA256 if generator.explanation_profile=='covered' else None,
         guard_prompt_sha256=GUARD_PROMPT_SHA256 if generator.explanation_profile=='guarded' else None,

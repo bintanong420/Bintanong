@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 68
+sequence: 69
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 38c4b73
+head_commit: 5b483ad
 working_tree: dirty
 updated_at: 2026-10-20T17:57:27+08:00
 ---
@@ -27,11 +27,12 @@ FAILED0/8;[observation](2026-10-20-question-parts-observation-results.md) unchan
 
 ## Current Task
 
-Router implementation Task1 verified:Interpretation v2 requires grounded parts;
-declared needs cannot silently bypass structured work. Router prompt p09-v10;
-separate style/shared repair preserved. RED6fail/6pass;focusedGREEN12pass;
-relevant routing/format198passed3.67s. Task1 raw logs under workspace/audit-evidence/
-p09-router-understanding-20261020/. Next:Task2 bound propagation/per-part validation.
+Router recovery Tasks1-2 software verified:Interpretation/integration/answer v2;
+question/request/release binding and per-part documentary/canonical accounting.
+Same model-call count,separate style/shared repair. Focused Task2 RED9fail then
+GREEN9pass;final relevant generation/orchestration/new files434passed8.64s.
+Raw workspace/audit-evidence/p09-router-understanding-20261020/. One whole-change
+review/final gate pending;new actual-model quality NOT RUN,candidate unpromoted.
 Context thesis17-18/39-44,actual PNG/master3/11/12.4/13/14 reconsulted;no new
 discrepancy. Thesis missing-as-false example stays illustrative;host unknown remains.
 
@@ -111,8 +112,8 @@ end-to-end validation remain unresolved. Test counts do not establish accuracy.
 ## Next Action
 
 Execute [router implementation plan](2026-10-20-router-understanding-implementation-plan.md)
-Task1 focused RED/GREEN,then bound propagation and per-part validation. Full scope
-and software/actual-quality boundaries are recorded there;no new inference yet.
+Task3:one independent whole-change review,then final explicit regression gate and
+frozen future actual-quality prerequisite. Phase09 remains active;no inference yet.
 
 ## Do Not Repeat
 

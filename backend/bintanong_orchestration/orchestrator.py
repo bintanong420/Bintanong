@@ -1,6 +1,7 @@
 """One release pin, one validated LLM route, explicit independent evidence branches."""
 import asyncio
 import math
+import hashlib
 from time import perf_counter
 
 from ..bintanong_contracts.symbolic import SymbolicResult
@@ -10,7 +11,7 @@ from ..bintanong_routing.router import Router
 from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_symbolic.runtime import DependencyResult
 from .adapters import AdapterFailure
-from .contracts import DocumentResult, IntegrationResult, StageEvent
+from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
 from .integration import assemble
 from .ports import HeldReleaseProvider, ReleaseResources, ReleaseUnavailable
 
@@ -41,11 +42,13 @@ class Orchestrator:
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
+        understanding = None
 
         def finish(status, evidence=None, missing=()):
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style,
-                status=status, evidence=evidence, missing_facts=tuple(missing), events=tuple(events))
+                status=status, evidence=evidence, understanding=understanding,
+                missing_facts=tuple(missing), events=tuple(events))
 
         async def stage(name, call):
             start, value, outcome = perf_counter(), None, 'ok'
@@ -114,9 +117,16 @@ class Orchestrator:
         scoped = None
 
         async def route_request():
-            nonlocal scoped, route, style
+            nonlocal scoped, route, style, understanding
             value = await router.route(text, context)
             route, style = value.decision.route, value.response_style
+            if value.style_evidence is not None and value.proposed is not None:
+                understanding = RequestUnderstanding(
+                    schema_version=RequestUnderstanding.SCHEMA_VERSION,
+                    request_id=context.request_id, release_id=resources.pin.release_id,
+                    question_sha256=hashlib.sha256(text.encode('utf-8')).hexdigest(),
+                    route=route, parts=value.proposed.parts, operations=value.proposed.operations,
+                    predicate_request=value.decision.predicate_request)
             if route is not None:
                 # Bound the merged assertion set within the guarded routing stage.
                 # Nothing is persisted, and overflow cannot escape as an exception.

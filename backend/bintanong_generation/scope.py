@@ -63,6 +63,8 @@ def document_payload(pack):
                 if i.name in ('course','course_id','program_id','curriculum_id')})
     return dict(release_id=pack.release_id,language=pack.language,
         permitted_scope='documentary_explanation_only',subject_scope=subject,
+        requested_parts=[] if pack.understanding is None else
+            [p.model_dump(mode='json') for p in pack.understanding.parts],
         sources=[c.model_dump(mode='json') for c in pack.cards if c.kind=='document'])
 
 
