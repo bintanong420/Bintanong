@@ -79,6 +79,8 @@
   Taglish -> Taglish (Tagalog structure, English for terms like submit, fee,
   office). Never deep Tagalog such as "isusumite" or "nakasaad". This applies to
   model claims and host-rendered text, including Hybrid/Prolog result lines.
+  Owner addition: the reply matches the user's communication style overall
+  (language mix and casual/formal register), not only the language label.
 - Missing grades, curriculum, course identity or rule coverage remain unknown,
   distinct from a documented unmet condition. No recorded prerequisites does not
   prove that a course has none. Preserve all-of/any-of/co-requisite semantics only
