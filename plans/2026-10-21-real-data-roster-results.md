@@ -89,3 +89,6 @@ document median **34.7 s** (run 2: 45.2 s; run 1: 54.8 s); CC5 Prolog answers me
 - Operational finding: the llama.cpp host prompt cache grows across long runs; at
   ~5.2/7.5 GiB container memory the server slowed to 120 s timeouts. Restarting
   the container restored normal speed. A deployment needs a cache-RAM limit or restarts.
+- Owner decision (22 October 2026): keep run 5's safe behaviour. An honest 'not enough
+  evidence' is preferred over a misleading number; the withheld fee-example answers are a
+  disclosed limitation of the 4B router.

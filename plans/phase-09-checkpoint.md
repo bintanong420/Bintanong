@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 120
+sequence: 121
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6c14755
 working_tree: clean
@@ -91,10 +91,10 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-#2: run 4 (prompt rule) kept 1 misleading answer; run 5 (`d8d5220`, not-stated menu facts)
-removed it but withheld 3 correct fee-example answers. Await owner choice: keep run 5 (safe),
-revert to run 4 (helpful, 1 misleading), or one bounded label-clarity attempt.
-Restart the model container before long runs (prompt-cache memory growth).
+Owner chose to keep the safe #2 version (run 5, `d8d5220`): no misleading answers; the three
+fee-example questions are withheld (known, disclosed limitation). Next options: #3 Taglish
+style labelling, remaining latency levers, or Phase 09 exit reassessment. Restart the model
+container before long runs (prompt-cache memory growth).
 
 ## Do Not Repeat
 

@@ -66,7 +66,9 @@ through every gate; builder `12c5e65`). First real answers: CC5 ineligible via r
 grade 1.0 = 98-100 Excellent from Handbook p.46. Task 4 roster (63 real cases x2):
 see [results](../2026-10-21-real-data-roster-results.md). Router errors now clarify
 (`c8a25f5`); checker 12.4->4.6 s (`6d639f5`); line-break ban + compact topic schema.
-Roster run 3: 0 system errors, doc median 34.7 s, CC5 21.6 s ([latency](../2026-10-21-latency-research-and-budget.md)). Against the exit map: interpretation
+Roster run 3: 0 system errors, doc median 34.7 s, CC5 21.6 s ([latency](../2026-10-21-latency-research-and-budget.md)).
+#2: owner kept the safe version (`d8d5220`, run 5): 0 wrong answers, 3 fee-example answers
+withheld (disclosed). Restart the model container before long runs (cache memory growth). Against the exit map: interpretation
 and completeness are now evidenced on the four fixtures; still open are the
 relevance check on the per-part reviewer (old B cases never ran), omissions the
 router never declares, broader multilingual cases (new wordings need owner
