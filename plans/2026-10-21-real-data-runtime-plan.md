@@ -108,3 +108,11 @@ Script: workspace `audit-evidence/p09-real-data-20261021/equivalence.py`.
 
 Environment note: models are at `C:/Coding-projects/bintanong_workspace/MODELS`
 (the container mounts it); `C:/Coding-projects/MODELS` does not exist.
+
+## Task 2 result (router topic selection, see git log)
+
+Release `topics` menu -> router prompt/schema (enums) -> host check -> retrieval
+`subject_id`/`requested_claims`; extra `document_scope` tags (real chunks need
+`audience:undergraduate`). No menu -> unchanged schema, prompt and retrieval
+call (tested). Limit: only the first chosen topic is retrieved per request.
+Router quality on choosing topics is unmeasured until task 4.
