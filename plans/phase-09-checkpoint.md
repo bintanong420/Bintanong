@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 114
+sequence: 115
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -32,9 +32,10 @@ reviewed_fields_available may feed generation in research mode only. Task 1 done
 differences come from Phase 05's transitive-neighbor double vs direct-neighbor SQL).
 Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Full suite at
 `49f39b5`: 6042 passed, 6 skipped, 0 failed (973 s). Task 3 slices done through `be18db5`
-(research status, adapter, pin/evidence, orchestrator, answers). Remaining: research
-application builder (package, BSCS ledgers, catalog, topic menu). Awaiting owner on
-CC5 -> CC 5/L alias identity.
+(research status, adapter, pin/evidence, orchestrator, answers). Builder `12c5e65`;
+smoke fixes `520aa98`, `ee13b64`. Real-stack smoke: CC5 (old BSCS) answered ineligible via
+real Prolog; grade 1.0 answered from Handbook p.46. Owner alias rule recorded `482afda`.
+Next: task 4 runner over the accepted roster; fix internal course IDs in answers.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
 ## Repository State

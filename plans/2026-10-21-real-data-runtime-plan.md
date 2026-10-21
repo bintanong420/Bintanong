@@ -148,3 +148,17 @@ practicum (no reviewed rule) and 3 CC5/CC4 without curriculum (expected
 clarification). Real decisions need the CC5 variants with curriculum context.
 Open identity question for the owner: may a student's "CC5"/"CC4" resolve to the
 printed "CC 5/L"/"CC 4/L" codes (catalog aliases)? Not inferred.
+
+## Task 3 complete; real-stack smoke (one attempt each, before task 4)
+
+Builder `12c5e65`; fixes found by the smoke: `520aa98` (topic schema pairs each
+topic with its own claims; real Gemma had chosen grading_scale with no claims) and
+`ee13b64` (research upgrade lifts only the calibration gap). Smoke, research release
+(old BSCS ledger + Phase 05 package, real SEA-LION encoder, real Gemma, real Janus):
+- `cs-cc5-failed-cc4-taglish` + context bscs-2018-2019: answered, Prolog `ineligible`
+  (not_completed CC 4/L; CC 3/L completion unknown), research_ref present, 32.7 s.
+- `grade-excellent-taglish`: answered "Ang grade 1.0 ay may percentage equivalent na
+  98-100 at descriptive rating na Excellent", cited Handbook p.46, 65.5 s (fresh
+  process; includes encoder load).
+Known issue: structured answers show internal course IDs, not printed codes.
+Script: workspace `audit-evidence/p09-real-data-20261021/smoke.py`.
