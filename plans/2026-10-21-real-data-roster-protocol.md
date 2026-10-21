@@ -29,3 +29,16 @@ generation profile, separate routing. Encoder loaded once before timing.
 Status, validation, decision, claims, citations, research_ref, per-stage event
 durations, generation seconds and outer seconds. Excluded: API, browser, network,
 Supabase (not used), queueing, cold start. Not an accuracy rate or student SLA.
+
+## Run 1 result (code `eebbdb0`) and run 2 protocol
+
+Run 1: 0 of 21 unavailable-fact document variants answered (no invention);
+10 of 18 fact-available document variants answered, all 10 correct against the
+printed source; CC5 with old curriculum 3/3 ineligible (CC 4/L not completed,
+CC 3/L unknown); CC5 with proposed curriculum 3/3 clarification. Failures: 10
+routing `truncated_output` (hidden thought channel used the 768-token budget),
+1 generation `context_overflow` (citation geometry was ~80% of the input). One
+Taglish question was answered in English. Median routing 30.1 s.
+Fixes: `e945c80` compact model source cards; the thought-opener ban (this commit's
+parent); `88ad891` printed course codes. Run 2 repeats the same 63 cases once each
+with identical settings in `audit-evidence/p09-real-data-20261021/roster2/`.
