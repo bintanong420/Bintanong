@@ -42,3 +42,11 @@ Taglish question was answered in English. Median routing 30.1 s.
 Fixes: `e945c80` compact model source cards; the thought-opener ban (this commit's
 parent); `88ad891` printed course codes. Run 2 repeats the same 63 cases once each
 with identical settings in `audit-evidence/p09-real-data-20261021/roster2/`.
+
+## Run 3 protocol (after `c8a25f5`..this commit)
+
+Changes since run 2: reference-error repair/clarify, mirrored deep word, checker hash
+removal, line-break ban, compact topic schema display. Same 63 cases, settings and
+order, once each, in `audit-evidence/p09-real-data-20261021/roster3full/`. Purpose:
+confirm no quality regression and measure latency. Pass condition: no invented facts,
+no previously correct answer lost, routing errors not increased.
