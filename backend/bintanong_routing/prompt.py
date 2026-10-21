@@ -159,10 +159,17 @@ def output_schema(topics=()):
     schema['properties']['schema_version']['const'] = WireInterpretation.SCHEMA_VERSION
     part = schema['$defs']['WirePart']
     if topics:
-        part['properties']['subject_id'] = {'enum': [t.subject_id for t in topics] + [None]}
-        part['properties']['requested_claims'] = {'type': 'array', 'maxItems': 8,
-            'items': {'enum': sorted({c for t in topics for c in t.claims})}}
-        part['required'] = [*part.get('required', []), 'subject_id', 'requested_claims']
+        # One branch per topic pairs it with its own claims; a null branch carries none.
+        required = [*part.get('required', []), 'subject_id', 'requested_claims']
+        def branch(subject, claims):
+            value = deepcopy(part)
+            value['properties']['subject_id'] = {'const': subject}
+            value['properties']['requested_claims'] = ({'type': 'array', 'maxItems': 0} if subject is None
+                else {'type': 'array', 'minItems': 1, 'maxItems': len(claims), 'items': {'enum': list(claims)}})
+            value['required'] = required
+            return value
+        schema['$defs']['WirePart'] = {'anyOf': [branch(t.subject_id, t.claims) for t in topics] +
+                                       [branch(None, ())]}
     else:  # Unchanged schema whenever the release supplies no topic menu.
         for name in ('subject_id', 'requested_claims'):
             part['properties'].pop(name)

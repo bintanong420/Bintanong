@@ -33,12 +33,15 @@ def test_schema_without_topics_is_unchanged():
     assert set(part['properties']) == {'part_id', 'quote', 'evidence_need', 'operation_indices'}
 
 
-def test_schema_with_topics_requires_menu_choices():
-    part = output_schema(MENU)['$defs']['WirePart']
-    assert part['properties']['subject_id']['enum'] == ['fictional_fees', 'fictional_office', None]
-    assert part['properties']['requested_claims']['items']['enum'] == [
-        'filing office', 'payment channel', 'printed fee amount']
-    assert {'subject_id', 'requested_claims'} <= set(part['required'])
+def test_schema_with_topics_pairs_each_topic_with_its_own_claims():
+    branches = output_schema(MENU)['$defs']['WirePart']['anyOf']
+    by_subject = {b['properties']['subject_id'].get('const'): b['properties']['requested_claims']
+                  for b in branches}
+    assert set(by_subject) == {'fictional_fees', 'fictional_office', None}
+    assert by_subject['fictional_office']['items']['enum'] == ['filing office']
+    assert by_subject['fictional_office']['minItems'] == 1
+    assert by_subject[None]['maxItems'] == 0
+    assert all({'subject_id', 'requested_claims'} <= set(b['required']) for b in branches)
 
 
 def test_prompt_lists_topics_only_when_a_menu_exists():
