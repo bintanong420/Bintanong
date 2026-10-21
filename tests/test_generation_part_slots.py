@@ -212,3 +212,19 @@ def test_taglish_guidance_prefers_everyday_english_terms_without_evaluation_fixt
     from backend.bintanong_generation.part_answers import PART_PROMPT
     assert 'isusumite' in PART_PROMPT and 'submit' in PART_PROMPT  # named as a word to avoid
     assert 'slip S' not in PART_PROMPT and 'Office K' not in PART_PROMPT
+
+
+def test_prompt_gives_each_language_its_own_style_and_forbids_copying_english_sources():
+    from backend.bintanong_generation.part_answers import PART_PROMPT
+    assert 'Tagalog sentence structure' in PART_PROMPT and 'mostly Filipino' in PART_PROMPT
+    assert 'do not copy an English source sentence' in PART_PROMPT
+
+
+@pytest.mark.parametrize('language,phrase', [('taglish', 'Tagalog sentence structure'),
+                                             ('fil', 'mostly Filipino')])
+def test_style_repair_carries_a_plain_rewrite_instruction_for_the_requested_language(language, phrase):
+    model = Drafts(ENGLISH, TAGLISH)
+    asyncio.run(Generator(model).generate(TEXT, styled(language)))
+    first, repair = (json.loads(model.calls[i][0][1]['content']) for i in (0, 1))
+    assert 'repair_instruction' not in first
+    assert phrase in repair['repair_instruction'] and 'Rewrite' in repair['repair_instruction']

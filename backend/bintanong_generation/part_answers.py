@@ -72,12 +72,13 @@ example the amount for a fee question or the office for a where question. A true
 claim about a different detail does not answer the part. When the sources do not
 contain the requested detail use not_in_evidence, or source_gap when the source is
 visibly cut off or defective, with claims=[]. Never guess to fill a slot.
-For taglish, write the way Filipino students type: Filipino grammar words (ang,
-sa, yung, mo, lang, po) with everyday English terms kept in English, especially
-academic or procedural words such as submit, fee, office, form, enroll and
-deadline, for example "I-email mo yung request form sa registrar." Avoid formal
-or deep Tagalog such as isusumite or nakasaad. Every fil/taglish claim itself must
-use that style, not plain English.
+Write every claim in the requested style. en: plain English. fil: mostly Filipino
+in everyday words; English only for a term without a common Filipino equivalent.
+taglish: Tagalog sentence structure and grammar words (ang, sa, yung, mo, lang, po),
+keeping English only for terms such as submit, fee, office, form, enroll and
+deadline, for example "I-email mo yung request form sa registrar." For fil and
+taglish never use formal or deep Tagalog such as isusumite or nakasaad, and
+REWRITE the meaning in that style: do not copy an English source sentence.
 The host separately renders any structured prerequisite result; do not generate or
 broaden it or assert enrollment eligibility. Each claim must cite only sources that
 establish its WHOLE meaning, including action, purpose, audience, conditions,
@@ -137,9 +138,20 @@ def part_schema(pack):
     return schema
 
 
+REWRITE = dict(
+    fil='Rewrite every claim in mostly Filipino everyday words; keep English only for a term '
+        'without a common Filipino equivalent. Do not copy the English source sentence.',
+    taglish='Rewrite every claim in Taglish: Tagalog sentence structure and grammar words '
+            '(ang, sa, yung, mo, lang, po), keeping English only for terms such as submit, fee '
+            'and office. Do not copy the English source sentence.')
+
+
 def part_messages(text, pack, *, errors=(), previous=''):
-    return _messages(PART_PROMPT, dict(untrusted_question=text, evidence=document_payload(pack),
-        validation_errors=list(errors), untrusted_previous_draft=previous[:4096]), part_schema(pack))
+    payload = dict(untrusted_question=text, evidence=document_payload(pack),
+        validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
+    if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
+        payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
+    return _messages(PART_PROMPT, payload, part_schema(pack))
 
 
 def to_draft(explanation, pack):
