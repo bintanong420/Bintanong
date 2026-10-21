@@ -49,7 +49,7 @@ def test_pin_research_reference_matches_its_mode(synthetic, ref):
         ReleasePin.parse(data)
 
 
-def test_orchestrator_carries_a_research_result_end_to_end():
+def research_integration(facts=()):
     import asyncio, json
     from backend.bintanong_contracts.symbolic import Capability, CapabilityRegistry
     from backend.bintanong_orchestration.adapters import SymbolicAdapter
@@ -68,8 +68,15 @@ def test_orchestrator_carries_a_research_result_end_to_end():
     registry = CapabilityRegistry({'check_prerequisite_eligibility': Capability(
         'offline_research_prerequisite_check', ('curriculum_id', 'course_id'))})
     resources = ReleaseResources(pin, (course,), registry, None, SymbolicAdapter(runtime, research=True))
-    ctx = RequestContext.parse(context(curriculum_id='curriculum-synthetic-1'))
-    integration = asyncio.run(Orchestrator(FakeTransport(json.dumps(proposal())),
+    ctx = RequestContext.parse(context(curriculum_id='curriculum-synthetic-1', facts=[
+        dict(fact_id='fact-'+c, session_id='sess-a', program_id='program-a',
+             curriculum_id='curriculum-synthetic-1', course_id=c, state=state) for c, state in facts]))
+    return asyncio.run(Orchestrator(FakeTransport(json.dumps(proposal())),
         releases=SyntheticReleaseProvider(resources)).run('A1', ctx))
+
+
+def test_orchestrator_carries_a_research_result_end_to_end():
+    from backend.bintanong_symbolic.runtime import ResearchSymbolicResult
+    integration = research_integration()
     assert type(integration.evidence.symbolic) is ResearchSymbolicResult
     assert integration.evidence.symbolic.research.authorization.authorization_ref == REF

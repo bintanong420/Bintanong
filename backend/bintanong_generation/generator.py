@@ -51,7 +51,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
-        part_ledger=ledger)
+        part_ledger=ledger,research_ref=pack.research_ref)
     validate_final(answer,pack,claims)
     return answer
 

@@ -26,6 +26,7 @@ class PreparedEvidence:
     structured_context: StructuredContext|None
     missing_facts: tuple[str,...]
     understanding: RequestUnderstanding|None
+    research_ref: str|None=None  # owner-authorized research release reference, if any
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -91,4 +92,5 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         result.status,result.response_style,result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
-        evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan)
+        evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
+        evidence.pin.research_ref if evidence else None)

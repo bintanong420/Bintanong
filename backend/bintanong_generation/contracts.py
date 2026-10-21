@@ -7,7 +7,7 @@ from ..bintanong_contracts.base import Contract,Record
 from ..bintanong_contracts.symbolic import DecisionOutcome,DecisionScope
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
-from ..bintanong_symbolic.runtime import DependencyResult
+from ..bintanong_symbolic.runtime import DependencyResult,ResearchDependencyResult
 from .ledger_contracts import ClaimID, BoundRequirementLedger
 
 Language=Literal['en','fil','taglish','unknown']
@@ -97,8 +97,9 @@ class CandidateAnswer(Contract):
         'out_of_scope','temporarily_unavailable','greeting','abstained']
     text: str=Field(min_length=1,max_length=65536)
     decision: DecisionOutcome|None
-    dependencies: DependencyResult|None
+    dependencies: ResearchDependencyResult|DependencyResult|None
     structured_context: StructuredContext|None=None
+    research_ref: str|None=Field(default=None,pattern=r'^research-[A-Za-z0-9_-]+$',max_length=128)
     missing_facts: tuple[Annotated[str,Field(min_length=1)],...]=()
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
@@ -148,6 +149,9 @@ class CandidateAnswer(Contract):
         if self.validation=='question_uncovered':
             if self.question_coverage is None or self.question_coverage.result=='complete':
                 raise ValueError('missing_failed_coverage')
-        if self.decision is not None and not self.decision.synthetic:
+        # Real-rule decisions only inside an owner-authorized research release.
+        if self.decision is not None and not self.decision.synthetic and self.research_ref is None:
             raise ValueError('synthetic_decision_required')
+        if type(self.dependencies) is ResearchDependencyResult and self.research_ref is None:
+            raise ValueError('research_dependencies_require_reference')
         return self
