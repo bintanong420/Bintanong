@@ -24,8 +24,7 @@
 - [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - [Per-part generation](2026-10-21-per-part-generation-decision.md) is the default;[actual results](2026-10-21-per-part-observation-results.md):fee fixed,4/4 complete content,Taglish style miss (3/4).
-  Previously: (fixes the
-  generator-side cause of the missed fee; mock-verified, actual-model quality unmeasured). Phase09 exit held.
+  Phase09 exit held pending the owner's Taglish choice.
 - Scoped/canonical/separate selected;three current correct component answers45.8-49.8s;student end-to-end latency unmeasured.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified;university/institutional runtime/activation holds remain;full-prospectus conversion stays draft.
