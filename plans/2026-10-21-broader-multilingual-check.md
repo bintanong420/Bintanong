@@ -39,3 +39,14 @@ Full suite at `d75f4d1`: 6016 passed, 6 skipped, 0 failed (990 s).
 Fixes in `838f6d4`: unavailable slots ignore placeholder claims; owner-named deep
 Tagalog (isusumite, nakasaad, ihahain) triggers the existing style repair.
 A post-fix observation of b1, b3 and b4 follows (one attempt each).
+
+## Post-fix observation (code `838f6d4`, one attempt each)
+
+- b1: "Ang slip S ay kailangang i-submit sa Office K."; Prolog ineligible kept.
+  The style repair fired once (five calls). PASS.
+- b3/b4: insufficient_evidence / parts_unresolved; deadline/signer recorded
+  unavailable (not_in_evidence); nothing invented; 28 s, no review call. PASS
+  under the current all-or-nothing contract, which still withholds the available
+  charge/office. Partial answers that name the missing part are a pending owner
+  design choice.
+Evidence: workspace `audit-evidence/p09-broader-postfix-20261021/`.

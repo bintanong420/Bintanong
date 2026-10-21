@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 109
+sequence: 110
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -76,10 +76,11 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Owner confirmed naturalness; approved Filipino host wording delivered `39c46cb`
-(742 focused passed). Next: propose the relevance check for the per-part reviewer
-and a small owner-approved set of new Filipino/Taglish/Hybrid fixture wordings.
-Do not rerun the same four fixtures as if they were new evidence.
+Broader six-case check ([record](2026-10-21-broader-multilingual-check.md)): relevance
+confirmed; placeholder-claim and deep-word fixes `838f6d4`; post-fix b1/b3/b4 pass.
+Full suite at `d75f4d1`: 6016 passed. Owner authorized real public data for
+development (AGENTS.md). Next: plan wiring real retrieval + reviewed BSCS Prolog
+into the runtime path, reusing existing Phase 05/06 assets.
 
 ## Do Not Repeat
 
