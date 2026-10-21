@@ -54,6 +54,12 @@ class PartExplanation(Contract):
     answers: dict[PartID, PartSlot] = Field(max_length=8)
 
 
+class PartConfirmationOutput(Record):
+    """What the model writes; the host attaches the review identity (no hash copying)."""
+    parts: dict[PartID, Verdict] = Field(max_length=8)
+    support: SupportReport
+
+
 class PartConfirmation(Contract):
     SCHEMA_VERSION = 'bintanong-part-confirmation-v1'
     requirements_sha256: Digest
@@ -192,7 +198,6 @@ def confirm_messages(text, pack, draft, slots):
     texts = {p.part_id: p.text for p in pack.understanding.parts}
     payload = dict(untrusted_question=text, requested_language=pack.language,
         permitted_scope='documentary_explanation_only',
-        review_identity=review_identity(pack, draft).model_dump(mode='json'),
         parts=[dict(part_id=p, text=texts[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
             sources=[model_card(cards[e]) for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
@@ -200,10 +205,7 @@ def confirm_messages(text, pack, draft, slots):
 
 
 def confirm_schema(pack, draft, slots):
-    schema = output_schema(PartConfirmation)
-    identity = review_identity(pack, draft)
-    for name in ('requirements_sha256', 'draft_sha256'):
-        schema['properties'][name] = dict(type='string', const=getattr(identity, name))
+    schema = PartConfirmationOutput.model_json_schema()
     verdict = dict(type='string', enum=list(Verdict.__args__))
     schema['properties']['parts'] = dict(type='object', additionalProperties=False, required=list(slots),
         properties={p: verdict for p in slots})
@@ -212,6 +214,15 @@ def confirm_schema(pack, draft, slots):
     schema['$defs']['ClaimVerdict']['properties']['claim_id'] = dict(
         type='string', enum=[c.claim_id for c in draft.claims])
     return schema
+
+
+def bind_confirmation(pack, draft, output):
+    """Host-bound review: identity computed here, never copied by the model."""
+    output = PartConfirmationOutput.parse(output.model_dump(mode='json'))
+    identity = review_identity(pack, draft)
+    return PartConfirmation(schema_version=PartConfirmation.SCHEMA_VERSION,
+        requirements_sha256=identity.requirements_sha256, draft_sha256=identity.draft_sha256,
+        parts=output.parts, support=output.support)
 
 
 def assess_slots(pack, draft, slots, review=None):

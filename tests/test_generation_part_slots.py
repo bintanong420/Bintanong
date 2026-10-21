@@ -27,7 +27,7 @@ class PartModel:
 
     async def infer(self, messages, schema):
         self.calls.append((messages, schema))
-        version = schema['properties']['schema_version']['const']
+        version = schema['properties'].get('schema_version', {}).get('const')
         payload = json.loads(messages[1]['content'])
         if version == 'bintanong-part-explanation-v1':
             card = payload['evidence']['sources'][0]['evidence_id']
@@ -35,14 +35,11 @@ class PartModel:
                        for p, (s, texts) in self.slots.items()}
             return json.dumps(dict(schema_version=version, release_id=payload['evidence']['release_id'],
                                    language=payload['evidence']['language'], answers=answers))
-        assert version == 'bintanong-part-confirmation-v1'
-        identity = payload['review_identity']
+        assert set(schema['properties']) == {'parts', 'support'}  # host attaches identity
         claims = [c['claim']['claim_id'] for p in payload['parts'] for c in p['claims']]
         parts = {p['part_id']: self.verdicts.get(p['part_id'], 'answers') for p in payload['parts']}
         support = report(verdicts=[dict(claim_id=c, verdict='supported') for c in claims])
-        return json.dumps(dict(schema_version=version, requirements_sha256=identity['requirements_sha256'],
-                               draft_sha256=identity['draft_sha256'], parts=parts,
-                               support=support.model_dump(mode='json')))
+        return json.dumps(dict(parts=parts, support=support.model_dump(mode='json')))
 
 
 def run(model, integration=None):
@@ -161,7 +158,7 @@ class Drafts(PartModel):
         self.drafts = list(drafts)
 
     async def infer(self, messages, schema):
-        if schema['properties']['schema_version']['const'] == 'bintanong-part-explanation-v1':
+        if schema['properties'].get('schema_version', {}).get('const') == 'bintanong-part-explanation-v1':
             self.slots = self.drafts.pop(0)
         return await super().infer(messages, schema)
 
@@ -271,3 +268,12 @@ def test_a_deep_word_the_student_used_may_be_mirrored():
     model = Drafts(deep)
     answer = asyncio.run(Generator(model).generate(question, IntegrationResult.parse(data)))
     assert answer.status == 'answered' and answer.draft_attempts == 1
+
+
+def test_checker_output_excludes_identity_hashes_that_the_host_attaches():
+    # 146 of ~212 real checker output tokens were copied hashes/version (~7 s on the dev GPU).
+    model = PartModel()
+    answer = run(model)
+    schema = model.calls[1][1]
+    assert not {'requirements_sha256', 'draft_sha256', 'schema_version'} & set(schema['properties'])
+    assert answer.status == 'answered'

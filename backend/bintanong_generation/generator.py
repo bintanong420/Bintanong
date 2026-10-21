@@ -18,7 +18,7 @@ from .guard import RetrievalAssessment,guard_messages,guard_schema
 from .coverage import CoverageReview,coverage_messages,coverage_schema
 from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
-from .part_answers import (PartConfirmation,PartExplanation,assess_slots,confirm_messages,
+from .part_answers import (PartConfirmationOutput,PartExplanation,assess_slots,bind_confirmation,confirm_messages,
                            confirm_schema,part_messages,part_schema,style_errors,to_draft)
 
 
@@ -152,8 +152,9 @@ class Generator:
                             confirm_schema(pack,proposal,slots) if per_part else
                             review_schema(pack,proposal) if part_review else coverage_schema(pack,proposal))
                         try:
-                            review=_parse(review_raw,PartConfirmation if per_part else
-                                          RequirementReview if part_review else CoverageReview)
+                            review=(bind_confirmation(pack,proposal,_parse(review_raw,PartConfirmationOutput))
+                                    if per_part else
+                                    _parse(review_raw,RequirementReview if part_review else CoverageReview))
                             if part_review:
                                 ledger=(assess_slots(pack,proposal,slots,review) if per_part else
                                         assess(pack,proposal,review))
