@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 106
+sequence: 107
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -76,8 +76,9 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Owner chooses how to handle the Taglish style miss (deterministic guard, one
-prompt line, or disclose). Do not rerun the observation or tune prompts first.
+Style guard `cd8e49b` observed once (results doc): safe but d-tl withheld; repair
+received only an opaque code. Await owner decision on a plain-language repair
+instruction and Filipino style policy. Do not rerun or tune before that.
 
 ## Do Not Repeat
 

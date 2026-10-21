@@ -36,12 +36,21 @@ English, and the reviewer did not flag it: 3/4 full quality, strict gate FAIL.
 Warm component 45.3-48.7 s per case (scoped was 43.7-49.8 s); four calls each.
 A runner defect in a first attempt (zero generation calls) is disclosed there.
 
+## Style guard (owner chose option a; `cd8e49b`)
+
+Owner direction: natural Taglish = Filipino grammar words plus everyday English
+terms (submit, fee, office); never deep Tagalog such as "isusumite". Added a
+deterministic floor (English-only fil/taglish claim -> existing single repair)
+and that prompt guidance. Second observation: d-en, h-en pass; d-fil complete but
+casual Taglish for a formal-Filipino question; d-tl withheld because the repair
+got only an opaque error code and repeated the English draft. Safe, still FAIL.
+
 ## Next action
 
-Owner decision on the Taglish style miss: (a) deterministic guard that uses the
-existing one repair when a fil/taglish claim has no Filipino function words,
-(b) one prompt line, or (c) disclose as known limitation. Separate follow-up:
-answer verified parts while naming an unavailable part.
+Owner decision: give the repair a plain-language rewrite instruction for the
+style error (one bounded change, one observation), and whether Filipino
+answers may use everyday Taglish wording. Separate follow-up: answer verified
+parts while naming an unavailable part.
 
 ## Boundaries
 
