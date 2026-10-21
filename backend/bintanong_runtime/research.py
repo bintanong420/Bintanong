@@ -5,7 +5,24 @@ not school approval or institutional activation.
 """
 from collections import Counter
 
+from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
+from ..bintanong_orchestration.adapters import RetrievalAdapter, SymbolicAdapter
+from ..bintanong_orchestration.contracts import ReleasePin
+from ..bintanong_orchestration.ports import ReleaseResources
+from ..bintanong_retrieval.engine import RetrievalEngine
+from ..bintanong_retrieval.evidence_policy import SourceAwareEvidencePolicy
+from ..bintanong_retrieval.types import RetrievalSettings
 from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic
+from ..bintanong_symbolic.bundle import prepare_runtime_bundle
+from ..bintanong_symbolic.runtime import CurriculumRuntime
+from .package_storage import PackageStorage
+
+OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
+CAPABILITIES = dict(zip(OPERATIONS, ('offline_research_prerequisite_check',
+    'offline_research_missing_prerequisites', 'offline_research_dependency_inspection')))
+# Phase 05 selected document-development profile (uncalibrated; research status rule applies).
+SETTINGS = RetrievalSettings(top_k=3, min_similarity=.25, context_budget=2048,
+                             policy_id='uncalibrated-document-development-v1')
 
 
 def _printed_forms(code):
@@ -19,7 +36,8 @@ def _short_forms(code):
 
 def research_catalog(ledger):
     """Course entries for reviewed identities; draft identities are left out."""
-    courses = [c for c in ledger['courses'] if c['review_state'] == 'reviewed' and c['review_refs']]
+    courses = [c for c in ledger['courses'] if c['review_state'] == 'reviewed' and c['review_refs']
+               and 'course_code' in c.get('facts', {})]
     printed = {c['course_id']: _printed_forms(c['facts']['course_code']['value']) for c in courses}
     if sum(len(v) for v in printed.values()) != len(set().union(*printed.values()) if printed else ()):
         raise ValueError('duplicate_printed_course_code')
@@ -41,3 +59,29 @@ def topic_menu(register):
     for review in register['reviews']:
         subjects.setdefault(review['subject_id'], []).append(review['claim'])
     return tuple(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c))) for s, c in subjects.items())
+
+
+def build_research_resources(ledger, package, *, encoder, authorization_ref):
+    """Compose one research release: reviewed rules, reviewed package, research labels."""
+    bundle = prepare_runtime_bundle(ledger)
+    runtime = CurriculumRuntime.for_offline_research(bundle, authorization=dict(
+        purpose='offline_curriculum_acceptance', authorization_ref=authorization_ref,
+        bundle_sha256=bundle['content_sha256'], operations=list(OPERATIONS)))
+    release_id, manifest, chunks = runtime.release_id, package['manifest'], package['chunks']
+    storage = PackageStorage(release_id=release_id, manifest=manifest, chunks=chunks,
+                             versions=package['versions'], vectors=package['vectors'])
+    policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
+        chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
+    sources = {s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']}
+    sources.update({c['version_id']: c['byte_sha256'] for c in chunks})
+    pin = ReleasePin.parse(dict(release_id=release_id, synthetic=False, research_ref=authorization_ref,
+        rule_bundle_version=runtime.rule_bundle_version,
+        sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
+        documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
+                   for c in chunks]))
+    registry = CapabilityRegistry({op: Capability(name, ('curriculum_id', 'course_id'))
+                                   for op, name in CAPABILITIES.items()})
+    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
+    return ReleaseResources(pin, research_catalog(ledger), registry,
+        RetrievalAdapter(engine, research=True), SymbolicAdapter(runtime, research=True),
+        topics=topic_menu(package['register']), document_scope=('audience:undergraduate',))
