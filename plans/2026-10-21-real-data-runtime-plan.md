@@ -72,3 +72,22 @@ assessment only when given a `subject_id` and `requested_claims`; without a
 subject it fails with `needs_subject`. Plain top-k (no policy) returns
 `uncalibrated` with no reviewed-field assessment. So "no topic filter" and
 "only reviewed-fields results proceed" cannot both hold. Awaiting owner choice.
+
+## Owner resolution and revised tasks
+
+Owner chose: the router picks the topic and requested reviewed facts, keeping the
+reviewed-fields safety check. The reviewed universe is 7 subjects / 10 claim
+reviews (8 `visible_fields`, 2 `not_stated_in_selected_fields`), so selection is
+a closed list supplied by the pinned release; no extra model call.
+
+Revised tasks (each test-first; synthetic stand-ins in tracked tests):
+1. Read-only package storage stand-in serving the 19 reviewed chunks/vectors to
+   the real `RetrievalEngine` with `SourceAwareEvidencePolicy`; Supabase untouched.
+2. Router: optional per-document-part `subject_id` + `requested_claims`, enum-
+   constrained to the release's menu; host validates; absent -> clarify/insufficient.
+3. Research release mode: owner-authorization record required; real BSCS bundle
+   via `for_offline_research`; real course catalog; `reviewed_fields_available`
+   maps to ready only in this mode.
+4. One observation of the accepted roster (39 document + 18 structured variants),
+   per-stage timing including embedding.
+5. Results, checkpoint/progress, Phase 09 exit reassessment.
