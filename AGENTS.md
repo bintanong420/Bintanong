@@ -35,6 +35,19 @@
   it does not authorize autonomous acquisition, enrollment, grade changes or COR
   issuance. Private uploads stay separate from institutional knowledge.
 
+## Real-data development - owner decision, 21 October 2026
+
+- The owner directed: proceed with the real public PalSU sources and the reviewed
+  structured/Prolog data in the development pipeline now ("it is public data
+  anyways and the university will approve of it"); if data must change after
+  the university responds, revisit it then. This supersedes holds that kept
+  development and testing on fictional fixtures only.
+- It authorizes development/testing use of reviewed real data (retrieval over
+  real sources, executing reviewed BSCS prerequisite rules) in this research
+  build. It is not public deployment, school approval or proof of currentness.
+  Source-gap, undergraduate-scope, unknown-versus-unmet and privacy rules still
+  apply; unreviewed or held fields (e.g. F04) stay unused.
+
 ## Curriculum reasoning and architecture alignment
 
 - Standing owner direction, 16 October 2026: curriculum/prospectus work must follow

@@ -23,3 +23,19 @@ same runner as the per-part observations. One attempt per case, fixed order.
 Pass requires the expected outcome, no invented information and the requested
 language. Withholding a supported answer counts as a failure. b3/b4 also
 show the all-or-nothing contract behaviour that the owner may want to change.
+
+## Result (one attempt each, code `d75f4d1`)
+
+| Case | Outcome | Assessment |
+| --- | --- | --- |
+| b1 fil Hybrid | Prolog ineligible kept; "Ang slip S ay isusumite sa Office K." | Content PASS; style miss (owner-named deep word) |
+| b2 taglish Hybrid | Prolog ineligible kept; "Ang slip S ay i-submit sa Office K." | PASS (slightly stiff grammar) |
+| b3 taglish missing | Model correctly marked the deadline not_in_evidence, but added a placeholder claim; draft rejected twice -> repair_exhausted | FAIL (host defect); no invented deadline. Router labelled it fil, not taglish. |
+| b4 en missing | Same placeholder defect for the signer | FAIL (host defect); no invented signer |
+| b5 taglish unrelated | Slip S prose not released; insufficient_evidence | PASS: relevance confirmed on the per-part reviewer |
+| b6 fil unrelated | Router asked for clarification | PASS by criteria; generic, unhelpful wording |
+
+Full suite at `d75f4d1`: 6016 passed, 6 skipped, 0 failed (990 s).
+Fixes in `838f6d4`: unavailable slots ignore placeholder claims; owner-named deep
+Tagalog (isusumite, nakasaad, ihahain) triggers the existing style repair.
+A post-fix observation of b1, b3 and b4 follows (one attempt each).
