@@ -20,6 +20,7 @@ SAMPLING_SETTING_KEYS = (
 
 
 THOUGHT_OPENER = '<|channel>'  # Gemma 4 thought-channel opener token
+LINE_BREAKS = ('\n', '\n\n')  # single-token line breaks banned in constrained JSON
 
 class RuntimeFailure(Exception):
     """Only a fixed, nonsensitive operational code crosses this boundary."""
@@ -36,6 +37,8 @@ class LlamaTransport:
         self.timeout_seconds = timeout_seconds
         self.max_output_tokens = max_output_tokens
         self.constrained = constrained
+        self._banned = {}  # chat-template digest -> banned token ids (resolved once)
+        self._opener = {}  # chat-template digest -> thought-channel opener id, if banned
         self.client = client
         self.metadata = {}
 
@@ -53,6 +56,25 @@ class LlamaTransport:
                 return json.loads(body)
             except (ValueError, UnicodeError):
                 raise RuntimeFailure('invalid_server_response') from None
+
+    async def _banned_tokens(self, client, template, key):
+        """Thought-channel opener (if the template defines it) and, for JSON output, line breaks."""
+        banned = []
+        if THOUGHT_OPENER in template:
+            opener = (await self._json(client, 'POST', '/tokenize', dict(
+                content=THOUGHT_OPENER, add_special=False, parse_special=True)))['tokens']
+            if len(opener) == 1 and type(opener[0]) is int:
+                banned.append(opener[0])
+                self._opener[key] = opener[0]
+        if self.constrained:
+            # The model pretty-printed JSON despite the compact instruction (~40% of routing
+            # output). Raw line breaks are never valid inside JSON strings, so ban them.
+            for text in LINE_BREAKS:
+                pieces = (await self._json(client, 'POST', '/tokenize', dict(
+                    content=text, add_special=False, parse_special=False)))['tokens']
+                if len(pieces) == 1 and type(pieces[0]) is int and pieces[0] not in banned:
+                    banned.append(pieces[0])
+        return banned
 
     async def infer(self, messages, schema):
         client = self.client or httpx.AsyncClient()
@@ -89,13 +111,13 @@ class LlamaTransport:
                 self.metadata['input_tokens'] = len(tokens)
                 # reasoning_effort=none did not stop Gemma's hidden thought channel on long real
                 # prompts (it consumed the whole output budget), so ban its opener when defined.
-                extra = {}
-                if THOUGHT_OPENER in template:
-                    opener = (await self._json(client, 'POST', '/tokenize', dict(
-                        content=THOUGHT_OPENER, add_special=False, parse_special=True)))['tokens']
-                    if len(opener) == 1 and type(opener[0]) is int:
-                        extra['logit_bias'] = [[opener[0], False]]
-                        self.metadata['banned_reasoning_token'] = opener[0]
+                key = self.metadata['chat_template_sha256']
+                banned = self._banned.get(key)
+                if banned is None:
+                    banned = self._banned[key] = await self._banned_tokens(client, template, key)
+                if self._opener.get(key) is not None:
+                    self.metadata['banned_reasoning_token'] = self._opener[key]
+                extra = {'logit_bias': [[token, False] for token in banned]} if banned else {}
                 response_format = {'type':'json_object'}
                 if self.constrained:
                     response_format['schema'] = schema
