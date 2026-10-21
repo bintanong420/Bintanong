@@ -23,6 +23,13 @@ tokens cost ~5 s. Checker hash copying was removed (`6d639f5`: 212 -> 62 tokens,
 12.4 -> 4.6 s, no validation removed). Profiled real questions: 41-51 s total (laptop
 GPU variance is visible: identical routing prefill took 5.5 s and 14.3 s in two runs).
 
+## Applied reductions (21 October 2026, all accuracy-neutral)
+
+`6d639f5` checker hash removal; `60647a4` line-break ban in constrained JSON (routing
+output 266 -> 171 tokens); `b1fa765` compact topic schema in the router prompt. Full
+real roster run 3: answered document median 54.8 s (run 1) -> 45.2 s (run 2) -> **34.7 s**;
+CC5 Prolog answers 32.8 s -> **21.6 s**; no correct answer lost, system errors 8 -> 0.
+
 ## Research (summarized; see sources in the owner report)
 
 - Text chatbots: waiting is rated negatively beyond ~8 s, more so for complex tasks
@@ -43,8 +50,8 @@ GPU variance is visible: identical routing prefill took 5.5 s and 14.3 s in two 
    recommended hardware: a GPU with >= 8 GB VRAM (or equivalent server) so the model is
    fully offloaded. At ~3-5x the decode speed, today's ~500 output tokens per answer
    would take ~12-18 s. This is a projection to verify, not a measurement.
-2. **On the 4 GB development laptop, report ~35-45 s warm as a disclosed prototype
-   limitation.** It does not meet the target; say so honestly in the thesis.
+2. **On the 4 GB development laptop, report ~22-35 s warm (backend, measured) as a
+   disclosed prototype limitation.** It does not meet the target; say so honestly in the thesis.
 3. **Show stage progress messages** in the web UI ("Understanding your question...",
    "Checking the handbook/curriculum...", "Verifying the answer...") so students see
    work happening; never stream unvalidated answer text.

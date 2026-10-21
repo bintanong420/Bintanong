@@ -59,3 +59,18 @@ from a hidden thought channel, 1 context overflow from citation geometry). Fixed
   Its blocked answer was correct: Enrolling Officer, fee printed "None", 5 minutes,
   College Enrollment Area.
 - `6d639f5`: checker no longer copies identity hashes (12.4 s -> 4.6 s per answer).
+
+## Run 3 (code `b1fa765`; protocol in the roster protocol file)
+
+| Group (n) | Correct behaviour | Wrong | System errors |
+| --- | --- | --- | --- |
+| Document, facts available (18) | 12 answered correctly; 5 withheld, 1 clarification | 0 | 0 |
+| Document, facts not available (21) | 20 withheld/clarification | 1 (per-student fee, as before) | 0 |
+| CC5, old curriculum (3) | 3 ineligible (CC 4/L not completed, CC 3/L unknown) | 0 | 0 |
+| CC5, proposed curriculum (3) | 3 clarification | 0 | 0 |
+| Course questions, no context (18) | 18 clarification | 0 | 0 |
+
+No previously correct answer was lost; new correct answers: vehicle sticker P50.00 in
+Filipino and Taglish. **System errors 8 -> 0.** Timing (warm backend): answered
+document median **34.7 s** (run 2: 45.2 s; run 1: 54.8 s); CC5 Prolog answers median
+**21.6 s** (run 2: 32.8 s); routing stage median 20.9 s (run 2: 25.8 s).
