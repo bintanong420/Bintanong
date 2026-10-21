@@ -64,3 +64,11 @@ are unchanged. Data updates after the university responds are a later task.
   uncalibrated; missing/conflicting/unsupported stay withheld. Per-part reviewer
   and support checks remain the backstop.
 - Topic: no subject filter; plain top-k over the 19 reviewed chunks.
+
+## Conflict found in the two decisions
+
+`RetrievalEngine._retrieve_source_aware` produces the `reviewed_fields_available`
+assessment only when given a `subject_id` and `requested_claims`; without a
+subject it fails with `needs_subject`. Plain top-k (no policy) returns
+`uncalibrated` with no reviewed-field assessment. So "no topic filter" and
+"only reviewed-fields results proceed" cannot both hold. Awaiting owner choice.
