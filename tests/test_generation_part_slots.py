@@ -277,3 +277,13 @@ def test_checker_output_excludes_identity_hashes_that_the_host_attaches():
     schema = model.calls[1][1]
     assert not {'requirements_sha256', 'draft_sha256', 'schema_version'} & set(schema['properties'])
     assert answer.status == 'answered'
+
+
+def test_prompts_make_recorded_source_limits_binding_without_evaluation_wording():
+    # Real case: a source recorded "individual student assessment" as unavailable, yet the
+    # printed total was released as the per-student answer and the checker accepted it.
+    from backend.bintanong_generation.part_answers import CONFIRM_PROMPT, PART_PROMPT
+    for prompt in (PART_PROMPT, CONFIRM_PROMPT):
+        assert 'source_limits' in prompt and 'calculate' in prompt
+        assert 'ten students' not in prompt.lower() and 'special class' not in prompt.lower()
+    assert 'not_in_evidence' in PART_PROMPT and 'does_not_answer' in CONFIRM_PROMPT
