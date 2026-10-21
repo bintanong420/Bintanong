@@ -131,7 +131,7 @@ class Generator:
                                       references.decode(_parse(raw,ShortAnswerDraft)))
                         errors=validate_draft(proposal,pack)
                         if per_part:
-                            errors=errors+style_errors(proposal,pack)
+                            errors=errors+style_errors(proposal,pack,text)
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                         slots=None

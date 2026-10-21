@@ -117,10 +117,12 @@ def has_filipino_function_word(text):
 DEEP_TAGALOG = frozenset(('isusumite', 'nakasaad', 'ihahain'))
 
 
-def style_errors(draft, pack):
-    """Deterministic floor only: no pure-English or owner-named deep-Tagalog claims."""
+def style_errors(draft, pack, question=''):
+    """Deterministic floor only: no pure-English claims, and no owner-named deep Tagalog
+    unless the student used that word (replies match the student's own style)."""
+    banned = DEEP_TAGALOG - set(re.findall(r'[a-zñ]+', question.lower()))
     if pack.language in ('fil', 'taglish') and any(
-            not has_filipino_function_word(c.text) or DEEP_TAGALOG & set(re.findall(r'[a-zñ]+', c.text.lower()))
+            not has_filipino_function_word(c.text) or banned & set(re.findall(r'[a-zñ]+', c.text.lower()))
             for c in draft.claims):
         return ('claim_not_in_requested_style',)
     return ()

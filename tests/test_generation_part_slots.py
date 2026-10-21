@@ -258,3 +258,16 @@ def test_model_inputs_carry_source_text_and_a_short_label_not_citation_geometry(
         for source in sources:
             assert set(source) == {'evidence_id', 'kind', 'text', 'source'}
             assert 'p.' in source['source']
+
+
+def test_a_deep_word_the_student_used_may_be_mirrored():
+    # Owner: replies match the student's style; the ban targets words the student did not use.
+    from test_request_understanding_pipeline import source as plain_source
+    question = TEXT + ' Kanino isusumite?'
+    from backend.bintanong_orchestration.contracts import IntegrationResult
+    data = plain_source(text=question).model_dump(mode='json')
+    data['response_style'] = 'fil'
+    deep = dict(r1=('answered', ['Ang Form Q ay isusumite sa Office V.']), r2=('answered', [TL_FEE]))
+    model = Drafts(deep)
+    answer = asyncio.run(Generator(model).generate(question, IntegrationResult.parse(data)))
+    assert answer.status == 'answered' and answer.draft_attempts == 1
