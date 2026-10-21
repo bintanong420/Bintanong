@@ -91,3 +91,20 @@ Revised tasks (each test-first; synthetic stand-ins in tracked tests):
 4. One observation of the accepted roster (39 document + 18 structured variants),
    per-stage timing including embedding.
 5. Results, checkpoint/progress, Phase 09 exit reassessment.
+
+## Task 1 result (`PackageStorage`, see git log)
+
+Equivalence check on the 39 accepted document variants (saved query vectors,
+same annotations, real engine and policy): offered chunk IDs identical 39/39;
+final status identical 36/39. The three `overload-conditions-*` variants now end
+`insufficient_evidence` (incomplete context) instead of Phase 05's `uncalibrated`.
+Cause: Phase 05's storage double added TRANSITIVE dependency closures
+(4 neighbors), while the actual `retrieve_context` SQL adds only DIRECT
+`required_neighbor_chunk_ids` (1 neighbor). The stand-in follows the database.
+So Phase 05's three overload "fields available" results depended on behaviour
+the real database does not have. Fix options (owner/later): transitive neighbors
+in the SQL function (migration) or complete neighbor lists in the chunk data.
+Script: workspace `audit-evidence/p09-real-data-20261021/equivalence.py`.
+
+Environment note: models are at `C:/Coding-projects/bintanong_workspace/MODELS`
+(the container mounts it); `C:/Coding-projects/MODELS` does not exist.
