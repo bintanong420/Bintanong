@@ -38,6 +38,7 @@ real Prolog; grade 1.0 answered from Handbook p.46. Owner alias rule recorded `4
 Task 4 done: [roster results](2026-10-21-real-data-roster-results.md). Run 2: 13 correct
 answers (10 docs + 3 CC5), 1 wrong (per-student fee), 0 invented facts, 8 routing errors.
 Fixes during task 4: `88ad891` printed codes, `e945c80` compact cards, `71734f2` thought ban.
+Full suite at `3db7cf9`: 6068 passed, 6 skipped, 0 failed (989 s).
 Next: owner chooses among the three next candidates in the results report.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
