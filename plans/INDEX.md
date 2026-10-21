@@ -21,7 +21,7 @@
   in p09; Phase10 not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [Task-first delivered:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[approved design](2026-10-21-task-first-interpretation-design.md);[test audit](2026-10-20-test-meaning-audit-results.md).
+- [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - Guard/coverage experiments unselected;current selected checker misses a requested fee,Phase09 exit held.
 - Scoped/canonical/separate selected;three current correct component answers45.8-49.8s;student end-to-end latency unmeasured.

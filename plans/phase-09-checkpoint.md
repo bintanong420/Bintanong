@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 102
+sequence: 103
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: dafea60
+head_commit: 8dbb15d
 working_tree: dirty
-updated_at: 2026-10-21T01:03:45+08:00
+updated_at: 2026-10-21T09:01:08+08:00
 ---
 
-# Phase09 checkpoint - task-first delivered;actual full quality3/4,not promoted
+# Phase09 checkpoint - checker diagnosis;new bounded comparison proposed
 
 ## Completed Tasks
 
@@ -23,20 +23,23 @@ response/full quality3/4:FAIL. Four A cases once;B2NOT RUN per failed prerequisi
 
 ## Current Task
 
-Approved implementation/single experiment complete. All4correctly declare two
-parts/route/operations;Filipino/Taglish and Hybrid give complete supported answers.
-English draft omits the available7token charge;selected reviewer wrongly maps
-both location/charge to the office-only claim. Host returns answered with mapped
-ledger;semantic_completeness stays unverified. This reproduces a CURRENT checker
-completeness failure,not a source/Prolog-file defect. No post-output correction.
-Thesis17-18/39-44,actual runtime PNG/master3/11/13/14 consulted this resume;
-undergraduate/read-only/unknown-versus-unmet preserved,no scope discrepancy.
+Read-only [diagnosis/proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md):
+fee source/parts intact;draft omits fee;review maps both to office-only claim despite
+an existing explicit warning. Host enforces reference structure,not mapping truth.
+Saved trace confirms requested reasoningnone and no rendered thinking activation;
+not proof that off caused the error. Current service buildb11723-31288c9c6 matched
+official serving source. Native thinking is a possible new axis,not a proven fix.
+Proposed4saved cases/off-on pairs,max8checker calls;UNCHANGED output768/deadline,
+no prompts/models/product change. NOT APPROVED/RUN. One fresh builder check:no
+planning gap;root reconstructed all4inputs exactly without inference.
+Thesis17-18/39-44,actual PNG/master3/11/13/14 reconsulted this resume;
+undergraduate/advisory/unknown-versus-unmet preserved,no scope discrepancy.
 
 ## Repository State
 
-p09/feat/p09-generation-validation;HEAD/executiondafea60;product8060c7b.
-Pending docs:results,plan checklist,INDEX,progress/checkpoint. No product/unrelated
-change after review/inference. Checkpoint names parent;delivery commit follows.
+p09/feat/p09-generation-validation;HEAD8dbb15d;prior executiondafea60/product8060c7b.
+Pending docs:new diagnosis/proposal,INDEX,progress/checkpoint. No product/unrelated
+change or new inference. Checkpoint names parent;documentation commit follows.
 Existing workspace/MODELS,CUDAsvc18088/default18087 unchanged. No startup,weights
 copy/rehash/download,training,dependencies,DB/source change,institutional execution,
 activation,push,merge or deployment. Phase09 active;no Phase10.
@@ -58,6 +61,12 @@ Pre-binding helper props lookup corrected before any service/model call;existing
 copied fixtures verified byte-identical. No product change or second readiness GET.
 Final docs10passed0.82s;90local links/caps pass;300prior seals/189current hashes
 reverified. Phase state valid/active9,advancement refused. No250-test rerun.
+New read-only audit:57prior seals/four exact reconstructed review inputs;false
+ledger reproduced from saved output;zero service/model calls. See proposal receipt.
+One fresh design builder:nothing important left. Fresh docs10passed4.14s via
+python -B -m pytest -q -p no:cacheprovider tests/test_docs_hygiene.py,external
+diagnosis audit basetemp/TEMP/TMP. 87local links/caps pass;phase valid/active9,
+cannot advance. No product/250-test rerun or new model/service call.
 
 ## Versions and Digests
 
@@ -70,7 +79,7 @@ Execution binding e521c892f1289fc33cd887faf6ce354ec54a8549c87c0c46fad3c7bd83c00d
 New57file seal e10ca82c572f48557b04aa258b17cdb1bd11d5c0f5ec46369fc866ba36b0fd3d.
 Inputs7099cc391b8512eee43ba20277d039ccb26994964c7a5aba29ec27259224e080;
 labels078275376fe1aa22087bd1fe023af0158cc79112a217444c7f681165e5f64614.
-Last full snapshot before condensation:dafea60;git show preserves previous state.
+Last full snapshot before condensation:8dbb15d;git show preserves previous state.
 Prior catalog/design seals and histories remain in linked reports/raw manifests.
 Historical123line handoff4022711 remains unchanged,inherited3line exception.
 
@@ -99,9 +108,9 @@ Internal scope IDs remain developer output. Earlier4-8hour ETA stays low-confide
 
 ## Next Action
 
-Discuss current completeness-checking capability using the saved English draft/
-r1-r2-to-c1 false mapping and full fee source,alongside unresolved relevance,
-before another design or actual-model experiment. Reuse traces;no automatic fix.
+Await owner decision on the reviewed checker-only off/on comparison in the linked
+proposal. If approved,write its execution plan and run that finite diagnostic;
+do not rerun the old A/B gate or change selected product defaults automatically.
 
 ## Do Not Repeat
 

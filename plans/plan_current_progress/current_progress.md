@@ -1,8 +1,23 @@
 # Current progress
 
 Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [Task-first results](../2026-10-21-task-first-observation-results.md).
-Last full snapshot before condensation:dafea60:plans/plan_current_progress/current_progress.md.
+[Checkpoint](../phase-09-checkpoint.md) | [New diagnosis/proposal](../2026-10-21-checker-completeness-diagnosis-and-proposal.md).
+Last full snapshot before condensation:8dbb15d:plans/plan_current_progress/current_progress.md.
+
+## Latest analysis
+
+Selected reviewer already warns office claims do not cover fees;it ignored that
+instruction. Source/parts intact;host checks mapping references,not semantic truth.
+Saved English trace confirms native thinking off and no rendered activation;
+this does not prove causation. Context7/official source matched actual saved build
+b11723-31288c9c6;Boolean on control is available. PROPOSED,not approved/run:four
+saved checker inputs,one off/on pair each,max8calls,same model/prompt/schema/
+output768/deadline120s. Complete Filipino/Taglish controls prevent blanket refusal.
+No new product/model/service call. One fresh brainstorming builder:no planning gap.
+Root reverified57sealed files,reconstructed4inputs exactly and reproduced saved
+false ledger without inference. Receipt/digest/helper correction in proposal.
+Docs10passed4.14s;87links/caps pass;phase valid/active9,cannot advance.
+Evidence workspace/audit-evidence/p09-checker-completeness-diagnosis-20261021/.
 
 ## Latest delivery
 
@@ -43,8 +58,8 @@ No250-test rerun or model/service call by verifier.
 
 ## Boundaries and next action
 
-Discuss current checker completeness limit from the saved English draft/review,
-alongside unresolved relevance,before another design or actual experiment.
+Await owner decision on reviewed checker-only comparison;approval permits its plan
+and finite diagnostic,not product adoption. Old A/B gate remains stopped.
 No automatic prompt/classifier/example/model/seed/budget sweep or unsafe mapping
 shortcut. Four explicit if/kung variants remain held;do not infer that policy.
 Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md) applies;
