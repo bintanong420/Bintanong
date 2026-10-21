@@ -195,19 +195,19 @@ def test_explicit_coverage_runtime_profile_and_canonical_only_selection():
 
 def test_failed_coverage_candidate_stays_unselected_and_preserves_historical_metadata():
     from backend.bintanong_runtime.application import RuntimeSettings,RuntimeRun
-    assert Generator(Fake()).explanation_profile=='scoped'
-    assert RuntimeSettings().explanation_profile=='scoped'
+    assert Generator(Fake()).explanation_profile=='parts'
+    assert RuntimeSettings().explanation_profile=='parts'
     assert RuntimeSettings().routing_profile=='separate'
     assert RuntimeSettings().generation_reference_profile=='canonical'
     assert RuntimeRun.model_fields['explanation_profile'].default=='legacy'
 
 
-def test_selected_default_retains_existing_scoped_protocol_without_failed_experiments():
+def test_scoped_profile_retains_existing_protocol_without_failed_experiments():
     async def run():
         source=integrated('RAG',text='Fictional course-check result?')
         pack=prepare(source)
         model=Fake(document_draft(pack),supported())
-        answer=await Generator(model).generate('Fictional course-check result?',source)
+        answer=await Generator(model,explanation_profile='scoped').generate('Fictional course-check result?',source)
         assert answer.validation=='validated' and answer.status=='answered'
         assert answer.decision_guard is None and answer.question_coverage is None
         assert len(model.calls)==2

@@ -19,6 +19,7 @@ from .scope import DOCUMENT_PROMPT_SHA256,DOCUMENT_SUPPORT_PROMPT_SHA256
 from .guard import GUARD_PROMPT_SHA256
 from .coverage import COVERAGE_PROMPT_SHA256
 from .understanding import PROMPT_SHA256 as PART_REVIEW_PROMPT_SHA256
+from .part_answers import CONFIRM_PROMPT_SHA256,PART_PROMPT_SHA256
 
 
 class GenerationCase(Record):
@@ -41,7 +42,10 @@ def load_cases(values):
 
 async def observe(cases,generator,*,evaluation_kind):
     if evaluation_kind not in ('mock','real_model'): raise ValueError('explicit_evaluation_kind_required')
-    if generator.explanation_profile in ('scoped','guarded','covered'):
+    review_hash=CONFIRM_PROMPT_SHA256 if generator.explanation_profile=='parts' else PART_REVIEW_PROMPT_SHA256
+    if generator.explanation_profile=='parts':
+        prompt_hash,support_hash=PART_PROMPT_SHA256,CONFIRM_PROMPT_SHA256
+    elif generator.explanation_profile in ('scoped','guarded','covered'):
         prompt_hash,support_hash=DOCUMENT_PROMPT_SHA256,DOCUMENT_SUPPORT_PROMPT_SHA256
     elif generator.reference_profile=='short':
         prompt_hash,support_hash=SHORT_PROMPT_SHA256,SHORT_SUPPORT_PROMPT_SHA256
@@ -57,15 +61,15 @@ async def observe(cases,generator,*,evaluation_kind):
             canonical_decision_preserved=answer.decision==expected,
             generation_mode=(('guard_only' if answer.decision_guard is not None else 'host_only')
                 if answer.draft_attempts==0 else
-                'documentary_model' if generator.explanation_profile in ('scoped','guarded','covered') else 'legacy_model'),
+                'documentary_model' if generator.explanation_profile in ('scoped','guarded','covered','parts') else 'legacy_model'),
             support_prompt_sha256=(None if not answer.check_attempts else
                 COVERAGE_PROMPT_SHA256 if generator.explanation_profile=='covered' and case.integration.route=='RAG'
-                else PART_REVIEW_PROMPT_SHA256),human_question_coverage_review='pending',
+                else review_hash),human_question_coverage_review='pending',
             human_language_review='pending',human_claim_support_review='pending'))
     return dict(schema_version='bintanong-generation-observations-v1',candidate_only=True,
         institutional_use_allowed=False,evaluation_kind=evaluation_kind,
         actual_model_accuracy='unmeasured',prompt_sha256=prompt_hash,
-        support_prompt_sha256=None if generator.explanation_profile=='covered' else PART_REVIEW_PROMPT_SHA256,
+        support_prompt_sha256=None if generator.explanation_profile=='covered' else review_hash,
         explanation_profile=generator.explanation_profile,
         coverage_prompt_sha256=COVERAGE_PROMPT_SHA256 if generator.explanation_profile=='covered' else None,
         guard_prompt_sha256=GUARD_PROMPT_SHA256 if generator.explanation_profile=='guarded' else None,

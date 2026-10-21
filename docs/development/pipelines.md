@@ -75,10 +75,10 @@ flowchart TD
     E --> K{Ready evidence?}
     K -->|yes| X{Route and explanation profile}
     X -->|RAG with experimental guarded profile| PG{Unselected post-retrieval LLM assessment}
-    PG -->|document only| D[Documentary draft generation]
+    PG -->|document only| D[Documentary draft: one required slot per document part]
     PG -->|structured required / uncertain / invalid| B
     PG -->|timeout / error| B
-    X -->|Selected scoped RAG or Hybrid| D
+    X -->|Selected per-part RAG or Hybrid| D
     X -->|Symbolic| A
     K -->|no| B
     C --> B
@@ -95,7 +95,8 @@ No extra orchestration framework, queue or graph service is needed. The control
 flow is ordinary async Python in `Orchestrator.run` and `AnswerPipeline.run`. API composition is later work;
 the existing FastAPI app exposes health probes only.
 The experimental post-retrieval assessment failed multilingual quality and remains
-unselected;default scoped RAG follows its existing documentary path. The assessment
+unselected; the default per-part profile follows the documentary path, with one
+required answer slot per declared document part. The assessment
 does not change the original route or execute rules.
 Only a document-only result proceeds; other results withhold the structured answer.
 Its one call and timing are recorded separately from draft/support attempts.

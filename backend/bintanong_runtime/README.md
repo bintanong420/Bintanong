@@ -58,8 +58,9 @@ is `canonical`, independently of the selected `separate` routing profile.
 restored before host validation/output. The developer CLI retains canonical
 references; see the [short-reference plan](../../plans/2026-10-20-short-evidence-references-plan.md).
 
-`--explanation-profile scoped` (or the corresponding RuntimeSettings field) is the
-default offline accuracy candidate, separating host-rendered structured results
+`--explanation-profile parts` is now the default (per-part answer slots; see the
+[decision](../../plans/2026-10-21-per-part-generation-decision.md)). `scoped` was the
+previous offline accuracy candidate, separating host-rendered structured results
 from document-only generation/checking. RuntimeRun records the explicit selection;
 historical records missing that field still parse as legacy. The
 [scoped quality gate](../../plans/2026-10-20-scoped-explanations-plan.md) passed on

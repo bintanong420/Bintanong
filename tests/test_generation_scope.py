@@ -260,13 +260,13 @@ def test_runtime_profile_is_forwarded_and_reported(monkeypatch,profile):
     assert result.routing_profile=='separate' and not result.model_calls
 
 
-def test_selected_defaults_use_scoped_explanations_with_separate_routing_and_canonical_ids():
+def test_selected_defaults_use_per_part_explanations_with_separate_routing_and_canonical_ids():
     from backend.bintanong_runtime.application import RuntimeSettings,RuntimeRun
     generator=Generator(Fake())
-    assert generator.explanation_profile=='scoped'
+    assert generator.explanation_profile=='parts'
     assert generator.reference_profile=='canonical'
     settings=RuntimeSettings()
-    assert settings.explanation_profile=='scoped' and settings.routing_profile=='separate'
+    assert settings.explanation_profile=='parts' and settings.routing_profile=='separate'
     # Missing fields in historical reports must retain their historical meaning.
     assert RuntimeRun.model_fields['explanation_profile'].default=='legacy'
 

@@ -94,7 +94,7 @@ def test_generator_rejects_another_original_question_before_inference():
 def test_missing_fee_mapping_is_withheld_even_when_every_claim_has_positive_support():
     async def scenario():
         model = Scripted(missing=True)
-        answer = await Generator(model).generate(TEXT, source())
+        answer = await Generator(model, explanation_profile='scoped').generate(TEXT, source())
         assert answer.status != 'answered' and not answer.claims
         assert answer.part_ledger.status == 'unresolved'
         assert answer.part_ledger.entries[1].reason == 'missing_mapping'
@@ -105,7 +105,7 @@ def test_missing_fee_mapping_is_withheld_even_when_every_claim_has_positive_supp
 def test_two_document_parts_are_bound_and_accounted_without_claiming_semantic_truth():
     async def scenario():
         model = Scripted()
-        answer = await Generator(model).generate(TEXT, source())
+        answer = await Generator(model, explanation_profile='scoped').generate(TEXT, source())
         assert answer.status == 'answered'
         assert [e.part_id for e in answer.part_ledger.entries] == ['r1','r2']
         assert answer.part_ledger.semantic_completeness == 'unverified'
@@ -119,7 +119,7 @@ def test_hybrid_uses_actual_canonical_operation_for_structured_part():
     async def scenario():
         # Documentary claim c1 is intentionally not a structured decision witness.
         model = Scripted()
-        answer = await Generator(model).generate(TEXT, source(route='Hybrid'))
+        answer = await Generator(model, explanation_profile='scoped').generate(TEXT, source(route='Hybrid'))
         assert answer.status == 'answered'
         assert answer.part_ledger.canonical_parts == ('r1',)
         assert answer.part_ledger.entries[0].claim_ids == ()
@@ -183,7 +183,7 @@ def test_final_ledger_cannot_point_to_a_claim_that_was_never_generated():
     from backend.bintanong_generation.contracts import CandidateAnswer
     async def scenario():
         integration=source()
-        answer=await Generator(Scripted()).generate(TEXT,integration)
+        answer=await Generator(Scripted(),explanation_profile='scoped').generate(TEXT,integration)
         changed=answer.model_dump(mode='json')
         changed['part_ledger']['entries'][0]['claim_ids']=['c8']
         with pytest.raises(ValueError,match='part_claim'):

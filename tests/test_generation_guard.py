@@ -20,13 +20,13 @@ def assessment(requirement='document_only',**updates):
     return json.dumps(data)
 
 
-def test_failed_guard_is_not_run_by_selected_scoped_default():
+def test_failed_guard_is_not_run_by_scoped_profile():
     from backend.bintanong_generation.evaluation import observe,load_cases
     from test_generation_evaluation import case
     async def run():
         pack=prepare(integrated('RAG'))
         model=Fake(document_draft(pack),supported())
-        result=await observe(load_cases([case()]),Generator(model),evaluation_kind='mock')
+        result=await observe(load_cases([case()]),Generator(model,explanation_profile='scoped'),evaluation_kind='mock')
         answer=result['observations'][0]['answer']
         assert answer['status']=='answered' and answer['decision_guard'] is None
         assert len(model.calls)==2 and result['guard_prompt_sha256'] is None
@@ -38,7 +38,7 @@ def test_guard_requires_explicit_experimental_selection_in_generator_and_runtime
     from backend.bintanong_runtime.application import RuntimeSettings
     assert Generator(Fake(),explanation_profile='guarded').explanation_profile=='guarded'
     assert RuntimeSettings(explanation_profile='guarded').explanation_profile=='guarded'
-    assert RuntimeSettings().explanation_profile=='scoped'
+    assert RuntimeSettings().explanation_profile=='parts'
     with pytest.raises(ValueError): Generator(Fake(),explanation_profile='guarded',reference_profile='short')
 
 
