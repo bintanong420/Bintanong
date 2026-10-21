@@ -31,12 +31,26 @@ def _json_proposal(raw):
     return json.loads(raw, object_pairs_hook=_unique_object)
 
 
-def _repair_messages(messages, raw):
+REFERENCE_HINTS = {
+    'invalid_course_quote_reference': 'every operation target and claim entity must quote a course '
+        'code that is also listed in mentions with kind course; if the student names no specific '
+        'course code, return no operation (route RAG, or control clarify).',
+    'topic_outside_menu': 'requested_claims must be facts listed under the chosen topic only.',
+}
+
+
+def _repair_messages(messages, raw, problem=None):
+    if problem is None:
+        request = ('This is a formatting repair, not a new student question. '
+            'Return valid JSON matching the original schema for the ORIGINAL student request '
+            'in the payload below. Correct formatting only; preserve its meaning and facts.\n')
+    else:  # A reference error is a meaning error: name it and allow reinterpretation.
+        request = ('This is a repair, not a new student question. The previous interpretation was '
+            f'rejected ({problem}): {REFERENCE_HINTS.get(problem, "fix that invalid reference")} '
+            'Return valid JSON matching the original schema for the ORIGINAL student request '
+            'in the payload below. Do not invent courses, operations or facts.\n')
     return [*messages, dict(role='assistant', content=raw[:65536] if isinstance(raw, str) else ''),
-        dict(role='user', content='This is a formatting repair, not a new student question. '
-             'Return valid JSON matching the original schema for the ORIGINAL student request '
-             'in the payload below. Correct formatting only; preserve its meaning and facts.\n'
-             + messages[1]['content'])]
+        dict(role='user', content=request + messages[1]['content'])]
 
 
 
@@ -77,14 +91,19 @@ class Router:
                 raw = await self.transport.infer(messages, output_schema(self.topics))
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
+            problem = None
             try:
-                data = _json_proposal(raw)
-                proposed = normalize_interpretation(text, WireInterpretation.parse(data))
-                check_topics(proposed, self.topics)
+                wire = WireInterpretation.parse(_json_proposal(raw))
+                try:
+                    proposed = normalize_interpretation(text, wire)
+                    check_topics(proposed, self.topics)
+                except (ValueError, ValidationError) as error:
+                    problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
+                    raise
             except (ValueError, ValidationError):
                 if attempt == 2:
-                    return failure('invalid_model_output', attempt)
-                messages = _repair_messages(messages, raw)
+                    return failure('invalid_model_output' if problem is None else 'invalid_reference', attempt)
+                messages = _repair_messages(messages, raw, problem)
                 continue
             style_messages = build_style_messages(text)
             style_limit = 2 if attempt == 1 else 1  # one shared repair, maximum three calls

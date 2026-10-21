@@ -69,12 +69,12 @@ def test_router_keeps_a_valid_topic_choice():
 def test_router_rejects_claims_outside_the_chosen_topic():
     result = run(FakeTransport(answer(claims=('printed fee amount',)), answer(claims=('printed fee amount',))),
                  text=TEXT, topics=MENU)
-    assert result.diagnostic == 'invalid_model_output'
+    assert result.diagnostic == 'invalid_reference'
 
 
 def test_router_rejects_topic_choices_when_no_menu_exists():
     result = run(FakeTransport(answer(), answer()), text=TEXT)
-    assert result.diagnostic == 'invalid_model_output'
+    assert result.diagnostic == 'invalid_reference'
 
 
 def test_only_document_parts_carry_topics():

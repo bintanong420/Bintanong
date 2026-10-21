@@ -105,7 +105,7 @@ def test_invalid_wire_quote_is_unavailable_after_bounded_format_repair():
     value = proposal(mentions=[dict(kind='course', text='B1', start=0, end=2)])
     transport = FakeTransport(json.dumps(value), json.dumps(value))
     result = run(transport)
-    assert result.diagnostic == 'invalid_model_output' and not result.decision.dispatchable
+    assert result.diagnostic == 'invalid_reference' and not result.decision.dispatchable
     assert len(transport.calls) == 2
 
 
@@ -265,7 +265,7 @@ def test_unresolved_authored_occurrence_never_guesses_first_match():
     router = api().Router(FakeTransport(json.dumps(value), json.dumps(value)),
         catalog=catalog(),registry=registry(),synthetic=True)
     result = asyncio.run(router.route('A1 A1',RequestContext.parse(context())))
-    assert result.diagnostic == 'invalid_model_output' and not result.decision.dispatchable
+    assert result.diagnostic == 'invalid_reference' and not result.decision.dispatchable
 
 
 def test_private_ownership_and_scenario_identifiers_never_enter_model_input():

@@ -19,6 +19,8 @@ _ROUTING_FAILURES = {
     'model_timeout':'timeout',
     'model_connection_error':'tool_error', 'model_http_error':'tool_error',
     'invalid_model_output':'invalid_output', 'invalid_style_output':'invalid_output',
+    # Persistent reference errors: the question could not be interpreted; ask, not 'outage'.
+    'invalid_reference':'clarify',
     'invalid_grounding':'invalid_output', 'invalid_server_response':'invalid_output',
     'truncated_output':'invalid_output', 'server_response_too_large':'invalid_output',
     'context_overflow':'invalid_output',
