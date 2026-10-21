@@ -94,6 +94,8 @@ class DocumentTopic(Record):
     """One release-supplied retrieval subject and its reviewed claim strings."""
     subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
     claims: tuple[TopicClaim, ...] = Field(min_length=1, max_length=16)
+    # Recorded source limits: facts the source does not state (selecting one withholds).
+    not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
 
 
 class RequestPart(Quote):

@@ -168,7 +168,8 @@ def output_schema(topics=()):
                 else {'type': 'array', 'minItems': 1, 'maxItems': len(claims), 'items': {'enum': list(claims)}})
             value['required'] = required
             return value
-        schema['$defs']['WirePart'] = {'anyOf': [branch(t.subject_id, t.claims) for t in topics] +
+        schema['$defs']['WirePart'] = {'anyOf': [branch(t.subject_id, (*t.claims, *t.not_stated))
+                                                 for t in topics] +
                                        [branch(None, ())]}
     else:  # Unchanged schema whenever the release supplies no topic menu.
         for name in ('subject_id', 'requested_claims'):
@@ -224,14 +225,19 @@ below whose reviewed facts answer that part, and requested_claims to those exact
 from that topic only. Use subject_id null and requested_claims [] when no topic fits.
 Topics are retrieval labels, never answers or evidence.'''
 
+NOT_STATED_INSTRUCTION = '''not_stated lists facts the source does not give: choose one when the
+student asks exactly for it, rather than a nearby printed fact.'''
+
 
 def build_messages(text, context, catalog, registry, topics=()):
     data = dict(original_text=text, normalized_text=prepare_query(text),
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
-    menu = '' if not topics else chr(10) + TOPIC_INSTRUCTION + chr(10) + canonical(
-        [dict(subject_id=t.subject_id, facts=list(t.claims)) for t in topics])
+    instruction = TOPIC_INSTRUCTION + (chr(10) + NOT_STATED_INSTRUCTION if any(t.not_stated for t in topics) else '')
+    menu = '' if not topics else chr(10) + instruction + chr(10) + canonical(
+        [dict(subject_id=t.subject_id, facts=list(t.claims),
+              **({'not_stated': list(t.not_stated)} if t.not_stated else {})) for t in topics])
     return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(display_schema(topics)))),
             dict(role='user', content=canonical(data))]
 

@@ -100,3 +100,32 @@ def test_prompt_shows_plain_topic_fields_while_the_grammar_keeps_paired_branches
     assert 'subject_id' in shown and 'requested_claims' in shown
     assert 'anyOf' not in shown  # per-topic branches stay in the enforced grammar only
     assert 'anyOf' in json.dumps(output_schema(MENU))
+
+
+NOT_STATED = (DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',),
+                            not_stated=('individual share',)),)
+
+
+def test_not_stated_facts_are_selectable_and_shown_as_not_stated():
+    branch = next(b for b in output_schema(NOT_STATED)['$defs']['WirePart']['anyOf']
+                  if b['properties']['subject_id'].get('const') == 'fictional_fees')
+    assert branch['properties']['requested_claims']['items']['enum'] == ['printed fee amount', 'individual share']
+    from backend.bintanong_routing.contracts import RequestContext
+    from test_routing_router import context
+    system = build_messages(TEXT, RequestContext.parse(context()), (), _registry(), topics=NOT_STATED)[0]['content']
+    assert '"not_stated":["individual share"]' in system
+
+
+def test_menus_without_not_stated_facts_render_as_before():
+    from backend.bintanong_routing.contracts import RequestContext
+    from test_routing_router import context
+    system = build_messages(TEXT, RequestContext.parse(context()), (), _registry(), topics=MENU)[0]['content']
+    assert 'not_stated' not in system
+
+
+def test_router_accepts_a_not_stated_fact_of_the_chosen_topic():
+    from backend.bintanong_routing.router import check_topics
+    from backend.bintanong_routing.contracts import Interpretation
+    value = json.loads(answer(subject='fictional_fees', claims=('individual share',)))
+    proposed = Interpretation.parse(value)
+    check_topics(proposed, NOT_STATED)

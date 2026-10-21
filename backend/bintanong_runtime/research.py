@@ -4,6 +4,7 @@ Research mode (AGENTS.md, 21 October 2026) is development use of reviewed real d
 not school approval or institutional activation.
 """
 from collections import Counter
+import json
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from ..bintanong_orchestration.adapters import RetrievalAdapter, SymbolicAdapter
@@ -59,12 +60,29 @@ def course_labels(ledger):
                  if 'course_code' in c.get('facts', {}))
 
 
-def topic_menu(register):
-    """One topic per reviewed subject with all of its reviewed claim strings, in register order."""
+def topic_menu(register, *, catalogue=None, chunks=()):
+    """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
+    source_limits record as not stated (selecting one makes the policy withhold)."""
     subjects = {}
     for review in register['reviews']:
         subjects.setdefault(review['subject_id'], []).append(review['claim'])
-    return tuple(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c))) for s, c in subjects.items())
+    readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
+    missing = {}
+    for chunk in chunks:
+        subject = readings.get(chunk.get('type_fields', {}).get('reading_id'))
+        if subject not in subjects:
+            continue
+        try:
+            limits = json.loads(chunk['text']).get('source_limits', [])
+        except (ValueError, TypeError, AttributeError):
+            limits = []
+        for limit in limits:
+            if limit.get('issue') == 'claim_not_stated' and limit.get('resolution') == 'unresolved':
+                missing.setdefault(subject, []).extend(
+                    c for c in limit.get('affected_claims', []) if c not in subjects[subject])
+    return tuple(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)),
+                               not_stated=tuple(dict.fromkeys(missing.get(s, ()))))
+                 for s, c in subjects.items())
 
 
 def build_research_resources(ledger, package, *, encoder, authorization_ref):
@@ -90,5 +108,6 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref):
     engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
     return ReleaseResources(pin, research_catalog(ledger), registry,
         RetrievalAdapter(engine, research=True), SymbolicAdapter(runtime, research=True),
-        topics=topic_menu(package['register']), document_scope=('audience:undergraduate',),
+        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
+        document_scope=('audience:undergraduate',),
         course_labels=course_labels(ledger))

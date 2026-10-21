@@ -1,4 +1,5 @@
 """Research catalog and topic menu are derived from reviewed records only (fictional data)."""
+import json
 from backend.bintanong_runtime.research import research_catalog, topic_menu
 
 
@@ -77,3 +78,14 @@ def test_course_labels_cover_every_printed_code_including_drafts():
     from backend.bintanong_runtime.research import course_labels
     assert course_labels(ledger(course('course-a', 'ZZ 5/L'), course('course-b', 'ZZ 1/L', state='draft'))) == (
         ('course-a', 'ZZ 5/L'), ('course-b', 'ZZ 1/L'))
+
+
+def test_topic_menu_adds_recorded_not_stated_claims_per_subject():
+    register = dict(reviews=[dict(subject_id='fees', claim='printed amount')])
+    catalogue = dict(assignments=[dict(reading_id='R1', subject_id='fees')])
+    chunks = [dict(chunk_id='a', type_fields=dict(reading_id='R1'), text=json.dumps(dict(fields=[],
+        source_limits=[dict(affected_claims=['individual share'], issue='claim_not_stated',
+                            resolution='unresolved')])))]
+    menu = topic_menu(register, catalogue=catalogue, chunks=chunks)
+    assert [(t.subject_id, t.claims, t.not_stated) for t in menu] == [
+        ('fees', ('printed amount',), ('individual share',))]

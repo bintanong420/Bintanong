@@ -56,7 +56,7 @@ def _repair_messages(messages, raw, problem=None):
 
 def check_topics(proposed, topics):
     """Host check: topic choices must come from the release menu, claims from that subject."""
-    menu = {t.subject_id: set(t.claims) for t in topics}
+    menu = {t.subject_id: {*t.claims, *t.not_stated} for t in topics}
     for part in proposed.parts:
         if part.subject_id is not None and not set(part.requested_claims) <= menu.get(part.subject_id, set()):
             raise ValueError('topic_outside_menu')
