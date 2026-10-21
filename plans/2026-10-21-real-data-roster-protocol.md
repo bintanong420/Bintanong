@@ -50,3 +50,10 @@ removal, line-break ban, compact topic schema display. Same 63 cases, settings a
 order, once each, in `audit-evidence/p09-real-data-20261021/roster3full/`. Purpose:
 confirm no quality regression and measure latency. Pass condition: no invented facts,
 no previously correct answer lost, routing errors not increased.
+
+## Run 4 protocol (#2 source-limit rule)
+
+Code: the source-limits commit (parent of this protocol commit). Same 63 cases once each,
+folder `roster4/`. Pass: `natural-u2-*` not answered with the printed total (withheld,
+unavailable or clarification); `dev-special-class-printed-example-*` still answered with
+20,000.00; no other previously correct answer lost; no invented facts; no new system errors.
