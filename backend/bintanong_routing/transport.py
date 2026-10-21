@@ -19,6 +19,8 @@ SAMPLING_SETTING_KEYS = (
 )
 
 
+THOUGHT_OPENER = '<|channel>'  # Gemma 4 thought-channel opener token
+
 class RuntimeFailure(Exception):
     """Only a fixed, nonsensitive operational code crosses this boundary."""
 
@@ -85,12 +87,22 @@ class LlamaTransport:
                 if len(tokens) + self.max_output_tokens + 8 > n_ctx:
                     raise RuntimeFailure('context_overflow')
                 self.metadata['input_tokens'] = len(tokens)
+                # reasoning_effort=none did not stop Gemma's hidden thought channel on long real
+                # prompts (it consumed the whole output budget), so ban its opener when defined.
+                extra = {}
+                if THOUGHT_OPENER in template:
+                    opener = (await self._json(client, 'POST', '/tokenize', dict(
+                        content=THOUGHT_OPENER, add_special=False, parse_special=True)))['tokens']
+                    if len(opener) == 1 and type(opener[0]) is int:
+                        extra['logit_bias'] = [[opener[0], False]]
+                        self.metadata['banned_reasoning_token'] = opener[0]
                 response_format = {'type':'json_object'}
                 if self.constrained:
                     response_format['schema'] = schema
                 data = await self._json(client, 'POST', '/v1/chat/completions', dict(
                     messages=messages, temperature=0, seed=0, max_tokens=self.max_output_tokens,
-                    stream=False, response_format=response_format, reasoning_effort='none', cache_prompt=False))
+                    stream=False, response_format=response_format, reasoning_effort='none', cache_prompt=False,
+                    **extra))
                 choices = data['choices']
                 if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
                     raise RuntimeFailure('invalid_server_response')
