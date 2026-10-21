@@ -57,3 +57,11 @@ Code: the source-limits commit (parent of this protocol commit). Same 63 cases o
 folder `roster4/`. Pass: `natural-u2-*` not answered with the printed total (withheld,
 unavailable or clarification); `dev-special-class-printed-example-*` still answered with
 20,000.00; no other previously correct answer lost; no invented facts; no new system errors.
+
+## Run 4 result and run 5 protocol
+
+Run 4 (clean rerun after a container restart; the first attempt is quarantined because the
+server's host prompt cache grew to ~5.2/7.5 GiB and caused 120 s timeouts): no lost answers,
+0 system errors, document median 31.9 s, but `natural-u2-en` still answered with the
+printed total, so the prompt-only rule failed its target. Run 5 adds not-stated facts to
+the topic menu (commit above). Same 63 cases, folder `roster5/`, same pass conditions as run 4.
