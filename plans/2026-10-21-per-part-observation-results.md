@@ -82,3 +82,18 @@ instruction. Same runner/fixtures/model/settings/order in fresh folder
 `audit-evidence/p09-language-style-20261021/`; one attempt per case. Criteria:
 strict gate; d-fil should be mostly Filipino in everyday words; d-tl should read
 like typed Taglish. Deep-Tagalog words are reported as style findings.
+
+## Third observation result (code `b0905cb`, protocol `6052479`)
+
+| Case | Answer | Assessment |
+| --- | --- | --- |
+| d-en | "Students submit slip S to Office K." / "The listed charge is 7 tokens." | PASS |
+| d-fil | "I-submit ng mga estudyante yung slip S sa Office K." / "Ang nakalista na bayad ay 7 tokens." | PASS: mostly Filipino, everyday words, one English verb |
+| d-tl | "I-submit mo yung slip S sa Office K." / "Ang charge na nakalista ay 7 tokens." | PASS: typed-style Taglish, no deep Tagalog |
+| h-en | Janus `ineligible` kept; "Students submit slip S to Office K." | PASS |
+
+Author reading: **4/4 full quality**, all on the first draft (no repair, four
+calls per case). Warm component 41.3-42.9 s. Owner confirmation of the Filipino
+and Taglish naturalness is still needed. One observation per known developer
+case: not an accuracy rate, independent test or proof for unseen questions.
+Next evidence needed: more Filipino/Taglish questions beyond these fixtures.

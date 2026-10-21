@@ -45,12 +45,18 @@ and that prompt guidance. Second observation: d-en, h-en pass; d-fil complete bu
 casual Taglish for a formal-Filipino question; d-tl withheld because the repair
 got only an opaque error code and repeated the English draft. Safe, still FAIL.
 
+## Per-language style (`b0905cb`)
+
+Owner plan: English -> English; Filipino -> mostly everyday Filipino; Taglish ->
+Tagalog structure with English terms. Added per-language prompt lines, a
+no-copying rule and a plain rewrite instruction on the style repair. Third
+observation: 4/4 full quality on the first draft (author reading), 41-43 s.
+
 ## Next action
 
-Owner decision: give the repair a plain-language rewrite instruction for the
-style error (one bounded change, one observation), and whether Filipino
-answers may use everyday Taglish wording. Separate follow-up: answer verified
-parts while naming an unavailable part.
+Owner confirms the Filipino/Taglish wording reads naturally, then test more
+Filipino/Taglish questions beyond these four fixtures before any gate claim.
+Separate follow-up: answer verified parts while naming an unavailable part.
 
 ## Boundaries
 
