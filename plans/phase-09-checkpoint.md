@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 113
+sequence: 114
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -31,9 +31,10 @@ reviewed_fields_available may feed generation in research mode only. Task 1 done
 (`295a91c` PackageStorage; equivalence 39/39 offered, 36/39 status; the 3 overload
 differences come from Phase 05's transitive-neighbor double vs direct-neighbor SQL).
 Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Full suite at
-`49f39b5`: 6042 passed, 6 skipped, 0 failed (973 s). Next: task 3,
-threading research-mode Prolog results and research retrieval status through the
-synthetic-only gates (scoped in the plan), in small slices.
+`49f39b5`: 6042 passed, 6 skipped, 0 failed (973 s). Task 3 slices done through `be18db5`
+(research status, adapter, pin/evidence, orchestrator, answers). Remaining: research
+application builder (package, BSCS ledgers, catalog, topic menu). Awaiting owner on
+CC5 -> CC 5/L alias identity.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
 ## Repository State

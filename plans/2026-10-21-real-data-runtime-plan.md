@@ -131,3 +131,20 @@ the rendered answer, plus: research status mapping in `RetrievalAdapter`
 the real topic menu from the claim-review register, the Phase 06 bundle with a
 `ResearchAuthorization`, and a research application builder. Larger than first
 estimated; implement in small committed slices.
+
+## Task 3 progress (slices, see git log)
+
+- `971dc33` research retrieval status (reviewed_fields_available -> answerable).
+- `d132575` SymbolicAdapter research mode (labelled real-rule results).
+- `99e0df4` ReleasePin research reference; evidence accepts only matching research results.
+- `11ad86d` orchestrator checks research results under a research pin.
+- `be18db5` candidate answers carry `research_ref`; final validation binds it.
+- Real old BSCS ledger loads through `for_offline_research` (release
+  `release-offline-research-d4ebf236ff7dfb51`); two ledgers exist (old/proposed).
+
+Findings for task 4: of the 18 accepted structured variants, 12 are Architecture/
+Nursing/Criminology/Tourism (no reviewed rules: expected unavailable), 3 BSCS
+practicum (no reviewed rule) and 3 CC5/CC4 without curriculum (expected
+clarification). Real decisions need the CC5 variants with curriculum context.
+Open identity question for the owner: may a student's "CC5"/"CC4" resolve to the
+printed "CC 5/L"/"CC 4/L" codes (catalog aliases)? Not inferred.
