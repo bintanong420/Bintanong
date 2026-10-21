@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 119
+sequence: 120
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6c14755
 working_tree: clean
@@ -91,9 +91,10 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Full suite at `6c14755`: 6077 passed, 6 skipped, 0 failed (1009 s). Owner picks next:
-#2 relevance (per-student fee mapped to a printed total), #3 router style labelling of
-English-heavy Taglish, or remaining latency levers (prompt cache, router free text).
+#2: run 4 (prompt rule) kept 1 misleading answer; run 5 (`d8d5220`, not-stated menu facts)
+removed it but withheld 3 correct fee-example answers. Await owner choice: keep run 5 (safe),
+revert to run 4 (helpful, 1 misleading), or one bounded label-clarity attempt.
+Restart the model container before long runs (prompt-cache memory growth).
 
 ## Do Not Repeat
 

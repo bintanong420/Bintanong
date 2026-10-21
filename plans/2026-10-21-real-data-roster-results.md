@@ -74,3 +74,18 @@ No previously correct answer was lost; new correct answers: vehicle sticker P50.
 Filipino and Taglish. **System errors 8 -> 0.** Timing (warm backend): answered
 document median **34.7 s** (run 2: 45.2 s; run 1: 54.8 s); CC5 Prolog answers median
 **21.6 s** (run 2: 32.8 s); routing stage median 20.9 s (run 2: 25.8 s).
+
+## #2 (per-person amount) attempts
+
+- Run 4 (`dd66c1a`, prompt-only source-limit rule; clean rerun after a container restart):
+  no lost answers, 0 system errors, document median 31.9 s, but `natural-u2-en` still
+  answered "The amount printed is 20,000.00 PHP." Prompt-only rule failed its target.
+- Run 5 (`d8d5220`, not-stated facts offered in the topic menu): **0 wrong answers**
+  (all three per-student wordings withheld), 0 system errors, one new correct answer
+  (`pre-enrollment-first-step-tl`), but the router also picked "official individual
+  student assessment" for the three "what does the fee example show" questions, so
+  those correct answers (20,000.00) were lost. The 4B router does not reliably
+  distinguish "what the printed example shows" from "one student's own charge".
+- Operational finding: the llama.cpp host prompt cache grows across long runs; at
+  ~5.2/7.5 GiB container memory the server slowed to 120 s timeouts. Restarting
+  the container restored normal speed. A deployment needs a cache-RAM limit or restarts.
