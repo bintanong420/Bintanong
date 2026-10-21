@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 121
+sequence: 122
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6c14755
 working_tree: clean
@@ -91,10 +91,29 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Owner chose to keep the safe #2 version (run 5, `d8d5220`): no misleading answers; the three
-fee-example questions are withheld (known, disclosed limitation). Next options: #3 Taglish
-style labelling, remaining latency levers, or Phase 09 exit reassessment. Restart the model
-container before long runs (prompt-cache memory growth).
+Owner kept the safe #2 version (run 5, `d8d5220`). Owner picks one of these next (ask first):
+
+1. **#3 Taglish style labelling.** English-heavy Taglish questions (e.g. accepted
+   `cheating-first-offense-taglish`: "Undergraduate cheating sa exam, first offense: ano ang
+   consequence sa handbook?") are labelled English by the router's separate style call
+   (`backend/bintanong_routing/style.py`) and answered in English. Content is correct.
+2. **Remaining latency levers** (see [latency budget](2026-10-21-latency-research-and-budget.md)):
+   (a) allow llama.cpp prompt caching for the static router prefix (~4,950-token prompt;
+   `cache_prompt=False` today in `backend/bintanong_routing/transport.py`); (b) drop router
+   free-text fields `intent`/`reason` if no code uses them; (c) fold the style call into
+   routing only if quality holds. Each needs a full roster re-run; accuracy first.
+3. **Phase 09 exit reassessment** against `plans/2026-10-21-phase09-remaining-work-and-exit-map.md`
+   and the Phase 09 plan, then the final handoff via the handoff skill.
+
+How to resume real-data work: test Python is
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`
+(`-B -m pytest -q -p no:cacheprovider tests --basetemp=<audit-evidence dir>`; full suite ~17 min).
+Models: `C:/Coding-projects/bintanong_workspace/MODELS`. Model server: Docker container
+`bintanong-p09-cuda-latency` on 127.0.0.1:18088; `docker restart` it before long runs.
+Real roster runner: workspace `audit-evidence/p09-real-data-20261021/roster.py <outdir>`
+(63 accepted cases; `ONLY=id1,id2` env filters; `summarize.py <outdir>`); research release
+built by `backend/bintanong_runtime/research.py::build_research_resources` (see `smoke.py`).
+Latest results: [roster results](2026-10-21-real-data-roster-results.md), protocol file beside it.
 
 ## Do Not Repeat
 
