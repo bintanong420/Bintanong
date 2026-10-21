@@ -95,3 +95,25 @@ def test_research_mode_keeps_every_other_result_withheld():
 
 def test_default_mode_never_upgrades_uncalibrated():
     assert _status(StatusEngine('uncalibrated', 'reviewed_fields_available')) == 'uncalibrated'
+
+
+class GapEngine(StatusEngine):
+    def __init__(self, gaps):
+        super().__init__('uncalibrated', 'reviewed_fields_available')
+        self.gaps = gaps
+
+    def retrieve(self, request, **intent):
+        return super().retrieve(request, **intent) | dict(gaps=list(self.gaps))
+
+
+def _gaps(engine, **options):
+    from backend.bintanong_orchestration.adapters import RetrievalAdapter
+    from backend.bintanong_retrieval.types import RetrievalRequest
+    request = RetrievalRequest('Fictional question?', 'release-synth-1')
+    return asyncio.run(RetrievalAdapter(engine, **options).retrieve(request)).gaps
+
+
+def test_research_upgrade_removes_only_the_calibration_gap():
+    assert _gaps(GapEngine(['development_calibration_pending']), research=True) == ()
+    assert _gaps(GapEngine(['development_calibration_pending', 'source_gap']), research=True) == ('source_gap',)
+    assert _gaps(GapEngine(['development_calibration_pending'])) == ('development_calibration_pending',)

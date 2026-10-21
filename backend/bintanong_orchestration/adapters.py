@@ -61,12 +61,13 @@ class RetrievalAdapter:
                 ref=None, section_path=[]) | c['locator']) for c in p['citations']]
             passages.append(dict(chunk_id=p['chunk_id'], version_id=p['version_id'],
                 text=p['text'], citations=citations))
-        status = raw['status']
+        status, gaps = raw['status'], list(raw['gaps'])
         assessment = (raw.get('evidence_policy') or {}).get('assessment') or {}
         if self.research and status == 'uncalibrated' and assessment.get('status') == 'reviewed_fields_available':
-            status = 'ok'  # reviewed fields found; the answer stays a labelled research candidate
+            # Reviewed fields found; only the calibration marker is lifted, real gaps stay.
+            status, gaps = 'ok', [g for g in gaps if g != 'development_calibration_pending']
         return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
-            gaps=raw['gaps'], passages=passages))
+            gaps=gaps, passages=passages))
 
 
 class SymbolicAdapter:
