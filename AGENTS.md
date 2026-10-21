@@ -47,6 +47,11 @@
   build. It is not public deployment, school approval or proof of currentness.
   Source-gap, undergraduate-scope, unknown-versus-unmet and privacy rules still
   apply; unreviewed or held fields (e.g. F04) stay unused.
+- Owner decision, 21 October 2026: for matching what students type, a course
+  code without spacing or the printed "/L" suffix (e.g. "CC5", "CC 5", "CC5/L")
+  resolves to the printed code ("CC 5/L") within the student's curriculum.
+  Answers keep the printed code; rules stay as printed; a short form that would
+  match two courses is not created. This is not a unit/lab/equivalence finding.
 
 ## Curriculum reasoning and architecture alignment
 
