@@ -7,7 +7,7 @@ from ..bintanong_contracts.base import Contract, Record, Route
 from ..bintanong_contracts.governance import ID_VER, SHA256
 from ..bintanong_contracts.source import SpanLocator
 from ..bintanong_contracts.symbolic import SymbolicResult
-from ..bintanong_symbolic.runtime import DependencyResult
+from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
 
@@ -33,15 +33,18 @@ class DocumentMember(SourceBinding):
 
 
 class ReleasePin(Record):
-    """Trusted synthetic snapshot; labels never authorize institutional execution."""
+    """Trusted snapshot: synthetic, or owner-authorized research (never institutional use)."""
     release_id: ReleaseID
-    synthetic: Literal[True]
+    synthetic: bool
     rule_bundle_version: Text | None
     sources: tuple[SourceBinding, ...]
     documents: tuple[DocumentMember, ...] = ()
+    research_ref: str | None = Field(default=None, pattern=r'^research-[A-Za-z0-9_-]+$', max_length=128)
 
     @model_validator(mode='after')
     def _membership(self):
+        if self.synthetic != (self.research_ref is None):
+            raise ValueError('research_pin_requires_reference_only')
         sources = {s.version_id:s.byte_sha256 for s in self.sources}
         if len(sources) != len(self.sources):
             raise ValueError('duplicate_source_version')
@@ -91,8 +94,8 @@ class CandidateEvidence(Contract):
     pin: ReleasePin
     route: Route()
     documents: DocumentResult | None
-    symbolic: SymbolicResult | None
-    dependencies: DependencyResult | None
+    symbolic: ResearchSymbolicResult | SymbolicResult | None
+    dependencies: ResearchDependencyResult | DependencyResult | None
     status: Status
     permitted_scope: Scope
     missing_facts: tuple[Text, ...] = ()
@@ -107,12 +110,19 @@ class CandidateEvidence(Contract):
             raise ValueError('Symbolic_requires_one_symbolic_component')
         if self.route == 'Hybrid' and (self.documents is None or has_symbolic != 1):
             raise ValueError('Hybrid_requires_both_components')
-        if self.symbolic is not None and (type(self.symbolic) is not SymbolicResult
-                or not self.symbolic.decision.synthetic):
-            raise ValueError('synthetic_results_only')
-        if self.dependencies is not None and (type(self.dependencies) is not DependencyResult
-                or not self.dependencies.synthetic):
-            raise ValueError('synthetic_dependencies_only')
+        if self.pin.synthetic:
+            if self.symbolic is not None and (type(self.symbolic) is not SymbolicResult
+                    or not self.symbolic.decision.synthetic):
+                raise ValueError('synthetic_results_only')
+            if self.dependencies is not None and (type(self.dependencies) is not DependencyResult
+                    or not self.dependencies.synthetic):
+                raise ValueError('synthetic_dependencies_only')
+        else:  # Research pin: only research results bound to this pin's authorization.
+            for result, kind in ((self.symbolic, ResearchSymbolicResult),
+                                 (self.dependencies, ResearchDependencyResult)):
+                if result is not None and (type(result) is not kind or
+                        result.research.authorization.authorization_ref != self.pin.research_ref):
+                    raise ValueError('research_results_must_match_pin')
         if (self.status == 'ready') != (self.permitted_scope != 'none'):
             raise ValueError('only_ready_evidence_has_permitted_scope')
         return self
