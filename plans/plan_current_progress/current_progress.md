@@ -57,7 +57,10 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 Owner confirmed the Filipino/Taglish wording reads naturally (21 Oct) and
 approved plainer host-rendered Filipino lines (`39c46cb`, `d75f4d1`). Six-case
 broader check: relevance works; fixes `838f6d4`; post-fix b1/b3/b4 pass. Owner
-authorized real public sources/reviewed Prolog for development (AGENTS.md). Against the exit map: interpretation
+authorized real public sources/reviewed Prolog for development (AGENTS.md).
+Real-data task 1 done: read-only PackageStorage (`295a91c`) reproduces Phase 05's
+offered chunks 39/39; 3 overload results differ because Phase 05's double used
+transitive neighbors the real SQL lacks. Next: router topic/fact selection. Against the exit map: interpretation
 and completeness are now evidenced on the four fixtures; still open are the
 relevance check on the per-part reviewer (old B cases never ran), omissions the
 router never declares, broader multilingual cases (new wordings need owner

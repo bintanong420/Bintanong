@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 111
+sequence: 112
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -25,11 +25,13 @@ Last full snapshot before this replacement: `0a08d8d:plans/phase-09-checkpoint.m
 
 ## Current Task
 
-Actual-model observation done ([results](2026-10-21-per-part-observation-results.md)):
-4/4 complete content (d-en fee now answered), 3/4 full quality because d-tl claims
-came out in plain English; strict gate still FAIL. Awaiting the owner's choice on
-the Taglish style miss. Existing CUDA container `bintanong-p09-cuda-latency` was
-restarted (had exited; cold start ~72 s, excluded from timing) and is running.
+Real-data runtime ([plan](2026-10-21-real-data-runtime-plan.md)). Owner decisions:
+real public data for development (AGENTS.md); router picks topic + reviewed facts;
+reviewed_fields_available may feed generation in research mode only. Task 1 done
+(`295a91c` PackageStorage; equivalence 39/39 offered, 36/39 status; the 3 overload
+differences come from Phase 05's transitive-neighbor double vs direct-neighbor SQL).
+Next: task 2, router topic/claim selection (closed menu: 7 subjects, 10 reviews).
+Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
 ## Repository State
 
