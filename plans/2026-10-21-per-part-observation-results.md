@@ -57,3 +57,17 @@ folder `audit-evidence/p09-style-guard-20261021/`; one attempt per case.
 Criteria: the unchanged strict gate, plus the owner's Taglish naturalness
 reading (d-tl claims should read like typed Taglish; deep-Tagalog verbs are
 reported as a style finding). Prompt examples share no wording with fixtures.
+
+## Second observation result (code `cd8e49b`, protocol `ec08962`)
+
+| Case | Answer | Assessment |
+| --- | --- | --- |
+| d-en | "Students submit slip S to Office K." / "The listed charge is 7 tokens." | PASS |
+| d-fil | "I-submit yung slip S sa Office K." / "Yung listed charge ay 7 tokens." | Complete; reads as everyday Taglish although the question was formal Filipino. Style policy question for the owner. |
+| d-tl | Withheld (`repair_exhausted`) | FAIL, but safe: both drafts were the same plain-English claims (copied from the English source); the guard blocked release. The repair received only the code `claim_not_in_requested_style` and the model repeated its draft unchanged. |
+| h-en | Janus `ineligible` kept; "Students submit slip S to Office K." | PASS |
+
+Strict gate: FAIL (d-tl withheld). Improvement: no off-style answer is released
+any more. Remaining cause: the opaque repair code gives the model no instruction
+on what to change. Warm component 41.3-47.3 s; four calls per case, no reviews
+for d-tl. One attempt each; no rerun, prompt change or rescue after this result.
