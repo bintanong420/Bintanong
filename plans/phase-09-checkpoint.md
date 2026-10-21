@@ -76,7 +76,7 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Broader six-case check ([record](2026-10-21-broader-multilingual-check.md)): relevance
+Real-data plan: [plan](2026-10-21-real-data-runtime-plan.md). Broader six-case check ([record](2026-10-21-broader-multilingual-check.md)): relevance
 confirmed; placeholder-claim and deep-word fixes `838f6d4`; post-fix b1/b3/b4 pass.
 Full suite at `d75f4d1`: 6016 passed. Owner authorized real public data for
 development (AGENTS.md). Next: plan wiring real retrieval + reviewed BSCS Prolog
