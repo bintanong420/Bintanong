@@ -19,7 +19,7 @@ from .coverage import CoverageReview,coverage_messages,coverage_schema
 from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
 from .part_answers import (PartConfirmation,PartExplanation,assess_slots,confirm_messages,
-                           confirm_schema,part_messages,part_schema,to_draft)
+                           confirm_schema,part_messages,part_schema,style_errors,to_draft)
 
 
 def _seconds(value):
@@ -130,6 +130,8 @@ class Generator:
                                       _parse(raw,AnswerDraft) if references is None else
                                       references.decode(_parse(raw,ShortAnswerDraft)))
                         errors=validate_draft(proposal,pack)
+                        if per_part:
+                            errors=errors+style_errors(proposal,pack)
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                         slots=None

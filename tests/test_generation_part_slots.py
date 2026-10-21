@@ -148,3 +148,67 @@ def test_observation_reports_the_per_part_prompt_hashes():
     assert result['support_prompt_sha256'] == CONFIRM_PROMPT_SHA256
     assert result['observations'][0]['support_prompt_sha256'] == CONFIRM_PROMPT_SHA256
     assert result['observations'][0]['generation_mode'] == 'documentary_model'
+
+
+TL_OFFICE = 'I-submit mo yung Form Q sa fictional Office V.'
+TL_FEE = 'Ang fee ay 40 tokens lang.'
+
+
+class Drafts(PartModel):
+    """Returns a different slot set for each successive draft call."""
+    def __init__(self, *drafts):
+        super().__init__()
+        self.drafts = list(drafts)
+
+    async def infer(self, messages, schema):
+        if schema['properties']['schema_version']['const'] == 'bintanong-part-explanation-v1':
+            self.slots = self.drafts.pop(0)
+        return await super().infer(messages, schema)
+
+
+def styled(language):
+    from backend.bintanong_orchestration.contracts import IntegrationResult
+    data = source().model_dump(mode='json')
+    data['response_style'] = language
+    return IntegrationResult.parse(data)
+
+
+ENGLISH = dict(r1=('answered', [OFFICE]), r2=('answered', [FEE]))
+TAGLISH = dict(r1=('answered', [TL_OFFICE]), r2=('answered', [TL_FEE]))
+
+
+@pytest.mark.parametrize('language', ['taglish', 'fil'])
+def test_english_only_claims_for_filipino_styles_use_the_one_existing_repair(language):
+    model = Drafts(ENGLISH, TAGLISH)
+    answer = asyncio.run(Generator(model).generate(TEXT, styled(language)))
+    assert answer.status == 'answered' and answer.draft_attempts == 2
+    assert [c.text for c in answer.claims] == [TL_OFFICE, TL_FEE]
+    repair = json.loads(model.calls[1][0][1]['content'])
+    assert repair['validation_errors'] == ['claim_not_in_requested_style']
+
+
+def test_english_only_taglish_claims_twice_are_never_released():
+    model = Drafts(ENGLISH, ENGLISH)
+    answer = asyncio.run(Generator(model).generate(TEXT, styled('taglish')))
+    assert answer.status == 'abstained' and answer.validation == 'repair_exhausted'
+    assert not answer.claims and len(model.calls) == 2  # no review of an off-style draft
+
+
+def test_english_requests_are_not_style_checked_for_filipino_words():
+    answer = run(PartModel())
+    assert answer.status == 'answered' and answer.draft_attempts == 1
+
+
+@pytest.mark.parametrize('text,expected', [
+    ('I-submit mo yung form sa registrar.', True), ('Ang fee ay 40 tokens.', True),
+    ('Pwede ka mag-enroll after ng deadline.', True), ('Submit the form at Office V.', False),
+    ('Pay the fee at the office, may 2026.', False)])
+def test_filipino_function_word_detection_ignores_english_lookalikes(text, expected):
+    from backend.bintanong_generation.part_answers import has_filipino_function_word
+    assert has_filipino_function_word(text) is expected
+
+
+def test_taglish_guidance_prefers_everyday_english_terms_without_evaluation_fixtures():
+    from backend.bintanong_generation.part_answers import PART_PROMPT
+    assert 'isusumite' in PART_PROMPT and 'submit' in PART_PROMPT  # named as a word to avoid
+    assert 'slip S' not in PART_PROMPT and 'Office K' not in PART_PROMPT

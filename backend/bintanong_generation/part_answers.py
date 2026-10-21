@@ -5,6 +5,7 @@ claims and derives the part mapping from the slots. The reviewer only confirms
 each part's own claims. Confirmation remains model-fallible, never a guarantee.
 """
 import hashlib
+import re
 from typing import Literal
 
 from pydantic import Field, model_validator
@@ -71,6 +72,12 @@ example the amount for a fee question or the office for a where question. A true
 claim about a different detail does not answer the part. When the sources do not
 contain the requested detail use not_in_evidence, or source_gap when the source is
 visibly cut off or defective, with claims=[]. Never guess to fill a slot.
+For taglish, write the way Filipino students type: Filipino grammar words (ang,
+sa, yung, mo, lang, po) with everyday English terms kept in English, especially
+academic or procedural words such as submit, fee, office, form, enroll and
+deadline, for example "I-email mo yung request form sa registrar." Avoid formal
+or deep Tagalog such as isusumite or nakasaad. Every fil/taglish claim itself must
+use that style, not plain English.
 The host separately renders any structured prerequisite result; do not generate or
 broaden it or assert enrollment eligibility. Each claim must cite only sources that
 establish its WHOLE meaning, including action, purpose, audience, conditions,
@@ -92,6 +99,24 @@ Copy both review identity hashes exactly.''' + '\n' + COMPACT_JSON_INSTRUCTION
 
 PART_PROMPT_SHA256 = hashlib.sha256(PART_PROMPT.encode()).hexdigest()
 CONFIRM_PROMPT_SHA256 = hashlib.sha256(CONFIRM_PROMPT.encode()).hexdigest()
+
+
+# Everyday Filipino function words; English lookalikes (at, may, i, pa) are excluded.
+_FILIPINO = frozenset('''ang ng nang mga sa ay na ko mo ka siya niya namin natin nila kami tayo
+sila yung iyong ung lang po si ni kay para kung kapag pag hindi wala meron pwede puwede dapat
+kailangan ito iyan yan dito diyan doon kasi din rin ba naman mag ma'''.split())
+
+
+def has_filipino_function_word(text):
+    return any(token in _FILIPINO for token in re.findall(r'[a-zñ]+', text.lower()))
+
+
+def style_errors(draft, pack):
+    """Deterministic floor only: a pure-English claim is not Filipino/Taglish."""
+    if pack.language in ('fil', 'taglish') and any(
+            not has_filipino_function_word(c.text) for c in draft.claims):
+        return ('claim_not_in_requested_style',)
+    return ()
 
 
 def document_parts(pack):
