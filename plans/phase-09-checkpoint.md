@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 112
+sequence: 113
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -30,7 +30,9 @@ real public data for development (AGENTS.md); router picks topic + reviewed fact
 reviewed_fields_available may feed generation in research mode only. Task 1 done
 (`295a91c` PackageStorage; equivalence 39/39 offered, 36/39 status; the 3 overload
 differences come from Phase 05's transitive-neighbor double vs direct-neighbor SQL).
-Next: task 2, router topic/claim selection (closed menu: 7 subjects, 10 reviews).
+Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Next: task 3,
+threading research-mode Prolog results and research retrieval status through the
+synthetic-only gates (scoped in the plan), in small slices.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
 ## Repository State

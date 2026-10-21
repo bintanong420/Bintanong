@@ -116,3 +116,18 @@ Release `topics` menu -> router prompt/schema (enums) -> host check -> retrieval
 `audience:undergraduate`). No menu -> unchanged schema, prompt and retrieval
 call (tested). Limit: only the first chosen topic is retrieved per request.
 Router quality on choosing topics is unmeasured until task 4.
+
+## Task 3 scoping (before implementation)
+
+Real BSCS rules run only through `CurriculumRuntime.for_offline_research`, which
+returns research result types (`research` context, `synthetic=False`). By Phase 06
+design these never convert to policy results, and every downstream gate rejects
+non-synthetic decisions: `SymbolicAdapter` (adapters.py:68/93/97), orchestrator
+result checks (orchestrator.py), `IntegrationResult` validators (contracts.py:111/114)
+and `CandidateAnswer` (`synthetic_decision_required`). Task 3 therefore threads an
+explicit research-mode result through those gates, carrying the research label to
+the rendered answer, plus: research status mapping in `RetrievalAdapter`
+(`uncalibrated` + `reviewed_fields_available` -> answerable, research mode only),
+the real topic menu from the claim-review register, the Phase 06 bundle with a
+`ResearchAuthorization`, and a research application builder. Larger than first
+estimated; implement in small committed slices.
