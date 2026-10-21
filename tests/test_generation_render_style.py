@@ -3,8 +3,7 @@ import pytest
 
 from backend.bintanong_generation import render
 
-# 'pagsusuri' remains in three lines outside the approved table; not banned here.
-DEEP = ('natugunan', 'nakasaad', 'kwalipikado', 'nakabalangkas', 'mapatunayan', 'matiyak')
+DEEP = ('natugunan', 'nakasaad', 'kwalipikado', 'nakabalangkas', 'mapatunayan', 'matiyak', 'pagsusuri')
 
 
 def filipino_texts():
@@ -34,3 +33,10 @@ def test_filipino_scope_label_uses_everyday_wording():
     import inspect
     source = inspect.getsource(render)
     assert "'fil':'Sakop ng check'" in source and 'Saklaw ng pagsusuri' not in source
+
+
+def test_approved_filipino_check_status_lines():
+    words = render._WORDS['fil']
+    assert words['unsupported'] == 'Hindi supported ang check na ito.'
+    assert words['error'] == 'Hindi natapos ang check.'
+    assert words['temporarily_unavailable'] == 'Hindi muna magawa ang check ngayon. Subukan ulit mamaya.'
