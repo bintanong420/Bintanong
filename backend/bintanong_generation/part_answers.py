@@ -41,8 +41,9 @@ class PartSlot(Record):
 
     @model_validator(mode='after')
     def _state(self):
-        if (self.status == 'answered') != bool(self.claims):
-            raise ValueError('answered_slot_requires_claims_only')
+        # Placeholder claims beside not_in_evidence were observed; to_draft ignores them.
+        if self.status == 'answered' and not self.claims:
+            raise ValueError('answered_slot_requires_claims')
         return self
 
 
@@ -112,10 +113,15 @@ def has_filipino_function_word(text):
     return any(token in _FILIPINO for token in re.findall(r'[a-zñ]+', text.lower()))
 
 
+# Owner-named formal/deep Tagalog that students do not write (21 October 2026).
+DEEP_TAGALOG = frozenset(('isusumite', 'nakasaad', 'ihahain'))
+
+
 def style_errors(draft, pack):
-    """Deterministic floor only: a pure-English claim is not Filipino/Taglish."""
+    """Deterministic floor only: no pure-English or owner-named deep-Tagalog claims."""
     if pack.language in ('fil', 'taglish') and any(
-            not has_filipino_function_word(c.text) for c in draft.claims):
+            not has_filipino_function_word(c.text) or DEEP_TAGALOG & set(re.findall(r'[a-zñ]+', c.text.lower()))
+            for c in draft.claims):
         return ('claim_not_in_requested_style',)
     return ()
 
@@ -164,7 +170,7 @@ def to_draft(explanation, pack):
     for part_id in ids:
         slot = explanation.answers[part_id]
         numbered = []
-        for claim in slot.claims:
+        for claim in (slot.claims if slot.status == 'answered' else ()):
             if not set(claim.evidence_ids) <= allowed:
                 raise ValueError('non_document_evidence')
             numbered.append(f'c{len(claims) + 1}')

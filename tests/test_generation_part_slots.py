@@ -228,3 +228,20 @@ def test_style_repair_carries_a_plain_rewrite_instruction_for_the_requested_lang
     first, repair = (json.loads(model.calls[i][0][1]['content']) for i in (0, 1))
     assert 'repair_instruction' not in first
     assert phrase in repair['repair_instruction'] and 'Rewrite' in repair['repair_instruction']
+
+
+def test_filler_claims_in_an_unavailable_slot_are_dropped_and_the_part_is_withheld():
+    # Observed: the model marks a part not_in_evidence but adds a placeholder claim.
+    model = PartModel(slots=dict(r1=('answered', [OFFICE]), r2=('not_in_evidence', ['not_in_evidence'])))
+    answer = run(model)
+    assert answer.status == 'insufficient_evidence' and answer.validation == 'parts_unresolved'
+    assert answer.part_ledger.entries[1].reason == 'not_in_evidence' and len(model.calls) == 1
+
+
+@pytest.mark.parametrize('word', ['isusumite', 'nakasaad', 'ihahain'])
+def test_owner_named_deep_tagalog_uses_the_style_repair(word):
+    deep = dict(r1=('answered', [f'Ang slip ay {word} sa Office V.']), r2=('answered', [TL_FEE]))
+    model = Drafts(deep, TAGLISH)
+    answer = asyncio.run(Generator(model).generate(TEXT, styled('fil')))
+    assert answer.status == 'answered' and answer.draft_attempts == 2
+    assert json.loads(model.calls[1][0][1]['content'])['validation_errors'] == ['claim_not_in_requested_style']
