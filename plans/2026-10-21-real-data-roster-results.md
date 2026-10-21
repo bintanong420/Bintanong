@@ -50,3 +50,12 @@ from a hidden thought channel, 1 context overflow from citation geometry). Fixed
    invalid output answer with clarification/unavailable rather than "temporarily
    unavailable". 2. Relevance: a part asking for a per-person/derived amount must not
    map to a printed total. 3. Router style labelling for English-heavy Taglish.
+
+## Follow-up fixes after run 2 (21 October 2026)
+
+- `c8a25f5`: reference errors get a specific repair and, if persistent, a clarification.
+  Rerun of the 9 error cases: 8 now clarification_needed; the 9th exposed a style-guard
+  conflict (student wrote "isusumite"), fixed in `304a1f0` (mirror the student's word).
+  Its blocked answer was correct: Enrolling Officer, fee printed "None", 5 minutes,
+  College Enrollment Area.
+- `6d639f5`: checker no longer copies identity hashes (12.4 s -> 4.6 s per answer).

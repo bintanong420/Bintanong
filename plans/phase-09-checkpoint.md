@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 116
+sequence: 117
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -39,7 +39,9 @@ Task 4 done: [roster results](2026-10-21-real-data-roster-results.md). Run 2: 13
 answers (10 docs + 3 CC5), 1 wrong (per-student fee), 0 invented facts, 8 routing errors.
 Fixes during task 4: `88ad891` printed codes, `e945c80` compact cards, `71734f2` thought ban.
 Full suite at `3db7cf9`: 6068 passed, 6 skipped, 0 failed (989 s).
-Next: owner chooses among the three next candidates in the results report.
+Owner chose #1 + latency: `c8a25f5` reference repair/clarify, `304a1f0` mirror
+student's deep word, `6d639f5` checker hash removal. [Latency budget](2026-10-21-latency-research-and-budget.md).
+Next: owner decision on latency levers (compact router schema, prompt cache) and #2/#3.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
 ## Repository State

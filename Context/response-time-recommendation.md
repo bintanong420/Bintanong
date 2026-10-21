@@ -58,3 +58,6 @@ spans,parallel Hybrid work or resident startup as a cost on every warm request.
 - [Research assessment and seven primary sources](../plans/2026-10-20-response-time-research-assessment.md).
 - [Measurement contract and excluded factors](../plans/2026-10-20-response-time-measurement-contract.md).
 - [Current progress](../plans/plan_current_progress/current_progress.md) points to the latest verified candidate/results;historical timing samples are not live metrics.
+
+21 October 2026 addendum (measured budget, hardware constraint, research update):
+[latency research and budget](../plans/2026-10-21-latency-research-and-budget.md).
