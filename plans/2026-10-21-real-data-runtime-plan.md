@@ -56,3 +56,11 @@ are unchanged. Data updates after the university responds are a later task.
 3. **No live subject selection.** Phase 05 supplied a trusted subject per
    question (7 subjects). The live pipeline has none. Options: run without the
    subject filter (global top-3), or let the router choose from the 7 subjects.
+
+## Owner decisions on the findings (21 October 2026)
+
+- Calibration: in research mode, a retrieval result whose evidence assessment is
+  `reviewed_fields_available` may feed generation, still labelled candidate/
+  uncalibrated; missing/conflicting/unsupported stay withheld. Per-part reviewer
+  and support checks remain the backstop.
+- Topic: no subject filter; plain top-k over the 19 reviewed chunks.
