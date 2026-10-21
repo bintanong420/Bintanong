@@ -16,7 +16,7 @@ from ..bintanong_orchestration.contracts import ReleaseID
 from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
-from .scope import document_payload
+from .scope import document_payload, model_card
 from .understanding import canonical_parts, review_identity
 from .validation import validate_support
 
@@ -153,7 +153,7 @@ REWRITE = dict(
 
 
 def part_messages(text, pack, *, errors=(), previous=''):
-    payload = dict(untrusted_question=text, evidence=document_payload(pack),
+    payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
@@ -192,7 +192,7 @@ def confirm_messages(text, pack, draft, slots):
         permitted_scope='documentary_explanation_only',
         review_identity=review_identity(pack, draft).model_dump(mode='json'),
         parts=[dict(part_id=p, text=texts[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
-            sources=[cards[e].model_dump(mode='json') for e in claims[c].evidence_ids]) for c in ids])
+            sources=[model_card(cards[e]) for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
     return _messages(CONFIRM_PROMPT, payload, confirm_schema(pack, draft, slots))
 

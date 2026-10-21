@@ -55,7 +55,17 @@ for conflicts, unknown when uncertain. Judge requested language and advisory sco
 Do not repair claims or infer missing evidence.'''+ '\n'+COMPACT_JSON_INSTRUCTION
 
 
-def document_payload(pack):
+def model_card(card):
+    """What the model needs from a card: id, text and a short source label.
+    Full citations (locators, geometry) stay host-side; they overflowed real contexts."""
+    pages={}
+    for c in card.citations:
+        pages.setdefault(c.filename or c.version_id,[]).append(c.page)
+    label='; '.join(f'{name} p.'+','.join(str(p) for p in sorted(set(ps))) for name,ps in pages.items())
+    return dict(evidence_id=card.evidence_id,kind=card.kind,text=card.text,source=label)
+
+
+def document_payload(pack,*,compact=False):
     context=pack.structured_context
     subject=None if context is None else dict(
         scope=None if context.scope is None else context.scope.model_dump(mode='json'),
@@ -66,7 +76,8 @@ def document_payload(pack):
         requested_parts=[] if pack.understanding is None else
             [p.model_dump(mode='json',exclude={'subject_id','requested_claims'})
              for p in pack.understanding.parts],
-        sources=[c.model_dump(mode='json') for c in pack.cards if c.kind=='document'])
+        sources=[model_card(c) if compact else c.model_dump(mode='json')
+                 for c in pack.cards if c.kind=='document'])
 
 
 def document_schema(pack):

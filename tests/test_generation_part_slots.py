@@ -245,3 +245,16 @@ def test_owner_named_deep_tagalog_uses_the_style_repair(word):
     answer = asyncio.run(Generator(model).generate(TEXT, styled('fil')))
     assert answer.status == 'answered' and answer.draft_attempts == 2
     assert json.loads(model.calls[1][0][1]['content'])['validation_errors'] == ['claim_not_in_requested_style']
+
+
+def test_model_inputs_carry_source_text_and_a_short_label_not_citation_geometry():
+    model = PartModel()
+    run(model)
+    for messages, _ in model.calls:
+        payload = json.loads(messages[1]['content'])
+        sources = (payload['evidence']['sources'] if 'evidence' in payload else
+                   [s for p in payload['parts'] for c in p['claims'] for s in c['sources']])
+        assert sources
+        for source in sources:
+            assert set(source) == {'evidence_id', 'kind', 'text', 'source'}
+            assert 'p.' in source['source']
