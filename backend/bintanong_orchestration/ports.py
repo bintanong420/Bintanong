@@ -5,7 +5,7 @@ from typing import Protocol
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_contracts.symbolic import CapabilityRegistry, SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
-from ..bintanong_routing.contracts import CatalogEntry, RequestContext
+from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic, RequestContext
 from ..bintanong_symbolic.runtime import DependencyResult
 from .contracts import DocumentResult, ReleasePin
 
@@ -29,6 +29,9 @@ class ReleaseResources:
     registry: CapabilityRegistry
     retrieval: RetrievalPort | None = None
     symbolic: SymbolicPort | None = None
+    # Research real-data mode: router topic menu and extra retrieval scope tags.
+    topics: tuple[DocumentTopic, ...] = ()
+    document_scope: tuple[str, ...] = ()
 
     def __post_init__(self):
         object.__setattr__(self, 'pin', ReleasePin.parse(self.pin.model_dump(mode='json')))

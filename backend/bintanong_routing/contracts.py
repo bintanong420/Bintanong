@@ -87,10 +87,22 @@ class Operation(Record):
     target: int = Field(ge=0, le=31)
 
 
+TopicClaim = Annotated[str, Field(min_length=1, max_length=256)]
+
+
+class DocumentTopic(Record):
+    """One release-supplied retrieval subject and its reviewed claim strings."""
+    subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    claims: tuple[TopicClaim, ...] = Field(min_length=1, max_length=16)
+
+
 class RequestPart(Quote):
     part_id: str = Field(pattern=r'^r[1-8]$')
     evidence_need: Literal['document', 'structured', 'unknown']
     operation_indices: tuple[Annotated[int, Field(ge=0, le=3)], ...] = Field(max_length=4)
+    # Research real-data mode only: a menu subject and its reviewed claims.
+    subject_id: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    requested_claims: tuple[TopicClaim, ...] = Field(default=(), max_length=8)
 
     @model_validator(mode='after')
     def _operations(self):
@@ -98,6 +110,10 @@ class RequestPart(Quote):
             raise ValueError('invalid_part')
         if self.evidence_need != 'structured' and self.operation_indices:
             raise ValueError('only_structured_parts_reference_operations')
+        if self.evidence_need != 'document' and (self.subject_id or self.requested_claims):
+            raise ValueError('only_document_parts_carry_topics')
+        if (self.subject_id is None) != (not self.requested_claims):
+            raise ValueError('topic_requires_claims')
         return self
 
 

@@ -25,6 +25,16 @@ _ROUTING_FAILURES = {
 }
 
 
+
+def _topic_intent(proposed):
+    """First chosen document topic and its facts; other topics stay unretrieved (known limit)."""
+    parts = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id]
+    if not parts:
+        return dict(subject_id=None, requested_claims=None)
+    subject = parts[0].subject_id
+    claims = dict.fromkeys(c for p in parts if p.subject_id == subject for c in p.requested_claims)
+    return dict(subject_id=subject, requested_claims=tuple(claims))
+
 class Orchestrator:
     def __init__(self, transport, *, releases=None, stage_timeout=120.0,
                  routing_profile='separate'):
@@ -106,14 +116,15 @@ class Orchestrator:
                 raise ValueError('release_resources_required')
             # Recheck metadata at this request boundary; the provider is trusted.
             return ReleaseResources(value.pin, value.catalog, value.registry,
-                                    value.retrieval, value.symbolic)
+                                    value.retrieval, value.symbolic, value.topics, value.document_scope)
 
         resources, failure = await stage('release', pin_release)
         if failure:
             return finish(failure)
         router_class = CombinedRouter if self.routing_profile=='combined' else Router
         router = router_class(self.transport, catalog=resources.catalog, registry=resources.registry,
-            documents_available=resources.retrieval is not None, synthetic=True)
+            documents_available=resources.retrieval is not None, synthetic=True,
+            **(dict(topics=resources.topics) if resources.topics else {}))
         scoped = None
 
         async def route_request():
@@ -150,8 +161,9 @@ class Orchestrator:
             scope = tuple(f'{kind}:{value}' for kind,value in
                 (('program',scoped.program_id),('curriculum',scoped.curriculum_id)) if value)
             value = await resources.retrieval.retrieve(RetrievalRequest(
-                routed.query.normalized_text, resources.pin.release_id, scope=scope,
-                document_version_ids=tuple(s.version_id for s in resources.pin.sources)))
+                routed.query.normalized_text, resources.pin.release_id, scope=scope+resources.document_scope,
+                document_version_ids=tuple(s.version_id for s in resources.pin.sources)),
+                **(_topic_intent(routed.proposed) if resources.topics else {}))
             if type(value) is not DocumentResult:
                 raise ValueError('typed_document_result_required')
             return DocumentResult.parse(value.model_dump(mode='json'))

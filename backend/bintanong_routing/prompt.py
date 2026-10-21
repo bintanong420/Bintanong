@@ -153,10 +153,19 @@ def digest(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
 
-def output_schema():
+def output_schema(topics=()):
     schema = WireInterpretation.model_json_schema()
     # Wire field order declares the requested parts before actions and route.
     schema['properties']['schema_version']['const'] = WireInterpretation.SCHEMA_VERSION
+    part = schema['$defs']['WirePart']
+    if topics:
+        part['properties']['subject_id'] = {'enum': [t.subject_id for t in topics] + [None]}
+        part['properties']['requested_claims'] = {'type': 'array', 'maxItems': 8,
+            'items': {'enum': sorted({c for t in topics for c in t.claims})}}
+        part['required'] = [*part.get('required', []), 'subject_id', 'requested_claims']
+    else:  # Unchanged schema whenever the release supplies no topic menu.
+        for name in ('subject_id', 'requested_claims'):
+            part['properties'].pop(name)
     for field, vocab in [('route','routes'), ('control','controls')]:
         schema['properties'][field] = {'enum': [*VOCAB['runtime'][vocab], None]}
     route_branch = {k:deepcopy(v) for k,v in schema.items() if k != '$defs'}
@@ -191,12 +200,20 @@ def output_schema():
     return schema
 
 
-def build_messages(text, context, catalog, registry):
+TOPIC_INSTRUCTION = '''Document topics: for each document part, set subject_id to the ONE topic
+below whose reviewed facts answer that part, and requested_claims to those exact facts
+from that topic only. Use subject_id null and requested_claims [] when no topic fits.
+Topics are retrieval labels, never answers or evidence.'''
+
+
+def build_messages(text, context, catalog, registry, topics=()):
     data = dict(original_text=text, normalized_text=prepare_query(text),
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
-    return [dict(role='system', content=SYSTEM_PROMPT + '\nJSON schema:\n' + ordered_json(compact_for_prompt(output_schema()))),
+    menu = '' if not topics else chr(10) + TOPIC_INSTRUCTION + chr(10) + canonical(
+        [dict(subject_id=t.subject_id, facts=list(t.claims)) for t in topics])
+    return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(output_schema(topics)))),
             dict(role='user', content=canonical(data))]
 
 

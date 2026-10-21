@@ -34,6 +34,8 @@ class WirePart(Record):
     quote: QuoteReference
     evidence_need: Literal['document', 'structured', 'unknown']
     operation_indices: tuple[Annotated[int, Field(ge=0, le=3)], ...] = Field(max_length=4)
+    subject_id: str | None = None  # only present in the schema when a topic menu exists
+    requested_claims: tuple[str, ...] = ()
 
 
 class WireInterpretation(Contract):
@@ -101,7 +103,8 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
                 for c in wire.claims],
         operations=[dict(name=o.name, target=course_index(o.target)) for o in wire.operations],
         parts=[dict(**span(p.quote), part_id=p.part_id, evidence_need=p.evidence_need,
-                    operation_indices=list(p.operation_indices)) for p in wire.parts])
+                    operation_indices=list(p.operation_indices), subject_id=p.subject_id,
+                    requested_claims=list(p.requested_claims)) for p in wire.parts])
     result = Interpretation.parse(data)
     for claim in result.claims:
         entity = result.mentions[claim.entity]

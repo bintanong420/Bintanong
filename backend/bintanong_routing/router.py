@@ -39,19 +39,29 @@ def _repair_messages(messages, raw):
              + messages[1]['content'])]
 
 
+
+def check_topics(proposed, topics):
+    """Host check: topic choices must come from the release menu, claims from that subject."""
+    menu = {t.subject_id: set(t.claims) for t in topics}
+    for part in proposed.parts:
+        if part.subject_id is not None and not set(part.requested_claims) <= menu.get(part.subject_id, set()):
+            raise ValueError('topic_outside_menu')
+
+
 class Router:
     def __init__(self, transport, *, catalog=(), registry=EMPTY_REGISTRY,
-                 documents_available=False, synthetic=False):
+                 documents_available=False, synthetic=False, topics=()):
         self.transport = transport
         self.catalog = tuple(catalog)
         self.registry = registry
         self.documents_available = documents_available
         self.synthetic = synthetic
+        self.topics = tuple(topics)
 
     async def route(self, text: str, context: RequestContext) -> RoutingResult:
         normalized = prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
-        messages = build_messages(text, context, self.catalog, self.registry)
+        messages = build_messages(text, context, self.catalog, self.registry, self.topics)
         proposed = None
 
         def failure(code, attempts, style_attempts=0):
@@ -64,12 +74,13 @@ class Router:
 
         for attempt in (1, 2):
             try:
-                raw = await self.transport.infer(messages, output_schema())
+                raw = await self.transport.infer(messages, output_schema(self.topics))
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
             try:
                 data = _json_proposal(raw)
                 proposed = normalize_interpretation(text, WireInterpretation.parse(data))
+                check_topics(proposed, self.topics)
             except (ValueError, ValidationError):
                 if attempt == 2:
                     return failure('invalid_model_output', attempt)

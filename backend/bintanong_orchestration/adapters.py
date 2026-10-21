@@ -47,8 +47,9 @@ class RetrievalAdapter:
         self.engine = engine
         self._worker = _BoundedWorker()
 
-    async def retrieve(self, request: RetrievalRequest) -> DocumentResult:
-        raw = await self._worker.run(lambda: self.engine.retrieve(request))
+    async def retrieve(self, request: RetrievalRequest, **intent) -> DocumentResult:
+        # Research topic intent (subject_id/requested_claims) is forwarded only when supplied.
+        raw = await self._worker.run(lambda: self.engine.retrieve(request, **intent))
         if raw.get('schema_version') not in (None, 'bintanong-retrieval-debug-v1',
                                              'bintanong-retrieval-debug-v2'):
             raise ValueError('invalid_retrieval_schema')
