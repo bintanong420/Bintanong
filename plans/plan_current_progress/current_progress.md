@@ -54,10 +54,13 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Owner confirmed the Filipino/Taglish wording reads naturally (21 Oct). Pending:
-owner approval of plainer wording for host-rendered Filipino lines (they use deep
-words such as "nakasaad", "kwalipikado"); then test more Filipino/Taglish
-questions, including Hybrid, beyond these four fixtures before any gate claim.
+Owner confirmed the Filipino/Taglish wording reads naturally (21 Oct) and
+approved plainer host-rendered Filipino lines, delivered in `39c46cb` (three
+unapproved lines still say "pagsusuri"). Against the exit map: interpretation
+and completeness are now evidenced on the four fixtures; still open are the
+relevance check on the per-part reviewer (old B cases never ran), omissions the
+router never declares, broader multilingual cases (new wordings need owner
+approval) and real-service timing, then formal closeout.
 Separate follow-up: answer verified parts while naming an unavailable part.
 
 ## Boundaries

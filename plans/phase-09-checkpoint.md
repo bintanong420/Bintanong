@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 108
+sequence: 109
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -76,8 +76,9 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Per-language style `b0905cb`: third observation 4/4 full quality (author reading).
-Await owner naturalness confirmation, then plan a broader Filipino/Taglish check.
+Owner confirmed naturalness; approved Filipino host wording delivered `39c46cb`
+(742 focused passed). Next: propose the relevance check for the per-part reviewer
+and a small owner-approved set of new Filipino/Taglish/Hybrid fixture wordings.
 Do not rerun the same four fixtures as if they were new evidence.
 
 ## Do Not Repeat
