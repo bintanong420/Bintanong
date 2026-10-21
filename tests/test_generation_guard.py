@@ -60,7 +60,7 @@ def test_required_or_uncertain_check_withholds_without_drafting_or_silent_rerout
         assert (answer.draft_attempts,answer.check_attempts,answer.answer_repairs)==(0,0,0)
         assert answer.decision_guard.result==requirement and answer.decision_guard.elapsed_seconds>=0
         assert len(model.calls)==1 and source.route=='RAG'
-        assert {'en':'structured check','fil':'nakabalangkas','taglish':'structured check'}[language] in answer.text
+        assert {'en':'structured check','fil':'prerequisite check','taglish':'structured check'}[language] in answer.text
         assert 'conditions satisfied' not in answer.text
     asyncio.run(run())
 

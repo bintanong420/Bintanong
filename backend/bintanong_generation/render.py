@@ -15,9 +15,9 @@ _WORDS={
   greeting='Hello. I can help with supported undergraduate academic-affairs questions.',
   abstained='A supported explanation could not be verified from the supplied evidence.'),
  'fil':dict(preview='Preview ng kandidato lamang. Hindi opisyal na gabay ng unibersidad.',
-  answered='Batay sa ibinigay na ebidensya:',eligible='Sa sinuring prerequisite: natugunan ang mga kondisyon.',
-  ineligible='Sa sinuring prerequisite: may hindi natugunang nakasaad na kondisyon.',
-  unknown='Hindi matiyak ang pagiging kwalipikado mula sa kasalukuyang impormasyon at saklaw ng tuntunin.',
+  answered='Batay sa ibinigay na ebidensya:',eligible='Ayon sa prerequisite check: kumpleto ang mga kondisyon.',
+  ineligible='Ayon sa prerequisite check: may kondisyon na kulang pa.',
+  unknown='Hindi pa masabi kung pwede ka, dahil kulang ang impormasyon o hindi ito sakop ng rules.',
   unsupported='Hindi suportado ang pagsusuring ito.',error='Hindi natapos ang pagsusuri.',
   conditions='Mga kondisyon',missing='Kulang na impormasyon',dependency='Posibleng maapektuhang kurso sa ibinigay na bundle',
   clarification_needed='Pakilinaw ang kulang na impormasyon bago makapagbigay ng pasya.',
@@ -26,7 +26,7 @@ _WORDS={
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
   temporarily_unavailable='Pansamantalang hindi magawa ang pagsusuri. Subukan muli mamaya.',
   greeting='Kumusta. Makakatulong ako sa mga suportadong tanong tungkol sa undergraduate academic affairs.',
-  abstained='Hindi mapatunayan ang paliwanag mula sa ibinigay na ebidensya.'),
+  abstained='Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'),
  'taglish':dict(preview='Candidate preview lang. Hindi official university guidance.',
   answered='Based sa supplied evidence:',eligible='Sa supported prerequisite check, satisfied ang conditions.',
   ineligible='Sa supported prerequisite check, may documented condition na hindi met.',
@@ -61,13 +61,13 @@ def selected_cards(pack,claims):
 
 _WITHHELD={
  'en':'I cannot verify this answer from retrieved text alone. No structured check has been verified, so I cannot give a structured conclusion.',
- 'fil':'Hindi matiyak ang sagot mula sa nakuha lamang na teksto. Wala pang napatunayang nakabalangkas na pagsusuri, kaya hindi makapagbibigay ng pasya.',
+ 'fil':'Hindi pa masagot nang sigurado gamit lang ang nakuhang text. Wala pang verified na prerequisite check, kaya wala pang desisyon.',
  'taglish':'Hindi pa ma-verify ang answer gamit ang retrieved text lang. Wala pang verified structured check, kaya wala pang structured conclusion.'}
 
 
 _UNCOVERED={
  'en':'I cannot verify that the available evidence answers your question.',
- 'fil':'Hindi mapatunayang nasasagot ng kasalukuyang ebidensya ang tanong.',
+ 'fil':'Hindi makumpirma na nasasagot ng available na ebidensya ang tanong mo.',
  'taglish':'Hindi ma-verify na nasasagot ng available evidence ang question mo.'}
 
 
@@ -78,7 +78,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     lines=[words['preview'],message]
     if pack.structured_context is not None:
         context=pack.structured_context
-        label={'en':'Check scope','fil':'Saklaw ng pagsusuri','taglish':'Check scope'}.get(pack.language,'Check scope')
+        label={'en':'Check scope','fil':'Sakop ng check','taglish':'Check scope'}.get(pack.language,'Check scope')
         values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
         editions=', '.join(context.scope.edition_ids) if context.scope else ''
         lines.append(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}')
