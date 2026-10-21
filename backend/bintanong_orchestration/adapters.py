@@ -43,8 +43,9 @@ class _BoundedWorker:
 
 
 class RetrievalAdapter:
-    def __init__(self, engine):
-        self.engine = engine
+    def __init__(self, engine, *, research=False):
+        # research: owner-authorized real-data development mode (AGENTS.md, 21 Oct 2026).
+        self.engine, self.research = engine, research is True
         self._worker = _BoundedWorker()
 
     async def retrieve(self, request: RetrievalRequest, **intent) -> DocumentResult:
@@ -59,7 +60,11 @@ class RetrievalAdapter:
                 ref=None, section_path=[]) | c['locator']) for c in p['citations']]
             passages.append(dict(chunk_id=p['chunk_id'], version_id=p['version_id'],
                 text=p['text'], citations=citations))
-        return DocumentResult.parse(dict(release_id=raw['release_id'], status=raw['status'],
+        status = raw['status']
+        assessment = (raw.get('evidence_policy') or {}).get('assessment') or {}
+        if self.research and status == 'uncalibrated' and assessment.get('status') == 'reviewed_fields_available':
+            status = 'ok'  # reviewed fields found; the answer stays a labelled research candidate
+        return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
             gaps=raw['gaps'], passages=passages))
 
 

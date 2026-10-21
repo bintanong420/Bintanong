@@ -64,3 +64,34 @@ def test_retrieval_adapter_forwards_topic_intent_only_when_supplied():
     asyncio.run(adapter.retrieve(request))
     asyncio.run(adapter.retrieve(request, subject_id='fictional_office', requested_claims=('filing office',)))
     assert engine.calls == [{}, dict(subject_id='fictional_office', requested_claims=('filing office',))]
+
+
+class StatusEngine:
+    def __init__(self, status, assessment):
+        self.status, self.assessment = status, assessment
+
+    def retrieve(self, request, **intent):
+        policy = dict(assessment=None if self.assessment is None else dict(status=self.assessment))
+        return dict(schema_version='bintanong-retrieval-debug-v1', release_id=request.release_id,
+                    status=self.status, gaps=[], evidence=[], evidence_policy=policy)
+
+
+def _status(engine, **options):
+    from backend.bintanong_orchestration.adapters import RetrievalAdapter
+    from backend.bintanong_retrieval.types import RetrievalRequest
+    request = RetrievalRequest('Fictional question?', 'release-synth-1')
+    return asyncio.run(RetrievalAdapter(engine, **options).retrieve(request)).status
+
+
+def test_research_mode_answers_only_reviewed_fields_available():
+    assert _status(StatusEngine('uncalibrated', 'reviewed_fields_available'), research=True) == 'ok'
+
+
+def test_research_mode_keeps_every_other_result_withheld():
+    assert _status(StatusEngine('uncalibrated', 'insufficient_context'), research=True) == 'uncalibrated'
+    assert _status(StatusEngine('uncalibrated', None), research=True) == 'uncalibrated'
+    assert _status(StatusEngine('insufficient_evidence', 'insufficient_evidence'), research=True) == 'insufficient_evidence'
+
+
+def test_default_mode_never_upgrades_uncalibrated():
+    assert _status(StatusEngine('uncalibrated', 'reviewed_fields_available')) == 'uncalibrated'
