@@ -30,7 +30,8 @@ real public data for development (AGENTS.md); router picks topic + reviewed fact
 reviewed_fields_available may feed generation in research mode only. Task 1 done
 (`295a91c` PackageStorage; equivalence 39/39 offered, 36/39 status; the 3 overload
 differences come from Phase 05's transitive-neighbor double vs direct-neighbor SQL).
-Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Next: task 3,
+Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Full suite at
+`49f39b5`: 6042 passed, 6 skipped, 0 failed (973 s). Next: task 3,
 threading research-mode Prolog results and research retrieval status through the
 synthetic-only gates (scoped in the plan), in small slices.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
