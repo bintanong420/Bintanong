@@ -47,3 +47,29 @@ def test_pin_research_reference_matches_its_mode(synthetic, ref):
     data = synthetic_pin().model_dump(mode='json') | dict(synthetic=synthetic, research_ref=ref)
     with pytest.raises(ValueError):
         ReleasePin.parse(data)
+
+
+def test_orchestrator_carries_a_research_result_end_to_end():
+    import asyncio, json
+    from backend.bintanong_contracts.symbolic import Capability, CapabilityRegistry
+    from backend.bintanong_orchestration.adapters import SymbolicAdapter
+    from backend.bintanong_orchestration.orchestrator import Orchestrator
+    from backend.bintanong_orchestration.ports import ReleaseResources, SyntheticReleaseProvider
+    from backend.bintanong_routing.contracts import RequestContext
+    from backend.bintanong_symbolic.runtime import ResearchSymbolicResult
+    from test_routing_contracts import context, proposal
+    from test_routing_router import FakeTransport
+    from test_routing_validation import entry
+    bundle = prepare_runtime_bundle(real_fixture())
+    runtime = research(bundle)
+    pin, _ = research_case()
+    course = entry(entity='course-2', alias='A1', curriculum='curriculum-synthetic-1').model_copy(
+        update=dict(source_ref=pin.sources[0].version_id))
+    registry = CapabilityRegistry({'check_prerequisite_eligibility': Capability(
+        'offline_research_prerequisite_check', ('curriculum_id', 'course_id'))})
+    resources = ReleaseResources(pin, (course,), registry, None, SymbolicAdapter(runtime, research=True))
+    ctx = RequestContext.parse(context(curriculum_id='curriculum-synthetic-1'))
+    integration = asyncio.run(Orchestrator(FakeTransport(json.dumps(proposal())),
+        releases=SyntheticReleaseProvider(resources)).run('A1', ctx))
+    assert type(integration.evidence.symbolic) is ResearchSymbolicResult
+    assert integration.evidence.symbolic.research.authorization.authorization_ref == REF

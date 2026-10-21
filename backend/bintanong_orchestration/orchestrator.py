@@ -9,7 +9,7 @@ from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
 from ..bintanong_routing.combined import CombinedRouter
-from ..bintanong_symbolic.runtime import DependencyResult
+from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
 from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
 from .integration import assemble
@@ -172,16 +172,20 @@ class Orchestrator:
             request = routed.decision.predicate_request
             resources.registry.goal(request)
             value = await resources.symbolic.execute(request, scoped)
-            if type(value) not in (SymbolicResult, DependencyResult) or value.inputs != request.inputs:
+            # A research pin expects labelled real-rule results; a synthetic pin, synthetic ones.
+            research = not resources.pin.synthetic
+            result_kind, dependency_kind = ((ResearchSymbolicResult, ResearchDependencyResult) if research
+                                            else (SymbolicResult, DependencyResult))
+            if type(value) not in (result_kind, dependency_kind) or value.inputs != request.inputs:
                 raise ValueError('operation_input_mismatch')
-            if type(value) is SymbolicResult:
-                if value.decision.predicate != request.predicate or not value.decision.synthetic:
+            if type(value) is result_kind:
+                if value.decision.predicate != request.predicate or value.decision.synthetic is research:
                     raise ValueError('operation_result_mismatch')
                 resources.registry.check_result(value)
-                return SymbolicResult.parse(value.model_dump(mode='json'))
-            if request.predicate != 'list_affected_courses' or not value.synthetic:
+                return result_kind.parse(value.model_dump(mode='json'))
+            if request.predicate != 'list_affected_courses' or value.synthetic is research:
                 raise ValueError('dependency_operation_mismatch')
-            return DependencyResult.parse(value.model_dump(mode='json'))
+            return dependency_kind.parse(value.model_dump(mode='json'))
 
         documents, symbolic, dependencies = None, None, None
         if route == 'Hybrid':
