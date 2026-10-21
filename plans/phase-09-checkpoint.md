@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 118
+sequence: 119
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6745393
-working_tree: dirty
-updated_at: 2026-10-21T18:30:00+08:00
+head_commit: 6c14755
+working_tree: clean
+updated_at: 2026-10-21T23:30:00+08:00
 ---
 
 # Phase 09 checkpoint - per-part generation observed on the actual model
@@ -48,10 +48,10 @@ Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`. Code/tests/READMEs committed as `6745393`
-(`feat(generation): require one answer slot per question part`); this checkpoint,
-progress, INDEX and the decision record followed in `32418e7`. The existing CUDA
-container was restarted; no new download, dependency, DB, source or institutional change.
+Branch `feat/p09-generation-validation`, HEAD `6c14755` plus this checkpoint commit;
+clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
+running. No dependency, Supabase, source or institutional change; research mode
+serves reviewed data through the read-only PackageStorage stand-in.
 
 ## Verification Evidence
 
@@ -91,11 +91,9 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Real-data plan: [plan](2026-10-21-real-data-runtime-plan.md) (task 1 replaced by a read-only storage stand-in; calibration/topic decisions conflict, awaiting owner). Broader six-case check ([record](2026-10-21-broader-multilingual-check.md)): relevance
-confirmed; placeholder-claim and deep-word fixes `838f6d4`; post-fix b1/b3/b4 pass.
-Full suite at `d75f4d1`: 6016 passed. Owner authorized real public data for
-development (AGENTS.md). Next: plan wiring real retrieval + reviewed BSCS Prolog
-into the runtime path, reusing existing Phase 05/06 assets.
+Full suite at `6c14755`: 6077 passed, 6 skipped, 0 failed (1009 s). Owner picks next:
+#2 relevance (per-student fee mapped to a printed total), #3 router style labelling of
+English-heavy Taglish, or remaining latency levers (prompt cache, router free text).
 
 ## Do Not Repeat
 
