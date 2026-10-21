@@ -89,3 +89,14 @@ def test_generation_input_omits_retrieval_topic_labels():
     from test_request_understanding_pipeline import source
     parts = document_payload(prepare(source()))['requested_parts']
     assert parts and all('subject_id' not in p and 'requested_claims' not in p for p in parts)
+
+
+def test_prompt_shows_plain_topic_fields_while_the_grammar_keeps_paired_branches():
+    from backend.bintanong_routing.contracts import RequestContext
+    from test_routing_router import context
+    ctx = RequestContext.parse(context())
+    system = build_messages(TEXT, ctx, (), _registry(), topics=MENU)[0]['content']
+    shown = system.split('JSON schema:\n', 1)[1]
+    assert 'subject_id' in shown and 'requested_claims' in shown
+    assert 'anyOf' not in shown  # per-topic branches stay in the enforced grammar only
+    assert 'anyOf' in json.dumps(output_schema(MENU))

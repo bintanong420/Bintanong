@@ -207,6 +207,18 @@ def output_schema(topics=()):
     return schema
 
 
+def display_schema(topics=()):
+    """Schema text shown to the model. With a topic menu the per-topic branches stay in the
+    enforced grammar only (they doubled the prompt); the menu text lists the choices."""
+    schema = output_schema()
+    if topics:
+        part = schema['$defs']['WirePart']
+        part['properties']['subject_id'] = {'type': ['string', 'null']}
+        part['properties']['requested_claims'] = {'type': 'array', 'items': {'type': 'string'}}
+        part['required'] = [*part.get('required', []), 'subject_id', 'requested_claims']
+    return schema
+
+
 TOPIC_INSTRUCTION = '''Document topics: for each document part, set subject_id to the ONE topic
 below whose reviewed facts answer that part, and requested_claims to those exact facts
 from that topic only. Use subject_id null and requested_claims [] when no topic fits.
@@ -220,7 +232,7 @@ def build_messages(text, context, catalog, registry, topics=()):
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
     menu = '' if not topics else chr(10) + TOPIC_INSTRUCTION + chr(10) + canonical(
         [dict(subject_id=t.subject_id, facts=list(t.claims)) for t in topics])
-    return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(output_schema(topics)))),
+    return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(display_schema(topics)))),
             dict(role='user', content=canonical(data))]
 
 
