@@ -63,7 +63,8 @@ offered chunks 39/39; 3 overload results differ because Phase 05's double used
 transitive neighbors the real SQL lacks. Task 2 (router topic menu) done
 `f38b409`. Task 3 done (research results threaded
 through every gate; builder `12c5e65`). First real answers: CC5 ineligible via real Prolog;
-grade 1.0 = 98-100 Excellent from Handbook p.46. Next: task 4 roster run. Against the exit map: interpretation
+grade 1.0 = 98-100 Excellent from Handbook p.46. Task 4 roster (63 real cases x2):
+see [results](../2026-10-21-real-data-roster-results.md); next: owner picks router/relevance fix. Against the exit map: interpretation
 and completeness are now evidenced on the four fixtures; still open are the
 relevance check on the per-part reviewer (old B cases never ran), omissions the
 router never declares, broader multilingual cases (new wordings need owner

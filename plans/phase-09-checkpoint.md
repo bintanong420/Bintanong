@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 115
+sequence: 116
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
@@ -35,7 +35,10 @@ Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Full suite a
 (research status, adapter, pin/evidence, orchestrator, answers). Builder `12c5e65`;
 smoke fixes `520aa98`, `ee13b64`. Real-stack smoke: CC5 (old BSCS) answered ineligible via
 real Prolog; grade 1.0 answered from Handbook p.46. Owner alias rule recorded `482afda`.
-Next: task 4 runner over the accepted roster; fix internal course IDs in answers.
+Task 4 done: [roster results](2026-10-21-real-data-roster-results.md). Run 2: 13 correct
+answers (10 docs + 3 CC5), 1 wrong (per-student fee), 0 invented facts, 8 routing errors.
+Fixes during task 4: `88ad891` printed codes, `e945c80` compact cards, `71734f2` thought ban.
+Next: owner chooses among the three next candidates in the results report.
 Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
 
 ## Repository State
