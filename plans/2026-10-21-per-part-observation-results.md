@@ -46,3 +46,14 @@ Filipino function words; (b) one prompt line asking each claim to mirror the
 question's language mix; (c) accept and disclose it as the known Taglish
 limitation. Option (a) adds no model call unless the guard fires. No prompt,
 guard or rerun was attempted after this result.
+
+## Second observation protocol: style guard (fixed before running)
+
+Owner chose option (a) and directed natural Taglish: Filipino grammar words with
+everyday English terms; no deep Tagalog such as "isusumite". Code `cd8e49b` adds
+the deterministic style floor (existing single repair) and that prompt guidance.
+Same runner, fixtures, model, settings and order, copied to a fresh evidence
+folder `audit-evidence/p09-style-guard-20261021/`; one attempt per case.
+Criteria: the unchanged strict gate, plus the owner's Taglish naturalness
+reading (d-tl claims should read like typed Taglish; deep-Tagalog verbs are
+reported as a style finding). Prompt examples share no wording with fixtures.
