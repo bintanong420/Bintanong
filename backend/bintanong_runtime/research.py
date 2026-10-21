@@ -53,6 +53,12 @@ def research_catalog(ledger):
     return tuple(entries)
 
 
+def course_labels(ledger):
+    """Display-only printed codes, drafts included (they can appear inside conditions)."""
+    return tuple((c['course_id'], c['facts']['course_code']['value']) for c in ledger['courses']
+                 if 'course_code' in c.get('facts', {}))
+
+
 def topic_menu(register):
     """One topic per reviewed subject with all of its reviewed claim strings, in register order."""
     subjects = {}
@@ -84,4 +90,5 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref):
     engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
     return ReleaseResources(pin, research_catalog(ledger), registry,
         RetrievalAdapter(engine, research=True), SymbolicAdapter(runtime, research=True),
-        topics=topic_menu(package['register']), document_scope=('audience:undergraduate',))
+        topics=topic_menu(package['register']), document_scope=('audience:undergraduate',),
+        course_labels=course_labels(ledger))

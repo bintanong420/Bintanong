@@ -70,3 +70,10 @@ def test_research_release_wires_pin_adapters_registry_menu_and_scope(monkeypatch
     assert resources.registry._capabilities['check_prerequisite_eligibility'].name == 'offline_research_prerequisite_check'
     assert [t.subject_id for t in resources.topics] == ['fees']
     assert resources.document_scope == ('audience:undergraduate',)
+    assert resources.course_labels == research.course_labels(ledger)
+
+
+def test_course_labels_cover_every_printed_code_including_drafts():
+    from backend.bintanong_runtime.research import course_labels
+    assert course_labels(ledger(course('course-a', 'ZZ 5/L'), course('course-b', 'ZZ 1/L', state='draft'))) == (
+        ('course-a', 'ZZ 5/L'), ('course-b', 'ZZ 1/L'))

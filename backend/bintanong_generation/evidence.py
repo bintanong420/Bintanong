@@ -27,6 +27,7 @@ class PreparedEvidence:
     missing_facts: tuple[str,...]
     understanding: RequestUnderstanding|None
     research_ref: str|None=None  # owner-authorized research release reference, if any
+    course_labels: tuple[tuple[str,str],...]=()  # display-only printed codes
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -93,4 +94,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         result.status,result.response_style,result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
-        evidence.pin.research_ref if evidence else None)
+        evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())))

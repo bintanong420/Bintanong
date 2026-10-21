@@ -32,6 +32,7 @@ class ReleaseResources:
     # Research real-data mode: router topic menu and extra retrieval scope tags.
     topics: tuple[DocumentTopic, ...] = ()
     document_scope: tuple[str, ...] = ()
+    course_labels: tuple[tuple[str, str], ...] = ()  # (course_id, printed code), display only
 
     def __post_init__(self):
         object.__setattr__(self, 'pin', ReleasePin.parse(self.pin.model_dump(mode='json')))

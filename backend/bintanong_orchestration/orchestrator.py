@@ -58,7 +58,8 @@ class Orchestrator:
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style,
                 status=status, evidence=evidence, understanding=understanding,
-                missing_facts=tuple(missing), events=tuple(events))
+                missing_facts=tuple(missing), events=tuple(events),
+                course_labels=dict(resources.course_labels) if resources else {})
 
         async def stage(name, call):
             start, value, outcome = perf_counter(), None, 'ok'
@@ -116,7 +117,8 @@ class Orchestrator:
                 raise ValueError('release_resources_required')
             # Recheck metadata at this request boundary; the provider is trusted.
             return ReleaseResources(value.pin, value.catalog, value.registry,
-                                    value.retrieval, value.symbolic, value.topics, value.document_scope)
+                                    value.retrieval, value.symbolic, value.topics, value.document_scope,
+                                    value.course_labels)
 
         resources, failure = await stage('release', pin_release)
         if failure:

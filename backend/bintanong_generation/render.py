@@ -76,12 +76,16 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
     lines=[words['preview'],message]
+    def shown(text):  # display printed course codes in place of internal identities
+        for course,code in pack.course_labels:
+            text=text.replace(course,code)
+        return text
     if pack.structured_context is not None:
         context=pack.structured_context
         label={'en':'Check scope','fil':'Sakop ng check','taglish':'Check scope'}.get(pack.language,'Check scope')
         values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
         editions=', '.join(context.scope.edition_ids) if context.scope else ''
-        lines.append(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}')
+        lines.append(shown(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}'))
     missing=pack.missing_facts
     canonical_allowed=pack.status=='ready' and status=='answered'
     if pack.decision is not None and (canonical_allowed or
@@ -89,17 +93,17 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         decision=pack.decision
         lines.append(words[decision.outcome])
         conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
-        if conditions: lines.append(words['conditions']+': '+', '.join(conditions))
+        if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
         missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
     if pack.dependencies is not None:
         if canonical_allowed:
-            lines.append(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)'))
+            lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))
         if (canonical_allowed or pack.status=='unknown') and pack.dependencies.unknown_conditions:
-            lines.append(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions))
+            lines.append(shown(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions)))
     if missing and (canonical_allowed or status=='clarification_needed'):
         labels=({'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}
             if pack.language=='fil' else {'program_id':'degree program','curriculum_id':'curriculum version'})
-        lines.append(words['missing']+': '+', '.join(labels.get(field,field) for field in missing))
+        lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     for card in selected_cards(pack,claims):

@@ -178,6 +178,8 @@ class IntegrationResult(Contract):
     understanding: RequestUnderstanding | None
     missing_facts: tuple[Text, ...] = ()
     events: tuple[StageEvent, ...]
+    # Display-only printed course codes keyed by internal course identity.
+    course_labels: dict[str, Text] = Field(default_factory=dict, max_length=256)
 
     @model_validator(mode='after')
     def _result(self):
