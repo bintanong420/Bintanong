@@ -6,7 +6,8 @@ from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext
-from ..bintanong_symbolic.runtime import DependencyResult, StudentFacts
+from ..bintanong_symbolic.runtime import (DependencyResult, ResearchDependencyResult,
+                                         ResearchSymbolicResult, StudentFacts)
 from .contracts import DocumentResult
 
 
@@ -69,8 +70,12 @@ class RetrievalAdapter:
 
 
 class SymbolicAdapter:
-    def __init__(self, runtime):
-        if runtime.synthetic is not True:
+    def __init__(self, runtime, *, research=False):
+        # research: owner-authorized real-rule mode; results keep their research labels.
+        self.research = research is True
+        if self.research and runtime.synthetic is not False:
+            raise ValueError('research_runtime_required')
+        if not self.research and runtime.synthetic is not True:
             raise ValueError('synthetic_runtime_required')
         self.runtime = runtime
         self.release_id = runtime.release_id
@@ -95,10 +100,12 @@ class SymbolicAdapter:
             for state in ('passed', 'failed', 'enrolled', 'not_enrolled')})
         if operation == 'list_affected_courses':
             result = await self._worker.run(lambda: self.runtime.list_affected_courses(request))
-            if type(result) is not DependencyResult or not result.synthetic:
-                raise ValueError('synthetic_dependency_result_required')
-            return DependencyResult.parse(result.model_dump(mode='json'))
+            kind = ResearchDependencyResult if self.research else DependencyResult
+            if type(result) is not kind or result.synthetic is self.research:
+                raise ValueError('dependency_result_kind_mismatch')
+            return kind.parse(result.model_dump(mode='json'))
         result = await self._worker.run(lambda: self.runtime.check(request, facts))
-        if type(result) is not SymbolicResult or not result.decision.synthetic:
-            raise ValueError('synthetic_symbolic_result_required')
-        return SymbolicResult.parse(result.model_dump(mode='json'))
+        kind = ResearchSymbolicResult if self.research else SymbolicResult
+        if type(result) is not kind or result.decision.synthetic is self.research:
+            raise ValueError('symbolic_result_kind_mismatch')
+        return kind.parse(result.model_dump(mode='json'))
