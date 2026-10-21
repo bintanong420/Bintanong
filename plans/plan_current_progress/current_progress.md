@@ -1,71 +1,52 @@
 # Current progress
 
-Updated21October2026;Phase09 active,p09/feat/p09-generation-validation.
-[Checkpoint](../phase-09-checkpoint.md) | [New diagnosis/proposal](../2026-10-21-checker-completeness-diagnosis-and-proposal.md).
-Last full snapshot before condensation:8dbb15d:plans/plan_current_progress/current_progress.md.
+Updated 21 October 2026. Phase 09 active on p09 / `feat/p09-generation-validation`.
+[Checkpoint](../phase-09-checkpoint.md) | [Per-part decision](../2026-10-21-per-part-generation-decision.md).
+Last full snapshot before this replacement: `0a08d8d:plans/plan_current_progress/current_progress.md`.
 
-## Latest analysis
+## Latest change: per-part generation (owner-approved this session)
 
-Selected reviewer already warns office claims do not cover fees;it ignored that
-instruction. Source/parts intact;host checks mapping references,not semantic truth.
-Saved English trace confirms native thinking off and no rendered activation;
-this does not prove causation. Context7/official source matched actual saved build
-b11723-31288c9c6;Boolean on control is available. PROPOSED,not approved/run:four
-saved checker inputs,one off/on pair each,max8calls,same model/prompt/schema/
-output768/deadline120s. Complete Filipino/Taglish controls prevent blanket refusal.
-No new product/model/service call. One fresh brainstorming builder:no planning gap.
-Root reverified57sealed files,reconstructed4inputs exactly and reproduced saved
-false ledger without inference. Receipt/digest/helper correction in proposal.
-Docs10passed4.14s;87links/caps pass;phase valid/active9,cannot advance.
-Evidence workspace/audit-evidence/p09-checker-completeness-diagnosis-20261021/.
+Agent handover: Claude Code took over from Codex on 21 October 2026.
 
-## Latest delivery
+Root cause of the English missing-fee failure: the selected `scoped` generator
+had no per-part obligation (claims carried no part link; the prompt never said
+"answer every part"), so all completeness checking fell on a post-hoc reviewer
+that wrongly mapped the fee part to an office claim. The owner chose to fix the
+generator instead of running the proposed native-thinking checker trial, which
+is superseded and will not run.
 
-Owner "oh ye definitely then" approved task-first design and single finite gate.
-[Plan](../2026-10-21-task-first-interpretation-implementation-plan.md)dc26142;
-product8060c7b;[protocol](../2026-10-21-task-first-quality-gate.md)/executiondafea60.
-Wirev2 checks count equality,emits parts before actions/route;promptv14,combinedv5/
-packetv3 explicit/unselected. No extra pipeline call. Catalog/host guards,normalized
-contracts,Prolog/generation/repair budgets unchanged. 9RED0.83s->9GREEN0.63s;
-250routing/schema GREEN4.02s. One fresh review:no actionable finding,no fix/review loop.
+Delivered (offline candidate, inactive):
+- New default profile `parts` (`backend/bintanong_generation/part_answers.py`):
+  one required answer slot per declared document part; `answered` with claims
+  or `not_in_evidence` / `source_gap` with none. Host numbers claims and derives
+  the mapping. An unavailable slot withholds the answer with no review call.
+- Reviewer confirms each part against only its own claims plus per-claim support.
+- Same two model calls as before; no budget/model/dependency/threshold change.
+- Runtime settings, run record, CLI and evaluation hashes accept `parts`; older
+  profiles remain explicit. READMEs and the pipeline doc were updated.
+- TDD: 12 new tests (`tests/test_generation_part_slots.py`) RED then GREEN.
+  Nine old tests that silently relied on the `scoped` default were pinned or
+  updated. Focused generation/runtime/docs set: 406 passed.
 
-Actual A4once:interpretation4/4;response/full quality3/4:FAIL/no promotion.
-All4declare two distinct parts/correct routes. Filipino/Taglish complete,cited
-Office K/7tokens;Hybrid correct target/failed premise,actual scoped Janus ineligible
-and cited Office K. English omits the fee;checker falsely maps both r1/r2 to the
-same office-only claim,host releases answered. Ledger still marks semantic
-completeness unverified. This is a CURRENT selected-checker failure,not Prolog.
-B2NOT RUN because Afailed;zero extra calls,no rescue/post-output correction.
+## Not yet known
 
-Four requests/16model calls/64HTTP;zero format/answer repairs,all stop. Known
-fictional developer cases,not unseen/independent human/institutional accuracy.
-Correct complete COMPONENT45.783-49.830s;English43.711s incomplete/not success.
-Successful routing16.864-21.384s;generation/support23.990-32.663s;Janus adapter
-0.406347s includes runtime overhead. Fixed docs bypass embedding/vector/Supabase.
-API/browser/external network/queue/load/fixture readiness/cold startup excluded.
-Readiness0.103116s resident local HTTP,not isolated connection establishment.
-Local27526prompt/3156completion tokens separate from Codex quota. No nonempty
-reasoning field in16responses;no global suppression or causal speed claim.
+Mock tests prove structure, not model quality. Whether Gemma fills the fee slot
+correctly needs one actual-model run on the four saved developer cases. Latency
+should be similar (same call count) but is unmeasured.
 
-Raw:workspace/audit-evidence/p09-task-first-20261021/;digests in checkpoint.
-300prior sealed files/189current source-test-README hashes verified before run.
-Both schemas preserve previous constraints except protocol/count/order;example
-meaning and178other backend/vocabulary files unchanged. One setup helper props
-lookup fixed before any service call;no product change or duplicate readiness GET.
-Final docs10passed0.82s;90links/caps pass;300prior seals/189current hashes reverified.
-Phase valid/active9,cannotadvance;57raw files sealed,digest in checkpoint.
-No250-test rerun or model/service call by verifier.
+## Next action
 
-## Boundaries and next action
+Plan and run one bounded actual-model observation of the `parts` profile on the
+four saved developer cases (English, Filipino, Taglish, Hybrid relevance), using
+the resident service and existing fixtures; record results honestly whatever
+they show. Follow-up candidate (not started): answer verified parts while naming
+an unavailable part, instead of withholding the whole answer.
 
-Await owner decision on reviewed checker-only comparison;approval permits its plan
-and finite diagnostic,not product adoption. Old A/B gate remains stopped.
-No automatic prompt/classifier/example/model/seed/budget sweep or unsafe mapping
-shortcut. Four explicit if/kung variants remain held;do not infer that policy.
-Prior [exit map](../2026-10-21-phase09-remaining-work-and-exit-map.md) applies;
-Phase09 active,Phase10 not started. Accepted75variants and undergraduate/read-only/
-source-gap/privacy/institutional-release/one-week boundaries persist. Thesis17-18/
-39-44,actual PNG/master3/11/13/14 consulted;unknown-versus-unmet policy retained.
-[Saved15-20s browser target](../../Context/response-time-recommendation.md) remains
-proposed/unvalidated;earlier4-8active-hour completion estimate stays low-confidence.
-No accuracy trade,training,dependency/source/DB change,startup,push or activation.
+## Boundaries
+
+Undergraduate scope, read-only advisory, source-gap, privacy, institutional
+release and one-week improvement boundaries unchanged. Accepted 75 variants and
+the held if/kung policy are unchanged. No activation, push, training, dependency
+or DB change. Phase 09 active; Phase 10 not started. Context consulted this
+resume: thesis physical 17-18 (Scope and Limitations) and the routing PNG; no
+discrepancy.
