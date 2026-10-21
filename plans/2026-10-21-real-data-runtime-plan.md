@@ -39,3 +39,20 @@
 Retrieval quality and answer accuracy on real data are unknown until task 4.
 Source-gap, scope, unknown-versus-unmet, privacy and per-part/withholding rules
 are unchanged. Data updates after the university responds are a later task.
+
+## Findings while starting task 1 (21 October 2026)
+
+1. **Supabase loading would require a false approval record.** Runtime reads only
+   an active release, and activation requires sources recorded as approved.
+   The owner's development authorization is not school approval, so task 1 is
+   replaced: research mode will serve the 19 reviewed chunks/vectors through a
+   read-only storage stand-in (as Phase 05's accepted evaluation did), with the
+   real retrieval engine and real query encoder. Supabase stays untouched.
+2. **Real retrieval is labelled `uncalibrated`**, which the pipeline maps to
+   `insufficient_evidence`; every real document answer would be withheld.
+   Phase 05 never calibrated a threshold. Needs an owner decision: in research
+   mode, may a `reviewed_fields_available` result feed generation (the per-part
+   reviewer and support checks remain the backstop)?
+3. **No live subject selection.** Phase 05 supplied a trusted subject per
+   question (7 subjects). The live pipeline has none. Options: run without the
+   subject filter (global top-3), or let the router choose from the 7 subjects.
