@@ -54,8 +54,10 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Owner confirms the Filipino/Taglish wording reads naturally, then test more
-Filipino/Taglish questions beyond these four fixtures before any gate claim.
+Owner confirmed the Filipino/Taglish wording reads naturally (21 Oct). Pending:
+owner approval of plainer wording for host-rendered Filipino lines (they use deep
+words such as "nakasaad", "kwalipikado"); then test more Filipino/Taglish
+questions, including Hybrid, beyond these four fixtures before any gate claim.
 Separate follow-up: answer verified parts while naming an unavailable part.
 
 ## Boundaries

@@ -55,6 +55,17 @@
   use Hybrid when a symbolic decision and document explanation are both required.
   Retaining curriculum text for citations does not require routing every course
   question through embeddings or using similarity to decide eligibility.
+- Owner explanation, 21 October 2026: one student message may mix parts, e.g. a
+  course/prospectus question, then (after a period, "and" or similar) a question
+  on what to do next. The LLM router splits it into parts: course eligibility or
+  prerequisite parts go to Prolog (`structured`), procedure/next-step parts go to
+  RAG (`document`), and the whole message routes Hybrid. Each part is answered
+  by its own path; documentary parts use per-part answer slots (`parts` profile).
+- Owner reply-language rule, 21 October 2026: English question -> English reply;
+  Filipino -> mostly everyday Filipino (unavoidable English terms allowed);
+  Taglish -> Taglish (Tagalog structure, English for terms like submit, fee,
+  office). Never deep Tagalog such as "isusumite" or "nakasaad". This applies to
+  model claims and host-rendered text, including Hybrid/Prolog result lines.
 - Missing grades, curriculum, course identity or rule coverage remain unknown,
   distinct from a documented unmet condition. No recorded prerequisites does not
   prove that a course has none. Preserve all-of/any-of/co-requisite semantics only
