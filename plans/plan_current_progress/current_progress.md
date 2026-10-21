@@ -28,19 +28,20 @@ Delivered (offline candidate, inactive):
   Nine old tests that silently relied on the `scoped` default were pinned or
   updated. Focused generation/runtime/docs set: 406 passed.
 
-## Not yet known
+## Actual-model result ([report](../2026-10-21-per-part-observation-results.md))
 
-Mock tests prove structure, not model quality. Whether Gemma fills the fee slot
-correctly needs one actual-model run on the four saved developer cases. Latency
-should be similar (same call count) but is unmeasured.
+d-en now answers both parts (Office K, 7 tokens): the targeted failure is fixed.
+d-fil and h-en pass. d-tl content is complete but its claims came out in plain
+English, and the reviewer did not flag it: 3/4 full quality, strict gate FAIL.
+Warm component 45.3-48.7 s per case (scoped was 43.7-49.8 s); four calls each.
+A runner defect in a first attempt (zero generation calls) is disclosed there.
 
 ## Next action
 
-Plan and run one bounded actual-model observation of the `parts` profile on the
-four saved developer cases (English, Filipino, Taglish, Hybrid relevance), using
-the resident service and existing fixtures; record results honestly whatever
-they show. Follow-up candidate (not started): answer verified parts while naming
-an unavailable part, instead of withholding the whole answer.
+Owner decision on the Taglish style miss: (a) deterministic guard that uses the
+existing one repair when a fil/taglish claim has no Filipino function words,
+(b) one prompt line, or (c) disclose as known limitation. Separate follow-up:
+answer verified parts while naming an unavailable part.
 
 ## Boundaries
 

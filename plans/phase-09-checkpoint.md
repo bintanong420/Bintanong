@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 105
+sequence: 106
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: 6745393
 working_tree: dirty
 updated_at: 2026-10-21T18:30:00+08:00
 ---
 
-# Phase 09 checkpoint - per-part generation delivered (mock-verified)
+# Phase 09 checkpoint - per-part generation observed on the actual model
 
 Last full snapshot before this replacement: `0a08d8d:plans/phase-09-checkpoint.md`
 (task-first trial, checker diagnosis and their digests; use `git show`).
@@ -25,16 +25,18 @@ Last full snapshot before this replacement: `0a08d8d:plans/phase-09-checkpoint.m
 
 ## Current Task
 
-Run the fixed actual-model observation (protocol in the decision record). The
-existing CUDA container `bintanong-p09-cuda-latency` was restarted (it had exited
-after ~9 h; cold start ~72 s, not counted in any latency figure).
+Actual-model observation done ([results](2026-10-21-per-part-observation-results.md)):
+4/4 complete content (d-en fee now answered), 3/4 full quality because d-tl claims
+came out in plain English; strict gate still FAIL. Awaiting the owner's choice on
+the Taglish style miss. Existing CUDA container `bintanong-p09-cuda-latency` was
+restarted (had exited; cold start ~72 s, excluded from timing) and is running.
 
 ## Repository State
 
 Branch `feat/p09-generation-validation`. Code/tests/READMEs committed as `6745393`
 (`feat(generation): require one answer slot per question part`); this checkpoint,
-progress, INDEX and the decision record follow in a docs commit. No
-startup, model call, dependency, DB, source or institutional change.
+progress, INDEX and the decision record followed in `32418e7`. The existing CUDA
+container was restarted; no new download, dependency, DB, source or institutional change.
 
 ## Verification Evidence
 
@@ -43,7 +45,8 @@ startup, model call, dependency, DB, source or institutional change.
 - GREEN: 12/12. Nine older tests failed on the default switch as expected and
   were pinned to `scoped` or updated to `parts` without weakening assertions.
 - Focused generation/understanding/runtime/docs set: 406 passed in 7.19s.
-- Full suite: FULL_SUITE_RESULT.
+- Full suite at `6745393` content: 5995 passed, 6 skipped, 0 failed (1065 s); skips are
+  pre-existing environment skips (e.g. GPU OCR extra).
 - Command form: `<p05 venv python> -B -m pytest -q -p no:cacheprovider tests
   --basetemp=<workspace>/audit-evidence/p09-per-part-20261021/<dir>`.
   Log: `audit-evidence/p09-per-part-20261021/full-suite.log`.
@@ -73,11 +76,11 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Write a short plan for one actual-model observation of `parts` on the four saved
-developer cases (no reruns or sweeps), then run it against the resident service.
+Owner chooses how to handle the Taglish style miss (deterministic guard, one
+prompt line, or disclose). Do not rerun the observation or tune prompts first.
 
 ## Do Not Repeat
 
-Task-first trial, checker diagnosis, thinking trial, source/benchmark reviews,
+Per-part observation (counted run done once), task-first trial, checker diagnosis, thinking trial, source/benchmark reviews,
 asset setup. Do not overwrite existing test files (an existing
 `tests/test_generation_parts.py` was briefly overwritten and restored from Git).

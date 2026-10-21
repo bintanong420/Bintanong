@@ -42,7 +42,7 @@ TDD: 12 new tests in `tests/test_generation_part_slots.py` failed first (10 for 
 missing feature, then 2 for runtime default/evaluation hashes) and now pass.
 Nine older tests that silently depended on the `scoped` default were pinned to
 `scoped` or updated to the new default; their assertions were not weakened.
-Full-suite result: see checkpoint.
+Full suite: 5995 passed, 6 skipped, 0 failed.
 
 ## Actual-model observation protocol (fixed before running)
 
