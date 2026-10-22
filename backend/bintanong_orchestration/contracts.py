@@ -32,6 +32,13 @@ class DocumentMember(SourceBinding):
     chunk_id: str = Field(pattern=SHA256)
 
 
+class CurriculumMember(Record):
+    """One curriculum's own runtime identity inside a multi-curriculum research release."""
+    curriculum_id: Text
+    release_id: ReleaseID
+    rule_bundle_version: Text
+
+
 class ReleasePin(Record):
     """Trusted snapshot: synthetic, or owner-authorized research (never institutional use)."""
     release_id: ReleaseID
@@ -40,6 +47,7 @@ class ReleasePin(Record):
     sources: tuple[SourceBinding, ...]
     documents: tuple[DocumentMember, ...] = ()
     research_ref: str | None = Field(default=None, pattern=r'^research-[A-Za-z0-9_-]+$', max_length=128)
+    curricula: tuple[CurriculumMember, ...] = ()  # several reviewed curricula in one research release
 
     @model_validator(mode='after')
     def _membership(self):
@@ -52,6 +60,10 @@ class ReleasePin(Record):
             raise ValueError('duplicate_document_member')
         if any(sources.get(d.version_id) != d.byte_sha256 for d in self.documents):
             raise ValueError('document_source_not_in_pin')
+        if len({c.curriculum_id for c in self.curricula}) != len(self.curricula):
+            raise ValueError('duplicate_curriculum_member')
+        if self.curricula and self.synthetic:
+            raise ValueError('curriculum_members_are_research_only')
         return self
 
 

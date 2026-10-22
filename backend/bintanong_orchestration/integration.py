@@ -2,6 +2,18 @@
 from .contracts import CandidateEvidence, DocumentResult, ReleasePin
 
 
+def _identity_pinned(pin, result):
+    release, version = pin.release_id, pin.rule_bundle_version
+    if pin.curricula:  # multi-curriculum research release: the requested curriculum's own runtime
+        curriculum = next((i.value for i in result.inputs if i.name == 'curriculum_id'), None)
+        member = next((m for m in pin.curricula if m.curriculum_id == curriculum), None)
+        if member is None:
+            return False
+        release, version = member.release_id, member.rule_bundle_version
+    return ((result.scope is None or result.scope.knowledge_release_id == release)
+            and (result.rule_bundle_version is None or result.rule_bundle_version == version))
+
+
 def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
     pin = ReleasePin.parse(pin.model_dump(mode='json'))
     if documents is not None:
@@ -23,9 +35,7 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
                 for p in documents.passages for c in p.citations):
             status = 'release_mismatch'
     if result is not None:
-        if ((result.scope is not None and result.scope.knowledge_release_id != pin.release_id)
-                or (result.rule_bundle_version is not None and
-                    result.rule_bundle_version != pin.rule_bundle_version)
+        if (not _identity_pinned(pin, result)
                 or any(sources.get(s.version_id) != s.byte_sha256 for s in result.rule_spans)):
             status = 'release_mismatch'
     missing, conflicts = (), ()

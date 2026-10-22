@@ -4,10 +4,11 @@ Research mode (AGENTS.md, 21 October 2026) is development use of reviewed real d
 not school approval or institutional activation.
 """
 from collections import Counter
+import hashlib
 import json
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
-from ..bintanong_orchestration.adapters import RetrievalAdapter, SymbolicAdapter
+from ..bintanong_orchestration.adapters import MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
 from ..bintanong_orchestration.contracts import ReleasePin
 from ..bintanong_orchestration.ports import ReleaseResources
 from ..bintanong_retrieval.engine import RetrievalEngine
@@ -121,3 +122,43 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref, hos
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
         document_scope=('audience:undergraduate',),
         course_labels=course_labels(ledger))
+
+
+def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None):
+    """One research release serving several reviewed curricula ({curriculum_id: ledger}).
+
+    Each curriculum keeps its own runtime, release identity and rule-bundle version (listed in the
+    pin); the release identity of the set is a digest of those members.
+    """
+    adapters, members, sources, catalog, labels = {}, [], {}, [], []
+    for curriculum, ledger in sorted(ledgers.items()):
+        if ledger['scope']['curriculum_id'] != curriculum:
+            raise ValueError('curriculum_key_mismatch')
+        bundle = prepare_runtime_bundle(ledger)
+        runtime = CurriculumRuntime.for_offline_research(bundle, authorization=dict(
+            purpose='offline_curriculum_acceptance', authorization_ref=authorization_ref,
+            bundle_sha256=bundle['content_sha256'], operations=list(OPERATIONS)))
+        adapters[curriculum] = SymbolicAdapter(runtime, research=True)
+        members.append(dict(curriculum_id=curriculum, release_id=runtime.release_id,
+                            rule_bundle_version=runtime.rule_bundle_version))
+        sources.update({s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']})
+        catalog.extend(research_catalog(ledger)); labels.extend(course_labels(ledger))
+    digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
+    release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + digest
+    manifest, chunks = package['manifest'], package['chunks']
+    storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
+    policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
+        chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
+    sources.update({c['version_id']: c['byte_sha256'] for c in chunks})
+    pin = ReleasePin.parse(dict(release_id=release_id, synthetic=False, research_ref=authorization_ref,
+        rule_bundle_version=version, curricula=members,
+        sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
+        documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
+                   for c in chunks]))
+    registry = CapabilityRegistry({op: Capability(name, ('curriculum_id', 'course_id'))
+                                   for op, name in CAPABILITIES.items()})
+    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
+    return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
+        MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
+        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
+        document_scope=('audience:undergraduate',), course_labels=tuple(labels))

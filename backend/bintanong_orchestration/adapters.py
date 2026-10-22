@@ -110,3 +110,22 @@ class SymbolicAdapter:
         if type(result) is not kind or result.decision.synthetic is self.research:
             raise ValueError('symbolic_result_kind_mismatch')
         return kind.parse(result.model_dump(mode='json'))
+
+
+class MultiCurriculumSymbolicAdapter:
+    """Several reviewed curricula in one research release; each check runs on the runtime of the
+    curriculum named by the request, which keeps that curriculum's own release identity."""
+    research = True
+
+    def __init__(self, adapters, *, release_id, rule_bundle_version):
+        if not adapters or any(not a.research for a in adapters.values()):
+            raise ValueError('research_runtime_required')
+        self.adapters = dict(adapters)
+        self.release_id, self.rule_bundle_version = release_id, rule_bundle_version
+
+    async def execute(self, request: PredicateRequest, context: RequestContext
+                      ) -> SymbolicResult | DependencyResult:
+        curriculum = next((i.value for i in request.inputs if i.name == 'curriculum_id'), None)
+        if curriculum not in self.adapters:
+            raise ValueError('curriculum_not_in_release')
+        return await self.adapters[curriculum].execute(request, context)
