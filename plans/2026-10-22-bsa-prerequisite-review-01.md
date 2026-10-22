@@ -70,5 +70,25 @@ Shown with program, course, title and printed text (the owner cannot open the fi
    chatbot refers the student to the college. No mapping to PP-3 / AD-7/L / AD-10/L.
 6. "4th Year Standing" is a non-course condition: unknown unless the student states their year
    level; the chatbot may ask a follow-up for it. No year-level rule is invented.
-Section A's 49 printed cells are the reviewed readings under these decisions. Blank cells stay
+Section A's 52 printed cells (25 cells are blank; 77 courses) are the reviewed readings under these decisions. Blank cells stay
 unknown. Not yet compiled or executed; authoring into the ledger is the next step.
+
+## Authoring result (22 October 2026)
+
+Workspace `audit-evidence/p09-bsa-review-20261022/`: `author_bsa.py` locates each course code and
+prerequisite cell in the PDF's native text by page geometry and stops unless every cell equals the
+reviewed reading (hyphens ending a printed line are stored as U+FFFE and restored; "GE- PS" keeps
+its printed space). All 77 codes and 52 cells matched. `build_curriculum_ledger` (Phase 06 code,
+unchanged) produced `ledger.json`: 77 reviewed courses (one review record, owner decisions 1-6),
+27 unresolved / 13 all_of / 37 course, activation_allowed false, SHA256
+`a5f4e2205d1aae974dbbc7a4ac23ab7c8baf2d2d9050efebdf69982578c57041`; candidate `bsa-candidate.pl`.
+Source register: Phase 05 `original-ingestion/72dad4a0.../source_register.json` (still pending).
+
+Real SWI-Prolog/Janus checks (`check_bsa.py`, offline research path, ref research-owner-20261021):
+7/9 as the readings imply (AD-2/L eligible/ineligible/unknown; CE 31/FB eligible with Math 19 and
+Math 20; BM/AA-2 unknown with PLN-2 passed; Ar-RM 2 unknown; AD-1/L unknown). Affected by TOA-1/L:
+AD-2/L..AD-9/L, D-10/L, AR-INT/L, TOA-2. The 2 others (BM/AA-2 with PLN-2 failed; Ar-CC 2 with
+Ar-CC 1 failed) return unknown, not ineligible: the Phase 06 compiler withholds a whole rule when any
+node is unresolved. Safe but less informative for Ar-RM 2, Ar-CC 2, SP-3, BM/AA-2. Changing it is an
+owner decision (engine semantics), not done here.
+Not yet loaded into Supabase or wired into the runtime release (next steps in the checkpoint).
