@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 137
+sequence: 138
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-23T17:00:00+08:00
+updated_at: 2026-10-23T20:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -58,6 +58,9 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   migration 20261023090000 applied to hosted; 9 curricula / 502 courses loaded into the research
   release and verified by runtime read-back. Chatbot wired (`fb2866b`, `6f03016`): one research release
   serves all hosted curricula; hosted wiring check correct for BSCS old/proposed and BSIT.
+- College of Arts and Humanities complete (AB Comm, AB PhilStud, AB PolSci, BS Psych Clinical + IO,
+  BS Social Work); repeated printed codes cataloged for clarification (`8f024d7`, `dc58a4d`).
+  Hosted now holds 14 curricula. Loader picks up any `p09-program-reviews/<name>` ledger.
 - /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
   attribution trailers removed from unpushed commits (owner: never add them).
 
@@ -103,18 +106,19 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Known Failures or Blockers
 
-- Reviewed: BSA, BS Criminology, all College of Sciences programs. Remaining ~29 PDFs (CAH, CBA, CHTM,
-  CNHS, CoE, CTE); multi-page Accountancy, BSBA-HRM, Nursing need an owner question (new layout) (39 PDFs in
+- Reviewed and loaded: CAD, CCJE, College of Sciences, CAH (14 curricula). Remaining 25 PDFs (CBA 9,
+  CHTM 3, CNHS 2, CoE 4, CTE 7); multi-page Accountancy, BSBA-HRM, Nursing need an owner question (new layout) (39 PDFs in
   `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
 - Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
   `course_aliases`, `policy_rules`, `rule_source_spans` exist, empty).
 
 ## Next Action
 
-Continue CAH reviews (PhilStud, PolSci, Psych x2, Social Work; owner rules for shorthand, ranges and
-duplicate codes recorded; duplicates also need `research_catalog` to accept repeated printed codes),
-loading each with `load_curricula.py hosted <name>`; then CBA, CHTM, CNHS, CoE, CTE. Before the next
-counted roster run, update its protocol to the hosted multi-curriculum release.
+Continue with CBA (9 programs; BS Accountancy is 3 landscape pages and BSBA-HRM 2 pages: new layout,
+ask the owner first), then CHTM, CNHS (Nursing 2 pages), CoE, CTE. Per program: `draft_program.py`,
+read the page crops, spec, `author_program.py`, `record.py`, `load_curricula.py hosted <name>`,
+commit without trailers. Before the next counted roster run, update its protocol to the hosted
+multi-curriculum release.
 
 ## Do Not Repeat
 

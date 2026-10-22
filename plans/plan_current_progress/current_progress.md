@@ -54,6 +54,7 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
+23 Oct: CAH complete; hosted holds 14 reviewed curricula. Next: CBA (multi-page layouts need an owner question).
 23 Oct: chatbot now reads all hosted curricula (multi-curriculum release); wiring check correct.
 Next: continue CAH reviews per the checkpoint.
 23 Oct: 9 reviewed curricula (502 courses) loaded into hosted Supabase and verified; chatbot wiring
