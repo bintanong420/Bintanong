@@ -250,3 +250,6 @@ Each program still gets its own dated review record listing which standing rule 
   unknown, refer to the college; nothing is borrowed from a sibling track ("we're staying true to the
   documents/prospectuses, staying as is"). A printed "None" is an explicit no-prerequisite statement
   (verified none); blank cells stay unknown.
+- Added 23 Oct 2026 (CHTM): "All CAKM subjects" / "All HRCM Subjects" (a group named by its printed
+  course prefix) = every course with that prefix in the curriculum (CAKM 1/L-5/L; HRCM 1-5), all
+  required, together with the other printed course (Pract 1-HM).

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 140
+sequence: 141
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-24T01:00:00+08:00
+updated_at: 2026-10-24T03:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -63,6 +63,9 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   Hosted now holds 14 curricula. Loader picks up any `p09-program-reviews/<name>` ledger.
 - CBA complete (9 programs incl. BS Accountancy from PDF page 3, BSBA-HRM page 1). Owner rules added:
   self-reference = source gap; printed "None" = verified no prerequisite. Hosted: 23 curricula.
+- CHTM complete (BSHM Culinary, BSHM Hotel/Resort/Club, BSTM). Owner rule: "All <prefix> subjects" =
+  every course with that prefix. Author script: `pre_side` for spanning summer rows; colon variants.
+  Hosted: 26 curricula.
 - /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
   attribution trailers removed from unpushed commits (owner: never add them).
 
@@ -108,7 +111,7 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Known Failures or Blockers
 
-- Reviewed and loaded: CAD, CCJE, College of Sciences, CAH, CBA (23 curricula). Remaining: CHTM 3,
+- Reviewed and loaded: CAD, CCJE, College of Sciences, CAH, CBA, CHTM (26 curricula). Remaining:
   CNHS 2 (Nursing 2 pages), CoE 4, CTE 7; multi-page Accountancy, BSBA-HRM, Nursing need an owner question (new layout) (39 PDFs in
   `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
 - Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
@@ -116,7 +119,7 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-Continue with CHTM, CNHS (Nursing 2 pages), CoE, CTE. Per program: `draft_program.py`,
+Continue with CNHS (Nursing 2 pages), CoE, CTE. Per program: `draft_program.py`,
 read the page crops, spec, `author_program.py`, `record.py`, `load_curricula.py hosted <name>`,
 commit without trailers. Before the next counted roster run, update its protocol to the hosted
 multi-curriculum release.
