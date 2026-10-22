@@ -245,3 +245,8 @@ Each program still gets its own dated review record listing which standing rule 
   ("SSc 1- 9") means every course of that prefix numbered in the range (electives excluded), all
   required; a code printed on two rows that differ by title or units is kept as two courses, flagged
   as a duplicated code (a code-only question asks which title is meant).
+- Added 23 Oct 2026 (College of Business and Accountancy): a course printed as its own prerequisite
+  (BSE Agribusiness / Innovation & Technology BAC 3 "BAC 3", BAC 4 "BAC 4") is a recorded source gap,
+  unknown, refer to the college; nothing is borrowed from a sibling track ("we're staying true to the
+  documents/prospectuses, staying as is"). A printed "None" is an explicit no-prerequisite statement
+  (verified none); blank cells stay unknown.
