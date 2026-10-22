@@ -1,81 +1,82 @@
-# Bintanong Implementation Ledger
+# Bintanong implementation ledger
 
-This file is the authoritative pointer for resuming work. Do not select a phase by file modification time.
+## Current state
 
-## Current State
+- Phase 05 **complete as an owner-approved offline research/software milestone**.
+- Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
+- Phase **08 complete: offline candidate orchestration** in p08/feat/p08-orchestration.
+  [Plan](phase-08-orchestration-plan.md) · [Superseded checkpoint](phase-08-checkpoint.md) ·
+  [Final handoff](phase-08-handoff.md).
+  [Developer pipelines](../docs/development/pipelines.md): actual flows/files and boundaries.
+- Phase **07 complete as a verified offline software/research milestone**.
+  [Completed plan](phase-07-multilingual-routing-plan.md) ·
+  [Superseded checkpoint](phase-07-checkpoint.md) · [Final handoff](phase-07-handoff.md) ·
+  [Exit mapping/review](2026-10-19-phase07-offline-closeout.md).15/15fresh dev routes/
+  effective outcomes,13/15exact reused styles;two Taglish style errors remain.
+  [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
+  accepted for future phases;one-week improvement cap;no institutional accuracy claim.
+- Phase **09 complete: offline candidate generation/validation**; [Plan](phase-09-generation-validation-plan.md),
+  [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md).
+- Active phase:none. Owner requests [Phase09 transfer/review](2026-10-19-phase09-worktree-transfer.md); Phase10 deferred.
+- [Completed plan](phase-06-structured-knowledge-plan.md) · [Superseded checkpoint](phase-06-checkpoint.md).
+- [Master plan](master_implementation_plan_original_long.md) unchanged.
+- [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
+  [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
+- Latest final handoff:[Phase09 complete offline](phase-09-handoff.md).
+- Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
+- Seven reviewed relationships verified; university verification, institutional runtime
+  and activation remain separate release holds. Full-prospectus conversion stays draft.
 
-**Phase 1–2 readiness correction (12 October 2026):** [progress-claims audit](2026-10-12-phase12-progress-claims-audit.md) disputes the historical Phase 2 complete label against unmet real-source exits. Candidate software delivery and later infrastructure status do not establish completed Handbook/Charter ingestion or human-review readiness. Historical handoff metadata is retained pending corrective reconciliation; a valid phase-state structure is not exit-gate proof.
+## Resume order
 
-- Master plan: `plans/master_implementation_plan_original_long.md`
-- Frontend design preparation (13 October): [dev-grounded Figma feature and integration map](2026-10-13-frontend-figma-analysis.md), including current versus planned capabilities, 16 frame/state groups, public-contract gaps and branch/file ownership guidance. Analysis only; no student UI/API implementation or phase advancement.
-- Active phase: `5` (actual handbook/Charter source governance, ingestion and approved policy-retrieval evidence pending; prospectus review deferred)
-- Active plan: `phase-05-retrieval-plan.md`
-- Active checkpoint: `phase-05-checkpoint.md`; Phase 04 checkpoint superseded
-- Latest handoff: `plans/phase-05-handoff.md` (blocked recovery handoff; does not authorize advancement)
-- Previous complete final handoff: `plans/phase-04-handoff.md` (corrective closure preserved)
-- Next permitted phase: `5` (active); Phase 06 requires a complete Phase 05 final handoff
-- Corrective review: [Phase 04 security verification](phase-04-security-review-2026-10-12.md)
-- Standing scope: [undergraduate-only scope policy](undergraduate-scope-policy.md), enforced by AGENTS; excludes professional Medicine/Law,graduate,laboratory-school and faculty/staff-only procedures. Whole-source candidate counts do not establish undergraduate applicability.
-- Commit workflow: [clear Conventional Commits skill and history audit](2026-10-13-conventional-commit-workflow.md), required by AGENTS/handoff reminder before every agent commit. Matching personal skill installed. No existing unpublished p05messages required renaming; sole unpublished dev message already complies. Published history preserved, no push.
-- Standing source-gap rule: [incomplete/defective source handling](source-gap-policy.md), routed by AGENTS. Preserve gaps with affected evidence, disclose material missing content and never invent process continuation/conditions. Documentation records requirements, not deployed runtime enforcement.
-- Standing service-table rule: [complete steps and linked sub-actions](service-table-association-policy.md), routed by AGENTS. Join page continuations and wrapped role labels while preserving action/time/person/office/condition associations, raw fragments, parent fee source and field-level reviews. Preparation requirement, not deployed parser behavior.
-- Test-scope cleanup: [audit and verification](2026-10-13-undergraduate-test-scope-audit.md); no excluded-audience positive policy tests found, two generic geometry fixtures neutralized, zero tests removed.658related tests pass/1skip; parser and negative privacy guards retained.
-- Supplemental table readings: [delivery and source gaps](2026-10-13-undergraduate-table-source-readings.md), six undergraduate structures/30pending row proposals; image-only flowcharts, glyph overhang, source clipping and one ambiguous penalty preserved. Preparation-time invariance is historical; the scoped grading sheet subsequently received the owner's actual confirmation. No applied corrections.
-- Current owner review: all18undergraduate grading rows accepted by owner chat confirmation; [record and scope-corrected preparation](2026-10-13-phase05-policy-review-preparation.md).18accepted/11sealed files/four other sheets/nonreview columns verified, original PDF hash matches. For later extraction reviews compare copied values/wording with linked originals; CSV editing and technical geometry/hash checks are optional for owner.6table/4text candidates,3interpretation issues/24source fields remain. Earlier mixed-scope queue superseded; no applied correction or institutional source approval.
-- Current reviewed derivative: [grading preparation and review estimate](2026-10-13-reviewed-grading-correction-preparation.md);18rows/45exact fields/nine blanks verified, seven raw-column association errors retained separately.415prior sealed files/six sheets/eight candidate files unchanged. Next owner review: [overload guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-reviewed-grading-preparation-20261013/NEXT-REVIEW-OVERLOAD.md>), one page/four rows/two arrows. Existing policy queue about15review groups, not a whole-project total; no canonical correction installed.
-- Latest owner confirmation: all four overload rows and both arrows accepted; [record](2026-10-13-reviewed-grading-correction-preparation.md).26table-reading rows/five table groups remain pending; about14current policy review groups. Next: [cross-enrollment guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-overload-confirmation-20261013/NEXT-REVIEW-CROSS-ENROLLMENT.md>), handbook63/four rows/two arrows.420prior sealed files/four other sheets/nonreview columns unchanged. Previous overload/pending queue pointers above describe history; no institutional source approval or canonical correction installed.
-- Current confirmation: cross-enrollment four rows/both arrows accepted, alongside overload; [record](2026-10-13-reviewed-grading-correction-preparation.md).22table-reading rows/four table groups pending; about13policy groups remain. Next: [graduation guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-cross-enrollment-confirmation-20261013/NEXT-REVIEW-GRADUATION.md>), handbook64/nine rows, row6label partly clipped/row9detail incomplete.429prior sealed files/four other sheets/nonreview columns unchanged; previous next-review pointers above are historical. No institutional source approval or canonical correction installed.
-- Latest graduation review: seven rows accepted including row6readable label; row8corrected diploma cover, row9visible fragment confirmed/source cutoff unresolved. [Record](2026-10-13-reviewed-grading-correction-preparation.md).13pending table rows/three table groups, about12policy groups remain; no repeated reconstruction of unavailable content. Next: [disciplinary table guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-graduation-review-20261013/NEXT-REVIEW-DISCIPLINE.md>), handbook87/four rows and penalty columns.438prior sealed files/four other sheets/nonreview columns unchanged; previous review pointers are historical. No canonical correction/source authority/runtime activation.
-- Current owner review: handbook87four disciplinary rows/eight source blanks accepted; [record and diagnostic correction](2026-10-13-reviewed-grading-correction-preparation.md).9pending table rows/two structures, about11policy groups remain. Next: [academic-dishonesty guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-discipline-confirmation-20261013/NEXT-REVIEW-ACADEMIC-DISHONESTY.md>), handbook89/three rows. Fabrication suspension/dismissal column ownership freshly checked; earlier ambiguity claim superseded by separate pending proposal.449prior sealed files/four other sheets/nonreview columns unchanged; malformed weapon meaning and graduation cutoff remain gaps. No source/canonical/runtime approval.
-- Latest confirmation: handbook89three rows/five blanks accepted. [Coverage ruling](2026-10-13-reviewed-grading-correction-preparation.md): intervening handbook88table10emitted two pending chunks and was absent from failed-table queue; not scope-excluded or approved. Added four critical rows/one pending table entry. Next: [page88guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-academic-dishonesty-confirmation-20261013/NEXT-REVIEW-PAGE-88.md>), four rows.34reading entries/10pending, two table structures/about11selected groups; counts are not exhaustive corpus/release review.462prior sealed files/four other sheets/eight candidate files unchanged. AGENTS clarifies critical review despite structural success; no source/canonical/runtime approval.
-- Current confirmation: handbook88four rows/five blanks accepted once despite duplicate message. [Record](2026-10-13-reviewed-grading-correction-preparation.md);34readings/6pending, one pending selected table/about10groups. Next: [Charter continuation guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-page88-confirmation-20261013/NEXT-REVIEW-CHARTER.md>), physical12/six rows with physical11header context; no full prior-page/service approval.478prior sealed files/four other sheets/nonreview columns unchanged. Authority/applicability/effectivity remain pending; previous review pointers are historical.
-- Latest Charter correction: complete logical step1restored across physical11–12; owner confirms seven duration/person/office pairs. [Record](2026-10-13-reviewed-grading-correction-preparation.md). Next: [corrected full-step guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-charter-step1-correction-20261013/REVIEW-CORRECTED-CHARTER.md>), agency wording/notes/shared fee plus steps2–5/total pending; prior continuation-only guide superseded. Six legacy Charter statuses stay pending; no blanket approval.488prior sealed files/four other sheets/eight candidate files unchanged. Grouped review data and new policy, not canonical/runtime activation.
-- Current Charter confirmation: restored step1actions/notes/fee and steps2–5/total accepted once; [record](2026-10-13-reviewed-grading-correction-preparation.md).34table readings/0pending, one graduation source-gap row unresolved; no pending selected table groups. Header/checklist/authority/applicability/effectivity remain pending. Nine selected review groups remain. Next: [four short text fragments](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-charter-confirmation-20261013/NEXT-REVIEW-TEXT.md>), programme names/furniture separation, all pending; ETEEAP/campus contexts retained, no current offering approval.499prior sealed files/four other sheets/nonreview columns unchanged; no canonical/runtime activation.
-- Current text confirmation: four programme body readings/furniture separations accepted; [record](2026-10-13-reviewed-grading-correction-preparation.md). Body-layer join error clarified, not footer classification.511prior sealed files/five other sheets unchanged. Five selected groups remain; next [handbook47timing wording](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-text-confirmation-20261013/NEXT-REVIEW-COMPLETION-TIMING.md>), interpretation unresolved. Owner-requested commit skill/remote-boundary cleanup now active; no canonical/source/runtime approval.
-- Latest timing confirmation: four handbook47statements match; [record](2026-10-13-reviewed-grading-correction-preparation.md), applicable deadline unresolved.519prior sealed files/five other sheets unchanged. Four selected groups remain. Next [pre-enrollment review](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-completion-timing-confirmation-20261013/NEXT-REVIEW-PRE-ENROLLMENT.md>), Charter PDF102–103/printed98–99, four complete linked rows and printed25minute total versus20minute arithmetic sum. Step3source text ends at for. Next wording/total/gap confirmation pending; no authority/canonical/runtime approval. Previous next-review pointers are historical.
-- Latest pre-enrollment confirmation: four rows/printed total/cutoff match, duplicate reply recorded once; [record](2026-10-13-reviewed-grading-correction-preparation.md). Intended total and missing continuation unresolved;527 prior sealed files/five other sheets unchanged. Three selected groups remain. Next [handbook cover review](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-pre-enrollment-confirmation-20261013/NEXT-REVIEW-HANDBOOK-COVER.md>), PDF page 1 only, four year/approval readings pending. Earlier page-2 approval locator corrected: blank personal-data form. Effectivity/currentness/source authority/canonical/runtime approval remain unresolved or pending; previous queue pointers are historical.
-- Latest handbook confirmation: four cover readings accepted; [record](2026-10-13-reviewed-grading-correction-preparation.md), effectivity/currentness unresolved. Owner-reported staff interview/no BIG changes saved with qualifier and unknown role/date; no all-clause or institutional approval inferred.538 prior sealed files/five other sheets unchanged. Two selected source-record groups remain; next [source records and Charter cover](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-owner-handbook-cover-confirmation-20261013/NEXT-REVIEW-SOURCE-RECORDS.md>), Charter PDF1cover wording pending plus any known PDF origins/interview metadata.24source fields pending, three interpretations unresolved; no activation or phase advance. Previous review pointers are historical.
-- Current provenance and review closure: [record](2026-10-13-reviewed-grading-correction-preparation.md). Staff comment corrected to informal exchange/minimal changes, not a formal interview. Handbook from Student Government Facebook post; Charter from PalSU website, owner-reported origins. Charter three cover labels confirmed. Selected page comparisons complete; source register unchanged, effectivity/currentness/three interpretation issues/source authority remain open. Next [inactive undergraduate correction/selection specification](2026-10-13-reviewed-policy-correction-selection-spec.md); preserve original/raw/history and approval boundaries. Earlier interview description and pending Charter-cover pointers are superseded; no whole-corpus accuracy, activation or phase advancement.
-- Phase05 latest candidate delivery: [27-question balanced college practice exam](phase-05-practice-exam-report.md), code `317bf54`; nine colleges, three cases each; original12-case version preserved. Source/answer approval and real retrieval scoring pending.
-- Real retrieval status: [execution and resumed TDD recovery](phase-05-real-retrieval-readiness.md); latest39-source mix32errors/7warnings/390chunks and real document vectors. Code280a287,4912tests/107subtests pass; only3exam cases have same-byte chunks. Source/field/applicability review and approved runtime scoring remain open.
-- Deferred prospectus review (Phase 06 preparation): [start-here guide](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md>),27editable case decisions,10original PDFs/12page images; owner confirms review has not occurred, all approvals pending.
-- Corpus scope: [policy retrieval versus prospectus/Prolog preparation](phase-05-corpus-scope-clarification.md); both actual policy candidates captured; critical extraction review, authority and policy retrieval evidence pending. Historical prospectus diagnostics do not evaluate those policy sources.
-- Both policy candidates checked: Charter117pages/427chunks/3table refusals; handbook394pages/4272chunks/10text+18table refusals after1546original-list recovery. [Handbook evidence](phase-05-handbook-source-recovery.md), [Charter evidence](phase-05-policy-source-recovery.md), [list recovery](2026-10-12-handbook-list-provenance-recovery.md) and [latest continuation](2026-10-13-phase05-list-recovery-handoff.md) govern resume. Code d33340e,4953tests/107subtests pass386.83s; all original/prior evidence unchanged. Critical grading correction/source approval and policy retrieval remain open. No activation; prospectus review deferred.
-- Source location and planned relocation: [dataset location guide](dataset-locations.md); owner-approved expansion is 27 dev questions, three per each of nine college folders.
+1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
+2. Read current progress,Phase09 transfer note and complete handoff;master14 for review;
+   earlier phase files only for a specific dependency/boundary.
+3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
+4. On phase resume, consult relevant Context thesis pages and the routing PNG.
+5. Run can-advance before preparing Phase10; preserve all inherited release holds.
 
-## Parallel prospectus workstream
+## Phase ledger
 
-- Owner-led Phase 1–2 source review started 12 October 2026: [run instructions and per-file human checklist](2026-10-12-phase12-human-review-checklist.md), [batch evidence/status](2026-10-12-phase12-human-verification.md). Separate from Lawrence's later-phase verification; no approvals or numbered-phase changes implied.
+Historical labels are retained. The [Phase 1–2 claims audit](2026-10-12-phase12-progress-claims-audit.md) records unmet
+real-source exits; ledger validity alone does not prove source readiness.
 
-- Approved review-only prospectus workstream plan: `plans/2026-09-26-prospectus-phase2-implementation-draft.md`
-- Current ingestion plans and delivery: [repository documentation index](ingestion/README.md) and [current status](ingestion/CURRENT_STATUS.md)
-- Candidate ingestion pipelines and rule preparations delivered in dev branch. Ingestion outputs remain candidate text and review bundles.
-
-## Phase Ledger
-
-| Phase | Name | Status | Plan | Checkpoint | Handoff |
+| Phase | Name | Recorded status | Plan | Checkpoint | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| 0 | Docker and compatibility foundation | complete | `phase-00-docker-compatibility-plan.md` | `phase-00-checkpoint.md` | `phase-00-handoff.md` |
-| 1 | Source governance and contracts | complete | `phase-01-source-governance-contracts-plan.md` | `phase-01-checkpoint.md` (superseded) | `phase-01-handoff.md` |
-| 2 | Document ingestion | complete | `phase-02-document-ingestion-plan.md` | none | `phase-02-handoff.md` |
-| 3 | Embedding generation | complete | `phase-03-embedding-generation-plan.md` | `phase-03-checkpoint.md` (superseded) | `phase-03-handoff.md` |
-| 4 | Supabase vector and relational storage | complete after security remediation | `phase-04-supabase-storage-plan.md` | `phase-04-checkpoint.md` (superseded) | `phase-04-handoff.md` (complete) |
-| 5 | Retrieval | blocked formal exit; software candidate verified | `phase-05-retrieval-plan.md` | `phase-05-checkpoint.md` (active) | `phase-05-handoff.md` (blocked) |
+| 0 | Docker and compatibility | complete | [Plan](phase-00-docker-compatibility-plan.md) | [Checkpoint](phase-00-checkpoint.md) | [Handoff](phase-00-handoff.md) |
+| 1 | Source governance and contracts | complete; source gates qualified above | [Plan](phase-01-source-governance-contracts-plan.md) | [Superseded](phase-01-checkpoint.md) | [Handoff](phase-01-handoff.md) |
+| 2 | Document ingestion | historical complete; audit applies | [Plan](phase-02-document-ingestion-plan.md) | none | [Handoff](phase-02-handoff.md) |
+| 3 | Embedding generation | complete | [Plan](phase-03-embedding-generation-plan.md) | [Superseded](phase-03-checkpoint.md) | [Handoff](phase-03-handoff.md) |
+| 4 | Vector and relational storage | complete after security remediation | [Plan](phase-04-supabase-storage-plan.md) | [Superseded](phase-04-checkpoint.md) | [Handoff](phase-04-handoff.md) |
+| 5 | Retrieval | complete offline research/software; institutional release gated | [Plan](phase-05-retrieval-plan.md) | [Superseded](phase-05-checkpoint.md) | [Complete](phase-05-handoff.md) |
+| 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
+| 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
+| 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
+| 9 | Generation/validation | complete offline candidate software; model/latency limits disclosed | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 
-## Resume Order
+## Read only when relevant
 
-1. Run `.agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .` when available.
-2. Read the active checkpoint and plan.
-   Inspect `Context/` for relevant thesis pages and the supplied runtime routing diagram when starting/resuming a phase, including in another CLI/account or after rollover.
-3. Inspect Git status, recent commits, and referenced verification results.
-4. Reconcile repository evidence before continuing the checkpoint's next action.
+- Frontend: [design and integration guidance](2026-10-13-frontend-figma-analysis.md); historical preparation, not phase advancement.
 
+- Sources: [locations](dataset-locations.md), [undergraduate scope](undergraduate-scope-policy.md),
+  [source gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
+- Architecture: [curriculum/Symbolic direction](2026-10-16-curriculum-symbolic-routing-clarification.md).
+- Retrieval: [selected profile](2026-10-16-document-development-profile.md),
+  [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
+  [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
+- Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md),
+  [Generated review delivery](2026-10-17-phase06-prolog-review-delivery.md),
+  [Partial export design](2026-10-17-phase06-partial-review-export-design.md),
+  [Reference extension](2026-10-17-phase06-reference-extension.md),
+  [translation review03](2026-10-17-phase06-translation-review-03.md),
+  [authoring/compiler](../backend/bintanong_symbolic/README.md).
+- Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
+- Benchmarks: [evaluation protocol](../evaluation/README.md).
+- Database integration: [hosted migration gap](2026-10-19-hosted-migration-status.md).
+- Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
 
-## Prepared documents (not phase completion)
-
-- Phase 1 plan: [source governance and contracts](phase-01-source-governance-contracts-plan.md), formally started and software exit completed 2026-10-08; see the final handoff for pending source/benchmark gates.
-- Phase 2 plan: [document ingestion plan](phase-02-document-ingestion-plan.md).
-- Phase 4 plan: [Supabase vector and relational storage plan](phase-04-supabase-storage-plan.md).
-- Remaining Phase 2 background: [document ingestion preparation](phase-02-document-ingestion-preparation.md). Depends on a complete Phase 1 handoff.
-- [Prospectus and whole-Phase-2 workstream status](phase2-workstream-status.md) distinguishes completed A–D, unfinished implementation and human/authority gates.
-- [Evaluation protocol](../evaluation/README.md) describes development/final grouping and review rubrics; final verified cases are pending.
+## History and upkeep
+Owner requested compact handoffs on 17 October 2026. These are current snapshots,
+not activity logs. Replace stale state; keep durable evidence in dated reports.
+Latest full snapshots:Phase09:`37c8d69`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+Do not read historical snapshots during routine resume or copy them back here.

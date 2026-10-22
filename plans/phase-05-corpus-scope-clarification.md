@@ -1,5 +1,16 @@
 # Phase 05 corpus and prospectus review clarification
 
+## Bounded prospectus questions resumed — 14 October 2026
+
+The owner now requests the CC5/failed-CC4 thesis query in Q2 and additional varied
+prospectus questions. Prepare this bounded curriculum retrieval subset in current
+Phase 05 alongside policy cases. This supersedes deferral only for that preparation;
+it does not reopen all 39-source repairs/reviews or activate institutional curricula.
+Retrieve prerequisite evidence separately from later symbolic/hybrid eligibility.
+Old/proposed BSCS CC5 rows differ; curriculum uncertainty requires clarification.
+See `2026-10-14-mixed-development-question-revision.md`. Prior packets/history and
+broader review deferral remain preserved; new source authority/effectivity still pending.
+
 **Owner-confirmed emphasis,13October2026:** Reviewed undergraduate prospectus/
 curriculum facts primarily support Prolog preparation; handbook/Charter/USG/CSG
 primarily support cited pgvector retrieval. This is an emphasis, not an exclusive

@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 
-DATA_ROOT = Path(__file__).resolve().parent.parent
+DATA_ROOT = Path(__file__).resolve().parents[3] / "dataset"
 
 
 SOURCE_PDF_ROOT = DATA_ROOT / "PalSU Undergraduate Prospectus Website Dump"

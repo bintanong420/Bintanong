@@ -12,12 +12,12 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, List, Literal, Sequence, Tuple
 
+from backend.algorithms.similarity import cosine_similarity, normalize_l2
 from backend.bintanong_contracts import base
 from backend.bintanong_contracts.embedding import EmbeddingRecord, L2_TOLERANCE
 from backend.bintanong_contracts.source import Chunk, TokenCount
@@ -83,14 +83,6 @@ class EmbeddingConfig:
                 sort_keys=True,
             )
             object.__setattr__(self, "tokenizer_fingerprint", compute_sha256_hex(tok_data))
-
-
-def normalize_l2(vector: Sequence[float]) -> tuple[float, ...]:
-    """Normalize vector to unit Euclidean norm."""
-    norm = math.sqrt(sum(v * v for v in vector))
-    if norm == 0.0:
-        raise ValueError("Cannot L2-normalize zero vector")
-    return tuple(v / norm for v in vector)
 
 
 class SeaLionEmbeddingAdapter:
@@ -212,13 +204,3 @@ class SeaLionEmbeddingAdapter:
             # Spread around zero
             vals.append((float(byte_val) - 128.0) / 128.0 + ((i % 17) - 8) * 0.01)
         return normalize_l2(vals)
-
-
-def cosine_similarity(v1: Sequence[float], v2: Sequence[float]) -> float:
-    """Compute cosine similarity between two vectors."""
-    dot = sum(a * b for a, b in zip(v1, v2))
-    norm1 = math.sqrt(sum(a * a for a in v1))
-    norm2 = math.sqrt(sum(b * b for b in v2))
-    if norm1 == 0.0 or norm2 == 0.0:
-        return 0.0
-    return dot / (norm1 * norm2)

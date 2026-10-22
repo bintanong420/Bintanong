@@ -1,24 +1,115 @@
 # Dataset locations and relocation
 
-Recorded 2026-10-12 from the owner's Phase 05 worktree. Read this guide when resuming source reading, ingestion or practice-exam work; discover files again rather than assuming another worktree contains the ignored dataset.
+## Current machine verification — 17 October 2026
+
+For Hawksprey420's Phase 06 worktree, the freshly verified dataset parent is:
+
+```text
+C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06/dataset
+```
+
+The prospectus root is its `PalSU Undergraduate Prospectus Website Dump/` child:
+39 PDFs and one CSV, including both BSCS originals with review01 hashes intact.
+The supplied current tree has62 files:44 PDFs,12 JPGs, one CSV, four MD and one JSON.
+Policy originals now use `CitizenCharter/2025/University/`, `StudentHandbook/2021/`,
+`Student Government Constitutions and Election Code/` and
+`Misc. Student related procedures/` (gatepass, special-class fee and enrollment).
+No dataset files were changed during resume; presence does not establish approval
+or equivalence to the historical62-file inventory.
+
+This supersedes the scaffold's55-file/legacy-layout availability observation.
+Its sealed manifest is retained:15 saved destination paths are absent, eight have
+hash-identical categorized matches, seven old copies remain only in the original
+checkout; all101 original source paths still match. Do not restore the old layout
+over the supplied current tree. Exact path/hash mapping and a fresh inventory stay
+ignored in `workspace/audit-evidence/p06-resume-20261017/`.
+The p05 path below is historical and absent here. See the [resume audit](2026-10-17-phase06-resume-verification.md)
+for fresh evidence, missing review-bundle recovery and verification limits.
+Originals/generated derivatives stay inactive and ignored by Git.
+
+## Current source-retention decision — 15 October 2026
+
+The owner keeps the added student-related memos, fees, enrollment material and
+student-government sources for provisional undergraduate review. Poor image
+quality is handled per field with human verification and recorded unreadable/cropped
+limits, not by inventing text or silently deleting whole sources. Retention is
+settled and supersedes the interim proposal to defer them solely to retain a two-PDF
+policy baseline. Start [the short verification packet](2026-10-15-additional-source-human-review.md)
+atF1; no source-content readings/new question wordings or school verification are
+approved merely by this retention decision. Keep the source facts/current-year
+effectivity and runtime activation states separate.
+
+## Student-government files observed — 15 October 2026
+
+Two additional originals are now present under
+`dataset/Student Government Constitutions and Election Code/`:
+
+| File | Pages | SHA-256 |
+| --- | ---: | --- |
+| `THE-2023-TINIGUIBAN-USG-Constitution (2).pdf` |34 | `b40cca9e22d8f30dc9e48b684aa179a2f666ef1aef325c8132d170ec80b8d68d` |
+| `The-PALAWAN-STATE-UNIVERSITY-Omnibus-Election-Code-1.pdf` |21 | `c46652fe52889425458cf52b1566fe2cd85234831080c137ce0cac77e1688f9e` |
+
+The constitution cover prints2023/TiniguibanCampus and ratification15November2023.
+ArticleXIV, physical17–21, addresses College Student Government. The election code
+opening explicitly includes USG and CSG elections. No separate college-specific
+CSG constitution file was found in the current dataset. This is partial CSG-related
+source coverage, not evidence that every college constitution has been collected.
+The handbook70–76 also contains student-government references/general provisions,
+not an identified set of separate college constitutions. These two newly observed
+PDFs are inventoried/read-only; neither is reviewed, embedded or active. There are
+now62local dataset files, including the earlier60file inventory, not62approved
+documents. Raw hashes/native inspection/covers remain ignored under
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-student-government-inventory-20261015/`.
+
+## Added student procedures received — 15 October 2026
+
+The owner supplied13files (12distinct byte hashes) at repository-root
+`dataset/Misc. Student related procedures/`: five vehicle/gatepass images,
+one2023special-class fee photograph, six incoming-student enrollment images
+(one exact duplicate), and one continuing-student enrollment PDF. The incoming
+advisory prints first-semester2026–2027; the continuing PDF prints second-semester
+2025–2026 despite its2026folder. No file was moved, deleted or activated.
+
+The [intake and focused review](2026-10-15-additional-source-intake-report.md)
+records source hashes, proposed page order, enrollment differences and visible
+gaps/conflicts. Keep the unique enrollment content; exclude only the exact
+duplicate occurrence from later derivatives, retaining both original paths.
+The earlier "no files supplied" and incoming-staging notes below are historical.
+Fresh verification preserves all47relocation baseline files and all13new originals.
+The60file total describes local files, not approved documents or an active corpus.
+Do not edit the historical acquisition catalog or sealed relocation evidence to
+make old counts look current; use the new ignored intake inventory and report.
+Raw manifest/native inspection/page renders:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-additional-source-intake-20261015/`.
+
+Updated 14 October 2026 after the owner-authorized root relocation in the Phase 05
+worktree. Read this guide when resuming source reading, ingestion or practice-exam
+work; discover files again rather than assuming another worktree contains ignored data.
 
 The current dataset parent is:
 
 ```text
-C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset
+C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset
 ```
 
 The original PDF corpus root passed to `evaluation.practice_exam --source-root` is **one level below** that parent:
 
 ```text
-C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump
+C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset/PalSU Undergraduate Prospectus Website Dump
 ```
 
-This deep codebase location is temporary; the owner intends to relocate it. No relocation was performed during the exam expansion. Existing ignored originals remain read-only. New originals, conversions, gold answers and raw evidence must remain untracked within `C:/Coding-projects/bintanong_workspace`, following the owner's location correction; do not force-add the existing dataset.
+The complete former `backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/`
+directory was moved to repository-root `dataset/`. All 47 files (41 PDFs), 63
+subdirectories and original relative paths were retained; file SHA-256 values match.
+The old directory is absent. `/dataset/` is explicitly ignored by Git and Docker.
+Ignored data does not travel with a clone or branch change into another worktree.
+Use this actual local root explicitly rather than reinstalling or acquiring sources.
+New originals, conversions, gold answers and raw evidence remain untracked within
+`C:/Coding-projects/bintanong_workspace`; never force-add the dataset.
 
-**Current organization, 12 October 2026:** the owner authorized categorization
-inside this existing dataset parent. The prospectus corpus root above remains
-unchanged. Only two loose policy PDFs moved into the edition folders below.
+**Organization established 12 October 2026, preserved by the 14 October move:**
+the owner authorized categorization within the dataset parent. The prospectus tree
+and policy edition folders below retain their contents and relative paths.
 Historical relocation notes describe a possible later root move, not an action
 performed during this organization.
 
@@ -27,7 +118,7 @@ performed during this organization.
 | University Charter | `CitizenCharter/2025/University/PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf` |2025/fourth edition,117pages;427candidate chunks/3table refusals; governance/content approval pending |
 | Student handbook | `StudentHandbook/2021/PSU Student Handbook.pdf` |2021,394pages,printed2020BOR approval separate;4272candidate chunks/10text+18table refusals after list recovery; governance/content approval pending |
 | Memoranda | `Memoranda/2024/` through `2027/`, plus `UnknownYear/` | No files supplied yet; original photos will be retained |
-| College-specific Charters | `Deferred/CollegeCitizenCharter/` | Future photographs/documents intentionally deferred |
+| College-specific Charters | `Deferred/CollegeCitizenCharter/` | No longer expected in the incoming batch per owner14October; historical folder retained |
 | Organization policies | `Deferred/OrganizationPolicies/` | Future sources intentionally deferred |
 
 Charter and handbook categories also have2024–2027 andUnknownYear folders.
@@ -81,11 +172,31 @@ These counts describe paths, not approved curricula, distinct documents or exhau
 Exam packets store paths relative to the corpus root, alongside exact original SHA-256/version/page/locator identities. The CLI requires `--source-root`; it has no hardcoded dataset root or automatic environment-variable resolution.
 
 ```powershell
-$datasetRoot = (Resolve-Path -LiteralPath 'backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump').Path
+$datasetRoot = (Resolve-Path -LiteralPath 'dataset/PalSU Undergraduate Prospectus Website Dump').Path
 python -B -m evaluation.practice_exam --exam C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/practice-exam.json --source-root $datasetRoot --output-dir C:/Coding-projects/bintanong_workspace/audit-evidence/p05-college-expansion-20261012/exam --allow-ignored-output
 ```
 
-For the future move, choose an owner-approved untracked location within `C:/Coding-projects/bintanong_workspace`, preserve the campus/college relative tree and original bytes, and pass that new root explicitly. Re-inventory the live PDFs, revalidate hashes/college coverage, and update this guide and the current checkpoint/progress log with the new location. Test coverage proves that a changed root with unchanged relative paths and bytes validates. A newly added college causes an all-college packet to fail validation until its declared coverage and cases are updated.
+The current move is complete; portable exam packets retain their relative paths.
+For later relocation preserve the campus/college tree and original bytes, pass the
+new root explicitly, re-inventory and update this guide/checkpoint/progress. Test
+coverage verifies unchanged relative paths and bytes survive a root change. A newly
+added college still requires its declared coverage/cases to be updated.
+
+## Historical absolute paths after relocation
+
+Do not edit sealed historical scripts, source records, inventories or citations
+merely to replace paths. The old prefix is
+`C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/`;
+the current prefix is `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset/`.
+Resolve a saved path through the recorded exact mapping, retain its relative suffix
+and require its original SHA-256 to match the relocated file before using it.
+Do not create a junction or duplicate corpus at the old location.
+
+Raw before/after manifests and the 47-file mapping are ignored at
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-dataset-relocation-20261014/relocation-map.json`.
+The tracked cleanup and next-CLI handoff is
+`plans/2026-10-14-dataset-relocation-and-cli-handoff.md`. Earlier no-relocation notes
+below describe historical execution, not the present dataset root.
 
 ## External evaluation artifacts
 
@@ -106,3 +217,23 @@ Actual original-source bundles: `.../p05-real-retrieval-readiness-20261012/origi
 Owner-requested prospectus reviewfolder: `C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012`. This review is deferred for Phase06 preparation. Its `START-HERE.md`, editable case/source decision sheets,10byteidentical selectedPDFcopies and12pageimages are retained; originaldataset remainsunchanged. Allreviews pending.
 
 New repaired Financial Management candidate lives under `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-extraction-recovery-20261012/repaired-ingestion/176cbbd07bcec16a9037b610636546c032fc66ac2aa24536e163632988625141/`,with54newvectors recordedseparately. Current source mix32errors/7warnings/390chunks; historical39-bundle/336-vector readinesssnapshot preserved. No datasetmove orsharedpublication.
+
+## Incoming college Charters and memoranda staging — 14 October2026
+
+Latest owner correction: the incoming batch will no longer include college-specific
+Citizens' Charters. It may include memoranda such as vehicle gatepass guidance.
+Continue Phase05 with the existing university Charter/handbook/curricula while
+school verification is deferred. Verify each supplied memo's actual undergraduate
+student audience, source identity and effectivity during intake. No gatepass facts
+or query cases are added until a source arrives and is reviewed. Existing folders
+and earlier staging instructions below are historical, preserved for recovery.
+
+Ignored intake root: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p05/dataset/Incoming/2026-10-14/`.
+
+Use `Memoranda/<Document>/` for the current future batch; retain complete original
+PPTX/PDF files and photo sequences. The local CURRENT-INCOMING-BATCH.md carries the
+latest owner correction. Older PLACE-ORIGINALS-HERE.md college-Charter instructions
+are historical. The entire root dataset is ignored; no incoming sources inspected.
+Owner may copy originals now and notify when collection is complete; source
+registration/extraction/human review/governance follow in a separate batch. This
+is staging availability, not corpus activation or formal Phase05 completion.

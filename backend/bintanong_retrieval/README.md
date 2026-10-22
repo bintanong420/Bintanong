@@ -26,10 +26,40 @@ The versioned `bintanong-retrieval-debug-v1` JSON contains configuration fingerp
 | `needs_scope` | Multiple plausible curriculum versions need caller clarification. |
 | `conflicting_sources` | Competing editions are retained for review; score does not choose authority. |
 | `uncalibrated` | Context is available but development relevance/coverage approval is pending. |
-| `storage_error` | The runtime storage call failed; no administrative retry. |
+| `storage_error` | The runtime storage call failed, including connection/timeout/protocol request errors; no retry or administrative fallback. |
 | `ok` | A configured development policy accepted complete context; institutional approval is separate. |
 
 Exit code 2 exposes an open retrieval gate. The default policy stays `uncalibrated-v1`; a synthetic threshold is never installed as institutional calibration. No endpoint, API service, LLM answer, candidate publication or institutional activation is introduced.
+
+An internal opt-in `SourceAwareEvidencePolicy` can be supplied through
+`RetrievalEngine(..., evidence_policy=policy)`. Prepare it with explicit pinned
+release/set IDs and complete trusted candidate chunks/catalogue/source reviews.
+Then call `retrieve(request, subject_id=..., requested_claims=(... ,))` with exact
+trusted intent. The engine binds actual RPC rows, checks conflicts before subject
+selection, assembles complete groups and assesses only its actual emitted IDs.
+Original source payloads are validated before private transport projections are
+derived; source packaging and DB-only identifiers do not hide changed facts.
+
+Opt-in calls return `bintanong-retrieval-debug-v2`, a policy/snapshot fingerprint,
+assessment or an explicit not-run reason, and root candidate/inactive/unverified-
+authorization flags. Missing claims force `insufficient_evidence`; unknown claims
+stay `unassessed`; available reviewed fields stay `uncalibrated`, regardless of a
+caller-selected settings policy name. Answer sufficiency stays unassessed. Shared
+citations/group display use the original exact token budget. No-policy calls
+retain the exact v1 behavior; supplying intent without a policy is invalid.
+
+The engine also verifies that reviewed fields survive rendering. Validated marked
+records use the existing whole-field renderer; generic records require literal
+field/span text and its source locators in the emitted evidence. Otherwise the
+claim reports `reviewed_fields_not_in_context` with `unverified_rendered_fields`.
+An emitted footnote alone cannot establish field availability. Malformed version
+transport objects are rejected before citation assembly.
+
+This injected research snapshot is not an authorized release loader. Matching
+release IDs do not establish membership/currentness or institutional approval.
+There is no CLI/public exposure, administrative storage fallback, automatic
+subject/claim recognition or activation. See
+`plans/2026-10-16-source-aware-retrieval-policy-design.md` and its implementation plan.
 
 Development measurement:
 
@@ -39,3 +69,74 @@ python -m unittest discover -s tests -p 'test_retrieval_*.py' -v
 ```
 
 Observations come from separate retrieval runs. The committed fixture uses manual unit vectors and labeled synthetic database chunks; it tests mechanics, not SEA-LION quality. The evaluator compares k=3/5/8, uses `hits/k` for Precision@k and `hits/gold_count` for Recall@k, separates language/category, and rejects final-split tuning. Ranking metrics alone cannot pass the approved source/citation exit gate. See `plans/phase-05-retrieval-report.md` for measurements and limits.
+
+The optional offline `context_selection.build_context_selection_report` wraps the
+existing assembler with an explicit caller-selected `primary_limit` (None: all;
+zero: none). It does not choose a prefix or change the engine. Pass the same
+candidate list, budget, exact token counter and optional display flags as to
+`build_context`; the unchanged result is under `assembly`.
+
+Its `context-selection-report-v1` envelope records offered primaries in rank
+order, requested/deferred IDs, literal emitted IDs, source version/hash/score,
+local transitive required IDs, absent neighbor rows, malformed dependency lists
+and the original assembly gaps. A deferred primary may already be emitted as
+another primary's neighbor. Unemitted IDs may also reflect span deduplication;
+they do not prove missing information. Deferred rows are not certified as valid
+citations or applicable evidence. Duplicate offered IDs retain their ranks;
+emission and gaps describe chunk identities rather than individual attempts.
+Missing version/hash/score metadata remains null in the trace; it does not hide
+the assembler's invalid-citation refusal or prevent reporting deferred rows.
+
+Every report is candidate-only, activation-ineligible and has
+`claim_coverage='unknown'`, even with nonempty gap-free context. This diagnostic
+does not establish relevance, source authority, audience, recency or answer
+sufficiency. Required groups remain atomic; source limits and citations are not
+removed to fit a budget. See
+`plans/2026-10-15-context-selection-reporting-plan.md` for the bounded workflow.
+
+The separate offline `candidate_subject` helper prepares a source-bound subject
+catalogue from complete chunks and explicit researcher assignments by `reading_id`,
+`subject_id` and `basis_ref`. It never reads a query or gold labels. A selection
+requires an explicit trusted canonical subject; missing/unknown subjects return
+no IDs. Current chunk payloads, provenance and dependency membership must match
+the catalogue. Assigned rows require undergraduate applicability metadata, and
+every declared dependency must share the subject. Unassigned rows stay visible.
+
+The catalogue digest detects accidental changes, not forged researcher input.
+Callers must keep this preparation boundary trusted. Checks validate metadata
+bindings only, not human approval, citations, source authenticity or requested
+claims. All results stay candidate-only/inactive with unknown claim coverage;
+subject matches do not verify a deadline, current year or payment method.
+The engine, SQL filters, public contracts and curriculum selectors are unchanged.
+
+`candidate_claims.build_candidate_claim_report(catalogue, chunks, *, subject_id,
+requested_claims, emitted_chunk_ids)` is a separate opt-in offline report.
+Trusted caller claim strings match existing unresolved
+`source_limits[].affected_claims` exactly. A match reports `not_established`;
+unmatched claims stay `unassessed`. No affirmative support outcome exists, and
+empty claims cannot establish coverage. A subject or assembled context alone
+does not answer a claim. The helper never consumes benchmark expectations.
+
+Source limitations are inspected across the selected subject snapshot even when
+their chunk was not retrieved. Copied limit records identify the source chunk and
+whether its literal ID was supplied as emitted; those IDs do not certify emitted
+text/citations. Missing context IDs mean unknown emission, not empty context.
+The existing subject catalogue validates complete current payload bindings.
+Malformed limitations and unknown/duplicate context IDs are rejected. Missing
+subjects/claims and unknown subjects remain explicit; no runtime gate, source
+content verification, NLP inference or institutional activation is implemented.
+
+An optional `claim_reviews` register prepared by `prepare_candidate_claim_reviews`
+extends this same helper with a v2 report. Each trusted researcher finding binds
+the complete selected subject snapshot, a source-audit reference/hash and either
+existing reviewed field references or a `not_stated_in_selected_fields` finding.
+The digest checks integrity, not reviewer identity or source truth. Do not use
+benchmark expected labels to manufacture these findings.
+
+Visible fields require nonblank values, review-event metadata and matching source
+spans. `reviewed_fields_available` means that those fields and their transitive
+required chunks occur in the supplied context IDs; missing or unknown emission
+remains explicit. Answer sufficiency stays unassessed. Existing exact source
+limitations override positive field findings; unreviewed claims stay unassessed.
+Selected-field absence is never a university-wide absence or policy prohibition.
+Without this opt-in register, the v1 report is unchanged.

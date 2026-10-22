@@ -136,6 +136,8 @@ class SymbolicResult(Contract):
 
 def as_policy_result(result: SymbolicResult) -> str:
     """The outcome as a policy-level result. An error is operational and is never converted."""
+    if getattr(result, 'research', None) is not None:
+        raise ContractError('an offline research observation cannot be converted to a policy result')
     if result.decision.outcome == "error":
         raise ContractError("an operational error cannot be converted to a policy result")
     return result.decision.outcome
