@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 135
+sequence: 136
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-23T09:00:00+08:00
+updated_at: 2026-10-23T14:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -51,6 +51,12 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   Science, BS Biology (Med Bio), BS Marine Biology (2022-2023), full old and proposed BSCS (Phase 06
   readings reproduced exactly). New owner rules: visible printed text only (clipped native text ignored),
   semicolon = comma, obvious one-character typos map to the single match.
+- 23 Oct: AB Communication reviewed (shorthand/range/duplicate-code owner rules); authoring keeps
+  repeated printed codes told apart by title/units (`e6a3e0c`); affected-course listings cite one
+  span per course (`6e9ce80`, COMM BC 11 no longer errors); full suite 6150 passed.
+- Hosted curriculum ledgers ([record](2026-10-23-hosted-curriculum-ledgers-load.md), `23882db`):
+  migration 20261023090000 applied to hosted; 9 curricula / 502 courses loaded into the research
+  release and verified by runtime read-back. Chatbot not yet wired to read them.
 - /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
   attribution trailers removed from unpushed commits (owner: never add them).
 
@@ -104,13 +110,12 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-Continue program reviews college by college (CAH next: Communication, PhilStud, PolSci, Psychology x2,
-Social Work): `draft_program.py <pdf> <dir>`, read the page crops, write `spec.json` from the draft
-with the visible reading, `author_program.py`, `record.py`, commit (no co-author trailers). Ask the
-owner only for scenarios not in the ledger's standing list. Afterwards: Supabase course-data loader.
+Ask the owner: (a) wire the chatbot runtime to `load_release_curricula` (all hosted curricula) or
+(b) continue CAH reviews (PhilStud, PolSci, Psych x2, Social Work; owner rules for shorthand,
+ranges, duplicates recorded), loading each with `load_curricula.py hosted <name>` after review.
 
 ## Do Not Repeat
 
 Hosted migrations/load (done; hosted is not empty - the load script refuses a non-empty project),
-BSA, BS Criminology and BSIT page reading, decisions and authoring, co-requisite and partial-rule fixes, roster runs 7-8, style floor, per-part observation, task-first
+BSA, BS Criminology and BSIT page reading, decisions and authoring, co-requisite and partial-rule fixes, hosted curriculum migration and 9-curricula load, roster runs 7-8, style floor, per-part observation, task-first
 trial, checker diagnosis, source/benchmark reviews, asset setup.

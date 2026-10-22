@@ -54,6 +54,8 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
+23 Oct: 9 reviewed curricula (502 courses) loaded into hosted Supabase and verified; chatbot wiring
+to read them is next (or continue CAH reviews). See the checkpoint.
 23 Oct: College of Sciences prerequisite reviews complete (6 programs incl. full old/proposed BSCS);
 next college CAH per the checkpoint. Standing approval for repeated scenarios in the decisions ledger.
 23 Oct: BSIT reviewed ([review 01](../2026-10-23-bsit-prerequisite-review-01.md)), 53 courses, Prolog 12/12;
