@@ -18,7 +18,7 @@
 - Phase **09 reopened 22 Oct for hosted Supabase** ([plan](2026-10-22-hosted-supabase-integration-plan.md));
   [Plan](phase-09-generation-validation-plan.md) · [Checkpoint](phase-09-checkpoint.md) ·
   [Historical closeout handoff](phase-09-handoff.md) · [Exit reassessment](2026-10-22-phase09-exit-reassessment.md).
-- Active phase: 09. Phase 10 not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
+- Active phase: 09. Phase 10 not started. Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).

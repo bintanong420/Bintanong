@@ -2,112 +2,94 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 129
+sequence: 130
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: f77b952
+head_commit: 94c3d62
 working_tree: clean
-updated_at: 2026-10-22T22:00:00+08:00
+updated_at: 2026-10-22T23:30:00+08:00
 ---
 
-# Phase 09 checkpoint - per-part generation observed on the actual model
+# Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews started
 
-Last full snapshot before this replacement: `0a08d8d:plans/phase-09-checkpoint.md`
-(task-first trial, checker diagnosis and their digests; use `git show`).
+Last full snapshot before this replacement: `94c3d62:plans/phase-09-checkpoint.md` (use `git show`).
+Owner asked for this handoff on 22 Oct so the session can be cleared; resume from here.
 
 ## Completed Tasks
 
-- Task-first interpretation trial (`8060c7b`, results `8dbb15d`): interpretation
-  4/4, full quality 3/4 FAIL (English omitted the fee; reviewer falsely mapped it).
-- Checker diagnosis (`0a08d8d`); its native-thinking trial was proposed, never run.
-- This session (Claude Code, taking over from Codex): owner approved per-part
-  generation instead. Delivered the `parts` profile with TDD. See
-  [decision](2026-10-21-per-part-generation-decision.md).
+- Earlier Phase 09 work (generation, per-part answers, real-data roster runs 1-6, style floor
+  `e53153b`): see [roster results](2026-10-21-real-data-roster-results.md) and the
+  [exit reassessment](2026-10-22-phase09-exit-reassessment.md). Prior closeout handoff
+  `a31ac32:plans/phase-09-handoff.md` is history; owner reopened Phase 09 for Supabase.
+- Hosted Supabase ([plan](2026-10-22-hosted-supabase-integration-plan.md)), all done 22 Oct:
+  7 Phase 05 migrations + research-release migration `20261022090000` (`115d218`) on hosted
+  project `jyrudbiuajahsucsorco` (14 migrations, versions = repo files, advisors clean); real
+  undergraduate document selection loaded and active as research release
+  `p09-research-selected-20261022` (5 sources, 19 chunks; approval stays not_requested);
+  runtime reads it via `HostedReleaseStorage` (`b4616ab`, 39/39 equivalence); roster runs 7-8
+  on hosted: 17/63 answered, 0 wrong after the conflict-notice fix (`f77b952`).
+- Program prerequisite reviews (owner: Phase 06 only delivered BSCS; review the rest).
+  BS Architecture: [review 01](2026-10-22-bsa-prerequisite-review-01.md) read from the original
+  page, owner decisions 1-6 recorded, 77-course reviewed ledger authored and checked with real
+  Prolog (7/9 as expected; 2 conservative unknowns explained there).
 
 ## Current Task
 
-Real-data runtime ([plan](2026-10-21-real-data-runtime-plan.md)). Owner decisions:
-real public data for development (AGENTS.md); router picks topic + reviewed facts;
-reviewed_fields_available may feed generation in research mode only. Task 1 done
-(`295a91c` PackageStorage; equivalence 39/39 offered, 36/39 status; the 3 overload
-differences come from Phase 05's transitive-neighbor double vs direct-neighbor SQL).
-Task 2 done (`f38b409`, router topic menu; no-menu path unchanged). Full suite at
-`49f39b5`: 6042 passed, 6 skipped, 0 failed (973 s). Task 3 slices done through `be18db5`
-(research status, adapter, pin/evidence, orchestrator, answers). Builder `12c5e65`;
-smoke fixes `520aa98`, `ee13b64`. Real-stack smoke: CC5 (old BSCS) answered ineligible via
-real Prolog; grade 1.0 answered from Handbook p.46. Owner alias rule recorded `482afda`.
-Task 4 done: [roster results](2026-10-21-real-data-roster-results.md). Run 2: 13 correct
-answers (10 docs + 3 CC5), 1 wrong (per-student fee), 0 invented facts, 8 routing errors.
-Fixes during task 4: `88ad891` printed codes, `e945c80` compact cards, `71734f2` thought ban.
-Full suite at `3db7cf9`: 6068 passed, 6 skipped, 0 failed (989 s).
-Owner chose #1 + latency: `c8a25f5` reference repair/clarify, `304a1f0` mirror
-student's deep word, `6d639f5` checker hash removal. [Latency budget](2026-10-21-latency-research-and-budget.md).
-Latency: `60647a4` line-break ban, `b1fa765` compact topic schema. Roster run 3: 0 system
-errors, no correct answer lost, doc median 34.7 s, CC5 21.6 s. Next: #2 relevance, #3 style,
-or remaining levers (prompt cache, router free-text fields).
-Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df089`+).
+Program-by-program prerequisite review and loading. BS Architecture ledger is authored
+(workspace `audit-evidence/p09-bsa-review-20261022/`: `ledger.json`, `author_bsa.py`,
+`check_bsa.py`, `bsa-p1.png`). Not yet loaded into Supabase or wired into the runtime.
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `f77b952` plus the docs commit;
-clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
-running. No dependency, Supabase, source or institutional change; research mode
-serves reviewed data through the read-only PackageStorage stand-in.
+Branch `feat/p09-generation-validation`, HEAD `94c3d62`, clean, nothing pushed. Hosted keys in
+the worktree's git-ignored `.env` (owner-run script). Model container `bintanong-p09-cuda-latency`
+(127.0.0.1:18088; `docker restart` before long runs; start Docker Desktop first if `docker ps` fails).
 
 ## Verification Evidence
 
-- RED: 10 new tests failed for the missing feature (default still `scoped`, no
-  `answers` slot); 2 more failed for runtime default and evaluation hashes.
-- GREEN: 12/12. Nine older tests failed on the default switch as expected and
-  were pinned to `scoped` or updated to `parts` without weakening assertions.
-- Focused generation/understanding/runtime/docs set: 406 passed in 7.19s.
-- Full suite at `6745393` content: 5995 passed, 6 skipped, 0 failed (1065 s); skips are
-  pre-existing environment skips (e.g. GPU OCR extra).
-- Command form: `<p05 venv python> -B -m pytest -q -p no:cacheprovider tests
-  --basetemp=<workspace>/audit-evidence/p09-per-part-20261021/<dir>`.
-  Log: `audit-evidence/p09-per-part-20261021/full-suite.log`.
+- Full suite at `f77b952`: 6139 passed, 6 skipped, 0 failed (1061 s); later commits docs only.
+- Storage DB regression with research release: 182 passed, 916 subtests.
+- Commands: test Python `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider <tests> --basetemp=<audit-evidence dir>`;
+  DB tests use local Docker `supabase_db_Bintanong` (set `BINTANONG_STORAGE_EVIDENCE_DIR`).
+- Roster runner: workspace `audit-evidence/p09-real-data-20261021/roster.py <outdir>` (`HOSTED=1`
+  for Supabase retrieval, `ONLY=id1,id2` to filter); record a protocol before counted runs.
 
 ## Versions and Digests
 
-New contracts: `bintanong-part-explanation-v1`, `bintanong-part-confirmation-v1`.
-Prompt hashes are exported as `PART_PROMPT_SHA256` / `CONFIRM_PROMPT_SHA256`
-and reported by evaluation. Unchanged: router v14, wire v2, ledger
-`bintanong-bound-requirement-ledger-v1`, ctx 8192, out 768, temp 0, seed 0,
-deadlines 120/120/120/180 s. Prior raw evidence and seals remain in
-`audit-evidence/p09-task-first-20261021/` (57-file seal
-`e10ca82c572f48557b04aa258b17cdb1bd11d5c0f5ec46369fc866ba36b0fd3d`).
+BSA PDF SHA256 `72dad4a0384f82228d63c8926e4ae8a1eb14a33497c9952e0f60782083e82666`; BSA ledger
+SHA256 `a5f4e2205d1aae974dbbc7a4ac23ab7c8baf2d2d9050efebdf69982578c57041`. Router v14, ctx 8192,
+out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_workspace/MODELS`.
 
 ## Decisions
 
-- Owner: per-part generation over the thinking trial (this session).
-- The thinking-trial proposal is superseded; do not run it.
-- Old profiles stay explicit and selectable; `parts` is the default.
+- Research release kind: owner authorization lives on the release; sources never marked approved.
+- BS Architecture decisions 1-6 (22 Oct): comma = all_of; short codes TOA-1/AR-INT/BT-2/BT-5/
+  Ar RM 1 map to full codes; Arc 1 = Ar-CC 1; MATH 19-20 = Math 19 and Math 20; D-10/L, PP-4,
+  D-7 kept as printed (PP-4, D-7 = source gaps, unknown); "4th Year Standing" unknown unless the
+  student gives their year (chatbot may ask). Blank cells stay unknown.
+- Owner cannot open files: always show program, course code, title and printed text inline.
 
 ## Known Failures or Blockers
 
-Actual-model quality of `parts` is unmeasured. The reviewer can still confirm
-wrongly; the generator can wrongly declare `not_in_evidence` (fails safe).
-One unresolved part withholds the whole answer (contract behaviour, follow-up).
-Student end-to-end latency remains unmeasured. Phase 09 exit still held.
+- Compiler withholds a whole rule if any node is unresolved (BSA Ar-RM 2, Ar-CC 2, SP-3,
+  BM/AA-2 give unknown even when a known prerequisite failed). Owner decision pending.
+- Only BSCS + BSA have reviewed prerequisites; about 35 programs remain (39 PDFs in
+  `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
+- Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
+  `course_aliases`, `policy_rules`, `rule_source_spans` exist, empty).
 
 ## Next Action
 
-Hosted Supabase tasks 1-5 done ([plan](2026-10-22-hosted-supabase-integration-plan.md),
-[roster results](2026-10-21-real-data-roster-results.md) runs 7-8). Hosted retrieval: 17/63 answered,
-0 wrong after `f77b952` (conflict notice). Next: task 6, Phase 09 closeout reassessment with the
-hosted evidence and the owner's approval (ask first); full suite on `f77b952`: 6139 passed, 6 skipped, 0 failed (1061 s).
-
-How to resume real-data work: test Python is
-`C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`
-(`-B -m pytest -q -p no:cacheprovider tests --basetemp=<audit-evidence dir>`; full suite ~17 min).
-Models: `C:/Coding-projects/bintanong_workspace/MODELS`. Model server: Docker container
-`bintanong-p09-cuda-latency` on 127.0.0.1:18088; `docker restart` it before long runs.
-Real roster runner: workspace `audit-evidence/p09-real-data-20261021/roster.py <outdir>`
-(63 accepted cases; `ONLY=id1,id2` env filters; `summarize.py <outdir>`); research release
-built by `backend/bintanong_runtime/research.py::build_research_resources` (see `smoke.py`).
-Latest results: [roster results](2026-10-21-real-data-roster-results.md), protocol file beside it.
+Ask the owner which first (one question): (a) next program review, e.g. another college's
+prospectus, following the BSA method (render page with pypdfium2, read cells from the image,
+compare with any developer CSV, show questions inline with program/course/title/printed text,
+record decisions, author with an `author_<program>.py` like `author_bsa.py`, check with real
+Prolog); (b) generic Supabase loader for reviewed course facts/rules (BSCS + BSA) with the Prolog
+bundle generated from the database and checked equal to the current bundles; (c) the compiler
+partial-rule decision above. The developer's CSV for BSA was
+`audit-evidence/cad_review_simple(AutoRecovered).csv`; ask whether CSVs exist for other colleges.
 
 ## Do Not Repeat
 
-Per-part observation (counted run done once), task-first trial, checker diagnosis, thinking trial, source/benchmark reviews,
-asset setup. Do not overwrite existing test files (an existing
-`tests/test_generation_parts.py` was briefly overwritten and restored from Git).
+Hosted migrations/load (done; hosted is not empty - the load script refuses a non-empty project),
+BSA page reading and decisions, roster runs 7-8, style floor, per-part observation, task-first
+trial, checker diagnosis, source/benchmark reviews, asset setup.

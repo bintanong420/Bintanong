@@ -54,11 +54,12 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Phase 09 reopened for hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
-Research retrieval now reads the active hosted research release (39/39 equivalence). Roster run 7
-on hosted: 17 answered (4 new, from transitive neighbours); one deadline answer omitted the
-handbook's conflict, fixed by a host notice (`f77b952`, run 8 confirmed): 0 wrong. Retrieval stage
-0.87 s median incl. Supabase. Full suite on `f77b952`: 6139 passed, 0 failed. Next: closeout reassessment (owner approval).
+Handoff 22 Oct (owner will /clear). Hosted Supabase work done: research release active, runtime
+reads hosted retrieval (39/39), roster 17/63 answered, 0 wrong after `f77b952`. Owner found Phase 06
+reviewed only BSCS; program reviews started: [BS Architecture review 01](../2026-10-22-bsa-prerequisite-review-01.md)
+decided and authored (77 courses, real Prolog checks). Resume from the
+[checkpoint](../phase-09-checkpoint.md) Next Action: ask the owner to pick next program review,
+Supabase course-data loader, or the compiler partial-rule decision.
 
 ## Boundaries
 
