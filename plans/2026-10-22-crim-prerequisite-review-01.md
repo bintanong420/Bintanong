@@ -63,3 +63,26 @@ Shown inline with program, course, title and printed text (the owner cannot open
 3. "Forensic 5" -> Forensic 5/L and "PATH Fit-DEFTAC 2" -> PATH Fit-DEF TAC 2; every course code
    kept as printed. Approved.
 Section A's 42 printed cells (23 blank; 65 courses) are the reviewed readings under these decisions.
+
+## Authoring result (22 October 2026)
+
+Workspace `audit-evidence/p09-crim-review-20261022/`: `author_crim.py` (SHA256 `c0d28d30...`) finds each
+course code and prerequisite cell in the PDF's native text and stops unless all 65 codes and 42 cells
+equal the readings above. Rows are bounded by the table's drawn horizontal rules (tall CP 1 / CE 1
+cells and the year banners defeated midpoint banding). Technical transcription (no new source
+judgement): a printed line-end hyphen (native U+FFFE) is shown as "-" with the wrap joined, as in the
+extractor's course checks; the four PATH Fit codes' spans record method
+`native_range_line_hyphen_joined` and repair `p09-crim-review-01`. In-line "GE - UTS" spacing is
+kept. "GE-PH" (GE - LWR) resolves to "GE - PH" by the 21 Oct spacing rule (unique match).
+`build_curriculum_ledger` (Phase 06 code, unchanged): 65 reviewed courses, 25 unresolved (23 blank,
+2 "All major courses...") / 5 co_requisite / 35 course, activation_allowed false, ledger file SHA256
+`405eecb78d3a1df251e822a0e956685ba0a33b8d77af8624772b0cfc0797bd60` (content
+`2561f3e68aa0...`); candidate `crim-candidate.pl` (compiler preview status blocked, as for BSA).
+
+Real SWI-Prolog/Janus checks (`check_crim.py`, offline research path, ref research-owner-20261021):
+12/12 as the readings imply: Crim 2 eligible/ineligible/unknown; CDI 5 eligible with CDI 4 passed or
+enrolled, ineligible with CDI 4 failed and not enrolled, unknown with enrollment not given;
+Forensic 6, PATH Fit-DEFTAC 3 and GE - LWR resolve their mapped prerequisites; CP 1 and Crim 1
+unknown. Affected-course listing: CDI 3 -> CDI 4; Crim 1 -> Crim 2, 3, 4. Existing engine
+behaviour: co_requisite links are not dependency edges, so CDI 4 lists none (CDI 5 not shown).
+Not yet loaded into Supabase or wired into the runtime release.

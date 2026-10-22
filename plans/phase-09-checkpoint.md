@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 130
+sequence: 131
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 94c3d62
+head_commit: b7b6bf4
 working_tree: clean
-updated_at: 2026-10-22T23:30:00+08:00
+updated_at: 2026-10-23T01:00:00+08:00
 ---
 
-# Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews started
+# Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
 
 Last full snapshot before this replacement: `94c3d62:plans/phase-09-checkpoint.md` (use `git show`).
 Owner asked for this handoff on 22 Oct so the session can be cleared; resume from here.
@@ -31,16 +31,20 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   BS Architecture: [review 01](2026-10-22-bsa-prerequisite-review-01.md) read from the original
   page, owner decisions 1-6 recorded, 77-course reviewed ledger authored and checked with real
   Prolog (7/9 as expected; 2 conservative unknowns explained there).
+- BS Criminology: [review 01](2026-10-22-crim-prerequisite-review-01.md) read from the original
+  page; owner decisions 1-3 (co-requisite = passed or same term; "All major courses from 1st to 3rd
+  year" kept as printed, unknown; Forensic 5 / PATH Fit-DEFTAC 2 mapped); 65-course ledger authored,
+  real Prolog 12/12 as expected.
 
 ## Current Task
 
-Program-by-program prerequisite review and loading. BS Architecture ledger is authored
-(workspace `audit-evidence/p09-bsa-review-20261022/`: `ledger.json`, `author_bsa.py`,
-`check_bsa.py`, `bsa-p1.png`). Not yet loaded into Supabase or wired into the runtime.
+Program-by-program prerequisite review and loading. BSA and BS Criminology ledgers are authored
+(workspace `audit-evidence/p09-bsa-review-20261022/` and `p09-crim-review-20261022/`: `ledger.json`,
+`author_*.py`, `check_*.py`, page PNGs). Not yet loaded into Supabase or wired into the runtime.
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `94c3d62`, clean, nothing pushed. Hosted keys in
+Branch `feat/p09-generation-validation`, HEAD `b7b6bf4` + this checkpoint commit, clean, nothing pushed. Hosted keys in
 the worktree's git-ignored `.env` (owner-run script). Model container `bintanong-p09-cuda-latency`
 (127.0.0.1:18088; `docker restart` before long runs; start Docker Desktop first if `docker ps` fails).
 
@@ -56,7 +60,9 @@ the worktree's git-ignored `.env` (owner-run script). Model container `bintanong
 ## Versions and Digests
 
 BSA PDF SHA256 `72dad4a0384f82228d63c8926e4ae8a1eb14a33497c9952e0f60782083e82666`; BSA ledger
-SHA256 `a5f4e2205d1aae974dbbc7a4ac23ab7c8baf2d2d9050efebdf69982578c57041`. Router v14, ctx 8192,
+SHA256 `a5f4e2205d1aae974dbbc7a4ac23ab7c8baf2d2d9050efebdf69982578c57041`. BS Criminology PDF SHA256
+`b3b43dece33b171af81fdc738da45864f204188b068d66a180b670270f36a2d3`; ledger file SHA256
+`405eecb78d3a1df251e822a0e956685ba0a33b8d77af8624772b0cfc0797bd60`. Router v14, ctx 8192,
 out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_workspace/MODELS`.
 
 ## Decisions
@@ -72,24 +78,23 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 - Compiler withholds a whole rule if any node is unresolved (BSA Ar-RM 2, Ar-CC 2, SP-3,
   BM/AA-2 give unknown even when a known prerequisite failed). Owner decision pending.
-- Only BSCS + BSA have reviewed prerequisites; about 35 programs remain (39 PDFs in
+- Only BSCS, BSA and BS Criminology have reviewed prerequisites; about 34 programs remain (39 PDFs in
   `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
 - Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
   `course_aliases`, `policy_rules`, `rule_source_spans` exist, empty).
 
 ## Next Action
 
-Ask the owner which first (one question): (a) next program review, e.g. another college's
-prospectus, following the BSA method (render page with pypdfium2, read cells from the image,
-compare with any developer CSV, show questions inline with program/course/title/printed text,
-record decisions, author with an `author_<program>.py` like `author_bsa.py`, check with real
-Prolog); (b) generic Supabase loader for reviewed course facts/rules (BSCS + BSA) with the Prolog
-bundle generated from the database and checked equal to the current bundles; (c) the compiler
-partial-rule decision above. The developer's CSV for BSA was
-`audit-evidence/cad_review_simple(AutoRecovered).csv`; ask whether CSVs exist for other colleges.
+Ask the owner which first (one question): (a) next program review (CSVs found only for BSA and
+BS Criminology; ask whether others exist), same method: render page with pypdfium2, read cells
+from the image, compare with any developer CSV, ask inline with program/course/title/printed text,
+record decisions, author with `author_<program>.py` (row bounds = drawn horizontal rules, see
+`author_crim.py`), check with real Prolog; (b) generic Supabase loader for reviewed course
+facts/rules (BSCS + BSA + BS Criminology) with the Prolog bundle generated from the database and
+checked equal; (c) the compiler partial-rule decision above.
 
 ## Do Not Repeat
 
 Hosted migrations/load (done; hosted is not empty - the load script refuses a non-empty project),
-BSA page reading and decisions, roster runs 7-8, style floor, per-part observation, task-first
+BSA and BS Criminology page reading, decisions and authoring, roster runs 7-8, style floor, per-part observation, task-first
 trial, checker diagnosis, source/benchmark reviews, asset setup.
