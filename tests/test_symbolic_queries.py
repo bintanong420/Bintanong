@@ -94,6 +94,16 @@ def test_dependency_source_provenance_counts_toward_result_cap():
     assert result.status=='error' and result.error_code=='runtime_result_limit'
 
 
+def test_large_listing_cites_one_span_per_affected_course():
+    # Owner, 23 Oct 2026: a foundational course's listing must not fail only because every affected
+    # rule repeats all of its printed pieces; each affected course is cited once, by its rule's first span.
+    data=fixture();first=data[2][1]['prerequisites']['source_spans'][0]
+    data[2][1]['prerequisites']['source_spans']=[{**first,'text':f'Fictional rule piece {i} '+'x'*600} for i in range(120)]
+    result=query(runtime(rereview(data)),course='course-1')
+    assert result.status=='complete' and result.course_ids==('course-2',)
+    assert len(result.rule_spans)==1 and result.rule_spans[0].text.startswith('Fictional rule piece 0')
+
+
 @pytest.mark.parametrize('field',['rule_bundle_version','scope'])
 def test_complete_empty_listing_still_requires_its_bundle_and_scope(field):
     result=query(course='course-2')

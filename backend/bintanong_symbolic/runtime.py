@@ -177,6 +177,13 @@ def _spans(courses):
     return list({_json(s):s for s in spans}.values())
 
 
+def _dependency_spans(courses):
+    # One citation per affected course (its rule's first printed span) keeps large listings within the
+    # result limit; eligibility results still cite every span of the checked rule (owner, 23 Oct 2026).
+    spans = [c['prerequisites']['source_spans'][0] for c in courses]
+    return list({_json(s):s for s in spans}.values())
+
+
 def _scope(ledger, release_id):
     return {'knowledge_release_id':release_id,
             'edition_ids':[s['edition_id'] for s in ledger['sources']],
@@ -412,7 +419,7 @@ class CurriculumRuntime:
             'unknown_conditions':() if evaluation is None else evaluation.unknown_conditions,
             'rule_bundle_version':None if evaluation is None else self._version,
             'scope':_scope(ledger,self._release_id) if known_input and evaluation is not None else None,
-            'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_spans(courses),
+            'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_dependency_spans(courses),
             'error_code':error}
         if self._research_json is not None:
             data['research'] = json.loads(self._research_json)
