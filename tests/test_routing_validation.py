@@ -176,3 +176,35 @@ def test_document_only_request_does_not_require_resolving_irrelevant_grade_confl
         proposal(text='Where do I request a copy?', route='RAG', operations=[], mentions=[], intent='procedure'), ctx)
     assert result.decision.route == 'RAG'
     assert len(result.query.session_fact_refs) == 2  # preserve conflict for any later check
+
+
+def program_question(phrase, text_tail=' A1'):
+    text = phrase + text_tail
+    return text, proposal(text=text, mentions=[dict(kind='program', text=phrase, start=0, end=len(phrase)),
+        dict(kind='course', text='A1', start=len(phrase) + 1, end=len(phrase) + 3)],
+        operations=[dict(name='check_prerequisite_eligibility', target=1)])
+
+
+@pytest.mark.parametrize('phrase', ['Program A student ako', 'I am a Program A student', 'program a student'])
+def test_approved_program_name_inside_the_quoted_phrase_resolves(phrase):
+    # Owner, 24 Oct 2026: the model quotes the student's own phrase; the host finds the approved name inside it.
+    text, value = program_question(phrase)
+    result = validate(text, value, context(program_id=None, curriculum_id=None))
+    assert result.decision.route == 'Symbolic' and result.program_id == 'program-a'
+
+
+def test_short_uppercase_name_matches_only_as_written():
+    short = CatalogEntry.parse(dict(kind='program', entity_id='program-a', program_id='program-a', curriculum_id=None,
+        aliases=['IT'], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    entries = (*[e for e in catalog() if e.kind != 'program'], short)
+    for phrase, route in (('IT student ako', 'Symbolic'), ('it student ako', None)):
+        text, value = program_question(phrase)
+        assert validate(text, value, context(program_id=None, curriculum_id=None), catalog=entries).decision.route == route
+
+
+def test_phrase_naming_two_programs_asks_which():
+    other = CatalogEntry.parse(dict(kind='program', entity_id='program-b', program_id='program-b', curriculum_id=None,
+        aliases=['Program B'], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    text, value = program_question('Program A or Program B student')
+    result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=(*catalog(), other))
+    assert result.decision.control == 'clarify'

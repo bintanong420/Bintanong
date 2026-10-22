@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from copy import deepcopy
 from dataclasses import dataclass
 
@@ -80,10 +81,26 @@ def _key(text):
 
 
 def _matches(mention, catalog, program=None, curriculum=None):
-    return tuple(c for c in catalog if c.kind == mention.kind
-                 and (program is None or c.program_id == program)
-                 and (curriculum is None or c.curriculum_id == curriculum)
-                 and _key(mention.text) in {_key(a) for a in c.aliases})
+    scoped = tuple(c for c in catalog if c.kind == mention.kind
+                   and (program is None or c.program_id == program)
+                   and (curriculum is None or c.curriculum_id == curriculum))
+    exact = tuple(c for c in scoped if _key(mention.text) in {_key(a) for a in c.aliases})
+    if exact or mention.kind == 'course':
+        return exact
+    # A program/curriculum phrase ("Nursing student ako") resolves when it contains an approved
+    # name as whole words (owner decision, 24 Oct 2026); the longest names win, and a phrase naming
+    # several entities matches all of them (the caller then asks which is meant).
+    found = {}
+    for c in scoped:
+        for a in c.aliases:
+            short = len(a) <= 4 and a.isupper()  # abbreviations such as "IT" match only as written
+            pattern = r'(?<![\w-])' + re.escape(a) + r'(?![\w-])'
+            for m in re.finditer(pattern, mention.text, 0 if short else re.IGNORECASE):
+                found.setdefault(c.entity_id, []).append((m.start(), m.end(), c))
+    spans = [s for hits in found.values() for s in hits]
+    keep = {c.entity_id for s, e, c in spans
+            if not any(s2 <= s and e <= e2 and (e2 - s2) > (e - s) for s2, e2, _ in spans)}
+    return tuple(c for c in scoped if c.entity_id in keep)
 
 
 def _decision(*, route=None, control=None, request=None, missing=(), reason):
