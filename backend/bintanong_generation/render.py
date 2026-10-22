@@ -1,4 +1,5 @@
 """Plain-text candidate previews; canonical decisions never come from generated prose."""
+import json
 
 _WORDS={
  'en':dict(preview='Candidate preview only. Not official university guidance.',
@@ -71,6 +72,39 @@ _UNCOVERED={
  'taglish':'Hindi ma-verify na nasasagot ng available evidence ang question mo.'}
 
 
+# Source-gap policy: a cited source's unresolved conflict or visible defect is always stated.
+# No office is named because the source does not establish which one (22 October 2026).
+_LIMIT_NOTICES={
+ 'en':dict(conflict='Note: the cited source gives conflicting statements on this, so it does not settle '
+               'which one applies. Please confirm with the right university office.',
+           defect='Note: part of the cited source is cut off or unclear, so this answer may be incomplete. '
+               'Please confirm with the right university office.'),
+ 'fil':dict(conflict='Paalala: magkasalungat ang sinasabi ng source tungkol dito, kaya hindi malinaw kung alin '
+               'ang masusunod. Pakitanong sa tamang opisina ng unibersidad.',
+            defect='Paalala: may bahagi ng source na putol o hindi malinaw, kaya baka kulang ang sagot na ito. '
+               'Pakitanong sa tamang opisina ng unibersidad.'),
+ 'taglish':dict(conflict='Note: may conflicting statements ang source dito, kaya hindi clear kung alin ang '
+               'applicable. Paki-confirm sa tamang university office.',
+            defect='Note: may part ng source na cut off o unclear, kaya baka incomplete ang answer na ito. '
+               'Paki-confirm sa tamang university office.')}
+_NOTICE_ISSUES={'conflicting_deadlines':'conflict','source_cutoff':'defect',
+                'malformed_source_condition':'defect','printed_total_discrepancy':'defect'}
+
+
+def limit_notices(cards):
+    """Notice kinds for unresolved conflicts/defects recorded on the given document cards."""
+    kinds=[]
+    for card in cards:
+        if card.kind!='document': continue
+        try: limits=json.loads(card.text).get('source_limits',[])
+        except (ValueError,AttributeError): continue
+        for limit in limits if isinstance(limits,list) else ():
+            kind=(_NOTICE_ISSUES.get(limit.get('issue'))
+                  if isinstance(limit,dict) and limit.get('resolution')=='unresolved' else None)
+            if kind and kind not in kinds: kinds.append(kind)
+    return kinds
+
+
 def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False):
     words=_WORDS.get(pack.language,_WORDS['en'])
     message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
@@ -106,6 +140,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
+    if status=='answered':
+        notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
+        lines.extend(notices[kind] for kind in limit_notices(selected_cards(pack,claims)))
     for card in selected_cards(pack,claims):
         for cite in card.citations:
             locator=cite.locator.ref or '/'.join((*cite.locator.section_path,*cite.locator.cell_ids,*cite.locator.item_ids))
