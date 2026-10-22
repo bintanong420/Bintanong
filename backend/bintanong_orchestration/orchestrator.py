@@ -2,6 +2,8 @@
 import asyncio
 import math
 import hashlib
+import re
+import json
 from time import perf_counter
 
 from ..bintanong_contracts.symbolic import SymbolicResult
@@ -37,6 +39,14 @@ def _topic_intent(proposed):
     claims = dict.fromkeys(c for p in parts if p.subject_id == subject for c in p.requested_claims)
     return dict(subject_id=subject, requested_claims=tuple(claims))
 
+def referenced_labels(labels, *mentions):
+    """Printed-code labels for the courses this answer mentions; a release of several curricula
+    holds far more labels than one answer may carry."""
+    text = json.dumps(mentions, sort_keys=True, default=str)
+    return {cid: code for cid, code in labels
+            if re.search(re.escape(cid) + r'(?![0-9A-Za-z_-])', text)}
+
+
 class Orchestrator:
     def __init__(self, transport, *, releases=None, stage_timeout=120.0,
                  routing_profile='separate'):
@@ -61,7 +71,10 @@ class Orchestrator:
                 request_id=context.request_id, route=route, response_style=style,
                 status=status, evidence=evidence, understanding=understanding,
                 missing_facts=tuple(missing), events=tuple(events),
-                course_labels=dict(resources.course_labels) if resources else {})
+                course_labels=referenced_labels(resources.course_labels if resources else (),
+                    evidence.model_dump(mode='json') if evidence is not None else None,
+                    understanding.model_dump(mode='json') if understanding is not None else None,
+                    tuple(missing)))
 
         async def stage(name, call):
             start, value, outcome = perf_counter(), None, 'ok'
