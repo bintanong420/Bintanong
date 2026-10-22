@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 22 October 2026. Phase 09 active on p09 / `feat/p09-generation-validation`.
+Updated 22 October 2026. Phase 09 complete on p09 / `feat/p09-generation-validation`.
 [Checkpoint](../phase-09-checkpoint.md) | [Per-part decision](../2026-10-21-per-part-generation-decision.md).
 Last full snapshot before this replacement: `0a08d8d:plans/plan_current_progress/current_progress.md`.
 
@@ -54,36 +54,18 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Owner confirmed the Filipino/Taglish wording reads naturally (21 Oct) and
-approved plainer host-rendered Filipino lines (`39c46cb`, `d75f4d1`). Six-case
-broader check: relevance works; fixes `838f6d4`; post-fix b1/b3/b4 pass. Owner
-authorized real public sources/reviewed Prolog for development (AGENTS.md).
-Real-data task 1 done: read-only PackageStorage (`295a91c`) reproduces Phase 05's
-offered chunks 39/39; 3 overload results differ because Phase 05's double used
-transitive neighbors the real SQL lacks. Task 2 (router topic menu) done
-`f38b409`. Task 3 done (research results threaded
-through every gate; builder `12c5e65`). First real answers: CC5 ineligible via real Prolog;
-grade 1.0 = 98-100 Excellent from Handbook p.46. Task 4 roster (63 real cases x2):
-see [results](../2026-10-21-real-data-roster-results.md). Router errors now clarify
-(`c8a25f5`); checker 12.4->4.6 s (`6d639f5`); line-break ban + compact topic schema.
-Roster run 3: 0 system errors, doc median 34.7 s, CC5 21.6 s ([latency](../2026-10-21-latency-research-and-budget.md)).
-#3 style (`e53153b`, owner-approved): Filipino function word overrides an English-only
-label to Taglish; failed-reference clarifications run the style call. Run 6: cheating-
-Taglish now Taglish, natural-u1-tl clarifies in Filipino, English unchanged. Next: owner
-picks latency levers or Phase 09 exit reassessment; full suite on `e53153b`: 6097 passed, 0 failed.
-#2: owner kept the safe version (`d8d5220`, run 5): 0 wrong answers, 3 fee-example answers
-withheld (disclosed). Restart the model container before long runs (cache memory growth). Against the exit map: interpretation
-and completeness are now evidenced on the four fixtures; still open are the
-relevance check on the per-part reviewer (old B cases never ran), omissions the
-router never declares, broader multilingual cases (new wordings need owner
-approval) and real-service timing, then formal closeout.
-Separate follow-up: answer verified parts while naming an unavailable part.
+Phase 09 closed (owner-approved 22 Oct): [final handoff](../phase-09-handoff.md),
+[exit reassessment](../2026-10-22-phase09-exit-reassessment.md). Before it: #3 style floor
+`e53153b` (run 6 fixed Taglish-to-English replies); full suite 6097 passed, 0 failed.
+Next: Phase 10 planning (master 15, private PDFs/photos and session context) only when
+the owner says to start. Optional follow-ups: partial answers, router per-person/added-detail
+errors, latency levers.
 
 ## Boundaries
 
 Undergraduate scope, read-only advisory, source-gap, privacy, institutional
 release and one-week improvement boundaries unchanged. Accepted 75 variants and
 the held if/kung policy are unchanged. No activation, push, training, dependency
-or DB change. Phase 09 active; Phase 10 not started. Context consulted 22 Oct
+or DB change. Phase 09 complete; Phase 10 not started. Context consulted 22 Oct
 resume: thesis physical 17-18 (Scope and Limitations) and the routing PNG; no
 discrepancy.

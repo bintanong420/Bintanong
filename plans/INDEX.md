@@ -15,16 +15,15 @@
   effective outcomes,13/15exact reused styles;two Taglish style errors remain.
   [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
   accepted for future phases;one-week improvement cap;no institutional accuracy claim.
-- Phase **09 active; all3actual service paths verified on fictional fixtures**;
-  [Plan](phase-09-generation-validation-plan.md) · [Checkpoint](phase-09-checkpoint.md) · [Handoff](phase-09-handoff.md).
-- Active phase:09 reopened; [live composition plan](2026-10-20-live-backend-composition-plan.md)
-  in p09; Phase10 not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
+- Phase **09 complete as an owner-approved offline research/software milestone** (22 Oct);
+  [Plan](phase-09-generation-validation-plan.md) · [Superseded checkpoint](phase-09-checkpoint.md) ·
+  [Final handoff](phase-09-handoff.md) · [Exit reassessment](2026-10-22-phase09-exit-reassessment.md).
+- No active phase. Next permitted: Phase 10 (master 15) on the owner's go; not started.[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) unchanged.
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - [Per-part generation](2026-10-21-per-part-generation-decision.md) is the default;[actual results](2026-10-21-per-part-observation-results.md):fee fixed;per-language style 4/4 (author reading).
-  Phase09 exit held pending naturalness confirmation and broader multilingual checks.
 - Scoped/canonical/separate selected;three current correct component answers45.8-49.8s;student end-to-end latency unmeasured.
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified;university/institutional runtime/activation holds remain;full-prospectus conversion stays draft.
@@ -54,7 +53,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 6 | Structured knowledge | complete offline BSCS research/software; institutional release gated | [Plan](phase-06-structured-knowledge-plan.md) | [Superseded](phase-06-checkpoint.md) | [Complete](phase-06-handoff.md) |
 | 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
-| 9 | Generation/validation | reopened;actual paths verified;latency/quality remain | [Plan](phase-09-generation-validation-plan.md) | [Active](phase-09-checkpoint.md) | [Historical offline milestone](phase-09-handoff.md) |
+| 9 | Generation/validation | complete offline research/software; seven limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 
 ## Read only when relevant
 
@@ -78,4 +77,4 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
-Latest full snapshots:Phase09:`8fafaf7`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+Latest full snapshots:Phase09:`b28cd6c`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

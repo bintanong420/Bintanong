@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 9
-status: in_progress
-sequence: 123
+status: superseded
+sequence: 124
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: e53153b
+head_commit: b28cd6c
 working_tree: clean
-updated_at: 2026-10-22T12:00:00+08:00
+updated_at: 2026-10-22T14:00:00+08:00
 ---
 
 # Phase 09 checkpoint - per-part generation observed on the actual model
@@ -48,7 +48,7 @@ Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `e53153b` plus this checkpoint commit;
+Branch `feat/p09-generation-validation`, HEAD `b28cd6c` plus the closeout commit;
 clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
 running. No dependency, Supabase, source or institutional change; research mode
 serves reviewed data through the read-only PackageStorage stand-in.
@@ -91,15 +91,9 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-#3 style done (`e53153b`, owner-approved 22 Oct): English-only label + Filipino function
-word -> Taglish; invalid-reference clarifications get one style call. Run 6 (9 cases)
-fixed both targets with no lost answers ([results](2026-10-21-real-data-roster-results.md)).
-Remaining style limit: some Taglish questions are labelled Filipino (model choice, kept).
-Owner picks next (ask first): **remaining latency levers** (router prompt cache, drop
-router `intent`/`reason`, fold style into routing; each needs a full roster re-run) or
-**Phase 09 exit reassessment** against `plans/2026-10-21-phase09-remaining-work-and-exit-map.md`
-then the final handoff. Full suite on `e53153b`: 6097 passed, 6 skipped, 0 failed (945 s).
-Context consulted 22 Oct resume: thesis physical 17-18 and the routing PNG; no discrepancy.
+Superseded: owner approved Phase 09 closeout (22 Oct); see the [final handoff](phase-09-handoff.md)
+and [exit reassessment](2026-10-22-phase09-exit-reassessment.md). Phase 10 starts only on
+the owner's go, after `can-advance`.
 
 How to resume real-data work: test Python is
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`
