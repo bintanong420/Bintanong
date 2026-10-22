@@ -31,3 +31,21 @@ for loading. Sources were not marked approved; nothing existing was changed.
 The chatbot pipeline still builds its curriculum runtime from the Phase 06 BSCS ledger files; wiring
 it to `load_release_curricula` (all hosted curricula, program/curriculum selection) is the next step.
 Later program reviews are loaded with `load_curricula.py hosted <name>` after review.
+
+## Chatbot wiring (23 October 2026, owner: "ye lets proceed")
+
+- `fb2866b`: one research release serves several reviewed curricula. `build_multi_research_resources`
+  (backend/bintanong_runtime/research.py) builds one runtime per curriculum; the pin lists each
+  curriculum's own release identity and rule-bundle version (`ReleasePin.curricula`); checks run on
+  the curriculum named by the request (`MultiCurriculumSymbolicAdapter`); integration admits a result
+  only with that curriculum's pinned identity. Catalog = union of reviewed curricula (course matching
+  stays program/curriculum scoped; program/curriculum come from the request context, else clarify).
+- `6f03016`: answers carry printed-code labels only for courses they mention (502 labels exceeded the
+  256 an answer may carry; every request failed before this fix).
+- Wiring check (workspace `audit-evidence/p09-multi-curriculum-20261023/smoke_hosted.py`, not a counted
+  benchmark): curricula loaded from hosted with the runtime role, accepted thesis wording "Pwede ko
+  bang kunin ang CC5 kahit bumagsak ako sa CC4?": BSCS old -> ineligible (CC 4/L failed); BSCS
+  proposed -> clarification (its CC 5/L needs CC 3/L + CS 2, not CC 4/L); BSIT -> ineligible. Warm
+  component 20.7-24.1 s each (student end-to-end latency not measured).
+- Counted roster runner still uses its recorded file-based setup; switching counted runs to the
+  hosted multi-curriculum release needs a protocol update before the next counted run.

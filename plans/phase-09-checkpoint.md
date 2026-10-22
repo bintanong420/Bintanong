@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 136
+sequence: 137
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-23T14:00:00+08:00
+updated_at: 2026-10-23T17:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -56,7 +56,8 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   span per course (`6e9ce80`, COMM BC 11 no longer errors); full suite 6150 passed.
 - Hosted curriculum ledgers ([record](2026-10-23-hosted-curriculum-ledgers-load.md), `23882db`):
   migration 20261023090000 applied to hosted; 9 curricula / 502 courses loaded into the research
-  release and verified by runtime read-back. Chatbot not yet wired to read them.
+  release and verified by runtime read-back. Chatbot wired (`fb2866b`, `6f03016`): one research release
+  serves all hosted curricula; hosted wiring check correct for BSCS old/proposed and BSIT.
 - /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
   attribution trailers removed from unpushed commits (owner: never add them).
 
@@ -110,9 +111,10 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-Ask the owner: (a) wire the chatbot runtime to `load_release_curricula` (all hosted curricula) or
-(b) continue CAH reviews (PhilStud, PolSci, Psych x2, Social Work; owner rules for shorthand,
-ranges, duplicates recorded), loading each with `load_curricula.py hosted <name>` after review.
+Continue CAH reviews (PhilStud, PolSci, Psych x2, Social Work; owner rules for shorthand, ranges and
+duplicate codes recorded; duplicates also need `research_catalog` to accept repeated printed codes),
+loading each with `load_curricula.py hosted <name>`; then CBA, CHTM, CNHS, CoE, CTE. Before the next
+counted roster run, update its protocol to the hosted multi-curriculum release.
 
 ## Do Not Repeat
 

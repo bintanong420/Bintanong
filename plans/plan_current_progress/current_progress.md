@@ -54,6 +54,8 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
+23 Oct: chatbot now reads all hosted curricula (multi-curriculum release); wiring check correct.
+Next: continue CAH reviews per the checkpoint.
 23 Oct: 9 reviewed curricula (502 courses) loaded into hosted Supabase and verified; chatbot wiring
 to read them is next (or continue CAH reviews). See the checkpoint.
 23 Oct: College of Sciences prerequisite reviews complete (6 programs incl. full old/proposed BSCS);
