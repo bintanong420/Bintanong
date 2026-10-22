@@ -12,7 +12,8 @@ TEXT = 'A1 policy'
 
 def wire(valid=True):
     value = wire_fixture(proposal(text=TEXT), TEXT)
-    if not valid:  # operation aimed at a phrase that is not a course mention
+    if not valid:  # operation aimed at a phrase listed as a non-course mention
+        value['mentions'].append(dict(kind='program', quote=dict(text='policy', occurrence=0)))
         value['operations'][0]['target'] = dict(text='policy', occurrence=0)
     return json.dumps(value)
 

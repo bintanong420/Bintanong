@@ -133,13 +133,20 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             raise ValueError('ungrounded_part')
 
     program, curriculum = context.program_id, context.curriculum_id
-    resolved = {}
+    resolved, ignored = {}, set()
     scope_error = None
+    # Owner, 23 Oct 2026: a handbook-only question does not depend on program/curriculum, so a
+    # phrase that matches no approved name (e.g. "Graduating undergraduate") is ignored there.
+    document_only = not p.operations and bool(p.parts) and all(
+        part.evidence_need == 'document' for part in p.parts)
     for kind in ('program', 'curriculum'):
         for idx, mention in enumerate(p.mentions):
             if mention.kind != kind:
                 continue
             matches = _matches(mention, catalog, program if kind == 'curriculum' else None)
+            if not matches and document_only:
+                ignored.add(idx)
+                continue
             if len(matches) != 1:
                 scope_error = 'unresolved_entity'
                 continue
@@ -229,7 +236,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         missing = tuple(k for k, v in (('program_id', program), ('curriculum_id', curriculum)) if v is None)
         if missing:
             return result('missing_scope', missing=missing)
-    if len(resolved) != len(p.mentions):
+    if len(resolved) + len(ignored) != len(p.mentions):
         return result('unresolved_entity')
     if any(c.mode != 'asserted' for c in claims):
         return result('nonasserted_facts')

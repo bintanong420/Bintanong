@@ -178,6 +178,22 @@ def test_document_only_request_does_not_require_resolving_irrelevant_grade_confl
     assert len(result.query.session_fact_refs) == 2  # preserve conflict for any later check
 
 
+def test_unmatched_scope_phrase_is_ignored_on_a_document_only_question():
+    # Owner, 23 Oct 2026 (run 9): "Graduating undergraduate sa last semester" quoted as a curriculum.
+    text = 'Graduating student: where do I ask?'
+    value = proposal(text=text, route='RAG', operations=[], intent='procedure',
+        mentions=[dict(kind='curriculum', text='Graduating student', start=0, end=18)])
+    assert validate(text, value, context(program_id=None, curriculum_id=None)).decision.route == 'RAG'
+
+
+def test_unmatched_scope_phrase_still_clarifies_a_course_question():
+    text = 'Graduating student A1'
+    value = proposal(text=text, mentions=[dict(kind='curriculum', text='Graduating student', start=0, end=18),
+        dict(kind='course', text='A1', start=19, end=21)], operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    result = validate(text, value)
+    assert result.decision.control == 'clarify' and result.diagnostic == 'unresolved_entity'
+
+
 def program_question(phrase, text_tail=' A1'):
     text = phrase + text_tail
     return text, proposal(text=text, mentions=[dict(kind='program', text=phrase, start=0, end=len(phrase)),

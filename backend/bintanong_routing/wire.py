@@ -99,20 +99,30 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
     if len(set(positions)) != len(positions):  # two declared occurrences landed on one place
         raise ValueError('duplicate_mention_reference')
 
+    listed = [dict(kind=m.kind, **span(m.quote)) for m in wire.mentions]
+    at = {(m['start'], m['text']): index for index, m in enumerate(listed)}
+
     def course_index(quote):
         index = mentions.get(key(quote))
-        if index is None or wire.mentions[index].kind != 'course':
+        if index is None:
+            # A quoted course the model did not list (owner, 23 Oct 2026) becomes a course mention;
+            # the catalog still has to resolve it. A miscount reuses the mention at that place.
+            found = span(quote)
+            index = at.setdefault((found['start'], found['text']), len(listed))
+            if index == len(listed):
+                listed.append(dict(kind='course', **found))
+            mentions[key(quote)] = index
+        if listed[index]['kind'] != 'course':
             raise ValueError('invalid_course_quote_reference')
         return index
 
     data = wire.model_dump(mode='json')
     data.pop('part_count')
-    data.update(schema_version=Interpretation.SCHEMA_VERSION,
-        mentions=[dict(kind=m.kind, **span(m.quote)) for m in wire.mentions],
-        claims=[dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
-                for c in wire.claims],
-        operations=[dict(name=o.name, target=course_index(o.target)) for o in wire.operations],
-        parts=[dict(**span(p.quote), part_id=p.part_id, evidence_need=p.evidence_need,
+    claims = [dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
+              for c in wire.claims]
+    operations = [dict(name=o.name, target=course_index(o.target)) for o in wire.operations]
+    data.update(schema_version=Interpretation.SCHEMA_VERSION, mentions=listed, claims=claims,
+        operations=operations, parts=[dict(**span(p.quote), part_id=p.part_id, evidence_need=p.evidence_need,
                     operation_indices=list(p.operation_indices), subject_id=p.subject_id,
                     requested_claims=list(p.requested_claims)) for p in wire.parts])
     result = Interpretation.parse(data)
