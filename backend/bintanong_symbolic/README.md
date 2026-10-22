@@ -137,6 +137,11 @@ not establish failure. Conflicting relevant completion states stay unknown unles
 an independent alternative proves the result. A referenced course's own unknown
 prerequisites are not rechecked when its explicit completion is supplied; this is
 a direct prerequisite check, not an inferred transitive completion audit.
+The runtime bundle exports a reviewed course's rule with each unresolved part as
+an unknown leaf (owner decision, 23 October 2026): a known failed all_of part gives
+ineligible with partial coverage and the unknown part still listed; a satisfied
+any_of alternative gives eligible; otherwise the result stays unknown. Coverage
+keeps such rules `unresolved`, and dependency listings through them stay partial.
 
 The adapter uses the existing registry and SymbolicResult contracts, attaching
 scoped rule/source spans and stable satisfied/violated/unknown explanations.

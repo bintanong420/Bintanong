@@ -242,14 +242,32 @@ def test_failed_completion_without_enrollment_evidence_stays_unknown():
     assert result.decision.outcome=='unknown' and result.decision.unknown_conditions
 
 
-def test_nested_unknown_holds_whole_expression_and_preserves_unresolved_provenance():
+def partial_ledger(kind):
     data=fixture();leaf=copy.deepcopy(data[2][1]['prerequisites'])
     unknown={'kind':'unresolved','reason':'Fictional unknown exception','source_spans':leaf['source_spans']}
-    data[2][1]['prerequisites']={'kind':'all_of','items':[leaf,unknown],'source_spans':leaf['source_spans']}
-    result=runtime(rereview(data)).check(request(),facts(failed=('course-1',)))
-    assert result.decision.outcome=='unknown'
+    data[2][1]['prerequisites']={'kind':kind,'items':[leaf,unknown],'source_spans':leaf['source_spans']}
+    return rereview(data)
+
+
+def test_known_failed_conjunct_decides_despite_unresolved_sibling():
+    # Owner decision 23 Oct 2026: a clearly failed required course gives ineligible; the unknown part stays listed.
+    result=runtime(partial_ledger('all_of')).check(request(),facts(failed=('course-1',)))
+    assert result.decision.outcome=='ineligible' and result.decision.rule_coverage=='partial'
+    assert result.decision.violated_conditions==('not_completed:course-1',)
+    assert 'rule_unresolved' in result.decision.unknown_conditions
+    assert result.decision.prerequisite_rule_state=='resolved' and result.rule_spans
+
+
+def test_passed_conjunct_with_unresolved_sibling_stays_unknown():
+    result=runtime(partial_ledger('all_of')).check(request(),facts(passed=('course-1',)))
+    assert result.decision.outcome=='unknown' and not result.decision.violated_conditions
     assert result.decision.prerequisite_rule_state=='unresolved_reference'
-    assert not result.decision.violated_conditions
+
+
+@pytest.mark.parametrize('passed,failed,outcome',[(('course-1',),(),'eligible'),((),('course-1',),'unknown')])
+def test_alternative_with_unresolved_sibling_needs_a_satisfied_known_alternative(passed,failed,outcome):
+    result=runtime(partial_ledger('any_of')).check(request(),facts(passed=passed,failed=failed))
+    assert result.decision.outcome==outcome and not result.decision.violated_conditions
 
 
 def test_source_provenance_counts_toward_the_result_byte_limit():

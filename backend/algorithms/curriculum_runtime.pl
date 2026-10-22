@@ -88,7 +88,7 @@ dependencies(BundleJSON, Curriculum, Course, ResultJSON) :-
                   reaches(Bundle,ID,Course,[ID])),Raw), sort(Raw,Courses),
       findall(U,(member(C,Bundle.courses),
           ( C.reviewed == false -> atom_concat('identity_unreviewed:',C.id,U)
-          ; C.rule.kind == unresolved -> atom_concat('rule_unresolved:',C.id,U) )),UnknownRaw),
+          ; contains_unresolved(C.rule) -> atom_concat('rule_unresolved:',C.id,U) )),UnknownRaw),
       sort(UnknownRaw,Unknown)
     ),
     ( Unknown == [] -> Status=complete ; Status=partial ),
@@ -97,6 +97,11 @@ dependencies(BundleJSON, Curriculum, Course, ResultJSON) :-
 reaches(Bundle,ID,Target,Visited) :-
     identity(Bundle,ID,C), C.reviewed == true, requirement_reference(C.rule,Next),
     ( Next == Target ; \+ memberchk(Next,Visited), reaches(Bundle,Next,Target,[Next|Visited]) ).
+
+contains_unresolved(Node) :-
+    ( Node.kind == unresolved -> true
+    ; (Node.kind == all_of ; Node.kind == any_of), member(Child,Node.items), contains_unresolved(Child), !
+    ).
 
 requirement_reference(Node,ID) :-
     % A co-requisite failed and not taken the same term also blocks its dependent.

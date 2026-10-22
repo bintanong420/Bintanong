@@ -59,6 +59,13 @@ def test_unresolved_rule_makes_listing_partial_even_when_no_dependents_found():
     assert result.status=='partial' and not result.course_ids and result.unknown_conditions
 
 
+def test_known_edge_of_partially_unresolved_rule_is_listed_and_partial():
+    from test_symbolic_runtime import partial_ledger
+    result=query(runtime(partial_ledger('all_of')),course='course-1')
+    assert result.course_ids==('course-2',) and result.status=='partial'
+    assert 'rule_unresolved:course-2' in result.unknown_conditions
+
+
 @pytest.mark.parametrize('over',[{'course':'missing'},{'curriculum':'other'}])
 def test_missing_identity_or_wrong_curriculum_has_no_borrowed_provenance(over):
     result=query(**over)

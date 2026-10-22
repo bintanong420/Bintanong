@@ -212,6 +212,7 @@ class CurriculumRuntime:
     _version: str
     _engine_sha256: str
     _reviewed_rules: frozenset[str]
+    _exported_rules: frozenset[str]
     _research_json: str | None
     _allowed_operations: frozenset[str]
     _release_id: str
@@ -237,6 +238,9 @@ class CurriculumRuntime:
         object.__setattr__(self, '_engine_sha256', engine_sha)
         object.__setattr__(self, '_reviewed_rules', frozenset(
             cid for cid,c in coverage.items() if c['direct_rule']=='reviewed'))
+        # Reviewed courses whose rule is exported, possibly with unknown leaves for unresolved parts.
+        object.__setattr__(self, '_exported_rules', frozenset(
+            cid for cid,c in coverage.items() if c['identity_review']=='reviewed'))
         research = None if authorization is None else ResearchContext.parse({
             'mode':'offline_research','institutional_use_allowed':False,'student_facts_synthetic':True,
             'generated_output_review':'pending','authorization':authorization.model_dump(mode='json'),
@@ -365,8 +369,11 @@ class CurriculumRuntime:
                 'predicate':request.predicate, 'predicate_supported':supported,
                 'rule_coverage':'absent' if ev is None else ev.coverage,
                 'prerequisite_rule_state':None if ev is None else (
-                    'unresolved_reference' if target is None or target['course_id'] not in self._reviewed_rules else
-                    'stated_none' if target and target['prerequisites']['kind']=='verified_none' else 'resolved'),
+                    'unresolved_reference' if target is None or target['course_id'] not in self._exported_rules else
+                    'stated_none' if target['prerequisites']['kind']=='verified_none' else
+                    # A partly unresolved rule is decided only by its reviewed parts.
+                    'resolved' if target['course_id'] in self._reviewed_rules or outcome in ('eligible','ineligible')
+                    else 'unresolved_reference'),
                 'satisfied_conditions':() if ev is None else ev.satisfied,
                 'violated_conditions':() if ev is None else ev.violated,
                 'unknown_conditions':[x for x in unknown if not x.startswith('completion_unknown:')],
@@ -390,7 +397,7 @@ class CurriculumRuntime:
         matches_scope = values.get('curriculum_id')==ledger['scope']['curriculum_id']
         known_input = matches_scope and any(c['course_id']==values.get('course_id') for c in ledger['courses'])
         ids = () if evaluation is None else evaluation.course_ids
-        if ids and (not known_input or not set(ids) <= self._reviewed_rules):
+        if ids and (not known_input or not set(ids) <= self._exported_rules):
             raise ValueError('unbound dependency output')
         if evaluation is not None and evaluation.status=='complete' and (
                 not known_input or len(self._reviewed_rules)!=len(ledger['courses'])):
