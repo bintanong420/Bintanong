@@ -94,3 +94,10 @@ First run 9 attempt (`b3d8a15`) quarantined as `roster9-invalid-doc-path/` after
 document question failed `invalid_output` because all 39 prospectus versions were passed as
 retrieval version ids (limit 32). Fixed in the commit before this note (retrieval gets document
 versions only); an uncounted 2-case precheck answered. Run 9 restarts from case 1 at this commit.
+
+## Run 10 (router host fixes), fixed 23 October 2026 before running
+
+Code `0d69381` (owner "Host fixes" after run 9). Same 63 cases, runner `roster9.py roster10`,
+`HOSTED=1`, model container restarted first, everything else as run 9. Pass: no invented facts,
+no run 9 correct answer lost, the run 8 answers lost in run 9 (CC5 en old curriculum,
+overload taglish) not lost again, system errors not increased. Not an accuracy rate or SLA.

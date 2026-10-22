@@ -265,3 +265,7 @@ Each program still gets its own dated review record listing which standing rule 
   kept as printed, unknown unless known (refer to the college); courses listed beside them stay required.
   Co-requisite marks apply to their course: "X (co-requisite) Y" = X co-requisite, Y ordinary;
   "X C - Y" / "Co-Y" = Y co-requisite.
+- 23 Oct 2026 (router fixes after run 9, "Host fixes"): a course quoted by an operation or claim
+  but not listed by the model becomes a course mention (the catalog must still resolve it); a
+  program/curriculum phrase matching no approved name is ignored on a document-only question,
+  while course questions still clarify. No prompt change (router v15 kept).
