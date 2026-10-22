@@ -65,3 +65,13 @@ server's host prompt cache grew to ~5.2/7.5 GiB and caused 120 s timeouts): no l
 0 system errors, document median 31.9 s, but `natural-u2-en` still answered with the
 printed total, so the prompt-only rule failed its target. Run 5 adds not-stated facts to
 the topic menu (commit above). Same 63 cases, folder `roster5/`, same pass conditions as run 4.
+
+## Run 7 (hosted Supabase retrieval), fixed 22 October 2026 before running
+
+Code `b4616ab`. Same 63 accepted cases, one attempt each, same order and runner, with
+`HOSTED=1`: document retrieval reads the active hosted research release
+`p09-research-selected-20261022` through `HostedReleaseStorage` (anon key); Prolog and the
+model are unchanged. Model container restarted first. Compare against run 5 (`d8d5220`,
+PackageStorage): status per case, wrong answers, invented facts, system errors and timing.
+The `retrieval` stage now includes the network round trip to Supabase and is reported
+separately. Not a new accuracy rate; no wording or threshold changes.
