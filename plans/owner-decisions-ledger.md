@@ -260,3 +260,8 @@ Each program still gets its own dated review record listing which standing rule 
 - Added 24 Oct 2026 (BS Nursing): a printed prerequisite loop (NCM 15-117B needs NCM 15-112 B, which needs
   NCM 15-117B) keeps both cells but marks only the two references forming the loop as recorded source gaps
   (unknown, refer to the college).
+- Added 24 Oct 2026 (CoE): "Graduating", "provided that student passed all Math courses" and notes such as
+  "can take the OJT if he/she passed 85% of the subjects in Third Year" are student-status conditions:
+  kept as printed, unknown unless known (refer to the college); courses listed beside them stay required.
+  Co-requisite marks apply to their course: "X (co-requisite) Y" = X co-requisite, Y ordinary;
+  "X C - Y" / "Co-Y" = Y co-requisite.
