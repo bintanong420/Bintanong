@@ -257,3 +257,6 @@ Each program still gets its own dated review record listing which standing rule 
   those courses. A/B course pairs: "X A & B" = both XA and XB; a number without a letter where only A and
   B exist (e.g. "NCM15-101" when only 101A/101B exist) = both; a shared prefix carries over ("104,105 &
   106 A & B" = 104A/B, 105A/B, 106A/B). A reference to a course not on the page stays a source gap.
+- Added 24 Oct 2026 (BS Nursing): a printed prerequisite loop (NCM 15-117B needs NCM 15-112 B, which needs
+  NCM 15-117B) keeps both cells but marks only the two references forming the loop as recorded source gaps
+  (unknown, refer to the college).
