@@ -240,3 +240,8 @@ Each program still gets its own dated review record listing which standing rule 
   reference that differs from exactly one course by an obvious typo (an extra/missing letter such as
   "Bio 106A/L" -> Bio 106/L, "Physics 1/L" -> "Physic 1/L", or a leading zero "Res 02" -> Res 2) maps
   to that course. A reference with no single obvious match stays a source gap.
+- Added 23 Oct 2026 (College of Arts and Humanities): shorthand cells are written out by repeating
+  the shared prefix with "&" = all required ("COMM BC 12 & 14", "PSM 1,2,5,8 PSIE 6"); a numbered range
+  ("SSc 1- 9") means every course of that prefix numbered in the range (electives excluded), all
+  required; a code printed on two rows that differ by title or units is kept as two courses, flagged
+  as a duplicated code (a code-only question asks which title is meant).
