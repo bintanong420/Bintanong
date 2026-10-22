@@ -138,34 +138,8 @@
 
 ## Natural student questions and intended responses
 
-- Later15October2026 the owner explicitly accepted all nine T1/T2/U3 wordings and
-  expectations in plans/2026-10-15-temporal-unsupported-query-proposal.md:
-  current-year enrollment deadline, special-class memo current-year validity and
-  GCash payment-channel availability. Do not ask again. Verify bounded selected-
-  evidence labels before evaluation; acceptance does not establish current-year
-  validity, payment permission/prohibition, institutional approval or activation.
-  Existing accepted12/36 and six/18 questions remain unchanged.
-  These nine cases now have offline observations in
-  plans/2026-10-15-temporal-unsupported-evaluation-report.md. They expose missing
-  fee context and irrelevant deadline matches; clean assembly does not prove
-  claim coverage. Do not repeat their encoding or infer a calibrated policy.
-
-- Later15October2026 source follow-ups explicitly confirm U1's G2 II.B.1/3
-  PSU Security Services Unit office/context reading and selected student-vehicle
-  undergraduate research use, plus U2's confirmed special-class-example
-  undergraduate applicability with existing limits. Those selected prerequisites
-  supersede earlier U1held/U2unknown notes. Do not reopen them or infer a price,
-  replacement workflow, F04 digit answer or institutional/current-year approval.
-  See plans/2026-10-15-approved-natural-query-evaluation-plan.md and recorded events.
-
-- On15October2026 the owner explicitly approved the revised six scenarios/18
-  English/Filipino/Taglish variants and continuation, referring to
-  plans/2026-10-15-natural-query-review-proposal.md at bb57f66. Their wordings and
-  stated expectations are settled; do not ask again. This supersedes older
-  pending-wording notes below. Preserve the prior accepted12/36cases. U1's
-  necessary source-context/referral-office review remains separate and held;
-  other evidence-ready cases may proceed offline. Approval does not establish
-  source authority/currentness, promote unknown applicability or activate output.
+- Accepted benchmark wordings and their recorded limits (12/36, six/18, nine T1/T2/U3;
+  D1-D4 above) are in `plans/owner-decisions-ledger.md`; do not ask for them again.
 
 - Standing owner direction,15October2026: normal users need not say they are
   undergraduates or name a source/memo/date. Undergraduate academic affairs is
@@ -193,11 +167,6 @@
   clarification or supported office referral. Keep this distinct from an excluded
   audience notice. Remain advisory; private uploads and institutional knowledge
   stay separate. These are intended requirements, not deployed behavior.
-- See plans/2026-10-15-natural-query-response-requirements.md and the revised
-  plans/2026-10-15-natural-query-review-proposal.md. The owner's critique does not
-  accept the original or revised18benchmark wordings. Original proposal/history
-  and accepted12/36cases remain unchanged; revised wordings need actual acceptance
-  before tests. No school/source approval or activation is inferred.
 
 ## Incomplete or defective institutional sources
 
@@ -230,13 +199,13 @@ permission or authorization to execute institutional rules in Phase 06.
 
 ## Repository workflow
 
-- Phase 06 owner direction, 17 October 2026: active implementation worktree is
-  `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`. Keep routine
-  handoff reading to Phase 06 MD files plus INDEX/current progress and required
-  shared scope/architecture evidence. Open older phase documents only for a
-  specific dependency or boundary; do not bulk-read Phase 05 history. Conduct
-  source-to-rule human reviews in short batches with exact original regions;
-  reuse settled source transcriptions and record actual translation decisions.
+- Each phase works in its own worktree under
+  `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/` (Phase 09: `p09`;
+  `plans/INDEX.md` names the active one). Keep routine handoff reading to the active phase
+  MD files plus INDEX/current progress and required shared scope/architecture evidence. Open
+  older phase documents only for a specific dependency or boundary. Conduct source-to-rule
+  human reviews in short batches with exact original regions; reuse settled source
+  transcriptions and record actual translation decisions.
 
 - Use a human-in-the-loop for source-content decisions and recurring source-handling
   dead ends. If clipped/incomplete text, ambiguous layout, field selection or chunk
@@ -263,7 +232,7 @@ permission or authorization to execute institutional rules in Phase 06.
 - When starting or resuming a phase, including in another CLI/account or after context rollover, inspect `Context/` alongside the handoff documents. Read the relevant pages of `Context/bintanong_thesis_for_context.pdf` and inspect `Context/bintanong_full_runtime_routing_architecture.png` to check scope and routing assumptions; record the context consulted and any discrepancy in the active checkpoint. Use targeted pages rather than repeatedly reading the entire thesis.
 - For original-source or practice-exam work, read `plans/dataset-locations.md`: the ignored dataset now lives at repository-root `dataset/`; the prospectus corpus is `dataset/PalSU Undergraduate Prospectus Website Dump/`. The old backend dataset directory was moved on 14 October 2026. Resolve the corpus root explicitly, preserve originals and relative paths, and update that guide after a move. Historical sealed evidence may retain old absolute paths: use the recorded relocation mapping and verify byte hashes; do not rewrite history or recreate the old directory.
 - Record implementation discoveries in repository decision records and current status. Preserve the master plan and historical plan snapshots; do not infer phase completion or institutional approval from candidate-code delivery.
-- Keep task datasets, private inputs, generated conversions/Prolog/JSON, test temporaries and raw execution evidence untracked under `C:\Coding-projects\bintanong_workspace`, using ignored `audit-evidence` folders. This owner location instruction supersedes the earlier outside-all-Git-roots rule; do not stage private artifacts. The main checkout is `bintanong_workspace\Bintanong`; this phase's code lives in isolated `worktrees\Bintanong\p05`. Existing external model weights remain under `C:\Coding-projects\bintanong_workspace\MODELS` (`MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS`; the old `C:/Coding-projects/MODELS` no longer exists); never duplicate or download model weights inside Git.
+- Keep task datasets, private inputs, generated conversions/Prolog/JSON, test temporaries and raw execution evidence untracked under `C:\Coding-projects\bintanong_workspace`, using ignored `audit-evidence` folders. This owner location instruction supersedes the earlier outside-all-Git-roots rule; do not stage private artifacts. The main checkout is `bintanong_workspace\Bintanong`; phase code lives in isolated worktrees under `worktrees\Bintanong` (active: `plans/INDEX.md`). Existing external model weights remain under `C:\Coding-projects\bintanong_workspace\MODELS` (`MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS`; the old `C:/Coding-projects/MODELS` no longer exists); never duplicate or download model weights inside Git.
 - `plans/progress_plans/` is an ignored bulk scratch-copy area. Curate text documents into `plans/` before explicit staging; never stage the bulk tree or use broad staging to publish documentation.
 - Preserve owner changes and external workers. Use explicit staging, no attribution, system Python 3.13, pytest without cache and external basetemp. No installs/downloads or dependency/lock changes without an applicable owner instruction.
 - Commit frequently in small, cohesive, verified units ("commit early and often"); avoid accumulating large uncommitted working-tree diffs across multi-step tasks.
@@ -288,153 +257,17 @@ permission or authorization to execute institutional rules in Phase 06.
   references separately from blank continuation cells. Do not flatten columns into
   unrelated lists or approve a whole step from a partial field correction.
 
-## Owner decisions to preserve across CLI sessions
+## Settled owner decisions
 
-- Phase06,17October2026: owner explicitly approved both the partial review-export
-  design238ad3b and review03's four row readings/one relationship: old2018–2019
-  CS1/L requires CC1/L; oldCC2/L, proposed2025–2026 CC2/L and proposedCS1 have
-  blank printed prerequisite cells. Those blanks remain unknown under the source-
-  gap policy. Owner's observation that first-year first-semester foundation courses
-  might naturally have no prerequisites is context, not a verified_none assertion
-  or permission to infer rule completeness. Do not reopen review03. See
-  `plans/2026-10-17-phase06-translation-review-03.md` and the generated review
-  delivery for exact receipts. Export approval allows inactive candidate files for
-  human inspection; it does not authorize eligibility execution or activation.
-
-- Phase 06, 17 October 2026: the owner approved all four P06-T02 readings and
-  relationships. Old 2018–2019 CC 3/L requires CC 2/L; old CC 4/L requires both
-  CC 3/L and CS 1/L. Proposed 2025–2026 CC 3/L requires CC 2/L; proposed CS 2
-  requires CS 1. Preserve version-scoped `/L` spelling and do not reopen these
-  source/logic reviews. See `plans/2026-10-17-phase06-translation-review-02.md` for
-  exact proposal/receipt hashes. Newly referenced course conditions and all
-  grade/exception/source-authority/execution/activation questions remain separate.
-
-- Phase 06, 17 October 2026: the owner approved both P06-T01 prerequisite logic
-  translations and confirmed both BSCS curricula remain in use. Old 2018–2019
-  CC 5/L requires `all_of(CC 3/L, CC 4/L)`; proposed 2025–2026 CC 5/L requires
-  `all_of(CC 3/L, CS 2)`. Preserve each version's printed codes, including `/L`;
-  do not merge editions or choose one without the student's curriculum. The owner
-  tentatively explains `/L` as Lab (computer laboratory), saying "I think"; this
-  is not verified authority to split courses, infer units, equivalencies, passing
-  conditions or co-requisites. Do not reopen the two conjunction reviews. See
-  `plans/2026-10-17-phase06-translation-review-01.md` for exact source/receipt hashes.
-  Source authority, full authoring receipts, execution and activation remain separate.
-
-- On 15 October 2026 resume, the owner explicitly confirmed only G03's supplied
-  wording: ArticleXIV section5(c), physical21, College Legislative Department
-  heading on physical20, with its consistency condition. G01 and the original
-  College Executive G02 (physical19, ArticleXIV section3(iii), “Adopt its own
-  internal rules and policies...”) remain unconfirmed. The other quotation,
-  “Adopt its own constitution, internal rules, and policies...”, is a separate
-  ASG clause: physical23, ArticleXV, printed section4 headed “The General Provisions
-  of all Autonomous Student Government units”, paragraph(d). Physical22 section2
-  lists laboratory school, Law, Graduate School and Medicine; preserve provenance
-  but exclude that clause from undergraduate evidence. Never substitute it for G02.
-  CSG/USG similarity is disregarded secondhand information; eight possible college
-  policy sets are not yet supplied. F04 remains held; no wider approval inferred.
-  See plans/2026-10-15-csg-human-review-packet.md for recovered decisions/native check.
-
-These are standing owner instructions from the Phase 05 conversation. Read them
-alongside the phase ledger; do not ask the owner to repeat settled decisions.
-The latest cleanup/resume record is
-`plans/2026-10-14-dataset-relocation-and-cli-handoff.md`.
-The current Phase05 CLI-session handoff is
-`plans/2026-10-15-phase05-cli-handoff.md`; use it with the active checkpoint and
-fresh Git evidence, rather than repeating completed source conversions/reviews.
-
-- On 15 October 2026 the owner explicitly said they will be available for human
-  verification throughout Phase05 to speed up the phase. Actively use that help:
-  surface consequential, ambiguous or difficult source readings early in short
-  batches, with the exact original page/region, proposed reading and limitation.
-  Ask focused source-content questions while continuing independent authorized
-  work; do not wait for a whole-document audit before presenting useful batches.
-  Record actual answers in current progress/checkpoint and apply them without
-  repeatedly reopening settled decisions. Availability or a generic "continue"
-  is not confirmation of a pending field, new benchmark wording, institutional
-  authority or activation. Routine technical fixes still proceed autonomously.
-- F04's printed fee amount is the one focused follow-up to the earlier F1
-  confirmation: the author read the photo as41,666.52, while the prior confirmed
-  proposal and independent review favor41,666.62. No new owner answer has been
-  received. Keep only this disputed field held; preserve both observations and
-  the prior confirmation. Six other fee amounts and three E01native headings
-  are already bound. Do not treat the owner's request to continue or switch CLI
-  as resolving F04; apply a later actual answer in new evidence, preserving seals.
-
-- This is thesis development/testing, not imminent official university guidance.
-  Continue provisional offline retrieval with the supplied public undergraduate
-  sources while school validation is pending. Keep candidate status and source
-  limitations visible; owner research authorization does not fabricate school approval.
-- The owner planned to submit the source-use/authenticity/current-school-year letter
-  on 15 October 2026 and does not expect a same-day reply. Hold school verification
-  until actual evidence arrives; raise it before institutional activation or when
-  the owner reports a response. Do not repeatedly block ordinary development on it
-  or infer approval from elapsed time. Printed source year is not verification date.
-- The owner confirms 2018–2019 curricula remain valid when no newer edition for the
-  same program is supplied. Older students can retain an older curriculum when
-  editions coexist; incoming students use the supplied proposed 2025–2026 BSCS
-  curriculum under owner guidance. Preserve its proposed label. Unknown student
-  curriculum needs clarification; similarity, age and continuing status do not pick it.
-- Eight selected curriculum rows/46 source fields and expected evidence for all
-  12 scenarios were confirmed by the owner. Do not reopen those reviews. Original
-  Charter physical103 step3 cuts off after "for"; handbook physical47 has conflicting
-  completion deadlines. Preserve these gaps/conflicts, without appending text or
-  inventing a precedence rule. See scope/source-gap policies and confirmed evidence report.
-- The accepted retrieval set has 12 scenarios/36 English, Filipino and Taglish
-  variants. Show proposed new or changed benchmark questions to the owner before
-  testing them. The exact thesis wording "Pwede ko bang kunin ang CC5 kahit bumagsak
-  ako sa CC4?" is case `cs-cc5-failed-cc4-tl` and ranked CC5 first. The observed mismatch
-  was the approved paraphrase "CS student ako: pwede ko bang i-take ang CC5 kahit failed
-  ako sa CC4?" (`cs-cc5-failed-cc4-taglish`); do not conflate their scores or wordings.
-- Additional source data is expected when the owner says it is ready. The incoming
-  batch will not include more college-specific Citizens' Charters; it may include
-  memoranda such as vehicle gatepass. Undergraduate student gatepass transactions
-  are in study scope even if staff also use the service. No new memo has been
-  supplied or approved; retain the existing university Charter and review actual
-  new source audience/content/effectivity at intake.
-- On 15 October 2026 the owner supplied and chose to retain the student-facing
-  vehicle/gatepass, special-class-fee and enrollment additions, plus USG
-  Constitution/election material, for provisional undergraduate review. This
-  supersedes the older no-memo-received note and interim advice to defer them.
-  Do not reopen retention or exclude a source solely for image quality or year.
-  Use the human to confirm difficult/consequential fields in short batches;
-  unreadable/cropped content remains a documented gap. Retention does not approve
-  all transcriptions, benchmark wordings, school authority or activation. Start
-  from `plans/2026-10-15-additional-source-human-review.md` and the current checkpoint.
-- The owner reports that CSG constitutions pattern/reference the USG Constitution.
-  On 15 October 2026 the owner clarified that this was a secondhand claim and may
-  be disregarded as a policy basis. Preserve its history as unverified hearsay,
-  not evidence of similar or identical college rules. The owner permits retaining
-  the documented USG/CSG provisions for review and may soon supply policies from
-  eight college student governments; those files have not been supplied by this
-  clarification. This is inclusion guidance, not verification of the exact
-  G01–G03 wording: the owner explicitly said the review question was unclear.
-  Explain future source checks in plain language and do not repeat the similarity
-  question. Continue independent work while awaiting actual college sources.
-  Use only reviewed explicit CSG provisions
-  in the supplied USG source; do not infer unsupplied college-specific rules or
-  claim separate college constitutions have been acquired.
-- On 15 October 2026 the owner replied `confirm F1`, accepting F01–F09 in the
-  short human-review packet: seven special-class unit/hour/amount mappings,
-  the printed rate/weekly hours and date/resolution/effectivity readings.
-  Do not reopen that batch. Preserve its printed sums, unknown per-student
-  division and cropped acknowledgement; content confirmation is not school
-  authority/current-year verification or activation. Next source batch is V01–V06.
-- On 15 October 2026 the owner confirmed V01–V06 and explicitly selected the
-  newer vehicle memo's 15 km/h for V06 in provisional research responses. Keep
-  the handbook's 20 kph wording, source/date discrepancy and owner rationale.
-  Do not reopen this choice or generalize it into a newest-source-wins rule;
-  issuing-office/current-year verification and institutional supersession remain
-  separate. The confirmation covers the six listed groups, not the whole vehicle
-  service or penalty scheme. Next selected source review is E01–E04 enrollment.
-- On 15 October 2026 the owner replied `Confirm E`, accepting E01–E04: distinct
-  incoming/continuing cohort terms, the clinic/enrollment timing ambiguity with
-  appointment-slip alternative, original-versus-photocopy PSA readings and the
-  original continuing PDF's numbering gap. Do not reopen E/F1/V. An absent Step2
-  label does not prove an omitted action; preserve the source without inventing it.
-  This selected review does not approve every field in the enrollment procedures.
-- Continue authorized work until a new human source-content decision is genuinely
-  needed, the task is finished, or a verified progress checkpoint is ready for handoff.
-  Record decisions/results/next action in this repository. Reuse completed setup,
-  model assets and compatible saved vectors; do not repeat conversions or settled
-  questions merely because a CLI changed. Candidate results remain recoverable;
-  formal Phase 05 completion/Phase 06 advancement follows the existing exit gates.
+- Settled Phase 05/06 source-review, source-intake and benchmark decisions (review01-03,
+  P06-T01/T02, G01-G03, F1/F04, V01-V06, E01-E04, USG/CSG, school-letter status) are recorded
+  verbatim in `plans/owner-decisions-ledger.md`. Read it before any source review, source
+  intake, benchmark wording, evaluation or school-validation step; never re-ask a decision
+  recorded there or in a dated review record.
+- F04's printed fee amount stays held until an actual owner answer. School/source approval is
+  never inferred from elapsed time, "continue", a CLI change or candidate delivery; candidate
+  output stays inactive.
+- The owner is available for human verification: surface consequential or ambiguous source
+  readings early, in short batches, showing program/course/title and the exact printed text
+  inline (the owner cannot open repository files). Routine technical fixes proceed autonomously.
+- Commits carry no Claude/AI attribution trailers (owner, 23 October 2026).
