@@ -209,3 +209,26 @@ Phase 06 worktree direction (historical; the active worktree is named in `plans/
   reuse settled source transcriptions and record actual translation decisions.
 
 Former AGENTS.md wording: "this phase's code lives in isolated `worktrees\Bintanong\p05`".
+
+## Program prerequisite reviews: standing approval (23 October 2026)
+
+Owner, after BSA, BS Criminology and BSIT reviews: "If you see something similar or another similar
+situation for the following colleges, u have my permission to do the same, this is if and only if
+they are the same scenarios as earlier." Applies to the remaining prospectus reviews without a new
+question, only for these already-decided scenarios:
+- Blank prerequisite cell -> unknown (never "no prerequisite").
+- Comma list -> all_of (all required).
+- Year standing ("2nd/3rd/4th/5th year standing", "3rd yr. Standing") -> non-course condition, unknown
+  unless the student states their year level.
+- "All major courses ..." / "70% total units of major courses ..." style conditions -> kept as
+  printed, unknown, refer to the college.
+- "X (co-requisite)" -> co_requisite (passed before or taken the same term).
+- A printed reference that differs from exactly one course only by spacing, letter case, a missing
+  or extra "/L", a shortened code of the same course (e.g. "Forensic 5" -> Forensic 5/L, "IT 1/L" -> IT 1)
+  -> that course. A numeric range such as "MATH 19-20" naming two existing courses -> all_of both.
+- A printed reference matching no course in the curriculum -> recorded source gap (unknown), no guess.
+- Line/word wraps in codes or cells -> joined as technical transcription, recorded as a span repair.
+Anything else is a new scenario and goes to the owner inline (program, course, title, printed
+text): e.g. "or"/alternative lists, instructor consent, grade thresholds, a reference matching two
+courses, exceptions, notes changing requirements, unreadable or cropped cells, multi-page layouts.
+Each program still gets its own dated review record listing which standing rule covered which cell.
