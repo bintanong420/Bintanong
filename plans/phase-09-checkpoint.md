@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 134
+sequence: 135
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-23T05:00:00+08:00
+updated_at: 2026-10-23T09:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -44,6 +44,13 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
 - BS Information Technology: [review 01](2026-10-23-bsit-prerequisite-review-01.md) read from the
   original page (no developer CSV); owner decisions 1-2 (IT 1/L -> IT 1; same rules as BSA/Crim);
   53-course ledger authored, real Prolog 12/12.
+- Program reviews scaled (owner standing approval 23 Oct for repeated scenarios, recorded in
+  `plans/owner-decisions-ledger.md`): shared scripts in workspace `audit-evidence/p09-program-reviews/`
+  (`draft_program.py` draft from drawn table rules; `author_program.py <spec.json>` authors + real Prolog
+  checks; `record.py` writes the dated review). College of Sciences complete: BSIT, BS Environmental
+  Science, BS Biology (Med Bio), BS Marine Biology (2022-2023), full old and proposed BSCS (Phase 06
+  readings reproduced exactly). New owner rules: visible printed text only (clipped native text ignored),
+  semicolon = comma, obvious one-character typos map to the single match.
 - /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
   attribution trailers removed from unpushed commits (owner: never add them).
 
@@ -89,18 +96,18 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Known Failures or Blockers
 
-- Only BSCS, BSA, BS Criminology and BSIT have reviewed prerequisites; about 33 programs remain (39 PDFs in
+- Reviewed: BSA, BS Criminology, all College of Sciences programs. Remaining ~29 PDFs (CAH, CBA, CHTM,
+  CNHS, CoE, CTE); multi-page Accountancy, BSBA-HRM, Nursing need an owner question (new layout) (39 PDFs in
   `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
 - Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
   `course_aliases`, `policy_rules`, `rule_source_spans` exist, empty).
 
 ## Next Action
 
-Ask the owner which next: (a) next program review (no CSV needed; BSIT was read from the page alone),
-same method as `author_bsit.py` (render page, read cells from the image,
-compare with any CSV, ask inline with program/course/title/printed text, author, real Prolog
-check); (b) generic Supabase loader for reviewed course facts/rules (BSCS + BSA + BS Criminology + BSIT)
-with the Prolog bundle generated from the database and checked equal.
+Continue program reviews college by college (CAH next: Communication, PhilStud, PolSci, Psychology x2,
+Social Work): `draft_program.py <pdf> <dir>`, read the page crops, write `spec.json` from the draft
+with the visible reading, `author_program.py`, `record.py`, commit (no co-author trailers). Ask the
+owner only for scenarios not in the ledger's standing list. Afterwards: Supabase course-data loader.
 
 ## Do Not Repeat
 
