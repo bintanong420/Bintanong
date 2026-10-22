@@ -135,7 +135,9 @@ class Orchestrator:
             nonlocal scoped, route, style, understanding
             value = await router.route(text, context)
             route, style = value.decision.route, value.response_style
-            if value.style_evidence is not None and value.proposed is not None:
+            # A failed result can carry style (for its clarification) but never its rejected parts.
+            if (value.style_evidence is not None and value.proposed is not None
+                    and value.diagnostic not in _ROUTING_FAILURES):
                 understanding = RequestUnderstanding(
                     schema_version=RequestUnderstanding.SCHEMA_VERSION,
                     request_id=context.request_id, release_id=resources.pin.release_id,

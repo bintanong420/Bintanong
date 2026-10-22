@@ -13,6 +13,7 @@ from pydantic import Field, model_validator
 from ..bintanong_contracts.base import Contract, Record
 from ..bintanong_contracts.schema_display import COMPACT_JSON_INSTRUCTION
 from ..bintanong_orchestration.contracts import ReleaseID
+from ..bintanong_routing.style import has_filipino_function_word
 from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -113,16 +114,6 @@ undergraduate advisory scope. Do not repair claims or use model memory.''' + '\n
 
 PART_PROMPT_SHA256 = hashlib.sha256(PART_PROMPT.encode()).hexdigest()
 CONFIRM_PROMPT_SHA256 = hashlib.sha256(CONFIRM_PROMPT.encode()).hexdigest()
-
-
-# Everyday Filipino function words; English lookalikes (at, may, i, pa) are excluded.
-_FILIPINO = frozenset('''ang ng nang mga sa ay na ko mo ka siya niya namin natin nila kami tayo
-sila yung iyong ung lang po si ni kay para kung kapag pag hindi wala meron pwede puwede dapat
-kailangan ito iyan yan dito diyan doon kasi din rin ba naman mag ma'''.split())
-
-
-def has_filipino_function_word(text):
-    return any(token in _FILIPINO for token in re.findall(r'[a-zñ]+', text.lower()))
 
 
 # Owner-named formal/deep Tagalog that students do not write (21 October 2026).

@@ -72,7 +72,11 @@ remain separate from this guidance.
 The selected response_style is en, taglish, fil or unknown. Bintu quotes literal
 English/Filipino fragments and selects a conversational style. The host checks
 bounded structure/count consistency and exact original-text containment, then maps
-that selection losslessly to language metadata. It has no word-list classifier.
+that selection losslessly to language metadata. The model picks the style; the only
+host override is an owner-approved floor (22 October 2026): an `english_only` label on a
+question containing an everyday Filipino function word (ang, sa, ko, po...; all-caps
+acronyms such as BA/MA ignored) becomes `taglish`, its literal words added as Filipino
+fragments and `style_floor_applied` set. The host never chooses between fil and taglish.
 Literal provenance cannot prove the fragment's language; model evaluation remains
 necessary. The original routing proposal's language remains observable, while query
 hints/accepted response_style come from the style interpretation. English requests should
@@ -107,7 +111,9 @@ Proceeding RAG decoder output has no operations; Symbolic/Hybrid has exactly one
 Clarification can retain multiple requested operations. The downstream guard still
 withholds compounds if a transport ignores the schema; no operation is dropped.
 Exactly one format/schema repair is SHARED across both calls:
-normal two calls, maximum three. attempts counts routing calls, style_attempts counts
+normal two calls, maximum three. A persistent invalid reference (shown to the student
+as a clarification) gets one unrepaired style call so the clarification matches the
+student's style; if it fails, style stays unknown. attempts counts routing calls, style_attempts counts
 style calls, inference_calls counts both, repair_attempts counts repairs alone.
 Repair reanchors the original question. Grounding/capability holds
 do not cause semantic retry or a cheaper RAG route. HTTP bodies are bounded and

@@ -2,6 +2,7 @@
 from copy import deepcopy
 import hashlib
 import json
+import re
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
@@ -52,6 +53,32 @@ class StyleEvidence(Record):
     def ground(self, original_text):
         if any(f not in original_text for f in (*self.english_fragments, *self.filipino_fragments)):
             raise ValueError('ungrounded_response_style')
+
+
+# Everyday Filipino function words; English lookalikes (at, may, i, pa) are excluded.
+_FILIPINO = frozenset('''ang ng nang mga sa ay na ko mo ka siya niya namin natin nila kami tayo
+sila yung iyong ung lang po si ni kay para kung kapag pag hindi wala meron pwede puwede dapat
+kailangan ito iyan yan dito diyan doon kasi din rin ba naman mag ma'''.split())
+
+
+def filipino_function_words(text):
+    """Literal Filipino function words in text; all-caps acronyms (BA, MA, SI) never count."""
+    return tuple(dict.fromkeys(w for w in re.findall(r'[A-Za-zÑñ]+', text)
+                               if not w.isupper() and w.lower() in _FILIPINO))
+
+
+def has_filipino_function_word(text):
+    return bool(filipino_function_words(text))
+
+
+def floor_style(style, text):
+    """Owner floor (22 October 2026): a question with Filipino grammar words is not English-only.
+    The model's label stands otherwise; the host adds its literal words as Filipino evidence."""
+    words = filipino_function_words(text)
+    if style.preferred_response_style != 'english_only' or not words:
+        return style, False
+    return StyleEvidence(english_fragments=style.english_fragments, filipino_fragments=words[:4],
+                         preferred_response_style='taglish'), True
 
 
 class StyleProposal(Contract):

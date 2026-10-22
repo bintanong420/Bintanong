@@ -34,6 +34,7 @@ class RoutingResult:
     offset_corrections: int = 0
     style_attempts: int = 0
     style_evidence: StyleEvidence | None = None
+    style_floor_applied: bool = False
 
     @property
     def inference_calls(self):

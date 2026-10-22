@@ -10,7 +10,7 @@ from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
 from .contracts import Interpretation, RequestContext, prepare_query
 from .prompt import build_messages, output_schema
-from .style import StyleProposal, build_style_messages, style_output_schema
+from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
 from .transport import RuntimeFailure
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
@@ -78,13 +78,24 @@ class Router:
         messages = build_messages(text, context, self.catalog, self.registry, self.topics)
         proposed = None
 
-        def failure(code, attempts, style_attempts=0):
+        def failure(code, attempts, style_attempts=0, style=None, floored=False):
             query = NormalizedQuery(schema_version=NormalizedQuery.SCHEMA_VERSION,
                 original_text=text, normalized_text=normalized, language_hints=(), intent=None,
                 entities=(), ambiguities=(), negations=(), time_qualifiers=(),
                 session_fact_refs=tuple(f.fact_id for f in context.facts))
             return RoutingResult(query, _decision(control='evidence_unavailable', reason=code),
-                proposed, (), 'unknown', code, attempts, style_attempts=style_attempts)
+                proposed, (), 'unknown' if style is None else style.language, code, attempts,
+                style_attempts=style_attempts, style_evidence=style, style_floor_applied=floored)
+
+        async def clarification_style():
+            """One unrepaired style call so a clarification matches the student's style."""
+            try:
+                style = StyleProposal.parse(_json_proposal(await self.transport.infer(
+                    build_style_messages(text), style_output_schema()))).style
+                style.ground(text)
+            except (RuntimeFailure, ValueError, ValidationError):
+                return None, False
+            return floor_style(style, text)
 
         for attempt in (1, 2):
             try:
@@ -102,7 +113,9 @@ class Router:
                     raise
             except (ValueError, ValidationError):
                 if attempt == 2:
-                    return failure('invalid_model_output' if problem is None else 'invalid_reference', attempt)
+                    if problem is None:
+                        return failure('invalid_model_output', attempt)
+                    return failure('invalid_reference', attempt, 1, *await clarification_style())
                 messages = _repair_messages(messages, raw, problem)
                 continue
             style_messages = build_style_messages(text)
@@ -121,13 +134,14 @@ class Router:
                     continue
                 try:
                     style.ground(text)
+                    style, floored = floor_style(style, text)
                     effective = Interpretation.parse(dict(proposed.model_dump(mode='json'), language=style.language))
                     result = validate_interpretation(text, context, effective, catalog=self.catalog,
                         registry=self.registry, documents_available=self.documents_available,
                         synthetic=self.synthetic)
                     return replace(result, proposed=proposed, attempts=attempt,
                         style_attempts=style_attempt, style_evidence=style,
-                        offset_corrections=0)
+                        style_floor_applied=floored, offset_corrections=0)
                 except ValueError:
                     return failure('invalid_grounding', attempt, style_attempt)
         raise AssertionError('unreachable')

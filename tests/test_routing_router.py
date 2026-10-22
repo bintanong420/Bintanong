@@ -106,7 +106,7 @@ def test_invalid_wire_quote_is_unavailable_after_bounded_format_repair():
     transport = FakeTransport(json.dumps(value), json.dumps(value))
     result = run(transport)
     assert result.diagnostic == 'invalid_reference' and not result.decision.dispatchable
-    assert len(transport.calls) == 2
+    assert len(transport.calls) == 3  # two routing calls, then one style call for the clarification
 
 
 def test_timeout_stops_without_format_repair():
