@@ -72,7 +72,7 @@ class DependencyResult(Contract):
     synthetic: Literal[True]
     activation_allowed: Literal[False]
     eligibility_executable: Literal[False]
-    relation: Literal['potential_prior_completion_dependency']
+    relation: Literal['potential_prerequisite_or_corequisite_dependency']
     coverage_scope: Literal['supplied_bundle']
     status: Literal['complete','partial','unsupported','error']
     inputs: tuple[BoundInput, ...]
@@ -399,7 +399,7 @@ class CurriculumRuntime:
         result_type = DependencyResult if self._research_json is None else ResearchDependencyResult
         data = {'schema_version':result_type.SCHEMA_VERSION,'synthetic':ledger['synthetic'],
             'activation_allowed':False,'eligibility_executable':False,
-            'relation':'potential_prior_completion_dependency','coverage_scope':'supplied_bundle',
+            'relation':'potential_prerequisite_or_corequisite_dependency','coverage_scope':'supplied_bundle',
             'status':status if evaluation is None else evaluation.status,
             'inputs':[i.model_dump(mode='json') for i in request.inputs], 'course_ids':ids,
             'unknown_conditions':() if evaluation is None else evaluation.unknown_conditions,

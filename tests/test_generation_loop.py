@@ -158,7 +158,7 @@ def test_document_clarification_withholds_complete_dependency_listing():
         sym=symbolic()
         dependencies=DependencyResult(schema_version=DependencyResult.SCHEMA_VERSION,
             synthetic=True,activation_allowed=False,eligibility_executable=False,
-            relation='potential_prior_completion_dependency',coverage_scope='supplied_bundle',
+            relation='potential_prerequisite_or_corequisite_dependency',coverage_scope='supplied_bundle',
             status='complete',inputs=sym.inputs,course_ids=('fictional-dependent',),
             unknown_conditions=(),rule_bundle_version=sym.rule_bundle_version,scope=sym.scope,
             rule_ids=sym.rule_ids,rule_spans=sym.rule_spans,error_code=None)

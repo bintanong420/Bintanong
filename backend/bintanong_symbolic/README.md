@@ -158,9 +158,11 @@ entries (default128). Exceeding a result limit returns an operational error with
 truncating a policy result. No credentials, student inputs or child stderr are logged.
 
 `runtime.CurriculumRuntime(ledger).list_affected_courses(request)` returns a
-separate `DependencyResult`: potential transitive prior-completion dependencies,
-with source spans and bundle/scope identity. Both all_of and any_of references
-are potential graph edges; co-requisites are excluded. This is dependency
+separate `DependencyResult`: potential transitive prerequisite or co-requisite
+dependencies, with source spans and bundle/scope identity. All_of, any_of and
+co-requisite references are potential graph edges (a co-requisite failed and not
+taken the same term also blocks its dependent; owner, 23 Oct 2026). Cycle
+detection still ignores co-requisites. This is dependency
 inspection, not an eligibility decision. Completeness applies only to the supplied
 bundle. Any draft or unresolved rule makes the listing partial, including an empty
 listing; it cannot prove that no affected courses exist in the full curriculum.

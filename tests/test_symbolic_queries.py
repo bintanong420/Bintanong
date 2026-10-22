@@ -17,12 +17,12 @@ def test_missing_prerequisites_preserves_known_unmet_and_unknown(passed,failed,o
     if not passed and not failed: assert result.decision.missing_facts==('completion_unknown:course-1',)
 
 
-def chain():
-    data=fixture();c=copy.deepcopy(data[2][0]);c['course_id']='course-3'
+def chain(first_link='course'):
+    data=fixture();data[2][1]['prerequisites']['kind']=first_link;c=copy.deepcopy(data[2][0]);c['course_id']='course-3'
     c['facts']['course_code']['value']='SYN301'
     c['facts']['course_code']['source_spans'][0]['text']='SYN301'
     c['prerequisites']=copy.deepcopy(data[2][1]['prerequisites'])
-    c['prerequisites']['course_id']='course-2'
+    c['prerequisites']['kind']='course';c['prerequisites']['course_id']='course-2'
     data[2].append(c)
     return rereview(data)
 
@@ -35,17 +35,21 @@ def query(runner=None,**kw):
 def test_dependency_lookup_includes_transitive_potential_dependents_and_sources():
     result=query(runtime(chain()),course='course-1')
     assert result.status=='complete' and result.course_ids==('course-2','course-3')
-    assert result.relation=='potential_prior_completion_dependency'
+    assert result.relation=='potential_prerequisite_or_corequisite_dependency'
     assert result.coverage_scope=='supplied_bundle' and result.rule_ids and result.rule_spans
     assert result.synthetic is True and result.activation_allowed is result.eligibility_executable is False
 
 
-def test_any_of_dependency_is_potential_and_corequisite_is_not_prior_completion():
+def test_any_of_dependency_is_potential():
     result=query(runtime(expression_ledger('any_of')),course='course-1')
     assert result.course_ids==('course-2',) and result.relation.startswith('potential_')
-    data=fixture();data[2][1]['prerequisites']['kind']='co_requisite'
-    result=query(runtime(rereview(data)),course='course-1')
-    assert result.status=='complete' and not result.course_ids
+
+
+def test_corequisite_dependents_are_listed_directly_and_transitively():
+    # Failing a co-requisite without taking it the same term blocks the dependent, so it is affected.
+    result=query(runtime(chain('co_requisite')),course='course-1')
+    assert result.status=='complete' and result.course_ids==('course-2','course-3')
+    assert result.relation=='potential_prerequisite_or_corequisite_dependency'
 
 
 def test_unresolved_rule_makes_listing_partial_even_when_no_dependents_found():

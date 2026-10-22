@@ -95,10 +95,11 @@ dependencies(BundleJSON, Curriculum, Course, ResultJSON) :-
     atom_json_dict(ResultJSON, d{status:Status,course_ids:Courses,unknown_conditions:Unknown}, []).
 
 reaches(Bundle,ID,Target,Visited) :-
-    identity(Bundle,ID,C), C.reviewed == true, prior_reference(C.rule,Next),
+    identity(Bundle,ID,C), C.reviewed == true, requirement_reference(C.rule,Next),
     ( Next == Target ; \+ memberchk(Next,Visited), reaches(Bundle,Next,Target,[Next|Visited]) ).
 
-prior_reference(Node,ID) :-
-    ( Node.kind == course -> ID=Node.course_id
-    ; (Node.kind == all_of ; Node.kind == any_of), member(Child,Node.items), prior_reference(Child,ID)
+requirement_reference(Node,ID) :-
+    % A co-requisite failed and not taken the same term also blocks its dependent.
+    ( (Node.kind == course ; Node.kind == co_requisite) -> ID=Node.course_id
+    ; (Node.kind == all_of ; Node.kind == any_of), member(Child,Node.items), requirement_reference(Child,ID)
     ).
