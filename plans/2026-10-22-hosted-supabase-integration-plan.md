@@ -28,9 +28,26 @@ distinct `research_authorized` state, activation allowed only for that kind, ans
 labelled candidate/research; institutional activation rules unchanged. (B) set `approved`
 with the owner reference as approval ID (not recommended: misstates authority).
 
+## Owner decisions (22 Oct)
+
+- Research release kind (option A) chosen.
+- Hosted credentials: owner ran a script (Management API, owner's stored access token)
+  that wrote `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` into the ignored
+  `.env`. Read-only REST check: both keys HTTP 200 on `knowledge_releases`.
+
+## Task 1 result (done 22 Oct)
+
+The 6 pending Phase 05 migrations were first applied to the local Docker DB; storage DB
+tests 146 passed, 844 subtests (583 s). All 7 were then applied to hosted via MCP
+`apply_migration`, and each recorded version was reset to the repo file version
+(`apply_migration` stamps the current time). Hosted history now matches the repo: 13
+versions. Schema digests hosted vs local: columns (165), policies (22), triggers (110) and
+migration history identical; all 34 functions identical once CRLF is stripped (the local
+DB loaded Windows CRLF files; hosted Phase 05 bodies use LF). Security advisor: none.
+
 ## Tasks (after the decision)
 
-1. Apply the 7 Phase 05 migrations to hosted via MCP `apply_migration`; re-run advisors.
+1. [done] Apply the 7 Phase 05 migrations to hosted via MCP `apply_migration`; re-run advisors.
 2. Research-release migration and Python contract support (TDD; local Docker DB first).
 3. Load reviewed real data with the existing loaders (register sources, chunks, 1024-d
    embeddings, reviewed BSCS course facts/rules), create and activate the research release.

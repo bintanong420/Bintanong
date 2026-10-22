@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 125
+sequence: 126
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: a31ac32
+head_commit: a21de49
 working_tree: clean
-updated_at: 2026-10-22T15:00:00+08:00
+updated_at: 2026-10-22T17:00:00+08:00
 ---
 
 # Phase 09 checkpoint - per-part generation observed on the actual model
@@ -48,7 +48,7 @@ Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `a31ac32` plus the reopening commit;
+Branch `feat/p09-generation-validation`, HEAD `a21de49` plus the task 1 commit;
 clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
 running. No dependency, Supabase, source or institutional change; research mode
 serves reviewed data through the read-only PackageStorage stand-in.
@@ -91,10 +91,11 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Reopened 22 Oct by owner for hosted Supabase ([plan](2026-10-22-hosted-supabase-integration-plan.md)).
-Closeout handoff kept as history. Waiting on owner: research-release design (option A
-recommended) and hosted `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` in the ignored `.env`.
-Then task 1: apply the 7 Phase 05 migrations via MCP and re-run advisors.
+Hosted Supabase ([plan](2026-10-22-hosted-supabase-integration-plan.md)): owner chose the research
+release kind; hosted keys are in the ignored `.env`. Task 1 done: 7 Phase 05 migrations applied
+to hosted (versions match repo, schema digests match local, advisors clean). Next: task 2,
+research-release migration + Python support with TDD on the local Docker DB (do not mark
+sources `approved`). Then load data (task 3) with the existing loaders.
 
 How to resume real-data work: test Python is
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`

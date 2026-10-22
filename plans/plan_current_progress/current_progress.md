@@ -54,11 +54,11 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Owner reopened Phase 09 (22 Oct) to use hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
-MCP works; hosted DB has Phase 04 schema only, 0 rows; 7 Phase 05 migrations unapplied;
-advisors clean. Activation requires `approved` sources, which would misstate university
-approval. Waiting on owner: research-release design (option A recommended) and hosted
-URL/service-role key in the ignored `.env`. Closeout handoff `a31ac32` kept as history.
+Phase 09 reopened (22 Oct) for hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
+Owner chose a research release kind (no false `approved` state) and provided hosted keys in the
+ignored `.env`. Task 1 done: 7 Phase 05 migrations applied to hosted, versions match the repo,
+schema matches local, advisors clean; still 0 rows. Next: task 2, research-release migration
+with TDD on the local DB, then data load, runtime switch and a roster re-run.
 
 ## Boundaries
 
