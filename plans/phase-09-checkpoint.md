@@ -124,6 +124,11 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
+FIRST: commit `c5dbaaa` left 3 failing tests in tests/test_generation_pipeline.py
+(`test_scope_clarification_names_the_information_the_student_must_supply[curriculum_id-*]`): their
+fixture program has a single curriculum, so the new owner-approved single-curriculum default no longer
+asks for it. Update the fixture to two editions (keep the clarification intent), rerun focused + full suite.
+
 Program names in question text (owner approved names list 24 Oct; list in workspace
 `audit-evidence/p09-curricula-load-20261023/program_aliases.py`). Done: single-curriculum default in
 routing validation and name catalog entries (committed). Remaining: the router model emits no
