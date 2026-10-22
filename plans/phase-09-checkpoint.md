@@ -128,7 +128,9 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 (`b3d8a15`); first attempt quarantined (all 39 prospectus versions sent as retrieval version ids,
 limit 32 -> every document question `invalid_output`); fixed in `b26de19` (document versions only,
 TDD regression in `tests/test_orchestration_pipeline.py`). Counted run 9 restarted at `6dad1af`
-(workspace `audit-evidence/p09-real-data-20261021/roster9/`). Next: read run 9 against run 8, record
+(workspace `audit-evidence/p09-real-data-20261021/roster9/`); that attempt was stopped by Claude Code
+after 2 cases (both answered) because the machine ran low on memory - not a code failure. Next: with
+the owner's go-ahead and free memory, restart run 9 from case 1 into a fresh folder, then read run 9 against run 8, record
 results in the roster results file, then rerun the full suite. Context consulted this resume: thesis
 physical 17-18 and the routing PNG; no discrepancy.
 
