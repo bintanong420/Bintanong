@@ -56,10 +56,11 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 23 Oct: BS Criminology reviewed ([review 01](../2026-10-22-crim-prerequisite-review-01.md)): owner
 decisions 1-3, 65-course ledger authored, real Prolog 12/12. Owner then had the affected-course
-listing fixed to follow co-requisites (`029b1fa`, full suite 6140 passed). Earlier 22 Oct: hosted Supabase done
+listing fixed to follow co-requisites (`029b1fa`, full suite 6140 passed). Partial-rule decision
+applied (`115b9aa`): known failure in an all-of rule now gives not eligible; BSA 9/9; full suite 6145. Earlier 22 Oct: hosted Supabase done
 (research release active, roster 17/63 answered, 0 wrong); [BS Architecture 01](../2026-10-22-bsa-prerequisite-review-01.md).
 Resume from the [checkpoint](../phase-09-checkpoint.md) Next Action: ask the owner to pick the next
-program review, the Supabase course-data loader, or the compiler partial-rule decision.
+program review or the Supabase course-data loader.
 
 ## Boundaries
 
