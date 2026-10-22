@@ -75,3 +75,18 @@ model are unchanged. Model container restarted first. Compare against run 5 (`d8
 PackageStorage): status per case, wrong answers, invented facts, system errors and timing.
 The `retrieval` stage now includes the network round trip to Supabase and is reported
 separately. Not a new accuracy rate; no wording or threshold changes.
+
+## Run 9 (hosted 39-curriculum release, router v15), fixed 23 October 2026 before running
+
+Code: the parent of the commit adding this section (program-name recognition, router v15).
+Same 63 accepted cases, one attempt each, same order, with `HOSTED=1`, runner workspace
+`audit-evidence/p09-real-data-20261021/roster9.py`, folder `roster9/`. Change from run 8: the
+release is the single multi-curriculum research release built from all 39 curricula read
+back from hosted Supabase (`load_release_curricula`) with the owner-approved program and
+curriculum names; the two CC5 context variants name their curriculum in the request as before.
+Model container restarted first; model settings unchanged.
+Expectations: the 12 non-BSCS program variants may now reach Prolog (the program is named in
+the question); any decision must match the reviewed ledger and printed page (author reading),
+otherwise unavailable/clarification. "Computer Science" without an edition still clarifies (two
+BSCS editions); practicum stays unavailable/clarification. Pass: no invented facts, no run-8
+correct answer lost, system errors not increased. Not an accuracy rate or student SLA.
