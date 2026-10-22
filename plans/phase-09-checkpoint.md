@@ -2,7 +2,7 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 143
+sequence: 144
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
@@ -124,9 +124,14 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-Run the full test suite and a hosted multi-college wiring check (one question per college through the
-chatbot). Then ask the owner: update the counted roster protocol to the hosted 39-curriculum release,
-or another priority. Program reviews are complete; new prospectuses follow the same scripts.
+Program names in question text (owner approved names list 24 Oct; list in workspace
+`audit-evidence/p09-curricula-load-20261023/program_aliases.py`). Done: single-curriculum default in
+routing validation and name catalog entries (committed). Remaining: the router model emits no
+program mentions (probe `p09-multi-curriculum-20261023/probe_router.py`): add prompt guidance to quote
+the student's stated program/curriculum as program/curriculum mentions, and let host matching find an
+approved name inside the quote (whole word, unique program). Then rerun `smoke_hosted_names.py`
+(5 cases, all currently clarify), then update the counted roster protocol to the hosted 39-curriculum
+release. Full suite at 04546de: see p09-final-curricula-20261024/full-suite.txt.
 
 ## Do Not Repeat
 
