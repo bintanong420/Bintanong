@@ -52,3 +52,23 @@ Shown inline with program, course, title and printed text:
    IT 22's "70% total units of major courses passed and completed" kept as printed (unknown, refer
    to the college); "NSTP1" -> NSTP 1.
 Section A's 37 printed cells (16 blank; 53 courses) are the reviewed readings under these decisions.
+
+## Authoring result (23 October 2026)
+
+Workspace `audit-evidence/p09-bsit-review-20261023/`: `author_bsit.py` (SHA256 `400fa5a0...`) finds
+each course code and prerequisite cell in the PDF's native text (column bands from the drawn column
+rules, rows bounded by the drawn horizontal rules) and stops unless all 53 codes and 37 cells equal
+the readings above. Technical transcription: the split word "Electroni" / "cs/L" becomes one code
+span naming both native runs, text "Electronics/L", method `native_range_line_wrap_joined`,
+repair `p09-bsit-review-01`. "NSTP1" resolves to "NSTP 1" by the 21 Oct spacing rule.
+`build_curriculum_ledger` (Phase 06 code, unchanged): 53 reviewed courses, 23 unresolved (16 blank,
+6 year-standing, IT 22's 70% condition) / 24 course / 6 all_of, activation_allowed false, ledger
+file SHA256 `30c238cd1fce663ca353bfbc488aa2e85f56aa75e7c82f8c2e0c746fd349245e` (content `79c02726d747...`).
+
+Real SWI-Prolog/Janus checks (`check_bsit.py` `57ca463b...`, offline research path, ref
+research-owner-20261021): 12/12 as the readings imply: IT 2/L eligible/ineligible/unknown;
+CC 5/L eligible with CC 3/L and CC 4/L, ineligible with CC 4/L failed, unknown with CC 4/L missing;
+IT 4 (IT 1 + GE-MMW), IT 9/L (IT 5/L + Electronics/L) and NSTP 2 (NSTP 1) resolve; IT 13, IT 22
+and IT 1 unknown. Affected-course listing: CC 2/L -> 17 courses (CC 3/L..CC 6/L, IT 2/L, IT 6/L..IT 8/L,
+IT 10/L, IT 11/L, IT 15/L..IT 19, IT 21, IT E1/L); GE-MMW -> 6; IT 17 -> IT 19, IT 21.
+Not yet loaded into Supabase or wired into the runtime release.

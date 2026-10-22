@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 133
+sequence: 134
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-23T03:00:00+08:00
+updated_at: 2026-10-23T05:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -41,11 +41,16 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
 - Partial-rule decision (owner approved 23 Oct; `e4bd8bd`, [record](2026-10-23-partial-rule-decision.md)):
   reviewed rules export known parts with unknown leaves; all_of known failure -> ineligible,
   any_of satisfied alternative -> eligible. BSA real checks now 9/9; Criminology 12/12.
+- BS Information Technology: [review 01](2026-10-23-bsit-prerequisite-review-01.md) read from the
+  original page (no developer CSV); owner decisions 1-2 (IT 1/L -> IT 1; same rules as BSA/Crim);
+  53-course ledger authored, real Prolog 12/12.
+- /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
+  attribution trailers removed from unpushed commits (owner: never add them).
 
 ## Current Task
 
-Program-by-program prerequisite review and loading. BSA and BS Criminology ledgers are authored
-(workspace `audit-evidence/p09-bsa-review-20261022/` and `p09-crim-review-20261022/`: `ledger.json`,
+Program-by-program prerequisite review and loading. BSA, BS Criminology and BSIT ledgers are authored
+(workspace `audit-evidence/p09-bsa-review-20261022/` and `p09-crim-review-20261022/`, `p09-bsit-review-20261023/`: `ledger.json`,
 `author_*.py`, `check_*.py`, page PNGs). Not yet loaded into Supabase or wired into the runtime.
 
 ## Repository State
@@ -66,7 +71,9 @@ the worktree's git-ignored `.env` (owner-run script). Model container `bintanong
 ## Versions and Digests
 
 BSA PDF SHA256 `72dad4a0384f82228d63c8926e4ae8a1eb14a33497c9952e0f60782083e82666`; BSA ledger
-SHA256 `a5f4e2205d1aae974dbbc7a4ac23ab7c8baf2d2d9050efebdf69982578c57041`. BS Criminology PDF SHA256
+SHA256 `a5f4e2205d1aae974dbbc7a4ac23ab7c8baf2d2d9050efebdf69982578c57041`. BSIT PDF SHA256
+`70f7893959244addd897e77a57ac69736c55c1f6262292faf6e278fb0df26ac5`, ledger file
+`30c238cd1fce663ca353bfbc488aa2e85f56aa75e7c82f8c2e0c746fd349245e`. BS Criminology PDF SHA256
 `b3b43dece33b171af81fdc738da45864f204188b068d66a180b670270f36a2d3`; ledger file SHA256
 `405eecb78d3a1df251e822a0e956685ba0a33b8d77af8624772b0cfc0797bd60`. Router v14, ctx 8192,
 out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_workspace/MODELS`.
@@ -82,21 +89,21 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Known Failures or Blockers
 
-- Only BSCS, BSA and BS Criminology have reviewed prerequisites; about 34 programs remain (39 PDFs in
+- Only BSCS, BSA, BS Criminology and BSIT have reviewed prerequisites; about 33 programs remain (39 PDFs in
   `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
 - Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
   `course_aliases`, `policy_rules`, `rule_source_spans` exist, empty).
 
 ## Next Action
 
-Ask the owner which next: (a) next program review (CSVs found only for BSA and BS Criminology;
-ask whether others exist), same method as `author_crim.py` (render page, read cells from the image,
+Ask the owner which next: (a) next program review (no CSV needed; BSIT was read from the page alone),
+same method as `author_bsit.py` (render page, read cells from the image,
 compare with any CSV, ask inline with program/course/title/printed text, author, real Prolog
-check); (b) generic Supabase loader for reviewed course facts/rules (BSCS + BSA + BS Criminology)
+check); (b) generic Supabase loader for reviewed course facts/rules (BSCS + BSA + BS Criminology + BSIT)
 with the Prolog bundle generated from the database and checked equal.
 
 ## Do Not Repeat
 
 Hosted migrations/load (done; hosted is not empty - the load script refuses a non-empty project),
-BSA and BS Criminology page reading, decisions and authoring, co-requisite and partial-rule fixes, roster runs 7-8, style floor, per-part observation, task-first
+BSA, BS Criminology and BSIT page reading, decisions and authoring, co-requisite and partial-rule fixes, roster runs 7-8, style floor, per-part observation, task-first
 trial, checker diagnosis, source/benchmark reviews, asset setup.

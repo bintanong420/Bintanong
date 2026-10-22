@@ -54,6 +54,8 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
+23 Oct: BSIT reviewed ([review 01](../2026-10-23-bsit-prerequisite-review-01.md)), 53 courses, Prolog 12/12;
+/doctor cleanup moved AGENTS.md history to `../owner-decisions-ledger.md`; no co-author trailers.
 23 Oct: BS Criminology reviewed ([review 01](../2026-10-22-crim-prerequisite-review-01.md)): owner
 decisions 1-3, 65-course ledger authored, real Prolog 12/12. Owner then had the affected-course
 listing fixed to follow co-requisites (`781c9a2`, full suite 6140 passed). Partial-rule decision
