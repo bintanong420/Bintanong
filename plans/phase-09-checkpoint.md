@@ -94,7 +94,7 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 Hosted Supabase tasks 1-5 done ([plan](2026-10-22-hosted-supabase-integration-plan.md),
 [roster results](2026-10-21-real-data-roster-results.md) runs 7-8). Hosted retrieval: 17/63 answered,
 0 wrong after `f77b952` (conflict notice). Next: task 6, Phase 09 closeout reassessment with the
-hosted evidence and the owner's approval (ask first); full suite on `f77b952` before closeout.
+hosted evidence and the owner's approval (ask first); full suite on `f77b952`: 6139 passed, 6 skipped, 0 failed (1061 s).
 
 How to resume real-data work: test Python is
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`

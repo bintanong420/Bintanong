@@ -58,7 +58,7 @@ Phase 09 reopened for hosted Supabase ([plan](../2026-10-22-hosted-supabase-inte
 Research retrieval now reads the active hosted research release (39/39 equivalence). Roster run 7
 on hosted: 17 answered (4 new, from transitive neighbours); one deadline answer omitted the
 handbook's conflict, fixed by a host notice (`f77b952`, run 8 confirmed): 0 wrong. Retrieval stage
-0.87 s median incl. Supabase. Next: full suite, then closeout reassessment (owner approval).
+0.87 s median incl. Supabase. Full suite on `f77b952`: 6139 passed, 0 failed. Next: closeout reassessment (owner approval).
 
 ## Boundaries
 
