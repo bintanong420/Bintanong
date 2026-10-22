@@ -57,3 +57,18 @@ Blank prerequisite cells (all other courses, e.g. AD-1/L, GE-CW, BT-1, PP-1, PEC
    year level is supplied (no year-level rule is invented)?
 
 No rule is compiled or executed until these readings are approved.
+
+## Owner decisions (22 October 2026)
+
+Shown with program, course, title and printed text (the owner cannot open the files):
+1. Comma lists are all_of (all required). Approved.
+2. Short printed codes map: TOA-1 -> TOA-1/L, AR-INT -> AR-INT/L, BT-2 -> BT-2/L,
+   BT-5 -> BT-5/L, Ar RM 1 -> Ar-RM 1. Approved.
+3. "Arc 1" (Ar-CC 2) -> Ar-CC 1; "MATH 19-20" (CE 31/FB) -> all_of(Math 19, Math 20). Approved.
+4-5. Keep as printed: course identity "D-10/L" (title "Architectural Design 9" kept); BM/AA-2
+   "PP-4" and SP-3 "D-7" are recorded source gaps, so those conditions stay unknown and the
+   chatbot refers the student to the college. No mapping to PP-3 / AD-7/L / AD-10/L.
+6. "4th Year Standing" is a non-course condition: unknown unless the student states their year
+   level; the chatbot may ask a follow-up for it. No year-level rule is invented.
+Section A's 49 printed cells are the reviewed readings under these decisions. Blank cells stay
+unknown. Not yet compiled or executed; authoring into the ledger is the next step.
