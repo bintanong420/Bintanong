@@ -45,6 +45,30 @@ versions. Schema digests hosted vs local: columns (165), policies (22), triggers
 migration history identical; all 34 functions identical once CRLF is stripped (the local
 DB loaded Windows CRLF files; hosted Phase 05 bodies use LF). Security advisor: none.
 
+## Task 2 design (research release kind)
+
+Refinement of option A: the owner authorization lives on the release, not on each source,
+so source registers stay truthful (`approval_state` stays `not_requested`; no new source state).
+
+- `knowledge_releases` gains `release_kind` (`institutional` default | `research`) and
+  `research_authorization_ref` (required and `^research-owner-[0-9]{8}$` iff research; null
+  otherwise). A research release must be a selected-review release (`review_scope_id` set) and
+  carries no rules (selected releases already forbid them).
+- `validate_release`: institutional rules unchanged. Research releases instead require each
+  source to have acquisition `verified`, verification `observed` (V1) or `verified`, approval
+  `not_requested` or `approved`, content `partially_reviewed` or `reviewed`; chunk checks keep
+  anchoring, hashes, spans, embeddings and content-review agreement, with source verification
+  matching the source's state.
+- RLS read policies (document_versions, chunks and their dependants) accept rows reachable
+  through the active research release under the same conditions; nothing else becomes readable.
+  Administrative receipt tables stay denied.
+- Python: release creation accepts the kind/ref; runtime labels research answers as today.
+- Tests (local Docker DB, disposable databases): research release activates only with the
+  ref and selected review; institutional activation still refuses unapproved sources; anon
+  reads only the active research release's rows; a research ref on an institutional release
+  and a research release without the ref are both rejected.
+- Course facts/Prolog stay in the reviewed bundle for now (out of scope for this release).
+
 ## Tasks (after the decision)
 
 1. [done] Apply the 7 Phase 05 migrations to hosted via MCP `apply_migration`; re-run advisors.
