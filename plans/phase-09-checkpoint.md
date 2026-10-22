@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 145
+sequence: 146
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: e4bd8bd
+head_commit: 6dad1af
 working_tree: clean
-updated_at: 2026-10-24T09:00:00+08:00
+updated_at: 2026-10-23T12:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -124,9 +124,13 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-Program names in questions work (router v15, host name matching, occurrence fix; hosted check 5/5 as
-intended, ~22 s). Full suite 6176 passed before the last three routing commits; run it again, then
-update the counted roster protocol to the hosted 39-curriculum release with router v15 and run it once.
+23 Oct resume (Claude): full suite at `e832b9a` 6183 passed, 6 skipped. Run 9 protocol fixed
+(`b3d8a15`); first attempt quarantined (all 39 prospectus versions sent as retrieval version ids,
+limit 32 -> every document question `invalid_output`); fixed in `b26de19` (document versions only,
+TDD regression in `tests/test_orchestration_pipeline.py`). Counted run 9 restarted at `6dad1af`
+(workspace `audit-evidence/p09-real-data-20261021/roster9/`). Next: read run 9 against run 8, record
+results in the roster results file, then rerun the full suite. Context consulted this resume: thesis
+physical 17-18 and the routing PNG; no discrepancy.
 
 ## Do Not Repeat
 
