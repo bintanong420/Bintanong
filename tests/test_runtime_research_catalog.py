@@ -112,3 +112,11 @@ def test_repeated_printed_code_without_titles_is_still_refused():
     import pytest
     with pytest.raises(ValueError, match='duplicate_printed_course_code'):
         research_catalog(ledger(course('course-a', 'ZZ 5'), course('course-b', 'ZZ 5')))
+
+
+def test_repeated_code_and_title_are_labelled_with_units():
+    from backend.bintanong_runtime.research import course_labels
+    a, b = titled('course-a', 'ZZ 13', 'Fictional Assessment'), titled('course-b', 'ZZ 13', 'Fictional Assessment')
+    a['facts']['units.total'], b['facts']['units.total'] = dict(value=5), dict(value=3)
+    assert course_labels(ledger(a, b)) == (('course-a', 'ZZ 13 (Fictional Assessment, 5 units)'),
+                                           ('course-b', 'ZZ 13 (Fictional Assessment, 3 units)'))

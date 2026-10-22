@@ -74,9 +74,18 @@ def course_labels(ledger):
     printed code is shown with its printed title."""
     courses = [c for c in ledger['courses'] if 'course_code' in c.get('facts', {})]
     repeated = _repeated_codes(courses)
-    return tuple((c['course_id'], c['facts']['course_code']['value'] + (
-        f" ({c['facts']['course_title']['value']})" if c['facts']['course_code']['value'] in repeated else ''))
-        for c in courses)
+    titles = Counter((c['facts']['course_code']['value'], c['facts']['course_title']['value'])
+                     for c in courses if c['facts']['course_code']['value'] in repeated)
+
+    def label(c):
+        code = c['facts']['course_code']['value']
+        if code not in repeated:
+            return code
+        title = c['facts']['course_title']['value']
+        if titles[(code, title)] > 1:  # same printed code and title: told apart by printed units
+            return f"{code} ({title}, {c['facts']['units.total']['value']} units)"
+        return f'{code} ({title})'
+    return tuple((c['course_id'], label(c)) for c in courses)
 
 
 def topic_menu(register, *, catalogue=None, chunks=()):
