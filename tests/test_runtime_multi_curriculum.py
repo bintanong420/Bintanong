@@ -90,3 +90,32 @@ def test_check_for_a_curriculum_outside_the_release_is_refused(monkeypatch):
     resources, _ = build(monkeypatch)
     with pytest.raises(ValueError, match='curriculum_not_in_release'):
         check(resources, 'curriculum-synthetic-9', 'course-4')
+
+
+def test_program_and_curriculum_names_are_cataloged_for_reviewed_curricula(monkeypatch):
+    from backend.bintanong_runtime import research
+    monkeypatch.setattr(research, 'SourceAwareEvidencePolicy', lambda **kw: object())
+    monkeypatch.setattr(research, 'RetrievalEngine', lambda *a, **kw: object())
+    _, ledgers = build(monkeypatch)
+    package = dict(chunks=[], versions={}, vectors={}, catalogue={}, register=dict(reviews=[]),
+                   manifest=dict(embedding_set_id='set-fictional', model_id='m', model_revision='r', dimension=2,
+                       normalization='l2', prompt_fingerprint='p', preprocessing_fingerprint='q', tokenizer_fingerprint='t'))
+    resources = research.build_multi_research_resources(ledgers, package, encoder=object(),
+        authorization_ref='research-fictional-test', program_names={'program-synthetic': ['Fictional Program']},
+        curriculum_names={C1: ['Year One'], C2: ['Year Two']})
+    entries = {(e.kind, e.entity_id): set(e.aliases) for e in resources.catalog if e.kind != 'course'}
+    assert entries == {('program', 'program-synthetic'): {'Fictional Program'},
+                       ('curriculum', C1): {'Year One'}, ('curriculum', C2): {'Year Two'}}
+
+
+def test_names_for_programs_outside_the_release_are_ignored(monkeypatch):
+    from backend.bintanong_runtime import research
+    monkeypatch.setattr(research, 'SourceAwareEvidencePolicy', lambda **kw: object())
+    monkeypatch.setattr(research, 'RetrievalEngine', lambda *a, **kw: object())
+    _, ledgers = build(monkeypatch)
+    package = dict(chunks=[], versions={}, vectors={}, catalogue={}, register=dict(reviews=[]),
+                   manifest=dict(embedding_set_id='set-fictional', model_id='m', model_revision='r', dimension=2,
+                       normalization='l2', prompt_fingerprint='p', preprocessing_fingerprint='q', tokenizer_fingerprint='t'))
+    resources = research.build_multi_research_resources(ledgers, package, encoder=object(),
+        authorization_ref='research-fictional-test', program_names={'program-absent': ['Absent']}, curriculum_names={})
+    assert not [e for e in resources.catalog if e.kind != 'course']

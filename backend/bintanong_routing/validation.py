@@ -138,6 +138,12 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                 if program is None:
                     program = entry.program_id  # explicit curriculum identity establishes its program
             resolved[idx] = entry
+    if program is not None and curriculum is None:
+        # A program with exactly one reviewed curriculum uses it (owner decision, 24 Oct 2026);
+        # several editions (e.g. old and proposed BSCS) still need the student's answer.
+        editions = [c for c in catalog if c.kind == 'curriculum' and c.program_id == program]
+        if len(editions) == 1:
+            curriculum = editions[0].entity_id
     for idx, mention in enumerate(p.mentions):
         if mention.kind == 'course' and program is not None and curriculum is not None:
             matches = _matches(mention, catalog, program, curriculum)

@@ -150,7 +150,8 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref, hos
         course_labels=course_labels(ledger))
 
 
-def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None):
+def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None,
+                                   program_names=None, curriculum_names=None):
     """One research release serving several reviewed curricula ({curriculum_id: ledger}).
 
     Each curriculum keeps its own runtime, release identity and rule-bundle version (listed in the
@@ -169,6 +170,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
                             rule_bundle_version=runtime.rule_bundle_version))
         sources.update({s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']})
         catalog.extend(research_catalog(ledger)); labels.extend(course_labels(ledger))
+    catalog.extend(name_catalog(ledgers, program_names or {}, curriculum_names or {}))
     digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
     release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + digest
     manifest, chunks = package['manifest'], package['chunks']
@@ -188,3 +190,21 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
         document_scope=('audience:undergraduate',), course_labels=tuple(labels))
+
+
+def name_catalog(ledgers, program_names, curriculum_names):
+    """Owner-approved program and curriculum names (24 Oct 2026) for the curricula in this release.
+    A name shared by several programs stays on each, so a question using it asks which is meant."""
+    entries, programs = [], {}
+    for curriculum, ledger in sorted(ledgers.items()):
+        programs.setdefault(ledger['scope']['program_id'], ledger)
+        if curriculum_names.get(curriculum):
+            entries.append(CatalogEntry(kind='curriculum', entity_id=curriculum, program_id=ledger['scope']['program_id'],
+                curriculum_id=curriculum, aliases=tuple(dict.fromkeys(curriculum_names[curriculum])),
+                source_ref=ledger['sources'][0]['version_id'], review_ref=ledger['reviews'][0]['review_id'], reviewed=True))
+    for program, ledger in sorted(programs.items()):
+        if program_names.get(program):
+            entries.append(CatalogEntry(kind='program', entity_id=program, program_id=program, curriculum_id=None,
+                aliases=tuple(dict.fromkeys(program_names[program])),
+                source_ref=ledger['sources'][0]['version_id'], review_ref=ledger['reviews'][0]['review_id'], reviewed=True))
+    return entries

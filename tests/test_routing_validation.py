@@ -59,10 +59,40 @@ def test_components_never_fall_back_to_rag(options, control, diagnostic):
 
 
 def test_curriculum_is_never_inferred_from_a_course_alias():
-    result = validate(ctx=context(curriculum_id=None))
+    # Two reviewed editions of the program: the course alias alone never picks one.
+    entries = (*catalog(), entry(kind='curriculum', entity='curriculum-old', alias='Edition Old', curriculum='curriculum-old'))
+    result = validate(ctx=context(curriculum_id=None), catalog=entries)
     assert result.decision.control == 'clarify'
     assert result.decision.missing_facts == ('curriculum_id',)
     assert result.diagnostic == 'missing_scope'
+
+
+def test_program_with_one_reviewed_curriculum_uses_it():
+    # Owner decision, 24 Oct 2026: a program with exactly one reviewed curriculum uses it.
+    result = validate(ctx=context(curriculum_id=None))
+    assert result.decision.route == 'Symbolic' and result.curriculum_id == 'curriculum-a'
+    assert {i.name: i.value for i in result.decision.predicate_request.inputs}['curriculum_id'] == 'curriculum-a'
+
+
+def test_program_named_in_text_with_one_curriculum_needs_no_session_scope():
+    text = 'Program A A1'
+    value = proposal(text=text, mentions=[dict(kind='program', text='Program A', start=0, end=9),
+        dict(kind='course', text='A1', start=10, end=12)],
+        operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    result = validate(text, value, context(program_id=None, curriculum_id=None))
+    assert result.decision.route == 'Symbolic' and (result.program_id, result.curriculum_id) == ('program-a', 'curriculum-a')
+
+
+def test_shared_program_name_asks_which_program():
+    other = CatalogEntry.parse(dict(kind='program', entity_id='program-b', program_id='program-b', curriculum_id=None,
+        aliases=['Program A'], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    entries = (*catalog(), other)
+    text = 'Program A A1'
+    value = proposal(text=text, mentions=[dict(kind='program', text='Program A', start=0, end=9),
+        dict(kind='course', text='A1', start=10, end=12)],
+        operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=entries)
+    assert result.decision.control == 'clarify' and result.decision.route is None
 
 
 def test_reused_course_alias_resolves_only_in_explicit_edition():
