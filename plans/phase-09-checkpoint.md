@@ -98,7 +98,7 @@ Remaining style limit: some Taglish questions are labelled Filipino (model choic
 Owner picks next (ask first): **remaining latency levers** (router prompt cache, drop
 router `intent`/`reason`, fold style into routing; each needs a full roster re-run) or
 **Phase 09 exit reassessment** against `plans/2026-10-21-phase09-remaining-work-and-exit-map.md`
-then the final handoff. A full-suite run on `e53153b` is still owed before closeout.
+then the final handoff. Full suite on `e53153b`: 6097 passed, 6 skipped, 0 failed (945 s).
 Context consulted 22 Oct resume: thesis physical 17-18 and the routing PNG; no discrepancy.
 
 How to resume real-data work: test Python is

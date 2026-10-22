@@ -70,7 +70,7 @@ Roster run 3: 0 system errors, doc median 34.7 s, CC5 21.6 s ([latency](../2026-
 #3 style (`e53153b`, owner-approved): Filipino function word overrides an English-only
 label to Taglish; failed-reference clarifications run the style call. Run 6: cheating-
 Taglish now Taglish, natural-u1-tl clarifies in Filipino, English unchanged. Next: owner
-picks latency levers or Phase 09 exit reassessment; full suite on `e53153b` still owed.
+picks latency levers or Phase 09 exit reassessment; full suite on `e53153b`: 6097 passed, 0 failed.
 #2: owner kept the safe version (`d8d5220`, run 5): 0 wrong answers, 3 fee-example answers
 withheld (disclosed). Restart the model container before long runs (cache memory growth). Against the exit map: interpretation
 and completeness are now evidenced on the four fixtures; still open are the
