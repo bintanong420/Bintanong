@@ -16,6 +16,7 @@ from ..bintanong_retrieval.types import RetrievalSettings
 from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic
 from ..bintanong_symbolic.bundle import prepare_runtime_bundle
 from ..bintanong_symbolic.runtime import CurriculumRuntime
+from .hosted_storage import HostedReleaseStorage
 from .package_storage import PackageStorage
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
@@ -85,15 +86,24 @@ def topic_menu(register, *, catalogue=None, chunks=()):
                  for s, c in subjects.items())
 
 
-def build_research_resources(ledger, package, *, encoder, authorization_ref):
+def retrieval_storage(release_id, package, *, hosted, authorization_ref):
+    """Hosted research release when given (dict(client=..., release_id=...)), else the package."""
+    if hosted is not None:
+        return HostedReleaseStorage(hosted['client'], pin_release_id=release_id,
+            hosted_release_id=hosted['release_id'], authorization_ref=authorization_ref,
+            chunks=package['chunks'])
+    return PackageStorage(release_id=release_id, manifest=package['manifest'], chunks=package['chunks'],
+                          versions=package['versions'], vectors=package['vectors'])
+
+
+def build_research_resources(ledger, package, *, encoder, authorization_ref, hosted=None):
     """Compose one research release: reviewed rules, reviewed package, research labels."""
     bundle = prepare_runtime_bundle(ledger)
     runtime = CurriculumRuntime.for_offline_research(bundle, authorization=dict(
         purpose='offline_curriculum_acceptance', authorization_ref=authorization_ref,
         bundle_sha256=bundle['content_sha256'], operations=list(OPERATIONS)))
     release_id, manifest, chunks = runtime.release_id, package['manifest'], package['chunks']
-    storage = PackageStorage(release_id=release_id, manifest=manifest, chunks=chunks,
-                             versions=package['versions'], vectors=package['vectors'])
+    storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
     policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
         chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
     sources = {s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']}
