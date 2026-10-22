@@ -98,3 +98,20 @@ def test_missing_occurrence_and_legacy_index_or_offset_fields_are_not_accepted()
         value['operations'][0][field] = extra
         with pytest.raises(ValueError):
             normalize(value)
+
+
+def test_wrong_occurrence_of_a_quote_that_appears_once_is_corrected():
+    # Seen with real output (24 Oct 2026): "Nurs MC 1" declared as occurrence 1 after "Nursing" in the text.
+    value = packet()
+    for item in (value['mentions'][0]['quote'], value['claims'][0]['entity'], value['claims'][0]['quote'], value['parts'][0]['quote']):
+        item['occurrence'] = 1
+    result = normalize(value)
+    assert (result.mentions[0].text, result.mentions[0].start) == ('A1', 28)
+    assert result.claims[0].entity == 0 and (result.parts[0].start, result.parts[0].end) == (0, 31)
+
+
+def test_two_declared_occurrences_of_a_quote_that_appears_once_reject():
+    value = packet()
+    value['mentions'].append(dict(kind='course', quote=quote('A1', 1)))
+    with pytest.raises(ValueError):
+        normalize(value)

@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p09-v14'
+PROMPT_VERSION = 'bintanong-router-p09-v15'
 
 
 def ordered_json(value):
@@ -95,6 +95,9 @@ identical to an existing course mention's quote, never numeric mention-array ind
 An eligibility target is the course being requested, not the failed prerequisite mentioned nearby.
 The one fictional worked example below shows target,condition and separate part roles.
 Mention ordering does not change those roles. It contains no institutional facts.
+When the student states their own program or curriculum, quote that phrase as a program
+mention (e.g. "Nursing student ako", "BSCS ako", "In the Architecture curriculum") and a stated
+school year as a curriculum mention (e.g. "2018-2019"); never as a course mention.
 An operation never targets a program/curriculum mention. Program requirements are not
 course prerequisites just because the word "requirements" occurs.
 claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,

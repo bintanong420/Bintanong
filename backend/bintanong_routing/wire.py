@@ -78,7 +78,14 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
             for _ in range(quote.occurrence + 1):
                 start = text.find(quote.text, start + 1)
                 if start < 0:
+                    break
+            if start < 0:
+                # A miscounted occurrence is corrected only when the quote occurs exactly once,
+                # so nothing has to be chosen (same rule as offset correction).
+                first = text.find(quote.text)
+                if first < 0 or text.find(quote.text, first + 1) >= 0:
                     raise ValueError('quote_occurrence_not_found')
+                start = first
             spans[identity] = dict(text=quote.text, start=start, end=start + len(quote.text))
         return spans[identity]
 
@@ -88,6 +95,9 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
         if identity in mentions:
             raise ValueError('duplicate_mention_reference')
         mentions[identity] = index
+    positions = [(span(m.quote)['start'], m.quote.text) for m in wire.mentions]
+    if len(set(positions)) != len(positions):  # two declared occurrences landed on one place
+        raise ValueError('duplicate_mention_reference')
 
     def course_index(quote):
         index = mentions.get(key(quote))
