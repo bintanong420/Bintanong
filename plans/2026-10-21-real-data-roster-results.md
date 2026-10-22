@@ -111,3 +111,20 @@ clarifies in Filipino; English controls stay English; 0 system errors, 0 wrong a
 clarification (safe; per-student amount is not stated). `natural-u1-taglish` is still
 labelled Filipino (remaining fil/taglish limitation). Raw: workspace
 `audit-evidence/p09-real-data-20261021/roster6/`.
+
+## Run 7 (hosted Supabase retrieval) and run 8, 22 October 2026
+
+Run 7 (`2817c5c`/`b4616ab`, `HOSTED=1`, 63 cases): 17 answered, 26 clarification, 20
+insufficient; 0 system errors, 0 invented facts. Versus run 5 the only changes are four
+newly answered cases: overload-conditions en/tl/taglish (correct; Handbook table 6 row 3,
+"not more than 6 units but not to exceed 28 units") and completion-deadline-conflict-en.
+They come from the real SQL returning required neighbours transitively (the stand-in did not).
+The deadline answer quoted both printed rules correctly but did not say the handbook
+conflicts on which applies (reviewed limit `conflicting_deadlines`): 1 misleading-by-omission
+answer under the source-gap policy. Fixed in `f77b952` (host notice for cited unresolved
+conflicts/defects). Run 8 (those 6 cases, hosted): the deadline answer now ends with the
+conflict notice; overload answers unchanged with no notice; deadline tl/taglish still
+withheld/clarify. After the fix: 17 answered, 0 wrong or misleading.
+Timing (warm backend): document answers median 31.5 s, Prolog 20.1 s, max 38.6 s. The
+retrieval stage (query embedding + hosted Supabase round trip) median 0.87 s, max 2.93 s
+(run 5 stand-in: 0.35 s). Excluded: browser, API, queueing, cold start.

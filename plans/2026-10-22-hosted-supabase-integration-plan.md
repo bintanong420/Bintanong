@@ -104,7 +104,7 @@ median 156 ms, max 980 ms (network round trip included).
    Needs hosted `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the ignored `.env` (owner).
 4. [done] Runtime: research mode reads hosted Supabase through the existing storage client;
    check retrieval equivalence with PackageStorage (39/39 offered chunks).
-5. Re-run the 63-case roster; report Supabase/network timing separately.
+5. [done: runs 7-8, see roster results] Re-run the 63-case roster; report Supabase/network timing separately.
 6. Phase 09 closeout again with the updated evidence.
 
 Boundaries: undergraduate scope, source-gap rules, F04 held, no institutional approval
