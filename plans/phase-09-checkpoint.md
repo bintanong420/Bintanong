@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 127
+sequence: 128
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 115d218
+head_commit: 2817c5c
 working_tree: clean
-updated_at: 2026-10-22T19:00:00+08:00
+updated_at: 2026-10-22T20:00:00+08:00
 ---
 
 # Phase 09 checkpoint - per-part generation observed on the actual model
@@ -48,7 +48,7 @@ Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `115d218` plus the docs commit;
+Branch `feat/p09-generation-validation`, HEAD `2817c5c`;
 clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
 running. No dependency, Supabase, source or institutional change; research mode
 serves reviewed data through the read-only PackageStorage stand-in.
@@ -91,11 +91,10 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Hosted Supabase ([plan](2026-10-22-hosted-supabase-integration-plan.md)): tasks 1-3 done. Hosted has
-14 migrations (repo versions) and the active research release `p09-research-selected-20261022`
-(5 sources, 19 chunks; sources never approved). Next: task 4, point research-mode retrieval at
-hosted Supabase (existing storage client, anon key) instead of PackageStorage and check
-equivalence (39/39 offered chunks), then task 5 roster re-run with Supabase timing separate.
+Hosted Supabase ([plan](2026-10-22-hosted-supabase-integration-plan.md)): tasks 1-4 done. Research
+retrieval reads hosted Supabase via `HostedReleaseStorage` (`b4616ab`); 39/39 equivalence. Roster
+run 7 (`HOSTED=1`, protocol `2817c5c`) running into workspace `p09-real-data-20261021/roster7/`.
+Next: summarize run 7 against run 5, record results, then Phase 09 closeout reassessment.
 
 How to resume real-data work: test Python is
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`

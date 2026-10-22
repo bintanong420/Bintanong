@@ -55,10 +55,10 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 ## Next action
 
 Phase 09 reopened for hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
-Done: Phase 05 migrations + research-release migration (`115d218`) on hosted; real undergraduate
-selection loaded and active as research release `p09-research-selected-20261022` (5 sources, 19
-chunks; approval stays not_requested). Next: switch research-mode retrieval from PackageStorage
-to hosted Supabase, check 39/39 equivalence, then re-run the 63-case roster.
+Done: migrations + research release (`115d218`) on hosted; real selection active as research
+release `p09-research-selected-20261022`; research retrieval reads hosted via `HostedReleaseStorage`
+(`b4616ab`), 39/39 equal to PackageStorage and Phase 05 accepted, 156 ms median search.
+Running: 63-case roster run 7 on hosted. Next: compare with run 5, then closeout reassessment.
 
 ## Boundaries
 

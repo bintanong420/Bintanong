@@ -83,6 +83,18 @@ so source registers stay truthful (`approval_state` stays `not_requested`; no ne
   (research, `research-owner-20261021`); every source `not_requested/observed/partially_reviewed`.
 - The owner granted the hosted load in `/permissions` after the classifier first blocked it.
 
+## Task 4 result (done 22 Oct, `b4616ab`)
+
+`HostedReleaseStorage` (backend/bintanong_runtime/hosted_storage.py) serves runtime reads of the
+hosted research release under the local pin's release id, refusing to start unless the release
+is active, research, carries the owner reference and holds exactly the reviewed chunks.
+`build_research_resources(..., hosted=dict(client, release_id))`; PackageStorage stays the default.
+TDD: 9 new tests RED then GREEN; runtime tests 41 passed. Live check with saved query vectors
+(workspace `audit-evidence/p09-supabase-20261022/equivalence_hosted.py`): offered chunks equal
+PackageStorage 39/39 and Phase 05 accepted offered+status 39/39 (PackageStorage alone was 36/39
+on status: the real SQL follows required neighbours transitively). Hosted `retrieve_context`
+median 156 ms, max 980 ms (network round trip included).
+
 ## Tasks (after the decision)
 
 1. [done] Apply the 7 Phase 05 migrations to hosted via MCP `apply_migration`; re-run advisors.
@@ -90,7 +102,7 @@ so source registers stay truthful (`approval_state` stays `not_requested`; no ne
 3. [done, documents only] Load reviewed real data with the existing loaders (register sources, chunks, 1024-d
    embeddings, reviewed BSCS course facts/rules), create and activate the research release.
    Needs hosted `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the ignored `.env` (owner).
-4. Runtime: research mode reads hosted Supabase through the existing storage client;
+4. [done] Runtime: research mode reads hosted Supabase through the existing storage client;
    check retrieval equivalence with PackageStorage (39/39 offered chunks).
 5. Re-run the 63-case roster; report Supabase/network timing separately.
 6. Phase 09 closeout again with the updated evidence.
