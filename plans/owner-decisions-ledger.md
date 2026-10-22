@@ -253,3 +253,7 @@ Each program still gets its own dated review record listing which standing rule 
 - Added 23 Oct 2026 (CHTM): "All CAKM subjects" / "All HRCM Subjects" (a group named by its printed
   course prefix) = every course with that prefix in the curriculum (CAKM 1/L-5/L; HRCM 1-5), all
   required, together with the other printed course (Pract 1-HM).
+- Added 24 Oct 2026 (CNHS): a prerequisite cell merged across several course rows applies to each of
+  those courses. A/B course pairs: "X A & B" = both XA and XB; a number without a letter where only A and
+  B exist (e.g. "NCM15-101" when only 101A/101B exist) = both; a shared prefix carries over ("104,105 &
+  106 A & B" = 104A/B, 105A/B, 106A/B). A reference to a course not on the page stays a source gap.
