@@ -42,7 +42,11 @@ def research_catalog(ledger):
     courses = [c for c in ledger['courses'] if c['review_state'] == 'reviewed' and c['review_refs']
                and 'course_code' in c.get('facts', {})]
     printed = {c['course_id']: _printed_forms(c['facts']['course_code']['value']) for c in courses}
-    if sum(len(v) for v in printed.values()) != len(set().union(*printed.values()) if printed else ()):
+    # A printed code may repeat only on titled rows (owner, 23 Oct 2026); both stay cataloged, so a
+    # code-only mention matches two entries and the router asks which course is meant.
+    repeated = _repeated_codes(courses)
+    unique = [v for c in courses if c['facts']['course_code']['value'] not in repeated for v in [printed[c['course_id']]]]
+    if sum(len(v) for v in unique) != len(set().union(*unique) if unique else ()):
         raise ValueError('duplicate_printed_course_code')
     short = {cid: _short_forms(c['facts']['course_code']['value']) for c in courses for cid in [c['course_id']]}
     counts = Counter(a for forms in [*printed.values(), *short.values()] for a in forms)
@@ -56,10 +60,23 @@ def research_catalog(ledger):
     return tuple(entries)
 
 
+def _repeated_codes(courses):
+    """Printed codes on more than one row; each such row must carry its printed title."""
+    counts = Counter(c['facts']['course_code']['value'] for c in courses)
+    repeated = {code for code, n in counts.items() if n > 1}
+    if any(c['facts']['course_code']['value'] in repeated and 'course_title' not in c['facts'] for c in courses):
+        raise ValueError('duplicate_printed_course_code')
+    return repeated
+
+
 def course_labels(ledger):
-    """Display-only printed codes, drafts included (they can appear inside conditions)."""
-    return tuple((c['course_id'], c['facts']['course_code']['value']) for c in ledger['courses']
-                 if 'course_code' in c.get('facts', {}))
+    """Display-only printed codes, drafts included (they can appear inside conditions); a repeated
+    printed code is shown with its printed title."""
+    courses = [c for c in ledger['courses'] if 'course_code' in c.get('facts', {})]
+    repeated = _repeated_codes(courses)
+    return tuple((c['course_id'], c['facts']['course_code']['value'] + (
+        f" ({c['facts']['course_title']['value']})" if c['facts']['course_code']['value'] in repeated else ''))
+        for c in courses)
 
 
 def topic_menu(register, *, catalogue=None, chunks=()):

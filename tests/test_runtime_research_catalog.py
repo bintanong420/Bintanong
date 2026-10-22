@@ -89,3 +89,26 @@ def test_topic_menu_adds_recorded_not_stated_claims_per_subject():
     menu = topic_menu(register, catalogue=catalogue, chunks=chunks)
     assert [(t.subject_id, t.claims, t.not_stated) for t in menu] == [
         ('fees', ('printed amount',), ('individual share',))]
+
+
+def titled(cid, code, title):
+    c = course(cid, code); c['facts']['course_title'] = dict(value=title); return c
+
+
+def test_repeated_printed_code_is_cataloged_twice_so_a_code_only_question_must_choose():
+    # Owner, 23 Oct 2026: keep both printed rows; a code-only mention matches two entries (clarify).
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 5', 'Fictional Geo'), titled('course-b', 'ZZ 5', 'Fictional Fiscal')))
+    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5'}, 'course-b': {'ZZ 5', 'ZZ5'}}
+
+
+def test_repeated_printed_code_is_labelled_with_its_title():
+    from backend.bintanong_runtime.research import course_labels
+    labels = course_labels(ledger(titled('course-a', 'ZZ 5', 'Fictional Geo'), titled('course-b', 'ZZ 5', 'Fictional Fiscal'),
+                                  course('course-c', 'ZZ 6')))
+    assert labels == (('course-a', 'ZZ 5 (Fictional Geo)'), ('course-b', 'ZZ 5 (Fictional Fiscal)'), ('course-c', 'ZZ 6'))
+
+
+def test_repeated_printed_code_without_titles_is_still_refused():
+    import pytest
+    with pytest.raises(ValueError, match='duplicate_printed_course_code'):
+        research_catalog(ledger(course('course-a', 'ZZ 5'), course('course-b', 'ZZ 5')))
