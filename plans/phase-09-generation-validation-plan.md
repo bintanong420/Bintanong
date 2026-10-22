@@ -1,7 +1,7 @@
 ---
 artifact: phase-plan
 phase: 9
-status: complete
+status: in_progress
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-08-handoff.md
 ---

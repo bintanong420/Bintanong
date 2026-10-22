@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 9
-status: superseded
-sequence: 124
+status: in_progress
+sequence: 125
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: b28cd6c
+head_commit: a31ac32
 working_tree: clean
-updated_at: 2026-10-22T14:00:00+08:00
+updated_at: 2026-10-22T15:00:00+08:00
 ---
 
 # Phase 09 checkpoint - per-part generation observed on the actual model
@@ -48,7 +48,7 @@ Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `b28cd6c` plus the closeout commit;
+Branch `feat/p09-generation-validation`, HEAD `a31ac32` plus the reopening commit;
 clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
 running. No dependency, Supabase, source or institutional change; research mode
 serves reviewed data through the read-only PackageStorage stand-in.
@@ -91,9 +91,10 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Superseded: owner approved Phase 09 closeout (22 Oct); see the [final handoff](phase-09-handoff.md)
-and [exit reassessment](2026-10-22-phase09-exit-reassessment.md). Phase 10 starts only on
-the owner's go, after `can-advance`.
+Reopened 22 Oct by owner for hosted Supabase ([plan](2026-10-22-hosted-supabase-integration-plan.md)).
+Closeout handoff kept as history. Waiting on owner: research-release design (option A
+recommended) and hosted `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` in the ignored `.env`.
+Then task 1: apply the 7 Phase 05 migrations via MCP and re-run advisors.
 
 How to resume real-data work: test Python is
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`

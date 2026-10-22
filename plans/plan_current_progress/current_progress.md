@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 22 October 2026. Phase 09 complete on p09 / `feat/p09-generation-validation`.
+Updated 22 October 2026. Phase 09 reopened on p09 / `feat/p09-generation-validation`.
 [Checkpoint](../phase-09-checkpoint.md) | [Per-part decision](../2026-10-21-per-part-generation-decision.md).
 Last full snapshot before this replacement: `0a08d8d:plans/plan_current_progress/current_progress.md`.
 
@@ -54,18 +54,17 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Phase 09 closed (owner-approved 22 Oct): [final handoff](../phase-09-handoff.md),
-[exit reassessment](../2026-10-22-phase09-exit-reassessment.md). Before it: #3 style floor
-`e53153b` (run 6 fixed Taglish-to-English replies); full suite 6097 passed, 0 failed.
-Next: Phase 10 planning (master 15, private PDFs/photos and session context) only when
-the owner says to start. Optional follow-ups: partial answers, router per-person/added-detail
-errors, latency levers.
+Owner reopened Phase 09 (22 Oct) to use hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
+MCP works; hosted DB has Phase 04 schema only, 0 rows; 7 Phase 05 migrations unapplied;
+advisors clean. Activation requires `approved` sources, which would misstate university
+approval. Waiting on owner: research-release design (option A recommended) and hosted
+URL/service-role key in the ignored `.env`. Closeout handoff `a31ac32` kept as history.
 
 ## Boundaries
 
 Undergraduate scope, read-only advisory, source-gap, privacy, institutional
 release and one-week improvement boundaries unchanged. Accepted 75 variants and
 the held if/kung policy are unchanged. No activation, push, training, dependency
-or DB change. Phase 09 complete; Phase 10 not started. Context consulted 22 Oct
+or DB change. Phase 09 active (reopened); Phase 10 not started. Context consulted 22 Oct
 resume: thesis physical 17-18 (Scope and Limitations) and the routing PNG; no
 discrepancy.
