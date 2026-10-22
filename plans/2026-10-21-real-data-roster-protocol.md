@@ -90,3 +90,7 @@ the question); any decision must match the reviewed ledger and printed page (aut
 otherwise unavailable/clarification. "Computer Science" without an edition still clarifies (two
 BSCS editions); practicum stays unavailable/clarification. Pass: no invented facts, no run-8
 correct answer lost, system errors not increased. Not an accuracy rate or student SLA.
+First run 9 attempt (`b3d8a15`) quarantined as `roster9-invalid-doc-path/` after 2 cases: every
+document question failed `invalid_output` because all 39 prospectus versions were passed as
+retrieval version ids (limit 32). Fixed in the commit before this note (retrieval gets document
+versions only); an uncounted 2-case precheck answered. Run 9 restarts from case 1 at this commit.
