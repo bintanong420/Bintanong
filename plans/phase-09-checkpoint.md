@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 131
+sequence: 132
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: b7b6bf4
+head_commit: 029b1fa
 working_tree: clean
-updated_at: 2026-10-23T01:00:00+08:00
+updated_at: 2026-10-23T02:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -35,6 +35,9 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   page; owner decisions 1-3 (co-requisite = passed or same term; "All major courses from 1st to 3rd
   year" kept as printed, unknown; Forensic 5 / PATH Fit-DEFTAC 2 mapped); 65-course ledger authored,
   real Prolog 12/12 as expected.
+- Engine fix (owner: fix for accuracy): affected-course listing now follows co-requisite links
+  (`029b1fa`, [record](2026-10-23-corequisite-dependency-fix.md)); relation label
+  `potential_prerequisite_or_corequisite_dependency`. CDI 4 -> CDI 5..CDI 11.
 
 ## Current Task
 
@@ -44,13 +47,13 @@ Program-by-program prerequisite review and loading. BSA and BS Criminology ledge
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `b7b6bf4` + this checkpoint commit, clean, nothing pushed. Hosted keys in
+Branch `feat/p09-generation-validation`, HEAD `029b1fa` + this checkpoint commit, clean, nothing pushed. Hosted keys in
 the worktree's git-ignored `.env` (owner-run script). Model container `bintanong-p09-cuda-latency`
 (127.0.0.1:18088; `docker restart` before long runs; start Docker Desktop first if `docker ps` fails).
 
 ## Verification Evidence
 
-- Full suite at `f77b952`: 6139 passed, 6 skipped, 0 failed (1061 s); later commits docs only.
+- Full suite at the co-requisite fix (`029b1fa`): 6140 passed, 6 skipped, 0 failed (1147 s).
 - Storage DB regression with research release: 182 passed, 916 subtests.
 - Commands: test Python `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider <tests> --basetemp=<audit-evidence dir>`;
   DB tests use local Docker `supabase_db_Bintanong` (set `BINTANONG_STORAGE_EVIDENCE_DIR`).

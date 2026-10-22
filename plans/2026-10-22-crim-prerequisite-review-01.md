@@ -83,6 +83,8 @@ Real SWI-Prolog/Janus checks (`check_crim.py`, offline research path, ref resear
 12/12 as the readings imply: Crim 2 eligible/ineligible/unknown; CDI 5 eligible with CDI 4 passed or
 enrolled, ineligible with CDI 4 failed and not enrolled, unknown with enrollment not given;
 Forensic 6, PATH Fit-DEFTAC 3 and GE - LWR resolve their mapped prerequisites; CP 1 and Crim 1
-unknown. Affected-course listing: CDI 3 -> CDI 4; Crim 1 -> Crim 2, 3, 4. Existing engine
-behaviour: co_requisite links are not dependency edges, so CDI 4 lists none (CDI 5 not shown).
+unknown. Affected-course listing at first: CDI 3 -> CDI 4; Crim 1 -> Crim 2, 3, 4; CDI 4 -> none,
+because the engine skipped co_requisite links. Owner (23 Oct): fix it for accuracy. Engine fix
+(see the [fix record](2026-10-23-corequisite-dependency-fix.md)): CDI 4 -> CDI 5..CDI 11;
+CDI 3 -> CDI 4..CDI 11; Crim 1 -> Crim 2..Crim 8. Checks still 12/12.
 Not yet loaded into Supabase or wired into the runtime release.
