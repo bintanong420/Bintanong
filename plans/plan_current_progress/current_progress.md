@@ -54,11 +54,11 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-Phase 09 reopened (22 Oct) for hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
-Owner chose a research release kind (no false `approved` state) and provided hosted keys in the
-ignored `.env`. Task 1 done: 7 Phase 05 migrations applied to hosted, versions match the repo,
-schema matches local, advisors clean; still 0 rows. Next: task 2, research-release migration
-with TDD on the local DB, then data load, runtime switch and a roster re-run.
+Phase 09 reopened for hosted Supabase ([plan](../2026-10-22-hosted-supabase-integration-plan.md)).
+Done: Phase 05 migrations + research-release migration (`115d218`) on hosted; real undergraduate
+selection loaded and active as research release `p09-research-selected-20261022` (5 sources, 19
+chunks; approval stays not_requested). Next: switch research-mode retrieval from PackageStorage
+to hosted Supabase, check 39/39 equivalence, then re-run the 63-case roster.
 
 ## Boundaries
 

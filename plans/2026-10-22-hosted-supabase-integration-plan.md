@@ -69,11 +69,25 @@ so source registers stay truthful (`approval_state` stays `not_requested`; no ne
   and a research release without the ref are both rejected.
 - Course facts/Prolog stay in the reviewed bundle for now (out of scope for this release).
 
+## Tasks 2-3 result (done 22 Oct)
+
+- `115d218`: migration `20261022090000_phase9_research_release.sql` and
+  `ReleaseManager.designate_research_release`. TDD: 22 new DB tests RED then GREEN; storage
+  regression 182 passed, 916 subtests (760 s). Applied to hosted via MCP; version reset to the
+  file version (MCP stamps UTC time). Advisors: none.
+- Load script (workspace `audit-evidence/p09-supabase-20261022/load_research_release.py`)
+  replays the governed Phase 05 chain unchanged, then designates and activates. Local
+  disposable rehearsal and hosted run both passed: 5 sources, 19 chunks, 54 spans, 19
+  embeddings, 5 V1 observations; anon sees exactly those rows and `retrieve_context` is ok;
+  14 inputs byte-unchanged. Hosted active release `p09-research-selected-20261022`
+  (research, `research-owner-20261021`); every source `not_requested/observed/partially_reviewed`.
+- The owner granted the hosted load in `/permissions` after the classifier first blocked it.
+
 ## Tasks (after the decision)
 
 1. [done] Apply the 7 Phase 05 migrations to hosted via MCP `apply_migration`; re-run advisors.
-2. Research-release migration and Python contract support (TDD; local Docker DB first).
-3. Load reviewed real data with the existing loaders (register sources, chunks, 1024-d
+2. [done] Research-release migration and Python contract support (TDD; local Docker DB first).
+3. [done, documents only] Load reviewed real data with the existing loaders (register sources, chunks, 1024-d
    embeddings, reviewed BSCS course facts/rules), create and activate the research release.
    Needs hosted `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the ignored `.env` (owner).
 4. Runtime: research mode reads hosted Supabase through the existing storage client;
