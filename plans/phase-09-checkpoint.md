@@ -4,7 +4,7 @@ phase: 9
 status: in_progress
 sequence: 133
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 115b9aa
+head_commit: e4bd8bd
 working_tree: clean
 updated_at: 2026-10-23T03:00:00+08:00
 ---
@@ -36,9 +36,9 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
   year" kept as printed, unknown; Forensic 5 / PATH Fit-DEFTAC 2 mapped); 65-course ledger authored,
   real Prolog 12/12 as expected.
 - Engine fix (owner: fix for accuracy): affected-course listing now follows co-requisite links
-  (`029b1fa`, [record](2026-10-23-corequisite-dependency-fix.md)); relation label
+  (`781c9a2`, [record](2026-10-23-corequisite-dependency-fix.md)); relation label
   `potential_prerequisite_or_corequisite_dependency`. CDI 4 -> CDI 5..CDI 11.
-- Partial-rule decision (owner approved 23 Oct; `115b9aa`, [record](2026-10-23-partial-rule-decision.md)):
+- Partial-rule decision (owner approved 23 Oct; `e4bd8bd`, [record](2026-10-23-partial-rule-decision.md)):
   reviewed rules export known parts with unknown leaves; all_of known failure -> ineligible,
   any_of satisfied alternative -> eligible. BSA real checks now 9/9; Criminology 12/12.
 
@@ -50,13 +50,13 @@ Program-by-program prerequisite review and loading. BSA and BS Criminology ledge
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `115b9aa` + this checkpoint commit, clean, nothing pushed. Hosted keys in
+Branch `feat/p09-generation-validation`, HEAD `e4bd8bd` + this checkpoint commit, clean, nothing pushed. Hosted keys in
 the worktree's git-ignored `.env` (owner-run script). Model container `bintanong-p09-cuda-latency`
 (127.0.0.1:18088; `docker restart` before long runs; start Docker Desktop first if `docker ps` fails).
 
 ## Verification Evidence
 
-- Full suite at the partial-rule fix (`115b9aa`): 6145 passed, 6 skipped, 0 failed (1061 s).
+- Full suite at the partial-rule fix (`e4bd8bd`): 6145 passed, 6 skipped, 0 failed (1061 s).
 - Storage DB regression with research release: 182 passed, 916 subtests.
 - Commands: test Python `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider <tests> --basetemp=<audit-evidence dir>`;
   DB tests use local Docker `supabase_db_Bintanong` (set `BINTANONG_STORAGE_EVIDENCE_DIR`).
