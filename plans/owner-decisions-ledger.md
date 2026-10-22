@@ -232,3 +232,7 @@ Anything else is a new scenario and goes to the owner inline (program, course, t
 text): e.g. "or"/alternative lists, instructor consent, grade thresholds, a reference matching two
 courses, exceptions, notes changing requirements, unreadable or cropped cells, multi-page layouts.
 Each program still gets its own dated review record listing which standing rule covered which cell.
+- Added 23 Oct 2026 (BS Environmental Science): native PDF text clipped out of the printed page
+  (visible only by Ctrl+F) is not a requirement; the visible printed text is ("they still base on
+  what they can see"). A trailing comma with nothing after it is ignored. A visible list printed
+  one item per line without commas counts as all required. Hidden text is recorded in the review.
