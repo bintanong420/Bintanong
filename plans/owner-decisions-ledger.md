@@ -236,3 +236,7 @@ Each program still gets its own dated review record listing which standing rule 
   (visible only by Ctrl+F) is not a requirement; the visible printed text is ("they still base on
   what they can see"). A trailing comma with nothing after it is ignored. A visible list printed
   one item per line without commas counts as all required. Hidden text is recorded in the review.
+- Added 23 Oct 2026 (BS Marine Biology): a semicolon separates required courses like a comma; a
+  reference that differs from exactly one course by an obvious typo (an extra/missing letter such as
+  "Bio 106A/L" -> Bio 106/L, "Physics 1/L" -> "Physic 1/L", or a leading zero "Res 02" -> Res 2) maps
+  to that course. A reference with no single obvious match stays a source gap.
