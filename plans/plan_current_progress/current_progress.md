@@ -54,6 +54,8 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
+24 Oct: ALL 39 prospectus curricula reviewed and loaded to hosted Supabase (CoE + CTE done last).
+Next: full suite + hosted multi-college wiring check.
 24 Oct: CBA complete; hosted holds 23 reviewed curricula. Next: CHTM, CNHS, CoE, CTE.
 23 Oct: CAH complete; hosted holds 14 reviewed curricula. Next: CBA (multi-page layouts need an owner question).
 23 Oct: chatbot now reads all hosted curricula (multi-curriculum release); wiring check correct.
