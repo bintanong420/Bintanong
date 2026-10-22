@@ -91,6 +91,23 @@ def test_route_uses_existing_router_and_returns_one_common_evidence_package(rout
     asyncio.run(scenario())
 
 
+def test_retrieval_is_limited_to_document_versions_when_many_curricula_are_pinned():
+    # A release serving many curricula pins one source per prospectus; only the document
+    # versions hold retrievable chunks, and a request accepts at most 32 version ids.
+    async def scenario():
+        base = resources()
+        data = base.pin.model_dump(mode='json')
+        data['sources'] += [dict(version_id=f'ver-synth-prospectus-{i}', byte_sha256=f'{i:064x}')
+                            for i in range(40)]
+        release = ports().ReleaseResources(type(base.pin).parse(data), base.catalog, base.registry,
+                                           base.retrieval, base.symbolic)
+        result = await api().Orchestrator(transport('RAG'),
+            releases=ports().SyntheticReleaseProvider(release)).run('A1 policy', ctx())
+        assert result.status == 'ready'
+        assert release.retrieval.calls[0].document_version_ids == ('ver-synth-handbook-1',)
+    asyncio.run(scenario())
+
+
 def test_default_provider_holds_without_model_or_evidence_calls():
     async def scenario():
         model = transport()

@@ -181,7 +181,8 @@ class Orchestrator:
                 (('program',scoped.program_id),('curriculum',scoped.curriculum_id)) if value)
             value = await resources.retrieval.retrieve(RetrievalRequest(
                 routed.query.normalized_text, resources.pin.release_id, scope=scope+resources.document_scope,
-                document_version_ids=tuple(s.version_id for s in resources.pin.sources)),
+                # Only document versions hold chunks; curriculum sources are for Prolog.
+                document_version_ids=tuple(dict.fromkeys(d.version_id for d in resources.pin.documents))),
                 **(_topic_intent(routed.proposed) if resources.topics else {}))
             if type(value) is not DocumentResult:
                 raise ValueError('typed_document_result_required')
