@@ -128,3 +128,24 @@ withheld/clarify. After the fix: 17 answered, 0 wrong or misleading.
 Timing (warm backend): document answers median 31.5 s, Prolog 20.1 s, max 38.6 s. The
 retrieval stage (query embedding + hosted Supabase round trip) median 0.87 s, max 2.93 s
 (run 5 stand-in: 0.35 s). Excluded: browser, API, queueing, cold start.
+
+## Run 9 (hosted 39-curriculum release, router v15), 23 October 2026
+
+Code `6dad1af` (retrieval version-id fix `b26de19`; an earlier attempt is quarantined, another was
+stopped by the host for low memory after 2 cases). 63 cases once each: 19 answered (baseline run 7+8:
+17), 22 clarification, 22 insufficient; 0 system errors, 0 wrong or invented answers (author reading).
+New correct answers: Architecture AD-2/L en/tl/taglish ineligible (TOA-1/L not passed, BSA ledger)
+and special-class fee example en/taglish (printed 20,000.00). Safe changes: CC5 under the proposed
+curriculum and Criminology CDI 6/7 (tl) now unknown with the missing completion named; vehicle-sticker
+replacement questions end as insufficient evidence instead of clarification.
+**Pass condition failed: 3 run 8 correct answers lost.**
+- `cs-cc5-failed-cc4-en@bscs-2018-2019` (was ineligible): under v15 the model quoted
+  "I am a Computer Science student." as a program mention and omitted the CC5/CC4 course mentions its
+  operation and claim refer to; both attempts identical -> `invalid_course_quote_reference` -> clarify.
+- `overload-conditions-taglish`: v15 quoted "Graduating undergraduate sa last semester" as a
+  curriculum mention; it resolves to nothing -> `unresolved_entity` clarify on a handbook-only question.
+- `pre-enrollment-first-step-tl`: duplicated part asking also for an enrollment deadline not in the
+  evidence -> insufficient (safe; model output variation).
+Both routing losses reproduced deterministically in an uncounted probe. Timing (warm backend):
+document answers median 32.2 s, Prolog 28.3 s (context 20.8 s); retrieval median 0.84 s.
+Raw: workspace `audit-evidence/p09-real-data-20261021/roster9/`.
