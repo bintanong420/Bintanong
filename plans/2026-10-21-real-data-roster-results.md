@@ -92,3 +92,22 @@ document median **34.7 s** (run 2: 45.2 s; run 1: 54.8 s); CC5 Prolog answers me
 - Owner decision (22 October 2026): keep run 5's safe behaviour. An honest 'not enough
   evidence' is preferred over a misleading number; the withheld fee-example answers are a
   disclosed limitation of the 4B router.
+
+## #3 (reply style) - run 6, 22 October 2026
+
+Diagnosis from run 3's rendered headers: `cheating-first-offense-taglish` was labelled
+English-only by the style call; `natural-u1/u2` clarifications fell back to English even
+for pure Filipino because a failed-routing clarification never ran the style call; about
+nine Taglish questions were labelled Filipino (formal header, Taglish-ish claims).
+Owner approved (22 October 2026) both fixes in `e53153b`: an English-only label on a
+question with an everyday Filipino function word becomes Taglish (offline check: 0/21
+English roster questions affected), and an invalid-reference clarification gets one style
+call. Fil-versus-Taglish stays the model's choice (Phase 07 prompt variants regressed).
+
+Run 6 (9 cases: cheating and natural-u1/u2 in en/tl/taglish; container restarted first):
+cheating-taglish now answers in Taglish with the same correct content; `natural-u1-tl`
+clarifies in Filipino; English controls stay English; 0 system errors, 0 wrong answers.
+`natural-u1-taglish` and `natural-u2-tl/taglish` now end as insufficient evidence instead of
+clarification (safe; per-student amount is not stated). `natural-u1-taglish` is still
+labelled Filipino (remaining fil/taglish limitation). Raw: workspace
+`audit-evidence/p09-real-data-20261021/roster6/`.

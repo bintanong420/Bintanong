@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 21 October 2026. Phase 09 active on p09 / `feat/p09-generation-validation`.
+Updated 22 October 2026. Phase 09 active on p09 / `feat/p09-generation-validation`.
 [Checkpoint](../phase-09-checkpoint.md) | [Per-part decision](../2026-10-21-per-part-generation-decision.md).
 Last full snapshot before this replacement: `0a08d8d:plans/plan_current_progress/current_progress.md`.
 
@@ -67,6 +67,10 @@ grade 1.0 = 98-100 Excellent from Handbook p.46. Task 4 roster (63 real cases x2
 see [results](../2026-10-21-real-data-roster-results.md). Router errors now clarify
 (`c8a25f5`); checker 12.4->4.6 s (`6d639f5`); line-break ban + compact topic schema.
 Roster run 3: 0 system errors, doc median 34.7 s, CC5 21.6 s ([latency](../2026-10-21-latency-research-and-budget.md)).
+#3 style (`e53153b`, owner-approved): Filipino function word overrides an English-only
+label to Taglish; failed-reference clarifications run the style call. Run 6: cheating-
+Taglish now Taglish, natural-u1-tl clarifies in Filipino, English unchanged. Next: owner
+picks latency levers or Phase 09 exit reassessment; full suite on `e53153b` still owed.
 #2: owner kept the safe version (`d8d5220`, run 5): 0 wrong answers, 3 fee-example answers
 withheld (disclosed). Restart the model container before long runs (cache memory growth). Against the exit map: interpretation
 and completeness are now evidenced on the four fixtures; still open are the
@@ -80,6 +84,6 @@ Separate follow-up: answer verified parts while naming an unavailable part.
 Undergraduate scope, read-only advisory, source-gap, privacy, institutional
 release and one-week improvement boundaries unchanged. Accepted 75 variants and
 the held if/kung policy are unchanged. No activation, push, training, dependency
-or DB change. Phase 09 active; Phase 10 not started. Context consulted this
+or DB change. Phase 09 active; Phase 10 not started. Context consulted 22 Oct
 resume: thesis physical 17-18 (Scope and Limitations) and the routing PNG; no
 discrepancy.

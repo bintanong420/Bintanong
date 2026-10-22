@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 122
+sequence: 123
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6c14755
+head_commit: e53153b
 working_tree: clean
-updated_at: 2026-10-21T23:30:00+08:00
+updated_at: 2026-10-22T12:00:00+08:00
 ---
 
 # Phase 09 checkpoint - per-part generation observed on the actual model
@@ -48,7 +48,7 @@ Models live at `C:/Coding-projects/bintanong_workspace/MODELS` (docs fixed `04df
 
 ## Repository State
 
-Branch `feat/p09-generation-validation`, HEAD `6c14755` plus this checkpoint commit;
+Branch `feat/p09-generation-validation`, HEAD `e53153b` plus this checkpoint commit;
 clean tree, nothing pushed. Existing CUDA container `bintanong-p09-cuda-latency`
 running. No dependency, Supabase, source or institutional change; research mode
 serves reviewed data through the read-only PackageStorage stand-in.
@@ -91,19 +91,15 @@ Student end-to-end latency remains unmeasured. Phase 09 exit still held.
 
 ## Next Action
 
-Owner kept the safe #2 version (run 5, `d8d5220`). Owner picks one of these next (ask first):
-
-1. **#3 Taglish style labelling.** English-heavy Taglish questions (e.g. accepted
-   `cheating-first-offense-taglish`: "Undergraduate cheating sa exam, first offense: ano ang
-   consequence sa handbook?") are labelled English by the router's separate style call
-   (`backend/bintanong_routing/style.py`) and answered in English. Content is correct.
-2. **Remaining latency levers** (see [latency budget](2026-10-21-latency-research-and-budget.md)):
-   (a) allow llama.cpp prompt caching for the static router prefix (~4,950-token prompt;
-   `cache_prompt=False` today in `backend/bintanong_routing/transport.py`); (b) drop router
-   free-text fields `intent`/`reason` if no code uses them; (c) fold the style call into
-   routing only if quality holds. Each needs a full roster re-run; accuracy first.
-3. **Phase 09 exit reassessment** against `plans/2026-10-21-phase09-remaining-work-and-exit-map.md`
-   and the Phase 09 plan, then the final handoff via the handoff skill.
+#3 style done (`e53153b`, owner-approved 22 Oct): English-only label + Filipino function
+word -> Taglish; invalid-reference clarifications get one style call. Run 6 (9 cases)
+fixed both targets with no lost answers ([results](2026-10-21-real-data-roster-results.md)).
+Remaining style limit: some Taglish questions are labelled Filipino (model choice, kept).
+Owner picks next (ask first): **remaining latency levers** (router prompt cache, drop
+router `intent`/`reason`, fold style into routing; each needs a full roster re-run) or
+**Phase 09 exit reassessment** against `plans/2026-10-21-phase09-remaining-work-and-exit-map.md`
+then the final handoff. A full-suite run on `e53153b` is still owed before closeout.
+Context consulted 22 Oct resume: thesis physical 17-18 and the routing PNG; no discrepancy.
 
 How to resume real-data work: test Python is
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`
