@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 139
+sequence: 140
 plan: plans/phase-09-generation-validation-plan.md
 head_commit: e4bd8bd
 working_tree: clean
-updated_at: 2026-10-23T23:00:00+08:00
+updated_at: 2026-10-24T01:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -61,10 +61,8 @@ Owner asked for this handoff on 22 Oct so the session can be cleared; resume fro
 - College of Arts and Humanities complete (AB Comm, AB PhilStud, AB PolSci, BS Psych Clinical + IO,
   BS Social Work); repeated printed codes cataloged for clarification (`8f024d7`, `dc58a4d`).
   Hosted now holds 14 curricula. Loader picks up any `p09-program-reviews/<name>` ledger.
-- CBA in progress: BSE Agri / Franchising / Innovation-Tech, BSBA FM / Business Economics / Marketing
-  reviewed and loaded (hosted: 20 curricula). Owner rules added: self-reference = source gap; printed
-  "None" = verified no prerequisite. Remaining CBA: BS Management Accounting, BS Accountancy (curriculum
-  on page 3 of a brochure PDF; `spec.page = 2`), BSBA-HRM (page 2 blank).
+- CBA complete (9 programs incl. BS Accountancy from PDF page 3, BSBA-HRM page 1). Owner rules added:
+  self-reference = source gap; printed "None" = verified no prerequisite. Hosted: 23 curricula.
 - /doctor 23 Oct: AGENTS.md history moved to `plans/owner-decisions-ledger.md`; Claude
   attribution trailers removed from unpushed commits (owner: never add them).
 
@@ -110,15 +108,15 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Known Failures or Blockers
 
-- Reviewed and loaded: CAD, CCJE, College of Sciences, CAH, 6 of 9 CBA (20 curricula). Remaining: CBA 3,
-  CHTM 3, CNHS 2, CoE 4, CTE 7; multi-page Accountancy, BSBA-HRM, Nursing need an owner question (new layout) (39 PDFs in
+- Reviewed and loaded: CAD, CCJE, College of Sciences, CAH, CBA (23 curricula). Remaining: CHTM 3,
+  CNHS 2 (Nursing 2 pages), CoE 4, CTE 7; multi-page Accountancy, BSBA-HRM, Nursing need an owner question (new layout) (39 PDFs in
   `Bintanong/dataset/PalSU Undergraduate Prospectus Website Dump/Tiniguiban - Main/`).
 - Course facts/rules are not in Supabase yet (tables `programs`, `curriculum_versions`, `courses`,
   `course_aliases`, `policy_rules`, `rule_source_spans` exist, empty).
 
 ## Next Action
 
-Finish CBA (BSMA; Accountancy page 3 = `spec.page 2`; BSBA-HRM page 1), then CHTM, CNHS (Nursing 2 pages), CoE, CTE. Per program: `draft_program.py`,
+Continue with CHTM, CNHS (Nursing 2 pages), CoE, CTE. Per program: `draft_program.py`,
 read the page crops, spec, `author_program.py`, `record.py`, `load_curricula.py hosted <name>`,
 commit without trailers. Before the next counted roster run, update its protocol to the hosted
 multi-curriculum release.
