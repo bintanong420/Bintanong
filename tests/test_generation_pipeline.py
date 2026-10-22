@@ -57,8 +57,13 @@ def test_scope_clarification_names_the_information_the_student_must_supply(
     from backend.bintanong_routing.contracts import RequestContext
     from test_routing_contracts import context
     async def scenario():
+        # Two reviewed editions of the program, so a missing curriculum is never chosen for the student.
+        base=resources()
+        second=next(c for c in base.catalog if c.kind=='curriculum').model_copy(
+            update={'entity_id':'curriculum-other','curriculum_id':'curriculum-other','aliases':('Edition Other',)})
+        two=ports().ReleaseResources(base.pin,(*base.catalog,second),base.registry,base.retrieval,base.symbolic)
         executor=orchestration().Orchestrator(transport(language=language),
-            releases=ports().SyntheticReleaseProvider(resources()))
+            releases=ports().SyntheticReleaseProvider(two))
         pipeline=generation().AnswerPipeline(executor,generation().Generator(EchoEvidence(),explanation_profile='legacy'))
         request=RequestContext.parse(context(**{missing:None}))
         answer=await pipeline.run('A1 policy',request)
