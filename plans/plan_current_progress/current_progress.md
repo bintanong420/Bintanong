@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 22 October 2026. Phase 09 reopened on p09 / `feat/p09-generation-validation`.
+Updated 23 October 2026. Phase 09 reopened on p09 / `feat/p09-generation-validation`.
 [Checkpoint](../phase-09-checkpoint.md) | [Per-part decision](../2026-10-21-per-part-generation-decision.md).
 Last full snapshot before this replacement: `0a08d8d:plans/plan_current_progress/current_progress.md`.
 
@@ -53,6 +53,10 @@ no-copying rule and a plain rewrite instruction on the style repair. Third
 observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
+
+23 Oct: roster run 10 PASS on hosted 39 curricula + router v15 (21/63 answered, 0 wrong, 0 errors)
+after fixes `b26de19` (retrieval version ids) and `0d69381` (owner "host fixes" for router v15
+mention losses); full suite 6188 passed. Next: owner picks the next task (see checkpoint).
 
 24 Oct: ALL 39 prospectus curricula reviewed and loaded to hosted Supabase (CoE + CTE done last).
 Next: full suite + hosted multi-college wiring check.

@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 146
+sequence: 147
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6dad1af
+head_commit: 8223365
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -124,15 +124,13 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-23 Oct resume (Claude): full suite at `e832b9a` 6183 passed, 6 skipped. Run 9 protocol fixed
-(`b3d8a15`); first attempt quarantined (all 39 prospectus versions sent as retrieval version ids,
-limit 32 -> every document question `invalid_output`); fixed in `b26de19` (document versions only,
-TDD regression in `tests/test_orchestration_pipeline.py`). Counted run 9 restarted at `6dad1af`
-(workspace `audit-evidence/p09-real-data-20261021/roster9/`); that attempt was stopped by Claude Code
-after 2 cases (both answered) because the machine ran low on memory - not a code failure. Next: with
-the owner's go-ahead and free memory, restart run 9 from case 1 into a fresh folder, then read run 9 against run 8, record
-results in the roster results file, then rerun the full suite. Context consulted this resume: thesis
-physical 17-18 and the routing PNG; no discrepancy.
+23 Oct: roster on the hosted 39-curriculum release, router v15. Run 9 (`6dad1af`, after retrieval
+version-id fix `b26de19`) lost 3 answers; owner chose host router fixes (`0d69381`: forgotten course
+mentions added; unmatched scope phrases ignored on handbook questions). Full suite 6188 passed;
+run 10 PASS: 21/63 answered, 0 wrong, 0 system errors ([results](2026-10-21-real-data-roster-results.md)).
+Next: ask the owner what to do next (e.g. Phase 09 exit reassessment for the hosted multi-curriculum
+release, the remaining pre-enrollment-tl insufficient case, or latency). Context consulted this resume:
+thesis physical 17-18 and the routing PNG; no discrepancy.
 
 ## Do Not Repeat
 

@@ -149,3 +149,15 @@ replacement questions end as insufficient evidence instead of clarification.
 Both routing losses reproduced deterministically in an uncounted probe. Timing (warm backend):
 document answers median 32.2 s, Prolog 28.3 s (context 20.8 s); retrieval median 0.84 s.
 Raw: workspace `audit-evidence/p09-real-data-20261021/roster9/`.
+
+## Run 10 (router host fixes `0d69381`), 23 October 2026 - PASS
+
+Same 63 cases once each on the hosted 39-curriculum release. 21 answered, 20 clarification, 22
+insufficient; 0 system errors, 0 wrong or invented answers (author reading). Versus run 9 only three
+cases changed: overload-conditions-taglish answered again (not more than 6 units, not over 28;
+Handbook p.62); CC5 en with the old BSCS curriculum ineligible again (CC 4/L not completed, CC 3/L
+unknown); CC5 en with the proposed curriculum now reaches Prolog and stays unknown (safe). Every run 9
+answer kept. Still not answered: pre-enrollment-first-step-tl (insufficient, safe; disclosed).
+Full suite before the run: 6188 passed, 6 skipped. Timing (warm backend): document answers median
+34.1 s (max 45.5), Prolog 28.9 s, context 20.5 s; retrieval median 0.87 s. Excluded: browser, API,
+queueing, cold start. Raw: workspace `audit-evidence/p09-real-data-20261021/roster10/`.
