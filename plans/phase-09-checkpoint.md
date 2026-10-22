@@ -122,7 +122,7 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-Continue with CNHS (Nursing 2 pages), CoE, CTE. Per program: `draft_program.py`,
+Continue with CoE (4), then CTE (7). Per program: `draft_program.py`,
 read the page crops, spec, `author_program.py`, `record.py`, `load_curricula.py hosted <name>`,
 commit without trailers. Before the next counted roster run, update its protocol to the hosted
 multi-curriculum release.
