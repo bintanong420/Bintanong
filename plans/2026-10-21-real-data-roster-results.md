@@ -161,3 +161,17 @@ answer kept. Still not answered: pre-enrollment-first-step-tl (insufficient, saf
 Full suite before the run: 6188 passed, 6 skipped. Timing (warm backend): document answers median
 34.1 s (max 45.5), Prolog 28.9 s, context 20.5 s; retrieval median 0.87 s. Excluded: browser, API,
 queueing, cold start. Raw: workspace `audit-evidence/p09-real-data-20261021/roster10/`.
+
+## Run 11 (topic-menu not-stated fix `bca2600`), 23 October 2026 - FAIL (2 wrong)
+
+63 cases once each: 26 answered, 20 clarification, 17 insufficient; 0 system errors; no run 10 answer
+lost. New correct answers: pre-enrollment-first-step en/tl (Enrolling Officer, fee None, 5 minutes,
+College Enrollment Area; Charter step 1) and special-class example tl (20,000.00).
+**Wrong:** `natural-u2-en` ("The amount printed for the student is 20,000.00 PHP") and
+`natural-u2-taglish` ("Ang babayaran per student ay 20,000.00 PHP"): the printed class example is
+presented as each student's share, which the source does not state (owner rule 22 Oct: withhold).
+Cause: before the fix the menu offered "GCash permission" as answerable; the router copied it and the
+policy withheld every special-class per-student question by accident. With GCash correctly offered as
+not stated, the router requests only the printed example and the 4B model does not pick "official
+individual student assessment". The earlier safe result was a side effect of the same menu bug.
+Timing: document answers median 32.4 s, Prolog 27.6 s. Raw: `roster11/`.
