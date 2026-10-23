@@ -32,20 +32,26 @@ class ConfirmRequest(BaseModel):
     decisions: list[_Decision] = Field(min_length=1, max_length=256)
 
 
-def upload_router(services, turns: ChatTurns, max_upload_bytes: int) -> APIRouter:
+def upload_router(services, turns: ChatTurns, max_upload_bytes: int, max_parallel: int) -> APIRouter:
     router = APIRouter()
     sessions, labels = services.sessions, services.course_labels
+    active = [0]  # uploads in progress; changed only on the event loop, so no lock is needed
 
     @router.post('/uploads')
     async def create_upload(request: Request, programId: str | None = None, curriculumId: str | None = None,
                             session: Session = Depends(require_session)) -> dict:
         program_id, curriculum_id = turns.checked_scope(programId, curriculumId, required=True)
+        if active[0] >= max_parallel:
+            raise ApiError(503, 'uploads_busy')
+        active[0] += 1
         try:
             data = await read_capped(request.stream(), max_upload_bytes)
             sniff_type(data)
             result = await run_in_threadpool(services.extract_rows, data, program_id, curriculum_id)
         except UploadRejected as rejected:
             raise ApiError(413 if rejected.reason == 'too_large' else 422, rejected.reason) from None
+        finally:
+            active[0] -= 1
         upload_id = sessions.set_pending(session.credential, result)
         return {'uploadId': upload_id, 'unmatchedLines': result.unmatched_lines,
                 'rows': [{'rowId': r.row_id, 'printedCode': r.code_text, 'marks': list(r.marks),

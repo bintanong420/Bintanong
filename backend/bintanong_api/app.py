@@ -23,6 +23,7 @@ __all__ = ['ApiServices', 'ApiSettings', 'create_app', 'require_session']
 class ApiSettings:
     allowed_origins: tuple[str, ...]
     max_upload_bytes: int = MAX_UPLOAD_BYTES
+    max_parallel_uploads: int = 2  # each upload starts a parser process
 
 
 @dataclass(frozen=True)
@@ -39,7 +40,7 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     app = FastAPI(title='Bintanong API', version='0.0.0', dependencies=[Depends(check_origin)])
     app.state.services, app.state.settings = services, settings
     turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
-    app.include_router(upload_router(services, turns, settings.max_upload_bytes))
+    app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
     app.add_api_route('/health/live', health_live, methods=['GET'])
     app.add_api_route('/health/ready', health_ready, methods=['GET'])
 

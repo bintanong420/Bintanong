@@ -123,6 +123,31 @@ def test_signed_bytes_reach_the_isolated_extractor_unparsed():
     assert seen == [b'%PDF-1.7 truncated']
 
 
+def test_uploads_past_the_parallel_limit_are_refused_as_busy():
+    # Security review S6: each upload starts a parser process, so their number is bounded.
+    import threading
+    started, release = threading.Event(), threading.Event()
+
+    def blocking(data, program_id, curriculum_id):
+        started.set()
+        release.wait(10)
+        return extract(data, program_id, curriculum_id)
+    store = SessionStore()
+    app = create_app(ApiServices(sessions=store, curricula=CURRICULA, extract_rows=blocking, course_labels=LABELS),
+                     ApiSettings(allowed_origins=(ORIGIN,), max_parallel_uploads=1))
+    first = []
+    with client(app) as c:
+        worker = threading.Thread(target=lambda: first.append(upload(c)))
+        worker.start()
+        assert started.wait(10)
+        busy = upload(client(app))
+        release.set()
+        worker.join(10)
+        after = upload(c)
+    assert (busy.status_code, busy.json()) == (503, {'error': 'uploads_busy'})
+    assert first[0].status_code == 200 and after.status_code == 200
+
+
 def test_extractor_refusal_is_a_typed_error():
     def refuse(*_):
         raise UploadRejected('photo_ocr_unavailable')
