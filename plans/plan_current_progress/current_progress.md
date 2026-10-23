@@ -19,8 +19,8 @@ Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress
 
 ## Next action
 
-Task 1: write the failing session-store isolation tests, then implement
-`backend/bintanong_private_context/sessions.py`.
+Task 1 (session store) done: 17 tests; full suite 6218 passed, 6 skipped. Next, task 2: D4 api-extra pins + uv lock in the
+uv container (no version change), then upload validation test-first.
 
 ## Boundaries
 

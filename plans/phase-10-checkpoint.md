@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 10
 status: in_progress
-sequence: 1
+sequence: 2
 plan: plans/phase-10-private-files-session-plan.md
-head_commit: ccc3cea
-working_tree: dirty
-updated_at: 2026-10-23T18:30:00+08:00
+head_commit: 4d596be
+working_tree: clean
+updated_at: 2026-10-23T19:10:00+08:00
 ---
 
-# Phase 10 checkpoint - started; step 1 (session store) next
+# Phase 10 checkpoint - task 1 (session store) done; task 2 next
 
 ## Completed Tasks
 
@@ -23,22 +23,32 @@ updated_at: 2026-10-23T18:30:00+08:00
   no version or integrity changed. Restored with `git restore`. The external
   `bintanong_workspace/orca-worktree-setup.ps1` now runs `npm ci`, which never rewrites the lock.
 
+- Task 1 session store: `backend/bintanong_private_context/sessions.py` + `tests/test_private_context_sessions.py`
+  (17 tests: cross-session facts, foreign-fact rejection, malformed/session-id-as-credential, idle expiry,
+  activity extension, delete, wipe/restart, bound after purge, no raw credential in memory). RED was a missing
+  module; mutations (no foreign check, no expiry, raw-credential keys) each failed 1/1/8 tests.
+
 ## Current Task
 
-Step 1: session store (`backend/bintanong_private_context/sessions.py`), test first.
+Task 2: D4 dependency wiring, then upload validation, test first.
 
 ## Repository State
 
-Branch `feat/p10-private-files-pipeline` at `ccc3cea`. Not pushed. The dirty files are this phase's plan,
+Branch `feat/p10-private-files-pipeline`; task 1 committed. Not pushed. Clean after the checkpoint commit.
 checkpoint, INDEX, progress and ledger edits.
 
 ## Verification Evidence
 
-None yet for Phase 10 code. Inherited baseline: 6201 passed, 6 skipped (Phase 09 handoff, `59e294b` tree).
+Full suite (task 1 tree): `PYTHONUTF8=1 <venv python> -X utf8 -B -m pytest -q -p no:cacheprovider tests
+--basetemp=audit-evidence/p10-20261023/pytest-full`: 6218 passed, 6 skipped, 1552 subtests, 19m33s.
+Without UTF-8 mode, the Windows CLI-help tests fail on encoding (known environment issue). No linter is
+installed (no ruff on the host or in the venv); this is disclosed rather than run.
 
 ## Versions and Digests
 
 Python 3.13.7; FastAPI 0.141.1; pypdfium2 5.13.0 and Pillow 12.3.0 locked (to be added to `api`, D4).
+The shared test venv has pypdfium2 5.14.0, while uv.lock pins 5.13.0 (venv drift; the api image follows the lock).
+uv is not on the host; the lock refresh uses the api Dockerfile's `ghcr.io/astral-sh/uv:0.12.17`.
 Node 24.21.0 / npm 11.19.0. Frontend `npm audit`: 3 pre-existing findings (2 high, 1 critical, incl.
 source-map-js); not changed this phase without owner instruction.
 
@@ -56,8 +66,9 @@ D4 resolved it.
 
 ## Next Action
 
-Write the failing session-store isolation tests (task 1), then implement `SessionStore`.
+Task 2: add pypdfium2==5.13.0 and pillow==12.3.0 to the `api` extra and run `uv lock` in the uv 0.12.17 container,
+confirming no locked version changes. Then write the failing upload-validation tests.
 
 ## Do Not Repeat
 
-Pre-phase research, D1-D4 questions, environment/lockfile check, Context reading for this resume.
+Task 1 session store, pre-phase research, D1-D4 questions, environment/lockfile check, Context reading for this resume.
