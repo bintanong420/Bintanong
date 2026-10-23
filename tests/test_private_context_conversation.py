@@ -89,3 +89,21 @@ def test_conversation_context_is_isolated_and_deleted_with_its_session():
     assert store.resolve(a.credential).conversation == previous()
     store.delete(a.credential)
     assert store.resolve(a.credential) is None
+
+
+def test_orchestrator_hands_the_routed_result_to_the_host_for_capture():
+    import asyncio
+    from test_orchestration_pipeline import api, ports, resources, ctx, transport
+    routed = []
+    provider = ports().SyntheticReleaseProvider(resources())
+    result = asyncio.run(api().Orchestrator(transport(), releases=provider).run('A1', ctx('a', 'passed'),
+                                                                               routed_sink=routed.append))
+    assert result.status == 'ready' and len(routed) == 1
+    assert capture(routed[0]) == previous()
+
+
+def test_orchestrator_without_a_sink_behaves_as_before():
+    import asyncio
+    from test_orchestration_pipeline import api, ports, resources, ctx, transport
+    provider = ports().SyntheticReleaseProvider(resources())
+    assert asyncio.run(api().Orchestrator(transport(), releases=provider).run('A1', ctx('a', 'passed'))).status == 'ready'

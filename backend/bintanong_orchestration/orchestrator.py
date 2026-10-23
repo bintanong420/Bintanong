@@ -60,7 +60,9 @@ class Orchestrator:
         self.stage_timeout = float(stage_timeout)
         self.routing_profile = routing_profile
 
-    async def run(self, text: str, context: RequestContext) -> IntegrationResult:
+    async def run(self, text: str, context: RequestContext, *, routed_sink=None) -> IntegrationResult:
+        """routed_sink, when given, receives the routing result so the owning host can capture
+        session-only conversation context (master 23); nothing is kept here."""
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
@@ -170,6 +172,8 @@ class Orchestrator:
         routed, failure = await stage('routing', route_request)
         if failure:
             return finish(failure)
+        if routed_sink is not None:
+            routed_sink(routed)
         route, style = routed.decision.route, routed.response_style
         if routed.decision.control is not None:
             return finish(routed.decision.control, missing=routed.decision.missing_facts)
