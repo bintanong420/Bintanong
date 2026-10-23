@@ -56,8 +56,8 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 23 Oct (handoff for /clear): run 10 PASS (21/63, 0 wrong); run 11 FAIL (topic-menu fix exposed two
 per-student fee answers); owner chose host per-person cue guard (`4fad98a`), uncounted check 8/8.
-Full suite + counted run 12 were running in the background at handoff. Resume from the
-[checkpoint](../phase-09-checkpoint.md) Next Action: verify run 12, then the latency profile.
+Full suite 6194 passed; run 12 PASS (24/63 answered, 0 wrong, 0 errors). Resume from the
+[checkpoint](../phase-09-checkpoint.md) Next Action: the latency profile.
 
 ## Boundaries
 

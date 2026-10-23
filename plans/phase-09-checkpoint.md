@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 149
+sequence: 150
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 87cde4a
+head_commit: 477baa9
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -133,12 +133,9 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 - `4fad98a` owner "Fix keeps both": host-only per-person cues (`research.PER_PERSON`) add "official
   individual student assessment" to a part asking one person's amount -> withheld. Uncounted check 8/8
   as intended. Decision in `owner-decisions-ledger.md`; run 12 protocol committed (`87cde4a`).
-- RUNNING at handoff (background): full suite -> workspace `audit-evidence/p09-fullsuite-20261023/full3.log`,
-  then counted run 12 -> `audit-evidence/p09-real-data-20261021/roster12/` (+ `roster12.log`, 63 lines when done).
-  If the job died (log short / no results), rerun the same commands (see Verification Evidence).
-Next: 1) read full3.log tail; 2) compare run 12 vs run 11 (`compare11.py` pattern: copy with roster11 ->
-roster12 names), read EVERY newly answered case against the source, record in the roster results file;
-3) then latency (owner-approved plan): run workspace `p09-real-data-20261021/latency_profile11.py`
+- Full suite 6194 passed; run 12 PASS: 24/63 answered, 0 wrong, 0 system errors (only natural-u2
+  en/taglish changed, now withheld). Results recorded in the roster results file.
+Next: then latency (owner-approved plan): run workspace `p09-real-data-20261021/latency_profile11.py`
 (HOSTED=1, from the repo root) for per-call tokens/timings on 6 cases; routing LLM ~18-22 s and answer
 LLM ~15 s dominate (run 10); target 15-20 s browser end-to-end (unmeasured; no API/UI yet).
 Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:

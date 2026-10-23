@@ -175,3 +175,12 @@ policy withheld every special-class per-student question by accident. With GCash
 not stated, the router requests only the printed example and the 4B model does not pick "official
 individual student assessment". The earlier safe result was a side effect of the same menu bug.
 Timing: document answers median 32.4 s, Prolog 27.6 s. Raw: `roster11/`.
+
+## Run 12 (per-person cue guard `4fad98a`), 23 October 2026 - PASS
+
+Full suite first: 6194 passed, 6 skipped. 63 cases once each: 24 answered, 20 clarification, 19
+insufficient; 0 system errors, 0 wrong or invented answers. Versus run 11 only the two wrong answers
+changed: natural-u2 en/taglish now insufficient evidence (natural-u2-tl already was). Every other run
+11 answer kept, including pre-enrollment first step en/tl and the fee example en/tl/taglish (20,000.00).
+Timing (warm backend): document answers median 34.3 s (max 43.3), Prolog 28.7 s, context 21.7 s;
+retrieval median 0.92 s. Raw: workspace `audit-evidence/p09-real-data-20261021/roster12/`.
