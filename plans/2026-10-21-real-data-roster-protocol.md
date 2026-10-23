@@ -123,3 +123,13 @@ workspace `roster13.py roster13` (= roster9 plus `PREFIX_CACHE=1` -> `prefix_cac
 profile `p09-greedy-prefix-cache-v1`), `HOSTED=1`, container restarted first. Compare with run 12
 (no reuse). Pass: same answered/withheld outcome per case or only explained safe changes, 0 wrong or
 invented answers, system errors not increased. Timing reported against run 12 (warm backend only).
+
+## Run 14 (router wire v3, prompt v16), fixed 23 October 2026 before running
+
+Code: the router wire-v3 commit (parent of this protocol commit): the model no longer writes the
+free-text `intent` and `reason` fields (owner chose "shorter router output" for latency). Same 63
+cases, runner workspace `roster13.py roster14` with `PREFIX_CACHE=1` (the runtime default),
+`HOSTED=1`, container restarted first. Compare with run 13. Pass: 0 wrong or invented answers, no
+run 13 correct answer lost, system errors not increased, any other outcome change explained and
+safe. Timing (router call output tokens, document/Prolog medians) reported against run 13, warm
+backend only. Not an accuracy rate or SLA. A failure keeps prompt v15/wire v2 as the default.
