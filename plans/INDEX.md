@@ -18,9 +18,11 @@
 - Phase **09 complete (second closeout, 23 Oct, owner direction)** after the hosted Supabase reopening
   ([plan](2026-10-22-hosted-supabase-integration-plan.md)); [Plan](phase-09-generation-validation-plan.md) ·
   [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md). Run 14 PASS.
-- Phase **10 active** (started 23 Oct) in p10/`feat/p10-private-files-pipeline`: private files and session context.
-  [Plan](phase-10-private-files-session-plan.md) · [Checkpoint](phase-10-checkpoint.md) ·
-  [Pre-phase research](2026-10-23-phase-10-pre-phase-research.md) (D1-D4 answered/deferred, see ledger).
+- Phase **10 complete (23 Oct, owner-approved with disclosures)**: private files and session context.
+  [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
+  [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
+  [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported). No active phase; next permitted: Phase 11
+  (master 16 + 23.3) after its pre-phase research and the owner's go.
   Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged; owner-requested addendum section 23 (conversational follow-ups, 23 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
@@ -35,11 +37,11 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress, the Phase10 checkpoint/plan, Phase09 final handoff; master 15 and 23;
+2. Read current progress, the Phase10 final handoff; master 16 and 23;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. Resume the Phase10 checkpoint's next action; preserve all inherited release holds.
+5. Run can-advance, do Phase11 pre-phase research; preserve all inherited release holds.
 
 ## Phase ledger
 
@@ -58,7 +60,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 7 | Multilingual NLP and LLM routing | complete offline software/research;two style errors disclosed;institutional release held | [Plan](phase-07-multilingual-routing-plan.md) | [Superseded](phase-07-checkpoint.md) | [Complete](phase-07-handoff.md) |
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
 | 9 | Generation/validation | complete offline research/software on hosted 39-curriculum release; eight limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
-| 10 | Private files and session context | in progress | [Plan](phase-10-private-files-session-plan.md) | [Checkpoint](phase-10-checkpoint.md) | none |
+| 10 | Private files and session context | complete offline research/software; photos unsupported; HTTP wiring in Phase 11; institutional release held | [Plan](phase-10-private-files-session-plan.md) | [Superseded](phase-10-checkpoint.md) | [Complete](phase-10-handoff.md) |
 
 ## Read only when relevant
 
@@ -82,4 +84,4 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
-Latest full snapshots:Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

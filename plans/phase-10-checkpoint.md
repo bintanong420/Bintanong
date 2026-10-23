@@ -1,15 +1,15 @@
 ---
 artifact: phase-checkpoint
 phase: 10
-status: in_progress
-sequence: 4
+status: superseded
+sequence: 5
 plan: plans/phase-10-private-files-session-plan.md
-head_commit: e6e420f
+head_commit: 193ab7b
 working_tree: clean
-updated_at: 2026-10-23T23:30:00+08:00
+updated_at: 2026-10-24T01:30:00+08:00
 ---
 
-# Phase 10 checkpoint - tasks 1-4 done; task 5 (photo OCR) needs D1/D2; exit work after
+# Phase 10 checkpoint - superseded by the final handoff
 
 ## Completed Tasks
 
@@ -35,12 +35,12 @@ updated_at: 2026-10-23T23:30:00+08:00
 
 ## Current Task
 
-Task 5 (photo OCR) is gated on owner decisions D1 (onnxruntime CPU/GPU, Docling pin) and D2 (Gemma vision
-measurement), which were deferred to this step.
+None. Phase 10 is closed; see [final handoff](phase-10-handoff.md). Task 5 is done as a probe (D1 CPU onnxruntime),
+and photos are unsupported. Exit work is done: isolation tests `48ee1f1`, worker and fact cap `193ab7b`.
 
 ## Repository State
 
-Branch `feat/p10-private-files-pipeline` at `e6e420f`. Not pushed. Ignored evidence is in
+Branch `feat/p10-private-files-pipeline` at `193ab7b` plus the closeout docs commit. Not pushed. Ignored evidence is in
 `audit-evidence/p10-20261023/` (multiturn1-5, roster15, suite logs, runners).
 
 ## Verification Evidence
@@ -69,15 +69,14 @@ restarted before run 15. Node 24.21.0 / npm 11.19.0. Frontend `npm audit`: 3 pre
 
 ## Known Failures or Blockers
 
-- Photo OCR is not built (D1/D2).
+- Photos unsupported after the probe (see the handoff).
 - Taglish follow-up host lines come out mostly in Filipino (the known Phase 09 limit).
 - D1/D2 document follow-ups withhold details outside the reviewed facts.
 - HTTP endpoints and cookie wiring are Phase 11.
 
 ## Next Action
 
-Ask the owner for D1/D2 (photo OCR). Then do the exit work: master 15.3 isolation-case mapping with any
-missing tests, a security review of `backend/bintanong_private_context/`, the full suite, and the handoff.
+Phase 11 pre-phase research (AGENTS.md), then the owner's go.
 
 ## Do Not Repeat
 

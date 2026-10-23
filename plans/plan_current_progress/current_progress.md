@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 23 October 2026. Phase 10 active (private files and session context); tasks 1-4 done.
+Updated 24 October 2026. Phase 10 complete (owner-approved with disclosures); no active phase.
 Branch p10 / `feat/p10-private-files-pipeline` from `ccc3cea`, nothing pushed.
 [Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
@@ -16,15 +16,16 @@ Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress
   main. `.claude/settings.local.json` copied from p09.
 - Multi-turn: the owner accepted F1-F7/F4b and asked for document follow-ups (D1-D4). Owner: most messages are
   not follow-ups, so stored context never binds an unrelated question. Prechecks found and fixed 5 issues.
+- Task 5: the photo-OCR probe (onnxruntime CPU) found silent row misalignment on tilted photos, so photos
+  stay unsupported. Exit: isolation tests, a bounded child parser job and the fact cap were added before closing.
 - Lockfile churn from Orca's post-create `npm install` (npm 11.19 dropped 4 `"peer": true` metadata lines;
   no version change) was restored. The external Orca setup script now uses `npm ci`.
 
 ## Next action
 
-Tasks 1-4 are done. Counted multi-turn run 5 had 0 wrong carry-overs, and single-turn roster run 15 is
-identical to run 14 ([results](../2026-10-23-multi-turn-observation-results.md)). Next: owner decisions D1/D2 for
-photo OCR (task 5). Then exit: the master 15.3 isolation mapping, a security review of private_context, the full
-suite, and the handoff.
+Phase 10 is closed ([final handoff](../phase-10-handoff.md); final suite 6295 passed, 6 skipped, 0 failed). Next: Phase 11 pre-phase research (master 16 + 23.3).
+Then the owner summary and go. Then wire `POST /chat`, the cookie, uploads and `DELETE /session` onto the Phase 10
+backend.
 
 ## Boundaries
 
