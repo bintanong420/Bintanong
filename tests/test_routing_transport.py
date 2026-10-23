@@ -212,3 +212,18 @@ def test_unconstrained_output_keeps_line_breaks():
             await transport.infer([dict(role='user', content='hello')], {'type': 'object'})
         assert 'logit_bias' not in calls[-1][1]
     asyncio.run(run())
+
+
+def test_prefix_cache_profile_is_explicit_and_recorded():
+    # Owner, 23 Oct 2026 (latency): opt-in prompt reuse; the no-cache profile stays the default.
+    async def run():
+        handler, calls = handler_for()
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            transport = api().LlamaTransport('http://localhost', client=client, prefix_cache=True)
+            assert await transport.infer([], {}) == '{}'
+            assert calls[-1][1]['cache_prompt'] is True
+            assert transport.metadata['inference_profile'] == 'p09-greedy-prefix-cache-v1'
+            assert transport.metadata['cache_prompt'] is True
+    asyncio.run(run())
+    with pytest.raises(ValueError):
+        api().LlamaTransport('http://localhost', prefix_cache='yes')

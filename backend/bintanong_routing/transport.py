@@ -28,7 +28,7 @@ class RuntimeFailure(Exception):
 
 class LlamaTransport:
     def __init__(self, base_url, *, timeout_seconds=120, max_output_tokens=768,
-                 constrained=True, client=None):
+                 constrained=True, client=None, prefix_cache=False):
         if not math.isfinite(timeout_seconds) or timeout_seconds <= 0:
             raise ValueError('invalid_timeout')
         if type(max_output_tokens) is not int or not 1 <= max_output_tokens <= 4096:
@@ -37,6 +37,10 @@ class LlamaTransport:
         self.timeout_seconds = timeout_seconds
         self.max_output_tokens = max_output_tokens
         self.constrained = constrained
+        if type(prefix_cache) is not bool:
+            raise ValueError('invalid_prefix_cache')
+        # Opt-in prompt reuse (owner, 23 Oct 2026, latency); off keeps the reproducible evaluation profile.
+        self.prefix_cache = prefix_cache
         self._banned = {}  # chat-template digest -> banned token ids (resolved once)
         self._opener = {}  # chat-template digest -> thought-channel opener id, if banned
         self.client = client
@@ -93,7 +97,8 @@ class LlamaTransport:
                     chat_template_sha256=hashlib.sha256(template.encode()).hexdigest(),
                     max_output_tokens=self.max_output_tokens, timeout_seconds=self.timeout_seconds,
                     temperature=0, seed=0,
-                    inference_profile='p07-greedy-no-prefix-cache-v1', cache_prompt=False,
+                    inference_profile=('p09-greedy-prefix-cache-v1' if self.prefix_cache
+                                       else 'p07-greedy-no-prefix-cache-v1'), cache_prompt=self.prefix_cache,
                     reasoning_effort='none',
                     server_sampling_defaults={k:defaults[k] for k in SAMPLING_SETTING_KEYS if k in defaults},
                     constrained=self.constrained)
@@ -123,7 +128,7 @@ class LlamaTransport:
                     response_format['schema'] = schema
                 data = await self._json(client, 'POST', '/v1/chat/completions', dict(
                     messages=messages, temperature=0, seed=0, max_tokens=self.max_output_tokens,
-                    stream=False, response_format=response_format, reasoning_effort='none', cache_prompt=False,
+                    stream=False, response_format=response_format, reasoning_effort='none', cache_prompt=self.prefix_cache,
                     **extra))
                 choices = data['choices']
                 if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
