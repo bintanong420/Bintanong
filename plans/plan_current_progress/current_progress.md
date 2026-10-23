@@ -1,7 +1,8 @@
 # Current progress
 
-Updated 23 October 2026. Phase 11 starting (backend only, owner direction); no phase plan yet.
+Updated 23 October 2026. Phase 11 active (backend only, owner direction).
 Worktree p11 / branch `feat/p11-backend-api` from `dev` `cbaa6a7`, nothing pushed.
+[Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase 10 handoff](../phase-10-handoff.md).
 Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress/current_progress.md`.
 
@@ -21,9 +22,10 @@ Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress
 
 ## Next action
 
-Owner decisions O1-O5 in the research record (AI SDK major/deferral, photo OCR in `api`, `GET /curricula`, student
-render profile, symmetric style floor). Then write the Phase 11 plan and checkpoint and start step 2 (app factory,
-cookie session, CSRF guard, `DELETE /session`) test-first.
+Owner answered O1-O5 (ledger, 23 Oct): AI SDK v7 and master pins updated; OCR deps may join `api`; `GET /curricula`
+allowed; diagnostics out of student text; symmetric style floor. Owner supplied private grade samples (kept only in
+workspace `audit-evidence/p11-20261023/private-owner-samples/`; they hold a real student's name and ID).
+Next: task 1 RED (cookie session, CSRF, `DELETE /session` API tests).
 
 ## Boundaries
 

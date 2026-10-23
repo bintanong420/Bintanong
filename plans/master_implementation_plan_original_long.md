@@ -72,6 +72,21 @@ These are the **versions named in the thesis**, not a claim that they have alrea
 
 Source: [T, pp. 20, 76–79; U].
 
+**Current pins (owner request, 23 October 2026).** The thesis column above stays as the thesis record. What the
+repository actually pins or runs today:
+
+| Component | Pinned or running now | Evidence |
+| --- | --- | --- |
+| Backend language | Python 3.13.7 | shared test venv; Phase 10 handoff |
+| API | FastAPI 0.141.1 (native SSE since 0.135.0) | `backend/pyproject.toml`, `backend/uv.lock` |
+| Frontend | Next.js 16.3.5, React 19.3.0, Node 24.21.0 | `frontend/package.json` |
+| UI transport/state | Vercel AI SDK **v7** (`ai` 7.0.150 and `@ai-sdk/react` 4.0.154 were current on 23 Oct 2026). Owner decision: use the current major instead of 6.0.177. Not installed yet; pin the exact patch at install. UI message stream protocol v1 is the same in v6 and v7. | npm registry; `plans/2026-10-23-phase-11-pre-phase-research.md` |
+| UI components | shadcn/ui and Tailwind not installed yet (frontend design pending) | `frontend/package.json` |
+| Institutional storage | PostgreSQL 17.6, pgvector 0.8.2 (local Supabase); hosted Supabase research release | Phase 04/09 handoffs |
+| Symbolic engine | SWI-Prolog 10.1.15, janus-swi 1.5.3 | `swipl --version`; `uv.lock` |
+| Generative model | Gemma 4 E4B `gemma-4-E4B-it-UD-Q4_K_XL.gguf` on llama.cpp CUDA | `MODELS_DIR`; Phase 09 handoff |
+| Parsing/OCR | Docling 2.133.0; pypdfium2 5.13.0 and Pillow 12.3.0 for private PDFs; RapidOCR 3.9.2 + onnxruntime 1.30.0 CPU for photo rows (owner, 23 Oct 2026: may join the `api` extra) | `uv.lock`; Phase 10 handoff |
+
 Two identifiers need precise handling:
 
 - **SEA-LION:** the publisher's repository identifier is `aisingapore/SEA-LION-E5-Embedding-600M`. Its model card specifies **1,024 dimensions** and a **512-token context limit**. Preserve the thesis terminology in project prose, while using the exact repository identifier in configuration. [AI Singapore model card](https://huggingface.co/aisingapore/SEA-LION-E5-Embedding-600M)
@@ -672,7 +687,8 @@ Keep routing labels, raw predicate names, model reasoning, and debug metadata in
 
 ### 16.3 AI SDK transport
 
-Implement one tested adapter between FastAPI's events and the pinned Vercel AI SDK 6 client transport. Do not assume arbitrary FastAPI SSE or an older SDK stream format is compatible. Use the installed SDK's types/documented protocol as the implementation contract.
+Implement one tested adapter between FastAPI's events and the pinned Vercel AI SDK client transport (v7 by owner
+decision, 23 October 2026; originally written for SDK 6, same UI message stream protocol v1). Do not assume arbitrary FastAPI SSE or an older SDK stream format is compatible. Use the installed SDK's types/documented protocol as the implementation contract.
 
 Carry progress events, the final validated answer, sources, and typed errors. Test cancellation, retries, and disconnects so they do not duplicate completed requests or expose another session's state. Keep model and database credentials entirely behind the server boundary.
 

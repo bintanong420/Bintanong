@@ -21,9 +21,11 @@
 - Phase **10 complete (23 Oct, owner-approved with disclosures)**: private files and session context.
   [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
-  [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported). No active phase; next permitted: Phase 11
-  (master 16 + 23.3) after its pre-phase research and the owner's go.
-  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged; owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
+  [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported).
+- Phase **11 active (backend only, owner 23 Oct)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
+  adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
+  [Checkpoint](phase-11-checkpoint.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
+  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
@@ -37,11 +39,11 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress, the Phase10 final handoff; master 16 and 23;
+2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24;
    earlier phase files only for a specific dependency/boundary.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. Run can-advance, do Phase11 pre-phase research; preserve all inherited release holds.
+5. Resume the Phase 11 checkpoint's next action; preserve all inherited release holds.
 
 ## Phase ledger
 
@@ -61,6 +63,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
 | 9 | Generation/validation | complete offline research/software on hosted 39-curriculum release; eight limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 | 10 | Private files and session context | complete offline research/software; photos unsupported; HTTP wiring in Phase 11; institutional release held | [Plan](phase-10-private-files-session-plan.md) | [Superseded](phase-10-checkpoint.md) | [Complete](phase-10-handoff.md) |
+| 11 | Backend API (frontend pending) | in progress; backend only | [Plan](phase-11-backend-api-plan.md) | [Checkpoint](phase-11-checkpoint.md) | none |
 
 ## Read only when relevant
 

@@ -304,3 +304,12 @@ Each program still gets its own dated review record listing which standing rule 
 - 23 Oct 2026 (Phase 10 D1/D2 at task 5): photo OCR via an onnxruntime 1.30.0 CPU bake-off (pinned `ocr-cpu` extra)
   on the existing ocr_bench harness, simulated photos first. Photos are wired only if a configuration meets Q11;
   otherwise they stay unsupported and disclosed. Gemma vision measurement (D2) not chosen; Docling pin unchanged.
+- 23 Oct 2026 (Phase 11 pre-phase research O1-O5; Phase 11 is backend only, no UI pages or components):
+  O1 use the current AI SDK major (v7; `ai` 7.0.150 / `@ai-sdk/react` 4.0.154 on 23 Oct) and update the master plan to
+  the actual pins (done: master section 2 "Current pins" table and 16.3). O2 may add the locked RapidOCR 3.9.2 +
+  onnxruntime 1.30.0 CPU (+ opencv) to the `api` extra. The owner supplied private samples: a Report of Grades
+  screenshot (the registrar system's table view) and a phone photo of a printed BSCS prospectus with handwritten
+  grades. Student layouts may differ. Samples hold a real student's name and ID: kept only in workspace
+  `audit-evidence/p11-20261023/private-owner-samples/`, never in Git, docs or tests. O3 may add `GET /curricula`.
+  O4 students do not see variable or function names: move diagnostics and raw ids out of student text. O5 a symmetric
+  style floor (`filipino` -> `taglish` on literal English conversation words) "as long as it is within the scope".
