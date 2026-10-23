@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p09-v15'
+PROMPT_VERSION = 'bintanong-router-p09-v16'
 
 
 def ordered_json(value):
@@ -19,9 +19,8 @@ def ordered_json(value):
 
 _WORKED_EXAMPLE = dict(
     original_text='After failing M4, can I take N8, where do I submit ticket R, and what is the fee?',
-    interpretation=dict(schema_version='bintanong-interpretation-wire-v2', language='en',
+    interpretation=dict(schema_version='bintanong-interpretation-wire-v3', language='en',
         audience='undergraduate', route='Hybrid', control=None, part_count=3,
-        intent='eligibility and filing details',
         mentions=[dict(kind='course', quote=dict(text='M4', occurrence=0)),
                   dict(kind='course', quote=dict(text='N8', occurrence=0))],
         claims=[dict(quote=dict(text='failing M4', occurrence=0),
@@ -33,16 +32,16 @@ _WORKED_EXAMPLE = dict(
                     evidence_need='document', operation_indices=[]),
                dict(part_id='r3', quote=dict(text='what is the fee?', occurrence=0),
                     evidence_need='document', operation_indices=[])],
-        ambiguities=[], reason='Eligibility check and two separately requested filing details.'))
+        ambiguities=[]))
 _WORKED_EXAMPLE['interpretation'] = {
     name: _WORKED_EXAMPLE['interpretation'][name] for name in WireInterpretation.model_fields}
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
 do not expect source passages in the input or ask the student to supply the handbook/memo.
-schema_version is bintanong-interpretation-wire-v2. Interpret English, Filipino and Taglish directly.
+schema_version is bintanong-interpretation-wire-v3. Interpret English, Filipino and Taglish directly.
 Preserve negation (hindi, di, not), pa, failed/passed, numbers, dates and hypothetical language.
-Select language from original_text ONLY, not English catalog labels, IDs, intent or reason:
+Select language from original_text ONLY, not English catalog labels or IDs:
 en = English conversation; fil = Filipino/Tagalog conversation; taglish = Filipino conversation
 mixed with English conversational words or phrases, even a short greeting or an English verb
 with a Filipino affix. Most words being Filipino does NOT make a mixed sentence fil.
@@ -117,9 +116,8 @@ Leave claims empty when no completion/enrollment statement is supplied. Never in
 Missing curriculum must not be inferred from a course code, age, similarity or continuing status.
 Use ambiguities for genuinely ambiguous interpretation, not every unmentioned student grade.
 ambiguities MUST be [] when the request is interpretable. A statement such as "this needs
-document retrieval" is an EXPLANATION, not an ambiguity; put it in reason only. In particular,
+document retrieval" is an EXPLANATION, not an ambiguity; do not write it. In particular,
 a clear document-procedure request has route=RAG, control=null, operations=[], ambiguities=[].
-reason is a brief routing explanation (at most 240 characters), not hidden reasoning.
 part_count declares how many requested parts you will list;it must equal the number in parts.
 parts records EVERY requested answer part before any evidence is retrieved. Use 1-8 parts
 for an academic route, with distinct part_id r1..r8 and quoted references to original text.

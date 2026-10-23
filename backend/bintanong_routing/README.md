@@ -19,7 +19,10 @@ The full reviewed alias catalog stays in the host resolver after literal extract
 it is not included in either router profile's model-visible payload. Scope/facts
 and available operation names retain their existing model-input boundaries.
 
-The model-facing bintanong-interpretation-wire-v2 uses {text,occurrence} quotes.
+The model-facing bintanong-interpretation-wire-v3 uses {text,occurrence} quotes.
+Wire-v3 (router prompt v16, 23 Oct 2026) drops the free-text intent and reason
+fields for latency: nothing read them. The host sets intent to null and a reason
+naming the proposed route or control. Wire-v2 packets are rejected.
 The model declares part_count and parts before operations/route. Count must match
 the list;the host never adds or deletes parts to make it match. This count remains
 untrusted and cannot prove semantic completeness. Wire-v1 packets are rejected.
