@@ -39,8 +39,8 @@ async def probe_supabase_pgvector(db_url: str | None = None) -> Tuple[bool, str 
             return False, "pgvector extension is not installed in database"
         finally:
             await conn.close()
-    except Exception as exc:
-        return False, f"database connection error: {exc}"
+    except Exception:  # exception text can name hosts, users or DSNs; this endpoint is unauthenticated
+        return False, "database connection error"
 
 
 def probe_janus() -> Tuple[bool, str | None]:
@@ -52,8 +52,8 @@ def probe_janus() -> Tuple[bool, str | None]:
         if result and result.get("X") == 4:
             return True, "SWI-Prolog 10.0.2 via Janus functional"
         return False, f"unexpected Prolog query result: {result}"
-    except Exception as exc:
-        return False, f"Prolog execution error: {exc}"
+    except Exception:
+        return False, "Prolog execution error"
 
 
 async def probe_http_service(url: str, path: str = "/health", timeout: float = 2.0) -> Tuple[bool, str | None]:
@@ -65,5 +65,5 @@ async def probe_http_service(url: str, path: str = "/health", timeout: float = 2
             if response.status_code == 200:
                 return True, "healthy"
             return False, f"HTTP status {response.status_code}"
-    except Exception as exc:
-        return False, f"service unreachable: {exc}"
+    except Exception:
+        return False, "service unreachable"
