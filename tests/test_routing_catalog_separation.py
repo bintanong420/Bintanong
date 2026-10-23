@@ -34,8 +34,8 @@ def test_actual_messages_are_catalog_invariant_and_preserve_remaining_input(modu
 def test_catalog_still_controls_curriculum_binding_after_literal_extraction(router_class):
     text = 'Can I take A1?'
     quote = dict(text='A1', occurrence=0)
-    packet = dict(schema_version='bintanong-interpretation-wire-v3', language='en', part_count=1,
-        audience='undergraduate', route='Symbolic', control=None,
+    packet = dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=1,
+        audience='undergraduate', route='Symbolic', control=None, intent='eligibility',
         mentions=[dict(kind='course', quote=quote)], claims=[],
         operations=[dict(name='check_prerequisite_eligibility', target=quote)],
         parts=[dict(part_id='r1', quote=dict(text=text, occurrence=0),

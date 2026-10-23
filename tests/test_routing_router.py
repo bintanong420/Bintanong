@@ -40,7 +40,7 @@ class FakeTransport:
                      json.dumps(style_proposal(json.loads(self.last_routing)['language'])))
         else:
             value = self.outputs.pop(0)
-            if isinstance(value, str) and schema['properties']['schema_version'].get('const') == 'bintanong-interpretation-wire-v3':
+            if isinstance(value, str) and schema['properties']['schema_version'].get('const') == 'bintanong-interpretation-wire-v4':
                 try:
                     authored = json.loads(value)
                     if isinstance(authored, dict):
@@ -69,7 +69,7 @@ def test_model_selected_language_style_is_preserved(language):
     system = transport.calls[0][0][0]['content']
     assert 'LLM' in system and 'Taglish' in system and 'Prolog' in system
     assert 'A1' in transport.calls[0][0][1]['content']
-    assert transport.calls[0][1]['properties']['schema_version']['const'] == 'bintanong-interpretation-wire-v3'
+    assert transport.calls[0][1]['properties']['schema_version']['const'] == 'bintanong-interpretation-wire-v4'
 
 
 def test_invalid_json_repairs_once_and_retains_complete_repair_messages():

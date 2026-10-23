@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p09-v16'
+PROMPT_VERSION = 'bintanong-router-p09-v17'
 
 
 def ordered_json(value):
@@ -19,8 +19,9 @@ def ordered_json(value):
 
 _WORKED_EXAMPLE = dict(
     original_text='After failing M4, can I take N8, where do I submit ticket R, and what is the fee?',
-    interpretation=dict(schema_version='bintanong-interpretation-wire-v3', language='en',
+    interpretation=dict(schema_version='bintanong-interpretation-wire-v4', language='en',
         audience='undergraduate', route='Hybrid', control=None, part_count=3,
+        intent='eligibility and filing details',
         mentions=[dict(kind='course', quote=dict(text='M4', occurrence=0)),
                   dict(kind='course', quote=dict(text='N8', occurrence=0))],
         claims=[dict(quote=dict(text='failing M4', occurrence=0),
@@ -39,9 +40,9 @@ SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU under
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
 do not expect source passages in the input or ask the student to supply the handbook/memo.
-schema_version is bintanong-interpretation-wire-v3. Interpret English, Filipino and Taglish directly.
+schema_version is bintanong-interpretation-wire-v4. Interpret English, Filipino and Taglish directly.
 Preserve negation (hindi, di, not), pa, failed/passed, numbers, dates and hypothetical language.
-Select language from original_text ONLY, not English catalog labels or IDs:
+Select language from original_text ONLY, not English catalog labels, IDs or intent:
 en = English conversation; fil = Filipino/Tagalog conversation; taglish = Filipino conversation
 mixed with English conversational words or phrases, even a short greeting or an English verb
 with a Filipino affix. Most words being Filipino does NOT make a mixed sentence fil.

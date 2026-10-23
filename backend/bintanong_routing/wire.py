@@ -39,12 +39,13 @@ class WirePart(Record):
 
 
 class WireInterpretation(Contract):
-    SCHEMA_VERSION = 'bintanong-interpretation-wire-v3'
+    SCHEMA_VERSION = 'bintanong-interpretation-wire-v4'
     language: Language
     audience: Literal['undergraduate', 'excluded', 'unrelated', 'unknown']
     control: Control() | None
     part_count: int = Field(ge=0, le=8)
     parts: tuple[WirePart, ...] = Field(max_length=8)
+    intent: Text
     mentions: tuple[WireMention, ...] = Field(max_length=32)
     claims: tuple[WireClaim, ...] = Field(max_length=32)
     operations: tuple[WireOperation, ...] = Field(max_length=4)
@@ -52,7 +53,8 @@ class WireInterpretation(Contract):
     ambiguities: tuple[Text, ...] = Field(max_length=16, description=
         'Only unresolved questions needed to interpret the request. Normally empty. '
         'Never put a route explanation or a need to retrieve documents here.')
-    # No free-text intent/reason (owner, 23 Oct 2026): nothing reads them and decoding them cost ~2-3 s.
+    # No free-text reason (owner, 23 Oct 2026): last field, nothing reads it, decoding it cost ~2 s.
+    # intent stays: removing it made a 4B-model claim extraction unstable (run 14 precheck).
 
     @model_validator(mode='after')
     def _part_count(self):
@@ -121,7 +123,7 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
               for c in wire.claims]
     operations = [dict(name=o.name, target=course_index(o.target)) for o in wire.operations]
     proposal = f'route {wire.route}' if wire.route is not None else f'control {wire.control}'
-    data.update(schema_version=Interpretation.SCHEMA_VERSION, intent=None,
+    data.update(schema_version=Interpretation.SCHEMA_VERSION,
         reason=f'interpreter proposed {proposal}', mentions=listed, claims=claims,
         operations=operations, parts=[dict(**span(p.quote), part_id=p.part_id, evidence_need=p.evidence_need,
                     operation_indices=list(p.operation_indices), subject_id=p.subject_id,

@@ -10,12 +10,12 @@ from test_routing_wire_boundary import Model, STYLE, route
 
 
 ORDER = ('schema_version', 'language', 'audience', 'control', 'part_count', 'parts',
-         'mentions', 'claims', 'operations', 'route', 'ambiguities')
+         'intent', 'mentions', 'claims', 'operations', 'route', 'ambiguities')
 
 
 def packet():
     value = previous_packet()
-    value.update(schema_version='bintanong-interpretation-wire-v3', part_count=2)
+    value.update(schema_version='bintanong-interpretation-wire-v4', part_count=2)
     return value
 
 

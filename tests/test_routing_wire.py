@@ -12,8 +12,8 @@ def quote(text, occurrence=0):
 
 
 def packet():
-    return dict(schema_version='bintanong-interpretation-wire-v3', language='en', part_count=2,
-        audience='undergraduate',
+    return dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=2,
+        audience='undergraduate', intent='eligibility and form location',
         mentions=[dict(kind='course', quote=quote('A1')),
                   dict(kind='course', quote=quote('B2'))],
         claims=[dict(quote=quote('failing A1'), entity=quote('A1'), state='failed', mode='asserted')],
@@ -139,24 +139,24 @@ def test_course_quote_on_a_listed_noncourse_mention_still_rejects():
         normalize(value)
 
 
-def test_model_writes_no_free_text_intent_or_reason():
-    # Latency (owner, 23 Oct 2026): nothing downstream reads them, so the model no longer decodes them.
+def test_model_writes_intent_but_no_reason():
+    # Latency (owner, 23 Oct 2026): nothing reads reason, so the model no longer decodes it.
+    # intent stays: without it the 4B model dropped a failed-course claim (run 14 precheck).
     schema = importlib.import_module('backend.bintanong_routing.prompt').output_schema()
-    assert schema['properties']['schema_version']['const'] == 'bintanong-interpretation-wire-v3'
-    assert 'intent' not in schema['properties'] and 'reason' not in schema['properties']
+    assert schema['properties']['schema_version']['const'] == 'bintanong-interpretation-wire-v4'
+    assert 'intent' in schema['properties'] and 'reason' not in schema['properties']
 
 
-@pytest.mark.parametrize('field', ['intent', 'reason'])
-def test_wire_packet_with_free_text_field_is_rejected(field):
+def test_wire_packet_with_reason_is_rejected():
     value = packet()
-    value[field] = 'free text'
+    value['reason'] = 'free text'
     with pytest.raises(Exception):
         normalize(value)
 
 
-def test_host_supplies_reason_and_leaves_intent_empty():
+def test_host_supplies_reason_and_keeps_model_intent():
     result = normalize()
-    assert result.intent is None
+    assert result.intent == 'eligibility and form location'
     assert result.reason == 'interpreter proposed route Hybrid'
     value = packet()
     value.update(route=None, control='clarify')

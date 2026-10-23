@@ -137,7 +137,7 @@ class Interpretation(Contract):
     SCHEMA_VERSION = 'bintanong-interpretation-v2'
     language: Language
     audience: Literal['undergraduate', 'excluded', 'unrelated', 'unknown']
-    intent: Text | None = None
+    intent: Text
     mentions: tuple[Mention, ...] = Field(max_length=32)
     claims: tuple[Claim, ...] = Field(max_length=32)
     operations: tuple[Operation, ...] = Field(max_length=4)
