@@ -115,3 +115,11 @@ Code: the commit adding the per-person cue guard (parent of this protocol commit
 runner `roster9.py roster12`, `HOSTED=1`, container restarted first, everything else as run 11.
 Pass: 0 wrong or invented answers (natural-u2-* withheld or clarified), no run 11 correct answer
 lost (pre-enrollment first step en/tl, fee example en/tl/taglish), system errors not increased.
+
+## Run 13 (prompt reuse on), fixed 23 October 2026 before running
+
+Code: the prompt-reuse profile commit (parent of this protocol commit). Same 63 cases, runner
+workspace `roster13.py roster13` (= roster9 plus `PREFIX_CACHE=1` -> `prefix_cache=True`,
+profile `p09-greedy-prefix-cache-v1`), `HOSTED=1`, container restarted first. Compare with run 12
+(no reuse). Pass: same answered/withheld outcome per case or only explained safe changes, 0 wrong or
+invented answers, system errors not increased. Timing reported against run 12 (warm backend only).
