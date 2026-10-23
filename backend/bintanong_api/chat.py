@@ -1,0 +1,91 @@
+"""One chat turn (master 16.1, 23.3), independent of the HTTP transport.
+
+The AI SDK client posts its whole message list, but only the last user message is used: the session's
+structured conversation context carries follow-ups, never a transcript (master 23.2). A routing result
+becomes the next turn's context only when the turn finishes; a cancelled or failed turn leaves nothing.
+"""
+from __future__ import annotations
+
+import secrets
+from dataclasses import dataclass
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+
+from backend.bintanong_api.session import ApiError, Session
+from backend.bintanong_private_context.conversation import capture, follow_up_context
+from backend.bintanong_private_context.sessions import SessionStore
+
+MAX_MESSAGES = 500
+
+
+@dataclass(frozen=True)
+class CurriculumOption:
+    program_id: str
+    curriculum_id: str
+    program_name: str
+    curriculum_name: str
+
+
+class _Part(BaseModel):
+    model_config = ConfigDict(extra='ignore')
+    type: str
+    text: str | None = None
+
+
+class _Message(BaseModel):
+    model_config = ConfigDict(extra='ignore')
+    id: str = Field(min_length=1, max_length=128)
+    role: Literal['system', 'user', 'assistant']
+    parts: list[_Part]
+
+
+class ChatRequest(BaseModel):
+    """The AI SDK `DefaultChatTransport` body plus the student's chosen curriculum."""
+    model_config = ConfigDict(extra='ignore')
+    id: str | None = None
+    messages: list[_Message] = Field(min_length=1, max_length=MAX_MESSAGES)
+    trigger: Literal['submit-message', 'regenerate-message'] = 'submit-message'
+    messageId: str | None = None
+    programId: str | None = None
+    curriculumId: str | None = None
+
+
+class ChatTurns:
+    def __init__(self, sessions: SessionStore, pipeline, curricula: tuple[CurriculumOption, ...]):
+        self._sessions, self._pipeline = sessions, pipeline
+        self._scopes = {(c.program_id, c.curriculum_id) for c in curricula}
+
+    async def answer(self, session: Session, request: ChatRequest):
+        message = request.messages[-1]
+        text = ' '.join(p.text for p in message.parts if p.type == 'text' and p.text).strip()
+        if message.role != 'user' or not text:
+            raise ApiError(422, 'empty_message')
+        scope = (request.programId, request.curriculumId)
+        if (scope[0] is None) != (scope[1] is None):
+            raise ApiError(422, 'incomplete_scope')
+        if scope[0] is not None and scope not in self._scopes:
+            raise ApiError(422, 'unknown_curriculum')
+        try:
+            self._sessions.begin_turn(session.credential, message.id,
+                                      regenerate=request.trigger == 'regenerate-message')
+        except ValueError as refused:
+            raise ApiError(409, str(refused)) from None
+        context = follow_up_context(session.view, request_id=f'req-{secrets.token_hex(8)}',
+                                    program_id=scope[0], curriculum_id=scope[1])
+        routed, completed = [], False
+        try:
+            try:
+                result = await self._pipeline.run(text, context, routed_sink=routed.append)
+            except Exception:
+                raise ApiError(503, 'answer_unavailable') from None
+            completed = True
+        finally:
+            self._sessions.end_turn(session.credential, message.id, completed=completed)
+        conversation = capture(routed[0]) if routed else None
+        if conversation is not None:
+            try:
+                self._sessions.set_conversation(session.credential, conversation)
+            except KeyError:  # deleted or expired during the turn; it stays gone
+                pass
+        return result
