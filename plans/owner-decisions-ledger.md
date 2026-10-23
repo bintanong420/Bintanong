@@ -313,3 +313,9 @@ Each program still gets its own dated review record listing which standing rule 
   `audit-evidence/p11-20261023/private-owner-samples/`, never in Git, docs or tests. O3 may add `GET /curricula`.
   O4 students do not see variable or function names: move diagnostics and raw ids out of student text. O5 a symmetric
   style floor (`filipino` -> `taglish` on literal English conversation words) "as long as it is within the scope".
+- 23 Oct 2026 (Phase 11, 24.2): owner chose the recommended path ("lets go with what u recommend. we are going to
+  super polish it"): (1) the closed-class English floor, with quoted text, catalog names and Title Case names masked
+  (built `3eb4f59`; offline over run 15's Filipino-labelled roster questions: 5 Taglish fixed, 0 Filipino flipped);
+  (2) one bounded style-prompt experiment for register-only Taglish, tuned only on a fresh practice set (not the
+  counted roster) and kept only if the counted rerun keeps English and Filipino replies 21/21, changes no status or
+  decision, and improves Taglish. The counted rerun is not an independent measure; Phase 12 provides that.
