@@ -1,15 +1,15 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: paused
-sequence: 7
+status: in_progress
+sequence: 8
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 46c6944
+head_commit: 72ec6d4
 working_tree: clean
-updated_at: 2026-10-24T08:30:00+08:00
+updated_at: 2026-10-24T14:00:00+08:00
 ---
 
-# Phase 11 checkpoint - PAUSED (owner, 24 Oct): backend done; security and evaluation checks before UI integration
+# Phase 11 checkpoint - resumed 24 Oct: security check done; retrieval/Prolog evaluation next, then UI integration
 
 ## Completed Tasks
 
@@ -25,17 +25,18 @@ updated_at: 2026-10-24T08:30:00+08:00
 - Task 8 (24.1): photo rows `a495db2`..`72a196b`, scorer `7328519`/`c55a6ac`, limits as strict xfails `15dbe41`;
   [results](2026-10-24-photo-grade-rows-results.md) (`5e1eb1f`). Photos stay unsupported; no dependency added.
 - Task 9: `ResearchPipeline` chat port (`6f0cf36`); live HTTP smoke on real data passed (below); docs `ef716ca`.
+- Pause commit `0e4e4f1`. Security check (next-action step 1): [review](2026-10-24-phase-11-security-review.md);
+  fixes S2 `e87ed7b`, S1 `15934a7`, S4 `8b67b8d`, S5 `b0dc62b`, S6 `93e795e`, S7 `72ec6d4`.
 
 ## Current Task
 
-Paused at the owner's request (24 Oct): "just do a handoff for now, i plan to /clear and do some check on the security
-of the system and as well as more evaluations if there is really no more problems for the retrieval and the prolog
-stuff before we finally proceed for the ui integration". Phase 11 stays OPEN (not closed backend-only); there is
-deliberately no final `phase-11-handoff.md`. Backend tasks 1-9 are done and verified.
+Step 1 of the owner's pre-UI checks (security) is done. Next is step 2, the retrieval/Prolog evaluation. The 24 Oct
+pause note ("security and more evaluations ... before we finally proceed for the ui integration") still governs.
+There is deliberately no final handoff yet.
 
 ## Repository State
 
-Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `46c6944` plus this pause commit, nothing pushed.
+Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `72ec6d4` plus this checkpoint commit, nothing pushed.
 
 ## Verification Evidence
 
@@ -46,8 +47,10 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `46c6944` pl
   Taglish 15/21 (run 15: 10/21); 23 of 25 answered texts identical, 2 changed only in language.
 - Photo measurement: 42 simulated photos, 0 silent errors; plain layout exact in all 7 conditions; Report-of-Grades
   style exact in flat/dim; owner's real screenshot refused (two causes pinned as xfails).
-- Full suite at `b48de79` (later commits docs only): 6428 passed, 6 skipped, 2 xfailed (documented photo limits),
-  1552 subtests, 0 failed, 26m26s. Log: workspace `audit-evidence/p11-20261023/full-suite.log`.
+- Full suite at `72ec6d4`: 6441 passed, 6 skipped, 2 xfailed (documented photo limits), 1552 subtests,
+  0 failed, 20m00s. Log: workspace `audit-evidence/p11-20261023/full-suite-security.log`.
+- Security fixes: RED observed for each, then GREEN, and each guard mutation-checked. A re-probe of S1 (1000
+  cookie-less requests) left a new student's `/chat` at 200.
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
   turns in Taglish 3 of 4 (run 5: 0 of 4).
 - Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum
@@ -69,12 +72,16 @@ models), Gemma 4 E4B GGUF on :18088 (not re-hashed). Owner samples sha256: `46bf
 - O1-O5 as recorded; 24.2 path (floor kept, prompt trial declined); 24.1 photos unsupported, no `api` dependency.
 - Only the last user message of an AI SDK request is used. 422s before the stream; turn lock inside it.
 - Canonical answer text stays the researcher diagnostic; students get `student_text`.
+- Owner, 24 Oct (security review): S1 evict the least recently used empty session (this replaces the Phase 10
+  "503 rather than evict" rule for empty sessions only); S3 `next`/`sharp`/`source-map-js` upgrades go with the
+  `ai` v7 install at UI integration; S4-S7 applied now.
 
 ## Known Failures or Blockers
 
 None blocking. Disclosed limits: 6 register-only Taglish questions reply in Filipino; photos unsupported (real
 screenshot refused); master 16's browser exit gate is not met (no UI by owner direction); AI SDK contract test
-against the SDK's own parser waits for the frontend install; no linter installed.
+against the SDK's own parser waits for the frontend install; no linter installed. Frontend `npm audit`: 1 critical
+(`next` RCE advisories) and 2 high, deferred to UI integration by the owner. Proxy rate/body limits: deployment.
 
 ## Context Consulted
 
@@ -82,19 +89,14 @@ Thesis physical 17-18 and 65-66, routing PNG (23 Oct). No discrepancy.
 
 ## Next Action
 
-Resume in a fresh session (after /clear) with the owner's planned checks, then UI integration:
-1. Security check of the system, starting with the new HTTP surface:
-   - `backend/bintanong_api/` (session, CSRF origin rules, stream, uploads, sources);
-   - `backend/bintanong_private_context/` (store, worker, photo rows);
-   - prior security notes in the Phase 10 handoff; frontend `npm audit` (3 pre-existing findings).
-   The `security-review` skill fits.
+1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
 2. More evaluation that retrieval and Prolog have no remaining problems. Start from:
    - the two live-smoke observations above;
    - roster run 16 (`audit-evidence/p11-20261023/roster16/`): 19 clarification and 19 non-answer statuses.
    Use the counted harnesses; keep the evaluation families separate from tuning.
-3. Then UI integration (co-worker's design). Install `ai` v7 and `@ai-sdk/react` 4 at the then-current patch, with
-   owner approval of the exact pins. Add the contract test against the SDK's own stream parser. Proxy `/api`
-   same-origin.
+3. Then UI integration (co-worker's design). Install `ai` v7 and `@ai-sdk/react` 4, and upgrade `next` (>= 16.4.3),
+   `sharp` and `source-map-js`, all at the then-current patch, with owner approval of the exact pins. Add the
+   contract test against the SDK's own stream parser. Proxy `/api` same-origin.
 4. Then close Phase 11 with the full suite and a final handoff. Phase 12 needs its own recorded decision.
 
 How to run things:
@@ -106,5 +108,5 @@ How to run things:
 
 ## Do Not Repeat
 
-Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, full
-suite at `b48de79`, the three style prompts, the two reverted photo-threshold attempts.
+Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
+security review and S1/S2/S4-S7 fixes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.

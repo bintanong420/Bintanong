@@ -181,13 +181,18 @@ process memory.
 
 | Endpoint | Behaviour |
 | --- | --- |
-| `POST /chat` | AI SDK UI message stream v1 (`x-vercel-ai-ui-message-stream: v1`). Only the last user message is used. Transient `data-status` progress, then one validated student text, `source-document` parts, `data-answer` (`status`, `conditional`), `finish`. 422 before the stream; `error` chunk with a fixed code after it. One turn per session; a disconnect cancels the turn and captures nothing. |
-| `POST /uploads?programId=&curriculumId=` | Raw body, capped and sniffed; extraction in the child job; returns pending rows (printed code, course labels, marks). Photos return `photo_ocr_unavailable`. |
+| `POST /chat` | AI SDK UI message stream v1 (`x-vercel-ai-ui-message-stream: v1`). Only the last user message is used. Transient `data-status` progress, then one validated student text, `source-document` parts, `data-answer` (`status`, `conditional`), `finish`. 422 before the stream (including `invalid_message` for text the router's `prepare_query` refuses); `error` chunk with a fixed code after it. One turn per session (409 `chat_in_progress`, `already_answered`, `session_ended`); a disconnect cancels the turn and captures nothing. |
+| `POST /uploads?programId=&curriculumId=` | Raw body, capped and sniffed by its leading bytes only; all PDF/image parsing and extraction run in the child job (`extract_rows` receives raw bytes); returns pending rows (printed code, course labels, marks). Photos return `photo_ocr_unavailable`. More than `max_parallel_uploads` (default 2) at once return 503 `uploads_busy`. |
 | `POST /uploads/{id}/confirm`, `DELETE /uploads/{id}` | The student's row choices become session facts; delete removes the upload's facts. |
 | `GET /sources/{source_id}` | A card cited by this process's answers: title, page, section, readable excerpt. |
 | `GET /curricula`, `DELETE /session`, `GET /health/*` | Picker list; forget the session and clear the cookie; health. |
 
 - Cookie `__Host-bintanong_session`: HttpOnly, Secure, SameSite=Strict.
+- At the 1000-session bound, the least recently used empty session (no facts, pending rows, conversation or
+  running turn) is evicted; only when every session holds student state is a new one refused (503
+  `session_limit`). Per-client rate and body-size limits belong to the deployment proxy
+  ([security review](../../plans/2026-10-24-phase-11-security-review.md)).
+- `/health/ready` failure reasons are fixed text without exception details.
 - Unsafe methods need an allowed `Origin` and no `Sec-Fetch-Site: cross-site`.
 - Students see `presentation.student_text`. The canonical `CandidateAnswer.text`, which the validator checks byte
   for byte, stays the researcher diagnostic.

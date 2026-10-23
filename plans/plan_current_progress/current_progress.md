@@ -1,30 +1,27 @@
 # Current progress
 
-Updated 23 October 2026. Phase 11 active (backend only, owner direction).
+Updated 24 October 2026. Phase 11 active (backend only, owner direction); resumed after the 24 Oct pause.
 Worktree p11 / branch `feat/p11-backend-api` from `dev` `cbaa6a7`, nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase 10 handoff](../phase-10-handoff.md).
-Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress/current_progress.md`.
+Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress/current_progress.md`.
 
-## Latest changes (23 Oct, Claude Code session)
+## Latest changes (24 Oct, Claude Code session)
 
-- Owner answered the open Phase 10 questions: start Phase 11 **backend only** (frontend waits for the co-worker's
-  design; no UI pages or components). Scope: master 16.1/16.3, 23.3, 24.1 (photo rows), 24.2 (Taglish follow-ups),
-  API tests for every endpoint. Ask before dependency changes or downloads. If the UI stays delayed, the owner may
-  later close Phase 11 backend-only and start Phase 12 non-UI evaluation: ask then.
-- Worktree had been created on `p09-backend-api` (same commit as `dev`); work moved to `feat/p11-backend-api`.
-- Environment verified: ignored `.env`, `.superpowers`, `supabase/.temp` and both datasets match the main checkout
-  byte for byte; all three lockfiles are identical to HEAD and the main checkout. can-advance: yes.
-- Pre-phase research written. Main findings: the AI SDK was never installed (npm: `ai` 7.0.150 latest, v6 at
-  6.0.314; wire protocol v1 unchanged); FastAPI 0.141.1 has native SSE (no new dependency); the real-data
-  composition lives only in ignored scripts; student text shows diagnostic lines; the 24.2 cause is likely the
-  style model labelling Taglish as `filipino`, with no symmetric floor.
+- Security check of the HTTP API and private-context packages: [review](../2026-10-24-phase-11-security-review.md).
+  Seven findings. Owner decisions: S1 evict the least recently used *empty* session (sessions with facts, pending
+  rows, conversation context or a running turn are never evicted); S3 Next.js critical/high `npm audit` findings
+  are upgraded with the `ai` v7 install at UI integration; S4-S7 applied now.
+- Fixes, each RED -> GREEN and mutation-checked: S2 `e87ed7b` (409 `session_ended`), S1 `15934a7`, S4 `8b67b8d`
+  (422 `invalid_message`), S5 `b0dc62b` (all PDF/image parsing inside the child job), S6 `93e795e` (503
+  `uploads_busy`), S7 `72ec6d4` (readiness errors without exception text). Developer API doc updated.
+- Full suite at `72ec6d4`: 6441 passed, 6 skipped, 2 xfailed, 1552 subtests, 0 failed (20m00s).
+- No secrets in tracked files (only the public Supabase demo keys). Root `npm audit`: 0.
 
 ## Next action
 
-PAUSED (owner, 24 Oct): backend tasks 1-9 done and verified (full suite 6428 passed, 0 failed). Phase 11 stays open.
-After /clear: (1) a security check of the system, (2) more retrieval and Prolog evaluation, then (3) UI integration.
-Resume from the [checkpoint](../phase-11-checkpoint.md) "Next Action".
+Step 2 of the owner's pre-UI checks: more retrieval and Prolog evaluation, starting from the two live-smoke
+observations and roster run 16's clarification/non-answer statuses. See the [checkpoint](../phase-11-checkpoint.md).
 
 ## Boundaries
 
