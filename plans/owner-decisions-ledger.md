@@ -277,3 +277,7 @@ Each program still gets its own dated review record listing which standing rule 
   (profile p09-greedy-prefix-cache-v1, cache_prompt=true); strictly reproducible evaluations may switch
   it off (`--no-prefix-cache`). Run 13 kept every run 12 outcome with 0 wrong answers. The server's
   prompt-cache memory still needs a limit or periodic restarts (run 4 finding).
+- 23 Oct 2026: conversational follow-ups are required ("we definitely have to implement this
+  conversational, because we wrote it on our introduction"); owner asked to append it to the master
+  plan, done as addendum section 23 (sections 1-22 unchanged). Session-only structured context, never
+  persisted; Phases 10/11/12 additions; backend core may be built first.

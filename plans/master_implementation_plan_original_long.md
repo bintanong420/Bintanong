@@ -867,3 +867,64 @@ These are explicit build tasks. They do not justify guessing institutional rules
 - [ ] Deployment limits, authorized updates, backup/rollback, and reproducibility are documented.
 
 **First implementation unit:** Phase 0 only—Docker scaffold, local Supabase connectivity, and Bintu-1/SEA-LION/Docling/Janus compatibility checks. Proceed to source contracts and ingestion once that foundation is demonstrated.
+
+
+## 23. Addendum (owner request, 23 October 2026) — Conversational follow-ups and session context
+
+This addendum was appended at the owner's request; sections 1–22 above are unchanged. It adds a
+thesis-derived requirement that the original plan did not turn into a task. Detail and current
+status: `plans/2026-10-23-conversation-context-requirement.md`.
+
+**Basis:** the Introduction states that existing systems "may not adequately handle differently worded,
+ambiguous, multi-step, or conversational inquiries" and assigns the LLM to "conversational response
+generation" [T, p. 7]; the ethics section describes each student's conversation in "an isolated user chat
+context" [T, p. 65]; the usability/user-acceptability question assumes natural multi-turn use. Students must
+be able to ask a follow-up such as "What are its prerequisites?" or "What is step 1?" without repeating the
+course or procedure from the previous turn.
+
+### 23.1 Behaviour
+
+- Each answered turn records a small structured **conversation context**: the resolved document topic/subject,
+  course, program and curriculum the answer actually used. Retrieval and Prolog still run fresh for every turn;
+  no answer, passage or retrieval cache is substituted.
+- The router receives that context with the new question. A follow-up that clearly refers back ("its",
+  "that subject", "step 1", "yung prerequisite niya") resolves to the earlier entity; the host verifies that the
+  referenced entity exists in the stored context and is still in the student's program/curriculum scope.
+- Ambiguous references, two possible antecedents or an apparent topic switch produce a clarification, never a
+  guess. Unknown stays distinct from unmet, and a carried course never becomes a stated grade or fact.
+- Clarification replies (section 16.2) use the same mechanism: the student's answer completes the pending turn.
+- Reply language/style follows the current message (AGENTS.md reply-language rule), not the earlier turn.
+
+### 23.2 Privacy and cost constraints
+
+- Session memory only, bound to the server-issued session credential (section 15.1/15.2); proposed 30-minute idle
+  lifetime; cleared on `DELETE /session`, expiry, restart and failure cleanup. Never written to Supabase, logs,
+  telemetry or evaluation exports with raw text or grades; no persistent chat transcripts (section 8 schema rule).
+- Store identifiers and bounded labels, not the full transcript: a few identifiers per session and roughly
+  50–150 extra router prompt tokens per request. Sending whole transcripts is out of scope (context window and
+  latency limits; privacy).
+- Session B can never read or influence Session A's context (extends the section 15.3 isolation checks).
+
+### 23.3 Phase placement
+
+| Phase | Addition |
+| --- | --- |
+| 10 | Session store with ownership, expiry and deletion for conversation context alongside private-file context; isolation tests for context leakage. |
+| 11 | `POST /chat` reads and updates the session context; UI keeps the thread visible, supports clarification replies and "clear conversation". |
+| 12 | Multi-turn evaluation family (follow-ups, topic switches, ambiguous references, clarification completions) in English, Filipino and Taglish, kept separate from prompt examples; report follow-up resolution accuracy and wrong-carry-over errors separately; include follow-up tasks in SUS/UAT. |
+
+The backend capability (context capture, router input, host reference checks) may be built and evaluated
+before the Phase 11 UI, provided Phase 10's session-ownership boundary is respected when it is exposed.
+
+### 23.4 Deliverables and exit gate
+
+**Deliverables:** conversation-context contract, capture after each validated answer, router/host follow-up
+resolution with clarification fallback, session lifecycle and isolation tests, multi-turn benchmark cases.
+
+**Exit gate:** accepted multi-turn cases resolve follow-ups correctly or clarify, with zero wrong carried-over
+courses/topics in the counted run; no previously correct single-turn answer lost; isolation, expiry and
+deletion tests pass; no persistent conversation storage is introduced.
+
+Adds to the section 22 definition of done:
+- [ ] Students can ask natural follow-up questions within a session; references resolve from session-only
+  structured context or produce a clarification, and context never crosses sessions or persists.

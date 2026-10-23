@@ -1,7 +1,7 @@
 # Requirement: conversational follow-ups (session context), 23 October 2026
 
-Status: thesis-derived requirement recorded at the owner's request; not designed or implemented.
-Not in the master plan's Phase 10/11 deliverables, so it must be added explicitly when planned.
+Status: thesis-derived requirement, owner-confirmed 23 Oct 2026 ("we definitely have to implement this").
+Appended to the master plan as section 23 (Phases 10/11/12 additions). Not designed or implemented yet.
 
 ## Thesis evidence (Context/bintanong_thesis_for_context.pdf)
 
