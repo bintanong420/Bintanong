@@ -12,7 +12,7 @@ import threading
 import time
 from dataclasses import dataclass
 
-from ..bintanong_routing.contracts import ScopedFact
+from ..bintanong_routing.contracts import ConversationContext, ScopedFact
 from .grades import ExtractionResult, confirm_rows
 
 IDLE_SECONDS = 30 * 60
@@ -35,6 +35,7 @@ class SessionView:
     session_id: str
     facts: tuple[ScopedFact, ...]
     pending: ExtractionResult | None
+    conversation: ConversationContext | None
 
 
 @dataclass
@@ -44,6 +45,7 @@ class _Session:
     facts: tuple[ScopedFact, ...] = ()
     pending: ExtractionResult | None = None
     confirmations: int = 0
+    conversation: ConversationContext | None = None
 
 
 def _digest(credential: object) -> str | None:
@@ -78,7 +80,8 @@ class SessionStore:
     def resolve(self, credential: object) -> SessionView | None:
         with self._lock:
             session = self._live(credential)
-            return None if session is None else SessionView(session.session_id, session.facts, session.pending)
+            return None if session is None else SessionView(session.session_id, session.facts, session.pending,
+                                                                 session.conversation)
 
     def set_facts(self, credential: object, facts: tuple[ScopedFact, ...]) -> None:
         with self._lock:
@@ -86,6 +89,10 @@ class SessionStore:
             if any(f.session_id != session.session_id for f in facts):
                 raise ValueError('foreign_session_fact')
             session.facts = tuple(facts)
+
+    def set_conversation(self, credential: object, conversation: ConversationContext | None) -> None:
+        with self._lock:
+            self._owned(credential).conversation = conversation
 
     def set_pending(self, credential: object, extraction: ExtractionResult | None) -> None:
         with self._lock:

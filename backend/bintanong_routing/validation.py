@@ -131,6 +131,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     for part in p.parts:
         if text[part.start:part.end] != part.text:
             raise ValueError('ungrounded_part')
+    reference = p.context_reference
+    if reference is not None and text[reference.start:reference.end] != reference.text:
+        raise ValueError('ungrounded_context_reference')
 
     program, curriculum = context.program_id, context.curriculum_id
     resolved, ignored = {}, set()
@@ -168,7 +171,17 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         editions = [c for c in catalog if c.kind == 'curriculum' and c.program_id == program]
         if len(editions) == 1:
             curriculum = editions[0].entity_id
+    carried = context.conversation.course_id if context.conversation else None
     for idx, mention in enumerate(p.mentions):
+        if mention.kind == 'course' and reference is not None and (mention.start, mention.end) == (
+                reference.start, reference.end):
+            # The model only marks the words; the course comes from session context and must still be
+            # in the request's curriculum, otherwise the mention stays unresolved and the host clarifies.
+            entry = next((c for c in catalog if c.kind == 'course' and c.entity_id == carried
+                          and c.program_id == program and c.curriculum_id == curriculum), None)
+            if carried is not None and entry is not None:
+                resolved[idx] = entry
+            continue
         if mention.kind == 'course' and program is not None and curriculum is not None:
             matches = _matches(mention, catalog, program, curriculum)
             if len(matches) == 1:
