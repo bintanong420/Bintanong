@@ -215,3 +215,32 @@ def test_tiny_row_number_boxes_do_not_steer_their_line():
         words.append(Word(str(r + 1), ((x0, y0), (x1, y1 - 2.5), (x2, y2 - 2.5), (x3, y3)), 0.99))  # slope noise
     lines = group_lines(words, critical=lambda w: not w.text.isdigit())
     assert [line[1:] for line in texts(lines)] == ROWS and [line[0] for line in texts(lines)] == ['1', '2', '3', '4', '5']
+
+
+@pytest.mark.xfail(strict=True, reason='known 24.1 limit (24 Oct): a far-left student-panel label bends a sparse row; '
+                   'the real Report of Grades screenshot is refused for this reason')
+def test_a_far_left_panel_label_does_not_bend_a_sparse_row():
+    # Real screenshot: a student-panel label sits at the far left, 7 px off a table row, and joins it. With only a
+    # code before the long gap to the grade, a line fitted through the label and the code is tilted by noise and
+    # the grade 500 px on looks off the row.
+    sparse = [(60, 'CC 5/L'), (580, '1.75')]
+    words = table_words([sparse], row_gap=22) + [
+        Word('MAJOR STUDY:', ((-300, 129), (-200, 129), (-200, 147), (-300, 147)), 0.99)]
+    rows, _ = grade_rows(words)
+    assert rows == [('CC 5/L', ('cc-105',), ('1.75',))]
+
+
+@pytest.mark.xfail(strict=True, reason='known 24.1 limit (24 Oct): rows tighter than their OCR boxes (real Report of '
+                   'Grades screenshot: 21 px boxes, 18 px rows) make a few pixels of jitter look ambiguous; refused')
+def test_rows_tighter_than_their_boxes_tolerate_small_centre_jitter():
+    # Real Report of Grades screenshot: boxes 21 px tall, rows 18 px apart, box centres jitter by a few pixels.
+    # Distances must be judged against the row pitch, not the (padded) box height.
+    words = []
+    for r, texts_ in enumerate(ROWS):
+        top = 100 + r * 18
+        for c, ((left, _), text) in enumerate(zip(CELLS, texts_)):
+            jitter = 4 if (r + c) % 2 else -2
+            box = ((left, top + jitter), (left + 11 * len(text), top + jitter),
+                   (left + 11 * len(text), top + jitter + 21), (left, top + jitter + 21))
+            words.append(Word(text, box, 0.99))
+    assert texts(group_lines(words)) == ROWS
