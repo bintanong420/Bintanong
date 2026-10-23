@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 3
+sequence: 4
 plan: plans/phase-11-backend-api-plan.md
-head_commit: b8f829b
+head_commit: f774611
 working_tree: clean
 updated_at: 2026-10-24T02:00:00+08:00
 ---
 
-# Phase 11 checkpoint - tasks 1-6 done (all endpoints); task 7 (24.2 style floor) next
+# Phase 11 checkpoint - tasks 1-6 done; task 7 (24.2) waits for an owner judgement
 
 ## Completed Tasks
 
@@ -24,7 +24,13 @@ updated_at: 2026-10-24T02:00:00+08:00
 
 ## Current Task
 
-Task 7: 24.2 symmetric style floor (O5), then counted roster and multi-turn reruns.
+Task 7 (24.2) paused for an owner judgement (bounded-attempt rule). Run 15 baseline by reply template (first
+line of each answer): English 21/21, Filipino (`-tl`) 21/21, Taglish (`-taglish`) 10/21; 11 Taglish got Filipino.
+Offline simulation of a symmetric floor over the 63 roster questions (no model calls): closed-class English words
+plus English number/ordinal words, quoted text ignored, fixes 5/11 and wrongly flips 1 Filipino question (course
+title "Microbiology and Parasitology"), so catalog titles must be excluded too. The other 6 misses differ from their
+owner-accepted Filipino twins by register (pwede/pasado/bagsak vs maaari/naipasa), not English words. Tuning a list
+on the counted roster would also contaminate it.
 
 ## Repository State
 
@@ -71,7 +77,8 @@ Thesis physical 17-18 and 65-66, routing PNG (23 Oct). No discrepancy.
 
 ## Next Action
 
-Task 7 RED: style floor tests for Taglish messages the model labels `filipino`.
+Owner judgement on 24.2 options (closed-class floor only; plus a style-prompt revision; or accept Filipino replies
+for register-only Taglish). Meanwhile tasks 8 (photo rows) and 9 (real-data composition, live smoke).
 
 ## Do Not Repeat
 
