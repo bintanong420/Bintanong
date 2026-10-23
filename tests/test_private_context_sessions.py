@@ -183,3 +183,46 @@ def test_confirming_more_facts_than_a_request_can_carry_is_refused_and_keeps_the
     with pytest.raises(ValueError, match='too_many_facts'):
         store.confirm_pending(a.credential, {r.row_id: (r.candidates[0], 'passed') for r in rows})
     assert store.resolve(a.credential).facts == ()
+
+
+# Phase 11: one chat turn in flight per session; a completed message id is not answered twice.
+def test_second_turn_while_one_is_in_flight_is_refused():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    with pytest.raises(ValueError, match='chat_in_progress'):
+        store.begin_turn(a.credential, 'msg-2')
+
+
+def test_completed_message_is_not_answered_again_unless_regenerated():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.end_turn(a.credential, 'msg-1', completed=True)
+    with pytest.raises(ValueError, match='already_answered'):
+        store.begin_turn(a.credential, 'msg-1')
+    store.begin_turn(a.credential, 'msg-1', regenerate=True)
+
+
+def test_cancelled_turn_can_be_retried_with_the_same_message():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.end_turn(a.credential, 'msg-1', completed=False)
+    store.begin_turn(a.credential, 'msg-1')
+
+
+def test_turns_are_per_session():
+    store = SessionStore()
+    a, b = store.issue(), store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.begin_turn(b.credential, 'msg-1')
+
+
+def test_ending_a_turn_of_a_deleted_session_does_not_resurrect_it():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.delete(a.credential)
+    store.end_turn(a.credential, 'msg-1', completed=True)
+    assert len(store) == 0 and store.resolve(a.credential) is None

@@ -48,6 +48,8 @@ class _Session:
     pending: ExtractionResult | None = None
     confirmations: int = 0
     conversation: ConversationContext | None = None
+    turn_in_flight: bool = False
+    answered_message: str | None = None
 
 
 def _digest(credential: object) -> str | None:
@@ -116,6 +118,26 @@ class SessionStore:
             session.facts = merged
             session.pending = None
             return session.facts
+
+    def begin_turn(self, credential: object, message_id: str, *, regenerate: bool = False) -> None:
+        """One chat turn at a time per session; a completed message is not answered twice."""
+        with self._lock:
+            session = self._owned(credential)
+            if session.turn_in_flight:
+                raise ValueError('chat_in_progress')
+            if not regenerate and message_id == session.answered_message:
+                raise ValueError('already_answered')
+            session.turn_in_flight = True
+
+    def end_turn(self, credential: object, message_id: str, *, completed: bool) -> None:
+        """A session deleted or expired during the turn stays gone."""
+        with self._lock:
+            session = self._live(credential)
+            if session is None:
+                return
+            session.turn_in_flight = False
+            if completed:
+                session.answered_message = message_id
 
     def delete(self, credential: object) -> bool:
         key = _digest(credential)
