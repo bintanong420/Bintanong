@@ -23,7 +23,7 @@
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
   [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported). No active phase; next permitted: Phase 11
   (master 16 + 23.3) after its pre-phase research and the owner's go.
-  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged; owner-requested addendum section 23 (conversational follow-ups, 23 Oct).
+  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged; owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).

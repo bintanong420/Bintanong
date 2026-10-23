@@ -928,3 +928,46 @@ deletion tests pass; no persistent conversation storage is introduced.
 Adds to the section 22 definition of done:
 - [ ] Students can ask natural follow-up questions within a session; references resolve from session-only
   structured context or produce a clarification, and context never crosses sessions or persists.
+
+## 24. Addendum (owner request, 24 October 2026) — Phase 10 carry-over items
+
+This addendum was appended at the owner's request so that items left open by Phase 10 are not lost. Sections
+1–23 above are unchanged. Evidence: `plans/phase-10-handoff.md`.
+
+### 24.1 Photo and scan grade uploads (thesis-listed JPEG/PNG input)
+
+**Status after Phase 10:** unsupported. Uploads return `photo_ocr_unavailable`, and born-digital PDFs work.
+The RapidOCR (onnxruntime CPU) probe read the text well, but row grouping silently attached the wrong grades to
+courses on tilted, perspective and hard photos (`plans/2026-10-23-photo-ocr-probe-results.md`).
+
+**Placement:** Phase 11 backend work. It does not need the frontend design.
+
+**Tasks:**
+- Deskewed row grouping (line fitting on word boxes, or Docling table structure).
+- Refuse when row assignment is uncertain, instead of guessing.
+- A grade-row scorer with Q11-style gates: no missing or invented row, exact marks, zero silent errors.
+- Run in the bounded parser job (`worker.py`).
+- Build and test on simulated photos first. Real phone photos of actual grade reports (owner-provided, private,
+  outside Git) are required before claiming "supported".
+- Tesseract stays out unless the owner decides otherwise.
+
+**Exit:** photos are either supported under those gates, or explicitly disclosed as unsupported for the thesis
+build.
+
+### 24.2 Taglish reply style on follow-ups
+
+**Status:** Taglish follow-up host lines come out mostly in Filipino. This is the known Phase 09 Taglish style
+limit, and it violates the AGENTS.md reply-language rule (Taglish question → Taglish reply).
+
+**Placement:** Phase 11 backend (host-rendered lines and style handling), measured again in the Phase 12
+multi-turn family.
+
+**Tasks:** fix test-first, without changing single-turn accuracy, and confirm with a counted roster rerun.
+
+### 24.3 Reminders already placed elsewhere
+
+- HTTP endpoints, the session cookie, uploads/confirm, `DELETE /session` and the streaming adapter are in
+  section 16 (Phase 11). They can be built backend-first while the frontend design is pending.
+- Phase 12 without the UI: the system-level evaluation can run through the API and harness. SUS/UAT
+  (section 17.5) needs the real interface. Starting Phase 12 before a complete Phase 11 handoff needs an
+  explicit owner decision recorded in the ledger.
