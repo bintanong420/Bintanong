@@ -61,7 +61,9 @@ class WireInterpretation(Contract):
 
     @model_validator(mode='after')
     def _part_count(self):
-        if self.part_count != len(self.parts):
+        # A greeting or out-of-scope refusal runs no part (Interpretation rejects any it lists), so its count cannot
+        # change the outcome (live 24 Oct 2026: such a refusal was shown as "temporarily unavailable").
+        if self.part_count != len(self.parts) and self.control not in ('greeting', 'unsupported_scope'):
             raise ValueError('part_count_mismatch')
         return self
 
