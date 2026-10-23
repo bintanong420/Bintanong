@@ -78,8 +78,8 @@ button:active:not(:disabled) { filter: brightness(0.94); }
 .workspace-main { position: relative; isolation: isolate; display: flex; flex-direction: column; min-inline-size: 0; min-block-size: 0; }
 .workspace-toolbar, .empty-conversation, .conversation, .composer-area { inline-size: min(calc(100% - 3rem), var(--content-width)); margin-inline: auto; }
 .workspace-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; }
-.preview-notice { margin: 0; padding: 0.25rem 0; color: var(--muted-foreground); background: var(--background); font-size: 0.75rem; line-height: 1.5; }
-.preview-notice span { color: var(--foreground); font-weight: 500; }
+.preview-notice { margin: 0; padding: 0.25rem 0; color: var(--foreground); font-size: 0.75rem; line-height: 1.5; }
+.preview-notice span { font-weight: 500; }
 .appearance-control { display: flex; flex-shrink: 0; align-items: center; gap: 0.5rem; color: var(--muted-foreground); }
 .appearance-control select { min-block-size: 2rem; max-inline-size: 7rem; border: 1px solid var(--control-border); border-radius: 0.375rem; padding: 0.25rem 0.5rem; background: var(--background); color: var(--foreground); font: inherit; font-size: 0.75rem; }
 .campus-banner { position: absolute; z-index: -1; inset-block-start: 0; inset-inline: 0; block-size: 12rem; overflow: clip; opacity: 0.35; mask-image: linear-gradient(to bottom, black, transparent); }

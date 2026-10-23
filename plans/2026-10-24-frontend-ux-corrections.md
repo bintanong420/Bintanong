@@ -65,6 +65,14 @@ Existing Next workspace-lockfile/standalone-launch warnings remain; they do not
 fail the build. Existing pinned-framework security advisories remain outside this
 correction. No real backend, cross-browser or physical assistive-device validation.
 
+Notice follow-up (24 Oct): removed the unpadded page-color fill that made the
+preview notice resemble highlighted text. Use foreground text over the campus
+photo. Focused browser RED confirmed the opaque fill; GREEN passes 7 checks for
+transparent background, wrapping, non-overlap and no page errors. Conservative
+contrast over fully black/white photo pixels at 35% opacity is >=7.85:1 light and
+>=4.80:1 dark. Inspected both screenshots; Node24.21 production build/typecheck pass.
+Evidence: `notice-check.mjs` and `*-notice-fixed.png` in the evidence directory.
+
 References:[CSSlight-dark](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/light-dark),
 [color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme).
 

@@ -16,6 +16,8 @@ RED composer 80px and 3 appearance failures; GREEN 12 UI tests, typecheck/build 
 Node24.21/npm11.19, 47 theme/layout and 27 interaction browser checks. Both themes
 pass measured contrast checks; health route and synthetic boundaries preserved.
 Single focus outline verified; 10 docs tests pass and phase ledger remains valid.
+Notice follow-up: removed highlight-like fill; both-theme contrast >=4.80:1 over
+the photo, 7 focused browser checks and the production build/typecheck pass.
 No backend/dependency changes, formal phase advancement, deployment or push.
 
 ## Approved frontend implementation - 23 October 2026
