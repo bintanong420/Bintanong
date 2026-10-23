@@ -22,12 +22,11 @@ Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress
 
 ## Next action
 
-Owner answered O1-O5 (ledger, 23 Oct): AI SDK v7 and master pins updated; OCR deps may join `api`; `GET /curricula`
-allowed; diagnostics out of student text; symmetric style floor. Owner supplied private grade samples (kept only in
-workspace `audit-evidence/p11-20261023/private-owner-samples/`; they hold a real student's name and ID).
-Tasks 1-6 done (all endpoints, `b8f829b`). Task 7 (24.2) needs an owner judgement: run 15 Taglish replies 10/21;
-a closed-class English floor would fix about 5 of the 11 misses; the other 6 differ from their Filipino twins only
-by register (see checkpoint). Next: owner answer, then tasks 8 and 9.
+Tasks 1-8 done. 24.2: owner chose the recommended path; floor kept (roster run 16: Taglish 15/21, en/fil 21/21, 0
+status/decision changes); prompt trial declined. 24.1: photo geometry and scorer built (42 simulated photos, 0 silent
+errors) but the owner's real screenshot is refused, so photos stay unsupported and no dependency was added.
+Next: multi-turn run 6, live HTTP smoke (task 9), full suite, exit handoff. Then ask the owner about closing Phase 11
+backend-only.
 
 ## Boundaries
 
