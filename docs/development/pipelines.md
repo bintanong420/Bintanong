@@ -169,10 +169,30 @@ request's Prolog arguments; hypothetical/reported claims cannot. There is no hid
 history, automatic fact persistence, implicit course-target reuse or transcript
 completeness inference. A target like "that one" needs clarification when unresolved.
 
-A future conversation manager must separately establish confirmation, correction,
-expiry and ownership before persisting/reusing facts. Clearing or changing curriculum
-requires clearing incompatible facts. Private file extraction is later work and must
-remain session-local; it cannot become a source catalog entry or institutional rule.
+Ownership, expiry and confirmation now exist (Phases 10 and 11). `SessionStore` (memory only, 30 min idle)
+holds confirmed facts, at most one pending upload and the previous turn's ids. `follow_up_context` passes only
+facts in the request's own program/curriculum. Private file extraction runs in a bounded child process
+(`worker.py`). It never becomes a source catalog entry or institutional rule.
+
+## HTTP API (Phase 11, backend only)
+
+`backend/bintanong_api/app.py` `create_app(ApiServices, ApiSettings)`. Run one worker process: sessions are
+process memory.
+
+| Endpoint | Behaviour |
+| --- | --- |
+| `POST /chat` | AI SDK UI message stream v1 (`x-vercel-ai-ui-message-stream: v1`). Only the last user message is used. Transient `data-status` progress, then one validated student text, `source-document` parts, `data-answer` (`status`, `conditional`), `finish`. 422 before the stream; `error` chunk with a fixed code after it. One turn per session; a disconnect cancels the turn and captures nothing. |
+| `POST /uploads?programId=&curriculumId=` | Raw body, capped and sniffed; extraction in the child job; returns pending rows (printed code, course labels, marks). Photos return `photo_ocr_unavailable`. |
+| `POST /uploads/{id}/confirm`, `DELETE /uploads/{id}` | The student's row choices become session facts; delete removes the upload's facts. |
+| `GET /sources/{source_id}` | A card cited by this process's answers: title, page, section, readable excerpt. |
+| `GET /curricula`, `DELETE /session`, `GET /health/*` | Picker list; forget the session and clear the cookie; health. |
+
+- Cookie `__Host-bintanong_session`: HttpOnly, Secure, SameSite=Strict.
+- Unsafe methods need an allowed `Origin` and no `Sec-Fetch-Site: cross-site`.
+- Students see `presentation.student_text`. The canonical `CandidateAnswer.text`, which the validator checks byte
+  for byte, stays the researcher diagnostic.
+- `research_pipeline.ResearchPipeline` adapts the real answer path. The real-data launcher (hosted release, encoder,
+  model URL) is a trusted script kept in ignored workspace evidence.
 
 ## Resource and telemetry behavior
 
