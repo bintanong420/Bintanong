@@ -1,15 +1,15 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: in_progress
-sequence: 6
+status: paused
+sequence: 7
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ef716ca
+head_commit: 46c6944
 working_tree: clean
-updated_at: 2026-10-24T08:00:00+08:00
+updated_at: 2026-10-24T08:30:00+08:00
 ---
 
-# Phase 11 checkpoint - backend tasks 1-9 done and verified; owner decision on closing next
+# Phase 11 checkpoint - PAUSED (owner, 24 Oct): backend done; security and evaluation checks before UI integration
 
 ## Completed Tasks
 
@@ -28,11 +28,14 @@ updated_at: 2026-10-24T08:00:00+08:00
 
 ## Current Task
 
-Backend scope complete. Waiting for the owner: close Phase 11 backend-only (handoff) or keep it open for the UI.
+Paused at the owner's request (24 Oct): "just do a handoff for now, i plan to /clear and do some check on the security
+of the system and as well as more evaluations if there is really no more problems for the retrieval and the prolog
+stuff before we finally proceed for the ui integration". Phase 11 stays OPEN (not closed backend-only); there is
+deliberately no final `phase-11-handoff.md`. Backend tasks 1-9 are done and verified.
 
 ## Repository State
 
-Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `ef716ca`, nothing pushed.
+Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `46c6944` plus this pause commit, nothing pushed.
 
 ## Verification Evidence
 
@@ -79,9 +82,29 @@ Thesis physical 17-18 and 65-66, routing PNG (23 Oct). No discrepancy.
 
 ## Next Action
 
-Ask the owner whether to close Phase 11 backend-only. If yes: final handoff, INDEX, can-advance; Phase 12 non-UI
-evaluation needs its own recorded owner decision (master 24.3).
+Resume in a fresh session (after /clear) with the owner's planned checks, then UI integration:
+1. Security check of the system, starting with the new HTTP surface:
+   - `backend/bintanong_api/` (session, CSRF origin rules, stream, uploads, sources);
+   - `backend/bintanong_private_context/` (store, worker, photo rows);
+   - prior security notes in the Phase 10 handoff; frontend `npm audit` (3 pre-existing findings).
+   The `security-review` skill fits.
+2. More evaluation that retrieval and Prolog have no remaining problems. Start from:
+   - the two live-smoke observations above;
+   - roster run 16 (`audit-evidence/p11-20261023/roster16/`): 19 clarification and 19 non-answer statuses.
+   Use the counted harnesses; keep the evaluation families separate from tuning.
+3. Then UI integration (co-worker's design). Install `ai` v7 and `@ai-sdk/react` 4 at the then-current patch, with
+   owner approval of the exact pins. Add the contract test against the SDK's own stream parser. Proxy `/api`
+   same-origin.
+4. Then close Phase 11 with the full suite and a final handoff. Phase 12 needs its own recorded decision.
+
+How to run things:
+- Tests: `PYTHONUTF8=1 <shared venv python> -X utf8 -B -m pytest -q -p no:cacheprovider tests --basetemp=<ws>`.
+- Live API: from the worktree root, `HOSTED=1 <venv python> audit-evidence/p11-20261023/live-api/serve_research_api.py`
+  (port 8011, needs Gemma :18088). Then run `smoke_http.py`.
+- Roster/multi-turn: `p09-real-data-20261021/roster13.py <out>` and `p10-20261023/multiturn.py <out>`, with HOSTED=1
+  and PREFIX_CACHE=1.
 
 ## Do Not Repeat
 
-Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-8, roster run 16, the three style prompts.
+Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, full
+suite at `b48de79`, the three style prompts, the two reverted photo-threshold attempts.
