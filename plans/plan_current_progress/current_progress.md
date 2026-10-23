@@ -25,7 +25,7 @@ Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress
 Owner answered O1-O5 (ledger, 23 Oct): AI SDK v7 and master pins updated; OCR deps may join `api`; `GET /curricula`
 allowed; diagnostics out of student text; symmetric style floor. Owner supplied private grade samples (kept only in
 workspace `audit-evidence/p11-20261023/private-owner-samples/`; they hold a real student's name and ID).
-Next: task 1 RED (cookie session, CSRF, `DELETE /session` API tests).
+Tasks 1-6 done (all endpoints, `b8f829b`). Next: task 7 (24.2 symmetric style floor, then counted reruns).
 
 ## Boundaries
 
