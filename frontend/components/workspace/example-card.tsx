@@ -23,11 +23,14 @@ export function ExampleCard({ kind, state, dispatch, onFiles, onSources, onPickF
   if (kind === "review") return <div className="example-card"><FactReview state={state} dispatch={dispatch} onFiles={onFiles} /></div>;
   if (kind === "file-failed" && p.stage === "review") return <div className="example-card"><h3>Ready to review</h3><p>Sample details are ready. Nothing is confirmed yet.</p><Button size="sm" onClick={() => dispatch({ type: "review-details", id: crypto.randomUUID() })}>Check these details</Button></div>;
   if (kind === "upload" || kind === "files" || kind === "clear-failed") return <div className="example-card">
-    <h3>Files in this chat</h3><p>Use files or typed details to explain your question. Remove unnecessary data.</p>
-    <p className="supporting-copy">Local preview only. File contents are never opened or read. Review uses clearly marked sample details.</p>
+    <h3>Files in this chat</h3><p>Add files or a typed detail. Share only what your question needs.</p>
     <FileList files={p.files} onRemove={id => dispatch({ type: "remove", id })} />
     {p.stage === "review" && <p className="outcome-notice status-info" role="status">Ready to review. These sample details are not confirmed.</p>}
-    <div className="card-actions">{p.stage === "review" ? <Button size="sm" onClick={() => dispatch({ type: "review-details", id: crypto.randomUUID() })}>Check these details</Button> : <Button size="sm" disabled={p.files.length === 0 || !!p.fileRequest} onClick={() => dispatch({ type: "file-start", id: crypto.randomUUID(), facts: sampleFacts(p.files.at(-1)?.id ?? null) })}>Preview file review</Button>}<Button size="sm" variant="outline" onClick={onPickFiles}><Paperclip size={16} aria-hidden="true" />Add files</Button><Button size="sm" variant="outline" onClick={onFiles}>Review typed details</Button></div>
+    <div className="card-actions">
+      {p.files.length > 0 && (p.stage === "review" ? <Button size="sm" onClick={() => dispatch({ type: "review-details", id: crypto.randomUUID() })}>Check these details</Button> : <Button size="sm" disabled={!!p.fileRequest} onClick={() => dispatch({ type: "file-start", id: crypto.randomUUID(), facts: sampleFacts(p.files.at(-1)?.id ?? null) })}>Preview file review</Button>)}
+      <Button size="sm" variant={p.files.length ? "outline" : "default"} onClick={onPickFiles}><Paperclip size={16} aria-hidden="true" />Add files</Button>
+      <Button size="sm" variant="outline" onClick={onFiles}>Add a detail</Button>
+    </div>
   </div>;
   if (kind === "working") return <div className="example-card status-info" role="status"><h3>Checking available information</h3><p>This is a simulated status example. No academic response has been generated.</p></div>;
   const copy = exampleCopy[kind];

@@ -117,6 +117,16 @@ example deliberately keeps failing until the user cancels or starts New Chat.
 
 ## Limits and next action
 
+24 October simplification: the file-context card now has one short explanation
+and two empty-state actions, Add files and Add a detail. File review appears only
+with a selected file; pending review still prevents duplicates. Detailed preview
+limitations remain in the global notice and file panel. No CSS/dependency change.
+Focused browser check `simplified-context.mjs` failed RED on the empty disabled
+review action, then passed 17 checks across the three shared card scenarios,
+typed-detail keyboard flow, pending review and both themes at 1141x613.
+Node24.21 build/typecheck and all27 interaction tests pass. API implementation
+requirements are in the [integration assessment](2026-10-24-api-integration-assessment.md).
+
 Owner reviews the expanded local preview. No real file parsing, source excerpts,
 server deletion, automatic expiry, authentication, persistent history, deployment
 or backend work. Actual file-content quick preview remains deferred. Full mobile

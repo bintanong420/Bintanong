@@ -13,7 +13,9 @@ Last full upstream snapshot:`7d188d2:plans/plan_current_progress/current_progres
 review, recovery, modal clearing and explicit expiry example. Rejected clear-card
 designs replaced; failed clear preserves the full chat, success returns to New Chat.
 GREEN27 tests; Node24.21 build/typecheck, 114 interaction, 165 reflow and 28 additional
-browser checks pass. No file bytes/student API requests, dependencies or backend changes.
+browser checks pass. Card simplified: RED/GREEN17 browser checks, 27 tests and Node24.21
+checks pass. [API assessment](../2026-10-24-api-integration-assessment.md) maps HTTP,
+session/file provenance and transport gaps. No backend/dependency changes.
 
 ## Earlier frontend UX corrections
 
@@ -60,9 +62,8 @@ Application/build suites are not rerun for the documentation-only difference to 
 
 ## Next action
 
-Owner reviews Student-facing revisions using Preview example on `/`.
-Follow the dated delivery and annotation decisions; actual transport and unfinished
-mobile/backend work remain separate.
+Owner reviews the simplified preview and API integration assessment; Phase11
+starts after pre-phase research and owner go.
 
 ## Boundaries
 
