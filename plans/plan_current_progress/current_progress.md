@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 23 October 2026. Phase 10 active (private files and session context); step 1 next.
+Updated 23 October 2026. Phase 10 active (private files and session context); tasks 1-3 and task 4 code done.
 Branch p10 / `feat/p10-private-files-pipeline` from `ccc3cea`, nothing pushed.
 [Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
@@ -19,8 +19,8 @@ Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress
 
 ## Next action
 
-Task 1 (session store) done: 17 tests; full suite 6218 passed, 6 skipped. Next, task 2: D4 api-extra pins + uv lock in the
-uv container (no version change), then upload validation test-first.
+Tasks 1-3 done; task 4 host/router code done (single-turn prompt byte-identical). Next: owner acceptance of
+multi-turn cases, then a live-model multi-turn check and the single-turn roster rerun.
 
 ## Boundaries
 
