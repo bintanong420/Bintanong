@@ -226,3 +226,50 @@ def test_ending_a_turn_of_a_deleted_session_does_not_resurrect_it():
     store.delete(a.credential)
     store.end_turn(a.credential, 'msg-1', completed=True)
     assert len(store) == 0 and store.resolve(a.credential) is None
+
+
+# Phase 11 uploads: the pending extraction has an id; deleting an upload removes its pending rows and the
+# facts it confirmed, never a newer statement that replaced one of them.
+def test_pending_extraction_gets_an_upload_id_shown_in_the_view():
+    store = SessionStore()
+    a = store.issue()
+    upload_id = store.set_pending(a.credential, pending_extraction())
+    assert upload_id.startswith('upl-') and store.resolve(a.credential).pending_upload_id == upload_id
+
+
+def test_confirming_a_different_upload_id_is_refused():
+    store = SessionStore()
+    a = store.issue()
+    store.set_pending(a.credential, pending_extraction())
+    with pytest.raises(ValueError, match='unknown_upload'):
+        store.confirm_pending(a.credential, {'row-1-2': ('cc-101', 'passed')}, upload_id='upl-other')
+
+
+def test_deleting_a_pending_upload_clears_its_rows():
+    store = SessionStore()
+    a = store.issue()
+    upload_id = store.set_pending(a.credential, pending_extraction())
+    assert store.delete_upload(a.credential, upload_id) is True
+    view = store.resolve(a.credential)
+    assert view.pending is None and view.pending_upload_id is None
+
+
+def test_deleting_a_confirmed_upload_removes_its_facts_but_not_newer_statements():
+    store = SessionStore()
+    a = store.issue()
+    first = store.set_pending(a.credential, pending_extraction())
+    store.confirm_pending(a.credential, {'row-1-2': ('cc-101', 'failed'), 'row-1-3': ('gec-1', 'passed')},
+                          upload_id=first)
+    second = store.set_pending(a.credential, pending_extraction())
+    store.confirm_pending(a.credential, {'row-1-2': ('cc-101', 'passed')}, upload_id=second)
+    assert store.delete_upload(a.credential, first) is True
+    assert [(f.course_id, f.state) for f in store.resolve(a.credential).facts] == [('cc-101', 'passed')]
+
+
+def test_deleting_an_unknown_or_foreign_upload_changes_nothing():
+    store = SessionStore()
+    a, b = store.issue(), store.issue()
+    upload_id = store.set_pending(a.credential, pending_extraction())
+    assert store.delete_upload(b.credential, upload_id) is False
+    assert store.delete_upload(a.credential, 'upl-other') is False
+    assert store.resolve(a.credential).pending is not None

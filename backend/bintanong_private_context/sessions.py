@@ -10,7 +10,7 @@ import re
 import secrets
 import threading
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from ..bintanong_routing.contracts import ConversationContext, RequestContext, ScopedFact
 from .grades import ExtractionResult, confirm_rows
@@ -38,6 +38,7 @@ class SessionView:
     facts: tuple[ScopedFact, ...]
     pending: ExtractionResult | None
     conversation: ConversationContext | None
+    pending_upload_id: str | None = None
 
 
 @dataclass
@@ -50,6 +51,8 @@ class _Session:
     conversation: ConversationContext | None = None
     turn_in_flight: bool = False
     answered_message: str | None = None
+    pending_upload_id: str | None = None
+    upload_facts: dict[str, tuple[str, ...]] = field(default_factory=dict)  # upload id -> fact ids it confirmed
 
 
 def _digest(credential: object) -> str | None:
@@ -85,7 +88,7 @@ class SessionStore:
         with self._lock:
             session = self._live(credential)
             return None if session is None else SessionView(session.session_id, session.facts, session.pending,
-                                                                 session.conversation)
+                                                                 session.conversation, session.pending_upload_id)
 
     def set_facts(self, credential: object, facts: tuple[ScopedFact, ...]) -> None:
         with self._lock:
@@ -98,16 +101,23 @@ class SessionStore:
         with self._lock:
             self._owned(credential).conversation = conversation
 
-    def set_pending(self, credential: object, extraction: ExtractionResult | None) -> None:
+    def set_pending(self, credential: object, extraction: ExtractionResult | None) -> str | None:
+        """Replaces any earlier pending rows; returns the new upload id."""
         with self._lock:
-            self._owned(credential).pending = extraction
+            session = self._owned(credential)
+            session.pending = extraction
+            session.pending_upload_id = None if extraction is None else f'upl-{secrets.token_hex(8)}'
+            return session.pending_upload_id
 
-    def confirm_pending(self, credential: object, decisions: dict[str, tuple[str, str]]) -> tuple[ScopedFact, ...]:
+    def confirm_pending(self, credential: object, decisions: dict[str, tuple[str, str]], *,
+                        upload_id: str | None = None) -> tuple[ScopedFact, ...]:
         """Student's row choices become facts; a new statement for a course replaces the earlier one."""
         with self._lock:
             session = self._owned(credential)
             if session.pending is None:
                 raise ValueError('no_pending_extraction')
+            if upload_id is not None and upload_id != session.pending_upload_id:
+                raise ValueError('unknown_upload')
             session.confirmations += 1
             new = confirm_rows(session.pending, decisions, session_id=session.session_id,
                                batch=session.confirmations)
@@ -116,8 +126,23 @@ class SessionStore:
             if len(merged) > MAX_FACTS:
                 raise ValueError('too_many_facts')
             session.facts = merged
-            session.pending = None
+            session.upload_facts[session.pending_upload_id] = tuple(f.fact_id for f in new)
+            session.pending = session.pending_upload_id = None
             return session.facts
+
+    def delete_upload(self, credential: object, upload_id: str) -> bool:
+        """Removes the upload's pending rows and the facts it confirmed that are still current."""
+        with self._lock:
+            session = self._live(credential)
+            if session is None:
+                return False
+            found = upload_id == session.pending_upload_id
+            if found:
+                session.pending = session.pending_upload_id = None
+            confirmed = session.upload_facts.pop(upload_id, None)
+            if confirmed is not None:
+                session.facts = tuple(f for f in session.facts if f.fact_id not in confirmed)
+            return found or confirmed is not None
 
     def begin_turn(self, credential: object, message_id: str, *, regenerate: bool = False) -> None:
         """One chat turn at a time per session; a completed message is not answered twice."""
