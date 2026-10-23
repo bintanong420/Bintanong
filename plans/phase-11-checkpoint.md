@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 5
+sequence: 6
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4931177
+head_commit: ef716ca
 working_tree: clean
-updated_at: 2026-10-24T05:30:00+08:00
+updated_at: 2026-10-24T08:00:00+08:00
 ---
 
-# Phase 11 checkpoint - tasks 1-8 done; task 9 live HTTP smoke next, then exit
+# Phase 11 checkpoint - backend tasks 1-9 done and verified; owner decision on closing next
 
 ## Completed Tasks
 
@@ -24,15 +24,15 @@ updated_at: 2026-10-24T05:30:00+08:00
   [results](2026-10-24-taglish-style-floor-results.md) (`4931177`).
 - Task 8 (24.1): photo rows `a495db2`..`72a196b`, scorer `7328519`/`c55a6ac`, limits as strict xfails `15dbe41`;
   [results](2026-10-24-photo-grade-rows-results.md) (`5e1eb1f`). Photos stay unsupported; no dependency added.
-- Task 9 part: `ResearchPipeline` chat port over the real answer path (`6f0cf36`).
+- Task 9: `ResearchPipeline` chat port (`6f0cf36`); live HTTP smoke on real data passed (below); docs `ef716ca`.
 
 ## Current Task
 
-Task 9: live HTTP smoke with the untracked launcher (`audit-evidence/p11-20261023/live-api/`), after multi-turn run 6.
+Backend scope complete. Waiting for the owner: close Phase 11 backend-only (handoff) or keep it open for the UI.
 
 ## Repository State
 
-Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `4931177`, nothing pushed.
+Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `ef716ca`, nothing pushed.
 
 ## Verification Evidence
 
@@ -43,7 +43,16 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `4931177`, n
   Taglish 15/21 (run 15: 10/21); 23 of 25 answered texts identical, 2 changed only in language.
 - Photo measurement: 42 simulated photos, 0 silent errors; plain layout exact in all 7 conditions; Report-of-Grades
   style exact in flat/dim; owner's real screenshot refused (two causes pinned as xfails).
-- Full suite not yet run this phase.
+- Full suite at `b48de79` (later commits docs only): 6428 passed, 6 skipped, 2 xfailed (documented photo limits),
+  1552 subtests, 0 failed, 26m26s. Log: workspace `audit-evidence/p11-20261023/full-suite.log`.
+- Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
+  turns in Taglish 3 of 4 (run 5: 0 of 4).
+- Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum
+  release, Gemma :18088): RAG answered with a readable `/sources` excerpt (Handbook p.46); upload -> confirm -> CC 5
+  eligible (conditional); delete upload -> unknown again; humanized Taglish conditions; foreign origin 403;
+  `DELETE /session` sends Max-Age=0 with the `__Host-` attributes; a client dropped 4 s into an answer left the
+  session free (next message completed). Observed, not Phase 11 regressions: "I passed CC 4 but I have not taken
+  CC 3" got a generic clarification; a Hybrid next-step part was not answered.
 
 ## Versions and Digests
 
@@ -61,7 +70,8 @@ models), Gemma 4 E4B GGUF on :18088 (not re-hashed). Owner samples sha256: `46bf
 ## Known Failures or Blockers
 
 None blocking. Disclosed limits: 6 register-only Taglish questions reply in Filipino; photos unsupported (real
-screenshot refused); no disconnect test through a real server yet (task 9 smoke); full suite pending.
+screenshot refused); master 16's browser exit gate is not met (no UI by owner direction); AI SDK contract test
+against the SDK's own parser waits for the frontend install; no linter installed.
 
 ## Context Consulted
 
@@ -69,7 +79,8 @@ Thesis physical 17-18 and 65-66, routing PNG (23 Oct). No discrepancy.
 
 ## Next Action
 
-Read multi-turn run 6, start the live API, run `smoke_http.py`, then the full suite and the exit handoff.
+Ask the owner whether to close Phase 11 backend-only. If yes: final handoff, INDEX, can-advance; Phase 12 non-UI
+evaluation needs its own recorded owner decision (master 24.3).
 
 ## Do Not Repeat
 

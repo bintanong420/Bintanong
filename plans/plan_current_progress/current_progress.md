@@ -22,11 +22,9 @@ Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress
 
 ## Next action
 
-Tasks 1-8 done. 24.2: owner chose the recommended path; floor kept (roster run 16: Taglish 15/21, en/fil 21/21, 0
-status/decision changes); prompt trial declined. 24.1: photo geometry and scorer built (42 simulated photos, 0 silent
-errors) but the owner's real screenshot is refused, so photos stay unsupported and no dependency was added.
-Next: multi-turn run 6, live HTTP smoke (task 9), full suite, exit handoff. Then ask the owner about closing Phase 11
-backend-only.
+Backend tasks 1-9 done and verified (full suite 6428 passed, 0 failed; roster 16 and multi-turn 6 counted; live HTTP
+smoke on real data). 24.2 Taglish 10/21 -> 15/21; 24.1 photos still unsupported (real screenshot refused).
+Waiting for the owner: close Phase 11 backend-only, or keep it open for the frontend.
 
 ## Boundaries
 
