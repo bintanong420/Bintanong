@@ -291,3 +291,8 @@ Each program still gets its own dated review record listing which standing rule 
   approval, institutional release or activation. Phase 10 implementation still waits for the owner.
 - 23 Oct 2026 (workflow): before each phase from Phase 10 on, do intensive pre-phase research
   (optimization, latest technologies, faster delivery); rule added to AGENTS.md.
+- 23 Oct 2026 (Phase 10 start): owner created worktree `p10` and said "continue off from handoff" (go for
+  Phase 10). Answers to the pre-phase research decisions: D3 opaque cookie credential with 30-minute idle,
+  memory only; D1 OCR engine install/Docling pin and D2 Gemma 4 E4B vision measurement deferred to step 5
+  (photo OCR); D4 add the already-locked pypdfium2 5.13.0 and Pillow 12.3.0 to the `api` extra (uploads as a
+  raw body, no python-multipart).
