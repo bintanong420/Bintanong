@@ -23,10 +23,10 @@ def capture(result: RoutingResult) -> ConversationContext | None:
 
 def follow_up_context(view: SessionView, *, request_id: str, program_id: str | None = None,
                       curriculum_id: str | None = None) -> RequestContext:
-    """Scope the student did not restate comes from the previous turn; facts outside it stay out."""
+    """The previous turn rides along as context only; validation lets it fill scope the new message
+    leaves unnamed, so most turns (new, unrelated questions) are not bound to it. Facts outside the
+    request's scope stay out."""
     conversation = view.conversation
-    if program_id is None and curriculum_id is None and conversation is not None:
-        program_id, curriculum_id = conversation.program_id, conversation.curriculum_id
     facts = tuple(f for f in view.facts if (f.program_id, f.curriculum_id) == (program_id, curriculum_id))
     return RequestContext(session_id=view.session_id, request_id=request_id, program_id=program_id,
                           curriculum_id=curriculum_id, facts=facts, conversation=conversation)

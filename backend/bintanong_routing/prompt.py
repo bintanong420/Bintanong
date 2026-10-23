@@ -235,7 +235,8 @@ student asks exactly for it, rather than a nearby printed fact.'''
 
 
 FOLLOW_UP_INSTRUCTION = '''Previous turn: previous_turn names the course and/or document topic the
-previous answer used. If this message refers back to that course without naming it (for example
+previous answer used. Most messages are new questions: interpret them on their own and ignore
+previous_turn unless the message clearly refers back. If it refers back to that course without naming it (for example
 "its", "that subject", "yung subject na yan", "niya"), set previous_course_quote to those exact words
 and use that same quote as the course mention and operation target. If the message names a course,
 asks about something else, or it is unclear which course is meant, set previous_course_quote to null.

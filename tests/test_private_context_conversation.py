@@ -79,15 +79,43 @@ def test_reference_quote_must_be_in_the_message():
         follow_up(previous(), value)
 
 
-def test_follow_up_context_carries_scope_and_only_matching_facts():
+def test_follow_up_context_keeps_the_previous_turn_without_forcing_its_scope():
     store = SessionStore()
     a = store.issue()
     store.set_conversation(a.credential, previous())
     ctx = follow_up_context(store.resolve(a.credential), request_id='req-2')
     assert isinstance(ctx, RequestContext)
-    assert (ctx.program_id, ctx.curriculum_id, ctx.conversation) == ('program-a', 'curriculum-a', previous())
+    assert (ctx.program_id, ctx.curriculum_id, ctx.conversation) == (None, None, previous())
     explicit = follow_up_context(store.resolve(a.credential), request_id='req-3', program_id='program-b')
     assert (explicit.program_id, explicit.curriculum_id) == ('program-b', None)
+
+
+def test_carried_scope_fills_in_when_the_follow_up_names_none():
+    unscoped = context(program_id=None, curriculum_id=None, conversation=previous().model_dump(mode='json'))
+    value = proposal(text=FOLLOW_UP, mentions=[dict(kind='course', **ITS)], context_reference=ITS)
+    result = validate(FOLLOW_UP, value, unscoped)
+    assert result.diagnostic == 'validated' and result.curriculum_id == 'curriculum-a'
+
+
+def other_program_catalog():
+    from backend.bintanong_routing.contracts import CatalogEntry
+    def item(kind, entity, alias, program, curriculum):
+        return CatalogEntry.parse(dict(kind=kind, entity_id=entity, program_id=program, curriculum_id=curriculum,
+            aliases=[alias], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    return (entry(), item('program', 'program-b', 'Program B', 'program-b', None),
+            item('curriculum', 'curriculum-b', 'Edition B', 'program-b', 'curriculum-b'),
+            item('course', 'course-z', 'Z1', 'program-b', 'curriculum-b'))
+
+
+def test_unrelated_new_question_about_another_program_is_not_blocked_by_the_previous_turn():
+    text = 'Program B Z1'
+    value = proposal(text=text, mentions=[dict(kind='program', text='Program B', start=0, end=9),
+                                          dict(kind='course', text='Z1', start=10, end=12)],
+                     operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    unscoped = context(program_id=None, curriculum_id=None, conversation=previous().model_dump(mode='json'))
+    result = validate(text, value, unscoped, catalog=other_program_catalog())
+    assert result.diagnostic == 'validated' and result.curriculum_id == 'curriculum-b'
+    assert {i.name: i.value for i in result.decision.predicate_request.inputs}['course_id'] == 'course-z'
 
 
 def test_conversation_context_is_isolated_and_deleted_with_its_session():
@@ -116,3 +144,10 @@ def test_orchestrator_without_a_sink_behaves_as_before():
     from test_orchestration_pipeline import api, ports, resources, ctx, transport
     provider = ports().SyntheticReleaseProvider(resources())
     assert asyncio.run(api().Orchestrator(transport(), releases=provider).run('A1', ctx('a', 'passed'))).status == 'ready'
+
+
+def test_unrelated_document_question_does_not_inherit_the_previous_course_scope():
+    value = proposal(text='policy', mentions=[], operations=[], route='RAG')
+    unscoped = context(program_id=None, curriculum_id=None, conversation=previous().model_dump(mode='json'))
+    result = validate('policy', value, unscoped)
+    assert result.diagnostic == 'validated' and (result.program_id, result.curriculum_id) == (None, None)

@@ -165,6 +165,13 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                 if program is None:
                     program = entry.program_id  # explicit curriculum identity establishes its program
             resolved[idx] = entry
+    previous = context.conversation
+    if (previous is not None and (p.operations or reference is not None) and curriculum is None
+            and program in (None, previous.program_id)):
+        # The previous turn's scope only fills what this message leaves unnamed; a newly named program
+        # wins, and a document-only question keeps its own scope, so an unrelated new question is never
+        # bound to the earlier turn (owner, 23 Oct 2026).
+        program, curriculum = previous.program_id, previous.curriculum_id
     if program is not None and curriculum is None:
         # A program with exactly one reviewed curriculum uses it (owner decision, 24 Oct 2026);
         # several editions (e.g. old and proposed BSCS) still need the student's answer.

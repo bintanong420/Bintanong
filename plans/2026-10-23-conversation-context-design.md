@@ -34,9 +34,11 @@ expires or is deleted with the session.
   `course_id`, never from the model, and must still be a catalog entry in the request's program/curriculum.
   Otherwise the result is `unresolved_entity`, which leads to a clarification.
 - A reference without a stored course also leads to clarification.
-- The next turn's `RequestContext` takes `program_id`/`curriculum_id` from the stored context when the request
-  has none. A newly named different program or curriculum then hits the existing `scope_conflict` check and
-  gets a clarification (an apparent topic switch is never guessed).
+- Most turns are new, unrelated questions (owner, 23 Oct). The previous turn rides along as context only.
+  Its program/curriculum fill scope only when the new message has a course check or a back-reference and
+  names no other program. A newly named program wins, and a document-only question keeps its own
+  (unscoped) retrieval. The router instruction says to ignore `previous_turn` unless the message clearly
+  refers back.
 - Retrieval and Prolog still run fresh. A carried course never becomes a fact or a grade. Unknown versus unmet
   is unchanged. Reply language follows the current message, because the style call sees only the current text.
 
