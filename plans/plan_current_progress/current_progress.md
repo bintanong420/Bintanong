@@ -64,6 +64,10 @@ full suite 6198 passed. New thesis-derived requirement: conversational follow-up
 on, do intensive pre-phase research on optimization, current technologies and faster delivery,
 recorded in `plans/YYYY-MM-DD-phase-NN-pre-phase-research.md`. Research proposes only; tech or
 dependency changes still need owner approval.
+Owner then picked "shorter router output": router prompt v17 / wire v4 (`59e294b`) drops the unused
+`reason` field (19-43 fewer tokens per router call). Dropping `intent` too (v16) lost a failed-course
+claim in an uncounted precheck, so intent stays. Run 14 protocol fixed; full suite and run 14 pending
+(see checkpoint Next Action).
 
 ## Boundaries
 

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 153
+sequence: 154
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 25212ba
+head_commit: fd4c2d9
 working_tree: clean
-updated_at: 2026-10-23T12:00:00+08:00
+updated_at: 2026-10-23T18:00:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -143,8 +143,17 @@ Prolog 28.7->23.4 s, context 21.7->16.1 s). Owner made reuse the runtime default
 RuntimeSettings.prefix_cache=True, CLI `--no-prefix-cache`); full suite 6198 passed.
 New requirement recorded: [conversational follow-ups](2026-10-23-conversation-context-requirement.md)
 (thesis p.7/p.65; not built; owner to decide timing - Phase 10/11 or backend core first).
-Next: ask the owner which to do next: (a) shorter router output for latency (~2-3 s), (b) design the
-follow-up/session-context capability, (c) Phase 09 exit reassessment for the hosted 39-curriculum release.
+Owner picked (a) shorter router output (23 Oct, new session). `76e0128` wire v3/prompt v16 dropped
+intent+reason; uncounted precheck after container restart: cs-cc5-failed-cc4-tl@bscs-2018-2019 lost its
+failed-CC4 claim -> unknown (2/2 sequences; v15 2/2 answered). `59e294b` wire v4/prompt v17 keeps intent,
+drops only reason (host reason "interpreter proposed route X"): precheck 6/6 answered, router output
+-19..-43 tokens, router call ~0.2-2.5 s faster (one sample each; workspace latency14b/15b/16b). Routing tests
+909 passed; full suite at `59e294b` NOT yet rerun (background run killed for low system memory).
+Run 14 protocol fixed (`fd4c2d9`), not started.
+Next: rerun the full suite at HEAD, then run 14: docker restart bintanong-p09-cuda-latency; from repo root
+`HOSTED=1 PREFIX_CACHE=1 <venv python> -B <workspace>/audit-evidence/p09-real-data-20261021/roster13.py roster14`;
+compare with run 13 (copy compare13.py with roster13->roster14). Fail -> revert to v15/wire v2.
+Still open for the owner afterwards: (b) follow-ups design, (c) Phase 09 exit reassessment.
 Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:
 thesis physical 17-18 and the routing PNG; no discrepancy.
 
