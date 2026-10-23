@@ -1,79 +1,36 @@
 # Current progress
 
-Updated 23 October 2026. Phase 09 reopened on p09 / `feat/p09-generation-validation`.
-[Checkpoint](../phase-09-checkpoint.md) | [Per-part decision](../2026-10-21-per-part-generation-decision.md).
-Last full snapshot before this replacement: `0a08d8d:plans/plan_current_progress/current_progress.md`.
+Updated 23 October 2026. Phase 09 complete (second closeout); no active phase; Phase 10 not started.
+Branch p09 / `feat/p09-generation-validation`, nothing pushed.
+[Final handoff](../phase-09-handoff.md) | [Phase 10 pre-phase research](../2026-10-23-phase-10-pre-phase-research.md).
+Last full snapshot before this replacement: `e28eb5d:plans/plan_current_progress/current_progress.md`.
 
-## Latest change: per-part generation (owner-approved this session)
+## Latest changes (23 Oct, Claude Code session)
 
-Agent handover: Claude Code took over from Codex on 21 October 2026.
-
-Root cause of the English missing-fee failure: the selected `scoped` generator
-had no per-part obligation (claims carried no part link; the prompt never said
-"answer every part"), so all completeness checking fell on a post-hoc reviewer
-that wrongly mapped the fee part to an office claim. The owner chose to fix the
-generator instead of running the proposed native-thinking checker trial, which
-is superseded and will not run.
-
-Delivered (offline candidate, inactive):
-- New default profile `parts` (`backend/bintanong_generation/part_answers.py`):
-  one required answer slot per declared document part; `answered` with claims
-  or `not_in_evidence` / `source_gap` with none. Host numbers claims and derives
-  the mapping. An unavailable slot withholds the answer with no review call.
-- Reviewer confirms each part against only its own claims plus per-claim support.
-- Same two model calls as before; no budget/model/dependency/threshold change.
-- Runtime settings, run record, CLI and evaluation hashes accept `parts`; older
-  profiles remain explicit. READMEs and the pipeline doc were updated.
-- TDD: 12 new tests (`tests/test_generation_part_slots.py`) RED then GREEN.
-  Nine old tests that silently relied on the `scoped` default were pinned or
-  updated. Focused generation/runtime/docs set: 406 passed.
-
-## Actual-model result ([report](../2026-10-21-per-part-observation-results.md))
-
-d-en now answers both parts (Office K, 7 tokens): the targeted failure is fixed.
-d-fil and h-en pass. d-tl content is complete but its claims came out in plain
-English, and the reviewer did not flag it: 3/4 full quality, strict gate FAIL.
-Warm component 45.3-48.7 s per case (scoped was 43.7-49.8 s); four calls each.
-A runner defect in a first attempt (zero generation calls) is disclosed there.
-
-## Style guard (owner chose option a; `cd8e49b`)
-
-Owner direction: natural Taglish = Filipino grammar words plus everyday English
-terms (submit, fee, office); never deep Tagalog such as "isusumite". Added a
-deterministic floor (English-only fil/taglish claim -> existing single repair)
-and that prompt guidance. Second observation: d-en, h-en pass; d-fil complete but
-casual Taglish for a formal-Filipino question; d-tl withheld because the repair
-got only an opaque error code and repeated the English draft. Safe, still FAIL.
-
-## Per-language style (`b0905cb`)
-
-Owner plan: English -> English; Filipino -> mostly everyday Filipino; Taglish ->
-Tagalog structure with English terms. Added per-language prompt lines, a
-no-copying rule and a plain rewrite instruction on the style repair. Third
-observation: 4/4 full quality on the first draft (author reading), 41-43 s.
+- AGENTS.md: owner rule, intensive pre-phase research before each phase from Phase 10 on
+  (`c334d4f`), recorded in `plans/YYYY-MM-DD-phase-NN-pre-phase-research.md`; research proposes only.
+- Shorter router output (owner pick): wire v4 / prompt v17 drops the unused `reason` field
+  (`59e294b`). Dropping `intent` as well (`76e0128`, v16) lost a failed-course claim after a
+  container restart in an uncounted precheck, so intent stays. Router output -19..-43 tokens.
+- Full suite at `59e294b`: 6201 passed, 6 skipped, 0 failed. Run 14 PASS: 25 answered, 19
+  clarification, 19 insufficient; 0 wrong; medians document 26.3 s, Prolog 20.3 s, routing 11.6 s.
+  One new Taglish conflict answer is safe but one-sided (disclosed).
+- Phase 09 closed on the owner's direction ("do the work autonomously until you reach the end of
+  phase 9 finally transitioning to phase 10"); decision in `owner-decisions-ledger.md`.
+- Phase 10 pre-phase research written (`d34cc43`): reuse RequestContext facts, ocr_bench and Q8-Q16;
+  born-digital PDFs via pypdfium2 need no OCR; Docling 2.142.0 exists (pin 2.133.0); Gemma 4 E4B
+  reads images natively (needs an mmproj download); upload/injection/session findings.
 
 ## Next action
 
-23 Oct (handoff for /clear): run 12 PASS (24/63, 0 wrong). Latency: prompt reuse made the runtime
-default (`25212ba`) after run 13 PASS (document 34.3->27.7 s, Prolog 28.7->23.4 s warm medians);
-full suite 6198 passed. New thesis-derived requirement: conversational follow-ups
-([record](../2026-10-23-conversation-context-requirement.md)), not built. Resume from the
-[checkpoint](../phase-09-checkpoint.md) Next Action (owner picks: router output, follow-ups, exit review).
-
-23 Oct (new session): owner added a standing rule to AGENTS.md. Before each phase from Phase 10
-on, do intensive pre-phase research on optimization, current technologies and faster delivery,
-recorded in `plans/YYYY-MM-DD-phase-NN-pre-phase-research.md`. Research proposes only; tech or
-dependency changes still need owner approval.
-Owner then picked "shorter router output": router prompt v17 / wire v4 (`59e294b`) drops the unused
-`reason` field (19-43 fewer tokens per router call). Dropping `intent` too (v16) lost a failed-course
-claim in an uncounted precheck, so intent stays. Run 14 protocol fixed; full suite and run 14 pending
-(see checkpoint Next Action).
+Wait for the owner's go to start Phase 10. On go: run `phase_state.py can-advance`, answer or defer
+research decisions D1-D3 (OCR engine install, Gemma vision bake-off, session lifetime/credential),
+create the Phase 10 worktree `p10` and plan, then build steps 1-4 (session store, upload validation,
+born-digital PDF grade facts, conversation context) test-first.
 
 ## Boundaries
 
-Undergraduate scope, read-only advisory, source-gap, privacy, institutional
-release and one-week improvement boundaries unchanged. Accepted 75 variants and
-the held if/kung policy are unchanged. No activation, push, training, dependency
-or DB change. Phase 09 active (reopened); Phase 10 not started. Context consulted 22 Oct
-resume: thesis physical 17-18 (Scope and Limitations) and the routing PNG; no
-discrepancy.
+Undergraduate scope, read-only advisory, source-gap, privacy, institutional release and one-week
+improvement boundaries unchanged. Accepted 75 variants and the held if/kung policy unchanged. No
+activation, push, training, dependency or DB change this session. Context consulted 23 Oct resume:
+thesis physical 17-18 (Scope and Limitations) and the routing PNG; no discrepancy.

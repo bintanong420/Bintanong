@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 9
-status: in_progress
-sequence: 154
+status: superseded
+sequence: 155
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: fd4c2d9
+head_commit: 25f550f
 working_tree: clean
-updated_at: 2026-10-23T18:00:00+08:00
+updated_at: 2026-10-23T17:30:00+08:00
 ---
 
 # Phase 09 checkpoint - hosted Supabase done; program prerequisite reviews (BSA, BS Criminology)
@@ -125,37 +125,10 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-23 Oct handoff (owner /clear). Roster on hosted 39 curricula + router v15:
-- Run 10 PASS (21/63, 0 wrong) after `b26de19` (retrieval version ids) and `0d69381` (owner host fixes).
-- `bca2600` topic menu: claims reviewed `not_stated_in_selected_fields` offered only as not stated
-  (pre-enrollment deadline, special-class GCash). Run 11 FAIL: 26 answered but natural-u2 en/taglish
-  gave the printed class example 20,000.00 as each student's share (old safe result was the menu bug).
-- `4fad98a` owner "Fix keeps both": host-only per-person cues (`research.PER_PERSON`) add "official
-  individual student assessment" to a part asking one person's amount -> withheld. Uncounted check 8/8
-  as intended. Decision in `owner-decisions-ledger.md`; run 12 protocol committed (`87cde4a`).
-- Full suite 6194 passed; run 12 PASS: 24/63 answered, 0 wrong, 0 system errors (only natural-u2
-  en/taglish changed, now withheld). Results recorded in the roster results file.
-Latency: per-call profile recorded ([profile](2026-10-23-latency-profile-hosted-39.md)). Owner chose
-prompt caching first: `c3d3790` opt-in `LlamaTransport(prefix_cache=True)` (profile
-p09-greedy-prefix-cache-v1; default unchanged). Uncounted: document 26-29 s (was 32-36), Prolog 17-20 s
-(was 23-27). Run 13 PASS (identical outcomes to run 12, 0 wrong; medians document 34.3->27.7 s,
-Prolog 28.7->23.4 s, context 21.7->16.1 s). Owner made reuse the runtime default (`25212ba`,
-RuntimeSettings.prefix_cache=True, CLI `--no-prefix-cache`); full suite 6198 passed.
-New requirement recorded: [conversational follow-ups](2026-10-23-conversation-context-requirement.md)
-(thesis p.7/p.65; not built; owner to decide timing - Phase 10/11 or backend core first).
-Owner picked (a) shorter router output (23 Oct, new session). `76e0128` wire v3/prompt v16 dropped
-intent+reason; uncounted precheck after container restart: cs-cc5-failed-cc4-tl@bscs-2018-2019 lost its
-failed-CC4 claim -> unknown (2/2 sequences; v15 2/2 answered). `59e294b` wire v4/prompt v17 keeps intent,
-drops only reason (host reason "interpreter proposed route X"): precheck 6/6 answered, router output
--19..-43 tokens, router call ~0.2-2.5 s faster (one sample each; workspace latency14b/15b/16b). Routing tests
-909 passed; full suite at `59e294b` NOT yet rerun (background run killed for low system memory).
-Run 14 protocol fixed (`fd4c2d9`), not started.
-Next: rerun the full suite at HEAD, then run 14: docker restart bintanong-p09-cuda-latency; from repo root
-`HOSTED=1 PREFIX_CACHE=1 <venv python> -B <workspace>/audit-evidence/p09-real-data-20261021/roster13.py roster14`;
-compare with run 13 (copy compare13.py with roster13->roster14). Fail -> revert to v15/wire v2.
-Still open for the owner afterwards: (b) follow-ups design, (c) Phase 09 exit reassessment.
-Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:
-thesis physical 17-18 and the routing PNG; no discrepancy.
+Superseded: Phase 09 closed 23 Oct on the owner's direction (see the [final handoff](phase-09-handoff.md)).
+Run 14 PASS at `59e294b` (25 answered, 0 wrong); full suite 6201 passed. Phase 10 starts only on the
+owner's go, after `can-advance`; read the [pre-phase research](2026-10-23-phase-10-pre-phase-research.md).
+Last full snapshot of this checkpoint: `e28eb5d:plans/phase-09-checkpoint.md`.
 
 ## Do Not Repeat
 

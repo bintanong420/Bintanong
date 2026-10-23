@@ -281,3 +281,13 @@ Each program still gets its own dated review record listing which standing rule 
   conversational, because we wrote it on our introduction"); owner asked to append it to the master
   plan, done as addendum section 23 (sections 1-22 unchanged). Session-only structured context, never
   persisted; Phases 10/11/12 additions; backend core may be built first.
+- 23 Oct 2026 (router output, "Shorter router output"): router wire v4 / prompt v17 drops the unused
+  free-text `reason` field; `intent` stays (dropping it lost a failed-course claim in an uncounted
+  precheck). Run 14 PASS.
+- 23 Oct 2026 (Phase 09 closeout): owner directed "do the work autonomously until you reach the end of
+  phase 9 finally transitioning to phase 10 ... only stop when we are going to phase 10 and if you
+  REALLY NEED a human approval". Taken as approval to close Phase 09 (reopened 22 Oct for hosted
+  Supabase) as an offline research/software milestone with the disclosed limitations. Not school
+  approval, institutional release or activation. Phase 10 implementation still waits for the owner.
+- 23 Oct 2026 (workflow): before each phase from Phase 10 on, do intensive pre-phase research
+  (optimization, latest technologies, faster delivery); rule added to AGENTS.md.
