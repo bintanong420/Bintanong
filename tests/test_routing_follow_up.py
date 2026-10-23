@@ -66,3 +66,14 @@ def test_model_marked_reference_resolves_to_the_stored_course():
 def test_reference_without_stored_course_never_routes():
     result, _ = route(None, wire())
     assert result.decision.route is None
+
+
+def test_stored_course_is_shown_when_the_follow_up_request_carries_no_scope_of_its_own():
+    unscoped = RequestContext.parse(context(program_id=None, curriculum_id=None, conversation=PREVIOUS))
+    assert json.loads(build_messages(FOLLOW_UP, unscoped, catalog(), registry())[1]['content'])['previous_turn'] == {
+        'course': 'A1'}
+
+
+def test_stored_course_is_not_shown_when_the_request_names_another_curriculum():
+    other = RequestContext.parse(context(curriculum_id='curriculum-b', conversation=PREVIOUS))
+    assert 'previous_turn' not in json.loads(build_messages(FOLLOW_UP, other, catalog(), registry())[1]['content'])

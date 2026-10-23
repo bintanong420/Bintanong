@@ -251,8 +251,11 @@ def previous_turn(context, catalog):
     if conversation is None:
         return None
     shown = {}
+    program, curriculum = context.program_id, context.curriculum_id
+    if curriculum is None and program in (None, conversation.program_id):  # same gap-fill as validation
+        program, curriculum = conversation.program_id, conversation.curriculum_id
     course = next((c for c in catalog if c.kind == 'course' and c.entity_id == conversation.course_id
-                   and c.program_id == context.program_id and c.curriculum_id == context.curriculum_id), None)
+                   and c.program_id == program and c.curriculum_id == curriculum), None)
     if course is not None:
         shown['course'] = course.aliases[0]
     if conversation.subject_id is not None:
