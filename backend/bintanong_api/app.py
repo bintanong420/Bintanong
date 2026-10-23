@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from fastapi import Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 
+from backend.bintanong_api.chat import CurriculumOption
 from backend.bintanong_api.main import health_live, health_ready
 from backend.bintanong_api.session import SESSION_COOKIE, ApiError, check_origin, require_session
 from backend.bintanong_private_context.sessions import SessionStore
@@ -21,6 +22,7 @@ class ApiSettings:
 @dataclass(frozen=True)
 class ApiServices:
     sessions: SessionStore
+    curricula: tuple[CurriculumOption, ...] = ()
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
@@ -41,6 +43,12 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
             response.set_cookie(SESSION_COOKIE, credential, httponly=True, secure=True, samesite='strict',
                                 path='/')
         return response
+
+    @app.get('/curricula')
+    def curricula() -> dict:
+        return {'curricula': [dict(programId=c.program_id, curriculumId=c.curriculum_id,
+                                   programName=c.program_name, curriculumName=c.curriculum_name)
+                              for c in services.curricula]}
 
     @app.delete('/session', status_code=204)
     def delete_session(request: Request) -> Response:
