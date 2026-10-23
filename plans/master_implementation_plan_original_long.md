@@ -987,3 +987,45 @@ multi-turn family.
 - Phase 12 without the UI: the system-level evaluation can run through the API and harness. SUS/UAT
   (section 17.5) needs the real interface. Starting Phase 12 before a complete Phase 11 handoff needs an
   explicit owner decision recorded in the ledger.
+
+## 25. Addendum (owner request, 24 October 2026) — PSU sign-in, answer capacity and off-topic requests
+
+Appended at the owner's request. Sections 1–24 above are unchanged. Evidence: the
+[security review](2026-10-24-phase-11-security-review.md) and the Phase 11 checkpoint. Thesis physical 17–18
+(Scope and Limitations) restricts private data to "the authorized user/session", which sign-in is consistent with.
+
+### 25.1 PSU Google sign-in (owner decisions, 24 October 2026)
+
+- Only PSU Google accounts may use the site: verified email ending in `@psu.palawan.edu.ph` (example format:
+  student number `@psu.palawan.edu.ph`). The backend checks the verified domain itself on every request; a
+  browser-side check or Google's `hd` hint alone is never trusted.
+- Mechanism: Supabase Auth with the Google provider, on the existing hosted project. The backend verifies the
+  access token with Supabase (httpx, no new Python dependency); the frontend needs `@supabase/ssr` (dependency
+  pin approved with the UI integration set). Supabase keeps a user row (`auth.users`, holding the email and so
+  the student number). That is a new stored record; nothing else about a student is stored, and grades and
+  conversations stay memory-only (master 15).
+- Limits per account: one running question per PSU account across tabs and devices, in addition to the global
+  answer queue (25.2).
+- Placement: built with the UI integration (sign-in screen, Google Cloud OAuth client and consent screen,
+  token check, per-account limit), not in the backend-only part of Phase 11.
+- Never log emails or tokens. Email or student number never reaches the router, prompts or answers.
+
+### 25.2 Answer capacity (built 24 October 2026, `d1d416c`)
+
+Gemma 4 E4B runs with one slot (`--parallel 1`, about 45 s per answer on the RTX 4060 target). One answer runs,
+up to four wait with a `waiting` status (a frontend waiting screen can show it), and more get 503
+`answers_busy`. Live probe, 24 October 2026 (one attempt per level): one student 25.6 s; three at once
+finished at 23.5/38.5/49.4 s; six at once, five finished at 23.6–76.8 s and the sixth got `answers_busy` in
+0.5 s, with no errors. Those turns were short (four ended in clarifications); a full Hybrid answer is about
+45 s, so the fifth queued student can wait about 3–4 minutes. The owner's idea of admitting only about three active users is better expressed as concurrent
+*questions*, since reading the site costs the model nothing. Capacity must be re-measured on the actual
+deployment server before the queue size is fixed for defense; per-IP limits belong to the edge proxy, because
+the API only sees the Next.js server's address.
+
+### 25.3 Off-topic and abuse requests
+
+Requests unrelated to undergraduate academic affairs (code, poems, general knowledge, prompt injection,
+attempts to extract secrets or internal data) get the fixed out-of-scope notice. Live probe, 24 October 2026:
+13/13 such questions refused (after fix `5ee7b50`), 0 leaked markers, the in-scope control still answered. The
+model never writes free text to students: replies are validated claims over release evidence or fixed host
+lines. Keep an abuse family in the Phase 12 evaluation, separate from prompt tuning.

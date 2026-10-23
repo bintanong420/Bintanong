@@ -8,20 +8,21 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 ## Latest changes (24 Oct, Claude Code session)
 
-- Security check of the HTTP API and private-context packages: [review](../2026-10-24-phase-11-security-review.md).
-  Seven findings. Owner decisions: S1 evict the least recently used *empty* session (sessions with facts, pending
-  rows, conversation context or a running turn are never evicted); S3 Next.js critical/high `npm audit` findings
-  are upgraded with the `ai` v7 install at UI integration; S4-S7 applied now.
-- Fixes, each RED -> GREEN and mutation-checked: S2 `e87ed7b` (409 `session_ended`), S1 `15934a7`, S4 `8b67b8d`
-  (422 `invalid_message`), S5 `b0dc62b` (all PDF/image parsing inside the child job), S6 `93e795e` (503
-  `uploads_busy`), S7 `72ec6d4` (readiness errors without exception text). Developer API doc updated.
-- Full suite at `72ec6d4`: 6441 passed, 6 skipped, 2 xfailed, 1552 subtests, 0 failed (20m00s).
-- No secrets in tracked files (only the public Supabase demo keys). Root `npm audit`: 0.
+- Security review done ([report](../2026-10-24-phase-11-security-review.md)); fixes S1, S2, S4-S8 committed; full
+  suite at `72ec6d4` 6441 passed, 0 failed. Next.js advisories wait for UI integration (owner).
+- Owner decisions: answer queue of 1 running + 4 waiting, then 503 `answers_busy` (`d1d416c`); PSU Google sign-in
+  via Supabase Auth with a server-side `psu.palawan.edu.ph` check and one question per account, built with the
+  UI integration; off-topic requests refused. Recorded as master section 25.
+- Live abuse probe: off-topic, injection and secret-extraction questions refused, 0 leaks; one misleading
+  "temporarily unavailable" refusal fixed (`5ee7b50`). Live capacity: one slot serves students in arrival order.
+  Six at once: five answered by 76.8 s, the sixth got busy at once, no errors.
+- Step 2 finding E1: questions outside the 7 reviewed topics (leave of absence, transcript) get a bare "Please
+  clarify". Owner reply pending on the intended reply.
 
 ## Next action
 
-Step 2 of the owner's pre-UI checks: more retrieval and Prolog evaluation, starting from the two live-smoke
-observations and roster run 16's clarification/non-answer statuses. See the [checkpoint](../phase-11-checkpoint.md).
+Apply the owner's E1 answer test-first, then continue step 2 (live-smoke observations, roster run 16 statuses).
+See the [checkpoint](../phase-11-checkpoint.md).
 
 ## Boundaries
 
