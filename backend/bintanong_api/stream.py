@@ -1,6 +1,7 @@
 """FastAPI -> Vercel AI SDK UI message stream, protocol v1 (master 16.3; chunk shapes of `ai` 7.0.150).
 
-No draft text is streamed (master 16.2): transient `data-status` progress, then one validated student text,
+No draft text is streamed (master 16.2): transient `data-status` progress (`waiting` while queued for the model),
+then one validated student text,
 its sources, a `data-answer` summary and `finish`. Failures after the stream starts become an `error` chunk.
 A client disconnect closes this generator, which cancels the turn, so nothing is captured from it.
 """
@@ -43,7 +44,7 @@ def answer_parts(answer, message_id: str) -> list[dict]:
     return parts
 
 
-async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, sources=None):
+async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, sources=None, reservation=None):
     message_id = f'msg-{secrets.token_hex(8)}'
     yield encode({'type': 'start', 'messageId': message_id})
     queue: asyncio.Queue = asyncio.Queue()
@@ -51,7 +52,13 @@ async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, so
     def progress(stage: str) -> None:
         queue.put_nowait({'type': 'data-status', 'data': {'stage': stage}, 'transient': True})
 
-    task = asyncio.create_task(turns.run(session, turn, progress=progress))
+    async def admitted_turn():
+        if reservation is None:
+            return await turns.run(session, turn, progress=progress)
+        async with reservation.running(progress):
+            return await turns.run(session, turn, progress=progress)
+
+    task = asyncio.create_task(admitted_turn())
     try:
         while not task.done() or not queue.empty():
             if not queue.empty():

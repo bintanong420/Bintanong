@@ -5,8 +5,9 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 
 from fastapi import Depends, FastAPI, Request, Response
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse
 
+from backend.bintanong_api.admission import AdmittedStream, AnswerAdmission
 from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
 from backend.bintanong_api.main import health_live, health_ready
 from backend.bintanong_api.session import SESSION_COOKIE, ApiError, Session, check_origin, require_session
@@ -24,6 +25,8 @@ class ApiSettings:
     allowed_origins: tuple[str, ...]
     max_upload_bytes: int = MAX_UPLOAD_BYTES
     max_parallel_uploads: int = 2  # each upload starts a parser process
+    max_running_answers: int = 1  # Gemma serves one request at a time (`--parallel 1`)
+    max_waiting_answers: int = 4
 
 
 @dataclass(frozen=True)
@@ -40,6 +43,8 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     app = FastAPI(title='Bintanong API', version='0.0.0', dependencies=[Depends(check_origin)])
     app.state.services, app.state.settings = services, settings
     turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
+    app.state.admission = admission = AnswerAdmission(running=settings.max_running_answers,
+                                                      waiting=settings.max_waiting_answers)
     app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
     app.add_api_route('/health/live', health_live, methods=['GET'])
     app.add_api_route('/health/ready', health_ready, methods=['GET'])
@@ -58,11 +63,11 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
         return response
 
     @app.post('/chat')
-    def chat(request: ChatRequest, session: Session = Depends(require_session)) -> StreamingResponse:
+    def chat(request: ChatRequest, session: Session = Depends(require_session)) -> AdmittedStream:
         turn = turns.prepare(request)
-        return StreamingResponse(chat_stream(turns, session, turn, services.sources),
-                                 media_type='text/event-stream',
-                                 headers=STREAM_HEADERS)
+        reservation = admission.reserve()  # last: nothing may raise between this and the response
+        return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation), reservation,
+                              media_type='text/event-stream', headers=STREAM_HEADERS)
 
     @app.get('/sources/{source_id}')
     def source(source_id: str) -> dict:

@@ -186,3 +186,54 @@ def test_disconnect_cancels_the_turn_and_keeps_nothing():
     asyncio.run(scenario())
     assert store.resolve(issued.credential).conversation is None
     store.begin_turn(issued.credential, 'msg-1')  # not stuck in flight, and not marked answered
+
+
+def test_answers_past_the_model_capacity_wait_in_a_short_queue_then_get_busy():
+    # Owner, 24 Oct 2026: Gemma serves one request at a time; a short queue with a waiting status, then busy.
+    import threading
+    import time
+    started, release = threading.Event(), threading.Event()
+    answer = answer_for('RAG')  # built outside the event loop (it runs one itself)
+
+    class OneSlotModel:
+        def __init__(self):
+            self.running = self.peak = self.calls = 0
+
+        async def run(self, text, ctx, *, routed_sink, progress):
+            self.calls += 1
+            self.running += 1
+            self.peak = max(self.peak, self.running)
+            started.set()
+            await asyncio.to_thread(release.wait, 10)
+            self.running -= 1
+            return answer
+    model = OneSlotModel()
+    app = create_app(ApiServices(sessions=SessionStore(), curricula=CURRICULA, pipeline=model),
+                     ApiSettings(allowed_origins=(ORIGIN,), max_running_answers=1, max_waiting_answers=1))
+    results = {}
+
+    def ask(name, c):
+        results[name] = c.post('/chat', json=body())
+    # One client = one event loop, as under uvicorn. Its cookie jar fills only when a response ends, so each
+    # concurrent request below arrives without a cookie and gets its own session.
+    with client(app) as c:
+        running = threading.Thread(target=ask, args=('running', c))
+        running.start()
+        assert started.wait(10)
+        waiting = threading.Thread(target=ask, args=('waiting', c))
+        waiting.start()
+        deadline = time.monotonic() + 10
+        while app.state.admission.admitted < 2 and time.monotonic() < deadline:
+            time.sleep(0.01)
+        busy = c.post('/chat', json=body())
+        release.set()
+        running.join(10)
+        waiting.join(10)
+        c.cookies.clear()
+        afterwards = c.post('/chat', json=body(message_id='msg-2'))
+    assert (busy.status_code, busy.json()) == (503, {'error': 'answers_busy'})
+    stages = [p['data']['stage'] for p in parse(results['waiting'].content) if p['type'] == 'data-status']
+    assert stages[0] == 'waiting'
+    for response in (results['running'], results['waiting'], afterwards):
+        assert response.status_code == 200 and any(p['type'] == 'text-delta' for p in parse(response.content))
+    assert model.peak == 1 and model.calls == 3
