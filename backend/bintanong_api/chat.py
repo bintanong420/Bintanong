@@ -75,12 +75,17 @@ class ChatTurns:
         text = ' '.join(p.text for p in message.parts if p.type == 'text' and p.text).strip()
         if message.role != 'user' or not text:
             raise ApiError(422, 'empty_message')
-        scope = (request.programId, request.curriculumId)
-        if (scope[0] is None) != (scope[1] is None):
-            raise ApiError(422, 'incomplete_scope')
-        if scope[0] is not None and scope not in self._scopes:
-            raise ApiError(422, 'unknown_curriculum')
+        scope = self.checked_scope(request.programId, request.curriculumId, required=False)
         return PreparedTurn(text, message.id, *scope, regenerate=request.trigger == 'regenerate-message')
+
+    def checked_scope(self, program_id: str | None, curriculum_id: str | None, *,
+                      required: bool) -> tuple[str | None, str | None]:
+        """A program and curriculum come together and must be listed (`GET /curricula`)."""
+        if (program_id is None) != (curriculum_id is None) or (required and program_id is None):
+            raise ApiError(422, 'incomplete_scope')
+        if program_id is not None and (program_id, curriculum_id) not in self._scopes:
+            raise ApiError(422, 'unknown_curriculum')
+        return program_id, curriculum_id
 
     async def answer(self, session: Session, request: ChatRequest, progress=_ignore):
         return await self.run(session, self.prepare(request), progress)
