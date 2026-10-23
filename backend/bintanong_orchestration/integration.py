@@ -50,7 +50,8 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
         doc_status = {'conflicting_sources':'conflict', 'release_changed':'release_mismatch',
             'needs_scope':'clarify', 'uncalibrated':'uncalibrated',
             'insufficient_evidence':'no_evidence', 'unassessed':'no_evidence',
-            'needs_subject':'clarify', 'needs_claims':'clarify'}.get(documents.status)
+            # No reviewed topic matched: missing information, not something the student can clarify (owner E1).
+            'needs_subject':'no_evidence', 'needs_claims':'clarify'}.get(documents.status)
         if documents.status != 'ok':
             doc_status = doc_status or 'error'
         elif not documents.passages or documents.gaps:
