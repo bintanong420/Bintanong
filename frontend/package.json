@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test:ui": "node --experimental-strip-types --test tests/workspace.test.mjs tests/appearance.test.mjs"
+    "test:ui": "node --experimental-strip-types --test tests/*.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-separator": "1.2.0",
