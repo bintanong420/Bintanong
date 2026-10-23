@@ -23,9 +23,14 @@ This is an interactive synthetic desktop preview, not formal Phase 11 advancemen
 
 1. Interaction state: RED6failures/2passes with empty behavior; GREEN8/8.
    Command: `node --experimental-strip-types --test frontend/tests/workspace.test.mjs`.
-2. Tailwind/shadcn and health-route preservation: pending.
-3. Approved desktop components and local assets: pending.
-4. Browser/build/accessibility verification and final review: pending.
+2. Tailwind4.3.3/PostCSS4.3.3 and shadcn New York primitives installed;
+   health dashboard moved to `/dev/health` with scoped CSS and unchanged proxy.
+3. Approved desktop components and local Figma assets delivered. Interface preview
+   is explicit; fixtures carry no real academic claims or decision logic.
+4. TypeScript/build pass under Node24.21/npm11.19;9 interaction tests pass.
+   Production browser27checks plus6contrast/privacy checks pass (33total).
+   Independent review found dark health-focus regression: RED1.35:1/GREEN13.35:1
+   after scoped light outline. No other substantive findings.
 
 ## Rulings and exclusions
 
@@ -45,5 +50,49 @@ This is an interactive synthetic desktop preview, not formal Phase 11 advancemen
 
 ## Verification and next action
 
-No UI completion claims yet. Next: add the UI foundation and local assets.
-Pinned Node24.21 is available through npm exec without a system-runtime change. Keep raw screenshots/logs under workspace audit-evidence.
+Delivered commits: interaction `caba540`, approved UI `4196286`.
+Commands from repository root (npm scripts run in frontend):
+- `npm exec --yes --package=node@24.21.0 --package=npm@11.19.0 -- npm --prefix frontend run test:ui`:9pass.
+- Same pinned toolchain with `run typecheck` and `run build`:pass; routes `/`,
+  `/dev/health`, unchanged `/api/health` and static icon generated.
+- `py -3.13 -m pytest tests/test_docs_hygiene.py -q -p no:cacheprovider --basetemp <evidence>/pytest`:10pass.
+- `phase_state.py validate`:valid;no active phase;Phase10 handoff unchanged.
+- `node <evidence>/browser-check.mjs`:27pass against production build on3212;
+  `node <evidence>/contrast-privacy.mjs`:6pass. No page/console errors or student
+  API calls; keyboard, simulated IME, reflow, reset races, file controls and sources checked.
+- Contrast:alert6.47:1,muted text4.81:1,composer boundary3.64:1;health focus13.35:1.
+- Health UI uses an intercepted readiness fixture;this is not a live backend-health claim.
+Raw scripts/results/screenshots:`C:/Coding-projects/bintanong_workspace/audit-evidence/frontend-approved-20261023/`.
+Independent review's only substantive finding (health focus) was corrected and
+regression-checked. No backend diff or user/private artifacts staged.
+Next: owner reviews this desktop preview; implement another state only after its
+Figma approval. Do not expand into unfinished flows or real transport.
+
+## Implementation notes
+
+- Components: Workspace controller, Sidebar, EmptyConversation/Conversation,
+  Composer; shadcn Button/Textarea/Card/Alert/Badge/Separator and local cn utility.
+- Tailwind/postcss4.3.3, postcss8.5.31; radix slot1.5.0/separator1.2.0,
+  cva0.7.1, clsx2.1.1, tailwind-merge3.7.0, lucide-react1.61.0. Framework pins unchanged.
+  CLI4.2.0 generated primitives; unused umbrella cn/radix packages removed.
+- Geist/Inter use next/font; original raster/SVG assets are local under public/design.
+  Campus fill intentionally matches Figma's1174x246 image slot, including its
+  flattened source-image framing; cover cropped the university name out.
+- New Chat aborts the local650ms demo timer; it does not call a session API.
+  Input metadata checks are preview affordances, not trusted upload validation.
+  Photos may be selected as filename chips; no photo processing is claimed.
+- Responsible-use copy now explicitly names AI-guide/office verification and scope
+  copy says undergraduate. Existing notice size is preserved; redesign is deferred.
+- Minimal accessibility deviations: darker upload alert, stronger composer boundary,
+  visible focus and labeled controls. No copied internal pipeline terminology.
+- Next dev generated unwanted agent files; verified agentRules setting disables
+  that generation and only newly generated frontend files were removed.
+- No lint script is configured. No backend/model/database tests run for this slice.
+- npm audit still reports pre-existing Nextcritical/sharphigh advisories. Framework
+  versions remain pinned as instructed; remediation is outside this UI slice.
+- Browser connector could not initialize its kernel; local Playwright/Edge was used
+  without adding browser tooling to application dependencies. Actual keyboard/phone
+  hardware and complete mobile design remain unverified.
+- Official setup references: [Tailwind](https://tailwindcss.com/docs/installation/framework-guides/nextjs),
+  [shadcn](https://ui.shadcn.com/docs/installation/next),
+  [future AI SDK transport](https://ai-sdk.dev/docs/ai-sdk-ui/transport).

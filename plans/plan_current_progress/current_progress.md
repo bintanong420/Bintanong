@@ -1,18 +1,23 @@
 # Current progress
 
-Updated 24 October 2026. Phase 10 complete (owner-approved with disclosures); no active phase.
-Branch p10 / `feat/p10-private-files-pipeline` from `ccc3cea`, nothing pushed.
+Updated 23 October 2026. Phase10 remains complete;no active numbered phase.
+Current checkout:`frontend`;approved synthetic desktop preview delivered locally.
 [Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
-Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress/current_progress.md`.
+Last full upstream snapshot:`7d188d2:plans/plan_current_progress/current_progress.md`;earlier:`ccc3cea`.
 
 ## Approved frontend implementation - 23 October 2026
 
-Owner approved the bounded [desktop preview plan/delivery](../2026-10-23-approved-frontend-delivery.md).
-Live Figma approval/status/annotations rechecked; interactive synthetic home page,
-metadata-only local attachments, no backend/API changes or formal phase advancement.
-Interaction RED6failures/GREEN8tests; next: Tailwind/shadcn foundation, local assets
-and health-route preservation. Existing untracked model directory is untouched.
+[Delivery/evidence](../2026-10-23-approved-frontend-delivery.md):interaction `caba540`,
+UI `4196286`. Approved Figma shell/composer/messages/sources/attachments/rejection
+implemented with Tailwind4.3.3 and six shadcn primitives;health moved to `/dev/health`.
+Local-only metadata and fictional responses;no real transport/academic decisions.
+RED6/GREEN9interaction tests;Node24.21/npm11.19 typecheck/build pass;33production
+browser checks and10docs tests pass;phase ledger valid. Scoped health-focus fix
+RED1.35:1/GREEN13.35:1;independent review found no other substantive issue.
+Unfinished Figma flows,formal phase advancement,backend changes and deployment
+excluded. Existing model directory preserved;no private artifacts staged.
+Pre-existing Next/sharp advisories remain;framework pins unchanged.
 
 ## Frontend synchronization - 23 October 2026
 
@@ -40,16 +45,9 @@ Application/build suites are not rerun for the documentation-only difference to 
 
 ## Next action
 
-Phase 10 is closed ([final handoff](../phase-10-handoff.md); final suite 6295 passed, 6 skipped, 0 failed).
-Open owner questions (asked 24 Oct, not yet answered; ask again before starting):
-- The owner wants all backend finished while the frontend design is pending. Proposed: start Phase 11
-  backend-first (pre-phase research, then `POST /chat` with the cookie session and conversation capture,
-  `POST /uploads` plus the confirm step, `DELETE /uploads/{id}`, `DELETE /session`, `GET /sources/{id}`, and the
-  AI SDK 6 streaming adapter, all with API tests). Frontend tasks wait for the co-worker's design.
-- Photo OCR has no owning phase (it is not in master 16). Proposed: a backend task for deskewed row grouping,
-  refusal when uncertain, and a grade-row Q11-style scorer on simulated photos. A "supported" claim needs real
-  phone photos (owner to provide, kept private).
-- The conversational function is built and live-tested in the backend but not yet reachable over HTTP.
+Owner reviews the approved desktop preview. Continue only with newly approved
+Figma states;public transport/backend-phase decisions remain separate. See the
+frontend delivery for exact commands,assets,annotations and remaining limitations.
 
 ## Boundaries
 
