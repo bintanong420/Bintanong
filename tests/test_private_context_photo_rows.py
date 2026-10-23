@@ -110,7 +110,7 @@ def table_words(rows, transform=lambda x, y: (x, y), header=HEADER, row_gap=34):
 
 
 def grade_rows(words):
-    result = photo_grade_rows(group_lines(words), CATALOG, program_id='bscs', curriculum_id='bscs-2018')
+    result = photo_grade_rows(words, CATALOG, program_id='bscs', curriculum_id='bscs-2018')
     return [(r.code_text, r.candidates, r.marks) for r in result.rows], result.unmatched_lines
 
 
@@ -160,3 +160,44 @@ def test_a_word_nearer_one_row_but_almost_as_near_the_next_is_refused():
     close = Word('2.00', ((520, 107), (564, 107), (564, 125), (520, 125)), 0.99)
     with pytest.raises(RowsUncertain):
         group_lines(words + [close])
+
+
+def label_between_rows(text='SEMESTER', top=125):
+    """A Report-of-Grades semester label, vertically centred on its block, so it sits between two rows."""
+    return Word(text, ((8, top), (48, top), (48, top + 18), (8, top + 18)), 0.99)
+
+
+def test_an_ambiguous_word_that_is_not_critical_is_dropped_not_guessed():
+    # Row centres 109 and 143; the label's centre is 122 (13 px and 21 px away): placeable on neither.
+    words = page_words(lambda x, y: (x, y)) + [label_between_rows(top=113)]
+    lines = group_lines(words, critical=lambda w: w.text != 'SEMESTER')
+    assert texts(lines) == ROWS
+
+
+def test_an_ambiguous_critical_word_still_refuses():
+    words = page_words(lambda x, y: (x, y)) + [label_between_rows('1.75', top=113)]
+    with pytest.raises(RowsUncertain):
+        group_lines(words, critical=lambda w: True)
+
+
+def test_semester_labels_between_rows_do_not_block_grade_rows():
+    words = table_words([ROW_CC5, ROW_GEC]) + [label_between_rows('2023-2024', top=152)]
+    rows, _ = grade_rows(words)
+    assert rows == [('CC 5/L', ('cc-105',), ('1.75',)), ('GEC 1', ('gec-1',), ('2.00',))]
+
+
+def test_a_grade_near_two_rows_still_refuses_the_photo():
+    # Row centres 143 and 177; this grade's centre is 156 (13 px and 21 px away): not clearly on either.
+    words = table_words([ROW_CC5, ROW_GEC]) + [Word('2.25', ((600, 147), (640, 147), (640, 165), (600, 165)), 0.99)]
+    with pytest.raises(RowsUncertain):
+        grade_rows(words)
+
+
+def test_an_unplaceable_final_header_refuses_instead_of_showing_every_number():
+    # Two-line header: FINAL sits between the header lines, so dropping it would fall back to showing units and
+    # midterm as marks.
+    top = [(60, 'COURSE'), (200, 'TITLE'), (420, 'UNIT'), (500, 'MIDTERM'), (660, 'RE-EX'), (740, 'REMARKS')]
+    words = table_words([[(60, 'CODE')], ROW_CC5], header=top) + [
+        Word('FINAL', ((580, 113), (630, 113), (630, 131), (580, 131)), 0.99)]  # 13 px and 21 px from the lines
+    with pytest.raises(RowsUncertain):
+        grade_rows(words)

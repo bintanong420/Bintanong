@@ -64,34 +64,48 @@ class _Line:
         return cy + slope * (x - cx)
 
 
-def group_lines(words: list[Word]) -> list[list[Word]]:
-    """Lines in reading order (top to bottom), each left to right; raises RowsUncertain instead of guessing."""
+def group_lines(words: list[Word], critical=None) -> list[list[Word]]:
+    """Lines in reading order (top to bottom), each left to right; raises RowsUncertain instead of guessing.
+
+    With `critical` given, words for which it is false (titles, semester labels centred between rows) cannot
+    refuse the page: a first pass finds the ones that are unplaceable or stand alone, they are removed, and the
+    second pass chains the rest. Only an unplaceable critical word (a code, a mark) refuses."""
     if not words:
         return []
     tilt = math.degrees(math.atan(statistics.median(w.slope for w in words)))
     if abs(tilt) > MAX_TILT_DEGREES:
         raise RowsUncertain('tilt_beyond_envelope')
+    if critical is None:
+        return _chain(words, refuse=lambda word: True)[0]
+    lines, unplaced = _chain(words, refuse=lambda word: False)
+    noise = {id(w) for w in unplaced if not critical(w)}
+    noise |= {id(line[0]) for line in lines if len(line) == 1 and not critical(line[0])}
+    return _chain([w for w in words if id(w) not in noise], refuse=critical)[0]
+
+
+def _chain(words: list[Word], refuse) -> tuple[list[list[Word]], list[Word]]:
+    """Left-to-right chaining; an unplaceable word refuses the page when `refuse(word)`, else it is set aside."""
     height = statistics.median(w.height for w in words)
     lines: list[_Line] = []
+    unplaced = []
     for word in sorted(words, key=lambda w: w.center[0]):
         x, y = word.center
         residuals = sorted((abs(line.predict(x) - y), i) for i, line in enumerate(lines))
-        if not residuals:
-            lines.append(_Line(word))
-            continue
-        best, index = residuals[0]
-        if best > NEW_LINE * height:
+        if not residuals or residuals[0][0] > NEW_LINE * height:
             lines.append(_Line(word))  # clearly on no existing line: a new row starts here
             continue
-        if len(residuals) > 1 and residuals[1][0] - best < MARGIN * height:
-            raise RowsUncertain('word_near_two_lines')
-        if best <= ON_LINE * height:
+        best, index = residuals[0]
+        ambiguous = len(residuals) > 1 and residuals[1][0] - best < MARGIN * height
+        if not ambiguous and best <= ON_LINE * height:
             lines[index].words.append(word)
+        elif refuse(word):
+            raise RowsUncertain('word_near_two_lines' if ambiguous else 'word_between_lines')
         else:
-            raise RowsUncertain('word_between_lines')
+            unplaced.append(word)
     middle = statistics.median(w.center[0] for w in words)
-    return [sorted(line.words, key=lambda w: w.center[0])
-            for line in sorted(lines, key=lambda line: line.predict(middle))]
+    ordered = [sorted(line.words, key=lambda w: w.center[0])
+               for line in sorted(lines, key=lambda line: line.predict(middle))]
+    return ordered, unplaced
 
 
 EDGE_MARGIN = 0.15  # a value this close (share of column width) to a FINAL column edge is ambiguous
@@ -99,6 +113,8 @@ EDGE_MARGIN = 0.15  # a value this close (share of column width) to a FINAL colu
 
 def _final_column(header: list[Word]) -> tuple[float, float]:
     """x range of the FINAL column, bounded halfway to its neighbouring header words."""
+    if len(header) < 2:
+        raise RowsUncertain('final_column_unbounded')  # no neighbour on its line: the column has no edges
     xs = [w.center[0] for w in header]
     i = next(i for i, w in enumerate(header) if w.text.strip().upper() == 'FINAL')
     left = (xs[i - 1] + xs[i]) / 2 if i > 0 else xs[i] - (xs[i + 1] - xs[i]) / 2
@@ -123,12 +139,18 @@ def _final_marks(line: list[Word], column: tuple[float, float]) -> tuple[str, ..
     return tuple(marks)
 
 
-def photo_grade_rows(lines: list[list[Word]], catalog: tuple[CatalogEntry, ...], *, program_id: str,
+def photo_grade_rows(words: list[Word], catalog: tuple[CatalogEntry, ...], *, program_id: str,
                      curriculum_id: str) -> ExtractionResult:
     """Grade rows matched only by the curriculum's reviewed aliases (as for PDFs). With a header line that has a
     FINAL column (a Report of Grades layout also prints units and midterm), only that column's value is shown."""
     courses = curriculum_courses(catalog, program_id, curriculum_id)
     code = _code_pattern(courses)
+
+    def critical(word: Word) -> bool:  # what decides a row: its code, a mark, the FINAL header
+        text = word.text.strip()
+        return bool(_MARK.search(text) or (code and code.search(text))) or text.upper() == 'FINAL'
+
+    lines = group_lines(words, critical=critical)
     header = next((line for line in lines if any(w.text.strip().upper() == 'FINAL' for w in line)), None)
     column = _final_column(header) if header is not None else None
     rows, unmatched = [], 0
