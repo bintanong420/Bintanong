@@ -14,7 +14,7 @@ from ..bintanong_orchestration.ports import ReleaseResources
 from ..bintanong_retrieval.engine import RetrievalEngine
 from ..bintanong_retrieval.evidence_policy import SourceAwareEvidencePolicy
 from ..bintanong_retrieval.types import RetrievalSettings
-from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic
+from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic, NotStatedCue
 from ..bintanong_symbolic.bundle import prepare_runtime_bundle
 from ..bintanong_symbolic.runtime import CurriculumRuntime
 from .hosted_storage import HostedReleaseStorage
@@ -88,6 +88,14 @@ def course_labels(ledger):
     return tuple((c['course_id'], label(c)) for c in courses)
 
 
+# Owner, 23 Oct 2026 (run 11): a part that asks one person's amount needs the individual assessment,
+# which the source does not state; the printed class example is not each student's share.
+PER_PERSON = ('each student', 'per student', 'every student', 'each of us', 'per person', 'per head',
+              'each one', 'bawat isa', 'bawat estudyante', 'bawat mag-aaral', 'bawat student',
+              'kada isa', 'kada estudyante', 'kada student')
+NOT_STATED_CUES = {'official individual student assessment': PER_PERSON}
+
+
 def topic_menu(register, *, catalogue=None, chunks=()):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
@@ -112,9 +120,12 @@ def topic_menu(register, *, catalogue=None, chunks=()):
             if limit.get('issue') == 'claim_not_stated' and limit.get('resolution') == 'unresolved':
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
-    return tuple(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)),
-                               not_stated=tuple(dict.fromkeys(missing.get(s, ()))))
-                 for s, c in subjects.items())
+    topics = []
+    for s, c in subjects.items():
+        not_stated = tuple(dict.fromkeys(missing.get(s, ())))
+        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), not_stated=not_stated,
+            cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES)))
+    return tuple(topics)
 
 
 def retrieval_storage(release_id, package, *, hosted, authorization_ref):

@@ -90,12 +90,26 @@ class Operation(Record):
 TopicClaim = Annotated[str, Field(min_length=1, max_length=256)]
 
 
+class NotStatedCue(Record):
+    """Owner-approved phrases (23 Oct 2026) showing a part asks for a fact the source does not state."""
+    claim: TopicClaim
+    phrases: tuple[Annotated[str, Field(min_length=2, max_length=64)], ...] = Field(min_length=1, max_length=32)
+
+
 class DocumentTopic(Record):
     """One release-supplied retrieval subject and its reviewed claim strings."""
     subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
     claims: tuple[TopicClaim, ...] = Field(min_length=1, max_length=16)
     # Recorded source limits: facts the source does not state (selecting one withholds).
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
+    # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.
+    cues: tuple[NotStatedCue, ...] = Field(default=(), max_length=16)
+
+    @model_validator(mode='after')
+    def _cues(self):
+        if any(c.claim not in self.not_stated for c in self.cues):
+            raise ValueError('cue_requires_not_stated_claim')
+        return self
 
 
 class RequestPart(Quote):

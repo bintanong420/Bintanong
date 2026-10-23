@@ -129,3 +129,13 @@ def test_repeated_code_and_title_are_labelled_with_units():
     a['facts']['units.total'], b['facts']['units.total'] = dict(value=5), dict(value=3)
     assert course_labels(ledger(a, b)) == (('course-a', 'ZZ 13 (Fictional Assessment, 5 units)'),
                                            ('course-b', 'ZZ 13 (Fictional Assessment, 3 units)'))
+
+
+def test_individual_assessment_gets_the_owner_approved_per_person_cues():
+    register = dict(reviews=[dict(subject_id='fees', claim='printed example', finding='visible_fields'),
+                             dict(subject_id='fees', claim='official individual student assessment',
+                                  finding='not_stated_in_selected_fields')])
+    (topic,) = topic_menu(register)
+    (cue,) = topic.cues
+    assert cue.claim == 'official individual student assessment'
+    assert {'each student', 'per student', 'bawat isa'} <= set(cue.phrases)

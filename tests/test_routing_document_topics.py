@@ -7,7 +7,7 @@ import json
 
 import pytest
 
-from backend.bintanong_routing.contracts import DocumentTopic, RequestPart
+from backend.bintanong_routing.contracts import DocumentTopic, NotStatedCue, RequestPart
 from backend.bintanong_routing.prompt import build_messages, output_schema
 from test_routing_contracts import proposal
 from test_routing_router import FakeTransport, run, style_proposal
@@ -129,3 +129,32 @@ def test_router_accepts_a_not_stated_fact_of_the_chosen_topic():
     value = json.loads(answer(subject='fictional_fees', claims=('individual share',)))
     proposed = Interpretation.parse(value)
     check_topics(proposed, NOT_STATED)
+
+
+CUED = (DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',), not_stated=('individual share',),
+                      cues=(NotStatedCue(claim='individual share', phrases=('each student', 'bawat isa')),)),)
+
+
+def fee_question(text):
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Fee', language='en')
+    value['parts'][0].update(subject_id='fictional_fees', requested_claims=['printed fee amount'])
+    return json.dumps(value)
+
+
+@pytest.mark.parametrize('text,expected', [
+    ('How much does each student pay?', ('printed fee amount', 'individual share')),
+    ('Magkano ang bayad ng bawat isa?', ('printed fee amount', 'individual share')),
+    ('What amount does the fee example show?', ('printed fee amount',))])
+def test_cue_in_the_part_adds_its_not_stated_fact(text, expected):
+    # Owner, 23 Oct 2026 (run 11): a per-person amount question must reach the not-stated fact, so
+    # the policy withholds instead of presenting the printed example as one student's share.
+    style = json.dumps(style_proposal('en', english=[text.split()[0]]))
+    transport = FakeTransport(fee_question(text), style_outputs=[style] * 3)
+    result = run(transport, text=text, topics=CUED)
+    assert result.decision.route == 'RAG' and result.proposed.parts[0].requested_claims == expected
+
+
+def test_cue_must_name_one_of_the_topics_not_stated_facts():
+    with pytest.raises(ValueError):
+        DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',),
+                      cues=(NotStatedCue(claim='printed fee amount', phrases=('each student',)),))

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import replace
 
 from pydantic import ValidationError
@@ -62,6 +63,24 @@ def check_topics(proposed, topics):
             raise ValueError('topic_outside_menu')
 
 
+def apply_not_stated_cues(proposed, topics):
+    """Host guard: a part whose own words name a cued not-stated fact also requests that fact, so the
+    evidence policy withholds instead of answering from a nearby printed fact."""
+    cues = {t.subject_id: t.cues for t in topics if t.cues}
+    parts = []
+    for part in proposed.parts:
+        claims = list(part.requested_claims)
+        for cue in cues.get(part.subject_id, ()):
+            if cue.claim not in claims and any(
+                    re.search(r'(?<![\w-])' + re.escape(p) + r'(?![\w-])', part.text, re.IGNORECASE)
+                    for p in cue.phrases):
+                claims.append(cue.claim)
+        parts.append(part.model_copy(update=dict(requested_claims=tuple(claims))))
+    if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
 class Router:
     def __init__(self, transport, *, catalog=(), registry=EMPTY_REGISTRY,
                  documents_available=False, synthetic=False, topics=()):
@@ -108,6 +127,7 @@ class Router:
                 try:
                     proposed = normalize_interpretation(text, wire)
                     check_topics(proposed, self.topics)
+                    proposed = apply_not_stated_cues(proposed, self.topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
