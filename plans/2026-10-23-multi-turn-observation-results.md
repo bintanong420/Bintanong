@@ -23,7 +23,16 @@ and F4b added with owner approval after precheck 1. D1-D4 were added at the owne
 | D4 | an unrelated document question after the vehicle fee | answered on the new topic (overload) |
 
 Outcome: 12/12 resolve or clarify, and there are **0 wrong carry-overs**. The single-turn system prompt
-(`6a9c2e7e...`) and schema (`7cde5320...`) are unchanged. The single-turn roster rerun is reported separately.
+(`6a9c2e7e...`) and schema (`7cde5320...`) are unchanged.
+
+## Single-turn roster run 15 (same code, `roster13.py`, hosted 39-curriculum release, prefix cache)
+
+All 63 cases have the same status and decision as Phase 09 run 14: 25 answered, 19 clarification and 19
+insufficient. No previously answered case was lost, and all 25 answered texts are byte-identical.
+
+Warm medians: document 28.0 s (run 14: 26.3), Prolog 19.2 s (17.6), routing 12.5 s (11.6). These were taken
+after a container restart and are backend-only. API, browser, network and queueing are excluded.
+Raw: workspace `audit-evidence/p10-20261023/roster15/`.
 
 ## What the prechecks found and fixed
 
