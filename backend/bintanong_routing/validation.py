@@ -180,8 +180,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             curriculum = editions[0].entity_id
     carried = context.conversation.course_id if context.conversation else None
     for idx, mention in enumerate(p.mentions):
-        if mention.kind == 'course' and reference is not None and (mention.start, mention.end) == (
-                reference.start, reference.end):
+        names_course = program is not None and curriculum is not None and bool(
+            _matches(mention, catalog, program, curriculum))
+        # Words that name a course are never a back-reference (live F5: "What about CC 4?" -> CC 4).
+        if mention.kind == 'course' and reference is not None and not names_course and (
+                mention.start, mention.end) == (reference.start, reference.end):
             # The model only marks the words; the course comes from session context and must still be
             # in the request's curriculum, otherwise the mention stays unresolved and the host clarifies.
             entry = next((c for c in catalog if c.kind == 'course' and c.entity_id == carried

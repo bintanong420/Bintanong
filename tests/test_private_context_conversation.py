@@ -151,3 +151,13 @@ def test_unrelated_document_question_does_not_inherit_the_previous_course_scope(
     unscoped = context(program_id=None, curriculum_id=None, conversation=previous().model_dump(mode='json'))
     result = validate('policy', value, unscoped)
     assert result.diagnostic == 'validated' and (result.program_id, result.curriculum_id) == (None, None)
+
+
+def test_a_named_course_marked_as_a_back_reference_resolves_to_the_named_course():
+    # Live F5: "What about CC 4?" had "CC 4" marked as the reference and was answered for CC 5.
+    text = 'What about B1?'
+    b1 = dict(text='B1', start=11, end=13)
+    value = proposal(text=text, mentions=[dict(kind='course', **b1)], context_reference=b1)
+    result = validate(text, value, context(conversation=previous().model_dump(mode='json')))
+    assert result.diagnostic == 'validated'
+    assert {i.name: i.value for i in result.decision.predicate_request.inputs}['course_id'] == 'course-b'
