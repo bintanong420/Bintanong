@@ -101,3 +101,10 @@ Code `0d69381` (owner "Host fixes" after run 9). Same 63 cases, runner `roster9.
 `HOSTED=1`, model container restarted first, everything else as run 9. Pass: no invented facts,
 no run 9 correct answer lost, the run 8 answers lost in run 9 (CC5 en old curriculum,
 overload taglish) not lost again, system errors not increased. Not an accuracy rate or SLA.
+
+## Run 11 (topic-menu not-stated fix), fixed 23 October 2026 before running
+
+Code `bca2600`. Same 63 cases, runner `roster9.py roster11`, `HOSTED=1`, model container restarted
+first, everything else as run 10. Pass: no invented facts, no run 10 correct answer lost, system
+errors not increased; pre-enrollment-first-step en/tl expected answered (printed first-step fields);
+missing-ending variants still withheld. Not an accuracy rate or SLA.
