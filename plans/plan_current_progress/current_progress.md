@@ -18,6 +18,8 @@ pass measured contrast checks; health route and synthetic boundaries preserved.
 Single focus outline verified; 10 docs tests pass and phase ledger remains valid.
 Notice follow-up: removed highlight-like fill; both-theme contrast >=4.80:1 over
 the photo, 7 focused browser checks and the production build/typecheck pass.
+Embedded viewport fix: main-panel scrolling contains content inside the theme;
+RED 546px/355px overflow, GREEN 165 browser assertions and build/typecheck pass.
 No backend/dependency changes, formal phase advancement, deployment or push.
 
 ## Approved frontend implementation - 23 October 2026

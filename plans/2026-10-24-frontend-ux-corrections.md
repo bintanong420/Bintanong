@@ -73,6 +73,18 @@ contrast over fully black/white photo pixels at 35% opacity is >=7.85:1 light an
 >=4.80:1 dark. Inspected both screenshots; Node24.21 production build/typecheck pass.
 Evidence: `notice-check.mjs` and `*-notice-fixed.png` in the evidence directory.
 
+Embedded-browser follow-up (24 Oct): the owner saw a white lower page in VS Code's
+testing browser. RED at 800x355: the 355px workspace allowed 546px of content to
+overflow onto the root's light canvas. Set `overflow-y:auto` on `.workspace-main`
+to contain scrolling in the themed panel, preserving conversation scrolling.
+GREEN: production build/typecheck and 165 focused assertions pass across six CSS
+viewports (800x355,1000x440,780x300,1440x1024,720x512,390x844), including 125%/200%
+equivalent viewport/scaling cases. Both themes, empty/reset/conversation, tall draft,
+attachments/rejection and keyboard access stay covered/reachable without document
+or horizontal overflow on desktop. Evidence: `short-red.mjs`, `short-check.mjs`,
+`short-production-results.json` and short-state screenshots. Edge reproduced the
+small viewport; VS Code's embedded browser itself was not directly automated.
+
 References:[CSSlight-dark](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/light-dark),
 [color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme).
 

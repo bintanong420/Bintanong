@@ -75,7 +75,7 @@ button:active:not(:disabled) { filter: brightness(0.94); }
 .sidebar-footer { display: flex; flex-direction: column; gap: 0.5rem; margin-block-start: auto; padding-inline: 1rem; }
 .sidebar-footer button:disabled { opacity: 1; color: var(--muted-foreground); white-space: normal; }
 
-.workspace-main { position: relative; isolation: isolate; display: flex; flex-direction: column; min-inline-size: 0; min-block-size: 0; }
+.workspace-main { position: relative; isolation: isolate; display: flex; flex-direction: column; min-inline-size: 0; min-block-size: 0; overflow-y: auto; }
 .workspace-toolbar, .empty-conversation, .conversation, .composer-area { inline-size: min(calc(100% - 3rem), var(--content-width)); margin-inline: auto; }
 .workspace-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; }
 .preview-notice { margin: 0; padding: 0.25rem 0; color: var(--foreground); font-size: 0.75rem; line-height: 1.5; }
