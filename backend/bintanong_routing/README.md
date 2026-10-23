@@ -89,7 +89,11 @@ claim is established here. Image attachments and private-file parsing are later 
 
 LlamaTransport uses /props, /apply-template, /tokenize and /v1/chat/completions.
 The p07-greedy-no-prefix-cache-v1 profile fixes temperature0/seed0,
-reasoning_effort=none and cache_prompt=false in each generation request.
+reasoning_effort=none and cache_prompt=false in each generation request; it stays the
+LlamaTransport default for reproducible evaluation. `prefix_cache=True` selects
+p09-greedy-prefix-cache-v1 (same settings, cache_prompt=true), which the runtime uses by
+default since 23 Oct 2026 (run 13: identical outcomes, warm medians ~5-7 s faster; the
+`--no-prefix-cache` CLI flag switches it off). The first request after a restart gets no reuse.
 reasoning_effort is a requested setting,not proof that no thinking was generated.
 The pinned Gemma JSON grammar permits thoughts;the sealed actual observation
 reported reasoning despite that request. No zero thinking budget is selected.

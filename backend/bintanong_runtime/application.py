@@ -47,8 +47,12 @@ class RuntimeSettings:
     routing_profile: Literal['separate','combined'] = 'separate'
     generation_reference_profile: Literal['canonical','short'] = 'canonical'
     explanation_profile: Literal['legacy','scoped','guarded','covered','parts'] = 'parts'
+    # Prompt reuse on by default (owner, 23 Oct 2026, run 13); off for strictly reproducible evaluation.
+    prefix_cache: bool = True
 
     def __post_init__(self):
+        if type(self.prefix_cache) is not bool:
+            raise ValueError('invalid_prefix_cache')
         if self.routing_profile not in ('separate','combined'):
             raise ValueError('invalid_routing_profile')
         if self.generation_reference_profile not in ('canonical','short'):
@@ -150,7 +154,7 @@ class RuntimeApplication:
     async def run(self,text: str,context: RequestContext) -> RuntimeRun:
         settings=self.settings
         model=_ObservedTransport(LlamaTransport(settings.model_url,
-            timeout_seconds=settings.inference_timeout))
+            timeout_seconds=settings.inference_timeout,prefix_cache=settings.prefix_cache))
         orchestrator=Orchestrator(model,releases=self.releases,stage_timeout=settings.stage_timeout,
             routing_profile=settings.routing_profile)
         # Capture evidence-stage telemetry in this request only. No raw text/grades.

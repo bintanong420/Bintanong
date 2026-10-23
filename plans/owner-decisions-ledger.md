@@ -273,3 +273,7 @@ Each program still gets its own dated review record listing which standing rule 
   part whose own words ask one person's amount (each/per/every student, per person, bawat isa,
   bawat estudyante, kada isa, ...) also requests "official individual student assessment" (not
   stated), so the printed special-class class example is never given as each student's share.
+- 23 Oct 2026 (latency, after run 13 "Make it the default"): runtime prompt reuse on by default
+  (profile p09-greedy-prefix-cache-v1, cache_prompt=true); strictly reproducible evaluations may switch
+  it off (`--no-prefix-cache`). Run 13 kept every run 12 outcome with 0 wrong answers. The server's
+  prompt-cache memory still needs a limit or periodic restarts (run 4 finding).
