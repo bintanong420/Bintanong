@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 152
+sequence: 153
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: c8f7f5f
+head_commit: 25212ba
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -139,9 +139,12 @@ Latency: per-call profile recorded ([profile](2026-10-23-latency-profile-hosted-
 prompt caching first: `c3d3790` opt-in `LlamaTransport(prefix_cache=True)` (profile
 p09-greedy-prefix-cache-v1; default unchanged). Uncounted: document 26-29 s (was 32-36), Prolog 17-20 s
 (was 23-27). Run 13 PASS (identical outcomes to run 12, 0 wrong; medians document 34.3->27.7 s,
-Prolog 28.7->23.4 s, context 21.7->16.1 s). Next: owner decision whether prompt reuse becomes the runtime
-default (wire `prefix_cache` into `backend/bintanong_runtime/application.py` settings), then the next
-latency step (shorter router output ~2-3 s) if wanted.
+Prolog 28.7->23.4 s, context 21.7->16.1 s). Owner made reuse the runtime default (`25212ba`,
+RuntimeSettings.prefix_cache=True, CLI `--no-prefix-cache`); full suite 6198 passed.
+New requirement recorded: [conversational follow-ups](2026-10-23-conversation-context-requirement.md)
+(thesis p.7/p.65; not built; owner to decide timing - Phase 10/11 or backend core first).
+Next: ask the owner which to do next: (a) shorter router output for latency (~2-3 s), (b) design the
+follow-up/session-context capability, (c) Phase 09 exit reassessment for the hosted 39-curriculum release.
 Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:
 thesis physical 17-18 and the routing PNG; no discrepancy.
 
