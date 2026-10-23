@@ -13,6 +13,7 @@ import time
 from dataclasses import dataclass
 
 from ..bintanong_routing.contracts import ScopedFact
+from .grades import ExtractionResult, confirm_rows
 
 IDLE_SECONDS = 30 * 60
 MAX_SESSIONS = 1000
@@ -33,6 +34,7 @@ class IssuedSession:
 class SessionView:
     session_id: str
     facts: tuple[ScopedFact, ...]
+    pending: ExtractionResult | None
 
 
 @dataclass
@@ -40,6 +42,8 @@ class _Session:
     session_id: str
     last_seen: float
     facts: tuple[ScopedFact, ...] = ()
+    pending: ExtractionResult | None = None
+    confirmations: int = 0
 
 
 def _digest(credential: object) -> str | None:
@@ -74,16 +78,32 @@ class SessionStore:
     def resolve(self, credential: object) -> SessionView | None:
         with self._lock:
             session = self._live(credential)
-            return None if session is None else SessionView(session.session_id, session.facts)
+            return None if session is None else SessionView(session.session_id, session.facts, session.pending)
 
     def set_facts(self, credential: object, facts: tuple[ScopedFact, ...]) -> None:
         with self._lock:
-            session = self._live(credential)
-            if session is None:
-                raise KeyError('unknown_session')
+            session = self._owned(credential)
             if any(f.session_id != session.session_id for f in facts):
                 raise ValueError('foreign_session_fact')
             session.facts = tuple(facts)
+
+    def set_pending(self, credential: object, extraction: ExtractionResult | None) -> None:
+        with self._lock:
+            self._owned(credential).pending = extraction
+
+    def confirm_pending(self, credential: object, decisions: dict[str, tuple[str, str]]) -> tuple[ScopedFact, ...]:
+        """Student's row choices become facts; a new statement for a course replaces the earlier one."""
+        with self._lock:
+            session = self._owned(credential)
+            if session.pending is None:
+                raise ValueError('no_pending_extraction')
+            session.confirmations += 1
+            new = confirm_rows(session.pending, decisions, session_id=session.session_id,
+                               batch=session.confirmations)
+            replaced = {f.course_id for f in new}
+            session.facts = tuple(f for f in session.facts if f.course_id not in replaced) + new
+            session.pending = None
+            return session.facts
 
     def delete(self, credential: object) -> bool:
         key = _digest(credential)
@@ -93,6 +113,12 @@ class SessionStore:
     def wipe(self) -> None:
         with self._lock:
             self._sessions.clear()
+
+    def _owned(self, credential: object) -> _Session:
+        session = self._live(credential)
+        if session is None:
+            raise KeyError('unknown_session')
+        return session
 
     def _live(self, credential: object) -> _Session | None:
         key = _digest(credential)
