@@ -56,13 +56,13 @@ def test_three_route_real_module_smoke_with_fictional_sources(route,operation):
                 ('list_affected_courses','synthetic_dependency_inspection')]})
         provider = SyntheticReleaseProvider(ReleaseResources(pin,catalog,registry,retrieval,
             SymbolicAdapter(runtime)))
-        value = proposal(language='en',route=route,
+        value = proposal(text='SYN201 policy',language='en',route=route,
             mentions=[dict(kind='course',text='SYN201',start=0,end=6)],
             operations=[] if route=='RAG' else [dict(name=operation,target=0)])
         style = dict(schema_version='bintanong-response-style-v1',style=dict(
             english_fragments=['SYN201'],filipino_fragments=[],preferred_response_style='english_only'))
         model = FakeTransport(json.dumps(value),style_outputs=[json.dumps(style)])
-        result = await Orchestrator(model,releases=provider).run('SYN201',context(state='passed'))
+        result = await Orchestrator(model,releases=provider).run('SYN201 policy',context(state='passed'))
         assert result.status == 'ready' and result.evidence.pin.release_id == runtime.release_id
         assert result.evidence.route == route
         if route != 'RAG':

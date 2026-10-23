@@ -32,15 +32,26 @@ def validate_support(report,draft):
 
 def validate_final(answer,pack,claims):
     from .render import render_text,selected_cards
+    from .understanding import validate_ledger
     if (answer.request_id!=pack.request_id or answer.release_id!=pack.release_id
             or answer.language!=pack.language or answer.decision!=pack.decision
             or answer.dependencies!=pack.dependencies or answer.structured_context!=pack.structured_context):
         raise ValueError('final_identity_or_decision_mismatch')
-    if answer.text!=render_text(pack,claims,answer.status):
+    if answer.research_ref!=pack.research_ref:
+        raise ValueError('final_research_reference_mismatch')
+    if answer.missing_facts!=pack.missing_facts:
+        raise ValueError('final_missing_facts_mismatch')
+    if answer.decision_guard is not None and (pack.route!='RAG' or pack.status!='ready'):
+        raise ValueError('guard_requires_ready_rag')
+    if answer.question_coverage is not None and (pack.route!='RAG' or pack.status!='ready'):
+        raise ValueError('coverage_requires_ready_rag')
+    if answer.text!=render_text(pack,claims,answer.status,decision_withheld=answer.validation=='decision_withheld',
+                               question_uncovered=answer.validation in ('question_uncovered','parts_unresolved')):
         raise ValueError('final_render_mismatch')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')
     if answer.claims!=tuple(claims):
         raise ValueError('final_claim_mapping_mismatch')
+    validate_ledger(pack,claims,answer.part_ledger,answered=answer.status=='answered')
     if foreign_ids(answer.text,'institutional'):
         raise ValueError('private_final_reference')

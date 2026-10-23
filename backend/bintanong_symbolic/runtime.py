@@ -72,7 +72,7 @@ class DependencyResult(Contract):
     synthetic: Literal[True]
     activation_allowed: Literal[False]
     eligibility_executable: Literal[False]
-    relation: Literal['potential_prior_completion_dependency']
+    relation: Literal['potential_prerequisite_or_corequisite_dependency']
     coverage_scope: Literal['supplied_bundle']
     status: Literal['complete','partial','unsupported','error']
     inputs: tuple[BoundInput, ...]
@@ -177,6 +177,13 @@ def _spans(courses):
     return list({_json(s):s for s in spans}.values())
 
 
+def _dependency_spans(courses):
+    # One citation per affected course (its rule's first printed span) keeps large listings within the
+    # result limit; eligibility results still cite every span of the checked rule (owner, 23 Oct 2026).
+    spans = [c['prerequisites']['source_spans'][0] for c in courses]
+    return list({_json(s):s for s in spans}.values())
+
+
 def _scope(ledger, release_id):
     return {'knowledge_release_id':release_id,
             'edition_ids':[s['edition_id'] for s in ledger['sources']],
@@ -212,6 +219,7 @@ class CurriculumRuntime:
     _version: str
     _engine_sha256: str
     _reviewed_rules: frozenset[str]
+    _exported_rules: frozenset[str]
     _research_json: str | None
     _allowed_operations: frozenset[str]
     _release_id: str
@@ -237,6 +245,9 @@ class CurriculumRuntime:
         object.__setattr__(self, '_engine_sha256', engine_sha)
         object.__setattr__(self, '_reviewed_rules', frozenset(
             cid for cid,c in coverage.items() if c['direct_rule']=='reviewed'))
+        # Reviewed courses whose rule is exported, possibly with unknown leaves for unresolved parts.
+        object.__setattr__(self, '_exported_rules', frozenset(
+            cid for cid,c in coverage.items() if c['identity_review']=='reviewed'))
         research = None if authorization is None else ResearchContext.parse({
             'mode':'offline_research','institutional_use_allowed':False,'student_facts_synthetic':True,
             'generated_output_review':'pending','authorization':authorization.model_dump(mode='json'),
@@ -365,8 +376,11 @@ class CurriculumRuntime:
                 'predicate':request.predicate, 'predicate_supported':supported,
                 'rule_coverage':'absent' if ev is None else ev.coverage,
                 'prerequisite_rule_state':None if ev is None else (
-                    'unresolved_reference' if target is None or target['course_id'] not in self._reviewed_rules else
-                    'stated_none' if target and target['prerequisites']['kind']=='verified_none' else 'resolved'),
+                    'unresolved_reference' if target is None or target['course_id'] not in self._exported_rules else
+                    'stated_none' if target['prerequisites']['kind']=='verified_none' else
+                    # A partly unresolved rule is decided only by its reviewed parts.
+                    'resolved' if target['course_id'] in self._reviewed_rules or outcome in ('eligible','ineligible')
+                    else 'unresolved_reference'),
                 'satisfied_conditions':() if ev is None else ev.satisfied,
                 'violated_conditions':() if ev is None else ev.violated,
                 'unknown_conditions':[x for x in unknown if not x.startswith('completion_unknown:')],
@@ -390,7 +404,7 @@ class CurriculumRuntime:
         matches_scope = values.get('curriculum_id')==ledger['scope']['curriculum_id']
         known_input = matches_scope and any(c['course_id']==values.get('course_id') for c in ledger['courses'])
         ids = () if evaluation is None else evaluation.course_ids
-        if ids and (not known_input or not set(ids) <= self._reviewed_rules):
+        if ids and (not known_input or not set(ids) <= self._exported_rules):
             raise ValueError('unbound dependency output')
         if evaluation is not None and evaluation.status=='complete' and (
                 not known_input or len(self._reviewed_rules)!=len(ledger['courses'])):
@@ -399,13 +413,13 @@ class CurriculumRuntime:
         result_type = DependencyResult if self._research_json is None else ResearchDependencyResult
         data = {'schema_version':result_type.SCHEMA_VERSION,'synthetic':ledger['synthetic'],
             'activation_allowed':False,'eligibility_executable':False,
-            'relation':'potential_prior_completion_dependency','coverage_scope':'supplied_bundle',
+            'relation':'potential_prerequisite_or_corequisite_dependency','coverage_scope':'supplied_bundle',
             'status':status if evaluation is None else evaluation.status,
             'inputs':[i.model_dump(mode='json') for i in request.inputs], 'course_ids':ids,
             'unknown_conditions':() if evaluation is None else evaluation.unknown_conditions,
             'rule_bundle_version':None if evaluation is None else self._version,
             'scope':_scope(ledger,self._release_id) if known_input and evaluation is not None else None,
-            'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_spans(courses),
+            'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_dependency_spans(courses),
             'error_code':error}
         if self._research_json is not None:
             data['research'] = json.loads(self._research_json)

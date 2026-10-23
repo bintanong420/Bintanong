@@ -3,7 +3,7 @@
 This Phase07 module interprets English, Filipino and Taglish with a supplied local
 LLM. It returns the routing proposal, independently grounded style evidence and a
 separately validated shared RoutingDecision. Two calls use the SAME Bintu model:
-the verified routing prompt stays unchanged; style interpretation receives only the
+routing and style interpretation remain separate; style receives only the
 original question and cannot emit routes, audiences, operations or policy.
 It does not retrieve documents, execute Prolog, generate student answers, publish an
 API or activate institutional data. The historical API BintuClient/Direct adapter
@@ -15,12 +15,27 @@ program/curriculum/course mentions, claims and proposed operations. Course alias
 resolve only against explicitly injected reviewed records and known curriculum;
 explicit program/curriculum mentions may resolve scope through their own aliases.
 There is no fuzzy equivalence or curriculum inference from a course code.
+The full reviewed alias catalog stays in the host resolver after literal extraction;
+it is not included in either router profile's model-visible payload. Scope/facts
+and available operation names retain their existing model-input boundaries.
 
-Text offsets are Python Unicode character offsets into the original text, with
-exclusive ends. A model can quote exactly but count incorrectly. The backend
-anchors a quote only if it occurs exactly once; corrections are reported separately.
-Correct explicit offsets can distinguish repeated text; bad offsets on repeated or
-missing quotes remain unresolved. No text/state/meaning is rewritten.
+The model-facing bintanong-interpretation-wire-v4 uses {text,occurrence} quotes.
+Wire-v4 (router prompt v17, 23 Oct 2026) drops the free-text reason field for
+latency: nothing read it. The host sets a reason naming the proposed route or
+control. intent stays: dropping it too (wire-v3) made the model omit a failed-course
+claim in an uncounted precheck. Older wire packets are rejected.
+The model declares part_count and parts before operations/route. Count must match
+the list;the host never adds or deletes parts to make it match. This count remains
+untrusted and cannot prove semantic completeness. Wire-v1 packets are rejected.
+Occurrences are zero-based exact matches in original text,including overlapping
+matches. Operations and claims reference the identical quoted course mention;
+the model supplies neither character offsets nor numeric course-reference indices.
+wire.normalize_interpretation constructs host-owned spans and indices,then existing
+Interpretation v2/alias/scope/mode/dispatch validation runs unchanged. Missing,
+invented,duplicate or uncontained references reject within the existing shared
+format-repair budget. There is no legacy model-packet fallback or fuzzy/first-match
+guess. Internal Python spans retain exclusive ends;offset_corrections is zero
+because these spans are constructed,not repaired. No text/state/meaning is rewritten.
 Claim spans must include the corresponding course mention. These
 checks establish textual provenance, not semantic truth: the LLM can still misread
 negation or attach the wrong meaning. Actual model evaluation must measure that.
@@ -61,7 +76,11 @@ remain separate from this guidance.
 The selected response_style is en, taglish, fil or unknown. Bintu quotes literal
 English/Filipino fragments and selects a conversational style. The host checks
 bounded structure/count consistency and exact original-text containment, then maps
-that selection losslessly to language metadata. It has no word-list classifier.
+that selection losslessly to language metadata. The model picks the style; the only
+host override is an owner-approved floor (22 October 2026): an `english_only` label on a
+question containing an everyday Filipino function word (ang, sa, ko, po...; all-caps
+acronyms such as BA/MA ignored) becomes `taglish`, its literal words added as Filipino
+fragments and `style_floor_applied` set. The host never chooses between fil and taglish.
 Literal provenance cannot prove the fragment's language; model evaluation remains
 necessary. The original routing proposal's language remains observable, while query
 hints/accepted response_style come from the style interpretation. English requests should
@@ -74,7 +93,15 @@ claim is established here. Image attachments and private-file parsing are later 
 
 LlamaTransport uses /props, /apply-template, /tokenize and /v1/chat/completions.
 The p07-greedy-no-prefix-cache-v1 profile fixes temperature0/seed0,
-reasoning_effort=none and cache_prompt=false in each generation request.
+reasoning_effort=none and cache_prompt=false in each generation request; it stays the
+LlamaTransport default for reproducible evaluation. `prefix_cache=True` selects
+p09-greedy-prefix-cache-v1 (same settings, cache_prompt=true), which the runtime uses by
+default since 23 Oct 2026 (run 13: identical outcomes, warm medians ~5-7 s faster; the
+`--no-prefix-cache` CLI flag switches it off). The first request after a restart gets no reuse.
+reasoning_effort is a requested setting,not proof that no thinking was generated.
+The pinned Gemma JSON grammar permits thoughts;the sealed actual observation
+reported reasoning despite that request. No zero thinking budget is selected.
+See the [bounded design](../../plans/2026-10-20-router-correction-diagnosis-and-design.md).
 Metadata records these overrides separately from an allowlisted subset of server-
 reported sampling defaults, including sampler order when available. Missing defaults
 are not invented; arbitrary prompt/grammar/stop text is excluded. Batch/thread/model
@@ -92,7 +119,9 @@ Proceeding RAG decoder output has no operations; Symbolic/Hybrid has exactly one
 Clarification can retain multiple requested operations. The downstream guard still
 withholds compounds if a transport ignores the schema; no operation is dropped.
 Exactly one format/schema repair is SHARED across both calls:
-normal two calls, maximum three. attempts counts routing calls, style_attempts counts
+normal two calls, maximum three. A persistent invalid reference (shown to the student
+as a clarification) gets one unrepaired style call so the clarification matches the
+student's style; if it fails, style stays unknown. attempts counts routing calls, style_attempts counts
 style calls, inference_calls counts both, repair_attempts counts repairs alone.
 Repair reanchors the original question. Grounding/capability holds
 do not cause semantic retry or a cheaper RAG route. HTTP bodies are bounded and
@@ -107,6 +136,16 @@ this does not prove a separately fine-tuned Bintu-1 checkpoint.
 
 ## Synthetic development evaluation
 
+The default `separate` profile keeps route and style in two normal calls with one
+shared repair, at most three calls. Trusted `--routing-profile combined` selects an
+experimental one-packet candidate, at most two calls with one whole-packet repair.
+Both nested contracts retain their original schemas and host validation. No
+request/model field can select a profile or silently fall back between profiles.
+The candidate **failed multilingual promotion**: three greeting-route errors and
+four new style regressions on the existing15fictional variants. Keep separate as
+the default. See [results and recovery](../../plans/2026-10-20-combined-routing-results.md);
+combined is not selected for student use and establishes no full-chain speed gain.
+
 `python -B -m backend.bintanong_routing.evaluation INPUT.json --output PATH.json`
 reads an explicit object containing catalog, cases and metadata. It uses a synthetic
 registry and never executes it. Inputs are synthetic development questions, not
@@ -116,8 +155,8 @@ inconsistent equivalent-family labels. Expected labels never enter router calls.
 
 The CLI defaults to localhost18087; --url/--timeout configure an existing runtime.
 Output must stay under --evidence-root (default workspace/audit-evidence). Reports
-contain synthetic interpretations after exact quote anchoring, plus offset-correction
-counts; keep them ignored. Proposed route/control semantics stay as selected by the
+contain normalized synthetic interpretations after quoted-reference resolution;
+keep them ignored. Proposed route/control semantics stay as selected by the
 model. Explicit diagnostic probes may retain original raw model output separately.
 The report separately
 scores proposed evidence/control labels, effective guarded labels, canonical

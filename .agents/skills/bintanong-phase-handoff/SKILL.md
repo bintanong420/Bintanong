@@ -40,7 +40,7 @@ Read [references/artifact-contract.md](references/artifact-contract.md) whenever
 
 ## Model and Asset Storage
 
-- Persistent model weights and LLM/embedding checkpoints reside strictly at `C:\Coding-projects\MODELS` (`MODELS_DIR=C:/Coding-projects/MODELS`), containing `SEA-LION-E5-Embedding-600M` and `GEMMA_4_E4B` (`gemma-4-E4B-it-UD-Q4_K_XL.gguf`).
+- Persistent model weights and LLM/embedding checkpoints reside strictly at `C:\Coding-projects\bintanong_workspace\MODELS` (`MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS`; the old `C:/Coding-projects/MODELS` no longer exists), containing `SEA-LION-E5-Embedding-600M` and `GEMMA_4_E4B` (`gemma-4-E4B-it-UD-Q4_K_XL.gguf`).
 - All sessions and services must resolve models from this location. Never re-download or duplicate model weights inside Git repositories or worktrees.
 
 ## Common Mistakes
@@ -52,5 +52,5 @@ Read [references/artifact-contract.md](references/artifact-contract.md) whenever
 | Dirty tree after context loss | Inspect and preserve it; never reset it away. |
 | Phase looks finished but lacks a handoff | It remains active. |
 | Handoff is blocked | Do not increment the phase. |
-| Downloading models or placing binaries in repo | Point to `C:\Coding-projects\MODELS` via `MODELS_DIR`. |
+| Downloading models or placing binaries in repo | Point to `C:\Coding-projects\bintanong_workspace\MODELS` via `MODELS_DIR`. |
 

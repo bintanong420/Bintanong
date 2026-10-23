@@ -10,7 +10,9 @@ api = [
   "fastapi==0.141.1",
   "httpx==0.28.1",
   "janus-swi==1.5.3",
+  "pillow==12.3.0",
   "pydantic==2.13.5",
+  "pypdfium2==5.13.0",
   "uvicorn==0.53.0",
 ]
 embedding = [

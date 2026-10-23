@@ -235,6 +235,35 @@ def test_identical_code_from_other_version_cannot_supply_a_prerequisite():
         run(data)
 
 
+def repeated_code(titles=None, units=(3, 3)):
+    """Two printed rows sharing one code (owner decision 23 Oct 2026: keep both, told apart by facts)."""
+    scope, sources, courses, _ = fixture()
+    for n, c in enumerate(courses):
+        evidence = c['facts']['units.total']['source_spans'][0]
+        c['facts']['course_code'] = {'value': 'SYN101', 'source_spans': [{**evidence, 'text': 'SYN101'}]}
+        c['facts']['units.total'] = {'value': units[n], 'source_spans': [{**evidence, 'text': str(units[n])}]}
+        if titles:
+            c['facts']['course_title'] = {'value': titles[n], 'source_spans': [{**evidence, 'text': titles[n]}]}
+        c['review_state'], c['review_refs'] = 'draft', []
+    return scope, sources, courses
+
+
+@pytest.mark.parametrize('titles,units', [(('Fictional Geopolitics', 'Fictional Fiscal Administration'), (3, 3)),
+                                          (('Fictional Assessment', 'Fictional Assessment'), (5, 3))])
+def test_repeated_printed_code_is_kept_when_title_or_units_differ(titles, units):
+    scope, sources, courses = repeated_code(titles, units)
+    result = build(scope, sources, courses)
+    assert [c['facts']['course_code']['value'] for c in result['courses']] == ['SYN101', 'SYN101']
+    assert len({c['course_id'] for c in result['courses']}) == 2
+
+
+@pytest.mark.parametrize('titles', [None, ('Fictional Same', 'Fictional Same')])
+def test_repeated_printed_code_without_distinguishing_facts_is_rejected(titles):
+    scope, sources, courses = repeated_code(titles)
+    with pytest.raises(ValueError, match='duplicate course code'):
+        build(scope, sources, courses)
+
+
 def test_explicit_printed_zero_units_is_not_missing_units():
     data = fixture()
     c = data[2][1]

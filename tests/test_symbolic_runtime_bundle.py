@@ -68,6 +68,15 @@ def test_engine_change_during_loading_cannot_replace_the_requested_artifact(monk
     with pytest.raises(ValueError): api().CurriculumRuntime.from_bundle(bundle)
 
 
+def test_partially_unresolved_reviewed_rule_exports_known_parts_with_unknown_leaves():
+    from test_symbolic_runtime import partial_ledger
+    bundle=prepared(partial_ledger('all_of'))
+    rule=bundle['payload']['courses'][1]['rule']
+    assert rule['kind']=='all_of' and rule['items'][1]=={'kind':'unresolved'}
+    assert rule['items'][0]['kind']=='course'
+    assert bundle['coverage'][1]['direct_rule']=='unresolved'
+
+
 def test_partial_projection_never_exports_unresolved_rule_as_executable():
     data=fixture(); c=data[2][1]
     c['prerequisites']={'kind':'unresolved','reason':'Fictional blank',

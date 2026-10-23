@@ -1,15 +1,19 @@
 """One release pin, one validated LLM route, explicit independent evidence branches."""
 import asyncio
 import math
+import hashlib
+import re
+import json
 from time import perf_counter
 
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
-from ..bintanong_symbolic.runtime import DependencyResult
+from ..bintanong_routing.combined import CombinedRouter
+from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
-from .contracts import DocumentResult, IntegrationResult, StageEvent
+from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
 from .integration import assemble
 from .ports import HeldReleaseProvider, ReleaseResources, ReleaseUnavailable
 
@@ -17,30 +21,62 @@ _ROUTING_FAILURES = {
     'model_timeout':'timeout',
     'model_connection_error':'tool_error', 'model_http_error':'tool_error',
     'invalid_model_output':'invalid_output', 'invalid_style_output':'invalid_output',
+    # Persistent reference errors: the question could not be interpreted; ask, not 'outage'.
+    'invalid_reference':'clarify',
     'invalid_grounding':'invalid_output', 'invalid_server_response':'invalid_output',
     'truncated_output':'invalid_output', 'server_response_too_large':'invalid_output',
     'context_overflow':'invalid_output',
 }
 
 
+
+def _topic_intent(proposed):
+    """First chosen document topic and its facts; other topics stay unretrieved (known limit)."""
+    parts = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id]
+    if not parts:
+        return dict(subject_id=None, requested_claims=None)
+    subject = parts[0].subject_id
+    claims = dict.fromkeys(c for p in parts if p.subject_id == subject for c in p.requested_claims)
+    return dict(subject_id=subject, requested_claims=tuple(claims))
+
+def referenced_labels(labels, *mentions):
+    """Printed-code labels for the courses this answer mentions; a release of several curricula
+    holds far more labels than one answer may carry."""
+    text = json.dumps(mentions, sort_keys=True, default=str)
+    return {cid: code for cid, code in labels
+            if re.search(re.escape(cid) + r'(?![0-9A-Za-z_-])', text)}
+
+
 class Orchestrator:
-    def __init__(self, transport, *, releases=None, stage_timeout=120.0):
+    def __init__(self, transport, *, releases=None, stage_timeout=120.0,
+                 routing_profile='separate'):
         if (type(stage_timeout) not in (int,float) or not math.isfinite(stage_timeout)
                 or not 0 < stage_timeout <= 300):
             raise ValueError('stage_timeout_must_be_finite_positive_at_most_300')
+        if routing_profile not in ('separate','combined'):
+            raise ValueError('invalid_routing_profile')
         self.transport = transport
         self.releases = HeldReleaseProvider() if releases is None else releases
         self.stage_timeout = float(stage_timeout)
+        self.routing_profile = routing_profile
 
-    async def run(self, text: str, context: RequestContext) -> IntegrationResult:
+    async def run(self, text: str, context: RequestContext, *, routed_sink=None) -> IntegrationResult:
+        """routed_sink, when given, receives the routing result so the owning host can capture
+        session-only conversation context (master 23); nothing is kept here."""
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
+        understanding = None
 
         def finish(status, evidence=None, missing=()):
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style,
-                status=status, evidence=evidence, missing_facts=tuple(missing), events=tuple(events))
+                status=status, evidence=evidence, understanding=understanding,
+                missing_facts=tuple(missing), events=tuple(events),
+                course_labels=referenced_labels(resources.course_labels if resources else (),
+                    evidence.model_dump(mode='json') if evidence is not None else None,
+                    understanding.model_dump(mode='json') if understanding is not None else None,
+                    tuple(missing)))
 
         async def stage(name, call):
             start, value, outcome = perf_counter(), None, 'ok'
@@ -98,19 +134,31 @@ class Orchestrator:
                 raise ValueError('release_resources_required')
             # Recheck metadata at this request boundary; the provider is trusted.
             return ReleaseResources(value.pin, value.catalog, value.registry,
-                                    value.retrieval, value.symbolic)
+                                    value.retrieval, value.symbolic, value.topics, value.document_scope,
+                                    value.course_labels)
 
         resources, failure = await stage('release', pin_release)
         if failure:
             return finish(failure)
-        router = Router(self.transport, catalog=resources.catalog, registry=resources.registry,
-            documents_available=resources.retrieval is not None, synthetic=True)
+        router_class = CombinedRouter if self.routing_profile=='combined' else Router
+        router = router_class(self.transport, catalog=resources.catalog, registry=resources.registry,
+            documents_available=resources.retrieval is not None, synthetic=True,
+            **(dict(topics=resources.topics) if resources.topics else {}))
         scoped = None
 
         async def route_request():
-            nonlocal scoped, route, style
+            nonlocal scoped, route, style, understanding
             value = await router.route(text, context)
             route, style = value.decision.route, value.response_style
+            # A failed result can carry style (for its clarification) but never its rejected parts.
+            if (value.style_evidence is not None and value.proposed is not None
+                    and value.diagnostic not in _ROUTING_FAILURES):
+                understanding = RequestUnderstanding(
+                    schema_version=RequestUnderstanding.SCHEMA_VERSION,
+                    request_id=context.request_id, release_id=resources.pin.release_id,
+                    question_sha256=hashlib.sha256(text.encode('utf-8')).hexdigest(),
+                    route=route, parts=value.proposed.parts, operations=value.proposed.operations,
+                    predicate_request=value.decision.predicate_request)
             if route is not None:
                 # Bound the merged assertion set within the guarded routing stage.
                 # Nothing is persisted, and overflow cannot escape as an exception.
@@ -124,6 +172,8 @@ class Orchestrator:
         routed, failure = await stage('routing', route_request)
         if failure:
             return finish(failure)
+        if routed_sink is not None:
+            routed_sink(routed)
         route, style = routed.decision.route, routed.response_style
         if routed.decision.control is not None:
             return finish(routed.decision.control, missing=routed.decision.missing_facts)
@@ -134,8 +184,10 @@ class Orchestrator:
             scope = tuple(f'{kind}:{value}' for kind,value in
                 (('program',scoped.program_id),('curriculum',scoped.curriculum_id)) if value)
             value = await resources.retrieval.retrieve(RetrievalRequest(
-                routed.query.normalized_text, resources.pin.release_id, scope=scope,
-                document_version_ids=tuple(s.version_id for s in resources.pin.sources)))
+                routed.query.normalized_text, resources.pin.release_id, scope=scope+resources.document_scope,
+                # Only document versions hold chunks; curriculum sources are for Prolog.
+                document_version_ids=tuple(dict.fromkeys(d.version_id for d in resources.pin.documents))),
+                **(_topic_intent(routed.proposed) if resources.topics else {}))
             if type(value) is not DocumentResult:
                 raise ValueError('typed_document_result_required')
             return DocumentResult.parse(value.model_dump(mode='json'))
@@ -144,16 +196,20 @@ class Orchestrator:
             request = routed.decision.predicate_request
             resources.registry.goal(request)
             value = await resources.symbolic.execute(request, scoped)
-            if type(value) not in (SymbolicResult, DependencyResult) or value.inputs != request.inputs:
+            # A research pin expects labelled real-rule results; a synthetic pin, synthetic ones.
+            research = not resources.pin.synthetic
+            result_kind, dependency_kind = ((ResearchSymbolicResult, ResearchDependencyResult) if research
+                                            else (SymbolicResult, DependencyResult))
+            if type(value) not in (result_kind, dependency_kind) or value.inputs != request.inputs:
                 raise ValueError('operation_input_mismatch')
-            if type(value) is SymbolicResult:
-                if value.decision.predicate != request.predicate or not value.decision.synthetic:
+            if type(value) is result_kind:
+                if value.decision.predicate != request.predicate or value.decision.synthetic is research:
                     raise ValueError('operation_result_mismatch')
                 resources.registry.check_result(value)
-                return SymbolicResult.parse(value.model_dump(mode='json'))
-            if request.predicate != 'list_affected_courses' or not value.synthetic:
+                return result_kind.parse(value.model_dump(mode='json'))
+            if request.predicate != 'list_affected_courses' or value.synthetic is research:
                 raise ValueError('dependency_operation_mismatch')
-            return DependencyResult.parse(value.model_dump(mode='json'))
+            return dependency_kind.parse(value.model_dump(mode='json'))
 
         documents, symbolic, dependencies = None, None, None
         if route == 'Hybrid':

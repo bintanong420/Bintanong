@@ -6,7 +6,8 @@ from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext
-from ..bintanong_symbolic.runtime import DependencyResult, StudentFacts
+from ..bintanong_symbolic.runtime import (DependencyResult, ResearchDependencyResult,
+                                         ResearchSymbolicResult, StudentFacts)
 from .contracts import DocumentResult
 
 
@@ -43,12 +44,14 @@ class _BoundedWorker:
 
 
 class RetrievalAdapter:
-    def __init__(self, engine):
-        self.engine = engine
+    def __init__(self, engine, *, research=False):
+        # research: owner-authorized real-data development mode (AGENTS.md, 21 Oct 2026).
+        self.engine, self.research = engine, research is True
         self._worker = _BoundedWorker()
 
-    async def retrieve(self, request: RetrievalRequest) -> DocumentResult:
-        raw = await self._worker.run(lambda: self.engine.retrieve(request))
+    async def retrieve(self, request: RetrievalRequest, **intent) -> DocumentResult:
+        # Research topic intent (subject_id/requested_claims) is forwarded only when supplied.
+        raw = await self._worker.run(lambda: self.engine.retrieve(request, **intent))
         if raw.get('schema_version') not in (None, 'bintanong-retrieval-debug-v1',
                                              'bintanong-retrieval-debug-v2'):
             raise ValueError('invalid_retrieval_schema')
@@ -58,13 +61,22 @@ class RetrievalAdapter:
                 ref=None, section_path=[]) | c['locator']) for c in p['citations']]
             passages.append(dict(chunk_id=p['chunk_id'], version_id=p['version_id'],
                 text=p['text'], citations=citations))
-        return DocumentResult.parse(dict(release_id=raw['release_id'], status=raw['status'],
-            gaps=raw['gaps'], passages=passages))
+        status, gaps = raw['status'], list(raw['gaps'])
+        assessment = (raw.get('evidence_policy') or {}).get('assessment') or {}
+        if self.research and status == 'uncalibrated' and assessment.get('status') == 'reviewed_fields_available':
+            # Reviewed fields found; only the calibration marker is lifted, real gaps stay.
+            status, gaps = 'ok', [g for g in gaps if g != 'development_calibration_pending']
+        return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
+            gaps=gaps, passages=passages))
 
 
 class SymbolicAdapter:
-    def __init__(self, runtime):
-        if runtime.synthetic is not True:
+    def __init__(self, runtime, *, research=False):
+        # research: owner-authorized real-rule mode; results keep their research labels.
+        self.research = research is True
+        if self.research and runtime.synthetic is not False:
+            raise ValueError('research_runtime_required')
+        if not self.research and runtime.synthetic is not True:
             raise ValueError('synthetic_runtime_required')
         self.runtime = runtime
         self.release_id = runtime.release_id
@@ -89,10 +101,31 @@ class SymbolicAdapter:
             for state in ('passed', 'failed', 'enrolled', 'not_enrolled')})
         if operation == 'list_affected_courses':
             result = await self._worker.run(lambda: self.runtime.list_affected_courses(request))
-            if type(result) is not DependencyResult or not result.synthetic:
-                raise ValueError('synthetic_dependency_result_required')
-            return DependencyResult.parse(result.model_dump(mode='json'))
+            kind = ResearchDependencyResult if self.research else DependencyResult
+            if type(result) is not kind or result.synthetic is self.research:
+                raise ValueError('dependency_result_kind_mismatch')
+            return kind.parse(result.model_dump(mode='json'))
         result = await self._worker.run(lambda: self.runtime.check(request, facts))
-        if type(result) is not SymbolicResult or not result.decision.synthetic:
-            raise ValueError('synthetic_symbolic_result_required')
-        return SymbolicResult.parse(result.model_dump(mode='json'))
+        kind = ResearchSymbolicResult if self.research else SymbolicResult
+        if type(result) is not kind or result.decision.synthetic is self.research:
+            raise ValueError('symbolic_result_kind_mismatch')
+        return kind.parse(result.model_dump(mode='json'))
+
+
+class MultiCurriculumSymbolicAdapter:
+    """Several reviewed curricula in one research release; each check runs on the runtime of the
+    curriculum named by the request, which keeps that curriculum's own release identity."""
+    research = True
+
+    def __init__(self, adapters, *, release_id, rule_bundle_version):
+        if not adapters or any(not a.research for a in adapters.values()):
+            raise ValueError('research_runtime_required')
+        self.adapters = dict(adapters)
+        self.release_id, self.rule_bundle_version = release_id, rule_bundle_version
+
+    async def execute(self, request: PredicateRequest, context: RequestContext
+                      ) -> SymbolicResult | DependencyResult:
+        curriculum = next((i.value for i in request.inputs if i.name == 'curriculum_id'), None)
+        if curriculum not in self.adapters:
+            raise ValueError('curriculum_not_in_release')
+        return await self.adapters[curriculum].execute(request, context)

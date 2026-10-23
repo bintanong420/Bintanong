@@ -81,7 +81,7 @@ A complete handoff contains exit-gate evidence, commits, selected versions and d
 
 ## Environment and Model Locations
 
-- Pre-trained models and weights reside at `C:\Coding-projects\MODELS` (`MODELS_DIR=C:/Coding-projects/MODELS`), containing `SEA-LION-E5-Embedding-600M` and `GEMMA_4_E4B`. Checkpoints and handoffs must resolve model paths from this directory and record their exact SHA-256 digests. Never store model weights inside Git.
+- Pre-trained models and weights reside at `C:\Coding-projects\bintanong_workspace\MODELS` (`MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS`; the old `C:/Coding-projects/MODELS` no longer exists), containing `SEA-LION-E5-Embedding-600M` and `GEMMA_4_E4B`. Checkpoints and handoffs must resolve model paths from this directory and record their exact SHA-256 digests. Never store model weights inside Git.
 
 ## Evidence precedence
 
