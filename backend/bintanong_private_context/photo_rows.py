@@ -15,8 +15,10 @@ from ..bintanong_routing.contracts import CatalogEntry
 from .grades import _MARK, ExtractionResult, GradeRow, _code_pattern, curriculum_courses
 
 MAX_TILT_DEGREES = 8.0   # the envelope verified on simulated photos
+# Distances below are in median word heights. OCR pads boxes, so a box can be taller than the row pitch.
 ON_LINE = 0.5            # a word belongs to a line within half a word height of its fitted baseline
-NEAR_LINE = 1.0          # ... and must be clearly away (one word height) from every other line
+NEW_LINE = 0.8           # farther than this from every line, it starts a new one; in between, it is refused
+MARGIN = 0.5             # the nearest line must beat the next nearest by this much, or the word is ambiguous
 
 
 class RowsUncertain(ValueError):
@@ -74,15 +76,19 @@ def group_lines(words: list[Word]) -> list[list[Word]]:
     for word in sorted(words, key=lambda w: w.center[0]):
         x, y = word.center
         residuals = sorted((abs(line.predict(x) - y), i) for i, line in enumerate(lines))
-        if not residuals or residuals[0][0] > NEAR_LINE * height:
-            lines.append(_Line(word))  # clearly on no existing line: a new row starts here
+        if not residuals:
+            lines.append(_Line(word))
             continue
         best, index = residuals[0]
-        if best > ON_LINE * height:
-            raise RowsUncertain('word_between_lines')
-        if len(residuals) > 1 and residuals[1][0] <= NEAR_LINE * height:
+        if best > NEW_LINE * height:
+            lines.append(_Line(word))  # clearly on no existing line: a new row starts here
+            continue
+        if len(residuals) > 1 and residuals[1][0] - best < MARGIN * height:
             raise RowsUncertain('word_near_two_lines')
-        lines[index].words.append(word)
+        if best <= ON_LINE * height:
+            lines[index].words.append(word)
+        else:
+            raise RowsUncertain('word_between_lines')
     middle = statistics.median(w.center[0] for w in words)
     return [sorted(line.words, key=lambda w: w.center[0])
             for line in sorted(lines, key=lambda line: line.predict(middle))]

@@ -44,6 +44,12 @@ def test_lines_follow_the_printed_rows(transform):
     assert texts(group_lines(page_words(transform))) == ROWS
 
 
+@pytest.mark.parametrize('transform', [lambda x, y: (x, y), rotate(4)], ids=['flat', 'tilt'])
+def test_padded_boxes_taller_than_the_row_pitch_still_line_up(transform):
+    # OCR pads boxes: on the simulated perspective photo boxes were 29 px tall with rows 24 px apart.
+    assert texts(group_lines(page_words(transform, row_gap=16))) == ROWS
+
+
 def test_words_come_back_in_reading_order_whatever_the_input_order():
     words = page_words(rotate(5))
     assert texts(group_lines(list(reversed(words)))) == ROWS
@@ -55,11 +61,20 @@ def test_tilt_beyond_the_verified_envelope_is_refused_not_guessed():
         group_lines(page_words(rotate(12)))
 
 
-def test_a_word_sitting_between_two_rows_is_refused():
+def test_a_mark_floating_between_two_rows_is_attached_to_neither():
+    # Revised 24 Oct after the simulated-photo measurement: a word clearly on no line starts its own line, so it
+    # is reported as an unmatched line and never joins the wrong row; the row it left shows no mark.
     words = page_words(lambda x, y: (x, y))
     stray = Word('2.00', ((520, 117), (564, 117), (564, 135), (520, 135)), 0.99)  # halfway between rows 0 and 1
+    lines = texts(group_lines(words + [stray]))
+    assert ['2.00'] in lines and all('2.00' not in line for line in lines if len(line) > 1)
+
+
+def test_a_word_partly_on_two_rows_is_refused():
+    words = page_words(lambda x, y: (x, y), row_gap=24)
+    straddle = Word('2.00', ((520, 112), (564, 112), (564, 130), (520, 130)), 0.99)  # 12 px from rows 0 and 1
     with pytest.raises(RowsUncertain):
-        group_lines(words + [stray])
+        group_lines(words + [straddle])
 
 
 def test_no_words_means_no_lines():
@@ -137,3 +152,11 @@ def test_two_values_inside_the_final_column_are_refused():
     crowded = [(60, 'CC 5/L'), (200, 'Info'), (585, '1.75'), (615, '2.0')]  # centres 605 and 630, both in FINAL
     with pytest.raises(RowsUncertain):
         grade_rows(table_words([crowded]))
+
+
+def test_a_word_nearer_one_row_but_almost_as_near_the_next_is_refused():
+    # Rows 22 px apart, words 18 px tall: this mark is 7 px from row 0 and 15 px from row 1 (margin under 9 px).
+    words = page_words(lambda x, y: (x, y), row_gap=22)
+    close = Word('2.00', ((520, 107), (564, 107), (564, 125), (520, 125)), 0.99)
+    with pytest.raises(RowsUncertain):
+        group_lines(words + [close])
