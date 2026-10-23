@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 150
+sequence: 151
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 477baa9
+head_commit: 6f75202
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -135,9 +135,14 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
   as intended. Decision in `owner-decisions-ledger.md`; run 12 protocol committed (`87cde4a`).
 - Full suite 6194 passed; run 12 PASS: 24/63 answered, 0 wrong, 0 system errors (only natural-u2
   en/taglish changed, now withheld). Results recorded in the roster results file.
-Next: then latency (owner-approved plan): run workspace `p09-real-data-20261021/latency_profile11.py`
-(HOSTED=1, from the repo root) for per-call tokens/timings on 6 cases; routing LLM ~18-22 s and answer
-LLM ~15 s dominate (run 10); target 15-20 s browser end-to-end (unmeasured; no API/UI yet).
+Latency: per-call profile recorded ([profile](2026-10-23-latency-profile-hosted-39.md)). Owner chose
+prompt caching first: `c3d3790` opt-in `LlamaTransport(prefix_cache=True)` (profile
+p09-greedy-prefix-cache-v1; default unchanged). Uncounted: document 26-29 s (was 32-36), Prolog 17-20 s
+(was 23-27). RUNNING at handoff: counted run 13 (protocol `6f75202`) -> workspace
+`audit-evidence/p09-real-data-20261021/roster13/` (63 lines in roster13.log when done; runner `roster13.py`,
+env PREFIX_CACHE=1 HOSTED=1). Next: compare run 13 vs run 12 (copy compare12.py with roster12 -> roster13),
+read every changed case; if it passes, record results + timing, then wire the profile into
+`backend/bintanong_runtime/application.py` settings (owner decision needed on making it the default).
 Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:
 thesis physical 17-18 and the routing PNG; no discrepancy.
 
