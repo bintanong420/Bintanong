@@ -197,3 +197,17 @@ Prolog with curriculum context 21.7 -> 16.1 s; all 63 cases 28.4 -> 21.5 s; rout
 Outlier: one hosted retrieval took 24.9 s (dev-vehicle-initial-application-payment-tl, 50.9 s total),
 a Supabase/network spike unrelated to reuse. Excluded: browser, API, queueing, cold start; the first
 request after a model restart gets no reuse. Raw: `roster13/`.
+
+## Run 14 (router wire v4 / prompt v17, `59e294b`), 23 October 2026 - PASS
+
+Full suite first: 6201 passed, 6 skipped. Binding head `d34cc43` (docs-only commits after `59e294b`),
+prompt reuse on, hosted release. 63 cases once each: 25 answered, 19 clarification, 19 insufficient;
+0 system errors, 0 wrong or invented answers. Versus run 13: 23 answers word-for-word identical;
+overload-conditions-taglish reworded with the same facts and citation; one new answer,
+completion-deadline-conflict-taglish (was clarification): it gives the printed one-year statement plus
+the conflict notice ("magkasalungat ang sinasabi ng source ... Pakitanong sa tamang opisina"). Safe,
+but weaker than the English answer, which shows both conflicting statements; the Taglish reader sees
+only one side (disclosed limitation). No run 13 answer lost.
+Timing, warm backend, run 13 -> run 14 medians: document answers 27.7 -> 26.3 s (max 50.9 -> 35.7);
+Prolog 23.4 -> 20.3 s; Prolog with curriculum context 16.1 -> 14.8 s; all 63 cases 21.5 -> 20.3 s;
+routing stage 13.1 -> 11.6 s. Excluded: browser, API, queueing, cold start. Raw: `roster14/`.
