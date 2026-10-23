@@ -12,11 +12,13 @@ import threading
 import time
 from dataclasses import dataclass
 
-from ..bintanong_routing.contracts import ConversationContext, ScopedFact
+from ..bintanong_routing.contracts import ConversationContext, RequestContext, ScopedFact
 from .grades import ExtractionResult, confirm_rows
 
 IDLE_SECONDS = 30 * 60
 MAX_SESSIONS = 1000
+# A session never holds more facts than one request may carry.
+MAX_FACTS = next(m.max_length for m in RequestContext.model_fields['facts'].metadata if hasattr(m, 'max_length'))
 _CREDENTIAL = re.compile(r'^[A-Za-z0-9_-]{43}$')  # secrets.token_urlsafe(32)
 
 
@@ -108,7 +110,10 @@ class SessionStore:
             new = confirm_rows(session.pending, decisions, session_id=session.session_id,
                                batch=session.confirmations)
             replaced = {f.course_id for f in new}
-            session.facts = tuple(f for f in session.facts if f.course_id not in replaced) + new
+            merged = tuple(f for f in session.facts if f.course_id not in replaced) + new
+            if len(merged) > MAX_FACTS:
+                raise ValueError('too_many_facts')
+            session.facts = merged
             session.pending = None
             return session.facts
 

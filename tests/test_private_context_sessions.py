@@ -172,3 +172,14 @@ def test_two_uploads_with_the_same_row_position_keep_both_courses():
     context = RequestContext(session_id=view.session_id, request_id='req-1', program_id='bscs',
                              curriculum_id='bscs-2018', facts=view.facts)
     assert sorted(f.course_id for f in context.facts) == ['cc-101', 'gec-1']
+
+
+def test_confirming_more_facts_than_a_request_can_carry_is_refused_and_keeps_the_earlier_facts():
+    from backend.bintanong_private_context.grades import ExtractionResult, GradeRow
+    store = SessionStore()
+    a = store.issue()
+    rows = tuple(GradeRow(f'row-1-{i}', 'X', (f'course-{i}',), (), 1) for i in range(257))
+    store.set_pending(a.credential, ExtractionResult('bscs', 'bscs-2018', rows, 0))
+    with pytest.raises(ValueError, match='too_many_facts'):
+        store.confirm_pending(a.credential, {r.row_id: (r.candidates[0], 'passed') for r in rows})
+    assert store.resolve(a.credential).facts == ()
