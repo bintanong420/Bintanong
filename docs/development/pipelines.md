@@ -193,6 +193,9 @@ process memory.
   `session_limit`). Per-client rate and body-size limits belong to the deployment proxy
   ([security review](../../plans/2026-10-24-phase-11-security-review.md)).
 - `/health/ready` failure reasons are fixed text without exception details.
+- Answer admission (owner, 24 Oct): `max_running_answers` (default 1, matching Gemma `--parallel 1`) run at once;
+  up to `max_waiting_answers` (default 4) wait with a transient `data-status` stage `waiting`; more get 503
+  `answers_busy` before any stream. Answer timeouts start only once a turn runs.
 - Unsafe methods need an allowed `Origin` and no `Sec-Fetch-Site: cross-site`.
 - Students see `presentation.student_text`. The canonical `CandidateAnswer.text`, which the validator checks byte
   for byte, stays the researcher diagnostic.
