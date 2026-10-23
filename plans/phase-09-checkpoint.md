@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 151
+sequence: 152
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 6f75202
+head_commit: c8f7f5f
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -138,11 +138,10 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 Latency: per-call profile recorded ([profile](2026-10-23-latency-profile-hosted-39.md)). Owner chose
 prompt caching first: `c3d3790` opt-in `LlamaTransport(prefix_cache=True)` (profile
 p09-greedy-prefix-cache-v1; default unchanged). Uncounted: document 26-29 s (was 32-36), Prolog 17-20 s
-(was 23-27). RUNNING at handoff: counted run 13 (protocol `6f75202`) -> workspace
-`audit-evidence/p09-real-data-20261021/roster13/` (63 lines in roster13.log when done; runner `roster13.py`,
-env PREFIX_CACHE=1 HOSTED=1). Next: compare run 13 vs run 12 (copy compare12.py with roster12 -> roster13),
-read every changed case; if it passes, record results + timing, then wire the profile into
-`backend/bintanong_runtime/application.py` settings (owner decision needed on making it the default).
+(was 23-27). Run 13 PASS (identical outcomes to run 12, 0 wrong; medians document 34.3->27.7 s,
+Prolog 28.7->23.4 s, context 21.7->16.1 s). Next: owner decision whether prompt reuse becomes the runtime
+default (wire `prefix_cache` into `backend/bintanong_runtime/application.py` settings), then the next
+latency step (shorter router output ~2-3 s) if wanted.
 Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:
 thesis physical 17-18 and the routing PNG; no discrepancy.
 

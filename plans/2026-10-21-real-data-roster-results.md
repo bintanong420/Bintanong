@@ -184,3 +184,16 @@ changed: natural-u2 en/taglish now insufficient evidence (natural-u2-tl already 
 11 answer kept, including pre-enrollment first step en/tl and the fee example en/tl/taglish (20,000.00).
 Timing (warm backend): document answers median 34.3 s (max 43.3), Prolog 28.7 s, context 21.7 s;
 retrieval median 0.92 s. Raw: workspace `audit-evidence/p09-real-data-20261021/roster12/`.
+
+## Run 13 (prompt reuse on, profile p09-greedy-prefix-cache-v1, `c3d3790`), 23 October 2026 - PASS
+
+63 cases once each: identical outcome per case to run 12 (24 answered, 20 clarification, 19
+insufficient); 0 system errors, 0 wrong. 20 of 24 answers word-for-word identical; 4 reworded with the
+same facts and citation (grade-excellent-taglish, cheating-first-offense tl/taglish,
+pre-enrollment-first-step-tl; the last now also names the responsible person; cheating-tl drops the
+word "discretion" but keeps automatic 0 or failing grade 5 by subject).
+Timing, warm backend, run 12 -> run 13 medians: document answers 34.3 -> 27.7 s; Prolog 28.7 -> 23.4 s;
+Prolog with curriculum context 21.7 -> 16.1 s; all 63 cases 28.4 -> 21.5 s; routing stage 18.5 -> 13.1 s.
+Outlier: one hosted retrieval took 24.9 s (dev-vehicle-initial-application-payment-tl, 50.9 s total),
+a Supabase/network spike unrelated to reuse. Excluded: browser, API, queueing, cold start; the first
+request after a model restart gets no reuse. Raw: `roster13/`.
