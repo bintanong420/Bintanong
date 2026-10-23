@@ -95,6 +95,8 @@ class ChatTurns:
             self._sessions.begin_turn(session.credential, turn.message_id, regenerate=turn.regenerate)
         except ValueError as refused:
             raise ApiError(409, str(refused)) from None
+        except KeyError:  # deleted or expired after its cookie was resolved
+            raise ApiError(409, 'session_ended') from None
         context = follow_up_context(session.view, request_id=f'req-{secrets.token_hex(8)}',
                                     program_id=turn.program_id, curriculum_id=turn.curriculum_id)
         routed, completed = [], False

@@ -185,3 +185,14 @@ def test_session_deleted_during_the_turn_stays_deleted():
 
     answer(ChatTurns(store, DeletingPipeline(routed=validate()), CURRICULA), s, request('A1'))
     assert len(store) == 0
+
+
+def test_session_deleted_before_the_turn_starts_is_a_typed_error():
+    store = SessionStore()
+    s = session(store)
+    store.delete(s.credential)  # e.g. DELETE /session raced the chat request after its cookie was resolved
+    pipeline = Pipeline()
+    with pytest.raises(ApiError) as raised:
+        answer(ChatTurns(store, pipeline, CURRICULA), s, request('A1'))
+    assert (raised.value.status, raised.value.code) == (409, 'session_ended')
+    assert pipeline.calls == [] and len(store) == 0
