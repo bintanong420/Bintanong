@@ -269,3 +269,7 @@ Each program still gets its own dated review record listing which standing rule 
   but not listed by the model becomes a course mention (the catalog must still resolve it); a
   program/curriculum phrase matching no approved name is ignored on a document-only question,
   while course questions still clarify. No prompt change (router v15 kept).
+- 23 Oct 2026 (after run 11, "Fix keeps both"): keep the topic-menu not-stated fix; a document
+  part whose own words ask one person's amount (each/per/every student, per person, bawat isa,
+  bawat estudyante, kada isa, ...) also requests "official individual student assessment" (not
+  stated), so the printed special-class class example is never given as each student's share.

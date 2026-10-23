@@ -108,3 +108,10 @@ Code `bca2600`. Same 63 cases, runner `roster9.py roster11`, `HOSTED=1`, model c
 first, everything else as run 10. Pass: no invented facts, no run 10 correct answer lost, system
 errors not increased; pre-enrollment-first-step en/tl expected answered (printed first-step fields);
 missing-ending variants still withheld. Not an accuracy rate or SLA.
+
+## Run 12 (per-person cue guard), fixed 23 October 2026 before running
+
+Code: the commit adding the per-person cue guard (parent of this protocol commit). Same 63 cases,
+runner `roster9.py roster12`, `HOSTED=1`, container restarted first, everything else as run 11.
+Pass: 0 wrong or invented answers (natural-u2-* withheld or clarified), no run 11 correct answer
+lost (pre-enrollment first step en/tl, fee example en/tl/taglish), system errors not increased.
