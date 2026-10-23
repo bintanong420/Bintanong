@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 148
+sequence: 149
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: bca2600
+head_commit: 87cde4a
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -124,15 +124,23 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 
 ## Next Action
 
-23 Oct: roster on the hosted 39-curriculum release, router v15. Run 9 (`6dad1af`, after retrieval
-version-id fix `b26de19`) lost 3 answers; owner chose host router fixes (`0d69381`: forgotten course
-mentions added; unmatched scope phrases ignored on handbook questions). Full suite 6188 passed;
-run 10 PASS: 21/63 answered, 0 wrong, 0 system errors ([results](2026-10-21-real-data-roster-results.md)).
-Then `bca2600`: topic menu now offers claims reviewed `not_stated_in_selected_fields` (pre-enrollment
-deadline, special-class GCash) only as not stated; uncounted check: pre-enrollment first step en/tl and
-special-class en/tl/taglish answered correctly; pre-enrollment taglish still clarifies (router, open).
-Counted run 11 not yet run. Next: ask the owner what to do next (e.g. Phase 09 exit reassessment for the hosted multi-curriculum
-release, the remaining pre-enrollment-tl insufficient case, or latency). Context consulted this resume:
+23 Oct handoff (owner /clear). Roster on hosted 39 curricula + router v15:
+- Run 10 PASS (21/63, 0 wrong) after `b26de19` (retrieval version ids) and `0d69381` (owner host fixes).
+- `bca2600` topic menu: claims reviewed `not_stated_in_selected_fields` offered only as not stated
+  (pre-enrollment deadline, special-class GCash). Run 11 FAIL: 26 answered but natural-u2 en/taglish
+  gave the printed class example 20,000.00 as each student's share (old safe result was the menu bug).
+- `4fad98a` owner "Fix keeps both": host-only per-person cues (`research.PER_PERSON`) add "official
+  individual student assessment" to a part asking one person's amount -> withheld. Uncounted check 8/8
+  as intended. Decision in `owner-decisions-ledger.md`; run 12 protocol committed (`87cde4a`).
+- RUNNING at handoff (background): full suite -> workspace `audit-evidence/p09-fullsuite-20261023/full3.log`,
+  then counted run 12 -> `audit-evidence/p09-real-data-20261021/roster12/` (+ `roster12.log`, 63 lines when done).
+  If the job died (log short / no results), rerun the same commands (see Verification Evidence).
+Next: 1) read full3.log tail; 2) compare run 12 vs run 11 (`compare11.py` pattern: copy with roster11 ->
+roster12 names), read EVERY newly answered case against the source, record in the roster results file;
+3) then latency (owner-approved plan): run workspace `p09-real-data-20261021/latency_profile11.py`
+(HOSTED=1, from the repo root) for per-call tokens/timings on 6 cases; routing LLM ~18-22 s and answer
+LLM ~15 s dominate (run 10); target 15-20 s browser end-to-end (unmeasured; no API/UI yet).
+Open: pre-enrollment taglish ("...sa step 1?") still clarifies (router). Context consulted this resume:
 thesis physical 17-18 and the routing PNG; no discrepancy.
 
 ## Do Not Repeat

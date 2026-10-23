@@ -54,29 +54,10 @@ observation: 4/4 full quality on the first draft (author reading), 41-43 s.
 
 ## Next action
 
-23 Oct: roster run 10 PASS on hosted 39 curricula + router v15 (21/63 answered, 0 wrong, 0 errors)
-after fixes `b26de19` (retrieval version ids) and `0d69381` (owner "host fixes" for router v15
-mention losses); full suite 6188 passed. Next: owner picks the next task (see checkpoint).
-
-24 Oct: ALL 39 prospectus curricula reviewed and loaded to hosted Supabase (CoE + CTE done last).
-Next: full suite + hosted multi-college wiring check.
-24 Oct: CBA complete; hosted holds 23 reviewed curricula. Next: CHTM, CNHS, CoE, CTE.
-23 Oct: CAH complete; hosted holds 14 reviewed curricula. Next: CBA (multi-page layouts need an owner question).
-23 Oct: chatbot now reads all hosted curricula (multi-curriculum release); wiring check correct.
-Next: continue CAH reviews per the checkpoint.
-23 Oct: 9 reviewed curricula (502 courses) loaded into hosted Supabase and verified; chatbot wiring
-to read them is next (or continue CAH reviews). See the checkpoint.
-23 Oct: College of Sciences prerequisite reviews complete (6 programs incl. full old/proposed BSCS);
-next college CAH per the checkpoint. Standing approval for repeated scenarios in the decisions ledger.
-23 Oct: BSIT reviewed ([review 01](../2026-10-23-bsit-prerequisite-review-01.md)), 53 courses, Prolog 12/12;
-/doctor cleanup moved AGENTS.md history to `../owner-decisions-ledger.md`; no co-author trailers.
-23 Oct: BS Criminology reviewed ([review 01](../2026-10-22-crim-prerequisite-review-01.md)): owner
-decisions 1-3, 65-course ledger authored, real Prolog 12/12. Owner then had the affected-course
-listing fixed to follow co-requisites (`781c9a2`, full suite 6140 passed). Partial-rule decision
-applied (`e4bd8bd`): known failure in an all-of rule now gives not eligible; BSA 9/9; full suite 6145. Earlier 22 Oct: hosted Supabase done
-(research release active, roster 17/63 answered, 0 wrong); [BS Architecture 01](../2026-10-22-bsa-prerequisite-review-01.md).
-Resume from the [checkpoint](../phase-09-checkpoint.md) Next Action: ask the owner to pick the next
-program review or the Supabase course-data loader.
+23 Oct (handoff for /clear): run 10 PASS (21/63, 0 wrong); run 11 FAIL (topic-menu fix exposed two
+per-student fee answers); owner chose host per-person cue guard (`4fad98a`), uncounted check 8/8.
+Full suite + counted run 12 were running in the background at handoff. Resume from the
+[checkpoint](../phase-09-checkpoint.md) Next Action: verify run 12, then the latency profile.
 
 ## Boundaries
 
