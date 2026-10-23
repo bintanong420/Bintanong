@@ -69,7 +69,8 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
 - Live capacity probe: 1 student 25.6 s; 3 at once 23.5/38.5/49.4 s; 6 at once five served by 76.8 s and the
   sixth `answers_busy` in 0.5 s; statuses identical to a sequential run. Logs in `live-api/`.
 - E1: RED (4 tests: integration mapping and the reply in three languages), GREEN; generation/orchestration/API/
-  routing/evaluation selection 1516 passed. Full suite after E1: pending (see current progress).
+  routing/evaluation selection 1516 passed. Full suite at `7c3786e`: 6451 passed, 6 skipped, 2 xfailed, 0 failed
+  (log `audit-evidence/p11-20261023/full-suite-e1.log`).
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
   turns in Taglish 3 of 4 (run 5: 0 of 4).
 - Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum

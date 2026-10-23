@@ -21,7 +21,7 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 ## Next action
 
-Confirm the full suite at `7c3786e`, diagnose E3 ("Pwede ba mag-shift ng course?" clarification), then continue
+Full suite at `7c3786e` passed (0 failed). Next: diagnose E3 ("Pwede ba mag-shift ng course?" clarification), then continue
 step 2 (live-smoke observations, roster run 16 statuses).
 See the [checkpoint](../phase-11-checkpoint.md).
 
