@@ -35,7 +35,6 @@ Task 2: D4 dependency wiring, then upload validation, test first.
 ## Repository State
 
 Branch `feat/p10-private-files-pipeline`; task 1 committed. Not pushed. Clean after the checkpoint commit.
-checkpoint, INDEX, progress and ledger edits.
 
 ## Verification Evidence
 
