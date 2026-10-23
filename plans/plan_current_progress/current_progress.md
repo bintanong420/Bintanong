@@ -23,9 +23,16 @@ Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress
 
 ## Next action
 
-Phase 10 is closed ([final handoff](../phase-10-handoff.md); final suite 6295 passed, 6 skipped, 0 failed). Next: Phase 11 pre-phase research (master 16 + 23.3).
-Then the owner summary and go. Then wire `POST /chat`, the cookie, uploads and `DELETE /session` onto the Phase 10
-backend.
+Phase 10 is closed ([final handoff](../phase-10-handoff.md); final suite 6295 passed, 6 skipped, 0 failed).
+Open owner questions (asked 24 Oct, not yet answered; ask again before starting):
+- The owner wants all backend finished while the frontend design is pending. Proposed: start Phase 11
+  backend-first (pre-phase research, then `POST /chat` with the cookie session and conversation capture,
+  `POST /uploads` plus the confirm step, `DELETE /uploads/{id}`, `DELETE /session`, `GET /sources/{id}`, and the
+  AI SDK 6 streaming adapter, all with API tests). Frontend tasks wait for the co-worker's design.
+- Photo OCR has no owning phase (it is not in master 16). Proposed: a backend task for deskewed row grouping,
+  refusal when uncertain, and a grade-row Q11-style scorer on simulated photos. A "supported" claim needs real
+  phone photos (owner to provide, kept private).
+- The conversational function is built and live-tested in the backend but not yet reachable over HTTP.
 
 ## Boundaries
 
