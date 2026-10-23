@@ -11,6 +11,9 @@ import math
 import statistics
 from dataclasses import dataclass
 
+from ..bintanong_routing.contracts import CatalogEntry
+from .grades import _MARK, ExtractionResult, GradeRow, _code_pattern, curriculum_courses
+
 MAX_TILT_DEGREES = 8.0   # the envelope verified on simulated photos
 ON_LINE = 0.5            # a word belongs to a line within half a word height of its fitted baseline
 NEAR_LINE = 1.0          # ... and must be clearly away (one word height) from every other line
@@ -83,3 +86,52 @@ def group_lines(words: list[Word]) -> list[list[Word]]:
     middle = statistics.median(w.center[0] for w in words)
     return [sorted(line.words, key=lambda w: w.center[0])
             for line in sorted(lines, key=lambda line: line.predict(middle))]
+
+
+EDGE_MARGIN = 0.15  # a value this close (share of column width) to a FINAL column edge is ambiguous
+
+
+def _final_column(header: list[Word]) -> tuple[float, float]:
+    """x range of the FINAL column, bounded halfway to its neighbouring header words."""
+    xs = [w.center[0] for w in header]
+    i = next(i for i, w in enumerate(header) if w.text.strip().upper() == 'FINAL')
+    left = (xs[i - 1] + xs[i]) / 2 if i > 0 else xs[i] - (xs[i + 1] - xs[i]) / 2
+    right = (xs[i] + xs[i + 1]) / 2 if i + 1 < len(xs) else xs[i] + (xs[i] - xs[i - 1]) / 2
+    return left, right
+
+
+def _final_marks(line: list[Word], column: tuple[float, float]) -> tuple[str, ...]:
+    lo, hi = column
+    margin = EDGE_MARGIN * (hi - lo)
+    marks = []
+    for word in line:
+        if not _MARK.fullmatch(word.text.strip()):
+            continue
+        x = word.center[0]
+        if lo + margin <= x <= hi - margin:
+            marks.append(word.text.strip())
+        elif lo - margin < x < hi + margin:
+            raise RowsUncertain('mark_on_column_edge')
+    if len(marks) > 1:
+        raise RowsUncertain('two_marks_in_final_column')
+    return tuple(marks)
+
+
+def photo_grade_rows(lines: list[list[Word]], catalog: tuple[CatalogEntry, ...], *, program_id: str,
+                     curriculum_id: str) -> ExtractionResult:
+    """Grade rows matched only by the curriculum's reviewed aliases (as for PDFs). With a header line that has a
+    FINAL column (a Report of Grades layout also prints units and midterm), only that column's value is shown."""
+    courses = curriculum_courses(catalog, program_id, curriculum_id)
+    code = _code_pattern(courses)
+    header = next((line for line in lines if any(w.text.strip().upper() == 'FINAL' for w in line)), None)
+    column = _final_column(header) if header is not None else None
+    rows, unmatched = [], 0
+    for number, line in enumerate(lines, 1):
+        text = ' '.join(w.text for w in line)
+        match = code.search(text) if code else None
+        if match is None:
+            unmatched += bool(_MARK.search(text)) and line is not header
+            continue
+        marks = _final_marks(line, column) if column else tuple(_MARK.findall(text, match.end()))
+        rows.append(GradeRow(f'row-1-{number}', match.group(), tuple(sorted(courses[match.group()])), marks, 1))
+    return ExtractionResult(program_id, curriculum_id, tuple(rows), unmatched)

@@ -73,3 +73,61 @@ def test_a_word_just_off_the_last_row_is_refused():
     stray = Word('3.00', ((520, 249), (564, 249), (564, 267), (520, 267)), 0.99)
     with pytest.raises(RowsUncertain):
         group_lines(words + [stray])
+
+
+# --- 8b: grade rows from lines. Header mode reads only the FINAL column (rows also print units and midterm).
+from backend.bintanong_private_context.photo_rows import photo_grade_rows  # noqa: E402
+from test_private_context_grades import CATALOG  # noqa: E402
+
+HEADER = [(60, 'CODE'), (200, 'TITLE'), (420, 'UNIT'), (500, 'MIDTERM'), (580, 'FINAL'), (660, 'RE-EX'),
+          (740, 'REMARKS')]
+
+
+def table_words(rows, transform=lambda x, y: (x, y), header=HEADER, row_gap=34):
+    words, lines = [], [header] + rows
+    for r, cells in enumerate(lines):
+        top = 100 + r * row_gap
+        for left, text in cells:
+            width = 10 * len(text)
+            corners = [(left, top), (left + width, top), (left + width, top + 18), (left, top + 18)]
+            words.append(Word(text, tuple(transform(x, y) for x, y in corners), 0.99))
+    return words
+
+
+def grade_rows(words):
+    result = photo_grade_rows(group_lines(words), CATALOG, program_id='bscs', curriculum_id='bscs-2018')
+    return [(r.code_text, r.candidates, r.marks) for r in result.rows], result.unmatched_lines
+
+
+ROW_CC5 = [(60, 'CC 5/L'), (200, 'Info'), (420, '3.0'), (500, '1.50'), (580, '1.75'), (740, 'Passed')]
+ROW_GEC = [(60, 'GEC 1'), (200, 'Self'), (420, '3.0'), (580, '2.00'), (740, 'Passed')]
+
+
+@pytest.mark.parametrize('transform', [lambda x, y: (x, y), rotate(5), perspective()], ids=['flat', 'tilt', 'keystone'])
+def test_header_mode_reads_only_the_final_column(transform):
+    rows, unmatched = grade_rows(table_words([ROW_CC5, ROW_GEC], transform))
+    assert rows == [('CC 5/L', ('cc-105',), ('1.75',)), ('GEC 1', ('gec-1',), ('2.00',))]
+    assert unmatched == 0
+
+
+def test_empty_final_cell_shows_no_mark():
+    rows, _ = grade_rows(table_words([[(60, 'CC 5/L'), (200, 'Info'), (420, '3.0'), (500, '1.50')]]))
+    assert rows == [('CC 5/L', ('cc-105',), ())]
+
+
+def test_a_value_on_the_edge_of_the_final_column_is_refused():
+    # Header centres: MIDTERM 535, FINAL 605, so the column boundary is 570; this word's centre is 570.
+    edge = [(60, 'CC 5/L'), (200, 'Info'), (550, '1.75')]
+    with pytest.raises(RowsUncertain):
+        grade_rows(table_words([edge]))
+
+
+def test_without_a_final_header_all_marks_after_the_code_are_shown():
+    plain = [[(60, 'CC 5/L'), (200, 'Info'), (520, '1.75')]]
+    rows, _ = grade_rows(table_words(plain, header=[(60, 'Subject'), (520, 'Grade')]))
+    assert rows == [('CC 5/L', ('cc-105',), ('1.75',))]
+
+
+def test_unknown_code_lines_with_marks_are_counted_never_matched():
+    rows, unmatched = grade_rows(table_words([ROW_CC5, [(60, 'XYZ 9'), (200, 'Other'), (580, '1.25')]]))
+    assert [r[0] for r in rows] == ['CC 5/L'] and unmatched == 1
