@@ -184,7 +184,9 @@ def build_curriculum_ledger(scope, sources, courses, *, reviews=()) -> dict:
             if ref not in review_by_id or identity not in review_by_id[ref]['course_digests']:
                 raise ValueError('review reference does not cover this course')
         facts = _facts(c['facts'], source)
-        key = (source.version_id, facts['course_code']['value'])
+        # A printed code may repeat only on rows told apart by their printed title or units.
+        key = (source.version_id, facts['course_code']['value'],
+               *(facts[f]['value'] if f in facts else None for f in ('course_title', 'units.total')))
         if key in code_keys:
             raise ValueError('duplicate course code in one source version')
         code_keys.add(key)

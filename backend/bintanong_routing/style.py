@@ -2,9 +2,11 @@
 from copy import deepcopy
 import hashlib
 import json
+import re
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
+from ..bintanong_contracts.schema_display import compact_for_prompt, COMPACT_JSON_INSTRUCTION
 
 from ..bintanong_contracts.base import Contract, Record
 from .contracts import prepare_query
@@ -23,7 +25,7 @@ present; filipino when only Filipino conversation is present; taglish when BOTH 
 even in a short greeting; unknown if the supported style cannot be established (both arrays empty).
 These are response-style choices, not ISO language codes or the language of a later explanation.
 Filipino answers may naturally retain useful technical terms; that does not relabel this question.
-Every nonempty fragment must occur literally, with identical case, in original_text.'''
+Every nonempty fragment must occur literally, with identical case, in original_text.'''+ '\n' + COMPACT_JSON_INSTRUCTION
 STYLE_PROMPT_SHA256 = hashlib.sha256(STYLE_PROMPT.encode()).hexdigest()
 Fragment = Annotated[str, Field(min_length=1, max_length=160)]
 _REQUIREMENTS = {'english_only':(True,False), 'filipino':(False,True),
@@ -51,6 +53,32 @@ class StyleEvidence(Record):
     def ground(self, original_text):
         if any(f not in original_text for f in (*self.english_fragments, *self.filipino_fragments)):
             raise ValueError('ungrounded_response_style')
+
+
+# Everyday Filipino function words; English lookalikes (at, may, i, pa) are excluded.
+_FILIPINO = frozenset('''ang ng nang mga sa ay na ko mo ka siya niya namin natin nila kami tayo
+sila yung iyong ung lang po si ni kay para kung kapag pag hindi wala meron pwede puwede dapat
+kailangan ito iyan yan dito diyan doon kasi din rin ba naman mag ma'''.split())
+
+
+def filipino_function_words(text):
+    """Literal Filipino function words in text; all-caps acronyms (BA, MA, SI) never count."""
+    return tuple(dict.fromkeys(w for w in re.findall(r'[A-Za-zÑñ]+', text)
+                               if not w.isupper() and w.lower() in _FILIPINO))
+
+
+def has_filipino_function_word(text):
+    return bool(filipino_function_words(text))
+
+
+def floor_style(style, text):
+    """Owner floor (22 October 2026): a question with Filipino grammar words is not English-only.
+    The model's label stands otherwise; the host adds its literal words as Filipino evidence."""
+    words = filipino_function_words(text)
+    if style.preferred_response_style != 'english_only' or not words:
+        return style, False
+    return StyleEvidence(english_fragments=style.english_fragments, filipino_fragments=words[:4],
+                         preferred_response_style='taglish'), True
 
 
 class StyleProposal(Contract):
@@ -86,5 +114,5 @@ def style_output_schema():
 def build_style_messages(original_text):
     prepare_query(original_text)  # validate, never normalize the evidence text
     encode = lambda value:json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False)
-    return [dict(role='system', content=STYLE_PROMPT + '\nJSON schema:\n' + encode(style_output_schema())),
+    return [dict(role='system', content=STYLE_PROMPT + '\nJSON schema:\n' + encode(compact_for_prompt(style_output_schema()))),
             dict(role='user', content=encode(dict(original_text=original_text)))]

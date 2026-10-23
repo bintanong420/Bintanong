@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from copy import deepcopy
 from dataclasses import dataclass
 
@@ -34,6 +35,7 @@ class RoutingResult:
     offset_corrections: int = 0
     style_attempts: int = 0
     style_evidence: StyleEvidence | None = None
+    style_floor_applied: bool = False
 
     @property
     def inference_calls(self):
@@ -55,7 +57,7 @@ def anchor_unique_quotes(data, text):
         return data, 0
     anchored = deepcopy(data)
     corrections = 0
-    for name in ('mentions', 'claims'):
+    for name in ('mentions', 'claims', 'parts'):
         items = anchored.get(name)
         if not isinstance(items, list):
             continue
@@ -79,10 +81,26 @@ def _key(text):
 
 
 def _matches(mention, catalog, program=None, curriculum=None):
-    return tuple(c for c in catalog if c.kind == mention.kind
-                 and (program is None or c.program_id == program)
-                 and (curriculum is None or c.curriculum_id == curriculum)
-                 and _key(mention.text) in {_key(a) for a in c.aliases})
+    scoped = tuple(c for c in catalog if c.kind == mention.kind
+                   and (program is None or c.program_id == program)
+                   and (curriculum is None or c.curriculum_id == curriculum))
+    exact = tuple(c for c in scoped if _key(mention.text) in {_key(a) for a in c.aliases})
+    if exact or mention.kind == 'course':
+        return exact
+    # A program/curriculum phrase ("Nursing student ako") resolves when it contains an approved
+    # name as whole words (owner decision, 24 Oct 2026); the longest names win, and a phrase naming
+    # several entities matches all of them (the caller then asks which is meant).
+    found = {}
+    for c in scoped:
+        for a in c.aliases:
+            short = len(a) <= 4 and a.isupper()  # abbreviations such as "IT" match only as written
+            pattern = r'(?<![\w-])' + re.escape(a) + r'(?![\w-])'
+            for m in re.finditer(pattern, mention.text, 0 if short else re.IGNORECASE):
+                found.setdefault(c.entity_id, []).append((m.start(), m.end(), c))
+    spans = [s for hits in found.values() for s in hits]
+    keep = {c.entity_id for s, e, c in spans
+            if not any(s2 <= s and e <= e2 and (e2 - s2) > (e - s) for s2, e2, _ in spans)}
+    return tuple(c for c in scoped if c.entity_id in keep)
 
 
 def _decision(*, route=None, control=None, request=None, missing=(), reason):
@@ -110,15 +128,25 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         m = p.mentions[c.entity]
         if text[c.start:c.end] != c.text or not c.start <= m.start < m.end <= c.end:
             raise ValueError('ungrounded_claim')
+    for part in p.parts:
+        if text[part.start:part.end] != part.text:
+            raise ValueError('ungrounded_part')
 
     program, curriculum = context.program_id, context.curriculum_id
-    resolved = {}
+    resolved, ignored = {}, set()
     scope_error = None
+    # Owner, 23 Oct 2026: a handbook-only question does not depend on program/curriculum, so a
+    # phrase that matches no approved name (e.g. "Graduating undergraduate") is ignored there.
+    document_only = not p.operations and bool(p.parts) and all(
+        part.evidence_need == 'document' for part in p.parts)
     for kind in ('program', 'curriculum'):
         for idx, mention in enumerate(p.mentions):
             if mention.kind != kind:
                 continue
             matches = _matches(mention, catalog, program if kind == 'curriculum' else None)
+            if not matches and document_only:
+                ignored.add(idx)
+                continue
             if len(matches) != 1:
                 scope_error = 'unresolved_entity'
                 continue
@@ -134,6 +162,12 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                 if program is None:
                     program = entry.program_id  # explicit curriculum identity establishes its program
             resolved[idx] = entry
+    if program is not None and curriculum is None:
+        # A program with exactly one reviewed curriculum uses it (owner decision, 24 Oct 2026);
+        # several editions (e.g. old and proposed BSCS) still need the student's answer.
+        editions = [c for c in catalog if c.kind == 'curriculum' and c.program_id == program]
+        if len(editions) == 1:
+            curriculum = editions[0].entity_id
     for idx, mention in enumerate(p.mentions):
         if mention.kind == 'course' and program is not None and curriculum is not None:
             matches = _matches(mention, catalog, program, curriculum)
@@ -179,13 +213,30 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
         return result('model_control', p.control)
+    if p.route == 'RAG' and p.operations:
+        return result('inconsistent_proposal', 'evidence_unavailable')
+    for part in p.parts:
+        for index in part.operation_indices:
+            target = p.mentions[p.operations[index].target]
+            if not part.start <= target.start < target.end <= part.end:
+                return result('part_operation_target_mismatch')
+    needs = {part.evidence_need for part in p.parts}
+    if 'unknown' in needs:
+        return result('unknown_requirement')
+    if any(part.evidence_need == 'structured' and not part.operation_indices for part in p.parts):
+        return result('unsupported_requirement', 'evidence_unavailable')
+    expected = {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic',
+                frozenset({'document', 'structured'}): 'Hybrid'}[frozenset(needs)]
+    covered_operations = {i for part in p.parts for i in part.operation_indices}
+    if p.route != expected or covered_operations != set(range(len(p.operations))):
+        return result('inconsistent_requirements', 'evidence_unavailable')
     if (p.route == 'RAG' and p.operations) or (p.route != 'RAG' and not p.operations):
         return result('inconsistent_proposal', 'evidence_unavailable')
     if p.operations:
         missing = tuple(k for k, v in (('program_id', program), ('curriculum_id', curriculum)) if v is None)
         if missing:
             return result('missing_scope', missing=missing)
-    if len(resolved) != len(p.mentions):
+    if len(resolved) + len(ignored) != len(p.mentions):
         return result('unresolved_entity')
     if any(c.mode != 'asserted' for c in claims):
         return result('nonasserted_facts')

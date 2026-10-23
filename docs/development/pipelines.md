@@ -15,6 +15,19 @@ no student chat endpoint, institutional release loader or deployment.
 Source authority/currentness, held fields and hosted migration gaps remain open.
 The existing 75 accepted institutional question variants were not rerun here.
 
+The [actual service runner](../../backend/bintanong_runtime/README.md) now composes
+these modules for a checked fictional local release. All three routes have actual
+model/service observations in the [delivery report](../../plans/2026-10-20-live-backend-composition-results.md).
+This proves the internal paths on controlled fixtures; latency,language/prose scope
+and institutional loading remain open. Phase09 is active;Phase10 has not started.
+
+The current [question-understanding recovery](../../plans/2026-10-20-router-understanding-implementation-plan.md)
+requires interpretation/integration/answer v2. It binds requested parts from the
+pre-evidence router through the existing support call and host canonical results.
+Software verification is separate from actual model quality;the earlier service
+observations above do not validate this new candidate. No added classifier call,
+new latency result,student endpoint or institutional activation is implied.
+
 ## Two separate pipelines
 
 Institutional preparation happens outside student requests. Private uploads and
@@ -60,11 +73,17 @@ flowchart TD
     H --> I
     I --> E[Candidate evidence and stage telemetry]
     E --> K{Ready evidence?}
-    K -->|yes| D[Candidate draft generation]
+    K -->|yes| X{Route and explanation profile}
+    X -->|RAG with experimental guarded profile| PG{Unselected post-retrieval LLM assessment}
+    PG -->|document only| D[Documentary draft: one required slot per document part]
+    PG -->|structured required / uncertain / invalid| B
+    PG -->|timeout / error| B
+    X -->|Selected per-part RAG or Hybrid| D
+    X -->|Symbolic| A
     K -->|no| B
     C --> B
     D --> V{Schema, citation, canonical decision and prose-support checks}
-    V -->|pass| A[Host-rendered candidate preview]
+    V -->|pass| A[Final host validation and candidate rendering]
     V -->|one repair| D
     V -->|exhausted| B[Grounded fallback]
     A -. Phase 11 .-> U[Authenticated student API and website]
@@ -75,6 +94,12 @@ flowchart TD
 No extra orchestration framework, queue or graph service is needed. The control
 flow is ordinary async Python in `Orchestrator.run` and `AnswerPipeline.run`. API composition is later work;
 the existing FastAPI app exposes health probes only.
+The experimental post-retrieval assessment failed multilingual quality and remains
+unselected; the default per-part profile follows the documentary path, with one
+required answer slot per declared document part. The assessment
+does not change the original route or execute rules.
+Only a document-only result proceeds; other results withhold the structured answer.
+Its one call and timing are recorded separately from draft/support attempts.
 
 ## Where to make a change
 

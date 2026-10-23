@@ -87,14 +87,61 @@ class Operation(Record):
     target: int = Field(ge=0, le=31)
 
 
+TopicClaim = Annotated[str, Field(min_length=1, max_length=256)]
+
+
+class NotStatedCue(Record):
+    """Owner-approved phrases (23 Oct 2026) showing a part asks for a fact the source does not state."""
+    claim: TopicClaim
+    phrases: tuple[Annotated[str, Field(min_length=2, max_length=64)], ...] = Field(min_length=1, max_length=32)
+
+
+class DocumentTopic(Record):
+    """One release-supplied retrieval subject and its reviewed claim strings."""
+    subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    claims: tuple[TopicClaim, ...] = Field(min_length=1, max_length=16)
+    # Recorded source limits: facts the source does not state (selecting one withholds).
+    not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
+    # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.
+    cues: tuple[NotStatedCue, ...] = Field(default=(), max_length=16)
+
+    @model_validator(mode='after')
+    def _cues(self):
+        if any(c.claim not in self.not_stated for c in self.cues):
+            raise ValueError('cue_requires_not_stated_claim')
+        return self
+
+
+class RequestPart(Quote):
+    part_id: str = Field(pattern=r'^r[1-8]$')
+    evidence_need: Literal['document', 'structured', 'unknown']
+    operation_indices: tuple[Annotated[int, Field(ge=0, le=3)], ...] = Field(max_length=4)
+    # Research real-data mode only: a menu subject and its reviewed claims.
+    subject_id: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    requested_claims: tuple[TopicClaim, ...] = Field(default=(), max_length=8)
+
+    @model_validator(mode='after')
+    def _operations(self):
+        if not self.text.strip() or len(set(self.operation_indices)) != len(self.operation_indices):
+            raise ValueError('invalid_part')
+        if self.evidence_need != 'structured' and self.operation_indices:
+            raise ValueError('only_structured_parts_reference_operations')
+        if self.evidence_need != 'document' and (self.subject_id or self.requested_claims):
+            raise ValueError('only_document_parts_carry_topics')
+        if (self.subject_id is None) != (not self.requested_claims):
+            raise ValueError('topic_requires_claims')
+        return self
+
+
 class Interpretation(Contract):
-    SCHEMA_VERSION = 'bintanong-interpretation-v1'
+    SCHEMA_VERSION = 'bintanong-interpretation-v2'
     language: Language
     audience: Literal['undergraduate', 'excluded', 'unrelated', 'unknown']
     intent: Text
     mentions: tuple[Mention, ...] = Field(max_length=32)
     claims: tuple[Claim, ...] = Field(max_length=32)
     operations: tuple[Operation, ...] = Field(max_length=4)
+    parts: tuple[RequestPart, ...] = Field(max_length=8)
     route: Route() | None
     control: Control() | None
     ambiguities: tuple[Text, ...] = Field(max_length=16, description=
@@ -108,6 +155,16 @@ class Interpretation(Contract):
             raise ValueError('exactly_one_route_or_control')
         if self.control in ('greeting', 'unsupported_scope') and (self.operations or self.claims):
             raise ValueError('terminal_control_has_actions')
+        if self.control in ('greeting', 'unsupported_scope') and self.parts:
+            raise ValueError('terminal_control_has_parts')
+        if self.route is not None and not self.parts:
+            raise ValueError('route_requires_parts')
+        if len({p.part_id for p in self.parts}) != len(self.parts):
+            raise ValueError('duplicate_part_id')
+        if len({(p.start, p.end) for p in self.parts}) != len(self.parts):
+            raise ValueError('duplicate_part_span')
+        if any(i >= len(self.operations) for p in self.parts for i in p.operation_indices):
+            raise ValueError('invalid_part_operation')
         for item in (*self.claims, *self.operations):
             idx = item.entity if isinstance(item, Claim) else item.target
             if idx >= len(self.mentions) or self.mentions[idx].kind != 'course':

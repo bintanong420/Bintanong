@@ -194,6 +194,10 @@ def inspect(repo: Path) -> dict[str, Any]:
         advance_reasons.append("no phase plan exists")
     elif latest_handoff is None:
         advance_reasons.append(f"phase {latest_phase} has no complete handoff")
+    elif active_checkpoint is not None and active_checkpoint.status != "superseded":
+        advance_reasons.append(
+            f"phase {active_checkpoint.phase} checkpoint is {active_checkpoint.status}; current work is unfinished"
+        )
     elif latest_handoff.status == "complete":
         can_advance = True
         next_phase = int(latest_handoff.metadata.get("next_phase", latest_phase + 1))

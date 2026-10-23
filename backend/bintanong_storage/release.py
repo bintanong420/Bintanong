@@ -62,6 +62,17 @@ class ReleaseManager:
             status="draft",
         )
 
+    def designate_research_release(self, release_id: str, authorization_ref: str) -> Dict[str, Any]:
+        """Mark a bound selected-review draft as an owner-authorized research release.
+
+        Sources keep their true review/approval states; this is not institutional approval.
+        """
+        return self.client.rpc(
+            "designate_research_release",
+            params={"p_release_id": release_id, "p_authorization_ref": authorization_ref},
+            role="admin",
+        )
+
     def activate_release(self, release_id: str, actor: str = "system") -> None:
         """Atomically promote a release to active and update active_release pointer."""
         self.client.rpc(

@@ -17,6 +17,10 @@ def prepare_runtime_bundle(ledger) -> dict:
     checked = compiled['ledger']
 
     def expression(node):
+        # An unresolved part is exported as an unknown leaf (no reason text); the engine decides
+        # only from the reviewed parts beside it (owner decision, 23 October 2026).
+        if node['kind'] == 'unresolved':
+            return {'kind':'unresolved'}
         result = {k:v for k,v in node.items() if k not in ('source_spans','items')}
         if 'items' in node:
             result['items'] = [expression(x) for x in node['items']]
@@ -26,7 +30,7 @@ def prepare_runtime_bundle(ledger) -> dict:
     payload = {'synthetic':checked['synthetic'], 'curriculum_id':checked['scope']['curriculum_id'],
         'courses':[
             {'id':c['course_id'], 'reviewed':c['review_state']=='reviewed',
-             'rule':expression(c['prerequisites']) if coverage[c['course_id']]['direct_rule']=='reviewed'
+             'rule':expression(c['prerequisites']) if coverage[c['course_id']]['identity_review']=='reviewed'
                     else {'kind':'unresolved'}} for c in checked['courses']]}
     encoded = _json(payload)
     if len(encoded.encode()) > _MAX_PAYLOAD_BYTES:

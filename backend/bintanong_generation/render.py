@@ -1,4 +1,5 @@
 """Plain-text candidate previews; canonical decisions never come from generated prose."""
+import json
 
 _WORDS={
  'en':dict(preview='Candidate preview only. Not official university guidance.',
@@ -15,18 +16,18 @@ _WORDS={
   greeting='Hello. I can help with supported undergraduate academic-affairs questions.',
   abstained='A supported explanation could not be verified from the supplied evidence.'),
  'fil':dict(preview='Preview ng kandidato lamang. Hindi opisyal na gabay ng unibersidad.',
-  answered='Batay sa ibinigay na ebidensya:',eligible='Sa sinuring prerequisite: natugunan ang mga kondisyon.',
-  ineligible='Sa sinuring prerequisite: may hindi natugunang nakasaad na kondisyon.',
-  unknown='Hindi matiyak ang pagiging kwalipikado mula sa kasalukuyang impormasyon at saklaw ng tuntunin.',
-  unsupported='Hindi suportado ang pagsusuring ito.',error='Hindi natapos ang pagsusuri.',
+  answered='Batay sa ibinigay na ebidensya:',eligible='Ayon sa prerequisite check: kumpleto ang mga kondisyon.',
+  ineligible='Ayon sa prerequisite check: may kondisyon na kulang pa.',
+  unknown='Hindi pa masabi kung pwede ka, dahil kulang ang impormasyon o hindi ito sakop ng rules.',
+  unsupported='Hindi supported ang check na ito.',error='Hindi natapos ang check.',
   conditions='Mga kondisyon',missing='Kulang na impormasyon',dependency='Posibleng maapektuhang kurso sa ibinigay na bundle',
   clarification_needed='Pakilinaw ang kulang na impormasyon bago makapagbigay ng pasya.',
   source_conflict='Magkasalungat ang ibinigay na ebidensya; walang maibibigay na pasya.',
   insufficient_evidence='Hindi sapat ang kasalukuyang ebidensya para sa sagot.',
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
-  temporarily_unavailable='Pansamantalang hindi magawa ang pagsusuri. Subukan muli mamaya.',
+  temporarily_unavailable='Hindi muna magawa ang check ngayon. Subukan ulit mamaya.',
   greeting='Kumusta. Makakatulong ako sa mga suportadong tanong tungkol sa undergraduate academic affairs.',
-  abstained='Hindi mapatunayan ang paliwanag mula sa ibinigay na ebidensya.'),
+  abstained='Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'),
  'taglish':dict(preview='Candidate preview lang. Hindi official university guidance.',
   answered='Based sa supplied evidence:',eligible='Sa supported prerequisite check, satisfied ang conditions.',
   ineligible='Sa supported prerequisite check, may documented condition na hindi met.',
@@ -59,28 +60,89 @@ def selected_cards(pack,claims):
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))
 
 
-def render_text(pack,claims,status):
+_WITHHELD={
+ 'en':'I cannot verify this answer from retrieved text alone. No structured check has been verified, so I cannot give a structured conclusion.',
+ 'fil':'Hindi pa masagot nang sigurado gamit lang ang nakuhang text. Wala pang verified na prerequisite check, kaya wala pang desisyon.',
+ 'taglish':'Hindi pa ma-verify ang answer gamit ang retrieved text lang. Wala pang verified structured check, kaya wala pang structured conclusion.'}
+
+
+_UNCOVERED={
+ 'en':'I cannot verify that the available evidence answers your question.',
+ 'fil':'Hindi makumpirma na nasasagot ng available na ebidensya ang tanong mo.',
+ 'taglish':'Hindi ma-verify na nasasagot ng available evidence ang question mo.'}
+
+
+# Source-gap policy: a cited source's unresolved conflict or visible defect is always stated.
+# No office is named because the source does not establish which one (22 October 2026).
+_LIMIT_NOTICES={
+ 'en':dict(conflict='Note: the cited source gives conflicting statements on this, so it does not settle '
+               'which one applies. Please confirm with the right university office.',
+           defect='Note: part of the cited source is cut off or unclear, so this answer may be incomplete. '
+               'Please confirm with the right university office.'),
+ 'fil':dict(conflict='Paalala: magkasalungat ang sinasabi ng source tungkol dito, kaya hindi malinaw kung alin '
+               'ang masusunod. Pakitanong sa tamang opisina ng unibersidad.',
+            defect='Paalala: may bahagi ng source na putol o hindi malinaw, kaya baka kulang ang sagot na ito. '
+               'Pakitanong sa tamang opisina ng unibersidad.'),
+ 'taglish':dict(conflict='Note: may conflicting statements ang source dito, kaya hindi clear kung alin ang '
+               'applicable. Paki-confirm sa tamang university office.',
+            defect='Note: may part ng source na cut off o unclear, kaya baka incomplete ang answer na ito. '
+               'Paki-confirm sa tamang university office.')}
+_NOTICE_ISSUES={'conflicting_deadlines':'conflict','source_cutoff':'defect',
+                'malformed_source_condition':'defect','printed_total_discrepancy':'defect'}
+
+
+def limit_notices(cards):
+    """Notice kinds for unresolved conflicts/defects recorded on the given document cards."""
+    kinds=[]
+    for card in cards:
+        if card.kind!='document': continue
+        try: limits=json.loads(card.text).get('source_limits',[])
+        except (ValueError,AttributeError): continue
+        for limit in limits if isinstance(limits,list) else ():
+            kind=(_NOTICE_ISSUES.get(limit.get('issue'))
+                  if isinstance(limit,dict) and limit.get('resolution')=='unresolved' else None)
+            if kind and kind not in kinds: kinds.append(kind)
+    return kinds
+
+
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False):
     words=_WORDS.get(pack.language,_WORDS['en'])
-    lines=[words['preview'],words[status]]
+    message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
+        _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
+    lines=[words['preview'],message]
+    def shown(text):  # display printed course codes in place of internal identities
+        for course,code in pack.course_labels:
+            text=text.replace(course,code)
+        return text
     if pack.structured_context is not None:
         context=pack.structured_context
-        label={'en':'Check scope','fil':'Saklaw ng pagsusuri','taglish':'Check scope'}.get(pack.language,'Check scope')
+        label={'en':'Check scope','fil':'Sakop ng check','taglish':'Check scope'}.get(pack.language,'Check scope')
         values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
         editions=', '.join(context.scope.edition_ids) if context.scope else ''
-        lines.append(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}')
-    canonical_allowed=(pack.status=='ready' and status=='answered') or pack.status in ('unknown','clarify')
-    if pack.decision is not None and canonical_allowed:
+        lines.append(shown(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}'))
+    missing=pack.missing_facts
+    canonical_allowed=pack.status=='ready' and status=='answered'
+    if pack.decision is not None and (canonical_allowed or
+            (pack.status=='unknown' and pack.decision.outcome=='unknown')):
         decision=pack.decision
         lines.append(words[decision.outcome])
         conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
-        if conditions: lines.append(words['conditions']+': '+', '.join(conditions))
-        if decision.missing_facts: lines.append(words['missing']+': '+', '.join(decision.missing_facts))
-    if pack.dependencies is not None and canonical_allowed:
-        lines.append(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)'))
-        if pack.dependencies.unknown_conditions:
-            lines.append(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions))
+        if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
+        missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
+    if pack.dependencies is not None:
+        if canonical_allowed:
+            lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))
+        if (canonical_allowed or pack.status=='unknown') and pack.dependencies.unknown_conditions:
+            lines.append(shown(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions)))
+    if missing and (canonical_allowed or status=='clarification_needed'):
+        labels=({'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}
+            if pack.language=='fil' else {'program_id':'degree program','curriculum_id':'curriculum version'})
+        lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
+    if status=='answered':
+        notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
+        lines.extend(notices[kind] for kind in limit_notices(selected_cards(pack,claims)))
     for card in selected_cards(pack,claims):
         for cite in card.citations:
             locator=cite.locator.ref or '/'.join((*cite.locator.section_path,*cite.locator.cell_ids,*cite.locator.item_ids))

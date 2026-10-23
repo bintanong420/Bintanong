@@ -137,6 +137,11 @@ not establish failure. Conflicting relevant completion states stay unknown unles
 an independent alternative proves the result. A referenced course's own unknown
 prerequisites are not rechecked when its explicit completion is supplied; this is
 a direct prerequisite check, not an inferred transitive completion audit.
+The runtime bundle exports a reviewed course's rule with each unresolved part as
+an unknown leaf (owner decision, 23 October 2026): a known failed all_of part gives
+ineligible with partial coverage and the unknown part still listed; a satisfied
+any_of alternative gives eligible; otherwise the result stays unknown. Coverage
+keeps such rules `unresolved`, and dependency listings through them stay partial.
 
 The adapter uses the existing registry and SymbolicResult contracts, attaching
 scoped rule/source spans and stable satisfied/violated/unknown explanations.
@@ -158,9 +163,11 @@ entries (default128). Exceeding a result limit returns an operational error with
 truncating a policy result. No credentials, student inputs or child stderr are logged.
 
 `runtime.CurriculumRuntime(ledger).list_affected_courses(request)` returns a
-separate `DependencyResult`: potential transitive prior-completion dependencies,
-with source spans and bundle/scope identity. Both all_of and any_of references
-are potential graph edges; co-requisites are excluded. This is dependency
+separate `DependencyResult`: potential transitive prerequisite or co-requisite
+dependencies, with source spans and bundle/scope identity. All_of, any_of and
+co-requisite references are potential graph edges (a co-requisite failed and not
+taken the same term also blocks its dependent; owner, 23 Oct 2026). Cycle
+detection still ignores co-requisites. This is dependency
 inspection, not an eligibility decision. Completeness applies only to the supplied
 bundle. Any draft or unresolved rule makes the listing partial, including an empty
 listing; it cannot prove that no affected courses exist in the full curriculum.

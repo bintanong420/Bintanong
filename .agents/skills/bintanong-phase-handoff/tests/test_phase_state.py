@@ -183,6 +183,19 @@ class PhaseStateTests(unittest.TestCase):
         self.assertTrue(payload["can_advance"])
         self.assertEqual(payload["next_phase"], 1)
 
+    def test_old_complete_handoff_does_not_advance_reopened_checkpoint(self) -> None:
+        self.handoff("complete")
+        for status in ("in_progress", "paused", "blocked"):
+            with self.subTest(status=status):
+                self.checkpoint(status=status)
+                result = run("can-advance", cwd=self.repo)
+                payload = json.loads(result.stdout)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertTrue(payload["valid"])
+                self.assertFalse(payload["can_advance"])
+                self.assertIsNone(payload["next_phase"])
+                self.assertIn(status, " ".join(payload["advance_reasons"]))
+
     def test_blocked_handoff_refuses_advance(self) -> None:
         self.checkpoint(status="blocked")
         self.handoff("blocked")

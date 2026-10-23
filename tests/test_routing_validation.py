@@ -50,18 +50,49 @@ def test_supported_operation_uses_fixed_scoped_bound_inputs_and_response_style()
     (dict(synthetic=False), 'evidence_unavailable', 'institutional_execution_held'),
     (dict(documents_available=False), 'evidence_unavailable', 'documents_unavailable')])
 def test_components_never_fall_back_to_rag(options, control, diagnostic):
-    value = proposal(route='Hybrid') if 'documents_available' in options else proposal()
-    result = validate(value=value, **options)
+    text = 'A1 policy' if 'documents_available' in options else 'A1'
+    value = proposal(text=text, route='Hybrid') if 'documents_available' in options else proposal()
+    result = validate(text, value=value, **options)
     assert result.proposed.route in ('Symbolic', 'Hybrid')
     assert result.decision.control == control and result.decision.route is None
     assert result.diagnostic == diagnostic
 
 
 def test_curriculum_is_never_inferred_from_a_course_alias():
-    result = validate(ctx=context(curriculum_id=None))
+    # Two reviewed editions of the program: the course alias alone never picks one.
+    entries = (*catalog(), entry(kind='curriculum', entity='curriculum-old', alias='Edition Old', curriculum='curriculum-old'))
+    result = validate(ctx=context(curriculum_id=None), catalog=entries)
     assert result.decision.control == 'clarify'
     assert result.decision.missing_facts == ('curriculum_id',)
     assert result.diagnostic == 'missing_scope'
+
+
+def test_program_with_one_reviewed_curriculum_uses_it():
+    # Owner decision, 24 Oct 2026: a program with exactly one reviewed curriculum uses it.
+    result = validate(ctx=context(curriculum_id=None))
+    assert result.decision.route == 'Symbolic' and result.curriculum_id == 'curriculum-a'
+    assert {i.name: i.value for i in result.decision.predicate_request.inputs}['curriculum_id'] == 'curriculum-a'
+
+
+def test_program_named_in_text_with_one_curriculum_needs_no_session_scope():
+    text = 'Program A A1'
+    value = proposal(text=text, mentions=[dict(kind='program', text='Program A', start=0, end=9),
+        dict(kind='course', text='A1', start=10, end=12)],
+        operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    result = validate(text, value, context(program_id=None, curriculum_id=None))
+    assert result.decision.route == 'Symbolic' and (result.program_id, result.curriculum_id) == ('program-a', 'curriculum-a')
+
+
+def test_shared_program_name_asks_which_program():
+    other = CatalogEntry.parse(dict(kind='program', entity_id='program-b', program_id='program-b', curriculum_id=None,
+        aliases=['Program A'], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    entries = (*catalog(), other)
+    text = 'Program A A1'
+    value = proposal(text=text, mentions=[dict(kind='program', text='Program A', start=0, end=9),
+        dict(kind='course', text='A1', start=10, end=12)],
+        operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=entries)
+    assert result.decision.control == 'clarify' and result.decision.route is None
 
 
 def test_reused_course_alias_resolves_only_in_explicit_edition():
@@ -95,7 +126,7 @@ def test_model_semantics_do_not_override_structural_guards(value, diagnostic):
 
 
 def test_rag_does_not_need_student_curriculum_but_needs_document_availability():
-    value = proposal(route='RAG', operations=[], mentions=[], intent='procedure')
+    value = proposal(text='Where do I ask?', route='RAG', operations=[], mentions=[], intent='procedure')
     assert validate('Where do I ask?', value, context(program_id=None, curriculum_id=None)).decision.route == 'RAG'
     assert validate('Where do I ask?', value, documents_available=False).decision.control == 'evidence_unavailable'
 
@@ -142,6 +173,54 @@ def test_document_only_request_does_not_require_resolving_irrelevant_grade_confl
         program_id='program-a', curriculum_id='curriculum-a', course_id='course-a', state=state)
         for state in ['passed','failed']])
     result = validate('Where do I request a copy?',
-        proposal(route='RAG', operations=[], mentions=[], intent='procedure'), ctx)
+        proposal(text='Where do I request a copy?', route='RAG', operations=[], mentions=[], intent='procedure'), ctx)
     assert result.decision.route == 'RAG'
     assert len(result.query.session_fact_refs) == 2  # preserve conflict for any later check
+
+
+def test_unmatched_scope_phrase_is_ignored_on_a_document_only_question():
+    # Owner, 23 Oct 2026 (run 9): "Graduating undergraduate sa last semester" quoted as a curriculum.
+    text = 'Graduating student: where do I ask?'
+    value = proposal(text=text, route='RAG', operations=[], intent='procedure',
+        mentions=[dict(kind='curriculum', text='Graduating student', start=0, end=18)])
+    assert validate(text, value, context(program_id=None, curriculum_id=None)).decision.route == 'RAG'
+
+
+def test_unmatched_scope_phrase_still_clarifies_a_course_question():
+    text = 'Graduating student A1'
+    value = proposal(text=text, mentions=[dict(kind='curriculum', text='Graduating student', start=0, end=18),
+        dict(kind='course', text='A1', start=19, end=21)], operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    result = validate(text, value)
+    assert result.decision.control == 'clarify' and result.diagnostic == 'unresolved_entity'
+
+
+def program_question(phrase, text_tail=' A1'):
+    text = phrase + text_tail
+    return text, proposal(text=text, mentions=[dict(kind='program', text=phrase, start=0, end=len(phrase)),
+        dict(kind='course', text='A1', start=len(phrase) + 1, end=len(phrase) + 3)],
+        operations=[dict(name='check_prerequisite_eligibility', target=1)])
+
+
+@pytest.mark.parametrize('phrase', ['Program A student ako', 'I am a Program A student', 'program a student'])
+def test_approved_program_name_inside_the_quoted_phrase_resolves(phrase):
+    # Owner, 24 Oct 2026: the model quotes the student's own phrase; the host finds the approved name inside it.
+    text, value = program_question(phrase)
+    result = validate(text, value, context(program_id=None, curriculum_id=None))
+    assert result.decision.route == 'Symbolic' and result.program_id == 'program-a'
+
+
+def test_short_uppercase_name_matches_only_as_written():
+    short = CatalogEntry.parse(dict(kind='program', entity_id='program-a', program_id='program-a', curriculum_id=None,
+        aliases=['IT'], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    entries = (*[e for e in catalog() if e.kind != 'program'], short)
+    for phrase, route in (('IT student ako', 'Symbolic'), ('it student ako', None)):
+        text, value = program_question(phrase)
+        assert validate(text, value, context(program_id=None, curriculum_id=None), catalog=entries).decision.route == route
+
+
+def test_phrase_naming_two_programs_asks_which():
+    other = CatalogEntry.parse(dict(kind='program', entity_id='program-b', program_id='program-b', curriculum_id=None,
+        aliases=['Program B'], source_ref='ver-a', review_ref='review-a', reviewed=True))
+    text, value = program_question('Program A or Program B student')
+    result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=(*catalog(), other))
+    assert result.decision.control == 'clarify'

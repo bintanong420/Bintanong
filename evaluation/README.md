@@ -1,5 +1,18 @@
 # Evaluation preparation
 
+[question_parts.py](question_parts.py) evaluates the detached question-parts ledger
+against a separately frozen synthetic dev reference. `QuestionPartsReference`
+binds exact reference spans/kinds and author-labeled claim/status mappings to the
+request,full evidence and draft. `evaluate_parts` checks candidate and reference
+identities,then reports exact-span/kind extraction precision/recall,mapping recall
+over every reference part,and mechanically positive ledgers that disagree with
+the reference. Correct uncertainty can agree while the answer remains unresolved.
+Part numbering/order and claim-set order do not affect agreement. Alternative
+valid boundaries or claim combinations need explicit human adjudication;this is
+not automatic semantic equivalence or actual-model accuracy. Scores never grant
+runtime authority and always keep semantic completeness unverified. See the
+[bounded plan](../plans/2026-10-20-question-parts-evaluation-plan.md).
+
 Protocol preparation only. No final institutional questions have been verified by this document. Keep private inputs, gold institutional passages and evaluation output outside Git. This protocol implements the planning requirements of master §§6.3 and 16 and the [Phase 1 plan](../plans/phase-01-source-governance-contracts-plan.md).
 
 ## Sets and grouping
