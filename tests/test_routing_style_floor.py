@@ -128,3 +128,57 @@ def test_topic_rejection_keeps_style_but_orchestrator_drops_the_rejected_parts(m
         releases=ports().SyntheticReleaseProvider(resources())).run(TOPIC_TEXT, ctx()))
     assert result.status == 'clarify' and result.response_style == 'en'
     assert result.understanding is None
+
+
+# Owner O5 (23 Oct 2026): the symmetric floor. A Filipino label on a question with literal English grammar or
+# number words becomes Taglish. Quoted text and catalog names (course titles can hold "and") never count.
+def test_filipino_label_with_english_grammar_words_becomes_taglish():
+    text = 'A1: pwede ba after ng exam?'
+    result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
+    assert result.response_style == 'taglish' and result.style_floor_applied is True
+    evidence = result.style_evidence
+    assert evidence.english_fragments == ('after',) and evidence.filipino_fragments == ('pwede ba',)
+    evidence.ground(text)
+
+
+def test_english_number_and_ordinal_words_count_as_english():
+    text = 'A1: kailan ang deadline sa second semester?'
+    result = answered(text, style_proposal('fil', english=[], filipino=['kailan ang']))
+    assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ('second',)
+
+
+def test_quoted_text_is_not_the_students_own_english():
+    text = 'A1: ano ang kasunod ng "Office for"?'
+    result = answered(text, style_proposal('fil', english=[], filipino=['ano ang kasunod']))
+    assert result.response_style == 'fil' and result.style_floor_applied is False
+
+
+def test_words_inside_a_catalog_course_title_do_not_count():
+    from test_routing_validation import catalog, entry
+    text = 'A1 at Life and Works, pwede ko bang kunin?'
+    titled = (*catalog(), entry(entity='course-c', alias='Life and Works'))
+    result = run(FakeTransport(json.dumps(proposal(text=text, language='en')),
+                               style_outputs=[json.dumps(style_proposal('fil', english=[], filipino=['pwede ko']))]),
+                 text=text, catalog=titled)
+    assert result.response_style == 'fil' and result.style_floor_applied is False
+
+
+@pytest.mark.parametrize('text', ['A1: pwede ba FOR IT?', 'A1: may bayad ba at kailan?'])
+def test_acronyms_and_filipino_lookalikes_keep_the_filipino_label(text):
+    result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba'] if 'pwede' in text else ['may bayad']))
+    assert result.response_style == 'fil' and result.style_floor_applied is False
+
+
+@pytest.mark.parametrize('text', ['A1 at Microbiology and Parasitology, pwede ba?',
+                                  'A1 o Life and Works of Rizal, pwede ba?',
+                                  'A1 at Mathematics in the Modern World, pwede ba?'])
+def test_title_case_names_outside_the_catalog_do_not_count(text):
+    # The research catalog holds printed codes only, so course titles are masked as Title Case names.
+    result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
+    assert result.response_style == 'fil' and result.style_floor_applied is False
+
+
+def test_lowercase_english_next_to_a_title_still_counts():
+    text = 'A1 at Life and Works, pwede ba after ng midterm?'
+    result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
+    assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ('after',)
