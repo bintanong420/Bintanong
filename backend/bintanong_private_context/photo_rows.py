@@ -19,6 +19,7 @@ MAX_TILT_DEGREES = 8.0   # the envelope verified on simulated photos
 ON_LINE = 0.5            # a word belongs to a line within half a word height of its fitted baseline
 NEW_LINE = 0.8           # farther than this from every line, it starts a new one; in between, it is refused
 MARGIN = 0.5             # the nearest line must beat the next nearest by this much, or the word is ambiguous
+NARROW = 3.0             # a box narrower than this many heights does not set its line's slope
 
 
 class RowsUncertain(ValueError):
@@ -41,6 +42,11 @@ class Word:
         return (math.dist((x0, y0), (x3, y3)) + math.dist((x1, y1), (x2, y2))) / 2
 
     @property
+    def width(self) -> float:
+        (x0, y0), (x1, y1), (x2, y2), (x3, y3) = self.box
+        return (math.dist((x0, y0), (x1, y1)) + math.dist((x3, y3), (x2, y2))) / 2
+
+    @property
     def slope(self) -> float:
         (x0, y0), (x1, y1), (x2, y2), (x3, y3) = self.box
         dx = (x1 - x0) + (x2 - x3)
@@ -48,18 +54,20 @@ class Word:
 
 
 class _Line:
-    def __init__(self, word: Word):
+    def __init__(self, word: Word, page_slope: float):
         self.words = [word]
+        # A narrow box (a row number, a short mark) has an unreliable slope of its own; borrow the page's.
+        self.seed_slope = word.slope if word.width >= NARROW * word.height else page_slope
 
     def predict(self, x: float) -> float:
         points = [w.center for w in self.words]
         if len(points) == 1:
-            (cx, cy), slope = points[0], self.words[0].slope
+            (cx, cy), slope = points[0], self.seed_slope
         else:
             mx = statistics.fmean(p[0] for p in points)
             my = statistics.fmean(p[1] for p in points)
             spread = sum((p[0] - mx) ** 2 for p in points)
-            slope = sum((p[0] - mx) * (p[1] - my) for p in points) / spread if spread else self.words[0].slope
+            slope = sum((p[0] - mx) * (p[1] - my) for p in points) / spread if spread else self.seed_slope
             cx, cy = mx, my
         return cy + slope * (x - cx)
 
@@ -86,13 +94,15 @@ def group_lines(words: list[Word], critical=None) -> list[list[Word]]:
 def _chain(words: list[Word], refuse) -> tuple[list[list[Word]], list[Word]]:
     """Left-to-right chaining; an unplaceable word refuses the page when `refuse(word)`, else it is set aside."""
     height = statistics.median(w.height for w in words)
+    wide = [w.slope for w in words if w.width >= NARROW * w.height]
+    page_slope = statistics.median(wide) if wide else statistics.median(w.slope for w in words)
     lines: list[_Line] = []
     unplaced = []
     for word in sorted(words, key=lambda w: w.center[0]):
         x, y = word.center
         residuals = sorted((abs(line.predict(x) - y), i) for i, line in enumerate(lines))
         if not residuals or residuals[0][0] > NEW_LINE * height:
-            lines.append(_Line(word))  # clearly on no existing line: a new row starts here
+            lines.append(_Line(word, page_slope))  # clearly on no existing line: a new row starts here
             continue
         best, index = residuals[0]
         ambiguous = len(residuals) > 1 and residuals[1][0] - best < MARGIN * height

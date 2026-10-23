@@ -201,3 +201,17 @@ def test_an_unplaceable_final_header_refuses_instead_of_showing_every_number():
         Word('FINAL', ((580, 113), (630, 113), (630, 131), (580, 131)), 0.99)]  # 13 px and 21 px from the lines
     with pytest.raises(RowsUncertain):
         grade_rows(words)
+
+
+def test_tiny_row_number_boxes_do_not_steer_their_line():
+    # A row-number box is a few pixels wide, so its own slope is noise; on a tilted page it must not decide
+    # where the course code 100 px to its right is expected.
+    transform = rotate(5)
+    words = page_words(transform)
+    for r in range(len(ROWS)):
+        top = 100 + r * 34
+        (x0, y0), (x1, y1), (x2, y2), (x3, y3) = [transform(x, y) for x, y in
+                                                  ((20, top), (28, top), (28, top + 18), (20, top + 18))]
+        words.append(Word(str(r + 1), ((x0, y0), (x1, y1 - 2.5), (x2, y2 - 2.5), (x3, y3)), 0.99))  # slope noise
+    lines = group_lines(words, critical=lambda w: not w.text.isdigit())
+    assert [line[1:] for line in texts(lines)] == ROWS and [line[0] for line in texts(lines)] == ['1', '2', '3', '4', '5']
