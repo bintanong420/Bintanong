@@ -93,7 +93,8 @@ the worktree's git-ignored `.env` (owner-run script). Model container `bintanong
 - Storage DB regression with research release: 182 passed, 916 subtests.
 - Commands: test Python `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider <tests> --basetemp=<audit-evidence dir>`;
   DB tests use local Docker `supabase_db_Bintanong` (set `BINTANONG_STORAGE_EVIDENCE_DIR`).
-- Roster runner: workspace `audit-evidence/p09-real-data-20261021/roster.py <outdir>` (`HOSTED=1`
+- Roster runner (hosted 39 curricula, from repo root): `HOSTED=1 <venv python> -B <workspace>/audit-evidence/p09-real-data-20261021/roster9.py <outdir>`
+  after `docker restart bintanong-p09-cuda-latency` and health ok. Older: `roster.py <outdir>` (`HOSTED=1`
   for Supabase retrieval, `ONLY=id1,id2` to filter); record a protocol before counted runs.
 
 ## Versions and Digests
