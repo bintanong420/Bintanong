@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 23 October 2026. Phase 10 active (private files and session context); tasks 1-3 and task 4 code done.
+Updated 23 October 2026. Phase 10 active (private files and session context); tasks 1-4 done.
 Branch p10 / `feat/p10-private-files-pipeline` from `ccc3cea`, nothing pushed.
 [Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
@@ -14,13 +14,17 @@ Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress
   The research had missed that the `api` image lacks them. Uploads use a raw body, so python-multipart is not added.
 - Worktree environment verified complete: the ignored `.env`, datasets, `supabase/.temp` and `.superpowers` match
   main. `.claude/settings.local.json` copied from p09.
+- Multi-turn: the owner accepted F1-F7/F4b and asked for document follow-ups (D1-D4). Owner: most messages are
+  not follow-ups, so stored context never binds an unrelated question. Prechecks found and fixed 5 issues.
 - Lockfile churn from Orca's post-create `npm install` (npm 11.19 dropped 4 `"peer": true` metadata lines;
   no version change) was restored. The external Orca setup script now uses `npm ci`.
 
 ## Next action
 
-Tasks 1-3 done; task 4 host/router code done (single-turn prompt byte-identical). Next: owner acceptance of
-multi-turn cases, then a live-model multi-turn check and the single-turn roster rerun.
+Tasks 1-4 are done. Counted multi-turn run 5 had 0 wrong carry-overs, and single-turn roster run 15 is
+identical to run 14 ([results](../2026-10-23-multi-turn-observation-results.md)). Next: owner decisions D1/D2 for
+photo OCR (task 5). Then exit: the master 15.3 isolation mapping, a security review of private_context, the full
+suite, and the handoff.
 
 ## Boundaries
 
