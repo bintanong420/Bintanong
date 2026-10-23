@@ -7,18 +7,19 @@ from __future__ import annotations
 
 
 def score_document(truth, outcome) -> dict:
-    """truth: ((printed code, final mark or None), ...); outcome: an ExtractionResult or a refusal reason."""
+    """truth: ((course ids, marks the student should see), ...), keyed like `GradeRow.candidates` so a printed
+    spacing variant of the same reviewed course still matches; outcome: an ExtractionResult or a refusal reason."""
     if isinstance(outcome, str):
         return dict(refused=outcome, exact=0, wrong_mark=0, invented=0, missing=len(truth), unmatched_lines=0)
-    expected = {code: (mark,) if mark else () for code, mark in truth}
+    expected = {tuple(key): tuple(marks) for key, marks in truth}
     exact = wrong = invented = 0
     seen = set()
     for row in outcome.rows:
-        if row.code_text not in expected or row.code_text in seen:
+        if row.candidates not in expected or row.candidates in seen:
             invented += 1
             continue
-        seen.add(row.code_text)
-        if row.marks == expected[row.code_text]:
+        seen.add(row.candidates)
+        if row.marks == expected[row.candidates]:
             exact += 1
         else:
             wrong += 1

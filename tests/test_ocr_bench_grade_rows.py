@@ -3,7 +3,8 @@ marks, zero silent errors). A refused photo is safe but counts as not supported.
 from backend.bintanong_private_context.grades import ExtractionResult, GradeRow
 from backend.bintanong_tools.ocr_bench.grade_rows import score_document, verdict
 
-TRUTH = (('CC 5/L', '1.75'), ('GEC 1', '2.00'), ('NSTP 1', None))
+# Truth is keyed by course id, with the marks a student should see (the born-digital extraction's).
+TRUTH = ((('cc 5/l',), ('1.75',)), (('gec 1',), ('2.00',)), (('nstp 1',), ()))
 
 
 def result(*rows, unmatched=0):
@@ -56,3 +57,14 @@ def test_verdict_needs_every_document_exact():
     assert verdict([exact, exact]) == dict(documents=2, refused=0, silent_errors=0, missing=0, supported=True)
     assert verdict([exact, refused]) == dict(documents=2, refused=1, silent_errors=0, missing=3, supported=False)
     assert verdict([exact, wrong])['silent_errors'] == 1 and verdict([exact, wrong])['supported'] is False
+
+
+def test_rows_are_matched_by_course_not_by_printed_spacing():
+    spaced = ExtractionResult('bscs', 'bscs-2018', (GradeRow('row-1-1', 'NSTP1', ('nstp 1',), (), 1),), 0)
+    assert score_document(TRUTH, spaced)['invented'] == 0 and score_document(TRUTH, spaced)['missing'] == 2
+
+
+def test_several_expected_marks_must_all_match():
+    truth = ((('cc 5/l',), ('1.75', '3.0')),)
+    assert score_document(truth, result(('CC 5/L', ('1.75', '3.0'))))['exact'] == 1
+    assert score_document(truth, result(('CC 5/L', ('1.75',))))['wrong_mark'] == 1
