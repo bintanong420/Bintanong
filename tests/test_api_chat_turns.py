@@ -196,3 +196,13 @@ def test_session_deleted_before_the_turn_starts_is_a_typed_error():
         answer(ChatTurns(store, pipeline, CURRICULA), s, request('A1'))
     assert (raised.value.status, raised.value.code) == (409, 'session_ended')
     assert pipeline.calls == [] and len(store) == 0
+
+
+@pytest.mark.parametrize('text', ['x' * 8193, chr(0x20ac) * 6000, 'CC 5' + chr(0x200b) + '?'],
+                         ids=['chars', 'utf8-bytes', 'format-char'])
+def test_message_the_router_would_refuse_is_a_422_before_any_answer_work(text):
+    # Security review S4: these used to fail late, inside the stream, as answer_unavailable.
+    turns = ChatTurns(SessionStore(), Pipeline(), CURRICULA)
+    with pytest.raises(ApiError) as raised:
+        turns.prepare(request(text))
+    assert (raised.value.status, raised.value.code) == (422, 'invalid_message')

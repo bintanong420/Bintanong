@@ -15,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from backend.bintanong_api.session import ApiError, Session
 from backend.bintanong_private_context.conversation import capture, follow_up_context
 from backend.bintanong_private_context.sessions import SessionStore
+from backend.bintanong_routing.contracts import prepare_query
 
 MAX_MESSAGES = 500
 
@@ -75,6 +76,10 @@ class ChatTurns:
         text = ' '.join(p.text for p in message.parts if p.type == 'text' and p.text).strip()
         if message.role != 'user' or not text:
             raise ApiError(422, 'empty_message')
+        try:
+            prepare_query(text)  # the router's own length and character rules, checked before the stream starts
+        except ValueError:
+            raise ApiError(422, 'invalid_message') from None
         scope = self.checked_scope(request.programId, request.curriculumId, required=False)
         return PreparedTurn(text, message.id, *scope, regenerate=request.trigger == 'regenerate-message')
 
