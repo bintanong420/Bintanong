@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 9
 status: in_progress
-sequence: 147
+sequence: 148
 plan: plans/phase-09-generation-validation-plan.md
-head_commit: 8223365
+head_commit: bca2600
 working_tree: clean
 updated_at: 2026-10-23T12:00:00+08:00
 ---
@@ -128,7 +128,10 @@ out 768, temp 0, seed 0 unchanged. Model weights `C:/Coding-projects/bintanong_w
 version-id fix `b26de19`) lost 3 answers; owner chose host router fixes (`0d69381`: forgotten course
 mentions added; unmatched scope phrases ignored on handbook questions). Full suite 6188 passed;
 run 10 PASS: 21/63 answered, 0 wrong, 0 system errors ([results](2026-10-21-real-data-roster-results.md)).
-Next: ask the owner what to do next (e.g. Phase 09 exit reassessment for the hosted multi-curriculum
+Then `bca2600`: topic menu now offers claims reviewed `not_stated_in_selected_fields` (pre-enrollment
+deadline, special-class GCash) only as not stated; uncounted check: pre-enrollment first step en/tl and
+special-class en/tl/taglish answered correctly; pre-enrollment taglish still clarifies (router, open).
+Counted run 11 not yet run. Next: ask the owner what to do next (e.g. Phase 09 exit reassessment for the hosted multi-curriculum
 release, the remaining pre-enrollment-tl insufficient case, or latency). Context consulted this resume:
 thesis physical 17-18 and the routing PNG; no discrepancy.
 
