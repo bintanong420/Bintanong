@@ -6,6 +6,7 @@ import { prepareDemo } from "@/lib/demo";
 import { Sidebar } from "./sidebar";
 import { Conversation, EmptyConversation } from "./conversation";
 import { Composer } from "./composer";
+import { AppearanceControl } from "./appearance-control";
 
 export function Workspace() {
   const [state, dispatch] = useReducer(workspaceReducer, undefined, createWorkspace);
@@ -30,7 +31,10 @@ export function Workspace() {
     <Sidebar onNewChat={() => dispatch({ type: "new-chat" })} onExample={chooseDraft} />
     <main className="workspace-main" ref={main} id="question" tabIndex={-1}>
       {state.messages.length === 0 && <div className="campus-banner" aria-hidden="true"><img src="/design/campus.png" alt="" /></div>}
-      <div className="preview-notice"><span>Interface preview</span> · Fictional responses. Files stay local and are not analyzed.</div>
+      <header className="workspace-toolbar">
+        <p className="preview-notice"><span>Interface preview</span> · Fictional responses. Files stay local.</p>
+        <AppearanceControl />
+      </header>
       {state.messages.length === 0 ? <EmptyConversation onSuggest={chooseDraft} /> : <Conversation messages={state.messages} pending={state.pending !== null} />}
       <Composer draft={state.draft} attachments={state.attachments} pending={state.pending !== null} warning={state.warning}
         onDraft={text => dispatch({ type: "draft", text })} onSend={() => dispatch({ type: "submit", id: crypto.randomUUID() })}

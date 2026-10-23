@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Message } from "@/lib/workspace";
+import { MessageCircle, UserRound } from "lucide-react";
 
 const suggestions = [
   ["List of PalSU colleges", "What undergraduate colleges are at PalSU?"],
@@ -24,7 +25,7 @@ export function Conversation({ messages, pending }: { messages: Message[]; pendi
   useEffect(() => { end.current?.scrollIntoView({ block: "nearest" }); }, [messages, pending]);
   return <section className="conversation" aria-label="Preview conversation" aria-busy={pending}>
     {messages.map(message => <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Sample assistant response"}>
-      <img className="message-avatar" src="/design/avatar.png" alt="" width="40" height="40" />
+      <span className="message-avatar" aria-hidden="true">{message.role === "user" ? <UserRound size={18} /> : <MessageCircle size={18} />}</span>
       <div className="message-body">
         <Card className="message-card"><CardContent>
           {message.role === "assistant" && <p className="sample-label">Fictional example</p>}
