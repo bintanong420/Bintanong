@@ -16,12 +16,13 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 - Live abuse probe: off-topic, injection and secret-extraction questions refused, 0 leaks; one misleading
   "temporarily unavailable" refusal fixed (`5ee7b50`). Live capacity: one slot serves students in arrival order.
   Six at once: five answered by 76.8 s, the sixth got busy at once, no errors.
-- Step 2 finding E1: questions outside the 7 reviewed topics (leave of absence, transcript) get a bare "Please
-  clarify". Owner reply pending on the intended reply.
+- Step 2 finding E1 fixed (`7c3786e`, owner choice): questions outside the 7 reviewed topics (leave of absence,
+  transcript) now say the topic is not in the reviewed sources yet and refer to the university office.
 
 ## Next action
 
-Apply the owner's E1 answer test-first, then continue step 2 (live-smoke observations, roster run 16 statuses).
+Confirm the full suite at `7c3786e`, diagnose E3 ("Pwede ba mag-shift ng course?" clarification), then continue
+step 2 (live-smoke observations, roster run 16 statuses).
 See the [checkpoint](../phase-11-checkpoint.md).
 
 ## Boundaries

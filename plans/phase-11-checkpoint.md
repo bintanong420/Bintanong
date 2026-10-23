@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 9
+sequence: 10
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5ee7b50
+head_commit: 7c3786e
 working_tree: clean
 updated_at: 2026-10-24T18:00:00+08:00
 ---
 
-# Phase 11 checkpoint - security, answer queue and abuse probe done; awaiting owner reply on topic-less questions
+# Phase 11 checkpoint - security, answer queue, abuse probe and E1 done; step 2 evaluation continues
 
 ## Completed Tasks
 
@@ -33,19 +33,22 @@ updated_at: 2026-10-24T18:00:00+08:00
 ## Current Task
 
 Step 1 (security) and the owner's follow-ups (queue, off-topic, login decisions) are done. Step 2 (retrieval/Prolog
-evaluation) has started with one finding awaiting an owner reply: E1 below. There is deliberately no final handoff.
+evaluation) has started; E1 is fixed (`7c3786e`). There is deliberately no final handoff.
 
 - E1: document questions outside the 7 reviewed topics ("How do I apply for a leave of absence?", "Paano
   mag-request ng transcript of records?") route RAG correctly, but retrieval returns `needs_subject`, which
   integration maps to `clarify`. Students get a bare "Please clarify the missing information" with nothing to
-  clarify. Options were put to the owner (unavailable + office referral, or a clarification naming the topics).
+  clarify. Owner chose "unavailable + office referral": `needs_subject` now maps to `no_evidence`, and the
+  insufficient-evidence reply (en/fil/taglish, all such cases) says the topic is not in the reviewed sources yet
+  and refers to the university office. Live re-check: both questions `insufficient_evidence`.
+- E3 (open): "Pwede ba mag-shift ng course? Paano po?" still ends in a clarification; not yet diagnosed.
 - E2 (minor): "What are the prerequisites of CC 6?" names CC 3/L and CS 2/L, but framed as an eligibility
   clarification rather than a plain list.
 - Correct, not defects: "Can I take CC 5? I passed CC 4." (en/Taglish) reports CC 3/L as unknown, as intended.
 
 ## Repository State
 
-Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `5ee7b50` plus this checkpoint commit, nothing pushed.
+Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` plus this checkpoint commit, nothing pushed.
 
 ## Verification Evidence
 
@@ -65,6 +68,8 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `5ee7b50` pl
 - Live abuse probe (14 cases): 12/12 refused before the fix, the mixed case 2/2 after it; 0 leak markers.
 - Live capacity probe: 1 student 25.6 s; 3 at once 23.5/38.5/49.4 s; 6 at once five served by 76.8 s and the
   sixth `answers_busy` in 0.5 s; statuses identical to a sequential run. Logs in `live-api/`.
+- E1: RED (4 tests: integration mapping and the reply in three languages), GREEN; generation/orchestration/API/
+  routing/evaluation selection 1516 passed. Full suite after E1: pending (see current progress).
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
   turns in Taglish 3 of 4 (run 5: 0 of 4).
 - Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum
@@ -108,8 +113,7 @@ decision ("authorized user/session"): consistent, no discrepancy.
 ## Next Action
 
 1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
-2. More evaluation that retrieval and Prolog have no remaining problems. First apply the owner's E1 answer
-   (test-first), then continue from:
+2. More evaluation that retrieval and Prolog have no remaining problems. Diagnose E3, then continue from:
    - the two live-smoke observations above;
    - roster run 16 (`audit-evidence/p11-20261023/roster16/`): 19 clarification and 19 non-answer statuses.
    Use the counted harnesses; keep the evaluation families separate from tuning.
