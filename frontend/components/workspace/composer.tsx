@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, type RefObject } from "react";
 import { ArrowUp, FileImage, FileText, Paperclip, TriangleAlert, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,10 +14,10 @@ type ComposerProps = {
   onSend: () => void;
   onSelect: (files: File[]) => void;
   onRemove: (id: string) => void;
+  picker: RefObject<HTMLInputElement | null>;
 };
 
-export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove }: ComposerProps) {
-  const picker = useRef<HTMLInputElement>(null);
+export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker }: ComposerProps) {
   const input = useRef<HTMLTextAreaElement>(null);
   useLayoutEffect(() => {
     if (!input.current) return;

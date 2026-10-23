@@ -38,6 +38,7 @@ export function createWorkspace(): WorkspaceState {
 }
 
 export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction): WorkspaceState {
+  if (state.preview.clear === "pending" && action.type !== "clear-complete" && action.type !== "new-chat") return state;
   switch (action.type) {
     case "draft": return { ...state, draft: action.text };
     case "select": return { ...state, attachments: [...state.attachments, ...action.attachments], warning: action.warning,

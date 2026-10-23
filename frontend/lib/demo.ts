@@ -28,7 +28,7 @@ export const previewExamples: { kind: ExampleKind; label: string }[] = [
 
 export const exampleCopy: Partial<Record<ExampleKind, { title: string; text: string; tone: "info" | "warning" | "danger" }>> = {
   source: { title: "Hindi ko pa ma-confirm ang prerequisite.", text: "Hindi ko pa makita ang policy na kailangan para sagutin ito. Hindi ibig sabihin nito na wala kang prerequisite.", tone: "info" },
-  advisory: { title: "Hindi pa ma-confirm kung puwede mong kunin ang Course B.", text: "Kulang pa ang impormasyon para i-check ang prerequisite mo. Hindi ito ‘failed’ o ‘not eligible’.", tone: "warning" },
+  advisory: { title: "Hindi pa ma-confirm kung puwede mong kunin ang course.", text: "Kulang pa ang impormasyon para i-check ang prerequisite mo. Hindi ito ‘failed’ o ‘not eligible’.", tone: "warning" },
   insufficient: { title: "Hindi ko pa makita ang policy para dito.", text: "Kaya hindi ko pa ma-confirm ang prerequisite o eligibility mo. Hindi mo kailangang hanapin muna ang tamang memo para magtanong.", tone: "info" },
   conflict: { title: "Magkaiba ang impormasyong nakita ko.", text: "Hindi pa malinaw kung aling policy ang applicable. Hindi muna ako magbibigay ng eligibility result.", tone: "warning" },
   "out-of-scope": { title: "That’s outside Bintanong’s scope.", text: "I can help with PalSU undergraduate academic questions, but not advertising.", tone: "info" },

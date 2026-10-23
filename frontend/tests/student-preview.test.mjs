@@ -118,3 +118,7 @@ test("removed details cannot be revived by a stale editing action", () => {
   const s = reduce(seed(), { type: "fact-remove", id: "course" });
   assert.equal(reduce(s, { type: "fact-edit", id: "course", value: "Course B" }).preview.facts[0].decision, "removed");
 });
+test("an awaiting clear freezes draft, file selection and retry until its result", () => {
+  const s = reduce(seed(), { type: "clear-start", id: "clear" });
+  for (const action of [{ type: "draft", text: "late edit" }, { type: "select", attachments: [file("c")], warning: null }, { type: "retry" }]) assert.equal(reduce(s, action), s);
+});
