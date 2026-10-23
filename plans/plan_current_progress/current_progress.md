@@ -1,10 +1,22 @@
 # Current progress
 
-Updated 23 October 2026. Phase10 remains complete;no active numbered phase.
+Updated 24 October 2026. Phase10 remains complete;no active numbered phase.
 Current checkout:`frontend`;approved synthetic desktop preview delivered locally.
 [Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md) |
 [Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
 Last full upstream snapshot:`7d188d2:plans/plan_current_progress/current_progress.md`;earlier:`ccc3cea`.
+
+## Frontend UX correction - 24 October 2026
+
+[Correction/evidence](../2026-10-24-frontend-ux-corrections.md), code `2bfc3c2`: owner clarified that
+Figma is direction, not a 1:1 target. Semantic Lucide icons, a shared content column,
+54px empty composer/36px actions, and System/Light/Dark appearance now replace the
+awkward geometry/icons. Theme preference alone persists; chats/files stay local.
+RED composer 80px and 3 appearance failures; GREEN 12 UI tests, typecheck/build on
+Node24.21/npm11.19, 47 theme/layout and 27 interaction browser checks. Both themes
+pass measured contrast checks; health route and synthetic boundaries preserved.
+Single focus outline verified; 10 docs tests pass and phase ledger remains valid.
+No backend/dependency changes, formal phase advancement, deployment or push.
 
 ## Approved frontend implementation - 23 October 2026
 
@@ -45,9 +57,9 @@ Application/build suites are not rerun for the documentation-only difference to 
 
 ## Next action
 
-Owner reviews the approved desktop preview. Continue only with newly approved
-Figma states;public transport/backend-phase decisions remain separate. See the
-frontend delivery for exact commands,assets,annotations and remaining limitations.
+Owner reviews the revised frontend preview. Apply further concrete UI feedback
+within this slice; unfinished Figma states and public transport/backend-phase
+decisions remain separate. See the dated correction for verification and limits.
 
 ## Boundaries
 
