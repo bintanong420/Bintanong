@@ -71,3 +71,13 @@ test("Enter sends only outside composition; Shift+Enter keeps a newline", () => 
   assert.equal(shouldSend({ key: "Enter", shiftKey: false, isComposing: false, keyCode: 13 }), true);
   for (const event of [{ key: "Enter", shiftKey: true }, { key: "Enter", isComposing: true }, { key: "Enter", keyCode: 229 }, { key: "a" }]) assert.equal(shouldSend(event), false);
 });
+
+
+test("a previous chat cannot finish into a newer pending chat", () => {
+  let state = send(draft("First"), "r1");
+  state = workspaceReducer(state, { type: "new-chat" });
+  state = workspaceReducer(state, { type: "draft", text: "Second" });
+  state = send(state, "r2");
+  assert.equal(workspaceReducer(state, { type: "complete", id: "r1", text: "stale", sources: [] }), state);
+  assert.equal(state.pending, "r2");
+});
