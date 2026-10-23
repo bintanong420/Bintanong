@@ -161,3 +161,17 @@ def test_host_supplies_reason_and_keeps_model_intent():
     value = packet()
     value.update(route=None, control='clarify')
     assert normalize(value).reason == 'interpreter proposed control clarify'
+
+
+def test_out_of_range_part_index_with_a_single_operation_can_only_mean_that_operation():
+    value = packet()
+    value['parts'][0]['operation_indices'] = [1]  # live Gemma slip: position in available_operations
+    assert normalize(value).parts[0].operation_indices == (0,)
+
+
+def test_out_of_range_part_index_is_not_guessed_when_there_are_several_operations():
+    value = packet()
+    value['operations'].append(dict(name='list_missing_prerequisites', target=quote('B2')))
+    value['parts'][0]['operation_indices'] = [0, 2]
+    with pytest.raises(ValueError):
+        normalize(value)

@@ -160,6 +160,8 @@ def output_schema(topics=(), follow_up=False):
     schema = WireInterpretation.model_json_schema()
     if not follow_up:  # single-turn schema stays exactly as before master 23
         schema['properties'].pop('previous_course_quote')
+    else:  # the model must decide (null or a quote) instead of silently omitting it
+        schema['required'] = [*schema.get('required', []), 'previous_course_quote']
     # Wire field order declares the requested parts before actions and route.
     schema['properties']['schema_version']['const'] = WireInterpretation.SCHEMA_VERSION
     part = schema['$defs']['WirePart']
@@ -234,19 +236,21 @@ NOT_STATED_INSTRUCTION = '''not_stated lists facts the source does not give: cho
 student asks exactly for it, rather than a nearby printed fact.'''
 
 
-FOLLOW_UP_INSTRUCTION = '''Previous turn: previous_turn names the course and/or document topic the
-previous answer used. Most messages are new questions: interpret them on their own and ignore
-previous_turn unless the message clearly refers back. If it refers back to that course without naming it (for example
-"its", "that subject", "yung subject na yan", "niya"), set previous_course_quote to those exact words
-and use that same quote as the course mention and operation target. If the message names a course,
-asks about something else, or it is unclear which course is meant, set previous_course_quote to null.
-A previous course is never a grade or a passed/failed fact. A message that continues the previous
-document topic may use the same subject_id.'''
+FOLLOW_UP_INSTRUCTION = '''Previous turn: previous_turn.course_available means the previous answer was
+about one course (the host knows which); previous_turn.subject_id is the previous document topic.
+Most messages are new questions: interpret them on their own and ignore previous_turn unless the
+message clearly refers back. If it refers back to that course without naming it (for example "it",
+"its", "that subject", "yung subject na yan", "niya", "doon"), set previous_course_quote to those exact
+words from this message and use that same quote as the course mention and operation target.
+If the message names a course, asks about something else, or it is unclear which course is meant,
+set previous_course_quote to null. A previous course is never a grade or a passed/failed fact. A
+message that continues the previous document topic may use the same subject_id.'''
 
 
 def previous_turn(context, catalog):
-    """Previous-turn labels for the model, or None. A stored course is shown only while it is still a
-    catalog course of the request's curriculum; the host resolves the reference, not the label."""
+    """What the model may know about the previous turn, or None. The course is signalled, not named: a
+    shown code was copied as a quote instead of the student's "it" (live precheck, 23 Oct 2026), and
+    the host resolves the reference anyway. Signalled only while it is still in the request's curriculum."""
     conversation = context.conversation
     if conversation is None:
         return None
@@ -257,7 +261,7 @@ def previous_turn(context, catalog):
     course = next((c for c in catalog if c.kind == 'course' and c.entity_id == conversation.course_id
                    and c.program_id == program and c.curriculum_id == curriculum), None)
     if course is not None:
-        shown['course'] = course.aliases[0]
+        shown['course_available'] = True
     if conversation.subject_id is not None:
         shown['subject_id'] = conversation.subject_id
     return shown or None

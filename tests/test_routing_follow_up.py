@@ -44,9 +44,9 @@ def test_single_turn_messages_and_schema_carry_no_follow_up_material():
     assert 'previous_course_quote' not in json.dumps(output_schema())
 
 
-def test_stored_course_is_shown_by_its_printed_label_with_the_reference_field():
+def test_stored_course_is_signalled_without_its_code_with_the_reference_field():
     messages = build_messages(FOLLOW_UP, ctx(PREVIOUS), catalog(), registry())
-    assert json.loads(messages[1]['content'])['previous_turn'] == {'course': 'A1'}
+    assert json.loads(messages[1]['content'])['previous_turn'] == {'course_available': True}
     assert 'previous_course_quote' in messages[0]['content']
     assert 'previous_course_quote' in json.dumps(output_schema(follow_up=True))
 
@@ -71,9 +71,16 @@ def test_reference_without_stored_course_never_routes():
 def test_stored_course_is_shown_when_the_follow_up_request_carries_no_scope_of_its_own():
     unscoped = RequestContext.parse(context(program_id=None, curriculum_id=None, conversation=PREVIOUS))
     assert json.loads(build_messages(FOLLOW_UP, unscoped, catalog(), registry())[1]['content'])['previous_turn'] == {
-        'course': 'A1'}
+        'course_available': True}
 
 
 def test_stored_course_is_not_shown_when_the_request_names_another_curriculum():
     other = RequestContext.parse(context(curriculum_id='curriculum-b', conversation=PREVIOUS))
     assert 'previous_turn' not in json.loads(build_messages(FOLLOW_UP, other, catalog(), registry())[1]['content'])
+
+
+def test_follow_up_schema_makes_the_model_decide_the_reference_before_naming_courses():
+    schema = output_schema(follow_up=True)
+    assert 'previous_course_quote' in schema['required']
+    names = list(schema['properties'])
+    assert names.index('previous_course_quote') < names.index('mentions') < names.index('operations')
