@@ -55,6 +55,8 @@ class WireInterpretation(Contract):
         'Never put a route explanation or a need to retrieve documents here.')
     # No free-text reason (owner, 23 Oct 2026): last field, nothing reads it, decoding it cost ~2 s.
     # intent stays: removing it made a 4B-model claim extraction unstable (run 14 precheck).
+    # Offered only when the session has a previous turn (master 23); absent from single-turn schemas.
+    previous_course_quote: QuoteReference | None = None
 
     @model_validator(mode='after')
     def _part_count(self):
@@ -119,6 +121,9 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
 
     data = wire.model_dump(mode='json')
     data.pop('part_count')
+    data.pop('previous_course_quote')
+    if wire.previous_course_quote is not None:
+        data['context_reference'] = span(wire.previous_course_quote)
     claims = [dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
               for c in wire.claims]
     operations = [dict(name=o.name, target=course_index(o.target)) for o in wire.operations]

@@ -35,7 +35,8 @@ _WORKED_EXAMPLE = dict(
                     evidence_need='document', operation_indices=[])],
         ambiguities=[]))
 _WORKED_EXAMPLE['interpretation'] = {
-    name: _WORKED_EXAMPLE['interpretation'][name] for name in WireInterpretation.model_fields}
+    name: _WORKED_EXAMPLE['interpretation'][name] for name in WireInterpretation.model_fields
+    if name in _WORKED_EXAMPLE['interpretation']}  # the single-turn example has no previous_course_quote
 SYSTEM_PROMPT = '''You are Bintu, the LLM interpreter and router for PalSU undergraduate academic affairs.
 Return ONLY one JSON object matching the supplied schema, never an answer or Prolog code.
 This stage PRECEDES document retrieval and Prolog execution. Decide which path is needed;
@@ -155,8 +156,10 @@ def digest(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
 
-def output_schema(topics=()):
+def output_schema(topics=(), follow_up=False):
     schema = WireInterpretation.model_json_schema()
+    if not follow_up:  # single-turn schema stays exactly as before master 23
+        schema['properties'].pop('previous_course_quote')
     # Wire field order declares the requested parts before actions and route.
     schema['properties']['schema_version']['const'] = WireInterpretation.SCHEMA_VERSION
     part = schema['$defs']['WirePart']
@@ -210,10 +213,10 @@ def output_schema(topics=()):
     return schema
 
 
-def display_schema(topics=()):
+def display_schema(topics=(), follow_up=False):
     """Schema text shown to the model. With a topic menu the per-topic branches stay in the
     enforced grammar only (they doubled the prompt); the menu text lists the choices."""
-    schema = output_schema()
+    schema = output_schema(follow_up=follow_up)
     if topics:
         part = schema['$defs']['WirePart']
         part['properties']['subject_id'] = {'type': ['string', 'null']}
@@ -231,16 +234,46 @@ NOT_STATED_INSTRUCTION = '''not_stated lists facts the source does not give: cho
 student asks exactly for it, rather than a nearby printed fact.'''
 
 
+FOLLOW_UP_INSTRUCTION = '''Previous turn: previous_turn names the course and/or document topic the
+previous answer used. If this message refers back to that course without naming it (for example
+"its", "that subject", "yung subject na yan", "niya"), set previous_course_quote to those exact words
+and use that same quote as the course mention and operation target. If the message names a course,
+asks about something else, or it is unclear which course is meant, set previous_course_quote to null.
+A previous course is never a grade or a passed/failed fact. A message that continues the previous
+document topic may use the same subject_id.'''
+
+
+def previous_turn(context, catalog):
+    """Previous-turn labels for the model, or None. A stored course is shown only while it is still a
+    catalog course of the request's curriculum; the host resolves the reference, not the label."""
+    conversation = context.conversation
+    if conversation is None:
+        return None
+    shown = {}
+    course = next((c for c in catalog if c.kind == 'course' and c.entity_id == conversation.course_id
+                   and c.program_id == context.program_id and c.curriculum_id == context.curriculum_id), None)
+    if course is not None:
+        shown['course'] = course.aliases[0]
+    if conversation.subject_id is not None:
+        shown['subject_id'] = conversation.subject_id
+    return shown or None
+
+
 def build_messages(text, context, catalog, registry, topics=()):
     data = dict(original_text=text, normalized_text=prepare_query(text),
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
+    previous = previous_turn(context, catalog)
+    if previous is not None:
+        data['previous_turn'] = previous
     instruction = TOPIC_INSTRUCTION + (chr(10) + NOT_STATED_INSTRUCTION if any(t.not_stated for t in topics) else '')
     menu = '' if not topics else chr(10) + instruction + chr(10) + canonical(
         [dict(subject_id=t.subject_id, facts=list(t.claims),
               **({'not_stated': list(t.not_stated)} if t.not_stated else {})) for t in topics])
-    return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(display_schema(topics)))),
+    menu += '' if previous is None else chr(10) + FOLLOW_UP_INSTRUCTION
+    schema = display_schema(topics, follow_up=previous is not None)
+    return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(schema))),
             dict(role='user', content=canonical(data))]
 
 

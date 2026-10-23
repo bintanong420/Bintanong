@@ -10,7 +10,7 @@ from pydantic import ValidationError
 from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
 from .contracts import Interpretation, RequestContext, prepare_query
-from .prompt import build_messages, output_schema
+from .prompt import build_messages, output_schema, previous_turn
 from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
 from .transport import RuntimeFailure
 from .validation import RoutingResult, _decision, validate_interpretation
@@ -95,6 +95,7 @@ class Router:
         normalized = prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         messages = build_messages(text, context, self.catalog, self.registry, self.topics)
+        follow_up = previous_turn(context, self.catalog) is not None
         proposed = None
 
         def failure(code, attempts, style_attempts=0, style=None, floored=False):
@@ -118,7 +119,7 @@ class Router:
 
         for attempt in (1, 2):
             try:
-                raw = await self.transport.infer(messages, output_schema(self.topics))
+                raw = await self.transport.infer(messages, output_schema(self.topics, follow_up=follow_up))
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
             problem = None
