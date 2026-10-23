@@ -131,3 +131,9 @@ def test_without_a_final_header_all_marks_after_the_code_are_shown():
 def test_unknown_code_lines_with_marks_are_counted_never_matched():
     rows, unmatched = grade_rows(table_words([ROW_CC5, [(60, 'XYZ 9'), (200, 'Other'), (580, '1.25')]]))
     assert [r[0] for r in rows] == ['CC 5/L'] and unmatched == 1
+
+
+def test_two_values_inside_the_final_column_are_refused():
+    crowded = [(60, 'CC 5/L'), (200, 'Info'), (585, '1.75'), (615, '2.0')]  # centres 605 and 630, both in FINAL
+    with pytest.raises(RowsUncertain):
+        grade_rows(table_words([crowded]))
