@@ -51,12 +51,26 @@ class ChatRequest(BaseModel):
     curriculumId: str | None = None
 
 
+@dataclass(frozen=True)
+class PreparedTurn:
+    text: str
+    message_id: str
+    program_id: str | None
+    curriculum_id: str | None
+    regenerate: bool
+
+
+def _ignore(_stage: str) -> None:
+    pass
+
+
 class ChatTurns:
     def __init__(self, sessions: SessionStore, pipeline, curricula: tuple[CurriculumOption, ...]):
         self._sessions, self._pipeline = sessions, pipeline
         self._scopes = {(c.program_id, c.curriculum_id) for c in curricula}
 
-    async def answer(self, session: Session, request: ChatRequest):
+    def prepare(self, request: ChatRequest) -> PreparedTurn:
+        """Checks that need no session state, so they can be refused before a stream starts."""
         message = request.messages[-1]
         text = ' '.join(p.text for p in message.parts if p.type == 'text' and p.text).strip()
         if message.role != 'user' or not text:
@@ -66,22 +80,28 @@ class ChatTurns:
             raise ApiError(422, 'incomplete_scope')
         if scope[0] is not None and scope not in self._scopes:
             raise ApiError(422, 'unknown_curriculum')
+        return PreparedTurn(text, message.id, *scope, regenerate=request.trigger == 'regenerate-message')
+
+    async def answer(self, session: Session, request: ChatRequest, progress=_ignore):
+        return await self.run(session, self.prepare(request), progress)
+
+    async def run(self, session: Session, turn: PreparedTurn, progress=_ignore):
         try:
-            self._sessions.begin_turn(session.credential, message.id,
-                                      regenerate=request.trigger == 'regenerate-message')
+            self._sessions.begin_turn(session.credential, turn.message_id, regenerate=turn.regenerate)
         except ValueError as refused:
             raise ApiError(409, str(refused)) from None
         context = follow_up_context(session.view, request_id=f'req-{secrets.token_hex(8)}',
-                                    program_id=scope[0], curriculum_id=scope[1])
+                                    program_id=turn.program_id, curriculum_id=turn.curriculum_id)
         routed, completed = [], False
         try:
             try:
-                result = await self._pipeline.run(text, context, routed_sink=routed.append)
+                result = await self._pipeline.run(turn.text, context, routed_sink=routed.append,
+                                                  progress=progress)
             except Exception:
                 raise ApiError(503, 'answer_unavailable') from None
             completed = True
         finally:
-            self._sessions.end_turn(session.credential, message.id, completed=completed)
+            self._sessions.end_turn(session.credential, turn.message_id, completed=completed)
         conversation = capture(routed[0]) if routed else None
         if conversation is not None:
             try:

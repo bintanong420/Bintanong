@@ -21,7 +21,7 @@ class Pipeline:
     def __init__(self, routed=None, error=None, gate=None):
         self.calls, self.routed, self.error, self.gate = [], routed, error, gate
 
-    async def run(self, text, ctx, *, routed_sink):
+    async def run(self, text, ctx, *, routed_sink, progress):
         self.calls.append((text, ctx))
         if self.gate is not None:
             await self.gate.wait()
@@ -179,9 +179,9 @@ def test_session_deleted_during_the_turn_stays_deleted():
     s = session(store)
 
     class DeletingPipeline(Pipeline):
-        async def run(self, text, ctx, *, routed_sink):
+        async def run(self, text, ctx, *, routed_sink, progress):
             store.delete(s.credential)
-            return await super().run(text, ctx, routed_sink=routed_sink)
+            return await super().run(text, ctx, routed_sink=routed_sink, progress=progress)
 
     answer(ChatTurns(store, DeletingPipeline(routed=validate()), CURRICULA), s, request('A1'))
     assert len(store) == 0

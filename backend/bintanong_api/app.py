@@ -4,11 +4,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from fastapi import Depends, FastAPI, Request, Response
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
-from backend.bintanong_api.chat import CurriculumOption
+from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
 from backend.bintanong_api.main import health_live, health_ready
-from backend.bintanong_api.session import SESSION_COOKIE, ApiError, check_origin, require_session
+from backend.bintanong_api.session import SESSION_COOKIE, ApiError, Session, check_origin, require_session
+from backend.bintanong_api.stream import STREAM_HEADERS, chat_stream
 from backend.bintanong_private_context.sessions import SessionStore
 
 __all__ = ['ApiServices', 'ApiSettings', 'create_app', 'require_session']
@@ -23,11 +24,13 @@ class ApiSettings:
 class ApiServices:
     sessions: SessionStore
     curricula: tuple[CurriculumOption, ...] = ()
+    pipeline: object = None  # run(text, context, *, routed_sink, progress) -> CandidateAnswer
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     app = FastAPI(title='Bintanong API', version='0.0.0', dependencies=[Depends(check_origin)])
     app.state.services, app.state.settings = services, settings
+    turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
     app.add_api_route('/health/live', health_live, methods=['GET'])
     app.add_api_route('/health/ready', health_ready, methods=['GET'])
 
@@ -43,6 +46,12 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
             response.set_cookie(SESSION_COOKIE, credential, httponly=True, secure=True, samesite='strict',
                                 path='/')
         return response
+
+    @app.post('/chat')
+    def chat(request: ChatRequest, session: Session = Depends(require_session)) -> StreamingResponse:
+        turn = turns.prepare(request)
+        return StreamingResponse(chat_stream(turns, session, turn), media_type='text/event-stream',
+                                 headers=STREAM_HEADERS)
 
     @app.get('/curricula')
     def curricula() -> dict:
