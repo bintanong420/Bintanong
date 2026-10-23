@@ -301,3 +301,6 @@ Each program still gets its own dated review record listing which standing rule 
   remembering the course a turn's check asked about, so F4 ("If I failed CC 3, can I take CC 5?" -> "What are its
   prerequisites?") now expects CC 5/L. F4b (T1 "What is the difference between CC 3 and CC 4?", no check) is the
   clarification case. Condition: the exchange must read as a logical student-chatbot conversation.
+- 23 Oct 2026 (Phase 10 D1/D2 at task 5): photo OCR via an onnxruntime 1.30.0 CPU bake-off (pinned `ocr-cpu` extra)
+  on the existing ocr_bench harness, simulated photos first. Photos are wired only if a configuration meets Q11;
+  otherwise they stay unsupported and disclosed. Gemma vision measurement (D2) not chosen; Docling pin unchanged.
