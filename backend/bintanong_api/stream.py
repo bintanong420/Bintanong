@@ -43,7 +43,7 @@ def answer_parts(answer, message_id: str) -> list[dict]:
     return parts
 
 
-async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn):
+async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, sources=None):
     message_id = f'msg-{secrets.token_hex(8)}'
     yield encode({'type': 'start', 'messageId': message_id})
     queue: asyncio.Queue = asyncio.Queue()
@@ -69,6 +69,8 @@ async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn):
             yield encode({'type': 'error', 'errorText': error.code})
             yield DONE
             return
+        if sources is not None:
+            sources.remember(answer.citations)
         for part in answer_parts(answer, message_id):
             yield encode(part)
         yield DONE
