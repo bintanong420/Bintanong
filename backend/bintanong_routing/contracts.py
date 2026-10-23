@@ -40,6 +40,14 @@ class ScopedFact(Record):
     state: State
 
 
+class ConversationContext(Record):
+    """Ids the previous answered turn used (master 23); session memory only, never text or grades."""
+    program_id: Identifier | None = None
+    curriculum_id: Identifier | None = None
+    course_id: Identifier | None = None
+    subject_id: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+
+
 class RequestContext(Record):
     """Must come from the owning application, not directly from model output."""
     session_id: str = Field(pattern=r'^sess-[a-z0-9-]+$')
@@ -47,6 +55,7 @@ class RequestContext(Record):
     program_id: Identifier | None = None
     curriculum_id: Identifier | None = None
     facts: tuple[ScopedFact, ...] = Field(default=(), max_length=256)
+    conversation: ConversationContext | None = None
 
     @model_validator(mode='after')
     def _ownership(self):
@@ -148,6 +157,8 @@ class Interpretation(Contract):
         'Only unresolved questions needed to interpret the request. Normally empty. '
         'Never put a route explanation or a need to retrieve documents here.')
     reason: Text
+    # Words that refer back to the previous turn's course ("its"); the host supplies the course.
+    context_reference: Quote | None = None
 
     @model_validator(mode='after')
     def _structure(self):

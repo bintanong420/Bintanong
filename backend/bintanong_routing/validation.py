@@ -131,6 +131,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     for part in p.parts:
         if text[part.start:part.end] != part.text:
             raise ValueError('ungrounded_part')
+    reference = p.context_reference
+    if reference is not None and text[reference.start:reference.end] != reference.text:
+        raise ValueError('ungrounded_context_reference')
 
     program, curriculum = context.program_id, context.curriculum_id
     resolved, ignored = {}, set()
@@ -162,13 +165,33 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                 if program is None:
                     program = entry.program_id  # explicit curriculum identity establishes its program
             resolved[idx] = entry
+    previous = context.conversation
+    if (previous is not None and (p.operations or reference is not None) and curriculum is None
+            and program in (None, previous.program_id)):
+        # The previous turn's scope only fills what this message leaves unnamed; a newly named program
+        # wins, and a document-only question keeps its own scope, so an unrelated new question is never
+        # bound to the earlier turn (owner, 23 Oct 2026).
+        program, curriculum = previous.program_id, previous.curriculum_id
     if program is not None and curriculum is None:
         # A program with exactly one reviewed curriculum uses it (owner decision, 24 Oct 2026);
         # several editions (e.g. old and proposed BSCS) still need the student's answer.
         editions = [c for c in catalog if c.kind == 'curriculum' and c.program_id == program]
         if len(editions) == 1:
             curriculum = editions[0].entity_id
+    carried = context.conversation.course_id if context.conversation else None
     for idx, mention in enumerate(p.mentions):
+        names_course = program is not None and curriculum is not None and bool(
+            _matches(mention, catalog, program, curriculum))
+        # Words that name a course are never a back-reference (live F5: "What about CC 4?" -> CC 4).
+        if mention.kind == 'course' and reference is not None and not names_course and (
+                mention.start, mention.end) == (reference.start, reference.end):
+            # The model only marks the words; the course comes from session context and must still be
+            # in the request's curriculum, otherwise the mention stays unresolved and the host clarifies.
+            entry = next((c for c in catalog if c.kind == 'course' and c.entity_id == carried
+                          and c.program_id == program and c.curriculum_id == curriculum), None)
+            if carried is not None and entry is not None:
+                resolved[idx] = entry
+            continue
         if mention.kind == 'course' and program is not None and curriculum is not None:
             matches = _matches(mention, catalog, program, curriculum)
             if len(matches) == 1:

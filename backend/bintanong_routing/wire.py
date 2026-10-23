@@ -46,6 +46,9 @@ class WireInterpretation(Contract):
     part_count: int = Field(ge=0, le=8)
     parts: tuple[WirePart, ...] = Field(max_length=8)
     intent: Text
+    # Offered (and required) only when the session has a previous turn (master 23); removed from
+    # single-turn schemas. Decided before mentions so a back-reference can become the course quote.
+    previous_course_quote: QuoteReference | None = None
     mentions: tuple[WireMention, ...] = Field(max_length=32)
     claims: tuple[WireClaim, ...] = Field(max_length=32)
     operations: tuple[WireOperation, ...] = Field(max_length=4)
@@ -119,14 +122,24 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
 
     data = wire.model_dump(mode='json')
     data.pop('part_count')
+    data.pop('previous_course_quote')
+    if wire.previous_course_quote is not None:
+        data['context_reference'] = span(wire.previous_course_quote)
     claims = [dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
               for c in wire.claims]
     operations = [dict(name=o.name, target=course_index(o.target)) for o in wire.operations]
     proposal = f'route {wire.route}' if wire.route is not None else f'control {wire.control}'
+    def indices(part):
+        # With one operation, an out-of-range index (live slip: the position in available_operations)
+        # can only mean that operation, so nothing has to be chosen (same rule as occurrence repair).
+        if len(operations) == 1 and part.operation_indices and all(i >= 1 for i in part.operation_indices):
+            return [0]
+        return list(part.operation_indices)
+
     data.update(schema_version=Interpretation.SCHEMA_VERSION,
         reason=f'interpreter proposed {proposal}', mentions=listed, claims=claims,
         operations=operations, parts=[dict(**span(p.quote), part_id=p.part_id, evidence_need=p.evidence_need,
-                    operation_indices=list(p.operation_indices), subject_id=p.subject_id,
+                    operation_indices=indices(p), subject_id=p.subject_id,
                     requested_claims=list(p.requested_claims)) for p in wire.parts])
     result = Interpretation.parse(data)
     for claim in result.claims:

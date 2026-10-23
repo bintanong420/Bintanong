@@ -291,3 +291,16 @@ Each program still gets its own dated review record listing which standing rule 
   approval, institutional release or activation. Phase 10 implementation still waits for the owner.
 - 23 Oct 2026 (workflow): before each phase from Phase 10 on, do intensive pre-phase research
   (optimization, latest technologies, faster delivery); rule added to AGENTS.md.
+- 23 Oct 2026 (Phase 10 start): owner created worktree `p10` and said "continue off from handoff" (go for
+  Phase 10). Answers to the pre-phase research decisions: D3 opaque cookie credential with 30-minute idle,
+  memory only; D1 OCR engine install/Docling pin and D2 Gemma 4 E4B vision measurement deferred to step 5
+  (photo OCR); D4 add the already-locked pypdfium2 5.13.0 and Pillow 12.3.0 to the `api` extra (uploads as a
+  raw body, no python-multipart).
+- 23 Oct 2026 (Phase 10 multi-turn cases): owner accepted follow-up cases F1-F6 and asked for document follow-ups
+  (added D1-D4). After the uncounted live precheck failed F1 (two mentioned courses kept none), the owner approved
+  remembering the course a turn's check asked about, so F4 ("If I failed CC 3, can I take CC 5?" -> "What are its
+  prerequisites?") now expects CC 5/L. F4b (T1 "What is the difference between CC 3 and CC 4?", no check) is the
+  clarification case. Condition: the exchange must read as a logical student-chatbot conversation.
+- 23 Oct 2026 (Phase 10 D1/D2 at task 5): photo OCR via an onnxruntime 1.30.0 CPU bake-off (pinned `ocr-cpu` extra)
+  on the existing ocr_bench harness, simulated photos first. Photos are wired only if a configuration meets Q11;
+  otherwise they stay unsupported and disclosed. Gemma vision measurement (D2) not chosen; Docling pin unchanged.

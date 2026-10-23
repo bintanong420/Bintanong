@@ -144,7 +144,9 @@ api = [
     { name = "fastapi" },
     { name = "httpx" },
     { name = "janus-swi" },
+    { name = "pillow" },
     { name = "pydantic" },
+    { name = "pypdfium2" },
     { name = "uvicorn" },
 ]
 dev = [
@@ -199,8 +201,10 @@ requires-dist = [
     { name = "numpy", marker = "extra == 'embedding'", specifier = "==2.5.3" },
     { name = "onnxruntime", marker = "extra == 'ocr-cpu'", specifier = "==1.30.0" },
     { name = "onnxruntime-gpu", extras = ["cuda", "cudnn"], marker = "(sys_platform == 'linux' and extra == 'ocr-gpu') or (sys_platform == 'win32' and extra == 'ocr-gpu')", specifier = "==1.30.0" },
+    { name = "pillow", marker = "extra == 'api'", specifier = "==12.3.0" },
     { name = "pydantic", marker = "extra == 'api'", specifier = "==2.13.5" },
     { name = "pydantic", marker = "extra == 'embedding'", specifier = "==2.13.5" },
+    { name = "pypdfium2", marker = "extra == 'api'", specifier = "==5.13.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.1.1" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = "==1.4.0" },
     { name = "reportlab", marker = "extra == 'tools'", specifier = "==5.0.1" },
