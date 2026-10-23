@@ -7,11 +7,14 @@ from .sessions import SessionView
 
 
 def capture(result: RoutingResult) -> ConversationContext | None:
-    """Only a validated turn is kept. A course or subject is kept only when the turn used exactly one,
-    so a later "its" never has to choose between two antecedents."""
+    """Only a validated turn is kept. The course is the one the turn's check asked about (owner,
+    23 Oct 2026: "Can I take CC 5? I passed CC 4." -> "it" is CC 5); without a check, only a single
+    mentioned course is kept, so a later "its" never has to choose between two antecedents."""
     if result.diagnostic != 'validated':
         return None
-    courses = {e.value for e in result.query.entities if e.kind == 'course'}
+    request = result.decision.predicate_request
+    courses = ({i.value for i in request.inputs if i.name == 'course_id'} if request is not None
+               else {e.value for e in result.query.entities if e.kind == 'course'})
     subjects = {p.subject_id for p in result.proposed.parts if p.subject_id} if result.proposed else set()
     return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
                                course_id=courses.pop() if len(courses) == 1 else None,

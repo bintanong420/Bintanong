@@ -7,10 +7,15 @@ come from master 23 and are unchanged.
 ## Stored context (session memory only)
 
 `ConversationContext`: `program_id`, `curriculum_id`, `course_id | None`, `subject_id | None`. It holds ids only:
-no text, no grades, no transcript. It is captured after a validated answer from the ids the answer actually
-used. `course_id` is kept only when the turn resolved exactly one course. With two or more, nothing is kept, so
-a later "its" cannot resolve and the router clarifies instead of choosing between antecedents. It lives in the
-`SessionStore` slot and expires or is deleted with the session.
+no text, no grades, no transcript. It is captured after a validated turn from the ids the turn actually used.
+
+The course kept is the target of the turn's eligibility/prerequisite check. This rule was revised 23 Oct
+after the uncounted live precheck, with the owner's approval. "Can I take CC 5? I passed CC 4." keeps CC 5. The
+first rule, "only when exactly one course was mentioned", kept nothing there, so natural follow-ups failed.
+
+Without a check, a course is kept only when the turn mentioned exactly one. Two mentioned courses with no check
+keep nothing, so a later "its" clarifies instead of choosing. The context lives in the `SessionStore` slot and
+expires or is deleted with the session.
 
 ## Router input
 

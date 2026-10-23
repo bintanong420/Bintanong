@@ -27,10 +27,19 @@ def test_validated_single_course_answer_is_captured_as_ids_only():
     assert capture(validate()) == previous()
 
 
-def test_turn_with_two_courses_keeps_no_course_so_its_cannot_pick_one():
+def test_turn_with_a_check_keeps_the_course_it_asked_about_not_the_other_one_mentioned():
+    # "Can I take B1? I passed A1." -> a later "it" means B1, the course asked about (owner, 23 Oct 2026).
     value = proposal(text='A1 B1', mentions=[dict(kind='course', text='A1', start=0, end=2),
-                                             dict(kind='course', text='B1', start=3, end=5)])
-    assert capture(validate('A1 B1', value)).course_id is None
+                                             dict(kind='course', text='B1', start=3, end=5)],
+                     operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    assert capture(validate('A1 B1', value)).course_id == 'course-b'
+
+
+def test_turn_without_a_check_naming_two_courses_keeps_no_course_so_its_cannot_pick_one():
+    value = proposal(text='A1 B1 policy', mentions=[dict(kind='course', text='A1', start=0, end=2),
+                                                    dict(kind='course', text='B1', start=3, end=5)],
+                     operations=[], route='RAG')
+    assert capture(validate('A1 B1 policy', value)).course_id is None
 
 
 def test_unvalidated_turn_is_not_captured():
