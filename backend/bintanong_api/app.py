@@ -30,7 +30,7 @@ class ApiServices:
     sessions: SessionStore
     curricula: tuple[CurriculumOption, ...] = ()
     pipeline: object = None  # run(text, context, *, routed_sink, progress) -> CandidateAnswer
-    extract_rows: object = None  # (upload, program_id, curriculum_id) -> ExtractionResult; blocking
+    extract_rows: object = None  # (raw bytes, program_id, curriculum_id) -> ExtractionResult; parses; blocking
     course_labels: Mapping[str, str] = field(default_factory=dict)  # course id -> printed code
     sources: SourceRegistry = field(default_factory=SourceRegistry)
 

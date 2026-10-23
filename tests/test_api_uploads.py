@@ -9,7 +9,7 @@ from backend.bintanong_api.app import ApiServices, ApiSettings, create_app
 from backend.bintanong_api.chat import CurriculumOption
 from backend.bintanong_private_context.grades import extract_grade_rows
 from backend.bintanong_private_context.sessions import SessionStore
-from backend.bintanong_private_context.uploads import UploadRejected
+from backend.bintanong_private_context.uploads import UploadRejected, validate_upload
 from test_api_presentation import answer_for
 from test_private_context_grades import CATALOG, grade_pdf
 
@@ -20,8 +20,8 @@ SCOPE = {'programId': 'bscs', 'curriculumId': 'bscs-2018'}
 PDF = grade_pdf([('CC 5/L', 'Information Management', '1.75', 'Passed'), ('GEC 1', 'Understanding Self', '2.00', '')])
 
 
-def extract(upload, program_id, curriculum_id):
-    return extract_grade_rows(upload, CATALOG, program_id=program_id, curriculum_id=curriculum_id)
+def extract(data, program_id, curriculum_id):
+    return extract_grade_rows(validate_upload(data), CATALOG, program_id=program_id, curriculum_id=curriculum_id)
 
 
 class Recording:
@@ -108,6 +108,19 @@ def test_oversized_body_is_refused_with_413():
     app, _ = build(max_upload_bytes=100)
     response = upload(client(app), data=PDF.data)
     assert (response.status_code, response.json()) == (413, {'error': 'too_large'})
+
+
+def test_signed_bytes_reach_the_isolated_extractor_unparsed():
+    # Security review S5: PDF/image parsers run only inside the bounded extractor job, never in the API process.
+    seen = []
+
+    def refuse(data, *_):
+        seen.append(data)
+        raise UploadRejected('unreadable')
+    app, _ = build(extractor=refuse)
+    response = upload(client(app), data=b'%PDF-1.7 truncated')
+    assert (response.status_code, response.json()) == (422, {'error': 'unreadable'})
+    assert seen == [b'%PDF-1.7 truncated']
 
 
 def test_extractor_refusal_is_a_typed_error():

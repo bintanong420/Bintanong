@@ -1,6 +1,7 @@
 """Private grade uploads over HTTP (master 15.1, 16.1).
 
-Raw body -> capped read -> type sniffed from the bytes -> extraction in the bounded parser job -> pending rows.
+Raw body -> capped read -> type sniffed from the leading bytes -> parsing and extraction in the bounded parser
+job -> pending rows.
 Only the student's explicit row choices become session facts. Responses carry printed codes and marks only, and
 errors are fixed codes, so no grade or file text leaves through an error.
 """
@@ -14,7 +15,7 @@ from starlette.concurrency import run_in_threadpool
 
 from backend.bintanong_api.chat import ChatTurns
 from backend.bintanong_api.session import ApiError, Session, require_session
-from backend.bintanong_private_context.uploads import UploadRejected, read_capped, validate_upload
+from backend.bintanong_private_context.uploads import UploadRejected, read_capped, sniff_type
 
 _CONFIRM_ERRORS = {'no_pending_extraction': (404, 'unknown_upload'), 'unknown_upload': (404, 'unknown_upload'),
                    'unknown_row': (422, 'unknown_row'), 'course_not_in_row': (422, 'course_not_in_row'),
@@ -40,8 +41,9 @@ def upload_router(services, turns: ChatTurns, max_upload_bytes: int) -> APIRoute
                             session: Session = Depends(require_session)) -> dict:
         program_id, curriculum_id = turns.checked_scope(programId, curriculumId, required=True)
         try:
-            upload = validate_upload(await read_capped(request.stream(), max_upload_bytes))
-            result = await run_in_threadpool(services.extract_rows, upload, program_id, curriculum_id)
+            data = await read_capped(request.stream(), max_upload_bytes)
+            sniff_type(data)
+            result = await run_in_threadpool(services.extract_rows, data, program_id, curriculum_id)
         except UploadRejected as rejected:
             raise ApiError(413 if rejected.reason == 'too_large' else 422, rejected.reason) from None
         upload_id = sessions.set_pending(session.credential, result)
