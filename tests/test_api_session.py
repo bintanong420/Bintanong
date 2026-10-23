@@ -141,13 +141,30 @@ def test_delete_session_is_also_origin_checked():
     assert len(store) == 1
 
 
-def test_full_store_answers_503_without_evicting_anyone():
+def fill_with_a_stated_session(store):
+    issued = store.issue()
+    store.set_facts(issued.credential, (ScopedFact(fact_id='fact-1', session_id=issued.session_id, program_id='bscs',
+                                                   curriculum_id='bscs-2018', course_id='cc-101', state='passed'),))
+    return issued
+
+
+def test_full_store_answers_503_without_evicting_a_student_who_stated_something():
     app, store = build(SessionStore(max_sessions=1))
-    whoami(client(app))
+    stated = fill_with_a_stated_session(store)
     response = client(app).post('/test-only/whoami')
     assert response.status_code == 503
     assert response.json() == {'error': 'session_limit'}
-    assert len(store) == 1
+    assert store.resolve(stated.credential) is not None
+
+
+def test_cookie_less_requests_cannot_lock_a_new_student_out():
+    # Security review S1 (24 Oct 2026): requests that never keep their cookie used to fill the store.
+    app, store = build(SessionStore(max_sessions=3))
+    stated = fill_with_a_stated_session(store)
+    for _ in range(10):
+        client(app).delete('/uploads/upl-unknown')
+    whoami(client(app))
+    assert store.resolve(stated.credential) is not None
 
 
 def test_health_endpoints_still_exist_on_the_factory_app():

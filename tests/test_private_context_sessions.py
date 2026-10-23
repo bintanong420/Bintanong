@@ -96,16 +96,53 @@ def test_wipe_and_a_new_process_store_know_no_earlier_session():
     assert store.resolve(a.credential) is None and len(store) == 0
 
 
+def stated(store):
+    """A session holding something the student stated, so it is never evicted to admit another."""
+    issued = store.issue()
+    store.set_facts(issued.credential, (fact(issued.session_id),))
+    return issued
+
+
 def test_store_refuses_new_sessions_past_its_bound_after_purging_expired():
     clock = Clock()
     store = SessionStore(idle_seconds=10, clock=clock, max_sessions=2)
-    store.issue()
-    store.issue()
+    stated(store)
+    stated(store)
     with pytest.raises(SessionLimitError):
         store.issue()
     clock.now += 11
     store.issue()  # expired sessions are purged first
     assert len(store) == 1
+
+
+def test_full_store_evicts_the_least_recently_used_empty_session_to_admit_a_new_one():
+    # Owner, 24 Oct 2026 (security review S1): empty sessions hold nothing a student stated.
+    clock = Clock()
+    store = SessionStore(clock=clock, max_sessions=3)
+    oldest = store.issue()
+    clock.now += 1
+    newer = store.issue()
+    clock.now += 1
+    holding = stated(store)
+    clock.now += 1
+    store.issue()
+    assert store.resolve(oldest.credential) is None
+    assert store.resolve(newer.credential) is not None and store.resolve(holding.credential) is not None
+
+
+def test_full_store_never_evicts_a_session_holding_student_state_or_a_running_turn():
+    from backend.bintanong_routing.contracts import ConversationContext
+    store = SessionStore(max_sessions=4)
+    stated(store)
+    pending = store.issue()
+    store.set_pending(pending.credential, pending_extraction())
+    talking = store.issue()
+    store.set_conversation(talking.credential, ConversationContext(program_id='bscs', curriculum_id='bscs-2018'))
+    answering = store.issue()
+    store.begin_turn(answering.credential, 'msg-1')
+    with pytest.raises(SessionLimitError):
+        store.issue()
+    assert len(store) == 4
 
 
 def test_raw_credentials_are_not_kept_in_store_memory():

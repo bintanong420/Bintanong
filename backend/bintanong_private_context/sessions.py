@@ -23,7 +23,7 @@ _CREDENTIAL = re.compile(r'^[A-Za-z0-9_-]{43}$')  # secrets.token_urlsafe(32)
 
 
 class SessionLimitError(RuntimeError):
-    """Too many live sessions; the caller should answer 503 rather than evict someone."""
+    """Every live session holds student state; the caller should answer 503 rather than evict someone."""
 
 
 @dataclass(frozen=True)
@@ -79,7 +79,7 @@ class SessionStore:
         session_id = f'sess-{secrets.token_hex(16)}'
         with self._lock:
             self._purge_expired()
-            if len(self._sessions) >= self._max:
+            if len(self._sessions) >= self._max and not self._evict_one_empty():
                 raise SessionLimitError('session_limit')
             self._sessions[_digest(credential)] = _Session(session_id, self._clock())
         return IssuedSession(credential, session_id)
@@ -190,6 +190,16 @@ class SessionStore:
             return None
         session.last_seen = now
         return session
+
+    def _evict_one_empty(self) -> bool:
+        """Owner, 24 Oct 2026: cookie-less requests must not lock students out, so the least recently used
+        session that holds nothing the student stated (and no running turn) makes room."""
+        empty = [(s.last_seen, k) for k, s in self._sessions.items()
+                 if not (s.facts or s.pending or s.conversation or s.turn_in_flight)]
+        if not empty:
+            return False
+        del self._sessions[min(empty)[1]]
+        return True
 
     def _purge_expired(self) -> None:
         now = self._clock()
