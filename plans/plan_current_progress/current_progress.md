@@ -6,21 +6,20 @@ Current checkout:`frontend`;approved synthetic desktop preview delivered locally
 [Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
 Last full upstream snapshot:`7d188d2:plans/plan_current_progress/current_progress.md`;earlier:`ccc3cea`.
 
-## Frontend UX correction - 24 October 2026
+## Student-facing revisions - 24 October 2026
 
-[Correction/evidence](../2026-10-24-frontend-ux-corrections.md), code `2bfc3c2`: owner clarified that
-Figma is direction, not a 1:1 target. Semantic Lucide icons, a shared content column,
-54px empty composer/36px actions, and System/Light/Dark appearance now replace the
-awkward geometry/icons. Theme preference alone persists; chats/files stay local.
-RED composer 80px and 3 appearance failures; GREEN 12 UI tests, typecheck/build on
-Node24.21/npm11.19, 47 theme/layout and 27 interaction browser checks. Both themes
-pass measured contrast checks; health route and synthetic boundaries preserved.
-Single focus outline verified; 10 docs tests pass and phase ledger remains valid.
-Notice follow-up: removed highlight-like fill; both-theme contrast >=4.80:1 over
-the photo, 7 focused browser checks and the production build/typecheck pass.
-Embedded viewport fix: main-panel scrolling contains content inside the theme;
-RED 546px/355px overflow, GREEN 165 browser assertions and build/typecheck pass.
-No backend/dependency changes, formal phase advancement, deployment or push.
+[Delivery/annotation decisions](../2026-10-24-student-facing-revisions.md): model
+`9161699`/UI `4510102`, local flows on `/`: clarification, source/files panels, detail
+review, recovery, modal clearing and explicit expiry example. Rejected clear-card
+designs replaced; failed clear preserves the full chat, success returns to New Chat.
+GREEN27 tests; Node24.21 build/typecheck, 114 interaction, 165 reflow and 28 additional
+browser checks pass. No file bytes/student API requests, dependencies or backend changes.
+
+## Earlier frontend UX corrections
+
+[Evidence](../2026-10-24-frontend-ux-corrections.md): semantic icons, 54px composer,
+System/Light/Dark, notice-fill and embedded-overflow fixes retained. Last full
+snapshot before condensation: `f974eab:plans/plan_current_progress/current_progress.md`.
 
 ## Approved frontend implementation - 23 October 2026
 
@@ -61,9 +60,9 @@ Application/build suites are not rerun for the documentation-only difference to 
 
 ## Next action
 
-Owner reviews the revised frontend preview. Apply further concrete UI feedback
-within this slice; unfinished Figma states and public transport/backend-phase
-decisions remain separate. See the dated correction for verification and limits.
+Owner reviews Student-facing revisions using Preview example on `/`.
+Follow the dated delivery and annotation decisions; actual transport and unfinished
+mobile/backend work remain separate.
 
 ## Boundaries
 
