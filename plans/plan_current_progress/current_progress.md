@@ -1,42 +1,33 @@
 # Current progress
 
-Updated 24 October 2026. Phase 10 complete (owner-approved with disclosures); no active phase.
-Branch p10 / `feat/p10-private-files-pipeline` from `ccc3cea`, nothing pushed.
-[Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md) |
-[Pre-phase research](../2026-10-23-phase-10-pre-phase-research.md) | [Phase 09 handoff](../phase-09-handoff.md).
-Last full snapshot before this replacement: `ccc3cea:plans/plan_current_progress/current_progress.md`.
+Updated 23 October 2026. Phase 11 starting (backend only, owner direction); no phase plan yet.
+Worktree p11 / branch `feat/p11-backend-api` from `dev` `cbaa6a7`, nothing pushed.
+[Pre-phase research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase 10 handoff](../phase-10-handoff.md).
+Last full snapshot before this replacement: `cbaa6a7:plans/plan_current_progress/current_progress.md`.
 
 ## Latest changes (23 Oct, Claude Code session)
 
-- Phase 10 started on the owner's go (new `p10` worktree). can-advance: yes.
-- Owner decisions: D3 cookie credential with 30 min idle, memory only; D1 (OCR engine/Docling pin) and D2
-  (Gemma vision) deferred to step 5; D4 add the locked pypdfium2 5.13.0 and Pillow 12.3.0 to the `api` extra.
-  The research had missed that the `api` image lacks them. Uploads use a raw body, so python-multipart is not added.
-- Worktree environment verified complete: the ignored `.env`, datasets, `supabase/.temp` and `.superpowers` match
-  main. `.claude/settings.local.json` copied from p09.
-- Multi-turn: the owner accepted F1-F7/F4b and asked for document follow-ups (D1-D4). Owner: most messages are
-  not follow-ups, so stored context never binds an unrelated question. Prechecks found and fixed 5 issues.
-- Task 5: the photo-OCR probe (onnxruntime CPU) found silent row misalignment on tilted photos, so photos
-  stay unsupported. Exit: isolation tests, a bounded child parser job and the fact cap were added before closing.
-- Lockfile churn from Orca's post-create `npm install` (npm 11.19 dropped 4 `"peer": true` metadata lines;
-  no version change) was restored. The external Orca setup script now uses `npm ci`.
+- Owner answered the open Phase 10 questions: start Phase 11 **backend only** (frontend waits for the co-worker's
+  design; no UI pages or components). Scope: master 16.1/16.3, 23.3, 24.1 (photo rows), 24.2 (Taglish follow-ups),
+  API tests for every endpoint. Ask before dependency changes or downloads. If the UI stays delayed, the owner may
+  later close Phase 11 backend-only and start Phase 12 non-UI evaluation: ask then.
+- Worktree had been created on `p09-backend-api` (same commit as `dev`); work moved to `feat/p11-backend-api`.
+- Environment verified: ignored `.env`, `.superpowers`, `supabase/.temp` and both datasets match the main checkout
+  byte for byte; all three lockfiles are identical to HEAD and the main checkout. can-advance: yes.
+- Pre-phase research written. Main findings: the AI SDK was never installed (npm: `ai` 7.0.150 latest, v6 at
+  6.0.314; wire protocol v1 unchanged); FastAPI 0.141.1 has native SSE (no new dependency); the real-data
+  composition lives only in ignored scripts; student text shows diagnostic lines; the 24.2 cause is likely the
+  style model labelling Taglish as `filipino`, with no symmetric floor.
 
 ## Next action
 
-Phase 10 is closed ([final handoff](../phase-10-handoff.md); final suite 6295 passed, 6 skipped, 0 failed).
-Open owner questions (asked 24 Oct, not yet answered; ask again before starting):
-- The owner wants all backend finished while the frontend design is pending. Proposed: start Phase 11
-  backend-first (pre-phase research, then `POST /chat` with the cookie session and conversation capture,
-  `POST /uploads` plus the confirm step, `DELETE /uploads/{id}`, `DELETE /session`, `GET /sources/{id}`, and the
-  AI SDK 6 streaming adapter, all with API tests). Frontend tasks wait for the co-worker's design.
-- Photo OCR has no owning phase (it is not in master 16). Proposed: a backend task for deskewed row grouping,
-  refusal when uncertain, and a grade-row Q11-style scorer on simulated photos. A "supported" claim needs real
-  phone photos (owner to provide, kept private).
-- The conversational function is built and live-tested in the backend but not yet reachable over HTTP.
+Owner decisions O1-O5 in the research record (AI SDK major/deferral, photo OCR in `api`, `GET /curricula`, student
+render profile, symmetric style floor). Then write the Phase 11 plan and checkpoint and start step 2 (app factory,
+cookie session, CSRF guard, `DELETE /session`) test-first.
 
 ## Boundaries
 
 Undergraduate scope, read-only advisory, source-gap, privacy, institutional release and one-week improvement
 boundaries are unchanged. No grade or conversation persistence. No activation, push, training or DB change.
-Dependency change limited to D4. Context consulted 23 Oct: thesis physical 17-19 and 65-66, plus the routing
-PNG. No discrepancy.
+No dependency change without an owner decision. Context consulted 23 Oct: thesis physical 17-18 and 65-66, plus
+the routing PNG. No discrepancy.
