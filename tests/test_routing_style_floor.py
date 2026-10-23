@@ -182,3 +182,10 @@ def test_lowercase_english_next_to_a_title_still_counts():
     text = 'A1 at Life and Works, pwede ba after ng midterm?'
     result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
     assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ('after',)
+
+
+def test_of_inside_a_borrowed_english_term_does_not_count():
+    # Formal Filipino keeps unavoidable English terms ("transcript of records"); "of" lives inside such terms.
+    text = 'A1: paano po humiling ng kopya ng transcript of records?'
+    result = answered(text, style_proposal('fil', english=[], filipino=['paano po']))
+    assert result.response_style == 'fil' and result.style_floor_applied is False

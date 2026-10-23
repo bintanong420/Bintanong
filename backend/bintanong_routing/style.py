@@ -71,8 +71,9 @@ def has_filipino_function_word(text):
     return bool(filipino_function_words(text))
 
 
-# English grammar and number words (owner O5, 23 Oct 2026); Filipino lookalikes (at, may, na, pa, no) are excluded.
-_ENGLISH = frozenset('''the an for of with after before per from about into during until without between
+# English grammar and number words (owner O5, 23 Oct 2026); Filipino lookalikes (at, may, na, pa, no) are excluded,
+# and so is "of", which mostly sits inside borrowed terms ("transcript of records").
+_ENGLISH = frozenset('''the an for with after before per from about into during until without between
 and or but because if than my your our this that these those it its what which when where who how why
 can could should would will is are was were do does did have has one two three four five six seven eight
 nine ten first second third fourth fifth last next'''.split())
