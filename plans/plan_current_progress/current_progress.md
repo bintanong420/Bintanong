@@ -60,6 +60,11 @@ full suite 6198 passed. New thesis-derived requirement: conversational follow-up
 ([record](../2026-10-23-conversation-context-requirement.md)), not built. Resume from the
 [checkpoint](../phase-09-checkpoint.md) Next Action (owner picks: router output, follow-ups, exit review).
 
+23 Oct (new session): owner added a standing rule to AGENTS.md. Before each phase from Phase 10
+on, do intensive pre-phase research on optimization, current technologies and faster delivery,
+recorded in `plans/YYYY-MM-DD-phase-NN-pre-phase-research.md`. Research proposes only; tech or
+dependency changes still need owner approval.
+
 ## Boundaries
 
 Undergraduate scope, read-only advisory, source-gap, privacy, institutional

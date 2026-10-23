@@ -257,6 +257,26 @@ permission or authorization to execute institutional rules in Phase 06.
   references separately from blank continuation cells. Do not flatten columns into
   unrelated lists or approve a whole step from a partial field correction.
 
+## Pre-phase research - owner direction, 23 October 2026
+
+- Before starting each implementation-plan phase (Phase 10 onward), and before writing its
+  phase plan, do intensive research on: (1) how to optimize that phase's workstream
+  (accuracy, latency, memory on the RTX 4060 8 GB target, maintainability); (2) the latest
+  stable technologies, library releases, techniques and published practice relevant to it;
+  (3) how to build it faster (reuse of existing modules/tests, parallelizable tasks, tooling,
+  scaffolds, subagents, skipping work already done).
+- Use current official sources (release notes, docs, model cards, papers) via web search and
+  Context7; verify dates and versions, and cite them. Also reuse repository evidence (prior
+  handoffs, latency profile, audit) so research does not repeat settled work.
+- Record findings in `plans/YYYY-MM-DD-phase-NN-pre-phase-research.md` (options, evidence,
+  expected gain, cost/risk, recommendation) and link it from the phase plan. Show the owner a
+  short summary of recommendations before substantial implementation.
+- Research proposes; it does not authorize. Changing a thesis-named technology (master section
+  2), adding/upgrading dependencies, downloading models, or changing scope/phase gates still
+  needs an explicit owner decision. Never trade answer accuracy, safeguards, privacy or
+  source/scope rules for speed. Bound the research to the phase; it is not a reason to delay
+  indefinitely or reopen settled decisions.
+
 ## Settled owner decisions
 
 - Settled Phase 05/06 source-review, source-intake and benchmark decisions (review01-03,
