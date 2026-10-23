@@ -91,11 +91,15 @@ def course_labels(ledger):
 def topic_menu(register, *, catalogue=None, chunks=()):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
-    subjects = {}
+    subjects, missing = {}, {}
     for review in register['reviews']:
-        subjects.setdefault(review['subject_id'], []).append(review['claim'])
+        subjects.setdefault(review['subject_id'], [])
+        # A claim the review found not stated is offered only as not stated, never as answerable.
+        if review.get('finding') == 'not_stated_in_selected_fields':
+            missing.setdefault(review['subject_id'], []).append(review['claim'])
+        else:
+            subjects[review['subject_id']].append(review['claim'])
     readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
-    missing = {}
     for chunk in chunks:
         subject = readings.get(chunk.get('type_fields', {}).get('reading_id'))
         if subject not in subjects:

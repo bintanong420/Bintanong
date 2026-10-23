@@ -91,6 +91,15 @@ def test_topic_menu_adds_recorded_not_stated_claims_per_subject():
         ('fees', ('printed amount',), ('individual share',))]
 
 
+def test_claim_reviewed_as_not_stated_is_offered_as_not_stated_only():
+    # Run 10 (23 Oct 2026): the pre-enrollment deadline was reviewed not_stated_in_selected_fields but
+    # was offered as an answerable claim; the router requested it unasked and every answer was withheld.
+    register = dict(reviews=[dict(subject_id='enrol', claim='first-step fields', finding='visible_fields'),
+                             dict(subject_id='enrol', claim='deadline', finding='not_stated_in_selected_fields')])
+    menu = topic_menu(register)
+    assert [(t.subject_id, t.claims, t.not_stated) for t in menu] == [('enrol', ('first-step fields',), ('deadline',))]
+
+
 def titled(cid, code, title):
     c = course(cid, code); c['facts']['course_title'] = dict(value=title); return c
 
