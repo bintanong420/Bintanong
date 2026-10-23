@@ -1,8 +1,4 @@
-"""Student-facing HTTP API (master 16.1): cookie session boundary over the memory-only SessionStore.
-
-The browser holds only an opaque credential in a `__Host-` cookie; the store keeps its digest. Unsafe
-methods must come from a configured origin (OWASP CSRF guidance; SameSite is defence in depth only).
-"""
+"""Student-facing HTTP API (master 16.1). Session and origin rules live in `session.py`."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -11,10 +7,10 @@ from fastapi import Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 
 from backend.bintanong_api.main import health_live, health_ready
-from backend.bintanong_private_context.sessions import SessionLimitError, SessionStore, SessionView
+from backend.bintanong_api.session import SESSION_COOKIE, ApiError, check_origin, require_session
+from backend.bintanong_private_context.sessions import SessionStore
 
-SESSION_COOKIE = '__Host-bintanong_session'
-_SAFE_METHODS = frozenset({'GET', 'HEAD', 'OPTIONS'})
+__all__ = ['ApiServices', 'ApiSettings', 'create_app', 'require_session']
 
 
 @dataclass(frozen=True)
@@ -25,43 +21,6 @@ class ApiSettings:
 @dataclass(frozen=True)
 class ApiServices:
     sessions: SessionStore
-
-
-@dataclass(frozen=True)
-class Session:
-    credential: str
-    view: SessionView
-
-
-class ApiError(Exception):
-    def __init__(self, status: int, code: str):
-        super().__init__(code)
-        self.status, self.code = status, code
-
-
-def check_origin(request: Request) -> None:
-    if request.method in _SAFE_METHODS:
-        return
-    settings: ApiSettings = request.app.state.settings
-    if request.headers.get('sec-fetch-site') == 'cross-site':
-        raise ApiError(403, 'origin_not_allowed')
-    if request.headers.get('origin') not in settings.allowed_origins:
-        raise ApiError(403, 'origin_not_allowed')
-
-
-def require_session(request: Request) -> Session:
-    """The caller's live session, or a fresh one when the cookie is missing, unknown or expired."""
-    store: SessionStore = request.app.state.services.sessions
-    credential = request.cookies.get(SESSION_COOKIE)
-    view = store.resolve(credential)
-    if view is None:
-        try:
-            issued = store.issue()
-        except SessionLimitError:
-            raise ApiError(503, 'session_limit') from None
-        credential, view = issued.credential, store.resolve(issued.credential)
-        request.state.issued_credential = credential
-    return Session(credential, view)
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
