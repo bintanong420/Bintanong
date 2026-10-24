@@ -18,7 +18,7 @@ export function answerNotice(answer: Pick<StudentAnswer, "status" | "language">)
 export type Attachment = { id: string; name: string; type: string };
 export type Message = { id: string; role: "user" | "assistant"; text: string; answer?: StudentAnswer; delivery?: "streaming" | "interrupted" };
 export type WorkspaceState = { draft: string; messages: Message[]; pending: string | null; warning: string | null };
-export type WorkspaceAction = { type: "draft"; text: string } | { type: "submit"; id: string }
+export type WorkspaceAction = { type: "draft"; text: string } | { type: "submit"; id: string; text?: string }
   | { type: "delta"; id: string; text: string } | { type: "complete"; id: string; answer: StudentAnswer }
   | { type: "interrupt"; id: string; warning: string } | { type: "warning"; warning: string | null } | { type: "clear" };
 export const createWorkspace = (): WorkspaceState => ({ draft: "", messages: [], pending: null, warning: null });
@@ -27,9 +27,10 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
   if (action.type === "warning") return { ...state, warning: action.warning };
   if (action.type === "clear") return createWorkspace();
   if (action.type === "submit") {
-    if (state.pending || !state.draft.trim()) return state;
-    return { ...state, draft: "", warning: null, pending: action.id, messages: [...state.messages,
-      { id: action.id, role: "user", text: state.draft.trim() },
+    const text = (action.text ?? state.draft).trim();
+    if (state.pending || !text) return state;
+    return { ...state, draft: action.text === undefined ? "" : state.draft, warning: null, pending: action.id, messages: [...state.messages,
+      { id: action.id, role: "user", text },
       { id: action.id + "-answer", role: "assistant", text: "", delivery: "streaming" }] };
   }
   if (state.pending !== action.id) return state;

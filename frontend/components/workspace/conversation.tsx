@@ -3,6 +3,7 @@ import { BookOpen, LoaderCircle, MessageCircle, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
+import { copyForClarification } from "@/lib/student-clarification";
 
 const suggestions = ["What courses should I take next?", "Can I shift to another program?", "How do I enroll for the next term?"];
 export function EmptyConversation() {
@@ -14,9 +15,8 @@ export function EmptyConversation() {
 export function ConversationStarters({ onSuggest }: { onSuggest: (text: string) => void }) {
   return <div className="suggestions" role="group" aria-label="Suggested questions">{suggestions.map(text => <Button key={text} type="button" variant="outline" onClick={() => onSuggest(text)}>{text}</Button>)}</div>;
 }
-const missingLabels = { program: "degree program", curriculum: "curriculum version", course: "course code", course_status: "which courses you have passed or are taking" };
-export function Conversation({ state, progress, onSource, onScope }: {
-  state: WorkspaceState; progress: string; onSource: (sourceId: string) => void; onScope: () => void;
+export function Conversation({ state, progress, onSource, onClarify }: {
+  state: WorkspaceState; progress: string; onSource: (sourceId: string) => void; onClarify: () => void;
 }) {
   const end = useRef<HTMLDivElement>(null), follow = useRef(true);
   useEffect(() => { if (follow.current) end.current?.scrollIntoView({ block: "nearest" }); }, [state.messages, state.pending]);
@@ -34,10 +34,8 @@ export function Conversation({ state, progress, onSource, onScope }: {
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
         {message.text && <p className="message-text">{message.text}</p>}
         {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
-        {!!message.answer?.missingFields.length && <div className="context-request">
-          <p>Needed for this question: {message.answer.missingFields.map(field => missingLabels[field]).join(", ")}.</p>
-          {message.answer.missingFields.some(field => field === "program" || field === "curriculum") && <Button variant="outline" size="sm" onClick={onScope}>Choose program and curriculum</Button>}
-          {message.answer.missingFields.includes("course_status") && <p className="supporting-copy">You can type these details in your reply. A file is optional.</p>}
+        {message.answer?.status === "clarification_needed" && <div className="context-request">
+          {message.id === state.messages.at(-1)?.id && !state.pending && <Button type="button" variant="outline" size="sm" onClick={onClarify}>{copyForClarification(message.answer.language).resume}</Button>}
         </div>}
       </CardContent></Card>
       {!!message.answer?.sources.length && <><p className="source-label">Sources used</p><ul className="source-chips" aria-label="Institutional sources used in this response">{message.answer.sources.map(source => <li key={source.sourceId}>

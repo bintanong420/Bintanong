@@ -39,6 +39,13 @@ test('interruption preserves the user message and an unrelated draft', () => {
   assert.equal(state.draft, 'Another question');
   assert.equal(state.messages[1].delivery, 'interrupted');
 });
+test('explicit clarification submission preserves the unrelated composer draft', () => {
+  const initial = { ...createWorkspace(), draft: 'Keep my next question' };
+  const state = reduce(initial, { type: 'submit', id: 'clarify', text: 'Original question. I do not know whether I passed B2.' });
+  assert.equal(state.messages[0].text, 'Original question. I do not know whether I passed B2.');
+  assert.equal(state.draft, 'Keep my next question');
+  assert.equal(reduce(state, { type: 'submit', id: 'duplicate', text: 'Duplicate' }), state);
+});
 test('IME and Shift Enter do not submit', () => {
   assert.equal(shouldSend({ key: 'Enter', shiftKey: false, isComposing: true, keyCode: 13 }), false);
   assert.equal(shouldSend({ key: 'Enter', shiftKey: false, isComposing: false, keyCode: 229 }), false);

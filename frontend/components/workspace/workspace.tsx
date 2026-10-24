@@ -3,7 +3,7 @@
 import { useEffect, useId, useReducer, useRef, useState } from "react";
 import { ChevronDown, Ellipsis, FolderOpen, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
-import { StudentTransportError, type StudentChoice, type StudentCurriculum } from "@/lib/student-contracts";
+import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope } from "@/lib/student-contracts";
 import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "./sidebar";
@@ -13,6 +13,7 @@ import { AppearanceControl } from "./appearance-control";
 import { PreviewDialog } from "./preview-dialog";
 import { FilePanel, type ChatFile } from "./file-panel";
 import { SourcePanel } from "./source-panel";
+import { ClarificationDialog } from "./clarification-dialog";
 
 const stages: Record<string, string> = { waiting: "Waiting for a free answer slot… You can stop waiting.", understanding: "Checking the information for your question…", writing: "Preparing the response…" };
 function errorText(error: unknown) {
@@ -51,6 +52,7 @@ export function Workspace() {
   const [sourceId, setSourceId] = useState<string | null>(null), [progress, setProgress] = useState("Connecting…");
   const [busy, setBusy] = useState<"chat" | "file" | "clear" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
   const [navigationCollapsed, setNavigationCollapsed] = useState(false), [mobileNavigation, setMobileNavigation] = useState(false);
+  const [clarification, setClarification] = useState<{ id: string; original: string; answer: StudentAnswer; scope: StudentScope | null; open: boolean } | null>(null);
   const optionsId = useId();
   const flight = useRef<{ controller: AbortController; id: string; kind: "chat" | "file" | "clear" } | null>(null);
   const picker = useRef<HTMLInputElement>(null), main = useRef<HTMLElement>(null);
@@ -72,17 +74,22 @@ export function Workspace() {
   }
   function finish(value: NonNullable<typeof flight.current>) { if (flight.current === value) { flight.current = null; setBusy(null); } }
   function authError(error: unknown) { if (error instanceof StudentTransportError && error.status === 401) setSignInNeeded(true); }
-  async function send() {
-    if (flight.current || !state.draft.trim() || signInNeeded) return;
-    const value = begin("chat"), text = state.draft.trim();
-    dispatch({ type: "submit", id: value.id }); setProgress("Connecting…");
+  async function send(confirmed?: { text: string; scope: StudentScope | null }) {
+    const text = (confirmed?.text ?? state.draft).trim(), selectedScope = confirmed ? confirmed.scope : scope;
+    if (flight.current || !text || signInNeeded) return;
+    const value = begin("chat");
+    setClarification(null);
+    dispatch({ type: "submit", id: value.id, ...(confirmed ? { text } : {}) }); setProgress("Connecting…");
     try {
-      const answer = await sendStudentMessage({ id: value.id, text, ...(scope ? { programId: scope.programId, curriculumId: scope.curriculumId } : {}) }, {
+      const answer = await sendStudentMessage({ id: value.id, text, ...(selectedScope ? { programId: selectedScope.programId, curriculumId: selectedScope.curriculumId } : {}) }, {
         signal: value.controller.signal,
         onText: text => { if (!value.controller.signal.aborted) dispatch({ type: "delta", id: value.id, text }); },
         onProgress: stage => { if (!value.controller.signal.aborted) setProgress(stages[stage]); },
       });
-      if (!value.controller.signal.aborted) dispatch({ type: "complete", id: value.id, answer });
+      if (!value.controller.signal.aborted) {
+        dispatch({ type: "complete", id: value.id, answer });
+        if (answer.status === "clarification_needed") setClarification({ id: value.id + "-answer", original: text, answer, scope: selectedScope, open: true });
+      }
     } catch (error) { if (!value.controller.signal.aborted) { authError(error); dispatch({ type: "interrupt", id: value.id, warning: errorText(error) }); } }
     finally { finish(value); }
   }
@@ -98,7 +105,7 @@ export function Workspace() {
     try {
       await clearStudentSession(value.controller.signal);
       if (!value.controller.signal.aborted) {
-        dispatch({ type: "clear" }); setFiles([]); setScope(null); setSourceId(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false);
+        dispatch({ type: "clear" }); setClarification(null); setFiles([]); setScope(null); setSourceId(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false);
       }
     } catch (error) { authError(error); dispatch({ type: "warning", warning: "Clearing was not confirmed. Your conversation and files are still here." }); }
     finally { finish(value); }
@@ -155,7 +162,7 @@ export function Workspace() {
         <div id={optionsId} popover="auto" className="workspace-options"><AppearanceControl /><p className="supporting-copy">University validation is pending.</p><form action="/auth/signout" method="post" onSubmit={event => { event.preventDefault(); void signOut(); }}><Button type="submit" variant="outline" disabled={!!busy}>Sign out</Button></form></div>
       </header>
       <div className={`workspace-content${state.messages.length ? "" : " welcome-mode"}`}>
-      {state.messages.length ? <Conversation state={state} progress={progress} onSource={setSourceId} onScope={() => { if (!flight.current) setScopeOpen(true); }} /> : <EmptyConversation />}
+      {state.messages.length ? <Conversation state={state} progress={progress} onSource={setSourceId} onClarify={() => { if (!flight.current) setClarification(previous => previous ? { ...previous, open: true } : null); }} /> : <EmptyConversation />}
       {state.warning && <div className="outcome-notice status-danger" role="alert"><p>{state.warning}</p>{signInNeeded && <a href="/login">Sign in again</a>}{state.messages.some(message => message.role === "user") && <Button variant="outline" size="sm" onClick={() => draft(state.messages.findLast(message => message.role === "user")?.text ?? "")}>Edit question</Button>}</div>}
       {signInNeeded && !state.warning && <p className="session-notice" role="alert">Your sign-in needs attention. <a href="/login">Sign in again</a> to continue.</p>}
       <Composer live picker={picker} draft={state.draft} attachments={[]} warning={fileWarning} pending={!!busy || signInNeeded}
@@ -166,6 +173,15 @@ export function Workspace() {
       </div>
       {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar live busy={busy === "file" || busy === "clear"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onExample={text => { setMobileNavigation(false); draft(text); }} /></PreviewDialog>}
       {sourceId && <SourcePanel key={sourceId} sourceId={sourceId} onClose={() => setSourceId(null)} />}
+      {clarification && <ClarificationDialog key={clarification.id} original={clarification.original} answer={clarification.answer} curricula={curricula} status={curriculaStatus} open={clarification.open && !busy}
+        onClose={() => setClarification(previous => previous ? { ...previous, open: false } : null)} onRetry={() => setCurriculaAttempt(n => n + 1)}
+        onConfirm={reply => {
+          if (flight.current || signInNeeded || clarification.id !== state.messages.at(-1)?.id) return;
+          const needsScope = clarification.answer.missingFields.some(field => field === "program" || field === "curriculum");
+          const selected = needsScope ? reply.scope : reply.scope ?? clarification.scope;
+          setScope(curricula.find(c => c.curriculumId === selected?.curriculumId && c.programId === selected?.programId) ?? null);
+          void send({ text: reply.text, scope: selected });
+        }} />}
       {scopeOpen && <ScopePanel curricula={curricula} current={scope} status={curriculaStatus} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={!!busy} onClose={() => setScopeOpen(false)} onSave={value => { setScope(value); setScopeOpen(false); }} />}
       {filesOpen && <FilePanel files={files} busy={busy === "file"} warning={fileWarning} onClose={() => setFilesOpen(false)} onPick={() => picker.current?.click()}
         onConfirm={fileAction} onRemove={id => fileAction(id)} onType={() => { setFilesOpen(false); main.current?.querySelector("textarea")?.focus(); }} />}
