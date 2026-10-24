@@ -72,6 +72,21 @@ These are the **versions named in the thesis**, not a claim that they have alrea
 
 Source: [T, pp. 20, 76–79; U].
 
+**Current pins (owner request, 23 October 2026).** The thesis column above stays as the thesis record. What the
+repository actually pins or runs today:
+
+| Component | Pinned or running now | Evidence |
+| --- | --- | --- |
+| Backend language | Python 3.13.7 | shared test venv; Phase 10 handoff |
+| API | FastAPI 0.141.1 (native SSE since 0.135.0) | `backend/pyproject.toml`, `backend/uv.lock` |
+| Frontend | Next.js 16.3.5, React 19.3.0, Node 24.21.0 | `frontend/package.json` |
+| UI transport/state | Vercel AI SDK **v7** (`ai` 7.0.150 and `@ai-sdk/react` 4.0.154 were current on 23 Oct 2026). Owner decision: use the current major instead of 6.0.177. Not installed yet; pin the exact patch at install. UI message stream protocol v1 is the same in v6 and v7. | npm registry; `plans/2026-10-23-phase-11-pre-phase-research.md` |
+| UI components | shadcn/ui and Tailwind not installed yet (frontend design pending) | `frontend/package.json` |
+| Institutional storage | PostgreSQL 17.6, pgvector 0.8.2 (local Supabase); hosted Supabase research release | Phase 04/09 handoffs |
+| Symbolic engine | SWI-Prolog 10.1.15, janus-swi 1.5.3 | `swipl --version`; `uv.lock` |
+| Generative model | Gemma 4 E4B `gemma-4-E4B-it-UD-Q4_K_XL.gguf` on llama.cpp CUDA | `MODELS_DIR`; Phase 09 handoff |
+| Parsing/OCR | Docling 2.133.0; pypdfium2 5.13.0 and Pillow 12.3.0 for private PDFs; RapidOCR 3.9.2 + onnxruntime 1.30.0 CPU for photo rows (owner, 23 Oct 2026: may join the `api` extra) | `uv.lock`; Phase 10 handoff |
+
 Two identifiers need precise handling:
 
 - **SEA-LION:** the publisher's repository identifier is `aisingapore/SEA-LION-E5-Embedding-600M`. Its model card specifies **1,024 dimensions** and a **512-token context limit**. Preserve the thesis terminology in project prose, while using the exact repository identifier in configuration. [AI Singapore model card](https://huggingface.co/aisingapore/SEA-LION-E5-Embedding-600M)
@@ -672,7 +687,8 @@ Keep routing labels, raw predicate names, model reasoning, and debug metadata in
 
 ### 16.3 AI SDK transport
 
-Implement one tested adapter between FastAPI's events and the pinned Vercel AI SDK 6 client transport. Do not assume arbitrary FastAPI SSE or an older SDK stream format is compatible. Use the installed SDK's types/documented protocol as the implementation contract.
+Implement one tested adapter between FastAPI's events and the pinned Vercel AI SDK client transport (v7 by owner
+decision, 23 October 2026; originally written for SDK 6, same UI message stream protocol v1). Do not assume arbitrary FastAPI SSE or an older SDK stream format is compatible. Use the installed SDK's types/documented protocol as the implementation contract.
 
 Carry progress events, the final validated answer, sources, and typed errors. Test cancellation, retries, and disconnects so they do not duplicate completed requests or expose another session's state. Keep model and database credentials entirely behind the server boundary.
 
@@ -971,3 +987,45 @@ multi-turn family.
 - Phase 12 without the UI: the system-level evaluation can run through the API and harness. SUS/UAT
   (section 17.5) needs the real interface. Starting Phase 12 before a complete Phase 11 handoff needs an
   explicit owner decision recorded in the ledger.
+
+## 25. Addendum (owner request, 24 October 2026) — PSU sign-in, answer capacity and off-topic requests
+
+Appended at the owner's request. Sections 1–24 above are unchanged. Evidence: the
+[security review](2026-10-24-phase-11-security-review.md) and the Phase 11 checkpoint. Thesis physical 17–18
+(Scope and Limitations) restricts private data to "the authorized user/session", which sign-in is consistent with.
+
+### 25.1 PSU Google sign-in (owner decisions, 24 October 2026)
+
+- Only PSU Google accounts may use the site: verified email ending in `@psu.palawan.edu.ph` (example format:
+  student number `@psu.palawan.edu.ph`). The backend checks the verified domain itself on every request; a
+  browser-side check or Google's `hd` hint alone is never trusted.
+- Mechanism: Supabase Auth with the Google provider, on the existing hosted project. The backend verifies the
+  access token with Supabase (httpx, no new Python dependency); the frontend needs `@supabase/ssr` (dependency
+  pin approved with the UI integration set). Supabase keeps a user row (`auth.users`, holding the email and so
+  the student number). That is a new stored record; nothing else about a student is stored, and grades and
+  conversations stay memory-only (master 15).
+- Limits per account: one running question per PSU account across tabs and devices, in addition to the global
+  answer queue (25.2).
+- Placement: built with the UI integration (sign-in screen, Google Cloud OAuth client and consent screen,
+  token check, per-account limit), not in the backend-only part of Phase 11.
+- Never log emails or tokens. Email or student number never reaches the router, prompts or answers.
+
+### 25.2 Answer capacity (built 24 October 2026, `d1d416c`)
+
+Gemma 4 E4B runs with one slot (`--parallel 1`, about 45 s per answer on the RTX 4060 target). One answer runs,
+up to four wait with a `waiting` status (a frontend waiting screen can show it), and more get 503
+`answers_busy`. Live probe, 24 October 2026 (one attempt per level): one student 25.6 s; three at once
+finished at 23.5/38.5/49.4 s; six at once, five finished at 23.6–76.8 s and the sixth got `answers_busy` in
+0.5 s, with no errors. Those turns were short (four ended in clarifications); a full Hybrid answer is about
+45 s, so the fifth queued student can wait about 3–4 minutes. The owner's idea of admitting only about three active users is better expressed as concurrent
+*questions*, since reading the site costs the model nothing. Capacity must be re-measured on the actual
+deployment server before the queue size is fixed for defense; per-IP limits belong to the edge proxy, because
+the API only sees the Next.js server's address.
+
+### 25.3 Off-topic and abuse requests
+
+Requests unrelated to undergraduate academic affairs (code, poems, general knowledge, prompt injection,
+attempts to extract secrets or internal data) get the fixed out-of-scope notice. Live probe, 24 October 2026:
+13/13 such questions refused (after fix `5ee7b50`), 0 leaked markers, the in-scope control still answered. The
+model never writes free text to students: replies are validated claims over release evidence or fixed host
+lines. Keep an abuse family in the Phase 12 evaluation, separate from prompt tuning.

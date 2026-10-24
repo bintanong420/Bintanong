@@ -50,12 +50,18 @@ async def read_capped(stream: AsyncIterable[bytes], limit: int = MAX_UPLOAD_BYTE
     return bytes(buffer)
 
 
-def validate_upload(data: bytes) -> ValidatedUpload:
+def sniff_type(data: bytes) -> Kind:
+    """Size and leading signature only; parses nothing, so it is safe outside the parser job."""
     if len(data) > MAX_UPLOAD_BYTES:
         raise UploadRejected('too_large')
     kind = next((k for signature, k in _SIGNATURES if data.startswith(signature)), None)
     if kind is None:
         raise UploadRejected('unsupported_type')
+    return kind
+
+
+def validate_upload(data: bytes) -> ValidatedUpload:
+    kind = sniff_type(data)
     return _check_pdf(data) if kind == 'pdf' else _check_image(data, kind)
 
 

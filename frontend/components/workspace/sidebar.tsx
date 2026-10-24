@@ -10,17 +10,17 @@ const examples = [
   "Library inquiries",
 ];
 
-export function Sidebar({ onNewChat, onExample }: { onNewChat: () => void; onExample: (text: string) => void }) {
+export function Sidebar({ onNewChat, onExample, live = false, busy = false }: { onNewChat: () => void; onExample: (text: string) => void; live?: boolean; busy?: boolean }) {
   return <aside className="sidebar" aria-label="Conversation sidebar">
     <div className="sidebar-heading">
       <p className="brand">Bintanong</p>
-      <Button variant="secondary" className="new-chat justify-start" onClick={onNewChat}>
+      <Button variant="secondary" className="new-chat justify-start" disabled={busy} onClick={onNewChat}>
         <SquarePen aria-hidden="true" /> New chat
       </Button>
     </div>
     <nav className="sidebar-examples" aria-label="Example conversations">
       <h2>Example chats</h2>
-      <p className="sidebar-caption">Preview examples · not saved</p>
+      <p className="sidebar-caption">{live ? "Suggested questions · not saved chats" : "Preview examples · not saved"}</p>
       {examples.map(text => <Button key={text} variant="ghost" className="sidebar-example justify-start" onClick={() => onExample(text)}>
         <MessageSquare aria-hidden="true" />
         <span>{text}</span>
@@ -28,7 +28,7 @@ export function Sidebar({ onNewChat, onExample }: { onNewChat: () => void; onExa
     </nav>
     <div className="sidebar-footer">
       <Separator />
-      <p className="sidebar-caption">Local interface preview</p>
+      <p className="sidebar-caption">{live ? "Temporary research chat" : "Local interface preview"}</p>
       <Button variant="ghost" disabled className="justify-start"><Settings aria-hidden="true" /> Settings <span className="ms-auto text-xs">Not available</span></Button>
     </div>
   </aside>;

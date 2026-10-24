@@ -1,13 +1,19 @@
 ---
-artifact: phase-plan
+artifact: interface-preparation
 phase: 11
 status: ready
 preparation_only: true
 master: plans/master_implementation_plan_original_long.md
 previous_handoff: plans/phase-10-handoff.md
+superseded_by: plans/2026-10-24-student-ui-backend-integration-plan.md
 ---
 
 # Phase 11 interface and API implementation plan
+
+Historical preparation retained from the original frontend branch. The owner
+selected Lawrence's backend plan and approved bringing it into this frontend;
+the linked integration tasks now govern execution. This is not a second active
+numbered phase plan. Original preparation content is retained below.
 
 **Goal:** connect the student workspace to the existing research pipeline while
 preserving validation, privacy, language style and source/version boundaries.

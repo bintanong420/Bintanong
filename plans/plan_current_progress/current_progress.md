@@ -1,53 +1,68 @@
 # Current progress
 
-Updated 24 October 2026. Phase10 complete; Phase11 prepared, no active numbered phase.
-Main checkout: `frontend` at `09568f3`. New worktree: `feat/p11-api-interface` at
-`C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11`.
-[Phase11 plan](../phase-11-interface-api-plan.md) | [Research](../2026-10-24-phase-11-pre-phase-research.md) |
-[Preparation/recovery](../2026-10-24-phase-11-preparation.md) | [Phase10 handoff](../phase-10-handoff.md).
-Last full frontend snapshot before condensation: `09568f3:plans/plan_current_progress/current_progress.md`.
+Updated24October2026. Phase11 active: original frontend + Lawrence's API.
+Worktree p11-frontend-integration; branch feat/p11-frontend-integration derives
+from frontendc17dcb2; backend34a21ca merged in227efaa, synced through4a134bf.
+Earlier worktrees preserved; no push/deployment.
+Owner then requested delivery to `frontend`: main checkout now merges the committed
+integration04a03ea. Unfinished lifecycle edits remain only in the integration worktree;
+the main checkout's local review/model directory are preserved. No push/deployment.
+Fresh frontend-branch backend checks:3383 passed,2 expected photo xfails in96.17s;
+product/test tree matches committed integration04a03ea. UI packages here remain
+uninstalled at the merged pins, so this checkout's UI/build were not rerun.
 
-## Phase11 preparation - 24 October 2026
+[Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
+[Checkpoint](../phase-11-checkpoint.md) | [Delivery](../2026-10-24-student-ui-integration-delivery.md).
+Last full snapshots: backend34a21ca, original frontendc17dcb2, state58bf669.
 
-Worktree created from `09568f3`; baseline27 UI/10docs pass, no dependency install.
-Card now explains the assistant's missing-information request before file controls;
-wording comes from message data. Files remain optional; explicit review retained.
-RED2/GREEN29 interaction tests and no-emit TypeScript pass in p11. Browser/build of
-this revision remain unverified. Changes applied before sandbox became read-only
-for p11/Git; no commit possible. Preparation docs are in the writable main checkout.
-Master16.1 makes hosted admin optional. Recommended: required student APIs first,
-[admin design only](../designs/phase-11-reviewer-dashboard.html) alongside; live reviewer
-identity/permissions remain undecided. Owner asked for recommendation, not provider approval.
-SDK proposal: ai6.0.315/react adapter3.0.318 plus exact compatible Zod after owner
-approval. No new packages/lock changes; framework pins retained. No Phase11 activation.
+## Latest delivery
 
-## Delivered frontend baseline
+Environment check24Oct14:10+08: owner reports raising WSL to16GB, but current
+`C:/Users/Hawksprey/.wslconfig` (Canaria-managed) still has `memory=8GB`.
+Ubuntu `free -h`:7.8Gi total,2.0Gi swap used; Docker MemTotal8330493952 bytes.
+No config edit/restart or workload rerun performed;16GB is not yet verified.
 
-[Student-facing revisions](../2026-10-24-student-facing-revisions.md), model9161699/UI4510102:
-local clarification, files/source panels, explicit detail review, recovery, clearing,
-expiry examples; synthetic responses and metadata-only file selection.
-Prior27 tests, Node24.21 build/typecheck, 114 interaction/165 reflow/28extra browser
-checks apply to that earlier delivery, not the new p11 card revision.
-[Earlier UX fixes](../2026-10-24-frontend-ux-corrections.md): semantic icons,
-System/Light/Dark, compact54px composer, notice fill and embedded overflow.
-[Initial delivery](../2026-10-23-approved-frontend-delivery.md); health at `/dev/health`.
-[API assessment](../2026-10-24-api-integration-assessment.md) records HTTP/session/file gaps.
+Transport/auth58bf669 and original workspacea8b3091 committed. Original UI now
+uses actual messages, sources, checked scope, PDF review/confirm/remove, waiting,
+Stop, acknowledged clearing and Supabase PKCE/sign-out. /chat redirects to root;
+/dev/health retained. No simulation imported by the student workspace.
 
-## Phase10 carry-overs
+Owner-approved SDK7/Next/Supabase pins installed; React/TypeScript retained.
+43 UI tests, typecheck/build pass; npm audit0.174 selected backend/runtime/docs
+tests pass. Actual Next/FastAPI synthetic browser passes10 families/16 requests,
+including isolated PDF parsing, explicit choices, same-file/rejection/remove
+isolation, failed clear, Stop/account release, sign-out, themes/IME/reflow.
 
-[Plan](../phase-10-private-files-session-plan.md) | [Checkpoint](../phase-10-checkpoint.md).
-Memory-only sessions, opaque credential/30min idle, bounded PDF parser and fact
-confirmation delivered. Photos/scans unsupported; real grade layouts unverified;
-Taglish follow-up style and HTTP integration remain. No personal-record persistence.
+Configured research API8021 readiness200/all probes; anonymous access401.
+Actual Prolog answered/validated4 sources; later scoped/unscoped RAG probes
+answer handbook1.0 ->98-100/Excellent with page46 citation. Initial RAG outage
+and Hybrid insufficient-evidence samples remain disclosed. No broad acceptance.
+Saved full suite finished at13:58: 6494 passed,2 failed,1 skipped,2 xfailed,
+1552 subtests. Both Docling failures report huggingface-hub2.2.0 where Transformers
+requires>=1.5.0,<2.0 (integration-full-suite.log); no dependency repair attempted.
+API uses existing Python3.13.5 environment; tests
+system3.13.12/Node24.21. No Python install, model copy or database change.
+
+Owner requested backend sync24Oct: all13 commits through4a134bf merged, preserving
+their history and the unfinished lifecycle work. Only progress/checkpoint conflicted;
+integration snapshot retained, backend decisions/reports/tests included. See the
+[sync record](../2026-10-24-frontend-backend-sync.md) for commits, recovery and checks.
+No dependency, provider, database or model changes; no push/deployment.
+Fresh combined-workspace checks:56 focused backend tests;3387 affected backend
+tests pass/2 expected photo xfails;46 UI tests and Node24.21 TypeScript pass.
+All18 pre-existing product/test files byte-identical and unstaged; recovery retained.
 
 ## Next action
 
-Resume with write access to p11 and Git metadata; review the prepared plan/dependency
-proposal, transfer accepted prep docs normally, verify p11 build/browser and commit
-card fix before substantial API implementation. Follow the preparation/recovery record.
+Review dirty lifecycle work in p11-frontend-integration, then resolve recorded full-suite environment failures
+and finish independent review/
+actual preview delivery. Google was last recorded disabled; real PSU OAuth setup/
+login remains unverified. Backend fee/partial-answer work stays pending separately.
 
-## Boundaries
+## Remaining boundaries
 
-Undergraduate/advisory/source-gap/privacy/institutional release and improvement cap
-unchanged. Context consulted this turn: thesis17-19/65-66/76-79 and routing PNG.
-No backend/DB/deployment/model changes or activation; no push. Owner files preserved.
+E3 office-referral fix is included. Special-class fee wording, multi-part partial
+answers, pending-question/replay, broader aliases, real grade layouts and
+Hybrid/language/latency exits remain open. Photos/scans unsupported. Existing
+Figma assets/annotations reused; no fresh Figma tool approval. No Phase11 closure,
+university approval, public deployment, source activation or personal persistence.

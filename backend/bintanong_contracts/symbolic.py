@@ -11,7 +11,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Annotated
 
-from pydantic import Field, model_validator
+from pydantic import Field, model_serializer, model_validator
 
 from .base import VOCAB, Contract, ContractError, Outcome, Record, reject_foreign_ids
 from .governance import ID_EDITION
@@ -86,6 +86,14 @@ class DecisionScope(Record):
         return self
 
 
+class RequirementView(Record):
+    """The reviewed prerequisite expression of the checked course, without spans (display only, owner 2b)."""
+
+    kind: Annotated[str, Field(pattern="^(course|co_requisite|all_of|any_of|verified_none|unresolved)$")]
+    course_id: _Text | None = None
+    items: tuple[RequirementView, ...] = ()
+
+
 class SymbolicResult(Contract):
     SCHEMA_VERSION = "bintanong-symbolic-result-v1"
     decision: DecisionOutcome
@@ -96,6 +104,15 @@ class SymbolicResult(Contract):
     # Required for eligible and ineligible; an unsupported or error result has no scope or rule spans to give.
     scope: DecisionScope | None = None
     rule_spans: tuple[SourceSpan, ...] = ()
+    requirement: RequirementView | None = None
+
+    @model_serializer(mode="wrap")
+    def _omit_absent_requirement(self, handler):
+        # Results without a requirement keep their earlier dump, so pinned result digests stay valid.
+        data = handler(self)
+        if data.get("requirement") is None:
+            data.pop("requirement", None)
+        return data
 
     @model_validator(mode="after")
     def _rules(self):
