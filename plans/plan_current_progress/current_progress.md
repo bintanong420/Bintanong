@@ -24,6 +24,9 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
   gets the referral (disclosed).
 - 2a fixed (`9c09ac7`): overload questions the model checked as a course now answer from the overload topic
   (live: typo and one-word forms answered, matching Handbook table 6).
+- 2b-2e (`467aa9d`, `9e3c5b0`, `8f15471`, `1f510dd`): prerequisite lists when no grade is stated (owner "List
+  for both"), course-not-found reply, units -> referral, every chosen topic retrieved. Multi-topic answers still end
+  `parts_unresolved` in per-part generation. Full suite not yet run at `1f510dd` (stopped: low system memory).
 - [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
 
 ## Next action
@@ -32,7 +35,8 @@ Full suite at `05f34d2`: 6455 passed, 0 failed. Owner risk scenarios probed live
 (24 Oct, in `owner-decisions-ledger.md`): fix all 7 listed problems; college Charters handled by website scope text
 (replies unchanged); passing grade from Handbook p.304 to verify and add; first-year subject lists must be answered
 (needs title/units/year-semester facts; ledgers hold only codes and prerequisites).
-Next: checkpoint step 2b (list prerequisites for "What is the prerequisite of X?"), then 2c-2h in order.
+Next: run the full suite at `1f510dd` (owner to restart when memory allows), then diagnose per-part generation
+`parts_unresolved` for multi-topic/Filipino fee questions, then 2f-2h.
 
 ## Boundaries
 

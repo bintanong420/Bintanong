@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 9c09ac7
+head_commit: 1f510dd
 working_tree: clean
 updated_at: 2026-10-24T23:30:00+08:00
 ---
@@ -52,6 +52,13 @@ evaluation) has started; E1 (`7c3786e`) and E3 (`05f34d2`) are fixed.
   -> invalid_reference -> bare clarify). Wire normalization now makes a structured topic part whose operations
   target no listed course a document part. Live: both answered, matching Handbook table 6 rows 1 and 3. The
   two-topic overload + special-class-fee message now routes RAG but ends insufficient (first-topic-only, 2e).
+- 2b `467aa9d` (owner "List for both"): no stated course fact -> list the reviewed prerequisites (and / one of /
+  or take at the same time) and ask which were passed; live CC 5/L: CC 3/L and CC 4/L, CC 6/L: CC 3/L and CS 2/L.
+- 2c `9e3c5b0`: a course matching no reviewed course -> "not found, give the printed code" (live CS 999, a title).
+- 2d `8f15471`: `unsupported_requirement` -> no_evidence -> E1 referral (live units questions).
+- 2e `1f510dd`: every chosen topic retrieved, each with its parts' words when there are several; live both topics
+  return evidence, but per-part generation then ends `parts_unresolved` (r1 missing_mapping, r2 not_in_evidence);
+  the single Filipino "Magkano ang special class fee?" also ends parts_unresolved. Next diagnosis.
 - Not yet changed: `model_ambiguity` clarifications and model-chosen `evidence_unavailable` render without naming
   anything / as "temporarily unavailable" (`fallback_status`); candidates for the next diagnosis.
 - E2 (minor): "What are the prerequisites of CC 6?" names CC 3/L and CS 2/L, but framed as an eligibility
@@ -86,6 +93,10 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
 - E3: RED (2 tests, expected reason) after a fixture setup fix, GREEN; 3 mutations each failed a test; selection
   (routing/orchestration/generation/API/evaluation/private) 1310 passed, 2 xfailed. Full suite at `05f34d2`: 6455 passed, 6 skipped, 2 xfailed, 0 failed (22m04s, log `full-suite-e3.log`).
   Hosted Supabase security advisor 24 Oct: 0 lints.
+- 2b-2e: RED observed for each, GREEN, isolated mutations each failed a test (2b 4, 2c 3, 2e 5). Selection
+  (routing/orchestration/generation/api/evaluation/private/symbolic/runtime/contract) at 2b: 3727 passed, then 9
+  traceability digest failures fixed by omitting an absent `requirement` from the dump. Full suite NOT run at
+  `1f510dd`: a first run overlapped edits (discarded); the clean run was stopped by Claude Code for low system memory.
 - 2a: RED (2 wire tests, `only_document_parts_carry_topics`), GREEN; 3 isolated mutations each failed a test;
   selection (routing/orchestration/generation/api/evaluation/private) 1772 passed, 2 xfailed. Live log `diag_r4_after.log`.
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
@@ -134,9 +145,9 @@ decision ("authorized user/session"): consistent, no discrepancy.
 2. Fix the owner's risk-probe list ([results](2026-10-24-risk-scenario-probe-results.md); owner decisions 24 Oct in
    `owner-decisions-ledger.md`). TDD each; live re-check each with `risk_probe.py` (stdin = case ids). Order:
    a. (Done `9c09ac7`) typo/one-word overload -> bare clarify.
-   b. (3) "What is the prerequisite of X?" -> list the prerequisites, not an eligibility check (also E2).
-   c. (4) unknown course title/code -> say it was not found and ask for the printed code (not a bare clarify).
-   d. (5) unsupported lookups (units) -> say unsupported, not "temporarily unavailable" (`fallback_status`).
+   b. (Done `467aa9d`) prerequisite list.
+   c. (Done `9e3c5b0`) course not found.
+   d. (Done `8f15471`) units -> referral.
    e. (6) "INC meaning + deadline": confirm `_topic_intent` first-topic-only (not cosine/kNN), then retrieve
       every chosen topic.
    f. (7) Cebuano -> name supported languages; "Thank you" -> not "Hello"; tuition wording = referral.
@@ -164,4 +175,4 @@ How to run things:
 ## Do Not Repeat
 
 Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
-security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, 2a and its live re-check, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
+security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, 2a-2e and their live re-checks, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
