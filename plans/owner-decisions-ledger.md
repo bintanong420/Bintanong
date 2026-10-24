@@ -361,3 +361,10 @@ Each program still gets its own dated review record listing which standing rule 
   Supabase project ("pushing it in the hosted, we are afterall using supabase"). Treated as approval of
   `2026-10-24-course-facts-plan.md` for all 39 curricula and of the hosted ledger upload once the facts are
   reviewed. Source readings (unit notation, inferred terms, printed-total mismatches) still go to the owner.
+- 25 Oct 2026 (Phase 11 step 2h, course facts), owner readings:
+  - CF1 units: show "a/b" units exactly as printed (e.g. "2/1"); the university values 2/1 as 3 units.
+  - CF2 terms: where a page prints FIRST/SECOND SEMESTER only once, the left column is the first semester and
+    the right column the second semester for every year on that page.
+  - CF3 BSBA Marketing Management: its column headings printed "FIRST YEAR"/"SECOND YEAR" are a source error;
+    read them as first semester (left) and second semester (right). A recorded exception, not a precedent.
+  - CF4: check the printed-total mismatches and odd unit cells against the page and bring them in batches.
