@@ -384,3 +384,8 @@ Each program still gets its own dated review record listing which standing rule 
   hard exclusion; no dedicated guard or exemption is needed. The Supabase security advisor WARN
   `auth_leaked_password_protection` is accepted: the project is not on a Pro plan, so it cannot be enabled;
   ignore it in advisor checks.
+- 25 Oct 2026: course-fact reply wording approved (owner delegated: "If it looks normal to you then approve of
+  it"): per-term headings "First year, first semester courses (prospectus p. N):" / "Mga subject sa unang taon,
+  unang semestre (...)" / "Ito ang subjects sa first year, first semester (...)", one line per course with units
+  as printed ("units not printed" / "walang naka-print na units"), and the one-course form "<code> <title>: <units>;
+  <year>, <semester> (prospectus p. N)." Known gap: the heading does not name the program/curriculum.

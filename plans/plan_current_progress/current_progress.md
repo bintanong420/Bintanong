@@ -39,7 +39,7 @@ Handoff point (owner asked for /clear). Course facts (step 2h) for all 39 curric
 readings CF1-CF5 recorded; dry run done and verified (2132 courses; only source-error total mismatches).
 Items 1-3 done (`6814775`; 39 ledgers with facts authored and regression-checked, untracked). Course facts live (R10/R6/title/year/fil/Taglish answered); hosted
 upload verified; roster 18 regressions fixed (fee currency `ee3c61e`, route from parts `3094f14`, owner 25 Oct);
-full suite at 01d8db2 0 failed. Next: owner check of course-fact reply wording, then UI integration. Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
+full suite at 01d8db2 0 failed. Reply wording approved (owner, 25 Oct). Next: UI integration (step 3). Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
 
 ## Boundaries
 

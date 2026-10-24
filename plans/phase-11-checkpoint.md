@@ -235,7 +235,7 @@ referral wording for e2) and the routing PNG: consistent.
          stated the other side of a conflicting source, conflict note kept both runs.
          Full suite at 01d8db2: 6563 passed, 6 skipped, 2 xfailed, 0 failed (20m28s, `full-suite-facts.log`);
          ee3c61e/3094f14 after it: selections 1237 passed + fee 14 passed.
-         NEXT: owner check of the course-fact reply wording; then UI integration (step 3).
+         Course-fact reply wording approved 25 Oct (owner delegated). Step 2h complete. NEXT: UI integration (step 3).
          Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
