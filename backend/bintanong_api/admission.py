@@ -20,6 +20,7 @@ class AnswerAdmission:
         self._limit = running + waiting
         self._slots = asyncio.Semaphore(running)
         self._admitted = 0
+        self._accounts = set()
         self._lock = threading.Lock()  # the sync chat route runs in the thread pool
 
     @property
@@ -27,21 +28,27 @@ class AnswerAdmission:
         with self._lock:
             return self._admitted
 
-    def reserve(self) -> Reservation:
+    def reserve(self, *, account_id=None) -> Reservation:
         with self._lock:
+            if account_id is not None and account_id in self._accounts:
+                raise ApiError(409, 'account_busy')
             if self._admitted >= self._limit:
                 raise ApiError(503, 'answers_busy')
             self._admitted += 1
-        return Reservation(self)
+            if account_id is not None:
+                self._accounts.add(account_id)
+        return Reservation(self, account_id)
 
-    def _release(self) -> None:
+    def _release(self, account_id=None) -> None:
         with self._lock:
             self._admitted -= 1
+            self._accounts.discard(account_id)
 
 
 class Reservation:
-    def __init__(self, admission: AnswerAdmission):
+    def __init__(self, admission: AnswerAdmission, account_id=None):
         self._admission, self._released = admission, False
+        self._account = account_id
 
     @contextlib.asynccontextmanager
     async def running(self, progress):
@@ -54,7 +61,7 @@ class Reservation:
     def release(self) -> None:
         if not self._released:
             self._released = True
-            self._admission._release()
+            self._admission._release(self._account)
 
 
 class AdmittedStream(StreamingResponse):

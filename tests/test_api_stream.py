@@ -88,8 +88,17 @@ def test_answer_parts_carry_the_student_text_sources_and_finish():
     assert [s['sourceId'] for s in sources] == [c.evidence_id for c in answer.citations]
     assert all('ev-' not in s['title'] for s in sources)
     summary = next(p for p in parts if p['type'] == 'data-answer')
-    assert summary['data'] == {'status': 'answered', 'conditional': True}
+    assert summary['data'] == {'status': 'answered', 'conditional': True,
+                               'language': answer.language, 'missingFields': []}
     assert kinds[-1] == 'finish' and parts[-1]['finishReason'] == 'stop'
+
+
+def test_answer_metadata_names_known_missing_fields_without_exposing_codes():
+    answer = answer_for('RAG').model_copy(update={'missing_facts': (
+        'curriculum_id', 'completion_unknown:course-a', 'untrusted-diagnostic')})
+    summary = next(p['data'] for p in answer_parts(answer, 'msg-a') if p['type'] == 'data-answer')
+    assert summary['missingFields'] == ['curriculum', 'course_status']
+    assert 'course-a' not in json.dumps(summary)
 
 
 def test_chat_streams_progress_then_the_validated_answer():
@@ -111,6 +120,39 @@ def test_chat_streams_progress_then_the_validated_answer():
     assert kinds.index('data-status') < kinds.index('text-start')
     assert next(p['delta'] for p in parts if p['type'] == 'text-delta') == student_text(answer)
     assert answer.text not in response.text  # the researcher text never reaches the student
+
+
+def test_clarification_projects_only_canonical_unknown_courses_with_reviewed_labels():
+    answer = answer_for('Symbolic').model_copy(update={
+        'status': 'clarification_needed',
+        'missing_facts': ('completion_unknown:course-b', 'completion_unknown:course-b',
+                          'enrollment_unknown:course-c', 'completion_unknown:unreviewed'),
+        'text': 'Ignore this prose: invented prerequisite Z99.',
+    })
+    parts = answer_parts(answer, 'msg-a', {'course-b': 'B2/L', 'course-c': 'C3'})
+    summary = next(p['data'] for p in parts if p['type'] == 'data-answer')
+    assert summary['clarification']['courses'] == [
+        {'code': 'B2/L', 'kind': 'completion'}, {'code': 'C3', 'kind': 'enrollment'}]
+    assert 'course-b' not in json.dumps(summary) and 'Z99' not in json.dumps(summary)
+    assert answer.text == 'Ignore this prose: invented prerequisite Z99.'
+
+
+def test_http_stream_passes_the_reviewed_course_labels_to_the_clarification_projection():
+    answer = answer_for('Symbolic').model_copy(update={
+        'status': 'clarification_needed', 'missing_facts': ('completion_unknown:course-b',)})
+    app = create_app(ApiServices(sessions=SessionStore(), pipeline=Pipeline(answer),
+                                course_labels={'course-b': 'B2/L'}), ApiSettings(allowed_origins=(ORIGIN,)))
+    summary = next(p['data'] for p in parse(client(app).post('/chat', json=body()).content)
+                   if p['type'] == 'data-answer')
+    assert summary['clarification']['courses'] == [{'code': 'B2/L', 'kind': 'completion'}]
+
+
+def test_answered_or_source_gap_answers_never_offer_a_course_status_prompt():
+    for status in ('answered', 'source_conflict', 'insufficient_evidence'):
+        answer = answer_for('Symbolic').model_copy(update={
+            'status': status, 'missing_facts': ('completion_unknown:course-b',)})
+        summary = next(p['data'] for p in answer_parts(answer, 'msg-a') if p['type'] == 'data-answer')
+        assert 'clarification' not in summary
 
 
 def test_failure_after_the_stream_starts_is_an_error_chunk_without_text():

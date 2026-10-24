@@ -78,7 +78,7 @@ and or but because if than my your our this that these those it its what which w
 can could should would will is are was were do does did have has one two three four five six seven eight
 nine ten first second third fourth fifth last next'''.split())
 _QUOTED = re.compile(r'"[^"]*"|“[^”]*”')
-# Title Case names such as course titles ("Microbiology and Parasitology"); the catalog holds codes only.
+# Title Case names, including course titles absent from the reviewed catalog.
 _TITLE = re.compile(r'\b[A-Z][A-Za-z]+(?:\s+(?:(?:and|of|in|the|for|to|with)\s+)*[A-Z][A-Za-z]+)+\b')
 
 

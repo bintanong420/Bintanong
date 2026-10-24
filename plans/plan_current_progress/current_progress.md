@@ -1,44 +1,67 @@
 # Current progress
 
-Updated 24 October 2026. Phase 11 active (backend only, owner direction); resumed after the 24 Oct pause.
-Worktree p11 / branch `feat/p11-backend-api` from `dev` `cbaa6a7`, nothing pushed.
-[Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
-[Pre-phase research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase 10 handoff](../phase-10-handoff.md).
-Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress/current_progress.md`.
+Updated24October2026. Phase11 remains active; no phase closure or deployment.
+Implementation worktree: p11-frontend-integration / feat/p11-frontend-integration.
+Owner preview: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
+[Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
+[Checkpoint](../phase-11-checkpoint.md) |
+[Landing/auth delivery](../2026-10-24-landing-auth-concept2.md).
+Last full snapshot before this condensation:ec403f5; use git show for history.
 
-## Latest changes (24 Oct, Claude Code session)
+## Latest change
 
-- Security review done ([report](../2026-10-24-phase-11-security-review.md)); fixes S1, S2, S4-S8 committed; full
-  suite at `72ec6d4` 6441 passed, 0 failed. Next.js advisories wait for UI integration (owner).
-- Owner decisions: answer queue of 1 running + 4 waiting, then 503 `answers_busy` (`d1d416c`); PSU Google sign-in
-  via Supabase Auth with a server-side `psu.palawan.edu.ph` check and one question per account, built with the
-  UI integration; off-topic requests refused. Recorded as master section 25.
-- Live abuse probe: off-topic, injection and secret-extraction questions refused, 0 leaks; one misleading
-  "temporarily unavailable" refusal fixed (`5ee7b50`). Live capacity: one slot serves students in arrival order.
-  Six at once: five answered by 76.8 s, the sixth got busy at once, no errors.
-- Step 2 finding E1 fixed (`7c3786e`, owner choice): questions outside the 7 reviewed topics (leave of absence,
-  transcript) now say the topic is not in the reviewed sources yet and refer to the university office.
+Recovered session01a16cef. Printed/RLE compatibility b168bd8 and research readiness
+ffba97d restore API8021; pinned runtime-role vector RPC replaces the incorrect Docker
+DB probe for this composition. API/frontend health200 ready/all five probes;
+anonymous curricula401. No hosted records, dependencies, locks or models changed.
+Owner reported redundant course clarification for Data Structures and Algorithms.
+9fb1e41 adds reviewed titles to the existing scoped resolver; shared titles still
+clarify. RED2→GREEN57 focused tests; fresh relevant regression3406 passes/2 expected
+photo xfails. Independent static reviews found no important issues.
+Exact question now resolves CC4/L and routes Symbolic/list_affected_courses in21.222s;
+final clarification remains because21 courses have unresolved prerequisite coverage.
+Updated API/frontend health200 ready. Temporary server context reset on restart.
+Owner confirmed sign-in in their browser; automated Orca tab is a separate session.
+Internal live Prolog answered/validated; initial RAG/Hybrid fell back. One bounded RAG
+trace then answered/validated with Handbook page46; consistent quality not established.
+[Startup/title recovery](../2026-10-24-local-pipeline-startup.md). No merge/push/closure.
+Live GPU check: llama-server on RTX4060/CUDA,32-layer offload configured; embedding
+CPU. Recent decode12–16tok/s; last slot idle/queue0. No tuning or full latency profile.
+Publication check: refreshed origin/frontend60d285f is ancestor of product HEADfc807b7;
+55 UI tests/typecheck and live readiness PASS. Development sync ready; no push performed.
+Prior account/sidebar/clarification delivery retained; temporary chat state only.
+[UI evidence](../2026-10-24-student-account-usability.md) and
+[manual checklist](../../docs/development/google-sign-in-local-setup.md).
 
-- E3 fixed (`05f34d2`, owner chose office referral): a model "clarify" that names nothing now gets the E1 "not in
-  reviewed sources, ask the office" reply; live 4/4 shifting questions. One covered Taglish pre-enrollment case also
-  gets the referral (disclosed).
-- 2a fixed (`9c09ac7`): overload questions the model checked as a course now answer from the overload topic
-  (live: typo and one-word forms answered, matching Handbook table 6).
-- 2b-2e (`467aa9d`, `9e3c5b0`, `8f15471`, `1f510dd`): prerequisite lists when no grade is stated (owner "List
-  for both"), course-not-found reply, units -> referral, every chosen topic retrieved. Multi-topic answers still end
-  `parts_unresolved` in per-part generation. Full suite not yet run at `1f510dd` (stopped: low system memory).
-- [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
+## Verified integration baseline
+
+13 newer backend commits through4a134bf merged as04a03ea; frontend mergeede9f84.
+Owner-approved push fast-forwarded origin/frontend to60d285f at14:36+08; new UI
+increment committed locally asa88acf5. Core routing/orchestration/generation/symbolic/contracts
+matched origin; intentional auth/runtime integration adapters remain. Main pins
+synced by npm ci; all21 direct pins and four manifest/lock hashes unchanged.
+No unfinished lifecycle work copied from the integration worktree:15 modified
+product/test files and3 untracked lifecycle files preserved there, byte-identical.
+Main local review and model directory preserved and excluded from staging.
+
+Earlier fresh main baseline:3383 backend passes/2 expected photo xfails. Earlier
+synthetic Next/FastAPI browser:10 families/16 requests pass. Actual Prolog validated
+4 sources; bounded RAG returned handbook page46. Hybrid/quality acceptance remains
+incomplete. Current bounded observations are recorded separately above.
+Saved full suite:6494 passed,2 failed,1 skipped,2 xfailed,1552 subtests. Both failures
+are Docling/Transformers requiring huggingface-hub<2 while2.2 is installed. No repair.
+WSL16GB remains unverified: last check found memory=8GB and Ubuntu7.8Gi total.
 
 ## Next action
 
-Full suite at `874f0c9`: 6478 passed, 0 failed. Roster run 17: 0/63 status changes vs run 16, 19 intended text
-changes. Security re-check: Supabase advisor 0 lints, branch secret scan clean. Course facts plan drafted
-([plan](../2026-10-24-course-facts-plan.md), awaiting owner approval). Owner fee/partial-answer decisions recorded.
-Next: checkpoint step 2 e2 (special class fee host reply, then multi-part partial answers), then 2f-2h.
+Owner retries title matching in the signed-in chat; retain the separately documented
+dependency-coverage and RAG/Hybrid acceptance gaps.
+[Evidence](../2026-10-24-local-pipeline-startup.md).
 
-## Boundaries
+## Remaining boundaries
 
-Undergraduate scope, read-only advisory, source-gap, privacy, institutional release and one-week improvement
-boundaries are unchanged. No grade or conversation persistence. No activation, push, training or DB change.
-No dependency change without an owner decision. Context consulted 23 Oct: thesis physical 17-18 and 65-66, plus
-the routing PNG. No discrepancy.
+E3 office referral is included. Special-class fee, partial answers, pending-question/
+replay, aliases, actual grade layouts and Hybrid/language/latency exits remain open.
+Photos/scans unsupported. Research source/scope/privacy holds remain; no university
+approval, public activation or persistent academic records. Figma references were
+read in the browser because MCP was unavailable; original design exports not obtained.

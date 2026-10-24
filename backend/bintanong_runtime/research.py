@@ -54,6 +54,8 @@ def research_catalog(ledger):
     for c in courses:
         cid = c['course_id']
         aliases = printed[cid] | {a for a in short[cid] if counts[a] == 1}
+        if 'course_title' in c['facts']:
+            aliases.add(c['facts']['course_title']['value'])
         entries.append(CatalogEntry(kind='course', entity_id=cid, program_id=c['program_id'],
             curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)),
             source_ref=c['source_version_id'], review_ref=c['review_refs'][0], reviewed=True))
