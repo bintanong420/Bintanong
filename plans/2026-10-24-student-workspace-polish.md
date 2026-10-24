@@ -95,7 +95,7 @@ and reduced motion. Starter grouping test observed RED before the layout change.
 Measured rendered text minimum6.58:1 light/7.73:1 dark on empty and source-conflict
 states; new screenshots reviewed after animations settled.
 
-## Next: guided live clarification
+## Guided live clarification delivery
 
 Owner supplied a real screenshot and requested the previously specified Claude
 Code/Codex-style clarification prompt. The existing live response only exposes
@@ -103,6 +103,92 @@ missing field categories; the prototype form is not connected. Inspect thesis
 physical18/20 and the13Oct frontend specification, then connect selectable,
 system-supported options, alternative explanation and explicit confirmation.
 Do not infer course options from prose or turn unknown into failed/ineligible.
+
+### Recovered implementation plan
+
+Recovered exact Codex session01a16c88-a2f7-7e63-b82a-f32c00d47160 from its account-local
+24Oct transcript; last turn hit the usage limit before implementation. Git1c0ab97
+contains both earlier UI slices. Existing owner progress/review/model files stay intact.
+The13Oct specification already selects the interaction; no new design approval needed.
+
+- [x] Extend only the public answer projection/stream with printed course codes and
+  completion/enrollment question kinds from canonical unknown facts and reviewed labels.
+  Keep canonical answers, router, Prolog and generation validation unchanged.
+- [x] Extend the existing strict frontend metadata contract and reducer; connect a
+  one-question-at-a-time dialog using native focus/Escape handling, supported curriculum
+  choices, explicit unknown/alternative explanation and a final review/send action.
+  Dismissal preserves the prompt/draft. Send a self-contained clarification through
+  the existing chat validation path; never mark UI choices as trusted facts.
+- [x] Observe focused Python/transport/reducer/browser RED then GREEN; run relevant
+  API/frontend suites, TypeScript/build and browser accessibility/mobile regressions.
+  Record bounded evidence and commit verified increments with explicit paths.
+
+Scope: API presentation/stream and its caller, frontend metadata/transport/reducer,
+workspace/conversation/new clarification dialog, shared styles and synthetic tests.
+Risks: stale prompts, accidental/default submission, lost composer drafts, scope
+drift, unknown becoming failed and contradictory explanations being dropped.
+Reuse PreviewDialog/shared controls/theme; ENERGY1/RHYTHM2/MOTION2 retained. Flat
+radio rows make the next action clear; the existing accent marks selection only.
+Context rechecked: thesis physical17–18,20,65–66 and routing PNG; master16/23,
+Phase10 handoff. The thesis requires clarification; the13Oct owner specification
+supplies the Codex/Claude-style interaction, without changing authority boundaries.
+
+### Verification and recovery
+
+Commits:4dcd9bf API projection/strict transport;68b70e1 connected dialog/reducer/UI.
+Projection/transport/reducer regressions observed RED (missing metadata and lost
+composer draft) then GREEN. Browser RED: no dialog; GREEN: explicit confirmation,
+dismiss/resume, unknown and explanation, single POST and retained composer draft.
+Reviewer found that unrelated busy operations unmounted a dismissed prompt and
+lost its draft. Browser RED reproduced loss after failed clear; keeping the dialog
+mounted gives GREEN. Reviewer rechecked the correction; no remaining blocking finding.
+At320px/200% text, inherited sticky header covered Continue; static clarification
+header and wrapping action buttons fixed it. Both normal/review states now reflow.
+
+- `node --experimental-strip-types --test tests/*.test.mjs`:55 PASS. Pinned Node
+  24.21 executable; frontend cwd. Final production build/TypeScript PASS.
+- `py -3.13 -X utf8 -B -m pytest -q -p no:cacheprovider` with files selected by
+  `rg --files tests -g 'test_api*.py' -g 'test_private_context*.py' -g 'test_generation*.py'`:
+  667 PASS,2 expected unsupported-photo xfails in33.59s; external pytest-regression basetemp.
+- `node --test --test-concurrency=1 tests/browser/guided-clarification.mjs
+  tests/browser/composer-stop.mjs tests/browser/workspace-navigation.mjs`:4 PASS.
+  Set BINTANONG_BROWSER_URL=http://localhost:3218, BINTANONG_BROWSER_STATE to the
+  ignored synthetic-browser-state.json and PLAYWRIGHT_MODULE to the existing npm
+  cache e41f203b7505f1fb/node_modules/playwright/index.mjs. BINTANONG_BROWSER_EVIDENCE
+  names the ignored evidence directory for optional screenshots. Run sequentially:
+  the single synthetic account correctly refuses overlapping browser requests.
+- Actual synthetic Next/FastAPI integration:10 families/16 requests PASS, including
+  PDF parser/review/remove, sources, failed clear, Stop and sign-out. Updated only
+  the obsolete clarification-action expectation in the new evidence script copy.
+- Eight dialog checks:320/390/768/1440px,light/dark, keyboard radio navigation and
+  no overflow. Actual rendered text minimum5.88:1 light/6.52:1 dark; choice borders
+  minimum6.58:1/7.73:1. Screenshots inspected;320px/200% review and focus-return tested.
+- Existing native dialog traps focus/handles Escape; no initial option, implicit
+  choice submission or new testing/UI dependency. EN/Filipino/Taglish host-copy
+  tests are separate from actual-model language/decision acceptance.
+
+Ignored evidence: workspace audit-evidence/p11-20261024/guided-clarification
+(fixture, synthetic state/PDF, check-workspace.mjs/results, inspect-clarification.mjs,
+clarification-accessibility.json/screenshots, startup logs). No private artifacts staged.
+Next/login3215 restored200 with existing local config. Actual API8021 restart
+failed in load_release_curricula -> compiler._rebuild -> authoring._facts:
+`facts require course_code and only supported field names`. The same runtime JSON
+was used in the recovered session; exact current hosted-field incompatibility is
+undiagnosed. No hosted data, source decisions or validation guard changed. No live
+model clarification round-trip is claimed. Prototype/browser checks use the isolated
+synthetic services; the real chat remains unavailable until API startup is repaired.
+
+### UI delivery gate (scoped)
+
+| Gate | Result and evidence |
+| --- | --- |
+| Hard gate | PASS: no new assets, marketing claims, external navigation or dummy controls; all added controls exercised; mobile/review/200% reflow and contrast measured. |
+| Purpose | PASS: shared tokens/controls retained; flat choices identify the next answer; selection accent conveys state; native modal provides task focus. |
+| Liveliness | PASS: existing ENERGY1/RHYTHM2/MOTION2 retained; one question is the focal point; existing request/panel feedback and reduced-motion behavior reused. |
+| Craft/accessibility | PASS: keyboard radio navigation, Escape/focus return, no defaults, explicit review/send, loading/unavailable/unknown paths and draft-preserving failed clear verified. |
+
+This is UI/software verification, not actual-model accuracy, complete accessibility
+certification, Phase11 closure or institutional-release readiness.
 
 ## Remaining boundaries
 

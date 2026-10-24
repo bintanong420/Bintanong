@@ -83,7 +83,14 @@ students choose statuses before confirmation. No printed grade is converted. One
 before adding another; confirmed file references can be removed individually. Existing files remain until
 the backend acknowledges changes. No /context endpoint, persistent history or photo/OCR support is invented.
 
-Pending-question continuation, broader natural-language curriculum aliases, actual PalSU grade layouts and
+Live clarification now opens a focused dialog with reviewed curriculum choices and course-status questions
+derived from canonical backend unknowns. It supports an explicit unknown, alternative/additional explanation,
+review and confirmation. Dismissal and unrelated failed operations preserve its draft. Confirmation sends the
+original question and stated details through the existing untrusted chat path; it does not create trusted facts.
+This self-contained reply does not implement server-side pending-question replay. See the
+[workspace verification and current startup blocker](../../plans/2026-10-24-student-workspace-polish.md).
+
+Server-side pending-question continuation, broader natural-language curriculum aliases, actual PalSU grade layouts and
 the backend's disclosed Hybrid/model-language gaps remain separate work. E3's office-referral fix is included.
 Sign-in stores an auth user/email
 in Supabase as recorded in master25.1; chat/grade/file state stays temporary. No university approval or public

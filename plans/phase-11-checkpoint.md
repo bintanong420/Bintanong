@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 24
+sequence: 26
 plan: plans/phase-11-backend-api-plan.md
-head_commit: b08c6ca
+head_commit: 68b70e1
 working_tree: dirty
-updated_at: 2026-10-24T15:16:14+08:00
+updated_at: 2026-10-24T16:55:00+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -37,14 +37,18 @@ review states, composer Stop placement, control spacing and mobile transcript la
 Public seams: existing student-workspace presentation helper and actual browser UI.
 First slice committed b08c6ca; provider-reference layout also verified. Owner now
 requests the specified guided live clarification UI from an actual screenshot:
-supported choices, alternative explanation and explicit user confirmation.
+supported choices, alternative explanation and explicit user confirmation. Delivered
+in4dcd9bf/68b70e1; synthetic/browser checks pass. Real API startup is currently blocked
+by hosted-ledger fact validation; live acceptance is unverified.
 [One-document checklist](../docs/development/google-sign-in-local-setup.md).
 [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md) remain active;
 this UI delivery does not close Phase11 or expand institutional release authority.
 
 ## Repository State
 
-Main checkout frontend atb08c6ca plus verified provider-reference UI increment; not pushed.
+Main checkout frontend at68b70e1; guided clarification increments committed locally.
+Recovered exact previous session01a16c88-a2f7-7e63-b82a-f32c00d47160. Product clean;
+delivery/checkpoint/progress documentation being saved. Execution/evidence in polish report.
 Changed frontend: root/login/chat, OAuth callback, proxy/auth-policy, styles,
 appearance control and new page-access regression. Changed docs: student integration,
 Google setup guide, dated landing/auth report, progress and this checkpoint.
@@ -52,13 +56,20 @@ Owner-local historical review remains unstaged in progress; untracked status rev
 and SEA-LION-E5-Embedding-600M directory remain untouched/excluded.
 Implementation worktree retains15 modified product/test files and3 untracked lifecycle
 files, previously verified byte-identical; no lifecycle WIP copied into main.
-Recovery refs/copies in sync record; last full snapshot before condensation60d285f.
+Recovery refs/copies in sync record; pre-turn snapshot1c0ab97; older snapshot60d285f.
 Local pre-condensation copies also in ignored landing-auth-setup evidence.
-Next dev127.0.0.1:3215; authenticated research API127.0.0.1:8021; existing model services.
+Next/login127.0.0.1:3215 restored200. API8021 fails hosted-ledger validation on startup.
 Ignored frontend/.env.local contains existing hosted public key/origins, no Google secret.
 
 ## Verification Evidence
 
+- Guided clarification:55 UI tests/typecheck/build,667 API/private/generation PASS,
+  2 expected photo xfails;4 browser regressions plus10 families/16 requests PASS.
+  Scope, unknown, alternatives, review/single-send, Escape/focus and retained draft
+  tested. Reviewer draft-loss and320px/200% header failures observed RED→GREEN.
+  Eight layout/theme/keyboard/contrast checks PASS; minimum text5.88:1. See polish
+  report for commands and ignored guided-clarification evidence. Real API startup
+  currently fails authoring._facts; no actual-model clarification acceptance claimed.
 - Workspace first slice:48 frontend tests, TypeScript and final build PASS;
  10 actual synthetic API/browser families/16 requests and29 polish checks PASS.
   Stop/draft RED/GREEN browser regression retained; text contrast minimum6.58:1.
@@ -117,16 +128,17 @@ Hosted39 curricula/19 chunks/52 fields/54 spans retain their recorded limitation
 
 ## Known Failures or Blockers
 
-Actual PSU login owner-verified. Non-PSU rejection and the full authenticated manual
-flow still await owner testing. Overall polish is in progress with focused RED/GREEN.
+Actual PSU login owner-verified; non-PSU/full manual flow unverified. Real API startup
+now fails load_release_curricula/compiler/_facts: required/allowed fact-field validation.
+Exact hosted mismatch undiagnosed; no source data changed or guard weakened.
 Docling environment failures unresolved. Fee/partial answers,pending-question/replay,
 aliases,real grade layouts,Hybrid/language/latency exits remain open; photos unsupported.
 No phase closure, university approval, public deployment or institutional activation.
 
 ## Next Action
 
-Connect the live guided clarification prompt using canonical backend options,
-alternative explanation and explicit confirmation; verify through API/browser.
+Diagnose hosted-ledger fact-field compatibility against the reviewed release,
+then rerun actual authenticated clarification acceptance.
 
 ## Do Not Repeat
 
