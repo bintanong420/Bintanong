@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 0c43f49
+head_commit: 8555eb6
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -206,7 +206,10 @@ referral wording for e2) and the routing PNG: consistent.
          Verify prerequisite expressions and Prolog bundles unchanged except ledger hash (bundle regression).
       4. Lookups done `0c43f49` (`bintanong_symbolic/course_facts.py`: course_facts, list_term_courses; RED 5,
          GREEN, 4 mutations caught; over the 39 authored ledgers each of 2132 courses listed once, all complete).
-         NEXT: router/validation/adapter wiring (a term listing has no course target: design needed), renderer.
+         Wiring plan `plans/2026-10-25-course-facts-wiring-plan.md` (`aa99d4b`). Done: T1 term parsing `cec8932`,
+         T2 term mentions + operations `04439a0`, T3 runtime look_up/adapter/research registry `8555eb6` (Janus
+         worker allowlist names the lookups; they never run there). Each RED->GREEN, mutations caught; routing/
+         orchestration/symbolic/runtime selection 753 passed. NEXT: T4 orchestration + rendered reply.
          Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
