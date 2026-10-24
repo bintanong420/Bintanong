@@ -52,10 +52,18 @@ def research_catalog(ledger):
         raise ValueError('duplicate_printed_course_code')
     short = {cid: _short_forms(c['facts']['course_code']['value']) for c in courses for cid in [c['course_id']]}
     counts = Counter(a for forms in [*printed.values(), *short.values()] for a in forms)
+    # A printed title names its course only when no other course carries it or a code spelled like it.
+    fold = lambda text: ' '.join(text.split()).casefold()
+    titles = {c['course_id']: c['facts']['course_title']['value'] for c in courses if 'course_title' in c['facts']}
+    title_counts = Counter(fold(t) for t in titles.values())
+    codes = {fold(a) for forms in [*printed.values(), *short.values()] for a in forms}
     entries = []
     for c in courses:
         cid = c['course_id']
         aliases = printed[cid] | {a for a in short[cid] if counts[a] == 1}
+        title = titles.get(cid)
+        if title is not None and title_counts[fold(title)] == 1 and fold(title) not in codes:
+            aliases.add(title)
         entries.append(CatalogEntry(kind='course', entity_id=cid, program_id=c['program_id'],
             curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)),
             source_ref=c['source_version_id'], review_ref=c['review_refs'][0], reviewed=True))

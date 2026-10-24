@@ -106,8 +106,9 @@ def titled(cid, code, title):
 
 def test_repeated_printed_code_is_cataloged_twice_so_a_code_only_question_must_choose():
     # Owner, 23 Oct 2026: keep both printed rows; a code-only mention matches two entries (clarify).
+    # Each row's unique printed title still names it.
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 5', 'Fictional Geo'), titled('course-b', 'ZZ 5', 'Fictional Fiscal')))
-    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5'}, 'course-b': {'ZZ 5', 'ZZ5'}}
+    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5', 'Fictional Geo'}, 'course-b': {'ZZ 5', 'ZZ5', 'Fictional Fiscal'}}
 
 
 def test_repeated_printed_code_is_labelled_with_its_title():
@@ -139,3 +140,21 @@ def test_individual_assessment_gets_the_owner_approved_per_person_cues():
     (cue,) = topic.cues
     assert cue.claim == 'official individual student assessment'
     assert {'each student', 'per student', 'bawat isa'} <= set(cue.phrases)
+
+
+def test_a_printed_title_unique_in_the_curriculum_names_its_course():
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 7', 'Fictional Data Structures'),
+                                      titled('course-b', 'ZZ 8', 'Fictional Writing')))
+    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7', 'Fictional Data Structures'},
+                                'course-b': {'ZZ 8', 'ZZ8', 'Fictional Writing'}}
+
+
+def test_a_title_printed_on_two_courses_is_not_an_alias():
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 7', 'Fictional Seminar'),
+                                      titled('course-b', 'ZZ 8', 'fictional  seminar')))
+    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7'}, 'course-b': {'ZZ 8', 'ZZ8'}}
+
+
+def test_a_title_spelled_like_another_course_code_is_not_an_alias():
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 7', 'zz 8'), course('course-b', 'ZZ 8')))
+    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7'}, 'course-b': {'ZZ 8', 'ZZ8'}}
