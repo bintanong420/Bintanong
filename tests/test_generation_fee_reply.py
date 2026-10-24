@@ -147,3 +147,44 @@ def test_hybrid_check_with_a_fee_part_needs_no_model_call():
     assert model.calls == [] and answer.status == 'answered' and answer.decision is not None
     assert [c.text for c in answer.claims] == EXPECTED['en']
     assert answer.part_ledger.canonical_parts == ('r1',)
+
+
+# Owner, 25 Oct 2026 (roster 18, accepted T2): a question whether the fee still applies (now or for a school year)
+# gets the memo's printed date, "cannot confirm it still applies" and the office referral; no rate.
+CURRENCY = {
+    'en': ('Are the special-class fees still in effect for 2026–2027?',
+           ["The special class fee in Bintanong's reviewed sources comes from a memo dated 1 January 2001.",
+            'Bintanong cannot confirm whether it still applies now or for the school year you asked about. '
+            'Please ask the right university office.']),
+    'fil': ('May bisa pa ba ang mga bayarin sa special class para sa 2026–2027?',
+            ['Ang special class fee sa mga na-review na source ng Bintanong ay galing sa memo na may petsang '
+             '1 January 2001.',
+             'Hindi makumpirma ng Bintanong kung may bisa pa ito ngayon o sa school year na tinanong mo. '
+             'Pakitanong sa tamang opisina ng unibersidad.']),
+    'taglish': ('Applicable pa ba ang special-class fees ngayong 2026–2027?',
+                ['Yung special class fee sa reviewed sources ng Bintanong ay galing sa memo na dated 1 January 2001.',
+                 'Hindi ma-confirm ng Bintanong kung valid pa ito ngayon o sa school year na tinanong mo. '
+                 'Paki-ask sa tamang university office.'])}
+
+
+@pytest.fixture
+def memo_date(monkeypatch):
+    from backend.bintanong_generation import fee_reply
+    version = fee_integration().evidence.documents.passages[0].citations[0].version_id
+    monkeypatch.setattr(fee_reply, 'MEMO_DATES', {version: '1 January 2001'})
+
+
+@pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
+def test_a_question_whether_the_fee_still_applies_gets_the_memo_date_and_referral_without_the_rate(language, memo_date):
+    text, expected = CURRENCY[language]
+    model = NoModel()
+    answer = generate(fee_integration(text, language=language), model, text)
+    assert model.calls == [] and answer.status == 'answered'
+    assert [c.text for c in answer.claims] == expected
+    assert '11.11' not in answer.text and '999.00' not in answer.text
+
+
+def test_without_a_reviewed_memo_date_the_currency_reply_states_no_date():
+    text, expected = CURRENCY['en']
+    answer = generate(fee_integration(text), NoModel(), text)
+    assert [c.text for c in answer.claims] == expected[1:]

@@ -376,3 +376,7 @@ Each program still gets its own dated review record listing which standing rule 
     clipped-text gap; its hidden second line "Meteorology)" (clipped under the EnS 102 row) is not used and is
     dropped from EnS 102's title ("Biodiversity Conservation & Management"). Spot-check accepted (BSIT 1st year 1st
     sem, a CF3 row, a BSMid LEC/RLE row, line-end-hyphen titles kept unspaced): "Looks right, proceed".
+- 25 Oct 2026 (roster 18): a special class fee question asking whether the fee still applies (now or for a school
+  year, e.g. accepted T2) gets the memo's printed date (4 August 2023, F0), "cannot confirm it still applies" and an
+  office referral, no rate. Owner: "that special class fee is 2023, tho we cant really confirm if its still valid. so
+  perhaps refer to the offices". Host route repair from consistent declared parts: "Repair from parts".
