@@ -1,114 +1,108 @@
-# Phase 11 session handoff — owner requested pause before /clear
+# Phase 11 session handoff — safe to /clear
 
-This is a session recovery note, not a phase-completion handoff. Phase11 remains active.
-Worktree `p11`, branch `feat/p11-backend-api`, base `cbaa6a7`; last code commit `f591416`.
-Read INDEX/current progress/checkpoint, repository AGENTS and both handoff skills first.
-Honor canonical `C:/Users/joel/.agents/AGENTS.md`, TDD and the existing approved requirements.
-The clock crossed midnight: current local date25 Oct; work/evidence filenames dated24 Oct stay unchanged.
+Session recovery note, NOT phase completion. Owner requested handoff25 Oct after authorizing the
+bounded checker experiment. Phase11 remains active; frontend ready, integrate only after pending work.
+Read INDEX/current progress/checkpoint, repo AGENTS, canonical ~/.agents/AGENTS.md, and both handoff
+skills. Fresh Git/tests outrank this note. Branch feat/p11-backend-api, p11, dev base cbaa6a7; no push.
 
-## Exact stopping point
+## Exact next action
 
-Owner requested handoff, then `/clear`; implementation stopped. No tests are still running.
-Uncommitted production/tests MUST be preserved and inspected, not reset or described as passing.
-The latest focused run ended **1 failed,38 passed,+20 subtests**,73.77s.
-Failure: `SupplementaryReviewDatabaseTests::test_explicit_source_blank_remains_unknown_in_a_supplement_and_selected_review`.
-Supplementary receipt accepts the blank; selected-review rendering rejects it because
-`reviewed_policy_context.py` requires an ordinary blank's value to be `''`, whereas the new
-test/validator use `None`. Inspect the existing codec contract before choosing the smallest correction.
-Also note this codec requires complete bbox/page_size on every actual SourceSpan; do not follow the
-earlier tentative idea of creating spans with bbox=None. Blank fields have no invented text/span.
-Add negative tests for a claimed blank containing content/spans; preserve original C1 strictness.
-Do not start hosted g2 changes or claim GREEN until the focused failure and relevant regressions pass.
+Execute ONLY the approved bounded checker comparison in
+[the frozen proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md).
+Owner answered "aight continue, then hit a handoff soon so i can /clear" to the explicit diagnostic
+approval question. Do not ask again. No diagnostic completions have run; preparation/props reads only.
+Do not activate the expanded release: its9-case live quality gate FAILED.
 
-## Evidence and environment
+Let A=C:/Coding-projects/bintanong_workspace/audit-evidence and E=A/p11-topic-filter-20261024.
+Frozen inputs: A/p09-task-first-20261021,57-file delivery-manifest SHA256
+ e10ca82c572f48557b04aa258b17cdb1bd11d5c0f5ec46369fc866ba36b0fd3d.
+Four fixed order inputs: d-en-call-4.json, b-relevance-prepared.json, d-fil-call-4.json,
+d-tl-call-4.json; off THEN on once each (max8 calls), no rescue/retry/replacement sweep.
+Exact expected mappings/reasons and operational/schema/truncation stop rules are in the proposal.
+Verify seals, reconstruct messages/schema using public pack/draft/review functions, freeze labels and
+runner BEFORE any completion. Scoped records use DocumentExplanation -> canonical_draft, not short draft.
+Read-only reconstruction evidence: A/p09-checker-completeness-diagnosis-20261021/
+ diagnosis-verification.json, SHA134ed42fad1788627ad6bc5a4612159f9fa073374c32d79b561528942a6eff39.
+Resident props last checked: build b11723-31288c9c6,ctx8192, same Gemma weights/template. No restart/
+substitution under experiment. Verify off/on rendered prompts/token counts and activation; mismatch
+stops with ZERO completions. On removes reasoning_effort=none and sets enable_thinking=true for BOTH
+apply-template and completion; preserve frozen outgoing controls otherwise. Do not blindly use current
+transport: inspect its thought-token logit bias against the saved request and verify actual activation.
+Total output768,temp0,seed0,cachefalse, constrained schema, whole120s. Keep thoughts ignored/private.
+No production default, source, model, dependency or release change authorized by the experiment.
 
-Let `A=C:/Coding-projects/bintanong_workspace/audit-evidence` and `E=A/p11-topic-filter-20261024`.
-Shared Python: `A/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe` (3.13).
-Use `PYTHONUTF8=1`, `-X utf8 -B -m pytest -q -p no:cacheprovider`, external `--basetemp=E/...`.
-Last focused command: files `test_runtime_multi_curriculum.py`, `test_runtime_research_catalog.py`,
-`test_storage_supplementary_review.py`, `test_storage_supplementary_review_database.py` under tests/.
-Logs `E/binding-blank-red.log` (4 expected failures) and `E/binding-blank-green.log` (1 remaining).
-Full suite AT f591416: `E/full-suite-f591416.log`, `.exit=0`: **6628 passed,6 skipped,2 xfailed,
-1589 subtests**,22m38s. This does NOT validate the subsequent dirty changes. Six pre-existing warnings.
-Model server Docker `bintanong-p09-cuda-latency`,127.0.0.1:18088; local Supabase Docker available.
-Models stay `C:/Coding-projects/bintanong_workspace/MODELS`; no downloads/installs/dependency changes.
-Serialize E5 model work and full suite to fit RAM. Preserve existing services/external workers.
+## Latest code and verification
 
-## Delivered and committed
+Last production commit5856e82: expose ALL recorded unresolved source-limit affected claims in topic
+menus; visible claims stay intact. Initial RED5/1, GREEN44. Fresh handoff focused run44 passed,2.36s,
+E/handoff-focused.log. Tests: runtime_research_catalog, runtime_multi_curriculum, routing_topic_capacity,
+retrieval_claim_filter. Shared Python -X utf8 -B -m pytest -q -p no:cacheprovider, external --basetemp.
+Independent review attempted but usage-limited; NO review delivered for this last fix. Manual review done.
+Fresh full suite still required for5856e82. Previous fb4e1e8 suite PASSED6658,6 skipped,2 xfailed,
+1595 subtests,6 existing warnings,22m27s (E/claim-final-full-suite.log, .exit=0). Do not rerun it just
+to prove the old tree or call it validation of5856e82. No installed linter. No test/model jobs left running.
+Code prior to5856e82 independently reviewed; code is committed. Final docs commit may follow this code
+baseline; inspect Git for the exact current head and preserve any owner changes.
 
-- `8ba6949`: topic-id filter before database top-k; package parity, actual DB tests,4 mutations caught.
-- `5bda5be`: hosted filter/source decision evidence. `c048bcb`: security audit uses9-arg RPC signature.
-- `f591416`: append-only supplementary reviews, immutable parent chain, selected-review ancestry,
-  shared proof on RPC AND direct privileged INSERT trigger;12 focused +20 subtests,5 mutations caught.
-  g2 migration `20261024114711_phase11_supplementary_source_reviews.sql` LOCAL ONLY.
-- Hosted g1 migration `20261024112235` applied;9-arg invoker retrieve_context body MD5
-  `8e2c1fa7114220707e169d224829531f`. Supabase MCP works, project `jyrudbiuajahsucsorco`.
-  Active release remains `p09-research-selected-20261022`:19 chunks,39 curriculum links, unchanged.
-- Roster19:63/63,0 exceptions, no previously answered status/decision lost. First startup timed out;
-  one retry succeeded. Eleven text changes explained by earlier approved commits. EN21/21,FIL21/21,
-  Taglish15/21 unchanged. Evidence `E/roster19-vs18.txt`, roster18 at `A/p11-20261023/roster18`.
-- Live10-case grades/fees:8 correct within limits; Taglish passing selected no topic and uppercase
-  percentage got no route. Duplicate evidence header not reproduced. Separate routing work remains.
+## Delivered this resume — do not repeat
 
-## Dirty code and tests
+- febd6c1: canonical ordinary supplementary blanks are empty string/no spans; C1 strictness preserved.
+- 5440368: research root release identity binds document snapshot; symbolic identity remains scoped.
+- 5dbc706: trusted pre_enrollment budget4096 (owner delegated), others2048; complete group3816tokens.
+  Reviewed topic menu64 claims, request selections remain8; grammar cap corrected under RED/GREEN.
+- fb4e1e8: requested visible claims/required-neighbor closure before ranking; full-subject fallback for
+  unknown/negative/mixed/empty or ambiguous edition/curriculum. Component probes60/60, not accuracy.
+- All61 source records compiled with8 limitations;61 E5 vectors computed, exact tokenizer parity,
+  maximum477/480. Original19 chunk dictionaries/embedding records unchanged. New package80 chunks,
+ 66 claims/7subjects,5sources. Full local release39links activate80 -> rollback19 -> reactivate80 passed.
+- Hosted supplementary migration20261024114711 applied;10 function bodies/grants match fresh local,
+  all invoker, RLS/private receipts verified, proof trigger present. Advisors unchanged.
+- Hosted NEW p11-research-expanded-20261025 is DRAFT/INACTIVE80chunks39links. OLD active remains
+  p09-research-selected-20261022,19chunks39links. No runtime pin switch. Original evidence unchanged.
+- Sealed package E/source-package,54files; seal SHA137dbe0e7558f50fd7c6f95dfb6babd45fc71e431265d7291ac36b0c50e3c924.
+  embedding set9584e084ade6c1e93fb56a2394bbf35d25e03a186e08de5f2751c564a426f261.
+  Detailed hashes/commands in [resume report](2026-10-25-phase11-resume-verification.md).
 
-`backend/bintanong_runtime/research.py`: root release digest now includes document embedding set,
-chunk identities, catalogue and claim reviews alongside curriculum members; symbolic version stays
-curriculum-derived. Single-ledger factory delegates to multi-ledger factory. New tests cover both;
-broader runtime/adapter compatibility and independent review still needed before commit.
-`backend/bintanong_storage/source_partial_review.py`: optional allow_source_blanks=False gate;
-`source_supplementary_review.py` enables it. Current null-vs-empty-string mismatch is unresolved.
-g2 migration helper gained4th optional allow-blanks argument; original C1 stays defaultfalse.
-Generator `E/build_supplement_migration.py` is the reproducible SQL source; current migration regenerated.
-Tests changed: `tests/test_runtime_multi_curriculum.py`, `test_storage_supplementary_review.py`,
-`test_storage_supplementary_review_database.py`. No g2 SQL applied hosted, so amendment is unpublished.
-Reviewer `/root/topic_filter_review` may disappear after clear; prior review results are recorded.
+## Failed live gate and remaining work
 
-## Settled owner decisions and verified source draft
+E/live-expanded-candidate/results.jsonl:9cases,0 exceptions,7answered/2insufficient; quality FAILED.
+English procedure misroutes grades evaluation; Filipino/Taglish requirements+steps omit steps; Filipino
+plagiarism omits progression; Taglish plagiarism selects missing22. Weapon answer invents usable
+coursework/permit exception from malformed source; fraud selects a penalty without overlap warning.
+Four router-only traces AFTER5856e82's change still fail (E/source-router-trace/): menu correction alone
+is insufficient. No repeated prompt sweeps. Interpret the approved experiment before choosing next fix.
+Pipeline11–38s observations exclude encoder/composition/browser/API end-to-end; no SLA/currentness claim.
+E/activate_expanded_research.py is GUARDED and MUST NOT run now: live review approval absent. It still
+binds production baseline fb4e1e8; update only after later corrections/full suite/live gates succeed.
+After successful candidate validation: coordinated hosted/local pin switch, readback, hosted smoke and
+accepted63-case roster comparison to roster19. Then router/Hybrid no-topic next step/bare clarification/
+Nursing negative-claim/simple-question battery. Frontend integration follows pending work, Phase12 gated.
 
-Owner chose database append-only path + NEW research release, preserving19 old chunks and39 links,
-with old release/package retained for rollback. No need to ask this again.
-Source batches1-12 individually approved. Standing direction: apply approve-as-printed to repeated
-clear rows and ordinary blank cells; request human review ONLY for a different ambiguity/defect.
-Keep delegated decisions distinct from fresh individual confirmations. Missing item22 approved:
-retain printed21→23 and add no guessed row. Weapon exception remains malformed/unresolved.
-Authoritative content record: `2026-10-24-partial-topics-source-review.md` plus owner-decisions ledger.
-Independent original-page review found no numeric/column/blank/qualifier/cross-page mistakes in61
-draft records/132 reused span fields/11 renders. One missing fraud heading was found and corrected.
-`E/author_source_fields.py` produces `E/reviewed-field-records.json`:36 offenses +2 shared/note,
-17 grading rows (existing1.0 retained),6 Charter records (4 steps/header+checklist/total).
-Raw gap arrays are intentionally unfinished; NOT publishable. Freeze/commit the authority report,
-then rerun producer to bind its final report hash. Record later delivery evidence elsewhere.
-Original Handbook SHA `4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8`.
-Charter SHA `42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529`.
-Reuse `A/p05-reviewed-pre-enrollment-regions-20261013/combined-field-spans.json` and reviewed packet.
-Charter Step2 IS VISIBLE; missing-Step2 defect belongs to a different enrollment PDF. Don't reask.
-Preserve Charter step3's cutoff ending "for" and printed total25 vs4×5=20; do not invent continuation.
+## Source and runtime recovery pointers
 
-## Package work remaining (compiler not yet written)
+Authority plans/2026-10-24-partial-topics-source-review.md frozen SHA
+ a619ba37500831b6db1a58306aa4f2b9b11c4909170b0b2d643335f39acf39b9. Do not alter it to add delivery logs.
+Original PDFs root p11/dataset (see dataset-locations). Reuse all settled owner readings/standing delegation;
+weapon exception and fraud precedence unresolved, missing22 retained, Charter Step2 visible, Step3 cutoff
+and25-vs20min discrepancy preserved. No re-extraction/review/new excluded-audience content.
+E producer scripts already completed: author_source_fields/map_new_source_fields/compile_source_supplement,
+prepare_supplement_receipts/prepare_supplement_catalogue/prepare_selected_receipt/encode_source_supplement,
+rehearse_source_append/rehearse_expanded_release/probe_expanded_retrieval/seal_source_package/
+stage_expanded_hosted. Existing staged package is sufficient; don't rebuild/reinsert blindly.
+Shared Python A/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe3.13; PYTHONUTF8=1.
+Model Docker bintanong-p09-cuda-latency,127.0.0.1:18088; Docker Desktop running. No startup rebuild needed.
+Models A/../MODELS; serialize E5/full-suite work for RAM. No downloads/installs/dependency changes.
+Smoke A/p09-real-data-20261021/smoke.py accepts explicit package/release overrides and active-pin JSON;
+old defaults preserved. No active expanded pin. roster13.py in same folder, aliases from p09curricula load.
 
-Follow `2026-10-24-supplementary-source-review-plan.md`. Existing immutable package:
-`A/p05-release-readiness-20261016` (19 chunks/5 versions/catalogue/review/manifest/vector records).
-Build a NEW ignored package; copy all19 chunk dictionaries and vectors unchanged. Draft adds61,
-expected80 chunks. Retire old cheating and old Charter1/3 from topic assignments when new complete
-dependency-linked clones replace them; retain old records in release, rewire claim references.
-All8 academic-dishonesty subrows require shared measures; don't impose all measures automatically.
-II6 and8a have overlapping fraud penalties: retain both, mutual required context, precedence unknown.
-Attach actual source_limits before serialization: malformed II1 penalty type/II2 exception;
-fraud precedence and shared-measure applicability claim_not_stated; missing22 claim_not_stated;
-Charter step3 source_cutoff and total printed_total_discrepancy. Use existing supported issue enums.
-Keep page-spanning logical rows8b and23 and all Charter step agency/time/role/conditions associated.
-Reuse compact-v2 reviewed context codec, real source spans/geometry, exact content hashes, actual
-owner-event receipts (differentiate standing delegation), cumulative parent chunks/events unchanged.
-Check required group fits2048 context tokens; no silent truncation. Document E5 cap480/512.
-Installed tokenizers0.23.3: disable truncation AND padding via no_truncation()/no_padding(); verify
-against actual SentenceTransformer tokenizer. Document encode uses prompt='', not query encoder prefix.
-Use same model/config, reuse existing vectors, hash-bind NEW embedding_set id to all records/config.
-Old loader `A/p09-supabase-20261022/load_research_release.py` assumes empty initial hosted DB;
-adapt safely, don't run blindly. Course39 links loader `A/p11-course-facts-20261024/load_facts.py`.
-Rehearse full governed append/review/release/copy39/activate/rollback in disposable local DB first.
-Then approved hosted g2 apply/read-back/RLS/advisors and coordinated runtime package/release pin switch.
-Live probes import `A/p09-real-data-20261021/smoke.py`, currently hardcoded old package/release;
-add explicit env overrides and preserve defaults/rollback. Roster runner same dir `roster13.py`.
-After g2: remaining router/Hybrid no-topic/bare clarification/Nursing negative claims/simple battery.
-No UI until co-worker design, no push, no Phase12 advancement or public/institutional release claim.
+## Supabase MCP warning
+
+[Read-only diagnosis](2026-10-25-supabase-mcp-diagnosis.md): app SQL/advisor/log calls work; historical
+exact error is direct OAuth refresh parsing. Newest warning not correlated; no credential reset or fix
+claimed. Orca CODEX_HOME is account-specific; stored o_auth alone isn't proof of direct startup. After
+/clear verify discovery; if recurring, same-account codex mcp login supabase + browser consent/restart,
+then authenticated read. Do not change DB grants or disable a working connector to hide startup errors.
+
+Context inspected25 Oct: thesis physical17–18,39–44, routing PNG; scope/routing consistent. Keep
+undergraduate/advisory/privacy/source-gap guards, owner-approved real-data research only, no public or
+institutional release/training/push. This note authorizes neither activation nor phase advancement.

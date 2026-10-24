@@ -119,7 +119,8 @@ and complete required groups. Review P2: prefilter could hide alternate editions
 PackageStorage RED regressions confirmed it. Added conservative subject-wide fallback for ambiguous
 snapshots, retaining explicit scope filtering. Final focused79 +31 subtests. A test-scope fixture was
 corrected to include the undergraduate tag; no assertion or production source safeguard weakened.
-No deferred findings. Fresh final suite `claim-final-full-suite.log`/`.exit` is running on fb4e1e8.
+No deferred findings. Fresh final suite on fb4e1e8: **6658 passed,6 skipped,2 xfailed,+1595 subtests**,
+6 existing warnings,1347.61s (22m27s), `claim-final-full-suite.log`/`.exit=0`.
 
 ## Hosted inactive staging
 
@@ -137,3 +138,45 @@ read back unchanged; anonymous runtime still sees19; active release remains
 `p09-research-selected-20261022`. Results: `hosted-staging.log`, `source-package/hosted-staging-result.json`,
 schema/advisor readbacks in the same ignored package. Final suite/live candidate/roster gates precede
 coordinated activation and local runtime-pin switch. No public/institutional release claim.
+
+## Actual-model gate — failed; do not activate
+
+Nine candidate questions completed with0 exceptions,7 `answered` and2 `insufficient_evidence`; status/
+schema validation is not quality. Exact logs/outputs: `live-expanded-candidate.log`,
+`live-expanded-candidate/results.jsonl`. English service question additionally selects grade_completion;
+Filipino/Taglish requirements+steps answers list requirements only. Taglish plagiarism selects missing22.
+English plagiarism lists first/second sanctions; Filipino gives first only. Grade3.0 mapping correct.
+Weapon answer invents a usable coursework/permit exception from the malformed clause, then adds only a
+generic warning. Fraud answer selects barred-from-university without the overlapping-sanction warning.
+These breach source/completeness requirements; the guard's activation-quality record is NOT approved.
+
+Resident-model pipeline observations11.021–38.290s, encoder/composition excluded; first expanded prompt
+cache unprimed, prefix reuse requested. Includes routing/retrieval/generation calls; browser/API and
+student-visible end-to-end not measured. This is9 development observations, not an accuracy/latency SLA.
+All80 source/embedding artifacts remain sealed and inactive; old19-chunk hosted release/pin unchanged.
+Source-limit menu correction delivered in5856e82: all recorded unresolved affected claims are selectable,
+including malformed conditions/cutoffs/conflicts, instead of only claim_not_stated. RED5 failures/1 pass
+(`source-menu-red.log`), GREEN44 (`source-menu-green.log`); fresh handoff check44 passed in2.36s
+(`handoff-focused.log`). Command: shared Python -X utf8 -B -m pytest -q -p no:cacheprovider
+ tests/test_runtime_research_catalog.py tests/test_runtime_multi_curriculum.py
+ tests/test_routing_topic_capacity.py tests/test_retrieval_claim_filter.py, external --basetemp.
+The6658 full-suite result predates this one-line change; a fresh final suite remains required. Independent
+review was attempted but returned a usage-limit error, with no review delivered; manual diff review only.
+
+Four router-only traces AFTER the menu correction (`source-router-trace/`) still show English service
+misclassification, combined Filipino needs/steps, visible weapon claim instead of its gap, and a spurious
+fraud prerequisite operation. This correction restores expression of known limits; it does not solve
+semantic routing/completeness or authorize activation. No equivalent prompt sweep is authorized by it.
+
+Owner25 Oct replied "aight continue, then hit a handoff soon so i can /clear" to the explicit eight-call
+checker comparison question. The bounded experiment in
+[the proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md) is now authorized; no need to
+ask again. Exactly4 frozen synthetic inputs × off/on, at most8 completions, original stop rules/defaults
+unchanged. No diagnostic completions have run: owner-requested session handoff comes first. Preflight
+must revalidate57 sealed files, reconstruct exact current public review messages/schema, verify resident
+build/template and off/on rendered activation/headroom, freeze runner/labels before any completion.
+A preflight mismatch stops with zero calls. No production thinking/default change follows automatically.
+
+Supabase error investigation: connected app SQL/advisor/log calls work; exact historical local failure
+is OAuth refresh parsing. Latest reported occurrence remains uncorrelated; see
+[diagnosis](2026-10-25-supabase-mcp-diagnosis.md). No credential/config/schema change made.

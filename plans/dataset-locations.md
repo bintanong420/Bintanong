@@ -1,6 +1,14 @@
 # Dataset locations and relocation
 
-## Current machine verification — 17 October 2026
+## Current Phase11 verification — 25 October2026
+
+The active p11 worktree has the ignored corpus at repository-root `dataset/`:
+`C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11/dataset`.
+Handbook/Charter originals used for the supplementary review match the registered byte hashes in
+`2026-10-24-partial-topics-source-review.md`. Resolve this root explicitly for p11 source work;
+the historical p05 path below is absent on this machine. No source relocation occurred this resume.
+
+## Historical machine verification — 17 October 2026
 
 For Hawksprey420's Phase 06 worktree, the freshly verified dataset parent is:
 

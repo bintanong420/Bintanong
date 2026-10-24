@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 20
+sequence: 24
 plan: plans/phase-11-backend-api-plan.md
-head_commit: fb4e1e8
+head_commit: 5856e82
 working_tree: dirty
-updated_at: 2026-10-25T01:31:00+08:00
+updated_at: 2026-10-25T02:30:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -35,7 +35,8 @@ Docker restored via installed CLI; actual-DB blank-codec failure reproduced and 
 g2 append-only path committed f591416 and full suite passed there. Subsequent root-release identity
 and supplementary blank-field changes committed febd6c1/5440368; focused42 +26 subtests GREEN, review clean.
 Full suite on5440368 passed6635 +1595 subtests.5dbc706 run stopped as obsolete at94%; new claim
-filter fb4e1e8 passes79 focused +31 subtests and actual DB8 +22; final suite running (session51777).
+filter fb4e1e8 passes79 focused +31 subtests and actual DB8 +22. Fresh full suite passed6658,
+6 skipped,2 xfailed,+1595 subtests,6 existing warnings,22m27s (`claim-final-full-suite.log`,exit0).
 All61 records compiled with8 limitations and exact token checks; Charter
 atomic context exceeds2048; owner delegated4096 for pre_enrollment only. Exact compiled group3816 fits.
 Source append and full release/39-links/activate/rollback/reactivation rehearsal passed.61 embeddings
@@ -45,24 +46,22 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 
 ## Repository State
 
-Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. HEAD `fb4e1e8`.
-Blank correction febd6c1, snapshot binding5440368, scoped context/menu bounds5dbc706 committed after
-focused GREEN/review; claim filtering fb4e1e8 preserves ambiguity/negative/unknown guards. Only docs
-remain dirty; fresh final suite uses fb4e1e8 production/tests.
-No dependency changes/downloads; no frontend work.
+Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
+committed5856e82; last full-suite baseline fb4e1e8. Documentation handoff commit follows this verified code baseline; inspect fresh Git.
+Checkpoint metadata may be refreshed after that commit; preserve the recorded state. No uncommitted production behavior, dependency changes or frontend work.
 
 ## Verification Evidence
 
 - g2: actual missing-RPC RED and missing-client RED; initial GREEN8 +20 subtests. Review bypass RED
   (direct privileged link INSERT accepted a receipt that omitted old fields); corrected trigger GREEN9 +20.
   Two-generation parent-chain and changed replay coverage included in final focused run.
-  Migration `20261024114711_phase11_supplementary_source_reviews.sql` remains LOCAL ONLY.
+  Migration `20261024114711_phase11_supplementary_source_reviews.sql` applied hosted; draft inactive.
 
 - Full suite at f591416:6628 passed,6 skipped,2 xfailed,+1589 subtests,6 warnings,22m38s;
-  full-suite-f591416.log/.exit=0. Does not cover subsequent dirty changes.
+  full-suite-f591416.log/.exit=0. Does not cover later production changes.
 - Resume RED reproduced codec failure; corrected blank contract after4 expected focused failures.
   Final focused42 passed +26 subtests,94.10s (`resume-contract-green2.log`); independent review clean.
-  Core full suite completed6635 +1595 subtests; latest tree still needs its fresh final result.
+  Core full suite6635 +1595 subtests; later fb4e1e8 full suite6658 passed. Latest5856e82 needs full suite.
 - Topic baseline 48 passed +31 subtests; expected RED observed on real disposable DB/package/engine.
   Final retrieval/runtime selection 157 passed +86 subtests, 53.84 s, `review-green.log`.
   Four isolated mutations caught: engine/package/SQL filter removal and package validation removal.
@@ -102,19 +101,26 @@ Handbook SHA-256 and source decisions are in the source-review report. Models no
 
 ## Known Failures or Blockers
 
-Final fb4e1e8 suite running (`claim-final-full-suite.log`). Claim filtering resolved10/60 same-topic
+Final fb4e1e8 suite passed6658 +1595 subtests (`claim-final-full-suite.log`,exit0). Claim filtering resolved10/60 same-topic
 component refusals to60/60; review P2 edition/curriculum hiding fixed by RED/GREEN. Both review fixes
-covered; no deferred findings. Hosted schema/staging read back; live quality/latency and switch remain.
+covered; no deferred code findings. Hosted schema/staging read back. Live9-case quality FAILED:
+English service misroute, missing procedure steps, Taglish plagiarism misroute, malformed weapon
+exception interpreted as permission, and fraud precedence chosen without its warning. Do not activate.
 Two grading router misses, Hybrid next-step
 without topic, vague clarifications and Nursing negative claim mode remain. Photos unsupported;
 6 register-only Taglish misses; no browser/UI exit, SDK parser contract test or installed linter.
 
 ## Next Action
 
-Finish sealed package/pin controls while final suite runs. After successful final checks, run bounded
-live candidate quality/latency, then coordinated hosted active-release/local-pin switch and roster
-comparison. Current hosted draft stays inactive; preserve old package/release rollback.
-UI ready; integrate after pending work. Auth/SDK installation retains applicable pin approvals; Phase12 unauthorized.
+Keep draft inactive. Owner authorized the exact bounded eight-call checker comparison (25 Oct,
+"aight continue" to explicit diagnostic question); no diagnostic completions yet. Execute its preflight/
+fixed pairs/stop rules from the [session handoff](2026-10-25-phase11-session-handoff.md) after /clear.
+5856e82 exposes all unresolved source-limit choices; four fresh router traces still fail. Experiment
+is isolated, not a production mode change/quality closure. No repeated rescue sweep or activation.
+Then choose correction, review/full suite/live revalidation before switch; remaining router/Hybrid/
+clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
+Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure
+and same-account recovery instructions in [diagnosis](2026-10-25-supabase-mcp-diagnosis.md).
 
 ## Context Consulted
 

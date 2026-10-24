@@ -36,7 +36,8 @@ lost, all11 wording changes explained by earlier approved commits. Language matc
 2 xfailed,+1595 subtests,24m43s. Scoped context/menu/grammar5dbc706: focused73 passed +31 subtests;
 review P2 grammar allowance fixed RED/GREEN. New fb4e1e8 claim filter:79 focused +31, real DB8 +22;
 source component60/60 (own-vector probes, not semantic accuracy). Review ambiguity fix RED/GREEN.
-5dbc706 full run stopped obsolete at94%; final fb4e1e8 suite running (session51777).
+5dbc706 full run stopped obsolete at94%; final fb4e1e8 suite passed6658,6 skipped,2 xfailed,
+1595 subtests,6 existing warnings,22m27s (`claim-final-full-suite.log`,exit0).
 [Resume evidence](../2026-10-25-phase11-resume-verification.md).
 
 Owner resumed25 Oct: frontend is ready; integrate only after remaining pending work is resolved.
@@ -48,10 +49,16 @@ stable draft. Other subjects stay2048.61 vectors computed with tokenizer-id pari
 reactivation rehearsal passes:80 ->19 ->80 visible; original source evidence/membership unchanged.
 Hosted migration20261024114711 applied; staged80 chunks/39 links; old19 active.10 function bodies/
 grants match fresh local DB exactly, all invoker; RLS/private review grants verified; advisors unchanged.
-Next: finish final suite, bounded live candidate checks, then coordinated release/pin switch and roster.
+Live9-case run failed quality: service/Taglish routing misses, omitted steps/sanction progression,
+weapon exception interpreted despite its malformed-source hold, fraud precedence chosen without warning.
+Draft remains inactive; no runtime pin switch. 5856e82 exposes all unresolved source-limit claims; RED5/1, focused44 GREEN. Four router traces
+still fail; this is not a quality fix. Full suite for this last change/review remain pending. Owner now
+authorized the bounded eight-call checker comparison; zero diagnostic completions, next after /clear.
+[Session handoff](../2026-10-25-phase11-session-handoff.md) contains exact controls/stop gates.
+Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.
 Preserve Step3 cutoff and25-vs20 minute discrepancy. All61 draft source records independently checked;
-Compiled limitations attached; package needs sealing/live checks/switch. Standing approvals valid.
+Package sealed; quality recovery/live checks precede any switch. Standing approvals valid.
 
 After g2: router follow-ups, Hybrid next-step part without topic, bare clarifications, Nursing negative
 claim mode and the owner's broad simple-query battery. UI ready; integration follows pending work. Auth/dependency
