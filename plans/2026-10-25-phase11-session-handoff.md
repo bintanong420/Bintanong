@@ -7,6 +7,15 @@ skills. Fresh Git/tests outrank this note. Branch feat/p11-backend-api, p11, dev
 
 ## Exact next action
 
+**Superseded next action, resume at357aa80:** the approved comparison has now hit its mandatory
+preflight stop, with ZERO completions. All57 seals pass, but all4 current public reconstructions
+add empty topic fields and change requirements hashes; model endpoint/Docker engine are unavailable.
+Do not run the instruction below automatically. Read the [stop evidence and concrete recovery
+proposal](2026-10-25-checker-comparison-preflight-stop.md), then obtain the owner's decision on a
+revised preflight using the original frozen checker snapshot plus starting the existing server,
+or end the diagnostic. A startup-only approval does not waive the separate identity mismatch.
+The following frozen controls remain historical recovery evidence, not permission to bypass the stop.
+
 Execute ONLY the approved bounded checker comparison in
 [the frozen proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md).
 Owner answered "aight continue, then hit a handoff soon so i can /clear" to the explicit diagnostic

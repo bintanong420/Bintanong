@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 25
+sequence: 26
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7a759e6
-working_tree: dirty
-updated_at: 2026-10-25T02:30:06+08:00
+head_commit: 357aa80
+working_tree: clean
+updated_at: 2026-10-25T02:38:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -47,11 +47,17 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 ## Repository State
 
 Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
-committed5856e82; last full-suite baseline fb4e1e8. Handoff/docs committed7a759e6. Only this checkpoint metadata is dirty after its final refresh;
-no production/test changes are uncommitted. Preserve it after /clear. No uncommitted production behavior, dependency changes or frontend work.
+committed5856e82; last full-suite baseline fb4e1e8. Resume HEAD357aa80 was clean;
+its documentation-only delta from7a759e6 is reconciled. This resume changes only progress/checkpoint/
+recovery documentation; raw diagnostic scripts/evidence stay ignored in the workspace. No production,
+test, dependency or frontend changes. A following documentation commit records this snapshot.
 
 ## Verification Evidence
 
+- 25Oct checker preflight STOPPED with0 completions:57 old seals valid; all4 current reconstructions
+  change requirements payload/identity through new empty topic fields. Draft hashes unchanged.
+  Model endpoint refused; Docker engine pipe absent. No startup or repair/retry. Offline audit exit0;
+  [stop report](2026-10-25-checker-comparison-preflight-stop.md) contains hashes/commands/recovery proposal.
 - g2: actual missing-RPC RED and missing-client RED; initial GREEN8 +20 subtests. Review bypass RED
   (direct privileged link INSERT accepted a receipt that omitted old fields); corrected trigger GREEN9 +20.
   Two-generation parent-chain and changed replay coverage included in final focused run.
@@ -112,11 +118,11 @@ without topic, vague clarifications and Nursing negative claim mode remain. Phot
 
 ## Next Action
 
-Keep draft inactive. Owner authorized the exact bounded eight-call checker comparison (25 Oct,
-"aight continue" to explicit diagnostic question); no diagnostic completions yet. Execute its preflight/
-fixed pairs/stop rules from the [session handoff](2026-10-25-phase11-session-handoff.md) after /clear.
-5856e82 exposes all unresolved source-limit choices; four fresh router traces still fail. Experiment
-is isolated, not a production mode change/quality closure. No repeated rescue sweep or activation.
+Keep draft inactive. The approved checker comparison hit its mandatory preflight stop:0 completions,
+all4 input identities differ; server unavailable. Do NOT rerun automatically. Owner decision needed on
+the [recovery proposal](2026-10-25-checker-comparison-preflight-stop.md): original frozen checker
+snapshot plus existing-server startup, or end diagnostic and select next correction. Startup alone
+does not waive exact-input/stop gates.5856e82 menu change still has four failing router traces.
 Then choose correction, review/full suite/live revalidation before switch; remaining router/Hybrid/
 clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
 Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure
@@ -124,8 +130,9 @@ and same-account recovery instructions in [diagnosis](2026-10-25-supabase-mcp-di
 
 ## Context Consulted
 
-25 Oct Codex resume: thesis physical17-18,39-44 and routing PNG inspected; consistent scope/routing, no
-new discrepancy. Existing master3/10 and owner ledger reviewed; source/scope/gap/service policies apply.
+25 Oct Codex resume at357aa80: thesis physical17-18,39-44 and routing PNG inspected; standing
+unknown-versus-unmet distinction retained over illustrative thesis example. Master3/11/13/16/23/24,
+owner ledger and prompt/latency decisions reviewed; no new discrepancy. Source/scope/gap policies apply.
 Earlier context/architecture evidence is preserved in the prior checkpoint snapshot.
 
 ## Do Not Repeat

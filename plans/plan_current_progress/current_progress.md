@@ -51,10 +51,15 @@ Hosted migration20261024114711 applied; staged80 chunks/39 links; old19 active.1
 grants match fresh local DB exactly, all invoker; RLS/private review grants verified; advisors unchanged.
 Live9-case run failed quality: service/Taglish routing misses, omitted steps/sanction progression,
 weapon exception interpreted despite its malformed-source hold, fraud precedence chosen without warning.
-Draft remains inactive; no runtime pin switch. 5856e82 exposes all unresolved source-limit claims; RED5/1, focused44 GREEN. Four router traces
-still fail; this is not a quality fix. Full suite for this last change/review remain pending. Owner now
-authorized the bounded eight-call checker comparison; zero diagnostic completions, next after /clear.
-[Session handoff](../2026-10-25-phase11-session-handoff.md) contains exact controls/stop gates.
+Draft remains inactive; no runtime pin switch.5856e82 exposes unresolved source-limit claims;
+RED5/1, focused44 GREEN. Four router traces still fail; full suite/review remain pending.
+25Oct resume at357aa80: approved checker preflight STOPPED,0 completions.57 seals valid;
+all4 current messages/schemas differ through added empty topic fields and requirements hashes.
+Model endpoint refuses connections; Docker engine unavailable. No startup/repair/rescue run.
+[Stop evidence/recovery proposal](../2026-10-25-checker-comparison-preflight-stop.md): owner decision
+needed on original frozen checker snapshot plus existing-server startup, or ending diagnostic.
+Startup approval alone is insufficient. Offline audit exit0; no new full-suite result.
+[Session handoff](../2026-10-25-phase11-session-handoff.md) preserves controls and routes to this stop.
 Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.
 Preserve Step3 cutoff and25-vs20 minute discrepancy. All61 draft source records independently checked;
