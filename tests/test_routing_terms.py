@@ -20,6 +20,8 @@ def parse(text):
     ('4th year midyear', (4, 'summer')),
     ('fifth year', (5, 'any')),
     ('first year 1st semester', (1, 'first_semester')),
+    ('unang taon, ikalawang semestre', (1, 'second_semester')),
+    ('ikatlong taon unang sem.', (3, 'first_semester')),
 ])
 def test_year_and_semester_come_from_the_words_attached_to_them(text, expected):
     assert parse(text) == expected

@@ -14,7 +14,7 @@ _ORDINALS = {
 }
 _ORDINAL = '|'.join(f'(?P<o{n}>{words})' for n, words in _ORDINALS.items())
 _YEAR = re.compile(rf'\b(?:{_ORDINAL})(?:\s+na)?\s+(?:year|yr|taon)\b', re.I)
-_SEMESTER = re.compile(rf'\b(?:{_ORDINAL})\s+sem(?:ester)?\b', re.I)
+_SEMESTER = re.compile(rf'\b(?:{_ORDINAL})\s+sem(?:ester|estre)?\b', re.I)
 _SUMMER = re.compile(r'\b(?:summer|mid-?year)\b', re.I)
 
 
