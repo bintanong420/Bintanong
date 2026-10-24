@@ -6,32 +6,29 @@ Owner preview: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
 [Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
 [Checkpoint](../phase-11-checkpoint.md) |
 [Landing/auth delivery](../2026-10-24-landing-auth-concept2.md).
-Last full snapshot before this condensation:60d285f; use git show for history.
+Last full snapshot before this condensation:1c0ab97; use git show for history.
 
 ## Latest change
 
-Owner chose Figma landing concept3/auth concept2 and antislop during implementation.
-Public landing now lives at /; existing authenticated workspace at /chat. Successful
-PSU OAuth leads to /chat. Existing campus photograph and theme/control primitives
-reused; unsupported social proof and template email/GitHub providers omitted.
-Scope/privacy/advisory information remains explicit. New page-access tests observed
-RED then GREEN; accessible appearance name and CTA contrast fixed from browser evidence.
+Recovered exact session01a16c88-a2f7-7e63-b82a-f32c00d47160 after its usage-limit stop.
+Guided live clarification is connected: canonical printed course choices, one
+question at a time, unknown/alternative explanation, review and explicit send.
+Closing preserves selections and the unrelated composer draft; replies pass through
+the existing backend validation. Source gaps/conflicts cannot create course choices.
+Commits4dcd9bf/68b70e1;55 UI tests/typecheck/build and667 API/private/generation
+tests PASS;2 expected photo xfails. Four browser regressions plus10 integration
+families/16 requests PASS.320–1440px/light/dark and200% reflow/focus verified;
+minimum text contrast5.88:1. Review draft-loss finding fixed with browser RED→GREEN.
+[Evidence/current blocker](../2026-10-24-student-workspace-polish.md).
 
-Owner configured Google Cloud and Supabase. Live hosted Google setting is enabled;
-actual app303 redirects through Supabase with a PKCE verifier cookie, then302 to
-accounts.google.com with the expected hosted/local callbacks. Owner confirmed
-"PalSU email works now". Actual PSU login is owner-verified; non-PSU rejection and
-the full authenticated manual chat/upload checklist remain unverified.
-Ignored frontend/.env.local prepared from existing public settings; no Google
-secret staged. Next dev runs127.0.0.1:3215; research API8021 is ready with all five
-probes; anonymous frontend curricula request401. Existing model services reused.
-[Setup/manual checklist](../../docs/development/google-sign-in-local-setup.md).
+Next/login3215 restored200; real API8021 restart fails loading hosted curriculum
+facts: `facts require course_code and only supported field names`. Exact hosted
+field mismatch undiagnosed; guards/data unchanged. No live clarification/model claim.
 
-Fresh checks:45 frontend tests, next typegen, tsc --noEmit and production build PASS.
-Actual Edge31 checks PASS:320–1440px/light/dark/system, keyboard, scope/privacy,
-chat protection, configured Google control, wrong-account alert,200% text reflow.
-Final measured button contrast minimum14.05:1. Detailed gate/evidence in delivery.
-No package/lock changes, new dependencies, weights or schema changes for this task.
+Earlier landing3/auth2 delivered; actual PSU login owner-verified ("PalSU email works
+now"). Non-PSU rejection/full authenticated manual checklist remain unverified.
+Local public config remains ignored; no secrets staged. [Auth/setup delivery](../2026-10-24-landing-auth-concept2.md)
+and [manual checklist](../../docs/development/google-sign-in-local-setup.md) retain details.
 
 ## Verified integration baseline
 
@@ -59,8 +56,8 @@ First state/control polish verified:48 UI tests, production build,10 browser fam
 ChatGPT/Claude/Gemini reference pass also verified: centered composer, quiet header,
 collapsible navigation/mobile drawer and reduced-motion-aware feedback. Two tracked
 browser regressions pass; same48 UI tests/build and29 interaction checks pass.
-Owner now requests the specified guided live clarification prompt from a screenshot;
-connect supported choices, alternative explanation and explicit confirmation.
+Diagnose the real API's hosted-ledger fact-field mismatch against its reviewed
+release before rerunning actual authenticated clarification acceptance.
 [Evidence](../2026-10-24-student-workspace-polish.md).
 
 ## Remaining boundaries
