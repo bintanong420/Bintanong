@@ -183,6 +183,35 @@ class EvidencePolicyEngineTests(unittest.TestCase):
         self.assertEqual(out['configuration']['fingerprint'], RetrievalSettings(context_budget=12000).fingerprint)
         self.assertTrue(all(role == 'runtime' for role in self.client.roles))
 
+    def test_subject_search_recovers_lower_scoring_evidence_before_top_k(self):
+        import math
+        from backend.bintanong_retrieval.evidence_policy import SourceAwareEvidencePolicy
+        from backend.bintanong_retrieval.query import configuration_identity
+        from backend.bintanong_runtime.package_storage import PackageStorage
+
+        for cid in ('other2', 'other3'):
+            row = copy.deepcopy(self.rows[2])
+            row['chunk']['chunk_id'] = cid
+            row['chunk']['type_fields']['reading_id'] = cid
+            self.rows.append(row)
+            self.inputs['catalogue']['assignments'].append(dict(
+                reading_id=cid, subject_id='other', basis_ref='synthetic-review'))
+        self.remint()
+        vectors = {c['chunk_id']: [1.0] + [0.0]*1023 for c in self.inputs['chunks']}
+        vectors['a'] = [.4, math.sqrt(.84)] + [0.0]*1022
+        vectors['b'] = [0.0, 1.0] + [0.0]*1022  # Required neighbor below the floor.
+        storage = PackageStorage(release_id='release-test',
+            manifest=dict(embedding_set_id='set', **configuration_identity(self.encoder.config)),
+            chunks=self.inputs['chunks'], versions={self.rows[0]['chunk']['version_id']:
+                                                   self.rows[0]['version']}, vectors=vectors)
+        engine = RetrievalEngine(storage, self.encoder,
+            RetrievalSettings(top_k=3, min_similarity=.25, context_budget=12000),
+            evidence_policy=SourceAwareEvidencePolicy(**self.inputs))
+        out = engine.retrieve(self.request, subject_id='fees', requested_claims=('printed amount',))
+        self.assertEqual(out['status'], 'uncalibrated', out)
+        self.assertEqual([e['chunk_id'] for e in out['evidence']], ['a', 'b'])
+        self.assertEqual(out['evidence_policy']['assessment']['status'], 'reviewed_fields_available')
+
     def test_reviewed_absence_beats_related_high_scoring_context(self):
         out = self.result(requested_claims=('payment permission',))
         self.assertEqual(out['status'], 'insufficient_evidence')

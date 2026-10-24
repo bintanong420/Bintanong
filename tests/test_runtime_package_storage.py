@@ -21,8 +21,10 @@ def unit(angle):
     return [math.cos(angle), math.sin(angle)]
 
 
-def store(**extra):
+def store(*, same_version=False, **extra):
     chunks = [chunk('a', neighbors=('c',)), chunk('b'), chunk('c'), chunk('z', scope=('audience:graduate',))]
+    if same_version:
+        chunks[2]['version_id'] = 'ver-a'
     vectors = {'a': unit(0.1), 'b': unit(0.5), 'c': unit(1.5), 'z': unit(0.0)}
     versions = {'ver-' + c['chunk_id']: dict(version_id='ver-' + c['chunk_id']) for c in chunks}
     return PackageStorage(release_id='release-research', manifest=MANIFEST, chunks=chunks,
@@ -62,6 +64,24 @@ def test_returned_rows_cannot_mutate_the_package():
     s = store()
     search(s)['items'][0]['chunk']['text'] = 'changed'
     assert search(s)['items'][0]['chunk']['text'] == 'Fictional a'
+
+
+def test_chunk_filter_applies_before_ranking_and_keeps_only_eligible_neighbors():
+    s = store(same_version=True)
+    assert search(s, p_chunk_ids=[]) == search(s)
+    assert [r['chunk']['chunk_id'] for r in search(s, p_chunk_ids=['b'])['items']] == ['b']
+    assert search(s, p_chunk_ids=['z'])['items'] == []  # Scope still applies.
+    assert search(s, p_chunk_ids=['c'])['items'] == []  # Threshold still applies.
+    assert search(s, p_chunk_ids=['missing'])['items'] == []
+    assert search(s, p_chunk_ids=['a'])['items'][0]['neighbors'] == []
+    assert [n['chunk']['chunk_id'] for n in
+            search(s, p_chunk_ids=['a', 'c'])['items'][0]['neighbors']] == ['c']
+
+
+@pytest.mark.parametrize('value', [None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*33])
+def test_chunk_filter_rejects_invalid_lists(value):
+    with pytest.raises(ValueError, match='retrieval filters'):
+        search(store(), p_chunk_ids=value)
 
 
 @pytest.mark.parametrize('call', [

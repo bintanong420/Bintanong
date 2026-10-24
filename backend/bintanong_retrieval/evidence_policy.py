@@ -100,9 +100,12 @@ class SourceAwareEvidencePolicy:
             raise PolicyBindingError('source_snapshot_mismatch') from exc
 
     def _select(self, candidates, subject_id):
-        selected = set(select_candidate_subject(
-            self._catalogue, self._chunks, subject_id=subject_id)['chunk_ids'])
+        selected = set(self._chunk_ids(subject_id))
         return [row for row in candidates if row['chunk']['chunk_id'] in selected]
+
+    def _chunk_ids(self, subject_id):
+        return select_candidate_subject(
+            self._catalogue, self._chunks, subject_id=subject_id)['chunk_ids']
 
     def _assess(self, subject_id, requested_claims, emitted_chunk_ids, *, emitted_evidence=None):
         report = build_candidate_claim_report(self._catalogue, self._chunks,

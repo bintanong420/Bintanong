@@ -63,10 +63,13 @@ class RetrievalEngine:
                 return fail('configuration_mismatch')
             vector=self.encoder.encode(request.query)
             validate_vector(vector)
-            raw=self.client.rpc('retrieve_context',dict(p_release_id=request.release_id,p_config=config,
+            params=dict(p_release_id=request.release_id,p_config=config,
                 query_embedding=list(vector),p_top_k=self.settings.top_k,p_min_similarity=self.settings.min_similarity,
                 p_scope=list(request.scope),p_entity_hints=list(request.entity_hints),
-                p_version_ids=list(request.document_version_ids)),role='runtime')
+                p_version_ids=list(request.document_version_ids))
+            if self.evidence_policy is not None and subject_id is not None:
+                params['p_chunk_ids']=self.evidence_policy._chunk_ids(subject_id)
+            raw=self.client.rpc('retrieve_context',params,role='runtime')
             if raw.get('status')!='ok':
                 return fail(raw.get('status','storage_error'))
             if raw.get('release_id')!=request.release_id:
