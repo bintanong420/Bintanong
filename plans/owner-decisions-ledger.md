@@ -380,3 +380,7 @@ Each program still gets its own dated review record listing which standing rule 
   year, e.g. accepted T2) gets the memo's printed date (4 August 2023, F0), "cannot confirm it still applies" and an
   office referral, no rate. Owner: "that special class fee is 2023, tho we cant really confirm if its still valid. so
   perhaps refer to the offices". Host route repair from consistent declared parts: "Repair from parts".
+- 25 Oct 2026: deep-Tagalog words such as "isusumite" are a style preference (people rarely use them), not a
+  hard exclusion; no dedicated guard or exemption is needed. The Supabase security advisor WARN
+  `auth_leaked_password_protection` is accepted: the project is not on a Pro plan, so it cannot be enabled;
+  ignore it in advisor checks.

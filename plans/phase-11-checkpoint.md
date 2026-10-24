@@ -215,7 +215,7 @@ referral wording for e2) and the routing PNG: consistent.
       5. Hosted upload DONE 25 Oct (`load_facts.py`: rehearse then hosted; 39 new ledger rows, 39 links re-pointed in
          `p09-research-selected-20261022`, read-back equal, Prolog payload unchanged; rollback = re-point to
          `old_ledger_sha256` in `load-hosted-result.json`). MCP read-back: 39 links, 2132 courses. Security advisor:
-         1 WARN auth_leaked_password_protection (Auth setting, not touched here; was 0 lints 24 Oct).
+         1 WARN auth_leaked_password_protection (owner 25 Oct: not on a Pro plan, ignore it).
          Live probe (`p11-course-facts-20261024/live_facts.log`, `live_facts2.log`): first run 5/9 course-fact
          cases answered; router slips diagnosed by spy (`diag_facts.log`) and fixed: semestre `744f030`, mislabelled
          listing target + prompt p11-v19 (program named mid-question; school year never a term) `7ce99ca`,
@@ -231,7 +231,7 @@ referral wording for e2) and the routing PNG: consistent.
          28 text changes: 10 scope-line/evidence-id only (new runtime version), 16 document paraphrases/fee reply,
          nursing-tl/taglish now resolve both titles but the model marks "hindi ko pa naipapasa" hypothetical
          not_enrolled (nonasserted_facts -> bare clarify; claim-mode slip exposed, not introduced). Disclosed:
-         pre-enrollment-first-step-tl model wording used "isusumite" (owner forbids); completion-deadline-taglish
+         pre-enrollment-first-step-tl model wording used "isusumite" (owner 25 Oct: preference, no guard); completion-deadline-taglish
          stated the other side of a conflicting source, conflict note kept both runs.
          Full suite at 01d8db2: 6563 passed, 6 skipped, 2 xfailed, 0 failed (20m28s, `full-suite-facts.log`);
          ee3c61e/3094f14 after it: selections 1237 passed + fee 14 passed.
