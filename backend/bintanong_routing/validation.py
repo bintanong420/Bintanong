@@ -235,6 +235,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
+        if p.control == 'clarify' and not (p.operations or p.claims or reference):
+            # Nothing named to clarify (live: "Pwede ba mag-shift ng course?"): missing information with an
+            # office referral, not a bare "please clarify" (owner E3, 24 Oct 2026).
+            return result('empty_clarification', 'evidence_unavailable')
         return result('model_control', p.control)
     if p.route == 'RAG' and p.operations:
         return result('inconsistent_proposal', 'evidence_unavailable')

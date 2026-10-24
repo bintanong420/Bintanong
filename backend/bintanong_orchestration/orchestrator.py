@@ -23,6 +23,8 @@ _ROUTING_FAILURES = {
     'invalid_model_output':'invalid_output', 'invalid_style_output':'invalid_output',
     # Persistent reference errors: the question could not be interpreted; ask, not 'outage'.
     'invalid_reference':'clarify',
+    # The model asked to clarify but named nothing: unavailable information (owner E3, 24 Oct 2026).
+    'empty_clarification':'no_evidence',
     'invalid_grounding':'invalid_output', 'invalid_server_response':'invalid_output',
     'truncated_output':'invalid_output', 'server_response_too_large':'invalid_output',
     'context_overflow':'invalid_output',
