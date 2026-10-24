@@ -32,6 +32,11 @@ Activate only after local rehearsal, exact owner field reviews and hosted read-b
 - New chunks can inherit the current source's verification state and partial-review state only when
   their new review receipt is checked. They stay outside the active release until its replacement is ready.
   No disabling triggers, mutating published evidence, or storing a fabricated source edition.
+- Capacity finding: the complete table ends at physical p.95 (p.96 starts student services), with more
+  than 32 logical rows once the academic-dishonesty subrows and shared corrective measures are retained.
+  Raise only the trusted chunk-id filter bound to 128 in the g2 migration, with boundary tests; keep
+  existing scope/version/entity bounds at32 and top-k unchanged. This avoids merging unrelated offenses
+  or dropping reviewed rows to fit a technical limit. Existing migration history stays unchanged.
 - Build a new embedding manifest/set with the same pinned model/configuration; reuse existing vectors
   unchanged and embed new chunks locally. Create a new selected review/research release, copy all 39
   ledger links, and switch runtime package/release pins together. Keep rollback artifacts ignored.
@@ -72,5 +77,21 @@ external evidence/basetemp in workspace audit-evidence. SQL migrations created b
 
 ## Current state
 
-Design prepared; no g2 production code changed. Owner has approved route and source batches 1-2.
-Batch 3 pending. Item g's roster retry is running after one startup statement timeout.
+Owner approved route/source batches1-8; batch9 pending. Actual DB/client RED observed, then GREEN8 tests
++20 subtests (after fixing fixture observation and SQL compilation issues). Independent review found that
+direct service-role INSERTs could bypass RPC validation. A direct-insert regression reproduced it (expected
+exception absent); added row-level validation using the same proof helper. GREEN9 +20 subtests. Added
+second-generation ancestry and changed-replay coverage; affected legacy regression run pending.
+Final focused g2 run:12 passed +20 subtests (`supplement-final.log`). Legacy selection:87 passed +564
+subtests, two security-audit subtest failures caused by the old retrieval signature; audit corrected at
+`c048bcb`, focused rerun1 passed +2 subtests. Capacity RED observed at33/128 ids, then GREEN33 tests
++17 subtests;129 rejects, other filters retain32 limit. Five isolated DB mutations caught: link proof,
+parent history, parent binding, RPC grant and capacity bound. No production files changed by mutation runs.
+Roster19 complete63/63, 0 exceptions, no previously answered status/decision lost; see topic execution report.
+No hosted g2 change. Full suite and real-source package/rehearsal remain pending.
+
+Ruling: prepare/implement the additive g2 path locally while the existing hosted roster finishes. This
+independent work cannot change its already-loaded runtime or hosted release. Defer all hosted g2 changes,
+source/package switching and activation until item g comparison is complete. This saves idle time without
+weakening the planned integration gate. Published release lifecycle status may change on activation;
+its content, review receipts and source records remain immutable.

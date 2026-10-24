@@ -44,7 +44,7 @@ class PackageStorage:
         if params['p_release_id'] != self.release_id:
             return dict(status='release_changed')
         chunk_ids = params.get('p_chunk_ids', [])
-        if (not isinstance(chunk_ids, list) or len(chunk_ids) > 32
+        if (not isinstance(chunk_ids, list) or len(chunk_ids) > 128
                 or any(not isinstance(cid, str) or not 1 <= len(cid) <= 256 or not cid.strip()
                        for cid in chunk_ids)):
             raise ValueError('invalid retrieval filters')

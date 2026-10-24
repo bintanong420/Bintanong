@@ -78,10 +78,16 @@ def test_chunk_filter_applies_before_ranking_and_keeps_only_eligible_neighbors()
             search(s, p_chunk_ids=['a', 'c'])['items'][0]['neighbors']] == ['c']
 
 
-@pytest.mark.parametrize('value', [None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*33])
+@pytest.mark.parametrize('value', [None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*129])
 def test_chunk_filter_rejects_invalid_lists(value):
     with pytest.raises(ValueError, match='retrieval filters'):
         search(store(), p_chunk_ids=value)
+
+
+@pytest.mark.parametrize('count', [33, 128])
+def test_chunk_filter_supports_complete_topics_larger_than_32_chunks(count):
+    chunk_ids = ['b'] + ['not-a-member-'+str(i) for i in range(count-1)]
+    assert [r['chunk']['chunk_id'] for r in search(store(), p_chunk_ids=chunk_ids)['items']] == ['b']
 
 
 @pytest.mark.parametrize('call', [

@@ -79,9 +79,20 @@ class RetrievalDatabaseTests(unittest.TestCase):
 
     def test_chunk_filter_rejects_malformed_or_oversized_lists(self):
         from backend.bintanong_storage.client import StorageError
-        for value in (None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*33):
+        for value in (None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*129):
             with self.subTest(value=value), self.assertRaisesRegex(StorageError, 'retrieval filters'):
                 self.search(p_chunk_ids=value)
+
+    def test_chunk_filter_supports_complete_topics_larger_than_32_chunks(self):
+        for count in (33, 128):
+            chunk_ids = ['a'*64] + ['not-a-member-'+str(i) for i in range(count-1)]
+            with self.subTest(count=count):
+                result = self.search(p_chunk_ids=chunk_ids)
+                self.assertEqual([r['chunk']['chunk_id'] for r in result['items']], ['a'*64])
+        from backend.bintanong_storage.client import StorageError
+        for name in ('p_scope', 'p_entity_hints', 'p_version_ids'):
+            with self.subTest(filter=name), self.assertRaisesRegex(StorageError, 'retrieval filters'):
+                self.search(**{name:['a']*33})
 
     def test_topic_filter_precedes_top_k_and_retains_below_floor_neighbor(self):
         import math
