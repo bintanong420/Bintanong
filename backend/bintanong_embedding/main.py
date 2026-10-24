@@ -8,6 +8,9 @@ from pydantic import BaseModel, Field
 
 app = FastAPI(title="Bintanong SEA-LION Embedding Service", version="0.0.0")
 
+from backend.bintanong_embedding.query_api import query_router
+app.include_router(query_router())
+
 MODEL_DIMENSION = 1024
 DEFAULT_MODEL_NAME = "SEA-LION-E5-Embedding-600M"
 EXPECTED_WEIGHTS_SHA256 = "DF5B1C55623EEB5EF09CE3F3C50E24E2DB433D7D1BBCCCF76D2F01BA212DF5F1"

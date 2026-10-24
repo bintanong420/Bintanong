@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 
 from fastapi import Depends, FastAPI, Request, Response
@@ -40,17 +41,39 @@ class ApiServices:
     course_labels: Mapping[str, str] = field(default_factory=dict)  # course id -> printed code
     sources: SourceRegistry = field(default_factory=SourceRegistry)
     auth: object = None
+    ready: object = None
+    close: object = None
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
-    app = FastAPI(title='Bintanong API', version='0.0.0', dependencies=[Depends(check_origin), Depends(authorize)])
+    @asynccontextmanager
+    async def lifespan(_app):
+        try:
+            yield
+        finally:
+            if services.close is not None:
+                await services.close()
+    app = FastAPI(title='Bintanong API', version='0.0.0', lifespan=lifespan,
+                  dependencies=[Depends(check_origin), Depends(authorize)])
     app.state.services, app.state.settings = services, settings
     turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
     app.state.admission = admission = AnswerAdmission(running=settings.max_running_answers,
                                                       waiting=settings.max_waiting_answers)
     app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
     app.add_api_route('/health/live', health_live, methods=['GET'])
-    app.add_api_route('/health/ready', health_ready, methods=['GET'])
+    @app.get('/health/ready')
+    async def student_ready(response: Response):
+        status = await health_ready(response)
+        try:
+            ok = bool(services.pipeline is not None and (services.ready is None or await services.ready()))
+        except Exception:
+            ok = False
+        status.probes['student_runtime'] = ok
+        if not ok:
+            status.errors['student_runtime'] = 'research runtime unavailable'
+            status.status = 'degraded'
+            response.status_code = 503
+        return status
 
     @app.exception_handler(ApiError)
     async def api_error(_request: Request, error: ApiError):

@@ -58,7 +58,7 @@ Consumes Task2 adapter and Task1 checked metadata. Produces one actual conversat
 Files: tracked runtime composition/launcher and local development docs, external config/credentials stay ignored.
 Consumes validated hosted ledgers/document snapshot and existing derivative review index; builds ResearchPipeline/create_app, isolated PDF extractor and required PSU verifier. Fail startup on missing/mismatched config; readiness includes configured student composition. Never use health-only main.app as the student app.
 - [ ] RED: absent config, invalid source/index/release, missing auth, cleanup on failure; actual composition self-check.
-- [ ] Implement and verify without DB writes, weight downloads or bypassing review; commit.
+- [x] Implement and verify without DB writes, weight downloads or bypassing review; commit.
 
 ## Task 5: Browser verification and delivery
 
@@ -77,3 +77,4 @@ Ruling (owner correction): integration base is frontend c17dcb2, worktree p11-fr
 Ruling: the original frontend's preparatory phase-plan metadata conflicts with the selected backend's formal Phase11 plan after merging. Retain its content as historical interface-preparation with a superseding pointer; keep one active numbered phase plan. Prior full content remains atc17dcb2.
 Runtime integration reuses only the checked hosted-snapshot and strict HTTP embedding bridge from the earlier branch, avoiding a second CPU encoder in the API. Lawrence's routing/generation/queue/upload implementations remain authoritative; no whole interface backend is merged.
 Task3: original workspace now uses real messages, checked scope, source inspection, explicit PDF row confirmation/removal, Stop, acknowledged clearing and Supabase PKCE/sign-out.43 UI/adapter tests and Next16.4.3 production build pass; npm audit0 findings. Actual Next/FastAPI synthetic browser fixture passes10 control families/16 requests, including isolated PDF parsing, same-file reselection, unsupported-file preservation, failed clearing and keyboard/IME/themes/reflow. Browser exposed upload-query display-label leakage; focused regression observed RED then GREEN after restricting query to scope IDs. Real Google identity-provider setup remains unavailable; no actual PSU login claimed.
+Task4: explicit auth-required research factory, lifecycle cleanup/readiness, anon-only hosted snapshot and strict resident encoder bridge implemented; composition RED4/public-key RED1, GREEN174 selected API/runtime/private-session/docs tests. Actual configured readiness200/anonymous401.39 curricula load; model samples/caveats in delivery. An experimental document-scope wrapper was discarded when the unchanged scoped RAG probe passed; Lawrence's scope/filter behavior remains intact.

@@ -1,46 +1,43 @@
 # Current progress
 
-Updated24October2026. Phase11 active. Owner direction: bring Lawrence's API into
-the original frontend branch, preserving the UI. Integration branch
-`feat/p11-frontend-integration` in worktree `p11-frontend-integration`, based on
-`frontend`c17dcb2. Main owner checkout and both earlier worktrees remain intact.
+Updated24October2026. Phase11 active: original frontend + Lawrence's API.
+Worktree p11-frontend-integration; branch feat/p11-frontend-integration derives
+from frontendc17dcb2 and merges origin/feat/p11-backend-api34a21ca in227efaa.
+Main owner checkout and earlier worktrees untouched; no push/deployment.
 
-[Backend plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
-[Integration tasks](../2026-10-24-student-ui-backend-integration-plan.md).
-Prior full backend snapshot34a21ca; original frontend snapshotc17dcb2.
+[Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
+[Checkpoint](../phase-11-checkpoint.md) | [Delivery](../2026-10-24-student-ui-integration-delivery.md).
+Last full snapshots: backend34a21ca, original frontendc17dcb2, state58bf669.
 
-## Current work
+## Latest delivery
 
-- Lawrence's `origin/feat/p11-backend-api`34a21ca merged into the original frontend
-  as227efaa. Only INDEX/current-progress conflicted; resolved as current state.
-  Verified no frontend file changed in the merge;83 API tests passed.
-- Earlier integration work is saved on local backend branch: e8fa6b2 adds verified
-  PSU Google auth/account-owned sessions/admission and checked answer metadata;
-  fb63f74 tests SDK7 transport/proxy/state. Selected code now ported:131 API tests
-  pass on the combined tree. New real-state reducer is separate from preview
-  fixtures; original43 UI/adapter tests pass. Original components are wired in place.
-- Owner approved exact Next16.4.3/SDK7/Supabase SSR dependency set. Google sign-in
-  is required by master25.1; hosted provider is disabled. External OAuth setup
-  remains due; no client secret requested in chat, no production auth bypass.
-- Original UI/annotations and compact composer/system themes remain the visual
-  base. No interface-branch backend merge. No simulation presented as live work.
+Transport/auth58bf669 and original workspacea8b3091 committed. Original UI now
+uses actual messages, sources, checked scope, PDF review/confirm/remove, waiting,
+Stop, acknowledged clearing and Supabase PKCE/sign-out. /chat redirects to root;
+/dev/health retained. No simulation imported by the student workspace.
 
-## Verification and limits
+Owner-approved SDK7/Next/Supabase pins installed; React/TypeScript retained.
+43 UI tests, typecheck/build pass; npm audit0.174 selected backend/runtime/docs
+tests pass. Actual Next/FastAPI synthetic browser passes10 families/16 requests,
+including isolated PDF parsing, explicit choices, same-file/rejection/remove
+isolation, failed clear, Stop/account release, sign-out, themes/IME/reflow.
 
-Lawrence's historical full suite at7c3786e:6451 pass,6 skip,2 expected photo limits.
-Earlier fresh integration:131 API/private-session tests pass;14 SDK/transport/state
-tests pass on Node24.21. SDK test parses actual Python-emitted synthetic stream.
-Those commits are preserved, not automatically acceptance of this merged tree.
-E3 shifting clarification, pending-question/replay gaps, real Google login and
-full browser/model route acceptance remain open. Photos/scans unsupported.
+Configured research API8021 readiness200/all probes; anonymous access401.
+Actual Prolog answered/validated4 sources; later scoped/unscoped RAG probes
+answer handbook1.0 ->98-100/Excellent with page46 citation. Initial RAG outage
+and Hybrid insufficient-evidence samples remain disclosed. No broad acceptance.
+Full suite currently running. API uses existing Python3.13.5 environment; tests
+system3.13.12/Node24.21. No Python install, model copy or database change.
 
 ## Next action
 
-Complete original workspace/auth wiring, tracked research composition and browser
-verification. Production build currently running; no live acceptance claim yet.
+Finish independent review/full-suite checks; fix important findings, start the
+actual3215 preview and finalize setup/delivery docs. Google provider is disabled;
+real PSU OAuth still needs external setup and human verification. Never bypass it.
 
-## Boundaries
+## Remaining boundaries
 
-Undergraduate/read-only/source-gap/privacy/release guards retained. No public
-deployment, push, training, persistent grades/history or institutional activation.
-Existing external weights/images reused; no model copies or database changes.
+E3 shifting, pending-question/replay, broader aliases, real grade layouts and
+Hybrid/language/latency exits remain open. Photos/scans unsupported. Existing
+Figma assets/annotations reused; no fresh Figma tool approval. No Phase11 closure,
+university approval, public deployment, source activation or personal persistence.
