@@ -25,6 +25,9 @@ _ROUTING_FAILURES = {
     'invalid_reference':'clarify',
     # The model asked to clarify but named nothing: unavailable information (owner E3, 24 Oct 2026).
     'empty_clarification':'no_evidence',
+    # A structured fact with no operation to run ("How many units is CC 5?"): unavailable information, not an
+    # outage (owner step 2d, 24 Oct 2026).
+    'unsupported_requirement':'no_evidence',
     'invalid_grounding':'invalid_output', 'invalid_server_response':'invalid_output',
     'truncated_output':'invalid_output', 'server_response_too_large':'invalid_output',
     'context_overflow':'invalid_output',
