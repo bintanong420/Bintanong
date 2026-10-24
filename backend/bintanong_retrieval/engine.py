@@ -81,7 +81,7 @@ class RetrievalEngine:
                 p_scope=list(request.scope),p_entity_hints=list(request.entity_hints),
                 p_version_ids=list(request.document_version_ids))
             if self.evidence_policy is not None and subject_id is not None:
-                params['p_chunk_ids']=self.evidence_policy._chunk_ids(subject_id)
+                params['p_chunk_ids']=self.evidence_policy._chunk_ids(subject_id,requested_claims)
             raw=self.client.rpc('retrieve_context',params,role='runtime')
             if raw.get('status')!='ok':
                 return fail(raw.get('status','storage_error'))

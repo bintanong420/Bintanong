@@ -103,9 +103,34 @@ class SourceAwareEvidencePolicy:
         selected = set(self._chunk_ids(subject_id))
         return [row for row in candidates if row['chunk']['chunk_id'] in selected]
 
-    def _chunk_ids(self, subject_id):
-        return select_candidate_subject(
-            self._catalogue, self._chunks, subject_id=subject_id)['chunk_ids']
+    def _chunk_ids(self, subject_id, requested_claims=()):
+        selection = select_candidate_subject(self._catalogue, self._chunks, subject_id=subject_id)
+        ids = selection['chunk_ids']
+        if not requested_claims or not ids:
+            return ids
+        editions, curricula = {}, set()
+        for identity in ids:
+            chunk = self._by_id[identity]
+            editions.setdefault(chunk['document_id'], set()).add(chunk['byte_sha256'])
+            curricula.update(tag for tag in chunk['scope'] if tag.startswith('curriculum:'))
+        # A field review cannot settle edition precedence or curriculum applicability.
+        # Preserve the original storage filters and ambiguity checks for these topics.
+        if len(curricula) > 1 or any(len(hashes) > 1 for hashes in editions.values()):
+            return ids
+        reviews = {r['claim']:r for r in self._reviews['reviews'] if r['subject_id'] == subject_id}
+        if any(claim not in reviews or reviews[claim]['finding'] != 'visible_fields'
+               for claim in requested_claims):
+            return ids
+        by_reading = {r['reading_id']:r['chunk_id'] for r in selection['rows']}
+        required = {by_reading[f['reading_id']] for claim in requested_claims
+                    for f in reviews[claim]['field_refs']}
+        pending = list(required)
+        for identity in pending:
+            for neighbor in self._by_id[identity]['type_fields'].get('required_neighbor_chunk_ids', []):
+                if neighbor not in required:
+                    required.add(neighbor)
+                    pending.append(neighbor)
+        return [identity for identity in ids if identity in required]
 
     def _assess(self, subject_id, requested_claims, emitted_chunk_ids, *, emitted_evidence=None):
         report = build_candidate_claim_report(self._catalogue, self._chunks,
