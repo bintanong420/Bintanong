@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 17
+sequence: 18
 plan: plans/phase-11-backend-api-plan.md
-head_commit: c17dcb2
+head_commit: ede9f84
 working_tree: dirty
-updated_at: 2026-10-24T14:22:37+08:00
+updated_at: 2026-10-24T14:33:23+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -44,7 +44,8 @@ files, byte-identical to its pre-sync state. Original recovery copies/stash reta
 Main checkout's tracked progress addition was saved separately; its untracked
 status-review document and model directory remain untouched and unstaged.
 Recovery: sync record, external frontend-merge-20261024-1421 and recovery refs.
-No push, provider/dependency install or database change. Earlier worktrees preserved.
+Owner authorized package consistency: npm ci installed the existing approved pins
+in main frontend, with no manifest/lock changes. No push/provider/database changes.
 No current listeners found on3215/3217/8021/18091; prior running-service notes stale.
 Google provider last recorded disabled; hosted auth not refreshed in this audit.
 Last full pre-condensation snapshots: backend34a21ca, frontendc17dcb2, checkpoint58bf669.
@@ -64,7 +65,14 @@ Last full pre-condensation snapshots: backend34a21ca, frontendc17dcb2, checkpoin
   Exact commands/log/recovery in sync record; full suite/browser/OAuth not rerun.
 - Frontend-branch merge fresh checks (without lifecycle WIP):114 backend test files,
   3383 passed,2 expected photo xfails in96.17s; product/tests identical to04a03ea.
-  Main installed dependencies remain older; no UI/build claim for this checkout.
+  Main dependency sync now independently verified below.
+- Owner's origin-consistency follow-up: fetched origin backend4a134bf;0 commits
+  missing. Core routing/orchestration/generation/symbolic/contracts match exactly;
+  only committed UI/auth/runtime adapters differ. No lifecycle WIP copied.
+- Main npm ci with existing Node24.21/npm11.19:89 packages installed,audit0;all21
+  direct pins match manifest/lock. All4 root/frontend manifest/lock hashes unchanged.
+  Main43 UI tests, next typegen, tsc --noEmit and production build pass. Local
+  smoke root307 ->login,login200,anonymous curricula401; temporary3216 server stopped.
 - Current174 selected API/runtime/private-session/docs tests pass; composition
   loader/cleanup RED4, privileged-key guard RED1. No source/filter change retained.
 -43 frontend tests, TypeScript, Next16.4.3 production build pass on Node24.21.
@@ -125,7 +133,7 @@ Review preserved dirty lifecycle work, then resolve recorded suite environment
 failures and finish independent review
 and actual preview/setup delivery. Do not claim phase completion from this merge.
 Continue implementation in p11-frontend-integration; frontend is the committed
-delivery snapshot, with its local dependency installation still at older pins.
+delivery snapshot with dependencies now installed at its approved pins.
 
 ## Do Not Repeat
 

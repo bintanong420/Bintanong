@@ -8,8 +8,9 @@ Owner then requested delivery to `frontend`: main checkout now merges the commit
 integration04a03ea. Unfinished lifecycle edits remain only in the integration worktree;
 the main checkout's local review/model directory are preserved. No push/deployment.
 Fresh frontend-branch backend checks:3383 passed,2 expected photo xfails in96.17s;
-product/test tree matches committed integration04a03ea. UI packages here remain
-uninstalled at the merged pins, so this checkout's UI/build were not rerun.
+product/test tree matches committed integration04a03ea. Owner then authorized local
+package consistency: npm ci now matches all21 direct pins;43 UI tests, TypeScript
+and Next16.4.3 production build pass here. All manifests/locks unchanged.
 
 [Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
 [Checkpoint](../phase-11-checkpoint.md) | [Delivery](../2026-10-24-student-ui-integration-delivery.md).
@@ -47,10 +48,14 @@ Owner requested backend sync24Oct: all13 commits through4a134bf merged, preservi
 their history and the unfinished lifecycle work. Only progress/checkpoint conflicted;
 integration snapshot retained, backend decisions/reports/tests included. See the
 [sync record](../2026-10-24-frontend-backend-sync.md) for commits, recovery and checks.
-No dependency, provider, database or model changes; no push/deployment.
+No declared dependency, provider, database or model changes; no push/deployment.
 Fresh combined-workspace checks:56 focused backend tests;3387 affected backend
 tests pass/2 expected photo xfails;46 UI tests and Node24.21 TypeScript pass.
 All18 pre-existing product/test files byte-identical and unstaged; recovery retained.
+Origin refreshed4a134bf:0 missing commits; core routing/orchestration/generation/
+symbolic/contracts exactly match origin. Only committed UI/auth/runtime extensions
+differ. npm11.19/Node24.21 used; audit0. Local smoke307 root/200 login/401 API pass,
+then stopped. OAuth remains unconfigured here; no production login claim.
 
 ## Next action
 

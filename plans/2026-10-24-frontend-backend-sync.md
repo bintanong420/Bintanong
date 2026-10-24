@@ -109,3 +109,33 @@ approved dependencies; no install was performed for a Git merge. Earlier combine
 worktree checks above are separate evidence. One inherited trailing blank EOF line
 in test_api_research_composition.py remains; whitespace check passes with only
 blank-at-eof disabled. No dependency, provider, DB, model or deployment change/push.
+
+## Origin consistency and local dependency synchronization
+
+Owner clarified the target is consistency with `origin/feat/p11-backend-api`.
+Fresh fetch still resolves4a134bf; `git rev-list --count HEAD..origin/feat/p11-backend-api`
+returns0. Routing, orchestration, generation, symbolic and contract modules match
+origin byte-for-byte in Git. Remaining backend differences are the already
+committed PSU auth/account-admission, research composition and resident encoder
+adapters; none changed in this follow-up. Lifecycle WIP remains in its worktree.
+
+Owner authorized installing the frontend's existing approved pins. Main checkout
+`npm ci --no-fund` with existing Node24.21.0/npm11.19.0 installed89 packages and
+audited90,0 vulnerabilities. All21 direct dependencies match package.json and
+package-lock.json. SHA-256 hashes of both root/frontend manifests and lockfiles
+are unchanged; no upgrades or new dependencies. Before hashes are in ignored
+`frontend-dependency-sync-20261024-1430/manifest-before.json`.
+
+Main checkout verification:
+
+- Node `--experimental-strip-types --test tests/*.test.mjs`:43 passed.
+- `next typegen`, `tsc --noEmit`, `next build`:pass, Next16.4.3.
+- Temporary loopback production smoke:root307 to login,login200,anonymous
+  `/api/curricula`401. Server stopped after checking; no auth bypass or backend run.
+- The build reports existing workspace-root/multiple-lockfile warnings. No config
+  changes were made to silence them. No actual PSU OAuth login is claimed.
+
+The terminal's system-wide Node/npm installation was not changed; these checks
+used the already available project-pinned runtime. No push, DB, provider, source
+or model changes. Earlier statements about uninstalled packages describe the
+merge boundary and are superseded by this completed local installation.
