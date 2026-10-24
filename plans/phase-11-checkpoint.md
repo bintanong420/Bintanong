@@ -4,9 +4,9 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 1f510dd
+head_commit: 874f0c9
 working_tree: clean
-updated_at: 2026-10-24T23:30:00+08:00
+updated_at: 2026-10-25T03:00:00+08:00
 ---
 
 # Phase 11 checkpoint - security, queue, abuse probe, E1 and E3 done; step 2 evaluation continues
@@ -78,8 +78,6 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
   Taglish 15/21 (run 15: 10/21); 23 of 25 answered texts identical, 2 changed only in language.
 - Photo measurement: 42 simulated photos, 0 silent errors; plain layout exact in all 7 conditions; Report-of-Grades
   style exact in flat/dim; owner's real screenshot refused (two causes pinned as xfails).
-- Full suite at `72ec6d4`: 6441 passed, 6 skipped, 2 xfailed (documented photo limits), 1552 subtests,
-  0 failed, 20m00s. Log: workspace `audit-evidence/p11-20261023/full-suite-security.log`.
 - Security fixes: RED observed for each, then GREEN, and each guard mutation-checked. A re-probe of S1 (1000
   cookie-less requests) left a new student's `/chat` at 200.
 - Answer queue: RED -> GREEN; three mutations (no busy refusal, no slot wait, no release) each failed the test.
@@ -88,15 +86,22 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
 - Live capacity probe: 1 student 25.6 s; 3 at once 23.5/38.5/49.4 s; 6 at once five served by 76.8 s and the
   sixth `answers_busy` in 0.5 s; statuses identical to a sequential run. Logs in `live-api/`.
 - E1: RED (4 tests: integration mapping and the reply in three languages), GREEN; generation/orchestration/API/
-  routing/evaluation selection 1516 passed. Full suite at `7c3786e`: 6451 passed, 6 skipped, 2 xfailed, 0 failed
-  (log `audit-evidence/p11-20261023/full-suite-e1.log`).
+  routing/evaluation selection 1516 passed.
 - E3: RED (2 tests, expected reason) after a fixture setup fix, GREEN; 3 mutations each failed a test; selection
-  (routing/orchestration/generation/API/evaluation/private) 1310 passed, 2 xfailed. Full suite at `05f34d2`: 6455 passed, 6 skipped, 2 xfailed, 0 failed (22m04s, log `full-suite-e3.log`).
+  (routing/orchestration/generation/API/evaluation/private) 1310 passed, 2 xfailed.
   Hosted Supabase security advisor 24 Oct: 0 lints.
 - 2b-2e: RED observed for each, GREEN, isolated mutations each failed a test (2b 4, 2c 3, 2e 5). Selection
   (routing/orchestration/generation/api/evaluation/private/symbolic/runtime/contract) at 2b: 3727 passed, then 9
   traceability digest failures fixed by omitting an absent `requirement` from the dump. Full suite NOT run at
-  `1f510dd`: a first run overlapped edits (discarded); the clean run was stopped by Claude Code for low system memory.
+  `1f510dd`: a first run overlapped edits (discarded); the clean run was stopped by Claude Code for low memory.
+- Full suite at `874f0c9`: 6478 passed, 6 skipped, 2 xfailed (photo limits), 1552 subtests, 0 failed, 19m51s
+  (log `full-suite-874f0c9.log`).
+- Roster run 17 (HEAD `874f0c9`, run 15/16 settings): 0 of 63 status/decision changes vs run 16, 0 exceptions;
+  19 text changes, all intended (11 E1 referral wording, 3 Nursing title questions -> course not found, 2
+  Criminology CDI 6/7 -> co-requisite listed, 3 proposed-BSCS CC 5 -> CC 3/L and CS 2 listed). Comparison
+  `audit-evidence/p11-20261023/roster17-vs-16.txt`.
+- Security re-check 25 Oct: hosted Supabase security advisor 0 lints; secret scan of `dev..HEAD` (59 commits) found
+  only Python `secrets` uses, docs and test strings; tracked `.env.example` points at the local Docker DB only.
 - 2a: RED (2 wire tests, `only_document_parts_carry_topics`), GREEN; 3 isolated mutations each failed a test;
   selection (routing/orchestration/generation/api/evaluation/private) 1772 passed, 2 xfailed. Live log `diag_r4_after.log`.
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
@@ -148,16 +153,19 @@ decision ("authorized user/session"): consistent, no discrepancy.
    b. (Done `467aa9d`) prerequisite list.
    c. (Done `9e3c5b0`) course not found.
    d. (Done `8f15471`) units -> referral.
-   e. (6) "INC meaning + deadline": confirm `_topic_intent` first-topic-only (not cosine/kNN), then retrieve
-      every chosen topic.
+   e. (Done `1f510dd`) every chosen topic retrieved.
+   e2. (Owner decisions 24 Oct, ledger) NEXT: special class fee host-written reply (rate PHP 370.37/hour + 3-unit
+      example PHP 20,000.00 + own charge not stated + referral, all languages; English currently gives the example
+      as the fee); then multi-part partial answers (answer covered parts, name the uncovered part). Both touch the
+      answer contract, per-part review and final validation: TDD each.
    f. (7) Cebuano -> name supported languages; "Thank you" -> not "Hello"; tuition wording = referral.
    g. Passing grade: show the owner the printed region of Handbook p.304 (owner reading: 3.0/75 pass, below fails),
       then add the reviewed claim.
-   h. Course facts for "first-year BSIT subjects" (and units/titles): plan extraction of title, units and
+   h. [Plan drafted, awaiting owner approval](2026-10-24-course-facts-plan.md). Course facts for "first-year BSIT subjects" (and units/titles): plan extraction of title, units and
       year/semester from the 39 prospectus PDFs + a structured lookup; show the owner the plan and review batches
       first (source decisions are human-in-the-loop).
    Not doing: per-college Charter notes (owner: website scope text says the Charter is university-wide; UI work).
-   Then roster run 17, the two live-smoke observations and roster 16's clarification statuses.
+   Roster run 17 done (above). Then the two live-smoke observations and roster 16's clarification statuses.
 3. Then UI integration (co-worker's design). Website scope/guidelines must state the Charter source is the
    university-wide 2025 4th Edition (owner, 24 Oct). Install `ai` v7, `@ai-sdk/react` 4 and `@supabase/ssr`, and upgrade
    `next` (>= 16.4.3), `sharp` and `source-map-js`, all at the then-current patch, with owner approval of the exact

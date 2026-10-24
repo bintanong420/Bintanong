@@ -31,12 +31,10 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 ## Next action
 
-Full suite at `05f34d2`: 6455 passed, 0 failed. Owner risk scenarios probed live ([results](../2026-10-24-risk-scenario-probe-results.md)). Owner decisions
-(24 Oct, in `owner-decisions-ledger.md`): fix all 7 listed problems; college Charters handled by website scope text
-(replies unchanged); passing grade from Handbook p.304 to verify and add; first-year subject lists must be answered
-(needs title/units/year-semester facts; ledgers hold only codes and prerequisites).
-Next: run the full suite at `1f510dd` (owner to restart when memory allows), then diagnose per-part generation
-`parts_unresolved` for multi-topic/Filipino fee questions, then 2f-2h.
+Full suite at `874f0c9`: 6478 passed, 0 failed. Roster run 17: 0/63 status changes vs run 16, 19 intended text
+changes. Security re-check: Supabase advisor 0 lints, branch secret scan clean. Course facts plan drafted
+([plan](../2026-10-24-course-facts-plan.md), awaiting owner approval). Owner fee/partial-answer decisions recorded.
+Next: checkpoint step 2 e2 (special class fee host reply, then multi-part partial answers), then 2f-2h.
 
 ## Boundaries
 
