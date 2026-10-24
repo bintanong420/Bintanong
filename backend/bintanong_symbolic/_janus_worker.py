@@ -41,7 +41,10 @@ def main():
                     or not re.fullmatch(r'research-[A-Za-z0-9_-]{1,119}',auth['authorization_ref'])
                     or not re.fullmatch(r'[0-9a-f]{64}',auth['bundle_sha256'])
                     or not isinstance(operations,list) or not operations or len(set(operations))!=len(operations)
-                    or not set(operations)<={'check_prerequisite_eligibility','list_missing_prerequisites','list_affected_courses'}
+                    # course_facts/list_term_courses are reviewed-fact lookups authorized beside the checks; they
+                    # never reach this worker (the fixed predicate check above refuses them).
+                    or not set(operations)<={'check_prerequisite_eligibility','list_missing_prerequisites','list_affected_courses',
+                                            'course_facts','list_term_courses'}
                     or payload['predicate'] not in operations or not research['release_holds']
                     or hashlib.sha256(json.dumps(payload['bundle'],sort_keys=True,ensure_ascii=True,
                         separators=(',',':'),allow_nan=False).encode()).hexdigest()!=research['payload_sha256']):

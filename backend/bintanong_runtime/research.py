@@ -8,7 +8,7 @@ import hashlib
 import json
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
-from ..bintanong_orchestration.adapters import MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
+from ..bintanong_orchestration.adapters import SIGNATURES, MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
 from ..bintanong_orchestration.contracts import ReleasePin
 from ..bintanong_orchestration.ports import ReleaseResources
 from ..bintanong_retrieval.engine import RetrievalEngine
@@ -20,9 +20,11 @@ from ..bintanong_symbolic.runtime import CurriculumRuntime
 from .hosted_storage import HostedReleaseStorage
 from .package_storage import PackageStorage
 
-OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
+OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
+              'course_facts', 'list_term_courses')
 CAPABILITIES = dict(zip(OPERATIONS, ('offline_research_prerequisite_check',
-    'offline_research_missing_prerequisites', 'offline_research_dependency_inspection')))
+    'offline_research_missing_prerequisites', 'offline_research_dependency_inspection',
+    'offline_research_course_facts', 'offline_research_term_courses')))
 # Phase 05 selected document-development profile (uncalibrated; research status rule applies).
 SETTINGS = RetrievalSettings(top_k=3, min_similarity=.25, context_budget=2048,
                              policy_id='uncalibrated-document-development-v1')
@@ -138,6 +140,10 @@ def retrieval_storage(release_id, package, *, hosted, authorization_ref):
                           versions=package['versions'], vectors=package['vectors'])
 
 
+def research_registry():
+    return CapabilityRegistry({op: Capability(name, SIGNATURES[op]) for op, name in CAPABILITIES.items()})
+
+
 def build_research_resources(ledger, package, *, encoder, authorization_ref, hosted=None):
     """Compose one research release: reviewed rules, reviewed package, research labels."""
     bundle = prepare_runtime_bundle(ledger)
@@ -155,8 +161,7 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref, hos
         sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
         documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
                    for c in chunks]))
-    registry = CapabilityRegistry({op: Capability(name, ('curriculum_id', 'course_id'))
-                                   for op, name in CAPABILITIES.items()})
+    registry = research_registry()
     engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
     return ReleaseResources(pin, research_catalog(ledger), registry,
         RetrievalAdapter(engine, research=True), SymbolicAdapter(runtime, research=True),
@@ -198,8 +203,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
         documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
                    for c in chunks]))
-    registry = CapabilityRegistry({op: Capability(name, ('curriculum_id', 'course_id'))
-                                   for op, name in CAPABILITIES.items()})
+    registry = research_registry()
     engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),

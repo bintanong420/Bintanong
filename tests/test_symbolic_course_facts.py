@@ -80,3 +80,51 @@ def test_course_facts_return_printed_values_for_a_reviewed_course_only():
 def test_missing_printed_units_stay_missing_not_zero():
     facts = lookups().course_facts(ledger(drop=('units.printed',)), 'course-syn101')
     assert facts.units == {}
+
+
+def test_a_year_without_a_semester_lists_every_term_in_term_then_printed_order():
+    listing = lookups().list_term_courses(ledger(), year=1, term='any')
+    assert [c.code for c in listing.courses] == ['SYN 101', 'SYN 102', 'SYN 103']
+
+
+def runtime_request(predicate, **inputs):
+    from backend.bintanong_contracts.runtime import PredicateRequest
+    return PredicateRequest.parse({'predicate': predicate, 'inputs': [
+        {'name': k, 'value': v, 'fact_ref': None} for k, v in {'curriculum_id': SCOPE['curriculum_id'], **inputs}.items()]})
+
+
+def look_up(request, value=None):
+    from backend.bintanong_symbolic.runtime import CurriculumRuntime
+    return CurriculumRuntime(ledger() if value is None else value).look_up(request)
+
+
+def test_runtime_lists_a_term_with_printed_facts_and_release_scope():
+    result = look_up(runtime_request('list_term_courses', year_level='1', semester='first_semester'))
+    assert result.status == 'complete' and result.scope is not None and result.synthetic is True
+    assert [(c.code, c.units, c.year, c.term, c.page) for c in result.courses] == [
+        ('SYN 101', (('units.printed', '3'),), 1, 'first_semester', 1),
+        ('SYN 102', (('units.printed', '2/1'),), 1, 'first_semester', 1)]
+
+
+def test_runtime_course_lookup_distinguishes_unreviewed_from_unknown_courses():
+    assert look_up(runtime_request('course_facts', course_id='course-syn102')).courses[0].title == 'Fictional Second Row'
+    unreviewed = look_up(runtime_request('course_facts', course_id='course-syn102'), ledger(draft=('SYN 102',)))
+    assert unreviewed.status == 'not_reviewed' and unreviewed.courses == ()
+    assert look_up(runtime_request('course_facts', course_id='course-missing')).status == 'not_found'
+
+
+def test_runtime_listing_without_full_review_returns_no_courses():
+    result = look_up(runtime_request('list_term_courses', year_level='1', semester='any'), ledger(draft=('SYN 103',)))
+    assert result.status == 'not_reviewed' and result.courses == () and result.scope is None
+
+
+def test_runtime_lookup_of_another_curriculum_is_not_found():
+    request = runtime_request('course_facts', course_id='course-syn101')
+    other = request.model_copy(update={'inputs': (request.inputs[0].model_copy(update={'value': 'curriculum-other'}),
+                                                  request.inputs[1])})
+    assert look_up(other).status == 'not_found'
+
+
+def test_runtime_course_without_reviewed_placement_is_not_reviewed():
+    result = look_up(runtime_request('course_facts', course_id='course-syn101'), ledger(drop=('semester',)))
+    assert result.status == 'not_reviewed' and result.courses == ()

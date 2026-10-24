@@ -119,3 +119,16 @@ def test_names_for_programs_outside_the_release_are_ignored(monkeypatch):
     resources = research.build_multi_research_resources(ledgers, package, encoder=object(),
         authorization_ref='research-fictional-test', program_names={'program-absent': ['Absent']}, curriculum_names={})
     assert not [e for e in resources.catalog if e.kind != 'course']
+
+
+def test_course_fact_lookups_are_offered_with_their_own_inputs(monkeypatch):
+    resources, _ = build(monkeypatch)
+    term = PredicateRequest.parse({'predicate': 'list_term_courses', 'inputs': [
+        {'name': 'curriculum_id', 'value': C1, 'fact_ref': None}, {'name': 'year_level', 'value': '1', 'fact_ref': None},
+        {'name': 'semester', 'value': 'any', 'fact_ref': None}]})
+    resources.registry.goal(term)  # fixed signature accepted
+    context = RequestContext.parse(dict(session_id='sess-fictional', request_id='req-fictional',
+                                        program_id='program-synthetic', curriculum_id=C1, facts=[]))
+    result = asyncio.run(resources.symbolic.execute(term, context))
+    # The fictional ledger has codes and units but no reviewed year/semester: unknown, never a partial list.
+    assert result.status == 'not_reviewed' and result.synthetic is False
