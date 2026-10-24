@@ -1,5 +1,20 @@
 import type { StudentAnswer } from "./student-contracts.ts";
 
+const answerLabels = {
+  clarification_needed: ["More details needed", "May kulang pang detalye", "May kulang pang details"],
+  source_conflict: ["Sources need checking", "May magkaibang info sa mga source", "May conflicting sources"],
+  insufficient_evidence: ["Information is incomplete", "Kulang ang available na info", "Kulang ang available info"],
+  out_of_scope: ["Outside this study", "Labas sa sakop ng study", "Outside ng study scope"],
+  temporarily_unavailable: ["Temporarily unavailable", "Hindi available ngayon", "Hindi available ngayon"],
+  abstained: ["Unable to confirm an answer", "Hindi makapag-confirm ng sagot", "Hindi makapag-confirm ng answer"],
+};
+export function answerNotice(answer: Pick<StudentAnswer, "status" | "language">) {
+  if (answer.status === "answered" || answer.status === "greeting") return null;
+  const language = answer.language === "fil" ? 1 : answer.language === "taglish" ? 2 : 0;
+  return { label: answerLabels[answer.status][language],
+    tone: answer.status === "clarification_needed" || answer.status === "out_of_scope" ? "info" : "warning" };
+}
+
 export type Attachment = { id: string; name: string; type: string };
 export type Message = { id: string; role: "user" | "assistant"; text: string; answer?: StudentAnswer; delivery?: "streaming" | "interrupted" };
 export type WorkspaceState = { draft: string; messages: Message[]; pending: string | null; warning: string | null };

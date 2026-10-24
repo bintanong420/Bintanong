@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 21
+sequence: 23
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 60d285f
+head_commit: a88acf5
 working_tree: dirty
-updated_at: 2026-10-24T15:14:09+08:00
+updated_at: 2026-10-24T15:16:14+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -26,17 +26,24 @@ updated_at: 2026-10-24T15:14:09+08:00
   [Decisions and delivery gate](2026-10-24-landing-auth-concept2.md).
 - Ignored local public auth config prepared; owner configured Google Cloud/Supabase.
   Hosted Google now enabled; actual app/Supabase/Google redirect chain verified.
+- Owner24Oct confirmed "PalSU email works now". Successful actual PSU login is
+  owner-verified; this does not verify non-PSU rejection or the whole chat/upload flow.
 
 ## Current Task
 
-Owner manual verification of actual PSU sign-in and authenticated workspace flow.
+Owner requested overall frontend UI/UX polish aligned with the existing backend.
+First slice: truthful answer-status labels, curriculum loading/retry, file empty/
+review states, composer Stop placement, control spacing and mobile transcript layout.
+Public seams: existing student-workspace presentation helper and actual browser UI.
+First slice verified; owner requests stronger chatbot structure using ChatGPT,
+Claude and Gemini web references because the interface still feels static.
 [One-document checklist](../docs/development/google-sign-in-local-setup.md).
 [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md) remain active;
 this UI delivery does not close Phase11 or expand institutional release authority.
 
 ## Repository State
 
-Main checkout branch frontend at60d285f plus this UI/docs/test increment (not pushed).
+Main checkout frontend ata88acf5: verified UI/docs/test increment committed locally, not pushed.
 Changed frontend: root/login/chat, OAuth callback, proxy/auth-policy, styles,
 appearance control and new page-access regression. Changed docs: student integration,
 Google setup guide, dated landing/auth report, progress and this checkpoint.
@@ -51,6 +58,10 @@ Ignored frontend/.env.local contains existing hosted public key/origins, no Goog
 
 ## Verification Evidence
 
+- Workspace first slice:48 frontend tests, TypeScript and final build PASS;
+ 10 actual synthetic API/browser families/16 requests and29 polish checks PASS.
+  Stop/draft RED/GREEN browser regression retained; text contrast minimum6.58:1.
+  [Evidence and current reference pass](2026-10-24-student-workspace-polish.md).
 - New page-access regression RED missing export ->GREEN2; complete frontend45 PASS.
   Pinned Node24.21: next typegen, tsc --noEmit and final production build PASS.
 - Actual Edge31 checks PASS: both pages,320/390/768/1440 widths,light/dark/system,
@@ -62,7 +73,7 @@ Ignored frontend/.env.local contains existing hosted public key/origins, no Goog
   Rendered text plus wrong-account alert minimum5.58:1; both themes meet4.5:1.
 - Actual root/login200, anonymous chat307 ->login. Google enabled in hosted settings;
   POST/auth/login303 sets PKCE cookie ->Supabase authorize302 ->accounts.google.com.
-  Both expected callbacks verified. Actual human code exchange remains unobserved.
+  Both expected callbacks verified; owner subsequently confirmed actual PSU login.
 - Research readiness200: Supabase/Janus/embedding/Bintu/student-runtime all true;
   anonymous frontend/api/curricula401. No bypass or token/identity logging.
 - External browser/scripts/screenshots/oauth-readiness.json: ignored workspace
@@ -102,15 +113,16 @@ Hosted39 curricula/19 chunks/52 fields/54 spans retain their recorded limitation
 
 ## Known Failures or Blockers
 
-Actual PSU/non-PSU human OAuth and authenticated manual flow await owner testing.
+Actual PSU login owner-verified. Non-PSU rejection and the full authenticated manual
+flow still await owner testing. Overall polish is in progress with focused RED/GREEN.
 Docling environment failures unresolved. Fee/partial answers,pending-question/replay,
 aliases,real grade layouts,Hybrid/language/latency exits remain open; photos unsupported.
 No phase closure, university approval, public deployment or institutional activation.
 
 ## Next Action
 
-Record owner's actual sign-in/workspace manual result using the checklist, then
-resume preserved lifecycle review and remaining Phase11 verification.
+Finish and browser-verify the requested workspace polish; record the delivery,
+then resume preserved lifecycle review and remaining Phase11 verification.
 
 ## Do Not Repeat
 

@@ -19,8 +19,9 @@ RED then GREEN; accessible appearance name and CTA contrast fixed from browser e
 
 Owner configured Google Cloud and Supabase. Live hosted Google setting is enabled;
 actual app303 redirects through Supabase with a PKCE verifier cookie, then302 to
-accounts.google.com with the expected hosted/local callbacks. No actual human
-PSU/non-PSU login or authenticated manual chat/upload is claimed.
+accounts.google.com with the expected hosted/local callbacks. Owner confirmed
+"PalSU email works now". Actual PSU login is owner-verified; non-PSU rejection and
+the full authenticated manual chat/upload checklist remain unverified.
 Ignored frontend/.env.local prepared from existing public settings; no Google
 secret staged. Next dev runs127.0.0.1:3215; research API8021 is ready with all five
 probes; anonymous frontend curricula request401. Existing model services reused.
@@ -36,7 +37,7 @@ No package/lock changes, new dependencies, weights or schema changes for this ta
 
 13 newer backend commits through4a134bf merged as04a03ea; frontend mergeede9f84.
 Owner-approved push fast-forwarded origin/frontend to60d285f at14:36+08; new UI
-increment remains local. Core routing/orchestration/generation/symbolic/contracts
+increment committed locally asa88acf5. Core routing/orchestration/generation/symbolic/contracts
 matched origin; intentional auth/runtime integration adapters remain. Main pins
 synced by npm ci; all21 direct pins and four manifest/lock hashes unchanged.
 No unfinished lifecycle work copied from the integration worktree:15 modified
@@ -53,8 +54,11 @@ WSL16GB remains unverified: last check found memory=8GB and Ubuntu7.8Gi total.
 
 ## Next action
 
-Owner tests actual PSU login and the authenticated flow using the checklist; record
-the result. Then return to preserved lifecycle review and unresolved Phase11 exits.
+First state/control polish verified:48 UI tests, production build,10 browser families/
+16 requests,29 layout/interaction checks and Stop/draft browser regression PASS.
+Owner now requests less static structure inspired by ChatGPT/Claude/Gemini web.
+Complete the centered composer, quieter controls/navigation and purposeful feedback;
+then verify the revised browser UI. [Evidence](../2026-10-24-student-workspace-polish.md).
 
 ## Remaining boundaries
 

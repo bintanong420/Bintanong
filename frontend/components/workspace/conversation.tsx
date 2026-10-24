@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { BookOpen, MessageCircle, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { WorkspaceState } from "@/lib/student-workspace";
+import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
 
 const suggestions = ["What courses should I take next?", "Can I shift to another program?", "How do I enroll for the next term?"];
 export function EmptyConversation({ onSuggest }: { onSuggest: (text: string) => void }) {
@@ -25,9 +25,12 @@ export function Conversation({ state, progress, onSource, onScope }: {
     const node = event.currentTarget; follow.current = node.scrollHeight - node.scrollTop - node.clientHeight < 100;
   }}>
     <p role="status" className="sr-only">{state.pending ? progress : state.messages.at(-1)?.role === "assistant" ? "Response ready." : ""}</p>
-    {state.messages.map(message => <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Bintanong response"}>
+    {state.messages.map(message => {
+      const notice = message.answer && answerNotice(message.answer);
+      return <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Bintanong response"}>
       <span className="message-avatar" aria-hidden="true">{message.role === "user" ? <UserRound size={18} /> : <MessageCircle size={18} />}</span>
       <div className="message-body"><Card className="message-card"><CardContent>
+        {notice && <p className={`answer-notice status-${notice.tone}`}>{notice.label}</p>}
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
         {message.text && <p className="message-text">{message.text}</p>}
         {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
@@ -37,10 +40,10 @@ export function Conversation({ state, progress, onSource, onScope }: {
           {message.answer.missingFields.includes("course_status") && <p className="supporting-copy">You can type these details in your reply. A file is optional.</p>}
         </div>}
       </CardContent></Card>
-      {!!message.answer?.sources.length && <ul className="source-chips" aria-label="Institutional sources used in this response">{message.answer.sources.map(source => <li key={source.sourceId}>
+      {!!message.answer?.sources.length && <><p className="source-label">Sources used</p><ul className="source-chips" aria-label="Institutional sources used in this response">{message.answer.sources.map(source => <li key={source.sourceId}>
         <Button variant="outline" size="sm" className="source-link" onClick={() => onSource(source.sourceId)}><BookOpen size={14} aria-hidden="true" /><span>{source.title}</span></Button>
-      </li>)}</ul>}</div>
-    </article>)}
+      </li>)}</ul></>}</div>
+    </article>; })}
     {state.pending && <article className="working-card status-info" role="status"><MessageCircle size={20} aria-hidden="true" /><p>{progress}</p></article>}
     <div ref={end} />
   </section>;

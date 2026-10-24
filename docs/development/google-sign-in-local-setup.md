@@ -15,8 +15,9 @@ curricula access returned401. These are software observations, not a human login
 Owner update24Oct: Google Cloud and Supabase configuration is complete. Live
 settings report Google enabled, and the app's303 redirect sets a PKCE cookie;
 Supabase then returns302 to `accounts.google.com` with the correct hosted callback.
-The actual PSU/non-PSU login and authenticated chat/upload flow still need the
-owner's manual test. Steps1–2 below are the reproducible setup reference; continue
+Owner subsequently confirmed that PalSU email login works. Non-PSU rejection and
+the full authenticated chat/upload flow still need the owner's manual test.
+Steps1–2 below are the reproducible setup reference; continue
 with step3 for the current preview.
 
 ## 1. Create the Google application

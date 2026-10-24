@@ -33,7 +33,8 @@ The ignored frontend env now uses the existing hosted public settings. The owner
 configured Google Cloud and Supabase; live settings now report Google enabled.
 [One-document setup/manual checklist](../docs/development/google-sign-in-local-setup.md).
 The real API runs8021 with all readiness probes passing and anonymous access401.
-Real PSU/non-PSU OAuth remains an owner/external verification step.
+Owner subsequently confirmed actual PSU login works. Non-PSU rejection remains
+an owner/external verification step.
 
 ## Verification
 
@@ -65,7 +66,7 @@ Real PSU/non-PSU OAuth remains an owner/external verification step.
 
 ## Review and remaining work
 
-The owner can now test an actual PSU login, curriculum selection, supported chat,
+The owner confirmed actual PSU login works and can continue with curriculum selection, supported chat,
 synthetic PDF review/removal, clearing and sign-out using the linked checklist.
 Phase11 remains active with its inherited evaluation gates. This UI increment
 does not resolve the recorded Docling environment failures or model-quality gaps.

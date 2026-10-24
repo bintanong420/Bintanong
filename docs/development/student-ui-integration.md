@@ -55,8 +55,9 @@ worktree for reproducible restarts. No second host encoder or model download is 
 
 Master25.1 requires Supabase Auth with PSU Google accounts. The owner configured Google Cloud and
 Supabase on24Oct. Hosted settings now report Google enabled. The actual app redirects to Google's
-authorization endpoint through Supabase, with the expected callbacks and PKCE cookie. Actual human
-PSU/non-PSU login remains unverified. See the [local setup and manual checklist](google-sign-in-local-setup.md).
+authorization endpoint through Supabase, with the expected callbacks and PKCE cookie. The owner
+confirmed actual PalSU email login works. Non-PSU rejection and the complete authenticated manual flow
+remain unverified. See the [local setup and manual checklist](google-sign-in-local-setup.md).
 
 1. Create/reuse a Google Cloud **Web application** OAuth client and configure its consent screen. Its
    authorized redirect URI is `https://YOUR_PROJECT.supabase.co/auth/v1/callback`.

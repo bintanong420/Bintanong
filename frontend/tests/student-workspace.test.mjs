@@ -1,6 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createWorkspace, workspaceReducer as reduce, shouldSend, selectedPDF } from '../lib/student-workspace.ts';
+import { answerNotice, createWorkspace, workspaceReducer as reduce, shouldSend, selectedPDF } from '../lib/student-workspace.ts';
+
+test('answer notices distinguish missing evidence, source conflict and unsupported scope', () => {
+  assert.deepEqual(answerNotice({ status: 'insufficient_evidence', language: 'en' }), { label: 'Information is incomplete', tone: 'warning' });
+  assert.deepEqual(answerNotice({ status: 'source_conflict', language: 'en' }), { label: 'Sources need checking', tone: 'warning' });
+  assert.deepEqual(answerNotice({ status: 'out_of_scope', language: 'en' }), { label: 'Outside this study', tone: 'info' });
+  assert.deepEqual(answerNotice({ status: 'temporarily_unavailable', language: 'en' }), { label: 'Temporarily unavailable', tone: 'warning' });
+});
+test('answer notices match the backend reply language and request clarification without a decision', () => {
+  assert.equal(answerNotice({ status: 'clarification_needed', language: 'fil' }).label, 'May kulang pang detalye');
+  assert.equal(answerNotice({ status: 'source_conflict', language: 'taglish' }).label, 'May conflicting sources');
+  assert.equal(answerNotice({ status: 'abstained', language: 'unknown' }).label, 'Unable to confirm an answer');
+});
+test('answered and greeting responses do not add an unsupported success claim', () => {
+  assert.equal(answerNotice({ status: 'answered', language: 'en' }), null);
+  assert.equal(answerNotice({ status: 'greeting', language: 'en' }), null);
+});
 
 test('empty and pending submissions do not create duplicate messages', () => {
   const empty = createWorkspace();

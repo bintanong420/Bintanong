@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, type RefObject } from "react";
-import { ArrowUp, FileImage, FileText, Paperclip, TriangleAlert, X } from "lucide-react";
+import { useId, useLayoutEffect, useRef, type RefObject } from "react";
+import { ArrowUp, FileImage, FileText, Paperclip, Square, TriangleAlert, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -16,10 +16,12 @@ type ComposerProps = {
   onRemove: (id: string) => void;
   picker: RefObject<HTMLInputElement | null>;
   live?: boolean;
+  onStop?: () => void;
 };
 
-export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker, live = false }: ComposerProps) {
+export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker, live = false, onStop }: ComposerProps) {
   const input = useRef<HTMLTextAreaElement>(null);
+  const hintId = useId();
   useLayoutEffect(() => {
     if (!input.current) return;
     input.current.style.height = "auto";
@@ -29,7 +31,7 @@ export function Composer({ draft, attachments, warning, pending, onDraft, onSend
   return <footer className="composer-area">
     {warning && <Alert variant="destructive" className="upload-warning">
       <TriangleAlert aria-hidden="true" />
-      <AlertTitle>File not selected</AlertTitle>
+      <AlertTitle>PDF needs attention</AlertTitle>
       <AlertDescription>{warning}<Button variant="outline" size="sm" type="button" onClick={() => picker.current?.click()}>Choose another file</Button></AlertDescription>
     </Alert>}
     <form className="composer" onSubmit={event => { event.preventDefault(); onSend(); }}>
@@ -44,12 +46,14 @@ export function Composer({ draft, attachments, warning, pending, onDraft, onSend
             <Button variant="ghost" size="icon" type="button" className="remove-file" aria-label={`Remove ${file.name}`} onClick={() => onRemove(file.id)}><X aria-hidden="true" /></Button>
           </li>)}</ul>
         </div>}
-        <Textarea ref={input} value={draft} rows={1} aria-label="Your question" placeholder="Ask Bintanong a question…" onChange={event => onDraft(event.target.value)} onKeyDown={event => {
+        <Textarea ref={input} value={draft} rows={1} aria-label="Your question" aria-describedby={live ? hintId : undefined} placeholder="Ask Bintanong a question…" onChange={event => onDraft(event.target.value)} onKeyDown={event => {
           if (shouldSend({ key: event.key, shiftKey: event.shiftKey, isComposing: event.nativeEvent.isComposing, keyCode: event.nativeEvent.keyCode })) { event.preventDefault(); onSend(); }
         }} />
       </div>
-      <Button type="submit" className="composer-send" disabled={pending || !draft.trim()} aria-label={live ? "Send question" : "Send preview message"} title={live ? "Send question" : "Send preview message"}><ArrowUp aria-hidden="true" size={24} /></Button>
+      {onStop ? <Button type="button" className="composer-send" onClick={event => { event.preventDefault(); onStop(); }} aria-label="Stop response" title="Stop response"><Square aria-hidden="true" size={18} /></Button>
+        : <Button type="submit" className="composer-send" disabled={pending || !draft.trim()} aria-label={live ? "Send question" : "Send preview message"} title={live ? "Send question" : "Send preview message"}><ArrowUp aria-hidden="true" size={24} /></Button>}
     </form>
+    {live && <p className="composer-hint" id={hintId}>{onStop ? "You can stop the response or prepare your next question." : "Enter to send · Shift + Enter for a new line"}</p>}
     <p className="responsible-use">Bintanong is an AI guide. Verify important academic decisions with the relevant university office or academic adviser.</p>
   </footer>;
 }
