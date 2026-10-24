@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 24
+sequence: 25
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5856e82
+head_commit: 7a759e6
 working_tree: dirty
-updated_at: 2026-10-25T02:30:00+08:00
+updated_at: 2026-10-25T02:30:06+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -47,8 +47,8 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 ## Repository State
 
 Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
-committed5856e82; last full-suite baseline fb4e1e8. Documentation handoff commit follows this verified code baseline; inspect fresh Git.
-Checkpoint metadata may be refreshed after that commit; preserve the recorded state. No uncommitted production behavior, dependency changes or frontend work.
+committed5856e82; last full-suite baseline fb4e1e8. Handoff/docs committed7a759e6. Only this checkpoint metadata is dirty after its final refresh;
+no production/test changes are uncommitted. Preserve it after /clear. No uncommitted production behavior, dependency changes or frontend work.
 
 ## Verification Evidence
 
