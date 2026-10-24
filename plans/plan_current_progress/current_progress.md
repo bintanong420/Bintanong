@@ -2,7 +2,7 @@
 
 Updated24October2026. Phase11 active: original frontend + Lawrence's API.
 Worktree p11-frontend-integration; branch feat/p11-frontend-integration derives
-from frontendc17dcb2 and merges origin/feat/p11-backend-api34a21ca in227efaa.
+from frontendc17dcb2; backend34a21ca merged in227efaa, synced through4a134bf.
 Main owner checkout and earlier worktrees untouched; no push/deployment.
 
 [Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
@@ -10,6 +10,11 @@ Main owner checkout and earlier worktrees untouched; no push/deployment.
 Last full snapshots: backend34a21ca, original frontendc17dcb2, state58bf669.
 
 ## Latest delivery
+
+Environment check24Oct14:10+08: owner reports raising WSL to16GB, but current
+`C:/Users/Hawksprey/.wslconfig` (Canaria-managed) still has `memory=8GB`.
+Ubuntu `free -h`:7.8Gi total,2.0Gi swap used; Docker MemTotal8330493952 bytes.
+No config edit/restart or workload rerun performed;16GB is not yet verified.
 
 Transport/auth58bf669 and original workspacea8b3091 committed. Original UI now
 uses actual messages, sources, checked scope, PDF review/confirm/remove, waiting,
@@ -26,18 +31,32 @@ Configured research API8021 readiness200/all probes; anonymous access401.
 Actual Prolog answered/validated4 sources; later scoped/unscoped RAG probes
 answer handbook1.0 ->98-100/Excellent with page46 citation. Initial RAG outage
 and Hybrid insufficient-evidence samples remain disclosed. No broad acceptance.
-Full suite currently running. API uses existing Python3.13.5 environment; tests
+Saved full suite finished at13:58: 6494 passed,2 failed,1 skipped,2 xfailed,
+1552 subtests. Both Docling failures report huggingface-hub2.2.0 where Transformers
+requires>=1.5.0,<2.0 (integration-full-suite.log); no dependency repair attempted.
+API uses existing Python3.13.5 environment; tests
 system3.13.12/Node24.21. No Python install, model copy or database change.
+
+Owner requested backend sync24Oct: all13 commits through4a134bf merged, preserving
+their history and the unfinished lifecycle work. Only progress/checkpoint conflicted;
+integration snapshot retained, backend decisions/reports/tests included. See the
+[sync record](../2026-10-24-frontend-backend-sync.md) for commits, recovery and checks.
+No dependency, provider, database or model changes; no push/deployment.
+Fresh combined-workspace checks:56 focused backend tests;3387 affected backend
+tests pass/2 expected photo xfails;46 UI tests and Node24.21 TypeScript pass.
+All18 pre-existing product/test files byte-identical and unstaged; recovery retained.
 
 ## Next action
 
-Finish independent review/full-suite checks; fix important findings, start the
-actual3215 preview and finalize setup/delivery docs. Google provider is disabled;
-real PSU OAuth still needs external setup and human verification. Never bypass it.
+Review dirty lifecycle work, then resolve recorded full-suite environment failures
+and finish independent review/
+actual preview delivery. Google was last recorded disabled; real PSU OAuth setup/
+login remains unverified. Backend fee/partial-answer work stays pending separately.
 
 ## Remaining boundaries
 
-E3 shifting, pending-question/replay, broader aliases, real grade layouts and
+E3 office-referral fix is included. Special-class fee wording, multi-part partial
+answers, pending-question/replay, broader aliases, real grade layouts and
 Hybrid/language/latency exits remain open. Photos/scans unsupported. Existing
 Figma assets/annotations reused; no fresh Figma tool approval. No Phase11 closure,
 university approval, public deployment, source activation or personal persistence.

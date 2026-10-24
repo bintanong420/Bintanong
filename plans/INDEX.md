@@ -22,8 +22,9 @@
   [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
   [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported).
-- Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); retrieval/Prolog evaluation next, then UI)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
-  adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
+- Phase **11 active: original frontend/backend integration; final review/verification unfinished**
+  in `p11-frontend-integration` / `feat/p11-frontend-integration`.
+  [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md) · [Plan](phase-11-backend-api-plan.md) ·
   [Checkpoint](phase-11-checkpoint.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
   Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
@@ -38,7 +39,8 @@
 
 Original frontend integration: worktree `p11-frontend-integration`, branch
 `feat/p11-frontend-integration`, based on `frontend` c17dcb2, merging Lawrence
-`origin/feat/p11-backend-api`34a21ca. Preserve original UI; adapt its transport.
+`origin/feat/p11-backend-api`34a21ca, now synced through4a134bf.
+[Backend sync/recovery](2026-10-24-frontend-backend-sync.md). Original UI preserved.
 [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
 
 ## Resume order
@@ -68,7 +70,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
 | 9 | Generation/validation | complete offline research/software on hosted 39-curriculum release; eight limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 | 10 | Private files and session context | complete offline research/software; photos unsupported; HTTP wiring in Phase 11; institutional release held | [Plan](phase-10-private-files-session-plan.md) | [Superseded](phase-10-checkpoint.md) | [Complete](phase-10-handoff.md) |
-| 11 | Backend API (frontend pending) | in progress; backend only | [Plan](phase-11-backend-api-plan.md) | [Checkpoint](phase-11-checkpoint.md) | none |
+| 11 | Interface and backend API | in progress; integration review/verification unfinished | [Plan](phase-11-backend-api-plan.md) | [Checkpoint](phase-11-checkpoint.md) | none |
 
 ## Read only when relevant
 

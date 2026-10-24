@@ -43,6 +43,56 @@ _WORDS={
   abstained='Hindi na-verify ang supported explanation mula sa supplied evidence.')}
 
 
+# Owner, 24 Oct 2026 (step 2b): with no passed/failed course stated, list the reviewed prerequisites instead of
+# "eligibility cannot be established", and ask which ones were passed.
+_REQUIREMENT={
+ 'en':dict(all_of=' and ',any_of='one of: ',co_requisite='or take it at the same time',heading='Prerequisites of',
+  ask='Tell me which of these you have passed, and I can check whether you can take {course}.'),
+ 'fil':dict(all_of=' at ',any_of='isa sa: ',co_requisite='o kunin nang sabay',heading='Mga prerequisite ng',
+  ask='Sabihin mo kung alin dito ang naipasa mo na, para ma-check ko kung pwede mo nang kunin ang {course}.'),
+ 'taglish':dict(all_of=' and ',any_of='one of: ',co_requisite='or i-take nang sabay',heading='Prerequisites ng',
+  ask='Sabihin mo kung alin dito ang na-pass mo na, para ma-check ko kung pwede mo nang i-take ang {course}.')}
+
+
+_COURSE_NOT_FOUND={
+ 'en':'I could not find that course among the reviewed courses of your curriculum. '
+      'Please give the course code as printed in your prospectus.',
+ 'fil':'Hindi ko nakita ang kursong iyan sa mga na-review na kurso ng curriculum mo. '
+       'Pakibigay ang course code na nakasulat sa prospectus mo.',
+ 'taglish':'Hindi ko nakita yung course na iyan sa reviewed courses ng curriculum mo. '
+       'Pakibigay ang course code na naka-print sa prospectus mo.'}
+
+
+def requirement_text(requirement,language,nested=False):
+    words=_REQUIREMENT.get(language,_REQUIREMENT['en'])
+    if requirement.kind=='course': return requirement.course_id
+    if requirement.kind=='co_requisite': return f"{requirement.course_id} ({words['co_requisite']})"
+    if requirement.kind not in ('all_of','any_of'): raise ValueError('requirement_not_listable')
+    items=[requirement_text(item,language,nested=True) for item in requirement.items]
+    text=words['all_of'].join(items) if requirement.kind=='all_of' else words['any_of']+', '.join(items)
+    return f'({text})' if nested else text
+
+
+def _referenced(requirement,kinds):
+    own=(requirement.course_id,) if requirement.kind in kinds else ()
+    return {*own,*(c for item in requirement.items for c in _referenced(item,kinds))}
+
+
+def _lists_requirement(pack,status):
+    """No stated fact touched the rule: every course in it is still completion-unknown and every co-requisite
+    enrollment-unknown. Outcome flags alone miss a failed any-of alternative (its result drops the violation)."""
+    decision=pack.decision
+    if (pack.requirement is None or decision is None or status!='clarification_needed'
+            or decision.outcome!='unknown' or decision.satisfied_conditions or decision.violated_conditions
+            or decision.unresolved_conflicts
+            or not set(pack.missing_facts)<=set(decision.missing_facts)):  # e.g. a missing program or curriculum
+        return False
+    return (set(decision.missing_facts)=={'completion_unknown:'+c
+                for c in _referenced(pack.requirement,('course','co_requisite'))}
+            and set(decision.unknown_conditions)=={'enrollment_unknown:'+c
+                for c in _referenced(pack.requirement,('co_requisite',))})
+
+
 def fallback_status(status):
     if status in ('unknown','clarify'): return 'clarification_needed'
     if status=='conflict': return 'source_conflict'
@@ -120,7 +170,16 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
         editions=', '.join(context.scope.edition_ids) if context.scope else ''
         lines.append(shown(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}'))
+    if _lists_requirement(pack,status):
+        listing=_REQUIREMENT.get(pack.language,_REQUIREMENT['en'])
+        course=next(i.value for i in pack.structured_context.inputs if i.name=='course_id')
+        lines[1]=shown(f"{listing['heading']} {course}: {requirement_text(pack.requirement,pack.language)}.")
+        lines.append(shown(listing['ask'].format(course=course)))
+        return '\n'.join(lines)
     missing=pack.missing_facts
+    if status=='clarification_needed' and 'course_id' in missing:  # owner step 2c: no reviewed course matched
+        lines[1]=_COURSE_NOT_FOUND.get(pack.language,_COURSE_NOT_FOUND['en'])
+        missing=tuple(field for field in missing if field!='course_id')
     canonical_allowed=pack.status=='ready' and status=='answered'
     if pack.decision is not None and (canonical_allowed or
             (pack.status=='unknown' and pack.decision.outcome=='unknown')):

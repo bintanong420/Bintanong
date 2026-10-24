@@ -68,10 +68,37 @@ class WireInterpretation(Contract):
         return self
 
 
+def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
+    """A structured part that chose a document topic and whose operations target no listed course
+    (live 24 Oct 2026: "overload" checked as a course) has nothing to check; its only executable
+    reading is the chosen topic. Operations aimed at a listed course still reject."""
+    courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind == 'course'}
+    def slip(part):
+        return (part.evidence_need == 'structured' and part.subject_id is not None and part.operation_indices
+                and all(i < len(wire.operations) and (wire.operations[i].target.text,
+                        wire.operations[i].target.occurrence) not in courses for i in part.operation_indices))
+    dropped = {i for p in wire.parts if slip(p) for i in p.operation_indices}
+    if not dropped or any(i in dropped for p in wire.parts if not slip(p) for i in p.operation_indices):
+        return wire
+    data = wire.model_dump(mode='json')
+    kept = [i for i in range(len(wire.operations)) if i not in dropped]
+    data['operations'] = [data['operations'][i] for i in kept]
+    for part, value in zip(wire.parts, data['parts']):
+        if slip(part):
+            value.update(evidence_need='document', operation_indices=[])
+        else:
+            # Out-of-range indices stay for the single-operation repair below.
+            value['operation_indices'] = [kept.index(i) if i in kept else i for i in part.operation_indices]
+    needs = frozenset(p['evidence_need'] for p in data['parts'])
+    if wire.route is not None and 'unknown' not in needs:
+        data['route'] = {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic'}.get(needs, 'Hybrid')
+    return WireInterpretation.parse(data)
+
+
 def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretation:
     """Resolve declared literal occurrences only; no semantic inference or alias guessing."""
     prepare_query(text)
-    wire = WireInterpretation.parse(wire.model_dump(mode='json'))
+    wire = _topic_parts_as_documents(WireInterpretation.parse(wire.model_dump(mode='json')))
     spans = {}
 
     def key(quote):
