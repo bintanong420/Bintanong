@@ -3,10 +3,6 @@ every language. The printed rate and printed example are copied from the reviewe
 the student's own charge is not stated, so the reply refers them to the office. F04 stays held."""
 import json
 
-from .contracts import AnswerDraft
-from .ledger_contracts import BoundRequirementLedger, LedgerEntry
-from .understanding import review_identity
-
 SUBJECT = 'special_class_fees'
 RATE_FIELDS = ('printed_rate_php_per_hour',)
 EXAMPLE_FIELDS = ('lecture_units', 'lecture_hours', 'amount_php_as_printed')
@@ -44,25 +40,18 @@ def _card_with(pack, names):
     return None, {}
 
 
-def fee_reply(pack):
-    """(draft, ledger) for a single special-class-fee part with both printed cards, else None."""
-    parts = pack.understanding.parts if pack.understanding else ()
-    if (pack.route != 'RAG' or pack.language not in _TEXT or len(parts) != 1
-            or parts[0].subject_id != SUBJECT):
-        return None
+def fee_claims(pack):
+    """{part_id: ((text, evidence_id), ...)} for each special-class-fee document part when both printed
+    cards are present; empty otherwise (the model then explains the part as before)."""
+    parts = [p for p in (pack.understanding.parts if pack.understanding else ())
+             if p.evidence_need == 'document' and p.subject_id == SUBJECT]
+    if not parts or pack.language not in _TEXT:
+        return {}
     rate, rate_fields = _card_with(pack, RATE_FIELDS)
     example, example_fields = _card_with(pack, EXAMPLE_FIELDS)
     if rate is None or example is None:
-        return None
+        return {}
     values = {**rate_fields, **example_fields}
-    sources = (rate, example, example)
-    claims = [dict(claim_id=f'c{n}', text=text.format(**values), evidence_ids=[card.evidence_id])
-              for n, (text, card) in enumerate(zip(_TEXT[pack.language], sources), 1)]
-    draft = AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION, release_id=pack.release_id,
-        language=pack.language, decision_outcome=None, claims=claims))
-    ledger = BoundRequirementLedger(schema_version=BoundRequirementLedger.SCHEMA_VERSION,
-        status='all_declared_parts_mapped', identity=review_identity(pack, draft),
-        entries=(LedgerEntry(part_id=parts[0].part_id, status='mapped',
-                             claim_ids=tuple(c.claim_id for c in draft.claims)),),
-        canonical_parts=())
-    return draft, ledger
+    claims = tuple((text.format(**values), card.evidence_id)
+                   for text, card in zip(_TEXT[pack.language], (rate, example, example)))
+    return {p.part_id: claims for p in parts}

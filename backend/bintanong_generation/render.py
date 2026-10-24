@@ -141,6 +141,23 @@ _NOTICE_ISSUES={'conflicting_deadlines':'conflict','source_cutoff':'defect',
                 'malformed_source_condition':'defect','printed_total_discrepancy':'defect'}
 
 
+# Owner, 24 Oct 2026 ("Answer what's covered"): each part declared unavailable is named in the student's words.
+_PART_UNAVAILABLE={
+ 'en':'The part about "{words}" is not in Bintanong\'s reviewed sources yet. Please ask the relevant university office.',
+ 'fil':'Ang tanong mo tungkol sa "{words}" ay wala pa sa mga na-review na source ng Bintanong. '
+       'Pakitanong sa tamang opisina ng unibersidad.',
+ 'taglish':'Yung part tungkol sa "{words}" ay wala pa sa reviewed sources ng Bintanong. '
+       'Paki-ask sa tamang university office.'}
+
+
+def unavailable_part_lines(pack,ledger):
+    if ledger is None or ledger.status!='some_parts_unavailable':
+        return []
+    texts={p.part_id:p.text for p in pack.understanding.parts}
+    note=_PART_UNAVAILABLE.get(pack.language,_PART_UNAVAILABLE['en'])
+    return [note.format(words=texts[e.part_id]) for e in ledger.entries if e.status=='unavailable']
+
+
 def limit_notices(cards):
     """Notice kinds for unresolved conflicts/defects recorded on the given document cards."""
     kinds=[]
@@ -155,7 +172,7 @@ def limit_notices(cards):
     return kinds
 
 
-def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False):
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None):
     words=_WORDS.get(pack.language,_WORDS['en'])
     message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
@@ -200,6 +217,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     if status=='answered':
+        lines.extend(unavailable_part_lines(pack,ledger))
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
         lines.extend(notices[kind] for kind in limit_notices(selected_cards(pack,claims)))
     for card in selected_cards(pack,claims):

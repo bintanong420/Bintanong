@@ -3,7 +3,7 @@ import hashlib
 
 from ..bintanong_contracts.base import foreign_ids
 from .contracts import AnswerDraft, SupportReport
-from .ledger_contracts import BoundRequirementLedger, LedgerEntry, ReviewIdentity
+from .ledger_contracts import ANSWERED_LEDGERS, BoundRequirementLedger, LedgerEntry, ReviewIdentity
 from .requirements import RequirementReview, _digest
 from .scope import document_support_payload
 from .prompt import _messages, output_schema
@@ -126,7 +126,7 @@ def validate_ledger(pack, claims, ledger, *, answered):
     if ledger.canonical_parts != canonical_parts(pack):
         raise ValueError('final_canonical_part_mismatch')
     if answered and (ledger.identity.draft_sha256 != identity.draft_sha256 or
-                     ledger.status != 'all_declared_parts_mapped'):
+                     ledger.status not in ANSWERED_LEDGERS):
         raise ValueError('final_part_draft_mismatch')
     if answered:
         mapped = [c for entry in ledger.entries for c in entry.claim_ids]

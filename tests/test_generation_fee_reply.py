@@ -101,3 +101,49 @@ def test_without_both_printed_cards_or_the_fee_topic_the_model_explains(kwargs):
     model = DraftModel()
     answer = generate(fee_integration(**kwargs), model)
     assert model.calls and answer.status == 'insufficient_evidence'
+
+
+# Mixed messages (owner "Answer what's covered"): a fee part keeps the host reply; the model explains the rest.
+from test_generation_part_slots import OFFICE, PartModel
+from test_request_understanding_pipeline import TEXT, source
+
+
+def mixed(route='RAG'):
+    value = source(route=route).model_dump(mode='json')
+    first = value['evidence']['documents']['passages'][0]
+    member = value['evidence']['pin']['documents'][0]
+    extra = [(f'{n:064x}', json.dumps(card)) for n, card in enumerate((RATE, EXAMPLE), 2)]
+    value['evidence']['documents']['passages'] = [first] + [dict(first, chunk_id=c, text=t) for c, t in extra]
+    value['evidence']['pin']['documents'] = [member] + [dict(member, chunk_id=c) for c, _ in extra]
+    fee = next(p for p in value['understanding']['parts'] if p['part_id'] == 'r2')
+    fee.update(subject_id='special_class_fees', requested_claims=['printed special class rate'])
+    return IntegrationResult.parse(value)
+
+
+def test_fee_part_of_a_mixed_message_gets_the_host_claims_and_the_model_explains_the_rest():
+    model = PartModel(slots=dict(r1=('answered', [OFFICE])))
+    answer = asyncio.run(Generator(model).generate(TEXT, mixed()))
+    assert answer.status == 'answered' and [c.text for c in answer.claims] == [OFFICE, *EXPECTED['en']]
+    draft_schema, review_schema = (call[1] for call in model.calls)
+    assert draft_schema['properties']['answers']['required'] == ['r1']
+    assert draft_schema['$defs']['PartSlot']['properties']['claims']['maxItems'] == 5  # 8 minus 3 host claims
+    assert review_schema['properties']['parts']['required'] == ['r1']
+    assert review_schema['$defs']['ClaimVerdict']['properties']['claim_id']['enum'] == ['c1']  # host claims unreviewed
+    assert [(e.part_id, e.claim_ids) for e in answer.part_ledger.entries] == [
+        ('r1', ('c1',)), ('r2', ('c2', 'c3', 'c4'))]
+
+
+def test_fee_part_is_answered_when_the_other_part_is_unavailable():
+    model = PartModel(slots=dict(r1=('not_in_evidence', [])))
+    answer = asyncio.run(Generator(model).generate(TEXT, mixed()))
+    assert answer.status == 'answered' and [c.text for c in answer.claims] == EXPECTED['en']
+    assert answer.part_ledger.status == 'some_parts_unavailable' and len(model.calls) == 1
+    assert 'The part about "Where do I file Form Q" is not' in answer.text
+
+
+def test_hybrid_check_with_a_fee_part_needs_no_model_call():
+    model = NoModel()
+    answer = asyncio.run(Generator(model).generate(TEXT, mixed('Hybrid')))
+    assert model.calls == [] and answer.status == 'answered' and answer.decision is not None
+    assert [c.text for c in answer.claims] == EXPECTED['en']
+    assert answer.part_ledger.canonical_parts == ('r1',)

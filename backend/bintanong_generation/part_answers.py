@@ -15,6 +15,7 @@ from ..bintanong_contracts.schema_display import COMPACT_JSON_INSTRUCTION
 from ..bintanong_orchestration.contracts import ReleaseID
 from ..bintanong_routing.style import has_filipino_function_word
 from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
+from .fee_reply import fee_claims
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
 from .scope import document_payload, model_card
@@ -132,18 +133,22 @@ def style_errors(draft, pack, question=''):
 
 
 def document_parts(pack):
-    return tuple(p.part_id for p in pack.understanding.parts if p.evidence_need == 'document')
+    """Document parts the model explains; a part with a host-written reply is left out."""
+    host = fee_claims(pack)
+    return tuple(p.part_id for p in pack.understanding.parts if p.evidence_need == 'document'
+                 and p.part_id not in host)
 
 
 def part_schema(pack):
     schema = output_schema(PartExplanation)
     ids = document_parts(pack)
+    budget = 8 - sum(len(c) for c in fee_claims(pack).values())
     schema['properties']['language'] = dict(type='string', const=pack.language)
     schema['properties']['release_id'] = dict(type='string', const=pack.release_id)
     schema['properties']['answers'] = dict(type='object', additionalProperties=False, required=list(ids),
         properties={i: {'$ref': '#/$defs/PartSlot'} for i in ids})
     # Per-slot budget keeps the total within the AnswerDraft eight-claim limit.
-    schema['$defs']['PartSlot']['properties']['claims']['maxItems'] = max(1, 8 // max(1, len(ids)))
+    schema['$defs']['PartSlot']['properties']['claims']['maxItems'] = max(1, budget // max(1, len(ids)))
     schema['$defs']['PartClaim']['properties']['evidence_ids']['items'] = dict(type='string',
         enum=[c.evidence_id for c in pack.cards if c.kind == 'document'])
     return schema
@@ -181,12 +186,25 @@ def to_draft(explanation, pack):
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
         slots[part_id] = (slot.status, tuple(numbered))
+    for part_id, host in fee_claims(pack).items():  # host-written, mapped without a model review
+        numbered = [f'c{len(claims) + n}' for n in range(1, len(host) + 1)]
+        claims.extend(dict(claim_id=c, text=t, evidence_ids=[e]) for c, (t, e) in zip(numbered, host))
+        slots[part_id] = ('host', tuple(numbered))
     if len(claims) > 8:
         raise ValueError('too_many_claims')
     draft = AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION, release_id=explanation.release_id,
         language=explanation.language, decision_outcome=pack.decision.outcome if pack.decision else None,
         claims=claims))
     return draft, slots
+
+
+def host_only(pack):
+    """(draft, ledger) when every document part has a host-written reply, so no model call is needed."""
+    if not fee_claims(pack) or document_parts(pack):
+        return None
+    draft, slots = to_draft(PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id, language=pack.language, answers={})), pack)
+    return draft, assess_slots(pack, draft, slots)
 
 
 def confirm_messages(text, pack, draft, slots):
@@ -209,7 +227,7 @@ def confirm_schema(pack, draft, slots):
     schema['$defs']['SupportReport']['properties']['schema_version'] = dict(
         type='string', const=SupportReport.SCHEMA_VERSION)
     schema['$defs']['ClaimVerdict']['properties']['claim_id'] = dict(
-        type='string', enum=[c.claim_id for c in draft.claims])
+        type='string', enum=[c for _, ids in slots.values() for c in ids])
     return schema
 
 
@@ -231,9 +249,11 @@ def assess_slots(pack, draft, slots, review=None):
         review = PartConfirmation.parse(review.model_dump(mode='json'))
         if (review.requirements_sha256, review.draft_sha256) != (identity.requirements_sha256, identity.draft_sha256):
             raise ValueError('part_review_identity_mismatch')
-        if set(review.parts) != set(slots):
+        if set(review.parts) != set(answered_slots(slots)):
             raise ValueError('invalid_part_confirmation')
-        errors.extend(validate_support(review.support, draft))
+        reviewed = {c for _, ids in answered_slots(slots).values() for c in ids}  # host claims are not reviewed
+        errors.extend(validate_support(review.support, draft.model_copy(update=dict(
+            claims=tuple(c for c in draft.claims if c.claim_id in reviewed)))))
     entries = []
     for part in pack.understanding.parts:
         status, ids = slots.get(part.part_id, (None, ()))
@@ -242,6 +262,8 @@ def assess_slots(pack, draft, slots, review=None):
         elif part.evidence_need != 'document':
             entry = LedgerEntry(part_id=part.part_id, status='unresolved', reason=(
                 'structured_check_not_run' if part.evidence_need == 'structured' else 'unknown_requirement_kind'))
+        elif status == 'host':
+            entry = LedgerEntry(part_id=part.part_id, status='mapped', claim_ids=ids)
         elif status in ('not_in_evidence', 'source_gap'):
             entry = LedgerEntry(part_id=part.part_id, status='unavailable', reason=status)
         elif review is None:
@@ -251,7 +273,13 @@ def assess_slots(pack, draft, slots, review=None):
         else:
             entry = LedgerEntry(part_id=part.part_id, status='uncertain', reason='uncertain')
         entries.append(entry)
-    complete = not errors and all(e.status == 'mapped' for e in entries)
-    return BoundRequirementLedger(schema_version=BoundRequirementLedger.SCHEMA_VERSION,
-        status='all_declared_parts_mapped' if complete else 'unresolved', identity=identity,
-        entries=tuple(entries), errors=tuple(errors), canonical_parts=canonical)
+    statuses = {e.status for e in entries}
+    status = ('unresolved' if errors or not statuses <= {'mapped', 'unavailable'} or 'mapped' not in statuses
+              else 'all_declared_parts_mapped' if statuses == {'mapped'} else 'some_parts_unavailable')
+    return BoundRequirementLedger(schema_version=BoundRequirementLedger.SCHEMA_VERSION, status=status,
+        identity=identity, entries=tuple(entries), errors=tuple(errors), canonical_parts=canonical)
+
+
+def answered_slots(slots):
+    """Only answered slots are reviewed; a slot declared unavailable has no claims to confirm."""
+    return {p: v for p, v in slots.items() if v[0] == 'answered'}
