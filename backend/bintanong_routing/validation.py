@@ -8,10 +8,12 @@ from dataclasses import dataclass
 
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
-from .contracts import CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
+from .contracts import TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
 from .style import StyleEvidence
+from .terms import parse_term
 
-OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
+OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
+              'course_facts', 'list_term_courses')
 
 
 class GroundedClaim(ScopedFact):
@@ -180,6 +182,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             curriculum = editions[0].entity_id
     carried = context.conversation.course_id if context.conversation else None
     for idx, mention in enumerate(p.mentions):
+        if mention.kind == 'term':  # read by the host; a term with no stated year stays unresolved (clarify)
+            if parse_term(mention.text) is not None:
+                ignored.add(idx)
+            continue
         names_course = program is not None and curriculum is not None and bool(
             _matches(mention, catalog, program, curriculum))
         # Words that name a course are never a back-reference (live F5: "What about CC 4?" -> CC 4).
@@ -285,10 +291,14 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             return result('unsupported_operation', 'evidence_unavailable')
         if not synthetic:
             return result('institutional_execution_held', 'evidence_unavailable')
-        course = resolved[op.target]
+        if op.name in TERM_OPERATIONS:
+            year, semester = parse_term(p.mentions[op.target].text)
+            target = (('year_level', str(year)), ('semester', semester))
+        else:
+            target = (('course_id', resolved[op.target].entity_id),)
         request = PredicateRequest(predicate=op.name, inputs=(
             BoundInput(name='curriculum_id', value=curriculum, fact_ref=None),
-            BoundInput(name='course_id', value=course.entity_id, fact_ref=None)))
+            *(BoundInput(name=name, value=value, fact_ref=None) for name, value in target)))
         try:
             registry.goal(request)  # validates fixed signature; never executes the goal
         except UnsupportedRequest:

@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Control, Record, Route
-from .contracts import Interpretation, Kind, Language, State, Text, prepare_query
+from .contracts import TERM_OPERATIONS, Interpretation, Language, MentionKind, State, Text, prepare_query
 
 
 class QuoteReference(Record):
@@ -13,7 +13,7 @@ class QuoteReference(Record):
 
 
 class WireMention(Record):
-    kind: Kind
+    kind: MentionKind
     quote: QuoteReference
 
 
@@ -72,7 +72,7 @@ def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
     """A structured part that chose a document topic and whose operations target no listed course
     (live 24 Oct 2026: "overload" checked as a course) has nothing to check; its only executable
     reading is the chosen topic. Operations aimed at a listed course still reject."""
-    courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind == 'course'}
+    courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('course', 'term')}
     def slip(part):
         return (part.evidence_need == 'structured' and part.subject_id is not None and part.operation_indices
                 and all(i < len(wire.operations) and (wire.operations[i].target.text,
@@ -135,18 +135,18 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
     listed = [dict(kind=m.kind, **span(m.quote)) for m in wire.mentions]
     at = {(m['start'], m['text']): index for index, m in enumerate(listed)}
 
-    def course_index(quote):
+    def course_index(quote, kind='course'):
         index = mentions.get(key(quote))
         if index is None:
-            # A quoted course the model did not list (owner, 23 Oct 2026) becomes a course mention;
-            # the catalog still has to resolve it. A miscount reuses the mention at that place.
+            # A quoted course (or term) the model did not list (owner, 23 Oct 2026) becomes a mention of
+            # that kind; the host still has to resolve it. A miscount reuses the mention at that place.
             found = span(quote)
             index = at.setdefault((found['start'], found['text']), len(listed))
             if index == len(listed):
-                listed.append(dict(kind='course', **found))
+                listed.append(dict(kind=kind, **found))
             mentions[key(quote)] = index
-        if listed[index]['kind'] != 'course':
-            raise ValueError('invalid_course_quote_reference')
+        if listed[index]['kind'] != kind:
+            raise ValueError(f'invalid_{kind}_quote_reference')
         return index
 
     data = wire.model_dump(mode='json')
@@ -156,7 +156,8 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
         data['context_reference'] = span(wire.previous_course_quote)
     claims = [dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
               for c in wire.claims]
-    operations = [dict(name=o.name, target=course_index(o.target)) for o in wire.operations]
+    operations = [dict(name=o.name, target=course_index(o.target, 'term' if o.name in TERM_OPERATIONS else 'course'))
+                  for o in wire.operations]
     proposal = f'route {wire.route}' if wire.route is not None else f'control {wire.control}'
     def indices(part):
         # With one operation, an out-of-range index (live slip: the position in available_operations)

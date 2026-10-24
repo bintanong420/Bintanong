@@ -11,6 +11,9 @@ from ..bintanong_contracts.base import Contract, Control, Record, Route
 Text = Annotated[str, Field(min_length=1, max_length=240)]
 Identifier = Annotated[str, Field(min_length=1, max_length=128, pattern=r'^[a-z][a-z0-9_-]*$')]
 Kind = Literal['program', 'curriculum', 'course']
+# A student's year/semester words ("first year, second sem"); read by the host, never a catalog entity.
+MentionKind = Literal['program', 'curriculum', 'course', 'term']
+TERM_OPERATIONS = ('list_term_courses',)  # operations whose target is a term mention
 State = Literal['passed', 'failed', 'enrolled', 'not_enrolled']
 Language = Literal['en', 'fil', 'taglish', 'unknown']
 
@@ -82,7 +85,7 @@ class Quote(Record):
 
 
 class Mention(Quote):
-    kind: Kind
+    kind: MentionKind
 
 
 class Claim(Quote):
@@ -178,8 +181,9 @@ class Interpretation(Contract):
             raise ValueError('invalid_part_operation')
         for item in (*self.claims, *self.operations):
             idx = item.entity if isinstance(item, Claim) else item.target
-            if idx >= len(self.mentions) or self.mentions[idx].kind != 'course':
-                raise ValueError('invalid_course_mention_reference')
+            kind = 'term' if isinstance(item, Operation) and item.name in TERM_OPERATIONS else 'course'
+            if idx >= len(self.mentions) or self.mentions[idx].kind != kind:
+                raise ValueError(f'invalid_{kind}_mention_reference')
         return self
 
 
