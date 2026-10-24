@@ -127,7 +127,7 @@ def topic_menu(register, *, catalogue=None, chunks=()):
         except (ValueError, TypeError, AttributeError):
             limits = []
         for limit in limits:
-            if limit.get('issue') == 'claim_not_stated' and limit.get('resolution') == 'unresolved':
+            if limit.get('resolution') == 'unresolved':
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
     topics = []

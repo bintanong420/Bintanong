@@ -1,5 +1,6 @@
 """Research catalog and topic menu are derived from reviewed records only (fictional data)."""
 import json
+import pytest
 from backend.bintanong_runtime.research import research_catalog, topic_menu
 
 
@@ -158,3 +159,15 @@ def test_a_title_printed_on_two_courses_is_not_an_alias():
 def test_a_title_spelled_like_another_course_code_is_not_an_alias():
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 7', 'zz 8'), course('course-b', 'ZZ 8')))
     assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7'}, 'course-b': {'ZZ 8', 'ZZ8'}}
+
+
+@pytest.mark.parametrize('issue', ['source_cutoff', 'malformed_source_condition',
+    'conflicting_deadlines', 'printed_total_discrepancy', 'effectivity_currentness_unknown', 'claim_not_stated'])
+def test_router_can_select_every_recorded_unresolved_source_limitation(issue):
+    register = {'reviews':[dict(subject_id='synthetic_policy',claim='visible printed field',finding='visible_fields')]}
+    catalogue = {'assignments':[dict(reading_id='synthetic-row',subject_id='synthetic_policy')]}
+    chunks = [dict(type_fields=dict(reading_id='synthetic-row'),text=json.dumps(dict(source_limits=[
+        dict(issue=issue,resolution='unresolved',affected_claims=['the missing or uncertain condition'])])))]
+    topic, = topic_menu(register,catalogue=catalogue,chunks=chunks)
+    assert topic.claims == ('visible printed field',)
+    assert topic.not_stated == ('the missing or uncertain condition',)
