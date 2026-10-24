@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 8b984dc
+head_commit: 6814775
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -182,10 +182,11 @@ referral wording for e2) and the routing PNG: consistent.
       mismatches are verified source errors or 2 checker artefacts). Reuses p09-program-reviews/draft_program.py
       columns/layout/rules_at and each spec's column_edges; runs with the shared venv python -I.
       Next, in order (TDD each):
-      1. authoring.py: add FACT_FIELDS `units.printed` (text, e.g. "2/1", "250 Hours" not used) and `units.rle`
+      1. (Done `6814775`; RED 4, GREEN, 3 mutations caught; symbolic/runtime/ledger selection 293 passed)
+         authoring.py: add FACT_FIELDS `units.printed` (text, e.g. "2/1", "250 Hours" not used) and `units.rle`
          (numeric); treat only units.total/lecture/lab/rle as numeric. BSN: units.printed from its Unit/s column;
          BSMid: units.lecture/rle/lab from LEC/RLE/LAB, "-" = fact omitted. Blank units = fact omitted (gap).
-      2. Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
+      2. NOW. Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
          wrapped words joined with resolution_method native_range_line_wrap_joined + repair_id). CF2 terms cite
          the column's printed SEMESTER heading; CF3 (BSBA-MM) needs an owner-reading repair on the span
          (value FIRST/SECOND SEMESTER vs printed FIRST/SECOND YEAR): check _facts/_spans before choosing.

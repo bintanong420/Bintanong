@@ -37,7 +37,8 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 Handoff point (owner asked for /clear). Course facts (step 2h) for all 39 curricula with hosted upload: owner
 readings CF1-CF5 recorded; dry run done and verified (2132 courses; only source-error total mismatches).
-Resume at checkpoint step 2h item 1 (authoring fact fields, TDD), then spans, regenerate ledgers, runtime
+Item 1 done (`6814775`: `units.printed` text, `units.rle` numeric). Resume at checkpoint step 2h item 2
+(fact spans from native char runs), then, regenerate ledgers, runtime
 lookup, hosted upload via Supabase. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
 
 ## Boundaries
