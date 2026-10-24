@@ -217,6 +217,26 @@ referral wording for e2) and the routing PNG: consistent.
       topic in the global top 3 (rank 6); fees get 1/3, overload 3/5. Partial topics from Phase 05 selected-field
       review: misconduct = Handbook table 10 row 4 only (cheating in exams); pre-enrollment = Charter steps 1 and 3
       (Step 2 label missing in the original); grading = row 1.0 only (host reply covers the rest).
+   g2. Owner direction 25 Oct ("we need those included"): complete the partial reviewed topics. Do after g steps 1-5.
+      Scope (exact rows per batch; owner reviews; show printed text inline, the owner cannot open files):
+      - Academic misconduct: Handbook 2021 physical p.87 onward, "CAUSES FOR DISCIPLINARY ACTION" (penalty columns
+        1st / 2nd / 3rd / Subsequent Offenses; I. Improper Uniform, II. Behavioral Defiance 1-5, ... through the end
+        of the table). Only "a. Any form of cheating in examinations" (p.88, `handbook-table-10-row-4`) is reviewed.
+        Check each row's undergraduate applicability (scope policy); keep multi-page rows whole (service-table policy).
+      - Pre-enrollment: Charter 2025 4th Ed. physical p.102-103, full service incl. Step 2 (printed label missing in
+        the original: keep as a recorded source gap, never invent it); steps 1 and 3 are reviewed.
+      - Grading p.46: host reply `8c49ad0` covers it; add as chunks only if the database route is chosen.
+      Route (ask the owner first, plain words): published releases and their sources are immutable, so either
+      (A, recommended for this volume) one migration adding a supplementary-review path for chunks of an already
+      published source (append-only receipts; nothing recorded is changed), then a NEW research release = current 19
+      chunks + new reviewed chunks (+ the g topic filter), copying the 39 `release_curriculum_ledgers` links, local
+      disposable rehearsal, hosted activation, runtime release id + local package/pin switched (rollback = re-activate
+      `p09-research-selected-20261022`); or (B) more host-written replies (does not scale to the penalties table).
+      Pipeline references: `p05-release-readiness-20261016/prepare_package.py` (chunks, embeddings, catalogue,
+      claim register), `p09-supabase-20261022/load_research_release.py` (governed chain, research designation),
+      `p11-course-facts-20261024/load_facts.py` (ledger re-link), migrations phase5_partial_source_review /
+      selected_release_review / phase9_research_release. Embed with local SEA-LION-E5 (MODELS_DIR); spans from
+      native PDF text (pypdfium2 in the shared venv). TDD for migration/runtime changes; live + roster after.
       Superseded (do not do): building new p.46 chunks/new release (schema immutability, owner chose host-written).
       Then: Hybrid next-step part without topic; bare clarifications naming nothing; "hindi ko pa naipapasa" claim mode
       (nursing tl/taglish); then design the owner's simple-query battery (many simple questions per topic, 3

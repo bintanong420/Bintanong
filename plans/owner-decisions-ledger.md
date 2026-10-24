@@ -404,3 +404,7 @@ Each program still gets its own dated review record listing which standing rule 
   are not added as chunks; owner chose a host-written reply from the approved p.46 reading (`8c49ad0`). Owner then
   chose topic-filtered search (a `retrieve_context` chunk filter migration) so a chosen topic's chunks are not
   crowded out by other topics; handed off to another agent.
+- 25 Oct 2026, partial topics (g2): owner "omg we need those included": complete the partially reviewed topics
+  (Handbook disciplinary penalties table from physical p.87, of which only exam cheating is reviewed; Charter
+  pre-enrollment incl. Step 2 with its missing printed label kept as a gap). Route and per-row readings still need
+  owner confirmation in short batches.

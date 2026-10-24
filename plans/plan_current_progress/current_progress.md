@@ -42,7 +42,8 @@ releases are immutable, so no new chunks; owner choice). Live: whole table and p
 and "4.0" still referral because retrieval ranks all topics together (top 3) and drops the p.46 chunk. Owner chose
 topic-filtered search. RESUME at checkpoint item g "NEXT ACTION (resume here)" steps 1-6 (migration adding a
 `p_chunk_ids` filter to `retrieve_context`, TDD on local DB, hosted apply, live probe, roster 19), then the remaining
-step-2 items and the simple-query battery. Parked: Hybrid next-step part without a topic. Full suite not rerun
+step-2 items, then g2 (owner 25 Oct: complete partial topics: full Handbook disciplinary penalties table from
+p.87, Charter pre-enrollment incl. Step 2; route choice first, see checkpoint g2), and the simple-query battery. Parked: Hybrid next-step part without a topic. Full suite not rerun
 after `01d8db2` (selection 1479 passed at `8c49ad0`).
 
 ## Boundaries
