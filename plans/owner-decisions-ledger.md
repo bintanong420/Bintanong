@@ -372,3 +372,7 @@ Each program still gets its own dated review record listing which standing rule 
     shows no term totals now, so this applies only if totals are shown later. Source gaps stay as printed
     (BSBio Thesis 1 and BSEd-SS SSE 18 blank units = units not printed; BSCS 4th-year unnamed 3-unit row left
     out). BSBA-BusEco PATH Fit 3 keeps 3 units as printed. Owner: "Proceed".
+  - CF6 (25 Oct): BSES EnS 101/L title stays as visibly printed, "Earth Science I (Geology &", with a recorded
+    clipped-text gap; its hidden second line "Meteorology)" (clipped under the EnS 102 row) is not used and is
+    dropped from EnS 102's title ("Biodiversity Conservation & Management"). Spot-check accepted (BSIT 1st year 1st
+    sem, a CF3 row, a BSMid LEC/RLE row, line-end-hyphen titles kept unspaced): "Looks right, proceed".

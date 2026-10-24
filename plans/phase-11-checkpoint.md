@@ -195,7 +195,8 @@ referral wording for e2) and the routing PNG: consistent.
          numbers, "-" omitted; BSN: Unit/s as units.printed; Thesis 1 (BSBio), SSE 18 (BSEd-SS) units omitted.
          Owner spot-check per batch (acceptance 1) still to show. Found: BSES EnS 101/L title prints "Earth Science I
          (Geology &"; its second line "Meteorology)" is clipped under the EnS 102 row (native text only) and was
-         read into EnS 102's title. Only such case in 2132 titles (index-gap and join scans). Owner reading asked.
+         read into EnS 102's title. Only such case in 2132 titles (index-gap and join scans). Owner CF6 (25 Oct): visible text +
+         gap; hidden fragment dropped from EnS 102 (applied, rerun clean). Spot-check accepted (acceptance 1).
          Original wording of items 2-3: Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
          wrapped words joined with resolution_method native_range_line_wrap_joined + repair_id). CF2 terms cite
          the column's printed SEMESTER heading; CF3 (BSBA-MM) needs an owner-reading repair on the span

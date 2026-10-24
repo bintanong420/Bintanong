@@ -38,7 +38,7 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 Handoff point (owner asked for /clear). Course facts (step 2h) for all 39 curricula with hosted upload: owner
 readings CF1-CF5 recorded; dry run done and verified (2132 courses; only source-error total mismatches).
 Items 1-3 done (`6814775`; 39 ledgers with facts authored and regression-checked, untracked). Item 4 lookups done
-(`0c43f49`); next the router wiring. Owner spot-check asked (BSES EnS 101/L clipped title), then hosted upload. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
+(`0c43f49`); next the router wiring. Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
 
 ## Boundaries
 
