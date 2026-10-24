@@ -8,6 +8,7 @@ from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
 from .contracts import AnswerDraft,CandidateAnswer,GuardObservation,CoverageObservation
 from .evidence import prepare
+from .fee_reply import fee_reply
 from .references import EvidenceReferences,ShortAnswerDraft
 from .prompt import draft_messages,draft_schema
 from .render import fallback_status,render_text,selected_cards
@@ -90,6 +91,10 @@ class Generator:
             draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
                 release_id=pack.release_id,decision_outcome=pack.decision.outcome if pack.decision else None,claims=())
             return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft))
+        host=fee_reply(pack) if per_part else None
+        if host is not None:  # owner "Rate + example": host wording only, no model call
+            draft,ledger=host
+            return _answer(pack,'answered',claims=draft.claims,reason='validated',ledger=ledger)
         attempts=checks=0
         guard=None
         coverage=None

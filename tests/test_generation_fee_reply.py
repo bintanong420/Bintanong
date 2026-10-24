@@ -1,0 +1,103 @@
+"""Owner, 24 Oct 2026 (step 2e follow-up, "Rate + example"): a special class fee question gets one
+host-written reply in every language: the printed rate, the printed example, "your own charge is not
+stated" and the office referral. No model wording, no arithmetic. Values here are fictional; the host
+must copy them from the reviewed evidence fields, never from constants.
+"""
+import asyncio
+import hashlib
+import json
+
+import pytest
+
+from backend.bintanong_generation.evidence import prepare
+from backend.bintanong_generation.generator import Generator
+from backend.bintanong_orchestration.contracts import IntegrationResult
+from test_generation_evidence import integrated
+
+RATE = dict(fields=[dict(name='printed_rate_php_per_hour', source_blank=False, value='11.11')], source_limits=[])
+EXAMPLE = dict(fields=[dict(name='lecture_units', source_blank=False, value='2'),
+                       dict(name='lecture_hours', source_blank=False, value='36'),
+                       dict(name='amount_php_as_printed', source_blank=False, value='999.00')],
+               source_limits=[dict(issue='claim_not_stated', resolution='unresolved',
+                                   affected_claims=['official individual student assessment'])])
+EXPECTED = {
+    'en': ['The printed special class rate is PHP 11.11 per hour.',
+           'The printed example is a 2-lecture-unit class of 36 hours: PHP 999.00.',
+           'Your own charge is not stated in the source. Please ask the right university office.'],
+    'fil': ['Ang naka-print na rate ng special class ay PHP 11.11 kada oras.',
+            'Ang naka-print na halimbawa ay klase na may 2 lecture units at 36 oras: PHP 999.00.',
+            'Hindi nakasulat sa source kung magkano ang babayaran mo mismo. '
+            'Pakitanong sa tamang opisina ng unibersidad.'],
+    'taglish': ['Ang printed rate ng special class ay PHP 11.11 per hour.',
+                'Ang printed example ay class na 2 lecture units at 36 hours: PHP 999.00.',
+                'Hindi naka-state sa source kung magkano ang babayaran mo mismo. '
+                'Paki-ask sa tamang university office.']}
+
+
+class NoModel:
+    def __init__(self):
+        self.calls = []
+
+    async def infer(self, messages, schema):
+        self.calls.append(schema)
+        raise AssertionError('the fee reply must not call the model')
+
+
+def fee_integration(text='How much is the special class fee?', *, language='en', cards=(RATE, EXAMPLE),
+                    subject='special_class_fees'):
+    value = integrated('RAG', text=text).model_dump(mode='json')
+    template = value['evidence']['documents']['passages'][0]
+    passages, members = [], []
+    for n, card in enumerate(cards, 1):
+        chunk = f'{n:064x}'
+        passages.append(dict(template, chunk_id=chunk, text=json.dumps(card)))
+        members.append(dict(value['evidence']['pin']['documents'][0], chunk_id=chunk))
+    value['evidence']['documents']['passages'] = passages
+    value['evidence']['pin']['documents'] = members
+    value['response_style'] = language
+    part = value['understanding']['parts'][0]
+    part.update(subject_id=subject, requested_claims=['printed special class rate'])
+    assert value['understanding']['question_sha256'] == hashlib.sha256(text.encode()).hexdigest()
+    return IntegrationResult.parse(value)
+
+
+def generate(integration, model, text='How much is the special class fee?'):
+    return asyncio.run(Generator(model).generate(text, integration))
+
+
+@pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
+def test_fee_question_gets_the_host_written_rate_example_and_referral(language):
+    model = NoModel()
+    answer = generate(fee_integration(language=language), model)
+    assert model.calls == []
+    assert answer.status == 'answered' and answer.validation == 'validated'
+    assert [c.text for c in answer.claims] == EXPECTED[language]
+    cards = {c.evidence_id: json.loads(c.text) for c in prepare(fee_integration(language=language)).cards}
+    rate, example = (next(i for i, t in cards.items() if t == card) for card in (RATE, EXAMPLE))
+    assert [c.evidence_ids for c in answer.claims] == [(rate,), (example,), (example,)]
+    assert [(e.part_id, e.claim_ids) for e in answer.part_ledger.entries] == [('r1', ('c1', 'c2', 'c3'))]
+
+
+def test_fee_reply_never_states_a_computed_total():
+    answer = generate(fee_integration(), NoModel())
+    assert '399.96' not in answer.text  # 11.11 x 36 would be arithmetic, not a printed value
+
+
+class DraftModel:
+    """Any model call proves the host template was not used."""
+    def __init__(self):
+        self.calls = []
+
+    async def infer(self, messages, schema):
+        self.calls.append(schema)
+        payload = json.loads(messages[1]['content'])
+        return json.dumps(dict(schema_version='bintanong-part-explanation-v1',
+            release_id=payload['evidence']['release_id'], language='en',
+            answers=dict(r1=dict(status='not_in_evidence', claims=[]))))
+
+
+@pytest.mark.parametrize('kwargs', [dict(cards=(EXAMPLE,)), dict(cards=(RATE,)), dict(subject='overload')])
+def test_without_both_printed_cards_or_the_fee_topic_the_model_explains(kwargs):
+    model = DraftModel()
+    answer = generate(fee_integration(**kwargs), model)
+    assert model.calls and answer.status == 'insufficient_evidence'
