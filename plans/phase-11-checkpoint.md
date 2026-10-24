@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 6814775
+head_commit: 0c43f49
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -193,7 +193,9 @@ referral wording for e2) and the routing PNG: consistent.
          `owner_reading_source_error`, 14 new line-wrap joins (titles with a printed line-end hyphen, kept
          unspaced, e.g. "Management-Clinical Practicum"; for the owner spot-check). BSMid: lecture/rle/lab
          numbers, "-" omitted; BSN: Unit/s as units.printed; Thesis 1 (BSBio), SSE 18 (BSEd-SS) units omitted.
-         Owner spot-check per batch (acceptance 1) still to show.
+         Owner spot-check per batch (acceptance 1) still to show. Found: BSES EnS 101/L title prints "Earth Science I
+         (Geology &"; its second line "Meteorology)" is clipped under the EnS 102 row (native text only) and was
+         read into EnS 102's title. Only such case in 2132 titles (index-gap and join scans). Owner reading asked.
          Original wording of items 2-3: Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
          wrapped words joined with resolution_method native_range_line_wrap_joined + repair_id). CF2 terms cite
          the column's printed SEMESTER heading; CF3 (BSBA-MM) needs an owner-reading repair on the span
@@ -201,7 +203,10 @@ referral wording for e2) and the routing PNG: consistent.
       3. Regenerate 39 ledgers: same courses/prerequisites; new review `p11-course-facts-review-01` per curriculum
          (course_digests over new content); review_refs -> that review; old reviews kept in `reviews` as history.
          Verify prerequisite expressions and Prolog bundles unchanged except ledger hash (bundle regression).
-      4. NOW. Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
+      4. Lookups done `0c43f49` (`bintanong_symbolic/course_facts.py`: course_facts, list_term_courses; RED 5,
+         GREEN, 4 mutations caught; over the 39 authored ledgers each of 2132 courses listed once, all complete).
+         NEXT: router/validation/adapter wiring (a term listing has no course target: design needed), renderer.
+         Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
          insert new `curriculum_ledgers` rows, re-point `release_curriculum_ledgers` for release
