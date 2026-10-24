@@ -29,12 +29,16 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
   `parts_unresolved` in per-part generation. Full suite not yet run at `1f510dd` (stopped: low system memory).
 - [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
 
+- e2 done (owner decisions 24 Oct): special class fee host reply `c2ef61a` (printed rate + printed example +
+  own charge not stated + referral, all languages, no model call); multi-part partial answers `0046b4d` (covered
+  parts answered, a declared-unavailable part named with a referral; fee parts in mixed messages keep the host
+  reply). Live: 3 fee questions and both overload + fee messages answered. Selection 1401 passed, 2 xfailed.
+
 ## Next action
 
-Full suite at `874f0c9`: 6478 passed, 0 failed. Roster run 17: 0/63 status changes vs run 16, 19 intended text
-changes. Security re-check: Supabase advisor 0 lints, branch secret scan clean. Course facts plan drafted
-([plan](../2026-10-24-course-facts-plan.md), awaiting owner approval). Owner fee/partial-answer decisions recorded.
-Next: checkpoint step 2 e2 (special class fee host reply, then multi-part partial answers), then 2f-2h.
+Full suite last run at `874f0c9` (6478 passed). Course facts plan awaits owner approval
+([plan](../2026-10-24-course-facts-plan.md)). Next: the Hybrid question whose document part gets no topic
+("...How do I enroll in it?": structured result lost to the referral), then the full suite, then 2f-2h.
 
 ## Boundaries
 

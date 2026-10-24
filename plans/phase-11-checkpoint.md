@@ -4,9 +4,9 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 874f0c9
+head_commit: 0046b4d
 working_tree: clean
-updated_at: 2026-10-25T03:00:00+08:00
+updated_at: 2026-10-25T05:00:00+08:00
 ---
 
 # Phase 11 checkpoint - security, queue, abuse probe, E1 and E3 done; step 2 evaluation continues
@@ -59,6 +59,17 @@ evaluation) has started; E1 (`7c3786e`) and E3 (`05f34d2`) are fixed.
 - 2e `1f510dd`: every chosen topic retrieved, each with its parts' words when there are several; live both topics
   return evidence, but per-part generation then ends `parts_unresolved` (r1 missing_mapping, r2 not_in_evidence);
   the single Filipino "Magkano ang special class fee?" also ends parts_unresolved. Next diagnosis.
+- e2 fee `c2ef61a`: a special-class-fee part gets the host-written printed rate + printed example + "your own
+  charge is not stated" + office referral (en/fil/taglish), copied from the reviewed fields; no model call or
+  arithmetic. e2 partial `0046b4d`: a part declared not_in_evidence/source_gap is named ("The part about
+  "<words>" is not in Bintanong's reviewed sources yet...") when another part or the structured check answers;
+  ledger status `some_parts_unavailable`; a reviewer-rejected part still withholds (claims stay bound to the
+  review identity); a fee part inside a mixed message keeps the host claims (not model-reviewed). Live: 3 fee
+  questions and both overload + fee messages answered with PHP 370.37/hour and the 3-unit PHP 20,000.00 example.
+  The Taglish fee wording was labelled fil by the router and got the Filipino reply.
+- Open (seen live, `diag_partial_after.log`): Hybrid "Can I take CC 5/L? I passed CC 3/L and CC 4/L. How do I
+  enroll in it?" - the router gives the document part no topic, retrieval returns nothing and the whole message
+  gets the E1 referral; the structured result is lost (orchestration-level, not the generator).
 - Not yet changed: `model_ambiguity` clarifications and model-chosen `evidence_unavailable` render without naming
   anything / as "temporarily unavailable" (`fallback_status`); candidates for the next diagnosis.
 - E2 (minor): "What are the prerequisites of CC 6?" names CC 3/L and CS 2/L, but framed as an eligibility
@@ -67,7 +78,7 @@ evaluation) has started; E1 (`7c3786e`) and E3 (`05f34d2`) are fixed.
 
 ## Repository State
 
-Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` plus this checkpoint commit, nothing pushed.
+Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `0046b4d` plus this checkpoint commit, nothing pushed.
 
 ## Verification Evidence
 
@@ -94,6 +105,10 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
   (routing/orchestration/generation/api/evaluation/private/symbolic/runtime/contract) at 2b: 3727 passed, then 9
   traceability digest failures fixed by omitting an absent `requirement` from the dump. Full suite NOT run at
   `1f510dd`: a first run overlapped edits (discarded); the clean run was stopped by Claude Code for low memory.
+- e2: RED observed for each (fee 3, partial 6 + ledger contract 4, mixed fee 3), GREEN; 13 isolated mutations
+  each failed a test (one redundant guard removed after its mutation survived; one assertion added for M13).
+  Selection (generation/orchestration/api/routing/evaluation/private/request + question-parts) 1401 passed,
+  2 xfailed. Full suite not yet run after `0046b4d`.
 - Full suite at `874f0c9`: 6478 passed, 6 skipped, 2 xfailed (photo limits), 1552 subtests, 0 failed, 19m51s
   (log `full-suite-874f0c9.log`).
 - Roster run 17 (HEAD `874f0c9`, run 15/16 settings): 0 of 63 status/decision changes vs run 16, 0 exceptions;
@@ -154,10 +169,8 @@ decision ("authorized user/session"): consistent, no discrepancy.
    c. (Done `9e3c5b0`) course not found.
    d. (Done `8f15471`) units -> referral.
    e. (Done `1f510dd`) every chosen topic retrieved.
-   e2. (Owner decisions 24 Oct, ledger) NEXT: special class fee host-written reply (rate PHP 370.37/hour + 3-unit
-      example PHP 20,000.00 + own charge not stated + referral, all languages; English currently gives the example
-      as the fee); then multi-part partial answers (answer covered parts, name the uncovered part). Both touch the
-      answer contract, per-part review and final validation: TDD each.
+   e2. (Done `c2ef61a`, `0046b4d`) fee host reply; multi-part partial answers. NEXT: the Hybrid case whose
+      document part has no topic (structured answer lost to the E1 referral; see Current Task), then full suite.
    f. (7) Cebuano -> name supported languages; "Thank you" -> not "Hello"; tuition wording = referral.
    g. Passing grade: show the owner the printed region of Handbook p.304 (owner reading: 3.0/75 pass, below fails),
       then add the reviewed claim.
@@ -183,4 +196,4 @@ How to run things:
 ## Do Not Repeat
 
 Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
-security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, 2a-2e and their live re-checks, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
+security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, 2a-2e and e2 and their live re-checks, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
