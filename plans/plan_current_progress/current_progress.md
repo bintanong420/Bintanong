@@ -22,6 +22,8 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 - E3 fixed (`05f34d2`, owner chose office referral): a model "clarify" that names nothing now gets the E1 "not in
   reviewed sources, ask the office" reply; live 4/4 shifting questions. One covered Taglish pre-enrollment case also
   gets the referral (disclosed).
+- 2a fixed (`9c09ac7`): overload questions the model checked as a course now answer from the overload topic
+  (live: typo and one-word forms answered, matching Handbook table 6).
 - [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
 
 ## Next action
@@ -30,7 +32,7 @@ Full suite at `05f34d2`: 6455 passed, 0 failed. Owner risk scenarios probed live
 (24 Oct, in `owner-decisions-ledger.md`): fix all 7 listed problems; college Charters handled by website scope text
 (replies unchanged); passing grade from Handbook p.304 to verify and add; first-year subject lists must be answered
 (needs title/units/year-semester facts; ledgers hold only codes and prerequisites).
-Next: checkpoint step 2a (diagnose the overload typo/one-word bare clarify), then 2b-2h in order.
+Next: checkpoint step 2b (list prerequisites for "What is the prerequisite of X?"), then 2c-2h in order.
 
 ## Boundaries
 

@@ -4,9 +4,9 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 05f34d2
+head_commit: 9c09ac7
 working_tree: clean
-updated_at: 2026-10-24T22:00:00+08:00
+updated_at: 2026-10-24T23:30:00+08:00
 ---
 
 # Phase 11 checkpoint - security, queue, abuse probe, E1 and E3 done; step 2 evaluation continues
@@ -47,6 +47,11 @@ evaluation) has started; E1 (`7c3786e`) and E3 (`05f34d2`) are fixed.
   one Taglish pre-enrollment). Now diagnostic `empty_clarification` -> `no_evidence` -> E1 referral. A clarify with a
   check or back-reference still asks. Disclosed: the covered pre-enrollment Taglish case also gets the referral
   (retrieval needs a model-chosen topic, `engine.py:111`). Live: 4/4 shifting phrasings referral, right language.
+- 2a fixed (`9c09ac7`): "overload"/"pwde b mg overload?" chose the overload topic but marked the part structured
+  with an eligibility check aimed at the word itself (router spy: `only_document_parts_carry_topics` both attempts
+  -> invalid_reference -> bare clarify). Wire normalization now makes a structured topic part whose operations
+  target no listed course a document part. Live: both answered, matching Handbook table 6 rows 1 and 3. The
+  two-topic overload + special-class-fee message now routes RAG but ends insufficient (first-topic-only, 2e).
 - Not yet changed: `model_ambiguity` clarifications and model-chosen `evidence_unavailable` render without naming
   anything / as "temporarily unavailable" (`fallback_status`); candidates for the next diagnosis.
 - E2 (minor): "What are the prerequisites of CC 6?" names CC 3/L and CS 2/L, but framed as an eligibility
@@ -81,6 +86,8 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
 - E3: RED (2 tests, expected reason) after a fixture setup fix, GREEN; 3 mutations each failed a test; selection
   (routing/orchestration/generation/API/evaluation/private) 1310 passed, 2 xfailed. Full suite at `05f34d2`: 6455 passed, 6 skipped, 2 xfailed, 0 failed (22m04s, log `full-suite-e3.log`).
   Hosted Supabase security advisor 24 Oct: 0 lints.
+- 2a: RED (2 wire tests, `only_document_parts_carry_topics`), GREEN; 3 isolated mutations each failed a test;
+  selection (routing/orchestration/generation/api/evaluation/private) 1772 passed, 2 xfailed. Live log `diag_r4_after.log`.
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
   turns in Taglish 3 of 4 (run 5: 0 of 4).
 - Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum
@@ -126,7 +133,7 @@ decision ("authorized user/session"): consistent, no discrepancy.
 1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
 2. Fix the owner's risk-probe list ([results](2026-10-24-risk-scenario-probe-results.md); owner decisions 24 Oct in
    `owner-decisions-ledger.md`). TDD each; live re-check each with `risk_probe.py` (stdin = case ids). Order:
-   a. (1) typo/one-word/two-topic overload -> bare clarify: spy `Router.route` (failure never reaches routed_sink).
+   a. (Done `9c09ac7`) typo/one-word overload -> bare clarify.
    b. (3) "What is the prerequisite of X?" -> list the prerequisites, not an eligibility check (also E2).
    c. (4) unknown course title/code -> say it was not found and ask for the printed code (not a bare clarify).
    d. (5) unsupported lookups (units) -> say unsupported, not "temporarily unavailable" (`fallback_status`).
@@ -157,4 +164,4 @@ How to run things:
 ## Do Not Repeat
 
 Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
-security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
+security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, 2a and its live re-check, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
