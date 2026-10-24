@@ -348,3 +348,11 @@ Each program still gets its own dated review record listing which standing rule 
   course, both "What is the prerequisite of CC 5?" and "Can I take CC 5?" list the reviewed prerequisites
   (all-of "and", any-of "one of", co-requisite "or take at the same time") and ask which ones the student has
   passed. Host-side, deterministic, no router prompt change; a stated fact keeps the eligibility check.
+- 24 Oct 2026 (Phase 11 step 2e follow-up), owner choices:
+  - Special class fee, "Rate + example": every language gets one host-written reply, no model wording and no
+    arithmetic: the printed rate (PHP 370.37 per hour), the printed 3-lecture-unit example (54 hours, PHP
+    20,000.00), "your own charge is not stated", and the office referral. Replaces the English reply that gave
+    the example total as the fee. F04 (the disputed 41,666.52/41,666.62 field) stays held.
+  - Multi-part messages, "Answer what's covered": answer each part that has reviewed evidence, and for a part
+    without it add "the part about <student's words> is not in Bintanong's reviewed sources yet; ask the relevant
+    university office". Each part keeps its own checks; this replaces all-or-nothing withholding.
