@@ -15,9 +15,10 @@ type ComposerProps = {
   onSelect: (files: File[]) => void;
   onRemove: (id: string) => void;
   picker: RefObject<HTMLInputElement | null>;
+  live?: boolean;
 };
 
-export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker }: ComposerProps) {
+export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker, live = false }: ComposerProps) {
   const input = useRef<HTMLTextAreaElement>(null);
   useLayoutEffect(() => {
     if (!input.current) return;
@@ -32,8 +33,8 @@ export function Composer({ draft, attachments, warning, pending, onDraft, onSend
       <AlertDescription>{warning}<Button variant="outline" size="sm" type="button" onClick={() => picker.current?.click()}>Choose another file</Button></AlertDescription>
     </Alert>}
     <form className="composer" onSubmit={event => { event.preventDefault(); onSend(); }}>
-      <input ref={picker} type="file" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" className="sr-only" tabIndex={-1} aria-label="Choose local preview files" onChange={event => { onSelect(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = ""; }} />
-      <Button variant="secondary" type="button" className="composer-upload" aria-label="Select files for local preview" title="Select files for local preview" onClick={() => picker.current?.click()}><Paperclip aria-hidden="true" size={22} /></Button>
+      <input ref={picker} type="file" multiple={!live} accept={live ? ".pdf,application/pdf" : ".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"} className="sr-only" tabIndex={-1} aria-label={live ? "Choose a PDF for this chat" : "Choose local preview files"} onChange={event => { onSelect(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = ""; }} />
+      <Button variant="secondary" type="button" className="composer-upload" disabled={live && pending} aria-label={live ? "Add a PDF to this chat" : "Select files for local preview"} title={live ? "Add a PDF to this chat" : "Select files for local preview"} onClick={() => picker.current?.click()}><Paperclip aria-hidden="true" size={22} /></Button>
       <div className="composer-input">
         {attachments.length > 0 && <div className="attachment-tray">
           <p role="status">Added {attachments.length} {attachments.length === 1 ? "file" : "files"} <span>· Local preview only</span></p>
@@ -47,7 +48,7 @@ export function Composer({ draft, attachments, warning, pending, onDraft, onSend
           if (shouldSend({ key: event.key, shiftKey: event.shiftKey, isComposing: event.nativeEvent.isComposing, keyCode: event.nativeEvent.keyCode })) { event.preventDefault(); onSend(); }
         }} />
       </div>
-      <Button type="submit" className="composer-send" disabled={pending || !draft.trim()} aria-label="Send preview message" title="Send preview message"><ArrowUp aria-hidden="true" size={24} /></Button>
+      <Button type="submit" className="composer-send" disabled={pending || !draft.trim()} aria-label={live ? "Send question" : "Send preview message"} title={live ? "Send question" : "Send preview message"}><ArrowUp aria-hidden="true" size={24} /></Button>
     </form>
     <p className="responsible-use">Bintanong is an AI guide. Verify important academic decisions with the relevant university office or academic adviser.</p>
   </footer>;

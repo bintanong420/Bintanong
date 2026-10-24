@@ -54,10 +54,13 @@ test('stream failure never resubmits a possibly committed answer', async () => {
 test('PDF upload uses explicit scope and preserves backend review shape', async () => {
   const file = new File(['%PDF-synthetic'], 'synthetic.pdf', { type: 'application/pdf' });
   const review = { uploadId: 'upl-0123456789abcdef', unmatchedLines: 0, rows: [{ rowId: 'row-1-1', printedCode: 'A1', marks: [], courses: [{ courseId: 'course-a', label: 'A1' }] }] };
+  let queryKeys;
   const value = await uploadStudentFile(file, request, new AbortController().signal, async (url, init) => {
     assert.ok(url.includes('programId=program-a') && url.includes('curriculumId=curriculum-a'));
+    queryKeys = [...new URL(url, 'https://synthetic.example').searchParams.keys()].sort();
     assert.equal(init.body, file);
     return Response.json(review);
   });
   assert.deepEqual(value, review);
+  assert.deepEqual(queryKeys, ['curriculumId', 'programId']);
 });

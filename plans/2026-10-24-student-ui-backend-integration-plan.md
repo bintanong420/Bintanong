@@ -51,7 +51,7 @@ Consumes backend ChatRequest/SSE/upload/source/curricula contracts. Produces bou
 Files: workspace controller/conversation/composer/source/file/scope panels, root and /chat routes, auth helpers/login/callback/signout.
 Consumes Task2 adapter and Task1 checked metadata. Produces one actual conversation using original visuals, explicit curriculum picker, local file-review state with acknowledged confirmation/removal, conditional result notices, working source inspection, Stop and acknowledged New chat. OAuth PKCE callback accepts only internal destinations; server authorization remains authoritative.
 - [ ] RED: user message retained; duplicate prevention; Stop/Clear races; failed deletion; clarification fields; unsupported/reselected file preserves others; keyboard/IME; no simulation calls.
-- [ ] Implement; GREEN UI tests/typecheck/build; commit.
+- [x] Implement; GREEN UI tests/typecheck/build; commit.
 
 ## Task 4: Reproducible selected-backend research composition
 
@@ -74,3 +74,6 @@ Task1: RED14 auth/ownership/admission failures and RED2 summary failures observe
 Task2: RED missing transport/proxy/reducer modules observed; GREEN14 Node24.21 tests, including actual Python emitter -> installed SDK7 parser, and TypeScript after `next typegen` refreshed stale branch-generated route types. Reused31 explicit visual files/assets fromdb4275e. Approved exact pins installed; no React/TypeScript pin change. Small workspace reducer/composer types shipped with the foundation because reused Composer imports them; no simulated adapter included.
 
 Ruling (owner correction): integration base is frontend c17dcb2, worktree p11-frontend-integration / feat/p11-frontend-integration. Merge Lawrence origin/feat/p11-backend-api34a21ca into it. Preserve original UI and carry only selected earlier integration fixes; older commits/test results remain evidence, not proof of this tree.
+Ruling: the original frontend's preparatory phase-plan metadata conflicts with the selected backend's formal Phase11 plan after merging. Retain its content as historical interface-preparation with a superseding pointer; keep one active numbered phase plan. Prior full content remains atc17dcb2.
+Runtime integration reuses only the checked hosted-snapshot and strict HTTP embedding bridge from the earlier branch, avoiding a second CPU encoder in the API. Lawrence's routing/generation/queue/upload implementations remain authoritative; no whole interface backend is merged.
+Task3: original workspace now uses real messages, checked scope, source inspection, explicit PDF row confirmation/removal, Stop, acknowledged clearing and Supabase PKCE/sign-out.43 UI/adapter tests and Next16.4.3 production build pass; npm audit0 findings. Actual Next/FastAPI synthetic browser fixture passes10 control families/16 requests, including isolated PDF parsing, same-file reselection, unsupported-file preservation, failed clearing and keyboard/IME/themes/reflow. Browser exposed upload-query display-label leakage; focused regression observed RED then GREEN after restricting query to scope IDs. Real Google identity-provider setup remains unavailable; no actual PSU login claimed.

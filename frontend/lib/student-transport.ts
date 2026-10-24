@@ -48,7 +48,7 @@ export async function getStudentSource(sourceId: string, signal: AbortSignal, fe
 }
 export async function uploadStudentFile(file: File, scope: StudentScope, signal: AbortSignal, fetcher = fetch) {
   if (!/\.pdf$/i.test(file.name) || file.size < 1 || file.size > 15 * 1024 * 1024) throw new StudentTransportError("choose_supported_pdf", 422);
-  const query = new URLSearchParams(scope);
+  const query = new URLSearchParams({ programId: scope.programId, curriculumId: scope.curriculumId });
   return uploadSchema.parse(await boundedJSON(await checkedFetch("/api/uploads?" + query, {
     method: "POST", signal, headers: { "Content-Type": "application/octet-stream" }, body: file,
   }, fetcher)));
