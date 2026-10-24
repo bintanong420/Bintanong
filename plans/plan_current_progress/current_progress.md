@@ -10,24 +10,23 @@ Last full snapshot before this condensation:ec403f5; use git show for history.
 
 ## Latest change
 
-Student account correction committed ec403f5: visible Sign out, bounded local logout
-when chat cleanup/auth refresh fails, honest cleanup notice, direct retry and contained
-alerts. Curriculum/login wording now uses subjects, prerequisites, enrollment and
-prospectus terms; no researcher jargon or unsupported availability promise.
-55 UI tests/typecheck PASS;11 serial browser checks plus the added running-answer
-logout regression PASS. Eight theme/width layouts and200% CSS zoom checked.
-Isolated webpack build PASS with external-junction tracing limits; independent review
-found no remaining important issue. [Delivery/evidence](../2026-10-24-student-account-usability.md).
-Existing master8/23.2 retention stays temporary; saved history remains an unapproved
-recommendation. Sidebar a184d7c and guided clarification4dcd9bf/68b70e1 retained.
-
-Owner login3215 returns200; API8021 remains offline after the recorded hosted-ledger
-validation error: hosted `units.printed`/`units.rle` are outside local FACT_FIELDS.
-Runtime-role read-only scan:39 release ledgers,2117 records with unsupported fields.
-frontend→origin/dev merge preview is clean; latest10 UI commits still local at check.
-No merge/push or hosted data/guard changes; live curriculum acceptance remains open.
-Actual PSU login was earlier owner-verified; non-PSU/full manual flow still unverified.
-[Auth/setup delivery](../2026-10-24-landing-auth-concept2.md) and
+Recovered session01a16cef. Printed/RLE compatibility b168bd8 and research readiness
+ffba97d restore API8021; pinned runtime-role vector RPC replaces the incorrect Docker
+DB probe for this composition. API/frontend health200 ready/all five probes;
+anonymous curricula401. No hosted records, dependencies, locks or models changed.
+Owner reported redundant course clarification for Data Structures and Algorithms.
+9fb1e41 adds reviewed titles to the existing scoped resolver; shared titles still
+clarify. RED2→GREEN57 focused tests; fresh relevant regression3406 passes/2 expected
+photo xfails. Independent static reviews found no important issues.
+Exact question now resolves CC4/L and routes Symbolic/list_affected_courses in21.222s;
+final clarification remains because21 courses have unresolved prerequisite coverage.
+Updated API/frontend health200 ready. Temporary server context reset on restart.
+Owner confirmed sign-in in their browser; automated Orca tab is a separate session.
+Internal live Prolog answered/validated; initial RAG/Hybrid fell back. One bounded RAG
+trace then answered/validated with Handbook page46; consistent quality not established.
+[Startup/title recovery](../2026-10-24-local-pipeline-startup.md). No merge/push/closure.
+Prior account/sidebar/clarification delivery retained; temporary chat state only.
+[UI evidence](../2026-10-24-student-account-usability.md) and
 [manual checklist](../../docs/development/google-sign-in-local-setup.md).
 
 ## Verified integration baseline
@@ -44,16 +43,16 @@ Main local review and model directory preserved and excluded from staging.
 Earlier fresh main baseline:3383 backend passes/2 expected photo xfails. Earlier
 synthetic Next/FastAPI browser:10 families/16 requests pass. Actual Prolog validated
 4 sources; bounded RAG returned handbook page46. Hybrid/quality acceptance remains
-incomplete. These backend observations were not repeated for this UI-only change.
+incomplete. Current bounded observations are recorded separately above.
 Saved full suite:6494 passed,2 failed,1 skipped,2 xfailed,1552 subtests. Both failures
 are Docling/Transformers requiring huggingface-hub<2 while2.2 is installed. No repair.
 WSL16GB remains unverified: last check found memory=8GB and Ubuntu7.8Gi total.
 
 ## Next action
 
-Restore reviewed-ledger field compatibility with regression coverage, then rerun
-real API startup and authenticated curriculum/clarification acceptance.
-[Evidence](../2026-10-24-student-workspace-polish.md).
+Owner retries title matching in the signed-in chat; retain the separately documented
+dependency-coverage and RAG/Hybrid acceptance gaps.
+[Evidence](../2026-10-24-local-pipeline-startup.md).
 
 ## Remaining boundaries
 

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 30
+sequence: 34
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f989081
+head_commit: 9fb1e41
 working_tree: dirty
-updated_at: 2026-10-24T18:50:39+08:00
+updated_at: 2026-10-24T19:37:00+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -37,17 +37,20 @@ retry/progress and student-facing curriculum wording aligned with the thesis.
 [Delivery and verification](2026-10-24-student-account-usability.md).
 Sidebar a184d7c and guided clarification4dcd9bf/68b70e1 remain delivered. Temporary
 state only; persistent/multiple resumable history has not been authorized/built.
-Real API startup remains blocked by hosted-ledger fact validation. Phase11 final
+Owner-requested local startup resumed from session01a16cef-7c2e-72b2-8d30-2ccce2de7ce6.
+Printed/RLE compatibility b168bd8 and readiness ffba97d restore the full local services.
+Owner-reported redundant Data Structures and Algorithms clarification traced to omitted
+reviewed title aliases; fixed9fb1e41. Exact question resolves CC4/L; final clarification
+now reflects unresolved prerequisite coverage. Updated API/frontend health200 ready.
+[Startup evidence](2026-10-24-local-pipeline-startup.md). Phase11 final
 integration review/acceptance remains open; no institutional activation or closure.
 
 ## Repository State
 
-Main checkout frontend atec403f5; account/sidebar/clarification committed locally.
-Recovered exact previous session01a16c88-a2f7-7e63-b82a-f32c00d47160. Product clean;
-delivery/checkpoint/progress documentation being saved. Execution/evidence in polish report.
-Changed frontend: root/login/chat, OAuth callback, proxy/auth-policy, styles,
-appearance control and new page-access regression. Changed docs: student integration,
-Google setup guide, dated landing/auth report, progress and this checkpoint.
+Main checkout frontend at9fb1e41; product/tests committed; recovery docs being saved.
+Recovered exact session01a16cef from both local account directories; no session files changed.
+This recovery changed API readiness, runtime title aliases, their tests and integration
+documentation. Existing frontend/account delivery was preserved.
 Owner-local historical review remains unstaged in progress; untracked status review
 and SEA-LION-E5-Embedding-600M directory remain untouched/excluded.
 Implementation worktree retains15 modified product/test files and3 untracked lifecycle
@@ -55,11 +58,23 @@ files, previously verified byte-identical; no lifecycle WIP copied into main.
 Full pre-condensation checkpoint/progress:ec403f5; prior1c0ab97/60d285f.
 Recovery refs/copies remain in the sync record.
 Local pre-condensation copies also in ignored landing-auth-setup evidence.
-Next/login127.0.0.1:3215 restored200. API8021 fails hosted-ledger validation on startup.
+Frontend3215/login200; updated API8021/frontend health200 ready/all five probes.
 Ignored frontend/.env.local contains existing hosted public key/origins, no Google secret.
 
 ## Verification Evidence
 
+- Startup recovery: focused RED8 failed/11 passed, then GREEN19 passed. Fresh relevant
+  regression3404 passed/2 expected photo xfails. Actual readiness: Supabase vector RPC,
+  Janus, embedding, Bintu and student_runtime true; anonymous frontend curricula401.
+  Independent static review found no important issue. Title fix: RED2 failures→GREEN57
+  focused passes; fresh relevant regression3406 passes/2 expected photo xfails; review
+  found no important issue. Source fields/spans/digests unchanged.
+- Live internal probes: Prolog answered/validated/4 citations; RAG and Hybrid initially
+  fell back. Bounded RAG trace then answered/validated/1 Handbook page46 citation,
+  with release/routing/retrieval/integration healthy. Not consistent-quality evidence.
+- Exact owner question:21.222s internal; validated Symbolic/list_affected_courses,
+  correct CC4/L identity. Final clarification persists:21 unresolved prerequisite
+  records prevent complete impact guidance. Reporting-only retry disclosed in report.
 - Account correction:55 UI tests/typecheck PASS;11 serial browser checks plus one
   added running-answer logout regression PASS. Backend cleanup503 and expired-token
   refresh503 observed RED→GREEN; expired logout now approximately5s, own auth chunks
@@ -108,10 +123,12 @@ Hosted39 curricula/19 chunks/52 fields/54 spans retain their recorded limitation
 
 ## Known Failures or Blockers
 
-Actual PSU login owner-verified; non-PSU/full manual flow unverified. Real API startup
-now fails load_release_curricula/compiler/_facts: required/allowed fact-field validation.
-Runtime-role SELECT isolated unsupported units.printed/units.rle (2117 records in
-39 selected ledgers). No source data changed or guard weakened. Merge preview
+Owner confirmed fresh PSU sign-in; automated tab is a separate signed-out session.
+Startup blockers repaired locally: units.printed/units.rle compatibility and hosted
+readiness path. Earlier all39 ledgers rebuilt with unchanged digests; no hosted writes.
+Owner title-matching correction committed and live identity/routing verified; complete
+dependency guidance remains limited by21 unresolved prerequisite records.
+Authenticated/full manual acceptance remains open. Previous merge preview
 frontend→origin/dev c0d3e22 clean, matching frontend tree;10 local commits unpushed.
 Docling environment failures unresolved. Fee/partial answers,pending-question/replay,
 aliases,real grade layouts,Hybrid/language/latency exits remain open; photos unsupported.
@@ -119,8 +136,8 @@ No phase closure, university approval, public deployment or institutional activa
 
 ## Next Action
 
-Restore reviewed-ledger field compatibility with regression coverage, then verify
-real API startup and authenticated curriculum/clarification before working integration.
+Owner retries title matching in signed-in chat; retain separately documented dependency
+coverage/RAG/Hybrid acceptance gaps and all source/phase/release boundaries.
 
 ## Do Not Repeat
 
@@ -129,3 +146,5 @@ settled source reviews. Preserve dirty owner work and all source/privacy boundar
 Context rechecked24Oct after rollover: thesis physical17–18/65–66, routing PNG,
 master16/25 and prior23/24; Phase10 handoff. Public scope/privacy wording matches
 these boundaries and the explicit master25.1 auth-email storage decision.
+Account resume also consulted thesis17–18/39–44/65–66, routing PNG and master3/11/13/
+16/23–25. Thesis closed-world example does not override unknown-versus-unmet policy.
