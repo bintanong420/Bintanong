@@ -4,6 +4,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Control, Record, Route
+from .terms import parse_term
 from .contracts import TERM_OPERATIONS, Interpretation, Language, MentionKind, State, Text, prepare_query
 
 
@@ -145,6 +146,10 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
             if index == len(listed):
                 listed.append(dict(kind=kind, **found))
             mentions[key(quote)] = index
+        if listed[index]['kind'] != kind and kind == 'term' and parse_term(listed[index]['text']) is not None:
+            # A listing target the model labelled as another kind (live: "second year" as a curriculum) is a
+            # term when it reads as a year/semester; anything else keeps the error.
+            listed[index]['kind'] = 'term'
         if listed[index]['kind'] != kind:
             raise ValueError(f'invalid_{kind}_quote_reference')
         return index

@@ -80,6 +80,32 @@ def test_router_prompt_describes_the_course_fact_operations_and_term_mentions():
     text = prompt.SYSTEM_PROMPT
     assert 'course_facts' in text and 'list_term_courses' in text
     assert 'term mention' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v18'
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v19'
+    assert 'a school year is never a term mention' in text
     kinds = prompt.output_schema()
     assert '"term"' in json.dumps(kinds)
+
+
+def year_wire(kind, text='What subjects are in second year BSIT?', term='second year'):
+    program = [dict(kind='program', quote=quote('BSIT'))] if term != 'BSIT' else []
+    return dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=1,
+        audience='undergraduate', intent='term courses',
+        mentions=[*program, dict(kind=kind, quote=quote(term))],
+        claims=[], operations=[dict(name='list_term_courses', target=quote(term))],
+        parts=[dict(part_id='r1', quote=quote(text), evidence_need='structured', operation_indices=[0])],
+        route='Symbolic', control=None, ambiguities=[])
+
+
+def test_a_listing_target_labelled_as_another_kind_becomes_a_term_when_it_reads_as_one():
+    # Live 25 Oct 2026: the model listed "second year" as a curriculum mention and targeted it.
+    api = importlib.import_module('backend.bintanong_routing.wire')
+    result = api.normalize_interpretation('What subjects are in second year BSIT?',
+                                          api.WireInterpretation.parse(year_wire('curriculum')))
+    assert result.mentions[result.operations[0].target].kind == 'term'
+
+
+def test_a_listing_target_that_is_not_a_year_is_still_rejected():
+    api = importlib.import_module('backend.bintanong_routing.wire')
+    with pytest.raises(ValueError, match='invalid_term_quote_reference'):
+        api.normalize_interpretation('What subjects are in BSIT?', api.WireInterpretation.parse(
+            year_wire('curriculum', text='What subjects are in BSIT?', term='BSIT')))

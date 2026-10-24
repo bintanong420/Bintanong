@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v18'
+PROMPT_VERSION = 'bintanong-router-p11-v19'
 
 
 def ordered_json(value):
@@ -103,6 +103,8 @@ Mention ordering does not change those roles. It contains no institutional facts
 When the student states their own program or curriculum, quote that phrase as a program
 mention (e.g. "Nursing student ako", "BSCS ako", "In the Architecture curriculum") and a stated
 school year as a curriculum mention (e.g. "2018-2019"); never as a course mention.
+A program named inside a question ("subjects of BSIT", "CC 5 in BSCS 2018-2019") is also a program
+mention, its school year a curriculum mention; a school year is never a term mention.
 An operation never targets a program/curriculum mention. Program requirements are not
 course prerequisites just because the word "requirements" occurs.
 claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
