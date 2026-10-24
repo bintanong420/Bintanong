@@ -6,9 +6,15 @@ Owner preview: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
 [Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
 [Checkpoint](../phase-11-checkpoint.md) |
 [Landing/auth delivery](../2026-10-24-landing-auth-concept2.md).
-Last full snapshot before this condensation:ec403f5; use git show for history.
+Previous full snapshot:93bd7b4; use git show for history.
 
 ## Latest change
+
+Owner-authorized frontend→dev/frontend merge8bd3433 published atomically to both
+branches; ls-remote verified20:33+08. Local frontend fast-forwarded; existing dirty
+progress/review byte-identical. Fresh merged candidate:3406 backend passes/2 expected
+photo xfails,55 UI passes,typecheck PASS; independent review no important blocker.
+[Publication/recovery](../2026-10-24-frontend-dev-publication.md). Phase11 stays active.
 
 Recovered session01a16cef. Printed/RLE compatibility b168bd8 and research readiness
 ffba97d restore API8021; pinned runtime-role vector RPC replaces the incorrect Docker
@@ -24,11 +30,9 @@ Updated API/frontend health200 ready. Temporary server context reset on restart.
 Owner confirmed sign-in in their browser; automated Orca tab is a separate session.
 Internal live Prolog answered/validated; initial RAG/Hybrid fell back. One bounded RAG
 trace then answered/validated with Handbook page46; consistent quality not established.
-[Startup/title recovery](../2026-10-24-local-pipeline-startup.md). No merge/push/closure.
+[Startup/title recovery](../2026-10-24-local-pipeline-startup.md). No phase closure.
 Live GPU check: llama-server on RTX4060/CUDA,32-layer offload configured; embedding
 CPU. Recent decode12–16tok/s; last slot idle/queue0. No tuning or full latency profile.
-Publication check: refreshed origin/frontend60d285f is ancestor of product HEADfc807b7;
-55 UI tests/typecheck and live readiness PASS. Development sync ready; no push performed.
 Prior account/sidebar/clarification delivery retained; temporary chat state only.
 [UI evidence](../2026-10-24-student-account-usability.md) and
 [manual checklist](../../docs/development/google-sign-in-local-setup.md).

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 36
+sequence: 37
 plan: plans/phase-11-backend-api-plan.md
-head_commit: fc807b7
+head_commit: 8bd3433
 working_tree: dirty
-updated_at: 2026-10-24T19:50:36+08:00
+updated_at: 2026-10-24T20:35:08+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -31,12 +31,10 @@ updated_at: 2026-10-24T19:50:36+08:00
 
 ## Current Task
 
-Owner-requested student UI correction delivered ec403f5: visible logout, bounded
-local credential removal despite research/auth outages, honest cleanup notice,
-retry/progress and student-facing curriculum wording aligned with the thesis.
-[Delivery and verification](2026-10-24-student-account-usability.md).
-Sidebar a184d7c and guided clarification4dcd9bf/68b70e1 remain delivered. Temporary
-state only; persistent/multiple resumable history has not been authorized/built.
+Owner-authorized frontend→origin/dev and origin/frontend merge8bd3433 published
+atomically; both remote hashes verified20:33+08. Local frontend fast-forwarded,
+owner dirty state preserved. [Publication/recovery](2026-10-24-frontend-dev-publication.md).
+Account/sidebar/guided clarification remain delivered; chat state stays temporary.
 Owner-requested local startup resumed from session01a16cef-7c2e-72b2-8d30-2ccce2de7ce6.
 Printed/RLE compatibility b168bd8 and readiness ffba97d restore the full local services.
 Owner-reported redundant Data Structures and Algorithms clarification traced to omitted
@@ -47,7 +45,8 @@ integration review/acceptance remains open; no institutional activation or closu
 
 ## Repository State
 
-Main checkout frontend at9fb1e41; product/tests committed; recovery docs being saved.
+Main checkout frontend at8bd3433; both remote branches include the merge. Publication
+receipt/checkpoint/progress documentation follows the tested product commit.
 Recovered exact session01a16cef from both local account directories; no session files changed.
 This recovery changed API readiness, runtime title aliases, their tests and integration
 documentation. Existing frontend/account delivery was preserved.
@@ -63,9 +62,10 @@ Ignored frontend/.env.local contains existing hosted public key/origins, no Goog
 
 ## Verification Evidence
 
-- Frontend publication check: fresh fetch origin/frontend60d285f,0 behind/17 ahead
-  atfc807b7, fast-forward eligible. Fresh55 UI tests/typecheck, live API/frontend
-  readiness PASS. Existing3406 backend receipt applies; development sync only.
+- Published merge candidate:3406 backend passes/2 expected photo xfails in98.11s,
+  55 UI passes, Next typegen/TypeScript PASS; static review no important blocker.
+  Atomic remote update and ls-remote confirmed8bd3433 on dev/frontend. Recovery refs
+  and owner dirty-file hash comparisons in publication report; development sync only.
 - GPU inquiry: container nvidia-smi lists llama-server on RTX4060; CUDA libraries
   loaded,32-layer offload configured. Embedding CPU. Recent decode12–16tok/s; last
   model slot idle/queue0. No tuning or student end-to-end latency claim.
@@ -134,8 +134,8 @@ Startup blockers repaired locally: units.printed/units.rle compatibility and hos
 readiness path. Earlier all39 ledgers rebuilt with unchanged digests; no hosted writes.
 Owner title-matching correction committed and live identity/routing verified; complete
 dependency guidance remains limited by21 unresolved prerequisite records.
-Authenticated/full manual acceptance remains open. Previous merge preview
-frontend→origin/dev c0d3e22 clean, matching frontend tree;10 local commits unpushed.
+Authenticated/full manual acceptance remains open. Frontend/dev publication delivered;
+no uncommitted local review, model asset or lifecycle WIP was included.
 Docling environment failures unresolved. Fee/partial answers,pending-question/replay,
 aliases,real grade layouts,Hybrid/language/latency exits remain open; photos unsupported.
 No phase closure, university approval, public deployment or institutional activation.
