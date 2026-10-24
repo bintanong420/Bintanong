@@ -40,10 +40,11 @@ def require_session(request: Request) -> Session:
     """The caller's live session, or a fresh one when the cookie is missing, unknown or expired."""
     store: SessionStore = request.app.state.services.sessions
     credential = request.cookies.get(SESSION_COOKIE)
-    view = store.resolve(credential)
+    account = getattr(request.state, 'account_id', None)
+    view = store.resolve(credential, account_id=account)
     if view is None:
         try:
-            issued = store.issue()
+            issued = store.issue(account_id=account)
         except SessionLimitError:
             raise ApiError(503, 'session_limit') from None
         credential, view = issued.credential, store.resolve(issued.credential)

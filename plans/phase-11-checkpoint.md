@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 11
+sequence: 12
 plan: plans/phase-11-backend-api-plan.md
-head_commit: c17dcb2
+head_commit: 227efaa
 working_tree: dirty
 updated_at: 2026-10-24T18:00:00+08:00
 ---
@@ -35,10 +35,13 @@ updated_at: 2026-10-24T18:00:00+08:00
 Owner approved UI integration, then clarified direction: merge Lawrence's API
 into the original frontend. Active worktree p11-frontend-integration, branch
 feat/p11-frontend-integration, frontend basec17dcb2; backend origin34a21ca.
-Only INDEX/progress merge conflicts; original UI files preserved. Earlier checked
+Merge committed227efaa; only INDEX/progress conflicted, frontend unchanged.
+83 API tests pass after merge; selected auth/transport port131 API tests and43 UI
+tests pass. Existing original UI components now being connected in place;
+production build running. Earlier checked
 auth/transport increments e8fa6b2/fb63f74 remain saved for selective reuse.
 Integration task plan:2026-10-24-student-ui-backend-integration-plan.md.
-Current next action: verify/commit merge, port integration, wire UI and browser-test.
+Current next action: finish UI/auth, tracked research composition and browser tests.
 This supersedes backend-only sequencing below; model gaps remain open.
 
 

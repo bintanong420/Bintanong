@@ -53,6 +53,7 @@ class _Session:
     answered_message: str | None = None
     pending_upload_id: str | None = None
     upload_facts: dict[str, tuple[str, ...]] = field(default_factory=dict)  # upload id -> fact ids it confirmed
+    account_id: str | None = None
 
 
 def _digest(credential: object) -> str | None:
@@ -74,19 +75,21 @@ class SessionStore:
         with self._lock:
             return len(self._sessions)
 
-    def issue(self) -> IssuedSession:
+    def issue(self, *, account_id: str | None = None) -> IssuedSession:
         credential = secrets.token_urlsafe(32)
         session_id = f'sess-{secrets.token_hex(16)}'
         with self._lock:
             self._purge_expired()
             if len(self._sessions) >= self._max and not self._evict_one_empty():
                 raise SessionLimitError('session_limit')
-            self._sessions[_digest(credential)] = _Session(session_id, self._clock())
+            self._sessions[_digest(credential)] = _Session(session_id, self._clock(), account_id=account_id)
         return IssuedSession(credential, session_id)
 
-    def resolve(self, credential: object) -> SessionView | None:
+    def resolve(self, credential: object, *, account_id: str | None = None) -> SessionView | None:
         with self._lock:
             session = self._live(credential)
+            if session is not None and account_id is not None and session.account_id != account_id:
+                return None
             return None if session is None else SessionView(session.session_id, session.facts, session.pending,
                                                                  session.conversation, session.pending_upload_id)
 

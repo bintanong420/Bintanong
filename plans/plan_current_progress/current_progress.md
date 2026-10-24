@@ -11,13 +11,14 @@ Prior full backend snapshot34a21ca; original frontend snapshotc17dcb2.
 
 ## Current work
 
-- Merge Lawrence's `origin/feat/p11-backend-api`34a21ca into the frontend base.
-  Backend changes merge directly; only INDEX/current-progress conflict. Resolve
-  those as current integration state, preserving all original frontend files.
+- Lawrence's `origin/feat/p11-backend-api`34a21ca merged into the original frontend
+  as227efaa. Only INDEX/current-progress conflicted; resolved as current state.
+  Verified no frontend file changed in the merge;83 API tests passed.
 - Earlier integration work is saved on local backend branch: e8fa6b2 adds verified
   PSU Google auth/account-owned sessions/admission and checked answer metadata;
-  fb63f74 tests SDK7 transport/proxy/state. Reuse selected code without replacing
-  the original frontend controller/model/components wholesale.
+  fb63f74 tests SDK7 transport/proxy/state. Selected code now ported:131 API tests
+  pass on the combined tree. New real-state reducer is separate from preview
+  fixtures; original43 UI/adapter tests pass. Original components are wired in place.
 - Owner approved exact Next16.4.3/SDK7/Supabase SSR dependency set. Google sign-in
   is required by master25.1; hosted provider is disabled. External OAuth setup
   remains due; no client secret requested in chat, no production auth bypass.
@@ -35,8 +36,8 @@ full browser/model route acceptance remain open. Photos/scans unsupported.
 
 ## Next action
 
-Verify/commit the backend-into-frontend merge, port the checked integration code,
-then wire the original workspace and run real Next/API browser checks.
+Complete original workspace/auth wiring, tracked research composition and browser
+verification. Production build currently running; no live acceptance claim yet.
 
 ## Boundaries
 

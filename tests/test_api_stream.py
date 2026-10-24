@@ -88,8 +88,17 @@ def test_answer_parts_carry_the_student_text_sources_and_finish():
     assert [s['sourceId'] for s in sources] == [c.evidence_id for c in answer.citations]
     assert all('ev-' not in s['title'] for s in sources)
     summary = next(p for p in parts if p['type'] == 'data-answer')
-    assert summary['data'] == {'status': 'answered', 'conditional': True}
+    assert summary['data'] == {'status': 'answered', 'conditional': True,
+                               'language': answer.language, 'missingFields': []}
     assert kinds[-1] == 'finish' and parts[-1]['finishReason'] == 'stop'
+
+
+def test_answer_metadata_names_known_missing_fields_without_exposing_codes():
+    answer = answer_for('RAG').model_copy(update={'missing_facts': (
+        'curriculum_id', 'completion_unknown:course-a', 'untrusted-diagnostic')})
+    summary = next(p['data'] for p in answer_parts(answer, 'msg-a') if p['type'] == 'data-answer')
+    assert summary['missingFields'] == ['curriculum', 'course_status']
+    assert 'course-a' not in json.dumps(summary)
 
 
 def test_chat_streams_progress_then_the_validated_answer():

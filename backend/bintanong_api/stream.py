@@ -38,8 +38,16 @@ def answer_parts(answer, message_id: str) -> list[dict]:
     parts += [{'type': 'source-document', 'sourceId': card.evidence_id, 'mediaType': 'text/plain',
                'title': _title(card)} for card in answer.citations]
     # A Prolog decision always rests on facts the student supplied, so it is shown as conditional (master 16.2).
+    fields = {'program_id': 'program', 'curriculum_id': 'curriculum', 'course_id': 'course'}
+    missing = []
+    for field in answer.missing_facts:
+        name = fields.get(field)
+        if field.startswith(('completion_unknown:', 'enrollment_unknown:')):
+            name = 'course_status'
+        if name and name not in missing:
+            missing.append(name)
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,
-                                                  'conditional': answer.decision is not None}})
+        'conditional': answer.decision is not None, 'language': answer.language, 'missingFields': missing}})
     parts.append({'type': 'finish', 'finishReason': 'stop'})
     return parts
 
