@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: cef5080
+head_commit: 3094f14
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -223,7 +223,19 @@ referral wording for e2) and the routing PNG: consistent.
          units, Taglish units answered; no-year asks which year. Taglish questions got the Filipino style (router
          label, known). R5 "I passed everything in first year" stays a referral (aggregate claim, not course facts).
          Prompt-text pin of `7ce99ca` was edited with the prompt (no separate RED); wire repairs had RED.
-         NOW: roster run 18 (`p11-20261023/roster18`, compare `roster18-vs-17.txt`), then full suite.
+         Roster 18 (HEAD cef5080, prompt v19; `roster18-vs-17.txt`): 6 status changes, 0 exceptions. Improved:
+         nursing-en (title alias -> prerequisite list), criminology-en (co-requisite listed). Regressions fixed with
+         owner decisions 25 Oct: T2 x3 got the fee rate since e2 -> currency reply (memo date 4 August 2023 bound
+         to the F0 version, cannot confirm, referral) `ee3c61e`; architecture-tl route slip -> route from consistent
+         parts `3094f14`. Live after (`live_fixes.log`): T2 x3, architecture-tl answered; plain fee unchanged.
+         28 text changes: 10 scope-line/evidence-id only (new runtime version), 16 document paraphrases/fee reply,
+         nursing-tl/taglish now resolve both titles but the model marks "hindi ko pa naipapasa" hypothetical
+         not_enrolled (nonasserted_facts -> bare clarify; claim-mode slip exposed, not introduced). Disclosed:
+         pre-enrollment-first-step-tl model wording used "isusumite" (owner forbids); completion-deadline-taglish
+         stated the other side of a conflicting source, conflict note kept both runs.
+         Full suite at 01d8db2: 6563 passed, 6 skipped, 2 xfailed, 0 failed (20m28s, `full-suite-facts.log`);
+         ee3c61e/3094f14 after it: selections 1237 passed + fee 14 passed.
+         NEXT: owner check of the course-fact reply wording; then UI integration (step 3).
          Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
