@@ -35,3 +35,10 @@ input is truncated (likely token counting only).
 answers that name a college), 3. R2/E2 (list prerequisites for "what is the prerequisite of X"), 4. R5, R6
 (name what was not found / unsupported instead of bare or "temporarily unavailable"), 5. R3 (retrieve every
 chosen topic, not only the first), then minor R7, R8, R11. R9/R10 are coverage decisions.
+
+## Owner reply, 24 October 2026
+
+Recorded in `owner-decisions-ledger.md`: fix all 7 problems (R4, R2, R5, R6, R3, R7/R8/R11; R1 is replaced by
+website scope text saying the Charter is university-wide, replies unchanged); passing grade from Handbook p.304
+(to verify); first-year subject lists must be answered (ledgers hold only codes and prerequisites). Fix order:
+Phase 11 checkpoint, next action 2a-2h.

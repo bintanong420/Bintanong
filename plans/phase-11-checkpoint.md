@@ -124,12 +124,24 @@ decision ("authorized user/session"): consistent, no discrepancy.
 ## Next Action
 
 1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
-2. More evaluation that retrieval and Prolog have no remaining problems. E1/E3 done; owner risk probe done
-   ([results](2026-10-24-risk-scenario-probe-results.md), R1-R12); next: fix in the owner's chosen order, roster 17, then:
-   - the two live-smoke observations above;
-   - roster run 16 (`audit-evidence/p11-20261023/roster16/`): 19 clarification and 19 non-answer statuses.
-   Use the counted harnesses; keep the evaluation families separate from tuning.
-3. Then UI integration (co-worker's design). Install `ai` v7, `@ai-sdk/react` 4 and `@supabase/ssr`, and upgrade
+2. Fix the owner's risk-probe list ([results](2026-10-24-risk-scenario-probe-results.md); owner decisions 24 Oct in
+   `owner-decisions-ledger.md`). TDD each; live re-check each with `risk_probe.py` (stdin = case ids). Order:
+   a. (1) typo/one-word/two-topic overload -> bare clarify: spy `Router.route` (failure never reaches routed_sink).
+   b. (3) "What is the prerequisite of X?" -> list the prerequisites, not an eligibility check (also E2).
+   c. (4) unknown course title/code -> say it was not found and ask for the printed code (not a bare clarify).
+   d. (5) unsupported lookups (units) -> say unsupported, not "temporarily unavailable" (`fallback_status`).
+   e. (6) "INC meaning + deadline": confirm `_topic_intent` first-topic-only (not cosine/kNN), then retrieve
+      every chosen topic.
+   f. (7) Cebuano -> name supported languages; "Thank you" -> not "Hello"; tuition wording = referral.
+   g. Passing grade: show the owner the printed region of Handbook p.304 (owner reading: 3.0/75 pass, below fails),
+      then add the reviewed claim.
+   h. Course facts for "first-year BSIT subjects" (and units/titles): plan extraction of title, units and
+      year/semester from the 39 prospectus PDFs + a structured lookup; show the owner the plan and review batches
+      first (source decisions are human-in-the-loop).
+   Not doing: per-college Charter notes (owner: website scope text says the Charter is university-wide; UI work).
+   Then roster run 17, the two live-smoke observations and roster 16's clarification statuses.
+3. Then UI integration (co-worker's design). Website scope/guidelines must state the Charter source is the
+   university-wide 2025 4th Edition (owner, 24 Oct). Install `ai` v7, `@ai-sdk/react` 4 and `@supabase/ssr`, and upgrade
    `next` (>= 16.4.3), `sharp` and `source-map-js`, all at the then-current patch, with owner approval of the exact
    pins. Build PSU sign-in (master 25.1) and a waiting screen for the `waiting` status. Add the
    contract test against the SDK's own stream parser. Proxy `/api` same-origin.
@@ -145,4 +157,4 @@ How to run things:
 ## Do Not Repeat
 
 Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
-security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, the security inventory, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
+security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.

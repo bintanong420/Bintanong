@@ -26,10 +26,11 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 ## Next action
 
-Full suite at `05f34d2`: 6455 passed, 0 failed. Owner risk scenarios probed live (24 questions, [results](../2026-10-24-risk-scenario-probe-results.md)):
-college-Charter answers lack a university-wide note; overload typos/one-word get bare clarifies; and more.
-Next: owner picks the fix order from that report.
-See the [checkpoint](../phase-11-checkpoint.md).
+Full suite at `05f34d2`: 6455 passed, 0 failed. Owner risk scenarios probed live ([results](../2026-10-24-risk-scenario-probe-results.md)). Owner decisions
+(24 Oct, in `owner-decisions-ledger.md`): fix all 7 listed problems; college Charters handled by website scope text
+(replies unchanged); passing grade from Handbook p.304 to verify and add; first-year subject lists must be answered
+(needs title/units/year-semester facts; ledgers hold only codes and prerequisites).
+Next: checkpoint step 2a (diagnose the overload typo/one-word bare clarify), then 2b-2h in order.
 
 ## Boundaries
 
