@@ -4,9 +4,9 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 0046b4d
+head_commit: 8b984dc
 working_tree: clean
-updated_at: 2026-10-25T05:00:00+08:00
+updated_at: 2026-10-25T09:00:00+08:00
 ---
 
 # Phase 11 checkpoint - security, queue, abuse probe, E1 and E3 done; step 2 evaluation continues
@@ -175,9 +175,29 @@ referral wording for e2) and the routing PNG: consistent.
    f. (7) Cebuano -> name supported languages; "Thank you" -> not "Hello"; tuition wording = referral.
    g. Passing grade: show the owner the printed region of Handbook p.304 (owner reading: 3.0/75 pass, below fails),
       then add the reviewed claim.
-   h. [Plan drafted, awaiting owner approval](2026-10-24-course-facts-plan.md). Course facts for "first-year BSIT subjects" (and units/titles): plan extraction of title, units and
-      year/semester from the 39 prospectus PDFs + a structured lookup; show the owner the plan and review batches
-      first (source decisions are human-in-the-loop).
+   h. NOW (owner approved 25 Oct, all 39 curricula + hosted upload; readings CF1-CF5 in the owner ledger).
+      Dry run done: `audit-evidence/p11-course-facts-20261024/extract_facts.py` (writes facts-dryrun.json: per
+      course title, units as printed, year/term banners with native char ranges, flags term_inferred True=CF2 /
+      'CF3', merged_row, units_columns for BSN/BSMid) and `check_totals.py` (QA vs printed Totals; remaining
+      mismatches are verified source errors or 2 checker artefacts). Reuses p09-program-reviews/draft_program.py
+      columns/layout/rules_at and each spec's column_edges; runs with the shared venv python -I.
+      Next, in order (TDD each):
+      1. authoring.py: add FACT_FIELDS `units.printed` (text, e.g. "2/1", "250 Hours" not used) and `units.rle`
+         (numeric); treat only units.total/lecture/lab/rle as numeric. BSN: units.printed from its Unit/s column;
+         BSMid: units.lecture/rle/lab from LEC/RLE/LAB, "-" = fact omitted. Blank units = fact omitted (gap).
+      2. Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
+         wrapped words joined with resolution_method native_range_line_wrap_joined + repair_id). CF2 terms cite
+         the column's printed SEMESTER heading; CF3 (BSBA-MM) needs an owner-reading repair on the span
+         (value FIRST/SECOND SEMESTER vs printed FIRST/SECOND YEAR): check _facts/_spans before choosing.
+      3. Regenerate 39 ledgers: same courses/prerequisites; new review `p11-course-facts-review-01` per curriculum
+         (course_digests over new content); review_refs -> that review; old reviews kept in `reviews` as history.
+         Verify prerequisite expressions and Prolog bundles unchanged except ledger hash (bundle regression).
+      4. Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
+         facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
+      5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
+         insert new `curriculum_ledgers` rows, re-point `release_curriculum_ledgers` for release
+         `p09-research-selected-20261022` (loader currently asserts no re-link: needs an update path); verify with
+         Supabase MCP read-back + security advisor. Then live re-check R5/R6/R10 + roster.
    Not doing: per-college Charter notes (owner: website scope text says the Charter is university-wide; UI work).
    Roster run 17 done (above). Then the two live-smoke observations and roster 16's clarification statuses.
 3. Then UI integration (co-worker's design). Website scope/guidelines must state the Charter source is the

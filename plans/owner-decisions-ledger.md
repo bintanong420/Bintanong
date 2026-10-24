@@ -368,3 +368,7 @@ Each program still gets its own dated review record listing which standing rule 
   - CF3 BSBA Marketing Management: its column headings printed "FIRST YEAR"/"SECOND YEAR" are a source error;
     read them as first semester (left) and second semester (right). A recorded exception, not a precedent.
   - CF4: check the printed-total mismatches and odd unit cells against the page and bring them in batches.
+  - CF5 (25 Oct): BSCS 2018-2019 first-year printed Totals "3" are a cutoff and may be corrected (23); Bintanong
+    shows no term totals now, so this applies only if totals are shown later. Source gaps stay as printed
+    (BSBio Thesis 1 and BSEd-SS SSE 18 blank units = units not printed; BSCS 4th-year unnamed 3-unit row left
+    out). BSBA-BusEco PATH Fit 3 keeps 3 units as printed. Owner: "Proceed".
