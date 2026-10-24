@@ -25,8 +25,7 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 - 2a fixed (`9c09ac7`): overload questions the model checked as a course now answer from the overload topic
   (live: typo and one-word forms answered, matching Handbook table 6).
 - 2b-2e (`467aa9d`, `9e3c5b0`, `8f15471`, `1f510dd`): prerequisite lists when no grade is stated (owner "List
-  for both"), course-not-found reply, units -> referral, every chosen topic retrieved. Multi-topic answers still end
-  `parts_unresolved` in per-part generation. Full suite not yet run at `1f510dd` (stopped: low system memory).
+  for both"), course-not-found reply, units -> referral, every chosen topic retrieved (full suite at `874f0c9`).
 - [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
 
 - e2 done (owner decisions 24 Oct): special class fee host reply `c2ef61a` (printed rate + printed example +
@@ -45,4 +44,4 @@ Full suite last run at `874f0c9` (6478 passed). Course facts plan awaits owner a
 Undergraduate scope, read-only advisory, source-gap, privacy, institutional release and one-week improvement
 boundaries are unchanged. No grade or conversation persistence. No activation, push, training or DB change.
 No dependency change without an owner decision. Context consulted 23 Oct: thesis physical 17-18 and 65-66, plus
-the routing PNG. No discrepancy.
+the routing PNG; 25 Oct resume: physical 17-18 and the PNG again (referral/unavailable wording). No discrepancy.

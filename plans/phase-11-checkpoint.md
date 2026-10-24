@@ -157,7 +157,8 @@ against the SDK's own parser waits for the frontend install; no linter installed
 ## Context Consulted
 
 Thesis physical 17-18 and 65-66, routing PNG (23 Oct); physical 17-18 again on 24 Oct for the sign-in scope
-decision ("authorized user/session"): consistent, no discrepancy.
+decision ("authorized user/session"): consistent, no discrepancy. 25 Oct resume: physical 17-18 (unavailable/
+referral wording for e2) and the routing PNG: consistent.
 
 ## Next Action
 
