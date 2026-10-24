@@ -133,7 +133,10 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
     if len(set(positions)) != len(positions):  # two declared occurrences landed on one place
         raise ValueError('duplicate_mention_reference')
 
-    listed = [dict(kind=m.kind, **span(m.quote)) for m in wire.mentions]
+    # A program/curriculum quote that reads as a year level or semester (live: "second year" listed as a
+    # curriculum) is a term; reviewed curricula are school years, never "<ordinal> year".
+    listed = [dict(kind='term' if m.kind in ('program', 'curriculum') and parse_term(m.quote.text) else m.kind,
+                   **span(m.quote)) for m in wire.mentions]
     at = {(m['start'], m['text']): index for index, m in enumerate(listed)}
 
     def course_index(quote, kind='course'):

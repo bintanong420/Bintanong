@@ -109,3 +109,13 @@ def test_a_listing_target_that_is_not_a_year_is_still_rejected():
     with pytest.raises(ValueError, match='invalid_term_quote_reference'):
         api.normalize_interpretation('What subjects are in BSIT?', api.WireInterpretation.parse(
             year_wire('curriculum', text='What subjects are in BSIT?', term='BSIT')))
+
+
+def test_a_scope_mention_that_reads_as_a_year_level_becomes_a_term():
+    # Live 25 Oct 2026: "second year" listed as a curriculum beside a "second year BSIT" listing target.
+    api = importlib.import_module('backend.bintanong_routing.wire')
+    wire = year_wire('curriculum')
+    wire['operations'][0]['target'] = quote('second year BSIT')
+    result = api.normalize_interpretation('What subjects are in second year BSIT?', api.WireInterpretation.parse(wire))
+    assert [m.kind for m in result.mentions if m.text == 'second year'] == ['term']
+    assert all(m.kind != 'curriculum' for m in result.mentions)
