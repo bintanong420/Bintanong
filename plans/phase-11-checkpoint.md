@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 30
+sequence: 32
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 974ef17
-working_tree: dirty
-updated_at: 2026-10-25T03:07:00+08:00
+head_commit: c5f0d07
+working_tree: clean
+updated_at: 2026-10-25T03:38:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -30,9 +30,10 @@ Active plan: [backend API](phase-11-backend-api-plan.md); previous final handoff
 ## Current Task
 
 Owner resumed25 Oct; frontend ready, integration deferred until pending work is finished.
-Focused malformed-condition guard implemented after observed RED; broad491 GREEN and follow-up
-independent review clean. Record-level conservative hold/notice semantics in the
-[correction plan](2026-10-25-malformed-source-answer-guard-plan.md). One-case live replay then full suite pending.
+Focused guard committedc5f0d07 after RED/GREEN491 and clean follow-up review. Full suite PASS6677,
+1595 subtests,6 skipped,2 xfailed,6 existing warnings,22m36s,exit0. One current live case reaches
+generation and refuses the weapon interpretation in29.37s; raw draft not captured, so the synthetic
+adversarial tests establish the host floor. [Results](2026-10-25-malformed-source-answer-guard-results.md).
 Docker restored via installed CLI; actual-DB blank-codec failure reproduced and corrected under TDD.
 [Session recovery note](2026-10-25-phase11-session-handoff.md) is the exact resume entry point.
 g2 append-only path committed f591416 and full suite passed there. Subsequent root-release identity
@@ -50,15 +51,16 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 ## Repository State
 
 Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
-last production baseline5856e82; last full-suite baseline fb4e1e8. Resume HEAD974ef17 clean;
-its documentation-only delta from06f6d64 reconciled. Working changes: part_answers.py,render.py,
-test_generation_malformed_source.py,test_generation_part_slots.py, focused plan and current snapshots.
-Scripts/source-derived evidence stay ignored in workspace. No dependency/frontend/source/release change.
+production/test/full-suite baselinec5f0d07. Resume HEAD974ef17 clean; all code/test changes committed
+and reviewed. Following commit contains only result/developer/recovery documentation. Raw evidence
+stays ignored in workspace. No dependency/frontend/source/release change; nothing pushed.
 
 ## Verification Evidence
 
 - Guard RED7 failed/5 passed; notice RED6/6; GREEN67. Review P2 mixed gap/uncertain fallback RED1/12,
   corrected broad generation/request-understanding suite491 GREEN; independent follow-up13 GREEN, no blockers.
+- Previously pending5856e82 independent review now clean;31 catalog/capacity/separation checks passed.
+- c5f0d07 full suite:6677 passed +1595 subtests;6 skipped,2 xfailed,6 existing warnings;22m36s,exit0.
 - Checker comparison ended: healthy preflight repeat approved/passed; off reproduced false completeness
   (18.94s/354 tokens); on truncated at768 tokens with thought field/no final content (37.84s).2/8 calls,
   remaining6 not run; no rescue/default changes. [Results](2026-10-25-checker-comparison-results.md).
@@ -126,20 +128,18 @@ without topic, vague clarifications and Nursing negative claim mode remain. Phot
 
 ## Next Action
 
-Keep draft inactive and production thinking disabled; ended checker trial must not rerun. Owner says
-"continue" to pending quality work. [Focused correction plan](2026-10-25-malformed-source-answer-guard-plan.md):
-mark model slots citing a held malformed-condition record source_gap BEFORE review; independent
-parts/canonical results remain. Record-level conservative hold is explicit. Next: synthetic RED,
-smallest GREEN, existing regressions, review/full suite and bounded saved-fixture safety replay.
-Other g2 failures remain. TDD/review/full suite/live revalidation
-precede switch. Remaining router/Hybrid/
+Owner heading to sleep; current increment verified and saved. Next: carry fraud precedence limitations
+and both reviewed labels into the answer. II.6/II.8a are already required neighbors; gap issue
+claim_not_stated is skipped by current notices. Preserve sealed sources and do not choose a sanction.
+Keep draft inactive/thinking disabled; no checker rerun or repetition of verified c5f0d07 work.
+Other g2 failures remain. Complete quality/roster/switch gates precede activation. Remaining router/Hybrid/
 clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
 Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure
 and same-account recovery instructions in [diagnosis](2026-10-25-supabase-mcp-diagnosis.md).
 
 ## Context Consulted
 
-25 Oct Codex resume at357aa80: thesis physical17-18,39-44 and routing PNG inspected; standing
+25 Oct guard resume: thesis physical17-18 and routing PNG refreshed; earlier39-44 consulted. Standing
 unknown-versus-unmet distinction retained over illustrative thesis example. Master3/11/13/16/23/24,
 owner ledger and prompt/latency decisions reviewed; no new discrepancy. Source/scope/gap policies apply.
 Earlier context/architecture evidence is preserved in the prior checkpoint snapshot.

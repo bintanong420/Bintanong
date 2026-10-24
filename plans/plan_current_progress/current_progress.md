@@ -10,7 +10,8 @@ Last full snapshot before condensation: `f1eafe9:plans/plan_current_progress/cur
 
 - Malformed-condition guard now holds affected model slots before review, preserves independent parts
   and distinguishes source gaps from absent information. RED7/5, notice RED6/6; GREEN67 then491 broad
-  generation checks. Review P2 mixed-uncertain notice fixed RED1/12; follow-up review clean. Full suite/live pending.
+  generation checks. Review P2 mixed-uncertain notice fixed RED1/12; follow-up review clean. Live refusal verified;
+  full suitec5f0d07 PASS6677 +1595 subtests,6 skipped,2 xfailed,6 warnings,22m36s,exit0.
 - Backend/API/security/answer queue delivered; step2 E1/E3, 2a-2e/e2, f and h complete. See checkpoint
   and dated reports for history. Course facts: 39 curricula, 2132 courses, hosted; CF1-CF6 settled.
 - Grading host reply `8c49ad0` covers the approved Handbook p.46 table. New `8ba6949` filters selected
@@ -55,10 +56,11 @@ grants match fresh local DB exactly, all invoker; RLS/private review grants veri
 Live9-case run failed quality: service/Taglish routing misses, omitted steps/sanction progression,
 weapon exception interpreted despite its malformed-source hold, fraud precedence chosen without warning.
 Draft remains inactive; no runtime pin switch.5856e82 exposes unresolved source-limit claims;
-RED5/1, focused44 GREEN. Four router traces still fail; full suite/review remain pending.
+RED5/1, focused44 GREEN; independent review clean (31 checks). Four traces still fail; c5f0d07 full suite passed6677 +1595 subtests.
 Checker diagnostic ended after2 calls: on truncated; no rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
-Current [guard correction](../2026-10-25-malformed-source-answer-guard-plan.md) passed491 generation
-checks/review; one-case current-pipeline replay running, then full suite. Draft remains inactive.
+Current [guard correction](../2026-10-25-malformed-source-answer-guard-results.md) passed full suite/review;
+live replay reaches generation and refuses unsafe interpretation in29.37s. Draft stays inactive.
+Next: fraud-precedence carrying/both reviewed labels; neighbors already present, generic limit skipped by notices.
 [Session handoff](../2026-10-25-phase11-session-handoff.md) preserves controls and routes to this stop.
 Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.

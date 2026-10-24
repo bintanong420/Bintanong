@@ -110,9 +110,16 @@ See the [bounded plan](../../plans/2026-10-20-short-evidence-references-plan.md)
 ([decision](../../plans/2026-10-21-per-part-generation-decision.md)). It keeps the scoped
 path's document-only boundaries but gives the model one REQUIRED answer slot per
 declared document part: claims that answer it, or `not_in_evidence`/`source_gap`.
-The host numbers claims and derives the part mapping; an unavailable slot withholds
-the answer without a review call. The reviewer confirms each part against only its
-own claims plus per-claim support. Confirmation stays fallible (`unverified`).
+The host validates citation IDs, numbers retained claims and derives the part mapping.
+An answered model slot citing a record with an unresolved `malformed_source_condition`
+becomes `source_gap` before numbering/review. This conservative record-level hold can
+withhold otherwise usable details from that record; it never interprets the malformed field.
+Independent answerable parts and canonical structured results remain available. Unavailable
+parts are named, with distinct source-gap and absent-information notices. If nothing is
+answerable, the answer is withheld without a review call. Reviewer-rejected parts still
+withhold the whole reviewed answer; claims are not dropped after review identity binding.
+The reviewer confirms each retained part against only its own claims plus per-claim support.
+Confirmation stays fallible (`unverified`). See the [guard verification](../../plans/2026-10-25-malformed-source-answer-guard-results.md).
 
 `Generator(..., explanation_profile='scoped')` was the previous selected candidate described
 in the [scoped plan](../../plans/2026-10-20-scoped-explanations-plan.md). It renders

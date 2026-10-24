@@ -1,64 +1,41 @@
 # Phase 11 session handoff — safe to /clear
 
-Session recovery note, NOT phase completion. Owner requested handoff25 Oct after authorizing the
-bounded checker experiment. Phase11 remains active; frontend ready, integrate only after pending work.
+Session recovery note, NOT phase completion. Owner is heading to sleep; finish verification and save
+recovery state. Phase11 remains active; frontend ready, integrate only after pending work.
 Read INDEX/current progress/checkpoint, repo AGENTS, canonical ~/.agents/AGENTS.md, and both handoff
 skills. Fresh Git/tests outrank this note. Branch feat/p11-backend-api, p11, dev base cbaa6a7; no push.
 
+Last full snapshot before condensation: `c5f0d07:plans/2026-10-25-phase11-session-handoff.md`.
+
 ## Exact next action
 
-**Superseded next action, resume at357aa80:** the approved comparison has now hit its mandatory
-preflight stop, with ZERO completions. All57 seals pass, but all4 current public reconstructions
-add empty topic fields and change requirements hashes; model endpoint/Docker engine are unavailable.
-Do not run the instruction below automatically. Read the [stop evidence and concrete recovery
-proposal](2026-10-25-checker-comparison-preflight-stop.md), then obtain the owner's decision on a
-revised preflight using the original frozen checker snapshot plus starting the existing server,
-or end the diagnostic. A startup-only approval does not waive the separate identity mismatch.
-The following frozen controls remain historical recovery evidence, not permission to bypass the stop.
+Full suite on committedc5f0d07 PASSED6677 +1595 subtests,6 skipped,2 xfailed,6 existing warnings,
+22m36s,exit0; workspace `audit-evidence/p11-malformed-source-20261025/full-suite.log`,`.exit`,`.head`.
+No test/model jobs left running. Code unchanged since tested commit; subsequent commit is documentation.
+[Guard verification report](2026-10-25-malformed-source-answer-guard-results.md) records conservative
+record-level hold and live refusal. Independent5856e82 review is now clean. Do not rerun completed work.
+Next correction is fraud-precedence carrying: both reviewed rows are
+already required neighbors, but their `claim_not_stated` limit is omitted from current notices. Retain
+both labels/disclose unresolved precedence; never choose a student's sanction. Other9-case failures
+remain. Expanded release must stay inactive until applicable complete quality/roster/switch gates.
 
-**Latest result after06f6d64:** owner approved original-code/startup recovery and ONE healthy repeat.
-All181 source hashes/all4 exact inputs matched; healthy preflight PASSED. Diagnostic then ENDED after
-2 calls: off reproduced false completeness; on hit768-token limit with thoughts/no final content.
-Remaining6 not run; no retry/rescue/default change. [Final diagnostic result](2026-10-25-checker-comparison-results.md)
-supersedes all earlier run instructions here. Do NOT rerun this diagnostic. Next: bounded g2 correction
-from existing current-path live traces, preserving source-gap safeguards and inactive draft.
-
-Execute ONLY the approved bounded checker comparison in
-[the frozen proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md).
-Owner answered "aight continue, then hit a handoff soon so i can /clear" to the explicit diagnostic
-approval question. Do not ask again. No diagnostic completions have run; preparation/props reads only.
-Do not activate the expanded release: its9-case live quality gate FAILED.
+Checker comparison ENDED under truncation stop after2/8 calls; no retries. Original-code/startup
+recovery and one healthy repeat were explicitly approved. [Final result](2026-10-25-checker-comparison-results.md)
+preserves controls/seals/limits. Do NOT rerun or widen this experiment. Production thinking stays off.
 
 Let A=C:/Coding-projects/bintanong_workspace/audit-evidence and E=A/p11-topic-filter-20261024.
-Frozen inputs: A/p09-task-first-20261021,57-file delivery-manifest SHA256
- e10ca82c572f48557b04aa258b17cdb1bd11d5c0f5ec46369fc866ba36b0fd3d.
-Four fixed order inputs: d-en-call-4.json, b-relevance-prepared.json, d-fil-call-4.json,
-d-tl-call-4.json; off THEN on once each (max8 calls), no rescue/retry/replacement sweep.
-Exact expected mappings/reasons and operational/schema/truncation stop rules are in the proposal.
-Verify seals, reconstruct messages/schema using public pack/draft/review functions, freeze labels and
-runner BEFORE any completion. Scoped records use DocumentExplanation -> canonical_draft, not short draft.
-Read-only reconstruction evidence: A/p09-checker-completeness-diagnosis-20261021/
- diagnosis-verification.json, SHA134ed42fad1788627ad6bc5a4612159f9fa073374c32d79b561528942a6eff39.
-Resident props last checked: build b11723-31288c9c6,ctx8192, same Gemma weights/template. No restart/
-substitution under experiment. Verify off/on rendered prompts/token counts and activation; mismatch
-stops with ZERO completions. On removes reasoning_effort=none and sets enable_thinking=true for BOTH
-apply-template and completion; preserve frozen outgoing controls otherwise. Do not blindly use current
-transport: inspect its thought-token logit bias against the saved request and verify actual activation.
-Total output768,temp0,seed0,cachefalse, constrained schema, whole120s. Keep thoughts ignored/private.
-No production default, source, model, dependency or release change authorized by the experiment.
 
 ## Latest code and verification
 
-Last production commit5856e82: expose ALL recorded unresolved source-limit affected claims in topic
-menus; visible claims stay intact. Initial RED5/1, GREEN44. Fresh handoff focused run44 passed,2.36s,
-E/handoff-focused.log. Tests: runtime_research_catalog, runtime_multi_curriculum, routing_topic_capacity,
-retrieval_claim_filter. Shared Python -X utf8 -B -m pytest -q -p no:cacheprovider, external --basetemp.
-Independent review attempted but usage-limited; NO review delivered for this last fix. Manual review done.
-Fresh full suite still required for5856e82. Previous fb4e1e8 suite PASSED6658,6 skipped,2 xfailed,
-1595 subtests,6 existing warnings,22m27s (E/claim-final-full-suite.log, .exit=0). Do not rerun it just
-to prove the old tree or call it validation of5856e82. No installed linter. No test/model jobs left running.
-Code prior to5856e82 independently reviewed; code is committed. Final docs commit may follow this code
-baseline; inspect Git for the exact current head and preserve any owner changes.
+c5f0d07 holds model slots citing an unresolved malformed-condition record BEFORE numbering/review;
+other parts and canonical results survive. Source-gap replies distinguish defective reviewed content
+from absent information. RED7/5 and notice RED6/6; GREEN67. Review P2 mixed-uncertain fallback fixed
+RED1/12; broad generation491 passed and independent follow-up13 passed. Earlier5856e82 topic-menu
+change now independently clean,31 focused checks passed. One current live weapon case reaches
+generation and refuses interpretation (29.37s inner pipeline, not browser latency). Raw draft not
+captured; synthetic adversarial tests establish the host floor. Full suite passed above.
+Shared Python3.13 -X utf8 -B -m pytest -q -p no:cacheprovider, external --basetemp. No installed linter.
+Final docs commit may follow code baseline; inspect fresh Git and preserve owner changes.
 
 ## Delivered this resume — do not repeat
 
@@ -86,7 +63,8 @@ English procedure misroutes grades evaluation; Filipino/Taglish requirements+ste
 plagiarism omits progression; Taglish plagiarism selects missing22. Weapon answer invents usable
 coursework/permit exception from malformed source; fraud selects a penalty without overlap warning.
 Four router-only traces AFTER5856e82's change still fail (E/source-router-trace/): menu correction alone
-is insufficient. No repeated prompt sweeps. Interpret the approved experiment before choosing next fix.
+was insufficient. Checker trial has ended; current guard's one-case refusal does not close this gate.
+Follow the verified guard report's next action; no repeated prompt sweeps.
 Pipeline11–38s observations exclude encoder/composition/browser/API end-to-end; no SLA/currentness claim.
 E/activate_expanded_research.py is GUARDED and MUST NOT run now: live review approval absent. It still
 binds production baseline fb4e1e8; update only after later corrections/full suite/live gates succeed.

@@ -82,7 +82,8 @@ flowchart TD
     X -->|Symbolic| A
     K -->|no| B
     C --> B
-    D --> V{Schema, citation, canonical decision and prose-support checks}
+    D --> SH[Validate citations, hold malformed-source slots, number retained claims]
+    SH --> V{Schema, canonical decision and prose-support checks}
     V -->|pass| A[Final host validation and candidate rendering]
     V -->|one repair| D
     V -->|exhausted| B[Grounded fallback]
