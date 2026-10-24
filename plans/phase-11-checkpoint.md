@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 8555eb6
+head_commit: da7fe3b
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -209,7 +209,14 @@ referral wording for e2) and the routing PNG: consistent.
          Wiring plan `plans/2026-10-25-course-facts-wiring-plan.md` (`aa99d4b`). Done: T1 term parsing `cec8932`,
          T2 term mentions + operations `04439a0`, T3 runtime look_up/adapter/research registry `8555eb6` (Janus
          worker allowlist names the lookups; they never run there). Each RED->GREEN, mutations caught; routing/
-         orchestration/symbolic/runtime selection 753 passed. NEXT: T4 orchestration + rendered reply.
+         orchestration/symbolic/runtime selection 753 passed. T4 reply `29b06fe` (host-written en/fil/Taglish lines,
+         not_reviewed -> E1 referral), T5 unique-title aliases `f05365a`, T6 prompt p11-v18 `da7fe3b`; broad selection
+         1727 passed, 2 xfailed (at T4). Owner check of the new host wording still due (T6 step).
+      5. Hosted upload DONE 25 Oct (`load_facts.py`: rehearse then hosted; 39 new ledger rows, 39 links re-pointed in
+         `p09-research-selected-20261022`, read-back equal, Prolog payload unchanged; rollback = re-point to
+         `old_ledger_sha256` in `load-hosted-result.json`). MCP read-back: 39 links, 2132 courses. Security advisor:
+         1 WARN auth_leaked_password_protection (Auth setting, not touched here; was 0 lints 24 Oct).
+         NOW: live probe (`live_facts.log`), then roster run 18 + full suite.
          Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):

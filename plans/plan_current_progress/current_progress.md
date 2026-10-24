@@ -37,8 +37,8 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 Handoff point (owner asked for /clear). Course facts (step 2h) for all 39 curricula with hosted upload: owner
 readings CF1-CF5 recorded; dry run done and verified (2132 courses; only source-error total mismatches).
-Items 1-3 done (`6814775`; 39 ledgers with facts authored and regression-checked, untracked). Item 4: lookups `0c43f49`; wiring plan
-tasks 1-3 done (`8555eb6`); next task 4 (orchestration + reply). Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
+Items 1-3 done (`6814775`; 39 ledgers with facts authored and regression-checked, untracked). Item 4: wiring plan tasks 1-6 done
+(`da7fe3b`); hosted upload of the 39 fact ledgers done and verified. Next: live probe, roster 18, full suite. Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
 
 ## Boundaries
 
