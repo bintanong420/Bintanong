@@ -154,28 +154,8 @@ def research_registry():
 
 def build_research_resources(ledger, package, *, encoder, authorization_ref, hosted=None):
     """Compose one research release: reviewed rules, reviewed package, research labels."""
-    bundle = prepare_runtime_bundle(ledger)
-    runtime = CurriculumRuntime.for_offline_research(bundle, authorization=dict(
-        purpose='offline_curriculum_acceptance', authorization_ref=authorization_ref,
-        bundle_sha256=bundle['content_sha256'], operations=list(OPERATIONS)))
-    release_id, manifest, chunks = runtime.release_id, package['manifest'], package['chunks']
-    storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
-    policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
-        chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
-    sources = {s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']}
-    sources.update({c['version_id']: c['byte_sha256'] for c in chunks})
-    pin = ReleasePin.parse(dict(release_id=release_id, synthetic=False, research_ref=authorization_ref,
-        rule_bundle_version=runtime.rule_bundle_version,
-        sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
-        documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
-                   for c in chunks]))
-    registry = research_registry()
-    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
-    return ReleaseResources(pin, research_catalog(ledger), registry,
-        RetrievalAdapter(engine, research=True), SymbolicAdapter(runtime, research=True),
-        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
-        document_scope=('audience:undergraduate',),
-        course_labels=course_labels(ledger))
+    return build_multi_research_resources({ledger['scope']['curriculum_id']:ledger}, package,
+        encoder=encoder, authorization_ref=authorization_ref, hosted=hosted)
 
 
 def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None,
@@ -199,9 +179,13 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         sources.update({s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']})
         catalog.extend(research_catalog(ledger)); labels.extend(course_labels(ledger))
     catalog.extend(name_catalog(ledgers, program_names or {}, curriculum_names or {}))
-    digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
-    release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + digest
     manifest, chunks = package['manifest'], package['chunks']
+    rules_digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
+    binding = dict(curricula=members, embedding_set_id=manifest['embedding_set_id'],
+        documents=sorted((c['chunk_id'],c['version_id'],c['byte_sha256']) for c in chunks),
+        catalogue=package['catalogue'], claim_reviews=package['register'])
+    digest = hashlib.sha256(json.dumps(binding, sort_keys=True, allow_nan=False).encode()).hexdigest()
+    release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + rules_digest
     storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
     policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
         chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
