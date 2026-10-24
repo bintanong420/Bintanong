@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: fc07d84
+head_commit: af5802a
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -193,17 +193,27 @@ referral wording for e2) and the routing PNG: consistent.
       the chosen topic, so p.46 ranks 11th/4th and is dropped (`diag_grade_rank.py`). Topic-label query expansion
       tried offline: unreliable (`diag_grade_expand.py`). Owner asked about topic-filtered retrieval (25 Oct).
       Also seen: "Based on the supplied evidence:" printed twice on the whole-table reply; Taglish passing got no topic.
-      NEXT ACTION (resume here, after the owner's choice):
-      1. Read how `handbook-grading-1` was built: corpus `audit-evidence/p05-approved-natural-query-evaluation-20261015/
-         candidate-corpus.json` (27 hand-built chunks), catalogue assignment (basis
-         `p05-confirmed-policy-applicability-20261014/owner-applicability-confirmation.json#grade-equivalent`), claim
-         register (`p05-positive-policy-claim-review-20261015/positive-source-review-basis.json#grading_scale`), package
-         `p05-release-readiness-20261016/prepare_package.py`, hosted chunk/vector storage (HostedReleaseStorage).
-      2. Build one reading per row from native PDF text of `dataset/StudentHandbook/2021/PSU Student Handbook.pdf`
-         (sha 4c9a95bf...) physical p.46, spans checked against printed text; claims for `grading_scale` incl. "printed
-         passing grade"; embed with local SEA-LION-E5 (MODELS_DIR); rehearse locally, then insert to hosted release
-         `p09-research-selected-20261022`, read back, Supabase MCP check (ignore auth_leaked_password_protection WARN).
-      3. Live re-check "What is the passing grade?" en/fil/Taglish + roster grade cases; record results.
+      Owner 25 Oct: topic-filtered search (handed off to another agent for usage limits). NEXT ACTION (resume here):
+      1. Migration `supabase/migrations/<ts>_phase11_topic_filtered_retrieval.sql`: `retrieve_context` gains an
+         optional `p_chunk_ids jsonb default '[]'` (same validation as p_version_ids: <=32 strings; empty = no filter)
+         applied in `eligible` (`c.chunk_id = any(...)`); required neighbours still follow from ranked rows. Keep
+         top_k 3/5/8, the 0.25 floor, RLS, SECURITY INVOKER and grants; drop/recreate the old signature cleanly.
+         Additive only: no review/release tables touched. Read phase5_retrieval_snapshot.sql first.
+      2. TDD on the local Docker DB (storage DB tests, disposable databases): RED that a topic filter returns only
+         those chunks and that an omitted filter is unchanged; then GREEN. PackageStorage
+         (`backend/bintanong_runtime/package_storage.py`) must honour the same parameter; HostedReleaseStorage passes it.
+      3. Engine (`backend/bintanong_retrieval/engine.py` `_retrieve_source_aware` path): when a subject is chosen,
+         send that subject's chunk ids (`select_candidate_subject(...)['chunk_ids']`, already used by
+         `SourceAwareEvidencePolicy._select`) as `p_chunk_ids`. TDD + mutation checks as before.
+      4. Apply the migration to hosted via Supabase MCP `apply_migration` (reset its version to the file version, as
+         in Phase 09), security/performance advisors (ignore auth_leaked_password_protection WARN, owner).
+      5. Live: `risk_probe.py` cases `passing-grade passing-fil passing-taglish grade-4 grade-85 grading-system
+         inc-meaning caps-emoji fee-en fee-fil` (stdin ids; HOSTED=1 PREFIX_CACHE=1; Gemma :18088). Expect passing
+         grade -> "The printed passing grade is 3.0 (75-76), rated "Passed"." Then roster run 19 vs 18 (63 cases,
+         `p09-real-data-20261021/roster13.py`, compare with `p11-20261023/compare_roster.py`); explain every change.
+      6. Small follow-ups seen live: duplicate "Based on the supplied evidence:" header on host-only replies (render);
+         Taglish "Ano yung passing grade dito?" got no topic and "GRADE 1.0 ILANG PERCENT???" no route (router).
+      Superseded (do not do): building new p.46 chunks/new release (schema immutability, owner chose host-written).
       Then: Hybrid next-step part without topic; bare clarifications naming nothing; "hindi ko pa naipapasa" claim mode
       (nursing tl/taglish); then design the owner's simple-query battery (many simple questions per topic, 3
       languages, checked for hallucination/retrieval/Prolog errors). Full suite not rerun after `c6fb6d8`
