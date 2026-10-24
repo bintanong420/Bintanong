@@ -181,7 +181,11 @@ referral wording for e2) and the routing PNG: consistent.
       release is immutable in the schema ("Published release is immutable"; phase4_release_security), so rows cannot
       be inserted into `p09-research-selected-20261022`. Only `handbook-grading-1` (row 1.0) exists. Adding rows needs
       new chunks + embeddings, a new Handbook partial-review receipt, a new selected-review scope, a NEW research
-      release (copy the 39 ledger links) and activation, plus the runtime package/pin. Owner asked to choose the path.
+      release (copy the 39 ledger links) and activation, plus the runtime package/pin. Owner chose a new release (25 Oct).
+      Second blocker: `record_source_partial_review` refuses any version already in a published release ("Published
+      C1 source is immutable") and needs initial pending states; document_versions are immutable once published.
+      Version ids derive from bytes, so the Handbook cannot be re-registered. A new release therefore needs a
+      migration adding a supplementary review path for published sources; owner asked (25 Oct).
       NEXT ACTION (resume here, after the owner's choice):
       1. Read how `handbook-grading-1` was built: corpus `audit-evidence/p05-approved-natural-query-evaluation-20261015/
          candidate-corpus.json` (27 hand-built chunks), catalogue assignment (basis
