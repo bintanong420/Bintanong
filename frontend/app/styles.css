@@ -99,9 +99,9 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .source-link { max-inline-size: 100%; block-size: auto; min-block-size: 2.75rem; white-space: normal; text-align: start; }
 .source-link span { min-inline-size: 0; overflow-wrap: anywhere; }
 .context-request { margin-block-start: 1rem; }
-.stop-response, .workspace-main > .outcome-notice { inline-size: min(calc(100% - 3rem), var(--content-width)); margin: 0.5rem auto; }
-.workspace-main > .outcome-notice { flex-wrap: wrap; font-size: 0.875rem; line-height: 1.6; }
-.workspace-main > .outcome-notice p { flex-basis: 100%; margin: 0; }
+.stop-response, .workspace-content > .outcome-notice { inline-size: min(calc(100% - 2rem), 48rem); margin: 0.5rem auto; }
+.workspace-content > .outcome-notice { flex: none; flex-wrap: wrap; font-size: 0.875rem; line-height: 1.6; }
+.workspace-content > .outcome-notice p { flex-basis: 100%; margin: 0; }
 .scope-field, .review-row label { display: flex; flex-direction: column; gap: 0.375rem; font-size: 0.875rem; }
 .scope-field select, .review-row select { inline-size: 100%; min-inline-size: 0; min-block-size: 2.75rem; padding: 0.5rem; border: 1px solid var(--control-border); border-radius: 0.375rem; background: var(--background); color: var(--foreground); font: inherit; }
 .live-files { list-style: none; padding: 0; margin-block: 1.5rem; display: grid; gap: 1.5rem; }
@@ -299,6 +299,16 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .workspace-options .appearance-control select, .workspace-options button { min-block-size: 2.75rem; }
 .workspace-options p, .workspace-options form { margin: 0; }
 .workspace-options form button { inline-size: 100%; }
+.workspace-account-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
+.workspace-account-actions button { min-block-size: 2.75rem; }
+.curriculum-dialog { inline-size: min(32rem, calc(100vw - 2rem)); }
+.curriculum-dialog p, .curriculum-dialog .scope-field { font-size: 1rem; line-height: 1.6; }
+.curriculum-dialog .supporting-copy { font-size: 0.875rem; }
+.curriculum-dialog .dialog-heading { position: static; }
+.curriculum-dialog .card-actions button { white-space: normal; block-size: auto; }
+.curriculum-status { padding: 1rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--secondary); }
+.curriculum-status p { margin-block: 0 0.75rem; }
+.text-action { min-block-size: 2.75rem; padding-inline: 0.25rem; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 .workspace-content { display: flex; flex: 1; flex-direction: column; min-block-size: 0; }
 .workspace-content.welcome-mode { justify-content: safe center; overflow-y: auto; padding-block: 1rem; }
 .welcome-mode .empty-conversation { flex: none; padding-block: 1rem; }

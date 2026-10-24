@@ -5,13 +5,19 @@ export function authConfiguration() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL, key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   return url && key ? { url, key } : null;
 }
-export async function serverAuth() {
+export function authCookieName(url: string) {
+  return `sb-${new URL(url).hostname.split(".")[0]}-auth-token`;
+}
+export async function serverAuth(signal?: AbortSignal) {
   const config = authConfiguration();
   if (!config) return null;
   const jar = await cookies();
-  return createServerClient(config.url, config.key, { cookies: {
+  return createServerClient(config.url, config.key, {
+    cookieOptions: { name: authCookieName(config.url) },
+    ...(signal ? { global: { fetch: (input, init) => fetch(input, { ...init, signal: AbortSignal.any([signal, ...(init?.signal ? [init.signal] : [])]) }) } } : {}),
+    cookies: {
     getAll: () => jar.getAll(),
-    setAll: values => values.forEach(({ name, value, options }) => jar.set(name, value, options)),
+    setAll: values => { if (!signal?.aborted) values.forEach(({ name, value, options }) => jar.set(name, value, options)); },
   } });
 }
 export async function studentAccessToken() {

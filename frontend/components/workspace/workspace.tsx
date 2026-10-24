@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useReducer, useRef, useState } from "react";
-import { ChevronDown, Ellipsis, FolderOpen, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { ChevronDown, Ellipsis, FolderOpen, LogOut, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
 import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope } from "@/lib/student-contracts";
 import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
@@ -30,16 +30,17 @@ type CurriculumState = "loading" | "ready" | "failed";
 function ScopePanel({ curricula, current, busy, status, onRetry, onSave, onClose }: { curricula: StudentCurriculum[]; current: StudentCurriculum | null;
   busy: boolean; status: CurriculumState; onRetry: () => void; onSave: (scope: StudentCurriculum | null) => void; onClose: () => void }) {
   const [value, setValue] = useState(current?.curriculumId ?? "");
-  return <PreviewDialog title="Program and curriculum" onClose={onClose}>
-    <p>Choose your curriculum when the question depends on course requirements or when adding a PDF. You can ask general policy questions without choosing one.</p>
-    {status === "loading" && <p role="status">Loading reviewed curriculum choices…</p>}
-    {status === "failed" && <div role="alert"><p>Curriculum choices could not load. You can still ask general policy questions.</p><Button variant="outline" onClick={onRetry}>Try loading curricula again</Button></div>}
-    {status === "ready" && !curricula.length && <p role="status">No reviewed curriculum choices are available. You can still ask general policy questions.</p>}
-    <label className="scope-field">Curriculum<select disabled={status !== "ready" || !curricula.length || busy} value={value} onChange={event => setValue(event.target.value)}>
-      <option value="">No selection</option>{curricula.map(option => <option key={option.curriculumId} value={option.curriculumId}>{option.programName} · {option.curriculumName}</option>)}
+  return <PreviewDialog title="Program and curriculum" className="curriculum-dialog" onClose={onClose}>
+    <p>Choose the curriculum you follow so Bintanong can check your subjects and prerequisites. You'll also need it when adding a PDF.</p>
+    <p className="supporting-copy">You can skip this for questions about enrollment or university policies.</p>
+    {status === "loading" && <p role="status">Loading programs and curricula…</p>}
+    {status === "failed" && <div className="curriculum-status" role="alert"><p>We couldn't load the program and curriculum list. Try again in a moment.</p><Button variant="outline" onClick={onRetry}>Try again</Button></div>}
+    {status === "ready" && !curricula.length && <p role="status">No curricula are available yet. You can leave this blank.</p>}
+    <label className="scope-field">Program and curriculum<select disabled={status !== "ready" || !curricula.length || busy} value={value} onChange={event => setValue(event.target.value)}>
+      <option value="">Not selected</option>{curricula.map(option => <option key={option.curriculumId} value={option.curriculumId}>{option.programName} · {option.curriculumName}</option>)}
     </select></label>
-    <p className="supporting-copy">These are reviewed research records. A proposed curriculum keeps its proposed label.</p>
-    <div className="card-actions"><Button disabled={busy || status !== "ready" || !curricula.length} onClick={() => onSave(curricula.find(c => c.curriculumId === value) ?? null)}>Use selection</Button><Button variant="outline" onClick={onClose}>Cancel</Button></div>
+    <p className="supporting-copy">Not sure which version you follow? Check your prospectus or ask your academic adviser. A curriculum marked “Proposed” may not apply to you.</p>
+    <div className="card-actions"><Button disabled={busy || status !== "ready" || !curricula.length} onClick={() => onSave(curricula.find(c => c.curriculumId === value) ?? null)}>{value ? "Use this curriculum" : "Continue without selecting"}</Button><Button variant="outline" onClick={onClose}>Cancel</Button></div>
   </PreviewDialog>;
 }
 
@@ -50,11 +51,12 @@ export function Workspace() {
   const [scopeOpen, setScopeOpen] = useState(false), [filesOpen, setFilesOpen] = useState(false), [clearOpen, setClearOpen] = useState(false);
   const [files, setFiles] = useState<ChatFile[]>([]), [fileWarning, setFileWarning] = useState<string | null>(null);
   const [sourceId, setSourceId] = useState<string | null>(null), [progress, setProgress] = useState("Connecting…");
-  const [busy, setBusy] = useState<"chat" | "file" | "clear" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
+  const [busy, setBusy] = useState<"chat" | "file" | "clear" | "signout" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
+  const [signOutFailed, setSignOutFailed] = useState(false);
   const [navigationCollapsed, setNavigationCollapsed] = useState(false), [mobileNavigation, setMobileNavigation] = useState(false);
   const [clarification, setClarification] = useState<{ id: string; original: string; answer: StudentAnswer; scope: StudentScope | null; open: boolean } | null>(null);
   const optionsId = useId();
-  const flight = useRef<{ controller: AbortController; id: string; kind: "chat" | "file" | "clear" } | null>(null);
+  const flight = useRef<{ controller: AbortController; id: string; kind: "chat" | "file" | "clear" | "signout" } | null>(null);
   const picker = useRef<HTMLInputElement>(null), main = useRef<HTMLElement>(null);
   useEffect(() => {
     const controller = new AbortController();
@@ -69,7 +71,7 @@ export function Workspace() {
   useEffect(() => () => flight.current?.controller.abort(), []);
   function draft(text: string) { dispatch({ type: "draft", text }); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
   function openCurrentChat() { setMobileNavigation(false); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
-  function begin(kind: "chat" | "file" | "clear") {
+  function begin(kind: "chat" | "file" | "clear" | "signout") {
     const value = { controller: new AbortController(), id: "msg-" + crypto.randomUUID(), kind };
     flight.current = value; setBusy(kind); return value;
   }
@@ -101,7 +103,7 @@ export function Workspace() {
     dispatch({ type: "interrupt", id: value.id, warning: "Response stopped. Your question remains in the conversation." });
   }
   async function clear() {
-    if (flight.current?.kind === "file" || flight.current?.kind === "clear") return;
+    if (flight.current && flight.current.kind !== "chat") return;
     stop(); const value = begin("clear");
     try {
       await clearStudentSession(value.controller.signal);
@@ -138,18 +140,20 @@ export function Workspace() {
     finally { finish(value); }
   }
   async function signOut() {
+    stop();
     if (flight.current) return;
-    const value = begin("clear");
+    const value = begin("signout"); setSignOutFailed(false);
     try {
       const response = await fetch("/auth/signout", { method: "POST", signal: value.controller.signal });
       if (response.status !== 204) throw new Error("signout_unavailable");
-      dispatch({ type: "clear" }); setFiles([]); window.location.assign("/login");
-    } catch { dispatch({ type: "warning", warning: "Sign-out did not finish. Your conversation is still visible here; try again." }); }
+      dispatch({ type: "clear" }); setClarification(null); setFiles([]);
+      window.location.assign(response.headers.get("x-bintanong-signout-notice") === "cleanup_pending" ? "/login?notice=cleanup_pending" : "/login?notice=signed_out");
+    } catch { setSignOutFailed(true); }
     finally { finish(value); }
   }
   return <div className={`workspace live-workspace${navigationCollapsed ? " navigation-collapsed" : ""}`}>
     <a className="skip-link" href="#question">Skip to question</a>
-    <Sidebar currentChat={state.messages.find(message => message.role === "user")} className="desktop-sidebar" hidden={navigationCollapsed} busy={busy === "file" || busy === "clear"} onNewChat={() => setClearOpen(true)} onOpenChat={openCurrentChat} />
+    <Sidebar currentChat={state.messages.find(message => message.role === "user")} className="desktop-sidebar" hidden={navigationCollapsed} busy={!!busy && busy !== "chat"} onNewChat={() => setClearOpen(true)} onOpenChat={openCurrentChat} />
     <main className="workspace-main" id="question" tabIndex={-1} ref={main}>
       {!state.messages.length && <div className="campus-banner" aria-hidden="true"><img src="/design/campus.png" alt="" /></div>}
       <header className="workspace-toolbar">
@@ -159,20 +163,22 @@ export function Workspace() {
           <Button variant="ghost" size="icon" className="mobile-navigation-toggle" aria-label="Open navigation" aria-expanded={mobileNavigation} onClick={() => setMobileNavigation(true)}><Menu aria-hidden="true" /></Button>
           <span className="workspace-name">Bintanong</span><p className="preview-notice">Research preview</p>
         </div>
-        <Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
-        <div id={optionsId} popover="auto" className="workspace-options"><AppearanceControl /><p className="supporting-copy">University validation is pending.</p><form action="/auth/signout" method="post" onSubmit={event => { event.preventDefault(); void signOut(); }}><Button type="submit" variant="outline" disabled={!!busy}>Sign out</Button></form></div>
+        <div className="workspace-account-actions"><Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
+          <Button variant="ghost" disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" />{busy === "signout" ? "Signing out…" : "Sign out"}</Button></div>
+        <div id={optionsId} popover="auto" className="workspace-options"><AppearanceControl /><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
       </header>
       <div className={`workspace-content${state.messages.length ? "" : " welcome-mode"}`}>
       {state.messages.length ? <Conversation state={state} progress={progress} onSource={setSourceId} onClarify={() => { if (!flight.current) setClarification(previous => previous ? { ...previous, open: true } : null); }} /> : <EmptyConversation />}
+      {signOutFailed && <div className="outcome-notice status-danger" role="alert"><p>We couldn't finish signing you out. Try again before leaving this device.</p><Button variant="outline" disabled={!!busy} onClick={() => void signOut()}>Try signing out again</Button></div>}
       {state.warning && <div className="outcome-notice status-danger" role="alert"><p>{state.warning}</p>{signInNeeded && <a href="/login">Sign in again</a>}{state.messages.some(message => message.role === "user") && <Button variant="outline" size="sm" onClick={() => draft(state.messages.findLast(message => message.role === "user")?.text ?? "")}>Edit question</Button>}</div>}
       {signInNeeded && !state.warning && <p className="session-notice" role="alert">Your sign-in needs attention. <a href="/login">Sign in again</a> to continue.</p>}
       <Composer live picker={picker} draft={state.draft} attachments={[]} warning={fileWarning} pending={!!busy || signInNeeded}
         onDraft={text => dispatch({ type: "draft", text })} onSend={send} onStop={busy === "chat" ? stop : undefined} onSelect={selectFiles} onRemove={() => {}}
-        tools={<><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label={scope ? scope.curriculumName : "Program and curriculum"} title={scope ? `${scope.programName} · ${scope.curriculumName}` : "Choose a curriculum for course checks or PDF review"} onClick={() => setScopeOpen(true)}><span className="composer-scope-label">{scope ? scope.curriculumName : "Curriculum"}</span><ChevronDown size={14} aria-hidden="true" /></Button><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label="Files in this chat" onClick={() => setFilesOpen(true)}><FolderOpen size={16} aria-hidden="true" />Files{files.length ? ` (${files.length})` : ""}</Button></>}
+        tools={<><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label={scope ? scope.curriculumName : "Program and curriculum"} title={scope ? `${scope.programName} · ${scope.curriculumName}` : "Choose your program and curriculum"} onClick={() => setScopeOpen(true)}><span className="composer-scope-label">{scope ? scope.curriculumName : "Curriculum"}</span><ChevronDown size={14} aria-hidden="true" /></Button><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label="Files in this chat" onClick={() => setFilesOpen(true)}><FolderOpen size={16} aria-hidden="true" />Files{files.length ? ` (${files.length})` : ""}</Button></>}
         starters={!state.messages.length && <ConversationStarters onSuggest={draft} />} />
-      {curriculaStatus === "failed" && !scope && <p className="scope-summary">Curriculum choices are unavailable. General policy questions are still welcome.</p>}
+      {curriculaStatus === "failed" && !scope && <p className="scope-summary">We couldn't load the curriculum list. <button type="button" className="text-action" onClick={() => setScopeOpen(true)}>Try again</button></p>}
       </div>
-      {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar currentChat={state.messages.find(message => message.role === "user")} busy={busy === "file" || busy === "clear"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onOpenChat={openCurrentChat} /></PreviewDialog>}
+      {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar currentChat={state.messages.find(message => message.role === "user")} busy={!!busy && busy !== "chat"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onOpenChat={openCurrentChat} /></PreviewDialog>}
       {sourceId && <SourcePanel key={sourceId} sourceId={sourceId} onClose={() => setSourceId(null)} />}
       {clarification && <ClarificationDialog key={clarification.id} original={clarification.original} answer={clarification.answer} curricula={curricula} status={curriculaStatus} open={clarification.open && !busy}
         onClose={() => setClarification(previous => previous ? { ...previous, open: false } : null)} onRetry={() => setCurriculaAttempt(n => n + 1)}
