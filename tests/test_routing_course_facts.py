@@ -1,5 +1,6 @@
 """Course-fact operations: a term listing targets a year/semester mention, a fact lookup a course."""
 import importlib
+import json
 
 import pytest
 
@@ -72,3 +73,13 @@ def test_wire_term_mention_becomes_the_listing_target():
         route='Symbolic', control=None, ambiguities=[])
     result = api.normalize_interpretation(text, api.WireInterpretation.parse(wire))
     assert result.mentions[result.operations[0].target].kind == 'term'
+
+
+def test_router_prompt_describes_the_course_fact_operations_and_term_mentions():
+    prompt = importlib.import_module('backend.bintanong_routing.prompt')
+    text = prompt.SYSTEM_PROMPT
+    assert 'course_facts' in text and 'list_term_courses' in text
+    assert 'term mention' in text
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v18'
+    kinds = prompt.output_schema()
+    assert '"term"' in json.dumps(kinds)
