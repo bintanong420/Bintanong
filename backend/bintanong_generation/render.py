@@ -16,6 +16,7 @@ _WORDS={
   out_of_scope='Bintanong covers undergraduate academic affairs; this request is outside that scope.',
   temporarily_unavailable='The check is temporarily unavailable. Please try again later.',
   greeting='Hello. I can help with supported undergraduate academic-affairs questions.',
+  thanks="You're welcome! Ask me anytime about undergraduate academic affairs.",
   abstained='A supported explanation could not be verified from the supplied evidence.'),
  'fil':dict(preview='Preview ng kandidato lamang. Hindi opisyal na gabay ng unibersidad.',
   answered='Batay sa ibinigay na ebidensya:',eligible='Ayon sa prerequisite check: kumpleto ang mga kondisyon.',
@@ -29,6 +30,7 @@ _WORDS={
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
   temporarily_unavailable='Hindi muna magawa ang check ngayon. Subukan ulit mamaya.',
   greeting='Kumusta. Makakatulong ako sa mga suportadong tanong tungkol sa undergraduate academic affairs.',
+  thanks='Walang anuman! Magtanong ka lang tungkol sa undergraduate academic affairs.',
   abstained='Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'),
  'taglish':dict(preview='Candidate preview lang. Hindi official university guidance.',
   answered='Based sa supplied evidence:',eligible='Sa supported prerequisite check, satisfied ang conditions.',
@@ -42,6 +44,7 @@ _WORDS={
   out_of_scope='Undergraduate academic affairs ang scope ng Bintanong; outside scope ang request.',
   temporarily_unavailable='Temporarily unavailable ang check. Paki-try ulit later.',
   greeting='Hello. Pwede akong tumulong sa supported undergraduate academic-affairs questions.',
+  thanks='Walang anuman! Ask ka lang anytime tungkol sa undergraduate academic affairs.',
   abstained='Hindi na-verify ang supported explanation mula sa supplied evidence.')}
 
 
@@ -173,9 +176,9 @@ def limit_notices(cards):
     return kinds
 
 
-def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None):
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False):
     words=_WORDS.get(pack.language,_WORDS['en'])
-    message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
+    message=(words['thanks'] if thanked else _UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
     lines=[words['preview'],message]
     def shown(text):  # display printed course codes in place of internal identities

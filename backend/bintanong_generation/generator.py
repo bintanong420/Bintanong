@@ -1,5 +1,6 @@
 """One bounded answer repair; nothing is returned before final host validation."""
 import asyncio
+import re
 import json
 import math
 
@@ -47,7 +48,8 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
-            question_uncovered=reason in ('question_uncovered','parts_unresolved'),ledger=ledger),
+            question_uncovered=reason in ('question_uncovered','parts_unresolved'),ledger=ledger,
+            thanked=reason=='thanks'),
         decision=pack.decision,dependencies=pack.dependencies,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
@@ -55,6 +57,10 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         part_ledger=ledger,research_ref=pack.research_ref)
     validate_final(answer,pack,claims)
     return answer
+
+
+# A thank-you the router marked as a greeting gets "you're welcome", not "Hello" (owner f-list, 25 Oct 2026).
+THANKS=re.compile(r'\b(?:thank you|thanks|thank u|thx|ty|tysm|salamat)\b',re.I)
 
 
 class Generator:
@@ -75,6 +81,8 @@ class Generator:
         pack=prepare(integration)
         check_question(text,pack)
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
+        if pack.status=='greeting' and THANKS.search(text):
+            return _answer(pack,'greeting',reason='thanks')
         if pack.status!='ready' or pack.language=='unknown':
             return _answer(pack,fallback_status(pack.status))
         seconds=self.timeout_seconds
