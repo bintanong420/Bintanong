@@ -393,3 +393,8 @@ Each program still gets its own dated review record listing which standing rule 
   Filipino (Tagalog) and Taglish only; Cebuano is not taken. Owner: simple questions "WE CANNOT FAIL ON THAT";
   complex ones may fail. A large battery of simple queries will follow and must show no hallucination,
   retrieval or Prolog errors.
+- 25 Oct 2026, passing grade (item g): Handbook physical p.304 is the Laboratory School (LSHS, DepEd) table, out of
+  scope; the undergraduate table is 2021 Student Handbook physical p.46, "2.2 UNDERGRADUATE LEVEL/SCHOOL OF LAW":
+  3.0 = 75-76 Passed, 4.0 = Condition, 5.0 = Failed. Owner: use p.46 as proposed, and generalise it ("its generally
+  the same for everybody"): no college-specific caveat for the unlisted "following shall apply to specific
+  colleges" text. Supersedes the earlier p.304 reading (3.5/74 failed).
