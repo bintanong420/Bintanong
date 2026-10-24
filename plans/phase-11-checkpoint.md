@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: da7fe3b
+head_commit: cef5080
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -216,7 +216,14 @@ referral wording for e2) and the routing PNG: consistent.
          `p09-research-selected-20261022`, read-back equal, Prolog payload unchanged; rollback = re-point to
          `old_ledger_sha256` in `load-hosted-result.json`). MCP read-back: 39 links, 2132 courses. Security advisor:
          1 WARN auth_leaked_password_protection (Auth setting, not touched here; was 0 lints 24 Oct).
-         NOW: live probe (`live_facts.log`), then roster run 18 + full suite.
+         Live probe (`p11-course-facts-20261024/live_facts.log`, `live_facts2.log`): first run 5/9 course-fact
+         cases answered; router slips diagnosed by spy (`diag_facts.log`) and fixed: semestre `744f030`, mislabelled
+         listing target + prompt p11-v19 (program named mid-question; school year never a term) `7ce99ca`,
+         year-like scope quote -> term `cef5080`. After: R10 subject list, R6 units, year-only, fil, Taglish, title
+         units, Taglish units answered; no-year asks which year. Taglish questions got the Filipino style (router
+         label, known). R5 "I passed everything in first year" stays a referral (aggregate claim, not course facts).
+         Prompt-text pin of `7ce99ca` was edited with the prompt (no separate RED); wire repairs had RED.
+         NOW: roster run 18 (`p11-20261023/roster18`, compare `roster18-vs-17.txt`), then full suite.
          Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
