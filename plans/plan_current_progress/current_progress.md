@@ -35,9 +35,12 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 ## Next action
 
-Full suite last run at `874f0c9` (6478 passed). Course facts plan awaits owner approval
-([plan](../2026-10-24-course-facts-plan.md)). Next: the Hybrid question whose document part gets no topic
-("...How do I enroll in it?": structured result lost to the referral), then the full suite, then 2f-2h.
+Course facts (step 2h) approved for all 39 curricula with hosted upload (owner, 25 Oct). Dry run
+(`audit-evidence/p11-course-facts-20261024/`): 2132 courses read (title, printed units, year/term banners);
+term totals match the printed Total rows for ~300 groups, 13 mismatch groups; BSIT exact. Waiting on owner
+readings: "2/1" units, column-heading terms (432 rows, 12 curricula), BSBA-MM headings, mismatch batch.
+Then: author facts into ledgers (TDD), lookup operation + router/renderer, hosted upload via Supabase.
+Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
 
 ## Boundaries
 

@@ -1,6 +1,7 @@
 # Course facts plan: titles, units, year/semester (Phase 11 step 2h, draft for owner approval)
 
-Status: **draft, not approved**. Owner request 24 Oct 2026: "What subjects are in first year BSIT?" must be
+Status: **approved 25 Oct 2026 for all 39 curricula, hosted upload included** (owner-decisions-ledger.md);
+source readings still go to the owner. Previously: draft. Owner request 24 Oct 2026: "What subjects are in first year BSIT?" must be
 answered (`owner-decisions-ledger.md`). Same data unblocks course-title matching (probe R5) and unit questions (R6).
 
 ## Problem (verified 24 Oct)

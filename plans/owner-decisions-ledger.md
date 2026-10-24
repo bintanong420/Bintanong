@@ -356,3 +356,8 @@ Each program still gets its own dated review record listing which standing rule 
   - Multi-part messages, "Answer what's covered": answer each part that has reviewed evidence, and for a part
     without it add "the part about <student's words> is not in Bintanong's reviewed sources yet; ask the relevant
     university office". Each part keeps its own checks; this replaces all-or-nothing withholding.
+- 25 Oct 2026 (Phase 11 step 2h), owner direction: start the course facts work now ("can we do that now?"),
+  for every prospectus, not only BSIT ("we need for the whole prospectuses"), and keep the data in the hosted
+  Supabase project ("pushing it in the hosted, we are afterall using supabase"). Treated as approval of
+  `2026-10-24-course-facts-plan.md` for all 39 curricula and of the hosted ledger upload once the facts are
+  reviewed. Source readings (unit notation, inferred terms, printed-total mismatches) still go to the owner.
