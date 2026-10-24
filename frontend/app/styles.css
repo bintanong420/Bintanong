@@ -69,14 +69,15 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 
 .sidebar { display: flex; flex-direction: column; gap: 2rem; min-block-size: 0; overflow: auto; border-inline-end: 1px solid var(--border); padding-block: 1.5rem; background: var(--background); }
 .sidebar[hidden] { display: none; }
-.sidebar-heading, .sidebar-examples { padding-inline: 1rem; }
+.sidebar-heading, .sidebar-history { padding-inline: 1rem; }
 .brand { display: block; margin: 0 0 1rem; padding-inline: 0.75rem; color: inherit; text-decoration: none; font-size: 1.125rem; line-height: 1.5rem; font-weight: 600; letter-spacing: -0.025em; }
 .sidebar button { min-block-size: 2.75rem; }
 .new-chat { inline-size: 100%; block-size: 2.5rem; justify-content: start; gap: 0.5rem; padding-inline: 0.75rem; }
 .sidebar h2 { margin: 0; padding-inline: 0.75rem; font-size: 0.875rem; font-weight: 600; }
 .sidebar-caption { margin: 0.25rem 0.75rem 0.75rem; font-size: 0.75rem; line-height: 1.5; color: var(--muted-foreground); }
-.sidebar-example { inline-size: 100%; block-size: auto; min-block-size: 2.5rem; justify-content: start; gap: 0.75rem; padding: 0.5rem 0.75rem; font-weight: 400; }
-.sidebar-example span { min-inline-size: 0; white-space: normal; text-align: start; line-height: 1.5; }
+.sidebar-chat { inline-size: 100%; block-size: auto; min-block-size: 2.5rem; justify-content: start; gap: 0.75rem; padding: 0.5rem 0.75rem; font-weight: 400; }
+.sidebar-chat span { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: start; line-height: 1.5; }
+.sidebar-chat[aria-current="page"] { background: var(--background); }
 .sidebar svg { flex-shrink: 0; color: var(--muted-foreground); }
 .sidebar-footer { display: flex; flex-direction: column; gap: 0.5rem; margin-block-start: auto; padding-inline: 1rem; }
 .sidebar-footer button:disabled { opacity: 1; color: var(--muted-foreground); white-space: normal; }
@@ -264,7 +265,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
   .sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   .brand { margin: 0; padding: 0; }
   .new-chat { inline-size: auto; }
-  .sidebar-examples, .sidebar-footer { display: none; }
+  .sidebar-history, .sidebar-footer { display: none; }
   .workspace-main { min-block-size: 0; }
   .workspace-toolbar, .scope-summary, .session-notice, .empty-conversation, .conversation, .composer-area { inline-size: calc(100% - 2rem); }
   .workspace-toolbar { flex-wrap: wrap; padding-block: 1rem; }
@@ -319,7 +320,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .request-indicator { flex-shrink: 0; }
 .navigation-dialog.inspection-panel { margin-inline: 0 auto; padding: 1rem; inline-size: min(20rem, 100vw); }
 .navigation-dialog .sidebar { min-block-size: calc(100dvh - 7rem); padding-block: 0; border: 0; background: var(--background); }
-.navigation-dialog .sidebar-heading, .navigation-dialog .sidebar-examples, .navigation-dialog .sidebar-footer { padding-inline: 0; }
+.navigation-dialog .sidebar-heading, .navigation-dialog .sidebar-history, .navigation-dialog .sidebar-footer { padding-inline: 0; }
 @media (max-width: 48rem) {
   .live-workspace, .live-workspace.navigation-collapsed { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
   .live-workspace .workspace-main { grid-column: 1; }
@@ -327,7 +328,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
   .mobile-navigation-toggle { display: inline-flex; }
   .live-workspace:not(.navigation-collapsed) .workspace-name { display: block; }
   .workspace-heading .preview-notice { flex: 0 1 auto; min-inline-size: 0; font-size: 0.65rem; white-space: nowrap; }
-  .navigation-dialog .sidebar-examples, .navigation-dialog .sidebar-footer { display: block; }
+  .navigation-dialog .sidebar-history, .navigation-dialog .sidebar-footer { display: block; }
   .navigation-dialog .sidebar-heading { flex-direction: column; align-items: stretch; }
   .navigation-dialog .new-chat { inline-size: 100%; }
   .navigation-dialog.inspection-panel { inline-size: min(20rem, 100vw); }

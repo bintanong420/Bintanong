@@ -68,6 +68,7 @@ export function Workspace() {
   }, [curriculaAttempt]);
   useEffect(() => () => flight.current?.controller.abort(), []);
   function draft(text: string) { dispatch({ type: "draft", text }); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
+  function openCurrentChat() { setMobileNavigation(false); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
   function begin(kind: "chat" | "file" | "clear") {
     const value = { controller: new AbortController(), id: "msg-" + crypto.randomUUID(), kind };
     flight.current = value; setBusy(kind); return value;
@@ -148,7 +149,7 @@ export function Workspace() {
   }
   return <div className={`workspace live-workspace${navigationCollapsed ? " navigation-collapsed" : ""}`}>
     <a className="skip-link" href="#question">Skip to question</a>
-    <Sidebar live className="desktop-sidebar" hidden={navigationCollapsed} busy={busy === "file" || busy === "clear"} onNewChat={() => setClearOpen(true)} onExample={draft} />
+    <Sidebar currentChat={state.messages.find(message => message.role === "user")} className="desktop-sidebar" hidden={navigationCollapsed} busy={busy === "file" || busy === "clear"} onNewChat={() => setClearOpen(true)} onOpenChat={openCurrentChat} />
     <main className="workspace-main" id="question" tabIndex={-1} ref={main}>
       {!state.messages.length && <div className="campus-banner" aria-hidden="true"><img src="/design/campus.png" alt="" /></div>}
       <header className="workspace-toolbar">
@@ -171,7 +172,7 @@ export function Workspace() {
         starters={!state.messages.length && <ConversationStarters onSuggest={draft} />} />
       {curriculaStatus === "failed" && !scope && <p className="scope-summary">Curriculum choices are unavailable. General policy questions are still welcome.</p>}
       </div>
-      {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar live busy={busy === "file" || busy === "clear"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onExample={text => { setMobileNavigation(false); draft(text); }} /></PreviewDialog>}
+      {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar currentChat={state.messages.find(message => message.role === "user")} busy={busy === "file" || busy === "clear"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onOpenChat={openCurrentChat} /></PreviewDialog>}
       {sourceId && <SourcePanel key={sourceId} sourceId={sourceId} onClose={() => setSourceId(null)} />}
       {clarification && <ClarificationDialog key={clarification.id} original={clarification.original} answer={clarification.answer} curricula={curricula} status={curriculaStatus} open={clarification.open && !busy}
         onClose={() => setClarification(previous => previous ? { ...previous, open: false } : null)} onRetry={() => setCurriculaAttempt(n => n + 1)}

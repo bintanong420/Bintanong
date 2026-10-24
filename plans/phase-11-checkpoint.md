@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 26
+sequence: 27
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 68b70e1
+head_commit: 3c61ba8
 working_tree: dirty
-updated_at: 2026-10-24T16:55:00+08:00
+updated_at: 2026-10-24T18:05:00+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -32,6 +32,11 @@ updated_at: 2026-10-24T16:55:00+08:00
 ## Current Task
 
 Owner requested overall frontend UI/UX polish aligned with the existing backend.
+Latest steering: replace sidebar examples with real chat navigation. Current
+master8/23.2 permits temporary state only; owner has not changed retention policy.
+Delivered the existing current-chat entry and truthful empty state, preserving
+New chat's acknowledged deletion. Persistent/multiple resumable history requires
+an explicit follow-up design; do not invent it from the sidebar layout request.
 First slice: truthful answer-status labels, curriculum loading/retry, file empty/
 review states, composer Stop placement, control spacing and mobile transcript layout.
 Public seams: existing student-workspace presentation helper and actual browser UI.
@@ -63,6 +68,10 @@ Ignored frontend/.env.local contains existing hosted public key/origins, no Goog
 
 ## Verification Evidence
 
+- Sidebar: navigation browser RED→GREEN; all4 browser regressions and55 UI tests
+  PASS. No invented history, request replay, lost draft or local transcript storage.
+  Proposed production history design is in the polish report; current privacy rule
+  remains unchanged. Backend suites not repeated for this presentation-only change.
 - Guided clarification:55 UI tests/typecheck/build,667 API/private/generation PASS,
   2 expected photo xfails;4 browser regressions plus10 families/16 requests PASS.
   Scope, unknown, alternatives, review/single-send, Escape/focus and retained draft

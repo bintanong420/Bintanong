@@ -10,15 +10,16 @@ Last full snapshot before this condensation:1c0ab97; use git show for history.
 
 ## Latest change
 
-Recovered exact session01a16c88-a2f7-7e63-b82a-f32c00d47160 after its usage-limit stop.
-Guided live clarification is connected: canonical printed course choices, one
-question at a time, unknown/alternative explanation, review and explicit send.
-Closing preserves selections and the unrelated composer draft; replies pass through
-the existing backend validation. Source gaps/conflicts cannot create course choices.
-Commits4dcd9bf/68b70e1;55 UI tests/typecheck/build and667 API/private/generation
-tests PASS;2 expected photo xfails. Four browser regressions plus10 integration
-families/16 requests PASS.320–1440px/light/dark and200% reflow/focus verified;
-minimum text contrast5.88:1. Review draft-loss finding fixed with browser RED→GREEN.
+Sidebar examples removed in favor of actual current-chat navigation, an empty state
+and selected first-question title. Opening it preserves drafts and sends no request;
+acknowledged New chat clears it.55 UI/four browser tests/typecheck/build PASS;
+navigation RED→GREEN; desktop/mobile/light/dark screenshots checked.
+Existing master8/23.2 retention remains: temporary only. Production recommendation
+is opt-in saved history plus temporary mode, with owned conversation APIs/RLS,
+retention/deletion and independent bounded reasoning context; not yet authorized
+or implemented. Plain chat can contain academic data too; PDF exclusion is insufficient.
+Guided clarification remains4dcd9bf/68b70e1;667 backend tests/2 photo xfails from that
+delivery were not repeated for this sidebar-only change.
 [Evidence/current blocker](../2026-10-24-student-workspace-polish.md).
 
 Next/login3215 restored200; real API8021 restart fails loading hosted curriculum
@@ -51,11 +52,6 @@ WSL16GB remains unverified: last check found memory=8GB and Ubuntu7.8Gi total.
 
 ## Next action
 
-First state/control polish verified:48 UI tests, production build,10 browser families/
-16 requests,29 layout/interaction checks and Stop/draft browser regression PASS.
-ChatGPT/Claude/Gemini reference pass also verified: centered composer, quiet header,
-collapsible navigation/mobile drawer and reduced-motion-aware feedback. Two tracked
-browser regressions pass; same48 UI tests/build and29 interaction checks pass.
 Diagnose the real API's hosted-ledger fact-field mismatch against its reviewed
 release before rerunning actual authenticated clarification acceptance.
 [Evidence](../2026-10-24-student-workspace-polish.md).

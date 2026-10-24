@@ -192,6 +192,43 @@ certification, Phase11 closure or institutional-release readiness.
 
 ## Remaining boundaries
 
+Sidebar steering24Oct: remove example questions from navigation and use real
+chat state, as requested for production preparation. Rechecked master8/23.2 and
+session/API ownership: one current server session, no transcript storage or
+multiple-thread API. Under the existing privacy rule, show the current conversation
+after its first message and a truthful empty state before it; clicking returns to
+that conversation without resubmitting or replacing a draft. New chat still clears
+only after server acknowledgment. Persistent/multiple resumable history remains
+separate work; the owner asked what retention meant and has not revised the rule.
+Scope: Sidebar, its two Workspace callers, existing CSS and navigation browser
+regression. Keep starter suggestions in the composer; no fake saved conversations.
+
+Sidebar delivery: removed all three example entries/caption, renamed navigation
+to Chat history/Chats and added an actual first-question title with selected state.
+Before a first message the list is empty. Selection only focuses the active chat;
+it does not resend, replace a draft or claim an older session has been restored.
+Desktop collapse/mobile drawer and acknowledged New chat clearing remain intact.
+Navigation regression observed RED (history absent), then GREEN; all4 browser
+regressions,55 frontend tests and final TypeScript/production build PASS. Two
+additional desktop/mobile/light/dark sidebar checks and screenshots PASS, with
+long-title truncation and no overflow. This is current-chat navigation, not a
+delivered multi-conversation or persistent history backend.
+
+Production recommendation (proposal, not a changed owner retention decision):
+use opt-in saved conversation history plus a clearly available temporary mode;
+keep the present research build temporary until its privacy design is revised.
+Give each conversation server-verified PSU account ownership and independent
+context; implement list/read/delete endpoints before promising resume/rename/delete
+in the UI. Database ownership/RLS supplements server authorization ([Supabase
+RLS](https://supabase.com/docs/guides/database/postgres/row-level-security)). Define
+retention, per-chat/delete-all behavior and expiry before persistence. A saved
+transcript is display history, not trusted university evidence or an instruction
+to feed the whole history to the model; retain bounded per-conversation context
+and fresh reviewed RAG/Prolog evaluation. Personal academic details may occur even
+in typed chat, so excluding only uploaded PDFs does not satisfy the current rule.
+This recommendation needs a deliberate follow-up design/owner decision; no DB,
+storage, authentication, transcript-retention or source authority change was made.
+
 Non-PSU human rejection/full manual flow not claimed. Phase11 lifecycle WIP,
 Docling environment failures and inherited model/source-quality exits stay open.
 No phase closure, public deployment, database/schema changes or new dependencies.
