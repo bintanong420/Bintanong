@@ -46,6 +46,9 @@ npm run dev -- --hostname 127.0.0.1 --port 3215
 `backend.bintanong_api.main:app` is health-only. The student factory above composes Lawrence's
 ResearchPipeline/create_app and requires authentication. `/health/ready` includes student_runtime and
 validates the release pin; liveness alone is insufficient. API restarts discard temporary sessions.
+The research factory probes Supabase through the same pinned, runtime-role `retrieve_context`
+vector RPC used by retrieval. It does not require a direct Postgres connection or Docker database
+hostname. The health-only Docker app retains its direct Postgres/pgvector probe.
 
 The resident embedding service needs the strict `/query/configuration`, `/query`, `/query/token-count`
 port, `EMBEDDING_ASSET_MANIFEST` and existing read-only model assets. Its source mount must point at this

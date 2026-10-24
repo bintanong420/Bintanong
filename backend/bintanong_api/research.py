@@ -14,6 +14,7 @@ from backend.bintanong_orchestration.ports import ReleaseUnavailable
 from backend.bintanong_private_context.sessions import SessionStore
 from backend.bintanong_private_context.worker import extract_isolated
 from backend.bintanong_retrieval.http_query import HttpQueryEncoder
+from backend.bintanong_retrieval.query import configuration_identity
 from backend.bintanong_routing.transport import LlamaTransport
 from backend.bintanong_runtime.hosted_curricula import load_release_curricula
 from backend.bintanong_runtime.hosted_storage import HostedReleaseStorage
@@ -72,6 +73,23 @@ class ResearchProvider:
         self.client, self.resources, self.spec, self.chunks = client, resources, spec, chunks
         self.digests = {key: value['content_sha256'] for key, value in ledgers.items()}
         self.worker = _BoundedWorker()
+
+    async def probe_supabase(self):
+        def check():
+            engine = self.resources.retrieval.engine
+            # A unit vector exercises the pinned pgvector RPC without model inference or student text.
+            result = engine.client.rpc('retrieve_context', dict(
+                p_release_id=self.resources.pin.release_id,
+                p_config=configuration_identity(engine.encoder.config),
+                query_embedding=[1.0] + [0.0] * (engine.encoder.config.dimension - 1),
+                p_top_k=3, p_min_similarity=1.0, p_scope=list(self.resources.document_scope)), role='runtime')
+            return result.get('status') == 'ok' and result.get('release_id') == self.resources.pin.release_id
+        try:
+            if await self.worker.run(check):
+                return True, None
+        except Exception:
+            pass
+        return False, 'hosted retrieval unavailable'
 
     async def pin(self):
         def check():
@@ -133,7 +151,8 @@ def load_research_app(path=None):
                 await asyncio.to_thread(client.close)
         origins = tuple(value.strip() for value in os.environ.get('STUDENT_ALLOWED_ORIGINS', 'http://127.0.0.1:3215').split(',') if value.strip())
         app = create_app(ApiServices(sessions=SessionStore(), curricula=tuple(curricula), pipeline=pipeline,
-            extract_rows=extract, course_labels=dict(resources.course_labels), auth=auth, ready=ready, close=close),
+            extract_rows=extract, course_labels=dict(resources.course_labels), auth=auth, ready=ready, close=close,
+            supabase_probe=provider.probe_supabase),
             ApiSettings(allowed_origins=origins, require_auth=True))
         app.state.research_provider = provider
         return app

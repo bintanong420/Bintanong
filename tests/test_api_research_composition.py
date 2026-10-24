@@ -46,3 +46,35 @@ def test_research_composition_refuses_privileged_credentials():
         with pytest.raises(ValueError, match='public_runtime_key_required'):
             public_key(value)
 
+
+@pytest.mark.parametrize('outcome', ['ok', 'release_changed', 'wrong_release', 'exception'])
+def test_research_storage_probe_uses_the_pinned_runtime_vector_rpc(outcome):
+    import asyncio
+    from types import SimpleNamespace
+    from unittest.mock import Mock
+    from backend.bintanong_api.research import ResearchProvider
+    from backend.bintanong_embedding.adapter import EmbeddingConfig
+    from backend.bintanong_retrieval.query import configuration_identity, validate_vector
+
+    config = EmbeddingConfig()
+    storage = Mock()
+    storage.rpc.return_value = dict(status='release_changed' if outcome == 'release_changed' else 'ok',
+                                   release_id='other' if outcome == 'wrong_release' else 'synthetic-pin')
+    if outcome == 'exception':
+        storage.rpc.side_effect = RuntimeError('postgresql://secret@private-host')
+    engine = SimpleNamespace(client=storage, encoder=SimpleNamespace(config=config))
+    resources = SimpleNamespace(pin=SimpleNamespace(release_id='synthetic-pin'),
+                                retrieval=SimpleNamespace(engine=engine),
+                                document_scope=('audience:undergraduate',))
+    provider = ResearchProvider(None, resources, None, [], {})
+    ok, detail = asyncio.run(provider.probe_supabase())
+    assert ok is (outcome == 'ok')
+    assert detail == (None if ok else 'hosted retrieval unavailable')
+    name, params = storage.rpc.call_args.args
+    assert name == 'retrieve_context'
+    assert storage.rpc.call_args.kwargs == {'role': 'runtime'}
+    assert params['p_release_id'] == 'synthetic-pin'
+    assert params['p_config'] == configuration_identity(config)
+    assert params['p_scope'] == ['audience:undergraduate']
+    validate_vector(params['query_embedding'])
+

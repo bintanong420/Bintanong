@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from backend.bintanong_api.admission import AdmittedStream, AnswerAdmission
 from backend.bintanong_api.auth import authorize
 from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
-from backend.bintanong_api.main import health_live, health_ready
+from backend.bintanong_api.main import dependency_health, health_live
 from backend.bintanong_api.session import SESSION_COOKIE, ApiError, Session, check_origin, require_session
 from backend.bintanong_api.sources import SourceRegistry, source_view
 from backend.bintanong_api.stream import STREAM_HEADERS, chat_stream
@@ -43,6 +43,7 @@ class ApiServices:
     auth: object = None
     ready: object = None
     close: object = None
+    supabase_probe: object = None
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
@@ -63,7 +64,7 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     app.add_api_route('/health/live', health_live, methods=['GET'])
     @app.get('/health/ready')
     async def student_ready(response: Response):
-        status = await health_ready(response)
+        status = await dependency_health(response, supabase_probe=services.supabase_probe)
         try:
             ok = bool(services.pipeline is not None and (services.ready is None or await services.ready()))
         except Exception:
