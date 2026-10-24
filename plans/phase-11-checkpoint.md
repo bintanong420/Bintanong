@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 27
+sequence: 29
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3c61ba8
+head_commit: ec403f5
 working_tree: dirty
-updated_at: 2026-10-24T18:05:00+08:00
+updated_at: 2026-10-24T18:44:00+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -31,27 +31,18 @@ updated_at: 2026-10-24T18:05:00+08:00
 
 ## Current Task
 
-Owner requested overall frontend UI/UX polish aligned with the existing backend.
-Latest steering: replace sidebar examples with real chat navigation. Current
-master8/23.2 permits temporary state only; owner has not changed retention policy.
-Delivered the existing current-chat entry and truthful empty state, preserving
-New chat's acknowledged deletion. Persistent/multiple resumable history requires
-an explicit follow-up design; do not invent it from the sidebar layout request.
-First slice: truthful answer-status labels, curriculum loading/retry, file empty/
-review states, composer Stop placement, control spacing and mobile transcript layout.
-Public seams: existing student-workspace presentation helper and actual browser UI.
-First slice committed b08c6ca; provider-reference layout also verified. Owner now
-requests the specified guided live clarification UI from an actual screenshot:
-supported choices, alternative explanation and explicit user confirmation. Delivered
-in4dcd9bf/68b70e1; synthetic/browser checks pass. Real API startup is currently blocked
-by hosted-ledger fact validation; live acceptance is unverified.
-[One-document checklist](../docs/development/google-sign-in-local-setup.md).
-[Integration tasks](2026-10-24-student-ui-backend-integration-plan.md) remain active;
-this UI delivery does not close Phase11 or expand institutional release authority.
+Owner-requested student UI correction delivered ec403f5: visible logout, bounded
+local credential removal despite research/auth outages, honest cleanup notice,
+retry/progress and student-facing curriculum wording aligned with the thesis.
+[Delivery and verification](2026-10-24-student-account-usability.md).
+Sidebar a184d7c and guided clarification4dcd9bf/68b70e1 remain delivered. Temporary
+state only; persistent/multiple resumable history has not been authorized/built.
+Real API startup remains blocked by hosted-ledger fact validation. Phase11 final
+integration review/acceptance remains open; no institutional activation or closure.
 
 ## Repository State
 
-Main checkout frontend at68b70e1; guided clarification increments committed locally.
+Main checkout frontend atec403f5; account/sidebar/clarification committed locally.
 Recovered exact previous session01a16c88-a2f7-7e63-b82a-f32c00d47160. Product clean;
 delivery/checkpoint/progress documentation being saved. Execution/evidence in polish report.
 Changed frontend: root/login/chat, OAuth callback, proxy/auth-policy, styles,
@@ -61,58 +52,38 @@ Owner-local historical review remains unstaged in progress; untracked status rev
 and SEA-LION-E5-Embedding-600M directory remain untouched/excluded.
 Implementation worktree retains15 modified product/test files and3 untracked lifecycle
 files, previously verified byte-identical; no lifecycle WIP copied into main.
-Recovery refs/copies in sync record; pre-turn snapshot1c0ab97; older snapshot60d285f.
+Full pre-condensation checkpoint/progress:ec403f5; prior1c0ab97/60d285f.
+Recovery refs/copies remain in the sync record.
 Local pre-condensation copies also in ignored landing-auth-setup evidence.
 Next/login127.0.0.1:3215 restored200. API8021 fails hosted-ledger validation on startup.
 Ignored frontend/.env.local contains existing hosted public key/origins, no Google secret.
 
 ## Verification Evidence
 
-- Sidebar: navigation browser RED→GREEN; all4 browser regressions and55 UI tests
-  PASS. No invented history, request replay, lost draft or local transcript storage.
-  Proposed production history design is in the polish report; current privacy rule
-  remains unchanged. Backend suites not repeated for this presentation-only change.
-- Guided clarification:55 UI tests/typecheck/build,667 API/private/generation PASS,
-  2 expected photo xfails;4 browser regressions plus10 families/16 requests PASS.
-  Scope, unknown, alternatives, review/single-send, Escape/focus and retained draft
-  tested. Reviewer draft-loss and320px/200% header failures observed RED→GREEN.
-  Eight layout/theme/keyboard/contrast checks PASS; minimum text5.88:1. See polish
-  report for commands and ignored guided-clarification evidence. Real API startup
-  currently fails authoring._facts; no actual-model clarification acceptance claimed.
-- Workspace first slice:48 frontend tests, TypeScript and final build PASS;
- 10 actual synthetic API/browser families/16 requests and29 polish checks PASS.
-  Stop/draft RED/GREEN browser regression retained; text contrast minimum6.58:1.
-  [Evidence and current reference pass](2026-10-24-student-workspace-polish.md).
-- Provider-reference pass:48 UI tests/build,10 browser families/16 requests,
- 29 layout/interaction checks and two tracked browser regressions PASS. Native
- mobile drawer/focus, context controls and reduced-motion behavior exercised.
-- New page-access regression RED missing export ->GREEN2; complete frontend45 PASS.
-  Pinned Node24.21: next typegen, tsc --noEmit and final production build PASS.
-- Actual Edge31 checks PASS: both pages,320/390/768/1440 widths,light/dark/system,
-  keyboard skip, scope/privacy links, protected chat/login, enabled Google control,
-  wrong-account error,200% auth text reflow and no browser runtime errors.
-- Browser contrast RED1.108:1 exposed inherited anchor foreground overriding shared
-  button color; scoped selector fixed it. Final controls minimum14.05:1 both themes.
-  Explicit appearance accessible name fixed after browser locator failure.
-  Rendered text plus wrong-account alert minimum5.58:1; both themes meet4.5:1.
-- Actual root/login200, anonymous chat307 ->login. Google enabled in hosted settings;
-  POST/auth/login303 sets PKCE cookie ->Supabase authorize302 ->accounts.google.com.
-  Both expected callbacks verified; owner subsequently confirmed actual PSU login.
-- Research readiness200: Supabase/Janus/embedding/Bintu/student-runtime all true;
-  anonymous frontend/api/curricula401. No bypass or token/identity logging.
-- External browser/scripts/screenshots/oauth-readiness.json: ignored workspace
-  audit-evidence/p11-20261024/landing-auth-setup. Exact commands and gate in delivery.
-- Earlier committed-main baseline:3383 backend passes,2 expected photo xfails;
-  backend-sync combined worktree3387 passes/2 xfails. Core backend matches origin;
-  intentional committed API/auth/runtime adapters differ. Not rerun for this UI task.
-- Earlier synthetic Next/FastAPI browser:10 families/16 requests PASS, including PDF
-  parser/review/remove, failed clear, Stop, sign-out, IME/themes/reflow. Actual Prolog
-  validated4 sources; bounded RAG handbook1.0 ->98-100/Excellent with page46 citation.
-  Initial RAG outage/Hybrid insufficient evidence and quality limits remain disclosed.
-- Saved full suite13:58:6494 passed,2 failed,1 skipped,2 xfailed,1552 subtests.
-  Both Docling conversion failures: huggingface-hub2.2.0 vs Transformers>=1.5,<2.
-  No dependency repair. Earlier environment check: WSL memory=8GB/7.8Gi observed;
-  owner-reported16GB not verified; no config edit/restart performed.
+- Account correction:55 UI tests/typecheck PASS;11 serial browser checks plus one
+  added running-answer logout regression PASS. Backend cleanup503 and expired-token
+  refresh503 observed RED→GREEN; expired logout now approximately5s, own auth chunks
+  removed/unrelated app cookie preserved. Origin/revocation/timeout/retry/concurrency
+  checks PASS; eight light/dark widths and200% CSS zoom/focus/44px targets checked.
+  Independent review's expired-token/clear race findings fixed; final review no
+  remaining important issue. Isolated webpack build PASS; default Turbopack cannot
+  resolve external node_modules junction, standalone tracing27-file warning remains.
+  Copied-tree compile evidence does not prove a deployable standalone artifact.
+- Sidebar:55 UI/four browser PASS, no invented history/request replay/local storage.
+- Guided clarification:55 UI/typecheck/build,667 API/private/generation PASS,
+  2 expected photo xfails; browser scope/unknown/alternatives/review/single-send,
+  Escape/focus and retained draft checks PASS.320px/200% header fixed RED→GREEN.
+  [Earlier evidence](2026-10-24-student-workspace-polish.md); no actual-model claim.
+- Landing/auth:45 UI tests/build PASS; actual app/Supabase/Google redirect checked,
+  owner verified successful PSU login. Anonymous API curricula401; full non-PSU and
+  authenticated manual checklist remain unverified. No identity/token logging.
+- Earlier committed-main baseline3383 backend passes/2 expected photo xfails;
+  backend-sync worktree3387/2. Not repeated for this frontend/auth correction.
+  Prior synthetic PDF/parser/source/clear/Stop cases10 families/16 requests PASS;
+  real Prolog4 sources and bounded RAG handbook page46 observed; Hybrid remains open.
+- Saved full suite6494 passed,2 failed,1 skipped,2 xfailed,1552 subtests. Docling
+  failures: huggingface-hub2.2.0 versus Transformers>=1.5,<2. No dependency repair.
+  WSL owner-reported16GB unverified; last observation8GB/7.8Gi, no config change.
 
 ## Versions and Digests
 
@@ -147,7 +118,7 @@ No phase closure, university approval, public deployment or institutional activa
 ## Next Action
 
 Diagnose hosted-ledger fact-field compatibility against the reviewed release,
-then rerun actual authenticated clarification acceptance.
+then rerun actual authenticated curriculum/clarification acceptance.
 
 ## Do Not Repeat
 

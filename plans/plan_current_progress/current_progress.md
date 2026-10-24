@@ -6,30 +6,27 @@ Owner preview: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
 [Tasks](../2026-10-24-student-ui-backend-integration-plan.md) |
 [Checkpoint](../phase-11-checkpoint.md) |
 [Landing/auth delivery](../2026-10-24-landing-auth-concept2.md).
-Last full snapshot before this condensation:1c0ab97; use git show for history.
+Last full snapshot before this condensation:ec403f5; use git show for history.
 
 ## Latest change
 
-Sidebar examples removed in favor of actual current-chat navigation, an empty state
-and selected first-question title. Opening it preserves drafts and sends no request;
-acknowledged New chat clears it.55 UI/four browser tests/typecheck/build PASS;
-navigation RED→GREEN; desktop/mobile/light/dark screenshots checked.
-Existing master8/23.2 retention remains: temporary only. Production recommendation
-is opt-in saved history plus temporary mode, with owned conversation APIs/RLS,
-retention/deletion and independent bounded reasoning context; not yet authorized
-or implemented. Plain chat can contain academic data too; PDF exclusion is insufficient.
-Guided clarification remains4dcd9bf/68b70e1;667 backend tests/2 photo xfails from that
-delivery were not repeated for this sidebar-only change.
-[Evidence/current blocker](../2026-10-24-student-workspace-polish.md).
+Student account correction committed ec403f5: visible Sign out, bounded local logout
+when chat cleanup/auth refresh fails, honest cleanup notice, direct retry and contained
+alerts. Curriculum/login wording now uses subjects, prerequisites, enrollment and
+prospectus terms; no researcher jargon or unsupported availability promise.
+55 UI tests/typecheck PASS;11 serial browser checks plus the added running-answer
+logout regression PASS. Eight theme/width layouts and200% CSS zoom checked.
+Isolated webpack build PASS with external-junction tracing limits; independent review
+found no remaining important issue. [Delivery/evidence](../2026-10-24-student-account-usability.md).
+Existing master8/23.2 retention stays temporary; saved history remains an unapproved
+recommendation. Sidebar a184d7c and guided clarification4dcd9bf/68b70e1 retained.
 
-Next/login3215 restored200; real API8021 restart fails loading hosted curriculum
-facts: `facts require course_code and only supported field names`. Exact hosted
-field mismatch undiagnosed; guards/data unchanged. No live clarification/model claim.
-
-Earlier landing3/auth2 delivered; actual PSU login owner-verified ("PalSU email works
-now"). Non-PSU rejection/full authenticated manual checklist remain unverified.
-Local public config remains ignored; no secrets staged. [Auth/setup delivery](../2026-10-24-landing-auth-concept2.md)
-and [manual checklist](../../docs/development/google-sign-in-local-setup.md) retain details.
+Owner login3215 returns200; API8021 remains offline after the recorded hosted-ledger
+validation error (`facts require course_code and only supported field names`).
+No hosted data/guards changed; no live curriculum/model/PSU logout acceptance claim.
+Actual PSU login was earlier owner-verified; non-PSU/full manual flow still unverified.
+[Auth/setup delivery](../2026-10-24-landing-auth-concept2.md) and
+[manual checklist](../../docs/development/google-sign-in-local-setup.md).
 
 ## Verified integration baseline
 
