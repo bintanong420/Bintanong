@@ -8,6 +8,12 @@ AGENTS.md, current progress or dated review records supersede older entries wher
 
 ## Owner decisions to preserve across CLI sessions
 
+- 25 October2026 (Phase11 resumed source package): frontend ready; integrate after pending work.
+  Complete pre-enrollment context needs approximately3827 tokens with citations. Owner delegated the
+  choice ("whatever u think is the best option lets take it") after the4096 recommendation with live
+  accuracy/latency checks. Selected: trusted pre_enrollment budget4096, other topics2048; retain all
+  fields/gaps, atomic context and exact counting. Not an achieved latency SLA.
+
 - Phase06,17October2026: owner explicitly approved both the partial review-export
   design238ad3b and review03's four row readings/one relationship: old2018–2019
   CS1/L requires CC1/L; oldCC2/L, proposed2025–2026 CC2/L and proposedCS1 have

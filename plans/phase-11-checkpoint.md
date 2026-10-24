@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: paused
-sequence: 16
+status: in_progress
+sequence: 20
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f591416
+head_commit: fb4e1e8
 working_tree: dirty
-updated_at: 2026-10-25T00:25:00+08:00
+updated_at: 2026-10-25T01:31:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -29,18 +29,26 @@ Active plan: [backend API](phase-11-backend-api-plan.md); previous final handoff
 
 ## Current Task
 
-Owner requested a session handoff before `/clear`; implementation paused, no running test jobs.
+Owner resumed25 Oct; frontend ready, integration deferred until pending work is finished.
+Docker restored via installed CLI; actual-DB blank-codec failure reproduced and corrected under TDD.
 [Session recovery note](2026-10-25-phase11-session-handoff.md) is the exact resume entry point.
 g2 append-only path committed f591416 and full suite passed there. Subsequent root-release identity
-and supplementary blank-field changes are uncommitted; latest focused run has one failure (below).
-Sources are reviewed under batches1-12 plus standing approval for clear repeated cases; package is
-still a draft, not compiled/rehearsed/hosted. Source register and active release remain unchanged.
+and supplementary blank-field changes committed febd6c1/5440368; focused42 +26 subtests GREEN, review clean.
+Full suite on5440368 passed6635 +1595 subtests.5dbc706 run stopped as obsolete at94%; new claim
+filter fb4e1e8 passes79 focused +31 subtests and actual DB8 +22; final suite running (session51777).
+All61 records compiled with8 limitations and exact token checks; Charter
+atomic context exceeds2048; owner delegated4096 for pre_enrollment only. Exact compiled group3816 fits.
+Source append and full release/39-links/activate/rollback/reactivation rehearsal passed.61 embeddings
+computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/staging delivered;
+80-chunk/39-link draft inactive, original19-chunk release active. Live checks/switch remain.
+[Resume evidence](2026-10-25-phase11-resume-verification.md) supersedes the failing stopping point.
 
 ## Repository State
 
-Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. HEAD `f591416`.
-Dirty code/tests: runtime research factory; partial/supplementary review loaders; g2 migration;
-three focused test files. Documentation is saved in the session handoff commit; preserve dirty code.
+Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. HEAD `fb4e1e8`.
+Blank correction febd6c1, snapshot binding5440368, scoped context/menu bounds5dbc706 committed after
+focused GREEN/review; claim filtering fb4e1e8 preserves ambiguity/negative/unknown guards. Only docs
+remain dirty; fresh final suite uses fb4e1e8 production/tests.
 No dependency changes/downloads; no frontend work.
 
 ## Verification Evidence
@@ -52,9 +60,9 @@ No dependency changes/downloads; no frontend work.
 
 - Full suite at f591416:6628 passed,6 skipped,2 xfailed,+1589 subtests,6 warnings,22m38s;
   full-suite-f591416.log/.exit=0. Does not cover subsequent dirty changes.
-- Latest dirty-code regression: four expected RED failures in binding-blank-red.log; attempted GREEN
-  gives1 failed,38 passed,+20 subtests in73.77s (binding-blank-green.log). Null blank accepted by
-  supplement, rejected by selected-review codec which requires empty-string blank. No current GREEN.
+- Resume RED reproduced codec failure; corrected blank contract after4 expected focused failures.
+  Final focused42 passed +26 subtests,94.10s (`resume-contract-green2.log`); independent review clean.
+  Core full suite completed6635 +1595 subtests; latest tree still needs its fresh final result.
 - Topic baseline 48 passed +31 subtests; expected RED observed on real disposable DB/package/engine.
   Final retrieval/runtime selection 157 passed +86 subtests, 53.84 s, `review-green.log`.
   Four isolated mutations caught: engine/package/SQL filter removal and package validation removal.
@@ -94,23 +102,23 @@ Handbook SHA-256 and source decisions are in the source-review report. Models no
 
 ## Known Failures or Blockers
 
-One focused blank-field compatibility regression remains; current dirty changes need correction,
-negative blank tests, relevant runtime/legacy regressions and fresh full-suite verification. Package
-compiler/rehearsal/hosted g2 migration are not done. Two simple grading router misses, Hybrid next-step
+Final fb4e1e8 suite running (`claim-final-full-suite.log`). Claim filtering resolved10/60 same-topic
+component refusals to60/60; review P2 edition/curriculum hiding fixed by RED/GREEN. Both review fixes
+covered; no deferred findings. Hosted schema/staging read back; live quality/latency and switch remain.
+Two grading router misses, Hybrid next-step
 without topic, vague clarifications and Nursing negative claim mode remain. Photos unsupported;
 6 register-only Taglish misses; no browser/UI exit, SDK parser contract test or installed linter.
 
 ## Next Action
 
-After owner resumes, read the [session handoff](2026-10-25-phase11-session-handoff.md), inspect the
-preserved dirty diff and fix the null-vs-empty-string blank contract using existing codec semantics.
-Run focused/legacy checks before committing behavior; then compile and locally rehearse the new
-source package. Authority report must be frozen before its hash is used. No hosted g2 changes yet.
-UI/auth/SDK install awaits design and exact-pin approval; Phase12 remains unauthorized.
+Finish sealed package/pin controls while final suite runs. After successful final checks, run bounded
+live candidate quality/latency, then coordinated hosted active-release/local-pin switch and roster
+comparison. Current hosted draft stays inactive; preserve old package/release rollback.
+UI ready; integrate after pending work. Auth/SDK installation retains applicable pin approvals; Phase12 unauthorized.
 
 ## Context Consulted
 
-24 Oct Codex resume: thesis physical17-18 and routing PNG inspected; consistent scope/routing, no
+25 Oct Codex resume: thesis physical17-18,39-44 and routing PNG inspected; consistent scope/routing, no
 new discrepancy. Existing master3/10 and owner ledger reviewed; source/scope/gap/service policies apply.
 Earlier context/architecture evidence is preserved in the prior checkpoint snapshot.
 

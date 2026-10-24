@@ -26,26 +26,35 @@ Last full snapshot before condensation: `f1eafe9:plans/plan_current_progress/cur
   [Supplementary implementation plan](../2026-10-24-supplementary-source-review-plan.md) prepared.
 - g2 append-only path committed `f591416` after RED/GREEN and independent review. Row-trigger proof closes
   direct-insert bypass; focused12 +20 subtests, capacity33 +17, five mutations caught. Security audit signature
-  fixed `c048bcb` (1 +2). No hosted g2 migration/source activation yet.
+  fixed `c048bcb` (1 +2). Hosted g2 staging now delivered; activation still gated.
 
 ## Current verification and next action
 
 Roster19 completed63/63 after one startup-timeout retry:0 exceptions, no previously answered status/decision
 lost, all11 wording changes explained by earlier approved commits. Language matches21/21 en,21/21 fil,
-15/21 Taglish unchanged. Full suite at f591416 completed:6628 passed,6 skipped,2 xfailed,+1589 subtests
-(log/exit0 in workspace audit-evidence/p11-topic-filter-20261024). Later root-release identity and
-blank-field changes remain dirty: latest focused run1 failed,38 passed,+20 subtests. Null blank passes
-supplement validation but fails selected-review codec (expects empty-string blank). No current GREEN.
+15/21 Taglish unchanged. Blank/root-identity commits febd6c1/5440368: full suite6635 passed,6 skipped,
+2 xfailed,+1595 subtests,24m43s. Scoped context/menu/grammar5dbc706: focused73 passed +31 subtests;
+review P2 grammar allowance fixed RED/GREEN. New fb4e1e8 claim filter:79 focused +31, real DB8 +22;
+source component60/60 (own-vector probes, not semantic accuracy). Review ambiguity fix RED/GREEN.
+5dbc706 full run stopped obsolete at94%; final fb4e1e8 suite running (session51777).
+[Resume evidence](../2026-10-25-phase11-resume-verification.md).
 
-Owner requested handoff before `/clear`; implementation paused, no test jobs running. Resume from
-[session handoff](../2026-10-25-phase11-session-handoff.md): inspect/fix that mismatch, run focused/
-legacy checks, then compile/rehearse new source package. No hosted g2 migration/activation yet.
+Owner resumed25 Oct: frontend is ready; integrate only after remaining pending work is resolved.
+Docker was stopped; restored using installed `docker desktop start`. Resume regression reproduced the
+blank codec failure before the verified correction.61 records compiled with8 limitations, all within480
+exact E5 tokens. Owner delegated4096 for pre_enrollment only; all6 records/citations fit3816 in the
+stable draft. Other subjects stay2048.61 vectors computed with tokenizer-id parity,477 max tokens;
+19 original embedding records retained byte-for-byte. Full local release/39-links/activation/rollback/
+reactivation rehearsal passes:80 ->19 ->80 visible; original source evidence/membership unchanged.
+Hosted migration20261024114711 applied; staged80 chunks/39 links; old19 active.10 function bodies/
+grants match fresh local DB exactly, all invoker; RLS/private review grants verified; advisors unchanged.
+Next: finish final suite, bounded live candidate checks, then coordinated release/pin switch and roster.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.
 Preserve Step3 cutoff and25-vs20 minute discrepancy. All61 draft source records independently checked;
-raw draft gap arrays still need actual limitations before publication. Standing approvals stay valid.
+Compiled limitations attached; package needs sealing/live checks/switch. Standing approvals valid.
 
 After g2: router follow-ups, Hybrid next-step part without topic, bare clarifications, Nursing negative
-claim mode and the owner's broad simple-query battery. UI waits for co-worker design; auth/dependency
+claim mode and the owner's broad simple-query battery. UI ready; integration follows pending work. Auth/dependency
 pins/SDK parser verification belong there. No phase advancement without applicable closeout gates.
 
 ## Boundaries
