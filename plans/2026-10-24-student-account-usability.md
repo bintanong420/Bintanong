@@ -116,3 +116,11 @@ latest logout fix. A clean merge is not full integration acceptance: startup blo
 real authenticated curriculum/chat checks and inherited suite failures remain.
 No merge/push performed. Restore compatible validation with focused regression
 coverage and rerun the real flow before calling the integration operational.
+
+Attribution check: the current restrictive FACT_FIELDS lines originate in67ed4bd
+(17October); hosted_curricula.py was introduced in23882db (22October). A fresh
+`git diff origin/dev frontend -- backend/bintanong_symbolic/authoring.py
+backend/bintanong_runtime/hosted_curricula.py` is empty. The shared mismatch predates
+the recent UI/logout edits. Commit authorship does not establish who introduced the
+hosted-only fields; individual fault is not established. Integration verification
+should include actual hosted-ledger validation, not only synthetic reader fixtures.
