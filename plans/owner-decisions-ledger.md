@@ -400,3 +400,7 @@ Each program still gets its own dated review record listing which standing rule 
   colleges" text. Supersedes the earlier p.304 reading (3.5/74 failed).
   Owner approved (25 Oct) inserting the new reviewed grading chunks into hosted Supabase; scope: every row of the
   p.46 undergraduate table (1.0-3.0 with percentage and rating, 4.0 Condition, 5.0 Failed, INC, IP, NC, OD, UD, W, V).
+- 25 Oct 2026, passing grade delivery (item g): published releases and their sources are immutable, so the p.46 rows
+  are not added as chunks; owner chose a host-written reply from the approved p.46 reading (`8c49ad0`). Owner then
+  chose topic-filtered search (a `retrieve_context` chunk filter migration) so a chosen topic's chunks are not
+  crowded out by other topics; handed off to another agent.
