@@ -5,6 +5,7 @@ claims and derives the part mapping from the slots. The reviewer only confirms
 each part's own claims. Confirmation remains model-fallible, never a guarantee.
 """
 import hashlib
+import json
 import re
 from typing import Literal
 
@@ -182,16 +183,22 @@ def to_draft(explanation, pack):
     if tuple(sorted(explanation.answers)) != tuple(sorted(ids)):
         raise ValueError('part_slot_mismatch')
     allowed = {c.evidence_id for c in pack.cards if c.kind == 'document'}
+    held = malformed_condition_sources(pack)
     claims, slots = [], {}
     for part_id in ids:
         slot = explanation.answers[part_id]
+        proposed = slot.claims if slot.status == 'answered' else ()
+        if any(not set(c.evidence_ids) <= allowed for c in proposed):
+            raise ValueError('non_document_evidence')
+        # The model cannot resolve a source-content hold. Filter before numbering/review,
+        # preserving independent slots and binding the reviewer to the actual final draft.
+        status = ('source_gap' if any(held.intersection(c.evidence_ids) for c in proposed)
+                  else slot.status)
         numbered = []
-        for claim in (slot.claims if slot.status == 'answered' else ()):
-            if not set(claim.evidence_ids) <= allowed:
-                raise ValueError('non_document_evidence')
+        for claim in (proposed if status == 'answered' else ()):
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
-        slots[part_id] = (slot.status, tuple(numbered))
+        slots[part_id] = (status, tuple(numbered))
     for part_id, host in host_claims(pack).items():  # host-written, mapped without a model review
         numbered = [f'c{len(claims) + n}' for n in range(1, len(host) + 1)]
         claims.extend(dict(claim_id=c, text=t, evidence_ids=[e]) for c, (t, e) in zip(numbered, host))
@@ -202,6 +209,23 @@ def to_draft(explanation, pack):
         language=explanation.language, decision_outcome=pack.decision.outcome if pack.decision else None,
         claims=claims))
     return draft, slots
+
+
+def malformed_condition_sources(pack):
+    """Record-level hold: no model interpretation of an unresolved malformed condition."""
+    held = set()
+    for card in pack.cards:
+        if card.kind != 'document':
+            continue
+        try:
+            limits = json.loads(card.text).get('source_limits', [])
+        except (ValueError, AttributeError):
+            continue
+        if isinstance(limits, list) and any(isinstance(limit, dict)
+                and limit.get('issue') == 'malformed_source_condition'
+                and limit.get('resolution') == 'unresolved' for limit in limits):
+            held.add(card.evidence_id)
+    return held
 
 
 def host_only(pack):

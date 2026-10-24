@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 29
+sequence: 30
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 06f6d64
-working_tree: clean
-updated_at: 2026-10-25T02:58:30+08:00
+head_commit: 974ef17
+working_tree: dirty
+updated_at: 2026-10-25T03:07:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -30,6 +30,9 @@ Active plan: [backend API](phase-11-backend-api-plan.md); previous final handoff
 ## Current Task
 
 Owner resumed25 Oct; frontend ready, integration deferred until pending work is finished.
+Focused malformed-condition guard implemented after observed RED; broad491 GREEN and follow-up
+independent review clean. Record-level conservative hold/notice semantics in the
+[correction plan](2026-10-25-malformed-source-answer-guard-plan.md). One-case live replay then full suite pending.
 Docker restored via installed CLI; actual-DB blank-codec failure reproduced and corrected under TDD.
 [Session recovery note](2026-10-25-phase11-session-handoff.md) is the exact resume entry point.
 g2 append-only path committed f591416 and full suite passed there. Subsequent root-release identity
@@ -47,14 +50,15 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 ## Repository State
 
 Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
-committed5856e82; last full-suite baseline fb4e1e8. Resume HEAD357aa80 was clean;
-its documentation-only delta from7a759e6 is reconciled.89b7ce9 records the first preflight stop;
-06f6d64 records recovery readiness. This resume changes only diagnostic/current-state documentation. Scripts and
-evidence stay ignored in the workspace. No production,
-test, dependency or frontend changes. A following documentation commit records this snapshot.
+last production baseline5856e82; last full-suite baseline fb4e1e8. Resume HEAD974ef17 clean;
+its documentation-only delta from06f6d64 reconciled. Working changes: part_answers.py,render.py,
+test_generation_malformed_source.py,test_generation_part_slots.py, focused plan and current snapshots.
+Scripts/source-derived evidence stay ignored in workspace. No dependency/frontend/source/release change.
 
 ## Verification Evidence
 
+- Guard RED7 failed/5 passed; notice RED6/6; GREEN67. Review P2 mixed gap/uncertain fallback RED1/12,
+  corrected broad generation/request-understanding suite491 GREEN; independent follow-up13 GREEN, no blockers.
 - Checker comparison ended: healthy preflight repeat approved/passed; off reproduced false completeness
   (18.94s/354 tokens); on truncated at768 tokens with thought field/no final content (37.84s).2/8 calls,
   remaining6 not run; no rescue/default changes. [Results](2026-10-25-checker-comparison-results.md).
@@ -122,11 +126,12 @@ without topic, vague clarifications and Nursing negative claim mode remain. Phot
 
 ## Next Action
 
-Keep draft inactive and production thinking disabled. Approved checker diagnostic ENDED on thinking-on
-truncation after2 calls; off repeated the known semantic defect. Do not repeat/widen this experiment.
-[Results](2026-10-25-checker-comparison-results.md) bind evidence/limits. Define one bounded g2 quality
-correction from existing live traces using current per-part generation and source-gap safeguards;
-this historical probe does not diagnose/fix current failures. TDD/review/full suite/live revalidation
+Keep draft inactive and production thinking disabled; ended checker trial must not rerun. Owner says
+"continue" to pending quality work. [Focused correction plan](2026-10-25-malformed-source-answer-guard-plan.md):
+mark model slots citing a held malformed-condition record source_gap BEFORE review; independent
+parts/canonical results remain. Record-level conservative hold is explicit. Next: synthetic RED,
+smallest GREEN, existing regressions, review/full suite and bounded saved-fixture safety replay.
+Other g2 failures remain. TDD/review/full suite/live revalidation
 precede switch. Remaining router/Hybrid/
 clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
 Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure

@@ -8,6 +8,9 @@ Last full snapshot before condensation: `f1eafe9:plans/plan_current_progress/cur
 
 ## Latest changes
 
+- Malformed-condition guard now holds affected model slots before review, preserves independent parts
+  and distinguishes source gaps from absent information. RED7/5, notice RED6/6; GREEN67 then491 broad
+  generation checks. Review P2 mixed-uncertain notice fixed RED1/12; follow-up review clean. Full suite/live pending.
 - Backend/API/security/answer queue delivered; step2 E1/E3, 2a-2e/e2, f and h complete. See checkpoint
   and dated reports for history. Course facts: 39 curricula, 2132 courses, hosted; CF1-CF6 settled.
 - Grading host reply `8c49ad0` covers the approved Handbook p.46 table. New `8ba6949` filters selected
@@ -53,14 +56,9 @@ Live9-case run failed quality: service/Taglish routing misses, omitted steps/san
 weapon exception interpreted despite its malformed-source hold, fraud precedence chosen without warning.
 Draft remains inactive; no runtime pin switch.5856e82 exposes unresolved source-limit claims;
 RED5/1, focused44 GREEN. Four router traces still fail; full suite/review remain pending.
-[Original stop](../2026-10-25-checker-comparison-preflight-stop.md) preserved. Owner approved recovery:
-181 original-code hashes and4 exact inputs match in isolated snapshot; runner/controls frozen.
-Owner approved one healthy preflight repeat; PASSED same build/model/template/defaults and all8 prompts.
-Checker diagnostic ENDED after2 calls: off reproduced incomplete false mapping (18.94s/354 tokens);
-on truncated at768 with thoughts but no final content (37.84s). Remaining6 not run; no rescue.
-[Results](../2026-10-25-checker-comparison-results.md). Keep thinking disabled; no production changes
-or new full-suite result. Next: bounded g2 correction from existing current-path live traces, then
-TDD/review/full suite/live gates. Historical checker trial does not fix/diagnose current failures.
+Checker diagnostic ended after2 calls: on truncated; no rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
+Current [guard correction](../2026-10-25-malformed-source-answer-guard-plan.md) passed491 generation
+checks/review; one-case current-pipeline replay running, then full suite. Draft remains inactive.
 [Session handoff](../2026-10-25-phase11-session-handoff.md) preserves controls and routes to this stop.
 Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.

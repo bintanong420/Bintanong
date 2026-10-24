@@ -159,12 +159,25 @@ _PART_UNAVAILABLE={
        'Paki-ask sa tamang university office.'}
 
 
+_PART_SOURCE_GAP={
+ 'en':'The source for the part about "{words}" is incomplete or unclear, so I cannot verify that answer. '
+      'Please ask the relevant university office.',
+ 'fil':'May kulang o hindi malinaw sa source para sa tanong mo tungkol sa "{words}", kaya hindi '
+       'makumpirma ang sagot. Pakitanong sa tamang opisina ng unibersidad.',
+ 'taglish':'May incomplete o unclear part sa source para sa "{words}", kaya hindi ma-confirm ang answer. '
+           'Paki-ask sa tamang university office.'}
+
+
 def unavailable_part_lines(pack,ledger):
-    if ledger is None or ledger.status!='some_parts_unavailable':
+    if ledger is None:
         return []
     texts={p.part_id:p.text for p in pack.understanding.parts}
-    note=_PART_UNAVAILABLE.get(pack.language,_PART_UNAVAILABLE['en'])
-    return [note.format(words=texts[e.part_id]) for e in ledger.entries if e.status=='unavailable']
+    lines=[]
+    for entry in ledger.entries:
+        if entry.status=='unavailable':
+            notices=_PART_SOURCE_GAP if entry.reason=='source_gap' else _PART_UNAVAILABLE
+            lines.append(notices.get(pack.language,notices['en']).format(words=texts[entry.part_id]))
+    return lines
 
 
 def limit_notices(cards):
@@ -230,6 +243,15 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
+    if (status=='insufficient_evidence' and ledger is not None
+            and any(e.status=='unavailable' and e.reason=='source_gap' for e in ledger.entries)):
+        # A reviewed but defective source is different from information not in the corpus.
+        notices=unavailable_part_lines(pack,ledger)
+        if any(e.status not in ('mapped','unavailable') for e in ledger.entries):
+            lines[1]=words['abstained']
+            lines.extend(notices)
+        else:
+            lines[1:2]=notices
     if status=='answered':
         lines.extend(unavailable_part_lines(pack,ledger))
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])

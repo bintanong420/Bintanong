@@ -77,6 +77,8 @@ def test_complete_slots_map_each_part_to_its_own_host_numbered_claims():
 
 UNCOVERED_FEE = ('The part about "what is the fee?" is not in Bintanong\'s reviewed sources yet. '
                  'Please ask the relevant university office.')
+SOURCE_GAP_FEE = ('The source for the part about "what is the fee?" is incomplete or unclear, '
+                  'so I cannot verify that answer. Please ask the relevant university office.')
 
 
 @pytest.mark.parametrize('reason', ['not_in_evidence', 'source_gap'])
@@ -88,7 +90,7 @@ def test_covered_part_is_answered_and_the_unavailable_part_is_named(reason):
     assert answer.part_ledger.status == 'some_parts_unavailable'
     assert [(e.part_id, e.status, e.reason) for e in answer.part_ledger.entries] == [
         ('r1', 'mapped', None), ('r2', 'unavailable', reason)]
-    assert UNCOVERED_FEE in answer.text.splitlines()
+    assert (SOURCE_GAP_FEE if reason == 'source_gap' else UNCOVERED_FEE) in answer.text.splitlines()
     review = json.loads(model.calls[1][0][1]['content'])
     assert [p['part_id'] for p in review['parts']] == ['r1']  # only the answered part is reviewed
     assert model.calls[1][1]['properties']['parts']['required'] == ['r1']
