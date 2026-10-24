@@ -59,6 +59,11 @@ _REQUIREMENT={
   ask='Sabihin mo kung alin dito ang na-pass mo na, para ma-check ko kung pwede mo nang i-take ang {course}.')}
 
 
+# Owner, 25 Oct 2026: English, Filipino and Taglish only; the student's language may be neither, so both are shown.
+_LANGUAGE_NOTICE=('Bintanong answers in English, Filipino and Taglish only. Please ask again in one of these. '
+    'Sumasagot ang Bintanong sa English, Filipino at Taglish lang. Pakitanong ulit sa isa sa mga ito.')
+
+
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
       'Please give the course code as printed in your prospectus.',
@@ -198,6 +203,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.append(shown(listing['ask'].format(course=course)))
         return '\n'.join(lines)
     missing=pack.missing_facts
+    if status=='clarification_needed' and 'language' in missing:
+        lines[1]=_LANGUAGE_NOTICE
+        missing=tuple(field for field in missing if field!='language')
     if status=='clarification_needed' and 'course_id' in missing:  # owner step 2c: no reviewed course matched
         lines[1]=_COURSE_NOT_FOUND.get(pack.language,_COURSE_NOT_FOUND['en'])
         missing=tuple(field for field in missing if field!='course_id')

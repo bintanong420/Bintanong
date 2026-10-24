@@ -10,6 +10,7 @@ from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, Predicate
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
 from .contracts import TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
 from .style import StyleEvidence
+from .languages import unsupported_language
 from .terms import parse_term
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
@@ -228,6 +229,8 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             reason=code.replace('_', ' ')), p, tuple(claims), p.language, code,
             program_id=program, curriculum_id=curriculum)
 
+    if unsupported_language(text):  # English, Filipino and Taglish only (owner, 25 Oct 2026)
+        return result('unsupported_language', missing=('language',))
     if p.audience in ('excluded', 'unrelated'):
         return result('unsupported_scope', 'unsupported_scope')
     if p.audience == 'unknown':
