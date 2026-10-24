@@ -389,3 +389,7 @@ Each program still gets its own dated review record listing which standing rule 
   unang semestre (...)" / "Ito ang subjects sa first year, first semester (...)", one line per course with units
   as printed ("units not printed" / "walang naka-print na units"), and the one-course form "<code> <title>: <units>;
   <year>, <semester> (prospectus p. N)." Known gap: the heading does not name the program/curriculum.
+- 25 Oct 2026: finish the step-2 items that need no UI before UI integration. Supported languages are English,
+  Filipino (Tagalog) and Taglish only; Cebuano is not taken. Owner: simple questions "WE CANNOT FAIL ON THAT";
+  complex ones may fail. A large battery of simple queries will follow and must show no hallucination,
+  retrieval or Prolog errors.
