@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3094f14
+head_commit: c6fb6d8
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -172,9 +172,13 @@ referral wording for e2) and the routing PNG: consistent.
    e. (Done `1f510dd`) every chosen topic retrieved.
    e2. (Done `c2ef61a`, `0046b4d`) fee host reply; multi-part partial answers. NEXT: the Hybrid case whose
       document part has no topic (structured answer lost to the E1 referral; see Current Task), then full suite.
-   f. (7) Cebuano -> name supported languages; "Thank you" -> not "Hello"; tuition wording = referral.
-   g. Passing grade: show the owner the printed region of Handbook p.304 (owner reading: 3.0/75 pass, below fails),
-      then add the reviewed claim.
+   f. (Done 25 Oct) uncovered -> E1 referral `41c980a`; thank-you -> "you're welcome" `092b69f`; Cebuano (owner: not
+      taken; 2 marker words, 0 false positives in 138 known questions) -> supported-languages notice `44d4d8e`.
+      Live (`p11-course-facts-20261024/live_f.log`): thanks, tuition referral, Cebuano notice; greeting unchanged.
+   g. Passing grade: owner 25 Oct (`c6fb6d8`): p.304 is the Lab School table (excluded); use 2021 Handbook physical
+      p.46 table 2.2 (3.0 = 75-76 Passed, 4.0 Condition, 5.0 Failed), generalised, no college caveat. NEXT: extend the
+      retrieval package (readings for rows 3.0/4.0/5.0 with PDF spans, `grading_scale` claim "printed passing grade",
+      embeddings) and insert the chunks into hosted Supabase AFTER owner approval of that DB write.
    h. NOW (owner approved 25 Oct, all 39 curricula + hosted upload; readings CF1-CF5 in the owner ledger).
       Dry run done: `audit-evidence/p11-course-facts-20261024/extract_facts.py` (writes facts-dryrun.json: per
       course title, units as printed, year/term banners with native char ranges, flags term_inferred True=CF2 /
