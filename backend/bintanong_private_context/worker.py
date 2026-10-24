@@ -10,7 +10,7 @@ import multiprocessing
 
 from ..bintanong_routing.contracts import CatalogEntry
 from .grades import ExtractionResult, extract_grade_rows
-from .uploads import UploadRejected, ValidatedUpload
+from .uploads import UploadRejected, validate_upload
 
 PARSE_TIMEOUT_SECONDS = 30
 
@@ -49,10 +49,11 @@ def run_isolated(target, *args, timeout: float = PARSE_TIMEOUT_SECONDS):
     return value
 
 
-def extract_isolated(upload: ValidatedUpload, catalog: tuple[CatalogEntry, ...], *, program_id: str,
+def extract_isolated(data: bytes, catalog: tuple[CatalogEntry, ...], *, program_id: str,
                      curriculum_id: str, timeout: float = PARSE_TIMEOUT_SECONDS) -> ExtractionResult:
-    return run_isolated(_extract, upload, tuple(catalog), program_id, curriculum_id, timeout=timeout)
+    """Raw upload bytes in; every PDF/image parser (validation included) runs inside the child."""
+    return run_isolated(_extract, data, tuple(catalog), program_id, curriculum_id, timeout=timeout)
 
 
-def _extract(upload, catalog, program_id, curriculum_id):
-    return extract_grade_rows(upload, catalog, program_id=program_id, curriculum_id=curriculum_id)
+def _extract(data, catalog, program_id, curriculum_id):
+    return extract_grade_rows(validate_upload(data), catalog, program_id=program_id, curriculum_id=curriculum_id)

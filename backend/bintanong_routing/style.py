@@ -71,14 +71,44 @@ def has_filipino_function_word(text):
     return bool(filipino_function_words(text))
 
 
-def floor_style(style, text):
-    """Owner floor (22 October 2026): a question with Filipino grammar words is not English-only.
-    The model's label stands otherwise; the host adds its literal words as Filipino evidence."""
-    words = filipino_function_words(text)
-    if style.preferred_response_style != 'english_only' or not words:
-        return style, False
-    return StyleEvidence(english_fragments=style.english_fragments, filipino_fragments=words[:4],
-                         preferred_response_style='taglish'), True
+# English grammar and number words (owner O5, 23 Oct 2026); Filipino lookalikes (at, may, na, pa, no) are excluded,
+# and so is "of", which mostly sits inside borrowed terms ("transcript of records").
+_ENGLISH = frozenset('''the an for with after before per from about into during until without between
+and or but because if than my your our this that these those it its what which when where who how why
+can could should would will is are was were do does did have has one two three four five six seven eight
+nine ten first second third fourth fifth last next'''.split())
+_QUOTED = re.compile(r'"[^"]*"|“[^”]*”')
+# Title Case names such as course titles ("Microbiology and Parasitology"); the catalog holds codes only.
+_TITLE = re.compile(r'\b[A-Z][A-Za-z]+(?:\s+(?:(?:and|of|in|the|for|to|with)\s+)*[A-Z][A-Za-z]+)+\b')
+
+
+def _english_words(text, protected):
+    """Literal English grammar/number words the student wrote: quoted text, catalog names and Title Case
+    names are masked."""
+    masked = _QUOTED.sub(lambda m: ' ' * len(m.group()), text)
+    masked = _TITLE.sub(lambda m: ' ' * len(m.group()), masked)
+    for name in sorted(protected, key=len, reverse=True):
+        pattern = re.compile(rf'(?<![A-Za-z0-9]){re.escape(name)}(?![A-Za-z0-9])', re.IGNORECASE)
+        masked = pattern.sub(lambda m: ' ' * len(m.group()), masked)
+    return tuple(dict.fromkeys(m.group() for m in re.finditer(r'[A-Za-z]+', masked)
+                               if not m.group().isupper() and m.group().lower() in _ENGLISH))
+
+
+def floor_style(style, text, protected=()):
+    """Owner floors: a question with Filipino grammar words is not English-only (22 October 2026), and a
+    question with English grammar or number words outside quotes and catalog names is not Filipino-only
+    (O5, 23 October 2026). The model's label stands otherwise; the host adds the literal words as evidence."""
+    if style.preferred_response_style == 'english_only':
+        words = filipino_function_words(text)
+        if words:
+            return StyleEvidence(english_fragments=style.english_fragments, filipino_fragments=words[:4],
+                                 preferred_response_style='taglish'), True
+    if style.preferred_response_style == 'filipino':
+        words = _english_words(text, protected)
+        if words:
+            return StyleEvidence(english_fragments=words[:4], filipino_fragments=style.filipino_fragments,
+                                 preferred_response_style='taglish'), True
+    return style, False
 
 
 class StyleProposal(Contract):

@@ -56,5 +56,38 @@ class ApiProbesTests(unittest.TestCase):
         self.assertIn("supabase", data["errors"])
 
 
+
+class ProbeErrorTextTests(unittest.TestCase):
+    """Security review S7: /health/ready is unauthenticated, so failure reasons are fixed text without exception
+    details (hosts, users or DSNs)."""
+
+    LEAK = "postgresql://postgres:hunter2@db.internal:5432"
+
+    def test_database_connection_failure_hides_the_exception_text(self) -> None:
+        import asyncio
+        from backend.bintanong_api import probes
+        with patch.object(probes, "asyncpg") as driver:
+            driver.connect = AsyncMock(side_effect=OSError(self.LEAK))
+            ok, detail = asyncio.run(probe_supabase_pgvector("postgresql://x"))
+        self.assertFalse(ok)
+        self.assertEqual(detail, "database connection error")
+
+    def test_unreachable_service_hides_the_exception_text(self) -> None:
+        import asyncio
+        import httpx
+        from backend.bintanong_api.probes import probe_http_service
+        with patch.object(httpx.AsyncClient, "get", AsyncMock(side_effect=httpx.ConnectError(self.LEAK))):
+            ok, detail = asyncio.run(probe_http_service("http://bintu:8080"))
+        self.assertFalse(ok)
+        self.assertEqual(detail, "service unreachable")
+
+    def test_prolog_failure_hides_the_exception_text(self) -> None:
+        from backend.bintanong_api import probes
+        with patch.object(probes, "janus") as bridge:
+            bridge.query_once.side_effect = RuntimeError(self.LEAK)
+            ok, detail = probe_janus()
+        self.assertFalse(ok)
+        self.assertEqual(detail, "Prolog execution error")
+
 if __name__ == "__main__":
     unittest.main()

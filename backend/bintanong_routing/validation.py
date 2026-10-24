@@ -235,6 +235,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
+        if p.control == 'clarify' and not (p.operations or p.claims or reference):
+            # Nothing named to clarify (live: "Pwede ba mag-shift ng course?"): missing information with an
+            # office referral, not a bare "please clarify" (owner E3, 24 Oct 2026).
+            return result('empty_clarification', 'evidence_unavailable')
         return result('model_control', p.control)
     if p.route == 'RAG' and p.operations:
         return result('inconsistent_proposal', 'evidence_unavailable')
@@ -260,7 +264,13 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if missing:
             return result('missing_scope', missing=missing)
     if len(resolved) + len(ignored) != len(p.mentions):
-        return result('unresolved_entity')
+        unresolved = [m for i, m in enumerate(p.mentions) if i not in resolved and i not in ignored]
+        # Owner step 2c (24 Oct 2026): a course that matches no reviewed course of the curriculum ("CS 999") asks
+        # for the printed code; an ambiguous match or an unfilled back-reference keeps the plain clarification.
+        not_found = curriculum is not None and all(
+            m.kind == 'course' and not _matches(m, catalog, program, curriculum)
+            and (reference is None or (m.start, m.end) != (reference.start, reference.end)) for m in unresolved)
+        return result('unresolved_entity', missing=('course_id',) if not_found else ())
     if any(c.mode != 'asserted' for c in claims):
         return result('nonasserted_facts')
     states = {}

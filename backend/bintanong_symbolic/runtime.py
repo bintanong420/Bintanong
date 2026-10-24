@@ -177,6 +177,11 @@ def _spans(courses):
     return list({_json(s):s for s in spans}.values())
 
 
+def _requirement_view(node):
+    return {'kind':node['kind'], 'course_id':node.get('course_id'),
+            'items':[_requirement_view(child) for child in node.get('items',[])]}
+
+
 def _dependency_spans(courses):
     # One citation per affected course (its rule's first printed span) keeps large listings within the
     # result limit; eligibility results still cite every span of the checked rule (owner, 23 Oct 2026).
@@ -391,7 +396,8 @@ class CurriculumRuntime:
             'inputs':[i.model_dump(mode='json') for i in request.inputs],
             'rule_ids':['rule-'+target['course_id']] if spans else [],
             'rule_bundle_version':None if outcome in ('unsupported','error') else self._version,
-            'scope':None if outcome in ('unsupported','error') else _scope(ledger,self._release_id), 'rule_spans':spans}
+            'scope':None if outcome in ('unsupported','error') else _scope(ledger,self._release_id), 'rule_spans':spans,
+            'requirement':_requirement_view(target['prerequisites']) if spans else None}
         if self._research_json is not None:
             data['research'] = json.loads(self._research_json)
         if outcome != 'error' and len(_json(data).encode()) > 65_536:

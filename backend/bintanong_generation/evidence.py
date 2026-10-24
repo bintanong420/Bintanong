@@ -4,7 +4,7 @@ import hashlib
 import json
 
 from ..bintanong_contracts.base import foreign_ids
-from ..bintanong_contracts.symbolic import DecisionOutcome
+from ..bintanong_contracts.symbolic import DecisionOutcome,RequirementView
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,IntegrationResult,RequestUnderstanding
 from ..bintanong_orchestration.integration import assemble
@@ -28,6 +28,7 @@ class PreparedEvidence:
     understanding: RequestUnderstanding|None
     research_ref: str|None=None  # owner-authorized research release reference, if any
     course_labels: tuple[tuple[str,str],...]=()  # display-only printed codes
+    requirement: RequirementView|None=None  # the checked course's reviewed prerequisites (display only)
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -94,4 +95,5 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         result.status,result.response_style,result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
-        evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())))
+        evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
+        symbolic.requirement if symbolic else None)

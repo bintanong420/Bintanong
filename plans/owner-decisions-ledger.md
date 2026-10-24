@@ -304,3 +304,55 @@ Each program still gets its own dated review record listing which standing rule 
 - 23 Oct 2026 (Phase 10 D1/D2 at task 5): photo OCR via an onnxruntime 1.30.0 CPU bake-off (pinned `ocr-cpu` extra)
   on the existing ocr_bench harness, simulated photos first. Photos are wired only if a configuration meets Q11;
   otherwise they stay unsupported and disclosed. Gemma vision measurement (D2) not chosen; Docling pin unchanged.
+- 23 Oct 2026 (Phase 11 pre-phase research O1-O5; Phase 11 is backend only, no UI pages or components):
+  O1 use the current AI SDK major (v7; `ai` 7.0.150 / `@ai-sdk/react` 4.0.154 on 23 Oct) and update the master plan to
+  the actual pins (done: master section 2 "Current pins" table and 16.3). O2 may add the locked RapidOCR 3.9.2 +
+  onnxruntime 1.30.0 CPU (+ opencv) to the `api` extra. The owner supplied private samples: a Report of Grades
+  screenshot (the registrar system's table view) and a phone photo of a printed BSCS prospectus with handwritten
+  grades. Student layouts may differ. Samples hold a real student's name and ID: kept only in workspace
+  `audit-evidence/p11-20261023/private-owner-samples/`, never in Git, docs or tests. O3 may add `GET /curricula`.
+  O4 students do not see variable or function names: move diagnostics and raw ids out of student text. O5 a symmetric
+  style floor (`filipino` -> `taglish` on literal English conversation words) "as long as it is within the scope".
+- 23 Oct 2026 (Phase 11, 24.2): owner chose the recommended path ("lets go with what u recommend. we are going to
+  super polish it"): (1) the closed-class English floor, with quoted text, catalog names and Title Case names masked
+  (built `3eb4f59`; offline over run 15's Filipino-labelled roster questions: 5 Taglish fixed, 0 Filipino flipped);
+  (2) one bounded style-prompt experiment for register-only Taglish, tuned only on a fresh practice set (not the
+  counted roster) and kept only if the counted rerun keeps English and Filipino replies 21/21, changes no status or
+  decision, and improves Taglish. The counted rerun is not an independent measure; Phase 12 provides that.
+- 24 Oct 2026 (Phase 11 step 2, E1/E3): questions outside the reviewed topics, and a model clarify that names
+  nothing, get "not in reviewed sources yet, ask the university office" (E1 `7c3786e`, E3 `05f34d2`).
+- 24 Oct 2026 (Phase 11 risk probe, [results](2026-10-24-risk-scenario-probe-results.md)), owner's words in quotes:
+  - College Citizen's Charters: "list the scope of the system in the website so users would know that the
+    information came from the uni-wide citizen's charter, so it wouldnt matter if the student asked for college of
+    sciences enrollment, it will just reply the same because trying to fix it may cause more time spent." So no
+    per-college note in replies; the website scope/guidelines (UI work) must say the Charter source is the
+    university-wide 2025 4th Edition. College charters stay out of the corpus.
+  - Passing grade (owner reading, to verify against the original before use): "passing grade is 3.0 or 75,
+    anything below that like 3.5 or 74 is failed, this is from the handbok page 304". Next: show the owner the
+    exact printed region of that Handbook page, then add it as a reviewed claim (source-gap rules apply).
+  - "What subjects are in first year BSIT?" must be answered. Cause confirmed: the 39 hosted curriculum ledgers
+    hold only course codes and prerequisites (no titles, units, year/semester), and there is no curriculum
+    retrieval. Needs reviewed course facts (title, units, year/semester) extracted from the 39 prospectus PDFs and a
+    structured lookup, per the structured-knowledge direction (16 Oct). Same data also unblocks R5 (titles) and R6
+    (units).
+  - "we should definitely get those 7 problems u listed down, fixed": (1) typo/one-word/two-topic overload
+    questions get a bare clarify; (2) [superseded by the website-scope decision above]; (3) "What is the
+    prerequisite of X?" answered as an eligibility check instead of listing the prerequisites; (4) unknown course
+    title/code gets a bare clarify instead of "not found, give the printed code"; (5) "How many units is CC 5?"
+    says "temporarily unavailable"; (6) "INC meaning + deadline" gets a referral although grade_completion is
+    reviewed; (7) Cebuano bare clarify, "Thank you po!" gets "Hello", tuition wording differs from the referral.
+  - Owner asked whether (6) is a cosine/kNN problem. Agent's diagnosis: no; the router chose two topics and
+    `orchestrator._topic_intent` retrieves only the first chosen topic (grading_scale), so grade_completion is never
+    retrieved. Confirm with a component probe before fixing.
+- 24 Oct 2026 (Phase 11 step 2b, owner chose "List for both"): when the student has stated no passed/failed
+  course, both "What is the prerequisite of CC 5?" and "Can I take CC 5?" list the reviewed prerequisites
+  (all-of "and", any-of "one of", co-requisite "or take at the same time") and ask which ones the student has
+  passed. Host-side, deterministic, no router prompt change; a stated fact keeps the eligibility check.
+- 24 Oct 2026 (Phase 11 step 2e follow-up), owner choices:
+  - Special class fee, "Rate + example": every language gets one host-written reply, no model wording and no
+    arithmetic: the printed rate (PHP 370.37 per hour), the printed 3-lecture-unit example (54 hours, PHP
+    20,000.00), "your own charge is not stated", and the office referral. Replaces the English reply that gave
+    the example total as the fee. F04 (the disputed 41,666.52/41,666.62 field) stays held.
+  - Multi-part messages, "Answer what's covered": answer each part that has reviewed evidence, and for a part
+    without it add "the part about <student's words> is not in Bintanong's reviewed sources yet; ask the relevant
+    university office". Each part keeps its own checks; this replaces all-or-nothing withholding.

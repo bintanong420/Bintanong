@@ -42,11 +42,7 @@ def extract_grade_rows(upload: ValidatedUpload, catalog: tuple[CatalogEntry, ...
                        program_id: str, curriculum_id: str) -> ExtractionResult:
     if upload.kind != 'pdf':
         raise UploadRejected('photo_ocr_unavailable')
-    courses = defaultdict(set)
-    for e in catalog:
-        if e.kind == 'course' and e.program_id == program_id and e.curriculum_id == curriculum_id:
-            for alias in e.aliases:
-                courses[alias].add(e.entity_id)
+    courses = curriculum_courses(catalog, program_id, curriculum_id)
     code = _code_pattern(courses)
     rows, unmatched = [], 0
     pages = _page_lines(upload.data)
@@ -78,6 +74,16 @@ def confirm_rows(result: ExtractionResult, decisions: dict[str, tuple[str, str]]
         facts.append(ScopedFact(fact_id=f'fact-{batch}-{row_id}', session_id=session_id, program_id=result.program_id,
                                 curriculum_id=result.curriculum_id, course_id=course_id, state=state))
     return tuple(facts)
+
+
+def curriculum_courses(catalog: tuple[CatalogEntry, ...], program_id: str, curriculum_id: str) -> dict[str, set]:
+    """Reviewed alias -> course ids, for the student's own curriculum only."""
+    courses = defaultdict(set)
+    for e in catalog:
+        if e.kind == 'course' and e.program_id == program_id and e.curriculum_id == curriculum_id:
+            for alias in e.aliases:
+                courses[alias].add(e.entity_id)
+    return courses
 
 
 def _code_pattern(courses):
