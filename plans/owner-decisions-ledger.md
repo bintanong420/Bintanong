@@ -398,3 +398,5 @@ Each program still gets its own dated review record listing which standing rule 
   3.0 = 75-76 Passed, 4.0 = Condition, 5.0 = Failed. Owner: use p.46 as proposed, and generalise it ("its generally
   the same for everybody"): no college-specific caveat for the unlisted "following shall apply to specific
   colleges" text. Supersedes the earlier p.304 reading (3.5/74 failed).
+  Owner approved (25 Oct) inserting the new reviewed grading chunks into hosted Supabase; scope: every row of the
+  p.46 undergraduate table (1.0-3.0 with percentage and rating, 4.0 Condition, 5.0 Failed, INC, IP, NC, OD, UD, W, V).

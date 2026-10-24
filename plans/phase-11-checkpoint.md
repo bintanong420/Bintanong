@@ -176,9 +176,22 @@ referral wording for e2) and the routing PNG: consistent.
       taken; 2 marker words, 0 false positives in 138 known questions) -> supported-languages notice `44d4d8e`.
       Live (`p11-course-facts-20261024/live_f.log`): thanks, tuition referral, Cebuano notice; greeting unchanged.
    g. Passing grade: owner 25 Oct (`c6fb6d8`): p.304 is the Lab School table (excluded); use 2021 Handbook physical
-      p.46 table 2.2 (3.0 = 75-76 Passed, 4.0 Condition, 5.0 Failed), generalised, no college caveat. NEXT: extend the
-      retrieval package (readings for rows 3.0/4.0/5.0 with PDF spans, `grading_scale` claim "printed passing grade",
-      embeddings) and insert the chunks into hosted Supabase AFTER owner approval of that DB write.
+      p.46 table 2.2 (3.0 = 75-76 Passed, 4.0 Condition, 5.0 Failed), generalised, no college caveat. Hosted insert
+      APPROVED (25 Oct) for every row of the p.46 undergraduate table. NEXT ACTION (resume here):
+      1. Read how `handbook-grading-1` was built: corpus `audit-evidence/p05-approved-natural-query-evaluation-20261015/
+         candidate-corpus.json` (27 hand-built chunks), catalogue assignment (basis
+         `p05-confirmed-policy-applicability-20261014/owner-applicability-confirmation.json#grade-equivalent`), claim
+         register (`p05-positive-policy-claim-review-20261015/positive-source-review-basis.json#grading_scale`), package
+         `p05-release-readiness-20261016/prepare_package.py`, hosted chunk/vector storage (HostedReleaseStorage).
+      2. Build one reading per row from native PDF text of `dataset/StudentHandbook/2021/PSU Student Handbook.pdf`
+         (sha 4c9a95bf...) physical p.46, spans checked against printed text; claims for `grading_scale` incl. "printed
+         passing grade"; embed with local SEA-LION-E5 (MODELS_DIR); rehearse locally, then insert to hosted release
+         `p09-research-selected-20261022`, read back, Supabase MCP check (ignore auth_leaked_password_protection WARN).
+      3. Live re-check "What is the passing grade?" en/fil/Taglish + roster grade cases; record results.
+      Then: Hybrid next-step part without topic; bare clarifications naming nothing; "hindi ko pa naipapasa" claim mode
+      (nursing tl/taglish); then design the owner's simple-query battery (many simple questions per topic, 3
+      languages, checked for hallucination/retrieval/Prolog errors). Full suite not rerun after `c6fb6d8`
+      (selections: 1290 passed at `44d4d8e`).
    h. NOW (owner approved 25 Oct, all 39 curricula + hosted upload; readings CF1-CF5 in the owner ledger).
       Dry run done: `audit-evidence/p11-course-facts-20261024/extract_facts.py` (writes facts-dryrun.json: per
       course title, units as printed, year/term banners with native char ranges, flags term_inferred True=CF2 /

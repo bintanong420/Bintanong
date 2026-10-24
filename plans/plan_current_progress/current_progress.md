@@ -41,7 +41,9 @@ Items 1-3 done (`6814775`; 39 ledgers with facts authored and regression-checked
 upload verified; roster 18 regressions fixed (fee currency `ee3c61e`, route from parts `3094f14`, owner 25 Oct);
 full suite at 01d8db2 0 failed. Reply wording approved (owner, 25 Oct). Owner 25 Oct: finish
 non-UI step-2 items first; simple questions must not fail (simple-query battery to follow). f done (thanks, Cebuano,
-referral); g decided (Handbook p.46), needs a retrieval-package extension + hosted chunk insert (approval pending). Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
+referral); g decided (Handbook p.46); hosted insert APPROVED for the whole p.46 undergraduate table.
+HANDOFF (owner /clear, 25 Oct): resume at checkpoint step 2 item g "NEXT ACTION" (build grading readings, embed,
+rehearse, hosted insert, live check), then the remaining step-2 items and the simple-query battery. Owner CF6 + spot-check accepted (25 Oct); hosted upload after the wiring. Parked: Hybrid next-step part without a topic; full suite after `0046b4d`.
 
 ## Boundaries
 
