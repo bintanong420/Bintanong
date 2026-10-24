@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: in_progress
-sequence: 13
+status: paused
+sequence: 16
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 8ba6949
+head_commit: f591416
 working_tree: dirty
-updated_at: 2026-10-24T19:39:13+08:00
+updated_at: 2026-10-25T00:25:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -29,24 +29,32 @@ Active plan: [backend API](phase-11-backend-api-plan.md); previous final handoff
 
 ## Current Task
 
-Finish item g roster19 comparison, then g2 supplementary-review path/source expansion.
-[Topic filter execution](2026-10-24-topic-filtered-retrieval.md) has RED/GREEN, review and hosted evidence.
-[Supplementary plan](2026-10-24-supplementary-source-review-plan.md) is prepared; no g2 production code yet.
-Owner chose database path/new research release; do not ask again. Source batches 1-3 approved:
-[actual readings and limits](2026-10-24-partial-topics-source-review.md). More rows/Charter still need review.
-Machine date 24 Oct; inherited handoff/owner notes said 25 Oct. Retain historical dates as recorded.
+Owner requested a session handoff before `/clear`; implementation paused, no running test jobs.
+[Session recovery note](2026-10-25-phase11-session-handoff.md) is the exact resume entry point.
+g2 append-only path committed f591416 and full suite passed there. Subsequent root-release identity
+and supplementary blank-field changes are uncommitted; latest focused run has one failure (below).
+Sources are reviewed under batches1-12 plus standing approval for clear repeated cases; package is
+still a draft, not compiled/rehearsed/hosted. Source register and active release remain unchanged.
 
 ## Repository State
 
-Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. HEAD `8ba6949`.
-Dirty documentation: topic execution report, owner ledger, this checkpoint, current progress,
-new source-review report and supplementary plan. Preserve the pre-existing current-progress changes.
+Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. HEAD `f591416`.
+Dirty code/tests: runtime research factory; partial/supplementary review loaders; g2 migration;
+three focused test files. Documentation is saved in the session handoff commit; preserve dirty code.
 No dependency changes/downloads; no frontend work.
 
 ## Verification Evidence
 
-- Last recorded full suite: `01d8db2` (prior agent, no failures). Earlier full at `874f0c9`:
-  6478 passed, 6 skipped, 2 strict photo xfails; current full suite not yet rerun.
+- g2: actual missing-RPC RED and missing-client RED; initial GREEN8 +20 subtests. Review bypass RED
+  (direct privileged link INSERT accepted a receipt that omitted old fields); corrected trigger GREEN9 +20.
+  Two-generation parent-chain and changed replay coverage included in final focused run.
+  Migration `20261024114711_phase11_supplementary_source_reviews.sql` remains LOCAL ONLY.
+
+- Full suite at f591416:6628 passed,6 skipped,2 xfailed,+1589 subtests,6 warnings,22m38s;
+  full-suite-f591416.log/.exit=0. Does not cover subsequent dirty changes.
+- Latest dirty-code regression: four expected RED failures in binding-blank-red.log; attempted GREEN
+  gives1 failed,38 passed,+20 subtests in73.77s (binding-blank-green.log). Null blank accepted by
+  supplement, rejected by selected-review codec which requires empty-string blank. No current GREEN.
 - Topic baseline 48 passed +31 subtests; expected RED observed on real disposable DB/package/engine.
   Final retrieval/runtime selection 157 passed +86 subtests, 53.84 s, `review-green.log`.
   Four isolated mutations caught: engine/package/SQL filter removal and package validation removal.
@@ -61,8 +69,10 @@ No dependency changes/downloads; no frontend work.
   remain separate from retrieval. Logs: workspace audit-evidence/p11-topic-filter-20261024/.
 - Roster19 initial startup failed reading curriculum_ledgers: hosted SQL statement timeout. No cases
   ran. Activity check showed no lock pressure; bounded log query returned no matching event. Retry
-  is running (tool session 37068), results.jsonl and roster19-retry.log in that same evidence folder.
-  Do not run another roster concurrently. Roster18 baseline: audit-evidence/p11-20261023/roster18.
+  completed63/63 with0 exceptions.62 status/decision pairs unchanged; Architecture Filipino recovered an
+  expected ineligible result from prior timeout. No previously answered status/decision lost. Eleven text
+  changes explained by prior host/referral/currentness commits; language matches21/21 en,21/21 fil,
+  15/21 Taglish unchanged. Roster18 baseline: audit-evidence/p11-20261023/roster18.
 
 ## Versions and Digests
 
@@ -84,18 +94,19 @@ Handbook SHA-256 and source decisions are in the source-review report. Models no
 
 ## Known Failures or Blockers
 
-Two simple grading router misses remain. Full suite/roster comparison pending. g2 remaining source
-rows/Charter need actual owner replies. Hybrid next-step part without topic and vague clarifications
-remain. Photos unsupported (strict xfails); 6 register-only Taglish style misses; no browser/UI exit,
-SDK parser contract test or installed linter. Next/sharp/source-map-js advisories deferred to UI by owner.
+One focused blank-field compatibility regression remains; current dirty changes need correction,
+negative blank tests, relevant runtime/legacy regressions and fresh full-suite verification. Package
+compiler/rehearsal/hosted g2 migration are not done. Two simple grading router misses, Hybrid next-step
+without topic, vague clarifications and Nursing negative claim mode remain. Photos unsupported;
+6 register-only Taglish misses; no browser/UI exit, SDK parser contract test or installed linter.
 
 ## Next Action
 
-Complete running roster19, compare all 63 cases against18, explain every status/decision/text change.
-Then follow supplementary plan with RED on disposable DB before production changes. Remaining order:
-g2 reviewed topic completion; g6/router follow-ups; Hybrid no-topic partial answer, bare clarifications,
-Nursing negative claim mode; owner's multilingual simple-query battery; full suite and final review.
-UI/auth/SDK install needs co-worker design and approval of exact dependency pins. Phase12 not authorized.
+After owner resumes, read the [session handoff](2026-10-25-phase11-session-handoff.md), inspect the
+preserved dirty diff and fix the null-vs-empty-string blank contract using existing codec semantics.
+Run focused/legacy checks before committing behavior; then compile and locally rehearse the new
+source package. Authority report must be frozen before its hash is used. No hosted g2 changes yet.
+UI/auth/SDK install awaits design and exact-pin approval; Phase12 remains unauthorized.
 
 ## Context Consulted
 

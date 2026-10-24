@@ -22,9 +22,9 @@
   [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
   [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported).
-- Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); evaluation fixes 2a-2e done, roster run 17 clean; fee/partial answers next, then UI)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
+- Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); roster19 compared; source expansion paused for session handoff)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
   adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
-  [Checkpoint](phase-11-checkpoint.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
+  [Checkpoint](phase-11-checkpoint.md) · [Session recovery](2026-10-25-phase11-session-handoff.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
   Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).

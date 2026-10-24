@@ -52,4 +52,11 @@ upgrade proposed. Installed CLI 2.117.0 `migration new --help` consulted; no upg
   unavailable. Two inherited router misses remain: Taglish passing question selects no topic, and uppercase
   grade/percentage question gets no route. No duplicate heading reproduced in the whole-table answer.
   Raw `live-grades.log` ignored; model startup excluded from per-case timings. No browser latency claim.
-- Roster19 vs18 running (63 cases); full suite pending, serialized with live model work for memory limits.
+- Roster19 completed63/63, 0 exceptions: 62 status/decision pairs unchanged; Architecture Filipino changed
+  from temporary unavailability to the expected deterministic ineligible answer (no retrieval in this case,
+  so not attributed to the topic filter). No previously answered case lost its status/decision. Eleven
+  same-status text changes: three approved grading host replies (`8c49ad0`), five unavailable-information
+  referrals (`41c980a`), and three fee-currentness answers with memo date/referral (`ee3c61e`). These changes
+  preceded this filter but followed roster18's `01d8db2` baseline. English21/21 and Filipino21/21 match;
+  Taglish15/21, six Filipino replies, unchanged. Full case list is ignored `roster19-vs18.txt`.
+  Initial attempt failed at startup on curriculum-ledger SQL timeout; one retry completed. Full suite pending.

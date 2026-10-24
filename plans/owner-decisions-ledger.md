@@ -413,3 +413,11 @@ Each program still gets its own dated review record listing which standing rule 
   and a new research release preserving the current 19 chunks and 39 curriculum links, plus newly reviewed
   content. Existing receipts/releases stay intact; rollback restores the current release. Exact source rows
   still require owner review in short batches; this does not establish university approval/currentness.
+- 24 Oct 2026 (source review, standing delegation): owner says "from onwards, u are mostly always correct,
+  and there are indeed blanks from time to time and thats getting normal. If you see the same exact
+  situation, just do what you'd recommend as always approve as printed. If u see another different
+  situation, let me human review". Apply the established approve-as-printed treatment to clear original
+  rows, recurring blanks and equivalent settled layout patterns without another confirmation. Preserve
+  exact columns/conditions/units and originals; blanks remain unspecified. New ambiguities, defects or
+  conflicts still require focused human review. Distinguish standing-approval applications from fresh
+  per-row human confirmations; this does not imply university authority/currentness or resolve gaps.

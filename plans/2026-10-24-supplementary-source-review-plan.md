@@ -55,7 +55,7 @@ Activate only after local rehearsal, exact owner field reviews and hosted read-b
    selected-review, source-verification, release/security and runtime suites. Mutation-check key guards.
 5. Build reviewed source fields from original native spans and rendered pages. Keep full logical rows and
    continuation groups. Source gaps remain explicit; no invented interpretation of malformed exceptions.
-   Review each remaining batch with owner before using its fields. Source-only approvals are not release
+   Apply recorded standing approval to clear repeated cases; ask owner only about new ambiguity. Source approvals are not release
    currentness or school approval. Save actual owner decisions immediately in the source-review report.
 6. Reuse the package preparation/governed loading pipelines from the checkpoint. Rehearse the complete
    new release locally, including immutable old data comparison, exact ledger membership and rollback.
@@ -69,6 +69,13 @@ external evidence/basetemp in workspace audit-evidence. SQL migrations created b
 
 ## Review focus
 
+New correctness finding during package preparation: build_multi_research_resources derives its root
+release id only from curriculum members, so changing only documents reuses it. Before switching sources,
+add a regression and bind the runtime root id to the document embedding/catalogue/review snapshot too,
+while preserving the unchanged symbolic rule-bundle version. Apply to relevant research factories;
+reuse existing release translation rather than changing Prolog facts. This is necessary version binding,
+not a scope expansion. Full suite at f591416 passed6628 +1589 subtests; any new code gets fresh checks.
+
 - A cumulative review must not silently omit or rewrite an old field or source event.
 - A new receipt must not imply that the university approved the source or resolved an original defect.
 - Runtime roles must see only active-release chunks, never pending reviews or another user's private data.
@@ -77,18 +84,23 @@ external evidence/basetemp in workspace audit-evidence. SQL migrations created b
 
 ## Current state
 
-Owner approved route/source batches1-8; batch9 pending. Actual DB/client RED observed, then GREEN8 tests
+Owner approved route/source batches1-12 and standing treatment of clear remaining rows/blanks;
+missing item22 separately settled. All61 draft records independently source-checked. Actual DB/client RED observed, then GREEN8 tests
 +20 subtests (after fixing fixture observation and SQL compilation issues). Independent review found that
 direct service-role INSERTs could bypass RPC validation. A direct-insert regression reproduced it (expected
 exception absent); added row-level validation using the same proof helper. GREEN9 +20 subtests. Added
-second-generation ancestry and changed-replay coverage; affected legacy regression run pending.
+second-generation ancestry and changed-replay coverage included in final focused run.
 Final focused g2 run:12 passed +20 subtests (`supplement-final.log`). Legacy selection:87 passed +564
 subtests, two security-audit subtest failures caused by the old retrieval signature; audit corrected at
 `c048bcb`, focused rerun1 passed +2 subtests. Capacity RED observed at33/128 ids, then GREEN33 tests
 +17 subtests;129 rejects, other filters retain32 limit. Five isolated DB mutations caught: link proof,
 parent history, parent binding, RPC grant and capacity bound. No production files changed by mutation runs.
 Roster19 complete63/63, 0 exceptions, no previously answered status/decision lost; see topic execution report.
-No hosted g2 change. Full suite and real-source package/rehearsal remain pending.
+No hosted g2 change. Full suite at f591416 passed6628 +1589 subtests (6 skipped,2 xfailed).
+Subsequent dirty root-id/blank changes: latest focused1 failed,38 passed,+20 subtests; blank null
+conflicts with existing selected-review codec empty-string contract. Owner paused before /clear;
+[session handoff](2026-10-25-phase11-session-handoff.md) records exact recovery/package steps.
+Real-source package compilation and governed rehearsal remain pending.
 
 Ruling: prepare/implement the additive g2 path locally while the existing hosted roster finishes. This
 independent work cannot change its already-loaded runtime or hosted release. Defer all hosted g2 changes,
