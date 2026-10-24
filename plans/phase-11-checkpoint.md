@@ -124,8 +124,8 @@ decision ("authorized user/session"): consistent, no discrepancy.
 ## Next Action
 
 1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
-2. More evaluation that retrieval and Prolog have no remaining problems. E1/E3 done; next: re-run roster 17 to count
-   the E3 effect, then the two unchanged paths above (model_ambiguity, model evidence_unavailable), then:
+2. More evaluation that retrieval and Prolog have no remaining problems. E1/E3 done; owner risk probe done
+   ([results](2026-10-24-risk-scenario-probe-results.md), R1-R12); next: fix in the owner's chosen order, roster 17, then:
    - the two live-smoke observations above;
    - roster run 16 (`audit-evidence/p11-20261023/roster16/`): 19 clarification and 19 non-answer statuses.
    Use the counted harnesses; keep the evaluation families separate from tuning.

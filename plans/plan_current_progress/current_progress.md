@@ -26,8 +26,9 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 
 ## Next action
 
-Full suite at `05f34d2`: 6455 passed, 0 failed. Next: roster run 17 to count the E3 effect, then the model_ambiguity and
-model evidence_unavailable replies, then the live-smoke observations.
+Full suite at `05f34d2`: 6455 passed, 0 failed. Owner risk scenarios probed live (24 questions, [results](../2026-10-24-risk-scenario-probe-results.md)):
+college-Charter answers lack a university-wide note; overload typos/one-word get bare clarifies; and more.
+Next: owner picks the fix order from that report.
 See the [checkpoint](../phase-11-checkpoint.md).
 
 ## Boundaries
