@@ -16,6 +16,7 @@ from ..bintanong_orchestration.contracts import ReleaseID
 from ..bintanong_routing.style import has_filipino_function_word
 from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
+from .grade_reply import grade_claims
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
 from .scope import document_payload, model_card
@@ -132,9 +133,14 @@ def style_errors(draft, pack, question=''):
     return ()
 
 
+def host_claims(pack):
+    """Host-written replies (special class fee, grading table) by part; these parts get no model wording."""
+    return {**fee_claims(pack), **grade_claims(pack)}
+
+
 def document_parts(pack):
     """Document parts the model explains; a part with a host-written reply is left out."""
-    host = fee_claims(pack)
+    host = host_claims(pack)
     return tuple(p.part_id for p in pack.understanding.parts if p.evidence_need == 'document'
                  and p.part_id not in host)
 
@@ -142,7 +148,7 @@ def document_parts(pack):
 def part_schema(pack):
     schema = output_schema(PartExplanation)
     ids = document_parts(pack)
-    budget = 8 - sum(len(c) for c in fee_claims(pack).values())
+    budget = 8 - sum(len(c) for c in host_claims(pack).values())
     schema['properties']['language'] = dict(type='string', const=pack.language)
     schema['properties']['release_id'] = dict(type='string', const=pack.release_id)
     schema['properties']['answers'] = dict(type='object', additionalProperties=False, required=list(ids),
@@ -186,7 +192,7 @@ def to_draft(explanation, pack):
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
         slots[part_id] = (slot.status, tuple(numbered))
-    for part_id, host in fee_claims(pack).items():  # host-written, mapped without a model review
+    for part_id, host in host_claims(pack).items():  # host-written, mapped without a model review
         numbered = [f'c{len(claims) + n}' for n in range(1, len(host) + 1)]
         claims.extend(dict(claim_id=c, text=t, evidence_ids=[e]) for c, (t, e) in zip(numbered, host))
         slots[part_id] = ('host', tuple(numbered))
@@ -200,7 +206,7 @@ def to_draft(explanation, pack):
 
 def host_only(pack):
     """(draft, ledger) when every document part has a host-written reply, so no model call is needed."""
-    if not fee_claims(pack) or document_parts(pack):
+    if not host_claims(pack) or document_parts(pack):
         return None
     draft, slots = to_draft(PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
         release_id=pack.release_id, language=pack.language, answers={})), pack)
