@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 27
+sequence: 29
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 89b7ce9
+head_commit: 06f6d64
 working_tree: clean
-updated_at: 2026-10-25T02:50:00+08:00
+updated_at: 2026-10-25T02:58:30+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -49,12 +49,15 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
 committed5856e82; last full-suite baseline fb4e1e8. Resume HEAD357aa80 was clean;
 its documentation-only delta from7a759e6 is reconciled.89b7ce9 records the first preflight stop;
-this resume changes only progress/checkpoint/recovery documentation. Snapshot/diagnostic scripts and
+06f6d64 records recovery readiness. This resume changes only diagnostic/current-state documentation. Scripts and
 evidence stay ignored in the workspace. No production,
 test, dependency or frontend changes. A following documentation commit records this snapshot.
 
 ## Verification Evidence
 
+- Checker comparison ended: healthy preflight repeat approved/passed; off reproduced false completeness
+  (18.94s/354 tokens); on truncated at768 tokens with thought field/no final content (37.84s).2/8 calls,
+  remaining6 not run; no rescue/default changes. [Results](2026-10-25-checker-comparison-results.md).
 - 25Oct checker preflight STOPPED with0 completions:57 old seals valid; all4 current reconstructions
   change requirements payload/identity through new empty topic fields. Draft hashes unchanged.
   Model endpoint refused; Docker engine pipe absent. No startup or repair/retry. Offline audit exit0;
@@ -119,12 +122,12 @@ without topic, vague clarifications and Nursing negative claim mode remain. Phot
 
 ## Next Action
 
-Keep draft inactive. Owner approved original-code/server-start recovery with "continue". All181
-snapshot source hashes and all4 exact inputs now match; runner/labels/controls frozen, offline assessor
-checks pass. Premature preflight during model loading stopped before any completion; container now
-healthy. Await requested narrow exception for one preflight repeat after healthy. No automatic retry.
-[Recovery record](2026-10-25-checker-comparison-recovery.md) holds evidence/controls;0 completions.
-Then choose correction, review/full suite/live revalidation before switch; remaining router/Hybrid/
+Keep draft inactive and production thinking disabled. Approved checker diagnostic ENDED on thinking-on
+truncation after2 calls; off repeated the known semantic defect. Do not repeat/widen this experiment.
+[Results](2026-10-25-checker-comparison-results.md) bind evidence/limits. Define one bounded g2 quality
+correction from existing live traces using current per-part generation and source-gap safeguards;
+this historical probe does not diagnose/fix current failures. TDD/review/full suite/live revalidation
+precede switch. Remaining router/Hybrid/
 clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
 Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure
 and same-account recovery instructions in [diagnosis](2026-10-25-supabase-mcp-diagnosis.md).

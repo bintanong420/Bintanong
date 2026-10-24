@@ -28,7 +28,7 @@
   Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
+- [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker trial stopped on truncation](2026-10-25-checker-comparison-results.md);[test audit](2026-10-20-test-meaning-audit-results.md).
 - [Latency profile 23 Oct](2026-10-23-latency-profile-hosted-39.md) (prompt reuse now default);[conversational follow-up requirement](2026-10-23-conversation-context-requirement.md) (not built).
 - [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
 - [Per-part generation](2026-10-21-per-part-generation-decision.md) is the default;[actual results](2026-10-21-per-part-observation-results.md):fee fixed;per-language style 4/4 (author reading).

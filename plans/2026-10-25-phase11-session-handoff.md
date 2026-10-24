@@ -16,11 +16,12 @@ revised preflight using the original frozen checker snapshot plus starting the e
 or end the diagnostic. A startup-only approval does not waive the separate identity mismatch.
 The following frozen controls remain historical recovery evidence, not permission to bypass the stop.
 
-**Latest recovery at89b7ce9:** owner approved original-code snapshot/server startup with "continue".
-All181 source hashes and all4 exact inputs now match. Existing container started; premature preflight
-during model loading stopped before any completion. Server now healthy. Await explicit requested
-exception for ONE healthy preflight repeat; do not infer it from this note. See [recovery state and
-evidence](2026-10-25-checker-comparison-recovery.md). No model completion has run in either attempt.
+**Latest result after06f6d64:** owner approved original-code/startup recovery and ONE healthy repeat.
+All181 source hashes/all4 exact inputs matched; healthy preflight PASSED. Diagnostic then ENDED after
+2 calls: off reproduced false completeness; on hit768-token limit with thoughts/no final content.
+Remaining6 not run; no retry/rescue/default change. [Final diagnostic result](2026-10-25-checker-comparison-results.md)
+supersedes all earlier run instructions here. Do NOT rerun this diagnostic. Next: bounded g2 correction
+from existing current-path live traces, preserving source-gap safeguards and inactive draft.
 
 Execute ONLY the approved bounded checker comparison in
 [the frozen proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md).

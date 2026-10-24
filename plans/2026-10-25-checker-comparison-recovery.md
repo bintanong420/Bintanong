@@ -23,16 +23,17 @@ No model/default/source/release change, dependency installation, repair sweep or
 - Docker Desktop was already running when checked; the existing stopped
   `bintanong-p09-cuda-latency` container was started without recreation or downloads.
 
-## Current stop
+## Initial readiness stop and approved repeat
 
 Preflight was issued prematurely while the container reported `health: starting` and logs showed
 model-tensor loading. `/props` returned a non-200 response (`model_http_error`); the frozen runner
 stopped before template application, tokenization or completions. This readiness mistake is not
 a model-quality observation. **Zero completions.** Container subsequently reports healthy.
 
-An explicit narrow exception was requested to repeat preflight once after healthy; no answer yet.
-No repeat or inference is permitted until that answer. Prepared runner remains frozen; first stop
-and original failed current-code runner are preserved. Phase11/source release holds remain intact.
+Owner then replied "continue" to the explicit narrow exception for ONE healthy repeat. It PASSED
+same build/model/template/defaults and all8 prompt activation/headroom checks. The frozen runner
+then attempted2 completions and stopped on thinking-on truncation; remaining6 not run. See
+[final diagnostic results](2026-10-25-checker-comparison-results.md). Earlier stops remain preserved.
 
 ## Evidence and next action
 
@@ -45,6 +46,5 @@ Frozen runner SHA256 `f5aa858224d23cc6fc7fd6c0fb21572111b494bb33602edc84e0c36ebb
 offline binding `c34579fe1221a681ed962482140f3338fa5297e280eb198dd172d068bd2b4ee6`;
 snapshot resolution `9dafbb65ea01b36635b7119092ecc12992adc0a8c74ee367746ea4386cafba6e`.
 
-Next action: await the narrow readiness-repeat exception; if approved verify same build/model/template,
-off/on activation and token headroom, then run only the fixed off/on pairs. Stop on operational/schema/
-truncation failure; semantic errors retain remaining fixed pairs. Expanded release stays inactive.
+Diagnostic has ended; do not run another preflight, completion or rescue automatically. Production
+thinking remains disabled; expanded release stays inactive. Next correction follows the results record.

@@ -53,14 +53,14 @@ Live9-case run failed quality: service/Taglish routing misses, omitted steps/san
 weapon exception interpreted despite its malformed-source hold, fraud precedence chosen without warning.
 Draft remains inactive; no runtime pin switch.5856e82 exposes unresolved source-limit claims;
 RED5/1, focused44 GREEN. Four router traces still fail; full suite/review remain pending.
-25Oct resume at357aa80: approved checker preflight STOPPED,0 completions.57 seals valid;
-all4 current messages/schemas differ through added empty topic fields and requirements hashes.
-Model endpoint refuses connections; Docker engine unavailable. No startup/repair/rescue run.
 [Original stop](../2026-10-25-checker-comparison-preflight-stop.md) preserved. Owner approved recovery:
 181 original-code hashes and4 exact inputs match in isolated snapshot; runner/controls frozen.
-Existing server started; premature preflight during model loading stopped,0 completions. Now healthy;
-await requested one-repeat readiness exception. [Recovery](../2026-10-25-checker-comparison-recovery.md).
-Offline assessor checks pass; no production changes or new full-suite result.
+Owner approved one healthy preflight repeat; PASSED same build/model/template/defaults and all8 prompts.
+Checker diagnostic ENDED after2 calls: off reproduced incomplete false mapping (18.94s/354 tokens);
+on truncated at768 with thoughts but no final content (37.84s). Remaining6 not run; no rescue.
+[Results](../2026-10-25-checker-comparison-results.md). Keep thinking disabled; no production changes
+or new full-suite result. Next: bounded g2 correction from existing current-path live traces, then
+TDD/review/full suite/live gates. Historical checker trial does not fix/diagnose current failures.
 [Session handoff](../2026-10-25-phase11-session-handoff.md) preserves controls and routes to this stop.
 Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.
