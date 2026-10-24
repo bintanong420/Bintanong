@@ -89,3 +89,12 @@ def test_document_parts_cannot_claim_a_symbolic_operation():
 def test_old_interpretation_version_is_rejected_even_with_parts():
     with pytest.raises(ValueError):
         Interpretation.parse(proposal(schema_version='bintanong-interpretation-v1'))
+
+
+@pytest.mark.parametrize('parts,route,repaired', [
+    ([part('Can I take A1', 'structured', (0,))], 'Hybrid', 'Symbolic'),
+    ([part('Can I take A1', 'structured', (0,)), part('where do I file Form Q?', ident='r2')], 'Symbolic', 'Hybrid')])
+def test_a_route_that_disagrees_with_consistent_declared_parts_follows_the_parts(parts, route, repaired):
+    # Owner, 25 Oct 2026 (roster 18 slip: one structured part with route Hybrid): repair from the parts.
+    result = validate(proposal(parts=parts, route=route))
+    assert result.diagnostic == 'validated' and result.decision.route == repaired

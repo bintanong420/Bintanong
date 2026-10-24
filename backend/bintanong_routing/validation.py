@@ -261,9 +261,12 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     expected = {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic',
                 frozenset({'document', 'structured'}): 'Hybrid'}[frozenset(needs)]
     covered_operations = {i for part in p.parts for i in part.operation_indices}
-    if p.route != expected or covered_operations != set(range(len(p.operations))):
+    if covered_operations != set(range(len(p.operations))):
         return result('inconsistent_requirements', 'evidence_unavailable')
-    if (p.route == 'RAG' and p.operations) or (p.route != 'RAG' and not p.operations):
+    # Consistent declared parts decide the route (owner, 25 Oct 2026: roster 18 slip, one structured part with
+    # route Hybrid); the model's route label alone never refuses a well-formed request.
+    route = expected
+    if (route == 'RAG' and p.operations) or (route != 'RAG' and not p.operations):
         return result('inconsistent_proposal', 'evidence_unavailable')
     if p.operations:
         missing = tuple(k for k, v in (('program_id', program), ('curriculum_id', curriculum)) if v is None)
@@ -303,7 +306,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             registry.goal(request)  # validates fixed signature; never executes the goal
         except UnsupportedRequest:
             return result('unsupported_signature', 'evidence_unavailable')
-    if p.route in ('RAG', 'Hybrid') and not documents_available:
+    if route in ('RAG', 'Hybrid') and not documents_available:
         return result('documents_unavailable', 'evidence_unavailable')
-    return RoutingResult(query, _decision(route=p.route, request=request, reason=p.reason),
+    return RoutingResult(query, _decision(route=route, request=request, reason=p.reason),
         p, tuple(claims), p.language, 'validated', program_id=program, curriculum_id=curriculum)
