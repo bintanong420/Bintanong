@@ -213,6 +213,10 @@ referral wording for e2) and the routing PNG: consistent.
          `p09-real-data-20261021/roster13.py`, compare with `p11-20261023/compare_roster.py`); explain every change.
       6. Small follow-ups seen live: duplicate "Based on the supplied evidence:" header on host-only replies (render);
          Taglish "Ano yung passing grade dito?" got no topic and "GRADE 1.0 ILANG PERCENT???" no route (router).
+      Coverage note (25 Oct, `diag_topic_crowding.py`): of 12 simple per-topic questions only grading misses its
+      topic in the global top 3 (rank 6); fees get 1/3, overload 3/5. Partial topics from Phase 05 selected-field
+      review: misconduct = Handbook table 10 row 4 only (cheating in exams); pre-enrollment = Charter steps 1 and 3
+      (Step 2 label missing in the original); grading = row 1.0 only (host reply covers the rest).
       Superseded (do not do): building new p.46 chunks/new release (schema immutability, owner chose host-written).
       Then: Hybrid next-step part without topic; bare clarifications naming nothing; "hindi ko pa naipapasa" claim mode
       (nursing tl/taglish); then design the owner's simple-query battery (many simple questions per topic, 3
