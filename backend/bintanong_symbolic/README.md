@@ -11,9 +11,11 @@ bytes, source version, physical page and locator. Each course repeats the same
 scope and its owning source version. Prerequisite references must name another
 course from that version. Cross-source/version composition is deferred.
 
-Supported facts: course_code (required), course_title, units.total/lecture/lab,
+Supported facts: course_code (required), course_title, units.total/lecture/lab/rle,
+units.printed,
 year_level and semester. Each value needs its own complete printed-field support.
-Units accept finite nonnegative numeric values; missing facts stay absent and an
+Numeric unit fields accept finite nonnegative values; units.printed preserves
+source-supported text without deriving a total. Missing facts stay absent and an
 explicit printed zero stays zero. No curriculum/cohort/grade inference occurs.
 
 Requirements preserve authored course, co_requisite, ordered all_of/any_of,

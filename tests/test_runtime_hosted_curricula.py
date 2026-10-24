@@ -41,6 +41,23 @@ def test_reads_verified_ledgers_of_the_active_research_release_as_runtime():
     assert client.roles == {'runtime'}
 
 
+def test_rebuilds_reviewed_printed_and_rle_fields_and_still_refuses_tampering():
+    data = fixture()
+    facts = data[2][1]['facts']
+    for field, value in [('units.printed', '3'), ('units.rle', 6)]:
+        fact = copy.deepcopy(facts['units.total'])
+        fact['value'], fact['source_spans'][0]['text'] = value, str(value)
+        facts[field] = fact
+    ledger = rereview(data)
+    assert load(FakeClient(ledger)) == {ledger['scope']['curriculum_id']: ledger}
+    client = FakeClient(ledger)
+    course = client.tables['curriculum_ledgers'][0]['ledger']['courses'][1]
+    course['facts']['units.rle']['value'] = 7
+    course['facts']['units.rle']['source_spans'][0]['text'] = '7'
+    with pytest.raises(ValueError, match='digest'):
+        load(client)
+
+
 @pytest.mark.parametrize('change', [dict(status='draft'), dict(kind='institutional'), dict(ref='research-owner-20200101')])
 def test_refuses_a_release_that_is_not_the_active_authorized_research_release(change):
     with pytest.raises(ValueError, match='hosted_release_not_active_research'):

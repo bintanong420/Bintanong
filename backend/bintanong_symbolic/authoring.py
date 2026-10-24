@@ -18,7 +18,7 @@ SCOPE_KEYS = {'program_id', 'curriculum_id'}
 COURSE_KEYS = {'course_id', *SCOPE_KEYS, 'source_version_id', 'facts',
                'prerequisites', 'review_state', 'review_refs'}
 FACT_FIELDS = {'course_code', 'course_title', 'units.total', 'units.lecture',
-               'units.lab', 'year_level', 'semester'}
+               'units.lab', 'units.printed', 'units.rle', 'year_level', 'semester'}
 
 
 def _record(value: Any, keys: set[str], label: str) -> Mapping:
@@ -73,7 +73,7 @@ def _facts(value: Any, source: SourceDocumentVersion) -> dict:
         spans = _spans(fact['source_spans'], source)
         printed = [canonical_text(s['text']) for s in spans]
         printed.append(canonical_text(' '.join(s['text'] for s in spans)))
-        if name.startswith('units.'):
+        if name.startswith('units.') and name != 'units.printed':
             if type(field_value) not in (int, float) or not math.isfinite(field_value) or field_value < 0:
                 raise ValueError('units must be finite nonnegative numbers')
             supported = any(_printed_number(s, field_value) for s in printed)
