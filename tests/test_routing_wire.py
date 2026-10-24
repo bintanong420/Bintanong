@@ -198,3 +198,39 @@ def test_part_count_mismatch_still_rejects_wherever_listed_parts_could_run(updat
     value.update(update)
     with pytest.raises(ValueError):
         normalize(value)
+
+
+def topic_packet(text, *, mentions=(), target=None):
+    """Live slip (24 Oct 2026, "overload"): a topic question marked structured with an eligibility
+    operation aimed at the topic word itself."""
+    return dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=1,
+        audience='undergraduate', intent='ask about a procedure', mentions=list(mentions), claims=[],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote(target or text))],
+        parts=[dict(part_id='r1', quote=quote(text), evidence_need='structured', operation_indices=[0],
+                    subject_id='t1', requested_claims=['printed procedure'])],
+        route='Symbolic', control=None, ambiguities=[])
+
+
+def test_topic_part_whose_operation_names_no_listed_course_is_a_document_part():
+    result = normalize(topic_packet('overload'), 'overload')
+    assert result.route == 'RAG' and result.operations == () and result.mentions == ()
+    part = result.parts[0]
+    assert (part.evidence_need, part.operation_indices, part.subject_id) == ('document', (), 't1')
+    assert part.requested_claims == ('printed procedure',)
+
+
+def test_topic_repair_keeps_another_part_and_recomputes_a_mixed_route():
+    text = 'How do I overload? Where is form T?'
+    value = topic_packet('How do I overload?', target='overload')
+    value['parts'].append(dict(part_id='r2', quote=quote('Where is form T?'), evidence_need='document',
+                               operation_indices=[], subject_id='t2', requested_claims=['form office']))
+    value.update(part_count=2, route='Hybrid')
+    result = normalize(value, text)
+    assert result.route == 'RAG' and result.operations == ()
+    assert [p.evidence_need for p in result.parts] == ['document', 'document']
+
+
+def test_topic_part_aimed_at_a_listed_course_still_rejects():
+    value = topic_packet('Can I take B2?', mentions=[dict(kind='course', quote=quote('B2'))], target='B2')
+    with pytest.raises(ValueError, match='only_document_parts_carry_topics'):
+        normalize(value, 'Can I take B2?')
