@@ -26,7 +26,9 @@ def test_approved_filipino_decision_lines():
     assert words['abstained'] == 'Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'
     assert render._WITHHELD['fil'] == ('Hindi pa masagot nang sigurado gamit lang ang nakuhang text. '
         'Wala pang verified na prerequisite check, kaya wala pang desisyon.')
-    assert render._UNCOVERED['fil'] == 'Hindi makumpirma na nasasagot ng available na ebidensya ang tanong mo.'
+    # Owner E1 (24 Oct) and simple-question priority (25 Oct): evidence that does not answer the question gets the
+    # same honest referral as missing evidence, in every language.
+    assert render._UNCOVERED == {lang: render._WORDS[lang]['insufficient_evidence'] for lang in ('en', 'fil', 'taglish')}
 
 
 def test_filipino_scope_label_uses_everyday_wording():

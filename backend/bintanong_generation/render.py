@@ -118,10 +118,9 @@ _WITHHELD={
  'taglish':'Hindi pa ma-verify ang answer gamit ang retrieved text lang. Wala pang verified structured check, kaya wala pang structured conclusion.'}
 
 
-_UNCOVERED={
- 'en':'I cannot verify that the available evidence answers your question.',
- 'fil':'Hindi makumpirma na nasasagot ng available na ebidensya ang tanong mo.',
- 'taglish':'Hindi ma-verify na nasasagot ng available evidence ang question mo.'}
+# Evidence that does not answer the question gets the same honest referral as missing evidence (owner E1, 24 Oct;
+# simple-question priority, 25 Oct 2026).
+_UNCOVERED={lang:words['insufficient_evidence'] for lang,words in _WORDS.items()}
 
 
 # Source-gap policy: a cited source's unresolved conflict or visible defect is always stated.
