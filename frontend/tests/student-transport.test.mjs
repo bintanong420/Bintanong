@@ -15,6 +15,16 @@ const normal = [
 ];
 function response(raw) { return new Response(raw, { headers: { 'Content-Type': 'text/event-stream', 'x-vercel-ai-ui-message-stream': 'v1' } }); }
 
+test('live stream preserves canonical clarification choices and rejects malformed choices', async () => {
+  const metadata = { status: 'clarification_needed', language: 'en', conditional: true, missingFields: ['course_status'],
+    clarification: { courses: [{ code: 'B2/L', kind: 'completion' }], scope: { programId: 'program-a', curriculumId: 'curriculum-a' } } };
+  const stream = data => sse(normal.map(p => p.type === 'data-answer' ? { ...p, data } : p));
+  const answer = await sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => response(stream(metadata)) });
+  assert.deepEqual(answer.clarification, metadata.clarification);
+  await assert.rejects(sendStudentMessage(request, { signal: new AbortController().signal, onText() {},
+    fetch: async () => response(stream({ ...metadata, clarification: { ...metadata.clarification, courses: [{ code: 'B2/L', kind: 'eligible' }] } })) }));
+});
+
 test('installed SDK parses actual Python answer stream, queue status and sources', async () => {
   const raw = execFileSync('py', ['-3.13', '-B', new URL('../../tests/export_student_stream.py', import.meta.url).pathname.replace(/^\//, '')], { encoding: 'utf8' });
   const progress = [], text = [];

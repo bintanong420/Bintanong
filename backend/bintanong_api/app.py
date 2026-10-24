@@ -92,7 +92,7 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     def chat(body: ChatRequest, request: Request, session: Session = Depends(require_session)) -> AdmittedStream:
         turn = turns.prepare(body)
         reservation = admission.reserve(account_id=getattr(request.state, 'account_id', None))
-        return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation), reservation,
+        return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation, services.course_labels), reservation,
                               media_type='text/event-stream', headers=STREAM_HEADERS)
 
     @app.get('/sources/{source_id}')
