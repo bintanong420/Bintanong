@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const { error } = await client.auth.exchangeCodeForSession(code);
     if (!error) {
       const { data } = await client.auth.getUser();
-      if (isPSUAccount(data.user)) return NextResponse.redirect(new URL("/", origin));
+      if (isPSUAccount(data.user)) return NextResponse.redirect(new URL("/chat", origin));
       await client.auth.signOut({ scope: "local" });
     }
   }

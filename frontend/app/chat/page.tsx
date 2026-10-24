@@ -1,2 +1,3 @@
-import { redirect } from "next/navigation";
-export default function Chat() { redirect("/"); }
+import { Workspace } from "@/components/workspace/workspace";
+
+export default function Chat() { return <Workspace />; }

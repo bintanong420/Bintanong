@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { isPSUAccount } from "./lib/auth-policy";
+import { isPSUAccount, pageRedirect } from "./lib/auth-policy";
 import { authConfiguration } from "./lib/server-auth";
 
 export async function proxy(request: NextRequest) {
@@ -20,9 +20,9 @@ export async function proxy(request: NextRequest) {
     const { data } = await client.auth.getUser();
     permitted = isPSUAccount(data.user);
   }
-  const login = request.nextUrl.pathname === "/login";
-  if ((!permitted && !login) || (permitted && login)) {
-    const next = NextResponse.redirect(new URL(permitted ? "/" : "/login", request.url));
+  const destination = pageRedirect(request.nextUrl.pathname, permitted);
+  if (destination) {
+    const next = NextResponse.redirect(new URL(destination, request.url));
     response.cookies.getAll().forEach(cookie => next.cookies.set(cookie));
     next.headers.set("Cache-Control", "no-store");
     return next;
@@ -30,4 +30,4 @@ export async function proxy(request: NextRequest) {
   response.headers.set("Cache-Control", "no-store");
   return response;
 }
-export const config = { matcher: ["/", "/chat", "/login", "/api/:path*"] };
+export const config = { matcher: ["/chat", "/login", "/api/:path*"] };

@@ -249,3 +249,69 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 @media (pointer: coarse) {
   .workspace button, .workspace select { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
 }
+
+.public-page { display: block; block-size: auto; min-block-size: 100svh; overflow-wrap: break-word; }
+.public-page a:not([data-slot="button"]) { color: inherit; text-underline-offset: 0.2em; }
+.public-page :is(button, select, nav a, .public-actions a, .auth-navigation a) { min-block-size: 2.75rem; }
+.public-page a:active { opacity: 0.8; }
+.public-page p { line-height: 1.65; }
+.public-page :is(h1, h2, h3) { text-wrap: balance; }
+.public-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1rem; padding-inline: clamp(1.25rem, 5vw, 5rem); }
+.public-brand { display: grid; gap: 0.15rem; font-family: var(--font-geist), sans-serif; font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+.public-brand span { font-family: var(--font-inter), sans-serif; font-size: 0.7rem; font-weight: 400; color: var(--muted-foreground); }
+.public-header nav, .public-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+.public-header nav > a, .public-actions > a { display: inline-flex; align-items: center; font-size: 0.875rem; text-decoration: none; }
+.public-header .appearance-control { margin: 0; }
+.public-skip { position: absolute; inset-inline-start: 1rem; inset-block-start: -5rem; z-index: 20; padding: 0.75rem; background: var(--background); }
+.public-skip:focus { inset-block-start: 0.5rem; }
+.landing-photo { position: relative; block-size: clamp(13rem, 27vw, 25rem); }
+.landing-photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center 45%; }
+.landing-photo::after { content: ""; position: absolute; inset: 0; background: light-dark(oklch(1 0 none / 0.38), oklch(0.12 0 none / 0.25)); }
+.landing-introduction { max-inline-size: 48rem; margin-inline: auto; padding-block: clamp(2rem, 5vw, 4.5rem); padding-inline: 1.25rem; text-align: center; }
+.public-eyebrow { margin: 0 0 1rem; color: var(--muted-foreground); font-size: 0.75rem; }
+.landing-introduction h1 { margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(2.25rem, 4.8vw, 4rem); line-height: 1.12; letter-spacing: -0.055em; font-weight: 600; }
+.landing-description { max-inline-size: 40rem; margin-block: 1.25rem 1.75rem; margin-inline: auto; color: var(--muted-foreground); font-size: clamp(0.95rem, 1.2vw, 1.125rem); }
+.public-actions { justify-content: center; }
+.public-actions [data-slot="button"] { padding-inline: 1.25rem; }
+.public-caption { margin-block-start: 1.5rem; font-size: 0.75rem; color: var(--muted-foreground); }
+.landing-scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: clamp(1.5rem, 5vw, 5rem); max-inline-size: 72rem; margin-inline: auto; padding-block: clamp(2.5rem, 6vw, 5rem); padding-inline: clamp(1.25rem, 5vw, 3rem); border-block-start: 1px solid var(--border); scroll-margin-block-start: 1rem; }
+.landing-scope h2 { max-inline-size: 18ch; margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.2; letter-spacing: -0.035em; }
+.scope-details { color: var(--muted-foreground); font-size: 0.9rem; }
+.scope-details p:first-child { margin-block-start: 0; }
+.scope-details h3 { margin-block-start: 1.75rem; color: var(--foreground); font-size: 0.95rem; font-weight: 600; }
+.public-footer { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: 1rem 3rem; padding-block: 1.5rem; padding-inline: clamp(1.25rem, 5vw, 5rem); border-block-start: 1px solid var(--border); color: var(--muted-foreground); font-size: 0.75rem; }
+.public-footer p { max-inline-size: 40rem; margin: 0; }
+.auth-page { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.auth-art { position: relative; min-block-size: 100svh; background: oklch(0.18 0 none); }
+.auth-art > img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 35% center; }
+.auth-art-caption { position: absolute; inset-inline: 2rem; inset-block-end: 2rem; max-inline-size: 28rem; padding: 1.25rem; background: oklch(0.12 0 none / 0.9); color: oklch(1 0 none); }
+.auth-art-caption a { display: inline-block; font-family: var(--font-geist), sans-serif; font-size: 1.5rem; font-weight: 600; text-decoration: none; }
+.auth-art-caption p { margin-block: 0.5rem 0; font-size: 0.875rem; }
+.auth-panel { display: flex; flex-direction: column; gap: 2rem; min-inline-size: 0; padding-block: 1.25rem; padding-inline: clamp(1.25rem, 3.5vw, 4rem); }
+.auth-navigation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1.25rem; }
+.auth-navigation > a { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; font-size: 0.8rem; }
+.auth-content { inline-size: min(100%, 23rem); margin-block: auto; margin-inline: auto; padding-block: 2rem; text-align: center; }
+.auth-content h1 { margin: 0 0 0.75rem; font-family: var(--font-geist), sans-serif; font-size: clamp(1.5rem, 2.5vw, 2rem); line-height: 1.2; letter-spacing: -0.035em; font-weight: 600; }
+.auth-content > p:not(.public-eyebrow) { font-size: 0.875rem; color: var(--muted-foreground); }
+.auth-content form { margin-block: 1.75rem 1rem; }
+.google-sign-in { inline-size: 100%; min-block-size: 2.75rem; white-space: normal; }
+.google-sign-in:disabled { opacity: 1; color: var(--muted-foreground); background: var(--secondary); border: 1px solid var(--border); }
+.google-letter { font-size: 1.05rem; font-weight: 600; }
+.auth-account-note { font-size: 0.75rem !important; }
+.auth-status a, .auth-privacy a { text-decoration: underline; }
+.auth-privacy { margin-block-start: 2rem; font-size: 0.75rem; color: var(--muted-foreground); }
+.auth-privacy p { margin-block-end: 0.5rem; }
+.auth-footer { max-inline-size: 32rem; margin-inline: auto; font-size: 0.7rem; line-height: 1.6; text-align: center; color: var(--muted-foreground); }
+@media (hover: hover) and (pointer: fine) {
+  .public-page a:not([data-slot="button"]):hover { text-decoration: underline; }
+}
+@media (max-width: 52rem) {
+  .auth-page { grid-template-columns: minmax(0, 1fr); }
+  .auth-art { min-block-size: 13rem; }
+  .auth-art > img { object-position: center 45%; }
+  .auth-art-caption { inset-inline: 1.25rem; inset-block-end: 1rem; padding: 0.75rem; }
+  .auth-art-caption p { margin-block: 0.25rem 0; }
+  .auth-panel { min-block-size: 65svh; }
+  .auth-content { padding-block: 1rem; }
+  .public-header nav { gap: 0.5rem; }
+}

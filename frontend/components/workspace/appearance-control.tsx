@@ -23,7 +23,7 @@ export function AppearanceControl() {
   return <label className="appearance-control" title="Appearance">
     <Icon size={16} aria-hidden="true" />
     <span className="sr-only">Appearance</span>
-    <select value={appearance} onChange={event => {
+    <select aria-label="Appearance" value={appearance} onChange={event => {
       const value = appearanceValue(event.target.value);
       document.documentElement.dataset.appearance = value;
       setAppearance(value);

@@ -1,11 +1,13 @@
 # Running the integrated student workspace
 
-Worktree `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11-frontend-integration`, branch
-`feat/p11-frontend-integration`. This starts from the original `frontend`c17dcb2 and merges Lawrence's
-`origin/feat/p11-backend-api`34a21ca (merge227efaa). Neither earlier branch was replaced.
+The owner's local preview runs from `C:/Users/Hawksprey/source/repos/Bintanong`, branch `frontend`.
+It includes the committed integration and backend synchronization through4a134bf. The implementation
+worktree `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11-frontend-integration` retains
+separate unfinished lifecycle work; those edits are not part of this preview.
 
-The original UI is now the live root `/`; `/chat` redirects to it. `/dev/health` retains the developer
-dashboard. No simulated answer/upload/clear adapter is imported by the student workspace.
+The public landing page is `/`; the authenticated student workspace is `/chat`. `/login` uses auth
+concept2; successful PSU sign-in leads to `/chat`. `/dev/health` retains the developer dashboard.
+No simulated answer/upload/clear adapter is imported by the student workspace.
 
 ## Required configuration
 
@@ -49,10 +51,12 @@ The resident embedding service needs the strict `/query/configuration`, `/query`
 port, `EMBEDDING_ASSET_MANIFEST` and existing read-only model assets. Its source mount must point at this
 worktree for reproducible restarts. No second host encoder or model download is needed.
 
-## Google provider setup remains external
+## Google sign-in and manual testing
 
-Master25.1 requires Supabase Auth with PSU Google accounts. On24Oct, public hosted auth settings report
-Google disabled. No Google credentials or provider configuration were changed by this implementation.
+Master25.1 requires Supabase Auth with PSU Google accounts. The owner configured Google Cloud and
+Supabase on24Oct. Hosted settings now report Google enabled. The actual app redirects to Google's
+authorization endpoint through Supabase, with the expected callbacks and PKCE cookie. Actual human
+PSU/non-PSU login remains unverified. See the [local setup and manual checklist](google-sign-in-local-setup.md).
 
 1. Create/reuse a Google Cloud **Web application** OAuth client and configure its consent screen. Its
    authorized redirect URI is `https://YOUR_PROJECT.supabase.co/auth/v1/callback`.
@@ -63,9 +67,9 @@ Google disabled. No Google credentials or provider configuration were changed by
 4. A human verifies an actual PSU account login and rejects a non-PSU account. The Google `hd` hint is only
    a convenience; FastAPI checks the verified primary email and verified Google identity itself.
 
-Until configured, `/login` explains that sign-in is unavailable. Do not disable backend authorization to
-make the preview appear ready. The only synthetic auth used in verification runs in a separate loopback
-fixture instance, not this research application.
+If the provider becomes unavailable, `/login` explains the condition and disables its Google button.
+The only synthetic auth used in earlier verification runs in a separate loopback fixture instance,
+not this research application.
 
 ## Current capability and limits
 
@@ -79,6 +83,7 @@ before adding another; confirmed file references can be removed individually. Ex
 the backend acknowledges changes. No /context endpoint, persistent history or photo/OCR support is invented.
 
 Pending-question continuation, broader natural-language curriculum aliases, actual PalSU grade layouts and
-the backend's disclosed E3/Hybrid/model-language gaps remain separate work. Sign-in stores an auth user/email
+the backend's disclosed Hybrid/model-language gaps remain separate work. E3's office-referral fix is included.
+Sign-in stores an auth user/email
 in Supabase as recorded in master25.1; chat/grade/file state stays temporary. No university approval or public
 release follows from this local integration.
