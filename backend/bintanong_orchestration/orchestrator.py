@@ -1,5 +1,6 @@
 """One release pin, one validated LLM route, explicit independent evidence branches."""
 import asyncio
+from dataclasses import replace
 import math
 import hashlib
 import re
@@ -35,14 +36,30 @@ _ROUTING_FAILURES = {
 
 
 
-def _topic_intent(proposed):
-    """First chosen document topic and its facts; other topics stay unretrieved (known limit)."""
+def _topic_intents(proposed):
+    """Each chosen document topic with its facts and its parts' words, in part order (owner step 2e: every topic is
+    retrieved). The words are the topic's query only when there are several topics (live: the whole two-topic
+    message found nothing for its special-class fee part); a single topic keeps the whole message."""
     parts = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id]
     if not parts:
-        return dict(subject_id=None, requested_claims=None)
-    subject = parts[0].subject_id
-    claims = dict.fromkeys(c for p in parts if p.subject_id == subject for c in p.requested_claims)
-    return dict(subject_id=subject, requested_claims=tuple(claims))
+        return [(None, dict(subject_id=None, requested_claims=None))]
+    subjects = dict.fromkeys(p.subject_id for p in parts)
+    return [(' '.join(p.text for p in parts if p.subject_id == subject) if len(subjects) > 1 else None,
+             dict(subject_id=subject, requested_claims=tuple(dict.fromkeys(
+                 c for p in parts if p.subject_id == subject for c in p.requested_claims))))
+            for subject in subjects]
+
+
+def merge_documents(results):
+    """One result for several topics: the first one that is not 'ok' (any topic without evidence leaves the
+    message unanswered, as integration requires), otherwise every distinct passage and gap in order."""
+    failed = next((r for r in results if r.status != 'ok'), None)
+    if failed is not None:
+        return failed
+    passages = {p.chunk_id: p for r in results for p in r.passages}
+    gaps = dict.fromkeys(g for r in results for g in r.gaps)
+    return results[0].model_copy(update=dict(passages=tuple(passages.values()), gaps=tuple(gaps)))
+
 
 def referenced_labels(labels, *mentions):
     """Printed-code labels for the courses this answer mentions; a release of several curricula
@@ -188,14 +205,18 @@ class Orchestrator:
         async def retrieve():
             scope = tuple(f'{kind}:{value}' for kind,value in
                 (('program',scoped.program_id),('curriculum',scoped.curriculum_id)) if value)
-            value = await resources.retrieval.retrieve(RetrievalRequest(
+            request = RetrievalRequest(
                 routed.query.normalized_text, resources.pin.release_id, scope=scope+resources.document_scope,
                 # Only document versions hold chunks; curriculum sources are for Prolog.
-                document_version_ids=tuple(dict.fromkeys(d.version_id for d in resources.pin.documents))),
-                **(_topic_intent(routed.proposed) if resources.topics else {}))
-            if type(value) is not DocumentResult:
-                raise ValueError('typed_document_result_required')
-            return DocumentResult.parse(value.model_dump(mode='json'))
+                document_version_ids=tuple(dict.fromkeys(d.version_id for d in resources.pin.documents)))
+            results = []
+            for words, intent in (_topic_intents(routed.proposed) if resources.topics else [(None, {})]):
+                topic_request = request if words is None else replace(request, query=prepare_query(words))
+                value = await resources.retrieval.retrieve(topic_request, **intent)
+                if type(value) is not DocumentResult:
+                    raise ValueError('typed_document_result_required')
+                results.append(DocumentResult.parse(value.model_dump(mode='json')))
+            return merge_documents(results)
 
         async def reason():
             request = routed.decision.predicate_request
