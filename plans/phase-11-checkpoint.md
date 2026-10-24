@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 10
+sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7c3786e
+head_commit: 05f34d2
 working_tree: clean
-updated_at: 2026-10-24T18:00:00+08:00
+updated_at: 2026-10-24T22:00:00+08:00
 ---
 
-# Phase 11 checkpoint - security, answer queue, abuse probe and E1 done; step 2 evaluation continues
+# Phase 11 checkpoint - security, queue, abuse probe, E1 and E3 done; step 2 evaluation continues
 
 ## Completed Tasks
 
@@ -33,7 +33,8 @@ updated_at: 2026-10-24T18:00:00+08:00
 ## Current Task
 
 Step 1 (security) and the owner's follow-ups (queue, off-topic, login decisions) are done. Step 2 (retrieval/Prolog
-evaluation) has started; E1 is fixed (`7c3786e`). There is deliberately no final handoff.
+evaluation) has started; E1 (`7c3786e`) and E3 (`05f34d2`) are fixed.
+[Security measures inventory](2026-10-24-security-measures-inventory.md) written for thesis Chapter IV (owner). There is deliberately no final handoff.
 
 - E1: document questions outside the 7 reviewed topics ("How do I apply for a leave of absence?", "Paano
   mag-request ng transcript of records?") route RAG correctly, but retrieval returns `needs_subject`, which
@@ -41,7 +42,13 @@ evaluation) has started; E1 is fixed (`7c3786e`). There is deliberately no final
   clarify. Owner chose "unavailable + office referral": `needs_subject` now maps to `no_evidence`, and the
   insufficient-evidence reply (en/fil/taglish, all such cases) says the topic is not in the reviewed sources yet
   and refers to the university office. Live re-check: both questions `insufficient_evidence`.
-- E3 (open): "Pwede ba mag-shift ng course? Paano po?" still ends in a clarification; not yet diagnosed.
+- E3 (fixed `05f34d2`, owner chose office referral): the router model chose `clarify` naming no operation, claim or
+  back-reference (3 of 4 shifting phrasings; roster 16: 8 bare clarifications incl. Nursing/Tourism/Criminology and
+  one Taglish pre-enrollment). Now diagnostic `empty_clarification` -> `no_evidence` -> E1 referral. A clarify with a
+  check or back-reference still asks. Disclosed: the covered pre-enrollment Taglish case also gets the referral
+  (retrieval needs a model-chosen topic, `engine.py:111`). Live: 4/4 shifting phrasings referral, right language.
+- Not yet changed: `model_ambiguity` clarifications and model-chosen `evidence_unavailable` render without naming
+  anything / as "temporarily unavailable" (`fallback_status`); candidates for the next diagnosis.
 - E2 (minor): "What are the prerequisites of CC 6?" names CC 3/L and CS 2/L, but framed as an eligibility
   clarification rather than a plain list.
 - Correct, not defects: "Can I take CC 5? I passed CC 4." (en/Taglish) reports CC 3/L as unknown, as intended.
@@ -71,6 +78,9 @@ Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `7c3786e` pl
 - E1: RED (4 tests: integration mapping and the reply in three languages), GREEN; generation/orchestration/API/
   routing/evaluation selection 1516 passed. Full suite at `7c3786e`: 6451 passed, 6 skipped, 2 xfailed, 0 failed
   (log `audit-evidence/p11-20261023/full-suite-e1.log`).
+- E3: RED (2 tests, expected reason) after a fixture setup fix, GREEN; 3 mutations each failed a test; selection
+  (routing/orchestration/generation/API/evaluation/private) 1310 passed, 2 xfailed. Full suite at `05f34d2`: 6455 passed, 6 skipped, 2 xfailed, 0 failed (22m04s, log `full-suite-e3.log`).
+  Hosted Supabase security advisor 24 Oct: 0 lints.
 - Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
   turns in Taglish 3 of 4 (run 5: 0 of 4).
 - Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum
@@ -114,7 +124,8 @@ decision ("authorized user/session"): consistent, no discrepancy.
 ## Next Action
 
 1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
-2. More evaluation that retrieval and Prolog have no remaining problems. Diagnose E3, then continue from:
+2. More evaluation that retrieval and Prolog have no remaining problems. E1/E3 done; next: re-run roster 17 to count
+   the E3 effect, then the two unchanged paths above (model_ambiguity, model evidence_unavailable), then:
    - the two live-smoke observations above;
    - roster run 16 (`audit-evidence/p11-20261023/roster16/`): 19 clarification and 19 non-answer statuses.
    Use the counted harnesses; keep the evaluation families separate from tuning.
@@ -134,4 +145,4 @@ How to run things:
 ## Do Not Repeat
 
 Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
-security review and S1/S2/S4-S8 fixes, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
+security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, the security inventory, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.

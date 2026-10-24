@@ -19,10 +19,15 @@ Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress
 - Step 2 finding E1 fixed (`7c3786e`, owner choice): questions outside the 7 reviewed topics (leave of absence,
   transcript) now say the topic is not in the reviewed sources yet and refer to the university office.
 
+- E3 fixed (`05f34d2`, owner chose office referral): a model "clarify" that names nothing now gets the E1 "not in
+  reviewed sources, ask the office" reply; live 4/4 shifting questions. One covered Taglish pre-enrollment case also
+  gets the referral (disclosed).
+- [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
+
 ## Next action
 
-Full suite at `7c3786e` passed (0 failed). Next: diagnose E3 ("Pwede ba mag-shift ng course?" clarification), then continue
-step 2 (live-smoke observations, roster run 16 statuses).
+Full suite at `05f34d2`: 6455 passed, 0 failed. Next: roster run 17 to count the E3 effect, then the model_ambiguity and
+model evidence_unavailable replies, then the live-smoke observations.
 See the [checkpoint](../phase-11-checkpoint.md).
 
 ## Boundaries
