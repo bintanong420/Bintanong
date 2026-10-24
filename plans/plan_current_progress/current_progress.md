@@ -56,9 +56,11 @@ RED5/1, focused44 GREEN. Four router traces still fail; full suite/review remain
 25Oct resume at357aa80: approved checker preflight STOPPED,0 completions.57 seals valid;
 all4 current messages/schemas differ through added empty topic fields and requirements hashes.
 Model endpoint refuses connections; Docker engine unavailable. No startup/repair/rescue run.
-[Stop evidence/recovery proposal](../2026-10-25-checker-comparison-preflight-stop.md): owner decision
-needed on original frozen checker snapshot plus existing-server startup, or ending diagnostic.
-Startup approval alone is insufficient. Offline audit exit0; no new full-suite result.
+[Original stop](../2026-10-25-checker-comparison-preflight-stop.md) preserved. Owner approved recovery:
+181 original-code hashes and4 exact inputs match in isolated snapshot; runner/controls frozen.
+Existing server started; premature preflight during model loading stopped,0 completions. Now healthy;
+await requested one-repeat readiness exception. [Recovery](../2026-10-25-checker-comparison-recovery.md).
+Offline assessor checks pass; no production changes or new full-suite result.
 [Session handoff](../2026-10-25-phase11-session-handoff.md) preserves controls and routes to this stop.
 Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
 Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.

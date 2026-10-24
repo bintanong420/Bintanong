@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 26
+sequence: 27
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 357aa80
+head_commit: 89b7ce9
 working_tree: clean
-updated_at: 2026-10-25T02:38:00+08:00
+updated_at: 2026-10-25T02:50:00+08:00
 ---
 
 # Phase 11 checkpoint — retrieval filter delivered; source expansion in review
@@ -48,8 +48,9 @@ computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/st
 
 Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
 committed5856e82; last full-suite baseline fb4e1e8. Resume HEAD357aa80 was clean;
-its documentation-only delta from7a759e6 is reconciled. This resume changes only progress/checkpoint/
-recovery documentation; raw diagnostic scripts/evidence stay ignored in the workspace. No production,
+its documentation-only delta from7a759e6 is reconciled.89b7ce9 records the first preflight stop;
+this resume changes only progress/checkpoint/recovery documentation. Snapshot/diagnostic scripts and
+evidence stay ignored in the workspace. No production,
 test, dependency or frontend changes. A following documentation commit records this snapshot.
 
 ## Verification Evidence
@@ -118,11 +119,11 @@ without topic, vague clarifications and Nursing negative claim mode remain. Phot
 
 ## Next Action
 
-Keep draft inactive. The approved checker comparison hit its mandatory preflight stop:0 completions,
-all4 input identities differ; server unavailable. Do NOT rerun automatically. Owner decision needed on
-the [recovery proposal](2026-10-25-checker-comparison-preflight-stop.md): original frozen checker
-snapshot plus existing-server startup, or end diagnostic and select next correction. Startup alone
-does not waive exact-input/stop gates.5856e82 menu change still has four failing router traces.
+Keep draft inactive. Owner approved original-code/server-start recovery with "continue". All181
+snapshot source hashes and all4 exact inputs now match; runner/labels/controls frozen, offline assessor
+checks pass. Premature preflight during model loading stopped before any completion; container now
+healthy. Await requested narrow exception for one preflight repeat after healthy. No automatic retry.
+[Recovery record](2026-10-25-checker-comparison-recovery.md) holds evidence/controls;0 completions.
 Then choose correction, review/full suite/live revalidation before switch; remaining router/Hybrid/
 clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
 Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure
