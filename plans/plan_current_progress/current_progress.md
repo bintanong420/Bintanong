@@ -27,6 +27,8 @@ trace then answered/validated with Handbook page46; consistent quality not estab
 [Startup/title recovery](../2026-10-24-local-pipeline-startup.md). No merge/push/closure.
 Live GPU check: llama-server on RTX4060/CUDA,32-layer offload configured; embedding
 CPU. Recent decode12–16tok/s; last slot idle/queue0. No tuning or full latency profile.
+Publication check: refreshed origin/frontend60d285f is ancestor of product HEADfc807b7;
+55 UI tests/typecheck and live readiness PASS. Development sync ready; no push performed.
 Prior account/sidebar/clarification delivery retained; temporary chat state only.
 [UI evidence](../2026-10-24-student-account-usability.md) and
 [manual checklist](../../docs/development/google-sign-in-local-setup.md).
