@@ -196,7 +196,10 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
                    for c in chunks]))
     registry = research_registry()
-    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
+    budgets = {'pre_enrollment':4096} if any(
+        r['subject_id'] == 'pre_enrollment' for r in package['register']['reviews']) else {}
+    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy,
+        subject_context_budgets=budgets)
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),

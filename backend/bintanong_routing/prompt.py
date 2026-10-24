@@ -178,7 +178,7 @@ def output_schema(topics=(), follow_up=False):
             value = deepcopy(part)
             value['properties']['subject_id'] = {'const': subject}
             value['properties']['requested_claims'] = ({'type': 'array', 'maxItems': 0} if subject is None
-                else {'type': 'array', 'minItems': 1, 'maxItems': len(claims), 'items': {'enum': list(claims)}})
+                else {'type': 'array', 'minItems': 1, 'maxItems': min(8,len(claims)), 'items': {'enum': list(claims)}})
             value['required'] = required
             return value
         schema['$defs']['WirePart'] = {'anyOf': [branch(t.subject_id, (*t.claims, *t.not_stated))
