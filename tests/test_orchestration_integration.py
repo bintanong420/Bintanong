@@ -122,3 +122,10 @@ def test_document_conflict_and_release_mismatch_take_priority_over_unknown_facts
     for document_status,expected in [('conflicting_sources','conflict'),('release_changed','release_mismatch')]:
         result = api().assemble(pin(),'Hybrid',symbolic=symbolic('unknown'),documents=documents(document_status))
         assert result.status == expected
+
+
+def test_question_outside_every_reviewed_topic_is_unavailable_information_not_a_clarification():
+    # Owner, 24 Oct 2026 (E1): "How do I apply for a leave of absence?" matched no reviewed topic and students got
+    # "Please clarify the missing information" with nothing to clarify. It is missing information instead.
+    result = api().assemble(pin(), 'RAG', documents=documents('needs_subject', passages=[]))
+    assert result.status == 'no_evidence' and result.permitted_scope == 'none'

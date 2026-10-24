@@ -96,6 +96,7 @@ class Router:
         context = RequestContext.parse(context.model_dump(mode='json'))
         messages = build_messages(text, context, self.catalog, self.registry, self.topics)
         follow_up = previous_turn(context, self.catalog) is not None
+        names = tuple(alias for entry in self.catalog for alias in entry.aliases)  # never style evidence
         proposed = None
 
         def failure(code, attempts, style_attempts=0, style=None, floored=False):
@@ -115,7 +116,7 @@ class Router:
                 style.ground(text)
             except (RuntimeFailure, ValueError, ValidationError):
                 return None, False
-            return floor_style(style, text)
+            return floor_style(style, text, names)
 
         for attempt in (1, 2):
             try:
@@ -155,7 +156,7 @@ class Router:
                     continue
                 try:
                     style.ground(text)
-                    style, floored = floor_style(style, text)
+                    style, floored = floor_style(style, text, names)
                     effective = Interpretation.parse(dict(proposed.model_dump(mode='json'), language=style.language))
                     result = validate_interpretation(text, context, effective, catalog=self.catalog,
                         registry=self.registry, documents_available=self.documents_available,

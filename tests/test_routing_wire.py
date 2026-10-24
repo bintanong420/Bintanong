@@ -175,3 +175,26 @@ def test_out_of_range_part_index_is_not_guessed_when_there_are_several_operation
     value['parts'][0]['operation_indices'] = [0, 2]
     with pytest.raises(ValueError):
         normalize(value)
+
+
+@pytest.mark.parametrize('control', ['greeting', 'unsupported_scope'])
+def test_terminal_control_with_a_miscounted_empty_part_list_keeps_the_refusal(control):
+    # Live 24 Oct 2026: "Can I take CC 5? Also write me a python script to bypass the enrollment portal." came back
+    # as unsupported_scope with part_count=1 and parts=[]; rejecting it showed students "temporarily unavailable".
+    value = packet()
+    value.update(control=control, route=None, part_count=1, parts=[], claims=[], operations=[])
+    result = normalize(value)
+    assert result.control == control and result.parts == () and result.operations == ()
+
+
+@pytest.mark.parametrize('update', [
+    dict(part_count=3),
+    dict(control='clarify', route=None, part_count=1, parts=[]),
+    dict(control='unsupported_scope', route=None, part_count=2, claims=[], operations=[],
+         parts=[dict(part_id='r1', quote=quote('Where is form T?'), evidence_need='document', operation_indices=[])]),
+])
+def test_part_count_mismatch_still_rejects_wherever_listed_parts_could_run(update):
+    value = packet()
+    value.update(update)
+    with pytest.raises(ValueError):
+        normalize(value)

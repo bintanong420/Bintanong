@@ -96,16 +96,53 @@ def test_wipe_and_a_new_process_store_know_no_earlier_session():
     assert store.resolve(a.credential) is None and len(store) == 0
 
 
+def stated(store):
+    """A session holding something the student stated, so it is never evicted to admit another."""
+    issued = store.issue()
+    store.set_facts(issued.credential, (fact(issued.session_id),))
+    return issued
+
+
 def test_store_refuses_new_sessions_past_its_bound_after_purging_expired():
     clock = Clock()
     store = SessionStore(idle_seconds=10, clock=clock, max_sessions=2)
-    store.issue()
-    store.issue()
+    stated(store)
+    stated(store)
     with pytest.raises(SessionLimitError):
         store.issue()
     clock.now += 11
     store.issue()  # expired sessions are purged first
     assert len(store) == 1
+
+
+def test_full_store_evicts_the_least_recently_used_empty_session_to_admit_a_new_one():
+    # Owner, 24 Oct 2026 (security review S1): empty sessions hold nothing a student stated.
+    clock = Clock()
+    store = SessionStore(clock=clock, max_sessions=3)
+    oldest = store.issue()
+    clock.now += 1
+    newer = store.issue()
+    clock.now += 1
+    holding = stated(store)
+    clock.now += 1
+    store.issue()
+    assert store.resolve(oldest.credential) is None
+    assert store.resolve(newer.credential) is not None and store.resolve(holding.credential) is not None
+
+
+def test_full_store_never_evicts_a_session_holding_student_state_or_a_running_turn():
+    from backend.bintanong_routing.contracts import ConversationContext
+    store = SessionStore(max_sessions=4)
+    stated(store)
+    pending = store.issue()
+    store.set_pending(pending.credential, pending_extraction())
+    talking = store.issue()
+    store.set_conversation(talking.credential, ConversationContext(program_id='bscs', curriculum_id='bscs-2018'))
+    answering = store.issue()
+    store.begin_turn(answering.credential, 'msg-1')
+    with pytest.raises(SessionLimitError):
+        store.issue()
+    assert len(store) == 4
 
 
 def test_raw_credentials_are_not_kept_in_store_memory():
@@ -183,3 +220,93 @@ def test_confirming_more_facts_than_a_request_can_carry_is_refused_and_keeps_the
     with pytest.raises(ValueError, match='too_many_facts'):
         store.confirm_pending(a.credential, {r.row_id: (r.candidates[0], 'passed') for r in rows})
     assert store.resolve(a.credential).facts == ()
+
+
+# Phase 11: one chat turn in flight per session; a completed message id is not answered twice.
+def test_second_turn_while_one_is_in_flight_is_refused():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    with pytest.raises(ValueError, match='chat_in_progress'):
+        store.begin_turn(a.credential, 'msg-2')
+
+
+def test_completed_message_is_not_answered_again_unless_regenerated():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.end_turn(a.credential, 'msg-1', completed=True)
+    with pytest.raises(ValueError, match='already_answered'):
+        store.begin_turn(a.credential, 'msg-1')
+    store.begin_turn(a.credential, 'msg-1', regenerate=True)
+
+
+def test_cancelled_turn_can_be_retried_with_the_same_message():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.end_turn(a.credential, 'msg-1', completed=False)
+    store.begin_turn(a.credential, 'msg-1')
+
+
+def test_turns_are_per_session():
+    store = SessionStore()
+    a, b = store.issue(), store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.begin_turn(b.credential, 'msg-1')
+
+
+def test_ending_a_turn_of_a_deleted_session_does_not_resurrect_it():
+    store = SessionStore()
+    a = store.issue()
+    store.begin_turn(a.credential, 'msg-1')
+    store.delete(a.credential)
+    store.end_turn(a.credential, 'msg-1', completed=True)
+    assert len(store) == 0 and store.resolve(a.credential) is None
+
+
+# Phase 11 uploads: the pending extraction has an id; deleting an upload removes its pending rows and the
+# facts it confirmed, never a newer statement that replaced one of them.
+def test_pending_extraction_gets_an_upload_id_shown_in_the_view():
+    store = SessionStore()
+    a = store.issue()
+    upload_id = store.set_pending(a.credential, pending_extraction())
+    assert upload_id.startswith('upl-') and store.resolve(a.credential).pending_upload_id == upload_id
+
+
+def test_confirming_a_different_upload_id_is_refused():
+    store = SessionStore()
+    a = store.issue()
+    store.set_pending(a.credential, pending_extraction())
+    with pytest.raises(ValueError, match='unknown_upload'):
+        store.confirm_pending(a.credential, {'row-1-2': ('cc-101', 'passed')}, upload_id='upl-other')
+
+
+def test_deleting_a_pending_upload_clears_its_rows():
+    store = SessionStore()
+    a = store.issue()
+    upload_id = store.set_pending(a.credential, pending_extraction())
+    assert store.delete_upload(a.credential, upload_id) is True
+    view = store.resolve(a.credential)
+    assert view.pending is None and view.pending_upload_id is None
+
+
+def test_deleting_a_confirmed_upload_removes_its_facts_but_not_newer_statements():
+    store = SessionStore()
+    a = store.issue()
+    first = store.set_pending(a.credential, pending_extraction())
+    store.confirm_pending(a.credential, {'row-1-2': ('cc-101', 'failed'), 'row-1-3': ('gec-1', 'passed')},
+                          upload_id=first)
+    second = store.set_pending(a.credential, pending_extraction())
+    store.confirm_pending(a.credential, {'row-1-2': ('cc-101', 'passed')}, upload_id=second)
+    assert store.delete_upload(a.credential, first) is True
+    assert [(f.course_id, f.state) for f in store.resolve(a.credential).facts] == [('cc-101', 'passed')]
+
+
+def test_deleting_an_unknown_or_foreign_upload_changes_nothing():
+    store = SessionStore()
+    a, b = store.issue(), store.issue()
+    upload_id = store.set_pending(a.credential, pending_extraction())
+    assert store.delete_upload(b.credential, upload_id) is False
+    assert store.delete_upload(a.credential, 'upl-other') is False
+    assert store.resolve(a.credential).pending is not None

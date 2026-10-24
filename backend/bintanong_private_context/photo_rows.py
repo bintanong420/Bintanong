@@ -1,0 +1,175 @@
+"""Text lines from OCR word boxes on photos (24.1): follow each printed row's own slope, refuse when unsure.
+
+The Phase 10 probe grouped words by vertical centre, which silently attached grades to the wrong course on
+tilted and perspective photos. Here each line is chained left to right along its fitted baseline, so a
+keystone page (every row with its own slope) still lines up. A word that sits near two lines, or near a line
+without being on it, refuses the whole page: a refused photo is safe; a wrong row is not.
+"""
+from __future__ import annotations
+
+import math
+import statistics
+from dataclasses import dataclass
+
+from ..bintanong_routing.contracts import CatalogEntry
+from .grades import _MARK, ExtractionResult, GradeRow, _code_pattern, curriculum_courses
+
+MAX_TILT_DEGREES = 8.0   # the envelope verified on simulated photos
+# Distances below are in median word heights. OCR pads boxes, so a box can be taller than the row pitch.
+ON_LINE = 0.5            # a word belongs to a line within half a word height of its fitted baseline
+NEW_LINE = 0.8           # farther than this from every line, it starts a new one; in between, it is refused
+MARGIN = 0.5             # the nearest line must beat the next nearest by this much, or the word is ambiguous
+NARROW = 3.0             # a box narrower than this many heights does not set its line's slope
+
+
+class RowsUncertain(ValueError):
+    """The page cannot be split into rows without guessing."""
+
+
+@dataclass(frozen=True)
+class Word:
+    text: str
+    box: tuple[tuple[float, float], ...]  # top-left, top-right, bottom-right, bottom-left
+    score: float
+
+    @property
+    def center(self) -> tuple[float, float]:
+        return (sum(p[0] for p in self.box) / 4, sum(p[1] for p in self.box) / 4)
+
+    @property
+    def height(self) -> float:
+        (x0, y0), (x1, y1), (x2, y2), (x3, y3) = self.box
+        return (math.dist((x0, y0), (x3, y3)) + math.dist((x1, y1), (x2, y2))) / 2
+
+    @property
+    def width(self) -> float:
+        (x0, y0), (x1, y1), (x2, y2), (x3, y3) = self.box
+        return (math.dist((x0, y0), (x1, y1)) + math.dist((x3, y3), (x2, y2))) / 2
+
+    @property
+    def slope(self) -> float:
+        (x0, y0), (x1, y1), (x2, y2), (x3, y3) = self.box
+        dx = (x1 - x0) + (x2 - x3)
+        return ((y1 - y0) + (y2 - y3)) / dx if dx else 0.0
+
+
+class _Line:
+    def __init__(self, word: Word, page_slope: float):
+        self.words = [word]
+        # A narrow box (a row number, a short mark) has an unreliable slope of its own; borrow the page's.
+        self.seed_slope = word.slope if word.width >= NARROW * word.height else page_slope
+
+    def predict(self, x: float) -> float:
+        points = [w.center for w in self.words]
+        if len(points) == 1:
+            (cx, cy), slope = points[0], self.seed_slope
+        else:
+            mx = statistics.fmean(p[0] for p in points)
+            my = statistics.fmean(p[1] for p in points)
+            spread = sum((p[0] - mx) ** 2 for p in points)
+            slope = sum((p[0] - mx) * (p[1] - my) for p in points) / spread if spread else self.seed_slope
+            cx, cy = mx, my
+        return cy + slope * (x - cx)
+
+
+def group_lines(words: list[Word], critical=None) -> list[list[Word]]:
+    """Lines in reading order (top to bottom), each left to right; raises RowsUncertain instead of guessing.
+
+    With `critical` given, words for which it is false (titles, semester labels centred between rows) cannot
+    refuse the page: a first pass finds the ones that are unplaceable or stand alone, they are removed, and the
+    second pass chains the rest. Only an unplaceable critical word (a code, a mark) refuses."""
+    if not words:
+        return []
+    tilt = math.degrees(math.atan(statistics.median(w.slope for w in words)))
+    if abs(tilt) > MAX_TILT_DEGREES:
+        raise RowsUncertain('tilt_beyond_envelope')
+    if critical is None:
+        return _chain(words, refuse=lambda word: True)[0]
+    lines, unplaced = _chain(words, refuse=lambda word: False)
+    noise = {id(w) for w in unplaced if not critical(w)}
+    noise |= {id(line[0]) for line in lines if len(line) == 1 and not critical(line[0])}
+    return _chain([w for w in words if id(w) not in noise], refuse=critical)[0]
+
+
+def _chain(words: list[Word], refuse) -> tuple[list[list[Word]], list[Word]]:
+    """Left-to-right chaining; an unplaceable word refuses the page when `refuse(word)`, else it is set aside."""
+    height = statistics.median(w.height for w in words)
+    wide = [w.slope for w in words if w.width >= NARROW * w.height]
+    page_slope = statistics.median(wide) if wide else statistics.median(w.slope for w in words)
+    lines: list[_Line] = []
+    unplaced = []
+    for word in sorted(words, key=lambda w: w.center[0]):
+        x, y = word.center
+        residuals = sorted((abs(line.predict(x) - y), i) for i, line in enumerate(lines))
+        if not residuals or residuals[0][0] > NEW_LINE * height:
+            lines.append(_Line(word, page_slope))  # clearly on no existing line: a new row starts here
+            continue
+        best, index = residuals[0]
+        ambiguous = len(residuals) > 1 and residuals[1][0] - best < MARGIN * height
+        if not ambiguous and best <= ON_LINE * height:
+            lines[index].words.append(word)
+        elif refuse(word):
+            raise RowsUncertain('word_near_two_lines' if ambiguous else 'word_between_lines')
+        else:
+            unplaced.append(word)
+    middle = statistics.median(w.center[0] for w in words)
+    ordered = [sorted(line.words, key=lambda w: w.center[0])
+               for line in sorted(lines, key=lambda line: line.predict(middle))]
+    return ordered, unplaced
+
+
+EDGE_MARGIN = 0.15  # a value this close (share of column width) to a FINAL column edge is ambiguous
+
+
+def _final_column(header: list[Word]) -> tuple[float, float]:
+    """x range of the FINAL column, bounded halfway to its neighbouring header words."""
+    if len(header) < 2:
+        raise RowsUncertain('final_column_unbounded')  # no neighbour on its line: the column has no edges
+    xs = [w.center[0] for w in header]
+    i = next(i for i, w in enumerate(header) if w.text.strip().upper() == 'FINAL')
+    left = (xs[i - 1] + xs[i]) / 2 if i > 0 else xs[i] - (xs[i + 1] - xs[i]) / 2
+    right = (xs[i] + xs[i + 1]) / 2 if i + 1 < len(xs) else xs[i] + (xs[i] - xs[i - 1]) / 2
+    return left, right
+
+
+def _final_marks(line: list[Word], column: tuple[float, float]) -> tuple[str, ...]:
+    lo, hi = column
+    margin = EDGE_MARGIN * (hi - lo)
+    marks = []
+    for word in line:
+        if not _MARK.fullmatch(word.text.strip()):
+            continue
+        x = word.center[0]
+        if lo + margin <= x <= hi - margin:
+            marks.append(word.text.strip())
+        elif lo - margin < x < hi + margin:
+            raise RowsUncertain('mark_on_column_edge')
+    if len(marks) > 1:
+        raise RowsUncertain('two_marks_in_final_column')
+    return tuple(marks)
+
+
+def photo_grade_rows(words: list[Word], catalog: tuple[CatalogEntry, ...], *, program_id: str,
+                     curriculum_id: str) -> ExtractionResult:
+    """Grade rows matched only by the curriculum's reviewed aliases (as for PDFs). With a header line that has a
+    FINAL column (a Report of Grades layout also prints units and midterm), only that column's value is shown."""
+    courses = curriculum_courses(catalog, program_id, curriculum_id)
+    code = _code_pattern(courses)
+
+    def critical(word: Word) -> bool:  # what decides a row: its code, a mark, the FINAL header
+        text = word.text.strip()
+        return bool(_MARK.search(text) or (code and code.search(text))) or text.upper() == 'FINAL'
+
+    lines = group_lines(words, critical=critical)
+    header = next((line for line in lines if any(w.text.strip().upper() == 'FINAL' for w in line)), None)
+    column = _final_column(header) if header is not None else None
+    rows, unmatched = [], 0
+    for number, line in enumerate(lines, 1):
+        text = ' '.join(w.text for w in line)
+        match = code.search(text) if code else None
+        if match is None:
+            unmatched += bool(_MARK.search(text)) and line is not header
+            continue
+        marks = _final_marks(line, column) if column else tuple(_MARK.findall(text, match.end()))
+        rows.append(GradeRow(f'row-1-{number}', match.group(), tuple(sorted(courses[match.group()])), marks, 1))
+    return ExtractionResult(program_id, curriculum_id, tuple(rows), unmatched)

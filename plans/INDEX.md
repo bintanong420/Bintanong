@@ -21,11 +21,11 @@
 - Phase **10 complete (23 Oct, owner-approved with disclosures)**: private files and session context.
   [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
-  [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported). No active phase; next permitted: Phase 11
-  (master 16 + 23.3) after its pre-phase research and the owner's go.
-  [Phase11 prepared plan](phase-11-interface-api-plan.md) / [research](2026-10-24-phase-11-pre-phase-research.md):
-  worktree `p11` / `feat/p11-api-interface`; preparation only, no active Phase11.
-  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged; owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
+  [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported).
+- Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); retrieval/Prolog evaluation next, then UI)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
+  adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
+  [Checkpoint](phase-11-checkpoint.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
+  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
 - [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
@@ -36,13 +36,19 @@
 - Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
 - Seven reviewed relationships verified;university/institutional runtime/activation holds remain;full-prospectus conversion stays draft.
 
+Original frontend integration: worktree `p11-frontend-integration`, branch
+`feat/p11-frontend-integration`, based on `frontend` c17dcb2, merging Lawrence
+`origin/feat/p11-backend-api`34a21ca. Preserve original UI; adapt its transport.
+[Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
+
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress, the Phase10 final handoff; master 16 and 23;
+2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24;
    earlier phase files only for a specific dependency/boundary.
-3. Compare Git and recorded state; preserve owner edits; consult relevant Context pages/routing PNG.
-4. Read [Phase11 preparation/recovery](2026-10-24-phase-11-preparation.md); preserve release holds.
+3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
+4. On phase resume, consult relevant Context thesis pages and the routing PNG.
+5. Resume the Phase 11 checkpoint's next action; preserve all inherited release holds.
 
 ## Phase ledger
 
@@ -62,20 +68,28 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
 | 9 | Generation/validation | complete offline research/software on hosted 39-curriculum release; eight limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 | 10 | Private files and session context | complete offline research/software; photos unsupported; HTTP wiring in Phase 11; institutional release held | [Plan](phase-10-private-files-session-plan.md) | [Superseded](phase-10-checkpoint.md) | [Complete](phase-10-handoff.md) |
-| 11 | Interface and API | prepared only; worktree created; execution awaits writable environment and plan/dependency review | [Plan](phase-11-interface-api-plan.md) | none | none |
+| 11 | Backend API (frontend pending) | in progress; backend only | [Plan](phase-11-backend-api-plan.md) | [Checkpoint](phase-11-checkpoint.md) | none |
 
 ## Read only when relevant
 
-- Frontend: [design and integration guidance](2026-10-13-frontend-figma-analysis.md); historical preparation, not phase advancement.
-- Sources: [locations](dataset-locations.md), [undergraduate scope](undergraduate-scope-policy.md), [source gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
+- Sources: [locations](dataset-locations.md), [undergraduate scope](undergraduate-scope-policy.md),
+  [source gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
 - Architecture: [curriculum/Symbolic direction](2026-10-16-curriculum-symbolic-routing-clarification.md).
-- Retrieval: [selected profile](2026-10-16-document-development-profile.md), [bounded acceptance](2026-10-16-document-development-acceptance-contract.md), [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
-- Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md), [Generated review delivery](2026-10-17-phase06-prolog-review-delivery.md), [Partial export design](2026-10-17-phase06-partial-review-export-design.md), [Reference extension](2026-10-17-phase06-reference-extension.md), [translation review03](2026-10-17-phase06-translation-review-03.md), [authoring/compiler](../backend/bintanong_symbolic/README.md).
+- Retrieval: [selected profile](2026-10-16-document-development-profile.md),
+  [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
+  [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
+- Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md),
+  [Generated review delivery](2026-10-17-phase06-prolog-review-delivery.md),
+  [Partial export design](2026-10-17-phase06-partial-review-export-design.md),
+  [Reference extension](2026-10-17-phase06-reference-extension.md),
+  [translation review03](2026-10-17-phase06-translation-review-03.md),
+  [authoring/compiler](../backend/bintanong_symbolic/README.md).
 - Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
 - Benchmarks: [evaluation protocol](../evaluation/README.md).
 - Database integration: [hosted migration gap](2026-10-19-hosted-migration-status.md).
 - Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
 
 ## History and upkeep
-Owner requested compact snapshots,17Oct. Pre-condensation index:`09568f3:plans/INDEX.md`;dated reports retain detail.
+Owner requested compact handoffs on 17 October 2026. These are current snapshots,
+not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
 Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

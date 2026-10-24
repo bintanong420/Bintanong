@@ -25,9 +25,16 @@ def fail():
 
 
 def test_isolated_extraction_returns_the_same_rows_as_in_process():
-    upload = validate_upload(pdf_with('Programming'))
+    data = pdf_with('Programming')
     scope = dict(program_id='bscs', curriculum_id='bscs-2018')
-    assert extract_isolated(upload, CATALOG, timeout=60, **scope) == extract_grade_rows(upload, CATALOG, **scope)
+    expected = extract_grade_rows(validate_upload(data), CATALOG, **scope)
+    assert extract_isolated(data, CATALOG, timeout=60, **scope) == expected
+
+
+def test_isolated_extraction_validates_the_raw_bytes_inside_the_job():
+    with pytest.raises(UploadRejected) as error:
+        extract_isolated(b'%PDF-1.7 truncated', CATALOG, timeout=60, program_id='bscs', curriculum_id='bscs-2018')
+    assert error.value.reason == 'unreadable'
 
 
 def test_a_job_past_its_time_limit_is_killed_and_refused():
