@@ -53,3 +53,20 @@ class SupplementaryReviewLoaderTests(unittest.TestCase):
         self.client.response['evidence']['evidence_id'] = 'wrong receipt'
         with self.assertRaisesRegex(ValueError, 'differs'):
             self.loader().record(self.current, self.receipt, base_evidence_id=self.parent)
+
+    def test_explicit_source_blank_can_be_recorded_without_inventing_a_printed_span(self):
+        field = dict(name='later_offense', value='', source_blank=True,
+                     event_sha256='6'*64, span_indexes=[])
+        self.receipt['chunks'][-1]['type_fields']['field_associations'].append(field)
+        out = self.loader().record(self.current, self.receipt, base_evidence_id=self.parent)
+        self.assertEqual(out['chunks'][-1]['type_fields']['field_associations'][-1], field)
+
+    def test_claimed_blank_rejects_content_null_or_an_invented_span(self):
+        for value, indexes in (('Invented penalty', []), (None, []), ('', [0])):
+            receipt = copy.deepcopy(self.receipt)
+            receipt['chunks'][-1]['type_fields']['field_associations'].append(dict(
+                name='later_offense', value=value, source_blank=True,
+                event_sha256='6'*64, span_indexes=indexes))
+            with self.subTest(value=value, indexes=indexes), self.assertRaises(ValueError):
+                self.loader().record(self.current, receipt, base_evidence_id=self.parent)
+        self.assertEqual(self.client.calls, [])

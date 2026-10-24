@@ -1,6 +1,7 @@
 -- Shared validation retains original C1 semantics; supplementary reviews do not update source state.
 create function bintanong_private.validate_partial_review_receipt(
-    p_expected_register jsonb,p_receipt jsonb,p_require_initial boolean) returns void
+    p_expected_register jsonb,p_receipt jsonb,p_require_initial boolean,
+    p_allow_source_blanks boolean default false) returns void
 language plpgsql immutable security invoker set search_path='' as $$
 declare ev jsonb; e jsonb; c jsonb; f jsonb; s jsonb; fields jsonb; x jsonb;
     key text; source_hash text; evidence_at timestamptz; span_number integer;
@@ -125,10 +126,14 @@ begin
                or jsonb_typeof(f->'name') is distinct from 'string' or f->>'name' !~ '[^[:space:]]'
                or jsonb_typeof(f->'source_blank') is distinct from 'boolean'
                or jsonb_typeof(f->'event_sha256') is distinct from 'string' or not (f->>'event_sha256'=any(event_ids))
-               or jsonb_typeof(f->'span_indexes') is distinct from 'array' or jsonb_array_length(f->'span_indexes')=0 then
+               or jsonb_typeof(f->'span_indexes') is distinct from 'array' or (jsonb_array_length(f->'span_indexes')=0 and not (p_allow_source_blanks and f->'source_blank'='true'::jsonb and f->'value'=to_jsonb(''::text))) then
                 raise exception 'Complete C1 field/event/span binding required' using errcode='23514';
             end if;
-            used_events := array_append(used_events,f->>'event_sha256');
+            if p_allow_source_blanks and f->'source_blank'='true'::jsonb
+           and (f->'value' is distinct from to_jsonb(''::text) or jsonb_array_length(f->'span_indexes')<>0) then
+            raise exception 'Source blank requires empty value and no invented span' using errcode='23514';
+        end if;
+        used_events := array_append(used_events,f->>'event_sha256');
             if (select count(*) from jsonb_array_elements(f->'span_indexes')) <>
                (select count(distinct v) from jsonb_array_elements(f->'span_indexes') v) then
                 raise exception 'Distinct C1 span indexes required' using errcode='23514';
@@ -290,7 +295,7 @@ language plpgsql volatile security invoker set search_path='' as $$
 declare actual jsonb; parent jsonb; c jsonb; v_evidence_id text;
 begin
     perform bintanong_private.publication_lock();
-    perform bintanong_private.validate_partial_review_receipt(p_expected_register,p_receipt,false);
+    perform bintanong_private.validate_partial_review_receipt(p_expected_register,p_receipt,false,true);
     v_evidence_id := p_receipt#>>'{evidence,evidence_id}';
     if p_base_evidence_id is null or p_base_evidence_id !~ '[^[:space:]]'
        or p_base_evidence_id=v_evidence_id then
@@ -609,13 +614,13 @@ end;
 $$;
 
 
-revoke all on function bintanong_private.validate_partial_review_receipt(jsonb,jsonb,boolean),
+revoke all on function bintanong_private.validate_partial_review_receipt(jsonb,jsonb,boolean,boolean),
     bintanong_private.review_source_projection(jsonb),
     bintanong_private.validate_partial_review_chunks(jsonb,jsonb,boolean),
     bintanong_private.partial_review_is_bound(jsonb,text),
     bintanong_private.validate_source_supplement(jsonb,jsonb,text),
     bintanong_private.validate_supplement_link() from public,anon,authenticated;
-grant execute on function bintanong_private.validate_partial_review_receipt(jsonb,jsonb,boolean),
+grant execute on function bintanong_private.validate_partial_review_receipt(jsonb,jsonb,boolean,boolean),
     bintanong_private.review_source_projection(jsonb),
     bintanong_private.validate_partial_review_chunks(jsonb,jsonb,boolean),
     bintanong_private.partial_review_is_bound(jsonb,text),

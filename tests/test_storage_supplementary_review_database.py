@@ -152,6 +152,45 @@ class SupplementaryReviewDatabaseTests(unittest.TestCase):
         with self.assertRaisesRegex(StorageError, 'Source-bound cumulative parent'):
             self.record(parent='unbound-parent')
 
+    def test_explicit_source_blank_remains_unknown_in_a_supplement_and_selected_review(self):
+        receipt = copy.deepcopy(self.supplement)
+        chunk = receipt['chunks'][-1]
+        chunk['chunk_id'] = 'c'*64
+        chunk['spans'][0]['chunk_id'] = 'c'*64
+        chunk['type_fields']['reading_id'] = 'synthetic-with-source-blank'
+        chunk['type_fields']['field_associations'].append(dict(name='later_offense', value='',
+            source_blank=True, event_sha256='6'*64, span_indexes=[]))
+        chunk['content_hash'] = compute_content_hash(chunk['spans'][0]['text'],
+            serialize_reviewed_fields(chunk['type_fields']['field_associations'], []))
+        self.load_snapshot(chunk)
+        self.assertEqual(self.record(receipt), receipt)
+        selected = copy.deepcopy(self.receipt)
+        selected.update(review_scope_id='d'*64, chunks=copy.deepcopy(receipt['chunks']))
+        selected['sources'][0]['partial_review_evidence_id'] = 'synthetic-supplement'
+        selected['decision'].update(evidence_id='synthetic-blank-selection', recorded_at='2026-10-18T10:00:00Z')
+        self.assertEqual(self.loader.record(selected), selected)
+
+    def test_claimed_blank_rejects_content_null_or_an_invented_span_atomically(self):
+        for value, indexes in (('Invented penalty', []), (None, []), ('', [0])):
+            receipt = copy.deepcopy(self.supplement)
+            receipt['chunks'][-1]['type_fields']['field_associations'].append(dict(
+                name='later_offense', value=value, source_blank=True,
+                event_sha256='6'*64, span_indexes=indexes))
+            with self.subTest(value=value, indexes=indexes), self.assertRaises(StorageError):
+                self.record(receipt)
+        self.assertEqual(len(self.client.select('source_partial_reviews', role='admin')), 1)
+        self.assertEqual(self.client.select('source_review_supplements', role='admin'), [])
+
+    def test_original_partial_review_still_requires_a_located_field(self):
+        from tests.test_storage_selected_release_review import selected_fixture
+        current, receipt, _, _ = selected_fixture()
+        receipt['chunks'][0]['type_fields']['field_associations'].append(dict(
+            name='later_offense', value='', source_blank=True,
+            event_sha256=receipt['source_events'][0]['event_sha256'], span_indexes=[]))
+        with self.assertRaisesRegex(StorageError, 'field/event/span'):
+            self.client.rpc('record_source_partial_review', dict(
+                p_expected_register=current, p_receipt=receipt), role='admin')
+
     def test_supplementary_receipts_and_parent_links_are_immutable(self):
         self.record()
         for sql in (

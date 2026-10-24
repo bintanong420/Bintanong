@@ -19,7 +19,7 @@ class SourceSupplementaryReviewLoader:
         if not isinstance(base_evidence_id, str) or not base_evidence_id.strip():
             raise ValueError('Explicit base partial-review evidence required')
         receipt = copy.deepcopy(receipt)
-        evidence = _validate_receipt(current, receipt)
+        evidence = _validate_receipt(current, receipt, allow_source_blanks=True)
         if base_evidence_id == evidence.evidence_id:
             raise ValueError('Distinct supplementary evidence required')
         try:
