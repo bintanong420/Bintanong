@@ -107,3 +107,26 @@ Hybrid quality, unresolved prerequisite coverage, actual grade layouts and phase
 remain open. Next: owner retries the original title question in the authenticated chat;
 track the dependency-coverage limitation separately from the delivered alias fix.
 No merge/push or university/public activation.
+
+## GPU/latency inspection,24October19:45–19:46+08
+
+Read-only check after the owner reported slow answers and no visible Task Manager
+activity. The live `bintanong-p11-bintu` process is `llama-server`; its mapped libraries
+include libggml-cuda, libcuda, cuBLAS and libcudart. Container `nvidia-smi` lists PID1
+`/llama-server` as a compute process on NVIDIA GeForce RTX4060 Laptop GPU. Intel iGPU
+is not the model backend. Launch configuration caps offload at32 layers, context8192,
+parallel1; the exact per-layer CPU/GPU split was not measured.
+
+Recent decode logs show roughly12–16 tokens/s; one routing-sized prompt required14.50s
+for4334 tokens before decoding. These are server-call timings, not browser latency.
+Latest slots/metrics: idle,0 processing/0 deferred; no queue at that snapshot. GPU total
+allocation3777/8188MiB includes other applications; it is not per-model VRAM. SEA-LION
+embedding uses CPU (container torch CUDA unavailable and service source device=cpu).
+No competing agent model experiment remained running after the prior bounded probes.
+
+Task Manager graphs represent individual engines; selecting a CUDA/Compute engine
+on the NVIDIA adapter can distinguish it from3D activity. See [Microsoft's GPU engine
+description](https://devblogs.microsoft.com/directx/gpus-in-the-task-manager/).
+The latest zero-utilization sample coincided with an idle model slot. CUDA use is
+confirmed; efficient utilization and the cause of the owner's whole observed wait
+are not established. No tuning, restart, new inference probe or dependency change.

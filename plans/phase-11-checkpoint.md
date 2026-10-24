@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 34
+sequence: 35
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 9fb1e41
+head_commit: 7c59033
 working_tree: dirty
-updated_at: 2026-10-24T19:37:00+08:00
+updated_at: 2026-10-24T19:46:36+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -63,6 +63,9 @@ Ignored frontend/.env.local contains existing hosted public key/origins, no Goog
 
 ## Verification Evidence
 
+- GPU inquiry: container nvidia-smi lists llama-server on RTX4060; CUDA libraries
+  loaded,32-layer offload configured. Embedding CPU. Recent decode12–16tok/s; last
+  model slot idle/queue0. No tuning or student end-to-end latency claim.
 - Startup recovery: focused RED8 failed/11 passed, then GREEN19 passed. Fresh relevant
   regression3404 passed/2 expected photo xfails. Actual readiness: Supabase vector RPC,
   Janus, embedding, Bintu and student_runtime true; anonymous frontend curricula401.
