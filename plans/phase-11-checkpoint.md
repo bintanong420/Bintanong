@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 23
+sequence: 24
 plan: plans/phase-11-backend-api-plan.md
-head_commit: a88acf5
+head_commit: b08c6ca
 working_tree: dirty
 updated_at: 2026-10-24T15:16:14+08:00
 ---
@@ -35,15 +35,16 @@ Owner requested overall frontend UI/UX polish aligned with the existing backend.
 First slice: truthful answer-status labels, curriculum loading/retry, file empty/
 review states, composer Stop placement, control spacing and mobile transcript layout.
 Public seams: existing student-workspace presentation helper and actual browser UI.
-First slice verified; owner requests stronger chatbot structure using ChatGPT,
-Claude and Gemini web references because the interface still feels static.
+First slice committed b08c6ca; provider-reference layout also verified. Owner now
+requests the specified guided live clarification UI from an actual screenshot:
+supported choices, alternative explanation and explicit user confirmation.
 [One-document checklist](../docs/development/google-sign-in-local-setup.md).
 [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md) remain active;
 this UI delivery does not close Phase11 or expand institutional release authority.
 
 ## Repository State
 
-Main checkout frontend ata88acf5: verified UI/docs/test increment committed locally, not pushed.
+Main checkout frontend atb08c6ca plus verified provider-reference UI increment; not pushed.
 Changed frontend: root/login/chat, OAuth callback, proxy/auth-policy, styles,
 appearance control and new page-access regression. Changed docs: student integration,
 Google setup guide, dated landing/auth report, progress and this checkpoint.
@@ -62,6 +63,9 @@ Ignored frontend/.env.local contains existing hosted public key/origins, no Goog
  10 actual synthetic API/browser families/16 requests and29 polish checks PASS.
   Stop/draft RED/GREEN browser regression retained; text contrast minimum6.58:1.
   [Evidence and current reference pass](2026-10-24-student-workspace-polish.md).
+- Provider-reference pass:48 UI tests/build,10 browser families/16 requests,
+ 29 layout/interaction checks and two tracked browser regressions PASS. Native
+ mobile drawer/focus, context controls and reduced-motion behavior exercised.
 - New page-access regression RED missing export ->GREEN2; complete frontend45 PASS.
   Pinned Node24.21: next typegen, tsc --noEmit and final production build PASS.
 - Actual Edge31 checks PASS: both pages,320/390/768/1440 widths,light/dark/system,
@@ -121,8 +125,8 @@ No phase closure, university approval, public deployment or institutional activa
 
 ## Next Action
 
-Finish and browser-verify the requested workspace polish; record the delivery,
-then resume preserved lifecycle review and remaining Phase11 verification.
+Connect the live guided clarification prompt using canonical backend options,
+alternative explanation and explicit confirmation; verify through API/browser.
 
 ## Do Not Repeat
 

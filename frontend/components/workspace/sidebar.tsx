@@ -6,19 +6,17 @@ const examples = [
   "What if I fail CC5/L?",
   "Steps to process enrollment",
   "CC4/L pre-requisite",
-  "Registrar inquiries",
-  "Library inquiries",
 ];
 
-export function Sidebar({ onNewChat, onExample, live = false, busy = false }: { onNewChat: () => void; onExample: (text: string) => void; live?: boolean; busy?: boolean }) {
-  return <aside className="sidebar" aria-label="Conversation sidebar">
+export function Sidebar({ onNewChat, onExample, live = false, busy = false, hidden = false, className = "" }: { onNewChat: () => void; onExample: (text: string) => void; live?: boolean; busy?: boolean; hidden?: boolean; className?: string }) {
+  return <aside className={`sidebar ${className}`} hidden={hidden} aria-label="Conversation sidebar">
     <div className="sidebar-heading">
-      <a className="brand" href="/" aria-label="Bintanong home">Bintanong</a>
+      <p className="brand">Bintanong</p>
       <Button variant="secondary" className="new-chat justify-start" disabled={busy} onClick={onNewChat}>
         <SquarePen aria-hidden="true" /> New chat
       </Button>
     </div>
-    <nav className="sidebar-examples" aria-label="Example conversations">
+    <nav className="sidebar-examples" aria-label="Example questions">
       <h2>Example questions</h2>
       <p className="sidebar-caption">{live ? "Choose one to edit before sending." : "Preview examples · not saved"}</p>
       {examples.map(text => <Button key={text} variant="ghost" className="sidebar-example justify-start" onClick={() => onExample(text)}>

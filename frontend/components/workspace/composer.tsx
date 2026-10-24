@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, type RefObject } from "react";
+import { useId, useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
 import { ArrowUp, FileImage, FileText, Paperclip, Square, TriangleAlert, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,9 +17,11 @@ type ComposerProps = {
   picker: RefObject<HTMLInputElement | null>;
   live?: boolean;
   onStop?: () => void;
+  tools?: ReactNode;
+  starters?: ReactNode;
 };
 
-export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker, live = false, onStop }: ComposerProps) {
+export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker, live = false, onStop, tools, starters }: ComposerProps) {
   const input = useRef<HTMLTextAreaElement>(null);
   const hintId = useId();
   useLayoutEffect(() => {
@@ -50,10 +52,12 @@ export function Composer({ draft, attachments, warning, pending, onDraft, onSend
           if (shouldSend({ key: event.key, shiftKey: event.shiftKey, isComposing: event.nativeEvent.isComposing, keyCode: event.nativeEvent.keyCode })) { event.preventDefault(); onSend(); }
         }} />
       </div>
+      {tools && <div className="composer-tools">{tools}</div>}
       {onStop ? <Button type="button" className="composer-send" onClick={event => { event.preventDefault(); onStop(); }} aria-label="Stop response" title="Stop response"><Square aria-hidden="true" size={18} /></Button>
         : <Button type="submit" className="composer-send" disabled={pending || !draft.trim()} aria-label={live ? "Send question" : "Send preview message"} title={live ? "Send question" : "Send preview message"}><ArrowUp aria-hidden="true" size={24} /></Button>}
     </form>
     {live && <p className="composer-hint" id={hintId}>{onStop ? "You can stop the response or prepare your next question." : "Enter to send · Shift + Enter for a new line"}</p>}
+    {starters}
     <p className="responsible-use">Bintanong is an AI guide. Verify important academic decisions with the relevant university office or academic adviser.</p>
   </footer>;
 }

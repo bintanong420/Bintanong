@@ -56,9 +56,12 @@ WSL16GB remains unverified: last check found memory=8GB and Ubuntu7.8Gi total.
 
 First state/control polish verified:48 UI tests, production build,10 browser families/
 16 requests,29 layout/interaction checks and Stop/draft browser regression PASS.
-Owner now requests less static structure inspired by ChatGPT/Claude/Gemini web.
-Complete the centered composer, quieter controls/navigation and purposeful feedback;
-then verify the revised browser UI. [Evidence](../2026-10-24-student-workspace-polish.md).
+ChatGPT/Claude/Gemini reference pass also verified: centered composer, quiet header,
+collapsible navigation/mobile drawer and reduced-motion-aware feedback. Two tracked
+browser regressions pass; same48 UI tests/build and29 interaction checks pass.
+Owner now requests the specified guided live clarification prompt from a screenshot;
+connect supported choices, alternative explanation and explicit confirmation.
+[Evidence](../2026-10-24-student-workspace-polish.md).
 
 ## Remaining boundaries
 

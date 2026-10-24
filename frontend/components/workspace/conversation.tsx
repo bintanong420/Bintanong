@@ -1,19 +1,18 @@
 import { useEffect, useRef } from "react";
-import { BookOpen, MessageCircle, UserRound } from "lucide-react";
+import { BookOpen, LoaderCircle, MessageCircle, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
 
 const suggestions = ["What courses should I take next?", "Can I shift to another program?", "How do I enroll for the next term?"];
-export function EmptyConversation({ onSuggest }: { onSuggest: (text: string) => void }) {
+export function EmptyConversation() {
   return <section className="empty-conversation" aria-labelledby="welcome-title">
     <h1 id="welcome-title">Ask away, Bintanong.</h1>
-    <p className="welcome-description">Ask about PalSU undergraduate curricula and academic policies.</p>
-    <p className="welcome-languages">Use everyday English, Filipino, or Taglish.</p>
-    <p className="suggestion-label">Try asking:</p>
-    <div className="suggestions">{suggestions.map(text => <Button key={text} variant="secondary" onClick={() => onSuggest(text)}>{text}</Button>)}</div>
-    <p className="optional-context">Start with a question. Add course details or a PDF only when they help explain it.</p>
+    <p className="welcome-description">Your PalSU undergraduate academic questions, in English, Filipino, or Taglish.</p>
   </section>;
+}
+export function ConversationStarters({ onSuggest }: { onSuggest: (text: string) => void }) {
+  return <div className="suggestions" role="group" aria-label="Suggested questions">{suggestions.map(text => <Button key={text} type="button" variant="outline" onClick={() => onSuggest(text)}>{text}</Button>)}</div>;
 }
 const missingLabels = { program: "degree program", curriculum: "curriculum version", course: "course code", course_status: "which courses you have passed or are taking" };
 export function Conversation({ state, progress, onSource, onScope }: {
@@ -24,8 +23,9 @@ export function Conversation({ state, progress, onSource, onScope }: {
   return <section className="conversation" aria-label="Conversation" onScroll={event => {
     const node = event.currentTarget; follow.current = node.scrollHeight - node.scrollTop - node.clientHeight < 100;
   }}>
-    <p role="status" className="sr-only">{state.pending ? progress : state.messages.at(-1)?.role === "assistant" ? "Response ready." : ""}</p>
+    <p role="status" className="sr-only">{!state.pending && state.messages.at(-1)?.answer ? "Response ready." : ""}</p>
     {state.messages.map(message => {
+      if (message.role === "assistant" && !message.text && message.delivery !== "interrupted") return null;
       const notice = message.answer && answerNotice(message.answer);
       return <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Bintanong response"}>
       <span className="message-avatar" aria-hidden="true">{message.role === "user" ? <UserRound size={18} /> : <MessageCircle size={18} />}</span>
@@ -44,7 +44,7 @@ export function Conversation({ state, progress, onSource, onScope }: {
         <Button variant="outline" size="sm" className="source-link" onClick={() => onSource(source.sourceId)}><BookOpen size={14} aria-hidden="true" /><span>{source.title}</span></Button>
       </li>)}</ul></>}</div>
     </article>; })}
-    {state.pending && <article className="working-card status-info" role="status"><MessageCircle size={20} aria-hidden="true" /><p>{progress}</p></article>}
+    {state.pending && <article className="working-card" role="status"><LoaderCircle className="request-indicator" size={18} aria-hidden="true" /><p>{progress}</p></article>}
     <div ref={end} />
   </section>;
 }

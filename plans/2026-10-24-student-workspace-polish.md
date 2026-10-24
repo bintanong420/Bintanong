@@ -81,8 +81,28 @@ documents its composer options and sidebar behavior instead.
 
 These are design inferences from the observed interfaces and official guidance,
 not copied capabilities. No model picker, voice, saved history or unsupported tools.
-Next slice: centered starter/composer, compact header, collapsible desktop/mobile
-navigation, context controls near input and state-driven interaction feedback.
+Second slice delivered: centered starter/composer, compact header, collapsible
+desktop navigation, native mobile drawer, context controls near input, native
+options popover, request indicator and short panel/answer transitions. Reduced
+motion disables movement; pending animation only exists during an actual request.
+The plain starter/sidebar still uses approved PalSU imagery and actual scope.
+
+Second-slice verification:48 UI tests, TypeScript and production build PASS;
+10 browser families/16 requests and29 layout/interaction checks PASS on revised UI.
+Two tracked browser regressions PASS: Stop/draft protection and desktop/mobile
+navigation, focus return, unsent example selection, context controls not submitting,
+and reduced motion. Starter grouping test observed RED before the layout change.
+Measured rendered text minimum6.58:1 light/7.73:1 dark on empty and source-conflict
+states; new screenshots reviewed after animations settled.
+
+## Next: guided live clarification
+
+Owner supplied a real screenshot and requested the previously specified Claude
+Code/Codex-style clarification prompt. The existing live response only exposes
+missing field categories; the prototype form is not connected. Inspect thesis
+physical18/20 and the13Oct frontend specification, then connect selectable,
+system-supported options, alternative explanation and explicit confirmation.
+Do not infer course options from prose or turn unknown into failed/ineligible.
 
 ## Remaining boundaries
 
