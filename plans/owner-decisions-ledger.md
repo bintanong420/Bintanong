@@ -344,3 +344,7 @@ Each program still gets its own dated review record listing which standing rule 
   - Owner asked whether (6) is a cosine/kNN problem. Agent's diagnosis: no; the router chose two topics and
     `orchestrator._topic_intent` retrieves only the first chosen topic (grading_scale), so grade_completion is never
     retrieved. Confirm with a component probe before fixing.
+- 24 Oct 2026 (Phase 11 step 2b, owner chose "List for both"): when the student has stated no passed/failed
+  course, both "What is the prerequisite of CC 5?" and "Can I take CC 5?" list the reviewed prerequisites
+  (all-of "and", any-of "one of", co-requisite "or take at the same time") and ask which ones the student has
+  passed. Host-side, deterministic, no router prompt change; a stated fact keeps the eligibility check.
