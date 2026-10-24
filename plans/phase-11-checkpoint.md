@@ -185,7 +185,14 @@ referral wording for e2) and the routing PNG: consistent.
       Second blocker: `record_source_partial_review` refuses any version already in a published release ("Published
       C1 source is immutable") and needs initial pending states; document_versions are immutable once published.
       Version ids derive from bytes, so the Handbook cannot be re-registered. A new release therefore needs a
-      migration adding a supplementary review path for published sources; owner asked (25 Oct).
+      migration adding a supplementary review path for published sources. Owner chose host-written (25 Oct).
+      DONE `8c49ad0` grade_reply.py (rows from p.46, only when a retrieved card cites Handbook p.46; named row /
+      passing / whole table; en/fil/Taglish; RED 12, GREEN, 5 mutations caught; selection 1479 passed, 2 xfailed).
+      Live (`p11-course-facts-20261024/live_grades.log`): whole table and "katumbas ng 85" answered; passing grade
+      en/fil and "4.0 mean" still referral: retrieval ranks globally (top_k 3; SQL allows only 3/5/8), then keeps
+      the chosen topic, so p.46 ranks 11th/4th and is dropped (`diag_grade_rank.py`). Topic-label query expansion
+      tried offline: unreliable (`diag_grade_expand.py`). Owner asked about topic-filtered retrieval (25 Oct).
+      Also seen: "Based on the supplied evidence:" printed twice on the whole-table reply; Taglish passing got no topic.
       NEXT ACTION (resume here, after the owner's choice):
       1. Read how `handbook-grading-1` was built: corpus `audit-evidence/p05-approved-natural-query-evaluation-20261015/
          candidate-corpus.json` (27 hand-built chunks), catalogue assignment (basis
