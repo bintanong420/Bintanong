@@ -186,14 +186,22 @@ referral wording for e2) and the routing PNG: consistent.
          authoring.py: add FACT_FIELDS `units.printed` (text, e.g. "2/1", "250 Hours" not used) and `units.rle`
          (numeric); treat only units.total/lecture/lab/rle as numeric. BSN: units.printed from its Unit/s column;
          BSMid: units.lecture/rle/lab from LEC/RLE/LAB, "-" = fact omitted. Blank units = fact omitted (gap).
-      2. NOW. Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
+      2.-3. (Done 25 Oct, untracked evidence `audit-evidence/p11-course-facts-20261024/author_facts.py` ->
+         `ledgers/<program>/ledger.json` + `author_facts_report.json`): 39 curricula, 2132 courses; every value
+         checked by build_curriculum_ledger against its span; prerequisites/codes/earlier facts unchanged and the
+         runtime payload hash identical for all 39. Spans: 429 CF2 `column_heading_owner_reading`, 52 CF3
+         `owner_reading_source_error`, 14 new line-wrap joins (titles with a printed line-end hyphen, kept
+         unspaced, e.g. "Management-Clinical Practicum"; for the owner spot-check). BSMid: lecture/rle/lab
+         numbers, "-" omitted; BSN: Unit/s as units.printed; Thesis 1 (BSBio), SSE 18 (BSEd-SS) units omitted.
+         Owner spot-check per batch (acceptance 1) still to show.
+         Original wording of items 2-3: Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
          wrapped words joined with resolution_method native_range_line_wrap_joined + repair_id). CF2 terms cite
          the column's printed SEMESTER heading; CF3 (BSBA-MM) needs an owner-reading repair on the span
          (value FIRST/SECOND SEMESTER vs printed FIRST/SECOND YEAR): check _facts/_spans before choosing.
       3. Regenerate 39 ledgers: same courses/prerequisites; new review `p11-course-facts-review-01` per curriculum
          (course_digests over new content); review_refs -> that review; old reviews kept in `reviews` as history.
          Verify prerequisite expressions and Prolog bundles unchanged except ledger hash (bundle regression).
-      4. Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
+      4. NOW. Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
          facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
       5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
          insert new `curriculum_ledgers` rows, re-point `release_curriculum_ledgers` for release
