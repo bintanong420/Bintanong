@@ -54,6 +54,15 @@ _REQUIREMENT={
   ask='Sabihin mo kung alin dito ang na-pass mo na, para ma-check ko kung pwede mo nang i-take ang {course}.')}
 
 
+_COURSE_NOT_FOUND={
+ 'en':'I could not find that course among the reviewed courses of your curriculum. '
+      'Please give the course code as printed in your prospectus.',
+ 'fil':'Hindi ko nakita ang kursong iyan sa mga na-review na kurso ng curriculum mo. '
+       'Pakibigay ang course code na nakasulat sa prospectus mo.',
+ 'taglish':'Hindi ko nakita yung course na iyan sa reviewed courses ng curriculum mo. '
+       'Pakibigay ang course code na naka-print sa prospectus mo.'}
+
+
 def requirement_text(requirement,language,nested=False):
     words=_REQUIREMENT.get(language,_REQUIREMENT['en'])
     if requirement.kind=='course': return requirement.course_id
@@ -168,6 +177,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.append(shown(listing['ask'].format(course=course)))
         return '\n'.join(lines)
     missing=pack.missing_facts
+    if status=='clarification_needed' and 'course_id' in missing:  # owner step 2c: no reviewed course matched
+        lines[1]=_COURSE_NOT_FOUND.get(pack.language,_COURSE_NOT_FOUND['en'])
+        missing=tuple(field for field in missing if field!='course_id')
     canonical_allowed=pack.status=='ready' and status=='answered'
     if pack.decision is not None and (canonical_allowed or
             (pack.status=='unknown' and pack.decision.outcome=='unknown')):
