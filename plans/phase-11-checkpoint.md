@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 11
 plan: plans/phase-11-backend-api-plan.md
-head_commit: c6fb6d8
+head_commit: fc07d84
 working_tree: clean
 updated_at: 2026-10-25T09:00:00+08:00
 ---
@@ -177,7 +177,12 @@ referral wording for e2) and the routing PNG: consistent.
       Live (`p11-course-facts-20261024/live_f.log`): thanks, tuition referral, Cebuano notice; greeting unchanged.
    g. Passing grade: owner 25 Oct (`c6fb6d8`): p.304 is the Lab School table (excluded); use 2021 Handbook physical
       p.46 table 2.2 (3.0 = 75-76 Passed, 4.0 Condition, 5.0 Failed), generalised, no college caveat. Hosted insert
-      APPROVED (25 Oct) for every row of the p.46 undergraduate table. NEXT ACTION (resume here):
+      APPROVED (25 Oct) for every row of the p.46 undergraduate table. BLOCKER (25 Oct resume): a published
+      release is immutable in the schema ("Published release is immutable"; phase4_release_security), so rows cannot
+      be inserted into `p09-research-selected-20261022`. Only `handbook-grading-1` (row 1.0) exists. Adding rows needs
+      new chunks + embeddings, a new Handbook partial-review receipt, a new selected-review scope, a NEW research
+      release (copy the 39 ledger links) and activation, plus the runtime package/pin. Owner asked to choose the path.
+      NEXT ACTION (resume here, after the owner's choice):
       1. Read how `handbook-grading-1` was built: corpus `audit-evidence/p05-approved-natural-query-evaluation-20261015/
          candidate-corpus.json` (27 hand-built chunks), catalogue assignment (basis
          `p05-confirmed-policy-applicability-20261014/owner-applicability-confirmation.json#grade-equivalent`), claim
