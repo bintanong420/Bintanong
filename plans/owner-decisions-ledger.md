@@ -408,3 +408,8 @@ Each program still gets its own dated review record listing which standing rule 
   (Handbook disciplinary penalties table from physical p.87, of which only exam cheating is reviewed; Charter
   pre-enrollment incl. Step 2 with its missing printed label kept as a gap). Route and per-row readings still need
   owner confirmation in short batches.
+- 24 Oct 2026 (Codex resume; machine date): owner selected "Database review path + new research release
+  (recommended)" for g2. Authorizes an append-only supplementary review path for already-published sources
+  and a new research release preserving the current 19 chunks and 39 curriculum links, plus newly reviewed
+  content. Existing receipts/releases stay intact; rollback restores the current release. Exact source rows
+  still require owner review in short batches; this does not establish university approval/currentness.

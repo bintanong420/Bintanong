@@ -1,54 +1,45 @@
 # Current progress
 
-Updated 24 October 2026. Phase 11 active (backend only, owner direction); resumed after the 24 Oct pause.
-Worktree p11 / branch `feat/p11-backend-api` from `dev` `cbaa6a7`, nothing pushed.
+Updated 24 October 2026 (machine date; inherited handoff entries said 25 Oct).
+Phase11 active, p11 / `feat/p11-backend-api`, dev base `cbaa6a7`; nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
-[Pre-phase research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase 10 handoff](../phase-10-handoff.md).
-Last full snapshot before this replacement: `0e4e4f1:plans/plan_current_progress/current_progress.md`.
+[Research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase10 handoff](../phase-10-handoff.md).
+Last full snapshot before condensation: `f1eafe9:plans/plan_current_progress/current_progress.md`.
 
-## Latest changes (24 Oct, Claude Code session)
+## Latest changes
 
-- Security review done ([report](../2026-10-24-phase-11-security-review.md)); fixes S1, S2, S4-S8 committed; full
-  suite at `72ec6d4` 6441 passed, 0 failed. Next.js advisories wait for UI integration (owner).
-- Owner decisions: answer queue of 1 running + 4 waiting, then 503 `answers_busy` (`d1d416c`); PSU Google sign-in
-  via Supabase Auth with a server-side `psu.palawan.edu.ph` check and one question per account, built with the
-  UI integration; off-topic requests refused. Recorded as master section 25.
-- Live abuse probe: off-topic, injection and secret-extraction questions refused, 0 leaks; one misleading
-  "temporarily unavailable" refusal fixed (`5ee7b50`). Live capacity: one slot serves students in arrival order.
-  Six at once: five answered by 76.8 s, the sixth got busy at once, no errors.
-- Step 2 finding E1 fixed (`7c3786e`, owner choice): questions outside the 7 reviewed topics (leave of absence,
-  transcript) now say the topic is not in the reviewed sources yet and refer to the university office.
+- Backend/API/security/answer queue delivered; step2 E1/E3, 2a-2e/e2, f and h complete. See checkpoint
+  and dated reports for history. Course facts: 39 curricula, 2132 courses, hosted; CF1-CF6 settled.
+- Grading host reply `8c49ad0` covers the approved Handbook p.46 table. New `8ba6949` filters selected
+  topic chunks before ranking, so unrelated topics cannot crowd out grading. Real local DB RED/GREEN;
+  final retrieval/runtime suite 157 passed +86 subtests; four mutations caught; independent review done.
+- Hosted migration `20261024112235` applied via MCP and function body verified. Original active release,
+  19 chunks and 39 curriculum links preserved. Advisors unchanged (accepted Auth warning, existing INFOs).
+- Live passing English/Filipino, 4.0, 85, grading table, INC partial answer and both fees work (8/10).
+  Taglish passing still selects no topic; uppercase percentage gets no route. These are router misses.
+  [Evidence](../2026-10-24-topic-filtered-retrieval.md). No duplicate header reproduced.
+- Supabase MCP access restored/verified after prior account-specific login and session restart.
+- Owner chose database supplementary-review path plus new research release for partial topics.
+  Source batches1-3 approved, with weapon exception kept as unresolved original defect. Actual readings:
+  [source report](../2026-10-24-partial-topics-source-review.md). Further rows/Charter need owner review.
+  [Supplementary implementation plan](../2026-10-24-supplementary-source-review-plan.md) prepared.
 
-- E3 fixed (`05f34d2`, owner chose office referral): a model "clarify" that names nothing now gets the E1 "not in
-  reviewed sources, ask the office" reply; live 4/4 shifting questions. One covered Taglish pre-enrollment case also
-  gets the referral (disclosed).
-- 2a fixed (`9c09ac7`): overload questions the model checked as a course now answer from the overload topic
-  (live: typo and one-word forms answered, matching Handbook table 6).
-- 2b-2e (`467aa9d`, `9e3c5b0`, `8f15471`, `1f510dd`): prerequisite lists when no grade is stated (owner "List
-  for both"), course-not-found reply, units -> referral, every chosen topic retrieved (full suite at `874f0c9`).
-- [Security measures inventory](../2026-10-24-security-measures-inventory.md) for thesis Chapter IV (owner request).
+## Current verification and next action
 
-- e2 done (owner decisions 24 Oct): special class fee host reply `c2ef61a` (printed rate + printed example +
-  own charge not stated + referral, all languages, no model call); multi-part partial answers `0046b4d` (covered
-  parts answered, a declared-unavailable part named with a referral; fee parts in mixed messages keep the host
-  reply). Live: 3 fee questions and both overload + fee messages answered. Selection 1401 passed, 2 xfailed.
+Roster19 first startup failed on hosted curriculum_ledgers statement timeout before running any case.
+Bounded inspection found no lock pressure/matching log; single retry running (session37068), after which
+compare all63 cases vs roster18 and explain changes. Logs under workspace audit-evidence/p11-topic-filter-20261024.
+Next: finish that comparison, then supplementary-plan TDD and remaining source review. Full suite is still
+required; serialize with model work for RAM. Last recorded full suite at `01d8db2` (prior agent, 0 failed).
 
-## Next action
-
-Step 2h (course facts, 39 curricula, hosted) complete; f done; full suite at `01d8db2` 0 failed. Owner 25 Oct:
-finish non-UI step-2 items first; simple questions must not fail (simple-query battery to follow).
-HANDOFF (25 Oct, Claude Code -> GPT, owner usage limits): item g host-written grade reply `8c49ad0` (published
-releases are immutable, so no new chunks; owner choice). Live: whole table and percentage answered; passing grade
-and "4.0" still referral because retrieval ranks all topics together (top 3) and drops the p.46 chunk. Owner chose
-topic-filtered search. RESUME at checkpoint item g "NEXT ACTION (resume here)" steps 1-6 (migration adding a
-`p_chunk_ids` filter to `retrieve_context`, TDD on local DB, hosted apply, live probe, roster 19), then the remaining
-step-2 items, then g2 (owner 25 Oct: complete partial topics: full Handbook disciplinary penalties table from
-p.87, Charter pre-enrollment incl. Step 2; route choice first, see checkpoint g2), and the simple-query battery. Parked: Hybrid next-step part without a topic. Full suite not rerun
-after `01d8db2` (selection 1479 passed at `8c49ad0`).
+After g2: router follow-ups, Hybrid next-step part without topic, bare clarifications, Nursing negative
+claim mode and the owner's broad simple-query battery. UI waits for co-worker design; auth/dependency
+pins/SDK parser verification belong there. No phase advancement without applicable closeout gates.
 
 ## Boundaries
 
-Undergraduate scope, read-only advisory, source-gap, privacy, institutional release and one-week improvement
-boundaries are unchanged. No grade or conversation persistence. No activation, push, training or DB change.
-No dependency change without an owner decision. Context consulted 23 Oct: thesis physical 17-18 and 65-66, plus
-the routing PNG; 25 Oct resume: physical 17-18 and the PNG again (referral/unavailable wording). No discrepancy.
+Undergraduate academic affairs, read-only advisory, source-gap/privacy/release safeguards and one-week
+improvement cap remain. No grade/conversation persistence, training, model/dependency download or push.
+Source readings/research release are not university approval/currentness or public deployment permission.
+Context consulted this resume: thesis physical17-18 and routing PNG; no discrepancy. Formal checkpoint
+holds resumable state; this progress file is a compact snapshot, not an activity log.

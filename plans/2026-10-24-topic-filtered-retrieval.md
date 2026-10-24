@@ -42,4 +42,14 @@ upgrade proposed. Installed CLI 2.117.0 `migration new --help` consulted; no upg
   SQL omits eligible predicate. Production files never altered by mutation runner (`mutations.py`).
 - Hosted baseline security: only owner-accepted leaked-password warning. Performance: one pre-existing
   unindexed curriculum-link foreign key and 19 unused-index INFO notices; no index changes in this work.
-- Review finding fixed, no deferred review items. Full suite and hosted/live verification remain pending.
+- Review finding fixed, no deferred review items.
+- Hosted migration applied through MCP; normalized history to file version `20261024112235`. Body MD5
+  `8e2c1fa7114220707e169d224829531f` matches local SQL. Exactly one 9-argument STABLE invoker RPC;
+  anon/authenticated EXECUTE true, service_role false. Current release still
+  `p09-research-selected-20261022`, 19 chunks, 39 curriculum links. Advisors unchanged from baseline.
+- Live risk battery: 8/10 answered; passing English/Filipino, grade 4.0, grade 85, whole grading table,
+  INC+completion partial answer, both fees correct under reviewed limits. INC completion deadline remains
+  unavailable. Two inherited router misses remain: Taglish passing question selects no topic, and uppercase
+  grade/percentage question gets no route. No duplicate heading reproduced in the whole-table answer.
+  Raw `live-grades.log` ignored; model startup excluded from per-case timings. No browser latency claim.
+- Roster19 vs18 running (63 cases); full suite pending, serialized with live model work for memory limits.

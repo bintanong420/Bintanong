@@ -2,330 +2,110 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 11
+sequence: 13
 plan: plans/phase-11-backend-api-plan.md
-head_commit: af5802a
-working_tree: clean
-updated_at: 2026-10-25T09:00:00+08:00
+head_commit: 8ba6949
+working_tree: dirty
+updated_at: 2026-10-24T19:39:13+08:00
 ---
 
-# Phase 11 checkpoint - security, queue, abuse probe, E1 and E3 done; step 2 evaluation continues
+# Phase 11 checkpoint — retrieval filter delivered; source expansion in review
+
+Last full oversized snapshot: `f1eafe9:plans/phase-11-checkpoint.md` (recover with git show).
+Active plan: [backend API](phase-11-backend-api-plan.md); previous final handoff:
+[Phase 10](phase-10-handoff.md). Phase 11 remains active; no final handoff or advancement.
 
 ## Completed Tasks
 
-- Start: owner go (backend only), environment check, can-advance, pre-phase research (`2c2d335`); O1-O5 (`3ba8d7d`).
-- Task 1 cookie session, origin guard, `DELETE /session` (`d42feac`, `d59d0e2`).
-- Task 2 store turn tracking (`e77e3af`), `ChatTurns` (`1287bbc`), `GET /curricula` (`017efc4`).
-- Task 3 student view without ids, operations or condition codes (`7e1d34d`).
-- Task 4 `POST /chat` AI SDK UI message stream v1 with progress, cancel on disconnect (`c2cae2e`).
-- Task 5 store upload ids (`4b73b21`); upload/confirm/delete endpoints (`8b70e21`).
-- Task 6 `GET /sources/{source_id}` (`b8f829b`).
-- Task 7 (24.2): owner path recorded (`d1e7f31` ledger); floor `3eb4f59`, `6abfb40`; prompt trial declined;
-  [results](2026-10-24-taglish-style-floor-results.md) (`4931177`).
-- Task 8 (24.1): photo rows `a495db2`..`72a196b`, scorer `7328519`/`c55a6ac`, limits as strict xfails `15dbe41`;
-  [results](2026-10-24-photo-grade-rows-results.md) (`5e1eb1f`). Photos stay unsupported; no dependency added.
-- Task 9: `ResearchPipeline` chat port (`6f0cf36`); live HTTP smoke on real data passed (below); docs `ef716ca`.
-- Pause commit `0e4e4f1`. Security check (next-action step 1): [review](2026-10-24-phase-11-security-review.md);
-  fixes S2 `e87ed7b`, S1 `15934a7`, S4 `8b67b8d`, S5 `b0dc62b`, S6 `93e795e`, S7 `72ec6d4`; docs `a6c624a`.
-- Owner follow-ups (24 Oct): answer queue `d1d416c` (+ doc `c15f50f`); off-topic refusal fix `5ee7b50` (S8);
-  master section 25 (PSU Google sign-in decisions, capacity, off-topic) added.
+- Backend tasks 1-9 delivered; security/queue/abuse fixes and step-2 E1/E3, 2a-2e/e2, f and h
+  delivered. Full task/commit history preserved in f1eafe9 and dated reports, not repeated here.
+- h: hosted structured course facts for all 39 curricula (2132 courses), source readings CF1-CF6
+  settled in owner ledger. Do not re-extract/review settled facts or route them through RAG.
+- g: p.46 full grading table host reply `8c49ad0` (owner chose it after immutable-source blockers).
+- g topic filter `8ba6949`: optional JSONB chunk ids before ranking; policy-bound engine and
+  PackageStorage parity; HostedReleaseStorage already forwards arguments. Hosted migration applied,
+  normalized to file version `20261024112235`. No review/source/release rows changed.
+- Supabase MCP now works after prior OAuth login/session restart; authenticated reads verified.
 
 ## Current Task
 
-Step 1 (security) and the owner's follow-ups (queue, off-topic, login decisions) are done. Step 2 (retrieval/Prolog
-evaluation) has started; E1 (`7c3786e`) and E3 (`05f34d2`) are fixed.
-[Security measures inventory](2026-10-24-security-measures-inventory.md) written for thesis Chapter IV (owner). There is deliberately no final handoff.
-
-- E1: document questions outside the 7 reviewed topics ("How do I apply for a leave of absence?", "Paano
-  mag-request ng transcript of records?") route RAG correctly, but retrieval returns `needs_subject`, which
-  integration maps to `clarify`. Students get a bare "Please clarify the missing information" with nothing to
-  clarify. Owner chose "unavailable + office referral": `needs_subject` now maps to `no_evidence`, and the
-  insufficient-evidence reply (en/fil/taglish, all such cases) says the topic is not in the reviewed sources yet
-  and refers to the university office. Live re-check: both questions `insufficient_evidence`.
-- E3 (fixed `05f34d2`, owner chose office referral): the router model chose `clarify` naming no operation, claim or
-  back-reference (3 of 4 shifting phrasings; roster 16: 8 bare clarifications incl. Nursing/Tourism/Criminology and
-  one Taglish pre-enrollment). Now diagnostic `empty_clarification` -> `no_evidence` -> E1 referral. A clarify with a
-  check or back-reference still asks. Disclosed: the covered pre-enrollment Taglish case also gets the referral
-  (retrieval needs a model-chosen topic, `engine.py:111`). Live: 4/4 shifting phrasings referral, right language.
-- 2a fixed (`9c09ac7`): "overload"/"pwde b mg overload?" chose the overload topic but marked the part structured
-  with an eligibility check aimed at the word itself (router spy: `only_document_parts_carry_topics` both attempts
-  -> invalid_reference -> bare clarify). Wire normalization now makes a structured topic part whose operations
-  target no listed course a document part. Live: both answered, matching Handbook table 6 rows 1 and 3. The
-  two-topic overload + special-class-fee message now routes RAG but ends insufficient (first-topic-only, 2e).
-- 2b `467aa9d` (owner "List for both"): no stated course fact -> list the reviewed prerequisites (and / one of /
-  or take at the same time) and ask which were passed; live CC 5/L: CC 3/L and CC 4/L, CC 6/L: CC 3/L and CS 2/L.
-- 2c `9e3c5b0`: a course matching no reviewed course -> "not found, give the printed code" (live CS 999, a title).
-- 2d `8f15471`: `unsupported_requirement` -> no_evidence -> E1 referral (live units questions).
-- 2e `1f510dd`: every chosen topic retrieved, each with its parts' words when there are several; live both topics
-  return evidence, but per-part generation then ends `parts_unresolved` (r1 missing_mapping, r2 not_in_evidence);
-  the single Filipino "Magkano ang special class fee?" also ends parts_unresolved. Next diagnosis.
-- e2 fee `c2ef61a`: a special-class-fee part gets the host-written printed rate + printed example + "your own
-  charge is not stated" + office referral (en/fil/taglish), copied from the reviewed fields; no model call or
-  arithmetic. e2 partial `0046b4d`: a part declared not_in_evidence/source_gap is named ("The part about
-  "<words>" is not in Bintanong's reviewed sources yet...") when another part or the structured check answers;
-  ledger status `some_parts_unavailable`; a reviewer-rejected part still withholds (claims stay bound to the
-  review identity); a fee part inside a mixed message keeps the host claims (not model-reviewed). Live: 3 fee
-  questions and both overload + fee messages answered with PHP 370.37/hour and the 3-unit PHP 20,000.00 example.
-  The Taglish fee wording was labelled fil by the router and got the Filipino reply.
-- Open (seen live, `diag_partial_after.log`): Hybrid "Can I take CC 5/L? I passed CC 3/L and CC 4/L. How do I
-  enroll in it?" - the router gives the document part no topic, retrieval returns nothing and the whole message
-  gets the E1 referral; the structured result is lost (orchestration-level, not the generator).
-- Not yet changed: `model_ambiguity` clarifications and model-chosen `evidence_unavailable` render without naming
-  anything / as "temporarily unavailable" (`fallback_status`); candidates for the next diagnosis.
-- E2 (minor): "What are the prerequisites of CC 6?" names CC 3/L and CS 2/L, but framed as an eligibility
-  clarification rather than a plain list.
-- Correct, not defects: "Can I take CC 5? I passed CC 4." (en/Taglish) reports CC 3/L as unknown, as intended.
+Finish item g roster19 comparison, then g2 supplementary-review path/source expansion.
+[Topic filter execution](2026-10-24-topic-filtered-retrieval.md) has RED/GREEN, review and hosted evidence.
+[Supplementary plan](2026-10-24-supplementary-source-review-plan.md) is prepared; no g2 production code yet.
+Owner chose database path/new research release; do not ask again. Source batches 1-3 approved:
+[actual readings and limits](2026-10-24-partial-topics-source-review.md). More rows/Charter still need review.
+Machine date 24 Oct; inherited handoff/owner notes said 25 Oct. Retain historical dates as recorded.
 
 ## Repository State
 
-Branch `feat/p11-backend-api` from `dev` `cbaa6a7`; commits through `0046b4d` plus this checkpoint commit, nothing pushed.
+Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. HEAD `8ba6949`.
+Dirty documentation: topic execution report, owner ledger, this checkpoint, current progress,
+new source-review report and supplementary plan. Preserve the pre-existing current-progress changes.
+No dependency changes/downloads; no frontend work.
 
 ## Verification Evidence
 
-- Each code task: RED observed, then GREEN; every new guard mutation-checked (each mutation failed a test).
-  Latest focused runs: API files 76 passed; photo rows 27 passed + 2 strict xfails; scorer 10; style floor 27;
-  routing style/router 131; research pipeline 2.
-- Roster run 16 (HEAD `6abfb40`, run 15 settings): 0 of 63 status/decision changes; replies en 21/21, fil 21/21,
-  Taglish 15/21 (run 15: 10/21); 23 of 25 answered texts identical, 2 changed only in language.
-- Photo measurement: 42 simulated photos, 0 silent errors; plain layout exact in all 7 conditions; Report-of-Grades
-  style exact in flat/dim; owner's real screenshot refused (two causes pinned as xfails).
-- Security fixes: RED observed for each, then GREEN, and each guard mutation-checked. A re-probe of S1 (1000
-  cookie-less requests) left a new student's `/chat` at 200.
-- Answer queue: RED -> GREEN; three mutations (no busy refusal, no slot wait, no release) each failed the test.
-  S8 wire fix: RED reproduced the live `part_count_mismatch`; 358 routing tests pass; two mutations caught.
-- Live abuse probe (14 cases): 12/12 refused before the fix, the mixed case 2/2 after it; 0 leak markers.
-- Live capacity probe: 1 student 25.6 s; 3 at once 23.5/38.5/49.4 s; 6 at once five served by 76.8 s and the
-  sixth `answers_busy` in 0.5 s; statuses identical to a sequential run. Logs in `live-api/`.
-- E1: RED (4 tests: integration mapping and the reply in three languages), GREEN; generation/orchestration/API/
-  routing/evaluation selection 1516 passed.
-- E3: RED (2 tests, expected reason) after a fixture setup fix, GREEN; 3 mutations each failed a test; selection
-  (routing/orchestration/generation/API/evaluation/private) 1310 passed, 2 xfailed.
-  Hosted Supabase security advisor 24 Oct: 0 lints.
-- 2b-2e: RED observed for each, GREEN, isolated mutations each failed a test (2b 4, 2c 3, 2e 5). Selection
-  (routing/orchestration/generation/api/evaluation/private/symbolic/runtime/contract) at 2b: 3727 passed, then 9
-  traceability digest failures fixed by omitting an absent `requirement` from the dump. Full suite NOT run at
-  `1f510dd`: a first run overlapped edits (discarded); the clean run was stopped by Claude Code for low memory.
-- e2: RED observed for each (fee 3, partial 6 + ledger contract 4, mixed fee 3), GREEN; 13 isolated mutations
-  each failed a test (one redundant guard removed after its mutation survived; one assertion added for M13).
-  Selection (generation/orchestration/api/routing/evaluation/private/request + question-parts) 1401 passed,
-  2 xfailed. Full suite not yet run after `0046b4d`.
-- Full suite at `874f0c9`: 6478 passed, 6 skipped, 2 xfailed (photo limits), 1552 subtests, 0 failed, 19m51s
-  (log `full-suite-874f0c9.log`).
-- Roster run 17 (HEAD `874f0c9`, run 15/16 settings): 0 of 63 status/decision changes vs run 16, 0 exceptions;
-  19 text changes, all intended (11 E1 referral wording, 3 Nursing title questions -> course not found, 2
-  Criminology CDI 6/7 -> co-requisite listed, 3 proposed-BSCS CC 5 -> CC 3/L and CS 2 listed). Comparison
-  `audit-evidence/p11-20261023/roster17-vs-16.txt`.
-- Security re-check 25 Oct: hosted Supabase security advisor 0 lints; secret scan of `dev..HEAD` (59 commits) found
-  only Python `secrets` uses, docs and test strings; tracked `.env.example` points at the local Docker DB only.
-- 2a: RED (2 wire tests, `only_document_parts_carry_topics`), GREEN; 3 isolated mutations each failed a test;
-  selection (routing/orchestration/generation/api/evaluation/private) 1772 passed, 2 xfailed. Live log `diag_r4_after.log`.
-- Multi-turn run 6 (12 cases, HEAD `6abfb40`): same courses/statuses as run 5 on 12/12, 0 wrong carry-overs; Taglish
-  turns in Taglish 3 of 4 (run 5: 0 of 4).
-- Live HTTP smoke (untracked launcher `audit-evidence/p11-20261023/live-api/`, one uvicorn worker, hosted 39-curriculum
-  release, Gemma :18088): RAG answered with a readable `/sources` excerpt (Handbook p.46); upload -> confirm -> CC 5
-  eligible (conditional); delete upload -> unknown again; humanized Taglish conditions; foreign origin 403;
-  `DELETE /session` sends Max-Age=0 with the `__Host-` attributes; a client dropped 4 s into an answer left the
-  session free (next message completed). Observed, not Phase 11 regressions: "I passed CC 4 but I have not taken
-  CC 3" got a generic clarification; a Hybrid next-step part was not answered.
+- Last recorded full suite: `01d8db2` (prior agent, no failures). Earlier full at `874f0c9`:
+  6478 passed, 6 skipped, 2 strict photo xfails; current full suite not yet rerun.
+- Topic baseline 48 passed +31 subtests; expected RED observed on real disposable DB/package/engine.
+  Final retrieval/runtime selection 157 passed +86 subtests, 53.84 s, `review-green.log`.
+  Four isolated mutations caught: engine/package/SQL filter removal and package validation removal.
+- Independent review: no new security/compatibility defect; tab/newline validation mismatch reproduced
+  and fixed; actual five-chunk SQL crowding/required-neighbor coverage added. No deferred findings.
+- Hosted body MD5 `8e2c1fa7114220707e169d224829531f` matches local. One 9-argument STABLE invoker
+  RPC, anon/authenticated execute, service_role denied. Active release unchanged, 19 chunks/39 links.
+  Security: owner-accepted leaked-password WARN only. Performance: existing FK +19 unused-index INFOs.
+- Live grading/fee battery 8/10 answered correctly within limits. Passing English/Filipino, 4.0,
+  85, full grading, INC+completion partial and both fees work. Taglish passing selected no topic;
+  uppercase percentage got no route. Duplicate evidence header not reproduced. These router misses
+  remain separate from retrieval. Logs: workspace audit-evidence/p11-topic-filter-20261024/.
+- Roster19 initial startup failed reading curriculum_ledgers: hosted SQL statement timeout. No cases
+  ran. Activity check showed no lock pressure; bounded log query returned no matching event. Retry
+  is running (tool session 37068), results.jsonl and roster19-retry.log in that same evidence folder.
+  Do not run another roster concurrently. Roster18 baseline: audit-evidence/p11-20261023/roster18.
 
 ## Versions and Digests
 
-Python 3.13.7 (shared venv `audit-evidence/p05-real-retrieval-readiness-20261012/venv`), FastAPI 0.141.1,
-SWI-Prolog 10.1.15, PostgreSQL 17.6, pgvector 0.8.2, RapidOCR 3.9.2 + onnxruntime 1.30.0 CPU (venv only, local
-models), Gemma 4 E4B GGUF on :18088 (not re-hashed). Owner samples sha256: `46bf8a11...`, `0451f6f0...`,
-`dccc1c2a...`. Stream chunk shapes per `ai` 7.0.150.
+Shared venv Python 3.13.7; FastAPI 0.141.1, SWI-Prolog 10.1.15, PostgreSQL 17.6, pgvector 0.8.2.
+Installed Supabase CLI 2.117.0 (help consulted; no upgrade). Model/embedding identities unchanged;
+MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS. No weights copied/rehashed/downloaded.
+Handbook SHA-256 and source decisions are in the source-review report. Models not altered/trained.
 
 ## Decisions
 
-- O1-O5 as recorded; 24.2 path (floor kept, prompt trial declined); 24.1 photos unsupported, no `api` dependency.
-- Only the last user message of an AI SDK request is used. 422s before the stream; turn lock inside it.
-- Canonical answer text stays the researcher diagnostic; students get `student_text`.
-- Owner, 24 Oct (security review): S1 evict the least recently used empty session (this replaces the Phase 10
-  "503 rather than evict" rule for empty sessions only); S3 `next`/`sharp`/`source-map-js` upgrades go with the
-  `ai` v7 install at UI integration; S4-S7 applied now.
-- Owner, 24 Oct: answer queue of 1 running + 4 waiting, then busy. PSU Google sign-in via Supabase Auth, domain
-  `psu.palawan.edu.ph` checked server-side, one running question per account, built with the UI integration
-  (master 25.1). Off-topic requests are refused (master 25.3).
+- Reuse approved requirements/plan. Topic filter narrows trusted model-selected topics; it does not
+  replace semantic routing, waive threshold/scope/review binding or decide curricular eligibility.
+- g2 approved database route: append-only supplementary receipts, NEW research release preserving
+  old 19 chunks and 39 ledger links; rollback current release. No published source/receipt rewriting.
+- Human review remains exact original regions/short inline batches. Weapon exception is malformed
+  in original: approved retention with unresolved gap, never invented interpretation or rule.
+- Carry standing prompt-engineering/no-training and one-week improvement boundaries. Source approvals
+  are provisional undergraduate research evidence, not university approval or currentness.
 
 ## Known Failures or Blockers
 
-None blocking. Disclosed limits: 6 register-only Taglish questions reply in Filipino; photos unsupported (real
-screenshot refused); master 16's browser exit gate is not met (no UI by owner direction); AI SDK contract test
-against the SDK's own parser waits for the frontend install; no linter installed. Frontend `npm audit`: 1 critical
-(`next` RCE advisories) and 2 high, deferred to UI integration by the owner. Proxy rate/body limits: deployment.
-
-## Context Consulted
-
-Thesis physical 17-18 and 65-66, routing PNG (23 Oct); physical 17-18 again on 24 Oct for the sign-in scope
-decision ("authorized user/session"): consistent, no discrepancy. 25 Oct resume: physical 17-18 (unavailable/
-referral wording for e2) and the routing PNG: consistent.
+Two simple grading router misses remain. Full suite/roster comparison pending. g2 remaining source
+rows/Charter need actual owner replies. Hybrid next-step part without topic and vague clarifications
+remain. Photos unsupported (strict xfails); 6 register-only Taglish style misses; no browser/UI exit,
+SDK parser contract test or installed linter. Next/sharp/source-map-js advisories deferred to UI by owner.
 
 ## Next Action
 
-1. (Done) Security check: [review](2026-10-24-phase-11-security-review.md).
-2. Fix the owner's risk-probe list ([results](2026-10-24-risk-scenario-probe-results.md); owner decisions 24 Oct in
-   `owner-decisions-ledger.md`). TDD each; live re-check each with `risk_probe.py` (stdin = case ids). Order:
-   a. (Done `9c09ac7`) typo/one-word overload -> bare clarify.
-   b. (Done `467aa9d`) prerequisite list.
-   c. (Done `9e3c5b0`) course not found.
-   d. (Done `8f15471`) units -> referral.
-   e. (Done `1f510dd`) every chosen topic retrieved.
-   e2. (Done `c2ef61a`, `0046b4d`) fee host reply; multi-part partial answers. NEXT: the Hybrid case whose
-      document part has no topic (structured answer lost to the E1 referral; see Current Task), then full suite.
-   f. (Done 25 Oct) uncovered -> E1 referral `41c980a`; thank-you -> "you're welcome" `092b69f`; Cebuano (owner: not
-      taken; 2 marker words, 0 false positives in 138 known questions) -> supported-languages notice `44d4d8e`.
-      Live (`p11-course-facts-20261024/live_f.log`): thanks, tuition referral, Cebuano notice; greeting unchanged.
-   g. Passing grade: owner 25 Oct (`c6fb6d8`): p.304 is the Lab School table (excluded); use 2021 Handbook physical
-      p.46 table 2.2 (3.0 = 75-76 Passed, 4.0 Condition, 5.0 Failed), generalised, no college caveat. Hosted insert
-      APPROVED (25 Oct) for every row of the p.46 undergraduate table. BLOCKER (25 Oct resume): a published
-      release is immutable in the schema ("Published release is immutable"; phase4_release_security), so rows cannot
-      be inserted into `p09-research-selected-20261022`. Only `handbook-grading-1` (row 1.0) exists. Adding rows needs
-      new chunks + embeddings, a new Handbook partial-review receipt, a new selected-review scope, a NEW research
-      release (copy the 39 ledger links) and activation, plus the runtime package/pin. Owner chose a new release (25 Oct).
-      Second blocker: `record_source_partial_review` refuses any version already in a published release ("Published
-      C1 source is immutable") and needs initial pending states; document_versions are immutable once published.
-      Version ids derive from bytes, so the Handbook cannot be re-registered. A new release therefore needs a
-      migration adding a supplementary review path for published sources. Owner chose host-written (25 Oct).
-      DONE `8c49ad0` grade_reply.py (rows from p.46, only when a retrieved card cites Handbook p.46; named row /
-      passing / whole table; en/fil/Taglish; RED 12, GREEN, 5 mutations caught; selection 1479 passed, 2 xfailed).
-      Live (`p11-course-facts-20261024/live_grades.log`): whole table and "katumbas ng 85" answered; passing grade
-      en/fil and "4.0 mean" still referral: retrieval ranks globally (top_k 3; SQL allows only 3/5/8), then keeps
-      the chosen topic, so p.46 ranks 11th/4th and is dropped (`diag_grade_rank.py`). Topic-label query expansion
-      tried offline: unreliable (`diag_grade_expand.py`). Owner asked about topic-filtered retrieval (25 Oct).
-      Also seen: "Based on the supplied evidence:" printed twice on the whole-table reply; Taglish passing got no topic.
-      Owner 25 Oct: topic-filtered search (handed off to another agent for usage limits). NEXT ACTION (resume here):
-      1. Migration `supabase/migrations/<ts>_phase11_topic_filtered_retrieval.sql`: `retrieve_context` gains an
-         optional `p_chunk_ids jsonb default '[]'` (same validation as p_version_ids: <=32 strings; empty = no filter)
-         applied in `eligible` (`c.chunk_id = any(...)`); required neighbours still follow from ranked rows. Keep
-         top_k 3/5/8, the 0.25 floor, RLS, SECURITY INVOKER and grants; drop/recreate the old signature cleanly.
-         Additive only: no review/release tables touched. Read phase5_retrieval_snapshot.sql first.
-      2. TDD on the local Docker DB (storage DB tests, disposable databases): RED that a topic filter returns only
-         those chunks and that an omitted filter is unchanged; then GREEN. PackageStorage
-         (`backend/bintanong_runtime/package_storage.py`) must honour the same parameter; HostedReleaseStorage passes it.
-      3. Engine (`backend/bintanong_retrieval/engine.py` `_retrieve_source_aware` path): when a subject is chosen,
-         send that subject's chunk ids (`select_candidate_subject(...)['chunk_ids']`, already used by
-         `SourceAwareEvidencePolicy._select`) as `p_chunk_ids`. TDD + mutation checks as before.
-      4. Apply the migration to hosted via Supabase MCP `apply_migration` (reset its version to the file version, as
-         in Phase 09), security/performance advisors (ignore auth_leaked_password_protection WARN, owner).
-      5. Live: `risk_probe.py` cases `passing-grade passing-fil passing-taglish grade-4 grade-85 grading-system
-         inc-meaning caps-emoji fee-en fee-fil` (stdin ids; HOSTED=1 PREFIX_CACHE=1; Gemma :18088). Expect passing
-         grade -> "The printed passing grade is 3.0 (75-76), rated "Passed"." Then roster run 19 vs 18 (63 cases,
-         `p09-real-data-20261021/roster13.py`, compare with `p11-20261023/compare_roster.py`); explain every change.
-      6. Small follow-ups seen live: duplicate "Based on the supplied evidence:" header on host-only replies (render);
-         Taglish "Ano yung passing grade dito?" got no topic and "GRADE 1.0 ILANG PERCENT???" no route (router).
-      Coverage note (25 Oct, `diag_topic_crowding.py`): of 12 simple per-topic questions only grading misses its
-      topic in the global top 3 (rank 6); fees get 1/3, overload 3/5. Partial topics from Phase 05 selected-field
-      review: misconduct = Handbook table 10 row 4 only (cheating in exams); pre-enrollment = Charter steps 1 and 3
-      (Step 2 label missing in the original); grading = row 1.0 only (host reply covers the rest).
-   g2. Owner direction 25 Oct ("we need those included"): complete the partial reviewed topics. Do after g steps 1-5.
-      Scope (exact rows per batch; owner reviews; show printed text inline, the owner cannot open files):
-      - Academic misconduct: Handbook 2021 physical p.87 onward, "CAUSES FOR DISCIPLINARY ACTION" (penalty columns
-        1st / 2nd / 3rd / Subsequent Offenses; I. Improper Uniform, II. Behavioral Defiance 1-5, ... through the end
-        of the table). Only "a. Any form of cheating in examinations" (p.88, `handbook-table-10-row-4`) is reviewed.
-        Check each row's undergraduate applicability (scope policy); keep multi-page rows whole (service-table policy).
-      - Pre-enrollment: Charter 2025 4th Ed. physical p.102-103, full service incl. Step 2 (printed label missing in
-        the original: keep as a recorded source gap, never invent it); steps 1 and 3 are reviewed.
-      - Grading p.46: host reply `8c49ad0` covers it; add as chunks only if the database route is chosen.
-      Route (ask the owner first, plain words): published releases and their sources are immutable, so either
-      (A, recommended for this volume) one migration adding a supplementary-review path for chunks of an already
-      published source (append-only receipts; nothing recorded is changed), then a NEW research release = current 19
-      chunks + new reviewed chunks (+ the g topic filter), copying the 39 `release_curriculum_ledgers` links, local
-      disposable rehearsal, hosted activation, runtime release id + local package/pin switched (rollback = re-activate
-      `p09-research-selected-20261022`); or (B) more host-written replies (does not scale to the penalties table).
-      Pipeline references: `p05-release-readiness-20261016/prepare_package.py` (chunks, embeddings, catalogue,
-      claim register), `p09-supabase-20261022/load_research_release.py` (governed chain, research designation),
-      `p11-course-facts-20261024/load_facts.py` (ledger re-link), migrations phase5_partial_source_review /
-      selected_release_review / phase9_research_release. Embed with local SEA-LION-E5 (MODELS_DIR); spans from
-      native PDF text (pypdfium2 in the shared venv). TDD for migration/runtime changes; live + roster after.
-      Superseded (do not do): building new p.46 chunks/new release (schema immutability, owner chose host-written).
-      Then: Hybrid next-step part without topic; bare clarifications naming nothing; "hindi ko pa naipapasa" claim mode
-      (nursing tl/taglish); then design the owner's simple-query battery (many simple questions per topic, 3
-      languages, checked for hallucination/retrieval/Prolog errors). Full suite not rerun after `c6fb6d8`
-      (selections: 1290 passed at `44d4d8e`).
-   h. NOW (owner approved 25 Oct, all 39 curricula + hosted upload; readings CF1-CF5 in the owner ledger).
-      Dry run done: `audit-evidence/p11-course-facts-20261024/extract_facts.py` (writes facts-dryrun.json: per
-      course title, units as printed, year/term banners with native char ranges, flags term_inferred True=CF2 /
-      'CF3', merged_row, units_columns for BSN/BSMid) and `check_totals.py` (QA vs printed Totals; remaining
-      mismatches are verified source errors or 2 checker artefacts). Reuses p09-program-reviews/draft_program.py
-      columns/layout/rules_at and each spec's column_edges; runs with the shared venv python -I.
-      Next, in order (TDD each):
-      1. (Done `6814775`; RED 4, GREEN, 3 mutations caught; symbolic/runtime/ledger selection 293 passed)
-         authoring.py: add FACT_FIELDS `units.printed` (text, e.g. "2/1", "250 Hours" not used) and `units.rle`
-         (numeric); treat only units.total/lecture/lab/rle as numeric. BSN: units.printed from its Unit/s column;
-         BSMid: units.lecture/rle/lab from LEC/RLE/LAB, "-" = fact omitted. Blank units = fact omitted (gap).
-      2.-3. (Done 25 Oct, untracked evidence `audit-evidence/p11-course-facts-20261024/author_facts.py` ->
-         `ledgers/<program>/ledger.json` + `author_facts_report.json`): 39 curricula, 2132 courses; every value
-         checked by build_curriculum_ledger against its span; prerequisites/codes/earlier facts unchanged and the
-         runtime payload hash identical for all 39. Spans: 429 CF2 `column_heading_owner_reading`, 52 CF3
-         `owner_reading_source_error`, 14 new line-wrap joins (titles with a printed line-end hyphen, kept
-         unspaced, e.g. "Management-Clinical Practicum"; for the owner spot-check). BSMid: lecture/rle/lab
-         numbers, "-" omitted; BSN: Unit/s as units.printed; Thesis 1 (BSBio), SSE 18 (BSEd-SS) units omitted.
-         Owner spot-check per batch (acceptance 1) still to show. Found: BSES EnS 101/L title prints "Earth Science I
-         (Geology &"; its second line "Meteorology)" is clipped under the EnS 102 row (native text only) and was
-         read into EnS 102's title. Only such case in 2132 titles (index-gap and join scans). Owner CF6 (25 Oct): visible text +
-         gap; hidden fragment dropped from EnS 102 (applied, rerun clean). Spot-check accepted (acceptance 1).
-         Original wording of items 2-3: Build fact spans from native char runs (like author_program.runs; whitespace-only canonical_text compare;
-         wrapped words joined with resolution_method native_range_line_wrap_joined + repair_id). CF2 terms cite
-         the column's printed SEMESTER heading; CF3 (BSBA-MM) needs an owner-reading repair on the span
-         (value FIRST/SECOND SEMESTER vs printed FIRST/SECOND YEAR): check _facts/_spans before choosing.
-      3. Regenerate 39 ledgers: same courses/prerequisites; new review `p11-course-facts-review-01` per curriculum
-         (course_digests over new content); review_refs -> that review; old reviews kept in `reviews` as history.
-         Verify prerequisite expressions and Prolog bundles unchanged except ledger hash (bundle regression).
-      4. Lookups done `0c43f49` (`bintanong_symbolic/course_facts.py`: course_facts, list_term_courses; RED 5,
-         GREEN, 4 mutations caught; over the 39 authored ledgers each of 2132 courses listed once, all complete).
-         Wiring plan `plans/2026-10-25-course-facts-wiring-plan.md` (`aa99d4b`). Done: T1 term parsing `cec8932`,
-         T2 term mentions + operations `04439a0`, T3 runtime look_up/adapter/research registry `8555eb6` (Janus
-         worker allowlist names the lookups; they never run there). Each RED->GREEN, mutations caught; routing/
-         orchestration/symbolic/runtime selection 753 passed. T4 reply `29b06fe` (host-written en/fil/Taglish lines,
-         not_reviewed -> E1 referral), T5 unique-title aliases `f05365a`, T6 prompt p11-v18 `da7fe3b`; broad selection
-         1727 passed, 2 xfailed (at T4). Owner check of the new host wording still due (T6 step).
-      5. Hosted upload DONE 25 Oct (`load_facts.py`: rehearse then hosted; 39 new ledger rows, 39 links re-pointed in
-         `p09-research-selected-20261022`, read-back equal, Prolog payload unchanged; rollback = re-point to
-         `old_ledger_sha256` in `load-hosted-result.json`). MCP read-back: 39 links, 2132 courses. Security advisor:
-         1 WARN auth_leaked_password_protection (owner 25 Oct: not on a Pro plan, ignore it).
-         Live probe (`p11-course-facts-20261024/live_facts.log`, `live_facts2.log`): first run 5/9 course-fact
-         cases answered; router slips diagnosed by spy (`diag_facts.log`) and fixed: semestre `744f030`, mislabelled
-         listing target + prompt p11-v19 (program named mid-question; school year never a term) `7ce99ca`,
-         year-like scope quote -> term `cef5080`. After: R10 subject list, R6 units, year-only, fil, Taglish, title
-         units, Taglish units answered; no-year asks which year. Taglish questions got the Filipino style (router
-         label, known). R5 "I passed everything in first year" stays a referral (aggregate claim, not course facts).
-         Prompt-text pin of `7ce99ca` was edited with the prompt (no separate RED); wire repairs had RED.
-         Roster 18 (HEAD cef5080, prompt v19; `roster18-vs-17.txt`): 6 status changes, 0 exceptions. Improved:
-         nursing-en (title alias -> prerequisite list), criminology-en (co-requisite listed). Regressions fixed with
-         owner decisions 25 Oct: T2 x3 got the fee rate since e2 -> currency reply (memo date 4 August 2023 bound
-         to the F0 version, cannot confirm, referral) `ee3c61e`; architecture-tl route slip -> route from consistent
-         parts `3094f14`. Live after (`live_fixes.log`): T2 x3, architecture-tl answered; plain fee unchanged.
-         28 text changes: 10 scope-line/evidence-id only (new runtime version), 16 document paraphrases/fee reply,
-         nursing-tl/taglish now resolve both titles but the model marks "hindi ko pa naipapasa" hypothetical
-         not_enrolled (nonasserted_facts -> bare clarify; claim-mode slip exposed, not introduced). Disclosed:
-         pre-enrollment-first-step-tl model wording used "isusumite" (owner 25 Oct: preference, no guard); completion-deadline-taglish
-         stated the other side of a conflicting source, conflict note kept both runs.
-         Full suite at 01d8db2: 6563 passed, 6 skipped, 2 xfailed, 0 failed (20m28s, `full-suite-facts.log`);
-         ee3c61e/3094f14 after it: selections 1237 passed + fee 14 passed.
-         Course-fact reply wording approved 25 Oct (owner delegated). Step 2h complete. NEXT: UI integration (step 3).
-         Original wording: Runtime: `list_term_courses(curriculum, year, term)`, `course_facts(curriculum, course)` from reviewed
-         facts; router operation; en/fil/Taglish host text with printed units; title aliases only when unique.
-      5. Hosted upload via the p09 loader pattern (`audit-evidence/p09-curricula-load-20261023/load_curricula.py`):
-         insert new `curriculum_ledgers` rows, re-point `release_curriculum_ledgers` for release
-         `p09-research-selected-20261022` (loader currently asserts no re-link: needs an update path); verify with
-         Supabase MCP read-back + security advisor. Then live re-check R5/R6/R10 + roster.
-   Not doing: per-college Charter notes (owner: website scope text says the Charter is university-wide; UI work).
-   Roster run 17 done (above). Then the two live-smoke observations and roster 16's clarification statuses.
-3. Then UI integration (co-worker's design). Website scope/guidelines must state the Charter source is the
-   university-wide 2025 4th Edition (owner, 24 Oct). Install `ai` v7, `@ai-sdk/react` 4 and `@supabase/ssr`, and upgrade
-   `next` (>= 16.4.3), `sharp` and `source-map-js`, all at the then-current patch, with owner approval of the exact
-   pins. Build PSU sign-in (master 25.1) and a waiting screen for the `waiting` status. Add the
-   contract test against the SDK's own stream parser. Proxy `/api` same-origin.
-4. Then close Phase 11 with the full suite and a final handoff. Phase 12 needs its own recorded decision.
+Complete running roster19, compare all 63 cases against18, explain every status/decision/text change.
+Then follow supplementary plan with RED on disposable DB before production changes. Remaining order:
+g2 reviewed topic completion; g6/router follow-ups; Hybrid no-topic partial answer, bare clarifications,
+Nursing negative claim mode; owner's multilingual simple-query battery; full suite and final review.
+UI/auth/SDK install needs co-worker design and approval of exact dependency pins. Phase12 not authorized.
 
-How to run things:
-- Tests: `PYTHONUTF8=1 <shared venv python> -X utf8 -B -m pytest -q -p no:cacheprovider tests --basetemp=<ws>`.
-- Live API: from the worktree root, `HOSTED=1 <venv python> audit-evidence/p11-20261023/live-api/serve_research_api.py`
-  (port 8011, needs Gemma :18088). Then run `smoke_http.py`.
-- Roster/multi-turn: `p09-real-data-20261021/roster13.py <out>` and `p10-20261023/multiturn.py <out>`, with HOSTED=1
-  and PREFIX_CACHE=1.
+## Context Consulted
+
+24 Oct Codex resume: thesis physical17-18 and routing PNG inspected; consistent scope/routing, no
+new discrepancy. Existing master3/10 and owner ledger reviewed; source/scope/gap/service policies apply.
+Earlier context/architecture evidence is preserved in the prior checkpoint snapshot.
 
 ## Do Not Repeat
 
-Environment check, research, npm lookup, owner-sample OCR probe, tasks 1-9, roster run 16, multi-turn run 6, the
-security review and S1/S2/S4-S8 fixes, E1, E3 and its live re-check, 2a-2e and e2 and their live re-checks, the security inventory, the 24-question risk probe, the chunk/topic and curriculum coverage counts, the answer queue, the abuse and capacity probes, full suite at `72ec6d4`, the three style prompts, the two reverted photo-threshold attempts.
+Backend tasks1-9, prior security/abuse/capacity runs, source CF1-CF6, existing benchmark wording
+acceptances, completed course-fact extraction, failed query expansion, source chunks for grading alone
+(owner chose host reply), environment/model setup, prior photo/style experiments. Do not infer any
+institutional release permission, source-gap resolution or phase advancement from candidate delivery.
