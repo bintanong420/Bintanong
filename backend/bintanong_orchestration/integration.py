@@ -11,10 +11,10 @@ def _identity_pinned(pin, result):
             return False
         release, version = member.release_id, member.rule_bundle_version
     return ((result.scope is None or result.scope.knowledge_release_id == release)
-            and (result.rule_bundle_version is None or result.rule_bundle_version == version))
+            and (getattr(result, 'rule_bundle_version', None) in (None, version)))
 
 
-def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
+def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None):
     pin = ReleasePin.parse(pin.model_dump(mode='json'))
     if documents is not None:
         documents = DocumentResult.parse(documents.model_dump(mode='json'))
@@ -22,10 +22,13 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
         documents=documents, symbolic=symbolic, dependencies=dependencies,
         status='ready', permitted_scope='document_explanation' if route == 'RAG' else
         'combined_explanation' if route == 'Hybrid' else
-        'dependency_listing' if dependencies is not None else 'scoped_prerequisite_check')
+        'dependency_listing' if dependencies is not None else
+        'course_facts_listing' if course_facts is not None else 'scoped_prerequisite_check')
+    if course_facts is not None:
+        data['course_facts'] = course_facts
     # Validate component shape and reject offline/real-rule subtypes BEFORE copying.
     checked = CandidateEvidence(**data)
-    result = symbolic if symbolic is not None else dependencies
+    result = next((r for r in (symbolic, dependencies, course_facts) if r is not None), None)
     status = None
     sources = {s.version_id:s.byte_sha256 for s in pin.sources}
     members = {d.chunk_id:(d.version_id,d.byte_sha256) for d in pin.documents}
@@ -36,7 +39,8 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
             status = 'release_mismatch'
     if result is not None:
         if (not _identity_pinned(pin, result)
-                or any(sources.get(s.version_id) != s.byte_sha256 for s in result.rule_spans)):
+                or any(sources.get(s.version_id) != s.byte_sha256 for s in getattr(result, 'rule_spans', ()))
+                or any(c.version_id not in sources for c in getattr(result, 'courses', ()))):
             status = 'release_mismatch'
     missing, conflicts = (), ()
     if symbolic is not None:
@@ -46,6 +50,9 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None):
             status = 'conflict' if conflicts else symbolic.decision.outcome
     if dependencies is not None and status is None and dependencies.status != 'complete':
         status = {'partial':'unknown', 'unsupported':'unsupported', 'error':'error'}[dependencies.status]
+    if course_facts is not None and status is None and course_facts.status != 'complete':
+        # Unreviewed or unknown facts are missing information (E1 referral), never guessed.
+        status = {'not_reviewed':'no_evidence', 'not_found':'no_evidence', 'unsupported':'unsupported'}[course_facts.status]
     if documents is not None:
         doc_status = {'conflicting_sources':'conflict', 'release_changed':'release_mismatch',
             'needs_scope':'clarify', 'uncalibrated':'uncalibrated',

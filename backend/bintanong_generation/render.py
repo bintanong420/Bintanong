@@ -1,6 +1,8 @@
 """Plain-text candidate previews; canonical decisions never come from generated prose."""
 import json
 
+from .course_facts_reply import course_fact_lines
+
 _WORDS={
  'en':dict(preview='Candidate preview only. Not official university guidance.',
   answered='Based on the supplied evidence:',eligible='Supported prerequisite check: conditions satisfied.',
@@ -205,6 +207,8 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
         if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
         missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
+    if pack.course_facts is not None and canonical_allowed:
+        lines.extend(course_fact_lines(pack.course_facts,pack.language))
     if pack.dependencies is not None:
         if canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))
