@@ -104,10 +104,36 @@ def titled(cid, code, title):
     c = course(cid, code); c['facts']['course_title'] = dict(value=title); return c
 
 
+def test_reviewed_printed_title_resolves_to_its_course_within_the_selected_curriculum():
+    from test_routing_validation import context, proposal, validate
+    text = 'What happens if I fail Fictional Structures?'
+    title = 'Fictional Structures'
+    start = text.index(title)
+    value = proposal(text=text, mentions=[dict(kind='course', text=title, start=start, end=start + len(title))])
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 4/L', title)))
+    result = validate(text, value, context(program_id='program-fictional', curriculum_id='curriculum-fictional'),
+                      catalog=catalog)
+    assert result.diagnostic == 'validated'
+    assert {i.name: i.value for i in result.decision.predicate_request.inputs}['course_id'] == 'course-a'
+    assert result.claims == ()  # a hypothetical failure never becomes a recorded grade
+
+
+def test_shared_printed_title_remains_ambiguous_within_one_curriculum():
+    from test_routing_validation import context, proposal, validate
+    title = 'Fictional Structures'
+    value = proposal(text=title, mentions=[dict(kind='course', text=title, start=0, end=len(title))])
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 4/L', title), titled('course-b', 'ZZ 9', title)))
+    result = validate(title, value, context(program_id='program-fictional', curriculum_id='curriculum-fictional'),
+                      catalog=catalog)
+    assert result.diagnostic == 'unresolved_entity' and result.decision.control == 'clarify'
+    assert result.decision.missing_facts == ()
+
+
 def test_repeated_printed_code_is_cataloged_twice_so_a_code_only_question_must_choose():
     # Owner, 23 Oct 2026: keep both printed rows; a code-only mention matches two entries (clarify).
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 5', 'Fictional Geo'), titled('course-b', 'ZZ 5', 'Fictional Fiscal')))
-    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5'}, 'course-b': {'ZZ 5', 'ZZ5'}}
+    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5', 'Fictional Geo'},
+                                'course-b': {'ZZ 5', 'ZZ5', 'Fictional Fiscal'}}
 
 
 def test_repeated_printed_code_is_labelled_with_its_title():
