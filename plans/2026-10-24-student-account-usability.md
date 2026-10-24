@@ -94,3 +94,25 @@ Current browser credential deletion is not a claim that every issued JWT is revo
 Live PSU OAuth login/logout was not repeated. The real research API remains blocked
 on hosted-ledger fact-field validation, so live curriculum/answer acceptance remains
 unverified. Validation guards and institutional source data were not changed.
+
+## Follow-up: exact startup blocker and frontend-to-dev readiness
+
+Fresh runtime-role SELECT against the configured release on24October:39 linked
+ledgers contain2117 course records outside local `authoring.FACT_FIELDS`. The
+unsupported names are `units.printed` and `units.rle`; the first rejection is in
+`abcomm-2018-2019`, with course_code present. The current allowed unit fields are
+units.total/units.lecture/units.lab. `load_release_curricula → prepare_runtime_bundle
+→ compiler._rebuild → authoring._facts` refuses the record before API startup.
+This isolates the first validation failure; further compatibility checks have not
+been passed. No hosted data, validation guard or source interpretation was changed.
+Summary: ignored `account-controls/hosted-fact-field-diagnosis.json`.
+
+Fresh Git fetch and GitHub compare:origin/dev=c0d3e22,origin/frontend=60d285f,
+local frontend=f989081 at review. `git merge-tree --write-tree origin/dev frontend`
+exited0 with a resulting tree equal to frontend: no conflicts. Source has37 unique
+commits and dev one (the backend merge commit);10 frontend commits are local only.
+The branch comparison spans114 files,8429 insertions/850 deletions, not just the
+latest logout fix. A clean merge is not full integration acceptance: startup blocker,
+real authenticated curriculum/chat checks and inherited suite failures remain.
+No merge/push performed. Restore compatible validation with focused regression
+coverage and rerun the real flow before calling the integration operational.

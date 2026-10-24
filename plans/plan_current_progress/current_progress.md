@@ -22,8 +22,10 @@ Existing master8/23.2 retention stays temporary; saved history remains an unappr
 recommendation. Sidebar a184d7c and guided clarification4dcd9bf/68b70e1 retained.
 
 Owner login3215 returns200; API8021 remains offline after the recorded hosted-ledger
-validation error (`facts require course_code and only supported field names`).
-No hosted data/guards changed; no live curriculum/model/PSU logout acceptance claim.
+validation error: hosted `units.printed`/`units.rle` are outside local FACT_FIELDS.
+Runtime-role read-only scan:39 release ledgers,2117 records with unsupported fields.
+frontend→origin/dev merge preview is clean; latest10 UI commits still local at check.
+No merge/push or hosted data/guard changes; live curriculum acceptance remains open.
 Actual PSU login was earlier owner-verified; non-PSU/full manual flow still unverified.
 [Auth/setup delivery](../2026-10-24-landing-auth-concept2.md) and
 [manual checklist](../../docs/development/google-sign-in-local-setup.md).
@@ -49,8 +51,8 @@ WSL16GB remains unverified: last check found memory=8GB and Ubuntu7.8Gi total.
 
 ## Next action
 
-Diagnose the real API's hosted-ledger fact-field mismatch against its reviewed
-release before rerunning actual authenticated clarification acceptance.
+Restore reviewed-ledger field compatibility with regression coverage, then rerun
+real API startup and authenticated curriculum/clarification acceptance.
 [Evidence](../2026-10-24-student-workspace-polish.md).
 
 ## Remaining boundaries

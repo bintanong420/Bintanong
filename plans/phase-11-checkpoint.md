@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 29
+sequence: 30
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ec403f5
+head_commit: f989081
 working_tree: dirty
-updated_at: 2026-10-24T18:44:00+08:00
+updated_at: 2026-10-24T18:50:39+08:00
 ---
 
 # Phase 11: original frontend with Lawrence's API
@@ -110,15 +110,17 @@ Hosted39 curricula/19 chunks/52 fields/54 spans retain their recorded limitation
 
 Actual PSU login owner-verified; non-PSU/full manual flow unverified. Real API startup
 now fails load_release_curricula/compiler/_facts: required/allowed fact-field validation.
-Exact hosted mismatch undiagnosed; no source data changed or guard weakened.
+Runtime-role SELECT isolated unsupported units.printed/units.rle (2117 records in
+39 selected ledgers). No source data changed or guard weakened. Merge preview
+frontend→origin/dev c0d3e22 clean, matching frontend tree;10 local commits unpushed.
 Docling environment failures unresolved. Fee/partial answers,pending-question/replay,
 aliases,real grade layouts,Hybrid/language/latency exits remain open; photos unsupported.
 No phase closure, university approval, public deployment or institutional activation.
 
 ## Next Action
 
-Diagnose hosted-ledger fact-field compatibility against the reviewed release,
-then rerun actual authenticated curriculum/clarification acceptance.
+Restore reviewed-ledger field compatibility with regression coverage, then verify
+real API startup and authenticated curriculum/clarification before working integration.
 
 ## Do Not Repeat
 
