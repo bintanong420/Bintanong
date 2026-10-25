@@ -2,151 +2,114 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 32
+sequence: 35
 plan: plans/phase-11-backend-api-plan.md
-head_commit: c5f0d07
+head_commit: e1d7e8b
 working_tree: clean
-updated_at: 2026-10-25T03:38:00+08:00
+updated_at: 2026-10-25T17:43:00+08:00
 ---
 
-# Phase 11 checkpoint — retrieval filter delivered; source expansion in review
+# Phase 11 checkpoint — fraud precedence verification
 
-Last full oversized snapshot: `f1eafe9:plans/phase-11-checkpoint.md` (recover with git show).
-Active plan: [backend API](phase-11-backend-api-plan.md); previous final handoff:
-[Phase 10](phase-10-handoff.md). Phase 11 remains active; no final handoff or advancement.
+Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoint.md`.
+[Plan](phase-11-backend-api-plan.md) · [Phase10 final handoff](phase-10-handoff.md) ·
+[Session recovery](2026-10-25-phase11-session-handoff.md). No final Phase11 handoff/advancement.
 
 ## Completed Tasks
 
-- Backend tasks 1-9 delivered; security/queue/abuse fixes and step-2 E1/E3, 2a-2e/e2, f and h
-  delivered. Full task/commit history preserved in f1eafe9 and dated reports, not repeated here.
-- h: hosted structured course facts for all 39 curricula (2132 courses), source readings CF1-CF6
-  settled in owner ledger. Do not re-extract/review settled facts or route them through RAG.
-- g: p.46 full grading table host reply `8c49ad0` (owner chose it after immutable-source blockers).
-- g topic filter `8ba6949`: optional JSONB chunk ids before ranking; policy-bound engine and
-  PackageStorage parity; HostedReleaseStorage already forwards arguments. Hosted migration applied,
-  normalized to file version `20261024112235`. No review/source/release rows changed.
-- Supabase MCP now works after prior OAuth login/session restart; authenticated reads verified.
+- Backend tasks1-9/security/queue/abuse and step2 E1/E3,2a-2e/e2,f,h delivered;
+  history in c1fc29a and dated reports. Hosted facts:39 curricula,2132 courses;CF1-CF6 settled.
+- Grading host reply8c49ad0; topic filtering8ba6949, hosted migration20261024112235;
+  [topic report](2026-10-24-topic-filtered-retrieval.md). Active release preserved.
+- g2 append-only source-review pathf591416/c048bcb; root identity5440368; blank codecfebd6c1;
+  context/menu5dbc706; claim filteringfb4e1e8; malformed-source guardc5f0d07.
+  [Resume evidence](2026-10-25-phase11-resume-verification.md),
+  [guard results](2026-10-25-malformed-source-answer-guard-results.md).
+- 61 supplementary records compiled,8 limitations,480-token budget respected; pre_enrollment
+  alone has owner-delegated4096 context (complete group3816), other topics2048.
+  61 E5 vectors; original19 records unchanged. Local39-link activation/rollback rehearsal passed.
+- Hosted g2 migration20261024114711/staging delivered: new80-chunk/39-link draft INACTIVE;
+  original19-chunk/39-link release active.10 local/hosted function bodies/grants match; guards/RLS verified.
 
 ## Current Task
 
-Owner resumed25 Oct; frontend ready, integration deferred until pending work is finished.
-Focused guard committedc5f0d07 after RED/GREEN491 and clean follow-up review. Full suite PASS6677,
-1595 subtests,6 skipped,2 xfailed,6 existing warnings,22m36s,exit0. One current live case reaches
-generation and refuses the weapon interpretation in29.37s; raw draft not captured, so the synthetic
-adversarial tests establish the host floor. [Results](2026-10-25-malformed-source-answer-guard-results.md).
-Docker restored via installed CLI; actual-DB blank-codec failure reproduced and corrected under TDD.
-[Session recovery note](2026-10-25-phase11-session-handoff.md) is the exact resume entry point.
-g2 append-only path committed f591416 and full suite passed there. Subsequent root-release identity
-and supplementary blank-field changes committed febd6c1/5440368; focused42 +26 subtests GREEN, review clean.
-Full suite on5440368 passed6635 +1595 subtests.5dbc706 run stopped as obsolete at94%; new claim
-filter fb4e1e8 passes79 focused +31 subtests and actual DB8 +22. Fresh full suite passed6658,
-6 skipped,2 xfailed,+1595 subtests,6 existing warnings,22m27s (`claim-final-full-suite.log`,exit0).
-All61 records compiled with8 limitations and exact token checks; Charter
-atomic context exceeds2048; owner delegated4096 for pre_enrollment only. Exact compiled group3816 fits.
-Source append and full release/39-links/activate/rollback/reactivation rehearsal passed.61 embeddings
-computed;19 old embedding records retained byte-for-byte. Hosted g2 migration/staging delivered;
-80-chunk/39-link draft inactive, original19-chunk release active. Live checks/switch remain.
-[Resume evidence](2026-10-25-phase11-resume-verification.md) supersedes the failing stopping point.
+Fraud correctione1d7e8b committed after RED/GREEN and independent review. Both retrieved
+II.6/II.8a rows replace model-selected sanctions, with unresolved-precedence warning/referral.
+Corrected comparisons still receive ordinary per-part relevance/support review. Missing,
+held or incompatible counterpart holds only the affected slot. Other parts/canonical results survive.
+[Plan](2026-10-25-fraud-precedence-correction.md) · [Results](2026-10-25-fraud-precedence-results.md).
+Full suite on e1d7e8b PASSED6695 +1595 subtests,6 skipped,2 xfailed,6 warnings,22m44s,exit0.
+Single live fraud replay stopped at unrelated router Hybrid/prerequisite mistake before retrieval;
+no generation reached, no retry, no live quality pass. Expanded release stays inactive.
 
 ## Repository State
 
-Worktree p11, `feat/p11-backend-api`, based on dev `cbaa6a7`; nothing pushed. Production/tests
-production/test/full-suite baselinec5f0d07. Resume HEAD974ef17 clean; all code/test changes committed
-and reviewed. Following commit contains only result/developer/recovery documentation. Raw evidence
-stays ignored in workspace. No dependency/frontend/source/release change; nothing pushed.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Code/testse1d7e8b committed.
+Following documentation commit saves progress/checkpoint/recovery and the verification report;
+head_commit names the tested code baseline. No production/test changes since it.
+No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
+Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
+Raw evidence ignored at workspace/audit-evidence/p11-fraud-precedence-20261025/.
 
 ## Verification Evidence
 
-- Guard RED7 failed/5 passed; notice RED6/6; GREEN67. Review P2 mixed gap/uncertain fallback RED1/12,
-  corrected broad generation/request-understanding suite491 GREEN; independent follow-up13 GREEN, no blockers.
-- Previously pending5856e82 independent review now clean;31 catalog/capacity/separation checks passed.
-- c5f0d07 full suite:6677 passed +1595 subtests;6 skipped,2 xfailed,6 existing warnings;22m36s,exit0.
-- Checker comparison ended: healthy preflight repeat approved/passed; off reproduced false completeness
-  (18.94s/354 tokens); on truncated at768 tokens with thought field/no final content (37.84s).2/8 calls,
-  remaining6 not run; no rescue/default changes. [Results](2026-10-25-checker-comparison-results.md).
-- 25Oct checker preflight STOPPED with0 completions:57 old seals valid; all4 current reconstructions
-  change requirements payload/identity through new empty topic fields. Draft hashes unchanged.
-  Model endpoint refused; Docker engine pipe absent. No startup or repair/retry. Offline audit exit0;
-  [stop report](2026-10-25-checker-comparison-preflight-stop.md) contains hashes/commands/recovery proposal.
-- g2: actual missing-RPC RED and missing-client RED; initial GREEN8 +20 subtests. Review bypass RED
-  (direct privileged link INSERT accepted a receipt that omitted old fields); corrected trigger GREEN9 +20.
-  Two-generation parent-chain and changed replay coverage included in final focused run.
-  Migration `20261024114711_phase11_supplementary_source_reviews.sql` applied hosted; draft inactive.
-
-- Full suite at f591416:6628 passed,6 skipped,2 xfailed,+1589 subtests,6 warnings,22m38s;
-  full-suite-f591416.log/.exit=0. Does not cover later production changes.
-- Resume RED reproduced codec failure; corrected blank contract after4 expected focused failures.
-  Final focused42 passed +26 subtests,94.10s (`resume-contract-green2.log`); independent review clean.
-  Core full suite6635 +1595 subtests; later fb4e1e8 full suite6658 passed. Latest5856e82 needs full suite.
-- Topic baseline 48 passed +31 subtests; expected RED observed on real disposable DB/package/engine.
-  Final retrieval/runtime selection 157 passed +86 subtests, 53.84 s, `review-green.log`.
-  Four isolated mutations caught: engine/package/SQL filter removal and package validation removal.
-- Independent review: no new security/compatibility defect; tab/newline validation mismatch reproduced
-  and fixed; actual five-chunk SQL crowding/required-neighbor coverage added. No deferred findings.
-- Hosted body MD5 `8e2c1fa7114220707e169d224829531f` matches local. One 9-argument STABLE invoker
-  RPC, anon/authenticated execute, service_role denied. Active release unchanged, 19 chunks/39 links.
-  Security: owner-accepted leaked-password WARN only. Performance: existing FK +19 unused-index INFOs.
-- Live grading/fee battery 8/10 answered correctly within limits. Passing English/Filipino, 4.0,
-  85, full grading, INC+completion partial and both fees work. Taglish passing selected no topic;
-  uppercase percentage got no route. Duplicate evidence header not reproduced. These router misses
-  remain separate from retrieval. Logs: workspace audit-evidence/p11-topic-filter-20261024/.
-- Roster19 initial startup failed reading curriculum_ledgers: hosted SQL statement timeout. No cases
-  ran. Activity check showed no lock pressure; bounded log query returned no matching event. Retry
-  completed63/63 with0 exceptions.62 status/decision pairs unchanged; Architecture Filipino recovered an
-  expected ineligible result from prior timeout. No previously answered status/decision lost. Eleven text
-  changes explained by prior host/referral/currentness commits; language matches21/21 en,21/21 fil,
-  15/21 Taglish unchanged. Roster18 baseline: audit-evidence/p11-20261023/roster18.
+- Fraud initial console RED11 behavior failures +1 fixture setup error/3 passes; fixture repaired.
+  Isolated baseline-version-red.log confirms corrected cross-version case fails against old to_draft.
+- Edge RED2/15: new counterpart hold bypass and eight-claim overflow; corrected GREEN508.
+- Review P2: host status bypassed relevance confirmation; RED7/11, retained ordinary answered review.
+  Final generation/understanding selection509 passed in10.98s, including18 precedence cases.
+- Actual sealed-field component: both labels/all visible values preserved; separate/combined claims
+  fit1200 in en/fil/Taglish. No model/routing/retrieval accuracy inference.
+- Full tests command: shared Python3.13 -X utf8 -B -m pytest -q -p no:cacheprovider tests,
+  external --basetemp=workspace/audit-evidence/p11-fraud-precedence-20261025/full-temp.
+  full-suite.head=e1d7e8b; .exit=0,6695 passed +1595 subtests,6 skipped,2 xfailed,
+  6 existing warnings,1364.78s. No installed linter/formatter.
+- Fresh read-only hosted readback: old19 active, expanded80 draft/inactive.54 sealed files unchanged.
+- Previous c5f0d07 full suite6677 +1595 subtests,6 skipped,2 xfailed,6 warnings,22m36s,exit0.
+  Earlier fb4e1e8 suite6658 and f591416 suite6628 preserved in dated reports; do not repeat them.
+- Roster19:63/63,0 exceptions after one startup SQL-timeout retry; no previously answered status/decision
+  lost. Language21/21 English,21/21 Filipino,15/21 Taglish. See resume report; baseline roster18 retained.
+- Checker trial ENDED: off false completeness; on truncated768 tokens/no final content.2/8 calls;
+  remaining6 unrun, no rescue/default change. [Results](2026-10-25-checker-comparison-results.md).
 
 ## Versions and Digests
 
-Shared venv Python 3.13.7; FastAPI 0.141.1, SWI-Prolog 10.1.15, PostgreSQL 17.6, pgvector 0.8.2.
-Installed Supabase CLI 2.117.0 (help consulted; no upgrade). Model/embedding identities unchanged;
-MODELS_DIR=C:/Coding-projects/bintanong_workspace/MODELS. No weights copied/rehashed/downloaded.
-Handbook SHA-256 and source decisions are in the source-review report. Models not altered/trained.
+Shared Python3.13.7, FastAPI0.141.1, SWI-Prolog10.1.15, PostgreSQL17.6, pgvector0.8.2;
+Supabase CLI2.117.0. Model/embedding identities unchanged; MODELS_DIR points to shared workspace/MODELS.
+No downloads/re-hashing/training. Sealed source-package hashes remain in session recovery/resume report.
 
 ## Decisions
 
-- Reuse approved requirements/plan. Topic filter narrows trusted model-selected topics; it does not
-  replace semantic routing, waive threshold/scope/review binding or decide curricular eligibility.
-- g2 approved database route: append-only supplementary receipts, NEW research release preserving
-  old 19 chunks and 39 ledger links; rollback current release. No published source/receipt rewriting.
-- Human review remains exact original regions/short inline batches. Weapon exception is malformed
-  in original: approved retention with unresolved gap, never invented interpretation or rule.
-- Carry standing prompt-engineering/no-training and one-week improvement boundaries. Source approvals
-  are provisional undergraduate research evidence, not university approval or currentness.
+- Source-review batches4/7 require both labels; precedence unresolved. No sanction adjudication.
+- Deterministic comparison wording still needs normal relevance review; positive review cannot restore
+  discarded model sanctions. Existing fallible review/whole-draft fallback semantics retained.
+- No product scope/source reading change. Generic claim_not_stated notices remain unchanged.
+- Keep one-week prompt/accuracy cap, undergraduate/advisory/privacy/source-gap boundaries.
 
 ## Known Failures or Blockers
 
-Final fb4e1e8 suite passed6658 +1595 subtests (`claim-final-full-suite.log`,exit0). Claim filtering resolved10/60 same-topic
-component refusals to60/60; review P2 edition/curriculum hiding fixed by RED/GREEN. Both review fixes
-covered; no deferred code findings. Hosted schema/staging read back. Live9-case quality FAILED:
-English service misroute, missing procedure steps, Taglish plagiarism misroute, malformed weapon
-exception interpreted as permission, and fraud precedence chosen without its warning. Do not activate.
-Two grading router misses, Hybrid next-step
-without topic, vague clarifications and Nursing negative claim mode remain. Photos unsupported;
-6 register-only Taglish misses; no browser/UI exit, SDK parser contract test or installed linter.
+Expanded live9-case quality gate FAILED; one guard refusal does not close it. Service/plagiarism
+routing misses, omitted steps/progression and current fraud router failure remain. No switch authorized.
+Other pending: two grading router misses, Hybrid next-step without topic, vague clarifications,
+Nursing negative-claim mode, broad simple-query battery; photos unsupported;6 Taglish register misses.
+No browser/UI exit or SDK parser contract test. Frontend ready; integration follows pending work.
+Supabase app reads work; historical direct OAuth warning diagnosis is in session recovery.
 
 ## Next Action
 
-Owner heading to sleep; current increment verified and saved. Next: carry fraud precedence limitations
-and both reviewed labels into the answer. II.6/II.8a are already required neighbors; gap issue
-claim_not_stated is skipped by current notices. Preserve sealed sources and do not choose a sanction.
-Keep draft inactive/thinking disabled; no checker rerun or repetition of verified c5f0d07 work.
-Other g2 failures remain. Complete quality/roster/switch gates precede activation. Remaining router/Hybrid/
-clarification/Nursing battery precedes ready-frontend integration. Phase12 unauthorized.
-Supabase app reads verified; newest direct parse error not reproduced. Historical OAuth-refresh failure
-and same-account recovery instructions in [diagnosis](2026-10-25-supabase-mcp-diagnosis.md).
+Resume remaining expanded-candidate quality recovery, starting with the fraud question router
+requesting an irrelevant prerequisite operation. Use focused routing RED/GREEN; keep the verified
+generation correction. No checker/verified guard rerun. Keep expanded release inactive; remaining
+quality/roster/switch gates precede frontend integration. Phase12 remains unauthorized.
 
 ## Context Consulted
 
-25 Oct guard resume: thesis physical17-18 and routing PNG refreshed; earlier39-44 consulted. Standing
-unknown-versus-unmet distinction retained over illustrative thesis example. Master3/11/13/16/23/24,
-owner ledger and prompt/latency decisions reviewed; no new discrepancy. Source/scope/gap policies apply.
-Earlier context/architecture evidence is preserved in the prior checkpoint snapshot.
+25Oct resume: thesis physical17-18 and routing PNG refreshed; master3/13/14/16 and Phase10 handoff,
+source/scope/gap policies and owner ledger reviewed. Prior39-44 retained. No scope/routing discrepancy;
+unknown-versus-unmet and standing prompt-engineering/no-training boundaries retained.
 
 ## Do Not Repeat
 
-Backend tasks1-9, prior security/abuse/capacity runs, source CF1-CF6, existing benchmark wording
-acceptances, completed course-fact extraction, failed query expansion, source chunks for grading alone
-(owner chose host reply), environment/model setup, prior photo/style experiments. Do not infer any
-institutional release permission, source-gap resolution or phase advancement from candidate delivery.
+Completed backend/security work, CF1-CF6, settled source/benchmark readings,61-record extraction,
+embedding/package staging/rehearsal, checker trial, prior guard live experiment, historical suites.
+Do not infer institutional approval, currentness, activation or phase advancement from candidate delivery.

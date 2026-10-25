@@ -56,4 +56,5 @@ No installed linter; use pytest, diff checks and phase-state validation.
 - Single saved live fraud replay: router chose Hybrid plus an irrelevant
   prerequisite operation; evidence_unavailable before retrieval, generation not
   reached. No retry or router fix; this does not validate the correction live.
-  Expanded release remains inactive. Full suite and delivery record pending.
+  Expanded release remains inactive. Full suite PASSED6695 +1595 subtests,6 skipped,
+  2 xfailed,6 warnings,22m44s,exit0; [delivery record](2026-10-25-fraud-precedence-results.md).

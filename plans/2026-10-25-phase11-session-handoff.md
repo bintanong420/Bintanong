@@ -1,23 +1,29 @@
 # Phase 11 session handoff — safe to /clear
 
-Session recovery note, NOT phase completion. Owner is heading to sleep; finish verification and save
-recovery state. Phase11 remains active; frontend ready, integrate only after pending work.
+Session recovery note, NOT phase completion. Phase11 remains active; frontend ready, integrate only
+after pending work. Owner resumed fraud handling and enabled YOLO; expanded release stays inactive.
 Read INDEX/current progress/checkpoint, repo AGENTS, canonical ~/.agents/AGENTS.md, and both handoff
 skills. Fresh Git/tests outrank this note. Branch feat/p11-backend-api, p11, dev base cbaa6a7; no push.
 
-Last full snapshot before condensation: `c5f0d07:plans/2026-10-25-phase11-session-handoff.md`.
+Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-session-handoff.md`.
 
 ## Exact next action
 
-Full suite on committedc5f0d07 PASSED6677 +1595 subtests,6 skipped,2 xfailed,6 existing warnings,
-22m36s,exit0; workspace `audit-evidence/p11-malformed-source-20261025/full-suite.log`,`.exit`,`.head`.
-No test/model jobs left running. Code unchanged since tested commit; subsequent commit is documentation.
-[Guard verification report](2026-10-25-malformed-source-answer-guard-results.md) records conservative
-record-level hold and live refusal. Independent5856e82 review is now clean. Do not rerun completed work.
-Next correction is fraud-precedence carrying: both reviewed rows are
-already required neighbors, but their `claim_not_stated` limit is omitted from current notices. Retain
-both labels/disclose unresolved precedence; never choose a student's sanction. Other9-case failures
-remain. Expanded release must stay inactive until applicable complete quality/roster/switch gates.
+Fraud correction committed e1d7e8b. [Results](2026-10-25-fraud-precedence-results.md) and
+[plan](2026-10-25-fraud-precedence-correction.md) record RED/GREEN and independent P2 correction.
+Both labelled printed rows replace model-selected sanctions before numbering; unresolved precedence
+is explicit. Corrected comparisons still receive normal relevance/support review. Missing/held/
+incompatible counterparts stay source_gap; independent/canonical parts and budgets are preserved.
+Final focused generation/understanding509 passed,18 precedence cases. Actual sealed-field comparison
+fits all3 language templates; no source/package/pin changes. Expanded release remains INACTIVE.
+Full tests/ suite PASSED6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0 on e1d7e8b.
+Evidence A/p11-fraud-precedence-20261025/full-suite.log,.head,.exit. No test jobs left running;
+existing model service remains up. Fresh hosted readback old19 active/new80 draft;54 sealed files unchanged.
+Next: fix the fraud question router's irrelevant prerequisite operation under focused routing TDD.
+Do not repeat completed generation/checker/guard work. One live fraud replay stopped before
+retrieval/generation because the router chose Hybrid/prerequisite; no live pass or retry.
+Prior c5f0d07 guard/checker work stays completed; do not repeat. Remaining live quality/roster/switch
+and router/Hybrid/clarification/Nursing/simple-query gates precede activation/frontend integration.
 
 Checker comparison ENDED under truncation stop after2/8 calls; no retries. Original-code/startup
 recovery and one healthy repeat were explicitly approved. [Final result](2026-10-25-checker-comparison-results.md)
@@ -27,15 +33,16 @@ Let A=C:/Coding-projects/bintanong_workspace/audit-evidence and E=A/p11-topic-fi
 
 ## Latest code and verification
 
-c5f0d07 holds model slots citing an unresolved malformed-condition record BEFORE numbering/review;
-other parts and canonical results survive. Source-gap replies distinguish defective reviewed content
-from absent information. RED7/5 and notice RED6/6; GREEN67. Review P2 mixed-uncertain fallback fixed
-RED1/12; broad generation491 passed and independent follow-up13 passed. Earlier5856e82 topic-menu
-change now independently clean,31 focused checks passed. One current live weapon case reaches
-generation and refuses interpretation (29.37s inner pipeline, not browser latency). Raw draft not
-captured; synthetic adversarial tests establish the host floor. Full suite passed above.
+Fraud e1d7e8b: deterministic quoted II.6/II.8a comparison, English/Filipino/Taglish framing,
+all printed penalty columns, blank cells unspecified, no sanction selected. Source limits bind it;
+ordinary claim_not_stated limits unchanged. New counterpart references are checked against existing
+malformed holds; comparison compacts to one claim/both refs under budget pressure, otherwise holds.
+Reviewer found host-status relevance bypass; RED7/11 then corrected to normal answered review.
+Full suite passed above; don't infer a live/model quality pass from synthetic evidence.
+Previous c5f0d07 full suite PASSED6677 +1595 subtests,6 skipped,2 xfailed,6warnings,22m36s,exit0.
+[Guard report](2026-10-25-malformed-source-answer-guard-results.md) retains its live refusal and reviews.
 Shared Python3.13 -X utf8 -B -m pytest -q -p no:cacheprovider, external --basetemp. No installed linter.
-Final docs commit may follow code baseline; inspect fresh Git and preserve owner changes.
+Raw evidence ignored under workspace; production/testing code committed. No push or activation.
 
 ## Delivered this resume — do not repeat
 
@@ -62,7 +69,8 @@ E/live-expanded-candidate/results.jsonl:9cases,0 exceptions,7answered/2insuffici
 English procedure misroutes grades evaluation; Filipino/Taglish requirements+steps omit steps; Filipino
 plagiarism omits progression; Taglish plagiarism selects missing22. Weapon answer invents usable
 coursework/permit exception from malformed source; fraud selects a penalty without overlap warning.
-Four router-only traces AFTER5856e82's change still fail (E/source-router-trace/): menu correction alone
+Current fraud replay also failed at routing before retrieval/generation. Four earlier router-only
+traces AFTER5856e82's change still fail (E/source-router-trace/): menu correction alone
 was insufficient. Checker trial has ended; current guard's one-case refusal does not close this gate.
 Follow the verified guard report's next action; no repeated prompt sweeps.
 Pipeline11–38s observations exclude encoder/composition/browser/API end-to-end; no SLA/currentness claim.

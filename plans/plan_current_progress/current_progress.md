@@ -1,80 +1,64 @@
 # Current progress
 
-Updated 25 October 2026 (local clock crossed midnight; existing24 Oct evidence names retained).
-Phase11 active, p11 / `feat/p11-backend-api`, dev base `cbaa6a7`; nothing pushed.
-[Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
-[Research](../2026-10-23-phase-11-pre-phase-research.md) | [Phase10 handoff](../phase-10-handoff.md).
-Last full snapshot before condensation: `f1eafe9:plans/plan_current_progress/current_progress.md`.
+Updated25October2026. Phase11 active in p11 / feat/p11-backend-api; dev basecbaa6a7; nothing pushed.
+[Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
+[Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
+Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/current_progress.md`.
 
-## Latest changes
+## Latest change
 
-- Malformed-condition guard now holds affected model slots before review, preserves independent parts
-  and distinguishes source gaps from absent information. RED7/5, notice RED6/6; GREEN67 then491 broad
-  generation checks. Review P2 mixed-uncertain notice fixed RED1/12; follow-up review clean. Live refusal verified;
-  full suitec5f0d07 PASS6677 +1595 subtests,6 skipped,2 xfailed,6 warnings,22m36s,exit0.
-- Backend/API/security/answer queue delivered; step2 E1/E3, 2a-2e/e2, f and h complete. See checkpoint
-  and dated reports for history. Course facts: 39 curricula, 2132 courses, hosted; CF1-CF6 settled.
-- Grading host reply `8c49ad0` covers the approved Handbook p.46 table. New `8ba6949` filters selected
-  topic chunks before ranking, so unrelated topics cannot crowd out grading. Real local DB RED/GREEN;
-  final retrieval/runtime suite 157 passed +86 subtests; four mutations caught; independent review done.
-- Hosted migration `20261024112235` applied via MCP and function body verified. Original active release,
-  19 chunks and 39 curriculum links preserved. Advisors unchanged (accepted Auth warning, existing INFOs).
-- Live passing English/Filipino, 4.0, 85, grading table, INC partial answer and both fees work (8/10).
-  Taglish passing still selects no topic; uppercase percentage gets no route. These are router misses.
-  [Evidence](../2026-10-24-topic-filtered-retrieval.md). No duplicate header reproduced.
-- Supabase MCP access restored/verified after prior account-specific login and session restart.
-- Owner chose database supplementary-review path plus new research release for partial topics.
-  Source batches1-12 individually approved; clear remaining rows use the owner's standing approve-as-printed
-  delegation. New/different situations still need human review. Missing item22 recorded by owner decision;
-  weapon exception stays unresolved. [Source report](../2026-10-24-partial-topics-source-review.md).
-  [Supplementary implementation plan](../2026-10-24-supplementary-source-review-plan.md) prepared.
-- g2 append-only path committed `f591416` after RED/GREEN and independent review. Row-trigger proof closes
-  direct-insert bypass; focused12 +20 subtests, capacity33 +17, five mutations caught. Security audit signature
-  fixed `c048bcb` (1 +2). Hosted g2 staging now delivered; activation still gated.
+Fraud-precedence correction committed e1d7e8b. Both retrieved II.6/II.8a rows and all printed
+penalty columns replace model-selected sanctions; warning says precedence is unresolved and refers
+to the university office. No sanction is chosen. Missing/held/incompatible pair leaves source_gap;
+independent and canonical parts survive. Corrected comparison still requires normal per-part review.
+[Plan](../2026-10-25-fraud-precedence-correction.md) · [Results](../2026-10-25-fraud-precedence-results.md).
 
-## Current verification and next action
+Initial RED11 behavior failures +1 fixture error/3 passes; repaired foreign-version fixture also
+fails against isolated old to_draft. Edge RED2/15 fixed source-hold bypass/budget overflow. Review P2
+relevance bypass RED7/11 fixed; final generation/understanding509 passed,18 new precedence cases.
+Actual sealed fields preserve both rows/values/citations and fit limits in all3 language templates.
+Full tests/ suite PASSED6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0 on e1d7e8b.
+Evidence log/head/exit: workspace audit-evidence/p11-fraud-precedence-20261025. No code/test changes since it.
+One live fraud replay stopped before retrieval/generation: router chose Hybrid with an unrelated
+prerequisite operation. No live pass/retry. Existing guard/checker experiments were not repeated.
 
-Roster19 completed63/63 after one startup-timeout retry:0 exceptions, no previously answered status/decision
-lost, all11 wording changes explained by earlier approved commits. Language matches21/21 en,21/21 fil,
-15/21 Taglish unchanged. Blank/root-identity commits febd6c1/5440368: full suite6635 passed,6 skipped,
-2 xfailed,+1595 subtests,24m43s. Scoped context/menu/grammar5dbc706: focused73 passed +31 subtests;
-review P2 grammar allowance fixed RED/GREEN. New fb4e1e8 claim filter:79 focused +31, real DB8 +22;
-source component60/60 (own-vector probes, not semantic accuracy). Review ambiguity fix RED/GREEN.
-5dbc706 full run stopped obsolete at94%; final fb4e1e8 suite passed6658,6 skipped,2 xfailed,
-1595 subtests,6 existing warnings,22m27s (`claim-final-full-suite.log`,exit0).
-[Resume evidence](../2026-10-25-phase11-resume-verification.md).
+## Delivered state
 
-Owner resumed25 Oct: frontend is ready; integrate only after remaining pending work is resolved.
-Docker was stopped; restored using installed `docker desktop start`. Resume regression reproduced the
-blank codec failure before the verified correction.61 records compiled with8 limitations, all within480
-exact E5 tokens. Owner delegated4096 for pre_enrollment only; all6 records/citations fit3816 in the
-stable draft. Other subjects stay2048.61 vectors computed with tokenizer-id parity,477 max tokens;
-19 original embedding records retained byte-for-byte. Full local release/39-links/activation/rollback/
-reactivation rehearsal passes:80 ->19 ->80 visible; original source evidence/membership unchanged.
-Hosted migration20261024114711 applied; staged80 chunks/39 links; old19 active.10 function bodies/
-grants match fresh local DB exactly, all invoker; RLS/private review grants verified; advisors unchanged.
-Live9-case run failed quality: service/Taglish routing misses, omitted steps/sanction progression,
-weapon exception interpreted despite its malformed-source hold, fraud precedence chosen without warning.
-Draft remains inactive; no runtime pin switch.5856e82 exposes unresolved source-limit claims;
-RED5/1, focused44 GREEN; independent review clean (31 checks). Four traces still fail; c5f0d07 full suite passed6677 +1595 subtests.
-Checker diagnostic ended after2 calls: on truncated; no rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
-Current [guard correction](../2026-10-25-malformed-source-answer-guard-results.md) passed full suite/review;
-live replay reaches generation and refuses unsafe interpretation in29.37s. Draft stays inactive.
-Next: fraud-precedence carrying/both reviewed labels; neighbors already present, generic limit skipped by notices.
-[Session handoff](../2026-10-25-phase11-session-handoff.md) preserves controls and routes to this stop.
-Supabase app reads work; direct OAuth parse-warning diagnosis recorded, newest occurrence uncorrelated.
-Reuse verified Charter four-row/26-field packet: Step2 visible; unrelated PDF had the numbering gap.
-Preserve Step3 cutoff and25-vs20 minute discrepancy. All61 draft source records independently checked;
-Package sealed; quality recovery/live checks precede any switch. Standing approvals valid.
+- Backend/API/security/answer queue and step2 E1/E3,2a-2e/e2,f,h delivered.39 hosted curricula,
+  2132 course facts;CF1-CF6 settled. Owner: frontend ready, finish pending work before integration.
+- Grading host reply8c49ad0; topic filter8ba6949 hosted via20261024112235. Live grading/fees8/10;
+  Taglish passing and uppercase percentage router misses remain. No duplicate header reproduced.
+- g2 append-only pathf591416/c048bcb, blank/root identitiesfebd6c1/5440368, context/menu5dbc706,
+  claim filterfb4e1e8 and malformed-source guardc5f0d07 delivered; prior review/verification retained.
+- Expanded package:61 new records/8 limits; pre_enrollment4096 owner-delegated, group3816tokens;
+  other subjects2048.61 vectors, exact tokenizer parity/max477; original19 records unchanged.
+  Local release/39-link activation/rollback rehearsal80->19->80 passed; package sealed.
+- Hosted migration20261024114711 applied. New80chunks/39links draft INACTIVE; old19chunks/39links
+  active.10 function bodies/grants match local; RLS/private receipts/trigger verified; advisors unchanged.
+- Live9-case expanded quality gate failed: routing misses, omitted steps/progression, weapon exception
+  invented, fraud precedence omitted. Weapon guard corrected; its single live refusal verified29.37s.
+  Previous full c5f0d07 suite6677 +1595 subtests,6 skipped,2 xfailed,6warnings,22m36s,exit0.
+- Roster19 completed63/63 after startup-timeout retry;0 exceptions, no previously answered status/
+  decision lost; languages21/21en,21/21fil,15/21Taglish. Reuse roster18/19; no new roster yet.
+- Checker comparison ENDED after2/8 calls: thinking-on truncated768tokens/no final content.
+  No retries/rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
+- Supabase app reads work. Historical OAuth parse-warning diagnosis retained; no credential reset.
+  Source decisions/batches1-12 and standing delegation remain settled; do not re-extract/review.
+  Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
 
-After g2: router follow-ups, Hybrid next-step part without topic, bare clarifications, Nursing negative
-claim mode and the owner's broad simple-query battery. UI ready; integration follows pending work. Auth/dependency
-pins/SDK parser verification belong there. No phase advancement without applicable closeout gates.
+## Next action
+
+Resume remaining quality recovery with the fraud question router's irrelevant prerequisite operation;
+focused routing RED/GREEN, retain verified generation correction. Expanded release stays inactive.
+Fresh hosted readback: old19 active/new80 draft;54 sealed files unchanged. Quality/roster/switch gates remain.
+After this correction: unresolved router/service/plagiarism/steps issues, Hybrid next-step without
+topic, bare clarifications, Nursing negative mode and owner's simple-query battery. Frontend integration
+follows pending work; auth/dependency pins/SDK parser verification belong there. No phase advancement.
 
 ## Boundaries
 
-Undergraduate academic affairs, read-only advisory, source-gap/privacy/release safeguards and one-week
-improvement cap remain. No grade/conversation persistence, training, model/dependency download or push.
-Source readings/research release are not university approval/currentness or public deployment permission.
-Context consulted this resume: thesis physical17-18 and routing PNG; no discrepancy. Formal checkpoint
-holds resumable state; this progress file is a compact snapshot, not an activity log.
+Undergraduate academic affairs, read-only advisory, source gaps/privacy/release safeguards and one-week
+improvement cap remain. No persistent grades/conversations, training/downloads/push. Source review is
+not school approval/currentness/public deployment. This resume consulted thesis physical17-18, routing
+PNG, master3/13/14/16 and prior Phase10 handoff; no discrepancy. Session YOLO now enabled by owner;
+this changes execution permissions only. Raw evidence stays ignored in workspace audit-evidence.
