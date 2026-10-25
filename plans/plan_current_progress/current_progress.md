@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md): batch18/chunks48–49,p91,draft-only,displayed
-with all4 penalty columns; fields match frozen hosted spans/original. No blanks/companions/limits.
-Await owner decisions;41approved/6corrections/0held/33pending. No DB/source/model changes.
-[MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed. [ETA](../2026-10-26-system-readiness-estimate.md)
-is conditional4–7working days to integrated tested prototype;formal evaluation/deployment additional.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):48–49 approved ("i approve");43approved/
+6corrections/0held/31pending. Batch19/chunks50–51,p91,draft-only,displayed: gravity condition in50,
+complete OSAS/community-service-location wording in51 retained.50 later3columns blank,51 none.
+No required companions/source_limits. Await owner outcomes;no DB/source/prompt/model changes.
+[MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed; [conditional ETA](../2026-10-26-system-readiness-estimate.md) retained.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch18/chunks48–49 decisions,then50–51. No duplicate source approvals or queue renumbering.
-MCP authenticated-read check satisfied; no duplicate approvals,renumbering or source changes.
+Await batch19/chunks50–51 decisions,then52–53. No duplicate approvals,renumbering or source changes.
+Correction scopes19–21/36/45–46 settled; delivery remains separate after audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
