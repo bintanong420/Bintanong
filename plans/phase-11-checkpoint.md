@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 46
+sequence: 50
 plan: plans/phase-11-backend-api-plan.md
-head_commit: fbe18e6
+head_commit: af119ad
 working_tree: dirty
-updated_at: 2026-10-25T18:32:55+08:00
+updated_at: 2026-10-25T19:38:03+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -33,9 +33,17 @@ Three frontend source files corrected: only original question + chosen statement
 no invented details dialog/resume action. Scope/explicit confirm/unknowns preserved.
 Owner says minimize backend changes: five trial prompt-guidance lines were reverted;
 backend/supabase diff is empty. No backend restart or altered runtime/source rules.
-Live router probes (old, corrected, one trial prompt) all invalid_reference. The model
-created another requested operation from supplied facts and uncontained part targets.
-No backend/model-quality fix is claimed; frontend no longer traps bare replies in a loop.
+Owner requires tracing before a backend correction; confirms selecting both answers in popup.
+Current formatter/SDK/proxy/API preserve question, both answers, scope and session context.
+Public3215 bundle serves that formatter; owner browser unavailable to Orca automation.
+Full existing research composition reproduces popup and English IM fallback without UI:
+model invents an extra unknown part; normalization succeeds; unknown_requirement -> clarify
+with no missing fields. Earlier router-only invalid_reference is a different component path.
+Reference-repair hint proposal would not fix this full-path case and remains unapplied.
+Counterfactual packet removes only invented part -> routing validated, both claims unchanged.
+No backend/frontend source diff; no inference that not-yet-passed equals a failed grade.
+Seven relevant routing/API/render files match backend357aa80 exactly; pre-merge frontend
+already has the guards. No first-bad-model commit proven. See [trace/evidence](2026-10-25-clarification-routing-history.md).
 
 ## Repository State
 
@@ -56,6 +64,9 @@ asserts two explicit sends, preserved chosen facts, no invented follow-up/resume
 composer remains usable. Synthetic fixture session renewed; no owner cookies accessed.
 Nearest routing/API/generation regression454pass10.24s. No backend source diff remains.
 Commands/logs/scripts: workspace audit-evidence/p11-20261025/clarification-loop/.
+Investigation:17 UI seam and47 backend chat/context/reference tests PASS. Three live full
+pipeline turns, three direct-router cases, served-bundle check, zero-inference differential
+replay isolate extra unknown part. replay_full_routing.py --expect-ready remains RED.
 
 Fresh merged candidate:3655 backend passes/2 expected photo xfails,179 subtests,
 142.71s;34 disposable DB passes/86 subtests,168.54s;55 UI passes; Next typegen and
@@ -109,8 +120,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Owner refreshes frontend and retries; separately investigate router invalid_reference
-only within minimal backend scope. Preserve all unknown-coverage/source/release holds.
+Present full-pipeline findings before selecting a correction. Existing retry-hint proposal
+does not cover unknown_requirement; keep backend unchanged and preserve all holds.
 
 ## Do Not Repeat
 

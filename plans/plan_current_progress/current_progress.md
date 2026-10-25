@@ -9,11 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Frontend clarification loop fixed locally: send original question + answer statements,
-without dialog headings; no invented details question/action for bare clarification.
-RED2 -> GREEN7 focused;57 UI tests/typecheck and browser regression PASS. Backend
-unchanged per owner; live router still invalid_reference with both payload formats.
-Evidence: workspace audit-evidence/p11-20261025/clarification-loop/. No model-quality claim.
+Current client preserves question/answers/scope/session; running3215 formatter verified.
+Full research pipeline reproduces popup/English IM fallback without UI: model invents
+unknown requested part -> unknown_requirement -> clarify, zero missing fields. Retry-hint
+proposal does not fix this path; backend unchanged.17 UI/47 backend seam tests PASS.
+[Trace/history/limits](../2026-10-25-clarification-routing-history.md); earlier invalid_reference is a component result.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -58,8 +58,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Owner refreshes local frontend and retries clarification. Keep backend changes minimal;
-remaining router invalid_reference requires a separate bounded investigation.
+Present traced full-pipeline failure before choosing a correction; backend remains
+unchanged. Retry-hint proposal does not cover this unknown_requirement path.
 
 ## Remaining boundaries
 
