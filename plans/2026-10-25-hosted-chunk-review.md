@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch14/chunks37–38 approved; batch15/chunks39+41 awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch15/chunks39+41 approved; batch16/chunks42–44 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **36**, correction-needed **4**, held **0**, pending **40**.
+Current counts: approved **38**, correction-needed **4**, held **0**, pending **38**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -96,7 +96,8 @@ Batch11/chunks32–33 approved: exact reply "i approve".
 Batch12/chunks34+45 approved: exact reply recorded below; precedence remains unresolved.
 Batch13:35/40 approved with limitation retained;36 correction-needed for missing companion link.
 Exact owner decision below. Batch14/chunks37–38 approved: "i approve".
-Batch15/chunks39+41 presented with approved40 context; decisions pending.
+Batch15/chunks39+41 approved: "i approve", with40 limitation retained.
+Batch16/chunks42–44 presented with approved40 context; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -172,8 +173,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch15, chunks39+41 (Handbook physical89/90; approved40 context,p90). Do not advance on silence.**
-After saving decisions, prepare42–44 together, retaining approved40 as required context.
+**Await owner decisions for batch16, chunks42–44 (Handbook physical90; approved40 context). Do not advance on silence.**
+After saving decisions, skip approved45 and prepare next pending46 with required companions, if any.
 Do not request duplicate outcomes for40/45.36 requires separate companion-context correction.
 Correction wording3.2/3.3/3.7 is approved; no corrections applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
@@ -242,12 +243,12 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 36 | `a0ac5dca10456bffccba3992edf926bfb489c786e59873741ceb6fed4eb27ae4` | handbook-table-10-row-4 | 88 | active/shared; older exam-cheating | Agent: same text/source_text as35 | Preserved older active/shared row; no required40 link | Owner explicitly approves proposed35/40 approval and36 correction-needed (exact reply below) | correction-needed | Missing required40 link; correction approved for separate append-only follow-up |
 | 37 | `c34f803760d0667de323428c293e92766ce7e8447e58c02a665a27f54933ba4a` | handbook-disciplinary-II.7b | 89 | draft-only | Agent: fields/blank columns match rendered p89 | Selected academic-dishonesty row; requires approved40,p90; headings absent | "i approve" (batch14;40 limitation retained) | approved | Full row/blank columns approved; approved40 companion retained |
 | 38 | `df69670b89f5027177498b087b2c52d2ac6de5beaf0a7999582dcb89b1a38dc8` | handbook-disciplinary-II.7c | 89 | draft-only | Agent: fields/blank columns match rendered p89 | Selected academic-dishonesty row; requires approved40,p90; headings absent | "i approve" (batch14;40 limitation retained) | approved | Full row/blank columns approved; approved40 companion retained |
-| 39 | `5bb9af0bfb4b13bfa9022504883db4ad0f802272831dbd448c7e7f3a6b77a929` | handbook-disciplinary-II.7d | 89 | draft-only | Agent: matches settled source review batch5 | Selected academic-dishonesty row; requires approved40; shared headings absent | — | pending | First-offense suspension/automatic-grade wording retained; blank columns unspecified; outcome pending |
+| 39 | `5bb9af0bfb4b13bfa9022504883db4ad0f802272831dbd448c7e7f3a6b77a929` | handbook-disciplinary-II.7d | 89 | draft-only | Agent: matches settled source review batch5 | Selected academic-dishonesty row; requires approved40; shared headings absent | "i approve" (batch15;40 limitation retained) | approved | Complete selected row/blank columns approved;40 companion retained |
 | 40 | `022123ffe00872b5c699c589e2e0cc4fa18415347f54166d276b270294fb7ddf` | handbook-academic-dishonesty-shared-measures | 90 | draft-only | Agent: matches approved source review batch7 | Shared measures fragment,p90; no companions | Owner explicitly approves proposed35/40 approval and36 correction-needed (exact reply below) | approved | Approved; automatic individual applicability unresolved |
-| 41 | `c5e6fa708dfa02509c147aa077a8abc4377d59a7cf8856ab081b881de2f32318` | handbook-disciplinary-II.7e | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; shared headings absent | — | pending | First-offense suspension/automatic-grade wording retained; blank columns unspecified; outcome pending |
-| 42 | `faf0c9ec30a7119e443580ac17fe0209718a0d74549007b3335a7e0e4d0db404` | handbook-disciplinary-II.7f | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 43 | `1c4a9263439990bc71e8483396eb45e369ee9c0e25f2f002dff1f635b3baae56` | handbook-disciplinary-II.7g | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 44 | `7471c13443ee0f0983c91344d086fd2feac73f0065885990ed0413b50785d548` | handbook-disciplinary-II.7h | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 41 | `c5e6fa708dfa02509c147aa077a8abc4377d59a7cf8856ab081b881de2f32318` | handbook-disciplinary-II.7e | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; shared headings absent | "i approve" (batch15;40 limitation retained) | approved | Complete selected row/blank columns approved;40 companion retained |
+| 42 | `faf0c9ec30a7119e443580ac17fe0209718a0d74549007b3335a7e0e4d0db404` | handbook-disciplinary-II.7f | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | — | pending | Blank later columns unspecified;40 applicability warning retained; outcome pending |
+| 43 | `1c4a9263439990bc71e8483396eb45e369ee9c0e25f2f002dff1f635b3baae56` | handbook-disciplinary-II.7g | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | — | pending | Blank later columns unspecified;40 applicability warning retained; outcome pending |
+| 44 | `7471c13443ee0f0983c91344d086fd2feac73f0065885990ed0413b50785d548` | handbook-disciplinary-II.7h | 90 | draft-only | Agent: matches settled source review batch7 | Selected academic-dishonesty row; requires approved40; headings absent | — | pending | Reference a–g preserved but rows not required companions; context review pending |
 | 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Agent: matches settled source review batch7 | Heading8+row8a; later columns blank; requires34 | "ok i approve," plus question on early companion grouping (exact reply below) | approved | Both quotes approved; precedence unresolved; keep mutual companion links |
 | 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -433,5 +434,19 @@ semester automatic grade of 5 in the subject."39 second1semester/thirdDismissal/
 41 secondDismissal/third+Subsequent blank. Full causes retained; no added source_limits in these rows.
 Each requires already-approved40,p90, with all4 shared measures and unresolved automatic individual
 applicability warning. Each is a selected row fragment; II/7 headings absent. No new outcome for40.
-Owner outcomes pending; next42–44 with40 context, skipping approved40/45 in numeric sequence.
+Owner approved39+41: "i approve". Next42–44 with40 context, skipping approved40/45 in numeric sequence.
 No source/DB/prompt/model changes or policy adjudication during audit.
+
+## Batch16 displayed source fields and context
+
+42/43/44 (II.7f/g/h),draft-only,physical90,match settled source-review batches6/7 and source spans.
+42 full manipulation-of-corrected-examination cause/first2months/secondDismissal;later2 columns blank.
+43 full impersonation cause/first1semester/secondDismissal;later2 blank.44 full comparable-act cause/
+first "Suspension for a minimum of 1 month to dismissal.";later3 blank. Source grammar/units retained.
+No source_limits in these rows. Each requires approved40 with shared4 measures and unresolved
+individual automatic-applicability warning. Each is a selected row fragment; II/7 headings absent.
+Context observation:44 explicitly references a–g, but metadata requires only40, not all7 referenced
+rows. That reference survives verbatim; its own closure does not force retrieval of those definitions.
+Do not infer comparability or personal sanctions without relevant context. No correction outcome for
+that observation inferred before owner response. Owner outcomes pending; next pending46 after45 skipped.
+No source/DB/prompt/model changes during audit; no duplicate40 review outcome.
