@@ -59,7 +59,7 @@ class RuntimeSettings:
             raise ValueError('invalid_generation_reference_profile')
         if self.explanation_profile not in ('legacy','scoped','guarded','covered','parts'):
             raise ValueError('invalid_explanation_profile')
-        if self.explanation_profile in ('scoped','guarded','covered','parts') and self.generation_reference_profile!='canonical':
+        if self.explanation_profile in ('scoped','guarded','covered') and self.generation_reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
         for name in ('inference_timeout','stage_timeout','generation_timeout','request_timeout'):
             value=getattr(self,name)

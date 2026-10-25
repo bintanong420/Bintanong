@@ -110,6 +110,12 @@ See the [bounded plan](../../plans/2026-10-20-short-evidence-references-plan.md)
 ([decision](../../plans/2026-10-21-per-part-generation-decision.md)). It keeps the scoped
 path's document-only boundaries but gives the model one REQUIRED answer slot per
 declared document part: claims that answer it, or `not_in_evidence`/`source_gap`.
+The opt-in `reference_profile='short'` also supports this profile: only generation
+uses strict e1..e32 wire labels. Request-local decoding restores canonical IDs before
+part mapping, source holds, coverage/style checks, ordinary review and rendering.
+Source/prose text is unchanged; checker payloads and final citations remain canonical.
+Repairs reuse the same map; unavailable-slot placeholders remain ignored. The default
+is still canonical. Actual-model quality for this composition is not yet measured.
 The host validates citation IDs, numbers retained claims and derives the part mapping.
 An answered model slot citing a record with an unresolved `malformed_source_condition`
 becomes `source_gap` before numbering/review. This conservative record-level hold can

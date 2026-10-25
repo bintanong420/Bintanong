@@ -19,6 +19,7 @@ from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
 from .service_cutoff import cutoff_reply
+from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
 from .scope import document_payload, model_card
@@ -57,6 +58,43 @@ class PartExplanation(Contract):
     release_id: ReleaseID
     language: Language
     answers: dict[PartID, PartSlot] = Field(max_length=8)
+
+
+class ShortPartClaim(PartClaim):
+    evidence_ids: tuple[ShortEvidenceID, ...] = Field(min_length=1, max_length=8)
+
+
+class ShortPartSlot(PartSlot):
+    claims: tuple[ShortPartClaim, ...] = Field(max_length=8)
+
+
+class ShortPartExplanation(PartExplanation):
+    SCHEMA_VERSION = 'bintanong-part-explanation-short-v1'
+    answers: dict[PartID, ShortPartSlot] = Field(max_length=8)
+
+
+def decode_part_explanation(draft, references):
+    lookup = dict(zip(references.labels, (c.evidence_id for c in references.pack.cards), strict=True))
+    value = draft.model_dump(mode='json')
+    value['schema_version'] = PartExplanation.SCHEMA_VERSION
+    try:
+        for slot in value['answers'].values():
+            if slot['status'] != 'answered':
+                slot['claims'] = []  # same placeholder semantics as canonical to_draft
+                continue
+            for claim in slot['claims']:
+                claim['evidence_ids'] = [lookup[ref] for ref in claim['evidence_ids']]
+    except KeyError as error:
+        raise ValueError('unknown_evidence_reference') from error
+    return PartExplanation.parse(value)
+
+
+def _part_aliases(pack, references):
+    if references is None:
+        return {c.evidence_id: c.evidence_id for c in pack.cards}
+    if references.pack is not pack:
+        raise ValueError('reference_pack_mismatch')
+    return dict(zip((c.evidence_id for c in pack.cards), references.labels, strict=True))
 
 
 class PartConfirmationOutput(Record):
@@ -153,18 +191,20 @@ def document_parts(pack):
                  and p.part_id not in host)
 
 
-def part_schema(pack):
-    schema = output_schema(PartExplanation)
+def part_schema(pack, references=None):
+    schema = output_schema(ShortPartExplanation if references is not None else PartExplanation)
+    slot, claim = ('ShortPartSlot', 'ShortPartClaim') if references is not None else ('PartSlot', 'PartClaim')
+    aliases = _part_aliases(pack, references)
     ids = document_parts(pack)
     budget = 8 - sum(len(c) for c in host_claims(pack).values())
     schema['properties']['language'] = dict(type='string', const=pack.language)
     schema['properties']['release_id'] = dict(type='string', const=pack.release_id)
     schema['properties']['answers'] = dict(type='object', additionalProperties=False, required=list(ids),
-        properties={i: {'$ref': '#/$defs/PartSlot'} for i in ids})
+        properties={i: {'$ref': '#/$defs/'+slot} for i in ids})
     # Per-slot budget keeps the total within the AnswerDraft eight-claim limit.
-    schema['$defs']['PartSlot']['properties']['claims']['maxItems'] = max(1, budget // max(1, len(ids)))
-    schema['$defs']['PartClaim']['properties']['evidence_ids']['items'] = dict(type='string',
-        enum=[c.evidence_id for c in pack.cards if c.kind == 'document'])
+    schema['$defs'][slot]['properties']['claims']['maxItems'] = max(1, budget // max(1, len(ids)))
+    schema['$defs'][claim]['properties']['evidence_ids']['items'] = dict(type='string',
+        enum=[aliases[c.evidence_id] for c in pack.cards if c.kind == 'document'])
     return schema
 
 
@@ -176,12 +216,15 @@ REWRITE = dict(
             'and office. Do not copy the English source sentence.')
 
 
-def part_messages(text, pack, *, errors=(), previous=''):
+def part_messages(text, pack, *, errors=(), previous='', references=None):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
+    aliases = _part_aliases(pack, references)
+    for card in payload['evidence']['sources']:
+        card['evidence_id'] = aliases[card['evidence_id']]
     coverage = required_record_sources(pack)
     if coverage:
-        payload['record_coverage'] = {part: sorted(ids) for part, ids in coverage.items()}
+        payload['record_coverage'] = {part: sorted(aliases[i] for i in ids) for part, ids in coverage.items()}
         payload['record_coverage_instruction'] = (
             'Each answered part must explain and cite every reviewed service record listed for it, '
             'including the visible client steps in order. A checklist alone does not cover the steps. '
@@ -190,7 +233,7 @@ def part_messages(text, pack, *, errors=(), previous=''):
             'Unavailable parts need no fabricated claims.')
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
-    return _messages(PART_PROMPT, payload, part_schema(pack))
+    return _messages(PART_PROMPT, payload, part_schema(pack, references))
 
 
 def required_record_sources(pack):
