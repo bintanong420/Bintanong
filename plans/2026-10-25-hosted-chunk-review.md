@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch8/chunks23–27 approved; batch9/chunks28–29 awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch9/chunks28–29 approved; batch10/chunks30–31 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **24**, correction-needed **3**, held **0**, pending **53**.
+Current counts: approved **26**, correction-needed **3**, held **0**, pending **51**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -90,7 +90,8 @@ Batch7:19–21 correction-needed; owner-provided full3.7 confirms22's final para
 Owner reply "i approve" confirms proposed complete3.2/3.3 for the correction list. Counts unchanged;
 19–21 stay correction-needed until a separate follow-up delivers/validates replacements.
 Batch8/chunks23–27 approved; exact reply recorded below, with grouping question verified.
-Batch9/chunks28–29 shown next; decisions pending.
+Batch9/chunks28–29 approved; owner expects recurring later-offense blanks (exact reply below).
+Batch10/chunks30–31 presented next; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -166,8 +167,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch9, chunks28–29 (Handbook physical87). Do not advance on silence.**
-After saving decisions, prepare next related disciplinary rows30–31. Complete3.2/3.3 correction
+**Await owner decisions for batch10, chunks30–31 (Handbook physical87). Do not advance on silence.**
+After saving decisions, prepare next related disciplinary rows32–33. Complete3.2/3.3 correction
 wording is approved; use owner's complete3.7. No corrections applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
@@ -224,10 +225,10 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 25 | `f2bf449a9efd9f86ae7f468a81d94fc9e66253bf93da14218f7466ebd3590cb3` | handbook-table-6-row-2 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
 | 26 | `860a406301031b1604fc71be5876919c1da9fe9132f842bf651a80c82530a0fe` | handbook-table-6-row-3 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
 | 27 | `e9a58311aaf00eaa3f9f6be9d155ff2ad29b8f44c7c2d28487efc10468ff0e58` | handbook-table-6-row-4 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
-| 28 | `c783f1f2080cd2c7f9cd90fc747c1182acc979a0956824501f589ea4ab8336d4` | handbook-disciplinary-I | 87 | draft-only | Agent: matches approved source review batch1 | One sanction row; no required companions; no source_limits | — | pending | Owner outcome pending; preserve hours/days as printed |
-| 29 | `9975ff9d98d0bacad2afd4dd71f4cfd02ae31082b3c17e95eeb98b1b2ea5ebee` | handbook-disciplinary-II.1 | 87 | draft-only | Agent: matches approved source review batch1 | One row; II.Behavioral Defiance heading absent; later columns blank; no companions | — | pending | Two-weeks penalty type unresolved; no personal sanction decision |
-| 30 | `be5664bd8ccf0b542e12fb0efba80a107503f4c761c53eb118e52a1d6c5c7a37` | handbook-disciplinary-II.2 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 31 | `1a9820e53bdf94d4ab700d7f146b192b3788772e9c18aee0dcec8203b013023b` | handbook-disciplinary-II.3 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 28 | `c783f1f2080cd2c7f9cd90fc747c1182acc979a0956824501f589ea4ab8336d4` | handbook-disciplinary-I | 87 | draft-only | Agent: matches approved source review batch1 | One sanction row; no required companions; no source_limits | "i approve, this part onwards may naturally have a lot of blanks in the 2nd-4th offense" | approved | Hours/days retained as printed |
+| 29 | `9975ff9d98d0bacad2afd4dd71f4cfd02ae31082b3c17e95eeb98b1b2ea5ebee` | handbook-disciplinary-II.1 | 87 | draft-only | Agent: matches approved source review batch1 | One row; II.Behavioral Defiance heading absent; later columns blank; no companions | "i approve, this part onwards may naturally have a lot of blanks in the 2nd-4th offense" | approved | Blank columns unspecified; two-weeks penalty type remains unresolved |
+| 30 | `be5664bd8ccf0b542e12fb0efba80a107503f4c761c53eb118e52a1d6c5c7a37` | handbook-disciplinary-II.2 | 87 | draft-only | Agent: matches settled source review batch2 | Selected sanction row; later columns blank; II heading absent; no required companions | — | pending | Malformed weapon exception remains unresolved; approve fidelity only, no personal sanction inference |
+| 31 | `1a9820e53bdf94d4ab700d7f146b192b3788772e9c18aee0dcec8203b013023b` | handbook-disciplinary-II.3 | 87 | draft-only | Agent: matches settled source review batch2 | Selected sanction row; later columns blank; II heading absent; no required companions | — | pending | Due-process clause retained; blank later columns unspecified |
 | 32 | `04d70fde0576107e8e6cf9f76d72eb0100ba61bde5e74ee77e1d55ab72991232` | handbook-disciplinary-II.4 | 88 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 33 | `daeee0bde86cb1a1ea66f9253ea95f77d8db66ae35d471affc0e8fee2b616e73` | handbook-disciplinary-II.5 | 88 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 34 | `e8c188625b5f8a71be24b214f69576c8f55e9059594a0859b25aa1af1306778e` | handbook-disciplinary-II.6 | 88 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -337,4 +338,21 @@ Chunks28–29 are draft-only, physical87; match settled source-review batch1 tra
 blank (not no penalty). II.Behavioral Defiance heading absent from stored cause; no required neighbors.
 Source limit retained verbatim: "Unavailable information: penalty type for two weeks. Source limitation
 remains unresolved (malformed_source_condition)." No penalty type or student-specific finding inferred.
-Each is a selected sanction row, not the complete disciplinary policy. Owner outcomes pending.
+Each is a selected sanction row, not the complete disciplinary policy. Both approved in batch9;
+29's original limitation remains unresolved.
+
+## Batch9 owner decision and batch10 review state
+
+> i approve, this part onwards may naturally have a lot of blanks in the 2nd-4th offense
+
+Applies approval to displayed28–29. Recurring later-offense blanks are expected: preserve literal
+empty values, source_blank=true/no span indexes and unspecified meaning. Do not reopen a blank
+alone as a fresh source ambiguity. This is not blanket approval of undisplayed chunks or a finding
+of no penalty. Printed final column is "Subsequent Offenses", not limited to the fourth occurrence.
+
+Batch10/chunks30–31: draft-only, physical87, exact fields/spans match settled source-review batch2.
+Each is a selected sanction row under II.Behavioral Defiance; shared heading is absent from stored
+cause. No required companions.30 has3rd/Subsequent blank;31 has2nd/3rd/Subsequent blank.
+30 retains malformed original weapon proviso and unresolved source-limit message; no exception
+meaning or applicability is inferred.31 retains "without prejudice to due process" and original
+"out rightly" spelling. Owner outcomes pending; no source/DB/prompt/model changes.

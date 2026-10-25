@@ -14,11 +14,11 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Owner approved1–18/22–27;19–21 correction-needed with complete wording approved.24approved/
-3corrections/0held/53pending. Cursor: await batch9/chunks28–29,p87,then rows30–31.
-K3 grouping question verified: hosted recursive closure after ranked seeds; local whole-group
-completeness/order/budget.2existing tests passed0.44s; no model/retrieval experiment. Source omissions
-still need separate append-only follow-up; no activation.29 two-weeks penalty type remains unresolved.
+Owner approved1–18/22–29;19–21 correction-needed with full wording approved.26approved/
+3corrections/0held/51pending. Cursor: await batch10/chunks30–31,p87,then related rows32–33.
+Later-offense blanks expected; keep unspecified/no penalty inference, not blanket approval of future
+chunks. Weapon proviso unresolved; drug due-process wording retained. K3 grouping verified in ledger;
+no repeat experiment. Source corrections remain separate append-only follow-up; no activation.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

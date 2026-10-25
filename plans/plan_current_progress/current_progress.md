@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):23–27 approved;24approved/3corrections/0held/
-53pending. Owner asks k3/grouping: hosted SQL expands ranked seeds transitively, then context groups
-ordered/complete within budget;2existing atomic/missing/budget tests passed0.44s. No model/retrieval
-experiment or DB writes; grouping cannot recover missing source text or prove answer quality.
-Batch9/chunks28–29 draft discipline rows,p87,await decisions. Full3.2/3.3/3.7 correction scope settled.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):28–29 approved;26approved/3corrections/0held/
+51pending. Owner expects recurring later-offense blanks; retain unspecified/no penalty inference,
+without treating blanks alone as new ambiguities. Batch10/chunks30–31,p87,draft-only: settled
+weapon/drug row values retained; weapon proviso unresolved, due-process clause/blank columns kept.
+Await batch10 decisions. Source/DB/prompt/models unchanged; full3.2/3.3/3.7 correction scope settled.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch9/chunks28–29 decisions; record exact outcomes, then prepare related rows30–31.
+Await batch10/chunks30–31 decisions; record exact outcomes, then prepare related rows32–33.
 Do not apply source corrections or reopen settled full3.2/3.3/3.7/deadline conflict during audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
