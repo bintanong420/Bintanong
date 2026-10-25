@@ -9,11 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Current client preserves question/answers/scope/session; running3215 formatter verified.
-Full research pipeline reproduces popup/English IM fallback without UI: model invents
-unknown requested part -> unknown_requirement -> clarify, zero missing fields. Retry-hint
-proposal does not fix this path; backend unchanged.17 UI/47 backend seam tests PASS.
-[Trace/history/limits](../2026-10-25-clarification-routing-history.md); earlier invalid_reference is a component result.
+Owner approved three prompt lines; f68135c/v20 distinguishes supplied facts from tasks.
+RED2 -> focused GREEN26;902 broader regressions PASS. Three live follow-ups now answer
+with one part; genuine mixed question still fails with old/new prompts. Local API restarted
+to load v20; API/frontend health200, all five probes true. No Prolog/source/frontend change.
+[Trial and limits](../2026-10-25-clarification-prompt-trial.md); [baseline trace](../2026-10-25-clarification-routing-history.md).
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -58,8 +58,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Present traced full-pipeline failure before choosing a correction; backend remains
-unchanged. Retry-hint proposal does not cover this unknown_requirement path.
+Owner retries the popup in a fresh scoped chat; API/frontend ready. Keep
+mixed-question/claim-state limitations open; no broader prompt sweep authorized.
 
 ## Remaining boundaries
 

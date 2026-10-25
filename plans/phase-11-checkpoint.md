@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 50
+sequence: 51
 plan: plans/phase-11-backend-api-plan.md
-head_commit: af119ad
+head_commit: f68135c
 working_tree: dirty
-updated_at: 2026-10-25T19:38:03+08:00
+updated_at: 2026-10-25T19:58:14+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -31,19 +31,18 @@ Owner-reported prerequisite clarification loop: frontend resubmitted dialog ques
 headings, then invented a generic details question for bare backend clarification.
 Three frontend source files corrected: only original question + chosen statements,
 no invented details dialog/resume action. Scope/explicit confirm/unknowns preserved.
-Owner says minimize backend changes: five trial prompt-guidance lines were reverted;
-backend/supabase diff is empty. No backend restart or altered runtime/source rules.
-Owner requires tracing before a backend correction; confirms selecting both answers in popup.
-Current formatter/SDK/proxy/API preserve question, both answers, scope and session context.
-Public3215 bundle serves that formatter; owner browser unavailable to Orca automation.
-Full existing research composition reproduces popup and English IM fallback without UI:
-model invents an extra unknown part; normalization succeeds; unknown_requirement -> clarify
-with no missing fields. Earlier router-only invalid_reference is a different component path.
-Reference-repair hint proposal would not fix this full-path case and remains unapplied.
-Counterfactual packet removes only invented part -> routing validated, both claims unchanged.
-No backend/frontend source diff; no inference that not-yet-passed equals a failed grade.
-Seven relevant routing/API/render files match backend357aa80 exactly; pre-merge frontend
-already has the guards. No first-bad-model commit proven. See [trace/evidence](2026-10-25-clarification-routing-history.md).
+Earlier frontend-only fix af119ad preserved explicit confirmation and scope;
+owner then authorized only the three-line prompt follow-up below.
+Investigation verified intact client/API payload and full-path unknown_requirement from
+invented grade-answer part; [baseline/history](2026-10-25-clarification-routing-history.md).
+Owner then approved three prompt instructions. f68135c adds only those instructions and
+v20 metadata, plus regression tests. Validation/Prolog/sources/frontend untouched.
+Filipino popup, English popup and English IM follow-ups now answer with one part and
+documented unmet prerequisite. Initial prerequisite listing/completion questions retained.
+Mixed question still fails: old v19 invalid_reference; v20 unknown_requirement/third part.
+No general quality pass. API restarted to load v20; temporary session context resets.
+API8021/frontend health3215 return200; all five readiness probes true.
+See [trial/scope/limits](2026-10-25-clarification-prompt-trial.md).
 
 ## Repository State
 
@@ -54,7 +53,7 @@ review/model directory and prior sync notes preserved. Frontend integration04a03
 retains17 tracked modifications and3 untracked lifecycle files, excluded from merge.
 Recovery ref recovery/frontend-before-backend-merge-20261025 points to1525dc6.
 Ignored evidence: audit-evidence/p11-20261025/backend-to-frontend-merge/ under workspace.
-No push, hosted writes, live service restart or source/runtime pin activation.
+No push, hosted writes, model/encoder restart or source/runtime pin activation.
 
 ## Verification Evidence
 
@@ -62,11 +61,12 @@ Clarification RED2/5pass -> GREEN7; UI57pass; Next typegen/TypeScript PASS.
 Isolated synthetic browser: old source RED outbound headings, corrected source GREEN1;
 asserts two explicit sends, preserved chosen facts, no invented follow-up/resume action,
 composer remains usable. Synthetic fixture session renewed; no owner cookies accessed.
-Nearest routing/API/generation regression454pass10.24s. No backend source diff remains.
+Previous frontend-only regression454pass10.24s predates the v20 prompt change.
 Commands/logs/scripts: workspace audit-evidence/p11-20261025/clarification-loop/.
-Investigation:17 UI seam and47 backend chat/context/reference tests PASS. Three live full
-pipeline turns, three direct-router cases, served-bundle check, zero-inference differential
-replay isolate extra unknown part. replay_full_routing.py --expect-ready remains RED.
+Investigation:17 UI/47 backend seam tests PASS; served bundle and full-path replay isolate
+invented part. Baseline replay remains RED by design. Prompt v20 RED2 -> focused GREEN26;
+902 broader regressions PASS. Three live follow-ups pass; mixed assertion fails in both
+prompt versions. Raw current evidence: clarification-loop/prompt-v20/ under workspace.
 
 Fresh merged candidate:3655 backend passes/2 expected photo xfails,179 subtests,
 142.71s;34 disposable DB passes/86 subtests,168.54s;55 UI passes; Next typegen and
@@ -120,8 +120,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Present full-pipeline findings before selecting a correction. Existing retry-hint proposal
-does not cover unknown_requirement; keep backend unchanged and preserve all holds.
+Owner retries the popup in a fresh scoped chat; local API and frontend health are ready.
+Keep mixed-question and completion-state limitations open; preserve all release holds.
 
 ## Do Not Repeat
 

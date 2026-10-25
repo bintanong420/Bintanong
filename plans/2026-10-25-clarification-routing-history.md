@@ -75,3 +75,6 @@ py -3.13 -X utf8 -B and need no model or credentials after capture.
 
 Next: review these findings before choosing a correction. Backend remains unchanged;
 the previously proposed reference-repair hint is insufficient for the observed full path.
+
+Subsequent owner-authorized prompt change: [three-line trial and remaining limits](2026-10-25-clarification-prompt-trial.md).
+The unchanged-backend statements above describe the investigation baseline, before f68135c.
