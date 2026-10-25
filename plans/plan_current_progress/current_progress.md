@@ -7,11 +7,13 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Owner26Oct authorized applying approved chunk corrections. [Correction plan](../2026-10-26-hosted-chunk-corrections.md):
-new inactive append-only release;19–21 wording,36/45–46/68/71 companions,75 duplicate cleanup.
-Completed80-ID audit72approved/8correction-needed retained;old19 active/80 draft stay unchanged.
-Coverage clarification:80chunks are selected topics,not a full undergraduate Handbook/Charter audit;
-omitted pages are not all excluded. No new coverage/source approval inferred. Candidate work underway.
+[Corrections delivered](../2026-10-26-hosted-chunk-correction-results.md):new hosted draft
+p11-research-corrected-20261026,78chunks/39links;11replacement IDs,67reused;73vectors reused/5encoded.
+19–21 full text,36shared measures,34/45/46 group,75alias cleanup. Old68/71 canonical replacements69/72
+avoid duplicates.98tests+151subtests/local governed rehearsal/independent review/hosted read-back pass.
+Old19active/80draft and protected rows unchanged. No code/schema/prompt/pin changes;no activation.
+Candidate misconduct budget3072(2382needed),Charter4096;factory wiring/live quality still required.
+Coverage is selected topics;undergraduate material outside reviewed pages remains a gap,not excluded.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -65,9 +67,9 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
   Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
 
 ## Next action
-
-Apply correction plan through existing codecs/receipts/loaders;baseline checks,corrected candidate,
-local governed rehearsal,then inactive hosted staging/read-back. No activation or new source coverage.
+Compose corrected candidate with trusted3072misconduct override,then targeted live quality gate before
+any coordinated package/release switch. Frontend integration/wider query gaps remain. No activation yet.
+Do not repeat80-ID audit,encoding,receipts,staging or prior unchanged full software suite.
 
 ## Boundaries
 

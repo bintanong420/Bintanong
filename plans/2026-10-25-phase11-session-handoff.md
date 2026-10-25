@@ -16,12 +16,15 @@ queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
 Current state is in the review ledger's Single next-batch cursor and Completion note; those
 supersede earlier fresh-session anchor instructions. MCP authenticated recheck passed.
-AUDIT COMPLETE:80outcomes72approved/8correction-needed/0held/0pending;78–80 approved,"i approve".
-Closing hosted read26Oct00:59:34Manila matches all80chunk/document/version/span/membership objects
-and both release records exactly;active19/draft80 unchanged.80content hashes/5original hashes valid.
-Grouped findings/list in ledger:19–21 context;36/45–46/68/71 companion corrections;75 optional cleanup.
-Next is separate reviewable append-only correction follow-up;do not repeat80-chunk approvals.
-No DB/source/code/model/prompt/activation changes;Phase11 remains active,expanded draft inactive.
+AUDIT COMPLETE:80outcomes72approved/8corrections,all exact decisions retained in original ledger.
+FOLLOW-UP DELIVERED:[correction results](2026-10-26-hosted-chunk-correction-results.md).
+New hosted draft p11-research-corrected-20261026:78chunks/39links,11new IDs/67reused,5new vectors.
+Old68/71 use canonical69/72 in new selection;prior80-ID audit/old19active/old80draft unchanged.
+98tests+151subtests,governed rehearsal/rollback,independent review and hosted exact read-back passed.
+Next:trusted3072misconduct budget wiring(existing factory ignores metadata file),then live quality
+before coordinated release/package switch. No activation/code/schema/prompt/pin changes.
+Selected coverage is partial;omitted undergraduate services are not all excluded. Do not repeat audit,
+encoding or staging;preserve all old evidence/source gaps and wider Phase11/UI boundaries.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

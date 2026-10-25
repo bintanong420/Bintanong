@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 87
+sequence: 88
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3ab1ecc
+head_commit: 03728f4
 working_tree: clean
-updated_at: 2026-10-26T01:09:59+08:00
+updated_at: 2026-10-26T01:29:13+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,11 +33,13 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-Owner explicitly authorizes approved correction follow-up26Oct. [Plan](2026-10-26-hosted-chunk-corrections.md).
-Data/package-only append-only candidate:19–21 full text,36/45–46/68/71 companions,75 cleanup.
-Audit complete72approved/8corrections;preserve old19active/80draft,all source limits and39 curriculum links.
-Coverage question answered:selection is partial;omitted pages not universally excluded. No scope expansion.
-Next freeze actual correction checks,build/validate candidate,rehearse locally,stage inactive/read back.
+[Approved corrections delivered](2026-10-26-hosted-chunk-correction-results.md) as inactive hosted
+p11-research-corrected-20261026:78chunks/39links,11new IDs/67reused;73vectors reused/5encoded.
+Full19–21 context/22manifest,36->40,34/45/46 group,75alias cleanup;old68/71 replaced by69/72.
+98tests+151subtests,governed real-data rehearsal/rollback,independent review and hosted exact read-back
+passed. All protected old rows/release19active/80draft unchanged. No code/schema/prompt/pin changes.
+Candidate-only3072misconduct budget(full group2382);existing factory needs trusted override wiring
+before live quality/activation. Selected corpus remains partial;coverage question answered with originals.
 
 ## Repository State
 
@@ -113,8 +115,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Execute approved correction plan;baseline/candidate checks,governed local rehearsal,inactive hosted read-back.
-Correction scopes19–21/36/45–46/68/71 remain separate follow-up.
+Compose corrected candidate with trusted3072misconduct override,then targeted live quality gate;no activation.
+Source corrections delivered inactive;keep full audit/correction records and all original gaps.
 
 ## Context Consulted
 
