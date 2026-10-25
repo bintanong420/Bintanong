@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 66
+sequence: 67
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 2c92a02
+head_commit: fae8f2c
 working_tree: clean
-updated_at: 2026-10-25T23:40:59+08:00
+updated_at: 2026-10-25T23:45:45+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,11 +36,12 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–33 approved;19–21 correction-needed, full wording approved.30approved/3corrections/
-0held/47pending. Batch11 owner "i approve" preserves all clauses/blanks.
-Batch12/chunks34+45,draft-only,p88/90,match settled review batches4/7: mutually required admission-
-fraud rows, different printed penalties, precedence unresolved.45 reviewed early; do not renumber or
-review twice. Await fidelity outcomes; then35+40/older36. No individual sanction chosen.
+Chunks1–18/22–34/45 approved;19–21 correction-needed, full wording approved.32approved/
+3corrections/0held/45pending.34/45 approved as connected fraud pair; precedence unresolved.
+Batch13:35/36 identical cheating text,p88, but35 requires40 and preserved older active/shared36
+has no companion links.40 shared measures,p90, retains automatic-applicability limitation. Propose
+35/40 fidelity approval,36 correction-needed for missing companion; owner outcomes pending.
+No wrong model answer inferred or new pipeline experiment. Keep stable IDs; skip40/45 after outcomes.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -117,7 +118,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch12/chunks34+45 decisions, then35+40 with preserved older36; later skip45 after outcome. Preserve original-source limitations
+Await batch13/chunks35+36+40 decisions, then pending37 with shared40 context; no duplicate40/45 outcomes. Preserve original-source limitations
 and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted

@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):32–33 approved ("i approve");30approved/
-3corrections/0held/47pending. Batch12/chunks34+45 (II.6/II.8a),draft-only,p88/90,shown together:
-mutual companions preserve differing admission-fraud sanctions and unresolved precedence.45 reviewed
-early without renumbering; later skip once outcome recorded. Await fidelity decisions; no adjudication.
-No DB/source/prompt/models changed; approved full3.2/3.3/3.7 correction scope remains separate.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):34+45 approved;32approved/3corrections/0held/
+45pending. Connected fraud pair reviewed early intentionally; academic dishonesty next, not skipped.
+Batch13/chunks35+36+40: identical cheating text in35(new draft)/36(older active/shared), but only35
+requires40(shared measures,p90). Missing companion on36 flagged for separate correction; outcomes pending.
+40 retains unresolved individual automatic-applicability warning. No source/DB/prompt/model changes.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,7 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch12/chunks34+45 decisions; then35+40 shared measures with preserved older36; do not repeat45.
+Await batch13/chunks35+36+40 decisions; proposed35/40 approve,36 correction-needed for missing companion.
+Then next pending37 with shared40 context; do not review40/45 twice.
 Do not apply source corrections or reopen settled full3.2/3.3/3.7/deadline conflict during audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
