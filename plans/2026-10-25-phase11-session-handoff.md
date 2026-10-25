@@ -9,21 +9,23 @@ Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-sessio
 
 ## Exact next action
 
-Fraud correction committed e1d7e8b. [Results](2026-10-25-fraud-precedence-results.md) and
-[plan](2026-10-25-fraud-precedence-correction.md) record RED/GREEN and independent P2 correction.
-Both labelled printed rows replace model-selected sanctions before numbering; unresolved precedence
-is explicit. Corrected comparisons still receive normal relevance/support review. Missing/held/
-incompatible counterparts stay source_gap; independent/canonical parts and budgets are preserved.
-Final focused generation/understanding509 passed,18 precedence cases. Actual sealed-field comparison
-fits all3 language templates; no source/package/pin changes. Expanded release remains INACTIVE.
-Full tests/ suite PASSED6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0 on e1d7e8b.
-Evidence A/p11-fraud-precedence-20261025/full-suite.log,.head,.exit. No test jobs left running;
-existing model service remains up. Fresh hosted readback old19 active/new80 draft;54 sealed files unchanged.
-Next: fix the fraud question router's irrelevant prerequisite operation under focused routing TDD.
-Do not repeat completed generation/checker/guard work. One live fraud replay stopped before
-retrieval/generation because the router chose Hybrid/prerequisite; no live pass or retry.
-Prior c5f0d07 guard/checker work stays completed; do not repeat. Remaining live quality/roster/switch
-and router/Hybrid/clarification/Nursing/simple-query gates precede activation/frontend integration.
+Operation-repair correction committed3fbea08. [Results](2026-10-25-unreferenced-operation-repair-results.md)
+and [plan](2026-10-25-unreferenced-operation-repair-plan.md). RED6/7; broad1008 GREEN; independent
+review clean/13 focused checks passed. Orphan operations in actionable Symbolic/Hybrid proposals
+now get the existing model repair opportunity. No silent rerouting; controls/holds/call caps preserved.
+Two bounded observations of the same English fraud question answered safely: saved bad first packet
+injected once -> actual model repair -> RAG/ready40.315s; fresh normal pipeline24.954s. Both model
+drafts chose one sanction; unchanged e1d7e8b comparison replaced it with both labelled rows and
+unresolved-precedence notice before ordinary review. No new replay, prompt sweep or source switch.
+Full tests/ suite3fbea08 PASSED6708 +1595 subtests,6 skipped,2 xfailed,6warnings,22m38s,exit0;
+A/p11-operation-repair-20261025/full-suite.log,.head,.exit. Usage-limit interruption followed suite
+completion; code/evidence verified on resume, no repeated suite/model job.
+Next: recover pre-enrollment service coverage from saved traces. English grade-evaluation part chose
+completion deadlines (consistent RAG); Filipino chose pre_enrollment correctly but omitted steps.
+Separate routing meaning and answer completeness; reuse source review. Expanded release stays
+inactive; all quality/activation/roster/switch and later frontend integration gates remain.
+Prior fraud full suitee1d7e8b PASSED6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0.
+Do not repeat completed comparison/checker/guard experiments or source staging.
 
 Checker comparison ENDED under truncation stop after2/8 calls; no retries. Original-code/startup
 recovery and one healthy repeat were explicitly approved. [Final result](2026-10-25-checker-comparison-results.md)

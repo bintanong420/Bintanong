@@ -7,20 +7,20 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Fraud-precedence correction committed e1d7e8b. Both retrieved II.6/II.8a rows and all printed
-penalty columns replace model-selected sanctions; warning says precedence is unresolved and refers
-to the university office. No sanction is chosen. Missing/held/incompatible pair leaves source_gap;
-independent and canonical parts survive. Corrected comparison still requires normal per-part review.
-[Plan](../2026-10-25-fraud-precedence-correction.md) · [Results](../2026-10-25-fraud-precedence-results.md).
+Operation-repair correction committed3fbea08. Otherwise actionable Symbolic/Hybrid outputs with
+operations no part references now get the existing one-repair opportunity. No silent operation
+removal or topic-keyword routing; controls/audience/ambiguity, linked operations and wrong-RAG
+refusal/reporting retain behavior. [Results](../2026-10-25-unreferenced-operation-repair-results.md).
+RED6/7; first broad1 failure/1007 exposed wrong-RAG reporting regression; narrowed guard. Final1008
+passed25.89s. Independent scoped review clean,13 focused checks passed. Full suite3fbea08
+PASSED6708 +1595 subtests,6 skipped,2 xfailed,6warnings,22m38s,exit0. No code/test changes since.
+Usage-limit resume verified saved evidence; no suite/model replay repeated.
 
-Initial RED11 behavior failures +1 fixture error/3 passes; repaired foreign-version fixture also
-fails against isolated old to_draft. Edge RED2/15 fixed source-hold bypass/budget overflow. Review P2
-relevance bypass RED7/11 fixed; final generation/understanding509 passed,18 new precedence cases.
-Actual sealed fields preserve both rows/values/citations and fit limits in all3 language templates.
-Full tests/ suite PASSED6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0 on e1d7e8b.
-Evidence log/head/exit: workspace audit-evidence/p11-fraud-precedence-20261025. No code/test changes since it.
-One live fraud replay stopped before retrieval/generation: router chose Hybrid with an unrelated
-prerequisite operation. No live pass/retry. Existing guard/checker experiments were not repeated.
+Two observations of one English fraud question now answer safely with both printed rows and
+unresolved-precedence referral: saved bad packet -> actual model repair40.315s; fresh route24.954s.
+Both raw model drafts chose one sanction; existing e1d7e8b comparison discarded it before review.
+No browser/API latency or broad accuracy claim. Expanded release remains inactive; no switch.
+Prior fraud full suite6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0; evidence retained.
 
 ## Delivered state
 
@@ -48,8 +48,9 @@ prerequisite operation. No live pass/retry. Existing guard/checker experiments w
 
 ## Next action
 
-Resume remaining quality recovery with the fraud question router's irrelevant prerequisite operation;
-focused routing RED/GREEN, retain verified generation correction. Expanded release stays inactive.
+Next: pre-enrollment service recovery from saved traces. English grade-evaluation part chose
+completion deadlines; Filipino chose the right topic but omitted steps. Separate routing meaning
+from answer completeness, reuse reviewed sources. Expanded release stays inactive.
 Fresh hosted readback: old19 active/new80 draft;54 sealed files unchanged. Quality/roster/switch gates remain.
 After this correction: unresolved router/service/plagiarism/steps issues, Hybrid next-step without
 topic, bare clarifications, Nursing negative mode and owner's simple-query battery. Frontend integration

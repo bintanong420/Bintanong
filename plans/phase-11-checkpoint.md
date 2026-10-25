@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 35
+sequence: 37
 plan: plans/phase-11-backend-api-plan.md
-head_commit: e1d7e8b
+head_commit: 3fbea08
 working_tree: clean
-updated_at: 2026-10-25T17:43:00+08:00
+updated_at: 2026-10-25T18:37:00+08:00
 ---
 
 # Phase 11 checkpoint — fraud precedence verification
@@ -33,25 +33,34 @@ Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoin
 
 ## Current Task
 
-Fraud correctione1d7e8b committed after RED/GREEN and independent review. Both retrieved
-II.6/II.8a rows replace model-selected sanctions, with unresolved-precedence warning/referral.
-Corrected comparisons still receive ordinary per-part relevance/support review. Missing,
-held or incompatible counterpart holds only the affected slot. Other parts/canonical results survive.
-[Plan](2026-10-25-fraud-precedence-correction.md) · [Results](2026-10-25-fraud-precedence-results.md).
-Full suite on e1d7e8b PASSED6695 +1595 subtests,6 skipped,2 xfailed,6 warnings,22m44s,exit0.
-Single live fraud replay stopped at unrelated router Hybrid/prerequisite mistake before retrieval;
-no generation reached, no retry, no live quality pass. Expanded release stays inactive.
+Operation-repair correction3fbea08 committed after RED6/7 and broad1008 GREEN; scoped independent
+review clean,13 checks independently passed. [Plan](2026-10-25-unreferenced-operation-repair-plan.md)
+· [Results](2026-10-25-unreferenced-operation-repair-results.md). Unreferenced operations in otherwise
+actionable Symbolic/Hybrid output now get the existing model repair opportunity; no silent rerouting.
+Saved bad first packet repaired by actual model -> RAG/ready/safe comparison40.315s; fresh same-question
+RAG/ready/safe comparison24.954s. Both model drafts' one-sanction choice was suppressed before review
+by verified e1d7e8b comparison. No additional replay/experiment; expanded release remains inactive.
+Full suite PASSED6708 +1595 subtests,6 skipped,2 xfailed,6warnings,22m38s,exit0 on3fbea08.
+Usage-limit interruption occurred after suite completion; evidence/code match verified on resume. No rerun.
+Prior fraud correctione1d7e8b full suite6695 +1595 subtests passed; no guard/checker work repeated.
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Code/testse1d7e8b committed.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Code/tests3fbea08 committed.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline. No production/test changes since it.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
-Raw evidence ignored at workspace/audit-evidence/p11-fraud-precedence-20261025/.
+Current evidence ignored at workspace/audit-evidence/p11-operation-repair-20261025/; prior fraud evidence retained.
 
 ## Verification Evidence
+
+- Current RED6 failed/7 passed; broad first run1 failed/1007 caught wrong-RAG reporting regression.
+  Narrowed guard to Symbolic/Hybrid; final1008 passed25.89s. Independent focused13 passed0.83s.
+- Current full tests/ suite: head3fbea08, .exit=0;6708 passed +1595 subtests,6 skipped,
+  2 xfailed,6 existing warnings,1358.19s. No production/test changes during or after run.
+- Controlled saved-packet actual repair + fresh same-question pipeline both answered safely;
+  one generation/review each.4 real calls each; source comparison held both labels/precedence warning.
 
 - Fraud initial console RED11 behavior failures +1 fixture setup error/3 passes; fixture repaired.
   Isolated baseline-version-red.log confirms corrected cross-version case fails against old to_draft.
@@ -89,18 +98,21 @@ No downloads/re-hashing/training. Sealed source-package hashes remain in session
 ## Known Failures or Blockers
 
 Expanded live9-case quality gate FAILED; one guard refusal does not close it. Service/plagiarism
-routing misses, omitted steps/progression and current fraud router failure remain. No switch authorized.
+routing misses and omitted steps/progression remain. Fraud now has two safe observations, not a full gate pass. No switch authorized.
 Other pending: two grading router misses, Hybrid next-step without topic, vague clarifications,
 Nursing negative-claim mode, broad simple-query battery; photos unsupported;6 Taglish register misses.
 No browser/UI exit or SDK parser contract test. Frontend ready; integration follows pending work.
 Supabase app reads work; historical direct OAuth warning diagnosis is in session recovery.
+Saved service traces: English grade evaluation wrongly selected completion deadlines (consistent
+RAG, no orphan); Filipino selected pre_enrollment correctly but answer omitted steps. Separate fixes.
 
 ## Next Action
 
-Resume remaining expanded-candidate quality recovery, starting with the fraud question router
-requesting an irrelevant prerequisite operation. Use focused routing RED/GREEN; keep the verified
-generation correction. No checker/verified guard rerun. Keep expanded release inactive; remaining
-quality/roster/switch gates precede frontend integration. Phase12 remains unauthorized.
+Next: correct remaining pre-enrollment service coverage using the saved traces. English
+grade-evaluation part chose completion deadlines; Filipino correctly chose pre_enrollment but
+omitted steps. Separate routing meaning from answer completeness; no new source review or
+checker/guard replay. Keep release inactive; remaining quality/roster/switch gates precede frontend
+integration. Phase12 remains unauthorized.
 
 ## Context Consulted
 

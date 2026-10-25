@@ -53,4 +53,6 @@ not the illustrative thesis closed-world example. No routing/scope discrepancy.
   rows and unresolved-precedence notice (40.315s inner pipeline). Fresh same-question
   pipeline also answered safely (24.954s). No browser/API latency or broad accuracy
   claim; both model drafts still selected one sanction, and existing comparison
-  assembly discarded that selection before review. Full suite/delivery pending.
+  assembly discarded that selection before review. Full suite PASSED6708 +1595
+  subtests,6 skipped,2 xfailed,6 warnings,22m38s,exit0.
+  [Delivery record](2026-10-25-unreferenced-operation-repair-results.md).
