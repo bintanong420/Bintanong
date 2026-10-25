@@ -9,9 +9,9 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 Fresh read-only hosted snapshot confirmed draft80 includes active19; groups66/8/3/3, all80 content
 hashes valid, all5 original byte hashes match. [Review ledger](../2026-10-25-hosted-chunk-review.md)
-now freezes80 exact IDs and companions/provenance in ignored evidence. Batch1: grading chunks1–3,
-physical46, row values visually match; individual fragments lack heading/declared companions.
-Owner decisions pending; no approvals/corrections/holds recorded. No DB writes/code/models/activation.
+now freezes80 exact IDs and companions/provenance in ignored evidence. Owner approved chunks1–3 ("i approve"); batch2/chunks4–6
+prepared, physical46. Counts3 approved/0corrections/0held/77pending; fragments lack heading/companions.
+Await batch2 decisions. No DB writes/code/models/activation.
 Previous full snapshots:82ae498; prior delivery evidence retained below.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
@@ -67,8 +67,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await owner decisions for review batch1/chunks1–3. Record exact decisions in the review ledger,
-then prepare chunks4–6; do not advance on silence. Stable queue/snapshot verified; do not recreate.
+Await owner decisions for review batch2/chunks4–6. Record exact decisions in the review ledger,
+then prepare chunks7–9; do not advance on silence. Stable queue/snapshot verified; do not recreate.
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
 ## Boundaries
