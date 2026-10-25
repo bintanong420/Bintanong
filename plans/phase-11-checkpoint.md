@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 82
+sequence: 83
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f5b83e5
+head_commit: 36ea265
 working_tree: clean
-updated_at: 2026-10-26T00:38:16+08:00
+updated_at: 2026-10-26T00:41:48+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,10 +33,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-61+63 approved:"i approve".57approved/6corrections/0held/17pending. Final Handbook batch25/chunks64–66,
-p94/94/95,draft-only,displayed;exact definitions/RA10627/parent-guardian notation retained.66 each
-suspension retains submission/completion condition.64/65 final blank,66 none;no companions/limits.
-Fields match rendered originals;await decisions,then Charter67–74. No source/DB/model changes.
+64–66 approved:"i approve". Handbook66outcomes60approved/6corrections. Overall60approved/
+6corrections/0held/14pending. Charter batch26/all8 IDs67–74 displayed together:6mutual draft records
+plus old68/71active/shared without companions. Source fields/associations match rendered102–103,
+printed98–99 verified;step3cutoff/25vs20min unresolved. Proposed old68/71 companion correction;
+new6 proposed fidelity approval with limits. Await outcomes;no source/DB/model changes.
 
 ## Repository State
 
@@ -112,7 +113,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await final Handbook64–66 decisions,then Charter67–74 in complete related groups;no duplicate outcomes. No repeated outcomes,source corrections or activation.
+Await Charter67–74 decisions,then fee75–77.Proposed old68/71 companion correction;no duplicate outcomes. No repeated outcomes,source corrections or activation.
 Keep frozen queue/approved correction scope19–21/36/45–46 and source limitations.
 
 ## Context Consulted

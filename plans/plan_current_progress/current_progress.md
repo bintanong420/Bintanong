@@ -7,10 +7,10 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):61+63 approved ("i approve");57approved/
-6corrections/0held/17pending. Final Handbook batch25/chunks64–66,p94/94/95,draft-only,displayed:
-full bullying/cyberbullying definitions,RA10627/parent-guardian notation and66 all3submission clauses
-retained.64/65 Subsequent blank;66 none. No companions/limits;await decisions,no DB/source/model changes.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):64–66 approved;Handbook66outcomes60approved/
+6corrections. Overall60approved/6corrections/0held/14pending. Charter batch26/chunks67–74 shown together:
+6mutually-linked draft +old68/71 lacking companions;propose old68/71 correction,new6 fidelity approval.
+Original102–103 printed98–99 verified;step3 cutoff/25vs20min retained. Await outcomes;no source/DB edits.
 [MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed; [conditional ETA](../2026-10-26-system-readiness-estimate.md) retained.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
@@ -66,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await final Handbook64–66 decisions,then Charter67–74 in complete related groups.No repeated outcomes. No duplicate approvals,renumbering or source changes.
+Await Charter67–74 decisions:new6 fidelity/limits,old68/71 proposed missing-companion correction.Then75–77. No duplicate approvals,renumbering or source changes.
 Correction scopes19–21/36/45–46 settled; delivery remains separate after audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
