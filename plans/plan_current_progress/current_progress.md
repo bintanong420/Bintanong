@@ -11,8 +11,8 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 Owner approved three prompt lines; f68135c/v20 distinguishes supplied facts from tasks.
 RED2 -> focused GREEN26;902 broader regressions PASS. Three live follow-ups now answer
-with one part; genuine mixed question still fails with old/new prompts. Local API restarted
-to load v20; API/frontend health200, all five probes true. No Prolog/source/frontend change.
+with one part; genuine mixed question still fails with old/new prompts. Frontend/API now run
+in Orca terminals; both health200, all five probes true. Model/encoder reused; no code change.
 [Trial and limits](../2026-10-25-clarification-prompt-trial.md); [baseline trace](../2026-10-25-clarification-routing-history.md).
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown

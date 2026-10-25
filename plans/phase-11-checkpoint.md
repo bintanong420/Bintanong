@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 51
+sequence: 52
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f68135c
+head_commit: f449244
 working_tree: dirty
-updated_at: 2026-10-25T19:58:14+08:00
+updated_at: 2026-10-25T20:10:00+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -42,6 +42,10 @@ documented unmet prerequisite. Initial prerequisite listing/completion questions
 Mixed question still fails: old v19 invalid_reference; v20 unknown_requirement/third part.
 No general quality pass. API restarted to load v20; temporary session context resets.
 API8021/frontend health3215 return200; all five readiness probes true.
+Owner requested starting services again: reused model/encoder; started frontend/API in
+Orca terminals term_c27fc4d5-7f8b-44d0-89d6-4760153be9d9 /
+term_d7ff23ac-0d58-4d28-b913-bdaff5cd6f30. Receipts/readiness under workspace
+audit-evidence/p11-20261025/local-server-restart/. No product changes or login replay.
 See [trial/scope/limits](2026-10-25-clarification-prompt-trial.md).
 
 ## Repository State
