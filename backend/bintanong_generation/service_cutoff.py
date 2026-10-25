@@ -17,6 +17,10 @@ _WORDS = {
     'taglish': ('Cut off yung agency action sa source; hindi available yung continuation. Ito yung '
                'visible fields (original na wording): ', 'not printed',
                ('Client step', 'Agency action', 'Person in charge', 'Office', 'Fee', 'Processing time'))}
+_REFERRALS = {
+    'en': ('Confirm the missing continuation with {office}.', 'the relevant university office'),
+    'fil': ('Itanong sa {office} ang kulang na kasunod.', 'kaugnay na opisina ng unibersidad'),
+    'taglish': ('I-confirm yung missing continuation sa {office}.', 'relevant university office')}
 
 
 def cutoff_records(pack):
@@ -56,7 +60,11 @@ def cutoff_records(pack):
         quoted = [label + ': ' + (blank if by_name[n]['source_blank'] else
                   json.dumps(by_name[n]['value'], ensure_ascii=False))
                   for n, label in zip(_NAMES, labels) if n in by_name]
-        text = prefix + '; '.join(quoted)
+        referral, generic_office = _REFERRALS[pack.language]
+        office = by_name.get('office')
+        destination = (json.dumps(office['value'], ensure_ascii=False)
+                       if office and not office['source_blank'] else generic_office)
+        text = prefix + '; '.join(quoted) + ' ' + referral.format(office=destination)
         if len(text) <= 1200:
             records[card.evidence_id] = text
     return records

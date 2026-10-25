@@ -80,6 +80,59 @@ def test_cutoff_record_is_quoted_without_completing_or_joining_its_fields(langua
     assert answer.part_ledger.semantic_completeness == 'unverified'
 
 
+@pytest.mark.parametrize(('language', 'referral'), [
+    ('en', 'Confirm the missing continuation with "Office T".'),
+    ('fil', 'Itanong sa "Office T" ang kulang na kasunod.'),
+    ('taglish', 'I-confirm yung missing continuation sa "Office T".'),
+])
+def test_exact_cutoff_fields_are_followed_by_a_referral_to_the_record_office(language, referral):
+    model = PositiveModel()
+    answer = asyncio.run(Generator(model).generate(TEXT, integration(language)))
+    excerpt = answer.claims[0]
+    assert answer.status == 'answered' and excerpt.text.endswith(referral)
+    assert json.dumps(CLIENT) in excerpt.text and json.dumps(ACTION) in excerpt.text
+    assert 'Office W' not in referral  # an office embedded in the action is not the record office
+    assert model.calls[1]['parts'][0]['claims'][0]['claim']['text'] == excerpt.text
+    assert answer.claims[1].text == FEE
+
+
+@pytest.mark.parametrize(('language', 'referral'), [
+    ('en', 'Confirm the missing continuation with the relevant university office.'),
+    ('fil', 'Itanong sa kaugnay na opisina ng unibersidad ang kulang na kasunod.'),
+    ('taglish', 'I-confirm yung missing continuation sa relevant university office.'),
+])
+@pytest.mark.parametrize('office_missing', [False, True])
+def test_cutoff_referral_does_not_guess_an_office_when_its_field_is_blank_or_absent(language, referral, office_missing):
+    def edit(payload):
+        if office_missing:
+            payload['fields'] = [field for field in payload['fields'] if field['name'] != 'office']
+        else:
+            next(field for field in payload['fields'] if field['name'] == 'office').update(
+                value='', source_blank=True)
+    answer = asyncio.run(Generator(PositiveModel()).generate(TEXT, integration(language, edit=edit)))
+    assert answer.status == 'answered' and answer.claims[0].text.endswith(referral)
+    assert 'Office T' not in answer.claims[0].text
+    assert answer.claims[1].text == FEE
+
+
+def test_referral_counts_towards_the_excerpt_limit_without_losing_an_independent_part():
+    def edit(payload):
+        payload['fields'][1]['value'] = ACTION + 'A'*830
+    answer = asyncio.run(Generator(PositiveModel()).generate(TEXT, integration(edit=edit)))
+    assert answer.status == 'answered' and [claim.text for claim in answer.claims] == [FEE]
+    assert answer.part_ledger.entries[0].reason == 'source_gap'
+
+
+def test_cutoff_fidelity_rejects_the_exact_fields_without_the_required_referral():
+    original = integration()
+    answer = asyncio.run(Generator(PositiveModel()).generate(TEXT, original))
+    claims = [claim.model_dump(mode='json') for claim in answer.claims]
+    claims[0]['text'] = claims[0]['text'].removesuffix(' Confirm the missing continuation with "Office T".')
+    draft = AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION,
+        release_id=answer.release_id, language=answer.language, decision_outcome=None, claims=claims))
+    assert 'service_cutoff_fidelity' in validate_draft(draft, prepare(original))
+
+
 def test_duplicate_citations_do_not_duplicate_the_protected_record():
     answer = asyncio.run(Generator(PositiveModel(duplicate=True)).generate(TEXT, integration()))
     assert answer.status == 'answered' and len(answer.claims) == 2
