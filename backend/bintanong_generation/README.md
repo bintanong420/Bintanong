@@ -183,6 +183,15 @@ new framework, automatic acquisition or permanent student-record storage is adde
 
 ## Verify
 
+The selected `parts` path replaces model claims citing the recorded unresolved
+admission-fraud precedence gap with a comparison of both retrieved printed rows
+(II.6/II.8a), their labelled penalty columns and an explicit unresolved-precedence
+referral. It never selects a student's sanction. Missing, duplicate, incompatible
+or held counterparts leave that slot unavailable; independent parts survive.
+The comparison is numbered before the ordinary per-part relevance/support review,
+which remains required and model-fallible. Generic `claim_not_stated` limits are
+unchanged. This does not activate the expanded source release.
+
 From repository root with the prepared Python3.13 environment and external
 TEMP/TMP/--basetemp under workspace/audit-evidence:
 

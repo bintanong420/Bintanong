@@ -18,6 +18,7 @@ from ..bintanong_routing.style import has_filipino_function_word
 from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
 from .grade_reply import grade_claims
+from .precedence_reply import precedence_reply
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
 from .scope import document_payload, model_card
@@ -184,8 +185,9 @@ def to_draft(explanation, pack):
         raise ValueError('part_slot_mismatch')
     allowed = {c.evidence_id for c in pack.cards if c.kind == 'document'}
     held = malformed_condition_sources(pack)
+    host = host_claims(pack)
     claims, slots = [], {}
-    for part_id in ids:
+    for index, part_id in enumerate(ids):
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
@@ -194,14 +196,23 @@ def to_draft(explanation, pack):
         # preserving independent slots and binding the reviewer to the actual final draft.
         status = ('source_gap' if any(held.intersection(c.evidence_ids) for c in proposed)
                   else slot.status)
+        if status == 'answered':
+            reserved = sum(len(explanation.answers[p].claims) for p in ids[index+1:]
+                           if explanation.answers[p].status == 'answered') + sum(map(len, host.values()))
+            comparison = precedence_reply(pack, proposed, max_claims=8-len(claims)-reserved)
+            if comparison is not None:
+                proposed = tuple(PartClaim.parse(c) for c in comparison)
+                status = ('answered' if proposed and not any(held.intersection(c.evidence_ids) for c in proposed)
+                          else 'source_gap')
+                # Deterministic wording still needs the existing per-part relevance/support review.
         numbered = []
         for claim in (proposed if status == 'answered' else ()):
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
         slots[part_id] = (status, tuple(numbered))
-    for part_id, host in host_claims(pack).items():  # host-written, mapped without a model review
-        numbered = [f'c{len(claims) + n}' for n in range(1, len(host) + 1)]
-        claims.extend(dict(claim_id=c, text=t, evidence_ids=[e]) for c, (t, e) in zip(numbered, host))
+    for part_id, host_part in host.items():  # host-written, mapped without a model review
+        numbered = [f'c{len(claims) + n}' for n in range(1, len(host_part) + 1)]
+        claims.extend(dict(claim_id=c, text=t, evidence_ids=[e]) for c, (t, e) in zip(numbered, host_part))
         slots[part_id] = ('host', tuple(numbered))
     if len(claims) > 8:
         raise ValueError('too_many_claims')
