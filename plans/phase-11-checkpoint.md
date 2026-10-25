@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 88
+sequence: 89
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 03728f4
+head_commit: 45ef25c
 working_tree: clean
-updated_at: 2026-10-26T01:29:13+08:00
+updated_at: 2026-10-26T01:41:38+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,19 +33,18 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-[Approved corrections delivered](2026-10-26-hosted-chunk-correction-results.md) as inactive hosted
-p11-research-corrected-20261026:78chunks/39links,11new IDs/67reused;73vectors reused/5encoded.
-Full19–21 context/22manifest,36->40,34/45/46 group,75alias cleanup;old68/71 replaced by69/72.
-98tests+151subtests,governed real-data rehearsal/rollback,independent review and hosted exact read-back
-passed. All protected old rows/release19active/80draft unchanged. No code/schema/prompt/pin changes.
-Candidate-only3072misconduct budget(full group2382);existing factory needs trusted override wiring
-before live quality/activation. Selected corpus remains partial;coverage question answered with originals.
+[Runtime budget/query checks](2026-10-26-corrected-candidate-runtime-checks.md) active. Explicit trusted
+package budgets consumed/bound into root;absent-key legacy defaults unchanged;invalid/null reject.
+PackageStorage repaired to complete same-version eligible dependency closure,cross-version/audience
+and explicit version filters preserved. RED12 budget,edge5/null+closure,version1;GREEN109+9subtests;
+independent61passed,no remaining important finding. Source set remains78,no new chunks/activation.
+Next frozen full suite then six planned actual queries,once each. All three hosted releases unchanged.
 
 ## Repository State
 
 p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Resume HEAD82ae498; clean at start.
 This documentation increment saves the review ledger, progress, checkpoint and session recovery;
-production/tests remain unchanged since completed6d70e1a full suite. No dependency/source/pin changes.
+New research factory/package reader changes get fresh full suite;no dependency/source/active-pin changes.
 Raw review evidence target: workspace/audit-evidence/p11-hosted-80-review-20261025/ (ignored).
 Documentation validation: phase_state validate, diff checks and local-link/plan checks before commit.
 
@@ -115,7 +114,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Compose corrected candidate with trusted3072misconduct override,then targeted live quality gate;no activation.
+Run frozen full suite,then six exact candidate queries;record actual quality and keep inactive on failures.
 Source corrections delivered inactive;keep full audit/correction records and all original gaps.
 
 ## Context Consulted

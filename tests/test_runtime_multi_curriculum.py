@@ -65,6 +65,52 @@ def test_only_pre_enrollment_gets_the_approved_larger_context_budget(monkeypatch
 
 
 @pytest.mark.parametrize('single', [False, True])
+def test_trusted_package_budget_admits_the_whole_group_without_changing_legacy_budget(monkeypatch, single):
+    from backend.bintanong_retrieval.types import RetrievalRequest
+    from tests.test_retrieval_subject_budget import make_engine
+
+    def engine_factory(*args, **kwargs):
+        return make_engine(kwargs.get('subject_context_budgets'))[0]
+
+    legacy, _ = build(monkeypatch, single=single, engine_factory=engine_factory)
+    request = RetrievalRequest('synthetic question', 'release-test')
+    result = legacy.retrieval.engine.retrieve(request, subject_id='fees', requested_claims=('printed amount',))
+    assert result['status'] == 'insufficient_evidence'
+    assert result['evidence'] == []
+
+    configured, _ = build(monkeypatch, single=single, engine_factory=engine_factory,
+        change_package=lambda package: package.update(subject_context_budgets={'fees':4096}))
+    result = configured.retrieval.engine.retrieve(request, subject_id='fees', requested_claims=('printed amount',))
+    assert result['status'] == 'uncalibrated'
+    assert [row['chunk_id'] for row in result['evidence']] == ['a', 'b']
+    assert result['context_tokens'] == 3000
+    assert result['configuration']['context_budget'] == 4096
+    assert configured.retrieval.engine.settings.context_budget == 2048
+
+
+@pytest.mark.parametrize('single', [False, True])
+@pytest.mark.parametrize('budgets', [None, [], {'unknown':4096}, {'fees':True}, {'fees':0}])
+def test_invalid_package_budget_cannot_bypass_engine_validation(monkeypatch, single, budgets):
+    from tests.test_retrieval_subject_budget import make_engine
+
+    with pytest.raises(ValueError):
+        build(monkeypatch, single=single,
+            engine_factory=lambda *args, **kwargs: make_engine(kwargs.get('subject_context_budgets'))[0],
+            change_package=lambda package: package.update(subject_context_budgets=budgets))
+
+
+@pytest.mark.parametrize('single', [False, True])
+def test_budget_only_change_gets_a_new_root_without_changing_curriculum_rules(monkeypatch, single):
+    original, _ = build(monkeypatch, single=single)
+    changed, _ = build(monkeypatch, single=single,
+        change_package=lambda package: package.update(subject_context_budgets={'fees':4096}))
+    assert changed.pin.release_id != original.pin.release_id
+    assert changed.pin.rule_bundle_version == original.pin.rule_bundle_version
+    assert changed.pin.sources == original.pin.sources
+    assert changed.pin.documents == original.pin.documents
+
+
+@pytest.mark.parametrize('single', [False, True])
 def test_document_only_changes_get_a_new_root_without_changing_curriculum_rules(monkeypatch, single):
     original, _ = build(monkeypatch, single=single)
     for change in ('embedding_set', 'claim_review'):

@@ -21,7 +21,7 @@ def unit(angle):
     return [math.cos(angle), math.sin(angle)]
 
 
-def store(*, same_version=False, **extra):
+def store(*, same_version=True, **extra):
     chunks = [chunk('a', neighbors=('c',)), chunk('b'), chunk('c'), chunk('z', scope=('audience:graduate',))]
     if same_version:
         chunks[2]['version_id'] = 'ver-a'
@@ -76,6 +76,37 @@ def test_chunk_filter_applies_before_ranking_and_keeps_only_eligible_neighbors()
     assert search(s, p_chunk_ids=['a'])['items'][0]['neighbors'] == []
     assert [n['chunk']['chunk_id'] for n in
             search(s, p_chunk_ids=['a', 'c'])['items'][0]['neighbors']] == ['c']
+
+
+def test_required_context_expands_transitively_through_cycles_below_the_score_threshold():
+    chunks = [chunk('a', neighbors=('b',)), chunk('b', neighbors=('c',)), chunk('c', neighbors=('a',))]
+    for row in chunks:
+        row['version_id'] = 'ver-group'
+    s = PackageStorage(release_id='release-research', manifest=MANIFEST, chunks=chunks,
+        versions={'ver-group':dict(version_id='ver-group')},
+        vectors={'a':unit(0.0), 'b':unit(1.5), 'c':unit(2.0)})
+    result = search(s, p_top_k=3, p_chunk_ids=['a', 'b', 'c'])
+    assert [r['chunk']['chunk_id'] for r in result['items']] == ['a']
+    assert [r['chunk']['chunk_id'] for r in result['items'][0]['neighbors']] == ['b', 'c']
+
+
+def test_context_closure_cannot_cross_source_versions():
+    result = search(store(same_version=False))
+    assert result['items'][0]['neighbors'] == []
+
+
+def test_version_filter_limits_ranked_roots_before_context_expansion():
+    result = search(store(same_version=False), p_version_ids=['ver-b'])
+    assert [row['chunk']['chunk_id'] for row in result['items']] == ['b']
+
+
+def test_context_closure_still_enforces_audience_without_a_chunk_filter():
+    chunks = [chunk('a', neighbors=('z',)), chunk('z', scope=('audience:graduate',))]
+    for row in chunks:
+        row['version_id'] = 'ver-group'
+    s = PackageStorage(release_id='release-research', manifest=MANIFEST, chunks=chunks,
+        versions={'ver-group':dict(version_id='ver-group')}, vectors={'a':unit(0), 'z':unit(0)})
+    assert search(s)['items'][0]['neighbors'] == []
 
 
 @pytest.mark.parametrize('value', [None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*129])

@@ -223,6 +223,10 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
     binding = dict(curricula=members, embedding_set_id=manifest['embedding_set_id'],
         documents=sorted((c['chunk_id'],c['version_id'],c['byte_sha256']) for c in chunks),
         catalogue=package['catalogue'], claim_reviews=package['register'])
+    if 'subject_context_budgets' in package:
+        if not isinstance(package['subject_context_budgets'], dict):
+            raise ValueError('trusted subject context budgets required')
+        binding['subject_context_budgets'] = package['subject_context_budgets']
     digest = hashlib.sha256(json.dumps(binding, sort_keys=True, allow_nan=False).encode()).hexdigest()
     release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + rules_digest
     storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
@@ -238,7 +242,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
     budgets = {'pre_enrollment':4096} if any(
         r['subject_id'] == 'pre_enrollment' for r in package['register']['reviews']) else {}
     engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy,
-        subject_context_budgets=budgets)
+        subject_context_budgets=package.get('subject_context_budgets', budgets))
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),

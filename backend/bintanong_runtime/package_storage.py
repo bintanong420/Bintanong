@@ -50,17 +50,24 @@ class PackageStorage:
             raise ValueError('invalid retrieval filters')
         selected_ids = set(chunk_ids)
         scope = set(params['p_scope'])
+        versions = set(params.get('p_version_ids', []))
         scored = [(cid, _cosine(params['query_embedding'], self._vectors[cid])) for cid, c in self._chunks.items()
-                  if (not selected_ids or cid in selected_ids) and (not scope or set(c['scope']) <= scope)]
+                  if (not selected_ids or cid in selected_ids) and (not scope or set(c['scope']) <= scope)
+                  and (not versions or c['version_id'] in versions)]
         kept = sorted(((cid, s) for cid, s in scored if s >= params['p_min_similarity']),
                       key=lambda item: (-item[1], item[0]))[:params['p_top_k']]
         similarity = dict(scored)
         items = []
         for cid, score in kept:
             row = self._row(cid, score)
-            needed = self._chunks[cid]['type_fields'].get('required_neighbor_chunk_ids', [])
-            row['neighbors'] = [self._row(n, similarity.get(n)) for n in sorted(needed)
-                                if n in self._chunks and (not selected_ids or n in similarity)]
+            needed, pending = {cid}, [cid]
+            for current in pending:
+                for neighbor in self._chunks[current]['type_fields'].get('required_neighbor_chunk_ids', []):
+                    if (neighbor not in needed and neighbor in similarity
+                            and self._chunks[neighbor]['version_id'] == self._chunks[cid]['version_id']):
+                        needed.add(neighbor)
+                        pending.append(neighbor)
+            row['neighbors'] = [self._row(n, similarity[n]) for n in sorted(needed - {cid})]
             items.append(row)
         return dict(status='ok', release_id=self.release_id, embedding_set_id=self.embedding_set_id, items=items)
 

@@ -7,13 +7,12 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Corrections delivered](../2026-10-26-hosted-chunk-correction-results.md):new hosted draft
-p11-research-corrected-20261026,78chunks/39links;11replacement IDs,67reused;73vectors reused/5encoded.
-19–21 full text,36shared measures,34/45/46 group,75alias cleanup. Old68/71 canonical replacements69/72
-avoid duplicates.98tests+151subtests/local governed rehearsal/independent review/hosted read-back pass.
-Old19active/80draft and protected rows unchanged. No code/schema/prompt/pin changes;no activation.
-Candidate misconduct budget3072(2382needed),Charter4096;factory wiring/live quality still required.
-Coverage is selected topics;undergraduate material outside reviewed pages remains a gap,not excluded.
+[Runtime checks](../2026-10-26-corrected-candidate-runtime-checks.md) underway on corrected78candidate.
+Trusted package budgets now consumed/bound into root pin;legacy absent-key defaults unchanged.
+PackageStorage now follows complete same-version eligible companion closure like SQL;no new chunks.
+RED12 budget,edge5/null+closure,version1 observed;GREEN109+9subtests;independent61passed,no blockers.
+Next frozen full suite,then six exact queries once each. Active19/old draft80/corrected draft78 unchanged;
+no activation,scope expansion,prompt/model/source edits. [Source results](../2026-10-26-hosted-chunk-correction-results.md).
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -67,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
   Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
 
 ## Next action
-Compose corrected candidate with trusted3072misconduct override,then targeted live quality gate before
+Run full frozen suite,then six planned actual candidate queries;save exact quality findings before
 any coordinated package/release switch. Frontend integration/wider query gaps remain. No activation yet.
 Do not repeat80-ID audit,encoding,receipts,staging or prior unchanged full software suite.
 
