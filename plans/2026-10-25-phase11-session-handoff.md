@@ -16,8 +16,8 @@ queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
 Current state is in the review ledger's Single next-batch cursor and latest batch18 note; those
 supersede earlier fresh-session anchor instructions. MCP authenticated recheck passed.
-47approved/6corrections/0held/27pending.52–53 approved;cursor await batch21/chunks54–55,p92,then56–58.
-54 third blank/SubsequentDismissal;55 both examples/full penalty fields retained. No companions/limits.
+49approved/6corrections/0held/25pending.54–55 approved;cursor await batch22/chunks56–58,p93,
+then59–61 with numbering-gap context. All4penalty columns/full causes match original;no blanks/links/limits.
 Corrections19–21/36/45–46 scope settled;no source/DB/prompt/model changes or activation in audit.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
