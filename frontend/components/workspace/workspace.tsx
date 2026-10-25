@@ -92,7 +92,7 @@ export function Workspace() {
       });
       if (!value.controller.signal.aborted) {
         dispatch({ type: "complete", id: value.id, answer });
-        if (clarificationQuestions(answer, curricula).length) setClarification({ id: value.id + "-answer", original: text, answer, scope: selectedScope, open: true });
+        if (clarificationQuestions(answer, curricula).length) setClarification({ id: value.id + "-answer", original: text, answer, scope: selectedScope, open: false });
       }
     } catch (error) { if (!value.controller.signal.aborted) { authError(error); dispatch({ type: "interrupt", id: value.id, warning: errorText(error) }); } }
     finally { finish(value); }

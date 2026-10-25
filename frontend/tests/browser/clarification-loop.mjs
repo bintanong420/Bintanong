@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
 
-test('selected prerequisite facts survive submission and a bare fallback does not restart the dialog', async () => {
+test('clarification opens on request, preserves selected facts and does not restart on a bare fallback', async () => {
   const url = process.env.BINTANONG_BROWSER_URL;
   assert.ok(url && ['localhost', '127.0.0.1'].includes(new URL(url).hostname));
   const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
@@ -14,7 +14,7 @@ test('selected prerequisite facts survive submission and a bare fallback does no
     await page.route('**/api/chat', async route => {
       submissions.push(route.request().postDataJSON());
       const first = submissions.length === 1;
-      const text = first ? 'Sabihin mo kung alin dito ang naipasa mo na.' : 'Please clarify the missing information before a conclusion can be given.';
+      const text = first ? 'Prerequisites: ZZ 4/L and ZZ 3/L.' : 'Please clarify the missing information before a conclusion can be given.';
       const data = { status: 'clarification_needed', conditional: first, language: first ? 'fil' : 'en',
         missingFields: first ? ['course_status'] : [], clarification: { scope: null,
           courses: first ? [{ code: 'ZZ 4/L', kind: 'completion' }, { code: 'ZZ 3/L', kind: 'completion' }] : [] } };
@@ -28,6 +28,12 @@ test('selected prerequisite facts survive submission and a bare fallback does no
     await page.getByRole('textbox', { name: 'Your question' }).fill(original);
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
     const dialog = page.getByRole('dialog');
+    const continueCheck = page.getByRole('button', { name: 'Ituloy ang paglilinaw', exact: true });
+    await continueCheck.waitFor();
+    await page.getByText('Prerequisites: ZZ 4/L and ZZ 3/L.', { exact: true }).waitFor();
+    assert.equal(await dialog.count(), 0, 'listing prerequisites must not automatically open a grade check');
+    assert.equal(submissions.length, 1);
+    await continueCheck.click();
     await dialog.getByRole('heading', { name: 'Pasado ka na ba sa ZZ 4/L?' }).waitFor();
     await dialog.getByRole('radio', { name: 'Pasado na', exact: true }).check();
     await dialog.getByRole('button', { name: 'Tuloy', exact: true }).click();
