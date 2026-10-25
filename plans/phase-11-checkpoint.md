@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 61
+sequence: 62
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 8313279
+head_commit: 99ac14a
 working_tree: dirty
-updated_at: 2026-10-25T23:23:00+08:00
+updated_at: 2026-10-26T00:55:00+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -28,6 +28,10 @@ updated_at: 2026-10-25T23:23:00+08:00
 ## Current Task
 
 Previous full checkpoint snapshot:9b0f555; recover older detail with git show.
+Delivered99ac14a: header/public landing refinement; [scope/design/evidence](2026-10-26-entry-design.md).
+Layout/retained-detail overlap/photo-caption contrast RED -> GREEN; existing chat retained.
+61 unit/17 broad browser PASS; final3 PASS after last scrim fix; build/TypeScript PASS.
+Standalone3215 rebuilt, public render1440/light/390/dark and readiness200 verified.
 Owner authorized the designed general chat/follow-up controls: implemented frontend-only.
 Committed8313279 after recovering session01a16d9d's final welcome-centering request.
 [Delivery, exact checks and recovery](2026-10-25-chat-workspace-implementation.md).
@@ -130,7 +134,7 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Owner checks centered Figma-aligned UI on3215 and the reported CC5 follow-up;
+Owner checks landing/header on3215 and signed-in chat/the reported CC5 follow-up;
 retain backend interpretation/source limits and Phase11 acceptance boundaries.
 
 ## Do Not Repeat

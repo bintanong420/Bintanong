@@ -1,6 +1,6 @@
 # Current progress
 
-Updated25October2026. Phase11 remains active; no phase closure or deployment.
+Updated26October2026. Phase11 remains active; no phase closure or deployment.
 Owner checkout: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
 Integration WIP: p11-frontend-integration / feat/p11-frontend-integration.
 [Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
@@ -9,13 +9,13 @@ Previous full frontend snapshot:9b0f555; use git show for history.
 
 ## Latest change
 
-Implemented general chat, grouped sources, Edit/Rephrase and explicit earlier-detail
-review using existing components/API. Scoped page-memory choices stay optional;
-source401 clears them and blocks sends. Committed8313279; resumed session01a16d9d's
-welcome-centering request. Live Figma checked: centered copy, neutral canvas/local
-campus fade restored; refinements retained.61 unit/all15 browser checks, build/types
-PASS; [delivery/evidence](../2026-10-25-chat-workspace-implementation.md).3215 rebuilt,
-readiness200. Backend interpretation remains unchanged; owner acceptance open.
+Delivered99ac14a: header cohesion/public landing, compact single-row controls,
+continuous campus fade, editorial welcome and a clear primary entry action.
+Layout/retained-detail overlap/photo-caption contrast RED -> GREEN.61 unit checks,
+17 broad browser checks plus final3 after scrim fix, build/types PASS; exact limits in
+[delivery/evidence](../2026-10-26-entry-design.md).3215 rebuilt; public renders/health200.
+Prior chat8313279 retained: grouped sources, Edit/Rephrase, explicit earlier details
+and source401 cleanup. Backend interpretation unchanged; owner acceptance open.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -60,7 +60,7 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Owner checks centered Figma-aligned UI on3215 and the reported CC5 follow-up;
+Owner checks landing/header on3215 and signed-in chat/the reported CC5 follow-up;
 retain backend interpretation/source limits and Phase11 acceptance boundaries.
 
 ## Remaining boundaries
