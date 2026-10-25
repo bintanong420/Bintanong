@@ -38,9 +38,10 @@ Shared Python3.13 -X utf8 -B -m pytest -q -p no:cacheprovider, external --basete
   en466, fil477, Taglish474, all below1200. No model/support review executed by this
   component; its altered draft would require a fresh bound review in production.
 - All54 sealed package files match original seal; no source rewrite/re-extraction.
-- Full suite running on frozen593de5f, session31661; E/full-suite.head/.log/.exit.
+- Full suite593de5f:6749 passed +1595 subtests,6skip2xfail6warnings,1297.74s,exit0;
+  E/full-suite.head/.log/.exit. Code/tests unchanged; no repeat needed.
   Prior4d391f6 full6732 +1595 subtests,6skip2xfail6warnings,22m11s retained as history.
-  No installed linter/formatter; final whitespace/links/phase checks follow.
+  Whitespace/links/phase checks pass; no installed linter/formatter. No frontend changes/checks.
 
 Tracked fixtures are synthetic; raw model/source/component outputs remain ignored.
 E/sealed-record-component.json contains the three concrete source-quote examples.

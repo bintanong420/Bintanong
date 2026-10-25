@@ -15,7 +15,7 @@ RED12/3, GREEN15; edge RED1/16 crash fixed; broad739 passed23.87s. Independent27
 Actual sealed Step3 component: en466/fil477/Taglish474 chars, five claims retained, no invented
 continuation. No model/review call or per-language semantic pass;54 sealed files unchanged.
 [Plan](../2026-10-25-service-cutoff-fidelity-plan.md), [results](../2026-10-25-service-cutoff-fidelity-results.md).
-Full suite running on593de5f (session31661), production/tests frozen; no further model trial.
+Full suite593de5f passed6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0; code/tests unchanged.
 Human review pending: source English quotations under Filipino/Taglish labels versus withholding
 the cut-off action/referral. Actual examples saved; no answer/approval inferred. Handoff prepared.
 Prior service context/record floor/formality4d391f6 full6732 +1595 subtests passed; retained evidence.
@@ -48,8 +48,8 @@ Expanded release stays inactive. Owner asks autonomous work and a compact handof
 
 ## Next action
 
-Read existing593de5f full-suite.exit/log (session31661) and actual owner presentation reply;
-do not duplicate the suite. Then explicit reviewed source order; Taglish diagnosis without a sweep.
+One instrumented Taglish case to capture failed-infer reason before it becomes tool_error;
+existing768 output cap, no retry/prompt sweep. Source-quote presentation decision remains pending.
 Expanded release stays inactive; other quality/roster/switch gates remain.
 Later router/service/plagiarism/progression, Hybrid no-topic, clarifications, Nursing negative mode
 and owner's simple-query battery precede frontend integration. No phase advancement.

@@ -18,15 +18,13 @@ independent claims/parts and budgets retained. No new source facts, model/defaul
 RED12/3, GREEN15; edge RED1/16 fixed; broad739 passed23.87s. Independent review clean/27 passed1.12s.
 Actual saved Step3 component: en466/fil477/Taglish474 chars, all exact fields, five claims retained,
 no "for further action". No model/review call or actual language-quality pass;54 sealed files unchanged.
-Full tests/ suite RUNNING on frozen593de5f, session31661; A/p11-service-cutoff-20261025/full-suite.*.
-Inspect log/.exit and running process before restarting. No production/test changes during the run.
+Full tests/ suite593de5f PASSED6749 +1595 subtests,6skip2xfail6warnings,1297.74s (21m37s),exit0;
+A/p11-service-cutoff-20261025/full-suite.head,.exit,.log. Code/tests unchanged; do not repeat this run.
 Human review pending: allow verbatim English source quotes under Filipino/Taglish labels for this
 cutoff fallback, or withhold the cut-off action and refer? Exact examples/component in current E.
-No response is approval; no request for unavailable source text. Full suite continues locally.
-Process IDs2368/13456, started19:42:44+08; E/full-suite.processes.json. Verify process command/creation
-time before using an ID. Check full-suite.exit/log first on resume; do not start a duplicate suite.
-If no exit file and the bound process is gone, record interruption; do not claim the suite passed.
-Next: read the existing suite result and actual owner answer; retain source/presentation holds.
+No response is approval; no request for unavailable source text. No test process remains running.
+Next: one instrumented Taglish case to capture the failed-infer reason, existing768 cap/no retry.
+Retain source/presentation holds; save all attempted packets before inference. No prompt sweep.
 Then explicit reviewed procedure order; do not infer it from hashes, retrieval rank or ID spelling.
 Taglish failed-call diagnosis remains separate. Do not repeat source readings or the completed checker/
 fraud/weapon experiments. Expanded release remains inactive; quality/roster/switch/frontend gates open.
