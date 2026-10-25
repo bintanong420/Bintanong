@@ -280,12 +280,13 @@ def test_filler_claims_in_an_unavailable_slot_are_dropped_and_the_part_is_named(
 
 
 @pytest.mark.parametrize('word', ['isusumite', 'nakasaad', 'ihahain'])
-def test_owner_named_deep_tagalog_uses_the_style_repair(word):
+def test_formal_filipino_word_is_a_preference_not_a_hard_rejection(word):
+    # Owner25Oct supersedes the earlier hard exclusion; a supported answer still receives review.
     deep = dict(r1=('answered', [f'Ang slip ay {word} sa Office V.']), r2=('answered', [TL_FEE]))
     model = Drafts(deep, TAGLISH)
     answer = asyncio.run(Generator(model).generate(TEXT, styled('fil')))
-    assert answer.status == 'answered' and answer.draft_attempts == 2
-    assert json.loads(model.calls[1][0][1]['content'])['validation_errors'] == ['claim_not_in_requested_style']
+    assert answer.status == 'answered' and answer.draft_attempts == 1 and answer.check_attempts == 1
+    assert answer.claims[0].text == f'Ang slip ay {word} sa Office V.'
 
 
 def test_model_inputs_carry_source_text_and_a_short_label_not_citation_geometry():

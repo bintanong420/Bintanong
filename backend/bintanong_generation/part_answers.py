@@ -6,7 +6,6 @@ each part's own claims. Confirmation remains model-fallible, never a guarantee.
 """
 import hashlib
 import json
-import re
 from typing import Literal
 
 from pydantic import Field, model_validator
@@ -93,7 +92,7 @@ in everyday words; English only for a term without a common Filipino equivalent.
 taglish: Tagalog sentence structure and grammar words (ang, sa, yung, mo, lang, po),
 keeping English only for terms such as submit, fee, office, form, enroll and
 deadline, for example "I-email mo yung request form sa registrar." For fil and
-taglish never use formal or deep Tagalog such as isusumite or nakasaad, and
+taglish prefer everyday words such as submit over formal words like isusumite or nakasaad, and
 REWRITE the meaning in that style: do not copy an English source sentence.
 The host separately renders any structured prerequisite result; do not generate or
 broaden it or assert enrollment eligibility. Each claim must cite only sources that
@@ -131,16 +130,11 @@ PART_PROMPT_SHA256 = hashlib.sha256(PART_PROMPT.encode()).hexdigest()
 CONFIRM_PROMPT_SHA256 = hashlib.sha256(CONFIRM_PROMPT.encode()).hexdigest()
 
 
-# Owner-named formal/deep Tagalog that students do not write (21 October 2026).
-DEEP_TAGALOG = frozenset(('isusumite', 'nakasaad', 'ihahain'))
-
-
 def style_errors(draft, pack, question=''):
-    """Deterministic floor only: no pure-English claims, and no owner-named deep Tagalog
-    unless the student used that word (replies match the student's own style)."""
-    banned = DEEP_TAGALOG - set(re.findall(r'[a-zñ]+', question.lower()))
+    """No pure-English claims for Filipino styles. Owner25Oct: word formality is a
+    preference, never a hard exclusion of otherwise supported Filipino wording."""
     if pack.language in ('fil', 'taglish') and any(
-            not has_filipino_function_word(c.text) or banned & set(re.findall(r'[a-zñ]+', c.text.lower()))
+            not has_filipino_function_word(c.text)
             for c in draft.claims):
         return ('claim_not_in_requested_style',)
     return ()

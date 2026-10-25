@@ -74,3 +74,16 @@ missing optional contract support; transfer then passed7 with host RED2. Final-b
 test also failed (RED3/7), then host/final checks corrected. Broad1121 passed29.74s;
 new-boundary independent review clean/10 focused passed0.95s. Full suite follows frozen
 code and the single new3-case live observation; no source/package/pin change.
+
+The second observation also FAILED semantic quality: English cited all four steps
+but invented a continuation to the Step3 cutoff and blended client/agency offices;
+Filipino drafts reordered Steps1/2 and were rejected for formal wording; Taglish
+ended tool_error. Citation coverage is not a semantic guarantee. No further live
+battery in this increment; retain raw traces for the next source-association fix.
+
+The Filipino rejection exposed an older hard word ban conflicting with the settled
+25Oct owner decision (owner-decisions-ledger: formality is a preference, no dedicated
+guard). Regression-first correction: three formal-word cases RED3/40, then remove
+the word ban while retaining the Filipino-function-word floor and ordinary support
+review. Prompt expresses a preference. Broad1121 passed29.77s. No new requirement
+or guard relaxation for evidence; the earlier21Oct wording is superseded here.
