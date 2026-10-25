@@ -7,6 +7,8 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
+[Readiness estimate](../2026-10-26-system-readiness-estimate.md):4–7 focused working days to tested
+research prototype,conditional on usable finished UI/available reviews;formal evaluation/deployment extra.
 [Connection recheck](../2026-10-26-supabase-mcp-connection-check.md) PASSED26Oct00:15:50Manila:
 Supabase tools available; project URL correct,authenticated SELECT1 succeeds,old19active/new80draft
 counts unchanged. Earlier missing-tool state superseded; no root cause/fix inferred. No DB writes.
