@@ -50,9 +50,15 @@ def test_research_adapter_carries_exact_visible_client_step_record_requirements(
     assert value.get('record_coverage')==[coverage([p['chunk_id'] for p in value['passages']])]
 
 
-@pytest.mark.parametrize('kwargs',[dict(finding='not_stated_in_selected_fields'),dict(field_name='requirement_1')])
-def test_unstated_or_checklist_only_fields_do_not_require_every_service_record(kwargs):
+@pytest.mark.parametrize('kwargs',[dict(finding='not_stated_in_selected_fields')])
+def test_unstated_fields_do_not_require_source_records(kwargs):
     assert 'record_coverage' not in retrieve(**kwargs).model_dump(mode='json')
+
+
+@pytest.mark.parametrize('field_name',['requirement_1','Cause','3.3'])
+def test_nonblank_requested_fields_also_require_their_own_records(field_name):
+    result = retrieve(field_name=field_name)
+    assert result.record_coverage[0].chunk_ids == tuple(p.chunk_id for p in result.passages)
 
 
 def test_legacy_document_result_serialization_stays_byte_identical_without_coverage():
@@ -84,6 +90,30 @@ def covered_integration(*,other_subject=False):
     value['evidence']['documents']['record_coverage']=[coverage([
         p['chunk_id'] for p in value['evidence']['documents']['passages']])]
     return type(original).parse(value)
+
+
+def test_part_confirmation_receives_exact_requested_claims_and_record_requirements():
+    from backend.bintanong_generation.part_answers import PartExplanation,to_draft,confirm_messages
+    pack=prepare(covered_integration())
+    explanation=PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id,language='en',answers=dict(r1=dict(status='answered',claims=[
+            dict(text=card.text,evidence_ids=[card.evidence_id]) for card in pack.cards]))))
+    draft,slots=to_draft(explanation,pack)
+    payload=json.loads(confirm_messages(TEXT,pack,draft,slots)[1]['content'])
+    assert payload['parts'][0]['requested_claims']==[CLAIM]
+    assert set(payload['required_records']['r1'])=={c.evidence_id for c in pack.cards}
+
+
+def test_review_identity_binds_the_requested_record_floor():
+    from dataclasses import replace
+    from backend.bintanong_generation.part_answers import PartExplanation,to_draft
+    from backend.bintanong_generation.understanding import review_identity
+    pack=prepare(covered_integration())
+    draft,_=to_draft(PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id,language='en',answers=dict(r1=dict(status='answered',claims=[
+            dict(text=card.text,evidence_ids=[card.evidence_id]) for card in pack.cards])))),pack)
+    weaker=replace(pack,record_coverage=())
+    assert review_identity(pack,draft).requirements_sha256!=review_identity(weaker,draft).requirements_sha256
 
 
 class ProcedureModel:
@@ -137,5 +167,15 @@ def test_final_validation_cannot_bypass_the_record_requirement():
     value['evidence']['documents'].pop('record_coverage')
     old_answer=asyncio.run(Generator(ProcedureModel()).generate(TEXT,type(covered).parse(value)))
     assert old_answer.status=='answered'
-    with pytest.raises(ValueError,match='record_coverage'):
+    with pytest.raises(ValueError,match='final_part_identity_mismatch'):
         validate_final(old_answer,prepare(covered),old_answer.claims)
+    from backend.bintanong_generation.contracts import AnswerDraft
+    from backend.bintanong_generation.generator import _answer
+    from backend.bintanong_generation.understanding import review_identity
+    pack=prepare(covered)
+    draft=AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION,
+        release_id=pack.release_id,language=pack.language,decision_outcome=None,
+        claims=[c.model_dump(mode='json') for c in old_answer.claims]))
+    rebound=old_answer.part_ledger.model_copy(update=dict(identity=review_identity(pack,draft)))
+    with pytest.raises(ValueError,match='record_coverage'):
+        _answer(pack,'answered',claims=old_answer.claims,reason='validated',ledger=rebound)

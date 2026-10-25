@@ -433,3 +433,5 @@ Each program still gets its own dated review record listing which standing rule 
   and refer to the office named in that record for confirmation. If no office is printed, use a
   generic relevant-university-office referral; do not infer an office or the missing continuation.
   This resolves the presentation choice, not the source defect, service sequence or release gate.
+
+- 26 Oct2026,source fidelity reminder during selected-answer fixes:owner says "just remember to keep the exact source as is, if there are limitations then so be it. We already human reviewed it, i reviewd it like twice now." Keep approved exact source wording,blanks,conflicts/cutoffs/other limitations;do not reopen human review or modify sources to make answers succeed. Work only on selection,coverage,language/composition using existing approved evidence.

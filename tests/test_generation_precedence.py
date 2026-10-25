@@ -179,3 +179,21 @@ def test_corrected_comparison_still_needs_to_answer_its_own_question_part():
     assert answer.status == 'insufficient_evidence' and not answer.claims
     assert answer.part_ledger.entries[0].status == 'uncertain'
     assert UNSAFE not in answer.text and 'Fictional warning.' not in answer.text
+
+
+def test_comparison_preserves_an_independently_cited_claim_in_the_same_slot():
+    from backend.bintanong_generation.evidence import prepare
+    from backend.bintanong_generation.part_answers import PartExplanation,to_draft
+    pack = prepare(integration())
+    overlap = next(c for c in pack.cards if 'Fictional warning.' in c.text)
+    independent = next(c for c in pack.cards if c.text == SAFE)
+    explanation = PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id,language='en',answers=dict(
+            r1=dict(status='answered',claims=[dict(text=UNSAFE,evidence_ids=[overlap.evidence_id]),
+                                            dict(text=SAFE,evidence_ids=[independent.evidence_id])]),
+            r2=dict(status='not_in_evidence',claims=[]))))
+    draft,slots = to_draft(explanation,pack)
+    assert any(c.text == SAFE for c in draft.claims)
+    assert len(draft.claims) == 3 and len(slots['r1'][1]) == 3
+    assert UNSAFE not in ' '.join(c.text for c in draft.claims)
+    assert 'II.6' in draft.claims[0].text and 'II.8a' in draft.claims[1].text

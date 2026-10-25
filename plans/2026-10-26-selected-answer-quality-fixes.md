@@ -35,3 +35,20 @@ reply already exist;changes repair their composition. Full-suite and answer-qual
 
 Evidence root:workspace/audit-evidence/p11-selected-answer-fixes-20261026/.
 Start b174e38,clean. Reuse saved six exact queries/expected findings;do not reopen80-ID source review.
+
+Owner26Oct reminder(verbatim):"just remember to keep the exact source as is, if there are limitations then so be it. We already human reviewed it, i reviewd it like twice now.". No new source-content review or source rewrite is authorized or needed. Source artifacts remain sealed;limitations are accepted limits,not defects to invent away.
+
+## Verified implementation before freeze
+
+Observed RED5(duplicate hostfee,currentness,unordered requested records),RED2(same-slot comparison/
+review requirements),RED1(numbered-clause routing context). GREEN134 initially;broader669 passed.
+Independent review caught explicit-currentness canonical host reply conflicting with requested example
+coverage;RED2 observed,then exact canonical(text,refs) proof exemption added. Tampered canonical text
+still rejects. A nontext reference edge RED1 is ignored safely. Coverage requirements now bind into
+review identity;RED1 showed previous hash omission. Stale final-floor test updated to check both early
+identity rejection and floor rejection even with rebound positive ledger. Final broad673passed15.77s,
+adapter/understanding43passed3.40s;independent review finds no production blocker after fixes.
+Saved registration-only fraud draft now fails record floor;old duplicated fee output becomes4unique
+claims shared across2slots,including original effectivity/currentness. Zero inference in this replay.
+Reviewed78artifact manifest reverified unchanged,including original wording/blanks/limitations.
+Next frozen full suite,then exactly the prior six queries once each. No activation/source expansion.

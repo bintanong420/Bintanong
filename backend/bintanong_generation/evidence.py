@@ -48,6 +48,8 @@ class PreparedEvidence:
             requested_parts=[] if self.understanding is None else
                 [p.model_dump(mode='json') for p in self.understanding.parts],
             sources=[c.model_dump(mode='json') for c in self.cards])
+        if self.record_coverage:
+            payload['record_coverage'] = self.record_coverage
         if self.record_order:
             payload['record_order'] = self.record_order  # bind sequence in the existing review identity
         return payload

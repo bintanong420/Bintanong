@@ -6,6 +6,7 @@ not school approval or institutional activation.
 from collections import Counter
 import hashlib
 import json
+import re
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from ..bintanong_orchestration.adapters import SIGNATURES, MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
@@ -106,15 +107,18 @@ PER_PERSON = ('each student', 'per student', 'every student', 'each of us', 'per
 NOT_STATED_CUES = {'official individual student assessment': PER_PERSON}
 
 
-def _service_topic_context(register, catalogue, chunks):
-    """Copy only assigned, visibly reviewed service labels; missing context stays absent."""
+def _reviewed_topic_context(register, catalogue, chunks):
+    """Copy assigned reviewed labels/numbered clauses; retain any deadline conflict."""
+    def context_field(name):
+        return isinstance(name,str) and (name in ('service_title','description')
+            or re.fullmatch(r'\d+(?:\.\d+)+',name) is not None)
     readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
     approved = {}
     for review in register['reviews']:
         if review.get('finding') != 'visible_fields':
             continue
         for ref in review.get('field_refs', []):
-            if (ref.get('field_name') in ('service_title', 'description')
+            if (context_field(ref.get('field_name',''))
                     and readings.get(ref.get('reading_id')) == review['subject_id']):
                 key = (review['subject_id'], ref['reading_id'], ref['field_name'])
                 approved.setdefault(key, set()).update(review.get('reviewed_chunk_ids', []))
@@ -124,19 +128,25 @@ def _service_topic_context(register, catalogue, chunks):
         subject = readings.get(reading)
         try:
             record = json.loads(chunk['text'])
-            if any(limit.get('resolution') == 'unresolved' for limit in record.get('source_limits', [])):
-                continue  # A held/clipped service label cannot silently become routing context.
+            unresolved = [limit for limit in record.get('source_limits', [])
+                          if limit.get('resolution') == 'unresolved']
             fields = record.get('fields', [])
             by_name = {f['name']: f for f in fields}
             if len(by_name) != len(fields):
                 continue
-            values = [by_name[name]['value'] for name in ('service_title', 'description')
-                if name in by_name and by_name[name].get('source_blank') is False
+            values = [by_name[name]['value'] for name in by_name if context_field(name)
+                and (not unresolved or name not in ('service_title','description')
+                     and all(limit.get('issue') == 'conflicting_deadlines' for limit in unresolved))
+                and by_name[name].get('source_blank') is False
                 and isinstance(by_name[name].get('value'), str) and by_name[name]['value'].strip()
                 and chunk.get('chunk_id') in approved.get((subject, reading, name), ())]
         except (ValueError, TypeError, KeyError, AttributeError):
             continue
         text = '; '.join(values)
+        if text and unresolved:
+            text += '\nUnresolved source limitations: '+json.dumps([
+                dict(issue=limit['issue'],affected_claims=limit.get('affected_claims',[]))
+                for limit in unresolved],ensure_ascii=False,separators=(',',':'))
         if text and len(text) <= 1024:
             context.setdefault(subject, []).append(text)
     return {s: tuple(dict.fromkeys(values)) for s, values in context.items()
@@ -167,7 +177,7 @@ def topic_menu(register, *, catalogue=None, chunks=()):
             if limit.get('resolution') == 'unresolved':
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
-    contexts = _service_topic_context(register, catalogue, chunks)
+    contexts = _reviewed_topic_context(register, catalogue, chunks)
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))

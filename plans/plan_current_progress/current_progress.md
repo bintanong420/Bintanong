@@ -7,11 +7,12 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Selected answer fixes](../2026-10-26-selected-answer-quality-fixes.md) active,owner “continue”.
-Saved six-case failures are reproduction evidence;no source/chunk/budget/activation changes.
-Next RED regressions for requested-record coverage,precedence composition and duplicate host fees;
-then bounded semantic routing/source-context/instruction improvements,fullsuite/one six-case rerun.
-Prior code d72b88f full6821+1595subtests passed;query gate failed;exact traces retained.
+[Selected answer fixes](../2026-10-26-selected-answer-quality-fixes.md) delivered for verification.
+Exact sources/78artifacts remain sealed,owner reminder recorded;no repeated human review.
+Requested-record floor/review identity,canonical hostdedup/currentness,same-slot precedence retention,
+numbered-clause routing context with conflicts and bounded instructions. RED5+2+1+host2+edge1+bind1;
+final broad673passed/adapter43passed;independent review no production blocker. Saved fraud draft
+rejects/fee dedups with original effectivity. Next frozen fullsuite then prior six once;no activation.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer

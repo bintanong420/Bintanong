@@ -79,3 +79,33 @@ def test_inputs_are_detached_and_legacy_menu_without_context_keeps_its_display()
     register['reviews'][0]['field_refs'] = []
     _, plain = menu_content(register, catalogue, chunks)
     assert 'source_context' not in plain and 'visible service fields' in plain
+
+
+def test_numbered_policy_clause_can_explain_topic_purpose_without_resolving_its_conflict():
+    register,catalogue,chunks=inputs()
+    register['reviews'][0]['field_refs']=[dict(reading_id='header-a',field_name='3.3')]
+    chunks[0]['text']=json.dumps(dict(fields=[dict(name='3.3',value='Fictional conditional mark can be rechecked once.',source_blank=False)],
+        source_limits=[dict(issue='conflicting_deadlines',resolution='unresolved',affected_claims=['applicable deadline'])]))
+    topics,system=menu_content(register,catalogue,chunks)
+    assert 'Fictional conditional mark can be rechecked once.' in system
+    assert 'conflicting_deadlines' in system and 'applicable deadline' in system
+    assert topics[0].claims==('visible service fields',)
+    assert topics[0].not_stated==('applicable deadline',)
+
+
+@pytest.mark.parametrize('issue',['malformed_source_condition','source_cutoff'])
+def test_held_numbered_policy_clause_does_not_become_router_context(issue):
+    register,catalogue,chunks=inputs()
+    register['reviews'][0]['field_refs']=[dict(reading_id='header-a',field_name='3.3')]
+    chunks[0]['text']=json.dumps(dict(fields=[dict(name='3.3',value='DO NOT ROUTE from this held clause.',source_blank=False)],
+        source_limits=[dict(issue=issue,resolution='unresolved',affected_claims=['unknown continuation'])]))
+    _,system=menu_content(register,catalogue,chunks)
+    assert 'DO NOT ROUTE from this held clause.' not in system
+
+
+def test_nontext_context_field_reference_cannot_crash_topic_construction():
+    register,catalogue,chunks=inputs()
+    register['reviews'][0]['field_refs'].append(dict(reading_id='header-a',field_name=None))
+    topics,system=menu_content(register,catalogue,chunks)
+    assert topics[0].claims==('visible service fields',)
+    assert 'Fictional college assesses marks for registration.' in system

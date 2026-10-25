@@ -74,7 +74,8 @@ class RetrievalAdapter:
                         or (claim.get('source_review') or {}).get('finding') != 'visible_fields'):
                     continue
                 records = tuple(dict.fromkeys(f['chunk_id'] for f in claim.get('source_fields', [])
-                    if f.get('field', {}).get('name') == 'client_step'
+                    if ('procedure_order' not in claim['source_review']
+                        or f.get('field', {}).get('name') == 'client_step')
                     and f['field'].get('source_blank') is False))
                 ordered = 'procedure_order' in claim['source_review']
                 if ordered:

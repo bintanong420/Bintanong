@@ -49,6 +49,9 @@ def precedence_reply(pack, proposed, *, max_claims=2):
     cited = {ref for claim in proposed for ref in claim.evidence_ids}
     if not cited.intersection(records):
         return None
+    independent = [dict(text=claim.text,evidence_ids=list(claim.evidence_ids)) for claim in proposed
+                   if not set(claim.evidence_ids).intersection(records)]
+    max_claims -= len(independent)
     if pack.language not in _WORDS or len(records) != 2:
         return ()
     labelled = {record[0]: (card, record[1]) for card, record in records.values()}
@@ -87,5 +90,5 @@ def precedence_reply(pack, proposed, *, max_claims=2):
         combined = ' '.join(c['text'] for c in claims)
         if max_claims < 1 or len(combined) > 1200:
             return ()
-        return (dict(text=combined, evidence_ids=[c['evidence_ids'][0] for c in claims]),)
-    return tuple(claims)
+        return (dict(text=combined, evidence_ids=[c['evidence_ids'][0] for c in claims]), *independent)
+    return (*claims, *independent)

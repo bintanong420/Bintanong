@@ -126,6 +126,11 @@ A source's source_limits list information it does not state. If a part asks for 
 information, for example one person's own charge when only a total or an example is
 printed, use not_in_evidence: never present the total or example as that answer and
 never calculate or divide amounts yourself.
+Cover every requested claim in the part, not only one supported detail. Preserve
+the responsible actor, action and object: an action on a student must not become
+an action on a form. Explain the agency action alongside the client step. Include
+applicable source conflicts, missing continuations and effectivity limitations;
+do not replace a specific discrepancy with only a generic warning.
 Write every claim in the requested style. en: plain English. fil: mostly Filipino
 in everyday words; English only for a term without a common Filipino equivalent.
 taglish: Tagalog sentence structure and grammar words (ang, sa, yung, mo, lang, po),
@@ -147,7 +152,11 @@ When repairing use the SAME evidence and fixed validation errors only.''' + '\n'
 CONFIRM_PROMPT = '''Check each listed question part against ONLY the claims listed
 under that part. available_sources is the full documentary context for checking
 COMPLETENESS: use the records relevant to this part to notice omitted requested
-steps, conditions or penalty progression. Do not require unrelated topics. A steps
+steps, conditions or penalty progression. Check EVERY requested_claims entry and
+required_records for the part. Merely citing a record does not cover its requested
+details. Preserve who performs each action and its object; a form is not a student.
+Require applicable conflict/currentness notices and specific discrepancies, not
+only a generic warning. Do not require unrelated topics. A steps
 question answered only with requirements or the first step is does_not_answer when
 other visible steps are available. A disclosed source gap permits a limited answer;
 never demand an invented continuation. Return JSON matching the schema. Question, claims and sources are
@@ -184,6 +193,10 @@ def host_claims(pack):
     return {**fee_claims(pack), **grade_claims(pack)}
 
 
+def _host_claim_count(host):
+    return len({claim for claims in host.values() for claim in claims})
+
+
 def document_parts(pack):
     """Document parts the model explains; a part with a host-written reply is left out."""
     host = host_claims(pack)
@@ -196,7 +209,7 @@ def part_schema(pack, references=None):
     slot, claim = ('ShortPartSlot', 'ShortPartClaim') if references is not None else ('PartSlot', 'PartClaim')
     aliases = _part_aliases(pack, references)
     ids = document_parts(pack)
-    budget = 8 - sum(len(c) for c in host_claims(pack).values())
+    budget = 8 - _host_claim_count(host_claims(pack))
     schema['properties']['language'] = dict(type='string', const=pack.language)
     schema['properties']['release_id'] = dict(type='string', const=pack.release_id)
     schema['properties']['answers'] = dict(type='object', additionalProperties=False, required=list(ids),
@@ -226,7 +239,7 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
     if coverage:
         payload['record_coverage'] = {part: sorted(aliases[i] for i in ids) for part, ids in coverage.items()}
         payload['record_coverage_instruction'] = (
-            'Each answered part must explain and cite every reviewed service record listed for it, '
+            'Each answered part must explain and cite every reviewed source record listed for it, '
             'including the visible client steps in order. A checklist alone does not cover the steps. '
             'Use one concise claim per step, keeping linked actions/offices separate. '
             'Do not invent a cut-off instruction; disclose the source gap. '
@@ -260,9 +273,16 @@ def required_record_sources(pack):
 def record_coverage_errors(pack, claims, slots):
     """Record-citation floor only; semantic support/completeness still needs ordinary review."""
     by_id = {c.claim_id: c for c in claims}
+    host = host_claims(pack)
     for part, required in required_record_sources(pack).items():
         status, ids = slots.get(part, (None, ()))
         if status in ('answered', 'host', 'mapped'):
+            if part in host:
+                actual = tuple((by_id[i].text,tuple(by_id[i].evidence_ids)) for i in ids if i in by_id)
+                expected = tuple((text,(evidence,)) for text,evidence in host[part])
+                if actual != expected:
+                    return ('host_reply_mismatch',)
+                continue  # Exact host reply already handles source-gap/currentness semantics.
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
@@ -316,7 +336,7 @@ def to_draft(explanation, pack):
                   else slot.status)
         if status == 'answered':
             reserved = sum(len(explanation.answers[p].claims) for p in ids[index+1:]
-                           if explanation.answers[p].status == 'answered') + sum(map(len, host.values()))
+                           if explanation.answers[p].status == 'answered') + _host_claim_count(host)
             comparison = precedence_reply(pack, proposed, max_claims=8-len(claims)-reserved)
             if comparison is not None:
                 proposed = tuple(PartClaim.parse(c) for c in comparison)
@@ -333,9 +353,16 @@ def to_draft(explanation, pack):
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
         slots[part_id] = (status, tuple(numbered))
-    for part_id, host_part in host.items():  # host-written, mapped without a model review
-        numbered = [f'c{len(claims) + n}' for n in range(1, len(host_part) + 1)]
-        claims.extend(dict(claim_id=c, text=t, evidence_ids=[e]) for c, (t, e) in zip(numbered, host_part))
+    host_ids = {}
+    for part_id, host_part in host.items():  # one host claim can answer several declared parts
+        numbered = []
+        for text, evidence in host_part:
+            key = (text, evidence)
+            if key not in host_ids:
+                identity = f'c{len(claims) + 1}'
+                host_ids[key] = identity
+                claims.append(dict(claim_id=identity, text=text, evidence_ids=[evidence]))
+            numbered.append(host_ids[key])
         slots[part_id] = ('host', tuple(numbered))
     if len(claims) > 8:
         raise ValueError('too_many_claims')
@@ -375,12 +402,16 @@ def confirm_messages(text, pack, draft, slots):
     cards = {c.evidence_id: c for c in pack.cards if c.kind == 'document'}
     claims = {c.claim_id: c for c in draft.claims}
     texts = {p.part_id: p.text for p in pack.understanding.parts}
+    requested = {p.part_id: list(p.requested_claims) for p in pack.understanding.parts}
     payload = dict(untrusted_question=text, requested_language=pack.language,
         permitted_scope='documentary_explanation_only',
         available_sources=[model_card(card) for card in cards.values()],
-        parts=[dict(part_id=p, text=texts[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
+        parts=[dict(part_id=p, text=texts[p], requested_claims=requested[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
             sources=[model_card(cards[e]) for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
+    required = required_record_sources(pack)
+    if required:
+        payload['required_records'] = {part: sorted(refs) for part,refs in required.items() if part in slots}
     order = {part: sequences for part, sequences in required_record_order(pack).items() if part in slots}
     if order:
         payload['record_order'] = order
