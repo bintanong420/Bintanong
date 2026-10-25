@@ -68,6 +68,11 @@ must reinterpret the original request; the host neither drops the operation nor
 guesses a document route. Explicit controls, audience/ambiguity holds, existing
 RAG-with-actions refusal and the shared repair/call cap remain unchanged.
 
+Research topic menus may include bounded `source_context` copied from the assigned,
+reviewed service title/description fields. These are routing data, never instructions,
+additional selectable claims or answer evidence. The LLM still chooses the topic;
+unreviewed, unassigned, blank or held header fields cannot supply this context.
+
 Decoder branches match existing host audience precedence: excluded/unrelated
 audiences require unsupported_scope with no operations/claims; unknown requires
 clarify and can preserve compound details. Bintu still selects the audience from

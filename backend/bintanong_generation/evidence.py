@@ -31,6 +31,7 @@ class PreparedEvidence:
     course_labels: tuple[tuple[str,str],...]=()  # display-only printed codes
     requirement: RequirementView|None=None  # the checked course's reviewed prerequisites (display only)
     course_facts: CourseFactsResult|None=None  # printed course facts, rendered by the host
+    record_coverage: tuple[tuple[str,str,tuple[str,...]],...]=()  # exact subject/claim -> evidence ids
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -96,9 +97,13 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
                 tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in request.inputs)
                 !=context.inputs or plan.operations[0].name!=request.predicate):
             raise ValueError('understanding_operation_mismatch')
+    by_chunk = {p.chunk_id:_card('document',p.text,p.citations).evidence_id
+                for p in evidence.documents.passages} if evidence and evidence.documents else {}
+    coverage = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in c.chunk_ids))
+                     for c in evidence.documents.record_coverage) if evidence and evidence.documents else ()
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         result.status,result.response_style,result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None,facts)
+        symbolic.requirement if symbolic else None,facts,coverage)

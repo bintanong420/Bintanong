@@ -184,9 +184,43 @@ REWRITE = dict(
 def part_messages(text, pack, *, errors=(), previous=''):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
+    coverage = required_record_sources(pack)
+    if coverage:
+        payload['record_coverage'] = {part: sorted(ids) for part, ids in coverage.items()}
+        payload['record_coverage_instruction'] = (
+            'Each answered part must explain and cite every reviewed service record listed for it, '
+            'including the visible client steps in order. A checklist alone does not cover the steps. '
+            'Use one concise claim per step, keeping linked actions/offices separate. '
+            'Do not invent a cut-off instruction; disclose the source gap. '
+            'Unavailable parts need no fabricated claims.')
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack))
+
+
+def required_record_sources(pack):
+    """Exact reviewed subject/claim requirements, never keyword inference from the question."""
+    required = {}
+    for part in (pack.understanding.parts if pack.understanding else ()):
+        if part.evidence_need != 'document':
+            continue
+        ids = {i for subject, claim, refs in pack.record_coverage
+               if subject == part.subject_id and claim in part.requested_claims for i in refs}
+        if ids:
+            required[part.part_id] = ids
+    return required
+
+
+def record_coverage_errors(pack, claims, slots):
+    """Record-citation floor only; semantic support/completeness still needs ordinary review."""
+    by_id = {c.claim_id: c for c in claims}
+    for part, required in required_record_sources(pack).items():
+        status, ids = slots.get(part, (None, ()))
+        if status in ('answered', 'host', 'mapped'):
+            cited = {ref for i in ids for ref in by_id[i].evidence_ids}
+            if not required <= cited:
+                return ('missing_procedure_record_coverage',)
+    return ()
 
 
 def to_draft(explanation, pack):

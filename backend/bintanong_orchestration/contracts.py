@@ -92,11 +92,42 @@ class DocumentPassage(Record):
         return self
 
 
+class DocumentRecordCoverage(Record):
+    """Reviewed service records required by one exact subject/claim, not answer truth."""
+    subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    claim: str = Field(min_length=1, max_length=256)
+    chunk_ids: tuple[Annotated[str, Field(pattern=SHA256)], ...] = Field(min_length=1, max_length=32)
+
+    @model_validator(mode='after')
+    def _unique(self):
+        if len(set(self.chunk_ids)) != len(self.chunk_ids):
+            raise ValueError('duplicate_coverage_record')
+        return self
+
+
 class DocumentResult(Record):
     release_id: ReleaseID
     status: DocumentStatus
     passages: tuple[DocumentPassage, ...]
     gaps: tuple[Text, ...]
+    record_coverage: tuple[DocumentRecordCoverage, ...] = Field(default=(), max_length=64)
+
+    @model_validator(mode='after')
+    def _coverage(self):
+        keys = [(c.subject_id, c.claim) for c in self.record_coverage]
+        if len(set(keys)) != len(keys):
+            raise ValueError('duplicate_record_coverage_claim')
+        available = {p.chunk_id for p in self.passages}
+        if any(not set(c.chunk_ids) <= available for c in self.record_coverage):
+            raise ValueError('coverage_record_not_in_context')
+        return self
+
+    @model_serializer(mode='wrap')
+    def _omit_absent_coverage(self, handler):
+        value = handler(self)
+        if not self.record_coverage:
+            value.pop('record_coverage', None)  # keep earlier serialized evidence/digests unchanged
+        return value
 
 
 class CandidateEvidence(Contract):

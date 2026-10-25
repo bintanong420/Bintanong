@@ -54,5 +54,10 @@ def validate_final(answer,pack,claims):
     if answer.claims!=tuple(claims):
         raise ValueError('final_claim_mapping_mismatch')
     validate_ledger(pack,claims,answer.part_ledger,answered=answer.status=='answered')
+    if answer.status=='answered' and answer.part_ledger is not None:
+        from .part_answers import record_coverage_errors
+        slots={e.part_id:(e.status,e.claim_ids) for e in answer.part_ledger.entries}
+        if record_coverage_errors(pack,claims,slots):
+            raise ValueError('final_record_coverage_mismatch')
     if foreign_ids(answer.text,'institutional'):
         raise ValueError('private_final_reference')

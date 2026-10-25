@@ -59,7 +59,15 @@ def merge_documents(results):
         return failed
     passages = {p.chunk_id: p for r in results for p in r.passages}
     gaps = dict.fromkeys(g for r in results for g in r.gaps)
-    return results[0].model_copy(update=dict(passages=tuple(passages.values()), gaps=tuple(gaps)))
+    coverage = {}
+    for result in results:
+        for item in result.record_coverage:
+            coverage.setdefault((item.subject_id, item.claim), []).extend(item.chunk_ids)
+    value = results[0].model_dump(mode='json')
+    value.update(passages=[p.model_dump(mode='json') for p in passages.values()], gaps=list(gaps),
+        record_coverage=[dict(subject_id=s, claim=c, chunk_ids=list(dict.fromkeys(ids)))
+                         for (s, c), ids in coverage.items()])
+    return DocumentResult.parse(value)
 
 
 def referenced_labels(labels, *mentions):

@@ -183,6 +183,16 @@ new framework, automatic acquisition or permanent student-record storage is adde
 
 ## Verify
 
+Reviewed service `client_step` records can carry exact subject/claim coverage through
+retrieval into the prepared answer evidence. For each answered document part, the
+selected `parts` profile checks that its own claims cite all required records before
+review, with the existing single repair allowance; final validation repeats the check.
+Unavailable parts need no invented steps. This is a citation-coverage floor: a model
+can still misdescribe a cited step, so semantic review and live evaluation remain.
+Confirmation now receives the full documentary context to notice omissions, while
+support for each individual claim remains limited to that claim's cited sources.
+Source gaps and table associations must remain explicit; no source release is activated.
+
 The selected `parts` path replaces model claims citing the recorded unresolved
 admission-fraud precedence gap with a comparison of both retrieved printed rows
 (II.6/II.8a), their labelled penalty columns and an explicit unresolved-precedence
