@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 54
+sequence: 55
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 9e0a399
+head_commit: cdded70
 working_tree: dirty
-updated_at: 2026-10-25T20:54:00+08:00
+updated_at: 2026-10-25T21:16:25+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -26,6 +26,12 @@ updated_at: 2026-10-25T20:54:00+08:00
   copied outside Git. Source branch remains clean and matches origin.
 
 ## Current Task
+
+Owner reports options follow-up failure and requires frontend focus/no backend edits.
+Read-only full-path replay: initial prerequisite and supplied-grade turns PASS;
+"What choices do I have to pass it?" FAILS unknown_requirement before retrieval,
+with previous course available but no resolved course/known requested work.
+No application edits or restart. [Diagnosis](2026-10-25-options-follow-up-diagnosis.md).
 
 Clarification recurrence reproduced with CC4 not passed/CC3 passed, BSCS2018–2019.
 Short CC5/v20 invented work; printed CC5/L passed. Commit252a951 adds specific
@@ -119,8 +125,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Owner retries simple CC5 prerequisite and inverse-grade follow-up in a fresh chat;
-confirm authenticated idle behavior. Keep production preview and source/release holds.
+Options follow-up remains unresolved under frontend-only scope; do not invent policy
+or patch backend interpretation. Keep production preview and source/release holds.
 
 ## Do Not Repeat
 

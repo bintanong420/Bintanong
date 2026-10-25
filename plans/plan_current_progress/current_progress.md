@@ -9,11 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Recurrence reproduced;252a951 adds target/count repair guidance/v22:905 tests PASS.
-Filipino live grade combinations pass; English v22 recorded-first-packet/live-repair
-probe validates.9e0a399 makes clarification popups opt-in; browser RED -> GREEN,
-57 UI tests/build PASS. Production frontend3215/API8021 ready;45s idle no reloads/HMR.
-[Cause, evidence and remaining limits](../2026-10-25-clarification-recurrence-and-preview.md).
+Owner confirms grade check answers; options follow-up still gives bare clarification.
+Full-path replay: prerequisite/grade turns PASS; options FAIL unknown_requirement,
+before retrieval, despite prior-course context. No frontend loss; no product edits.
+Owner requires frontend focus/no backend changes. [Diagnosis](../2026-10-25-options-follow-up-diagnosis.md).
+Earlier repairs/production preview: [evidence](../2026-10-25-clarification-recurrence-and-preview.md).
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -58,8 +58,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Owner retries CC5 prerequisite/inverse grades after one reload and a fresh chat;
-confirm authenticated idle behavior. Keep production preview and source holds.
+Options follow-up remains unresolved under frontend-only scope; do not invent policy
+or patch backend interpretation. Keep production preview and source holds.
 
 ## Remaining boundaries
 
