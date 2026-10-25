@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 44
+sequence: 45
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 2ce3daf
 working_tree: clean
-updated_at: 2026-10-25T20:32:00+08:00
+updated_at: 2026-10-25T21:05:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -42,15 +42,19 @@ Taglish exact saved-request replay proves truncated_output/finish_reason length 
 citation hash. Initial logger read wrong field; one explicit extra capture37.321s. Four complete
 IDs shortened via tokenizer-only766->539 prefix tokens,227 saved; no partial-response rescue.
 [Plan](2026-10-25-taglish-failed-infer-diagnosis.md), [results](2026-10-25-part-references-results.md).
-Full suite running on frozen2ce3daf, session60055; PIDs20284/19620 started20:28:02. Do not duplicate.
-Source-quote presentation decision still pending; expanded release inactive, semantic gates open.
+Full suite2ce3daf completed:6763 passed +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
+Only docs changed since code baseline; no duplicate suite. One saved-integration short-profile
+[observation planned](2026-10-25-short-reference-model-observation.md), max4 ordinary completions.
+Owner resolved presentation: both exact printed wording and office referral.
+[Referral TDD plan](2026-10-25-service-cutoff-referral-plan.md) precedes observation.
+Expanded inactive; cutoff/sequence/semantic quality gates remain open.
 
 ## Repository State
 
 p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through2ce3daf.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-Production/tests frozen for current2ce3daf run; following docs commit saves this snapshot.
+Production/tests unchanged since completed2ce3daf run; following docs commit saves this snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
 Current evidence: workspace/audit-evidence/p11-part-references-20261025/ and p11-taglish-infer-20261025/.
@@ -101,6 +105,8 @@ No downloads/re-hashing/training. Sealed source-package hashes remain in session
 - Keep one-week prompt/accuracy cap, undergraduate/advisory/privacy/source-gap boundaries.
 - Formal Filipino words are a preference, not a hard exclusion (settled25Oct owner ledger).
 - Owner requests autonomous work until real human review/a useful usage-saving handoff; no routine questions.
+- Cutoff presentation: keep exact printed terms/fields, explicit missing continuation and record-office
+  referral (generic university office when absent). Choice resolved; no missing text/order inferred.
 
 ## Known Failures or Blockers
 
@@ -117,8 +123,8 @@ now has a raw exact-request replay proving truncation at768; short-profile quali
 
 ## Next Action
 
-Read existing2ce3daf full-suite.exit/log before restarting (session60055); preserve presentation hold.
-Then separately bound an actual-model short-profile quality check before any default selection.
+TDD the approved cutoff excerpt+referral, verify/commit and start one frozen full suite. Then run
+the one-case saved-integration short-profile observation. Canonical default; no fresh router/retrieval/DB.
 Source order/other quality/roster/switch/frontend gates remain. Expanded inactive; no advancement.
 
 ## Context Consulted

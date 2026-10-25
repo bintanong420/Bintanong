@@ -19,11 +19,13 @@ passed24.15s. Independent clean/14 passed1.12s. No actual-model short-profile ru
 Taglish saved failed request: exact generation-only replay37.321s, truncated_output/finish_reason
 length at768, ends inside last citation hash. Initial logger missed args[0]; one extra call explicitly
 recorded. Tokenizer-only four complete IDs766->539 prefix tokens,227 saved. No JSON rescue/quality claim.
-Full suite RUNNING on frozen2ce3daf, session60055; A/p11-part-references-20261025/full-suite.*.
-PIDs20284/19620 started20:28:02+08; process file records creation times. Check .exit/log/process binding
-before restart; no duplicate suite. Missing exit/absent process means interrupted, never passed.
-Next: read existing result, then separately bound one actual-model short-profile quality check before
-any default selection. Source-quote English-under-Filipino/Taglish presentation answer still pending.
+Full suite2ce3daf completed:6763 passed +1595 subtests,6skip2xfail6warnings,1306.19s,exit0;
+A/p11-part-references-20261025/full-suite.*. Resume read exit/log/head, only docs changed; no repeat.
+Next: [one-case saved-integration observation](2026-10-25-short-reference-model-observation.md),
+short profile/max4 ordinary completions; no fresh router/retrieval/encoder/DB/default work.
+Owner resolved source-quote presentation: both exact printed wording and office referral.
+First execute [referral TDD plan](2026-10-25-service-cutoff-referral-plan.md), commit/verify,
+then the bounded model observation. No source cutoff/order/semantic quality approval inferred.
 No response/"continue" recorded as that answer; examples A/p11-service-cutoff-20261025/sealed-record-component.json.
 Prior cutoff593de5f full6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0 completed. Its exact
 field-excerpt guard remains; normal review preserved; language/sequence/whole-service quality unverified.

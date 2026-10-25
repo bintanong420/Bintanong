@@ -17,9 +17,13 @@ passed24.15s; independent review clean/14 passed1.12s. No actual short-profile m
 Taglish failure proven by exact replay: truncated_output/finish_reason length at768, inside last
 citation ID. Initial logger missed args[0]; one extra generation-only capture37.321s fixed evidence.
 Tokenizer-only four complete IDs:766->539 prefix tokens (227 saved), no prose change/JSON rescue.
-Full suite running on frozen2ce3daf, session60055; PIDs20284/19620 started20:28:02. No duplicate run.
+Full suite2ce3daf completed:6763 passed +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
+Resume verified only documentation changed; no duplicate run. One saved-evidence short-profile
+[observation planned](../2026-10-25-short-reference-model-observation.md), maximum4 completions;
+no fresh router/retrieval/encoder/DB work or default change. Owner presentation decision: both
+exact printed wording and office referral. [TDD plan](../2026-10-25-service-cutoff-referral-plan.md).
 Prior593de5f full6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0 completed and retained.
-Source-quote language presentation answer still pending; no inferred approval or source switch.
+Presentation resolved; source cutoff/order/semantic quality remain unresolved; no source switch.
 
 ## Delivered state
 
@@ -48,9 +52,9 @@ Source-quote language presentation answer still pending; no inferred approval or
 
 ## Next action
 
-Read existing2ce3daf full-suite.exit/log in p11-part-references-20261025 (session60055), preserve
-presentation hold. Then plan one bounded actual-model short-profile quality check; do not select
-as default without evidence. No repeat checker/fraud/weapon experiments. Reviewed step-order
+Implement approved cutoff excerpt+referral under TDD; verify/commit, start one frozen full suite,
+then execute the one-case saved-evidence short-profile observation. Keep canonical default. No repeat checker/fraud/
+weapon experiments. Reviewed step-order
 contract, other quality/roster/switch gates and frontend integration remain open. No advancement.
 
 ## Boundaries

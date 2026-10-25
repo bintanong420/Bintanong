@@ -42,17 +42,19 @@ No new source facts, DB/pin/embedding/model/default/output-budget/frontend chang
 - Tests cover canonical restoration/review, unknown/canonical/private/duplicate/rule
   wire refs, invalid slots/fields, repair, request isolation/binding, unchanged
   source/prose/coverage payloads and source-cutoff integration. Synthetic fixtures.
-- Full suite running on frozen2ce3daf, session60055; evidence root E = workspace/
+- Full suite completed on frozen2ce3daf:6763 passed,1595 subtests passed,6 skipped,
+  2 xfailed,6 existing warnings,1306.19s,exit0. Evidence root E = workspace/
   audit-evidence/p11-part-references-20261025; E/full-suite.head/.log/.exit.
-  No production/test changes after start. No installed linter/formatter.
+  Resume verified only documentation changed since2ce3daf. No installed linter/formatter.
 - Prior593de5f full6749 +1595 subtests,6skip2xfail6warnings,1297.74s,exit0 completed;
   retain it without rerun. It is not substituted for the current candidate's suite.
 
 ## Recovery and remaining gates
 
-Read existing full-suite.exit/log before restarting; E/full-suite.processes.json
-records process IDs/creation times. A missing exit and absent bound process mean
-interrupted, never passed. No actual-model run of the short per-part profile yet.
+Existing full-suite.exit/log read on resume; no duplicate suite. E/full-suite.processes.json
+retains process IDs/creation times. No actual-model run of the short per-part profile yet.
+The [one-case observation plan](2026-10-25-short-reference-model-observation.md)
+reuses saved integration evidence and bounds normal generation/review to4 completions.
 Selecting it as a default requires bounded actual-model quality evidence; no such
 selection or expanded source activation is made here. Source-quote language
 presentation question remains unanswered; "continue" is not recorded as its answer.
