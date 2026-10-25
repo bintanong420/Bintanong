@@ -1,45 +1,33 @@
 # Phase 11 session handoff — safe to /clear
 
 Session recovery note, NOT phase completion. Phase11 remains active; frontend ready, integrate only
-after pending work. Owner resumed fraud handling and enabled YOLO; expanded release stays inactive.
+after pending work. Owner selected hosted-chunk human review; expanded release stays inactive.
 Read INDEX/current progress/checkpoint, repo AGENTS, canonical ~/.agents/AGENTS.md, and both handoff
 skills. Fresh Git/tests outrank this note. Branch feat/p11-backend-api, p11, dev base cbaa6a7; no push.
 
-Last full snapshot before condensation: `6d70e1a:plans/2026-10-25-phase11-session-handoff.md`.
+Last full snapshot before this review redirect: `82ae498:plans/2026-10-25-phase11-session-handoff.md`.
 
 ## Exact next action
 
-Full6d70e1a completed6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0;
-A/p11-procedure-order-20261025/full-suite.head/log/exit/processes.json retained. No running job/duplicate.
-6d70e1a adds optional reviewed procedure order through existing coverage/repair/final checks.
-Focused39, broad745+137 subtests, independent clean/39. [Plan](2026-10-25-procedure-order-plan.md).
-Separate order-only register now rejects both saved reversed drafts and accepts saved correctly
-ordered claims structurally;54 sealed files unchanged. [Results](2026-10-25-procedure-order-results.md).
-One actual saved-context Filipino attempt ENDED:canonical659-token draft+108-token review,
-answered/validated,no repair,64.158s generation/review only. Four steps ordered; Step2 action-object
-wording remains ambiguous. No broader semantic/language/accuracy gate pass or profile/source switch.
-Next: bounded current-router capture of passing-taglish/caps-emoji (E/live-grades.log), then minimal
-regression-first fix only if reproduced. No keyword routing, table rewrite or prompt sweep.
-[Source sequence](2026-10-25-pre-enrollment-sequence-review.md):original102-103/standing delegation.
+Resume [Phase11 hosted-chunk review](2026-10-25-hosted-chunk-review.md), the combined plan/ledger/handoff
+owner explicitly asked to save for multiple sessions. It is the single next-batch cursor and outcome
+register. Grading-router capture is deferred, not completed. No review cards shown/owner outcomes yet.
+Incoming handoff: project jyrudbiuajahsucsorco, active p09-research-selected-20261022=19;
+draft p11-research-expanded-20261025=80 including active19. These are not fresh reads this save turn.
+Refresh required Context/scope evidence, then read-only hosted snapshot of exact text/provenance/hash/
+companions; freeze80 unique IDs (66Handbook/8Charter/3fee/3vehicle), reconcile drift, and show first2-3
+Handbook grading chunks physical46. Keep continuation groups together, even4. Wait for owner decisions.
+Raw snapshots/query evidence: A/p11-hosted-80-review-20261025/ ignored. No DB writes/model calls/code
+changes/activation/rechunking/embedding/prompt changes. Reuse settled source approvals; preserve holds.
+No full software-suite rerun needed for this review-only operation. Validate cards/snapshot/ledger.
 
-Prior full4425538 completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0;
-A/p11-cutoff-referral-20261025/full-suite.head/log/exit and creation bindings retained.
-4425538 implements owner's BOTH choice: exact printed fields/cutoff notice plus record-office
-referral, generic if no office printed. [TDD/results](2026-10-25-service-cutoff-referral-plan.md):
-RED11/17, focused42, broad664, independent clean/42. No source gap/order/activation resolved.
-One [saved-evidence short-profile observation](2026-10-25-short-reference-model-observation.md)
-ENDED:1 draft463 tokens+1 ordinary review108,both stop; answered/validated45.73s generation/review
-only. No routing/retrieval/encoder/DB, no retry/rescue. Raw invented continuation replaced before
-review; final exact quote+College Enrollment Area referral. Canonical final IDs;54 sealed files unchanged.
-Saved style fil despite Taglish question; no multilingual/source-order/whole-service quality pass.
-2ce3daf short-reference full suite6763 +1595 subtests,6skip2xfail6warnings,1306.19s,exit0 retained;
-prior cutoff593de5f full6749 also retained. Default canonical,768 cap/model/source/pin unchanged.
-Do not repeat order/short/checker/fraud/weapon observations or source staging. Other quality/roster/
-switch/frontend gates remain open; expanded inactive, no phase advancement.
-
-Prior3fbea08 orphan-operation repair/fraud observations and full6708 result retained in history;
-e1d7e8b full6695 retained. No reruns. [Checker trial](2026-10-25-checker-comparison-results.md)
-ENDED after2/8 calls under truncation; no widening/retry. Production thinking stays off.
+Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;
+[procedure-order results](2026-10-25-procedure-order-results.md),
+[cutoff/referral results](2026-10-25-service-cutoff-referral-plan.md), and
+[short-profile observation](2026-10-25-short-reference-model-observation.md). No repeat experiments.
+Four service steps ordered in one saved-context Filipino result; Step2 semantics/language/full-quality
+still open. Raw cutoff invention was replaced by guard in the earlier short observation; not accuracy.
+Default canonical,768 cap/model/source/pin unchanged. Expanded inactive; Phase12 gated.
 
 Let A=C:/Coding-projects/bintanong_workspace/audit-evidence and E=A/p11-topic-filter-20261024.
 

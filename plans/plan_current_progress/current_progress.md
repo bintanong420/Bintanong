@@ -7,6 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
+Owner confirmed saving the [80-chunk review plan/ledger](../2026-10-25-hosted-chunk-review.md)
+for multiple sessions; grading-router work deferred. Incoming handoff: active19 included in draft80 (66Handbook/8Charter/3fee/3vehicle); fresh read and
+stable ID queue still pending. No cards shown/decisions recorded; no DB writes/model runs/code changes.
+Previous full snapshots:82ae498; prior delivery evidence retained below.
+
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
 path or dependencies. [Plan](../2026-10-25-procedure-order-plan.md); RED25/1, repaired two stale-
@@ -54,21 +59,17 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
   decision lost; languages21/21en,21/21fil,15/21Taglish. Reuse roster18/19; no new roster yet.
 - Checker comparison ENDED after2/8 calls: thinking-on truncated768tokens/no final content.
   No retries/rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
-- Initial Supabase read succeeded; final19:26 read failed OAuth refresh/response parsing.
+- Initial Supabase read succeeded; final19:26 failed OAuth refresh/response parsing.
   Earlier inactive readback retained; no DB writes, credential reset or connector fix claimed.
-  Source decisions/batches1-12 and standing delegation remain settled; do not re-extract/review.
   Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
 
 ## Next action
 
-Owner asks whether chunk quality explains failures. Compare original -> reviewed chunk -> exact
-retrieved context -> reply for affected cases, reusing existing evidence before adding fixes.
-Existing records show mixed causes: context budget/sequence, source cutoff, routing and generation;
-no blanket chunk-correctness claim or whole-corpus rechunking. Test-run completion is not accuracy.
-Bound a current-router capture for the two saved simple grading misses: "Ano yung passing grade
-dito sa PalSU?" and "GRADE 1.0 ILANG PERCENT??? 😭". Confirm current behavior before a minimal
-regression-first correction; no keyword router/table rewrite/prompt sweep. Canonical default and
-expanded inactive; no repeat order/short/checker experiments or phase advancement.
+Follow the review ledger's single cursor: refresh required Context/scope evidence; read-only hosted
+membership/text/hash snapshot and freeze80 unique IDs (active19 included); then show first2-3 related
+Handbook grading chunks, physical46, and wait for owner decisions. Reuse settled source approvals.
+Review all80 once in small linked batches across sessions; do not fix router/rechunk/activate/run models.
+Full software suite unnecessary for this review-only operation; validate snapshot/cards/ledger instead.
 
 ## Boundaries
 
