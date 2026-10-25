@@ -7,12 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Readiness estimate](../2026-10-26-system-readiness-estimate.md):4–7 focused working days to tested
-research prototype,conditional on usable finished UI/available reviews;formal evaluation/deployment extra.
-[Connection recheck](../2026-10-26-supabase-mcp-connection-check.md) PASSED26Oct00:15:50Manila:
-Supabase tools available; project URL correct,authenticated SELECT1 succeeds,old19active/new80draft
-counts unchanged. Earlier missing-tool state superseded; no root cause/fix inferred. No DB writes.
-Review cursor48–49 NOT displayed;41approved/6corrections/0held/33pending. Connection gate satisfied.
+[Review ledger](../2026-10-25-hosted-chunk-review.md): batch18/chunks48–49,p91,draft-only,displayed
+with all4 penalty columns; fields match frozen hosted spans/original. No blanks/companions/limits.
+Await owner decisions;41approved/6corrections/0held/33pending. No DB/source/model changes.
+[MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed. [ETA](../2026-10-26-system-readiness-estimate.md)
+is conditional4–7working days to integrated tested prototype;formal evaluation/deployment additional.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -67,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Resume hosted-chunk review from ledger's single cursor: display48–49,p91,then wait for owner.
+Await batch18/chunks48–49 decisions,then50–51. No duplicate source approvals or queue renumbering.
 MCP authenticated-read check satisfied; no duplicate approvals,renumbering or source changes.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.

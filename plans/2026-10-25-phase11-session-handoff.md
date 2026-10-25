@@ -14,10 +14,11 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Current state is in the review ledger's Fresh-session recovery anchor and Single next-batch cursor.
+Current state is in the review ledger's Single next-batch cursor and latest batch18 note; those
+supersede earlier fresh-session anchor instructions. MCP authenticated recheck passed.
 41approved/6corrections/0held/33pending.47 approved;45/46 wording approved but explicit8(a)/8(b)
 grouping correction required. Preserve existing34↔45 overlap; proposed follow-up34↔45↔46.
-Other corrections19–21/36 scope approved. Next48–49 NOT displayed; all48–80 pending. Do not re-ask
+Other corrections19–21/36 scope approved. Batch18/chunks48–49 displayed,await decisions; all48–80 still pending. Do not re-ask
 these source/grouping decisions or rebuild/renumber queue. No hosted edits/models/activation now.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 

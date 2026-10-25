@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch17 wording approved;45/46 grouping correction recorded; next batch48–49 not yet displayed.
+Status: hosted snapshot verified; stable queue frozen; batch17 wording approved;45/46 grouping correction recorded; batch18/chunks48–49 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -101,7 +101,7 @@ Batch16/chunks42–44 approved as faithful fragments: "i approve" (26 Oct2026).
 44 reference-context observation retained; no additional correction outcome inferred.
 Batch17:47 approved;46 wording approved but correction-needed for missing45 grouping.
 45 wording approval retained, overall outcome changed to correction-needed for missing46 grouping.
-Exact owner direction below. Next batch48–49 has not been displayed.
+Exact owner direction below. Batch18/chunks48–49 displayed in accompanying reply; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -177,10 +177,10 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Next: display batch18/chunks48–49 (Handbook physical91), then wait for owner decisions.**
+**Await owner decisions for batch18/chunks48–49 (Handbook physical91). Do not advance on silence.**
 Batch17 outcome is recorded; do not ask again about8(a)/8(b) wording or the requested grouping.
 45↔46 is a separate append-only correction, preserving existing34↔45 and overlap warning.
-Resume from this cursor in a fresh session; do not recreate/reorder the frozen queue or repeat40/45.
+Next after decisions:50–51. Do not recreate/reorder the frozen queue or repeat40/45.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -256,8 +256,8 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Agent: matches settled source review batch7 | Heading8+row8a; later columns blank; requires34 | "ok i approve," plus question on early companion grouping (exact reply below);26Oct owner requests grouping with46 (exact reply below) | correction-needed | Wording approved; add explicit shared8(a)/8(b) companion context via separate follow-up; retain34 overlap |
 | 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Agent: complete cross-page selected fields inspected,p90–91 | One row+heading8; cross-page continuation included;4bullets joined in field; no companions | "approve," plus explicit request to group8(a) with8(b),26Oct (exact reply below) | correction-needed | Wording/cross-page content approved; missing explicit45 companion; grouping correction required |
 | 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Agent: selected fields/columns match p91 | One sanction row; II heading absent; no required companions | "approve," (batch17,26Oct; exact reply below) | approved | Complete selected row/blank columns approved |
-| 48 | `fcc3bb91c7a2191ae8d0e68c4ac37ec3178abe2f25d636ee5eb1230a659a4f52` | handbook-disciplinary-II.10 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 49 | `a468ff84285a9c1ebb0cc5c3af972e2db865aafe056ab32dd1673fac2e9a7763` | handbook-disciplinary-II.11 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 48 | `fcc3bb91c7a2191ae8d0e68c4ac37ec3178abe2f25d636ee5eb1230a659a4f52` | handbook-disciplinary-II.10 | 91 | draft-only | Agent: fields match source spans/rendered p91 | Selected sanction row; shared II heading absent; no companions | — | pending | All4 penalty columns present; no source_limits; owner outcome pending |
+| 49 | `a468ff84285a9c1ebb0cc5c3af972e2db865aafe056ab32dd1673fac2e9a7763` | handbook-disciplinary-II.11 | 91 | draft-only | Agent: fields match source spans/rendered p91 | Selected sanction row; shared II heading absent; no companions | — | pending | All4 penalty columns present; no source_limits; owner outcome pending |
 | 50 | `3eae9c9fa4756542eb7fcb9d3b158242c79f6c4eca3495398d4c3ab8fc83e4d3` | handbook-disciplinary-II.12 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 51 | `1bdd53a8297184a558b3799a6d8b89eac6781ad930ab4d073581ac6f6e723c2d` | handbook-disciplinary-II.13 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 52 | `3d56b215a4d2e11b9220bdac963999360ec330698a0409e63d7c75c8cd80871b` | handbook-disciplinary-II.14A | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -508,3 +508,15 @@ On new session read skills/INDEX/progress/checkpoint/this ledger and required Co
 inspect Git, then reuse frozen queue. Reconcile external hosted membership/hash drift without
 renumbering/substituting local source text. Final80-outcome report and hosted drift check still due.
 Long-session guard used to checkpoint/suggest fresh session; this is not a blocked phase or final handoff.
+
+## Batch18 displayed —26 October2026
+
+48 II.10 and49 II.11,both draft-only,physical91; exact fields match frozen hosted snapshot/source
+spans and inspected original p91. All4 offense columns populated; no blanks,no source_limits,no
+required companions.48 first2weeks/second1month/third1semester/subsequentDismissalfromUniversity;
+49 first1week/second2weeks/third1month/subsequentDismissal. Each selected row fragment,shared
+II.Behavioral Defiance heading absent. Undergraduate student discipline remains applicable despite
+references to staff/faculty as protected persons. No personal sanction adjudication.
+Current cursor supersedes earlier fresh-session anchor's NOT-displayed statement: await48–49 outcomes,
+then50–51. Counts41approved/6corrections/0held/33pending unchanged. No source/DB/model changes.
+MCP connection gate satisfied in authenticated recheck report; no fresh hosted drift check this turn.
