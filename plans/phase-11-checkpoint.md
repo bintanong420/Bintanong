@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 56
+sequence: 57
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 15f8349
+head_commit: 49f5b23
 working_tree: dirty
-updated_at: 2026-10-25T21:23:46+08:00
+updated_at: 2026-10-25T21:48:01+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -35,6 +35,9 @@ No application edits or restart. [Diagnosis](2026-10-25-options-follow-up-diagno
 Prior Phase07–10 notes reviewed: inline grades not carried;12-case pass includes safe
 clarification. Phase10 context code/instruction unchanged; exact options case untested.
 [History review and limits](2026-10-25-pre-phase11-follow-up-notes-review.md).
+Direct thesis review: recovery guidance40(39), clarification54(53), isolated chat and
+no academic-record storage65(64). IDs-only memory is a later implementation choice.
+[PDF reading scope/reconciliation](2026-10-25-thesis-conversation-context-review.md).
 
 Clarification recurrence reproduced with CC4 not passed/CC3 passed, BSCS2018–2019.
 Short CC5/v20 invented work; printed CC5/L passed. Commit252a951 adds specific

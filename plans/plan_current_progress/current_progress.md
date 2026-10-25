@@ -9,11 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Reviewed Phase07–10 notes: inline grades not carried;12/12 means resolve-or-clarify,
-not general conversation accuracy. Phase10 context code/instruction unchanged;
-the exact options question was not covered. [Review](../2026-10-25-pre-phase11-follow-up-notes-review.md).
-Current options follow-up fails before retrieval: [diagnosis](../2026-10-25-options-follow-up-diagnosis.md).
-No application edits; owner requires frontend focus/no backend changes.
+Read thesis context directly: recovery after CC4 failure and useful clarification are
+explicit goals. IDs-only memory is a later implementation choice, not a PDF requirement.
+Privacy requires isolation/no academic-record storage; preserve current owner boundaries.
+[Thesis review](../2026-10-25-thesis-conversation-context-review.md); [prior notes](../2026-10-25-pre-phase11-follow-up-notes-review.md).
+Options follow-up still fails before retrieval; no application edits or backend change.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
