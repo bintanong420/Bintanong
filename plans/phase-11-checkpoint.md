@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 55
+sequence: 56
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ccadceb
+head_commit: 5962857
 working_tree: clean
-updated_at: 2026-10-25T22:58:51+08:00
+updated_at: 2026-10-25T23:00:07+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,9 +36,9 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Owner approved batch1/chunks1–3: exact reply "i approve". Counts3approved/0corrections/0held/77pending.
-Batch2/chunks4–6 prepared: physical46, exact row values match; fragments lack heading/companions.
-No source_limits. Await batch2 owner decisions.
+Owner approved batches1–2/chunks1–6: separate "i approve" replies;6approved/0corrections/0held/74pending.
+Batch3/chunks7–9 prepared: physical46, exact row values match; fragments lack heading/companions.
+No source_limits. Await batch3 owner decisions.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -115,8 +115,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await owner decisions for review batch2, chunks4–6. Record exact decisions in the ledger, then
-prepare chunks7–9. Do not advance on silence or reopen settled source policy approvals.
+Await owner decisions for review batch3, chunks7–9. Record exact decisions in the ledger, then
+prepare chunks10–12. Do not advance on silence or reopen settled source policy approvals.
 
 ## Context Consulted
 
