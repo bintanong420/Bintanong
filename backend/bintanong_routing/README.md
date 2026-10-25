@@ -61,6 +61,13 @@ compound operations, conflicting assertions and nonasserted hypothetical/reporte
 facts withhold dispatch. Missing unmentioned grades remain unknown; no full
 transcript is required simply to name a supported operation.
 
+For an otherwise actionable undergraduate Symbolic/Hybrid proposal, every operation
+must be referenced by a declared question part. An orphan operation is rejected
+before dispatch and gets the existing named-reference repair opportunity. The model
+must reinterpret the original request; the host neither drops the operation nor
+guesses a document route. Explicit controls, audience/ambiguity holds, existing
+RAG-with-actions refusal and the shared repair/call cap remain unchanged.
+
 Decoder branches match existing host audience precedence: excluded/unrelated
 audiences require unsupported_scope with no operations/claims; unknown requires
 clarify and can preserve compound details. Bintu still selects the audience from

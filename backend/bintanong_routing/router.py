@@ -37,6 +37,9 @@ REFERENCE_HINTS = {
         'code that is also listed in mentions with kind course; if the student names no specific '
         'course code, return no operation (route RAG, or control clarify).',
     'topic_outside_menu': 'requested_claims must be facts listed under the chosen topic only.',
+    'unreferenced_operation': 'every operation must be referenced by a question part that requests it. '
+        'Interpret the original request again; document-only parts need no course operation. '
+        'Do not invent a structured question or course to justify an unused operation.',
 }
 
 
