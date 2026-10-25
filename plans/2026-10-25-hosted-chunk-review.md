@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch10/chunks30–31 approved; batch11/chunks32–33 awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch11/chunks32–33 approved; batch12/chunks34+45 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **28**, correction-needed **3**, held **0**, pending **49**.
+Current counts: approved **30**, correction-needed **3**, held **0**, pending **47**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -92,7 +92,8 @@ Owner reply "i approve" confirms proposed complete3.2/3.3 for the correction lis
 Batch8/chunks23–27 approved; exact reply recorded below, with grouping question verified.
 Batch9/chunks28–29 approved; owner expects recurring later-offense blanks (exact reply below).
 Batch10/chunks30–31 approved: exact reply "i approve"; weapon exception unresolved.
-Batch11/chunks32–33 presented next; decisions pending.
+Batch11/chunks32–33 approved: exact reply "i approve".
+Batch12/chunks34+45 presented together due mutual companion requirements; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -168,8 +169,9 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch11, chunks32–33 (Handbook physical88). Do not advance on silence.**
-After saving decisions, prepare the next pending disciplinary group starting34, retaining required companions. Complete3.2/3.3 correction
+**Await owner decisions for batch12, chunks34+45 (Handbook physical88/90). Do not advance on silence.**
+After saving decisions, prepare35+40 (required shared measures), with preserved older36 for comparison.
+Keep all queue numbers unchanged;45 is reviewed early to preserve linked context and will be skipped later. Complete3.2/3.3 correction
 wording is approved; use owner's complete3.7. No corrections applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
@@ -230,9 +232,9 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 29 | `9975ff9d98d0bacad2afd4dd71f4cfd02ae31082b3c17e95eeb98b1b2ea5ebee` | handbook-disciplinary-II.1 | 87 | draft-only | Agent: matches approved source review batch1 | One row; II.Behavioral Defiance heading absent; later columns blank; no companions | "i approve, this part onwards may naturally have a lot of blanks in the 2nd-4th offense" | approved | Blank columns unspecified; two-weeks penalty type remains unresolved |
 | 30 | `be5664bd8ccf0b542e12fb0efba80a107503f4c761c53eb118e52a1d6c5c7a37` | handbook-disciplinary-II.2 | 87 | draft-only | Agent: matches settled source review batch2 | Selected sanction row; later columns blank; II heading absent; no required companions | "i approve" (batch10) | approved | Faithful malformed source retained; exception meaning unresolved |
 | 31 | `1a9820e53bdf94d4ab700d7f146b192b3788772e9c18aee0dcec8203b013023b` | handbook-disciplinary-II.3 | 87 | draft-only | Agent: matches settled source review batch2 | Selected sanction row; later columns blank; II heading absent; no required companions | "i approve" (batch10) | approved | Due-process wording and blank later columns retained |
-| 32 | `04d70fde0576107e8e6cf9f76d72eb0100ba61bde5e74ee77e1d55ab72991232` | handbook-disciplinary-II.4 | 88 | draft-only | Agent: matches settled source review batch3 | Selected sanction row; later columns blank; II heading absent; no companions | — | pending | Reporting clause retained; owner outcome pending |
-| 33 | `daeee0bde86cb1a1ea66f9253ea95f77d8db66ae35d471affc0e8fee2b616e73` | handbook-disciplinary-II.5 | 88 | draft-only | Agent: matches settled source review batch3 | Selected sanction row; later columns blank; II heading absent; no companions | — | pending | Graduating-student credentials condition retained; owner outcome pending |
-| 34 | `e8c188625b5f8a71be24b214f69576c8f55e9059594a0859b25aa1af1306778e` | handbook-disciplinary-II.6 | 88 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 32 | `04d70fde0576107e8e6cf9f76d72eb0100ba61bde5e74ee77e1d55ab72991232` | handbook-disciplinary-II.4 | 88 | draft-only | Agent: matches settled source review batch3 | Selected sanction row; later columns blank; II heading absent; no companions | "i approve" (batch11) | approved | Reporting clause/blank later columns retained |
+| 33 | `daeee0bde86cb1a1ea66f9253ea95f77d8db66ae35d471affc0e8fee2b616e73` | handbook-disciplinary-II.5 | 88 | draft-only | Agent: matches settled source review batch3 | Selected sanction row; later columns blank; II heading absent; no companions | "i approve" (batch11) | approved | Graduating-student condition/blank later columns retained |
+| 34 | `e8c188625b5f8a71be24b214f69576c8f55e9059594a0859b25aa1af1306778e` | handbook-disciplinary-II.6 | 88 | draft-only | Agent: matches settled source review batch4 | Selected row; II heading absent; requires45 | — | pending | Overlapping sanctions; precedence unresolved; owner fidelity outcome pending |
 | 35 | `2b8b681dacab938bde6e78d5a2e51f9cd4324b2a763dbcd0f40d35d0a8501a81` | handbook-disciplinary-II.7a | 88 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 36 | `a0ac5dca10456bffccba3992edf926bfb489c786e59873741ceb6fed4eb27ae4` | handbook-table-10-row-4 | 88 | active/shared; older exam-cheating | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 37 | `c34f803760d0667de323428c293e92766ce7e8447e58c02a665a27f54933ba4a` | handbook-disciplinary-II.7b | 89 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -243,7 +245,7 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 42 | `faf0c9ec30a7119e443580ac17fe0209718a0d74549007b3335a7e0e4d0db404` | handbook-disciplinary-II.7f | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 43 | `1c4a9263439990bc71e8483396eb45e369ee9c0e25f2f002dff1f635b3baae56` | handbook-disciplinary-II.7g | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 44 | `7471c13443ee0f0983c91344d086fd2feac73f0065885990ed0413b50785d548` | handbook-disciplinary-II.7h | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Agent: matches settled source review batch7 | Heading8+row8a; later columns blank; requires34 | — | pending | Overlapping sanctions; precedence unresolved; owner fidelity outcome pending |
 | 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 48 | `fcc3bb91c7a2191ae8d0e68c4ac37ec3178abe2f25d636ee5eb1230a659a4f52` | handbook-disciplinary-II.10 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -367,4 +369,17 @@ heading is absent from stored causes.32 preserves dismissal/reporting clause;2nd
 33 preserves full fund-misuse/accomplice cause, first-offense one-semester suspension AND graduating-
 student credentials/account-clearance condition,2nd dismissal;3rd/Subsequent blank. Original asterisk
 and source grammar retained. No penalty inferred from blanks; no student-specific adjudication.
-Owner decisions pending; next pending group starts34 subject to required companion closure.
+Owner approved32–33: "i approve". Next group34+45 retains mutual companion closure.
+
+## Batch12 linked admission-fraud review
+
+34 (II.6,physical88) and45 (II.8a,physical90) are both draft-only and require each other. Review45
+now without renumbering; skip45's later turn after an outcome is recorded. All other35–44 remain pending.
+Fields/spans match settled batches4/7; complete cause/penalty values and45's heading8 preserved.
+34 has all4 offense penalties.45 has first "Barred from the university."; later3 columns blank.
+Shared II.Behavioral Defiance heading is absent from stored causes; each record is a selected sanction
+row, not the full disciplinary policy. No standalone sanction adjudication; precedence unresolved.
+Both carry verbatim added limit: "Unavailable information: precedence between overlapping admission-fraud
+sanctions. Source limitation remains unresolved (claim_not_stated)." Keep this with both quoted rows.
+No policy conflict/currentness/release decision inferred from future quote-fidelity approval.
+Owner outcomes pending; after these, review35+40 with preserved older36 rather than repeating45.

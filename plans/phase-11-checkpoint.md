@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 65
+sequence: 66
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 674f239
+head_commit: 2c92a02
 working_tree: clean
-updated_at: 2026-10-25T23:38:03+08:00
+updated_at: 2026-10-25T23:40:59+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,11 +36,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–31 approved;19–21 correction-needed, full wording approved.28approved/3corrections/
-0held/49pending. Batch10 owner "i approve" preserves unresolved weapon exception and source blanks.
-Batch11/chunks32–33,p88,draft-only: fields match settled review batch3; dismissal/reporting clause,
-fund-misuse/accomplice wording and graduating-student credentials condition retained. No required
-companions/source_limits; later blank fields unspecified. Await batch11 owner decisions.
+Chunks1–18/22–33 approved;19–21 correction-needed, full wording approved.30approved/3corrections/
+0held/47pending. Batch11 owner "i approve" preserves all clauses/blanks.
+Batch12/chunks34+45,draft-only,p88/90,match settled review batches4/7: mutually required admission-
+fraud rows, different printed penalties, precedence unresolved.45 reviewed early; do not renumber or
+review twice. Await fidelity outcomes; then35+40/older36. No individual sanction chosen.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -117,7 +117,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch11/chunks32–33 decisions, then next pending group starting34 with required companions. Preserve original-source limitations
+Await batch12/chunks34+45 decisions, then35+40 with preserved older36; later skip45 after outcome. Preserve original-source limitations
 and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted
