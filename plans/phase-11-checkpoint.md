@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 73
+sequence: 74
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 07cb1b7
+head_commit: 37bc19d
 working_tree: clean
-updated_at: 2026-10-26T00:14:40+08:00
+updated_at: 2026-10-26T00:16:26+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,11 +33,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-Owner requested Supabase connection verification before review. [Check](2026-10-26-supabase-mcp-connection-check.md):
-no Supabase tools exposed; official endpoint HTTP401 reachable; correct enabled project-scoped config.
-Stored o_auth not handshake evidence; historical19Oct OAuth-required log not current-cause proof.
-Authenticated read/database health unverified. No DB/credential/config changes; no review advanced.
-Review ledger retains41approved/6corrections/0held/33pending; next48–49 NOT displayed.
+[Supabase connection recheck](2026-10-26-supabase-mcp-connection-check.md) PASSED26Oct00:15:50Manila:
+direct tools available,correct project URL,authenticated SELECT1 and release status/count reads
+succeeded (19active/80draft). Earlier missing-tool state superseded; no root cause/repair inferred.
+No DB/credential/config changes. Review counts41approved/6corrections/0held/33pending;48–49 NOT
+displayed. Authenticated connection gate satisfied; full health/content-drift checks not claimed.
 
 ## Repository State
 
@@ -113,8 +113,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Same-account MCP login/browser authorization and session reload, then tool discovery/authenticated
-SELECT1/release membership check. Resume48–49 only after connection verification succeeds.
+Resume from review ledger's single cursor: display48–49,p91,then wait for owner. MCP read check
+satisfied; no repeated source/grouping decisions,renumbering or source writes.
 
 ## Context Consulted
 

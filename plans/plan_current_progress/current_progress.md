@@ -7,11 +7,10 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Connection check](../2026-10-26-supabase-mcp-connection-check.md): zero Supabase tools currently
-exposed; endpoint reachable HTTP401, correct enabled project-scoped config,stored o_auth only.
-No authenticated DB query possible. Historical19Oct OAuth-required startup log is not current cause
-proof. No DB/credential/config changes. Reauthenticate in same account/reload,then verify real read
-before review resumes. Cursor48–49 NOT displayed;41approved/6corrections/0held/33pending.
+[Connection recheck](../2026-10-26-supabase-mcp-connection-check.md) PASSED26Oct00:15:50Manila:
+Supabase tools available; project URL correct,authenticated SELECT1 succeeds,old19active/new80draft
+counts unchanged. Earlier missing-tool state superseded; no root cause/fix inferred. No DB writes.
+Review cursor48–49 NOT displayed;41approved/6corrections/0held/33pending. Connection gate satisfied.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,9 +65,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Restore same-account Supabase MCP authorization/tool discovery, then authenticate SELECT1 and
-release membership. Read connection-check report; don't resume review48–49 before this check succeeds.
-No source corrections,activation,models or renumbering during audit.
+Resume hosted-chunk review from ledger's single cursor: display48–49,p91,then wait for owner.
+MCP authenticated-read check satisfied; no duplicate approvals,renumbering or source changes.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
