@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 86
+sequence: 87
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 6b2d6a5
+head_commit: 3ab1ecc
 working_tree: clean
-updated_at: 2026-10-26T01:02:20+08:00
+updated_at: 2026-10-26T01:09:59+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,13 +33,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-Hosted80-chunk audit COMPLETE:final78–80 approved,"i approve".72approved/8correction-needed/
-0held/0pending. Grouped findings/proposed correction list in combined ledger:19–21 source context,
-36/45–46/68/71 companions;75 optional duplicate-field cleanup. No correction delivered in audit.
-Authenticated closing read26Oct00:59:34Manila exactly matches all opening80chunk/document/version/
-span/membership objects and both releases. Active19/draft80 unchanged;all19included.80content hashes,
-5original byte hashes and span/neighbor identity rechecked. No DB/source/code/model edits or activation.
-Phase11 remains in_progress;separate append-only correction follow-up next. No full-suite rerun.
+Owner explicitly authorizes approved correction follow-up26Oct. [Plan](2026-10-26-hosted-chunk-corrections.md).
+Data/package-only append-only candidate:19–21 full text,36/45–46/68/71 companions,75 cleanup.
+Audit complete72approved/8corrections;preserve old19active/80draft,all source limits and39 curriculum links.
+Coverage question answered:selection is partial;omitted pages not universally excluded. No scope expansion.
+Next freeze actual correction checks,build/validate candidate,rehearse locally,stage inactive/read back.
 
 ## Repository State
 
@@ -115,7 +113,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Prepare separate reviewable append-only correction follow-up from completed80-ID audit/exact approvals.
+Execute approved correction plan;baseline/candidate checks,governed local rehearsal,inactive hosted read-back.
 Correction scopes19–21/36/45–46/68/71 remain separate follow-up.
 
 ## Context Consulted
