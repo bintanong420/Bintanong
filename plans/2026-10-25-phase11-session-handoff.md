@@ -11,15 +11,12 @@ Last full snapshot before this review redirect: `82ae498:plans/2026-10-25-phase1
 
 Resume [Phase11 hosted-chunk review](2026-10-25-hosted-chunk-review.md), the combined plan/ledger/handoff
 owner explicitly asked to save for multiple sessions. It is the single next-batch cursor and outcome
-register. Grading-router capture is deferred, not completed. No review cards shown/owner outcomes yet.
-Incoming handoff: project jyrudbiuajahsucsorco, active p09-research-selected-20261022=19;
-draft p11-research-expanded-20261025=80 including active19. These are not fresh reads this save turn.
-Refresh required Context/scope evidence, then read-only hosted snapshot of exact text/provenance/hash/
-companions; freeze80 unique IDs (66Handbook/8Charter/3fee/3vehicle), reconcile drift, and show first2-3
-Handbook grading chunks physical46. Keep continuation groups together, even4. Wait for owner decisions.
-Raw snapshots/query evidence: A/p11-hosted-80-review-20261025/ ignored. No DB writes/model calls/code
-changes/activation/rechunking/embedding/prompt changes. Reuse settled source approvals; preserve holds.
-No full software-suite rerun needed for this review-only operation. Validate cards/snapshot/ledger.
+register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
+queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
+query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
+Current cursor: await owner decisions on batch1/chunks1–3 (grading physical46), then record exact
+outcomes before chunks4–6. No owner outcomes yet; source values visually match original rows.
+Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;
 [procedure-order results](2026-10-25-procedure-order-results.md),

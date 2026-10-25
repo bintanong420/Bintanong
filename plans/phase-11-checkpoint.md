@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 53
+sequence: 54
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 82ae498
+head_commit: b5ada5e
 working_tree: clean
-updated_at: 2026-10-25T22:50:25+08:00
+updated_at: 2026-10-25T22:54:44+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,14 +33,12 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-Owner confirmed persisting the [80-chunk hosted review plan/ledger](2026-10-25-hosted-chunk-review.md)
-for multiple sessions. Review operation only; grading-router capture deferred, no implementation.
-Incoming handoff: active19 included in draft80 (66Handbook/8Charter/3fee/3vehicle), not freshly read
-this turn. Snapshot, stable ID queue and all80 owner outcomes pending; no cards shown. Review fidelity
-against prior source approvals, preserving fragments, companions and gaps; wait after each small batch.
-No DB writes, prompt/model runs, rechunking, embeddings, activation or phase advancement.
-Prior verified procedure-order/cutoff work and failed quality gates remain in dated reports and the
-82ae498 checkpoint/recovery snapshot; no need to repeat completed suites or observations.
+[Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
+active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
+all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
+Batch1 prepared: chunks1–3 grading, physical46, source values match rendered original. Row fragments
+lack heading/no declared companions; no source_limits. Owner decisions pending, no outcomes inferred.
+No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
 
@@ -116,16 +114,13 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Use the review ledger's single cursor: refresh required Context/scope evidence; read-only hosted
-snapshot/membership/hash verification and stable80-ID queue; show first2-3 related Handbook grading
-chunks, physical46, then wait for owner decisions. Defer grading-router capture until this operation
-ends or owner redirects. No fresh source approval or activation inferred from saving the plan.
+Await owner decisions for review batch1, chunks1–3. Record exact decisions in the ledger, then
+prepare chunks4–6. Do not advance on silence or reopen settled source policy approvals.
 
 ## Context Consulted
 
-Plan-save turn read master3/16, prior Phase10 handoff, owner ledger, scope/gap policies and phase
-recovery. No fresh thesis/PNG inspection claimed; refresh physical17-18 and routing PNG before cards.
-This is documentation persistence only, with no new source applicability or routing decision.
+Hosted-review resume refreshed thesis physical17–18 and routing PNG; inspected original Handbook
+physical46. Undergraduate-only/advisory/source-gap scope unchanged; no routing discrepancy.
 
 Prior recorded 25Oct resume: thesis physical17-18 and routing PNG refreshed; master3/13/14/16 and Phase10 handoff,
 source/scope/gap policies and owner ledger reviewed. Prior39-44 retained. No scope/routing discrepancy;

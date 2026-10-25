@@ -7,9 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Owner confirmed saving the [80-chunk review plan/ledger](../2026-10-25-hosted-chunk-review.md)
-for multiple sessions; grading-router work deferred. Incoming handoff: active19 included in draft80 (66Handbook/8Charter/3fee/3vehicle); fresh read and
-stable ID queue still pending. No cards shown/decisions recorded; no DB writes/model runs/code changes.
+Fresh read-only hosted snapshot confirmed draft80 includes active19; groups66/8/3/3, all80 content
+hashes valid, all5 original byte hashes match. [Review ledger](../2026-10-25-hosted-chunk-review.md)
+now freezes80 exact IDs and companions/provenance in ignored evidence. Batch1: grading chunks1–3,
+physical46, row values visually match; individual fragments lack heading/declared companions.
+Owner decisions pending; no approvals/corrections/holds recorded. No DB writes/code/models/activation.
 Previous full snapshots:82ae498; prior delivery evidence retained below.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
@@ -65,11 +67,9 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Follow the review ledger's single cursor: refresh required Context/scope evidence; read-only hosted
-membership/text/hash snapshot and freeze80 unique IDs (active19 included); then show first2-3 related
-Handbook grading chunks, physical46, and wait for owner decisions. Reuse settled source approvals.
-Review all80 once in small linked batches across sessions; do not fix router/rechunk/activate/run models.
-Full software suite unnecessary for this review-only operation; validate snapshot/cards/ledger instead.
+Await owner decisions for review batch1/chunks1–3. Record exact decisions in the review ledger,
+then prepare chunks4–6; do not advance on silence. Stable queue/snapshot verified; do not recreate.
+Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
 ## Boundaries
 
