@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; chunks1–6 approved; batch3 (chunks7–9) awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; chunks1–9 approved; batch4 (chunks10–12) awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -16,7 +16,7 @@ The incoming handoff reports fresh hosted reads of project `jyrudbiuajahsucsorco
   exam-cheating record. Preserve and identify that older record; review shared IDs only once.
 
 Fresh read at 25 October 2026 22:52 Manila confirmed these counts and statuses. All 19 active IDs
-are included in the draft80; no membership discrepancy. Owner approved chunks1–3 and chunks4–6 in separate replies, each "i approve"; other outcomes pending.
+are included in the draft80; no membership discrepancy. Owner approved batches1–3/chunks1–9 in separate replies, each "i approve"; other outcomes pending.
 
 ## Execution and snapshot
 
@@ -79,12 +79,15 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **6**, correction-needed **0**, held **0**, pending **74**.
+Current counts: approved **9**, correction-needed **0**, held **0**, pending **71**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
-Batch3/chunks7–9 prepared/shown in the accompanying reply; decisions pending.
-Correction register: empty. Agent verified chunks1–9 against rendered physical46: exact row values;
+Batch3/chunks7–9 approved: exact owner reply "i approve".
+Batch4/chunks10–12 prepared/shown in the accompanying reply; decisions pending.
+Correction register: empty. Agent verified chunks1–12 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
+Chunks10–12 preserve printed blank percentages as empty values/source_blank=true/no span indexes;
+blank percentages do not supply a numerical equivalent. Inc. and IP rows only define labels.
 They are individual row fragments sufficient for their grade mappings, not a complete grading policy.
 The fragment/heading observation remains; approval confirms fidelity, not a database edit or activation.
 
@@ -120,8 +123,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch3, chunks7–9 (Handbook physical46). Do not advance on silence.**
-After recording those exact decisions, prepare chunks10–12 unless a correction requires clarification.
+**Await owner decisions for batch4, chunks10–12 (Handbook physical46). Do not advance on silence.**
+After recording those exact decisions, prepare chunks13–15 unless a correction requires clarification.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -156,12 +159,12 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 4 | `2362cdc8b2b2bd57c37c14416487a24048a62197429ec8e0d77893eb275f7326` | handbook-grading-4 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | "i approve" (batch2, 25 Oct 2026) | approved | None; no unresolved row-value issue |
 | 5 | `5f2d95e5f09b2c25e5d33760610bbd8990084b148a2b2ac05dbbe9d44390ca3a` | handbook-grading-5 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | "i approve" (batch2, 25 Oct 2026) | approved | None; no unresolved row-value issue |
 | 6 | `99ba38b440a29cbaa258aa42d656aa1fe7cdcb65cc606a25ed7a8e45cf35d65b` | handbook-grading-6 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | "i approve" (batch2, 25 Oct 2026) | approved | None; no unresolved row-value issue |
-| 7 | `6e021489ad45845b81289f848185a8ea2ed9332459e56c90984c66cb0537f8b3` | handbook-grading-7 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | — | pending | None proposed; owner review pending |
-| 8 | `c1e71d273ba876f3e1f4d690db68af8da4d19d56c4f38d8b8ed9357abd091bd7` | handbook-grading-8 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | — | pending | None proposed; owner review pending |
-| 9 | `1c65b0fb43daf204f4ae5a3c15c7654a2695fdf09f9cbaf99c433f5a4d697278` | handbook-grading-9 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | — | pending | None proposed; owner review pending |
-| 10 | `bb704bc3bdd62af0207d5889e00640c48faba10031a154e43c6b8f4b0c7d11ef` | handbook-grading-10 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 11 | `3ad00c67166519bfeb566c1d708f79b8ef92756365b8b36f5cd5cc4717cceb45` | handbook-grading-11 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 12 | `dee78e9625915026bf7661adf8cd5ba889cecd4ed4abc1efcc8c3082e3b10d9d` | handbook-grading-12 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 7 | `6e021489ad45845b81289f848185a8ea2ed9332459e56c90984c66cb0537f8b3` | handbook-grading-7 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | "i approve" (batch3, 25 Oct 2026) | approved | None; no unresolved row-value issue |
+| 8 | `c1e71d273ba876f3e1f4d690db68af8da4d19d56c4f38d8b8ed9357abd091bd7` | handbook-grading-8 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | "i approve" (batch3, 25 Oct 2026) | approved | None; no unresolved row-value issue |
+| 9 | `1c65b0fb43daf204f4ae5a3c15c7654a2695fdf09f9cbaf99c433f5a4d697278` | handbook-grading-9 | 46 | draft-only | Agent: row values match p46 | Table-row fragment; heading absent; no declared companions | "i approve" (batch3, 25 Oct 2026) | approved | None; no unresolved row-value issue |
+| 10 | `bb704bc3bdd62af0207d5889e00640c48faba10031a154e43c6b8f4b0c7d11ef` | handbook-grading-10 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
+| 11 | `3ad00c67166519bfeb566c1d708f79b8ef92756365b8b36f5cd5cc4717cceb45` | handbook-grading-11 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
+| 12 | `dee78e9625915026bf7661adf8cd5ba889cecd4ed4abc1efcc8c3082e3b10d9d` | handbook-grading-12 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
 | 13 | `13d8167617121133130f93f1e209a03e8e0fe1b163020e045b1ca8fcfa216ab3` | handbook-grading-13 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 14 | `98d87011903004a99b05ce44b1609622b8ef018373689d586d8ef17f83146d13` | handbook-grading-14 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 15 | `246e133f06ecf8a938939041692deab53a167ae1b2d4bfd804ae1f5badc49d28` | handbook-grading-15 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |

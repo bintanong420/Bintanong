@@ -7,12 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Fresh read-only hosted snapshot confirmed draft80 includes active19; groups66/8/3/3, all80 content
-hashes valid, all5 original byte hashes match. [Review ledger](../2026-10-25-hosted-chunk-review.md)
-now freezes80 exact IDs and companions/provenance in ignored evidence. Owner approved chunks1–6 (two "i approve" replies); batch3/chunks7–9
-prepared, physical46. Counts6 approved/0corrections/0held/74pending; fragments lack heading/companions.
-Await batch3 decisions. No DB writes/code/models/activation.
-Previous full snapshots:82ae498; prior delivery evidence retained below.
+Hosted snapshot/queue verified:80draft includes active19; all80 content hashes/all5 original hashes
+match. [Review ledger](../2026-10-25-hosted-chunk-review.md): owner approved chunks1–9 (three exact
+"i approve" replies). Counts9approved/0corrections/0held/71pending. Batch4/chunks10–12 prepared,
+physical46: Condition/Inc./IP with blank percentages faithfully preserved; row fragments, no required
+companions. Await batch4 decisions. No DB writes/code/models/activation. Prior snapshots:82ae498.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -67,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await owner decisions for review batch3/chunks7–9. Record exact decisions in the review ledger,
-then prepare chunks10–12; do not advance on silence. Stable queue/snapshot verified; do not recreate.
+Await owner decisions for review batch4/chunks10–12. Record exact decisions in the review ledger,
+then prepare chunks13–15; do not advance on silence. Stable queue/snapshot verified; do not recreate.
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
 ## Boundaries
