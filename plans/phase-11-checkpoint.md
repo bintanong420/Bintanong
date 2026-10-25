@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 50
+sequence: 51
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 6d70e1a
 working_tree: clean
-updated_at: 2026-10-25T22:05:00+08:00
+updated_at: 2026-10-25T22:17:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -36,8 +36,8 @@ Last full checkpoint before this condensation: `6d70e1a:plans/phase-11-checkpoin
 6d70e1a extends existing coverage with explicit reviewed order, unchanged legacy serialization,
 bound identity and existing repair/final guard. RED25/1; two stale-catalog fixtures repaired;
 contract RED9/17, numeric edge RED1/27; focused39, broad745+137 subtests, independent clean/39.
-[Plan](2026-10-25-procedure-order-plan.md). Full frozen6d70e1a started21:53:29+08,
-runner22552/launcher23472; p11-procedure-order-20261025/full-suite.*. No duplicate. Code/tests frozen.
+[Plan](2026-10-25-procedure-order-plan.md). Full frozen6d70e1a completed6803 +1595 subtests,
+6skip2xfail6warnings,1343.56s,exit0; p11-procedure-order-20261025/full-suite.*. Code/tests unchanged.
 [Four-step source sequence](2026-10-25-pre-enrollment-sequence-review.md) confirmed against102-103
 under standing delegation;54 sealed files unchanged. Separate inactive order register rejects both
 saved reversed drafts; correctly ordered saved claims pass structurally. No DB/source/pin switch.
@@ -64,7 +64,7 @@ Canonical default; expanded inactive; no further completions/sweep approved by t
 p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through6d70e1a.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-Production/tests frozen for6d70e1a full suite; following docs commit saves this snapshot.
+Production/tests unchanged since completed6d70e1a full suite; following docs commit saves this snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
 Current evidence: workspace/audit-evidence/p11-procedure-order-20261025/. Prior roots remain intact.
@@ -134,8 +134,9 @@ not a multilingual/full pipeline quality result. Explicit reviewed source-order 
 
 ## Next Action
 
-Read existing6d70e1a full suite (no duplicate), then next demonstrated simple-query gap from saved
-evidence. Canonical default/expanded inactive; no order/short/checker reruns or phase advancement.
+Bound current-router capture for the two saved simple grading misses (passing-taglish/caps-emoji,
+live-grades.log); confirm current behavior before minimal RED/GREEN correction. No keyword routing,
+table rewrite or prompt sweep. Canonical default/expanded inactive; no repeated order/checker experiments.
 
 ## Context Consulted
 

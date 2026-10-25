@@ -9,8 +9,8 @@ Last full snapshot before condensation: `6d70e1a:plans/2026-10-25-phase11-sessio
 
 ## Exact next action
 
-Full6d70e1a running since21:53:29+08, runner22552/pytest launcher23472, frozen code/tests.
-A/p11-procedure-order-20261025/full-suite.head/log/exit/processes.json; no duplicate.
+Full6d70e1a completed6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0;
+A/p11-procedure-order-20261025/full-suite.head/log/exit/processes.json retained. No running job/duplicate.
 6d70e1a adds optional reviewed procedure order through existing coverage/repair/final checks.
 Focused39, broad745+137 subtests, independent clean/39. [Plan](2026-10-25-procedure-order-plan.md).
 Separate order-only register now rejects both saved reversed drafts and accepts saved correctly
@@ -18,12 +18,12 @@ ordered claims structurally;54 sealed files unchanged. [Results](2026-10-25-proc
 One actual saved-context Filipino attempt ENDED:canonical659-token draft+108-token review,
 answered/validated,no repair,64.158s generation/review only. Four steps ordered; Step2 action-object
 wording remains ambiguous. No broader semantic/language/accuracy gate pass or profile/source switch.
-Next: read existing full-suite result, then next demonstrated simple-query gap from saved evidence.
-[Source sequence](2026-10-25-pre-enrollment-sequence-review.md) uses original102-103/standing delegation.
+Next: bounded current-router capture of passing-taglish/caps-emoji (E/live-grades.log), then minimal
+regression-first fix only if reproduced. No keyword routing, table rewrite or prompt sweep.
+[Source sequence](2026-10-25-pre-enrollment-sequence-review.md):original102-103/standing delegation.
 
 Prior full4425538 completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0;
 A/p11-cutoff-referral-20261025/full-suite.head/log/exit and creation bindings retained.
-Do not repeat that completed prior suite. No order inferred from hashes/rank/IDs.
 4425538 implements owner's BOTH choice: exact printed fields/cutoff notice plus record-office
 referral, generic if no office printed. [TDD/results](2026-10-25-service-cutoff-referral-plan.md):
 RED11/17, focused42, broad664, independent clean/42. No source gap/order/activation resolved.

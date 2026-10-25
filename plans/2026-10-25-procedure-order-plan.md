@@ -96,3 +96,10 @@ policies and Phase10 handoff; undergraduate/read-only/RAG-vs-Prolog boundaries s
   saved correctly ordered final claims pass the structural guard. Only release_id
   adjusted to the new candidate identity; no prose/refs repaired or new model calls
   in that replay. Separate single actual-model generation check follows.
+- Final [results](2026-10-25-procedure-order-results.md): one actual canonical
+  saved-context attempt answered/validated with four client steps ordered,
+  659-token draft+108-token review,no repair.64.158s generation/review only;
+  Step2 action-object wording ambiguity remains. No full semantic-quality pass.
+- Full6d70e1a suite:6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0.
+  Production/tests unchanged; no duplicate. Source/component/hash/link/phase
+  validation completed; no phase/default/active source change.

@@ -11,8 +11,8 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
 path or dependencies. [Plan](../2026-10-25-procedure-order-plan.md); RED25/1, repaired two stale-
 catalog fixtures; contract RED9/17, edge RED1/27; final focused39, broad745+137 subtests passed;
-independent clean/39 passed1.48s. Full frozen6d70e1a started21:53:29+08, runner22552/launcher23472;
-read existing p11-procedure-order-20261025/full-suite.* before any restart. Code/tests frozen.
+independent clean/39 passed1.48s. Full frozen6d70e1a completed6803 +1595 subtests,
+6skip2xfail6warnings,1343.56s,exit0; p11-procedure-order-20261025/full-suite.*. Code/tests unchanged.
 Original102-103 rechecked; separate order-only register rejects both saved reversed drafts and
 accepts saved correctly ordered claims structurally. All54 sealed files unchanged.
 [Results](../2026-10-25-procedure-order-results.md): one actual saved-context Filipino attempt
@@ -61,8 +61,10 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Read existing6d70e1a full-suite result (no duplicate), then choose the next demonstrated simple-query
-gap from saved evidence. No repeat order/short/checker experiments, default/source switch or advancement.
+Bound a current-router capture for the two saved simple grading misses: "Ano yung passing grade
+dito sa PalSU?" and "GRADE 1.0 ILANG PERCENT??? 😭". Confirm current behavior before a minimal
+regression-first correction; no keyword router/table rewrite/prompt sweep. Canonical default and
+expanded inactive; no repeat order/short/checker experiments or phase advancement.
 
 ## Boundaries
 

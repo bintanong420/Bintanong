@@ -19,8 +19,12 @@ Code6d70e1a; no new answer path, dependency, source text or model stage.
   final bypass. Two fixtures had stale catalogues after mutation; rebuilt them,
   preserving assertions. Numeric-client-step edge RED1/27, then corrected.
 - Final focused39 passed1.14s; broad745 +137 subtests passed36.44s; independent
-  review no blockers,39 passed1.48s. Full6d70e1a suite running since21:53:29+08;
-  runner22552/launcher23472/actual12796. No duplicate; code/tests remain frozen.
+  review no blockers,39 passed1.48s. Full6d70e1a suite completed6803 passed,
+  1595 subtests passed,6 skipped,2 xfailed,6 existing warnings,1343.56s,exit0.
+  Started21:53:29+08; runner22552/launcher23472/actual12796. No duplicate;
+  full-suite.head/log/exit/process bindings retained and code/tests unchanged.
+  Command: shared Python3.13 -X utf8 -B -m pytest -q -p no:cacheprovider tests
+  --basetemp=workspace/audit-evidence/p11-procedure-order-20261025/full-temp.
 
 ## Source and saved-draft component
 
@@ -67,7 +71,16 @@ model-observation holds request binding, raw HTTP messages, answer and timing.
 
 ## Remaining gate
 
-Read the existing full-suite.head/log/exit before any restart; missing exit is not
-a pass. Keep canonical default/expanded inactive. Citation-order consistency does
+Full-suite head/exit/log verified; no running job. Whitespace, local documentation
+links, source-basis hash, harness compilation and final model contract revalidated.
+No installed linter/formatter; no dependency change/audit or frontend/browser/SDK
+checks in this generation-only increment. Keep canonical default/expanded inactive.
+Citation-order consistency does
 not prove sentence meaning or institutional currentness. Retain broader service/
 disciplinary/roster/simple-query and frontend gates; no phase advancement.
+
+Next capability: recheck the two existing simple grading misses from saved
+live-grades.log ("Ano yung passing grade dito sa PalSU?" and "GRADE 1.0 ILANG PERCENT??? 😭").
+Capture the current router proposal/failure before deciding on a minimal regression-
+first correction. No inference that historical failures persist, broad prompt sweep,
+keyword routing, new source reading or table rewrite.
