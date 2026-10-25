@@ -7,10 +7,10 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):56–58 approved ("i approve");52approved/
-6corrections/0held/22pending. Batch23/chunks59+60+62,p93,draft-only,displayed:smoking/gambling rows
-and21->23 numbering-gap note.62 reviewed early;61 cross-page driving row next with63.59 Subsequent
-blank;60 all4columns;62 unknown22 warning kept. Await decisions;no DB/source/prompt/model changes.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):59+60+62 approved ("i approve"),missing22 limit
+retained;55approved/6corrections/0held/19pending. Batch24/chunks61+63,p93–94/94,draft-only,displayed:
+61 full cross-page driving cause/20kph/sign clauses kept;63 littering alternatives/8hours/availability
+condition kept. All4columns,no blanks/limits/companions. Await decisions;no source/DB/model changes.
 [MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed; [conditional ETA](../2026-10-26-system-readiness-estimate.md) retained.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
@@ -66,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch23/chunks59+60+62 decisions,then61+63 (p93–94/94).Do not repeat62 outcome later. No duplicate approvals,renumbering or source changes.
+Await batch24/chunks61+63 decisions,then final Handbook64–66.Do not repeat62 outcome. No duplicate approvals,renumbering or source changes.
 Correction scopes19–21/36/45–46 settled; delivery remains separate after audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
