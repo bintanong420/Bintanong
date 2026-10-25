@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 47
+sequence: 48
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 4425538
 working_tree: clean
-updated_at: 2026-10-25T21:34:00+08:00
+updated_at: 2026-10-25T21:43:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -32,6 +32,10 @@ Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoin
   original19-chunk/39-link release active.10 local/hosted function bodies/grants match; guards/RLS verified.
 
 ## Current Task
+
+Resume: owner reaffirmed simple-query accuracy and minimal in-scope fixes.
+[Procedure order TDD plan](2026-10-25-procedure-order-plan.md) extends existing coverage;
+no production changes/new model runs yet. Prior verified milestone retained below.
 
 Opt-in short per-part draft references2ce3daf; default remains canonical. Request-local aliases
 restore full IDs before source/coverage/style checks and ordinary review; ledger/final canonical.

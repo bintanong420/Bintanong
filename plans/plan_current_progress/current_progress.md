@@ -7,6 +7,10 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
+Owner reaffirmed simple-query accuracy/scope/minimal code. Resumed the demonstrated all-steps-
+but-wrong-order gap; [bounded TDD plan](../2026-10-25-procedure-order-plan.md) extends existing
+claim review/coverage only. No production change yet, no fresh model/source/DB experiment.
+
 4425538 implements owner's combined cutoff presentation: exact printed fields, explicit missing
 continuation and record-office referral (generic when no office printed), before ordinary review.
 RED11/17; focused42 passed1.36s; broad664 passed21.31s; independent clean/42 passed1.48s.
@@ -48,8 +52,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Implement the explicit reviewed source-order contract using the existing four-step review and
-standing delegation; never infer sequence from hashes/rank/IDs. Keep canonical default and
+RED/GREEN the explicit reviewed source-order contract using the existing coverage path and
+four-step review/standing delegation; never infer sequence from hashes/rank/IDs. Keep canonical default and
 expanded inactive. Other quality/roster/switch/frontend gates remain; no experiment repeats or advancement.
 
 ## Boundaries
