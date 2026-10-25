@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v20'
+PROMPT_VERSION = 'bintanong-router-p11-v22'
 
 
 def ordered_json(value):

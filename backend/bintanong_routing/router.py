@@ -37,6 +37,14 @@ REFERENCE_HINTS = {
         'code that is also listed in mentions with kind course; if the student names no specific '
         'course code, return no operation (route RAG, or control clarify).',
     'topic_outside_menu': 'requested_claims must be facts listed under the chosen topic only.',
+    'uncontained_part_target': 'each part must contain its operation target. Completion/enrollment '
+        'statements are supporting claims, not new requested parts or operations. Reinterpret the '
+        'original request: keep genuine questions, their targets and all supplied claims; remove '
+        'only invented work.',
+    'part_count_mismatch': 'part_count must equal the number of parts. Count genuine questions '
+        'only; completion/enrollment statements are supporting claims, not requested parts. '
+        'Preserve genuine questions and all supplied claims; remove invented work instead of '
+        'merely increasing the count.',
 }
 
 
@@ -133,11 +141,14 @@ class Router:
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
-            except (ValueError, ValidationError):
+            except (ValueError, ValidationError) as error:
                 if attempt == 2:
                     if problem is None:
                         return failure('invalid_model_output', attempt)
                     return failure('invalid_reference', attempt, 1, *await clarification_style())
+                if problem is None and isinstance(error, ValidationError):
+                    codes = {str(item.get('ctx', {}).get('error', '')) for item in error.errors()}
+                    problem = next((code for code in REFERENCE_HINTS if code in codes), None)
                 messages = _repair_messages(messages, raw, problem)
                 continue
             style_messages = build_style_messages(text)
