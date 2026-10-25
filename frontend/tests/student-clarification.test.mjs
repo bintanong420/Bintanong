@@ -55,3 +55,25 @@ test('each reply language preserves unknown and final replies stay within chat l
     'completion:B2/L': { value: 'passed', explanation: '' }, 'enrollment:C3': { value: 'enrolled', explanation: '' },
   }), /clarification_too_long/);
 });
+
+test('prerequisite replies send the original question and selected facts without asking the dialog questions again', () => {
+  const original = 'Ano ang prerequisites ng ZZ5?';
+  const prerequisite = { ...answer, language: 'fil', clarification: {
+    ...answer.clarification, courses: [{ code: 'ZZ 4/L', kind: 'completion' }, { code: 'ZZ 3/L', kind: 'completion' }],
+  } };
+  const reply = clarificationReply(original, prerequisite, curricula, {
+    'completion:ZZ 4/L': { value: 'passed', explanation: '' },
+    'completion:ZZ 3/L': { value: 'not_passed', explanation: '' },
+  });
+  assert.equal(reply.text, original + '\n\nPasado na ako sa ZZ 4/L.\nHindi pa ako pasado sa ZZ 3/L.');
+  assert.deepEqual(reply.scope, prerequisite.clarification.scope);
+  assert.ok(!reply.text.includes('failed'), 'not passed never asserts a failed grade');
+});
+
+test('a bare clarification cannot invent another question or resend an unknown detail', () => {
+  for (const language of ['en', 'fil', 'taglish', 'unknown']) {
+    const bare = { status: 'clarification_needed', language, missingFields: [], clarification: { courses: [], scope: null } };
+    assert.deepEqual(clarificationQuestions(bare, curricula), []);
+    assert.equal(clarificationReply('Original question', bare, curricula, { details: { value: 'unknown', explanation: '' } }), null);
+  }
+});

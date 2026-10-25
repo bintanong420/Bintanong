@@ -14,6 +14,7 @@ import { PreviewDialog } from "./preview-dialog";
 import { FilePanel, type ChatFile } from "./file-panel";
 import { SourcePanel } from "./source-panel";
 import { ClarificationDialog } from "./clarification-dialog";
+import { clarificationQuestions } from "@/lib/student-clarification";
 
 const stages: Record<string, string> = { waiting: "Waiting for a free answer slot… You can stop waiting.", understanding: "Checking the information for your question…", writing: "Preparing the response…" };
 function errorText(error: unknown) {
@@ -91,7 +92,7 @@ export function Workspace() {
       });
       if (!value.controller.signal.aborted) {
         dispatch({ type: "complete", id: value.id, answer });
-        if (answer.status === "clarification_needed") setClarification({ id: value.id + "-answer", original: text, answer, scope: selectedScope, open: true });
+        if (clarificationQuestions(answer, curricula).length) setClarification({ id: value.id + "-answer", original: text, answer, scope: selectedScope, open: true });
       }
     } catch (error) { if (!value.controller.signal.aborted) { authError(error); dispatch({ type: "interrupt", id: value.id, warning: errorText(error) }); } }
     finally { finish(value); }

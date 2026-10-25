@@ -9,10 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Live read-only Supabase inspection:39 curricula/2132 courses,965 reviewed direct
-rules/1167 unresolved. BSCS2018–2019 has33 reviewed/21 unresolved; proposed has31/24.
-Five BSCS2018–2019 test targets passed10 direct Prolog checks with synthetic grades.
-[Targets/evidence](../2026-10-25-reviewed-course-test-targets.md); no DB/model/browser writes.
+Frontend clarification loop fixed locally: send original question + answer statements,
+without dialog headings; no invented details question/action for bare clarification.
+RED2 -> GREEN7 focused;57 UI tests/typecheck and browser regression PASS. Backend
+unchanged per owner; live router still invalid_reference with both payload formats.
+Evidence: workspace audit-evidence/p11-20261025/clarification-loop/. No model-quality claim.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -57,8 +58,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Owner tests the listed direct-prerequisite questions in BSCS2018–2019; exact failing
-question/curriculum still needed for router diagnosis. Preserve all source/phase gates.
+Owner refreshes local frontend and retries clarification. Keep backend changes minimal;
+remaining router invalid_reference requires a separate bounded investigation.
 
 ## Remaining boundaries
 

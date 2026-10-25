@@ -3,7 +3,7 @@ import { BookOpen, LoaderCircle, MessageCircle, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
-import { copyForClarification } from "@/lib/student-clarification";
+import { clarificationQuestions, copyForClarification } from "@/lib/student-clarification";
 
 const suggestions = ["What courses should I take next?", "Can I shift to another program?", "How do I enroll for the next term?"];
 export function EmptyConversation() {
@@ -34,7 +34,7 @@ export function Conversation({ state, progress, onSource, onClarify }: {
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
         {message.text && <p className="message-text">{message.text}</p>}
         {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
-        {message.answer?.status === "clarification_needed" && <div className="context-request">
+        {message.answer && clarificationQuestions(message.answer, []).length > 0 && <div className="context-request">
           {message.id === state.messages.at(-1)?.id && !state.pending && <Button type="button" variant="outline" size="sm" onClick={onClarify}>{copyForClarification(message.answer.language).resume}</Button>}
         </div>}
       </CardContent></Card>

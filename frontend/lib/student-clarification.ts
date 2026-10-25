@@ -37,13 +37,13 @@ export function clarificationQuestions(answer: Answer, curricula: StudentCurricu
       ] });
   }
   if (answer.missingFields.includes("course_status") && !answer.clarification?.courses.length) questions.push({ key: "course_status", title: copy.status, options: extra });
-  return questions.length ? questions : [{ key: "details", title: copy.details, options: extra }];
+  return questions;
 }
 
 export function clarificationReply(original: string, answer: Answer, curricula: StudentCurriculum[], drafts: ClarificationDrafts): { text: string; scope: StudentScope | null } | null {
   const questions = clarificationQuestions(answer, curricula);
   if (!questions.length) return null;
-  const copy = copyForClarification(answer.language), lines = [original];
+  const lines = [original];
   const canonical = answer.clarification?.scope;
   let scope: StudentScope | null = canonical && curricula.some(c => c.programId === canonical.programId && c.curriculumId === canonical.curriculumId) ? canonical : null;
   for (const question of questions) {
@@ -51,9 +51,9 @@ export function clarificationReply(original: string, answer: Answer, curricula: 
     const option = question.options.find(o => o.value === draft?.value);
     if ((!option && !explanation) || (draft?.value && !option) || (option?.value === "other" && !explanation)) return null;
     if (question.key === "scope") scope = option?.scope ?? null;
-    lines.push(`${question.title}\n${[option?.text, explanation].filter(Boolean).join("\n")}`);
+    lines.push([option?.text, explanation].filter(Boolean).join("\n"));
   }
-  const text = `${lines[0]}\n\n${copy.reply}:\n${lines.slice(1).join("\n\n")}`;
+  const text = `${lines[0]}\n\n${lines.slice(1).join("\n")}`;
   if (text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384) throw new Error("clarification_too_long");
   return { text, scope };
 }

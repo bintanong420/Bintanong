@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 45
+sequence: 46
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5d5e60c
+head_commit: fbe18e6
 working_tree: dirty
-updated_at: 2026-10-25T18:02:14+08:00
+updated_at: 2026-10-25T18:32:55+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -27,27 +27,15 @@ updated_at: 2026-10-25T18:02:14+08:00
 
 ## Current Task
 
-Live read-only Supabase course inspection:965 reviewed direct rules/1167 unresolved
-across39 curricula. BSCS2018–2019 has33/21; proposed2025–2026 has31/24. Five old-BSCS
-courses passed10 direct real-Prolog tests with synthetic grades; no model/browser claim.
-[Testing targets](2026-10-25-reviewed-course-test-targets.md). No source/DB changes.
-
-Repeated prerequisite warning diagnosed: global unresolved-rule scan makes dependency
-results partial, then generic clarification hides known dependents. Synthetic Janus ->
-generation -> student presentation reproduced twice with no missing student facts.
-[Diagnosis](2026-10-25-prerequisite-fallback-diagnosis.md); no product/source change.
-Exact owner question/curriculum pending to assess additional router involvement.
-
-Owner-requested local server startup complete: site/login3215 HTTP200, API8021 and
-frontend/api/health200 ready/all five probes; anonymous curricula401 preserved.
-Old encoder pointed to backend-only p11 without query route; replacement container
-bintanong-p11-embedding-frontend uses main merged backend, same image/env/models.
-Original encoder retained stopped. [Startup/recovery](2026-10-25-local-server-start.md).
-Logs: audit-evidence/p11-20261025/local-server-start/. Model18088/encoder8001 ready.
-
-Owner-authorized LOCAL merge6a8931b combines frontend1525dc6 + backend357aa80.
-Six conflicts resolved; fresh verification/review passed. Delivery notes follow tested code.
-[Merge/recovery evidence](2026-10-25-backend-frontend-local-merge.md).
+Owner-reported prerequisite clarification loop: frontend resubmitted dialog question
+headings, then invented a generic details question for bare backend clarification.
+Three frontend source files corrected: only original question + chosen statements,
+no invented details dialog/resume action. Scope/explicit confirm/unknowns preserved.
+Owner says minimize backend changes: five trial prompt-guidance lines were reverted;
+backend/supabase diff is empty. No backend restart or altered runtime/source rules.
+Live router probes (old, corrected, one trial prompt) all invalid_reference. The model
+created another requested operation from supplied facts and uncontained part targets.
+No backend/model-quality fix is claimed; frontend no longer traps bare replies in a loop.
 
 ## Repository State
 
@@ -61,6 +49,13 @@ Ignored evidence: audit-evidence/p11-20261025/backend-to-frontend-merge/ under w
 No push, hosted writes, live service restart or source/runtime pin activation.
 
 ## Verification Evidence
+
+Clarification RED2/5pass -> GREEN7; UI57pass; Next typegen/TypeScript PASS.
+Isolated synthetic browser: old source RED outbound headings, corrected source GREEN1;
+asserts two explicit sends, preserved chosen facts, no invented follow-up/resume action,
+composer remains usable. Synthetic fixture session renewed; no owner cookies accessed.
+Nearest routing/API/generation regression454pass10.24s. No backend source diff remains.
+Commands/logs/scripts: workspace audit-evidence/p11-20261025/clarification-loop/.
 
 Fresh merged candidate:3655 backend passes/2 expected photo xfails,179 subtests,
 142.71s;34 disposable DB passes/86 subtests,168.54s;55 UI passes; Next typegen and
@@ -114,8 +109,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Owner tests listed direct-prerequisite questions in BSCS2018–2019. Exact failing
-question/curriculum remains needed for router diagnosis; unknown coverage stays unknown.
+Owner refreshes frontend and retries; separately investigate router invalid_reference
+only within minimal backend scope. Preserve all unknown-coverage/source/release holds.
 
 ## Do Not Repeat
 
