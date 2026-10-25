@@ -14,10 +14,10 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Owner approved chunks1–18: separate "i approve" replies. Counts18approved/0corrections/0held/62pending.
-Current cursor: await batch7/chunks19–22 (physical47) decisions, then record them before table group23–27.
-Batch7 quotes match selected timing fragments; all4 linked. Deadline conflict unresolved;3.2 subject/
-resolution and3.7 remaining-period condition absent. Context follow-up proposed; owner decision pending.
+Owner approved1–18; identifies missing context in19/20/21 and supplies full3.7 confirming22's
+paragraph.19approved/3correction-needed/0held/58pending. Exact reply and original3.2/3.3/3.7 context
+saved in review ledger. Cursor: confirm proposed complete3.2/3.3 for correction list, then table23–27.
+Full3.7 includes existing22; preserve links in later append-only correction. Deadline conflict unresolved.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

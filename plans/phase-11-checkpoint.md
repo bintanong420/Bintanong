@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 60
+sequence: 61
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 2a368a1
+head_commit: 68ea19f
 working_tree: clean
-updated_at: 2026-10-25T23:09:13+08:00
+updated_at: 2026-10-25T23:21:19+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,10 +36,10 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Owner approved batches1–6/chunks1–18: separate "i approve" replies;18approved/0corrections/0held/62pending.
-Batch7/chunks19–22 linked active/shared timing group, physical47: exact selected quotes match; unresolved
-conflicting_deadlines preserved. Original3.2 subject/resolution and3.7 remaining-period condition absent
-from hosted group; context follow-up proposed separately, no owner outcome yet. Await batch7 decisions.
+Chunks1–18 approved. Owner marks19–21 missing context and supplies complete3.7 including22's exact
+paragraph:19approved/3correction-needed/0held/58pending. Full3.2/3.3 proposal awaits confirmation;
+original wording rechecked physical47. Full3.7 includes22; preserve association in separate later
+append-only correction. Deadline conflict remains unresolved; no scope/precedence inference.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -116,8 +116,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await owner decisions for review batch7, chunks19–22. Record exact decisions in the ledger, then
-prepare complete table group23–27 together. Do not advance on silence or reopen settled source policy approvals.
+Confirm proposed complete3.2/3.3 for correction list; retain owner's complete3.7. Then review the
+next related Handbook table group23–27. All hosted content remains unchanged during this audit.
 
 ## Context Consulted
 

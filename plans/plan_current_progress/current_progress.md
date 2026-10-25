@@ -7,11 +7,10 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md): chunks1–18 approved (six "i approve" replies);
-18approved/0corrections/0held/62pending. Batch7/chunks19–22 is a linked active/shared timing group,
-physical47: quotes match, unresolved deadline conflict preserved. Missing original context includes
-3.2 subject/resolution and3.7 remaining-period condition; shown separately for owner review.
-Await batch7 decisions. Snapshot80/active19, all content/source hashes unchanged; no DB writes/models.
+[Review ledger](../2026-10-25-hosted-chunk-review.md): owner identifies missing context in19–21;
+all3 correction-needed. Full3.7 supplied also confirms22's paragraph;19approved/3corrections/0held/
+58pending. Proposed full3.2/3.3 passages shown for correction-list confirmation; keep conflict unresolved.
+Full3.7 includes22; preserve links in later append-only follow-up. No DB/source/prompt/model changes.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,8 +65,9 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await owner decisions for review batch7/chunks19–22. Record exact decisions in the review ledger,
-then prepare complete table group23–27 together; do not advance on silence. Stable queue/snapshot verified; do not recreate.
+Confirm full3.2/3.3 proposal for correction list; use owner's complete3.7. Then review next related
+Handbook table group23–27. No deadline precedence decision or correction delivery during this audit.
+
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
 ## Boundaries

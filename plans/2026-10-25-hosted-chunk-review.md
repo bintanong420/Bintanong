@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; chunks1–18 approved; batch7 (chunks19–22) awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch7 reviewed:19–21 correction-needed;22 confirmed in owner-supplied full3.7; correction scope confirmation pending.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,22 +79,23 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **18**, correction-needed **0**, held **0**, pending **62**.
+Current counts: approved **19**, correction-needed **3**, held **0**, pending **58**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
 Batch4/chunks10–12 approved: exact owner reply "i approve".
 Batch5/chunks13–15 approved: exact owner reply "i approve".
 Batch6/chunks16–18 approved: exact owner reply "i approve".
-Batch7/chunks19–22 prepared/shown as one linked group; decisions pending.
-Correction register: no owner-directed corrections yet. Agent verified chunks1–18 against rendered physical46: exact row values;
+Batch7:19–21 correction-needed; owner-provided full3.7 confirms22's final paragraph as source wording.
+Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
+Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
 Chunks10–18 preserve printed blank percentages as empty values/source_blank=true/no span indexes;
 blank percentages do not supply a numerical equivalent. Inc. and IP rows only define labels.
 They are individual row fragments sufficient for their grade mappings, not a complete grading policy.
 The fragment/heading observation remains; approval confirms fidelity, not a database edit or activation.
 
-### Batch7 context findings (owner decision pending)
+### Batch7 findings and correction specification
 
 Chunks19–22 faithfully quote selected timing spans on rendered physical47; all active/shared.
 Added group metadata orders parts0–3;19 requires20–22, and20–22 each require19 (transitive closure all4).
@@ -109,8 +110,10 @@ Original context omitted by this selection (do not silently insert into hosted t
   “A grade of “4” received after removing a grade of “INC”, however, must be removed within the
   remaining portion of the prescribed period for the original grade of “INC”.”
 - Chunk22 contains the complete final paragraph as selected; it retains conflicting one-term wording.
-Possible separate append-only follow-up: add needed scope/reference/remaining-period context while
-retaining the unresolved conflict. No correction instruction or outcome inferred before owner response.
+Owner confirmed omissions in19,20 and21; all three are correction-needed. Record the complete
+3.2/3.3/3.7 source passages in the follow-up specification, retaining unresolved conflict. Hosted
+chunks stay unchanged. Owner's full3.7 explicitly includes the final paragraph already in22; preserve
+its association when designing the later replacement group, without deleting or renumbering22.
 Exact original page rendered at raw-evidence root/handbook-p47.png; no printed page verified.
 
 ## Reuse and boundaries
@@ -145,8 +148,9 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch7, chunks19–22 (Handbook physical47). Do not advance on silence.**
-After recording those exact decisions, prepare the next complete table group, chunks23–27, unless a correction requires clarification.
+**Confirm proposed complete3.2/3.3 passages below for the correction list; use owner-supplied
+complete3.7. Then prepare the next related Handbook table group, chunks23–27.**
+Do not reopen deadline precedence; no source correction is applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -193,10 +197,10 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 16 | `6d53029b1811ae651ca7299ba1fd198211545327ba2366ee6a3722594778c8c3` | handbook-grading-16 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch6, 25 Oct 2026) | approved | None; printed blank retained |
 | 17 | `083b8a6557647c5e35873f9da7c85c504ce8674235298269b576c2dc16a71d48` | handbook-grading-17 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch6, 25 Oct 2026) | approved | None; printed blank retained |
 | 18 | `0521286530fde3366c9480fffb7e302cedd4a8e212af626501e73a6e5682ecbf` | handbook-grading-18 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch6, 25 Oct 2026) | approved | None; printed blank retained |
-| 19 | `00d246b8d5d184d36b4f458c78be4a6ae5993db81dc625d43a7daf384fa5b0f2` | handbook-completion-timing::part:0 | 47 | active/shared | Agent: selected quote matches p47 | Phrase only; subject/resolution absent; requires20–22 | — | pending | Conflict unresolved; context follow-up proposed, owner decision pending |
-| 20 | `cf9b6c64eda1205f7e73033d0c0a85e46142dc2079ade35720fba5e22f1ada9a` | handbook-completion-timing::part:1 | 47 | active/shared | Agent: selected quote matches p47 | Selected final paragraph3.3; requires19 | — | pending | Conflict unresolved; context follow-up proposed, owner decision pending |
-| 21 | `fe0c5a6848f942d9ee8bc948851039c7b35aa855d7cdf840bdd92c27b4617fd9` | handbook-completion-timing::part:2 | 47 | active/shared | Agent: selected quote matches p47 | First sentence only; remaining-period condition absent; requires19 | — | pending | Conflict unresolved; context follow-up proposed, owner decision pending |
-| 22 | `5b85dd8084f1488750f63e98e41cac74ca1ab36bbf5492e3dcf2f0eda19ba618` | handbook-completion-timing::part:3 | 47 | active/shared | Agent: selected quote matches p47 | Final paragraph3.7; requires19 | — | pending | Conflict unresolved; context follow-up proposed, owner decision pending |
+| 19 | `00d246b8d5d184d36b4f458c78be4a6ae5993db81dc625d43a7daf384fa5b0f2` | handbook-completion-timing::part:0 | 47 | active/shared | Agent: selected quote matches p47 | Phrase only; subject/resolution absent; requires20–22 | "yep i noticed that chunk 19 does missed a bunch" | correction-needed | Include full3.2 scope and Resolution279/2018; conflict unresolved |
+| 20 | `cf9b6c64eda1205f7e73033d0c0a85e46142dc2079ade35720fba5e22f1ada9a` | handbook-completion-timing::part:1 | 47 | active/shared | Agent: selected quote matches p47 | Selected final paragraph3.3; requires19 | "chunk 20 also really missed the re-examination part" | correction-needed | Include complete3.3 re-examination/repetition/pass-fail/one-exam clauses; conflict unresolved |
+| 21 | `fe0c5a6848f942d9ee8bc948851039c7b35aa855d7cdf840bdd92c27b4617fd9` | handbook-completion-timing::part:2 | 47 | active/shared | Agent: selected quote matches p47 | First sentence only; remaining-period condition absent; requires19 | "chunk 21 also omits that next sentence," plus full3.7 supplied below | correction-needed | Include complete3.7 condition and final paragraph association with22; conflict unresolved |
+| 22 | `5b85dd8084f1488750f63e98e41cac74ca1ab36bbf5492e3dcf2f0eda19ba618` | handbook-completion-timing::part:3 | 47 | active/shared | Agent: selected quote matches p47 | Final paragraph3.7; requires19 | Owner supplied complete3.7 including this exact final paragraph (transcript below) | approved | Source paragraph confirmed within full3.7; conflict and companion requirements retained |
 | 23 | `75a416e9c27b2b825d9552d057a53a5299ecc9fc75ff8fd6a3402d17bc1dd6e2` | handbook-table-6-arrows | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 24 | `f33b476401751a161527a3e4f1f2456d806fe3e8b68e78e9194979cd76873e26` | handbook-table-6-row-1 | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 25 | `f2bf449a9efd9f86ae7f468a81d94fc9e66253bf93da14218f7466ebd3590cb3` | handbook-table-6-row-2 | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -255,3 +259,37 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 78 | `1167f48dd292b9eca5bf76cf165f1e363812f12f6398c94a0075c5d0fb7f1418` | V01-G2 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 79 | `8c164a09202401220f98a404c137619d7ed40e92e8e69090d97c1bd040336bdc` | V05-G3 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 80 | `1e4acc750776f674c708bc4a7918cf7f7de3d198b88b9a789370dab15105774b` | V07-office-context | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+
+## Batch7 exact owner response and separate correction proposal
+
+Owner response (verbatim; quote style/punctuation retained independently of original-source text):
+
+> yep i noticed that chunk 19 does missed a bunch
+> chunk 20 also really missed the re-examination part
+> chunk 21 also omits that next sentence, 
+> the complete for chunk 21 found in the 3.7 NO IMPROVEMENT OF GRADE FROM THE HANDBOOK is this : A grade of "4" or "INC" may no longer be improved after one year immediately following the semester in which the grade was incurred. A grade of "4" received after removing a grade of "INC" however, must be removed within the remaining portion of the prescribed period for the original grade of "INC". 
+> A grade of 4.0 that has not been removed within a period of one term shall automatically become 5.0. An “INC” that has not been completed within the term shall automatically become NC.
+
+This confirms omissions in19–21 and provides complete3.7 wording, including22's paragraph.
+The original has a comma after the quoted “INC” before “however” in3.7; owner's supplied wording
+omits it. Preserve both records; follow visible original punctuation in the future transcription.
+No policy meaning, deadline precedence, new chunk grouping or source activation is inferred.
+
+Proposed source-complete context for19/20, shown to owner for confirmation (physical47;
+line wraps joined, source grammar retained):
+
+**3.2 PERIOD FOR REMOVAL/COMPLETION OF DEFICIENCY.**
+
+> A grade of “4” or “Incomplete” must be removed within the prescribed time, which is within the succeeding term after the grade was incurred. (Resolution 279, Series of 2018)
+
+**3.3 REMOVAL OF ‘4’.**
+
+> A grade of “4” means conditional. It may be removed by re-examination in the subject within the prescribed period or repetition of the subject. Students who pass the reexamination will be given a grade of “3”, those who fail, a “5”. Only one removal examination may be given.
+>
+> If a grade of “4” is not removed within one year, credit for the subject maybe earned only by repeating and passing it.
+
+**3.7 NO IMPROVEMENT OF GRADE.** Full owner-supplied wording above includes the previously
+omitted remaining-period condition and existing22. Original source wording is confirmed by the
+rendered physical47 and native text; later package design must retain all sentences/conditions and
+associated unresolved conflict without independently editing overlapping institutional rules.
+Correction delivery remains a separate append-only follow-up after this review operation.
