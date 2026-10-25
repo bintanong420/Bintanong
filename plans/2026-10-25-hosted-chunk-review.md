@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch15/chunks39+41 approved; batch16/chunks42–44 awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch16/chunks42–44 approved on26Oct; batch17/chunks46–47 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **38**, correction-needed **4**, held **0**, pending **38**.
+Current counts: approved **41**, correction-needed **4**, held **0**, pending **35**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -97,7 +97,9 @@ Batch12/chunks34+45 approved: exact reply recorded below; precedence remains unr
 Batch13:35/40 approved with limitation retained;36 correction-needed for missing companion link.
 Exact owner decision below. Batch14/chunks37–38 approved: "i approve".
 Batch15/chunks39+41 approved: "i approve", with40 limitation retained.
-Batch16/chunks42–44 presented with approved40 context; decisions pending.
+Batch16/chunks42–44 approved as faithful fragments: "i approve" (26 Oct2026).
+44 reference-context observation retained; no additional correction outcome inferred.
+Batch17/chunks46–47 presented next; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -173,8 +175,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch16, chunks42–44 (Handbook physical90; approved40 context). Do not advance on silence.**
-After saving decisions, skip approved45 and prepare next pending46 with required companions, if any.
+**Await owner decisions for batch17, chunks46–47 (Handbook physical90–91/91). Do not advance on silence.**
+After saving decisions, prepare next related pending48–49.45 is already approved; do not repeat it.
 Do not request duplicate outcomes for40/45.36 requires separate companion-context correction.
 Correction wording3.2/3.3/3.7 is approved; no corrections applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
@@ -246,12 +248,12 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 39 | `5bb9af0bfb4b13bfa9022504883db4ad0f802272831dbd448c7e7f3a6b77a929` | handbook-disciplinary-II.7d | 89 | draft-only | Agent: matches settled source review batch5 | Selected academic-dishonesty row; requires approved40; shared headings absent | "i approve" (batch15;40 limitation retained) | approved | Complete selected row/blank columns approved;40 companion retained |
 | 40 | `022123ffe00872b5c699c589e2e0cc4fa18415347f54166d276b270294fb7ddf` | handbook-academic-dishonesty-shared-measures | 90 | draft-only | Agent: matches approved source review batch7 | Shared measures fragment,p90; no companions | Owner explicitly approves proposed35/40 approval and36 correction-needed (exact reply below) | approved | Approved; automatic individual applicability unresolved |
 | 41 | `c5e6fa708dfa02509c147aa077a8abc4377d59a7cf8856ab081b881de2f32318` | handbook-disciplinary-II.7e | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; shared headings absent | "i approve" (batch15;40 limitation retained) | approved | Complete selected row/blank columns approved;40 companion retained |
-| 42 | `faf0c9ec30a7119e443580ac17fe0209718a0d74549007b3335a7e0e4d0db404` | handbook-disciplinary-II.7f | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | — | pending | Blank later columns unspecified;40 applicability warning retained; outcome pending |
-| 43 | `1c4a9263439990bc71e8483396eb45e369ee9c0e25f2f002dff1f635b3baae56` | handbook-disciplinary-II.7g | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | — | pending | Blank later columns unspecified;40 applicability warning retained; outcome pending |
-| 44 | `7471c13443ee0f0983c91344d086fd2feac73f0065885990ed0413b50785d548` | handbook-disciplinary-II.7h | 90 | draft-only | Agent: matches settled source review batch7 | Selected academic-dishonesty row; requires approved40; headings absent | — | pending | Reference a–g preserved but rows not required companions; context review pending |
+| 42 | `faf0c9ec30a7119e443580ac17fe0209718a0d74549007b3335a7e0e4d0db404` | handbook-disciplinary-II.7f | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | "i approve" (batch16,26 Oct2026; faithful fragments) | approved | Full row/blanks approved;40 companion limitation retained |
+| 43 | `1c4a9263439990bc71e8483396eb45e369ee9c0e25f2f002dff1f635b3baae56` | handbook-disciplinary-II.7g | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | "i approve" (batch16,26 Oct2026; faithful fragments) | approved | Full row/blanks approved;40 companion limitation retained |
+| 44 | `7471c13443ee0f0983c91344d086fd2feac73f0065885990ed0413b50785d548` | handbook-disciplinary-II.7h | 90 | draft-only | Agent: matches settled source review batch7 | Selected academic-dishonesty row; requires approved40; headings absent | "i approve" (batch16,26 Oct2026; faithful fragments) | approved | a–g reference preserved; only40 required; limitation of standalone context retained |
 | 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Agent: matches settled source review batch7 | Heading8+row8a; later columns blank; requires34 | "ok i approve," plus question on early companion grouping (exact reply below) | approved | Both quotes approved; precedence unresolved; keep mutual companion links |
-| 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Agent: complete cross-page selected fields inspected,p90–91 | One row+heading8; cross-page continuation included;4bullets joined in field; no companions | — | pending | Stored paragraph formatting shown separately from source bullet layout; outcome pending |
+| 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Agent: selected fields/columns match p91 | One sanction row; II heading absent; no required companions | — | pending | Blank later columns unspecified; owner outcome pending |
 | 48 | `fcc3bb91c7a2191ae8d0e68c4ac37ec3178abe2f25d636ee5eb1230a659a4f52` | handbook-disciplinary-II.10 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 49 | `a468ff84285a9c1ebb0cc5c3af972e2db865aafe056ab32dd1673fac2e9a7763` | handbook-disciplinary-II.11 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 50 | `3eae9c9fa4756542eb7fcb9d3b158242c79f6c4eca3495398d4c3ab8fc83e4d3` | handbook-disciplinary-II.12 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -447,6 +449,23 @@ No source_limits in these rows. Each requires approved40 with shared4 measures a
 individual automatic-applicability warning. Each is a selected row fragment; II/7 headings absent.
 Context observation:44 explicitly references a–g, but metadata requires only40, not all7 referenced
 rows. That reference survives verbatim; its own closure does not force retrieval of those definitions.
-Do not infer comparability or personal sanctions without relevant context. No correction outcome for
-that observation inferred before owner response. Owner outcomes pending; next pending46 after45 skipped.
+Do not infer comparability or personal sanctions without relevant context. Owner approves42–44 as faithful fragments;44 reference-context observation retained. No correction
+outcome inferred for44. Next46 after approved45 skipped.
 No source/DB/prompt/model changes during audit; no duplicate40 review outcome.
+
+## Batch16 decision / batch17 cross-page review — 26 October2026
+
+Owner reply to42–44: "i approve". Recorded approval of faithful fragments with40 limitation and44
+reference-context note retained, not a new instruction to add a–g dependencies.45 already approved.
+
+Batch17:46 II.8b registration fraud,p90–91, and47 II.9 threats,p91; both draft-only. Rendered originals
+handbook-p90.png/p91.png inspected; complete cross-page first-offense content stays with46.
+46 includes heading8/cause/full first-offense field/secondDismissal/later2 blanks. First-offense
+source layout is suspension text plus4bullets, spanning p90–91; stored field joins them into one
+paragraph with sentence separators. All wording/conditions retained; original layout is not preserved
+as bullets in the field. Source_text retains the page-span join as newline; field association uses
+both spans2/3 and joins whitespace. Do not misassign continuation to47 or drop no-refund/honors/degree.
+47 full threat/prevention cause/first1month/secondDismissalfromuniversity/later2 blanks retained.
+No required companions or source_limits for either;46 contains its continuation inside the same chunk.
+Both selected sanction-row fragments, not full disciplinary policy; shared II heading absent in47.
+Owner outcomes pending; next pending48–49. No DB/source/prompt/model changes during audit.

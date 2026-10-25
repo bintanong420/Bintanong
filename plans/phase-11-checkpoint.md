@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 70
+sequence: 71
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ee68507
+head_commit: 43798d0
 working_tree: clean
-updated_at: 2026-10-25T23:58:34+08:00
+updated_at: 2026-10-26T00:02:40+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,10 +36,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–35/37–41/45 approved;19–21/36 correction-needed.39+41 owner "i approve",40 limitation
-retained.38approved/4corrections/0held/38pending. Batch16/chunks42–44,p90,draft-only: f/g/h full
-selected fields/blank later columns retained; all require40.44 references a–g but only40 is required;
-context observation shown, no outcome inferred. Await batch16 decisions; then next pending46.
+Chunks1–18/22–35/37–45 approved;19–21/36 correction-needed.42–44 owner "i approve"26Oct as faithful
+fragments;44 reference-context note retained.41approved/4corrections/0held/35pending;45 skipped.
+Batch17/chunks46–47,p90–91/91,draft-only: rendered originals show complete46 cross-page first-offense
+field (suspension+4bullets joined in stored paragraph), all conditions retained.47 threats row matches;
+blank later columns unspecified; no required companions/source_limits. Await batch17 outcomes.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -116,13 +117,13 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch16/chunks42–44 decisions, then pending46; skip45 and retain40 context without duplicate outcomes. Preserve original-source limitations
+Await batch17/chunks46–47 decisions, then48–49; no duplicate40/45 outcomes or source edits. Preserve original-source limitations
 and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted
 
 Hosted-review resume refreshed thesis physical17–18 and routing PNG; inspected original Handbook
-physical46–47/62/89. Undergraduate-only/advisory/source-gap scope unchanged; no routing discrepancy.
+physical46–47/62/89–91. Undergraduate-only/advisory/source-gap scope unchanged; no routing discrepancy.
 
 Prior recorded 25Oct resume: thesis physical17-18 and routing PNG refreshed; master3/13/14/16 and Phase10 handoff,
 source/scope/gap policies and owner ledger reviewed. Prior39-44 retained. No scope/routing discrepancy;

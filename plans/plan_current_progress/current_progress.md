@@ -1,17 +1,17 @@
 # Current progress
 
-Updated25October2026. Phase11 active in p11 / feat/p11-backend-api; dev basecbaa6a7; nothing pushed.
+Updated26October2026. Phase11 active in p11 / feat/p11-backend-api; dev basecbaa6a7; nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/current_progress.md`.
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):39+41 approved ("i approve") with40 limitation;
-38approved/4corrections/0held/38pending. Batch16/chunks42–44,p90,draft-only: full f/g/h rows retained,
-blank later columns unspecified; each requires approved40.44 references a–g but only40 is a required
-companion; that context observation is shown for review. Await batch16 outcomes; next pending46.
-No DB/source/prompt/model changes;19–21/36 corrections remain separate approved-scope follow-up.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):42–44 approved as fragments ("i approve",26Oct);
+41approved/4corrections/0held/35pending.44 reference-context note retained;45 already approved/skipped.
+Batch17/chunks46–47,draft-only,p90–91/91: registration-fraud continuation stays in46 with all4bullets
+joined into its first-offense paragraph;47 threats row/blank later columns preserved. Originals viewed.
+Await batch17 decisions. No DB/source/prompt/model changes;19–21/36 corrections remain separate.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch16/chunks42–44 decisions; then skip approved45 and prepare46 with required companions.
-Keep40 applicability limitation and44 reference-context observation; no duplicate40/45 outcomes.
+Await batch17/chunks46–47 decisions; then next pending48–49. Do not repeat approved40/45 outcomes.
+Keep44 reference-context note; no source corrections during audit.
 Do not apply source corrections or reopen settled full3.2/3.3/3.7/deadline conflict during audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
