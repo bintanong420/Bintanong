@@ -1,5 +1,6 @@
 """One bounded answer repair; nothing is returned before final host validation."""
 import asyncio
+import re
 import json
 import math
 
@@ -18,8 +19,9 @@ from .guard import RetrievalAssessment,guard_messages,guard_schema
 from .coverage import CoverageReview,coverage_messages,coverage_schema
 from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
-from .part_answers import (PartConfirmationOutput,PartExplanation,assess_slots,bind_confirmation,confirm_messages,
-                           confirm_schema,part_messages,part_schema,style_errors,to_draft)
+from .part_answers import (PartConfirmationOutput,PartExplanation,answered_slots,assess_slots,bind_confirmation,
+                           confirm_messages,confirm_schema,host_only,part_messages,part_schema,style_errors,to_draft)
+from .ledger_contracts import ANSWERED_LEDGERS
 
 
 def _seconds(value):
@@ -46,7 +48,8 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
-            question_uncovered=reason in ('question_uncovered','parts_unresolved')),
+            question_uncovered=reason in ('question_uncovered','parts_unresolved'),ledger=ledger,
+            thanked=reason=='thanks'),
         decision=pack.decision,dependencies=pack.dependencies,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
@@ -54,6 +57,10 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         part_ledger=ledger,research_ref=pack.research_ref)
     validate_final(answer,pack,claims)
     return answer
+
+
+# A thank-you the router marked as a greeting gets "you're welcome", not "Hello" (owner f-list, 25 Oct 2026).
+THANKS=re.compile(r'\b(?:thank you|thanks|thank u|thx|ty|tysm|salamat)\b',re.I)
 
 
 class Generator:
@@ -74,6 +81,8 @@ class Generator:
         pack=prepare(integration)
         check_question(text,pack)
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
+        if pack.status=='greeting' and THANKS.search(text):
+            return _answer(pack,'greeting',reason='thanks')
         if pack.status!='ready' or pack.language=='unknown':
             return _answer(pack,fallback_status(pack.status))
         seconds=self.timeout_seconds
@@ -90,6 +99,10 @@ class Generator:
             draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
                 release_id=pack.release_id,decision_outcome=pack.decision.outcome if pack.decision else None,claims=())
             return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft))
+        host=host_only(pack) if per_part else None
+        if host is not None:  # owner "Rate + example": host wording only, no model call
+            draft,ledger=host
+            return _answer(pack,'answered',claims=draft.claims,reason='validated',ledger=ledger)
         attempts=checks=0
         guard=None
         coverage=None
@@ -135,13 +148,14 @@ class Generator:
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                         slots=None
-                    if slots is not None and any(status!='answered' for status,_ in slots.values()):
-                        # A part declared unavailable cannot be completed by review: withhold.
-                        return _answer(pack,'insufficient_evidence',reason='parts_unresolved',attempts=attempts,
-                            checks=checks,ledger=assess_slots(pack,proposal,slots),guard=guard,coverage=coverage)
-                    if not errors and proposal.claims:
+                    if slots is not None and not answered_slots(slots):
+                        # Owner "Answer what's covered": a declared-unavailable part is named when the structured
+                        # check answers; with nothing mapped the slot ledger stays unresolved and withholds.
+                        errors=tuple(e for e in errors if e!='missing_document_claim')
+                    if not errors and proposal.claims and (not per_part or answered_slots(slots)):
                         checks+=1
-                        messages_to_review=(confirm_messages(text,pack,proposal,slots) if per_part else
+                        reviewed=answered_slots(slots) if per_part else None
+                        messages_to_review=(confirm_messages(text,pack,proposal,reviewed) if per_part else
                                             coverage_messages(text,pack,proposal) if coverage_required else
                                             review_messages(text,pack,proposal))
                         review_started=loop.time()
@@ -149,7 +163,7 @@ class Generator:
                         # Historical guard/coverage profiles remain explicit experiments.
                         part_review=not coverage_required
                         review_raw=await self.transport.infer(messages_to_review,
-                            confirm_schema(pack,proposal,slots) if per_part else
+                            confirm_schema(pack,proposal,reviewed) if per_part else
                             review_schema(pack,proposal) if part_review else coverage_schema(pack,proposal))
                         try:
                             review=(bind_confirmation(pack,proposal,_parse(review_raw,PartConfirmationOutput))
@@ -159,8 +173,9 @@ class Generator:
                                 ledger=(assess_slots(pack,proposal,slots,review) if per_part else
                                         assess(pack,proposal,review))
                                 errors=ledger.errors
+                                settled=('mapped','unavailable') if per_part else ('mapped',)
                                 if ('incomplete_support_verdicts' not in errors and
-                                        any(e.status!='mapped' for e in ledger.entries)):
+                                        any(e.status not in settled for e in ledger.entries)):
                                     return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
                                         attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
                             elif coverage_required and review.release_id!=pack.release_id:
@@ -177,8 +192,8 @@ class Generator:
                             errors=('invalid_support_report',)
                     if not errors:
                         if ledger is None:
-                            ledger=assess(pack,proposal)
-                        if ledger.status!='all_declared_parts_mapped':
+                            ledger=assess_slots(pack,proposal,slots) if per_part else assess(pack,proposal)
+                        if ledger.status not in ANSWERED_LEDGERS:
                             return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
                                 attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
                         return _answer(pack,'answered',claims=proposal.claims,reason='validated',

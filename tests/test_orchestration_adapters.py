@@ -119,3 +119,18 @@ def test_non_synthetic_runtime_is_refused_before_any_execution():
         synthetic = False
     with pytest.raises(ValueError, match='synthetic'):
         api().SymbolicAdapter(RealRuntime())
+
+
+def test_course_fact_operations_answer_from_reviewed_facts_within_the_request_scope():
+    from test_symbolic_course_facts import ledger as facts_ledger, runtime_request
+    async def scenario():
+        adapter = api().SymbolicAdapter(CurriculumRuntime(facts_ledger()))
+        ctx = context()
+        listing = await adapter.execute(runtime_request('list_term_courses', year_level='1', semester='any'), ctx)
+        assert listing.status == 'complete' and [c.code for c in listing.courses] == ['SYN 101', 'SYN 102', 'SYN 103']
+        one = await adapter.execute(runtime_request('course_facts', course_id='course-syn101'), ctx)
+        assert one.courses[0].units == (('units.printed', '3'),)
+        other = ctx.model_copy(update={'curriculum_id': 'curriculum-other'})
+        with pytest.raises(ValueError, match='scope'):
+            await adapter.execute(runtime_request('course_facts', course_id='course-syn101'), other)
+    asyncio.run(scenario())

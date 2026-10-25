@@ -8,7 +8,7 @@ from ..bintanong_contracts.symbolic import DecisionOutcome,DecisionScope
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
 from ..bintanong_symbolic.runtime import DependencyResult,ResearchDependencyResult
-from .ledger_contracts import ClaimID, BoundRequirementLedger
+from .ledger_contracts import ANSWERED_LEDGERS, ClaimID, BoundRequirementLedger
 
 Language=Literal['en','fil','taglish','unknown']
 Outcome=Literal['eligible','ineligible','unknown','unsupported','error']
@@ -104,7 +104,7 @@ class CandidateAnswer(Contract):
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error',
-        'decision_withheld','question_uncovered','parts_unresolved']
+        'decision_withheld','question_uncovered','parts_unresolved','thanks']
     part_ledger: BoundRequirementLedger|None
     decision_guard: GuardObservation|None=None
     question_coverage: CoverageObservation|None=None
@@ -121,7 +121,7 @@ class CandidateAnswer(Contract):
         if self.status=='answered' and self.validation!='validated':
             raise ValueError('unvalidated_answer')
         if self.status=='answered' and (self.part_ledger is None or
-                self.part_ledger.status!='all_declared_parts_mapped'):
+                self.part_ledger.status not in ANSWERED_LEDGERS):
             raise ValueError('answer_requires_part_ledger')
         if self.validation=='parts_unresolved' and (self.status!='insufficient_evidence' or
                 self.claims or self.part_ledger is None or self.part_ledger.status!='unresolved'):

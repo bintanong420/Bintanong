@@ -8,6 +8,7 @@ from ..bintanong_contracts.symbolic import DecisionOutcome,RequirementView
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,IntegrationResult,RequestUnderstanding
 from ..bintanong_orchestration.integration import assemble
+from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult
 from .contracts import EvidenceCard,StructuredContext
 
@@ -29,6 +30,7 @@ class PreparedEvidence:
     research_ref: str|None=None  # owner-authorized research release reference, if any
     course_labels: tuple[tuple[str,str],...]=()  # display-only printed codes
     requirement: RequirementView|None=None  # the checked course's reviewed prerequisites (display only)
+    course_facts: CourseFactsResult|None=None  # printed course facts, rendered by the host
 
     def model_payload(self):
         return dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -63,7 +65,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     evidence=result.evidence
     if evidence is not None:
         checked=assemble(evidence.pin,evidence.route,documents=evidence.documents,
-            symbolic=evidence.symbolic,dependencies=evidence.dependencies)
+            symbolic=evidence.symbolic,dependencies=evidence.dependencies,course_facts=evidence.course_facts)
         if checked!=evidence:
             raise ValueError('integration_policy_mismatch')
     cards=[]
@@ -80,7 +82,10 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     cards=tuple({c.evidence_id:c for c in cards}.values())
     if len(cards)>32 or sum(len(c.text) for c in cards)>65536:
         raise ValueError('generation_evidence_limit')
-    context=None if reasoning is None else StructuredContext(
+    facts=evidence.course_facts if evidence else None
+    context=StructuredContext(operation=facts.predicate,
+        inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in facts.inputs),
+        scope=facts.scope,rule_bundle_version=None) if facts is not None else None if reasoning is None else StructuredContext(
         operation=symbolic.decision.predicate if symbolic else 'list_affected_courses',
         inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in reasoning.inputs),
         scope=reasoning.scope,rule_bundle_version=reasoning.rule_bundle_version)
@@ -96,4 +101,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None)
+        symbolic.requirement if symbolic else None,facts)

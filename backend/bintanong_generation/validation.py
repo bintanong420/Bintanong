@@ -46,7 +46,8 @@ def validate_final(answer,pack,claims):
     if answer.question_coverage is not None and (pack.route!='RAG' or pack.status!='ready'):
         raise ValueError('coverage_requires_ready_rag')
     if answer.text!=render_text(pack,claims,answer.status,decision_withheld=answer.validation=='decision_withheld',
-                               question_uncovered=answer.validation in ('question_uncovered','parts_unresolved')):
+                               question_uncovered=answer.validation in ('question_uncovered','parts_unresolved'),
+                               ledger=answer.part_ledger,thanked=answer.validation=='thanks'):
         raise ValueError('final_render_mismatch')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')

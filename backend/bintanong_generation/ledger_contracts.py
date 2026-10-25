@@ -6,6 +6,7 @@ from ..bintanong_contracts.base import Contract, Record
 PartID = Annotated[str, Field(pattern=r'^r[1-8]$')]
 ClaimID = Annotated[str, Field(pattern=r'^c[1-8]$')]
 Digest = Annotated[str, Field(pattern=r'^[0-9a-f]{64}$')]
+ANSWERED_LEDGERS = ('all_declared_parts_mapped', 'some_parts_unavailable')
 
 
 class ReviewIdentity(Contract):
@@ -28,7 +29,8 @@ class RequirementLedger(Contract):
     institutional_use_allowed: Literal[False] = False
     activation_allowed: Literal[False] = False
     semantic_completeness: Literal['unverified'] = 'unverified'
-    status: Literal['all_declared_parts_mapped', 'unresolved']
+    # some_parts_unavailable (owner, 24 Oct 2026): answered parts mapped, the rest declared unavailable.
+    status: Literal['all_declared_parts_mapped', 'some_parts_unavailable', 'unresolved']
     identity: ReviewIdentity
     entries: tuple[LedgerEntry, ...] = Field(min_length=1, max_length=8)
     errors: tuple[Literal['incomplete_support_verdicts', 'unsupported_claim', 'language_unsupported',
@@ -53,6 +55,9 @@ class BoundRequirementLedger(RequirementLedger):
             elif entry.status == 'mapped' and not entry.claim_ids:
                 raise ValueError('document_mapping_needs_claim')
         complete = not self.errors and all(e.status == 'mapped' for e in self.entries)
-        if (self.status == 'all_declared_parts_mapped') != complete:
+        partial = (not self.errors and not complete and any(e.status == 'mapped' for e in self.entries)
+                   and all(e.status in ('mapped', 'unavailable') for e in self.entries))
+        if ((self.status == 'all_declared_parts_mapped') != complete or
+                (self.status == 'some_parts_unavailable' and not partial)):
             raise ValueError('ledger_status_mismatch')
         return self

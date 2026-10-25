@@ -47,7 +47,7 @@ class TestStorageSecurity(unittest.TestCase):
                     where n.nspname in ('public','bintanong_private')
                         and p.oid not in (
                             'public.match_chunks(extensions.vector,double precision,integer)'::regprocedure,
-                            'public.retrieve_context(text,jsonb,extensions.vector,integer,double precision,jsonb,jsonb,jsonb)'::regprocedure
+                            'public.retrieve_context(text,jsonb,extensions.vector,integer,double precision,jsonb,jsonb,jsonb,jsonb)'::regprocedure
                         )
                         and has_function_privilege('{role}',p.oid,'EXECUTE');
                 """)

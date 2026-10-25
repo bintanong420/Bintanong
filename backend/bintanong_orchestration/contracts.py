@@ -1,12 +1,13 @@
 """Internal candidate evidence, separate from institutional answer contracts."""
 from typing import Annotated, Literal
 
-from pydantic import Field, model_validator
+from pydantic import Field, model_serializer, model_validator
 
 from ..bintanong_contracts.base import Contract, Record, Route
 from ..bintanong_contracts.governance import ID_VER, SHA256
 from ..bintanong_contracts.source import SpanLocator
 from ..bintanong_contracts.symbolic import SymbolicResult
+from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
@@ -16,7 +17,7 @@ ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128
 Status = Literal['ready', 'unknown', 'unsupported', 'error', 'timeout', 'conflict',
     'release_mismatch', 'no_evidence', 'uncalibrated', 'clarify']
 Scope = Literal['none', 'document_explanation', 'scoped_prerequisite_check',
-    'dependency_listing', 'combined_explanation']
+    'dependency_listing', 'combined_explanation', 'course_facts_listing']
 DocumentStatus = Literal['ok', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
     'uncalibrated', 'release_changed', 'configuration_mismatch', 'encoder_unavailable',
     'invalid_query', 'storage_error', 'policy_binding_error', 'needs_subject',
@@ -112,10 +113,20 @@ class CandidateEvidence(Contract):
     permitted_scope: Scope
     missing_facts: tuple[Text, ...] = ()
     conflicts: tuple[Text, ...] = ()
+    course_facts: CourseFactsResult | None = None  # printed course facts (no rule executed)
+
+    @model_serializer(mode='wrap')
+    def _omit_absent_course_facts(self, handler):
+        # Evidence without course facts keeps its earlier dump, so pinned digests stay valid.
+        data = handler(self)
+        if self.course_facts is None:
+            data.pop('course_facts', None)
+        return data
 
     @model_validator(mode='after')
     def _shape(self):
-        has_symbolic = (self.symbolic is not None) + (self.dependencies is not None)
+        has_symbolic = ((self.symbolic is not None) + (self.dependencies is not None)
+                        + (self.course_facts is not None))
         if self.route == 'RAG' and (self.documents is None or has_symbolic):
             raise ValueError('RAG_requires_documents_only')
         if self.route == 'Symbolic' and (self.documents is not None or has_symbolic != 1):
@@ -129,12 +140,16 @@ class CandidateEvidence(Contract):
             if self.dependencies is not None and (type(self.dependencies) is not DependencyResult
                     or not self.dependencies.synthetic):
                 raise ValueError('synthetic_dependencies_only')
+            if self.course_facts is not None and not self.course_facts.synthetic:
+                raise ValueError('synthetic_course_facts_only')
         else:  # Research pin: only research results bound to this pin's authorization.
             for result, kind in ((self.symbolic, ResearchSymbolicResult),
                                  (self.dependencies, ResearchDependencyResult)):
                 if result is not None and (type(result) is not kind or
                         result.research.authorization.authorization_ref != self.pin.research_ref):
                     raise ValueError('research_results_must_match_pin')
+            if self.course_facts is not None and self.course_facts.synthetic:
+                raise ValueError('research_results_must_match_pin')
         if (self.status == 'ready') != (self.permitted_scope != 'none'):
             raise ValueError('only_ready_evidence_has_permitted_scope')
         return self

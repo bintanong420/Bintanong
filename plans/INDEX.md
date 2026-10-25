@@ -2,57 +2,35 @@
 
 ## Current state
 
-- Phase 05 **complete as an owner-approved offline research/software milestone**.
-- Phase 06 **complete as an owner-approved offline BSCS research/software milestone**.
-- Phase **08 complete: offline candidate orchestration** in p08/feat/p08-orchestration.
-  [Plan](phase-08-orchestration-plan.md) · [Superseded checkpoint](phase-08-checkpoint.md) ·
-  [Final handoff](phase-08-handoff.md).
-  [Developer pipelines](../docs/development/pipelines.md): actual flows/files and boundaries.
-- Phase **07 complete as a verified offline software/research milestone**.
-  [Completed plan](phase-07-multilingual-routing-plan.md) ·
-  [Superseded checkpoint](phase-07-checkpoint.md) · [Final handoff](phase-07-handoff.md) ·
-  [Exit mapping/review](2026-10-19-phase07-offline-closeout.md).15/15fresh dev routes/
-  effective outcomes,13/15exact reused styles;two Taglish style errors remain.
-  [Standing prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
-  accepted for future phases;one-week improvement cap;no institutional accuracy claim.
-- Phase **09 complete (second closeout, 23 Oct, owner direction)** after the hosted Supabase reopening
-  ([plan](2026-10-22-hosted-supabase-integration-plan.md)); [Plan](phase-09-generation-validation-plan.md) ·
-  [Superseded checkpoint](phase-09-checkpoint.md) · [Final handoff](phase-09-handoff.md). Run 14 PASS.
-- Phase **10 complete (23 Oct, owner-approved with disclosures)**: private files and session context.
-  [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
-  [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
-  [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported).
-- Phase **11 active: original frontend/backend integration; final review/verification unfinished**
-  in `p11-frontend-integration` / `feat/p11-frontend-integration`.
-  [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md) · [Plan](phase-11-backend-api-plan.md) ·
-  [Checkpoint](phase-11-checkpoint.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
-  Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
-- [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
-  [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
-- [Task-first:4/4interpretation,3/4full quality](2026-10-21-task-first-observation-results.md);[checker diagnosis/new proposal](2026-10-21-checker-completeness-diagnosis-and-proposal.md);[test audit](2026-10-20-test-meaning-audit-results.md).
-- [Latency profile 23 Oct](2026-10-23-latency-profile-hosted-39.md) (prompt reuse now default);[conversational follow-up requirement](2026-10-23-conversation-context-requirement.md) (not built).
-- [Failed actual-model observation](2026-10-20-question-parts-observation-results.md);[timing contract](2026-10-20-response-time-measurement-contract.md).
-- [Per-part generation](2026-10-21-per-part-generation-decision.md) is the default;[actual results](2026-10-21-per-part-observation-results.md):fee fixed;per-language style 4/4 (author reading).
-- Scoped/canonical/separate selected;three current correct component answers45.8-49.8s;student end-to-end latency unmeasured.
-- Phase06 runtime `49bc993`, checkout fix `a9d8a5d`; Phase05 product `ee7567a`, closure `9a0eea7`.
-- Seven reviewed relationships verified;university/institutional runtime/activation holds remain;full-prospectus conversion stays draft.
-
-Original frontend integration: worktree `p11-frontend-integration`, branch
-`feat/p11-frontend-integration`, based on `frontend` c17dcb2, merging Lawrence
-`origin/feat/p11-backend-api`34a21ca, now synced through4a134bf.
-[Backend sync/recovery](2026-10-24-frontend-backend-sync.md). Original UI preserved.
-Owner `frontend` branch also receives committed integration04a03ea; lifecycle WIP
-stays in the implementation worktree. No phase closure or push follows.
-[Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
+- Phase11 **active**: original frontend/backend integration; final acceptance unfinished.
+  Owner checkout: frontend; lifecycle WIP remains p11-frontend-integration.
+  [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
+  [Current progress](plan_current_progress/current_progress.md) ·
+  [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
+- Local backend357aa80 integration is under verification in an isolated worktree.
+  [Merge/recovery](2026-10-25-backend-frontend-local-merge.md) ·
+  [Backend delivery and quality holds](2026-10-25-phase11-session-handoff.md).
+  Expanded80-chunk package remains inactive; existing19-chunk research pin unchanged.
+- Latest completed phase:10, owner-approved23Oct with disclosures. Photos unsupported.
+  [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md).
+- Phase05/06 completed as owner-approved offline research/software milestones;
+  Phase07/08/09 completed offline with disclosed limits. Institutional release held.
+  [Phase07 closeout](2026-10-19-phase07-offline-closeout.md) ·
+  [Hosted reopening](2026-10-22-hosted-supabase-integration-plan.md).
+- [Master plan](master_implementation_plan_original_long.md): architecture3/11/13,
+  frontend16, owner addenda23–25; [runtime audit](2026-10-20-runtime-architecture-implementation-audit.md),
+  [developer pipelines](../docs/development/pipelines.md).
+- [Prompt/validation decision](2026-10-19-prompt-engineering-and-validation-decision.md):
+  one-week improvement cap; no model training or institutional accuracy claim.
+- [Latency profile](2026-10-23-latency-profile-hosted-39.md) and
+  [measurement contract](2026-10-20-response-time-measurement-contract.md); student end-to-end unmeasured.
 
 ## Resume order
 
-1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24;
-   earlier phase files only for a specific dependency/boundary.
-3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
-4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. Resume the Phase 11 checkpoint's next action; preserve all inherited release holds.
+1. Inspect phase_state.py; read progress, active plan/checkpoint and Phase10 handoff.
+2. Check actual Git refs/status and preserve owner dirty work before integration.
+3. Consult relevant Context thesis pages/routing PNG; earlier phases only as needed.
+4. Follow checkpoint next action; preserve source/privacy/phase and activation holds.
 
 ## Phase ledger
 
@@ -77,23 +55,20 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## Read only when relevant
 
 - Sources: [locations](dataset-locations.md), [undergraduate scope](undergraduate-scope-policy.md),
-  [source gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
-- Architecture: [curriculum/Symbolic direction](2026-10-16-curriculum-symbolic-routing-clarification.md).
-- Retrieval: [selected profile](2026-10-16-document-development-profile.md),
-  [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
+  [gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
+- Architecture: [curriculum direction](2026-10-16-curriculum-symbolic-routing-clarification.md).
+- Retrieval: [profile](2026-10-16-document-development-profile.md),
+  [acceptance](2026-10-16-document-development-acceptance-contract.md),
   [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
-- Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md),
-  [Generated review delivery](2026-10-17-phase06-prolog-review-delivery.md),
-  [Partial export design](2026-10-17-phase06-partial-review-export-design.md),
-  [Reference extension](2026-10-17-phase06-reference-extension.md),
-  [translation review03](2026-10-17-phase06-translation-review-03.md),
-  [authoring/compiler](../backend/bintanong_symbolic/README.md).
-- Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
-- Benchmarks: [evaluation protocol](../evaluation/README.md).
-- Database integration: [hosted migration gap](2026-10-19-hosted-migration-status.md).
-- Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
+- Phase06: [foundation](2026-10-17-phase06-foundation.md), [review delivery](2026-10-17-phase06-prolog-review-delivery.md),
+  [partial export](2026-10-17-phase06-partial-review-export-design.md),
+  [references](2026-10-17-phase06-reference-extension.md), [review03](2026-10-17-phase06-translation-review-03.md),
+  [compiler](../backend/bintanong_symbolic/README.md).
+- [Ingestion index](ingestion/README.md); [evaluation protocol](../evaluation/README.md);
+  [hosted migrations](2026-10-19-hosted-migration-status.md); decisions via AGENTS.md.
 
 ## History and upkeep
-Owner requested compact handoffs on 17 October 2026. These are current snapshots,
-not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
-Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+
+Compact current snapshots, not activity logs. Full prior frontend index/progress/checkpoint:
+1525dc6; use git show. Older full phase snapshots:10=13cf4b5,09=e28eb5d,08=9606319,07=73cf70a.
+Keep detailed evidence in dated reports; do not restore bulk history on resume.

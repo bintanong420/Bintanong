@@ -1,5 +1,5 @@
 """Runtime-only retrieval orchestration with explicit gaps and release binding."""
-from dataclasses import asdict
+from dataclasses import asdict, replace
 
 from backend.bintanong_storage.client import StorageError
 from .context import build_context
@@ -23,12 +23,22 @@ def _source_issue(candidates, scope):
 
 
 class RetrievalEngine:
-    def __init__(self, client, encoder, settings=None, *, evidence_policy=None):
+    def __init__(self, client, encoder, settings=None, *, evidence_policy=None,
+                 subject_context_budgets=None):
         if evidence_policy is not None and not isinstance(evidence_policy, SourceAwareEvidencePolicy):
             raise ValueError('prepared source-aware evidence policy required')
         self.client, self.encoder = client, encoder
         self.settings = settings or RetrievalSettings()
         self.evidence_policy = evidence_policy
+        budgets = {} if subject_context_budgets is None else subject_context_budgets
+        if not isinstance(budgets, dict):
+            raise ValueError('trusted subject context budgets required')
+        self._subject_settings = {}
+        for subject, budget in budgets.items():
+            if (not isinstance(subject, str) or not subject.strip() or evidence_policy is None
+                    or not evidence_policy._has_subject(subject)):
+                raise ValueError('context budget requires a reviewed subject')
+            self._subject_settings[subject] = replace(self.settings, context_budget=budget)
 
     def retrieve(self, request, *, subject_id=None, requested_claims=None):
         config=configuration_identity(self.encoder.config)
@@ -52,6 +62,9 @@ class RetrievalEngine:
                 self.evidence_policy._validate_intent(subject_id,requested_claims)
                 response['evidence_policy'].update(subject_id=subject_id,
                     requested_claims=None if requested_claims is None else list(requested_claims))
+                effective_settings = self._subject_settings.get(subject_id, self.settings)
+                response['configuration'].update(asdict(effective_settings),
+                    fingerprint=effective_settings.fingerprint)
             elif subject_id is not None or requested_claims is not None:
                 return fail('invalid_query','evidence_policy_required_for_intent')
             releases=self.client.select('knowledge_releases',filters={'release_id':'eq.'+request.release_id},role='runtime')
@@ -63,16 +76,20 @@ class RetrievalEngine:
                 return fail('configuration_mismatch')
             vector=self.encoder.encode(request.query)
             validate_vector(vector)
-            raw=self.client.rpc('retrieve_context',dict(p_release_id=request.release_id,p_config=config,
+            params=dict(p_release_id=request.release_id,p_config=config,
                 query_embedding=list(vector),p_top_k=self.settings.top_k,p_min_similarity=self.settings.min_similarity,
                 p_scope=list(request.scope),p_entity_hints=list(request.entity_hints),
-                p_version_ids=list(request.document_version_ids)),role='runtime')
+                p_version_ids=list(request.document_version_ids))
+            if self.evidence_policy is not None and subject_id is not None:
+                params['p_chunk_ids']=self.evidence_policy._chunk_ids(subject_id,requested_claims)
+            raw=self.client.rpc('retrieve_context',params,role='runtime')
             if raw.get('status')!='ok':
                 return fail(raw.get('status','storage_error'))
             if raw.get('release_id')!=request.release_id:
                 return fail('release_changed')
             if self.evidence_policy is not None:
-                return self._retrieve_source_aware(request,raw,response,fail,subject_id,requested_claims)
+                return self._retrieve_source_aware(request,raw,response,fail,subject_id,requested_claims,
+                    context_budget=effective_settings.context_budget)
             response['embedding_set_id']=raw['embedding_set_id']
             candidates=raw['items']
             response.update(build_context(candidates,self.settings.context_budget,self.encoder.count_context_tokens))
@@ -100,7 +117,7 @@ class RetrievalEngine:
         response.update(status='ok',coverage='sufficient')
         return response
 
-    def _retrieve_source_aware(self,request,raw,response,fail,subject_id,requested_claims):
+    def _retrieve_source_aware(self,request,raw,response,fail,subject_id,requested_claims,*,context_budget):
         policy=self.evidence_policy
         policy._bind(request.release_id,raw)
         response['embedding_set_id']=raw['embedding_set_id']
@@ -115,7 +132,7 @@ class RetrievalEngine:
         if not requested_claims:
             return fail('needs_claims','requested_claims_required')
         selected=policy._select(candidates,subject_id)
-        response.update(build_context(selected,self.settings.context_budget,self.encoder.count_context_tokens,
+        response.update(build_context(selected,context_budget,self.encoder.count_context_tokens,
             shared_citations=True,shared_group_metadata=True))
         response['coverage']='partial' if response['evidence'] else 'none'
         report=policy._assess(subject_id,requested_claims,[e['chunk_id'] for e in response['evidence']],

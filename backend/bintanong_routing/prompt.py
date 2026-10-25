@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p09-v17'
+PROMPT_VERSION = 'bintanong-router-p11-v19'
 
 
 def ordered_json(value):
@@ -77,7 +77,9 @@ operations=[] and claims=[]. Academic context alone does not turn a greeting int
 A curriculum check's own result and explanation/trace belong to Symbolic. Explaining that
 result does not by itself require document retrieval. Hybrid requires a separately requested
 document-based policy explanation or transaction procedure as well as the structured check.
-Operations: check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses.
+Operations: check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
+course_facts (the printed title, units or year/semester of one named course), list_term_courses
+(the courses/subjects printed for a year level, optionally one semester). Those are Symbolic.
 Document-only questions do not require a student curriculum. General procedure questions
 can use RAG; do not invent an ambiguity merely because more detail could be requested.
 Keep a requested structured operation even if it is unavailable; never hide it behind RAG.
@@ -93,12 +95,16 @@ Count overlapping exact matches when text repeats. The backend computes characte
 do not calculate or emit start/end offsets. Do not normalize spelling or invent alias identities.
 mentions contain kind and quote. operations.target and claims.entity are quoted references
 identical to an existing course mention's quote, never numeric mention-array indices.
+A stated year level or semester ("first year", "2nd yr 1st sem", "unang taon") is a term mention;
+list_term_courses targets that term mention, every other operation a course mention.
 An eligibility target is the course being requested, not the failed prerequisite mentioned nearby.
 The one fictional worked example below shows target,condition and separate part roles.
 Mention ordering does not change those roles. It contains no institutional facts.
 When the student states their own program or curriculum, quote that phrase as a program
 mention (e.g. "Nursing student ako", "BSCS ako", "In the Architecture curriculum") and a stated
 school year as a curriculum mention (e.g. "2018-2019"); never as a course mention.
+A program named inside a question ("subjects of BSIT", "CC 5 in BSCS 2018-2019") is also a program
+mention, its school year a curriculum mention; a school year is never a term mention.
 An operation never targets a program/curriculum mention. Program requirements are not
 course prerequisites just because the word "requirements" occurs.
 claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
@@ -134,7 +140,7 @@ to preserve its subject, but identical spans are duplicates. For each part evide
 document (a procedure or source explanation), structured (a curriculum fact/check/dependency),
 or unknown. operation_indices indexes the operations array and is empty for document/unknown.
 Each supported structured part names its operation indices and its quote must contain the
-original course mention targeted by each referenced operation. Keep unsupported structured
+original course or term mention targeted by each referenced operation. Keep unsupported structured
 requests as structured with [] rather than pretending they are documentary. All requested
 operations must be associated with parts. The route must match those declared needs; a
 separately requested document detail plus a structured check needs Hybrid. Unknown work
@@ -172,7 +178,7 @@ def output_schema(topics=(), follow_up=False):
             value = deepcopy(part)
             value['properties']['subject_id'] = {'const': subject}
             value['properties']['requested_claims'] = ({'type': 'array', 'maxItems': 0} if subject is None
-                else {'type': 'array', 'minItems': 1, 'maxItems': len(claims), 'items': {'enum': list(claims)}})
+                else {'type': 'array', 'minItems': 1, 'maxItems': min(8,len(claims)), 'items': {'enum': list(claims)}})
             value['required'] = required
             return value
         schema['$defs']['WirePart'] = {'anyOf': [branch(t.subject_id, (*t.claims, *t.not_stated))

@@ -75,13 +75,55 @@ def test_complete_slots_map_each_part_to_its_own_host_numbered_claims():
     assert answer.part_ledger.semantic_completeness == 'unverified'
 
 
-def test_part_declared_not_in_evidence_is_withheld_without_a_review_call():
-    model = PartModel(slots=dict(r1=('answered', [OFFICE]), r2=('not_in_evidence', [])))
+UNCOVERED_FEE = ('The part about "what is the fee?" is not in Bintanong\'s reviewed sources yet. '
+                 'Please ask the relevant university office.')
+
+
+@pytest.mark.parametrize('reason', ['not_in_evidence', 'source_gap'])
+def test_covered_part_is_answered_and_the_unavailable_part_is_named(reason):
+    # Owner, 24 Oct 2026 ("Answer what's covered"): replaces all-or-nothing withholding.
+    model = PartModel(slots=dict(r1=('answered', [OFFICE]), r2=(reason, [])))
+    answer = run(model)
+    assert answer.status == 'answered' and [c.text for c in answer.claims] == [OFFICE]
+    assert answer.part_ledger.status == 'some_parts_unavailable'
+    assert [(e.part_id, e.status, e.reason) for e in answer.part_ledger.entries] == [
+        ('r1', 'mapped', None), ('r2', 'unavailable', reason)]
+    assert UNCOVERED_FEE in answer.text.splitlines()
+    review = json.loads(model.calls[1][0][1]['content'])
+    assert [p['part_id'] for p in review['parts']] == ['r1']  # only the answered part is reviewed
+    assert model.calls[1][1]['properties']['parts']['required'] == ['r1']
+
+
+def test_every_part_unavailable_is_still_withheld_without_a_review_call():
+    model = PartModel(slots=dict(r1=('not_in_evidence', []), r2=('not_in_evidence', [])))
     answer = run(model)
     assert answer.status == 'insufficient_evidence' and not answer.claims
-    assert answer.part_ledger.entries[1].status == 'unavailable'
-    assert answer.part_ledger.entries[1].reason == 'not_in_evidence'
-    assert len(model.calls) == 1
+    assert answer.validation == 'parts_unresolved' and len(model.calls) == 1
+
+
+def test_a_rejected_part_still_withholds_the_whole_answer():
+    # Dropping a reviewed claim would unbind the review identity; only declared gaps are named.
+    model = PartModel(slots=dict(r1=('answered', [OFFICE]), r2=('not_in_evidence', [])),
+                      verdicts=dict(r1='does_not_answer'))
+    answer = run(model)
+    assert answer.status == 'insufficient_evidence' and not answer.claims
+    assert answer.part_ledger.status == 'unresolved'
+
+
+@pytest.mark.parametrize('language,note', [
+    ('en', UNCOVERED_FEE),
+    ('fil', 'Ang tanong mo tungkol sa "what is the fee?" ay wala pa sa mga na-review na source ng Bintanong. '
+            'Pakitanong sa tamang opisina ng unibersidad.'),
+    ('taglish', 'Yung part tungkol sa "what is the fee?" ay wala pa sa reviewed sources ng Bintanong. '
+                'Paki-ask sa tamang university office.')])
+def test_hybrid_check_is_answered_when_its_document_part_is_unavailable(language, note):
+    model = PartModel(slots=dict(r2=('not_in_evidence', [])))
+    integration = source(route='Hybrid')
+    integration = type(integration).parse(dict(integration.model_dump(mode='json'), response_style=language))
+    answer = run(model, integration)
+    assert answer.status == 'answered' and answer.decision is not None and not answer.claims
+    assert answer.part_ledger.canonical_parts == ('r1',) and answer.part_ledger.status == 'some_parts_unavailable'
+    assert note in answer.text.splitlines() and len(model.calls) == 1
 
 
 def test_reviewer_rejecting_a_parts_own_claims_withholds_the_answer():
@@ -227,12 +269,12 @@ def test_style_repair_carries_a_plain_rewrite_instruction_for_the_requested_lang
     assert phrase in repair['repair_instruction'] and 'Rewrite' in repair['repair_instruction']
 
 
-def test_filler_claims_in_an_unavailable_slot_are_dropped_and_the_part_is_withheld():
+def test_filler_claims_in_an_unavailable_slot_are_dropped_and_the_part_is_named():
     # Observed: the model marks a part not_in_evidence but adds a placeholder claim.
     model = PartModel(slots=dict(r1=('answered', [OFFICE]), r2=('not_in_evidence', ['not_in_evidence'])))
     answer = run(model)
-    assert answer.status == 'insufficient_evidence' and answer.validation == 'parts_unresolved'
-    assert answer.part_ledger.entries[1].reason == 'not_in_evidence' and len(model.calls) == 1
+    assert answer.status == 'answered' and [c.text for c in answer.claims] == [OFFICE]
+    assert answer.part_ledger.entries[1].reason == 'not_in_evidence' and UNCOVERED_FEE in answer.text
 
 
 @pytest.mark.parametrize('word', ['isusumite', 'nakasaad', 'ihahain'])
@@ -287,3 +329,21 @@ def test_prompts_make_recorded_source_limits_binding_without_evaluation_wording(
         assert 'source_limits' in prompt and 'calculate' in prompt
         assert 'ten students' not in prompt.lower() and 'special class' not in prompt.lower()
     assert 'not_in_evidence' in PART_PROMPT and 'does_not_answer' in CONFIRM_PROMPT
+
+
+@pytest.mark.parametrize('entries,valid', [
+    ([('r1', 'mapped', ('c1',), None), ('r2', 'unavailable', (), 'source_gap')], True),
+    ([('r1', 'mapped', ('c1',), None), ('r2', 'uncertain', (), 'uncertain')], False),
+    ([('r1', 'unavailable', (), 'not_in_evidence'), ('r2', 'unavailable', (), 'source_gap')], False),
+    ([('r1', 'mapped', ('c1',), None), ('r2', 'mapped', ('c2',), None)], False)])
+def test_partial_ledger_needs_a_mapped_part_and_only_declared_gaps(entries, valid):
+    from backend.bintanong_generation.ledger_contracts import BoundRequirementLedger
+    value = dict(schema_version=BoundRequirementLedger.SCHEMA_VERSION, status='some_parts_unavailable',
+        identity=dict(schema_version='bintanong-part-review-identity-v1', requirements_sha256='a'*64,
+                      draft_sha256='b'*64), canonical_parts=[],
+        entries=[dict(part_id=p, status=s, claim_ids=list(c), reason=r) for p, s, c, r in entries])
+    if valid:
+        assert BoundRequirementLedger.parse(value).status == 'some_parts_unavailable'
+    else:
+        with pytest.raises(ValueError, match='ledger_status_mismatch'):
+            BoundRequirementLedger.parse(value)

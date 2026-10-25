@@ -37,7 +37,7 @@ def _list(value):
         raise ValueError('Nonempty partial-review list required')
 
 
-def _validate_receipt(current, receipt):
+def _validate_receipt(current, receipt, *, allow_source_blanks=False):
     _object(receipt, _RECEIPT)
     if (receipt['receipt_format'] != 'selected-source-partial-review-v1'
             or receipt['review_scope'] != 'selected_fields'
@@ -109,9 +109,12 @@ def _validate_receipt(current, receipt):
                 raise ValueError('Complete selected field association required')
             _text(field['name'])
             indexes = field['span_indexes']
+            source_blank = (allow_source_blanks and field['source_blank'] is True
+                            and field['value'] == '' and indexes == [])
             if (field['name'] in names or type(field['source_blank']) is not bool
                     or not isinstance(field['event_sha256'],str) or field['event_sha256'] not in events
-                    or not isinstance(indexes,list) or not indexes
+                    or not isinstance(indexes,list) or (not indexes and not source_blank)
+                    or (allow_source_blanks and field['source_blank'] is True and not source_blank)
                     or any(type(i) is not int or i < 0 or i >= len(chunk['spans']) for i in indexes)
                     or len(set(indexes)) != len(indexes)):
                 raise ValueError('Distinct field/event/span binding required')

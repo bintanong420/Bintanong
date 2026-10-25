@@ -104,11 +104,13 @@ class DatabaseStorageClient:
         for key, value in (params or {}).items():
             if not re.fullmatch(r"[a-z_]+", key):
                 raise ValueError("invalid test parameter")
-            if key in ("p_chunk_ids", "p_document_version_ids", "p_rule_ids"):
+            if key in ("p_document_version_ids", "p_rule_ids") or (
+                key == "p_chunk_ids" and function_name != "retrieve_context"
+            ):
                 literal = "array[" + ",".join(sql_literal(x) for x in value) + "]::text[]"
             elif key == "query_embedding":
                 literal = sql_literal(json.dumps(value)) + "::extensions.vector"
-            elif isinstance(value, (dict, list)):
+            elif (function_name == "retrieve_context" and key == "p_chunk_ids") or isinstance(value, (dict, list)):
                 literal = sql_literal(json.dumps(value)) + "::jsonb"
             else:
                 literal = sql_literal(value)

@@ -6,6 +6,7 @@ from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext
+from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import (DependencyResult, ResearchDependencyResult,
                                          ResearchSymbolicResult, StudentFacts)
 from .contracts import DocumentResult
@@ -70,6 +71,14 @@ class RetrievalAdapter:
             gaps=gaps, passages=passages))
 
 
+# Fixed input names per operation (the routing validator binds exactly these).
+SIGNATURES = {'check_prerequisite_eligibility': ('curriculum_id', 'course_id'),
+              'list_missing_prerequisites': ('curriculum_id', 'course_id'),
+              'list_affected_courses': ('curriculum_id', 'course_id'),
+              'course_facts': ('curriculum_id', 'course_id'),
+              'list_term_courses': ('curriculum_id', 'year_level', 'semester')}
+
+
 class SymbolicAdapter:
     def __init__(self, runtime, *, research=False):
         # research: owner-authorized real-rule mode; results keep their research labels.
@@ -88,14 +97,18 @@ class SymbolicAdapter:
         request = PredicateRequest.parse(request.model_dump(mode='json'))
         context = RequestContext.parse(context.model_dump(mode='json'))
         operation = request.predicate
-        if operation not in ('check_prerequisite_eligibility', 'list_missing_prerequisites',
-                              'list_affected_courses'):
+        if operation not in SIGNATURES:
             raise ValueError('unsupported_operation')
         args = {i.name:i.value for i in request.inputs}
-        if set(args) != {'course_id', 'curriculum_id'}:
+        if set(args) != set(SIGNATURES[operation]):
             raise ValueError('invalid_signature')
         if args['curriculum_id'] != context.curriculum_id or context.program_id is None:
             raise ValueError('request_scope_mismatch')
+        if operation in ('course_facts', 'list_term_courses'):  # reviewed printed facts; no rule executed
+            result = await self._worker.run(lambda: self.runtime.look_up(request))
+            if type(result) is not CourseFactsResult or result.synthetic is self.research:
+                raise ValueError('course_facts_result_kind_mismatch')
+            return CourseFactsResult.parse(result.model_dump(mode='json'))
         # The context contains user assertions, never verified university grades.
         facts = StudentFacts(**{state:tuple(f.course_id for f in context.facts if f.state == state)
             for state in ('passed', 'failed', 'enrolled', 'not_enrolled')})

@@ -41,7 +41,7 @@ def test_source_supported_but_uncovered_answer_is_withheld_without_repair(langua
         assert answer.question_coverage.draft_attempt==1 and answer.question_coverage.elapsed_seconds>=0
         assert (answer.draft_attempts,answer.check_attempts,answer.answer_repairs)==(1,1,0)
         assert answer.decision_guard is None and len(model.calls)==2
-        assert {'en':'question','fil':'tanong','taglish':'question'}[language] in answer.text
+        assert {'en':'reviewed sources','fil':'na-review','taglish':'reviewed sources'}[language] in answer.text  # E1 referral
         assert 'conditions satisfied' not in answer.text
     asyncio.run(run())
 

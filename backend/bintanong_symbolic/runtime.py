@@ -19,10 +19,14 @@ from ..bintanong_contracts.runtime import BoundInput, PredicateRequest
 from ..bintanong_contracts.source import SourceSpan
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry, DecisionScope, SymbolicResult
 from .bundle import prepare_runtime_bundle, validate_runtime_bundle
+from .course_facts import TERM_ORDER, CourseFactsResult, course_facts, list_term_courses, printed_course
 
 _ADMISSION = threading.Lock()
 _WORKER = Path(__file__).with_name('_janus_worker.py')
 _MAX_BYTES = 1_048_576
+# Reviewed printed course facts (no rule executed): operation -> (capability, fixed signature).
+_LOOKUPS = {'course_facts':('synthetic_course_facts',('curriculum_id','course_id')),
+            'list_term_courses':('synthetic_term_courses',('curriculum_id','year_level','semester'))}
 _PREDICATE = 'check_prerequisite_eligibility'
 _DECISIONS = {_PREDICATE:'synthetic_prerequisite_check',
               'list_missing_prerequisites':'synthetic_missing_prerequisites'}
@@ -116,7 +120,8 @@ class ResearchAuthorization(Record):
     authorization_ref: str = Field(pattern=r'^research-[A-Za-z0-9_-]+$', max_length=128)
     bundle_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     operations: tuple[Literal['check_prerequisite_eligibility','list_missing_prerequisites',
-                              'list_affected_courses'], ...] = Field(min_length=1, max_length=3)
+                              'list_affected_courses','course_facts','list_term_courses'], ...] = Field(
+                              min_length=1, max_length=5)
 
     @model_validator(mode='after')
     def _unique(self):
@@ -162,7 +167,7 @@ def _json(value) -> str:
 
 def _parse_request(request):
     request = PredicateRequest.parse(request.model_dump(mode='json'))
-    if len(request.inputs) > 2 or len(_json(request.model_dump(mode='json')).encode()) > 8192:
+    if len(request.inputs) > 3 or len(_json(request.model_dump(mode='json')).encode()) > 8192:
         raise ValueError('runtime request exceeds input limit')
     return request
 
@@ -264,7 +269,7 @@ class CurriculumRuntime:
         object.__setattr__(self, '_version', version)
         object.__setattr__(self, '_research_json', None if research is None else _json(research.model_dump(mode='json')))
         object.__setattr__(self, '_allowed_operations', frozenset(
-            (*_DECISIONS,'list_affected_courses') if authorization is None else authorization.operations))
+            (*_DECISIONS,'list_affected_courses',*_LOOKUPS) if authorization is None else authorization.operations))
         release = 'release-synthetic-'+checked['content_sha256'][:16] if research is None else (
             'release-offline-research-'+bundle['content_sha256'][:16])
         object.__setattr__(self, '_release_id', release)
@@ -322,6 +327,39 @@ class CurriculumRuntime:
             return self._result(request, outcome='error', error=str(exc))
         except (ValueError, TypeError, KeyError, AttributeError):
             return self._result(request, outcome='error', error='runtime_invalid_output')
+
+    def look_up(self, request: PredicateRequest) -> CourseFactsResult:
+        """Printed title, units, year and semester from the reviewed ledger; never inferred or computed."""
+        request = _parse_request(request)
+        if request.predicate not in _LOOKUPS:
+            raise ValueError('unsupported_operation')
+        ledger = json.loads(self._ledger_json)
+
+        def result(status, found=()):
+            return CourseFactsResult.parse({'schema_version':CourseFactsResult.SCHEMA_VERSION,
+                'synthetic':ledger['synthetic'], 'predicate':request.predicate,
+                'inputs':[i.model_dump(mode='json') for i in request.inputs], 'status':status,
+                'courses':[printed_course(ledger, f) for f in found],
+                'scope':_scope(ledger,self._release_id) if status=='complete' else None})
+        registry = CapabilityRegistry({name:Capability(self._capability(cap), signature)
+            for name,(cap,signature) in _LOOKUPS.items() if name in self._allowed_operations})
+        if not registry.supports(request.predicate):
+            return result('unsupported')
+        args = dict(registry.goal(request).args)
+        if args['curriculum_id'] != ledger['scope']['curriculum_id']:
+            return result('not_found')
+        if request.predicate == 'course_facts':
+            if not any(c['course_id']==args['course_id'] for c in ledger['courses']):
+                return result('not_found')
+            facts = course_facts(ledger, args['course_id'])
+            if facts is None or facts.year is None or facts.term is None:
+                return result('not_reviewed')
+            return result('complete', (facts,))
+        year, semester = int(args['year_level']), args['semester']
+        if not 1 <= year <= 5 or semester not in (*TERM_ORDER, 'any'):
+            raise ValueError('invalid_term_input')
+        listing = list_term_courses(ledger, year=year, term=semester)
+        return result(listing.status, listing.courses)
 
     def list_affected_courses(self, request: PredicateRequest) -> DependencyResult:
         request = _parse_request(request)

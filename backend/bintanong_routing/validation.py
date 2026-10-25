@@ -8,10 +8,13 @@ from dataclasses import dataclass
 
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
-from .contracts import CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
+from .contracts import TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
 from .style import StyleEvidence
+from .languages import unsupported_language
+from .terms import parse_term
 
-OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
+OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
+              'course_facts', 'list_term_courses')
 
 
 class GroundedClaim(ScopedFact):
@@ -180,6 +183,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             curriculum = editions[0].entity_id
     carried = context.conversation.course_id if context.conversation else None
     for idx, mention in enumerate(p.mentions):
+        if mention.kind == 'term':  # read by the host; a term with no stated year stays unresolved (clarify)
+            if parse_term(mention.text) is not None:
+                ignored.add(idx)
+            continue
         names_course = program is not None and curriculum is not None and bool(
             _matches(mention, catalog, program, curriculum))
         # Words that name a course are never a back-reference (live F5: "What about CC 4?" -> CC 4).
@@ -222,6 +229,8 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             reason=code.replace('_', ' ')), p, tuple(claims), p.language, code,
             program_id=program, curriculum_id=curriculum)
 
+    if unsupported_language(text):  # English, Filipino and Taglish only (owner, 25 Oct 2026)
+        return result('unsupported_language', missing=('language',))
     if p.audience in ('excluded', 'unrelated'):
         return result('unsupported_scope', 'unsupported_scope')
     if p.audience == 'unknown':
@@ -255,9 +264,12 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     expected = {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic',
                 frozenset({'document', 'structured'}): 'Hybrid'}[frozenset(needs)]
     covered_operations = {i for part in p.parts for i in part.operation_indices}
-    if p.route != expected or covered_operations != set(range(len(p.operations))):
+    if covered_operations != set(range(len(p.operations))):
         return result('inconsistent_requirements', 'evidence_unavailable')
-    if (p.route == 'RAG' and p.operations) or (p.route != 'RAG' and not p.operations):
+    # Consistent declared parts decide the route (owner, 25 Oct 2026: roster 18 slip, one structured part with
+    # route Hybrid); the model's route label alone never refuses a well-formed request.
+    route = expected
+    if (route == 'RAG' and p.operations) or (route != 'RAG' and not p.operations):
         return result('inconsistent_proposal', 'evidence_unavailable')
     if p.operations:
         missing = tuple(k for k, v in (('program_id', program), ('curriculum_id', curriculum)) if v is None)
@@ -285,15 +297,19 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             return result('unsupported_operation', 'evidence_unavailable')
         if not synthetic:
             return result('institutional_execution_held', 'evidence_unavailable')
-        course = resolved[op.target]
+        if op.name in TERM_OPERATIONS:
+            year, semester = parse_term(p.mentions[op.target].text)
+            target = (('year_level', str(year)), ('semester', semester))
+        else:
+            target = (('course_id', resolved[op.target].entity_id),)
         request = PredicateRequest(predicate=op.name, inputs=(
             BoundInput(name='curriculum_id', value=curriculum, fact_ref=None),
-            BoundInput(name='course_id', value=course.entity_id, fact_ref=None)))
+            *(BoundInput(name=name, value=value, fact_ref=None) for name, value in target)))
         try:
             registry.goal(request)  # validates fixed signature; never executes the goal
         except UnsupportedRequest:
             return result('unsupported_signature', 'evidence_unavailable')
-    if p.route in ('RAG', 'Hybrid') and not documents_available:
+    if route in ('RAG', 'Hybrid') and not documents_available:
         return result('documents_unavailable', 'evidence_unavailable')
-    return RoutingResult(query, _decision(route=p.route, request=request, reason=p.reason),
+    return RoutingResult(query, _decision(route=route, request=request, reason=p.reason),
         p, tuple(claims), p.language, 'validated', program_id=program, curriculum_id=curriculum)

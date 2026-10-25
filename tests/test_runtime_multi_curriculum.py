@@ -29,10 +29,10 @@ def real_ledger(curriculum, first, second):
     return rereview((data[0], [source], data[2], data[3]))
 
 
-def build(monkeypatch):
+def build(monkeypatch, *, single=False, change_package=None, engine_factory=None):
     from backend.bintanong_runtime import research
     monkeypatch.setattr(research, 'SourceAwareEvidencePolicy', lambda **kw: object())
-    monkeypatch.setattr(research, 'RetrievalEngine', lambda *a, **kw: object())
+    monkeypatch.setattr(research, 'RetrievalEngine', engine_factory or (lambda *a, **kw: object()))
     chunk = dict(chunk_id='c' * 64, version_id='ver-doc-fictional', byte_sha256='d' * 64,
                  scope=['audience:undergraduate'], type_fields={}, spans=[], text='Fictional.')
     package = dict(chunks=[chunk], versions={'ver-doc-fictional': {}}, vectors={'c' * 64: [1.0, 0.0]},
@@ -41,8 +41,44 @@ def build(monkeypatch):
                        preprocessing_fingerprint='q', tokenizer_fingerprint='t'),
                    catalogue={}, register=dict(reviews=[dict(subject_id='fees', claim='printed amount')]))
     ledgers = {C1: real_ledger(C1, 'course-1', 'course-2'), C2: real_ledger(C2, 'course-3', 'course-4')}
+    if change_package:
+        change_package(package)
+    if single:
+        return research.build_research_resources(ledgers[C1], package, encoder=object(),
+            authorization_ref='research-fictional-test'), ledgers
     return research.build_multi_research_resources(ledgers, package, encoder=object(),
                                                    authorization_ref='research-fictional-test'), ledgers
+
+
+@pytest.mark.parametrize('single', [False, True])
+def test_only_pre_enrollment_gets_the_approved_larger_context_budget(monkeypatch, single):
+    captured = []
+    def engine_factory(*args, **kwargs):
+        captured.append(kwargs.get('subject_context_budgets', {}))
+        return object()
+    build(monkeypatch, single=single, engine_factory=engine_factory)
+    assert captured[-1] == {}
+    def add_procedure(package):
+        package['register']['reviews'].append(dict(subject_id='pre_enrollment', claim='printed steps'))
+    build(monkeypatch, single=single, change_package=add_procedure, engine_factory=engine_factory)
+    assert captured[-1] == {'pre_enrollment':4096}
+
+
+@pytest.mark.parametrize('single', [False, True])
+def test_document_only_changes_get_a_new_root_without_changing_curriculum_rules(monkeypatch, single):
+    original, _ = build(monkeypatch, single=single)
+    for change in ('embedding_set', 'claim_review'):
+        def change_package(package):
+            if change == 'embedding_set':
+                package['manifest']['embedding_set_id'] = 'set-fictional-expanded'
+            else:
+                package['register']['reviews'].append(dict(subject_id='fees', claim='printed fee scope'))
+        changed, _ = build(monkeypatch, single=single, change_package=change_package)
+        assert changed.pin.release_id != original.pin.release_id, change
+        assert changed.pin.rule_bundle_version == original.pin.rule_bundle_version
+        assert changed.pin.sources == original.pin.sources
+    unchanged, _ = build(monkeypatch, single=single)
+    assert unchanged.pin == original.pin
 
 
 def check(resources, curriculum, course):
@@ -119,3 +155,16 @@ def test_names_for_programs_outside_the_release_are_ignored(monkeypatch):
     resources = research.build_multi_research_resources(ledgers, package, encoder=object(),
         authorization_ref='research-fictional-test', program_names={'program-absent': ['Absent']}, curriculum_names={})
     assert not [e for e in resources.catalog if e.kind != 'course']
+
+
+def test_course_fact_lookups_are_offered_with_their_own_inputs(monkeypatch):
+    resources, _ = build(monkeypatch)
+    term = PredicateRequest.parse({'predicate': 'list_term_courses', 'inputs': [
+        {'name': 'curriculum_id', 'value': C1, 'fact_ref': None}, {'name': 'year_level', 'value': '1', 'fact_ref': None},
+        {'name': 'semester', 'value': 'any', 'fact_ref': None}]})
+    resources.registry.goal(term)  # fixed signature accepted
+    context = RequestContext.parse(dict(session_id='sess-fictional', request_id='req-fictional',
+                                        program_id='program-synthetic', curriculum_id=C1, facts=[]))
+    result = asyncio.run(resources.symbolic.execute(term, context))
+    # The fictional ledger has codes and units but no reviewed year/semester: unknown, never a partial list.
+    assert result.status == 'not_reviewed' and result.synthetic is False

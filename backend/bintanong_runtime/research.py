@@ -8,7 +8,7 @@ import hashlib
 import json
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
-from ..bintanong_orchestration.adapters import MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
+from ..bintanong_orchestration.adapters import SIGNATURES, MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
 from ..bintanong_orchestration.contracts import ReleasePin
 from ..bintanong_orchestration.ports import ReleaseResources
 from ..bintanong_retrieval.engine import RetrievalEngine
@@ -20,9 +20,11 @@ from ..bintanong_symbolic.runtime import CurriculumRuntime
 from .hosted_storage import HostedReleaseStorage
 from .package_storage import PackageStorage
 
-OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses')
+OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
+              'course_facts', 'list_term_courses')
 CAPABILITIES = dict(zip(OPERATIONS, ('offline_research_prerequisite_check',
-    'offline_research_missing_prerequisites', 'offline_research_dependency_inspection')))
+    'offline_research_missing_prerequisites', 'offline_research_dependency_inspection',
+    'offline_research_course_facts', 'offline_research_term_courses')))
 # Phase 05 selected document-development profile (uncalibrated; research status rule applies).
 SETTINGS = RetrievalSettings(top_k=3, min_similarity=.25, context_budget=2048,
                              policy_id='uncalibrated-document-development-v1')
@@ -50,12 +52,18 @@ def research_catalog(ledger):
         raise ValueError('duplicate_printed_course_code')
     short = {cid: _short_forms(c['facts']['course_code']['value']) for c in courses for cid in [c['course_id']]}
     counts = Counter(a for forms in [*printed.values(), *short.values()] for a in forms)
+    # A printed title names its course only when no other course carries it or a code spelled like it.
+    fold = lambda text: ' '.join(text.split()).casefold()
+    titles = {c['course_id']: c['facts']['course_title']['value'] for c in courses if 'course_title' in c['facts']}
+    title_counts = Counter(fold(t) for t in titles.values())
+    codes = {fold(a) for forms in [*printed.values(), *short.values()] for a in forms}
     entries = []
     for c in courses:
         cid = c['course_id']
         aliases = printed[cid] | {a for a in short[cid] if counts[a] == 1}
-        if 'course_title' in c['facts']:
-            aliases.add(c['facts']['course_title']['value'])
+        title = titles.get(cid)
+        if title is not None and title_counts[fold(title)] == 1 and fold(title) not in codes:
+            aliases.add(title)
         entries.append(CatalogEntry(kind='course', entity_id=cid, program_id=c['program_id'],
             curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)),
             source_ref=c['source_version_id'], review_ref=c['review_refs'][0], reviewed=True))
@@ -119,7 +127,7 @@ def topic_menu(register, *, catalogue=None, chunks=()):
         except (ValueError, TypeError, AttributeError):
             limits = []
         for limit in limits:
-            if limit.get('issue') == 'claim_not_stated' and limit.get('resolution') == 'unresolved':
+            if limit.get('resolution') == 'unresolved':
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
     topics = []
@@ -140,31 +148,14 @@ def retrieval_storage(release_id, package, *, hosted, authorization_ref):
                           versions=package['versions'], vectors=package['vectors'])
 
 
+def research_registry():
+    return CapabilityRegistry({op: Capability(name, SIGNATURES[op]) for op, name in CAPABILITIES.items()})
+
+
 def build_research_resources(ledger, package, *, encoder, authorization_ref, hosted=None):
     """Compose one research release: reviewed rules, reviewed package, research labels."""
-    bundle = prepare_runtime_bundle(ledger)
-    runtime = CurriculumRuntime.for_offline_research(bundle, authorization=dict(
-        purpose='offline_curriculum_acceptance', authorization_ref=authorization_ref,
-        bundle_sha256=bundle['content_sha256'], operations=list(OPERATIONS)))
-    release_id, manifest, chunks = runtime.release_id, package['manifest'], package['chunks']
-    storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
-    policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
-        chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
-    sources = {s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']}
-    sources.update({c['version_id']: c['byte_sha256'] for c in chunks})
-    pin = ReleasePin.parse(dict(release_id=release_id, synthetic=False, research_ref=authorization_ref,
-        rule_bundle_version=runtime.rule_bundle_version,
-        sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
-        documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
-                   for c in chunks]))
-    registry = CapabilityRegistry({op: Capability(name, ('curriculum_id', 'course_id'))
-                                   for op, name in CAPABILITIES.items()})
-    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
-    return ReleaseResources(pin, research_catalog(ledger), registry,
-        RetrievalAdapter(engine, research=True), SymbolicAdapter(runtime, research=True),
-        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
-        document_scope=('audience:undergraduate',),
-        course_labels=course_labels(ledger))
+    return build_multi_research_resources({ledger['scope']['curriculum_id']:ledger}, package,
+        encoder=encoder, authorization_ref=authorization_ref, hosted=hosted)
 
 
 def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None,
@@ -188,9 +179,13 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         sources.update({s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']})
         catalog.extend(research_catalog(ledger)); labels.extend(course_labels(ledger))
     catalog.extend(name_catalog(ledgers, program_names or {}, curriculum_names or {}))
-    digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
-    release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + digest
     manifest, chunks = package['manifest'], package['chunks']
+    rules_digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
+    binding = dict(curricula=members, embedding_set_id=manifest['embedding_set_id'],
+        documents=sorted((c['chunk_id'],c['version_id'],c['byte_sha256']) for c in chunks),
+        catalogue=package['catalogue'], claim_reviews=package['register'])
+    digest = hashlib.sha256(json.dumps(binding, sort_keys=True, allow_nan=False).encode()).hexdigest()
+    release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + rules_digest
     storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
     policy = SourceAwareEvidencePolicy(release_id=release_id, embedding_set_id=manifest['embedding_set_id'],
         chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
@@ -200,9 +195,11 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
         documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
                    for c in chunks]))
-    registry = CapabilityRegistry({op: Capability(name, ('curriculum_id', 'course_id'))
-                                   for op, name in CAPABILITIES.items()})
-    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy)
+    registry = research_registry()
+    budgets = {'pre_enrollment':4096} if any(
+        r['subject_id'] == 'pre_enrollment' for r in package['register']['reviews']) else {}
+    engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy,
+        subject_context_budgets=budgets)
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),

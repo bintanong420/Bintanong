@@ -1,6 +1,8 @@
 """Plain-text candidate previews; canonical decisions never come from generated prose."""
 import json
 
+from .course_facts_reply import course_fact_lines
+
 _WORDS={
  'en':dict(preview='Candidate preview only. Not official university guidance.',
   answered='Based on the supplied evidence:',eligible='Supported prerequisite check: conditions satisfied.',
@@ -14,6 +16,7 @@ _WORDS={
   out_of_scope='Bintanong covers undergraduate academic affairs; this request is outside that scope.',
   temporarily_unavailable='The check is temporarily unavailable. Please try again later.',
   greeting='Hello. I can help with supported undergraduate academic-affairs questions.',
+  thanks="You're welcome! Ask me anytime about undergraduate academic affairs.",
   abstained='A supported explanation could not be verified from the supplied evidence.'),
  'fil':dict(preview='Preview ng kandidato lamang. Hindi opisyal na gabay ng unibersidad.',
   answered='Batay sa ibinigay na ebidensya:',eligible='Ayon sa prerequisite check: kumpleto ang mga kondisyon.',
@@ -27,6 +30,7 @@ _WORDS={
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
   temporarily_unavailable='Hindi muna magawa ang check ngayon. Subukan ulit mamaya.',
   greeting='Kumusta. Makakatulong ako sa mga suportadong tanong tungkol sa undergraduate academic affairs.',
+  thanks='Walang anuman! Magtanong ka lang tungkol sa undergraduate academic affairs.',
   abstained='Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'),
  'taglish':dict(preview='Candidate preview lang. Hindi official university guidance.',
   answered='Based sa supplied evidence:',eligible='Sa supported prerequisite check, satisfied ang conditions.',
@@ -40,6 +44,7 @@ _WORDS={
   out_of_scope='Undergraduate academic affairs ang scope ng Bintanong; outside scope ang request.',
   temporarily_unavailable='Temporarily unavailable ang check. Paki-try ulit later.',
   greeting='Hello. Pwede akong tumulong sa supported undergraduate academic-affairs questions.',
+  thanks='Walang anuman! Ask ka lang anytime tungkol sa undergraduate academic affairs.',
   abstained='Hindi na-verify ang supported explanation mula sa supplied evidence.')}
 
 
@@ -52,6 +57,11 @@ _REQUIREMENT={
   ask='Sabihin mo kung alin dito ang naipasa mo na, para ma-check ko kung pwede mo nang kunin ang {course}.'),
  'taglish':dict(all_of=' and ',any_of='one of: ',co_requisite='or i-take nang sabay',heading='Prerequisites ng',
   ask='Sabihin mo kung alin dito ang na-pass mo na, para ma-check ko kung pwede mo nang i-take ang {course}.')}
+
+
+# Owner, 25 Oct 2026: English, Filipino and Taglish only; the student's language may be neither, so both are shown.
+_LANGUAGE_NOTICE=('Bintanong answers in English, Filipino and Taglish only. Please ask again in one of these. '
+    'Sumasagot ang Bintanong sa English, Filipino at Taglish lang. Pakitanong ulit sa isa sa mga ito.')
 
 
 _COURSE_NOT_FOUND={
@@ -116,10 +126,9 @@ _WITHHELD={
  'taglish':'Hindi pa ma-verify ang answer gamit ang retrieved text lang. Wala pang verified structured check, kaya wala pang structured conclusion.'}
 
 
-_UNCOVERED={
- 'en':'I cannot verify that the available evidence answers your question.',
- 'fil':'Hindi makumpirma na nasasagot ng available na ebidensya ang tanong mo.',
- 'taglish':'Hindi ma-verify na nasasagot ng available evidence ang question mo.'}
+# Evidence that does not answer the question gets the same honest referral as missing evidence (owner E1, 24 Oct;
+# simple-question priority, 25 Oct 2026).
+_UNCOVERED={lang:words['insufficient_evidence'] for lang,words in _WORDS.items()}
 
 
 # Source-gap policy: a cited source's unresolved conflict or visible defect is always stated.
@@ -141,6 +150,23 @@ _NOTICE_ISSUES={'conflicting_deadlines':'conflict','source_cutoff':'defect',
                 'malformed_source_condition':'defect','printed_total_discrepancy':'defect'}
 
 
+# Owner, 24 Oct 2026 ("Answer what's covered"): each part declared unavailable is named in the student's words.
+_PART_UNAVAILABLE={
+ 'en':'The part about "{words}" is not in Bintanong\'s reviewed sources yet. Please ask the relevant university office.',
+ 'fil':'Ang tanong mo tungkol sa "{words}" ay wala pa sa mga na-review na source ng Bintanong. '
+       'Pakitanong sa tamang opisina ng unibersidad.',
+ 'taglish':'Yung part tungkol sa "{words}" ay wala pa sa reviewed sources ng Bintanong. '
+       'Paki-ask sa tamang university office.'}
+
+
+def unavailable_part_lines(pack,ledger):
+    if ledger is None or ledger.status!='some_parts_unavailable':
+        return []
+    texts={p.part_id:p.text for p in pack.understanding.parts}
+    note=_PART_UNAVAILABLE.get(pack.language,_PART_UNAVAILABLE['en'])
+    return [note.format(words=texts[e.part_id]) for e in ledger.entries if e.status=='unavailable']
+
+
 def limit_notices(cards):
     """Notice kinds for unresolved conflicts/defects recorded on the given document cards."""
     kinds=[]
@@ -155,9 +181,9 @@ def limit_notices(cards):
     return kinds
 
 
-def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False):
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False):
     words=_WORDS.get(pack.language,_WORDS['en'])
-    message=(_UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
+    message=(words['thanks'] if thanked else _UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
     lines=[words['preview'],message]
     def shown(text):  # display printed course codes in place of internal identities
@@ -177,6 +203,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.append(shown(listing['ask'].format(course=course)))
         return '\n'.join(lines)
     missing=pack.missing_facts
+    if status=='clarification_needed' and 'language' in missing:
+        lines[1]=_LANGUAGE_NOTICE
+        missing=tuple(field for field in missing if field!='language')
     if status=='clarification_needed' and 'course_id' in missing:  # owner step 2c: no reviewed course matched
         lines[1]=_COURSE_NOT_FOUND.get(pack.language,_COURSE_NOT_FOUND['en'])
         missing=tuple(field for field in missing if field!='course_id')
@@ -188,6 +217,8 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
         if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
         missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
+    if pack.course_facts is not None and canonical_allowed:
+        lines.extend(course_fact_lines(pack.course_facts,pack.language))
     if pack.dependencies is not None:
         if canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))
@@ -200,6 +231,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     if status=='answered':
+        lines.extend(unavailable_part_lines(pack,ledger))
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
         lines.extend(notices[kind] for kind in limit_notices(selected_cards(pack,claims)))
     for card in selected_cards(pack,claims):

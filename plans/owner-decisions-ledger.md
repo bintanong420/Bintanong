@@ -8,6 +8,12 @@ AGENTS.md, current progress or dated review records supersede older entries wher
 
 ## Owner decisions to preserve across CLI sessions
 
+- 25 October2026 (Phase11 resumed source package): frontend ready; integrate after pending work.
+  Complete pre-enrollment context needs approximately3827 tokens with citations. Owner delegated the
+  choice ("whatever u think is the best option lets take it") after the4096 recommendation with live
+  accuracy/latency checks. Selected: trusted pre_enrollment budget4096, other topics2048; retain all
+  fields/gaps, atomic context and exact counting. Not an achieved latency SLA.
+
 - Phase06,17October2026: owner explicitly approved both the partial review-export
   design238ad3b and review03's four row readings/one relationship: old2018–2019
   CS1/L requires CC1/L; oldCC2/L, proposed2025–2026 CC2/L and proposedCS1 have
@@ -356,3 +362,68 @@ Each program still gets its own dated review record listing which standing rule 
   - Multi-part messages, "Answer what's covered": answer each part that has reviewed evidence, and for a part
     without it add "the part about <student's words> is not in Bintanong's reviewed sources yet; ask the relevant
     university office". Each part keeps its own checks; this replaces all-or-nothing withholding.
+- 25 Oct 2026 (Phase 11 step 2h), owner direction: start the course facts work now ("can we do that now?"),
+  for every prospectus, not only BSIT ("we need for the whole prospectuses"), and keep the data in the hosted
+  Supabase project ("pushing it in the hosted, we are afterall using supabase"). Treated as approval of
+  `2026-10-24-course-facts-plan.md` for all 39 curricula and of the hosted ledger upload once the facts are
+  reviewed. Source readings (unit notation, inferred terms, printed-total mismatches) still go to the owner.
+- 25 Oct 2026 (Phase 11 step 2h, course facts), owner readings:
+  - CF1 units: show "a/b" units exactly as printed (e.g. "2/1"); the university values 2/1 as 3 units.
+  - CF2 terms: where a page prints FIRST/SECOND SEMESTER only once, the left column is the first semester and
+    the right column the second semester for every year on that page.
+  - CF3 BSBA Marketing Management: its column headings printed "FIRST YEAR"/"SECOND YEAR" are a source error;
+    read them as first semester (left) and second semester (right). A recorded exception, not a precedent.
+  - CF4: check the printed-total mismatches and odd unit cells against the page and bring them in batches.
+  - CF5 (25 Oct): BSCS 2018-2019 first-year printed Totals "3" are a cutoff and may be corrected (23); Bintanong
+    shows no term totals now, so this applies only if totals are shown later. Source gaps stay as printed
+    (BSBio Thesis 1 and BSEd-SS SSE 18 blank units = units not printed; BSCS 4th-year unnamed 3-unit row left
+    out). BSBA-BusEco PATH Fit 3 keeps 3 units as printed. Owner: "Proceed".
+  - CF6 (25 Oct): BSES EnS 101/L title stays as visibly printed, "Earth Science I (Geology &", with a recorded
+    clipped-text gap; its hidden second line "Meteorology)" (clipped under the EnS 102 row) is not used and is
+    dropped from EnS 102's title ("Biodiversity Conservation & Management"). Spot-check accepted (BSIT 1st year 1st
+    sem, a CF3 row, a BSMid LEC/RLE row, line-end-hyphen titles kept unspaced): "Looks right, proceed".
+- 25 Oct 2026 (roster 18): a special class fee question asking whether the fee still applies (now or for a school
+  year, e.g. accepted T2) gets the memo's printed date (4 August 2023, F0), "cannot confirm it still applies" and an
+  office referral, no rate. Owner: "that special class fee is 2023, tho we cant really confirm if its still valid. so
+  perhaps refer to the offices". Host route repair from consistent declared parts: "Repair from parts".
+- 25 Oct 2026: deep-Tagalog words such as "isusumite" are a style preference (people rarely use them), not a
+  hard exclusion; no dedicated guard or exemption is needed. The Supabase security advisor WARN
+  `auth_leaked_password_protection` is accepted: the project is not on a Pro plan, so it cannot be enabled;
+  ignore it in advisor checks.
+- 25 Oct 2026: course-fact reply wording approved (owner delegated: "If it looks normal to you then approve of
+  it"): per-term headings "First year, first semester courses (prospectus p. N):" / "Mga subject sa unang taon,
+  unang semestre (...)" / "Ito ang subjects sa first year, first semester (...)", one line per course with units
+  as printed ("units not printed" / "walang naka-print na units"), and the one-course form "<code> <title>: <units>;
+  <year>, <semester> (prospectus p. N)." Known gap: the heading does not name the program/curriculum.
+- 25 Oct 2026: finish the step-2 items that need no UI before UI integration. Supported languages are English,
+  Filipino (Tagalog) and Taglish only; Cebuano is not taken. Owner: simple questions "WE CANNOT FAIL ON THAT";
+  complex ones may fail. A large battery of simple queries will follow and must show no hallucination,
+  retrieval or Prolog errors.
+- 25 Oct 2026, passing grade (item g): Handbook physical p.304 is the Laboratory School (LSHS, DepEd) table, out of
+  scope; the undergraduate table is 2021 Student Handbook physical p.46, "2.2 UNDERGRADUATE LEVEL/SCHOOL OF LAW":
+  3.0 = 75-76 Passed, 4.0 = Condition, 5.0 = Failed. Owner: use p.46 as proposed, and generalise it ("its generally
+  the same for everybody"): no college-specific caveat for the unlisted "following shall apply to specific
+  colleges" text. Supersedes the earlier p.304 reading (3.5/74 failed).
+  Owner approved (25 Oct) inserting the new reviewed grading chunks into hosted Supabase; scope: every row of the
+  p.46 undergraduate table (1.0-3.0 with percentage and rating, 4.0 Condition, 5.0 Failed, INC, IP, NC, OD, UD, W, V).
+- 25 Oct 2026, passing grade delivery (item g): published releases and their sources are immutable, so the p.46 rows
+  are not added as chunks; owner chose a host-written reply from the approved p.46 reading (`8c49ad0`). Owner then
+  chose topic-filtered search (a `retrieve_context` chunk filter migration) so a chosen topic's chunks are not
+  crowded out by other topics; handed off to another agent.
+- 25 Oct 2026, partial topics (g2): owner "omg we need those included": complete the partially reviewed topics
+  (Handbook disciplinary penalties table from physical p.87, of which only exam cheating is reviewed; Charter
+  pre-enrollment incl. Step 2 with its missing printed label kept as a gap). Route and per-row readings still need
+  owner confirmation in short batches.
+- 24 Oct 2026 (Codex resume; machine date): owner selected "Database review path + new research release
+  (recommended)" for g2. Authorizes an append-only supplementary review path for already-published sources
+  and a new research release preserving the current 19 chunks and 39 curriculum links, plus newly reviewed
+  content. Existing receipts/releases stay intact; rollback restores the current release. Exact source rows
+  still require owner review in short batches; this does not establish university approval/currentness.
+- 24 Oct 2026 (source review, standing delegation): owner says "from onwards, u are mostly always correct,
+  and there are indeed blanks from time to time and thats getting normal. If you see the same exact
+  situation, just do what you'd recommend as always approve as printed. If u see another different
+  situation, let me human review". Apply the established approve-as-printed treatment to clear original
+  rows, recurring blanks and equivalent settled layout patterns without another confirmation. Preserve
+  exact columns/conditions/units and originals; blanks remain unspecified. New ambiguities, defects or
+  conflicts still require focused human review. Distinguish standing-approval applications from fresh
+  per-row human confirmations; this does not imply university authority/currentness or resolve gaps.

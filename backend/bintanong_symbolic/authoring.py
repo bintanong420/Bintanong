@@ -17,8 +17,10 @@ SCHEMA_VERSION = 'curriculum-authoring-ledger-v1'
 SCOPE_KEYS = {'program_id', 'curriculum_id'}
 COURSE_KEYS = {'course_id', *SCOPE_KEYS, 'source_version_id', 'facts',
                'prerequisites', 'review_state', 'review_refs'}
-FACT_FIELDS = {'course_code', 'course_title', 'units.total', 'units.lecture',
-               'units.lab', 'units.printed', 'units.rle', 'year_level', 'semester'}
+NUMERIC_UNIT_FIELDS = {'units.total', 'units.lecture', 'units.lab', 'units.rle'}
+# units.printed keeps the printed notation (e.g. "2/1") as text; it is never computed.
+FACT_FIELDS = {'course_code', 'course_title', 'units.printed', *NUMERIC_UNIT_FIELDS,
+               'year_level', 'semester'}
 
 
 def _record(value: Any, keys: set[str], label: str) -> Mapping:
@@ -73,7 +75,7 @@ def _facts(value: Any, source: SourceDocumentVersion) -> dict:
         spans = _spans(fact['source_spans'], source)
         printed = [canonical_text(s['text']) for s in spans]
         printed.append(canonical_text(' '.join(s['text'] for s in spans)))
-        if name.startswith('units.') and name != 'units.printed':
+        if name in NUMERIC_UNIT_FIELDS:
             if type(field_value) not in (int, float) or not math.isfinite(field_value) or field_value < 0:
                 raise ValueError('units must be finite nonnegative numbers')
             supported = any(_printed_number(s, field_value) for s in printed)
@@ -186,7 +188,7 @@ def build_curriculum_ledger(scope, sources, courses, *, reviews=()) -> dict:
         facts = _facts(c['facts'], source)
         # A printed code may repeat only on rows told apart by their printed title or units.
         key = (source.version_id, facts['course_code']['value'],
-               *(facts[f]['value'] if f in facts else None for f in ('course_title', 'units.total')))
+               *(facts[f]['value'] if f in facts else None for f in ('course_title', 'units.total', 'units.printed')))
         if key in code_keys:
             raise ValueError('duplicate course code in one source version')
         code_keys.add(key)

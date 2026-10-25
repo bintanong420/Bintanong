@@ -319,3 +319,40 @@ def test_private_session_identifiers_in_span_metadata_are_rejected(location):
         evidence['extraction']['repair_id'] = 'fact-private-1'
     with pytest.raises(ValueError, match='another namespace'):
         run(data)
+
+
+def with_fact(name, value, printed):
+    data = fixture()
+    c = data[2][1]
+    c['review_state'], c['review_refs'] = 'draft', []
+    c['facts'][name] = copy.deepcopy(c['facts']['units.total'])
+    c['facts'][name]['value'] = value
+    c['facts'][name]['source_spans'][0]['text'] = printed
+    return data
+
+
+@pytest.mark.parametrize('value', ['2/1', '3 (2/1)'])
+def test_printed_units_keep_the_printed_notation_as_text(value):
+    facts = run(with_fact('units.printed', value, value))['courses'][1]['facts']
+    assert facts['units.printed']['value'] == value
+
+
+@pytest.mark.parametrize('value,printed', [('2/1', '2/1 3'), ('3', '2/1'), (3, '3')])
+def test_printed_units_must_be_the_complete_printed_text(value, printed):
+    with pytest.raises(ValueError):
+        run(with_fact('units.printed', value, printed))
+
+
+def test_rle_units_are_printed_numbers():
+    assert run(with_fact('units.rle', 2, '2'))['courses'][1]['facts']['units.rle']['value'] == 2
+    with pytest.raises(ValueError):
+        run(with_fact('units.rle', '2', '2'))
+
+
+def test_repeated_printed_code_is_kept_when_printed_units_differ():
+    scope, sources, courses = repeated_code()
+    for c, printed in zip(courses, ['2/1', '3/0']):
+        evidence = c['facts']['units.total']['source_spans'][0]
+        del c['facts']['units.total']
+        c['facts']['units.printed'] = {'value': printed, 'source_spans': [{**evidence, 'text': printed}]}
+    assert len(build(scope, sources, courses)['courses']) == 2

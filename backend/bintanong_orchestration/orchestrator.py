@@ -12,6 +12,7 @@ from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
 from ..bintanong_routing.combined import CombinedRouter
+from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
 from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
@@ -136,6 +137,9 @@ class Orchestrator:
                     ids = value.rule_ids
                     observed = value.decision.outcome if isinstance(value, SymbolicResult) else (
                         {'complete':'ready','partial':'unknown','unsupported':'unsupported','error':'error'}[value.status])
+                elif isinstance(value, CourseFactsResult):
+                    observed = {'complete':'ready','not_reviewed':'no_evidence','not_found':'no_evidence',
+                                'unsupported':'unsupported'}[value.status]
                 elif name == 'integration':
                     observed = value.status
             metadata = dict(stage=name, duration_ms=(perf_counter()-start)*1000,
@@ -222,6 +226,11 @@ class Orchestrator:
             request = routed.decision.predicate_request
             resources.registry.goal(request)
             value = await resources.symbolic.execute(request, scoped)
+            if request.predicate in ('course_facts', 'list_term_courses'):  # printed facts; no rule executed
+                if (type(value) is not CourseFactsResult or value.inputs != request.inputs
+                        or value.predicate != request.predicate or value.synthetic is research_pin):
+                    raise ValueError('operation_result_mismatch')
+                return CourseFactsResult.parse(value.model_dump(mode='json'))
             # A research pin expects labelled real-rule results; a synthetic pin, synthetic ones.
             research = not resources.pin.synthetic
             result_kind, dependency_kind = ((ResearchSymbolicResult, ResearchDependencyResult) if research
@@ -237,7 +246,8 @@ class Orchestrator:
                 raise ValueError('dependency_operation_mismatch')
             return dependency_kind.parse(value.model_dump(mode='json'))
 
-        documents, symbolic, dependencies = None, None, None
+        documents, symbolic, dependencies, course_facts = None, None, None, None
+        research_pin = not resources.pin.synthetic
         if route == 'Hybrid':
             (documents, doc_failure), (result, sym_failure) = await asyncio.gather(
                 stage('retrieval', retrieve), stage('symbolic', reason))
@@ -251,12 +261,14 @@ class Orchestrator:
             return finish(failure)
         if isinstance(result, DependencyResult):
             dependencies = result
+        elif isinstance(result, CourseFactsResult):
+            course_facts = result
         else:
             symbolic = result
 
         async def integrate():
             return assemble(resources.pin, route, documents=documents,
-                            symbolic=symbolic, dependencies=dependencies)
+                            symbolic=symbolic, dependencies=dependencies, course_facts=course_facts)
 
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)

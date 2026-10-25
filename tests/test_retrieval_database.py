@@ -57,6 +57,89 @@ class RetrievalDatabaseTests(unittest.TestCase):
             with self.assertRaises(Exception):
                 self.search(**params)
 
+    def test_chunk_filter_limits_ranking_without_changing_omitted_filter(self):
+        for role in ('anon', 'authenticated'):
+            with self.subTest(role=role):
+                client = DatabaseStorageClient(self.db, runtime_role=role)
+                original = self.client
+                self.client = client
+                try:
+                    baseline = self.search()
+                    self.assertEqual(self.search(p_chunk_ids=[]), baseline)
+                    result = self.search(p_chunk_ids=['b'*64])
+                    self.assertEqual([r['chunk']['chunk_id'] for r in result['items']], ['b'*64])
+                    self.assertEqual(self.search(p_chunk_ids=['not-in-release'])['items'], [])
+                    self.assertEqual(self.search(p_chunk_ids=['a'*64], p_scope=['program:OTHER'])['items'], [])
+                    self.assertEqual(self.search(p_chunk_ids=['a'*64], p_version_ids=['ver-test2'])['items'], [])
+                    self.assertEqual(self.search(p_chunk_ids=['b'*64], p_min_similarity=.25)['items'], [])
+                    self.assertEqual(self.search(p_chunk_ids=['b'*64],
+                        p_release_id='release-test1')['status'], 'release_changed')
+                finally:
+                    self.client = original
+
+    def test_chunk_filter_rejects_malformed_or_oversized_lists(self):
+        from backend.bintanong_storage.client import StorageError
+        for value in (None, {}, 'a', [1], [''], [' '], ['\t'], ['\n'], ['a'*257], ['a']*129):
+            with self.subTest(value=value), self.assertRaisesRegex(StorageError, 'retrieval filters'):
+                self.search(p_chunk_ids=value)
+
+    def test_chunk_filter_supports_complete_topics_larger_than_32_chunks(self):
+        for count in (33, 128):
+            chunk_ids = ['a'*64] + ['not-a-member-'+str(i) for i in range(count-1)]
+            with self.subTest(count=count):
+                result = self.search(p_chunk_ids=chunk_ids)
+                self.assertEqual([r['chunk']['chunk_id'] for r in result['items']], ['a'*64])
+        from backend.bintanong_storage.client import StorageError
+        for name in ('p_scope', 'p_entity_hints', 'p_version_ids'):
+            with self.subTest(filter=name), self.assertRaisesRegex(StorageError, 'retrieval filters'):
+                self.search(**{name:['a']*33})
+
+    def test_topic_filter_precedes_top_k_and_retains_below_floor_neighbor(self):
+        import math
+        from tests.storage_database import sql_literal
+        db = StorageDatabase()
+        self.addCleanup(db.close)
+        db.execute(FIXTURE + """
+            update public.chunks set type_fields=jsonb_build_object(
+                'required_neighbor_chunk_ids', jsonb_build_array(repeat('c',64))) where chunk_id=repeat('a',64);
+            insert into public.chunks select (jsonb_populate_record(null::public.chunks,
+                to_jsonb(c) || jsonb_build_object('chunk_id', repeat('c',64), 'type_fields', '{}'::jsonb))).*
+                from public.chunks c where c.chunk_id=repeat('a',64);
+            insert into public.chunks select (jsonb_populate_record(null::public.chunks,
+                to_jsonb(c) || jsonb_build_object('chunk_id', repeat(k,64)))).*
+                from public.chunks c cross join (values ('d'),('e')) ids(k) where c.chunk_id=repeat('b',64);
+            insert into public.source_spans(span_id,chunk_id,version_id,byte_sha256,text,page,locator)
+                select gen_random_uuid(),c.chunk_id,c.version_id,c.byte_sha256,c.text,1,
+                    '{"kind":"section","section_path":["Synthetic"]}'::jsonb
+                from public.chunks c where c.chunk_id in (repeat('c',64),repeat('d',64),repeat('e',64));
+            insert into public.chunk_embeddings(chunk_id,embedding_set_id,chunk_content_hash,embedding)
+                select c.chunk_id,'set-test',c.content_hash,
+                    ('[' || '1,' || repeat('0,',1022) || '0]')::extensions.vector
+                from public.chunks c where c.chunk_id in (repeat('c',64),repeat('d',64),repeat('e',64));
+            update public.chunk_embeddings set embedding=
+                ('[' || '1,' || repeat('0,',1022) || '0]')::extensions.vector;
+            update public.chunk_embeddings set embedding=
+                ('[' || '0,1,' || repeat('0,',1021) || '0]')::extensions.vector where chunk_id=repeat('c',64);
+            update public.embedding_sets set total_chunks=5 where embedding_set_id='set-test';
+            commit;
+        """)
+        vector = [.4, math.sqrt(.84)] + [0.0]*1022
+        db.execute('update public.chunk_embeddings set embedding='+sql_literal(json.dumps(vector))+
+                   "::extensions.vector where chunk_id=repeat('a',64);")
+        manager = ReleaseManager(DatabaseStorageClient(db))
+        manager.create_release('release-topic', 'topic', 'Synthetic', 'set-test',
+            [c*64 for c in 'abcde'], ['ver-test1', 'ver-test2'])
+        manager.activate_release('release-topic')
+        params = dict(p_release_id='release-topic', p_config=IDENTITY,
+            query_embedding=[1.0]+[0.0]*1023, p_top_k=3, p_min_similarity=.25)
+        for role in ('anon', 'authenticated'):
+            client = DatabaseStorageClient(db, runtime_role=role)
+            baseline = client.rpc('retrieve_context', params)
+            self.assertEqual([r['chunk']['chunk_id'] for r in baseline['items']], [c*64 for c in 'bde'])
+            result = client.rpc('retrieve_context', params | {'p_chunk_ids':['a'*64, 'c'*64]})
+            self.assertEqual([r['chunk']['chunk_id'] for r in result['items']], ['a'*64])
+            self.assertEqual([r['chunk']['chunk_id'] for r in result['items'][0]['neighbors']], ['c'*64])
+
     def test_stale_and_draft_pins_are_closed_under_both_runtime_roles(self):
         self.assertEqual(self.search(p_release_id='release-test1')['status'], 'release_changed')
         self.manager.activate_release('release-test2')
