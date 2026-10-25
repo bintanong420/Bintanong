@@ -121,6 +121,16 @@ withhold the whole reviewed answer; claims are not dropped after review identity
 The reviewer confirms each retained part against only its own claims plus per-claim support.
 Confirmation stays fallible (`unverified`). See the [guard verification](../../plans/2026-10-25-malformed-source-answer-guard-results.md).
 
+`service_cutoff.py` protects records with an explicit unresolved `source_cutoff`
+on `agency_action`. Before numbering/review, claims citing that record become one
+labelled quotation of its visible service fields plus the cutoff notice. The host
+does not complete the missing instruction or join client/agency/office fields.
+Malformed or oversized recognized records become `source_gap`; independent parts
+and claim budgets survive. Ordinary relevance/support review still runs. Draft and
+final validation reject other prose attached to that record. This does not establish
+procedure order or multilingual semantic quality; original English quotations have
+local-language framing. [Plan](../../plans/2026-10-25-service-cutoff-fidelity-plan.md).
+
 `Generator(..., explanation_profile='scoped')` was the previous selected candidate described
 in the [scoped plan](../../plans/2026-10-20-scoped-explanations-plan.md). It renders
 ready pure Symbolic answers entirely from their validated typed result, with no

@@ -18,6 +18,7 @@ from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
+from .service_cutoff import cutoff_reply
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
 from .scope import document_payload, model_card
@@ -244,6 +245,11 @@ def to_draft(explanation, pack):
                 status = ('answered' if proposed and not any(held.intersection(c.evidence_ids) for c in proposed)
                           else 'source_gap')
                 # Deterministic wording still needs the existing per-part relevance/support review.
+            if status == 'answered':
+                excerpt = cutoff_reply(pack, proposed, max_claims=8-len(claims)-reserved)
+                if excerpt is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in excerpt)
+                    status = 'answered' if proposed else 'source_gap'
         numbered = []
         for claim in (proposed if status == 'answered' else ()):
             numbered.append(f'c{len(claims) + 1}')
