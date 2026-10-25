@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 58
+sequence: 59
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 9b0f555
+head_commit: 3baa8d4
 working_tree: dirty
-updated_at: 2026-10-25T22:33:18+08:00
+updated_at: 2026-10-25T22:43:37+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -28,11 +28,13 @@ updated_at: 2026-10-25T22:33:18+08:00
 ## Current Task
 
 Previous full checkpoint snapshot:9b0f555; recover older detail with git show.
-Owner requests Top-Design chat UI proposal grounded in repo/thesis, frontend-only.
+Owner extends Top-Design proposal to general chat; thesis/master/repo/skills govern.
 [Design and implementation boundaries](2026-10-25-frontend-follow-up-interaction-design.md).
-External interactive sample: edit/rephrase, explicitly select earlier supplied facts,
-exact draft review and grouped source access. No application/backend changes.
-Browser1440x1040/390x844 PASS: exact review, clear, Escape, no overflow/HTTP/page errors.
+External samples: general welcome/chat, composer, waiting/error, mobile/light-dark,
+plus explicit follow-up review. Both self-checks PASS; no application/backend changes.
+Browser1440x1040/390x844: safe text, draft-only starters, Stop, sources, clear/Escape,
+no overflow/HTTP/page errors. General light/dark/mobile screenshots inspected.
+Rechecked thesis17–18/54/65–66, master16/23, routing PNG; exact mapping in design.
 Direct thesis review9/17–18/40/54/65: recovery, useful clarification and isolated chat;
 IDs-only memory is a later implementation choice. See design's thesis/history links.
 Full-path v22 replay: prerequisite/grade turns PASS; options follow-up FAILS

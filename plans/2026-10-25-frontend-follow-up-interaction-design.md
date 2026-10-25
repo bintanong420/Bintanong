@@ -1,4 +1,4 @@
-# Frontend follow-up interaction design
+# General chat and follow-up interaction design
 
 25 October 2026. Requested Top-Design proposal, grounded in the existing student UI,
 thesis and API contracts. Design and external prototype only; no application changes.
@@ -60,6 +60,69 @@ Supported canonical questions continue to use the existing opt-in clarification 
 Keep the existing Stop control. Waiting feedback may show real elapsed time and
 actual transport stages; no fabricated progress percentage, tool trace or early
 unvalidated answer. UI work does not establish faster inference.
+
+## General chat workspace: same design, not just follow-up recovery
+
+Owner addition25October: include the general chat interface patterned after ChatGPT,
+Claude and Gemini; follow the thesis, master plan, repo instructions and skills too.
+General means the whole supported undergraduate conversation, not general-purpose AI.
+
+The companion `chat.html` preview covers the full shell and links to `index.html`
+for the more detailed follow-up recovery. Its Preview state controls are demonstration
+controls only and must not appear in the shipped student interface.
+
+| Surface | Proposed behavior |
+| --- | --- |
+| Start screen | Keep "Ask away, Bintanong."; explain the undergraduate scope briefly; three small starter actions prefill an editable question without sending |
+| Sidebar | New chat, current temporary conversation and existing account/help controls; mobile opens a keyboard-accessible navigation dialog; no invented saved-history list |
+| Header | Visible program/curriculum picker using real checked options; retain appearance and temporary-session information; no selectable model or RAG/Prolog mode |
+| Conversation | User messages visually distinct; assistant answers use an open reading column with clear typography; keep actual answer text and status; long content wraps safely |
+| Composer | Persistent multiline input; PDF attachment; explicit Send; Enter/Shift+Enter and IME behavior retained; disabled/Stop states follow the real request |
+| Message actions | Edit as a new question and Copy; source access when sources exist; show recovery actions on the relevant result rather than crowding every answer |
+| Evidence | Sources drawer with title/page/section/excerpt when returned and authorized; private PDF details remain separate from institutional citations |
+| Working | Real queued/processing states and optional honest elapsed time; Stop remains available; never reveal an unvalidated policy draft |
+| Errors | Preserve the question; distinguish request failure, interrupted response, unavailable service and expired session; offer recovery appropriate to the actual transport state |
+| Unknown/withheld | Preserve canonical clarification, insufficient-information and error distinctions; show specific supported questions, source gaps or applicable referral only when supplied |
+| Files | Show selected/uploaded/extracted/needs-review states from existing contracts; explicit confirm and remove; leave uncertain fields unknown; PDF only at current runtime |
+| Clearing | Confirm destructive clearing; real app resets after server acknowledgement; on failure preserve visible state and offer retry rather than falsely claiming deletion |
+
+The visual proposal combines a prompt-first start screen and clear navigation with a
+quiet reading column, contextual answer actions and inspectable evidence. This is an
+adaptation, not a pixel-exact reconstruction of the three products. Verified official
+references additionally include [ChatGPT home/new chat](https://help.openai.com/en/articles/9125172-the-chatgpt-home-page)
+and [Gemini chat/composer/mobile menu and prompt editing](https://support.google.com/gemini/answer/13275745?co=GENIE.Platform%3DDesktop&hl=en).
+The earlier Claude citation reference supports inspectable grounding and an actual
+search indicator; it does not authorize a web-search toggle in Bintanong.
+Keep current account/auth and help actions; the prototype account/PDF/scope controls
+explain their boundaries rather than impersonating a connected account or upload.
+
+## Requirement-to-interface mapping
+
+| Authority consulted | Consequence for this design |
+| --- | --- |
+| Thesis physical17–18, reread directly | Undergraduate academic affairs, advisory only; unavailable evidence cannot become a made-up answer or automatic web acquisition |
+| Thesis physical54, reread directly | Clarification helps identify vague intent; no fabricated generic grade question to fill an empty API packet |
+| Thesis physical65–66, reread directly | Isolated private context, no stored academic records, clear AI/adviser notice; no cross-chat personal profile |
+| Master16.1–16.3, reread | Existing chat/upload/delete/source endpoints and tested transport; concise progress, final validated answers, conditional facts, keyboard/mobile support |
+| Master23.1–23.3, reread | Visible thread and bounded server context are different; no automatic full-transcript replay; clear conversation and preserve session ownership |
+| Runtime routing PNG, inspected | Router/retrieval/Prolog/integration/validation remain backend responsibilities; no frontend route guessing or raw-predicate controls |
+| AGENTS.md scope/source/owner rules | Unknown differs from unmet; private files are not institutional knowledge; no dependency/model/source activation or unrelated edits |
+| Current components/contracts | Reuse Workspace, EmptyConversation, ConversationStarters, Conversation, Composer, dialogs, reducer and source inspector; preserve cancellation and lifecycle behavior |
+| Top-Design | Deliberate hierarchy, restrained color, spacing, focus and purposeful transitions; academic reading and accessibility constrain visual effects |
+| Ponytail full and Good CSS | Reuse house components/tokens, native scrolling and small adaptive layouts; no new UI or animation dependency |
+| Handoff reminder/phase handoff | Record exact proposal scope and verification; Phase11 stays active and proposal delivery does not clear its exit gates |
+
+Researcher-only debug details, raw reasoning and architecture controls remain outside
+the student flow. No voice, image generation, model selector, autonomous enrollment,
+shared chats, ratings backend or persistent projects are added by imitation.
+English UI copy follows the current owner preference; multilingual input support and
+the existing language contract remain separate from this design-only work.
+
+Implementation acceptance extends the focused follow-up tests with welcome-to-chat,
+draft-only starters, safe text rendering, keyboard/IME send, source drawer focus,
+conditional/unknown/error rendering, Stop/disconnect/expiry, upload review/delete,
+failed clear preservation and narrow-screen/light-dark behavior. Use the existing
+tests and real transport; do not reproduce demo state switches in application code.
 
 ## Exact recovery flow for the reported example
 
@@ -158,6 +221,20 @@ choice inclusion and exact review; sample clear removes choices; Escape closes t
 dialog; zero HTTP requests and page errors. Desktop, mobile and review screenshots
 were visually inspected. Command: existing cached Node executable runs `check.mjs`.
 No authenticated app acceptance, dark-mode, screen-reader or backend-answer claim.
+
+General chat companion: `chat.html`, shared extracted `sample.css`, `check-chat.mjs`,
+`chat-checks.json`, `chat-welcome.png`, `chat-conversation.png`, `chat-mobile.png`,
+`chat-dark.png` in the same ignored evidence folder. General checks PASS at1440x1040
+and390x844: draft-only starter, safe text rendering, Shift+Enter, Stop, edit/error
+recovery, four distinct references, light/dark switch, clear, mobile menu/Escape,
+no horizontal overflow, zero HTTP requests/page errors. Welcome/mobile/dark and
+review screenshots inspected; fixed dark New-chat contrast during visual review.
+The first general check failed before `chat.html` existed, then found a New-chat
+accessible-name mismatch; the final run passes. This is prototype interaction proof,
+not a claim that application behavior, privacy enforcement or answer quality passed.
+The earlier dark-mode exclusion applies to the original follow-up sample; the general
+sample now has visual coverage. Screen-reader/real-phone/authenticated acceptance
+remain unverified. Both sample self-checks passed again after the final CSS change.
 
 Provisional interaction/visual assessment:8/10 for this sample, not a measured user
 study or a literal promotional-site hero score. To approach10: integrate the actual

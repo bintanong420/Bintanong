@@ -9,11 +9,11 @@ Previous full frontend snapshot:9b0f555; use git show for history.
 
 ## Latest change
 
-Prepared a frontend-only chat/recovery design using Top-Design and official product
-UI references; explicit rephrasing, selected earlier details and exact outgoing review.
-[Design](../2026-10-25-frontend-follow-up-interaction-design.md). External interactive
-sample passes desktop/mobile checks; no app/backend edits or automatic memory replay.
-Thesis/history reconciliation remains linked in the design; options failure unresolved.
+Extended the frontend design to the general chat UI: welcome, conversation, composer,
+mobile navigation, sources, waiting/error and light/dark states; explicit thesis/master/
+repo/skill mapping in the [design](../2026-10-25-frontend-follow-up-interaction-design.md).
+Both external prototype self-checks PASS; no application/backend edits or real requests.
+Thesis17–18/54/65–66, master16/23 and routing PNG rechecked; follow-up failure remains.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
