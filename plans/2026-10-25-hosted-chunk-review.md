@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: all66 Handbook outcomes recorded; Charter batch26/chunks67–74 awaiting decisions.
+Status:74 outcomes recorded; special-class-fee batch27/chunks75–77 awaiting decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **60**, correction-needed **6**, held **0**, pending **14**.
+Current counts: approved **66**, correction-needed **8**, held **0**, pending **6**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -109,7 +109,7 @@ Batch22/chunks56–58 approved:"i approve" (26Oct).
 Batch23/chunks59+60+62 approved:"i approve" (26Oct),missing22 limit retained.
 Batch24/chunks61+63 approved:"i approve" (26Oct).
 Batch25/final Handbook64–66 approved:"i approve" (26Oct). Handbook60approved/6corrections.
-Batch26/Charter67–74 displayed as one complete related set;decisions pending.
+Batch26:67/69/70/72/73/74 approved;68/71 correction-needed for missing companions;"i approve" (26Oct).
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -185,10 +185,10 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for Charter batch26/chunks67–74 (physical102–103/printed98–99).**
-Show all six mutually linked draft records with two preserved older variants. Proposed68/71 missing-
-companion correction requires owner outcome; no inference. Then special-class-fee75–77.
-Correction-needed19–21/36/45–46 retain approved scope; no correction/DB/prompt/model changes in audit.
+**Await owner decisions for special-class-fee batch27/chunks75–77 (one original image).**
+All three active/shared records mutually require the other two. Exact stored fields and retained
+billing/currentness limits shown; date ISO normalization/duplicate54 alias explained. Then78–80 vehicle.
+Correction-needed19–21/36/45–46/68/71 retain approved scope; no correction/DB/model changes in audit.
 
 ## Frozen snapshot and verification
 
@@ -282,17 +282,17 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 64 | `3d1c889fabe31a6e9756c8704e8755aa40ce72de0a696476a1073427f7e16a75` | handbook-disciplinary-II.25 | 94 | draft-only | Agent: fields/columns match rendered original | Selected sanction row;shared II heading absent;no companions | "i approve" (batch25,26Oct2026) | approved | Full selected clauses/conditions/blank columns approved |
 | 65 | `a5271913253117e8d37b9019bb7dfcc5cda2fdffa5c0fa226e16140b3d2e55c2` | handbook-disciplinary-II.26 | 94 | draft-only | Agent: fields/columns match rendered original | Selected sanction row;shared II heading absent;no companions | "i approve" (batch25,26Oct2026) | approved | Full selected clauses/conditions/blank columns approved |
 | 66 | `c58a0eb763927348cf68a469bbb9db802ca30eb45936cc8719e76c279aba5f5c` | handbook-disciplinary-II.27 | 95 | draft-only | Agent: fields/columns match rendered original | Selected sanction row;shared II heading absent;no companions | "i approve" (batch25,26Oct2026) | approved | Full selected clauses/conditions/blank columns approved |
-| 67 | `74027db2099b4287071dd40fdc7f2d9b00f4dc1ae2ff93946206d65b41e94452` | charter-pre-enrollment-header-checklist | 102 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | — | pending | Known cutoff/time discrepancy retained in connected set;owner outcome pending |
-| 68 | `6a9eccd5aaf01c122209bff33a86f463d7409f4a86007619d996f553e3f87c2f` | charter-pre-enrollment-step-1 | 102 | active/shared | Agent:fields/associations match original102–103(print98–99) | Preserved active/shared fragment,no required companions | — | pending | Missing complete-service companion context proposed correction;wording matches new variant;outcome pending |
-| 69 | `2bcb9a1b246a076bfac640c01257c3fce3fe5fbcbd4cad9541d15acbc33848a5` | charter-pre-enrollment-step-1-expanded | 102 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | — | pending | Known cutoff/time discrepancy retained in connected set;owner outcome pending |
-| 70 | `5986959e1ae1405d59dc3cef582c6e908225592a61f1dec9d454b2ace2b1f7d7` | charter-pre-enrollment-step-2-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | — | pending | Known cutoff/time discrepancy retained in connected set;owner outcome pending |
-| 71 | `28397902f9402e097d6167caab2b529f95934bbeb9533d1b58c893c03dbce290` | charter-pre-enrollment-step-3 | 103 | active/shared | Agent:fields/associations match original102–103(print98–99) | Preserved active/shared fragment,no required companions | — | pending | Missing complete-service companion context proposed correction;wording matches new variant;outcome pending |
-| 72 | `63dc784901145eb7d65b87f66f94e24c4fb15885bbea107ef5920482da142531` | charter-pre-enrollment-step-3-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | — | pending | Known cutoff/time discrepancy retained in connected set;owner outcome pending |
-| 73 | `01d7da512b86903ec99c58afed072160c9c365ef94304b48e7d36e1a60893413` | charter-pre-enrollment-step-4-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | — | pending | Known cutoff/time discrepancy retained in connected set;owner outcome pending |
-| 74 | `e26aa871228b71eaf2f84d86f9c1b393de16c7f0450e3a1125964825c4608472` | charter-pre-enrollment-total | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | — | pending | Known cutoff/time discrepancy retained in connected set;owner outcome pending |
-| 75 | `6eb18cb61b68a289417652c94bfe7d27a5e176da353089bae12fd24721f6e44e` | F01 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 76 | `d44db1c77211a75a3e845825f032433a7572a975e69e3c5aba1f7a9d29ecad89` | F08 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 77 | `bb2b7d5e3742187d33910260d5f9edd0d9a39731ed6be664e6fbd05c8efa8b90` | F09 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 67 | `74027db2099b4287071dd40fdc7f2d9b00f4dc1ae2ff93946206d65b41e94452` | charter-pre-enrollment-header-checklist | 102 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
+| 68 | `6a9eccd5aaf01c122209bff33a86f463d7409f4a86007619d996f553e3f87c2f` | charter-pre-enrollment-step-1 | 102 | active/shared | Agent:fields/associations match original102–103(print98–99) | Preserved active/shared fragment,no required companions | "i approve" (26Oct,batch26;explicit proposed outcomes) | correction-needed | Separate append-only follow-up: add complete-service companion context;faithful old wording retained;cutoff/time discrepancy unresolved |
+| 69 | `2bcb9a1b246a076bfac640c01257c3fce3fe5fbcbd4cad9541d15acbc33848a5` | charter-pre-enrollment-step-1-expanded | 102 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
+| 70 | `5986959e1ae1405d59dc3cef582c6e908225592a61f1dec9d454b2ace2b1f7d7` | charter-pre-enrollment-step-2-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
+| 71 | `28397902f9402e097d6167caab2b529f95934bbeb9533d1b58c893c03dbce290` | charter-pre-enrollment-step-3 | 103 | active/shared | Agent:fields/associations match original102–103(print98–99) | Preserved active/shared fragment,no required companions | "i approve" (26Oct,batch26;explicit proposed outcomes) | correction-needed | Separate append-only follow-up: add complete-service companion context;faithful old wording retained;cutoff/time discrepancy unresolved |
+| 72 | `63dc784901145eb7d65b87f66f94e24c4fb15885bbea107ef5920482da142531` | charter-pre-enrollment-step-3-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
+| 73 | `01d7da512b86903ec99c58afed072160c9c365ef94304b48e7d36e1a60893413` | charter-pre-enrollment-step-4-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
+| 74 | `e26aa871228b71eaf2f84d86f9c1b393de16c7f0450e3a1125964825c4608472` | charter-pre-enrollment-total | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
+| 75 | `6eb18cb61b68a289417652c94bfe7d27a5e176da353089bae12fd24721f6e44e` | F01 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | — | pending | No correction proposed;billing/currentness limits retained;ISO date/duplicate54 alias disclosed;owner outcome pending |
+| 76 | `d44db1c77211a75a3e845825f032433a7572a975e69e3c5aba1f7a9d29ecad89` | F08 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | — | pending | No correction proposed;billing/currentness limits retained;ISO date/duplicate54 alias disclosed;owner outcome pending |
+| 77 | `bb2b7d5e3742187d33910260d5f9edd0d9a39731ed6be664e6fbd05c8efa8b90` | F09 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | — | pending | No correction proposed;billing/currentness limits retained;ISO date/duplicate54 alias disclosed;owner outcome pending |
 | 78 | `1167f48dd292b9eca5bf76cf165f1e363812f12f6398c94a0075c5d0fb7f1418` | V01-G2 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 79 | `8c164a09202401220f98a404c137619d7ed40e92e8e69090d97c1bd040336bdc` | V05-G3 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 80 | `1e4acc750776f674c708bc4a7918cf7f7de3d198b88b9a789370dab15105774b` | V07-office-context | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -639,3 +639,25 @@ Other5 source_limits empty. No blank meaningful stored fields;TOTAL person-respo
 in original and not represented in74 (do not infer a responsible person). Keep exact None/NONE fee
 values as printed,not absent-fee inference. Selected service applies to undergraduate students.
 Then75–77 fee images. No source/DB/prompt/model changes;frozen snapshot/queue hashes unchanged.
+
+## Batch26 outcome / special-class-fee batch27 display —26 October2026
+
+Owner reply to explicit proposed Charter outcomes:"i approve".67/69/70/72/73/74 approved with retained
+limits;older68/71 correction-needed for missing companion context. This approves the review outcomes,
+not DB edits. Charter6approved/2corrections;overall66approved/8correction-needed/0held/6pending.
+
+75 F01,76 F08,77 F09 are all active/shared,original image IMG_20250127_150005.jpg,no PDF/printed page.
+Image SHA d35323d042e730038f6cc0401d2c294654f8158c68d86a6e17308df80ff5bf94 verified;original inspected.
+75 exact fields:lecture_units=3;lecture_hours=54;hours_reading=54;amount_php_as_printed=20,000.00;
+lecture_hours_per_week=3. Duplicate54 fields share the same original region;no extra54hours.
+76 printed_rate_php_per_hour=370.37,no own source_limits;linked75/77 limits still apply.
+77 printed_date=2023-08-04;bor_resolution_number_as_printed=40;bor_resolution_series_as_printed=2023;
+printed_effectivity=first semester SY 2023-2024. Original date reads August 4, 2023;ISO normalization
+is stored review formatting,not literal printed punctuation. Field names are added retrieval labels.
+All3 each require the other2;selected fragments,not the complete memo. All fields nonblank. Exact limits:
+-75:"Unavailable information: official individual student assessment. Source limitation remains unresolved (claim_not_stated)."
+-77:"Unavailable information: current-school-year institutional validity. Source limitation remains unresolved (effectivity_currentness_unknown)."
+Reuse settled F1 readings/rate+example decision;do not infer individual division/current validity or
+reopen heldF04. No correction proposed for75–77;await outcomes,then78–80. Snapshot/queue hashes and80
+number-ID mappings unchanged;field-span parity checked. Thesis17–18/routing PNG/master16 refreshed,
+no scope/routing discrepancy. Documentation-only checks;no full-suite rerun/source/DB/model changes.

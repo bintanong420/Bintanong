@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 83
+sequence: 84
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 36ea265
+head_commit: e5b7d98
 working_tree: clean
-updated_at: 2026-10-26T00:41:48+08:00
+updated_at: 2026-10-26T00:48:57+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,11 +33,12 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-64–66 approved:"i approve". Handbook66outcomes60approved/6corrections. Overall60approved/
-6corrections/0held/14pending. Charter batch26/all8 IDs67–74 displayed together:6mutual draft records
-plus old68/71active/shared without companions. Source fields/associations match rendered102–103,
-printed98–99 verified;step3cutoff/25vs20min unresolved. Proposed old68/71 companion correction;
-new6 proposed fidelity approval with limits. Await outcomes;no source/DB/model changes.
+Charter67/69/70/72/73/74 approved with limits;68/71 correction-needed for missing companions,
+owner "i approve" to explicit outcomes.74outcomes:66approved/8corrections/0held/6pending.
+Fee batch27/chunks75–77 shown:active/shared,mutual3-record group,exact image fields;no blank fields.
+Original image/hash and field-span parity verified;ISO date normalization/duplicate54 alias disclosed.
+Individual billing/currentness limits retained;F04 held. Await decisions,then78–80. Frozen80IDs/hashes
+unchanged. Thesis17–18/routing PNG/master16 refreshed;no discrepancy. No source/DB/model changes.
 
 ## Repository State
 
@@ -113,8 +114,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await Charter67–74 decisions,then fee75–77.Proposed old68/71 companion correction;no duplicate outcomes. No repeated outcomes,source corrections or activation.
-Keep frozen queue/approved correction scope19–21/36/45–46 and source limitations.
+Await fee75–77 decisions,then vehicle78–80. Save exact decisions;no source/DB edits.
+Correction scopes19–21/36/45–46/68/71 remain separate follow-up.
 
 ## Context Consulted
 
