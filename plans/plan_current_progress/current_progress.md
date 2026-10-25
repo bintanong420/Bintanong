@@ -7,20 +7,16 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Operation-repair correction committed3fbea08. Otherwise actionable Symbolic/Hybrid outputs with
-operations no part references now get the existing one-repair opportunity. No silent operation
-removal or topic-keyword routing; controls/audience/ambiguity, linked operations and wrong-RAG
-refusal/reporting retain behavior. [Results](../2026-10-25-unreferenced-operation-repair-results.md).
-RED6/7; first broad1 failure/1007 exposed wrong-RAG reporting regression; narrowed guard. Final1008
-passed25.89s. Independent scoped review clean,13 focused checks passed. Full suite3fbea08
-PASSED6708 +1595 subtests,6 skipped,2 xfailed,6warnings,22m38s,exit0. No code/test changes since.
-Usage-limit resume verified saved evidence; no suite/model replay repeated.
-
-Two observations of one English fraud question now answer safely with both printed rows and
-unresolved-precedence referral: saved bad packet -> actual model repair40.315s; fresh route24.954s.
-Both raw model drafts chose one sanction; existing e1d7e8b comparison discarded it before review.
-No browser/API latency or broad accuracy claim. Expanded release remains inactive; no switch.
-Prior fraud full suite6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,exit0; evidence retained.
+Service contexta2a2f19 and reviewed procedure record-coverage floor6b47449 committed. Exact subject/
+claim binding through retrieval/integration/preparation to per-part draft/final checks; no keyword
+routing/hardcoded facts; absent metadata omitted for legacy digests. Broad1121/independent10 pass.
+Both bounded3-case live batteries FAILED semantic quality. Latest: English cites all steps but invents
+cutoff continuation/blends offices; Filipino reorders Steps1/2 then hard-style rejection; Taglish tool_error.
+4d391f6 removes outdated formal-word rejection per settled25Oct owner preference. RED3/40;
+broad1121 passed29.77s, independent43 passed2.42s. Function-word/support checks retained.
+[Plan](../2026-10-25-service-routing-completeness-plan.md), [results](../2026-10-25-service-routing-completeness-results.md).
+Full suite running on frozen4d391f6 (session28197); no further live battery this increment.
+Fresh hosted read: old19 active/new80 draft;54 sealed files unchanged. No source/release activation.
 
 ## Delivered state
 
@@ -48,13 +44,11 @@ Prior fraud full suite6695 +1595 subtests,6 skipped,2 xfailed,6warnings,22m44s,e
 
 ## Next action
 
-Next: pre-enrollment service recovery from saved traces. English grade-evaluation part chose
-completion deadlines; Filipino chose the right topic but omitted steps. Separate routing meaning
-from answer completeness, reuse reviewed sources. Expanded release stays inactive.
-Fresh hosted readback: old19 active/new80 draft;54 sealed files unchanged. Quality/roster/switch gates remain.
-After this correction: unresolved router/service/plagiarism/steps issues, Hybrid next-step without
-topic, bare clarifications, Nursing negative mode and owner's simple-query battery. Frontend integration
-follows pending work; auth/dependency pins/SDK parser verification belong there. No phase advancement.
+Finish full suite session28197, save verification/recovery, then address reviewed step order/action-office
+associations/cutoff continuation from existing traces; diagnose Taglish failed call without a prompt sweep.
+Expanded release stays inactive; other quality/roster/switch gates remain.
+Later router/service/plagiarism/progression, Hybrid no-topic, clarifications, Nursing negative mode
+and owner's simple-query battery precede frontend integration. No phase advancement.
 
 ## Boundaries
 

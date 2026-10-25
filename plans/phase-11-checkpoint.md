@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 37
+sequence: 40
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3fbea08
-working_tree: clean
-updated_at: 2026-10-25T18:37:00+08:00
+head_commit: 4d391f6
+working_tree: dirty
+updated_at: 2026-10-25T19:08:00+08:00
 ---
 
-# Phase 11 checkpoint — fraud precedence verification
+# Phase 11 checkpoint — service completeness verification
 
 Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoint.md`.
 [Plan](phase-11-backend-api-plan.md) · [Phase10 final handoff](phase-10-handoff.md) ·
@@ -33,32 +33,31 @@ Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoin
 
 ## Current Task
 
-Operation-repair correction3fbea08 committed after RED6/7 and broad1008 GREEN; scoped independent
-review clean,13 checks independently passed. [Plan](2026-10-25-unreferenced-operation-repair-plan.md)
-· [Results](2026-10-25-unreferenced-operation-repair-results.md). Unreferenced operations in otherwise
-actionable Symbolic/Hybrid output now get the existing model repair opportunity; no silent rerouting.
-Saved bad first packet repaired by actual model -> RAG/ready/safe comparison40.315s; fresh same-question
-RAG/ready/safe comparison24.954s. Both model drafts' one-sanction choice was suppressed before review
-by verified e1d7e8b comparison. No additional replay/experiment; expanded release remains inactive.
-Full suite PASSED6708 +1595 subtests,6 skipped,2 xfailed,6warnings,22m38s,exit0 on3fbea08.
-Usage-limit interruption occurred after suite completion; evidence/code match verified on resume. No rerun.
-Prior fraud correctione1d7e8b full suite6695 +1595 subtests passed; no guard/checker work repeated.
+Service contexta2a2f19 and reviewed record-coverage floor6b47449 committed. Exact subject/claim
+binding through retrieval/integration/preparation to per-part draft/final checks; absent metadata
+omitted for legacy digests. Existing repair budget preserved. No hardcoded policy facts/keyword routing.
+Second3-case live gate also FAILED: English cites all steps but invents cutoff continuation and blends
+offices; Filipino drafts reverse Steps1/2 and hard-style guard rejects them; Taglish tool_error.
+4d391f6 removes the outdated hard formal-word ban per settled25Oct preference decision. Filipino
+function-word floor/support review retained. RED3/40; broad1121 passed29.77s; independent43 pass2.42s.
+[Plan](2026-10-25-service-routing-completeness-plan.md), [results](2026-10-25-service-routing-completeness-results.md).
+Full suite running on frozen4d391f6, session28197; no further model trial in this increment.
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Code/tests3fbea08 committed.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through4d391f6.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
-head_commit names the tested code baseline. No production/test changes since it.
+head_commit names the tested code baseline. Only progress/checkpoint/recovery/results documentation dirty.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
-Current evidence ignored at workspace/audit-evidence/p11-operation-repair-20261025/; prior fraud evidence retained.
+Current evidence: workspace/audit-evidence/p11-service-refinement-20261025/; prior evidence retained.
 
 ## Verification Evidence
 
-- Current RED6 failed/7 passed; broad first run1 failed/1007 caught wrong-RAG reporting regression.
-  Narrowed guard to Symbolic/Hybrid; final1008 passed25.89s. Independent focused13 passed0.83s.
-- Current full tests/ suite: head3fbea08, .exit=0;6708 passed +1595 subtests,6 skipped,
-  2 xfailed,6 existing warnings,1358.19s. No production/test changes during or after run.
+- Service context RED5/9 after fixture correction; broad944 passed20.46s; independent14 passed.
+- Record metadata RED5/4, host RED2/7, final-bypass RED3/7; broad1121 passed29.74s; independent10 passed.
+- Preference RED3/40; broad1121 passed29.77s; independent43 passed2.42s. Full suite pending4d391f6.
+- Earlier full tests/ suite3fbea08:6708 +1595 subtests,6 skipped,2 xfailed,6warnings,1358.19s,exit0.
 - Controlled saved-packet actual repair + fresh same-question pipeline both answered safely;
   one generation/review each.4 real calls each; source comparison held both labels/precedence warning.
 
@@ -94,6 +93,7 @@ No downloads/re-hashing/training. Sealed source-package hashes remain in session
   discarded model sanctions. Existing fallible review/whole-draft fallback semantics retained.
 - No product scope/source reading change. Generic claim_not_stated notices remain unchanged.
 - Keep one-week prompt/accuracy cap, undergraduate/advisory/privacy/source-gap boundaries.
+- Formal Filipino words are a preference, not a hard exclusion (settled25Oct owner ledger).
 
 ## Known Failures or Blockers
 
@@ -103,16 +103,15 @@ Other pending: two grading router misses, Hybrid next-step without topic, vague 
 Nursing negative-claim mode, broad simple-query battery; photos unsupported;6 Taglish register misses.
 No browser/UI exit or SDK parser contract test. Frontend ready; integration follows pending work.
 Supabase app reads work; historical direct OAuth warning diagnosis is in session recovery.
-Saved service traces: English grade evaluation wrongly selected completion deadlines (consistent
-RAG, no orphan); Filipino selected pre_enrollment correctly but answer omitted steps. Separate fixes.
+Current service traces all select pre_enrollment; semantic quality still fails. Citation coverage alone
+cannot prove ordering/association or prevent invented cutoff continuation. Taglish generation tool_error
+has no saved failed raw packet;768-token server log supports, but does not prove, truncation diagnosis.
 
 ## Next Action
 
-Next: correct remaining pre-enrollment service coverage using the saved traces. English
-grade-evaluation part chose completion deadlines; Filipino correctly chose pre_enrollment but
-omitted steps. Separate routing meaning from answer completeness; no new source review or
-checker/guard replay. Keep release inactive; remaining quality/roster/switch gates precede frontend
-integration. Phase12 remains unauthorized.
+Finish full suite session28197 on4d391f6, save result/evidence/recovery, then address reviewed step order,
+action/office associations and cutoff continuation from existing traces; diagnose Taglish failed call
+without another prompt-only sweep. Expanded release inactive; other quality/roster/switch gates remain.
 
 ## Context Consulted
 
