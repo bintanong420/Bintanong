@@ -12,17 +12,32 @@ export default function Home() {
         <Button asChild variant="outline"><a href="/login">Sign in</a></Button>
       </nav>
     </header>
-    <div className="landing-photo"><img src="/design/campus.png" alt="Entrance to Palawan State University" /></div>
-    <section className="landing-introduction" id="introduction" aria-labelledby="landing-title">
-      <p className="public-eyebrow">Research preview</p>
-      <h1 id="landing-title">Ask away, Bintanong.</h1>
-      <p className="landing-description">Your questions about university and curriculum policies, in one place.
-        Bintanong is a PalSU undergraduate academic guide that combines reviewed sources with structured curriculum checks.</p>
+    <section className="landing-hero" id="introduction" aria-labelledby="landing-title">
+      <div className="landing-introduction">
+      <p className="public-eyebrow">For PalSU undergraduates</p>
+      <h1 id="landing-title">Ask away,<br />Bintanong.</h1>
+      <p className="landing-description">A place to start with your courses, university policies, and what to do next.</p>
+      <p className="landing-languages">English, Filipino, or Taglish. Ask in your own words.</p>
       <div className="public-actions">
         <Button asChild><a href="/chat">Ask a question</a></Button>
-        <a href="#scope">What can I ask?</a>
+        <a href="#questions">What can I ask?</a>
       </div>
-      <p className="public-caption">A thesis research build. University validation is pending.</p>
+      <p className="public-caption">Continue with your PSU Google account.<br />Research preview. University validation is pending.</p>
+      </div>
+      <figure className="landing-photo"><img src="/design/campus.png" alt="Entrance to Palawan State University" fetchPriority="high" />
+        <figcaption>Palawan State University<span>Undergraduate academic affairs</span></figcaption>
+      </figure>
+    </section>
+    <section className="landing-questions" id="questions" aria-labelledby="questions-title">
+      <div><p className="public-eyebrow">From the question to the next step</p>
+        <h2 id="questions-title">Start with your question.</h2>
+        <p>You do not need to know which document to open first. Answers depend on the reviewed information available.</p>
+      </div>
+      <dl className="question-examples">
+        <div><dt>Courses</dt><dd>What are the prerequisites of my course?</dd></div>
+        <div><dt>Procedures</dt><dd>How does enrollment work?</dd></div>
+        <div><dt>Next steps</dt><dd>What should I do next?</dd></div>
+      </dl>
     </section>
     <section className="landing-scope" id="scope" aria-labelledby="scope-title">
       <div><p className="public-eyebrow">Before you ask</p><h2 id="scope-title">An academic guide, with clear limits.</h2></div>

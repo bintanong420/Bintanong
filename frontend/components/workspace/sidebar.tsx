@@ -23,7 +23,7 @@ export function Sidebar({ currentChat, onNewChat, onOpenChat, busy = false, hidd
     </nav>
     <div className="sidebar-footer">
       <Separator />
-      <p className="sidebar-caption">Temporary chat</p>
+      <p className="sidebar-caption">Research preview · Temporary chat</p>
       <p className="sidebar-caption">This list lasts while this page is open. New chat clears the conversation and temporary course details.</p>
     </div>
   </aside>;

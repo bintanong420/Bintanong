@@ -43,6 +43,14 @@ test('general chat supports explicit follow-up review, grouped evidence and safe
     assert.equal(submissions.length,1);
     await page.getByRole('button',{name:'Confirm and send',exact:true}).click();
     await page.getByText('No specific clarification question was provided.',{exact:true}).waitFor();
+    await page.setViewportSize({width:320,height:844});
+    const scopeBox=await page.getByRole('button',{name:'Program and curriculum',exact:true}).boundingBox();
+    const detailsBox=await page.getByRole('button',{name:'You supplied (2)',exact:true}).boundingBox();
+    assert.ok(scopeBox.x+scopeBox.width<=detailsBox.x,'curriculum and retained details must not overlap on mobile');
+    await page.getByRole('button',{name:'You supplied (2)',exact:true}).click();
+    await page.getByRole('dialog',{name:'You supplied',exact:true}).waitFor();
+    await page.keyboard.press('Escape');
+    await page.setViewportSize({width:1440,height:1000});
     await page.getByRole('button',{name:'Rephrase question',exact:true}).last().click();
     await page.getByRole('textbox',{name:'Course to retake',exact:true}).fill('Z4/L');
     await page.getByRole('button',{name:'Use this draft',exact:true}).click();

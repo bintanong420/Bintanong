@@ -286,12 +286,11 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .live-workspace.navigation-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
 .live-workspace .sidebar { background: var(--secondary); border-color: transparent; }
 .live-workspace .workspace-main { grid-column: 2; overflow: clip; }
-.live-workspace .campus-banner { inset-block-start: 4.25rem; }
-.live-workspace .workspace-toolbar { flex: none; inline-size: calc(100% - 2rem); max-inline-size: none; padding-block: 0.75rem; }
+.live-workspace .campus-banner { inset-block-start: 0; }
+.live-workspace .workspace-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; flex: none; inline-size: calc(100% - 2rem); max-inline-size: none; padding-block: 0.75rem; }
 .workspace-heading { display: flex; align-items: center; gap: 0.5rem; min-inline-size: 0; }
-.header-scope { min-inline-size: 0; max-inline-size: 100%; block-size: auto; min-block-size: 2.75rem; text-align: start; font-weight: 400; }
+.header-scope { flex-shrink: 1; min-inline-size: 0; max-inline-size: 100%; block-size: auto; min-block-size: 2.75rem; padding-inline: 0.625rem; text-align: start; font-weight: 400; }
 .header-scope > span { min-inline-size: 0; max-inline-size: clamp(10ch, 22vw, 28ch); overflow: clip; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8125rem; }
-.header-scope small { display: block; overflow: clip; text-overflow: ellipsis; color: var(--muted-foreground); font-size: 0.6875rem; }
 .workspace-heading .preview-notice { flex-basis: auto; color: var(--muted-foreground); }
 .workspace-name { font-family: var(--font-geist), sans-serif; font-size: 1rem; font-weight: 600; }
 .live-workspace:not(.navigation-collapsed) .workspace-name { display: none; }
@@ -303,9 +302,9 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .workspace-options .appearance-control select, .workspace-options button { min-block-size: 2.75rem; }
 .workspace-options p, .workspace-options form { margin: 0; }
 .workspace-options form button { inline-size: 100%; }
-.workspace-account-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
-.workspace-account-actions .preview-notice { flex-basis: auto; font-size: 0.6875rem; color: var(--muted-foreground); }
-.workspace-account-actions button { min-block-size: 2.75rem; }
+.workspace-account-actions { display: flex; align-items: center; gap: 0.125rem; }
+.workspace-account-actions button { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
+.header-signout { color: var(--muted-foreground); }
 .curriculum-dialog { inline-size: min(32rem, calc(100vw - 2rem)); }
 .curriculum-dialog p, .curriculum-dialog .scope-field { font-size: 1rem; line-height: 1.6; }
 .curriculum-dialog .supporting-copy { font-size: 0.875rem; }
@@ -359,7 +358,11 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
   .live-workspace .workspace-main { grid-column: 1; }
   .live-workspace .desktop-sidebar, .desktop-navigation-toggle { display: none; }
   .mobile-navigation-toggle { display: inline-flex; }
-  .live-workspace:not(.navigation-collapsed) .workspace-name { display: block; }
+  .live-workspace .workspace-name { display: none; }
+  .workspace-account-actions .account-action-label { display: none; }
+  .workspace-account-actions button { padding-inline: 0.625rem; }
+  .workspace-heading { gap: 0.125rem; }
+  .header-scope > span { max-inline-size: min(24ch, 100%); }
   .workspace-heading .preview-notice { flex: 0 1 auto; min-inline-size: 0; font-size: 0.65rem; white-space: nowrap; }
   .workspace-account-actions { margin-inline-start: auto; }
   .navigation-dialog .sidebar-history, .navigation-dialog .sidebar-footer { display: block; }
@@ -391,16 +394,34 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .public-header .appearance-control { margin: 0; }
 .public-skip { position: absolute; inset-inline-start: 1rem; inset-block-start: -5rem; z-index: 20; padding: 0.75rem; background: var(--background); }
 .public-skip:focus { inset-block-start: 0.5rem; }
-.landing-photo { position: relative; block-size: clamp(13rem, 27vw, 25rem); }
+.landing-page { --background: light-dark(oklch(0.985 0.004 85), oklch(0.19 0.004 260)); }
+.landing-page .public-header { max-inline-size: 90rem; margin-inline: auto; }
+.landing-hero { display: grid; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; max-inline-size: 80rem; margin-inline: auto; padding-block: clamp(2.5rem, 6vw, 6rem); padding-inline: clamp(1.25rem, 5vw, 4rem); }
+.landing-photo { position: relative; margin: 0; min-inline-size: 0; block-size: clamp(18rem, 40vw, 32rem); border-radius: 1rem; overflow: clip; background: var(--secondary); }
 .landing-photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center 45%; }
-.landing-photo::after { content: ""; position: absolute; inset: 0; background: light-dark(oklch(1 0 none / 0.38), oklch(0.12 0 none / 0.25)); }
-.landing-introduction { max-inline-size: 48rem; margin-inline: auto; padding-block: clamp(2rem, 5vw, 4.5rem); padding-inline: 1.25rem; text-align: center; }
+.landing-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, oklch(0.15 0 none / 0.9), oklch(0.15 0 none / 0.75) 6rem, transparent 85%); }
+.landing-photo figcaption { position: absolute; z-index: 1; inset-inline: 1.5rem; inset-block-end: 1.5rem; color: oklch(0.99 0 none); font-size: 1rem; font-weight: 500; }
+.landing-photo figcaption span { display: block; margin-block-start: 0.25rem; font-size: 0.75rem; font-weight: 400; }
+.landing-introduction { min-inline-size: 0; }
 .public-eyebrow { margin: 0 0 1rem; color: var(--muted-foreground); font-size: 0.75rem; }
-.landing-introduction h1 { margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(2.25rem, 4.8vw, 4rem); line-height: 1.12; letter-spacing: -0.055em; font-weight: 600; }
-.landing-description { max-inline-size: 40rem; margin-block: 1.25rem 1.75rem; margin-inline: auto; color: var(--muted-foreground); font-size: clamp(0.95rem, 1.2vw, 1.125rem); }
+.landing-introduction h1 { margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(3rem, 6.5vw, 6rem); line-height: 1.04; letter-spacing: -0.055em; font-weight: 500; }
+.landing-description { max-inline-size: 35ch; margin-block: 1.5rem 1rem; color: var(--muted-foreground); font-size: clamp(1.125rem, 1.5vw, 1.25rem); }
+.landing-languages { margin-block: 0 1.75rem; color: var(--muted-foreground); font-size: 0.875rem; }
 .public-actions { justify-content: center; }
+.landing-introduction .public-actions { justify-content: start; gap: 0.75rem 1.25rem; }
 .public-actions [data-slot="button"] { padding-inline: 1.25rem; }
 .public-caption { margin-block-start: 1.5rem; font-size: 0.75rem; color: var(--muted-foreground); }
+.landing-questions { display: grid; gap: 2rem; max-inline-size: 72rem; margin-inline: auto; padding-block: clamp(2.5rem, 6vw, 5rem); padding-inline: clamp(1.25rem, 5vw, 3rem); scroll-margin-block-start: 2rem; }
+.landing-questions h2 { margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.15; letter-spacing: -0.04em; font-weight: 500; }
+.landing-questions > div > p:last-child { max-inline-size: 42ch; color: var(--muted-foreground); font-size: 0.9375rem; }
+.question-examples { margin: 0; }
+.question-examples > div { display: grid; gap: 0.5rem; padding-block: 1.25rem; border-block-start: 1px solid var(--border); }
+.question-examples dt { color: var(--muted-foreground); font-size: 0.75rem; }
+.question-examples dd { margin: 0; font-size: clamp(1rem, 1.5vw, 1.125rem); }
+@media (min-width: 68rem) {
+  .landing-hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .landing-questions { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5rem; }
+}
 .landing-scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: clamp(1.5rem, 5vw, 5rem); max-inline-size: 72rem; margin-inline: auto; padding-block: clamp(2.5rem, 6vw, 5rem); padding-inline: clamp(1.25rem, 5vw, 3rem); border-block-start: 1px solid var(--border); scroll-margin-block-start: 1rem; }
 .landing-scope h2 { max-inline-size: 18ch; margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.2; letter-spacing: -0.035em; }
 .scope-details { color: var(--muted-foreground); font-size: 0.9rem; }
