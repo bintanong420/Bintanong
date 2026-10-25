@@ -44,3 +44,37 @@ Validate the harness by compilation, strict saved
 contract parsing, provenance checks, captured call bounds and final host validation.
 Raw research evidence stays ignored under workspace/audit-evidence/
 `p11-short-reference-model-20261025/`. Record actual results here before finishing.
+
+## Actual result (single observation, ended)
+
+Executed against4425538 after the approved referral change. Strict saved input/
+question/schema/message parity preflight passed; effective saved style=fil,
+6 document cards. Existing canonical failed draft used the same saved input.
+Only the opt-in draft-reference profile changed the inference request; the
+approved referral transformation occurs after decoding/before ordinary review.
+
+- One ShortPartExplanation draft30.944s,finish_reason=stop,463 completion tokens,
+  2732 prompt tokens,0 cached. Ordinary PartConfirmationOutput review14.747s,
+  stop,108 completion tokens,5054 prompt tokens,634 cached. No repair/retry;
+  2/4 maximum completions used. Final answered/validated, generation+review45.73s.
+- Final claims contain only canonical provided evidence IDs. Source text strings
+  are unchanged in the short request; ordinary review sees the transformed exact
+  cutoff quotation plus office referral. All54 sealed source files unchanged.
+- Raw model draft still invents a continuation in the cut-off Step3. Existing
+  cutoff guard replaces that claim before review; final protected claim quotes
+  the printed ending "for", explicitly says the continuation is unavailable,
+  and refers to the record's College Enrollment Area. No partial-output rescue.
+- Author reading: checklist and four visible service-step records present; other
+  claims align with those fields. This one observation does not establish a
+  reviewed source-order contract, multilingual accuracy or whole-service quality.
+  The saved style label remains Filipino although the question is Taglish, so
+  it does not pass the intended reply-style expectation. Record's own ledger
+  semantic_completeness remains unverified.
+- Combined source-record component checks (no extra model calls):en531/fil537/
+  Taglish540 characters. Exact printed values and office referral fit1200.
+
+This resolves only whether the saved failed case can complete with short refs:
+yes, once observed. Do not rerun/widen this experiment or select a default from
+it. Canonical default and inactive expanded release remain; other quality/roster/
+source-order/frontend gates stay open. Full4425538 referral suite runs separately;
+do not misrepresent45.73s as a pipeline/browser/end-to-end or acceptable SLA result.

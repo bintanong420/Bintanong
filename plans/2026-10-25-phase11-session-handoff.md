@@ -9,28 +9,21 @@ Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-sessio
 
 ## Exact next action
 
-2ce3daf adds opt-in short references for per-part DRAFTS. Default still canonical,768 output cap
-unchanged. Strict wire contracts use request-local aliases; decode before source/cutoff/fraud/
-coverage/style checks and ordinary review. Checker/ledger/final stay canonical; no source/prose
-replacement. Repair map stable; unavailable placeholders ignored. No source/pin/model/default change.
-[Diagnosis/plan](2026-10-25-taglish-failed-infer-diagnosis.md), [results](2026-10-25-part-references-results.md).
-Initial RED9/profile gate, fixture question binding repaired; broad752, edge RED1/13 fixed; final753
-passed24.15s. Independent clean/14 passed1.12s. No actual-model short-profile run/default selection.
-Taglish saved failed request: exact generation-only replay37.321s, truncated_output/finish_reason
-length at768, ends inside last citation hash. Initial logger missed args[0]; one extra call explicitly
-recorded. Tokenizer-only four complete IDs766->539 prefix tokens,227 saved. No JSON rescue/quality claim.
-Full suite2ce3daf completed:6763 passed +1595 subtests,6skip2xfail6warnings,1306.19s,exit0;
-A/p11-part-references-20261025/full-suite.*. Resume read exit/log/head, only docs changed; no repeat.
-Next: [one-case saved-integration observation](2026-10-25-short-reference-model-observation.md),
-short profile/max4 ordinary completions; no fresh router/retrieval/encoder/DB/default work.
-Owner resolved source-quote presentation: both exact printed wording and office referral.
-First execute [referral TDD plan](2026-10-25-service-cutoff-referral-plan.md), commit/verify,
-then the bounded model observation. No source cutoff/order/semantic quality approval inferred.
-No response/"continue" recorded as that answer; examples A/p11-service-cutoff-20261025/sealed-record-component.json.
-Prior cutoff593de5f full6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0 completed. Its exact
-field-excerpt guard remains; normal review preserved; language/sequence/whole-service quality unverified.
-All54 sealed source files unchanged. Expanded release stays inactive; source order/quality/roster/
-switch/frontend gates open. Do not repeat completed checker/fraud/weapon experiments or source staging.
+Read existing4425538 full-suite.head/log/exit in A/p11-cutoff-referral-20261025; runner15680,
+pytest12732, started21:11:21+08. Both helper and OS creation bindings saved. Code/tests frozen;
+no duplicate run. Missing exit/absent bound process means interrupted, never passed.
+4425538 implements owner's BOTH choice: exact printed fields/cutoff notice plus record-office
+referral, generic if no office printed. [TDD/results](2026-10-25-service-cutoff-referral-plan.md):
+RED11/17, focused42, broad664, independent clean/42. No source gap/order/activation resolved.
+One [saved-evidence short-profile observation](2026-10-25-short-reference-model-observation.md)
+ENDED:1 draft463 tokens+1 ordinary review108,both stop; answered/validated45.73s generation/review
+only. No routing/retrieval/encoder/DB, no retry/rescue. Raw invented continuation replaced before
+review; final exact quote+College Enrollment Area referral. Canonical final IDs;54 sealed files unchanged.
+Saved style fil despite Taglish question; no multilingual/source-order/whole-service quality pass.
+2ce3daf short-reference full suite6763 +1595 subtests,6skip2xfail6warnings,1306.19s,exit0 retained;
+prior cutoff593de5f full6749 also retained. Default canonical,768 cap/model/source/pin unchanged.
+Do not rerun short/checker/fraud/weapon observations or source staging. Source-order contract,
+other quality/roster/switch/frontend gates remain open; expanded inactive, no phase advancement.
 
 Prior operation correction3fbea08: existing bounded repair catches orphan Symbolic/Hybrid operations,
 no silent reroute. Safe fraud observations40.315s (saved packet + actual repair) and24.954s (fresh);

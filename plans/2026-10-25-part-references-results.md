@@ -52,11 +52,10 @@ No new source facts, DB/pin/embedding/model/default/output-budget/frontend chang
 ## Recovery and remaining gates
 
 Existing full-suite.exit/log read on resume; no duplicate suite. E/full-suite.processes.json
-retains process IDs/creation times. No actual-model run of the short per-part profile yet.
-The [one-case observation plan](2026-10-25-short-reference-model-observation.md)
-reuses saved integration evidence and bounds normal generation/review to4 completions.
-Selecting it as a default requires bounded actual-model quality evidence; no such
-selection or expanded source activation is made here. Source-quote language
-presentation question remains unanswered; "continue" is not recorded as its answer.
+retains process IDs/creation times. Subsequent [one-case observation/results](2026-10-25-short-reference-model-observation.md)
+on4425538 reused saved integration:463-token draft+108-token review,answered/validated;
+saved style fil despite Taglish question. This is not multilingual/full-quality evidence.
+Selecting a default needs broader quality evidence; no default change or expanded activation.
+Owner resolved presentation as both exact source wording and office referral; delivered4425538.
 Source order is still not a reviewed ordinal contract; no inference from hashes,
 retrieval rank or ID spelling. Other quality/roster/switch/frontend gates remain.

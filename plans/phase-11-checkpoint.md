@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 45
+sequence: 46
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 2ce3daf
+head_commit: 4425538
 working_tree: clean
-updated_at: 2026-10-25T21:05:00+08:00
+updated_at: 2026-10-25T21:17:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -42,22 +42,26 @@ Taglish exact saved-request replay proves truncated_output/finish_reason length 
 citation hash. Initial logger read wrong field; one explicit extra capture37.321s. Four complete
 IDs shortened via tokenizer-only766->539 prefix tokens,227 saved; no partial-response rescue.
 [Plan](2026-10-25-taglish-failed-infer-diagnosis.md), [results](2026-10-25-part-references-results.md).
-Full suite2ce3daf completed:6763 passed +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
-Only docs changed since code baseline; no duplicate suite. One saved-integration short-profile
-[observation planned](2026-10-25-short-reference-model-observation.md), max4 ordinary completions.
-Owner resolved presentation: both exact printed wording and office referral.
-[Referral TDD plan](2026-10-25-service-cutoff-referral-plan.md) precedes observation.
-Expanded inactive; cutoff/sequence/semantic quality gates remain open.
+Full suite2ce3daf completed6763 +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
+Owner combined presentation delivered4425538:exact fields/cutoff notice+record-office referral,
+generic when blank/absent. RED11/17; focused42, broad664, independent clean/42 passed.
+[Referral results](2026-10-25-service-cutoff-referral-plan.md). Full4425538 running since21:11:21+08,
+runner15680/pytest12732; evidence p11-cutoff-referral-20261025/full-suite.*. Code/tests frozen.
+[Short-profile observation](2026-10-25-short-reference-model-observation.md) ENDED:2 calls,
+draft463/review108 tokens,stop/stop,answered/validated45.73s generation/review only. Raw invented
+cutoff continuation replaced before ordinary review; final quotes/referral/canonical IDs valid.
+All54 sealed files unchanged. Saved style fil for Taglish question; no language/sequence/full-quality pass.
+Canonical default; expanded inactive; no further completions/sweep approved by this observation.
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through2ce3daf.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through4425538.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-Production/tests unchanged since completed2ce3daf run; following docs commit saves this snapshot.
+Production/tests frozen for4425538 suite; following docs commit saves this snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
-Current evidence: workspace/audit-evidence/p11-part-references-20261025/ and p11-taglish-infer-20261025/.
+Current evidence: workspace/audit-evidence/p11-cutoff-referral-20261025/ and p11-short-reference-model-20261025/.
 
 ## Verification Evidence
 
@@ -119,12 +123,13 @@ Initial Supabase read succeeded; final19:26 refresh failed OAuth response parsin
 retained; no DB writes/connector reset. Diagnosis/recovery pointers in session recovery.
 Current service traces all select pre_enrollment; semantic quality still fails. Citation coverage alone
 cannot prove ordering/association or prevent invented cutoff continuation. Taglish generation tool_error
-now has a raw exact-request replay proving truncation at768; short-profile quality remains unmeasured.
+has exact-request proof of truncation at768; short profile completes one saved fil-labelled case,
+not a multilingual/full pipeline quality result. Explicit reviewed source-order contract remains absent.
 
 ## Next Action
 
-TDD the approved cutoff excerpt+referral, verify/commit and start one frozen full suite. Then run
-the one-case saved-integration short-profile observation. Canonical default; no fresh router/retrieval/DB.
+Read existing4425538 referral full-suite result, runner15680/pytest12732; no duplicate suite.
+Keep canonical default; bounded short-profile observation ended. Source-order/quality gates remain.
 Source order/other quality/roster/switch/frontend gates remain. Expanded inactive; no advancement.
 
 ## Context Consulted

@@ -7,23 +7,19 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-2ce3daf adds opt-in short per-part draft references, restoring canonical IDs BEFORE source guards,
-style/coverage checks, ordinary review, ledger hashing and final citations. Strict wire contracts;
-source/prose unchanged, repairs/request maps isolated, unavailable placeholders ignored. Default
-stays canonical; other profile restrictions/output768/model/source/pin unchanged. Expanded inactive.
-RED9 constructor gate; fixture question-binding repaired. Broad752, edge RED1/13 fixed, final753
-passed24.15s; independent review clean/14 passed1.12s. No actual short-profile model completion yet.
-[Diagnosis/plan](../2026-10-25-taglish-failed-infer-diagnosis.md), [results](../2026-10-25-part-references-results.md).
-Taglish failure proven by exact replay: truncated_output/finish_reason length at768, inside last
-citation ID. Initial logger missed args[0]; one extra generation-only capture37.321s fixed evidence.
-Tokenizer-only four complete IDs:766->539 prefix tokens (227 saved), no prose change/JSON rescue.
-Full suite2ce3daf completed:6763 passed +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
-Resume verified only documentation changed; no duplicate run. One saved-evidence short-profile
-[observation planned](../2026-10-25-short-reference-model-observation.md), maximum4 completions;
-no fresh router/retrieval/encoder/DB work or default change. Owner presentation decision: both
-exact printed wording and office referral. [TDD plan](../2026-10-25-service-cutoff-referral-plan.md).
-Prior593de5f full6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0 completed and retained.
-Presentation resolved; source cutoff/order/semantic quality remain unresolved; no source switch.
+4425538 implements owner's combined cutoff presentation: exact printed fields, explicit missing
+continuation and record-office referral (generic when no office printed), before ordinary review.
+RED11/17; focused42 passed1.36s; broad664 passed21.31s; independent clean/42 passed1.48s.
+[Referral plan/results](../2026-10-25-service-cutoff-referral-plan.md). Full suite frozen4425538
+started21:11:21+08, runner15680/pytest12732; read existing full-suite.* in p11-cutoff-referral-20261025.
+One [saved-evidence short-profile observation](../2026-10-25-short-reference-model-observation.md)
+ENDED: draft463tokens+ordinary review108, both stop; answered/validated,45.73s generation/review only.
+Raw model still invents cutoff continuation; guard replaces it before review with exact quotes/referral.
+Final canonical refs;54 sealed files unchanged. Saved style fil despite Taglish question; no language/
+source-order/whole-service quality pass. No fresh router/retrieval/encoder/DB run, retry or default change.
+2ce3daf original short-reference full suite completed6763 +1595 subtests,6skip2xfail6warnings,
+1306.19s,exit0. Prior593de5f full6749 also retained. Do not repeat these runs/observations.
+Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Delivered state
 
@@ -52,9 +48,8 @@ Presentation resolved; source cutoff/order/semantic quality remain unresolved; n
 
 ## Next action
 
-Implement approved cutoff excerpt+referral under TDD; verify/commit, start one frozen full suite,
-then execute the one-case saved-evidence short-profile observation. Keep canonical default. No repeat checker/fraud/
-weapon experiments. Reviewed step-order
+Read existing4425538 referral full-suite result (runner15680/pytest12732); no duplicate. Keep
+canonical default; no repeat short/checker/fraud/weapon experiments. Reviewed step-order
 contract, other quality/roster/switch gates and frontend integration remain open. No advancement.
 
 ## Boundaries

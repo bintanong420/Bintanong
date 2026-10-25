@@ -50,3 +50,21 @@ Validation commands: shared venv python -X utf8 -B -m pytest -q -p no:cacheprovi
 tests/test_generation_service_cutoff.py, then selected regression files and full
 tests/, all with unique external --basetemp. git diff --check and phase_state.py
 validate; existing linter/formatter unavailable, no install authorized.
+
+## Execution evidence
+
+- RED11 failed/17 passed, all expected missing-referral/length/fidelity assertions;
+  no setup failure. GREEN cutoff+short-reference42 passed1.36s.
+- Broad generation/understanding/service-coverage/orchestration/runtime selection:
+  664 passed21.31s. Independent scoped review: no blockers,42 passed1.48s.
+- Code4425538, no production/test changes after commit. One full tests/ suite
+  started21:11:21+08 on that commit; runner15680/pytest12732, creation binding and
+  exact command in workspace/audit-evidence/p11-cutoff-referral-20261025/
+  full-suite.processes.json; head/log/exit alongside. Missing exit never means pass.
+- Actual saved-evidence short-profile observation: one draft+ordinary review,
+  answered/validated,463+108 output tokens,45.73s generation/review only. Protected
+  record has exact fields, cutoff notice and College Enrollment Area referral;
+  it is included before ordinary review. All54 sealed source files unchanged.
+- Actual record component examples:en531/fil537/Taglish540 characters, below1200.
+  Effective saved language is fil despite Taglish question; no Taglish-quality pass.
+  No source-order contract or expanded quality/activation approval inferred.
