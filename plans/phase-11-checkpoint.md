@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 89
+sequence: 91
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 45ef25c
+head_commit: d72b88f
 working_tree: clean
-updated_at: 2026-10-26T01:41:38+08:00
+updated_at: 2026-10-26T02:29:56+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,12 +33,13 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-[Runtime budget/query checks](2026-10-26-corrected-candidate-runtime-checks.md) active. Explicit trusted
-package budgets consumed/bound into root;absent-key legacy defaults unchanged;invalid/null reject.
-PackageStorage repaired to complete same-version eligible dependency closure,cross-version/audience
-and explicit version filters preserved. RED12 budget,edge5/null+closure,version1;GREEN109+9subtests;
-independent61passed,no remaining important finding. Source set remains78,no new chunks/activation.
-Next frozen full suite then six planned actual queries,once each. All three hosted releases unchanged.
+[Corrected candidate runtime check complete](2026-10-26-corrected-candidate-runtime-results.md),d72b88f.
+Budget/root identity and PackageStorage eligible transitive closure delivered. GREEN109+9subtests,
+independent61passed;full6821+1595subtests,6skip2xfail6warnings,1341.43s,exit0. First interrupted run
+not counted. Six actual cases completed once/16calls,3answered3fallback0exceptions;quality FAILED.
+Routing misses removal/INC/cheating;fraud admission omitted despite3retrieved records;Charter ordered
+4steps/cutoff retained but action/limit gaps;fees correct but duplicate. No jobs running. Source78 sealed;
+active19/draft80/corrected78 and active pins unchanged. No new chunks/prompts/activation/phase advance.
 
 ## Repository State
 
@@ -114,7 +115,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Run frozen full suite,then six exact candidate queries;record actual quality and keep inactive on failures.
+Use saved traces for bounded routing/coverage/fee-composition regressions;candidate stays inactive.
 Source corrections delivered inactive;keep full audit/correction records and all original gaps.
 
 ## Context Consulted

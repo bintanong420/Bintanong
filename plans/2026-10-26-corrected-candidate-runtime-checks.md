@@ -24,14 +24,14 @@ the already-saved map academic_misconduct3072/pre_enrollment4096. No active pin-
    Observe expected RED before editing backend/bintanong_runtime/research.py.
 2. [x] Minimal factory change;GREEN relevant tests including engine budget/identity/catalogue tests.
    Independent final review before completion;repair any important findings with focused regressions.
-3. [ ] Compose actual corrected package with saved budget map,verify complete selected groups through
+3. [x] Compose actual corrected package with saved budget map,verify complete selected groups through
    real retrieval/context assembly. Preserve corrected package and all three hosted releases unchanged.
-4. [ ] Run the frozen six actual-model cases below once each through normal router/retrieval/generator/
+4. [x] Run the frozen six actual-model cases below once each through normal router/retrieval/generator/
    review/guards. Canonical references,768 output cap,prefix reuse,current resident model/settings.
    No retry sweep,prompt edits or automatic activation on schema success. Record actual answer quality.
-5. [ ] Full tests/ suite with shared Python3.13,-B,-p no:cacheprovider,external basetemp/evidence.
+5. [x] Full tests/ suite with shared Python3.13,-B,-p no:cacheprovider,external basetemp/evidence.
    Serialize full suite and actual-model calls to avoid memory contention. No browser/UI test claim.
-6. [ ] Save results/current progress/checkpoint/recovery and small verified commits. If a gate fails,
+6. [x] Save results/current progress/checkpoint/recovery and small verified commits. If a gate fails,
    retain the inactive candidate and report exact capability gaps;do not grow this into a prompt sweep.
 
 ## Frozen query cases and expectations
@@ -62,3 +62,26 @@ not a new source or policy capability. Final focused109passed +9subtests,3.39s;i
 No remaining important review finding. Pre-existing config/entity-hint parity was not expanded into
 this patch;current six cases still require exact trace inspection,not a hosted runtime claim.
 Next:full frozen suite,then six cases once each;no prompts/source/activation changes.
+
+Existing Charter sequence carry-forward:the corrected source package's base claim register has no
+procedure_order;the already-reviewed1-4 list lives in2026-10-25-pre-enrollment-sequence-review.md.
+The runtime check uses a separate validated runtime-source-review-register.json overlay for only
+visible pre-enrollment instructions. All78 chunks/vectors/source receipts and hosted data unchanged.
+Waiting six-case runner restarted before any model calls to load that overlay;no case was repeated.
+Frozen code d72b88f;full-suite session19793,case runner35864(auto waits for full exit0). Logs/runner seal
+and exact status reside in p11-corrected-runtime-20261026/. Do not commit new HEAD before observations
+because runner verifies the frozen code hash. Snapshot documentation may be dirty while jobs run.
+
+26Oct02:01 recovery:prior exec sessions disappeared;no Python processes remained,full suite had stopped
+at94% with no exit marker,last log01:50:51,and no case-start file existed. Preserve old log as
+full-suite-interrupted.log,not a passing/failing suite. Relaunched hidden PowerShell helperPID14328
+using run_remaining.ps1;new full-suite-restart.log then six cases once on success. No model call
+repeated;source/code frozen d72b88f. running-jobs.json now records launcher/time/log locations.
+
+## Final result
+
+Runtime code d72b88f/full suite6821+1595subtests passed(6skip2xfail6warnings,1341.43s,exit0).
+All six cases completed once,16completions,3answered/3fallback/0exceptions;quality gate FAILED.
+No activation or additional source work. All corrected78artifacts remain sealed. No jobs running.
+[Detailed outcomes and next bounded fixes](2026-10-26-corrected-candidate-runtime-results.md).
+Earlier RUNNING/recovery notes above are historical;this final result supersedes those statuses.

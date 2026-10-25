@@ -21,10 +21,15 @@ FOLLOW-UP DELIVERED:[correction results](2026-10-26-hosted-chunk-correction-resu
 New hosted draft p11-research-corrected-20261026:78chunks/39links,11new IDs/67reused,5new vectors.
 Old68/71 use canonical69/72 in new selection;prior80-ID audit/old19active/old80draft unchanged.
 98tests+151subtests,governed rehearsal/rollback,independent review and hosted exact read-back passed.
-Next:trusted3072misconduct budget wiring(existing factory ignores metadata file),then live quality
-before coordinated release/package switch. No activation/code/schema/prompt/pin changes.
-Selected coverage is partial;omitted undergraduate services are not all excluded. Do not repeat audit,
-encoding or staging;preserve all old evidence/source gaps and wider Phase11/UI boundaries.
+RUNTIME STEP COMPLETE:[results](2026-10-26-corrected-candidate-runtime-results.md),code d72b88f.
+Trusted budgets/root binding and full eligible PackageStorage companion closure fixed.
+GREEN109+9subtests,independent61passed;full6821+1595subtests,6skip2xfail6warnings,1341.43s,exit0.
+Earlier interrupted94%run not a result. Six once/16calls:3answered3fallback0exceptions;QUALITY FAILED.
+Removal/INC/cheating routing misses;fraud admission omission despite all3records;Charter ordered4steps
+but action/limit gaps;fee block duplicated. No jobs running,do not repeat model cases or full suite.
+Source78 package/vectors sealed,all3hosted releases/active pin unchanged;no new chunks or activation.
+Next regression-first fixes from exact traces. Evidence A/p11-corrected-runtime-20261026/.
+No prompt/model sweep,coverage expansion or phase advance;preserve existing source gaps/UI gates.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

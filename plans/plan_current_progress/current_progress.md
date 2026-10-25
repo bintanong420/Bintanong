@@ -7,12 +7,13 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Runtime checks](../2026-10-26-corrected-candidate-runtime-checks.md) underway on corrected78candidate.
-Trusted package budgets now consumed/bound into root pin;legacy absent-key defaults unchanged.
-PackageStorage now follows complete same-version eligible companion closure like SQL;no new chunks.
-RED12 budget,edge5/null+closure,version1 observed;GREEN109+9subtests;independent61passed,no blockers.
-Next frozen full suite,then six exact queries once each. Active19/old draft80/corrected draft78 unchanged;
-no activation,scope expansion,prompt/model/source edits. [Source results](../2026-10-26-hosted-chunk-correction-results.md).
+[Runtime checks complete](../2026-10-26-corrected-candidate-runtime-results.md),code d72b88f.
+Trusted package budgets/root identity and local full eligible companion closure delivered.
+RED12+edge5+version1;GREEN109+9subtests;independent61passed. Full6821+1595subtests,6skip2xfail,
+6warnings,1341.43s,exit0. Six cases once/16calls:3answered3fallback0exceptions;quality FAILED.
+Removal/INC/cheating routing misses;fraud omits admission despite3records;Charter ordered4steps but
+semantic/limit gaps;fee values correct but duplicate block. No source/chunk/embedding/prompt changes.
+Old19active/80draft/corrected78draft unchanged;no activation. No running jobs;preserve exact traces.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,9 +67,10 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
   Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
 
 ## Next action
-Run full frozen suite,then six planned actual candidate queries;save exact quality findings before
-any coordinated package/release switch. Frontend integration/wider query gaps remain. No activation yet.
-Do not repeat80-ID audit,encoding,receipts,staging or prior unchanged full software suite.
+
+Fix bounded routing/coverage/fee-composition failures from saved six-case traces with regression-first
+checks. No more chunks or repeated battery needed to diagnose these failures;keep candidate inactive.
+Do not rerun completed full suite until production behavior changes. Frontend/wider query gates remain.
 
 ## Boundaries
 
