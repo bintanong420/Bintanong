@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch7 correction scope confirmed; batch8/chunks23–27 awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch8/chunks23–27 approved; batch9/chunks28–29 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **19**, correction-needed **3**, held **0**, pending **58**.
+Current counts: approved **24**, correction-needed **3**, held **0**, pending **53**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -89,7 +89,8 @@ Batch6/chunks16–18 approved: exact owner reply "i approve".
 Batch7:19–21 correction-needed; owner-provided full3.7 confirms22's final paragraph as source wording.
 Owner reply "i approve" confirms proposed complete3.2/3.3 for the correction list. Counts unchanged;
 19–21 stay correction-needed until a separate follow-up delivers/validates replacements.
-Batch8/chunks23–27 presented together as one five-part overload group; decisions pending.
+Batch8/chunks23–27 approved; exact reply recorded below, with grouping question verified.
+Batch9/chunks28–29 shown next; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -119,7 +120,7 @@ chunks stay unchanged. Owner's full3.7 explicitly includes the final paragraph a
 its association when designing the later replacement group, without deleting or renumbering22.
 Exact original page rendered at raw-evidence root/handbook-p47.png; no printed page verified.
 
-### Batch8 overload group (owner decision pending)
+### Batch8 overload group — approved with grouping explanation
 
 All5 active/shared, physical62; rendered original handbook-p62.png inspected. No verified printed page.
 23 stores source labels Yes/No/END and reviewed branch associations:row3 Yes->row4, row3 No->END.
@@ -129,7 +130,8 @@ so closure retains all5. Each chunk alone is a fragment, not a complete procedur
 Omitted original context: heading "REQUEST FOR OVERLOAD" and intro "This covers the approval of the request for overloading of course."
 START marker and the unlabelled START->row1->row2->row3 and row4->END arrows are absent from23's
 explicit edge list; row order survives in group metadata. Keep this distinction visible for owner review.
-All stored selected row values and the two labelled branches match the original diagram. No new
+Owner approves selected row values/two labelled branches as linked fragments; original context
+omissions remain documented. No new
 source readings/approvals inferred from parser or hash success; no full-procedure completeness claim.
 
 ## Reuse and boundaries
@@ -164,9 +166,9 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch8, chunks23–27 (Handbook physical62). Do not advance on silence.**
-After saving decisions, prepare the next related disciplinary rows from physical87. Complete3.2/3.3
-correction wording is approved; use owner's complete3.7. No corrections applied during this audit.
+**Await owner decisions for batch9, chunks28–29 (Handbook physical87). Do not advance on silence.**
+After saving decisions, prepare next related disciplinary rows30–31. Complete3.2/3.3 correction
+wording is approved; use owner's complete3.7. No corrections applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -217,13 +219,13 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 20 | `cf9b6c64eda1205f7e73033d0c0a85e46142dc2079ade35720fba5e22f1ada9a` | handbook-completion-timing::part:1 | 47 | active/shared | Agent: selected quote matches p47 | Selected final paragraph3.3; requires19 | "chunk 20 also really missed the re-examination part"; full proposed section approved: "i approve" | correction-needed | Include complete3.3 re-examination/repetition/pass-fail/one-exam clauses; wording approved, delivery pending; conflict unresolved |
 | 21 | `fe0c5a6848f942d9ee8bc948851039c7b35aa855d7cdf840bdd92c27b4617fd9` | handbook-completion-timing::part:2 | 47 | active/shared | Agent: selected quote matches p47 | First sentence only; remaining-period condition absent; requires19 | "chunk 21 also omits that next sentence," plus full3.7 supplied below | correction-needed | Include complete3.7 condition and final paragraph association with22; conflict unresolved |
 | 22 | `5b85dd8084f1488750f63e98e41cac74ca1ab36bbf5492e3dcf2f0eda19ba618` | handbook-completion-timing::part:3 | 47 | active/shared | Agent: selected quote matches p47 | Final paragraph3.7; requires19 | Owner supplied complete3.7 including this exact final paragraph (transcript below) | approved | Source paragraph confirmed within full3.7; conflict and companion requirements retained |
-| 23 | `75a416e9c27b2b825d9552d057a53a5299ecc9fc75ff8fd6a3402d17bc1dd6e2` | handbook-table-6-arrows | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
-| 24 | `f33b476401751a161527a3e4f1f2456d806fe3e8b68e78e9194979cd76873e26` | handbook-table-6-row-1 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
-| 25 | `f2bf449a9efd9f86ae7f468a81d94fc9e66253bf93da14218f7466ebd3590cb3` | handbook-table-6-row-2 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
-| 26 | `860a406301031b1604fc71be5876919c1da9fe9132f842bf651a80c82530a0fe` | handbook-table-6-row-3 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
-| 27 | `e9a58311aaf00eaa3f9f6be9d155ff2ad29b8f44c7c2d28487efc10468ff0e58` | handbook-table-6-row-4 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
-| 28 | `c783f1f2080cd2c7f9cd90fc747c1182acc979a0956824501f589ea4ab8336d4` | handbook-disciplinary-I | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 29 | `9975ff9d98d0bacad2afd4dd71f4cfd02ae31082b3c17e95eeb98b1b2ea5ebee` | handbook-disciplinary-II.1 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 23 | `75a416e9c27b2b825d9552d057a53a5299ecc9fc75ff8fd6a3402d17bc1dd6e2` | handbook-table-6-arrows | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
+| 24 | `f33b476401751a161527a3e4f1f2456d806fe3e8b68e78e9194979cd76873e26` | handbook-table-6-row-1 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
+| 25 | `f2bf449a9efd9f86ae7f468a81d94fc9e66253bf93da14218f7466ebd3590cb3` | handbook-table-6-row-2 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
+| 26 | `860a406301031b1604fc71be5876919c1da9fe9132f842bf651a80c82530a0fe` | handbook-table-6-row-3 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
+| 27 | `e9a58311aaf00eaa3f9f6be9d155ff2ad29b8f44c7c2d28487efc10468ff0e58` | handbook-table-6-row-4 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | "i approve but," followed by grouping question (exact reply below) | approved | Linked fragment approved; source-context omissions retained; grouping verified |
+| 28 | `c783f1f2080cd2c7f9cd90fc747c1182acc979a0956824501f589ea4ab8336d4` | handbook-disciplinary-I | 87 | draft-only | Agent: matches approved source review batch1 | One sanction row; no required companions; no source_limits | — | pending | Owner outcome pending; preserve hours/days as printed |
+| 29 | `9975ff9d98d0bacad2afd4dd71f4cfd02ae31082b3c17e95eeb98b1b2ea5ebee` | handbook-disciplinary-II.1 | 87 | draft-only | Agent: matches approved source review batch1 | One row; II.Behavioral Defiance heading absent; later columns blank; no companions | — | pending | Two-weeks penalty type unresolved; no personal sanction decision |
 | 30 | `be5664bd8ccf0b542e12fb0efba80a107503f4c761c53eb118e52a1d6c5c7a37` | handbook-disciplinary-II.2 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 31 | `1a9820e53bdf94d4ab700d7f146b192b3788772e9c18aee0dcec8203b013023b` | handbook-disciplinary-II.3 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 32 | `04d70fde0576107e8e6cf9f76d72eb0100ba61bde5e74ee77e1d55ab72991232` | handbook-disciplinary-II.4 | 88 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -309,3 +311,30 @@ omitted remaining-period condition and existing22. Original source wording is co
 rendered physical47 and native text; later package design must retain all sentences/conditions and
 associated unresolved conflict without independently editing overlapping institutional rules.
 Correction delivery remains a separate append-only follow-up after this review operation.
+
+## Batch8 exact owner approval and retrieval grouping verification
+
+> i approve but, this is a whole process for requesting an overload. if lets say the rag retrieves it and the knn is 3, would it not be able to totally get those 4 chunks combined for this whole flow? Or does the system has like a way to combine or group these chunks?
+
+Question answered using current local code and fresh read-only hosted retrieve_context definition:
+- SQL ranked CTE applies p_top_k first, then recursively expands required_neighbor_chunk_ids within
+  eligible same-version records. Thus k3 limits ranked seeds, not total evidence after expansion.
+- For overload, any one of23–27 leads to all5 (4process rows plus branch record), assuming that group
+  is eligible and complete. build_context checks completeness, orders group, deduplicates and counts
+  full rendered context/citations against budget. It withholds the group on missing parts/overflow.
+- Existing claim/topic filtering follows companion closure too. Grouping cannot recover source
+  wording absent from all stored chunks, and does not guarantee complete/correct model generation.
+- Fresh2 existing tests passed/18deselected0.44s: required_neighbors_are_whole_atomic_groups and
+  shared_group_budget_and_missing_neighbor_still_withhold_every_part. Hosted definition/query and
+  grouping-verification.txt retained in raw evidence. No model/encoder/retrieval experiment or writes;
+  actual overload token budget not remeasured. Prior context budgets remain unchanged.
+
+## Batch9 displayed source fields and limits
+
+Chunks28–29 are draft-only, physical87; match settled source-review batch1 transcriptions.
+28: I.Improper Uniform; all4 penalty columns present, hours and days unconverted; no source_limits.
+29: II.1 source wording/BookIII reference and first-offense field retained; later3 penalty columns
+blank (not no penalty). II.Behavioral Defiance heading absent from stored cause; no required neighbors.
+Source limit retained verbatim: "Unavailable information: penalty type for two weeks. Source limitation
+remains unresolved (malformed_source_condition)." No penalty type or student-specific finding inferred.
+Each is a selected sanction row, not the complete disciplinary policy. Owner outcomes pending.

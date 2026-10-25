@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 62
+sequence: 63
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4c74194
+head_commit: 40bd3c7
 working_tree: clean
-updated_at: 2026-10-25T23:25:13+08:00
+updated_at: 2026-10-25T23:31:14+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,11 +36,12 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22 approved;19–21 correction-needed. Owner "i approve" confirms full3.2/3.3 correction
-wording; complete3.7 already supplied.19approved/3corrections/0held/58pending; no replacements delivered.
-Batch8/chunks23–27 overload group, physical62: exact selected fields/branches match rendered original.
-Title/intro/START and unlabelled edges absent from stored fields; all5 linked; owner outcomes pending.
-Deadline conflict unresolved. Separate append-only correction follows audit, no content activation.
+Chunks1–18/22–27 approved;19–21 correction-needed, full3.2/3.3/3.7 correction scope approved.
+24approved/3corrections/0held/53pending. Hosted retrieve_context read confirms recursive companions
+expand after ranked top_k; local builder validates/orders/withholds whole groups on gaps/budget.
+2existing grouping tests passed0.44s; no live model/retrieval experiment/budget measurement.
+Batch9/chunks28–29,p87,draft-only: selected sanction rows match settled review;29 blank columns and
+unresolved two-weeks penalty type preserved. Await owner outcomes. Deadline conflict unresolved.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -117,8 +118,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch8/chunks23–27 decisions, then next related disciplinary rows on physical87. Do not apply
-corrections during audit or reopen approved3.2/3.3/3.7 wording/deadline precedence.
+Await batch9/chunks28–29 decisions, then related rows30–31. Preserve original-source limitations
+and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted
 
