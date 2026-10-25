@@ -7,19 +7,19 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-593de5f protects explicit unresolved service agency_action cutoffs before numbering/review:
-quote the record's visible fields separately and disclose the gap. Draft/final fidelity floor;
-ordinary support/relevance review retained. Bad/oversized records withhold only affected slots;
-independent parts/budgets preserved. No new source facts/pin/model/default/call-budget changes.
-RED12/3, GREEN15; edge RED1/16 crash fixed; broad739 passed23.87s. Independent27 pass/no blockers.
-Actual sealed Step3 component: en466/fil477/Taglish474 chars, five claims retained, no invented
-continuation. No model/review call or per-language semantic pass;54 sealed files unchanged.
-[Plan](../2026-10-25-service-cutoff-fidelity-plan.md), [results](../2026-10-25-service-cutoff-fidelity-results.md).
-Full suite593de5f passed6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0; code/tests unchanged.
-Human review pending: source English quotations under Filipino/Taglish labels versus withholding
-the cut-off action/referral. Actual examples saved; no answer/approval inferred. Handoff prepared.
-Prior service context/record floor/formality4d391f6 full6732 +1595 subtests passed; retained evidence.
-Expanded release stays inactive. Owner asks autonomous work and a compact handoff to conserve usage.
+2ce3daf adds opt-in short per-part draft references, restoring canonical IDs BEFORE source guards,
+style/coverage checks, ordinary review, ledger hashing and final citations. Strict wire contracts;
+source/prose unchanged, repairs/request maps isolated, unavailable placeholders ignored. Default
+stays canonical; other profile restrictions/output768/model/source/pin unchanged. Expanded inactive.
+RED9 constructor gate; fixture question-binding repaired. Broad752, edge RED1/13 fixed, final753
+passed24.15s; independent review clean/14 passed1.12s. No actual short-profile model completion yet.
+[Diagnosis/plan](../2026-10-25-taglish-failed-infer-diagnosis.md), [results](../2026-10-25-part-references-results.md).
+Taglish failure proven by exact replay: truncated_output/finish_reason length at768, inside last
+citation ID. Initial logger missed args[0]; one extra generation-only capture37.321s fixed evidence.
+Tokenizer-only four complete IDs:766->539 prefix tokens (227 saved), no prose change/JSON rescue.
+Full suite running on frozen2ce3daf, session60055; PIDs20284/19620 started20:28:02. No duplicate run.
+Prior593de5f full6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0 completed and retained.
+Source-quote language presentation answer still pending; no inferred approval or source switch.
 
 ## Delivered state
 
@@ -48,11 +48,10 @@ Expanded release stays inactive. Owner asks autonomous work and a compact handof
 
 ## Next action
 
-One instrumented Taglish case to capture failed-infer reason before it becomes tool_error;
-existing768 output cap, no retry/prompt sweep. Source-quote presentation decision remains pending.
-Expanded release stays inactive; other quality/roster/switch gates remain.
-Later router/service/plagiarism/progression, Hybrid no-topic, clarifications, Nursing negative mode
-and owner's simple-query battery precede frontend integration. No phase advancement.
+Read existing2ce3daf full-suite.exit/log in p11-part-references-20261025 (session60055), preserve
+presentation hold. Then plan one bounded actual-model short-profile quality check; do not select
+as default without evidence. No repeat checker/fraud/weapon experiments. Reviewed step-order
+contract, other quality/roster/switch gates and frontend integration remain open. No advancement.
 
 ## Boundaries
 

@@ -9,27 +9,26 @@ Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-sessio
 
 ## Exact next action
 
-593de5f adds a pre-review source-fidelity boundary for explicit unresolved service agency_action
-cutoffs. Model prose citing that record becomes one labelled quotation of its separate visible fields
-and a cutoff notice. Ordinary relevance/support review remains; draft/final equality checks prevent
-positive verdicts from restoring the invented continuation. Invalid/oversized records become source_gap;
-independent claims/parts and budgets retained. No new source facts, model/default/budget/pin changes.
-[Plan](2026-10-25-service-cutoff-fidelity-plan.md), [results](2026-10-25-service-cutoff-fidelity-results.md).
-RED12/3, GREEN15; edge RED1/16 fixed; broad739 passed23.87s. Independent review clean/27 passed1.12s.
-Actual saved Step3 component: en466/fil477/Taglish474 chars, all exact fields, five claims retained,
-no "for further action". No model/review call or actual language-quality pass;54 sealed files unchanged.
-Full tests/ suite593de5f PASSED6749 +1595 subtests,6skip2xfail6warnings,1297.74s (21m37s),exit0;
-A/p11-service-cutoff-20261025/full-suite.head,.exit,.log. Code/tests unchanged; do not repeat this run.
-Human review pending: allow verbatim English source quotes under Filipino/Taglish labels for this
-cutoff fallback, or withhold the cut-off action and refer? Exact examples/component in current E.
-No response is approval; no request for unavailable source text. No test process remains running.
-Next: one instrumented Taglish case to capture the failed-infer reason, existing768 cap/no retry.
-Retain source/presentation holds; save all attempted packets before inference. No prompt sweep.
-Then explicit reviewed procedure order; do not infer it from hashes, retrieval rank or ID spelling.
-Taglish failed-call diagnosis remains separate. Do not repeat source readings or the completed checker/
-fraud/weapon experiments. Expanded release remains inactive; quality/roster/switch/frontend gates open.
-Prior service contexta2a2f19/record floor6b47449/formality4d391f6 full6732 +1595 subtests,6skip2xfail
-6warnings,22m11s,exit0. Two3-case batteries failed semantic quality; retained, not current-code reruns.
+2ce3daf adds opt-in short references for per-part DRAFTS. Default still canonical,768 output cap
+unchanged. Strict wire contracts use request-local aliases; decode before source/cutoff/fraud/
+coverage/style checks and ordinary review. Checker/ledger/final stay canonical; no source/prose
+replacement. Repair map stable; unavailable placeholders ignored. No source/pin/model/default change.
+[Diagnosis/plan](2026-10-25-taglish-failed-infer-diagnosis.md), [results](2026-10-25-part-references-results.md).
+Initial RED9/profile gate, fixture question binding repaired; broad752, edge RED1/13 fixed; final753
+passed24.15s. Independent clean/14 passed1.12s. No actual-model short-profile run/default selection.
+Taglish saved failed request: exact generation-only replay37.321s, truncated_output/finish_reason
+length at768, ends inside last citation hash. Initial logger missed args[0]; one extra call explicitly
+recorded. Tokenizer-only four complete IDs766->539 prefix tokens,227 saved. No JSON rescue/quality claim.
+Full suite RUNNING on frozen2ce3daf, session60055; A/p11-part-references-20261025/full-suite.*.
+PIDs20284/19620 started20:28:02+08; process file records creation times. Check .exit/log/process binding
+before restart; no duplicate suite. Missing exit/absent process means interrupted, never passed.
+Next: read existing result, then separately bound one actual-model short-profile quality check before
+any default selection. Source-quote English-under-Filipino/Taglish presentation answer still pending.
+No response/"continue" recorded as that answer; examples A/p11-service-cutoff-20261025/sealed-record-component.json.
+Prior cutoff593de5f full6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0 completed. Its exact
+field-excerpt guard remains; normal review preserved; language/sequence/whole-service quality unverified.
+All54 sealed source files unchanged. Expanded release stays inactive; source order/quality/roster/
+switch/frontend gates open. Do not repeat completed checker/fraud/weapon experiments or source staging.
 
 Prior operation correction3fbea08: existing bounded repair catches orphan Symbolic/Hybrid operations,
 no silent reroute. Safe fraud observations40.315s (saved packet + actual repair) and24.954s (fresh);

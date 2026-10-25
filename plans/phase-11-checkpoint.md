@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 43
+sequence: 44
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 593de5f
+head_commit: 2ce3daf
 working_tree: clean
-updated_at: 2026-10-25T20:10:00+08:00
+updated_at: 2026-10-25T20:32:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -33,29 +33,27 @@ Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoin
 
 ## Current Task
 
-593de5f protects explicit unresolved service agency_action cutoffs: replace model prose by
-separate exact field quotations/cutoff notice before numbering and ordinary relevance review.
-Draft/final fidelity floor prevents positive verdicts from restoring invented continuations.
-Bad/oversized records become source_gap; independent parts/budgets retained. No new source facts.
-RED12/3, GREEN15; edge RED1/16 metadata crash fixed; broad739 passed23.87s. Independent review
-no blockers/27 passed1.12s. Actual sealed record: en466/fil477/Taglish474 chars, five retained claims,
-no invented continuation; no model/review call. All54 sealed package files unchanged.
-[Plan](2026-10-25-service-cutoff-fidelity-plan.md), [results](2026-10-25-service-cutoff-fidelity-results.md).
-Full suite593de5f passed6749 +1595 subtests,6skip2xfail6warnings,21m37s,exit0.
-Next bounded diagnostic: one Taglish case, capture failed-infer code before Generator masks it.
-Prior live semantic gate remains failed; source sequence and Taglish tool_error unresolved.
-Human presentation review pending: allow English source quotes under Filipino/Taglish labels for
-the cutoff fallback, or withhold the cut-off action/referral? Exact examples saved; no answer yet.
+Opt-in short per-part draft references2ce3daf; default remains canonical. Request-local aliases
+restore full IDs before source/coverage/style checks and ordinary review; ledger/final canonical.
+Source/prose unchanged, strict wire rejection, repair map stable, unavailable placeholders ignored.
+RED9 at profile gate, fixture question-binding repaired; broad752, edge RED1/13 fixed; final753
+passed24.15s, independent review clean/14 passed1.12s. No actual-model short-profile run yet.
+Taglish exact saved-request replay proves truncated_output/finish_reason length at768 inside last
+citation hash. Initial logger read wrong field; one explicit extra capture37.321s. Four complete
+IDs shortened via tokenizer-only766->539 prefix tokens,227 saved; no partial-response rescue.
+[Plan](2026-10-25-taglish-failed-infer-diagnosis.md), [results](2026-10-25-part-references-results.md).
+Full suite running on frozen2ce3daf, session60055; PIDs20284/19620 started20:28:02. Do not duplicate.
+Source-quote presentation decision still pending; expanded release inactive, semantic gates open.
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through593de5f.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through2ce3daf.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-Production/tests unchanged since the completed593de5f suite; following docs commit saves this snapshot.
+Production/tests frozen for current2ce3daf run; following docs commit saves this snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
-Current evidence: workspace/audit-evidence/p11-service-cutoff-20261025/; prior evidence retained.
+Current evidence: workspace/audit-evidence/p11-part-references-20261025/ and p11-taglish-infer-20261025/.
 
 ## Verification Evidence
 
@@ -115,13 +113,13 @@ Initial Supabase read succeeded; final19:26 refresh failed OAuth response parsin
 retained; no DB writes/connector reset. Diagnosis/recovery pointers in session recovery.
 Current service traces all select pre_enrollment; semantic quality still fails. Citation coverage alone
 cannot prove ordering/association or prevent invented cutoff continuation. Taglish generation tool_error
-has no saved failed raw packet;768-token server log supports, but does not prove, truncation diagnosis.
+now has a raw exact-request replay proving truncation at768; short-profile quality remains unmeasured.
 
 ## Next Action
 
-One instrumented Taglish case to capture failed-infer reason, existing768 cap/no retry; no prompt
-sweep. Presentation answer still pending. Then explicit reviewed source order, not IDs/ranking.
-Expanded release inactive; no advancement.
+Read existing2ce3daf full-suite.exit/log before restarting (session60055); preserve presentation hold.
+Then separately bound an actual-model short-profile quality check before any default selection.
+Source order/other quality/roster/switch/frontend gates remain. Expanded inactive; no advancement.
 
 ## Context Consulted
 
