@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: batch19/chunks50–51 approved; batch20/chunks52–53 awaiting owner decisions.
+Status: batch20/chunks52–53 approved; batch21/chunks54–55 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **45**, correction-needed **6**, held **0**, pending **29**.
+Current counts: approved **47**, correction-needed **6**, held **0**, pending **27**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -103,7 +103,8 @@ Batch17:47 approved;46 wording approved but correction-needed for missing45 grou
 45 wording approval retained, overall outcome changed to correction-needed for missing46 grouping.
 Exact owner direction below. Batch18/chunks48–49 approved: exact reply "i approve" (26Oct).
 Batch19/chunks50–51 approved: "i approve" (26Oct).
-Batch20/chunks52–53 displayed in accompanying reply; decisions pending.
+Batch20/chunks52–53 approved: "i approve" (26Oct).
+Batch21/chunks54–55 displayed in accompanying reply; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -179,8 +180,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch20/chunks52–53 (Handbook physical92). Do not advance on silence.**
-Then prepare next related54–55. Stable queue unchanged;40/45 already reviewed.
+**Await owner decisions for batch21/chunks54–55 (Handbook physical92). Do not advance on silence.**
+Then prepare next related56–58. Stable queue unchanged;40/45 already reviewed.
 Correction-needed19–21/36/45–46 retain approved scope; no correction/DB/prompt/model changes in audit.
 
 ## Frozen snapshot and verification
@@ -260,10 +261,10 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 49 | `a468ff84285a9c1ebb0cc5c3af972e2db865aafe056ab32dd1673fac2e9a7763` | handbook-disciplinary-II.11 | 91 | draft-only | Agent: fields match source spans/rendered p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch18,26Oct2026) | approved | All4 penalty columns approved as printed |
 | 50 | `3eae9c9fa4756542eb7fcb9d3b158242c79f6c4eca3495398d4c3ab8fc83e4d3` | handbook-disciplinary-II.12 | 91 | draft-only | Agent: selected fields/columns match p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch19,26Oct2026) | approved | Full selected cause/penalties/blank cells approved |
 | 51 | `1bdd53a8297184a558b3799a6d8b89eac6781ad930ab4d073581ac6f6e723c2d` | handbook-disciplinary-II.13 | 91 | draft-only | Agent: selected fields/columns match p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch19,26Oct2026) | approved | Full selected cause/penalties/blank cells approved |
-| 52 | `3d56b215a4d2e11b9220bdac963999360ec330698a0409e63d7c75c8cd80871b` | handbook-disciplinary-II.14A | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected14A fragment; no companions; shared II heading absent | — | pending | Later Subsequent cell blank; no source_limits; outcome pending |
-| 53 | `c918dde8e539e37cd3b12f9e217355ff6bd1d1fb03ec21e46c9b3fcd8c5c246b` | handbook-disciplinary-II.14B | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected14B fragment; printed14 number absent from text; no companions | — | pending | FirstDismissal/later3blank; no source_limits; outcome pending |
-| 54 | `339816c8e918f400deb256f9de7a5a06d9d65f4c44916bb0f5bd687e26c6bca3` | handbook-disciplinary-II.15 | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 55 | `41f02e25840bcaca4d84dab6331b1309a9d7014a82b59afcfaa57d4737fb4b81` | handbook-disciplinary-II.16 | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 52 | `3d56b215a4d2e11b9220bdac963999360ec330698a0409e63d7c75c8cd80871b` | handbook-disciplinary-II.14A | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected14A fragment; no companions; shared II heading absent | "i approve" (batch20,26Oct2026) | approved | Selected14A/B fields/blank cells approved |
+| 53 | `c918dde8e539e37cd3b12f9e217355ff6bd1d1fb03ec21e46c9b3fcd8c5c246b` | handbook-disciplinary-II.14B | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected14B fragment; printed14 number absent from text; no companions | "i approve" (batch20,26Oct2026) | approved | Selected14A/B fields/blank cells approved |
+| 54 | `339816c8e918f400deb256f9de7a5a06d9d65f4c44916bb0f5bd687e26c6bca3` | handbook-disciplinary-II.15 | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected sanction row; shared II heading absent; no companions | — | pending | 3rd blank,SubsequentDismissal retained; outcome pending |
+| 55 | `41f02e25840bcaca4d84dab6331b1309a9d7014a82b59afcfaa57d4737fb4b81` | handbook-disciplinary-II.16 | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected sanction row; shared II heading absent; no companions | — | pending | Original2examples joined in Cause;all4penalty columns retained;outcome pending |
 | 56 | `7449490493d083d0caf4c5be964a5704f4065d8c3ee100ab40ae2f9b07bffddb` | handbook-disciplinary-II.17 | 93 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 57 | `a7f81ff24b6b7d0792f8ac777fa5212be319b44fa944057e970c9cef04bacad5` | handbook-disciplinary-II.18 | 93 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 58 | `bec7d125000ca049eb9006a7fdf366aa57d72e996d139856f7da89f8ce029f79` | handbook-disciplinary-II.19 | 93 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -542,3 +543,14 @@ source_limits. Same printed item14A/B; numbering14 preserved in52,53 reading met
 but source wording is only B. Shared II heading absent. Display together for exact associations;
 no definition of illicit relations/specific conduct or sanction applicability inferred. Selected row
 fragments,not complete disciplinary policy. Owner outcomes pending; next54–55. No source/DB/model changes.
+
+## Batch20 outcome / batch21 display —26 October2026
+
+Owner reply52–53: "i approve". Both approved;47approved/6correction-needed/0held/27pending.
+54 II.15 oral defamation and55 II.16 vandalism,draft-only,physical92: full selected fields match
+snapshot/spans/rendered original.54 third-offense cell is blank;Dismissal is in Subsequent,not shifted.
+55 cause includes both original bullet examples joined into one field;wording/semicolon association
+retained but source bullet layout flattened. Full first-offense OSASletter/five-daysservice retained;
+all4penalty columns present. No companions/source_limits in either;shared II heading absent.
+Selected row fragments,not complete disciplinary policy. Await54–55 decisions,then56–58.
+No source/DB/prompt/model changes; frozen queue/snapshot hashes unchanged.

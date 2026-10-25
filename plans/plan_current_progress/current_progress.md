@@ -7,10 +7,10 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):50–51 approved ("i approve");45approved/
-6corrections/0held/29pending. Batch20/chunks52–53,p92,draft-only,displayed together as14A/B;
-exact causes/penalty columns match rendered original.52 Subsequent blank,53 later3blank; no source
-limits/required companions. Await decisions; no source/DB/prompt/model changes.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):52–53 approved ("i approve");47approved/
+6corrections/0held/27pending. Batch21/chunks54–55,p92,draft-only,displayed:54 third blank with
+Dismissal in Subsequent;55 full2examples joined in Cause/all4penalty columns retained. Exact fields
+match rendered original;no companions/source_limits. Await decisions;no DB/source/prompt/model changes.
 [MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed; [conditional ETA](../2026-10-26-system-readiness-estimate.md) retained.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
@@ -66,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch20/chunks52–53 decisions,then54–55. No duplicate approvals,renumbering or source changes.
+Await batch21/chunks54–55 decisions,then56–58. No duplicate approvals,renumbering or source changes.
 Correction scopes19–21/36/45–46 settled; delivery remains separate after audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.

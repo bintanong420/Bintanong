@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 77
+sequence: 78
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f1e48ae
+head_commit: b3dabec
 working_tree: clean
-updated_at: 2026-10-26T00:28:09+08:00
+updated_at: 2026-10-26T00:29:46+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,10 +33,10 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-50–51 approved: "i approve".45approved/6corrections/0held/29pending. Batch20/chunks52–53,p92,
-draft-only,displayed together as item14A/B. Exact causes/penalty columns match rendered original;
-52 Subsequent blank,53 later3blank. No required companions/source_limits. Selected row fragments;
-no conduct interpretation or individual sanction. Await outcomes; no source/DB/model changes.
+52–53 approved:"i approve".47approved/6corrections/0held/27pending. Batch21/chunks54–55,p92,
+draft-only,displayed;full fields/columns match rendered original.54 third blank/SubsequentDismissal;
+55 original2bullet examples joined in Cause/full OSASletter+service wording/all4penalty fields kept.
+No companions/source_limits;selected row fragments. Await outcomes;no source/DB/model changes.
 
 ## Repository State
 
@@ -112,7 +112,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch20/chunks52–53 decisions,then54–55. No repeated outcomes,source corrections or activation.
+Await batch21/chunks54–55 decisions,then56–58. No repeated outcomes,source corrections or activation.
 Keep frozen queue/approved correction scope19–21/36/45–46 and source limitations.
 
 ## Context Consulted
