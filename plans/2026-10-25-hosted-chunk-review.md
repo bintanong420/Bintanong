@@ -262,12 +262,12 @@ Each pending row has no owner decision, proposed correction or resolved question
 
 ## Batch7 exact owner response and separate correction proposal
 
-Owner response (verbatim; quote style/punctuation retained independently of original-source text):
+Owner response (verbatim wording; trailing spaces omitted, quote style/punctuation retained):
 
 > yep i noticed that chunk 19 does missed a bunch
 > chunk 20 also really missed the re-examination part
-> chunk 21 also omits that next sentence, 
-> the complete for chunk 21 found in the 3.7 NO IMPROVEMENT OF GRADE FROM THE HANDBOOK is this : A grade of "4" or "INC" may no longer be improved after one year immediately following the semester in which the grade was incurred. A grade of "4" received after removing a grade of "INC" however, must be removed within the remaining portion of the prescribed period for the original grade of "INC". 
+> chunk 21 also omits that next sentence,
+> the complete for chunk 21 found in the 3.7 NO IMPROVEMENT OF GRADE FROM THE HANDBOOK is this : A grade of "4" or "INC" may no longer be improved after one year immediately following the semester in which the grade was incurred. A grade of "4" received after removing a grade of "INC" however, must be removed within the remaining portion of the prescribed period for the original grade of "INC".
 > A grade of 4.0 that has not been removed within a period of one term shall automatically become 5.0. An “INC” that has not been completed within the term shall automatically become NC.
 
 This confirms omissions in19–21 and provides complete3.7 wording, including22's paragraph.
