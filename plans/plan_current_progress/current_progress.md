@@ -1,80 +1,46 @@
 # Current progress
 
-Updated26October2026. Phase11 active in p11 / feat/p11-backend-api; dev basecbaa6a7; nothing pushed.
+Updated26October2026. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
-Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/current_progress.md`.
+Last full snapshot before condensation:`c1fc29a:plans/plan_current_progress/current_progress.md`.
 
 ## Latest change
 
-[Selected answer fixes](../2026-10-26-selected-answer-quality-fixes.md) delivered for verification.
-Exact sources/78artifacts remain sealed,owner reminder recorded;no repeated human review.
-Requested-record floor/review identity,canonical hostdedup/currentness,same-slot precedence retention,
-numbered-clause routing context with conflicts and bounded instructions. RED5+2+1+host2+edge1+bind1;
-final broad673passed/adapter43passed;independent review no production blocker. Saved fraud draft
-rejects/fee dedups with original effectivity. Next frozen fullsuite then prior six once;no activation.
+[Selected-answer fixes/results](../2026-10-26-selected-answer-quality-results.md),code04005d9.
+Requested-record floor binds review identity;canonical fee dedup/currentness;same-slot comparison
+retains independent claims;reviewed numbered-clause routing context and bounded instructions.
+RED regressions observed;final broad673passed,adapter43passed;independent code-review findings fixed.
+Full frozen suite6835passed+1595subtests,6skip2xfail6warnings,1399.28s,exit0.
+Six unique queries once/19calls:3answered,1abstained,1insufficient,1tool_error,0uncaught exceptions.
+QUALITY FAILED:fraud/fee meet checked expectations;removal,INC,procedure,exam cheating still fail.
+Removal broad timing records missing in drafts;INC chooses held deadline claims;procedure truncates
+at768;cheating selects only shared measures and omits exam penalties despite positive review.
+48sealed files/78chunks unchanged;no source/topic/chunk/budget/model/dependency/hosted-write/activation.
+Owner exact-source/limitation reminder retained verbatim in owner-decisions-ledger;no human re-review.
+Evidence workspace/audit-evidence/p11-selected-answer-fixes-20261026/. All jobs finished;no retries.
 
-6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
-sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
-path or dependencies. [Plan](../2026-10-25-procedure-order-plan.md); RED25/1, repaired two stale-
-catalog fixtures; contract RED9/17, edge RED1/27; final focused39, broad745+137 subtests passed;
-independent clean/39 passed1.48s. Full frozen6d70e1a completed6803 +1595 subtests,
-6skip2xfail6warnings,1343.56s,exit0; p11-procedure-order-20261025/full-suite.*. Code/tests unchanged.
-Original102-103 rechecked; separate order-only register rejects both saved reversed drafts and
-accepts saved correctly ordered claims structurally. All54 sealed files unchanged.
-[Results](../2026-10-25-procedure-order-results.md): one actual saved-context Filipino attempt
-answered/validated, four client steps ordered,659-token draft+108-token review,no repair,64.158s
-generation/review only. Step2 action-object wording remains ambiguous; no full semantic/language/
-accuracy gate pass. Canonical default unchanged; derivative/hosted expanded release inactive.
+## Delivered state and boundaries
 
-4425538 implements owner's combined cutoff presentation: exact printed fields, explicit missing
-continuation and record-office referral (generic when no office printed), before ordinary review.
-RED11/17; focused42 passed1.36s; broad664 passed21.31s; independent clean/42 passed1.48s.
-[Referral plan/results](../2026-10-25-service-cutoff-referral-plan.md). Full frozen4425538 suite
-completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0; full-suite.* in p11-cutoff-referral-20261025.
-One [saved-evidence short-profile observation](../2026-10-25-short-reference-model-observation.md)
-ENDED: draft463tokens+ordinary review108, both stop; answered/validated,45.73s generation/review only.
-Raw model still invents cutoff continuation; guard replaces it before review with exact quotes/referral.
-Final canonical refs;54 sealed files unchanged. Saved style fil despite Taglish question; no language/
-source-order/whole-service quality pass. No fresh router/retrieval/encoder/DB run, retry or default change.
-2ce3daf original short-reference full suite completed6763 +1595 subtests,6skip2xfail6warnings,
-1306.19s,exit0. Prior593de5f full6749 also retained. Do not repeat these runs/observations.
-Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
-
-## Delivered state
-
-- Backend/API/security/answer queue and step2 E1/E3,2a-2e/e2,f,h delivered.39 hosted curricula,
-  2132 course facts;CF1-CF6 settled. Owner: frontend ready, finish pending work before integration.
-- Grading host reply8c49ad0; topic filter8ba6949 hosted via20261024112235. Live grading/fees8/10;
-  Taglish passing and uppercase percentage router misses remain. No duplicate header reproduced.
-- g2 append-only pathf591416/c048bcb, blank/root identitiesfebd6c1/5440368, context/menu5dbc706,
-  claim filterfb4e1e8 and malformed-source guardc5f0d07 delivered; prior review/verification retained.
-- Expanded package:61 new records/8 limits; pre_enrollment4096 owner-delegated, group3816tokens;
-  other subjects2048.61 vectors, exact tokenizer parity/max477; original19 records unchanged.
-  Local release/39-link activation/rollback rehearsal80->19->80 passed; package sealed.
-- Hosted migration20261024114711 applied. New80chunks/39links draft INACTIVE; old19chunks/39links
-  active.10 function bodies/grants match local; RLS/private receipts/trigger verified; advisors unchanged.
-- Live9-case expanded quality gate failed: routing misses, omitted steps/progression, weapon exception
-  invented, fraud precedence omitted. Weapon guard corrected; its single live refusal verified29.37s.
-  Previous full c5f0d07 suite6677 +1595 subtests,6 skipped,2 xfailed,6warnings,22m36s,exit0.
-- Roster19 completed63/63 after startup-timeout retry;0 exceptions, no previously answered status/
-  decision lost; languages21/21en,21/21fil,15/21Taglish. Reuse roster18/19; no new roster yet.
-- Checker comparison ENDED after2/8 calls: thinking-on truncated768tokens/no final content.
-  No retries/rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
-- Initial Supabase read succeeded; final19:26 failed OAuth refresh/response parsing.
-  Earlier inactive readback retained; no DB writes, credential reset or connector fix claimed.
-  Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
+- Backend/API/security/queue delivered;39hosted curricula/2132course facts;CF1–CF6 settled.
+  Frontend ready elsewhere per owner;integration follows pending work. No browser/UI exit yet.
+- Hosted80-ID audit complete72approved/8correction-needed;[ledger](../2026-10-25-hosted-chunk-review.md).
+  [Corrections](../2026-10-26-hosted-chunk-correction-results.md):78chunk/39link draft INACTIVE,
+  11new IDs/67reused,5new vectors;old active19/draft80 unchanged. Do not redo source review/staging.
+- d72b88f trusted package budgets/transitive eligible companion closure;full6821+1595subtests passed.
+  [Prior six results](../2026-10-26-corrected-candidate-runtime-results.md) retained;not current reruns.
+- Procedure-order6d70e1a,cutoff/referral4425538,comparison e1d7e8b and earlier full suites retained in
+  dated reports/recovery. Keep exact original cutoffs,blank cells,conflicts and held fields.
+- Roster19 completed63/63;style21/21en,21/21fil,15/21Taglish. No new roster or activation.
+  Checker experiment ended on truncation;no rescue/sweep. Photos remain unsupported.
+- Undergraduate/read-only advisory,source-gap/privacy/release gates and one-week accuracy cap remain.
+  No public/institutional approval,currentness,training/downloads/push or Phase12 advancement.
+- Context refreshed26Oct:thesis physical17–18,routing PNG;master16 and existing phase baseline;
+  no scope/routing discrepancy. Private uploads never join institutional knowledge.
 
 ## Next action
 
-Fix bounded routing/coverage/fee-composition failures from saved six-case traces with regression-first
-checks. No more chunks or repeated battery needed to diagnose these failures;keep candidate inactive.
-Do not rerun completed full suite until production behavior changes. Frontend/wider query gates remain.
-
-## Boundaries
-
-Undergraduate academic affairs, read-only advisory, source gaps/privacy/release safeguards and one-week
-improvement cap remain. No persistent grades/conversations, training/downloads/push. Source review is
-not school approval/currentness/public deployment. This resume consulted thesis physical17-18, routing
-PNG, master3/13/14/16 and prior Phase10 handoff; no discrepancy. Session YOLO now enabled by owner;
-this changes execution permissions only. Raw evidence stays ignored in workspace audit-evidence.
+Resume from saved six-case traces:regression-first semantic claim selection/grade claim granularity
+and complete procedure output under the existing contract. Preserve exact sources and accepted limits;
+keep candidate inactive. Do not repeat completed suites/cases without a concrete new behavior change.
+Wider query/style/Hybrid and frontend integration/browser gates remain.

@@ -2,135 +2,100 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 93
+sequence: 96
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5d71a77
-working_tree: clean
-updated_at: 2026-10-26T02:47:32+08:00
+head_commit: 04005d9
+working_tree: dirty
+updated_at: 2026-10-26T03:18:00+08:00
 ---
 
-# Phase 11 checkpoint — hosted-chunk human review
+# Phase 11 checkpoint — selected-answer verification
 
-Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkpoint.md`.
-[Plan](phase-11-backend-api-plan.md) · [Phase10 final handoff](phase-10-handoff.md) ·
-[Session recovery](2026-10-25-phase11-session-handoff.md). No final Phase11 handoff/advancement.
+Last full checkpoint before review redirect:`82ae498:plans/phase-11-checkpoint.md`.
+[Plan](phase-11-backend-api-plan.md) · [Phase10 handoff](phase-10-handoff.md) ·
+[Recovery](2026-10-25-phase11-session-handoff.md). Phase11 active;no final handoff/advancement.
 
 ## Completed Tasks
 
-- Backend tasks1-9/security/queue/abuse and step2 E1/E3,2a-2e/e2,f,h delivered;
-  history in c1fc29a and dated reports. Hosted facts:39 curricula,2132 courses;CF1-CF6 settled.
-- Grading host reply8c49ad0; topic filtering8ba6949, hosted migration20261024112235;
-  [topic report](2026-10-24-topic-filtered-retrieval.md). Active release preserved.
-- g2 append-only source-review pathf591416/c048bcb; root identity5440368; blank codecfebd6c1;
-  context/menu5dbc706; claim filteringfb4e1e8; malformed-source guardc5f0d07.
-  [Resume evidence](2026-10-25-phase11-resume-verification.md),
-  [guard results](2026-10-25-malformed-source-answer-guard-results.md).
-- 61 supplementary records compiled,8 limitations,480-token budget respected; pre_enrollment
-  alone has owner-delegated4096 context (complete group3816), other topics2048.
-  61 E5 vectors; original19 records unchanged. Local39-link activation/rollback rehearsal passed.
-- Hosted g2 migration20261024114711/staging delivered: new80-chunk/39-link draft INACTIVE;
-  original19-chunk/39-link release active.10 local/hosted function bodies/grants match; guards/RLS verified.
+Backend/API/security/queue delivered;39curricula/2132facts,CF1–CF6 settled. Earlier source/runtime
+work and evidence retained in dated reports and Git,not repeated here.
+Hosted80-ID audit complete72approved/8corrections;[ledger](2026-10-25-hosted-chunk-review.md).
+[Correction delivery](2026-10-26-hosted-chunk-correction-results.md):78chunk/39link corrected draft
+inactive;11new IDs/67reused,5new vectors. Old active19/draft80 preserved. No source review reopened.
+d72b88f trusted package budgets/transitive eligible companion closure;full6821+1595subtests passed.
+Prior procedure-order6d70e1a/cutoff4425538/comparison e1d7e8b results remain in dated reports.
 
 ## Current Task
 
-[Selected-answer fixes](2026-10-26-selected-answer-quality-fixes.md) ready to freeze. Requested-record
-floor and review binding;canonical host fee dedup/currentness;independent precedence claims retained;
-reviewed numbered-clause routing context+conflict metadata and bounded instructions. RED5+2+1+
-host2+edge1+bind1;final broad673passed,adapter43passed. Independent review found host-currentness
-coverage regression,reproduced/fixed;no remaining production blocker. Saved fraud rejection/fee
-replay passed with0calls. Source78artifact seal unchanged. Owner exact-source reminder recorded;
-no re-review/new source/chunk/budget/activation. Next frozen fullsuite then same six once.
+Bounded [selected-answer fix pass](2026-10-26-selected-answer-quality-fixes.md) ENDED.
+[Results](2026-10-26-selected-answer-quality-results.md):code04005d9,full suite passes;quality gate
+FAILED. Fraud/fee satisfy checked expectations;four cases remain below. Exact approved source text,
+blank cells,cutoffs/conflicts/other limits unchanged;owner reminder recorded verbatim in decision ledger.
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Resume HEAD82ae498; clean at start.
-This documentation increment saves the review ledger, progress, checkpoint and session recovery;
-New research factory/package reader changes get fresh full suite;no dependency/source/active-pin changes.
-Raw review evidence target: workspace/audit-evidence/p11-hosted-80-review-20261025/ (ignored).
-Documentation validation: phase_state validate, diff checks and local-link/plan checks before commit.
+p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Frozen production/tests04005d9 unchanged.
+Only selected-answer plan/results,INDEX,progress,checkpoint,recovery documentation dirty before commit.
+No jobs running. Evidence workspace/audit-evidence/p11-selected-answer-fixes-20261026/ ignored.
+Checkpoint names verified implementation HEAD;subsequent documentation commit can be its descendant.
 
 ## Verification Evidence
 
-- Service context RED5/9 after fixture correction; broad944 passed20.46s; independent14 passed.
-- Record metadata RED5/4, host RED2/7, final-bypass RED3/7; broad1121 passed29.74s; independent10 passed.
-- Preference RED3/40; broad1121 passed29.77s; independent43 passed2.42s.
-- Prior full suite4d391f6:6732 +1595 subtests,6skip2xfail6warnings,1331.55s,exit0.
-  Prior evidence p11-service-refinement-20261025/full-suite.*; no repeat.
-  No installed linter/formatter; browser/SDK/frontend checks remain outside this increment.
-- Earlier full tests/ suite3fbea08:6708 +1595 subtests,6 skipped,2 xfailed,6warnings,1358.19s,exit0.
-- Controlled saved-packet actual repair + fresh same-question pipeline both answered safely;
-  one generation/review each.4 real calls each; source comparison held both labels/precedence warning.
-
-- Fraud initial console RED11 behavior failures +1 fixture setup error/3 passes; fixture repaired.
-  Isolated baseline-version-red.log confirms corrected cross-version case fails against old to_draft.
-- Edge RED2/15: new counterpart hold bypass and eight-claim overflow; corrected GREEN508.
-- Review P2: host status bypassed relevance confirmation; RED7/11, retained ordinary answered review.
-  Final generation/understanding selection509 passed in10.98s, including18 precedence cases.
-- Actual sealed-field component: both labels/all visible values preserved; separate/combined claims
-  fit1200 in en/fil/Taglish. No model/routing/retrieval accuracy inference.
-- Full tests command: shared Python3.13 -X utf8 -B -m pytest -q -p no:cacheprovider tests,
-  external --basetemp=workspace/audit-evidence/p11-fraud-precedence-20261025/full-temp.
-  full-suite.head=e1d7e8b; .exit=0,6695 passed +1595 subtests,6 skipped,2 xfailed,
-  6 existing warnings,1364.78s. No installed linter/formatter.
-- Fresh read-only hosted readback: old19 active, expanded80 draft/inactive.54 sealed files unchanged.
-- Previous c5f0d07 full suite6677 +1595 subtests,6 skipped,2 xfailed,6 warnings,22m36s,exit0.
-  Earlier fb4e1e8 suite6658 and f591416 suite6628 preserved in dated reports; do not repeat them.
-- Roster19:63/63,0 exceptions after one startup SQL-timeout retry; no previously answered status/decision
-  lost. Language21/21 English,21/21 Filipino,15/21 Taglish. See resume report; baseline roster18 retained.
-- Checker trial ENDED: off false completeness; on truncated768 tokens/no final content.2/8 calls;
-  remaining6 unrun, no rescue/default change. [Results](2026-10-25-checker-comparison-results.md).
+- RED5+2+1,independent-review host2+edge1+identity1;focused/broad673passed15.77s,adapter43passed3.40s.
+  Independent code-review findings fixed through RED/GREEN;no remaining production review blocker.
+- Full04005d9:6835passed+1595subtests,6skipped,2xfailed,6warnings,1399.28s,exit0.
+  Shared Python3.13 -X utf8 -u -B -m pytest -q -p no:cacheprovider tests/,external basetemp/storage.
+- Saved fraud draft rejected;fee packet deduplicated with original effectivity;zero replay inference.
+- Actual six unique cases once,19completions;runner exit0. 3answered/validated,1abstained,
+  1insufficient_evidence,1temporarily_unavailable/tool_error,0uncaught exceptions. Not an accuracy score.
+  Only removal uses existing single internal repair;no case retried. All raw failures preserved.
+- Final seal:48files/78chunks unchanged. No hosted writes/activation/model/dependency/budget changes.
+- Canonical refs/output768/prefixreuse/greedy seed0/thinking disabled unchanged. Inner pipeline
+  13.402–76.807s excludes encoder/composition startup,API/browser/Supabase;queueing unmeasured insidecalls.
+- No installed lint/formatter or frontend/browser check claimed;documentation checks separate.
 
 ## Versions and Digests
 
-Shared Python3.13.7, FastAPI0.141.1, SWI-Prolog10.1.15, PostgreSQL17.6, pgvector0.8.2;
-Supabase CLI2.117.0. Model/embedding identities unchanged; MODELS_DIR points to shared workspace/MODELS.
-No downloads/re-hashing/training. Sealed source-package hashes remain in session recovery/resume report.
+Python3.13.7,FastAPI0.141.1,SWI-Prolog10.1.15,PostgreSQL17.6,pgvector0.8.2;CLI2.117.0 unchanged.
+Models remain shared workspace/MODELS;no downloads/training. Corrected embedding set
+cb7ac3a56b94bdb9ced8f8bd9c012b3cff2adf1e3e761347acbe147ce3c38845.
+Source/chunk/vector/register digests in selected-answer results and correction results.
+Root research release release-offline-research-set-7d01d8dbae838128;hosted active pin unchanged.
 
 ## Decisions
 
-- Source-review batches4/7 require both labels; precedence unresolved. No sanction adjudication.
-- Deterministic comparison wording still needs normal relevance review; positive review cannot restore
-  discarded model sanctions. Existing fallible review/whole-draft fallback semantics retained.
-- No product scope/source reading change. Generic claim_not_stated notices remain unchanged.
-- Keep one-week prompt/accuracy cap, undergraduate/advisory/privacy/source-gap boundaries.
-- Formal Filipino words are a preference, not a hard exclusion (settled25Oct owner ledger).
-- Owner requests autonomous work until real human review/a useful usage-saving handoff; no routine questions.
-- Cutoff presentation: keep exact printed terms/fields, explicit missing continuation and record-office
-  referral (generic university office when absent). Choice resolved; no missing text/order inferred.
+Owner exact-source reminder26Oct is binding:reuse reviewed wording and limitations,do not reopen
+human review or rewrite source to make answers pass. No added source/topic/chunk/budget/model sweep.
+Coverage binds declared claims;it cannot prove router selections match the whole student question.
+No sanction/deadline precedence inferred. Preserve canonical no-rate currentness reply and ordinary
+review protections. Keep one-week improvement cap and all institutional/public release boundaries.
 
 ## Known Failures or Blockers
 
-Expanded live9-case quality gate FAILED; one guard refusal does not close it. Service/plagiarism
-routing misses and omitted steps/progression remain. Fraud now has two safe observations, not a full gate pass. No switch authorized.
-Other pending: two grading router misses, Hybrid next-step without topic, vague clarifications,
-Nursing negative-claim mode, broad simple-query battery; photos unsupported;6 Taglish register misses.
-No browser/UI exit or SDK parser contract test. Frontend ready; integration follows pending work.
-Initial Supabase read succeeded; final19:26 refresh failed OAuth response parsing. Earlier readback
-retained; no DB writes/connector reset. Diagnosis/recovery pointers in session recovery.
-Current service traces all select pre_enrollment; semantic quality still fails. Citation coverage alone
-cannot prove ordering/association or prevent invented cutoff continuation. Taglish generation tool_error
-has exact-request proof of truncation at768; short profile completes one saved fil-labelled case,
-not a multilingual/full pipeline quality result. Explicit reviewed source-order contract is delivered
-in6d70e1a; the broader semantic-quality gate remains open. Test-run completion is not answer accuracy.
+- Removal now routes correctly,but broad timing claim requires4records per slot;drafts cite1each.
+  Coverage withholds after one repair;raw deadline statement omits conflict. No student answer.
+- INC routes correctly,but asks unresolved applicable deadline/precedence instead of remaining period.
+- Procedure retrieves6records but draft truncates768tokens;no reviewed answer. Prior semantic gaps
+  are not closed by a partial raw response.
+- Exam cheating answered/validated with shared measures only;router omitted exam-specific claim,
+  so that row was not retrieved. Penalty progression/applicability limitation missing.
+- Wider Hybrid/no-topic/clarification/Nursing/simple-query/style checks and frontend integration/browser
+  exits remain. Photos unsupported;6Taglish register misses. No release switch authorized.
 
 ## Next Action
 
-Run frozen fullsuite then same six queries once;candidate stays inactive until actual quality passes.
-Source corrections delivered inactive;keep full audit/correction records and all original gaps.
+Use saved traces for regression-first semantic claim selection/grade claim granularity and complete
+procedure output under existing contract. Keep candidate inactive;exact sources/limits fixed.
+Do not rerun completed suites/cases until a concrete behavior change warrants new validation.
 
 ## Context Consulted
 
-Hosted-review resume refreshed thesis physical17–18 and routing PNG; inspected original Handbook
-physical46–47/62/89–91. Undergraduate-only/advisory/source-gap scope unchanged; no routing discrepancy.
-
-Prior recorded 25Oct resume: thesis physical17-18 and routing PNG refreshed; master3/13/14/16 and Phase10 handoff,
-source/scope/gap policies and owner ledger reviewed. Prior39-44 retained. No scope/routing discrepancy;
-unknown-versus-unmet and standing prompt-engineering/no-training boundaries retained.
-Response-time recommendation/measurement contract refreshed;45.73s is generation/review only,
-not student-visible latency or an accepted target. No timing safeguard/accuracy tradeoff.
+26Oct refresh:thesis physical17–18 and runtime routing PNG;master16/current phase baseline consulted.
+Undergraduate/advisory/private-file/source-gap and symbolic-versus-documentary boundaries consistent.
+Prior master3/13/14 and thesis39–44 evidence retained;no architecture/scope change.
 
 ## Do Not Repeat
 
-Completed backend/security work, CF1-CF6, settled source/benchmark readings,61-record extraction,
-embedding/package staging/rehearsal, checker trial, prior guard live experiment, historical suites.
-Do not infer institutional approval, currentness, activation or phase advancement from candidate delivery.
+Hosted80audit/human approvals,source correction/staging/embedding/rehearsal,completed suites/cases,
+backend/security/CF1–CF6 and checker experiment. No silence/continue/schema pass implies authority,
+currentness,activation,source expansion,phase completion or frontend readiness verification.
