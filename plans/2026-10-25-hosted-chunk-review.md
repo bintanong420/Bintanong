@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch16/chunks42–44 approved on26Oct; batch17/chunks46–47 awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; batch17 wording approved;45/46 grouping correction recorded; next batch48–49 not yet displayed.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **41**, correction-needed **4**, held **0**, pending **35**.
+Current counts: approved **41**, correction-needed **6**, held **0**, pending **33**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -99,9 +99,11 @@ Exact owner decision below. Batch14/chunks37–38 approved: "i approve".
 Batch15/chunks39+41 approved: "i approve", with40 limitation retained.
 Batch16/chunks42–44 approved as faithful fragments: "i approve" (26 Oct2026).
 44 reference-context observation retained; no additional correction outcome inferred.
-Batch17/chunks46–47 presented next; decisions pending.
+Batch17:47 approved;46 wording approved but correction-needed for missing45 grouping.
+45 wording approval retained, overall outcome changed to correction-needed for missing46 grouping.
+Exact owner direction below. Next batch48–49 has not been displayed.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
-Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
+Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
 Chunks10–18 preserve printed blank percentages as empty values/source_blank=true/no span indexes;
 blank percentages do not supply a numerical equivalent. Inc. and IP rows only define labels.
@@ -175,10 +177,10 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch17, chunks46–47 (Handbook physical90–91/91). Do not advance on silence.**
-After saving decisions, prepare next related pending48–49.45 is already approved; do not repeat it.
-Do not request duplicate outcomes for40/45.36 requires separate companion-context correction.
-Correction wording3.2/3.3/3.7 is approved; no corrections applied during this audit.
+**Next: display batch18/chunks48–49 (Handbook physical91), then wait for owner decisions.**
+Batch17 outcome is recorded; do not ask again about8(a)/8(b) wording or the requested grouping.
+45↔46 is a separate append-only correction, preserving existing34↔45 and overlap warning.
+Resume from this cursor in a fresh session; do not recreate/reorder the frozen queue or repeat40/45.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -251,9 +253,9 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 42 | `faf0c9ec30a7119e443580ac17fe0209718a0d74549007b3335a7e0e4d0db404` | handbook-disciplinary-II.7f | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | "i approve" (batch16,26 Oct2026; faithful fragments) | approved | Full row/blanks approved;40 companion limitation retained |
 | 43 | `1c4a9263439990bc71e8483396eb45e369ee9c0e25f2f002dff1f635b3baae56` | handbook-disciplinary-II.7g | 90 | draft-only | Agent: matches settled source review batch6 | Selected academic-dishonesty row; requires approved40; headings absent | "i approve" (batch16,26 Oct2026; faithful fragments) | approved | Full row/blanks approved;40 companion limitation retained |
 | 44 | `7471c13443ee0f0983c91344d086fd2feac73f0065885990ed0413b50785d548` | handbook-disciplinary-II.7h | 90 | draft-only | Agent: matches settled source review batch7 | Selected academic-dishonesty row; requires approved40; headings absent | "i approve" (batch16,26 Oct2026; faithful fragments) | approved | a–g reference preserved; only40 required; limitation of standalone context retained |
-| 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Agent: matches settled source review batch7 | Heading8+row8a; later columns blank; requires34 | "ok i approve," plus question on early companion grouping (exact reply below) | approved | Both quotes approved; precedence unresolved; keep mutual companion links |
-| 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Agent: complete cross-page selected fields inspected,p90–91 | One row+heading8; cross-page continuation included;4bullets joined in field; no companions | — | pending | Stored paragraph formatting shown separately from source bullet layout; outcome pending |
-| 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Agent: selected fields/columns match p91 | One sanction row; II heading absent; no required companions | — | pending | Blank later columns unspecified; owner outcome pending |
+| 45 | `61a3bfcb55acbb71406ff140be911c1e9b86a628600be8a90c63d36e206b5714` | handbook-disciplinary-II.8a | 90 | draft-only | Agent: matches settled source review batch7 | Heading8+row8a; later columns blank; requires34 | "ok i approve," plus question on early companion grouping (exact reply below);26Oct owner requests grouping with46 (exact reply below) | correction-needed | Wording approved; add explicit shared8(a)/8(b) companion context via separate follow-up; retain34 overlap |
+| 46 | `67ba34c2fb22063bdf3830ded36edf758d3a0b7886dc654f30002a0e7fe34ae1` | handbook-disciplinary-II.8b | 90,91 | draft-only | Agent: complete cross-page selected fields inspected,p90–91 | One row+heading8; cross-page continuation included;4bullets joined in field; no companions | "approve," plus explicit request to group8(a) with8(b),26Oct (exact reply below) | correction-needed | Wording/cross-page content approved; missing explicit45 companion; grouping correction required |
+| 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Agent: selected fields/columns match p91 | One sanction row; II heading absent; no required companions | "approve," (batch17,26Oct; exact reply below) | approved | Complete selected row/blank columns approved |
 | 48 | `fcc3bb91c7a2191ae8d0e68c4ac37ec3178abe2f25d636ee5eb1230a659a4f52` | handbook-disciplinary-II.10 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 49 | `a468ff84285a9c1ebb0cc5c3af972e2db865aafe056ab32dd1673fac2e9a7763` | handbook-disciplinary-II.11 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 50 | `3eae9c9fa4756542eb7fcb9d3b158242c79f6c4eca3495398d4c3ab8fc83e4d3` | handbook-disciplinary-II.12 | 91 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -468,4 +470,41 @@ both spans2/3 and joins whitespace. Do not misassign continuation to47 or drop n
 47 full threat/prevention cause/first1month/secondDismissalfromuniversity/later2 blanks retained.
 No required companions or source_limits for either;46 contains its continuation inside the same chunk.
 Both selected sanction-row fragments, not full disciplinary policy; shared II heading absent in47.
-Owner outcomes pending; next pending48–49. No DB/source/prompt/model changes during audit.
+Owner approves wording;47 approved,45/46 overall correction-needed for requested grouping (below).
+Next48–49 not displayed. No DB/source/prompt/model changes during audit.
+
+## Batch17 exact owner direction — 26 October2026
+
+> approve, and also there was a chunk earlier that should be grouped to these 8. deception and fraud, its the between this deception and fraud and b. , which is the a. Admission to university - any false statement declared during the admission and submission of fraudulent requirements, 1st offense is barred from the university. I remember doing this a few minutes ago.
+
+The remembered admission record is45/II.8(a), already reviewed with34, not missing from hosted corpus.
+Owner approves46/47 wording and explicitly requests8(a)/8(b) grouping. Record47 approved;45 and46
+correction-needed for grouping while retaining both wording approvals. Prior45 approval is preserved
+as source-fidelity history, not silently erased. Counts41approved/6correction-needed/0held/33pending.
+
+Current snapshot relationships:34↔45,46 has no required neighbors. Proposed separate follow-up:
+- Add explicit45↔46 relation under their shared original heading8.Deception and Fraud.
+- Preserve34↔45 and its unresolved admission-fraud precedence warning; proposed closure34↔45↔46
+  therefore retains both fraud subitems plus the earlier overlapping provision.
+- Preserve complete45 admission wording/"Barred from the university." and46 cross-page registration
+  wording/all first-offense consequences. Do not infer penalty precedence or individual adjudication.
+- Use the existing append-only authoring/release process. No existing hosted chunk/membership is
+  edited now. Validate new dependency closure, source-bound claims, rendering/order and unchanged
+  budget safeguards in that separate follow-up; no budget increase, re-embedding or activation now.
+
+## Fresh-session recovery anchor
+
+Latest full pre-redirect snapshot:1687753 (ledger/progress/checkpoint/recovery via git show).
+Branch feat/p11-backend-api,p11; Phase11 still in_progress, no advancement or institutional release.
+Active rules: undergraduate-only; exact source/owner decisions; stable80-ID queue; no inferred blanks,
+missing text or approval; no DB edits/rechunking/embedding/prompts/model experiments/activation in audit.
+Current outcome sets must come from the numbered ledger, not numeric contiguity:40 reviewed early,
+45 now correction-needed for grouping; approved44 retains a–g reference-context limitation.
+Correction-needed IDs:19/20/21 (full3.2/3.3/3.7 context approved),36 (missing40),45/46 (shared8 group).
+Next48–49 NOT displayed; all48–80 pending. Display48–49 with exact fields/pages/status/limits,
+then wait for owner. Do not reopen settled source readings or approved correction scope.
+Raw snapshot/queue/query/validation remain under the evidence root above; hashes unchanged this turn.
+On new session read skills/INDEX/progress/checkpoint/this ledger and required Context evidence;
+inspect Git, then reuse frozen queue. Reconcile external hosted membership/hash drift without
+renumbering/substituting local source text. Final80-outcome report and hosted drift check still due.
+Long-session guard used to checkpoint/suggest fresh session; this is not a blocked phase or final handoff.

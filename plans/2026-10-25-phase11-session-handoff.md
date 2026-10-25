@@ -14,11 +14,11 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Owner approved1–18/22–35/37–45;19–21/36 correction-needed, scope settled.41approved/
-4corrections/0held/35pending. Cursor: await batch17/chunks46–47,p90–91/91;then pending48–49.
-42–44 approved26Oct as fragments;44 reference-context note kept.46 includes its cross-page penalty
-continuation/all4bullets joined to one stored paragraph;47 threats row/later blanks retained. No
-required companions/source_limits for46/47. No duplicate40/45 or source edits during audit.
+Current state is in the review ledger's Fresh-session recovery anchor and Single next-batch cursor.
+41approved/6corrections/0held/33pending.47 approved;45/46 wording approved but explicit8(a)/8(b)
+grouping correction required. Preserve existing34↔45 overlap; proposed follow-up34↔45↔46.
+Other corrections19–21/36 scope approved. Next48–49 NOT displayed; all48–80 pending. Do not re-ask
+these source/grouping decisions or rebuild/renumber queue. No hosted edits/models/activation now.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

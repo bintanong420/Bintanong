@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 71
+sequence: 72
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 43798d0
+head_commit: 1687753
 working_tree: clean
-updated_at: 2026-10-26T00:02:40+08:00
+updated_at: 2026-10-26T00:09:50+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,11 +36,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–35/37–45 approved;19–21/36 correction-needed.42–44 owner "i approve"26Oct as faithful
-fragments;44 reference-context note retained.41approved/4corrections/0held/35pending;45 skipped.
-Batch17/chunks46–47,p90–91/91,draft-only: rendered originals show complete46 cross-page first-offense
-field (suspension+4bullets joined in stored paragraph), all conditions retained.47 threats row matches;
-blank later columns unspecified; no required companions/source_limits. Await batch17 outcomes.
+Outcome counts41approved/6corrections/0held/33pending; exact sets in numbered review ledger.
+47 approved;45/46 wording approved but grouping correction required by explicit owner direction.
+Proposed follow-up45↔46 under heading8, preserving34↔45 and unresolved overlap; no DB change now.
+Other corrections19–21/36 remain approved-scope separate work. Next48–49 NOT displayed; all48–80
+pending. Fresh-session anchor saved, guard checkpoint complete; no source/phase completion claimed.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -117,8 +117,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch17/chunks46–47 decisions, then48–49; no duplicate40/45 outcomes or source edits. Preserve original-source limitations
-and approved correction scope. No source correction/rechunking/activation during audit.
+Resume from review ledger's single cursor in fresh session: display48–49,p91,then wait for owner.
+Do not repeat approved text/grouping decisions,40 review or queue setup. No DB/rechunk/activation.
 
 ## Context Consulted
 

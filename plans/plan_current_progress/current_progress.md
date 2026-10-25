@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):42–44 approved as fragments ("i approve",26Oct);
-41approved/4corrections/0held/35pending.44 reference-context note retained;45 already approved/skipped.
-Batch17/chunks46–47,draft-only,p90–91/91: registration-fraud continuation stays in46 with all4bullets
-joined into its first-offense paragraph;47 threats row/blank later columns preserved. Originals viewed.
-Await batch17 decisions. No DB/source/prompt/model changes;19–21/36 corrections remain separate.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):46/47 wording approved;47 approved,45/46
+correction-needed for owner's requested8(a)/8(b) grouping. Preserve existing34↔45/overlap warning;
+proposed separate follow-up34↔45↔46. Counts41approved/6corrections/0held/33pending. No DB writes.
+Fresh-session anchor saved in ledger; next48–49 NOT displayed. All48–80 pending. Source wording/
+44 reference-context note and prior approvals preserved; no regroup/rechunk/embedding/models now.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch17/chunks46–47 decisions; then next pending48–49. Do not repeat approved40/45 outcomes.
-Keep44 reference-context note; no source corrections during audit.
+Resume fresh session from review ledger's single cursor: display48–49,p91,then wait for owner.
+Do not reopen approved8(a)/8(b) wording/grouping direction or recreate/renumber the80-ID queue.
 Do not apply source corrections or reopen settled full3.2/3.3/3.7/deadline conflict during audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
