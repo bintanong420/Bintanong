@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 72
+sequence: 73
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 1687753
+head_commit: 07cb1b7
 working_tree: clean
-updated_at: 2026-10-26T00:09:50+08:00
+updated_at: 2026-10-26T00:14:40+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,15 +33,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-[Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
-active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
-all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Outcome counts41approved/6corrections/0held/33pending; exact sets in numbered review ledger.
-47 approved;45/46 wording approved but grouping correction required by explicit owner direction.
-Proposed follow-up45↔46 under heading8, preserving34↔45 and unresolved overlap; no DB change now.
-Other corrections19–21/36 remain approved-scope separate work. Next48–49 NOT displayed; all48–80
-pending. Fresh-session anchor saved, guard checkpoint complete; no source/phase completion claimed.
-No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
+Owner requested Supabase connection verification before review. [Check](2026-10-26-supabase-mcp-connection-check.md):
+no Supabase tools exposed; official endpoint HTTP401 reachable; correct enabled project-scoped config.
+Stored o_auth not handshake evidence; historical19Oct OAuth-required log not current-cause proof.
+Authenticated read/database health unverified. No DB/credential/config changes; no review advanced.
+Review ledger retains41approved/6corrections/0held/33pending; next48–49 NOT displayed.
 
 ## Repository State
 
@@ -117,8 +113,8 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Resume from review ledger's single cursor in fresh session: display48–49,p91,then wait for owner.
-Do not repeat approved text/grouping decisions,40 review or queue setup. No DB/rechunk/activation.
+Same-account MCP login/browser authorization and session reload, then tool discovery/authenticated
+SELECT1/release membership check. Resume48–49 only after connection verification succeeds.
 
 ## Context Consulted
 
