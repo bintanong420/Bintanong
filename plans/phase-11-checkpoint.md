@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 91
+sequence: 92
 plan: plans/phase-11-backend-api-plan.md
-head_commit: d72b88f
+head_commit: b174e38
 working_tree: clean
-updated_at: 2026-10-26T02:29:56+08:00
+updated_at: 2026-10-26T02:35:46+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,13 +33,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-[Corrected candidate runtime check complete](2026-10-26-corrected-candidate-runtime-results.md),d72b88f.
-Budget/root identity and PackageStorage eligible transitive closure delivered. GREEN109+9subtests,
-independent61passed;full6821+1595subtests,6skip2xfail6warnings,1341.43s,exit0. First interrupted run
-not counted. Six actual cases completed once/16calls,3answered3fallback0exceptions;quality FAILED.
-Routing misses removal/INC/cheating;fraud admission omitted despite3retrieved records;Charter ordered
-4steps/cutoff retained but action/limit gaps;fees correct but duplicate. No jobs running. Source78 sealed;
-active19/draft80/corrected78 and active pins unchanged. No new chunks/prompts/activation/phase advance.
+Owner “continue” starts [selected answer quality fixes](2026-10-26-selected-answer-quality-fixes.md).
+Reusing exact six-case failures;no source/chunk/budget/activation changes. Next RED coverage,
+precedence composition/duplicate host-fee regressions;bounded routing/source-context/instruction
+improvements,then full frozen suite/one six-case rerun. Prior d72b88f full6821+1595subtests passed;
+query gate failed. Existing source decisions and78candidate immutable;all3hosted releases unchanged.
 
 ## Repository State
 

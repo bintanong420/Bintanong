@@ -7,13 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Runtime checks complete](../2026-10-26-corrected-candidate-runtime-results.md),code d72b88f.
-Trusted package budgets/root identity and local full eligible companion closure delivered.
-RED12+edge5+version1;GREEN109+9subtests;independent61passed. Full6821+1595subtests,6skip2xfail,
-6warnings,1341.43s,exit0. Six cases once/16calls:3answered3fallback0exceptions;quality FAILED.
-Removal/INC/cheating routing misses;fraud omits admission despite3records;Charter ordered4steps but
-semantic/limit gaps;fee values correct but duplicate block. No source/chunk/embedding/prompt changes.
-Old19active/80draft/corrected78draft unchanged;no activation. No running jobs;preserve exact traces.
+[Selected answer fixes](../2026-10-26-selected-answer-quality-fixes.md) active,owner “continue”.
+Saved six-case failures are reproduction evidence;no source/chunk/budget/activation changes.
+Next RED regressions for requested-record coverage,precedence composition and duplicate host fees;
+then bounded semantic routing/source-context/instruction improvements,fullsuite/one six-case rerun.
+Prior code d72b88f full6821+1595subtests passed;query gate failed;exact traces retained.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer

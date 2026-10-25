@@ -1,0 +1,37 @@
+# Selected answer quality fixes
+
+Owner26Oct “continue” authorizes fixing the saved six-case routing/completeness failures.
+Spec:existing undergraduate/source-gap/real-data baseline and runtime-results report;no new source,
+topic,chunk,budget,model/dependency or activation. Inline TDD in existing p11;exact public traces ignored.
+
+## Tasks
+
+1. Requested record coverage:reuse DocumentRecordCoverage for all requested nonblank source fields
+   on unordered claims;retain existing explicit service-step ordering. Missing requested records
+   must use existing single repair/withhold,including final checks. Reviewer receives exact requested
+   claims and the relevant limitations;it cannot infer completeness from one supported sentence.
+2. Precedence comparison:preserve independent non-overlap claims in the same slot so the existing
+   safe II.6/II.8a comparison cannot discard requested registration content. All added refs/claims stay
+   within malformed holds,budget and ordinary review;no sanction adjudication or policy copy.
+3. Host fee composition:share identical host-written claims across slots while keeping each part's
+   ledger mapping. Retain source effectivity/currentness warning when its reviewed card is present;
+   keep explicit current-year questions' existing no-rate reply. No new fee arithmetic.
+4. Semantic routing/wording:provide approved3.2/3.3/3.7 context under existing DocumentTopic context,
+   with conflict disclosure;no classification by host keyword. Generic router instructions distinguish
+   scale lookups from removal/re-exam procedures and offense claims from unrelated unknown fields.
+   Generation/review instructions require whole requested claims,agency action objects and limits.
+5. Observe focused RED before code;GREEN relevant suites,independent review. Replay saved packets
+   offline for regression evidence. Then freeze code,full suite,one six-case actual rerun,no prompt
+   sweep/retries. Keep inactive if quality fails;save exact results/current progress/checkpoint/recovery.
+
+## Acceptance and limits
+
+The known duplicate fee block cannot recur;fraud cannot pass with only registration cited;safe
+comparison retains unrelated requested records. No missing/blank/source cutoff becomes invented text.
+Router still makes semantic choices;source context/instructions require actual observations,not only
+schema tests. Citation coverage is a floor,not proof of sentence meaning;ordinary review remains.
+No new answer route or service-specific handwritten procedure. Explicit precedence handler/fee host
+reply already exist;changes repair their composition. Full-suite and answer-quality claims separate.
+
+Evidence root:workspace/audit-evidence/p11-selected-answer-fixes-20261026/.
+Start b174e38,clean. Reuse saved six exact queries/expected findings;do not reopen80-ID source review.
