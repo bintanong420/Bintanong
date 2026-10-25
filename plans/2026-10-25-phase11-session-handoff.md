@@ -14,11 +14,10 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Owner approved1–18/22–35/40/45;19–21/36 correction-needed, correction scope settled.34approved/
-4corrections/0held/42pending. Cursor: await batch14/chunks37–38,p89;then39 and pending41 with40 context.
-37/38 rows match rendered original; minimum1semester vs1semester and later blanks preserved.
-40 shared measures approved with automatic-applicability limit.36 missing40 companion correction
-explicitly accepted; do not edit/delete old36 now. No duplicate40/45 outcomes. No activation/models.
+Owner approved1–18/22–35/37–38/40/45;19–21/36 correction-needed, scope settled.36approved/
+4corrections/0held/40pending. Cursor: await batch15/chunks39+41,p89/90;then42–44 with40 context.
+Full causes/suspension+automatic-grade text/column differences/blanks retained; shared40 measures
+and automatic-applicability limitation kept. Do not count40/45 twice or change source during audit.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

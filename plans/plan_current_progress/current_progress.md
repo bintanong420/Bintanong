@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md): owner explicitly approves35/40 with limitation,
-marks36 correction-needed for missing40 companion.34approved/4corrections/0held/42pending.
-Batch14/chunks37–38,p89,draft-only: complete plagiarism/data rows match rendered original, blank later
-columns retained; both require approved40,p90. Shared automatic-applicability limit unchanged.
-Await batch14 decisions.36 and19–21 corrections separate; no DB/source/prompt/model changes.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):37–38 approved ("i approve") with40 limitation;
+36approved/4corrections/0held/40pending. Batch15/chunks39+41,p89/90,draft-only: falsification and
+unauthorized exam reproduction/device rows, first-offense suspension/automatic-grade wording and
+blank later columns preserved. Both require approved40,p90. Await batch15 decisions.
+No DB/source/prompt/model changes;19–21/36 corrections remain separate approved-scope follow-up.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch14/chunks37–38 decisions; then39 and pending41, with approved40 context.
-Do not request duplicate40/45 outcomes. Preserve36 missing-companion correction for later follow-up.
+Await batch15/chunks39+41 decisions; then42–44 with approved40 context. Do not repeat40/45 outcomes.
+Preserve36 missing-companion correction for separate follow-up.
 Do not apply source corrections or reopen settled full3.2/3.3/3.7/deadline conflict during audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 68
+sequence: 69
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 78bbbb6
+head_commit: 5ec738f
 working_tree: clean
-updated_at: 2026-10-25T23:52:31+08:00
+updated_at: 2026-10-25T23:55:26+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,11 +36,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–35/40/45 approved;19–21/36 correction-needed. Owner explicitly accepts35/40 with
-limitation and36 missing-companion correction.34approved/4corrections/0held/42pending.
-Batch14/chunks37–38,p89,draft-only: fields/blank columns match rendered original; full plagiarism
-scope/minimum1semester vs38 1semester preserved. Both require approved40,p90; automatic individual
-applicability unresolved. No repeat outcome for40/45; await batch14 decisions.
+Chunks1–18/22–35/37–38/40/45 approved;19–21/36 correction-needed. Owner approves37–38 with40
+limitation retained.36approved/4corrections/0held/40pending; half of80 outcomes recorded.
+Batch15/chunks39+41,p89/90,draft-only: complete causes, first-offense suspension/automatic-grade text,
+penalty-column differences/blanks preserved. Both require approved40,p90; automatic individual
+applicability unresolved. No duplicate40/45 outcomes; await batch15 decisions.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -117,7 +117,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch14/chunks37–38 decisions, then39 and pending41 with approved40 context; no duplicate40/45 outcomes. Preserve original-source limitations
+Await batch15/chunks39+41 decisions, then42–44 with approved40 context; no duplicate40/45 outcomes. Preserve original-source limitations
 and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted
