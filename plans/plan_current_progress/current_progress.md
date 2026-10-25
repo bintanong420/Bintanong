@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Hosted snapshot/queue verified:80draft includes active19; all80 content hashes/all5 original hashes
-match. [Review ledger](../2026-10-25-hosted-chunk-review.md): owner approved chunks1–15 (five exact
-"i approve" replies). Counts15approved/0corrections/0held/65pending. Batch6/chunks16–18 prepared,
-physical46: UD/W/V with blank percentages faithfully preserved; row fragments, no required
-companions. Await batch6 decisions. No DB writes/code/models/activation. Prior snapshots:82ae498.
+[Review ledger](../2026-10-25-hosted-chunk-review.md): chunks1–18 approved (six "i approve" replies);
+18approved/0corrections/0held/62pending. Batch7/chunks19–22 is a linked active/shared timing group,
+physical47: quotes match, unresolved deadline conflict preserved. Missing original context includes
+3.2 subject/resolution and3.7 remaining-period condition; shown separately for owner review.
+Await batch7 decisions. Snapshot80/active19, all content/source hashes unchanged; no DB writes/models.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await owner decisions for review batch6/chunks16–18. Record exact decisions in the review ledger,
-then prepare linked completion group19–22 together; do not advance on silence. Stable queue/snapshot verified; do not recreate.
+Await owner decisions for review batch7/chunks19–22. Record exact decisions in the review ledger,
+then prepare complete table group23–27 together; do not advance on silence. Stable queue/snapshot verified; do not recreate.
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
 ## Boundaries
