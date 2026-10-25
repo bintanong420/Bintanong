@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: batch18/chunks48–49 approved; batch19/chunks50–51 awaiting owner decisions.
+Status: batch19/chunks50–51 approved; batch20/chunks52–53 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **43**, correction-needed **6**, held **0**, pending **31**.
+Current counts: approved **45**, correction-needed **6**, held **0**, pending **29**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -102,7 +102,8 @@ Batch16/chunks42–44 approved as faithful fragments: "i approve" (26 Oct2026).
 Batch17:47 approved;46 wording approved but correction-needed for missing45 grouping.
 45 wording approval retained, overall outcome changed to correction-needed for missing46 grouping.
 Exact owner direction below. Batch18/chunks48–49 approved: exact reply "i approve" (26Oct).
-Batch19/chunks50–51 displayed in accompanying reply; decisions pending.
+Batch19/chunks50–51 approved: "i approve" (26Oct).
+Batch20/chunks52–53 displayed in accompanying reply; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -178,8 +179,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch19/chunks50–51 (Handbook physical91). Do not advance on silence.**
-Then prepare next related52–53 with required context. Stable queue unchanged;40/45 already reviewed.
+**Await owner decisions for batch20/chunks52–53 (Handbook physical92). Do not advance on silence.**
+Then prepare next related54–55. Stable queue unchanged;40/45 already reviewed.
 Correction-needed19–21/36/45–46 retain approved scope; no correction/DB/prompt/model changes in audit.
 
 ## Frozen snapshot and verification
@@ -257,10 +258,10 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 47 | `4a552fb9fa4febe66ecff1a965dc225bb5686e03bf89723a04c568c5da14a35b` | handbook-disciplinary-II.9 | 91 | draft-only | Agent: selected fields/columns match p91 | One sanction row; II heading absent; no required companions | "approve," (batch17,26Oct; exact reply below) | approved | Complete selected row/blank columns approved |
 | 48 | `fcc3bb91c7a2191ae8d0e68c4ac37ec3178abe2f25d636ee5eb1230a659a4f52` | handbook-disciplinary-II.10 | 91 | draft-only | Agent: fields match source spans/rendered p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch18,26Oct2026) | approved | All4 penalty columns approved as printed |
 | 49 | `a468ff84285a9c1ebb0cc5c3af972e2db865aafe056ab32dd1673fac2e9a7763` | handbook-disciplinary-II.11 | 91 | draft-only | Agent: fields match source spans/rendered p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch18,26Oct2026) | approved | All4 penalty columns approved as printed |
-| 50 | `3eae9c9fa4756542eb7fcb9d3b158242c79f6c4eca3495398d4c3ab8fc83e4d3` | handbook-disciplinary-II.12 | 91 | draft-only | Agent: selected fields/columns match p91 | Selected sanction row; shared II heading absent; no companions | — | pending | Gravity condition retained; later3 columns blank/unspecified; outcome pending |
-| 51 | `1bdd53a8297184a558b3799a6d8b89eac6781ad930ab4d073581ac6f6e723c2d` | handbook-disciplinary-II.13 | 91 | draft-only | Agent: selected fields/columns match p91 | Selected sanction row; shared II heading absent; no companions | — | pending | Complete OSAS letter/community-service condition retained; no blanks; outcome pending |
-| 52 | `3d56b215a4d2e11b9220bdac963999360ec330698a0409e63d7c75c8cd80871b` | handbook-disciplinary-II.14A | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 53 | `c918dde8e539e37cd3b12f9e217355ff6bd1d1fb03ec21e46c9b3fcd8c5c246b` | handbook-disciplinary-II.14B | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 50 | `3eae9c9fa4756542eb7fcb9d3b158242c79f6c4eca3495398d4c3ab8fc83e4d3` | handbook-disciplinary-II.12 | 91 | draft-only | Agent: selected fields/columns match p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch19,26Oct2026) | approved | Full selected cause/penalties/blank cells approved |
+| 51 | `1bdd53a8297184a558b3799a6d8b89eac6781ad930ab4d073581ac6f6e723c2d` | handbook-disciplinary-II.13 | 91 | draft-only | Agent: selected fields/columns match p91 | Selected sanction row; shared II heading absent; no companions | "i approve" (batch19,26Oct2026) | approved | Full selected cause/penalties/blank cells approved |
+| 52 | `3d56b215a4d2e11b9220bdac963999360ec330698a0409e63d7c75c8cd80871b` | handbook-disciplinary-II.14A | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected14A fragment; no companions; shared II heading absent | — | pending | Later Subsequent cell blank; no source_limits; outcome pending |
+| 53 | `c918dde8e539e37cd3b12f9e217355ff6bd1d1fb03ec21e46c9b3fcd8c5c246b` | handbook-disciplinary-II.14B | 92 | draft-only | Agent: fields/columns match rendered p92 | Selected14B fragment; printed14 number absent from text; no companions | — | pending | FirstDismissal/later3blank; no source_limits; outcome pending |
 | 54 | `339816c8e918f400deb256f9de7a5a06d9d65f4c44916bb0f5bd687e26c6bca3` | handbook-disciplinary-II.15 | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 55 | `41f02e25840bcaca4d84dab6331b1309a9d7014a82b59afcfaa57d4737fb4b81` | handbook-disciplinary-II.16 | 92 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 56 | `7449490493d083d0caf4c5be964a5704f4065d8c3ee100ab40ae2f9b07bffddb` | handbook-disciplinary-II.17 | 93 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -530,3 +531,14 @@ service AT THE UNIT OF THE PERSONNEL retained; all4 columns present. No source_l
 companions. Each selected row fragment,shared II.Behavioral Defiance heading absent. No individual
 sanction inference. Await50–51 decisions,then52–53. Latest cursor supersedes older recovery anchors.
 No DB/source/prompt/model changes; frozen snapshot/queue hashes unchanged.
+
+## Batch19 outcome / batch20 display —26 October2026
+
+Owner reply50–51: "i approve". Both approved;45approved/6correction-needed/0held/29pending.
+52 II.14A and53 II.14B,draft-only,physical92: exact selected fields match snapshot/spans/rendered
+handbook-p92.png.52 full conduct cause/firstOSASletter+one-dayservice/second2weeks/thirdDismissal/
+Subsequent blank;53 "B. Illicit relations"/firstDismissal/later3blank. No required companions or
+source_limits. Same printed item14A/B; numbering14 preserved in52,53 reading metadata identifies14B
+but source wording is only B. Shared II heading absent. Display together for exact associations;
+no definition of illicit relations/specific conduct or sanction applicability inferred. Selected row
+fragments,not complete disciplinary policy. Owner outcomes pending; next54–55. No source/DB/model changes.
