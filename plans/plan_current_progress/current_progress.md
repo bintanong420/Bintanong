@@ -7,11 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):28–29 approved;26approved/3corrections/0held/
-51pending. Owner expects recurring later-offense blanks; retain unspecified/no penalty inference,
-without treating blanks alone as new ambiguities. Batch10/chunks30–31,p87,draft-only: settled
-weapon/drug row values retained; weapon proviso unresolved, due-process clause/blank columns kept.
-Await batch10 decisions. Source/DB/prompt/models unchanged; full3.2/3.3/3.7 correction scope settled.
+[Review ledger](../2026-10-25-hosted-chunk-review.md):30–31 approved ("i approve");28approved/
+3corrections/0held/49pending. Weapon exception unresolved; later blank cells stay unspecified.
+Batch11/chunks32–33,p88,draft-only: hazing/reporting and fund-misuse/accomplice row values match
+settled source review; graduating-student credentials condition retained. Await batch11 decisions.
+No DB/source/prompt/models changed; full3.2/3.3/3.7 correction scope settled, delivery separate.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -66,7 +66,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await batch10/chunks30–31 decisions; record exact outcomes, then prepare related rows32–33.
+Await batch11/chunks32–33 decisions; then prepare next pending group starting34 with required companions.
 Do not apply source corrections or reopen settled full3.2/3.3/3.7/deadline conflict during audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.

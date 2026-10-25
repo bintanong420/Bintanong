@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 64
+sequence: 65
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ec89861
+head_commit: 674f239
 working_tree: clean
-updated_at: 2026-10-25T23:35:12+08:00
+updated_at: 2026-10-25T23:38:03+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,11 +36,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–29 approved;19–21 correction-needed, full wording approved.26approved/3corrections/
-0held/51pending. Owner expects recurring later-offense blanks; preserve unspecified, not no penalty.
-Batch10/chunks30–31,p87,draft-only: fields match settled review batch2; malformed weapon exception
-unresolved, drug due-process clause retained. Later columns blank; no required companions.
-K3 grouping explanation/evidence remains in review ledger; no repeat experiment. Await batch10 decisions.
+Chunks1–18/22–31 approved;19–21 correction-needed, full wording approved.28approved/3corrections/
+0held/49pending. Batch10 owner "i approve" preserves unresolved weapon exception and source blanks.
+Batch11/chunks32–33,p88,draft-only: fields match settled review batch3; dismissal/reporting clause,
+fund-misuse/accomplice wording and graduating-student credentials condition retained. No required
+companions/source_limits; later blank fields unspecified. Await batch11 owner decisions.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -117,7 +117,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch10/chunks30–31 decisions, then related rows32–33. Preserve original-source limitations
+Await batch11/chunks32–33 decisions, then next pending group starting34 with required companions. Preserve original-source limitations
 and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted
