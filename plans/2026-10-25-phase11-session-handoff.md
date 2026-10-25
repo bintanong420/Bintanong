@@ -5,15 +5,25 @@ after pending work. Owner resumed fraud handling and enabled YOLO; expanded rele
 Read INDEX/current progress/checkpoint, repo AGENTS, canonical ~/.agents/AGENTS.md, and both handoff
 skills. Fresh Git/tests outrank this note. Branch feat/p11-backend-api, p11, dev base cbaa6a7; no push.
 
-Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-session-handoff.md`.
+Last full snapshot before condensation: `6d70e1a:plans/2026-10-25-phase11-session-handoff.md`.
 
 ## Exact next action
 
-Full4425538 completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0;
+Full6d70e1a running since21:53:29+08, runner22552/pytest launcher23472, frozen code/tests.
+A/p11-procedure-order-20261025/full-suite.head/log/exit/processes.json; no duplicate.
+6d70e1a adds optional reviewed procedure order through existing coverage/repair/final checks.
+Focused39, broad745+137 subtests, independent clean/39. [Plan](2026-10-25-procedure-order-plan.md).
+Separate order-only register now rejects both saved reversed drafts and accepts saved correctly
+ordered claims structurally;54 sealed files unchanged. [Results](2026-10-25-procedure-order-results.md).
+One actual saved-context Filipino attempt ENDED:canonical659-token draft+108-token review,
+answered/validated,no repair,64.158s generation/review only. Four steps ordered; Step2 action-object
+wording remains ambiguous. No broader semantic/language/accuracy gate pass or profile/source switch.
+Next: read existing full-suite result, then next demonstrated simple-query gap from saved evidence.
+[Source sequence](2026-10-25-pre-enrollment-sequence-review.md) uses original102-103/standing delegation.
+
+Prior full4425538 completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0;
 A/p11-cutoff-referral-20261025/full-suite.head/log/exit and creation bindings retained.
-No running job, no duplicate suite. Production/tests unchanged after the verified code commit.
-Next: explicit reviewed source-order contract using existing four-step review/standing delegation;
-never infer order from hashes/rank/IDs. Other quality/roster/switch/frontend gates remain open.
+Do not repeat that completed prior suite. No order inferred from hashes/rank/IDs.
 4425538 implements owner's BOTH choice: exact printed fields/cutoff notice plus record-office
 referral, generic if no office printed. [TDD/results](2026-10-25-service-cutoff-referral-plan.md):
 RED11/17, focused42, broad664, independent clean/42. No source gap/order/activation resolved.
@@ -24,18 +34,12 @@ review; final exact quote+College Enrollment Area referral. Canonical final IDs;
 Saved style fil despite Taglish question; no multilingual/source-order/whole-service quality pass.
 2ce3daf short-reference full suite6763 +1595 subtests,6skip2xfail6warnings,1306.19s,exit0 retained;
 prior cutoff593de5f full6749 also retained. Default canonical,768 cap/model/source/pin unchanged.
-Do not rerun short/checker/fraud/weapon observations or source staging. Source-order contract,
-other quality/roster/switch/frontend gates remain open; expanded inactive, no phase advancement.
+Do not repeat order/short/checker/fraud/weapon observations or source staging. Other quality/roster/
+switch/frontend gates remain open; expanded inactive, no phase advancement.
 
-Prior operation correction3fbea08: existing bounded repair catches orphan Symbolic/Hybrid operations,
-no silent reroute. Safe fraud observations40.315s (saved packet + actual repair) and24.954s (fresh);
-unchanged e1d7e8b comparison replaces chosen penalty before ordinary review. Full suite6708 +1595
-subtests,6skip2xfail6warnings,22m38s,exit0. Earlier fraude1d7e8b full6695 passed22m44s. Retain these
-results; do not repeat completed comparison/checker/guard experiments, historical suites or source staging.
-
-Checker comparison ENDED under truncation stop after2/8 calls; no retries. Original-code/startup
-recovery and one healthy repeat were explicitly approved. [Final result](2026-10-25-checker-comparison-results.md)
-preserves controls/seals/limits. Do NOT rerun or widen this experiment. Production thinking stays off.
+Prior3fbea08 orphan-operation repair/fraud observations and full6708 result retained in history;
+e1d7e8b full6695 retained. No reruns. [Checker trial](2026-10-25-checker-comparison-results.md)
+ENDED after2/8 calls under truncation; no widening/retry. Production thinking stays off.
 
 Let A=C:/Coding-projects/bintanong_workspace/audit-evidence and E=A/p11-topic-filter-20261024.
 

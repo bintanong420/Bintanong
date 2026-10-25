@@ -7,9 +7,18 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Owner reaffirmed simple-query accuracy/scope/minimal code. Resumed the demonstrated all-steps-
-but-wrong-order gap; [bounded TDD plan](../2026-10-25-procedure-order-plan.md) extends existing
-claim review/coverage only. No production change yet, no fresh model/source/DB experiment.
+6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
+sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
+path or dependencies. [Plan](../2026-10-25-procedure-order-plan.md); RED25/1, repaired two stale-
+catalog fixtures; contract RED9/17, edge RED1/27; final focused39, broad745+137 subtests passed;
+independent clean/39 passed1.48s. Full frozen6d70e1a started21:53:29+08, runner22552/launcher23472;
+read existing p11-procedure-order-20261025/full-suite.* before any restart. Code/tests frozen.
+Original102-103 rechecked; separate order-only register rejects both saved reversed drafts and
+accepts saved correctly ordered claims structurally. All54 sealed files unchanged.
+[Results](../2026-10-25-procedure-order-results.md): one actual saved-context Filipino attempt
+answered/validated, four client steps ordered,659-token draft+108-token review,no repair,64.158s
+generation/review only. Step2 action-object wording remains ambiguous; no full semantic/language/
+accuracy gate pass. Canonical default unchanged; derivative/hosted expanded release inactive.
 
 4425538 implements owner's combined cutoff presentation: exact printed fields, explicit missing
 continuation and record-office referral (generic when no office printed), before ordinary review.
@@ -52,9 +61,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-RED/GREEN the explicit reviewed source-order contract using the existing coverage path and
-four-step review/standing delegation; never infer sequence from hashes/rank/IDs. Keep canonical default and
-expanded inactive. Other quality/roster/switch/frontend gates remain; no experiment repeats or advancement.
+Read existing6d70e1a full-suite result (no duplicate), then choose the next demonstrated simple-query
+gap from saved evidence. No repeat order/short/checker experiments, default/source switch or advancement.
 
 ## Boundaries
 

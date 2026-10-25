@@ -2,16 +2,16 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 48
+sequence: 50
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4425538
+head_commit: 6d70e1a
 working_tree: clean
-updated_at: 2026-10-25T21:43:00+08:00
+updated_at: 2026-10-25T22:05:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
 
-Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoint.md`.
+Last full checkpoint before this condensation: `6d70e1a:plans/phase-11-checkpoint.md`.
 [Plan](phase-11-backend-api-plan.md) · [Phase10 final handoff](phase-10-handoff.md) ·
 [Session recovery](2026-10-25-phase11-session-handoff.md). No final Phase11 handoff/advancement.
 
@@ -33,19 +33,21 @@ Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoin
 
 ## Current Task
 
-Resume: owner reaffirmed simple-query accuracy and minimal in-scope fixes.
-[Procedure order TDD plan](2026-10-25-procedure-order-plan.md) extends existing coverage;
-no production changes/new model runs yet. Prior verified milestone retained below.
+6d70e1a extends existing coverage with explicit reviewed order, unchanged legacy serialization,
+bound identity and existing repair/final guard. RED25/1; two stale-catalog fixtures repaired;
+contract RED9/17, numeric edge RED1/27; focused39, broad745+137 subtests, independent clean/39.
+[Plan](2026-10-25-procedure-order-plan.md). Full frozen6d70e1a started21:53:29+08,
+runner22552/launcher23472; p11-procedure-order-20261025/full-suite.*. No duplicate. Code/tests frozen.
+[Four-step source sequence](2026-10-25-pre-enrollment-sequence-review.md) confirmed against102-103
+under standing delegation;54 sealed files unchanged. Separate inactive order register rejects both
+saved reversed drafts; correctly ordered saved claims pass structurally. No DB/source/pin switch.
+[Results](2026-10-25-procedure-order-results.md): one saved-context model attempt ENDED;
+canonical/default settings,659-token draft+108-token review,no repair,answered/validated64.158s
+generation/review only. Four client steps ordered; Step3 quoted/referral intact. Step2 wording has
+an action-object ambiguity; full semantics/language/fresh routing/accuracy gates remain open.
 
-Opt-in short per-part draft references2ce3daf; default remains canonical. Request-local aliases
-restore full IDs before source/coverage/style checks and ordinary review; ledger/final canonical.
-Source/prose unchanged, strict wire rejection, repair map stable, unavailable placeholders ignored.
-RED9 at profile gate, fixture question-binding repaired; broad752, edge RED1/13 fixed; final753
-passed24.15s, independent review clean/14 passed1.12s. Subsequent model observation below.
-Taglish exact saved-request replay proves truncated_output/finish_reason length at768 inside last
-citation hash. Initial logger read wrong field; one explicit extra capture37.321s. Four complete
-IDs shortened via tokenizer-only766->539 prefix tokens,227 saved; no partial-response rescue.
-[Plan](2026-10-25-taglish-failed-infer-diagnosis.md), [results](2026-10-25-part-references-results.md).
+Earlier short-reference2ce3daf verification and exact truncation diagnosis retained in
+[results](2026-10-25-part-references-results.md); default canonical, no partial-output rescue.
 Full suite2ce3daf completed6763 +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
 Owner combined presentation delivered4425538:exact fields/cutoff notice+record-office referral,
 generic when blank/absent. RED11/17; focused42, broad664, independent clean/42 passed.
@@ -59,13 +61,13 @@ Canonical default; expanded inactive; no further completions/sweep approved by t
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through4425538.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through6d70e1a.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-Production/tests unchanged since completed4425538 suite; following docs commit saves this snapshot.
+Production/tests frozen for6d70e1a full suite; following docs commit saves this snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
-Current evidence: workspace/audit-evidence/p11-cutoff-referral-20261025/ and p11-short-reference-model-20261025/.
+Current evidence: workspace/audit-evidence/p11-procedure-order-20261025/. Prior roots remain intact.
 
 ## Verification Evidence
 
@@ -132,9 +134,8 @@ not a multilingual/full pipeline quality result. Explicit reviewed source-order 
 
 ## Next Action
 
-Implement explicit reviewed source-order contract, reusing existing four-step review/standing
-delegation without inferring order from hashes/rank/IDs. Canonical default; expanded inactive.
-Other quality/roster/switch/frontend gates remain; no repeated short/checker/fraud/weapon experiment.
+Read existing6d70e1a full suite (no duplicate), then next demonstrated simple-query gap from saved
+evidence. Canonical default/expanded inactive; no order/short/checker reruns or phase advancement.
 
 ## Context Consulted
 
