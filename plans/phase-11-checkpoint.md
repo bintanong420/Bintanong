@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 67
+sequence: 68
 plan: plans/phase-11-backend-api-plan.md
-head_commit: fae8f2c
+head_commit: 78bbbb6
 working_tree: clean
-updated_at: 2026-10-25T23:45:45+08:00
+updated_at: 2026-10-25T23:52:31+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -36,12 +36,11 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 [Hosted-chunk review ledger](2026-10-25-hosted-chunk-review.md): fresh scoped hosted read confirms
 active19/draft80 including active IDs; queue80 frozen (66/8/3/3), all80 content hashes valid and
 all5 original byte hashes match. Exact text/spans/context/companions snapshotted in ignored evidence.
-Chunks1–18/22–34/45 approved;19–21 correction-needed, full wording approved.32approved/
-3corrections/0held/45pending.34/45 approved as connected fraud pair; precedence unresolved.
-Batch13:35/36 identical cheating text,p88, but35 requires40 and preserved older active/shared36
-has no companion links.40 shared measures,p90, retains automatic-applicability limitation. Propose
-35/40 fidelity approval,36 correction-needed for missing companion; owner outcomes pending.
-No wrong model answer inferred or new pipeline experiment. Keep stable IDs; skip40/45 after outcomes.
+Chunks1–18/22–35/40/45 approved;19–21/36 correction-needed. Owner explicitly accepts35/40 with
+limitation and36 missing-companion correction.34approved/4corrections/0held/42pending.
+Batch14/chunks37–38,p89,draft-only: fields/blank columns match rendered original; full plagiarism
+scope/minimum1semester vs38 1semester preserved. Both require approved40,p90; automatic individual
+applicability unresolved. No repeat outcome for40/45; await batch14 decisions.
 No DB writes/code changes/models/prompts/activation. Grading-router task deferred.
 
 ## Repository State
@@ -118,13 +117,13 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await batch13/chunks35+36+40 decisions, then pending37 with shared40 context; no duplicate40/45 outcomes. Preserve original-source limitations
+Await batch14/chunks37–38 decisions, then39 and pending41 with approved40 context; no duplicate40/45 outcomes. Preserve original-source limitations
 and approved correction scope. No source correction/rechunking/activation during audit.
 
 ## Context Consulted
 
 Hosted-review resume refreshed thesis physical17–18 and routing PNG; inspected original Handbook
-physical46–47/62. Undergraduate-only/advisory/source-gap scope unchanged; no routing discrepancy.
+physical46–47/62/89. Undergraduate-only/advisory/source-gap scope unchanged; no routing discrepancy.
 
 Prior recorded 25Oct resume: thesis physical17-18 and routing PNG refreshed; master3/13/14/16 and Phase10 handoff,
 source/scope/gap policies and owner ledger reviewed. Prior39-44 retained. No scope/routing discrepancy;
