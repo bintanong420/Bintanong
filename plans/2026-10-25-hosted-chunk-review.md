@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; batch7 reviewed:19–21 correction-needed;22 confirmed in owner-supplied full3.7; correction scope confirmation pending.
+Status: hosted snapshot verified; stable queue frozen; batch7 correction scope confirmed; batch8/chunks23–27 awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -87,6 +87,9 @@ Batch4/chunks10–12 approved: exact owner reply "i approve".
 Batch5/chunks13–15 approved: exact owner reply "i approve".
 Batch6/chunks16–18 approved: exact owner reply "i approve".
 Batch7:19–21 correction-needed; owner-provided full3.7 confirms22's final paragraph as source wording.
+Owner reply "i approve" confirms proposed complete3.2/3.3 for the correction list. Counts unchanged;
+19–21 stay correction-needed until a separate follow-up delivers/validates replacements.
+Batch8/chunks23–27 presented together as one five-part overload group; decisions pending.
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 require fuller source context; exact decision/transcript below. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -115,6 +118,19 @@ Owner confirmed omissions in19,20 and21; all three are correction-needed. Record
 chunks stay unchanged. Owner's full3.7 explicitly includes the final paragraph already in22; preserve
 its association when designing the later replacement group, without deleting or renumbering22.
 Exact original page rendered at raw-evidence root/handbook-p47.png; no printed page verified.
+
+### Batch8 overload group (owner decision pending)
+
+All5 active/shared, physical62; rendered original handbook-p62.png inspected. No verified printed page.
+23 stores source labels Yes/No/END and reviewed branch associations:row3 Yes->row4, row3 No->END.
+24–27 preserve exact process/responsibility/details fields for rows1–4; no blanks, no source_limits.
+Service-group order0–4 and companion links bind them:23 requires24–27; each row requires23,
+so closure retains all5. Each chunk alone is a fragment, not a complete procedure/eligibility rule.
+Omitted original context: heading "REQUEST FOR OVERLOAD" and intro "This covers the approval of the request for overloading of course."
+START marker and the unlabelled START->row1->row2->row3 and row4->END arrows are absent from23's
+explicit edge list; row order survives in group metadata. Keep this distinction visible for owner review.
+All stored selected row values and the two labelled branches match the original diagram. No new
+source readings/approvals inferred from parser or hash success; no full-procedure completeness claim.
 
 ## Reuse and boundaries
 
@@ -148,9 +164,9 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Confirm proposed complete3.2/3.3 passages below for the correction list; use owner-supplied
-complete3.7. Then prepare the next related Handbook table group, chunks23–27.**
-Do not reopen deadline precedence; no source correction is applied during this audit.
+**Await owner decisions for batch8, chunks23–27 (Handbook physical62). Do not advance on silence.**
+After saving decisions, prepare the next related disciplinary rows from physical87. Complete3.2/3.3
+correction wording is approved; use owner's complete3.7. No corrections applied during this audit.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -197,15 +213,15 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 16 | `6d53029b1811ae651ca7299ba1fd198211545327ba2366ee6a3722594778c8c3` | handbook-grading-16 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch6, 25 Oct 2026) | approved | None; printed blank retained |
 | 17 | `083b8a6557647c5e35873f9da7c85c504ce8674235298269b576c2dc16a71d48` | handbook-grading-17 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch6, 25 Oct 2026) | approved | None; printed blank retained |
 | 18 | `0521286530fde3366c9480fffb7e302cedd4a8e212af626501e73a6e5682ecbf` | handbook-grading-18 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch6, 25 Oct 2026) | approved | None; printed blank retained |
-| 19 | `00d246b8d5d184d36b4f458c78be4a6ae5993db81dc625d43a7daf384fa5b0f2` | handbook-completion-timing::part:0 | 47 | active/shared | Agent: selected quote matches p47 | Phrase only; subject/resolution absent; requires20–22 | "yep i noticed that chunk 19 does missed a bunch" | correction-needed | Include full3.2 scope and Resolution279/2018; conflict unresolved |
-| 20 | `cf9b6c64eda1205f7e73033d0c0a85e46142dc2079ade35720fba5e22f1ada9a` | handbook-completion-timing::part:1 | 47 | active/shared | Agent: selected quote matches p47 | Selected final paragraph3.3; requires19 | "chunk 20 also really missed the re-examination part" | correction-needed | Include complete3.3 re-examination/repetition/pass-fail/one-exam clauses; conflict unresolved |
+| 19 | `00d246b8d5d184d36b4f458c78be4a6ae5993db81dc625d43a7daf384fa5b0f2` | handbook-completion-timing::part:0 | 47 | active/shared | Agent: selected quote matches p47 | Phrase only; subject/resolution absent; requires20–22 | "yep i noticed that chunk 19 does missed a bunch"; full proposed section approved: "i approve" | correction-needed | Include full3.2 scope and Resolution279/2018; wording approved, delivery pending; conflict unresolved |
+| 20 | `cf9b6c64eda1205f7e73033d0c0a85e46142dc2079ade35720fba5e22f1ada9a` | handbook-completion-timing::part:1 | 47 | active/shared | Agent: selected quote matches p47 | Selected final paragraph3.3; requires19 | "chunk 20 also really missed the re-examination part"; full proposed section approved: "i approve" | correction-needed | Include complete3.3 re-examination/repetition/pass-fail/one-exam clauses; wording approved, delivery pending; conflict unresolved |
 | 21 | `fe0c5a6848f942d9ee8bc948851039c7b35aa855d7cdf840bdd92c27b4617fd9` | handbook-completion-timing::part:2 | 47 | active/shared | Agent: selected quote matches p47 | First sentence only; remaining-period condition absent; requires19 | "chunk 21 also omits that next sentence," plus full3.7 supplied below | correction-needed | Include complete3.7 condition and final paragraph association with22; conflict unresolved |
 | 22 | `5b85dd8084f1488750f63e98e41cac74ca1ab36bbf5492e3dcf2f0eda19ba618` | handbook-completion-timing::part:3 | 47 | active/shared | Agent: selected quote matches p47 | Final paragraph3.7; requires19 | Owner supplied complete3.7 including this exact final paragraph (transcript below) | approved | Source paragraph confirmed within full3.7; conflict and companion requirements retained |
-| 23 | `75a416e9c27b2b825d9552d057a53a5299ecc9fc75ff8fd6a3402d17bc1dd6e2` | handbook-table-6-arrows | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 24 | `f33b476401751a161527a3e4f1f2456d806fe3e8b68e78e9194979cd76873e26` | handbook-table-6-row-1 | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 25 | `f2bf449a9efd9f86ae7f468a81d94fc9e66253bf93da14218f7466ebd3590cb3` | handbook-table-6-row-2 | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 26 | `860a406301031b1604fc71be5876919c1da9fe9132f842bf651a80c82530a0fe` | handbook-table-6-row-3 | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 27 | `e9a58311aaf00eaa3f9f6be9d155ff2ad29b8f44c7c2d28487efc10468ff0e58` | handbook-table-6-row-4 | 62 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 23 | `75a416e9c27b2b825d9552d057a53a5299ecc9fc75ff8fd6a3402d17bc1dd6e2` | handbook-table-6-arrows | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
+| 24 | `f33b476401751a161527a3e4f1f2456d806fe3e8b68e78e9194979cd76873e26` | handbook-table-6-row-1 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
+| 25 | `f2bf449a9efd9f86ae7f468a81d94fc9e66253bf93da14218f7466ebd3590cb3` | handbook-table-6-row-2 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
+| 26 | `860a406301031b1604fc71be5876919c1da9fe9132f842bf651a80c82530a0fe` | handbook-table-6-row-3 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
+| 27 | `e9a58311aaf00eaa3f9f6be9d155ff2ad29b8f44c7c2d28487efc10468ff0e58` | handbook-table-6-row-4 | 62 | active/shared | Agent: fields/branches match p62 | Table fragment; title/intro absent; all5 linked; see batch8 flow omissions | — | pending | No outcome yet; completeness/context review pending |
 | 28 | `c783f1f2080cd2c7f9cd90fc747c1182acc979a0956824501f589ea4ab8336d4` | handbook-disciplinary-I | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 29 | `9975ff9d98d0bacad2afd4dd71f4cfd02ae31082b3c17e95eeb98b1b2ea5ebee` | handbook-disciplinary-II.1 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 30 | `be5664bd8ccf0b542e12fb0efba80a107503f4c761c53eb118e52a1d6c5c7a37` | handbook-disciplinary-II.2 | 87 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
@@ -275,7 +291,7 @@ The original has a comma after the quoted “INC” before “however” in3.7; 
 omits it. Preserve both records; follow visible original punctuation in the future transcription.
 No policy meaning, deadline precedence, new chunk grouping or source activation is inferred.
 
-Proposed source-complete context for19/20, shown to owner for confirmation (physical47;
+Owner-approved source-complete context for19/20 (exact reply "i approve",25 Oct2026;physical47;
 line wraps joined, source grammar retained):
 
 **3.2 PERIOD FOR REMOVAL/COMPLETION OF DEFICIENCY.**

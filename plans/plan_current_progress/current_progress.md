@@ -7,10 +7,11 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md): owner identifies missing context in19–21;
-all3 correction-needed. Full3.7 supplied also confirms22's paragraph;19approved/3corrections/0held/
-58pending. Proposed full3.2/3.3 passages shown for correction-list confirmation; keep conflict unresolved.
-Full3.7 includes22; preserve links in later append-only follow-up. No DB/source/prompt/model changes.
+[Review ledger](../2026-10-25-hosted-chunk-review.md): owner "i approve" confirms full3.2/3.3
+correction wording;19–21 remain correction-needed pending separate delivery.19approved/3corrections/
+0held/58pending. Batch8/chunks23–27 linked overload group, physical62: selected fields/branches match;
+heading/intro/START and unlabelled edge list absent. All5 displayed together; await owner decisions.
+Deadline conflict unchanged; no DB/source/prompt/model changes.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
 sequence, preserved across adapter/merge/identity/aliases, existing repair/final guard. No new answer
@@ -65,8 +66,8 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Confirm full3.2/3.3 proposal for correction list; use owner's complete3.7. Then review next related
-Handbook table group23–27. No deadline precedence decision or correction delivery during this audit.
+Await batch8/chunks23–27 decisions. Record exact outcomes, then review next related disciplinary
+rows on physical87. Use approved full3.2/3.3/3.7 only in separate later correction; conflict unresolved.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.
 
