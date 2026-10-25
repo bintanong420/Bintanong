@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 41
+sequence: 42
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4d391f6
+head_commit: 593de5f
 working_tree: clean
-updated_at: 2026-10-25T19:26:00+08:00
+updated_at: 2026-10-25T19:52:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -33,34 +33,36 @@ Last full checkpoint before this condensation: `c1fc29a:plans/phase-11-checkpoin
 
 ## Current Task
 
-Service contexta2a2f19 and reviewed record-coverage floor6b47449 committed. Exact subject/claim
-binding through retrieval/integration/preparation to per-part draft/final checks; absent metadata
-omitted for legacy digests. Existing repair budget preserved. No hardcoded policy facts/keyword routing.
-Second3-case live gate also FAILED: English cites all steps but invents cutoff continuation and blends
-offices; Filipino drafts reverse Steps1/2 and hard-style guard rejects them; Taglish tool_error.
-4d391f6 removes the outdated hard formal-word ban per settled25Oct preference decision. Filipino
-function-word floor/support review retained. RED3/40; broad1121 passed29.77s; independent43 pass2.42s.
-[Plan](2026-10-25-service-routing-completeness-plan.md), [results](2026-10-25-service-routing-completeness-results.md).
-Full suite PASSED on frozen4d391f6:6732 +1595 subtests,6skip2xfail6warnings,22m11s,exit0.
-No further model trial this increment; live semantic gate remains FAILED.
+593de5f protects explicit unresolved service agency_action cutoffs: replace model prose by
+separate exact field quotations/cutoff notice before numbering and ordinary relevance review.
+Draft/final fidelity floor prevents positive verdicts from restoring invented continuations.
+Bad/oversized records become source_gap; independent parts/budgets retained. No new source facts.
+RED12/3, GREEN15; edge RED1/16 metadata crash fixed; broad739 passed23.87s. Independent review
+no blockers/27 passed1.12s. Actual sealed record: en466/fil477/Taglish474 chars, five retained claims,
+no invented continuation; no model/review call. All54 sealed package files unchanged.
+[Plan](2026-10-25-service-cutoff-fidelity-plan.md), [results](2026-10-25-service-cutoff-fidelity-results.md).
+Full suite running on frozen593de5f, session31661; no further model trial this increment.
+Prior live semantic gate remains failed; source sequence and Taglish tool_error unresolved.
+Human presentation review pending: allow English source quotes under Filipino/Taglish labels for
+the cutoff fallback, or withhold the cut-off action/referral? Exact examples saved; no answer yet.
 
 ## Repository State
 
-p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through4d391f6.
+p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through593de5f.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-No production/test changes during/after the full run. Following docs commit leaves the tree clean.
+Production/tests frozen for the current full run; following docs commit saves the clean snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
-Current evidence: workspace/audit-evidence/p11-service-refinement-20261025/; prior evidence retained.
+Current evidence: workspace/audit-evidence/p11-service-cutoff-20261025/; prior evidence retained.
 
 ## Verification Evidence
 
 - Service context RED5/9 after fixture correction; broad944 passed20.46s; independent14 passed.
 - Record metadata RED5/4, host RED2/7, final-bypass RED3/7; broad1121 passed29.74s; independent10 passed.
 - Preference RED3/40; broad1121 passed29.77s; independent43 passed2.42s.
-- Current full suite4d391f6:6732 +1595 subtests,6skip2xfail6warnings,1331.55s,exit0.
-  E/full-suite.head,.exit,.log; backend/tests diff empty. Whitespace/links/phase validation pass.
+- Prior full suite4d391f6:6732 +1595 subtests,6skip2xfail6warnings,1331.55s,exit0.
+  Prior evidence p11-service-refinement-20261025/full-suite.*; no repeat.
   No installed linter/formatter; browser/SDK/frontend checks remain outside this increment.
 - Earlier full tests/ suite3fbea08:6708 +1595 subtests,6 skipped,2 xfailed,6warnings,1358.19s,exit0.
 - Controlled saved-packet actual repair + fresh same-question pipeline both answered safely;
@@ -99,6 +101,7 @@ No downloads/re-hashing/training. Sealed source-package hashes remain in session
 - No product scope/source reading change. Generic claim_not_stated notices remain unchanged.
 - Keep one-week prompt/accuracy cap, undergraduate/advisory/privacy/source-gap boundaries.
 - Formal Filipino words are a preference, not a hard exclusion (settled25Oct owner ledger).
+- Owner requests autonomous work until real human review/a useful usage-saving handoff; no routine questions.
 
 ## Known Failures or Blockers
 
@@ -115,9 +118,9 @@ has no saved failed raw packet;768-token server log supports, but does not prove
 
 ## Next Action
 
-Address reviewed step order, action/office associations and cutoff continuation from existing traces;
-diagnose Taglish failed call without another prompt-only sweep. Current increment fully suite-verified,
-but live quality remains failed. Expanded release inactive; other quality/roster/switch gates remain.
+Read existing full-suite.exit/log for593de5f (session31661; PIDs2368/13456 started19:42:44) and the
+actual owner presentation answer. Do not duplicate the suite or infer approval. Then source-order
+contract from reviewed evidence, not IDs/ranking; Taglish diagnosis separate. Expanded inactive.
 
 ## Context Consulted
 

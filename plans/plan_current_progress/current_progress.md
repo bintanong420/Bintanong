@@ -7,17 +7,19 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-Service contexta2a2f19 and reviewed procedure record-coverage floor6b47449 committed. Exact subject/
-claim binding through retrieval/integration/preparation to per-part draft/final checks; no keyword
-routing/hardcoded facts; absent metadata omitted for legacy digests. Broad1121/independent10 pass.
-Both bounded3-case live batteries FAILED semantic quality. Latest: English cites all steps but invents
-cutoff continuation/blends offices; Filipino reorders Steps1/2 then hard-style rejection; Taglish tool_error.
-4d391f6 removes outdated formal-word rejection per settled25Oct owner preference. RED3/40;
-broad1121 passed29.77s, independent43 passed2.42s. Function-word/support checks retained.
-[Plan](../2026-10-25-service-routing-completeness-plan.md), [results](../2026-10-25-service-routing-completeness-results.md).
-Full suite4d391f6:6732 passed +1595 subtests,6skip2xfail6warnings,22m11s,exit0; code/tests unchanged.
-Whitespace/links/phase validation pass. No installed linter/formatter; no further live battery this increment.
-Initial hosted read: old19 active/new80 draft;54 sealed files unchanged. No source/release activation.
+593de5f protects explicit unresolved service agency_action cutoffs before numbering/review:
+quote the record's visible fields separately and disclose the gap. Draft/final fidelity floor;
+ordinary support/relevance review retained. Bad/oversized records withhold only affected slots;
+independent parts/budgets preserved. No new source facts/pin/model/default/call-budget changes.
+RED12/3, GREEN15; edge RED1/16 crash fixed; broad739 passed23.87s. Independent27 pass/no blockers.
+Actual sealed Step3 component: en466/fil477/Taglish474 chars, five claims retained, no invented
+continuation. No model/review call or per-language semantic pass;54 sealed files unchanged.
+[Plan](../2026-10-25-service-cutoff-fidelity-plan.md), [results](../2026-10-25-service-cutoff-fidelity-results.md).
+Full suite running on593de5f (session31661), production/tests frozen; no further model trial.
+Human review pending: source English quotations under Filipino/Taglish labels versus withholding
+the cut-off action/referral. Actual examples saved; no answer/approval inferred. Handoff prepared.
+Prior service context/record floor/formality4d391f6 full6732 +1595 subtests passed; retained evidence.
+Expanded release stays inactive. Owner asks autonomous work and a compact handoff to conserve usage.
 
 ## Delivered state
 
@@ -46,8 +48,8 @@ Initial hosted read: old19 active/new80 draft;54 sealed files unchanged. No sour
 
 ## Next action
 
-Address reviewed step order/action-office associations/cutoff continuation from existing traces;
-diagnose Taglish failed call without a prompt sweep. Current suite evidence/recovery saved.
+Read existing593de5f full-suite.exit/log (session31661) and actual owner presentation reply;
+do not duplicate the suite. Then explicit reviewed source order; Taglish diagnosis without a sweep.
 Expanded release stays inactive; other quality/roster/switch gates remain.
 Later router/service/plagiarism/progression, Hybrid no-topic, clarifications, Nursing negative mode
 and owner's simple-query battery precede frontend integration. No phase advancement.

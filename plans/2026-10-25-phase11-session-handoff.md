@@ -9,22 +9,29 @@ Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-sessio
 
 ## Exact next action
 
-Service increments committed: a2a2f19 reviewed topic/complete-source context;6b47449 exact reviewed
-client_step record citation floor through retrieval/integration/per-part draft/final checks;
-4d391f6 formal Filipino wording is a preference, per settled25Oct owner decision. No keyword routing,
-hardcoded policy facts or absent-metadata digest change. Existing repair/call budgets preserved.
-[Plan](2026-10-25-service-routing-completeness-plan.md), [results](2026-10-25-service-routing-completeness-results.md).
-Broad1121 passed29.77s; independent boundary10 and preference43 checks passed/no blockers.
-Full tests/ suite4d391f6 PASSED6732 +1595 subtests,6skip2xfail6warnings,1331.55s (22m11s),exit0;
-A/p11-service-refinement-20261025/full-suite.head,.exit,.log. Production/tests unchanged during/after.
-Whitespace/local links/phase validation pass. No installed linter/formatter. Do not repeat this suite
-unless later production/test changes or failures justify it; no test job remains running.
-Both three-language service batteries FAILED semantic quality. Latest English cites all four steps
-but invents Step3 cutoff continuation and blends offices; Filipino drafts reverse Steps1/2, then
-obsolete hard-style rejection (corrected4d391f6, not rerun); Taglish generation tool_error.
-Next: source-bound step ordering/action-office association/cutoff handling
-from saved traces and exact failed-call diagnosis. No repeated prompt-only battery. Citation coverage
-is not proof of semantic support. Expanded release inactive; quality/roster/switch/frontend gates remain.
+593de5f adds a pre-review source-fidelity boundary for explicit unresolved service agency_action
+cutoffs. Model prose citing that record becomes one labelled quotation of its separate visible fields
+and a cutoff notice. Ordinary relevance/support review remains; draft/final equality checks prevent
+positive verdicts from restoring the invented continuation. Invalid/oversized records become source_gap;
+independent claims/parts and budgets retained. No new source facts, model/default/budget/pin changes.
+[Plan](2026-10-25-service-cutoff-fidelity-plan.md), [results](2026-10-25-service-cutoff-fidelity-results.md).
+RED12/3, GREEN15; edge RED1/16 fixed; broad739 passed23.87s. Independent review clean/27 passed1.12s.
+Actual saved Step3 component: en466/fil477/Taglish474 chars, all exact fields, five claims retained,
+no "for further action". No model/review call or actual language-quality pass;54 sealed files unchanged.
+Full tests/ suite RUNNING on frozen593de5f, session31661; A/p11-service-cutoff-20261025/full-suite.*.
+Inspect log/.exit and running process before restarting. No production/test changes during the run.
+Human review pending: allow verbatim English source quotes under Filipino/Taglish labels for this
+cutoff fallback, or withhold the cut-off action and refer? Exact examples/component in current E.
+No response is approval; no request for unavailable source text. Full suite continues locally.
+Process IDs2368/13456, started19:42:44+08; E/full-suite.processes.json. Verify process command/creation
+time before using an ID. Check full-suite.exit/log first on resume; do not start a duplicate suite.
+If no exit file and the bound process is gone, record interruption; do not claim the suite passed.
+Next: read the existing suite result and actual owner answer; retain source/presentation holds.
+Then explicit reviewed procedure order; do not infer it from hashes, retrieval rank or ID spelling.
+Taglish failed-call diagnosis remains separate. Do not repeat source readings or the completed checker/
+fraud/weapon experiments. Expanded release remains inactive; quality/roster/switch/frontend gates open.
+Prior service contexta2a2f19/record floor6b47449/formality4d391f6 full6732 +1595 subtests,6skip2xfail
+6warnings,22m11s,exit0. Two3-case batteries failed semantic quality; retained, not current-code reruns.
 
 Prior operation correction3fbea08: existing bounded repair catches orphan Symbolic/Hybrid operations,
 no silent reroute. Safe fraud observations40.315s (saved packet + actual repair) and24.954s (fresh);
@@ -105,12 +112,10 @@ old defaults preserved. No active expanded pin. roster13.py in same folder, alia
 
 ## Supabase MCP warning
 
-[Read-only diagnosis](2026-10-25-supabase-mcp-diagnosis.md): initial app SQL read in this continuation
-succeeded, but final19:26 read failed "OAuth token refresh failed: Failed to parse server response".
-A/p11-service-refinement-20261025 contains successful hosted-release-readback.json and final error.
-No DB writes, credential reset or fix claimed. Orca CODEX_HOME is account-specific. After
-/clear verify discovery; if recurring, same-account codex mcp login supabase + browser consent/restart,
-then authenticated read. Do not change DB grants or disable a working connector to hide startup errors.
+[Diagnosis](2026-10-25-supabase-mcp-diagnosis.md): initial SQL read succeeded; final19:26 failed
+"OAuth token refresh failed: Failed to parse server response". Prior service evidence holds both.
+No DB writes/reset/fix. CODEX_HOME is account-specific; if recurring, same-account codex mcp login
+supabase + browser consent/restart, then authenticated read. No grant changes to hide auth failures.
 
 Context inspected25 Oct: thesis physical17–18,39–44, routing PNG; scope/routing consistent. Keep
 undergraduate/advisory/privacy/source-gap guards, owner-approved real-data research only, no public or
