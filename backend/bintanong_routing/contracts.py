@@ -112,6 +112,8 @@ class DocumentTopic(Record):
     """One release-supplied retrieval subject and its reviewed claim strings."""
     subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
     claims: tuple[TopicClaim, ...] = Field(min_length=1, max_length=64)
+    # Reviewed service title/description only: routing context, never a new answerable claim.
+    source_context: tuple[Annotated[str, Field(min_length=1, max_length=1024)], ...] = Field(default=(), max_length=4)
     # Recorded source limits: facts the source does not state (selecting one withholds).
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
     # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.

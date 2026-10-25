@@ -106,6 +106,43 @@ PER_PERSON = ('each student', 'per student', 'every student', 'each of us', 'per
 NOT_STATED_CUES = {'official individual student assessment': PER_PERSON}
 
 
+def _service_topic_context(register, catalogue, chunks):
+    """Copy only assigned, visibly reviewed service labels; missing context stays absent."""
+    readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
+    approved = {}
+    for review in register['reviews']:
+        if review.get('finding') != 'visible_fields':
+            continue
+        for ref in review.get('field_refs', []):
+            if (ref.get('field_name') in ('service_title', 'description')
+                    and readings.get(ref.get('reading_id')) == review['subject_id']):
+                key = (review['subject_id'], ref['reading_id'], ref['field_name'])
+                approved.setdefault(key, set()).update(review.get('reviewed_chunk_ids', []))
+    context = {}
+    for chunk in chunks:
+        reading = chunk.get('type_fields', {}).get('reading_id')
+        subject = readings.get(reading)
+        try:
+            record = json.loads(chunk['text'])
+            if any(limit.get('resolution') == 'unresolved' for limit in record.get('source_limits', [])):
+                continue  # A held/clipped service label cannot silently become routing context.
+            fields = record.get('fields', [])
+            by_name = {f['name']: f for f in fields}
+            if len(by_name) != len(fields):
+                continue
+            values = [by_name[name]['value'] for name in ('service_title', 'description')
+                if name in by_name and by_name[name].get('source_blank') is False
+                and isinstance(by_name[name].get('value'), str) and by_name[name]['value'].strip()
+                and chunk.get('chunk_id') in approved.get((subject, reading, name), ())]
+        except (ValueError, TypeError, KeyError, AttributeError):
+            continue
+        text = '; '.join(values)
+        if text and len(text) <= 1024:
+            context.setdefault(subject, []).append(text)
+    return {s: tuple(dict.fromkeys(values)) for s, values in context.items()
+            if len(set(values)) <= 4}
+
+
 def topic_menu(register, *, catalogue=None, chunks=()):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
@@ -130,10 +167,12 @@ def topic_menu(register, *, catalogue=None, chunks=()):
             if limit.get('resolution') == 'unresolved':
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
+    contexts = _service_topic_context(register, catalogue, chunks)
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
-        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), not_stated=not_stated,
+        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), source_context=contexts.get(s, ()),
+            not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES)))
     return tuple(topics)
 
