@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 44
+sequence: 45
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 56350f3
+head_commit: 5d5e60c
 working_tree: dirty
-updated_at: 2026-10-25T17:55:21+08:00
+updated_at: 2026-10-25T18:02:14+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -26,6 +26,11 @@ updated_at: 2026-10-25T17:55:21+08:00
   copied outside Git. Source branch remains clean and matches origin.
 
 ## Current Task
+
+Live read-only Supabase course inspection:965 reviewed direct rules/1167 unresolved
+across39 curricula. BSCS2018–2019 has33/21; proposed2025–2026 has31/24. Five old-BSCS
+courses passed10 direct real-Prolog tests with synthetic grades; no model/browser claim.
+[Testing targets](2026-10-25-reviewed-course-test-targets.md). No source/DB changes.
 
 Repeated prerequisite warning diagnosed: global unresolved-rule scan makes dependency
 results partial, then generic clarification hides known dependents. Synthetic Janus ->
@@ -109,8 +114,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Obtain exact owner question/curriculum; distinguish router behavior from confirmed
-dependency fallback. Preserve unknown rule coverage, partial/potential semantics and phase gates.
+Owner tests listed direct-prerequisite questions in BSCS2018–2019. Exact failing
+question/curriculum remains needed for router diagnosis; unknown coverage stays unknown.
 
 ## Do Not Repeat
 
