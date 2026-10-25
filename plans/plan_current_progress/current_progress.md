@@ -61,6 +61,10 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
+Owner asks whether chunk quality explains failures. Compare original -> reviewed chunk -> exact
+retrieved context -> reply for affected cases, reusing existing evidence before adding fixes.
+Existing records show mixed causes: context budget/sequence, source cutoff, routing and generation;
+no blanket chunk-correctness claim or whole-corpus rechunking. Test-run completion is not accuracy.
 Bound a current-router capture for the two saved simple grading misses: "Ano yung passing grade
 dito sa PalSU?" and "GRADE 1.0 ILANG PERCENT??? 😭". Confirm current behavior before a minimal
 regression-first correction; no keyword router/table rewrite/prompt sweep. Canonical default and

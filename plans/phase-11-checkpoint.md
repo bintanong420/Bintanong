@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 51
+sequence: 52
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 6d70e1a
 working_tree: clean
-updated_at: 2026-10-25T22:17:00+08:00
+updated_at: 2026-10-25T22:27:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -130,13 +130,15 @@ retained; no DB writes/connector reset. Diagnosis/recovery pointers in session r
 Current service traces all select pre_enrollment; semantic quality still fails. Citation coverage alone
 cannot prove ordering/association or prevent invented cutoff continuation. Taglish generation tool_error
 has exact-request proof of truncation at768; short profile completes one saved fil-labelled case,
-not a multilingual/full pipeline quality result. Explicit reviewed source-order contract remains absent.
+not a multilingual/full pipeline quality result. Explicit reviewed source-order contract is delivered
+in6d70e1a; the broader semantic-quality gate remains open. Test-run completion is not answer accuracy.
 
 ## Next Action
 
 Bound current-router capture for the two saved simple grading misses (passing-taglish/caps-emoji,
 live-grades.log); confirm current behavior before minimal RED/GREEN correction. No keyword routing,
-table rewrite or prompt sweep. Canonical default/expanded inactive; no repeated order/checker experiments.
+table rewrite or prompt sweep. Check original/selected chunk/exact context before assigning cause;
+reuse existing source reviews. Canonical default/expanded inactive; no repeated order/checker experiments.
 
 ## Context Consulted
 
