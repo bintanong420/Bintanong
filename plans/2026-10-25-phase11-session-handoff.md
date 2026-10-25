@@ -14,12 +14,13 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Current state is in the review ledger's Single next-batch cursor and latest batch27 note; those
+Current state is in the review ledger's Single next-batch cursor and latest batch28 note; those
 supersede earlier fresh-session anchor instructions. MCP authenticated recheck passed.
-66approved/8corrections/0held/6pending. Charter6approved;old68/71 correction-needed for companions.
-Cursor await fee75–77:all active/shared,mutual companions;exact fields/image/hash verified.
-Billing/currentness limits retained;ISO date/duplicate54 alias disclosed. Then vehicle78–80.
-No source/DB/model changes or activation during audit;corrections separate.
+69approved/8corrections/0held/3pending.75–77 approved;75 lecture_hours naming preference saved.
+Cursor await final vehicle78–80:all active/shared;78/80mutual,79none. Stored shortened readings and
+original sentences distinguished;images/hash/field-span parity checked. Limits retained.
+Then final read-only hosted membership/hash drift check and grouped findings/correction list.
+No source/DB/model changes or activation;corrections/naming cleanup separate.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

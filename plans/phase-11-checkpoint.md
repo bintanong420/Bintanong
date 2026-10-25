@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 84
+sequence: 85
 plan: plans/phase-11-backend-api-plan.md
-head_commit: e5b7d98
+head_commit: d5f4b8b
 working_tree: clean
-updated_at: 2026-10-26T00:48:57+08:00
+updated_at: 2026-10-26T00:54:57+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,12 +33,12 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-Charter67/69/70/72/73/74 approved with limits;68/71 correction-needed for missing companions,
-owner "i approve" to explicit outcomes.74outcomes:66approved/8corrections/0held/6pending.
-Fee batch27/chunks75–77 shown:active/shared,mutual3-record group,exact image fields;no blank fields.
-Original image/hash and field-span parity verified;ISO date normalization/duplicate54 alias disclosed.
-Individual billing/currentness limits retained;F04 held. Await decisions,then78–80. Frozen80IDs/hashes
-unchanged. Thesis17–18/routing PNG/master16 refreshed;no discrepancy. No source/DB/model changes.
+75–77 approved;exact full owner reply in ledger.75 lecture_hours preferred over duplicate hours_reading,
+separate cleanup proposed;no ninth correction outcome inferred.77outcomes69approved/8corrections/
+0held/3pending. Final batch28/vehicle78–80 shown,all active/shared.78/80mutual companions;79none.
+Original images/hash/field-span parity checked;stored shortened readings distinguished from original
+sentences. Full-service context/unknown replacement price/workflow limits retained. Await decisions,
+then final hosted drift check/grouped findings. No source/DB/model changes;frozen80IDs/hashes unchanged.
 
 ## Repository State
 
@@ -114,7 +114,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await fee75–77 decisions,then vehicle78–80. Save exact decisions;no source/DB edits.
+Await vehicle78–80 decisions,then final hosted membership/hash drift check and grouped findings.
 Correction scopes19–21/36/45–46/68/71 remain separate follow-up.
 
 ## Context Consulted

@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status:74 outcomes recorded; special-class-fee batch27/chunks75–77 awaiting decisions.
+Status:77 outcomes recorded; final vehicle batch28/chunks78–80 awaiting decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **66**, correction-needed **8**, held **0**, pending **6**.
+Current counts: approved **69**, correction-needed **8**, held **0**, pending **3**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -110,6 +110,7 @@ Batch23/chunks59+60+62 approved:"i approve" (26Oct),missing22 limit retained.
 Batch24/chunks61+63 approved:"i approve" (26Oct).
 Batch25/final Handbook64–66 approved:"i approve" (26Oct). Handbook60approved/6corrections.
 Batch26:67/69/70/72/73/74 approved;68/71 correction-needed for missing companions;"i approve" (26Oct).
+Batch27:75–77 approved;owner prefers lecture_hours over duplicate hours_reading (exact reply below).
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -185,10 +186,11 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for special-class-fee batch27/chunks75–77 (one original image).**
-All three active/shared records mutually require the other two. Exact stored fields and retained
-billing/currentness limits shown; date ISO normalization/duplicate54 alias explained. Then78–80 vehicle.
-Correction-needed19–21/36/45–46/68/71 retain approved scope; no correction/DB/model changes in audit.
+**Await owner decisions for final vehicle batch28/chunks78–80 (two original images).**
+78/80 mutually linked;79 has no required neighbors. Stored shortened readings and original wording
+shown separately;application fragments are not a complete service/replacement workflow. After decisions,
+perform final read-only hosted membership/hash drift check and grouped findings/correction list.
+Correction-needed19–21/36/45–46/68/71;75 approved with field-naming cleanup proposed separately.
 
 ## Frozen snapshot and verification
 
@@ -290,12 +292,12 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 72 | `63dc784901145eb7d65b87f66f94e24c4fb15885bbea107ef5920482da142531` | charter-pre-enrollment-step-3-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
 | 73 | `01d7da512b86903ec99c58afed072160c9c365ef94304b48e7d36e1a60893413` | charter-pre-enrollment-step-4-expanded | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
 | 74 | `e26aa871228b71eaf2f84d86f9c1b393de16c7f0450e3a1125964825c4608472` | charter-pre-enrollment-total | 103 | draft-only | Agent:fields/associations match original102–103(print98–99) | Selected service fragment;mutual6-record context67/69/70/72/73/74 | "i approve" (26Oct,batch26;explicit proposed outcomes) | approved | Approved faithful fragment with linked context;cutoff/time discrepancy retained;no source correction |
-| 75 | `6eb18cb61b68a289417652c94bfe7d27a5e176da353089bae12fd24721f6e44e` | F01 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | — | pending | No correction proposed;billing/currentness limits retained;ISO date/duplicate54 alias disclosed;owner outcome pending |
-| 76 | `d44db1c77211a75a3e845825f032433a7572a975e69e3c5aba1f7a9d29ecad89` | F08 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | — | pending | No correction proposed;billing/currentness limits retained;ISO date/duplicate54 alias disclosed;owner outcome pending |
-| 77 | `bb2b7d5e3742187d33910260d5f9edd0d9a39731ed6be664e6fbd05c8efa8b90` | F09 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | — | pending | No correction proposed;billing/currentness limits retained;ISO date/duplicate54 alias disclosed;owner outcome pending |
-| 78 | `1167f48dd292b9eca5bf76cf165f1e363812f12f6398c94a0075c5d0fb7f1418` | V01-G2 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 79 | `8c164a09202401220f98a404c137619d7ed40e92e8e69090d97c1bd040336bdc` | V05-G3 | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 80 | `1e4acc750776f674c708bc4a7918cf7f7de3d198b88b9a789370dab15105774b` | V07-office-context | image | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 75 | `6eb18cb61b68a289417652c94bfe7d27a5e176da353089bae12fd24721f6e44e` | F01 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | Approval + naming preference (batch27,26Oct;exact full reply below) | approved | Retain lecture_hours as clearer canonical name;remove duplicate hours_reading only in separate reviewed follow-up;values/limits approved |
+| 76 | `d44db1c77211a75a3e845825f032433a7572a975e69e3c5aba1f7a9d29ecad89` | F08 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | Approval + naming preference (batch27,26Oct;exact full reply below) | approved | Selected fields approved with billing/currentness limits and required companions retained |
+| 77 | `bb2b7d5e3742187d33910260d5f9edd0d9a39731ed6be664e6fbd05c8efa8b90` | F09 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | Approval + naming preference (batch27,26Oct;exact full reply below) | approved | Selected fields approved with billing/currentness limits and required companions retained |
+| 78 | `1167f48dd292b9eca5bf76cf165f1e363812f12f6398c94a0075c5d0fb7f1418` | V01-G2 | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Shortened payment reading;mutual78/80;Cashier/original requirement details absent | — | pending | Owner outcome pending;original images/hashes and field-span parity checked;limits retained |
+| 79 | `8c164a09202401220f98a404c137619d7ed40e92e8e69090d97c1bd040336bdc` | V05-G3 | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Shortened selected replacement clause;no companions;price/workflow unknown | — | pending | Owner outcome pending;original images/hashes and field-span parity checked;limits retained |
+| 80 | `1e4acc750776f674c708bc4a7918cf7f7de3d198b88b9a789370dab15105774b` | V07-office-context | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Selected application steps1/3;mutual78/80;other steps/requirements absent | — | pending | Owner outcome pending;original images/hashes and field-span parity checked;limits retained |
 
 ## Batch7 exact owner response and separate correction proposal
 
@@ -661,3 +663,31 @@ Reuse settled F1 readings/rate+example decision;do not infer individual division
 reopen heldF04. No correction proposed for75–77;await outcomes,then78–80. Snapshot/queue hashes and80
 number-ID mappings unchanged;field-span parity checked. Thesis17–18/routing PNG/master16 refreshed,
 no scope/routing discrepancy. Documentation-only checks;no full-suite rerun/source/DB/model changes.
+
+## Batch27 outcome / final vehicle batch28 display —26 October2026
+
+Exact owner reply: "i approve and also ur right to point out that lecture_hours and hours_reading they're basically the same thing i think, they are of the same value after all but the more accurate name would be the lecture_hours".
+75–77 approved;overall69approved/8correction-needed/0held/3pending. Owner identifies lecture_hours as
+the more accurate name for75's same-region duplicate hours_reading. Record canonical-name/de-duplicate
+cleanup in separate follow-up;do not reinterpret explicit approval as a ninth correction-needed outcome.
+No hosted field removal/rename during audit;preserve both exact stored fields and historical evidence.
+
+Final batch78 V01-G2/80 V07-office-context share image542407158_1469692494265411_2318282640255511703_n.jpg,
+verified visible printed3;79 V05-G3 uses541731295_1667568507269794_3341713748846532473_n.jpg,no verified
+printed page. All active/shared;images,no physical PDF pages. Image hashes match hosted7ac56a1d.../d60dfad8...
+full hashes in frozen snapshot;field/span parity verified. Selected earlier readings reused,not reopened.
+78 has two identical shortened values P50.00 application/vehicle sticker payment,each from a distinct
+source region(requirement5/procedure2). Original explicitly names Cashier's Office/Original Receipt;
+stored shortened values omit these details. Do not count two charges or claim full original sentences.
+79 stored replacement_owner_expense="lost, stolen or destroyed sticker replacement at vehicle owner's expense".
+Original:"Replacement of lost, stolen, or destroyed sticker shall be at the vehicle owner’s expense."
+This is a normalized selected reading,not verbatim original sentence. Exact stored limit:
+"Unavailable information: exact replacement price, substituting P50 application payment. Source limitation remains unresolved (claim_not_stated)."
+80 exact selected office steps1/3 shown;original step1 prints fill up while stored fill-up is review
+formatting. Original step3's line wrapping removed. Other application steps/above-mentioned full
+requirements absent;78/80 pair is not a complete application process. Exact stored limit:
+"Unavailable information: replacement application workflow. Source limitation remains unresolved (claim_not_stated)."
+78 has no own source_limits;78/80 mutually require each other;79 requires none. All fields nonblank.
+Original headings/step numbers and fee-sentence context shown separately from shortened hosted values.
+No new correction outcome inferred;await explicit owner decisions,then final read-only hosted drift
+check/grouped findings. No source/DB/model/prompt changes;frozen snapshot/queue/80IDs unchanged.
