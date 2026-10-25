@@ -7,12 +7,12 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 
 ## Latest change
 
-[Review ledger](../2026-10-25-hosted-chunk-review.md):75–77 approved;owner prefers lecture_hours over
-same-region duplicate hours_reading;cleanup saved for separate follow-up.77outcomes:69approved/
-8corrections/0held/3pending. Final vehicle78–80 displayed:all active/shared;78/80 mutual,79 standalone.
-Original images/hashes/field-span parity checked;shortened readings distinguished from original
-wording,missing full-service context/price/workflow retained. Await decisions,then hosted drift check.
-No source/DB/model edits. Documentation-only audit;no software-suite rerun.
+[Hosted review](../2026-10-25-hosted-chunk-review.md) COMPLETE:78–80 approved,"i approve".
+80unique outcomes:72approved/8correction-needed/0held/0pending. Grouped findings/correction list saved:
+19–21 missing context;36/45–46/68/71 companions;75 optional lecture_hours duplicate cleanup.
+Fresh authenticated final read26Oct00:59:34Manila:all80 chunk/document/version/span/membership objects
+and both release records exactly unchanged;active19/draft80,all19included.80content hashes/5original
+hashes rechecked. No DB/source/code/model changes;review does not completePhase11 or activate draft.
 [MCP recheck](../2026-10-26-supabase-mcp-connection-check.md) passed; [conditional ETA](../2026-10-26-system-readiness-estimate.md) retained.
 
 6d70e1a closes the cited-record order bypass through existing review/coverage: explicit optional
@@ -68,7 +68,7 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Await vehicle78–80 decisions,then final hosted hash/membership drift check and grouped audit findings.
+Separate reviewable append-only correction follow-up is next;use completed audit scope and exact source approvals.
 Correction scopes19–21/36/45–46/68/71 settled; delivery remains separate after audit.
 
 Grading-router work deferred; no fixes/rechunking/activation/models. Full suite unnecessary for audit.

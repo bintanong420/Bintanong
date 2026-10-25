@@ -14,13 +14,14 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Current state is in the review ledger's Single next-batch cursor and latest batch28 note; those
+Current state is in the review ledger's Single next-batch cursor and Completion note; those
 supersede earlier fresh-session anchor instructions. MCP authenticated recheck passed.
-69approved/8corrections/0held/3pending.75–77 approved;75 lecture_hours naming preference saved.
-Cursor await final vehicle78–80:all active/shared;78/80mutual,79none. Stored shortened readings and
-original sentences distinguished;images/hash/field-span parity checked. Limits retained.
-Then final read-only hosted membership/hash drift check and grouped findings/correction list.
-No source/DB/model changes or activation;corrections/naming cleanup separate.
+AUDIT COMPLETE:80outcomes72approved/8correction-needed/0held/0pending;78–80 approved,"i approve".
+Closing hosted read26Oct00:59:34Manila matches all80chunk/document/version/span/membership objects
+and both release records exactly;active19/draft80 unchanged.80content hashes/5original hashes valid.
+Grouped findings/list in ledger:19–21 context;36/45–46/68/71 companion corrections;75 optional cleanup.
+Next is separate reviewable append-only correction follow-up;do not repeat80-chunk approvals.
+No DB/source/code/model/prompt/activation changes;Phase11 remains active,expanded draft inactive.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;

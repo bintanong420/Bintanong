@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status:77 outcomes recorded; final vehicle batch28/chunks78–80 awaiting decisions.
+Status: review complete —80 outcomes recorded; final hosted drift check passed26October2026.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -79,7 +79,7 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **69**, correction-needed **8**, held **0**, pending **3**.
+Final counts: approved **72**, correction-needed **8**, held **0**, pending **0**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
@@ -111,6 +111,7 @@ Batch24/chunks61+63 approved:"i approve" (26Oct).
 Batch25/final Handbook64–66 approved:"i approve" (26Oct). Handbook60approved/6corrections.
 Batch26:67/69/70/72/73/74 approved;68/71 correction-needed for missing companions;"i approve" (26Oct).
 Batch27:75–77 approved;owner prefers lecture_hours over duplicate hours_reading (exact reply below).
+Batch28:78–80 approved as selected fragments with limitations;exact reply "i approve" (26Oct).
 Approval of22 concerns quote fidelity within full3.7, not an applicable deadline or standalone completeness.
 Correction register:19–21 incomplete context;36 missing40 companion;45–46 missing shared8(a)/8(b) grouping. Exact owner decisions/proposals below.
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
@@ -186,11 +187,10 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for final vehicle batch28/chunks78–80 (two original images).**
-78/80 mutually linked;79 has no required neighbors. Stored shortened readings and original wording
-shown separately;application fragments are not a complete service/replacement workflow. After decisions,
-perform final read-only hosted membership/hash drift check and grouped findings/correction list.
-Correction-needed19–21/36/45–46/68/71;75 approved with field-naming cleanup proposed separately.
+**Audit complete. No next review batch; all80 unique outcomes recorded.**
+Final hosted read26Oct00:59:34Manila matches opening snapshot records exactly;active19/draft80 unchanged.
+Next work is a separate,reviewable append-only correction follow-up for19–21/36/45–46/68/71 and the
+optional75 duplicate-field cleanup. Do not activate/rechunk/re-embed/edit hosted content in this audit.
 
 ## Frozen snapshot and verification
 
@@ -208,7 +208,7 @@ Correction-needed19–21/36/45–46/68/71;75 approved with field-naming cleanup 
   Source heading is exactly "2.2 UNDERGRADUATE LEVEL/SCHOOL OF LAW"; use undergraduates only.
 - Context refreshed: thesis physical17–18 and runtime routing PNG; no scope/routing discrepancy.
 - Hosted records still say partially_reviewed/observed; this ledger does not change their states.
-- No database write tools used. Final membership/hash drift check remains due at audit completion.
+- No database write tools used. Final membership/hash drift check PASSED;see completion evidence below.
 
 ## Frozen numbered outcome queue
 
@@ -295,9 +295,9 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 75 | `6eb18cb61b68a289417652c94bfe7d27a5e176da353089bae12fd24721f6e44e` | F01 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | Approval + naming preference (batch27,26Oct;exact full reply below) | approved | Retain lecture_hours as clearer canonical name;remove duplicate hours_reading only in separate reviewed follow-up;values/limits approved |
 | 76 | `d44db1c77211a75a3e845825f032433a7572a975e69e3c5aba1f7a9d29ecad89` | F08 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | Approval + naming preference (batch27,26Oct;exact full reply below) | approved | Selected fields approved with billing/currentness limits and required companions retained |
 | 77 | `bb2b7d5e3742187d33910260d5f9edd0d9a39731ed6be664e6fbd05c8efa8b90` | F09 | image | active/shared | Agent:stored fields/spans match reviewed image readings;original hash verified | Selected image fields;mutual75/76/77 companions;not a complete memo or individual bill | Approval + naming preference (batch27,26Oct;exact full reply below) | approved | Selected fields approved with billing/currentness limits and required companions retained |
-| 78 | `1167f48dd292b9eca5bf76cf165f1e363812f12f6398c94a0075c5d0fb7f1418` | V01-G2 | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Shortened payment reading;mutual78/80;Cashier/original requirement details absent | — | pending | Owner outcome pending;original images/hashes and field-span parity checked;limits retained |
-| 79 | `8c164a09202401220f98a404c137619d7ed40e92e8e69090d97c1bd040336bdc` | V05-G3 | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Shortened selected replacement clause;no companions;price/workflow unknown | — | pending | Owner outcome pending;original images/hashes and field-span parity checked;limits retained |
-| 80 | `1e4acc750776f674c708bc4a7918cf7f7de3d198b88b9a789370dab15105774b` | V07-office-context | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Selected application steps1/3;mutual78/80;other steps/requirements absent | — | pending | Owner outcome pending;original images/hashes and field-span parity checked;limits retained |
+| 78 | `1167f48dd292b9eca5bf76cf165f1e363812f12f6398c94a0075c5d0fb7f1418` | V01-G2 | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Shortened payment reading;mutual78/80;Cashier/original requirement details absent | "i approve" (batch28,26Oct2026) | approved | Approved selected fragment;normalization/omitted full-service context and applicable source limits retained |
+| 79 | `8c164a09202401220f98a404c137619d7ed40e92e8e69090d97c1bd040336bdc` | V05-G3 | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Shortened selected replacement clause;no companions;price/workflow unknown | "i approve" (batch28,26Oct2026) | approved | Approved selected fragment;normalization/omitted full-service context and applicable source limits retained |
+| 80 | `1e4acc750776f674c708bc4a7918cf7f7de3d198b88b9a789370dab15105774b` | V07-office-context | image | active/shared | Agent:stored fields match reviewed readings;original wording/normalization distinguished | Selected application steps1/3;mutual78/80;other steps/requirements absent | "i approve" (batch28,26Oct2026) | approved | Approved selected fragment;normalization/omitted full-service context and applicable source limits retained |
 
 ## Batch7 exact owner response and separate correction proposal
 
@@ -691,3 +691,73 @@ requirements absent;78/80 pair is not a complete application process. Exact stor
 Original headings/step numbers and fee-sentence context shown separately from shortened hosted values.
 No new correction outcome inferred;await explicit owner decisions,then final read-only hosted drift
 check/grouped findings. No source/DB/model/prompt changes;frozen snapshot/queue/80IDs unchanged.
+
+## Completion —26 October2026
+
+Owner reply for final vehicle78–80:"i approve". All3 approved as selected fragments with the displayed
+original-versus-stored distinctions and existing limitations. All80 unique chunk IDs now have one
+outcome;shared/early-reviewed records counted once. Human audit complete;Phase11 remains active.
+
+| Source group | Unique reviewed | Approved | Correction-needed | Held | Pending |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Handbook1–66 | 66 | 60 | 6 | 0 | 0 |
+| Citizens’ Charter67–74 | 8 | 6 | 2 | 0 | 0 |
+| Special-class-fee75–77 | 3 | 3 | 0 | 0 | 0 |
+| Vehicle78–80 | 3 | 3 | 0 | 0 | 0 |
+| Total | 80 | 72 | 8 | 0 | 0 |
+
+### Grouped findings
+
+- Source fidelity:72 selected chunks approved,including accurate fragments.19–21 omit meaningful
+  removal/completion context;the approved complete source passages are retained above for follow-up.
+- Retrieval context:36 lacks40's shared disciplinary measures;45/46 lack shared deception/fraud
+  grouping;older68/71 lack complete selected Charter companion context present in newer variants.
+  Equal text does not imply equal dependency closure. Grouping cannot reconstruct absent source text.
+- Fragment coverage:approved overload group retains documented omitted heading/unlabelled arrows;
+  disciplinary rows retain blanks/shared-heading/reference limits. Vehicle readings remain selected,
+  sometimes normalized fragments;78/80 are not the complete application service. No expanded source
+  coverage or new correction outcome inferred from approval of these fragments.
+- Source gaps:grading one-term/year conflict,Charter step3 cutoff/25-versus20minutes,missing item22,
+  weapon exception,fraud precedence,fee individual assessment/currentness and vehicle replacement
+  price/workflow remain unresolved.0held in this80-ID ledger does not clear heldF04 outside the queue.
+- Field naming:75's lecture_hours and hours_reading point to the same54-hour region;owner prefers
+  lecture_hours. Keep approval;record optional de-duplication as cleanup,not a ninth correction outcome.
+
+### Proposed separate correction list
+
+| Chunks | Review outcome | Follow-up scope |
+| --- | --- | --- |
+| 19 | correction-needed | Include complete3.2 subject/scope and Resolution279/2018. |
+| 20 | correction-needed | Include complete3.3 re-examination/repetition,pass/fail and one-exam conditions. |
+| 21 | correction-needed | Include complete3.7 remaining-period condition and keep22 final paragraph associated. |
+| 36 | correction-needed | Add required40 shared-measures context to preserved older cheating variant. |
+| 45,46 | correction-needed | Bind8(a)/8(b) together;preserve existing34↔45 overlap and unresolved precedence. |
+| 68,71 | correction-needed | Bind older Charter fragments to selected checklist/steps/totals context;retain cutoff/time discrepancy. |
+| 75 | approved;cleanup proposed | Prefer lecture_hours and remove redundant hours_reading in a reviewed derivative if adopted. |
+
+This lists8 correction-needed IDs plus1 optional cleanup. Exact wording approvals above remain usable;
+no new policy precedence,missing continuation or current-year validity decision is needed or inferred.
+Follow-up must preserve originals/published history and use the existing append-only release process;
+this audit delivers no replacement chunks,vectors,migrations or activation.
+
+### Final read-only hosted verification
+
+Authenticated project URL jyrudbiuajahsucsorco.supabase.co. Closing snapshot captured
+2026-10-25T16:59:34.194142+00:00 (26Oct00:59:34Manila). Same SELECT as opening snapshot,no write SQL.
+Exact equality passed for all80 chunk objects(including text/source_text/content_hash/type_fields),
+all attached documents/versions/spans/release memberships,and both full release records.
+Active p09-research-selected-20261022 remains19;draft p11-research-expanded-20261025 remains80;
+all19active IDs included.80content hashes recomputed valid using source.py's canonical algorithm;
+all5 original byte hashes rechecked;span hash/version/page identity and required-neighbor presence valid.
+No compared-record drift,no DB mutations by audit. Scope is these reviewed records,not unrelated
+DB tables or embedding-vector bytes. Full-record equality is stronger than count/hash-only comparison.
+
+Ignored raw evidence at existing review root:closing-query.sql,closing-tool-response.json,
+closing-project.json,closing-snapshot.json,closing-validation.json. Opening snapshot/queue unchanged.
+Closing snapshot SHA256:f9667f7a7117f4729593221d6dd1cca6620f71231d89acce78146ff026b47800.
+Closing/opening snapshot-file digests differ because capture timestamp/serialization differ;all compared
+record values are equal. Do not compare file digests alone as evidence of database drift.
+
+Validation for this review:80-row stable-ID/outcome/count checks,original hashes,content hashes,
+exact hosted record comparison,phase-state validation and documentation diff/link checks. No full
+software-suite rerun needed for review-only documentation;prior suite evidence remains historical.

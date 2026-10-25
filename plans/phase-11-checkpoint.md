@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 85
+sequence: 86
 plan: plans/phase-11-backend-api-plan.md
-head_commit: d5f4b8b
+head_commit: 6b2d6a5
 working_tree: clean
-updated_at: 2026-10-26T00:54:57+08:00
+updated_at: 2026-10-26T01:02:20+08:00
 ---
 
 # Phase 11 checkpoint — hosted-chunk human review
@@ -33,12 +33,13 @@ Last full checkpoint before this review redirect: `82ae498:plans/phase-11-checkp
 
 ## Current Task
 
-75–77 approved;exact full owner reply in ledger.75 lecture_hours preferred over duplicate hours_reading,
-separate cleanup proposed;no ninth correction outcome inferred.77outcomes69approved/8corrections/
-0held/3pending. Final batch28/vehicle78–80 shown,all active/shared.78/80mutual companions;79none.
-Original images/hash/field-span parity checked;stored shortened readings distinguished from original
-sentences. Full-service context/unknown replacement price/workflow limits retained. Await decisions,
-then final hosted drift check/grouped findings. No source/DB/model changes;frozen80IDs/hashes unchanged.
+Hosted80-chunk audit COMPLETE:final78–80 approved,"i approve".72approved/8correction-needed/
+0held/0pending. Grouped findings/proposed correction list in combined ledger:19–21 source context,
+36/45–46/68/71 companions;75 optional duplicate-field cleanup. No correction delivered in audit.
+Authenticated closing read26Oct00:59:34Manila exactly matches all opening80chunk/document/version/
+span/membership objects and both releases. Active19/draft80 unchanged;all19included.80content hashes,
+5original byte hashes and span/neighbor identity rechecked. No DB/source/code/model edits or activation.
+Phase11 remains in_progress;separate append-only correction follow-up next. No full-suite rerun.
 
 ## Repository State
 
@@ -114,7 +115,7 @@ in6d70e1a; the broader semantic-quality gate remains open. Test-run completion i
 
 ## Next Action
 
-Await vehicle78–80 decisions,then final hosted membership/hash drift check and grouped findings.
+Prepare separate reviewable append-only correction follow-up from completed80-ID audit/exact approvals.
 Correction scopes19–21/36/45–46/68/71 remain separate follow-up.
 
 ## Context Consulted
