@@ -1,6 +1,6 @@
 # Phase 11 hosted-chunk human review
 
-Status: hosted snapshot verified; stable queue frozen; chunks1–12 approved; batch5 (chunks13–15) awaiting owner decisions.
+Status: hosted snapshot verified; stable queue frozen; chunks1–15 approved; batch6 (chunks16–18) awaiting owner decisions.
 Owner confirmed saving this plan on 25 October 2026 for recovery across sessions.
 This is a review operation within Phase 11, not a new implementation phase.
 Recovery baseline: `82ae498`; previous checkpoint/recovery snapshots remain available there.
@@ -16,7 +16,7 @@ The incoming handoff reports fresh hosted reads of project `jyrudbiuajahsucsorco
   exam-cheating record. Preserve and identify that older record; review shared IDs only once.
 
 Fresh read at 25 October 2026 22:52 Manila confirmed these counts and statuses. All 19 active IDs
-are included in the draft80; no membership discrepancy. Owner approved batches1–4/chunks1–12 in separate replies, each "i approve"; other outcomes pending.
+are included in the draft80; no membership discrepancy. Owner approved batches1–5/chunks1–15 in separate replies, each "i approve"; other outcomes pending.
 
 ## Execution and snapshot
 
@@ -79,15 +79,16 @@ Allowed reviewed outcomes: **approved**, **correction-needed**, **held**. Pendin
 Keep exact owner corrections and questions; do not replace them with inferred policy meanings.
 Link long exact decision transcripts or evidence when needed while retaining resumable state here.
 
-Current counts: approved **12**, correction-needed **0**, held **0**, pending **68**.
+Current counts: approved **15**, correction-needed **0**, held **0**, pending **65**.
 Queue: frozen below. Batch1/chunks1–3 approved: exact owner reply "i approve".
 Batch2/chunks4–6 approved: exact owner reply "i approve".
 Batch3/chunks7–9 approved: exact owner reply "i approve".
 Batch4/chunks10–12 approved: exact owner reply "i approve".
-Batch5/chunks13–15 prepared/shown in the accompanying reply; decisions pending.
-Correction register: empty. Agent verified chunks1–15 against rendered physical46: exact row values;
+Batch5/chunks13–15 approved: exact owner reply "i approve".
+Batch6/chunks16–18 prepared/shown in the accompanying reply; decisions pending.
+Correction register: empty. Agent verified chunks1–18 against rendered physical46: exact row values;
 rows omit the original table heading, carry no source_limits and declare no required neighbors.
-Chunks10–15 preserve printed blank percentages as empty values/source_blank=true/no span indexes;
+Chunks10–18 preserve printed blank percentages as empty values/source_blank=true/no span indexes;
 blank percentages do not supply a numerical equivalent. Inc. and IP rows only define labels.
 They are individual row fragments sufficient for their grade mappings, not a complete grading policy.
 The fragment/heading observation remains; approval confirms fidelity, not a database edit or activation.
@@ -124,8 +125,8 @@ reviewable follow-up through the existing append-only release process. No downlo
 
 ## Single next-batch cursor / recovery
 
-**Await owner decisions for batch5, chunks13–15 (Handbook physical46). Do not advance on silence.**
-After recording those exact decisions, prepare chunks16–18 unless a correction requires clarification.
+**Await owner decisions for batch6, chunks16–18 (Handbook physical46). Do not advance on silence.**
+After recording those exact decisions, prepare the complete linked completion group, chunks19–22, unless a correction requires clarification.
 The grading-router capture remains deferred. No DB mutations, prompts/model runs or source edits.
 
 ## Frozen snapshot and verification
@@ -166,12 +167,12 @@ Each pending row has no owner decision, proposed correction or resolved question
 | 10 | `bb704bc3bdd62af0207d5889e00640c48faba10031a154e43c6b8f4b0c7d11ef` | handbook-grading-10 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch4, 25 Oct 2026) | approved | None; printed blank retained |
 | 11 | `3ad00c67166519bfeb566c1d708f79b8ef92756365b8b36f5cd5cc4717cceb45` | handbook-grading-11 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch4, 25 Oct 2026) | approved | None; printed blank retained |
 | 12 | `dee78e9625915026bf7661adf8cd5ba889cecd4ed4abc1efcc8c3082e3b10d9d` | handbook-grading-12 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch4, 25 Oct 2026) | approved | None; printed blank retained |
-| 13 | `13d8167617121133130f93f1e209a03e8e0fe1b163020e045b1ca8fcfa216ab3` | handbook-grading-13 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
-| 14 | `98d87011903004a99b05ce44b1609622b8ef018373689d586d8ef17f83146d13` | handbook-grading-14 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
-| 15 | `246e133f06ecf8a938939041692deab53a167ae1b2d4bfd804ae1f5badc49d28` | handbook-grading-15 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
-| 16 | `6d53029b1811ae651ca7299ba1fd198211545327ba2366ee6a3722594778c8c3` | handbook-grading-16 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 17 | `083b8a6557647c5e35873f9da7c85c504ce8674235298269b576c2dc16a71d48` | handbook-grading-17 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
-| 18 | `0521286530fde3366c9480fffb7e302cedd4a8e212af626501e73a6e5682ecbf` | handbook-grading-18 | 46 | draft-only | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
+| 13 | `13d8167617121133130f93f1e209a03e8e0fe1b163020e045b1ca8fcfa216ab3` | handbook-grading-13 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch5, 25 Oct 2026) | approved | None; printed blank retained |
+| 14 | `98d87011903004a99b05ce44b1609622b8ef018373689d586d8ef17f83146d13` | handbook-grading-14 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch5, 25 Oct 2026) | approved | None; printed blank retained |
+| 15 | `246e133f06ecf8a938939041692deab53a167ae1b2d4bfd804ae1f5badc49d28` | handbook-grading-15 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | "i approve" (batch5, 25 Oct 2026) | approved | None; printed blank retained |
+| 16 | `6d53029b1811ae651ca7299ba1fd198211545327ba2366ee6a3722594778c8c3` | handbook-grading-16 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
+| 17 | `083b8a6557647c5e35873f9da7c85c504ce8674235298269b576c2dc16a71d48` | handbook-grading-17 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
+| 18 | `0521286530fde3366c9480fffb7e302cedd4a8e212af626501e73a6e5682ecbf` | handbook-grading-18 | 46 | draft-only | Agent: values/blank match p46 | Table-row fragment; blank percent; heading absent; no declared companions | — | pending | None proposed; owner review pending |
 | 19 | `00d246b8d5d184d36b4f458c78be4a6ae5993db81dc625d43a7daf384fa5b0f2` | handbook-completion-timing::part:0 | 47 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 20 | `cf9b6c64eda1205f7e73033d0c0a85e46142dc2079ade35720fba5e22f1ada9a` | handbook-completion-timing::part:1 | 47 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |
 | 21 | `fe0c5a6848f942d9ee8bc948851039c7b35aa855d7cdf840bdd92c27b4617fd9` | handbook-completion-timing::part:2 | 47 | active/shared | Not assessed | Not assessed; see snapshot companions | — | pending | None proposed; owner review pending |

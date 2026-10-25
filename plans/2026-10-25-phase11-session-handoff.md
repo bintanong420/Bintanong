@@ -14,9 +14,9 @@ owner explicitly asked to save for multiple sessions. It is the single next-batc
 register. Grading-router capture is deferred. Snapshot80/active19 inclusion verified, stable80-ID
 queue frozen; all80 content hashes valid, all5 original byte hashes match. Exact hosted input and
 query evidence: A/p11-hosted-80-review-20261025/. Do not recreate the queue or renumber.
-Owner approved chunks1–12: separate "i approve" replies. Counts12approved/0corrections/0held/68pending.
-Current cursor: await batch5/chunks13–15 (physical46) decisions, then record them before chunks16–18.
-Batch5 exact values/blank percentages match original; row fragments lack heading/declared companions.
+Owner approved chunks1–15: separate "i approve" replies. Counts15approved/0corrections/0held/65pending.
+Current cursor: await batch6/chunks16–18 (physical46) decisions, then record them before linked group19–22.
+Batch6 exact values/blank percentages match original; row fragments lack heading/declared companions.
 Thesis17–18/routing PNG refreshed. No DB writes/code/model/prompt/activation changes.
 
 Prior6d70e1a full6803 +1595 subtests,6skip2xfail6warnings,1343.56s,exit0 retained;
