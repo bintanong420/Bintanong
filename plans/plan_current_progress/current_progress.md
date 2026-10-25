@@ -9,11 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Owner approved three prompt lines; f68135c/v20 distinguishes supplied facts from tasks.
-RED2 -> focused GREEN26;902 broader regressions PASS. Three live follow-ups now answer
-with one part; genuine mixed question still fails with old/new prompts. Frontend/API now run
-in Orca terminals; both health200, all five probes true. Model/encoder reused; no code change.
-[Trial and limits](../2026-10-25-clarification-prompt-trial.md); [baseline trace](../2026-10-25-clarification-routing-history.md).
+Recurrence reproduced;252a951 adds target/count repair guidance/v22:905 tests PASS.
+Filipino live grade combinations pass; English v22 recorded-first-packet/live-repair
+probe validates.9e0a399 makes clarification popups opt-in; browser RED -> GREEN,
+57 UI tests/build PASS. Production frontend3215/API8021 ready;45s idle no reloads/HMR.
+[Cause, evidence and remaining limits](../2026-10-25-clarification-recurrence-and-preview.md).
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -58,8 +58,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Owner retries the popup in a fresh scoped chat; API/frontend ready. Keep
-mixed-question/claim-state limitations open; no broader prompt sweep authorized.
+Owner retries CC5 prerequisite/inverse grades after one reload and a fresh chat;
+confirm authenticated idle behavior. Keep production preview and source holds.
 
 ## Remaining boundaries
 

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 52
+sequence: 54
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f449244
+head_commit: 9e0a399
 working_tree: dirty
-updated_at: 2026-10-25T20:10:00+08:00
+updated_at: 2026-10-25T20:54:00+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -27,26 +27,20 @@ updated_at: 2026-10-25T20:10:00+08:00
 
 ## Current Task
 
-Owner-reported prerequisite clarification loop: frontend resubmitted dialog question
-headings, then invented a generic details question for bare backend clarification.
-Three frontend source files corrected: only original question + chosen statements,
-no invented details dialog/resume action. Scope/explicit confirm/unknowns preserved.
-Earlier frontend-only fix af119ad preserved explicit confirmation and scope;
-owner then authorized only the three-line prompt follow-up below.
-Investigation verified intact client/API payload and full-path unknown_requirement from
-invented grade-answer part; [baseline/history](2026-10-25-clarification-routing-history.md).
-Owner then approved three prompt instructions. f68135c adds only those instructions and
-v20 metadata, plus regression tests. Validation/Prolog/sources/frontend untouched.
-Filipino popup, English popup and English IM follow-ups now answer with one part and
-documented unmet prerequisite. Initial prerequisite listing/completion questions retained.
-Mixed question still fails: old v19 invalid_reference; v20 unknown_requirement/third part.
-No general quality pass. API restarted to load v20; temporary session context resets.
-API8021/frontend health3215 return200; all five readiness probes true.
-Owner requested starting services again: reused model/encoder; started frontend/API in
-Orca terminals term_c27fc4d5-7f8b-44d0-89d6-4760153be9d9 /
-term_d7ff23ac-0d58-4d28-b913-bdaff5cd6f30. Receipts/readiness under workspace
-audit-evidence/p11-20261025/local-server-restart/. No product changes or login replay.
-See [trial/scope/limits](2026-10-25-clarification-prompt-trial.md).
+Clarification recurrence reproduced with CC4 not passed/CC3 passed, BSCS2018–2019.
+Short CC5/v20 invented work; printed CC5/L passed. Commit252a951 adds specific
+target/count repair guidance/v22; no validation/Prolog/data changes.905 regressions PASS.
+Filipino full pipeline: inverse/both-passed/both-unmet give expected outcomes.
+English v21 failed; v22 recorded first packet plus actual live repair/style validates.
+Commit9e0a399 makes supported clarification dialogs opt-in using the existing button.
+Browser RED -> GREEN;57 UI tests and production build/TypeScript PASS.
+Frontend3215 now serves standalone production, same auth/API;45s clean idle: no
+reloads/HMR/page errors. Dark Reader warnings are not proven reload causes.
+API8021 restarted with v22; both readiness endpoints200/all five probes true.
+Orca frontend term_c27fc4d5-7f8b-44d0-89d6-4760153be9d9 runs workspace
+audit-evidence/p11-20261025/local-server-restart/serve-stable.mjs.
+API term_d7ff23ac-0d58-4d28-b913-bdaff5cd6f30; model/encoder unchanged.
+[Cause, exact evidence and recovery](2026-10-25-clarification-recurrence-and-preview.md).
 
 ## Repository State
 
@@ -118,14 +112,15 @@ Missing item22, weapon exception/fraud overlap, Charter Step3 cutoff and25-vs20m
 source discrepancy remain unresolved; do not invent missing policy or conditions.
 Full authenticated browser acceptance, RAG/Hybrid consistency, language/latency,
 prerequisite coverage and actual grade layouts remain open. Photos unsupported.
+Mixed prerequisite/procedure questions still fail routing; no general repair claim.
 Shared titles retain upstream not-found wording; printed code is needed to disambiguate.
 Earlier main full suite had two Docling/huggingface-hub environment failures; no fix
 or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Owner retries the popup in a fresh scoped chat; local API and frontend health are ready.
-Keep mixed-question and completion-state limitations open; preserve all release holds.
+Owner retries simple CC5 prerequisite and inverse-grade follow-up in a fresh chat;
+confirm authenticated idle behavior. Keep production preview and source/release holds.
 
 ## Do Not Repeat
 
