@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 46
+sequence: 47
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 4425538
 working_tree: clean
-updated_at: 2026-10-25T21:17:00+08:00
+updated_at: 2026-10-25T21:34:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -37,7 +37,7 @@ Opt-in short per-part draft references2ce3daf; default remains canonical. Reques
 restore full IDs before source/coverage/style checks and ordinary review; ledger/final canonical.
 Source/prose unchanged, strict wire rejection, repair map stable, unavailable placeholders ignored.
 RED9 at profile gate, fixture question-binding repaired; broad752, edge RED1/13 fixed; final753
-passed24.15s, independent review clean/14 passed1.12s. No actual-model short-profile run yet.
+passed24.15s, independent review clean/14 passed1.12s. Subsequent model observation below.
 Taglish exact saved-request replay proves truncated_output/finish_reason length at768 inside last
 citation hash. Initial logger read wrong field; one explicit extra capture37.321s. Four complete
 IDs shortened via tokenizer-only766->539 prefix tokens,227 saved; no partial-response rescue.
@@ -45,8 +45,8 @@ IDs shortened via tokenizer-only766->539 prefix tokens,227 saved; no partial-res
 Full suite2ce3daf completed6763 +1595 subtests,6skip2xfail6warnings,1306.19s,exit0.
 Owner combined presentation delivered4425538:exact fields/cutoff notice+record-office referral,
 generic when blank/absent. RED11/17; focused42, broad664, independent clean/42 passed.
-[Referral results](2026-10-25-service-cutoff-referral-plan.md). Full4425538 running since21:11:21+08,
-runner15680/pytest12732; evidence p11-cutoff-referral-20261025/full-suite.*. Code/tests frozen.
+[Referral results](2026-10-25-service-cutoff-referral-plan.md). Full4425538 completed6774 +1595 subtests,
+6skip2xfail6warnings,1325.83s,exit0; evidence p11-cutoff-referral-20261025/full-suite.*. Code/tests unchanged.
 [Short-profile observation](2026-10-25-short-reference-model-observation.md) ENDED:2 calls,
 draft463/review108 tokens,stop/stop,answered/validated45.73s generation/review only. Raw invented
 cutoff continuation replaced before ordinary review; final quotes/referral/canonical IDs valid.
@@ -58,7 +58,7 @@ Canonical default; expanded inactive; no further completions/sweep approved by t
 p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through4425538.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
 head_commit names the tested code baseline; documentation-only successors save this snapshot.
-Production/tests frozen for4425538 suite; following docs commit saves this snapshot.
+Production/tests unchanged since completed4425538 suite; following docs commit saves this snapshot.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
 Current evidence: workspace/audit-evidence/p11-cutoff-referral-20261025/ and p11-short-reference-model-20261025/.
@@ -128,15 +128,17 @@ not a multilingual/full pipeline quality result. Explicit reviewed source-order 
 
 ## Next Action
 
-Read existing4425538 referral full-suite result, runner15680/pytest12732; no duplicate suite.
-Keep canonical default; bounded short-profile observation ended. Source-order/quality gates remain.
-Source order/other quality/roster/switch/frontend gates remain. Expanded inactive; no advancement.
+Implement explicit reviewed source-order contract, reusing existing four-step review/standing
+delegation without inferring order from hashes/rank/IDs. Canonical default; expanded inactive.
+Other quality/roster/switch/frontend gates remain; no repeated short/checker/fraud/weapon experiment.
 
 ## Context Consulted
 
 25Oct resume: thesis physical17-18 and routing PNG refreshed; master3/13/14/16 and Phase10 handoff,
 source/scope/gap policies and owner ledger reviewed. Prior39-44 retained. No scope/routing discrepancy;
 unknown-versus-unmet and standing prompt-engineering/no-training boundaries retained.
+Response-time recommendation/measurement contract refreshed;45.73s is generation/review only,
+not student-visible latency or an accepted target. No timing safeguard/accuracy tradeoff.
 
 ## Do Not Repeat
 

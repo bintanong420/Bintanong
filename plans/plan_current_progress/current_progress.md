@@ -10,8 +10,8 @@ Last full snapshot before condensation: `c1fc29a:plans/plan_current_progress/cur
 4425538 implements owner's combined cutoff presentation: exact printed fields, explicit missing
 continuation and record-office referral (generic when no office printed), before ordinary review.
 RED11/17; focused42 passed1.36s; broad664 passed21.31s; independent clean/42 passed1.48s.
-[Referral plan/results](../2026-10-25-service-cutoff-referral-plan.md). Full suite frozen4425538
-started21:11:21+08, runner15680/pytest12732; read existing full-suite.* in p11-cutoff-referral-20261025.
+[Referral plan/results](../2026-10-25-service-cutoff-referral-plan.md). Full frozen4425538 suite
+completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0; full-suite.* in p11-cutoff-referral-20261025.
 One [saved-evidence short-profile observation](../2026-10-25-short-reference-model-observation.md)
 ENDED: draft463tokens+ordinary review108, both stop; answered/validated,45.73s generation/review only.
 Raw model still invents cutoff continuation; guard replaces it before review with exact quotes/referral.
@@ -48,9 +48,9 @@ Default stays canonical/output768/model/source/pin unchanged; expanded inactive.
 
 ## Next action
 
-Read existing4425538 referral full-suite result (runner15680/pytest12732); no duplicate. Keep
-canonical default; no repeat short/checker/fraud/weapon experiments. Reviewed step-order
-contract, other quality/roster/switch gates and frontend integration remain open. No advancement.
+Implement the explicit reviewed source-order contract using the existing four-step review and
+standing delegation; never infer sequence from hashes/rank/IDs. Keep canonical default and
+expanded inactive. Other quality/roster/switch/frontend gates remain; no experiment repeats or advancement.
 
 ## Boundaries
 

@@ -76,5 +76,6 @@ approved referral transformation occurs after decoding/before ordinary review.
 This resolves only whether the saved failed case can complete with short refs:
 yes, once observed. Do not rerun/widen this experiment or select a default from
 it. Canonical default and inactive expanded release remain; other quality/roster/
-source-order/frontend gates stay open. Full4425538 referral suite runs separately;
+source-order/frontend gates stay open. Full4425538 referral suite completed separately:
+6774 passed,1595 subtests passed,6skip2xfail6warnings,1325.83s,exit0;
 do not misrepresent45.73s as a pipeline/browser/end-to-end or acceptable SLA result.

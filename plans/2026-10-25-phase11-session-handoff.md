@@ -9,9 +9,11 @@ Last full snapshot before condensation: `c1fc29a:plans/2026-10-25-phase11-sessio
 
 ## Exact next action
 
-Read existing4425538 full-suite.head/log/exit in A/p11-cutoff-referral-20261025; runner15680,
-pytest12732, started21:11:21+08. Both helper and OS creation bindings saved. Code/tests frozen;
-no duplicate run. Missing exit/absent bound process means interrupted, never passed.
+Full4425538 completed6774 +1595 subtests,6skip2xfail6warnings,1325.83s,exit0;
+A/p11-cutoff-referral-20261025/full-suite.head/log/exit and creation bindings retained.
+No running job, no duplicate suite. Production/tests unchanged after the verified code commit.
+Next: explicit reviewed source-order contract using existing four-step review/standing delegation;
+never infer order from hashes/rank/IDs. Other quality/roster/switch/frontend gates remain open.
 4425538 implements owner's BOTH choice: exact printed fields/cutoff notice plus record-office
 referral, generic if no office printed. [TDD/results](2026-10-25-service-cutoff-referral-plan.md):
 RED11/17, focused42, broad664, independent clean/42. No source gap/order/activation resolved.

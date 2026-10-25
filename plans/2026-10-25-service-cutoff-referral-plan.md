@@ -58,9 +58,10 @@ validate; existing linter/formatter unavailable, no install authorized.
 - Broad generation/understanding/service-coverage/orchestration/runtime selection:
   664 passed21.31s. Independent scoped review: no blockers,42 passed1.48s.
 - Code4425538, no production/test changes after commit. One full tests/ suite
-  started21:11:21+08 on that commit; runner15680/pytest12732, creation binding and
-  exact command in workspace/audit-evidence/p11-cutoff-referral-20261025/
-  full-suite.processes.json; head/log/exit alongside. Missing exit never means pass.
+  completed:6774 passed,1595 subtests passed,6 skipped,2 xfailed,6 existing warnings,
+  1325.83s,exit0. Started21:11:21+08; runner15680/pytest launcher12732/actual22828.
+  Command/creation bindings and full-suite.head/log/exit are in workspace/
+  audit-evidence/p11-cutoff-referral-20261025/. No duplicate or remaining running job.
 - Actual saved-evidence short-profile observation: one draft+ordinary review,
   answered/validated,463+108 output tokens,45.73s generation/review only. Protected
   record has exact fields, cutoff notice and College Enrollment Area referral;
@@ -68,3 +69,8 @@ validate; existing linter/formatter unavailable, no install authorized.
 - Actual record component examples:en531/fil537/Taglish540 characters, below1200.
   Effective saved language is fil despite Taglish question; no Taglish-quality pass.
   No source-order contract or expanded quality/activation approval inferred.
+- Final checks: full-suite.head matches4425538; production/test diff unchanged;
+  54-file seal/component check repeated successfully. Harness compilation3/3,
+  local documentation links and git diff --check passed. ruff/black absent;
+  no formatter/linter, browser/frontend/SDK parser or dependency audit was run
+  for this narrow generation-text increment. No dependency changes.
