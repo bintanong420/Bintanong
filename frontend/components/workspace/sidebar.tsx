@@ -15,7 +15,7 @@ export function Sidebar({ currentChat, onNewChat, onOpenChat, busy = false, hidd
       </Button>
     </div>
     <nav className="sidebar-history" aria-label="Chat history">
-      <h2>Chats</h2>
+      <h2>This session</h2>
       {currentChat ? <Button variant="ghost" className="sidebar-chat justify-start" aria-current="page" disabled={busy} onClick={onOpenChat} title={title}>
         <MessageSquare aria-hidden="true" />
         <span>{title}</span>

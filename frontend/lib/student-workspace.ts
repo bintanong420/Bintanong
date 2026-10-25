@@ -1,4 +1,5 @@
 import type { StudentAnswer } from "./student-contracts.ts";
+import type { SuppliedDetail } from "./student-clarification.ts";
 
 const answerLabels = {
   clarification_needed: ["More details needed", "May kulang pang detalye", "May kulang pang details"],
@@ -17,19 +18,29 @@ export function answerNotice(answer: Pick<StudentAnswer, "status" | "language">)
 
 export type Attachment = { id: string; name: string; type: string };
 export type Message = { id: string; role: "user" | "assistant"; text: string; answer?: StudentAnswer; delivery?: "streaming" | "interrupted" };
-export type WorkspaceState = { draft: string; messages: Message[]; pending: string | null; warning: string | null };
-export type WorkspaceAction = { type: "draft"; text: string } | { type: "submit"; id: string; text?: string }
+export type WorkspaceState = { draft: string; messages: Message[]; pending: string | null; warning: string | null; supplied: SuppliedDetail[] };
+export type WorkspaceAction = { type: "draft"; text: string } | { type: "submit"; id: string; text?: string; clearDraft?: boolean }
+  | { type: "remember"; details: SuppliedDetail[] } | { type: "forget-details" }
   | { type: "delta"; id: string; text: string } | { type: "complete"; id: string; answer: StudentAnswer }
   | { type: "interrupt"; id: string; warning: string } | { type: "warning"; warning: string | null } | { type: "clear" };
-export const createWorkspace = (): WorkspaceState => ({ draft: "", messages: [], pending: null, warning: null });
+export const createWorkspace = (): WorkspaceState => ({ draft: "", messages: [], pending: null, warning: null, supplied: [] });
 export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction): WorkspaceState {
   if (action.type === "draft") return { ...state, draft: action.text };
   if (action.type === "warning") return { ...state, warning: action.warning };
   if (action.type === "clear") return createWorkspace();
+  if (action.type === "forget-details") return { ...state, supplied: [] };
+  if (action.type === "remember") {
+    const details = new Map(state.supplied.map(d => [JSON.stringify([d.programId, d.curriculumId, d.key]), d]));
+    for (const detail of action.details) {
+      const key = JSON.stringify([detail.programId, detail.curriculumId, detail.key]);
+      details.delete(key); details.set(key, detail);
+    }
+    return { ...state, supplied: [...details.values()].slice(-32) };
+  }
   if (action.type === "submit") {
     const text = (action.text ?? state.draft).trim();
     if (state.pending || !text) return state;
-    return { ...state, draft: action.text === undefined ? "" : state.draft, warning: null, pending: action.id, messages: [...state.messages,
+    return { ...state, draft: action.text === undefined || action.clearDraft ? "" : state.draft, warning: null, pending: action.id, messages: [...state.messages,
       { id: action.id, role: "user", text },
       { id: action.id + "-answer", role: "assistant", text: "", delivery: "streaming" }] };
   }

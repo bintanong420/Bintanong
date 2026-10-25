@@ -7,10 +7,11 @@ import { PreviewDialog } from "./preview-dialog";
 
 export function ClarificationDialog({ answer, original, curricula, status, open, onClose, onRetry, onConfirm }: {
   answer: StudentAnswer; original: string; curricula: StudentCurriculum[]; status: "loading" | "ready" | "failed";
-  open: boolean; onClose: () => void; onRetry: () => void; onConfirm: (reply: { text: string; scope: StudentScope | null }) => void;
+  open: boolean; onClose: () => void; onRetry: () => void; onConfirm: (reply: { text: string; scope: StudentScope | null }, drafts: ClarificationDrafts) => void;
 }) {
   const [drafts, setDrafts] = useState<ClarificationDrafts>({}), [step, setStep] = useState(0), [reviewing, setReviewing] = useState(false);
-  const copy = copyForClarification(answer.language), questions = clarificationQuestions(answer, curricula), question = questions[step];
+  const uiAnswer = { ...answer, language: "en" as const };
+  const copy = copyForClarification("en"), questions = clarificationQuestions(uiAnswer, curricula), question = questions[step];
   const id = useId(), heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -24,7 +25,7 @@ export function ClarificationDialog({ answer, original, curricula, status, open,
   function update(change: Partial<typeof draft>) { setDrafts(previous => ({ ...previous, [question.key]: { ...draft, ...change } })); }
   let reply: ReturnType<typeof clarificationReply> = null, tooLong = false;
   if (reviewing) {
-    try { reply = clarificationReply(original, answer, curricula, drafts); }
+    try { reply = clarificationReply(original, uiAnswer, curricula, drafts); }
     catch { tooLong = true; }
   }
   return <PreviewDialog title={copy.title} className="clarification-dialog" onClose={onClose}>
@@ -32,7 +33,7 @@ export function ClarificationDialog({ answer, original, curricula, status, open,
     <details className="clarification-original"><summary>{copy.prompt}</summary><p>{original}</p></details>
     <form onSubmit={event => {
       event.preventDefault();
-      if (reviewing) { if (reply) onConfirm(reply); }
+      if (reviewing) { if (reply) onConfirm(reply, drafts); }
       else if (canContinue) { if (step + 1 < questions.length) setStep(step + 1); else setReviewing(true); }
     }}>
       <p className="clarification-progress">{reviewing ? copy.reply : `${copy.count} ${step + 1} ${copy.of} ${questions.length}`}</p>

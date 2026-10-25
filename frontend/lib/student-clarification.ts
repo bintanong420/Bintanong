@@ -8,6 +8,7 @@ export const clarificationCopy = {
 export type ClarificationDrafts = Record<string, { value: string; explanation: string }>;
 type Choice = { value: string; label: string; text: string; scope?: StudentScope };
 export type ClarificationQuestion = { key: string; title: string; options: Choice[] };
+export type SuppliedDetail = StudentScope & { key: string; code: string; label: string; text: string };
 type Answer = Pick<StudentAnswer, "status" | "language" | "missingFields" | "clarification">;
 export const copyForClarification = (language: StudentAnswer["language"]) => clarificationCopy[language === "unknown" ? "en" : language];
 
@@ -56,4 +57,32 @@ export function clarificationReply(original: string, answer: Answer, curricula: 
   const text = `${lines[0]}\n\n${lines.slice(1).join("\n")}`;
   if (text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384) throw new Error("clarification_too_long");
   return { text, scope };
+}
+
+export function sameScope(a: StudentScope | null, b: StudentScope | null) {
+  return !!a && !!b && a.programId === b.programId && a.curriculumId === b.curriculumId;
+}
+
+export function confirmedDetails(answer: Answer, curricula: StudentCurriculum[], drafts: ClarificationDrafts, scope: StudentScope | null): SuppliedDetail[] {
+  if (!scope || !curricula.some(c => sameScope(c, scope))) return [];
+  const reply = clarificationReply("", answer, curricula, drafts);
+  if (!reply || (reply.scope && !sameScope(reply.scope, scope))) return [];
+  return clarificationQuestions(answer, curricula).flatMap(question => {
+    const course = answer.clarification?.courses.find(c => question.key === `${c.kind}:${c.code}`);
+    const draft = drafts[question.key], option = question.options.find(o => o.value === draft?.value);
+    if (!course || !option) return [];
+    return [{ ...scope, key: question.key, code: course.code, label: option.label,
+      text: [option.text, draft.explanation.trim()].filter(Boolean).join("\n") }];
+  });
+}
+
+export function followUpMessage(question: string, scope: StudentScope | null, details: SuppliedDetail[], selected: string[]) {
+  const lines = [...new Set(selected)].map(key => {
+    const detail = details.find(d => d.key === key && sameScope(d, scope));
+    if (!detail) throw new Error("details_changed");
+    return detail.text;
+  });
+  const text = question.trim() + (lines.length ? "\n\n" + lines.join("\n") : "");
+  if (!question.trim() || text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384) throw new Error("clarification_too_long");
+  return text;
 }

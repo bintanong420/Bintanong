@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useId, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useReducer, useRef, useState } from "react";
 import { ChevronDown, Ellipsis, FolderOpen, LogOut, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
-import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope } from "@/lib/student-contracts";
+import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope, type StudentSourceSummary } from "@/lib/student-contracts";
 import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "./sidebar";
@@ -14,7 +14,8 @@ import { PreviewDialog } from "./preview-dialog";
 import { FilePanel, type ChatFile } from "./file-panel";
 import { SourcePanel } from "./source-panel";
 import { ClarificationDialog } from "./clarification-dialog";
-import { clarificationQuestions } from "@/lib/student-clarification";
+import { clarificationQuestions, confirmedDetails, followUpMessage, sameScope } from "@/lib/student-clarification";
+import { RephraseDialog, SuppliedDetailsPanel } from "./follow-up-dialog";
 
 const stages: Record<string, string> = { waiting: "Waiting for a free answer slot… You can stop waiting.", understanding: "Checking the information for your question…", writing: "Preparing the response…" };
 function errorText(error: unknown) {
@@ -51,7 +52,9 @@ export function Workspace() {
   const [curriculaStatus, setCurriculaStatus] = useState<CurriculumState>("loading"), [curriculaAttempt, setCurriculaAttempt] = useState(0);
   const [scopeOpen, setScopeOpen] = useState(false), [filesOpen, setFilesOpen] = useState(false), [clearOpen, setClearOpen] = useState(false);
   const [files, setFiles] = useState<ChatFile[]>([]), [fileWarning, setFileWarning] = useState<string | null>(null);
-  const [sourceId, setSourceId] = useState<string | null>(null), [progress, setProgress] = useState("Connecting…");
+  const [sources, setSources] = useState<StudentSourceSummary[] | null>(null), [progress, setProgress] = useState("Connecting…");
+  const [detailsOpen, setDetailsOpen] = useState(false), [rephraseOpen, setRephraseOpen] = useState(false), [selectedDetails, setSelectedDetails] = useState<string[]>([]);
+  const [review, setReview] = useState<{ text: string; scope: StudentScope | null } | null>(null);
   const [busy, setBusy] = useState<"chat" | "file" | "clear" | "signout" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
   const [signOutFailed, setSignOutFailed] = useState(false);
   const [navigationCollapsed, setNavigationCollapsed] = useState(false), [mobileNavigation, setMobileNavigation] = useState(false);
@@ -59,16 +62,22 @@ export function Workspace() {
   const optionsId = useId();
   const flight = useRef<{ controller: AbortController; id: string; kind: "chat" | "file" | "clear" | "signout" } | null>(null);
   const picker = useRef<HTMLInputElement>(null), main = useRef<HTMLElement>(null);
+  const details = state.supplied.filter(detail => sameScope(detail, scope));
+  const authError = useCallback((error: unknown) => {
+    if (error instanceof StudentTransportError && error.status === 401) {
+      setSignInNeeded(true); dispatch({ type: "forget-details" }); setSelectedDetails([]); setReview(null); setDetailsOpen(false); setClarification(null);
+    }
+  }, []);
   useEffect(() => {
     const controller = new AbortController();
     setCurriculaStatus("loading");
     getStudentCurricula(controller.signal).then(value => { if (!controller.signal.aborted) { setCurricula(value); setCurriculaStatus("ready"); } }).catch(error => {
       if (controller.signal.aborted) return;
       setCurriculaStatus("failed");
-      if (error instanceof StudentTransportError && error.status === 401) setSignInNeeded(true);
+      authError(error);
     });
     return () => controller.abort();
-  }, [curriculaAttempt]);
+  }, [curriculaAttempt, authError]);
   useEffect(() => () => flight.current?.controller.abort(), []);
   function draft(text: string) { dispatch({ type: "draft", text }); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
   function openCurrentChat() { setMobileNavigation(false); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
@@ -77,13 +86,24 @@ export function Workspace() {
     flight.current = value; setBusy(kind); return value;
   }
   function finish(value: NonNullable<typeof flight.current>) { if (flight.current === value) { flight.current = null; setBusy(null); } }
-  function authError(error: unknown) { if (error instanceof StudentTransportError && error.status === 401) setSignInNeeded(true); }
-  async function send(confirmed?: { text: string; scope: StudentScope | null }) {
+  function changeScope(value: StudentCurriculum | null) {
+    if (!sameScope(scope, value)) { dispatch({ type: "forget-details" }); setSelectedDetails([]); setReview(null); setClarification(null); }
+    setScope(value);
+  }
+  function prepareSend() {
+    if (flight.current || signInNeeded || !state.draft.trim()) return;
+    try {
+      const text = followUpMessage(state.draft, scope, details, selectedDetails);
+      if (selectedDetails.length) setReview({ text, scope });
+      else void send();
+    } catch { dispatch({ type: "warning", warning: "This message could not be prepared. Shorten the question or review the selected course details." }); }
+  }
+  async function send(confirmed?: { text: string; scope: StudentScope | null; clearDraft?: boolean }) {
     const text = (confirmed?.text ?? state.draft).trim(), selectedScope = confirmed ? confirmed.scope : scope;
     if (flight.current || !text || signInNeeded) return;
     const value = begin("chat");
-    setClarification(null);
-    dispatch({ type: "submit", id: value.id, ...(confirmed ? { text } : {}) }); setProgress("Connecting…");
+    setClarification(null); setSelectedDetails([]); setReview(null);
+    dispatch({ type: "submit", id: value.id, ...(confirmed ? { text, clearDraft: confirmed.clearDraft } : {}) }); setProgress("Connecting…");
     try {
       const answer = await sendStudentMessage({ id: value.id, text, ...(selectedScope ? { programId: selectedScope.programId, curriculumId: selectedScope.curriculumId } : {}) }, {
         signal: value.controller.signal,
@@ -109,7 +129,8 @@ export function Workspace() {
     try {
       await clearStudentSession(value.controller.signal);
       if (!value.controller.signal.aborted) {
-        dispatch({ type: "clear" }); setClarification(null); setFiles([]); setScope(null); setSourceId(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false);
+        dispatch({ type: "clear" }); setClarification(null); setFiles([]); setScope(null); setSources(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false);
+        setSelectedDetails([]); setReview(null); setDetailsOpen(false); setRephraseOpen(false);
       }
     } catch (error) { authError(error); dispatch({ type: "warning", warning: "Clearing was not confirmed. Your conversation and files are still here." }); }
     finally { finish(value); }
@@ -147,7 +168,7 @@ export function Workspace() {
     try {
       const response = await fetch("/auth/signout", { method: "POST", signal: value.controller.signal });
       if (response.status !== 204) throw new Error("signout_unavailable");
-      dispatch({ type: "clear" }); setClarification(null); setFiles([]);
+      dispatch({ type: "clear" }); setClarification(null); setFiles([]); setSelectedDetails([]); setReview(null); setDetailsOpen(false);
       window.location.assign(response.headers.get("x-bintanong-signout-notice") === "cleanup_pending" ? "/login?notice=cleanup_pending" : "/login?notice=signed_out");
     } catch { setSignOutFailed(true); }
     finally { finish(value); }
@@ -162,35 +183,50 @@ export function Workspace() {
         <div className="workspace-heading">
           <Button variant="ghost" size="icon" className="desktop-navigation-toggle" aria-label={navigationCollapsed ? "Open navigation" : "Close navigation"} aria-expanded={!navigationCollapsed} onClick={() => setNavigationCollapsed(value => !value)}>{navigationCollapsed ? <PanelLeftOpen aria-hidden="true" /> : <PanelLeftClose aria-hidden="true" />}</Button>
           <Button variant="ghost" size="icon" className="mobile-navigation-toggle" aria-label="Open navigation" aria-expanded={mobileNavigation} onClick={() => setMobileNavigation(true)}><Menu aria-hidden="true" /></Button>
-          <span className="workspace-name">Bintanong</span><p className="preview-notice">Research preview</p>
+          <span className="workspace-name">Bintanong</span>
+          <Button type="button" variant="ghost" className="header-scope" disabled={!!busy} aria-label="Program and curriculum" title={scope ? `${scope.programName} · ${scope.curriculumName}` : "Choose your program and curriculum"} onClick={() => setScopeOpen(true)}>
+            <span>{scope ? scope.curriculumName : "Curriculum"}<small>{scope ? scope.programName : "Not selected"}</small></span><ChevronDown size={14} aria-hidden="true" />
+          </Button>
         </div>
-        <div className="workspace-account-actions"><Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
+        <div className="workspace-account-actions"><p className="preview-notice">Research preview</p>
+          {details.length > 0 && <Button type="button" variant="ghost" size="sm" disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}>You supplied ({details.length})</Button>}
+          <Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
           <Button variant="ghost" disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" />{busy === "signout" ? "Signing out…" : "Sign out"}</Button></div>
         <div id={optionsId} popover="auto" className="workspace-options"><AppearanceControl /><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
       </header>
       <div className={`workspace-content${state.messages.length ? "" : " welcome-mode"}`}>
-      {state.messages.length ? <Conversation state={state} progress={progress} onSource={setSourceId} onClarify={() => { if (!flight.current) setClarification(previous => previous ? { ...previous, open: true } : null); }} /> : <EmptyConversation />}
+      {state.messages.length ? <Conversation state={state} progress={progress} onSource={setSources} canClarify={!!clarification && !signInNeeded} onEdit={draft} onRephrase={() => setRephraseOpen(true)} onClarify={() => { if (!flight.current) setClarification(previous => previous ? { ...previous, open: true } : null); }} /> : <EmptyConversation />}
       {signOutFailed && <div className="outcome-notice status-danger" role="alert"><p>We couldn't finish signing you out. Try again before leaving this device.</p><Button variant="outline" disabled={!!busy} onClick={() => void signOut()}>Try signing out again</Button></div>}
       {state.warning && <div className="outcome-notice status-danger" role="alert"><p>{state.warning}</p>{signInNeeded && <a href="/login">Sign in again</a>}{state.messages.some(message => message.role === "user") && <Button variant="outline" size="sm" onClick={() => draft(state.messages.findLast(message => message.role === "user")?.text ?? "")}>Edit question</Button>}</div>}
       {signInNeeded && !state.warning && <p className="session-notice" role="alert">Your sign-in needs attention. <a href="/login">Sign in again</a> to continue.</p>}
       <Composer live picker={picker} draft={state.draft} attachments={[]} warning={fileWarning} pending={!!busy || signInNeeded}
-        onDraft={text => dispatch({ type: "draft", text })} onSend={send} onStop={busy === "chat" ? stop : undefined} onSelect={selectFiles} onRemove={() => {}}
-        tools={<><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label={scope ? scope.curriculumName : "Program and curriculum"} title={scope ? `${scope.programName} · ${scope.curriculumName}` : "Choose your program and curriculum"} onClick={() => setScopeOpen(true)}><span className="composer-scope-label">{scope ? scope.curriculumName : "Curriculum"}</span><ChevronDown size={14} aria-hidden="true" /></Button><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label="Files in this chat" onClick={() => setFilesOpen(true)}><FolderOpen size={16} aria-hidden="true" />Files{files.length ? ` (${files.length})` : ""}</Button></>}
+        onDraft={text => dispatch({ type: "draft", text })} onSend={prepareSend} onStop={busy === "chat" ? stop : undefined} onSelect={selectFiles} onRemove={() => {}}
+        contextNote={selectedDetails.length ? `${selectedDetails.length} earlier details selected. Review before sending.` : undefined}
+        tools={<><Button type="button" variant="ghost" size="sm" disabled={!!busy} aria-label="Files in this chat" onClick={() => setFilesOpen(true)}><FolderOpen size={16} aria-hidden="true" />Files{files.length ? ` (${files.length})` : ""}</Button>
+          {details.length > 0 && <Button type="button" variant="ghost" size="sm" disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}>Include earlier details{selectedDetails.length ? ` (${selectedDetails.length})` : ""}</Button>}</>}
         starters={!state.messages.length && <ConversationStarters onSuggest={draft} />} />
       {curriculaStatus === "failed" && !scope && <p className="scope-summary">We couldn't load the curriculum list. <button type="button" className="text-action" onClick={() => setScopeOpen(true)}>Try again</button></p>}
       </div>
       {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar currentChat={state.messages.find(message => message.role === "user")} busy={!!busy && busy !== "chat"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onOpenChat={openCurrentChat} /></PreviewDialog>}
-      {sourceId && <SourcePanel key={sourceId} sourceId={sourceId} onClose={() => setSourceId(null)} />}
+      {sources && <SourcePanel key={sources.map(s => s.sourceId).join(",")} sources={sources} onError={authError} onClose={() => setSources(null)} />}
       {clarification && <ClarificationDialog key={clarification.id} original={clarification.original} answer={clarification.answer} curricula={curricula} status={curriculaStatus} open={clarification.open && !busy}
         onClose={() => setClarification(previous => previous ? { ...previous, open: false } : null)} onRetry={() => setCurriculaAttempt(n => n + 1)}
-        onConfirm={reply => {
+        onConfirm={(reply, drafts) => {
           if (flight.current || signInNeeded || clarification.id !== state.messages.at(-1)?.id) return;
           const needsScope = clarification.answer.missingFields.some(field => field === "program" || field === "curriculum");
           const selected = needsScope ? reply.scope : reply.scope ?? clarification.scope;
-          setScope(curricula.find(c => c.curriculumId === selected?.curriculumId && c.programId === selected?.programId) ?? null);
+          changeScope(curricula.find(c => c.curriculumId === selected?.curriculumId && c.programId === selected?.programId) ?? null);
+          dispatch({ type: "remember", details: confirmedDetails({ ...clarification.answer, language: "en" }, curricula, drafts, selected) });
           void send({ text: reply.text, scope: selected });
         }} />}
-      {scopeOpen && <ScopePanel curricula={curricula} current={scope} status={curriculaStatus} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={!!busy} onClose={() => setScopeOpen(false)} onSave={value => { setScope(value); setScopeOpen(false); }} />}
+      {scopeOpen && <ScopePanel curricula={curricula} current={scope} status={curriculaStatus} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={!!busy} onClose={() => setScopeOpen(false)} onSave={value => { changeScope(value); setScopeOpen(false); }} />}
+      {rephraseOpen && <RephraseDialog onClose={() => setRephraseOpen(false)} onUse={text => { draft(text); setRephraseOpen(false); }} />}
+      {detailsOpen && <SuppliedDetailsPanel details={details} selected={selectedDetails} scopeLabel={scope ? `${scope.programName} · ${scope.curriculumName}` : "No curriculum selected"} onClose={() => setDetailsOpen(false)} onUse={keys => { setSelectedDetails(keys); setDetailsOpen(false); }} />}
+      {review && <PreviewDialog title="Review your next message" onClose={() => setReview(null)}>
+        <p className="supporting-copy">{scope ? `${scope.programName} · ${scope.curriculumName}` : "No curriculum selected"}</p>
+        <p className="clarification-review">{review.text}</p><p className="supporting-copy">Only this question and the details shown here will be sent. Earlier messages are not automatically attached.</p>
+        <div className="card-actions"><Button disabled={!!busy || signInNeeded} onClick={() => { if (review.scope === scope || sameScope(review.scope, scope)) void send({ ...review, clearDraft: true }); }}>Confirm and send</Button><Button variant="outline" onClick={() => setReview(null)}>Edit more</Button></div>
+      </PreviewDialog>}
       {filesOpen && <FilePanel files={files} busy={busy === "file"} warning={fileWarning} onClose={() => setFilesOpen(false)} onPick={() => picker.current?.click()}
         onConfirm={fileAction} onRemove={id => fileAction(id)} onType={() => { setFilesOpen(false); main.current?.querySelector("textarea")?.focus(); }} />}
       {clearOpen && <PreviewDialog title="Clear this chat?" busy={busy === "clear"} onClose={() => setClearOpen(false)}>

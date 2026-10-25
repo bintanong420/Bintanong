@@ -16,6 +16,7 @@ test('live clarification requires confirmation, preserves drafts and can resume 
     const input = page.getByRole('textbox', { name: 'Your question' });
     await input.fill('Synthetic guided clarification');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
+    await page.getByRole('button', { name: 'Continue clarification', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'A little more detail', exact: true });
     await dialog.waitFor({ timeout: 15000 });
     assert.equal(await dialog.locator('input:checked').count(), 0);
@@ -73,6 +74,7 @@ test('scope clarification uses listed curricula and keeps unknown or alternative
     await page.keyboard.press('Escape');
     await page.getByRole('textbox', { name: 'Your question' }).fill('Synthetic clarification');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
+    await page.getByRole('button', { name: 'Continue clarification', exact: true }).click();
     const dialog = page.getByRole('dialog');
     await dialog.waitFor();
     const choice = dialog.getByRole('combobox');
@@ -84,7 +86,7 @@ test('scope clarification uses listed curricula and keeps unknown or alternative
     await dialog.getByRole('button', { name: 'Back', exact: true }).click();
     await choice.selectOption('unknown');
     await dialog.getByRole('button', { name: 'Continue', exact: true }).click();
-    assert.ok((await dialog.innerText()).includes('Hindi ko alam'));
+    assert.ok((await dialog.innerText()).includes('I do not know this detail.'));
     await dialog.getByRole('button', { name: 'Back', exact: true }).click();
     await choice.selectOption('other');
     await dialog.getByRole('textbox').fill('');
@@ -97,15 +99,15 @@ test('scope clarification uses listed curricula and keeps unknown or alternative
     if (process.env.BINTANONG_BROWSER_EVIDENCE) await page.screenshot({ path: process.env.BINTANONG_BROWSER_EVIDENCE + '/clarification-scope-dark-200.png' });
     assert.equal(await dialog.evaluate(node => node.scrollWidth > node.clientWidth + 1), false, 'review and confirmation must also reflow');
     await page.keyboard.press('Escape');
-    const resume = page.getByRole('button', { name: 'Continue ang clarification', exact: true });
+    const resume = page.getByRole('button', { name: 'Continue clarification', exact: true });
     await resume.click();
     await page.keyboard.press('Escape');
-    assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Continue ang clarification');
+    assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Continue clarification');
     await resume.click();
     await dialog.getByRole('button', { name: 'Back', exact: true }).click();
     await choice.selectOption(curricula.curricula[0].curriculumId);
     await dialog.getByRole('button', { name: 'Continue', exact: true }).click();
-    await dialog.getByRole('button', { name: 'Confirm at send', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Confirm and send', exact: true }).click();
     await dialog.waitFor({ state: 'detached' });
     assert.equal(submissions.length, 2);
     assert.equal(submissions[1].programId, curricula.curricula[0].programId);
