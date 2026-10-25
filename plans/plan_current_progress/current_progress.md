@@ -5,15 +5,15 @@ Owner checkout: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
 Integration WIP: p11-frontend-integration / feat/p11-frontend-integration.
 [Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
 [Integration tasks](../2026-10-24-student-ui-backend-integration-plan.md).
-Previous full frontend snapshot:1525dc6; use git show for history.
+Previous full frontend snapshot:9b0f555; use git show for history.
 
 ## Latest change
 
-Read thesis context directly: recovery after CC4 failure and useful clarification are
-explicit goals. IDs-only memory is a later implementation choice, not a PDF requirement.
-Privacy requires isolation/no academic-record storage; preserve current owner boundaries.
-[Thesis review](../2026-10-25-thesis-conversation-context-review.md); [prior notes](../2026-10-25-pre-phase11-follow-up-notes-review.md).
-Options follow-up still fails before retrieval; no application edits or backend change.
+Prepared a frontend-only chat/recovery design using Top-Design and official product
+UI references; explicit rephrasing, selected earlier details and exact outgoing review.
+[Design](../2026-10-25-frontend-follow-up-interaction-design.md). External interactive
+sample passes desktop/mobile checks; no app/backend edits or automatic memory replay.
+Thesis/history reconciliation remains linked in the design; options failure unresolved.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -58,8 +58,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Options follow-up remains unresolved under frontend-only scope; do not invent policy
-or patch backend interpretation. Keep production preview and source holds.
+If implementation is requested, build the reviewed frontend interaction slice with
+focused RED/GREEN tests; preserve backend interpretation and source/release holds.
 
 ## Remaining boundaries
 

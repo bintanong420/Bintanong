@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 57
+sequence: 58
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 49f5b23
+head_commit: 9b0f555
 working_tree: dirty
-updated_at: 2026-10-25T21:48:01+08:00
+updated_at: 2026-10-25T22:33:18+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -27,35 +27,26 @@ updated_at: 2026-10-25T21:48:01+08:00
 
 ## Current Task
 
-Owner reports options follow-up failure and requires frontend focus/no backend edits.
-Read-only full-path replay: initial prerequisite and supplied-grade turns PASS;
-"What choices do I have to pass it?" FAILS unknown_requirement before retrieval,
-with previous course available but no resolved course/known requested work.
-No application edits or restart. [Diagnosis](2026-10-25-options-follow-up-diagnosis.md).
-Prior Phase07–10 notes reviewed: inline grades not carried;12-case pass includes safe
-clarification. Phase10 context code/instruction unchanged; exact options case untested.
-[History review and limits](2026-10-25-pre-phase11-follow-up-notes-review.md).
-Direct thesis review: recovery guidance40(39), clarification54(53), isolated chat and
-no academic-record storage65(64). IDs-only memory is a later implementation choice.
-[PDF reading scope/reconciliation](2026-10-25-thesis-conversation-context-review.md).
-
-Clarification recurrence reproduced with CC4 not passed/CC3 passed, BSCS2018–2019.
-Short CC5/v20 invented work; printed CC5/L passed. Commit252a951 adds specific
-target/count repair guidance/v22; no validation/Prolog/data changes.905 regressions PASS.
-Filipino full pipeline: inverse/both-passed/both-unmet give expected outcomes.
-English v21 failed; v22 recorded first packet plus actual live repair/style validates.
-Commit9e0a399 makes supported clarification dialogs opt-in using the existing button.
-Browser RED -> GREEN;57 UI tests and production build/TypeScript PASS.
-Frontend3215 now serves standalone production, same auth/API;45s clean idle: no
-reloads/HMR/page errors. Dark Reader warnings are not proven reload causes.
-API8021 restarted with v22; both readiness endpoints200/all five probes true.
-Orca frontend term_c27fc4d5-7f8b-44d0-89d6-4760153be9d9 runs workspace
-audit-evidence/p11-20261025/local-server-restart/serve-stable.mjs.
-API term_d7ff23ac-0d58-4d28-b913-bdaff5cd6f30; model/encoder unchanged.
-[Cause, exact evidence and recovery](2026-10-25-clarification-recurrence-and-preview.md).
+Previous full checkpoint snapshot:9b0f555; recover older detail with git show.
+Owner requests Top-Design chat UI proposal grounded in repo/thesis, frontend-only.
+[Design and implementation boundaries](2026-10-25-frontend-follow-up-interaction-design.md).
+External interactive sample: edit/rephrase, explicitly select earlier supplied facts,
+exact draft review and grouped source access. No application/backend changes.
+Browser1440x1040/390x844 PASS: exact review, clear, Escape, no overflow/HTTP/page errors.
+Direct thesis review9/17–18/40/54/65: recovery, useful clarification and isolated chat;
+IDs-only memory is a later implementation choice. See design's thesis/history links.
+Full-path v22 replay: prerequisite/grade turns PASS; options follow-up FAILS
+unknown_requirement before retrieval. No claim that UI changes fix interpretation.
+Prior252a951 targeted backend repair/v22 and9e0a399 opt-in clarification retained;
+905 backend/57 UI regressions and production build/TypeScript passed at that delivery.
+Frontend3215 standalone production/API8021 v22 remain unchanged in this design pass.
+[Cause, service handles and recovery](2026-10-25-clarification-recurrence-and-preview.md).
 
 ## Repository State
 
+Current owner checkout: C:/Users/Hawksprey/source/repos/Bintanong; branch frontend.
+This increment changes only the design report, checkpoint and tracked progress;
+owner progress appendix and three pre-existing untracked paths remain excluded.
 Candidate worktree: C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/
 p11-frontend-dev-sync; branch integration/p11-backend-to-frontend-20261025.
 Local frontend receives merge6a8931b; owner progress appendix, untracked historical
@@ -131,8 +122,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Options follow-up remains unresolved under frontend-only scope; do not invent policy
-or patch backend interpretation. Keep production preview and source/release holds.
+If implementation is requested, build the reviewed frontend interaction slice with
+focused RED/GREEN tests; preserve backend interpretation and source/release holds.
 
 ## Do Not Repeat
 
