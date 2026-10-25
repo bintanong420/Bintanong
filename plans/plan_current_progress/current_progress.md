@@ -9,6 +9,12 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
+Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
+-> clarification; known affected courses hidden, even with zero missing student facts.
+Real-Janus synthetic reproduction passed twice; saved real21-item signature matches.
+[Cause/evidence](../2026-10-25-prerequisite-fallback-diagnosis.md). No product/source fix.
+Local site/API healthy after [startup repair](../2026-10-25-local-server-start.md).
+
 Owner requested local backend-to-frontend merge after syncing backend1:1 to origin.
 Local merge6a8931b combines frontend1525dc6 and backend357aa80; notes follow the tested code.
 Six conflicts reconciled: newer title ambiguity/unit guards, both test sets, combined
@@ -46,8 +52,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Owner can continue local frontend acceptance. Keep the expanded source package inactive;
-source-quality/model/browser gates remain separate from this completed code merge.
+Obtain exact question/curriculum to separate routing from confirmed dependency fallback.
+Keep source gaps unknown; no expanded activation or source-review change.
 
 ## Remaining boundaries
 

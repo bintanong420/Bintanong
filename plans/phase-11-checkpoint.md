@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 41
+sequence: 44
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 6a8931b
+head_commit: 56350f3
 working_tree: dirty
-updated_at: 2026-10-25T16:49:49+08:00
+updated_at: 2026-10-25T17:55:21+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -26,6 +26,19 @@ updated_at: 2026-10-25T16:49:49+08:00
   copied outside Git. Source branch remains clean and matches origin.
 
 ## Current Task
+
+Repeated prerequisite warning diagnosed: global unresolved-rule scan makes dependency
+results partial, then generic clarification hides known dependents. Synthetic Janus ->
+generation -> student presentation reproduced twice with no missing student facts.
+[Diagnosis](2026-10-25-prerequisite-fallback-diagnosis.md); no product/source change.
+Exact owner question/curriculum pending to assess additional router involvement.
+
+Owner-requested local server startup complete: site/login3215 HTTP200, API8021 and
+frontend/api/health200 ready/all five probes; anonymous curricula401 preserved.
+Old encoder pointed to backend-only p11 without query route; replacement container
+bintanong-p11-embedding-frontend uses main merged backend, same image/env/models.
+Original encoder retained stopped. [Startup/recovery](2026-10-25-local-server-start.md).
+Logs: audit-evidence/p11-20261025/local-server-start/. Model18088/encoder8001 ready.
 
 Owner-authorized LOCAL merge6a8931b combines frontend1525dc6 + backend357aa80.
 Six conflicts resolved; fresh verification/review passed. Delivery notes follow tested code.
@@ -96,8 +109,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Owner can continue local frontend acceptance; no push is included. Keep source-quality,
-model/browser acceptance and phase closure gated; expanded source package stays inactive.
+Obtain exact owner question/curriculum; distinguish router behavior from confirmed
+dependency fallback. Preserve unknown rule coverage, partial/potential semantics and phase gates.
 
 ## Do Not Repeat
 
