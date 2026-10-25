@@ -21,6 +21,9 @@ software increment with a FAILED live semantic-quality gate, not phase completio
 
 This floor proves record citation coverage only. It cannot establish correct step
 order, semantic completeness, field association or support for added prose.
+The record_coverage payload contains sorted evidence IDs for a set of required
+records; that order is not a reviewed procedure sequence. Do not infer step order
+from hashes, retrieval rank or list positions when designing the next correction.
 No hardcoded procedure facts, keyword routing, source changes, dependencies,
 migrations, model defaults, output/call budgets or release activation.
 
@@ -39,9 +42,14 @@ All tracked fixtures are synthetic. Raw source/model packets remain ignored.
 
 Independent scoped reviews: initial14 focused passed2.26s; new record boundary10
 focused passed0.95s; final preference43 passed2.42s; none reported blockers.
-Full tests/ suite is running on frozen4d391f6; result pending. No installed
-linter/formatter; whitespace/phase/doc checks follow the run. Prior6708 full-suite
-result belongs to3fbea08 and is not substituted for this increment's full suite.
+Full tests/ suite on frozen4d391f6: **6732 passed +1595 subtests,6 skipped,2 xfailed,
+6 warnings,1331.55s (22m11s),exit0**. E/full-suite.head,.exit,.log retain proof.
+No production/test changes during or after the run (git diff4d391f6 -- backend tests
+empty). Warnings remain the existing dependency/pytest-marker warnings. Individual
+skip reasons are not printed by this -q run; skipped capabilities are not claimed
+verified. No installed linter/formatter; whitespace, local-link and phase validation
+pass. No frontend build/browser/SDK parser check; frontend unchanged and gates open.
+Prior6708 full-suite result belongs to3fbea08, retained without a repeated run.
 
 ## Bounded live observations
 
@@ -56,8 +64,8 @@ Both runners exit0; this means the harness completed, not that answers passed.
 | Coverage/6b47449 | answered62.848s; all four step records cited, semantic failure | abstained88.281s; two drafts rejected for formal wording | temporarily_unavailable55.137s; tool_error |
 
 These are resident-model inner-pipeline observations, excluding encoder/composition
-startup, outer HTTP/API/browser/student-visible end-to-end and separately measured
-hosted readiness. Queueing is unmeasured and remains inside timed calls. They are
+startup and outer HTTP/API/browser/student-visible end-to-end. Hosted connection/
+readiness was not separately measured. Queueing is unmeasured and remains inside timed calls. They are
 neither an SLA nor a final accuracy sample. Existing encoder3816>512 warning remains.
 
 First English output blurred client/agency location and attached too much to the
@@ -80,10 +88,14 @@ captured. Do not report truncation as conclusively established by these artifact
 
 ## Boundaries and next action
 
-Fresh read-only hosted query: p09-research-selected-20261022 active19;
+Initial successful read-only hosted query: p09-research-selected-20261022 active19;
 p11-research-expanded-20261025 draft/inactive80. Source seal verifies54 files,
 zero mismatches; seal SHA256
 137dbe0e7558f50fd7c6f95dfb6babd45fc71e431265d7291ac36b0c50e3c924.
+The initial hosted read succeeded. A final read-only refresh at19:26 failed with
+OAuth token refresh/"Failed to parse server response"; no second successful
+readback is claimed. E/final-hosted-readback-error.json retains the failure;
+E/hosted-release-readback.json retains the successful earlier read. No DB writes.
 No source switch or original/sealed package edits. Existing Charter Step3 cutoff
 and25-vs20min discrepancy remain unresolved. Fraud/weapon/checker evidence reused.
 

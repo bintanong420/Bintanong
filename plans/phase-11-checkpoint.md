@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 40
+sequence: 41
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 4d391f6
-working_tree: dirty
-updated_at: 2026-10-25T19:08:00+08:00
+working_tree: clean
+updated_at: 2026-10-25T19:26:00+08:00
 ---
 
 # Phase 11 checkpoint — service completeness verification
@@ -41,13 +41,15 @@ offices; Filipino drafts reverse Steps1/2 and hard-style guard rejects them; Tag
 4d391f6 removes the outdated hard formal-word ban per settled25Oct preference decision. Filipino
 function-word floor/support review retained. RED3/40; broad1121 passed29.77s; independent43 pass2.42s.
 [Plan](2026-10-25-service-routing-completeness-plan.md), [results](2026-10-25-service-routing-completeness-results.md).
-Full suite running on frozen4d391f6, session28197; no further model trial in this increment.
+Full suite PASSED on frozen4d391f6:6732 +1595 subtests,6skip2xfail6warnings,22m11s,exit0.
+No further model trial this increment; live semantic gate remains FAILED.
 
 ## Repository State
 
 p11 / feat/p11-backend-api, base devcbaa6a7; nothing pushed. Production/tests committed through4d391f6.
 Following documentation commit saves progress/checkpoint/recovery and the verification report;
-head_commit names the tested code baseline. Only progress/checkpoint/recovery/results documentation dirty.
+head_commit names the tested code baseline; documentation-only successors save this snapshot.
+No production/test changes during/after the full run. Following docs commit leaves the tree clean.
 No dependencies/frontend/source/package/migration/pin changes. Preserve owner files.
 Session permissions now danger-full-access/never after owner enabled YOLO; scope remains authorized work.
 Current evidence: workspace/audit-evidence/p11-service-refinement-20261025/; prior evidence retained.
@@ -56,7 +58,10 @@ Current evidence: workspace/audit-evidence/p11-service-refinement-20261025/; pri
 
 - Service context RED5/9 after fixture correction; broad944 passed20.46s; independent14 passed.
 - Record metadata RED5/4, host RED2/7, final-bypass RED3/7; broad1121 passed29.74s; independent10 passed.
-- Preference RED3/40; broad1121 passed29.77s; independent43 passed2.42s. Full suite pending4d391f6.
+- Preference RED3/40; broad1121 passed29.77s; independent43 passed2.42s.
+- Current full suite4d391f6:6732 +1595 subtests,6skip2xfail6warnings,1331.55s,exit0.
+  E/full-suite.head,.exit,.log; backend/tests diff empty. Whitespace/links/phase validation pass.
+  No installed linter/formatter; browser/SDK/frontend checks remain outside this increment.
 - Earlier full tests/ suite3fbea08:6708 +1595 subtests,6 skipped,2 xfailed,6warnings,1358.19s,exit0.
 - Controlled saved-packet actual repair + fresh same-question pipeline both answered safely;
   one generation/review each.4 real calls each; source comparison held both labels/precedence warning.
@@ -102,16 +107,17 @@ routing misses and omitted steps/progression remain. Fraud now has two safe obse
 Other pending: two grading router misses, Hybrid next-step without topic, vague clarifications,
 Nursing negative-claim mode, broad simple-query battery; photos unsupported;6 Taglish register misses.
 No browser/UI exit or SDK parser contract test. Frontend ready; integration follows pending work.
-Supabase app reads work; historical direct OAuth warning diagnosis is in session recovery.
+Initial Supabase read succeeded; final19:26 refresh failed OAuth response parsing. Earlier readback
+retained; no DB writes/connector reset. Diagnosis/recovery pointers in session recovery.
 Current service traces all select pre_enrollment; semantic quality still fails. Citation coverage alone
 cannot prove ordering/association or prevent invented cutoff continuation. Taglish generation tool_error
 has no saved failed raw packet;768-token server log supports, but does not prove, truncation diagnosis.
 
 ## Next Action
 
-Finish full suite session28197 on4d391f6, save result/evidence/recovery, then address reviewed step order,
-action/office associations and cutoff continuation from existing traces; diagnose Taglish failed call
-without another prompt-only sweep. Expanded release inactive; other quality/roster/switch gates remain.
+Address reviewed step order, action/office associations and cutoff continuation from existing traces;
+diagnose Taglish failed call without another prompt-only sweep. Current increment fully suite-verified,
+but live quality remains failed. Expanded release inactive; other quality/roster/switch gates remain.
 
 ## Context Consulted
 

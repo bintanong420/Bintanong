@@ -15,12 +15,14 @@ client_step record citation floor through retrieval/integration/per-part draft/f
 hardcoded policy facts or absent-metadata digest change. Existing repair/call budgets preserved.
 [Plan](2026-10-25-service-routing-completeness-plan.md), [results](2026-10-25-service-routing-completeness-results.md).
 Broad1121 passed29.77s; independent boundary10 and preference43 checks passed/no blockers.
-Full tests/ suite RUNNING on4d391f6, session28197; A/p11-service-refinement-20261025/full-suite.*.
-Inspect saved log/.exit and running process before any restart. Production/tests frozen.
+Full tests/ suite4d391f6 PASSED6732 +1595 subtests,6skip2xfail6warnings,1331.55s (22m11s),exit0;
+A/p11-service-refinement-20261025/full-suite.head,.exit,.log. Production/tests unchanged during/after.
+Whitespace/local links/phase validation pass. No installed linter/formatter. Do not repeat this suite
+unless later production/test changes or failures justify it; no test job remains running.
 Both three-language service batteries FAILED semantic quality. Latest English cites all four steps
 but invents Step3 cutoff continuation and blends offices; Filipino drafts reverse Steps1/2, then
 obsolete hard-style rejection (corrected4d391f6, not rerun); Taglish generation tool_error.
-Next: finish suite/evidence, then source-bound step ordering/action-office association/cutoff handling
+Next: source-bound step ordering/action-office association/cutoff handling
 from saved traces and exact failed-call diagnosis. No repeated prompt-only battery. Citation coverage
 is not proof of semantic support. Expanded release inactive; quality/roster/switch/frontend gates remain.
 
@@ -103,9 +105,10 @@ old defaults preserved. No active expanded pin. roster13.py in same folder, alia
 
 ## Supabase MCP warning
 
-[Read-only diagnosis](2026-10-25-supabase-mcp-diagnosis.md): app SQL/advisor/log calls work; historical
-exact error is direct OAuth refresh parsing. Newest warning not correlated; no credential reset or fix
-claimed. Orca CODEX_HOME is account-specific; stored o_auth alone isn't proof of direct startup. After
+[Read-only diagnosis](2026-10-25-supabase-mcp-diagnosis.md): initial app SQL read in this continuation
+succeeded, but final19:26 read failed "OAuth token refresh failed: Failed to parse server response".
+A/p11-service-refinement-20261025 contains successful hosted-release-readback.json and final error.
+No DB writes, credential reset or fix claimed. Orca CODEX_HOME is account-specific. After
 /clear verify discovery; if recurring, same-account codex mcp login supabase + browser consent/restart,
 then authenticated read. Do not change DB grants or disable a working connector to hide startup errors.
 

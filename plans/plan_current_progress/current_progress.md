@@ -15,8 +15,9 @@ cutoff continuation/blends offices; Filipino reorders Steps1/2 then hard-style r
 4d391f6 removes outdated formal-word rejection per settled25Oct owner preference. RED3/40;
 broad1121 passed29.77s, independent43 passed2.42s. Function-word/support checks retained.
 [Plan](../2026-10-25-service-routing-completeness-plan.md), [results](../2026-10-25-service-routing-completeness-results.md).
-Full suite running on frozen4d391f6 (session28197); no further live battery this increment.
-Fresh hosted read: old19 active/new80 draft;54 sealed files unchanged. No source/release activation.
+Full suite4d391f6:6732 passed +1595 subtests,6skip2xfail6warnings,22m11s,exit0; code/tests unchanged.
+Whitespace/links/phase validation pass. No installed linter/formatter; no further live battery this increment.
+Initial hosted read: old19 active/new80 draft;54 sealed files unchanged. No source/release activation.
 
 ## Delivered state
 
@@ -38,14 +39,15 @@ Fresh hosted read: old19 active/new80 draft;54 sealed files unchanged. No source
   decision lost; languages21/21en,21/21fil,15/21Taglish. Reuse roster18/19; no new roster yet.
 - Checker comparison ENDED after2/8 calls: thinking-on truncated768tokens/no final content.
   No retries/rescue/default change. [Results](../2026-10-25-checker-comparison-results.md).
-- Supabase app reads work. Historical OAuth parse-warning diagnosis retained; no credential reset.
+- Initial Supabase read succeeded; final19:26 read failed OAuth refresh/response parsing.
+  Earlier inactive readback retained; no DB writes, credential reset or connector fix claimed.
   Source decisions/batches1-12 and standing delegation remain settled; do not re-extract/review.
   Charter Step2 visible; Step3 cutoff/25-vs20min discrepancy, missing22 and weapon hold remain.
 
 ## Next action
 
-Finish full suite session28197, save verification/recovery, then address reviewed step order/action-office
-associations/cutoff continuation from existing traces; diagnose Taglish failed call without a prompt sweep.
+Address reviewed step order/action-office associations/cutoff continuation from existing traces;
+diagnose Taglish failed call without a prompt sweep. Current suite evidence/recovery saved.
 Expanded release stays inactive; other quality/roster/switch gates remain.
 Later router/service/plagiarism/progression, Hybrid no-topic, clarifications, Nursing negative mode
 and owner's simple-query battery precede frontend integration. No phase advancement.
