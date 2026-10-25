@@ -97,12 +97,22 @@ class DocumentRecordCoverage(Record):
     subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
     claim: str = Field(min_length=1, max_length=256)
     chunk_ids: tuple[Annotated[str, Field(pattern=SHA256)], ...] = Field(min_length=1, max_length=32)
+    source_ordered: bool = False  # only an explicit source review can establish sequence
 
     @model_validator(mode='after')
     def _unique(self):
         if len(set(self.chunk_ids)) != len(self.chunk_ids):
             raise ValueError('duplicate_coverage_record')
+        if self.source_ordered and len(self.chunk_ids) < 2:
+            raise ValueError('source_order_requires_multiple_records')
         return self
+
+    @model_serializer(mode='wrap')
+    def _omit_unordered(self, handler):
+        value = handler(self)
+        if not self.source_ordered:
+            value.pop('source_ordered', None)
+        return value
 
 
 class DocumentResult(Record):

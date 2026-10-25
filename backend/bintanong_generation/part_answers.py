@@ -231,6 +231,14 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'Use one concise claim per step, keeping linked actions/offices separate. '
             'Do not invent a cut-off instruction; disclose the source gap. '
             'Unavailable parts need no fabricated claims.')
+    order = required_record_order(pack)
+    if order:
+        payload['record_order'] = {part: [[aliases[i] for i in sequence] for sequence in sequences]
+                                  for part, sequences in order.items()}
+        payload['record_order_instruction'] = (
+            'Each list is an explicitly reviewed source sequence. Explain each step in one separate '
+            'claim, cite that step once, and keep these claims in the listed order. Do not combine '
+            'two listed steps in one claim or silently complete a source cutoff.')
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack, references))
@@ -258,7 +266,34 @@ def record_coverage_errors(pack, claims, slots):
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
+    for part, sequences in required_record_order(pack).items():
+        status, ids = slots.get(part, (None, ()))
+        if status not in ('answered', 'host', 'mapped'):
+            continue
+        for sequence in sequences:
+            ordered = []
+            for claim in claims:  # actual render order, not a reviewer's claim-id ordering
+                if claim.claim_id not in ids:
+                    continue
+                refs = [ref for ref in claim.evidence_ids if ref in sequence]
+                if len(refs) > 1:
+                    return ('procedure_record_order',)
+                ordered.extend(refs)
+            if tuple(ordered) != sequence:
+                return ('procedure_record_order',)
     return ()
+
+
+def required_record_order(pack):
+    """Only explicitly reviewed, requested sequences; never rank/id/keyword inference."""
+    required = {}
+    for part in (pack.understanding.parts if pack.understanding else ()):
+        if part.evidence_need == 'document':
+            sequences = tuple(dict.fromkeys(refs for subject, claim, refs in pack.record_order
+                if subject == part.subject_id and claim in part.requested_claims))
+            if sequences:
+                required[part.part_id] = sequences
+    return required
 
 
 def to_draft(explanation, pack):
@@ -346,6 +381,9 @@ def confirm_messages(text, pack, draft, slots):
         parts=[dict(part_id=p, text=texts[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
             sources=[model_card(cards[e]) for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
+    order = {part: sequences for part, sequences in required_record_order(pack).items() if part in slots}
+    if order:
+        payload['record_order'] = order
     return _messages(CONFIRM_PROMPT, payload, confirm_schema(pack, draft, slots))
 
 

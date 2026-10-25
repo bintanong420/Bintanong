@@ -62,11 +62,19 @@ def merge_documents(results):
     coverage = {}
     for result in results:
         for item in result.record_coverage:
-            coverage.setdefault((item.subject_id, item.claim), []).extend(item.chunk_ids)
+            key = (item.subject_id, item.claim)
+            previous = coverage.get(key)
+            if previous is None:
+                coverage[key] = item
+            elif previous.source_ordered or item.source_ordered:
+                if previous != item:
+                    raise ValueError('incompatible_procedure_order')
+            else:
+                coverage[key] = previous.model_copy(update=dict(
+                    chunk_ids=tuple(dict.fromkeys(previous.chunk_ids + item.chunk_ids))))
     value = results[0].model_dump(mode='json')
     value.update(passages=[p.model_dump(mode='json') for p in passages.values()], gaps=list(gaps),
-        record_coverage=[dict(subject_id=s, claim=c, chunk_ids=list(dict.fromkeys(ids)))
-                         for (s, c), ids in coverage.items()])
+        record_coverage=[item.model_dump(mode='json') for item in coverage.values()])
     return DocumentResult.parse(value)
 
 

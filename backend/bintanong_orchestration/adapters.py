@@ -76,8 +76,18 @@ class RetrievalAdapter:
                 records = tuple(dict.fromkeys(f['chunk_id'] for f in claim.get('source_fields', [])
                     if f.get('field', {}).get('name') == 'client_step'
                     and f['field'].get('source_blank') is False))
-                if records:
-                    coverage.append(dict(subject_id=assessment['subject_id'], claim=claim['claim'], chunk_ids=list(records)))
+                ordered = 'procedure_order' in claim['source_review']
+                if ordered:
+                    by_reading = {f['reading_id']: f['chunk_id'] for f in claim['source_fields']
+                        if f.get('field', {}).get('name') == 'client_step'
+                        and f['field'].get('source_blank') is False}
+                    order = claim['source_review']['procedure_order']
+                    if set(order) != set(by_reading) or len(order) != len(by_reading):
+                        raise ValueError('invalid_procedure_order')
+                    records = tuple(by_reading[reading] for reading in order)
+                if records or ordered:
+                    coverage.append(dict(subject_id=assessment['subject_id'], claim=claim['claim'],
+                        chunk_ids=list(records), source_ordered=ordered))
         return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
             gaps=gaps, passages=passages, record_coverage=coverage))
 
