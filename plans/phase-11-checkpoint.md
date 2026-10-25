@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 40
+sequence: 41
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 1525dc6
+head_commit: 6a8931b
 working_tree: dirty
-updated_at: 2026-10-25T16:41:28+08:00
+updated_at: 2026-10-25T16:49:49+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -27,16 +27,16 @@ updated_at: 2026-10-25T16:41:28+08:00
 
 ## Current Task
 
-Owner-authorized LOCAL merge frontend1525dc6 + backend357aa80; six conflicts resolved.
-Fresh verification/review passed; main frontend has not advanced yet.
+Owner-authorized LOCAL merge6a8931b combines frontend1525dc6 + backend357aa80.
+Six conflicts resolved; fresh verification/review passed. Delivery notes follow tested code.
 [Merge/recovery evidence](2026-10-25-backend-frontend-local-merge.md).
 
 ## Repository State
 
 Candidate worktree: C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/
 p11-frontend-dev-sync; branch integration/p11-backend-to-frontend-20261025.
-Main frontend remains1525dc6 with owner progress appendix, untracked historical
-review/model directory and our sync notes preserved. Frontend integration04a03ea
+Local frontend receives merge6a8931b; owner progress appendix, untracked historical
+review/model directory and prior sync notes preserved. Frontend integration04a03ea
 retains17 tracked modifications and3 untracked lifecycle files, excluded from merge.
 Recovery ref recovery/frontend-before-backend-merge-20261025 points to1525dc6.
 Ignored evidence: audit-evidence/p11-20261025/backend-to-frontend-merge/ under workspace.
@@ -96,8 +96,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-Advance the verified local frontend merge with
-owner dirty work preserved. Keep broader source-quality/browser gates open.
+Owner can continue local frontend acceptance; no push is included. Keep source-quality,
+model/browser acceptance and phase closure gated; expanded source package stays inactive.
 
 ## Do Not Repeat
 

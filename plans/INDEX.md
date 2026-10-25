@@ -7,7 +7,7 @@
   [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Current progress](plan_current_progress/current_progress.md) ·
   [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
-- Local backend357aa80 integration is under verification in an isolated worktree.
+- Local frontend now includes verified backend357aa80 merge6a8931b.
   [Merge/recovery](2026-10-25-backend-frontend-local-merge.md) ·
   [Backend delivery and quality holds](2026-10-25-phase11-session-handoff.md).
   Expanded80-chunk package remains inactive; existing19-chunk research pin unchanged.

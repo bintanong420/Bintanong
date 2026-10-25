@@ -3,6 +3,9 @@
 Owner requested merging the synchronized backend branch into local frontend.
 This is a development integration; no remote push or release activation.
 
+Verified merge commit `6a8931b20ee4d9862dfddbd0b554732ae2eb1b2b`, with the two input parents below.
+Documentation receipt follows the tested product; local frontend receives both.
+
 ## Inputs and recovery
 
 Frontend parent1525dc6a77570543a95acbfe4704ce6ee4936c47.

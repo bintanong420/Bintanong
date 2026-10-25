@@ -10,7 +10,7 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 ## Latest change
 
 Owner requested local backend-to-frontend merge after syncing backend1:1 to origin.
-Candidate merges frontend1525dc6 and backend357aa80 in an isolated worktree.
+Local merge6a8931b combines frontend1525dc6 and backend357aa80; notes follow the tested code.
 Six conflicts reconciled: newer title ambiguity/unit guards, both test sets, combined
 phase notes. Frontend/auth/readiness retained. Fresh verification and review passed.
 3655 backend passes/2 photo xfails;34 DB passes;55 UI passes; typegen/TypeScript PASS.
@@ -46,8 +46,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-Fast-forward the verified local frontend merge
-while preserving owner dirty work. Keep source activation and frontend acceptance separate.
+Owner can continue local frontend acceptance. Keep the expanded source package inactive;
+source-quality/model/browser gates remain separate from this completed code merge.
 
 ## Remaining boundaries
 
