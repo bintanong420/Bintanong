@@ -9,11 +9,11 @@ Previous full frontend snapshot:1525dc6; use git show for history.
 
 ## Latest change
 
-Owner confirms grade check answers; options follow-up still gives bare clarification.
-Full-path replay: prerequisite/grade turns PASS; options FAIL unknown_requirement,
-before retrieval, despite prior-course context. No frontend loss; no product edits.
-Owner requires frontend focus/no backend changes. [Diagnosis](../2026-10-25-options-follow-up-diagnosis.md).
-Earlier repairs/production preview: [evidence](../2026-10-25-clarification-recurrence-and-preview.md).
+Reviewed Phase07–10 notes: inline grades not carried;12/12 means resolve-or-clarify,
+not general conversation accuracy. Phase10 context code/instruction unchanged;
+the exact options question was not covered. [Review](../2026-10-25-pre-phase11-follow-up-notes-review.md).
+Current options follow-up fails before retrieval: [diagnosis](../2026-10-25-options-follow-up-diagnosis.md).
+No application edits; owner requires frontend focus/no backend changes.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.

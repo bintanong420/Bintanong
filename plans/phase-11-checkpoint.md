@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 55
+sequence: 56
 plan: plans/phase-11-backend-api-plan.md
-head_commit: cdded70
+head_commit: 15f8349
 working_tree: dirty
-updated_at: 2026-10-25T21:16:25+08:00
+updated_at: 2026-10-25T21:23:46+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -32,6 +32,9 @@ Read-only full-path replay: initial prerequisite and supplied-grade turns PASS;
 "What choices do I have to pass it?" FAILS unknown_requirement before retrieval,
 with previous course available but no resolved course/known requested work.
 No application edits or restart. [Diagnosis](2026-10-25-options-follow-up-diagnosis.md).
+Prior Phase07–10 notes reviewed: inline grades not carried;12-case pass includes safe
+clarification. Phase10 context code/instruction unchanged; exact options case untested.
+[History review and limits](2026-10-25-pre-phase11-follow-up-notes-review.md).
 
 Clarification recurrence reproduced with CC4 not passed/CC3 passed, BSCS2018–2019.
 Short CC5/v20 invented work; printed CC5/L passed. Commit252a951 adds specific
