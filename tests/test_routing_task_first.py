@@ -94,3 +94,21 @@ def test_task_first_schema_and_display_reach_actual_router_transport(combined):
     example = json.loads(messages[0]['content'].split('BEGIN FICTIONAL EXAMPLE\n', 1)[1]
                          .split('\nEND FICTIONAL EXAMPLE', 1)[0])['interpretation']
     assert tuple(example) == ORDER and example['part_count'] == len(example['parts']) == 3
+
+
+@pytest.mark.parametrize('combined', [False, True], ids=['separate', 'combined'])
+def test_router_receives_fact_versus_question_guidance_without_collapsing_requested_parts(combined):
+    value = packet()
+    model = (Model(dict(schema_version='bintanong-routing-style-v3',
+                       interpretation=value, style=STYLE['style']))
+             if combined else Model(value, STYLE))
+    result = route(model, combined=combined)
+    assert result.diagnostic == 'validated' and result.decision.route == 'Hybrid'
+    assert len(result.proposed.parts) == 2 and result.claims[0].state == 'failed'
+    instruction = model.calls[0][0][0]['content']
+    for rule in (
+        'Completion/enrollment statements supporting a question belong in claims, not parts.',
+        'Do not create another part or operation solely because the student supplied those facts.',
+        'Create an additional part only when the student requests another answer.',
+    ):
+        assert rule in instruction

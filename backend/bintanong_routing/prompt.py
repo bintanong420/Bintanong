@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v19'
+PROMPT_VERSION = 'bintanong-router-p11-v20'
 
 
 def ordered_json(value):
@@ -129,6 +129,9 @@ a clear document-procedure request has route=RAG, control=null, operations=[], a
 part_count declares how many requested parts you will list;it must equal the number in parts.
 parts records EVERY requested answer part before any evidence is retrieved. Use 1-8 parts
 for an academic route, with distinct part_id r1..r8 and quoted references to original text.
+Completion/enrollment statements supporting a question belong in claims, not parts.
+Do not create another part or operation solely because the student supplied those facts.
+Create an additional part only when the student requests another answer.
 Give separately answerable details their own parts, including location and charge when both are
 requested. Do not merge independent details into one whole-question part.
 Quote each detail's own contiguous question span with its necessary subject and conditions.
