@@ -3,6 +3,9 @@
 25 October 2026. Requested Top-Design proposal, grounded in the existing student UI,
 thesis and API contracts. Design and external prototype only; no application changes.
 Phase 11 remains active. No backend, source activation, dependency or scope change.
+Subsequent owner authorization: "Lets go". See the
+[implementation and verification](2026-10-25-chat-workspace-implementation.md);
+the prototype-only statements below describe the original design pass.
 
 ## Design direction
 
@@ -45,6 +48,10 @@ header, a centered readable thread and a persistent composer. Sources and suppli
 details open in the existing drawer/dialog pattern. Mobile: collapse the sidebar,
 keep curriculum accessible, use full-width dialogs and at least 44px button targets.
 Do not force scrolling when the student is reading an earlier answer.
+
+Owner reaffirmed25October: keep the supplied Figma's general look and feel while
+retaining these refinements. Center all welcome copy, retain the neutral themes and
+local campus fade, and keep active conversations free of the decorative photograph.
 
 Show curriculum as scope, not proof of grades. Label earlier confirmed popup choices
 "You supplied" and explicitly distinguish them from verified university records.

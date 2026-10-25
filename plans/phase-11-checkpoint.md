@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 59
+sequence: 61
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3baa8d4
+head_commit: 8313279
 working_tree: dirty
-updated_at: 2026-10-25T22:43:37+08:00
+updated_at: 2026-10-25T23:23:00+08:00
 ---
 
 # Phase 11: frontend and backend integration
@@ -28,26 +28,32 @@ updated_at: 2026-10-25T22:43:37+08:00
 ## Current Task
 
 Previous full checkpoint snapshot:9b0f555; recover older detail with git show.
-Owner extends Top-Design proposal to general chat; thesis/master/repo/skills govern.
-[Design and implementation boundaries](2026-10-25-frontend-follow-up-interaction-design.md).
-External samples: general welcome/chat, composer, waiting/error, mobile/light-dark,
-plus explicit follow-up review. Both self-checks PASS; no application/backend changes.
-Browser1440x1040/390x844: safe text, draft-only starters, Stop, sources, clear/Escape,
-no overflow/HTTP/page errors. General light/dark/mobile screenshots inspected.
-Rechecked thesis17–18/54/65–66, master16/23, routing PNG; exact mapping in design.
+Owner authorized the designed general chat/follow-up controls: implemented frontend-only.
+Committed8313279 after recovering session01a16d9d's final welcome-centering request.
+[Delivery, exact checks and recovery](2026-10-25-chat-workspace-implementation.md).
+Scoped32-choice page memory; explicit inclusion/exact review; fresh current-message
+send, Edit/Rephrase, grouped distinct source IDs and canonical status/text retained.
+Source401 cleanup RED -> GREEN; independent review's only blocker resolved.
+Fresh61 unit checks/all15 browser tests PASS87.97s; TypeScript/build PASS.
+Welcome alignment RED start != center -> GREEN six1440/390/320 theme variants.
+Live Figma127:84854/85006/85005 checked; neutral canvas/centered copy/campus fade
+restored with chat refinements retained. No overflow/page errors. No backend change.
+Stable standalone3215 rebuilt/restarted; served new bundle and both readiness200.
+Production login45s idle: zero additional navigation/HMR/page errors; no owner-auth claim.
+Rechecked thesis17–18/54/65–66/master16, routing PNG and Phase10 handoff; no discrepancy.
 Direct thesis review9/17–18/40/54/65: recovery, useful clarification and isolated chat;
 IDs-only memory is a later implementation choice. See design's thesis/history links.
 Full-path v22 replay: prerequisite/grade turns PASS; options follow-up FAILS
 unknown_requirement before retrieval. No claim that UI changes fix interpretation.
 Prior252a951 targeted backend repair/v22 and9e0a399 opt-in clarification retained;
 905 backend/57 UI regressions and production build/TypeScript passed at that delivery.
-Frontend3215 standalone production/API8021 v22 remain unchanged in this design pass.
+API8021 v22 unchanged; frontend3215 rebuilt after the verified UI delivery.
 [Cause, service handles and recovery](2026-10-25-clarification-recurrence-and-preview.md).
 
 ## Repository State
 
 Current owner checkout: C:/Users/Hawksprey/source/repos/Bintanong; branch frontend.
-This increment changes only the design report, checkpoint and tracked progress;
+Frontend components/helpers/tests committed8313279; delivery/progress notes follow;
 owner progress appendix and three pre-existing untracked paths remain excluded.
 Candidate worktree: C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/
 p11-frontend-dev-sync; branch integration/p11-backend-to-frontend-20261025.
@@ -124,8 +130,8 @@ or new full-suite claim. No school approval, deployment or phase closure.
 
 ## Next Action
 
-If implementation is requested, build the reviewed frontend interaction slice with
-focused RED/GREEN tests; preserve backend interpretation and source/release holds.
+Owner checks centered Figma-aligned UI on3215 and the reported CC5 follow-up;
+retain backend interpretation/source limits and Phase11 acceptance boundaries.
 
 ## Do Not Repeat
 

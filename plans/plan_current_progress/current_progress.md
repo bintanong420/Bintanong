@@ -9,11 +9,13 @@ Previous full frontend snapshot:9b0f555; use git show for history.
 
 ## Latest change
 
-Extended the frontend design to the general chat UI: welcome, conversation, composer,
-mobile navigation, sources, waiting/error and light/dark states; explicit thesis/master/
-repo/skill mapping in the [design](../2026-10-25-frontend-follow-up-interaction-design.md).
-Both external prototype self-checks PASS; no application/backend edits or real requests.
-Thesis17–18/54/65–66, master16/23 and routing PNG rechecked; follow-up failure remains.
+Implemented general chat, grouped sources, Edit/Rephrase and explicit earlier-detail
+review using existing components/API. Scoped page-memory choices stay optional;
+source401 clears them and blocks sends. Committed8313279; resumed session01a16d9d's
+welcome-centering request. Live Figma checked: centered copy, neutral canvas/local
+campus fade restored; refinements retained.61 unit/all15 browser checks, build/types
+PASS; [delivery/evidence](../2026-10-25-chat-workspace-implementation.md).3215 rebuilt,
+readiness200. Backend interpretation remains unchanged; owner acceptance open.
 
 Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
 -> clarification; known affected courses hidden, even with zero missing student facts.
@@ -58,8 +60,8 @@ Source gaps and source-review decisions remain authoritative and unchanged.
 
 ## Next action
 
-If implementation is requested, build the reviewed frontend interaction slice with
-focused RED/GREEN tests; preserve backend interpretation and source/release holds.
+Owner checks centered Figma-aligned UI on3215 and the reported CC5 follow-up;
+retain backend interpretation/source limits and Phase11 acceptance boundaries.
 
 ## Remaining boundaries
 
