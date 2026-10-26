@@ -11,7 +11,7 @@ Last full snapshot before this condensation:06c1f8b;prior snapshots:5009760/c1fc
 d8246d1merged here;18incoming review/doc commits,no API/code/test/dependency delta.
 Upstream146of336contents approved/190pending;holds retained,not activation.
 All source decisions retained;ignored336evidence absent,GUI inventory unchanged.
-Local backend/frontend copies are being reconciled with backed-up WIP preserved.
+Only policy branch publication requested;frontend heads/WIP restored byte-for-byte.
 
 [Save control/prospectus delivery](../2026-10-27-save-control-and-prospectus-review.md):
 policy save stays visible and focuses the required note;context links persist without

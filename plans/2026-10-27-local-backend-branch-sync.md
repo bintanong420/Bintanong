@@ -19,7 +19,18 @@ stays in place and is excluded from stash/staging. No models/data/config downloa
 Backend local branch fast-forwards879748b→d8246d1. Policy merges18documentation
 commits,retaining this ingestion checkpoint/progress and linking the newer upstream
 review state. Source decision ledger and dated reports retain incoming content.
-Frontend worktree reconciliation is recorded below after verification.
+Owner narrowed the remaining action to publishing only the policy branch.
+The frontend-sync merge attempt was cancelled while still uncommitted;its original
+e172f53head and clean state were restored. Frontend e172f53and lifecycle04a03ea
+remain unchanged. Their7and20backed-up files were restored and all SHA-256 hashes
+match,including original line endings. No unresolved frontend merge remains.
+Recovery stashes and file backups are retained;models were never shelved.
+
+Verification:backend d8246d1is an ancestor of policy mergeb1fb677;the entire policy
+merge delta is under plans/,with no runtime/API/UI/test/dependency change. Phase
+state and whitespace checks pass. Product tests are reused from the prior verified
+7694f7edelivery;this documentation-only merge needs no new product-test run.
+Only origin/feat/p11-policy-ingestion-review is published for this request.
 
 No hosted Supabase connection,query,release/pin change or activation. Running local
 reviewers retain their processes and files. Relevant local branches only;historical

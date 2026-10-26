@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 126
+sequence: 127
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7694f7e
+head_commit: b1fb677
 working_tree: dirty
 updated_at: 2026-10-27T02:30:00+08:00
 ---
@@ -40,6 +40,7 @@ consultation35-vs34-minute discrepancy remain held. Full decisions/receipts are 
 Ignored336evidence absent here;GUI remains72baseline records. Latest backend is
 merged while this worktree's ingestion/prospectus checkpoint stays authoritative.
 No hosted access,source activation or restart. T4/T5 remain next.
+Owner limits publication to policy;frontend heads and27dirty files restored exactly.
 
 ## Repository State
 
