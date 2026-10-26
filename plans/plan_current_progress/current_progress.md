@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,23:03+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,23:12+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,28 +9,28 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves23–26content/removal ofDay)Day),clarifying metadata table then paired requirements then process table.
-23content approvals;22existing exact byte identities approved,item23needs corrected serialization;312others pending.
-18–22remain pending. Original candidate metadata really is flattened;corrected labelled review specification saved
-at A/p11-omitted-chunks-20261026/reviewed-registration-layout.md. Runtime candidate rebuild/bindings still required.
-Existing fee/total discrepancy stays;sealed335packet unchanged. North/South transfer clarification retained.
-All holds unchanged. Documentation-only validation;no code/test/model/hosted work.
+Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
+336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
+Only approvedDay)Day)removed;same fee limit. 23review approvals map to24current candidates;312others pending.
+Overlay A/p11-omitted-chunks-20261026/registration-layout-corrected;sealed335base unchanged. Governance pending.
+Fresh91tests/127subtests2.38s/exit0;geometry/conservation/determinism/contracts/links checked. No production/model/hosted work.
+Readmission27–32shown as complete service acrossC7–8with action/fee/time/person associations;pending.18–22also pending.
 
 Owner directs prepare chunks first,review later in bulk;frontend integration stays stopped.
-335inactive candidates(177H/158C),131linked source records,eight topic packets prepared.
+336inactive candidates(177H/159C),131linked records,eight topic packets plus registration correction overlay.
 Coverage audit found7missed native regions;4source records/7Handbook chunks added. Prior328/899retained. Median67sourcewords;
 zerochunks<10words;service metadata/step fields attached,44page-footer regions kept in audit.
 90catalogue groups accounted;73have candidates,including70/71New/Partial groups. Initial TOR
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-23content approvals recorded;item23requires corrected bytes before candidate approval binding.
+24candidate contents approved via23review items and corrected registration remapping.
 Other312await human review. No original/runtime-package/rule/vector/release/pin changes.
 
-Checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
+Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
 Complete neighbors,stable IDs/hashes,no80/78duplicates,max457exacttokens<=480;source/review links verified.
-161tests/215subtests10.77s/exit0;no production change/artificial RED/full-suite repeat.
+Prior base161tests/215subtests10.77s/exit0;current correction checks above,no full-suite repeat.
 Evidence A/p11-omitted-chunks-20261026/bulk-review-handbook-verified;start SCOPE-AND-REVIEW-GUIDE.md/INDEX.md,then batch-A.md through H.
 94native/parser notes shown for review;image annotations remain pending human validation.
 Both original PDF hashes/seven active runtime seals/pin unchanged. No hosted writes or model calls.
@@ -53,8 +53,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Rebuild/revalidate Charter registration serialization against approved labelled layout before runtime use;
-continue remaining BatchA content review,carrying18–22pending without reopening approved quartet content.
+Await readmission27–32content/association decision;carry18–22pending. Apply approved table structure to
+subsequent service reauthoring before use;continue BatchA without reopening settled registration content.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before

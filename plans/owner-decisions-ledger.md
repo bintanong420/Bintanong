@@ -481,3 +481,11 @@ Each program still gets its own dated review record listing which standing rule 
   North/South campus provisions because they support transfers into main
   Tiniguiban rather than exclusively serving those campuses. Preserve printed
   applicability;no blanket campus exclusion or unrelated-campus scope expansion.
+
+- 26Oct2026,Charter registration layout:owner approves review items23–26with
+  nonvisibleDay)Day)removed,then explicitly identifies metadata rows followed by
+  CHECKLIST OF REQUIREMENTS/WHERE TO SECURE and paired requirements. Keep table
+  structure in authoring and serialized context,not only chat display. “aight
+  proceed”authorizes applying this approved correction. Existing builders yield
+  five required companions within480tokens;[results](2026-10-26-registration-layout-correction-results.md).
+  Source wording/fee discrepancy remains;no publication/activation permission.

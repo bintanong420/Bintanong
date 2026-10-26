@@ -140,3 +140,30 @@ metadata is indeed flattened,not merely the chat presentation. Separate labelled
 metadata,requirements,process fields and totals in the derived serialization too.
 Keep original/sealed335packet unchanged;new IDs/hashes/companion links and content
 binding remain required. This documentation step does not deliver runtime repair.
+
+## Registration rebuild applied — five linked candidates
+
+Owner:“aight proceed”. Existing builders reauthored approved registration as five
+parts to satisfy480exact-token cap. Source fields/associations retained,only approved
+Day)Day)removed,331others unchanged. [Results/mappings](2026-10-26-registration-layout-correction-results.md).
+23approved review items map to24of336candidates;312others pending. Governance stays
+pending;no runtime/hosted activation. Do not re-ask settled source/layout decisions.
+
+## Batch A readmission — six chunks27–32 pending
+
+Original Charter physical7–8/printed6–7inspected. Present complete logical service:
+metadata/paired requirements and continuation joined using actual source columns.
+Native apostrophes/dashes retained versus parserASCII.
+
+- C-readmission-compact-001: `56a11894759bda13561207bbbf3b658c3cade66ba995248b23dee45473ef833f`.
+- C-readmission-compact-002: `837db1f129db6605a16d3bddd58bce798e0f8a6d56bed0edcfac84d08fbe5564`.
+- C-readmission-compact-003: `81979455096c06ea5ef42c1081be59a5e4cc2f35142f1c0823ea4788318e0e8d`.
+- C-readmission-compact-004: `d7b49974e311382be1d23201c25469677760111f20eb0f858835d1cb9ea42659`.
+- C-readmission-compact-005: `5b86ce9ae8dbee3aee1697c8c8c0c9871fd9e4538d7fc98e2662b070915744f6`.
+- C-readmission-compact-006: `b053f8ecc4bf6541a22aee69107bd5dc4946863d3b6db6be3340275d8cc731ee`.
+
+Shifting note visibly stops at“before”onC8;do not borrow prior service's ending.
+Step3non-beneficiary payment/accounting-validation action continues onC8,role
+“Staff / Accounting Office”;continued blank time does not create a new duration.
+Content/association approval remains pending;labelled reauthoring/new bindings
+also required before use. Items18–22not approved by“proceed”.

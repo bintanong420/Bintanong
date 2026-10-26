@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 133
+sequence: 134
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ac31898
-working_tree: dirty; human review record, checkpoint and current progress only
-updated_at: 2026-10-26T23:03:00+08:00
+head_commit: 4d9c4eb
+working_tree: dirty; registration results, review record, index, checkpoint and current progress
+updated_at: 2026-10-26T23:12:00+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -21,30 +21,34 @@ First9candidate packet and2actual human approvals recorded in32065bf,alongside b
 
 ## Current Task
 
-[Scope/coverage results](2026-10-26-handbook-coverage-scope-verification-results.md):335inactive chunks(177H/158C),
+[Scope/coverage results](2026-10-26-handbook-coverage-scope-verification-results.md):335sealed base;overlay336inactive chunks(177H/159C),
 131linked source records,eight topic packets. All90IDsaccounted;73with candidates,including70of71
 New/Partial groups. X029initial TOR C9action/time/person association remains held;existing/other
 held/support-only selections explicit. Source-held literal candidates do not resolve affected claims.
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-23content approvals;22existing exact byte identities approved,item23requires correction;312others pending,including18–22.
+23approved review items map to24current candidates;312others pending,including18–22. Readmission27–32presented.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected HEADac31898,clean before review documentation;nothing pushed.
+p11/feat/p11-backend-api;inspected HEAD4d9c4eb,clean before data reauthoring documentation;nothing pushed.
 Checkpoint records the inspected parent;the next documentation commit contains this snapshot.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 B=A/p11-omitted-chunks-20261026/bulk-review-handbook-verified. Prior328/899artifacts retained.
+Current combined overlay:A/p11-omitted-chunks-20261026/registration-layout-corrected;336candidates.
 Ignored scripts/JSON/images remain untracked.
 Only plans/results/checkpoint/progress changed. Candidate output is separate from active package/pin.
 No frontend edits/merge/install;integration explicitly stopped. No dependencies or models changed.
 
 ## Verification Evidence
 
+Registration rebuild:[results](2026-10-26-registration-layout-correction-results.md),91tests/127subtests2.38s/exit0.
+Five linked parts400/374/469/184/413tokens;331unaffected records exact. Native text/geometry and span
+conservation checked,only approvedDay)Day)removed. No production change/full-suite rerun;existing builders reused.
 Coverage verification:335Chunk/source bindings remain pending;deterministic IDs/content hashes,
 complete required neighbors,no duplicate ID/full source-text of hosted80or active78.
 1727native spans independently checked:original text/page/page size/glyph-union boxes match.
@@ -55,7 +59,7 @@ All exact existing local E5 counts<=480,max457,truncation disabled. No embedding
 128original page images reused,review/source links verified.66image spans need human annotation validation.
 94native/parser comparisons shown with records plus1held C9association;no guessed list-position mapping.
 
-Fresh161tests/215subtests10.77s/exit0:sharedPython3.13 -X utf8 -B -m pytest -q -p no:cacheprovider,
+Prior sealed-base161tests/215subtests10.77s/exit0:sharedPython3.13 -X utf8 -B -m pytest -q -p no:cacheprovider,
 8preparation/native/chunk/service/report/image/flowchart files;command in consolidation/bulk results.
 Logs/exits A/p11-omitted-chunks-20261026/coverage-pytest.log/.exit;basetemp coverage-pytest-tmp.
 Data-only task with existing builders:no production behavior/artificial RED/full-suite repeat.
@@ -77,13 +81,14 @@ C PDF42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529.
 Runtime package A/p11-companion-context-20261026/runtime-package;seal22ceaa15c300a5fc2d8778062a9f19ebb175bee34700f68267ec651a07b34c0a.
 Pin A/p11-topic-filter-20261024/active-research-pin.json;SHA5dd2d9c95c3cc96181bdd11d3a24481f1c18a4a5c71284a55316c7d60acecc74.
 B/artifact-seal.json binds final artifacts and source helpers/first-packet inputs;report records hashes.
+Overlay JSON SHA118e635ea17610be51f6b5c9b24e0c000c3ee826696f7f4fb04cb5aa3fd4f001;separate seal/mapping retained.
 
 ## Decisions
 
 Owner approves2H31plus11H26–30plus6H32–34chunks with links/limits;[record](2026-10-26-omitted-content-human-chunk-review.md).
 Owner confirms North/South clauses retained for transfers into main Tiniguiban;printed applicability preserved.
 Owner approves23–26with nonvisibleDay)Day)removed and metadata/requirement/process tables kept distinct.
-Corrected review specification saved in A/p11-omitted-chunks-20261026/reviewed-registration-layout.md;not runtime chunks.
+Corrected review specification applied in five-part overlay;pending governance,not active runtime chunks.
 Owner:continue chunk preparation,review later in bulk. Eight existing topic batches govern review.
 No new hosted activation/publication permission. Existing H26/H30holds and supplied datasets retained.
 No source grammar/threshold/deadline/fee precedence repairs. C20review-summary Dean error corrected
@@ -93,7 +98,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 ## Known Failures or Blockers
 
 Human review of312others remains;94extraction comparisons/66image regions remain separate review needs.
-C-registration quartet needs structured rebuild/new bindings;Day)Day)removal and table boundaries owner-approved.
+Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
 remain required before publication;chunk parsing alone does not establish runtime compatibility.
@@ -102,8 +107,8 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Owner resumed human review from the [session handoff](2026-10-26-phase11-bulk-review-session-handoff.md).
-Rebuild/revalidate Charter registration against approved table layout before runtime use;continue remaining
-BatchA review with18–22pending. Do not re-ask quartet content/removal/layout decision.
+Await readmission27–32content/association decision;carry18–22pending. Continue BatchA with labelled tables;
+reauthor newly approved services before use. Do not re-ask registration content/removal/layout decision.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
 Coverage audit finds no remaining unexplained eligible native-policy regions after7repairs.
 43remaining source regions classified;177Hcandidates clear26explicit audience/held boundaries.
