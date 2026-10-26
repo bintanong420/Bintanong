@@ -17,7 +17,9 @@ This document records execution of the supplied plan, not a replacement product 
    [the catalogue](2026-10-26-handbook-charter-expansion-catalogue.md). Record exact
    field readings, standing-delegation applications, exclusions and unresolved issues.
    [First review](2026-10-26-handbook-charter-expansion-review-01.md) covers H26–34
-   and C6–8 only; its two source holds are owner-confirmed. Remaining catalogue passages still need review; no whole-document
+   and C6–8; its two source holds are owner-confirmed. [Review 02](2026-10-26-handbook-charter-expansion-review-02.md)
+   completes Batch A locator inspection; [03](2026-10-26-handbook-charter-expansion-review-03.md)
+   covers Batch B. Remaining catalogue passages still need review; no whole-document
    approval is claimed. New ambiguities require the owner's focused judgment.
 2. **Comparison snapshot saved, shared fork point pending:** preserve the current
    corrected78 package and originals without modifying them. After the planned

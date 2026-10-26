@@ -9,10 +9,11 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
 source verification first,then fixed baseline/fork,then frontend/runtime versus isolated ingestion/UI.
-[Review01](../2026-10-26-handbook-charter-expansion-review-01.md):H26–34/C6–8 visually checked;
-11Hreading units/2complete Cservices recorded using standing delegation. Owner confirmed H26
+[Review01](../2026-10-26-handbook-charter-expansion-review-01.md),[02](../2026-10-26-handbook-charter-expansion-review-02.md),[03](../2026-10-26-handbook-charter-expansion-review-03.md):39new original pages inspected;
+BatchA/Bcatalogue locators covered,known existing reviews reused,source-specific limits retained.
+Owner confirmed H26
 enrollment/payment discrepancy hold and H30unknown-applicability hold;“keep everything as is”.
-Original words/data stay intact. Remaining catalogue fields unreviewed;no full BatchAapproval.
+Original words/data stay intact. BatchesC–Hremain;literal-field review is not authority/currentness.
 Comparison-only snapshot:11copies/7runtime seals/78chunks/both original hashes verified;
 manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
 Fresh compatibility77tests/110subtests pass15.27s/exit0;no full-suite repeat for docs/source review.
@@ -64,6 +65,6 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Continue source verification with remaining BatchApassages,then batchesB–H;reuse review01and confirmed
+Continue source verification with BatchCgrades/records/graduation,thenD–H;reuse reviews01–03and confirmed
 holds. Commit review records before establishing the final shared baseline and ingestion branch.
 Grading fix/frontend integration follow this baseline under the supplied two-developer order.
