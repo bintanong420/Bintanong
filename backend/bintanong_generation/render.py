@@ -114,7 +114,12 @@ def fallback_status(status):
 
 
 def selected_cards(pack,claims):
-    if pack.status!='ready': return ()
+    if pack.status!='ready':
+        from .deadline_conflict import unresolved_deadline_context
+        expected=unresolved_deadline_context(pack)
+        actual=tuple(dict(text=c.text,evidence_ids=list(c.evidence_ids)) for c in claims)
+        if not expected or actual!=expected:
+            return ()
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))

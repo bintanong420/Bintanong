@@ -72,29 +72,13 @@ def _quotes(members, words):
     return sorted(statements)
 
 
-def deadline_conflict_reply(pack, proposed, *, max_claims=8, existing_claims=()):
-    """None if unaffected; empty if unsafe; otherwise exact quotations plus independent claims.
-
-    The ordinary relevance/support review still runs on this transformed proposal.
-    """
-    records = {c.evidence_id: (c, record) for c in pack.cards if (record := _conflict(c)) is not None}
-    cited = {ref for claim in proposed for ref in claim.evidence_ids}
-    touched = cited.intersection(records)
-    if not touched:
-        return None
-    if pack.language not in _WORDS:
+def _group_quotations(pack, records, groups):
+    if pack.language not in _WORDS or None in groups:
         return ()
-    groups = {_group(records[ref][1]) for ref in touched}
-    if None in groups:
-        return ()
-    affected = {ref for ref, (_, record) in records.items() if _group(record) in groups}
-    independent = [dict(text=c.text, evidence_ids=list(c.evidence_ids)) for c in proposed
-                   if not affected.intersection(c.evidence_ids)]
     quoted = []
     words = _WORDS[pack.language]
     for group in sorted(groups):
-        statements = _quotes([records[ref] for ref in records if ref in affected
-                              and _group(records[ref][1]) == group], words)
+        statements = _quotes([records[ref] for ref in records if _group(records[ref][1]) == group], words)
         if statements is None:
             return ()
         for _, text, ref in statements:
@@ -107,6 +91,47 @@ def deadline_conflict_reply(pack, proposed, *, max_claims=8, existing_claims=())
                 quoted[-1]['evidence_ids'].append(ref)
             else:
                 quoted.append(dict(text=text, evidence_ids=[ref]))
+    return tuple(quoted)
+
+
+def deadline_conflict_reply(pack, proposed, *, max_claims=8, existing_claims=()):
+    """Quote affected groups before ordinary relevance/support review;never choose a deadline."""
+    records = {c.evidence_id: (c, record) for c in pack.cards if (record := _conflict(c)) is not None}
+    cited = {ref for claim in proposed for ref in claim.evidence_ids}
+    touched = cited.intersection(records)
+    if not touched:
+        return None
+    groups = {_group(records[ref][1]) for ref in touched}
+    quoted = _group_quotations(pack, records, groups)
+    if not quoted:
+        return ()
+    affected = {ref for ref, (_, record) in records.items() if _group(record) in groups}
+    independent = [dict(text=c.text, evidence_ids=list(c.evidence_ids)) for c in proposed
+                   if not affected.intersection(c.evidence_ids)]
     result = (*quoted, *independent)
     additional = {(c['text'], tuple(c['evidence_ids'])) for c in result} - set(existing_claims)
     return result if len(additional) <= max(0, max_claims) else ()
+
+
+def unresolved_deadline_context(pack):
+    """Literal explanatory context for one withheld gap;never an answered policy decision."""
+    parts = pack.understanding.parts if pack.understanding else ()
+    if (pack.status != 'no_evidence' or pack.route != 'RAG' or len(parts) != 1
+            or parts[0].evidence_need != 'document' or not parts[0].requested_claims
+            or pack.decision is not None or pack.dependencies is not None):
+        return None
+    requested = set(parts[0].requested_claims)
+    records = {c.evidence_id:(c,record) for c in pack.cards if (record := _conflict(c)) is not None}
+    matching = set()
+    for ref,(_,record) in records.items():
+        for limit in record.get('source_limits', []):
+            affected = limit.get('affected_claims') if isinstance(limit, dict) else None
+            if (isinstance(affected, list) and all(isinstance(v,str) for v in affected)
+                    and limit.get('issue') == 'conflicting_deadlines'
+                    and limit.get('resolution') == 'unresolved' and requested <= set(affected)):
+                matching.add(ref)
+    groups = {_group(records[ref][1]) for ref in matching}
+    if len(groups) != 1:
+        return None
+    quotes = _group_quotations(pack, records, groups)
+    return quotes if len(quotes) <= 8 else ()
