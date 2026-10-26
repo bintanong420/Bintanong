@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 96
+sequence: 97
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 04005d9
+head_commit: 16475e9
 working_tree: dirty
-updated_at: 2026-10-26T03:18:00+08:00
+updated_at: 2026-10-26T10:48:00+08:00
 ---
 
 # Phase 11 checkpoint — selected-answer verification
@@ -27,10 +27,13 @@ Prior procedure-order6d70e1a/cutoff4425538/comparison e1d7e8b results remain in 
 
 ## Current Task
 
-Bounded [selected-answer fix pass](2026-10-26-selected-answer-quality-fixes.md) ENDED.
-[Results](2026-10-26-selected-answer-quality-results.md):code04005d9,full suite passes;quality gate
-FAILED. Fraud/fee satisfy checked expectations;four cases remain below. Exact approved source text,
-blank cells,cutoffs/conflicts/other limits unchanged;owner reminder recorded verbatim in decision ledger.
+[Source-field selection/conflict fixes](2026-10-26-source-field-selection-fixes.md) in progress.
+Reviewed field names bound to menu facts;generic complete conflicting-deadline group quotation,
+ordinary review retained,shared exact quotation IDs. RED8+12,edge3/style1;final broad1157passed22.55s.
+Saved real removal packet preserves4paragraphs/two claims/coverage. Next independent review then
+freeze/full suite and six once with existing explicit parts/short draft profile. No model cases yet.
+Source48file/78chunk seal fixed;no source review/chunk/budget/model/hosted writes/activation.
+Prior selected-answer pass04005d9 results retained;quality gate still not passed.
 
 ## Repository State
 
@@ -84,9 +87,8 @@ review protections. Keep one-week improvement cap and all institutional/public r
 
 ## Next Action
 
-Use saved traces for regression-first semantic claim selection/grade claim granularity and complete
-procedure output under existing contract. Keep candidate inactive;exact sources/limits fixed.
-Do not rerun completed suites/cases until a concrete behavior change warrants new validation.
+Independent code review;then frozen full suite and same six once with explicit existing parts/short
+profile. No global default/active release switch. Preserve original sources/limits;keep inactive.
 
 ## Context Consulted
 

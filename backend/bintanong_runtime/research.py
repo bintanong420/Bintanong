@@ -178,13 +178,47 @@ def topic_menu(register, *, catalogue=None, chunks=()):
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
     contexts = _reviewed_topic_context(register, catalogue, chunks)
+    fields = _reviewed_claim_fields(register, readings, chunks)
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
         topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), source_context=contexts.get(s, ()),
+            claim_fields=fields.get(s, {}),
             not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES)))
     return tuple(topics)
+
+
+def _reviewed_claim_fields(register, readings, chunks):
+    """Only source-present, assigned, reviewed nonblank field names; no new claims."""
+    available = {}
+    for chunk in chunks:
+        reading = chunk.get('type_fields', {}).get('reading_id')
+        try:
+            fields = json.loads(chunk['text'])['fields']
+            names = [f['name'] for f in fields]
+            if len(set(names)) != len(names):
+                continue
+            available[reading] = (chunk['chunk_id'], {f['name'] for f in fields
+                if isinstance(f['name'], str) and 0 < len(f['name']) <= 256
+                and f.get('source_blank') is False and isinstance(f.get('value'), str) and f['value'].strip()})
+        except (ValueError, TypeError, KeyError, AttributeError):
+            continue
+    result = {}
+    for review in register['reviews']:
+        if review.get('finding') != 'visible_fields':
+            continue
+        names = []
+        for ref in review.get('field_refs', []):
+            reading, name = ref.get('reading_id'), ref.get('field_name')
+            identity, fields = available.get(reading, (None, ()))
+            if (isinstance(name, str) and readings.get(reading) == review['subject_id']
+                    and identity in review.get('reviewed_chunk_ids', ())
+                    and name in fields and name not in names):
+                names.append(name)
+        if names and len(names) <= 32:
+            result.setdefault(review['subject_id'], {})[review['claim']] = tuple(names)
+    return result
 
 
 def retrieval_storage(release_id, package, *, hosted, authorization_ref):

@@ -109,3 +109,48 @@ def test_nontext_context_field_reference_cannot_crash_topic_construction():
     topics,system=menu_content(register,catalogue,chunks)
     assert topics[0].claims==('visible service fields',)
     assert 'Fictional college assesses marks for registration.' in system
+
+
+def test_router_receives_the_exact_reviewed_field_names_bound_to_each_selectable_claim():
+    register,catalogue,chunks=inputs()
+    topics,system=menu_content(register,catalogue,chunks)
+    assert topics[0].claim_fields=={'visible service fields':('service_title','description')}
+    assert '"fact_fields":{"visible service fields":["service_title","description"]}' in system
+    assert 'requirement_1' not in topics[0].claim_fields['visible service fields']
+
+
+@pytest.mark.parametrize('mutation',['unassigned','unreviewed','blank','unknown_field','foreign_reading'])
+def test_selector_field_names_require_the_same_reviewed_source_binding_as_context(mutation):
+    register,catalogue,chunks=inputs()
+    if mutation=='unassigned':catalogue['assignments']=[]
+    elif mutation=='unreviewed':register['reviews'][0]['reviewed_chunk_ids']=[]
+    elif mutation=='unknown_field':
+        register['reviews'][0]['field_refs']=[dict(reading_id='header-a',field_name='NOT A SOURCE FIELD')]
+    elif mutation=='foreign_reading':
+        register['reviews'][0]['field_refs']=[dict(reading_id='other-reading',field_name='service_title')]
+    else:
+        value=json.loads(chunks[0]['text'])
+        for field in value['fields']:field['source_blank']=True
+        chunks[0]['text']=json.dumps(value)
+    topics,_=menu_content(register,catalogue,chunks)
+    assert topics[0].claim_fields=={}
+
+
+def test_absent_field_metadata_does_not_add_an_empty_selection_payload():
+    register,_,_=inputs()
+    topics,system=menu_content(register,None,[])
+    assert topics[0].claim_fields=={} and 'fact_fields' not in system
+
+
+def test_context_cannot_bind_fields_to_a_claim_that_is_not_selectable():
+    from backend.bintanong_routing.contracts import DocumentTopic
+    with pytest.raises(ValueError,match='context_requires_selectable_claim'):
+        DocumentTopic(subject_id='fictional_service',claims=('known',),claim_fields={'other':('Cause',)})
+
+
+@pytest.mark.parametrize('name',[[],{},None])
+def test_malformed_extra_field_reference_cannot_crash_existing_valid_bindings(name):
+    register,catalogue,chunks=inputs()
+    register['reviews'][0]['field_refs'].append(dict(reading_id='header-a',field_name=name))
+    topics,_=menu_content(register,catalogue,chunks)
+    assert topics[0].claim_fields=={'visible service fields':('service_title','description')}
