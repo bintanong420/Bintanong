@@ -34,7 +34,7 @@ This document records execution of the supplied plan, not a replacement product 
    `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11-policy-ingestion-review`.
    Its start receipt is commit `c76d988`, only the dedicated task record changed.
    Current task updates belong to that branch; do not mirror them into central snapshots.
-4. **Frontend integration deferred while active UI work continues:** primary integrates the supplied frontend, runs student queries,
+4. **Frontend integration stopped by owner until resumed:** primary integrates the supplied frontend, runs student queries,
    fixes behavior through RED/GREEN regressions, and commits small verified units.
    Locate the supplied frontend before editing; the checked-in frontend package
    alone does not establish that it is the co-worker's completed design. Fresh GitHub

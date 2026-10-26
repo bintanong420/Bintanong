@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,18:20+08. Phase11active,p11/feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,18:22+08. Phase11active,p11/feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Shared baseline](../2026-10-26-handbook-charter-shared-baseline.md) ·
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md).
@@ -27,7 +27,11 @@ No full-suite repeat for documentation/source review. Logs/exits in respective i
 Fresh GitHub MCP/fetch found origin/frontend e172f53c19bdd5d30ef5df2db4bf80ee47e27c3c,which
 includes chatbot/auth/API tests and changes beyond cached local9723fa7. Owner then says frontend
 is being implemented right now. No frontend edits/merge/install;integration deferred to avoid overlap.
-Confirm ready snapshot before integrating. Shared interfaces remain primary-owned/agreed before changes.
+Owner now explicitly stops integration;do not merge/edit frontend until resumed. Shared interfaces remain primary-owned.
+Status clarification:omitted Handbook/Charter content has source-review records only;new chunks,
+embeddings,staging and activation are not done. Do not describe review completion as chunk delivery.
+Fresh sealed-package read:66Hchunks cover46/47/62/87–95;6Cchunks cover102–103. Zero Hchunks
+for physical1–40;new ingestion candidates directory empty. Package seals unchanged;no hosted query.
 
 ## Delivered state and boundaries
 
@@ -48,6 +52,6 @@ Confirm ready snapshot before integrating. Shared interfaces remain primary-owne
 
 ## Next action
 
-Coordinate frontend-ready snapshot with its active implementer before merging;primary runtime fixes
-remain regression-first. Other developer can start its bounded ingestion plan in the prepared worktree,
-with verified disposable-local DB before mutation and no hosted writes;keep generated candidates inactive.
+Frontend integration stopped by owner. Remaining corpus work is candidate authoring/chunking of reviewed
+omitted undergraduate content,especially Handbook physical1–40,then exact binding/embedding/verification;
+preserve held fields/source wording and keep candidates inactive. No new activation authorization inferred.
