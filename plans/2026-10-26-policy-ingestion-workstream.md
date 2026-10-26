@@ -201,10 +201,10 @@ Depends on T0. Create `backend/bintanong_tools/knowledge_update/` with
 `prepare.py` to connect existing extraction/bundle loaders. Reuse
 `document_ingest/__main__.py`, `pipeline.py` and `bundle.py`; preserve their CLI.
 
-- [ ] Add `tests/test_knowledge_update_prepare.py`: two synthetic editions work
+- [x] Add `tests/test_knowledge_update_prepare.py`: two synthetic editions work
   from manifest inputs without Python edits; new packets start unreviewed;
   missing/altered inputs fail before output promotion; originals stay byte-identical.
-- [ ] Observe RED; implement `prepare` and verify GREEN with the existing ingest
+- [x] Observe RED; implement `prepare` and verify GREEN with the existing ingest
   regressions. Packet identity must bind source/candidate hashes and review inputs.
 - Exit: one command produces an inspectable packet and findings with no database access.
 

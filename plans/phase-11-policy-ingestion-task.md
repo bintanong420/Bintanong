@@ -1,6 +1,6 @@
 # Phase 11 policy-ingestion developer task
 
-Status: **plan approved; isolated worktree prepared; no implementation code yet**.
+Status: **T1 preparation implemented; T2 source-bound review in progress**.
 This is a dedicated workstream record, not a numbered phase plan/checkpoint.
 [Coordination contract](2026-10-26-phase11-two-developer-workflow.md).
 
@@ -78,7 +78,20 @@ parent;creating that directory resolved them without code/dependency changes.
 Source/package byte verification,UI/device/reviewer choices and local DB remain pending.
 No credentials copied,no installs,hosted access or runtime/source activation.
 
-No shared-change proposals or implementation code yet. For each proposal record
+T1:manifest validation,immutable source/candidate packet,replay,resume,visible page
+holds and prepare CLI implemented in knowledge_update/. RED11missing-module failures,
+then GREEN11;edge RED3 then GREEN68with existing bundle/report checks;CLI RED1 then
+final GREEN69,21.31s. Commands:Python3.13 -Xutf8 -B -m pytest -q -p no:cacheprovider
+tests/test_knowledge_update_prepare.py tests/test_candidate_bundle.py
+tests/test_ingestion_report.py;external basetemps under the workstream evidence root.
+T2 RED10 observed for missing ReviewSession;implementation and verification underway.
+Ruling:missing real baseline defers byte/replay acceptance,not independent synthetic
+implementation. Real-source accuracy/compatibility cannot be claimed until supplied.
+Ruling:reuse one-writer ledger locking as the safe implementation default;no claim
+that owner separately accepted simultaneous-review/UI-language/device choices.
+Docker daemon is unavailable;actual-role local DB rehearsal remains an explicit gate.
+
+No shared modules/dependencies changed. For each proposal record
 the interface, resulting behavior, compatibility, agreed implementer and commit;
 then report both ingestion and runtime compatibility test results. Keep this record
 compact and leave central Phase 11 progress/checkpoint edits to the primary.

@@ -1,0 +1,55 @@
+from __future__ import annotations
+
+import re
+from pathlib import Path
+
+from .files import digest, read_json
+
+KINDS = {'handbook': 'policy_candidate', 'charter': 'charter_candidate',
+         'prospectus': 'prospectus_candidate'}
+
+
+def load_manifest(path: Path) -> dict:
+    path = Path(path).resolve()
+    value = read_json(path)
+    if (not isinstance(value, dict) or value.get('schema_version') != 'bintanong-knowledge-update-v1'
+            or set(value) - {'schema_version', 'documents', 'baseline', 'membership', 'build'}):
+        raise ValueError('invalid knowledge-update manifest')
+    docs = value.get('documents')
+    if not isinstance(docs, list) or not 1 <= len(docs) <= 32:
+        raise ValueError('manifest needs 1..32 documents')
+    seen = set()
+    for doc in docs:
+        required = {'id', 'kind', 'title', 'edition', 'source', 'sha256', 'locator'}
+        if (not isinstance(doc, dict) or not required <= set(doc)
+                or set(doc) - required - {'candidate_bundle', 'review_template'}):
+            raise ValueError('invalid document manifest fields')
+        identity = doc['id']
+        if (not isinstance(identity, str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,63}', identity)
+                or identity in seen or not isinstance(doc['kind'], str) or doc['kind'] not in KINDS):
+            raise ValueError('invalid or duplicate document identity/kind')
+        seen.add(identity)
+        if any(not isinstance(doc[k], str) or not doc[k].strip()
+               for k in ('title', 'edition', 'source', 'locator')):
+            raise ValueError('document metadata must be explicit text')
+        if not isinstance(doc['sha256'], str) or not re.fullmatch('[a-f0-9]{64}', doc['sha256']):
+            raise ValueError('invalid source digest')
+        for key in ('source', 'candidate_bundle', 'review_template'):
+            if key not in doc:
+                continue
+            if not isinstance(doc[key], str) or not doc[key]:
+                raise ValueError('invalid input path')
+            original = path.parent / doc[key]
+            if any(p.is_symlink() for p in (original, *original.parents)):
+                raise ValueError('symlink inputs are refused')
+            doc[key] = str(original.resolve())
+        source = Path(doc['source'])
+        try:
+            if not source.is_file() or source.stat().st_size > 128 * 1024 * 1024:
+                raise ValueError('source must be a PDF no larger than 128 MiB')
+            data = source.read_bytes()
+        except OSError as exc:
+            raise ValueError('source missing or unreadable') from exc
+        if not data.startswith(b'%PDF') or digest(data) != doc['sha256']:
+            raise ValueError('source PDF identity mismatch')
+    return value
