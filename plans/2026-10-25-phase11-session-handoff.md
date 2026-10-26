@@ -8,24 +8,20 @@ and [active plan](phase-11-backend-api-plan.md). Git/fresh results outrank notes
 
 ## Exact next action
 
-[Source-field fixes/results](2026-10-26-source-field-selection-results.md) pass ENDED,code0c8bff4.
-Final full6865+1595subtests passed,6skip2xfail6warnings,1401.55s,exit0. Six unique queries once/
-22completions:5answered1insufficient,0exceptions. Removal/fraud/fee meet expectations;INC held-deadline
-selection/context,Charter total discrepancy,exam shared measures/applicability remain unmet. No quality
-pass/activation. Next regression-first work:required companion-context obligations and truthful
-conflict-specific fallback presentation. Preserve unknown authority/exact source/limits;no re-review.
-No jobs running. Managedsession58137/helperPID2228 and old hidden helpers ended. Do not restart
-run_six_then_suite.ps1/run_six_cases.py:all6already completed. Full/case exit0 and verification-summary
-are in A/p11-source-field-packed-20261026/;all raw drafts/reviews/metadata preserved.
-Earlier760ecfb full6864passed;its6preflights overflowed before inference(0completions),preserved in
-A/p11-source-field-selection-20261026/. Lossless packing RED2+1 fixed with broad1160passed23.65s and
-actual token preflights. Recorded ruling ran corrected six before final full suite;both now complete.
-Existing explicit parts/short draft profile;canonical review/final provenance,global default canonical.
-48source files/78chunks unchanged;no source/chunk/vector/budget/model/hosted writes/activation.
-Authenticated hosted count read11:19 active19/39,corrected draft78/39,old draft80/39;not live runtime
-quality. HostedReleaseStorage requires active research release;do not bypass it for inactive78.
-Early Handbook/other Charter whole coverage/intake not done;omitted pages are not all non-student.
-Wider accepted queries/style/Hybrid/source coverage/frontend gates remain;Phase11 active.
+ACTIVE:[companion/context and activation plan](2026-10-26-companion-context-and-activation.md).
+Owner26Oct explicitly authorizes corrected78activation in Supabase AFTER fixes/validation;verbatim
+in owner-decisions-ledger. Do not ask again. Preserve old19rollback/exact source/limits;no new sources.
+Coverage/ordered subset,exact companion/penalty-condition context and limited source-conflict
+fallback implemented under TDD. RED2+11+5;GREEN120targeted/broad1316passed35.48s. Code being committed.
+Next independent review,real saved-packet/token preflight,six once/final suite,then governed78hosted/
+local pin switch/readback/smoke and relevant query comparison. Never bypass runtime active-release
+checks;rollback on failed integrity/smoke. Source48files/78chunks unchanged. No jobs running.
+New ignored evidence A/p11-companion-context-20261026/. Older evidence/cases must not be restarted.
+Prior0c8bff4 full6865passed;22completions had3met/3unmet. Its failures drive current generic fixes;
+new natural-query pass not yet claimed. Global canonical default/explicit short-draft observation
+profile preserved. No source review/source expansion/new chunk/model/budget or hosted writes yet.
+Whole early Handbook/remaining Charter coverage still separate;not all omitted pages are irrelevant.
+Phase11 active;activation not public/institutional approval or formal phase completion/UI readiness.
 
 ## Delivered fixes and evidence
 

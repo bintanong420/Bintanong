@@ -107,7 +107,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
                 for p in evidence.documents.passages} if evidence and evidence.documents else {}
     coverage = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in c.chunk_ids))
                      for c in evidence.documents.record_coverage) if evidence and evidence.documents else ()
-    order = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in c.chunk_ids))
+    order = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in (c.sequence_chunk_ids or c.chunk_ids)))
                   for c in evidence.documents.record_coverage if c.source_ordered) if evidence and evidence.documents else ()
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         result.status,result.response_style,result.route,cards,

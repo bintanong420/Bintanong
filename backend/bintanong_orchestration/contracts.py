@@ -98,6 +98,7 @@ class DocumentRecordCoverage(Record):
     claim: str = Field(min_length=1, max_length=256)
     chunk_ids: tuple[Annotated[str, Field(pattern=SHA256)], ...] = Field(min_length=1, max_length=32)
     source_ordered: bool = False  # only an explicit source review can establish sequence
+    sequence_chunk_ids: tuple[Annotated[str, Field(pattern=SHA256)], ...] = Field(default=(), max_length=32)
 
     @model_validator(mode='after')
     def _unique(self):
@@ -105,6 +106,10 @@ class DocumentRecordCoverage(Record):
             raise ValueError('duplicate_coverage_record')
         if self.source_ordered and len(self.chunk_ids) < 2:
             raise ValueError('source_order_requires_multiple_records')
+        if self.sequence_chunk_ids and (not self.source_ordered or len(self.sequence_chunk_ids)<2
+                or len(set(self.sequence_chunk_ids))!=len(self.sequence_chunk_ids)
+                or not set(self.sequence_chunk_ids)<=set(self.chunk_ids)):
+            raise ValueError('invalid_source_sequence_subset')
         return self
 
     @model_serializer(mode='wrap')
@@ -112,6 +117,8 @@ class DocumentRecordCoverage(Record):
         value = handler(self)
         if not self.source_ordered:
             value.pop('source_ordered', None)
+        if not self.sequence_chunk_ids:
+            value.pop('sequence_chunk_ids', None)
         return value
 
 

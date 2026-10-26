@@ -41,6 +41,8 @@ No hosted/source writes/activation. Earlier failed-source/quality results remain
 
 ## Next action
 
-Use saved traces for required companion-context obligations and truthful conflict-specific fallback;
-preserve held deadlines/exact sources. No repeated source review or blind model sweep. Live hosted
-runtime,switching,wider query/style/source-coverage/UI gates remain;do not call the system complete.
+[Companion/context and activation plan](../2026-10-26-companion-context-and-activation.md) now active.
+Owner26Oct explicitly authorizes activating corrected78 in Supabase AFTER fixes/validation;recorded
+verbatim in owner ledger. Do not ask again. First enforce required companion context and truthful
+quoted conflict fallback,regression-first;then governed hosted/local pin switch/readback/smoke with
+old19rollback. Exact sources/limits fixed;no source expansion or phase/public/institutional approval.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 101
+sequence: 103
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 0c8bff4
+head_commit: 0ee0f4a
 working_tree: dirty
-updated_at: 2026-10-26T12:09:00+08:00
+updated_at: 2026-10-26T12:47:00+08:00
 ---
 
 # Phase 11 checkpoint — selected-answer verification
@@ -27,10 +27,13 @@ Prior procedure-order6d70e1a/cutoff4425538/comparison e1d7e8b results remain in 
 
 ## Current Task
 
-[Source-field fixes/results](2026-10-26-source-field-selection-results.md) pass ENDED,code0c8bff4.
-Final software gate passes;answer-quality gate remains OPEN:3checked expectations met,3not met.
-Source48file/78chunk seal unchanged,global canonical default unchanged;candidate inactive.
-No source review/chunk/vector/budget/model/dependency/hosted writes/activation. No jobs running.
+[Companion/context+activation plan](2026-10-26-companion-context-and-activation.md) active.
+Owner authorizes78activation AFTER fixes/validation;verbatimledger,do not ask again. Coverage full
+required closure/ordered subset,exact companion/penalty context and limited source_conflict fallback
+implemented. RED2+11+5;GREEN120targeted,broad1316passed35.48s. Code being committed. Next independent
+review,saved-packet/token preflight,six once/final suite then governed hosted/local switch/readback/
+smoke with old19rollback. Source48file/78chunk seal fixed;no source review or hosted writes yet.
+No jobs running;new evidence A/p11-companion-context-20261026/. Previous6865suite is historical.
 
 ## Repository State
 
@@ -83,7 +86,7 @@ review protections. Keep one-week improvement cap and all institutional/public r
 - Cheating now gives base progression,but omits shared measures/applicability limit despite retrieval;
   "discretion of the subject" wording is unclear. Positive review did not prove semantic completeness.
 - Wider Hybrid/no-topic/clarification/Nursing/simple-query/style and frontend/browser exits remain;
-  photos unsupported,6Taglish register misses. Hosted78inactive,19active;no switch/Phase12 authorized.
+  photos unsupported,6Taglish register misses. Hosted78inactive,19active;switch authorized after validation;Phase12 not authorized.
 - Early Handbook/other Charter coverage not fully reviewed/intaken. Omission is not proof of exclusion.
 
 ## Next Action

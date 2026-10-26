@@ -87,8 +87,10 @@ class RetrievalAdapter:
                         raise ValueError('invalid_procedure_order')
                     records = tuple(by_reading[reading] for reading in order)
                 if records or ordered:
+                    required = tuple(dict.fromkeys((*records, *claim.get('required_chunk_ids', []))))
                     coverage.append(dict(subject_id=assessment['subject_id'], claim=claim['claim'],
-                        chunk_ids=list(records), source_ordered=ordered))
+                        chunk_ids=list(required), source_ordered=ordered,
+                        **({'sequence_chunk_ids': list(records)} if ordered and required!=records else {})))
         return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
             gaps=gaps, passages=passages, record_coverage=coverage))
 
