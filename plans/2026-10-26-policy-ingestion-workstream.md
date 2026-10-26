@@ -1,7 +1,15 @@
-# Policy ingestion and local review workstream
+# Policy ingestion and local review implementation plan
 
-Recorded 26 October 2026. Status: context and instructions captured; implementation
-has not started in this turn. This is a Phase 11 increment, not a new phase plan.
+Recorded 26 October 2026. Status: planned; implementation not started. This is a
+Phase 11 feature plan, subordinate to the active phase plan, not a new phase.
+
+**Goal:** build a reusable ingestion pipeline and local researcher review UI for
+new Handbook and Citizens' Charter editions, through verified local packages.
+**Architecture:** connect existing ingestion, review, embedding and storage contracts
+with a manifest-driven command suite; keep source review explicit and outputs inactive.
+**Stack:** system Python 3.13, existing FastAPI and plain HTML/CSS/JavaScript.
+**Execution:** use the installed executing-plans workflow task by task, with the
+repository TDD/handoff rules. No agent delegation is needed for this plan.
 
 ## Request and supplied context
 
@@ -11,9 +19,11 @@ The owner also permits relevant installed skills to augment repository workflows
 they do not expand task scope or override the owner's operational boundaries.
 The supplied `message (1).txt` (Two-Developer Phase 11 Workflow) and
 `message (2).txt` (Policy Ingestion and Review Feature Branch Plan), read from
-`E:/Hawksprey/Downloads/`, supply design context. Their imperative wording is not
-separate authorization to execute their steps. The owner's ingestion-only and
-hosted-database restrictions take precedence over their broader release language.
+`E:/Hawksprey/Downloads/`, serve different purposes: the first divides ownership
+between concurrent developers; the second specifies software to build, its command
+suite, local review UI, implementation sequence and acceptance tests. Together they
+define this implementation plan, not merely background context. The owner's
+ingestion-only and hosted-database restrictions constrain its release operations.
 This repository record makes the context available without those external files.
 
 ## Ownership and isolation
@@ -47,7 +57,7 @@ Use a local test runtime descriptor for rollback, never the chatbot's active pin
 Hosted publication remains a separate future operation requiring an explicit owner
 instruction. Merging tooling does not publish its outputs.
 
-## Intended researcher workflow
+## Researcher workflow to implement
 
 Reuse `backend/bintanong_tools/document_ingest/`, existing contracts, reviewed-policy
 builders and source/service/flowchart bindings. Add the connecting workflow under
@@ -77,6 +87,102 @@ historical delivery notes do not prove current readiness.
 5. **Document/integrate:** provide synthetic examples and operator instructions;
    rehearse a sealed package with saved decisions/vectors. New source expansion
    requires its applicable review decisions and is not authorized by this record.
+
+## Implementation tasks and dependencies
+
+All tasks are pending. Proposed new paths below are implementation targets, not
+claims that modules already exist. Keep each task to a focused RED/GREEN cycle and
+verified commit; do not build a second parser, reviewer or release manager.
+
+### T0: Freeze the baseline and isolate the work
+
+- [ ] Establish the reviewed input/package identity and actual backend commit;
+  create the dedicated feature worktree without changing the owner's checkout.
+- [ ] Inspect callers/contracts and tests of the reuse points below. Record the
+  baseline hashes, affected interfaces and local output directory in this plan.
+  Prioritize this tooling before new Handbook/Charter expansion; grading fixes stay separate.
+- Exit: reproducible baseline, explicit ownership and no hosted credentials/target.
+
+### T1: Manifest, prepare command and source-bound review packet
+
+Depends on T0. Create `backend/bintanong_tools/knowledge_update/` with
+`__main__.py` for `main(argv=None) -> int`, `manifest.py` for validated inputs and
+`prepare.py` to connect existing extraction/bundle loaders. Reuse
+`document_ingest/__main__.py`, `pipeline.py` and `bundle.py`; preserve their CLI.
+
+- [ ] Add `tests/test_knowledge_update_prepare.py`: two synthetic editions work
+  from manifest inputs without Python edits; new packets start unreviewed;
+  missing/altered inputs fail before output promotion; originals stay byte-identical.
+- [ ] Observe RED; implement `prepare` and verify GREEN with the existing ingest
+  regressions. Packet identity must bind source/candidate hashes and review inputs.
+- Exit: one command produces an inspectable packet and findings with no database access.
+
+### T2: Persisted human review and local browser interface
+
+Depends on T1. Add `review.py`, `app.py` and `static/` in the new package. Reuse
+app/session/rendering/security patterns from `prospectus_review_gui/` while keeping
+its prospectus-specific behavior unchanged. Expose `review` through the same CLI.
+
+- [ ] Add `tests/test_knowledge_update_review.py`: save/reopen, revised decisions,
+  independent audience/content decisions, stale evidence and concurrent writers.
+  A proposal, pending field or one corrected field cannot approve a whole service step.
+- [ ] Add `tests/test_knowledge_update_review_api.py`: loopback/Host/Origin/access
+  checks, escaped source text, missing geometry holds and source-bound export.
+- [ ] Observe RED; implement the workflow's comparison/search/companion/history
+  controls; verify GREEN plus browser comparison, navigation, correction and export.
+- Exit: actual human decisions persist with history and exact evidence identities.
+
+### T3: Reviewed package build and verification
+
+Depends on T2. Add `build.py` and `verify.py` in the new package, exposing `build`
+and `verify`. Reuse `document_ingest/reviewed_policy.py`, `reviewed_policy_chunks.py`
+and reviewed context bindings, plus existing embedding/contracts validation.
+
+- [ ] Add `tests/test_knowledge_update_build.py`: held/excluded/unresolved fields
+  stay unusable; preserved blanks/gaps/cross-page associations and missing companions
+  affect verification; baseline retained/replaced/removed membership is explicit.
+- [ ] Add `tests/test_knowledge_update_verify.py`: missing topic/claim metadata,
+  incompatible vectors, altered receipts and context-budget overflow are rejected;
+  reusable compatible vectors retain identity and require no model download.
+- [ ] Observe RED; connect builders and verifiers; verify GREEN with reviewed-policy,
+  service-step/context and downstream package-consumer regressions.
+- Exit: verified local package and a report that distinguishes coverage from insertion.
+
+### T4: Disposable local staging, publication and recovery rehearsal
+
+Depends on T3. Add `local_release.py` in the new package for `stage`, `publish` and
+`rollback`; reuse `BatchKnowledgeLoader`, `SelectedReleaseReviewLoader` and
+`ReleaseManager` in `backend/bintanong_storage/`. Change shared code only by agreement.
+
+- [ ] Add `tests/test_knowledge_update_local_release.py`: missing/hosted/ambiguous
+  targets are rejected before connecting; verified packages stage inactive; repeated
+  staging is unchanged; conflicting identities fail without partial writes.
+- [ ] Test initial/supplementary reviews using actual roles in a disposable local
+  database. Inject interruptions and verify the journal restores both the previous
+  local release and local test descriptor; active chatbot files remain byte-identical.
+- [ ] Observe RED; implement the bounded local adapters; verify GREEN alongside
+  storage idempotency/release-isolation regressions. No hosted smoke test is permitted.
+- Exit: local release lifecycle is retryable and recovery evidence is recorded.
+
+### T5: Operator documentation, rehearsal and integration delivery
+
+Depends on T1–T4. Add `docs/development/policy-ingestion.md` with synthetic examples,
+the seven commands, local target setup, review/export steps and failure recovery.
+
+- [ ] Rehearse two synthetic editions end to end, then the fixed sealed package
+  locally with saved decisions/vectors. Compare against the reviewed baseline.
+- [ ] Run ingestion, existing review GUI, storage and chatbot compatibility checks,
+  then the relevant full suite. Record failures/skips without weakening source guards.
+- [ ] Deliver verified commits and compatibility results for integration into
+  `feat/p11-backend-api`; update central Phase 11 progress/checkpoint by coordination.
+- Exit: a researcher can repeat the workflow using commands and the local UI without
+  editing package-specific Python. Outputs and hosted/runtime state remain separate.
+
+For each test file, run `py -3.13 -m pytest -p no:cacheprovider <test-file>` with
+`--basetemp C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/<task>`.
+Expected RED must match the missing behavior, then GREEN must pass the same checks.
+Local database tests require a verified disposable target; missing infrastructure
+is an unavailable check, never permission to substitute hosted Supabase.
 
 ## Review and compatibility invariants
 

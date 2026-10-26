@@ -9,7 +9,8 @@
   take precedence, including the ingestion-only and hosted-Supabase restrictions.
 - This workstream covers the ingestion pipeline and its local researcher review
   UI only. Read `plans/2026-10-26-policy-ingestion-workstream.md` before planning,
-  implementing or resuming it; that record reconciles the two supplied documents.
+  implementing or resuming it; it is the implementation plan derived from the
+  supplied feature plan and two-developer ownership workflow.
 - Leave hosted Supabase untouched: do not connect to it or run hosted queries,
   review RPCs, staging, publication, activation, rollback, migrations or changes
   to data, schema, policies, credentials or configuration. Use isolated files and
