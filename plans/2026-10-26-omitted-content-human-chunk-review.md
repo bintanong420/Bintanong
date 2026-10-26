@@ -412,3 +412,32 @@ sequence H76–78, including the page76→77attendance continuation,blank bullet
 and unresolved text/illustration differences. Current source groups have pair/
 triple links;the cross-group attendance continuation needs an explicit dependency
 binding before use. Present full source sequence now;candidate bodies unchanged.
+
+
+## Batch B FAQ, rights and uniform — chunks83–89 approved
+
+Owner: “i approve”. Approves FAQpairH58 and complete rights/duties→attendance/
+uniform source sequenceH76–78, as displayed. Preserve dropping-from typos,
+blank attendance bullet,all uniform conditions and unresolved text/illustration
+differences. Figure1remains image evidence;do not silently reconcile its wording.
+The source continuation rights-duties002→attendance-uniform001must receive an
+explicit cross-group dependency binding before use;content approval does not
+claim that binding has been implemented. No candidate-body changes.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-drop-shift-faq-compact-001 | `b5fa5f16937e72fbb8a4431cdac42f7f06a91e14815464e35d12f6f517bf0e80` | `19a543fdc5f8c1e5aef37387591f92a68502334297b0b30038c61868e87a3d9d` |
+| H-drop-shift-faq-compact-002 | `c3f0fa8f8207ef849cad10d3f31f60abee87d88ada98d4801e8a9300d3355df4` | `0ca75d7ae57f7c8a3367f7ac1d24573e86275a61676b6c1f23f971ee81cde961` |
+| H-rights-duties-compact-001 | `d60499990ac49809d4642f4d62cabfef9dab94c73fcef831d2dae6132fbe3e1b` | `460cf6e41a00114e4ee32aa108946a9e3c82f8933f83ac09f2b8591236ceb3fb` |
+| H-rights-duties-compact-002 | `20a41e63adb678cf28ee3cb7374ca820562670cd9579c8dd0f433dfbe4e1b52a` | `a519efe2e3abaae92e1aaf536c29a6973d62dd260167360afcb036ff64f044f2` |
+| H-attendance-uniform-compact-001 | `16da2e65fd37f055f157db17834ab88c9cf8b55136c077df6e68ca394f31a3c1` | `f7561d790fb156c4175490b87df483e398bf48124bc3df0b7377015a02a8efae` |
+| H-attendance-uniform-compact-002 | `04666cfc6ce1ad4efd0afc195d32dce77117f27f450b48648e2109b7034d3985` | `fdc8ce602c2db03e87da351b7c97f66ad17769bcb00731e0dfd3f11b139e4e12` |
+| H-attendance-uniform-compact-003 | `2f1a9b97372a1b5bde60ab8eb87a359c0e6b91bd277bc55c9ceb17d90e498d11` | `3a3a58c6985cbcd706efc0404c12773e08138110b32136fe7b74a1e32f4e77f6` |
+
+Total89of336content-approved;247pending. BatchB34of40approved. Final BatchB
+display90–95/BatchB35–40:standalone unit-credit candidateH35 and complete Charter
+DAC five-part serviceC105–106(printed101–102). Unit-credit wording repeats the
+approved passage within chunk57;review separate candidate grouping. Preserve
+service metadata/paired requirements and four logical client rows,duplicated2/2.1,
+DAC-of-the-DAC repetition,Nonefee cells and printed NONE/26minutes total.
+Charter metadata remains flattened;labelled reauthoring/source bindings before use.
