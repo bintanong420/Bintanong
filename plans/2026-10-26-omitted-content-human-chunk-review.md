@@ -612,3 +612,37 @@ Email linewrap joined for display only;original candidate bytes unchanged.
 Printed school-to-school disregardstep4 limitation retained,not repaired.
 TotalNone/4days4hours25minutes preserved;all6members have5neighborswithin group.
 OverlaySHAunchanged;116of336approved/220pending,C21of78;pendingorder117–134.
+
+
+## Batch C chunks117–134 approved;certifications135–140 prepared
+
+Owner:“i mean i approve”;then explicitly:“also for earlier, chunks 117 to 128, i approve to that too and also 117-120”.
+Approves merit/awards and FAQpairs117–120,complete transfer121–128and TORCopy129–134services.
+Earlier continue-only pending state superseded by explicit approvals. Retain finalTORlabel
+conflict,disregardstep4 limitation,missing fee amounts and all other source limitations.
+Display joins do not repair current serialized fields;labelled service reauthoring remains.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 117 | H-merit-awards-compact-001 | `bb38074c6718a39b1659aeaffb79971164fe468b5e18c7fe7193ca49fe71d797` | `2a0f9b1b6c51d1176281372d49848f97a41e8acf925cb8d0d3332b8598b1c2fe` |
+| 118 | H-merit-awards-compact-002 | `bf5a9a32c6e0d51169037b389d85c3103db9c6ae2e9d02298fe8e7d39aba7dd0` | `7b7fbcc1d05f7d71a729f616086ec45ca06b9fa1285142b5994b26e1bbc413d3` |
+| 119 | H-student-faq-compact-001 | `e336ae4e7f31d80b9ba3a73e737b091e02ecc00e0a36265eb0fecdc31e098235` | `ccd63fe7b5a6965f07cd08c9b16a950f5bb06ea95bed350e196c2ffc6df7ab9e` |
+| 120 | H-student-faq-compact-002 | `c5233a65f5d0b83beb9fdb96d9011dc4cd4e454817632c4abfd238ac9f058bea` | `ecf8ecf8ec317124f67d2a5743fbd3654e490bc433b258ab1ee7e340a9d1b3bb` |
+| 121 | C-transfer-compact-001 | `59bc7b7912d96c676ab3c68364acc49cc6b4fe828f8c310806864d6bf970858c` | `9346056e8c51fa377cd22f432e174bc5af1cb0fa8e09a9c2824c987893e9bb38` |
+| 122 | C-transfer-compact-002 | `d6295bf1878cd31d37b197d916ec9627c67cad1ecf95afdc5e1a6c00d469f379` | `4bcbb5e4a71299871fd3a092532dcf5434747f277fd453e0b1a033d9b456fcb7` |
+| 123 | C-transfer-compact-003 | `7065b0b6e4c0f993bc38ffb453a0d57b609f453490e3bad445c7ebfa69e50d16` | `b2f4edd2049a75b4f40fe93376d9db2054347728d377d100aa218df01dcb058d` |
+| 124 | C-transfer-compact-004 | `a7b364eb1fc315109d3f323705c48a7c29555fbbb7519d34da01debf38e055c5` | `4738ff21f8a3d39178d93ff971c4232b03be13e0b8ab240ddaa4258252447a98` |
+| 125 | C-transfer-compact-005 | `3b35a4479ea8f9f0e8af6af3cee79000352d52921f8beed32e3c332559c0a3f4` | `d4f4314b7813d45c9280944017c356c0c15fc43abd251da35cc438706781c234` |
+| 126 | C-transfer-compact-006 | `0f6c885006155886017dc662e01f05f87a6543465d6b92f3488e62df77c316dd` | `cb55c1f0b3822e6c02dd16d958e649a4b464a70c7181b90f0b2b2108344fba5f` |
+| 127 | C-transfer-compact-007 | `f70358ec27ff777191a012df763d65f983e0bb225f9e3cdccd985454db87dbef` | `ab42067634de6e0d7325988a4f05c989c4f9e999147a41119e11f478435edd65` |
+| 128 | C-transfer-compact-008 | `edf694628516182c2655f53934d2d5d8f176c3a7fecd535e3df6f09beeb5206b` | `8930885b68565d511232a38e2e13c9314e09896a7b36e3102cba1e48f8b43eab` |
+| 129 | C-tor-copy-compact-001 | `a65e7ce4f8492a5c5b9caee2757735f4bdd8759a4ebb953f1465d3e85e3b53cd` | `1cbd1a68029004cb425dcf761ad5a359c4e5aa83b5459c6e56c6d5b38d177af3` |
+| 130 | C-tor-copy-compact-002 | `7b57fbd58e9acca78df0d0d3727542af73139d44636ddca2b7eba3d4b1c8ed21` | `a255c4e3adfbd5720d473e0456c45048f3947e8be32cbd63723a976311d7d7ce` |
+| 131 | C-tor-copy-compact-003 | `7b5723b2a3586ee8d5ebcbb858626592d4cb0a8443fd63e7b81ae6775ca59c5e` | `8df4282f06d155ca58f034fe58200140442b078478179a164aabcd7a8893de91` |
+| 132 | C-tor-copy-compact-004 | `f1cb352555a7cad75155365c8f8855babc1b311a81a56bfb87ddb5b072d1d06e` | `838e12b41e8c43118eb2c9a91be1b8f32f34d0eb2e568b4adbd1df7df86a59ba` |
+| 133 | C-tor-copy-compact-005 | `ef71a32034e354da0ee54aaac02e39fb04f0c0139a8ee4b025d9a1c594f40715` | `82a55ec713c20ac6eda1d26667bf1f55c08fd8e03b83366d7a92d037597fa0f7` |
+| 134 | C-tor-copy-compact-006 | `03b0c4fb7b41754c66384f0e9b959ab19fea0128402d4c6e19f2056e578da416` | `2cc3b184dc57b1efba1bfbcaf99c00aa28694a5dd9a3862490471affa35e2187` |
+
+39BatchC/134total approved,202pending. Partial receiptSHA256:`c34af9b43a3be5da8e8f30757926491c5b384dcc76287c77218dcf6e4e6ee8f3`;immutable039snapshot saved.
+Next135–140/C40–45:complete six-linked certifications servicephysical15/printed14.
+Original image and full closure checked;PD907title does not establish eligibility.

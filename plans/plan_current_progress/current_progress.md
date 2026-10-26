@@ -4,17 +4,16 @@ Updated27October2026,01:27+08. Phase11active;BatchC human review;p11/feat/p11-ba
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC21of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
+[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC39of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves honors112–116:116of336approved;220pending. BatchC21of78approved.
-Partial Creceipt readback verified;6/11/16/21snapshots retained.
-Five-way honors links and all numeric/source conditions retained;residence limitation/H53hold unchanged.
-Next117–120:merit/other awards pairH55and studentFAQpairH57;original images checked.
-Skip already-approved commencement/recordsH56. Upcoming pair closures verified;no known prior narrative overlap.
-Source wording/grammar and missing fee amounts stay literal;no candidate/runtime changes.
+Owner explicitly approves117–134,clarifying earlier continue:134of336approved;202pending;BatchC39of78.
+Merit/FAQpairs and complete transfer/TORCopy services approved with all source limitations retained.
+Partial receipt39readback/companion closure verified;prior6/11/16/21snapshots and new39snapshot retained.
+Next135–140/C40–45:complete certifications serviceCharterphysical15/printed14,image checked.
+PD907title does not establish eligibility;role groupings and exact fields preserved;labelled rebuild remains.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -31,8 +30,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-116of336candidate contents approved;220pending. Labels and final structural bindings remain.
-Other220await human review. No original/runtime-package/rule/vector/release/pin changes.
+134of336candidate contents approved;202pending. Labels and final structural bindings remain.
+Other202await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -60,10 +59,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await explicit decisions on117–134;continue is preparation only,116/336approved,C21/78 unchanged.
-Prepared129–134/C34–39:complete six-way-linked TORCopy servicephysical13–14/printed12–13.
-Original images/paired fields/closure/hash checked;step3split joined for display,email linewrap joined.
-Printed school-to-school disregardstep4 limitation retained.117–128remain pending;reauthoring before use.
+Await owner decision on135–140/C40–45:complete certifications service,Charterphysical15/printed14.
+117–134approved;then continue CAV service. Preserve source limits and require labelled reauthoring before use.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
