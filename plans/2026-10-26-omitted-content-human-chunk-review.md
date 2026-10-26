@@ -102,7 +102,7 @@ Historical dates/channels not verified current;May release date is not a current
 schedule. H100prints one2x2photo versus H33two;retain both source-specific lists,
 do not silently reconcile or combine them. Admission trio remains required companions.
 
-## Batch A Charter registration — four chunks presented, decision pending
+## Batch A Charter registration — content approved, structured rebuild required
 
 Owner asked about page jumps and said “continue”;this is presentation authority,
 not explicit approval of18–22. Total stays19approved/316pending. Explained eight
@@ -124,3 +124,19 @@ from a separately derived corrected candidate after owner decision;sealed335inpu
 unchanged. Approval must bind corrected bytes/new ID if changed,not mislabel001
 as exact-source approved. Native curly apostrophes/en-dashes shown versus parser
 ASCII variants. Printed UNIFAST fee/None total discrepancy stays unresolved.
+
+Owner subsequently: “ye i approve”,then explicitly identifies the service-details
+table (Office/Division,Classification,Type of Transaction,Who may avail),followed
+by CHECKLIST OF REQUIREMENTS / WHERE TO SECURE and paired requirement rows.
+Approval of23–26includes removal ofDay)Day)and preservation of these structural
+boundaries. It does not approve the old flattened serialization. Record23content
+approvals total;only22existing candidate byte identities have exact-text approval;
+item23requires correction,with linked quartet reauthoring/revalidation before use.
+Items18–22remain pending;not included by an unqualified reply to the latest quartet.
+
+Saved corrected source-content specification at ignored evidence root:
+`p11-omitted-chunks-20261026/reviewed-registration-layout.md`. Original candidate
+metadata is indeed flattened,not merely the chat presentation. Separate labelled
+metadata,requirements,process fields and totals in the derived serialization too.
+Keep original/sealed335packet unchanged;new IDs/hashes/companion links and content
+binding remain required. This documentation step does not deliver runtime repair.

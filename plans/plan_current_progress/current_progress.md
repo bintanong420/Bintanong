@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,22:44+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,23:03+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,10 +9,11 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner asks about page jumps;confirmed eight topic batches,not page order. “Continue”does not approve18–22.
-Total19of335approved/316pending;next four Charter registration chunks23–26presented with original C6image checked.
-New artifact “Day)Day)”in C-registration-001is not visible;proposed derivative removal awaits owner decision.
-Existing fee/total discrepancy stays;sealed packet unchanged. North/South transfer clarification retained.
+Owner approves23–26content/removal ofDay)Day),clarifying metadata table then paired requirements then process table.
+23content approvals;22existing exact byte identities approved,item23needs corrected serialization;312others pending.
+18–22remain pending. Original candidate metadata really is flattened;corrected labelled review specification saved
+at A/p11-omitted-chunks-20261026/reviewed-registration-layout.md. Runtime candidate rebuild/bindings still required.
+Existing fee/total discrepancy stays;sealed335packet unchanged. North/South transfer clarification retained.
 All holds unchanged. Documentation-only validation;no code/test/model/hosted work.
 
 Owner directs prepare chunks first,review later in bulk;frontend integration stays stopped.
@@ -23,8 +24,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-Nineteen chunks owner-approved;exact IDs/bytes/required links preserved in decision record.
-Other316await human review. No original/runtime-package/rule/vector/release/pin changes.
+23content approvals recorded;item23requires corrected bytes before candidate approval binding.
+Other312await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -52,8 +53,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decisions on18–22and23–26,including C-registration-001artifact removal;record exact IDs/holds,
-then continue remaining BatchA records without routine tiny approvals.
+Rebuild/revalidate Charter registration serialization against approved labelled layout before runtime use;
+continue remaining BatchA content review,carrying18–22pending without reopening approved quartet content.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
