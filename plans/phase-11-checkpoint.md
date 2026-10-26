@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 110
+sequence: 111
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 58533a0
+head_commit: 3f17f08
 working_tree: dirty
-updated_at: 2026-10-26T14:15:00+08:00
+updated_at: 2026-10-26T14:20:00+08:00
 ---
 
 # Phase 11: backend refresh into the frontend
@@ -28,7 +28,7 @@ fee dedup/currentness. [Backend recovery](2026-10-25-phase11-session-handoff.md)
 
 Owner authorized remote backend refresh,local backend fast-forward and the proposed
 four-conflict reconciliation. [Merge inputs,resolution/checks](2026-10-26-backend-frontend-refresh.md).
-Candidate integration/p11-backend-refresh-20261026 in p11-frontend-dev-sync.
+Merged3f17f08 on frontend;recovery candidate remains in p11-frontend-dev-sync.
 Router retains frontend's uncontained-target/part-count hints and upstream's unused
 operation hint. Compact index/progress/checkpoint combine both workstreams.
 Intermediate16475e9 verified:3831 backend/2photo xfails/179subtests,61 UI,typegen/types
@@ -39,11 +39,11 @@ upstream claim-field bindings,required context and exact withheld conflict quota
 
 ## Repository State
 
-Main checkout frontend34a8773 has one owner progress appendix and three untracked
-paths,preserved under workspace audit-evidence/p11-20261026/backend-refresh/.
-Candidate merge is isolated;lifecycle WIP in p11-frontend-integration untouched.
+Main checkout frontend fast-forwarded34a8773 ->3f17f08. Owner progress appendix
+backed up/stashed for exact restoration;three untracked paths untouched. Receipts
+in workspace audit-evidence/p11-20261026/backend-refresh/. Lifecycle WIP untouched.
 Recovery refs:recovery/frontend-before-backend-refresh-20261026 and
-recovery/p11-backend-before-refresh-20261026. Main frontend not yet advanced.
+recovery/p11-backend-before-refresh-20261026. Local backend equals originb2724ea.
 Last full frontend checkpoint34a8773;incoming full checkpointb2724ea;use git show.
 
 ## Verification Evidence
@@ -94,8 +94,8 @@ Charter cutoff/timing discrepancy persist. No inferred no-fee/no-penalty conclus
 
 ## Next Action
 
-Commit verified merge,fast-forward main frontend and restore owner appendix;
-record final refs and preservation receipt.
+Resume Phase11 signed-in student-flow acceptance against the refreshed backend;
+coordinate any service reload with the separate source-activation workstream.
 
 ## Do Not Repeat
 

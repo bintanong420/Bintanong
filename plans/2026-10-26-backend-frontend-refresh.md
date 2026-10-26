@@ -52,7 +52,12 @@ receipt:frontend-final.log,in the ignored recovery directory above. Independent
 read-only integration review found no actionable defects;70 focused tests PASS,2.71s.
 All frontend files/manifests and backend API files match frontend34a8773 exactly.
 Typegen/TypeScript and webpack compilation above apply to these unchanged UI bytes.
-Final candidate ready for frontend fast-forward;owner appendix restoration pending.
+Final code merge3f17f08aafc0c90669598bdd429f4504f0b497e6 containsb2724ea;
+main frontend fast-forwarded34a8773 ->3f17f08. Documentation receipt follows.
+Owner progress stash2e4007b4c5056e7a806ff9e85c20fdcb3f14d402 is retained for recovery;
+restore only its exact historical appendix after this receipt,leaving it uncommitted.
+Untracked model directory/two notes remain untouched. Documentation hygiene10PASS;
+phase state valid,in progress,with no permission to advance.
 Prior upstream6835passes+1595subtests is historical,not combined-tree evidence.
 No live-model/browser/full-backend/hosted-DB rerun or new source activation.
 

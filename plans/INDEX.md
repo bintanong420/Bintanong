@@ -7,7 +7,7 @@
   [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Current progress](plan_current_progress/current_progress.md) ·
   [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
-- Backend refreshb2724ea into frontend34a8773 is under verification.
+- Backend refreshb2724ea integrated into frontend via3f17f08;scoped checks/review passed.
   [Current merge/recovery](2026-10-26-backend-frontend-refresh.md) ·
   [Backend delivery and quality holds](2026-10-25-phase11-session-handoff.md).
   Corrected78/previous80 drafts inactive; active19-chunk research pin unchanged.

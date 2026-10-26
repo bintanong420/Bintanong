@@ -1,7 +1,7 @@
 # Current progress
 
 Updated26October2026. Phase11 active;no phase closure or deployment.
-Owner checkout:frontend;isolated merge:p11-frontend-dev-sync /
+Owner checkout:frontend,merged through3f17f08;isolated recovery:p11-frontend-dev-sync /
 integration/p11-backend-refresh-20261026. Lifecycle WIP remains separate.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
 Last full frontend snapshot34a8773;incoming backend snapshotb2724ea;use git show.
@@ -10,7 +10,7 @@ Last full frontend snapshot34a8773;incoming backend snapshotb2724ea;use git show
 
 Owner approved merging origin/feat/p11-backend-api into frontend34a8773 and
 fast-forwarding the matching local backend branch. Local backend is now clean/equal
-to origin. Candidate resolves one router and three documentation conflicts.
+to origin atb2724ea. Frontend fast-forwarded through3f17f08 after reconciliation.
 All three repair hints retained;UI files unchanged. First16475e9 merge58533a0 verified;
 new remoteb2724ea12-commit tail included. Final candidate:3892 backend PASS,2expected
 photo xfails/179subtests;61 UI PASS. Independent review:no findings,70 focused PASS.
@@ -23,7 +23,7 @@ Edit/Rephrase and optional explicit earlier-detail review.61 unit checks,17 broa
 browser checks plus final3 after caption fix,build/types passed before this merge.
 [UI evidence](../2026-10-26-entry-design.md) · [Chat evidence](../2026-10-25-chat-workspace-implementation.md).
 PSU Google authorization/private-file isolation and canonical backend answers retained.
-Owner progress appendix/untracked files backed up;no owner changes discarded.
+Owner progress appendix preserved separately for restoration;untracked files untouched.
 
 Incoming backend guards malformed source claims,fraud precedence,cutoff wording/
 office referrals,procedure order and requested-record coverage. Also short references,
@@ -48,7 +48,8 @@ from this merge;follow its recorded verification/readback gates without re-askin
 
 ## Next action
 
-Commit verified merge,fast-forward main frontend and restore owner appendix.
+Resume Phase11 signed-in student-flow acceptance against the refreshed backend;
+coordinate any service reload with the separate source-activation workstream.
 
 ## Remaining boundaries
 
