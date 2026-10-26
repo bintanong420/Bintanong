@@ -839,3 +839,27 @@ Original images/companion closure checked. Studentloan3rd/4th/5thyearonly,approv
 conditions and complete requirements retained. Assessmentstep1continuation joined;
 page67sharedAdministrativeAideAccountingOfficelabel preserved across paymentsteps.
 PrintedNONEtotal/25minutes kept alongside explicitAmount indicated in the SOA / Assessment Form.
+
+
+## Batch D assistance/assessment179–184 approved;refund185–188 prepared
+
+Owner:“i approve”. Approves assistantship,loanand complete assessment service.
+Vacancy/qualification/approvalconditions,loan3rd/4th/5thyearonly and all requirements
+retained. Assessmentcross-page action/sharedroles and explicit paymentamount
+remain alongside printedNONEtotal;labelled reauthoring remains before use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 179 | H-assistantship-compact-001 | `2b2fb4f33723a268f1d361fbf0253ea69df5b417426639d2bfd721ff7a82d9b7` | `f99955ba10bc4372f39f82b08b35b07832810949f30c8bf34aa6a25e8b82b72b` |
+| 180 | H-student-loan-compact-001 | `4d3d4f641d83b2d2749b3f50883f69b1feb0cd6b13ae1102b06d234627b5d062` | `ecd95ef405e5ba8261a6d3daffb3ee903f088d99d2002fdd3771bbb197aa6495` |
+| 181 | C-assessment-compact-001 | `e900d1de9bc4fce3f585339fe971ac711c49f914ef9b035a0bfcea57f8a51193` | `a921a00fccb10e11c65f88f7414703c18985573da129d3ebc284ac56058b8377` |
+| 182 | C-assessment-compact-002 | `045aebbab90d7e43316ccf57618063ddc73a09394400ceb3651af1305fef2e8b` | `fb2620b6e267235beb7493a8f1d129d69f65e3a09eb23b6aee1941ecff486ac3` |
+| 183 | C-assessment-compact-003 | `414ae8ce8dca087a4f69d21d63c3bb1ffc1e1bdf85135e5521a1e83612cf6df1` | `50dc3af0c8793a39bb3dd7a9a81b2a8fe8684ddd8c337eb5f8192365c30cc7f0` |
+| 184 | C-assessment-compact-004 | `2722b7e5298d7cc55733f6d99a41af40f6f92865ab926355ec99561b1472bba4` | `16f40b5782522c186b5384efdb73926db345d234a41ec3e84fe673691212c06d` |
+
+D15of19approved(4carried/11new);184total/152pending;receiptSHA256:`bf34c1313cdc651eac6aaf15095ea2b0be3cc2e2181c39cb215a5b620e97cda1`;015snapshot retained.
+Next185–188/D14–17:complete refundserviceC67–68/printed63–64;originalimages
+and four-way closure checked. Step2sharesAdministrativeAideAccountingOfficelabel.
+Followupafter10workingdays,printed1day10minutes and listed4+1minutes all retained
+as unresolved timing discrepancy;no promised payoutdate or missingstep supplied.
+D18–19admissionfeecontextalready approved and will be skipped.
