@@ -1,8 +1,9 @@
-# Phase 11 session recovery —26October2026,15:00+08
+# Phase 11 session recovery —26October2026,15:05+08
 
 Corrected78 research activation milestone complete;Phase11 remains active. No phase advancement.
 p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Backend/tests/migrations frozen706d3c6;
-5009760 recovery docs precede final delivery. Last full snapshots:5009760/929a984.
+Latest inspected delivery95f5738;activation7f8e983. Last full snapshots:5009760/929a984.
+This handoff-only session ends after saving;fresh CLI resumes the next action when owner continues.
 Read AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint;
 refresh thesis physical17–18/routing PNG/master16. Preserve settled source decisions.
 
@@ -20,6 +21,24 @@ A/p11-grading-coverage-triage-20261026has grading/results/binding/completion/raw
 answers and PDF page inventory/native text/renders. Original PDFs hash-verified;no source/runtime
 mutation. Runner ended0(capture success,not quality pass). Do not repeat cases without a new reason.
 Grading correction needs a separate bounded TDD task;keep the source review and failures distinct.
+
+## Omitted-source findings to carry forward
+
+All ranges are PHYSICAL PDF pages. Source names:PSU Student Handbook.pdf(394pages)and
+PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf(117pages),under p11/dataset;
+exact paths/hashes/page inventory in A/p11-grading-coverage-triage-20261026/source-page-index.json.
+Handbook1–25mostly background/program listings;undergraduate clauses26–34admission/readmission/
+registration/transfers/cross-enrollment;34–40load/refunds/attendance/leave/standing(+41continuation).
+Charter6–20Registrar records/registration;51–57OSAS;59–64student academic health-clearance paths;
+66–68assessment/refund;75–86library;103–113college consultation/subject changes/graduation/awards/
+class cards/removal exams. These are proposed review candidates,not approved new active chunks.
+Keep undergraduate clauses within mixed pages;graduate/Law/lab-school/employment/contractor paths
+stay excluded. Mixed cashier70–73and clinical/procurement pathways need specific applicability review.
+Charter86library requisition explicitly includes Main Campus students despite Internal Services;
+description appears copied. Charter109academic requests repeats awards description;112removal-exam
+checklist says Class Card Issuance Form. Keep mismatches;show exact original fields before treatment.
+Printed pagination jumps:physical33prints32,34prints30,102prints98;never assume a fixed offset.
+No new coverage choice has been recorded as owner approval;standing clear-row delegation persists.
 
 ## Delivery and verification
 
@@ -74,7 +93,8 @@ blindly repeat activation/smoke;current release passed its selected gates.
 
 Wider natural simple queries,Hybrid/no-topic/clarification/Nursing,6historical Taglish register misses,
 frontend/SDK-parser/browser exits remain. Photos unsupported. Selected78not whole-document review;
-early Handbook/other Charter unreviewed,omission not proof of excluded audience. No new source intake.
+omitted sections now audience-triaged,not field-approved;omission is not proof of excluded audience.
+No new source intake or corpus expansion. Two natural grading failures remain open as described above.
 Exact words/blanks/cutoffs/conflicts/F04hold and undergraduate/advisory/private boundaries remain.
 Research activation is not school/currentness/public approval or Phase11completion/Phase12permission.
 

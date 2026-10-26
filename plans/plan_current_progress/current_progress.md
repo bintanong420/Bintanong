@@ -1,11 +1,14 @@
 # Current progress
 
-Updated26October2026,15:00+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,15:05+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
+
+Owner requests fresh-CLI handoff;[recovery](../2026-10-25-phase11-session-handoff.md) now contains
+the concrete page map,source mismatches,two failed query traces and exact next boundary. No new jobs.
 
 [Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
 complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
