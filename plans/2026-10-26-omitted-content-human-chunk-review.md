@@ -64,10 +64,10 @@ Owner also observed that processes from other campuses were omitted. Clarified:
 the approved text explicitly retains North/South campus provisions in admission,
 transfer and readmission. No blanket campus exclusion was applied or authorized.
 
-Human-approved total now13of335;322remain pending. Sealed candidate bytes and
+Human-approved total after this group:13of335;322remained pending. Sealed candidate bytes and
 serialized governance status remain unchanged;this record binds the approval.
 
-## Batch A H32–34 — six registration/credit chunks pending
+## Batch A H32–34 — six registration/credit chunks approved
 
 Original H32–34images inspected;complete candidate bodies presented inline.
 
@@ -80,3 +80,24 @@ Original H32–34images inspected;complete candidate bodies presented inline.
 
 Cross-enrollment conditions remain literal;no new all-of/any-of rule is inferred.
 Repeated CREDIT FOR COURSE heading retained. Next:remaining prepared BatchA records.
+
+Owner: “alright i approve”,approving all six as presented. Total19of335approved;
+316pending. Owner explicitly confirms retaining North/South campus provisions
+because they are not exclusively for those campuses:they support transfer into
+the main Tiniguiban campus. Preserve the printed applicability/wording;this does
+not establish support for unrelated campus-exclusive procedures.
+
+## Batch A H51/H100/H110–111 — five chunks pending
+
+Original page images inspected;two standalone records and the complete linked
+three-chunk face-to-face admission record presented inline as items18–22.
+
+- H-second-degree-completion-compact-001: `28e4bb2ca3b1bf00156f9e637c7c4589f4a7426ee87b35d13483eee51d52b34c`.
+- H-foreign-liaison-compact-001: `15ec8a9a47b737f915b404c140fe9f1f02d07914be77b8173034bb64cd173ea6`.
+- H-admission-face-to-face-compact-001: `2043ce804dd775dff6f3dcaaefda59749c836ff68ca3e089e20451a2dcfaf643`.
+- H-admission-face-to-face-compact-002: `bafb00cecb809919455bc75536976575444737207f05ef68d89e1d60747d5f47`.
+- H-admission-face-to-face-compact-003: `485b0b58f489014928c9d64c079a21af10cb3f9a602760bf3cf7311d8bd38287`.
+
+Historical dates/channels not verified current;May release date is not a current
+schedule. H100prints one2x2photo versus H33two;retain both source-specific lists,
+do not silently reconcile or combine them. Admission trio remains required companions.

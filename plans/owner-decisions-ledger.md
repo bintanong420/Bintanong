@@ -473,3 +473,11 @@ Each program still gets its own dated review record listing which standing rule 
   fields,limitations and approved H31pair;retain verified page furniture in audit
   evidence instead of standalone policy chunks. Bulk human review remains later;
   this is not approval of unseen content or hosted publication.
+
+- 26Oct2026,bulk chunk review: owner approves11H26–30admission chunks and then
+  sixH32–34registration/credit chunks as presented,retaining source limits and
+  required links;with the priorH31pair,19of335human-approved. Exact IDs in
+  `2026-10-26-omitted-content-human-chunk-review.md`. Owner explicitly retains
+  North/South campus provisions because they support transfers into main
+  Tiniguiban rather than exclusively serving those campuses. Preserve printed
+  applicability;no blanket campus exclusion or unrelated-campus scope expansion.

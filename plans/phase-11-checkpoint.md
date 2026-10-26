@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 130
+sequence: 131
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 879748b
-working_tree: dirty; human review record, checkpoint and current progress only
-updated_at: 2026-10-26T21:42:00+08:00
+head_commit: 0581ca1
+working_tree: dirty; human review record, owner ledger, checkpoint and current progress only
+updated_at: 2026-10-26T22:07:00+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,13 +28,13 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-Owner approved11H26–30chunks with links/limits;13total approved,322pending. Six H32–34chunks now presented.
+Owner approved11H26–30and6H32–34chunks with links/limits;19total approved,316pending. Next five presented.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected HEAD879748b,clean before approval documentation;nothing pushed.
+p11/feat/p11-backend-api;inspected HEAD0581ca1,clean before approval documentation;nothing pushed.
 Checkpoint records the inspected parent;the next documentation commit contains this snapshot.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -80,8 +80,8 @@ B/artifact-seal.json binds final artifacts and source helpers/first-packet input
 
 ## Decisions
 
-Owner approves2H31registration chunks plus11H26–30chunks with linked pairs/limits;[record](2026-10-26-omitted-content-human-chunk-review.md).
-North/South campus clauses retained;owner observation is not a new campus-exclusion instruction.
+Owner approves2H31plus11H26–30plus6H32–34chunks with links/limits;[record](2026-10-26-omitted-content-human-chunk-review.md).
+Owner confirms North/South clauses retained for transfers into main Tiniguiban;printed applicability preserved.
 Owner:continue chunk preparation,review later in bulk. Eight existing topic batches govern review.
 No new hosted activation/publication permission. Existing H26/H30holds and supplied datasets retained.
 No source grammar/threshold/deadline/fee precedence repairs. C20review-summary Dean error corrected
@@ -90,7 +90,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of322candidates remains;94extraction comparisons/66image regions remain separate review needs.
+Human review of316candidates remains;94extraction comparisons/66image regions remain separate review needs.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
 remain required before publication;chunk parsing alone does not establish runtime compatibility.
@@ -99,7 +99,7 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Owner resumed human review from the [session handoff](2026-10-26-phase11-bulk-review-session-handoff.md).
-Await BatchA H32–34content decision:six registration/credit chunks shown inline;then remaining BatchA records.
+Await BatchA H51/H100/H110–111content decision:five chunks shown inline;then remaining BatchA records.
 Coverage audit finds no remaining unexplained eligible native-policy regions after7repairs.
 43remaining source regions classified;177Hcandidates clear26explicit audience/held boundaries.
 Owner reviews content/associations in verified packets,not routine undergraduate membership.
