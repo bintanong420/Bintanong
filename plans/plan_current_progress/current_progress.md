@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,18:22+08. Phase11active,p11/feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,18:50+08. Phase11active,p11/feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Shared baseline](../2026-10-26-handbook-charter-shared-baseline.md) ·
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md).
@@ -8,12 +8,28 @@ Last full snapshot before condensation:4e99fb6;earlier full baseline5009760.
 
 ## Latest change
 
-Source-review preparation and developer isolation delivered. Reviews01–09 map89/89catalogue groups;
+Owner approved H31registration pair;fresh JSON read confirms mutual required-neighbor IDs.
+[Actual human review](../2026-10-26-omitted-content-human-chunk-review.md) records only those2chunks;
+other7first-packet candidates unapproved. H26–30admission remains included,next in preparation.
+
+Owner prioritizes omitted chunks from BOTH complete sources,not only Handbook1–40(example).
+Reuse completed reviews/inventory;frontend integration stays stopped. [First packet/results](../2026-10-26-omitted-content-first-chunk-results.md):
+9real inactive chunks(4H31prerequisite/freshman-registration,5C20complete diploma service).
+27original native spans/text/glyph boxes verified;deterministic IDs/hashes,neighbor closure,
+no80/78duplicates,max406exacttokens<=480. Source/content reviews pending;no embeddings or hosted writes.
+103existing tests/107subtests13.78s/exit0;seven runtime seals/pin/both original hashes unchanged.
+Fresh hosted SELECT confirms80draft/78active/19superseded;exact80snapshot saved. All89IDsaccounted.
+Broader686raw draft rows are UNVALIDATED:125native/parser differences,logical Charter steps,
+context/source-limit/audience checks remain. Do not call them delivered/approved chunks.
+Evidence A/p11-omitted-chunks-20261026;curated review-batch-01/ separated from raw authoring.
+C20original says second-copy Request Letter to University Registrar;corrected review04's Dean error.
+
+Source-review preparation and developer isolation retained. Reviews01–09 map89/89catalogue groups;
 102H/62Clocators,152fresh original-image pages/12earlier reviewed pages reused. Literal clear fields
 use standing delegation;holds/historical/support/excluded readings remain distinct. Not whole-document
 approval/currentness or activation. Owner confirmed H26enrollment/payment discrepancy and H30unknown
 undergraduate applicability holds:“Keep both proposed holds”;“keep everything as is from the data sets”.
-No original/chunk/rule/vector/release/pin changes. Both PDF hashes/seven runtime seals/11comparison
+No original/runtime-chunk/rule/vector/release/pin changes. Both PDF hashes/seven runtime seals/11comparison
 copies unchanged;manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
 
 Fixed source/package fork4e99fb655022e694c73bbd98dd6daec9d7d88fb5. Other developer branch
@@ -28,16 +44,14 @@ Fresh GitHub MCP/fetch found origin/frontend e172f53c19bdd5d30ef5df2db4bf80ee47e
 includes chatbot/auth/API tests and changes beyond cached local9723fa7. Owner then says frontend
 is being implemented right now. No frontend edits/merge/install;integration deferred to avoid overlap.
 Owner now explicitly stops integration;do not merge/edit frontend until resumed. Shared interfaces remain primary-owned.
-Status clarification:omitted Handbook/Charter content has source-review records only;new chunks,
-embeddings,staging and activation are not done. Do not describe review completion as chunk delivery.
-Fresh sealed-package read:66Hchunks cover46/47/62/87–95;6Cchunks cover102–103. Zero Hchunks
-for physical1–40;new ingestion candidates directory empty. Package seals unchanged;no hosted query.
+Active package remains66Hchunks at46/47/62/87–95;6Cchunks at102–103,plus6images. New9packet
+stays separate;remaining expansion authoring/validation,embeddings,staging and activation unfinished.
 
 ## Delivered state and boundaries
 
 - Existing API/security/queue/CF1–CF6;39hosted curricula/2132course facts;production tree unchanged706d3c6.
-- Corrected78research release/39curricula remains last-known active;old19retained/old80draft.
-  Required companions/exact fields/INC conflict/fidelity guards delivered;no new hosted operations.
+- Corrected78research release/39curricula confirmed active;old19retained/old80draft.
+  Required companions/exact fields/INC conflict/fidelity guards delivered;new hosted operations read-only.
 - Historical full6896tests/1595subtests,6skip/2xfail,exit0belongs706d3c6;selected6/6quality and
   hosted3smoke retained. Not corpus/browser/language accuracy proof. Six Taglish register misses remain.
 - [Natural grading failures](../2026-10-26-natural-grading-and-source-coverage-results.md):0/2;
@@ -52,6 +66,6 @@ for physical1–40;new ingestion candidates directory empty. Package seals uncha
 
 ## Next action
 
-Frontend integration stopped by owner. Remaining corpus work is candidate authoring/chunking of reviewed
-omitted undergraduate content,especially Handbook physical1–40,then exact binding/embedding/verification;
-preserve held fields/source wording and keep candidates inactive. No new activation authorization inferred.
+Owner now directs chunk preparation first,human review later in bulk. Prepare remaining groups
+across both sources/eight topic batches;retain approved H31pair,holds and complete Charter associations.
+No embedding/staging/publication before requested chunk validation;frontend remains stopped.

@@ -460,3 +460,10 @@ Each program still gets its own dated review record listing which standing rule 
   Owner adds “we should keep everything as is from the data sets”: originals and
   source wording remain unchanged. This does not resolve policy meaning or approve
   unseen fields. See `2026-10-26-handbook-charter-expansion-review-01.md`; do not re-ask.
+- 26Oct2026, omitted-content chunk review: owner approves the two H31freshman
+  registration chunks shown inline and asks to keep continuations linked. Mutual
+  required-neighbor IDs verified; exact IDs in `2026-10-26-omitted-content-human-chunk-review.md`.
+  Owner then directs “continue it so i will review later in bulk”: prepare remaining
+  reviewed in-scope omissions across both sources, technically verify and organize
+  the eight topic batches before routine human chunk review. Known holds stay held;
+  unseen chunks remain unapproved and no new hosted activation is authorized.

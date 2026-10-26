@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 121
+sequence: 123
 plan: plans/phase-11-backend-api-plan.md
-head_commit: e2608ec
-working_tree: clean
-updated_at: 2026-10-26T18:22:00+08:00
+head_commit: 2851842
+working_tree: dirty; omitted-content plan/results, review04 correction, progress/checkpoint
+updated_at: 2026-10-26T18:50:00+08:00
 ---
 
-# Phase 11 checkpoint — two-developer baseline preparation
+# Phase 11 checkpoint — omitted-content candidate authoring
 
 ## Completed Tasks
 
@@ -30,8 +30,12 @@ mapped;102H/62Clocators,152fresh original-image pages/12settled-review pages reu
 readings under standing delegation;ambiguous associations/applicability/fees/totals held as printed.
 Owner confirmed H26/H30holds and unchanged datasets. No chunk/rule/vector/release/pin change.
 Source fork4e99fb655022e694c73bbd98dd6daec9d7d88fb5;isolated ingestion worktree ready,c76d988task receipt.
-Owner explicitly stops frontend integration;no merge/edit/install until resumed. Extra content has
-review records only;new expansion chunks/embeddings/staging/activation are not delivered.
+Owner explicitly stops frontend integration;no merge/edit/install until resumed. Prioritize new chunks
+from omitted content across BOTH full sources;pages1–40were example. Reuse completed source review.
+[First packet/results](2026-10-26-omitted-content-first-chunk-results.md):9real pending chunks,
+4H31prerequisite/freshman registration+5C20complete diploma service. Owner approved only2H31registration
+chunks as linked pair;mutual required-neighbor IDs freshly confirmed. Other7await human validation.
+686broader raw draft rows remain unvalidated;not a delivered corpus. All89IDsaccounted in ignored queue.
 
 ## Repository State
 
@@ -46,9 +50,14 @@ Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 end
 
 ## Verification Evidence
 
-Status-only fresh package inspection:7seals valid,78total;66Handbook chunks at46/47/62/87–95,
-none at physical1–40;6Charter chunks at102–103. New ingestion candidates directory empty.
-No new behavior/test/hosted operation;source review is not expansion chunk delivery.
+New packet:9Chunk contracts,27original native spans/text/glyph boxes,stable rebuilt IDs/hashes,
+complete neighbors,no80/78ID/full-text duplicates,max406exact tokens<=480;all reviews pending.
+103tests/107subtests13.78s/exit0,6candidate/native/service/report files;command/log in results.
+7runtime seals/both PDF hashes/pin unchanged. Fresh hosted SELECT:80draft/78active/19superseded;
+exact80snapshot saved A/p11-omitted-chunks-20261026. No writes/embedding/staging/activation.
+Broader686raw rows:125parser/native differences plus association/context/limits/audience checks;
+explicit authoring-attempt-status withholds them. Only first9packet is supplied for owner review.
+C20image recheck corrects review04:second-copy Request Letter to University Registrar,not Dean.
 
 New worktree sibling p11-policy-ingestion-review:feat/p11-policy-ingestion-review from4e99fb6;
 142passed/110subtests14.35s/exit0in that worktree,10input copies verified,no.env/pin/config copied,
@@ -139,9 +148,9 @@ Frontend active development elsewhere per owner;published origin/frontend e172f5
 
 ## Next Action
 
-Frontend integration stopped. Corpus remainder:candidate authoring/chunking of reviewed omitted content,
-especially Handbook physical1–40,then exact review binding/embedding/compatibility verification. Keep
-source holds/wording,candidates inactive;no new publication authorization or phase advancement inferred.
+Prepare H26–30admission candidates from existing reviews;retain approved H31pair and continue
+remaining groups across BOTH sources. Preserve holds/wording/complete Charter associations.
+No embedding/staging/publication before requested chunk validation;frontend remains stopped.
 
 ## Context Consulted
 
@@ -153,5 +162,5 @@ closed-world example remains illustrative;settled missing-fact unknown handling 
 ## Do Not Repeat
 
 Human80audit/corrections/staging/embedding,completed six/full suite,backend/security/CF1–CF6/checker
-trial. Do not re-activate or re-run smoke without a new reason. For real integrity failure,use guarded
-rollback in recovery;old19must remain published. No broad source expansion or inferred phase approval.
+trial/full-document inventories/reviews01–09. Do not re-activate or re-run smoke without a new reason.
+For real integrity failure,use guarded rollback in recovery;old19history retained. No inferred phase approval.
