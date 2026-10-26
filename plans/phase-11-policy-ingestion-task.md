@@ -1,6 +1,6 @@
 # Phase 11 policy-ingestion developer task
 
-Status: **T1 preparation implemented; T2 source-bound review in progress**.
+Status: **T1 ready; T2 backend verified/UI under test; T3 package checks underway**.
 This is a dedicated workstream record, not a numbered phase plan/checkpoint.
 [Coordination contract](2026-10-26-phase11-two-developer-workflow.md).
 
@@ -84,7 +84,13 @@ then GREEN11;edge RED3 then GREEN68with existing bundle/report checks;CLI RED1 t
 final GREEN69,21.31s. Commands:Python3.13 -Xutf8 -B -m pytest -q -p no:cacheprovider
 tests/test_knowledge_update_prepare.py tests/test_candidate_bundle.py
 tests/test_ingestion_report.py;external basetemps under the workstream evidence root.
-T2 RED10 observed for missing ReviewSession;implementation and verification underway.
+T2:review journal RED10/GREEN10;API RED8/GREEN18;legacy prospectus adapter RED404
+then GREEN1. Combined new/legacy session/API/geometry regressions:79passed,19.42s.
+UI uses selected existing frontend controls/helpers;no student auth/proxy imported.
+Next16.4.3 webpack build and TypeScript pass;Node helper tests REDmissing-module
+then GREEN3. Shell Node22.22.3 differs from pinned24.21.0;exact-runtime check pending.
+T3 RED7 missing module;typed fixture corrected to tuple;GREEN9,14.95s,including
+cache reuse,held/excluded rejection,explicit correction,metadata and stale reviews.
 Ruling:missing real baseline defers byte/replay acceptance,not independent synthetic
 implementation. Real-source accuracy/compatibility cannot be claimed until supplied.
 Ruling:reuse one-writer ledger locking as the safe implementation default;no claim

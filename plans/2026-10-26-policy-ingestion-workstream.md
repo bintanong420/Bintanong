@@ -224,10 +224,10 @@ reuse the student's hosted Supabase session/configuration. Shared component or b
 changes follow the coordination contract. No installation or lockfile change is
 implied by adopting the already-used stack.
 
-- [ ] Add `tests/test_knowledge_update_review.py`: save/reopen, revised decisions,
+- [x] Add `tests/test_knowledge_update_review.py`: save/reopen, revised decisions,
   independent audience/content decisions, stale evidence and concurrent writers.
   A proposal, pending field or one corrected field cannot approve a whole service step.
-- [ ] Add `tests/test_knowledge_update_review_api.py`: loopback/Host/Origin/access
+- [x] Add `tests/test_knowledge_update_review_api.py`: loopback/Host/Origin/access
   checks, escaped source text, missing geometry holds and source-bound export.
 - [ ] Add researcher UI checks in the existing frontend test/browser conventions:
   prospectus behavior survives the React adaptation;Handbook/Charter controls keep
