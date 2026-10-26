@@ -38,3 +38,23 @@ Each pair requires its continuation. H26RA10931reference/numbered clauses are
 kept together using original paragraph boundaries. H27missing program-specific
 list remains a bound limitation;H26/H30settled holds are not reopened. “Continue”
 starts presentation,not content approval. Next source group is H28–30admission.
+
+## Resumed Batch A H26–30 — eleven chunks presented, decision pending
+
+26October2026: resumed from session handoff at8d9af80. Current335candidate JSON
+SHA256 matches9668afafbb1b53d776f36fbfae9a7b22bd22eb9511c032d92271c441c1aeaa2d.
+Original H26–30page images inspected. The four group1chunks above are presented
+again with the following seven chunks,as eight complete source records total.
+No fresh approval has been received;known source holds/limitations remain.
+
+- H-eteeap-compact-001: `fad47b7d4391122aba5fc242b34144f91762c7cacd4935c980e90cca81780bbb`.
+- H-transfer-compact-001: `0566d4f4957a72233e9ab3dbfbaa8536854a277439d1fc0015372a1394a31439`.
+- H-transfer-compact-002: `655ae67227682987a39e5596c53877adaebbaa1733b5903a64cc940f58c7c4ce`.
+- H-foreign-admission-compact-001: `1666ca2a39d7b8b43935d6096b9fd56c780743e1a4ef8c2c2aeaf6d2a5c11a1a`.
+- H-dual-citizenship-compact-001: `cec1687e444ecbcfb0ef9d21e9cce90ba410a318bf5685e215541d525e4e30f1`.
+- H-readmission-compact-001: `ce31fe8457c8e6af00c5132cc6a14a45d4c23ed73c018a7a9e112ac5d90c8d48`.
+- H-second-degree-admission-compact-001: `21c64e5ee320d605e9adf95992defd4197a6ad732f5adbe73b0a84d8bfd15b02`.
+
+General admission,admission authority and transfer pairs retain their required
+companions. Review concerns exact wording/grouping,not institutional currentness
+or new rule/activation permission. Next after decision:remaining BatchA records.

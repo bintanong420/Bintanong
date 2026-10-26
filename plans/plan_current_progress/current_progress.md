@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,21:07+08. Phase11active;session paused for context reset;p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,21:16+08. Phase11active;human chunk review resumed;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -8,6 +8,10 @@ Updated26October2026,21:07+08. Phase11active;session paused for context reset;p1
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
+
+Resumed from8d9af80/clean tree;verified335packet SHA256 matches handoff and inspected original H26–30images.
+BatchA H26–30:11chunks/eight records presented inline for owner content review;all remain pending.
+Existing two H31approvals and all holds unchanged. Documentation-only validation;no code/test/model/hosted work.
 
 Owner directs prepare chunks first,review later in bulk;frontend integration stays stopped.
 335inactive candidates(177H/158C),131linked source records,eight topic packets prepared.
@@ -46,8 +50,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Owner requested handoff before a new session. Resume from the linked session note;
-show BatchA's four previously presented admission chunks as pending,then continue prepared records in bulk.
+Await owner decision on BatchA H26–30eleven chunks/eight records,including four previously pending chunks;
+record exact approved IDs/holds,then continue remaining BatchA records without routine tiny approvals.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
