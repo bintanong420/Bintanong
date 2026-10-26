@@ -7,15 +7,16 @@ Last full snapshot before condensation:`c1fc29a:plans/plan_current_progress/curr
 
 ## Latest change
 
-Owner requests session handoff13:16;[recovery](../2026-10-25-phase11-session-handoff.md) saved.
-Existing final suite left running,95%last read13:15:47;no final exit yet. No hosted activation.
+Resumed26Oct14:04:old suite/helper no longer alive;log stopped13:18:13at95%,no exit receipt.
+Preserved interrupted log;full-suite-only recovery session26270/helperPID21892 started14:04:08.
+No six-case repeat or hosted activation. Fresh MCP confirms19active/78draft/80draft,39curricula each.
 
 [Companion/context plan](../2026-10-26-companion-context-and-activation.md) tasks1–3 implemented in
 b6a9da1/1b51518/9ea3ae7/706d3c6. Required companion closure separate from ordered steps;exact shared
 measures/penalty conditions/Charter discrepancy,truthful source_conflict context without authority.
 RED2+11+5;independent oneP2 reproduced RED4/fixed. GREEN120,broader1316,final relevant63/fresh865passed.
 Saved actual six-packet replay/token preflight passes;max4918input+768+8 fits8192,no preflight inference.
-Frozen706d3c6 managedsession68829/PID20176 runs six once then full suite;started12:58:11+08.
+Frozen706d3c6;original managedsession68829/PID20176 ended without final suite receipt.
 Actual six21completions/5answered1source_conflict;6/6expectations met;full-suite PENDING. Read A/p11-companion-context-20261026/logs and exit files;
 do not duplicate jobs. Source48files/78chunks unchanged;explicit short draft/global canonical unchanged.
 Fresh read-only Supabase preparation verifies exact78chunk/span/source/vector records/39matching
@@ -45,7 +46,7 @@ restores absence. Actual hosted answer/browser quality not yet tested.
 
 ## Next action
 
-Resume existing session68829/final-suite exit check;all6selected expectations pass. Then authorized
+Monitor recovery session26270/final-suite exit;all6saved selected expectations pass. Then authorized
 governed corrected78hosted/local
 switch,anon78/39readback/normal hosted composition and bounded hosted smoke/relevant query comparison.
 Rollback old19on integrity/smoke failure. Save results/recovery. Do not ask approval again;no source

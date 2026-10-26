@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 105
+sequence: 106
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 706d3c6
+head_commit: b2724ea
 working_tree: dirty
-updated_at: 2026-10-26T13:16:00+08:00
+updated_at: 2026-10-26T14:06:00+08:00
 ---
 
 # Phase 11 checkpoint — companion context and corrected78 activation
@@ -24,7 +24,8 @@ claim. RED2+11+5 and review RED4 observed. Review oneP2 fixed;no other important
 
 ## Current Task
 
-Owner requests a session handoff now;leave existing suite running,do not restart. See compact
+Resumed26Oct14:04:old helper/test processes absent;log stopped13:18:13at95%,exit absent.
+Preserved interrupted log;full-suite-only recovery running. See compact
 [recovery](2026-10-25-phase11-session-handoff.md) for exact prepared guarded activation commands.
 
 [Current plan](2026-10-26-companion-context-and-activation.md) tasks1–3 implemented;validation running.
@@ -39,8 +40,8 @@ p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Production/tests froz
 Only plan/progress/checkpoint/recovery docs updating;documentation descendants do not alter frozen code.
 Last full snapshot before current condensation:b6a9da1. Evidence root A/p11-companion-context-20261026/;
 A=C:/Coding-projects/bintanong_workspace/audit-evidence. All source/raw artifacts ignored.
-Managed exec session68829/helperPowerShellPID20176:run_six_then_suite.ps1;started12:58:11+08.
-Six cases once then final full suite serialized;read six-cases.log/.exit,full-suite.log/.exit and raw
+Recovery managedexec session26270/helperPowerShellPID21892:run_suite_recovery.ps1;started14:04:08+08.
+Full suite only;original six cases remain once. Read six-cases.log/.exit,full-suite.log/.exit and raw
 six-cases/<case>/call-* traces. Do not start duplicate jobs. No old helpers/cases to restart.
 
 ## Verification Evidence
@@ -74,20 +75,20 @@ Prompt/guard work is inference,not training;retain English/Filipino/Taglish and 
 ## Known Failures or Blockers
 
 INC context/Charter total/shared cheating measures fixes pass all6selected expectations;full suite
-pending at95%last read13:15:47. No activation or hosted smoke yet. Six Taglish roster register misses/photos unsupported remain. Wider Hybrid/
+pending on recovery;old95%run interrupted without receipt. No activation or hosted smoke yet. Six Taglish roster register misses/photos unsupported remain. Wider Hybrid/
 clarification/no-topic/Nursing/query/frontend/browser exits open;Phase11 active,Phase12 not authorized.
 Hosted switch remains gated by quality/full-suite evidence;old19rollback retained.
 
 ## Next Action
 
-Handoff saved at owner request. Monitor session68829 final suite;selected six quality PASS. If gates
+Monitor recovery session26270 final suite;selected six quality PASS. If gates
 pass,run prepared release_switch.py activate through governed RPC;verify anon78/39 and normal hosted
 composition/local pin,then bounded hosted smoke/relevant accepted-query comparison. Roll back on
 failed integrity/smoke. Save final findings/results and compact recovery without asking approval again.
 
 ## Context Consulted
 
-26Oct refresh after rollover:thesis physical17–18,runtime routing PNG,master16 and current phase
+26Oct14:04 refresh:thesis physical17–18,runtime routing PNG,master16 and current phase
 baseline. Undergraduate/advisory/private-file/source-gap and structured/RAG boundaries consistent.
 Prior master3/13/14,thesis39–44 retained;no architecture/scope change.
 

@@ -1,6 +1,6 @@
-# Phase 11 session handoff —26October2026,13:16+08
+# Phase 11 session recovery —26October2026,14:06+08
 
-Owner asks to finish this session and save a handoff. This is recovery,not phase completion.
+Owner resumed work. This is recovery,not phase completion.
 p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Production/tests frozen706d3c6;
 documentation descendants are permitted. Last full snapshot before condensation:929a984.
 Read AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint;
@@ -16,13 +16,13 @@ Do NOT ask again. This is research activation,not school/public approval or Phas
 ## Running job — read before acting
 
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
-R=A/p11-companion-context-20261026/. Managedexec session68829;PowerShellPID20176;
-started12:58:11+08. run_six_then_suite.ps1 currently runs FINAL FULL SUITE after completed six.
-Latest read13:15:47:95%,no failures shown,full-suite.exit absent. No current full-suite pass claim.
-Native session can be polled if retained;otherwise check PID/log/exits from disk. The process may
-finish after this handoff. Preserve it;do not launch duplicate suites. No model cases currently running.
+R=A/p11-companion-context-20261026/. Recovery managedexec session26270;PowerShellPID21892;
+started14:04:08+08. run_suite_recovery.ps1 runs FINAL FULL SUITE ONLY;no six-case repeat.
+Old session68829/PID20176 absent on resume;old log stopped13:18:13at95%,full-suite.exit absent.
+Preserved full-suite-interrupted-131813.log. No current full-suite pass claim;termination cause unknown.
+Check current PID/log/exits;do not launch duplicate suites. No model cases currently running.
 Command:sharedPython -X utf8 -u -B -m pytest -q -p no:cacheprovider tests/
---basetemp=R/full-suite-tmp;BINTANONG_STORAGE_EVIDENCE_DIR=R/full-suite-db.
+--basetemp=R/full-suite-recovery-tmp;BINTANONG_STORAGE_EVIDENCE_DIR=R/full-suite-recovery-db.
 Read R/full-suite.log and R/full-suite.exit. Only0is success;95%is not a final result. Prior suite
 6865passed belongs0c8bff4 and cannot substitute. Database portion took~15min previously.
 

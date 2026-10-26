@@ -1,7 +1,9 @@
 # Companion context and corrected-release activation results —26October2026
 
-Implementation/selected quality gates PASS;final full suite RUNNING at95%(13:15:47);hosted activation pending.
-Owner requests session handoff13:16;existing suite left running. Exact resume/activation/rollback
+Implementation/selected quality gates PASS;final full-suite recovery RUNNING;hosted activation pending.
+Resume14:04 found old helper/test processes absent,log stopped13:18:13at95%,no exit receipt.
+Preserved partial log;recovery session26270/PID21892 reruns only full suite. No six-case repetition.
+Exact resume/activation/rollback
 commands are in [session recovery](2026-10-25-phase11-session-handoff.md).
 [Plan](2026-10-26-companion-context-and-activation.md) ·
 [Source corrections](2026-10-26-hosted-chunk-correction-results.md) ·
