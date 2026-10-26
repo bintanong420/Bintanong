@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 115
+sequence: 116
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 0809cdb
+head_commit: 7590a71
 working_tree: clean
-updated_at: 2026-10-26T16:41:00+08:00
+updated_at: 2026-10-26T17:49:00+08:00
 ---
 
-# Phase 11 checkpoint — ingestion workflow assessment
+# Phase 11 checkpoint — two-developer baseline preparation
 
 ## Completed Tasks
 
@@ -23,16 +23,17 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-[Ingestion assessment](2026-10-26-ingestion-pipeline-assessment.md)delivered:existing candidate/review/
-embed/stage/release pieces traced;declared scope validation is not automatic audience understanding.
-Runtime needs matching catalogue/claim/package metadata. Reusable new-edition orchestration missing;
-no redesign approved. Catalogue remains89groups/86pending/3existing in8batches;bulk review deferred.
+[Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
+fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
+[Review01](2026-10-26-handbook-charter-expansion-review-01.md):11Hunits/2Cservices,H26–34/C6–8
+visually checked;standing delegation used. Owner confirmed both H26/H30holds and unchanged datasets.
+Dedicated ingestion task saved;remaining catalogue fields unreviewed;no review-complete fork point.
 
 ## Repository State
 
 p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-0809cdbresume baseline;documentation descendants do not change tested code. Snapshot head names
-the inspected pre-documentation HEAD;delivery commit contains this checkpoint and assessment.
+7590a71resume baseline;documentation descendants do not change tested code. Snapshot head names
+the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 R=A/p11-companion-context-20261026. New audit A/p11-scan-completeness-audit-20261026;prior catalogue/Handbook/grading evidence retained.
 Raw sources/results/helpers/pin are ignored. New assessment evidence A/p11-ingestion-trace-20261026;
@@ -40,6 +41,11 @@ focused tests ended0. Two-query runner ended0;no model/source/DB jobs started th
 Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
 
 ## Verification Evidence
+
+Fresh compatibility77passed/110subtests15.27s/exit0,same4test files as ingestion assessment below;
+new evidence A/p11-two-developer-baseline-20261026,pytest-tmp/log/exit.11comparison copies verified,
+7runtime seals/both original hashes/pin match;manifest SHA recorded in workflow. No fresh hosted read.
+Docs/source review only:no behavior change/artificial RED/GREEN/full-suite repeat.
 
 Final full suite6896passed/1595subtests,6skip2xfail6warnings,1400.75s,exit0. Command:sharedPython3.13
 -X utf8 -u -B -m pytest -q -p no:cacheprovider tests/ --basetemp=R/full-suite-recovery-tmp;
@@ -103,9 +109,10 @@ Global canonical default unchanged. Old19superseded/retained;old80draft. Origina
 
 Ingestion-pipeline question answered against code;generic fresh-edition workflow remains missing.
 Existing safeguards validate recorded source/scope decisions;AI suggestions do not establish approval.
-Gather Handbook/Charter topics first,review in bulk later remains the source-review direction.
-Admission/registration remains first proposed batch;do not start per-topic approval questions now.
-Collection is not content approval;standing clear-row delegation and new-issue holds remain.
+Owner now starts planned verification before two-developer fork;previous bulk-review deferral superseded.
+H26keep conflicting enrollment/payment clauses,H30academic-deficiency applicability unresolved:confirmed
+by owner;do not re-ask. Keep everything as supplied;clear-row delegation/new-issue holds remain.
+Primary owns hosted/source/runtime;other developer local DBonly/no hosted writes,shared changes agreed.
 Owner authorized corrected78activation after validation;recorded owner-decisions-ledger permission
 executed without reopening source approval. Research-only;no school/currentness/public approval.
 Source wording,blanks,cutoffs,conflicts,F04hold,unknown applicability and advisory/privacy limits fixed.
@@ -119,13 +126,14 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Resume pending Phase11 grading triage:write/run a bounded regression reproducing the saved
-storage_error's underlying cause before any behavior fix. Bulk review remains deferred;new-edition
-maintenance implementation is a separate unapproved scope,not an implicit dependency of this fix.
+Continue remaining BatchAoriginal passages,thenB–H;record literal clear readings and source limits.
+Commit reviewed records before declaring final shared baseline/fork. Keep confirmed holds and primary
+runtime/pin unchanged. Grading regression/frontend integration follow baseline under owner order.
 
 ## Context Consulted
 
-26Octresume:thesis physical17–18/39–44,routing PNG,master3/7–9/16/18.3,current plan/Phase10handoff;
+26Octresume:thesis physical17–18/39–44 freshly read,routing PNG viewed,master3/11/13/16/18.3;
+current plan/Phase10handoff and prior master7–9 evidence retained;
 scope/gap/location policies,service association rule and owner ledger consulted. Thesis illustrative
 closed-world example remains illustrative;settled missing-fact unknown handling takes precedence.
 

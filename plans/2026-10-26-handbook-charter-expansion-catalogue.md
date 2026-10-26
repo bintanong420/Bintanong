@@ -6,6 +6,12 @@ page 26–34 field review. That subject remains first in the proposed review ord
 No new source reading, policy interpretation, chunk, rule or activation is approved
 by inclusion here. Phase 11 remains active.
 
+**Execution update, 26 October:** the owner has now started the planned verification
+through the [two-developer workflow](2026-10-26-phase11-two-developer-workflow.md).
+[Review 01](2026-10-26-handbook-charter-expansion-review-01.md) records selected H26–34
+and complete C6–8 services; the H26/H30 holds are confirmed. Catalogue states below
+remain discovery states, not a substitute for field-level review completion.
+
 The catalogue now contains **89 topic groups in eight review batches** after the
 owner-requested completeness audit. Three groups are existing coverage retained
 for comparison; the other 86 are possible additions,

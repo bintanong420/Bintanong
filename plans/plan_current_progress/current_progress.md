@@ -1,18 +1,23 @@
 # Current progress
 
-Updated26October2026,16:41+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,17:49+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Ingestion question traced and answered in the [assessment](../2026-10-26-ingestion-pipeline-assessment.md):
-candidate CLI,declared audience/content review,embedding,staging,receipt binding and activation exist
-separately. Runtime also needs matching topic/claim/package metadata. General new-edition orchestration
-is missing;current glue is evidence-specific. No redesign or bulk review started. Fresh focused
-77tests/110subtests pass;initial missing basetemp-parent setup error resolved. Phase state valid;
-documentation links and git diff --check pass. Full suite not repeated for documentation-only work.
+[Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
+source verification first,then fixed baseline/fork,then frontend/runtime versus isolated ingestion/UI.
+[Review01](../2026-10-26-handbook-charter-expansion-review-01.md):H26–34/C6–8 visually checked;
+11Hreading units/2complete Cservices recorded using standing delegation. Owner confirmed H26
+enrollment/payment discrepancy hold and H30unknown-applicability hold;“keep everything as is”.
+Original words/data stay intact. Remaining catalogue fields unreviewed;no full BatchAapproval.
+Comparison-only snapshot:11copies/7runtime seals/78chunks/both original hashes verified;
+manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
+Fresh compatibility77tests/110subtests pass15.27s/exit0;no full-suite repeat for docs/source review.
+Dedicated ingestion task saved;review-complete baseline/fork not ready. No branch/worktree/hosted writes.
+Existing Orca setup copies.env/runs npm ci;future ingestion setup must avoid that path until isolated.
 
 [Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
 394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
@@ -59,6 +64,6 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Resume pending Phase11 grading triage with a bounded regression for the captured storage_error;
-reproduce its underlying cause before changing behavior. Keep bulk source review deferred and
-the assessed new-edition maintenance gap separate;no pipeline redesign is authorized here.
+Continue source verification with remaining BatchApassages,then batchesB–H;reuse review01and confirmed
+holds. Commit review records before establishing the final shared baseline and ingestion branch.
+Grading fix/frontend integration follow this baseline under the supplied two-developer order.

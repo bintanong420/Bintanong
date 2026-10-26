@@ -443,3 +443,20 @@ Each program still gets its own dated review record listing which standing rule 
 - 26 Oct2026,source fidelity reminder during selected-answer fixes:owner says "just remember to keep the exact source as is, if there are limitations then so be it. We already human reviewed it, i reviewd it like twice now." Keep approved exact source wording,blanks,conflicts/cutoffs/other limitations;do not reopen human review or modify sources to make answers succeed. Work only on selection,coverage,language/composition using existing approved evidence.
 
 - 26Oct2026,conditional corrected-release activation:owner says "aight continue, btw lets make those chunks active in the supabase after". Continue remaining companion/source-conflict fixes and activate corrected78chunk release p11-research-corrected-20261026 after validation,using existing governed research-release/pin path,verified hosted readback and preserved19chunk rollback. Do not re-ask this authorization;do not activate before checks or infer public/institutional approval,source expansion or deadline precedence. Exact source/limitations remain fixed.
+
+- 26 Oct 2026, two-developer workflow: owner requests execution of the supplied plan:
+  complete planned Handbook/Charter verification and commit a fixed verified baseline
+  before branching `feat/p11-policy-ingestion-review` from the primary
+  `feat/p11-backend-api`. Primary owns source decisions/frontend/runtime/hosted release
+  and pin; other developer owns isolated ingestion commands/local review UI/candidates,
+  with disposable local database tests only and no hosted writes. Shared interfaces
+  need agreement and a single implementer. Integration does not publish candidates.
+  See `2026-10-26-phase11-two-developer-workflow.md` and the dedicated task record.
+- 26 Oct 2026, expansion review 01: owner answers “Keep both proposed holds” for
+  H26's conflicting official-enrollment/payment/Nursing-Midwifery wording and H30's
+  academic-deficiency paragraph of unresolved undergraduate applicability. Preserve
+  all H26 statements with a discrepancy; withhold affected enrollment/payment/exemption
+  conclusions. Keep H30's paragraph outside the supported selection pending applicability.
+  Owner adds “we should keep everything as is from the data sets”: originals and
+  source wording remain unchanged. This does not resolve policy meaning or approve
+  unseen fields. See `2026-10-26-handbook-charter-expansion-review-01.md`; do not re-ask.
