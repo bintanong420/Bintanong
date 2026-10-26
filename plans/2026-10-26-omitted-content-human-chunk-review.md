@@ -101,3 +101,26 @@ three-chunk face-to-face admission record presented inline as items18–22.
 Historical dates/channels not verified current;May release date is not a current
 schedule. H100prints one2x2photo versus H33two;retain both source-specific lists,
 do not silently reconcile or combine them. Admission trio remains required companions.
+
+## Batch A Charter registration — four chunks presented, decision pending
+
+Owner asked about page jumps and said “continue”;this is presentation authority,
+not explicit approval of18–22. Total stays19approved/316pending. Explained eight
+topic batches rather than page-order review;selected passages on intervening pages
+appear under other topics,while existing/held/excluded/support content is separately
+accounted in the coverage ledger. No whole-document/currentness claim.
+
+Original Charter physical6/printed5inspected. Items23–26present the complete linked
+C-registration record with service metadata,requirements,two logical steps and totals:
+
+- C-registration-compact-001: `1068839d8fd728b744df0a3ed2c2b424c74caaf971f2cf3b568af9c620e41be6`.
+- C-registration-compact-002: `b736e480dd21994b02621eb2c5a6978c167f6e83771f96913f707be4c3414326`.
+- C-registration-compact-003: `3d48e7eb7245d3103a787dd5b0ad72ef780941c47461faaa61b575b0f5a2b6a8`.
+- C-registration-compact-004: `61a4d6440cce00ccb87d4a462f54bad5c6f529de346de491e2368046aa26e61b`.
+
+New extraction artifact in001service_context:literal “Day)Day)” after the shifting
+note is not visible on the original image. Proposed remove only this fragment
+from a separately derived corrected candidate after owner decision;sealed335input
+unchanged. Approval must bind corrected bytes/new ID if changed,not mislabel001
+as exact-source approved. Native curly apostrophes/en-dashes shown versus parser
+ASCII variants. Printed UNIFAST fee/None total discrepancy stays unresolved.

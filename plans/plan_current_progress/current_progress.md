@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,22:07+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,22:44+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,9 +9,10 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approved sixH32–34registration/credit chunks:19of335approved,316pending;links/limitations retained.
-Owner confirms North/South provisions retained for transfers into main Tiniguiban;printed applicability preserved.
-Next five H51/H100/H110–111chunks presented after original-image checks;approval pending.
+Owner asks about page jumps;confirmed eight topic batches,not page order. “Continue”does not approve18–22.
+Total19of335approved/316pending;next four Charter registration chunks23–26presented with original C6image checked.
+New artifact “Day)Day)”in C-registration-001is not visible;proposed derivative removal awaits owner decision.
+Existing fee/total discrepancy stays;sealed packet unchanged. North/South transfer clarification retained.
 All holds unchanged. Documentation-only validation;no code/test/model/hosted work.
 
 Owner directs prepare chunks first,review later in bulk;frontend integration stays stopped.
@@ -51,7 +52,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on five BatchA H51/H100/H110–111chunks;record exact approved IDs/holds,
+Await owner decisions on18–22and23–26,including C-registration-001artifact removal;record exact IDs/holds,
 then continue remaining BatchA records without routine tiny approvals.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
