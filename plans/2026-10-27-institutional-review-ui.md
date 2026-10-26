@@ -12,7 +12,7 @@ Manifest SHA-256: `bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc
 All11listed file hashes/7seals rechecked unchanged after preparing the UI workspace.
 Handbook394pages and Charter117pages retain their exact original bytes.
 
-The UI imports **72 prior reviewed references**:66Handbook/6Charter, with12records
+The UI prepares **72 editable local candidates**:66Handbook/6Charter, with12records
 carrying known source limitations. This is the selected existing package, not an
 all-page corpus/review or the later89-group expansion. Six other snapshot records
 refer to three absent JPG originals and are outside this UI selection.
@@ -20,20 +20,30 @@ Original PDFs can contain excluded audiences on shared pages: only the explicitl
 undergraduate selected records enter this queue. Complete original files stay intact.
 
 Every imported field retains its value, spans, physical pages, blanks, companions,
-source limits and complete prior chunk. A new local approval is never inferred.
-References are read-only; save requests are rejected and review export explicitly
-withholds these rows. Existing new-candidate review remains a separate workflow.
+source limits and complete prior chunk. All298fields start pending; audience starts
+unresolved. The baseline values are review inputs, not a fresh raw conversion.
+Reviewers can accept/correct/hold, decide audience independently, add source gaps,
+edit companions, save/reopen, inspect history and export candidate decisions.
+The frozen baseline and its copied reference chunks never acquire those edits.
+Export includes the full prior chunk alongside new decisions, preserving the old
+graph/group metadata and source limitations. It does not create a release package.
+Older reference-only packets remain readable and explicitly read-only.
 Neither the old pin nor stored source paths are used as hosted configuration.
+
+The owner corrected the earlier read-only implementation after rereading the two
+developer notes. Antislop changes should improve language/accessibility while
+preserving the specified review workflow. The earlier viewer was a scope regression,
+not an owner-approved replacement. This correction restores the functional reviewer at `89b51d9`.
 
 ## Local operation
 
 Manifest/packet/logs under workspace
-`audit-evidence/p11-policy-ingestion/institutional-ui-20261027/`.
+`audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/`.
 Run from this worktree using system Python3.13:
 
 ```powershell
-py -3.13 -m backend.bintanong_tools.knowledge_update prepare C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/institutional-ui-20261027/manifest.json --out C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/institutional-ui-20261027/packet
-py -3.13 -u -m backend.bintanong_tools.knowledge_update review C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/institutional-ui-20261027/packet --reviewer Researcher --no-open
+py -3.13 -m backend.bintanong_tools.knowledge_update prepare C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/manifest.json --out C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/packet
+py -3.13 -u -m backend.bintanong_tools.knowledge_update review C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/packet --reviewer Researcher --no-open
 ```
 
 UI127.0.0.1:3001;API127.0.0.1:8765. Use the current terminal's launch link; tokens
@@ -48,8 +58,10 @@ Design read: institutional evidence comparison for researchers, using the approv
 Bintanong colors/controls. ENERGY1/RHYTHM1/MOTION1: calm, predictable, no added motion.
 - Original page beside the source fields keeps the comparison decision visible.
 - Actual document titles/editions and PDF pages identify evidence without internal IDs.
-- Prior reviewed references and known source problems have separate, explicit labels.
+- Prior evidence, new local decisions and known source problems stay distinguishable.
 - Plain choices such as “Matches the document” and “Needs clarification” explain review actions.
+- Queue filters cover unchecked, held, checked, excluded and known-source-problem records.
+- Flowchart connections use From/Branch label/To controls rather than requiring JSON editing.
 - New source-problem forms use normal fields/checkboxes; JSON stays in Technical details.
 - Native history dialog provides keyboard dismissal/focus handling; a skip link reaches evidence.
 - Stronger control edges,44px targets and selected-row outlines make controls findable.
@@ -61,34 +73,49 @@ No decorative assets/icons, fabricated activity or ornamental comments were adde
 
 ## Verification and limits
 
-- RED: five snapshot intake tests fail before support exists; one Node test fails on
-  missing human-readable label/status helpers. Synthetic tracked fixtures only.
-- GREEN:257tests/80subtests,57.50s. Command: system Python3.13 `-m pytest -q
+- RED: the corrected snapshot regression reproduced read-only save refusal; the
+  queue regression reproduced missing review-state filters. Synthetic tracked fixtures.
+- GREEN:257tests/80subtests,57.03s. Command: system Python3.13 `-m pytest -q
   -p no:cacheprovider`,eight knowledge-update test files including snapshot intake,
   plus reviewed-policy preparation/chunks,service steps and review GUI client;
-  basetemp:workspace `audit-evidence/p11-policy-ingestion/grounded-regressions`.
-- Snapshot tests cover unchanged source/field/span/gap import, no transferred approval,
-  replay, malformed hashes, altered source/chunk and stale copied evidence.
-- Four Node tests pass; TypeScript exits0; updated Next16.4.3 production build/start pass.
-- UI200/API200;actual state72records/revision0. Browser shows Handbook46/394 and
-  Charter102/117 with exact fields. Document filter gives six Charter records.
-- Desktop906CSSpx: no page overflow; measured queue rows no longer clip their content.
-  Original PDF images load; browser console had no errors during these bounded checks.
+  basetemp:workspace `audit-evidence/p11-policy-ingestion/restore-review-regressions`.
+- Six snapshot tests pass separately,18.88s,including older reference-packet compatibility,
+  save/reopen/correction/export, unchanged original bytes and no inherited approval.
+- Five Node state tests pass; TypeScript exits0; Next16.4.3 production build/start pass.
+- Synthetic browser rehearsal: correction/save/reload/history/Escape/export download
+  all pass, using a separate9-record synthetic packet. No institutional decisions saved.
+- Real-record browser checks exposed a form crash when changing field schemas between
+  documents. Selection now resets its draft atomically; rerun verifies Charter fields,
+  five companions and the two flowchart connections/four companions.
+- Tracked browser regression passes2.61s against the real packet: switch between
+  different document field schemas and back,retaining audience/content/save controls.
+  Command: `BINTANONG_REVIEW_TEST_LAUNCH` set to the current ignored launch-url.txt;
+  `node --experimental-strip-types --test researcher/tests/document-switch.test.mjs`.
+  Without that explicit local session input,the integration test skips. No content writes.
+- Real Chrome checks:72records/298fields/revision0,Charter102/117 with6fields/5companions,
+  Handbook flowchart62/394 with2connection controls/4companions. Both PDFs load.
+  Dark/light computed appearance switches pass;390px and720px zoom-equivalent layouts
+  have no horizontal overflow. Grid tracks were constrained after a long companion
+  option caused720px overflow. Zero captured runtime exceptions in the passing checks.
+- Browser harness fixes selected the actual page rather than Chrome's background
+  extension target,used the current token after server restart,and normalized the
+  Windows download directory. Those harness failures did not require application changes.
 - Declared palette checks via the antislop-human contrast helper pass: text minimum
   5.88:1 for measured pairs; control boundaries minimum4.00:1. This is static-token
   calculation, not a completed browser-computed contrast sweep.
-- Orca async accessibility sweep timed out; a subsequent browser command also timed
-  out. Stop that automation path. Mobile/200%zoom, full keyboard/modal operation,
-  computed-style theme sweep and full correction/save/export browser acceptance remain
-  **unverified**. Do not claim an accessibility or full-browser exit.
-- Raw scripts/reports/screenshots remain ignored beside the packet:
-  `desktop.png`, `browser-audit.js`, `declared-color-contrast.json`.
-- Full repository suite, actual database roles and publish/rollback rehearsal not run.
+- Orca browser automation remains unresponsive. A separate headless Chrome profile
+  uses built-in CDP/Node tools, without installing dependencies or using a personal profile.
+- Raw browser scripts/reports/screenshots stay ignored under workspace
+  `audit-evidence/p11-policy-ingestion/restore-browser-rehearsal/`.
+- Full keyboard/assistive-technology acceptance,computed contrast for every state,
+  full repository suite,actual database roles and publish/rollback rehearsal not run.
   No embeddings/model calls, content-policy changes, new approval, release activation,
   hosted access, phase closure or whole-corpus accuracy claim.
 
 ## Next action
 
-Obtain the owner's GUI feedback on the real reference workspace,finish the bounded
-browser checks when browser control responds,then resume the existing candidate
-workflow/local lifecycle gates. Source-content interpretations and held fields stay unchanged.
+Finish the remaining T4/T5 disposable-local lifecycle tooling/rehearsal and operator
+delivery. The seven-command specification remains in scope;stage/publish/rollback
+are not implemented yet. Real legacy-package rebuilding still requires explicit
+reviewed authoring/bindings/membership; this UI correction does not clear that gate.
+Source-content interpretations and held fields stay unchanged.

@@ -9,13 +9,17 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
 `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
-[Real institutional UI](../2026-10-27-institutional-review-ui.md):72read-only references,
-66Handbook/6Charter;12known-source-problem records preserved. Plain labels/forms,
-exact PDF pages/fields,IDs/JSON under Technical details. Three antislop skills applied.
-257tests/80subtests,4Node tests,TypeScript/build pass;UI3001/API8765HTTP200.
-Terminal `Institutional document review`;Ctrl+C stops it. No decisions saved.
-Desktop source/fields verified;Orca audit timed out. Mobile/full keyboard/theme sweep,
-full browser/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
+[Restored institutional reviewer](../2026-10-27-institutional-review-ui.md): the owner
+rejected the read-only substitution. Real72records/298fields now enter editable local
+candidate review;66Handbook/6Charter,12known source-problem records. Accept/correct/hold,
+independent audience,companions,gaps,save/reopen/history/export restored;baseline unchanged.
+257tests/80subtests plus6snapshot compatibility tests,5Node state tests/TypeScript/build pass.
+Synthetic Chrome rehearsal verified correction/save/reload/history/Escape/download.
+Real-document switch fixed/regression pass2.61s;Charter/flowchart/image checks pass.
+Dark/light and390px/720px zoom-equivalent layouts pass;no horizontal overflow.
+UI3001/API8765;terminal `Institutional document review`;institutional revision0.
+New packet:workspace audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/.
+Full accessibility/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
 Frozen78baseline verified27Oct:actual root has nested comparison-baseline-78/child;
 11/11files,7/7seals,78chunk/vector bindings pass;PDFs394H/117Cpages,hashes unchanged.
 77topic assignments/66claim reviews;one existing unassigned chunk and three supporting

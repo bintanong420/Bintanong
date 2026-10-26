@@ -1,9 +1,9 @@
 # Policy ingestion workstream checkpoint
 
-Updated 27 October 2026, institutional document UI running. Phase 11 remains active.
+Updated 27 October 2026, editable institutional reviewer restored. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
-Verified implementation: `a03dc08`; prior review/API: `1f2bb60`; shared fork: `4e99fb6`.
+Verified UI restoration: `89b51d9`; initial package/UI: `a03dc08`; shared fork: `4e99fb6`.
 
 ## Delivered and verified locally
 
@@ -31,23 +31,31 @@ System Python 3.13.12; pytest 9.0.3; no cache; external basetemp under
   plus reviewed-policy chunks/preparation, service steps and existing review GUI client.
 - Researcher: three Node tests pass, TypeScript check exits 0, Next.js 16.4.3
   production build passes. Existing installed dependencies reused; no install/download.
-- Owner requested real grounding/plain GUI and the three antislop skills. See
-  [institutional UI delivery](2026-10-27-institutional-review-ui.md) for exact evidence/commands.
-  Reusable reviewed-snapshot manifest intake imports72references (66Handbook/6Charter),
-  preserving fields/spans/companions/blanks and12source-problem records. References
-  are read-only; no new approval/exported candidate is inferred from opening them.
-  Snapshot tests RED5/GREEN;grounded-regressions257tests/80subtests57.50s pass;
-  4Node tests/TypeScript/production build pass. Declared palette checks pass.
-  UI3001/API8765;terminal `Institutional document review`,same recorded handle;
-  Ctrl+C stops it. Packet/logs in workspace `audit-evidence/p11-policy-ingestion/institutional-ui-20261027/`.
-  Both PDFs/fields load;72rows,Charter filter6;no saved decisions;desktop no overflow/row clipping.
-  Orca async audit timed out,then another browser command timed out. Further mobile/
-  keyboard/theme-computed checks unverified;regular browser open requested successfully.
-  Synthetic preview closed;frozen baseline reverified unchanged. No model execution.
-  Local installed Node22.22.3 differs from target24.21.0; Next16.4.3 build/start passed.
-  Automatic shell policy rejected the hidden background launch; used a visible
-  Orca terminal instead. No alternate hidden launch attempted.
-  Full correction/save/reopen/export browser acceptance and full suite remain pending.
+- Owner corrected a scope regression: the antislop work had turned the institutional
+  reviewer into a read-only viewer,contrary to the two supplied developer notes.
+  [Restored reviewer](2026-10-27-institutional-review-ui.md):72local candidates,
+  298pending fields,66Handbook/6Charter,12known-problem records. Baseline evidence
+  remains exact;audience/content decisions start unresolved/pending. Save/export,
+  accept/correct/hold,companions,gaps and independent audience controls restored.
+- RED: corrected snapshot test fails on reference-only flag;queue-filter test fails.
+  GREEN:restore-review-regressions257tests/80subtests57.03s;6snapshot tests18.88s
+  including old-packet compatibility;5Node state tests,TypeScript/production build pass.
+- Separate9-record synthetic Chrome rehearsal verifies correction/save/reload,
+  history/Escape and actual export download;only test-labelled synthetic decisions.
+  Real-record switching reproduced a stale-draft field crash;choose now updates
+  selection and draft together. Tracked document-switch browser regression passes2.61s.
+  Real Charter/flowchart controls and original images pass;dark/light appearance,
+  390px/720px zoom-equivalent layouts pass,no overflow/captured runtime exceptions.
+  Full keyboard/assistive-technology/contrast-state acceptance remains unverified.
+- Terminal `Institutional document review`,handle `term_31c5fa83-8f97-411f-b476-961de6f49b4e`;
+  UI3001/API8765;Ctrl+C closes both. Institutional packet revision0,no decisions saved.
+  New workspace evidence folder: `audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/`.
+  Original reference packet remains loadable. Orca browser commands still time out;
+  separate headless Chrome/CDP uses an isolated profile,no install/personal profile.
+  Browser harness originally used a non-native Windows download path;normalizing
+  it confirmed the download without changing application export code.
+  Node22.22.3 vs target24.21.0 remains disclosed. Full-suite/DB-role/accessibility
+  acceptance is not established. Frozen snapshot hashes reverified unchanged.
 - Docker context `desktop-linux` cannot connect to its local named pipe. Actual-role
   disposable database checks are unavailable; no hosted substitute was attempted.
 
@@ -77,6 +85,6 @@ scope, source-gap and service-table policies. Missing facts remain unknown.
 
 ## Next action
 
-Collect GUI feedback on the real reference workspace;finish bounded browser checks
-when its control responds,then resume candidate/local lifecycle gates. Read-only
-snapshot viewing does not complete legacy-package build/staging replay.
+Resume T4/T5 disposable-local lifecycle tooling/rehearsal and operator delivery.
+All seven commands remain in scope;stage/publish/rollback are still unimplemented.
+Restored GUI review does not complete legacy-package rebuilding or lifecycle replay.

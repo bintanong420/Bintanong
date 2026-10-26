@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 120
+sequence: 121
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 313274c
+head_commit: 89b51d9
 working_tree: dirty
-updated_at: 2026-10-27T00:45:00+08:00
+updated_at: 2026-10-27T01:14:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -24,15 +24,16 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 ## Current Task
 
 In this ingestion worktree,follow the [workstream checkpoint](2026-10-26-policy-ingestion-checkpoint.md).
-T1/review persistence/package/UI delivered;real reference intake/plain GUI now passes257tests/
-80subtests,4Node tests,TypeScript/build. Browser-completion/DB lifecycle gates remain open.
-Supplied nested baseline verified27Oct:11files/7seals/78chunk-vector bindings pass;
-unchanged bytes,legacy new-suite replay pending. Local Docker engine unavailable.
-Runtime status below is inherited;no hosted connection in this workstream.
-Owner-requested real UI started27Oct:3001/API8765,HTTP200,72prior references from
-Handbook/Charter,12source-problem records;no local approval transferred or saved.
-See [delivery](2026-10-27-institutional-review-ui.md). Orca async audit timed out;
-mobile/full keyboard/theme checks pending;regular browser opened. No hosted access.
+T1/review persistence/package/UI delivered;owner rejected a read-only UI substitution.
+Restored72editable institutional candidates/298pending fields,12known source-problem records.
+257tests/80subtests,6snapshot compatibility tests,5Node state tests/TypeScript/build pass.
+Synthetic Chrome rehearsal verifies correction/save/reload/history/Escape/export download.
+Real-document draft switch fixed;tracked browser regression passes2.61s.
+Charter/flowchart/images,light/dark,390px/720px reflow pass;full accessibility gate open.
+UI3001/API8765;institutional revision0;local candidates preserve frozen baseline bytes.
+See [delivery](2026-10-27-institutional-review-ui.md). Hosted access forbidden;none performed.
+Actual local DB roles,legacy package rebuild and T4/T5 remain unfinished;Docker unavailable.
+Runtime status below is inherited,not freshly checked by this workstream.
 
 [Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
 fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
@@ -44,7 +45,8 @@ Final source-review/baseline commit and isolated ingestion fork next;primary fro
 
 ## Repository State
 
-p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
+This tree:feat/p11-policy-ingestion-review;verified UI restoration89b51d9;nothing pushed.
+The following primary-runtime evidence is inherited:backend/tests/migrations frozen706d3c6;
 d1401bcreviews01–06delivery;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -140,8 +142,8 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Ingestion tree:connect verified legacy baseline intake/replay,then finish local lifecycle/browser gates
-from the workstream checkpoint. Primary runtime developer retains frontend/grading work elsewhere.
+Ingestion tree:GUI restored at89b51d9;resume T4/T5 disposable-local lifecycle tooling/rehearsal
+and operator delivery from the workstream checkpoint. Primary runtime work stays elsewhere.
 No hosted access,generated data publication or phase advancement in this workstream.
 
 ## Context Consulted
