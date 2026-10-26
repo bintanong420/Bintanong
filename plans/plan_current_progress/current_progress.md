@@ -7,17 +7,18 @@ Last full snapshot before condensation:`c1fc29a:plans/plan_current_progress/curr
 
 ## Latest change
 
-[Source-field fixes/results](../2026-10-26-source-field-selection-results.md),code0c8bff4 delivered.
-Reviewed field bindings,complete exact deadline-conflict quotations,shared claims and lossless prompt/
-review packing. REDs observed;reviewer2P2s reproduced/fixed,broad1160passed23.65s. Final full6865+
-1595subtests,6skip2xfail6warnings,1401.55s,exit0. Six unique questions once/22completions:5answered1fallback,
-0exceptions;3meet checked expectations(removal/fraud/fee),3not met(INC context,Charter total discrepancy,
-exam shared measures/applicability). Quality gate OPEN;candidate inactive. No jobs running.
-Source48files/78chunks unchanged;global canonical default unchanged;explicit short drafts in observation.
-Evidence A/p11-source-field-packed-20261026/. Prior760ecfb full6864passed but0completion context-overflow
-attempt preserved separately;packing preflights fixed without truncation/model/context-budget changes.
-Authenticated hosted SELECT11:19 confirms active19/39links,corrected draft78/39,old draft80/39;counts only.
-No hosted/source writes/activation. Earlier failed-source/quality results remain preserved.
+[Companion/context plan](../2026-10-26-companion-context-and-activation.md) tasks1–3 implemented in
+b6a9da1/1b51518/9ea3ae7/706d3c6. Required companion closure separate from ordered steps;exact shared
+measures/penalty conditions/Charter discrepancy,truthful source_conflict context without authority.
+RED2+11+5;independent oneP2 reproduced RED4/fixed. GREEN120,broader1316,final relevant63/fresh865passed.
+Saved actual six-packet replay/token preflight passes;max4918input+768+8 fits8192,no preflight inference.
+Frozen706d3c6 managedsession86478/PID20796 runs six once then full suite;started12:54:45+08.
+Actual model/full-suite quality gate PENDING. Read A/p11-companion-context-20261026/logs and exit files;
+do not duplicate jobs. Source48files/78chunks unchanged;explicit short draft/global canonical unchanged.
+Fresh read-only Supabase preparation verifies exact78chunk/span/source/vector records/39matching
+curriculum links;19active/78draft/80draft. Owner authorizes activation AFTER validation;helper/local
+runtime package and rollback prepared. No hosted mutation yet. New local pin was absent;rollback
+restores absence. Actual hosted answer/browser quality not yet tested.
 
 ## Delivered state and boundaries
 
@@ -41,8 +42,7 @@ No hosted/source writes/activation. Earlier failed-source/quality results remain
 
 ## Next action
 
-[Companion/context and activation plan](../2026-10-26-companion-context-and-activation.md) now active.
-Owner26Oct explicitly authorizes activating corrected78 in Supabase AFTER fixes/validation;recorded
-verbatim in owner ledger. Do not ask again. First enforce required companion context and truthful
-quoted conflict fallback,regression-first;then governed hosted/local pin switch/readback/smoke with
-old19rollback. Exact sources/limits fixed;no source expansion or phase/public/institutional approval.
+Monitor session86478,six quality review/final suite;then authorized governed corrected78hosted/local
+switch,anon78/39readback/normal hosted composition and bounded hosted smoke/relevant query comparison.
+Rollback old19on integrity/smoke failure. Save results/recovery. Do not ask approval again;no source
+expansion/public/institutional approval/phase advancement.

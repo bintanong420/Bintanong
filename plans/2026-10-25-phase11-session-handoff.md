@@ -12,14 +12,20 @@ ACTIVE:[companion/context and activation plan](2026-10-26-companion-context-and-
 Owner26Oct explicitly authorizes corrected78activation in Supabase AFTER fixes/validation;verbatim
 in owner-decisions-ledger. Do not ask again. Preserve old19rollback/exact source/limits;no new sources.
 Coverage/ordered subset,exact companion/penalty-condition context and limited source-conflict
-fallback implemented under TDD. RED2+11+5;GREEN120targeted/broad1316passed35.48s. Code being committed.
-Next independent review,real saved-packet/token preflight,six once/final suite,then governed78hosted/
-local pin switch/readback/smoke and relevant query comparison. Never bypass runtime active-release
-checks;rollback on failed integrity/smoke. Source48files/78chunks unchanged. No jobs running.
-New ignored evidence A/p11-companion-context-20261026/. Older evidence/cases must not be restarted.
-Prior0c8bff4 full6865passed;22completions had3met/3unmet. Its failures drive current generic fixes;
-new natural-query pass not yet claimed. Global canonical default/explicit short-draft observation
-profile preserved. No source review/source expansion/new chunk/model/budget or hosted writes yet.
+fallback implemented b6a9da1/1b51518/9ea3ae7;reviewer oneP2 reproduced RED4/fixed706d3c6.
+GREEN120/broader1316/final relevant63/fresh865. Saved real six-packet replay and templated token
+preflight pass(max4918+768+8<=8192). No model calls in preflight. Source48files/78chunks unchanged.
+Managedsession86478/helperPowerShellPID20796 frozen706d3c6 RUNNING six once then final full suite;
+started12:54:45+08. Evidence A/p11-companion-context-20261026/:six-cases.log/.exit,full-suite.log/.exit,
+six-cases/raw traces. Monitor,do not duplicate/restart prior runs. Actual quality/suite pending.
+Read-only release_switch.py prepare verified exact78chunk/span/source/vector records/39links;
+19active/78draft/80draft. Derived runtime-package includes reviewed order overlay and budgets.
+Local active-research-pin absent;rollback restores absence. No hosted writes yet. After gates pass,
+run release_switch.py activate(governed RPC),anon78/39readback,normal39curriculum hosted composition,
+bounded hosted smoke/relevant query comparison. On integrity/smoke failure rollback old19andlocalpin.
+Owner permission already granted;no repeated confirmation. Global canonical default unchanged;
+explicit short drafts. No sources/chunks/budgets/model/dependency additions. Prior0c8six3met/3unmet
+is historical,not current pass. New full/six results must be assessed before activation.
 Whole early Handbook/remaining Charter coverage still separate;not all omitted pages are irrelevant.
 Phase11 active;activation not public/institutional approval or formal phase completion/UI readiness.
 

@@ -80,3 +80,15 @@ A typed-tuple construction mismatch and withheld-citation gating were repaired d
 Fallback remains source_conflict/non-answer with0inference and strict final quote/citation proof.
 Next independent code review,saved actual packet replay/token preflight,six once/final full suite,
 then already-authorized governed78activation/readback/hosted smoke and rollback protection.
+
+Final review:one P2 final-fidelity bypass reproduced RED4,then fixed706d3c6;GREEN63passed2.03s.
+Fresh broad865passed30.75s after fix. Earlier1316broad retained separately. No second review.
+Actual saved six-packet replay complete:INC source_conflict/4cites/0inference;Charter footer and
+cheating primary/shared conditions now exact. Actual templated draft/review preflight max4918input,
+reserved768+8 fits8192. No inference in replay/preflight;runner fixture assembly errors repaired.
+Frozen code706d3c6;managedsession86478/helperPID20796 running six once then final full suite.
+Read-only hosted preparation verified78exact chunk/span/source/vector records and39matching curriculum
+links;19active/78draft/80draft preserved. Local runtime pin was absent;rollback restores absence.
+Derived runtime package copies source bytes plus byte-identical reviewed order overlay and budgets;
+sealed48source files unchanged. No hosted mutation yet. Activation RPC/anon readback/39curriculum
+composition/smoke are prepared but remain gated by actual quality and final suite.
