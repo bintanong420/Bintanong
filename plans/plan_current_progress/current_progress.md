@@ -60,7 +60,9 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on117–120:merit/other awards pairH55and studentFAQpairH57. Then complete Chartertransfer-credentials service;skip settled H56records.
+Await explicit owner decisions on117–120and complete Chartertransfer-credentials121–128(C26–33).
+Continue did not approve117–120;counts unchanged116/336,C21/78. Charterphysical11–12/printed10–11 checked;
+step1cross-page roles and step3appointment joined for display;finalTORlabel conflict retained. Reauthoring remains.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

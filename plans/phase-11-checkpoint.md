@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 155
+sequence: 156
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 74ceb5f
+head_commit: 1977737
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T01:27:16+08:00
+updated_at: 2026-10-27T01:36:19+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -111,7 +111,9 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Await owner decision on117–120:merit/other awards pairH55and studentFAQpairH57. Then complete Chartertransfer-credentials service;H56already approved.
+Await explicit owner decisions on117–128:merit/FAQpairs and complete Chartertransfer service.
+Continue did not approve117–120;all116approvals unchanged. Charterphysical11–12/printed10–11images,
+eight-way closure and overlayhash checked. Step1roles/step3appointment joined for display;TORlabel gap retained.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.

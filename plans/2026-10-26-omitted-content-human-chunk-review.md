@@ -588,3 +588,15 @@ SHA256:`bfd27c155f1aeaac3beaf8322895867fa8ded992a8a0ca874e429cc98bdedfa6`;6/11/1
 Next117–120/BatchC22–25:merit/other awards pairH55and studentFAQpairH57;
 commencement/recordsH56already approved as110–111and skipped without re-review.
 Both upcoming pairs mutually linked;preserve source grammar and continuation.
+
+
+## Batch C transfer service — chunks121–128 prepared, pending
+
+Owner says “continue”;117–120remain pending,without inferred approval. Presented complete
+eight-way-linked C-transfer-compact-001through008as121–128/BatchC26–33.
+Charterphysical11–12/printed10–11original images checked. Step1agency/time/role/office
+associations retained across pages;step3final“appointment”joined from next rawcell
+for readable display. Final“Release Transcript of Records (TOR)”title mismatch remains
+unresolved. Printed totalPhP250.00/9days55minutes preserved. Display is not candidate
+reauthoring or activation. OverlaySHAunchanged;all8members have7neighborswithin group.
+Counts stay116of336approved/220pending;BatchC21of78. Pendingorder now117–128.
