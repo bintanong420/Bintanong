@@ -93,6 +93,9 @@ details textarea { margin-top: .75rem; }
 .known-gaps .source-reading { color: var(--foreground); margin-block: .6rem; }
 .related-record { display: block; inline-size: 100%; padding: .65rem; margin-block-start: .5rem; text-align: start; color: var(--foreground); background: var(--secondary); border: 1px solid var(--control-border); border-radius: .375rem; }
 .related-records { display: grid; gap: .8rem; border-block-start: 1px solid var(--border); padding-block-start: 1rem; }
+.review-actions { position: sticky; inset-block-start: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; padding: .8rem; margin-block-end: 1rem; background: var(--background); border: 1px solid var(--control-border); border-radius: .375rem; }
+.review-actions p { flex: 1 1 15rem; font-size: .8rem; }
+.decision-pane { scroll-padding-block-start: 7rem; }
 .companion-heading { display: flex; align-items: start; justify-content: space-between; gap: .75rem; }
 .companion-heading h4 { margin: 0; font-size: .9rem; font-weight: 650; overflow-wrap: anywhere; }
 .context-pages, .feedback-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: .65rem; }

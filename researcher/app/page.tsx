@@ -165,7 +165,7 @@ export default function ReviewWorkspace() {
           {!filtered.length && <p className="muted">No items match these filters.</p>}
         </aside>
         {!item || !draft ? <section className="empty">Choose an item from the queue.</section>
-          : item.prospectus_candidate ? <ProspectusReview connection={connection} documentId={item.document_id}/>
+          : item.prospectus_candidate ? <ProspectusReview key={item.document_id} connection={connection} documentId={item.document_id}/>
           : <div className="evidence-area"><SourceViewer key={item.document_id} connection={connection} item={item} document={state.documents.find(d => d.id === item.document_id)}
             relatedItems={state.items.filter(row => draft.companions.includes(row.id))} focus={sourceFocus}
             revision={state.revision} feedback={state.feedback} onFeedbackSaved={feedbackSaved} reviewBusy={busy || !!pending.current}/>
@@ -185,6 +185,10 @@ export default function ReviewWorkspace() {
               </section>)}</div> :
               !item.fields.length ? <p className="notice hold">This prospectus uses the course review workflow. Its questions require the prospectus review controls.</p>
               : <form onSubmit={event => { event.preventDefault(); void save(); }}>
+                <div className="review-actions"><p id="review-save-help" role="status">{draft.reason.trim()
+                  ? `Save this record and its ${draft.companions.length} context links. Related records keep their own review decisions.`
+                  : 'Add a short review note describing what you checked. Save will take you to that required field.'}</p>
+                  <Button type="submit" disabled={busy || !!pending.current}>{busy ? 'Saving…' : 'Save my review'}</Button></div>
                 <fieldset disabled={busy || !!pending.current}><legend>Your review</legend>
                   <label>Who is this for?<select aria-label="Audience applicability" value={draft.audience} onChange={event => setDraft({ ...draft, audience: event.target.value })}>
                     <option value="unresolved">Not sure yet / mixed audience</option><option value="undergraduate">Undergraduate students</option><option value="excluded">Outside this study</option>
@@ -201,12 +205,12 @@ export default function ReviewWorkspace() {
                       onChange={value => setDraft({ ...draft, fields: { ...draft.fields,
                         [field.name]: { decision: 'corrected', text: value } } })}/>
                   </section>)}
-                  <label>What did you check or change?<Textarea aria-label="Review reason" required rows={3} value={draft.reason}
+                  <label>What did you check or change? (required)<Textarea aria-label="Review reason" aria-describedby="review-save-help" required rows={3} value={draft.reason}
+                    placeholder="e.g. Compared this row with the printed grading table."
                     onChange={event => setDraft({ ...draft, reason: event.target.value })}/></label>
                   <RelatedRecords key={item.id} item={item} items={state.items} documents={state.documents} selected={draft.companions}
                     onChange={companions => setDraft({ ...draft, companions })} onShowSource={(itemId, page) => setSourceFocus({ itemId, page })}/>
                   <SourceGaps gaps={draft.gaps} fields={item.fields} onChange={gaps => setDraft({ ...draft, gaps })}/>
-                  <Button type="submit" disabled={!draft.reason.trim()}>{busy ? 'Saving…' : 'Save my review'}</Button>
                 </fieldset>
               </form>}
               {!!draft.companions.length && item.reference_only && <section aria-label="Related source records"><h3>Read together</h3>

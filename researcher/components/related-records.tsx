@@ -15,6 +15,7 @@ export function RelatedRecords({ item, items, documents, selected, onChange, onS
   return <section className="related-records" aria-label="Related records">
     <div className="pane-heading"><h3>Related records</h3><span>{selected.length} selected</span></div>
     <p className="muted">Keep the steps, conditions or tables needed to understand this record together. Their source regions appear as dashed outlines on the PDF.</p>
+    <p className="muted">Saving this review includes these context links. Each related record keeps its own content and audience review.</p>
     {!chosen.length && <p className="muted">No related records selected. Add one below when this record needs more context.</p>}
     {chosen.map(row => <article className="companion" key={row.id}>
       <div className="companion-heading"><h4>{row.title}</h4><Button type="button" variant="outline" size="sm"

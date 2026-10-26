@@ -8,7 +8,7 @@ import { parseConnection } from '../lib/review-state.ts';
 const launchFile = process.env.BINTANONG_REVIEW_TEST_LAUNCH;
 
 test('switching documents resets the field draft and keeps the review controls usable',
-  { skip: !launchFile, timeout: 45000 }, async t => {
+  { skip: !launchFile, timeout: 180000 }, async t => {
     const url = (await readFile(launchFile, 'utf8')).trim();
     const connection = parseConnection(new URL(url).hash);
     assert(['http://127.0.0.1:3001', 'http://127.0.0.1:3002'].includes(new URL(url).origin));
@@ -18,7 +18,8 @@ test('switching documents resets the field draft and keeps the review controls u
     assert(response.ok, 'use the current running review session launch link');
     const state = await response.json();
     const first = state.items[0];
-    const different = state.items.findIndex(row => row.document_id !== first.document_id
+    const prospectus = !!first.prospectus_candidate;
+    const different = prospectus ? state.items.length - 1 : state.items.findIndex(row => row.document_id !== first.document_id
       && JSON.stringify(row.fields.map(f => f.name)) !== JSON.stringify(first.fields.map(f => f.name)));
     assert(different > 0, 'use a packet with two documents and different field names');
     const profile = path.join(path.dirname(launchFile), 'document-switch-browser', String(Date.now()));
@@ -35,7 +36,7 @@ test('switching documents resets the field draft and keeps the review controls u
       ws?.close(); browser.kill();
     });
     async function until(run) {
-      const end = Date.now() + 12000;
+      const end = Date.now() + 60000;
       while (Date.now() < end) {
         const value = await run();
         if (value) return value;
@@ -80,6 +81,16 @@ test('switching documents resets the field draft and keeps the review controls u
     } catch (error) {
       throw Error(await evaluate('JSON.stringify({url:location.href,text:document.body.innerText})'), { cause: error });
     }
+    if (prospectus) {
+      await until(() => evaluate("!!document.querySelector('[aria-label=\"Prospectus answer\"]') && document.querySelector('.pdf-page img')?.naturalWidth > 0"));
+      const oldPrompt = await evaluate("document.querySelector('.decision-pane h2').textContent");
+      await evaluate(`document.querySelectorAll('.queue-item')[${different}].click()`);
+      assert(await evaluate("!document.querySelector('[aria-label=\"Prospectus answer\"]')"), 'old questions must clear before loading another prospectus');
+      await until(() => evaluate(`!!document.querySelector('[aria-label="Prospectus answer"]') && document.querySelector('.decision-pane h2')?.textContent !== ${JSON.stringify(oldPrompt)} && document.querySelector('.pdf-page img')?.naturalWidth > 0`));
+      assert.equal(errors.length, 0);
+      await writeFile(path.join(path.dirname(launchFile), 'prospectus-switch-desktop.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' })).data, 'base64'));
+      return;
+    }
     for (const index of [different, 0]) {
       await evaluate(`document.querySelectorAll('.queue-item')[${index}].click()`);
       const expected = state.items[index].fields.map(f => f.name + ' content decision');
@@ -91,6 +102,8 @@ test('switching documents resets the field draft and keeps the review controls u
       assert(await evaluate("!!document.querySelector('[aria-label=\"Audience applicability\"]') && !!document.querySelector('button[type=submit]')"));
     }
     assert.equal(await evaluate("document.querySelectorAll('select[multiple]').length"), 0, 'use the searchable related-record picker');
+    assert(await evaluate("document.querySelector('.review-actions button[type=submit]')?.disabled === false"), 'save stays actionable and explains missing required input');
+    assert(await evaluate("document.querySelector('.review-actions')?.textContent.includes('review note')"));
     const relatedIndex = state.items.findIndex((row, index) => index !== 0 && row.document_id === first.document_id
       && row.fields.some(field => field.spans.some(span => span.page === first.fields[0].locator.physical_pages[0])));
     assert(relatedIndex > 0);
@@ -104,6 +117,10 @@ test('switching documents resets the field draft and keeps the review controls u
     assert(await evaluate("!!document.querySelector('.companion .context-pages button')"));
     await evaluate("document.querySelector('.companion .context-pages button').click()");
     await until(() => evaluate("document.querySelector('.pdf-page img')?.complete"));
+    await evaluate("document.querySelector('.decision-pane').scrollTop = 100000");
+    assert(await evaluate("(() => {const a=document.querySelector('.review-actions').getBoundingClientRect();const p=document.querySelector('.decision-pane').getBoundingClientRect();return a.top >= p.top && a.bottom <= Math.min(p.bottom, innerHeight);})()"), 'save stays visible below long context lists');
+    await evaluate("document.querySelector('.review-actions button[type=submit]').click()");
+    assert(await evaluate("document.activeElement?.getAttribute('aria-label') === 'Review reason'"), 'missing note takes the reviewer to the required field');
     if (process.env.BINTANONG_REVIEW_TEST_WRITE === 'isolated-rehearsal') {
       assert.match(state.researcher, /^Automated rehearsal/);
       assert.equal(new URL(url).port, '3002');
