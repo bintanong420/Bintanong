@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 104
+sequence: 105
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 706d3c6
 working_tree: dirty
-updated_at: 2026-10-26T12:57:00+08:00
+updated_at: 2026-10-26T13:16:00+08:00
 ---
 
 # Phase 11 checkpoint — companion context and corrected78 activation
@@ -23,6 +23,9 @@ and penalty conditions;9ea3ae7 held-deadline literal context;706d3c6 final fidel
 claim. RED2+11+5 and review RED4 observed. Review oneP2 fixed;no other important findings/second review.
 
 ## Current Task
+
+Owner requests a session handoff now;leave existing suite running,do not restart. See compact
+[recovery](2026-10-25-phase11-session-handoff.md) for exact prepared guarded activation commands.
 
 [Current plan](2026-10-26-companion-context-and-activation.md) tasks1–3 implemented;validation running.
 Owner explicitly authorizes corrected78activation AFTER fixes/validation;do not ask again. Exact
@@ -70,14 +73,14 @@ Prompt/guard work is inference,not training;retain English/Filipino/Taglish and 
 
 ## Known Failures or Blockers
 
-Prior INC source-context/Charter total/shared cheating measures defects implemented;actual quality
-verification pending. Six Taglish roster register misses/photos unsupported remain. Wider Hybrid/
+INC context/Charter total/shared cheating measures fixes pass all6selected expectations;full suite
+pending at95%last read13:15:47. No activation or hosted smoke yet. Six Taglish roster register misses/photos unsupported remain. Wider Hybrid/
 clarification/no-topic/Nursing/query/frontend/browser exits open;Phase11 active,Phase12 not authorized.
 Hosted switch remains gated by quality/full-suite evidence;old19rollback retained.
 
 ## Next Action
 
-Monitor session68829 results;review actual six against fixed expectations,then final suite. If gates
+Handoff saved at owner request. Monitor session68829 final suite;selected six quality PASS. If gates
 pass,run prepared release_switch.py activate through governed RPC;verify anon78/39 and normal hosted
 composition/local pin,then bounded hosted smoke/relevant accepted-query comparison. Roll back on
 failed integrity/smoke. Save final findings/results and compact recovery without asking approval again.

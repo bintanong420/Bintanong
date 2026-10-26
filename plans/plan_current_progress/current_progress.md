@@ -7,6 +7,9 @@ Last full snapshot before condensation:`c1fc29a:plans/plan_current_progress/curr
 
 ## Latest change
 
+Owner requests session handoff13:16;[recovery](../2026-10-25-phase11-session-handoff.md) saved.
+Existing final suite left running,95%last read13:15:47;no final exit yet. No hosted activation.
+
 [Companion/context plan](../2026-10-26-companion-context-and-activation.md) tasks1–3 implemented in
 b6a9da1/1b51518/9ea3ae7/706d3c6. Required companion closure separate from ordered steps;exact shared
 measures/penalty conditions/Charter discrepancy,truthful source_conflict context without authority.
@@ -42,7 +45,8 @@ restores absence. Actual hosted answer/browser quality not yet tested.
 
 ## Next action
 
-Monitor session68829,six quality review/final suite;then authorized governed corrected78hosted/local
+Resume existing session68829/final-suite exit check;all6selected expectations pass. Then authorized
+governed corrected78hosted/local
 switch,anon78/39readback/normal hosted composition and bounded hosted smoke/relevant query comparison.
 Rollback old19on integrity/smoke failure. Save results/recovery. Do not ask approval again;no source
 expansion/public/institutional approval/phase advancement.

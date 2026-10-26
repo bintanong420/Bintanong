@@ -104,3 +104,12 @@ activation remains pending. See2026-10-26-companion-context-activation-results.m
 review. Session-guard ruling:continue the authorized frozen validation/activation with compact
 checkpoints and targeted operations;do not split merely at a tool-count threshold while a required
 job is running. Exact source48seal/undergraduate/private/source-gap limits and old19rollback remain.
+
+Actual39curriculum router preflight6307/6320/6359tokens,>=1057headroom;0inference. Activationhelper
+checks that binding on normal hosted composition. OuterPowerShell7 helper rolls back if any hosted
+smoke setup/execution fails,not only asynchronous answer errors. Rollback does not depend on the
+corrected source package remaining readable. No schema/auth/grant/dependency change.
+
+Owner13:16 requests session handoff;existing full suite left running at95%,not restarted/stopped.
+All6selected expectations pass;activation not executed. Exact gated command/rollback/recovery in
+2026-10-25-phase11-session-handoff.md. Continue from final exit,not another six/full run.

@@ -1,6 +1,8 @@
 # Companion context and corrected-release activation results —26October2026
 
-Implementation/selected quality gates PASS;final full suite RUNNING;hosted activation pending.
+Implementation/selected quality gates PASS;final full suite RUNNING at95%(13:15:47);hosted activation pending.
+Owner requests session handoff13:16;existing suite left running. Exact resume/activation/rollback
+commands are in [session recovery](2026-10-25-phase11-session-handoff.md).
 [Plan](2026-10-26-companion-context-and-activation.md) ·
 [Source corrections](2026-10-26-hosted-chunk-correction-results.md) ·
 [Prior source-field/packing results](2026-10-26-source-field-selection-results.md).
@@ -59,6 +61,11 @@ precede atomic status/pointer changes. Rollback uses existing rollback_knowledge
 [Official function guide](https://supabase.com/docs/guides/database/functions) and
 [Data API RPC documentation](https://github.com/supabase/supabase/blob/master/apps/www/_blog/2025-05-17-simplify-backend-with-data-api.mdx)
 consulted via Context7;changelog index fetched,no relevant RPC change applied. No upgrade/install.
+Current security advisor shows only the previously accepted leaked-password-protection warning;
+[remediation](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection). No auth/schema/grant changes made.
+Three actual39curriculum router prompts fit6307/6320/6359input tokens(>=1057headroom after768+8);
+0inference calls and same corrected local package,using current hosted39ledgers. Hosted switch must
+reproduce that exact root binding.
 
 After final suite,activate already-authorized78,read back anon78/39 and normal39curriculum hosted
 composition/localpin;bounded live affected-group retrieval and3accepted roster19 comparisons.

@@ -29,6 +29,7 @@
   [Corrections](2026-10-26-hosted-chunk-correction-results.md):new78-chunk/39-link draft staged inactive;old releases preserved.
   [Runtime check](2026-10-26-corrected-candidate-runtime-results.md):full suite passes;six-query quality gate fails;inactive.
   [Answer fixes/results](2026-10-26-source-field-selection-results.md):6865+1595subtests passed;3/6checked expectations met;inactive.
+  [Companion fixes/current results](2026-10-26-companion-context-activation-results.md):6/6selected expectations met;final suite running;78activation authorized after validation. Session handoff saved26Oct13:16.
   Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
