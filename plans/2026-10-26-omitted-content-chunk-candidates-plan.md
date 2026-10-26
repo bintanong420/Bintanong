@@ -64,6 +64,22 @@ remain explicit. This does not mean every source page has a publishable candidat
 
 ## Verification and stop boundary
 
+Owner26October queries899count and directs continued metadata consolidation.
+Audit:median19source words;308chunks<10words;Charter median8words,including standalone
+fees and printed-page numbers. The sealed899packet remains historical evidence,
+not the recommended final segmentation. Derive a separate consolidated packet:
+attach service metadata,keep checklist supplier pairs and client/action/fee/time/role
+rows together,merge adjacent narrative fragments within the existing token cap,
+and preserve the two approved H31chunks exactly. Remove only verified page-number
+furniture from policy text,with a retained provenance ledger. Compare every old
+field/span against new coverage,carry source limits and required continuations,
+check exact tokens/contracts/IDs,and regenerate the eight review packets.
+This is source-data repackaging with existing builders;no production behavior
+change/artificial RED. Use artifact conservation checks and relevant existing tests.
+Delivered [consolidation](2026-10-26-omitted-content-consolidation-results.md):328candidates,
+all original policy glyphs/image spans and34issue/claim sets conserved;only verified
+footer digits moved to the audit ledger. Use the consolidated packet for review.
+
 Use existing Python3.13 test environment and serializers. No production behavior is
 being changed, so no artificial RED/GREEN or full software-suite repeat; verify the
 actual candidate artifacts plus existing contract/preparation/native-span/chunk tests.

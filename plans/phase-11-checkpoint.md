@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 124
+sequence: 125
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 32065bf
-working_tree: dirty; bulk results, authoring plan, progress/checkpoint
-updated_at: 2026-10-26T19:28:00+08:00
+head_commit: 2e9e667
+working_tree: dirty; consolidation results, prior-result pointer, plan, ledger, progress/checkpoint
+updated_at: 2026-10-26T19:55:00+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -21,38 +21,42 @@ First9candidate packet and2actual human approvals recorded in32065bf,alongside b
 
 ## Current Task
 
-[Bulk results](2026-10-26-omitted-content-bulk-review-results.md):899inactive chunks(331H/568C),
+[Consolidated results](2026-10-26-omitted-content-consolidation-results.md):328inactive chunks(170H/158C),
 127linked source records,eight topic packets. All89IDsaccounted;72with candidates,including69of70
 New/Partial groups. X029initial TOR C9action/time/person association remains held;existing/other
 held/support-only selections explicit. Source-held literal candidates do not resolve affected claims.
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-Other897unapproved. Owner directs chunk preparation first,review later in bulk;no routine approvals now.
+Other326unapproved. Owner directs chunk preparation first,review later in bulk;no routine approvals now.
+899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
+34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected pre-documentation HEAD32065bf,nothing pushed.
+p11/feat/p11-backend-api;inspected pre-documentation HEAD2e9e667,nothing pushed.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
-B=A/p11-omitted-chunks-20261026/bulk-review. Ignored scripts/JSON/images remain untracked.
+B=A/p11-omitted-chunks-20261026/bulk-review-consolidated. Prior bulk-review/899seal retained.
+Ignored scripts/JSON/images remain untracked.
 Only plans/results/checkpoint/progress changed. Candidate output is separate from active package/pin.
 No frontend edits/merge/install;integration explicitly stopped. No dependencies or models changed.
 
 ## Verification Evidence
 
-Bulk artifact verification:899Chunk/source bindings remain pending;deterministic IDs/content hashes,
+Consolidated verification:328Chunk/source bindings remain pending;deterministic IDs/content hashes,
 complete required neighbors,no duplicate ID/full source-text of hosted80or active78.
-1742native spans independently checked:original text/page/page size/glyph-union boxes match;
-1317table spans also fit original cell geometry. Semantic sub-action associations still need review.
-All exact existing local E5 counts<=480,max480,truncation disabled.11known over-budget rows split
-at original scalar fields,retaining all companions. No embeddings or inference/model downloads.
-128original page images reused,982links verified.66image spans need human annotation validation.
+1718native spans independently checked:original text/page/page size/glyph-union boxes match.
+136690original native glyph positions/66image spans conserved;only94verified footer digits excluded.
+Original fields traced;all34issue/claim sets retained within required groups. Source associations
+still need human review. Median67sourcewords,zerochunks<10words;no standalone None/page-number chunks.
+All exact existing local E5 counts<=480,max457,truncation disabled. No embeddings or model downloads.
+128original page images reused,419links verified.66image spans need human annotation validation.
 94native/parser comparisons shown with records plus1held C9association;no guessed list-position mapping.
 
-Fresh161tests/215subtests35.25s/exit0:sharedPython3.13 -X utf8 -B -m pytest -q -p no:cacheprovider,
-8preparation/native/chunk/service/report/image/flowchart files;exact command in bulk results.
-Logs/exits A/p11-omitted-chunks-20261026/bulk-pytest.log/.exit;basetemp bulk-pytest-tmp.
+Fresh161tests/215subtests14.64s/exit0:sharedPython3.13 -X utf8 -B -m pytest -q -p no:cacheprovider,
+8preparation/native/chunk/service/report/image/flowchart files;command in consolidation/bulk results.
+Logs/exits A/p11-omitted-chunks-20261026/consolidated-pytest.log/.exit;basetemp consolidated-pytest-tmp.
 Data-only task with existing builders:no production behavior/artificial RED/full-suite repeat.
 Both original PDFs/seven runtime seals/pin unchanged. Existing read-only80snapshot reused;
 no new hosted writes,staging,review RPCs,release creation/activation or model diagnostics.
@@ -84,7 +88,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of897new candidates/94extraction comparisons/66image regions remains.
+Human review of326new candidates/94extraction comparisons/66image regions remains.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
 remain required before publication;chunk parsing alone does not establish runtime compatibility.
@@ -92,7 +96,7 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Owner reviews prepared batches at their chosen time;record actual approvals/apply focused corrections.
+Owner reviews consolidated batches at their chosen time;record actual approvals/apply focused corrections.
 Keep source holds,active release and pin unchanged. No routine small-chunk approval interruptions.
 No embedding/staging/publication before content validation;frontend remains stopped.
 

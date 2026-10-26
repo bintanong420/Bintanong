@@ -1,5 +1,8 @@
 # Omitted Handbook/Charter content — bulk review packet
 
+Superseded for segmentation/counts by the [328chunk consolidated packet](2026-10-26-omitted-content-consolidation-results.md).
+The sealed899artifact below remains unchanged as historical input evidence.
+
 Owner26October: “continue it so i will review later in bulk”. The eligible draft
 preparation is delivered for later human review; this is not content approval,
 whole-document coverage certification or a publishable runtime package.

@@ -467,3 +467,9 @@ Each program still gets its own dated review record listing which standing rule 
   reviewed in-scope omissions across both sources, technically verify and organize
   the eight topic batches before routine human chunk review. Known holds stay held;
   unseen chunks remain unapproved and no new hosted activation is authorized.
+- 26Oct2026, chunk consolidation: owner questions899draft count,recognizes format
+  metadata and directs “continue working on it”. Consolidate metadata/source
+  fragments into meaningful service/narrative groups while preserving all policy
+  fields,limitations and approved H31pair;retain verified page furniture in audit
+  evidence instead of standalone policy chunks. Bulk human review remains later;
+  this is not approval of unseen content or hosted publication.
