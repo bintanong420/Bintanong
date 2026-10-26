@@ -1,20 +1,20 @@
 # Current progress
 
-Updated27October2026,00:23+08. Phase11active;BatchB human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,00:31+08. Phase11active;BatchB human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[Session handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md):BatchAclosed;BatchB19of40approved;residence/program changes next.
+[Session handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md):BatchAclosed;BatchB23of40approved;substitution/shifting/curriculum next.
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves complete linked standing record69–74 (Handbook39–41).
-74of336candidate contents approved;262pending. BatchB19of40approved.
-All six mutually linked;percentage gaps/exceptions and graduate-only exclusions retained.
-Next display75–78:Handbook42residence,43program-change pair,44section/subject changes.
-Duplicated printed1.1numbering/RA10931qualifier retained;DAC fee limitation stays attached.
-Standing004printed-hyphen display approved;native placeholder/binding repair remains before use.
+Owner approves residence/program-change chunks75–78 (Handbook42–44).
+78of336candidate contents approved;258pending. BatchB23of40approved.
+DAC pair linked;printed1.1/RA10931qualifier/fee limitation and graduate exclusions retained.
+Next display79–82:Handbook44–45substitution pair,45shifting and curriculum change.
+Preserve North/South wording and all original curriculum/approval conditions.
+Standing004native placeholder/binding repair remains before use.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -31,8 +31,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-74of336candidate contents approved;262pending. Labels and final structural bindings remain.
-Other262await human review. No original/runtime-package/rule/vector/release/pin changes.
+78of336candidate contents approved;258pending. Labels and final structural bindings remain.
+Other258await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -60,7 +60,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on displayed75–78:residence,linked academic-program-change pair,section/subject changes;then H-substitution as a complete pair.
+Await owner decision on displayed79–82:linked substitution pair,shifting,curriculum change;then H-drop-shift-faq complete pair.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

@@ -370,3 +370,22 @@ Total74of336content-approved;262pending. BatchB19of40approved. Next display:
 overall75–78/BatchB20–23:Handbook42residence,43linked academic-program changes
 and44section/subject changes. Preserve duplicated printed1.1numbering and RA10931
 qualifier;source-specific fee limitation stays attached to the linked DAC pair.
+
+
+## Batch B residence and program changes — chunks75–78 approved
+
+Owner: “i approve”. Approves Handbook42residence,43linked matriculation/
+dropping pair and44section/subject change, as displayed. Preserve printed1 ½,
+duplicated1.1numbering,RA10931qualifier,OD/UD/5.0wording and source-specific
+fee limitation. The DAC pair remains mutually required;other two standalone.
+Graduate residence/extension provisions remain excluded. No candidate-body changes.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-residence-compact-001 | `f6deea19d047be68e4ece20cb858f3d88eea7d32d6a2f1fbf8022be881a2c02f` | `d5c8759e0afdfcfc81c5699f4e1bb7ff9802aecee0d83fc06f937bf5553f26ce` |
+| H-dac-policy-compact-001 | `b34c6f9e08441c982139d9602c02453dda574e242df60394020e6e10f676558b` | `e9618f1da350fb8d546dd473d395d82c7e1fce2c5a0e4bcc9eb66f3348979e84` |
+| H-dac-policy-compact-002 | `47395e8c4729e47bb34765dddf930c25e7f4220caa336821cb8344e709b9b827` | `6deb28b07d703f5eb1ce1124bec47e6f8a6ce636f3b9ef89e05afdd95232fb66` |
+| H-change-sections-compact-001 | `d19ea3ce41c5a91e159f94f0b128ffd59a1721e864be0e250579cbfdc0ba58e5` | `e02d12a072a88d80aa56327610b2513823126026092af5a406d01fd6a3aaf56f` |
+
+Total78of336content-approved;258pending. BatchB23of40approved. Next display:
+overall79–82/BatchB24–27:Handbook44–45substitution pair,45shifting and curriculum change.
