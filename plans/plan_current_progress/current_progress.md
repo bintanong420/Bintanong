@@ -1,19 +1,25 @@
 # Current progress
 
-Updated26October2026,16:09+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,16:41+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Owner requests handoff;next is the ingestion-pipeline/scope question,not bulk field review.
+Ingestion question traced and answered in the [assessment](../2026-10-26-ingestion-pipeline-assessment.md):
+candidate CLI,declared audience/content review,embedding,staging,receipt binding and activation exist
+separately. Runtime also needs matching topic/claim/package metadata. General new-edition orchestration
+is missing;current glue is evidence-specific. No redesign or bulk review started. Fresh focused
+77tests/110subtests pass;initial missing basetemp-parent setup error resolved. Phase state valid;
+documentation links and git diff --check pass. Full suite not repeated for documentation-only work.
+
 [Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
 394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
 prove full visual/field review or exhaustive topics. Three actual omissions added:X087economic
 enterprise,X088accessible Handbook formats(H69),X089grade solicitation(H49). [Catalogue](../2026-10-26-handbook-charter-expansion-catalogue.md)
 now89groups/8batches,86pending/3existing. Fixed old IDs retained;no new approval/activation.
-Pipeline initial code pointers and stale-doc warning saved in audit/recovery;question unanswered.
+Pipeline details supersede the recovery's unanswered-question status;historical recovery retained.
 
 [Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
 complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
@@ -30,7 +36,7 @@ new source fields need focused review before derivatives/activation. Original PD
 Corrected78research release remains active/39curricula;old19retained/old80draft. Prior6896tests+
 1595subtests pass belongs unchanged706d3c6;no repeat suite for read-only diagnostic/documents.
 Prior six-quality/hosted smoke evidence retained;not natural-query or corpus accuracy proof.
-No production/prompt/source/chunk/embedding/release mutations or new downloads this inspection.
+No production/prompt/source/chunk/embedding/release mutations or new downloads this assessment.
 
 ## Delivered state and boundaries
 
@@ -48,10 +54,11 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
   now audience-triaged,not field-reviewed or active. No corpus expansion yet.
 - Undergraduate/advisory/privacy/release guards and one-week accuracy cap remain. Research activation
   is not university/public approval,currentness,training,Phase11completion or Phase12advancement.
-- Context refreshed26Oct:thesis physical17–18,routing PNG,master16/current baseline;no discrepancy.
+- Context refreshed26Oct:thesis physical17–18/39–44,routing PNG,master3/7–9/16/18.3/current baseline;
+  illustrative closed-world example does not override settled unknown-versus-unmet handling.
 
 ## Next action
 
-Answer owner's question:how should a repeatable new-Handbook ingestion pipeline apply scope
-exclusions and reach the DB,versus today's AI-assisted work? Trace current code/review/staging/
-release first;explain existing versus missing automation. Bulk review later;no implementation assumed.
+Resume pending Phase11 grading triage with a bounded regression for the captured storage_error;
+reproduce its underlying cause before changing behavior. Keep bulk source review deferred and
+the assessed new-edition maintenance gap separate;no pipeline redesign is authorized here.
