@@ -1,29 +1,29 @@
 # Current progress
 
-Updated26October2026,19:55+08. Phase11active,p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,20:47+08. Phase11active,p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
-[Consolidated results](../2026-10-26-omitted-content-consolidation-results.md) ·
+[Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
 Owner directs prepare chunks first,review later in bulk;frontend integration stays stopped.
-328inactive candidates(170H/158C),127linked source records,eight topic packets prepared.
-Supersedes over-fragmented899draft,retained sealed as audit input. Median67sourcewords;
+335inactive candidates(177H/158C),131linked source records,eight topic packets prepared.
+Coverage audit found7missed native regions;4source records/7Handbook chunks added. Prior328/899retained. Median67sourcewords;
 zerochunks<10words;service metadata/step fields attached,44page-footer regions kept in audit.
-89catalogue groups accounted;72have candidates,including69/70New/Partial groups. Initial TOR
+90catalogue groups accounted;73have candidates,including70/71New/Partial groups. Initial TOR
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
 Two H31registration chunks actually owner-approved;exact IDs/bytes/mutual links preserved.
-Other326await human review. No original/runtime-package/rule/vector/release/pin changes.
+Other333await human review. No original/runtime-package/rule/vector/release/pin changes.
 
-Checks:328contracts,pending governance,1719native spans;136690native glyph positions/66image
-spans conserved,only94verified footer digits excluded;all34issue/claim sets retained.
-Complete neighbors,stable IDs/hashes,no80/78duplicates,max457exacttokens<=480;419links verified.
-161tests/215subtests14.64s/exit0;no production change/artificial RED/full-suite repeat.
-Evidence A/p11-omitted-chunks-20261026/bulk-review-consolidated;start INDEX.md,then batch-A.md through H.
+Checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
+spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
+Complete neighbors,stable IDs/hashes,no80/78duplicates,max457exacttokens<=480;source/review links verified.
+161tests/215subtests10.77s/exit0;no production change/artificial RED/full-suite repeat.
+Evidence A/p11-omitted-chunks-20261026/bulk-review-handbook-verified;start SCOPE-AND-REVIEW-GUIDE.md/INDEX.md,then batch-A.md through H.
 94native/parser notes shown for review;image annotations remain pending human validation.
 Both original PDF hashes/seven active runtime seals/pin unchanged. No hosted writes or model calls.
 Source/structural bindings,runtime context budgets,embeddings and answer regressions remain later gates.
@@ -45,7 +45,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Batch A H26–27first4chunks prepared for inline review;approval pending. H26RA10931paragraph
-boundary corrected without source changes/count increase. Next group H28–30;record actual approvals.
+Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
+unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
 requested validation. Frontend stays stopped;runtime compatibility remains a separate later gate.

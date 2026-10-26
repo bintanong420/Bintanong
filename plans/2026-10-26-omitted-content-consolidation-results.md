@@ -1,5 +1,9 @@
 # Consolidated chunks for bulk human review
 
+Superseded for current coverage/counts by the [Handbook verification/repair](2026-10-26-handbook-coverage-scope-verification-results.md):
+four missed source records add seven chunks;335total. The328artifact below remains
+unchanged as the conservation/packaging snapshot,not a source-completeness proof.
+
 Owner questioned899count and directed continued work on the metadata-heavy format.
 The first draft was over-fragmented:median19source words,308chunks below10words;
 Charter median8words. It included standalone fees,role/metadata fragments and page

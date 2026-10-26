@@ -208,6 +208,13 @@ was checked; content approval remains deferred with the rest of the bulk review.
 | X087 | Batch H: student economic-enterprise support | 69 | — | Support; student cooperatives, entrepreneurial/income-generating projects and savings programs; scope selection and actual access procedure remain to review, not general business advice. |
 | X088 | Batch H: accessible Handbook formats and student access | 69 | — | Support; electronic/large-print/media access context; no invented request process or autonomous acquisition; internal Handbook drafting is not a student service. |
 | X089 | Batch E: prohibition against grade solicitation | 49 | — | New; student academic-integrity policy and stated consequences, distinct from legitimate grade-correction requests; consequential fields still need review. |
+| X090 | Batch C: examination scheduling and maximum final-exam duration | 45 | — | New; found by original-range coverage audit after the first89group packet. Preserve Academic Calendar/CHED/revision condition and four-hour maximum; not a current examination timetable. |
+
+**Coverage-verification update:** the catalogue now has90groups after X090was
+found in the Handbook remainder audit. Earlier89group counts are historical.
+The same audit found missing H46–47removal context and H96publication/admission/
+fee passages within existing X025/X061/X001/X002/X041. Their source/college/date
+limitations are retained;positive coverage is not inferred merely from a topic ID.
 
 See the [scan verification audit](2026-10-26-scan-completeness-audit.md) for the
 511-page comparison, structural-page checks and the limits of the completeness claim.
