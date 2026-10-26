@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,18:10+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated27October2026. Phase11 active;this tree:feat/p11-policy-ingestion-review;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
@@ -9,11 +9,13 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
 `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
-Review templates/package build/baseline retention:252tests/80subtests pass;researcher
-3Node tests/TypeScript/production build pass. Local UIpreview now runs3001/API8765:
-HTTP200,nine pending synthetic items,original PDF/highlights displayed,console clear;
-opened in Orca. Terminal `Researcher UI preview`;Ctrl+C stops it. No decisions saved.
-Full browser workflow/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
+[Real institutional UI](../2026-10-27-institutional-review-ui.md):72read-only references,
+66Handbook/6Charter;12known-source-problem records preserved. Plain labels/forms,
+exact PDF pages/fields,IDs/JSON under Technical details. Three antislop skills applied.
+257tests/80subtests,4Node tests,TypeScript/build pass;UI3001/API8765HTTP200.
+Terminal `Institutional document review`;Ctrl+C stops it. No decisions saved.
+Desktop source/fields verified;Orca audit timed out. Mobile/full keyboard/theme sweep,
+full browser/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
 Frozen78baseline verified27Oct:actual root has nested comparison-baseline-78/child;
 11/11files,7/7seals,78chunk/vector bindings pass;PDFs394H/117Cpages,hashes unchanged.
 77topic assignments/66claim reviews;one existing unassigned chunk and three supporting
@@ -78,5 +80,5 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-In this ingestion worktree,connect verified legacy baseline intake/replay,then finish local lifecycle
-and browser/rehearsal gates from its checkpoint. Primary frontend/runtime stays with its owner.
+Collect owner GUI feedback;finish bounded browser checks when control responds,then continue
+candidate/local lifecycle gates. Primary frontend/runtime stays with its owner.

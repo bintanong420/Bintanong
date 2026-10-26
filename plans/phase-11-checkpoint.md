@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 119
+sequence: 120
 plan: plans/phase-11-backend-api-plan.md
-head_commit: fb4daec
+head_commit: 313274c
 working_tree: dirty
-updated_at: 2026-10-27T00:03:00+08:00
+updated_at: 2026-10-27T00:45:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -24,14 +24,15 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 ## Current Task
 
 In this ingestion worktree,follow the [workstream checkpoint](2026-10-26-policy-ingestion-checkpoint.md).
-T1/review persistence committed;recovered reviewer/package increment passes252tests/80subtests,
-3Node tests,TypeScript and production build. Browser/DB/real baseline gates remain open.
+T1/review persistence/package/UI delivered;real reference intake/plain GUI now passes257tests/
+80subtests,4Node tests,TypeScript/build. Browser-completion/DB lifecycle gates remain open.
 Supplied nested baseline verified27Oct:11files/7seals/78chunk-vector bindings pass;
 unchanged bytes,legacy new-suite replay pending. Local Docker engine unavailable.
 Runtime status below is inherited;no hosted connection in this workstream.
-Owner-requested local UIpreview started27Oct:3001/API8765,HTTP200,nine pending
-synthetic items,PDF/highlights render,console clear. See workstream checkpoint for
-terminal/output paths;full browser workflow remains pending. No real-source decisions.
+Owner-requested real UI started27Oct:3001/API8765,HTTP200,72prior references from
+Handbook/Charter,12source-problem records;no local approval transferred or saved.
+See [delivery](2026-10-27-institutional-review-ui.md). Orca async audit timed out;
+mobile/full keyboard/theme checks pending;regular browser opened. No hosted access.
 
 [Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
 fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.

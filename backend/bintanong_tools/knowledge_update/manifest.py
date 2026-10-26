@@ -13,7 +13,7 @@ def load_manifest(path: Path) -> dict:
     path = Path(path).resolve()
     value = read_json(path)
     if (not isinstance(value, dict) or value.get('schema_version') != 'bintanong-knowledge-update-v1'
-            or set(value) - {'schema_version', 'documents', 'baseline', 'membership', 'build'}):
+            or set(value) - {'schema_version', 'documents', 'baseline', 'membership', 'build', 'reviewed_snapshot'}):
         raise ValueError('invalid knowledge-update manifest')
     docs = value.get('documents')
     if not isinstance(docs, list) or not 1 <= len(docs) <= 32:
@@ -52,6 +52,15 @@ def load_manifest(path: Path) -> dict:
             raise ValueError('source missing or unreadable') from exc
         if not data.startswith(b'%PDF') or digest(data) != doc['sha256']:
             raise ValueError('source PDF identity mismatch')
+    if 'reviewed_snapshot' in value:
+        reference = value['reviewed_snapshot']
+        if (not isinstance(reference, dict) or set(reference) != {'path', 'manifest_sha256'}
+                or not isinstance(reference['path'], str) or not isinstance(reference['manifest_sha256'], str)
+                or not re.fullmatch('[a-f0-9]{64}', reference['manifest_sha256'])
+                or any(d['kind'] == 'prospectus' or 'candidate_bundle' in d or 'review_template' in d for d in docs)
+                or 'baseline' in value or 'membership' in value):
+            raise ValueError('explicit standalone reviewed snapshot reference required')
+        reference['path'] = str((path.parent / reference['path']).absolute())
     if 'baseline' in value:
         baseline = value['baseline']
         if (not isinstance(baseline, dict) or set(baseline) != {'path', 'package_id'}

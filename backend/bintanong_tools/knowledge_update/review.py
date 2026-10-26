@@ -80,6 +80,8 @@ class ReviewSession:
         row = next((r for r in self.packet['items'] if r['id'] == command.get('item_id')), None)
         if row is None or not row['fields']:
             raise ValueError('unknown or unsupported review item')
+        if row.get('reference_only'):
+            raise ValueError('prior reviewed references are read-only; prepare a new candidate for a new source review')
         if type(command.get('revision')) is not int or command['revision'] < 0:
             raise ValueError('invalid revision')
         if (not isinstance(command.get('operation_id'), str)
@@ -172,6 +174,7 @@ class ReviewSession:
                         choice = event['fields'][field['name']]
                         field.update(decision=choice['decision'], reviewed_value=copy.deepcopy(choice['value']))
             return {'packet_id': self.packet['packet_id'], 'revision': len(self.events),
+                    'source_basis': copy.deepcopy(self.packet.get('source_basis')),
                     'documents': copy.deepcopy(self.packet['documents']), 'items': rows,
                     'researcher': self.reviewer, 'candidate_only': True}
 
@@ -188,6 +191,9 @@ class ReviewSession:
             readings, anchors, withheld = [], {}, []
             docs = {d['id']: d for d in self.packet['documents']}
             for row in state['items']:
+                if row.get('reference_only'):
+                    withheld.append({'item_id': row['id'], 'reason': 'prior_review_reference'})
+                    continue
                 if not row['fields'] or any(not f['locator']['physical_pages'] for f in row['fields']):
                     withheld.append({'item_id': row['id'], 'reason': 'missing_policy_fields_or_pages'})
                     continue

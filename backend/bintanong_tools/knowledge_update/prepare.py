@@ -76,6 +76,15 @@ def prepare(manifest_path: Path, out: Path, *, converter=None) -> dict:
             raise ValueError('existing packet belongs to another manifest')
         return previous
     # Validate every input before emitting any packet or invoking a converter.
+    if 'reviewed_snapshot' in manifest:
+        from .snapshot import load_snapshot, prepare_snapshot
+        reference = manifest['reviewed_snapshot']
+        snapshot = load_snapshot(Path(reference['path']), reference['manifest_sha256'])
+        check_out(Path(reference['path']), out)
+        for doc in manifest['documents']:
+            check_out(Path(doc['source']).parent, out)
+        prepare_snapshot(manifest, out, snapshot)
+        return load_packet(out)
     for doc in manifest['documents']:
         check_out(Path(doc['source']).parent, out)
         if 'candidate_bundle' in doc:
@@ -156,8 +165,17 @@ def load_packet(root: Path) -> dict:
             raise ValueError('packet artifact missing') from exc
         if actual != expected:
             raise ValueError('packet artifact digest mismatch')
+    snapshot = None
+    if packet.get('source_basis', {}).get('kind') == 'reviewed_snapshot':
+        from .snapshot import load_snapshot
+        snapshot = load_snapshot(root / 'reference_snapshot', packet['manifest']['reviewed_snapshot']['manifest_sha256'])
     for doc in packet['documents']:
         if digest(contained(root, doc['source']).read_bytes()) != doc['sha256']:
             raise ValueError('packet source identity mismatch')
-        _checked_bundle(contained(root, doc['candidate_bundle']), doc)
+        if snapshot is None:
+            _checked_bundle(contained(root, doc['candidate_bundle']), doc)
+    if snapshot is not None:
+        from .snapshot import snapshot_items
+        if packet['items'] != [r for d in packet['documents'] for r in snapshot_items(snapshot, d)]:
+            raise ValueError('snapshot review projection differs from its source records')
     return packet

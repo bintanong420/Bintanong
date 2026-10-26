@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { filterItems, parseConnection, sourceRectangle } from '../lib/review-state.ts';
+import { fieldLabel, filterItems, parseConnection, recordStatus, sourceRectangle } from '../lib/review-state.ts';
 
 test('launch credentials accept only the declared local API shape', () => {
   assert.deepEqual(parseConnection('#api=http%3A%2F%2F127.0.0.1%3A8765&token=abcdefghijklmnop'),
@@ -33,4 +33,16 @@ test('source highlight converts bottom-left geometry and refuses unverified dime
   assert.equal(sourceRectangle({ bbox: [10, 50, 110, 100] }), null);
   assert.equal(sourceRectangle({ bbox: [-1, 50, 110, 100], bbox_origin: 'TOPLEFT',
     page_size: [600, 800] }), null);
+});
+
+test('previously reviewed records stay distinct from new decisions and source holds are searchable', () => {
+  const record = { document_id: 'handbook', title: 'Completion deadline', audience: 'unresolved',
+    reference_only: true, findings: [], source_gaps: [{ issue: 'conflicting_deadlines' }],
+    fields: [{ name: 'percentage_equivalent', decision: 'pending', original_value: '98-100' }] };
+  assert.equal(fieldLabel('percentage_equivalent'), 'Percentage equivalent');
+  assert.equal(recordStatus(record), 'Known source problem');
+  assert.equal(recordStatus({ ...record, source_gaps: [] }), 'Reviewed reference');
+  assert.equal(filterItems([record], '', 'conflicting deadlines', 'all').length, 1);
+  assert.equal(filterItems([{ ...record, source_gaps: [] }], '', '', 'attention').length, 0);
+  assert.equal(filterItems([record], '', '', 'attention').length, 1);
 });

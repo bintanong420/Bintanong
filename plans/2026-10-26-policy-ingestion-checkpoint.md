@@ -1,6 +1,6 @@
 # Policy ingestion workstream checkpoint
 
-Updated 27 October 2026, local UI preview started. Phase 11 remains active.
+Updated 27 October 2026, institutional document UI running. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
 Verified implementation: `a03dc08`; prior review/API: `1f2bb60`; shared fork: `4e99fb6`.
@@ -31,13 +31,19 @@ System Python 3.13.12; pytest 9.0.3; no cache; external basetemp under
   plus reviewed-policy chunks/preparation, service steps and existing review GUI client.
 - Researcher: three Node tests pass, TypeScript check exits 0, Next.js 16.4.3
   production build passes. Existing installed dependencies reused; no install/download.
-- Local preview launched through the `review` CLI: UI127.0.0.1:3001/API127.0.0.1:8765.
-  Orca terminal `term_31c5fa83-8f97-411f-b476-961de6f49b4e`, title `Researcher UI preview`;
-  stop with Ctrl+C in that terminal. Opened in the worktree's embedded browser.
-  UI200/authenticated state200; browser displays nine pending items, two synthetic
-  documents, original PDF and highlights; console empty. No decisions saved.
-  Source packet/script/logs: workspace `audit-evidence/p11-policy-ingestion/ui-preview-20261027/`.
-  Valid synthetic PDFs and fixed candidate conversion only; no model download/execution.
+- Owner requested real grounding/plain GUI and the three antislop skills. See
+  [institutional UI delivery](2026-10-27-institutional-review-ui.md) for exact evidence/commands.
+  Reusable reviewed-snapshot manifest intake imports72references (66Handbook/6Charter),
+  preserving fields/spans/companions/blanks and12source-problem records. References
+  are read-only; no new approval/exported candidate is inferred from opening them.
+  Snapshot tests RED5/GREEN;grounded-regressions257tests/80subtests57.50s pass;
+  4Node tests/TypeScript/production build pass. Declared palette checks pass.
+  UI3001/API8765;terminal `Institutional document review`,same recorded handle;
+  Ctrl+C stops it. Packet/logs in workspace `audit-evidence/p11-policy-ingestion/institutional-ui-20261027/`.
+  Both PDFs/fields load;72rows,Charter filter6;no saved decisions;desktop no overflow/row clipping.
+  Orca async audit timed out,then another browser command timed out. Further mobile/
+  keyboard/theme-computed checks unverified;regular browser open requested successfully.
+  Synthetic preview closed;frozen baseline reverified unchanged. No model execution.
   Local installed Node22.22.3 differs from target24.21.0; Next16.4.3 build/start passed.
   Automatic shell policy rejected the hidden background launch; used a visible
   Orca terminal instead. No alternate hidden launch attempted.
@@ -71,6 +77,6 @@ scope, source-gap and service-table policies. Missing facts remain unknown.
 
 ## Next action
 
-Connect verified legacy baseline intake/replay without rewriting the frozen files;
-continue T4 local-only lifecycle tooling and its failure tests, then browser/rehearsal
-and documentation gates. Reuse passing checks unless code changes invalidate them.
+Collect GUI feedback on the real reference workspace;finish bounded browser checks
+when its control responds,then resume candidate/local lifecycle gates. Read-only
+snapshot viewing does not complete legacy-package build/staging replay.
