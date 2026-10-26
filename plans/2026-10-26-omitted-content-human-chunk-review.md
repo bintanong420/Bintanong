@@ -226,7 +226,7 @@ fields,responsibility/detail pairings,arrow directions and H60incomplete label.
 content-reviewed;27H64image spans remain unreviewed. All image structural bindings
 remain a separate gate;no executable rule/activation approval.
 
-## Batch A final new records — three chunks50–52 pending
+## Batch A final new records — three chunks50–52 content approved
 
 Original H31/H96images inspected. Prerequisite-policy narrative plus linked
 admission/fee-context pair presented as printed. This does not authorize executable
@@ -240,3 +240,14 @@ Keep full Dean/application/previously-attended/graduating-student conditions and
 failed-prerequisite/no-credit consequence together. H96historical periods and
 variable fees remain limited.18–22still pending;after50–52these are the only
 remaining content decisions in BatchA,not a request to redo approvedH31pair.
+
+Owner:“yes i approve”,approving50–52as printed with H96historical/currentness
+limitation and mutual continuation links retained.50of336candidate contents
+approved;286others pending. Prerequisite narrative approval does not authorize
+executable waiver rules.
+
+Items18–22re-presented together for final BatchAdecision:second-degree completion,
+foreign liaison and three linked face-to-face admission chunks. Use the exact
+IDs recorded above;photo-count difference and historical-date limitation retained.
+They remain pending until an actual content decision. All other BatchAcontent
+approved;the source holds and later technical/publication gates remain separate.

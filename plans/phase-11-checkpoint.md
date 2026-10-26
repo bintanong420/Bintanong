@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 137
+sequence: 138
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 1eaf389
+head_commit: dd18209
 working_tree: dirty; review record, index, checkpoint and current progress
-updated_at: 2026-10-26T23:30:00+08:00
+updated_at: 2026-10-26T23:31:00+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,13 +28,13 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-Readmission27–32/admission-testing33–41/images42–49approved;47of336approved,289pending,including18–22.
+50of336candidate contents approved;286others pending. Within BatchAonly18–22pending;re-presented together.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected HEAD1eaf389,clean before review documentation;nothing pushed.
+p11/feat/p11-backend-api;inspected HEADdd18209,clean before review documentation;nothing pushed.
 Checkpoint records the inspected parent;the next documentation commit contains this snapshot.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -97,7 +97,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of289others remains;94extraction comparisons retained;39image spans content-approved/27pending.
+Human review of286others remains;94extraction comparisons retained;39image spans content-approved/27pending.
 Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
@@ -107,7 +107,7 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Owner resumed human review from the [session handoff](2026-10-26-phase11-bulk-review-session-handoff.md).
-Await final new BatchA50–52content decision;then resolve18–22(the only other pending BatchA content).
+Await18–22content decision(the only pending BatchAcontent),then proceed to BatchB.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
 Coverage audit finds no remaining unexplained eligible native-policy regions after7repairs.
