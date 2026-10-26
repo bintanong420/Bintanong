@@ -199,7 +199,7 @@ including result-step payment-slip wording withNonefee cell,printed total and
 Administrative Assisstant spelling.39of336candidate contents approved;297others
 pending. Labelled reauthoring/structural bindings still required before use.
 
-## Batch A image procedures — eight chunks42–49 pending
+## Batch A image procedures — eight chunks42–49 content/topology approved
 
 Fresh original H60/H61/H63images inspected. Present each complete process with
 process/responsibility/details columns and diagram branches,not isolated labels.
@@ -219,3 +219,24 @@ H63Noends,Yesencodes then ends. Preserve source-specific checklist labels,
 NSO/NCAE wording and awkward grammar. Review is literal image/association/topology
 approval,not creation of executable eligibility rules. Final checked structural
 bindings remain necessary;all candidates inactive.18–22remain pending separately.
+
+Owner:“yes i approve”,approving all three complete diagrams42–49including exact
+fields,responsibility/detail pairings,arrow directions and H60incomplete label.
+47of336candidate contents approved;289others pending.39unique image spans now
+content-reviewed;27H64image spans remain unreviewed. All image structural bindings
+remain a separate gate;no executable rule/activation approval.
+
+## Batch A final new records — three chunks50–52 pending
+
+Original H31/H96images inspected. Prerequisite-policy narrative plus linked
+admission/fee-context pair presented as printed. This does not authorize executable
+prerequisite-waiver logic or establish current admission dates/fee amounts.
+
+- H-prerequisite-policy-compact-001: `6f3cf063d6fe079d598673558da5508f984e3424906060320445fa6779bda4af`.
+- H-admission-fee-context-compact-001: `39d6be3612e207a4814763fe0021e6acc541369d7107875d5d7621de7e15b07e`.
+- H-admission-fee-context-compact-002: `4d2b438ea3f5d824a1c9197028363b64cacb81751997c20fcaa759cd3a1d8e2d`.
+
+Keep full Dean/application/previously-attended/graduating-student conditions and
+failed-prerequisite/no-credit consequence together. H96historical periods and
+variable fees remain limited.18–22still pending;after50–52these are the only
+remaining content decisions in BatchA,not a request to redo approvedH31pair.

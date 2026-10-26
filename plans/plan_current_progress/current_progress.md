@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,23:23+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,23:30+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,9 +9,9 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approved admission-testing33–41and says preserve wording;39of336candidate contents approved,297others
-pending,including18–22. Keep payment-slip action/Nonefee,printed total and source spelling as shown.
-Next H60/H61/H63image procedures42–49presented after original-image checks,including branches/cutoff;pending.
+Owner approved image procedures42–49including pairings,branches and H60cutoff;47of336candidate contents approved,
+289others pending.39image spans content-approved;27H64spans pending,all image structural bindings still required.
+Final new BatchA records50–52presented after originalH31/H96checks:prerequisite policy and linked admission/fee context.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -28,15 +28,15 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-39candidate contents approved;labelled service rebuilds and final structural bindings remain.
-Other297await human review. No original/runtime-package/rule/vector/release/pin changes.
+47candidate contents approved;labelled service rebuilds and final structural bindings remain.
+Other289await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
 Complete neighbors,stable IDs/hashes,no80/78duplicates,max457exacttokens<=480;source/review links verified.
 Prior base161tests/215subtests10.77s/exit0;current correction checks above,no full-suite repeat.
 Evidence A/p11-omitted-chunks-20261026/bulk-review-handbook-verified;start SCOPE-AND-REVIEW-GUIDE.md/INDEX.md,then batch-A.md through H.
-94native/parser notes shown for review;image annotations remain pending human validation.
+94native/parser notes retained;39image spans content-approved/27pending;structural bindings remain required.
 Both original PDF hashes/seven active runtime seals/pin unchanged. No hosted writes or model calls.
 Source/structural bindings,runtime context budgets,embeddings and answer regressions remain later gates.
 
@@ -57,8 +57,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await image procedures42–49content/association/topology decision;carry18–22pending. Approved Charter services
-need labelled reauthoring before use;continue BatchA without reopening settled source-content decisions.
+Await50–52content decision;then resolve18–22(the only other pending BatchA content). Approved Charter services
+need labelled reauthoring before use;continue without reopening settled source-content decisions.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
