@@ -711,3 +711,25 @@ Next151–153/C56–58:graduating evaluationphysical106–107/printed102–103;
 Original images and both three-way closures checked. Graduationform supplier/location
 difference retained. Awardstep2continuation joined across pages;shared25minutes
 and complete role group retained without invented per-subaction durations.
+
+
+## Batch C evaluation151–156 approved;classcards157–159 prepared
+
+Owner:“i approve”. Approves complete graduating and academic-award evaluation
+services as displayed. Form supplier/location difference retained;awardstep2
+continuation/shared25minutes/complete role group preserved. No inferred graduation
+or award eligibility. Labelled service reauthoring still required before use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 151 | C-graduating-evaluation-compact-001 | `5bee3a3e4c02cdd54b91dca941b835353999fbcb813d91d9978247b153ec398a` | `6871a90175246d73069501818a121c78176e63d32efa77e934730667c13ad1fb` |
+| 152 | C-graduating-evaluation-compact-002 | `471672c2bce153522f2964392e15b21fec3bfd87d30ea9b5eddd1707dce60588` | `c4ab9a2785012bf1e556362274059d27788bd4f21209a6e59b4de25ec1ad216f` |
+| 153 | C-graduating-evaluation-compact-003 | `bbdc7d1230204751f8b855c72b4953b30b6007ed4c535ca4a622eca5b7f675d7` | `e57b3fc0b1ece47b7f762248c1e749b7a25d554fada97c8cbc56608a10c20a09` |
+| 154 | C-awards-compact-001 | `a005bffaca5b7a6a64570206e5ea07702e4e8769f8071ba63fdc443052fe5d0a` | `45d493adbd0505ebcd7737823839cb08773f67e88c778aaaff2e15037f4c8882` |
+| 155 | C-awards-compact-002 | `e11181363c23266b93f9122cfb93d08d9b360f3a74ab8a5eb4e92e4f23245891` | `ee79e3a2a178a0220c6a36e8dd20ece4be8dbdb30f071888615ab2c5bbb22eca` |
+| 156 | C-awards-compact-003 | `9fcbb62a70613ff1fb51a82a720e6fe39a82365b058f5fdbd12a4e27feb52118` | `546b6fb5c15acfd4cabfa22164c75ebadf46d212c85042e02bf7e6228d48a1bd` |
+
+61BatchC/156totalapproved,180pending;receiptSHA256:`3d7688b003d00ea774133377542207cc78a5b793496bc2e7c5a5871ab43a8977`;061snapshot retained.
+Next157–159/C62–64:complete classcard issuancephysical110–111/printed106–107.
+Original images and three-way closure checked;representative authorization and
+written-consentcondition preserved,literalclient of authorized representationunchanged.

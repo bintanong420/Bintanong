@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 161
+sequence: 162
 plan: plans/phase-11-backend-api-plan.md
-head_commit: d8246d1
+head_commit: caa1a67
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T01:53:22+08:00
+updated_at: 2026-10-27T01:56:48+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,7 +28,7 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-BatchA55/BatchB40/BatchC55of78approved. Total150of336content-approved;186pending. Source holds/limits/exclusions retained;prior approvals reused.
+BatchA55/BatchB40/BatchC61of78approved. Total156of336content-approved;180pending. Source holds/limits/exclusions retained;prior approvals reused.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
@@ -48,7 +48,7 @@ No frontend edits/merge/install;integration explicitly stopped. No dependencies 
 
 Fresh BatchAreceipt generator:54base IDs map to55current approved candidates,all present;281others pending.
 Receipt SHA7fb28bf498982a25e99ae99dc68b2a82fce75877126cfbbb6ac84d97f00617b5;current JSON hash matches overlay.
-BatchBreceipt binds40;partial BatchCreceipt binds55,150cumulative;6/11/16/21/39/45/51/55snapshots retained. Fresh hosted78IDs/hashes match package;four prior narratives in100/101match after whitespace normalization.0HTMLbreak tags in candidateJSON/BatchBpacket. Docs-only:diff/phase-state checks,no production test rerun.
+BatchBreceipt binds40;partial BatchCreceipt binds61,156cumulative;6/11/16/21/39/45/51/55/61snapshots retained. Fresh hosted78IDs/hashes match package;four prior narratives in100/101match after whitespace normalization.0HTMLbreak tags in candidateJSON/BatchBpacket. Docs-only:diff/phase-state checks,no production test rerun.
 Registration rebuild:[results](2026-10-26-registration-layout-correction-results.md),91tests/127subtests2.38s/exit0.
 Five linked parts400/374/469/184/413tokens;331unaffected records exact. Native text/geometry and span
 conservation checked,only approvedDay)Day)removed. No production change/full-suite rerun;existing builders reused.
@@ -111,10 +111,9 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Owner approves147–150consultation;150total,C55of78;printed35/listed34minutes discrepancy retained.
-Next151–156/C56–61:graduating and awards evaluation,physical106–109/printed102–105.
-Images/both three-way closures/hash checked;form supplier/location difference retained.
-Awardstep2cross-page continuation joined with shared25minutes/roles;no invented subaction times.
+Owner approves151–156evaluation;156total,C61of78;form location limit/shared awardtime retained.
+Next157–159/C62–64:classcard issuancephysical110–111/printed106–107;images/closure/hash checked.
+Representative authorization and written-consent condition preserved;literal source grammar retained.
 All source limits and labelled reauthoring gate remain;no candidate/runtime edits.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
