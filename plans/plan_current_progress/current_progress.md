@@ -7,28 +7,20 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Owner requested origin backend merge and omission feedback/clearer related-record UI.
-Merged origin/feat/p11-backend-api e5495b4 (18incoming documentation/review commits).
-Current ingestion snapshots retained during the two documentation conflicts;incoming
-owner decisions/review reports retained in Git and linked below. No API source diff.
-[Incoming review](../2026-10-26-omitted-content-human-chunk-review.md):336inactive
-candidates with registration correction;50content-approved per incoming record.
-Its ignored evidence root p11-omitted-chunks-20261026 is missing on this machine.
-The running UI still has the verified72baseline candidates;no336-row claim.
-Next:source-bound omission reports and searchable related-record checkboxes.
-
-Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
-`01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
-[Restored institutional reviewer](../2026-10-27-institutional-review-ui.md): the owner
-rejected the read-only substitution. Real72records/298fields now enter editable local
-candidate review;66Handbook/6Charter,12known source-problem records. Accept/correct/hold,
-independent audience,companions,gaps,save/reopen/history/export restored;baseline unchanged.
-257tests/80subtests plus6snapshot compatibility tests,5Node state tests/TypeScript/build pass.
-Synthetic Chrome rehearsal verified correction/save/reload/history/Escape/download.
-Real-document switch fixed/regression pass2.61s;Charter/flowchart/image checks pass.
-Dark/light and390px/720px zoom-equivalent layouts pass;no horizontal overflow.
-UI3001/API8765;terminal `Institutional document review`;institutional revision0.
-New packet:workspace audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/.
+[Context/feedback delivery](../2026-10-27-related-context-and-omission-feedback.md):
+owner-confirmed origin/feat/p11-backend-api e5495b4 merged at0bb3dad;18incoming
+review/documentation commits,no API source diff. Incoming decisions retained;
+336candidate evidence folder is absent locally. UI still72baseline candidates/298fields.
+0959a43 adds independently saved page/region omission reports;0349730 replaces the
+multi-select with searchable checkboxes/previews/page links and dashed context highlights.
+Unhighlighted text may already exist;reports stay pending and never approve fields.
+274tests/80subtests,6Node state tests/TypeScript/build pass;isolated browser rehearsal
+verifies selection/highlights,page navigation,region marking,feedback/history/download,
+retained unsaved review state and390px/720px reflow. No main-packet test decisions.
+Main reviewer3001/API8765 restarted,browser integration pass6.32s,revision0preserved.
+Terminal `Institutional document review`;Ctrl+C stops both;rehearsal server closed.
+Packet and current launch link:workspace audit-evidence/p11-policy-ingestion/
+institutional-candidate-ui-20261027/. Frozen baseline unchanged;no hosted access.
 Full accessibility/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
 Frozen78baseline verified27Oct:actual root has nested comparison-baseline-78/child;
 11/11files,7/7seals,78chunk/vector bindings pass;PDFs394H/117Cpages,hashes unchanged.
@@ -94,5 +86,6 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Collect owner GUI feedback;finish bounded browser checks when control responds,then continue
-candidate/local lifecycle gates. Primary frontend/runtime stays with its owner.
+Resume T4/T5 disposable-local lifecycle tooling/rehearsal and operator delivery.
+The newer336packet needs its exact ignored evidence transferred before verified intake;
+merging its Git review documents does not populate those records. No source regeneration.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 122
+sequence: 123
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5e1fd11
+head_commit: '0349730'
 working_tree: dirty
-updated_at: 2026-10-27T01:14:00+08:00
+updated_at: 2026-10-27T01:35:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -23,19 +23,19 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-Owner-requested merge of origin/feat/p11-backend-api e5495b4 into this ingestion tree.
-18incoming commits add review documentation/decisions,no backend API source changes.
-Both intents retained:local ingestion snapshots stay current;incoming reports and owner
-ledger retained. Remote335packet plus336registration overlay are documented but their
-ignored local evidence folder is absent. UI remains72verified baseline candidates.
-Next implement independently saved page/region omission reports and a searchable
-related-record selector. Preserve existing review controls and owner decisions.
-No hosted connection/activation/model work;Phase11 remains active.
-See workstream checkpoint and incoming human chunk review for separate boundaries.
+Owner-confirmed origin/feat/p11-backend-api e5495b4 merged at0bb3dad;18review/doc
+commits,no API source diff. Incoming decisions retained;336ignored candidate files absent.
+UI remains72verified baseline candidates/298fields. 0959a43adds page/region feedback;
+0349730adds searchable related-record choices/previews,page navigation,dashed context
+highlights and independent pending feedback save/history/export. Unmarked≠missing.
+274tests/80subtests,6Node state tests/TypeScript/build and isolated browser rehearsal
+pass;390px/720px reflow passes. Main packet gets no automated content decisions.
+[Delivery](2026-10-27-related-context-and-omission-feedback.md) has commands and limits.
+No hosted access/source activation/model work. T4/T5/local lifecycle gates remain open.
 
 ## Repository State
 
-This tree:feat/p11-policy-ingestion-review;verified UI restoration89b51d9;nothing pushed.
+This tree:feat/p11-policy-ingestion-review;latest verified UI0349730;nothing pushed.
 The following primary-runtime evidence is inherited:backend/tests/migrations frozen706d3c6;
 d1401bcreviews01–06delivery;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.

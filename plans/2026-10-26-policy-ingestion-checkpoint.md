@@ -1,9 +1,10 @@
 # Policy ingestion workstream checkpoint
 
-Updated 27 October 2026, editable institutional reviewer restored. Phase 11 remains active.
+Updated 27 October 2026, related-context UI and omission feedback delivered. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
-Verified UI restoration: `89b51d9`; initial package/UI: `a03dc08`; shared fork: `4e99fb6`.
+Latest UI: `0349730`; feedback persistence: `0959a43`; backend merge: `0bb3dad`.
+Shared fork: `4e99fb6`; initial package/UI: `a03dc08`; restored editor: `89b51d9`.
 
 ## Delivered and verified locally
 
@@ -21,43 +22,32 @@ Verified UI restoration: `89b51d9`; initial package/UI: `a03dc08`; shared fork: 
 
 ## Fresh verification
 
-System Python 3.13.12; pytest 9.0.3; no cache; external basetemp under
-`C:/Coding-projects/bintanong_workspace/audit-evidence/p11-policy-ingestion/`.
-- `resume-check`: 51 pass; three baseline tests had colliding synthetic input paths.
-- Corrected fixture setup; `baseline-red`: three expected behavior failures
-  (missing partition/replacement rejection and missing retained chunk).
-- `build-baseline-green`: 16 pass, including build/verify regressions.
-- `package-regressions`: 252 pass / 80 subtests, 49.88s: seven knowledge-update files
-  plus reviewed-policy chunks/preparation, service steps and existing review GUI client.
-- Researcher: three Node tests pass, TypeScript check exits 0, Next.js 16.4.3
-  production build passes. Existing installed dependencies reused; no install/download.
-- Owner corrected a scope regression: the antislop work had turned the institutional
-  reviewer into a read-only viewer,contrary to the two supplied developer notes.
-  [Restored reviewer](2026-10-27-institutional-review-ui.md):72local candidates,
-  298pending fields,66Handbook/6Charter,12known-problem records. Baseline evidence
-  remains exact;audience/content decisions start unresolved/pending. Save/export,
-  accept/correct/hold,companions,gaps and independent audience controls restored.
-- RED: corrected snapshot test fails on reference-only flag;queue-filter test fails.
-  GREEN:restore-review-regressions257tests/80subtests57.03s;6snapshot tests18.88s
-  including old-packet compatibility;5Node state tests,TypeScript/production build pass.
-- Separate9-record synthetic Chrome rehearsal verifies correction/save/reload,
-  history/Escape and actual export download;only test-labelled synthetic decisions.
-  Real-record switching reproduced a stale-draft field crash;choose now updates
-  selection and draft together. Tracked document-switch browser regression passes2.61s.
-  Real Charter/flowchart controls and original images pass;dark/light appearance,
-  390px/720px zoom-equivalent layouts pass,no overflow/captured runtime exceptions.
-  Full keyboard/assistive-technology/contrast-state acceptance remains unverified.
-- Terminal `Institutional document review`,handle `term_31c5fa83-8f97-411f-b476-961de6f49b4e`;
-  UI3001/API8765;Ctrl+C closes both. Institutional packet revision0,no decisions saved.
-  New workspace evidence folder: `audit-evidence/p11-policy-ingestion/institutional-candidate-ui-20261027/`.
-  Original reference packet remains loadable. Orca browser commands still time out;
-  separate headless Chrome/CDP uses an isolated profile,no install/personal profile.
-  Browser harness originally used a non-native Windows download path;normalizing
-  it confirmed the download without changing application export code.
-  Node22.22.3 vs target24.21.0 remains disclosed. Full-suite/DB-role/accessibility
-  acceptance is not established. Frozen snapshot hashes reverified unchanged.
-- Docker context `desktop-linux` cannot connect to its local named pipe. Actual-role
-  disposable database checks are unavailable; no hosted substitute was attempted.
+[Context/feedback report](2026-10-27-related-context-and-omission-feedback.md) records
+requirements,commands,rulings and evidence. Owner confirmed incoming branch is
+origin/feat/p11-backend-api e5495b4;18documentation/review commits merged at0bb3dad.
+Two snapshot conflicts resolved preserving this ingestion state and incoming decisions.
+No API source diff,no origin/dev merge,no push. The336candidate data folder is absent;
+UI remains72baseline candidates/298pending fields. No silent regeneration.
+
+RED omission API422(old field-only command);region helper missing;browser native
+multi-select check fails against previous UI. GREEN backend274tests/80subtests60.55s;
+6Node state tests/TypeScript/build pass. SystemPython3.13,pytest no cache,external
+basetemp workspace audit-evidence/p11-policy-ingestion/omission-regressions.
+Tracked browser rehearsal passes9.50s:related checkbox/search,PDF context highlights,
+page link,region drag,feedback save/history/Escape/download,unchanged institutional
+fields and retained unsaved audience/companion draft. No390px/720px overflow or
+captured runtime exceptions. Tests use isolated packet/profile/rehearsal reviewer,
+ports3002/8766;main-packet test writes forbidden. Full accessibility gate remains open.
+
+Main terminal `Institutional document review`,handle
+`term_31c5fa83-8f97-411f-b476-961de6f49b4e`;UI3001/API8765;Ctrl+C stops both.
+Packet/current launch-url.txt in ignored institutional-candidate-ui-20261027 folder.
+Main restart and browser integration pass6.32s;revision0/nojournal preserved. Browser evidence and
+isolated scripts in feedback-browser-20261027. Existing dependencies only,no downloads.
+Node22.22.3 differs from target24.21.0;build/start passes with disclosure.
+Docker local engine unavailable;no hosted fallback. Full-suite/actual DB-role and
+release rehearsal gates remain open. Frozen11files/7seals/78bindings reverified unchanged.
+Final affected-suite repeat:274tests/80subtests74.55s,feedback-final-regressions.
 
 ## Recovery and boundaries
 
