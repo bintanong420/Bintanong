@@ -1,20 +1,20 @@
 # Current progress
 
-Updated27October2026,01:46+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,01:50+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC45of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
+[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC51of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves135–140certifications:140of336approved;196pending;BatchC45of78.
-PD907eligibility remains unstated;PhP50.00percertification/47minutes and role groupings retained.
-Receipt45readback/companion closure verified;6/11/16/21/39/45snapshots retained.
-Next141–146/C46–51:complete CAVservice,Charterphysical18–19/printed17–18;images checked.
-Step3final10minutes continues ontophysical19;Evaluator covers process and review/initial actions.
-TORonly checklist versus TORandDiploma instruction remains unresolved;labelled rebuild remains.
+Owner approves141–146CAV:146of336approved;190pending;BatchC51of78.
+TORonly checklist/TORandDiploma request limitation retained;fees/times/role groups preserved.
+Receipt51readback/companion closure verified;6/11/16/21/39/45/51snapshots retained.
+Next147–150/C52–55:complete consultation servicephysical103–104/printed99–100;images checked.
+Printed35minutes versus listed34minutes remains unresolved;literaldiscuss esand agency2.2retained.
+No source/candidate/runtime changes;labelled rebuild remains before use.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -31,8 +31,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-140of336candidate contents approved;196pending. Labels and final structural bindings remain.
-Other196await human review. No original/runtime-package/rule/vector/release/pin changes.
+146of336candidate contents approved;190pending. Labels and final structural bindings remain.
+Other190await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -60,8 +60,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on141–146/C46–51:complete CAVservice,Charterphysical18–19/printed17–18.
-Then student consultation service. Preserve source limits;labelled reauthoring before use.
+Await owner decision on147–150/C52–55:complete student consultation service,physical103–104/printed99–100.
+Then graduating-student evaluation service. Preserve source limits;labelled reauthoring before use.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

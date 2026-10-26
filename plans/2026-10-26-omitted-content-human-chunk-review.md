@@ -668,3 +668,25 @@ Next141–146/C46–51:complete CAVservice,Charterphysical18–19/printed17–18
 Images/closure/hash checked;step3final10minutes continues onto physical19.
 Evaluator role spans encode/process and review/initial actions. TORonly checklist
 versus TORandDiploma instruction remains a source limitation;fees/totals unchanged.
+
+
+## Batch C CAV141–146 approved;consultation147–150 prepared
+
+Owner:“i approve”. Approves complete CAVservice as displayed,including fees,
+4hours47minutestotal,Evaluator shared role and final10minutescontinuation.
+TORonly checklist versus TORandDiploma request limitation remains unresolved.
+Labelled service reauthoring still required before use;no source/runtime changes.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 141 | C-cav-compact-001 | `7108a41174745912606398b55bb3915bd79a5e311ebfc0c7acc6c4b372540171` | `840af9508ccc3f49c17f139834f30fdc047eab3ab07c112607bc7c08f5b7dbce` |
+| 142 | C-cav-compact-002 | `6537395101171e5b9d2d9ddd369564394b7f8516b9ee7a37c77b830c872f490b` | `7ec1996c77d2b5646d938d276450e0453cea607fdfbee9b024e7b689f47b6ffd` |
+| 143 | C-cav-compact-003 | `c1f81b7e8fe0bbe06117471caa19c3e7571717e46019dd0dbe727ad00094e91f` | `99ff15ddf867f0318f223a6a0c75e9aa01a850697c7c9b356d9914e3d9b258ef` |
+| 144 | C-cav-compact-004 | `5d57551c9bbc75a9787b632313aca1c914073a05963a5a26155644f979f975e8` | `470156509eb7db13a2148e5ff16815c432cc3d350857b9d434e0c0e7188788dd` |
+| 145 | C-cav-compact-005 | `43626f9b1e1f422905f520193913ca530ecd774fb892b30860891a8cd616b9ab` | `d15b7476d6ecd3439a054f170024f0089026f45364ecb8a1dd2bc596c8968998` |
+| 146 | C-cav-compact-006 | `f41b7c0ea932745fd68db7077ec10c1b6b6ff20b91dc1b33349fbd0e9bd387e8` | `badb5b73f599c9c5f0154e792b11ada123e3372b9b0d2ae7f6d5fb35c47b5eb1` |
+
+51BatchC/146totalapproved,190pending;receiptSHA256:`1e024a6780bf1fff8bb173751f8422a81c5aa5a010e322d073a4ee47a3731e5c`;051snapshot retained.
+Next147–150/C52–55:complete consultation servicephysical103–104/printed99–100.
+Original page images and four-way closure checked. Printed35minutes remains
+distinct from listed3+30+1=34minutes;literaldiscuss esand agency2.2retained.
