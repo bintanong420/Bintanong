@@ -7,15 +7,17 @@ Last full snapshot before condensation:`c1fc29a:plans/plan_current_progress/curr
 
 ## Latest change
 
-[Source-field fixes/results](../2026-10-26-source-field-selection-results.md),packing follow-up ready.
-760ecfb full6864+1595subtests passed;6attempts stopped on router context_overflow before inference.
-0model completions/no new quality observations. RED2 menu+RED1 review-source packing fixed with
-shared field sets and one full-source catalogue/canonical claim links. Broad1160passed23.65s;
-actual router/draft/review token preflights fit unchanged8192/768. Next freeze,six once,then final
-full suite (ruling in plan). Old A/p11-source-field-selection-20261026/ evidence preserved;
-follow-up A/p11-source-field-packed-20261026/. No active jobs. Exact source48file/78chunk seal unchanged.
-Authenticated Supabase SELECT confirms active19/39links,corrected draft78/39,old draft80/39;counts only.
-No hosted writes/activation/source review/new chunks/budget/model/default change.
+[Source-field fixes/results](../2026-10-26-source-field-selection-results.md),code0c8bff4 delivered.
+Reviewed field bindings,complete exact deadline-conflict quotations,shared claims and lossless prompt/
+review packing. REDs observed;reviewer2P2s reproduced/fixed,broad1160passed23.65s. Final full6865+
+1595subtests,6skip2xfail6warnings,1401.55s,exit0. Six unique questions once/22completions:5answered1fallback,
+0exceptions;3meet checked expectations(removal/fraud/fee),3not met(INC context,Charter total discrepancy,
+exam shared measures/applicability). Quality gate OPEN;candidate inactive. No jobs running.
+Source48files/78chunks unchanged;global canonical default unchanged;explicit short drafts in observation.
+Evidence A/p11-source-field-packed-20261026/. Prior760ecfb full6864passed but0completion context-overflow
+attempt preserved separately;packing preflights fixed without truncation/model/context-budget changes.
+Authenticated hosted SELECT11:19 confirms active19/39links,corrected draft78/39,old draft80/39;counts only.
+No hosted/source writes/activation. Earlier failed-source/quality results remain preserved.
 
 ## Delivered state and boundaries
 
@@ -39,6 +41,6 @@ No hosted writes/activation/source review/new chunks/budget/model/default change
 
 ## Next action
 
-Freeze lossless packing fix;run same six once after regressions/token preflight,then final full suite.
-No repeated model sweep,source wording/limit change or activation. Current live pipeline uses19chunks;
-corrected78 remains draft;live hosted runtime checks remain distinct from local candidate validation.
+Use saved traces for required companion-context obligations and truthful conflict-specific fallback;
+preserve held deadlines/exact sources. No repeated source review or blind model sweep. Live hosted
+runtime,switching,wider query/style/source-coverage/UI gates remain;do not call the system complete.

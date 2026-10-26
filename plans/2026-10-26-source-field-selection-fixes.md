@@ -41,10 +41,10 @@ This tests the candidate composition;profile promotion requires actual quality e
    Deduplicated claim IDs remain valid for support verdicts/record coverage/final review identity.
 3. [x] Relevant generation/routing/runtime suites,independent final code review;fix important findings
    regression-first. No new dependencies/models/source fields/budgets/hosted writes/activation.
-4. [ ] Freeze implementation,full tests/ suite using sharedPython3.13,-B,-p no:cacheprovider,
+4. [x] Freeze implementation,full tests/ suite using sharedPython3.13,-B,-p no:cacheprovider,
    external basetemp/storage. One six-case check only on suite success;exact previous questions and
    expectations,explicit parts/short profile,no case retry/sweep/output-cap increase.
-5. [ ] Save exact results/current progress/checkpoint/recovery;small verified Conventional Commits.
+5. [x] Save exact results/current progress/checkpoint/recovery;small verified Conventional Commits.
    Record regression failures honestly;keep candidate inactive if any material quality gap remains.
 
 ## Acceptance and review focus
@@ -60,7 +60,7 @@ Evidence:workspace/audit-evidence/p11-source-field-selection-20261026/. Start164
 Dependencies:reviewed field metadata -> router input only;complete document cards -> conflict
 transformation -> numbering/coverage -> ordinary review -> final validation. No source-writing task.
 
-## Current execution evidence
+## Execution evidence before final disposition
 
 Task1 RED8;GREEN79. Extra malformed-reference RED2 fixed by excluding nontext names.
 Task2 RED12/2;GREEN61. Extra malformed-limit RED1 fixed to retain independent answers.
@@ -101,3 +101,10 @@ The760ecfb suite already passed but did not catch this real prompt-capacity defe
 another full-suite wait before reaching inference. Cost if broad checks miss a regression:the bounded
 six may fail;candidate remains inactive and final-suite gate remains mandatory. This is no source/
 model/context/output-budget change or retry sweep;old0completion attempt remains separately recorded.
+
+Final0c8bff4:corrected six once/22completions,5answered1fallback0exceptions;removal/fraud/fee meet
+checked expectations. INC context/held-deadline selection,Charter total discrepancy,exam shared
+measures/applicability context remain unmet. Final full6865+1595subtests,6skip2xfail6warnings,
+1401.55s,exit0.48source files/78chunks unchanged. Both recorded review P2s fixed;no minor/ruling
+against findings. Packing validation-order ruling above is the only workflow deviation. No jobs
+running. [Final results](2026-10-26-source-field-selection-results.md);candidate remains inactive.

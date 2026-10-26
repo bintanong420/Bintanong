@@ -8,21 +8,24 @@ and [active plan](phase-11-backend-api-plan.md). Git/fresh results outrank notes
 
 ## Exact next action
 
-ACTIVE:[source-field fixes/results](2026-10-26-source-field-selection-results.md).760ecfb full6864+
-1595subtests passed,6skip2xfail6warnings,1463.76s,exit0. Its six attempts all failed router context
-preflight:0server completions/no new answer-quality evidence. No old jobs running.
-Lossless packing fix ready:RED2 menu/RED1 review;shared field sets by fact positions,one full-source
-catalogue with canonical per-claim source_ids. Broad1160passed23.65s;real templated tokens allfit8192
-with768reserved. Next freeze packing code and six once,THEN final full suite (ruling in plan).
-Old evidence A/p11-source-field-selection-20261026/ stays intact;new A/p11-source-field-packed-20261026/.
-Read new frozen-code/running-jobs metadata before any restart;do not repeat an already-started case.
-Prior code89f5852/87f59c9/760ecfb and reviewer2P2 fixes retained. Existing explicit parts/short draft
-profile;canonical review/final IDs/global canonical default unchanged.48source files/78chunks unchanged.
-Fresh authenticated Supabase counts active19/39,corrected draft78/39,old draft80/39;no writes. This is
-counts/connection evidence,not live hosted runtime quality. All answer checks use local sealed copy.
-Omitted Handbook1–40/other Charter pages are not all non-student;full coverage review/intake not done.
-Owner exact source/limitations reminder remains binding;no repeated human review/new source/chunks.
-Keep candidate inactive until real quality/remaining release gates;wider queries/style/UI remain.
+[Source-field fixes/results](2026-10-26-source-field-selection-results.md) pass ENDED,code0c8bff4.
+Final full6865+1595subtests passed,6skip2xfail6warnings,1401.55s,exit0. Six unique queries once/
+22completions:5answered1insufficient,0exceptions. Removal/fraud/fee meet expectations;INC held-deadline
+selection/context,Charter total discrepancy,exam shared measures/applicability remain unmet. No quality
+pass/activation. Next regression-first work:required companion-context obligations and truthful
+conflict-specific fallback presentation. Preserve unknown authority/exact source/limits;no re-review.
+No jobs running. Managedsession58137/helperPID2228 and old hidden helpers ended. Do not restart
+run_six_then_suite.ps1/run_six_cases.py:all6already completed. Full/case exit0 and verification-summary
+are in A/p11-source-field-packed-20261026/;all raw drafts/reviews/metadata preserved.
+Earlier760ecfb full6864passed;its6preflights overflowed before inference(0completions),preserved in
+A/p11-source-field-selection-20261026/. Lossless packing RED2+1 fixed with broad1160passed23.65s and
+actual token preflights. Recorded ruling ran corrected six before final full suite;both now complete.
+Existing explicit parts/short draft profile;canonical review/final provenance,global default canonical.
+48source files/78chunks unchanged;no source/chunk/vector/budget/model/hosted writes/activation.
+Authenticated hosted count read11:19 active19/39,corrected draft78/39,old draft80/39;not live runtime
+quality. HostedReleaseStorage requires active research release;do not bypass it for inactive78.
+Early Handbook/other Charter whole coverage/intake not done;omitted pages are not all non-student.
+Wider accepted queries/style/Hybrid/source coverage/frontend gates remain;Phase11 active.
 
 ## Delivered fixes and evidence
 
@@ -33,7 +36,7 @@ Saved fraud registration-only draft now rejects;fee replay dedups with printed e
 Evidence A/p11-selected-answer-fixes-20261026/:RED/GREEN logs,full-suite.log/.exit,six-cases.log/.exit,
 frozen-code/running-jobs/verification-summary JSON,exact6requests/raw responses/integration/answers.
 Do not restart run_remaining.ps1 or run_six_cases.py:all6cases already completed,including failures.
-Current HEAD may be a documentation descendant of04005d9;production/tests unchanged.
+That earlier04005d9 increment is historical;current implementation/verification is0c8bff4 above.
 
 ## Source review and correction recovery
 
