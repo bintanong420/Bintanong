@@ -16,8 +16,8 @@ def load_manifest(path: Path) -> dict:
             or set(value) - {'schema_version', 'documents', 'baseline', 'membership', 'build', 'reviewed_snapshot'}):
         raise ValueError('invalid knowledge-update manifest')
     docs = value.get('documents')
-    if not isinstance(docs, list) or not 1 <= len(docs) <= 32:
-        raise ValueError('manifest needs 1..32 documents')
+    if not isinstance(docs, list) or not 1 <= len(docs) <= 64:
+        raise ValueError('manifest needs 1..64 documents')
     seen = set()
     for doc in docs:
         required = {'id', 'kind', 'title', 'edition', 'source', 'sha256', 'locator'}

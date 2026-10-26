@@ -85,6 +85,19 @@ def test_prepare_refuses_invalid_manifest_before_creating_output(tmp_path, damag
     assert not (tmp_path / 'packet').exists()
 
 
+def test_manifest_accepts_the_39_document_prospectus_corpus_but_bounds_larger_requests(tmp_path):
+    from backend.bintanong_tools.knowledge_update.manifest import load_manifest
+    path, _, spec = manifest(tmp_path, kind='prospectus')
+    doc = spec['documents'][0]
+    spec['documents'] = [{**doc, 'id': f'prospectus-{i}'} for i in range(39)]
+    path.write_text(json.dumps(spec), encoding='utf-8')
+    assert len(load_manifest(path)['documents']) == 39
+    spec['documents'] = [{**doc, 'id': f'prospectus-{i}'} for i in range(65)]
+    path.write_text(json.dumps(spec), encoding='utf-8')
+    with pytest.raises(ValueError, match='1..64'):
+        load_manifest(path)
+
+
 @pytest.mark.parametrize('attack', ['source', 'packet', 'candidate'])
 def test_packet_refuses_tampering(tmp_path, monkeypatch, attack):
     path, source, _ = manifest(tmp_path)
