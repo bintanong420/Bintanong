@@ -268,3 +268,65 @@ readable source headings,short blocks,one list item per line and paired table
 columns without changing words or associations. Owner requests session handoff;
 [resume BatchB](2026-10-26-phase11-batch-a-review-session-handoff.md),not another
 BatchAapproval. No new source/runtime/activation scope approved.
+
+## Batch B — returning curriculum and academic load (H30, H35–36)
+
+Original Handbook pages H30, H35 and H36 were inspected. Owner: “The rest i
+approve,” after identifying two omitted graduate-only passages. The six
+undergraduate-scope candidate bodies are approved as presented; no candidate
+text was changed. Exact candidate IDs and content hashes:
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-returning-curriculum-compact-001 | `87369b8c9dc83f00c20418c1a3407fb177d4144737288b4f7c2ae6e2037321b9` | `dd9e4651fb69609495b82ea5bcad0352a60012e671b78b5cc4db3e261f1e7aed` |
+| H-unit-load-compact-001 | `c6310c5100d075b383c2525015552372db92d111769e0fe51ea636ffff8f663f` | `564f4bb3aa6a72a903441bca5f4a3f6191994438016a6997695297e94c20306b` |
+| H-summer-load-compact-001 | `4ea493a3761e47367468c1346e3be00c29a7e49378c052c78219b4b2af5a07da` | `f4a2864d4bedfb9485c890a875fb703d30a648cdce50922a54188283b3a106a8` |
+| H-overload-compact-001 | `b26c9b707285369a50a064dadc1e24b3203b71c51c37d9ced20ede12e3ed199f` | `ee5dc4a2c1bbe94901674f7fca47b68c84cce6c6d2c01eb58c59d73644805542` |
+| H-employed-load-compact-001 | `b114c5aafb3b7e255f3045bf9f65ba50374e373ba8bd6dd9ce20a55bff9c293` | `dc8afca05472e811167f74cc15d93843c1b47c202d0ed8887385bd3a1410fe63` |
+| H-transfer-load-compact-001 | `d983d3238e120bcd59b1c840459ba801cda12126f6eb5802b48aea00127f7e39` | `fd27311c245ba0138a00b83aa79d5dc92371ac579aed12ab387b016c1e436929` |
+
+The owner identified these exact source passages as missing from the displayed
+load chunks:
+
+> No graduate student shall be allowed to take more than twelve (12) units per
+> semester. Graduate students who are enrolling for validation only may be
+> allowed a maximum of 12 units per semester.
+
+> No graduate student who is employed on a full-time basis shall be allowed an
+> academic load of more than nine (9) units in any semester without prior
+> approval of the Dean of the College.
+
+These are already independently located source boundaries H35-G007 and H36-G008
+and classified `excluded_graduate` in the coverage/audience ledgers. Thesis
+physical17–18 (printed16–17) limits Bintanong to undergraduate academic affairs
+and excludes graduate programs. Preserve both passages in the unchanged source
+and exclusion evidence; do not add graduate-only clauses to the undergraduate
+candidate bodies. The original H35 reads “per semester”; the owner message's
+“oer” is a typing error. Six new candidate approvals bring the content-reviewed
+total to61of336;275remain pending. Serialized candidate governance remains
+pending, and no active release or runtime data changed.
+
+
+## Batch B classifications and year levels — five approved, 27 October 2026
+
+Owner: “approve all five”. Approves the five displayed Handbook physical36–38
+candidates, including the mutually required year-level continuation pair.
+The overlapping percentage-boundary limitation stays unresolved; printed
+wording and graduate-only exclusions remain as reviewed. No candidate-body change.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-student-classification-compact-001 | `78245f3258683a521584fa69826b3a148d8fc4dd66d6811693e4cd1cf7266743` | `4a8ccf48d00642b9b2f63d890d88517e4bad7ac206929988cc5815b4dc892842` |
+| H-cross-enrollee-compact-001 | `5a33fe95c27e3d93fc0226ae61864c18bd527e70e46cfa82da85d30d547dade7` | `4c89bea9a3a508fa90aab93040ca345487172c65d3e13d36b667ef2b3a76ea44` |
+| H-class-types-compact-001 | `124bdab4d76ca90dc89977c7aeb0bd6e2a0fcfee0a3cccdf7fffe7c2c640af22` | `3d00dbbdaaf1dd674820fe3874a2c60cae79a4a085cf609b68b8df275ba6c1c6` |
+| H-year-levels-compact-001 | `6a314e10d8a0da65a21f86a48b2c1b5a7ca8ead08fe69c4329dc4ba545c40254` | `9121f4ca108df48cb3b65cdeea0abfd4855afb0aacc21d2997332a6c90c874c0` |
+| H-year-levels-compact-002 | `b79f835362dbf5d0fa3750a8db36c69305da90fbdb430010bc2fa248d53f07b6` | `cfcb9d2dad1aa0098aa0d756254ed6559bfc01c8c08f7e4e5feceba42e699839` |
+
+Content approvals:66of336;270pending. BatchB:11of40approved. For display,
+these were overall chunks62–66 (BatchB7–11). Next:overall67–68, attendance
+and leave of absence (BatchB12–13). Source governance remains pending.
+
+Owner requests consistent review presentation: show Handbook or Citizens’ Charter,
+physical page(s), numbered chunks, approved/total progress, and first/continuation/
+final-part links. Keep technical IDs/hashes in this decision record rather than
+the owner-facing review. Preserve exact source headings, wording, lists and columns.

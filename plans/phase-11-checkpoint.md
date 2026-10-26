@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: paused
-sequence: 139
+sequence: 144
 plan: plans/phase-11-backend-api-plan.md
-head_commit: e5495b4
-working_tree: dirty; Batch A session handoff, review record, index, owner ledger, checkpoint and current progress
-updated_at: 2026-10-26T23:40:00+08:00
+head_commit: 6f57b34
+working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
+updated_at: 2026-10-27T00:07:57+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,20 +28,20 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-All BatchAcontent approved:55of336current candidates,281others pending. Next BatchB,no outstanding BatchAcontent decision.
+BatchA55approved;BatchB11of40approved. Total66of336content-approved;270pending. H35-G007/H36-G008 remain excluded graduate-only spans.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected HEADe5495b4,clean before session handoff;nothing pushed.
-Checkpoint records the inspected parent;the next documentation commit contains this snapshot.
+p11/feat/p11-backend-api;HEAD6f57b34 (Batch A handoff),clean before this review update;nothing pushed.
+Human decision record/current progress/checkpoint are modified;candidate evidence,original PDFs and runtime data remain unchanged.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 B=A/p11-omitted-chunks-20261026/bulk-review-handbook-verified. Prior328/899artifacts retained.
 Current combined overlay:A/p11-omitted-chunks-20261026/registration-layout-corrected;336candidates.
 Ignored scripts/JSON/images remain untracked.
-Only plans/results/checkpoint/progress changed. Candidate output is separate from active package/pin.
+Human decision record/checkpoint/progress changed. Candidate output is separate from active package/pin.
 No frontend edits/merge/install;integration explicitly stopped. No dependencies or models changed.
 
 ## Verification Evidence
@@ -93,6 +93,7 @@ Owner confirms North/South clauses retained for transfers into main Tiniguiban;p
 Owner approves23–26with nonvisibleDay)Day)removed and metadata/requirement/process tables kept distinct.
 Corrected review specification applied in five-part overlay;pending governance,not active runtime chunks.
 Owner:continue chunk preparation,review later in bulk. Eight existing topic batches govern review.
+Owner approves BatchB first11including classification/year-level pair. Printed percentage overlap stays unresolved. Graduate-only load clauses remain excluded.
 No new hosted activation/publication permission. Existing H26/H30holds and supplied datasets retained.
 No source grammar/threshold/deadline/fee precedence repairs. C20review-summary Dean error corrected
 from original image to University Registrar;original untouched. Missing grades remain unknown.
@@ -100,7 +101,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of281others remains;94extraction comparisons retained;39image spans content-approved/27pending.
+Human review of270candidates remains;94extraction comparisons retained;39image spans content-approved/27pending.
 Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
@@ -109,9 +110,9 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Owner requests fresh CLI session;[current handoff](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Resume BatchBhuman content review from H-returning-curriculum/H-unit-load;all BatchAcontent approved.
-Use readable source headings,lists and paired table columns;never dense flattened paragraphs.
+Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
+Await owner decision on overall chunks67–68 (BatchB12–13):Handbook38attendance and38–39leave. Next H-standing must be shown as a complete linked six-part record.
+Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
 Coverage audit finds no remaining unexplained eligible native-policy regions after7repairs.
@@ -122,8 +123,8 @@ No embedding/staging/publication before content validation;frontend remains stop
 
 ## Context Consulted
 
-Resume:existing thesis extract physical17–18/39–44,routing PNG,master3/11/13/16/23/24,Phase10handoff.
-Fresh packet SHA256 matches9668afaf…1aeaa2d;original H26–30page images inspected;no new approval inferred.
+Resume:thesis physical17–18/39–44 rerendered/read with existing pypdfium2 environment;scope pages confirm undergraduate-only and exclude graduate programs. Routing PNG,master3/11/13/16/23/24,Phase10handoff.
+Original H30,35–39render images inspected;current attendance/leave text matches source. H37graduate definition stays excluded.
 Scope/gap/location/service policies and owner ledger;prior original H60/61/63/64image checks retained.
 Thesis closed-world example remains illustrative;settled missing-fact unknown semantics prevail.
 

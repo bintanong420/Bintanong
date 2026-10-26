@@ -1,19 +1,20 @@
 # Current progress
 
-Updated26October2026,23:40+08. Phase11active;paused for owner-requested fresh session;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,00:07+08. Phase11active;BatchB human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[New-session handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md):BatchAcontent complete,resume BatchB.
+[Session handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md):BatchAclosed;BatchB11of40approved;attendance/leave next.
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approved18–22:all BatchAcontent approved,55of336candidate contents;281others pending.
-Exact receipt generated/readback checked:54base IDs map to55current IDs,present in current overlay.
-Next BatchB,starting H-returning-curriculum/H-unit-load. Owner asks fresh session;handoff linked above.
-Use readable headings/lists/table columns;no dense flattened paragraphs. LunaMedium recommended,not selected.
-39image spans content-approved;27H64spans pending,all image structural bindings still required.
+Owner approves all five Handbook36–38 classification/year-level candidates.
+66of336candidate contents approved;270pending. BatchB11of40approved.
+Year-level pair remains mutually linked;overlapping boundaries stay unresolved.
+Review display:source name/physical pages,chunk numbering,overall and batch progress,
+first/continuation/final links;no technical IDs. Next display67–68:attendance/leave.
+Owner uses GPT-6.1 Sol Medium.39image spans approved;27H64pending;bindings required.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -30,8 +31,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-55candidate contents approved;labelled service rebuilds and final structural bindings remain.
-Other281await human review. No original/runtime-package/rule/vector/release/pin changes.
+66of336candidate contents approved;270pending. Labels and final structural bindings remain.
+Other270await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -59,8 +60,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-New session:read linked handoff and resume BatchBhuman content review;do not re-ask BatchAapprovals. Approved Charter services
-need labelled reauthoring before use;continue without reopening settled source-content decisions.
+Await owner decision on displayed chunks67–68:Handbook38attendance and38–39leave;then continue BatchB at H-standing as one complete six-part record.
+Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
