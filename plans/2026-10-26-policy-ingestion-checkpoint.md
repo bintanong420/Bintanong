@@ -73,6 +73,16 @@ No institutional approval, arbitrary-PDF accuracy or phase-completion claim.
 Context refreshed: thesis physical 17–18/39–44; routing PNG; master 7–9/18.3;
 scope, source-gap and service-table policies. Missing facts remain unknown.
 
+## Publication handoff - 27 October
+
+Owner explicitly authorizes publishing feat/p11-policy-ingestion-review to origin
+for later continuation and review by the other developer. Code/UI verification is
+recorded through0349730;full delivery report52f4a09. Only code,synthetic tests and
+repository plans are shared. Ignored originals,local review packets/journals,
+launch tokens and models are excluded;new336candidate evidence remains unavailable.
+Resume using this checkpoint and the context/feedback delivery report. The running
+local reviewer is optional;its current launch link is machine-local. No phase closure.
+
 ## Next action
 
 Resume T4/T5 disposable-local lifecycle tooling/rehearsal and operator delivery.

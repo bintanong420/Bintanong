@@ -1,11 +1,18 @@
 # Current progress
 
-Updated27October2026. Phase11 active;this tree:feat/p11-policy-ingestion-review;nothing pushed.
+Updated27October2026. Phase11 active;feat/p11-policy-ingestion-review;owner-authorized origin handoff.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
+
+Owner27Oct requests publishing this feature branch so both developers can resume.
+Publication handoff includes code/tests/plans through52f4a09 and this recovery note.
+Resume from the dedicated ingestion checkpoint;T4/T5 remain unfinished. Keep ignored
+PDFs/packets/journals/models local;the newer336candidate evidence is still absent.
+This is feature-branch sharing,not merging into backend/dev or activating a release.
+No behavior changes this handoff;reuse recorded274tests/80subtests and browser evidence.
 
 [Context/feedback delivery](../2026-10-27-related-context-and-omission-feedback.md):
 owner-confirmed origin/feat/p11-backend-api e5495b4 merged at0bb3dad;18incoming
