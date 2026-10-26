@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 108
+sequence: 109
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5009760
+head_commit: 7f8e983
 working_tree: clean
-updated_at: 2026-10-26T14:33:00+08:00
+updated_at: 2026-10-26T15:00:00+08:00
 ---
 
-# Phase 11 checkpoint — corrected78 research release active
+# Phase 11 checkpoint — natural grading and coverage triage
 
 ## Completed Tasks
 
@@ -23,15 +23,18 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-Activation milestone complete;Phase11 remains active. Next bounded grading/simple-query diagnosis
-uses corrected hosted78. No source review,model sweep or completed six/full-suite repetition.
+[Bounded inspection](2026-10-26-natural-grading-and-source-coverage-triage.md) delivered;
+[results](2026-10-26-natural-grading-and-source-coverage-results.md):two natural queries0/2expectations,
+source inventory/audience triage complete. Await owner coverage priorities before new source batches;
+no corpus/production changes. Phase11 remains active;grading failures not fixed by source inspection.
 
 ## Repository State
 
 p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-5009760 recovery docs precede this delivery;documentation descendants do not change tested code.
+7f8e983activation docs precede this inspection;documentation descendants do not change tested code.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
-R=A/p11-companion-context-20261026. Raw sources/results/helpers/pin are ignored. No jobs running.
+R=A/p11-companion-context-20261026. New evidence A/p11-grading-coverage-triage-20261026.
+Raw sources/results/helpers/pin are ignored. Two-query runner ended0;no jobs running.
 Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
 
 ## Verification Evidence
@@ -51,6 +54,14 @@ Hosted retrieval:Charter6/cheating2same reviewed passages. Three accepted compar
 BSCSCC5/failedCC4answered/ineligible,Criminologycorequisiteclarification_needed/unknown;0retries,
 6model calls. Warm inner34.921/20.170/21.099s includes Supabase;startup/API/browser excluded.
 Not full roster,language accuracy or browser end-to-end evidence. No new lint/formatter/UI claim.
+
+Current two-query capture:4routing/style calls,0case retries,quality0/2;passing question RAG/
+grading_scale but8mappings1.0–2.75and retrieval storage_error31.237s;casual1.0percent empty clarification
+becomes no_evidence before retrieval. Underlying storage cause unknown. Warm inner46.489/12.107s
+includes Supabase;encoder21.668s/composition/API/browser excluded. No source/chunk error proven.
+Handbook1–40(+41–46context)and Charter117page inventory/audience triage;original hashes verified.
+Eight original renders inspected,additional renders saved. New candidates/holds in results;not full
+field/corpus approval. No new production behavior,so no artificial TDD/full-suite repeat.
 
 ## Versions and Digests
 
@@ -72,19 +83,20 @@ No source/chunk/vector/budget/model/dependency change. No automatic deadline/pen
 
 ## Known Failures or Blockers
 
-No activation blocker;all selected gates pass. Wider simple-query/Hybrid/no-topic/clarification/Nursing/
+Activation gates passed previously;two current natural grading queries fail. Wider Hybrid/no-topic/clarification/Nursing/
 style/frontend/browser exits remain. Six historical Taglish register misses;photos unsupported.
-Selected78not whole-document coverage;early Handbook/other Charter unreviewed. Phase12not authorized.
+Selected78not whole-document coverage;omitted sections audience-triaged,fields unreviewed. Phase12not authorized.
 
 ## Next Action
 
-Capture active78results for saved natural grading failures:“Ano yung passing grade dito sa PalSU?”
-and “GRADE 1.0 ILANG PERCENT??? 😭”. Inspect routing->retrieval/context->answer before any new fix;
-TDD for behavior changes. Reuse source approvals/six/current full suite. No unbounded diagnostics.
+Owner judgment on proposed undergraduate review priorities/holds in new results. Next source batch:
+Handbook undergraduate admission/registration and Charter Registrar/college procedures. Separate
+bounded TDD grading-failure fix;do not activate newly inspected content or rerun cases without cause.
 
 ## Context Consulted
 
-26Oct14:04:thesis physical17–18,runtime routing PNG,master16/current phase plan/Phase10handoff.
+26Oct14:45scope refresh:thesis physical17–18;runtime routing PNG/master16/current plan/Phase10handoff
+consulted this session. Source-gap/table-association/scope/location policies and owner ledger checked.
 Undergraduate/advisory/private/source-gap and structured/RAG boundaries consistent;no discrepancy.
 
 ## Do Not Repeat

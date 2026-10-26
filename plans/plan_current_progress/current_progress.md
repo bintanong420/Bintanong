@@ -1,25 +1,28 @@
 # Current progress
 
-Updated26October2026,14:33+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,15:00+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Corrected78 research release p11-research-corrected-20261026 ACTIVE in hosted Supabase/local research pin.
-[Results](../2026-10-26-companion-context-activation-results.md):governed activation and hosted smoke exit0.
-Exact78chunk/span/source-register/vector bindings,anon78/39 and normal HostedReleaseStorage verified.
-Fresh MCP:78active/old19superseded+retained/old80draft;39curricula each. Protected source rows unchanged.
-Two affected hosted retrieval groups match reviewed context;3accepted queries preserve status/decision,
-0retries. Warm inner34.921/20.170/21.099s includes Supabase;startup/API/browser excluded,not end-to-end.
+[Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
+complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
+but8mappings1.0–2.75(no3.0);retrieval storage_error after31.237s,underlying cause unproven. Casual
+1.0percent question chooses empty clarification/no topic,becomes incorrect no_evidence;no retrieval.
+Exact raw calls/routing/events/answers saved in A/p11-grading-coverage-triage-20261026;no fixes yet.
 
-Frozen706d3c6 full suite6896passed+1595subtests,6skip2xfail6warnings,1400.75s,exit0.
-Original run ended without exit;partial log preserved,full-suite-only recovery completed. No six-case
-repeat. Saved six21completions/5answered1source_conflict,6/6selected expectations met,not accuracy score.
-Independent oneP2 reproduced RED4/fixed;relevant63/fresh865 and earlier1316 retained in dated results.
-Docker Desktop/existing model container restored;no pulls/config/dependency/model/source changes.
-All48sealed source files unchanged. Existing short draft profile explicit;global default canonical.
+Handbook first40/adjacent context and117page Charter inventory/audience triage find substantial
+student material outside78:admission/registration/leave/standing,Registrar records,fees/refunds,
+OSAS,library and college services. Report has exact physical pages/source excerpts/selection holds.
+Mixed graduate/employment/clinical/procurement pathways not blanket-approved. Scope unchanged;
+new source fields need focused review before derivatives/activation. Original PDFs hash-verified.
+
+Corrected78research release remains active/39curricula;old19retained/old80draft. Prior6896tests+
+1595subtests pass belongs unchanged706d3c6;no repeat suite for read-only diagnostic/documents.
+Prior six-quality/hosted smoke evidence retained;not natural-query or corpus accuracy proof.
+No production/prompt/source/chunk/embedding/release mutations or new downloads this inspection.
 
 ## Delivered state and boundaries
 
@@ -33,15 +36,15 @@ All48sealed source files unchanged. Existing short draft profile explicit;global
 - Earlier procedure-order/cutoff suites and source-field failures remain in dated reports;not current
   failures. Keep original words,blanks,cutoffs,conflicts,F04 hold and unknown-versus-unmet distinction.
 - Roster19 historically63/63;style21/21en,21/21fil,15/21Taglish. New smoke3is not a full roster rerun.
-  Checker trial stopped;photos unsupported. Selected78is not whole-document coverage;early Handbook/
-  other Charter remains unreviewed. No source expansion started.
+  Checker trial stopped;photos unsupported. Selected78is not whole-document coverage;omitted sections
+  now audience-triaged,not field-reviewed or active. No corpus expansion yet.
 - Undergraduate/advisory/privacy/release guards and one-week accuracy cap remain. Research activation
   is not university/public approval,currentness,training,Phase11completion or Phase12advancement.
 - Context refreshed26Oct:thesis physical17–18,routing PNG,master16/current baseline;no discrepancy.
 
 ## Next action
 
-Bounded natural simple-query check on active78,starting saved grading failures:
-“Ano yung passing grade dito sa PalSU?” and “GRADE 1.0 ILANG PERCENT??? 😭”. Capture routing/evidence/
-final answer to locate any remaining error before changing behavior;reuse completed source review and
-six-case evidence. Broader Hybrid/no-topic/clarification/Nursing/style/frontend/browser exits stay open.
+Owner judgment on proposed undergraduate coverage/review priorities in the new report;start clear
+Handbook admission/registration and Charter Registrar/college services in short complete batches.
+Mixed audience/source mismatches stay held. Grading failures need a separate bounded TDD correction;
+do not silently rerun model cases,change policy content or activate newly inspected material.

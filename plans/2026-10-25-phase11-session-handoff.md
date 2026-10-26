@@ -1,4 +1,4 @@
-# Phase 11 session recovery —26October2026,14:33+08
+# Phase 11 session recovery —26October2026,15:00+08
 
 Corrected78 research activation milestone complete;Phase11 remains active. No phase advancement.
 p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Backend/tests/migrations frozen706d3c6;
@@ -8,10 +8,18 @@ refresh thesis physical17–18/routing PNG/master16. Preserve settled source dec
 
 ## One next action
 
-Bounded active78natural grading check:“Ano yung passing grade dito sa PalSU?” and
-“GRADE 1.0 ILANG PERCENT??? 😭”. Capture exact routing/evidence/final answer and compare supported
-fields. Diagnose before changing behavior;TDD if a new fix is needed. No repeated human review,
-completed six-question run,full suite or activation absent a new change/failure reason.
+Owner judgment on proposed source coverage/review priorities in
+[inspection results](2026-10-26-natural-grading-and-source-coverage-results.md);clear undergraduate
+admission/registration,Registrar/college procedures recommended first. Mixed support/source wording
+holds need focused review. No newly inspected fields/chunks are approved or active by this triage.
+
+Two saved natural queries ran once on active78:0/2expected answers,4routing/style calls,0retries.
+Passing question RAG/grading_scale requests8mappings1.0–2.75then storage_error31.237s;underlying cause
+unproven. Casual1.0percent chooses empty clarification/no topic,becomes no_evidence before retrieval.
+A/p11-grading-coverage-triage-20261026has grading/results/binding/completion/raw calls/integration/
+answers and PDF page inventory/native text/renders. Original PDFs hash-verified;no source/runtime
+mutation. Runner ended0(capture success,not quality pass). Do not repeat cases without a new reason.
+Grading correction needs a separate bounded TDD task;keep the source review and failures distinct.
 
 ## Delivery and verification
 
