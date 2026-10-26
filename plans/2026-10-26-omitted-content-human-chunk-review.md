@@ -330,3 +330,18 @@ Owner requests consistent review presentation: show Handbook or Citizens’ Char
 physical page(s), numbered chunks, approved/total progress, and first/continuation/
 final-part links. Keep technical IDs/hashes in this decision record rather than
 the owner-facing review. Preserve exact source headings, wording, lists and columns.
+
+
+## Batch B attendance and leave — chunks67–68 approved
+
+Owner: “i approve”. Approves both displayed standalone candidates:Handbook
+physical38attendance and physical38–39leave, including application/notification,
+maternity leave and withdrawal without leave. No wording or candidate-body changes.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-attendance-compact-001 | `d603e47d6ab51a5da21fe94472d19998c2d9342021b580483d6b3d4f481c753b` | `94c8bfc52297f4fccb173306387408e0518e8e136f718c470bca7c3a6a7d90c5` |
+| H-leave-compact-001 | `dc8f00f49842b2a29d05dce7a29769a3a4924d65d9e8e7695af494ef1aa215e7` | `c0a1c0bb47290e73c71c62316b3bd0c0c7d2688f570005681090e40b7fd9a941` |
+
+Total68of336content-approved;268pending. BatchB13of40approved. Next display:
+overall69–74/BatchB14–19, complete six-part scholastic-standing record onH39–41.
