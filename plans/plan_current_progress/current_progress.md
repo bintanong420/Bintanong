@@ -19,7 +19,7 @@ known H60decision/H64final cutoffs retained. Honors H52–54continuation linked 
 Two H31registration chunks actually owner-approved;exact IDs/bytes/mutual links preserved.
 Other326await human review. No original/runtime-package/rule/vector/release/pin changes.
 
-Checks:328contracts,pending governance,1718native spans;136690native glyph positions/66image
+Checks:328contracts,pending governance,1719native spans;136690native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34issue/claim sets retained.
 Complete neighbors,stable IDs/hashes,no80/78duplicates,max457exacttokens<=480;419links verified.
 161tests/215subtests14.64s/exit0;no production change/artificial RED/full-suite repeat.
@@ -45,6 +45,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Owner reviews consolidated topic batches later;record actual approvals and apply focused corrections.
+Batch A H26–27first4chunks prepared for inline review;approval pending. H26RA10931paragraph
+boundary corrected without source changes/count increase. Next group H28–30;record actual approvals.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
 requested validation. Frontend stays stopped;runtime compatibility remains a separate later gate.

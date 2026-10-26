@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 125
+sequence: 126
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 2e9e667
-working_tree: dirty; consolidation results, prior-result pointer, plan, ledger, progress/checkpoint
+head_commit: 121d8d4
+working_tree: dirty; H26paragraph correction/results, human review record, progress/checkpoint
 updated_at: 2026-10-26T19:55:00+08:00
 ---
 
@@ -46,7 +46,7 @@ No frontend edits/merge/install;integration explicitly stopped. No dependencies 
 
 Consolidated verification:328Chunk/source bindings remain pending;deterministic IDs/content hashes,
 complete required neighbors,no duplicate ID/full source-text of hosted80or active78.
-1718native spans independently checked:original text/page/page size/glyph-union boxes match.
+1719native spans independently checked:original text/page/page size/glyph-union boxes match.
 136690original native glyph positions/66image spans conserved;only94verified footer digits excluded.
 Original fields traced;all34issue/claim sets retained within required groups. Source associations
 still need human review. Median67sourcewords,zerochunks<10words;no standalone None/page-number chunks.
@@ -96,7 +96,8 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Owner reviews consolidated batches at their chosen time;record actual approvals/apply focused corrections.
+Present Batch A H26–27first4chunks,approval pending;then H28–30. H26RA10931paragraph boundary
+corrected;source conservation/contracts/tokens/IDs reverified,count328/approved H31pair unchanged.
 Keep source holds,active release and pin unchanged. No routine small-chunk approval interruptions.
 No embedding/staging/publication before content validation;frontend remains stopped.
 

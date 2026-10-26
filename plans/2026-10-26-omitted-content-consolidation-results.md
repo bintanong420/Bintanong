@@ -36,7 +36,7 @@ explicit footer ledger. It records original/retained values and spans;
   claim sets retained. Duplicate notices consolidate once within required groups.
 - All328contracts/source bindings pass and remain governance-pending;required
   companions resolve. Deterministic rebuild matches all IDs/content hashes.
-- **1718native spans** independently re-read from PDFs:exact normalized text,
+- **1719native spans** independently re-read from PDFs:exact normalized text,
   physical page,page dimensions and glyph-union boxes match. Original cell/span
   provenance remains traceable through the899input;this is not semantic pairing approval.
 - No exact ID/full-source-text duplicate of hosted80or active78. Both original
@@ -51,9 +51,14 @@ explicit footer ledger. It records original/retained values and spans;
   Artifact checks validate actual regrouped data;tests do not establish approval.
 
 Candidate JSON SHA-256:
-`4b2846d39f2cdf333745107f228d4f7e4e6cb7f1147596a8eb56bca1f0c1ed86`.
+`ce905beae22822c467d59ef1b7db82eb5e23d4f88dadc90c0d028edc3e9ba3ab`.
 `artifact-seal.json` binds output files plus the unchanged899input and helpers.
 Logs/helpers remain ignored under the parent evidence directory.
+
+Inline review preparation: H26paragraph boundaries were restored so “R.A.10931”
+and its two numbered clauses stay together. Earlier sentence segmentation split
+at the abbreviation. Source glyph/field conservation,contracts,exact tokens and
+deterministic IDs were reverified;count remains328. Approved H31pair unchanged.
 
 ## Remaining review boundary
 
