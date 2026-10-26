@@ -467,3 +467,28 @@ All40BatchBcandidates now content-approved;with55BatchAapprovals,total95of336,
 241pending. [Closeout evidence](2026-10-27-phase11-batch-b-review-results.md).
 Receipt SHA256:`598ffaa5d2b5b27a5c5ec056e75da9339b9ffee9cbf0b729f0e726d7db27075c`.
 No serialized governance promotion,embedding,hosted write or release activation.
+
+
+## Batch C opening group — chunks96–101 presented, approval pending
+
+Owner: “continue please” authorizes starting BatchCpresentation;no content
+approval is inferred. BatchChas78distinct candidates,none previously approved.
+Present transfer-clearanceH43then the complete five-candidate removal/INCgroup
+H46–47. Actual required-neighbor lists link INCmeaning/removal-approval to three
+context candidates at the packet end;all five mutually require the other four.
+Move those companions forward in review order;do not present an incomplete group.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 96 | H-transfer-clearance-compact-001 | `789e84b458786862c407c3b8331e4a76b5fb2c7cdd8e27ad294ccc0530a09767` | `10f2193492d671956b1e9a0d7dcacf103a4e31274de4b7cd395730d388cca4ff` |
+| 97 | H-inc-meaning-compact-001 | `91b68059c705fe49fb08c678faef32be5e4695b87d14e1d4dd3f1593873eb5d8` | `5ac2ffa743642a25343b5e6121b6dc04092a7a5a763c68495e56c293be0c3594` |
+| 98 | H-removal-approval-compact-001 | `8db2901b9ae56c40693625671d2206dcd83ac21b418109fdf368a00706aad561` | `aab83f7d86027a9e8587d6b6f793ca3befed6938e6ac444023d164eca1a5d652` |
+| 99 | H-removal-policy-context-compact-001 | `aff69254e1157a3207a7e1c0ba1fe4c997844dfa68e5a619bc3e437e52238952` | `37b88b562f7bb0f4c4350c8bc6794b08dcd3f08ade1e9c50cfa1c4d9b368580b` |
+| 100 | H-removal-policy-context-compact-002 | `85a466553313143cf78584bc5cf24845cefe02c9f411717272afc0f8954f1996` | `739984c0e34223f79f9710d145ca37d72b175c66ccc22ef2fa54c1e4fc203ca5` |
+| 101 | H-removal-policy-context-compact-003 | `8ebc851c4f8ca93796dddb896c397518dd9aad4a084abd55582359a2348efa28` | `b04eaf3ec207912cf926d128b22e06c7bd0328015e05f3839a520d99011f1715` |
+
+Overall95of336approved/241pending;BatchC0of78approved. Source decisions and
+conflicting deadlines remain settled as unresolved. Preserve broken c)/d)
+lettering in H43. Display H-removal-approval nativeU+FFFEas printed re-enrollment;
+verified normalization/source binding remains a technical gate. No body changes.
+Next after this group:grade-correction pairH48–49,overall102–103/BatchC7–8.

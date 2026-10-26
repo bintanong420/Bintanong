@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 150
+sequence: 151
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ec6c429
+head_commit: aec27d9
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T00:50:46+08:00
+updated_at: 2026-10-27T00:55:22+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -34,7 +34,7 @@ BatchA55approved;BatchB40of40approved. Total95of336content-approved;241pending. 
 
 ## Repository State
 
-p11/feat/p11-backend-api;reviewed parentec6c429 (FAQ/duties approval),clean before this review update;nothing pushed.
+p11/feat/p11-backend-api;reviewed parentaec27d9 (BatchBcloseout),clean before this review update;nothing pushed.
 Human decision record/current progress/checkpoint are modified;candidate evidence,original PDFs and runtime data remain unchanged.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -111,7 +111,7 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Continue BatchC (Grades records and graduation),starting H-transfer-clearance. BatchA/B complete;do not re-ask approvals. See BatchB results/receipt.
+Await owner decision on96–101:transfer-clearanceH43and complete five-candidate removal/INC/context closureH46–47. BatchC0/78;then grade-correction pair102–103. A/B settled.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
@@ -124,7 +124,7 @@ No embedding/staging/publication before content validation;frontend remains stop
 ## Context Consulted
 
 Resume:thesis physical17–18/39–44 rerendered/read with existing pypdfium2 environment;scope pages confirm undergraduate-only and exclude graduate programs. Routing PNG,master3/11/13/16/23/24,Phase10handoff.
-Original Charter105–106images inspected(printed101–102);all metadata/requirements/row associations,total and source numbering/typos match. Rights/duties002→attendance-uniform001source continuation needs cross-group dependency binding before use. H-standing004native U+FFFE displays as printed mid-semester;serialized binding repair remains. H41graduate-only section9excluded.
+Original H43/46–49images inspected;first group96–101matches source. Actual INC/removal graph requires all three context chunks from packet end;complete five-way closure verified. Removal-approval nativeU+FFFEdisplayed as printed re-enrollment;binding repair pending. Rights/duties002→attendance-uniform001source continuation needs cross-group dependency binding before use. H-standing004native U+FFFE displays as printed mid-semester;serialized binding repair remains. H41graduate-only section9excluded.
 Scope/gap/location/service policies and owner ledger;prior original H60/61/63/64image checks retained.
 Thesis closed-world example remains illustrative;settled missing-fact unknown semantics prevail.
 

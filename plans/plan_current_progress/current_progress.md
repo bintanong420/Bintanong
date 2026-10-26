@@ -1,20 +1,20 @@
 # Current progress
 
-Updated27October2026,00:50+08. Phase11active;BatchB content review complete;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,00:55+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchCnext. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
+[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC0of78reviewing. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves final90–95:BatchB40of40complete;BatchA55retained.
-95of336candidate contents approved;241pending. Next BatchC,Grades/records/graduation.
-Receipt SHA256:598ffaa5d2b5b27a5c5ec056e75da9339b9ffee9cbf0b729f0e726d7db27075c;all40IDs/hashes/links readback verified.
-LiteralHTMLbreak tags were chat-only;0in candidateJSON/BatchBpacket;no source edit.
-Use plain text paragraphs/list entries/table rows without HTMLtags in review.
-Cross-group attendance link,Charter labelled reauthoring and standing004repair remain before use.
+Owner directs continue;BatchCstarts,0of78approved. Overall95of336approved;241pending.
+Display96–101:Handbook43transfer credential plus complete five-part removal/INCgroup46–47.
+Actual companion closure includes three context chunks at packet end;review them now together.
+All five mutually linked;deadline conflicts and unnamed specific colleges remain unresolved.
+Keep source lettering/wording;display printed re-enrollment,queue native-marker binding repair.
+After approval,next grade-correction pair102–103(H48–49). No source/candidate/runtime changes.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -60,7 +60,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Continue BatchC content review,starting H-transfer-clearance;all BatchA/B approvals settled. Preserve technical/source gates and inactive candidate state.
+Await owner decision on BatchCopening96–101(transfer clearance plus complete removal/INC/context group);then grade-correction pair102–103. AllBatchA/Bapprovals remain settled.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
