@@ -345,3 +345,28 @@ maternity leave and withdrawal without leave. No wording or candidate-body chang
 
 Total68of336content-approved;268pending. BatchB13of40approved. Next display:
 overall69–74/BatchB14–19, complete six-part scholastic-standing record onH39–41.
+
+
+## Batch B scholastic standing — linked chunks69–74 approved
+
+Owner: “i approve”. Approves the complete six-part Handbook39–41record as
+displayed, including warning/probation/dismissal/disqualification, exceptions,
+required-course priority, readmission and recording. All six mutually require
+the other five. Retain the unprinted-percentage-gap/exception limitation.
+Standing004was displayed with the printed mid-semester hyphen;native U+FFFE
+normalization/source binding remains a technical gate. No candidate-body changes
+or executable scholastic-standing rule authorization. Graduate-only section9excluded.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-standing-compact-001 | `a1ccf58976a8fd7d245425e784db54c4a49440debafdd954f184682cd7d501f1` | `1dd602064e57acf1dfb6e75af42599239485a4572a45b3a5b564a1b244c3aac0` |
+| H-standing-compact-002 | `d1dd422bfe37dbf9e9e9647a94ca44a7d1acbb1b4bcd927180a3fc240ef6acdc` | `eff6503972346ba4ecdb235a805eb7ef090bfcf023f024a786f37ad6e17ec597` |
+| H-standing-compact-003 | `770e476da54f105d3a7bbc8001e433ee1e028f29652c40359d4d3644fc09a96b` | `a5c34451bdb6f900ed0a3ff0808c84c97189ffa8fd9cdf7ccb33cb73c5a6e439` |
+| H-standing-compact-004 | `a0f5b0139c599d69a97799d5feeaed714c7b137421e1ce427ab73d82dc5a8edf` | `4852e2af239e4c13dcd42f9f0246071f63a5731f65eecbd2ddc0ceb43bcde596` |
+| H-standing-compact-005 | `fd35ddc7e8b394e5c158723acc09c87696de3bfd1d8a207bb149ea3b5e20a79a` | `a3f1b776671ede319556f3e64a132e50a7782372d4cbe998292194524c0730d7` |
+| H-standing-compact-006 | `4562e233ff627243040ca8810b5427feae9493872ae45b881440dfdd1a7b483d` | `144a6ab81b4deebc93062ad0a42fca33670e78648e405f11cb299201b26d72d0` |
+
+Total74of336content-approved;262pending. BatchB19of40approved. Next display:
+overall75–78/BatchB20–23:Handbook42residence,43linked academic-program changes
+and44section/subject changes. Preserve duplicated printed1.1numbering and RA10931
+qualifier;source-specific fee limitation stays attached to the linked DAC pair.
