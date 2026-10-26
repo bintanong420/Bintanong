@@ -19,6 +19,7 @@ from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
 from .deadline_conflict import deadline_conflict_reply
+from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
@@ -289,6 +290,9 @@ def record_coverage_errors(pack, claims, slots):
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
+            errors = context_errors(pack, tuple(by_id[i] for i in ids), required)
+            if errors:
+                return errors
     for part, sequences in required_record_order(pack).items():
         status, ids = slots.get(part, (None, ()))
         if status not in ('answered', 'host', 'mapped'):
@@ -328,8 +332,10 @@ def to_draft(explanation, pack):
     held = malformed_condition_sources(pack)
     host = host_claims(pack)
     claims, slots, conflict_ids = [], {}, {}
+    requirements = required_record_sources(pack)
     for index, part_id in enumerate(ids):
         conflict = None
+        context = None
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
@@ -354,6 +360,12 @@ def to_draft(explanation, pack):
                     proposed = tuple(PartClaim.parse(c) for c in conflict)
                     status = 'answered' if proposed else 'source_gap'
             if status == 'answered':
+                context = context_reply(pack, proposed, requirements.get(part_id, set()),
+                    max_claims=8-len(claims)-reserved, existing_claims=conflict_ids)
+                if context is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in context)
+                    status = 'answered' if proposed else 'source_gap'
+            if status == 'answered':
                 excerpt = cutoff_reply(pack, proposed, max_claims=8-len(claims)-reserved)
                 if excerpt is not None:
                     proposed = tuple(PartClaim.parse(c) for c in excerpt)
@@ -361,13 +373,13 @@ def to_draft(explanation, pack):
         numbered = []
         for claim in (proposed if status == 'answered' else ()):
             key = (claim.text, tuple(claim.evidence_ids))
-            if conflict is not None and key in conflict_ids:
+            if (conflict is not None or context is not None) and key in conflict_ids:
                 if conflict_ids[key] not in numbered:
                     numbered.append(conflict_ids[key])
                 continue
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
-            if conflict is not None:
+            if conflict is not None or context is not None:
                 conflict_ids[key] = numbered[-1]
         slots[part_id] = (status, tuple(numbered))
     host_ids = {}
