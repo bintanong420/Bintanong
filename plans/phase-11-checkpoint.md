@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 124
+sequence: 125
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 52f4a09
+head_commit: 93053f3
 working_tree: dirty
-updated_at: 2026-10-27T01:35:00+08:00
+updated_at: 2026-10-27T02:20:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -23,9 +23,14 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-Owner-authorized publication handoff:share this ingestion feature branch on origin
-for continuation/other-developer inspection;no backend/dev merge or activation.
-Resume details and remaining T4/T5 gates are in the workstream checkpoint.
+[Save/prospectus delivery](2026-10-27-save-control-and-prospectus-review.md):
+f02ce05accepts39prospectuses;93053f3keeps save visible,explains required note and
+clears old prospectus questions on document switches. Existing39hash-verified
+bundles reused without extraction. UI3001/API8765 policy;3002/8766 prospectus.
+275tests/80subtests68.31s,6Node state tests/TypeScript/build pass;browser save/context
+9.40s/main5.61s and prospectus-switch RED65.45s/GREEN73.92s. No main/prospectus test
+decisions. Owner said saved;actual policy revision0/no journal before/after restart.
+Full question accuracy/accessibility/DB-role gates remain open. No hosted access.
 
 Owner-confirmed origin/feat/p11-backend-api e5495b4 merged at0bb3dad;18review/doc
 commits,no API source diff. Incoming decisions retained;336ignored candidate files absent.
@@ -39,7 +44,8 @@ No hosted access/source activation/model work. T4/T5/local lifecycle gates remai
 
 ## Repository State
 
-This tree:feat/p11-policy-ingestion-review;latest verified UI0349730;nothing pushed.
+This tree:feat/p11-policy-ingestion-review;verified UI93053f3;prior06c1f8b pushed.
+Current documentation snapshot accompanies the two focused fixes;origin upload follows.
 The following primary-runtime evidence is inherited:backend/tests/migrations frozen706d3c6;
 d1401bcreviews01–06delivery;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.

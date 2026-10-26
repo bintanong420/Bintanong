@@ -1,9 +1,9 @@
 # Policy ingestion workstream checkpoint
 
-Updated 27 October 2026, related-context UI and omission feedback delivered. Phase 11 remains active.
+Updated 27 October 2026, save control fixed and prospectus reviewer running. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
-Latest UI: `0349730`; feedback persistence: `0959a43`; backend merge: `0bb3dad`.
+Latest UI: `93053f3`; prospectus roster: `f02ce05`; feedback: `0959a43`; merge: `0bb3dad`.
 Shared fork: `4e99fb6`; initial package/UI: `a03dc08`; restored editor: `89b51d9`.
 
 ## Delivered and verified locally
@@ -26,7 +26,7 @@ Shared fork: `4e99fb6`; initial package/UI: `a03dc08`; restored editor: `89b51d9
 requirements,commands,rulings and evidence. Owner confirmed incoming branch is
 origin/feat/p11-backend-api e5495b4;18documentation/review commits merged at0bb3dad.
 Two snapshot conflicts resolved preserving this ingestion state and incoming decisions.
-No API source diff,no origin/dev merge,no push. The336candidate data folder is absent;
+No API source diff,no origin/dev merge;feature branch published through06c1f8b. The336candidate data folder is absent;
 UI remains72baseline candidates/298pending fields. No silent regeneration.
 
 RED omission API422(old field-only command);region helper missing;browser native
@@ -39,15 +39,25 @@ fields and retained unsaved audience/companion draft. No390px/720px overflow or
 captured runtime exceptions. Tests use isolated packet/profile/rehearsal reviewer,
 ports3002/8766;main-packet test writes forbidden. Full accessibility gate remains open.
 
+[Latest save/prospectus report](2026-10-27-save-control-and-prospectus-review.md):
+Save stays visible,explains required note and includes context links without bulk
+approval. Prospectus component resets on document changes;stale questions clear.
+39verified existing prospectus bundles reused,no conversion. Manifest cap64retains
+an upper bound. Fresh275tests/80subtests68.31s,6Node state tests/TypeScript/build pass;
+isolated policy browser9.40s/main5.61s,prospectus RED65.45s/GREEN73.92s. Original78
+snapshot reverified unchanged. Corpus-wide accuracy/full accessibility remain open.
+
 Main terminal `Institutional document review`,handle
 `term_31c5fa83-8f97-411f-b476-961de6f49b4e`;UI3001/API8765;Ctrl+C stops both.
-Packet/current launch-url.txt in ignored institutional-candidate-ui-20261027 folder.
-Main restart and browser integration pass6.32s;revision0/nojournal preserved. Browser evidence and
-isolated scripts in feedback-browser-20261027. Existing dependencies only,no downloads.
-Node22.22.3 differs from target24.21.0;build/start passes with disclosure.
-Docker local engine unavailable;no hosted fallback. Full-suite/actual DB-role and
-release rehearsal gates remain open. Frozen11files/7seals/78bindings reverified unchanged.
-Final affected-suite repeat:274tests/80subtests74.55s,feedback-final-regressions.
+Owner confirmed draft saved and authorized restart;actual packet revision0/no
+journal before/after. No main-packet test decisions. Current link stays ignored
+under institutional-candidate-ui-20261027/launch-url.txt.
+Prospectus terminal `Prospectus document review`,handle
+`term_805f1261-322d-4dff-b446-01e8387438cb`;UI3002/API8766;isolated frontend build.
+Workspace audit-evidence/prospectus-review-ui-20261027/ holds packet,helper,launch
+link and browser evidence. Save answers before document changes;unsaved prospectus
+drafts are not restored. No automated prospectus approvals. Full local DB/lifecycle
+and accessibility gates remain open. Existing Node22 vs target24 disclosed.
 
 ## Recovery and boundaries
 

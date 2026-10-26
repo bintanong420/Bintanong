@@ -3,50 +3,34 @@
 Updated27October2026. Phase11 active;feat/p11-policy-ingestion-review;owner-authorized origin handoff.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
-Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
+Last full snapshot before this condensation:06c1f8b;prior snapshots:5009760/c1fc29a.
 
 ## Latest change
 
-Owner27Oct requests publishing this feature branch so both developers can resume.
-Publication handoff includes code/tests/plans through52f4a09 and this recovery note.
-Resume from the dedicated ingestion checkpoint;T4/T5 remain unfinished. Keep ignored
-PDFs/packets/journals/models local;the newer336candidate evidence is still absent.
-This is feature-branch sharing,not merging into backend/dev or activating a release.
-No behavior changes this handoff;reuse recorded274tests/80subtests and browser evidence.
+[Save control/prospectus delivery](../2026-10-27-save-control-and-prospectus-review.md):
+policy save stays visible and focuses the required note;context links persist without
+blanket approval. Real39-prospectus packet prepared from existing verified bundles,
+no extraction/model run. Raised manifest cap32→64,f02ce05;retained upper-bound test.
+93053f3fixes save access and clears stale questions on prospectus switches;
+tracked browser RED65.45s/GREEN73.92s;new PDF/question match without test decisions.
+275tests/80subtests68.31s,6Node state tests/TypeScript/build pass;isolated browser9.40s
+and updated main reviewer5.61s pass. Main revision0/no journal before and after:
+owner confirmed save, but no persisted policy decision could be confirmed here.
+Main UI3001/API8765;prospectus3002/8766 uses isolated frontend build/current local
+launch link in audit-evidence/prospectus-review-ui-20261027/. Saved source files stay
+local. Full accuracy/accessibility/DB-role gates remain open;Node22 vs target24.
+Original78baseline unchanged:11files/7seals/78chunk-vector bindings reverified.
+Context/feedback implementation0959a43/0349730 and prior origin handoff06c1f8b retained.
+Backend merge0bb3dad brings18review/doc commits,no API source diff;336ignored
+candidate files remain absent,policy GUI still72records/298fields. No regeneration.
+Source-gap/scope/companion decisions remain;T4/T5 local lifecycle delivery is next.
+No hosted access,pin/release mutation,dependency changes or phase advancement.
 
-[Context/feedback delivery](../2026-10-27-related-context-and-omission-feedback.md):
-owner-confirmed origin/feat/p11-backend-api e5495b4 merged at0bb3dad;18incoming
-review/documentation commits,no API source diff. Incoming decisions retained;
-336candidate evidence folder is absent locally. UI still72baseline candidates/298fields.
-0959a43 adds independently saved page/region omission reports;0349730 replaces the
-multi-select with searchable checkboxes/previews/page links and dashed context highlights.
-Unhighlighted text may already exist;reports stay pending and never approve fields.
-274tests/80subtests,6Node state tests/TypeScript/build pass;isolated browser rehearsal
-verifies selection/highlights,page navigation,region marking,feedback/history/download,
-retained unsaved review state and390px/720px reflow. No main-packet test decisions.
-Main reviewer3001/API8765 restarted,browser integration pass6.32s,revision0preserved.
-Terminal `Institutional document review`;Ctrl+C stops both;rehearsal server closed.
-Packet and current launch link:workspace audit-evidence/p11-policy-ingestion/
-institutional-candidate-ui-20261027/. Frozen baseline unchanged;no hosted access.
-Full accessibility/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
-Frozen78baseline verified27Oct:actual root has nested comparison-baseline-78/child;
-11/11files,7/7seals,78chunk/vector bindings pass;PDFs394H/117Cpages,hashes unchanged.
-77topic assignments/66claim reviews;one existing unassigned chunk and three supporting
-JPG originals outside snapshot retained as limits. New-suite legacy replay still pending.
-Docker local engine unavailable;verification made no model/network/database calls.
-No hosted access;runtime/source decisions below are inherited,not refreshed here.
-
-[Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
-source verification first,then fixed baseline/fork,then frontend/runtime versus isolated ingestion/UI.
-[Source reviews01–09/shared baseline](../2026-10-26-handbook-charter-shared-baseline.md)delivered:
-89/89catalogue groups mapped;102H/62Clocators,152original pages inspected/12earlier reviews reused.
-Literal clear fields use standing delegation;holds/historical/support/excluded content remain separate.
-Owner confirmed H26/H30holds and unchanged datasets. No new chunks/rules/activation.
-Comparison snapshot11copies/7seals/original hashes/pin verified unchanged;manifest
-bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
-Fresh ingestion77tests/110subtests15.27s and runtime65tests2.18s pass/exit0;docs-only,no full repeat.
-Other developer's local-only task/ownership saved;shared baseline commit/fork is next.
-Existing Orca setup copies.env/runs npm ci;use isolated creation without invoking that setup.
+[Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md):
+source verification/frozen baseline/fork precede isolated ingestion and frontend/runtime.
+[Shared source baseline](../2026-10-26-handbook-charter-shared-baseline.md) maps89groups;
+H26/H30holds and unchanged datasets confirmed. Manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
+Ignored originals/models/pins preserved;no Orca setup install or source regeneration.
 
 [Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
 394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
@@ -55,11 +39,9 @@ enterprise,X088accessible Handbook formats(H69),X089grade solicitation(H49). [Ca
 now89groups/8batches,86pending/3existing. Fixed old IDs retained;no new approval/activation.
 Pipeline details supersede the recovery's unanswered-question status;historical recovery retained.
 
-[Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
-complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
-but8mappings1.0–2.75(no3.0);retrieval storage_error after31.237s,underlying cause unproven. Casual
-1.0percent question chooses empty clarification/no topic,becomes incorrect no_evidence;no retrieval.
-Exact raw calls/routing/events/answers saved in A/p11-grading-coverage-triage-20261026;no fixes yet.
+[Natural query triage](../2026-10-26-natural-grading-and-source-coverage-results.md):
+0/2expected answers;grading3.0coverage/storage error and empty1.0clarification remain.
+Exact calls/events retained in A/p11-grading-coverage-triage-20261026;no fixes here.
 
 Handbook first40/adjacent context and117page Charter inventory/audience triage find substantial
 student material outside78:admission/registration/leave/standing,Registrar records,fees/refunds,
@@ -95,4 +77,4 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 Resume T4/T5 disposable-local lifecycle tooling/rehearsal and operator delivery.
 The newer336packet needs its exact ignored evidence transferred before verified intake;
-merging its Git review documents does not populate those records. No source regeneration.
+merging Git review documents does not populate those records.
