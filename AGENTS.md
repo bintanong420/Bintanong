@@ -1,5 +1,25 @@
 # Repository documentation and development rules
 
+## Agent communication and ingestion workstream - owner, 26 October 2026
+
+- Always respond to the owner in English. This is the engineering agent's reply
+  preference; preserve the student chatbot's English/Filipino/Taglish behavior.
+- Use relevant installed skills to supplement repository skills. Read their
+  instructions before applying them; owner directions and repository boundaries
+  take precedence, including the ingestion-only and hosted-Supabase restrictions.
+- This workstream covers the ingestion pipeline and its local researcher review
+  UI only. Read `plans/2026-10-26-policy-ingestion-workstream.md` before planning,
+  implementing or resuming it; that record reconciles the two supplied documents.
+- Leave hosted Supabase untouched: do not connect to it or run hosted queries,
+  review RPCs, staging, publication, activation, rollback, migrations or changes
+  to data, schema, policies, credentials or configuration. Use isolated files and
+  explicitly targeted disposable local databases for ingestion verification.
+  A separate worktree does not make copied hosted configuration safe.
+- Preserve the active hosted release, runtime pin and other developers' work.
+  Coordinate shared-interface changes with their owner. Earlier hosted access
+  permissions and general MCP guidance do not authorize access in this workstream;
+  any future hosted operation requires a new explicit owner instruction.
+
 ## Study scope: undergraduate academic affairs only
 
 - Apply `plans/undergraduate-scope-policy.md` to every task, including handbook,
