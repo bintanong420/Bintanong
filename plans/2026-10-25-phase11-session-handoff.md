@@ -15,9 +15,9 @@ Coverage/ordered subset,exact companion/penalty-condition context and limited so
 fallback implemented b6a9da1/1b51518/9ea3ae7;reviewer oneP2 reproduced RED4/fixed706d3c6.
 GREEN120/broader1316/final relevant63/fresh865. Saved real six-packet replay and templated token
 preflight pass(max4918+768+8<=8192). No model calls in preflight. Source48files/78chunks unchanged.
-Managedsession86478/helperPowerShellPID20796 frozen706d3c6 RUNNING six once then final full suite;
-started12:54:45+08. Evidence A/p11-companion-context-20261026/:six-cases.log/.exit,full-suite.log/.exit,
-six-cases/raw traces. Monitor,do not duplicate/restart prior runs. Actual quality/suite pending.
+Managedsession68829/helperPowerShellPID20176 frozen706d3c6 RUNNING six once then final full suite;
+started12:58:11+08. Evidence A/p11-companion-context-20261026/:six-cases.log/.exit,full-suite.log/.exit,
+six-cases/raw traces. Monitor,do not duplicate/restart prior runs. Actual six21completions/6expectations met;full suite pending.
 Read-only release_switch.py prepare verified exact78chunk/span/source/vector records/39links;
 19active/78draft/80draft. Derived runtime-package includes reviewed order overlay and budgets.
 Local active-research-pin absent;rollback restores absence. No hosted writes yet. After gates pass,

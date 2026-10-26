@@ -92,3 +92,15 @@ links;19active/78draft/80draft preserved. Local runtime pin was absent;rollback 
 Derived runtime package copies source bytes plus byte-identical reviewed order overlay and budgets;
 sealed48source files unchanged. No hosted mutation yet. Activation RPC/anon readback/39curriculum
 composition/smoke are prepared but remain gated by actual quality and final suite.
+
+Runner recovery:Windows PowerShell5 treated an encoder stderr warning as fatal before any case;
+a second setup rejected a docs-only descendant. Both made0model calls. Use managedsession68829/
+PID20176 started12:58:11+08,PowerShell7 and production-tree freeze verification permitting doc commits.
+No case has been repeated;preserve setup-failures.json and six-setup-doc-head-failure.log.
+
+Selected six complete once/21raw completions:5answered1source_conflict,0exceptions;6/6frozen
+expectations met on author inspection. Fraud1ordinary draft repair;no case retry. Full suite RUNNING;
+activation remains pending. See2026-10-26-companion-context-activation-results.md and ignoredquality
+review. Session-guard ruling:continue the authorized frozen validation/activation with compact
+checkpoints and targeted operations;do not split merely at a tool-count threshold while a required
+job is running. Exact source48seal/undergraduate/private/source-gap limits and old19rollback remain.

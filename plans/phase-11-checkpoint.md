@@ -36,7 +36,7 @@ p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Production/tests froz
 Only plan/progress/checkpoint/recovery docs updating;documentation descendants do not alter frozen code.
 Last full snapshot before current condensation:b6a9da1. Evidence root A/p11-companion-context-20261026/;
 A=C:/Coding-projects/bintanong_workspace/audit-evidence. All source/raw artifacts ignored.
-Managed exec session86478/helperPowerShellPID20796:run_six_then_suite.ps1;started12:54:45+08.
+Managed exec session68829/helperPowerShellPID20176:run_six_then_suite.ps1;started12:58:11+08.
 Six cases once then final full suite serialized;read six-cases.log/.exit,full-suite.log/.exit and raw
 six-cases/<case>/call-* traces. Do not start duplicate jobs. No old helpers/cases to restart.
 
@@ -45,7 +45,8 @@ six-cases/<case>/call-* traces. Do not start duplicate jobs. No old helpers/case
 Current GREEN120targeted;broader1316passed35.48s;reviewer correction63passed2.03s and fresh865passed30.75s.
 Saved actual six-packet replay passes coverage/order/exact quotations;INC source_conflict4cites0calls.
 Actual templated draft/review preflight max4918input+768output+8<=8192;no inference for preflight.
-Full frozen suite and actual six natural queries RUNNING/pending;no current quality pass claimed.
+Six complete once/21raw completions:5answered1source_conflict,0exceptions;6/6expectations met.
+Fraud1ordinary draft repair,no case retries. Final frozen full suite RUNNING;activation still pending.
 SharedPython3.13 -X utf8 -u -B -m pytest -q -p no:cacheprovider tests/,external basetemp/storage.
 Read-only prepare result exact78chunk/span/source/vector hashes,39links,source48file seal unchanged.
 No new lint/browser/style/API/end-to-end success claim. Previous6865suite historical,not current evidence.
@@ -76,7 +77,7 @@ Hosted switch remains gated by quality/full-suite evidence;old19rollback retaine
 
 ## Next Action
 
-Monitor session86478 results;review actual six against fixed expectations,then final suite. If gates
+Monitor session68829 results;review actual six against fixed expectations,then final suite. If gates
 pass,run prepared release_switch.py activate through governed RPC;verify anon78/39 and normal hosted
 composition/local pin,then bounded hosted smoke/relevant accepted-query comparison. Roll back on
 failed integrity/smoke. Save final findings/results and compact recovery without asking approval again.
