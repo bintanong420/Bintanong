@@ -11,7 +11,11 @@ Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
 `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 Review templates/package build/baseline retention:252tests/80subtests pass;researcher
 3Node tests/TypeScript/production build pass. No browser/full-suite/DB-role claim.
-Owner extracting frozen78baseline;empty destination created. Docker local engine unavailable.
+Frozen78baseline verified27Oct:actual root has nested comparison-baseline-78/child;
+11/11files,7/7seals,78chunk/vector bindings pass;PDFs394H/117Cpages,hashes unchanged.
+77topic assignments/66claim reviews;one existing unassigned chunk and three supporting
+JPG originals outside snapshot retained as limits. New-suite legacy replay still pending.
+Docker local engine unavailable;verification made no model/network/database calls.
 No hosted access;runtime/source decisions below are inherited,not refreshed here.
 
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
@@ -71,5 +75,5 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-In this ingestion worktree,verify the owner's extracted baseline,then finish local lifecycle and
-browser/rehearsal gates from its checkpoint. Primary frontend/runtime work stays with its owner.
+In this ingestion worktree,connect verified legacy baseline intake/replay,then finish local lifecycle
+and browser/rehearsal gates from its checkpoint. Primary frontend/runtime stays with its owner.

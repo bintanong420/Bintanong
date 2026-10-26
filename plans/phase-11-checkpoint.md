@@ -4,9 +4,9 @@ phase: 11
 status: in_progress
 sequence: 119
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 1f2bb60
+head_commit: a03dc08
 working_tree: dirty
-updated_at: 2026-10-26T23:56:00+08:00
+updated_at: 2026-10-27T00:03:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -26,7 +26,9 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 In this ingestion worktree,follow the [workstream checkpoint](2026-10-26-policy-ingestion-checkpoint.md).
 T1/review persistence committed;recovered reviewer/package increment passes252tests/80subtests,
 3Node tests,TypeScript and production build. Browser/DB/real baseline gates remain open.
-Owner extracting baseline;local Docker engine unavailable. Runtime status below is inherited.
+Supplied nested baseline verified27Oct:11files/7seals/78chunk-vector bindings pass;
+unchanged bytes,legacy new-suite replay pending. Local Docker engine unavailable.
+Runtime status below is inherited;no hosted connection in this workstream.
 
 [Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
 fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
@@ -134,7 +136,7 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Ingestion tree:verify supplied baseline bytes,then finish local lifecycle and browser/rehearsal gates
+Ingestion tree:connect verified legacy baseline intake/replay,then finish local lifecycle/browser gates
 from the workstream checkpoint. Primary runtime developer retains frontend/grading work elsewhere.
 No hosted access,generated data publication or phase advancement in this workstream.
 

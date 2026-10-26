@@ -25,9 +25,11 @@ Created local `feat/p11-policy-ingestion-review` directly from the verified Git
 fork4e99fb6 at the planned workspace path. The reported c76d988 commit could not be
 found locally or by GitHub,and the named branch/path did not exist here before
 creation. No existing workspace was replaced and no setup/install hook was used.
-The upstream source/package comparison directory is missing locally;its path has
-been requested. Git identity is verified;byte verification/rehearsal of the actual
-reviewed package remains pending and must not be claimed from the notes alone.
+The owner supplied the source/package archive on 27 October. Its actual frozen root
+is the nested `comparison-baseline-78/comparison-baseline-78/` directory. All11listed
+copies/7seals match the recorded manifest;78chunk/vector bindings pass local contracts.
+See the checkpoint for exact path,command,hash and inventory limits. Legacy-format
+intake and real-package rehearsal through the new command suite remain pending.
 
 ## Request and supplied context
 
@@ -187,8 +189,8 @@ verified commit; do not build a second parser, reviewer or release manager.
   branch/worktree and origin branch were absent before creation.
 - [x] Create `feat/p11-policy-ingestion-review` in the dedicated worktree from
   `4e99fb655022e694c73bbd98dd6daec9d7d88fb5`,without switching the owner's checkout.
-- [ ] Verify reviewed source/package bytes from the actual local baseline,not its
-  historical receipt alone. Recorded evidence directory is missing;local path requested.
+- [x] Verify actual supplied source/package bytes against the historical receipt:
+  11/11copies,7/7seals,78chunks/vectors;27October nested-root verification recorded.
 - [x] Carry this plan,verbatim notes and current owner boundaries into that tree.
 - [ ] Inspect callers/contracts and tests of the reuse points below. Record the
   baseline hashes, affected interfaces and local output directory in this plan.

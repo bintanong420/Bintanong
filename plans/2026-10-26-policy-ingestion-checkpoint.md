@@ -1,9 +1,9 @@
 # Policy ingestion workstream checkpoint
 
-Updated 26 October 2026, 23:56 +08. Phase 11 remains active.
+Updated 27 October 2026, 00:03 +08. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
-Last committed implementation before this increment: `1f2bb60`; shared fork: `4e99fb6`.
+Verified implementation: `a03dc08`; prior review/API: `1f2bb60`; shared fork: `4e99fb6`.
 
 ## Delivered and verified locally
 
@@ -37,9 +37,22 @@ System Python 3.13.12; pytest 9.0.3; no cache; external basetemp under
 
 ## Recovery and boundaries
 
-Owner is extracting the frozen 78-chunk baseline from the original developer.
-Created its empty destination at `audit-evidence/p11-two-developer-baseline-20261026/comparison-baseline-78/`.
-No baseline bytes, seal or real-package replay verified yet. Do not manufacture them.
+Owner supplied the archive; actual frozen root is nested one level deeper:
+`C:/Coding-projects/bintanong_workspace/audit-evidence/p11-two-developer-baseline-20261026/comparison-baseline-78/comparison-baseline-78/`.
+Fresh verification: 11/11 listed files and 7/7 seals match the recorded hashes;
+manifest `bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011`.
+78 chunks/vectors, five source-version contracts, 77 topic assignments, 66 claim reviews,
+all reviewed-context renderings and same-source companion references pass locally.
+Both PDF hashes match; readable page counts are Handbook394/Charter117. Inventory
+unchanged before/after. Outer review notes/renders/pytest files are outside this sealed inventory.
+The existing unassigned chunk `82d3715ebcc5d4ce1ef6dd88e818ec6762af360d7dd412958b6694d9343b87b0`
+(`handbook-table-10-row-4`) remains unassigned. Three supporting JPG originals are
+outside the frozen snapshot. No content decision or missing artifact was invented.
+Evidence: workspace `audit-evidence/p11-policy-ingestion/baseline-verification-20261027/`
+contains `verify_snapshot.py` and `verification.json`; command: system `py -3.13`
+with the repo root on `PYTHONPATH`, executing that script; exit0. No models/network/DB.
+This legacy snapshot lacks the new package.json format: new-suite intake/rehearsal
+remains pending. Byte verification is complete, not source-content rereview or activation.
 Hosted Supabase, active release/pin and the other developer's workspace stay untouched.
 T4 local lifecycle tooling/rehearsal and T5 operator delivery remain unfinished.
 No institutional approval, arbitrary-PDF accuracy or phase-completion claim.
@@ -48,6 +61,6 @@ scope, source-gap and service-table policies. Missing facts remain unknown.
 
 ## Next action
 
-Verify the owner's extracted baseline when supplied; continue T4 local-only lifecycle
-tooling and its failure tests, then browser/rehearsal/documentation gates. Reuse the
-passing package tests unless code changes invalidate them.
+Connect verified legacy baseline intake/replay without rewriting the frozen files;
+continue T4 local-only lifecycle tooling and its failure tests, then browser/rehearsal
+and documentation gates. Reuse passing checks unless code changes invalidate them.
