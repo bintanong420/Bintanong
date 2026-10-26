@@ -1,19 +1,19 @@
 # Current progress
 
-Updated26October2026,15:48+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,16:09+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Owner now requests gathering all possible Handbook/Charter expansion topics first,bulk review later.
-[Combined catalogue](../2026-10-26-handbook-charter-expansion-catalogue.md)delivered:86fixed IDs in8batches;
-65new,4partial,7held,7support and3existing-context groups.83pending groups are not approved additions.
-Both original hashes/7package seals verified;all117cached Charter texts match fresh original native
-text;21Charter renders plus H101checked. Full394Handbook inventory reused,not repeated.
-Catalogue links source pages,coverage,exclusions and later-review flags. No field approval questions
-or corpus construction now. Staff-only/graduate/Law/Medicine/lab-school exclusions preserved.
+Owner requests handoff;next is the ingestion-pipeline/scope question,not bulk field review.
+[Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
+394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
+prove full visual/field review or exhaustive topics. Three actual omissions added:X087economic
+enterprise,X088accessible Handbook formats(H69),X089grade solicitation(H49). [Catalogue](../2026-10-26-handbook-charter-expansion-catalogue.md)
+now89groups/8batches,86pending/3existing. Fixed old IDs retained;no new approval/activation.
+Pipeline initial code pointers and stale-doc warning saved in audit/recovery;question unanswered.
 
 [Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
 complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
@@ -52,6 +52,6 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-When owner starts the later bulk review,prepare complete source cards from catalogue batchesA–H,
-admission/registration first. Include exact wording,full service associations and held issues;do not
-re-scan sources or infer content approval/activation from collection. Grading fixes remain separate.
+Answer owner's question:how should a repeatable new-Handbook ingestion pipeline apply scope
+exclusions and reach the DB,versus today's AI-assisted work? Trace current code/review/staging/
+release first;explain existing versus missing automation. Bulk review later;no implementation assumed.

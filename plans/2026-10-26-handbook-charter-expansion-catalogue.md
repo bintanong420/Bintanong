@@ -6,11 +6,13 @@ page 26–34 field review. That subject remains first in the proposed review ord
 No new source reading, policy interpretation, chunk, rule or activation is approved
 by inclusion here. Phase 11 remains active.
 
-The catalogue contains **86 topic groups in eight review batches**. Three groups are
-existing coverage retained for comparison; the other 83 are possible additions,
+The catalogue now contains **89 topic groups in eight review batches** after the
+owner-requested completeness audit. Three groups are existing coverage retained
+for comparison; the other 86 are possible additions,
 partial-topic completions, held selections or supporting material. These are not
-86 new topics approved for implementation, chunk counts or accuracy measurements.
-IDs X001–X086 are fixed for later review; append new IDs rather than renumbering.
+89 new topics approved for implementation, chunk counts or accuracy measurements.
+The first catalogue had 86 groups; the audit found three items not explicitly listed.
+IDs X001–X086 remain unchanged; X087–X089 are appended below with their batch labels.
 
 ## Sources, scope and preparation
 
@@ -186,6 +188,21 @@ limitation instead of offering the same procedure for every campus.
 | X084 | Student housing, food, safety, multifaith, culture, sports and community services | 96, 99–100 | — | Support; service descriptions often lack actionable workflows; do not invent them. |
 | X085 | Online student services, profile updating, feedback and relevant office referrals | 108–109 | 114–117 | Support; date/scope review, exclude staff/professional/graduate/lab-school contacts; general external complaint contacts are not automatically activated. |
 | X086 | Blank student information and Handbook acknowledgment forms | 2, 392–393 | — | Support; source forms only, not authorization for Bintanong to collect/store private data. |
+
+## Appended audit items within existing batches
+
+These additions show why page accounting alone cannot prove topic completeness.
+All three source pages were already referenced for other subjects. Original wording
+was checked; content approval remains deferred with the rest of the bulk review.
+
+| ID | Possible student topic | H pages | C pages | State / review focus |
+| --- | --- | --- | --- | --- |
+| X087 | Batch H: student economic-enterprise support | 69 | — | Support; student cooperatives, entrepreneurial/income-generating projects and savings programs; scope selection and actual access procedure remain to review, not general business advice. |
+| X088 | Batch H: accessible Handbook formats and student access | 69 | — | Support; electronic/large-print/media access context; no invented request process or autonomous acquisition; internal Handbook drafting is not a student service. |
+| X089 | Batch E: prohibition against grade solicitation | 49 | — | New; student academic-integrity policy and stated consequences, distinct from legitimate grade-correction requests; consequential fields still need review. |
+
+See the [scan verification audit](2026-10-26-scan-completeness-audit.md) for the
+511-page comparison, structural-page checks and the limits of the completeness claim.
 
 ## Issues to bring into the later bulk review
 

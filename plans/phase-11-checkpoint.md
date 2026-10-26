@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 113
+sequence: 114
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 5c4a930
+head_commit: a584c5b
 working_tree: clean
-updated_at: 2026-10-26T15:48:08+08:00
+updated_at: 2026-10-26T16:09:23+08:00
 ---
 
-# Phase 11 checkpoint — Handbook/Charter expansion catalogue
+# Phase 11 checkpoint — scan audit and ingestion question handoff
 
 ## Completed Tasks
 
@@ -23,17 +23,17 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-[Combined expansion catalogue](2026-10-26-handbook-charter-expansion-catalogue.md)delivered on latest owner
-request:86groups/8bulk-review batches,83pending groups and3existing-context groups. Gather now,
-bulk review later;this supersedes immediately starting26–34field approval. No new content approval.
+[Scan audit](2026-10-26-scan-completeness-audit.md)delivered:511pages fresh text match;three actual
+catalogue omissions corrected. [Catalogue](2026-10-26-handbook-charter-expansion-catalogue.md)now89groups,
+86pending/3existing in8batches. Owner requests handoff;ingestion architecture question unanswered.
 
 ## Repository State
 
 p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-5c4a930catalogue baseline;documentation descendants do not change tested code. Snapshot head names
+a584c5baudit baseline;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and scan documents.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
-R=A/p11-companion-context-20261026. New catalogue evidence A/p11-expansion-catalogue-20261026;Handbook/grading inventories retained.
+R=A/p11-companion-context-20261026. New audit A/p11-scan-completeness-audit-20261026;prior catalogue/Handbook/grading evidence retained.
 Raw sources/results/helpers/pin are ignored. Two-query runner ended0;no jobs running.
 Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
 
@@ -74,6 +74,12 @@ Combined catalogue:86unique sequential IDs,8batches;65new/4partial/7hold/7suppor
 original hashes and7package seals pass;78total/66H/6Cchunks. All117cached Charter native pages
 match original;21Charter renders+H101checked. Source/issue cards deferred to later bulk review.
 
+Fresh audit:394H+117Cpage texts match original;394unique Hscope rows. Relevant unmapped Hpages
+59/65/66/67/107/119are structural/background/blank. All13Csparse covers rendered/checked;20Hsparse
+checks reused;new H49/59/66/69/107renders checked. Three semantic omissions despite page references
+addedX087–X089. Catalogue89IDs/8batches:66new/4partial/7held/9support/3existing. Not exhaustive
+field validation;no guaranteed topic completeness. No production/source/DB/release/model mutation.
+
 ## Versions and Digests
 
 Python3.13.7/FastAPI0.141.1/SWI-Prolog10.1.15/Postgres17.6/pgvector0.8.2/CLI2.117.0 unchanged.
@@ -87,7 +93,8 @@ Global canonical default unchanged. Old19superseded/retained;old80draft. Origina
 
 ## Decisions
 
-Owner now says gather possible Handbook/Charter topics first,review in bulk later.
+Owner now requests a handoff;ingestion-pipeline question is next and remains unanswered.
+Gather Handbook/Charter topics first,review in bulk later remains the source-review direction.
 Admission/registration remains first proposed batch;do not start per-topic approval questions now.
 Collection is not content approval;standing clear-row delegation and new-issue holds remain.
 Owner authorized corrected78activation after validation;recorded owner-decisions-ledger permission
@@ -103,9 +110,9 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-When owner starts later bulk review,prepare complete original-source cards from batchesA–H,
-admission/registration first. Preserve exact wording/associations/gaps and distinguish existing
-coverage. Do not re-scan or infer new chunk/rule/activation approval. Grading fixes stay separate.
+Answer ingestion question first:trace new-version PDF->candidate->scope/content review->embedding/
+staging->release. Explain actual versus missing automation and AI/human roles;do not assume a new
+implementation request. Audit report lists inspected paths/stale docs. Bulk review remains later.
 
 ## Context Consulted
 

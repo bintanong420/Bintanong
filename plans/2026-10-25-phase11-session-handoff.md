@@ -1,20 +1,24 @@
-# Phase 11 session recovery —26October2026,15:48+08
+# Phase 11 session recovery —26October2026,16:09+08
 
 Corrected78 research activation milestone complete;Phase11 remains active. No phase advancement.
 p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Backend/tests/migrations frozen706d3c6;
-Latest inspected pre-catalogue delivery5c4a930;activation7f8e983. Last full snapshots:5009760/929a984.
-Handbook/Charter expansion catalogue delivered;bulk review deferred,no new content/model/activation.
+Latest inspected pre-audit deliverya584c5b;activation7f8e983. Last full snapshots:5009760/929a984.
+Scan audit/corrections saved;owner requests handoff. No jobs/new content/model/activation.
 Read AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint;
 refresh thesis physical17–18/routing PNG/master16. Preserve settled source decisions.
 
 ## One next action
 
-Owner says gather possible topics from both sources now,review in bulk later. [Combined catalogue](2026-10-26-handbook-charter-expansion-catalogue.md)
-delivered:86fixed IDs/8batches;65new/4partial/7held/7support/3existing-context groups. Next when owner
-starts review:prepare complete exact-source cards by batch,admission/registration first. Do not begin
-individual approval questions or corpus construction now. Source issues remain flags,not decisions.
-A/p11-expansion-catalogue-20261026has fresh Charter117page text comparisons,21renders+H101,
-original/package hash checks and ID/count/page validation. Original78selection unchanged.
+Answer owner's unanswered ingestion question:should adding a new Handbook version then running
+scripts be enough to publish to DB,and how should scope exclusions work when today's process is
+AI-assisted? [Audit/recovery pointers](2026-10-26-scan-completeness-audit.md)list code already inspected.
+CLI __main__/run_ingestion currently prepare candidate-only pending bundles/accounting;selected
+undergraduate receipt record/bind exists separately. Trace reviewed builders,embedding/staging and
+release next;distinguish actual automation from proposed workflow. No pipeline redesign approved.
+Owner wants bulk source review later. [Catalogue](2026-10-26-handbook-charter-expansion-catalogue.md)now89groups/8batches,
+86pending/3existing;X087economic enterprise,X088accessible Handbook,H69;X089grade solicitation,H49.
+Fresh511page text match confirms whole-file accounting,not exhaustive topics/full visual field review.
+A/p11-scan-completeness-audit-20261026holds receipt/renders. No DB/model/source jobs running.
 
 Two saved natural queries ran once on active78:0/2expected answers,4routing/style calls,0retries.
 Passing question RAG/grading_scale requests8mappings1.0–2.75then storage_error31.237s;underlying cause
