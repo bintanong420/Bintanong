@@ -753,3 +753,25 @@ Next160–164/C65–69:complete removal servicephysical112–113/printed108–10
 Original images/five-way closure checked. Classcard checklist/removalform mismatch,
 listed6hours5minutes/printed6hours10minutes and unresolved H47deadlines retained.
 Shared audience wording is provenance;only undergraduate student procedure supported.
+
+
+## Batch C removal160–164 approved;graduationdiagram165–169 prepared
+
+Owner:“i approve”. Approves complete removal-exam service as displayed.
+Classcard checklist/removalform mismatch,listed6h5m/printed6h10m and unresolved
+Handbookdeadline conflicts retained. Shared audience wording does not expand scope.
+No inferred eligibility or runtime permission;labelled reauthoring remains.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 160 | C-removal-compact-001 | `49f1bd034ec8c86d0cae4c5087e11955a1842cd33a1cedc3cf9d1a69d7da215e` | `32fc16d7993f5fce64ecff87311ff3a9eb48d5a368ec5187137a1a5c28e66cc1` |
+| 161 | C-removal-compact-002 | `3b4b9d0f280aa3e70782c4b019fb4b1f6f76392b18122c84a4622c5d5852f8ee` | `39ee0f94d110450f29712596f1c09547a1a483f22ce16058f0d4df79f68071ed` |
+| 162 | C-removal-compact-003 | `eae4dd8b46750a059f542d84217ddc8de4affe9e769876d0d275fc42139433f2` | `eb7a91c2bb915026d0a7665933a8cb74b4f4195856833f146470fe9c2c0a9047` |
+| 163 | C-removal-compact-004 | `ecca03b01d4d81c14165aba120099ca5b598a31ff1aeb206e88d15be5ef86ae6` | `036f55d101d6b48e2f1183bd629a0f9439376848378d2435734de5a5317b95c1` |
+| 164 | C-removal-compact-005 | `aa769bafdc2098a913ccd9d10c9a9e0b3134f11a8480c15d1346d823054b527b` | `376fecd54098009ed0720c9089f6fa704cd683dc00a03aff43afcf13dabd2df0` |
+
+69BatchC/164totalapproved,172pending;receiptSHA256:`cc580fa4619ff4f2294624ab149f6160099ff90f26bce8fa705a66fee87f239f`;069snapshot retained.
+Next165–169/C70–74:complete linked selection of visible graduationdiagramH64.
+Original image/five-way closure checked;join split rows3/5/9for display while
+showing chunk boundaries. Final detail ends at during;no endpoint inferred.
+Image scalar fields still require checked structural bindings before runtime use.
