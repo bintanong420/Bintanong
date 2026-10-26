@@ -563,3 +563,28 @@ Next112–116/BatchC17–21:complete five-way-linked undergraduate honors group
 H52–54. Retain shared sentence wording,competing residence statements,all
 elective priorities and H53shorter-than-four-year selection hold. Do not infer
 new graduate/Law support or resolve existing holds through content approval.
+
+
+## Batch C undergraduate honors — linked chunks112–116 approved
+
+Owner: “i approve”. Approves the full five-way-linked undergraduate honors
+recordH52–54as displayed,including table values,minimum-grade/repeat/INC/Dropped
+conditions,residence/unit/load provisions,underload proof,behavior,GWAand full
+elective priorities. Shared graduate reference retained as printed;unsupported
+audiences stay excluded. Competing residence statements remain unresolved;
+H53shorter-than-four-year paragraph applicability hold remains. No inferred
+eligibility,new institutional authority,source change or executable honors rule.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 112 | H-undergraduate-honors-policy-compact-001 | `8ad4b61ccdedbd6be63ffd2583e596e2ab9b785819869e2fe053214b159fa248` | `f719f5cec122da739e434eed07ce82e926a6201a464e6c9c8ee4734c6079f067` |
+| 113 | H-undergraduate-honors-policy-compact-002 | `e40c0f27777d882ac8c30ba6c82197b9c9e7e2f6a0aadb22d8b50763f6ea01f5` | `48a738c00b8edd16e97025b5c74d444d88fa397f2a841da04f7210dfbf7e82a0` |
+| 114 | H-undergraduate-honors-policy-compact-003 | `271cc1b7fd8add2fe81c6a7c0af8d50fead5dc87fc2f52c94f91ce33b65a52cf` | `795ed1bee8eccc202d4166d761b02d321b688ef9441f6f76cfede7581c7a1ea4` |
+| 115 | H-undergraduate-honors-policy-compact-004 | `76938e523e119600423f9cb32d98d22950d625a8e9662ecab8b56c99ee418255` | `b9c7084efb33b650e396b1b11a1237ddcefaad35feb87d757b0f629274df949f` |
+| 116 | H-undergraduate-honors-policy-compact-005 | `7d21aa5786a1f0b18fa9061aa79297b32a63146bebab58aa05cc8838e997b44f` | `42020d2e8feb4503457625360773bafc1fd871965f1a994f2b30f2a59bc398b6` |
+
+Total116of336content-approved;220pending;BatchC21of78approved. Partial receipt
+SHA256:`bfd27c155f1aeaac3beaf8322895867fa8ded992a8a0ca874e429cc98bdedfa6`;6/11/16/21snapshots retained.
+Next117–120/BatchC22–25:merit/other awards pairH55and studentFAQpairH57;
+commencement/recordsH56already approved as110–111and skipped without re-review.
+Both upcoming pairs mutually linked;preserve source grammar and continuation.
