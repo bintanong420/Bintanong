@@ -7,6 +7,13 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
+Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
+`01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
+Review templates/package build/baseline retention:252tests/80subtests pass;researcher
+3Node tests/TypeScript/production build pass. No browser/full-suite/DB-role claim.
+Owner extracting frozen78baseline;empty destination created. Docker local engine unavailable.
+No hosted access;runtime/source decisions below are inherited,not refreshed here.
+
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
 source verification first,then fixed baseline/fork,then frontend/runtime versus isolated ingestion/UI.
 [Source reviews01–09/shared baseline](../2026-10-26-handbook-charter-shared-baseline.md)delivered:
@@ -64,5 +71,5 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Commit final source-review/baseline records;create ingestion branch/worktree from that exact commit.
-Then locate the supplied frontend and continue primary frontend/runtime work;keep grading failures visible.
+In this ingestion worktree,verify the owner's extracted baseline,then finish local lifecycle and
+browser/rehearsal gates from its checkpoint. Primary frontend/runtime work stays with its owner.

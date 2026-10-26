@@ -199,7 +199,7 @@ class ReviewSession:
                     'version_id': version['version_id'],
                     'intended_audience': 'undergraduate' if audience == 'undergraduate' else 'unknown',
                     'applicability': audience if audience != 'unresolved' else 'unknown',
-                    'applicability_evidence_ref': ref, 'fields': [], 'gaps': [],
+                    'applicability_evidence_ref': ref, 'fields': [], 'gaps': copy.deepcopy(row.get('source_gaps', [])),
                     'preserved_evidence': [{'artifact': 'packet.json#' + row['id'],
                                             'sha256': digest((self.root / 'packet.json').read_bytes())}]}
                 anchors[row['id']] = {}

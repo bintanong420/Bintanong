@@ -141,3 +141,50 @@ def test_prepare_cli_emits_machine_readable_summary(tmp_path, monkeypatch, capsy
     cli = importlib.import_module('backend.bintanong_tools.knowledge_update.__main__')
     assert cli.main(['prepare', str(path), '--out', str(tmp_path / 'packet')]) == 0
     assert json.loads(capsys.readouterr().out)['candidate_only'] is True
+
+
+def service_template(tmp_path, spec, *, foreign=False):
+    sha = spec['documents'][0]['sha256']
+    span = {'schema_version': 'bintanong-source-span-v1', 'byte_sha256': sha,
+        'version_id': 'ver-' + sha, 'page': 1, 'printed_page_label': None,
+        'locator': {'kind': 'text_item', 'table_index': None, 'cell_ids': [],
+                    'item_ids': ['text-0'], 'ref': None}, 'text': 'Submit the form.',
+        'bbox': [20, 150, 450, 180], 'bbox_origin': 'TOPLEFT', 'page_size': [600, 800],
+        'extraction': {'source_kind': 'synthetic', 'resolution_method': 'deterministic',
+                       'repair_id': None, 'ocr_confidence': None}}
+    value = {'readings': [{'reading_id': 'service-1', 'source_sha256': 'f' * 64 if foreign else sha,
+        'version_id': 'ver-' + sha, 'intended_audience': 'undergraduate', 'applicability': 'undergraduate',
+        'fields': [{'name': 'client_instruction', 'original_value': 'Submit the form.',
+                    'reviewed_value': 'Proposed correction.', 'decision': 'accepted', 'source_blank': False,
+                    'locator': {'physical_pages': [1], 'field': 'client instruction'}}],
+        'gaps': [{'gap_id': 'known-cutoff', 'issue': 'Source process ends mid-sentence',
+                  'field_names': ['client_instruction'], 'visible_text': 'Submit the form.',
+                  'affected_claims': ['procedure completeness'],
+                  'locator': {'physical_pages': [1], 'field': 'client instruction'}}]}],
+        'field_spans': {'service-1': {'client_instruction': [span]}}, 'required_readings': {}}
+    path = tmp_path / 'template.json'
+    path.write_text(json.dumps(value), encoding='utf-8')
+    return path
+
+
+def test_prepare_imports_field_associations_as_unreviewed_proposals(tmp_path, monkeypatch):
+    path, source, spec = manifest(tmp_path, kind='charter')
+    spec['documents'][0]['review_template'] = str(service_template(tmp_path, spec))
+    path.write_text(json.dumps(spec), encoding='utf-8')
+    packet = api().prepare(path, tmp_path / 'packet', converter=synthetic_converter(monkeypatch,
+        InputSnapshot(source), raw_document([item('Submit the form.')], pages=1)))
+    row = next(r for r in packet['items'] if r['id'] == 'service-1')
+    assert row['audience'] == 'unresolved'
+    assert row['fields'][0]['decision'] == 'pending'
+    assert row['fields'][0]['reviewed_value'] == 'Submit the form.'
+    assert row['fields'][0]['proposed_value'] == 'Proposed correction.'
+    assert row['source_gaps'][0]['gap_id'] == 'known-cutoff'
+
+
+def test_prepare_refuses_template_from_another_original(tmp_path, monkeypatch):
+    path, source, spec = manifest(tmp_path)
+    spec['documents'][0]['review_template'] = str(service_template(tmp_path, spec, foreign=True))
+    path.write_text(json.dumps(spec), encoding='utf-8')
+    with pytest.raises(ValueError, match='source|identity'):
+        api().prepare(path, tmp_path / 'packet')
+    assert not (tmp_path / 'packet').exists()

@@ -52,4 +52,16 @@ def load_manifest(path: Path) -> dict:
             raise ValueError('source missing or unreadable') from exc
         if not data.startswith(b'%PDF') or digest(data) != doc['sha256']:
             raise ValueError('source PDF identity mismatch')
+    if 'baseline' in value:
+        baseline = value['baseline']
+        if (not isinstance(baseline, dict) or set(baseline) != {'path', 'package_id'}
+                or not isinstance(baseline['path'], str)):
+            raise ValueError('explicit baseline path and package identity required')
+        from .build import load_package
+        baseline['path'] = str((path.parent / baseline['path']).absolute())
+        package = load_package(Path(baseline['path']))
+        if package['manifest']['package_id'] != baseline['package_id']:
+            raise ValueError('baseline package identity mismatch')
+    elif 'membership' in value:
+        raise ValueError('membership requires an explicit verified baseline')
     return value

@@ -10,6 +10,7 @@ from ..document_ingest.register import pending_version
 from ..prospectus_extractor.identity import InputSnapshot
 from .files import contained, digest, encoded, read_json, write_json
 from .manifest import KINDS, load_manifest
+from .templates import template_items
 
 
 def _items(root: Path, doc: dict, checked: dict) -> list[dict]:
@@ -81,9 +82,11 @@ def prepare(manifest_path: Path, out: Path, *, converter=None) -> dict:
             _checked_bundle(Path(doc['candidate_bundle']), doc)
         if 'review_template' in doc:
             template = read_json(Path(doc['review_template']))
-            if not isinstance(template, dict) or not isinstance(template.get('readings'), list):
-                raise ValueError('review template needs readings')
+            template_items(template, doc, Path(doc['source']).read_bytes())
     out.mkdir(parents=True, exist_ok=True)
+    if 'baseline' in manifest:
+        check_out(Path(manifest['baseline']['path']), out)
+        shutil.copytree(manifest['baseline']['path'], out / 'baseline')
     documents, items = [], []
     for doc in manifest['documents']:
         snapshot = InputSnapshot(Path(doc['source']))
@@ -115,8 +118,12 @@ def prepare(manifest_path: Path, out: Path, *, converter=None) -> dict:
             template = read_json(Path(doc['review_template']))
             write_json(out / name, template)
             record['review_template'] = name
+            items.extend(template_items(template, doc, snapshot.data))
         documents.append(record)
         items.extend(_items(target, doc, checked))
+    identities = {item['id'] for item in items}
+    if len(identities) != len(items) or any(ref not in identities for item in items for ref in item['companions']):
+        raise ValueError('duplicate review identity or missing template companion')
     artifacts = {p.relative_to(out).as_posix(): digest(p.read_bytes())
                  for p in sorted(out.rglob('*')) if p.is_file()}
     packet = {'schema_version': 'bintanong-review-packet-v1', 'candidate_only': True,

@@ -1,0 +1,4 @@
+/audit-evidence/
+/node_modules/
+/next-env.d.ts
+/*.tsbuildinfo

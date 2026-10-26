@@ -1,7 +1,7 @@
 # Policy ingestion and local review implementation plan
 
-Recorded 26 October 2026. Status: owner-approved; T0 preparation started, no
-implementation code yet. This is a Phase 11 feature plan subordinate to the active
+Recorded 26 October 2026. Status: owner-approved; T1 and review persistence delivered;
+reviewer UI/package building verified locally. T4/T5 remain pending. This is a Phase 11 feature plan subordinate to the active
 phase plan, not a new phase.
 
 **Goal:** build a reusable ingestion pipeline and local researcher review UI for
@@ -176,8 +176,9 @@ historical delivery notes do not prove current readiness.
 
 ## Implementation tasks and dependencies
 
-T0 preparation is in progress; T1–T5 are pending. Proposed new paths are targets, not
-claims that modules already exist. Keep each task to a focused RED/GREEN cycle and
+See the [workstream checkpoint](2026-10-26-policy-ingestion-checkpoint.md) for fresh
+Git/test evidence and remaining acceptance gates. T0 real-baseline verification,
+T2 browser checks, T4 and T5 remain open. Keep each task to a focused RED/GREEN cycle and
 verified commit; do not build a second parser, reviewer or release manager.
 
 ### T0: Freeze the baseline and isolate the work
@@ -323,7 +324,8 @@ integration; disclose unavailable checks and validate Phase 11 artifacts.
 Acceptance is a source-bound, reviewable, verified local candidate/staged package
 with preserved originals/history. It does not establish arbitrary-PDF automation,
 institutional approval, hosted activation, Phase 11 closure or Phase 12 advancement.
-This documentation update makes no implementation or test-suite success claim.
+Selected software checks pass as recorded in the checkpoint; real-source rehearsal,
+actual database roles and complete browser acceptance remain unverified.
 
 ## Final product questions
 
