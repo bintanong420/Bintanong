@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 110
+sequence: 112
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 95f5738
+head_commit: 89301b8
 working_tree: clean
-updated_at: 2026-10-26T15:05:00+08:00
+updated_at: 2026-10-26T15:26:00+08:00
 ---
 
-# Phase 11 checkpoint — natural grading and coverage triage
+# Phase 11 checkpoint — full Handbook topic inventory
 
 ## Completed Tasks
 
@@ -23,20 +23,17 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-Owner requests fresh-CLI handoff;recovery saved with exact page map,failures/holds and next action.
-No new test/model/source-review jobs started;stop after documentation commit.
-
-[Bounded inspection](2026-10-26-natural-grading-and-source-coverage-triage.md) delivered;
-[results](2026-10-26-natural-grading-and-source-coverage-results.md):two natural queries0/2expectations,
-source inventory/audience triage complete. Await owner coverage priorities before new source batches;
-no corpus/production changes. Phase11 remains active;grading failures not fixed by source inspection.
+Full394page Handbook topic/audience scan delivered on owner request;[results](2026-10-26-full-handbook-topic-results.md)
+map omitted/partial student processes,excluded books and source holds. No new field/corpus approval.
+Next field-review priority remains admission/registration26–34. The two grading failures stay open.
 
 ## Repository State
 
 p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-7f8e983activation docs precede this inspection;documentation descendants do not change tested code.
+89301b8resume baseline;documentation descendants do not change tested code. Snapshot head names
+the inspected pre-documentation HEAD;delivery commit contains this checkpoint and scan documents.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
-R=A/p11-companion-context-20261026. New evidence A/p11-grading-coverage-triage-20261026.
+R=A/p11-companion-context-20261026. New inventory A/p11-full-handbook-scan-20261026;prior grading triage evidence retained.
 Raw sources/results/helpers/pin are ignored. Two-query runner ended0;no jobs running.
 Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
 
@@ -66,6 +63,13 @@ Handbook1–40(+41–46context)and Charter117page inventory/audience triage;orig
 Eight original renders inspected,additional renders saved. New candidates/holds in results;not full
 field/corpus approval. No new production behavior,so no artificial TDD/full-suite repeat.
 
+Fresh whole-Handbook scan:394/394page files/audience rows/digests;624971native characters;20sparse
+pages visually checked;55unique renders plus prior26–27readings. Source SHA unchanged;7/7sealed
+runtime-package hashes match,78total/66Handbook chunks,corrected78local pin matches package.
+Documentation local links and git diff --check pass;phase-state validation valid,Phase11active.
+Local comparison only,no fresh hosted membership query. Four selected Handbook subjects;omitted
+and partial routes mapped. Original/template/law-title-only limits preserved;no new model calls.
+
 ## Versions and Digests
 
 Python3.13.7/FastAPI0.141.1/SWI-Prolog10.1.15/Postgres17.6/pgvector0.8.2/CLI2.117.0 unchanged.
@@ -79,6 +83,8 @@ Global canonical default unchanged. Old19superseded/retained;old80draft. Origina
 
 ## Decisions
 
+Owner chose Handbook admission/registration first and explicitly requested the full Handbook scan.
+This approves inspection priority,not new fields or source-issue treatments.
 Owner authorized corrected78activation after validation;recorded owner-decisions-ledger permission
 executed without reopening source approval. Research-only;no school/currentness/public approval.
 Source wording,blanks,cutoffs,conflicts,F04hold,unknown applicability and advisory/privacy limits fixed.
@@ -92,13 +98,13 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Owner judgment on proposed undergraduate review priorities/holds in new results. Next source batch:
-Handbook undergraduate admission/registration and Charter Registrar/college procedures. Separate
-bounded TDD grading-failure fix;do not activate newly inspected content or rerun cases without cause.
+Focused Handbook admission/registration field review26–34,starting with p26–27wording/missing-list
+holds. Apply standing clear-row delegation to clear actual readings;new issues need exact original
+regions/wording. Charter Registrar/college work follows;no new activation or grading rerun authorized.
 
 ## Context Consulted
 
-26Oct14:45scope refresh:thesis physical17–18;runtime routing PNG/master16/current plan/Phase10handoff
+26Oct15:15scope refresh:thesis physical17–18;runtime routing PNG/master16/current plan/Phase10handoff
 consulted this session. Source-gap/table-association/scope/location policies and owner ledger checked.
 Undergraduate/advisory/private/source-gap and structured/RAG boundaries consistent;no discrepancy.
 

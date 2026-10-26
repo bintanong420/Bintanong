@@ -1,14 +1,19 @@
 # Current progress
 
-Updated26October2026,15:05+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,15:26+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Owner requests fresh-CLI handoff;[recovery](../2026-10-25-phase11-session-handoff.md) now contains
-the concrete page map,source mismatches,two failed query traces and exact next boundary. No new jobs.
+Owner chose Handbook admission/registration first,then requested the whole Handbook scan.
+[Full394page inventory/results](../2026-10-26-full-handbook-topic-results.md)delivered:all pages
+accounted;55original renders checked,including20sparse pages. Sealed78package hashes/pin match;
+66Handbook chunks cover grading_scale/grade_completion/overload/academic_misconduct only.
+Omitted admission,records/shifting,standing,graduation,disciplinary due process,scholarships/loans,
+clearances,organizations and student-support routes mapped. Excluded books/clauses kept separate.
+Inventory is not field approval;new p26–27wording/list holds unresolved. No new activation.
 
 [Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
 complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
@@ -47,7 +52,6 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Owner judgment on proposed undergraduate coverage/review priorities in the new report;start clear
-Handbook admission/registration and Charter Registrar/college services in short complete batches.
-Mixed audience/source mismatches stay held. Grading failures need a separate bounded TDD correction;
-do not silently rerun model cases,change policy content or activate newly inspected material.
+Focused Handbook admission/registration source-field review26–34,starting with p26–27wording/
+missing-list holds. Apply standing clear-row delegation only to actual clear readings;show new issues
+inline. Charter Registrar/college services follow. Grading fixes remain separate bounded TDD work.

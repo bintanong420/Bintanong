@@ -1,18 +1,20 @@
-# Phase 11 session recovery —26October2026,15:05+08
+# Phase 11 session recovery —26October2026,15:26+08
 
 Corrected78 research activation milestone complete;Phase11 remains active. No phase advancement.
 p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Backend/tests/migrations frozen706d3c6;
-Latest inspected delivery95f5738;activation7f8e983. Last full snapshots:5009760/929a984.
-This handoff-only session ends after saving;fresh CLI resumes the next action when owner continues.
+Latest inspected pre-scan delivery89301b8;activation7f8e983. Last full snapshots:5009760/929a984.
+Full Handbook inventory delivered this resume;no new policy/runtime activation or model calls.
 Read AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint;
 refresh thesis physical17–18/routing PNG/master16. Preserve settled source decisions.
 
 ## One next action
 
-Owner judgment on proposed source coverage/review priorities in
-[inspection results](2026-10-26-natural-grading-and-source-coverage-results.md);clear undergraduate
-admission/registration,Registrar/college procedures recommended first. Mixed support/source wording
-holds need focused review. No newly inspected fields/chunks are approved or active by this triage.
+Owner chose Handbook admission/registration first,then requested a full Handbook scan excluding
+staff-only/graduate/Law/Medicine/lab-school procedures. [All394page inventory](2026-10-26-full-handbook-topic-results.md)
+delivered;next focused source-field review26–34. Start p26–27overlapping enrollment/fee wording and
+missing program-list holds;exact excerpts/options already shown,but no treatment answer recorded.
+Standing clear-row delegation persists;new issues still need original-region review. No new fields
+approved by this inventory. Charter Registrar/college services follow the selected Handbook work.
 
 Two saved natural queries ran once on active78:0/2expected answers,4routing/style calls,0retries.
 Passing question RAG/grading_scale requests8mappings1.0–2.75then storage_error31.237s;underlying cause
@@ -27,8 +29,11 @@ Grading correction needs a separate bounded TDD task;keep the source review and 
 All ranges are PHYSICAL PDF pages. Source names:PSU Student Handbook.pdf(394pages)and
 PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf(117pages),under p11/dataset;
 exact paths/hashes/page inventory in A/p11-grading-coverage-triage-20261026/source-page-index.json.
-Handbook1–25mostly background/program listings;undergraduate clauses26–34admission/readmission/
-registration/transfers/cross-enrollment;34–40load/refunds/attendance/leave/standing(+41continuation).
+Handbook entire394page inventory now in linked results:student BooksI/II25–129;lab130–346,
+graduate347–364and Law365–388excluded;389–391law-title list,392–393student forms.55renders
+checked/20sparse pages. Sealed78package verified:66Handbook chunks cover only grading,timing,
+overload,penalties;records/shifting/graduation/due process/scholarships/loans/clearances and other
+student routes omitted/partial. A/p11-full-handbook-scan-20261026holds page rows/text/renders/seals.
 Charter6–20Registrar records/registration;51–57OSAS;59–64student academic health-clearance paths;
 66–68assessment/refund;75–86library;103–113college consultation/subject changes/graduation/awards/
 class cards/removal exams. These are proposed review candidates,not approved new active chunks.
@@ -93,7 +98,7 @@ blindly repeat activation/smoke;current release passed its selected gates.
 
 Wider natural simple queries,Hybrid/no-topic/clarification/Nursing,6historical Taglish register misses,
 frontend/SDK-parser/browser exits remain. Photos unsupported. Selected78not whole-document review;
-omitted sections now audience-triaged,not field-approved;omission is not proof of excluded audience.
+full Handbook inventory is audience/topic triage,not field approval;omission is not audience exclusion.
 No new source intake or corpus expansion. Two natural grading failures remain open as described above.
 Exact words/blanks/cutoffs/conflicts/F04hold and undergraduate/advisory/private boundaries remain.
 Research activation is not school/currentness/public approval or Phase11completion/Phase12permission.
