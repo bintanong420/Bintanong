@@ -1,68 +1,53 @@
 # Current progress
 
-Updated26October2026,18:10+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,18:20+08. Phase11active,p11/feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
-[Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
-Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
+[Shared baseline](../2026-10-26-handbook-charter-shared-baseline.md) ·
+[Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md).
+Last full snapshot before condensation:4e99fb6;earlier full baseline5009760.
 
 ## Latest change
 
-[Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
-source verification first,then fixed baseline/fork,then frontend/runtime versus isolated ingestion/UI.
-[Source reviews01–09/shared baseline](../2026-10-26-handbook-charter-shared-baseline.md)delivered:
-89/89catalogue groups mapped;102H/62Clocators,152original pages inspected/12earlier reviews reused.
-Literal clear fields use standing delegation;holds/historical/support/excluded content remain separate.
-Owner confirmed H26/H30holds and unchanged datasets. No new chunks/rules/activation.
-Comparison snapshot11copies/7seals/original hashes/pin verified unchanged;manifest
-bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
-Fresh ingestion77tests/110subtests15.27s and runtime65tests2.18s pass/exit0;docs-only,no full repeat.
-Other developer's local-only task/ownership saved;shared baseline commit/fork is next.
-Existing Orca setup copies.env/runs npm ci;use isolated creation without invoking that setup.
+Source-review preparation and developer isolation delivered. Reviews01–09 map89/89catalogue groups;
+102H/62Clocators,152fresh original-image pages/12earlier reviewed pages reused. Literal clear fields
+use standing delegation;holds/historical/support/excluded readings remain distinct. Not whole-document
+approval/currentness or activation. Owner confirmed H26enrollment/payment discrepancy and H30unknown
+undergraduate applicability holds:“Keep both proposed holds”;“keep everything as is from the data sets”.
+No original/chunk/rule/vector/release/pin changes. Both PDF hashes/seven runtime seals/11comparison
+copies unchanged;manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
 
-[Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
-394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
-prove full visual/field review or exhaustive topics. Three actual omissions added:X087economic
-enterprise,X088accessible Handbook formats(H69),X089grade solicitation(H49). [Catalogue](../2026-10-26-handbook-charter-expansion-catalogue.md)
-now89groups/8batches,86pending/3existing. Fixed old IDs retained;no new approval/activation.
-Pipeline details supersede the recovery's unanswered-question status;historical recovery retained.
+Fixed source/package fork4e99fb655022e694c73bbd98dd6daec9d7d88fb5. Other developer branch
+feat/p11-policy-ingestion-review at sibling p11-policy-ingestion-review,receiptc76d988. Direct Git
+creation avoided Orca setup.envcopy/npmci. No.env/supabase.temp/dataset/node_modules/pin copied.
+Separate evidence root A/p11-policy-ingestion-review-20261026:10verified comparison inputs,
+empty candidates/,no local DB configured,no hosted writes. Dedicated task updated only on that branch.
+Fresh142tests/110subtests14.35s/exit0in new worktree;primary77+65tests/110subtests also pass.
+No full-suite repeat for documentation/source review. Logs/exits in respective ignored evidence roots.
 
-[Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
-complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
-but8mappings1.0–2.75(no3.0);retrieval storage_error after31.237s,underlying cause unproven. Casual
-1.0percent question chooses empty clarification/no topic,becomes incorrect no_evidence;no retrieval.
-Exact raw calls/routing/events/answers saved in A/p11-grading-coverage-triage-20261026;no fixes yet.
-
-Handbook first40/adjacent context and117page Charter inventory/audience triage find substantial
-student material outside78:admission/registration/leave/standing,Registrar records,fees/refunds,
-OSAS,library and college services. Report has exact physical pages/source excerpts/selection holds.
-Mixed graduate/employment/clinical/procurement pathways not blanket-approved. Scope unchanged;
-new source fields need focused review before derivatives/activation. Original PDFs hash-verified.
-
-Corrected78research release remains active/39curricula;old19retained/old80draft. Prior6896tests+
-1595subtests pass belongs unchanged706d3c6;no repeat suite for read-only diagnostic/documents.
-Prior six-quality/hosted smoke evidence retained;not natural-query or corpus accuracy proof.
-No production/prompt/source/chunk/embedding/release mutations or new downloads this assessment.
+Fresh GitHub MCP/fetch found origin/frontend e172f53c19bdd5d30ef5df2db4bf80ee47e27c3c,which
+includes chatbot/auth/API tests and changes beyond cached local9723fa7. Owner then says frontend
+is being implemented right now. No frontend edits/merge/install;integration deferred to avoid overlap.
+Confirm ready snapshot before integrating. Shared interfaces remain primary-owned/agreed before changes.
 
 ## Delivered state and boundaries
 
-- Backend/API/security/queue and CF1–CF6 delivered;39hosted curricula/2132course facts. Frontend ready
-  elsewhere per owner;integration follows pending accuracy work. No browser/UI exit claimed.
-- Hosted80audit complete72approved/8correction-needed;[ledger](../2026-10-25-hosted-chunk-review.md).
-  [Corrections](../2026-10-26-hosted-chunk-correction-results.md):78selection,11new IDs/67reuse/5vectors;
-  now research-active. Original19/80history preserved. Do not redo review/staging/embedding.
-- Required companions,exact shared/penalty fields,Charter discrepancy and held INC conflict context
-  delivered in b6a9da1/1b51518/9ea3ae7/706d3c6. No deadline/penalty precedence invented.
-- Earlier procedure-order/cutoff suites and source-field failures remain in dated reports;not current
-  failures. Keep original words,blanks,cutoffs,conflicts,F04 hold and unknown-versus-unmet distinction.
-- Roster19 historically63/63;style21/21en,21/21fil,15/21Taglish. New smoke3is not a full roster rerun.
-  Checker trial stopped;photos unsupported. Selected78is not whole-document coverage;omitted sections
-  now audience-triaged,not field-reviewed or active. No corpus expansion yet.
-- Undergraduate/advisory/privacy/release guards and one-week accuracy cap remain. Research activation
-  is not university/public approval,currentness,training,Phase11completion or Phase12advancement.
-- Context refreshed26Oct:thesis physical17–18/39–44,routing PNG,master3/7–9/16/18.3/current baseline;
-  illustrative closed-world example does not override settled unknown-versus-unmet handling.
+- Existing API/security/queue/CF1–CF6;39hosted curricula/2132course facts;production tree unchanged706d3c6.
+- Corrected78research release/39curricula remains last-known active;old19retained/old80draft.
+  Required companions/exact fields/INC conflict/fidelity guards delivered;no new hosted operations.
+- Historical full6896tests/1595subtests,6skip/2xfail,exit0belongs706d3c6;selected6/6quality and
+  hosted3smoke retained. Not corpus/browser/language accuracy proof. Six Taglish register misses remain.
+- [Natural grading failures](../2026-10-26-natural-grading-and-source-coverage-results.md):0/2;
+  passing-grade RAG storage_error31.237s,cause unproven;casual1.0query empty clarification/no_evidence.
+  No fixes or new model calls this source-review/worktree task.
+- Reviewed extra source readings remain inactive;held time/person associations,source totals/fees,
+  missing text,unknown applicability and F04remain. No new eligibility/precedence/equivalence rulings.
+- Undergraduate/read-only/privacy/source-gap/release guards and one-week accuracy cap remain.
+  Photos unsupported;no university/currentness/public approval or Phase11exit/Phase12advance.
+- Context this resume:thesis physical17–18/39–44,routing PNG,master3/11/13/16/18.3,prior7–9evidence,
+  phase10handoff,scope/gap/service/dataset policies and owner ledger;unknown remains distinct from unmet.
 
 ## Next action
 
-Commit final source-review/baseline records;create ingestion branch/worktree from that exact commit.
-Then locate the supplied frontend and continue primary frontend/runtime work;keep grading failures visible.
+Coordinate frontend-ready snapshot with its active implementer before merging;primary runtime fixes
+remain regression-first. Other developer can start its bounded ingestion plan in the prepared worktree,
+with verified disposable-local DB before mutation and no hosted writes;keep generated candidates inactive.
