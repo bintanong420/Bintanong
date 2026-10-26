@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import math
 import os
 import re
 import threading
@@ -14,6 +15,14 @@ from .prepare import load_packet
 
 AUDIENCES = {'undergraduate', 'excluded', 'unresolved'}
 DECISIONS = {'accepted', 'corrected', 'unresolved', 'pending'}
+
+
+def _operation(command: dict) -> None:
+    if type(command.get('revision')) is not int or command['revision'] < 0:
+        raise ValueError('invalid revision')
+    if (not isinstance(command.get('operation_id'), str)
+            or not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', command['operation_id'])):
+        raise ValueError('invalid operation identity')
 
 
 class ReviewSession:
@@ -63,8 +72,9 @@ class ReviewSession:
                         or core['revision'] != len(events) + 1 or core['operation_id'] in operations):
                     raise ValueError('review journal identity or order mismatch')
                 self._validate(core)
-                row = next(r for r in self.packet['items'] if r['id'] == core['item_id'])
-                doc = next(d for d in self.packet['documents'] if d['id'] == row['document_id'])
+                doc_id = core.get('document_id') if core.get('kind') == 'omission' else next(
+                    r['document_id'] for r in self.packet['items'] if r['id'] == core['item_id'])
+                doc = next(d for d in self.packet['documents'] if d['id'] == doc_id)
                 if core['source_sha256'] != doc['sha256']:
                     raise ValueError('review journal source mismatch')
                 previous = sha
@@ -77,16 +87,14 @@ class ReviewSession:
     def _validate(self, command: dict) -> dict:
         if not isinstance(command, dict):
             raise ValueError('review decision must be an object')
+        _operation(command)
+        if command.get('kind') == 'omission':
+            return self._validate_omission(command)
         row = next((r for r in self.packet['items'] if r['id'] == command.get('item_id')), None)
         if row is None or not row['fields']:
             raise ValueError('unknown or unsupported review item')
         if row.get('reference_only'):
             raise ValueError('prior reviewed references are read-only; prepare a new candidate for a new source review')
-        if type(command.get('revision')) is not int or command['revision'] < 0:
-            raise ValueError('invalid revision')
-        if (not isinstance(command.get('operation_id'), str)
-                or not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', command['operation_id'])):
-            raise ValueError('invalid operation identity')
         if not isinstance(command.get('audience'), str) or command['audience'] not in AUDIENCES:
             raise ValueError('invalid audience decision')
         if (not isinstance(command.get('reason'), str) or not command['reason'].strip()
@@ -126,6 +134,34 @@ class ReviewSession:
                 raise ValueError('source gap needs fields, visible text and affected claims')
         return row
 
+    def _validate_omission(self, command: dict) -> dict:
+        from ..prospectus_review_gui.render import PageError, PageRenderer
+        from .files import contained
+        doc = next((d for d in self.packet['documents'] if d['id'] == command.get('document_id')), None)
+        if doc is None:
+            raise ValueError('feedback document is not in this packet')
+        if (command.get('stage') not in ('not_sure', 'extraction', 'context', 'retrieval')
+                or command.get('status', 'pending') != 'pending'):
+            raise ValueError('invalid feedback stage or status')
+        for key, limit in (('visible_text', 20000), ('note', 8000)):
+            if not isinstance(command.get(key), str) or not command[key].strip() or len(command[key]) > limit:
+                raise ValueError('feedback needs visible source wording and an explanatory note within size limits')
+        page = command.get('page')
+        if type(page) is not int or page < 1:
+            raise ValueError('feedback needs a physical PDF page')
+        try:
+            with PageRenderer(contained(self.root, doc['source'])) as pdf:
+                if page > pdf.page_count:
+                    raise ValueError('feedback page is outside the original PDF')
+        except PageError as exc:
+            raise ValueError('feedback needs a readable original PDF') from exc
+        region = command.get('region')
+        if region is not None and (not isinstance(region, list) or len(region) != 4
+                or any(type(n) not in (int, float) or not math.isfinite(n) for n in region)
+                or not 0 <= region[0] < region[2] <= 1 or not 0 <= region[1] < region[3] <= 1):
+            raise ValueError('feedback region must be normalized left, top, right, bottom within the page')
+        return doc
+
     def save(self, command: dict) -> dict:
         with self.guard:
             if self.lock._fd is None:
@@ -133,6 +169,8 @@ class ReviewSession:
             load_packet(self.root)
             self.events = self._read_events()
             required = {'item_id', 'revision', 'operation_id', 'audience', 'reason', 'companions', 'gaps', 'fields'}
+            if isinstance(command, dict) and command.get('kind') == 'omission':
+                required = {'kind', 'revision', 'operation_id', 'document_id', 'page', 'region', 'stage', 'visible_text', 'note'}
             if not isinstance(command, dict) or set(command) != required:
                 raise ValueError('invalid review command fields')
             row = self._validate(command)
@@ -141,30 +179,41 @@ class ReviewSession:
                 if event['operation_id'] == command['operation_id']:
                     if event['request_sha256'] != request_sha:
                         raise ValueError('operation identity already used for another decision')
-                    return {'revision': event['revision'], 'event_sha256': event['event_sha256']}
+                    return self._receipt(event)
             if command['revision'] != len(self.events):
                 raise ValueError('stale review revision; reload before editing')
-            doc = next(d for d in self.packet['documents'] if d['id'] == row['document_id'])
+            feedback = command.get('kind') == 'omission'
+            doc = row if feedback else next(d for d in self.packet['documents'] if d['id'] == row['document_id'])
+            reason = command['note'] if feedback else command['reason']
             event = copy.deepcopy(command)
             event.update(revision=len(self.events) + 1, packet_id=self.packet['packet_id'],
                 source_sha256=doc['sha256'], reviewer=self.reviewer,
-                owner_statement=command['reason'], request_sha256=request_sha,
+                reason=reason, owner_statement=reason, request_sha256=request_sha,
                 previous_sha256=self.events[-1]['event_sha256'] if self.events else None,
                 recorded_at=datetime.now(timezone.utc).isoformat())
+            if feedback:
+                event.update(status='pending', source_version_ids=[v['version_id'] for v in doc['source_versions']])
             event['event_sha256'] = digest(encoded(event))
             with self.path.open('ab') as stream:
                 stream.write(encoded(event))
                 stream.flush()
                 os.fsync(stream.fileno())
             self.events = self._read_events()
-            return {'revision': event['revision'], 'event_sha256': event['event_sha256']}
+            return self._receipt(event)
+
+    @staticmethod
+    def _receipt(event: dict) -> dict:
+        result = {'revision': event['revision'], 'event_sha256': event['event_sha256']}
+        if event.get('kind') == 'omission':
+            result['feedback'] = copy.deepcopy(event)
+        return result
 
     def state(self) -> dict:
         with self.guard:
             load_packet(self.root)
             self.events = self._read_events()
             rows = copy.deepcopy(self.packet['items'])
-            latest = {e['item_id']: e for e in self.events}
+            latest = {e['item_id']: e for e in self.events if e.get('kind') != 'omission'}
             for row in rows:
                 event = latest.get(row['id'])
                 if event:
@@ -176,6 +225,7 @@ class ReviewSession:
             return {'packet_id': self.packet['packet_id'], 'revision': len(self.events),
                     'source_basis': copy.deepcopy(self.packet.get('source_basis')),
                     'documents': copy.deepcopy(self.packet['documents']), 'items': rows,
+                    'feedback': [copy.deepcopy(e) for e in self.events if e.get('kind') == 'omission'],
                     'researcher': self.reviewer, 'candidate_only': True}
 
     def history(self) -> list[dict]:
@@ -187,7 +237,7 @@ class ReviewSession:
         with self.guard:
             state = self.state()
             events = {digest(encoded(e)): encoded(e).decode('utf-8') for e in self.events}
-            latest = {e['item_id']: digest(encoded(e)) for e in self.events}
+            latest = {e['item_id']: digest(encoded(e)) for e in self.events if e.get('kind') != 'omission'}
             readings, anchors, withheld = [], {}, []
             docs = {d['id']: d for d in self.packet['documents']}
             for row in state['items']:
@@ -230,6 +280,7 @@ class ReviewSession:
             value = {'schema_version': 'bintanong-review-export-v1', 'packet_id': self.packet['packet_id'],
                 'revision': state['revision'], 'candidate_only': True, 'readings': readings,
                 'review_events': events, 'field_spans': anchors, 'withheld_items': withheld,
+                'feedback': state['feedback'],
                 'required_readings': {r['id']: r['companions'] for r in state['items'] if r['companions']}}
             write_json(self.root / 'review/export.json', value)
             return value
