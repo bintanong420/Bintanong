@@ -492,3 +492,24 @@ conflicting deadlines remain settled as unresolved. Preserve broken c)/d)
 lettering in H43. Display H-removal-approval nativeU+FFFEas printed re-enrollment;
 verified normalization/source binding remains a technical gate. No body changes.
 Next after this group:grade-correction pairH48–49,overall102–103/BatchC7–8.
+
+
+## Batch C opening group approved — earlier removal review reconciled
+
+Owner: “ok i approve”,approving96–101as displayed with all source limitations.
+Exact identities/content hashes remain in the preceding presentation table;the
+partial BatchCreceipt binds these six and their complete companion graph.
+Total101of336approved;235pending. BatchC6of78approved.
+
+Owner correctly recalls prior removal-of-4review. Fresh read-only hosted evidence
+confirms78active/80draft/19superseded. Earlier80audit is complete72approved/8corrections,
+0pending;reviewed corrections produced78active. Current336is a separate inactive
+expansion;100and101reuse already-approved3.2/3.3/3.7passages. No wording reapproval
+should be requested for those settled passages;distinguish added context/grouping.
+[Overlap trace](2026-10-27-prior-80-and-expansion-overlap.md). Receipt SHA256:
+`4fe3dda2b285dd47635796b8ca3ed9abff4d59d0c5085dffbafebb97609b86ce`. No source/candidate/runtime or hosted-state changes.
+
+Next review102–106/BatchC7–11:grade-correction pairH48–49,credit evaluation/
+undergraduate transfer-creditH49and foreign-creditH50. No exact prior narrative
+match under the bounded same-source/page containment check;preserve scope and
+all conditions. Source43/46–50images consulted during this review sequence.
