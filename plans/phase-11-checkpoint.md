@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 118
+sequence: 119
 plan: plans/phase-11-backend-api-plan.md
-head_commit: be568c4
+head_commit: d1401bc
 working_tree: clean
-updated_at: 2026-10-26T17:49:00+08:00
+updated_at: 2026-10-26T18:10:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -25,16 +25,16 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 [Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
 fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
-Reviews01–06:BatchA–Ecatalogue locators inspected/reused;standing delegation applied to clear fields.
-Review04holds ambiguous Registrar first-row action/time/person mappings;conflicts/fees/totals unchanged.
-Review05finance/assistance,06conduct/grievances/clearance include full continuations and limits.
-Owner confirmed H26/H30holds and unchanged datasets;no activation or altered policy meaning.
-Dedicated ingestion task saved;remaining catalogue fields unreviewed;no review-complete fork point.
+[Reviews01–09/shared baseline](2026-10-26-handbook-charter-shared-baseline.md):all89catalogue groups
+mapped;102H/62Clocators,152fresh original-image pages/12settled-review pages reused. Literal clear
+readings under standing delegation;ambiguous associations/applicability/fees/totals held as printed.
+Owner confirmed H26/H30holds and unchanged datasets. No chunk/rule/vector/release/pin change.
+Final source-review/baseline commit and isolated ingestion fork next;primary frontend/runtime follows.
 
 ## Repository State
 
 p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-39f2ce5workflow/review01delivery;documentation descendants do not change tested code. Snapshot head names
+d1401bcreviews01–06delivery;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 R=A/p11-companion-context-20261026. New audit A/p11-scan-completeness-audit-20261026;prior catalogue/Handbook/grading evidence retained.
@@ -44,7 +44,8 @@ Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 end
 
 ## Verification Evidence
 
-Fresh compatibility77passed/110subtests15.27s/exit0,same4test files as ingestion assessment below;
+Fresh ingestion compatibility77passed/110subtests15.27s/exit0,same4test files as assessment below;
+runtime package/catalogue/hosted-storage/composition65passed2.18s/exit0,synthetic/fakes,no hosted writes;
 new evidence A/p11-two-developer-baseline-20261026,pytest-tmp/log/exit.11comparison copies verified,
 7runtime seals/both original hashes/pin match;manifest SHA recorded in workflow. No fresh hosted read.
 Docs/source review only:no behavior change/artificial RED/GREEN/full-suite repeat.
@@ -128,9 +129,9 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Continue BatchForganizations/activities,thenG/H;record literal clear readings and source limits.
-Commit reviewed records before declaring final shared baseline/fork. Keep confirmed holds and primary
-runtime/pin unchanged. Grading regression/frontend integration follow baseline under owner order.
+Commit final review/baseline records;create other developer branch/worktree from that exact commit.
+Avoid copied.env/setup installs;verify clean branch and isolated candidate output,then locate supplied
+frontend and continue primary runtime work. No generated data publication or phase advancement.
 
 ## Context Consulted
 

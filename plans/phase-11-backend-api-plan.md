@@ -19,6 +19,11 @@ design. If the UI stays delayed, the owner may close Phase 11 backend-only and s
 ask at that point. Master 16's browser exit gate is not claimed by this plan.
 **Owner update, 25 October 2026:** the frontend is ready for integration. Finish pending work first;
 integration remains deferred until then. The earlier design-wait status is superseded.
+**Owner update, 26 October 2026:** execute the [two-developer workflow](2026-10-26-phase11-two-developer-workflow.md):
+finish bounded Handbook/Charter verification,commit a fixed source/package baseline,
+then primary frontend/runtime versus separate local-only ingestion tooling/review UI.
+Source words/datasets stay unchanged;merge of tooling does not publish candidates.
+This authorizes integration of the existing frontend after the baseline,without new phase advancement.
 **Execution:** inline TDD per task (RED observed -> GREEN -> REFACTOR), small commits without attribution,
 synthetic fixtures in tracked tests, owner samples only in workspace `audit-evidence/p11-20261023/` (private).
 

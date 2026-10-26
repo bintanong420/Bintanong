@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,17:49+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,18:10+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
@@ -9,17 +9,15 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md) execution started:
 source verification first,then fixed baseline/fork,then frontend/runtime versus isolated ingestion/UI.
-[Reviews01–03](../2026-10-26-handbook-charter-expansion-review-03.md)cover BatchA/B;
-[04](../2026-10-26-handbook-charter-expansion-review-04.md)grades/records/graduation,
-[05](../2026-10-26-handbook-charter-expansion-review-05.md)finance/assistance,
-[06](../2026-10-26-handbook-charter-expansion-review-06.md)conduct/grievance/clearance.
-BatchA–Ecatalogue locators inspected;standing delegation/held associations/source differences retained.
-Owner confirmed H26/H30holds and unchanged datasets. BatchesF–Hremain;no corpus activation.
-Comparison-only snapshot:11copies/7runtime seals/78chunks/both original hashes verified;
-manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
-Fresh compatibility77tests/110subtests pass15.27s/exit0;no full-suite repeat for docs/source review.
-Dedicated ingestion task saved;review-complete baseline/fork not ready. No branch/worktree/hosted writes.
-Existing Orca setup copies.env/runs npm ci;future ingestion setup must avoid that path until isolated.
+[Source reviews01–09/shared baseline](../2026-10-26-handbook-charter-shared-baseline.md)delivered:
+89/89catalogue groups mapped;102H/62Clocators,152original pages inspected/12earlier reviews reused.
+Literal clear fields use standing delegation;holds/historical/support/excluded content remain separate.
+Owner confirmed H26/H30holds and unchanged datasets. No new chunks/rules/activation.
+Comparison snapshot11copies/7seals/original hashes/pin verified unchanged;manifest
+bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
+Fresh ingestion77tests/110subtests15.27s and runtime65tests2.18s pass/exit0;docs-only,no full repeat.
+Other developer's local-only task/ownership saved;shared baseline commit/fork is next.
+Existing Orca setup copies.env/runs npm ci;use isolated creation without invoking that setup.
 
 [Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
 394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
@@ -66,6 +64,5 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Continue source verification with BatchForganizations/activities,thenG/H;reuse reviews01–06and confirmed
-holds. Commit review records before establishing the final shared baseline and ingestion branch.
-Grading fix/frontend integration follow this baseline under the supplied two-developer order.
+Commit final source-review/baseline records;create ingestion branch/worktree from that exact commit.
+Then locate the supplied frontend and continue primary frontend/runtime work;keep grading failures visible.

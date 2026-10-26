@@ -8,9 +8,11 @@ by inclusion here. Phase 11 remains active.
 
 **Execution update, 26 October:** the owner has now started the planned verification
 through the [two-developer workflow](2026-10-26-phase11-two-developer-workflow.md).
-[Review 01](2026-10-26-handbook-charter-expansion-review-01.md) records selected H26–34
-and complete C6–8 services; the H26/H30 holds are confirmed. Catalogue states below
-remain discovery states, not a substitute for field-level review completion.
+[Reviews 01–09 and shared baseline](2026-10-26-handbook-charter-shared-baseline.md)
+now map every catalogue group to bounded literal readings/reused evidence and
+preserved holds. H26/H30 holds are owner-confirmed. Catalogue states below remain
+discovery states, not current approval/activation labels or a substitute for the
+field-level records. All source words and original bytes remain unchanged.
 
 The catalogue now contains **89 topic groups in eight review batches** after the
 owner-requested completeness audit. Three groups are existing coverage retained
@@ -217,7 +219,7 @@ These flags preserve questions; gathering them does not choose their treatment.
 1. **Admission wording and missing content:** H26 overlapping COR/payment definitions
    and Nursing/Midwifery sentence; H27/H29 missing program-specific requirements;
    H30 academic-deficiency paragraph with uncertain undergraduate applicability.
-   Earlier exact-wording questions remain unanswered; do not ask again during collection.
+   H26/H30 treatments are now owner-confirmed in review01; do not re-ask or infer resolution.
 2. **Academic rules and mixed clauses:** H42 graduate extension; mixed honors clauses
    H52–54; general prerequisite exception H31 versus versioned rules; no new executable
    exception, course equivalence or automatic curriculum switch is authorized.
@@ -248,11 +250,15 @@ These flags preserve questions; gathering them does not choose their treatment.
    links/templates/pandemic restrictions; directory/contact date and campus limits.
    Keep excluded audiences out of candidate content, not just out of the UI.
 
-## Later bulk-review packet and next action
+## Delivered review packet and next action
 
-Collection is delivered. **Next: prepare the bulk-review packet from batches A–H
-when the owner starts the later review.** Do not begin per-topic approval questioning
-or corpus construction merely because this catalogue is saved.
+Collection and bounded Batch A–H verification are delivered in reviews01–09.
+**Next: use the fixed shared baseline and separate developer workstreams.** No
+corpus construction/publication follows merely from listing or inspecting a topic.
+The review records identify literal-field readings, historical/supporting content,
+exclusions and unresolved applicability/associations; those states travel with any
+future candidate. Catalogue discovery labels below are intentionally not rewritten
+as blanket approval of unseen fields.
 
 Each later card should show the stable ID, student capability, source/version and
 physical pages, exact original wording/region, complete logical service/continuations,

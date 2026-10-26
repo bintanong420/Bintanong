@@ -13,15 +13,17 @@ This document records execution of the supplied plan, not a replacement product 
 
 ## Sequence and acceptance
 
-1. **In progress:** review the pending undergraduate Handbook/Charter material using
+1. **Delivered as bounded source verification:** review the pending undergraduate Handbook/Charter material using
    [the catalogue](2026-10-26-handbook-charter-expansion-catalogue.md). Record exact
    field readings, standing-delegation applications, exclusions and unresolved issues.
    [First review](2026-10-26-handbook-charter-expansion-review-01.md) covers H26–34
    and C6–8; its two source holds are owner-confirmed. [Review 02](2026-10-26-handbook-charter-expansion-review-02.md)
    completes Batch A locator inspection; [03](2026-10-26-handbook-charter-expansion-review-03.md)
-   covers Batch B. Remaining catalogue passages still need review; no whole-document
-   approval is claimed. New ambiguities require the owner's focused judgment.
-2. **Comparison snapshot saved, shared fork point pending:** preserve the current
+   covers Batch B; reviews04–09 finish catalogue locator inspection. The
+   [shared baseline record](2026-10-26-handbook-charter-shared-baseline.md) binds all89groups
+   and preserved holds; no whole-document approval is claimed. Interpretations not
+   established by the owner stay held; no source repairs or scope expansion.
+2. **Snapshot verified, delivery commit pending:** preserve the current
    corrected78 package and originals without modifying them. After the planned
    review is complete, commit its records and record the full Git SHA and verified
    package/source manifest as the shared baseline. A documentation commit or a
