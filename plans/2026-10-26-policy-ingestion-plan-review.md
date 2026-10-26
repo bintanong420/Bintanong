@@ -37,24 +37,37 @@ failure was not reproduced and is not asserted as a current failure.
 
 ## Compatible UI direction
 
-Semi-alignment is feasible without changing the other developer's FastAPI/plain
-HTML/CSS/JavaScript stack or specified researcher workflow. Use the current
+Owner subsequently approved alignment of both appearance and frontend stack:
+Next.js/React/TypeScript UI with FastAPI services. This explicitly supersedes the
+original plain HTML/CSS/JavaScript UI choice,preserving the specified workflow.
+Carry the prospectus reviewer forward and extend its capabilities to policy/service
+review;React browser controls need adaptation while Python behavior is reused.
+Use the current
 frontend's neutral light/dark palette, subtle borders, compact controls and 4/6/8px
 radius scale (`frontend/app/styles.css:24,46`). Keep the dense review workspace:
 queue, original PDF, extracted fields, decisions/reasons, companions, history/export.
 Preserve status/highlight colors, focus/keyboard behavior and local security.
 
-Use scoped reviewer CSS variables (`prospectus_review_gui/static/review.css`).
-Avoid importing the student's chat layout, authentication or frontend build stack.
+Reuse suitable frontend components/styles and reviewer evidence/status semantics.
+The legacy reviewer CSS documents existing behavior;it is not the new UI stack.
+Keep a separate local researcher app and FastAPI review services,preserving student
+routes,authentication,runtime configuration and hosted-data boundaries.
 Inter/Geist currently come from `next/font/google` (`frontend/app/layout.tsx:2`);
 use a local system-font fallback unless suitable installed assets already exist.
 Student appearance supports light/dark/system; the existing reviewer follows OS
 preference. Shared preference storage across origins is not automatic.
 Browser/light/dark/keyboard/responsive checks remain required after implementation.
 
+Fixed fork4e99fb6 has a minimal frontend (Next16.3.5);current frontend uses
+Next16.4.3 with additional existing UI primitives. A coordinated,explicit frontend
+resource import is required;no stack/dependency availability follows from the fork
+alone. The student proxy/authentication uses Supabase and student endpoints;it is
+not suitable for local reviewer transport. Resolve file/dependency compatibility
+in T0 rather than ask the owner to choose technical file paths or silently upgrade.
+
 ## Grilling restart: keep the developer specification fixed
 
-Owner asks to restart faithfully from the notes, with necessary repository context.
+Owner asks for the final recap and grilling pass with the current repository context.
 Verbatim snapshots and explicit owner additions are linked in the feature plan.
 The original round is superseded: CLI commands plus local review UI, all seven
 operations and visible unsupported-layout holds are already specified. Do not

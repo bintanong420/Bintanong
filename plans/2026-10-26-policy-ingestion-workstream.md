@@ -7,7 +7,8 @@ Phase 11 feature plan, subordinate to the active phase plan, not a new phase.
 new Handbook and Citizens' Charter editions, through verified local packages.
 **Architecture:** connect existing ingestion, review, embedding and storage contracts
 with a manifest-driven command suite; keep source review explicit and outputs inactive.
-**Stack:** system Python 3.13, existing FastAPI and plain HTML/CSS/JavaScript.
+**Stack:** system Python 3.13 and existing FastAPI for ingestion/review services;
+existing Next.js/React/TypeScript stack and suitable shared components for the UI.
 **Execution:** use the installed executing-plans workflow task by task, with the
 repository TDD/handoff rules. No agent delegation is needed for this plan.
 
@@ -42,8 +43,13 @@ not a replacement specification. All seven commands remain in scope. The prior
 grilling suggestions about changing the CLI/UI split, deferring release tooling
 or changing unsupported-layout acceptance are withdrawn; the notes settle those.
 
-Owner additions: ingestion-only work, no hosted access, English agent replies,
-relevant installed skills and visual semi-alignment with the current student UI.
+Owner additions: ingestion-only work, no hosted access, English agent replies and
+relevant installed skills. Owner explicitly amended the reviewer UI technology:
+align both appearance and frontend stack with Bintanong,using Next.js/React/
+TypeScript and reusable existing styles/components,while retaining FastAPI services.
+This replaces only the note's plain HTML/CSS/JavaScript UI choice. Carry the Phase2
+prospectus review capability forward and extend it to Handbook/Charter review;
+preserve the rest of the developer's specified workflow and acceptance criteria.
 The source note's hosted/package readback and maintenance wording describes a
 broader operator release process; this developer rehearses it only against a
 disposable local database/test descriptor. Future actual hosted operations stay
@@ -71,8 +77,15 @@ with the runtime owner under separate explicit authorization.
 - Semi-align the new local UI through scoped colors, borders, spacing and controls
   from `frontend/app/styles.css`. Keep the source-comparison workspace, independent
   audience/content decisions, reasons, companion context, history and export.
-  Retain FastAPI/plain HTML/CSS/JavaScript and the original prospectus review behavior.
+  Retain FastAPI services and original prospectus behavior;adapt browser controls to
+  React,with document-specific policy/service decisions rather than course schemas.
   Use available local font assets/fallbacks; no new dependencies or remote assets.
+- The fixed backend fork has a minimal older frontend and lacks the current UI
+  primitives. Explicitly coordinate import of selected later frontend code/styles
+  and compatible existing dependency declarations;forking4e99fb6 alone does not
+  supply them. Inspect the exact manifest/lock diff before any change under the
+  existing owner dependency rules. Student Supabase auth/chat proxy is not a
+  researcher transport and must not be copied into this local workflow.
 
 See [reuse/UI inspection](2026-10-26-policy-ingestion-plan-review.md) for limits and
 the remaining product questions. Recommendations there are not owner decisions.
@@ -87,10 +100,13 @@ the remaining product questions. Recommendations there are not owner decisions.
   `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/`, eventually integrated
   into `feat/p11-backend-api`. Do not switch or repurpose another developer's tree.
 - Attachment base `7590a71` is historical context, not a verified current baseline.
-  The runtime developer first completes planned Handbook/Charter verification and
-  commits its actual review records, then identifies the fixed reviewed package/commit
-  before this feature branch is created. Reuse settled decisions; no whole-document
-  approval follows and no repeat content reconstruction is implied.
+  The synced backend workflow now identifies fixed reviewed fork
+  `4e99fb655022e694c73bbd98dd6daec9d7d88fb5`;the local backend is at879748b.
+  These are distinct: use the fixed fork,then integrate agreed later interface
+  changes deliberately. [Sync evidence](2026-10-26-backend-origin-sync.md) records
+  the upstream c76d988 workspace receipt,absent locally/on origin here;reconcile
+  that receipt before creating a duplicate branch/worktree. Preserve actual bounded
+  review records and holds;no whole-document approval or repeat reconstruction.
 - Keep a dedicated ingestion task record here; supply concise updates for the
   central Phase 11 checkpoint/progress maintained by the coordinating developer.
 - Generated/source-derived artifacts remain ignored under workspace `audit-evidence`.
@@ -122,8 +138,8 @@ historical delivery notes do not prove current readiness.
    source metadata and an optional baseline. A manifest references originals,
    candidates, review inputs, baseline membership and the local target release.
    Preserve originals; produce extraction findings and an unreviewed packet.
-2. **Review:** provide a loopback-only FastAPI/plain HTML/CSS/JavaScript interface
-   using installed dependencies and suitable existing prospectus-review patterns.
+2. **Review:** provide a loopback-only Next.js/React/TypeScript interface backed by
+   FastAPI,using the installed frontend stack/components and prospectus-review patterns.
    Search by document, section, review state or finding; compare original PDF pages
    with extracted text/table fields and available region highlights. Show related
    blocks and required companions together. Support accept/correct/hold decisions,
@@ -150,7 +166,9 @@ verified commit; do not build a second parser, reviewer or release manager.
 ### T0: Freeze the baseline and isolate the work
 
 - [ ] Establish the reviewed input/package identity and actual backend commit;
-  create the dedicated feature worktree without changing the owner's checkout.
+  reconcile the existing upstream start receipt and prepare the dedicated feature
+  worktree from the fixed fork without changing the owner's checkout. Carry this
+  plan,verbatim notes and current owner boundaries into that tree explicitly.
 - [ ] Inspect callers/contracts and tests of the reuse points below. Record the
   baseline hashes, affected interfaces and local output directory in this plan.
   Prioritize this tooling before new Handbook/Charter expansion; grading fixes stay separate.
@@ -172,15 +190,28 @@ Depends on T0. Create `backend/bintanong_tools/knowledge_update/` with
 
 ### T2: Persisted human review and local browser interface
 
-Depends on T1. Add `review.py`, `app.py` and `static/` in the new package. Reuse
-app/session/rendering/security patterns from `prospectus_review_gui/` while keeping
-its prospectus-specific behavior unchanged. Expose `review` through the same CLI.
+Depends on T1. Add `review.py` and `app.py` in the new Python package for review
+persistence/API. Build an isolated local Next.js/React/TypeScript reviewer using
+the existing frontend dependency set and suitable components/styles. Reuse
+session/rendering/security behavior from `prospectus_review_gui/`;carry prospectus
+review into the new interface and add policy/service controls. Preserve existing
+prospectus behavior and entry points. Expose `review` through the same CLI.
+
+During T0,verify the smallest separate Next app layout and component import paths
+against installed dependencies before adding UI files. Keep the local researcher
+app outside student routes/authentication and protect both local servers;do not
+reuse the student's hosted Supabase session/configuration. Shared component or build
+changes follow the coordination contract. No installation or lockfile change is
+implied by adopting the already-used stack.
 
 - [ ] Add `tests/test_knowledge_update_review.py`: save/reopen, revised decisions,
   independent audience/content decisions, stale evidence and concurrent writers.
   A proposal, pending field or one corrected field cannot approve a whole service step.
 - [ ] Add `tests/test_knowledge_update_review_api.py`: loopback/Host/Origin/access
   checks, escaped source text, missing geometry holds and source-bound export.
+- [ ] Add researcher UI checks in the existing frontend test/browser conventions:
+  prospectus behavior survives the React adaptation;Handbook/Charter controls keep
+  required evidence/decision functionality;student builds/routes stay unaffected.
 - [ ] Observe RED; implement the workflow's comparison/search/companion/history
   controls; verify GREEN plus browser comparison, navigation, correction and export.
 - Exit: actual human decisions persist with history and exact evidence identities.
@@ -273,3 +304,11 @@ Acceptance is a source-bound, reviewable, verified local candidate/staged packag
 with preserved originals/history. It does not establish arbitrary-PDF automation,
 institutional approval, hosted activation, Phase 11 closure or Phase 12 advancement.
 This documentation update makes no implementation or test-suite success claim.
+
+## Final product questions
+
+The remaining owner choices are one active reviewer versus simultaneous editing
+of the same packet,English versus multilingual researcher UI,and desktop-first
+versus full phone review acceptance. Proposed defaults are recorded in the review
+document;none has been adopted without an answer. These choices do not reopen the
+seven commands,source safeguards,frontend-stack amendment or local-only boundary.
