@@ -60,9 +60,10 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await explicit owner decisions on117–120and complete Chartertransfer-credentials121–128(C26–33).
-Continue did not approve117–120;counts unchanged116/336,C21/78. Charterphysical11–12/printed10–11 checked;
-step1cross-page roles and step3appointment joined for display;finalTORlabel conflict retained. Reauthoring remains.
+Await explicit decisions on117–134;continue is preparation only,116/336approved,C21/78 unchanged.
+Prepared129–134/C34–39:complete six-way-linked TORCopy servicephysical13–14/printed12–13.
+Original images/paired fields/closure/hash checked;step3split joined for display,email linewrap joined.
+Printed school-to-school disregardstep4 limitation retained.117–128remain pending;reauthoring before use.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

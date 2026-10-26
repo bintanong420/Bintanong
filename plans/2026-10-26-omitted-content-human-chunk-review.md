@@ -600,3 +600,15 @@ for readable display. Final“Release Transcript of Records (TOR)”title mismat
 unresolved. Printed totalPhP250.00/9days55minutes preserved. Display is not candidate
 reauthoring or activation. OverlaySHAunchanged;all8members have7neighborswithin group.
 Counts stay116of336approved/220pending;BatchC21of78. Pendingorder now117–128.
+
+
+## Batch C TOR Copy service — chunks129–134 prepared, pending
+
+Owner says “continue”;117–128remain pending. Prepared129–134/BatchC34–39,
+C-tor-copy-compact-001through006,all six required together. Original Charter
+physical13–14/printed12–13images checked. Paired four step1agency/time/person
+rows retained;step3instruction(005)and agency fields(004)displayed together.
+Email linewrap joined for display only;original candidate bytes unchanged.
+Printed school-to-school disregardstep4 limitation retained,not repaired.
+TotalNone/4days4hours25minutes preserved;all6members have5neighborswithin group.
+OverlaySHAunchanged;116of336approved/220pending,C21of78;pendingorder117–134.
