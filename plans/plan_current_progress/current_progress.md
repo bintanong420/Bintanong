@@ -1,19 +1,19 @@
 # Current progress
 
-Updated27October2026,00:43+08. Phase11active;BatchB human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,00:50+08. Phase11active;BatchB content review complete;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[Session handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md):BatchAclosed;BatchB34of40approved;final unit-credit/CharterDAC next.
+[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchCnext. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves FAQ/rights/attendance-uniform chunks83–89 (Handbook58/76–78).
-89of336candidate contents approved;247pending. BatchB34of40approved.
-Blank bullet,source typos and text/illustration differences remain as reviewed.
-Final BatchB display90–95:Handbook35unit-credit plus Charter105–106DAC five-part service.
-Unit-credit wording repeats approved chunk57;separate candidate grouping shown.
+Owner approves final90–95:BatchB40of40complete;BatchA55retained.
+95of336candidate contents approved;241pending. Next BatchC,Grades/records/graduation.
+Receipt SHA256:598ffaa5d2b5b27a5c5ec056e75da9339b9ffee9cbf0b729f0e726d7db27075c;all40IDs/hashes/links readback verified.
+LiteralHTMLbreak tags were chat-only;0in candidateJSON/BatchBpacket;no source edit.
+Use plain text paragraphs/list entries/table rows without HTMLtags in review.
 Cross-group attendance link,Charter labelled reauthoring and standing004repair remain before use.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
@@ -31,8 +31,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-89of336candidate contents approved;247pending. Labels and final structural bindings remain.
-Other247await human review. No original/runtime-package/rule/vector/release/pin changes.
+95of336candidate contents approved;241pending. Labels and final structural bindings remain.
+Other241await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -60,7 +60,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on final BatchB90–95:unit-credit and complete CharterDAC five-part service;then seal BatchB approval receipt and continue BatchC.
+Continue BatchC content review,starting H-transfer-clearance;all BatchA/B approvals settled. Preserve technical/source gates and inactive candidate state.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

@@ -441,3 +441,29 @@ approved passage within chunk57;review separate candidate grouping. Preserve
 service metadata/paired requirements and four logical client rows,duplicated2/2.1,
 DAC-of-the-DAC repetition,Nonefee cells and printed NONE/26minutes total.
 Charter metadata remains flattened;labelled reauthoring/source bindings before use.
+
+
+## Batch B complete — chunks90–95 approved, chat markup removed
+
+Owner: “approve and btw there is <br> i think we should remove those because
+its not really visible in the pdf”. Approves standalone unit-credit candidate
+and all five CharterDACparts with shown field associations,duplicate printed
+2/2.1numbers,DAC-of-the-DAC wording,Nonefee cells and NONE/26minutes total.
+HTMLbreak tags were chat-display markup only:zero in current candidate JSON
+and BatchBpacket. Use ordinary paragraphs/list entries/table rows without
+literalHTMLtags;no candidate/source-text stripping or edits were required.
+Charter labelled metadata/requirements/action/totals reauthoring remains before use.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-unit-credit-compact-001 | `cc7bfadc089538cdee92725133a233a744ab4a4daf0cc78339753f89afb509e8` | `1750be4208361edf75b802cf1cbfd9f3a639e822b62d1dd590efc70ec079b872` |
+| C-dac-compact-001 | `5d46137968403228ed7db71a89ae4cb4ca87e0dc8e1e8438522bc85901aca737` | `1d5c50f5c3ded222372c95f65a871a0e039d79fd808d7328a80d5a74055a0d93` |
+| C-dac-compact-002 | `7c19ff8b2502f32c9af910a2cdd4cc77b14334ade2e25381ce79e942857d96bf` | `41f5d0e58dafeba391fc28a1d408237c2ef4d1f75b0b5650dd87d05f7ae00688` |
+| C-dac-compact-003 | `bc7ec98299999c84ad2568f55b2d1fb8ee73598212853a1216c97356c5d2c927` | `d2f87b0686931ba3cb7b5363f135d8b0a714144ad347cd2fe6bfa25f44b71814` |
+| C-dac-compact-004 | `6df80d9a9be7b8c8d3010107acdf66b6ffde16180ab2f41b38cd218e3a23a4f6` | `bf97e606177213a31821026db6d04b02eeb148ff758aa9bd1af6a28de89ad4e7` |
+| C-dac-compact-005 | `715f7f90e9e3ca333a4fa9387c3df742d80a6ecf87be870b723964a8a627fd5b` | `fe70a48c8ef3d7b478f01eb1113ec0350f224048f28b4254d59191bd0db92747` |
+
+All40BatchBcandidates now content-approved;with55BatchAapprovals,total95of336,
+241pending. [Closeout evidence](2026-10-27-phase11-batch-b-review-results.md).
+Receipt SHA256:`598ffaa5d2b5b27a5c5ec056e75da9339b9ffee9cbf0b729f0e726d7db27075c`.
+No serialized governance promotion,embedding,hosted write or release activation.

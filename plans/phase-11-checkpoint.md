@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: paused
-sequence: 149
+status: in_progress
+sequence: 150
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 2f08845
+head_commit: ec6c429
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T00:43:28+08:00
+updated_at: 2026-10-27T00:50:46+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,13 +28,13 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-BatchA55approved;BatchB34of40approved. Total89of336content-approved;247pending. H35-G007/H36-G008 remain excluded graduate-only spans.
+BatchA55approved;BatchB40of40approved. Total95of336content-approved;241pending. Graduate-only exclusions and all source limits retained.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;reviewed parent2f08845 (substitution/curriculum approval),clean before this review update;nothing pushed.
+p11/feat/p11-backend-api;reviewed parentec6c429 (FAQ/duties approval),clean before this review update;nothing pushed.
 Human decision record/current progress/checkpoint are modified;candidate evidence,original PDFs and runtime data remain unchanged.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -48,7 +48,7 @@ No frontend edits/merge/install;integration explicitly stopped. No dependencies 
 
 Fresh BatchAreceipt generator:54base IDs map to55current approved candidates,all present;281others pending.
 Receipt SHA7fb28bf498982a25e99ae99dc68b2a82fce75877126cfbbb6ac84d97f00617b5;current JSON hash matches overlay.
-Documentation/approval-only checkpoint:Git diff and phase-state validation,no production test rerun.
+BatchBreceipt SHA598ffaa5d2b5b27a5c5ec056e75da9339b9ffee9cbf0b729f0e726d7db27075c;40IDs/hashes/links readback verified;95cumulative approvals.0HTMLbreak tags in candidateJSON/BatchBpacket. Docs-only:diff/phase-state checks,no production test rerun.
 Registration rebuild:[results](2026-10-26-registration-layout-correction-results.md),91tests/127subtests2.38s/exit0.
 Five linked parts400/374/469/184/413tokens;331unaffected records exact. Native text/geometry and span
 conservation checked,only approvedDay)Day)removed. No production change/full-suite rerun;existing builders reused.
@@ -93,7 +93,7 @@ Owner confirms North/South clauses retained for transfers into main Tiniguiban;p
 Owner approves23–26with nonvisibleDay)Day)removed and metadata/requirement/process tables kept distinct.
 Corrected review specification applied in five-part overlay;pending governance,not active runtime chunks.
 Owner:continue chunk preparation,review later in bulk. Eight existing topic batches govern review.
-Owner approves BatchB first34including full FAQ/rights/attendance/uniform sequence;standing unprinted gaps/exceptions stay unresolved. Printed percentage overlap stays unresolved. Graduate-only load clauses remain excluded.
+Owner approves all40BatchBincluding complete CharterDACservice;standing unprinted gaps/exceptions stay unresolved. Printed percentage overlap stays unresolved. Graduate-only load clauses remain excluded.
 No new hosted activation/publication permission. Existing H26/H30holds and supplied datasets retained.
 No source grammar/threshold/deadline/fee precedence repairs. C20review-summary Dean error corrected
 from original image to University Registrar;original untouched. Missing grades remain unknown.
@@ -101,7 +101,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of247candidates remains;94extraction comparisons retained;39image spans content-approved/27pending.
+Human review of241candidates remains;94extraction comparisons retained;39image spans content-approved/27pending.
 Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
@@ -111,7 +111,7 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Await owner decision on final BatchB90–95:Handbook35unit-credit and Charter105–106DAC five-part service. Then BatchB receipt and BatchC.
+Continue BatchC (Grades records and graduation),starting H-transfer-clearance. BatchA/B complete;do not re-ask approvals. See BatchB results/receipt.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
