@@ -61,3 +61,14 @@ def test_final_context_fidelity_rejects_modified_source_words_even_on_a_nonanswe
         text=render_text(pack,altered,answer.status)))
     with pytest.raises(ValueError,match='source_conflict_context'):
         validate_final(edited,pack,altered)
+
+
+@pytest.mark.parametrize('reason',['tool_error','timeout','repair_exhausted','validated'])
+def test_nonready_claim_fidelity_cannot_be_bypassed_by_changing_validation_reason(reason):
+    original=integration();pack=prepare(original)
+    answer=asyncio.run(Generator(NoInference()).generate(TEXT,original))
+    altered=(answer.claims[0].model_copy(update=dict(text='The authoritative deadline is tomorrow.')),)
+    edited=answer.model_copy(update=dict(validation=reason,claims=altered,
+        citations=selected_cards(pack,altered),text=render_text(pack,altered,answer.status)))
+    with pytest.raises(ValueError,match='source_conflict_context'):
+        validate_final(edited,pack,altered)
