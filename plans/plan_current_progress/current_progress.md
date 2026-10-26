@@ -1,9 +1,10 @@
 # Current progress
 
-Updated26October2026,20:47+08. Phase11active,p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,21:07+08. Phase11active;session paused for context reset;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
+[New-session handoff](../2026-10-26-phase11-bulk-review-session-handoff.md):resume owner content review of verified335packet.
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
@@ -45,6 +46,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
+Owner requested handoff before a new session. Resume from the linked session note;
+show BatchA's four previously presented admission chunks as pending,then continue prepared records in bulk.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
