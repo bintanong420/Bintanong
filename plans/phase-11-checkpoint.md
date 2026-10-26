@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 117
+sequence: 118
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 39f2ce5
+head_commit: be568c4
 working_tree: clean
 updated_at: 2026-10-26T17:49:00+08:00
 ---
@@ -25,9 +25,10 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 [Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
 fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
-[Review01](2026-10-26-handbook-charter-expansion-review-01.md),[02](2026-10-26-handbook-charter-expansion-review-02.md),[03](2026-10-26-handbook-charter-expansion-review-03.md):BatchA/Bcatalogue locators
-inspected(39new original pages),existing reviews reused;standing delegation/source-specific limits.
-Owner confirmed both H26/H30holds and unchanged datasets;image-only chart fields included.
+Reviews01–06:BatchA–Ecatalogue locators inspected/reused;standing delegation applied to clear fields.
+Review04holds ambiguous Registrar first-row action/time/person mappings;conflicts/fees/totals unchanged.
+Review05finance/assistance,06conduct/grievances/clearance include full continuations and limits.
+Owner confirmed H26/H30holds and unchanged datasets;no activation or altered policy meaning.
 Dedicated ingestion task saved;remaining catalogue fields unreviewed;no review-complete fork point.
 
 ## Repository State
@@ -127,7 +128,7 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Continue BatchCgrades/records/graduation,thenD–H;record literal clear readings and source limits.
+Continue BatchForganizations/activities,thenG/H;record literal clear readings and source limits.
 Commit reviewed records before declaring final shared baseline/fork. Keep confirmed holds and primary
 runtime/pin unchanged. Grading regression/frontend integration follow baseline under owner order.
 
