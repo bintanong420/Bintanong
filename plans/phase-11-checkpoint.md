@@ -1,12 +1,12 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: in_progress
-sequence: 138
+status: paused
+sequence: 139
 plan: plans/phase-11-backend-api-plan.md
-head_commit: dd18209
-working_tree: dirty; review record, index, checkpoint and current progress
-updated_at: 2026-10-26T23:31:00+08:00
+head_commit: e5495b4
+working_tree: dirty; Batch A session handoff, review record, index, owner ledger, checkpoint and current progress
+updated_at: 2026-10-26T23:40:00+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,13 +28,13 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-50of336candidate contents approved;286others pending. Within BatchAonly18–22pending;re-presented together.
+All BatchAcontent approved:55of336current candidates,281others pending. Next BatchB,no outstanding BatchAcontent decision.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected HEADdd18209,clean before review documentation;nothing pushed.
+p11/feat/p11-backend-api;inspected HEADe5495b4,clean before session handoff;nothing pushed.
 Checkpoint records the inspected parent;the next documentation commit contains this snapshot.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -46,6 +46,9 @@ No frontend edits/merge/install;integration explicitly stopped. No dependencies 
 
 ## Verification Evidence
 
+Fresh BatchAreceipt generator:54base IDs map to55current approved candidates,all present;281others pending.
+Receipt SHA7fb28bf498982a25e99ae99dc68b2a82fce75877126cfbbb6ac84d97f00617b5;current JSON hash matches overlay.
+Documentation/approval-only checkpoint:Git diff and phase-state validation,no production test rerun.
 Registration rebuild:[results](2026-10-26-registration-layout-correction-results.md),91tests/127subtests2.38s/exit0.
 Five linked parts400/374/469/184/413tokens;331unaffected records exact. Native text/geometry and span
 conservation checked,only approvedDay)Day)removed. No production change/full-suite rerun;existing builders reused.
@@ -97,7 +100,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of286others remains;94extraction comparisons retained;39image spans content-approved/27pending.
+Human review of281others remains;94extraction comparisons retained;39image spans content-approved/27pending.
 Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
@@ -106,8 +109,9 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Owner resumed human review from the [session handoff](2026-10-26-phase11-bulk-review-session-handoff.md).
-Await18–22content decision(the only pending BatchAcontent),then proceed to BatchB.
+Owner requests fresh CLI session;[current handoff](2026-10-26-phase11-batch-a-review-session-handoff.md).
+Resume BatchBhuman content review from H-returning-curriculum/H-unit-load;all BatchAcontent approved.
+Use readable source headings,lists and paired table columns;never dense flattened paragraphs.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
 Coverage audit finds no remaining unexplained eligible native-policy regions after7repairs.

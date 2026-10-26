@@ -251,3 +251,20 @@ foreign liaison and three linked face-to-face admission chunks. Use the exact
 IDs recorded above;photo-count difference and historical-date limitation retained.
 They remain pending until an actual content decision. All other BatchAcontent
 approved;the source holds and later technical/publication gates remain separate.
+
+## Batch A complete — fresh-session boundary
+
+Owner:“i approve”,explicitly approving18–22with displayed wording,photo-count
+difference,historical-date limitation and required continuations. All BatchAcontent
+approved:54base IDs map to55current candidates,281others pending of336total.
+Fresh `batch-A-human-approval-receipt.json`in ignored evidence binds exact IDs,
+content hashes and neighbors;SHA256:
+`7fb28bf498982a25e99ae99dc68b2a82fce75877126cfbbb6ac84d97f00617b5`.
+Generation/readback confirms54base/55mapped IDs,all present in current336JSON.
+Source/content serialized governance remains pending;this is human content approval.
+
+Owner says dense unformatted text was hard to review. Future packets must use
+readable source headings,short blocks,one list item per line and paired table
+columns without changing words or associations. Owner requests session handoff;
+[resume BatchB](2026-10-26-phase11-batch-a-review-session-handoff.md),not another
+BatchAapproval. No new source/runtime/activation scope approved.
