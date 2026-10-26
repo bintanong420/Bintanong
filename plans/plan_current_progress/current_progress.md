@@ -1,20 +1,20 @@
 # Current progress
 
-Updated27October2026,01:56+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,01:59+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC61of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
+[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC64of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves151–156evaluation services:156of336approved;180pending;BatchC61of78.
-Form supplier/location difference and awardstep2sharedtime/roles retained;no eligibility inference.
-Receipt61readback/closure verified;6/11/16/21/39/45/51/55/61snapshots retained.
-Next157–159/C62–64:classcard issuancephysical110–111/printed106–107;images/closure checked.
-Representative authorization/written consent and exact source grammar preserved.
-No source/candidate/runtime changes;labelled rebuild remains before use.
+Owner approves157–159classcards:159of336approved;177pending;BatchC64of78.
+Representative authorization/written consent,2copies and exact source grammar retained.
+Receipt64readback/closure verified;6/11/16/21/39/45/51/55/61/64snapshots retained.
+Next160–164/C65–69:removal examphysical112–113/printed108–109;images/closure checked.
+Classcard checklist/removalform mismatch,listed6h5m/printed6h10m and H47deadlines unresolved.
+Shared audience title preserved for undergraduate student use only;no source/candidate/runtime changes.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -31,8 +31,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-156of336candidate contents approved;180pending. Labels and final structural bindings remain.
-Other180await human review. No original/runtime-package/rule/vector/release/pin changes.
+159of336candidate contents approved;177pending. Labels and final structural bindings remain.
+Other177await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -60,8 +60,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on157–159/C62–64:complete classcard issuance service.
-Then complete removal-exam service. Preserve source limits;labelled reauthoring before use.
+Await owner decision on160–164/C65–69:complete removal-exam service.
+Then complete Handbookgraduation diagram. Preserve source limits;labelled reauthoring before use.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

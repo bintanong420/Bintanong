@@ -733,3 +733,23 @@ or award eligibility. Labelled service reauthoring still required before use.
 Next157–159/C62–64:complete classcard issuancephysical110–111/printed106–107.
 Original images and three-way closure checked;representative authorization and
 written-consentcondition preserved,literalclient of authorized representationunchanged.
+
+
+## Batch C classcards157–159 approved;removal160–164 prepared
+
+Owner:“i approve”. Approves complete classcard issuance service,including
+representative authorization/written consent,2copies,5+5minutes and literal
+client of authorized representationwording. No privacy exception inferred;
+labelled service reauthoring still required before use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 157 | C-class-cards-compact-001 | `0a903681e3d854efaa541473b5c4311fedd851a05e4a12d311a2428aa393632f` | `5ce2acb5b0e7cc1865847c24d8316fff738f275ad4afcb6295b7e41f5ee397a0` |
+| 158 | C-class-cards-compact-002 | `c187c76257eb7263f9cfc5f065fad0b03d3426e915360d051112f659de169692` | `b4c6e9a649b59e75b80b70c51d8235ab52daaf8538e667e5f83142d34443e5ea` |
+| 159 | C-class-cards-compact-003 | `f97f87fce142d1adf792851019767ffe102e87b4db4d7c0d2b3e8919ad726e25` | `2e81a5f880e30b2790917a5db9b642826880e2b9d8d176cdb37715fb715a9e06` |
+
+64BatchC/159totalapproved,177pending;receiptSHA256:`138e95f68e70fd82e13c0e13b7f3441fbd811f4c29e93d859b13254c02870313`;064snapshot retained.
+Next160–164/C65–69:complete removal servicephysical112–113/printed108–109.
+Original images/five-way closure checked. Classcard checklist/removalform mismatch,
+listed6hours5minutes/printed6hours10minutes and unresolved H47deadlines retained.
+Shared audience wording is provenance;only undergraduate student procedure supported.
