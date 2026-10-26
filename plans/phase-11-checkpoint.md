@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 165
+sequence: 166
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 24a3a28
+head_commit: 74694a9
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T02:05:39+08:00
+updated_at: 2026-10-27T02:09:49+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,7 +28,7 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-BatchA55/BatchB40/BatchC74of78approved. Total169of336content-approved;167pending. Source holds/limits/exclusions retained;prior approvals reused.
+BatchA55/BatchB40/BatchC78of78approved. Total173of336content-approved;163pending. Source holds/limits/exclusions retained;prior approvals reused.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
@@ -48,7 +48,7 @@ No frontend edits/merge/install;integration explicitly stopped. No dependencies 
 
 Fresh BatchAreceipt generator:54base IDs map to55current approved candidates,all present;281others pending.
 Receipt SHA7fb28bf498982a25e99ae99dc68b2a82fce75877126cfbbb6ac84d97f00617b5;current JSON hash matches overlay.
-BatchBreceipt binds40;partial BatchCreceipt binds74,169cumulative;6/11/16/21/39/45/51/55/61/64/69/74snapshots retained. Fresh hosted78IDs/hashes match package;four prior narratives in100/101match after whitespace normalization.0HTMLbreak tags in candidateJSON/BatchBpacket. Docs-only:diff/phase-state checks,no production test rerun.
+BatchBreceipt binds40;complete BatchCreceipt binds78,173cumulative;6/11/16/21/39/45/51/55/61/64/69/74snapshots retained. Fresh hosted78IDs/hashes match package;four prior narratives in100/101match after whitespace normalization.0HTMLbreak tags in candidateJSON/BatchBpacket. Docs-only:diff/phase-state checks,no production test rerun.
 Registration rebuild:[results](2026-10-26-registration-layout-correction-results.md),91tests/127subtests2.38s/exit0.
 Five linked parts400/374/469/184/413tokens;331unaffected records exact. Native text/geometry and span
 conservation checked,only approvedDay)Day)removed. No production change/full-suite rerun;existing builders reused.
@@ -101,7 +101,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of167candidates remains;94extraction comparisons retained;66image spans content-approved/0pending.
+Human review of163candidates remains;94extraction comparisons retained;66image spans content-approved/0pending.
 Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
@@ -111,10 +111,11 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Owner approves165–169graduationdiagram;169total,C74of78;all27H64fields approved,cutoff retained.
-Next170–173/C75–78:diplomaserviceCharterphysical20/printed19and examinationsHandbook45.
-Original images/closure/hash checked;second-copy diploma fee/time unstated.
-Skip settled removalcontext99–101;image structural bindings remain;no candidate/runtime edits.
+BatchC78of78complete;173uniqueA+B+C,163pending;fullpacket/receipt/closure/hash checked.
+BatchD4of19carriedforward,15new;FAQ/admissionfeecontextapprovals not reopened or double-counted.
+Next174–178/D1,2,5,6,7:fees/refund,withdrawal,scholarshipdescription/procedure.
+OriginalH34–35/96/113–114images and companionclosure checked;conditions/sourcegrammar retained.
+[BatchC results](2026-10-27-phase11-batch-c-review-results.md);no candidate/runtime edits.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.

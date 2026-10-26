@@ -796,3 +796,24 @@ Next170–172/C75–77:diplomaserviceCharterphysical20/printed19;173/C78:
 examinationsHandbookphysical45. Original images/closure/hash checked. Second-copy
 diploma fee/time remain unstated;printed2ndsuperscript shown readably,source words unchanged.
 Previously approved removalcontext99–101not presented again.
+
+
+## Batch C final170–173 approved;BatchD opening prepared
+
+Owner:“i approve”. Approves complete diplomaservice170–172and examinationpolicy173.
+Second-copy diploma fee/time remain unstated;no inferred rule or activation.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 170 | C-diploma-compact-001 | `3312ec09c1f605b22eed7a3fb7e84945521d6201e6cd15f027603eddcebd3dd3` | `4afd9728a9f819cafe094d0c1ad6a214de58b0daac1598a2121dcd8cf0f01b1e` |
+| 171 | C-diploma-compact-002 | `c97559813f4fd253c43c4202850124a137d5eb21c8ceb26ce83e3b48a5b06d84` | `c93032109a3aad1c535b35e967e92ec7a7f7c32d7a5305d40456b76a907c7d95` |
+| 172 | C-diploma-compact-003 | `6a5475f85b28869dbcb7e64c0ec7085885a195493de3d1b4048ed6e9f39d8553` | `71b71bd4fed2ae2aec65f2931421201dd3abe382bca6bcbaa9caf3a8b74239c0` |
+| 173 | H-examination-policy-compact-001 | `c4f3646341862de82a0e2e3d96fb3c01df3cd08a2f8b66f2c8727aa89e4a9081` | `35639c471694583d8e22e28d83044e6c33d91cb1df8537aea5f10cd2f554fe9a` |
+
+BatchC78of78approved,173total/163pending;receiptSHA256:`517486cf3a7c15f2e2926662907eecc377fa2f8e70e3dc2a2244e36aef5020c9`;078snapshot retained.
+Full packetidentity set/neighborclosure/173uniqueA+B+Cunion checked.
+BatchD19candidates includes4already approved:FAQ119–120and2admissionfeecontext
+fromBatchA;carry all4without another approval/counting them twice.15newpending.
+Next174–178/D1,2,5,6,7:fees/refund,withdrawal,scholarshipdescription/procedure.
+OriginalH34–35/96/113–114images checked;RA10931exception,Form138restriction,
+application-not-approvaland literalfor every seminarretained. Two scholarshipparts linked.
