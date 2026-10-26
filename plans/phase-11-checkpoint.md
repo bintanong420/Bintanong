@@ -2,165 +2,108 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 123
+sequence: 124
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 2851842
-working_tree: dirty; omitted-content plan/results, review04 correction, progress/checkpoint
-updated_at: 2026-10-26T18:50:00+08:00
+head_commit: 32065bf
+working_tree: dirty; bulk results, authoring plan, progress/checkpoint
+updated_at: 2026-10-26T19:28:00+08:00
 ---
 
-# Phase 11 checkpoint — omitted-content candidate authoring
+# Phase11checkpoint — bulk candidate packet awaiting human review
 
 ## Completed Tasks
 
-Backend/API/security/queue and CF1–CF6 delivered;39curricula/2132course facts. Source80audit complete
-72approved/8correction-needed;corrected78selection now research-active. Original19/80history retained.
-b6a9da1 required companion closure/explicit ordered subset;1b51518 exact shared/penalty context;
-9ea3ae7 held INC conflict quotation;706d3c6 final fidelity for every nonready claim. RED2+11+5;
-independent oneP2 reproduced RED4/fixed. No further important findings/second review required.
-[Current plan](2026-10-26-companion-context-and-activation.md) tasks1–6 delivered;
-[results](2026-10-26-companion-context-activation-results.md) contain gates and hosted comparison.
+Backend/API/security/CF1–CF6 delivered;39curricula/2132facts. Corrected78research release active;
+80draft/19superseded retained. Production code unchanged706d3c6;source reviews/baseline4e99fb6.
+Nine bounded review records account89catalogue groups,with settled holds and original bytes intact.
+Other developer local-only worktree ready,task receiptc76d988;fixed fork4e99fb6.
+First9candidate packet and2actual human approvals recorded in32065bf,alongside bulk-review direction.
 
 ## Current Task
 
-[Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
-fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
-[Reviews01–09/shared baseline](2026-10-26-handbook-charter-shared-baseline.md):all89catalogue groups
-mapped;102H/62Clocators,152fresh original-image pages/12settled-review pages reused. Literal clear
-readings under standing delegation;ambiguous associations/applicability/fees/totals held as printed.
-Owner confirmed H26/H30holds and unchanged datasets. No chunk/rule/vector/release/pin change.
-Source fork4e99fb655022e694c73bbd98dd6daec9d7d88fb5;isolated ingestion worktree ready,c76d988task receipt.
-Owner explicitly stops frontend integration;no merge/edit/install until resumed. Prioritize new chunks
-from omitted content across BOTH full sources;pages1–40were example. Reuse completed source review.
-[First packet/results](2026-10-26-omitted-content-first-chunk-results.md):9real pending chunks,
-4H31prerequisite/freshman registration+5C20complete diploma service. Owner approved only2H31registration
-chunks as linked pair;mutual required-neighbor IDs freshly confirmed. Other7await human validation.
-686broader raw draft rows remain unvalidated;not a delivered corpus. All89IDsaccounted in ignored queue.
+[Bulk results](2026-10-26-omitted-content-bulk-review-results.md):899inactive chunks(331H/568C),
+127linked source records,eight topic packets. All89IDsaccounted;72with candidates,including69of70
+New/Partial groups. X029initial TOR C9action/time/person association remains held;existing/other
+held/support-only selections explicit. Source-held literal candidates do not resolve affected claims.
+H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
+Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
+H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
+Other897unapproved. Owner directs chunk preparation first,review later in bulk;no routine approvals now.
 
 ## Repository State
 
-p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-4e99fb6final bounded source-review/baseline delivery;documentation descendants do not change tested code. Snapshot head names
-the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.
-Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
-R=A/p11-companion-context-20261026. New audit A/p11-scan-completeness-audit-20261026;prior catalogue/Handbook/grading evidence retained.
-Raw sources/results/helpers/pin are ignored. New assessment evidence A/p11-ingestion-trace-20261026;
-focused tests ended0. Two-query runner ended0;no model/source/DB jobs started this resume.
-Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
+p11/feat/p11-backend-api;inspected pre-documentation HEAD32065bf,nothing pushed.
+Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
+A=C:/Coding-projects/bintanong_workspace/audit-evidence;
+B=A/p11-omitted-chunks-20261026/bulk-review. Ignored scripts/JSON/images remain untracked.
+Only plans/results/checkpoint/progress changed. Candidate output is separate from active package/pin.
+No frontend edits/merge/install;integration explicitly stopped. No dependencies or models changed.
 
 ## Verification Evidence
 
-New packet:9Chunk contracts,27original native spans/text/glyph boxes,stable rebuilt IDs/hashes,
-complete neighbors,no80/78ID/full-text duplicates,max406exact tokens<=480;all reviews pending.
-103tests/107subtests13.78s/exit0,6candidate/native/service/report files;command/log in results.
-7runtime seals/both PDF hashes/pin unchanged. Fresh hosted SELECT:80draft/78active/19superseded;
-exact80snapshot saved A/p11-omitted-chunks-20261026. No writes/embedding/staging/activation.
-Broader686raw rows:125parser/native differences plus association/context/limits/audience checks;
-explicit authoring-attempt-status withholds them. Only first9packet is supplied for owner review.
-C20image recheck corrects review04:second-copy Request Letter to University Registrar,not Dean.
+Bulk artifact verification:899Chunk/source bindings remain pending;deterministic IDs/content hashes,
+complete required neighbors,no duplicate ID/full source-text of hosted80or active78.
+1742native spans independently checked:original text/page/page size/glyph-union boxes match;
+1317table spans also fit original cell geometry. Semantic sub-action associations still need review.
+All exact existing local E5 counts<=480,max480,truncation disabled.11known over-budget rows split
+at original scalar fields,retaining all companions. No embeddings or inference/model downloads.
+128original page images reused,982links verified.66image spans need human annotation validation.
+94native/parser comparisons shown with records plus1held C9association;no guessed list-position mapping.
 
-New worktree sibling p11-policy-ingestion-review:feat/p11-policy-ingestion-review from4e99fb6;
-142passed/110subtests14.35s/exit0in that worktree,10input copies verified,no.env/pin/config copied,
-no localDBconfigured/hosted writes,candidatesempty. Dedicated task updates only on that branch.
-Fresh ingestion compatibility77passed/110subtests15.27s/exit0,same4test files as assessment below;
-runtime package/catalogue/hosted-storage/composition65passed2.18s/exit0,synthetic/fakes,no hosted writes;
-new evidence A/p11-two-developer-baseline-20261026,pytest-tmp/log/exit.11comparison copies verified,
-7runtime seals/both original hashes/pin match;manifest SHA recorded in workflow. No fresh hosted read.
-Docs/source review only:no behavior change/artificial RED/GREEN/full-suite repeat.
+Fresh161tests/215subtests35.25s/exit0:sharedPython3.13 -X utf8 -B -m pytest -q -p no:cacheprovider,
+8preparation/native/chunk/service/report/image/flowchart files;exact command in bulk results.
+Logs/exits A/p11-omitted-chunks-20261026/bulk-pytest.log/.exit;basetemp bulk-pytest-tmp.
+Data-only task with existing builders:no production behavior/artificial RED/full-suite repeat.
+Both original PDFs/seven runtime seals/pin unchanged. Existing read-only80snapshot reused;
+no new hosted writes,staging,review RPCs,release creation/activation or model diagnostics.
 
-Final full suite6896passed/1595subtests,6skip2xfail6warnings,1400.75s,exit0. Command:sharedPython3.13
--X utf8 -u -B -m pytest -q -p no:cacheprovider tests/ --basetemp=R/full-suite-recovery-tmp;
-BINTANONG_STORAGE_EVIDENCE_DIR=R/full-suite-recovery-db. Original95%run had no surviving process/exit;
-preserved full-suite-interrupted-131813.log. Recovery only repeats suite,not completed six questions.
-Relevant63/fresh865;prior1316 retained. Replay/token preflight max4918+768+8<=8192;39curriculum
-router6307/6320/6359input. Six once/21completions,5answered1source_conflict;6/6selected expectations met.
-Quality bound to results SHAfd2a39dfb66b6c2e07eb5720acd63ae9d836b6636dae9ea897d173cb3b5adcf3.
-
-Existing governed activation RPC succeeded;exact78chunk/span/source-register/vector records,39same
-curriculum links,anon78/39/one release and normal HostedReleaseStorage composition verified.
-Protected source rows unchanged;source48file seal/runtime seal intact. Fresh MCP readback saved.
-Hosted retrieval:Charter6/cheating2same reviewed passages. Three accepted comparisons:grade1.0answered,
-BSCSCC5/failedCC4answered/ineligible,Criminologycorequisiteclarification_needed/unknown;0retries,
-6model calls. Warm inner34.921/20.170/21.099s includes Supabase;startup/API/browser excluded.
-Not full roster,language accuracy or browser end-to-end evidence. No new lint/formatter/UI claim.
-
-Current two-query capture:4routing/style calls,0case retries,quality0/2;passing question RAG/
-grading_scale but8mappings1.0–2.75and retrieval storage_error31.237s;casual1.0percent empty clarification
-becomes no_evidence before retrieval. Underlying storage cause unknown. Warm inner46.489/12.107s
-includes Supabase;encoder21.668s/composition/API/browser excluded. No source/chunk error proven.
-Handbook1–40(+41–46context)and Charter117page inventory/audience triage;original hashes verified.
-Eight original renders inspected,additional renders saved. New candidates/holds in results;not full
-field/corpus approval. No new production behavior,so no artificial TDD/full-suite repeat.
-
-Fresh whole-Handbook scan:394/394page files/audience rows/digests;624971native characters;20sparse
-pages visually checked;55unique renders plus prior26–27readings. Source SHA unchanged;7/7sealed
-runtime-package hashes match,78total/66Handbook chunks,corrected78local pin matches package.
-Documentation local links and git diff --check pass;phase-state validation valid,Phase11active.
-Local comparison only,no fresh hosted membership query. Four selected Handbook subjects;omitted
-and partial routes mapped. Original/template/law-title-only limits preserved;no new model calls.
-
-Combined catalogue:86unique sequential IDs,8batches;65new/4partial/7hold/7support/3existing. Both
-original hashes and7package seals pass;78total/66H/6Cchunks. All117cached Charter native pages
-match original;21Charter renders+H101checked. Source/issue cards deferred to later bulk review.
-
-Fresh audit:394H+117Cpage texts match original;394unique Hscope rows. Relevant unmapped Hpages
-59/65/66/67/107/119are structural/background/blank. All13Csparse covers rendered/checked;20Hsparse
-checks reused;new H49/59/66/69/107renders checked. Three semantic omissions despite page references
-addedX087–X089. Catalogue89IDs/8batches:66new/4partial/7held/9support/3existing. Not exhaustive
-field validation;no guaranteed topic completeness. No production/source/DB/release/model mutation.
-
-Fresh assessment check:77passed/110subtests,31.94s,exit0;sharedPython -X utf8 -B -m pytest -q
--p no:cacheprovider tests/test_ingestion_report.py tests/test_reviewed_policy_preparation.py
-tests/test_reviewed_policy_chunks.py tests/test_storage_selected_release_review.py
---basetemp=A/p11-ingestion-trace-20261026/pytest-tmp. First attempt21setup errors(missing parent),
-resolved by creating evidence parent. Docs-only:no artificial TDD/full-suite repeat/hosted health claim.
+Historical production suite706d3c6:6896passed/1595subtests,6skip2xfail,1400.75s/exit0;
+[activation results](2026-10-26-companion-context-activation-results.md) retains exact recovery,
+six selected quality expectations/hosted3smoke and rollback evidence. Not fresh bulk/runtime proof.
+Natural grading0/2remains unfixed:passing question storage_error31.237s;casual1.0empty clarification.
+Six Taglish register misses,broader Hybrid/frontend/browser exits remain;no phase advancement.
 
 ## Versions and Digests
 
 Python3.13.7/FastAPI0.141.1/SWI-Prolog10.1.15/Postgres17.6/pgvector0.8.2/CLI2.117.0 unchanged.
-Models shared workspace/MODELS;Docker existing bintanong-p09-cuda-latency restored,8192/768 unchanged.
-Active hosted p11-research-corrected-20261026;root release-offline-research-set-95fe326cf31a4439.
-Embedding cb7ac3a56b94bdb9ced8f8bd9c012b3cff2adf1e3e761347acbe147ce3c38845.
-Runtime order-register SHA1dba7278b673c560d89a226c62637e2339fcc4c7aeecfe3e4fa8e4b22742b200.
-Runtime package R/runtime-package;pin A/p11-topic-filter-20261024/active-research-pin.json.
-Budgets3072misconduct/4096pre_enrollment/default2048;explicit short draft,canonical review/final.
-Global canonical default unchanged. Old19superseded/retained;old80draft. Original pin was absent.
+Models workspace/MODELS. Active p11-research-corrected-20261026;39curricula/78chunks.
+H PDF4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8;
+C PDF42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529.
+Runtime package A/p11-companion-context-20261026/runtime-package;seal22ceaa15c300a5fc2d8778062a9f19ebb175bee34700f68267ec651a07b34c0a.
+Pin A/p11-topic-filter-20261024/active-research-pin.json;SHA5dd2d9c95c3cc96181bdd11d3a24481f1c18a4a5c71284a55316c7d60acecc74.
+B/artifact-seal.json binds final artifacts and source helpers/first-packet inputs;report records hashes.
 
 ## Decisions
 
-Ingestion-pipeline question answered against code;generic fresh-edition workflow remains missing.
-Existing safeguards validate recorded source/scope decisions;AI suggestions do not establish approval.
-Owner now starts planned verification before two-developer fork;previous bulk-review deferral superseded.
-H26keep conflicting enrollment/payment clauses,H30academic-deficiency applicability unresolved:confirmed
-by owner;do not re-ask. Keep everything as supplied;clear-row delegation/new-issue holds remain.
-Primary owns hosted/source/runtime;other developer local DBonly/no hosted writes,shared changes agreed.
-Owner authorized corrected78activation after validation;recorded owner-decisions-ledger permission
-executed without reopening source approval. Research-only;no school/currentness/public approval.
-Source wording,blanks,cutoffs,conflicts,F04hold,unknown applicability and advisory/privacy limits fixed.
-No source/chunk/vector/budget/model/dependency change. No automatic deadline/penalty precedence.
+Owner approves only2H31registration chunks as linked pair;[record](2026-10-26-omitted-content-human-chunk-review.md).
+Owner:continue chunk preparation,review later in bulk. Eight existing topic batches govern review.
+No new hosted activation/publication permission. Existing H26/H30holds and supplied datasets retained.
+No source grammar/threshold/deadline/fee precedence repairs. C20review-summary Dean error corrected
+from original image to University Registrar;original untouched. Missing grades remain unknown.
+No new executable prerequisite exception/equivalence/standing/clinical or legal determination.
 
 ## Known Failures or Blockers
 
-Activation gates passed previously;two current natural grading queries fail. Wider Hybrid/no-topic/clarification/Nursing/
-style/frontend/browser exits remain. Six historical Taglish register misses;photos unsupported.
-Selected78not whole-document coverage;new literal reviews inactive/holds retained. Phase12not authorized.
-Frontend active development elsewhere per owner;published origin/frontend e172f53 inspected/fetched only.
+Human review of897new candidates/94extraction comparisons/66image regions remains.
+C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
+Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
+remain required before publication;chunk parsing alone does not establish runtime compatibility.
+Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exits remain.
 
 ## Next Action
 
-Prepare H26–30admission candidates from existing reviews;retain approved H31pair and continue
-remaining groups across BOTH sources. Preserve holds/wording/complete Charter associations.
-No embedding/staging/publication before requested chunk validation;frontend remains stopped.
+Owner reviews prepared batches at their chosen time;record actual approvals/apply focused corrections.
+Keep source holds,active release and pin unchanged. No routine small-chunk approval interruptions.
+No embedding/staging/publication before content validation;frontend remains stopped.
 
 ## Context Consulted
 
-26Octresume:thesis physical17–18/39–44 freshly read,routing PNG viewed,master3/11/13/16/18.3;
-current plan/Phase10handoff and prior master7–9 evidence retained;
-scope/gap/location policies,service association rule and owner ledger consulted. Thesis illustrative
-closed-world example remains illustrative;settled missing-fact unknown handling takes precedence.
+Thesis physical17–18/39–44,routing PNG,master3/11/13/16/18.3,Phase10handoff and prior evidence.
+Scope/gap/location/service policies and owner ledger;fresh original H60/61/63/64images inspected.
+Thesis closed-world example remains illustrative;settled missing-fact unknown semantics prevail.
 
 ## Do Not Repeat
 
-Human80audit/corrections/staging/embedding,completed six/full suite,backend/security/CF1–CF6/checker
-trial/full-document inventories/reviews01–09. Do not re-activate or re-run smoke without a new reason.
-For real integrity failure,use guarded rollback in recovery;old19history retained. No inferred phase approval.
+Full-document inventories/reviews01–09,hosted80audit/correction/activation,completed six/full suite,
+backend/security/CF1–CF6. Do not reopen2H31approvals or H26/H30holds. No reactivation/smoke without
+new cause. Preserve older releases/rollback and original data;no inferred phase/institutional approval.

@@ -36,22 +36,31 @@ review; it does not authorize guessed content or block independent authoring.
 ## Tasks
 
 - [x] Reconcile current hosted80/78 and save80snapshot; reuse inventory/reviews.
-- [ ] Build omitted Handbook narrative candidates from existing reviewed sections,
-      with exact native spans and required context. Retain image-only workflows
-      as explicit mapping work, not empty/made-up text.
-- [ ] Build Charter candidate rows from original-bound cached conversion geometry;
-      recheck actual PDF text and preserve complete service groups/continuations.
-      Uncertain geometry/associations remain held, with affected records identified.
-- [ ] Validate contract round trips, deterministic IDs, exact source hashes/spans,
+- [x] Build selected reviewed Handbook narrative and source-image scalar candidates;
+      retain exact spans, required context, source cutoffs and annotation-review status.
+- [x] Build selected Charter candidate rows plus non-table context from original-bound
+      geometry; verify glyphs stay in cells and preserve full service dependencies.
+      Uncertain C9associations remain held, with affected records identified.
+- [x] Validate contract round trips, deterministic IDs, exact source hashes/spans,
       source-word fidelity, pending governance, neighbor closure, no duplicate80/78
       content and exact pinned-tokenizer budgets. Account every catalogue ID.
-- [ ] Run relevant existing candidate tests; produce readable exact chunk cards
-      and original regions for owner validation in short batches. No unseen bulk approval.
+- [x] Run relevant existing candidate tests; produce eight topic review packets
+      and original regions for later bulk owner validation. No unseen bulk approval.
+- [ ] Record human bulk approvals/corrections; complete final association/topology
+      bindings and separately verify runtime compatibility before publication work.
+
+Bulk preparation delivered: [results](2026-10-26-omitted-content-bulk-review-results.md),
+899inactive candidates/127linked source records/eight review packets;89catalogue
+groups accounted.161tests/215subtests and artifact checks pass. Remaining gaps
+above are deliberately not blanket-checked: held selections, final association/
+topology bindings and runtime compatibility still require their applicable gates.
+Owner review is now deferred to the prepared bulk packets, as explicitly directed.
 
 First bounded delivery: [nine actual chunks/results](2026-10-26-omitted-content-first-chunk-results.md).
-All89catalogue IDs accounted; broader authoring is unfinished.103tests/107subtests
-pass and first-packet artifact checks pass. Full-task boxes remain open until the
-remaining source groups, service associations and limitations have been authored.
+That first-packet snapshot is superseded by the bulk delivery above; its exact
+approved H31pair is preserved. Candidate preparation/technical checks are complete
+for selected eligible material;source holds and final human/structural/runtime gates
+remain explicit. This does not mean every source page has a publishable candidate.
 
 ## Verification and stop boundary
 
