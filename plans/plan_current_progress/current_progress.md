@@ -10,7 +10,10 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
 `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 Review templates/package build/baseline retention:252tests/80subtests pass;researcher
-3Node tests/TypeScript/production build pass. No browser/full-suite/DB-role claim.
+3Node tests/TypeScript/production build pass. Local UIpreview now runs3001/API8765:
+HTTP200,nine pending synthetic items,original PDF/highlights displayed,console clear;
+opened in Orca. Terminal `Researcher UI preview`;Ctrl+C stops it. No decisions saved.
+Full browser workflow/full-suite/DB-role gates remain open;Node22.22.3 vs target24.21.0.
 Frozen78baseline verified27Oct:actual root has nested comparison-baseline-78/child;
 11/11files,7/7seals,78chunk/vector bindings pass;PDFs394H/117Cpages,hashes unchanged.
 77topic assignments/66claim reviews;one existing unassigned chunk and three supporting

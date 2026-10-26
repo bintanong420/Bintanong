@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 119
 plan: plans/phase-11-backend-api-plan.md
-head_commit: a03dc08
+head_commit: fb4daec
 working_tree: dirty
 updated_at: 2026-10-27T00:03:00+08:00
 ---
@@ -29,6 +29,9 @@ T1/review persistence committed;recovered reviewer/package increment passes252te
 Supplied nested baseline verified27Oct:11files/7seals/78chunk-vector bindings pass;
 unchanged bytes,legacy new-suite replay pending. Local Docker engine unavailable.
 Runtime status below is inherited;no hosted connection in this workstream.
+Owner-requested local UIpreview started27Oct:3001/API8765,HTTP200,nine pending
+synthetic items,PDF/highlights render,console clear. See workstream checkpoint for
+terminal/output paths;full browser workflow remains pending. No real-source decisions.
 
 [Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
 fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.

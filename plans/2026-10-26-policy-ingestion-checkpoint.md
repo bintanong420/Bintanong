@@ -1,6 +1,6 @@
 # Policy ingestion workstream checkpoint
 
-Updated 27 October 2026, 00:03 +08. Phase 11 remains active.
+Updated 27 October 2026, local UI preview started. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
 Verified implementation: `a03dc08`; prior review/API: `1f2bb60`; shared fork: `4e99fb6`.
@@ -31,7 +31,17 @@ System Python 3.13.12; pytest 9.0.3; no cache; external basetemp under
   plus reviewed-policy chunks/preparation, service steps and existing review GUI client.
 - Researcher: three Node tests pass, TypeScript check exits 0, Next.js 16.4.3
   production build passes. Existing installed dependencies reused; no install/download.
-- Actual browser workflow and full repository suite have not been run in this resume.
+- Local preview launched through the `review` CLI: UI127.0.0.1:3001/API127.0.0.1:8765.
+  Orca terminal `term_31c5fa83-8f97-411f-b476-961de6f49b4e`, title `Researcher UI preview`;
+  stop with Ctrl+C in that terminal. Opened in the worktree's embedded browser.
+  UI200/authenticated state200; browser displays nine pending items, two synthetic
+  documents, original PDF and highlights; console empty. No decisions saved.
+  Source packet/script/logs: workspace `audit-evidence/p11-policy-ingestion/ui-preview-20261027/`.
+  Valid synthetic PDFs and fixed candidate conversion only; no model download/execution.
+  Local installed Node22.22.3 differs from target24.21.0; Next16.4.3 build/start passed.
+  Automatic shell policy rejected the hidden background launch; used a visible
+  Orca terminal instead. No alternate hidden launch attempted.
+  Full correction/save/reopen/export browser acceptance and full suite remain pending.
 - Docker context `desktop-linux` cannot connect to its local named pipe. Actual-role
   disposable database checks are unavailable; no hosted substitute was attempted.
 
