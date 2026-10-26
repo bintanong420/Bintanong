@@ -15,6 +15,8 @@ All three repair hints retained;UI files unchanged. First16475e9 merge58533a0 ve
 new remoteb2724ea12-commit tail included. Final candidate:3892 backend PASS,2expected
 photo xfails/179subtests;61 UI PASS. Independent review:no findings,70 focused PASS.
 [Merge/recovery](../2026-10-26-backend-frontend-refresh.md).
+Owner now authorizes pushing this reconciled frontend to origin/frontend;verify
+remote-tip equality after publication. Uncommitted owner notes stay local.
 
 ## Delivered baseline
 
@@ -23,7 +25,7 @@ Edit/Rephrase and optional explicit earlier-detail review.61 unit checks,17 broa
 browser checks plus final3 after caption fix,build/types passed before this merge.
 [UI evidence](../2026-10-26-entry-design.md) · [Chat evidence](../2026-10-25-chat-workspace-implementation.md).
 PSU Google authorization/private-file isolation and canonical backend answers retained.
-Owner progress appendix preserved separately for restoration;untracked files untouched.
+Owner progress appendix restored byte-for-byte and left uncommitted;untracked files untouched.
 
 Incoming backend guards malformed source claims,fraud precedence,cutoff wording/
 office referrals,procedure order and requested-record coverage. Also short references,
@@ -58,5 +60,5 @@ grade layouts remain open. Photos unsupported. Dependency fallback diagnosis rem
 [documented](../2026-10-25-prerequisite-fallback-diagnosis.md),without a repair claim.
 Earlier main suite's two Docling/huggingface-hub failures remain;no dependency repair.
 No hosted writes,source pin switch,model/encoder restart,dependency/model download,
-remote push,school approval,public release,Phase12 or phase closure. Preserve reviewed
+school approval,public release,Phase12 or phase closure. Preserve reviewed
 exact sources and26Oct owner reminder;no automatic source/model/budget sweep.

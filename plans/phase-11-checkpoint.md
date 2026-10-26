@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 111
+sequence: 112
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3f17f08
+head_commit: ea45fd5
 working_tree: dirty
-updated_at: 2026-10-26T14:20:00+08:00
+updated_at: 2026-10-26T14:21:35+08:00
 ---
 
 # Phase 11: backend refresh into the frontend
@@ -40,7 +40,7 @@ upstream claim-field bindings,required context and exact withheld conflict quota
 ## Repository State
 
 Main checkout frontend fast-forwarded34a8773 ->3f17f08. Owner progress appendix
-backed up/stashed for exact restoration;three untracked paths untouched. Receipts
+restored exactly and left uncommitted;three untracked paths untouched. Receipts
 in workspace audit-evidence/p11-20261026/backend-refresh/. Lifecycle WIP untouched.
 Recovery refs:recovery/frontend-before-backend-refresh-20261026 and
 recovery/p11-backend-before-refresh-20261026. Local backend equals originb2724ea.
@@ -70,6 +70,7 @@ Corrected source/embedding digests/receipts remain in backend delivery reports.
 ## Decisions
 
 - Keep all three independent router repair hints and frontend prompt refinements.
+- Owner now authorizes push to origin/frontend;verify the published hash.
 - Integrate code/history;do not activate a source draft or restart model services.
 - Preserve exact reviewed source wording/blanks/cutoffs/conflicts and owner26Oct
   reminder in owner-decisions-ledger. No repeat human source review/reconstruction.
@@ -100,6 +101,6 @@ coordinate any service reload with the separate source-activation workstream.
 ## Do Not Repeat
 
 No source re-extraction/review/staging,model/checker sweeps,dependency installs,
-hosted writes,source activation,remote push,Phase12 or phase closure.
+hosted writes,source activation,Phase12 or phase closure.
 Reuse prior context:thesis17–18/39–44/54/65–66,routing PNG,master3/11/13/16 and
 Phase10 handoff. No scope/routing discrepancy introduced by combining these fixes.
