@@ -646,3 +646,25 @@ Display joins do not repair current serialized fields;labelled service reauthori
 39BatchC/134total approved,202pending. Partial receiptSHA256:`c34af9b43a3be5da8e8f30757926491c5b384dcc76287c77218dcf6e4e6ee8f3`;immutable039snapshot saved.
 Next135–140/C40–45:complete six-linked certifications servicephysical15/printed14.
 Original image and full closure checked;PD907title does not establish eligibility.
+
+
+## Batch C certifications135–140 approved;CAV141–146 prepared
+
+Owner:“i approve”. Approves complete certifications service as displayed,including
+conditions,PhP50.00percertification,47minutestotal and shared role labels.
+PD907eligibility remains unstated;labelled reauthoring still required before use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 135 | C-certifications-compact-001 | `da4829906d9772aff1cb7d7958cb393692f8e9e62218dedd2aef5ddf5daa67f5` | `c80cb2496efcb4df83cc5658eeecd3dd926113c19cf3b72240271209ef9acaf4` |
+| 136 | C-certifications-compact-002 | `7b386e1b4efbed66f279dcac62c4d6da9826680284d0eebfa7fd764427266ea4` | `d537af99a8ee92de90abc83cfa352bd277452f583325fef7d8e479d3b020424d` |
+| 137 | C-certifications-compact-003 | `b5349aeecc11ad4154c6d1ddbf3ca395000197a327b7ecaace0767692c107409` | `a698f086abe9533683991b0923e8b62d834e9726efd2a4fa84a7867300cef544` |
+| 138 | C-certifications-compact-004 | `15667f5421d730a87b989054ae0b27b03de04184477d6650643f85b88036d03d` | `53bef7f20a6a0e5fcd0fbce10c01ec3acd050f84b6126c6a42acccb9ae13eb90` |
+| 139 | C-certifications-compact-005 | `1321866ebcdc58b037cc4539ad53128604b98c28fe944e8c4352a38f7693f9bd` | `f2754cd2da30927ee3780f27a6b1f56174ee87a9d0c8183c6918aa0ddce26ba7` |
+| 140 | C-certifications-compact-006 | `a9d9c4c351e6ba0c3c68c532e306e97ccc9f848a9ebbd82ebc4bb5d47b67c699` | `34d08f9a120c8196b099caf6920dab55551ef5976f362ef7ea6a9b342ca06891` |
+
+45BatchC/140totalapproved,196pending;receiptSHA256:`af48ba16779245e73494ab19f5841e9450cedf326218e52b109c284e1e9543d2`;045snapshot retained.
+Next141–146/C46–51:complete CAVservice,Charterphysical18–19/printed17–18.
+Images/closure/hash checked;step3final10minutes continues onto physical19.
+Evaluator role spans encode/process and review/initial actions. TORonly checklist
+versus TORandDiploma instruction remains a source limitation;fees/totals unchanged.
