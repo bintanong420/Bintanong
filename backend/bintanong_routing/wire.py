@@ -189,4 +189,10 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
             target = result.mentions[result.operations[index].target]
             if not part.start <= target.start < target.end <= part.end:
                 raise ValueError('uncontained_part_target')
+    if result.route in ('Symbolic', 'Hybrid') and result.audience == 'undergraduate' and not result.ambiguities:
+        # Reject this structural mismatch while the router can still ask the model to repair it.
+        # Keep control/audience/ambiguity holds and all later semantic validation unchanged.
+        referenced = {i for part in result.parts for i in part.operation_indices}
+        if referenced != set(range(len(result.operations))):
+            raise ValueError('unreferenced_operation')
     return result

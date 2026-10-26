@@ -1,73 +1,58 @@
 # Current progress
 
-Updated26October2026. Phase11 remains active; no phase closure or deployment.
-Owner checkout: C:/Users/Hawksprey/source/repos/Bintanong / frontend.
-Integration WIP: p11-frontend-integration / feat/p11-frontend-integration.
-[Plan](../phase-11-backend-api-plan.md) | [Checkpoint](../phase-11-checkpoint.md) |
-[Integration tasks](../2026-10-24-student-ui-backend-integration-plan.md).
-Previous full frontend snapshot:9b0f555; use git show for history.
+Updated26October2026. Phase11 active;no phase closure or deployment.
+Owner checkout:frontend;isolated merge:p11-frontend-dev-sync /
+integration/p11-backend-refresh-20261026. Lifecycle WIP remains separate.
+[Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
+Last full frontend snapshot34a8773;incoming backend snapshot16475e9;use git show.
 
 ## Latest change
 
-Delivered99ac14a: header cohesion/public landing, compact single-row controls,
-continuous campus fade, editorial welcome and a clear primary entry action.
-Layout/retained-detail overlap/photo-caption contrast RED -> GREEN.61 unit checks,
-17 broad browser checks plus final3 after scrim fix, build/types PASS; exact limits in
-[delivery/evidence](../2026-10-26-entry-design.md).3215 rebuilt; public renders/health200.
-Prior chat8313279 retained: grouped sources, Edit/Rephrase, explicit earlier details
-and source401 cleanup. Backend interpretation unchanged; owner acceptance open.
-
-Dependency fallback diagnosed: whole-curriculum unresolved rules -> partial -> unknown
--> clarification; known affected courses hidden, even with zero missing student facts.
-Real-Janus synthetic reproduction passed twice; saved real21-item signature matches.
-[Cause/evidence](../2026-10-25-prerequisite-fallback-diagnosis.md). No product/source fix.
-Local site/API healthy after [startup repair](../2026-10-25-local-server-start.md).
-
-Owner requested local backend-to-frontend merge after syncing backend1:1 to origin.
-Local merge6a8931b combines frontend1525dc6 and backend357aa80; notes follow the tested code.
-Six conflicts reconciled: newer title ambiguity/unit guards, both test sets, combined
-phase notes. Frontend/auth/readiness retained. Fresh verification and review passed.
-3655 backend passes/2 photo xfails;34 DB passes;55 UI passes; typegen/TypeScript PASS.
-No remote push, hosted migration, source activation, dependency or model change.
-[Merge/recovery](../2026-10-25-backend-frontend-local-merge.md).
+Owner approved merging origin/feat/p11-backend-api16475e9 into frontend34a8773 and
+fast-forwarding the matching local backend branch. Local backend is now clean/equal
+to origin. Candidate resolves one router and three documentation conflicts.
+All three repair hints retained;UI files unchanged. Candidate verification pending.
+[Merge/recovery](../2026-10-26-backend-frontend-refresh.md).
 
 ## Delivered baseline
 
-Original student UI, PSU Google authorization, account/sidebar/guided clarification,
-proxy/stream/upload/source contracts and research readiness are retained. Owner
-confirmed PSU login; complete authenticated browser acceptance remains unfinished.
-[UI](../2026-10-24-student-account-usability.md),
-[startup/title recovery](../2026-10-24-local-pipeline-startup.md),
-[prior publication](../2026-10-24-frontend-dev-publication.md).
-Local backend now matches origin357aa80; six old local commits and two instruction
-files are backed up. Owner lifecycle WIP remains separate in frontend integration.
+Frontend99ac14a/8313279 keeps header/landing,general chat,grouped source drawer,
+Edit/Rephrase and optional explicit earlier-detail review.61 unit checks,17 broad
+browser checks plus final3 after caption fix,build/types passed before this merge.
+[UI evidence](../2026-10-26-entry-design.md) · [Chat evidence](../2026-10-25-chat-workspace-implementation.md).
+PSU Google authorization/private-file isolation and canonical backend answers retained.
+Owner progress appendix/untracked files backed up;no owner changes discarded.
 
-Backend adds structured course facts, host replies, language/term routing fixes,
-topic-filtered retrieval, request-claim ranking and supplementary review support.
-39 curricula/2132 courses remain reviewed structured data. Source extension was
-compiled/staged separately; it is not activated by this code merge.
-[Backend recovery](../2026-10-25-phase11-session-handoff.md).
+Incoming backend guards malformed source claims,fraud precedence,cutoff wording/
+office referrals,procedure order and requested-record coverage. Also short references,
+trusted budgets/transitive companions,routing repair/context and fee dedup/currentness.
+Latest upstream full04005d9:6835passes+1595subtests,6skip2xfail,1399.28s;historical,
+not merged-tree evidence. [Recovery/results](../2026-10-25-phase11-session-handoff.md).
 
 ## Source and quality status
 
-Active p09-research-selected-20261022:19 chunks/39 links. Expanded draft
-p11-research-expanded-20261025:80 chunks/39 links remains INACTIVE; no pin switch.
-Expanded live gate failed:9 cases,7 answered/2 insufficient,0 exceptions; omitted
-steps/progression, routing mistakes and unsupported weapon/fraud claims remain.
-Last backend topic-menu fix5856e82 had44 focused passes, not a fresh full suite.
-Earlier backend fb4e1e8 full suite6658 passes/6 skips/2 xfails is historical evidence.
-Source gaps and source-review decisions remain authoritative and unchanged.
+Active19-chunk/39-link p09-research-selected-20261022 unchanged. Prior80 draft and
+corrected78/39-link p11-research-corrected-20261026 remain INACTIVE. Corrected78:
+11new IDs/67reused,5new vectors;old releases/history preserved. No activation here.
+Hosted80audit complete72approved/8correction-needed;reuse actual source decisions.
+[Corrections](../2026-10-26-hosted-chunk-correction-results.md).
+
+Latest six-case quality gate FAILED:fraud/fee meet checked expectations2/6;removal,
+INC,procedure and exam cheating fail. Four failures include missing requested record
+coverage,held deadline selection,768-token truncation and semantic claim omission.
+[Quality results](../2026-10-26-selected-answer-quality-results.md). No new model runs.
+39curricula/2132course facts retained;source limitations/currentness stay explicit.
 
 ## Next action
 
-Owner checks landing/header on3215 and signed-in chat/the reported CC5 follow-up;
-retain backend interpretation/source limits and Phase11 acceptance boundaries.
+Verify candidate,commit merge,fast-forward main frontend and restore owner appendix.
 
 ## Remaining boundaries
 
-RAG/Hybrid consistency, language/latency, prerequisite coverage and actual grade
-layouts remain open. Photos unsupported; lifecycle WIP is not included. Prior main
-full suite had two Docling/huggingface-hub environment failures; no dependency repair.
-No university approval, deployment, institutional release or persistent academic data.
-Do not run the expanded activation script or the separate eight-call model experiment
-as part of this merge. Reuse backend handoff/source evidence; do not re-extract data.
+Signed-in browser acceptance,Hybrid/style/latency,prerequisite coverage and actual
+grade layouts remain open. Photos unsupported. Dependency fallback diagnosis remains
+[documented](../2026-10-25-prerequisite-fallback-diagnosis.md),without a repair claim.
+Earlier main suite's two Docling/huggingface-hub failures remain;no dependency repair.
+No hosted writes,source pin switch,model/encoder restart,dependency/model download,
+remote push,school approval,public release,Phase12 or phase closure. Preserve reviewed
+exact sources and26Oct owner reminder;no automatic source/model/budget sweep.

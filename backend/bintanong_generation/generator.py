@@ -19,8 +19,10 @@ from .guard import RetrievalAssessment,guard_messages,guard_schema
 from .coverage import CoverageReview,coverage_messages,coverage_schema
 from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
-from .part_answers import (PartConfirmationOutput,PartExplanation,answered_slots,assess_slots,bind_confirmation,
-                           confirm_messages,confirm_schema,host_only,part_messages,part_schema,style_errors,to_draft)
+from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExplanation,decode_part_explanation,
+                           answered_slots,assess_slots,bind_confirmation,
+                           confirm_messages,confirm_schema,host_only,part_messages,part_schema,
+                           record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 
 
@@ -69,7 +71,7 @@ class Generator:
             raise ValueError('invalid_generation_reference_profile')
         if explanation_profile not in ('legacy','scoped','guarded','covered','parts'):
             raise ValueError('invalid_explanation_profile')
-        if explanation_profile in ('scoped','guarded','covered','parts') and reference_profile!='canonical':
+        if explanation_profile in ('scoped','guarded','covered') and reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
         self.transport=transport
         self.timeout_seconds=_seconds(timeout_seconds)
@@ -127,24 +129,26 @@ class Generator:
                 for attempt in (1,2):
                     attempts=attempt
                     coverage=None
-                    messages=(part_messages(text,pack,errors=errors,previous=previous) if per_part else
+                    messages=(part_messages(text,pack,errors=errors,previous=previous,references=references) if per_part else
                               document_messages(text,pack,errors=errors,previous=previous) if scoped else
                               draft_messages(text,pack,errors=errors,previous=previous,references=references))
-                    schema=(part_schema(pack) if per_part else document_schema(pack) if scoped else
+                    schema=(part_schema(pack,references) if per_part else document_schema(pack) if scoped else
                             draft_schema(pack,references=references))
                     raw=await self.transport.infer(messages,schema)
                     previous=raw if isinstance(raw,str) else ''
                     slots=None
                     try:
                         if per_part:
-                            proposal,slots=to_draft(_parse(raw,PartExplanation),pack)
+                            explanation=(_parse(raw,PartExplanation) if references is None else
+                                decode_part_explanation(_parse(raw,ShortPartExplanation),references))
+                            proposal,slots=to_draft(explanation,pack)
                         else:
                             proposal=(canonical_draft(_parse(raw,DocumentExplanation),pack) if scoped else
                                       _parse(raw,AnswerDraft) if references is None else
                                       references.decode(_parse(raw,ShortAnswerDraft)))
                         errors=validate_draft(proposal,pack)
                         if per_part:
-                            errors=errors+style_errors(proposal,pack,text)
+                            errors=errors+style_errors(proposal,pack,text)+record_coverage_errors(pack,proposal.claims,slots)
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                         slots=None

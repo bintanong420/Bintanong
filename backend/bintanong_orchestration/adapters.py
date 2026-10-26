@@ -67,8 +67,30 @@ class RetrievalAdapter:
         if self.research and status == 'uncalibrated' and assessment.get('status') == 'reviewed_fields_available':
             # Reviewed fields found; only the calibration marker is lifted, real gaps stay.
             status, gaps = 'ok', [g for g in gaps if g != 'development_calibration_pending']
+        coverage = []
+        if self.research and status == 'ok' and assessment.get('status') == 'reviewed_fields_available':
+            for claim in assessment.get('claims', []):
+                if (claim.get('status') != 'reviewed_fields_available'
+                        or (claim.get('source_review') or {}).get('finding') != 'visible_fields'):
+                    continue
+                records = tuple(dict.fromkeys(f['chunk_id'] for f in claim.get('source_fields', [])
+                    if ('procedure_order' not in claim['source_review']
+                        or f.get('field', {}).get('name') == 'client_step')
+                    and f['field'].get('source_blank') is False))
+                ordered = 'procedure_order' in claim['source_review']
+                if ordered:
+                    by_reading = {f['reading_id']: f['chunk_id'] for f in claim['source_fields']
+                        if f.get('field', {}).get('name') == 'client_step'
+                        and f['field'].get('source_blank') is False}
+                    order = claim['source_review']['procedure_order']
+                    if set(order) != set(by_reading) or len(order) != len(by_reading):
+                        raise ValueError('invalid_procedure_order')
+                    records = tuple(by_reading[reading] for reading in order)
+                if records or ordered:
+                    coverage.append(dict(subject_id=assessment['subject_id'], claim=claim['claim'],
+                        chunk_ids=list(records), source_ordered=ordered))
         return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
-            gaps=gaps, passages=passages))
+            gaps=gaps, passages=passages, record_coverage=coverage))
 
 
 # Fixed input names per operation (the routing validator binds exactly these).

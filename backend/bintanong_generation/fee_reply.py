@@ -42,6 +42,11 @@ _CURRENCY_TEXT = {
              'Hindi ma-confirm ng Bintanong kung valid pa ito ngayon o sa school year na tinanong mo. '
              'Paki-ask sa tamang university office.')}
 
+_EFFECTIVITY_TEXT = {
+ 'en': 'The source states effectivity as "{effectivity}"; Bintanong cannot confirm that it still applies now.',
+ 'fil': 'Ang effectivity na nakalagay sa source ay "{effectivity}"; hindi makumpirma kung may bisa pa ito ngayon.',
+ 'taglish': 'Ang printed effectivity ay "{effectivity}"; hindi ma-confirm kung valid pa ito ngayon.'}
+
 
 def _currency_claims(language, rate):
     dated, referral = _CURRENCY_TEXT[language]
@@ -79,4 +84,16 @@ def fee_claims(pack):
     values = {**rate_fields, **example_fields}
     claims = tuple((text.format(**values), card.evidence_id)
                    for text, card in zip(_TEXT[pack.language], (rate, example, example)))
+    effectivity, fields = _card_with(pack, ('printed_effectivity',))
+    if (effectivity is not None and effectivity.citations and rate.citations
+            and {(c.version_id,c.byte_sha256) for c in effectivity.citations}
+                == {(c.version_id,c.byte_sha256) for c in rate.citations}):
+        try:
+            limits = json.loads(effectivity.text).get('source_limits', [])
+        except (ValueError, AttributeError):
+            limits = []
+        if any(isinstance(limit,dict) and limit.get('issue') == 'effectivity_currentness_unknown'
+                and limit.get('resolution') == 'unresolved' for limit in limits):
+            claims += ((_EFFECTIVITY_TEXT[pack.language].format(effectivity=fields['printed_effectivity']),
+                        effectivity.evidence_id),)
     return {p.part_id: _currency_claims(pack.language, rate) if CURRENCY.search(p.text) else claims for p in parts}

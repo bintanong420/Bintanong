@@ -83,6 +83,46 @@ def test_fee_reply_never_states_a_computed_total():
     assert '399.96' not in answer.text  # 11.11 x 36 would be arithmetic, not a printed value
 
 
+def test_two_fee_parts_share_the_same_claims_without_repeating_the_reply():
+    text = 'What is the hourly special class rate, and what is the printed example?'
+    value = fee_integration(text).model_dump(mode='json')
+    original = value['understanding']['parts'][0]
+    value['understanding']['parts'] = [dict(original, part_id=f'r{n}', text=quote,
+        start=text.index(quote), end=text.index(quote)+len(quote))
+        for n,quote in enumerate(text.split(', and '),1)]
+    answer = generate(IntegrationResult.parse(value), NoModel(), text)
+    assert answer.status == 'answered'
+    assert len(answer.claims) == 3
+    assert [entry.claim_ids for entry in answer.part_ledger.entries] == [('c1','c2','c3')]*2
+    assert answer.text.count('PHP 11.11 per hour') == 1
+
+
+def test_printed_fee_reply_retains_retrieved_effectivity_and_unknown_currentness():
+    effectivity = dict(fields=[dict(name='printed_effectivity',value='first term fictional-year',source_blank=False)],
+        source_limits=[dict(issue='effectivity_currentness_unknown',resolution='unresolved',
+            affected_claims=['current-school-year institutional validity'])])
+    answer = generate(fee_integration(cards=(RATE,EXAMPLE,effectivity)), NoModel())
+    assert answer.status == 'answered'
+    assert 'first term fictional-year' in answer.text
+    assert 'cannot confirm' in answer.text
+    assert '11.11' in answer.text and '999.00' in answer.text
+    assert len(answer.citations) == 3
+
+
+def test_effectivity_from_another_source_cannot_qualify_the_fee_reply():
+    effectivity=dict(fields=[dict(name='printed_effectivity',value='unrelated year',source_blank=False)],
+        source_limits=[dict(issue='effectivity_currentness_unknown',resolution='unresolved')])
+    value=fee_integration(cards=(RATE,EXAMPLE,effectivity)).model_dump(mode='json')
+    passage=value['evidence']['documents']['passages'][-1]
+    passage['version_id']='ver-'+'f'*64
+    passage['citations']=[dict(c,version_id='ver-'+'f'*64,byte_sha256='f'*64) for c in passage['citations']]
+    value['evidence']['pin']['documents'][-1].update(version_id='ver-'+'f'*64,byte_sha256='f'*64)
+    value['evidence']['pin']['sources'].append(dict(version_id='ver-'+'f'*64,byte_sha256='f'*64))
+    answer=generate(IntegrationResult.parse(value),NoModel())
+    assert [c.text for c in answer.claims]==EXPECTED['en']
+    assert 'unrelated year' not in answer.text
+
+
 class DraftModel:
     """Any model call proves the host template was not used."""
     def __init__(self):
@@ -188,3 +228,34 @@ def test_without_a_reviewed_memo_date_the_currency_reply_states_no_date():
     text, expected = CURRENCY['en']
     answer = generate(fee_integration(text), NoModel(), text)
     assert [c.text for c in answer.claims] == expected[1:]
+
+
+def currentness_with_example_coverage():
+    text=CURRENCY['en'][0]
+    value=fee_integration(text).model_dump(mode='json')
+    claim='printed three-lecture-unit example'
+    value['understanding']['parts'][0]['requested_claims']=[claim]
+    example=next(p for p in value['evidence']['documents']['passages']
+                 if 'lecture_units' in p['text'])
+    value['evidence']['documents']['record_coverage']=[dict(subject_id='special_class_fees',
+        claim=claim,chunk_ids=[example['chunk_id']])]
+    return text,IntegrationResult.parse(value)
+
+
+def test_explicit_currentness_host_reply_keeps_no_rate_despite_example_claim_coverage(memo_date):
+    text,value=currentness_with_example_coverage()
+    answer=generate(value,NoModel(),text)
+    assert answer.status=='answered'
+    assert [c.text for c in answer.claims]==CURRENCY['en'][1]
+    assert '11.11' not in answer.text and '999.00' not in answer.text
+
+
+def test_host_coverage_exception_requires_the_exact_canonical_claims():
+    from backend.bintanong_generation.part_answers import PartExplanation,to_draft,record_coverage_errors
+    _,value=currentness_with_example_coverage()
+    pack=prepare(value)
+    draft,slots=to_draft(PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id,language='en',answers={})),pack)
+    changed=draft.claims[0].model_copy(update=dict(text='This fee is definitely current.'))
+    tampered=(changed,*draft.claims[1:])
+    assert record_coverage_errors(pack,tampered,slots)==('host_reply_mismatch',)

@@ -45,6 +45,9 @@ REFERENCE_HINTS = {
         'only; completion/enrollment statements are supporting claims, not requested parts. '
         'Preserve genuine questions and all supplied claims; remove invented work instead of '
         'merely increasing the count.',
+    'unreferenced_operation': 'every operation must be referenced by a question part that requests it. '
+        'Interpret the original request again; document-only parts need no course operation. '
+        'Do not invent a structured question or course to justify an unused operation.',
 }
 
 

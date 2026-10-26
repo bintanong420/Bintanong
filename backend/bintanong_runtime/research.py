@@ -6,6 +6,7 @@ not school approval or institutional activation.
 from collections import Counter
 import hashlib
 import json
+import re
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from ..bintanong_orchestration.adapters import SIGNATURES, MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
@@ -106,6 +107,52 @@ PER_PERSON = ('each student', 'per student', 'every student', 'each of us', 'per
 NOT_STATED_CUES = {'official individual student assessment': PER_PERSON}
 
 
+def _reviewed_topic_context(register, catalogue, chunks):
+    """Copy assigned reviewed labels/numbered clauses; retain any deadline conflict."""
+    def context_field(name):
+        return isinstance(name,str) and (name in ('service_title','description')
+            or re.fullmatch(r'\d+(?:\.\d+)+',name) is not None)
+    readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
+    approved = {}
+    for review in register['reviews']:
+        if review.get('finding') != 'visible_fields':
+            continue
+        for ref in review.get('field_refs', []):
+            if (context_field(ref.get('field_name',''))
+                    and readings.get(ref.get('reading_id')) == review['subject_id']):
+                key = (review['subject_id'], ref['reading_id'], ref['field_name'])
+                approved.setdefault(key, set()).update(review.get('reviewed_chunk_ids', []))
+    context = {}
+    for chunk in chunks:
+        reading = chunk.get('type_fields', {}).get('reading_id')
+        subject = readings.get(reading)
+        try:
+            record = json.loads(chunk['text'])
+            unresolved = [limit for limit in record.get('source_limits', [])
+                          if limit.get('resolution') == 'unresolved']
+            fields = record.get('fields', [])
+            by_name = {f['name']: f for f in fields}
+            if len(by_name) != len(fields):
+                continue
+            values = [by_name[name]['value'] for name in by_name if context_field(name)
+                and (not unresolved or name not in ('service_title','description')
+                     and all(limit.get('issue') == 'conflicting_deadlines' for limit in unresolved))
+                and by_name[name].get('source_blank') is False
+                and isinstance(by_name[name].get('value'), str) and by_name[name]['value'].strip()
+                and chunk.get('chunk_id') in approved.get((subject, reading, name), ())]
+        except (ValueError, TypeError, KeyError, AttributeError):
+            continue
+        text = '; '.join(values)
+        if text and unresolved:
+            text += '\nUnresolved source limitations: '+json.dumps([
+                dict(issue=limit['issue'],affected_claims=limit.get('affected_claims',[]))
+                for limit in unresolved],ensure_ascii=False,separators=(',',':'))
+        if text and len(text) <= 1024:
+            context.setdefault(subject, []).append(text)
+    return {s: tuple(dict.fromkeys(values)) for s, values in context.items()
+            if len(set(values)) <= 4}
+
+
 def topic_menu(register, *, catalogue=None, chunks=()):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
@@ -130,10 +177,12 @@ def topic_menu(register, *, catalogue=None, chunks=()):
             if limit.get('resolution') == 'unresolved':
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
+    contexts = _reviewed_topic_context(register, catalogue, chunks)
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
-        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), not_stated=not_stated,
+        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), source_context=contexts.get(s, ()),
+            not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES)))
     return tuple(topics)
 
@@ -184,6 +233,10 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
     binding = dict(curricula=members, embedding_set_id=manifest['embedding_set_id'],
         documents=sorted((c['chunk_id'],c['version_id'],c['byte_sha256']) for c in chunks),
         catalogue=package['catalogue'], claim_reviews=package['register'])
+    if 'subject_context_budgets' in package:
+        if not isinstance(package['subject_context_budgets'], dict):
+            raise ValueError('trusted subject context budgets required')
+        binding['subject_context_budgets'] = package['subject_context_budgets']
     digest = hashlib.sha256(json.dumps(binding, sort_keys=True, allow_nan=False).encode()).hexdigest()
     release_id, version = 'release-offline-research-set-' + digest[:16], 'offline-research-set-v1-' + rules_digest
     storage = retrieval_storage(release_id, package, hosted=hosted, authorization_ref=authorization_ref)
@@ -199,7 +252,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
     budgets = {'pre_enrollment':4096} if any(
         r['subject_id'] == 'pre_enrollment' for r in package['register']['reviews']) else {}
     engine = RetrievalEngine(storage, encoder, SETTINGS, evidence_policy=policy,
-        subject_context_budgets=budgets)
+        subject_context_budgets=package.get('subject_context_budgets', budgets))
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),

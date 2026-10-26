@@ -2,145 +2,97 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 62
+sequence: 97
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 99ac14a
+head_commit: 34a8773
 working_tree: dirty
-updated_at: 2026-10-26T00:55:00+08:00
+updated_at: 2026-10-26T14:00:00+08:00
 ---
 
-# Phase 11: frontend and backend integration
+# Phase 11: backend refresh into the frontend
 
 ## Completed Tasks
 
-- Original UI/auth transport58bf669 and workspacea8b3091; account/sidebar/guided
-  clarification and landing/auth delivered. Verified PSU Google identity per request,
-  isolated temporary chat/files, checked answers and source metadata retained.
-- Prior backend4a134bf integration04a03ea; readinessffba97d, printed/RLE compatibility
-  b168bd8 and course-title aliases9fb1e41. Prior dev/frontend publication1525dc6.
-- Backend357aa80 delivers structured course facts, host-rendered replies, term/language
-  fixes, filtered retrieval, claim ranking, supplementary source reviews and source
-  snapshot identity. See [backend handoff](2026-10-25-phase11-session-handoff.md).
-- Local p11 synced exactly to origin357aa80; previous six local commits saved under
-  recovery/p11-backend-api-before-origin-sync-20261025-154736; two instruction files
-  copied outside Git. Source branch remains clean and matches origin.
+Frontend99ac14a/8313279 delivers header/landing,general chat,grouped sources,
+Edit/Rephrase and explicitly reviewed,curriculum-scoped earlier details.
+PSU Google authorization,temporary private PDFs and original UI refinements retained.
+[UI delivery](2026-10-26-entry-design.md) · [Chat delivery](2026-10-25-chat-workspace-implementation.md).
+Previous integration6a8931b included backend357aa80;latest frontend snapshot34a8773.
+
+Local feat/p11-backend-api fast-forwarded357aa80 ->16475e9;clean,equal to origin.
+Incoming backend adds malformed-source/fraud/cutoff/order/record-coverage guards,
+short references,routing repair/context,trusted budgets/transitive companions and
+fee dedup/currentness. [Backend recovery](2026-10-25-phase11-session-handoff.md).
 
 ## Current Task
 
-Previous full checkpoint snapshot:9b0f555; recover older detail with git show.
-Delivered99ac14a: header/public landing refinement; [scope/design/evidence](2026-10-26-entry-design.md).
-Layout/retained-detail overlap/photo-caption contrast RED -> GREEN; existing chat retained.
-61 unit/17 broad browser PASS; final3 PASS after last scrim fix; build/TypeScript PASS.
-Standalone3215 rebuilt, public render1440/light/390/dark and readiness200 verified.
-Owner authorized the designed general chat/follow-up controls: implemented frontend-only.
-Committed8313279 after recovering session01a16d9d's final welcome-centering request.
-[Delivery, exact checks and recovery](2026-10-25-chat-workspace-implementation.md).
-Scoped32-choice page memory; explicit inclusion/exact review; fresh current-message
-send, Edit/Rephrase, grouped distinct source IDs and canonical status/text retained.
-Source401 cleanup RED -> GREEN; independent review's only blocker resolved.
-Fresh61 unit checks/all15 browser tests PASS87.97s; TypeScript/build PASS.
-Welcome alignment RED start != center -> GREEN six1440/390/320 theme variants.
-Live Figma127:84854/85006/85005 checked; neutral canvas/centered copy/campus fade
-restored with chat refinements retained. No overflow/page errors. No backend change.
-Stable standalone3215 rebuilt/restarted; served new bundle and both readiness200.
-Production login45s idle: zero additional navigation/HMR/page errors; no owner-auth claim.
-Rechecked thesis17–18/54/65–66/master16, routing PNG and Phase10 handoff; no discrepancy.
-Direct thesis review9/17–18/40/54/65: recovery, useful clarification and isolated chat;
-IDs-only memory is a later implementation choice. See design's thesis/history links.
-Full-path v22 replay: prerequisite/grade turns PASS; options follow-up FAILS
-unknown_requirement before retrieval. No claim that UI changes fix interpretation.
-Prior252a951 targeted backend repair/v22 and9e0a399 opt-in clarification retained;
-905 backend/57 UI regressions and production build/TypeScript passed at that delivery.
-API8021 v22 unchanged; frontend3215 rebuilt after the verified UI delivery.
-[Cause, service handles and recovery](2026-10-25-clarification-recurrence-and-preview.md).
+Owner authorized remote backend refresh,local backend fast-forward and the proposed
+four-conflict reconciliation. [Merge inputs,resolution/checks](2026-10-26-backend-frontend-refresh.md).
+Candidate integration/p11-backend-refresh-20261026 in p11-frontend-dev-sync.
+Router retains frontend's uncontained-target/part-count hints and upstream's unused
+operation hint. Compact index/progress/checkpoint combine both workstreams.
+Intermediate16475e9 verified:3831 backend/2photo xfails/179subtests,61 UI,typegen/types
+and webpack compilation PASS;external-junction standalone exclusions documented.
+New remote b2724ea appeared during checks;merge its12-commit tail before delivery.
 
 ## Repository State
 
-Current owner checkout: C:/Users/Hawksprey/source/repos/Bintanong; branch frontend.
-Frontend components/helpers/tests committed8313279; delivery/progress notes follow;
-owner progress appendix and three pre-existing untracked paths remain excluded.
-Candidate worktree: C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/
-p11-frontend-dev-sync; branch integration/p11-backend-to-frontend-20261025.
-Local frontend receives merge6a8931b; owner progress appendix, untracked historical
-review/model directory and prior sync notes preserved. Frontend integration04a03ea
-retains17 tracked modifications and3 untracked lifecycle files, excluded from merge.
-Recovery ref recovery/frontend-before-backend-merge-20261025 points to1525dc6.
-Ignored evidence: audit-evidence/p11-20261025/backend-to-frontend-merge/ under workspace.
-No push, hosted writes, model/encoder restart or source/runtime pin activation.
+Main checkout frontend34a8773 has one owner progress appendix and three untracked
+paths,preserved under workspace audit-evidence/p11-20261026/backend-refresh/.
+Candidate merge is isolated;lifecycle WIP in p11-frontend-integration untouched.
+Recovery refs:recovery/frontend-before-backend-refresh-20261026 and
+recovery/p11-backend-before-refresh-20261026. Main frontend not yet advanced.
+Last full frontend checkpoint34a8773;incoming full checkpoint16475e9;use git show.
 
 ## Verification Evidence
 
-Clarification RED2/5pass -> GREEN7; UI57pass; Next typegen/TypeScript PASS.
-Isolated synthetic browser: old source RED outbound headings, corrected source GREEN1;
-asserts two explicit sends, preserved chosen facts, no invented follow-up/resume action,
-composer remains usable. Synthetic fixture session renewed; no owner cookies accessed.
-Previous frontend-only regression454pass10.24s predates the v20 prompt change.
-Commands/logs/scripts: workspace audit-evidence/p11-20261025/clarification-loop/.
-Investigation:17 UI/47 backend seam tests PASS; served bundle and full-path replay isolate
-invented part. Baseline replay remains RED by design. Prompt v20 RED2 -> focused GREEN26;
-902 broader regressions PASS. Three live follow-ups pass; mixed assertion fails in both
-prompt versions. Raw current evidence: clarification-loop/prompt-v20/ under workspace.
-
-Fresh merged candidate:3655 backend passes/2 expected photo xfails,179 subtests,
-142.71s;34 disposable DB passes/86 subtests,168.54s;55 UI passes; Next typegen and
-TypeScript PASS. Independent review found no additional important integration defect.
-Synthetic course-fact SSE checks passed for both operations in all three languages.
-Initial RED: frontend shared-title assertion expected no missing fact; backend plan
-requires printed course identity. Updated expectation and no-predicate assertion;
-GREEN broad suite above. No upstream production behavior changed for this test.
-Resolution keeps newer unique-title/code-collision guards and explicit numeric-unit
-fields while retaining both branches' catalog/authoring tests and frontend/auth code.
-Prior frontend1525dc6:3406 backend passes/2 expected photo xfails,55 UI passes,
-Next typegen/TypeScript PASS; this is historical, not merged-candidate verification.
-Prior backendfb4e1e8:6658 passes,6 skips,2 xfails,1595 subtests; topic-menu5856e82
-had44 focused passes. Do not attribute those full-suite results to the merged tree.
+Fresh candidate checks pending. Prior frontend99ac14a:61 unit,17 browser before final
+caption scrim,final3 browser after correction;build/TypeScript PASS. These are prior
+results,not proof of this merge. Upstream04005d9:6835passes+1595subtests,6skip/2xfail,
+1399.28s;historical upstream full-suite evidence,not merged-tree verification.
+Prior merged backend3655passes/2photo xfails and34 disposable-DB tests retained in
+the25Oct merge report. No schema/SQL migration change in this refresh.
 
 ## Versions and Digests
 
-Frontend direct pins and all manifests/locks unchanged by this merge. Retained
-Node24.21.0/npm11.19, React19.3.0, TypeScript7.0.2, Next16.4.3, AI SDK7.0.152;
-Supabase SSR0.12.7/js2.118.0. System Python3.13; no install or model download.
-Reviewed39 curricula/2132 courses. Active p09-research-selected-20261022 remains
-19 chunks/39 links; expanded p11-research-expanded-20261025 is draft80 chunks/39 links.
-Source package seal137dbe0e7558f50fd7c6f95dfb6babd45fc71e431265d7291ac36b0c50e3c924.
-Models remain C:/Coding-projects/bintanong_workspace/MODELS; existing hashes unchanged.
+Dependency manifests/locks unchanged. Existing Python3.13,Node24.21.0,Next16.4.3 and
+AI SDK7 pins retained. No installs/downloads. Models stay in workspace/MODELS.
+Reviewed39curricula/2132course facts. Hosted active19 p09-research-selected-20261022;
+old80 p11-research-expanded-20261025 and corrected78 p11-research-corrected-20261026
+remain INACTIVE. Corrected78 has11new IDs/67reused,5new vectors;no activation here.
+Corrected source/embedding digests/receipts remain in backend delivery reports.
 
 ## Decisions
 
-- Owner first clarified origin as authoritative for the same local backend branch;
-  after exact synchronization, explicitly requested merging it into local frontend.
-- Development merge is separate from source activation, deployment and phase closure.
-- Preserve original UI/auth/runtime readiness adaptations; newer backend title/unit
-  guards resolve overlaps. Keep ambiguous identities unknown and require clarification.
-- Retain undergraduate advisory scope, English/Filipino/Taglish reply preferences,
-  reviewed structured/Prolog course reasoning and document RAG/Hybrid boundaries.
-- Private chat/files remain temporary, separate from institutional knowledge. Backend
-  PSU identity checks remain authoritative; no synthetic production authorization.
+- Keep all three independent router repair hints and frontend prompt refinements.
+- Integrate code/history;do not activate a source draft or restart model services.
+- Preserve exact reviewed source wording/blanks/cutoffs/conflicts and owner26Oct
+  reminder in owner-decisions-ledger. No repeat human source review/reconstruction.
+- Retain undergraduate read-only scope,private-data separation and unknown/unmet
+  distinction,structured/Prolog course reasoning and document RAG/Hybrid boundaries.
+- Checkpoint names verified implementation/input commit;documentation may follow.
 
 ## Known Failures or Blockers
 
-Expanded live quality gate FAILED9 cases:7 answered/2 insufficient,0 exceptions.
-Procedure/grade misrouting, missing steps/progression, unsupported weapon exception
-and fraud precedence are unresolved; four later router traces still failed.
-Expanded package remains inactive; guarded activation script MUST NOT run.
-Missing item22, weapon exception/fraud overlap, Charter Step3 cutoff and25-vs20min
-source discrepancy remain unresolved; do not invent missing policy or conditions.
-Full authenticated browser acceptance, RAG/Hybrid consistency, language/latency,
-prerequisite coverage and actual grade layouts remain open. Photos unsupported.
-Mixed prerequisite/procedure questions still fail routing; no general repair claim.
-Shared titles retain upstream not-found wording; printed code is needed to disambiguate.
-Earlier main full suite had two Docling/huggingface-hub environment failures; no fix
-or new full-suite claim. No school approval, deployment or phase closure.
+Upstream six-question quality gate FAILED;fraud/fee meet checked expectations2/6.
+Removal lacks required timing records;INC selects held deadline claims;procedure
+truncates at768tokens;cheating omits examination penalties despite answered status.
+Coverage validates declared claims,not semantic completeness of the student's request.
+Corrected78 remains inactive. Do not rerun completed model cases/activation scripts.
+Owner signed-in acceptance,Hybrid/style/latency,prerequisite coverage and actual
+grade layouts remain open. Photos unsupported. Earlier main suite had two Docling/
+huggingface-hub environment failures;no dependency repair. Institutional release held.
+Unresolved source deadlines,weapon exception,missing22,fraud precedence,F04 hold and
+Charter cutoff/timing discrepancy persist. No inferred no-fee/no-penalty conclusions.
 
 ## Next Action
 
-Owner checks landing/header on3215 and signed-in chat/the reported CC5 follow-up;
-retain backend interpretation/source limits and Phase11 acceptance boundaries.
+Verify candidate,commit merge,fast-forward main frontend and restore owner appendix;
+record exact scoped results and remaining limits.
 
 ## Do Not Repeat
 
-Do not reinstall dependencies, download weights, re-extract/re-review settled sources,
-activate the expanded package or run the separate approved eight-call checker study.
-Source evidence and pending experiment controls remain in the backend handoff.
-Context consulted this session: thesis physical17–18/39–44, routing PNG, master3/11/13/16.
-Scope/routing remains undergraduate/advisory; unknown is distinct from unmet.
+No source re-extraction/review/staging,model/checker sweeps,dependency installs,
+hosted writes,source activation,remote push,Phase12 or phase closure.
+Reuse prior context:thesis17–18/39–44/54/65–66,routing PNG,master3/11/13/16 and
+Phase10 handoff. No scope/routing discrepancy introduced by combining these fixes.

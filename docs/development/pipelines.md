@@ -82,7 +82,8 @@ flowchart TD
     X -->|Symbolic| A
     K -->|no| B
     C --> B
-    D --> V{Schema, citation, canonical decision and prose-support checks}
+    D --> SH[Validate citations, hold malformed slots, quote cut-off service fields, number claims]
+    SH --> V{Schema, canonical decision and prose-support checks}
     V -->|pass| A[Final host validation and candidate rendering]
     V -->|one repair| D
     V -->|exhausted| B[Grounded fallback]
@@ -112,6 +113,17 @@ Its one call and timing are recorded separately from draft/support attempts.
 | Release consistency and permitted conclusion scope | [integration.py](../../backend/bintanong_orchestration/integration.py) |
 | Existing retrieval/Prolog translation and worker admission | [adapters.py](../../backend/bintanong_orchestration/adapters.py) |
 | Candidate drafts, support checks, canonical rendering and one repair | [Generation module](../../backend/bintanong_generation/README.md) |
+
+Research procedure coverage can now travel from the source-aware assessment's exact
+reviewed `client_step` field records through `RetrievalAdapter`, `DocumentResult`,
+multi-topic merge and `PreparedEvidence`. The per-part generator checks its own
+claims' citations against the requirements for that exact subject/claim before
+review; final validation repeats the floor. Missing coverage gets the existing
+single repair, then withholding. This establishes record citations only; semantic
+completeness, source gaps and action/office association still require review.
+The model's completeness check receives all documentary cards as context, while
+individual claim support remains limited to its own cited cards. No Prolog result
+or private file enters that documentary context, and no release is activated.
 | Semantic routing, aliases, claims and language metadata | [Routing module](../../backend/bintanong_routing/README.md) |
 | SEA-LION query embedding, source selection and context assembly | [Retrieval module](../../backend/bintanong_retrieval/README.md) |
 | Reviewed facts, generated rules, fixed goals and deterministic reasoning | [Symbolic module](../../backend/bintanong_symbolic/README.md) |

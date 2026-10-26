@@ -110,9 +110,32 @@ See the [bounded plan](../../plans/2026-10-20-short-evidence-references-plan.md)
 ([decision](../../plans/2026-10-21-per-part-generation-decision.md)). It keeps the scoped
 path's document-only boundaries but gives the model one REQUIRED answer slot per
 declared document part: claims that answer it, or `not_in_evidence`/`source_gap`.
-The host numbers claims and derives the part mapping; an unavailable slot withholds
-the answer without a review call. The reviewer confirms each part against only its
-own claims plus per-claim support. Confirmation stays fallible (`unverified`).
+The opt-in `reference_profile='short'` also supports this profile: only generation
+uses strict e1..e32 wire labels. Request-local decoding restores canonical IDs before
+part mapping, source holds, coverage/style checks, ordinary review and rendering.
+Source/prose text is unchanged; checker payloads and final citations remain canonical.
+Repairs reuse the same map; unavailable-slot placeholders remain ignored. The default
+is still canonical. Actual-model quality for this composition is not yet measured.
+The host validates citation IDs, numbers retained claims and derives the part mapping.
+An answered model slot citing a record with an unresolved `malformed_source_condition`
+becomes `source_gap` before numbering/review. This conservative record-level hold can
+withhold otherwise usable details from that record; it never interprets the malformed field.
+Independent answerable parts and canonical structured results remain available. Unavailable
+parts are named, with distinct source-gap and absent-information notices. If nothing is
+answerable, the answer is withheld without a review call. Reviewer-rejected parts still
+withhold the whole reviewed answer; claims are not dropped after review identity binding.
+The reviewer confirms each retained part against only its own claims plus per-claim support.
+Confirmation stays fallible (`unverified`). See the [guard verification](../../plans/2026-10-25-malformed-source-answer-guard-results.md).
+
+`service_cutoff.py` protects records with an explicit unresolved `source_cutoff`
+on `agency_action`. Before numbering/review, claims citing that record become one
+labelled quotation of its visible service fields plus the cutoff notice. The host
+does not complete the missing instruction or join client/agency/office fields.
+Malformed or oversized recognized records become `source_gap`; independent parts
+and claim budgets survive. Ordinary relevance/support review still runs. Draft and
+final validation reject other prose attached to that record. This does not establish
+procedure order or multilingual semantic quality; original English quotations have
+local-language framing. [Plan](../../plans/2026-10-25-service-cutoff-fidelity-plan.md).
 
 `Generator(..., explanation_profile='scoped')` was the previous selected candidate described
 in the [scoped plan](../../plans/2026-10-20-scoped-explanations-plan.md). It renders
@@ -175,6 +198,25 @@ files and Phase11 web/API integration retain their boundaries. No model training
 new framework, automatic acquisition or permanent student-record storage is added.
 
 ## Verify
+
+Reviewed service `client_step` records can carry exact subject/claim coverage through
+retrieval into the prepared answer evidence. For each answered document part, the
+selected `parts` profile checks that its own claims cite all required records before
+review, with the existing single repair allowance; final validation repeats the check.
+Unavailable parts need no invented steps. This is a citation-coverage floor: a model
+can still misdescribe a cited step, so semantic review and live evaluation remain.
+Confirmation now receives the full documentary context to notice omissions, while
+support for each individual claim remains limited to that claim's cited sources.
+Source gaps and table associations must remain explicit; no source release is activated.
+
+The selected `parts` path replaces model claims citing the recorded unresolved
+admission-fraud precedence gap with a comparison of both retrieved printed rows
+(II.6/II.8a), their labelled penalty columns and an explicit unresolved-precedence
+referral. It never selects a student's sanction. Missing, duplicate, incompatible
+or held counterparts leave that slot unavailable; independent parts survive.
+The comparison is numbered before the ordinary per-part relevance/support review,
+which remains required and model-fallible. Generic `claim_not_stated` limits are
+unchanged. This does not activate the expanded source release.
 
 From repository root with the prepared Python3.13 environment and external
 TEMP/TMP/--basetemp under workspace/audit-evidence:

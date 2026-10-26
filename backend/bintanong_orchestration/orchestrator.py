@@ -59,7 +59,23 @@ def merge_documents(results):
         return failed
     passages = {p.chunk_id: p for r in results for p in r.passages}
     gaps = dict.fromkeys(g for r in results for g in r.gaps)
-    return results[0].model_copy(update=dict(passages=tuple(passages.values()), gaps=tuple(gaps)))
+    coverage = {}
+    for result in results:
+        for item in result.record_coverage:
+            key = (item.subject_id, item.claim)
+            previous = coverage.get(key)
+            if previous is None:
+                coverage[key] = item
+            elif previous.source_ordered or item.source_ordered:
+                if previous != item:
+                    raise ValueError('incompatible_procedure_order')
+            else:
+                coverage[key] = previous.model_copy(update=dict(
+                    chunk_ids=tuple(dict.fromkeys(previous.chunk_ids + item.chunk_ids))))
+    value = results[0].model_dump(mode='json')
+    value.update(passages=[p.model_dump(mode='json') for p in passages.values()], gaps=list(gaps),
+        record_coverage=[item.model_dump(mode='json') for item in coverage.values()])
+    return DocumentResult.parse(value)
 
 
 def referenced_labels(labels, *mentions):

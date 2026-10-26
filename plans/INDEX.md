@@ -7,10 +7,12 @@
   [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Current progress](plan_current_progress/current_progress.md) ·
   [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
-- Local frontend now includes verified backend357aa80 merge6a8931b.
-  [Merge/recovery](2026-10-25-backend-frontend-local-merge.md) ·
+- Backend refresh16475e9 into frontend34a8773 is under verification.
+  [Current merge/recovery](2026-10-26-backend-frontend-refresh.md) ·
   [Backend delivery and quality holds](2026-10-25-phase11-session-handoff.md).
-  Expanded80-chunk package remains inactive; existing19-chunk research pin unchanged.
+  Corrected78/previous80 drafts inactive; active19-chunk research pin unchanged.
+  [Backend answer results](2026-10-26-selected-answer-quality-results.md):2/6 checked
+  expectations met; current code integration is separate from source activation.
 - Latest completed phase:10, owner-approved23Oct with disclosures. Photos unsupported.
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md).
 - Phase05/06 completed as owner-approved offline research/software milestones;

@@ -77,6 +77,8 @@ def test_complete_slots_map_each_part_to_its_own_host_numbered_claims():
 
 UNCOVERED_FEE = ('The part about "what is the fee?" is not in Bintanong\'s reviewed sources yet. '
                  'Please ask the relevant university office.')
+SOURCE_GAP_FEE = ('The source for the part about "what is the fee?" is incomplete or unclear, '
+                  'so I cannot verify that answer. Please ask the relevant university office.')
 
 
 @pytest.mark.parametrize('reason', ['not_in_evidence', 'source_gap'])
@@ -88,7 +90,7 @@ def test_covered_part_is_answered_and_the_unavailable_part_is_named(reason):
     assert answer.part_ledger.status == 'some_parts_unavailable'
     assert [(e.part_id, e.status, e.reason) for e in answer.part_ledger.entries] == [
         ('r1', 'mapped', None), ('r2', 'unavailable', reason)]
-    assert UNCOVERED_FEE in answer.text.splitlines()
+    assert (SOURCE_GAP_FEE if reason == 'source_gap' else UNCOVERED_FEE) in answer.text.splitlines()
     review = json.loads(model.calls[1][0][1]['content'])
     assert [p['part_id'] for p in review['parts']] == ['r1']  # only the answered part is reviewed
     assert model.calls[1][1]['properties']['parts']['required'] == ['r1']
@@ -278,12 +280,13 @@ def test_filler_claims_in_an_unavailable_slot_are_dropped_and_the_part_is_named(
 
 
 @pytest.mark.parametrize('word', ['isusumite', 'nakasaad', 'ihahain'])
-def test_owner_named_deep_tagalog_uses_the_style_repair(word):
+def test_formal_filipino_word_is_a_preference_not_a_hard_rejection(word):
+    # Owner25Oct supersedes the earlier hard exclusion; a supported answer still receives review.
     deep = dict(r1=('answered', [f'Ang slip ay {word} sa Office V.']), r2=('answered', [TL_FEE]))
     model = Drafts(deep, TAGLISH)
     answer = asyncio.run(Generator(model).generate(TEXT, styled('fil')))
-    assert answer.status == 'answered' and answer.draft_attempts == 2
-    assert json.loads(model.calls[1][0][1]['content'])['validation_errors'] == ['claim_not_in_requested_style']
+    assert answer.status == 'answered' and answer.draft_attempts == 1 and answer.check_attempts == 1
+    assert answer.claims[0].text == f'Ang slip ay {word} sa Office V.'
 
 
 def test_model_inputs_carry_source_text_and_a_short_label_not_citation_geometry():

@@ -55,7 +55,7 @@ def prepare_candidate_claim_reviews(catalogue, chunks, reviews):
     keys = {'subject_id', 'claim', 'finding', 'reviewed_chunk_ids', 'field_refs', 'basis_ref', 'basis_sha256'}
     normalized, seen = [], set()
     for review in reviews:
-        if (not isinstance(review, dict) or set(review) != keys
+        if (not isinstance(review, dict) or set(review) - {'procedure_order'} != keys
                 or not all(_text(review[k]) for k in ('subject_id', 'claim', 'basis_ref'))
                 or not _sha256(review['basis_sha256'])
                 or review['finding'] not in ('visible_fields', 'not_stated_in_selected_fields')
@@ -77,7 +77,21 @@ def prepare_candidate_claim_reviews(catalogue, chunks, reviews):
             refs.add((ref['reading_id'], ref['field_name']))
         if bool(refs) != (review['finding'] == 'visible_fields'):
             raise ValueError('visible reviews require fields; absence reviews cannot cite a value')
-        _review_fields(review, by_reading)
+        if 'procedure_order' in review:
+            try:
+                fields = _review_fields(review, by_reading)
+            except ValueError:
+                raise ValueError('procedure_order_requires_reviewed_source_steps') from None
+            steps = [f for f in fields if f['field']['name'] == 'client_step']
+            order = review['procedure_order']
+            if (not _strings(order) or len(order) < 2
+                    or set(order) != {f['reading_id'] for f in steps}
+                    or any(not isinstance(f['field']['value'], str) or not f['field']['value'].strip()
+                           for f in steps)
+                    or len({(f['version_id'], f['source_sha256']) for f in steps}) != 1):
+                raise ValueError('procedure_order_requires_all_steps_from_one_source')
+        else:
+            _review_fields(review, by_reading)
         normalized.append(copy.deepcopy(review) | dict(reviewed_chunk_ids=sorted(available),
             field_refs=sorted(copy.deepcopy(review['field_refs']), key=lambda r: (r['reading_id'], r['field_name']))))
     register = dict(schema_version='bintanong-candidate-claim-reviews-v1',
