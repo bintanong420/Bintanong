@@ -18,6 +18,8 @@ from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
+from .deadline_conflict import deadline_conflict_reply
+from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
@@ -168,7 +170,9 @@ also does_not_answer a part when a cited source's source_limits mark the request
 information as not stated, or when it offers a total or example for one person's own
 amount; never calculate or divide amounts to make it fit. Use uncertain when unsure.
 Separately give one support verdict for EVERY claim: its WHOLE meaning must follow
-from that claim's own cited sources. available_sources cannot support a claim that
+from that claim's own cited sources. source_ids links to the full records in available_sources;
+resolve only those IDs when judging that claim's support. Full records are carried once.
+available_sources cannot support a claim that
 does not cite it; support remains limited to that claim's attached sources.
 Use unsupported for missing support,
 contradiction for conflicts, unknown when unsure. Judge requested language and
@@ -286,6 +290,9 @@ def record_coverage_errors(pack, claims, slots):
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
+            errors = context_errors(pack, tuple(by_id[i] for i in ids), required)
+            if errors:
+                return errors
     for part, sequences in required_record_order(pack).items():
         status, ids = slots.get(part, (None, ()))
         if status not in ('answered', 'host', 'mapped'):
@@ -324,8 +331,11 @@ def to_draft(explanation, pack):
     allowed = {c.evidence_id for c in pack.cards if c.kind == 'document'}
     held = malformed_condition_sources(pack)
     host = host_claims(pack)
-    claims, slots = [], {}
+    claims, slots, conflict_ids = [], {}, {}
+    requirements = required_record_sources(pack)
     for index, part_id in enumerate(ids):
+        conflict = None
+        context = None
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
@@ -344,14 +354,33 @@ def to_draft(explanation, pack):
                           else 'source_gap')
                 # Deterministic wording still needs the existing per-part relevance/support review.
             if status == 'answered':
+                conflict = deadline_conflict_reply(pack, proposed, max_claims=8-len(claims)-reserved,
+                                                   existing_claims=conflict_ids)
+                if conflict is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in conflict)
+                    status = 'answered' if proposed else 'source_gap'
+            if status == 'answered':
+                context = context_reply(pack, proposed, requirements.get(part_id, set()),
+                    max_claims=8-len(claims)-reserved, existing_claims=conflict_ids)
+                if context is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in context)
+                    status = 'answered' if proposed else 'source_gap'
+            if status == 'answered':
                 excerpt = cutoff_reply(pack, proposed, max_claims=8-len(claims)-reserved)
                 if excerpt is not None:
                     proposed = tuple(PartClaim.parse(c) for c in excerpt)
                     status = 'answered' if proposed else 'source_gap'
         numbered = []
         for claim in (proposed if status == 'answered' else ()):
+            key = (claim.text, tuple(claim.evidence_ids))
+            if (conflict is not None or context is not None) and key in conflict_ids:
+                if conflict_ids[key] not in numbered:
+                    numbered.append(conflict_ids[key])
+                continue
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
+            if conflict is not None or context is not None:
+                conflict_ids[key] = numbered[-1]
         slots[part_id] = (status, tuple(numbered))
     host_ids = {}
     for part_id, host_part in host.items():  # one host claim can answer several declared parts
@@ -407,7 +436,7 @@ def confirm_messages(text, pack, draft, slots):
         permitted_scope='documentary_explanation_only',
         available_sources=[model_card(card) for card in cards.values()],
         parts=[dict(part_id=p, text=texts[p], requested_claims=requested[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
-            sources=[model_card(cards[e]) for e in claims[c].evidence_ids]) for c in ids])
+            source_ids=[cards[e].evidence_id for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
     required = required_record_sources(pack)
     if required:
@@ -426,7 +455,7 @@ def confirm_schema(pack, draft, slots):
     schema['$defs']['SupportReport']['properties']['schema_version'] = dict(
         type='string', const=SupportReport.SCHEMA_VERSION)
     schema['$defs']['ClaimVerdict']['properties']['claim_id'] = dict(
-        type='string', enum=[c for _, ids in slots.values() for c in ids])
+        type='string', enum=list(dict.fromkeys(c for _, ids in slots.values() for c in ids)))
     return schema
 
 

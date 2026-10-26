@@ -4,14 +4,16 @@ Updated26October2026. Phase11 active;no phase closure or deployment.
 Owner checkout:frontend;isolated merge:p11-frontend-dev-sync /
 integration/p11-backend-refresh-20261026. Lifecycle WIP remains separate.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full frontend snapshot34a8773;incoming backend snapshot16475e9;use git show.
+Last full frontend snapshot34a8773;incoming backend snapshotb2724ea;use git show.
 
 ## Latest change
 
-Owner approved merging origin/feat/p11-backend-api16475e9 into frontend34a8773 and
+Owner approved merging origin/feat/p11-backend-api into frontend34a8773 and
 fast-forwarding the matching local backend branch. Local backend is now clean/equal
 to origin. Candidate resolves one router and three documentation conflicts.
-All three repair hints retained;UI files unchanged. Candidate verification pending.
+All three repair hints retained;UI files unchanged. First16475e9 merge58533a0 verified;
+new remoteb2724ea12-commit tail included. Final candidate:3892 backend PASS,2expected
+photo xfails/179subtests;61 UI PASS. Independent review:no findings,70 focused PASS.
 [Merge/recovery](../2026-10-26-backend-frontend-refresh.md).
 
 ## Delivered baseline
@@ -37,15 +39,16 @@ corrected78/39-link p11-research-corrected-20261026 remain INACTIVE. Corrected78
 Hosted80audit complete72approved/8correction-needed;reuse actual source decisions.
 [Corrections](../2026-10-26-hosted-chunk-correction-results.md).
 
-Latest six-case quality gate FAILED:fraud/fee meet checked expectations2/6;removal,
-INC,procedure and exam cheating fail. Four failures include missing requested record
-coverage,held deadline selection,768-token truncation and semantic claim omission.
-[Quality results](../2026-10-26-selected-answer-quality-results.md). No new model runs.
+Earlier2/6 selected-answer result is historical. Latest706d3c6 selected six cases
+meet frozen source/context expectations per author:5answered/1source_conflict.
+[Latest results](../2026-10-26-companion-context-activation-results.md). No merged-model
+quality/accuracy claim. Research activation authorized upstream but remains separate
+from this merge;follow its recorded verification/readback gates without re-asking.
 39curricula/2132course facts retained;source limitations/currentness stay explicit.
 
 ## Next action
 
-Verify candidate,commit merge,fast-forward main frontend and restore owner appendix.
+Commit verified merge,fast-forward main frontend and restore owner appendix.
 
 ## Remaining boundaries
 

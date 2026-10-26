@@ -92,3 +92,8 @@ def precedence_reply(pack, proposed, *, max_claims=2):
             return ()
         return (dict(text=combined, evidence_ids=[c['evidence_ids'][0] for c in claims]), *independent)
     return (*claims, *independent)
+
+
+def precedence_sources(pack):
+    """Records whose limitation presentation belongs to this existing comparison guard."""
+    return frozenset(c.evidence_id for c in pack.cards if _record(c) is not None)

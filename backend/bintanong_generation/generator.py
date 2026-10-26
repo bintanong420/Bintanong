@@ -7,7 +7,8 @@ import math
 from ..bintanong_orchestration.contracts import IntegrationResult
 from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
-from .contracts import AnswerDraft,CandidateAnswer,GuardObservation,CoverageObservation
+from .contracts import AnswerDraft,CandidateAnswer,GuardObservation,CoverageObservation,ProseClaim
+from .deadline_conflict import unresolved_deadline_context
 from .evidence import prepare
 from .references import EvidenceReferences,ShortAnswerDraft
 from .prompt import draft_messages,draft_schema
@@ -86,6 +87,11 @@ class Generator:
         if pack.status=='greeting' and THANKS.search(text):
             return _answer(pack,'greeting',reason='thanks')
         if pack.status!='ready' or pack.language=='unknown':
+            context = unresolved_deadline_context(pack)
+            if context:
+                claims = tuple(ProseClaim(claim_id=f'c{n}', text=claim['text'],
+                    evidence_ids=tuple(claim['evidence_ids'])) for n,claim in enumerate(context,1))
+                return _answer(pack,'source_conflict',claims=claims)
             return _answer(pack,fallback_status(pack.status))
         seconds=self.timeout_seconds
         if remaining_seconds is not None:

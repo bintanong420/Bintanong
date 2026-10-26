@@ -112,7 +112,10 @@ class DocumentTopic(Record):
     """One release-supplied retrieval subject and its reviewed claim strings."""
     subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
     claims: tuple[TopicClaim, ...] = Field(min_length=1, max_length=64)
-    # Reviewed service title/description only: routing context, never a new answerable claim.
+    # Exact names of fields already bound to each reviewed claim; routing context only.
+    claim_fields: dict[TopicClaim, tuple[Annotated[str, Field(min_length=1, max_length=256)], ...]] = Field(
+        default_factory=dict, max_length=64)
+    # Reviewed labels/clauses: routing context, never a new answerable claim.
     source_context: tuple[Annotated[str, Field(min_length=1, max_length=1024)], ...] = Field(default=(), max_length=4)
     # Recorded source limits: facts the source does not state (selecting one withholds).
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
@@ -121,6 +124,9 @@ class DocumentTopic(Record):
 
     @model_validator(mode='after')
     def _cues(self):
+        if any(claim not in self.claims or not fields or len(fields)>32 or len(set(fields))!=len(fields)
+               for claim,fields in self.claim_fields.items()):
+            raise ValueError('context_requires_selectable_claim')
         if any(c.claim not in self.not_stated for c in self.cues):
             raise ValueError('cue_requires_not_stated_claim')
         return self

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 97
+sequence: 110
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 34a8773
+head_commit: 58533a0
 working_tree: dirty
-updated_at: 2026-10-26T14:00:00+08:00
+updated_at: 2026-10-26T14:15:00+08:00
 ---
 
 # Phase 11: backend refresh into the frontend
@@ -19,7 +19,7 @@ PSU Google authorization,temporary private PDFs and original UI refinements reta
 [UI delivery](2026-10-26-entry-design.md) · [Chat delivery](2026-10-25-chat-workspace-implementation.md).
 Previous integration6a8931b included backend357aa80;latest frontend snapshot34a8773.
 
-Local feat/p11-backend-api fast-forwarded357aa80 ->16475e9;clean,equal to origin.
+Local feat/p11-backend-api fast-forwarded357aa80 ->16475e9 ->b2724ea;clean/equal to origin.
 Incoming backend adds malformed-source/fraud/cutoff/order/record-coverage guards,
 short references,routing repair/context,trusted budgets/transitive companions and
 fee dedup/currentness. [Backend recovery](2026-10-25-phase11-session-handoff.md).
@@ -33,7 +33,9 @@ Router retains frontend's uncontained-target/part-count hints and upstream's unu
 operation hint. Compact index/progress/checkpoint combine both workstreams.
 Intermediate16475e9 verified:3831 backend/2photo xfails/179subtests,61 UI,typegen/types
 and webpack compilation PASS;external-junction standalone exclusions documented.
-New remote b2724ea appeared during checks;merge its12-commit tail before delivery.
+New remote b2724ea appeared during checks;its12-commit tail is merged and verified.
+Keep frontend promptv22/its assertion and genuine-question refinements while adding
+upstream claim-field bindings,required context and exact withheld conflict quotations.
 
 ## Repository State
 
@@ -42,11 +44,14 @@ paths,preserved under workspace audit-evidence/p11-20261026/backend-refresh/.
 Candidate merge is isolated;lifecycle WIP in p11-frontend-integration untouched.
 Recovery refs:recovery/frontend-before-backend-refresh-20261026 and
 recovery/p11-backend-before-refresh-20261026. Main frontend not yet advanced.
-Last full frontend checkpoint34a8773;incoming full checkpoint16475e9;use git show.
+Last full frontend checkpoint34a8773;incoming full checkpointb2724ea;use git show.
 
 ## Verification Evidence
 
-Fresh candidate checks pending. Prior frontend99ac14a:61 unit,17 browser before final
+Final candidate:3892 backend PASS,2expected photo xfails/179subtests,126.46s;61 UI
+PASS,6.726s. Independent review:no actionable findings,70 focused PASS,2.71s.
+Typegen/TypeScript and webpack compilation PASS;external-junction standalone tracing
+exclusions prevent portable-artifact acceptance. Prior frontend99ac14a:17 browser before final
 caption scrim,final3 browser after correction;build/TypeScript PASS. These are prior
 results,not proof of this merge. Upstream04005d9:6835passes+1595subtests,6skip/2xfail,
 1399.28s;historical upstream full-suite evidence,not merged-tree verification.
@@ -74,11 +79,13 @@ Corrected source/embedding digests/receipts remain in backend delivery reports.
 
 ## Known Failures or Blockers
 
-Upstream six-question quality gate FAILED;fraud/fee meet checked expectations2/6.
-Removal lacks required timing records;INC selects held deadline claims;procedure
-truncates at768tokens;cheating omits examination penalties despite answered status.
+Earlier16475e9 six-question gate met2/6 expectations;latest706d3c6 selected development
+check meets all6 source/context expectations per author,5answered/1source_conflict.
+This is not corpus accuracy,independent acceptance or a merged-model rerun.
 Coverage validates declared claims,not semantic completeness of the student's request.
-Corrected78 remains inactive. Do not rerun completed model cases/activation scripts.
+Latest upstream handoff records authorized corrected78 research activation pending
+its separate verification/readback gates. This merge performs no activation or pin switch.
+Do not duplicate the upstream full-suite job or rerun completed six model cases.
 Owner signed-in acceptance,Hybrid/style/latency,prerequisite coverage and actual
 grade layouts remain open. Photos unsupported. Earlier main suite had two Docling/
 huggingface-hub environment failures;no dependency repair. Institutional release held.
@@ -87,8 +94,8 @@ Charter cutoff/timing discrepancy persist. No inferred no-fee/no-penalty conclus
 
 ## Next Action
 
-Verify candidate,commit merge,fast-forward main frontend and restore owner appendix;
-record exact scoped results and remaining limits.
+Commit verified merge,fast-forward main frontend and restore owner appendix;
+record final refs and preservation receipt.
 
 ## Do Not Repeat
 

@@ -7,12 +7,12 @@
   [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Current progress](plan_current_progress/current_progress.md) ·
   [Integration tasks](2026-10-24-student-ui-backend-integration-plan.md).
-- Backend refresh16475e9 into frontend34a8773 is under verification.
+- Backend refreshb2724ea into frontend34a8773 is under verification.
   [Current merge/recovery](2026-10-26-backend-frontend-refresh.md) ·
   [Backend delivery and quality holds](2026-10-25-phase11-session-handoff.md).
   Corrected78/previous80 drafts inactive; active19-chunk research pin unchanged.
-  [Backend answer results](2026-10-26-selected-answer-quality-results.md):2/6 checked
-  expectations met; current code integration is separate from source activation.
+  [Latest backend results](2026-10-26-companion-context-activation-results.md):all6
+  selected source/context expectations met per author;research activation separate.
 - Latest completed phase:10, owner-approved23Oct with disclosures. Photos unsupported.
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md).
 - Phase05/06 completed as owner-approved offline research/software milestones;

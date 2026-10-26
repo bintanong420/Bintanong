@@ -54,6 +54,13 @@ def validate_final(answer,pack,claims):
         raise ValueError('final_citation_mismatch')
     if answer.claims!=tuple(claims):
         raise ValueError('final_claim_mapping_mismatch')
+    if answer.claims and pack.status!='ready':
+        from .deadline_conflict import unresolved_deadline_context
+        expected=unresolved_deadline_context(pack)
+        actual=tuple(dict(text=c.text,evidence_ids=list(c.evidence_ids)) for c in claims)
+        if (answer.status!='source_conflict' or answer.validation!='control_fallback'
+                or not expected or actual!=expected):
+            raise ValueError('final_source_conflict_context_mismatch')
     if cutoff_errors(pack,claims):
         raise ValueError('final_service_cutoff_fidelity')
     validate_ledger(pack,claims,answer.part_ledger,answered=answer.status=='answered')

@@ -295,7 +295,7 @@ def test_model_inputs_carry_source_text_and_a_short_label_not_citation_geometry(
     for messages, _ in model.calls:
         payload = json.loads(messages[1]['content'])
         sources = (payload['evidence']['sources'] if 'evidence' in payload else
-                   [s for p in payload['parts'] for c in p['claims'] for s in c['sources']])
+                   payload['available_sources'])
         assert sources
         for source in sources:
             assert set(source) == {'evidence_id', 'kind', 'text', 'source'}

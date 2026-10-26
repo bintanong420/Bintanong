@@ -1,75 +1,103 @@
-# Phase 11 session recovery — safe to /clear
+# Phase 11 session handoff —26October2026,13:16+08
 
-Recovery snapshot,NOT phase completion. Phase11 active;frontend ready elsewhere per owner,
-integration follows pending work. p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed.
-Last full pre-review snapshot:`82ae498:plans/2026-10-25-phase11-session-handoff.md`.
-Read repository AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint
-and [active plan](phase-11-backend-api-plan.md). Git/fresh results outrank notes.
+Owner asks to finish this session and save a handoff. This is recovery,not phase completion.
+p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Production/tests frozen706d3c6;
+documentation descendants are permitted. Last full snapshot before condensation:929a984.
+Read AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint;
+refresh thesis physical17–18/routing PNG/master16. Preserve all settled source decisions.
 
-## Exact next action
+## One next action
 
-The [bounded selected-answer fix pass](2026-10-26-selected-answer-quality-fixes.md) has ENDED.
-Read [results](2026-10-26-selected-answer-quality-results.md). Code04005d9;full6835+1595subtests passed,
-6skip2xfail6warnings,1399.28s,exit0. Six unique cases once/19calls completed,runner exit0,no jobs running.
-Quality FAILED:fraud and fee meet checked expectations;removal withheld after coverage repair,INC
-selects held deadlines,procedure truncates768tokens,cheating answers only shared measures despite
-positive review. Next regression-first work is semantic claim selection/grade claim granularity and
-complete procedure output under existing contract. Preserve exact approved source wording/limitations.
-No automatic source/budget/model/prompt sweep,retries or activation. Wider queries/Hybrid/style/UI open.
+Read the existing final full-suite result;do not restart tests or the six questions. If exit0 and
+quality binding intact,execute the already-authorized guarded78activation/live-hosted-smoke helper.
+Owner permission:"aight continue, btw lets make those chunks active in the supabase after".
+Do NOT ask again. This is research activation,not school/public approval or Phase12 authorization.
 
-## Delivered fixes and evidence
+## Running job — read before acting
 
-04005d9 requested-record floor/review binding,canonical fee dedup+effectivity,same-slot comparison
-preserves independent claims,reviewed numbered-clause context+conflict and bounded instructions.
-RED regressions observed;final broad673passed,adapter43passed;independent review blockers fixed.
-Saved fraud registration-only draft now rejects;fee replay dedups with printed effectivity,zero calls.
-Evidence A/p11-selected-answer-fixes-20261026/:RED/GREEN logs,full-suite.log/.exit,six-cases.log/.exit,
-frozen-code/running-jobs/verification-summary JSON,exact6requests/raw responses/integration/answers.
-Do not restart run_remaining.ps1 or run_six_cases.py:all6cases already completed,including failures.
-Current HEAD may be a documentation descendant of04005d9;production/tests unchanged.
+A=C:/Coding-projects/bintanong_workspace/audit-evidence.
+R=A/p11-companion-context-20261026/. Managedexec session68829;PowerShellPID20176;
+started12:58:11+08. run_six_then_suite.ps1 currently runs FINAL FULL SUITE after completed six.
+Latest read13:15:47:95%,no failures shown,full-suite.exit absent. No current full-suite pass claim.
+Native session can be polled if retained;otherwise check PID/log/exits from disk. The process may
+finish after this handoff. Preserve it;do not launch duplicate suites. No model cases currently running.
+Command:sharedPython -X utf8 -u -B -m pytest -q -p no:cacheprovider tests/
+--basetemp=R/full-suite-tmp;BINTANONG_STORAGE_EVIDENCE_DIR=R/full-suite-db.
+Read R/full-suite.log and R/full-suite.exit. Only0is success;95%is not a final result. Prior suite
+6865passed belongs0c8bff4 and cannot substitute. Database portion took~15min previously.
 
-## Source review and correction recovery
+## Delivered and checked
 
-[Hosted80ledger](2026-10-25-hosted-chunk-review.md) complete:72approved/8correction-needed.
-[Corrections](2026-10-26-hosted-chunk-correction-results.md):hosted corrected78chunk/39link draft
-p11-research-corrected-20261026 INACTIVE;11new IDs/67reused,5new vectors. Active19 p09-research-selected-
-20261022 and old80draft p11-research-expanded-20261025 preserved. No runtime pin switch.
-Prior80-ID audit/snapshot remains unchanged. Original68/71 use canonical69/72 in corrected selection.
-48sealed files/78chunks unchanged in latest pass;original wording/blanks/conflicts/cutoffs retained.
-Owner26Oct exact-source reminder verbatim in owner-decisions-ledger;no repeat human review/new chunks.
-Source package A/p11-chunk-corrections-20261026/;original audit A/p11-hosted-80-review-20261025/.
-All source decisions/receipts/hashes/hosted readback and98tests+151subtests/rehearsal retained in report.
-No hosted writes in answer-fix increment. Do not claim a fresh authenticated hosted read here.
+b6a9da1:full required companion closure in record coverage,separate explicit reviewed step order.
+1b51518:exact required companion/penalty fields and unresolved context before ordinary review;
+9ea3ae7:complete literal context for one held deadline gap,statussource_conflict,no decision;
+706d3c6:final fidelity applies to every nonready claim regardless of validation reason.
+RED2+11+5;reviewer oneP2 reproduced RED4/fixed in one pass. GREEN120targeted/broader1316;
+reviewerfix63passed2.03s;fresh relevant865passed30.75s. No second review needed.
+Saved actual six-packet replay passes;draft/review templated input max4918+768+8<=8192.
+39current hosted curricula plus corrected local package router preflight6307/6320/6359input,
+>=1057headroom.0inference for preflights. Source48file seal freshly unchanged,78chunks.
 
-d72b88f trusted package budgets/transitive eligible companion closure;full6821+1595subtests passed.
-[Prior runtime results](2026-10-26-corrected-candidate-runtime-results.md),A/p11-corrected-runtime-20261026/.
-Prior6cases/16calls not current reruns. Charter sequence overlay copied byte-identically into current
-answer-fix evidence;source package unchanged. Budgets misconduct3072/pre_enrollment4096/default2048.
+Six unique real questions ONCE:21raw completions,5answered1source_conflict,0exceptions;
+all6frozen expectations met on author inspection. R/six-cases/quality-review.json binds exact
+results SHAfd2a39dfb66b6c2e07eb5720acd63ae9d836b6636dae9ea897d173cb3b5adcf3.
+Removal complete4timing clauses/reexam/3-or5/one exam;INC original remaining-period wording with
+conflict/no deadline decision;fraud overlap/no precedence plus registration;Charter checklist/
+4ordered steps/actor/time/office/no-fee,exactstep3cutoff and25vsfour5minute discrepancy;fee exact
+rate/example/currentness/individual-assessment limits;cheating exact discretion/base/shared measures.
+Fraud1ordinary draft repair;0case retries. Warm inner14.470–54.641s excludes startup/API/browser/
+Supabase;not student end-to-end or accuracy score. Global canonical default unchanged;explicit
+short draft profile,canonical review/final. No context/output/model/dependency changes.
+Two runner SETUP failures made0model calls;PowerShell5 stderr,then docs-onlyHEAD mismatch. Fixed
+PowerShell7/production-tree freeze. Do not count them as extra quality runs or repeat cases.
+[Current results](2026-10-26-companion-context-activation-results.md),
+[Implementation plan](2026-10-26-companion-context-and-activation.md).
 
-## Preserved implementation and boundaries
+## Prepared hosted switch — NOT EXECUTED
 
-Backend/API/security/queue delivered;39curricula/2132course facts;CF1–CF6 settled. Roster19 completed
-63/63;style21/21en,21/21fil,15/21Taglish. No new roster/browser/SDK parser verification. Photos unsupported.
-Procedure-order6d70e1a/cutoff-referral4425538/fraud comparison e1d7e8b and earlier complete suites stay
-in dated reports/Git;do not repeat them. Checker experiment ended on truncation;no rescue/model change.
-Exact cutoffs,25-vs-four5minute discrepancy,conflicting grade deadlines,weapon exception,missing22,
-fraud sanction precedence and F04 hold remain. Blank does not mean no penalty/fee/prerequisite.
-Legacy sealed54file package A/p11-topic-filter-20261024/source-package and all producer scripts/history
-remain preserved;do not rebuild/reinsert/activate old or corrected packages blindly.
-A/p11-topic-filter-20261024/activate_expanded_research.py MUST NOT run:quality/release gates unmet.
-After successful validation,governed pin switch/readback/hosted smoke/roster comparison still needed.
-Frontend integration/browser exits and Phase12 remain gated;no phase/institutional/public approval.
+Projectjyrudbiuajahsucsorco. Hosted old19active/39curricula,corrected78draft/39,old80draft/39.
+No hosted mutations this continuation. Read-only prep verifies exact78chunk/span/source-register
+bindings/vectors1024dim tolerance1e-7 and same39ledger hashes. Source48files remain sealed in
+A/p11-chunk-corrections-20261026/. Corrected embedding set
+cb7ac3a56b94bdb9ced8f8bd9c012b3cff2adf1e3e761347acbe147ce3c38845.
+R/runtime-package copies source bytes plus existing approved order-register overlay SHA
+1dba7278b673c560d89a226c62637e2339fcc4c7aeecfe3e4fa8e4b22742b200;
+subject budgets3072misconduct/4096pre_enrollment/default2048. Do not edit original seal/register.
+Old local A/p11-topic-filter-20261024/active-research-pin.json was ABSENT;rollback restores absence.
+
+After final suite0,verify R/six-cases/quality-review.json activation_quality_gate true/6cases,
+then from this worktree run PowerShell7:
+`pwsh -NoProfile -ExecutionPolicy Bypass -File C:/Coding-projects/bintanong_workspace/audit-evidence/p11-companion-context-20261026/activate_and_smoke.ps1`
+Helper R/release_switch.py uses existing ReleaseManager.activate_release RPC;no direct UPDATE.
+It checks full/regression/quality/code/source/runtime seals;backs original19 and prior pin state;
+activates corrected78,atomically writes local pin,checks anon78/39/onlyone release,normal
+HostedReleaseStorage/39curriculum composition and exact preflight root binding. Protected source
+rows/history unchanged. R/hosted_smoke.py then checks actual hosted Charter/cheating retrieval groups
+and3accepted roster19cases:grade-excellent-taglish,oldBSCSCC5/failedCC4English,CriminologycoreqFilipino.
+Status/decision comparison,not full63roster/Hybrid/UI/style validation. Captures raw model requests/
+responses/integrations/answers. Helper wrapper rolls back old19/localpin on ANY smoke setup/run failure.
+Read activation.log/.exit,activation-result.json,hosted-smoke.log/.exit,hosted-smoke/completion.json.
+Rollback explicit:sharedPython -X utf8 -u -B R/release_switch.py rollback. It preserves unexpected
+external active releases;old19must remain previously published. Do not blindly activate/retry old80.
+Old activate_expanded_research.py MUST NOT run. After success,fresh MCP membership read;save results,
+update INDEX/progress/checkpoint/this recovery and session log,commit explicitly. No push requested.
+
+## Boundaries and remaining work
+
+Exact source words,blanks/cutoffs/conflicts/holds fixed;no repeated human review,new sources/chunks/
+vectors/budget/model sweep. Original80audit72approved/8corrections complete;corrected selection78
+retains oldhistory;not whole-document coverage. Early Handbook1–40/other Charter remains unreviewed;
+omission does not establish non-student applicability. Undergraduate/advisory/privacy/source gaps apply.
+Photos unsupported,prior6Taglish register misses/wider Hybrid/no-topic/clarification/Nursing/query/
+frontend/browser exits remain. Activation is not Phase11completion or UI integration.
+No lint/formatter/browser/full-roster check claimed. Security advisor only previously accepted leaked-
+password-protection warning;no auth/schema/grant changes. Source approvals/CF1–CF6/old suites stay settled.
 
 ## Environment
 
-A=C:/Coding-projects/bintanong_workspace/audit-evidence.
-Shared Python A/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe3.13;
--X utf8 -B -m pytest -q -p no:cacheprovider,external --basetemp/storage evidence. No installs/downloads.
-Models shared workspace/MODELS;resident Docker bintanong-p09-cuda-latency at127.0.0.1:18088.
-No startup rebuild needed. Canonical references/output768/prefixreuse/greedyseed0/thinkingdisabled.
-Current timings are warm inner pipeline,not browser/API/Supabase/student end-to-end;no SLA claim.
-Supabase project jyrudbiuajahsucsorco;authenticated reads previously restored26Oct00:15;earlier OAuth
-failure diagnosis/recovery retained in2026-10-25-supabase-mcp-diagnosis.md. No credential resets/grant
-changes to hide failures. Current answer tests use local sealed package,not hosted runtime proof.
-Thesis physical17–18/routing PNG refreshed26Oct;master16/current phase baseline consistent.
-Undergraduate/read-only advisory/source-gap/privacy/one-week cap and real-data research limits apply.
+SharedPython=A/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe3.13.7.
+Use -X utf8 -B,pytest no cache,external basetemp/storage. No installs/downloads.
+Models workspace/MODELS;Docker bintanong-p09-cuda-latency at127.0.0.1:18088,8192/768/greedyseed0/
+prefixreuse/thinkingdisabled unchanged. Use PowerShell7,not WindowsPowerShell5. Keep keys in ignored
+.env/server environment;never print them. Raw evidence ignored under workspace;explicit staging only.
+Conventional Commits,no attribution,small verified commits. No new durable learnings this continuation.

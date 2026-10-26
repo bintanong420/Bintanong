@@ -61,6 +61,60 @@ def test_nonblank_requested_fields_also_require_their_own_records(field_name):
     assert result.record_coverage[0].chunk_ids == tuple(p.chunk_id for p in result.passages)
 
 
+def test_required_companion_records_are_mandatory_even_without_direct_claim_fields():
+    class WithCompanion(ReviewedEngine):
+        def retrieve(self,request,**intent):
+            value=super().retrieve(request,**intent)
+            claim=value['evidence_policy']['assessment']['claims'][0]
+            claim['source_fields']=claim['source_fields'][:1]
+            claim['required_chunk_ids']=[p['chunk_id'] for p in value['evidence']]
+            return value
+    result=asyncio.run(RetrievalAdapter(WithCompanion(),research=True).retrieve(
+        RetrievalRequest('Fictional service?','release-synth-1')))
+    assert result.record_coverage[0].chunk_ids==tuple(p.chunk_id for p in result.passages)
+
+
+def test_reviewed_sequence_can_be_a_subset_of_all_required_context_records():
+    class OrderedWithContext(ReviewedEngine):
+        def retrieve(self,request,**intent):
+            value=super().retrieve(request,**intent)
+            value['evidence'].append(dict(value['evidence'][0],chunk_id='c'*64,text='Fictional total context.'))
+            claim=value['evidence_policy']['assessment']['claims'][0]
+            for n,field in enumerate(claim['source_fields']):field['reading_id']=f'step-{n}'
+            claim['source_review']['procedure_order']=['step-0','step-1']
+            claim['required_chunk_ids']=[p['chunk_id'] for p in value['evidence']]
+            return value
+    result=asyncio.run(RetrievalAdapter(OrderedWithContext(),research=True).retrieve(
+        RetrievalRequest('Fictional service?','release-synth-1')))
+    requirement=result.record_coverage[0]
+    assert set(requirement.chunk_ids)=={p.chunk_id for p in result.passages}
+    assert requirement.sequence_chunk_ids==tuple(p.chunk_id for p in result.passages[:2])
+
+
+@pytest.mark.parametrize('sequence,ordered',[(('a'*64,),True),(('a'*64,'a'*64),True),
+    (('a'*64,'c'*64),True),(('a'*64,'b'*64),False)])
+def test_invalid_explicit_sequence_subset_rejects(sequence,ordered):
+    from backend.bintanong_orchestration.contracts import DocumentRecordCoverage
+    with pytest.raises(ValueError):
+        DocumentRecordCoverage(subject_id=SUBJECT,claim=CLAIM,chunk_ids=('a'*64,'b'*64),
+            source_ordered=ordered,sequence_chunk_ids=sequence)
+
+
+def test_prepared_order_excludes_required_context_that_is_not_a_client_step():
+    from backend.bintanong_generation.part_answers import required_record_sources,required_record_order
+    value=covered_integration().model_dump(mode='json')
+    docs=value['evidence']['documents'];third=dict(docs['passages'][0],chunk_id='c'*64,text='Fictional total context.')
+    docs['passages'].append(third)
+    value['evidence']['pin']['documents'].append(dict(value['evidence']['pin']['documents'][0],chunk_id='c'*64))
+    identities=[p['chunk_id'] for p in docs['passages']]
+    docs['record_coverage']=[dict(subject_id=SUBJECT,claim=CLAIM,chunk_ids=identities,
+        source_ordered=True,sequence_chunk_ids=identities[:2])]
+    pack=prepare(type(integration()).parse(value))
+    texts={c.evidence_id:c.text for c in pack.cards}
+    assert {texts[ref] for ref in required_record_sources(pack)['r1']}=={CHECKLIST,STEP,'Fictional total context.'}
+    assert [texts[ref] for ref in required_record_order(pack)['r1'][0]]==[CHECKLIST,STEP]
+
+
 def test_legacy_document_result_serialization_stays_byte_identical_without_coverage():
     value=result_payload()
     assert DocumentResult.parse(value).model_dump(mode='json')==value
