@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 97
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 16475e9
+head_commit: 89f5852
 working_tree: dirty
 updated_at: 2026-10-26T10:48:00+08:00
 ---
@@ -37,10 +37,10 @@ Prior selected-answer pass04005d9 results retained;quality gate still not passed
 
 ## Repository State
 
-p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Frozen production/tests04005d9 unchanged.
-Only selected-answer plan/results,INDEX,progress,checkpoint,recovery documentation dirty before commit.
-No jobs running. Evidence workspace/audit-evidence/p11-selected-answer-fixes-20261026/ ignored.
-Checkpoint names verified implementation HEAD;subsequent documentation commit can be its descendant.
+p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Source-field routing89f5852 committed;
+conflict transformation/tests verified and being committed. Independent review/freeze still pending.
+Evidence workspace/audit-evidence/p11-source-field-selection-20261026/ ignored. No jobs/model calls.
+Previous04005d9 suite/answers remain historical evidence,not verification of this new implementation.
 
 ## Verification Evidence
 

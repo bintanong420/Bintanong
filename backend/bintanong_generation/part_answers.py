@@ -18,6 +18,7 @@ from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
+from .deadline_conflict import deadline_conflict_reply
 from .service_cutoff import cutoff_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
@@ -324,8 +325,9 @@ def to_draft(explanation, pack):
     allowed = {c.evidence_id for c in pack.cards if c.kind == 'document'}
     held = malformed_condition_sources(pack)
     host = host_claims(pack)
-    claims, slots = [], {}
+    claims, slots, conflict_ids = [], {}, {}
     for index, part_id in enumerate(ids):
+        conflict = None
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
@@ -344,14 +346,25 @@ def to_draft(explanation, pack):
                           else 'source_gap')
                 # Deterministic wording still needs the existing per-part relevance/support review.
             if status == 'answered':
+                conflict = deadline_conflict_reply(pack, proposed, max_claims=8-len(claims)-reserved)
+                if conflict is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in conflict)
+                    status = 'answered' if proposed else 'source_gap'
+            if status == 'answered':
                 excerpt = cutoff_reply(pack, proposed, max_claims=8-len(claims)-reserved)
                 if excerpt is not None:
                     proposed = tuple(PartClaim.parse(c) for c in excerpt)
                     status = 'answered' if proposed else 'source_gap'
         numbered = []
         for claim in (proposed if status == 'answered' else ()):
+            key = (claim.text, tuple(claim.evidence_ids))
+            if conflict is not None and key in conflict_ids:
+                numbered.append(conflict_ids[key])
+                continue
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
+            if conflict is not None:
+                conflict_ids[key] = numbered[-1]
         slots[part_id] = (status, tuple(numbered))
     host_ids = {}
     for part_id, host_part in host.items():  # one host claim can answer several declared parts
@@ -426,7 +439,7 @@ def confirm_schema(pack, draft, slots):
     schema['$defs']['SupportReport']['properties']['schema_version'] = dict(
         type='string', const=SupportReport.SCHEMA_VERSION)
     schema['$defs']['ClaimVerdict']['properties']['claim_id'] = dict(
-        type='string', enum=[c for _, ids in slots.values() for c in ids])
+        type='string', enum=list(dict.fromkeys(c for _, ids in slots.values() for c in ids)))
     return schema
 
 
