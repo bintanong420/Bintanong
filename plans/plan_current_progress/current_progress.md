@@ -1,6 +1,6 @@
 # Current progress
 
-Updated27October2026,02:09+08. Phase11active;BatchD human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,02:14+08. Phase11active;BatchD human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,13 +9,13 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves170–173;BatchC78of78complete,173of336approved/163pending.
-[BatchC results](../2026-10-27-phase11-batch-c-review-results.md):fullpacket equality,closure and173uniqueunion checked.
-Final078receipt/snapshot saved;prior partial snapshots retained;sourceholds unchanged.
-BatchD19entries:4prior approvals carried forward,15newpending;no double-counting. D4of19approved.
-Next174–178/D1,2,5,6,7:fees/refund,withdrawal,scholarshipdescription/procedure.
-OriginalH34–35/96/113–114images checked;RA10931exception,Form138restriction and application-not-approval retained.
-No source/candidate/runtime changes;all66image fields content-approved,structural bindings remain.
+Owner approves174–178;178of336approved/158pending;BatchD9of19(4carried/5new).
+RA10931exception,Form138restriction,scholarshipapproval condition and sourcegrammar retained.
+Dreceipt009readback/closure and178uniqueA–Dunion checked;004/009snapshots retained.
+Next179–184/D8–13:assistantshipH117,loanH118,complete assessmentC66–67/printed62–63.
+Original images checked;loan3rd/4th/5thyearcondition and all requirements preserved.
+Assessmentcross-page action/sharedroles retained;printedNONEtotal does not erase explicit paymentamount.
+No source/candidate/runtime changes;structural bindings and labelled rebuild remain.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -32,8 +32,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-173of336candidate contents approved;163pending. Labels and final structural bindings remain.
-Other163await human review. No original/runtime-package/rule/vector/release/pin changes.
+178of336candidate contents approved;158pending. Labels and final structural bindings remain.
+Other158await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -61,8 +61,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on174–178:fees/refund,withdrawal and complete scholarshiprecord.
-BatchD4of19carried;skip FAQ/admissionfeecontextapprovals;then assistantship/loan and Charterfinance services.
+Await owner decision on179–184:assistantship,loan and complete four-part assessment service.
+Then complete Charterrefund service to finishBatchD;four carried approvals remain settled.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

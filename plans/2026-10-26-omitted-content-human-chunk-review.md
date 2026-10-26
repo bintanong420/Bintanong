@@ -817,3 +817,25 @@ fromBatchA;carry all4without another approval/counting them twice.15newpending.
 Next174–178/D1,2,5,6,7:fees/refund,withdrawal,scholarshipdescription/procedure.
 OriginalH34–35/96/113–114images checked;RA10931exception,Form138restriction,
 application-not-approvaland literalfor every seminarretained. Two scholarshipparts linked.
+
+
+## Batch D opening174–178 approved;assistance/assessment179–184 prepared
+
+Owner:“i approve”. Approves fees/refund,withdrawal and complete scholarship
+procedure as displayed. RA10931exception,Form138restriction,application-not-approval
+and literalfor every seminarretained. No inferred scholarship award or activation.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 174 | H-school-fees-refund-compact-001 | `d170111f5450aed9226fd61729dff77ab7d73ad8e0a624ea2a50c2a77c51fb16` | `3050f791e4e0b39402c3b98712c6219b298bae5e6aee4d153b3a63b03e3ce859` |
+| 175 | H-withdrawal-compact-001 | `9c9d365e7b130fca8ef208dd6e7c1b79ae1e685457f87a2e5ddc77be73a9098a` | `a7652a2e3cc195794726e83e991f2df5f7203e763f0cecb49eebef190212d2f0` |
+| 176 | H-scholarship-description-compact-001 | `3903c06d6b1aad83d45e2822e2bcfd541c8e7eac5bd60086611eef13800c663b` | `2ceecde3beed336db5f8d7dbe2a568b145d2495ff500c01fbfbe90e4ac4dcf08` |
+| 177 | H-scholarship-procedure-compact-001 | `a8fde79c9227ec429319a56926373458995cfd32a10a586c4beadf76a0772d62` | `bb15937c1e5ef5fe2d30f5ee0b8167bffc38f90108dc01a21ba9f3c33b5964bd` |
+| 178 | H-scholarship-procedure-compact-002 | `77189e5897eafd00ae4684f6f16f90f290e9eadc6264918a99c3f54034b32d53` | `1878b079c25fe3ed324ff1a0f031a0f016bc42edce0699c26825f9762c81fb30` |
+
+D9of19approved(4carried/5new);178total/158pending;receiptSHA256:`114aaebea1f69bef01de864d35877e646143f84381d3cebddcff9320d751ddd2`;004/009snapshots retained.
+Next179–184/D8–13:assistantshipH117,loanH118and complete assessmentC66–67/printed62–63.
+Original images/companion closure checked. Studentloan3rd/4th/5thyearonly,approval
+conditions and complete requirements retained. Assessmentstep1continuation joined;
+page67sharedAdministrativeAideAccountingOfficelabel preserved across paymentsteps.
+PrintedNONEtotal/25minutes kept alongside explicitAmount indicated in the SOA / Assessment Form.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 166
+sequence: 167
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 74694a9
+head_commit: 29c3858
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T02:09:49+08:00
+updated_at: 2026-10-27T02:14:30+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -28,7 +28,7 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-BatchA55/BatchB40/BatchC78of78approved. Total173of336content-approved;163pending. Source holds/limits/exclusions retained;prior approvals reused.
+BatchA55/BatchB40/BatchC78of78approved. Total178of336content-approved;158pending;BatchD9of19approved(4carried/5new). Source holds/limits/exclusions retained;prior approvals reused.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
@@ -101,7 +101,7 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of163candidates remains;94extraction comparisons retained;66image spans content-approved/0pending.
+Human review of158candidates remains;94extraction comparisons retained;66image spans content-approved/0pending.
 Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
@@ -111,11 +111,11 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-BatchC78of78complete;173uniqueA+B+C,163pending;fullpacket/receipt/closure/hash checked.
-BatchD4of19carriedforward,15new;FAQ/admissionfeecontextapprovals not reopened or double-counted.
-Next174–178/D1,2,5,6,7:fees/refund,withdrawal,scholarshipdescription/procedure.
-OriginalH34–35/96/113–114images and companionclosure checked;conditions/sourcegrammar retained.
-[BatchC results](2026-10-27-phase11-batch-c-review-results.md);no candidate/runtime edits.
+Owner approves174–178;178uniqueA–D,158pending;BatchD9of19(4carried/5new).
+D009receipt/readback/closure checked;004/009snapshots saved;all prior conditions retained.
+Next179–184/D8–13:assistantshipH117,loanH118,complete assessmentC66–67/printed62–63.
+Images/closure/hash checked;loan yearcondition and assessmentsharedroles/paymentamount retained.
+No candidate/runtime edits;labelled reauthoring remains before use.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
