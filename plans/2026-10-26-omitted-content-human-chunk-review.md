@@ -538,3 +538,28 @@ retained separately. Next107–111/BatchC12–16:graduation requirements pairH50
 approvalH51,and commencement/student-records pairH56. Both pairs mutually
 linked;graduation-approval record standalone. Honors remains for its complete
 five-part group next,without clearing its existing holds.
+
+
+## Batch C graduation and student records — chunks107–111 approved
+
+Owner: “i approve”. Approves graduation requirements pairH50,graduation
+date/fee/approvalH51,and commencement/student-records pairH56. Preserve all
+periods,deficiency/current-subject exception,one-year immediately preceding
+residence,disciplinary-deferral exception,council/BORconditions,and full written
+consent/release exceptions. Student-record clauses are reviewed source wording,
+not permission for Bintanong disclosure. Graduate-only1.5remains excluded.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 107 | H-graduation-compact-001 | `120911e310388811547a0422752b94fc781b084321e03c516e925492f4108120` | `d3e6b30a5528993ea279dffe64c196b90b48c2fa00f8bee16431e327cf56a960` |
+| 108 | H-graduation-compact-002 | `55d961f1ecb259a5d965dcd91ea59ef4e4eb07d923a7a122078b17b094e6c9cc` | `1752dd1c5649da0a66bc80a6f3bbdd7babe4fcff4566c0d95690b478f6dff5c0` |
+| 109 | H-graduation-approval-compact-001 | `a99beb6932e629fcbf8877f5c87d1adcec08e35513b5d73840a4a60637d7c578` | `9f28dfb5d32e086c45da4901577996eeec30c6ba054a9ff1dcf88639d15c18fa` |
+| 110 | H-commencement-records-compact-001 | `3fcca51a6b30c634fafca931db2b7abe59bdef105e39aacaf4768e01fd83feac` | `293a03f6e8bde4259a7917ee02bd750476c3e4452b3f8a6cee0b0216f0c165bb` |
+| 111 | H-commencement-records-compact-002 | `10ac5a55a330d37a5dd401dec6ca6da72670d416cad5330bc8c63c8aadd228cb` | `8e75afbcbd0cb2c299aee6eff41dd5e9821362515f170635751f922a2dc47f83` |
+
+Total111of336content-approved;225pending;BatchC16of78approved. Partial receipt
+SHA256:`877b2db5a56ee1573b7879ce47959948ff34fc7f2574b53c078a82a91830e238`;6/11/16approval snapshots retained.
+Next112–116/BatchC17–21:complete five-way-linked undergraduate honors group
+H52–54. Retain shared sentence wording,competing residence statements,all
+elective priorities and H53shorter-than-four-year selection hold. Do not infer
+new graduate/Law support or resolve existing holds through content approval.

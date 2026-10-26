@@ -1,20 +1,20 @@
 # Current progress
 
-Updated27October2026,01:16+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,01:21+08. Phase11active;BatchC human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
-[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC11of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
+[BatchB results](../2026-10-27-phase11-batch-b-review-results.md):40of40approved;BatchC16of78approved. [BatchA handoff](../2026-10-26-phase11-batch-a-review-session-handoff.md).
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves102–106:106of336approved;230pending. BatchC11of78approved.
-Partial Creceipt updated/readback verified;6/11approval snapshots retained.
-Next107–111:graduation requirements pairH50,approvalH51,commencement/records pairH56.
-Original H50–51/56images checked;required pairs verified;no known prior narrative overlap.
-Keep exact deadlines,exceptions,fees,authority and record-access wording;graduate clauses excluded.
-Prior approved3.2/3.3/3.7source wording remains settled;review additions/grouping only.
+Owner approves107–111:111of336approved;225pending. BatchC16of78approved.
+Partial Creceipt updated/readback verified;6/11/16snapshots retained.
+Next112–116:complete five-way-linked honors recordH52–54;original images checked.
+Retain shared wording,all numeric criteria/elective priorities and residence limitation.
+H53short-program hold,graduate/Law exclusions and technical/source gates stay in place.
+No known prior active narrative overlap;prior approved passage fidelity remains settled.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -31,8 +31,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-106of336candidate contents approved;230pending. Labels and final structural bindings remain.
-Other230await human review. No original/runtime-package/rule/vector/release/pin changes.
+111of336candidate contents approved;225pending. Labels and final structural bindings remain.
+Other225await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -60,7 +60,7 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on107–111:graduation requirements pairH50,approvalH51,commencement/student-records pairH56. Then complete honors five-part group.
+Await owner decision on112–116:complete undergraduate honors five-part groupH52–54,with existing hold/residence limitation. Then merit-awards pair.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
