@@ -690,3 +690,24 @@ Labelled service reauthoring still required before use;no source/runtime changes
 Next147–150/C52–55:complete consultation servicephysical103–104/printed99–100.
 Original page images and four-way closure checked. Printed35minutes remains
 distinct from listed3+30+1=34minutes;literaldiscuss esand agency2.2retained.
+
+
+## Batch C consultation147–150 approved;evaluation151–156 prepared
+
+Owner:“i approve”. Approves complete student consultation service as displayed.
+Printed35minutes versus listed34minutes remains unresolved;literaldiscuss es,
+agency2.2and source grammar retained. Labelled reauthoring required before use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 147 | C-consultation-compact-001 | `f3544519c0e73fc26fc112c1a241f178bd96cad879ff4b300e4180867c618c77` | `edb1ccef8d9dfb1f891a526cdbe258803b5d0fd0ffb488c21220b22adbee433b` |
+| 148 | C-consultation-compact-002 | `beb0be9efdcf2d1a31a5f863c7a1b5eb61a84558d544cb4085f034a5ba11f409` | `d4bd18f868a06af03d58db0ce615ef57cf57d229441a144dd84b8edc5c6c4b8b` |
+| 149 | C-consultation-compact-003 | `f9cdd17d5a269134e91277a02a30045a39a70ff3782387b43ac29a6fe3132aeb` | `5f5b01da48f87700487e9d189441c22513b45da9d0b2223d8c710321156ce44d` |
+| 150 | C-consultation-compact-004 | `f485cc2cf3854a2d3ce0cdd956c268d067c840cb4e8a9f481104867a719f4b78` | `20ab4bd80b5fb2abe74e86954d0e58f55fe8ee31e25036b0ccebda39cb32ba6d` |
+
+55BatchC/150totalapproved,186pending;receiptSHA256:`99ab18e012d60481da9d0ff60eaa98691009279259f10468a6626af087bc5425`;055snapshot retained.
+Next151–153/C56–58:graduating evaluationphysical106–107/printed102–103;
+154–156/C59–61:academic awards evaluationphysical108–109/printed104–105.
+Original images and both three-way closures checked. Graduationform supplier/location
+difference retained. Awardstep2continuation joined across pages;shared25minutes
+and complete role group retained without invented per-subaction durations.
