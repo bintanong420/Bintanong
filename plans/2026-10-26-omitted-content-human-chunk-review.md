@@ -149,7 +149,7 @@ Day)Day)removed,331others unchanged. [Results/mappings](2026-10-26-registration-
 23approved review items map to24of336candidates;312others pending. Governance stays
 pending;no runtime/hosted activation. Do not re-ask settled source/layout decisions.
 
-## Batch A readmission — six chunks27–32 pending
+## Batch A readmission — six chunks27–32 content approved
 
 Original Charter physical7–8/printed6–7inspected. Present complete logical service:
 metadata/paired requirements and continuation joined using actual source columns.
@@ -167,3 +167,29 @@ Step3non-beneficiary payment/accounting-validation action continues onC8,role
 “Staff / Accounting Office”;continued blank time does not create a new duration.
 Content/association approval remains pending;labelled reauthoring/new bindings
 also required before use. Items18–22not approved by“proceed”.
+
+Owner subsequently replied“approve”to complete readmission record27–32,including
+page7→8action/fee/time/person associations and note cutoff. Content approved;
+labelled reauthoring/new source bindings remain required before use. Current
+30of336candidate contents approved,306others pending;18–22remain pending.
+
+## Batch A admission testing — nine chunks33–41 pending
+
+Original Charter physical54–55/printed50–51inspected. Present as complete service:
+metadata,paired requirements,five application steps,three result-issuance steps,
+shared printed total. Keep typo“Administrative Assisstant”and exact process labels.
+Native apostrophes/dashes retained versus parserASCII;role/office labels stay paired.
+
+- C-admission-test-compact-001: `63b95f2fcd16bcc53785afa14758bdb2efad09e66010d8a89349890366351beb`.
+- C-admission-test-compact-002: `aa2b864df71d715243f2262139ece397c4b142eefd5f4a4b304e616a79c2440d`.
+- C-admission-test-compact-003: `2196d5b8ab8b3b9142adfd2cb0d659cdb84a90c88a471b6ec60defbaca3b8de9`.
+- C-admission-test-compact-004: `6ca798d027998c25305e7ca664c64ee3cfda8ce6c9f7de9b0a123c49c888ad4e`.
+- C-admission-test-compact-005: `2490e8701e5890863895c40fb542831bf2f6ea16fe11d3cb57f0ff4fd6590f73`.
+- C-admission-test-compact-006: `f351d145addf3af06b55cc43f8708768e246b8b9bddf60f77af2e5ecc34abff1`.
+- C-admission-test-compact-007: `c80934afc6f8a6cedfe799294bbf310914f7de961d69f28a49d41a090c477fa9`.
+- C-admission-test-compact-008: `bff60f96eed6337b0a951700e35e39cf13085ef4294099f19a2a413e21c3da11`.
+- C-admission-test-compact-009: `e8d860ad3ab0d0f09688a9b163d9d0e5acb6e7c66c0e719bbf7c3e077c36db73`.
+
+Result step2action says“Provide slip for admission fee for payment.”but its fee
+cell saysNone. Show both;do not infer a separate result fee or alter the printed
+Php100total. Structured reauthoring required after content decision,before use.
