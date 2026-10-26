@@ -775,3 +775,24 @@ Next165–169/C70–74:complete linked selection of visible graduationdiagramH64
 Original image/five-way closure checked;join split rows3/5/9for display while
 showing chunk boundaries. Final detail ends at during;no endpoint inferred.
 Image scalar fields still require checked structural bindings before runtime use.
+
+
+## Batch C graduationdiagram165–169 approved;final170–173 prepared
+
+Owner:“i approve”. Approves all27visibleH64image fields in the five linked
+chunks as displayed. Finalduringcutoff and unknown process endpoint retained.
+No inferred continuation;image structural bindings remain before runtime use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 165 | H-image-flow-64-compact-001 | `3df0e12df330ed267f6cee96e2aee78e602ffbc3e566aa390adb530cc74f827e` | `4d5a4c9e13bb291877db0a4d0eeecd1d313dc133d7c04e4a9ae39b312cef9510` |
+| 166 | H-image-flow-64-compact-002 | `e215e193666d8d0dd7dbed3b92c8218e7f792c303bb53a50bea9694370be3896` | `4852492dac2e8128a07408c690adb2fd358f9b9ce362716f011fcd204ddb6b1d` |
+| 167 | H-image-flow-64-compact-003 | `37de40a345632159a12aaaf89331d1a727a484f9f154b8094fc1970d68bc2bd0` | `d4e48f7e7fd1eeefe09c32c358c3de6c1dd6b9564ba157df2c2b71ea396c3303` |
+| 168 | H-image-flow-64-compact-004 | `36986903fbbade0a9747e756cb5f89c90c59af370f96762d57f63765a08cb0f3` | `bcaaf6ea0ae13f60402f757dde27266b8aae51ac820a2a9c3eeaa3ad740be72a` |
+| 169 | H-image-flow-64-compact-005 | `949ce1ef8800618e6f4a2c0924cc5572e58ff1207b474af501b2d2c86b6d87cb` | `711a555936205e2b5223e73a00d58d124a79372dc6bd2a722a435147332d0780` |
+
+74BatchC/169totalapproved,167pending;receiptSHA256:`8859de2f2e335221ea81204966378e700ec56f3edfd36eef53995d2b9231db49`;074snapshot retained.
+Next170–172/C75–77:diplomaserviceCharterphysical20/printed19;173/C78:
+examinationsHandbookphysical45. Original images/closure/hash checked. Second-copy
+diploma fee/time remain unstated;printed2ndsuperscript shown readably,source words unchanged.
+Previously approved removalcontext99–101not presented again.
