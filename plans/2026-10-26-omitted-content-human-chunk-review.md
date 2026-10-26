@@ -25,7 +25,7 @@ regions are already inventoried/source-reviewed; final candidate preparation and
 chunk validation remain pending. Existing H26/H30holds remain settled. The other
 seven candidates in the first packet have not been approved by this reply.
 
-## Batch A review group1 — prepared for inline review, approval pending
+## Batch A review group1 — approved with resumed H26–30 batch
 
 Two complete source records/four candidate chunks,physical H26–27:
 
@@ -39,13 +39,14 @@ kept together using original paragraph boundaries. H27missing program-specific
 list remains a bound limitation;H26/H30settled holds are not reopened. “Continue”
 starts presentation,not content approval. Next source group is H28–30admission.
 
-## Resumed Batch A H26–30 — eleven chunks presented, decision pending
+## Resumed Batch A H26–30 — eleven chunks approved
 
 26October2026: resumed from session handoff at8d9af80. Current335candidate JSON
 SHA256 matches9668afafbb1b53d776f36fbfae9a7b22bd22eb9511c032d92271c441c1aeaa2d.
 Original H26–30page images inspected. The four group1chunks above are presented
 again with the following seven chunks,as eight complete source records total.
-No fresh approval has been received;known source holds/limitations remain.
+Owner subsequently replied “i approve” to all eleven chunks as presented,including
+linked pairs and stated limitations. Known source holds/limitations remain.
 
 - H-eteeap-compact-001: `fad47b7d4391122aba5fc242b34144f91762c7cacd4935c980e90cca81780bbb`.
 - H-transfer-compact-001: `0566d4f4957a72233e9ab3dbfbaa8536854a277439d1fc0015372a1394a31439`.
@@ -58,3 +59,24 @@ No fresh approval has been received;known source holds/limitations remain.
 General admission,admission authority and transfer pairs retain their required
 companions. Review concerns exact wording/grouping,not institutional currentness
 or new rule/activation permission. Next after decision:remaining BatchA records.
+
+Owner also observed that processes from other campuses were omitted. Clarified:
+the approved text explicitly retains North/South campus provisions in admission,
+transfer and readmission. No blanket campus exclusion was applied or authorized.
+
+Human-approved total now13of335;322remain pending. Sealed candidate bytes and
+serialized governance status remain unchanged;this record binds the approval.
+
+## Batch A H32–34 — six registration/credit chunks pending
+
+Original H32–34images inspected;complete candidate bodies presented inline.
+
+- H-transfer-credentials-compact-001: `31055957ae4495f7b15e984fcbf70494e0821376f15c6605b265a5d720384b09`.
+- H-foreign-registration-compact-001: `1b86ed0c7355f99a0953d91c09454f46d2a78509cd23f5f2b7f35e2d1a8a0a7d`.
+- H-continuing-registration-compact-001: `9a9d3d3df22ca60324a4eca6edd353572cc6876d1c3efa56d4caefd24824fae2`.
+- H-cross-registration-compact-001: `a3f6b6b1c4c61af1a97ff255d33230f14fd9c3e9d26526d87541db0e7f19e580`.
+- H-cross-enrollment-compact-001: `a5b32fba6b67bd60195be626e4010519074b9fc6236ed5540a5bb7b651768408`.
+- H-outside-credit-compact-001: `7aa2d6e7df997a097810cbf3a75b95686273eaf812cd15581b6a67b1d07c9f29`.
+
+Cross-enrollment conditions remain literal;no new all-of/any-of rule is inferred.
+Repeated CREDIT FOR COURSE heading retained. Next:remaining prepared BatchA records.

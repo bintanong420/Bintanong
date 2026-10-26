@@ -1,6 +1,6 @@
 # Current progress
 
-Updated26October2026,21:16+08. Phase11active;human chunk review resumed;p11/feat/p11-backend-api;nothing pushed.
+Updated26October2026,21:42+08. Phase11active;human chunk review ongoing;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,9 +9,10 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Resumed from8d9af80/clean tree;verified335packet SHA256 matches handoff and inspected original H26–30images.
-BatchA H26–30:11chunks/eight records presented inline for owner content review;all remain pending.
-Existing two H31approvals and all holds unchanged. Documentation-only validation;no code/test/model/hosted work.
+Owner approved all11BatchA H26–30chunks as printed,with linked pairs/limitations:13of335approved,322pending.
+Clarified retained North/South campus clauses;no blanket campus exclusion or scope change authorized.
+Next six H32–34registration/credit chunks presented after original-image checks;approval pending.
+All holds unchanged. Documentation-only validation;no code/test/model/hosted work.
 
 Owner directs prepare chunks first,review later in bulk;frontend integration stays stopped.
 335inactive candidates(177H/158C),131linked source records,eight topic packets prepared.
@@ -21,8 +22,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-Two H31registration chunks actually owner-approved;exact IDs/bytes/mutual links preserved.
-Other333await human review. No original/runtime-package/rule/vector/release/pin changes.
+Thirteen chunks owner-approved;exact IDs/bytes/required links preserved in decision record.
+Other322await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -50,8 +51,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on BatchA H26–30eleven chunks/eight records,including four previously pending chunks;
-record exact approved IDs/holds,then continue remaining BatchA records without routine tiny approvals.
+Await owner decision on six BatchA H32–34registration/credit chunks;record exact approved IDs/holds,
+then continue remaining BatchA records without routine tiny approvals.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
 No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
