@@ -1,20 +1,20 @@
-# Phase 11 session recovery —26October2026,15:26+08
+# Phase 11 session recovery —26October2026,15:48+08
 
 Corrected78 research activation milestone complete;Phase11 remains active. No phase advancement.
 p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed. Backend/tests/migrations frozen706d3c6;
-Latest inspected pre-scan delivery89301b8;activation7f8e983. Last full snapshots:5009760/929a984.
-Full Handbook inventory delivered this resume;no new policy/runtime activation or model calls.
+Latest inspected pre-catalogue delivery5c4a930;activation7f8e983. Last full snapshots:5009760/929a984.
+Handbook/Charter expansion catalogue delivered;bulk review deferred,no new content/model/activation.
 Read AGENTS,canonical ~/.agents/AGENTS,both Bintanong handoff skills,INDEX/progress/checkpoint;
 refresh thesis physical17–18/routing PNG/master16. Preserve settled source decisions.
 
 ## One next action
 
-Owner chose Handbook admission/registration first,then requested a full Handbook scan excluding
-staff-only/graduate/Law/Medicine/lab-school procedures. [All394page inventory](2026-10-26-full-handbook-topic-results.md)
-delivered;next focused source-field review26–34. Start p26–27overlapping enrollment/fee wording and
-missing program-list holds;exact excerpts/options already shown,but no treatment answer recorded.
-Standing clear-row delegation persists;new issues still need original-region review. No new fields
-approved by this inventory. Charter Registrar/college services follow the selected Handbook work.
+Owner says gather possible topics from both sources now,review in bulk later. [Combined catalogue](2026-10-26-handbook-charter-expansion-catalogue.md)
+delivered:86fixed IDs/8batches;65new/4partial/7held/7support/3existing-context groups. Next when owner
+starts review:prepare complete exact-source cards by batch,admission/registration first. Do not begin
+individual approval questions or corpus construction now. Source issues remain flags,not decisions.
+A/p11-expansion-catalogue-20261026has fresh Charter117page text comparisons,21renders+H101,
+original/package hash checks and ID/count/page validation. Original78selection unchanged.
 
 Two saved natural queries ran once on active78:0/2expected answers,4routing/style calls,0retries.
 Passing question RAG/grading_scale requests8mappings1.0–2.75then storage_error31.237s;underlying cause

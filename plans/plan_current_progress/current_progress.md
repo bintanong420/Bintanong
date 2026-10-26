@@ -1,19 +1,19 @@
 # Current progress
 
-Updated26October2026,15:26+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
+Updated26October2026,15:48+08. Phase11 active in p11 / feat/p11-backend-api;dev basecbaa6a7;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
 Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
-Owner chose Handbook admission/registration first,then requested the whole Handbook scan.
-[Full394page inventory/results](../2026-10-26-full-handbook-topic-results.md)delivered:all pages
-accounted;55original renders checked,including20sparse pages. Sealed78package hashes/pin match;
-66Handbook chunks cover grading_scale/grade_completion/overload/academic_misconduct only.
-Omitted admission,records/shifting,standing,graduation,disciplinary due process,scholarships/loans,
-clearances,organizations and student-support routes mapped. Excluded books/clauses kept separate.
-Inventory is not field approval;new p26–27wording/list holds unresolved. No new activation.
+Owner now requests gathering all possible Handbook/Charter expansion topics first,bulk review later.
+[Combined catalogue](../2026-10-26-handbook-charter-expansion-catalogue.md)delivered:86fixed IDs in8batches;
+65new,4partial,7held,7support and3existing-context groups.83pending groups are not approved additions.
+Both original hashes/7package seals verified;all117cached Charter texts match fresh original native
+text;21Charter renders plus H101checked. Full394Handbook inventory reused,not repeated.
+Catalogue links source pages,coverage,exclusions and later-review flags. No field approval questions
+or corpus construction now. Staff-only/graduate/Law/Medicine/lab-school exclusions preserved.
 
 [Two natural queries/source coverage](../2026-10-26-natural-grading-and-source-coverage-results.md)
 complete:0/2answer expectations met,4model calls,0retries. Passing-grade question selects grading_scale
@@ -52,6 +52,6 @@ No production/prompt/source/chunk/embedding/release mutations or new downloads t
 
 ## Next action
 
-Focused Handbook admission/registration source-field review26–34,starting with p26–27wording/
-missing-list holds. Apply standing clear-row delegation only to actual clear readings;show new issues
-inline. Charter Registrar/college services follow. Grading fixes remain separate bounded TDD work.
+When owner starts the later bulk review,prepare complete source cards from catalogue batchesA–H,
+admission/registration first. Include exact wording,full service associations and held issues;do not
+re-scan sources or infer content approval/activation from collection. Grading fixes remain separate.

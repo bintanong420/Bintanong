@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 112
+sequence: 113
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 89301b8
+head_commit: 5c4a930
 working_tree: clean
-updated_at: 2026-10-26T15:26:00+08:00
+updated_at: 2026-10-26T15:48:08+08:00
 ---
 
-# Phase 11 checkpoint — full Handbook topic inventory
+# Phase 11 checkpoint — Handbook/Charter expansion catalogue
 
 ## Completed Tasks
 
@@ -23,17 +23,17 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-Full394page Handbook topic/audience scan delivered on owner request;[results](2026-10-26-full-handbook-topic-results.md)
-map omitted/partial student processes,excluded books and source holds. No new field/corpus approval.
-Next field-review priority remains admission/registration26–34. The two grading failures stay open.
+[Combined expansion catalogue](2026-10-26-handbook-charter-expansion-catalogue.md)delivered on latest owner
+request:86groups/8bulk-review batches,83pending groups and3existing-context groups. Gather now,
+bulk review later;this supersedes immediately starting26–34field approval. No new content approval.
 
 ## Repository State
 
 p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Backend/tests/migrations remain frozen706d3c6;
-89301b8resume baseline;documentation descendants do not change tested code. Snapshot head names
+5c4a930catalogue baseline;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and scan documents.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
-R=A/p11-companion-context-20261026. New inventory A/p11-full-handbook-scan-20261026;prior grading triage evidence retained.
+R=A/p11-companion-context-20261026. New catalogue evidence A/p11-expansion-catalogue-20261026;Handbook/grading inventories retained.
 Raw sources/results/helpers/pin are ignored. Two-query runner ended0;no jobs running.
 Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
 
@@ -70,6 +70,10 @@ Documentation local links and git diff --check pass;phase-state validation valid
 Local comparison only,no fresh hosted membership query. Four selected Handbook subjects;omitted
 and partial routes mapped. Original/template/law-title-only limits preserved;no new model calls.
 
+Combined catalogue:86unique sequential IDs,8batches;65new/4partial/7hold/7support/3existing. Both
+original hashes and7package seals pass;78total/66H/6Cchunks. All117cached Charter native pages
+match original;21Charter renders+H101checked. Source/issue cards deferred to later bulk review.
+
 ## Versions and Digests
 
 Python3.13.7/FastAPI0.141.1/SWI-Prolog10.1.15/Postgres17.6/pgvector0.8.2/CLI2.117.0 unchanged.
@@ -83,8 +87,9 @@ Global canonical default unchanged. Old19superseded/retained;old80draft. Origina
 
 ## Decisions
 
-Owner chose Handbook admission/registration first and explicitly requested the full Handbook scan.
-This approves inspection priority,not new fields or source-issue treatments.
+Owner now says gather possible Handbook/Charter topics first,review in bulk later.
+Admission/registration remains first proposed batch;do not start per-topic approval questions now.
+Collection is not content approval;standing clear-row delegation and new-issue holds remain.
 Owner authorized corrected78activation after validation;recorded owner-decisions-ledger permission
 executed without reopening source approval. Research-only;no school/currentness/public approval.
 Source wording,blanks,cutoffs,conflicts,F04hold,unknown applicability and advisory/privacy limits fixed.
@@ -98,9 +103,9 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
-Focused Handbook admission/registration field review26–34,starting with p26–27wording/missing-list
-holds. Apply standing clear-row delegation to clear actual readings;new issues need exact original
-regions/wording. Charter Registrar/college work follows;no new activation or grading rerun authorized.
+When owner starts later bulk review,prepare complete original-source cards from batchesA–H,
+admission/registration first. Preserve exact wording/associations/gaps and distinguish existing
+coverage. Do not re-scan or infer new chunk/rule/activation approval. Grading fixes stay separate.
 
 ## Context Consulted
 

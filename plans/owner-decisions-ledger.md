@@ -8,6 +8,12 @@ AGENTS.md, current progress or dated review records supersede older entries wher
 
 ## Owner decisions to preserve across CLI sessions
 
+- 26 October 2026 (Phase11 expansion review): owner says "lets gather the possible topics we can
+  expand into, including the citizen charter. Then later we will review in bulk". Gather the combined
+  undergraduate topic catalogue now; defer source-field approval questions/review until later.
+  This supersedes immediately starting Handbook26–34field review,not its first-batch priority.
+  Collection does not approve new fields/chunks/rules or activation;existing holds/delegation persist.
+
 - 25 October2026 (Phase11 resumed source package): frontend ready; integrate after pending work.
   Complete pre-enrollment context needs approximately3827 tokens with citations. Owner delegated the
   choice ("whatever u think is the best option lets take it") after the4096 recommendation with live
