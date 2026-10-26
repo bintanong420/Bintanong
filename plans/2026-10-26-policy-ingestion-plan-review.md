@@ -52,22 +52,27 @@ Student appearance supports light/dark/system; the existing reviewer follows OS
 preference. Shared preference storage across origins is not automatic.
 Browser/light/dark/keyboard/responsive checks remain required after implementation.
 
-## Grilling round 1: open owner decisions
+## Grilling restart: keep the developer specification fixed
 
-1. **Operator workflow:** keep prepare/build/verify and local release commands in
-   the terminal, with the browser dedicated to review, or drive those actions from
-   the browser too? Recommend the specified CLI plus review-only UI for v1.
-2. **Reviewer concurrency:** one active reviewer per packet, or simultaneous shared
-   editing? Recommend one writer per packet with save/reopen and a decision trail;
-   different packets can be reviewed independently.
-3. **Delivery milestones:** require the full seven-command lifecycle before any
-   usable delivery, or deliver prepare/review/build/verify first and the disposable
-   local stage/publish/rollback rehearsal second? Recommend two milestones while
-   retaining both in the overall acceptance scope.
-4. **Extraction expectation:** support inputs the existing PDF/candidate path can
-   process and visibly hold unsupported cases, or require additional scanned/layout
-   support before v1 acceptance? Recommend existing supported paths plus visible
-   holds, with any additional OCR/layout work scoped separately from the wrapper.
+Owner asks to restart faithfully from the notes, with necessary repository context.
+Verbatim snapshots and explicit owner additions are linked in the feature plan.
+The original round is superseded: CLI commands plus local review UI, all seven
+operations and visible unsupported-layout holds are already specified. Do not
+ask the owner to choose a replacement scope or omit the local release rehearsal.
 
-Wait for answers before settling these branches or changing the feature plan.
-Later questions will follow the decisions, rather than assume them in this round.
+The specified concurrent-writer tests do not establish collaborative editing.
+The notes do not specify reviewer UI language or its primary device target.
+These are the current independent product questions:
+
+1. **Review ownership:** one active reviewer per packet, with handoff/save/reopen,
+   or simultaneous edits to the same packet? Recommend one writer per packet;
+   different packets can proceed independently. Preserve lock/conflict tests.
+2. **Researcher UI language:** English labels/help, or multilingual labels too?
+   Recommend English for this local research tool. The owner's English agent-reply
+   preference does not itself decide UI language; student multilingual behavior stays.
+3. **Device target:** desktop/laptop review first, or full phone review as a v1
+   requirement? Recommend desktop-first comparison with readable narrow-screen
+   fallback, preserving keyboard/focus and existing safety controls throughout.
+
+Wait for answers before adopting these recommendations. Later dependent questions
+follow the answers; no new implementation or review approval is inferred.

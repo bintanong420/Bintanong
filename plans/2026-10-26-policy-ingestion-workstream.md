@@ -26,6 +26,57 @@ define this implementation plan, not merely background context. The owner's
 ingestion-only and hosted-database restrictions constrain its release operations.
 This repository record makes the context available without those external files.
 
+## Original notes and fidelity
+
+The supplied notes are preserved verbatim as
+[developer workflow](2026-10-26-policy-ingestion-developer-workflow.md) and
+[developer feature plan](2026-10-26-policy-ingestion-developer-plan.md).
+These are reference snapshots, not instructions to execute hosted operations.
+Original byte hashes: workflow `4dd54518f743e09c3d8ba0bd0c1a76fe6640c058c4f1e8671ba3963e67ec2473`;
+feature plan `444f037dc5cfb8243f4a7e0b32940d07e260d59faa1a9308bbbb7d3197c371f6`.
+
+Preserve the specified functionality and five-step sequence: packet/command
+boundary; local review UI; reviewed package building; verification/release tooling;
+documentation/rehearsal. The task breakdown below supplies engineering detail,
+not a replacement specification. All seven commands remain in scope. The prior
+grilling suggestions about changing the CLI/UI split, deferring release tooling
+or changing unsupported-layout acceptance are withdrawn; the notes settle those.
+
+Owner additions: ingestion-only work, no hosted access, English agent replies,
+relevant installed skills and visual semi-alignment with the current student UI.
+The source note's hosted/package readback and maintenance wording describes a
+broader operator release process; this developer rehearses it only against a
+disposable local database/test descriptor. Future actual hosted operations stay
+with the runtime owner under separate explicit authorization.
+
+## Repository context to carry into implementation
+
+- Phase 2 already has the prospectus browser review GUI at
+  `backend/bintanong_tools/prospectus_review_gui/`. Its PDF display, region
+  highlights, queue, ledger locking and access protections are reuse points;
+  its course/prerequisite question schema is specific to prospectuses.
+- The general institutional ingestion entry point at
+  `backend/bintanong_tools/document_ingest/__main__.py` is CLI-based. Its pipeline
+  and hash-checked bundle loader supply preparation and raw-candidate replay.
+  They are separate from reviewed package replay; do not transfer source approval.
+- Later reviewed-policy builders and service/flowchart bindings already enforce
+  source-bound decisions and associations. The main new bridge is the policy
+  review session/export feeding those existing records, plus command orchestration.
+- Reuse compatible embedding batches and existing storage/review/release loaders.
+  Supply verified disposable local clients explicitly; ambient configuration can
+  otherwise target hosted services. Runtime-descriptor recovery needs a local journal.
+- Historical Phase 2 delivery is software evidence, not universal extraction or
+  content accuracy. Current PPTX slides remain withheld for unsupported locators;
+  older Charter failures have not been freshly reproduced in this review.
+- Semi-align the new local UI through scoped colors, borders, spacing and controls
+  from `frontend/app/styles.css`. Keep the source-comparison workspace, independent
+  audience/content decisions, reasons, companion context, history and export.
+  Retain FastAPI/plain HTML/CSS/JavaScript and the original prospectus review behavior.
+  Use available local font assets/fallbacks; no new dependencies or remote assets.
+
+See [reuse/UI inspection](2026-10-26-policy-ingestion-plan-review.md) for limits and
+the remaining product questions. Recommendations there are not owner decisions.
+
 ## Ownership and isolation
 
 - Ingestion developer: reusable Handbook/Citizens' Charter preparation, local
@@ -36,8 +87,10 @@ This repository record makes the context available without those external files.
   `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/`, eventually integrated
   into `feat/p11-backend-api`. Do not switch or repurpose another developer's tree.
 - Attachment base `7590a71` is historical context, not a verified current baseline.
-  Before implementation, confirm a fixed, reviewed package/commit with the runtime
-  developer; preserve it unchanged for comparison. No whole-document approval follows.
+  The runtime developer first completes planned Handbook/Charter verification and
+  commits its actual review records, then identifies the fixed reviewed package/commit
+  before this feature branch is created. Reuse settled decisions; no whole-document
+  approval follows and no repeat content reconstruction is implied.
 - Keep a dedicated ingestion task record here; supply concise updates for the
   central Phase 11 checkpoint/progress maintained by the coordinating developer.
 - Generated/source-derived artifacts remain ignored under workspace `audit-evidence`.
