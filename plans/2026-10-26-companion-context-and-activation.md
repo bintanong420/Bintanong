@@ -45,17 +45,17 @@ This shows the remaining-INC-period paragraph without adjudicating conflicting d
 3. [x] Synthetic RED for truthful limited source-conflict fallback:exact source paragraphs/refs,
    single requested gap only,status remains non-answer;0model calls. Reject missing/mixed/held/
    unrelated groups and final-text/ref tampering. GREEN existing generator/render/final contract path.
-4. [ ] Relevant regressions,independent code review with important findings reproduced/fixed. Real
+4. [x] Relevant regressions,independent code review with important findings reproduced/fixed. Real
    templated-token preflight for router/draft/review before bounded six once;existing explicit parts/
    short draft profile,canonical review/final IDs,8192context/768output unchanged. Final full suite
    after code freeze,serialize model/encoder and full DB tests. No unbounded prompt/model sweeps.
-5. [ ] If semantic/source-fidelity checks pass,prepare concrete hosted/local78pin switch through
+5. [x] If semantic/source-fidelity checks pass,prepare concrete hosted/local78pin switch through
    existing governed research-release API. Verify exact chunk IDs/hashes/embedding set/39curriculum
    links and current19baseline;back up runtime pin and rollback inputs. Apply already-authorized
    activation,read back status/membership,compose normal HostedReleaseStorage,run bounded hosted
    smoke and relevant accepted-query comparison. Roll back on failed integrity/smoke;no bypass of
    release guards. Keep old80draft/source/history unchanged. Never manufacture school/currentness.
-6. [ ] Save exact tests/model/hosted results,progress/checkpoint/recovery and cohesive commits. Phase11
+6. [x] Save exact tests/model/hosted results,progress/checkpoint/recovery and cohesive commits. Phase11
    stays active until remaining query/style/frontend/browser exits;activation is not phase completion.
 
 ## Review focus
@@ -71,45 +71,28 @@ Interfaces:reviewed required_chunk_ids -> DocumentRecordCoverage(all records,exp
 Withheld conflicting-deadline cards -> exact context quotation/status source_conflict only.
 Existing governed release/pin APIs consume unchanged sealed package after software/answer validation.
 
-## Implementation evidence before freeze
+## Final implementation and activation evidence
 
-Coverage RED2;context RED11;fallback/edge RED5. GREEN120 targeted,then broad1316passed35.48s.
-Full required closure and explicit ordered subset propagate separately. Exact companion/penalty
-quotes,unresolved messages,existing precedence ownership and literal final fidelity preserved.
-A typed-tuple construction mismatch and withheld-citation gating were repaired during GREEN.
-Fallback remains source_conflict/non-answer with0inference and strict final quote/citation proof.
-Next independent code review,saved actual packet replay/token preflight,six once/final full suite,
-then already-authorized governed78activation/readback/hosted smoke and rollback protection.
+Coverage RED2;context RED11;fallback/edge RED5. GREEN120targeted/1316broader;independent oneP2
+reproduced RED4,fixed706d3c6,63passed/fresh865passed. Final frozen suite6896passed/1595subtests,
+6skip2xfail6warnings,1400.75s,exit0. Original partial95%run preserved;full-suite-only recovery
+completed without repeating the six questions. No production/test/migration changes on continuation.
 
-Final review:one P2 final-fidelity bypass reproduced RED4,then fixed706d3c6;GREEN63passed2.03s.
-Fresh broad865passed30.75s after fix. Earlier1316broad retained separately. No second review.
-Actual saved six-packet replay complete:INC source_conflict/4cites/0inference;Charter footer and
-cheating primary/shared conditions now exact. Actual templated draft/review preflight max4918input,
-reserved768+8 fits8192. No inference in replay/preflight;runner fixture assembly errors repaired.
-Frozen code706d3c6;managedsession86478/helperPID20796 running six once then final full suite.
-Read-only hosted preparation verified78exact chunk/span/source/vector records and39matching curriculum
-links;19active/78draft/80draft preserved. Local runtime pin was absent;rollback restores absence.
-Derived runtime package copies source bytes plus byte-identical reviewed order overlay and budgets;
-sealed48source files unchanged. No hosted mutation yet. Activation RPC/anon readback/39curriculum
-composition/smoke are prepared but remain gated by actual quality and final suite.
+Replay and real router/draft/review preflights fit unchanged8192/768limits;39curriculum prompts
+6307/6320/6359input. Six once/21completions,5answered1source_conflict,6/6selected expectations met.
+Exact source48file seal preserved;no source review reopened. Results/quality binding retained.
 
-Runner recovery:Windows PowerShell5 treated an encoder stderr warning as fatal before any case;
-a second setup rejected a docs-only descendant. Both made0model calls. Use managedsession68829/
-PID20176 started12:58:11+08,PowerShell7 and production-tree freeze verification permitting doc commits.
-No case has been repeated;preserve setup-failures.json and six-setup-doc-head-failure.log.
+Governed corrected78activation and live hosted smoke both exit0. Exact chunks/spans/source/vector
+bindings,39same curricula,anon78/39/normal HostedReleaseStorage/local pin verified. Fresh MCP:
+78active/old19superseded+retained/old80draft. Two affected retrieval groups match;3accepted queries
+preserve status/decision,0retries. Old19rollback remains available. No public/institutional approval.
 
-Selected six complete once/21raw completions:5answered1source_conflict,0exceptions;6/6frozen
-expectations met on author inspection. Fraud1ordinary draft repair;no case retry. Full suite RUNNING;
-activation remains pending. See2026-10-26-companion-context-activation-results.md and ignoredquality
-review. Session-guard ruling:continue the authorized frozen validation/activation with compact
-checkpoints and targeted operations;do not split merely at a tool-count threshold while a required
-job is running. Exact source48seal/undergraduate/private/source-gap limits and old19rollback remain.
+Continuation ruling:reuse the existing gate receipts,guarded switch and reviewer-fix evidence;
+no new behavior was implemented,so no artificial RED gate or duplicate code review. Dependency
+interface is task4(full-suite0and bound six-quality pass)->task5(governed release/pin switch),verified.
+Risk if the gate binding were wrong:untested release;code/source/result hash checks passed.
 
-Actual39curriculum router preflight6307/6320/6359tokens,>=1057headroom;0inference. Activationhelper
-checks that binding on normal hosted composition. OuterPowerShell7 helper rolls back if any hosted
-smoke setup/execution fails,not only asynchronous answer errors. Rollback does not depend on the
-corrected source package remaining readable. No schema/auth/grant/dependency change.
-
-Owner13:16 requests session handoff;existing full suite left running at95%,not restarted/stopped.
-All6selected expectations pass;activation not executed. Exact gated command/rollback/recovery in
-2026-10-25-phase11-session-handoff.md. Continue from final exit,not another six/full run.
+All six tasks delivered;this increment ends at the activation milestone. Phase11 remains active;
+next bounded task is natural grading/simple-query diagnosis,not source expansion or Phase12.
+[Final results](2026-10-26-companion-context-activation-results.md) ·
+[Recovery](2026-10-25-phase11-session-handoff.md).

@@ -22,14 +22,14 @@
   [Plan](phase-10-private-files-session-plan.md) · [Superseded checkpoint](phase-10-checkpoint.md) ·
   [Final handoff](phase-10-handoff.md) · [Multi-turn results](2026-10-23-multi-turn-observation-results.md) ·
   [Photo-OCR probe](2026-10-23-photo-ocr-probe-results.md) (photos unsupported).
-- Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); roster19 compared; source extension staged inactive)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
+- Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); roster19 compared; corrected78 research release active)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
   adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
   [Checkpoint](phase-11-checkpoint.md) · [Session recovery](2026-10-25-phase11-session-handoff.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
   [Hosted80-chunk audit](2026-10-25-hosted-chunk-review.md) complete:72approved/8correction-needed;draft inactive.
-  [Corrections](2026-10-26-hosted-chunk-correction-results.md):new78-chunk/39-link draft staged inactive;old releases preserved.
+  [Corrections](2026-10-26-hosted-chunk-correction-results.md):78chunks/39curricula now research-active;old19retained/old80draft.
   [Runtime check](2026-10-26-corrected-candidate-runtime-results.md):full suite passes;six-query quality gate fails;inactive.
   [Answer fixes/results](2026-10-26-source-field-selection-results.md):6865+1595subtests passed;3/6checked expectations met;inactive.
-  [Companion fixes/current results](2026-10-26-companion-context-activation-results.md):6/6selected expectations met;final suite running;78activation authorized after validation. Session handoff saved26Oct13:16.
+  [Companion fixes/current results](2026-10-26-companion-context-activation-results.md):6/6selected expectations;6896tests/1595subtests passed;78activation and hosted checks pass. Recovery saved26Oct14:33.
   Program prerequisite reviews: [BS Architecture 01](2026-10-22-bsa-prerequisite-review-01.md).[Audit](2026-10-20-runtime-architecture-implementation-audit.md);[master plan](master_implementation_plan_original_long.md) sections 1-22 unchanged except the section 2 "Current pins" table and 16.3 SDK wording (owner, 23 Oct); owner-requested addenda: section 23 (conversational follow-ups, 23 Oct), section 24 (Phase 10 carry-overs: photo OCR, Taglish follow-up style, 24 Oct).
 - [Completed plan](phase-05-retrieval-plan.md) · [Superseded checkpoint](phase-05-checkpoint.md) ·
   [Final handoff](phase-05-handoff.md) · [Current progress](plan_current_progress/current_progress.md).
