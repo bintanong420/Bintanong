@@ -87,5 +87,7 @@ These are the current independent product questions:
    requirement? Recommend desktop-first comparison with readable narrow-screen
    fallback, preserving keyboard/focus and existing safety controls throughout.
 
-Wait for answers before adopting these recommendations. Later dependent questions
-follow the answers; no new implementation or review approval is inferred.
+Owner subsequently said "I approve of the plan." Plan approval is recorded;the
+three specific product answers remain unstated. Keep their defaults proposed while
+independent T0 preparation proceeds. No institutional/source approval or hosted
+permission follows from this software-plan approval.

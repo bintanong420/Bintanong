@@ -1,7 +1,8 @@
 # Policy ingestion and local review implementation plan
 
-Recorded 26 October 2026. Status: planned; implementation not started. This is a
-Phase 11 feature plan, subordinate to the active phase plan, not a new phase.
+Recorded 26 October 2026. Status: owner-approved; T0 preparation started, no
+implementation code yet. This is a Phase 11 feature plan subordinate to the active
+phase plan, not a new phase.
 
 **Goal:** build a reusable ingestion pipeline and local researcher review UI for
 new Handbook and Citizens' Charter editions, through verified local packages.
@@ -11,6 +12,22 @@ with a manifest-driven command suite; keep source review explicit and outputs in
 existing Next.js/React/TypeScript stack and suitable shared components for the UI.
 **Execution:** use the installed executing-plans workflow task by task, with the
 repository TDD/handoff rules. No agent delegation is needed for this plan.
+
+## Owner approval and preparation state
+
+26 October 2026: owner explicitly said **"I approve of the plan."** This approves
+the feature plan and its recorded frontend-stack amendment. It does not establish
+institutional/source approval,authorize hosted access or explicitly answer the
+three remaining product questions. Those defaults remain proposed;independent
+baseline/worktree preparation can proceed.
+
+Created local `feat/p11-policy-ingestion-review` directly from the verified Git
+fork4e99fb6 at the planned workspace path. The reported c76d988 commit could not be
+found locally or by GitHub,and the named branch/path did not exist here before
+creation. No existing workspace was replaced and no setup/install hook was used.
+The upstream source/package comparison directory is missing locally;its path has
+been requested. Git identity is verified;byte verification/rehearsal of the actual
+reviewed package remains pending and must not be claimed from the notes alone.
 
 ## Request and supplied context
 
@@ -159,16 +176,19 @@ historical delivery notes do not prove current readiness.
 
 ## Implementation tasks and dependencies
 
-All tasks are pending. Proposed new paths below are implementation targets, not
+T0 preparation is in progress; T1–T5 are pending. Proposed new paths are targets, not
 claims that modules already exist. Keep each task to a focused RED/GREEN cycle and
 verified commit; do not build a second parser, reviewer or release manager.
 
 ### T0: Freeze the baseline and isolate the work
 
-- [ ] Establish the reviewed input/package identity and actual backend commit;
-  reconcile the existing upstream start receipt and prepare the dedicated feature
-  worktree from the fixed fork without changing the owner's checkout. Carry this
-  plan,verbatim notes and current owner boundaries into that tree explicitly.
+- [x] Check reported start receipt: c76d988 absent locally/GitHub;the named local
+  branch/worktree and origin branch were absent before creation.
+- [x] Create `feat/p11-policy-ingestion-review` in the dedicated worktree from
+  `4e99fb655022e694c73bbd98dd6daec9d7d88fb5`,without switching the owner's checkout.
+- [ ] Verify reviewed source/package bytes from the actual local baseline,not its
+  historical receipt alone. Recorded evidence directory is missing;local path requested.
+- [x] Carry this plan,verbatim notes and current owner boundaries into that tree.
 - [ ] Inspect callers/contracts and tests of the reuse points below. Record the
   baseline hashes, affected interfaces and local output directory in this plan.
   Prioritize this tooling before new Handbook/Charter expansion; grading fixes stay separate.

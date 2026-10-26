@@ -1,6 +1,6 @@
 # Phase 11 policy-ingestion developer task
 
-Status: **not started; waiting for the primary's review-complete shared baseline**.
+Status: **plan approved; isolated worktree prepared; no implementation code yet**.
 This is a dedicated workstream record, not a numbered phase plan/checkpoint.
 [Coordination contract](2026-10-26-phase11-two-developer-workflow.md).
 
@@ -22,10 +22,10 @@ agreement and one designated implementer before modification.
 
 | Item | Current state |
 | --- | --- |
-| Review-complete shared Git commit | Not established; do not substitute current HEAD |
-| Source/package manifest | Comparison-only snapshot linked above; final baseline pending |
-| Feature branch | `feat/p11-policy-ingestion-review`, not created yet |
-| Separate worktree | Not created yet |
+| Review-complete shared Git commit | `4e99fb655022e694c73bbd98dd6daec9d7d88fb5`; bounded review only |
+| Source/package manifest | Upstream recorded; local comparison directory missing, path requested |
+| Feature branch | `feat/p11-policy-ingestion-review`, created from the fixed fork |
+| Separate worktree | `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11-policy-ingestion-review` |
 | Generated outputs | Workspace `audit-evidence/p11-policy-ingestion-review-20261026/` |
 | Disposable local database | Not configured or validated |
 | Shared interface changes | None agreed or implemented |
@@ -65,7 +65,20 @@ Do not edit shared workstation setup as an incidental ingestion implementation s
 
 ## Shared-change agreement and updates
 
-No shared-change proposals or implementation updates yet. For each proposal record
+Owner approved [the feature plan](2026-10-26-policy-ingestion-workstream.md), including
+Next.js/React/TypeScript UI plus FastAPI and prospectus reuse extended to Handbook/CC.
+Six ingestion documentation commits were initially made on frontend in error; they
+have been transferred here. Frontend was reset to origin/frontend e172f53 with its
+pre-existing dirty files restored. Recovery ref: recovery/p11-ingestion-misplaced-20261026.
+All further ingestion changes belong in this worktree. No frontend push occurred.
+
+Baseline synthetic checks:77 passed/110subtests,30.01s using Python3.13,pytest cache
+disabled and external basetemp. Initial setup errors came from a missing basetemp
+parent;creating that directory resolved them without code/dependency changes.
+Source/package byte verification,UI/device/reviewer choices and local DB remain pending.
+No credentials copied,no installs,hosted access or runtime/source activation.
+
+No shared-change proposals or implementation code yet. For each proposal record
 the interface, resulting behavior, compatibility, agreed implementer and commit;
 then report both ingestion and runtime compatibility test results. Keep this record
 compact and leave central Phase 11 progress/checkpoint edits to the primary.
