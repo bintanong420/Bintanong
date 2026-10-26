@@ -41,8 +41,11 @@ def test_confirmation_can_see_an_available_step_the_draft_omitted():
     pack, payload = review_payload()
     assert {c['text'] for c in payload['available_sources']} == {CHECKLIST, STEP}
     assert len(payload['available_sources']) == 2
-    attached = payload['parts'][0]['claims'][0]['sources']
+    linked = payload['parts'][0]['claims'][0]['source_ids']
+    lookup = {c['evidence_id']:c for c in payload['available_sources']}
+    attached = [lookup[ref] for ref in linked]
     assert [c['text'] for c in attached] == [CHECKLIST]
+    assert 'sources' not in payload['parts'][0]['claims'][0]
     assert json.loads(next(c['text'] for c in payload['available_sources'] if c['text']==STEP))['source_limits']
 
 

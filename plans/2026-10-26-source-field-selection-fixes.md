@@ -78,3 +78,26 @@ No default/source selection decision overridden. Existing model container was st
 Docker Desktop/container restarted using existing installation/weights/profile,no downloads.
 Next freeze corrected code and run full suite then six once;explicit short-draft/canonical-review
 profile is for this candidate observation only,global canonical default unchanged.
+
+Frozen760ecfb;hidden helperPID12052 started26Oct10:54:51Manila,full suite then six once on exit0.
+48source artifact hashes reverified unchanged,model healthok. No cases started before suite.
+Do not repeat jobs/cases or create a new HEAD until runner verifies frozen identity.
+
+## Packing defect and follow-up ruling
+
+760ecfb full suite PASSED6864+1595subtests,6skip2xfail6warnings,1463.76s,exit0. Six routing attempts
+all stopped before inference with context_overflow;0model completions,0quality observations. Retain
+all failed traces. Flat per-claim field metadata repeated long claim labels;actual input7596+768+8
+exceeded8192. RED2 then lossless grouping of identical field sets by zero-based fact positions.
+All6router preflights now6285–6315tokens,at least1101spare after768output+8reserve;0inference.
+Saved removal review also overflowed7703+768+8 due repeated full source bodies. RED1 then carry
+each full card once in available_sources,retain canonical per-claim source_ids and support scope.
+Removal review4918tokens;procedure review4286;short drafts2704/2885. All fit unchanged8192/768 limits.
+One existing geometry test updated to inspect the new single full-source location;no assertion weakened.
+
+Ruling:after this concrete packing fix,run the six once on newly frozen code after broad regressions
+and actual templated-token preflight;run the final full software suite afterward before completion.
+The760ecfb suite already passed but did not catch this real prompt-capacity defect. Reordering avoids
+another full-suite wait before reaching inference. Cost if broad checks miss a regression:the bounded
+six may fail;candidate remains inactive and final-suite gate remains mandatory. This is no source/
+model/context/output-budget change or retry sweep;old0completion attempt remains separately recorded.

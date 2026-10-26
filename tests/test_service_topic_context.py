@@ -115,7 +115,7 @@ def test_router_receives_the_exact_reviewed_field_names_bound_to_each_selectable
     register,catalogue,chunks=inputs()
     topics,system=menu_content(register,catalogue,chunks)
     assert topics[0].claim_fields=={'visible service fields':('service_title','description')}
-    assert '"fact_fields":{"visible service fields":["service_title","description"]}' in system
+    assert '"fact_fields":[{"fact_indices":[0],"fields":["service_title","description"]}]' in system
     assert 'requirement_1' not in topics[0].claim_fields['visible service fields']
 
 
@@ -154,3 +154,16 @@ def test_malformed_extra_field_reference_cannot_crash_existing_valid_bindings(na
     register['reviews'][0]['field_refs'].append(dict(reading_id='header-a',field_name=name))
     topics,_=menu_content(register,catalogue,chunks)
     assert topics[0].claim_fields=={'visible service fields':('service_title','description')}
+
+
+def test_repeated_field_sets_are_shown_once_with_complete_fact_positions():
+    from backend.bintanong_routing.contracts import DocumentTopic
+    claims=tuple(f'Fictional fact number {n}: action and consequences' for n in range(12))
+    topic=DocumentTopic(subject_id='fictional_service',claims=claims,
+        claim_fields={claim:('Cause','First consequence') for claim in claims})
+    system=build_messages('What happens for fictional action Q?',
+        RequestContext(session_id='sess-a',request_id='req-a'),(),registry(),(topic,))[0]['content']
+    start=system.index('[{"fact_fields"')
+    menu,_=json.JSONDecoder().raw_decode(system[start:])
+    assert menu[0]['fact_fields']==[{'fields':['Cause','First consequence'],'fact_indices':list(range(12))}]
+    assert menu[0]['facts']==list(claims)

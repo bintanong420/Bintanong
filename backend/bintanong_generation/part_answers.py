@@ -169,7 +169,9 @@ also does_not_answer a part when a cited source's source_limits mark the request
 information as not stated, or when it offers a total or example for one person's own
 amount; never calculate or divide amounts to make it fit. Use uncertain when unsure.
 Separately give one support verdict for EVERY claim: its WHOLE meaning must follow
-from that claim's own cited sources. available_sources cannot support a claim that
+from that claim's own cited sources. source_ids links to the full records in available_sources;
+resolve only those IDs when judging that claim's support. Full records are carried once.
+available_sources cannot support a claim that
 does not cite it; support remains limited to that claim's attached sources.
 Use unsupported for missing support,
 contradiction for conflicts, unknown when unsure. Judge requested language and
@@ -422,7 +424,7 @@ def confirm_messages(text, pack, draft, slots):
         permitted_scope='documentary_explanation_only',
         available_sources=[model_card(card) for card in cards.values()],
         parts=[dict(part_id=p, text=texts[p], requested_claims=requested[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
-            sources=[model_card(cards[e]) for e in claims[c].evidence_ids]) for c in ids])
+            source_ids=[cards[e].evidence_id for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
     required = required_record_sources(pack)
     if required:

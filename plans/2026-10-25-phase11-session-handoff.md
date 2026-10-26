@@ -8,14 +8,21 @@ and [active plan](phase-11-backend-api-plan.md). Git/fresh results outrank notes
 
 ## Exact next action
 
-The [bounded selected-answer fix pass](2026-10-26-selected-answer-quality-fixes.md) has ENDED.
-Read [results](2026-10-26-selected-answer-quality-results.md). Code04005d9;full6835+1595subtests passed,
-6skip2xfail6warnings,1399.28s,exit0. Six unique cases once/19calls completed,runner exit0,no jobs running.
-Quality FAILED:fraud and fee meet checked expectations;removal withheld after coverage repair,INC
-selects held deadlines,procedure truncates768tokens,cheating answers only shared measures despite
-positive review. Next regression-first work is semantic claim selection/grade claim granularity and
-complete procedure output under existing contract. Preserve exact approved source wording/limitations.
-No automatic source/budget/model/prompt sweep,retries or activation. Wider queries/Hybrid/style/UI open.
+ACTIVE:[source-field fixes/results](2026-10-26-source-field-selection-results.md).760ecfb full6864+
+1595subtests passed,6skip2xfail6warnings,1463.76s,exit0. Its six attempts all failed router context
+preflight:0server completions/no new answer-quality evidence. No old jobs running.
+Lossless packing fix ready:RED2 menu/RED1 review;shared field sets by fact positions,one full-source
+catalogue with canonical per-claim source_ids. Broad1160passed23.65s;real templated tokens allfit8192
+with768reserved. Next freeze packing code and six once,THEN final full suite (ruling in plan).
+Old evidence A/p11-source-field-selection-20261026/ stays intact;new A/p11-source-field-packed-20261026/.
+Read new frozen-code/running-jobs metadata before any restart;do not repeat an already-started case.
+Prior code89f5852/87f59c9/760ecfb and reviewer2P2 fixes retained. Existing explicit parts/short draft
+profile;canonical review/final IDs/global canonical default unchanged.48source files/78chunks unchanged.
+Fresh authenticated Supabase counts active19/39,corrected draft78/39,old draft80/39;no writes. This is
+counts/connection evidence,not live hosted runtime quality. All answer checks use local sealed copy.
+Omitted Handbook1–40/other Charter pages are not all non-student;full coverage review/intake not done.
+Owner exact source/limitations reminder remains binding;no repeated human review/new source/chunks.
+Keep candidate inactive until real quality/remaining release gates;wider queries/style/UI remain.
 
 ## Delivered fixes and evidence
 

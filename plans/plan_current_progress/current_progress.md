@@ -7,14 +7,15 @@ Last full snapshot before condensation:`c1fc29a:plans/plan_current_progress/curr
 
 ## Latest change
 
-[Source-field selection fixes](../2026-10-26-source-field-selection-fixes.md) in progress.
-Exact reviewed field names bind menu facts;generic complete conflicting-deadline group quotations
-retain original wording/unknown precedence before ordinary review. Identical quotations share IDs.
-RED8+12 and edge3/style1 observed;final broad1157passed22.55s. Saved removal packet keeps all4source
-paragraphs/two claims with coverage passing. Independent review/full suite/actual six pending.
-No source/chunk/budget/model/hosted writes/activation;48sealed files/78chunks remain fixed.
-Prior04005d9 full6835+1595subtests passed,2/6checked expectations met;results preserved below.
-Evidence workspace/audit-evidence/p11-source-field-selection-20261026/. No model cases started.
+[Source-field fixes/results](../2026-10-26-source-field-selection-results.md),packing follow-up ready.
+760ecfb full6864+1595subtests passed;6attempts stopped on router context_overflow before inference.
+0model completions/no new quality observations. RED2 menu+RED1 review-source packing fixed with
+shared field sets and one full-source catalogue/canonical claim links. Broad1160passed23.65s;
+actual router/draft/review token preflights fit unchanged8192/768. Next freeze,six once,then final
+full suite (ruling in plan). Old A/p11-source-field-selection-20261026/ evidence preserved;
+follow-up A/p11-source-field-packed-20261026/. No active jobs. Exact source48file/78chunk seal unchanged.
+Authenticated Supabase SELECT confirms active19/39links,corrected draft78/39,old draft80/39;counts only.
+No hosted writes/activation/source review/new chunks/budget/model/default change.
 
 ## Delivered state and boundaries
 
@@ -23,6 +24,8 @@ Evidence workspace/audit-evidence/p11-source-field-selection-20261026/. No model
 - Hosted80-ID audit complete72approved/8correction-needed;[ledger](../2026-10-25-hosted-chunk-review.md).
   [Corrections](../2026-10-26-hosted-chunk-correction-results.md):78chunk/39link draft INACTIVE,
   11new IDs/67reused,5new vectors;old active19/draft80 unchanged. Do not redo source review/staging.
+  Selected80/78 is not a whole-document audit;Handbook1–40/other Charter coverage remains unreviewed.
+  Omitted pages were not all established as non-student material;no expansion has started.
 - d72b88f trusted package budgets/transitive eligible companion closure;full6821+1595subtests passed.
   [Prior six results](../2026-10-26-corrected-candidate-runtime-results.md) retained;not current reruns.
 - Procedure-order6d70e1a,cutoff/referral4425538,comparison e1d7e8b and earlier full suites retained in
@@ -36,6 +39,6 @@ Evidence workspace/audit-evidence/p11-source-field-selection-20261026/. No model
 
 ## Next action
 
-Complete independent review,freeze code,run full suite then the same six once with explicit existing
-parts/short draft references. Preserve canonical review/final citations and exact sources/limits;
-global canonical default and inactive release unchanged. Keep inactive if any material quality gap.
+Freeze lossless packing fix;run same six once after regressions/token preflight,then final full suite.
+No repeated model sweep,source wording/limit change or activation. Current live pipeline uses19chunks;
+corrected78 remains draft;live hosted runtime checks remain distinct from local candidate validation.

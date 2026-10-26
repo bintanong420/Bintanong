@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 97
+sequence: 99
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 89f5852
+head_commit: 760ecfb
 working_tree: dirty
-updated_at: 2026-10-26T10:48:00+08:00
+updated_at: 2026-10-26T11:38:00+08:00
 ---
 
 # Phase 11 checkpoint — selected-answer verification
@@ -27,20 +27,21 @@ Prior procedure-order6d70e1a/cutoff4425538/comparison e1d7e8b results remain in 
 
 ## Current Task
 
-[Source-field selection/conflict fixes](2026-10-26-source-field-selection-fixes.md) in progress.
-Reviewed field names bound to menu facts;generic complete conflicting-deadline group quotation,
-ordinary review retained,shared exact quotation IDs. RED8+12,edge3/style1;final broad1157passed22.55s.
-Saved real removal packet preserves4paragraphs/two claims/coverage. Next independent review then
-freeze/full suite and six once with existing explicit parts/short draft profile. No model cases yet.
-Source48file/78chunk seal fixed;no source review/chunk/budget/model/hosted writes/activation.
-Prior selected-answer pass04005d9 results retained;quality gate still not passed.
+[Source-field fixes/results](2026-10-26-source-field-selection-results.md),packing follow-up ready.
+760ecfb full6864+1595subtests passed,6skip2xfail6warnings,1463.76s,exit0. Six attempts all stopped at
+router context_overflow:0model completions/no quality observations. Source/menu packing RED2 and
+review source-copy RED1 fixed without truncation:shared field sets,one full source catalogue/canonical
+per-claim source_ids. Final broad1160passed23.65s;actual token preflights all fit unchanged8192/768.
+Next freeze packing code,six once then final full suite (ordering ruling in plan). No active jobs.
+Fresh Supabase SELECT:active19/39,corrected draft78/39,old draft80/39;connection/counts only.
+48sealed files/78chunks unchanged;no source review/chunk/budget/model/hosted writes/activation.
 
 ## Repository State
 
-p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Source-field routing89f5852 committed;
-conflict transformation/tests verified and being committed. Independent review/freeze still pending.
-Evidence workspace/audit-evidence/p11-source-field-selection-20261026/ ignored. No jobs/model calls.
-Previous04005d9 suite/answers remain historical evidence,not verification of this new implementation.
+p11 / feat/p11-backend-api,dev basecbaa6a7;nothing pushed. Last frozen760ecfb;packing fix verified,
+being committed. Old evidence A/p11-source-field-selection-20261026/ preserved. Follow-up root
+A/p11-source-field-packed-20261026/;new frozen-code and running-job metadata will identify exact run.
+Code89f5852/87f59c9/760ecfb retained. Snapshot docs dirty;no source changes/model cases retried blindly.
 
 ## Verification Evidence
 
@@ -87,8 +88,9 @@ review protections. Keep one-week improvement cap and all institutional/public r
 
 ## Next Action
 
-Independent code review;then frozen full suite and same six once with explicit existing parts/short
-profile. No global default/active release switch. Preserve original sources/limits;keep inactive.
+Freeze packing fix,run six once after1160regressions/actual token preflight,then final full suite.
+Keep code HEAD unchanged during capture;record actual quality. Candidate/global canonical default
+remain unchanged. Prior760ecfb six reached no server completions;keep failure evidence separate.
 
 ## Context Consulted
 

@@ -80,7 +80,7 @@ def test_router_prompt_describes_the_course_fact_operations_and_term_mentions():
     text = prompt.SYSTEM_PROMPT
     assert 'course_facts' in text and 'list_term_courses' in text
     assert 'term mention' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v20'
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v21'
     assert 'a school year is never a term mention' in text
     kinds = prompt.output_schema()
     assert '"term"' in json.dumps(kinds)
