@@ -92,6 +92,34 @@ details textarea { margin-top: .75rem; }
 .known-gaps { display: grid; gap: 1rem; padding: 1rem; border: 1px solid currentColor; border-radius: .375rem; color: var(--hold); }
 .known-gaps .source-reading { color: var(--foreground); margin-block: .6rem; }
 .related-record { display: block; inline-size: 100%; padding: .65rem; margin-block-start: .5rem; text-align: start; color: var(--foreground); background: var(--secondary); border: 1px solid var(--control-border); border-radius: .375rem; }
+.related-records { display: grid; gap: .8rem; border-block-start: 1px solid var(--border); padding-block-start: 1rem; }
+.companion-heading { display: flex; align-items: start; justify-content: space-between; gap: .75rem; }
+.companion-heading h4 { margin: 0; font-size: .9rem; font-weight: 650; overflow-wrap: anywhere; }
+.context-pages, .feedback-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: .65rem; }
+.related-fields { display: grid; gap: .75rem; }
+.related-fields dt { color: var(--muted-foreground); font-size: .8rem; }
+.related-fields dd { margin: .2rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.record-picker > label { margin-block: .75rem; }
+.record-choices { display: grid; grid-template-columns: minmax(0, 1fr); max-block-size: 20rem; overflow: auto; border: 1px solid var(--control-border); border-radius: .375rem; padding: .25rem; }
+.record-choice { flex-direction: row; align-items: start; gap: .7rem; min-block-size: 44px; padding: .75rem; border: 1px solid transparent; border-radius: .25rem; }
+.record-choice > span { display: grid; gap: .2rem; min-inline-size: 0; overflow-wrap: anywhere; }
+.record-choice input { inline-size: 1.15rem; block-size: 1.15rem; min-block-size: 0; flex: none; margin-block-start: .2rem; }
+.record-choice:has(input:checked) { background: var(--secondary); border-color: var(--control-border); }
+.source-legend { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .8rem; }
+.source-legend span { display: inline-flex; align-items: center; gap: .4rem; }
+.source-legend i { display: inline-block; inline-size: 1rem; block-size: .8rem; }
+.legend-current { background: oklch(.85 .14 85 / .2); border: 1px solid var(--hold); }
+.legend-related { border: 2px dashed light-dark(oklch(.43 .13 250), oklch(.8 .1 250)); }
+.pdf-page .related-highlight { fill: oklch(.6 .13 250 / .08); stroke: oklch(.43 .13 250); stroke-width: 2; stroke-dasharray: 5 3; }
+.pdf-page .marked-region { fill: oklch(.4 0 none / .12); stroke: oklch(.2 0 none); stroke-width: 2; stroke-dasharray: 3 2; }
+.marking-region { cursor: crosshair; touch-action: none; user-select: none; }
+.feedback-tools { display: grid; gap: .6rem; border-block-start: 1px solid var(--border); padding-block-start: 1rem; }
+.feedback-dialog { inline-size: min(42rem, calc(100% - 2rem)); max-block-size: calc(100dvh - 2rem); overflow: auto; padding: 1.25rem; background: var(--background); color: var(--foreground); border: 1px solid var(--control-border); border-radius: .5rem; }
+.feedback-dialog::backdrop { background: oklch(0 0 none / .4); }
+.feedback-dialog > p { margin-block-start: .8rem; }
+.feedback-dialog form { display: grid; gap: 1rem; margin-block-start: 1rem; }
+.feedback-note { padding-block: .8rem; border-block-end: 1px solid var(--border); }
+blockquote { margin: .75rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .gap-editor { display: grid; gap: .75rem; padding-block: 1rem; border-block-end: 1px solid var(--border); }
 .checkbox-label { flex-direction: row; align-items: center; min-block-size: 44px; }
 .checkbox-label input { min-block-size: auto; inline-size: 1.2rem; block-size: 1.2rem; }

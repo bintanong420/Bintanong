@@ -8,21 +8,15 @@ import { ProspectusReview } from '@/components/prospectus-review';
 import { SourceGaps } from '@/components/source-gaps';
 import { ReviewHistory, type HistoryEntry } from '@/components/review-history';
 import { ReviewedValue } from '@/components/reviewed-value';
+import { RelatedRecords } from '@/components/related-records';
 import { appearanceKey, appearanceValue, type Appearance } from '@/lib/appearance';
 import { download, request, ReviewError } from '@/lib/api';
-import { fieldLabel, filterItems, parseConnection, recordStatus, type Connection, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
+import { fieldLabel, filterItems, parseConnection, readableValue, recordStatus, type Connection, type FeedbackReceipt, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
 
 type Draft = { audience: string; reason: string; companions: string[]; gaps: Gap[];
   fields: Record<string, { decision: string; text: string }> };
 
 function text(value: unknown) { return typeof value === 'string' ? value : JSON.stringify(value, null, 2); }
-function referenceText(value: unknown): string {
-  if (value === null) return 'Not recorded in the reviewed source.';
-  if (Array.isArray(value)) return value.map(row => row && typeof row === 'object' && 'from' in row && 'to' in row
-    ? `${String(row.from).replace('row-', 'Step ')} to ${String(row.to).replace('row-', 'Step ')}${row.label ? ': ' + row.label : ''}`
-    : String(row)).join('\n');
-  return String(value);
-}
 function draftFor(row: ReviewItem): Draft {
   return { audience: row.audience, reason: row.reason ?? '', companions: row.companions,
     gaps: row.gaps ?? [], fields: Object.fromEntries(row.fields.map(field =>
@@ -36,6 +30,7 @@ export default function ReviewWorkspace() {
   const [draft, setDraft] = useState<Draft | null>(null), [busy, setBusy] = useState(false);
   const [error, setError] = useState(''), [message, setMessage] = useState('');
   const [history, setHistory] = useState<HistoryEntry[] | null>(null), [appearance, setAppearance] = useState<Appearance>('system');
+  const [sourceFocus, setSourceFocus] = useState<{ itemId: string; page: number } | null>(null);
   const pending = useRef<Record<string, unknown> | null>(null);
   const item = state?.items.find(row => row.id === selected) ?? null;
   const dirty = !!item && !!draft && JSON.stringify(draftFor(item)) !== JSON.stringify(draft);
@@ -73,6 +68,7 @@ export default function ReviewWorkspace() {
     if (dirty && !window.confirm('Discard the unsaved edits for this item?')) return;
     const next = state?.items.find(row => row.id === id);
     setDraft(next ? draftFor(next) : null);
+    setSourceFocus(null);
     setSelected(id); setMessage(''); setError('');
   }
 
@@ -113,6 +109,11 @@ export default function ReviewWorkspace() {
     if (!connection) return;
     try { setHistory(await (await request(connection, '/api/history')).json()); }
     catch (error) { setError((error as Error).message); }
+  }
+  function feedbackSaved(receipt: FeedbackReceipt) {
+    setState(current => current ? { ...current, revision: Math.max(current.revision, receipt.revision),
+      feedback: [...(current.feedback ?? []).filter(row => row.operation_id !== receipt.feedback.operation_id), receipt.feedback] } : current);
+    setMessage('Missing-content note saved as pending feedback. Your field review is unchanged.');
   }
 
   return <main className="review-workspace">
@@ -165,7 +166,9 @@ export default function ReviewWorkspace() {
         </aside>
         {!item || !draft ? <section className="empty">Choose an item from the queue.</section>
           : item.prospectus_candidate ? <ProspectusReview connection={connection} documentId={item.document_id}/>
-          : <div className="evidence-area"><SourceViewer connection={connection} item={item} document={state.documents.find(d => d.id === item.document_id)} />
+          : <div className="evidence-area"><SourceViewer key={item.document_id} connection={connection} item={item} document={state.documents.find(d => d.id === item.document_id)}
+            relatedItems={state.items.filter(row => draft.companions.includes(row.id))} focus={sourceFocus}
+            revision={state.revision} feedback={state.feedback} onFeedbackSaved={feedbackSaved} reviewBusy={busy || !!pending.current}/>
             <section id="source-review" tabIndex={-1} className="decision-pane" aria-label="Extraction and review"><div className="pane-heading"><h2>{item.title}</h2>
               <span>{dirty ? 'Unsaved edits' : item.reference_only ? 'Previously reviewed' : 'No unsaved changes'}</span></div>
               {item.reference_only && <p className="reference-note">This reading comes from the existing reviewed package. It is shown here for reference, with the original page beside it. Opening it does not record a new approval.</p>}
@@ -178,7 +181,7 @@ export default function ReviewWorkspace() {
               </section>}
               {item.reference_only ? <div className="reference-fields">{item.fields.map(field => <section className="field-review" key={field.name}>
                 <h3>{fieldLabel(field.name)}</h3><p className="muted">PDF pages {field.locator.physical_pages.join(', ')}</p>
-                <p className="source-reading">{field.source_blank ? 'Blank in the original document.' : referenceText(field.original_value)}</p>
+                <p className="source-reading">{field.source_blank ? 'Blank in the original document.' : readableValue(field.original_value)}</p>
               </section>)}</div> :
               !item.fields.length ? <p className="notice hold">This prospectus uses the course review workflow. Its questions require the prospectus review controls.</p>
               : <form onSubmit={event => { event.preventDefault(); void save(); }}>
@@ -188,7 +191,7 @@ export default function ReviewWorkspace() {
                   </select></label>
                   {item.fields.map(field => <section className="field-review" key={field.name}>
                     <h3>{fieldLabel(field.name)}</h3><p className="muted">Extracted text · PDF pages {field.locator.physical_pages.join(', ') || 'not yet located'}</p>
-                    <p className="original-text source-reading">{referenceText(field.original_value) || '(literal empty extraction)'}</p>
+                    <p className="original-text source-reading">{readableValue(field.original_value) || '(literal empty extraction)'}</p>
                     {field.source_blank && <p className="notice hold">Recorded literal source blank. It must stay blank.</p>}
                     <label>Does this match the document?<select aria-label={`${field.name} content decision`} value={draft.fields[field.name].decision}
                       onChange={event => setDraft({ ...draft, fields: { ...draft.fields, [field.name]: { ...draft.fields[field.name], decision: event.target.value } } })}>
@@ -200,14 +203,8 @@ export default function ReviewWorkspace() {
                   </section>)}
                   <label>What did you check or change?<Textarea aria-label="Review reason" required rows={3} value={draft.reason}
                     onChange={event => setDraft({ ...draft, reason: event.target.value })}/></label>
-                  <label>Which other records must be read with this one?<select aria-label="Required companions" multiple size={4} value={draft.companions}
-                    onChange={event => setDraft({ ...draft, companions: Array.from(event.target.selectedOptions, option => option.value) })}>
-                    {state.items.filter(r => r.id !== item.id).map(row => <option key={row.id} value={row.id}>{row.title}</option>)}
-                  </select></label>
-                  {draft.companions.map(id => state.items.find(r => r.id === id)).filter(r => !!r).map(row => <section className="companion" key={row.id}>
-                    <h3>{row.title}</h3><p className="muted">PDF pages {row.fields.flatMap(f => f.locator.physical_pages).join(', ')}</p>
-                    {row.fields.map(field => <pre key={field.name}>{text(field.original_value)}</pre>)}
-                  </section>)}
+                  <RelatedRecords key={item.id} item={item} items={state.items} documents={state.documents} selected={draft.companions}
+                    onChange={companions => setDraft({ ...draft, companions })} onShowSource={(itemId, page) => setSourceFocus({ itemId, page })}/>
                   <SourceGaps gaps={draft.gaps} fields={item.fields} onChange={gaps => setDraft({ ...draft, gaps })}/>
                   <Button type="submit" disabled={!draft.reason.trim()}>{busy ? 'Saving…' : 'Save my review'}</Button>
                 </fieldset>
@@ -220,6 +217,6 @@ export default function ReviewWorkspace() {
             </section>
           </div>}
       </div>}
-    {history && <ReviewHistory entries={history} items={state?.items ?? []} onClose={() => setHistory(null)}/>}
+    {history && <ReviewHistory entries={history} items={state?.items ?? []} documents={state?.documents ?? []} onClose={() => setHistory(null)}/>}
   </main>;
 }

@@ -19,8 +19,30 @@ export type Document = { id: string; kind: string; title: string; edition: strin
 export type ReviewState = {
   packet_id: string; revision: number; documents: Document[]; items: ReviewItem[]; researcher: string;
   source_basis?: { kind: string; selected_records: number; whole_document_review: boolean; candidate_review?: boolean } | null;
+  feedback?: OmissionFeedback[];
 };
+export type Region = [number, number, number, number];
+export type OmissionCommand = { kind: 'omission'; revision: number; operation_id: string; document_id: string;
+  page: number; region: Region | null; stage: string; visible_text: string; note: string };
+export type OmissionFeedback = OmissionCommand & { status: 'pending'; reviewer: string; recorded_at: string;
+  source_sha256: string; event_sha256: string };
+export type FeedbackReceipt = { revision: number; event_sha256: string; feedback: OmissionFeedback };
 export type Connection = { api: string; token: string };
+
+export function selectionRegion(start: [number, number], end: [number, number]): Region | null {
+  if (![...start, ...end].every(Number.isFinite)) return null;
+  const [x1, y1, x2, y2] = [...start, ...end].map(n => Math.max(0, Math.min(1, n)));
+  const box: Region = [Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)];
+  return box[0] < box[2] && box[1] < box[3] ? box : null;
+}
+
+export function readableValue(value: unknown): string {
+  if (value === null) return 'Not recorded in the reviewed source.';
+  if (Array.isArray(value)) return value.map(row => row && typeof row === 'object' && 'from' in row && 'to' in row
+    ? `${String(row.from).replace('row-', 'Step ')} to ${String(row.to).replace('row-', 'Step ')}${row.label ? ': ' + row.label : ''}`
+    : String(row)).join('\n');
+  return String(value);
+}
 
 export function fieldLabel(name: string): string {
   const value = name.replaceAll('_', ' ');

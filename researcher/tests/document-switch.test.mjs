@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { readFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
 import { parseConnection } from '../lib/review-state.ts';
@@ -11,7 +11,7 @@ test('switching documents resets the field draft and keeps the review controls u
   { skip: !launchFile, timeout: 45000 }, async t => {
     const url = (await readFile(launchFile, 'utf8')).trim();
     const connection = parseConnection(new URL(url).hash);
-    assert.equal(new URL(url).origin, 'http://127.0.0.1:3001');
+    assert(['http://127.0.0.1:3001', 'http://127.0.0.1:3002'].includes(new URL(url).origin));
     const response = await fetch(connection.api + '/api/state', {
       headers: { 'x-review-token': connection.token },
     });
@@ -68,7 +68,7 @@ test('switching documents resets the field draft and keeps the review controls u
       });
     }
     async function evaluate(expression) {
-      const response = await send('Runtime.evaluate', { expression, returnByValue: true });
+      const response = await send('Runtime.evaluate', { expression, returnByValue: true, userGesture: true });
       assert(!response.exceptionDetails, JSON.stringify(response.exceptionDetails));
       return response.result.value;
     }
@@ -89,6 +89,63 @@ test('switching documents resets the field draft and keeps the review controls u
         return JSON.stringify(actual) === JSON.stringify(expected);
       });
       assert(await evaluate("!!document.querySelector('[aria-label=\"Audience applicability\"]') && !!document.querySelector('button[type=submit]')"));
+    }
+    assert.equal(await evaluate("document.querySelectorAll('select[multiple]').length"), 0, 'use the searchable related-record picker');
+    const relatedIndex = state.items.findIndex((row, index) => index !== 0 && row.document_id === first.document_id
+      && row.fields.some(field => field.spans.some(span => span.page === first.fields[0].locator.physical_pages[0])));
+    assert(relatedIndex > 0);
+    await evaluate("document.querySelector('.record-picker').open = true");
+    await evaluate("document.querySelector('.record-picker input[type=search]').focus()");
+    await send('Input.insertText', { text: state.items[relatedIndex].title });
+    await until(() => evaluate("document.querySelectorAll('.record-choice').length > 0"));
+    await evaluate("document.querySelector('.record-choice input').click()");
+    await until(() => evaluate("document.querySelectorAll('.related-highlight').length > 0"));
+    assert(await evaluate("document.querySelector('.source-legend').textContent.includes('Related context')"));
+    assert(await evaluate("!!document.querySelector('.companion .context-pages button')"));
+    await evaluate("document.querySelector('.companion .context-pages button').click()");
+    await until(() => evaluate("document.querySelector('.pdf-page img')?.complete"));
+    if (process.env.BINTANONG_REVIEW_TEST_WRITE === 'isolated-rehearsal') {
+      assert.match(state.researcher, /^Automated rehearsal/);
+      assert.equal(new URL(url).port, '3002');
+      await evaluate("(() => {const e=document.querySelector('[aria-label=\"Audience applicability\"]');e.value='undergraduate';e.dispatchEvent(new Event('change',{bubbles:true}));})()");
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Mark the missed area').click()");
+      const point = await evaluate("(() => {const p=document.querySelector('.pdf-page').getBoundingClientRect();const s=document.querySelector('.page-scroll').getBoundingClientRect();return {x:p.left+p.width*.2,y:Math.max(p.top,s.top)+30};})()");
+      await send('Input.dispatchMouseEvent', { type: 'mousePressed', ...point, button: 'left', buttons: 1, clickCount: 1 });
+      await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x + 100, y: point.y + 60, button: 'left', buttons: 1 });
+      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: point.x + 100, y: point.y + 60, button: 'left', clickCount: 1 });
+      assert(await evaluate("!!document.querySelector('.marked-region')"));
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Report missing content').click()");
+      await until(() => evaluate("document.querySelector('.feedback-dialog')?.open"));
+      await evaluate("document.querySelector('[aria-label=\"Missing source wording\"]').focus()");
+      await send('Input.insertText', { text: String(first.fields[0].original_value) });
+      await evaluate("document.querySelector('[aria-label=\"Missing content note\"]').focus()");
+      const note = 'Automated rehearsal only: tests feedback persistence, not a source-content finding.';
+      await send('Input.insertText', { text: note });
+      await evaluate("document.querySelector('.feedback-dialog button[type=submit]').click()");
+      await until(() => evaluate("!document.querySelector('.feedback-dialog') && document.querySelector('[role=status]')?.textContent.includes('Missing-content note saved')"));
+      assert.equal(await evaluate("document.querySelector('[aria-label=\"Audience applicability\"]').value"), 'undergraduate', 'saving feedback must retain the unsaved field review');
+      assert(await evaluate("document.querySelectorAll('.companion').length > 0"), 'saving feedback must retain unsaved context links');
+      const after = await (await fetch(connection.api + '/api/state', { headers: { 'x-review-token': connection.token } })).json();
+      assert.deepEqual(after.items, state.items);
+      const report = after.feedback.at(-1);
+      assert.equal(report.note, note); assert.equal(report.status, 'pending'); assert.equal(report.region.length, 4);
+      const downloads = path.join(profile, 'downloads');
+      await mkdir(downloads);
+      await send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: downloads });
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Download my reviews').click()");
+      const exported = await until(async () => { try { return JSON.parse(await readFile(path.join(downloads,'review-decisions.json'),'utf8')); } catch { return null; } });
+      assert.equal(exported.feedback.at(-1).note, note);
+      assert(exported.readings.every(row => row.fields.every(field => field.decision === 'pending')));
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Saved reviews').click()");
+      await until(() => evaluate("document.querySelector('dialog')?.textContent.includes('Pending feedback')"));
+      await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+      await until(() => evaluate("!document.querySelector('dialog')"));
+      await evaluate("(() => {const p=document.querySelector('.decision-pane');const r=document.querySelector('.related-records');p.scrollTop += r.getBoundingClientRect().top-p.getBoundingClientRect().top;document.querySelector('.companion details').open=true;window.scrollTo(0,0);})()");
+      await writeFile(path.join(path.dirname(launchFile),'related-context-desktop.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' })).data, 'base64'));
+      for (const width of [390,720]) {
+        await send('Emulation.setDeviceMetricsOverride', { width, height: 844, deviceScaleFactor: 1, mobile: width === 390 });
+        assert(await evaluate('document.documentElement.scrollWidth <= innerWidth'), `review workspace overflows at ${width}px`);
+      }
     }
     assert.equal(errors.length, 0);
   });

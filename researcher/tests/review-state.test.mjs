@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { fieldLabel, filterItems, parseConnection, recordStatus, sourceRectangle } from '../lib/review-state.ts';
+import { fieldLabel, filterItems, parseConnection, recordStatus, sourceRectangle, selectionRegion } from '../lib/review-state.ts';
 
 test('launch credentials accept only the declared local API shape', () => {
   assert.deepEqual(parseConnection('#api=http%3A%2F%2F127.0.0.1%3A8765&token=abcdefghijklmnop'),
@@ -61,4 +61,11 @@ test('candidate queue filters preserve independent audience, content holds and s
   assert.deepEqual(filterItems(items, '', '', 'excluded').map(r => r.id), ['excluded']);
   assert.equal(recordStatus(items[1]), 'Needs clarification');
   assert.equal(recordStatus(items[3]), 'Audience not checked');
+});
+
+test('a marked source region is normalized for reversed drags and kept within the page', () => {
+  assert.deepEqual(selectionRegion([.8, .9], [.2, .3]), [.2, .3, .8, .9]);
+  assert.deepEqual(selectionRegion([-.2, 0], [1.2, 1.5]), [0, 0, 1, 1]);
+  assert.equal(selectionRegion([.2, .3], [.2, .8]), null);
+  assert.equal(selectionRegion([NaN, .3], [.5, .8]), null);
 });
