@@ -863,3 +863,24 @@ and four-way closure checked. Step2sharesAdministrativeAideAccountingOfficelabel
 Followupafter10workingdays,printed1day10minutes and listed4+1minutes all retained
 as unresolved timing discrepancy;no promised payoutdate or missingstep supplied.
 D18–19admissionfeecontextalready approved and will be skipped.
+
+
+## Batch D refund185–188 approved;BatchEopening prepared
+
+Owner:“i approve”. Approves complete refundservice,including sharedrole,
+requirements,servicehours and printed timings. Followup10workingdays,printed
+1day10minutes and listed5minutes remain unresolved;no payoutdate inferred.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 185 | C-refund-compact-001 | `61068d0402b43f84e360646c4e43f766a48245a54ed5ac2256ad1a390367fd6a` | `5b2e7e539ca699712f78c8c5f74b6db29212d90ff02debc12826cc498d972e33` |
+| 186 | C-refund-compact-002 | `c719ca2db637ae23e11fcfd7bdf0d5692eef41c96080101f475f1ea7fb459ce9` | `8dd1ed7b62754b4c49831320381cd3a52a9cad951264e7e9eeaba523782c0ea5` |
+| 187 | C-refund-compact-003 | `e26cf432a1ec059eb77282e5f26a135c3d82e516da6510c73debe9530c0ba326` | `1834cc9bfa2c0cbd5a39e602ceea19496ff1f32d30c620d0e1a618e20ef54bfd` |
+| 188 | C-refund-compact-004 | `020df3873f5b9d1b6d46de2ee08a639a0e8a3749ee97cee958ee2a22f4d78ff5` | `0262d52d0f870fa0ea26c51097c64c6feeeb722a6f484e81e409f5eb8384a643` |
+
+BatchD19of19approved(4carried/15new),188unique/148pending;receiptSHA256:`963349219f14b3801a9e95e001ad947cc434eb59c41c5f974517e142cac04658`;019snapshot retained.
+Fullpacketidentity equality/closure/188uniqueA–Dunion checked.
+BatchE42entries,7prior approvals carried(FAQpair,rights/dutiespair,attendance/uniformtrio),35new.
+Next189–192/E1,4,5,6:grade solicitationH49and complete decorumH75–76.
+Originalimages/full companionclosure checked;sourcegrammar and dueprocess retained.
+No candidate/runtime edits;next discipline record is17linkedchunks and must remain complete.
