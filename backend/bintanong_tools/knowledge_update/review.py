@@ -208,6 +208,8 @@ class ReviewSession:
                     'applicability_evidence_ref': ref, 'fields': [], 'gaps': copy.deepcopy(row.get('source_gaps', [])),
                     'preserved_evidence': [{'artifact': 'packet.json#' + row['id'],
                                             'sha256': digest((self.root / 'packet.json').read_bytes())}]}
+                if 'reference_chunk' in row:
+                    reading['reference_chunk'] = copy.deepcopy(row['reference_chunk'])
                 anchors[row['id']] = {}
                 for field in row['fields']:
                     reading['fields'].append({k: copy.deepcopy(field[k]) for k in

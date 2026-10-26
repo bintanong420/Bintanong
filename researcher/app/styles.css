@@ -40,7 +40,7 @@ button[data-variant=outline] { border-color: var(--control-border); }
 button:active, summary:active { filter: brightness(.9); }
 select[multiple] { min-height: 100px; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.6 ui-monospace, monospace; }
-fieldset { display: grid; gap: 1rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+fieldset { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; border: 0; padding: 0; margin: 0; min-width: 0; }
 legend { padding: 0 0 .5rem; font-weight: 650; }
 .muted { color: var(--muted-foreground); font-size: .8rem; }
 .review-workspace { min-height: 100svh; display: flex; flex-direction: column; }
@@ -70,7 +70,7 @@ legend { padding: 0 0 .5rem; font-weight: 650; }
 .pdf-page img { width: 100%; display: block; }
 .pdf-page svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .pdf-page rect { fill: #ffca332b; stroke: #a66b00; stroke-width: 1.5; }
-.field-review { display: grid; gap: .6rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+.field-review { display: grid; grid-template-columns: minmax(0, 1fr); gap: .6rem; border-top: 1px solid var(--border); padding-top: 1rem; }
 .original-text, .companion { border: 1px solid var(--border); border-radius: .375rem; padding: .8rem; background: var(--secondary); }
 .notice { border: 1px solid currentColor; border-radius: .375rem; padding: .75rem 1rem; font-size: .85rem; display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
 .error { color: var(--error); } .success { color: var(--success); }

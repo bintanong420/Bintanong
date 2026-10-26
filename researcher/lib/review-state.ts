@@ -5,6 +5,7 @@ export type SourceSpan = {
 export type Field = {
   name: string; original_value: unknown; reviewed_value: unknown; decision: string;
   source_blank: boolean; locator: { physical_pages: number[]; field: string }; spans: SourceSpan[];
+  field_kind?: string; node_reading_ids?: Record<string, string>;
 };
 export type ReviewItem = {
   id: string; document_id: string; title: string; audience: string; findings: string[];
@@ -17,7 +18,7 @@ export type SourceGap = Omit<Gap, 'visible_text'> & { visible_text: string | str
 export type Document = { id: string; kind: string; title: string; edition: string; sha256: string };
 export type ReviewState = {
   packet_id: string; revision: number; documents: Document[]; items: ReviewItem[]; researcher: string;
-  source_basis?: { kind: string; selected_records: number; whole_document_review: boolean } | null;
+  source_basis?: { kind: string; selected_records: number; whole_document_review: boolean; candidate_review?: boolean } | null;
 };
 export type Connection = { api: string; token: string };
 
@@ -31,6 +32,8 @@ export function recordStatus(item: { audience: string; findings: string[]; refer
   if (item.audience === 'excluded') return 'Outside this study';
   if (item.findings.length || item.source_gaps?.length) return 'Known source problem';
   if (item.reference_only) return 'Reviewed reference';
+  if (item.fields.some(f => f.decision === 'unresolved')) return 'Needs clarification';
+  if (item.audience === 'unresolved' && item.fields.some(f => f.decision !== 'pending')) return 'Audience not checked';
   return item.fields.length && item.fields.every(f => ['accepted', 'corrected'].includes(f.decision))
     ? 'Review saved' : 'Not checked yet';
 }
@@ -58,9 +61,18 @@ export function filterItems<T extends {
     && (!text || [item.title, ...item.findings.map(fieldLabel), ...(item.source_gaps ?? []).map(g => fieldLabel(g.issue) + ' ' + (g.message ?? '')),
       ...item.fields.map(f => typeof f.original_value === 'string'
       ? f.original_value : JSON.stringify(f.original_value))].join(' ').toLocaleLowerCase().includes(text))
-    && (mode === 'all' || item.findings.length > 0 || !!item.source_gaps?.length
-      || !item.reference_only && (item.audience === 'unresolved'
-        || item.fields.some(f => !['accepted', 'corrected'].includes(f.decision)))));
+    && (mode === 'all'
+      || mode === 'attention' && (item.findings.length > 0 || !!item.source_gaps?.length
+        || !item.reference_only && item.audience !== 'excluded' && (item.audience === 'unresolved'
+          || item.fields.some(f => !['accepted', 'corrected'].includes(f.decision))))
+      || mode === 'pending' && !item.reference_only && item.audience !== 'excluded'
+        && !item.fields.some(f => f.decision === 'unresolved')
+        && (item.audience === 'unresolved' || item.fields.some(f => f.decision === 'pending'))
+      || mode === 'held' && item.fields.some(f => f.decision === 'unresolved')
+      || mode === 'reviewed' && !item.reference_only && item.audience === 'undergraduate'
+        && item.fields.length > 0 && item.fields.every(f => ['accepted', 'corrected'].includes(f.decision))
+      || mode === 'excluded' && item.audience === 'excluded'
+      || mode === 'source-problems' && (item.findings.length > 0 || !!item.source_gaps?.length)));
 }
 
 export function sourceRectangle(span: SourceSpan) {

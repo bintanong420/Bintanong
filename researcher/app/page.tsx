@@ -7,6 +7,7 @@ import { SourceViewer } from '@/components/source-viewer';
 import { ProspectusReview } from '@/components/prospectus-review';
 import { SourceGaps } from '@/components/source-gaps';
 import { ReviewHistory, type HistoryEntry } from '@/components/review-history';
+import { ReviewedValue } from '@/components/reviewed-value';
 import { appearanceKey, appearanceValue, type Appearance } from '@/lib/appearance';
 import { download, request, ReviewError } from '@/lib/api';
 import { fieldLabel, filterItems, parseConnection, recordStatus, type Connection, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
@@ -70,6 +71,8 @@ export default function ReviewWorkspace() {
   function choose(id: string) {
     if (pending.current) { setError('Resolve the previous save before changing items.'); return; }
     if (dirty && !window.confirm('Discard the unsaved edits for this item?')) return;
+    const next = state?.items.find(row => row.id === id);
+    setDraft(next ? draftFor(next) : null);
     setSelected(id); setMessage(''); setError('');
   }
 
@@ -121,7 +124,7 @@ export default function ReviewWorkspace() {
           <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
         </select></label>
         <Button variant="outline" disabled={!state} onClick={() => void showHistory()}>Saved reviews</Button>
-        {!state?.source_basis && <Button variant="outline" disabled={!state} onClick={() => void exportDecisions()}>Download my reviews</Button>}
+        <Button variant="outline" disabled={!state} onClick={() => void exportDecisions()}>Download my reviews</Button>
       </div>
     </header>
     {error && <div className="notice error" role="alert">{error}
@@ -133,9 +136,11 @@ export default function ReviewWorkspace() {
     </div>}
     {message && <p className="notice success" role="status">{message}</p>}
     {state?.source_basis?.kind === 'reviewed_snapshot' && <section className="scope-note" aria-label="Source coverage">
-      <h1>Handbook and Citizens’ Charter</h1><p>{state.items.length} previously reviewed records. Choose a record to see its original page and fields.</p>
-      <details><summary>What is covered?</summary><p>Selected undergraduate material, not every page. These are read-only references from the existing reviewed package.
-        Prior decisions and known source problems are preserved. Opening a record does not create a new approval or change the chatbot.</p></details>
+      <h1>Handbook and Citizens’ Charter</h1><p>{state.items.length} source records. Compare the PDF, check each field, then save your review.</p>
+      <details><summary>What am I reviewing?</summary><p>{state.source_basis.candidate_review
+        ? 'These are local candidate copies of selected undergraduate records. Your changes are saved separately from the frozen baseline. Previous review evidence and known source problems stay attached.'
+        : 'This older packet contains read-only references. Prepare a new packet to review local candidate copies.'}
+        {' '}This covers selected material, not every page. Opening, saving or downloading a review does not change the chatbot.</p></details>
     </section>}
     {!state || !connection ? <section className="empty"><h1>Open a local review packet</h1>
       <p role="status">{connection ? 'Loading the source documents and review records…' : 'Open the launch link from your local review terminal to load the documents.'}</p></section>
@@ -148,6 +153,9 @@ export default function ReviewWorkspace() {
           </select></label>
           <label>Show<select value={mode} onChange={event => setMode(event.target.value)}>
             <option value="all">All items</option><option value="attention">Needs attention</option>
+            <option value="pending">Not fully checked</option><option value="held">Needs clarification</option>
+            <option value="reviewed">Fields and audience checked</option><option value="excluded">Outside this study</option>
+            <option value="source-problems">Known source problems</option>
           </select></label>
           <nav aria-label="Source items">{filtered.map(row => <button key={row.id} className="queue-item" aria-current={selected === row.id ? 'true' : undefined}
             onClick={() => choose(row.id)}><strong>{row.title}</strong><span>{state.documents.find(d => d.id === row.document_id)?.title} · PDF pages {Array.from(new Set(row.fields.flatMap(f => f.locator.physical_pages))).join(', ')}</span>
@@ -180,15 +188,15 @@ export default function ReviewWorkspace() {
                   </select></label>
                   {item.fields.map(field => <section className="field-review" key={field.name}>
                     <h3>{fieldLabel(field.name)}</h3><p className="muted">Extracted text · PDF pages {field.locator.physical_pages.join(', ') || 'not yet located'}</p>
-                    <pre className="original-text">{text(field.original_value) || '(literal empty extraction)'}</pre>
+                    <p className="original-text source-reading">{referenceText(field.original_value) || '(literal empty extraction)'}</p>
                     {field.source_blank && <p className="notice hold">Recorded literal source blank. It must stay blank.</p>}
                     <label>Does this match the document?<select aria-label={`${field.name} content decision`} value={draft.fields[field.name].decision}
                       onChange={event => setDraft({ ...draft, fields: { ...draft.fields, [field.name]: { ...draft.fields[field.name], decision: event.target.value } } })}>
                       <option value="pending">Not checked yet</option><option value="accepted">Matches the document</option><option value="corrected">Fix the extracted text</option><option value="unresolved">Needs clarification</option>
                     </select></label>
-                    <label>Text after your review<Textarea aria-label={`${field.name} reviewed value`} rows={4} value={draft.fields[field.name].text}
-                      readOnly={field.source_blank} onChange={event => setDraft({ ...draft, fields: { ...draft.fields,
-                        [field.name]: { decision: 'corrected', text: event.target.value } } })}/></label>
+                    <ReviewedValue field={field} value={draft.fields[field.name].text}
+                      onChange={value => setDraft({ ...draft, fields: { ...draft.fields,
+                        [field.name]: { decision: 'corrected', text: value } } })}/>
                   </section>)}
                   <label>What did you check or change?<Textarea aria-label="Review reason" required rows={3} value={draft.reason}
                     onChange={event => setDraft({ ...draft, reason: event.target.value })}/></label>

@@ -80,7 +80,7 @@ def _load_snapshot(root: Path, expected_sha256: str) -> dict:
     return {'chunks': chunks, 'versions': versions, 'catalogue': catalogue}
 
 
-def snapshot_items(snapshot: dict, doc: dict) -> list[dict]:
+def snapshot_items(snapshot: dict, doc: dict, *, candidate_review: bool = False) -> list[dict]:
     selected = [c for c in snapshot['chunks'] if c['byte_sha256'] == doc['sha256']]
     if not selected or any(c['scope'] != ['audience:undergraduate'] for c in selected):
         raise ValueError('snapshot needs explicitly undergraduate source records for this document')
@@ -105,13 +105,18 @@ def snapshot_items(snapshot: dict, doc: dict) -> list[dict]:
         result.append({'id': identity, 'document_id': doc['id'], 'title': title,
             'audience': 'unresolved', 'companions': [by_id[i] for i in meta.get('required_neighbor_chunk_ids', [])],
             'findings': [], 'fields': fields, 'source_gaps': copy.deepcopy(meta.get('source_limits', [])),
-            'reference_only': True, 'reference_chunk': copy.deepcopy(chunk)})
+            'reference_only': not candidate_review, 'reference_chunk': copy.deepcopy(chunk)})
+        if candidate_review:
+            for field, association in zip(fields, meta['field_associations']):
+                for key in ('field_kind', 'node_reading_ids'):
+                    if key in association:
+                        field[key] = copy.deepcopy(association[key])
     return result
 
 
 def prepare_snapshot(manifest: dict, out: Path, snapshot: dict) -> dict:
     reference = manifest['reviewed_snapshot']
-    items = [row for doc in manifest['documents'] for row in snapshot_items(snapshot, doc)]
+    items = [row for doc in manifest['documents'] for row in snapshot_items(snapshot, doc, candidate_review=True)]
     if len({row['id'] for row in items}) != len(items):
         raise ValueError('duplicate snapshot reading identity')
     out.mkdir(parents=True, exist_ok=True)
@@ -128,7 +133,7 @@ def prepare_snapshot(manifest: dict, out: Path, snapshot: dict) -> dict:
     packet = {'schema_version': 'bintanong-review-packet-v1', 'candidate_only': True, 'manifest': manifest,
         'documents': documents, 'items': items, 'artifacts': artifacts,
         'source_basis': {'kind': 'reviewed_snapshot', 'manifest_sha256': reference['manifest_sha256'],
-                         'selected_records': len(items), 'whole_document_review': False}}
+                         'selected_records': len(items), 'whole_document_review': False, 'candidate_review': True}}
     packet['packet_id'] = digest(encoded(packet))
     write_json(out / 'packet.json', packet)
     return packet

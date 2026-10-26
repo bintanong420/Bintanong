@@ -176,6 +176,7 @@ def load_packet(root: Path) -> dict:
             _checked_bundle(contained(root, doc['candidate_bundle']), doc)
     if snapshot is not None:
         from .snapshot import snapshot_items
-        if packet['items'] != [r for d in packet['documents'] for r in snapshot_items(snapshot, d)]:
+        if packet['items'] != [r for d in packet['documents'] for r in snapshot_items(snapshot, d,
+                candidate_review=packet['source_basis'].get('candidate_review', False))]:
             raise ValueError('snapshot review projection differs from its source records')
     return packet

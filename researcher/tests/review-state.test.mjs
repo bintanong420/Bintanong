@@ -46,3 +46,19 @@ test('previously reviewed records stay distinct from new decisions and source ho
   assert.equal(filterItems([{ ...record, source_gaps: [] }], '', '', 'attention').length, 0);
   assert.equal(filterItems([record], '', '', 'attention').length, 1);
 });
+
+test('candidate queue filters preserve independent audience, content holds and saved reviews', () => {
+  const base = { document_id: 'h', title: 'Form', findings: [], audience: 'unresolved',
+    fields: [{ decision: 'pending', original_value: 'Submit the form.' }] };
+  const items = [{ ...base, id: 'new' },
+    { ...base, id: 'held', fields: [{ decision: 'unresolved', original_value: 'Form' }] },
+    { ...base, id: 'checked', audience: 'undergraduate', fields: [{ decision: 'accepted', original_value: 'Form' }] },
+    { ...base, id: 'audience', fields: [{ decision: 'accepted', original_value: 'Form' }] },
+    { ...base, id: 'excluded', audience: 'excluded' }];
+  assert.deepEqual(filterItems(items, '', '', 'pending').map(r => r.id), ['new', 'audience']);
+  assert.deepEqual(filterItems(items, '', '', 'held').map(r => r.id), ['held']);
+  assert.deepEqual(filterItems(items, '', '', 'reviewed').map(r => r.id), ['checked']);
+  assert.deepEqual(filterItems(items, '', '', 'excluded').map(r => r.id), ['excluded']);
+  assert.equal(recordStatus(items[1]), 'Needs clarification');
+  assert.equal(recordStatus(items[3]), 'Audience not checked');
+});
