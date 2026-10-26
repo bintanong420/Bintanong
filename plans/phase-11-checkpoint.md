@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 125
+sequence: 126
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 93053f3
+head_commit: 7694f7e
 working_tree: dirty
-updated_at: 2026-10-27T02:20:00+08:00
+updated_at: 2026-10-27T02:30:00+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -32,20 +32,19 @@ bundles reused without extraction. UI3001/API8765 policy;3002/8766 prospectus.
 decisions. Owner said saved;actual policy revision0/no journal before/after restart.
 Full question accuracy/accessibility/DB-role gates remain open. No hosted access.
 
-Owner-confirmed origin/feat/p11-backend-api e5495b4 merged at0bb3dad;18review/doc
-commits,no API source diff. Incoming decisions retained;336ignored candidate files absent.
-UI remains72verified baseline candidates/298fields. 0959a43adds page/region feedback;
-0349730adds searchable related-record choices/previews,page navigation,dashed context
-highlights and independent pending feedback save/history/export. Unmarked≠missing.
-274tests/80subtests,6Node state tests/TypeScript/build and isolated browser rehearsal
-pass;390px/720px reflow passes. Main packet gets no automated content decisions.
-[Delivery](2026-10-27-related-context-and-omission-feedback.md) has commands and limits.
-No hosted access/source activation/model work. T4/T5/local lifecycle gates remain open.
+Backend refresh27Oct:origin/feat/p11-backend-api d8246d1 adds18review/doc commits
+since e5495b4;no API/code/test/dependency delta in this ingestion merge. Incoming
+source decisions146of336content-approved/190pending,BatchC51of78;C9association and
+consultation35-vs34-minute discrepancy remain held. Full decisions/receipts are in
+[human review](2026-10-26-omitted-content-human-chunk-review.md);no new approval.
+Ignored336evidence absent here;GUI remains72baseline records. Latest backend is
+merged while this worktree's ingestion/prospectus checkpoint stays authoritative.
+No hosted access,source activation or restart. T4/T5 remain next.
 
 ## Repository State
 
 This tree:feat/p11-policy-ingestion-review;verified UI93053f3;prior06c1f8b pushed.
-Current documentation snapshot accompanies the two focused fixes;origin upload follows.
+7694f7epublished;latest backend sync accompanies this snapshot. See dated sync report.
 The following primary-runtime evidence is inherited:backend/tests/migrations frozen706d3c6;
 d1401bcreviews01–06delivery;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.

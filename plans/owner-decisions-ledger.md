@@ -489,3 +489,11 @@ Each program still gets its own dated review record listing which standing rule 
   proceed”authorizes applying this approved correction. Existing builders yield
   five required companions within480tokens;[results](2026-10-26-registration-layout-correction-results.md).
   Source wording/fee discrepancy remains;no publication/activation permission.
+
+- 26Oct2026,BatchAcontent review complete:owner explicitly approves18–22after
+  all other BatchAcontent;54base IDs map to55current candidates after registration
+  split,281others pending. Preserve all recorded wording/limitations/links;exact
+  approvals and receipt in `2026-10-26-omitted-content-human-chunk-review.md`.
+  Owner finds dense unformatted paragraphs hard to review:use source headings,
+  one checklist item per line and paired table columns. Requests fresh-session
+  handoff,next BatchB. This is not phase completion or publication authorization.

@@ -251,3 +251,442 @@ foreign liaison and three linked face-to-face admission chunks. Use the exact
 IDs recorded above;photo-count difference and historical-date limitation retained.
 They remain pending until an actual content decision. All other BatchAcontent
 approved;the source holds and later technical/publication gates remain separate.
+
+## Batch A complete — fresh-session boundary
+
+Owner:“i approve”,explicitly approving18–22with displayed wording,photo-count
+difference,historical-date limitation and required continuations. All BatchAcontent
+approved:54base IDs map to55current candidates,281others pending of336total.
+Fresh `batch-A-human-approval-receipt.json`in ignored evidence binds exact IDs,
+content hashes and neighbors;SHA256:
+`7fb28bf498982a25e99ae99dc68b2a82fce75877126cfbbb6ac84d97f00617b5`.
+Generation/readback confirms54base/55mapped IDs,all present in current336JSON.
+Source/content serialized governance remains pending;this is human content approval.
+
+Owner says dense unformatted text was hard to review. Future packets must use
+readable source headings,short blocks,one list item per line and paired table
+columns without changing words or associations. Owner requests session handoff;
+[resume BatchB](2026-10-26-phase11-batch-a-review-session-handoff.md),not another
+BatchAapproval. No new source/runtime/activation scope approved.
+
+## Batch B — returning curriculum and academic load (H30, H35–36)
+
+Original Handbook pages H30, H35 and H36 were inspected. Owner: “The rest i
+approve,” after identifying two omitted graduate-only passages. The six
+undergraduate-scope candidate bodies are approved as presented; no candidate
+text was changed. Exact candidate IDs and content hashes:
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-returning-curriculum-compact-001 | `87369b8c9dc83f00c20418c1a3407fb177d4144737288b4f7c2ae6e2037321b9` | `dd9e4651fb69609495b82ea5bcad0352a60012e671b78b5cc4db3e261f1e7aed` |
+| H-unit-load-compact-001 | `c6310c5100d075b383c2525015552372db92d111769e0fe51ea636ffff8f663f` | `564f4bb3aa6a72a903441bca5f4a3f6191994438016a6997695297e94c20306b` |
+| H-summer-load-compact-001 | `4ea493a3761e47367468c1346e3be00c29a7e49378c052c78219b4b2af5a07da` | `f4a2864d4bedfb9485c890a875fb703d30a648cdce50922a54188283b3a106a8` |
+| H-overload-compact-001 | `b26c9b707285369a50a064dadc1e24b3203b71c51c37d9ced20ede12e3ed199f` | `ee5dc4a2c1bbe94901674f7fca47b68c84cce6c6d2c01eb58c59d73644805542` |
+| H-employed-load-compact-001 | `b114c5aafb3b7e255f3045bf9f65ba50374e373ba8bd6dd9ce20a55bff9c293` | `dc8afca05472e811167f74cc15d93843c1b47c202d0ed8887385bd3a1410fe63` |
+| H-transfer-load-compact-001 | `d983d3238e120bcd59b1c840459ba801cda12126f6eb5802b48aea00127f7e39` | `fd27311c245ba0138a00b83aa79d5dc92371ac579aed12ab387b016c1e436929` |
+
+The owner identified these exact source passages as missing from the displayed
+load chunks:
+
+> No graduate student shall be allowed to take more than twelve (12) units per
+> semester. Graduate students who are enrolling for validation only may be
+> allowed a maximum of 12 units per semester.
+
+> No graduate student who is employed on a full-time basis shall be allowed an
+> academic load of more than nine (9) units in any semester without prior
+> approval of the Dean of the College.
+
+These are already independently located source boundaries H35-G007 and H36-G008
+and classified `excluded_graduate` in the coverage/audience ledgers. Thesis
+physical17–18 (printed16–17) limits Bintanong to undergraduate academic affairs
+and excludes graduate programs. Preserve both passages in the unchanged source
+and exclusion evidence; do not add graduate-only clauses to the undergraduate
+candidate bodies. The original H35 reads “per semester”; the owner message's
+“oer” is a typing error. Six new candidate approvals bring the content-reviewed
+total to61of336;275remain pending. Serialized candidate governance remains
+pending, and no active release or runtime data changed.
+
+
+## Batch B classifications and year levels — five approved, 27 October 2026
+
+Owner: “approve all five”. Approves the five displayed Handbook physical36–38
+candidates, including the mutually required year-level continuation pair.
+The overlapping percentage-boundary limitation stays unresolved; printed
+wording and graduate-only exclusions remain as reviewed. No candidate-body change.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-student-classification-compact-001 | `78245f3258683a521584fa69826b3a148d8fc4dd66d6811693e4cd1cf7266743` | `4a8ccf48d00642b9b2f63d890d88517e4bad7ac206929988cc5815b4dc892842` |
+| H-cross-enrollee-compact-001 | `5a33fe95c27e3d93fc0226ae61864c18bd527e70e46cfa82da85d30d547dade7` | `4c89bea9a3a508fa90aab93040ca345487172c65d3e13d36b667ef2b3a76ea44` |
+| H-class-types-compact-001 | `124bdab4d76ca90dc89977c7aeb0bd6e2a0fcfee0a3cccdf7fffe7c2c640af22` | `3d00dbbdaaf1dd674820fe3874a2c60cae79a4a085cf609b68b8df275ba6c1c6` |
+| H-year-levels-compact-001 | `6a314e10d8a0da65a21f86a48b2c1b5a7ca8ead08fe69c4329dc4ba545c40254` | `9121f4ca108df48cb3b65cdeea0abfd4855afb0aacc21d2997332a6c90c874c0` |
+| H-year-levels-compact-002 | `b79f835362dbf5d0fa3750a8db36c69305da90fbdb430010bc2fa248d53f07b6` | `cfcb9d2dad1aa0098aa0d756254ed6559bfc01c8c08f7e4e5feceba42e699839` |
+
+Content approvals:66of336;270pending. BatchB:11of40approved. For display,
+these were overall chunks62–66 (BatchB7–11). Next:overall67–68, attendance
+and leave of absence (BatchB12–13). Source governance remains pending.
+
+Owner requests consistent review presentation: show Handbook or Citizens’ Charter,
+physical page(s), numbered chunks, approved/total progress, and first/continuation/
+final-part links. Keep technical IDs/hashes in this decision record rather than
+the owner-facing review. Preserve exact source headings, wording, lists and columns.
+
+
+## Batch B attendance and leave — chunks67–68 approved
+
+Owner: “i approve”. Approves both displayed standalone candidates:Handbook
+physical38attendance and physical38–39leave, including application/notification,
+maternity leave and withdrawal without leave. No wording or candidate-body changes.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-attendance-compact-001 | `d603e47d6ab51a5da21fe94472d19998c2d9342021b580483d6b3d4f481c753b` | `94c8bfc52297f4fccb173306387408e0518e8e136f718c470bca7c3a6a7d90c5` |
+| H-leave-compact-001 | `dc8f00f49842b2a29d05dce7a29769a3a4924d65d9e8e7695af494ef1aa215e7` | `c0a1c0bb47290e73c71c62316b3bd0c0c7d2688f570005681090e40b7fd9a941` |
+
+Total68of336content-approved;268pending. BatchB13of40approved. Next display:
+overall69–74/BatchB14–19, complete six-part scholastic-standing record onH39–41.
+
+
+## Batch B scholastic standing — linked chunks69–74 approved
+
+Owner: “i approve”. Approves the complete six-part Handbook39–41record as
+displayed, including warning/probation/dismissal/disqualification, exceptions,
+required-course priority, readmission and recording. All six mutually require
+the other five. Retain the unprinted-percentage-gap/exception limitation.
+Standing004was displayed with the printed mid-semester hyphen;native U+FFFE
+normalization/source binding remains a technical gate. No candidate-body changes
+or executable scholastic-standing rule authorization. Graduate-only section9excluded.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-standing-compact-001 | `a1ccf58976a8fd7d245425e784db54c4a49440debafdd954f184682cd7d501f1` | `1dd602064e57acf1dfb6e75af42599239485a4572a45b3a5b564a1b244c3aac0` |
+| H-standing-compact-002 | `d1dd422bfe37dbf9e9e9647a94ca44a7d1acbb1b4bcd927180a3fc240ef6acdc` | `eff6503972346ba4ecdb235a805eb7ef090bfcf023f024a786f37ad6e17ec597` |
+| H-standing-compact-003 | `770e476da54f105d3a7bbc8001e433ee1e028f29652c40359d4d3644fc09a96b` | `a5c34451bdb6f900ed0a3ff0808c84c97189ffa8fd9cdf7ccb33cb73c5a6e439` |
+| H-standing-compact-004 | `a0f5b0139c599d69a97799d5feeaed714c7b137421e1ce427ab73d82dc5a8edf` | `4852e2af239e4c13dcd42f9f0246071f63a5731f65eecbd2ddc0ceb43bcde596` |
+| H-standing-compact-005 | `fd35ddc7e8b394e5c158723acc09c87696de3bfd1d8a207bb149ea3b5e20a79a` | `a3f1b776671ede319556f3e64a132e50a7782372d4cbe998292194524c0730d7` |
+| H-standing-compact-006 | `4562e233ff627243040ca8810b5427feae9493872ae45b881440dfdd1a7b483d` | `144a6ab81b4deebc93062ad0a42fca33670e78648e405f11cb299201b26d72d0` |
+
+Total74of336content-approved;262pending. BatchB19of40approved. Next display:
+overall75–78/BatchB20–23:Handbook42residence,43linked academic-program changes
+and44section/subject changes. Preserve duplicated printed1.1numbering and RA10931
+qualifier;source-specific fee limitation stays attached to the linked DAC pair.
+
+
+## Batch B residence and program changes — chunks75–78 approved
+
+Owner: “i approve”. Approves Handbook42residence,43linked matriculation/
+dropping pair and44section/subject change, as displayed. Preserve printed1 ½,
+duplicated1.1numbering,RA10931qualifier,OD/UD/5.0wording and source-specific
+fee limitation. The DAC pair remains mutually required;other two standalone.
+Graduate residence/extension provisions remain excluded. No candidate-body changes.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-residence-compact-001 | `f6deea19d047be68e4ece20cb858f3d88eea7d32d6a2f1fbf8022be881a2c02f` | `d5c8759e0afdfcfc81c5699f4e1bb7ff9802aecee0d83fc06f937bf5553f26ce` |
+| H-dac-policy-compact-001 | `b34c6f9e08441c982139d9602c02453dda574e242df60394020e6e10f676558b` | `e9618f1da350fb8d546dd473d395d82c7e1fce2c5a0e4bcc9eb66f3348979e84` |
+| H-dac-policy-compact-002 | `47395e8c4729e47bb34765dddf930c25e7f4220caa336821cb8344e709b9b827` | `6deb28b07d703f5eb1ce1124bec47e6f8a6ce636f3b9ef89e05afdd95232fb66` |
+| H-change-sections-compact-001 | `d19ea3ce41c5a91e159f94f0b128ffd59a1721e864be0e250579cbfdc0ba58e5` | `e02d12a072a88d80aa56327610b2513823126026092af5a406d01fd6a3aaf56f` |
+
+Total78of336content-approved;258pending. BatchB23of40approved. Next display:
+overall79–82/BatchB24–27:Handbook44–45substitution pair,45shifting and curriculum change.
+
+
+## Batch B substitution, shifting and curriculum — chunks79–82 approved
+
+Owner: “i approve”. Approves the complete linked substitution pair onH44–45,
+shifting and effects-of-new-curriculum onH45. Retain all cases/requisites,
+North/South campus wording,Department Head versus Department Chair labels,
+grade limitations,deadline,approval and appeal conditions. This source-content
+approval does not settle policy precedence or authorize executable substitution rules.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-substitution-compact-001 | `7d2a9b73aff971bd40d6f41b2dd74a5c8720b9ba58f9f2d03b1699b0e2473726` | `e5b04cee072b576a326ee996c3bd904b57c91aee14d389d3e74e1e00d5730b80` |
+| H-substitution-compact-002 | `a734cdb9c08710ad114c9d2d266dcecf7c198b6328bf646e7c923bfde0c27560` | `c0d0d9151c632eaa2186afed0c342ba14911cd1947e0a7ca06d9b6456fbcd586` |
+| H-shifting-compact-001 | `73f43ca86c640114e70f565e9101cf7ea4a6dc40e92dc4f017f473067c564f07` | `2827cbcc2bc5b1cfd91b587c3c200cd6e3c51fed3dbbb4c7c74f22be1096bed2` |
+| H-curriculum-change-compact-001 | `2fd94249c4ec3ece2639d665b711416b35b1f931965ba6e822d521687faf4802` | `8a812585963d1d0efad9e611b1f13170dbb53f16eae7e3cab6a450deb684937f` |
+
+Total82of336content-approved;254pending. BatchB27of40approved. Next display:
+overall83–89/BatchB28–34:FAQpair H58 plus rights/duties and attendance/uniform
+sequence H76–78, including the page76→77attendance continuation,blank bullet
+and unresolved text/illustration differences. Current source groups have pair/
+triple links;the cross-group attendance continuation needs an explicit dependency
+binding before use. Present full source sequence now;candidate bodies unchanged.
+
+
+## Batch B FAQ, rights and uniform — chunks83–89 approved
+
+Owner: “i approve”. Approves FAQpairH58 and complete rights/duties→attendance/
+uniform source sequenceH76–78, as displayed. Preserve dropping-from typos,
+blank attendance bullet,all uniform conditions and unresolved text/illustration
+differences. Figure1remains image evidence;do not silently reconcile its wording.
+The source continuation rights-duties002→attendance-uniform001must receive an
+explicit cross-group dependency binding before use;content approval does not
+claim that binding has been implemented. No candidate-body changes.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-drop-shift-faq-compact-001 | `b5fa5f16937e72fbb8a4431cdac42f7f06a91e14815464e35d12f6f517bf0e80` | `19a543fdc5f8c1e5aef37387591f92a68502334297b0b30038c61868e87a3d9d` |
+| H-drop-shift-faq-compact-002 | `c3f0fa8f8207ef849cad10d3f31f60abee87d88ada98d4801e8a9300d3355df4` | `0ca75d7ae57f7c8a3367f7ac1d24573e86275a61676b6c1f23f971ee81cde961` |
+| H-rights-duties-compact-001 | `d60499990ac49809d4642f4d62cabfef9dab94c73fcef831d2dae6132fbe3e1b` | `460cf6e41a00114e4ee32aa108946a9e3c82f8933f83ac09f2b8591236ceb3fb` |
+| H-rights-duties-compact-002 | `20a41e63adb678cf28ee3cb7374ca820562670cd9579c8dd0f433dfbe4e1b52a` | `a519efe2e3abaae92e1aaf536c29a6973d62dd260167360afcb036ff64f044f2` |
+| H-attendance-uniform-compact-001 | `16da2e65fd37f055f157db17834ab88c9cf8b55136c077df6e68ca394f31a3c1` | `f7561d790fb156c4175490b87df483e398bf48124bc3df0b7377015a02a8efae` |
+| H-attendance-uniform-compact-002 | `04666cfc6ce1ad4efd0afc195d32dce77117f27f450b48648e2109b7034d3985` | `fdc8ce602c2db03e87da351b7c97f66ad17769bcb00731e0dfd3f11b139e4e12` |
+| H-attendance-uniform-compact-003 | `2f1a9b97372a1b5bde60ab8eb87a359c0e6b91bd277bc55c9ceb17d90e498d11` | `3a3a58c6985cbcd706efc0404c12773e08138110b32136fe7b74a1e32f4e77f6` |
+
+Total89of336content-approved;247pending. BatchB34of40approved. Final BatchB
+display90–95/BatchB35–40:standalone unit-credit candidateH35 and complete Charter
+DAC five-part serviceC105–106(printed101–102). Unit-credit wording repeats the
+approved passage within chunk57;review separate candidate grouping. Preserve
+service metadata/paired requirements and four logical client rows,duplicated2/2.1,
+DAC-of-the-DAC repetition,Nonefee cells and printed NONE/26minutes total.
+Charter metadata remains flattened;labelled reauthoring/source bindings before use.
+
+
+## Batch B complete — chunks90–95 approved, chat markup removed
+
+Owner: “approve and btw there is <br> i think we should remove those because
+its not really visible in the pdf”. Approves standalone unit-credit candidate
+and all five CharterDACparts with shown field associations,duplicate printed
+2/2.1numbers,DAC-of-the-DAC wording,Nonefee cells and NONE/26minutes total.
+HTMLbreak tags were chat-display markup only:zero in current candidate JSON
+and BatchBpacket. Use ordinary paragraphs/list entries/table rows without
+literalHTMLtags;no candidate/source-text stripping or edits were required.
+Charter labelled metadata/requirements/action/totals reauthoring remains before use.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-unit-credit-compact-001 | `cc7bfadc089538cdee92725133a233a744ab4a4daf0cc78339753f89afb509e8` | `1750be4208361edf75b802cf1cbfd9f3a639e822b62d1dd590efc70ec079b872` |
+| C-dac-compact-001 | `5d46137968403228ed7db71a89ae4cb4ca87e0dc8e1e8438522bc85901aca737` | `1d5c50f5c3ded222372c95f65a871a0e039d79fd808d7328a80d5a74055a0d93` |
+| C-dac-compact-002 | `7c19ff8b2502f32c9af910a2cdd4cc77b14334ade2e25381ce79e942857d96bf` | `41f5d0e58dafeba391fc28a1d408237c2ef4d1f75b0b5650dd87d05f7ae00688` |
+| C-dac-compact-003 | `bc7ec98299999c84ad2568f55b2d1fb8ee73598212853a1216c97356c5d2c927` | `d2f87b0686931ba3cb7b5363f135d8b0a714144ad347cd2fe6bfa25f44b71814` |
+| C-dac-compact-004 | `6df80d9a9be7b8c8d3010107acdf66b6ffde16180ab2f41b38cd218e3a23a4f6` | `bf97e606177213a31821026db6d04b02eeb148ff758aa9bd1af6a28de89ad4e7` |
+| C-dac-compact-005 | `715f7f90e9e3ca333a4fa9387c3df742d80a6ecf87be870b723964a8a627fd5b` | `fe70a48c8ef3d7b478f01eb1113ec0350f224048f28b4254d59191bd0db92747` |
+
+All40BatchBcandidates now content-approved;with55BatchAapprovals,total95of336,
+241pending. [Closeout evidence](2026-10-27-phase11-batch-b-review-results.md).
+Receipt SHA256:`598ffaa5d2b5b27a5c5ec056e75da9339b9ffee9cbf0b729f0e726d7db27075c`.
+No serialized governance promotion,embedding,hosted write or release activation.
+
+
+## Batch C opening group — chunks96–101 presented, approval pending
+
+Owner: “continue please” authorizes starting BatchCpresentation;no content
+approval is inferred. BatchChas78distinct candidates,none previously approved.
+Present transfer-clearanceH43then the complete five-candidate removal/INCgroup
+H46–47. Actual required-neighbor lists link INCmeaning/removal-approval to three
+context candidates at the packet end;all five mutually require the other four.
+Move those companions forward in review order;do not present an incomplete group.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 96 | H-transfer-clearance-compact-001 | `789e84b458786862c407c3b8331e4a76b5fb2c7cdd8e27ad294ccc0530a09767` | `10f2193492d671956b1e9a0d7dcacf103a4e31274de4b7cd395730d388cca4ff` |
+| 97 | H-inc-meaning-compact-001 | `91b68059c705fe49fb08c678faef32be5e4695b87d14e1d4dd3f1593873eb5d8` | `5ac2ffa743642a25343b5e6121b6dc04092a7a5a763c68495e56c293be0c3594` |
+| 98 | H-removal-approval-compact-001 | `8db2901b9ae56c40693625671d2206dcd83ac21b418109fdf368a00706aad561` | `aab83f7d86027a9e8587d6b6f793ca3befed6938e6ac444023d164eca1a5d652` |
+| 99 | H-removal-policy-context-compact-001 | `aff69254e1157a3207a7e1c0ba1fe4c997844dfa68e5a619bc3e437e52238952` | `37b88b562f7bb0f4c4350c8bc6794b08dcd3f08ade1e9c50cfa1c4d9b368580b` |
+| 100 | H-removal-policy-context-compact-002 | `85a466553313143cf78584bc5cf24845cefe02c9f411717272afc0f8954f1996` | `739984c0e34223f79f9710d145ca37d72b175c66ccc22ef2fa54c1e4fc203ca5` |
+| 101 | H-removal-policy-context-compact-003 | `8ebc851c4f8ca93796dddb896c397518dd9aad4a084abd55582359a2348efa28` | `b04eaf3ec207912cf926d128b22e06c7bd0328015e05f3839a520d99011f1715` |
+
+Overall95of336approved/241pending;BatchC0of78approved. Source decisions and
+conflicting deadlines remain settled as unresolved. Preserve broken c)/d)
+lettering in H43. Display H-removal-approval nativeU+FFFEas printed re-enrollment;
+verified normalization/source binding remains a technical gate. No body changes.
+Next after this group:grade-correction pairH48–49,overall102–103/BatchC7–8.
+
+
+## Batch C opening group approved — earlier removal review reconciled
+
+Owner: “ok i approve”,approving96–101as displayed with all source limitations.
+Exact identities/content hashes remain in the preceding presentation table;the
+partial BatchCreceipt binds these six and their complete companion graph.
+Total101of336approved;235pending. BatchC6of78approved.
+
+Owner correctly recalls prior removal-of-4review. Fresh read-only hosted evidence
+confirms78active/80draft/19superseded. Earlier80audit is complete72approved/8corrections,
+0pending;reviewed corrections produced78active. Current336is a separate inactive
+expansion;100and101reuse already-approved3.2/3.3/3.7passages. No wording reapproval
+should be requested for those settled passages;distinguish added context/grouping.
+[Overlap trace](2026-10-27-prior-80-and-expansion-overlap.md). Receipt SHA256:
+`4fe3dda2b285dd47635796b8ca3ed9abff4d59d0c5085dffbafebb97609b86ce`. No source/candidate/runtime or hosted-state changes.
+
+Next review102–106/BatchC7–11:grade-correction pairH48–49,credit evaluation/
+undergraduate transfer-creditH49and foreign-creditH50. No exact prior narrative
+match under the bounded same-source/page containment check;preserve scope and
+all conditions. Source43/46–50images consulted during this review sequence.
+
+
+## Batch C grade correction and credit — chunks102–106 approved
+
+Owner: “i approve”. Approves complete grade-correction pairH48–49 and
+credit evaluation/undergraduate transfer/foreign-credit recordsH49–50. Preserve
+30-day receipt-based request wording,committee/faculty/Dean authority,North/South
+labels,three-semester validation period,prescribed-fee wording,CHED/TESDAand
+major/licensure/content/unit exceptions. Graduate-only clauses stay excluded.
+No candidate-body changes or student-specific eligibility/rule authorization.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 102 | H-grade-correction-compact-001 | `b4dffaff54c7690e3055c54b819dc8a56b7fa04a417597da5acd9b9cf92ffe92` | `85ee1104955bdf2cd9e267a2878e8e2a847e70fbc6c992958f7a687335756744` |
+| 103 | H-grade-correction-compact-002 | `3b26ee7feff2aa3684bd68152a320e2cc2f6da8e74a5e556e8b87be7a866b0ee` | `067445d9a671bffdccdb50380c1ee706204087d8e5b9426929dd5604fe69d537` |
+| 104 | H-credit-evaluation-compact-001 | `10b1a2b915454ca8eece1231f6ac125e2160ac8d6a9306681a4d02c408db34ea` | `c1bca2a0afa8d2db70aa6716207abd391931767437b8c62cba7bf599635adb29` |
+| 105 | H-undergraduate-credit-compact-001 | `d5fd19b22946583a6f52536e75133f8e9a84a981d6d14eaf3e2f5fcc26509c58` | `f46ed5e9e699c55c903ceddf94c83ce6c30d2f7b866f7faa6ff04cb7384df693` |
+| 106 | H-foreign-credit-compact-001 | `2f2365bec1d8c95b19453833597237615a1746f85b2fb2f020be5a43feff981d` | `64eef5fac23655ff57b5b98e929264775c930e328859a777f45aa1afb3731129` |
+
+Total106of336content-approved;230pending;BatchC11of78approved. Current partial
+receipt SHA256:`71b978acb94333e010b531f888be742448fe34568c19b421cd8844fd501d5dad`;six- and eleven-approval receipt snapshots
+retained separately. Next107–111/BatchC12–16:graduation requirements pairH50,
+approvalH51,and commencement/student-records pairH56. Both pairs mutually
+linked;graduation-approval record standalone. Honors remains for its complete
+five-part group next,without clearing its existing holds.
+
+
+## Batch C graduation and student records — chunks107–111 approved
+
+Owner: “i approve”. Approves graduation requirements pairH50,graduation
+date/fee/approvalH51,and commencement/student-records pairH56. Preserve all
+periods,deficiency/current-subject exception,one-year immediately preceding
+residence,disciplinary-deferral exception,council/BORconditions,and full written
+consent/release exceptions. Student-record clauses are reviewed source wording,
+not permission for Bintanong disclosure. Graduate-only1.5remains excluded.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 107 | H-graduation-compact-001 | `120911e310388811547a0422752b94fc781b084321e03c516e925492f4108120` | `d3e6b30a5528993ea279dffe64c196b90b48c2fa00f8bee16431e327cf56a960` |
+| 108 | H-graduation-compact-002 | `55d961f1ecb259a5d965dcd91ea59ef4e4eb07d923a7a122078b17b094e6c9cc` | `1752dd1c5649da0a66bc80a6f3bbdd7babe4fcff4566c0d95690b478f6dff5c0` |
+| 109 | H-graduation-approval-compact-001 | `a99beb6932e629fcbf8877f5c87d1adcec08e35513b5d73840a4a60637d7c578` | `9f28dfb5d32e086c45da4901577996eeec30c6ba054a9ff1dcf88639d15c18fa` |
+| 110 | H-commencement-records-compact-001 | `3fcca51a6b30c634fafca931db2b7abe59bdef105e39aacaf4768e01fd83feac` | `293a03f6e8bde4259a7917ee02bd750476c3e4452b3f8a6cee0b0216f0c165bb` |
+| 111 | H-commencement-records-compact-002 | `10ac5a55a330d37a5dd401dec6ca6da72670d416cad5330bc8c63c8aadd228cb` | `8e75afbcbd0cb2c299aee6eff41dd5e9821362515f170635751f922a2dc47f83` |
+
+Total111of336content-approved;225pending;BatchC16of78approved. Partial receipt
+SHA256:`877b2db5a56ee1573b7879ce47959948ff34fc7f2574b53c078a82a91830e238`;6/11/16approval snapshots retained.
+Next112–116/BatchC17–21:complete five-way-linked undergraduate honors group
+H52–54. Retain shared sentence wording,competing residence statements,all
+elective priorities and H53shorter-than-four-year selection hold. Do not infer
+new graduate/Law support or resolve existing holds through content approval.
+
+
+## Batch C undergraduate honors — linked chunks112–116 approved
+
+Owner: “i approve”. Approves the full five-way-linked undergraduate honors
+recordH52–54as displayed,including table values,minimum-grade/repeat/INC/Dropped
+conditions,residence/unit/load provisions,underload proof,behavior,GWAand full
+elective priorities. Shared graduate reference retained as printed;unsupported
+audiences stay excluded. Competing residence statements remain unresolved;
+H53shorter-than-four-year paragraph applicability hold remains. No inferred
+eligibility,new institutional authority,source change or executable honors rule.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 112 | H-undergraduate-honors-policy-compact-001 | `8ad4b61ccdedbd6be63ffd2583e596e2ab9b785819869e2fe053214b159fa248` | `f719f5cec122da739e434eed07ce82e926a6201a464e6c9c8ee4734c6079f067` |
+| 113 | H-undergraduate-honors-policy-compact-002 | `e40c0f27777d882ac8c30ba6c82197b9c9e7e2f6a0aadb22d8b50763f6ea01f5` | `48a738c00b8edd16e97025b5c74d444d88fa397f2a841da04f7210dfbf7e82a0` |
+| 114 | H-undergraduate-honors-policy-compact-003 | `271cc1b7fd8add2fe81c6a7c0af8d50fead5dc87fc2f52c94f91ce33b65a52cf` | `795ed1bee8eccc202d4166d761b02d321b688ef9441f6f76cfede7581c7a1ea4` |
+| 115 | H-undergraduate-honors-policy-compact-004 | `76938e523e119600423f9cb32d98d22950d625a8e9662ecab8b56c99ee418255` | `b9c7084efb33b650e396b1b11a1237ddcefaad35feb87d757b0f629274df949f` |
+| 116 | H-undergraduate-honors-policy-compact-005 | `7d21aa5786a1f0b18fa9061aa79297b32a63146bebab58aa05cc8838e997b44f` | `42020d2e8feb4503457625360773bafc1fd871965f1a994f2b30f2a59bc398b6` |
+
+Total116of336content-approved;220pending;BatchC21of78approved. Partial receipt
+SHA256:`bfd27c155f1aeaac3beaf8322895867fa8ded992a8a0ca874e429cc98bdedfa6`;6/11/16/21snapshots retained.
+Next117–120/BatchC22–25:merit/other awards pairH55and studentFAQpairH57;
+commencement/recordsH56already approved as110–111and skipped without re-review.
+Both upcoming pairs mutually linked;preserve source grammar and continuation.
+
+
+## Batch C transfer service — chunks121–128 prepared, pending
+
+Owner says “continue”;117–120remain pending,without inferred approval. Presented complete
+eight-way-linked C-transfer-compact-001through008as121–128/BatchC26–33.
+Charterphysical11–12/printed10–11original images checked. Step1agency/time/role/office
+associations retained across pages;step3final“appointment”joined from next rawcell
+for readable display. Final“Release Transcript of Records (TOR)”title mismatch remains
+unresolved. Printed totalPhP250.00/9days55minutes preserved. Display is not candidate
+reauthoring or activation. OverlaySHAunchanged;all8members have7neighborswithin group.
+Counts stay116of336approved/220pending;BatchC21of78. Pendingorder now117–128.
+
+
+## Batch C TOR Copy service — chunks129–134 prepared, pending
+
+Owner says “continue”;117–128remain pending. Prepared129–134/BatchC34–39,
+C-tor-copy-compact-001through006,all six required together. Original Charter
+physical13–14/printed12–13images checked. Paired four step1agency/time/person
+rows retained;step3instruction(005)and agency fields(004)displayed together.
+Email linewrap joined for display only;original candidate bytes unchanged.
+Printed school-to-school disregardstep4 limitation retained,not repaired.
+TotalNone/4days4hours25minutes preserved;all6members have5neighborswithin group.
+OverlaySHAunchanged;116of336approved/220pending,C21of78;pendingorder117–134.
+
+
+## Batch C chunks117–134 approved;certifications135–140 prepared
+
+Owner:“i mean i approve”;then explicitly:“also for earlier, chunks 117 to 128, i approve to that too and also 117-120”.
+Approves merit/awards and FAQpairs117–120,complete transfer121–128and TORCopy129–134services.
+Earlier continue-only pending state superseded by explicit approvals. Retain finalTORlabel
+conflict,disregardstep4 limitation,missing fee amounts and all other source limitations.
+Display joins do not repair current serialized fields;labelled service reauthoring remains.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 117 | H-merit-awards-compact-001 | `bb38074c6718a39b1659aeaffb79971164fe468b5e18c7fe7193ca49fe71d797` | `2a0f9b1b6c51d1176281372d49848f97a41e8acf925cb8d0d3332b8598b1c2fe` |
+| 118 | H-merit-awards-compact-002 | `bf5a9a32c6e0d51169037b389d85c3103db9c6ae2e9d02298fe8e7d39aba7dd0` | `7b7fbcc1d05f7d71a729f616086ec45ca06b9fa1285142b5994b26e1bbc413d3` |
+| 119 | H-student-faq-compact-001 | `e336ae4e7f31d80b9ba3a73e737b091e02ecc00e0a36265eb0fecdc31e098235` | `ccd63fe7b5a6965f07cd08c9b16a950f5bb06ea95bed350e196c2ffc6df7ab9e` |
+| 120 | H-student-faq-compact-002 | `c5233a65f5d0b83beb9fdb96d9011dc4cd4e454817632c4abfd238ac9f058bea` | `ecf8ecf8ec317124f67d2a5743fbd3654e490bc433b258ab1ee7e340a9d1b3bb` |
+| 121 | C-transfer-compact-001 | `59bc7b7912d96c676ab3c68364acc49cc6b4fe828f8c310806864d6bf970858c` | `9346056e8c51fa377cd22f432e174bc5af1cb0fa8e09a9c2824c987893e9bb38` |
+| 122 | C-transfer-compact-002 | `d6295bf1878cd31d37b197d916ec9627c67cad1ecf95afdc5e1a6c00d469f379` | `4bcbb5e4a71299871fd3a092532dcf5434747f277fd453e0b1a033d9b456fcb7` |
+| 123 | C-transfer-compact-003 | `7065b0b6e4c0f993bc38ffb453a0d57b609f453490e3bad445c7ebfa69e50d16` | `b2f4edd2049a75b4f40fe93376d9db2054347728d377d100aa218df01dcb058d` |
+| 124 | C-transfer-compact-004 | `a7b364eb1fc315109d3f323705c48a7c29555fbbb7519d34da01debf38e055c5` | `4738ff21f8a3d39178d93ff971c4232b03be13e0b8ab240ddaa4258252447a98` |
+| 125 | C-transfer-compact-005 | `3b35a4479ea8f9f0e8af6af3cee79000352d52921f8beed32e3c332559c0a3f4` | `d4f4314b7813d45c9280944017c356c0c15fc43abd251da35cc438706781c234` |
+| 126 | C-transfer-compact-006 | `0f6c885006155886017dc662e01f05f87a6543465d6b92f3488e62df77c316dd` | `cb55c1f0b3822e6c02dd16d958e649a4b464a70c7181b90f0b2b2108344fba5f` |
+| 127 | C-transfer-compact-007 | `f70358ec27ff777191a012df763d65f983e0bb225f9e3cdccd985454db87dbef` | `ab42067634de6e0d7325988a4f05c989c4f9e999147a41119e11f478435edd65` |
+| 128 | C-transfer-compact-008 | `edf694628516182c2655f53934d2d5d8f176c3a7fecd535e3df6f09beeb5206b` | `8930885b68565d511232a38e2e13c9314e09896a7b36e3102cba1e48f8b43eab` |
+| 129 | C-tor-copy-compact-001 | `a65e7ce4f8492a5c5b9caee2757735f4bdd8759a4ebb953f1465d3e85e3b53cd` | `1cbd1a68029004cb425dcf761ad5a359c4e5aa83b5459c6e56c6d5b38d177af3` |
+| 130 | C-tor-copy-compact-002 | `7b57fbd58e9acca78df0d0d3727542af73139d44636ddca2b7eba3d4b1c8ed21` | `a255c4e3adfbd5720d473e0456c45048f3947e8be32cbd63723a976311d7d7ce` |
+| 131 | C-tor-copy-compact-003 | `7b5723b2a3586ee8d5ebcbb858626592d4cb0a8443fd63e7b81ae6775ca59c5e` | `8df4282f06d155ca58f034fe58200140442b078478179a164aabcd7a8893de91` |
+| 132 | C-tor-copy-compact-004 | `f1cb352555a7cad75155365c8f8855babc1b311a81a56bfb87ddb5b072d1d06e` | `838e12b41e8c43118eb2c9a91be1b8f32f34d0eb2e568b4adbd1df7df86a59ba` |
+| 133 | C-tor-copy-compact-005 | `ef71a32034e354da0ee54aaac02e39fb04f0c0139a8ee4b025d9a1c594f40715` | `82a55ec713c20ac6eda1d26667bf1f55c08fd8e03b83366d7a92d037597fa0f7` |
+| 134 | C-tor-copy-compact-006 | `03b0c4fb7b41754c66384f0e9b959ab19fea0128402d4c6e19f2056e578da416` | `2cc3b184dc57b1efba1bfbcaf99c00aa28694a5dd9a3862490471affa35e2187` |
+
+39BatchC/134total approved,202pending. Partial receiptSHA256:`c34af9b43a3be5da8e8f30757926491c5b384dcc76287c77218dcf6e4e6ee8f3`;immutable039snapshot saved.
+Next135–140/C40–45:complete six-linked certifications servicephysical15/printed14.
+Original image and full closure checked;PD907title does not establish eligibility.
+
+
+## Batch C certifications135–140 approved;CAV141–146 prepared
+
+Owner:“i approve”. Approves complete certifications service as displayed,including
+conditions,PhP50.00percertification,47minutestotal and shared role labels.
+PD907eligibility remains unstated;labelled reauthoring still required before use.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 135 | C-certifications-compact-001 | `da4829906d9772aff1cb7d7958cb393692f8e9e62218dedd2aef5ddf5daa67f5` | `c80cb2496efcb4df83cc5658eeecd3dd926113c19cf3b72240271209ef9acaf4` |
+| 136 | C-certifications-compact-002 | `7b386e1b4efbed66f279dcac62c4d6da9826680284d0eebfa7fd764427266ea4` | `d537af99a8ee92de90abc83cfa352bd277452f583325fef7d8e479d3b020424d` |
+| 137 | C-certifications-compact-003 | `b5349aeecc11ad4154c6d1ddbf3ca395000197a327b7ecaace0767692c107409` | `a698f086abe9533683991b0923e8b62d834e9726efd2a4fa84a7867300cef544` |
+| 138 | C-certifications-compact-004 | `15667f5421d730a87b989054ae0b27b03de04184477d6650643f85b88036d03d` | `53bef7f20a6a0e5fcd0fbce10c01ec3acd050f84b6126c6a42acccb9ae13eb90` |
+| 139 | C-certifications-compact-005 | `1321866ebcdc58b037cc4539ad53128604b98c28fe944e8c4352a38f7693f9bd` | `f2754cd2da30927ee3780f27a6b1f56174ee87a9d0c8183c6918aa0ddce26ba7` |
+| 140 | C-certifications-compact-006 | `a9d9c4c351e6ba0c3c68c532e306e97ccc9f848a9ebbd82ebc4bb5d47b67c699` | `34d08f9a120c8196b099caf6920dab55551ef5976f362ef7ea6a9b342ca06891` |
+
+45BatchC/140totalapproved,196pending;receiptSHA256:`af48ba16779245e73494ab19f5841e9450cedf326218e52b109c284e1e9543d2`;045snapshot retained.
+Next141–146/C46–51:complete CAVservice,Charterphysical18–19/printed17–18.
+Images/closure/hash checked;step3final10minutes continues onto physical19.
+Evaluator role spans encode/process and review/initial actions. TORonly checklist
+versus TORandDiploma instruction remains a source limitation;fees/totals unchanged.
+
+
+## Batch C CAV141–146 approved;consultation147–150 prepared
+
+Owner:“i approve”. Approves complete CAVservice as displayed,including fees,
+4hours47minutestotal,Evaluator shared role and final10minutescontinuation.
+TORonly checklist versus TORandDiploma request limitation remains unresolved.
+Labelled service reauthoring still required before use;no source/runtime changes.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 141 | C-cav-compact-001 | `7108a41174745912606398b55bb3915bd79a5e311ebfc0c7acc6c4b372540171` | `840af9508ccc3f49c17f139834f30fdc047eab3ab07c112607bc7c08f5b7dbce` |
+| 142 | C-cav-compact-002 | `6537395101171e5b9d2d9ddd369564394b7f8516b9ee7a37c77b830c872f490b` | `7ec1996c77d2b5646d938d276450e0453cea607fdfbee9b024e7b689f47b6ffd` |
+| 143 | C-cav-compact-003 | `c1f81b7e8fe0bbe06117471caa19c3e7571717e46019dd0dbe727ad00094e91f` | `99ff15ddf867f0318f223a6a0c75e9aa01a850697c7c9b356d9914e3d9b258ef` |
+| 144 | C-cav-compact-004 | `5d57551c9bbc75a9787b632313aca1c914073a05963a5a26155644f979f975e8` | `470156509eb7db13a2148e5ff16815c432cc3d350857b9d434e0c0e7188788dd` |
+| 145 | C-cav-compact-005 | `43626f9b1e1f422905f520193913ca530ecd774fb892b30860891a8cd616b9ab` | `d15b7476d6ecd3439a054f170024f0089026f45364ecb8a1dd2bc596c8968998` |
+| 146 | C-cav-compact-006 | `f41b7c0ea932745fd68db7077ec10c1b6b6ff20b91dc1b33349fbd0e9bd387e8` | `badb5b73f599c9c5f0154e792b11ada123e3372b9b0d2ae7f6d5fb35c47b5eb1` |
+
+51BatchC/146totalapproved,190pending;receiptSHA256:`1e024a6780bf1fff8bb173751f8422a81c5aa5a010e322d073a4ee47a3731e5c`;051snapshot retained.
+Next147–150/C52–55:complete consultation servicephysical103–104/printed99–100.
+Original page images and four-way closure checked. Printed35minutes remains
+distinct from listed3+30+1=34minutes;literaldiscuss esand agency2.2retained.

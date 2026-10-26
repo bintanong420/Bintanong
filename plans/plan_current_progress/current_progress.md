@@ -7,6 +7,12 @@ Last full snapshot before this condensation:06c1f8b;prior snapshots:5009760/c1fc
 
 ## Latest change
 
+[Backend synchronization](../2026-10-27-local-backend-branch-sync.md):frozen origin
+d8246d1merged here;18incoming review/doc commits,no API/code/test/dependency delta.
+Upstream146of336contents approved/190pending;holds retained,not activation.
+All source decisions retained;ignored336evidence absent,GUI inventory unchanged.
+Local backend/frontend copies are being reconciled with backed-up WIP preserved.
+
 [Save control/prospectus delivery](../2026-10-27-save-control-and-prospectus-review.md):
 policy save stays visible and focuses the required note;context links persist without
 blanket approval. Real39-prospectus packet prepared from existing verified bundles,
@@ -20,9 +26,7 @@ Main UI3001/API8765;prospectus3002/8766 uses isolated frontend build/current loc
 launch link in audit-evidence/prospectus-review-ui-20261027/. Saved source files stay
 local. Full accuracy/accessibility/DB-role gates remain open;Node22 vs target24.
 Original78baseline unchanged:11files/7seals/78chunk-vector bindings reverified.
-Context/feedback implementation0959a43/0349730 and prior origin handoff06c1f8b retained.
-Backend merge0bb3dad brings18review/doc commits,no API source diff;336ignored
-candidate files remain absent,policy GUI still72records/298fields. No regeneration.
+Policy GUI still72records/298fields;source/feedback delivery linked above.
 Source-gap/scope/companion decisions remain;T4/T5 local lifecycle delivery is next.
 No hosted access,pin/release mutation,dependency changes or phase advancement.
 
