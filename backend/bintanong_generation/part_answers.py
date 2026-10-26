@@ -346,7 +346,8 @@ def to_draft(explanation, pack):
                           else 'source_gap')
                 # Deterministic wording still needs the existing per-part relevance/support review.
             if status == 'answered':
-                conflict = deadline_conflict_reply(pack, proposed, max_claims=8-len(claims)-reserved)
+                conflict = deadline_conflict_reply(pack, proposed, max_claims=8-len(claims)-reserved,
+                                                   existing_claims=conflict_ids)
                 if conflict is not None:
                     proposed = tuple(PartClaim.parse(c) for c in conflict)
                     status = 'answered' if proposed else 'source_gap'
@@ -359,7 +360,8 @@ def to_draft(explanation, pack):
         for claim in (proposed if status == 'answered' else ()):
             key = (claim.text, tuple(claim.evidence_ids))
             if conflict is not None and key in conflict_ids:
-                numbered.append(conflict_ids[key])
+                if conflict_ids[key] not in numbered:
+                    numbered.append(conflict_ids[key])
                 continue
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))

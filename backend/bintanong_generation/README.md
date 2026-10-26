@@ -125,6 +125,10 @@ parts are named, with distinct source-gap and absent-information notices. If not
 answerable, the answer is withheld without a review call. Reviewer-rejected parts still
 withhold the whole reviewed answer; claims are not dropped after review identity binding.
 The reviewer confirms each retained part against only its own claims plus per-claim support.
+For an explicitly conflicting-deadlines continuation group,`deadline_conflict.py` replaces affected
+prose with the complete exact quoted fields and an unresolved-deadline/office notice before ordinary
+review. Missing/mixed/unsafe groups stay unavailable;no controlling deadline is selected. Identical
+quotations can share canonical claim IDs across slots,with unique-claim budgeting and review binding.
 Confirmation stays fallible (`unverified`). See the [guard verification](../../plans/2026-10-25-malformed-source-answer-guard-results.md).
 
 `service_cutoff.py` protects records with an explicit unresolved `source_cutoff`

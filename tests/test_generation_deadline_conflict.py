@@ -97,9 +97,10 @@ def test_two_slots_can_share_identical_verified_quotations_without_duplicate_sup
     assert confirm_schema(pack,draft,slots)['$defs']['ClaimVerdict']['properties']['claim_id']['enum']==['c1']
 
 
-def test_a_malformed_extra_limit_withholds_only_the_affected_part():
+@pytest.mark.parametrize('position',[0,1])
+def test_a_malformed_extra_limit_withholds_only_the_affected_part(position):
     content=rows()
-    content[-1]['source_limits'].append(None)
+    content[0]['source_limits'].insert(position,None)
     answer=asyncio.run(Generator(ChoosingModel()).generate(TEXT,integration(content=content)))
     assert answer.status=='answered' and [c.text for c in answer.claims]==[SAFE]
 
@@ -110,3 +111,22 @@ def test_taglish_framing_applies_to_every_block_of_a_long_exact_quotation():
     answer=asyncio.run(Generator(ChoosingModel()).generate(TEXT,integration(language='taglish',content=content)))
     assert answer.status=='answered'
     assert all('Ang printed statement' in c.text for c in answer.claims if 'Fictional timing statement.' in c.text)
+
+
+def test_shared_five_claim_group_is_budgeted_by_new_claims_not_repeated_slot_references():
+    from backend.bintanong_generation.evidence import prepare
+    from backend.bintanong_generation.part_answers import PartExplanation,to_draft
+    content=rows()
+    content.append(json.loads(json.dumps(content[-1])))
+    for n,record in enumerate(content):
+        record['service_group'].update(part_count=5,part_order=n,part_reading_id=f'fictional-period::{n}')
+        record['fields'][0]['value']='Fictional timing statement. '*35
+    pack=prepare(integration(content=content))
+    ref=next(c.evidence_id for c in pack.cards if 'Fictional timing statement.' in c.text)
+    explanation=PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id,language=pack.language,answers={p:dict(status='answered',
+        claims=[dict(text=UNSAFE,evidence_ids=[ref])]) for p in ('r1','r2')}))
+    draft,slots=to_draft(explanation,pack)
+    assert slots['r1'][0]==slots['r2'][0]=='answered'
+    assert slots['r1'][1]==slots['r2'][1]==('c1','c2','c3','c4','c5')
+    assert len(draft.claims)==5

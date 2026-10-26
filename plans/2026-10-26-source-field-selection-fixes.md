@@ -39,7 +39,7 @@ This tests the candidate composition;profile promotion requires actual quality e
    canonical refs,independent claims,shared slots;missing/mixed/oversized/held records cannot release;
    unchanged unaffected records. GREEN generic conflict_reply integrated in existing to_draft flow.
    Deduplicated claim IDs remain valid for support verdicts/record coverage/final review identity.
-3. [ ] Relevant generation/routing/runtime suites,independent final code review;fix important findings
+3. [x] Relevant generation/routing/runtime suites,independent final code review;fix important findings
    regression-first. No new dependencies/models/source fields/budgets/hosted writes/activation.
 4. [ ] Freeze implementation,full tests/ suite using sharedPython3.13,-B,-p no:cacheprovider,
    external basetemp/storage. One six-case check only on suite success;exact previous questions and
@@ -69,3 +69,12 @@ Initial broad1155passed/1stale prompt-version assertion;version expectation upda
 Final broad1157passed22.55s. Saved real removal packet:all4exact paragraphs/two claims/shared slots,
 coverage/draft checks pass;Taglish block framing repaired after the saved replay exposed it.
 No new inference/source changes. Next independent code review,then frozen full suite/six once.
+
+Final review found2P2s:malformed limit before the conflict marker could bypass the guard;shared
+five-claim groups were budgeted before reuse. Both reproduced RED2/16 and fixed in one pass:
+type-safe marker detection,malformed group withholding,and additional-unique-claim budgeting.
+Final broad1159passed25.19s. Independent reviewer reports no other/minor findings;no re-review.
+No default/source selection decision overridden. Existing model container was stopped on resume;
+Docker Desktop/container restarted using existing installation/weights/profile,no downloads.
+Next freeze corrected code and run full suite then six once;explicit short-draft/canonical-review
+profile is for this candidate observation only,global canonical default unchanged.

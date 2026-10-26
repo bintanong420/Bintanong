@@ -16,7 +16,8 @@ def _conflict(card):
         return None
     try:
         record = json.loads(card.text)
-        if any(limit.get('issue') == 'conflicting_deadlines' and limit.get('resolution') == 'unresolved'
+        if any(isinstance(limit, dict) and limit.get('issue') == 'conflicting_deadlines'
+               and limit.get('resolution') == 'unresolved'
                for limit in record.get('source_limits', [])):
             return record
     except (ValueError, TypeError, AttributeError):
@@ -71,7 +72,7 @@ def _quotes(members, words):
     return sorted(statements)
 
 
-def deadline_conflict_reply(pack, proposed, *, max_claims=8):
+def deadline_conflict_reply(pack, proposed, *, max_claims=8, existing_claims=()):
     """None if unaffected; empty if unsafe; otherwise exact quotations plus independent claims.
 
     The ordinary relevance/support review still runs on this transformed proposal.
@@ -106,4 +107,6 @@ def deadline_conflict_reply(pack, proposed, *, max_claims=8):
                 quoted[-1]['evidence_ids'].append(ref)
             else:
                 quoted.append(dict(text=text, evidence_ids=[ref]))
-    return (*quoted, *independent) if len(quoted)+len(independent) <= max_claims else ()
+    result = (*quoted, *independent)
+    additional = {(c['text'], tuple(c['evidence_ids'])) for c in result} - set(existing_claims)
+    return result if len(additional) <= max(0, max_claims) else ()
