@@ -389,3 +389,26 @@ Graduate residence/extension provisions remain excluded. No candidate-body chang
 
 Total78of336content-approved;258pending. BatchB23of40approved. Next display:
 overall79–82/BatchB24–27:Handbook44–45substitution pair,45shifting and curriculum change.
+
+
+## Batch B substitution, shifting and curriculum — chunks79–82 approved
+
+Owner: “i approve”. Approves the complete linked substitution pair onH44–45,
+shifting and effects-of-new-curriculum onH45. Retain all cases/requisites,
+North/South campus wording,Department Head versus Department Chair labels,
+grade limitations,deadline,approval and appeal conditions. This source-content
+approval does not settle policy precedence or authorize executable substitution rules.
+
+| Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- |
+| H-substitution-compact-001 | `7d2a9b73aff971bd40d6f41b2dd74a5c8720b9ba58f9f2d03b1699b0e2473726` | `e5b04cee072b576a326ee996c3bd904b57c91aee14d389d3e74e1e00d5730b80` |
+| H-substitution-compact-002 | `a734cdb9c08710ad114c9d2d266dcecf7c198b6328bf646e7c923bfde0c27560` | `c0d0d9151c632eaa2186afed0c342ba14911cd1947e0a7ca06d9b6456fbcd586` |
+| H-shifting-compact-001 | `73f43ca86c640114e70f565e9101cf7ea4a6dc40e92dc4f017f473067c564f07` | `2827cbcc2bc5b1cfd91b587c3c200cd6e3c51fed3dbbb4c7c74f22be1096bed2` |
+| H-curriculum-change-compact-001 | `2fd94249c4ec3ece2639d665b711416b35b1f931965ba6e822d521687faf4802` | `8a812585963d1d0efad9e611b1f13170dbb53f16eae7e3cab6a450deb684937f` |
+
+Total82of336content-approved;254pending. BatchB27of40approved. Next display:
+overall83–89/BatchB28–34:FAQpair H58 plus rights/duties and attendance/uniform
+sequence H76–78, including the page76→77attendance continuation,blank bullet
+and unresolved text/illustration differences. Current source groups have pair/
+triple links;the cross-group attendance continuation needs an explicit dependency
+binding before use. Present full source sequence now;candidate bodies unchanged.
