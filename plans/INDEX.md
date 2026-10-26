@@ -25,7 +25,7 @@
 - Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); roster19 compared; corrected78 research release active)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
   adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
   [Checkpoint](phase-11-checkpoint.md) · [Session recovery:335chunk human review](2026-10-26-phase11-bulk-review-session-handoff.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
-  [Current336candidate overlay](2026-10-26-registration-layout-correction-results.md):registration rebuilt;30candidate contents approved/306pending;readmission rebuild still needed,inactive.
+  [Current336candidate overlay](2026-10-26-registration-layout-correction-results.md):registration rebuilt;39candidate contents approved/297pending;approved Charter services need labelled rebuild,inactive.
   [Hosted80-chunk audit](2026-10-25-hosted-chunk-review.md) complete:72approved/8correction-needed;draft inactive.
   [Corrections](2026-10-26-hosted-chunk-correction-results.md):78chunks/39curricula now research-active;old19retained/old80draft.
   [Runtime check](2026-10-26-corrected-candidate-runtime-results.md):full suite passes;six-query quality gate fails;inactive.

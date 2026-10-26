@@ -173,7 +173,7 @@ page7→8action/fee/time/person associations and note cutoff. Content approved;
 labelled reauthoring/new source bindings remain required before use. Current
 30of336candidate contents approved,306others pending;18–22remain pending.
 
-## Batch A admission testing — nine chunks33–41 pending
+## Batch A admission testing — nine chunks33–41 content approved
 
 Original Charter physical54–55/printed50–51inspected. Present as complete service:
 metadata,paired requirements,five application steps,three result-issuance steps,
@@ -193,3 +193,29 @@ Native apostrophes/dashes retained versus parserASCII;role/office labels stay pa
 Result step2action says“Provide slip for admission fee for payment.”but its fee
 cell saysNone. Show both;do not infer a separate result fee or alter the printed
 Php100total. Structured reauthoring required after content decision,before use.
+
+Owner:“yes i approve, preserve that wording”. All33–41content/associations approved,
+including result-step payment-slip wording withNonefee cell,printed total and
+Administrative Assisstant spelling.39of336candidate contents approved;297others
+pending. Labelled reauthoring/structural bindings still required before use.
+
+## Batch A image procedures — eight chunks42–49 pending
+
+Fresh original H60/H61/H63images inspected. Present each complete process with
+process/responsibility/details columns and diagram branches,not isolated labels.
+
+- H-image-flow-60-compact-001: `b79d73b96093e6859a38772c1e3580f4feeb9267bee5e94a81d4831af55eb0b3`.
+- H-image-flow-60-compact-002: `70f58563c342036b90b349003fe2c690ce7bac90dcb6f201ac69204db7ba9823`.
+- H-image-flow-60-compact-003: `b800ca4cecfca69503594d9abc5879a3bc5151ef493c643f629dedb2b1da4f1c`.
+- H-image-flow-61-compact-001: `f577e4f6d2015eca7a49a363b014629bc892820e625031a8d209c19ab672950d`.
+- H-image-flow-61-compact-002: `9a874c17c4e63236657e9194e4626ec7168b4c6c625db5d5879be319224b88ca`.
+- H-image-flow-61-compact-003: `9a988735dc886d8878bcdba73445fad370708b0344f71861e7c99da52e361ecd`.
+- H-image-flow-63-compact-001: `c34ec49e77871825d26570e978b7bc67fdf9fcc343ba14f489e4a7c39aa0acb2`.
+- H-image-flow-63-compact-002: `3d594d24e163f9db2df8d1e2896dd0d25277a2f59d5b975e0e04712b20105dad`.
+
+Keep H60decision fragment“Complet”/“e &”unresolved;do not borrow H61Complete &
+Correct?label. H60/H61Noarrows return to verification/checking,Yescontinues.
+H63Noends,Yesencodes then ends. Preserve source-specific checklist labels,
+NSO/NCAE wording and awkward grammar. Review is literal image/association/topology
+approval,not creation of executable eligibility rules. Final checked structural
+bindings remain necessary;all candidates inactive.18–22remain pending separately.
