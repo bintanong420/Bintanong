@@ -23,18 +23,25 @@ This document records execution of the supplied plan, not a replacement product 
    [shared baseline record](2026-10-26-handbook-charter-shared-baseline.md) binds all89groups
    and preserved holds; no whole-document approval is claimed. Interpretations not
    established by the owner stay held; no source repairs or scope expansion.
-2. **Snapshot verified, delivery commit pending:** preserve the current
+2. **Delivered:** preserve the current
    corrected78 package and originals without modifying them. After the planned
    review is complete, commit its records and record the full Git SHA and verified
-   package/source manifest as the shared baseline. A documentation commit or a
-   successful package hash check alone cannot satisfy the review gate.
-3. **Not started:** keep the primary developer on `feat/p11-backend-api`; the other
-   developer creates `feat/p11-policy-ingestion-review` from that exact commit in
-   its own worktree. No second branch/worktree is created before step 2 is satisfied.
-4. **Not started:** primary integrates the supplied frontend, runs student queries,
+   package/source manifest as the shared baseline: **`4e99fb655022e694c73bbd98dd6daec9d7d88fb5`**.
+   A documentation commit or hash check alone cannot satisfy the review gate;
+   reviews01–09 and preserved holds define the actual bounded review.
+3. **Workspace prepared:** primary remains on `feat/p11-backend-api`; other branch
+   `feat/p11-policy-ingestion-review` was created from that exact commit in
+   `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11-policy-ingestion-review`.
+   Its start receipt is commit `c76d988`, only the dedicated task record changed.
+   Current task updates belong to that branch; do not mirror them into central snapshots.
+4. **Frontend integration stopped by owner until resumed:** primary integrates the supplied frontend, runs student queries,
    fixes behavior through RED/GREEN regressions, and commits small verified units.
    Locate the supplied frontend before editing; the checked-in frontend package
-   alone does not establish that it is the co-worker's completed design.
+   alone does not establish that it is the co-worker's completed design. Fresh GitHub
+   inspection and `git fetch origin frontend` found published snapshot
+   `e172f53c19bdd5d30ef5df2db4bf80ee47e27c3c`; it includes UI/auth/API changes and tests.
+   Owner then said “we are implementing the chatbot frontend right now”. No merge,
+   frontend edit or dependency installation has occurred; avoid overlapping that work.
 5. **Not started:** the other developer implements the reusable commands and separate
    local researcher review UI under the [dedicated task record](phase-11-policy-ingestion-task.md).
 6. **Not started:** integrate the completed tooling branch after code review,

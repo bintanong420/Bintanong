@@ -54,7 +54,7 @@ metadata; no new external contact checks or acquisition were attempted.
 | X032 — Certifications C15 (14) | Registrar/Simple/G2C. Copy of Grades/Graduate/Candidate for Graduation/Enrolled/English medium/Grading System/PD907 literal titles. Clearance two copies with stated not-currently-enrolled/employment/transfer conditions; receipt; stamp one per certification. Request 5min Window; payment PhP50/certification 10min Cashier Clerk; receive/forward receipt 2min Administrative Assistant; encode/check/print 10min Registrar's Office label; initial/review 10min Evaluator; sign/check 5min Assistant Registrar/University Registrar; release 5min Window. Total PhP50/47min. Preserve role/office fragments, not invent missing staff title for office-only label. PD907 applicability itself is not established by acronym/title; no eligibility advice. |
 | X033 — Certifications C16–17 (15–16) | Registrar/Complex/G2C. Units Earned/GWA/CARMA/Letter of No Objection/Course Description/Transfer to CCRD titles. Clearance, receipt, stamp one/certification. Keep first step across pages through University Registrar/4hours continuation; **hold first-row action/time/person mapping** where source vertical alignment does not safely establish one-to-one mapping. Subsequent release email 1day Window, appointment 10min Window, PhP50/certification 10min Cashier Clerk, release 15min Window. Printed total PhP50/4days1hour5min, retained without recomputation. CARMA/CCRD meaning/applicability unresolved, no expansion guessed. Other unambiguous certification titles usable only within reviewed undergraduate context. |
 | X034 — CAV C18–19 (17–18) | Registrar/Simple/G2C. Original TOR and Diploma (TOR only if undergraduate), receipt, stamp one. Preserve “graduated” versus “undergraduate” labels, not Graduate School. Request 5min Window; payment 10min Cashier Clerk, PhP350 if graduated/PhP200 if undergraduate; receipt-forward 2min Administrative Assistant; encode/check/process 4hours Evaluator; review true copies/initial certification 15min; sign/check certification and copies 10min continues C19; release/sign receiving copy 5min Window. Assistant Registrar/University Registrar remains joint label with latter signing stages; if later geometry cannot prove their internal split, keep joint rather than assign a specific signatory. Total 4hours47min, same conditional fees. Checklist TOR-only versus client request TOR+Diploma kept separately; no invented document exception. |
-| X035 — Diploma C20 (19) | Registrar/Simple/G2C; graduates. Clearance/Documentary Stamp; request/retrieve 10min Window, receive/check/release 5min Window; None/15min. Second-copy request note online plus Letter Request to Dean and Affidavit of Loss. No second-copy fee/time printed; do not apply first-issue total automatically. |
+| X035 — Diploma C20 (19) | Registrar/Simple/G2C; graduates. Clearance/Documentary Stamp; request/retrieve 10min Window, receive/check/release 5min Window; None/15min. Second-copy request note online plus Request Letter addressed to the University Registrar and Affidavit of Loss. No second-copy fee/time printed; do not apply first-issue total automatically. |
 
 ## College services — complete logical sequences
 
@@ -79,6 +79,11 @@ retained as original-source limitations. Clear fields can be recorded under
 delegation, but affected conclusions and field associations stay unresolved. The
 owner's instruction to retain datasets is not approval to silently repair them.
 No release receipt or candidate package is produced from these notes.
+
+Authoring correction,26October: fresh C20 original-image comparison shows the
+second-copy letter is addressed to the **University Registrar**. The earlier
+review summary incorrectly said Dean; corrected above. Original PDF unchanged.
+The new candidate packet retains the actual printed recipient, not that summary.
 
 Batch C catalogue locators inspected; X024 existing review reused. X089 grade
 solicitation from Batch E also recorded. Later batch material seen on shared pages

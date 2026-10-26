@@ -460,3 +460,32 @@ Each program still gets its own dated review record listing which standing rule 
   Owner adds “we should keep everything as is from the data sets”: originals and
   source wording remain unchanged. This does not resolve policy meaning or approve
   unseen fields. See `2026-10-26-handbook-charter-expansion-review-01.md`; do not re-ask.
+- 26Oct2026, omitted-content chunk review: owner approves the two H31freshman
+  registration chunks shown inline and asks to keep continuations linked. Mutual
+  required-neighbor IDs verified; exact IDs in `2026-10-26-omitted-content-human-chunk-review.md`.
+  Owner then directs “continue it so i will review later in bulk”: prepare remaining
+  reviewed in-scope omissions across both sources, technically verify and organize
+  the eight topic batches before routine human chunk review. Known holds stay held;
+  unseen chunks remain unapproved and no new hosted activation is authorized.
+- 26Oct2026, chunk consolidation: owner questions899draft count,recognizes format
+  metadata and directs “continue working on it”. Consolidate metadata/source
+  fragments into meaningful service/narrative groups while preserving all policy
+  fields,limitations and approved H31pair;retain verified page furniture in audit
+  evidence instead of standalone policy chunks. Bulk human review remains later;
+  this is not approval of unseen content or hosted publication.
+
+- 26Oct2026,bulk chunk review: owner approves11H26–30admission chunks and then
+  sixH32–34registration/credit chunks as presented,retaining source limits and
+  required links;with the priorH31pair,19of335human-approved. Exact IDs in
+  `2026-10-26-omitted-content-human-chunk-review.md`. Owner explicitly retains
+  North/South campus provisions because they support transfers into main
+  Tiniguiban rather than exclusively serving those campuses. Preserve printed
+  applicability;no blanket campus exclusion or unrelated-campus scope expansion.
+
+- 26Oct2026,Charter registration layout:owner approves review items23–26with
+  nonvisibleDay)Day)removed,then explicitly identifies metadata rows followed by
+  CHECKLIST OF REQUIREMENTS/WHERE TO SECURE and paired requirements. Keep table
+  structure in authoring and serialized context,not only chat display. “aight
+  proceed”authorizes applying this approved correction. Existing builders yield
+  five required companions within480tokens;[results](2026-10-26-registration-layout-correction-results.md).
+  Source wording/fee discrepancy remains;no publication/activation permission.

@@ -7,6 +7,16 @@ Last full snapshot before condensation:5009760;prior full baseline:c1fc29a.
 
 ## Latest change
 
+Owner requested origin backend merge and omission feedback/clearer related-record UI.
+Merged origin/feat/p11-backend-api e5495b4 (18incoming documentation/review commits).
+Current ingestion snapshots retained during the two documentation conflicts;incoming
+owner decisions/review reports retained in Git and linked below. No API source diff.
+[Incoming review](../2026-10-26-omitted-content-human-chunk-review.md):336inactive
+candidates with registration correction;50content-approved per incoming record.
+Its ignored evidence root p11-omitted-chunks-20261026 is missing on this machine.
+The running UI still has the verified72baseline candidates;no336-row claim.
+Next:source-bound omission reports and searchable related-record checkboxes.
+
 Isolated ingestion resume (`feat/p11-policy-ingestion-review`): recovered chat
 `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`;[checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 [Restored institutional reviewer](../2026-10-27-institutional-review-ui.md): the owner

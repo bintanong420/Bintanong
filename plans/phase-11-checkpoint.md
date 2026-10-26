@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 121
+sequence: 122
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 89b51d9
+head_commit: 5e1fd11
 working_tree: dirty
 updated_at: 2026-10-27T01:14:00+08:00
 ---
@@ -23,25 +23,15 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-In this ingestion worktree,follow the [workstream checkpoint](2026-10-26-policy-ingestion-checkpoint.md).
-T1/review persistence/package/UI delivered;owner rejected a read-only UI substitution.
-Restored72editable institutional candidates/298pending fields,12known source-problem records.
-257tests/80subtests,6snapshot compatibility tests,5Node state tests/TypeScript/build pass.
-Synthetic Chrome rehearsal verifies correction/save/reload/history/Escape/export download.
-Real-document draft switch fixed;tracked browser regression passes2.61s.
-Charter/flowchart/images,light/dark,390px/720px reflow pass;full accessibility gate open.
-UI3001/API8765;institutional revision0;local candidates preserve frozen baseline bytes.
-See [delivery](2026-10-27-institutional-review-ui.md). Hosted access forbidden;none performed.
-Actual local DB roles,legacy package rebuild and T4/T5 remain unfinished;Docker unavailable.
-Runtime status below is inherited,not freshly checked by this workstream.
-
-[Two-developer workflow](2026-10-26-phase11-two-developer-workflow.md) now governs order:source review,
-fixed baseline/fork,then concurrent primary frontend/runtime and other-developer isolated ingestion/UI.
-[Reviews01–09/shared baseline](2026-10-26-handbook-charter-shared-baseline.md):all89catalogue groups
-mapped;102H/62Clocators,152fresh original-image pages/12settled-review pages reused. Literal clear
-readings under standing delegation;ambiguous associations/applicability/fees/totals held as printed.
-Owner confirmed H26/H30holds and unchanged datasets. No chunk/rule/vector/release/pin change.
-Final source-review/baseline commit and isolated ingestion fork next;primary frontend/runtime follows.
+Owner-requested merge of origin/feat/p11-backend-api e5495b4 into this ingestion tree.
+18incoming commits add review documentation/decisions,no backend API source changes.
+Both intents retained:local ingestion snapshots stay current;incoming reports and owner
+ledger retained. Remote335packet plus336registration overlay are documented but their
+ignored local evidence folder is absent. UI remains72verified baseline candidates.
+Next implement independently saved page/region omission reports and a searchable
+related-record selector. Preserve existing review controls and owner decisions.
+No hosted connection/activation/model work;Phase11 remains active.
+See workstream checkpoint and incoming human chunk review for separate boundaries.
 
 ## Repository State
 
