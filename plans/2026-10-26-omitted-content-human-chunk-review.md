@@ -513,3 +513,28 @@ Next review102–106/BatchC7–11:grade-correction pairH48–49,credit evaluatio
 undergraduate transfer-creditH49and foreign-creditH50. No exact prior narrative
 match under the bounded same-source/page containment check;preserve scope and
 all conditions. Source43/46–50images consulted during this review sequence.
+
+
+## Batch C grade correction and credit — chunks102–106 approved
+
+Owner: “i approve”. Approves complete grade-correction pairH48–49 and
+credit evaluation/undergraduate transfer/foreign-credit recordsH49–50. Preserve
+30-day receipt-based request wording,committee/faculty/Dean authority,North/South
+labels,three-semester validation period,prescribed-fee wording,CHED/TESDAand
+major/licensure/content/unit exceptions. Graduate-only clauses stay excluded.
+No candidate-body changes or student-specific eligibility/rule authorization.
+
+| Review chunk | Candidate | Chunk ID | Content SHA-256 |
+| --- | --- | --- | --- |
+| 102 | H-grade-correction-compact-001 | `b4dffaff54c7690e3055c54b819dc8a56b7fa04a417597da5acd9b9cf92ffe92` | `85ee1104955bdf2cd9e267a2878e8e2a847e70fbc6c992958f7a687335756744` |
+| 103 | H-grade-correction-compact-002 | `3b26ee7feff2aa3684bd68152a320e2cc2f6da8e74a5e556e8b87be7a866b0ee` | `067445d9a671bffdccdb50380c1ee706204087d8e5b9426929dd5604fe69d537` |
+| 104 | H-credit-evaluation-compact-001 | `10b1a2b915454ca8eece1231f6ac125e2160ac8d6a9306681a4d02c408db34ea` | `c1bca2a0afa8d2db70aa6716207abd391931767437b8c62cba7bf599635adb29` |
+| 105 | H-undergraduate-credit-compact-001 | `d5fd19b22946583a6f52536e75133f8e9a84a981d6d14eaf3e2f5fcc26509c58` | `f46ed5e9e699c55c903ceddf94c83ce6c30d2f7b866f7faa6ff04cb7384df693` |
+| 106 | H-foreign-credit-compact-001 | `2f2365bec1d8c95b19453833597237615a1746f85b2fb2f020be5a43feff981d` | `64eef5fac23655ff57b5b98e929264775c930e328859a777f45aa1afb3731129` |
+
+Total106of336content-approved;230pending;BatchC11of78approved. Current partial
+receipt SHA256:`71b978acb94333e010b531f888be742448fe34568c19b421cd8844fd501d5dad`;six- and eleven-approval receipt snapshots
+retained separately. Next107–111/BatchC12–16:graduation requirements pairH50,
+approvalH51,and commencement/student-records pairH56. Both pairs mutually
+linked;graduation-approval record standalone. Honors remains for its complete
+five-part group next,without clearing its existing holds.
