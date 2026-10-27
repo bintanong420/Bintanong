@@ -100,13 +100,16 @@
   prerequisite parts go to Prolog (`structured`), procedure/next-step parts go to
   RAG (`document`), and the whole message routes Hybrid. Each part is answered
   by its own path; documentary parts use per-part answer slots (`parts` profile).
-- Owner reply-language rule, 21 October 2026: English question -> English reply;
-  Filipino -> mostly everyday Filipino (unavoidable English terms allowed);
-  Taglish -> Taglish (Tagalog structure, English for terms like submit, fee,
-  office). Never deep Tagalog such as "isusumite" or "nakasaad". This applies to
-  model claims and host-rendered text, including Hybrid/Prolog result lines.
-  Owner addition: the reply matches the user's communication style overall
-  (language mix and casual/formal register), not only the language label.
+- Owner reply-language update, 27 October 2026: supported replies are English and
+  Taglish; retire the exclusive Filipino/Tagalog reply target. English question ->
+  English reply; Filipino/Tagalog or Taglish question -> Taglish reply. Filipino
+  input recognition and accepted question families remain supported. Preserve
+  English source terms/quotations and natural casual/formal register. Applies to
+  model claims and all host-rendered text,including Hybrid/Prolog result lines.
+  Purpose:reduce language-handling burden and improve response time;measure the
+  benefit rather than claiming it. Accuracy/source/privacy guards remain.
+  See `plans/2026-10-27-english-taglish-response-decision.md`;this supersedes the
+  earlier21October Filipino-reply requirement and later conflicting reply targets.
 - Missing grades, curriculum, course identity or rule coverage remain unknown,
   distinct from a documented unmet condition. No recorded prerequisites does not
   prove that a course has none. Preserve all-of/any-of/co-requisite semantics only
@@ -150,7 +153,8 @@
   No fine-tuning, LoRA/QLoRA or learned soft-prompt tuning is part of this build;
   future training needs a demonstrated need and a new explicit owner decision.
 - Preserve LLM semantic routing, structured/Prolog curriculum reasoning and RAG
-  documents, matching English/Filipino/Taglish response preferences. Validate
+  documents, accepting English/Filipino/Taglish inputs with English/Taglish replies
+  per the27October owner decision. Validate
   actual per-language performance separately from schema/guard success; keep
   evaluation families separate from prompt examples and disclose remaining errors.
 - The deadline does not waive source, privacy, institutional-release or phase

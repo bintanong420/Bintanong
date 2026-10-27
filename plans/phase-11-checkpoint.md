@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 127
+sequence: 204
 plan: plans/phase-11-backend-api-plan.md
-head_commit: b1fb677
+head_commit: 7f29143
 working_tree: dirty
-updated_at: 2026-10-27T02:30:00+08:00
+updated_at: 2026-10-27T20:06:30+08:00
 ---
 
 # Phase 11 checkpoint — two-developer baseline preparation
@@ -32,28 +32,25 @@ bundles reused without extraction. UI3001/API8765 policy;3002/8766 prospectus.
 decisions. Owner said saved;actual policy revision0/no journal before/after restart.
 Full question accuracy/accessibility/DB-role gates remain open. No hosted access.
 
-Backend refresh27Oct:origin/feat/p11-backend-api d8246d1 adds18review/doc commits
-since e5495b4;no API/code/test/dependency delta in this ingestion merge. Incoming
-source decisions146of336content-approved/190pending,BatchC51of78;C9association and
-consultation35-vs34-minute discrepancy remain held. Full decisions/receipts are in
-[human review](2026-10-26-omitted-content-human-chunk-review.md);no new approval.
-Ignored336evidence absent here;GUI remains72baseline records. Latest backend is
-merged while this worktree's ingestion/prospectus checkpoint stays authoritative.
-No hosted access,source activation or restart. T4/T5 remain next.
-Owner limits publication to policy;frontend heads and27dirty files restored exactly.
+[Backend merge](2026-10-27-backend-c370f00-ingestion-merge.md):local backend
+fast-forwarded to frozen origin c370f00;38commits merged here. Default document
+follow-ups,English/Taglish reply targets,source context and single-field quotations
+included;topic selector stays opt-in. Two snapshot conflicts preserve ingestion
+status and link upstream results. Candidate465/derived209claim files are not
+provided by Git;no corpus import,hosted access,activation or process restart.
+Fresh1605tests/84subtests/2expected xfails142.16s;22docs/6Node/TypeScript pass.
+Production/tests match frozen upstream;frontend heads unchanged. Full/model gates open.
 
 ## Repository State
 
 This tree:feat/p11-policy-ingestion-review;verified UI93053f3;prior06c1f8b pushed.
-7694f7epublished;latest backend sync accompanies this snapshot. See dated sync report.
+7f29143published;current c370f00integration changes code/tests/docs;see merge report.
 The following primary-runtime evidence is inherited:backend/tests/migrations frozen706d3c6;
 d1401bcreviews01–06delivery;documentation descendants do not change tested code. Snapshot head names
 the inspected pre-documentation HEAD;delivery commit contains this checkpoint and review records.
 Last full snapshot before condensation:5009760. A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 R=A/p11-companion-context-20261026. New audit A/p11-scan-completeness-audit-20261026;prior catalogue/Handbook/grading evidence retained.
-Raw sources/results/helpers/pin are ignored. New assessment evidence A/p11-ingestion-trace-20261026;
-focused tests ended0. Two-query runner ended0;no model/source/DB jobs started this resume.
-Recovery session26270/PID21892 ended0;activation/smoke session59232/PID19676 ended0.
+Raw sources/results/helpers/pin are ignored;historical assessment in linked reports.
 
 ## Verification Evidence
 
@@ -148,6 +145,7 @@ No hosted access,generated data publication or phase advancement in this workstr
 
 ## Context Consulted
 
+27Octmerge:thesis physical17–18 and routing PNG rechecked;no scope/routing discrepancy.
 26Octresume:thesis physical17–18/39–44 freshly read,routing PNG viewed,master3/11/13/16/18.3;
 current plan/Phase10handoff and prior master7–9 evidence retained;
 scope/gap/location policies,service association rule and owner ledger consulted. Thesis illustrative

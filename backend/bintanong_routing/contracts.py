@@ -100,6 +100,7 @@ class Operation(Record):
 
 
 TopicClaim = Annotated[str, Field(min_length=1, max_length=256)]
+MAX_TOPIC_FIELDS = 64
 
 
 class NotStatedCue(Record):
@@ -117,6 +118,12 @@ class DocumentTopic(Record):
         default_factory=dict, max_length=64)
     # Reviewed labels/clauses: routing context, never a new answerable claim.
     source_context: tuple[Annotated[str, Field(min_length=1, max_length=1024)], ...] = Field(default=(), max_length=4)
+    # Candidate-only, source-bound routing labels/columns; absent metadata preserves old serialization.
+    source_labels: tuple[Annotated[str, Field(min_length=1, max_length=1024)], ...] = Field(
+        default=(), max_length=4, exclude_if=lambda value: not value)
+    claim_context: dict[TopicClaim, dict[Annotated[str, Field(min_length=1, max_length=256)],
+        Annotated[str, Field(min_length=1, max_length=1024)]]] = Field(
+            default_factory=dict, max_length=64, exclude_if=lambda value: not value)
     # Recorded source limits: facts the source does not state (selecting one withholds).
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
     # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.
@@ -124,9 +131,13 @@ class DocumentTopic(Record):
 
     @model_validator(mode='after')
     def _cues(self):
-        if any(claim not in self.claims or not fields or len(fields)>32 or len(set(fields))!=len(fields)
+        if any(claim not in self.claims or not fields or len(fields)>MAX_TOPIC_FIELDS or len(set(fields))!=len(fields)
                for claim,fields in self.claim_fields.items()):
             raise ValueError('context_requires_selectable_claim')
+        if any(claim not in self.claims or not values or len(values)>8
+               or not set(values) <= set(self.claim_fields.get(claim, ()))
+               for claim,values in self.claim_context.items()):
+            raise ValueError('context_requires_bound_fields')
         if any(c.claim not in self.not_stated for c in self.cues):
             raise ValueError('cue_requires_not_stated_claim')
         return self

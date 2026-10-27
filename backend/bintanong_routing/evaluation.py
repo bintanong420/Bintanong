@@ -7,6 +7,7 @@ import json
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
+from .reply_policy import REPLY_POLICY_VERSION, reply_language
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
@@ -99,9 +100,11 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
             entity_correct=entities == tuple(sorted(c.expected_entities)),
             claim_correct=claims == tuple(sorted(c.expected_claims)),
             operation_correct=operations == tuple(sorted(c.expected_operations)),
-            style_correct=result.response_style == c.expected_style,
+            style_correct=result.response_style == reply_language(c.expected_style),
+            authored_expected_style=c.expected_style, expected_reply_style=reply_language(c.expected_style),
             diagnostic=result.diagnostic, attempts=result.attempts,
             style_attempts=result.style_attempts, inference_calls=result.inference_calls,
+            selection_attempts=result.selection_attempts,
             repair_attempts=result.repair_attempts,
             style_evidence=result.style_evidence.model_dump(mode='json') if result.style_evidence else None,
             offset_corrections=result.offset_corrections,
@@ -131,6 +134,7 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
     if isinstance(router,CombinedRouter):
         identity=router.evaluation_identity()
     report = dict(schema_version='bintanong-routing-evaluation-v2', total=len(cases),
+        reply_policy_version=REPLY_POLICY_VERSION,
         metadata=metadata,**identity,case_set_sha256=digest([c.model_dump(mode='json') for c in cases]),
         catalog_sha256=digest([c.model_dump(mode='json') for c in router.catalog]),
         runtime=dict(getattr(router.transport, 'metadata', {})),
@@ -143,6 +147,7 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         inference_calls=sum(r['inference_calls'] for r in records),
         routing_calls=sum(r['attempts'] for r in records),
         style_calls=sum(r['style_attempts'] for r in records),
+        selection_calls=sum(r['selection_attempts'] for r in records),
         offset_corrected_cases=sum(r['offset_corrections'] > 0 for r in records),
         offset_corrections=sum(r['offset_corrections'] for r in records),
         institutional_approval=False, activation_allowed=False)

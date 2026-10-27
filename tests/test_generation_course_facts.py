@@ -86,7 +86,7 @@ def test_course_lookup_gives_printed_units_and_placement():
 
 
 @pytest.mark.parametrize('language,heading,line', [
-    ('fil', 'Mga subject sa unang taon, unang semestre (prospectus p. 3):', 'FICT 101 Fictional Thesis: walang naka-print na units'),
+    ('fil', 'Ito ang subjects sa first year, first semester (prospectus p. 3):', 'FICT 101 Fictional Thesis: walang naka-print na units'),
     ('taglish', 'Ito ang subjects sa first year, first semester (prospectus p. 3):', 'FICT 101 Fictional Thesis: walang naka-print na units')])
 def test_listing_follows_the_reply_language(language, heading, line):
     text = student_text(answer(result('list_term_courses', term_inputs(), [course('FICT 101', 'Fictional Thesis', ())]),

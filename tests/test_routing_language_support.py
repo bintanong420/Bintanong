@@ -42,6 +42,6 @@ def test_the_reply_names_the_supported_languages():
         route=None, response_style='fil', status='clarify', evidence=None, events=(), missing_facts=('language',))
     answer = asyncio.run(Generator(Fake()).generate('Unsaon nako pag-overload sa akong subjects?', source))
     assert answer.status == 'clarification_needed'
-    assert 'Bintanong answers in English, Filipino and Taglish only.' in answer.text
-    assert 'Sumasagot ang Bintanong sa English, Filipino at Taglish lang.' in answer.text
+    assert 'Bintanong accepts English, Filipino and Taglish questions and replies in English or Taglish.' in answer.text
+    assert 'Pwede ang English, Filipino at Taglish questions; English o Taglish ang replies.' in answer.text
     assert 'Kulang na impormasyon' not in answer.text

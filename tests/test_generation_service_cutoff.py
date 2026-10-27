@@ -82,7 +82,7 @@ def test_cutoff_record_is_quoted_without_completing_or_joining_its_fields(langua
 
 @pytest.mark.parametrize(('language', 'referral'), [
     ('en', 'Confirm the missing continuation with "Office T".'),
-    ('fil', 'Itanong sa "Office T" ang kulang na kasunod.'),
+    ('fil', 'I-confirm yung missing continuation sa "Office T".'),
     ('taglish', 'I-confirm yung missing continuation sa "Office T".'),
 ])
 def test_exact_cutoff_fields_are_followed_by_a_referral_to_the_record_office(language, referral):
@@ -98,7 +98,7 @@ def test_exact_cutoff_fields_are_followed_by_a_referral_to_the_record_office(lan
 
 @pytest.mark.parametrize(('language', 'referral'), [
     ('en', 'Confirm the missing continuation with the relevant university office.'),
-    ('fil', 'Itanong sa kaugnay na opisina ng unibersidad ang kulang na kasunod.'),
+    ('fil', 'I-confirm yung missing continuation sa relevant university office.'),
     ('taglish', 'I-confirm yung missing continuation sa relevant university office.'),
 ])
 @pytest.mark.parametrize('office_missing', [False, True])

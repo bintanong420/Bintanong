@@ -4,6 +4,7 @@ import asyncio
 import hashlib
 import json
 from pathlib import Path
+from ..bintanong_routing.reply_policy import REPLY_POLICY_VERSION, reply_language
 from typing import Literal
 
 from pydantic import Field
@@ -28,6 +29,7 @@ class GenerationCase(Record):
     split: Literal['dev']
     synthetic: Literal[True]
     question: str=Field(min_length=1,max_length=8192)
+    input_language: Literal['en','fil','taglish','unknown'] | None = Field(default=None,exclude_if=lambda value:value is None)
     integration: IntegrationResult
 
 
@@ -57,7 +59,9 @@ async def observe(cases,generator,*,evaluation_kind):
         evidence=case.integration.evidence
         expected=evidence.symbolic.decision if evidence is not None and evidence.symbolic else None
         observations.append(dict(case_id=case.case_id,family_id=case.family_id,
-            requested_language=case.integration.response_style,answer=answer.model_dump(mode='json'),
+            input_language=case.input_language,
+            requested_language=case.integration.response_style,
+            expected_reply_language=reply_language(case.integration.response_style),answer=answer.model_dump(mode='json'),
             canonical_decision_preserved=answer.decision==expected,
             generation_mode=(('guard_only' if answer.decision_guard is not None else 'host_only')
                 if answer.draft_attempts==0 else
@@ -67,6 +71,7 @@ async def observe(cases,generator,*,evaluation_kind):
                 else review_hash),human_question_coverage_review='pending',
             human_language_review='pending',human_claim_support_review='pending'))
     return dict(schema_version='bintanong-generation-observations-v1',candidate_only=True,
+        reply_policy_version=REPLY_POLICY_VERSION,
         institutional_use_allowed=False,evaluation_kind=evaluation_kind,
         actual_model_accuracy='unmeasured',prompt_sha256=prompt_hash,
         support_prompt_sha256=None if generator.explanation_profile=='covered' else review_hash,

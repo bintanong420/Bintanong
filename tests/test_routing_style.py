@@ -17,7 +17,7 @@ def evidence(name='taglish', english=('request',), filipino=('Paano',)):
 
 
 def wire(style=None, **updates):
-    value = dict(schema_version='bintanong-response-style-v1',
+    value = dict(schema_version='bintanong-response-style-v2',
                  style=evidence() if style is None else style)
     value.update(updates)
     return value
@@ -27,15 +27,15 @@ def wire(style=None, **updates):
     ['english_only', 'filipino', 'taglish', 'unknown'], [(), ('Hi',)], [(), ('kumusta',)])))
 def test_style_schema_and_python_agree_on_evidence_combinations(name, english, filipino):
     jsonschema = pytest.importorskip('jsonschema')
-    wanted = {'english_only':(True,False), 'filipino':(False,True),
-              'taglish':(True,True), 'unknown':(False,False)}[name]
-    valid = (bool(english), bool(filipino)) == wanted
+    valid = ((name == 'english_only' and bool(english) and not filipino) or
+             (name == 'taglish' and bool(filipino)) or
+             (name == 'unknown' and not english and not filipino))
     data = wire(evidence(name, english, filipino))
     schema = api().style_output_schema()
     assert jsonschema.Draft202012Validator(schema).is_valid(data) is valid
     if valid:
         style = api().StyleProposal.parse(data).style
-        assert style.language == {'english_only':'en','filipino':'fil',
+        assert style.language == {'english_only':'en',
             'taglish':'taglish','unknown':'unknown'}[name]
         assert style.preferred_response_style == name
     else:
@@ -87,6 +87,6 @@ def test_legacy_extra_and_conflicting_wire_fields_cannot_bypass_style(value):
 def test_style_schema_is_versioned_and_cannot_accept_a_routing_proposal():
     jsonschema = pytest.importorskip('jsonschema')
     schema = api().style_output_schema()
-    assert schema['properties']['schema_version']['const'] == 'bintanong-response-style-v1'
+    assert schema['properties']['schema_version']['const'] == 'bintanong-response-style-v2'
     assert not jsonschema.Draft202012Validator(schema).is_valid(proposal())
     assert set(schema['properties']) == {'schema_version', 'style'}

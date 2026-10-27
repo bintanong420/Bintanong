@@ -20,7 +20,7 @@ def reply(text, language):
 @pytest.mark.parametrize('text,language,expected', [
     ('Thank you po!', 'taglish', 'Walang anuman! Ask ka lang anytime tungkol sa undergraduate academic affairs.'),
     ('thanks', 'en', "You're welcome! Ask me anytime about undergraduate academic affairs."),
-    ('Maraming salamat po', 'fil', 'Walang anuman! Magtanong ka lang tungkol sa undergraduate academic affairs.')])
+    ('Maraming salamat po', 'fil', 'Walang anuman! Ask ka lang anytime tungkol sa undergraduate academic affairs.')])
 def test_a_thank_you_gets_a_welcome(text, language, expected):
     answer = reply(text, language)
     assert answer.status == 'greeting' and answer.validation == 'thanks'

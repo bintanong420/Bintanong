@@ -53,7 +53,8 @@ PASSING = {
 
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
 def test_passing_grade_question_gets_the_printed_passing_row_without_a_model_call(language, table):
-    text, expected = PASSING[language]
+    text, _ = PASSING[language]  # input wording remains unchanged under the new reply policy
+    expected = PASSING['taglish' if language=='fil' else language][1]
     model = NoModel()
     answer = generate(text, model, language=language)
     assert model.calls == [] and answer.status == 'answered' and answer.validation == 'validated'
@@ -77,7 +78,7 @@ def test_a_named_grade_mark_or_percentage_gets_its_printed_row(text, expected, t
 
 def test_a_named_row_in_filipino_and_taglish(table):
     assert [c.text for c in generate('Ano ang 5.0?', NoModel(), language='fil').claims] == [
-        'Sa naka-print na undergraduate grading system, ang 5.0 ay "Failed".']
+        'Sa printed undergraduate grading system, ang 5.0 ay "Failed".']
     assert [c.text for c in generate('Ano meaning ng 2.0?', NoModel(), language='taglish').claims] == [
         'Sa printed undergraduate grading system, ang 2.0 (80-89) ay "Good".']
 

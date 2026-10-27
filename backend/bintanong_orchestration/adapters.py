@@ -90,6 +90,12 @@ class RetrievalAdapter:
                     required = tuple(dict.fromkeys((*records, *claim.get('required_chunk_ids', []))))
                     coverage.append(dict(subject_id=assessment['subject_id'], claim=claim['claim'],
                         chunk_ids=list(required), source_ordered=ordered,
+                        **({'quoted_field':dict(chunk_id=claim['source_fields'][0]['chunk_id'],
+                            field_name=claim['source_fields'][0]['field']['name'],
+                            text=claim['source_fields'][0]['field']['value'],
+                            span_ids=[claim['source_fields'][0]['chunk_id']+':'+str(i)
+                                for i in claim['source_fields'][0]['field']['span_indexes']])}
+                            if claim['source_review'].get('answer_mode') == 'quoted_field' else {}),
                         **({'sequence_chunk_ids': list(records)} if ordered and required!=records else {})))
         return DocumentResult.parse(dict(release_id=raw['release_id'], status=status,
             gaps=gaps, passages=passages, record_coverage=coverage))

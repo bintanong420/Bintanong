@@ -3,7 +3,10 @@
 Updated 27 October 2026, save control fixed and prospectus reviewer running. Phase 11 remains active.
 Branch: `feat/p11-policy-ingestion-review`; worktree: `p11-policy-ingestion-review`.
 Recovered chat: `01a1784e-f0e9-7e30-aca9-b06e11d4cba6`.
-Latest UI: `93053f3`; prospectus roster: `f02ce05`; feedback: `0959a43`; merge: `0bb3dad`.
+Latest UI: `93053f3`; prospectus roster: `f02ce05`; feedback: `0959a43`.
+Latest backend: frozen `c370f00`, local backend updated;policy merge verified.
+Fresh1605tests/84subtests/2expected xfails,22docs/6Node/TypeScript pass;no service reload.
+[Merge report](2026-10-27-backend-c370f00-ingestion-merge.md) records scope/results/recovery.
 Shared fork: `4e99fb6`; initial package/UI: `a03dc08`; restored editor: `89b51d9`.
 
 ## Delivered and verified locally

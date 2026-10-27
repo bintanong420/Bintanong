@@ -18,14 +18,14 @@ from .wire import WireInterpretation, normalize_interpretation
 
 
 class CombinedProposal(Contract):
-    SCHEMA_VERSION = 'bintanong-routing-style-v3'
+    SCHEMA_VERSION = 'bintanong-routing-style-v4'
     interpretation: WireInterpretation
     style: StyleEvidence
 
 
-PROMPT_VERSION = 'bintanong-routing-style-p09-v5'
+PROMPT_VERSION = 'bintanong-routing-style-p11-v6'
 SYSTEM = '''Perform two separately validated tasks in ONE JSON packet.
-The outer schema_version is bintanong-routing-style-v3. Fill interpretation and
+The outer schema_version is bintanong-routing-style-v4. Fill interpretation and
 style as separate objects. Never answer the student or execute a tool here.
 The following routing instructions apply ONLY inside interpretation. Their
 schema_version refers to interpretation.schema_version, not the outer packet.

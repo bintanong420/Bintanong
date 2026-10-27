@@ -69,7 +69,7 @@ def test_missing_target_is_clarified_without_borrowing_the_previous_answer():
         value = proposal(route=None,control='clarify',mentions=[],operations=[],claims=[],
             ambiguities=['Which course?'])
         # Synthetic style protocol evidence, not a language quality assertion.
-        style = json.dumps(dict(schema_version='bintanong-response-style-v1',style=dict(
+        style = json.dumps(dict(schema_version='bintanong-response-style-v2',style=dict(
             english_fragments=['And'],filipino_fragments=[],preferred_response_style='english_only')))
         result = await api().Orchestrator(FakeTransport(json.dumps(value),style_outputs=[style]),
             releases=provider).run('And that one?',ctx())

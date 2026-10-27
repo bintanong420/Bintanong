@@ -46,7 +46,7 @@ def route_example(mode='asserted'):
     value, context = example()
     packet = deepcopy(value['interpretation'])
     packet['claims'][0]['mode'] = mode
-    style = dict(schema_version='bintanong-response-style-v1', style=dict(
+    style = dict(schema_version='bintanong-response-style-v2', style=dict(
         english_fragments=['can I take N8'], filipino_fragments=[], preferred_response_style='english_only'))
     model = Model(packet, style)
     router = Router(model, catalog=(entry(alias='M4'), entry(entity='course-b', alias='N8')),

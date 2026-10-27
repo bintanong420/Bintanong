@@ -55,7 +55,7 @@ def prepare_candidate_claim_reviews(catalogue, chunks, reviews):
     keys = {'subject_id', 'claim', 'finding', 'reviewed_chunk_ids', 'field_refs', 'basis_ref', 'basis_sha256'}
     normalized, seen = [], set()
     for review in reviews:
-        if (not isinstance(review, dict) or set(review) - {'procedure_order'} != keys
+        if (not isinstance(review, dict) or set(review) - {'procedure_order', 'answer_mode'} != keys
                 or not all(_text(review[k]) for k in ('subject_id', 'claim', 'basis_ref'))
                 or not _sha256(review['basis_sha256'])
                 or review['finding'] not in ('visible_fields', 'not_stated_in_selected_fields')
@@ -92,6 +92,13 @@ def prepare_candidate_claim_reviews(catalogue, chunks, reviews):
                 raise ValueError('procedure_order_requires_all_steps_from_one_source')
         else:
             _review_fields(review, by_reading)
+        if 'answer_mode' in review:
+            fields = _review_fields(review, by_reading)
+            if (review['answer_mode'] != 'quoted_field' or 'procedure_order' in review
+                    or review['finding'] != 'visible_fields' or len(fields) != 1
+                    or not _text(fields[0]['field']['value'])
+                    or len(fields[0]['field']['span_indexes']) > 32):
+                raise ValueError('quoted_field_requires_one_reviewed_text_field')
         normalized.append(copy.deepcopy(review) | dict(reviewed_chunk_ids=sorted(available),
             field_refs=sorted(copy.deepcopy(review['field_refs']), key=lambda r: (r['reading_id'], r['field_name']))))
     register = dict(schema_version='bintanong-candidate-claim-reviews-v1',

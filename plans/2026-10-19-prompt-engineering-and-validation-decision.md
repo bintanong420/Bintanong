@@ -1,5 +1,10 @@
 # Prompt engineering and validation - standing owner decision
 
+Current reply-language override,27October2026:
+[English/Taglish decision](2026-10-27-english-taglish-response-decision.md).
+English/Filipino/Taglish inputs remain;English/Taglish replies replace the older
+Filipino-only reply target below. Historical decisions/results remain preserved.
+
 Status:accepted19October2026. Applies to Phase07 and the remaining initial-build
 phases. This is the decision record; the master plan and past evidence stay intact.
 

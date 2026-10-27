@@ -27,6 +27,14 @@ This authorizes integration of the existing frontend after the baseline,without 
 **Execution:** inline TDD per task (RED observed -> GREEN -> REFACTOR), small commits without attribution,
 synthetic fixtures in tracked tests, owner samples only in workspace `audit-evidence/p11-20261023/` (private).
 
+**Owner update,27October2026:** [English/Taglish replies](2026-10-27-english-taglish-response-decision.md)
+replace the exclusive-Filipino output target to reduce burden and improve response
+time. Filipino input remains supported. Apply the approved migration across prompts,
+host rendering and current reply-style expectations with TDD;retain old raw runs.
+Software migration delivered28edea4;[results](2026-10-27-english-taglish-migration-results.md)
+record revised wire/expectations and bounded observations. Full suite6974passed;
+not a complete language-accuracy or latency claim. No accepted input rewording needed.
+
 ## Owner decisions (23 Oct 2026)
 
 - O1: AI SDK v7 (current major). Master section 2 "Current pins" and 16.3 updated. The npm install waits for the

@@ -77,7 +77,7 @@ def test_count_repair_cannot_buy_an_additional_style_repair():
 @pytest.mark.parametrize('combined', [False, True], ids=['separate', 'combined'])
 def test_task_first_schema_and_display_reach_actual_router_transport(combined):
     value = packet()
-    model = (Model(dict(schema_version='bintanong-routing-style-v3',
+    model = (Model(dict(schema_version='bintanong-routing-style-v4',
                         interpretation=value, style=STYLE['style']))
              if combined else Model(value, STYLE))
     result = route(model, combined=combined)

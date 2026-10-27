@@ -3,15 +3,16 @@
 Updated27October2026. Phase11 active;feat/p11-policy-ingestion-review;owner-authorized origin handoff.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Recovery](../2026-10-25-phase11-session-handoff.md) · [Phase10 handoff](../phase-10-handoff.md).
-Last full snapshot before this condensation:06c1f8b;prior snapshots:5009760/c1fc29a.
+Last full snapshot before this condensation:7f29143;prior snapshots:06c1f8b/5009760.
 
 ## Latest change
-
-[Backend synchronization](../2026-10-27-local-backend-branch-sync.md):frozen origin
-d8246d1merged here;18incoming review/doc commits,no API/code/test/dependency delta.
-Upstream146of336contents approved/190pending;holds retained,not activation.
-All source decisions retained;ignored336evidence absent,GUI inventory unchanged.
-Only policy branch publication requested;frontend heads/WIP restored byte-for-byte.
+[Latest backend merge](../2026-10-27-backend-c370f00-ingestion-merge.md):
+local backend d8246d1→c370f00;38commits include code/tests and source-review docs.
+Default document follow-ups,reply targets and source-bound quotations included;
+selector remains opt-in. Backend and policy only;frontend worktrees untouched.
+Two snapshot conflicts preserve ingestion progress and upstream result references.
+1605tests/84subtests/2expected xfails142.16s;22docs/6Node/TypeScript pass.
+No hosted access,corpus import,activation or service reload;full-suite/model gates open.
 
 [Save control/prospectus delivery](../2026-10-27-save-control-and-prospectus-review.md):
 policy save stays visible and focuses the required note;context links persist without
@@ -25,10 +26,8 @@ owner confirmed save, but no persisted policy decision could be confirmed here.
 Main UI3001/API8765;prospectus3002/8766 uses isolated frontend build/current local
 launch link in audit-evidence/prospectus-review-ui-20261027/. Saved source files stay
 local. Full accuracy/accessibility/DB-role gates remain open;Node22 vs target24.
-Original78baseline unchanged:11files/7seals/78chunk-vector bindings reverified.
+Original78baseline unchanged per prior11file/7seal/78binding check;no fresh recheck.
 Policy GUI still72records/298fields;source/feedback delivery linked above.
-Source-gap/scope/companion decisions remain;T4/T5 local lifecycle delivery is next.
-No hosted access,pin/release mutation,dependency changes or phase advancement.
 
 [Two-developer workflow](../2026-10-26-phase11-two-developer-workflow.md):
 source verification/frozen baseline/fork precede isolated ingestion and frontend/runtime.
@@ -36,12 +35,9 @@ source verification/frozen baseline/fork precede isolated ingestion and frontend
 H26/H30holds and unchanged datasets confirmed. Manifest bfd2a4993ece9212e297a0ee47592fe8debcf6f9435a908ba2ec8103811cc011.
 Ignored originals/models/pins preserved;no Orca setup install or source regeneration.
 
-[Audit](../2026-10-26-scan-completeness-audit.md):fresh original-native comparison511/511pages matches,
-394Handbook audience rows;20H/13Csparse pages visually accounted. Whole-file inventory does not
-prove full visual/field review or exhaustive topics. Three actual omissions added:X087economic
-enterprise,X088accessible Handbook formats(H69),X089grade solicitation(H49). [Catalogue](../2026-10-26-handbook-charter-expansion-catalogue.md)
-now89groups/8batches,86pending/3existing. Fixed old IDs retained;no new approval/activation.
-Pipeline details supersede the recovery's unanswered-question status;historical recovery retained.
+[Audit/catalogue](../2026-10-26-scan-completeness-audit.md):511original pages compared,
+89groups/8batches recorded,not whole-field approval. X087–X089 omissions retained;
+newer upstream candidate/review results are linked by the index and merge report.
 
 [Natural query triage](../2026-10-26-natural-grading-and-source-coverage-results.md):
 0/2expected answers;grading3.0coverage/storage error and empty1.0clarification remain.

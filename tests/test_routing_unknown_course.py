@@ -38,5 +38,5 @@ def test_not_found_course_reply_names_the_problem_in_the_students_language(langu
                                missing_facts=('course_id',), events=())
     answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('Z9', source))
     assert answer.status == 'clarification_needed'
-    assert NOT_FOUND[language] in answer.text and PRINTED[language] in answer.text
+    assert NOT_FOUND['taglish' if language=='fil' else language] in answer.text and PRINTED['taglish' if language=='fil' else language] in answer.text
     assert 'course_id' not in answer.text

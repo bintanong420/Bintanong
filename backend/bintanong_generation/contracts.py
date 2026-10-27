@@ -104,7 +104,7 @@ class CandidateAnswer(Contract):
     claims: tuple[ProseClaim,...]=()
     citations: tuple[EvidenceCard,...]
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error',
-        'decision_withheld','question_uncovered','parts_unresolved','thanks']
+        'decision_withheld','question_uncovered','parts_unresolved','thanks','unsupported_answer_scope']
     part_ledger: BoundRequirementLedger|None
     decision_guard: GuardObservation|None=None
     question_coverage: CoverageObservation|None=None

@@ -85,7 +85,7 @@ class ChoosingModel:
 
 @pytest.mark.parametrize('language,notice', [
     ('en', 'does not establish which sanction applies'),
-    ('fil', 'hindi malinaw kung aling parusa ang susundin'),
+    ('fil', 'hindi clear kung aling sanction ang applicable'),
     ('taglish', 'hindi clear kung aling sanction ang applicable')])
 @pytest.mark.parametrize('choose', [0, 1])
 def test_model_choice_is_replaced_by_both_labelled_rows_and_unresolved_precedence(language, notice, choose):

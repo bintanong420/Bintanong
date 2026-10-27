@@ -15,7 +15,7 @@ from ..bintanong_orchestration.ports import ReleaseResources
 from ..bintanong_retrieval.engine import RetrievalEngine
 from ..bintanong_retrieval.evidence_policy import SourceAwareEvidencePolicy
 from ..bintanong_retrieval.types import RetrievalSettings
-from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic, NotStatedCue
+from ..bintanong_routing.contracts import CatalogEntry, DocumentTopic, NotStatedCue, MAX_TOPIC_FIELDS
 from ..bintanong_symbolic.bundle import prepare_runtime_bundle
 from ..bintanong_symbolic.runtime import CurriculumRuntime
 from .hosted_storage import HostedReleaseStorage
@@ -153,9 +153,15 @@ def _reviewed_topic_context(register, catalogue, chunks):
             if len(set(values)) <= 4}
 
 
-def topic_menu(register, *, catalogue=None, chunks=()):
+def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
+    if type(routing_context) is not bool:
+        raise ValueError('invalid_routing_context')
+    labels, columns = {}, {}
+    if routing_context:
+        from .routing_context import reviewed_context
+        labels, columns = reviewed_context(register, catalogue, chunks)
     subjects, missing = {}, {}
     for review in register['reviews']:
         subjects.setdefault(review['subject_id'], [])
@@ -178,18 +184,20 @@ def topic_menu(register, *, catalogue=None, chunks=()):
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
     contexts = _reviewed_topic_context(register, catalogue, chunks)
-    fields = _reviewed_claim_fields(register, readings, chunks)
+    fields = _reviewed_claim_fields(register, readings, chunks,
+        max_fields=MAX_TOPIC_FIELDS if routing_context else 32)
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
         topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), source_context=contexts.get(s, ()),
             claim_fields=fields.get(s, {}),
             not_stated=not_stated,
-            cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES)))
+            cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),
+            source_labels=labels.get(s, ()), claim_context=columns.get(s, {})))
     return tuple(topics)
 
 
-def _reviewed_claim_fields(register, readings, chunks):
+def _reviewed_claim_fields(register, readings, chunks, *, max_fields=32):
     """Only source-present, assigned, reviewed nonblank field names; no new claims."""
     available = {}
     for chunk in chunks:
@@ -216,7 +224,7 @@ def _reviewed_claim_fields(register, readings, chunks):
                     and identity in review.get('reviewed_chunk_ids', ())
                     and name in fields and name not in names):
                 names.append(name)
-        if names and len(names) <= 32:
+        if names and len(names) <= max_fields:
             result.setdefault(review['subject_id'], {})[review['claim']] = tuple(names)
     return result
 

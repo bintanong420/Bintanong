@@ -59,9 +59,10 @@ _REQUIREMENT={
   ask='Sabihin mo kung alin dito ang na-pass mo na, para ma-check ko kung pwede mo nang i-take ang {course}.')}
 
 
-# Owner, 25 Oct 2026: English, Filipino and Taglish only; the student's language may be neither, so both are shown.
-_LANGUAGE_NOTICE=('Bintanong answers in English, Filipino and Taglish only. Please ask again in one of these. '
-    'Sumasagot ang Bintanong sa English, Filipino at Taglish lang. Pakitanong ulit sa isa sa mga ito.')
+# Owner27Oct: three input languages,two reply styles;show the distinction for unsupported input.
+_LANGUAGE_NOTICE=('Bintanong accepts English, Filipino and Taglish questions and replies in English or Taglish. '
+    'Please ask again in one of these input languages. '
+    'Pwede ang English, Filipino at Taglish questions; English o Taglish ang replies. Paki-ask ulit.')
 
 
 _COURSE_NOT_FOUND={

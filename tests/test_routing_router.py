@@ -15,10 +15,10 @@ proposal = canonical_proposal
 
 def style_proposal(language='taglish', *, english=None, filipino=None):
     # Synthetic protocol fixtures do not assert that A1 is linguistic evidence.
-    return dict(schema_version='bintanong-response-style-v1', style=dict(
+    return dict(schema_version='bintanong-response-style-v2', style=dict(
         english_fragments=(['A1'] if language in ('en','taglish') else []) if english is None else english,
         filipino_fragments=(['A1'] if language in ('fil','taglish') else []) if filipino is None else filipino,
-        preferred_response_style={'en':'english_only','fil':'filipino',
+        preferred_response_style={'en':'english_only','fil':'taglish',
                                   'taglish':'taglish','unknown':'unknown'}[language]))
 
 
@@ -35,7 +35,7 @@ class FakeTransport:
 
     async def infer(self, messages, schema):
         self.calls.append((messages, schema))
-        if schema['properties']['schema_version'].get('const') == 'bintanong-response-style-v1':
+        if schema['properties']['schema_version'].get('const') == 'bintanong-response-style-v2':
             value = (self.style_outputs.pop(0) if self.style_outputs is not None else
                      json.dumps(style_proposal(json.loads(self.last_routing)['language'])))
         else:
@@ -64,7 +64,7 @@ def run(transport, *, text='A1', **options):
 def test_model_selected_language_style_is_preserved(language):
     transport = FakeTransport(json.dumps(proposal(language=language)))
     result = run(transport)
-    assert result.response_style == language and result.decision.route == 'Symbolic'
+    assert result.response_style == ('taglish' if language == 'fil' else language) and result.decision.route == 'Symbolic'
     assert result.attempts == 1
     system = transport.calls[0][0][0]['content']
     assert 'LLM' in system and 'Taglish' in system and 'Prolog' in system

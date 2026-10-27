@@ -37,7 +37,7 @@ def integration(*,language='en',content=None,foreign=False):
 
 @pytest.mark.parametrize('language,notice',[
     ('en','does not establish which deadline applies'),
-    ('fil','hindi malinaw kung aling deadline ang susundin'),
+    ('fil','hindi clear kung aling deadline ang applicable'),
     ('taglish','hindi clear kung aling deadline ang applicable')])
 def test_every_printed_statement_is_quoted_and_the_conflict_reaches_ordinary_review(language,notice):
     model=ChoosingModel()

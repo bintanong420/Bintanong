@@ -71,7 +71,7 @@ def test_fee_question_gets_the_host_written_rate_example_and_referral(language):
     answer = generate(fee_integration(language=language), model)
     assert model.calls == []
     assert answer.status == 'answered' and answer.validation == 'validated'
-    assert [c.text for c in answer.claims] == EXPECTED[language]
+    assert [c.text for c in answer.claims] == EXPECTED['taglish' if language=='fil' else language]
     cards = {c.evidence_id: json.loads(c.text) for c in prepare(fee_integration(language=language)).cards}
     rate, example = (next(i for i, t in cards.items() if t == card) for card in (RATE, EXAMPLE))
     assert [c.evidence_ids for c in answer.claims] == [(rate,), (example,), (example,)]
@@ -216,7 +216,8 @@ def memo_date(monkeypatch):
 
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
 def test_a_question_whether_the_fee_still_applies_gets_the_memo_date_and_referral_without_the_rate(language, memo_date):
-    text, expected = CURRENCY[language]
+    text, _ = CURRENCY[language]
+    expected = CURRENCY['taglish' if language=='fil' else language][1]
     model = NoModel()
     answer = generate(fee_integration(text, language=language), model, text)
     assert model.calls == [] and answer.status == 'answered'
