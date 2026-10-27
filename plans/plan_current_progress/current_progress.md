@@ -6,6 +6,12 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
+[Long-procedure split](../2026-10-28-segmented-procedure-drafting-results.md) (owner"lets do that
+split"):segmentation tried in3TDD iterations,live probes showed text drifting from bound records and
+worse latency (117s/170s);reverted 473fbe2 per stop rule. Kept:disjunction guard 9990175 (cross-enroll
+now lists a)–e) as printed) and shared nested-part coverage 0fd0db6. Root cause is the8-claim cap.
+86d9e6d full7046pass/1608subtests exit0. 473fbe2 full7059pass/1608subtests,6skip/2xfail,1466.94s,exit0.
+
 [559answer checks](../2026-10-28-559-answer-checks-results.md) (Claude,28Oct):**quality gate
 FAILED;559stays inactive.** Budget map (54subjects,max8192) + component check:240/240claim
 reviews assemble correctly. Run1:every case overflowed at routing (full145-topic menu);fix
@@ -90,6 +96,5 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Owner reading needed:cross-enrollment conditions a–e (Handbook p.34) — all required,or a/b
-alternatives? Then regression-first fixes in the results' order (condition semantics,selector
-recall,router claims,output budget,coverage). No activation/default/hosted change.
+Owner judgement:long procedures as host-rendered ordered steps from a new reviewed step table, or keep
+safe refusal. Then selector recall/router-claim fixes per 559results. No activation/default change.

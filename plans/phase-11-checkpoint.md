@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 226
+sequence: 227
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 86d9e6d
-working_tree: 559answer-check results/snapshots pending commit
+head_commit: 473fbe2
+working_tree: segmentation results/snapshots pending commit
 updated_at: 2026-10-28T12:00:00+08:00
 ---
 
@@ -20,6 +20,10 @@ All original reviews/all-nine inclusion,source-context/router/reply migrations a
 quoted-field prototype retained. Prior source baseline4e99fb6;previous code freeze3c55722.
 
 ## Current Task
+
+[Segmentation results](2026-10-28-segmented-procedure-drafting-results.md):split tried/reverted
+473fbe2 (drift+latency);kept 9990175/0fd0db6;473fbe2 full7059/1608 exit0. 86d9e6d full
+7046/1608 exit0. Root cause:8-claim cap. Awaiting owner on host-rendered steps.
 
 [559answer checks](2026-10-28-559-answer-checks-results.md):gate FAILED,559inactive. Budgets
 54subjects/max8192;component240/240. Run1 routing overflow on all cases (full menu);86d9e6d
@@ -144,9 +148,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Owner reading:Handbook p.34 cross-enrollment a–e (all-of vs a/b alternatives). Then
-regression-first fixes per [559answer results](2026-10-28-559-answer-checks-results.md) order.
-No default,hosted or active-pin change follows automatically from preparation.
+Owner judgement on host-rendered ordered steps (new reviewed step table) vs safe refusal for long
+procedures;then selector recall/router-claim fixes per [559answer results](2026-10-28-559-answer-checks-results.md).
 
 ## Context Consulted
 
