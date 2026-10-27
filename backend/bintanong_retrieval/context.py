@@ -2,6 +2,7 @@
 import json
 from ..bintanong_contracts.reviewed_policy_context import CONTEXT_CHUNKER_VERSIONS, render_reviewed_policy_context
 from ..bintanong_contracts.reviewed_record_groups import validate_record_group
+from ..bintanong_contracts.reviewed_flow_evidence import validate_flow_group
 from .group_display import prepare_group_display
 
 
@@ -142,6 +143,7 @@ def build_context(candidates, budget: int, count_tokens, *, compact_citations=Fa
                         or len({r['chunk']['version_id'] for r in members})!=1):
                     raise ValueError('invalid reviewed context record')
                 if any('record_manifest' in meta for meta in metas):validate_record_group(members)
+                if any('flow_manifest' in meta for meta in metas):validate_flow_group(members)
                 for row in members:
                     for field in row['chunk'].get('type_fields',{}).get('field_associations',[]):
                         if not isinstance(field,dict):
