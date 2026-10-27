@@ -6,6 +6,13 @@ Last full snapshot before condensation:4ba0f41;earlier28edea4/c27c9a3/569be5f.
 
 ## Latest change
 
+[TOR answer validation](../2026-10-27-tor-follow-up-answer-validation-plan.md) started:
+visible step1verified in existing reviewed fields;all six companions need3627E5
+tokens(default2048). No production/source/active setting change. Default retrieval
+withheld for context budget;one3904local diagnostic returns all six records.
+English draft abstained after repair:coverage requires all six records despite
+step1question. Other languages running;187regressions/31subtests pass7.52s.
+
 [Document follow-up correction](../2026-10-27-document-follow-up-context-results.md),
 4ba0f41/routerv23:only scoped course_available enables previous_course_quote.
 Document-only display/decoder agree;unsolicited quote gets one repair then withhold.
@@ -56,6 +63,5 @@ No institutional/public approval,activation,Phase11exit or Phase12advance.
 
 ## Next action
 
-Next bounded capability:integrated TOR follow-up answer with first-step citations.
-Verify service bindings/context budget;use reviewed fields and retain mapping holds.
-Keep465inactive and do not repeat settled routing probes.
+Execute bounded TOR stage-chain validation;record retrieval/answer/citation outcomes.
+Keep465inactive and retain all source limits,guards and active settings.
