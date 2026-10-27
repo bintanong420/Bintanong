@@ -4,11 +4,14 @@ Updated 27 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
 Last full snapshot before condensation: `d3f4114`; recover with `git show`.
 [Phase checkpoint](../phase-11-checkpoint.md) · [Ingestion checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 
-Local reviewer availability freshly verified on owner request;existing servers
-reused and policy UI opened. Exact links/recovery in the ingestion checkpoint.
-Owner then reported no visible change. [Plan/runtime audit](../2026-10-27-ai-ingestion-plan-checklist.md)
-confirms stale UI build and72-record packet with zero assisted/proposed fields.
-Actual reviewer delivery remains unfinished;prior wording overstated readiness.
+[Repository follow-through](../2026-10-27-ingestion-repo-followthrough.md):current UI
+rebuilt and served on3003/8767 with an independent72-record real-data packet copy.
+Original owner3001/3002sessions preserved;new copy has its own review journal.
+Build/source fingerprint matches. Packet-level notice explains absent AI suggestions.
+Rotated parser boxes now stay manual/build-held:RED reproduced;GREEN79tests;
+ten Charter association regressions also pass. Node7pass/1skip/TypeScript and
+both real-data/synthetic-assisted browser flows verified. No live-AI output fabricated.
+Local code commits377f73e/76e82dd;no push. Prior audit describes the initial gap.
 
 ## Latest delivery
 
@@ -61,8 +64,8 @@ continuation metadata remain manual; missing verified geometry stays build-held.
 
 ## Next action
 
-Deliver the current UI safely and a separate assisted candidate packet;preserve
-owner drafts/baseline. Resolve native dependencies in an approved environment,
-then configured live smoke and matched human evaluation. Detailed checklist linked above.
+Configure a working vision/parser provider for a fresh assisted candidate packet;
+never modify the frozen baseline. Resolve native dependencies in an approved
+environment,then live smoke/matched human evaluation. Existing lifecycle T4/T5 remain separate.
 Original T4 local lifecycle tooling and T5 operator rehearsal remain separate next
 workstream tasks. No hosted access, activation, phase advancement or automatic push.

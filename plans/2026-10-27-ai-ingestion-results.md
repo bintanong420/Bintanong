@@ -13,11 +13,13 @@ conversion tests fail because the installed Python dependencies are incompatible
 Live AI smoke tests and real human A/B measurements have not run. Phase 11 remains
 active; this report is not a final phase handoff or permission to advance.
 
-Owner-facing delivery correction: the running reviewer still serves an older
-frontend build and the original72-record packet with zero assisted fields. The
-new UI was only built/rehearsed in isolation. See the
-[plan checklist and runtime audit](2026-10-27-ai-ingestion-plan-checklist.md).
-Code delivery is not a completed visible integration or a passing full exit gate.
+Owner-facing delivery correction:the original3001tab remains on its older build.
+[Follow-through](2026-10-27-ingestion-repo-followthrough.md) now serves the current
+production UI on3003 with a separate real72-record packet copy,preserving owner
+sessions. Its visible status explains that no AI suggestions were included. Source/
+build identity and read-only browser flow verified. Live AI and the full exit gate
+remain open;[audit/checklist](2026-10-27-ai-ingestion-plan-checklist.md) retains the
+initial gap and remaining requirements.
 
 ## Architecture and reuse
 

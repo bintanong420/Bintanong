@@ -55,7 +55,8 @@ Follow-up browser RED2.64s:the UI provided no explanation that this packet conta
 no AI assistance. Added one packet-level status using existing styles;source
 comparison/manual review controls unchanged. Node7pass/1browser-skip and TypeScript
 pass. Production-copy browser GREEN5.78s;synthetic assisted Use/Ignore/edit/Save
-regression GREEN1.50s. Both notices have >=4.5:1 text contrast in light/dark and
+regression GREEN1.50s. Final restored real-data browser GREEN7.06s,UI/API200,
+72items/revision0;source/build fingerprint and packet-copy byte identity match. Both notices have >=4.5:1 text contrast in light/dark and
 no viewport overflow at390/720px. Real device keyboard/zoom/full accessibility
 acceptance are not inferred from these limited checks. Screenshots visually inspected.
 Synthetic fixture writes were confined to a fresh ignored synthetic packet;normal

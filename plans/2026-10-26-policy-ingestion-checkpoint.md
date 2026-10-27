@@ -48,6 +48,13 @@ blank/null. Human review and timing still needed;no improvement/winner claim.
 
 ## Local reviewer recovery
 
+Current-source production UI additionally runs on3003/API8767 with an independent
+copy of the real72-record packet;original tabs/drafts untouched. Review saves in
+this copy do not update the old packet. Terminal term_4850503c-1287-47ed-aa89-ffeca4432ff8;
+launch: audit-evidence/p11-current-reviewer-20261027/launch-url.txt. Source/build
+fingerprint matches,packet byte identity retained. New status explains absent AI;
+current packet has no real AI advice. [Evidence](2026-10-27-ingestion-repo-followthrough.md).
+
 Fresh owner-requested server check:policy UI3001/API8765 and prospectus UI3002/
 API8766 return200,with72policy items/39prospectus items,both revision0. Existing
 servers reused without restart or review writes;policy reviewer opened in browser.
@@ -58,7 +65,7 @@ Exact saved launch files under C:/Coding-projects/bintanong_workspace/audit-evid
 - p11-policy-ingestion/institutional-candidate-ui-20261027/launch-url.txt
 - prospectus-review-ui-20261027/launch-url.txt
 Links contain local credentials;keep them ignored. Save browser drafts before restart.
-Owned synthetic browser3003/8767server stopped after tests;no owner packet writes.
+Synthetic rehearsal stopped;3003/8767 now serves the real-data copy described above.
 Node22.22.3 differs from researcher target24.21.0. Full accessibility gate remains open.
 
 ## Frozen baseline and boundaries

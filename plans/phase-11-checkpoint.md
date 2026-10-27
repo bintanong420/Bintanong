@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 207
+sequence: 208
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4ff5872
+head_commit: 76e82dd
 working_tree: clean
-updated_at: 2026-10-27T21:34:58+08:00
+updated_at: 2026-10-27T21:49:07+08:00
 ---
 
 # Phase 11 checkpoint — local ingestion extension
@@ -30,10 +30,11 @@ contracts, student API/routing/generation/runtime and dependencies unchanged.
 
 ## Current Task
 
-Code/test delivery exists;owner-facing integration is unfinished. Current UI build
-is stale and original72-record packet has zero assisted/proposed fields. Isolated
-UI rehearsal did not update the actual reviewer. Native/live/human A/B validation
-remain open;full gate NOT green. [Audit/checklist](2026-10-27-ai-ingestion-plan-checklist.md).
+Current UI now served on3003/8767 with an independent real72-record copy;original
+owner tabs/drafts preserved. Source/build fingerprint verified;visible packet status
+explains absent AI. [Follow-through](2026-10-27-ingestion-repo-followthrough.md)
+records RED/GREEN geometry/UI corrections and ten additional Charter cases.
+Live assistance/native/human A/B gates remain open;full suite is not green.
 Original T4/T5 lifecycle/operator rehearsal were not completed by this extension.
 [Supplied execution plan](2026-10-27-ai-assisted-ingestion-codex-plan.md) and
 [launch](2026-10-27-ai-assisted-ingestion-launch-prompt.md) require local commits,
@@ -42,7 +43,7 @@ no automatic push. No hosted access or institutional approval is authorized.
 ## Repository State
 
 Branch feat/p11-policy-ingestion-review. Code commits:
-1711066,c338146,16ed7d6,45924ce,4ba7fb4,d3f4114,4ff5872. Final documentation commit contains
+1711066,c338146,16ed7d6,45924ce,4ba7fb4,d3f4114,4ff5872,377f73e,76e82dd. Documentation contains
 this snapshot; head_commit names its inspected code parent, not a self-reference.
 Tracked tree clean after documentation commit; no extension commits pushed.
 Last full snapshot before condensation:d3f4114. Preserve it with git show.
@@ -50,6 +51,12 @@ A=C:/Coding-projects/bintanong_workspace/audit-evidence/p11-ai-ingestion-2026102
 Originals, candidate packets, journals, screenshots and evaluation data stay ignored.
 
 ## Verification Evidence
+
+Follow-through:rotated-box RED incorrectly emitted an axis-aligned span;fixed to
+withhold it. GREEN79tests40.24s;additional Charter association selection41pass2.03s.
+UI missing-assistance status browserRED2.64s→GREEN5.78s;synthetic assisted save1.50s.
+Node7pass/1skip/TypeScript pass;production build and copied-source fingerprint pass.
+Both themes' notice contrast>=4.5:1;390/720px overflow absent. Not full accessibility.
 
 Final targeted ingestion + all prospectus/reviewer compatibility:
 1821passed/13subtests,2deprecation warnings,189.53s,exit0; exact argv/log/exit in
@@ -109,9 +116,9 @@ accuracy, institutional approval and original Phase11/student UI gates remain op
 
 ## Next Action
 
-Deliver current reviewer build safely,preserving drafts,and a separate assisted
-candidate packet. Resolve native dependency mismatch in approved environment,
-rerun its two failures,then configured live smoke and matched human evaluation.
+Configure working provider for a fresh assisted candidate packet;preserve baseline.
+Resolve native dependencies in approved environment,rerun two failures,then live
+smoke and matched human evaluation. Current UI copy is available,not live-AI proof.
 Original ingestion T4 local lifecycle/T5 full operator rehearsal remain separate.
 Do not expand scope or mutate hosted configuration to complete local verification.
 

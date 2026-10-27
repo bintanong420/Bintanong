@@ -5,7 +5,13 @@ read-only implementation/runtime audit; no server restart or source review occur
 The earlier delivery wording overstated owner-facing readiness. Code and synthetic
 proof exist, but the actual reviewer was not updated to demonstrate the extension.
 
-## Why the opened screen looks unchanged
+Follow-up: [repo-directed correction](2026-10-27-ingestion-repo-followthrough.md)
+now delivers a current-source production UI on3003 with a real packet copy,preserving
+old tabs. Ten additional relational regressions and rotated-box withholding added.
+The initial findings below remain historical evidence;live AI/native/DB/human gates
+are still open. The current unassisted packet explicitly says it contains no AI advice.
+
+## Why the opened screen looked unchanged
 
 Fresh authenticated state from policy API8765:72items,revision0,zero assistance
 fields,zero proposed_value fields. The packet uses reviewed_snapshot inputs and
@@ -45,8 +51,8 @@ proof that no implementation exists. It does not justify claiming operational re
 
 ## Remaining acceptance checklist
 
-- [ ] Deliver the current frontend build into the actual reviewer safely, preserving
-  any unsaved owner draft before a restart.
+- [x] Deliver the current frontend build safely in a separate real-data review copy;
+  preserve the original session and any unsaved owner draft.
 - [ ] Prepare a separate assisted candidate packet and demonstrate it in the owner
   reviewer. Never overwrite/re-assist the frozen reviewed baseline in place.
 - [ ] Configure and verify an actual image-capable endpoint; local Gemma's image
