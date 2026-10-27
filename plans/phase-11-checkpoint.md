@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 180
+sequence: 182
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 38bc58f
-working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T12:19:12+08:00
+head_commit: 7476639
+working_tree: hosted staging plan/results, index, progress and checkpoint; inspect Git on resume
+updated_at: 2026-10-27T12:53:20+08:00
 ---
 
-# Phase11checkpoint — all nine selections included;388inactive chunks
+# Phase11checkpoint — combined465hosted draft;active78 unchanged
 
 ## Completed Tasks
 
@@ -20,6 +20,15 @@ Other developer local-only worktree ready,task receiptc76d988;fixed fork4e99fb6.
 First9candidate packet and2actual human approvals recorded in32065bf,alongside bulk-review direction.
 
 ## Current Task
+
+[Hosted staging results](2026-10-27-hosted-corpus-staging-results.md):465combined chunks now hosted
+in p11-research-combined-20261027,**draft/inactive**;388new+77existing after exact-alias omission.
+465vectors/39curricula/5versions;2283selected spans. Every old row preserved across16tables.
+Corrected78still active/runtime-visible;old80draft/19superseded retained. No source-state promotion.
+Local E5 388encoded/77reused,1024L2,max477tokens;19storage tests/39subtests and actual-data rehearsal pass.
+Hosted vector timeout rolled back to zero;25-row batches succeeded;exact readback/independent MCP pass.
+Source wording/PDFs/local runtime pin unchanged. Evidence A/p11-hosted-expanded-staging-20261027;
+A=workspace/audit-evidence;sealed artifacts/recovery saved.
 
 [TOC/List of Services check](2026-10-27-contents-and-services-coverage.md):54listed Charter services
 accounted,38included across corrected78+388drafts/16excluded HR-PMO. Zero unmapped eligible list entries.
@@ -48,8 +57,9 @@ programs,employee/supplier service expansion,clinical/legal determinations or ex
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected parent121799b,clean before this supplement;nothing pushed.
-Supplement plan/results,owner ledger,index/progress/checkpoint changed;ignored388derivative added.364/339/PDFs/runtime unchanged.
+p11/feat/p11-backend-api;parent7476639;nothing pushed.
+Hosted staging plan/results,index/progress/checkpoint changed;ignored staging evidence added.
+Original PDFs,388authoring derivative,active package/local runtime pin and production code unchanged.
 Last full snapshot before condensation:121799b;earlier41d115e/32065bf;sourcebaseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 B=A/p11-omitted-chunks-20261026/bulk-review-handbook-verified. Prior328/899artifacts retained.
@@ -67,7 +77,7 @@ Effective24negative/held boundaries zero intersections;all9owner selections acco
 Newmax423/overall475exactE5tokens<=480,min13sourcewords;8core artifact repeat identical;15files sealed.
 100tests/151subtests pass2.46s/exit0;independent source validator passes. Seven existing builder suites,
 sharedPython3.13,no pytest cache,externalbasetemp;commands in inclusion results. Phase/diff checks apply.
-No production behavior/full application-suite rerun. PDFs/active package/pin unchanged;no hosted/model work.
+No production behavior/full-suite rerun. PDFs/active package/pin unchanged;hosted465draft staged;no model download.
 Prior364/339/335source and test evidence remains in dated results. Original human receipts preserved.
 Historical production706d3c6:6896tests/1595subtests,6skip/2xfail;not a current source-task result.
 Natural grading0/2and six Taglish register misses remain;no phase advancement.
@@ -109,15 +119,14 @@ Selected comparison complete;original336lineage213human/123assistant retained. N
 Technical reauthoring queue remains;66image spans content-approved,all structuralbindings pending.
 Services need labelled reauthoring before use;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
-Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
+Final service/flow structural bindings,runtime context budgets and chatbot regressions
 remain required before publication;chunk parsing alone does not establish runtime compatibility.
 Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exits remain.
 
 ## Next Action
 
-Use388inactive derivative for service labels/normalization/final structural and runtime checks.
-All nine applicability questions settled;do not re-ask. Preserve actual source gaps/unknown acronyms/mappings.
-No embedding/activation/frontend integration;continue coverage checks only on new evidence.
+Resolve structural/canonical packaging and runtime context-budget/answer checks for hosted465draft;
+keep corrected78active. No activation/source-state promotion/frontend;prior human approvals stand.
 
 ## Context Consulted
 

@@ -7,6 +7,15 @@ Last full snapshot before this condensation:121799b;earlier41d115e/32065bf;sourc
 
 ## Latest change
 
+[Hosted staging results](../2026-10-27-hosted-corpus-staging-results.md):465combined chunks now hosted
+in p11-research-combined-20261027,**draft/inactive**;388new+77existing after exact-alias omission.
+465vectors/39curricula/5versions;2283selected spans. Every old row preserved across16tables.
+Corrected78still active/runtime-visible;old80draft/19superseded retained. No source-state promotion.
+Local E5 388encoded/77reused,1024L2,max477tokens;19storage tests/39subtests and actual-data rehearsal pass.
+Hosted vector timeout rolled back to zero;25-row batches succeeded;exact readback/independent MCP pass.
+Source wording/PDFs/local runtime pin unchanged. Evidence A/p11-hosted-expanded-staging-20261027;
+A=workspace/audit-evidence;sealed artifacts/recovery saved.
+
 [Contents/service-list check](../2026-10-27-contents-and-services-coverage.md):all54Charter listed services
 accounted;38undergraduate services represented across corrected78+388drafts,16HR/PMO services excluded.
 All7unique main Handbook TOCtopics mapped. BooksIII–VII physical130–388excluded;zero candidate spans
@@ -51,9 +60,9 @@ approval inferred from applicability inclusion. Source governance remains pendin
 ## Boundaries and remaining work
 
 - Broader service labels/nativehyphen/URLnormalization,final image/service structural bindings,
-  runtime context budgets,embedding and answer regressions remain before any release.
+  runtime context budgets and answer regressions remain before activation;embeddings staged.
 - Corrected78research release/39curricula active at last read;80draft/19superseded retained.
-  No fresh hosted read/write. Production unchanged706d3c6;historical full6896tests/1595subtests
+  Fresh hosted465draft staged;active78 unchanged. Production unchanged706d3c6;historical6896tests/1595subtests
   belongs706d3c6,not this task. Natural grading0/2and six Taglish register misses remain.
 - Other developer isolated p11-policy-ingestion-review;receiptc76d988,fork4e99fb6,localDBonly.
   Shared interfaces primary-owned;frontend integration explicitly stopped.
@@ -63,6 +72,5 @@ approval inferred from applicability inclusion. Source governance remains pendin
 
 ## Next action
 
-Use388inactive derivative for service labels/normalization/final structural and runtime checks.
-Continue coverage checks on new evidence;do not reopen the nine settled applicability decisions.
-No routine reapproval,embedding/staging/activation or frontend integration.
+Resolve structural/canonical packaging and runtime context-budget/answer validation for hosted465draft.
+Keep corrected78active;no activation,source-governance promotion or frontend integration.
