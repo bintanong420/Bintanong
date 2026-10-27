@@ -1,6 +1,6 @@
 # Current progress
 
-Updated27October2026,10:48+08. Phase11active;BatchE human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,10:48+08. Phase11active;delegated source review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,13 +9,12 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves210–213;213of336approved/123pending;BatchE32of42(7carried/25new).
-Grievance/clearancewrittencomplaint,confidentiality,grooming and signingconditions retained.
-E032receipt/readback/closure and213uniqueA–Eunion checked;007/011/028/032snapshots retained.
-Next214–221/E33–40:completeCGMCserviceC52–53/printed48–49;images/eight-wayclosure checked.
-Alumni/representative checklistpaired;step2repeatedunit wording and Php100/30minutes retained.
-Nativeproof-readinghyphen displayed from original;normalization/sourcebinding gate remains.
-No source/candidate/runtime changes;sourceholds/structural gates retained.
+Owner delegates remaining review to assistant,exception-only human escalation.
+[Decision/workflow](../2026-10-27-delegated-source-review.md):213explicit human approvals,123pendingassistant review.
+Inventory41remaininggroups;reuse prior checks/originalviews,then direct sourcecomparison of each complete group.
+CGMC214–221displayed but not falsely relabelled human-approved;assistant verification separately recorded.
+Known sourceholds/cutoffs/blanks remain;surface only newly consequential extraction/layout ambiguities.
+No production/candidate/runtime changes;labelled reauthoring and structural gates retained.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -61,8 +60,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on214–221/E33–40:complete eight-part goodmoralservice.
-Then finalfeedbackpair tofinishBatchE;skip seven priorEapprovals. Preserve allholds/continuations.
+Execute delegated comparison for remaining41groups/123candidates;record assistant verification separately.
+Escalate only new content omissions/ambiguous associations;preserve existing holds and originalbytes.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.

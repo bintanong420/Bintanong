@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 172
+sequence: 173
 plan: plans/phase-11-backend-api-plan.md
-head_commit: c13c76e
+head_commit: 6acc4c6
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T10:48:00+08:00
+updated_at: 2026-10-27T10:59:39+08:00
 ---
 
 # Phase11checkpoint — bulk candidate packet awaiting human review
@@ -111,11 +111,11 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Owner approves210–213;213uniqueA–E,123pending;BatchE32of42(7carried/25new).
-E032receipt/readback/closure checked;007/011/028/032snapshots saved;all signing/privacy conditions retained.
-Next214–221/E33–40:CGMCserviceC52–53/printed48–49;images/eight-wayclosure/hash checked.
-Alumni/representative checklistpaired;step2repeatedunit and allfee/time fields preserved.
-Nativeproof-readinghyphen displayed from original;normalization/binding gate remains,no candidate/runtime edits.
+Owner delegates remaining123candidates/41groups to assistant original-source verification.
+[Workflow](2026-10-27-delegated-source-review.md) supersedes routine approval pauses;213explicit human approvals retained.
+CGMCdisplayed but not relabelled explicit human approval;assistant receipts will be separate.
+Execute fullgroup/source comparisons;escalate newly consequential content/association ambiguity only.
+Known holds/cutoffs/blanks retained;no candidate/runtime changes or activation authorized.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
