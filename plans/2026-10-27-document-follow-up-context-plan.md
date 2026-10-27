@@ -34,7 +34,7 @@ Do not silently erase the field,guess antecedents or override a semantic hold.
    English/Filipino/Taglish document follow-ups,one course control and a topic switch.
    Score subject,claims,operations,route/style separately. Exact token guards apply;
    do not turn routing success into answer-quality evidence. Reuse saved failures.
-3. [ ] Independent review,focused routing/private-context/orchestration/API tests,
+3. [x] Independent review,focused routing/private-context/orchestration/API tests,
    full project suite at frozen code,docs/phase/diff checks. Update compact progress/
    checkpoint/results and commit verified units. No activation/frontend/phase advance.
 

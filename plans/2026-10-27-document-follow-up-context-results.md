@@ -25,7 +25,13 @@ Updated the old prompt-version assertion to23. Final focused routing/private-
 context/orchestration/API/reply-policy suite:`778passed,2xfailed,1warning,27.59s`.
 Independent read-only review:`48passed,4.76s`,no blockers;covered existing course,
 document and experimental combined tests. Docs hygiene:`10passed,0.85s`.
-Full project suite at frozen4ba0f41is running;completion is not yet claimed.
+Full project suite at frozen4ba0f41completed with exit0:
+`6986 passed, 6 skipped, 2 xfailed, 6 warnings, 1595 subtests passed in 1379.40s (0:22:59)`.
+Six skips:four Windows symlink-privilege checks,one CUDA/OCR extra,one historical
+external dataset. Two known refused photo-layout xfails remain;existing deprecation/
+marker warnings are retained. No production changes after freeze.
+Final docs/phase regression:`30passed,14subtests,12.89s`;phase validation valid,
+can-advance remains blocked as expected because Phase11has no complete handoff.
 Ruff/Black/mypy/Bandit are unavailable in the existing environment;no installs.
 
 ## Bounded actual-model observations
@@ -78,6 +84,7 @@ No frontend,Phase11completion or Phase12advancement.
 Ignored evidence root:
 `C:/Coding-projects/bintanong_workspace/audit-evidence/p11-document-follow-up-20261027`.
 Contains RED/focused logs,observe_follow_up.py,six raw request/response receipts,
-observation summary and full-suite log/exit receipt when finished. Tests use existing
+observation summary,full-suite log/exit receipt and verification-seal.json. Tests use existing
 Python3.13.7:`-X utf8 -B -m pytest -q -p no:cacheprovider`,external basetemp;
-full suite adds`-rs tests`. See plan for acceptance and remaining verification.
+full suite adds`-rs tests`. This correction's plan is verified;phase/release and
+complete-answer gates above remain separate.

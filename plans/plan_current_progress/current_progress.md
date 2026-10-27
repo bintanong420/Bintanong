@@ -15,7 +15,9 @@ reference/repair and en/taglish/taglish targets. Explicit grading switch selects
 No-context withheld;course reference resolves but unsupported operation withheld.
 Six development probes15calls/zero transport or overflow failures,max5772tokens.
 Not final answers or benchmark accuracy;inactive CombinedRouter follow-ups excluded.
-Full suite at frozen4ba0f41running;no production changes after start.
+Full frozen4ba0f41suite exit0:6986 passed, 6 skipped, 2 xfailed, 6 warnings, 1595 subtests passed in 1379.40s (0:22:59).
+No production changes after start;receipt/code/pin assertions passed and sealed.
+Final docs/phase30passed/14subtests12.89s;valid Phase11state,advance still blocked.
 A=workspace/audit-evidence/p11-document-follow-up-20261027;raw receipts/logs there.
 
 ## Prior verified increments
@@ -54,5 +56,6 @@ No institutional/public approval,activation,Phase11exit or Phase12advance.
 
 ## Next action
 
-Finish frozen4ba0f41full suite;record actual exit/counts/skips,seal evidence,run
-docs/phase/diff checks and commit delivery snapshots. No new production changes.
+Next bounded capability:integrated TOR follow-up answer with first-step citations.
+Verify service bindings/context budget;use reviewed fields and retain mapping holds.
+Keep465inactive and do not repeat settled routing probes.
