@@ -13,6 +13,7 @@ from .contracts import Interpretation, RequestContext, prepare_query
 from .prompt import build_messages, output_schema, previous_turn
 from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
 from .transport import RuntimeFailure
+from . import topic_selection as selection
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
 
@@ -86,21 +87,25 @@ def apply_not_stated_cues(proposed, topics):
 
 class Router:
     def __init__(self, transport, *, catalog=(), registry=EMPTY_REGISTRY,
-                 documents_available=False, synthetic=False, topics=()):
+                 documents_available=False, synthetic=False, topics=(), topic_selection=False):
         self.transport = transport
         self.catalog = tuple(catalog)
         self.registry = registry
         self.documents_available = documents_available
         self.synthetic = synthetic
         self.topics = tuple(topics)
+        if type(topic_selection) is not bool:
+            raise ValueError('invalid_topic_selection')
+        self.topic_selection = topic_selection
 
     async def route(self, text: str, context: RequestContext) -> RoutingResult:
         normalized = prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
-        messages = build_messages(text, context, self.catalog, self.registry, self.topics)
         follow_up = previous_turn(context, self.catalog) is not None
         names = tuple(alias for entry in self.catalog for alias in entry.aliases)  # never style evidence
         proposed = None
+        topics = self.topics
+        selection_attempts = 0
 
         def failure(code, attempts, style_attempts=0, style=None, floored=False):
             query = NormalizedQuery(schema_version=NormalizedQuery.SCHEMA_VERSION,
@@ -109,7 +114,8 @@ class Router:
                 session_fact_refs=tuple(f.fact_id for f in context.facts))
             return RoutingResult(query, _decision(control='evidence_unavailable', reason=code),
                 proposed, (), 'unknown' if style is None else style.language, code, attempts,
-                style_attempts=style_attempts, style_evidence=style, style_floor_applied=floored)
+                style_attempts=style_attempts, style_evidence=style, style_floor_applied=floored,
+                selection_attempts=selection_attempts)
 
         async def clarification_style():
             """One unrepaired style call so a clarification matches the student's style."""
@@ -121,9 +127,21 @@ class Router:
                 return None, False
             return floor_style(style, text, names)
 
+        if self.topic_selection and len(topics) > selection.MAX_TOPICS:
+            selection_attempts = 1
+            try:
+                raw = await self.transport.infer(selection.build_messages(
+                    text, topics, previous_turn(context, self.catalog)), selection.output_schema(topics))
+                topics = selection.selected_topics(_json_proposal(raw), topics)
+            except RuntimeFailure as error:
+                return failure(str(error), 0)
+            except ValueError:
+                return failure('topic_selection_unavailable', 0)
+
+        messages = build_messages(text, context, self.catalog, self.registry, topics)
         for attempt in (1, 2):
             try:
-                raw = await self.transport.infer(messages, output_schema(self.topics, follow_up=follow_up))
+                raw = await self.transport.infer(messages, output_schema(topics, follow_up=follow_up))
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
             problem = None
@@ -131,8 +149,8 @@ class Router:
                 wire = WireInterpretation.parse(_json_proposal(raw))
                 try:
                     proposed = normalize_interpretation(text, wire)
-                    check_topics(proposed, self.topics)
-                    proposed = apply_not_stated_cues(proposed, self.topics)
+                    check_topics(proposed, topics)
+                    proposed = apply_not_stated_cues(proposed, topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
@@ -164,9 +182,13 @@ class Router:
                     result = validate_interpretation(text, context, effective, catalog=self.catalog,
                         registry=self.registry, documents_available=self.documents_available,
                         synthetic=self.synthetic)
+                    if selection_attempts and result.decision.dispatchable and any(
+                            p.evidence_need == 'document' and p.subject_id is None for p in proposed.parts):
+                        return failure('topic_selection_unavailable', attempt, style_attempt, style, floored)
                     return replace(result, proposed=proposed, attempts=attempt,
                         style_attempts=style_attempt, style_evidence=style,
-                        style_floor_applied=floored, offset_corrections=0)
+                        style_floor_applied=floored, offset_corrections=0,
+                        selection_attempts=selection_attempts)
                 except ValueError:
                     return failure('invalid_grounding', attempt, style_attempt)
         raise AssertionError('unreachable')

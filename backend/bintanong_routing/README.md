@@ -183,3 +183,23 @@ evaluation_kind=mock proves only test/harness behavior, never model accuracy.
 Use the existing Python3.13 readiness environment for this workstation's tests.
 All focused tests are generic synthetic fixtures. No installs, source promotion,
 institutional result, final benchmark or whole-project-green claim is implied.
+
+### Candidate large-menu selection
+
+`Router(..., topic_selection=True)` enables a same-model topic-selection call only
+when the supplied menu has more than eight subjects. The default and small menus
+keep the existing path. This option is not enabled by the live composition.
+The compact menu shows source-labelled subject IDs; only validated unique current
+IDs (at most eight) bind to complete topic objects for the existing semantic router.
+The original question/context, source limits, claim fields and not-stated cues
+remain. No route, eligibility result, student fact or answer comes from selection.
+Malformed/ambiguous choices and transport/overflow failures withhold without a
+full-menu fallback; missing document subjects cannot dispatch a candidate answer.
+An empty selection still allows the router to interpret structured and excluded
+requests. Exact template/token guards run on every inference, including repairs.
+
+`selection_attempts` counts the additional call separately; `inference_calls`
+includes it, while `repair_attempts` excludes it. Evaluation reports expose the
+separate selection count. Schema/guard success does not prove selector recall,
+part completeness, source sufficiency or answer quality. Development observations
+and the remaining gates are recorded in the active Phase 11 checkpoint.

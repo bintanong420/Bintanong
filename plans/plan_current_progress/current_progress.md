@@ -8,6 +8,16 @@ Last full snapshot before this condensation:121799b;earlier41d115e/32065bf;sourc
 
 ## Latest change
 
+[Two-step routing](../2026-10-27-two-step-topic-routing-plan.md) implemented opt-in;
+default/small menus unchanged. Strict <=8current IDs bind complete topics locally;
+invalid/ambiguous/overflow/failed selection withholds. Existing exact per-call
+transport guards reused,including repairs;Prolog/style/audience/follow-up preserved.
+RED28missing-option failures;GREEN28. Accounting RED1/GREEN with separate selection
+counts;477tests/14subtests pass39.22s(including routing,topic orchestration,docs/phase).
+Independent review:no blocker;concurrent isolation/style repair covered.
+Full suite and12bounded routing-only model observations running;no activation/answer claim.
+Evidence A/p11-two-step-routing-20261027;production composition keeps selector off.
+
 [Expanded bindings/capacity](../2026-10-27-expanded-topic-binding-results.md):465assigned/0unassigned,
 146source-labelled subjects,208claims(206visible/2not-stated),66prior claim records carried;1409scalar fields.
 Existing source-aware policy constructs;all206visible claim contexts assemble;151fit default2048,55exceed.
@@ -60,7 +70,7 @@ approval inferred from applicability inclusion. Source governance remains pendin
 ## Boundaries and remaining work
 
 - Broader service labels/canonical packaging,final image/service structural bindings,
-  two-step routing,per-request budgets and answer regressions remain;staged vectors predate corrections.
+  candidate selector quality,per-request budgets and answer regressions remain;staged vectors predate corrections.
 - Corrected78research release/39curricula active at last read;80draft/19superseded retained.
   Fresh hosted465draft staged;active78 unchanged. Production unchanged706d3c6;historical6896tests/1595subtests
   belongs706d3c6,not this task. Natural grading0/2and six Taglish register misses remain.

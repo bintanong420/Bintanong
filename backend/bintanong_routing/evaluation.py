@@ -102,6 +102,7 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
             style_correct=result.response_style == c.expected_style,
             diagnostic=result.diagnostic, attempts=result.attempts,
             style_attempts=result.style_attempts, inference_calls=result.inference_calls,
+            selection_attempts=result.selection_attempts,
             repair_attempts=result.repair_attempts,
             style_evidence=result.style_evidence.model_dump(mode='json') if result.style_evidence else None,
             offset_corrections=result.offset_corrections,
@@ -143,6 +144,7 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
         inference_calls=sum(r['inference_calls'] for r in records),
         routing_calls=sum(r['attempts'] for r in records),
         style_calls=sum(r['style_attempts'] for r in records),
+        selection_calls=sum(r['selection_attempts'] for r in records),
         offset_corrected_cases=sum(r['offset_corrections'] > 0 for r in records),
         offset_corrections=sum(r['offset_corrections'] for r in records),
         institutional_approval=False, activation_allowed=False)

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 185
+sequence: 186
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 45df93a
-working_tree: new CLI session handoff, index, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T13:45:27+08:00
+head_commit: 9043a40
+working_tree: opt-in topic selector, synthetic tests, documentation and checkpoint
+updated_at: 2026-10-27T14:05:00+08:00
 ---
 
 # Phase11checkpoint — expanded465bindings;full routing menu exceeds capacity
@@ -20,6 +20,17 @@ Other developer local-only worktree ready,task receiptc76d988;fixed fork4e99fb6.
 First9candidate packet and2actual human approvals recorded in32065bf,alongside bulk-review direction.
 
 ## Current Task
+
+27Oct resume: Git clean at9043a40;prior handoff metadata reconciled. Implement
+[two-step routing plan](2026-10-27-two-step-topic-routing-plan.md) inline under TDD.
+Current thesis17–18/39–44,routingPNG,master3/11/13/16/23/24 and prior final handoff
+consulted;undergraduate/read-only limits and missing-fact unknown semantics retained.
+Opt-in selector delivered;default/small menus unchanged,complete local topic bindings,
+strict invalid/ambiguous refusal,transport per-call capacity guards,independent counters.
+RED28/GREEN28;accounting RED1thenGREEN;477tests/14subtests39.22s pass.
+Independent review:no blocker;concurrent/style-repair regressions included.
+Full suite+12routing-only observations running in A/p11-two-step-routing-20261027.
+No live composition switch/source/hosted/pin change or answer-quality claim.
 
 New CLI resume packet:[2026-10-27-phase11-expanded-corpus-session-handoff.md](2026-10-27-phase11-expanded-corpus-session-handoff.md).
 

@@ -39,10 +39,11 @@ class RoutingResult:
     style_attempts: int = 0
     style_evidence: StyleEvidence | None = None
     style_floor_applied: bool = False
+    selection_attempts: int = 0
 
     @property
     def inference_calls(self):
-        return self.attempts + self.style_attempts
+        return self.attempts + self.style_attempts + self.selection_attempts
 
     @property
     def repair_attempts(self):
