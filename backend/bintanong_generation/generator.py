@@ -68,17 +68,23 @@ THANKS=re.compile(r'\b(?:thank you|thanks|thank u|thx|ty|tysm|salamat)\b',re.I)
 
 
 class Generator:
-    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='parts'):
+    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='parts',
+                 review_reference_profile='canonical'):
         if reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
         if explanation_profile not in ('legacy','scoped','guarded','covered','parts'):
             raise ValueError('invalid_explanation_profile')
         if explanation_profile in ('scoped','guarded','covered') and reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
+        if review_reference_profile not in ('canonical','short'):
+            raise ValueError('invalid_review_reference_profile')
+        if review_reference_profile=='short' and explanation_profile!='parts':
+            raise ValueError('short_review_requires_parts')
         self.transport=transport
         self.timeout_seconds=_seconds(timeout_seconds)
         self.reference_profile=reference_profile
         self.explanation_profile=explanation_profile
+        self.review_reference_profile=review_reference_profile
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
@@ -91,6 +97,7 @@ class Generator:
         if quotes and self.explanation_profile!='parts':
             return _answer(pack,'abstained',reason='unsupported_answer_scope')
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
+        review_references=EvidenceReferences(pack) if self.review_reference_profile=='short' else None
         if pack.status=='greeting' and THANKS.search(text):
             return _answer(pack,'greeting',reason='thanks')
         if pack.status!='ready' or pack.language=='unknown':
@@ -172,7 +179,7 @@ class Generator:
                     if not errors and proposal.claims and (not per_part or answered_slots(slots)):
                         checks+=1
                         reviewed=answered_slots(slots) if per_part else None
-                        messages_to_review=(confirm_messages(text,pack,proposal,reviewed) if per_part else
+                        messages_to_review=(confirm_messages(text,pack,proposal,reviewed,references=review_references) if per_part else
                                             coverage_messages(text,pack,proposal) if coverage_required else
                                             review_messages(text,pack,proposal))
                         review_started=loop.time()

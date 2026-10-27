@@ -453,7 +453,8 @@ def host_only(pack):
     return draft, assess_slots(pack, draft, slots)
 
 
-def confirm_messages(text, pack, draft, slots):
+def confirm_messages(text, pack, draft, slots, *, references=None):
+    aliases = _part_aliases(pack, references)
     cards = {c.evidence_id: c for c in pack.cards if c.kind == 'document'}
     claims = {c.claim_id: c for c in draft.claims}
     texts = {p.part_id: p.text for p in pack.understanding.parts}
@@ -479,6 +480,21 @@ def confirm_messages(text, pack, draft, slots):
             'wording, citation and relevance to the question using the complete sources. '
             'Do not require unrelated agency actions or the whole procedure for these parts. '
             'All ordinary support, language and other-part checks still apply.')
+    if references is not None:
+        for card in payload['available_sources']:
+            card['evidence_id'] = aliases[card['evidence_id']]
+        for part in payload['parts']:
+            for entry in part['claims']:
+                entry['claim']['evidence_ids'] = [aliases[i] for i in entry['claim']['evidence_ids']]
+                entry['source_ids'] = [aliases[i] for i in entry['source_ids']]
+        if 'required_records' in payload:
+            payload['required_records'] = {p: [aliases[i] for i in ids]
+                for p, ids in payload['required_records'].items()}
+        if 'record_order' in payload:
+            payload['record_order'] = {p: [[aliases[i] for i in ids] for ids in sequences]
+                for p, sequences in payload['record_order'].items()}
+        for quote in payload.get('quoted_field_answers', {}).values():
+            quote['evidence_id'] = aliases[quote['evidence_id']]
     return _messages(CONFIRM_PROMPT, payload, confirm_schema(pack, draft, slots))
 
 
