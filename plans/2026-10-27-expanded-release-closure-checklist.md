@@ -98,8 +98,9 @@ is positive evidence,not proof that no other overlap exists.
    verify exact field/visible-text/span provenance and unchanged affected claims.
    [Delivered results](2026-10-27-cutoff-anchor-correction-results.md);original
    cutoffs remain unresolved and normalized baseline stays immutable.
-2. [ ] Complete the33service-group association receipts and registration final check;
-   reuse the10other groups' existing independent evidence. Keep unknown mappings held.
+2. [ ] Complete remaining27legacy service groups and registration final check;
+   [first six Registrar groups delivered](2026-10-27-registrar-association-results.md).
+   Reuse the10other groups' independent evidence;keep unknown mappings held.
 3. [ ] Bind the four image workflows;retain incomplete H60/H64as limited evidence.
    Any production helper change requires synthetic RED->GREEN before implementation.
 4. [ ] Resolve the four canonical packaging overlaps without losing context/holds;

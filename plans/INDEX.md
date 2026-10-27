@@ -13,9 +13,9 @@
 - [Source-bound context](2026-10-27-source-bound-routing-context-results.md),36d5f56:
   [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
 - [Field quotations](2026-10-27-quoted-field-answer-results.md),3c55722:three local TORstep1answers validated;full7011/1595subtests pass. Default/release gates remain.
-- [Release closure audit](2026-10-27-expanded-release-closure-checklist.md):33legacy
-  services,four image workflows,four overlaps. [Cutoff anchors corrected](2026-10-27-cutoff-anchor-correction-results.md);
-  original cutoffs/approvals remain;465candidate stays inactive.
+- [Release closure](2026-10-27-expanded-release-closure-checklist.md):27legacy services remain;
+  [six Registrar groups verified](2026-10-27-registrar-association-results.md),481local inactive.
+  Four image workflows/four overlaps remain;[cutoff anchors](2026-10-27-cutoff-anchor-correction-results.md) corrected.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
   [normalized data](2026-10-27-expanded-context-validation-results.md),

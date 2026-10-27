@@ -2,79 +2,59 @@
 
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full snapshot before condensation:d12d8f4;earlier16afb25/3c55722.
+Last full snapshot before condensation:fd4c2d4;earlierd12d8f4/3c55722.
 
 ## Latest change
 
-[Cutoff-anchor correction](../2026-10-27-cutoff-anchor-correction-results.md)
-delivered in a separate inactive465candidate. Source images confirm H60/H64cutoffs;
-all465source words/spans/fields stay exact,both notices unresolved. H60nowanchors
-step3_process;H64step9_details(final sentence ending during),in its final companion.
-Three serialized texts/eight IDs change;457full objects exact. RED2failed0.57s->
-GREEN2passed0.37s;existing106pass/93subtests2.36s. Independent conservation/context
-checks pass;H60=1647E5,H64=2816E5tokens,diagnostic only. Maxchunk477;four artifacts
-repeat byte-identically;originals,six package files and active pin unchanged.
-A=workspace/audit-evidence/p11-cutoff-anchor-correction-20261027;receipt/seal/logs.
-Needs3updated vectors and catalogue/claim rebinding before runtime packaging.
-No production/hosted/runtime change or new source-wording approval. Phase11active.
-Closure inventory remains33legacy services,four image workflows,four overlaps.
-Docs/phase30pass/14subtests20.47s;full production suite not repeated for data-only work.
-
-[Reviewed field quotations](../2026-10-27-quoted-field-answer-results.md),3c55722:
-explicit single-field mode retains all context;exact text/citation grammar and final
-host guard reject additions. Ordinary model review remains;legacy whole-procedure
-guards/identity unchanged. Mixed claims/nonparts profiles withhold. Scope fingerprinted.
-RED9failed/13pass;identityRED1->GREEN25pass0.94s. Broad1533pass/175subtests/2xfail
-92.79s;independent156pass2.69s/no blockers. Resume67pass/47subtests4.14s.
-Three saved TORstep1inputs now answered/validated:en/taglish/taglish exact quote,
-Charter13citation,one draft/one reviewer/no repair each.15calls,no transport/overflow.
-Local derived register adds one claim(209total),original208reviews/chunks/vectors/
-package unchanged. Complete six records3627E5tokens via diagnostic3904only.
-Default2048stillwithholds;no active override. Full frozen3c55722suite exit0:
-7011 passed, 6 skipped, 2 xfailed, 6 warnings, 1595 subtests passed in 1322.02s (0:22:02).
-Docs/phase30pass/14subtests13.68s;receipt/context/quote/citation/review assertions
-passed and sealed;original source/package/active pin and frozen code unchanged.
-Final docs/phase30pass/14subtests12.88s;valid Phase11state,advance still blocked.
-A=workspace/audit-evidence/p11-quoted-field-answer-20261027;raw receipts/logs there.
+[Six Registrar groups verified](../2026-10-27-registrar-association-results.md):
+Charter7–20,35flattened chunks replaced by51labelled;481total,430objects exact.
+328fields/42agency actions/23client steps/17requirement pairs. Independent native
+character conservation8918positions,glyph boxes and all42time/person/office
+expectations pass. Six source-limit sets remain unresolved,now on correct fields.
+Cross-page transfer/CAV associations,shared fees/duration and office-only blanks
+preserved. No source wording/authority/activation inferred from packaging.
+RED14failed->GREEN14;packingRED1failed/14pass->GREEN15. Combined135pass/
+160subtests3.64s,exit0. Twelve JSON artifacts repeat byte-identically;all481contracts,
+tokens,closure pass. Maxauthored455tokens. Six complete E5contexts6184/6984/5239/
+4981/5129/2423exceed default2048;no override. Readmission65/transfer76fields exceed
+optional64-name maps;catalogue/claim rebinding must respect bounds before runtime.
+A=workspace/audit-evidence/p11-registrar-associations-20261027;receipts/contexts/seal.
+CandidateSHA:fb498e966758e2dafb895a772aa0a4d71f43e3f4d8aa6cf271476da020d9499b.
+No production/hosted/runtime/model/dependency change. Original/base package/pin exact.
+Docs/phase30pass/14subtests12.93s;links/diff/phase state valid.
 
 ## Prior verified increments
 
-[TOR failure baseline](../2026-10-27-tor-follow-up-answer-validation-results.md):
-whole-service claim requires six answer records for step1;three drafts abstain.
-English rejected draft also collapses multiple agency times into1day. Preserve
-these failures;the explicit narrow quotation resolves its own claim only.
-[Document follow-ups](../2026-10-27-document-follow-up-context-results.md),4ba0f41:
-scoped course-reference capability;full6986pass/1595subtests6skip2xfail6warnings,
-22m59s,exit0. [Reply migration](../2026-10-27-english-taglish-migration-results.md),28edea4:
-English input->English,Filipino/Taglish->Taglish;input wordings stay. Legacyfil
-normalized before hashes;stylev2/combinedv4.95fewer style tokens,no measured speedup.
-Source-context36d5f56retains32service labels/18grading hints and four33–48field maps.
+[Cutoff anchors](../2026-10-27-cutoff-anchor-correction-results.md),fd4c2d4:
+original H60/H64cutoffs retained;notices corrected. Its eight changed IDs/three
+texts remain unchanged within current481. [Closure audit](../2026-10-27-expanded-release-closure-checklist.md),d12d8f4:
+prior reviews/all-nine inclusion settled;no reapproval. [Quoted fields](../2026-10-27-quoted-field-answer-results.md),3c55722:
+three saved TORstep1answers validated locally,en/taglish/taglish,exact quote/
+Charter13citation,one draft/reviewer/no repair;15calls,no transport/overflow.
+Six records3627E5via local3904diagnostic only;default2048withholds. Original208claim
+register and209claim quotation derivative remain separate;prior broad TORfailures retained.
+Frozen3c55722fullsuite:7011passed/1595subtests,6skip/2xfail/6warnings,1322.02s,exit0.
+Full suite not repeated for source-data authoring through unchanged production codecs.
+Reply/document-follow-up migrations remain;English input->English,Filipino/Taglish
+->Taglish. Accepted input wordings unchanged;no measured speedup.
 
-## Source/package state — do not repeat
+## Package state and boundaries
 
-465readings/146subjects/208originalclaims,66prior records/1409fields. One derived
-quotation claim adds no chunk.49subjects need larger budgets(max7936E5proposal),
-unapplied. Normalized465base vectors ready;new cutoff derivative needs3updates.
-Hosted465draft predates13format/69token fixes and this cutoff derivative.
-Live Supabase read:78active/active pointer,465draft,80draft,19superseded. Latest
-local normalization/derived register not hosted. Upload/validation is not activation.
-Active78/39curricula unchanged. All-nine/prior source decisions settled.
-
-## Remaining boundaries
-
-Expanded465/selector inactive;corrected78research release active. Independent
-service/image bindings,canonical overlaps,budgets,normalized hosted draft and wider
-answer checks remain. TOR/certification mappings,CARMA/CCRD,copied descriptions,
-internship gaps,H26COR/payment,F04,cutoffs/deadline/residence limits retained.
-Inactive CombinedRouter follow-up behavior outside fix. Other developer local-only
-p11-policy-ingestion-review,fork4e99fb6/receiptc76d988;frontend stopped.
-Undergraduate/read-only/privacy/source guards remain. No institutional/public
-approval,activation,Phase11exit or Phase12advance. No latency target claim.
+Normalized465base retains146subjects/208claims/465vectors. Latest481derivative is
+not a runtime package:54texts need new vectors,427potential exact-text reuses need
+checked rebinding;catalogue/claims are stale for new IDs/fields. Hosted465draft
+predates local corrections;prior read78active/active pointer,465draft,80draft,
+19superseded. Corrected78/39curricula and active pin unchanged. No new hosted call.
+27legacy service groups/110old chunks,registration final check,four image workflows,
+four overlaps,budgets,answers and governed release remain. TOR/certification mappings,
+CARMA/CCRD,copied descriptions,internship gaps,H26COR/payment,F04,cutoffs/deadline/
+residence conflicts stay. Other developer p11-policy-ingestion-review local-only,
+fork4e99fb6/receiptc76d988;frontend deferred. Undergraduate/read-only/privacy guards
+remain. No public/institutional approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Continue closure checklist with six Registrar service groups at Charter physical7–20:
-readmission,transfer,TORcopy,certifications,CAV,diploma. Reuse reviewed originals;
-bind full steps/metadata/requirements/action-time-role associations into labelled
-inactive derivatives. Preserve ambiguous mappings;no budget/default-router/hosted
-integration or activation implied.
+Continue Student Affairs service groups at Charter51–57:counselling,good moral,
+admission test,activity. Reuse reviewed originals;apply the same bounded association/
+conservation workflow to labelled inactive derivatives. Preserve holds;no budget/
+default-selector/hosted integration or activation implied.
