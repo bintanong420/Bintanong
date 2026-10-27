@@ -42,7 +42,7 @@ replace model review with a host-only answer(changes the validation path).
 2. [x] Minimal GREEN in candidate_claims,orchestration contracts/adapters,
    generation evidence/part answers and one small quotation helper. Preserve
    legacy serialization and inference stage counts;no general refactor.
-3. [ ] Prepare an ignored derivative register/topic menu with one TOR step1claim
+3. [x] Prepare an ignored derivative register/topic menu with one TOR step1claim
    using the existing row2_client_step/event/spans. Preserve original register,
    chunks/vectors/versions/holds and all other claims. Local3904diagnostic only.
    Replay the saved English/Filipino/Taglish questions;score exact field quotation,
