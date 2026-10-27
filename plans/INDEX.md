@@ -13,15 +13,15 @@
 - [Source-bound context](2026-10-27-source-bound-routing-context-results.md),36d5f56:
   [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
 - [Field quotations](2026-10-27-quoted-field-answer-results.md),3c55722:three local TORstep1answers validated;full7011/1595subtests pass. Default/release gates remain.
-- [Service association pass](2026-10-27-service-association-closure-results.md):545local
-  inactive records;all33legacy groups+registration delivered,101steps/147actions.
-  [Image/canonical evidence](2026-10-27-image-canonical-binding-results.md) prepared;
-  faithful limited-flow/runtime alias integration remains. [Closure checklist](2026-10-27-expanded-release-closure-checklist.md).
+- [Flow evidence](2026-10-27-flow-evidence-results.md),f635ccc:559inactive chunks;
+  original cutoffs/28connectors bound. [Canonical bindings](2026-10-27-current-canonical-binding-results.md):145subjects/208claims.
+  [Service pass](2026-10-27-service-association-closure-results.md):34services;
+  [closure checklist](2026-10-27-expanded-release-closure-checklist.md);vectors/capacity/answer/release gates remain.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
   [normalized data](2026-10-27-expanded-context-validation-results.md),[hosted draft](2026-10-27-hosted-corpus-staging-results.md).
 - [All-nine inclusion](2026-10-27-nine-item-inclusion-results.md)/prior source decisions
-  stand;image/canonical runtime bindings,budgets,release and answer-quality gates remain.
+  stand;vector bindings,capacity,release and answer-quality gates remain.
   No institutional approval,public deployment or executable-rule expansion inferred.
 - [Developer pipelines](../docs/development/pipelines.md),[master](master_implementation_plan_original_long.md),
   [two-developer boundary](2026-10-26-phase11-two-developer-workflow.md). Prior phase

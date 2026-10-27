@@ -24,11 +24,10 @@ original page images,prior reviews and independent native/geometry checks.
   source gaps and student-facing staff roles.
 - [x] Registration final association check;reuse its approved reauthoring.
 - [x] Four Handbook image workflows:bind observed nodes/arrows/labels/terminals
-  without inventing a clipped predicate or unseen endpoint. Evidence bound;runtime
-  codec integration remains open.
-- [ ] Four known canonical overlaps:checked aliases/packaging preserving added
-  context,source conflicts and prior claims;do not remove useful evidence. Four
-  checked alias sidecars are prepared;runtime canonical integration remains open.
+  without inventing a clipped predicate or unseen endpoint. [Opt-in flow integration delivered](2026-10-27-flow-evidence-results.md),f635ccc.
+- [x] Four known canonical overlaps:checked aliases/packaging preserving added
+  context,source conflicts and prior claims;do not remove useful evidence. [Canonical claim mapping delivered](2026-10-27-current-canonical-binding-results.md);
+  strict same-subject rules preserved.
 
 Use actual-data RED->GREEN before each data correction,existing unchanged builders,
 exact E5counts and independent source/field/geometry/closure checks. Data-only
@@ -43,8 +42,9 @@ candidate edits,tracked documents and integration. Review and verify their recei
 No dependency/model download,hosted synchronization,budget/default-router changes,
 activation,institutional approval or phase advancement follows from this plan.
 
-[Service results](2026-10-27-service-association-closure-results.md):545inactive
-records;all33legacy groups and registration delivered. [Image/canonical results](2026-10-27-image-canonical-binding-results.md)
-record precise codec/claim representation gaps. Next:limited original-flow
-representation and canonical claim semantics,with synthetic TDD for production
-changes. No runtime-readiness claim is inferred from completed source associations.
+[Service results](2026-10-27-service-association-closure-results.md):33legacy groups+
+registration delivered. [Flow results](2026-10-27-flow-evidence-results.md),f635ccc,
+and [current canonical bindings](2026-10-27-current-canonical-binding-results.md)
+complete this bounded association/binding pass. Current559chunks remain inactive;
+257new-text vectors/302checked potential reuses,oversized topic maps,capacity,
+answer validation and governed release remain. No runtime-package readiness implied.

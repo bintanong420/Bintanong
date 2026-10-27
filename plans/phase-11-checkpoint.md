@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 215
+sequence: 216
 plan: plans/phase-11-backend-api-plan.md
-head_commit: d32aa18
-working_tree: opt-in flow code/tests/plans;full suite passed;delivery documents pending
-updated_at: 2026-10-27T22:06:50+08:00
+head_commit: f635ccc
+working_tree: verified flow/canonical delivery documents;codef635ccc
+updated_at: 2026-10-27T22:10:21+08:00
 ---
 
 # Phase11checkpoint — flow evidence and current bindings verified
@@ -21,24 +21,20 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 
 ## Current Task
 
-[Opt-in flow plan](2026-10-27-flow-evidence-implementation-plan.md):new group manifest,
-scalar/span/event/geometry bindings and complete-group admission implemented.
-Old complete-arrow codec unchanged. Synthetic RED->GREEN,focused122passed/
-172subtests3.11s;fresh review P2malformed-input crash reproduced and fixed.
-Actual four originals13->27chunks,559total,532other objects exact;66old scalars/
-spans/events retained and13visible marker/label fields added. H60/H64limited;
-61/63complete visible source. Contexts3168/3242/2701/5016E5;default2048unchanged.
-[Canonical/current binding plan](2026-10-27-canonical-current-binding-plan.md):
-559assignments/145subjects/208claims now bind current data. Existing same-subject
-contract reused;both completion groups share grade_completion. Nine original
-records/four claims retained;four actual policy selection/render checks pass.
-Full production suite7025passed/1608subtests,6skip/2xfail/6warnings1414.00s,exit0;
-A/p11-flow-evidence-20261027/full-suite.log/.exit. Independent review fixed one P2
-and found no remaining substantive issue. Source/rebinding JSONrepeats exactly.
+[Flow evidence delivered](2026-10-27-flow-evidence-results.md),f635ccc;[plan](2026-10-27-flow-evidence-implementation-plan.md).
+Opt-in source/span/event/geometry manifest with complete-group admission;old
+complete-arrow codec unchanged. Four originals13->27chunks,559total,532other
+objects exact.66old fields/spans/events retained;13visible markers/labels added.
+H60/H64limited,61/63complete visible source;all28connectors bound. No invented text.
+[Canonical/current bindings](2026-10-27-current-canonical-binding-results.md):
+559assignments/145subjects/208claims. Existing same-subject contract reused;both
+completion groups share grade_completion. Nine original records/four claims retained;
+all208actual selector/context/render profiles pass,source limits preserved.
+Bounded association/binding pass complete;candidate remains inactive,not a runtime package.
 
 ## Repository State
 
-p11/feat/p11-backend-api;opt-in flow-code change verified after3c55722;nothing pushed.
+p11/feat/p11-backend-api;codef635ccc after previous3c55722freeze;nothing pushed.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
 Current559:A/p11-flow-evidence-20261027;source author/verifier,readings,spans/events,
 flow manifests,27authored records,contexts,RED/GREEN/full logs and determinism.
@@ -66,7 +62,8 @@ zero missing/unverified fields,48.269s offline audit cost,not student latency.
 Independent read-only review confirms208meaning/finding/basis/order records,
 45source-limit subject sets and source-position unions retained;no P1/P2finding.
 Twelve bindingJSONartifacts repeat exactly;four canonical profiles retain all limits.
-Ruff/Black/mypy/Bandit unavailable,not installed;changed files compile,diff passes.
+Docs/phase30passed/14subtests12.78s;links/diff/phase state valid.
+Ruff/Black/mypy/Bandit unavailable,not installed;changed files compile.
 Earlier3c55722full7011/1595subtests remains historical;new flow code uses fresh suite.
 No model inference,query-embedding run,answer-quality or runtime-fit claim.
 
@@ -112,9 +109,10 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Seal repeatable flow/current-binding evidence,record delivery results and commit
-verified code/docs;full suite passed. Preserve current559candidate/145subjects/
-208claims;vectors/default budgets/hosted/activation remain separate later gates.
+Prepare checked vector/text identity rebinding for559inactive chunks and resolve
+oversized detailed topic maps without dropping fields. Reuse all source/flow/
+canonical proofs;then capacity/answer-quality/governed release gates. No default,
+hosted or active-pin change follows automatically from the metadata pass.
 
 ## Context Consulted
 

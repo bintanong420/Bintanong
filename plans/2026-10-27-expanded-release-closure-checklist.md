@@ -101,13 +101,13 @@ is positive evidence,not proof that no other overlap exists.
 2. [x] Complete all33legacy services and registration final association check.
    [Combined545results](2026-10-27-service-association-closure-results.md):34services,
    101steps/147actions;all earlier source holds retained. No runtime-ready claim.
-3. [ ] Integrate four image workflows. [Original associations prepared](2026-10-27-image-canonical-binding-results.md):
-   28connectors/66scalars;H60predicate incomplete,H64endpoint unknown. Existing
-   complete graph requires nonempty labels,gap-free rows and END;faithful limited
-   evidence needs technical representation support,not invented source words.
-4. [ ] Integrate four canonical packaging aliases. Checked reversible sidecar and
-   nine-record snapshot prepared in the same results record. Cross-subject runtime
-   alias references are rejected by the existing contract;no545register produced.
+3. [x] Integrate four original image workflows through an opt-in limited-source
+   manifest. [Flow results](2026-10-27-flow-evidence-results.md),f635ccc:559candidate,
+   66old fields exact,13visible labels/markers added,H60/H64limits retained.
+4. [x] Resolve canonical subject/claim mapping for four repeated passages.
+   [Current bindings](2026-10-27-current-canonical-binding-results.md):one canonical
+   grade_completion subject retains9records/4claims. Strict same-subject rules stay;
+   559assignments/145subjects/208claims current. No physical prose-deletion claim.
 5. [ ] Only then address applicable budgets,checker/repair/language/Hybrid answers,
    corrected hosted draft,governed selected-release review and authorized activation.
    No default/budget/hosted integration is authorized by this checklist.

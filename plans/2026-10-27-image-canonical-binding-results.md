@@ -1,8 +1,10 @@
 # Image-workflow and canonical-passage evidence
 
 27October2026. [Continuous plan](2026-10-27-remaining-association-closure-plan.md).
-Bound original evidence is prepared;runtime graph/alias integration is unfinished.
-No source wording,source approval,candidate or production contract was changed.
+This records the original preparation-only audit. Subsequent [opt-in flow integration](2026-10-27-flow-evidence-results.md),
+f635ccc,and [canonical subject/claim mapping](2026-10-27-current-canonical-binding-results.md)
+resolve its representation gaps locally. The historical audit below changed no
+source wording,approval,candidate or production contract;its sidecars stay intact.
 
 ## Four original image workflows
 

@@ -2,26 +2,27 @@
 
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full snapshot before condensation:a4aab39;earlier0c08e60/7c6b0fc/fd4c2d4/d12d8f4.
+Last full snapshot before condensation:f635ccc;earlierd32aa18/a4aab39/0c08e60.
 
 ## Latest change
 
-[Flow evidence implementation](../2026-10-27-flow-evidence-implementation-plan.md)
-adds opt-in full-group source/geometry/event binding and local node projections.
-Synthetic RED->GREEN;focused122pass/172subtests3.11s. Independent review P2malformed
-field/gap crash fixed with regression;review found no remaining substantive issue.
-Four original flows13->27chunks;559candidate,532other objects exact.66old fields/
-spans/events preserved;13visible markers/labels added. H60/H64limited,no endpoints
-or predicate invented. Complete contexts3168/3242/2701/5016E5,all>2048.
-A=workspace/audit-evidence/p11-flow-evidence-20261027,full-suite.log/.exit:7025passed/1608subtests,
-6skip/2xfail/6warnings1414.00s,exit0.
+[Flow evidence delivered](../2026-10-27-flow-evidence-results.md),f635ccc:opt-in
+source/span/event/geometry manifest with complete-group admission. Four originals
+13->27chunks;559candidate,532other objects exact.66old fields/spans/events preserved;
+13visible markers/labels added. H60/H64limited;61/63complete visible source. All28
+connectors bound;no predicate/endpoint invented. Contexts3168/3242/2701/5016E5.
+Focused122pass/172subtests3.11s;full7025pass/1608subtests,6skip/2xfail/6warnings,
+1414.00s,exit0. Fresh code review P2malformed-input crash reproduced/fixed;recheck clean.
+A=workspace/audit-evidence/p11-flow-evidence-20261027;author/verifier/logs/determinism/seal.
 CandidateSHA5e790a240eb79e1d2b9d176d462abb587ac7646ea289018ffcbb882f27ed5bdf.
-[Current/canonical bindings](../2026-10-27-canonical-current-binding-plan.md):
-559assignments/145subjects/208claims validate;1428source-field lineage rows. Four
-canonical grade_completion claims render/select correctly under existing same-subject
-contract;all9source records and deadline conflicts retained. DataRED3fail->GREEN3pass. Root208render-binding profiles:206available/2intentional
-insufficient-evidence,no missing/unverified fields. Independent binding review clean.
-No new vectors,model calls,hosted/default/active-pin change. Full suite passed;delivery notes pending.
+[Current/canonical bindings](../2026-10-27-current-canonical-binding-results.md):
+559assignments/145subjects/208claims;1428old-field lineage rows,zero unassigned.
+All208selector/context/render profiles:206visible available/2intentional absence,
+zero missing/unverified fields. Nine completion records/four claims share canonical
+subject;source words/limits unchanged. Strict foreign-field guard remains.
+Independent binding review confirms all208meanings/bases/orders and45limit subject
+sets;no P1/P2finding. DataRED3fail->GREEN3pass. Docs/phase30pass/14subtests12.78s.
+No vectors,query/model calls,hosted/default-budget/menu or active-pin change.
 
 ## Prior verified increments
 
@@ -49,6 +50,7 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Seal deterministic flow/current-binding evidence,
-write verified results and commit code/docs. Keep559inactive;vector binding,capacity/
-answer validation and governed release/hosted work retain separate boundaries.
+Prepare checked vector/text identity rebinding for559inactive chunks and resolve
+oversized detailed topic maps without dropping fields. Reuse settled source/flow/
+canonical evidence;capacity,answer quality and governed release remain separate.
+No default/hosted/active-pin change is implied by the metadata pass.
