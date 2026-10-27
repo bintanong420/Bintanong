@@ -167,3 +167,16 @@ unmeasured metrics null. No live provider call,human timing or A/B winner claim.
 Context refreshed after rollover:thesis physical17–18,runtime routing PNG,master
 3.1/16:institutional preparation stays outside student requests;undergraduate
 scope,private-file separation and no autonomous acquisition remain unchanged.
+
+Final relevant regression selection after all code changes:1821passed/13subtests,
+2deprecation warnings,189.53s,exit0;includes every knowledge_update,prospectus and
+original review_gui test file. Exact argv/log/exit saved with final-focused prefix.
+Operator guide and full results enumerate data transfer,recovery,manual table/
+geometry boundaries and separate T4/T5.
+
+Final plan checklist found the requested extraction-mismatch total was not a
+measurement column:RED recorded totals disappeared from summary. Added only that
+metric;GREEN7evaluation tests0.34s. Existing84blank rows remain unmeasured and final
+summary in matched-summary-final includes the null total. This metric-only change
+follows the1821run;provider/review/prospectus code is unchanged. No suite-wide repeat
+needed for a tuple entry;the seven evaluator checks cover its affected behavior.

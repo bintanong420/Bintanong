@@ -56,3 +56,19 @@ def test_bad_measurements_cannot_be_reported_as_accuracy(tmp_path, value):
             w.writerow({'strategy': strategy, 'source_sha256': 'a' * 64, 'page': '1', 'human_corrections': value})
     with pytest.raises(ValueError):
         evaluation.summarize(path, tmp_path / 'report')
+
+
+def test_recorded_extraction_mismatch_count_is_not_dropped(tmp_path):
+    inputs = tmp_path / 'inputs'
+    inputs.mkdir()
+    path = inputs / 'measurements.csv'
+    with path.open('w', newline='') as stream:
+        writer = csv.DictWriter(stream, fieldnames=['strategy', 'source_sha256', 'page', 'extraction_mismatches'])
+        writer.writeheader()
+        for strategy, count in [('native', '2'), ('native_vision', '1'), ('llamaparse', '')]:
+            writer.writerow({'strategy': strategy, 'source_sha256': 'a' * 64, 'page': 1,
+                             'extraction_mismatches': count})
+    report = evaluation.summarize(path, tmp_path / 'report')
+    assert report['strategies']['native']['extraction_mismatches'] == 2
+    assert report['strategies']['native_vision']['extraction_mismatches'] == 1
+    assert report['strategies']['llamaparse']['extraction_mismatches'] is None

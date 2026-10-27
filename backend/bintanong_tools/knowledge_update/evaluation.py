@@ -10,7 +10,7 @@ from ..prospectus_review_gui.render import PageRenderer
 from .files import digest, read_json, write_json
 
 STRATEGIES = ('native', 'native_vision', 'llamaparse')
-METRICS = ('human_corrections', 'review_minutes', 'unresolved', 'omissions', 'hierarchy_errors',
+METRICS = ('human_corrections', 'review_minutes', 'unresolved', 'extraction_mismatches', 'omissions', 'hierarchy_errors',
     'table_errors', 'reading_order_errors', 'wrong_numbers', 'source_mismatches', 'correct_suggestions',
     'false_positives', 'bad_suggestions', 'hallucinated_suggestions', 'uncertain', 'ignored',
     'provider_calls', 'parser_calls', 'latency_seconds', 'retries', 'failures', 'observed_cost', 'estimated_cost')
