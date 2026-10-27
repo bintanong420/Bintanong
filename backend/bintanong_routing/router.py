@@ -38,6 +38,10 @@ REFERENCE_HINTS = {
         'code that is also listed in mentions with kind course; if the student names no specific '
         'course code, return no operation (route RAG, or control clarify).',
     'topic_outside_menu': 'requested_claims must be facts listed under the chosen topic only.',
+    'course_reference_unavailable': 'no scoped previous course is available. Do not emit a '
+        'previous_course_quote or turn a document subject ID into a course. For a clear document '
+        'follow-up, use the previous document subject and its reviewed claims; clarify an unclear '
+        'request rather than inventing a course or operation.',
     'unreferenced_operation': 'every operation must be referenced by a question part that requests it. '
         'Interpret the original request again; document-only parts need no course operation. '
         'Do not invent a structured question or course to justify an unused operation.',
@@ -101,7 +105,7 @@ class Router:
     async def route(self, text: str, context: RequestContext) -> RoutingResult:
         normalized = prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
-        follow_up = previous_turn(context, self.catalog) is not None
+        follow_up = bool((previous_turn(context, self.catalog) or {}).get('course_available'))
         names = tuple(alias for entry in self.catalog for alias in entry.aliases)  # never style evidence
         proposed = None
         topics = self.topics
@@ -148,6 +152,8 @@ class Router:
             try:
                 wire = WireInterpretation.parse(_json_proposal(raw))
                 try:
+                    if wire.previous_course_quote is not None and not follow_up:
+                        raise ValueError('course_reference_unavailable')
                     proposed = normalize_interpretation(text, wire)
                     check_topics(proposed, topics)
                     proposed = apply_not_stated_cues(proposed, topics)

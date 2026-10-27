@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 194
+sequence: 196
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 28edea4
-working_tree: migration results,decision status and compact current snapshots
+head_commit: 8394a30
+working_tree: verified document-only follow-up correction and tests;full suite pending
 updated_at: 2026-10-27T16:16:04.8515857+08:00
 ---
 
-# Phase11checkpoint — English/Taglish reply policy implemented and verified
+# Phase11checkpoint — document-only follow-up correction verified locally
 
 ## Completed Tasks
 
@@ -20,6 +20,13 @@ Original reviews/all-nine inclusion,normalized465vectors/146topic bindings and
 source-context correction36d5f56remain delivered. Recover detail with git show.
 
 ## Current Task
+
+[Follow-up plan](2026-10-27-document-follow-up-context-plan.md):routerv23enables
+course quotes only for scoped course_available;document subject remains data.
+Display/decoder agree;unsolicited quotes get one named repair then withhold.
+RED7failed/5passed;focused778passed/2xfail27.59s. Independent48passed4.76s,
+no blockers. Saved actual English step1nowRAG without repair;other replays running.
+Experimental inactive CombinedRouter follow-up behavior is outside this fix.
 
 [Reply migration results](2026-10-27-english-taglish-migration-results.md),
 [plan](2026-10-27-english-taglish-migration-plan.md),code28edea4implements owner
@@ -40,8 +47,8 @@ Style prompts95tokens smaller;call counts unchanged,latency gain not established
 
 ## Repository State
 
-p11/feat/p11-backend-api;latest code28edea4;nothing pushed. Current dirty documents
-are migration results/decision status/plan/current snapshots;production frozen.
+p11/feat/p11-backend-api;HEAD8394a30;nothing pushed. Dirty router/prompt/wire,
+three test files,new follow-up plan and current snapshots;commit verified increment.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 A/p11-reply-policy-20261027holds RED/focused/review logs,11raw model receipts and
 full-suite.log/.exit. Full suite at28edea4finished with exit0;final receipts retained.
@@ -70,7 +77,7 @@ belongs36d5f56. Static/lint tools unavailable/not installed. Docs/phase checks f
 Python3.13.7/FastAPI0.141.1/SWI-Prolog10.1.15/Postgres17.6/pgvector0.8.2 unchanged.
 Gemma4E4B UD-Q4_K_XL under workspace/MODELS,llama.cppb11723-31288c9c6;
 8192context/768output/8margin,one slot,temp0/seed0,prefixcache on,reasoning none.
-Stylep11v2/schema2;combinedp11v6/schema4;routerp11v22;policyenglish-taglish-20261027-v1.
+Stylep11v2/schema2;combinedp11v6/schema4;routerp11v23;policyenglish-taglish-20261027-v1.
 Per-call runtime/image/template and exact prompt/schema identities retained locally.
 Active p11-research-corrected-20261026,78chunks/39curricula.
 Package A/p11-companion-context-20261026/runtime-package;
@@ -92,9 +99,8 @@ source-gap repair,rule expansion,school approval,activation or phase authority a
 
 ## Known Failures or Blockers
 
-Document-only previous_turn still offers course quote;model repeats internal topicID
-as previous_course_quote and host withholds. Next fix must distinguish context kind,
-not erase invalid references. English synthetic one-document probe relevance failed.
+Document-only schema correction passes focused tests;remaining actual replays and
+full-suite verification pending. English synthetic one-document probe relevance failed.
 49expanded subjects need >2048E5retrieval budgets(max7936proposal),unapplied.
 Hosted465draft predates13format/69token updates;corrected vectors ready. Independent
 service/image bindings,canonical overlaps,release and answer-quality gates remain.
@@ -104,9 +110,8 @@ No frontend work,public/institutional release or Phase11/12completion inferred.
 
 ## Next Action
 
-Fix context-kind handling for document-only follow-ups underTDD;reply migration
-and full verification are delivered. Replay exact saved
-step1and accepted follow-ups. Keep expanded465inactive and preserve all source guards.
+Commit focused verified fix,finish bounded saved/three-language/control replays,
+then full project suite at frozen code. Keep expanded465inactive/source guards.
 
 ## Context Consulted
 

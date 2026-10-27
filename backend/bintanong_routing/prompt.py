@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v22'
+PROMPT_VERSION = 'bintanong-router-p11-v23'
 
 
 def ordered_json(value):
@@ -259,6 +259,13 @@ If the message names a course, asks about something else, or it is unclear which
 set previous_course_quote to null. A previous course is never a grade or a passed/failed fact. A
 message that continues the previous document topic may use the same subject_id.'''
 
+DOCUMENT_FOLLOW_UP_INSTRUCTION = '''Previous turn: previous_turn.subject_id is the previous document
+topic, not a course or evidence. No previous course is available. A clear follow-up about that
+procedure or a numbered step may use the same subject_id and relevant reviewed claims; keep the
+new question's words as the part quote. Retrieval supplies the source text, not stored answers.
+Do not emit previous_course_quote or create a course mention, grade or structured operation from
+the document topic ID. Interpret a topic switch on its own; clarify an ambiguous reference.'''
+
 
 def previous_turn(context, catalog):
     """What the model may know about the previous turn, or None. The course is signalled, not named: a
@@ -317,8 +324,10 @@ def build_messages(text, context, catalog, registry, topics=()):
                   for i, claim in enumerate(t.claims) if claim in t.claim_context]} if t.claim_context else {}),
               **({'source_context': list(t.source_context)} if t.source_context else {}),
               **({'not_stated': list(t.not_stated)} if t.not_stated else {})) for t in topics])
-    menu += '' if previous is None else chr(10) + FOLLOW_UP_INSTRUCTION
-    schema = display_schema(topics, follow_up=previous is not None)
+    course_available = bool(previous and previous.get('course_available'))
+    menu += '' if previous is None else chr(10) + (
+        FOLLOW_UP_INSTRUCTION if course_available else DOCUMENT_FOLLOW_UP_INSTRUCTION)
+    schema = display_schema(topics, follow_up=course_available)
     return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(schema))),
             dict(role='user', content=canonical(data))]
 

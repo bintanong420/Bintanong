@@ -47,8 +47,8 @@ class WireInterpretation(Contract):
     part_count: int = Field(ge=0, le=8)
     parts: tuple[WirePart, ...] = Field(max_length=8)
     intent: Text
-    # Offered (and required) only when the session has a previous turn (master 23); removed from
-    # single-turn schemas. Decided before mentions so a back-reference can become the course quote.
+    # Offered (and required) only when a scoped previous course is available (master 23); removed
+    # from document-only/single-turn schemas. Decided before mentions for a course back-reference.
     previous_course_quote: QuoteReference | None = None
     mentions: tuple[WireMention, ...] = Field(max_length=32)
     claims: tuple[WireClaim, ...] = Field(max_length=32)

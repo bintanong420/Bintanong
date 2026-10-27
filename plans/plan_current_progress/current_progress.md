@@ -6,6 +6,13 @@ Last full snapshot before condensation:28edea4;earlierc27c9a3/569be5f.
 
 ## Latest change
 
+[Document follow-up correction](../2026-10-27-document-follow-up-context-plan.md):
+routerv23only enables previous_course_quote for a catalog-matched scoped course.
+Document-only display/decoder agree;unsolicited quote gets one bounded repair.
+RED7failed/5passed;focused778passed/2xfail27.59s;independent48passed4.76s/no blockers.
+Saved step1nowRAG without repair. Other bounded replays/full suite pending.
+Inactive experimental CombinedRouter follow-ups excluded from this correction.
+
 [English/Taglish migration](../2026-10-27-english-taglish-migration-results.md),28edea4:
 English input->English;Filipino/Taglish input->Taglish. Input families/wordings remain.
 Stylev2/combinedv4/routerv22;Tagalog-only evidence needs no invented English fragments.
@@ -57,6 +64,5 @@ No institutional/public approval,activation,Phase11exit or Phase12advance.
 
 ## Next action
 
-Separate document-only context from course availability in the follow-up grammar;
-reply-migration implementation/verification are delivered.
-Replay saved step1failure and accepted follow-ups;keep unknown/source/privacy guards.
+Commit verified context correction;finish bounded replays and full-suite verification
+at frozen code,then record results. Keep unknown/source/privacy/release guards.

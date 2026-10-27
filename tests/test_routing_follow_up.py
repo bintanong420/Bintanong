@@ -30,7 +30,8 @@ def wire(**updates):
 
 
 def route(conversation, output):
-    transport = FakeTransport(output, style_outputs=[json.dumps(style_proposal('en', english=['prerequisites']))])
+    # An unsolicited reference with no course now reaches the bounded reference repair.
+    transport = FakeTransport(output, output, style_outputs=[json.dumps(style_proposal('en', english=['prerequisites']))])
     result = asyncio.run(Router(transport, catalog=catalog(), registry=registry(), documents_available=True,
                                 synthetic=True).route(FOLLOW_UP, ctx(conversation)))
     return result, transport.calls[0]
