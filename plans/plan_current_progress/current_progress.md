@@ -36,8 +36,12 @@ huggingface-hub>=1.5,<2, but installed2.2.0. Fresh native conversion is blocked;
 mocked pipeline success does not clear it. Seventeen local DB test files excluded:
 DockerDesktopLinuxEngine unavailable. No hosted fallback or dependency workaround.
 
-Gemma4E4B supports images; local GGUF exists,matching mmproj/working image endpoint
-not verified. Vision and LlamaParse live smoke NOT RUN: endpoint/key unavailable.
+[Fresh model check](../2026-10-27-local-vision-readiness.md):LM Studio already had
+Gemma4E4B BF16 projector;earlier shared-MODELS-only inventory was incomplete.
+Live offline image I/O now succeeds with shared GGUF+existing projector;captured
+advisory check fails:wrong no_change on deliberately corrupted grade range and
+forbidden proposed_value:null. Review stays pending;temporary servers stopped.
+LlamaParse live remains NOT RUN:key unavailable.
 Matched28-page real-source sample/84rows and summaries created under ignored
 workspace audit-evidence/p11-ai-ingestion-20261027; metrics remain blank/null.
 No human accuracy,time,cost or cleanup-improvement claim. Complex table JSON and
@@ -64,7 +68,7 @@ continuation metadata remain manual; missing verified geometry stays build-held.
 
 ## Next action
 
-Configure a working vision/parser provider for a fresh assisted candidate packet;
+Resolve the live advisory contract/row-association failure before relying on vision;
 never modify the frozen baseline. Resolve native dependencies in an approved
 environment,then live smoke/matched human evaluation. Existing lifecycle T4/T5 remain separate.
 Original T4 local lifecycle tooling and T5 operator rehearsal remain separate next

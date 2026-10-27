@@ -37,7 +37,7 @@ no GUI upload,provider configuration or strategy-selection screen was added.
 | 0: inspect existing pipeline and pin integration | Done | Existing prepare/template/ReviewSession/renderer/build reused; decisions recorded before implementation |
 | 1: source-bound advisory contract/human authority | Done in code/tests | Original/reviewed values stay pending; stale binding and approval injection reject; explicit human journal save |
 | 2: minimal provider and deterministic fake | Done in code/tests | Ingestion-only HTTP image adapter; existing httpx; fake and transport tests; no student provider changes |
-| 3: native extraction + vision | Implemented, live unverified | Opt-in modes and original page images; no configured vision runtime; full pages used rather than source crops; only recorded field pages sent |
+| 3: native extraction + vision | Live image input verified; advisory check failed | Existing LM Studio projector found;temporary local server processes Handbook46. Incorrect no_change/null output rejected;quality gate remains open |
 | 4: proposal reviewer UI | Implemented/tested in isolation; running owner UI not updated | Use/Ignore/manual edits/explicit Save tested; current owner build stale and packet unassisted |
 | 5: LlamaParse alternate parser | Implemented, live unverified | REST upload/poll/batches/resume; same pending review/build path; no session API key or real provider run |
 | 6: Handbook/Charter hardening | Partial validation | Synthetic hierarchy/TOC/header/continuation preservation and grouped tables tested; swapped fee/time fixture tested; no complete semantic/source accuracy validation; TOC conflicts get generic manual findings,not automatic specific diagnosis |
@@ -55,8 +55,11 @@ proof that no implementation exists. It does not justify claiming operational re
   preserve the original session and any unsaved owner draft.
 - [ ] Prepare a separate assisted candidate packet and demonstrate it in the owner
   reviewer. Never overwrite/re-assist the frozen reviewed baseline in place.
-- [ ] Configure and verify an actual image-capable endpoint; local Gemma's image
-  capability alone does not establish a matching projector/running vision server.
+- [x] Verify existing Gemma image capability with an isolated local live probe.
+  Existing LM Studio projector found;image input succeeds. Advisory quality/contract
+  check fails;[evidence and correction](2026-10-27-local-vision-readiness.md).
+- [ ] Resolve the observed row-association/response-contract failure and verify an
+  assisted candidate packet before treating vision assistance as operationally ready.
 - [ ] Supply an authorized LlamaParse session key and run a narrow real parse if
   live comparison is wanted. No credentials should be added to repository files.
 - [ ] Resolve the installed Transformers/huggingface-hub conflict in an approved

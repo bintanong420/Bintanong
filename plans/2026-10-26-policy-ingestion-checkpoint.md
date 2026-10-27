@@ -41,8 +41,12 @@ fallback,dependency install or test weakening. Full suite is not green.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence/p11-ai-ingestion-20261027;
 exact argv/log/exit and synthetic browser/evaluation evidence stay ignored there.
 
-Native vision live NOT RUN: Gemma4E4B supports images,but matching mmproj/working
-endpoint not present/verified. LlamaParse live NOT RUN:no session key. No downloads.
+Vision follow-up RUN:existing LM Studio projector found;temporary local Gemma
+server processes images. Deliberately wrong grade-row candidate incorrectly gets
+no_change plus invalid proposed_value:null;adapter keeps manual/pending. Both probe
+servers stopped;[evidence](2026-10-27-local-vision-readiness.md). No downloads.
+LlamaParse live NOT RUN:no session key. Original T4 tooling itself also unfinished;
+Docker unavailability explains missing DB tests,not the absent lifecycle wrappers.
 Matched28real-source pages/84strategy rows created;all effort/accuracy/cost metrics
 blank/null. Human review and timing still needed;no improvement/winner claim.
 

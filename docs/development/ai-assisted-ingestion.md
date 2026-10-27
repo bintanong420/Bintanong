@@ -56,9 +56,12 @@ py -3.13 -m backend.bintanong_tools.knowledge_update prepare "$work/inputs/manif
 The example URL is configuration, not proof that a server is running there.
 Gemma 4 E4B supports images according to Google's
 [model card](https://ai.google.dev/gemma/docs/core/model_card_4). This installation
-has its GGUF but no matching `mmproj` file, and no working vision endpoint was
-verified. A compatible multimodal server must be configured separately. No model
-download or student-model reconfiguration was performed for this extension.
+has the shared GGUF and an existing matching BF16 projector in LM Studio's model
+cache. The earlier shared-folder-only search missed that asset. A temporary local
+server successfully processed image input,but the captured grading-row check gave
+an incorrect no_change response and invalid nonproposal metadata;manual review was
+retained. See the [live check](../../plans/2026-10-27-local-vision-readiness.md).
+The probe server is stopped. No download or student-model reconfiguration occurred.
 
 Modes are `none` (default; no AI), `flagged` (existing findings/source gaps), `all`
 (every eligible field), and `selected` (explicit pages or `--assist-items` IDs).

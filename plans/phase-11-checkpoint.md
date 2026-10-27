@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 208
+sequence: 209
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 76e82dd
+head_commit: d99512b
 working_tree: clean
-updated_at: 2026-10-27T21:49:07+08:00
+updated_at: 2026-10-27T22:18:03+08:00
 ---
 
 # Phase 11 checkpoint — local ingestion extension
@@ -83,14 +83,17 @@ TDD RED/GREEN details and initial fixture/setup failures are in integration note
 
 Matched sample:16Handbook+12Charter pages,84blank strategy rows. Original hashes
 verified; no source rewrite. Blank summary metrics remain null. No human accuracy,
-review-time,cost,provider savings or A/B winner. Vision and LlamaParse live NOT RUN.
+review-time,cost,provider savings or A/B winner. Vision image input now passes,
+but advice quality/contract fails;LlamaParse live remains NOT RUN.
 
 ## Versions and Digests
 
 SystemPython3.13.7; installedNode22.22.3 versus target24.21.0; no versions changed.
 Shared models remain workspace/MODELS. Gemma4E4B GGUF5,126,306,944bytes exists;
-no matching mmproj/working vision endpoint verified. Model supports images per
-primary-source research; local multimodal readiness remains unproven.
+Matching BF16 mmproj found in existing LM Studio cache;prior inventory too narrow.
+Live temporary image server succeeds;grade-row advisory fails content/contract
+check and remains pending. [Model check](2026-10-27-local-vision-readiness.md)
+records assets,raw response and timings. Both probe servers stopped;no downloads.
 HandbookSHA4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8;
 CharterSHA42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529.
 Source-plan hashes and original frozen baseline pin/seals remain in dated reports.
@@ -116,7 +119,7 @@ accuracy, institutional approval and original Phase11/student UI gates remain op
 
 ## Next Action
 
-Configure working provider for a fresh assisted candidate packet;preserve baseline.
+Resolve observed live advisory contract/row-association failure;preserve baseline.
 Resolve native dependencies in approved environment,rerun two failures,then live
 smoke and matched human evaluation. Current UI copy is available,not live-AI proof.
 Original ingestion T4 local lifecycle/T5 full operator rehearsal remain separate.

@@ -10,7 +10,8 @@ clean after that commit. Local commits only; this extension was not pushed.
 The requested software paths, offline evaluation harness and operator guide are
 delivered. **The full verification gate is not green:** two existing native
 conversion tests fail because the installed Python dependencies are incompatible.
-Live AI smoke tests and real human A/B measurements have not run. Phase 11 remains
+Vision image-input smoke now passes,but its advisory quality/contract check fails;
+LlamaParse live and real human A/B measurements remain unrun. Phase 11 remains
 active; this report is not a final phase handoff or permission to advance.
 
 Owner-facing delivery correction:the original3001tab remains on its older build.
@@ -177,10 +178,12 @@ use deterministic fakes or httpx MockTransport, not live credentials.
 
 ## Live integrations and evaluation
 
-- Vision smoke: **NOT RUN** — no configured working image endpoint. Shared MODELS
-  has the 5,126,306,944-byte Gemma 4 E4B GGUF, no matching mmproj; loopback metadata
-  probes timed out. Google's [model card](https://ai.google.dev/gemma/docs/core/model_card_4)
-  confirms image capability, which does not establish this runtime's readiness.
+- Vision follow-up: **RUN — image I/O passed; advisory quality/contract failed**.
+  Existing LM Studio projector found outside the shared folder. Temporary local
+  server reported vision=true and processed original Handbook46;model incorrectly
+  said no_change for an intentional grading-range mismatch and emitted forbidden
+  nonproposal proposed_value:null. Pending/manual review retained. Both temporary
+  servers stopped;[exact evidence](2026-10-27-local-vision-readiness.md).
 - LlamaParse smoke: **NOT RUN** — no `LLAMA_CLOUD_API_KEY` in this session.
 - Database role/lifecycle tests: **NOT RUN** — local Docker engine unavailable.
 - Real human A/B: **NOT MEASURED** — sample and harness exist; no invented timings,
