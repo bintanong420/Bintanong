@@ -22,8 +22,8 @@ from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
 from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExplanation,decode_part_explanation,
                            answered_slots,assess_slots,bind_confirmation,
-                           confirm_messages,confirm_schema,disjunction_errors,host_only,part_messages,part_schema,
-                           record_coverage_errors,style_errors,to_draft)
+                           confirm_messages,confirm_schema,disjunction_errors,host_only,merge_segments,part_messages,
+                           part_schema,record_coverage_errors,segment_plan,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 from .quoted_field import quoted_field_parts
 
@@ -150,25 +150,33 @@ class Generator:
                     return (part_messages(text,pack,errors=errors,previous=previous,references=references) if per_part else
                             document_messages(text,pack,errors=errors,previous=previous) if scoped else
                             draft_messages(text,pack,errors=errors,previous=previous,references=references))
+                plan=segment_plan(pack) if per_part else None
                 for attempt in (1,2):
                     attempts=attempt
                     coverage=None
                     schema=(part_schema(pack,references) if per_part else document_schema(pack) if scoped else
                             draft_schema(pack,references=references))
+                    segments=[]
+                    for index in range(len(plan.segments) if plan else 0):
+                        # Long procedure: one short call per record segment, same cached evidence prefix.
+                        segments.append(await self.transport.infer(
+                            part_messages(text,pack,errors=errors,references=references,segment=(plan,index)),
+                            part_schema(pack,references,(plan,index))))
                     try:
-                        raw=await self.transport.infer(draft_request(previous),schema)
+                        raw=segments or await self.transport.infer(draft_request(previous),schema)
                     except RuntimeFailure as error:
                         if str(error)!='context_overflow' or not previous:
                             raise
                         # Preflight refused before inference. Drop only the model's own previous draft;
                         # complete sources, validation errors, window and margin stay unchanged.
                         raw=await self.transport.infer(draft_request(''),schema)
-                    previous=raw if isinstance(raw,str) else ''
+                    previous=raw if isinstance(raw,str) else ''  # segments repair from errors only
                     slots=None
                     try:
                         if per_part:
-                            explanation=(_parse(raw,PartExplanation) if references is None else
-                                decode_part_explanation(_parse(raw,ShortPartExplanation),references))
+                            parse=lambda value:(_parse(value,PartExplanation) if references is None else
+                                decode_part_explanation(_parse(value,ShortPartExplanation),references))
+                            explanation=merge_segments([parse(r) for r in segments],plan) if segments else parse(raw)
                             proposal,slots=to_draft(explanation,pack)
                         else:
                             proposal=(canonical_draft(_parse(raw,DocumentExplanation),pack) if scoped else

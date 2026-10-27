@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import copy
+from dataclasses import dataclass
 from typing import Literal
 
 from pydantic import Field, model_validator
@@ -229,7 +230,7 @@ def document_parts(pack):
                  and p.part_id not in host)
 
 
-def part_schema(pack, references=None):
+def part_schema(pack, references=None, segment=None):
     schema = output_schema(ShortPartExplanation if references is not None else PartExplanation)
     slot, claim = ('ShortPartSlot', 'ShortPartClaim') if references is not None else ('PartSlot', 'PartClaim')
     aliases = _part_aliases(pack, references)
@@ -253,6 +254,16 @@ def part_schema(pack, references=None):
             items=dict(type='string',const=aliases[ref]))
         quoted_slot['properties']['claims'].update(maxItems=1,items=quoted_claim)
         schema['properties']['answers']['properties'][part] = quoted_slot
+    if segment is not None:
+        plan, index = segment
+        ids = (plan.part_id, *plan.nested) if index == 0 else (plan.part_id,)
+        schema['properties']['answers'].update(required=list(ids),
+            properties={i: {'$ref': '#/$defs/'+slot} for i in ids})
+        schema['$defs'][slot]['properties']['claims']['maxItems'] = plan.claims_per_segment
+        for nested in ids[1:]:  # a nested part answers its own ask in one claim
+            nested_slot = copy.deepcopy(schema['$defs'][slot])
+            nested_slot['properties']['claims']['maxItems'] = 1
+            schema['properties']['answers']['properties'][nested] = nested_slot
     return schema
 
 
@@ -262,7 +273,7 @@ REWRITE = dict(
             'Preserve the complete source meaning and conditions.')
 
 
-def part_messages(text, pack, *, errors=(), previous='', references=None):
+def part_messages(text, pack, *, errors=(), previous='', references=None, segment=None):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
     aliases = _part_aliases(pack, references)
@@ -305,7 +316,21 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
         payload['condition_instruction'] = CONDITION_REPAIR
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
-    return _messages(PART_PROMPT, payload, part_schema(pack, references))
+    if segment is not None:
+        plan, index = segment
+        records = [aliases[i] for i in plan.segments[index]]
+        kept = (plan.part_id, *plan.nested) if index == 0 else (plan.part_id,)
+        payload['record_coverage'] = {p: (records if p == plan.part_id else ids)
+                                      for p, ids in payload.get('record_coverage', {}).items() if p in kept}
+        if index:
+            payload.pop('shared_record_coverage', None)
+            payload.pop('shared_record_coverage_instruction', None)
+        payload['segment'] = dict(part_id=plan.part_id, index=index+1, count=len(plan.segments), records=records,
+            instruction=(f'This is segment {index+1} of {len(plan.segments)} of one long procedure. Explain ONLY '
+                         'these records, in source order, keeping each action with its own office, person, '
+                         'time and fee. Other segments are drafted separately; do not summarize records '
+                         'outside this segment.'))
+    return _messages(PART_PROMPT, payload, part_schema(pack, references, segment))
 
 
 def required_record_sources(pack):
@@ -401,6 +426,56 @@ def required_record_order(pack):
             if sequences:
                 required[part.part_id] = sequences
     return required
+
+
+SEGMENT_THRESHOLD, SEGMENT_SIZE = 6, 5
+
+
+@dataclass(frozen=True)
+class SegmentPlan:
+    part_id: str
+    nested: tuple[str, ...]
+    segments: tuple[tuple[str, ...], ...]
+    claims_per_segment: int
+
+
+def segment_plan(pack):
+    """One covering procedure with more than SEGMENT_THRESHOLD required records is split into
+    consecutive balanced record segments in source order; None keeps the single draft call."""
+    parts, shared = document_parts(pack), shared_record_coverage(pack)
+    covering = [p for p in parts if p not in shared]
+    required = required_record_sources(pack)
+    if (len(covering) != 1 or covering[0] not in required or covering[0] in quoted_field_parts(pack)
+            or covering[0] in required_record_order(pack)
+            or any(shared.get(p) != covering[0] for p in parts if p != covering[0])):
+        return None
+    records = [c.evidence_id for c in pack.cards if c.evidence_id in required[covering[0]]]
+    if len(records) <= SEGMENT_THRESHOLD:
+        return None
+    count = -(-len(records) // SEGMENT_SIZE)
+    nested = tuple(p for p in parts if p != covering[0])
+    per_segment = (8 - _host_claim_count(host_claims(pack)) - len(nested)) // count
+    if per_segment < 1:
+        return None
+    base, extra = divmod(len(records), count)
+    segments, start = [], 0
+    for index in range(count):
+        size = base + (index < extra)
+        segments.append(tuple(records[start:start+size]))
+        start += size
+    return SegmentPlan(covering[0], nested, tuple(segments), per_segment)
+
+
+def merge_segments(explanations, plan):
+    """Segment drafts -> one canonical explanation; the covering part's claims keep segment order."""
+    first = explanations[0]
+    answered = [c for e in explanations if e.answers[plan.part_id].status == 'answered'
+                for c in e.answers[plan.part_id].claims]
+    answers = dict(first.answers)
+    answers[plan.part_id] = (PartSlot(status='answered', claims=tuple(answered)) if answered
+                             else first.answers[plan.part_id])
+    return PartExplanation(schema_version=PartExplanation.SCHEMA_VERSION, release_id=first.release_id,
+                           language=first.language, answers=answers)
 
 
 def to_draft(explanation, pack):
