@@ -12,7 +12,7 @@ def binding(row, field, doc):
                  for f in row['fields']]
     return {'source_sha256': doc['sha256'], 'candidate_hash': digest(encoded(candidate)),
             'item_id': row['id'], 'field': field['name'],
-            'pages': field['locator']['physical_pages']}
+            'pages': field['locator']['physical_pages'], 'original_value': field['original_value']}
 
 
 def result(value, original):

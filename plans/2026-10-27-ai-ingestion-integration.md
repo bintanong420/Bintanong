@@ -98,3 +98,15 @@ uses a matching projector. Local shared MODELS contains the5.13GB text GGUF but 
 mmproj file. Loopback8080/8081metadata probes time out;no vision-enabled local server
 or live inference verified. Reuse Gemma through the new OpenAI-compatible image
 adapter once explicitly configured. No weights downloaded or runtime changed.
+
+## Task4 — proposal UI
+
+Stale-proposal helper RED missing export ->7Node tests/TypeScript GREEN. Real
+isolated production browser1.87s verifies original/suggestion distinction,Ignore,
+Use prefilling without persisted decision,manual edit,explicit audience/reason/save
+and corrected journal state. Only synthetic packet/profile on3003/API8767;no owner
+reviews modified. Existing3002was occupied;first launcher stopped cleanly on bind
+failure,then isolated check moved to3003. Screenshot in ignored browser evidence.
+Provider/no-change/uncertain/failure notices retain normal manual controls. No bulk
+approval. Source/value/page/item checks disable stale application;server additionally
+validates complete candidate digest. No confidence-based approval or new styles.

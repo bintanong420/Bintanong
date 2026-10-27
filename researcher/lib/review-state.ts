@@ -6,7 +6,21 @@ export type Field = {
   name: string; original_value: unknown; reviewed_value: unknown; decision: string;
   source_blank: boolean; locator: { physical_pages: number[]; field: string }; spans: SourceSpan[];
   field_kind?: string; node_reading_ids?: Record<string, string>;
+  proposed_value?: unknown;
+  assistance?: { outcome: 'proposal' | 'no_change' | 'uncertain' | 'failed'; rationale?: string;
+    provider: string; model: string; binding: { source_sha256: string; item_id: string;
+      field: string; pages: number[]; original_value: unknown } };
 };
+
+export function proposalState(field: Field, item: Pick<ReviewItem, 'id'>, document?: Pick<Document, 'sha256'>) {
+  const advice = field.assistance;
+  if (!advice) return null;
+  const b = advice.binding;
+  if (!b || b.source_sha256 !== document?.sha256 || b.item_id !== item.id || b.field !== field.name
+    || JSON.stringify(b.pages) !== JSON.stringify(field.locator.physical_pages)
+    || JSON.stringify(b.original_value) !== JSON.stringify(field.original_value)) return 'stale';
+  return advice.outcome;
+}
 export type ReviewItem = {
   id: string; document_id: string; title: string; audience: string; findings: string[];
   fields: Field[]; companions: string[]; reason?: string; gaps?: Gap[];

@@ -1,5 +1,20 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { proposalState } from '../lib/review-state.ts';
+
+test('AI proposals require matching source, item, field, pages and original value', () => {
+  const field = { name: 'time', original_value: '5 days', proposed_value: '15 days',
+    locator: { physical_pages: [1] }, assistance: { outcome: 'proposal',
+      binding: { source_sha256: 'a'.repeat(64), item_id: 'one', field: 'time',
+        pages: [1], original_value: '5 days' } } };
+  const item = { id: 'one' }, doc = { sha256: 'a'.repeat(64) };
+  assert.equal(proposalState(field, item, doc), 'proposal');
+  assert.equal(proposalState({ ...field, original_value: 'changed' }, item, doc), 'stale');
+  assert.equal(proposalState(field, { id: 'two' }, doc), 'stale');
+  assert.equal(proposalState(field, item, { sha256: 'b'.repeat(64) }), 'stale');
+  assert.equal(proposalState({ ...field, locator: { physical_pages: [2] } }, item, doc), 'stale');
+  assert.equal(proposalState({ ...field, assistance: undefined }, item, doc), null);
+});
 import { fieldLabel, filterItems, parseConnection, recordStatus, sourceRectangle, selectionRegion } from '../lib/review-state.ts';
 
 test('launch credentials accept only the declared local API shape', () => {

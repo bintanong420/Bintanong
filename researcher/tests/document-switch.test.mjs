@@ -11,7 +11,7 @@ test('switching documents resets the field draft and keeps the review controls u
   { skip: !launchFile, timeout: 180000 }, async t => {
     const url = (await readFile(launchFile, 'utf8')).trim();
     const connection = parseConnection(new URL(url).hash);
-    assert(['http://127.0.0.1:3001', 'http://127.0.0.1:3002'].includes(new URL(url).origin));
+    assert(['http://127.0.0.1:3001', 'http://127.0.0.1:3002', 'http://127.0.0.1:3003'].includes(new URL(url).origin));
     const response = await fetch(connection.api + '/api/state', {
       headers: { 'x-review-token': connection.token },
     });
@@ -19,9 +19,10 @@ test('switching documents resets the field draft and keeps the review controls u
     const state = await response.json();
     const first = state.items[0];
     const prospectus = !!first.prospectus_candidate;
+    const assisted = !!first.fields[0]?.assistance;
     const different = prospectus ? state.items.length - 1 : state.items.findIndex(row => row.document_id !== first.document_id
       && JSON.stringify(row.fields.map(f => f.name)) !== JSON.stringify(first.fields.map(f => f.name)));
-    assert(different > 0, 'use a packet with two documents and different field names');
+    assert(assisted || different > 0, 'use a packet with two documents and different field names');
     const profile = path.join(path.dirname(launchFile), 'document-switch-browser', String(Date.now()));
     await mkdir(profile, { recursive: true });
     const browser = spawn(process.env.BINTANONG_REVIEW_TEST_CHROME
@@ -80,6 +81,37 @@ test('switching documents resets the field draft and keeps the review controls u
       await until(() => evaluate("document.querySelectorAll('.queue-item').length > 0 && !!document.querySelector('form')"));
     } catch (error) {
       throw Error(await evaluate('JSON.stringify({url:location.href,text:document.body.innerText})'), { cause: error });
+    }
+    if (assisted) {
+      assert.match(state.researcher, /^Automated rehearsal/);
+      assert.equal(new URL(url).port, '3003');
+      const field = first.fields[0];
+      await until(() => evaluate("!!document.querySelector('.ai-suggestion') && document.querySelector('.pdf-page img')?.naturalWidth > 0"));
+      assert(await evaluate(`document.querySelector('.source-reading').textContent.includes(${JSON.stringify(field.original_value)})`));
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Ignore suggestion').click()");
+      assert(await evaluate("!document.querySelector('.ai-suggestion')"));
+      await send('Page.reload');
+      await until(() => evaluate("!!document.querySelector('.ai-suggestion')"));
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Use suggestion').click()");
+      assert(await evaluate(`document.querySelector('[aria-label="${field.name} reviewed value"]').value === ${JSON.stringify(field.proposed_value)}`));
+      const beforeSave = await (await fetch(connection.api + '/api/state', { headers: { 'x-review-token': connection.token } })).json();
+      assert.equal(beforeSave.revision, state.revision);
+      assert.equal(beforeSave.items[0].fields[0].decision, 'pending');
+      await evaluate(`document.querySelector('[aria-label="${field.name} reviewed value"]').focus()`);
+      await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'a', code: 'KeyA', modifiers: 2, windowsVirtualKeyCode: 65 });
+      await send('Input.insertText', { text: '15 working days.' });
+      await evaluate("(() => {const s=document.querySelector('[aria-label=\"Audience applicability\"]');s.value='undergraduate';s.dispatchEvent(new Event('change',{bubbles:true}));})()");
+      await evaluate("document.querySelector('[aria-label=\"Review reason\"]').focus()");
+      await send('Input.insertText', { text: 'Synthetic browser rehearsal only: compared the printed number.' });
+      await evaluate("document.querySelector('.review-actions button[type=submit]').click()");
+      await until(() => evaluate("document.body.textContent.includes('Decision saved')"));
+      const saved = await (await fetch(connection.api + '/api/state', { headers: { 'x-review-token': connection.token } })).json();
+      assert.equal(saved.revision, state.revision + 1);
+      assert.equal(saved.items[0].fields[0].decision, 'corrected');
+      assert.equal(saved.items[0].fields[0].reviewed_value, '15 working days.');
+      await writeFile(path.join(path.dirname(launchFile), 'ai-suggestion-desktop.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' })).data, 'base64'));
+      assert.equal(errors.length, 0);
+      return;
     }
     if (prospectus) {
       await until(() => evaluate("!!document.querySelector('[aria-label=\"Prospectus answer\"]') && document.querySelector('.pdf-page img')?.naturalWidth > 0"));

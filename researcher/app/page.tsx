@@ -9,6 +9,7 @@ import { SourceGaps } from '@/components/source-gaps';
 import { ReviewHistory, type HistoryEntry } from '@/components/review-history';
 import { ReviewedValue } from '@/components/reviewed-value';
 import { RelatedRecords } from '@/components/related-records';
+import { AdvisorySuggestion } from '@/components/advisory-suggestion';
 import { appearanceKey, appearanceValue, type Appearance } from '@/lib/appearance';
 import { download, request, ReviewError } from '@/lib/api';
 import { fieldLabel, filterItems, parseConnection, readableValue, recordStatus, type Connection, type FeedbackReceipt, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
@@ -197,6 +198,10 @@ export default function ReviewWorkspace() {
                     <h3>{fieldLabel(field.name)}</h3><p className="muted">Extracted text · PDF pages {field.locator.physical_pages.join(', ') || 'not yet located'}</p>
                     <p className="original-text source-reading">{readableValue(field.original_value) || '(literal empty extraction)'}</p>
                     {field.source_blank && <p className="notice hold">Recorded literal source blank. It must stay blank.</p>}
+                    <AdvisorySuggestion key={item.id + ':' + field.name} field={field} item={item}
+                      document={state.documents.find(doc => doc.id === item.document_id)}
+                      onUse={value => setDraft({ ...draft, fields: { ...draft.fields,
+                        [field.name]: { decision: 'corrected', text: text(value) } } })}/>
                     <label>Does this match the document?<select aria-label={`${field.name} content decision`} value={draft.fields[field.name].decision}
                       onChange={event => setDraft({ ...draft, fields: { ...draft.fields, [field.name]: { ...draft.fields[field.name], decision: event.target.value } } })}>
                       <option value="pending">Not checked yet</option><option value="accepted">Matches the document</option><option value="corrected">Fix the extracted text</option><option value="unresolved">Needs clarification</option>
