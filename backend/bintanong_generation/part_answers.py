@@ -6,6 +6,7 @@ each part's own claims. Confirmation remains model-fallible, never a guarantee.
 """
 import hashlib
 import json
+import re
 import copy
 from typing import Literal
 
@@ -192,6 +193,26 @@ def style_errors(draft, pack, question=''):
     return ()
 
 
+DISJUNCTION = re.compile(r'\b(?:or|o)\b', re.I)
+CONDITION_REPAIR = ('List conditions and requirements as printed. Do not join them with "or" (Tagalog "o") '
+                    'unless the cited source states "or"; never turn required conditions into alternatives.')
+
+
+def disjunction_errors(draft, pack, slots=None):
+    """A claim may not add 'or'/'o' beyond its cited sources: listed conditions are not alternatives
+    unless printed so (all-of/any-of only when the source establishes it). With slots, only
+    answered-slot claims are checked; host replies keep their own reviewed wording."""
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    checked = None if slots is None else {c for status, ids in slots.values() if status == 'answered' for c in ids}
+    for claim in draft.claims:
+        if checked is not None and claim.claim_id not in checked:
+            continue
+        printed = sum(len(DISJUNCTION.findall(texts.get(i, ''))) for i in claim.evidence_ids)
+        if len(DISJUNCTION.findall(claim.text)) > printed:
+            return ('introduced_disjunction',)
+    return ()
+
+
 def host_claims(pack):
     """Host-written replies (special class fee, grading table) by part; these parts get no model wording."""
     return {**fee_claims(pack), **grade_claims(pack)}
@@ -273,6 +294,8 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'quotation text and its one evidence reference, or an unavailable slot. Do not add '
             'agency actions, fees, times or other steps. Complete source context remains available; '
             'the whole-procedure instruction applies to other parts.')
+    if 'introduced_disjunction' in errors:
+        payload['condition_instruction'] = CONDITION_REPAIR
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack, references))

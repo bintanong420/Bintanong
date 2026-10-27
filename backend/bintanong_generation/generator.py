@@ -22,7 +22,7 @@ from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
 from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExplanation,decode_part_explanation,
                            answered_slots,assess_slots,bind_confirmation,
-                           confirm_messages,confirm_schema,host_only,part_messages,part_schema,
+                           confirm_messages,confirm_schema,disjunction_errors,host_only,part_messages,part_schema,
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 from .quoted_field import quoted_field_parts
@@ -176,7 +176,8 @@ class Generator:
                                       references.decode(_parse(raw,ShortAnswerDraft)))
                         errors=validate_draft(proposal,pack)
                         if per_part:
-                            errors=errors+style_errors(proposal,pack,text)+record_coverage_errors(pack,proposal.claims,slots)
+                            errors=(errors+style_errors(proposal,pack,text)+disjunction_errors(proposal,pack,slots)+
+                                    record_coverage_errors(pack,proposal.claims,slots))
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                         slots=None
