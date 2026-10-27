@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 209
+sequence: 211
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7c6b0fc
-working_tree: Student Affairs delivery documents;production3c55722
-updated_at: 2026-10-27T19:23:33+08:00
+head_commit: 0c08e60
+working_tree: health results and continuous closure plan;production3c55722
+updated_at: 2026-10-27T20:56:24+08:00
 ---
 
-# Phase11checkpoint — Student Affairs associations verified
+# Phase11checkpoint — health associations verified
 
 ## Completed Tasks
 
@@ -21,16 +21,14 @@ source-context correction36d5f56remain delivered. Recover detail with git show.
 
 ## Current Task
 
-[Student Affairs results](2026-10-27-student-affairs-association-results.md),
-[plan](2026-10-27-student-affairs-association-plan.md):Charter51–57four groups verified.
-27flattened records->39labelled,493total;454prior objects exact,including all
-Registrar/cutoff corrections.252fields/20client steps/34agency actions/26requirement
-associations.7133selected native nonblank positions and original glyph boxes
-conserved. Admission phases/activity scopes/shared row values remain distinct.
-Counselling discrepancy stays unresolved,on its actual first-step action. One
-inherited image-verified hyphen correction retained exactly. Candidate-only.
-Backlog23legacy groups/83old chunks,registration final check,four image workflows,
-four overlaps and runtime/release gates. No hosted/default/budget/active-pin change.
+[Six health groups verified](2026-10-27-health-association-results.md),Charter59–64:
+19flattened->35labelled,509inactive candidates;474prior objects exact.
+194fields/13steps/15actions/six supplier pairs;5654native positions/glyph boxes.
+Conditional/shared/blank fields and dental-medical mismatch retained. All earlier
+Registrar/Student Affairs/cutoff corrections exact. [Continuous plan](2026-10-27-remaining-association-closure-plan.md)
+implements owner's “just continue doing it” direction across remaining batches.
+17legacy groups/64old records,registration final check,image/overlap integration
+and runtime/release gates remain. No hosted/default/budget/active-pin changes.
 
 ## Repository State
 
@@ -55,19 +53,17 @@ No frontend,dependency/model/hosted/source-state,private-data or active-pin chan
 
 ## Verification Evidence
 
-DataRED9failed0.79s->GREEN9pass0.73s. Combined data/builder/context129passed/
-160subtests3.30s,exit0. Independent7133native positions/glyph boxes,20literal row
-expectations/34actions/26supplier links and493contracts/tokens/closure pass.
-Four complete E5contexts3822/6390/7566/5393pass diagnostic32768assembly;all exceed
-2048. Authored max457,no truncation.13JSONartifacts repeat byte-identically.
-Frozen Registrar24-file seal and helper unchanged;whole-field corrected span kept.
-Original/base package/pin unchanged. Docs/phase30pass/14subtests12.46s;links/diff/phase valid.
-Previous Registrar135pass/160subtests3.64s;42actions/native8918positions verified.
-Previous frozen production3c55722fullsuite:7011passed/1595subtests,6skip/2xfail/
-6warnings,1322.02s,exit0. Four symlink skips,one CUDA/OCRextra,one old dataset;
-photo-layout xfails/deprecations retained. Ruff/Black/mypy/Bandit absent,not installed.
-Full suite not repeated for source-data authoring through unchanged production codecs.
-Three saved TORstep1answers validated using local3904quotation diagnostic only;
+Health dataRED10failed/1passed0.90s->GREEN11passed0.75s;combined122passed/
+136subtests3.07s. Independent literal rows/5654native positions/glyph boxes,
+all509contracts/counts/closures and13byte-identical JSONartifacts pass. Maximum443
+E5tokens;complete diagnostic contexts2909–4035exceed2048. No truncation/budget change.
+A/p11-health-associations-20261027holds sealed author/verifier/data/receipts/logs.
+Docs/phase30passed/14subtests13.77s;phase/diff/link validation pass.
+Prior Student Affairs129pass/160subtests and Registrar135pass/160subtests remain.
+Frozen production3c55722fullsuite:7011passed/1595subtests,6skip/2xfail/6warnings,
+1322.02s,exit0. Full suite not repeated for data-only unchanged-codec authoring.
+Ruff/Black/mypy/Bandit absent,not installed. No model inference in this increment.
+Prior three TORstep1saved answers remain local3904quotation diagnostics only;
 15calls/no transport/overflow. Default still withholds3627E5;no rerun/sweep.
 
 ## Versions and Digests
@@ -77,6 +73,7 @@ Gemma4E4B UD-Q4_K_XL under workspace/MODELS,llama.cppb11723-31288c9c6;
 8192context/768output/8margin,one slot,temp0/seed0,prefixcache on,reasoning none.
 Stylep11v2/schema2;combinedp11v6/schema4;routerp11v23;policyenglish-taglish-20261027-v1.
 Dynamic quotation prompts/schema and review identities retained in raw receipts.
+Health SHA:29ef97e9846d350e14fbdc84c5d26bda2e7a54772389ea6a4d56bbfc36b6f31d.
 Student Affairs SHA:03b061ef3db28cee88d6b8409c7f399a453f8f6a52d9194b0fbb6921f38cff40.
 Registrar baselineSHA:fb498e966758e2dafb895a772aa0a4d71f43e3f4d8aa6cf271476da020d9499b.
 Cutoff baselineSHA:e88166dbd0bc9b62452f1972f65d0e5a6886a3c767526b49aff85d009c87ddfc.
@@ -102,28 +99,25 @@ No controlled repeated or browser end-to-end speedup established.
 
 ## Known Failures or Blockers
 
-No source-association blocker in this batch. All four complete contexts exceed2048;
-CGMC71/admission85fields exceed optional64-name maps,alongside earlier Registrar
-65/76fields. No field omission,scope narrowing,budget change or activation to hide it.
-New493derivative needs catalogue/claim rebinding and93serialized-text vectors;
-400potential exact-text reuses require checked identities. Hosted465draft and
-normalized465base unchanged.23legacy groups/83old chunks,registration final check,
-four image workflows,four overlaps,full prompt/answer/governed release gates remain.
-Preserve TOR/certification mappings,CARMA/CCRD,copied descriptions,internship gaps,
-H26COR/payment,F04,cutoffs/deadline/residence conflicts. Inactive CombinedRouter
-follow-ups outside scope. No frontend,institutional/public approval or phase exit.
+Complete health contexts exceed2048. Earlier CGMC71/admission85/Registrar65/76fields
+exceed optional64-name maps. No field omission or bound override. New509derivative
+needs catalogue/claim rebinding and128new-text vectors;381potential exact reuses
+require checked identities. Hosted465draft/base package unchanged.17legacy groups/
+64old chunks,registration final check,four image/four canonical runtime bindings,
+full prompt/answer/governed release gates remain. Existing source holds unchanged.
+No institutional/public approval,frontend integration or phase exit.
 
 ## Next Action
 
-Continue six health-service groups at Charter59–64:entrance health,health clearance,
-medical access,dental access,dental clearance,sickness. Reuse reviewed originals;
-apply bounded association/conservation checks to labelled inactive derivatives.
-Preserve student scope/holds;no budget/default-selector/hosted integration or activation.
+Continue accounting/refund C66–68 while independent library/academic batches finish.
+Verify and compose disjoint replacements,then registration/image/canonical evidence.
+Preserve original cutoffs and holds;no routine batch approval stop,hosted/default/
+budget change or activation.
 
 ## Context Consulted
 
 This session consulted thesis17–18,routingPNG and original H60/H64images;this task
-inspected original Charter51–57and reviews02/07/09;earlier Charter7/8/11–15/18–20
+inspected original Charter59–64 and51–57and reviews02/07/09;earlier Charter7/8/11–15/18–20
 and reviews01/04retained. Recent
 thesis39–44/master context retained. Previous resume consulted
 master3/11/13/16/23/24/26,Phase10handoff,Phase11plan,owner ledger,prompt/scope/

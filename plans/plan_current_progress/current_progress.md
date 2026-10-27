@@ -6,22 +6,18 @@ Last full snapshot before condensation:7c6b0fc;earlierfd4c2d4/d12d8f4.
 
 ## Latest change
 
-[Student Affairs associations](../2026-10-27-student-affairs-association-results.md):
-four groups/C51–57,27flattened records replaced by39labelled;493total,454objects
-exact.252fields/20client steps/34actions/26requirement associations.7133native
-nonblank positions/glyph boxes conserved;20literal row expectations checked.
-Admission phases/activity checklists/shared row values stay distinct;Counselling
-GCU/SOAUdiscrepancy unresolved,on correct action. Prior proof-reading correction
-copied with its original image-backed span/receipt. No source wording invented.
-RED9failed0.79s->GREEN9pass0.73s;combined129pass/160subtests3.30s. All493contracts,
-tokens/closure pass.13JSONartifacts repeat byte-identically. Maxauthored457tokens;
-full E5contexts3822/6390/7566/5393exceed2048,diagnostic only. CGMC71/admission85
-fields exceed optional64-name maps;no bound override or field omission.
-A=workspace/audit-evidence/p11-student-affairs-associations-20261027;receipts/contexts/seal.
-CandidateSHA:03b061ef3db28cee88d6b8409c7f399a453f8f6a52d9194b0fbb6921f38cff40.
-Originals/base package/pin and frozen Registrar artifacts unchanged. No production,
-hosted/runtime/model/dependency change or activation. Docs/phase30pass/14subtests12.46s;
-links/diff/phase state valid.
+[Six health-service associations](../2026-10-27-health-association-results.md),C59–64:
+19flattened->35labelled records;509inactive candidates,474prior objects exact.
+194fields/13steps/15actions/six supplier pairs;5654native positions/glyph boxes
+conserved. Conditional medical times,dental shared/assisting roles,sickness blank
+local office and dental/medical mismatch preserved. RED10failed/1passed->GREEN11pass;
+combined122pass/136subtests3.07s. All509contracts/counts/closure pass;13JSONartifacts
+repeat exactly. Maximum443E5tokens;complete contexts2909–4035exceed2048.
+A=workspace/audit-evidence/p11-health-associations-20261027;sealed author/verifier/logs.
+CandidateSHA:29ef97e9846d350e14fbdc84c5d26bda2e7a54772389ea6a4d56bbfc36b6f31d.
+No production,hosted/default/budget/active-pin change. Owner asks continuous work:
+[remaining plan](../2026-10-27-remaining-association-closure-plan.md);independent library/
+academic evidence batches run separately. Root owns candidate composition/docs.
 
 ## Prior verified increments
 
@@ -42,12 +38,12 @@ Reply/document-follow-up migrations remain;English input->English,Filipino/Tagli
 
 ## Package state and boundaries
 
-Normalized465base retains146subjects/208claims/465vectors. Latest493derivative is
-not a runtime package:93texts need new vectors,400potential exact-text reuses need
+Normalized465base retains146subjects/208claims/465vectors. Latest509derivative is
+not a runtime package:128texts need new vectors,381potential exact-text reuses need
 checked rebinding;catalogue/claims are stale for new IDs/fields. Hosted465draft
 predates local corrections;prior read78active/active pointer,465draft,80draft,
 19superseded. Corrected78/39curricula and active pin unchanged. No new hosted call.
-23legacy service groups/83old chunks,registration final check,four image workflows,
+17legacy service groups/64old chunks,registration final check,four image workflows,
 four overlaps,budgets,answers and governed release remain. TOR/certification mappings,
 CARMA/CCRD,copied descriptions,internship gaps,H26COR/payment,F04,cutoffs/deadline/
 residence conflicts stay. Other developer p11-policy-ingestion-review local-only,
@@ -56,7 +52,7 @@ remain. No public/institutional approval,Phase11exit,Phase12advance or latency c
 
 ## Next action
 
-Continue six health-service groups at Charter59–64:entrance health,health clearance,
-medical access,dental access,dental clearance,sickness. Reuse reviewed originals;
-apply bounded association/conservation checks to labelled inactive derivatives.
-Preserve student scope/holds;no budget/default-selector/hosted integration or activation.
+Continue accounting/refund C66–68 while independent library/academic association
+batches finish. Verify/compose disjoint replacements,then registration and image/
+canonical evidence. Preserve original cutoffs/holds;no routine batch approval stop,
+budget/default-selector/hosted integration or activation.
