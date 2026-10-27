@@ -2,47 +2,37 @@
 
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full snapshot before condensation:28edea4;earlierc27c9a3/569be5f.
+Last full snapshot before condensation:4ba0f41;earlier28edea4/c27c9a3/569be5f.
 
 ## Latest change
 
-[Document follow-up correction](../2026-10-27-document-follow-up-context-plan.md):
-routerv23only enables previous_course_quote for a catalog-matched scoped course.
-Document-only display/decoder agree;unsolicited quote gets one bounded repair.
+[Document follow-up correction](../2026-10-27-document-follow-up-context-results.md),
+4ba0f41/routerv23:only scoped course_available enables previous_course_quote.
+Document-only display/decoder agree;unsolicited quote gets one repair then withhold.
 RED7failed/5passed;focused778passed/2xfail27.59s;independent48passed4.76s/no blockers.
-Saved step1nowRAG without repair. Other bounded replays/full suite pending.
-Inactive experimental CombinedRouter follow-ups excluded from this correction.
+Saved English/Filipino/Taglish step1now select TOR claim with no course operation/
+reference/repair and en/taglish/taglish targets. Explicit grading switch selects3.0.
+No-context withheld;course reference resolves but unsupported operation withheld.
+Six development probes15calls/zero transport or overflow failures,max5772tokens.
+Not final answers or benchmark accuracy;inactive CombinedRouter follow-ups excluded.
+Full suite at frozen4ba0f41running;no production changes after start.
+A=workspace/audit-evidence/p11-document-follow-up-20261027;raw receipts/logs there.
+
+## Prior verified increments
 
 [English/Taglish migration](../2026-10-27-english-taglish-migration-results.md),28edea4:
 English input->English;Filipino/Taglish input->Taglish. Input families/wordings remain.
-Stylev2/combinedv4/routerv22;Tagalog-only evidence needs no invented English fragments.
-Generation.prepare maps legacyfil before evidence/review identities;new model schemas
-omitfil. Old record parsers/raw traces retained. Eval versions expected style and
-keeps authored input family separate from reply target. No new inference stage.
-
-Broad routing/generation/orchestration/API1235passed32.93s;review found stale router
-instruction,corrected. Independent104passed7.27s/no blocker. Later broad1236passed/
-1old version assertion fixed;changed-area114passed6.00s. Full frozen28edea4suite
-6974passed/1595subtests,6skip/2xfail/6warnings,23m02s,exit0. Docs/phase30/14subtests pass.
-A=workspace/audit-evidence. No further production changes after freeze.
-
-Eight saved routing probes:all reply targets match(en/taglish/taglish for TOR).
-TOR claims,passing3.0,borrowing+TOR fields retained;excluded refusal/structured
-clarification unchanged. Step1follow-up still invalid-reference withheld.
-Three synthetic documentary probes:Filipino/Taglish returned Taglish quotes;
-English withheld because relevance review judged does_not_answer. No blanket
-language-quality claim.31calls/1repair,zero transport/overflow failures;allfit8192.
-Style inputs95tokens smaller727–738;style3.28–4.28s,totalrouting14.36–27.74s.
-Call count unchanged;no controlled/browser end-to-end speedup established.
-
-## Prior verified source-context increment
+Stylev2/combinedv4;Tagalog-only evidence needs no invented English fragments.
+Generation.prepare normalizes legacyfil before review/ledger hashes;new model
+schemas omitfil. Historical parsers/traces retained;eval versions reply targets.
+Full6974passed/1595subtests,6skip/2xfail/6warnings23m02s,exit0. Eight routing reply
+targets match;Filipino/Taglish synthetic documentary generation passed,English
+relevance withheld.95fewer style tokens;no controlled/browser end-to-end speedup.
 
 [Source-bound correction](../2026-10-27-source-bound-routing-context-results.md),36d5f56:
-32bound service labels/18grading-column hints;default146topic metadata exact.
-Four33–48field maps retained at64input cap;output cap8unchanged. Unknown/held
-limits withhold hints;missing inventory rejects preparation. Full6956tests/
-1595subtests pass,6skip/2xfail/6warnings,47m58s,exit0. Source/registry/catalogue/
-IDs/vectors/active package/pin unchanged. Saved grading/borrowing/TOR cases improved.
+32bound service labels/18grading hints;four33–48field maps retained at64inputcap,
+outputcap8unchanged. Full6956passed/1595subtests47m58s,exit0. Source/registry/
+catalogue/IDs/vectors/active package/pin unchanged. Saved grading/borrowing/TOR improved.
 
 ## Source/package state — do not repeat
 
@@ -64,5 +54,5 @@ No institutional/public approval,activation,Phase11exit or Phase12advance.
 
 ## Next action
 
-Commit verified context correction;finish bounded replays and full-suite verification
-at frozen code,then record results. Keep unknown/source/privacy/release guards.
+Finish frozen4ba0f41full suite;record actual exit/counts/skips,seal evidence,run
+docs/phase/diff checks and commit delivery snapshots. No new production changes.

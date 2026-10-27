@@ -30,7 +30,7 @@ Do not silently erase the field,guess antecedents or override a semantic hold.
    course,mixed context,stale/out-of-scope course,missing current scope,topic switch,
    ambiguous proposal,repair,unsolicited quote and English/Taglish targets. Preserve
    unchanged single-turn prompt/schema and invalid quote/operation rejection.
-2. [ ] Replay saved actual step1with same inactive146topics,then bounded natural
+2. [x] Replay saved actual step1with same inactive146topics,then bounded natural
    English/Filipino/Taglish document follow-ups,one course control and a topic switch.
    Score subject,claims,operations,route/style separately. Exact token guards apply;
    do not turn routing success into answer-quality evidence. Reuse saved failures.
