@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 183
+sequence: 184
 plan: plans/phase-11-backend-api-plan.md
-head_commit: bd431a2
-working_tree: expanded context validation plan/results, index, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T13:04:41+08:00
+head_commit: 52d0ab2
+working_tree: expanded topic binding plan/results, index, progress and checkpoint; inspect Git on resume
+updated_at: 2026-10-27T13:23:44+08:00
 ---
 
-# Phase11checkpoint — combined465hosted draft;active78 unchanged
+# Phase11checkpoint — expanded465bindings;full routing menu exceeds capacity
 
 ## Completed Tasks
 
@@ -21,16 +21,19 @@ First9candidate packet and2actual human approvals recorded in32065bf,alongside b
 
 ## Current Task
 
-[Expanded context validation](2026-10-27-expanded-context-validation-results.md):all465contracts/
-closures/cited assemblies pass at diagnostic32768budget;206fit default2048,259exceed it across49closures.
-Largest corrected context7864E5tokens;no Gemma full-prompt fit claim. Existing two budget overrides retained.
-Source images verify11printed hyphens and4wrapped addresses in2fields;13chunks corrected in local derivative.
-69token-count fields refreshed(66older stale+3new);all465exact<=477.136IDs rebound;329full objects exact.
-Source geometry/limits conserved;4artifacts repeat identical;105tests/121subtests pass2.97s;PDFhashes unchanged.
-Old77assignment catalogue rejects changed set;388new readings unassigned. No source approval invented.
-Normalized465JSON SHAd9ae14ded25923954a3a90ddcd843d4634eed460d9782c3e0389481536810a26.
-Evidence A/p11-expanded-context-validation-20261027;A=workspace/audit-evidence;sealed local derivative only.
-Hosted465draft and active78/local pin unchanged. Local model endpoint unavailable;no inference run.
+[Expanded bindings/capacity](2026-10-27-expanded-topic-binding-results.md):465assigned/0unassigned,
+146source-labelled subjects,208claims(206visible/2not-stated),66prior claim records carried;1409scalar fields.
+Existing source-aware policy constructs;all206visible claim contexts assemble;151fit default2048,55exceed.
+49subject budget proposals,max7936E5;unapplied. All206initial English single-claim generation profiles fit
+Gemma8192with768output+8margin,max6857input. No inference/answer-quality or checker/repair/Hybrid claim.
+Full routing menu15693input fails8192;removing new field maps still9551. Compact146-topic selector
+prototype3838input;detailed eight-largest-individual-topic menu6869,both fit with reserve;not implemented.
+Six negative controls pass;117tests/156subtests pass2.67s;four metadata artifacts repeat byte-identical.
+Evidence A/p11-expanded-topic-binding-20261027;A=workspace/audit-evidence;sealed metadata/capacity receipts.
+Existing model container restarted unchanged8192profile;idle. No hosted/source/runtime pin changes.
+Normalized465vectors complete:13new/452reused,65.06s;local package explicitly not runtime-ready.
+
+Normalized465format derivative/source limits unchanged;SHA in prior validation results.
 
 [Hosted staging](2026-10-27-hosted-corpus-staging-results.md) delivered465draft;active78unchanged.
 
@@ -61,8 +64,8 @@ programs,employee/supplier service expansion,clinical/legal determinations or ex
 
 ## Repository State
 
-p11/feat/p11-backend-api;parentbd431a2;nothing pushed.
-Context-validation plan/results,index/progress/checkpoint changed;ignored normalized derivative added.
+p11/feat/p11-backend-api;parent52d0ab2;nothing pushed.
+Topic-binding plan/results,index/progress/checkpoint changed;ignored metadata/capacity evidence added.
 Original PDFs,388authoring derivative,active package/local runtime pin and production code unchanged.
 Last full snapshot before condensation:121799b;earlier41d115e/32065bf;sourcebaseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -129,9 +132,10 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Use normalized465derivative for expanded source-bound topic/claim register and per-subject budget checks,
-then full-model prompt preflight/answer regressions. Preserve independent service/image/source gates;
-no activation/source promotion/frontend. Prior approvals stand;no re-review of settled wording.
+Review baseline,then implement opt-in two-step topic selector with focused synthetic TDD and exact per-call
+capacity guards;preserve small-menu behavior and semantic routing. Design in binding results;metadata done.
+Actual routing/answer/latency plus independent structural/release gates follow;corrected embeddings ready.
+No activation/source promotion/frontend;prior approvals stand.
 
 ## Context Consulted
 
