@@ -5,6 +5,11 @@ this is a session checkpoint,not a phase-completion handoff or activation approv
 Working directory:`C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11`.
 Branch:`feat/p11-backend-api`;delivery baseline45df93a;no push.
 
+Follow-up27Oct:the implementation next action below is delivered inf726e72.
+Use [current routing results](2026-10-27-two-step-topic-routing-results.md) and
+the active checkpoint for verification/quality failures and the next action.
+The earlier preparation evidence below remains valid;do not reimplement selection.
+
 ## Start here
 
 1. Read repository AGENTS.md,the two Bintanong handoff skills,INDEX,current progress

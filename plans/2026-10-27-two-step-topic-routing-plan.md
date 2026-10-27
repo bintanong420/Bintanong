@@ -50,11 +50,11 @@ checked through Context7 on 27 October. No library upgrade is proposed.
 2. [x] Exercise the candidate with real `LlamaTransport` over synthetic HTTP responses:
    exact boundary and overflow before selector, detail and repair completions.
    Preserve all messages; failures withhold and do not fall back. Run focused tests.
-3. [ ] Run bounded actual-model observations against the inactive 146-topic menu,
+3. [x] Run bounded actual-model observations against the inactive 146-topic menu,
    record selected IDs, route/part/style outcomes, exact input counts and selector
    versus total warm routing time. Compare small-menu accepted regressions without
    source/pin changes. Stop rather than tune an unbounded prompt sweep.
-4. [ ] Run the project suite, docs/phase/diff checks and review this change. Record
+4. [x] Run the project suite, docs/phase/diff checks and review this change. Record
    exact results, limitations and the next remaining gate in progress/checkpoint.
 
 ## Review focus
@@ -84,4 +84,8 @@ Review added request-isolation/style-repair coverage;35passed/accounting RED1mis
 selection_calls. Added explicit evaluation selector counts;combined routing,
 orchestration-topic,docs and phase-state checks:477passed/14subtests39.22s.
 Independent review:33tests passed,no blocking finding;minor accounting gap repaired.
-Full project suite and bounded actual-model observations running;no quality claim yet.
+Twelve actual-model routing observations complete;capacity holds but subject/claim/
+style/follow-up quality fails. [Results](2026-10-27-two-step-topic-routing-results.md).
+No answer-generation claim;candidate remains inactive. Full project suite6929passed/
+1595subtests,6skip/2xfail,1500.25s;final selector/evaluation/docs57passed2.46s.
+Implementation/verification tasks delivered;semantic quality gate remains failed.
