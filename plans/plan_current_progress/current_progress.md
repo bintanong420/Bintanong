@@ -1,6 +1,6 @@
 # Current progress
 
-Updated27October2026,10:35+08. Phase11active;BatchE human review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,10:48+08. Phase11active;BatchE human review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,13 +9,13 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Owner approves193–209discipline;209of336approved/127pending;BatchE28of42(7carried/21new).
-All17linkedparts/rights/deadlines/confidentiality/exceptions retained;no executable sanctions.
-E028receipt/readback/closure and209uniqueA–Eunion checked;007/011/028snapshots retained.
-Next210–213/E29–32:grievanceH120–121,collegeclearanceH124,generalclearanceH125;images/closure checked.
-Writtencomplaint/confidentiality and no-accountability signingconditions preserved;sourcegrammar unchanged.
-Scriptaccuracy question answered from recorded defects;no measured errorrate or LlamaParse comparison.
-No new purchase/upload/toolchain authorization;source/candidate/runtime unchanged,structural gates remain.
+Owner approves210–213;213of336approved/123pending;BatchE32of42(7carried/25new).
+Grievance/clearancewrittencomplaint,confidentiality,grooming and signingconditions retained.
+E032receipt/readback/closure and213uniqueA–Eunion checked;007/011/028/032snapshots retained.
+Next214–221/E33–40:completeCGMCserviceC52–53/printed48–49;images/eight-wayclosure checked.
+Alumni/representative checklistpaired;step2repeatedunit wording and Php100/30minutes retained.
+Nativeproof-readinghyphen displayed from original;normalization/sourcebinding gate remains.
+No source/candidate/runtime changes;sourceholds/structural gates retained.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -32,8 +32,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-209of336candidate contents approved;127pending. Labels and final structural bindings remain.
-Other127await human review. No original/runtime-package/rule/vector/release/pin changes.
+213of336candidate contents approved;123pending. Labels and final structural bindings remain.
+Other123await human review. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -61,8 +61,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Await owner decision on210–213/E29–32:complete grievancepair and two clearanceprocedures.
-Then complete eight-part goodmoralservice;skip seven priorEapprovals. Preserve allholds/continuations.
+Await owner decision on214–221/E33–40:complete eight-part goodmoralservice.
+Then finalfeedbackpair tofinishBatchE;skip seven priorEapprovals. Preserve allholds/continuations.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Content review next.
