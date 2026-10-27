@@ -259,11 +259,20 @@ def part_schema(pack, references=None, segment=None):
         ids = (plan.part_id, *plan.nested) if index == 0 else (plan.part_id,)
         schema['properties']['answers'].update(required=list(ids),
             properties={i: {'$ref': '#/$defs/'+slot} for i in ids})
-        schema['$defs'][slot]['properties']['claims']['maxItems'] = plan.claims_per_segment
         for nested in ids[1:]:  # a nested part answers its own ask in one claim
             nested_slot = copy.deepcopy(schema['$defs'][slot])
             nested_slot['properties']['claims']['maxItems'] = 1
             schema['properties']['answers']['properties'][nested] = nested_slot
+        # Claim k must cite exactly record group k: the decoder cannot skip or drift outside the segment.
+        bound = []
+        for group in plan.groups[index]:
+            item = copy.deepcopy(schema['$defs'][claim])
+            item['properties']['evidence_ids'] = dict(const=[aliases[i] for i in group])
+            bound.append(item)
+        bound_slot = copy.deepcopy(schema['$defs'][slot])
+        bound_slot['properties']['claims'] = dict(type='array', minItems=len(bound), maxItems=len(bound),
+                                                  prefixItems=bound)
+        schema['properties']['answers']['properties'][plan.part_id] = bound_slot
     return schema
 
 
@@ -326,10 +335,11 @@ def part_messages(text, pack, *, errors=(), previous='', references=None, segmen
             payload.pop('shared_record_coverage', None)
             payload.pop('shared_record_coverage_instruction', None)
         payload['segment'] = dict(part_id=plan.part_id, index=index+1, count=len(plan.segments), records=records,
-            instruction=(f'This is segment {index+1} of {len(plan.segments)} of one long procedure. Explain ONLY '
-                         'these records, in source order, keeping each action with its own office, person, '
-                         'time and fee. Other segments are drafted separately; do not summarize records '
-                         'outside this segment.'))
+            claim_groups=[[aliases[i] for i in group] for group in plan.groups[index]],
+            instruction=(f'This is segment {index+1} of {len(plan.segments)} of one long procedure. Write exactly '
+                         'one claim per entry in claim_groups, in order; claim k explains only the records in '
+                         'group k, keeping each action with its own office, person, time and fee. Other '
+                         'segments are drafted separately; do not describe records outside your group.'))
     return _messages(PART_PROMPT, payload, part_schema(pack, references, segment))
 
 
@@ -437,6 +447,17 @@ class SegmentPlan:
     nested: tuple[str, ...]
     segments: tuple[tuple[str, ...], ...]
     claims_per_segment: int
+    groups: tuple[tuple[tuple[str, ...], ...], ...]  # per segment: consecutive records bound to each claim
+
+
+def _balanced(records, count):
+    base, extra = divmod(len(records), count)
+    chunks, start = [], 0
+    for index in range(count):
+        size = base + (index < extra)
+        chunks.append(tuple(records[start:start+size]))
+        start += size
+    return tuple(chunks)
 
 
 def segment_plan(pack):
@@ -457,13 +478,9 @@ def segment_plan(pack):
     per_segment = (8 - _host_claim_count(host_claims(pack)) - len(nested)) // count
     if per_segment < 1:
         return None
-    base, extra = divmod(len(records), count)
-    segments, start = [], 0
-    for index in range(count):
-        size = base + (index < extra)
-        segments.append(tuple(records[start:start+size]))
-        start += size
-    return SegmentPlan(covering[0], nested, tuple(segments), per_segment)
+    segments = _balanced(records, count)
+    groups = tuple(_balanced(segment, min(per_segment, len(segment))) for segment in segments)
+    return SegmentPlan(covering[0], nested, segments, per_segment, groups)
 
 
 def merge_segments(explanations, plan):

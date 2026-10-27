@@ -36,6 +36,19 @@ def test_plan_splits_long_ordered_records_into_balanced_segments():
     assert plan.part_id == 'r1' and plan.nested == ('r2',)
     assert plan.segments == (tuple(cards[:4]), tuple(cards[4:]))
     assert plan.claims_per_segment == 3  # (8 claims - 1 nested part) // 2 segments
+    # Each segment's records are pre-grouped, in order, into one group per claim.
+    assert plan.groups == (((cards[0], cards[1]), (cards[2],), (cards[3],)),
+                           ((cards[4], cards[5]), (cards[6],), (cards[7],)))
+
+
+def test_segment_schema_binds_each_claim_to_its_record_group():
+    pack = prepare(long_integration(8))
+    plan = part_answers.segment_plan(pack)
+    claims = part_answers.part_schema(pack, None, (plan, 1))['properties']['answers']['properties']['r1'][
+        'properties']['claims']
+    assert claims['minItems'] == claims['maxItems'] == 3
+    assert [item['properties']['evidence_ids']['const'] for item in claims['prefixItems']] == [
+        list(group) for group in plan.groups[1]]
 
 
 def test_short_procedures_keep_the_single_call_path():
@@ -55,11 +68,9 @@ class SegmentModel(PartModel):
             self.calls.pop()
             return await super().infer(messages, schema)
         self.segments.append(payload)
-        records = list(payload['segment']['records'])
+        groups = list(payload['segment']['claim_groups'])
         if self.omit_first and len(self.segments) == 1:
-            records = records[1:]
-        limit = schema['$defs']['PartSlot']['properties']['claims']['maxItems']
-        groups = [records[i::limit] for i in range(limit) if records[i::limit]]
+            groups = groups[1:]
         answers = dict(r1=dict(status='answered', claims=[dict(text='Fictional step summary.', evidence_ids=g)
                                                            for g in groups]))
         if 'r2' in schema['properties']['answers']['required']:
