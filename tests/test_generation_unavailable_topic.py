@@ -9,7 +9,7 @@ from backend.bintanong_orchestration.integration import assemble
 from test_generation_loop import Fake, api
 from test_orchestration_integration import documents, pin
 
-REFERRAL = {'en': 'university office', 'fil': 'opisina ng unibersidad', 'taglish': 'university office'}
+REFERRAL = {'en': 'university office', 'fil': 'university office', 'taglish': 'university office'}
 
 
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])

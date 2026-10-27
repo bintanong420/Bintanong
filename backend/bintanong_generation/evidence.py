@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 import hashlib
 import json
+from ..bintanong_routing.reply_policy import reply_language
 
 from ..bintanong_contracts.base import foreign_ids
 from ..bintanong_contracts.symbolic import DecisionOutcome,RequirementView
@@ -110,7 +111,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     order = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in (c.sequence_chunk_ids or c.chunk_ids)))
                   for c in evidence.documents.record_coverage if c.source_ordered) if evidence and evidence.documents else ()
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
-        result.status,result.response_style,result.route,cards,
+        result.status,reply_language(result.response_style),result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),

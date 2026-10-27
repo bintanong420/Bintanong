@@ -38,7 +38,7 @@ def test_floor_never_changes_filipino_or_taglish_labels(language):
     text = 'A1 sa exam'
     style = style_proposal(language, english=['exam'] if language == 'taglish' else [], filipino=['sa'])
     result = answered(text, style)
-    assert result.response_style == language and result.style_floor_applied is False
+    assert result.response_style == ('taglish' if language == 'fil' else language) and result.style_floor_applied is False
 
 
 def wrong_reference(text, target):
@@ -56,7 +56,7 @@ def test_failed_reference_clarification_still_runs_the_style_call():
         json.dumps(style_proposal('fil', english=[], filipino=['ang patakaran']))])
     result = run(transport, text=TEXT)
     assert result.diagnostic == 'invalid_reference' and not result.decision.dispatchable
-    assert result.response_style == 'fil' and result.style_attempts == 1
+    assert result.response_style == 'taglish' and result.style_attempts == 1
     assert len(transport.calls) == 3
 
 
@@ -90,7 +90,7 @@ def test_orchestrator_clarification_carries_the_students_style():
         json.dumps(style_proposal('fil', english=[], filipino=['ang patakaran']))])
     result = asyncio.run(Orchestrator(transport,
         releases=ports().SyntheticReleaseProvider(resources())).run(TEXT, ctx()))
-    assert result.status == 'clarify' and result.response_style == 'fil'
+    assert result.status == 'clarify' and result.response_style == 'taglish'
 
 
 def test_generation_and_routing_share_one_function_word_list():
@@ -130,27 +130,26 @@ def test_topic_rejection_keeps_style_but_orchestrator_drops_the_rejected_parts(m
     assert result.understanding is None
 
 
-# Owner O5 (23 Oct 2026): the symmetric floor. A Filipino label on a question with literal English grammar or
-# number words becomes Taglish. Quoted text and catalog names (course titles can hold "and") never count.
-def test_filipino_label_with_english_grammar_words_becomes_taglish():
+# Owner27Oct: Tagalog-only evidence already selects Taglish;no invented English evidence or second floor.
+def test_tagalog_evidence_needs_no_host_english_injection_for_taglish_reply():
     text = 'A1: pwede ba after ng exam?'
     result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
-    assert result.response_style == 'taglish' and result.style_floor_applied is True
+    assert result.response_style == 'taglish' and result.style_floor_applied is False
     evidence = result.style_evidence
-    assert evidence.english_fragments == ('after',) and evidence.filipino_fragments == ('pwede ba',)
+    assert evidence.english_fragments == () and evidence.filipino_fragments == ('pwede ba',)
     evidence.ground(text)
 
 
-def test_english_number_and_ordinal_words_count_as_english():
+def test_taglish_reply_keeps_model_evidence_without_injecting_number_words():
     text = 'A1: kailan ang deadline sa second semester?'
     result = answered(text, style_proposal('fil', english=[], filipino=['kailan ang']))
-    assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ('second',)
+    assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ()
 
 
 def test_quoted_text_is_not_the_students_own_english():
     text = 'A1: ano ang kasunod ng "Office for"?'
     result = answered(text, style_proposal('fil', english=[], filipino=['ano ang kasunod']))
-    assert result.response_style == 'fil' and result.style_floor_applied is False
+    assert result.response_style == 'taglish' and result.style_floor_applied is False
 
 
 def test_words_inside_a_catalog_course_title_do_not_count():
@@ -160,13 +159,13 @@ def test_words_inside_a_catalog_course_title_do_not_count():
     result = run(FakeTransport(json.dumps(proposal(text=text, language='en')),
                                style_outputs=[json.dumps(style_proposal('fil', english=[], filipino=['pwede ko']))]),
                  text=text, catalog=titled)
-    assert result.response_style == 'fil' and result.style_floor_applied is False
+    assert result.response_style == 'taglish' and result.style_floor_applied is False
 
 
 @pytest.mark.parametrize('text', ['A1: pwede ba FOR IT?', 'A1: may bayad ba at kailan?'])
-def test_acronyms_and_filipino_lookalikes_keep_the_filipino_label(text):
+def test_acronyms_and_filipino_words_keep_taglish_reply_with_literal_evidence(text):
     result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba'] if 'pwede' in text else ['may bayad']))
-    assert result.response_style == 'fil' and result.style_floor_applied is False
+    assert result.response_style == 'taglish' and result.style_floor_applied is False
 
 
 @pytest.mark.parametrize('text', ['A1 at Microbiology and Parasitology, pwede ba?',
@@ -175,17 +174,17 @@ def test_acronyms_and_filipino_lookalikes_keep_the_filipino_label(text):
 def test_title_case_names_outside_the_catalog_do_not_count(text):
     # The research catalog holds printed codes only, so course titles are masked as Title Case names.
     result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
-    assert result.response_style == 'fil' and result.style_floor_applied is False
+    assert result.response_style == 'taglish' and result.style_floor_applied is False
 
 
 def test_lowercase_english_next_to_a_title_still_counts():
     text = 'A1 at Life and Works, pwede ba after ng midterm?'
     result = answered(text, style_proposal('fil', english=[], filipino=['pwede ba']))
-    assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ('after',)
+    assert result.response_style == 'taglish' and result.style_evidence.english_fragments == ()
 
 
 def test_of_inside_a_borrowed_english_term_does_not_count():
     # Formal Filipino keeps unavoidable English terms ("transcript of records"); "of" lives inside such terms.
     text = 'A1: paano po humiling ng kopya ng transcript of records?'
     result = answered(text, style_proposal('fil', english=[], filipino=['paano po']))
-    assert result.response_style == 'fil' and result.style_floor_applied is False
+    assert result.response_style == 'taglish' and result.style_floor_applied is False

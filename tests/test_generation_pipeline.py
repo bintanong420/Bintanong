@@ -49,7 +49,7 @@ def test_composed_request_deadline_includes_orchestration_time():
 
 @pytest.mark.parametrize('language,missing_label,program_label,curriculum_label',[
     ('en','Missing information','degree program','curriculum version'),
-    ('fil','Kulang na impormasyon','programa','bersiyon ng kurikulum'),
+    ('fil','Missing information','degree program','curriculum version'),
     ('taglish','Missing information','degree program','curriculum version')])
 @pytest.mark.parametrize('missing',['program_id','curriculum_id'])
 def test_scope_clarification_names_the_information_the_student_must_supply(

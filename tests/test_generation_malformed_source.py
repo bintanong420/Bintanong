@@ -75,7 +75,7 @@ def test_held_record_cannot_answer_even_when_the_model_asserts_an_exception(lang
     assert [(e.status, e.reason) for e in answer.part_ledger.entries] == [
         ('unavailable', 'source_gap'), ('unavailable', 'source_gap')]
     assert answer.check_attempts == 0
-    assert ('hindi malinaw' if language == 'fil' else 'unclear') in answer.text
+    assert 'unclear' in answer.text
     assert "not in Bintanong's reviewed sources yet" not in answer.text
 
 
@@ -91,7 +91,7 @@ def test_other_part_keeps_its_answer_citation_and_review_binding(language):
     assert answer.part_ledger.status == 'some_parts_unavailable'
     assert [p['part_id'] for p in model.calls[-1]['parts']] == ['r2']
     assert all(c.text == SAFE for c in answer.citations)
-    assert ('hindi malinaw' if language == 'fil' else 'unclear') in answer.text
+    assert 'unclear' in answer.text
 
 
 def test_canonical_hybrid_result_survives_an_unavailable_document_part():

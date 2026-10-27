@@ -7,6 +7,7 @@ import json
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
+from .reply_policy import REPLY_POLICY_VERSION, reply_language
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
@@ -99,7 +100,8 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
             entity_correct=entities == tuple(sorted(c.expected_entities)),
             claim_correct=claims == tuple(sorted(c.expected_claims)),
             operation_correct=operations == tuple(sorted(c.expected_operations)),
-            style_correct=result.response_style == c.expected_style,
+            style_correct=result.response_style == reply_language(c.expected_style),
+            authored_expected_style=c.expected_style, expected_reply_style=reply_language(c.expected_style),
             diagnostic=result.diagnostic, attempts=result.attempts,
             style_attempts=result.style_attempts, inference_calls=result.inference_calls,
             selection_attempts=result.selection_attempts,
@@ -132,6 +134,7 @@ async def evaluate_cases(router, cases, metadata, *, progress=None):
     if isinstance(router,CombinedRouter):
         identity=router.evaluation_identity()
     report = dict(schema_version='bintanong-routing-evaluation-v2', total=len(cases),
+        reply_policy_version=REPLY_POLICY_VERSION,
         metadata=metadata,**identity,case_set_sha256=digest([c.model_dump(mode='json') for c in cases]),
         catalog_sha256=digest([c.model_dump(mode='json') for c in router.catalog]),
         runtime=dict(getattr(router.transport, 'metadata', {})),

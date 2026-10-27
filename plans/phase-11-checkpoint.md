@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 191
+sequence: 192
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 569be5f
-working_tree: source-context results and compact current snapshots
+head_commit: c27c9a3
+working_tree: English/Taglish reply policy migration and synthetic regressions
 updated_at: 2026-10-27T15:36:42.3331810+08:00
 ---
 
@@ -20,6 +20,16 @@ Prior reviews,all-nine inclusion,normalized465/embeddings and146topic bindings
 remain delivered. Recover old detail with git show;do not repeat those passes.
 
 ## Current Task
+
+[Reply migration](2026-10-27-english-taglish-migration-plan.md)implemented;stylev2,
+combinedv4,routerv22. Tagalog-only literal evidence selectsTaglish without invented
+English;generation.prepare maps legacyfil before identities. New schemas omitfil;
+historical record parsers/dictionaries retained. Eval policy versions targets and
+records authored input family separately. New policy tests/grounding/control/host/
+doc/combined cases pass;independent104tests pass7.27s,no blocking findings.
+Broad1235passedthen review-final1236pass/1old prompt-version assertion fixed.
+Actual saved probes running A/p11-reply-policy-20261027;initialTOR inputsen/fil/
+taglish now replyen/taglish/taglish,claim unchanged. Full suite follows code freeze.
 
 [Source-bound correction](2026-10-27-source-bound-routing-context-results.md),code
 36d5f56,[plan](2026-10-27-source-bound-routing-context-plan.md):opt-in32service

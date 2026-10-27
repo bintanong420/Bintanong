@@ -23,7 +23,7 @@ def api():
 
 
 def packet(response_style='taglish', **interpretation):
-    return dict(schema_version='bintanong-routing-style-v3',
+    return dict(schema_version='bintanong-routing-style-v4',
         interpretation=wire_fixture(proposal(**interpretation), interpretation.get('text', 'A1')),
         style=style_proposal(response_style)['style'])
 
@@ -38,9 +38,9 @@ def run(transport, **options):
 def test_one_call_preserves_proposal_and_separately_grounded_style(language):
     transport=FakeTransport(json.dumps(packet(language,language='unknown')))
     result=run(transport)
-    assert result.decision.route=='Symbolic' and result.response_style==language
+    assert result.decision.route=='Symbolic' and result.response_style==('taglish' if language=='fil' else language)
     assert result.proposed.language=='unknown'
-    assert result.style_evidence.language==language
+    assert result.style_evidence.language==('taglish' if language=='fil' else language)
     assert result.inference_calls==result.attempts==len(transport.calls)==1
     assert result.style_attempts==result.repair_attempts==0
 

@@ -85,18 +85,20 @@ alone does not add document retrieval. A combined structured and documentary tas
 still requires Hybrid. The audience decoder, host validation and style prompt
 remain separate from this guidance.
 
-The selected response_style is en, taglish, fil or unknown. Bintu quotes literal
+The selected response_style is en, taglish or unknown under owner27Octpolicy.
+Filipino/Tagalog input remains supported and receives Taglish replies. Bintu quotes literal
 English/Filipino fragments and selects a conversational style. The host checks
 bounded structure/count consistency and exact original-text containment, then maps
 that selection losslessly to language metadata. The model picks the style; the only
 host override is an owner-approved floor (22 October 2026): an `english_only` label on a
 question containing an everyday Filipino function word (ang, sa, ko, po...; all-caps
 acronyms such as BA/MA ignored) becomes `taglish`, its literal words added as Filipino
-fragments and `style_floor_applied` set. The host never chooses between fil and taglish.
+fragments and `style_floor_applied` set. The v2 schema has no Filipino-only reply choice;
+Taglish needs Filipino fragments and permits an empty English-fragment array.
 Literal provenance cannot prove the fragment's language; model evaluation remains
 necessary. The original routing proposal's language remains observable, while query
 hints/accepted response_style come from the style interpretation. English requests should
-receive English, Taglish natural Taglish, Filipino predominantly Filipino with
+receive English;Taglish and Filipino inputs receive natural Taglish with
 useful English technical terms. Language does not change evidence routing.
 This metadata carries the preference to later generation; no final-language quality
 claim is established here. Image attachments and private-file parsing are later work.

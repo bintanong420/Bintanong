@@ -1,5 +1,15 @@
 # Candidate generation and output validation
 
+Owner27Octresponse policy:English,Filipino and Taglish inputs remain supported;
+new replies target English or Taglish. `prepare()` maps a legacy `fil` reply
+request to `taglish` before evidence/review/ledger identities are built,without
+mutating the IntegrationResult. New model draft schemas omit `fil`;historical
+record contracts and detached rendering dictionaries remain readable. Current
+evaluation reports identify `english-taglish-20261027-v1`,authored input family
+(when supplied),original requested style and effective reply target separately.
+Do not rewrite historical observations or count missing input-family metadata as
+measured Filipino/Taglish performance. Source text/citations/guards stay unchanged.
+
 The current Phase09 recovery candidate requires Interpretation v2,IntegrationResult
 v2 and CandidateAnswer v2. Routing extracts exact requested parts BEFORE evidence;
 orchestration binds original question SHA256,request,release and validated operation.

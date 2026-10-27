@@ -278,7 +278,7 @@ def test_concurrent_requests_on_one_router_keep_their_own_topic_selection():
                         gate.set()
                     await gate.wait()
                     return selected((subject,))
-                if version == 'bintanong-response-style-v1':
+                if version == 'bintanong-response-style-v2':
                     return json.dumps(style_proposal('en', english=[text.split()[0]]))
                 return json.dumps(wire_fixture(json.loads(answer(subject, (claim,), text)), text))
 

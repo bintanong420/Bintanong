@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v21'
+PROMPT_VERSION = 'bintanong-router-p11-v22'
 
 
 def ordered_json(value):
@@ -53,8 +53,9 @@ Contrast examples for language ONLY (not institutional facts or course aliases):
 "Nakapasa ako sa ZX9." -> fil; "Passed na ako sa ZX9." -> taglish.
 "Magandang umaga!" -> fil; "Good morning, kumusta na?" -> taglish.
 "Where can I find the schedule?" -> en. Use unknown only when language is unclear.
-The selected language is also the response style. A later Filipino answer may naturally retain
-English technical terms; that permission does not relabel this student's original wording.
+This language describes the student's input, not the reply target. The separate style task
+chooses English replies for English input and Taglish replies for Filipino or Taglish input.
+Retain English source terms where accurate;never invent input fragments to justify a reply style.
 Undergraduate context is the default: do not ask everyone to restate it. audience is undergraduate,
 excluded (faculty/staff-only, graduate, Medicine, Law, laboratory-school procedures), unrelated or unknown.
 Explicit excluded audiences override that default even when the supplied program context is

@@ -36,7 +36,7 @@ def answer(pack):
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
 def test_conflicting_source_adds_a_notice_in_the_reply_language(language):
     text = answer(pack_with(limited('conflicting_deadlines'), language))
-    assert render._LIMIT_NOTICES[language]['conflict'] in text
+    assert render._LIMIT_NOTICES['taglish' if language=='fil' else language]['conflict'] in text
 
 
 @pytest.mark.parametrize('issue', ['source_cutoff', 'malformed_source_condition', 'printed_total_discrepancy'])

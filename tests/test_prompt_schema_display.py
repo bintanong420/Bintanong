@@ -26,7 +26,7 @@ def test_display_keeps_acceptance_for_valid_and_invalid_candidates(full):
     values=[proposal(),proposal(route='RAG',operations=[]),
         proposal(audience='excluded',route=None,control='unsupported_scope',operations=[]),
         proposal(audience='unknown',route=None,control='clarify',operations=[]),
-        dict(schema_version='bintanong-response-style-v1',style=dict(
+        dict(schema_version='bintanong-response-style-v2',style=dict(
             english_fragments=['hello'],filipino_fragments=[],preferred_response_style='english_only')),
         dict(schema_version='bintanong-answer-draft-v1',language='en',release_id='release-synthetic',
             decision_outcome=None,claims=[dict(claim_id='c1',text='Fictional fact',evidence_ids=['ev-'+'a'*64])]),

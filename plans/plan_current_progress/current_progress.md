@@ -6,6 +6,13 @@ Last full snapshot before condensation:569be5f;earlier36d5f56/facbb5b.
 
 ## Latest change
 
+[English/Taglish migration](../2026-10-27-english-taglish-migration-plan.md)implemented,
+stylev2/combinedv4/routerv22;Tagalog input->Taglish with no invented English evidence.
+Generation.prepare normalizes legacyfil before evidence/review identities;new model
+schemas omitfil,old raw records untouched. Input family/reply target reported separately.
+Broad1235pass;independent104pass/no blocker;one later old version assertion fixed.
+Saved model probes running A/p11-reply-policy-20261027;full suite follows final freeze.
+
 [Source-bound routing correction](../2026-10-27-source-bound-routing-context-results.md),
 code36d5f56:opt-in32service labels and18grading-column hints;default146serialized
 menus exact. Four33–48field maps preserved at64candidate cap;output cap8unchanged.

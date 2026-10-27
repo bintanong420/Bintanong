@@ -59,7 +59,7 @@ def test_three_route_real_module_smoke_with_fictional_sources(route,operation):
         value = proposal(text='SYN201 policy',language='en',route=route,
             mentions=[dict(kind='course',text='SYN201',start=0,end=6)],
             operations=[] if route=='RAG' else [dict(name=operation,target=0)])
-        style = dict(schema_version='bintanong-response-style-v1',style=dict(
+        style = dict(schema_version='bintanong-response-style-v2',style=dict(
             english_fragments=['SYN201'],filipino_fragments=[],preferred_response_style='english_only'))
         model = FakeTransport(json.dumps(value),style_outputs=[json.dumps(style)])
         result = await Orchestrator(model,releases=provider).run('SYN201 policy',context(state='passed'))
@@ -107,7 +107,7 @@ def test_course_fact_operations_reach_evidence_through_the_real_modules(operatio
         quoted = dict(mention, start=text.index(mention['text']), end=text.index(mention['text']) + len(mention['text']))
         value = proposal(text=text, language='en', intent='course facts', mentions=[quoted],
                          operations=[dict(name=operation, target=0)])
-        style = dict(schema_version='bintanong-response-style-v1', style=dict(
+        style = dict(schema_version='bintanong-response-style-v2', style=dict(
             english_fragments=[text], filipino_fragments=[], preferred_response_style='english_only'))
         model = FakeTransport(json.dumps(value), style_outputs=[json.dumps(style)])
         result = await Orchestrator(model, releases=provider).run(text, context())
