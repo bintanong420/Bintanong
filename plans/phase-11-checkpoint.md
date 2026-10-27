@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 177
+sequence: 178
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 41d115e
+head_commit: 82bd4fe
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T11:47:28+08:00
+updated_at: 2026-10-27T11:52:37+08:00
 ---
 
 # Phase11checkpoint — 364inactive chunks; partial-service gaps supplemented
@@ -113,9 +113,10 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Use364inactive derivative for broader labelled service reauthoring/normalization/final structuralbindings.
-Continue clause-level coverage checks on new evidence;no redundant full-file scans or routine approvals.
-Preserve exact source words/holds/prior receipts;no embedding/activation/frontend integration.
+Owner requested review of remaining applicability;presented nine-item physical-page index:
+[Review index](2026-10-27-remaining-applicability-review.md). Await actual selections before changing holds.
+This owner-requested reopening is not a new scope ruling;preserve prior content approvals and364inactive.
+After decisions,resume service labels/normalization/final structuralbindings;no embedding/activation/frontend.
 
 ## Context Consulted
 

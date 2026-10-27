@@ -58,6 +58,7 @@ No repeated BatchA/B/C/D/E approval requests;new source judgments only.
 
 ## Next action
 
-Use364inactive derivative for broader labelled service reauthoring/normalization/final structuralbindings.
-Continue clause-level gap checks when new evidence arises;preserve settled approvals and source holds.
-No routine approval interruptions,embedding/staging/activation or frontend integration.
+Owner reviewing remaining applicability using [nine-item physical-page index](../2026-10-27-remaining-applicability-review.md).
+Record actual owner selections before changing held scope;no new ruling received. Prior approvals retained.
+After scope decisions,resume broader labelled service reauthoring/normalization/final structuralbindings.
+No routine reapproval of settled content,embedding/staging/activation or frontend integration.
