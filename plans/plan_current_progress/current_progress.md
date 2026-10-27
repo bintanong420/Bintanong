@@ -11,7 +11,7 @@ Last full snapshot before this condensation:7f29143;prior snapshots:06c1f8b/5009
 execution/launch plans preserved,Task0maps reuse of proposed_value/ReviewSession,
 pre-finalization assistance,existing renderer/httpx and alternate LlamaParse input.
 Installed/official online skills checked;no new dependency/skill installed.
-Baseline tests rerunning after external basetemp-parent setup error. TDD tasks next;
+Baseline50pass;native advisory Tasks1–3RED/GREEN and final60tests31.67s pass;
 no hosted access,activation or push. T4/T5 remain separate. Baseline3c1d76c retained.
 
 [Save control/prospectus delivery](../2026-10-27-save-control-and-prospectus-review.md):

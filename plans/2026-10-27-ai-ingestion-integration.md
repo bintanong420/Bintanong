@@ -79,3 +79,22 @@ Geometry gate:reviewed-policy chunk builder already requires complete original
 geometry. LlamaParse items without trustworthy boxes stay manual/withheld at build;
 only supplied boxes checked against original rendered page sizes may be used.
 This is an existing safeguard,not a reason to invent whole-page coordinates.
+
+## Tasks1–3 — native assistance
+
+Authority tests RED:missing advisory module;15GREEN0.22s. Native end-to-end RED:
+prepare rejects assist_provider;GREEN44tests21.49s. Final60tests31.67s cover existing
+prepare/review/CLI/build/verify plus advisory/vision transport and human-corrected
+build. Fake provider sees original page PNG;network/render/privilege/type failures
+stay pending/manual. Resume compares assistance recipe,never reruns finalized AI.
+AI suggestions live in existing proposed_value;local assistance binding contains
+source SHA,candidate digest,item/field/pages,provider/model/time. No second journal.
+CLI opt-in assist-mode/pages/items;vision endpoint via explicit environment only.
+
+Owner asks whether current Gemma4E4B can supply vision. Official
+[model card](https://ai.google.dev/gemma/docs/core/model_card_4) confirms image input;
+[llama.cpp multimodal guide](https://github.com/ggml-org/llama.cpp/blob/master/docs/multimodal.md)
+uses a matching projector. Local shared MODELS contains the5.13GB text GGUF but no
+mmproj file. Loopback8080/8081metadata probes time out;no vision-enabled local server
+or live inference verified. Reuse Gemma through the new OpenAI-compatible image
+adapter once explicitly configured. No weights downloaded or runtime changed.

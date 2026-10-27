@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import shutil
+from contextlib import ExitStack
 from pathlib import Path
 
 from ..document_ingest.bundle import load_candidate_bundle
@@ -61,11 +62,15 @@ def _checked_bundle(root: Path, doc: dict) -> dict:
     return checked
 
 
-def prepare(manifest_path: Path, out: Path, *, converter=None) -> dict:
+def prepare(manifest_path: Path, out: Path, *, converter=None, assist_provider=None,
+            assist_mode='none', assist_pages=(), assist_items=()) -> dict:
     if any(p.is_symlink() for p in (Path(out), *Path(out).absolute().parents)):
         raise ValueError('symlink output refused')
     manifest_path, out = Path(manifest_path).resolve(), Path(out).resolve()
     manifest = load_manifest(manifest_path)
+    assistance = None if assist_mode == 'none' else {
+        'mode': assist_mode, 'pages': list(assist_pages), 'items': list(assist_items),
+        'provider': getattr(assist_provider, 'provider', None), 'model': getattr(assist_provider, 'model', None)}
     if (out / 'packet.json').exists():
         if (any((p / '.git').exists() for p in (out, *out.parents))
                 or any(Path(d['source']).parent == out or Path(d['source']).parent in out.parents
@@ -74,9 +79,13 @@ def prepare(manifest_path: Path, out: Path, *, converter=None) -> dict:
         previous = load_packet(out)
         if previous['manifest'] != manifest:
             raise ValueError('existing packet belongs to another manifest')
+        if previous.get('assistance') != assistance:
+            raise ValueError('existing packet has different assistance; use a new output directory')
         return previous
     # Validate every input before emitting any packet or invoking a converter.
     if 'reviewed_snapshot' in manifest:
+        if assistance is not None:
+            raise ValueError('assist fresh candidates, not frozen reviewed snapshots')
         from .snapshot import load_snapshot, prepare_snapshot
         reference = manifest['reviewed_snapshot']
         snapshot = load_snapshot(Path(reference['path']), reference['manifest_sha256'])
@@ -133,10 +142,23 @@ def prepare(manifest_path: Path, out: Path, *, converter=None) -> dict:
     identities = {item['id'] for item in items}
     if len(identities) != len(items) or any(ref not in identities for item in items for ref in item['companions']):
         raise ValueError('duplicate review identity or missing template companion')
+    if assistance is not None:
+        from .advisory import assist
+        from ..prospectus_review_gui.render import PageRenderer
+        with ExitStack() as stack:
+            renderers = {}
+            def render(doc, page):
+                if doc['id'] not in renderers:
+                    renderers[doc['id']] = stack.enter_context(PageRenderer(contained(out, doc['source'])))
+                return renderers[doc['id']].png(page, 1.5)
+            items = assist(items, documents, assist_provider, render, mode=assist_mode,
+                           pages=assist_pages, item_ids=assist_items)
     artifacts = {p.relative_to(out).as_posix(): digest(p.read_bytes())
                  for p in sorted(out.rglob('*')) if p.is_file()}
     packet = {'schema_version': 'bintanong-review-packet-v1', 'candidate_only': True,
               'manifest': manifest, 'documents': documents, 'items': items, 'artifacts': artifacts}
+    if assistance is not None:
+        packet['assistance'] = assistance
     packet['packet_id'] = digest(encoded(packet))
     write_json(out / 'packet.json', packet)
     return load_packet(out)
@@ -179,4 +201,6 @@ def load_packet(root: Path) -> dict:
         if packet['items'] != [r for d in packet['documents'] for r in snapshot_items(snapshot, d,
                 candidate_review=packet['source_basis'].get('candidate_review', False))]:
             raise ValueError('snapshot review projection differs from its source records')
+    from .advisory import validate
+    validate(packet['items'], packet['documents'])
     return packet

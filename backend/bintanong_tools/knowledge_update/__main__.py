@@ -13,6 +13,9 @@ def main(argv=None) -> int:
     prepare_command = commands.add_parser('prepare', help='Create or recheck an unreviewed packet.')
     prepare_command.add_argument('manifest', type=Path)
     prepare_command.add_argument('--out', required=True, type=Path)
+    prepare_command.add_argument('--assist-mode', choices=['none', 'flagged', 'all', 'selected'], default='none')
+    prepare_command.add_argument('--assist-pages', type=int, nargs='+', default=[])
+    prepare_command.add_argument('--assist-items', nargs='+', default=[])
     review_command = commands.add_parser('review', help='Open the isolated local researcher interface.')
     review_command.add_argument('packet', type=Path)
     review_command.add_argument('--reviewer', required=True)
@@ -33,7 +36,10 @@ def main(argv=None) -> int:
         with contextlib.redirect_stdout(sys.stderr):
             if args.command == 'prepare':
                 from .prepare import prepare
-                packet = prepare(args.manifest, args.out)
+                from .vision import VisionProvider
+                packet = prepare(args.manifest, args.out, assist_mode=args.assist_mode,
+                    assist_provider=VisionProvider.from_environment() if args.assist_mode != 'none' else None,
+                    assist_pages=args.assist_pages, assist_items=args.assist_items)
                 result = {'packet_id': packet['packet_id'], 'candidate_only': True,
                           'documents': len(packet['documents']), 'items': len(packet['items'])}
             elif args.command == 'review':
