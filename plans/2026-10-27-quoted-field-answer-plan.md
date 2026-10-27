@@ -47,7 +47,7 @@ replace model review with a host-only answer(changes the validation path).
    chunks/vectors/versions/holds and all other claims. Local3904diagnostic only.
    Replay the saved English/Filipino/Taglish questions;score exact field quotation,
    correct claim/citation,review outcomes and source limits separately.
-4. [ ] Independent review,focused regressions and full suite at frozen code;
+4. [x] Independent review,focused regressions and full suite at frozen code;
    docs/phase/diff checks,raw receipt assertions/seal and compact delivery commits.
    Record failed probes rather than starting a prompt/threshold sweep.
 
@@ -67,3 +67,7 @@ that hosted465draft. Storage upload,source validation,answer acceptance and
 activation are separate. No database write,dependency/model download,frontend,
 source wording change,school approval or phase advance. Context17–18/routingPNG
 rechecked;missing facts stay unknown. Preserve active package/pin and source holds.
+
+**Outcome:** code3c55722and three bounded local quotation probes verified;full
+project suite passed. Default2048budget/selector integration and expanded-release
+source/hosted/activation gates remain separate. See [results](2026-10-27-quoted-field-answer-results.md).

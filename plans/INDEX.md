@@ -13,7 +13,7 @@
 - [Source-bound context](2026-10-27-source-bound-routing-context-results.md),36d5f56:
   [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
 - [Field quotations](2026-10-27-quoted-field-answer-results.md),3c55722:three local
-  TORstep1answers validated;full suite running. Default budget/release gates remain.
+  TORstep1answers validated;full7011/1595subtests pass. Default/release gates remain.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
   [normalized data](2026-10-27-expanded-context-validation-results.md),

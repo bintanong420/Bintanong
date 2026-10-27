@@ -4,7 +4,7 @@ Code:`3c55722`;baseline:`5cd1ed7`(production baseline4ba0f41).
 [Plan](2026-10-27-quoted-field-answer-plan.md).
 The saved TOR step-one questions now return the reviewed client instruction with
 a Charter page13citation in English or Taglish during local candidate validation.
-Full project verification is running;this report does not authorize activation.
+Full project verification passed;this report does not authorize activation.
 
 ## Correction and safeguards
 
@@ -48,10 +48,16 @@ Independent final review:`156passed,2.69s`,no remaining blockers after fingerpri
 fix. Reviewer also ran earlier24focused/188related/84subtests before that fix.
 Fresh resume checks:`67passed,47subtests,4.14s`;precommit docs/focused35passed2.00s.
 No assertions were weakened and whole-procedure rejection remains tested.
-Full project suite is running at frozen3c55722;result pending.
+Full project suite at frozen3c55722finished exit0:
+`7011 passed, 6 skipped, 2 xfailed, 6 warnings, 1595 subtests passed in 1322.02s (0:22:02)`.
+Six skips:four Windows symlink privileges,one CUDA/OCR extra,one historical external
+dataset. Two known refused photo-layout xfails and existing deprecation/marker
+warnings remain. No production change after freeze.
 Docs/phase regressions:`30passed,14subtests,13.68s`. Raw receipt assertions verify
 all three exact quotes,page13span,complete context,positive ordinary review,
 scope/claims and unchanged original package/source/active pin;sealed locally.
+Final docs/phase rerun:`30passed,14subtests,12.88s`;phase validation valid,
+can-advance remains blocked as expected(no complete Phase11handoff).
 Ruff/Black/mypy/Bandit remain unavailable in the existing environment;no installs.
 
 ## Bounded real-source stage-chain replay
