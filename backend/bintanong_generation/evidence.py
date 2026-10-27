@@ -34,6 +34,7 @@ class PreparedEvidence:
     course_facts: CourseFactsResult|None=None  # printed course facts, rendered by the host
     record_coverage: tuple[tuple[str,str,tuple[str,...]],...]=()  # exact subject/claim -> evidence ids
     record_order: tuple[tuple[str,str,tuple[str,...]],...]=()  # explicit reviewed sequence only
+    field_quotes: tuple[tuple[str,str,str,str],...]=()  # subject,claim,evidence id,exact text
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -51,6 +52,8 @@ class PreparedEvidence:
             sources=[c.model_dump(mode='json') for c in self.cards])
         if self.record_coverage:
             payload['record_coverage'] = self.record_coverage
+        if self.field_quotes:
+            payload['field_quotes'] = self.field_quotes
         if self.record_order:
             payload['record_order'] = self.record_order  # bind sequence in the existing review identity
         return payload
@@ -110,9 +113,11 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
                      for c in evidence.documents.record_coverage) if evidence and evidence.documents else ()
     order = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in (c.sequence_chunk_ids or c.chunk_ids)))
                   for c in evidence.documents.record_coverage if c.source_ordered) if evidence and evidence.documents else ()
+    quotes = tuple((c.subject_id,c.claim,by_chunk[c.quoted_field.chunk_id],c.quoted_field.text)
+                   for c in evidence.documents.record_coverage if c.quoted_field is not None) if evidence and evidence.documents else ()
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         result.status,reply_language(result.response_style),result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None,facts,coverage,order)
+        symbolic.requirement if symbolic else None,facts,coverage,order,quotes)

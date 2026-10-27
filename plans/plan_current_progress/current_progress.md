@@ -6,6 +6,15 @@ Last full snapshot before condensation:4ba0f41;earlier28edea4/c27c9a3/569be5f.
 
 ## Latest change
 
+[Quoted-field correction plan](../2026-10-27-quoted-field-answer-plan.md):explicit
+source-bound quotation;full context and ordinary review retained. RED9failed/13pass,
+identityRED1->GREEN25pass;broader1533pass/175subtests/2xfail92.79s. Independent156
+pass2.69s/no blockers. All three TOR replays answered with exact quote/Charter13
+citation,one draft/one reviewer/no repair each. Resume67pass/47subtests4.14s.
+Full suite pending;production ready to freeze.
+Live Supabase confirms78active,465draft/80draft/19superseded.
+Latest local corrections not hosted yet;validation does not activate a release.
+
 [TOR answer results](../2026-10-27-tor-follow-up-answer-validation-results.md):
 default2048budget withholds;local3904diagnostic retrieves six records/3627E5tokens.
 English/Filipino/Taglish routes and en/taglish/taglish targets match,but all answers
@@ -66,6 +75,5 @@ No institutional/public approval,activation,Phase11exit or Phase12advance.
 
 ## Next action
 
-Design focused TDD correction for step-specific source-bound claims/answer coverage.
-Preserve complete context,whole-procedure guards and numeric/time fidelity;reuse
-saved failures. Keep465inactive;no guard deletion or unbounded prompt sweep.
+Commit verified code;finish language probes and full frozen-code suite,then seal
+delivery evidence. Keep complete context,ordinary review and465inactivity.

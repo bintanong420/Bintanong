@@ -1,4 +1,5 @@
 """Internal candidate evidence, separate from institutional answer contracts."""
+import json
 from typing import Annotated, Literal
 
 from pydantic import Field, model_serializer, model_validator
@@ -92,6 +93,22 @@ class DocumentPassage(Record):
         return self
 
 
+class DocumentFieldQuote(Record):
+    """An exact reviewed field and the original spans available in its passage."""
+    chunk_id: str = Field(pattern=SHA256)
+    field_name: str = Field(min_length=1, max_length=2048)
+    text: str = Field(min_length=1, max_length=2048)
+    span_ids: tuple[Annotated[str, Field(min_length=1, max_length=128)], ...] = Field(min_length=1, max_length=32)
+
+    @model_validator(mode='after')
+    def _spans(self):
+        if (not self.text.strip() or not self.field_name.strip()
+                or len(set(self.span_ids)) != len(self.span_ids)
+                or any(not i.startswith(self.chunk_id+':') for i in self.span_ids)):
+            raise ValueError('invalid_quoted_field_spans')
+        return self
+
+
 class DocumentRecordCoverage(Record):
     """Reviewed service records required by one exact subject/claim, not answer truth."""
     subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
@@ -99,11 +116,14 @@ class DocumentRecordCoverage(Record):
     chunk_ids: tuple[Annotated[str, Field(pattern=SHA256)], ...] = Field(min_length=1, max_length=32)
     source_ordered: bool = False  # only an explicit source review can establish sequence
     sequence_chunk_ids: tuple[Annotated[str, Field(pattern=SHA256)], ...] = Field(default=(), max_length=32)
+    quoted_field: DocumentFieldQuote | None = None
 
     @model_validator(mode='after')
     def _unique(self):
         if len(set(self.chunk_ids)) != len(self.chunk_ids):
             raise ValueError('duplicate_coverage_record')
+        if self.quoted_field is not None and (self.source_ordered or self.quoted_field.chunk_id not in self.chunk_ids):
+            raise ValueError('invalid_quoted_field_coverage')
         if self.source_ordered and len(self.chunk_ids) < 2:
             raise ValueError('source_order_requires_multiple_records')
         if self.sequence_chunk_ids and (not self.source_ordered or len(self.sequence_chunk_ids)<2
@@ -119,6 +139,8 @@ class DocumentRecordCoverage(Record):
             value.pop('source_ordered', None)
         if not self.sequence_chunk_ids:
             value.pop('sequence_chunk_ids', None)
+        if self.quoted_field is None:
+            value.pop('quoted_field', None)
         return value
 
 
@@ -137,6 +159,20 @@ class DocumentResult(Record):
         available = {p.chunk_id for p in self.passages}
         if any(not set(c.chunk_ids) <= available for c in self.record_coverage):
             raise ValueError('coverage_record_not_in_context')
+        for coverage in self.record_coverage:
+            quote = coverage.quoted_field
+            if quote is None:
+                continue
+            passage = next(p for p in self.passages if p.chunk_id == quote.chunk_id)
+            try:
+                record = json.loads(passage.text)
+                fields = [f for f in record['fields'] if isinstance(f, dict) and f.get('name') == quote.field_name]
+                matches = (len(fields) == 1 and fields[0].get('source_blank') is False
+                    and fields[0].get('value') == quote.text)
+            except (ValueError, TypeError, KeyError):
+                matches = False
+            if not matches or not set(quote.span_ids) <= {c.span_id for c in passage.citations}:
+                raise ValueError('quoted_field_not_in_emitted_source')
         return self
 
     @model_serializer(mode='wrap')

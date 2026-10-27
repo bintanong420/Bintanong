@@ -25,6 +25,7 @@ from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExpla
                            confirm_messages,confirm_schema,host_only,part_messages,part_schema,
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
+from .quoted_field import quoted_field_parts
 
 
 def _seconds(value):
@@ -83,6 +84,12 @@ class Generator:
         prepare_query(text)
         pack=prepare(integration)
         check_question(text,pack)
+        try:
+            quotes=quoted_field_parts(pack)
+        except ValueError:
+            return _answer(pack,'abstained',reason='unsupported_answer_scope')
+        if quotes and self.explanation_profile!='parts':
+            return _answer(pack,'abstained',reason='unsupported_answer_scope')
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
         if pack.status=='greeting' and THANKS.search(text):
             return _answer(pack,'greeting',reason='thanks')
