@@ -19,7 +19,8 @@
   [559vectors/maps](2026-10-27-559-vector-binding-results.md),40a35f9:complete inactive local package.
   [Capacity](2026-10-27-559-capacity-results.md):initial prompts fit;review/repair overflows remain.
   [Opt-in review references](2026-10-27-short-review-reference-results.md),b695739:6/6review probes fit;
-  full7038pass/1608subtests. Repair/default-budget/answer/release gates remain.
+  full7038pass/1608subtests. [Repair overflow retry](2026-10-28-repair-overflow-retry-results.md):
+  8322/8331->7595/7603,full7041pass. Default-budget/answer/release gates remain.
   [Closure checklist](2026-10-27-expanded-release-closure-checklist.md);answer/release gates remain.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),

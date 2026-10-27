@@ -1,10 +1,19 @@
 # Current progress
 
-Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
+Updated28October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
 Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
+
+[Repair overflow retry](../2026-10-28-repair-overflow-retry-results.md) (Claude,28Oct):
+a repair refused by the pre-inference `context_overflow` check retries once without
+the model's own previous draft;complete sources/errors/window/margin unchanged.
+RED2fail/1pass -> GREEN3pass;focused907pass/254subtests. Real discipline counterexample
+8322/8331 -> 7595/7603 total,fits8192,identical evidence,zero inference.
+Full7041pass/1608subtests,6skip/2xfail/6warnings1357.08s,exit0;docs/phase30/14pass.
+Codex b695739 independently re-verified (RED13on parent,focused804pass);Supabase MCP
+reachable,hosted active release78chunks/39curricula matches.
 
 [Short review wire](../2026-10-27-short-review-reference-results.md):RED13fail ->
 focused192pass3.34s. Codeb695739;all six review overflows now fit (max6738input),inverse payload
@@ -73,6 +82,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Prepare a bounded correction for reachable discipline repair overflow,preserving all
-source evidence and the fixed window/margin;then current559selector/answer/release checks.
-No default/hosted/active-pin change is implied by preparation.
+Run current559selector/answer/release checks (actual semantic selection,retrieval,
+English/Taglish/Hybrid answers) on the inactive local package;repair-overflow retry done.
+No default/hosted/active-pin change is implied.

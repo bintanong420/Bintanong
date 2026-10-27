@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 224
+sequence: 225
 plan: plans/phase-11-backend-api-plan.md
-head_commit: b695739
-working_tree: verified review-reference delivery documents
-updated_at: 2026-10-27T23:50:00+08:00
+head_commit: f8953d4
+working_tree: repair-overflow retry code/tests/results pending commit
+updated_at: 2026-10-28T12:00:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -21,6 +21,13 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 
 ## Current Task
 
+[Repair overflow retry](2026-10-28-repair-overflow-retry-results.md):attempt-2 repair
+refused by pre-inference `context_overflow` retries once without the previous draft;
+sources,errors,schema,8192/768/8 unchanged;first-draft/retry overflow still refuse.
+RED2fail -> GREEN3pass;focused907pass/254subtests;real counterexample8322/8331 ->
+7595/7603. Full7041pass/1608subtests1357.08s exit0. Codex b695739 re-verified
+(full7038/1608 exit0);Supabase MCP active release matches handoff.
+
 [Short review references](2026-10-27-short-review-reference-results.md):RED13fail
 -> focused192pass3.34s;six formerly overflowing review prompts now fit,complete
 inverse payload identity. Three saved real-source quoted answers match in six model
@@ -32,7 +39,7 @@ Full7038pass/1608subtests,6skip/2xfail/6warnings1388.54s,exit0. Docs/phase30pass
 559vectors/145subjects/240reviews.257new CPU embeddings/302exact reuses;all208parent
 reviews unchanged plus32bounded technical facets. Complete context stays required.
 [Capacity](2026-10-27-559-capacity-results.md):all initial prompts fit. Reachable
-repair counterexamples8322/8331still overflow;answer/release gates open,active78unchanged.
+repair counterexamples8322/8331now retry at7595/7603;answer/release gates open,active78unchanged.
 
 [Flow evidence](2026-10-27-flow-evidence-results.md),f635ccc:13->27chunks,532other
 records exact;66old fields/spans/events plus13visible markers/labels. H60/H64limited;
@@ -120,7 +127,7 @@ No measured controlled/browser latency improvement. No new hosted call/write.
 559local package is inactive. Parent whole-field maps65/71/76/85remain intentionally
 absent above64;32bounded child maps cover all297fields without omission/override.
 54complete closures exceed2048. Opt-in review aliases fix the six known review
-overflows;canonical default unchanged. Reachable repair overflow and actual current
+overflows;canonical default unchanged. Repair overflow retries without the prior draft;actual current
 selector/answer checks remain. Lossless JSON-object probe still exceeds8192.
 Opt-in flow evidence is integrated locally;old complete-arrow codec remains strict.
 Canonical completion grouping reuses same-subject references,no foreign alias bypass.
@@ -131,9 +138,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Execute [559vector/capacity plan](2026-10-27-559-vector-capacity-plan.md).
-Prepare a bounded correction for reachable discipline repair overflow,preserving
-all source evidence and fixed window/margin;then current559selector/answer/release checks.
+Execute [559vector/capacity plan](2026-10-27-559-vector-capacity-plan.md):repair
+overflow retry delivered;next current559selector/answer/release checks.
 No default,hosted or active-pin change follows automatically from preparation.
 
 ## Context Consulted
