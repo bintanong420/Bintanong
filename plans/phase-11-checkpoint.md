@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 178
+sequence: 179
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 82bd4fe
+head_commit: 121799b
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T11:52:37+08:00
+updated_at: 2026-10-27T12:08:24+08:00
 ---
 
-# Phase11checkpoint — 364inactive chunks; partial-service gaps supplemented
+# Phase11checkpoint — all nine selections included;388inactive chunks
 
 ## Completed Tasks
 
@@ -21,57 +21,49 @@ First9candidate packet and2actual human approvals recorded in32065bf,alongside b
 
 ## Current Task
 
-[Supplement results](2026-10-27-partial-service-supplement-results.md):364inactive chunks(178H/186C),
-Four new service/clause groups;prior339 retained byte-for-byte plus25new(11TOR/8certification/5academicrequests/1H48).
-Handbook48final faculty submission sentence expressly included by owner;rest of staff reporting excluded.
-Charter fields assistant-compared under delegation;first-row/CARMA-CCRD/request-subject holds unchanged.
-Every partial-service chunk requires its limitation-bearing companion. No complete-process/approval claim.
-Independent113fields/3995nativeglyph geometry checks;12paired requirements/10complete clear client rows.
-364contracts/bindings/neighborclosure pass;26effective negative/held Hboundaries zero intersections.
-Newexactmax475<=480;min13sourcewords. Eight core artifact repeat byte-identical;15delivery files sealed.
-100tests/151subtests pass2.51s/exit0. No production change/full application-suite rerun this data task.
+[All-nine inclusion results](2026-10-27-nine-item-inclusion-results.md):owner “include all of them. Yes”.
+All nine included for undergraduate use;supersedes listed audience/support holds including H30/H53.
+388inactive chunks(181H/207C):346prior exact+42added/rebuilt replace18,net+24from364.
+Rebuilt8certification+5academicrequest limitation notes;5honors parts retain exact fields/limits and
+link to new short-program paragraph as sixth companion. No new wording approval inferred.
+Cash/check claims,library requisition/donation acknowledgment,H30deficiencies,H53honors,H106reference
+added. Actual first-row mappings,unknown acronyms,copied descriptions and missing internship steps remain.
+Independent172fields/9195glyph positions/geometry;388contracts/bindings/neighborclosure pass.
+Effective24negative/held Hboundaries zero intersections. Newmax423/combined475exactE5tokens<=480.
+100tests/151subtests pass2.46s;8core artifacts repeat byte-identical;15delivery files sealed.
 
-[Full-source audit](2026-10-27-full-source-process-coverage-audit.md):511fresh page extracts/dispositions.
-Clause recheck of43H/25Csubstantive remainders found H48student-process sentence under broad exclusion;
-owner expressly includes it. No other new clear eligible omission found in this follow-up.
-Historical/support material,external references,known source cutoffs and mixed applicability remain accounted.
-Page accounting is not511fresh visual field reviews or evidence that defective sources are complete.
-
-Prior339lineage:213explicit human approvals+114assistantretained+12source-backed repairs. New24Charter
-chunks assistant-compared;H48sentence expressly approved. Pending governance unchanged.
-Original336comparison receipts/335base and339formatting/registration derivatives preserved.
-H26COR/payment,H30academic deficiency,H53shortprogram honors,H106internship and F04holds remain.
-H60/61/63/64image readings retained with known cutoffs;structural bindings pending.
+[Full-source audit](2026-10-27-full-source-process-coverage-audit.md):511fresh extracts/dispositions;
+43H/25Csubstantive remainders classified;H48sentence owner-included;three Charter services supplemented.
+No other unexplained eligible omission found in these passes;not511fresh visual field reviews.
+Prior339/364derivatives and all human/assistant comparison receipts remain historical evidence.
+H26COR/payment,F04,source cutoffs/conflicting deadlines/residence statements remain. No unsupported
+programs,employee/supplier service expansion,clinical/legal determinations or executable rules.
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected parent41d115e,clean before this supplement;nothing pushed.
-Supplement plan/results,owner ledger,index/progress/checkpoint changed;ignored364derivative added.339/PDFs/runtime unchanged.
-Last full snapshot before condensation:41d115e;earlier32065bf;sourcebaseline4e99fb6.
+p11/feat/p11-backend-api;inspected parent121799b,clean before this supplement;nothing pushed.
+Supplement plan/results,owner ledger,index/progress/checkpoint changed;ignored388derivative added.364/339/PDFs/runtime unchanged.
+Last full snapshot before condensation:121799b;earlier41d115e/32065bf;sourcebaseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 B=A/p11-omitted-chunks-20261026/bulk-review-handbook-verified. Prior328/899artifacts retained.
-Current overlay:A/p11-full-process-coverage-20261027/service-supplemented;364candidates;339/336retained.
+Current overlay:A/p11-full-process-coverage-20261027/nine-items-included;388candidates;364/339/336retained.
 Ignored scripts/JSON/images remain untracked.
 Human decision record/checkpoint/progress changed. Candidate output is separate from active package/pin.
 No frontend edits/merge/install;integration explicitly stopped. No dependencies or models changed.
 
 ## Verification Evidence
 
-Fresh supplement:113fields/3995nativeglyph positions checked against original text/page geometry;
-12requirement/supplier pairs,10complete client-step associations and source-limited companionclosure pass.
-364contracts/bindings;339prior chunks unchanged;25new pending. No total-only/HTML/footer chunks.
-Eight core files repeat byte-identical;15delivery files sealed. Newexact E5max475<=480,min13sourcewords.
-100tests/151subtests pass2.51s/exit0 across seven existing preparation/chunk/service/record/flow suites;
-sharedPython3.13,no pytest cache,externalbasetemp. Independent source verifier and phase/diff checks pass.
-[Commands/digests/details](2026-10-27-partial-service-supplement-results.md).
-Original PDFs/active78package/pin unchanged;no hosted or model work. No production behavior change;
-full application suite not rerun. Whole-source extraction/audit remains separate sourcecoverage evidence.
-
-Prior registration91tests/127subtests,formatting100tests/151subtests and sealed-base161tests/215subtests
-retained in their dated results,not rerun claims. Original human receipts and selected assistant comparisons
-retained. Image source content reviewed;final structural binding checks remain separate unfinished work.
-Historical full production706d3c6:6896tests/1595subtests,6skip/2xfail,1400.75s;not current source-task proof.
-Natural grading0/2and six Taglish register misses remain;no new diagnostics or phase advancement.
+Fresh all-nine checks:172fields/9195nativeglyph positions,text/page/glyph boxes;shared cashier columns,
+paired requirements,complete clear steps,source limits and six-part honors closure verified.
+388contracts/bindings/neighborclosure;346retained objects exact;18replacements mapped;all pending/inactive.
+Effective24negative/held boundaries zero intersections;all9owner selections accounted. No inventedlocal steps.
+Newmax423/overall475exactE5tokens<=480,min13sourcewords;8core artifact repeat identical;15files sealed.
+100tests/151subtests pass2.46s/exit0;independent source validator passes. Seven existing builder suites,
+sharedPython3.13,no pytest cache,externalbasetemp;commands in inclusion results. Phase/diff checks apply.
+No production behavior/full application-suite rerun. PDFs/active package/pin unchanged;no hosted/model work.
+Prior364/339/335source and test evidence remains in dated results. Original human receipts preserved.
+Historical production706d3c6:6896tests/1595subtests,6skip/2xfail;not a current source-task result.
+Natural grading0/2and six Taglish register misses remain;no phase advancement.
 
 ## Versions and Digests
 
@@ -82,12 +74,15 @@ C PDF42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529.
 Runtime package A/p11-companion-context-20261026/runtime-package;seal22ceaa15c300a5fc2d8778062a9f19ebb175bee34700f68267ec651a07b34c0a.
 Pin A/p11-topic-filter-20261024/active-research-pin.json;SHA5dd2d9c95c3cc96181bdd11d3a24481f1c18a4a5c71284a55316c7d60acecc74.
 B/artifact-seal.json binds final artifacts and source helpers/first-packet inputs;report records hashes.
-Current364JSON SHAd94abf42832f2ab4a23eb162270e6fb8e13d466363a853a68451dc3da2085572.
+Current388JSON SHA589530958bc5ca0745012b0c2c0ee44f1b55883eadd215506b03081c8f38c7b6.
+Prior364d94abf42832f2ab4a23eb162270e6fb8e13d466363a853a68451dc3da2085572 retained.
 Prior339eaf38e555d8bcc5c7a282d2343ef614bd68fad6faaf5e5b8ff99a91131f20e69 and336118e635e retained.
 
 ## Decisions
 
-Owner27Oct authorizes clear-field supplements and continued in-scope coverage checks.
+Owner27Oct “include all of them. Yes” includes all nine page-index selections for undergraduate use;
+supersedes their audience/support holds including prior H30/H53hold. Exact receipt/results/ledger retained.
+Owner earlier authorizes clear-field supplements and continued in-scope coverage checks.
 Owner includes H48final five-working-day faculty submission sentence;rest of staff reporting excluded.
 Exact statement/receipt in supplement results and owner ledger. Not a student completion deadline change.
 Owner approves2H31plus11H26–30plus6H32–34chunks with links/limits;[record](2026-10-26-omitted-content-human-chunk-review.md).
@@ -113,14 +108,13 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Owner requested review of remaining applicability;presented nine-item physical-page index:
-[Review index](2026-10-27-remaining-applicability-review.md). Await actual selections before changing holds.
-This owner-requested reopening is not a new scope ruling;preserve prior content approvals and364inactive.
-After decisions,resume service labels/normalization/final structuralbindings;no embedding/activation/frontend.
+Use388inactive derivative for service labels/normalization/final structural and runtime checks.
+All nine applicability questions settled;do not re-ask. Preserve actual source gaps/unknown acronyms/mappings.
+No embedding/activation/frontend integration;continue coverage checks only on new evidence.
 
 ## Context Consulted
 
-Current audit:thesis17–18scope extracts/routing PNG and scope policy rechecked;H48owner selection fits required staff actions within student service. Original H48/C8images inspected;prior C9/10/16/17/109/110views reused.
+Current selection:thesis17–18scope extracts reread;undergraduate/read-only limits preserved. Original C70–73/83/86 and H30/53/106images checked;prior C16–17/109–110views reused. Cash/check shared columns verified. H48faculty action owner-approved earlier.
 Earlier resume:thesis physical17–18/39–44 rerendered/read with existing pypdfium2 environment;scope pages confirm undergraduate-only and exclude graduate programs. Routing PNG,master3/11/13/16/23/24,Phase10handoff.
 Original H55/57images inspected;merit/FAQtext matches,source grammar/continuations retained;pair closures verified. First21BatchCapproved;honors limitations/holds unchanged. Actual INC/removal graph requires all three context chunks from packet end;complete five-way closure verified. Removal-approval nativeU+FFFEdisplayed as printed re-enrollment;binding repair pending. Rights/duties002→attendance-uniform001source continuation needs cross-group dependency binding before use. H-standing004native U+FFFE displays as printed mid-semester;serialized binding repair remains. H41graduate-only section9excluded.
 Scope/gap/location/service policies and owner ledger;prior original H60/61/63/64image checks retained.

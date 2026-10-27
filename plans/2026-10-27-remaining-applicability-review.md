@@ -21,7 +21,12 @@ Initial TOR, Charter8–10, is already a student-record process. Its unresolved
 first-row action/time/person associations are a separate layout issue, not an
 audience decision. Confirming audience for any row above does not repair missing
 text, resolve ambiguous mappings, establish current effectivity or authorize release.
-All364 candidates remain inactive;existing source fidelity approvals are preserved.
+At presentation,364candidates were inactive;existing source fidelity approvals are preserved.
 
-Next: record actual owner selections by this numbered page index before changing
-held applicability. No new decision has been received yet.
+## Owner decision
+
+Owner27October: **“include all of them. Yes”**. All nine undergraduate selections
+included;listed audience/support-selection holds superseded. Actual source gaps,
+unknown acronym expansions,first-row mappings and release gates remain unchanged.
+[Applied results](2026-10-27-nine-item-inclusion-results.md):388inactive chunks.
+Do not re-ask these applicability decisions.
