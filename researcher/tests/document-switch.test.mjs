@@ -83,6 +83,7 @@ test('switching documents resets the field draft and keeps the review controls u
       throw Error(await evaluate('JSON.stringify({url:location.href,text:document.body.innerText})'), { cause: error });
     }
     if (assisted) {
+      assert.equal(process.env.BINTANONG_REVIEW_TEST_WRITE, 'isolated-rehearsal', 'AI save rehearsal requires explicit synthetic write mode');
       assert.match(state.researcher, /^Automated rehearsal/);
       assert.equal(new URL(url).port, '3003');
       const field = first.fields[0];

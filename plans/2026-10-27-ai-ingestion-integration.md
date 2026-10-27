@@ -138,3 +138,32 @@ run safely here. No hosted fallback. Existing APIs/student runtime remain untouc
 Incomplete parse CLI regression RED returned success despite failed_pages;GREEN
 19tests15.55s returns exit2 while keeping the result/receipt for recovery. Successful
 parse remains exit0;configuration/transport exceptions remain sanitized failures.
+
+Final envelope adversary RED3fail/1pass exposed unhandled non-object JSON/job
+responses. Validate transport/job/items objects before use;GREEN48tests13.77s
+includes five malformed envelopes,explicit Llama human correction→build→verify,
+and Handbook TOC/body disagreement,book/section/subsection hierarchy,repeated
+header/footer and physical-page continuation retained pending/manual. A fixture
+initially confused the existing audience label with authoring metadata;corrected
+the fixture to the real unresolved review-item contract,without changing it.
+Browser save requires explicit synthetic write mode;fresh isolated replay passes
+1.90s. Node7pass/1browser-skip and TypeScript pass. Owned3003/8767server stopped;
+owner3001/3002reviewers not restarted.
+
+Repository-wide available run:6949pass/745subtests,2fail,1skip,2xfail,9warnings,
+401.05s,exit1. Seventeen Docker database files excluded;exact argv/exclusions in
+ignored repository-command.json. Both failures are unchanged native Docling
+conversion paths:installed Transformers5.10.2 requires huggingface-hub>=1.5,<2;
+installed hub2.2.0 is incompatible. Installed Docling2.129.0/PyTorchCPU noted.
+No dependencies,locks,models or existing converters changed to mask this failure.
+Fresh native conversion is blocked in this environment;mocked preparation does
+not establish its live health. Full suite is NOT green. Record repair as a
+separate approved environment task;no broad refactor or hosted fallback.
+
+Matched original-source sample created:28pages(16Handbook/12Charter),84rows for
+native/native_vision/llamaparse. Originals rehashed/page counts checked;specific
+sampling rationales retained in ignored sample.json. Generated summary keeps all
+unmeasured metrics null. No live provider call,human timing or A/B winner claim.
+Context refreshed after rollover:thesis physical17–18,runtime routing PNG,master
+3.1/16:institutional preparation stays outside student requests;undergraduate
+scope,private-file separation and no autonomous acquisition remain unchanged.

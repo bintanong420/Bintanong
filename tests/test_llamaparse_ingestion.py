@@ -65,7 +65,12 @@ def test_llama_output_uses_same_pending_reviewer_and_build(tmp_path):
     from test_knowledge_update_build import SyntheticEncoder
     source = pdf(tmp_path, 1)
     result = tmp_path / 'parse'
-    llamaparse.parse(source, result, pages=[1], client=FakeParser())
+    class Misread(FakeParser):
+        def poll(self, job_id):
+            response = super().poll(job_id)
+            response['items']['pages'][0]['items'][0]['value'] = 'Submit the forrn.'
+            return response
+    llamaparse.parse(source, result, pages=[1], client=Misread())
     data = (result / 'result.json').read_bytes()
     manifest = {'schema_version': 'bintanong-knowledge-update-v1', 'documents': [{
         'id': 'charter', 'kind': 'charter', 'title': 'Synthetic undergraduate service',
@@ -81,7 +86,7 @@ def test_llama_output_uses_same_pending_reviewer_and_build(tmp_path):
     root = tmp_path / 'packet'
     packet = prepare(path, root)
     field = packet['items'][0]['fields'][0]
-    assert field['decision'] == 'pending' and field['original_value'] == 'Submit the form.'
+    assert field['decision'] == 'pending' and field['original_value'] == 'Submit the forrn.'
     assert field['spans'][0]['extraction']['source_kind'] == 'llamaparse'
     with pytest.raises(ValueError):
         build(root, tmp_path / 'unreviewed', encoder=SyntheticEncoder())
@@ -89,7 +94,7 @@ def test_llama_output_uses_same_pending_reviewer_and_build(tmp_path):
         row = packet['items'][0]
         review.save({'revision': 0, 'operation_id': 'human-save', 'item_id': row['id'],
             'audience': 'undergraduate', 'reason': 'Compared with the printed source.',
-            'companions': [], 'gaps': [], 'fields': {'body': {'decision': 'accepted', 'value': field['original_value']}}})
+            'companions': [], 'gaps': [], 'fields': {'body': {'decision': 'corrected', 'value': 'Submit the form.'}}})
     build(root, tmp_path / 'package', encoder=SyntheticEncoder())
     assert verify(tmp_path / 'package', packet_root=root)['verified']
 
@@ -196,3 +201,42 @@ def test_cli_reports_incomplete_parse_as_nonzero_without_losing_receipt(tmp_path
         'source_sha256': 'a' * 64, 'pages': [], 'failed_pages': [2]})
     assert main(['parse-llama', 'source.pdf', '--out', str(tmp_path / 'output'), '--pages', '2']) == 2
     assert json.loads(capsys.readouterr().out)['failed_pages'] == [2]
+
+
+@pytest.mark.parametrize('payload', [[], None, {'job': []}, {'job': None},
+    {'job': {'id': 'job-1', 'status': 'COMPLETED'}, 'items': []}])
+def test_malformed_provider_envelopes_fail_with_safe_error(payload):
+    client = llamaparse.LlamaParseClient('synthetic-secret', transport=httpx.MockTransport(
+        lambda req: httpx.Response(200, json=payload)))
+    with pytest.raises(RuntimeError, match='LlamaParse'):
+        client.poll('job-1')
+
+
+def test_handbook_contents_body_hierarchy_and_continuation_stay_pending(tmp_path):
+    from backend.bintanong_tools.knowledge_update.llama_items import items
+    from backend.bintanong_tools.knowledge_update.files import digest
+    source = pdf(tmp_path)
+    result = llamaparse.parse(source, tmp_path / 'parse', pages=[1, 2], batch_size=1, client=FakeParser())
+    result['pages'][0]['items'] = [
+        {'type': 'heading', 'level': 1, 'value': 'Contents'},
+        {'type': 'text', 'value': '1. Admission — page 2'},
+        {'type': 'heading', 'level': 1, 'value': 'Book I'},
+        {'type': 'heading', 'level': 2, 'value': '2. Admission'},
+        {'type': 'heading', 'level': 3, 'value': '2.1 Undergraduate applicants'},
+        {'type': 'text', 'value': '2.1.1 Submit the form and'},
+        {'type': 'footer', 'value': 'STUDENT HANDBOOK'}]
+    result['pages'][1]['items'] = [
+        {'type': 'header', 'value': '2. Admission'},
+        {'type': 'text', 'value': 'the required record. No continuation may be invented.'}]
+    doc = {'id': 'handbook', 'kind': 'handbook', 'source': str(source), 'sha256': digest(source.read_bytes())}
+    rows = items(result, doc, source.read_bytes())
+    assert rows[1]['fields'][0]['original_value'] == '1. Admission — page 2'
+    assert rows[3]['fields'][0]['original_value'] == '2. Admission'
+    assert rows[5]['title'] == 'Book I / 2. Admission / 2.1 Undergraduate applicants'
+    assert json.loads(rows[6]['fields'][0]['original_value'])['type'] == 'footer'
+    assert json.loads(rows[7]['fields'][0]['original_value'])['type'] == 'header'
+    assert rows[-1]['fields'][0]['locator']['physical_pages'] == [2]
+    assert rows[-1]['title'] == rows[5]['title']
+    assert all(r['audience'] == 'unresolved'
+        and 'parser_associations_require_manual_review' in r['findings'] for r in rows)
+    assert all(f['decision'] == 'pending' for r in rows for f in r['fields'])

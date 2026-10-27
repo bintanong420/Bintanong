@@ -30,7 +30,10 @@ class LlamaParseClient:
                 response.raise_for_status()
                 if len(response.content) > 32 * 1024 * 1024:
                     raise ValueError('parse result exceeds local bound')
-                return response.json()
+                value = response.json()
+                if not isinstance(value, dict):
+                    raise ValueError('invalid parse response')
+                return value
         except (httpx.HTTPError, ValueError):
             raise RuntimeError('LlamaParse request failed; check authentication, quota or connectivity and resume.') from None
 
@@ -50,9 +53,11 @@ class LlamaParseClient:
         for _ in range(self.polls):
             value = self._request('GET', '/' + job_id, params={'expand': 'items,usage'})
             job = value.get('job', {})
-            if job.get('id') != job_id:
+            if not isinstance(job, dict) or job.get('id') != job_id:
                 raise RuntimeError('LlamaParse job identity mismatch')
             if job.get('status') == 'COMPLETED':
+                if not isinstance(value.get('items'), dict):
+                    raise RuntimeError('LlamaParse page results unavailable; resume or review manually')
                 return value
             if job.get('status') not in ('PENDING', 'RUNNING'):
                 raise RuntimeError('LlamaParse job failed or was cancelled; explicit retry is required')
