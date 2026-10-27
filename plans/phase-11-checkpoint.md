@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 174
+sequence: 175
 plan: plans/phase-11-backend-api-plan.md
-head_commit: da3e5be
+head_commit: c93fcfa
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T11:05:59+08:00
+updated_at: 2026-10-27T11:18:35+08:00
 ---
 
-# Phase11checkpoint — source comparison complete; structural repairs pending
+# Phase11checkpoint — three formatting repairs complete; broader structural gates pending
 
 ## Completed Tasks
 
@@ -21,7 +21,7 @@ First9candidate packet and2actual human approvals recorded in32065bf,alongside b
 
 ## Current Task
 
-[Scope/coverage results](2026-10-26-handbook-coverage-scope-verification-results.md):335sealed base;overlay336inactive chunks(177H/159C),
+[Scope/coverage results](2026-10-26-handbook-coverage-scope-verification-results.md):335sealed base;prior336overlay preserved,current339inactive chunks(177H/162C),
 131linked source records,eight topic packets. All90IDsaccounted;73with candidates,including70of71
 New/Partial groups. X029initial TOR C9action/time/person association remains held;existing/other
 held/support-only selections explicit. Source-held literal candidates do not resolve affected claims.
@@ -34,12 +34,12 @@ BatchA55/BatchB40/BatchC78of78approved. 213explicit human approvals+123assistant
 
 ## Repository State
 
-p11/feat/p11-backend-api;reviewed parent74ceb5f (graduation/records approval),clean before this review update;nothing pushed.
-Human decision record/current progress/checkpoint are modified;candidate evidence,original PDFs and runtime data remain unchanged.
+p11/feat/p11-backend-api;inspected parentc93fcfa,clean before this repair;nothing pushed.
+Repairplan/results,delegatedresults,index/progress/checkpoint modified;new ignored339derivative added;original PDFs/baselines/runtime unchanged.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 B=A/p11-omitted-chunks-20261026/bulk-review-handbook-verified. Prior328/899artifacts retained.
-Current combined overlay:A/p11-omitted-chunks-20261026/registration-layout-corrected;336candidates.
+Current overlay:A/p11-omitted-chunks-20261026/source-formatting-corrected;339candidates;prior336overlay retained.
 Ignored scripts/JSON/images remain untracked.
 Human decision record/checkpoint/progress changed. Candidate output is separate from active package/pin.
 No frontend edits/merge/install;integration explicitly stopped. No dependencies or models changed.
@@ -112,12 +112,13 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-[Delegated review results](2026-10-27-delegated-source-review.md):123remaining/41groups source-compared;
-213human+123assistant=336unique,0uncompared;43originalimages(3prior observations reused).
-No new missingselectedsentence found;no new human decision required;sourceholds unchanged.
-Receipt17097b34bd2ee3a4c79c51bd0d2aa1cd2fab480f24f501442632f59ec1c1ab8a;original/overlayhashes unchanged.
-Next:labelled reauthoring/normalization/structuralbinding queue,including feedbackfooter,
-borrowingchecklist/headerinterleave and computer-time/rolemerge. No candidate/runtime/hosted edits.
+[Formatting repair results](2026-10-27-source-formatting-repair-results.md):current339inactive candidates,
+327unchanged+12rebuilt replacing9;sourcecomparison lineage213human+114assistantretained+12repaired.
+339contracts/bindings/links and2573policyglyph positions checked;only3footerdigits moved to provenance.
+RED3->GREEN3;100tests/151subtests2.71s/exit0;script repeat identical;newmax438/overall469tokens.
+Overlayeaf38e555d8bcc5c7a282d2343ef614bd68fad6faaf5e5b8ff99a91131f20e69 atsource-formatting-corrected.
+Next:broader service labels/nativehyphen/URLnormalization and final structuralbindings;no candidateactivation.
+Original336/PDFs/receipts/runtime untouched;no new sourcejudgment or institutional approval.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.

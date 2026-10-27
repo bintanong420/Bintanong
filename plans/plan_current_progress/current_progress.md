@@ -1,6 +1,6 @@
 # Current progress
 
-Updated27October2026,11:05+08. Phase11active;delegated source review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026,11:18+08. Phase11active;delegated source review;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -9,14 +9,14 @@ Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
 
-Delegated source review complete:[results](../2026-10-27-delegated-source-review.md).
-213explicit human approvals+123assistant source comparisons=336unique candidates accounted;0uncompared.
-41remaininggroups/43originalimages checked(3prior observations reused);no new missingselectedsentence found.
-No new human judgment required. Existing holds/cutoffs/blanks/sourceconflicts retained.
-Receipt17097b34bd2ee3a4c79c51bd0d2aa1cd2fab480f24f501442632f59ec1c1ab8a;originalPDF/overlayhashes unchanged.
-Technical queue:feedbackfooter110,borrowingchecklist/headerinterleave,computer-time/rolemerge;
-existing service labels,hyphen/URLnormalization and checked structural bindings remain before use.
-Humanapprovalreceipts untouched;assistant mode separate. No candidate/runtime/hosted changes.
+Three concrete formatting repairs complete:[results](../2026-10-27-source-formatting-repair-results.md).
+Current339inactive overlay:327unchanged+12rebuilt replacing9;177H/162C,131source records.
+Feedbackfooter110moved to provenance;borrowingchecklist/continuationpaired;computer-time/staff split.
+All2573policyglyph positions conserved;3footerdigits separately retained;all339bindings/neighborclosure pass.
+RED3known defects->GREEN3checks;100tests/151subtests pass2.71s;fullbuilder repeat byte-identical.
+Newexacttokensmax438,combinedmax469<=480. Human213retained;assistant114retained+12rebuilt.
+CurrentJSONSHAeaf38e555d8bcc5c7a282d2343ef614bd68fad6faaf5e5b8ff99a91131f20e69.
+Original336/sourcePDFs/receipts/runtime unchanged;broader labelling/normalization/structural gates remain.
 
 Registration rebuilt:[results](../2026-10-26-registration-layout-correction-results.md). Five linked chunks replace four;
 336combined/331unchanged,exact tokens400/374/469/184/413. Metadata/paired requirements/process fields/totals preserved.
@@ -33,8 +33,8 @@ zerochunks<10words;service metadata/step fields attached,44page-footer regions k
 X029/C9association remains held;other held/support-only/existing selections accounted explicitly.
 H26–30admission included. H60/61/63/64image flows have22scalar rows with original region annotations;
 known H60decision/H64final cutoffs retained. Honors H52–54continuation linked as one record.
-All336selected candidate source comparisons accounted:213human-approved/123assistant-compared.
-No source-comparison queue remains;labels and final structural bindings still pending. No original/runtime-package/rule/vector/release/pin changes.
+Original336source comparisons accounted:213human/123assistant;current339reviewlineage mapped.
+No new sourcewording review required;broaderlabels/normalization/final structural bindings still pending. No original/runtime-package/rule/vector/release/pin changes.
 
 Sealed335base checks:335contracts,pending governance,1727native spans;139151native glyph positions/66image
 spans conserved,only94verified footer digits excluded;all34prior issue/claim sets retained,37total.
@@ -62,8 +62,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Resume existing labelled reauthoring/normalization/structuralbinding correction queue from delegatedresults.
-No routine sourceapproval wait;escalate only newly consequential content/association ambiguity if encountered.
+Continue broader service labelled reauthoring/nativehyphen/URLnormalization and final structuralbindings.
+Use current339overlay and repairmapping;preserve336baseline/receipts;escalate only new sourcejudgment.
 Approved Charter services need labelled reauthoring before use;frontend remains stopped.
 Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
 unclassified eligible native-policy remainder;43nonselected regions classified. Source comparison complete;structural corrections next.

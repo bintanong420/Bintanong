@@ -49,6 +49,11 @@ Both originalPDFhashes still match registered sources. No source/candidate/runti
 
 ## Technical correction queue — before use
 
+Follow-on:[three concrete repairs completed](2026-10-27-source-formatting-repair-results.md)
+in a separate339candidate derivative. The table below records the original findings;
+broader service reauthoring and normalization remain.
+
+
 These are extraction/packaging issues with visible original evidence,not new source
 retention judgments. They do not require another routine owner wording approval.
 
