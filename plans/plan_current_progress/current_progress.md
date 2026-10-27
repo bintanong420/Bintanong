@@ -3,6 +3,7 @@
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Current388results](../2026-10-27-nine-item-inclusion-results.md).
+New CLI:[session handoff](../2026-10-27-phase11-expanded-corpus-session-handoff.md);start here,then resume the next action.
 Last full snapshot before this condensation:121799b;earlier41d115e/32065bf;sourcebaseline4e99fb6.
 
 ## Latest change
