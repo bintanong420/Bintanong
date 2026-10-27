@@ -6,6 +6,15 @@ Last full snapshot before condensation:f635ccc;earlierd32aa18/a4aab39/0c08e60.
 
 ## Latest change
 
+[559vectors/maps](../2026-10-27-559-vector-binding-results.md):257new offline CPU
+embeddings/302exact checked reuses;all559contracts/token-ID parity/L2 pass. Two
+independent new-text re-encodes match exactly. Fresh corpus ID210b51f8;copied old
+manifest ID caught RED and corrected. Data GREEN3tests;facet GREEN4tests.
+208parent reviews exact plus32technical facets;all297oversized-map fields retained,
+largest facet30names.32actual selector/render checks pass;whole companions retained.
+Inactive local package559vectors/145subjects/240reviews accepts145storage probes.
+Capacity/answer/governed release gates remain;active78unchanged.
+
 [Flow evidence delivered](../2026-10-27-flow-evidence-results.md),f635ccc:opt-in
 source/span/event/geometry manifest with complete-group admission. Four originals
 13->27chunks;559candidate,532other objects exact.66old fields/spans/events preserved;
@@ -22,7 +31,7 @@ zero missing/unverified fields. Nine completion records/four claims share canoni
 subject;source words/limits unchanged. Strict foreign-field guard remains.
 Independent binding review confirms all208meanings/bases/orders and45limit subject
 sets;no P1/P2finding. DataRED3fail->GREEN3pass. Docs/phase30pass/14subtests12.78s.
-No vectors,query/model calls,hosted/default-budget/menu or active-pin change.
+That prior binding pass made no vectors/query/model calls or active-pin change.
 
 ## Prior verified increments
 
@@ -38,10 +47,9 @@ English input->English;Filipino/Taglish->Taglish. No measured latency speedup.
 
 ## Package state and boundaries
 
-559selection is not a runtime package:257texts need vectors;302potential exact-text
-reuses need checked rebinding. New145subject/208claim catalogue/register bind559;
-465vectors remain historical. Four groups exceed optional64-name maps. No
-field omission,bound override,default-budget/model/hosted change.
+559now has an inactive local package with559verified vectors/145subjects/240reviews.
+All208source reviews preserved;32field facets cover the four oversized parent maps.
+465package remains historical. No field omission,bound override,default/model/hosted change.
 New opt-in flow evidence carries unlabelled connectors/STARTand limited sources.
 Existing strict complete-flow codec and foreign-field rejection remain unchanged. Composite removal hold retains original issue/claims and full context.
 Original PDFs/base package/active pin unchanged. Hosted465draft predates corrections;
@@ -50,7 +58,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Prepare checked vector/text identity rebinding for559inactive chunks and resolve
-oversized detailed topic maps without dropping fields. Reuse settled source/flow/
-canonical evidence;capacity,answer quality and governed release remain separate.
-No default/hosted/active-pin change is implied by the metadata pass.
+Measure exact local routing/generation capacity for current559and32facets;reuse
+unchanged closure evidence. Then address selector/answer quality and governed release.
+No default/hosted/active-pin change is implied by preparation.

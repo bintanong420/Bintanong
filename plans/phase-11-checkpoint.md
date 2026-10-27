@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 216
+sequence: 218
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f635ccc
-working_tree: verified flow/canonical delivery documents;codef635ccc
-updated_at: 2026-10-27T22:10:21+08:00
+head_commit: 66cbdbd
+working_tree: 559vector/map results and snapshots;codef635ccc
+updated_at: 2026-10-27T23:08:04+08:00
 ---
 
 # Phase11checkpoint — flow evidence and current bindings verified
@@ -21,6 +21,11 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 
 ## Current Task
 
+[559vectors/maps](2026-10-27-559-vector-binding-results.md):local inactive package,
+559vectors/145subjects/240reviews.257new CPU embeddings/302exact reuses;all208parent
+reviews unchanged plus32bounded technical facets. Complete context stays required.
+Capacity and answer/governed release checks remain;active78unchanged.
+
 [Flow evidence delivered](2026-10-27-flow-evidence-results.md),f635ccc;[plan](2026-10-27-flow-evidence-implementation-plan.md).
 Opt-in source/span/event/geometry manifest with complete-group admission;old
 complete-arrow codec unchanged. Four originals13->27chunks,559total,532other
@@ -30,7 +35,7 @@ H60/H64limited,61/63complete visible source;all28connectors bound. No invented t
 559assignments/145subjects/208claims. Existing same-subject contract reused;both
 completion groups share grade_completion. Nine original records/four claims retained;
 all208actual selector/context/render profiles pass,source limits preserved.
-Bounded association/binding pass complete;candidate remains inactive,not a runtime package.
+Bounded association/binding pass complete;current local package remains inactive.
 
 ## Repository State
 
@@ -46,6 +51,15 @@ Other developer p11-policy-ingestion-review untouched;fork4e99fb6/receiptc76d988
 No frontend,dependency/model,hosted/source-state,private-data or active-pin changes.
 
 ## Verification Evidence
+
+559vector GREEN3pass3.42s after missing-coverage RED2fail and identity RED1fail/2pass.
+Independent all559token-ID/config/finite L2/identity checks pass;max norm error1.34e-7.
+Fresh163/470token text re-encodes match exactly. Encoding402.39s offline CPU cost.
+Facet RED2fail/2pass -> GREEN4pass1.15s;all297refs partitioned,largest30names.
+32actual facet selector/render profiles pass;four closures retained,max7566E5.
+Local six-file package accepts145filtered storage probes;not semantic quality proof.
+Relevant143tests/156subtests3.13s;docs/phase30tests/14subtests14.39s pass.
+Seven stable artifacts repeat exactly;two original PDFs/pin/package seals verify.
 
 Synthetic feature RED16fail/1pass0.81s -> focused122pass/172subtests3.11s.
 Fresh full7025passed/1608subtests,6skip/2xfail/6warnings1414.00s,exit0. Four symlink,
@@ -65,7 +79,7 @@ Twelve bindingJSONartifacts repeat exactly;four canonical profiles retain all li
 Docs/phase30passed/14subtests12.78s;links/diff/phase state valid.
 Ruff/Black/mypy/Bandit unavailable,not installed;changed files compile.
 Earlier3c55722full7011/1595subtests remains historical;new flow code uses fresh suite.
-No model inference,query-embedding run,answer-quality or runtime-fit claim.
+No query-embedding run,answer-quality or runtime-fit claim;E5preparation above.
 
 ## Versions and Digests
 
@@ -76,6 +90,8 @@ Stylep11v2/schema2;combinedp11v6/schema4;routerp11v23;policyenglish-taglish-2026
 Current559SHA5e790a240eb79e1d2b9d176d462abb587ac7646ea289018ffcbb882f27ed5bdf.
 CatalogueSHA3aeaa512f1cc63268c3bbbc44c6fe64734a757b74d7d1631b3f4d5f9d644849b.
 RegisterSHA1e9afab0b0455776b6bcc9828cc50bf989a47dc57caed2ba2d7f8b87d2b63c1b.
+Current embedding set210b51f8850ccb17be7bdc9531c1875915bc7364c17fc83e689aaeb74d3c654c.
+VectorSHA cc41167b32fd19c41fe0a1d1b28ac93a1fa36700cbe3dac76787d8461863291b.
 Image receiptSHA6e67b0c76b55fe6b2cf3387f3c23883c9bb93d7199dcbfbc743d639bf0399980.
 AliasSHA686fbbb38998fc5db9dd7e2449e07cfe458b499430d298fe7def85d9e3b3ea57.
 Both original PDFhashes,465base-package hashes and active pin freshly checked exact.
@@ -96,10 +112,9 @@ No measured controlled/browser latency improvement. No new hosted call/write.
 
 ## Known Failures or Blockers
 
-559is not a runtime package:257new-text vectors/302checked potential reuses needed.
-145subject/208claim metadata bind current559,but four whole-field maps65/71/76/85
-exceed optional64;detailed topic export held,no omission/bound override.54complete
-closures exceed2048. Earlier semantic selector/answer failures remain separate.
+559local package is inactive. Parent whole-field maps65/71/76/85remain intentionally
+absent above64;32bounded child maps cover all297fields without omission/override.
+54complete closures exceed2048. Earlier semantic selector/answer failures remain.
 Opt-in flow evidence is integrated locally;old complete-arrow codec remains strict.
 Canonical completion grouping reuses same-subject references,no foreign alias bypass.
 Removal retains composite checklist/form,total/H47hold;first-action anchor is not
@@ -109,10 +124,10 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Prepare checked vector/text identity rebinding for559inactive chunks and resolve
-oversized detailed topic maps without dropping fields. Reuse all source/flow/
-canonical proofs;then capacity/answer-quality/governed release gates. No default,
-hosted or active-pin change follows automatically from the metadata pass.
+Execute [559vector/capacity plan](2026-10-27-559-vector-capacity-plan.md).
+Measure exact local routing/generation capacity for current559and32facets,reusing
+unchanged closure proofs;then selector/answer-quality/governed release gates.
+No default,hosted or active-pin change follows automatically from preparation.
 
 ## Context Consulted
 
