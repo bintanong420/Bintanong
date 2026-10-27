@@ -497,3 +497,6 @@ Each program still gets its own dated review record listing which standing rule 
   Owner finds dense unformatted paragraphs hard to review:use source headings,
   one checklist item per line and paired table columns. Requests fresh-session
   handoff,next BatchB. This is not phase completion or publication authorization.
+
+- 27October2026, partial-service coverage: owner directs “alright lets cover those, add them as chunks and lets keep finding more stuff that we mightve missed out, of course considering our scope and limitations”. Add clear fields of initialTOR C8–10,complexcertifications C16–17 and academicrequests C109–110 as inactive source-limited candidates. Preserve first-row mappings/CARMA-CCRD/request-subject holds;no new hosted activation.
+- 27October2026, Handbook48 clause selection: after seeing the exact final Submission of Grades sentence, owner replies “Include this student-process sentence”. Include “Removal and completion grades must be submitted to the Office of the University Registrar within five (5) working days from removal or completion of deficiency by the faculty.” as a faculty action following student removal/completion. Keep other standalone faculty reporting excluded;this does not alter student completion deadlines or resolve existing H47 conflicts. See `2026-10-27-partial-service-supplement-results.md`.
