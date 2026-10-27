@@ -59,11 +59,11 @@ IDs in available sources,claims,source IDs,coverage and order/quotation metadata
 That is removable wire overhead if a request-local bijection preserves all source
 text and host-bound canonical review identities. It is not a source-content decision.
 
-Next:design/test an opt-in short-reference review path using the existing evidence
-reference codec;preserve canonical defaults and output,all evidence/limits,part and
-support checks. Measure the six failing review profiles after that change. Repair
-fit needs a separate reachable-output check (the capacity sample is not an actual
-768-token model draft);retain the existing overflow refusal. Do not trim source
+The [opt-in short-reference review correction](2026-10-27-short-review-reference-results.md)
+is now delivered inb695739:all six review profiles fit,with exact inverse payload
+identity and unchanged canonical defaults. Its separate reachable-output check
+confirms that valid676/677token drafts can still overflow discipline repair;
+retain the existing refusal. Do not trim source
 companions,raise model/default budgets or claim answer quality from prompt fit.
 
 Actual semantic selection,retrieval,English/Taglish/Hybrid answers and governed

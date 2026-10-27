@@ -2,17 +2,24 @@
 
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full snapshot before condensation:f635ccc;earlierd32aa18/a4aab39/0c08e60.
+Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
+
+[Short review wire](../2026-10-27-short-review-reference-results.md):RED13fail ->
+focused192pass3.34s. Codeb695739;all six review overflows now fit (max6738input),inverse payload
+identity exact. Three saved TORanswers match en/Taglish in six actual model calls.
+Full7038pass/1608subtests,6skip/2xfail/6warnings1388.54s,exit0;defaults unchanged.
+Docs/phase30pass/14subtests25.59s;sealed input/package/pin/link checks pass.
+Reachable676/677token drafts
+still yield discipline repair totals8322/8331;existing overflow refusal retained.
 
 [Capacity measured](../2026-10-27-559-capacity-results.md):195unchanged closure
 proofs reused plus4updated flows;199closures/54over2048,max7864E5. Compact145selector
 3411input and every single detailed topic fit8192;full menu/eight-largest do not.
 92claims/184English-Taglish profiles:all initial prompts fit;2repair samples and
-6review samples overflow. Review repeats canonical IDs despite short draft profile.
-No inference,answer-quality,default-budget or activation claim. Next:opt-in compact
-review wire preserving all evidence/canonical guards;separate reachable repair check.
+6canonical review samples overflow;the new opt-in path addresses those six only.
+No default-budget,expanded answer-quality or activation claim.
 
 [559vectors/maps](../2026-10-27-559-vector-binding-results.md):257new offline CPU
 embeddings/302exact checked reuses;all559contracts/token-ID parity/L2 pass. Two
@@ -66,6 +73,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Address measured review-prompt overhead with opt-in request-local short references;
-check reachable repair outputs,then actual selector/answer quality and governed release.
+Prepare a bounded correction for reachable discipline repair overflow,preserving all
+source evidence and the fixed window/margin;then current559selector/answer/release checks.
 No default/hosted/active-pin change is implied by preparation.

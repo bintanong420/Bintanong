@@ -18,6 +18,8 @@
   [Service pass](2026-10-27-service-association-closure-results.md):34services;
   [559vectors/maps](2026-10-27-559-vector-binding-results.md),40a35f9:complete inactive local package.
   [Capacity](2026-10-27-559-capacity-results.md):initial prompts fit;review/repair overflows remain.
+  [Opt-in review references](2026-10-27-short-review-reference-results.md),b695739:6/6review probes fit;
+  full7038pass/1608subtests. Repair/default-budget/answer/release gates remain.
   [Closure checklist](2026-10-27-expanded-release-closure-checklist.md);answer/release gates remain.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),

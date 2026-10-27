@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 220
+sequence: 224
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 40a35f9
-working_tree: measured capacity results and snapshots;codef635ccc
-updated_at: 2026-10-27T23:19:07+08:00
+head_commit: b695739
+working_tree: verified review-reference delivery documents
+updated_at: 2026-10-27T23:50:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -15,23 +15,28 @@ updated_at: 2026-10-27T23:19:07+08:00
 
 Backend/API/security/CF1–CF6 delivered;39curricula/2132facts. Corrected78research
 release active;80draft/19superseded retained. Phase11active;Phase12not permitted.
-Last full snapshot:d32aa18;priora4aab39/0c08e60/7c6b0fc/fd4c2d4/d12d8f4.
+Last full snapshot:ba7d8b4;prior40a35f9/d32aa18/a4aab39/0c08e60/7c6b0fc.
 All original reviews/all-nine inclusion,source-context/router/reply migrations and
 quoted-field prototype retained. Prior source baseline4e99fb6;previous code freeze3c55722.
 
 ## Current Task
 
+[Short review references](2026-10-27-short-review-reference-results.md):RED13fail
+-> focused192pass3.34s;six formerly overflowing review prompts now fit,complete
+inverse payload identity. Three saved real-source quoted answers match in six model
+calls. Codeb695739;no default change,canonical host identities retained.
+Full7038pass/1608subtests,6skip/2xfail/6warnings1388.54s,exit0. Docs/phase30pass/
+14subtests25.59s (final13.00s);receipt/conservation/package/pin/local-link checks pass.
+
 [559vectors/maps](2026-10-27-559-vector-binding-results.md):local inactive package,
 559vectors/145subjects/240reviews.257new CPU embeddings/302exact reuses;all208parent
 reviews unchanged plus32bounded technical facets. Complete context stays required.
-[Capacity](2026-10-27-559-capacity-results.md):all initial prompts fit,but measured
-repair/review overflows remain;answer/governed release checks open,active78unchanged.
+[Capacity](2026-10-27-559-capacity-results.md):all initial prompts fit. Reachable
+repair counterexamples8322/8331still overflow;answer/release gates open,active78unchanged.
 
-[Flow evidence delivered](2026-10-27-flow-evidence-results.md),f635ccc;[plan](2026-10-27-flow-evidence-implementation-plan.md).
-Opt-in source/span/event/geometry manifest with complete-group admission;old
-complete-arrow codec unchanged. Four originals13->27chunks,559total,532other
-objects exact.66old fields/spans/events retained;13visible markers/labels added.
-H60/H64limited,61/63complete visible source;all28connectors bound. No invented text.
+[Flow evidence](2026-10-27-flow-evidence-results.md),f635ccc:13->27chunks,532other
+records exact;66old fields/spans/events plus13visible markers/labels. H60/H64limited;
+61/63complete visible source;28connectors bound. Older complete-arrow codec unchanged.
 [Canonical/current bindings](2026-10-27-current-canonical-binding-results.md):
 559assignments/145subjects/208claims. Existing same-subject contract reused;both
 completion groups share grade_completion. Nine original records/four claims retained;
@@ -40,7 +45,7 @@ Bounded association/binding pass complete;current local package remains inactive
 
 ## Repository State
 
-p11/feat/p11-backend-api;codef635ccc after previous3c55722freeze;nothing pushed.
+p11/feat/p11-backend-api;codeb695739 after flowf635ccc;nothing pushed.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
 Current559:A/p11-flow-evidence-20261027;source author/verifier,readings,spans/events,
 flow manifests,27authored records,contexts,RED/GREEN/full logs and determinism.
@@ -67,15 +72,9 @@ initial0overflow,4096charrepair2overflow,8shortclaimreview6overflow. No inferenc
 199closures:195unchanged proofs reused/4fresh flows;54over2048,max7864. Independent
 coverage/arithmetic/package/pin audit passes;1400local template/tokenize calls.
 
-Synthetic feature RED16fail/1pass0.81s -> focused122pass/172subtests3.11s.
-Fresh full7025passed/1608subtests,6skip/2xfail/6warnings1414.00s,exit0. Four symlink,
-CUDA/OCRextra and legacy-dataset skips;photo-layout xfails/deprecations retained.
-Independent code review P2malformed field/gap crash reproduced RED then fixed;
-review recheck14tests/13subtests green,no remaining substantive issue.
-Source proof:66old fields/spans/events exact,13visible labels/markers added,
-532other records exact;four complete diagnostic contexts3168/3242/2701/5016E5.
-14flowJSONartifacts repeat exactly. Reuse195unchanged closure proofs plus four
-fresh flow assemblies:199closures,54over2048,max7864;record max477,authored470.
+Prior flow freezef635ccc:full7025pass/1608subtests,6skip/2xfail/6warnings1414s,exit0.
+Malformed-input review finding reproduced/fixed before freeze;prior code review clean.
+14flow artifacts repeat exactly;contexts3168/3242/2701/5016E5;record max477/authored470.
 Current-binding RED3fail0.70s -> GREEN3pass0.69s. Root actual208selector/context/
 render profiles pass:206reviewed-fields-available,2intentional insufficient-evidence,
 zero missing/unverified fields,48.269s offline audit cost,not student latency.
@@ -85,7 +84,7 @@ Twelve bindingJSONartifacts repeat exactly;four canonical profiles retain all li
 Docs/phase30passed/14subtests12.78s;links/diff/phase state valid.
 Ruff/Black/mypy/Bandit unavailable,not installed;changed files compile.
 Earlier3c55722full7011/1595subtests remains historical;new flow code uses fresh suite.
-No query-embedding run,answer-quality or runtime-fit claim;E5preparation above.
+No fresh query-embedding,broad559/Hybrid accuracy or latency claim;E5preparation above.
 
 ## Versions and Digests
 
@@ -120,8 +119,9 @@ No measured controlled/browser latency improvement. No new hosted call/write.
 
 559local package is inactive. Parent whole-field maps65/71/76/85remain intentionally
 absent above64;32bounded child maps cover all297fields without omission/override.
-54complete closures exceed2048. Review/repair sample overflows and actual semantic
-selector/answer checks remain;short draft aliases do not shorten current review IDs.
+54complete closures exceed2048. Opt-in review aliases fix the six known review
+overflows;canonical default unchanged. Reachable repair overflow and actual current
+selector/answer checks remain. Lossless JSON-object probe still exceeds8192.
 Opt-in flow evidence is integrated locally;old complete-arrow codec remains strict.
 Canonical completion grouping reuses same-subject references,no foreign alias bypass.
 Removal retains composite checklist/form,total/H47hold;first-action anchor is not
@@ -132,8 +132,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 ## Next Action
 
 Execute [559vector/capacity plan](2026-10-27-559-vector-capacity-plan.md).
-Address review-prompt overhead through opt-in request-local short references;
-check reachable repair outputs,then actual selector/answer-quality/governed release.
+Prepare a bounded correction for reachable discipline repair overflow,preserving
+all source evidence and fixed window/margin;then current559selector/answer/release checks.
 No default,hosted or active-pin change follows automatically from preparation.
 
 ## Context Consulted
