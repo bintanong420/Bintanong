@@ -137,6 +137,11 @@ export default function ReviewWorkspace() {
       }}>Reload packet</Button>}
     </div>}
     {message && <p className="notice success" role="status">{message}</p>}
+    {state?.items.some(row => row.fields.length > 0) && <p className="notice" role="status" aria-label="AI assistance">
+      {state.items.some(row => row.fields.some(field => field.assistance))
+        ? 'AI assistance notes appear beside the extracted fields. You decide what to save.'
+        : 'AI suggestions are not included in this packet. You can review and correct the extracted text against the PDF.'}
+    </p>}
     {state?.source_basis?.kind === 'reviewed_snapshot' && <section className="scope-note" aria-label="Source coverage">
       <h1>Handbook and Citizens’ Charter</h1><p>{state.items.length} source records. Compare the PDF, check each field, then save your review.</p>
       <details><summary>What am I reviewing?</summary><p>{state.source_basis.candidate_review

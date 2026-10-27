@@ -82,6 +82,34 @@ test('switching documents resets the field draft and keeps the review controls u
     } catch (error) {
       throw Error(await evaluate('JSON.stringify({url:location.href,text:document.body.innerText})'), { cause: error });
     }
+    if (!prospectus) {
+      const hasAssistance = state.items.some(row => row.fields.some(field => field.assistance));
+      assert(await evaluate(`document.querySelector('[aria-label="AI assistance"]')?.textContent.includes(${JSON.stringify(
+        hasAssistance ? 'You decide what to save.' : 'AI suggestions are not included in this packet.')})`),
+        'the reviewer must explain whether the packet contains AI assistance');
+      for (const theme of ['light', 'dark']) {
+        const contrast = await evaluate(`(() => {
+          document.documentElement.dataset.appearance = ${JSON.stringify(theme)};
+          const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
+          const ctx = canvas.getContext('2d');
+          const luminance = color => {ctx.fillStyle=color;ctx.fillRect(0,0,1,1);
+            const rgb=[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});
+            return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];};
+          const foreground=luminance(getComputedStyle(document.querySelector('[aria-label="AI assistance"]')).color);
+          const background=luminance(getComputedStyle(document.body).backgroundColor);
+          return (Math.max(foreground,background)+.05)/(Math.min(foreground,background)+.05);
+        })()`);
+        assert(contrast >= 4.5, `${theme} assistance notice contrast: ${contrast}`);
+      }
+      for (const width of [390, 720]) {
+        await send('Emulation.setDeviceMetricsOverride', { width, height: 844, deviceScaleFactor: 1, mobile: width === 390 });
+        assert(await evaluate('document.documentElement.scrollWidth <= innerWidth'), `assistance notice overflows at ${width}px`);
+      }
+      await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false });
+      await until(() => evaluate("document.querySelector('.pdf-page img')?.naturalWidth > 0"));
+      await evaluate("window.scrollTo(0,0)");
+      await writeFile(path.join(path.dirname(launchFile), 'ai-assistance-status-desktop.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' })).data, 'base64'));
+    }
     if (assisted) {
       assert.equal(process.env.BINTANONG_REVIEW_TEST_WRITE, 'isolated-rehearsal', 'AI save rehearsal requires explicit synthetic write mode');
       assert.match(state.researcher, /^Automated rehearsal/);

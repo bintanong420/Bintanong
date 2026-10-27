@@ -51,10 +51,24 @@ or original source was altered by automated verification.
 Read-only existing browser flow passes6.07s against the actual new production UI.
 The packet is still unassisted;real AI output is not fabricated to make cards show.
 
-Follow-up browser RED2.64s:the UI provides no explanation that this packet contains
-no AI assistance. Add a single packet-level status using existing styles;keep the
-source comparison and manual review controls unchanged. GREEN/delivery evidence
-will replace this running-test status before handoff.
+Follow-up browser RED2.64s:the UI provided no explanation that this packet contains
+no AI assistance. Added one packet-level status using existing styles;source
+comparison/manual review controls unchanged. Node7pass/1browser-skip and TypeScript
+pass. Production-copy browser GREEN5.78s;synthetic assisted Use/Ignore/edit/Save
+regression GREEN1.50s. Both notices have >=4.5:1 text contrast in light/dark and
+no viewport overflow at390/720px. Real device keyboard/zoom/full accessibility
+acceptance are not inferred from these limited checks. Screenshots visually inspected.
+Synthetic fixture writes were confined to a fresh ignored synthetic packet;normal
+real-data browser checks are read-only. Final served session returns to the real
+72-record copy,not the synthetic rehearsal. Original owner tabs remain unchanged.
+
+Browser command:node --experimental-strip-types --test
+researcher/tests/document-switch.test.mjs,with BINTANONG_REVIEW_TEST_LAUNCH pointing
+at the appropriate ignored launch-url.txt. Only the synthetic rehearsal sets
+BINTANONG_REVIEW_TEST_WRITE=isolated-rehearsal. npm test and
+node node_modules/typescript/bin/tsc --noEmit run from researcher/.
+No product tests were added outside the already-approved public preparation/review
+seams. Native/DB/live-model gates remain unavailable as previously recorded.
 
 Original local lifecycle T4/T5 and live provider/human evaluation gates remain
 separate. Docker/native dependency limitations are inherited;no repair-by-install
