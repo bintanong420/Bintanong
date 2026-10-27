@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 182
+sequence: 183
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7476639
-working_tree: hosted staging plan/results, index, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T12:53:20+08:00
+head_commit: bd431a2
+working_tree: expanded context validation plan/results, index, progress and checkpoint; inspect Git on resume
+updated_at: 2026-10-27T13:04:41+08:00
 ---
 
 # Phase11checkpoint — combined465hosted draft;active78 unchanged
@@ -21,14 +21,18 @@ First9candidate packet and2actual human approvals recorded in32065bf,alongside b
 
 ## Current Task
 
-[Hosted staging results](2026-10-27-hosted-corpus-staging-results.md):465combined chunks now hosted
-in p11-research-combined-20261027,**draft/inactive**;388new+77existing after exact-alias omission.
-465vectors/39curricula/5versions;2283selected spans. Every old row preserved across16tables.
-Corrected78still active/runtime-visible;old80draft/19superseded retained. No source-state promotion.
-Local E5 388encoded/77reused,1024L2,max477tokens;19storage tests/39subtests and actual-data rehearsal pass.
-Hosted vector timeout rolled back to zero;25-row batches succeeded;exact readback/independent MCP pass.
-Source wording/PDFs/local runtime pin unchanged. Evidence A/p11-hosted-expanded-staging-20261027;
-A=workspace/audit-evidence;sealed artifacts/recovery saved.
+[Expanded context validation](2026-10-27-expanded-context-validation-results.md):all465contracts/
+closures/cited assemblies pass at diagnostic32768budget;206fit default2048,259exceed it across49closures.
+Largest corrected context7864E5tokens;no Gemma full-prompt fit claim. Existing two budget overrides retained.
+Source images verify11printed hyphens and4wrapped addresses in2fields;13chunks corrected in local derivative.
+69token-count fields refreshed(66older stale+3new);all465exact<=477.136IDs rebound;329full objects exact.
+Source geometry/limits conserved;4artifacts repeat identical;105tests/121subtests pass2.97s;PDFhashes unchanged.
+Old77assignment catalogue rejects changed set;388new readings unassigned. No source approval invented.
+Normalized465JSON SHAd9ae14ded25923954a3a90ddcd843d4634eed460d9782c3e0389481536810a26.
+Evidence A/p11-expanded-context-validation-20261027;A=workspace/audit-evidence;sealed local derivative only.
+Hosted465draft and active78/local pin unchanged. Local model endpoint unavailable;no inference run.
+
+[Hosted staging](2026-10-27-hosted-corpus-staging-results.md) delivered465draft;active78unchanged.
 
 [TOC/List of Services check](2026-10-27-contents-and-services-coverage.md):54listed Charter services
 accounted,38included across corrected78+388drafts/16excluded HR-PMO. Zero unmapped eligible list entries.
@@ -57,8 +61,8 @@ programs,employee/supplier service expansion,clinical/legal determinations or ex
 
 ## Repository State
 
-p11/feat/p11-backend-api;parent7476639;nothing pushed.
-Hosted staging plan/results,index/progress/checkpoint changed;ignored staging evidence added.
+p11/feat/p11-backend-api;parentbd431a2;nothing pushed.
+Context-validation plan/results,index/progress/checkpoint changed;ignored normalized derivative added.
 Original PDFs,388authoring derivative,active package/local runtime pin and production code unchanged.
 Last full snapshot before condensation:121799b;earlier41d115e/32065bf;sourcebaseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
@@ -125,8 +129,9 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Resolve structural/canonical packaging and runtime context-budget/answer checks for hosted465draft;
-keep corrected78active. No activation/source-state promotion/frontend;prior human approvals stand.
+Use normalized465derivative for expanded source-bound topic/claim register and per-subject budget checks,
+then full-model prompt preflight/answer regressions. Preserve independent service/image/source gates;
+no activation/source promotion/frontend. Prior approvals stand;no re-review of settled wording.
 
 ## Context Consulted
 

@@ -7,14 +7,19 @@ Last full snapshot before this condensation:121799b;earlier41d115e/32065bf;sourc
 
 ## Latest change
 
-[Hosted staging results](../2026-10-27-hosted-corpus-staging-results.md):465combined chunks now hosted
-in p11-research-combined-20261027,**draft/inactive**;388new+77existing after exact-alias omission.
-465vectors/39curricula/5versions;2283selected spans. Every old row preserved across16tables.
-Corrected78still active/runtime-visible;old80draft/19superseded retained. No source-state promotion.
-Local E5 388encoded/77reused,1024L2,max477tokens;19storage tests/39subtests and actual-data rehearsal pass.
-Hosted vector timeout rolled back to zero;25-row batches succeeded;exact readback/independent MCP pass.
-Source wording/PDFs/local runtime pin unchanged. Evidence A/p11-hosted-expanded-staging-20261027;
-A=workspace/audit-evidence;sealed artifacts/recovery saved.
+[Expanded context validation](../2026-10-27-expanded-context-validation-results.md):all465contracts/
+closures/cited assemblies pass at diagnostic32768budget;206fit default2048,259exceed it across49closures.
+Largest corrected context7864E5tokens;no Gemma full-prompt fit claim. Existing two budget overrides retained.
+Source images verify11printed hyphens and4wrapped addresses in2fields;13chunks corrected in local derivative.
+69token-count fields refreshed(66older stale+3new);all465exact<=477.136IDs rebound;329full objects exact.
+Source geometry/limits conserved;4artifacts repeat identical;105tests/121subtests pass2.97s;PDFhashes unchanged.
+Old77assignment catalogue rejects changed set;388new readings unassigned. No source approval invented.
+Normalized465JSON SHAd9ae14ded25923954a3a90ddcd843d4634eed460d9782c3e0389481536810a26.
+Evidence A/p11-expanded-context-validation-20261027;A=workspace/audit-evidence;sealed local derivative only.
+Hosted465draft and active78/local pin unchanged. Local model endpoint unavailable;no inference run.
+
+[Hosted staging](../2026-10-27-hosted-corpus-staging-results.md):465draft/465vectors/39curricula/5versions;
+388new+77reused,all old rows preserved;active78 and old80draft/19superseded retained.
 
 [Contents/service-list check](../2026-10-27-contents-and-services-coverage.md):all54Charter listed services
 accounted;38undergraduate services represented across corrected78+388drafts,16HR/PMO services excluded.
@@ -30,17 +35,7 @@ Current388inactive chunks:181H/207C;346prior chunks exact+42added/rebuilt replac
 Of18replaced:8certification+5academicrequest limitations updated;5honors parts keep exact fields/limits
 and gain sixth companion for short-program paragraph. Original receipts/IDs mapped,not reapproved.
 
-CurrentJSONSHA589530958bc5ca0745012b0c2c0ee44f1b55883eadd215506b03081c8f38c7b6.
-Evidence A/p11-full-process-coverage-20261027/nine-items-included;A=workspace/audit-evidence.
-SOURCE-CHECKED-NINE-ITEMS.md has source/pages,current chunk numbering and companion context.
-Owner receipt,nine-item accounting and18old-ID mappings sealed with current outputs.
-
-Independent172fields/9195nativeglyph positions/geometry pass;388contracts/bindings/neighborclosure pass.
-Cash/check shared person/office and check shared None fee confirmed from original images.
-Effective24negative/held Hboundaries zero intersections;old boundary history preserved.
-Newmax423exactE5tokens;overall475<=480;min13sourcewords. Eight core files repeat byte-identical.
-15delivery files sealed;100tests/151subtests pass2.46s/exit0. No production behavior/full-suite rerun.
-Both PDFs/active78package/pin unchanged. No hosted/model/dependency/rule/frontend work.
+Original388authoring/results and all earlier receipts remain in the linked all-nine report.
 
 ## Coverage and retained limitations
 
@@ -59,8 +54,8 @@ approval inferred from applicability inclusion. Source governance remains pendin
 
 ## Boundaries and remaining work
 
-- Broader service labels/nativehyphen/URLnormalization,final image/service structural bindings,
-  runtime context budgets and answer regressions remain before activation;embeddings staged.
+- Broader service labels/canonical packaging,final image/service structural bindings,
+  expanded topic/claim bindings,context budgets and answer regressions remain;staged vectors predate corrections.
 - Corrected78research release/39curricula active at last read;80draft/19superseded retained.
   Fresh hosted465draft staged;active78 unchanged. Production unchanged706d3c6;historical6896tests/1595subtests
   belongs706d3c6,not this task. Natural grading0/2and six Taglish register misses remain.
@@ -72,5 +67,6 @@ approval inferred from applicability inclusion. Source governance remains pendin
 
 ## Next action
 
-Resolve structural/canonical packaging and runtime context-budget/answer validation for hosted465draft.
+Use normalized465derivative to bind expanded topics/claims and validate per-subject complete context budgets,
+then full-model prompt preflight/answer checks. Preserve gaps and independent service/image review gates.
 Keep corrected78active;no activation,source-governance promotion or frontend integration.

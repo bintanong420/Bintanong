@@ -25,6 +25,7 @@
 - Phase **11 active (backend done; security check done 24 Oct ([review](2026-10-24-phase-11-security-review.md)); roster19 compared; corrected78 research release active)** in p11 / `feat/p11-backend-api`: HTTP API, AI SDK v7 stream
   adapter, 24.1 photo rows, 24.2 Taglish style. [Plan](phase-11-backend-api-plan.md) ·
   [Checkpoint](phase-11-checkpoint.md) · [Latest review:BatchBcomplete](2026-10-27-phase11-batch-b-review-results.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
+  [Context validation/normalized465](2026-10-27-expanded-context-validation-results.md):13format corrections;105tests/121subtests pass;expanded catalogue/context-budget gates remain.
   [Hosted465draft](2026-10-27-hosted-corpus-staging-results.md):388new+77reused,465vectors/39curricula;old rows/active78 preserved. Structural/runtime gates remain.
   [Current388candidate overlay](2026-10-27-nine-item-inclusion-results.md):all nine owner selections included;346unchanged+42added/rebuilt replace18,net+24from364. [Prior339formatting](2026-10-27-source-formatting-repair-results.md)/original336receipts preserved;broaderlabelling/structural gates pending,inactive.
   [Hosted80-chunk audit](2026-10-25-hosted-chunk-review.md) complete:72approved/8correction-needed;draft inactive.
