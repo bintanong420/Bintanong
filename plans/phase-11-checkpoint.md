@@ -91,6 +91,11 @@ C PDF42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529.
 
 ## Decisions
 
+Owner27Octretires exclusive-Filipino replies;English input->English,Filipino/Taglish
+input->Taglish. Filipino input remains. Purpose:less burden,better response time;
+not yet measured. [Approved migration](2026-10-27-english-taglish-response-decision.md)
+is next after frozen36d5f56source-context verification;do not re-ask approval.
+
 Keep candidate inactive:capacity/guards/schema-valid RAG do not prove subject,
 claim or answer correctness. No broad prompt sweep;reuse exact saved failures.
 Owner all-nine inclusion and prior explicit human/delegated source comparisons

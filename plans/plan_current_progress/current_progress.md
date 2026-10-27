@@ -6,6 +6,10 @@ Last full snapshots before condensation:f726e72(checkpoint/progress),9043a40(ses
 
 ## Latest change
 
+Owner27Oct:[English/Taglish reply decision](../2026-10-27-english-taglish-response-decision.md).
+Filipino input remains;exclusive-Filipino output retired to reduce burden/latency.
+Approved migration is next;36d5f56still uses legacy outputs. No timing gain claimed.
+
 [Source-bound correction](../2026-10-27-source-bound-routing-context-plan.md):opt-in
 labels/column hints implemented;default146serialized topics exact.32labelled services,
 18grade claims;four33–48field maps retained at64cap;output bound8unchanged.

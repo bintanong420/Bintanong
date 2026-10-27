@@ -1029,3 +1029,16 @@ attempts to extract secrets or internal data) get the fixed out-of-scope notice.
 13/13 such questions refused (after fix `5ee7b50`), 0 leaked markers, the in-scope control still answered. The
 model never writes free text to students: replies are validated claims over release evidence or fixed host
 lines. Keep an abuse family in the Phase 12 evaluation, separate from prompt tuning.
+
+## 26. Addendum (owner decision, 27 October 2026) — Reply languages
+
+[Accepted decision](2026-10-27-english-taglish-response-decision.md): Bintanong keeps
+English,Filipino/Tagalog and Taglish inputs,with English and Taglish replies only.
+English input defaults English;Filipino/Tagalog and Taglish input default Taglish.
+The exclusive-Filipino output target is retired to reduce implementation burden
+and improve response time. Preserve English source terms/quotations and all
+accuracy/source/privacy guards;measure latency rather than inferring improvement.
+Apply across prompts,generation/checking,host rendering,clarifications and evaluation.
+Version changed reply-style expectations;retain accepted input wordings,historical
+results and original thesis/source bytes. This modifies earlier reply-language
+requirements,not undergraduate scope,routing architecture or release/phase gates.

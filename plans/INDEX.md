@@ -27,6 +27,7 @@
   [Checkpoint](phase-11-checkpoint.md) · [New CLI handoff](2026-10-27-phase11-expanded-corpus-session-handoff.md) · [Latest review:BatchBcomplete](2026-10-27-phase11-batch-b-review-results.md) · [Pre-phase research](2026-10-23-phase-11-pre-phase-research.md).
   [Expanded bindings/capacity](2026-10-27-expanded-topic-binding-results.md):465assigned/146subjects;full-menu prompt too large;two-step design fits preflight;117tests/156subtests pass.
   [Two-step routing](2026-10-27-two-step-topic-routing-results.md):opt-in f726e72;full6929tests/1595subtests pass;12live routing probes expose subject/claim/style/follow-up failures;inactive.
+  [Reply-language decision27Oct](2026-10-27-english-taglish-response-decision.md):English/Filipino/Taglish inputs;English/Taglish replies only. Approved migration pending;burden/latency rationale recorded.
   [Context validation/normalized465](2026-10-27-expanded-context-validation-results.md):13format corrections;105tests/121subtests pass;expanded catalogue/context-budget gates remain.
   [Hosted465draft](2026-10-27-hosted-corpus-staging-results.md):388new+77reused,465vectors/39curricula;old rows/active78 preserved. Structural/runtime gates remain.
   [Current388candidate overlay](2026-10-27-nine-item-inclusion-results.md):all nine owner selections included;346unchanged+42added/rebuilt replace18,net+24from364. [Prior339formatting](2026-10-27-source-formatting-repair-results.md)/original336receipts preserved;broaderlabelling/structural gates pending,inactive.

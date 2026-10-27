@@ -502,3 +502,12 @@ Each program still gets its own dated review record listing which standing rule 
 - 27October2026, Handbook48 clause selection: after seeing the exact final Submission of Grades sentence, owner replies “Include this student-process sentence”. Include “Removal and completion grades must be submitted to the Office of the University Registrar within five (5) working days from removal or completion of deficiency by the faculty.” as a faculty action following student removal/completion. Keep other standalone faculty reporting excluded;this does not alter student completion deadlines or resolve existing H47 conflicts. See `2026-10-27-partial-service-supplement-results.md`.
 
 - 27October2026, all nine remaining applicability items: owner replies “include all of them. Yes” to `2026-10-27-remaining-applicability-review.md`. Include undergraduate-facing cash claims C70–71,check claims C72–73,library requisition C86,library donation acknowledgment C83,academic requests C109–110,CARMA/Transfer toCCRD certification titles C16–17,academic-deficiency paragraph H30,shorter-than-four-year honors H53(context52),and international-internship reference H106. Supersedes their audience/support-selection holds,including the earlier H30hold. Preserve actual source defects,unknown acronym expansions,initial-row mappings,missing internship steps,other program exclusions and currentness/release gates. No new hosted activation,entitlement or executable rule authorized;do not re-ask these nine. Applied result:`2026-10-27-nine-item-inclusion-results.md`.
+
+- 27October2026, reply-language scope: owner retires exclusive Filipino/Tagalog
+  replies while retaining Filipino/Tagalog input. Supported replies are English
+  and Taglish;English input defaults English,Filipino/Taglish input defaults Taglish.
+  Owner rationale: “this is to lessen the burden and to improve the response time”.
+  This explicitly supersedes earlier Filipino-reply targets;retain accepted input
+  wordings/historical runs and accuracy/source/privacy gates. No latency improvement
+  is yet measured. Implementation still pending after frozen36d5f56source-context
+  verification;[decision](2026-10-27-english-taglish-response-decision.md).
