@@ -39,11 +39,11 @@ measurement. Do not remove review/evidence checks to improve speed.
    Update current test expectations for changed owner targets,not assertions of
    source fidelity/canonical decisions. Version evaluation policy and report raw
    versus current expected style without rewriting accepted input cases.
-3. [ ] Bounded actual-model style/routing+host/document output observations in
+3. [x] Bounded actual-model style/routing+host/document output observations in
    English/Filipino/Taglish with same saved questions;verify claims/route/style
    separately. Preserve source English terms. Record call counts/stage times and
    exclusions;do not claim browser latency or a speedup from tiny samples.
-4. [ ] Independent review,relevant routing/generation/API/context tests and full
+4. [x] Independent review,relevant routing/generation/API/context tests and full
    project suite at final code. Docs/phase/diff checks;record final limitations,
    versions,commands,results and next action. No phase advancement.
 
@@ -76,4 +76,8 @@ and fixture correction1235passed32.93s. Independent review caught stale routing
 prompt language instruction;fixed with separate input/reply explanation.
 Final independent104tests pass7.27s;no blocking findings. Follow-up broad1236passed/
 1old prompt-version assertion failed;updated v21->v22without changing behavior assertions.
-Bounded actual-model observations underway;no latency gain claim.
+Actual observations complete:saved8/8routing targets match policy;Filipino/Taglish
+synthetic generation returns Taglish;English relevance probe withheld. Style prompt
+95tokens smaller,call counts unchanged;no controlled latency gain claim.
+Full frozen28edea4suite6974passed/1595subtests,6skip/2xfail/6warnings,1382.84s,exit0.
+Docs/phase30passed/14subtests15.40s. [Results](2026-10-27-english-taglish-migration-results.md).

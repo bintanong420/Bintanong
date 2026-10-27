@@ -47,7 +47,8 @@ an output target alone does not prove fewer model calls or faster full answers.
 
 ## Current implementation state
 
-Recorded while the source-bound correction's frozen36d5f56suite runs. That build
-still uses the legacy Filipino reply target. Apply this decision in the next
-cohesive TDD unit;recording it does not implement the migration or establish a
-latency gain. No expanded-corpus activation,frontend integration or phase advance.
+Implemented in28edea4underTDD;[migration results](2026-10-27-english-taglish-migration-results.md)
+separate input family and reply targets,retain legacy raw records,and report actual
+observations/remaining limitations. Full suite6974passed/1595subtests,6skip/2xfail.
+The style prompt is95tokens smaller on matched probes;latency benefit remains
+unproven. No expanded-corpus activation,frontend integration or phase advance.

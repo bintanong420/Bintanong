@@ -31,8 +31,9 @@ synthetic fixtures in tracked tests, owner samples only in workspace `audit-evid
 replace the exclusive-Filipino output target to reduce burden and improve response
 time. Filipino input remains supported. Apply the approved migration across prompts,
 host rendering and current reply-style expectations with TDD;retain old raw runs.
-This requirement remains pending in36d5f56and must be implemented before claiming
-the revised language exit. No new confirmation or accepted-question rewording needed.
+Software migration delivered28edea4;[results](2026-10-27-english-taglish-migration-results.md)
+record revised wire/expectations and bounded observations. Full suite6974passed;
+not a complete language-accuracy or latency claim. No accepted input rewording needed.
 
 ## Owner decisions (23 Oct 2026)
 
