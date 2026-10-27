@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 173
+sequence: 174
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 6acc4c6
+head_commit: da3e5be
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T10:59:39+08:00
+updated_at: 2026-10-27T11:05:59+08:00
 ---
 
-# Phase11checkpoint — bulk candidate packet awaiting human review
+# Phase11checkpoint — source comparison complete; structural repairs pending
 
 ## Completed Tasks
 
@@ -28,7 +28,7 @@ held/support-only selections explicit. Source-held literal candidates do not res
 H26–30admission included,H27/H29missing lists bound as limits,H26/H30settled holds unchanged.
 Image H60/61/63/64has22scalar rows/66region spans,known cutoffs preserved;topology bindings later.
 H52–54honors continuation linked. Two approved H31registration chunks retain exact IDs/bytes/links.
-BatchA55/BatchB40/BatchC78of78approved. Total213of336content-approved;123pending;BatchD19of19complete,E32of42approved(7carried/25new). Source holds/limits/exclusions retained;prior approvals reused.
+BatchA55/BatchB40/BatchC78of78approved. 213explicit human approvals+123assistant source comparisons account for all336unique candidates;0uncompared. BatchD19of19complete;E32explicit approvals remain historical,others delegated. Source holds/limits/exclusions retained;prior approvals reused.
 899draft was over-fragmented;sealed input retained. Consolidation conserves all policy/source fields,
 34issue/claim sets and image spans;only verified printed-page footer glyphs moved to audit.
 
@@ -101,8 +101,9 @@ No new executable prerequisite exception/equivalence/standing/clinical or legal 
 
 ## Known Failures or Blockers
 
-Human review of123candidates remains;94extraction comparisons retained;66image spans content-approved/0pending.
-Other pending services need labelled reauthoring after review;registration overlay complete,inactive.
+No pending selected-source comparison;213human/123assistant review modes retained.94extraction notes and all sourceholds retained.
+Technical reauthoring queue remains;66image spans content-approved,all structuralbindings pending.
+Services need labelled reauthoring before use;registration overlay complete,inactive.
 C9initial TOR associations unresolved;other scope/source-held selections remain excluded or limited.
 Final service/flow structural bindings,runtime context budgets,embedding and chatbot regressions
 remain required before publication;chunk parsing alone does not establish runtime compatibility.
@@ -111,11 +112,12 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 ## Next Action
 
 Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-Owner delegates remaining123candidates/41groups to assistant original-source verification.
-[Workflow](2026-10-27-delegated-source-review.md) supersedes routine approval pauses;213explicit human approvals retained.
-CGMCdisplayed but not relabelled explicit human approval;assistant receipts will be separate.
-Execute fullgroup/source comparisons;escalate newly consequential content/association ambiguity only.
-Known holds/cutoffs/blanks retained;no candidate/runtime changes or activation authorized.
+[Delegated review results](2026-10-27-delegated-source-review.md):123remaining/41groups source-compared;
+213human+123assistant=336unique,0uncompared;43originalimages(3prior observations reused).
+No new missingselectedsentence found;no new human decision required;sourceholds unchanged.
+Receipt17097b34bd2ee3a4c79c51bd0d2aa1cd2fab480f24f501442632f59ec1c1ab8a;original/overlayhashes unchanged.
+Next:labelled reauthoring/normalization/structuralbinding queue,including feedbackfooter,
+borrowingchecklist/headerinterleave and computer-time/rolemerge. No candidate/runtime/hosted edits.
 Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
 Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
 Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
