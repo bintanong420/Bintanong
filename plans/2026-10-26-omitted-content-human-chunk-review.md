@@ -907,3 +907,42 @@ confidentiality clause,recusal condition and regulatory8hours/studentavailabilit
 NativeU+FFFEin well-founded displayed as printedhyphen only;candidate bytes unchanged
 and normalization/sourcebinding still required. Danglingd.in198continues199;
 record confidentiality204–207and sanctiondetails208–209kept linked.
+
+
+## Batch E discipline193–209 approved;grievance/clearance210–213 prepared
+
+Owner:“i approve”for all17linkeddisciplineparts. Retain exact deadlines,rights,
+confidentiality/recusal,graduating exception,8hours/studentavailability and
+reportingwaiverconditions. Well-foundeddisplayhyphen still needs sourcebinding;
+no executable sanction,legalcurrentness or institutional authority inferred.
+
+| Review chunk | Reading | Chunk ID | Content SHA256 |
+| --- | --- | --- | --- |
+| 193 | H-discipline-process-compact-001 | `4b7583e9e1dd0a184e321dc601af25787a45ffeea2ed79932bd88263d52b76b3` | `9ade4704d35d953096a9498c709e67400f190aba3eea6710630f85d37fcfd00c` |
+| 194 | H-discipline-process-compact-002 | `6f490e91f022ac448a541ca2d3a53e165242fbd85f1177ac78e12d751b633bf7` | `d15f224acc49067f2066a00103536d1b792c6f622e001f51d9e1a9c3e01b7d59` |
+| 195 | H-discipline-process-compact-003 | `06e6420e72642f4defe865ac966ab3ff8817d6ba1fd9f86ae50be2d88b308939` | `6efa575411a2572b4cebe94f01f447ccc51b87100e27c12b726a9e9c820e1cd5` |
+| 196 | H-discipline-process-compact-004 | `c8baf8b62a5782b749a20e790459d1143b6227e423bd18f7c851dbc75a29cdcf` | `964b6377ee2ec5cddd7710ee11414a1eb02bff2b4214b7d291c2ad4591fa6a58` |
+| 197 | H-discipline-process-compact-005 | `e89f655ffec87bd290a3c8a067053eca41e9ff9ea88d5ac31219721a2ee6d6c6` | `854c9e4fadd5c965a938354c87012a0338c8b99f46ec36829e2da7166f313d60` |
+| 198 | H-discipline-process-compact-006 | `9b076d0f2760219882844fa70dfa7d9de5da047f901cbc718b183fcb0356e4a7` | `fd928860500548490960e285a517366805c96ef19946a8828228fddf0ea3fac0` |
+| 199 | H-discipline-process-compact-007 | `eb06ed9e29a3313d6679cfd864d937a1febcd60a61055a7d9a9e46aaa7576bbf` | `a9b9a7bfb0a4dee7d1c4840ab148dbd8ed645c3d7857811714131b5d04ee0593` |
+| 200 | H-discipline-process-compact-008 | `ae35bf222855ea47defc3a507756a91a94e66a5956fc782a298fb65af3dba932` | `7885ba42af06f4b2b28af714b740dda507039dfd5c98b6985c2ee79df7fcf417` |
+| 201 | H-discipline-process-compact-009 | `5409a07fef77d51ae31920f87874c0e63aeff958ad8bc7fc2cceac0c9104868d` | `ca2f42700d21d32dc8f8d78a0d4899df285556fc026efb3eea641be1c1a86361` |
+| 202 | H-discipline-process-compact-010 | `8edc6130078da06eba00451cbf0f53649def9bc56b4e600b2338681ad15efad2` | `c8614c6a9bf09be5c02c81c124dc481a095ad91a585ec958446ea678e5dba957` |
+| 203 | H-discipline-process-compact-011 | `a96f2f851cbc92b4d745df38eef0ab1eb3c7d2132ca13bf33318444193837269` | `f637f86afc40c0d321d8658945cbcc3311c15a96127dfdc5567df5070f0e7599` |
+| 204 | H-discipline-process-compact-012 | `7c2a8dcf9680eb0bd00f843ab788574fd650596dec3a96868c6b5b81083a06c8` | `bd6326e696d3dd9a47141b6a2a95ec3436696853d967f03366302c77e4e3d619` |
+| 205 | H-discipline-process-compact-013 | `f0f057737e67b80010fc8c5ef43530922527ec62aaa38773ed35931debbf57cc` | `a012bdf085ed35f33d0fca3cffcc6737f885ce465dbc2cbcb26d68b842cdc7c5` |
+| 206 | H-discipline-process-compact-014 | `49d48a52ae80783275085da7c74b0852c5db588d543a50a0dd792be3ec980b97` | `ea570c85d7b6e77030556a1b60318841f104aefec5af62bb09afaf4ae427e3dc` |
+| 207 | H-discipline-process-compact-015 | `f5cbc06946a93d7d2b7d0641f1317ba29e8c4c41c9fe9164f59aa82017b6e34d` | `96f0a48664c2a1da42aee92c7808405b01d7342e6cc2eed2a05597726a45fc9a` |
+| 208 | H-discipline-process-compact-016 | `aa038ad0cfa4e0c139e080f59678521033dac0de6ee763a55a2ac537a966b6b0` | `fe1d107ae9242a1a40df10d929b4967ffec6d6dd756efda4012c79260c1a4def` |
+| 209 | H-discipline-process-compact-017 | `6e8854563a3033c65b803f26924b339d4a5c53ebb87800f6b9a2a6682062089b` | `88afdfe6f372e10468d0734871e794a57703f19be826f15ba879e1890e5150ce` |
+
+E28of42approved(7carried/21new);209total/127pending;receiptSHA256:`74fd5c0f2e5e439ee80b4a08e173f60f98489a0907bb2018c4fd6e03940eb101`;028snapshot retained.
+Next210–213/E29–32:grievancepairH120–121,collegeclearanceH124,generalclearanceH125.
+Originalimages/closure checked;writtencomplaintrequirement,confidentiallysourcewording,
+uniform/grooming and no-accountability signingconditions preserved.
+
+Owner asks about scriptreliability/AIingestion. Clarified structural/conservation
+checks do not establish contentaccuracy;documented7missedregions,Day)Day)artifact
+and tableassociation/metadata repairs motivate image/human verification. No measured
+overall errorrate or LlamaParse comparison;no new toolpurchase/upload/dependency
+change authorized. Originalsourcecutoffs/conflicts cannot be filled by an AIparser.
