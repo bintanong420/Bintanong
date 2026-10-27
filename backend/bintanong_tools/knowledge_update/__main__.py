@@ -83,7 +83,7 @@ def main(argv=None) -> int:
     except (ValueError, OSError, RuntimeError, ImportError) as exc:
         print(f'Ingestion incomplete: {exc}', file=sys.stderr)
         return 1
-    return 0
+    return 2 if args.command == 'parse-llama' and result['failed_pages'] else 0
 
 
 if __name__ == '__main__':

@@ -188,3 +188,11 @@ def test_failed_page_in_completed_response_does_not_discard_good_pages(tmp_path)
     result = llamaparse.parse(pdf(tmp_path), tmp_path / 'parse', pages=[1, 2], client=Partial())
     assert result['failed_pages'] == [2]
     assert [p['page_number'] for p in result['pages']] == [1]
+
+
+def test_cli_reports_incomplete_parse_as_nonzero_without_losing_receipt(tmp_path, monkeypatch, capsys):
+    from backend.bintanong_tools.knowledge_update.__main__ import main
+    monkeypatch.setattr(llamaparse, 'parse', lambda *args, **kwargs: {
+        'source_sha256': 'a' * 64, 'pages': [], 'failed_pages': [2]})
+    assert main(['parse-llama', 'source.pdf', '--out', str(tmp_path / 'output'), '--pages', '2']) == 2
+    assert json.loads(capsys.readouterr().out)['failed_pages'] == [2]

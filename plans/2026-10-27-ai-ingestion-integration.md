@@ -134,3 +134,7 @@ cohorts required and invalid/negative/nonfinite numbers reject. JSON/CSV/Markdow
 reports keep observed/estimated cost separate;no model confidence accuracy claim.
 Docker desktop engine is unavailable;actual-role DB/full DB-inclusive suite cannot
 run safely here. No hosted fallback. Existing APIs/student runtime remain untouched.
+
+Incomplete parse CLI regression RED returned success despite failed_pages;GREEN
+19tests15.55s returns exit2 while keeping the result/receipt for recovery. Successful
+parse remains exit0;configuration/transport exceptions remain sanitized failures.
