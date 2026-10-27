@@ -2,51 +2,44 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 206
+sequence: 207
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 16afb25
-working_tree: documentation-only audit delivery;verified production3c55722
-updated_at: 2026-10-27T18:33:27+08:00
+head_commit: d12d8f4
+working_tree: cutoff-anchor source-data delivery documents only;production3c55722
+updated_at: 2026-10-27T18:43:18+08:00
 ---
 
-# Phase11checkpoint — expanded release evidence audit
+# Phase11checkpoint — cutoff notice anchors corrected
 
 ## Completed Tasks
 
 Backend/API/security/CF1–CF6 delivered;39curricula/2132facts. Corrected78research
 release active;80draft/19superseded retained. Source baseline4e99fb6.
-Last full snapshot before condensation:16afb25;earlier3c55722/5cd1ed7/4ba0f41.
+Last full snapshot before condensation:d12d8f4;earlier16afb25/3c55722.
 Original reviews/all-nine inclusion,normalized465vectors/146topic bindings and
 source-context correction36d5f56remain delivered. Recover detail with git show.
 
 ## Current Task
 
-Resumed Git16afb25 clean;[bounded evidence audit/checklist](2026-10-27-expanded-release-closure-checklist.md)
-delivered. All465normalized identities/companions,13format receipts,six local
-package hashes,39historically sealed files and two originals rechecked. Inventory:
-33legacy Charter groups/145chunks;four image workflows/13chunks/22rows/66fields
-without checked arrows;four confirmed narrative overlaps and one already-handled alias.
-Found H60/H64cutoff notices anchored to the wrong scalar fields by historical
-longest-atom consolidation. Source text/cutoffs remain;metadata repair is next.
-No production,source,hosted or runtime changes. Phase11active;no exit inferred.
-
-[Quoted-field results](2026-10-27-quoted-field-answer-results.md),
-[plan](2026-10-27-quoted-field-answer-plan.md),code3c55722:explicit reviewed single
-field,all source context retained,per-slot exact quotation grammar/final host guard,
-ordinary support/relevance review. Mixed claims/nonparts profiles withhold;legacy
-whole-procedure/context/order/identity semantics retained. New scope is fingerprinted.
-Saved English/Filipino/Taglish TORstep1nowanswered/validated with exact source quote
-and Charter13citation;one draft/one reviewer/no repair each. Local candidate only:
-one derived claim209total;original208reviews/chunks/vectors/package unchanged.
-Six records/3627E5tokens retained using local3904diagnostic;active2048unchanged.
-Full frozen3c55722suite finished exit0;no new code changes during verification.
-Receipt/code/package/pin assertions passed and evidence sealed.
+[Cutoff-anchor results](2026-10-27-cutoff-anchor-correction-results.md),
+[plan](2026-10-27-cutoff-anchor-correction-plan.md):two notices corrected in a
+separate465candidate. H60names step3_process;H64names step9_details and moves to
+its existing final companion. Original cutoffs and all465source words/spans/fields
+remain exact;both issues unresolved. Three serialized texts/eight IDs change;
+457full objects exact. Unchanged codecs;not runtime-ready. No hosted/runtime changes.
+[Closure checklist](2026-10-27-expanded-release-closure-checklist.md) still bounds
+33legacy Charter groups/145chunks,four image workflows/13chunks/22rows/66fields
+without checked arrows and four narrative overlaps. First checklist item now done.
+Prior quotation3c55722/TORresults and their original208/derived209claim registers
+remain separate;local3904diagnostic only,default2048withholds3627E5context.
 
 ## Repository State
 
 p11/feat/p11-backend-api;code3c55722;nothing pushed. Final delivery snapshots
 committed with this checkpoint;no production changes after freeze.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
+A/p11-cutoff-anchor-correction-20261027holds corrected candidates,receipts,id-map,
+status,RED/GREEN/focused logs,independent verification and seal.
 A/p11-release-closure-audit-20261027holds the script,full current group/overlap/
 gap-anchor inventory,input hashes and seal. GitHub MCP read:remote dev1525dc6a;
 no remote mutation or hosted call. Other developer untouched.
@@ -59,12 +52,14 @@ No frontend,dependency/model/hosted/source-state,private-data or active-pin chan
 
 ## Verification Evidence
 
-Fresh read-only audit exits0:465identity/geometry/companion lineages,13format
-receipts,six package hashes,39sealed historical files,both original hashes and
-four same-source narrative matches. Two gap-anchor defects recorded,not repaired.
-Docs/phase30passed/14subtests12.71s;local links,diff and phase validation pass.
-Audit repeat byte-identical;active pin unchanged;local evidence sealed. Full suite
-not rerun for documentation-only work;frozen production3c55722unchanged.
+Exact-field RED2failed0.57s->GREEN2passed0.37s;focused106pass/93subtests2.36s.
+Independent465source/field/span conservation,contracts,tokens and closure pass.
+Eight complete contexts retain corrected unresolved notices:H60=1647E5,H64=2816E5;
+diagnostic32768only,no new budget. Maximum chunk477<=480;four artifacts repeat
+byte-identically. OriginalPDFs,six base-package files and active pin unchanged.
+Docs/phase30passed/14subtests20.47s;13data/evidence artifacts sealed before docs.
+Full suite not repeated for
+source-data-only authoring through unchanged codecs;production3c55722unchanged.
 Quotation RED9failed/13pass1.16s after fixture membership repair;GREEN22pass0.89s.
 Review caught missing quotation in evidence fingerprint;new identityRED1after
 test API repair->GREEN25pass0.94s. Broad1533pass/175subtests2xfail1warning92.79s.
@@ -87,6 +82,7 @@ Gemma4E4B UD-Q4_K_XL under workspace/MODELS,llama.cppb11723-31288c9c6;
 8192context/768output/8margin,one slot,temp0/seed0,prefixcache on,reasoning none.
 Stylep11v2/schema2;combinedp11v6/schema4;routerp11v23;policyenglish-taglish-20261027-v1.
 Dynamic quotation prompts/schema and review identities retained in raw receipts.
+Cutoff candidateSHA:e88166dbd0bc9b62452f1972f65d0e5a6886a3c767526b49aff85d009c87ddfc.
 Local derived release:release-research-quoted-633d8a2c0cb79215.
 Active p11-research-corrected-20261026,78chunks/39curricula.
 Package A/p11-companion-context-20261026/runtime-package;
@@ -109,11 +105,9 @@ No controlled repeated or browser end-to-end speedup established.
 
 ## Known Failures or Blockers
 
-Expanded H60gap currently names step2_details instead of step3_process;H64names
-step5_details instead of step9_details. Both retain original cutoffs/unresolved
-claims but need exact field/visible-text/span rebinding before release. Historical
-consolidation deliberately attached record gaps to the longest atom. No new source
-judgment needed;preserve originals/prior approvals and repair a separate derivative.
+Cutoff notices corrected in a separate candidate;original cutoffs remain unresolved.
+New derivative needs3updated vectors and catalogue/claim rebinding for8IDs before
+runtime packaging. Baseline package and hosted draft unchanged;do not mix identities.
 No new software-verification blocker. Default2048retrieval budget cannot fit TOR's
 3627complete context;local3904is diagnostic,not installed/active. The narrow quote
 fix does not validate every step/service,whole-process answers or default runtime.
@@ -129,20 +123,23 @@ No frontend,public/institutional release or Phase11/12completion inferred.
 
 ## Next Action
 
-Correct H60/H64cutoff field/visible-text/span anchors in a separate derivative,
-with exact source-field regression checks and unchanged source text/holds/companions.
-Then follow the bounded service/image/canonical checklist;no budget/default-selector
-integration,hosted sync or activation implied.
+Continue closure checklist with six Registrar service groups at Charter physical7–20:
+readmission,transfer,TORcopy,certifications,CAV,diploma. Reuse reviewed originals;
+bind complete steps/metadata/requirements/action-time-role associations into labelled
+inactive derivatives. Preserve ambiguous mappings;no budget/default-router/hosted
+integration or activation implied.
 
 ## Context Consulted
 
-This resume reread thesis physical17–18/39–44,inspected routingPNG,and consulted
+This turn reread thesis17–18,viewed routingPNG and original H60/H64images;recent
+thesis39–44/master context retained. Previous resume consulted
 master3/11/13/16/23/24/26,Phase10handoff,Phase11plan,owner ledger,prompt/scope/
 source-gap/service-table decisions. Thesis closed-world example remains illustrative;
-current master preserves unknown versus unmet. No new architecture/scope discrepancy.
+current master preserves unknown versus unmet. Owner reminded cutoffs may be in
+the original data;no continuation invented. No new architecture/scope discrepancy.
 
 ## Do Not Repeat
 
-Original source/all-nine reviews,corrected78activation,normalized465encoding,
+H60/H64anchor correction,original/all-nine reviews,corrected78activation,normalized465encoding,
 source-context/router/reply migrations. Reuse saved TOR failures and three successful
 quotation receipts;no prompt sweep or approval re-ask. Keep phase/release gates.

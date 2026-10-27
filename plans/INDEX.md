@@ -14,8 +14,8 @@
   [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
 - [Field quotations](2026-10-27-quoted-field-answer-results.md),3c55722:three local TORstep1answers validated;full7011/1595subtests pass. Default/release gates remain.
 - [Release closure audit](2026-10-27-expanded-release-closure-checklist.md):33legacy
-  service groups,four image workflows,four overlaps;H60/H64cutoff anchors need repair.
-  Existing approvals stand;465candidate stays inactive.
+  services,four image workflows,four overlaps. [Cutoff anchors corrected](2026-10-27-cutoff-anchor-correction-results.md);
+  original cutoffs/approvals remain;465candidate stays inactive.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
   [normalized data](2026-10-27-expanded-context-validation-results.md),
@@ -78,4 +78,4 @@ real-source exits; ledger validity alone does not prove source readiness.
 ## History and upkeep
 Owner requested compact handoffs on 17 October 2026. These are current snapshots,
 not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
-Before current index condensation:16afb25. Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+Before current index condensation:d12d8f4. Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

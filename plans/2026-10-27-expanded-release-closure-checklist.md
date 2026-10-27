@@ -94,8 +94,10 @@ is positive evidence,not proof that no other overlap exists.
 
 ## Closure order and acceptance
 
-1. [ ] Correct the two cutoff anchors in a separate source-preserving derivative;
+1. [x] Correct the two cutoff anchors in a separate source-preserving derivative;
    verify exact field/visible-text/span provenance and unchanged affected claims.
+   [Delivered results](2026-10-27-cutoff-anchor-correction-results.md);original
+   cutoffs remain unresolved and normalized baseline stays immutable.
 2. [ ] Complete the33service-group association receipts and registration final check;
    reuse the10other groups' existing independent evidence. Keep unknown mappings held.
 3. [ ] Bind the four image workflows;retain incomplete H60/H64as limited evidence.

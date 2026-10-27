@@ -2,21 +2,23 @@
 
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full snapshot before condensation:16afb25;earlier3c55722/5cd1ed7/4ba0f41.
+Last full snapshot before condensation:d12d8f4;earlier16afb25/3c55722.
 
 ## Latest change
 
-Resumed16afb25/code3c55722;[release closure audit/checklist](../2026-10-27-expanded-release-closure-checklist.md)
-records existing proofs and bounded remaining work. Rechecked465identity/companion/
-geometry lineages,13format receipts,six package hashes,39sealed historical files,
-two originals and four narrative overlaps.33legacy Charter groups/145chunks need
-association checks;four image workflows/13chunks/22rows/66fields lack checked arrows.
-New finding:H60/H64cutoff notices point to wrong scalar fields because historical
-consolidation chose each record's longest atom. Cutoffs remain;metadata repair next.
-No new owner content decision,production/data/hosted/runtime change. Phase11active.
-A=workspace/audit-evidence/p11-release-closure-audit-20261027;script/inventory/seal.
-Fresh docs/phase30pass/14subtests12.71s;links/diff/phase valid;repeat byte-identical,
-active pin unchanged. Production/full-suite baseline unchanged;no full rerun.
+[Cutoff-anchor correction](../2026-10-27-cutoff-anchor-correction-results.md)
+delivered in a separate inactive465candidate. Source images confirm H60/H64cutoffs;
+all465source words/spans/fields stay exact,both notices unresolved. H60nowanchors
+step3_process;H64step9_details(final sentence ending during),in its final companion.
+Three serialized texts/eight IDs change;457full objects exact. RED2failed0.57s->
+GREEN2passed0.37s;existing106pass/93subtests2.36s. Independent conservation/context
+checks pass;H60=1647E5,H64=2816E5tokens,diagnostic only. Maxchunk477;four artifacts
+repeat byte-identically;originals,six package files and active pin unchanged.
+A=workspace/audit-evidence/p11-cutoff-anchor-correction-20261027;receipt/seal/logs.
+Needs3updated vectors and catalogue/claim rebinding before runtime packaging.
+No production/hosted/runtime change or new source-wording approval. Phase11active.
+Closure inventory remains33legacy services,four image workflows,four overlaps.
+Docs/phase30pass/14subtests20.47s;full production suite not repeated for data-only work.
 
 [Reviewed field quotations](../2026-10-27-quoted-field-answer-results.md),3c55722:
 explicit single-field mode retains all context;exact text/citation grammar and final
@@ -52,7 +54,8 @@ Source-context36d5f56retains32service labels/18grading hints and four33–48fiel
 
 465readings/146subjects/208originalclaims,66prior records/1409fields. One derived
 quotation claim adds no chunk.49subjects need larger budgets(max7936E5proposal),
-unapplied. Corrected465vectors ready;hosted465draft predates13format/69token fixes.
+unapplied. Normalized465base vectors ready;new cutoff derivative needs3updates.
+Hosted465draft predates13format/69token fixes and this cutoff derivative.
 Live Supabase read:78active/active pointer,465draft,80draft,19superseded. Latest
 local normalization/derived register not hosted. Upload/validation is not activation.
 Active78/39curricula unchanged. All-nine/prior source decisions settled.
@@ -70,6 +73,8 @@ approval,activation,Phase11exit or Phase12advance. No latency target claim.
 
 ## Next action
 
-Correct H60/H64cutoff field/visible-text/span anchors in a separate derivative;
-verify exact source fields and unchanged words/holds/companions. Then follow closure
-checklist;no budget/default-router integration,hosted sync or activation yet.
+Continue closure checklist with six Registrar service groups at Charter physical7–20:
+readmission,transfer,TORcopy,certifications,CAV,diploma. Reuse reviewed originals;
+bind full steps/metadata/requirements/action-time-role associations into labelled
+inactive derivatives. Preserve ambiguous mappings;no budget/default-router/hosted
+integration or activation implied.
