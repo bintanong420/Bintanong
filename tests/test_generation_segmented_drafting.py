@@ -105,3 +105,14 @@ def test_incomplete_merged_draft_redrafts_every_segment_with_the_errors():
     assert answer.status == 'answered' and answer.draft_attempts == 2
     assert len(model.segments) == 4
     assert model.segments[2]['validation_errors'] == ['missing_procedure_record_coverage']
+
+
+def test_segment_call_sees_only_its_own_records_and_asks_for_concise_claims():
+    pack = prepare(long_integration(8))
+    plan = part_answers.segment_plan(pack)
+    later = json.loads(part_answers.part_messages(TEXT, pack, segment=(plan, 1))[1]['content'])
+    assert [s['evidence_id'] for s in later['evidence']['sources']] == list(plan.segments[1])
+    first = json.loads(part_answers.part_messages(TEXT, pack, segment=(plan, 0))[1]['content'])
+    nested = set(first['record_coverage']['r2'])
+    assert {s['evidence_id'] for s in first['evidence']['sources']} == set(plan.segments[0]) | nested
+    assert 'one or two sentences' in later['segment']['instruction']

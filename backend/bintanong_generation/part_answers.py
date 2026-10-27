@@ -334,11 +334,15 @@ def part_messages(text, pack, *, errors=(), previous='', references=None, segmen
         if index:
             payload.pop('shared_record_coverage', None)
             payload.pop('shared_record_coverage_instruction', None)
+        # Draft only from this segment's records (plus a nested part's own in the first segment); the
+        # single review still checks the merged answer against the complete source context.
+        shown = {i for ids in payload['record_coverage'].values() for i in ids} | set(records)
+        payload['evidence']['sources'] = [c for c in payload['evidence']['sources'] if c['evidence_id'] in shown]
         payload['segment'] = dict(part_id=plan.part_id, index=index+1, count=len(plan.segments), records=records,
             claim_groups=[[aliases[i] for i in group] for group in plan.groups[index]],
             instruction=(f'This is segment {index+1} of {len(plan.segments)} of one long procedure. Write exactly '
                          'one claim per entry in claim_groups, in order; claim k explains only the records in '
-                         'group k, keeping each action with its own office, person, time and fee. Other '
+                         'group k in one or two sentences, keeping each action with its own office, person, time and fee. Other '
                          'segments are drafted separately; do not describe records outside your group.'))
     return _messages(PART_PROMPT, payload, part_schema(pack, references, segment))
 
