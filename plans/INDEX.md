@@ -28,6 +28,11 @@
   backend d8246d1→c370f00;1605tests/84subtests/2xfail pass. Local reviewers/source
   packets stay separate from upstream inactive465candidate data.
 
+- [AI ingestion extension](2026-10-27-ai-ingestion-results.md):local software/operator
+  delivery through4ff5872;1821compatibility tests/13subtests pass. Full available
+  suite has2native dependency failures;live AI/DB/human A/B unverified. T4/T5 remain
+  unfinished. [Guide](../docs/development/ai-assisted-ingestion.md). No extension push.
+
 ## Resume order
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
 2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24, 26;
