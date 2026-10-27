@@ -7,6 +7,12 @@ Last full snapshot before this condensation:121799b;earlier41d115e/32065bf;sourc
 
 ## Latest change
 
+[Contents/service-list check](../2026-10-27-contents-and-services-coverage.md):all54Charter listed services
+accounted;38undergraduate services represented across corrected78+388drafts,16HR/PMO services excluded.
+All7unique main Handbook TOCtopics mapped. BooksIII–VII physical130–388excluded;zero candidate spans
+there or in Charter HR/PMO blocks. Four original index pages viewed;duplicate/stale index locators noted.
+No chunks/source/runtime change. This confirms index representation,not missing-source reconstruction.
+
 Owner “include all of them. Yes” settles all nine items in the physical-page review index.
 Included undergraduate cash/check claims,library requisition/donation acknowledgment,academicrequests,
 CARMA/Transfer toCCRD titles,H30academic deficiencies,H53short-program honors,H106internship reference.

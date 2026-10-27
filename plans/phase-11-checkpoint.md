@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 179
+sequence: 180
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 121799b
+head_commit: 38bc58f
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T12:08:24+08:00
+updated_at: 2026-10-27T12:19:12+08:00
 ---
 
 # Phase11checkpoint — all nine selections included;388inactive chunks
@@ -20,6 +20,13 @@ Other developer local-only worktree ready,task receiptc76d988;fixed fork4e99fb6.
 First9candidate packet and2actual human approvals recorded in32065bf,alongside bulk-review direction.
 
 ## Current Task
+
+[TOC/List of Services check](2026-10-27-contents-and-services-coverage.md):54listed Charter services
+accounted,38included across corrected78+388drafts/16excluded HR-PMO. Zero unmapped eligible list entries.
+Seven distinct main Handbook TOCtopics represented;BooksIII–VII physical130–388excluded.
+Zero candidate spans in those books or excluded Charter HR/PMO pages. Four original index pages viewed.
+Handbook TOCduplicates and Charter stale locators preserved;actual body headings/pages control mappings.
+Read-only accounting:current388/78/source bytes unchanged;existing source limitations remain.
 
 [All-nine inclusion results](2026-10-27-nine-item-inclusion-results.md):owner “include all of them. Yes”.
 All nine included for undergraduate use;supersedes listed audience/support holds including H30/H53.
@@ -114,7 +121,8 @@ No embedding/activation/frontend integration;continue coverage checks only on ne
 
 ## Context Consulted
 
-Current selection:thesis17–18scope extracts reread;undergraduate/read-only limits preserved. Original C70–73/83/86 and H30/53/106images checked;prior C16–17/109–110views reused. Cash/check shared columns verified. H48faculty action owner-approved earlier.
+Current TOC audit:thesis17–18scope evidence and undergraduate/read-only limits retained;original H4–5/C3–4rendered/read. Actual book boundaries verified from original section titles.
+Earlier selection:thesis17–18scope extracts reread;undergraduate/read-only limits preserved. Original C70–73/83/86 and H30/53/106images checked;prior C16–17/109–110views reused. Cash/check shared columns verified. H48faculty action owner-approved earlier.
 Earlier resume:thesis physical17–18/39–44 rerendered/read with existing pypdfium2 environment;scope pages confirm undergraduate-only and exclude graduate programs. Routing PNG,master3/11/13/16/23/24,Phase10handoff.
 Original H55/57images inspected;merit/FAQtext matches,source grammar/continuations retained;pair closures verified. First21BatchCapproved;honors limitations/holds unchanged. Actual INC/removal graph requires all three context chunks from packet end;complete five-way closure verified. Removal-approval nativeU+FFFEdisplayed as printed re-enrollment;binding repair pending. Rights/duties002→attendance-uniform001source continuation needs cross-group dependency binding before use. H-standing004native U+FFFE displays as printed mid-semester;serialized binding repair remains. H41graduate-only section9excluded.
 Scope/gap/location/service policies and owner ledger;prior original H60/61/63/64image checks retained.
