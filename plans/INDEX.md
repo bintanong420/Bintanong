@@ -13,16 +13,15 @@
 - [Source-bound context](2026-10-27-source-bound-routing-context-results.md),36d5f56:
   [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
 - [Field quotations](2026-10-27-quoted-field-answer-results.md),3c55722:three local TORstep1answers validated;full7011/1595subtests pass. Default/release gates remain.
-- [Release closure](2026-10-27-expanded-release-closure-checklist.md):17legacy services remain;
-  [Health verified](2026-10-27-health-association-results.md),509local inactive;
-  [Student Affairs](2026-10-27-student-affairs-association-results.md)/[Registrar](2026-10-27-registrar-association-results.md) retained.
-  Four image workflows/four overlaps remain;[cutoff anchors](2026-10-27-cutoff-anchor-correction-results.md) corrected.
+- [Service association pass](2026-10-27-service-association-closure-results.md):545local
+  inactive records;all33legacy groups+registration delivered,101steps/147actions.
+  [Image/canonical evidence](2026-10-27-image-canonical-binding-results.md) prepared;
+  faithful limited-flow/runtime alias integration remains. [Closure checklist](2026-10-27-expanded-release-closure-checklist.md).
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
-  [normalized data](2026-10-27-expanded-context-validation-results.md),
-  [hosted draft](2026-10-27-hosted-corpus-staging-results.md).
+  [normalized data](2026-10-27-expanded-context-validation-results.md),[hosted draft](2026-10-27-hosted-corpus-staging-results.md).
 - [All-nine inclusion](2026-10-27-nine-item-inclusion-results.md)/prior source decisions
-  stand;service/image bindings,budgets,release and full answer-quality gates remain.
+  stand;image/canonical runtime bindings,budgets,release and answer-quality gates remain.
   No institutional approval,public deployment or executable-rule expansion inferred.
 - [Developer pipelines](../docs/development/pipelines.md),[master](master_implementation_plan_original_long.md),
   [two-developer boundary](2026-10-26-phase11-two-developer-workflow.md). Prior phase
@@ -77,6 +76,5 @@ real-source exits; ledger validity alone does not prove source readiness.
 - Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
 
 ## History and upkeep
-Owner requested compact handoffs on 17 October 2026. These are current snapshots,
-not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
+Owner17Oct:compact current snapshots;replace stale state and retain durable evidence in dated reports.
 Before current index condensation:d12d8f4. Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

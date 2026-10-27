@@ -16,17 +16,19 @@ original page images,prior reviews and independent native/geometry checks.
 - [x] Six health groups,C59–64:preserve conditional times,professional/assisting
   roles,alternative sickness signatories and original dental/medical mismatch.
   [Verified results](2026-10-27-health-association-results.md).
-- [ ] Accounting/refund,C66–68:full continued steps,shared roles,printed fee/time
+- [x] Accounting/refund,C66–68:full continued steps,shared roles,printed fee/time
   discrepancies and follow-up conditions.
-- [ ] Nine library groups,C75–84:paired requirements,linked actions,original
+- [x] Nine library groups,C75–84:paired requirements,linked actions,original
   charges/totals/conditions;reuse completed borrowing/computer repairs.
-- [ ] Six academic groups,C103–113:complete continuations,numbering,conditions,
+- [x] Six academic groups,C103–113:complete continuations,numbering,conditions,
   source gaps and student-facing staff roles.
-- [ ] Registration final association check;reuse its approved reauthoring.
-- [ ] Four Handbook image workflows:bind observed nodes/arrows/labels/terminals
-  without inventing a clipped predicate or unseen endpoint.
+- [x] Registration final association check;reuse its approved reauthoring.
+- [x] Four Handbook image workflows:bind observed nodes/arrows/labels/terminals
+  without inventing a clipped predicate or unseen endpoint. Evidence bound;runtime
+  codec integration remains open.
 - [ ] Four known canonical overlaps:checked aliases/packaging preserving added
-  context,source conflicts and prior claims;do not remove useful evidence.
+  context,source conflicts and prior claims;do not remove useful evidence. Four
+  checked alias sidecars are prepared;runtime canonical integration remains open.
 
 Use actual-data RED->GREEN before each data correction,existing unchanged builders,
 exact E5counts and independent source/field/geometry/closure checks. Data-only
@@ -40,3 +42,9 @@ remaining table geometry in separate ignored evidence folders. Primary owns all
 candidate edits,tracked documents and integration. Review and verify their receipts.
 No dependency/model download,hosted synchronization,budget/default-router changes,
 activation,institutional approval or phase advancement follows from this plan.
+
+[Service results](2026-10-27-service-association-closure-results.md):545inactive
+records;all33legacy groups and registration delivered. [Image/canonical results](2026-10-27-image-canonical-binding-results.md)
+record precise codec/claim representation gaps. Next:limited original-flow
+representation and canonical claim semantics,with synthetic TDD for production
+changes. No runtime-readiness claim is inferred from completed source associations.

@@ -98,16 +98,16 @@ is positive evidence,not proof that no other overlap exists.
    verify exact field/visible-text/span provenance and unchanged affected claims.
    [Delivered results](2026-10-27-cutoff-anchor-correction-results.md);original
    cutoffs remain unresolved and normalized baseline stays immutable.
-2. [ ] Complete remaining17legacy service groups and registration final check;
-   [first six Registrar groups delivered](2026-10-27-registrar-association-results.md).
-   [Four Student Affairs groups delivered](2026-10-27-student-affairs-association-results.md).
-   [Six health groups delivered](2026-10-27-health-association-results.md);
-   [continuous plan](2026-10-27-remaining-association-closure-plan.md).
-   Reuse the10other groups' independent evidence;keep unknown mappings held.
-3. [ ] Bind the four image workflows;retain incomplete H60/H64as limited evidence.
-   Any production helper change requires synthetic RED->GREEN before implementation.
-4. [ ] Resolve the four canonical packaging overlaps without losing context/holds;
-   recheck catalogue/claim references,scope,identities and companion conservation.
+2. [x] Complete all33legacy services and registration final association check.
+   [Combined545results](2026-10-27-service-association-closure-results.md):34services,
+   101steps/147actions;all earlier source holds retained. No runtime-ready claim.
+3. [ ] Integrate four image workflows. [Original associations prepared](2026-10-27-image-canonical-binding-results.md):
+   28connectors/66scalars;H60predicate incomplete,H64endpoint unknown. Existing
+   complete graph requires nonempty labels,gap-free rows and END;faithful limited
+   evidence needs technical representation support,not invented source words.
+4. [ ] Integrate four canonical packaging aliases. Checked reversible sidecar and
+   nine-record snapshot prepared in the same results record. Cross-subject runtime
+   alias references are rejected by the existing contract;no545register produced.
 5. [ ] Only then address applicable budgets,checker/repair/language/Hybrid answers,
    corrected hosted draft,governed selected-release review and authorized activation.
    No default/budget/hosted integration is authorized by this checklist.
