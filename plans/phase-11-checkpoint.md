@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 218
+sequence: 220
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 66cbdbd
-working_tree: 559vector/map results and snapshots;codef635ccc
-updated_at: 2026-10-27T23:08:04+08:00
+head_commit: 40a35f9
+working_tree: measured capacity results and snapshots;codef635ccc
+updated_at: 2026-10-27T23:19:07+08:00
 ---
 
-# Phase11checkpoint — flow evidence and current bindings verified
+# Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
 
 ## Completed Tasks
 
@@ -24,7 +24,8 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 [559vectors/maps](2026-10-27-559-vector-binding-results.md):local inactive package,
 559vectors/145subjects/240reviews.257new CPU embeddings/302exact reuses;all208parent
 reviews unchanged plus32bounded technical facets. Complete context stays required.
-Capacity and answer/governed release checks remain;active78unchanged.
+[Capacity](2026-10-27-559-capacity-results.md):all initial prompts fit,but measured
+repair/review overflows remain;answer/governed release checks open,active78unchanged.
 
 [Flow evidence delivered](2026-10-27-flow-evidence-results.md),f635ccc;[plan](2026-10-27-flow-evidence-implementation-plan.md).
 Opt-in source/span/event/geometry manifest with complete-group admission;old
@@ -60,6 +61,11 @@ Facet RED2fail/2pass -> GREEN4pass1.15s;all297refs partitioned,largest30names.
 Local six-file package accepts145filtered storage probes;not semantic quality proof.
 Relevant143tests/156subtests3.13s;docs/phase30tests/14subtests14.39s pass.
 Seven stable artifacts repeat exactly;two original PDFs/pin/package seals verify.
+Capacity:148routing profiles;compact145selector3411input/all singles fit8192;
+full menu/eight largest overflow.92claims/184English-Taglish generation profiles:
+initial0overflow,4096charrepair2overflow,8shortclaimreview6overflow. No inference.
+199closures:195unchanged proofs reused/4fresh flows;54over2048,max7864. Independent
+coverage/arithmetic/package/pin audit passes;1400local template/tokenize calls.
 
 Synthetic feature RED16fail/1pass0.81s -> focused122pass/172subtests3.11s.
 Fresh full7025passed/1608subtests,6skip/2xfail/6warnings1414.00s,exit0. Four symlink,
@@ -114,7 +120,8 @@ No measured controlled/browser latency improvement. No new hosted call/write.
 
 559local package is inactive. Parent whole-field maps65/71/76/85remain intentionally
 absent above64;32bounded child maps cover all297fields without omission/override.
-54complete closures exceed2048. Earlier semantic selector/answer failures remain.
+54complete closures exceed2048. Review/repair sample overflows and actual semantic
+selector/answer checks remain;short draft aliases do not shorten current review IDs.
 Opt-in flow evidence is integrated locally;old complete-arrow codec remains strict.
 Canonical completion grouping reuses same-subject references,no foreign alias bypass.
 Removal retains composite checklist/form,total/H47hold;first-action anchor is not
@@ -125,8 +132,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 ## Next Action
 
 Execute [559vector/capacity plan](2026-10-27-559-vector-capacity-plan.md).
-Measure exact local routing/generation capacity for current559and32facets,reusing
-unchanged closure proofs;then selector/answer-quality/governed release gates.
+Address review-prompt overhead through opt-in request-local short references;
+check reachable repair outputs,then actual selector/answer-quality/governed release.
 No default,hosted or active-pin change follows automatically from preparation.
 
 ## Context Consulted

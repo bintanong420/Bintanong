@@ -6,6 +6,14 @@ Last full snapshot before condensation:f635ccc;earlierd32aa18/a4aab39/0c08e60.
 
 ## Latest change
 
+[Capacity measured](../2026-10-27-559-capacity-results.md):195unchanged closure
+proofs reused plus4updated flows;199closures/54over2048,max7864E5. Compact145selector
+3411input and every single detailed topic fit8192;full menu/eight-largest do not.
+92claims/184English-Taglish profiles:all initial prompts fit;2repair samples and
+6review samples overflow. Review repeats canonical IDs despite short draft profile.
+No inference,answer-quality,default-budget or activation claim. Next:opt-in compact
+review wire preserving all evidence/canonical guards;separate reachable repair check.
+
 [559vectors/maps](../2026-10-27-559-vector-binding-results.md):257new offline CPU
 embeddings/302exact checked reuses;all559contracts/token-ID parity/L2 pass. Two
 independent new-text re-encodes match exactly. Fresh corpus ID210b51f8;copied old
@@ -58,6 +66,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Measure exact local routing/generation capacity for current559and32facets;reuse
-unchanged closure evidence. Then address selector/answer quality and governed release.
+Address measured review-prompt overhead with opt-in request-local short references;
+check reachable repair outputs,then actual selector/answer quality and governed release.
 No default/hosted/active-pin change is implied by preparation.

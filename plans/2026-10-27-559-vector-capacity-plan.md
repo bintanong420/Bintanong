@@ -32,12 +32,12 @@ production behavior change requires synthetic RED->GREEN and relevant/full check
    the64-name bound,drop source fields or split companions. Prove each parent's
    entire field set is represented by its facets;keep parent whole-service access.
    This is source metadata grouping,not new policy conclusions or question approval.
-5. [ ] Produce bounded topic/complete-context and prompt-capacity evidence for the
+5. [x] Produce bounded topic/complete-context and prompt-capacity evidence for the
    four formerly oversized topics and54over-default closures. Reuse unchanged
    existing evidence;no new full75-question experiment or blind prompt sweep.
    No default-budget setting is applied. Checker/repair/English/Taglish/Hybrid
    answer-quality tests and governed release remain separate activation gates.
-6. [ ] Independently verify vector reuse/new encoding and exhaustive facet coverage;
+6. [x] Independently verify vector reuse/new encoding and exhaustive facet coverage;
    run relevant existing/data and docs/phase checks,seal raw evidence,update compact
    snapshots and commit verified cohesive increments. Actual source gaps stay held.
 
@@ -54,4 +54,5 @@ latency. Activation is a measured exit,not a date inferred from progress.
 
 [Vector/map results](2026-10-27-559-vector-binding-results.md):559vectors verified,
 302exact reuses/257new;208parent reviews preserved plus32bounded facets. Capacity
-and final delivery checks remain in progress;no activation date inferred.
+measurement is [delivered with explicit overflow failures](2026-10-27-559-capacity-results.md);
+initial prompts fit,but repair/review samples do not all fit. No activation date inferred.
