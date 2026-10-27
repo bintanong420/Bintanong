@@ -146,15 +146,23 @@ class Generator:
                     guard=GuardObservation(result=result,elapsed_seconds=loop.time()-guard_started)
                     if result!='document_only':
                         return _answer(pack,'abstained',reason='decision_withheld',guard=guard)
+                def draft_request(previous):
+                    return (part_messages(text,pack,errors=errors,previous=previous,references=references) if per_part else
+                            document_messages(text,pack,errors=errors,previous=previous) if scoped else
+                            draft_messages(text,pack,errors=errors,previous=previous,references=references))
                 for attempt in (1,2):
                     attempts=attempt
                     coverage=None
-                    messages=(part_messages(text,pack,errors=errors,previous=previous,references=references) if per_part else
-                              document_messages(text,pack,errors=errors,previous=previous) if scoped else
-                              draft_messages(text,pack,errors=errors,previous=previous,references=references))
                     schema=(part_schema(pack,references) if per_part else document_schema(pack) if scoped else
                             draft_schema(pack,references=references))
-                    raw=await self.transport.infer(messages,schema)
+                    try:
+                        raw=await self.transport.infer(draft_request(previous),schema)
+                    except RuntimeFailure as error:
+                        if str(error)!='context_overflow' or not previous:
+                            raise
+                        # Preflight refused before inference. Drop only the model's own previous draft;
+                        # complete sources, validation errors, window and margin stay unchanged.
+                        raw=await self.transport.infer(draft_request(''),schema)
                     previous=raw if isinstance(raw,str) else ''
                     slots=None
                     try:
