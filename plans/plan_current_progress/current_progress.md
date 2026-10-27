@@ -6,6 +6,9 @@ Last full snapshot before condensation:3c55722;earlier5cd1ed7/4ba0f41/28edea4.
 
 ## Latest change
 
+Owner switching CLI;[session handoff](../2026-10-27-phase11-cli-handoff.md) records
+delivery81642aa/code3c55722,commands,evidence and next action. Phase11stays active.
+
 [Reviewed field quotations](../2026-10-27-quoted-field-answer-results.md),3c55722:
 explicit single-field mode retains all context;exact text/citation grammar and final
 host guard reject additions. Ordinary model review remains;legacy whole-procedure
