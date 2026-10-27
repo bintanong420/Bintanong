@@ -4,6 +4,9 @@ Updated 27 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
 Last full snapshot before condensation: `d3f4114`; recover with `git show`.
 [Phase checkpoint](../phase-11-checkpoint.md) · [Ingestion checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 
+Local reviewer availability freshly verified on owner request;existing servers
+reused and policy UI opened. Exact links/recovery in the ingestion checkpoint.
+
 ## Latest delivery
 
 [AI ingestion results](../2026-10-27-ai-ingestion-results.md) and

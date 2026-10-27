@@ -48,12 +48,16 @@ blank/null. Human review and timing still needed;no improvement/winner claim.
 
 ## Local reviewer recovery
 
-Existing owner reviewer services were not restarted during this extension. Prior
-main UI3001/API8765 terminal:term_31c5fa83-8f97-411f-b476-961de6f49b4e;
-prospectus3002/8766:term_805f1261-322d-4dff-b446-01e8387438cb.
-Their current launch links remain machine-local in institutional-candidate-ui-20261027
-and prospectus-review-ui-20261027. Verify current service/link before use;do not
-assume this historical launcher state proves availability. Save browser drafts first.
+Fresh owner-requested server check:policy UI3001/API8765 and prospectus UI3002/
+API8766 return200,with72policy items/39prospectus items,both revision0. Existing
+servers reused without restart or review writes;policy reviewer opened in browser.
+Prospectus first API request timed out at3s;bounded20s retry returned200 in10.06s.
+Main terminal:term_31c5fa83-8f97-411f-b476-961de6f49b4e;
+prospectus terminal:term_805f1261-322d-4dff-b446-01e8387438cb.
+Exact saved launch files under C:/Coding-projects/bintanong_workspace/audit-evidence/:
+- p11-policy-ingestion/institutional-candidate-ui-20261027/launch-url.txt
+- prospectus-review-ui-20261027/launch-url.txt
+Links contain local credentials;keep them ignored. Save browser drafts before restart.
 Owned synthetic browser3003/8767server stopped after tests;no owner packet writes.
 Node22.22.3 differs from researcher target24.21.0. Full accessibility gate remains open.
 
