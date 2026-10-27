@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 204
+sequence: 205
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7f29143
+head_commit: 3c1d76c
 working_tree: dirty
 updated_at: 2026-10-27T20:06:30+08:00
 ---
@@ -23,23 +23,14 @@ independent oneP2 reproduced RED4/fixed. No further important findings/second re
 
 ## Current Task
 
-[Save/prospectus delivery](2026-10-27-save-control-and-prospectus-review.md):
-f02ce05accepts39prospectuses;93053f3keeps save visible,explains required note and
-clears old prospectus questions on document switches. Existing39hash-verified
-bundles reused without extraction. UI3001/API8765 policy;3002/8766 prospectus.
-275tests/80subtests68.31s,6Node state tests/TypeScript/build pass;browser save/context
-9.40s/main5.61s and prospectus-switch RED65.45s/GREEN73.92s. No main/prospectus test
-decisions. Owner said saved;actual policy revision0/no journal before/after restart.
-Full question accuracy/accessibility/DB-role gates remain open. No hosted access.
-
-[Backend merge](2026-10-27-backend-c370f00-ingestion-merge.md):local backend
-fast-forwarded to frozen origin c370f00;38commits merged here. Default document
-follow-ups,English/Taglish reply targets,source context and single-field quotations
-included;topic selector stays opt-in. Two snapshot conflicts preserve ingestion
-status and link upstream results. Candidate465/derived209claim files are not
-provided by Git;no corpus import,hosted access,activation or process restart.
-Fresh1605tests/84subtests/2expected xfails142.16s;22docs/6Node/TypeScript pass.
-Production/tests match frozen upstream;frontend heads unchanged. Full/model gates open.
+[AI-assisted ingestion extension](2026-10-27-ai-assisted-ingestion-codex-plan.md)
+authorized by owner;[launch](2026-10-27-ai-assisted-ingestion-launch-prompt.md) says
+sequential TDD/local commits,no push. [Task0](2026-10-27-ai-ingestion-integration.md)
+pins proposed_value before packet hashing,existing ReviewSession/renderer/build,
+minimal HTTP boundary and alternate LlamaParse input. Baseline50tests38.01s passes;
+first attempt50setup errors caused missing external basetemp parent,now created.
+Source/Chunk contracts stay unchanged;missing Llama geometry remains build-held.
+T4/T5 separate;no hosted access. Skills researched;user-requested memory note saved.
 
 ## Repository State
 
@@ -139,6 +130,7 @@ Selected78not whole-document coverage;omitted sections audience-triaged,fields u
 
 ## Next Action
 
+Execute AI extension Task1 onward from Task0 note;TDD/local commits,no push.
 Ingestion tree:GUI restored at89b51d9;resume T4/T5 disposable-local lifecycle tooling/rehearsal
 and operator delivery from the workstream checkpoint. Primary runtime work stays elsewhere.
 No hosted access,generated data publication or phase advancement in this workstream.

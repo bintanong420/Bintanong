@@ -6,13 +6,13 @@ Updated27October2026. Phase11 active;feat/p11-policy-ingestion-review;owner-auth
 Last full snapshot before this condensation:7f29143;prior snapshots:06c1f8b/5009760.
 
 ## Latest change
-[Latest backend merge](../2026-10-27-backend-c370f00-ingestion-merge.md):
-local backend d8246d1→c370f00;38commits include code/tests and source-review docs.
-Default document follow-ups,reply targets and source-bound quotations included;
-selector remains opt-in. Backend and policy only;frontend worktrees untouched.
-Two snapshot conflicts preserve ingestion progress and upstream result references.
-1605tests/84subtests/2expected xfails142.16s;22docs/6Node/TypeScript pass.
-No hosted access,corpus import,activation or service reload;full-suite/model gates open.
+
+[AI ingestion extension](../2026-10-27-ai-ingestion-integration.md) authorized;
+execution/launch plans preserved,Task0maps reuse of proposed_value/ReviewSession,
+pre-finalization assistance,existing renderer/httpx and alternate LlamaParse input.
+Installed/official online skills checked;no new dependency/skill installed.
+Baseline tests rerunning after external basetemp-parent setup error. TDD tasks next;
+no hosted access,activation or push. T4/T5 remain separate. Baseline3c1d76c retained.
 
 [Save control/prospectus delivery](../2026-10-27-save-control-and-prospectus-review.md):
 policy save stays visible and focuses the required note;context links persist without

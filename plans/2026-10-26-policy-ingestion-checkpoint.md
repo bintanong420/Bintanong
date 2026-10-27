@@ -98,6 +98,7 @@ local reviewer is optional;its current launch link is machine-local. No phase cl
 
 ## Next action
 
-Resume T4/T5 disposable-local lifecycle tooling/rehearsal and operator delivery.
-All seven commands remain in scope;stage/publish/rollback are still unimplemented.
-Restored GUI review does not complete legacy-package rebuilding or lifecycle replay.
+Execute the authorized [AI assistance extension](2026-10-27-ai-assisted-ingestion-codex-plan.md)
+sequentially from [Task0 integration note](2026-10-27-ai-ingestion-integration.md).
+Baseline50tests38.01s;proposals before packet finalization,same human authority.
+No hosted access or push;T4/T5 remain unfinished separately.
