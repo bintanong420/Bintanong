@@ -277,6 +277,13 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'Use one concise claim per step, keeping linked actions/offices separate. '
             'Do not invent a cut-off instruction; disclose the source gap. '
             'Unavailable parts need no fabricated claims.')
+    shared = shared_record_coverage(pack)
+    if shared:
+        payload['shared_record_coverage'] = shared
+        payload['shared_record_coverage_instruction'] = (
+            'For each part named here, the listed part carries the full explanation of the shared '
+            'records; answer only what that part specifically asks, citing its own records, and do '
+            'not repeat the whole procedure.')
     order = required_record_order(pack)
     if order:
         payload['record_order'] = {part: [[aliases[i] for i in sequence] for sequence in sequences]
@@ -321,6 +328,7 @@ def record_coverage_errors(pack, claims, slots):
     by_id = {c.claim_id: c for c in claims}
     host = host_claims(pack)
     quotes = quoted_field_parts(pack)
+    shared = shared_record_coverage(pack)
     for part, required in required_record_sources(pack).items():
         status, ids = slots.get(part, (None, ()))
         if status in ('answered', 'host', 'mapped'):
@@ -336,6 +344,9 @@ def record_coverage_errors(pack, claims, slots):
                 if actual != expected:
                     return ('host_reply_mismatch',)
                 continue  # Exact host reply already handles source-gap/currentness semantics.
+            covering = shared.get(part)
+            if covering is not None and slots.get(covering, (None,))[0] == 'answered':
+                ids = (*ids, *slots[covering][1])  # nested part: the covering part's citations count
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
@@ -358,6 +369,26 @@ def record_coverage_errors(pack, claims, slots):
             if tuple(ordered) != sequence:
                 return ('procedure_record_order',)
     return ()
+
+
+def shared_record_coverage(pack):
+    """Nested part -> same-subject part whose required records include all of its own (the earlier
+    part when equal). Every required record must still be cited somewhere in the answer."""
+    required = required_record_sources(pack)
+    quotes, host = quoted_field_parts(pack), host_claims(pack)
+    subjects = {p.part_id: p.subject_id for p in pack.understanding.parts} if pack.understanding else {}
+    order = list(required)
+    shared = {}
+    for part, records in required.items():
+        if part in quotes or part in host:
+            continue
+        for other in order:
+            if (other != part and other not in quotes and other not in host
+                    and subjects.get(other) == subjects.get(part) and records <= required[other]
+                    and (records != required[other] or order.index(other) < order.index(part))):
+                shared[part] = other
+                break
+    return shared
 
 
 def required_record_order(pack):
@@ -491,6 +522,13 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
     required = required_record_sources(pack)
     if required:
         payload['required_records'] = {part: sorted(refs) for part,refs in required.items() if part in slots}
+    shared = {part: covering for part, covering in shared_record_coverage(pack).items()
+              if part in slots and covering in slots}
+    if shared:
+        payload['shared_record_coverage'] = shared
+        payload['shared_record_coverage_instruction'] = (
+            'For each part named here, the listed part carries the shared records; judge whether the '
+            'named part answers its own specific ask without requiring it to repeat the procedure.')
     order = {part: sequences for part, sequences in required_record_order(pack).items() if part in slots}
     if order:
         payload['record_order'] = order
