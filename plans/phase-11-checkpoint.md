@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 225
+sequence: 226
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f8953d4
-working_tree: repair-overflow retry code/tests/results pending commit
+head_commit: 86d9e6d
+working_tree: 559answer-check results/snapshots pending commit
 updated_at: 2026-10-28T12:00:00+08:00
 ---
 
@@ -20,6 +20,12 @@ All original reviews/all-nine inclusion,source-context/router/reply migrations a
 quoted-field prototype retained. Prior source baseline4e99fb6;previous code freeze3c55722.
 
 ## Current Task
+
+[559answer checks](2026-10-28-559-answer-checks-results.md):gate FAILED,559inactive. Budgets
+54subjects/max8192;component240/240. Run1 routing overflow on all cases (full menu);86d9e6d
+`Orchestrator(topic_selection)` opt-in,default off. Run2:4/8answered,cross-enroll any-of error
+(x2),grade-excellent regression,2/3regressions match. Full suite for86d9e6d stopped by
+low memory,not run to completion;focused748pass only. Evidence A/p11-559-answer-checks-20261028.
 
 [Repair overflow retry](2026-10-28-repair-overflow-retry-results.md):attempt-2 repair
 refused by pre-inference `context_overflow` retries once without the previous draft;
@@ -138,8 +144,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Execute [559vector/capacity plan](2026-10-27-559-vector-capacity-plan.md):repair
-overflow retry delivered;next current559selector/answer/release checks.
+Owner reading:Handbook p.34 cross-enrollment a–e (all-of vs a/b alternatives). Then
+regression-first fixes per [559answer results](2026-10-28-559-answer-checks-results.md) order.
 No default,hosted or active-pin change follows automatically from preparation.
 
 ## Context Consulted

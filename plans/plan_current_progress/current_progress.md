@@ -6,6 +6,14 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
+[559answer checks](../2026-10-28-559-answer-checks-results.md) (Claude,28Oct):**quality gate
+FAILED;559stays inactive.** Budget map (54subjects,max8192) + component check:240/240claim
+reviews assemble correctly. Run1:every case overflowed at routing (full145-topic menu);fix
+86d9e6d exposes `Orchestrator(topic_selection=...)`,default off (RED4->GREEN5,focused748).
+Run2 with selector:4/8new cases answered,2of them with an any-of misreading of cross-enrollment
+conditions;grade-excellent regression (selector missed grading_scale);CC5/criminology match.
+Repair-overflow retry exercised live (discipline 6853in fits). Full suite for 86d9e6d NOT completed:stopped by low system memory;rerun pending.
+
 [Repair overflow retry](../2026-10-28-repair-overflow-retry-results.md) (Claude,28Oct):
 a repair refused by the pre-inference `context_overflow` check retries once without
 the model's own previous draft;complete sources/errors/window/margin unchanged.
@@ -82,6 +90,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Run current559selector/answer/release checks (actual semantic selection,retrieval,
-English/Taglish/Hybrid answers) on the inactive local package;repair-overflow retry done.
-No default/hosted/active-pin change is implied.
+Owner reading needed:cross-enrollment conditions a–e (Handbook p.34) — all required,or a/b
+alternatives? Then regression-first fixes in the results' order (condition semantics,selector
+recall,router claims,output budget,coverage). No activation/default/hosted change.
