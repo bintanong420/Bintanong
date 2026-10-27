@@ -101,6 +101,9 @@ def prepare(manifest_path: Path, out: Path, *, converter=None, assist_provider=N
         if 'review_template' in doc:
             template = read_json(Path(doc['review_template']))
             template_items(template, doc, Path(doc['source']).read_bytes())
+        if 'parser_result' in doc:
+            from .llama_items import items as parser_items
+            parser_items(read_json(Path(doc['parser_result']['path'])), doc, Path(doc['source']).read_bytes())
     out.mkdir(parents=True, exist_ok=True)
     if 'baseline' in manifest:
         check_out(Path(manifest['baseline']['path']), out)
@@ -111,7 +114,22 @@ def prepare(manifest_path: Path, out: Path, *, converter=None, assist_provider=N
         if snapshot.sha256 != doc['sha256']:
             raise ValueError('source changed after manifest validation')
         target = out / 'candidates' / doc['id']
-        if 'candidate_bundle' in doc:
+        if 'parser_result' in doc:
+            from .llama_items import items as parser_items
+            name = 'parsers/' + doc['id'] + '.json'
+            payload = read_json(Path(doc['parser_result']['path']))
+            write_json(out / name, payload)
+            source_name = 'sources/' + doc['id'] + '.pdf'
+            (out / source_name).parent.mkdir(exist_ok=True)
+            (out / source_name).write_bytes(snapshot.data)
+            record = {k: doc[k] for k in ('id', 'kind', 'title', 'edition', 'sha256', 'locator')}
+            record.update(source=source_name, parser_result=name,
+                          source_versions=[pending_version(snapshot, doc['locator']).model_dump(mode='json')])
+            documents.append(record)
+            items.extend(parser_items(payload, {**doc, 'source': str(out / source_name)}, snapshot.data))
+            snapshot.verify_unchanged()
+            continue
+        elif 'candidate_bundle' in doc:
             shutil.copytree(doc['candidate_bundle'], target)
         else:
             version = pending_version(snapshot, doc['locator'])
@@ -194,7 +212,14 @@ def load_packet(root: Path) -> dict:
     for doc in packet['documents']:
         if digest(contained(root, doc['source']).read_bytes()) != doc['sha256']:
             raise ValueError('packet source identity mismatch')
-        if snapshot is None:
+        if 'parser_result' in doc:
+            from .llama_items import items as parser_items
+            projected = parser_items(read_json(contained(root, doc['parser_result'])),
+                {**doc, 'source': str(contained(root, doc['source']))}, contained(root, doc['source']).read_bytes())
+            actual = [r for r in packet['items'] if r['document_id'] == doc['id']]
+            if packet.get('assistance') is None and actual != projected:
+                raise ValueError('parser projection differs from its source artifact')
+        elif snapshot is None:
             _checked_bundle(contained(root, doc['candidate_bundle']), doc)
     if snapshot is not None:
         from .snapshot import snapshot_items

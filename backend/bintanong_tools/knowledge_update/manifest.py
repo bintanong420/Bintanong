@@ -22,7 +22,7 @@ def load_manifest(path: Path) -> dict:
     for doc in docs:
         required = {'id', 'kind', 'title', 'edition', 'source', 'sha256', 'locator'}
         if (not isinstance(doc, dict) or not required <= set(doc)
-                or set(doc) - required - {'candidate_bundle', 'review_template'}):
+                or set(doc) - required - {'candidate_bundle', 'review_template', 'parser_result'}):
             raise ValueError('invalid document manifest fields')
         identity = doc['id']
         if (not isinstance(identity, str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,63}', identity)
@@ -52,12 +52,24 @@ def load_manifest(path: Path) -> dict:
             raise ValueError('source missing or unreadable') from exc
         if not data.startswith(b'%PDF') or digest(data) != doc['sha256']:
             raise ValueError('source PDF identity mismatch')
+        if 'parser_result' in doc:
+            ref = doc['parser_result']
+            if (doc['kind'] == 'prospectus' or 'candidate_bundle' in doc or 'review_template' in doc
+                    or not isinstance(ref, dict) or set(ref) != {'path', 'sha256'}
+                    or not isinstance(ref['path'], str) or not isinstance(ref['sha256'], str)):
+                raise ValueError('explicit standalone LlamaParse artifact required')
+            original = path.parent / ref['path']
+            if any(p.is_symlink() for p in (original, *original.parents)):
+                raise ValueError('symlink parser inputs refused')
+            ref['path'] = str(original.resolve())
+            if digest(original.read_bytes()) != ref['sha256']:
+                raise ValueError('parser result digest mismatch')
     if 'reviewed_snapshot' in value:
         reference = value['reviewed_snapshot']
         if (not isinstance(reference, dict) or set(reference) != {'path', 'manifest_sha256'}
                 or not isinstance(reference['path'], str) or not isinstance(reference['manifest_sha256'], str)
                 or not re.fullmatch('[a-f0-9]{64}', reference['manifest_sha256'])
-                or any(d['kind'] == 'prospectus' or 'candidate_bundle' in d or 'review_template' in d for d in docs)
+                or any(d['kind'] == 'prospectus' or 'candidate_bundle' in d or 'review_template' in d or 'parser_result' in d for d in docs)
                 or 'baseline' in value or 'membership' in value):
             raise ValueError('explicit standalone reviewed snapshot reference required')
         reference['path'] = str((path.parent / reference['path']).absolute())

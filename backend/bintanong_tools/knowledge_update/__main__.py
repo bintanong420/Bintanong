@@ -16,6 +16,20 @@ def main(argv=None) -> int:
     prepare_command.add_argument('--assist-mode', choices=['none', 'flagged', 'all', 'selected'], default='none')
     prepare_command.add_argument('--assist-pages', type=int, nargs='+', default=[])
     prepare_command.add_argument('--assist-items', nargs='+', default=[])
+    parse_command = commands.add_parser('parse-llama', help='Parse selected public PDF pages into pending candidates.')
+    parse_command.add_argument('source', type=Path)
+    parse_command.add_argument('--out', required=True, type=Path)
+    parse_command.add_argument('--pages', required=True, type=int, nargs='+')
+    parse_command.add_argument('--batch-size', type=int, default=5)
+    parse_command.add_argument('--tier', choices=['fast', 'cost_effective', 'agentic', 'agentic_plus'], default='agentic')
+    parse_command.add_argument('--version', default='latest')
+    parse_command.add_argument('--retry-failed', action='store_true')
+    sample_command = commands.add_parser('evaluation-sample', help='Create blank matched-page measurement sheets.')
+    sample_command.add_argument('sample', type=Path)
+    sample_command.add_argument('--out', required=True, type=Path)
+    evaluation_command = commands.add_parser('evaluate', help='Summarize recorded human measurements without filling blanks.')
+    evaluation_command.add_argument('measurements', type=Path)
+    evaluation_command.add_argument('--out', required=True, type=Path)
     review_command = commands.add_parser('review', help='Open the isolated local researcher interface.')
     review_command.add_argument('packet', type=Path)
     review_command.add_argument('--reviewer', required=True)
@@ -34,7 +48,19 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     try:
         with contextlib.redirect_stdout(sys.stderr):
-            if args.command == 'prepare':
+            if args.command == 'evaluation-sample':
+                from .evaluation import create_sample
+                result = create_sample(args.sample, args.out)
+            elif args.command == 'evaluate':
+                from .evaluation import summarize
+                result = summarize(args.measurements, args.out)
+            elif args.command == 'parse-llama':
+                from .llamaparse import parse
+                parsed = parse(args.source, args.out, pages=args.pages, batch_size=args.batch_size,
+                               tier=args.tier, version=args.version, retry_failed=args.retry_failed)
+                result = {'candidate_only': True, 'source_sha256': parsed['source_sha256'],
+                          'returned_pages': len(parsed['pages']), 'failed_pages': parsed['failed_pages']}
+            elif args.command == 'prepare':
                 from .prepare import prepare
                 from .vision import VisionProvider
                 packet = prepare(args.manifest, args.out, assist_mode=args.assist_mode,

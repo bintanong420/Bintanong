@@ -110,3 +110,27 @@ failure,then isolated check moved to3003. Screenshot in ignored browser evidence
 Provider/no-change/uncertain/failure notices retain normal manual controls. No bulk
 approval. Source/value/page/item checks disable stale application;server additionally
 validates complete candidate digest. No confidence-based approval or new styles.
+
+## Tasks5–7 — LlamaParse, hardening and evaluation
+
+Llama adapter RED missing module;fixture initially violated original/output
+separation,then real checks exposed missing renderer method/resume handling.
+Reused existing renderer size/rotation methods and bounded resume validation.
+Partial-batch RED re-requested nothing;GREEN retries only missing pages while
+retaining successful results. Explicit failed-page RED discarded good sibling
+pages;GREEN39tests20.95s preserves them. Focused pipeline71tests36.57s passes.
+
+Native and Llama proposals both prove pending→explicit human review→same build/
+verify. Raw typed tables,merged HTML,headers/footers,headings and continuation
+metadata remain escaped candidate values;no fee/time/office zip is inferred.
+Missing or invalid supplied geometry keeps the item manual/build-withheld.
+The16Llama tests cover source/page/privilege mismatch,authentication/quota/500,
+mock RESTv2,partial batches,real synthetic PDF dimensions and pending build gate.
+
+Evaluation RED missing module;blank-vs-missing field RED caught a comparison gap.
+GREEN6tests0.26s:swapped row fee/time with100%word recall reports four relation
+paths;missing literal-blank cells differ;missing measurements stay null,matched
+cohorts required and invalid/negative/nonfinite numbers reject. JSON/CSV/Markdown
+reports keep observed/estimated cost separate;no model confidence accuracy claim.
+Docker desktop engine is unavailable;actual-role DB/full DB-inclusive suite cannot
+run safely here. No hosted fallback. Existing APIs/student runtime remain untouched.
