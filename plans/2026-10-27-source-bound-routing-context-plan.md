@@ -49,13 +49,13 @@ Existing exact per-call transport guards remain the sole capacity boundary.
    fields cannot move to another claim and limits/grammar remain intact. Preflight
    actual146-topic selector and every selected detailed replay with the existing
   8192/768/8profile. Overflow withholds;never truncate labels or source limits.
-3. [ ] Regenerate candidate topics locally from sealed465/register/catalogue,
+3. [x] Regenerate candidate topics locally from sealed465/register/catalogue,
    preserving all claims/IDs/source bytes/active pins. Replay the saved eight
    expanded/two paired small-menu questions once;record subject/claim/style/control
    separately and stage timings. No final benchmark or answer-quality claim.
    Stop on new capacity/source ambiguity or repeated unresolved quality mechanism;
    do not run a broad prompt sweep. Remaining structural/release gates stay held.
-4. [ ] Independent review,focused routing/runtime/topic suites,full project suite,
+4. [x] Independent review,focused routing/runtime/topic suites,full project suite,
    docs/phase/diff checks;update compact progress/checkpoint/results and commit.
 
 ## Verification and evidence
@@ -78,4 +78,9 @@ Candidate146topics,32labelled services,18column-hinted grading claims. Original
 Exact Gemma preflight:selector5768input;borrowing+TOR4729;grading4919;TOR4464,all fit.
 Use of Field(exclude_if) preserves absent-metadata dumps;current Pydantic docs
 [checked via Context7](https://github.com/pydantic/pydantic/blob/v2.13.4/docs/concepts/serialization.md).
-Actual saved replay running;full suite follows final code freeze.
+Saved replay complete:grading3.0and borrowing/TOR claims corrected;follow-up quote
+still rejected. Full frozen36d5f56suite6956passed/1595subtests,6skip/2xfail/6warnings,
+2878.18s,exit0. Independent final51passed;docs/phase30passed/14subtests15.28s.
+[Results](2026-10-27-source-bound-routing-context-results.md). New
+[owner reply policy](2026-10-27-english-taglish-response-decision.md) recorded
+separately;runtime migration remains the next approved unit.
