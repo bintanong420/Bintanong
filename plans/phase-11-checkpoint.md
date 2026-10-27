@@ -2,28 +2,33 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 205
+sequence: 206
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 81642aa
-working_tree: CLI session handoff documents only;verified production3c55722
-updated_at: 2026-10-27T18:21:20.1510366+08:00
+head_commit: 16afb25
+working_tree: documentation-only audit delivery;verified production3c55722
+updated_at: 2026-10-27T18:33:27+08:00
 ---
 
-# Phase11checkpoint — reviewed field quotation verification
+# Phase11checkpoint — expanded release evidence audit
 
 ## Completed Tasks
 
 Backend/API/security/CF1–CF6 delivered;39curricula/2132facts. Corrected78research
 release active;80draft/19superseded retained. Source baseline4e99fb6.
-Last full snapshot before condensation:3c55722;earlier5cd1ed7/4ba0f41/28edea4.
+Last full snapshot before condensation:16afb25;earlier3c55722/5cd1ed7/4ba0f41.
 Original reviews/all-nine inclusion,normalized465vectors/146topic bindings and
 source-context correction36d5f56remain delivered. Recover detail with git show.
 
 ## Current Task
 
-Owner switching CLI;[session handoff](2026-10-27-phase11-cli-handoff.md) is the
-resume entry. Phase11remains active;no exit/activation inferred. Delivery81642aa
-is verified;this handoff commit is documentation only. Resume exact next action.
+Resumed Git16afb25 clean;[bounded evidence audit/checklist](2026-10-27-expanded-release-closure-checklist.md)
+delivered. All465normalized identities/companions,13format receipts,six local
+package hashes,39historically sealed files and two originals rechecked. Inventory:
+33legacy Charter groups/145chunks;four image workflows/13chunks/22rows/66fields
+without checked arrows;four confirmed narrative overlaps and one already-handled alias.
+Found H60/H64cutoff notices anchored to the wrong scalar fields by historical
+longest-atom consolidation. Source text/cutoffs remain;metadata repair is next.
+No production,source,hosted or runtime changes. Phase11active;no exit inferred.
 
 [Quoted-field results](2026-10-27-quoted-field-answer-results.md),
 [plan](2026-10-27-quoted-field-answer-plan.md),code3c55722:explicit reviewed single
@@ -42,6 +47,9 @@ Receipt/code/package/pin assertions passed and evidence sealed.
 p11/feat/p11-backend-api;code3c55722;nothing pushed. Final delivery snapshots
 committed with this checkpoint;no production changes after freeze.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
+A/p11-release-closure-audit-20261027holds the script,full current group/overlap/
+gap-anchor inventory,input hashes and seal. GitHub MCP read:remote dev1525dc6a;
+no remote mutation or hosted call. Other developer untouched.
 A/p11-quoted-field-answer-20261027holds RED/focused/review logs,derived basis/
 register/topics/pin,three raw stage-chain receipts,full-suite.log/.exit and
 verification-seal.json with code/package/source/pin and raw-outcome assertions.
@@ -51,6 +59,12 @@ No frontend,dependency/model/hosted/source-state,private-data or active-pin chan
 
 ## Verification Evidence
 
+Fresh read-only audit exits0:465identity/geometry/companion lineages,13format
+receipts,six package hashes,39sealed historical files,both original hashes and
+four same-source narrative matches. Two gap-anchor defects recorded,not repaired.
+Docs/phase30passed/14subtests12.71s;local links,diff and phase validation pass.
+Audit repeat byte-identical;active pin unchanged;local evidence sealed. Full suite
+not rerun for documentation-only work;frozen production3c55722unchanged.
 Quotation RED9failed/13pass1.16s after fixture membership repair;GREEN22pass0.89s.
 Review caught missing quotation in evidence fingerprint;new identityRED1after
 test API repair->GREEN25pass0.94s. Broad1533pass/175subtests2xfail1warning92.79s.
@@ -95,6 +109,11 @@ No controlled repeated or browser end-to-end speedup established.
 
 ## Known Failures or Blockers
 
+Expanded H60gap currently names step2_details instead of step3_process;H64names
+step5_details instead of step9_details. Both retain original cutoffs/unresolved
+claims but need exact field/visible-text/span rebinding before release. Historical
+consolidation deliberately attached record gaps to the longest atom. No new source
+judgment needed;preserve originals/prior approvals and repair a separate derivative.
 No new software-verification blocker. Default2048retrieval budget cannot fit TOR's
 3627complete context;local3904is diagnostic,not installed/active. The narrow quote
 fix does not validate every step/service,whole-process answers or default runtime.
@@ -110,16 +129,17 @@ No frontend,public/institutional release or Phase11/12completion inferred.
 
 ## Next Action
 
-Audit independent service/image and canonical-overlap evidence for the intended
-expanded release;prepare a bounded closure checklist from existing reviews. Preserve
-source holds;no budget/default-selector integration,hosted sync or activation implied.
+Correct H60/H64cutoff field/visible-text/span anchors in a separate derivative,
+with exact source-field regression checks and unchanged source text/holds/companions.
+Then follow the bounded service/image/canonical checklist;no budget/default-selector
+integration,hosted sync or activation implied.
 
 ## Context Consulted
 
-Resume:thesis17–18scope reread,routingPNG inspected,master23follow-ups rechecked.
-Existing architecture17–18/39–44,master3/11/13/16/23/24/26,Phase10handoff/
-Phase11plan,owner ledger/prompt/latency decisions retained. No scope discrepancy;
-missing facts stay unknown. Full context remains distinct from requested answer.
+This resume reread thesis physical17–18/39–44,inspected routingPNG,and consulted
+master3/11/13/16/23/24/26,Phase10handoff,Phase11plan,owner ledger,prompt/scope/
+source-gap/service-table decisions. Thesis closed-world example remains illustrative;
+current master preserves unknown versus unmet. No new architecture/scope discrepancy.
 
 ## Do Not Repeat
 

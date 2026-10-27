@@ -2,12 +2,21 @@
 
 Updated27October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
-Last full snapshot before condensation:3c55722;earlier5cd1ed7/4ba0f41/28edea4.
+Last full snapshot before condensation:16afb25;earlier3c55722/5cd1ed7/4ba0f41.
 
 ## Latest change
 
-Owner switching CLI;[session handoff](../2026-10-27-phase11-cli-handoff.md) records
-delivery81642aa/code3c55722,commands,evidence and next action. Phase11stays active.
+Resumed16afb25/code3c55722;[release closure audit/checklist](../2026-10-27-expanded-release-closure-checklist.md)
+records existing proofs and bounded remaining work. Rechecked465identity/companion/
+geometry lineages,13format receipts,six package hashes,39sealed historical files,
+two originals and four narrative overlaps.33legacy Charter groups/145chunks need
+association checks;four image workflows/13chunks/22rows/66fields lack checked arrows.
+New finding:H60/H64cutoff notices point to wrong scalar fields because historical
+consolidation chose each record's longest atom. Cutoffs remain;metadata repair next.
+No new owner content decision,production/data/hosted/runtime change. Phase11active.
+A=workspace/audit-evidence/p11-release-closure-audit-20261027;script/inventory/seal.
+Fresh docs/phase30pass/14subtests12.71s;links/diff/phase valid;repeat byte-identical,
+active pin unchanged. Production/full-suite baseline unchanged;no full rerun.
 
 [Reviewed field quotations](../2026-10-27-quoted-field-answer-results.md),3c55722:
 explicit single-field mode retains all context;exact text/citation grammar and final
@@ -61,6 +70,6 @@ approval,activation,Phase11exit or Phase12advance. No latency target claim.
 
 ## Next action
 
-Audit independent service/image and canonical-overlap evidence for expanded465;
-prepare bounded closure checklist from existing reviews. Keep source holds and
-release inactive;no budget/default-router integration or hosted sync yet.
+Correct H60/H64cutoff field/visible-text/span anchors in a separate derivative;
+verify exact source fields and unchanged words/holds/companions. Then follow closure
+checklist;no budget/default-router integration,hosted sync or activation yet.
