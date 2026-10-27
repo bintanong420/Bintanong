@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 206
+sequence: 207
 plan: plans/phase-11-backend-api-plan.md
 head_commit: 4ff5872
 working_tree: clean
-updated_at: 2026-10-27T21:25:11+08:00
+updated_at: 2026-10-27T21:34:58+08:00
 ---
 
 # Phase 11 checkpoint — local ingestion extension
@@ -30,8 +30,10 @@ contracts, student API/routing/generation/runtime and dependencies unchanged.
 
 ## Current Task
 
-Software delivery is complete within documented limits; actual native conversion,
-live provider and human A/B validation remain open. The full gate is NOT green.
+Code/test delivery exists;owner-facing integration is unfinished. Current UI build
+is stale and original72-record packet has zero assisted/proposed fields. Isolated
+UI rehearsal did not update the actual reviewer. Native/live/human A/B validation
+remain open;full gate NOT green. [Audit/checklist](2026-10-27-ai-ingestion-plan-checklist.md).
 Original T4/T5 lifecycle/operator rehearsal were not completed by this extension.
 [Supplied execution plan](2026-10-27-ai-assisted-ingestion-codex-plan.md) and
 [launch](2026-10-27-ai-assisted-ingestion-launch-prompt.md) require local commits,
@@ -107,8 +109,9 @@ accuracy, institutional approval and original Phase11/student UI gates remain op
 
 ## Next Action
 
-Resolve native dependency mismatch in an approved environment and rerun the two
-failing checks, then configured narrow live smoke and matched human evaluation.
+Deliver current reviewer build safely,preserving drafts,and a separate assisted
+candidate packet. Resolve native dependency mismatch in approved environment,
+rerun its two failures,then configured live smoke and matched human evaluation.
 Original ingestion T4 local lifecycle/T5 full operator rehearsal remain separate.
 Do not expand scope or mutate hosted configuration to complete local verification.
 

@@ -6,6 +6,9 @@ Last full snapshot before condensation: `d3f4114`; recover with `git show`.
 
 Local reviewer availability freshly verified on owner request;existing servers
 reused and policy UI opened. Exact links/recovery in the ingestion checkpoint.
+Owner then reported no visible change. [Plan/runtime audit](../2026-10-27-ai-ingestion-plan-checklist.md)
+confirms stale UI build and72-record packet with zero assisted/proposed fields.
+Actual reviewer delivery remains unfinished;prior wording overstated readiness.
 
 ## Latest delivery
 
@@ -58,7 +61,8 @@ continuation metadata remain manual; missing verified geometry stays build-held.
 
 ## Next action
 
-Resolve the existing native Python dependency mismatch in an approved environment,
-rerun its two failing checks, then run configured live smoke/matched human evaluation.
+Deliver the current UI safely and a separate assisted candidate packet;preserve
+owner drafts/baseline. Resolve native dependencies in an approved environment,
+then configured live smoke and matched human evaluation. Detailed checklist linked above.
 Original T4 local lifecycle tooling and T5 operator rehearsal remain separate next
 workstream tasks. No hosted access, activation, phase advancement or automatic push.

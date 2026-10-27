@@ -13,6 +13,12 @@ conversion tests fail because the installed Python dependencies are incompatible
 Live AI smoke tests and real human A/B measurements have not run. Phase 11 remains
 active; this report is not a final phase handoff or permission to advance.
 
+Owner-facing delivery correction: the running reviewer still serves an older
+frontend build and the original72-record packet with zero assisted fields. The
+new UI was only built/rehearsed in isolation. See the
+[plan checklist and runtime audit](2026-10-27-ai-ingestion-plan-checklist.md).
+Code delivery is not a completed visible integration or a passing full exit gate.
+
 ## Architecture and reuse
 
 | Path | Final flow |
