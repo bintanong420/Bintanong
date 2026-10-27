@@ -1,6 +1,6 @@
 # Current progress
 
-Updated27October2026,11:18+08. Phase11active;delegated source review;p11/feat/p11-backend-api;nothing pushed.
+Updated27October2026. Phase11active;full-source coverage audit;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Coverage/scope results](../2026-10-26-handbook-coverage-scope-verification-results.md) ·
 [Human decisions](../2026-10-26-omitted-content-human-chunk-review.md).
@@ -8,6 +8,15 @@ Updated27October2026,11:18+08. Phase11active;delegated source review;p11/feat/p1
 Last full snapshot before condensation:32065bf;earlier source baseline4e99fb6.
 
 ## Latest change
+
+Full-source process coverage checked against active78 plus inactive339:
+[Audit and omissions](../2026-10-27-full-source-process-coverage-audit.md).
+All511pages freshly extracted/classified;43Handbook substantive remainders match prior dispositions.
+25Charter substantive remainder runs classified;short unmatched runs checked separately.
+Three known partially held services omitted wholesale despite clear usable fields: initialTOR C8–10,
+complexcertifications C16–17, academicrequests C109–110. Existing holds remain unresolved.
+No newly undiscovered process found;this is a real partial-coverage backlog,not a complete339corpus.
+No chunks/source/runtime/hosted changes. Ten original images inspected;prior image evidence reused.
 
 Three concrete formatting repairs complete:[results](../2026-10-27-source-formatting-repair-results.md).
 Current339inactive overlay:327unchanged+12rebuilt replacing9;177H/162C,131source records.
@@ -62,10 +71,8 @@ Source/structural bindings,runtime context budgets,embeddings and answer regress
 
 ## Next action
 
-Continue broader service labelled reauthoring/nativehyphen/URLnormalization and final structuralbindings.
-Use current339overlay and repairmapping;preserve336baseline/receipts;escalate only new sourcejudgment.
-Approved Charter services need labelled reauthoring before use;frontend remains stopped.
-Handbook scope/coverage audited:26explicit negative/held boundaries,zero intersections. No
-unclassified eligible native-policy remainder;43nonselected regions classified. Source comparison complete;structural corrections next.
-No routine two-chunk approval interruptions. Preserve holds;no embedding/staging/publication before
-requested validation. Frontend stays stopped;runtime compatibility remains a separate later gate.
+Prepare limited supplements for clear fields of Charter initialTOR8–10, complexcertifications16–17,
+and academicrequests109–110 using existing reviewed readings;keep affected associations/scope held.
+Then resume broader service labels/nativehyphen/URLnormalization and final structuralbindings.
+Current339overlay remains inactive;preserve prior approvals and known source limitations.
+No routine chunk approvals,hosted activation,embedding or frontend integration.

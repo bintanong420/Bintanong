@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 175
+sequence: 176
 plan: plans/phase-11-backend-api-plan.md
-head_commit: c93fcfa
+head_commit: 2a0c295
 working_tree: documentation snapshot; review record, progress and checkpoint; inspect Git on resume
-updated_at: 2026-10-27T11:18:35+08:00
+updated_at: 2026-10-27T11:33:16+08:00
 ---
 
-# Phase11checkpoint — three formatting repairs complete; broader structural gates pending
+# Phase11checkpoint — full-source audit identifies three partial-coverage gaps
 
 ## Completed Tasks
 
@@ -20,6 +20,12 @@ Other developer local-only worktree ready,task receiptc76d988;fixed fork4e99fb6.
 First9candidate packet and2actual human approvals recorded in32065bf,alongside bulk-review direction.
 
 ## Current Task
+
+[Fresh full-source process audit](2026-10-27-full-source-process-coverage-audit.md):511page extracts/dispositions;
+43Hremainders match existing classifications;25Csubstantive remainder runs and short runs checked.
+Three partially held services absent despite clear fields: initialTOR C8–10,complexcertifications C16–17,
+academicrequests C109–110. No new unknown process discovered;clear-field supplementation remains.
+No candidate/source/hosted/runtime changes. Ten fresh image views plus prior selected/sparse evidence.
 
 [Scope/coverage results](2026-10-26-handbook-coverage-scope-verification-results.md):335sealed base;prior336overlay preserved,current339inactive chunks(177H/162C),
 131linked source records,eight topic packets. All90IDsaccounted;73with candidates,including70of71
@@ -34,8 +40,8 @@ BatchA55/BatchB40/BatchC78of78approved. 213explicit human approvals+123assistant
 
 ## Repository State
 
-p11/feat/p11-backend-api;inspected parentc93fcfa,clean before this repair;nothing pushed.
-Repairplan/results,delegatedresults,index/progress/checkpoint modified;new ignored339derivative added;original PDFs/baselines/runtime unchanged.
+p11/feat/p11-backend-api;inspected parent2a0c295,clean before this audit;nothing pushed.
+Current audit report/progress/checkpoint changed;ignored full-source audit added.339derivative/PDFs/runtime unchanged.
 Last full checkpoint/progress snapshot before condensation:32065bf;source baseline4e99fb6.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence;
 B=A/p11-omitted-chunks-20261026/bulk-review-handbook-verified. Prior328/899artifacts retained.
@@ -111,26 +117,15 @@ Frontend explicitly stopped;natural grading/Taglish issues and wider Phase11exit
 
 ## Next Action
 
-Batch A handoff: [current session record](2026-10-26-phase11-batch-a-review-session-handoff.md).
-[Formatting repair results](2026-10-27-source-formatting-repair-results.md):current339inactive candidates,
-327unchanged+12rebuilt replacing9;sourcecomparison lineage213human+114assistantretained+12repaired.
-339contracts/bindings/links and2573policyglyph positions checked;only3footerdigits moved to provenance.
-RED3->GREEN3;100tests/151subtests2.71s/exit0;script repeat identical;newmax438/overall469tokens.
-Overlayeaf38e555d8bcc5c7a282d2343ef614bd68fad6faaf5e5b8ff99a91131f20e69 atsource-formatting-corrected.
-Next:broader service labels/nativehyphen/URLnormalization and final structuralbindings;no candidateactivation.
-Original336/PDFs/receipts/runtime untouched;no new sourcejudgment or institutional approval.
-Display source name/physical pages,overall/batch chunk numbers,progress and continuation/final links;keep IDs out of owner-facing text. Exact source headings/lists/columns retained.
-Approved Charter services need labelled rebuild;all image structural bindings remain before use. Do not re-ask approved source decisions.
-Continue topic-order review;page jumps intentional,not unseen approval or blanket omission.
-Coverage audit finds no remaining unexplained eligible native-policy regions after7repairs.
-43remaining source regions classified;177Hcandidates clear26explicit audience/held boundaries.
-Owner reviews content/associations in verified packets,not routine undergraduate membership.
-Keep source holds,active release and pin unchanged. No routine small-chunk approval interruptions.
-No embedding/staging/publication before content validation;frontend remains stopped.
+Prepare limited clear-field supplements for initialTOR C8–10,complexcertifications C16–17 and
+academicrequests C109–110;preserve all held mappings/applicability and earlier approvals.
+Then resume broader labelled reauthoring/normalization/structuralbindings;339inactive unchanged.
+Audit evidence A/p11-full-process-coverage-20261027;no embedding/activation/frontend integration.
 
 ## Context Consulted
 
-Resume:thesis physical17–18/39–44 rerendered/read with existing pypdfium2 environment;scope pages confirm undergraduate-only and exclude graduate programs. Routing PNG,master3/11/13/16/23/24,Phase10handoff.
+Current audit:thesis17–18 cached scope extracts and routing PNG rechecked;no scope discrepancy.
+Earlier resume:thesis physical17–18/39–44 rerendered/read with existing pypdfium2 environment;scope pages confirm undergraduate-only and exclude graduate programs. Routing PNG,master3/11/13/16/23/24,Phase10handoff.
 Original H55/57images inspected;merit/FAQtext matches,source grammar/continuations retained;pair closures verified. First21BatchCapproved;honors limitations/holds unchanged. Actual INC/removal graph requires all three context chunks from packet end;complete five-way closure verified. Removal-approval nativeU+FFFEdisplayed as printed re-enrollment;binding repair pending. Rights/duties002→attendance-uniform001source continuation needs cross-group dependency binding before use. H-standing004native U+FFFE displays as printed mid-semester;serialized binding repair remains. H41graduate-only section9excluded.
 Scope/gap/location/service policies and owner ledger;prior original H60/61/63/64image checks retained.
 Thesis closed-world example remains illustrative;settled missing-fact unknown semantics prevail.
