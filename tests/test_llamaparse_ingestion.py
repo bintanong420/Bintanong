@@ -147,7 +147,7 @@ def test_wrong_source_page_and_approval_fields_are_refused(tmp_path, damage):
         items(result, doc, source.read_bytes())
 
 
-@pytest.mark.parametrize('damage', ['no_box', 'wrong_size', 'inverted_box'])
+@pytest.mark.parametrize('damage', ['no_box', 'wrong_size', 'inverted_box', 'rotated_box'])
 def test_missing_or_invalid_original_geometry_stays_manual(tmp_path, damage):
     from backend.bintanong_tools.knowledge_update.llama_items import items
     from backend.bintanong_tools.knowledge_update.files import digest
@@ -157,6 +157,7 @@ def test_missing_or_invalid_original_geometry_stays_manual(tmp_path, damage):
     if damage == 'no_box': page['items'][0]['bbox'] = None
     if damage == 'wrong_size': page['page_width'] = 999
     if damage == 'inverted_box': page['items'][0]['bbox'][0]['w'] = -20
+    if damage == 'rotated_box': page['items'][0]['bbox'][0]['r'] = 45
     doc = {'id': 'charter', 'kind': 'charter', 'source': str(source), 'sha256': digest(source.read_bytes())}
     row = items(result, doc, source.read_bytes())[0]
     assert row['fields'][0]['decision'] == 'pending'
@@ -240,3 +241,52 @@ def test_handbook_contents_body_hierarchy_and_continuation_stay_pending(tmp_path
     assert all(r['audience'] == 'unresolved'
         and 'parser_associations_require_manual_review' in r['findings'] for r in rows)
     assert all(f['decision'] == 'pending' for r in rows for f in r['fields'])
+
+
+@pytest.mark.parametrize('damage,paths', [
+    ('fee', ['rows.6.2', 'rows.8.2']),
+    ('time', ['rows.6.3', 'rows.7.3']),
+    ('office', ['rows.6.4', 'rows.7.4']),
+    ('columns', ['rows.6.2', 'rows.6.4']),
+    ('requirements', ['rows.4.1']),
+    ('metadata', ['rows.3.1']),
+    ('repeated_header', ['rows']),
+    ('one_to_many', ['rows']),
+    ('merged_cell', ['html']),
+    ('continuation', ['merged_from_pages']),
+])
+def test_charter_association_damage_remains_visible_in_pending_candidates(tmp_path, damage, paths):
+    from backend.bintanong_tools.knowledge_update.llama_items import items
+    from backend.bintanong_tools.knowledge_update.evaluation import differences
+    from backend.bintanong_tools.knowledge_update.files import digest
+    expected = {'type': 'table', 'rows': [
+        ['Office', 'Registrar'], ['Classification', 'Simple'], ['Transaction', 'G2C'],
+        ['Clients', 'Undergraduates'], ['Requirements', 'Signed form'],
+        ['Client action', 'Agency action', 'Fees', 'Processing time', 'Responsible person'],
+        ['1. Submit', '1.1 Receive', '25', '5 days', 'Receiving clerk'],
+        [None, '1.2 Check', None, '10 days', 'Records officer'],
+        ['2. Collect', '2.1 Release', '50', '2 days', 'Releasing clerk']],
+        'html': '<table><tr><td rowspan="2">1. Submit</td><td>1.1 Receive</td></tr><tr><td>1.2 Check</td></tr></table>',
+        'merged_from_pages': [1, 2]}
+    wrong = copy.deepcopy(expected)
+    rows = wrong['rows']
+    if damage == 'fee': rows[6][2], rows[8][2] = rows[8][2], rows[6][2]
+    if damage == 'time': rows[6][3], rows[7][3] = rows[7][3], rows[6][3]
+    if damage == 'office': rows[6][4], rows[7][4] = rows[7][4], rows[6][4]
+    if damage == 'columns': rows[6][2:] = list(reversed(rows[6][2:]))
+    if damage == 'requirements': rows[4][1] = ''
+    if damage == 'metadata': rows[3][1] = ''
+    if damage == 'repeated_header': rows.insert(7, copy.deepcopy(rows[5]))
+    if damage == 'one_to_many': rows.pop(7)
+    if damage == 'merged_cell': wrong['html'] = '<table><tr><td>1. Submit</td><td>1.1 Receive</td></tr></table>'
+    if damage == 'continuation': wrong['merged_from_pages'] = [1]
+    source = pdf(tmp_path)
+    result = llamaparse.parse(source, tmp_path / 'parse', pages=[1, 2], batch_size=1, client=FakeParser())
+    result['pages'][0]['items'] = [wrong]
+    doc = {'id': 'charter', 'kind': 'charter', 'source': str(source), 'sha256': digest(source.read_bytes())}
+    candidate = items(result, doc, source.read_bytes())[0]
+    field = candidate['fields'][0]
+    assert differences(expected, json.loads(field['original_value'])) == paths
+    assert field['reviewed_value'] == field['original_value']
+    assert field['decision'] == 'pending' and candidate['audience'] == 'unresolved'
+    assert 'parser_associations_require_manual_review' in candidate['findings']

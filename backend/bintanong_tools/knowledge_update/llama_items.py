@@ -57,6 +57,7 @@ def items(payload, doc, source):
                 spans = []
                 boxes = raw.get('bbox')
                 if (isinstance(boxes, list) and len(boxes) == 1 and isinstance(boxes[0], dict)
+                        and boxes[0].get('r', 0) == 0
                         and page.get('page_width') == width and page.get('page_height') == height
                         and pdf.rotation(physical) == 0):
                     try:
