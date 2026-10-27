@@ -6,12 +6,15 @@ Last full snapshot before condensation:4ba0f41;earlier28edea4/c27c9a3/569be5f.
 
 ## Latest change
 
-[TOR answer validation](../2026-10-27-tor-follow-up-answer-validation-plan.md) started:
-visible step1verified in existing reviewed fields;all six companions need3627E5
-tokens(default2048). No production/source/active setting change. Default retrieval
-withheld for context budget;one3904local diagnostic returns all six records.
-English draft abstained after repair:coverage requires all six records despite
-step1question. Other languages running;187regressions/31subtests pass7.52s.
+[TOR answer results](../2026-10-27-tor-follow-up-answer-validation-results.md):
+default2048budget withholds;local3904diagnostic retrieves six records/3627E5tokens.
+English/Filipino/Taglish routes and en/taglish/taglish targets match,but all answers
+abstain after missing_procedure_record_coverage(whole-service claim vs step1query).
+Fifteen calls/three repairs/zero reviewer or transport/overflow failures;no delivered
+citations. English rejected draft also collapses multiple source durations into1day.
+187regressions/31subtests pass7.52s;no production/source/guard/active-setting changes.
+Docs/phase30passed/14subtests12.68s;negative outcome/citation assertions passed,
+evidence sealed and code/package/pin unchanged. Capability remains unaccepted.
 
 [Document follow-up correction](../2026-10-27-document-follow-up-context-results.md),
 4ba0f41/routerv23:only scoped course_available enables previous_course_quote.
@@ -63,5 +66,6 @@ No institutional/public approval,activation,Phase11exit or Phase12advance.
 
 ## Next action
 
-Execute bounded TOR stage-chain validation;record retrieval/answer/citation outcomes.
-Keep465inactive and retain all source limits,guards and active settings.
+Design focused TDD correction for step-specific source-bound claims/answer coverage.
+Preserve complete context,whole-procedure guards and numeric/time fidelity;reuse
+saved failures. Keep465inactive;no guard deletion or unbounded prompt sweep.

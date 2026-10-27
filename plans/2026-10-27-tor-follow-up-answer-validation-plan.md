@@ -26,14 +26,14 @@ source-aware guards remain;no fake vectors,answer injection or threshold changes
 
 - [x] Bind package/source/model hashes and identify first-step fields,citations,
   required companions and known source limits. Reuse settled source reviews.
-- [ ] Run real E5 retrieval with unchanged research settings and record default
+- [x] Run real E5 retrieval with unchanged research settings and record default
   outcome. If budget is the sole issue,run one3904subject diagnostic;retain failed
   outcomes and exact preflight/guard receipts. No parameter sweep.
-- [ ] Run English/Filipino/Taglish step-one probes through fresh routing,retrieval
+- [x] Run English/Filipino/Taglish step-one probes through fresh routing,retrieval
   and guarded generation/review. Score route/claim,complete context,answer status,
   factual first-step content,language,citations and source-limit treatment separately.
   Stop after one bounded case set;failures inform the next focused correction.
-- [ ] Seal ignored raw evidence and write results/compact checkpoints. Run relevant
+- [x] Seal ignored raw evidence and write results/compact checkpoints. Run relevant
   existing retrieval/generation/orchestration/doc/phase regressions and diff checks;
   commit verified documentation. No production change initially,so no artificial
   RED or full-suite rerun. A discovered behavior fix requires a separate RED gate.
@@ -42,3 +42,8 @@ Evidence:`workspace/audit-evidence/p11-tor-follow-up-answer-20261027`.
 No downloads/dependencies,source repair,hosted write,active-pin change,activation,
 frontend or phase advance. English input->English;Filipino/Taglish->Taglish.
 Measure local stage times with exclusions;no speedup or accuracy-rate claim.
+
+**Outcome:** validation completed;the answer capability is not accepted. Default
+budget and narrow-answer coverage fail as recorded in the
+[results](2026-10-27-tor-follow-up-answer-validation-results.md). Do not repeat
+these probes before the focused claim/coverage correction has regression coverage.

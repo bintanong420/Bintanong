@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 199
+sequence: 200
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 3b2905f
-working_tree: bounded TOR answer validation plan;production unchanged
-updated_at: 2026-10-27T17:05:00+08:00
+head_commit: 284b621
+working_tree: TOR answer validation results and delivery snapshots;production unchanged
+updated_at: 2026-10-27T17:11:57.5988291+08:00
 ---
 
-# Phase11checkpoint — document-only follow-up verification
+# Phase11checkpoint — TOR step-one answer validation withheld
 
 ## Completed Tasks
 
@@ -21,13 +21,18 @@ source-context correction36d5f56remain delivered. Recover detail with git show.
 
 ## Current Task
 
-[TOR answer validation plan](2026-10-27-tor-follow-up-answer-validation-plan.md):
-first client step is visible;all six companions need3627E5tokens(default2048).
-Default retrieval withheld;3904diagnostic returns all six. English generation
-abstained on missing_procedure_record_coverage;other languages running.187existing
-regressions/31subtests pass7.52s. No guard or active setting changed. Resume
-clean3b2905f;its difference from prior checkpoint is verification docs only.
-Thesis17–18and routingPNG rechecked;no scope/architecture discrepancy.
+[TOR answer validation results](2026-10-27-tor-follow-up-answer-validation-results.md),
+[plan](2026-10-27-tor-follow-up-answer-validation-plan.md):first client step is
+visible on Charter13. Default2048E5budget withholds all six required companions;
+local3904diagnostic retrieves six/3627tokens. All three language routes/targets
+match,but answers abstain after missing_procedure_record_coverage:whole-procedure
+claim requires all six records while question/draft address e2only. No reviewer
+ran. English draft also collapsed multiple durations into1day;no draft exposed.
+Fifteen calls/three draft repairs,zero transport/overflow errors.187regressions/
+31subtests pass7.52s. No production/guard/source/active setting change. Task is a
+negative capability check,not accepted answers. Keep465and selector inactive.
+Final docs/phase30passed/14subtests12.68s;raw/context/citation and unchanged code/
+package/pin assertions passed;receipts sealed. Phase state valid;advance blocked.
 
 [Document follow-up results](2026-10-27-document-follow-up-context-results.md),
 [plan](2026-10-27-document-follow-up-context-plan.md),code4ba0f41/routerv23:
@@ -52,6 +57,11 @@ Other developer p11-policy-ingestion-review local-only,fork4e99fb6/receiptc76d98
 No frontend,dependency/model/hosted/source-state,private-data or active-pin changes.
 
 ## Verification Evidence
+
+Current validation-only increment:187passed/31subtests7.52s. Three fresh real-
+model stage chains;all retrieved six complete records in local3904diagnostic,
+all abstained before relevance/faithfulness reviewer;zero delivered citations.
+No production change;unchanged full code baseline below not repeated artificially.
 
 Follow-up RED7failed/5passed0.94s;old one-output fake needed the newly required
 repair response,assertions retained. Existing prompt version assertion updated.
@@ -93,6 +103,10 @@ No new source/wording/phase approval inferred. Existing owner decisions stand.
 
 ## Known Failures or Blockers
 
+TOR step1not answer-ready:default budget insufficient;local capacity diagnostic
+isolates missing_procedure_record_coverage on narrow request. Preserve whole-
+procedure guards and time fidelity;do not delete guard to expose rejected draft.
+
 No new default-router blocker. Experimental inactive CombinedRouter does
 not implement dynamic follow-up schemas/instructions;outside this default-path fix.
 Synthetic course-control operation mismatch withheld;English synthetic documentary
@@ -106,8 +120,9 @@ No frontend work,public/institutional release or Phase11/12completion inferred.
 
 ## Next Action
 
-Execute bounded TOR stage-chain validation plan;record actual retrieval/generation
-outcomes and source citations. Keep465inactive;no active override or source repair.
+Design focused TDD correction for source-bound step-specific claims/answer coverage.
+Preserve full context dependencies,whole-procedure coverage and numeric/time fidelity;
+reuse saved failures. No guard deletion,activation or unbounded prompt sweep.
 
 ## Context Consulted
 

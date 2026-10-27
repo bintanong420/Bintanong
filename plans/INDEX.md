@@ -11,9 +11,9 @@
   style prompt95tokens smaller;latency gain unproven. Full6974tests/1595subtests pass.
   [Owner decision](2026-10-27-english-taglish-response-decision.md),master26.
 - [Source-bound context](2026-10-27-source-bound-routing-context-results.md),36d5f56:
-  full6956tests/1595subtests pass;grading/borrowing/TOR claims corrected in saved
-  probes. [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:
-  saved step1fixed;full6986tests/1595subtests pass. Expanded465/selector inactive.
+  [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
+- [TOR answer check](2026-10-27-tor-follow-up-answer-validation-results.md):default
+  budget withholds;local complete-context answers abstain on whole-procedure coverage.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
   [normalized data](2026-10-27-expanded-context-validation-results.md),
