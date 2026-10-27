@@ -17,7 +17,8 @@ def output_schema(topics):
 
 
 def build_messages(text, topics, previous=None):
-    menu = [dict(subject_id=t.subject_id, label=t.subject_id.replace('_', ' ')) for t in topics]
+    menu = [dict(subject_id=t.subject_id, label=t.subject_id.replace('_', ' '),
+        **({'source_labels': list(t.source_labels)} if t.source_labels else {})) for t in topics]
     instruction = (
         'Select source topic candidates for an undergraduate academic-affairs question. '
         'This is topic selection only: never answer, decide the route or eligibility, '

@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 188
+sequence: 189
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f726e72
-working_tree: candidate routing results and compact current snapshots
+head_commit: facbb5b
+working_tree: source-bound routing context correction plan
 updated_at: 2026-10-27T14:25:00.3100588+08:00
 ---
 
@@ -21,6 +21,16 @@ Prior ingestion/source reviews and all-nine inclusion remain delivered,not repea
 source/package locations and historical lineage;this checkpoint controls next action.
 
 ## Current Task
+
+Owner proceeds with saved next action. Git clean atfacbb5b;prior metadata describes
+f726e72verified code plus facbb5bdelivery docs. New focused correction plan:
+[source-bound routing context](2026-10-27-source-bound-routing-context-plan.md).
+Opt-in metadata/projections implemented:32source-labelled topics,18grade-column
+claims;default146serialized topics exact. RED17/GREEN69,projection RED3;review
+missing-limits RED1fixed. Final focused520tests pass14.27s. Selector5768input fits;
+borrowing/TOR4729,grading4919,TOR4464fit. Source/register/catalogue hashes unchanged.
+Saved replay running in A/p11-source-routing-context-20261027;initial grading now
+selects3.0and multipart picks borrowing+TOR visible service claims. No answer claim.
 
 [Two-step routing results](2026-10-27-two-step-topic-routing-results.md),
 [implementation plan](2026-10-27-two-step-topic-routing-plan.md):f726e72adds opt-in

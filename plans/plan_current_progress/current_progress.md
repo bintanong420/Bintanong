@@ -6,6 +6,13 @@ Last full snapshots before condensation:f726e72(checkpoint/progress),9043a40(ses
 
 ## Latest change
 
+[Source-bound correction](../2026-10-27-source-bound-routing-context-plan.md):opt-in
+labels/column hints implemented;default146serialized topics exact.32labelled services,
+18grade claims;four33–48field maps retained at64cap;output bound8unchanged.
+RED17/GREEN69,projection RED3;review missing-limits RED1fixed;520tests pass14.27s.
+Selector5768input fits8192with768+8reserve. Saved replay running;initial grading
+selects3.0and multipart borrowing+TOR now select matching visible claims. Inactive.
+
 [Two-step routing results](../2026-10-27-two-step-topic-routing-results.md):implemented
 atf726e72,opt-in only;current default/small-menu composition unchanged. Strict<=8
 current IDs bind complete topics per request;invalid/ambiguous choices withhold.
