@@ -66,7 +66,8 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     def chat(request: ChatRequest, session: Session = Depends(require_session)) -> AdmittedStream:
         turn = turns.prepare(request)
         reservation = admission.reserve()  # last: nothing may raise between this and the response
-        return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation), reservation,
+        return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation,
+                                          services.course_labels), reservation,
                               media_type='text/event-stream', headers=STREAM_HEADERS)
 
     @app.get('/sources/{source_id}')

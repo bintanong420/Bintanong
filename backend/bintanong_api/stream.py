@@ -13,7 +13,7 @@ import json
 import secrets
 
 from backend.bintanong_api.chat import ChatTurns, PreparedTurn
-from backend.bintanong_api.presentation import student_text
+from backend.bintanong_api.presentation import clarification_view, student_text
 from backend.bintanong_api.session import ApiError, Session
 
 STREAM_HEADERS = {'x-vercel-ai-ui-message-stream': 'v1', 'cache-control': 'no-cache', 'x-accel-buffering': 'no'}
@@ -30,7 +30,7 @@ def _title(card) -> str:
     return _SOURCE if cite is None else f'{cite.filename or _SOURCE}, p.{cite.page}'
 
 
-def answer_parts(answer, message_id: str) -> list[dict]:
+def answer_parts(answer, message_id: str, course_labels=None) -> list[dict]:
     text_id = f'{message_id}-text'
     parts = [{'type': 'text-start', 'id': text_id},
              {'type': 'text-delta', 'id': text_id, 'delta': student_text(answer)},
@@ -38,13 +38,23 @@ def answer_parts(answer, message_id: str) -> list[dict]:
     parts += [{'type': 'source-document', 'sourceId': card.evidence_id, 'mediaType': 'text/plain',
                'title': _title(card)} for card in answer.citations]
     # A Prolog decision always rests on facts the student supplied, so it is shown as conditional (master 16.2).
+    fields = {'program_id': 'program', 'curriculum_id': 'curriculum', 'course_id': 'course'}
+    missing = []
+    for field in answer.missing_facts:
+        name = fields.get(field)
+        if field.startswith(('completion_unknown:', 'enrollment_unknown:')):
+            name = 'course_status'
+        if name and name not in missing:
+            missing.append(name)
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,
-                                                  'conditional': answer.decision is not None}})
+        'conditional': answer.decision is not None, 'language': answer.language, 'missingFields': missing}})
+    if answer.status == 'clarification_needed':
+        parts[-1]['data']['clarification'] = clarification_view(answer, course_labels or {})
     parts.append({'type': 'finish', 'finishReason': 'stop'})
     return parts
 
 
-async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, sources=None, reservation=None):
+async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, sources=None, reservation=None, course_labels=None):
     message_id = f'msg-{secrets.token_hex(8)}'
     yield encode({'type': 'start', 'messageId': message_id})
     queue: asyncio.Queue = asyncio.Queue()
@@ -78,7 +88,7 @@ async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, so
             return
         if sources is not None:
             sources.remember(answer.citations)
-        for part in answer_parts(answer, message_id):
+        for part in answer_parts(answer, message_id, course_labels):
             yield encode(part)
         yield DONE
     finally:
