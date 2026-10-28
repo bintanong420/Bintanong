@@ -6,6 +6,11 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
+Routing fixes 248b04f (printed defects not offered as not-stated claims) and 1e5d249 (opt-in
+routing_context in composition). Live with selector+routing context:good moral,library card
+(Taglish),entrance health,leave all answered (20–37s);all3regressions match incl. grade-excellent.
+[Results](../2026-10-29-printed-service-steps-results.md). Full suite for1e5d249 stopped by low memory (not a result);focused routing/runtime799pass;c177400 full7079pass.
+
 [Printed service steps](../2026-10-29-printed-service-steps-results.md) (owner29Oct option A + format
 decisions):strict parser/renderer and host integration b92cce2..c177400 (TDD;focused1097pass).
 23/44Charter services render verbatim en/Taglish,one column per line,defects shown with an
@@ -102,6 +107,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Routing fixes per [printed-steps results](../2026-10-29-printed-service-steps-results.md):source-limit
-text offered/accepted as a requested claim (library card),then selector recall (entrance health
-Charter,grading_scale). Each regression-first. No activation/default change.
+Rerun the full 559answer battery once with selector+routing context (discipline,admission test,
+shifting,cross-enroll,Hybrid) to refresh the gate,then extend the step grammar to the remaining
+21Charter layouts in reviewed batches. No activation/default change.

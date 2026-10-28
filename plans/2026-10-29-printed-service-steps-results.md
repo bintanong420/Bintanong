@@ -27,8 +27,32 @@ column per line,Tagalog lead-ins only for Taglish,defects shown as printed with 
 | Regressions | 2/3 | 2/3 (grade-excellent selector miss unchanged) |
 
 An earlier attempt ran while the model container was down after laptop sleep (all
-`model_connection_error`);archived as `live-check-model-down`,not a result. Remaining blockers are
+`model_connection_error`);archived as `live-check-model-down`,not a result. Remaining blockers were
 routing (selector recall,source-limit text offered as claim),not the printed-steps path.
+c177400 full suite:7079pass/1608subtests,6skip/2xfail,1406.99s,exit0.
+
+## Routing fixes and second live check (1e5d249)
+
+- 248b04f:malformed-condition and printed-total-discrepancy limits are no longer offered as
+  not-stated menu claims (owner29Oct shows them as printed);absence-type limits stay selectable.
+  Deliberate requirement change to the earlier "every limit selectable" test,split by kind.
+- 1e5d249:`build_multi_research_resources(routing_context=True)` opt-in passes the existing reviewed
+  source labels/column hints (36d5f56) to the menu;default composition unchanged. Real559:145
+  topics,35labelled (e.g. charter_entrance_health "1. MEDICAL EXAMINATION").
+
+Live (topic selection + routing context,one attempt each):
+
+| Case | Result | Seconds |
+| --- | --- | ---: |
+| good-moral-en | answered,printed steps | 36.2 |
+| library-card-taglish | **answered**,Taglish lead-ins,defect shown with note | 22.0 |
+| entrance-health-fil | **answered**,Charter MEDICAL EXAMINATION steps | 19.9 |
+| leave-en | answered (model path) | 37.0 |
+| grade-excellent-taglish | **answered,matches active78** (grading_scale) | 21.0 |
+| cs-cc5-failed-cc4-en / criminology-corequisite-tl | match (ineligible / clarification) | 21.3 / 27.5 |
+
+All3regressions now match. Warm inner pipeline only;no browser/student latency claim. Not a
+full benchmark or activation decision;discipline/admission-test and other unparsed layouts remain.
 
 ## Evidence
 
